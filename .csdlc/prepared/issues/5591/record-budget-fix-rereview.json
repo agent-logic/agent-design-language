@@ -1,0 +1,35 @@
+{
+  "issue": 5591,
+  "expected_generation": 12,
+  "expected_digest": "6fe62d1fcc728801e2521641d4864f24d45e3f8de0316099565fb81753ace59c",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "subagent:/root/review_5591_exact_head",
+  "evidence": {
+    "reviewer": "subagent:/root/review_5591_exact_head",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/src/weather.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "infra/horust/adl-runtime-kernel.toml",
+      "adl/tools/report_runtime_v3_loc.sh",
+      ".csdlc/issues/5591/cards/sor.values.json",
+      ".csdlc/issues/5591/cards/vpp.values.json"
+    ],
+    "reviewed_revision": "git-blake3:80abe5c5aadc99beb74b155065901fb4496aead2:8ac3095c8fd548f8238c603de7810fb0f0cf0b58e0cb14dc319c007043c8ce8e",
+    "findings": [],
+    "residual_risks": [
+      "The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass.",
+      "Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the delta necessary, non-duplicative, and functionally required."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

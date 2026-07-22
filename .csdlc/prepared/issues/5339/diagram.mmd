@@ -1,0 +1,13 @@
+flowchart LR
+  G["#5337 merged and typed closed_out"] --> P["Strict YAML or JSON parser"]
+  P --> M["Typed AdlDocument"]
+  M --> V["Pure semantic validator"]
+  V --> C["Deterministic canonical source model"]
+  M --> S["Versioned generated JSON Schema"]
+  X["Unknown field, duplicate identity, broken reference, or invalid cycle"] --> E["Stable typed diagnostic"]
+  P --> X
+  V --> X
+  K["#5337 characterization corpus"] --> Q["Mapped parity proof"]
+  C --> Q
+  C --> O["#5338 compiler input"]
+  B["Compiler, engine, Runtime v3, adapters, CLI, C-SDLC"] -. "outside WP-04 authority" .-> O

@@ -9,13 +9,15 @@ use std::{
 
 use adl_runtime_kernel::{
     channel, load_control_tls, serve_control_listener, serve_control_listener_until,
-    serve_control_listener_until_ready, write_observability_event, write_payload, ClockAuthority,
+    serve_control_listener_until_ready, write_observability_event, write_payload, AdapterKind,
+    AdapterPolicy, AuthorityMode, CanonicalIngress, CheckpointingControl, ClockAuthority,
     ComponentId, ComponentRegistry, ContinuityHead, ControlAction, ControlAuthority,
     ControlCapability, ControlError, ControlExit, ControlObservabilityEvent, ControlOutcome,
-    ControlService, DiskWeather, Kernel, KernelExit, LifecycleControl, ObservabilityDegradation,
-    ObservabilityHealth, Observation, ResourceState, RuntimeEvent, RuntimeRecorder,
-    RuntimeTlsInitConfig, ShutdownDecision, SignedControlCommand, TrustedControlKey, WeatherConfig,
-    WeatherHealthReport, WeatherSample,
+    ControlService, DiskWeather, DomainWork, ExecutorError, Kernel, KernelExit, LifecycleControl,
+    LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, Observation,
+    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, ResourceState,
+    RuntimeEvent, RuntimeRecorder, RuntimeTlsInitConfig, ShutdownDecision, SignedControlCommand,
+    TrustedControlKey, WeatherConfig, WeatherHealthReport, WeatherSample, DOMAIN_WORK_SCHEMA,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -82,6 +84,65 @@ struct BlockingLifecycle {
     release: Arc<Notify>,
 }
 
+struct EchoExecutor;
+
+struct DelayedExecutor {
+    started: Arc<Notify>,
+    release: Arc<Notify>,
+}
+
+#[async_trait]
+impl OperationExecutor for EchoExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        Ok(request.payload.clone())
+    }
+}
+
+#[async_trait]
+impl OperationExecutor for DelayedExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        self.started.notify_one();
+        self.release.notified().await;
+        Ok(request.payload.clone())
+    }
+}
+
+fn test_ingress(
+    capacity: usize,
+    recorder: RuntimeRecorder,
+) -> (CanonicalIngress, OperationalFactory) {
+    test_ingress_with(capacity, recorder, Arc::new(EchoExecutor))
+}
+
+fn test_ingress_with(
+    capacity: usize,
+    recorder: RuntimeRecorder,
+    executor: Arc<dyn OperationExecutor>,
+) -> (CanonicalIngress, OperationalFactory) {
+    let adapter = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Agent,
+            AdapterPolicy {
+                capacity,
+                max_in_flight: capacity,
+                timeout_millis: 1_000,
+                max_attempts: 1,
+                idempotency_entries: 16,
+                authority: AuthorityMode::Internal,
+            },
+            executor,
+        )
+        .unwrap(),
+    );
+    let factory = OperationalFactory::new(adapter, vec![]);
+    let ingress = CanonicalIngress::new(
+        capacity,
+        recorder,
+        BTreeMap::from([("parity-a".to_owned(), factory.clone())]),
+    );
+    (ingress, factory)
+}
+
 #[async_trait]
 impl LifecycleControl for BlockingLifecycle {
     async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
@@ -126,6 +187,264 @@ fn signed(key: &SigningKey, id: &str, action: ControlAction) -> SignedControlCom
         key,
     )
     .unwrap()
+}
+
+#[tokio::test]
+async fn signed_ingress_checkpoints_replays_and_is_observatory_visible() {
+    let root = tempfile::tempdir().unwrap();
+    let key = SigningKey::from_bytes(&[37; 32]);
+    let recorder = RuntimeRecorder::new(32);
+    let (ingress, operation) = test_ingress(2, recorder.clone());
+    let mut registry = ComponentRegistry::new();
+    registry.register(operation);
+    registry.register(ingress.clone());
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    let service = Arc::new(
+        ControlService::new(
+            "instance-1",
+            recorder.clone(),
+            handle.control(),
+            authority(&key, [ControlCapability::Execute]),
+            8,
+        )
+        .with_canonical_ingress(ingress.clone()),
+    );
+    let work = DomainWork {
+        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+        work_id: "work-1".to_owned(),
+        kind: "parity-a".to_owned(),
+        payload: b"deterministic".to_vec(),
+    };
+    let first = service
+        .execute(signed(
+            &key,
+            "submit-1",
+            ControlAction::Submit { work: work.clone() },
+        ))
+        .await
+        .unwrap();
+    let ControlOutcome::Submitted {
+        work_result: first_result,
+    } = first.outcome
+    else {
+        panic!("submit outcome")
+    };
+    assert_eq!(first_result.accepted_sequence, 1);
+    assert_eq!(
+        service.observatory_feed().ingress.completed["work-1"],
+        first_result
+    );
+    let invalid = DomainWork {
+        schema: "adl.runtime.domain_work.v999".to_owned(),
+        ..work.clone()
+    };
+    assert_eq!(
+        service
+            .execute(signed(
+                &key,
+                "submit-invalid",
+                ControlAction::Submit { work: invalid },
+            ))
+            .await
+            .unwrap_err(),
+        ControlError::InvalidBounds
+    );
+    let oversized = DomainWork {
+        work_id: "oversized-work".to_owned(),
+        payload: vec![0; 1_048_577],
+        ..work.clone()
+    };
+    assert_eq!(
+        service
+            .execute(signed(
+                &key,
+                "submit-oversized",
+                ControlAction::Submit { work: oversized },
+            ))
+            .await
+            .unwrap_err(),
+        ControlError::InvalidBounds
+    );
+
+    let identity = LiveKernelSnapshot::new(
+        blake3::hash(b"topology").to_hex().to_string(),
+        blake3::hash(b"config").to_hex().to_string(),
+        BTreeMap::new(),
+    );
+    let mut continuity = LiveContinuity::new(root.path(), "live", &[41; 32], identity.clone(), 0)
+        .with_canonical_ingress(ingress);
+    continuity
+        .checkpoint(&recorder, Duration::from_secs(1))
+        .await
+        .unwrap();
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+
+    let restored_recorder = RuntimeRecorder::new(32);
+    let (restored_ingress, restored_operation) = test_ingress(2, restored_recorder.clone());
+    let mut restored = LiveContinuity::new(root.path(), "live", &[41; 32], identity, 1)
+        .with_canonical_ingress(restored_ingress.clone());
+    assert_eq!(
+        restored.restore_latest(&restored_recorder).await.unwrap(),
+        Some(1)
+    );
+    let mut registry = ComponentRegistry::new();
+    registry.register(restored_operation);
+    registry.register(restored_ingress.clone());
+    let handle = Kernel::new(registry.validate().unwrap(), restored_recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    let service = Arc::new(
+        ControlService::new(
+            "instance-1",
+            restored_recorder,
+            handle.control(),
+            authority(&key, [ControlCapability::Execute]),
+            8,
+        )
+        .with_canonical_ingress(restored_ingress),
+    );
+    let replay = service
+        .execute(signed(
+            &key,
+            "submit-2",
+            ControlAction::Submit { work: work.clone() },
+        ))
+        .await
+        .unwrap();
+    let ControlOutcome::Submitted {
+        work_result: replay_result,
+    } = replay.outcome
+    else {
+        panic!("submit outcome")
+    };
+    assert_eq!(replay_result, first_result);
+    let next = service
+        .execute(signed(
+            &key,
+            "submit-3",
+            ControlAction::Submit {
+                work: DomainWork {
+                    work_id: "work-2".to_owned(),
+                    ..work
+                },
+            },
+        ))
+        .await
+        .unwrap();
+    let ControlOutcome::Submitted {
+        work_result: next_result,
+    } = next.outcome
+    else {
+        panic!("submit outcome")
+    };
+    assert_eq!(next_result.accepted_sequence, 2);
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+}
+
+#[tokio::test]
+async fn terminal_serialization_drains_accepted_work_into_checkpoint() {
+    let root = tempfile::tempdir().unwrap();
+    let key = SigningKey::from_bytes(&[38; 32]);
+    let recorder = RuntimeRecorder::new(32);
+    let started = Arc::new(Notify::new());
+    let release = Arc::new(Notify::new());
+    let (ingress, operation) = test_ingress_with(
+        2,
+        recorder.clone(),
+        Arc::new(DelayedExecutor {
+            started: started.clone(),
+            release: release.clone(),
+        }),
+    );
+    let mut registry = ComponentRegistry::new();
+    registry.register(operation);
+    registry.register(ingress.clone());
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    let service = Arc::new(
+        ControlService::new(
+            "instance-1",
+            recorder,
+            handle.control(),
+            authority(&key, [ControlCapability::Read, ControlCapability::Execute]),
+            8,
+        )
+        .with_canonical_ingress(ingress.clone()),
+    );
+    let accepted = {
+        let service = service.clone();
+        let submit_key = key.clone();
+        tokio::spawn(async move {
+            service
+                .execute(signed(
+                    &submit_key,
+                    "accepted-before-terminal",
+                    ControlAction::Submit {
+                        work: DomainWork {
+                            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                            work_id: "accepted-before-terminal".to_owned(),
+                            kind: "parity-a".to_owned(),
+                            payload: b"delayed-terminal-work".to_vec(),
+                        },
+                    },
+                ))
+                .await
+        })
+    };
+    started.notified().await;
+    let identity = LiveKernelSnapshot::new(
+        blake3::hash(b"terminal-topology").to_hex().to_string(),
+        blake3::hash(b"terminal-config").to_hex().to_string(),
+        BTreeMap::new(),
+    );
+    let mut continuity = LiveContinuity::new(root.path(), "live", &[42; 32], identity, 0)
+        .with_canonical_ingress(ingress);
+    let terminal = service.serialize_terminal_checkpoint(&mut continuity, Duration::from_secs(1));
+    tokio::pin!(terminal);
+    assert!(
+        tokio::time::timeout(Duration::from_millis(10), terminal.as_mut())
+            .await
+            .is_err()
+    );
+    assert!(!root.path().join("generation-1").exists());
+    assert_eq!(
+        service
+            .execute(signed(&key, "late-terminal-read", ControlAction::Snapshot))
+            .await
+            .unwrap_err(),
+        ControlError::AdmissionClosed
+    );
+    release.notify_one();
+    let response = accepted.await.unwrap().unwrap();
+    let ControlOutcome::Submitted { work_result } = response.outcome else {
+        panic!("submit outcome")
+    };
+    assert_eq!(work_result.accepted_sequence, 1);
+    terminal.await.unwrap();
+    let checkpoint: serde_json::Value = serde_json::from_slice(
+        &tokio::fs::read(root.path().join("generation-1/0000-live_kernel.bin"))
+            .await
+            .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(checkpoint["ingress"]["accepted_through"], 1);
+    assert!(checkpoint["ingress"]["completed"]["accepted-before-terminal"].is_object());
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
 }
 
 #[tokio::test]
@@ -221,6 +540,22 @@ async fn forged_and_unauthorized_commands_never_reach_lifecycle_authority() {
         ControlError::StaleRuntimeInstance
     );
     assert_eq!(calls.load(Ordering::SeqCst), 0);
+    let submit = signed(
+        &key,
+        "submit-without-capability",
+        ControlAction::Submit {
+            work: DomainWork {
+                schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                work_id: "unauthorized-work".to_owned(),
+                kind: "parity-a".to_owned(),
+                payload: vec![1],
+            },
+        },
+    );
+    assert_eq!(
+        service.execute(submit).await.unwrap_err(),
+        ControlError::Unauthorized
+    );
 }
 
 #[tokio::test]
@@ -236,7 +571,10 @@ async fn pressure_admission_gate_refuses_new_commands_until_reopened() {
         4,
     ));
 
-    assert!(service.pause_admission_if_idle());
+    service
+        .close_admission_and_drain(Duration::from_secs(1))
+        .await
+        .unwrap();
     assert_eq!(
         service
             .execute(signed(&key, "read-paused", ControlAction::Snapshot))
@@ -244,11 +582,56 @@ async fn pressure_admission_gate_refuses_new_commands_until_reopened() {
             .unwrap_err(),
         ControlError::AdmissionClosed
     );
-    service.reopen_admission();
+    assert!(service.reopen_admission_if_no_terminal());
     service
         .execute(signed(&key, "read-open", ControlAction::Snapshot))
         .await
         .unwrap();
+}
+
+#[tokio::test]
+async fn pressure_cannot_reopen_after_signed_shutdown_is_enqueued() {
+    let key = SigningKey::from_bytes(&[32; 32]);
+    let (lifecycle, mut requests) = CheckpointingControl::channel(1);
+    let service = Arc::new(ControlService::new(
+        "instance-1",
+        RuntimeRecorder::new(4),
+        lifecycle,
+        authority(&key, [ControlCapability::Read, ControlCapability::Stop]),
+        4,
+    ));
+    let shutdown = {
+        let service = service.clone();
+        let shutdown_key = key.clone();
+        tokio::spawn(async move {
+            service
+                .execute(signed(
+                    &shutdown_key,
+                    "signed-terminal-race",
+                    ControlAction::Shutdown { grace_millis: 50 },
+                ))
+                .await
+        })
+    };
+    let request = tokio::time::timeout(Duration::from_secs(1), requests.recv())
+        .await
+        .unwrap()
+        .unwrap();
+    assert!(!service.reopen_admission_if_no_terminal());
+    assert_eq!(
+        service
+            .execute(signed(&key, "read-terminal-race", ControlAction::Snapshot))
+            .await
+            .unwrap_err(),
+        ControlError::AdmissionClosed
+    );
+    request.respond(Err(()));
+    assert_eq!(
+        shutdown.await.unwrap().unwrap().outcome,
+        ControlOutcome::Shutdown {
+            exit: ControlExit::Failed
+        }
+    );
 }
 
 #[tokio::test]
@@ -334,14 +717,20 @@ async fn cancelled_client_does_not_cancel_execution_or_exceed_idempotency_bound(
         tokio::spawn(async move { service.execute(command).await })
     };
     started.notified().await;
-    assert!(!service.pause_admission_if_idle());
+    assert_eq!(
+        service
+            .execute(signed(&key, "read-closed", ControlAction::Snapshot))
+            .await
+            .unwrap_err(),
+        ControlError::AdmissionClosed
+    );
     request.abort();
     assert_eq!(
         service
             .execute(signed(&key, "read-capacity", ControlAction::Snapshot))
             .await
             .unwrap_err(),
-        ControlError::IdempotencyCapacity
+        ControlError::AdmissionClosed
     );
     release.notify_one();
     let response = loop {
@@ -642,7 +1031,7 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
         b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: https://other.example.test\r\nAuthorization: Bearer test-observatory-token-0000000002\r\nConnection: close\r\n\r\n",
     )
     .await;
-    assert!(response.starts_with("HTTP/1.1 200 OK"));
+    assert!(response.starts_with("HTTP/1.1 403 Forbidden"));
     assert!(!response.contains("access-control-allow-origin"));
 
     server.abort();
@@ -796,10 +1185,15 @@ fn runtime_identity_and_shutdown_bounds_are_owned_by_standard_crates() {
 #[test]
 fn ready_event_reports_the_bound_ephemeral_port() {
     let address = std::net::SocketAddr::from(([127, 0, 0, 1], 43_123));
-    let event = adl_runtime_kernel::control_ready_event("instance-1", address);
+    let event = adl_runtime_kernel::control_ready_event(
+        "instance-1",
+        address,
+        "https://runtime.example.test:43123",
+    );
     assert!(event.contains("event=control_ready"));
     assert!(event.contains("port=43123"));
     assert!(!event.contains("port=20997"));
+    assert!(event.contains("public_base_url=https://runtime.example.test:43123"));
 }
 
 #[test]
