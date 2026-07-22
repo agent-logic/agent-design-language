@@ -2,10 +2,12 @@
 set -euo pipefail
 
 mode="${1:-all}"
+expected_head="${2:-}"
 root="$(git rev-parse --show-toplevel)"
 manifest="$root/adl-v2/crates/adl-records/Cargo.toml"
 target="/Volumes/FastWork/adl-5342/target"
 export CARGO_TARGET_DIR="$target"
+export CARGO_HOME="/Volumes/FastWork/adl-5342/cargo-home"
 doctor="$root/.adl/bin/csdlc-v2/csdlc-doctor"
 if [[ ! -x "$doctor" ]]; then
   doctor="/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor"
@@ -110,7 +112,8 @@ verify_budget_and_cots() {
     root = metadata.fetch("packages").find { |package| package.fetch("name") == "adl-records" } or abort "adl-records package absent"
     exact = {
       "serde" => "1.0.229", "serde_json" => "1.0.151", "schemars" => "1.2.1",
-      "ed25519-dalek" => "2.2.0", "sha2" => "0.10.9", "hex" => "0.4.3"
+      "ed25519-dalek" => "2.2.0", "sha2" => "0.10.9", "hex" => "0.4.3",
+      "jsonschema" => "0.48.2"
     }
     actual = root.fetch("dependencies").to_h { |dep| [dep.fetch("name"), dep.fetch("req").delete_prefix("=")] }
     abort "direct COTS drift: #{actual.inspect}" unless actual == exact
@@ -162,6 +165,9 @@ case "$mode" in
     run_bounded 300 cargo test --manifest-path "$manifest" --test tamper_channel --locked
     ;;
   all|post-merge)
+    [[ -n "$expected_head" ]] || { printf 'expected exact review head is required\n' >&2; exit 64; }
+    [[ "$(git rev-parse HEAD)" == "$expected_head" ]] || { printf 'exact review head mismatch\n' >&2; exit 73; }
+    started=$SECONDS
     verify_dependencies
     verify_scope_and_claims
     verify_budget_and_cots
@@ -169,6 +175,9 @@ case "$mode" in
     run_bounded 300 cargo test --manifest-path "$manifest" --test tamper_channel --locked
     run_bounded 120 cargo fmt --manifest-path "$manifest" -- --check
     run_bounded 120 cargo clippy --manifest-path "$manifest" --all-targets --locked -- -D warnings
+    elapsed=$((SECONDS - started))
+    [[ "$elapsed" -le 600 ]] || { printf 'aggregate validation exceeded 600s: %s\n' "$elapsed" >&2; exit 73; }
+    printf 'loc_method=physical_lines_in_rs_and_json elapsed_seconds=%s exact_head=%s\n' "$elapsed" "$expected_head"
     if [[ "$mode" == "post-merge" ]]; then
       : "${ADL_EXPECTED_PR_HEAD:?ADL_EXPECTED_PR_HEAD is required for post-merge proof}"
       : "${ADL_EXPECTED_MERGE_SHA:?ADL_EXPECTED_MERGE_SHA is required for post-merge proof}"

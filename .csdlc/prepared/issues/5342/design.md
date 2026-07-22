@@ -48,6 +48,10 @@ status, and transport metadata are never inside this preimage. Envelope JSON
 is only a channel representation and must decode strictly before this preimage
 is reconstructed; unknown or duplicate members are rejected.
 
+Canonical payload bytes begin with `ADL-RECORD-CANONICAL`, NUL, and grammar
+version `0x0001` before the root value tag. This independently namespaces
+payload identities from envelope signatures and future canonical grammars.
+
 ## Signing and trust
 
 Real signing uses the audited `ed25519-dalek` crate. The public API accepts an
@@ -72,6 +76,19 @@ Trust-policy bytes are canonical and digestible. The policy cannot be supplied
 inside the envelope it authorizes. Key rotation is represented by multiple
 independently trusted key entries; there is no implicit fallback or trust-on-
 first-use behavior.
+
+`ReplayGuard::admit_atomically` is a normative external contract: durable and
+in-memory state must remain unchanged on error, and an admitted token must be
+durable before success. The crate exports a conformance helper that proves
+duplicate rejection, rollback rejection, and successful progress after those
+failures; the bundled bounded implementation passes it.
+
+Generated JSON Schema is the checked structural stage. It proves variant,
+field, type, unknown-field, and representation shape. Rust `Record::validate`
+and `verify_envelope` are the mandatory semantic stage for dynamic limits,
+exact version, nonzero sequence, digest grammar, trust, signature, and replay.
+Positive and negative fixtures must agree with this declared two-stage result;
+schema validity alone is never a trusted verdict.
 
 ## Channel and tamper proof
 

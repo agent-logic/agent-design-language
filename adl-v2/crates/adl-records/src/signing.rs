@@ -101,7 +101,7 @@ pub fn verify_envelope<G: ReplayGuard>(
     key.verify(&preimage, &signature).map_err(|_| {
         RecordError::new(ErrorCode::InvalidSignature, "signature verification failed")
     })?;
-    guard.admit(ReplayToken {
+    guard.admit_atomically(ReplayToken {
         key_id: envelope.key_id.clone(),
         subject_id: envelope.payload.header().subject_id.clone(),
         record_id: envelope.payload.header().record_id.clone(),

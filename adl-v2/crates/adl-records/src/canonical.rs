@@ -11,12 +11,13 @@ const SIGNED: u8 = 0x04;
 const STRING: u8 = 0x05;
 const ARRAY: u8 = 0x07;
 const OBJECT: u8 = 0x08;
+const CANONICAL_DOMAIN: &[u8] = b"ADL-RECORD-CANONICAL\0\x00\x01";
 
 pub fn canonical_bytes(record: &Record, limits: &Limits) -> Result<Vec<u8>> {
     record.validate(limits)?;
     let value = serde_json::to_value(record)
         .map_err(|_| RecordError::new(ErrorCode::Canonical, "record serialization failed"))?;
-    let mut output = Vec::new();
+    let mut output = CANONICAL_DOMAIN.to_vec();
     encode(&value, &mut output, limits, 0, &mut 0)?;
     if output.len() > limits.max_payload_bytes {
         return Err(RecordError::new(

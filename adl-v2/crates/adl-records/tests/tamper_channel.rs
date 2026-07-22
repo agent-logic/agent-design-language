@@ -156,3 +156,84 @@ fn sequence_rollback_and_tuple_collision_fail() {
         ErrorCode::Replay
     );
 }
+
+#[test]
+fn metadata_contract_optional_fields_and_every_variant_are_bound() {
+    let (key, _, _, limits) = fixture();
+    let digest = "ab".repeat(32);
+    let header = |sequence| RecordHeader {
+        contract_version: CONTRACT_VERSION.into(),
+        record_id: format!("r-{sequence}"),
+        subject_id: "agent".into(),
+        sequence,
+        logical_timestamp: sequence,
+        metadata: BTreeMap::from([("signed".into(), "yes".into())]),
+    };
+    let records = vec![
+        Record::Error(adl_records::ErrorRecord {
+            header: header(1),
+            code: "E".into(),
+            message: "m".into(),
+            retryable: true,
+        }),
+        Record::Event(EventRecord {
+            header: header(2),
+            name: "e".into(),
+            detail: "d".into(),
+        }),
+        Record::Trace(adl_records::TraceRecord {
+            header: header(3),
+            trace_id: "t".into(),
+            span_id: "s".into(),
+            parent_span_id: Some("p".into()),
+            operation: "o".into(),
+            attributes: BTreeMap::from([("a".into(), "b".into())]),
+        }),
+        Record::ExecutionResult(adl_records::ExecutionResult {
+            header: header(4),
+            status: "ok".into(),
+            output_digest: Some(digest.clone()),
+            diagnostic: Some("done".into()),
+        }),
+        Record::Artifact(adl_records::ArtifactDescriptor {
+            header: header(5),
+            media_type: "text/plain".into(),
+            content_digest: digest,
+            byte_length: 1,
+        }),
+    ];
+    for record in records {
+        let kind = record.kind();
+        let policy = TrustPolicy::new(
+            BTreeMap::from([(
+                "key-1".into(),
+                TrustEntry {
+                    verifying_key: key.verifying_key(),
+                    profile_version: 1,
+                    allowed_kinds: BTreeSet::from([kind]),
+                    not_before: 0,
+                    not_after: 100,
+                    revoked: false,
+                },
+            )]),
+            &limits,
+        )
+        .unwrap();
+        let envelope = sign_record(record, "key-1", &key, &limits).unwrap();
+        let mut value = serde_json::to_value(envelope).unwrap();
+        value["payload"]["record"]["header"]["metadata"]["signed"] = Value::String("no".into());
+        let decoded = decode_envelope(&serde_json::to_vec(&value).unwrap(), &limits).unwrap();
+        assert_eq!(
+            verify_envelope(
+                &decoded,
+                &policy,
+                &mut InMemoryReplayGuard::new(&limits),
+                10,
+                &limits
+            )
+            .unwrap_err()
+            .code,
+            ErrorCode::InvalidEnvelope
+        );
+    }
+}

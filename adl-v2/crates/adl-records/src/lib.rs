@@ -12,4 +12,7 @@ pub use model::{
     RecordKind, TraceRecord, CONTRACT_VERSION,
 };
 pub use signing::{decode_envelope, encode_envelope, sign_record, verify_envelope, SignedEnvelope};
-pub use trust::{InMemoryReplayGuard, ReplayGuard, ReplayToken, TrustEntry, TrustPolicy};
+pub use trust::{
+    assert_replay_guard_conformance, InMemoryReplayGuard, ReplayGuard, ReplayToken, TrustEntry,
+    TrustPolicy,
+};
