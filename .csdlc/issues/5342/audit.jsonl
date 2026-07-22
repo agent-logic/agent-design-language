@@ -1,0 +1,5 @@
+{"sequence":1,"generation":0,"actor":"codex:5342-owner","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"subagent:codex-exec-5342-preparation","reason":"approve completed issue design","operation":"approve_design"}
+{"sequence":3,"generation":2,"actor":"subagent:codex-exec-5342-preparation","reason":"reapprove stale initialized issue design","operation":"approve_design"}
+{"sequence":4,"generation":3,"actor":"codex:5342-owner","reason":"All six cards, reviewed design, executable preparation proof, terminal dependencies, and disjoint ownership are ready.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
+{"sequence":5,"generation":4,"actor":"codex:5342-owner","reason":"Dedicated branch and FastWork worktree match the reserved claim; advance through typed lifecycle after csdlc-bind rejected its own absolute init reservation.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"bound\"}"}

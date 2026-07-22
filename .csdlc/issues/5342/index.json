@@ -1,0 +1,126 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5342,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "212fb29ba4dd1b21f17aa90ad19bd87f2497143204cb620d0f5699c00b26a631",
+  "phase": "bound",
+  "generation": 4,
+  "digest": "a79d21c899908a665fbda64aefa87d9cec319afc451e70c0fd9aa60526d31457",
+  "claim": {
+    "id": "claim-5342-v0918-wp07-records-signing",
+    "owner": "codex:5342-owner",
+    "generation": 4,
+    "acquired_unix_seconds": 1784727950,
+    "expires_unix_seconds": 1785332750,
+    "heartbeat_unix_seconds": 1784727950,
+    "branch": "codex/5342-v0918-wp07-records-signing",
+    "worktree": "/Volumes/FastWork/adl-wp-5342",
+    "protected_paths": [
+      ".csdlc/issues/5342",
+      ".csdlc/locks/5342.lock",
+      ".csdlc/prepared/issues/5342",
+      ".csdlc/evidence/5342",
+      "adl-v2/crates/adl-records"
+    ],
+    "purpose": "Implement and fully prove WP-07 portable records, real Ed25519 signing, deterministic canonical bytes, external trust policy, tamper rejection, and channel verification without Runtime v2/v3 changes"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5342/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5342/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:codex-exec-5342-preparation",
+      "revision": "0e79cefbf643d851f720685937d03c53b09659d7b59c3716e1919a8158de89c4"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ab68500b52ecac5c5da93034cb7532873a817d7111f4af793391ba729aea5df0",
+      "rendered_digest": "9cac2b2b36d4769996d01344b1691c33cd490ec594bd001acfaabb6dd0413867",
+      "ast_digest": "24b239d8057c1a540715ead5ddcdac68ff6d3e7903d37c2301a3a3b72534ec85"
+    },
+    "stp": {
+      "values_digest": "9456fc24abd892b78e9495eb3277c14fc7e458deaf5d46c1c934954beab01fee",
+      "rendered_digest": "b7982a51a91a37f3d8ccebc96e88109dda2c7019f3d3ee68340a185291cab2e0",
+      "ast_digest": "ea671c1c132ac2a76f5d16832b4186506aaafb8e2501b6d6eede2955a586c375"
+    },
+    "spp": {
+      "values_digest": "35eeaef8654281e35620260138165150c13e3a2cca927f8593cb5a8be9251716",
+      "rendered_digest": "cbdfe8a6c465ee64f8545e85177dfd8cb91cc449102994628c84da0f7c510b29",
+      "ast_digest": "0f45c4df7a346d33ddb51197c827e2bbd304f979c1d144b50795b7b53c0aea20"
+    },
+    "vpp": {
+      "values_digest": "7ea2377b4d80792b609e6f9592b362ac98044dd52da12d287054cd803c1e5ad9",
+      "rendered_digest": "14e26a30034d1b2841a6fa4253451b48c3b17fa48d08fbd76268aa8114888bef",
+      "ast_digest": "357b8bcb38ab9f55561748977b3b78f4526a8a4ee4b06958760435182a7d213f"
+    },
+    "srp": {
+      "values_digest": "d16a29fe61bf34ebc507bde70cb15896430f7db15ac0e5c5a983e05e78fef624",
+      "rendered_digest": "65464b34dcd7d09e423455cf1cd4fa83046aa20d54bbbef276dc44d3f4824a0d",
+      "ast_digest": "405501ab81ff51bd2030b551cd0dd10a7bc1e70b61a005484e9f2e6fd051d2f1"
+    },
+    "sor": {
+      "values_digest": "f97ce148a38182e96391afd449b60719914f7485f1e7e9ffbaeb487dc48fff3f",
+      "rendered_digest": "5700268e6df0b69f89bb65bba3591ecbe9e3c28d8dae0282d22790a24a7b82a2",
+      "ast_digest": "8c5b8a03e192955d31215f88368666fb882d23772e2797fa31c0474b38f5e74c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5342-owner",
+      "reason": "All six cards, reviewed design, executable preparation proof, terminal dependencies, and disjoint ownership are ready."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5342-owner",
+      "reason": "Dedicated branch and FastWork worktree match the reserved claim; advance through typed lifecycle after csdlc-bind rejected its own absolute init reservation."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5342-owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:codex-exec-5342-preparation",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "subagent:codex-exec-5342-preparation",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:5342-owner",
+      "reason": "All six cards, reviewed design, executable preparation proof, terminal dependencies, and disjoint ownership are ready.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:5342-owner",
+      "reason": "Dedicated branch and FastWork worktree match the reserved claim; advance through typed lifecycle after csdlc-bind rejected its own absolute init reservation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"bound\"}"
+    }
+  ]
+}

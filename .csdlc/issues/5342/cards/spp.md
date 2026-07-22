@@ -1,0 +1,125 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 5342
+
+Repository: danielbaustin/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Verify terminal dependencies and disjoint ownership; implement the isolated bounded record crate with COTS Ed25519 and deterministic canonical bytes; prove schema, tamper, trust, channel, fresh-process, COTS, scope, and budgets; complete exact review, publication, CI, merge, post-merge proof, and typed closeout.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Complete and independently review all six cards, design, diagram, dependencies, COTS, budgets, protected paths, and PVF contract",
+    "acceptance_ids": [
+      "AC-8",
+      "AC-9",
+      "AC-10"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Implement bounded versioned records, canonical bytes, stable schemas, and typed diagnostics",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-7",
+      "AC-9"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Implement real Ed25519 signed envelopes and external trust-policy verification",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-4",
+      "AC-8"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Complete tamper, channel, fresh-process, determinism, bounds, COTS, scope, LoC, and latency proof",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8",
+      "AC-9"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Run exact-revision review, fix all findings, publish, shepherd green checks, merge, post-merge validate, and typed closeout",
+    "acceptance_ids": [
+      "AC-10"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- No trust decision is self-issued by the envelope being verified
+- No custom signature primitive or random key generation is implemented
+- Canonical bytes and verdicts are deterministic for identical explicit inputs
+- Every input and retained collection is bounded before allocation or cloning
+- Verification fails closed and never returns partially trusted records
+- No Runtime v2/v3, adapter, persistence, backend, CLI, or cloud authority enters the crate
+
+## Risks
+
+- Canonical JSON ambiguity could permit signature confusion
+- Trust policy could accidentally become caller- or envelope-forgeable
+- Schema and decoder behavior could drift
+- Artifact metadata could imply payload persistence authority
+- Test-only convenience could introduce hidden time, RNG, filesystem, or network dependencies
+
+## Estimates
+
+{
+  "elapsed_seconds": 43200,
+  "total_tokens": 140000,
+  "validation_seconds": 7200
+}
+
+## Design
+
+.csdlc/prepared/issues/5342/design.md
+
+Digest: 0e79cefbf643d851f720685937d03c53b09659d7b59c3716e1919a8158de89c4
+
+## Diagram
+
+.csdlc/prepared/issues/5342/diagram.mmd
+
+Digest: d30b97e26d669b0a222bdb3b75837e13a095466ede2cea15f8a4767f5603f96d
+
+## Stop Conditions
+
+- Either dependency receipt is nonterminal, claimed, invalid, or not ancestral through its actual merge commit
+- Any active protected path overlaps adl-v2/crates/adl-records or issue-local #5342 paths
+- Real acceptance requires Runtime v2/v3 or adapter source changes
+- Cryptographic or canonicalization behavior would require hand-rolled primitives available from reviewed COTS
+- A required bound, tamper class, channel proof, or trust decision remains deferred
+- Budget variance lacks exact evidence-backed review
+
+## Handoff
+
+Proceed only after doctor readiness.
