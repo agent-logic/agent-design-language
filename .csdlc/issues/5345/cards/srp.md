@@ -12,12 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/5345
-.csdlc/locks/5345.lock
-.csdlc/prepared/issues/5345
-.csdlc/evidence/5345
 adl-v2/crates/adl-cli
 adl-v2/tools/install-adl-v2.sh
+.csdlc/prepared/issues/5345
 
 ## Prompts
 
@@ -29,7 +26,38 @@ adl-v2/tools/install-adl-v2.sh
 
 ## Findings
 
-[]
+[
+  {
+    "id": "WP10-REVIEW-001",
+    "severity": "p1",
+    "summary": "Sign and verify remain digest placeholders instead of WP-07 adapters.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "WP10-REVIEW-002",
+    "severity": "p2",
+    "summary": "Installer and selector integration/concurrency proof remains limited.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "WP10-REVIEW-003",
+    "severity": "p1",
+    "summary": "Dependency receipt and ancestry evidence is observational by explicit operator direction and does not block WP-10.",
+    "actionable": false,
+    "in_scope": false,
+    "disposition": "out_of_scope",
+    "fix_revision": null,
+    "route": "operator-directed policy"
+  }
+]
 
 ## Dispositions
 
@@ -37,12 +65,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Sign/verify adapter wiring and expanded selector integration proof remain before publication.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:a6cd915b7ff71c2ba158833f0fc52a24217c5c47:c958da011d58ab0e69b83163d1bf02d26a1a944d59b14dd6cbb6636a5263e401")
 
-Reviewer: None
+Reviewer: Some("subagent:019f8611-2d02-7492-9c03-7af0fcf6662e")
 
-Result: pre_review
+Result: changes_required

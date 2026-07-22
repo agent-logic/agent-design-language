@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "157c42fee68c23e91d25009889f22dbb4d9dc9ca1f51c0b97d05f2855352d57d",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "ad2247e45161fd9285eac80b958a513a0ba199fcb943d9d63da4dd5fd3812f1f",
+  "generation": 5,
+  "digest": "f9505a183a97a177b1f9955f20451d570674fe709a07f6c44d42a197ed526837",
   "claim": {
     "id": "claim-5345-v0918-wp10-preparation",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 4,
+    "generation": 5,
     "acquired_unix_seconds": 1784659701,
     "expires_unix_seconds": 1785264501,
     "heartbeat_unix_seconds": 1784659701,
@@ -31,7 +31,52 @@
     "purpose": "Implement WP-10 thin CLI and authoritative selector in the dedicated worktree; retain dependency state as observational evidence only."
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019f8611-2d02-7492-9c03-7af0fcf6662e",
+    "scope": [
+      "adl-v2/crates/adl-cli",
+      "adl-v2/tools/install-adl-v2.sh",
+      ".csdlc/prepared/issues/5345"
+    ],
+    "reviewed_revision": "git-blake3:a6cd915b7ff71c2ba158833f0fc52a24217c5c47:c958da011d58ab0e69b83163d1bf02d26a1a944d59b14dd6cbb6636a5263e401",
+    "findings": [
+      {
+        "id": "WP10-REVIEW-001",
+        "severity": "p1",
+        "summary": "Sign and verify remain digest placeholders instead of WP-07 adapters.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "WP10-REVIEW-002",
+        "severity": "p2",
+        "summary": "Installer and selector integration/concurrency proof remains limited.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "WP10-REVIEW-003",
+        "severity": "p1",
+        "summary": "Dependency receipt and ancestry evidence is observational by explicit operator direction and does not block WP-10.",
+        "actionable": false,
+        "in_scope": false,
+        "disposition": "out_of_scope",
+        "fix_revision": null,
+        "route": "operator-directed policy"
+      }
+    ],
+    "residual_risks": [
+      "Sign/verify adapter wiring and expanded selector integration proof remain before publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -46,32 +91,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b28196f1dfc1f8e2c49574f78943ca937cbd354efac4151015bd819ef195052c",
+      "values_digest": "1fa2099ea72916930274c4de38cc7d83dd776167df263d73864a68738659eb0a",
       "rendered_digest": "0358dd03c710b673215b768bfda84689ab44cdbd02e8f32e1030b932df6d469d",
       "ast_digest": "2c68175ea773e967f6dabcbcaa117d012924e3ae5e44071b1b359f3287da6254"
     },
     "stp": {
-      "values_digest": "56de4c3b5678066b08712292ecf8cd23054603a9667d6a9455783139647c8a0e",
+      "values_digest": "6446b42ab3822d1b592667b3f7c28acea182d3c30b56fbaa15599707ba2b06be",
       "rendered_digest": "39d4e296ce5b406a9c57e1f3e80bd6652e9050833cba58e2e54aeade188a59bb",
       "ast_digest": "e0e07dc7bd193ea2813a2801025459326b0e06dad9d2ea08ad5ff2fca3bc1620"
     },
     "spp": {
-      "values_digest": "7a1cf00abd9cb92237d5f0dde6ed0daa99aa4e23b1eae07ad48757804a7019a0",
+      "values_digest": "62da5d862c0b8e3f0c85414ca1516c2307cf33483bec220aa0604c14e5010f84",
       "rendered_digest": "b45c1805ef8ca736ad5d888c122b0597d4c0a619ebdbf2d3659501f217bc3422",
       "ast_digest": "edb68c2ea932f4f25d24547b1b18019b7d62318f4be63dcfe032e46c64f19b65"
     },
     "vpp": {
-      "values_digest": "7751b32b052d6729816d63220802855392d8a7d735825fff03a6ee97edd6c17f",
+      "values_digest": "42afa392b45446f0b635d1aaa4d4a6352e6c19861083c9cbc1c3bd841cb837f8",
       "rendered_digest": "e5a445045ff6ad0c92193dd056d9fccfd381b4f5ac07d931d9d9faedbae67341",
       "ast_digest": "a99d0d344c0707702241776d419b342c34a5b7221ff90abcd2b509e54f2cfc1e"
     },
     "srp": {
-      "values_digest": "361b637bab7808582fb8c238b8b8f46d84ba3e1025f0a725e0f961e2cd74e6f6",
-      "rendered_digest": "dd22f00f38466f7679c031e0d55e0ec961cd34e766983264df6f2ce58a7b5e30",
-      "ast_digest": "73ac391d6c7df58043425e3bb43e48d356b686599d7c0c2120002359ab465cf7"
+      "values_digest": "3b90bfba7f855932fd54c9ff275e1b2f63b4a3d991aea52c697a92e70dd263dd",
+      "rendered_digest": "dd5c4e8afaacc35fc9f4207c298e80342f79e9d92a9043617c0a45a225abb121",
+      "ast_digest": "b03f38664c032e6c2f9aef4545b2f06e80f9c9dda30a3100d3da8d1527f7d47b"
     },
     "sor": {
-      "values_digest": "224338c053d7b69ec642141efcb975eafb3e6ae7ab2aaf4156765133fa08505d",
+      "values_digest": "55e85a67f54d8e1443502596573956b0c0817f580efec134beb1f74c57aaa466",
       "rendered_digest": "79a283029a36486229b9ac68812412a6a32e6df89347c3922bfc0c9d1aa36d8f",
       "ast_digest": "f096935aed26b005bfff45ab9ca2b4e22042df26fe179ab3f93c64f9c93397ff"
     }
@@ -155,6 +200,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
