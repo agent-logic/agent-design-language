@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -34,7 +34,7 @@ adl-v2/tools/install-adl-v2.sh
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:7c832595ff338800ea8b065c2e6c1f2a0da45919:be4429fa4c0e5c84cbe4afdcb2ef2cd76c3b0153523f6537112314d81524bbe8",
+    "fix_revision": "git-blake3:2b17be0a22c99cbc32bcf91583c923ca04b5dd4a:0c7bc971f6ce4ef189431b1bc8551ba229edc5c0e0c331c9c4bedc9a63bff49f",
     "route": null
   },
   {
@@ -44,7 +44,7 @@ adl-v2/tools/install-adl-v2.sh
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:7c832595ff338800ea8b065c2e6c1f2a0da45919:be4429fa4c0e5c84cbe4afdcb2ef2cd76c3b0153523f6537112314d81524bbe8",
+    "fix_revision": "git-blake3:2b17be0a22c99cbc32bcf91583c923ca04b5dd4a:0c7bc971f6ce4ef189431b1bc8551ba229edc5c0e0c331c9c4bedc9a63bff49f",
     "route": null
   },
   {
@@ -69,7 +69,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:7c832595ff338800ea8b065c2e6c1f2a0da45919:be4429fa4c0e5c84cbe4afdcb2ef2cd76c3b0153523f6537112314d81524bbe8")
+Revision: Some("git-blake3:2b17be0a22c99cbc32bcf91583c923ca04b5dd4a:0c7bc971f6ce4ef189431b1bc8551ba229edc5c0e0c331c9c4bedc9a63bff49f")
 
 Reviewer: Some("subagent:019f8611-2d02-7492-9c03-7af0fcf6662e")
 

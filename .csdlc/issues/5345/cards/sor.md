@@ -38,11 +38,11 @@ Implement WP-10 thin CLI and authoritative selector with focused proof.
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
