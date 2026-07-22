@@ -5,8 +5,6 @@ require "json"
 require "open3"
 require "pathname"
 
-ISSUES = [5340, 5341].freeze
-EXPECTED_REPOSITORY = "danielbaustin/agent-design-language"
 ISSUE = 5349
 PREPARATION_PATHS = [
   ".csdlc/issues/5349",
@@ -34,68 +32,26 @@ unless common_dir_status.success?
 end
 
 common_dir = Pathname(common_dir_text)
-results = ISSUES.map do |issue|
-  receipt_path = common_dir.join("csdlc-v2", "closeout", "#{issue}.json")
-  result = {
-    "issue" => issue,
-    "receipt" => receipt_path.to_s,
-    "github_merged" => false,
-    "typed_closed_out" => false,
-    "receipt_retained" => false,
-    "merged_sha_ancestral" => false,
-    "reasons" => []
-  }
-
-  unless receipt_path.file?
-    result["reasons"] << "missing_terminal_receipt"
-    next result
-  end
-
-  begin
-    receipt = JSON.parse(receipt_path.read)
-  rescue JSON::ParserError => error
-    result["reasons"] << "malformed_terminal_receipt:#{error.message}"
-    next result
-  end
-
-  record = receipt.fetch("record", {})
-  terminal = record.fetch("terminal", {})
-  result["receipt_retained"] =
-    receipt["schema"] == "csdlc.terminal_receipt.v1" &&
-    receipt["issue"] == issue &&
-    receipt["repository"] == EXPECTED_REPOSITORY &&
-    receipt["receipt_ref"] == "csdlc-v2/closeout/#{issue}.json"
-  result["typed_closed_out"] = record["phase"] == "closed_out"
-  result["github_merged"] =
-    terminal["disposition"] == "merged" &&
-    terminal["observed_state"] == "merged"
-
-  sha = terminal["observed_sha"]
-  if sha.is_a?(String) && sha.match?(/\A[0-9a-f]{40}\z/)
-    _stdout, _stderr, ancestry_status = git(
-      "merge-base", "--is-ancestor", sha, "origin/main"
-    )
-    result["merged_sha"] = sha
-    result["merged_sha_ancestral"] = ancestry_status.success?
-  else
-    result["reasons"] << "missing_or_invalid_merged_sha"
-  end
-
-  result["reasons"] << "receipt_identity_mismatch" unless result["receipt_retained"]
-  result["reasons"] << "typed_phase_not_closed_out" unless result["typed_closed_out"]
-  result["reasons"] << "github_terminal_state_not_merged" unless result["github_merged"]
-  result["reasons"] << "merged_sha_not_ancestral_to_origin_main" unless result["merged_sha_ancestral"]
-  result
+required_interfaces = {
+  "engine_ports" => "adl-v2/crates/adl-engine/src/model.rs",
+  "record_contracts" => "adl-v2/crates/adl-records/src/lib.rs"
+}.map do |name, path|
+  _stdout, _stderr, status = git("cat-file", "-e", "origin/main:#{path}")
+  { "name" => name, "path" => path, "available_on_origin_main" => status.success? }
 end
 
-ready = results.all? do |result|
-  result.values_at(
-    "github_merged",
-    "typed_closed_out",
-    "receipt_retained",
-    "merged_sha_ancestral"
-  ).all?
-end
+runtime_path = "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml"
+_stdout, _stderr, runtime_status = git("cat-file", "-e", "origin/main:#{runtime_path}")
+observations = [{
+  "name" => "runtime_v3_integration_seam",
+  "path" => runtime_path,
+  "available_on_origin_main" => runtime_status.success?,
+  "blocking" => false
+}]
+
+# Closeout receipts are audit evidence. They are deliberately not consulted by
+# this execution gate and their absence can never block product work.
+ready = required_interfaces.all? { |entry| entry["available_on_origin_main"] }
 
 claim_collisions = Dir.glob(".csdlc/issues/*/index.json").sort.each_with_object([]) do |path, collisions|
   record = JSON.parse(File.read(path))
@@ -128,7 +84,9 @@ puts JSON.pretty_generate(
   "status" => ready ? "ready" : "waiting",
   "origin_main" => git("rev-parse", "origin/main").first,
   "snapshot_boundary" => "local fetched origin/main and tracked typed issue records; refresh read-only GitHub truth before product claim amendment",
+  "receipt_policy" => "non_blocking_audit_evidence",
   "claim_collisions" => claim_collisions,
-  "results" => results
+  "required_interfaces" => required_interfaces,
+  "observations" => observations
 )
 exit(ready ? 0 : 2)

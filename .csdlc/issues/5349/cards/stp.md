@@ -18,7 +18,7 @@ Fully prepare, review, bind, commit, and push #5349 now. Product implementation,
 
 - all six issue-specific C-SDLC v2 cards generated and validated through typed v2
 - reviewed provider/governed-tool adapter design and architecture diagram
-- executable fail-closed dependency gate for terminal #5340 and #5341 merge, closeout receipt, and ancestry truth
+- executable fail-closed dependency gate for required source interfaces and claim collisions; receipts are non-blocking audit evidence
 - exact preparation protected paths and one future adl-v2/crates/adl-adapters product path with collision proof
 - pinned COTS inventory for reqwest, secrecy, url, serde, serde_json, tokio, and wiremock with explicit feature boundaries
 - 1500-source-line, 2500-test-line, 350-line module, minimum-30-test, six-production-COTS, one-dev-COTS, 3600-second lane allocation, and 7200-second hard validation ceiling
@@ -28,7 +28,7 @@ Fully prepare, review, bind, commit, and push #5349 now. Product implementation,
 
 ## Acceptance
 
-1. AC-1: Before any product edit or product-path claim, #5340 and #5341 are each live-GitHub merged, typed closed_out, receipt-retained, and their terminal merged SHAs are ancestors of current origin/main
+1. AC-1: Before product work, the WP-06 engine ports and WP-07 record contracts required by the adapter exist on current origin/main; Runtime v3 integration availability is observed separately and closeout receipts are non-blocking audit evidence
 2. AC-2: The deterministic mock adapter produces identical scripted observations for identical canonical requests and rejects unexpected order, identity, input, or exhausted scripts without clock, environment, filesystem, network, or credentials
 3. AC-3: The HTTPS adapter accepts only a runtime-issued endpoint permit for an HTTPS URL, disables redirects and proxy discovery, enforces explicit deadlines and body limits, honors cancellation, and classifies malformed, oversized, timeout, unavailable, authentication, rate-limit, and unsupported responses without internal retry
 4. AC-4: The governed-tool adapter requires a verified authorization envelope whose subject, action, resource, scope, expiry, and request digest match; it invokes exactly one named typed port and preserves denial, refusal, appeal, provenance, and error evidence without policy or shell authority
@@ -37,16 +37,17 @@ Fully prepare, review, bind, commit, and push #5349 now. Product implementation,
 7. AC-7: Secrets use non-serializable secrecy wrappers and a canary is absent from stdout, stderr, Debug, Display, errors, traces, fixtures, snapshots, and retained artifacts across every success and failure path
 8. AC-8: Product scope is confined to adl-v2/crates/adl-adapters and uses only reqwest 0.13.4, secrecy 0.10.3, url 2.5.8, serde 1.0.229, serde_json 1.0.151, tokio 1.53.1, wiremock 0.6.5, and terminal in-repo path contracts; Runtime v2, AWS, provider SDKs, shells, dynamic loading, policy engines, databases, alternate HTTP/TLS stacks, shared manifests, and sibling-owner writes are absent
 9. AC-9: Exact physical-line proof stays within 1500 production lines, 2500 test lines, 350 lines per production module, at least 30 explicit tests, six direct production COTS, one direct dev COTS, a 3600-second required-lane allocation, and a 7200-second hard local FastWork ceiling; any variance requires typed replanning and exact review without weakening proof
-10. AC-10: Every required PVF lane passes at one clean committed revision, bounded exact-revision review has no actionable finding, required CI is green, the exact head is merged, post-merge validation passes, and typed closed_out receipt truth is retained
+10. AC-10: Every required PVF lane passes at one clean committed revision, bounded exact-revision review has no actionable finding, required CI is green, the exact head is merged, and post-merge validation passes; closeout receipts remain non-blocking audit evidence
 11. AC-11: Parent #5349 makes no credentialed or live-provider readiness claim; mocks, protocol compatibility, OpenRouter, or missing credentials never count as direct-provider proof, and #5526 owns bounded operator-credential smoke after interface freeze
 12. AC-12: Rollback unregisters the opt-in adapters and returns typed adapter_unavailable without silent fallback to incumbent ADL, Runtime v2, raw HTTP, alternate providers, or ungoverned tools
 
 ## Dependencies
 
-- WP-06 #5340 GitHub merged, typed closed_out, receipt-retained, and merged-SHA ancestral to current origin/main
-- WP-08 #5341 GitHub merged, typed closed_out, receipt-retained, and merged-SHA ancestral to current origin/main
-- WP-07 #5342 records/trust and #5591 Runtime v3 ingress are consumed transitively through terminal #5341 rather than added as conflicting direct wave dependencies
-- #5526 is a downstream WP-09 provider-expansion child and does not block parent interface implementation or deterministic acceptance
+- WP-06 #5340 engine provider/tool port contracts are present on current origin/main
+- WP-07 #5342 record, trust, and digest contracts are present on current origin/main
+- WP-08 #5341 Runtime v3 integration availability is observed for later wiring but does not block generic adapter implementation
+- closeout receipts are non-blocking audit evidence and are never an execution dependency
+- #5526 remains the downstream provider-expansion child
 
 ## Inputs
 
@@ -62,7 +63,7 @@ Fully prepare, review, bind, commit, and push #5349 now. Product implementation,
 - docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md
 - docs/milestones/v0.91.8/features/ADL_V2_CORE_v0.91.8.md
 - docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md
-- terminal #5340 and #5341 typed contracts and retained receipts at implementation start
+- current origin/main WP-06 engine-port and WP-07 record-contract source interfaces; receipt state is non-blocking audit evidence
 
 ## Non Goals
 

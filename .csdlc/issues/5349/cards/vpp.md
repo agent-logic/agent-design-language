@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5349/diagram.mmd
 [
   {
     "lane": "dependency-and-ownership-gate",
-    "proof_role": "Prove terminal #5340/#5341 receipts and ancestry plus disjoint issue-local/future product claims",
+    "proof_role": "Prove required source interfaces and disjoint issue-local/product claims; receipts are not consulted",
     "acceptance_ids": [
       "AC-1",
       "AC-8"

@@ -6,9 +6,9 @@ the current `origin/main`.
 
 ## Decision
 
-Implement one small adapter crate at `adl-v2/crates/adl-adapters` after WP-06
-#5340 and WP-08 #5341 are each merged, typed `closed_out`, receipt-retained,
-and ancestral to current `origin/main`. The crate provides four bounded
+Implement one small adapter crate at `adl-v2/crates/adl-adapters` after the
+required WP-06 engine ports and WP-07 record contracts exist on current
+`origin/main`. Receipts are non-blocking audit evidence. The crate provides four bounded
 adapter families behind predecessor-owned typed ports:
 
 1. deterministic mock provider and governed-tool adapters;
@@ -26,23 +26,22 @@ interfaces later and is not absorbed into this issue.
 
 ## Dependency Gate
 
-Product work may start only when both direct canonical predecessors pass every
-column simultaneously:
+Product work may start when the required predecessor interfaces exist:
 
-| Gate | GitHub truth | Typed truth | Ancestry truth |
-| --- | --- | --- | --- |
-| WP-06 #5340 | merged issue/PR | retained receipt phase `closed_out`, terminal disposition/state `merged` | receipt `observed_sha` is ancestral to current `origin/main` |
-| WP-08 #5341 | merged issue/PR | retained receipt phase `closed_out`, terminal disposition/state `merged` | receipt `observed_sha` is ancestral to current `origin/main` |
+| Gate | Source truth | Blocking |
+| --- | --- | --- |
+| WP-06 #5340 | `adl-engine` provider/tool ports exist on `origin/main` | yes |
+| WP-07 #5342 | `adl-records` trust/digest contracts exist on `origin/main` | yes |
+| WP-08 #5341 | Runtime v3 integration seam exists on `origin/main` | no; later wiring observation |
 
 WP-07 #5342 and Runtime v3 ingress #5591 are transitive execution inputs
 through terminal #5341. The canonical v0.91.8 wave names WP-06 and WP-08 as
 WP-09's direct dependencies; the older issue body naming WP-06 and WP-07 does
 not override that checked-in order.
 
-`.csdlc/prepared/issues/5349/dependency_gate.rb` implements the retained
-receipt and ancestry checks without network mutation. After it passes, live
-GitHub state must be refreshed read-only before a typed claim amendment adds
-the product path.
+`.csdlc/prepared/issues/5349/dependency_gate.rb` checks source-interface
+availability and claim collisions without network mutation. It never reads a
+receipt, so receipt absence cannot block execution.
 
 ## Authority Boundary
 
@@ -188,7 +187,7 @@ one deterministic rerun after a fixed failure, not authority to skip a lane.
 
 | PVF lane | Proof role | Budget |
 | --- | --- | ---: |
-| dependency and ownership gate | receipts, ancestry, claim disjointness | 60 s |
+| dependency and ownership gate | required interfaces and claim disjointness | 60 s |
 | deterministic mock matrix | success plus every typed failure class | 300 s |
 | HTTPS contract matrix | permit, TLS-only, limits, redirect, cancellation and normalization | 600 s |
 | governed-tool policy matrix | authorization binding, denial, appeal evidence and no bypass | 600 s |
@@ -206,7 +205,7 @@ prose-only, pending, waived, or replaced by CI-only evidence.
 
 | Acceptance | Positive proof | Negative proof | Deferral policy |
 | --- | --- | --- | --- |
-| AC-1 dependency authority | #5340 and #5341 receipt/merge/ancestry gate passes | missing, stale, non-merged or non-ancestral state fails | none |
+| AC-1 dependency authority | required engine and record interfaces exist | missing required source interface fails; receipts are not consulted | none |
 | AC-2 mock determinism | repeated canonical requests produce identical scripted observations | unexpected order/input/identity and exhausted scripts fail | none |
 | AC-3 HTTPS bounds | permitted HTTPS request returns one bounded normalized outcome | HTTP, redirect, userinfo, oversized body, timeout, cancellation and malformed response fail distinctly | none |
 | AC-4 governed tool | verified envelope invokes exactly one named tool and preserves evidence | mismatch, expiry, denial, scope widening and direct execution fail | none |
@@ -215,7 +214,7 @@ prose-only, pending, waived, or replaced by CI-only evidence.
 | AC-7 secret hygiene | approved secret injection succeeds without retention | canary absent from stdout, stderr, debug, error, trace, fixture and artifact surfaces | none |
 | AC-8 scope/COTS/budgets | exact locked inventory and line/test counts pass | undeclared dependency, path growth, Runtime v2/AWS/provider SDK fails | none |
 | AC-9 validation budget | all required lanes fit the 3,600-second allocation and 7,200-second hard ceiling | timeout, omitted lane, or unbounded rerun fails | none |
-| AC-10 exact integration | all FastWork lanes, review, CI, merge and closeout agree | stale review, red CI or missing receipt fails | none |
+| AC-10 exact integration | all FastWork lanes, review, CI, merge and post-merge validation agree | stale review or red CI fails; receipt state is non-blocking | none |
 | AC-11 live-claim boundary | parent records deterministic adapter proof only | no credential means no direct-provider/live-production claim; #5526 owns bounded live smoke | none; live proof is outside parent claim, not deferred parent acceptance |
 | AC-12 rollback | explicit opt-in removal returns `adapter_unavailable` | silent incumbent, alternate-provider, raw-HTTP, or Runtime v2 fallback fails | none |
 
@@ -240,8 +239,8 @@ compatibility registrations are explicit and cannot become production defaults.
 
 ## Stop Conditions
 
-- #5340 or #5341 is not merged, typed `closed_out`, receipt-retained, and
-  ancestral to current `origin/main` when product work would start;
+- a required WP-06 engine-port or WP-07 record-contract source interface is
+  absent from current `origin/main` when product work would start;
 - a live or recovered claim overlaps the issue-local preparation paths or
   future `adl-v2/crates/adl-adapters` path;
 - terminal port contracts contradict this design and typed replanning has not

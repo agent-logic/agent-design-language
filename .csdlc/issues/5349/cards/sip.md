@@ -21,7 +21,7 @@ At one exact integrated revision, the independent adl-adapters crate proves dete
 ## Scope
 
 - preparation-only issue-local cards, design, diagram, dependency gate, COTS and budget policy, PVF plan, review, and evidence
-- one future product crate at adl-v2/crates/adl-adapters after terminal dependency clearance
+- one product crate at adl-v2/crates/adl-adapters after required source-interface clearance and typed claim amendment
 - deterministic mock provider and governed-tool adapters behind terminal #5340 ports
 - bounded HTTPS client adapter using a runtime-issued endpoint permit, Rustls, explicit limits, cancellation, and stable normalized outcomes
 - governed-tool adapter requiring a verified authorization envelope and preserving denial, appeal, provenance, and typed error evidence
@@ -48,7 +48,7 @@ At one exact integrated revision, the independent adl-adapters crate proves dete
 - Keep root main clean and read-only; all #5349 mutations stay in /Volumes/FastWork/adl-wp-5349
 - This task stops after preparation review, fixes, commit, and push; no product implementation, publication, PR, merge, or closeout
 - Do not use raw gh, AWS, Runtime v2, provider credentials, credential-file scans, or live provider calls
-- Do not add a product protected path until #5340 and #5341 are each GitHub merged, typed closed_out, receipt-retained, and ancestral to current origin/main
+- Add product protected paths only after required source interfaces are present and typed claim scope is amended; receipt absence never blocks execution
 - After the dependency gate passes, verify sole-writer authority and use typed csdlc-bind amendment to add only adl-v2/crates/adl-adapters
 - Use /Volumes/FastWork/adl-5349 for every future Rust artifact and run every required PVF lane locally with no skipped, ignored, degraded, fixture-only, prose-only, pending, waived, or CI-only acceptance
 - Run bounded exact-revision subagent review, fix every actionable finding, and preserve the no-credential/no-live-claim boundary

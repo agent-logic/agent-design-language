@@ -16,14 +16,14 @@ Prepare and exact-review the complete adapter contract now; bind only issue-loca
 
 ## Plan
 
-Revision 3
+Revision 7
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Verify live issue/canonical wave truth, clean worktree ownership, active claim collisions, exact dependencies, and disjoint preparation/future product paths",
+    "action": "Verify required source interfaces, clean worktree ownership, active claim collisions, and disjoint issue-local/product paths",
     "acceptance_ids": [
       "AC-1",
       "AC-8"
@@ -32,7 +32,7 @@ Revision 3
   },
   {
     "id": "S2",
-    "action": "Generate all six cards, design, diagram, COTS/budget/PVF/no-deferral/no-live-claim gates through typed v2, bind issue-local preparation scope, doctor, review, fix, commit, and push without product work",
+    "action": "Generate and review all six cards, design, diagram, COTS/budget/PVF gates, bind issue scope, doctor, commit, and push preparation",
     "acceptance_ids": [
       "AC-1",
       "AC-8",
@@ -44,7 +44,7 @@ Revision 3
   },
   {
     "id": "S3",
-    "action": "After terminal dependency clearance and typed claim amendment, implement deterministic mock and bounded HTTPS adapters with stable outcomes and secret hygiene",
+    "action": "After required source-interface clearance and typed claim amendment, implement deterministic mock and bounded HTTPS adapters with stable outcomes and secret hygiene",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -85,7 +85,7 @@ Revision 3
   },
   {
     "id": "S6",
-    "action": "Obtain bounded exact-revision review, fix every actionable finding, typed-publish, require green CI, merge exact head, post-merge validate, and retain typed closed_out receipt",
+    "action": "Obtain bounded exact-revision review, fix every actionable finding, typed-publish, require green CI, merge exact head, and post-merge validate; receipt capture is non-blocking audit work",
     "acceptance_ids": [
       "AC-10"
     ],
@@ -95,7 +95,7 @@ Revision 3
 
 ## Invariants
 
-- no product code or product-path claim until #5340 and #5341 are merged, typed closed_out, receipt-retained, and ancestral
+- product code and product-path claims require the WP-06 engine and WP-07 record source interfaces plus typed claim scope; receipts never block execution
 - root main remains clean/read-only and every #5349 mutation stays in the dedicated FastWork worktree
 - one admitted invocation yields one bounded adapter outcome with no adapter-owned retry, scheduling, policy, signing, supervision, or lifecycle action
 - identical canonical mock input and observed HTTP/tool response yield identical normalized records and error classifications
@@ -103,7 +103,7 @@ Revision 3
 - secrets are never serializable, printable, retained, or used as request identity
 - no Runtime v2, incumbent source, AWS, provider SDK, shell, dynamic loading, database, alternate TLS/HTTP stack, shared manifest, or sibling-owner path
 - no credentialed/live-provider claim belongs to parent deterministic acceptance
-- every acceptance claim is exact-revision, locally FastWork-proven, reviewed, CI-green, integrated, post-merge-validated, and receipt-backed
+- every acceptance claim is exact-revision, locally FastWork-proven, reviewed, CI-green, integrated, and post-merge-validated; receipts remain non-blocking audit evidence
 
 ## Risks
 
@@ -127,7 +127,7 @@ Revision 3
 
 .csdlc/prepared/issues/5349/design.md
 
-Digest: ef8a5a6821cec0ee9fbf1113abb81560f89afaff00c89525d2f26fb44b3a41e4
+Digest: 7177d15645c5c229ec641ae9e25df5112a4badfd4febb9e8fbb95d6802763844
 
 ## Diagram
 
@@ -137,7 +137,7 @@ Digest: bb6c679095660863f74d37ff239cca90d2315a2b5132b867d988aee6f1b11f2c
 
 ## Stop Conditions
 
-- #5340 or #5341 terminal merge, closeout receipt, or ancestry truth is absent when product work would begin
+- Required WP-06 engine-port or WP-07 record-contract source interfaces are absent from current origin/main when product work would begin; receipt absence is never a stop condition
 - an active or recovered claim overlaps issue-local preparation paths or adl-v2/crates/adl-adapters
 - terminal predecessor contracts contradict the prepared port, authority, COTS, budget, test, or validation assumptions and typed replanning has not completed
 - implementation requires any path outside the exact adapter crate, including shared manifests, sibling ADL v2 crates, Runtime source trees, Runtime v2, or C-SDLC product code

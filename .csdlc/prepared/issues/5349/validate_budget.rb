@@ -29,8 +29,7 @@ EXPECTED_FEATURES = {
 }.freeze
 EXPECTED_PATH_PACKAGES = {
   "adl-engine" => "adl-v2/crates/adl-engine",
-  "adl-records" => "adl-v2/crates/adl-records",
-  "adl-runtime-v3-adapter" => "adl-v2/crates/adl-runtime-v3-adapter"
+  "adl-records" => "adl-v2/crates/adl-records"
 }.freeze
 FORBIDDEN_PACKAGES = %w[
   aws-config aws-sdk-bedrockruntime libloading native-tls openssl policy-engine
@@ -46,15 +45,15 @@ end
 
 def dependency_versions(text, section)
   body = text[/^\[#{Regexp.escape(section)}\]\s*$.*?(?=^\[|\z)/m].to_s
-  body.lines.filter_map do |line|
+  body.lines.each_with_object({}) do |line, dependencies|
     next if line.strip.empty? || line.lstrip.start_with?("#")
 
     name, value = line.split("=", 2).map(&:strip)
     next if name.nil? || value.nil? || value.include?("path =")
 
     version = value[/version\s*=\s*"([^"]+)"/, 1] || value[/\A"([^"]+)"\z/, 1]
-    [name, version]
-  end.to_h
+    dependencies[name] = version&.delete_prefix("=")
+  end
 end
 
 def cargo_metadata

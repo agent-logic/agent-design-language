@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-09] Implement provider and governed-tool adapters",
     "slug": "v0-91-8-wp09-provider-governed-tool-adapters",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 14
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "dependency-and-ownership-gate",
-          "proof_role": "Prove terminal #5340/#5341 receipts and ancestry plus disjoint issue-local/future product claims",
+          "proof_role": "Prove required source interfaces and disjoint issue-local/product claims; receipts are not consulted",
           "acceptance_ids": [
             "AC-1",
             "AC-8"
@@ -222,7 +222,7 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed without product implementation or publication on false/stale dependency truth, claim collision, unauthorized endpoint or tool invocation, authorization mismatch, denial loss, nondeterminism, retry/fallback authority, secret leakage, lossy compatibility, malformed response acceptance, undeclared COTS/path growth, budget breach, Runtime v2/AWS/provider credential use, ungrounded live claim, stale review, red validation, or incomplete receipt truth.",
       "design_ref": ".csdlc/prepared/issues/5349/design.md",
-      "design_digest": "ef8a5a6821cec0ee9fbf1113abb81560f89afaff00c89525d2f26fb44b3a41e4",
+      "design_digest": "7177d15645c5c229ec641ae9e25df5112a4badfd4febb9e8fbb95d6802763844",
       "diagram_ref": ".csdlc/prepared/issues/5349/diagram.mmd",
       "diagram_digest": "bb6c679095660863f74d37ff239cca90d2315a2b5132b867d988aee6f1b11f2c"
     }
