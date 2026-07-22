@@ -14,7 +14,7 @@ end
 gate = ROOT.join(".csdlc/prepared/issues/5344/check-dependencies.rb")
 execution_revision, revision_status = Open3.capture2("git", "rev-parse", "HEAD", chdir: ROOT.to_s)
 abort("cannot pin exact WP-12 execution revision") unless revision_status.success? && execution_revision.strip.match?(/\A[0-9a-f]{40}\z/)
-system("ruby", gate.to_s, execution_revision.strip, chdir: ROOT.to_s) || abort("WP-12 dependencies are not terminal and ancestral")
+system("ruby", gate.to_s, execution_revision.strip, chdir: ROOT.to_s) || abort("WP-12 dependencies are not live-merged and ancestral")
 
 soak = ROOT.join("adl-v2/tools/run-soak.sh")
 rollback = ROOT.join("adl-v2/tools/prove-rollback.sh")

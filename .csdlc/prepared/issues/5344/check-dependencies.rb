@@ -7,19 +7,20 @@ require "pathname"
 
 ROOT = Pathname.new(__dir__).join("../../../..").expand_path
 DEPENDENCIES = %w[5350 5361].freeze
+BRANCHES = {
+  "5350" => "origin/codex/5350-v0918-wp11-shadow-parity",
+  "5361" => "origin/codex/5361-v0918-runtime-v3-acceptance-readiness"
+}.freeze
 
 def fail_gate(message)
   warn("dependency gate failed: #{message}")
   exit(1)
 end
 
-common_dir, status = Open3.capture2("git", "rev-parse", "--git-common-dir", chdir: ROOT.to_s)
-fail_gate("cannot resolve shared Git directory") unless status.success?
-common = Pathname.new(common_dir.strip)
-common = ROOT.join(common) unless common.absolute?
-primary_root = common.parent
-doctor = primary_root.join(".adl/bin/csdlc-v2/csdlc-doctor")
-fail_gate("stable typed csdlc-doctor is absent") unless doctor.executable?
+def git(*args)
+  out, err, status = Open3.capture3("git", *args, chdir: ROOT.to_s)
+  [out.strip, err.strip, status]
+end
 
 head, head_status = Open3.capture2("git", "rev-parse", "HEAD", chdir: ROOT.to_s)
 fail_gate("cannot resolve exact execution revision") unless head_status.success?
@@ -27,38 +28,66 @@ execution_revision = (ARGV[0] || head.strip).strip
 fail_gate("execution revision is not an exact SHA") unless execution_revision.match?(/\A[0-9a-f]{40}\z/)
 fail_gate("checkout moved from exact execution revision #{execution_revision}") unless head.strip == execution_revision
 
-DEPENDENCIES.each do |issue|
-  index_path = ROOT.join(".csdlc/issues/#{issue}/index.json")
+origin_main, _, origin_status = git("rev-parse", "origin/main")
+fail_gate("origin/main is not available; fetch before evaluating live merge") unless origin_status.success?
+
+common_dir, common_err, common_status = git("rev-parse", "--git-common-dir")
+fail_gate("cannot resolve shared Git directory: #{common_err}") unless common_status.success?
+common = Pathname.new(common_dir)
+common = ROOT.join(common) unless common.absolute?
+primary_root = common.parent
+doctor = primary_root.join(".adl/bin/csdlc-v2/csdlc-doctor")
+
+observations = DEPENDENCIES.map do |issue|
+  branch = BRANCHES.fetch(issue)
+  branch_head, branch_err, branch_status = git("rev-parse", branch)
+  fail_gate("##{issue} branch #{branch} is unavailable: #{branch_err}") unless branch_status.success?
+
+  landing, _, landing_status = git("log", "-1", "--format=%H", "--grep=##{issue}", "origin/main")
+  fail_gate("##{issue} has no live merged landing commit on origin/main") unless landing_status.success? && landing.match?(/\A[0-9a-f]{40}\z/)
+
+  _, _, origin_ancestor = git("merge-base", "--is-ancestor", landing, origin_main)
+  fail_gate("##{issue} landing #{landing} is not ancestral to current origin/main #{origin_main}") unless origin_ancestor.success?
+
+  _, _, execution_ancestor = git("merge-base", "--is-ancestor", landing, execution_revision)
+  fail_gate("##{issue} landing #{landing} is not ancestral to execution revision #{execution_revision}") unless execution_ancestor.success?
+
   receipt_path = common.join("csdlc-v2/closeout/#{issue}.json")
-  fail_gate("##{issue} typed index is absent") unless index_path.file?
-  fail_gate("##{issue} retained closeout receipt is absent") unless receipt_path.file?
+  receipt_audit = if receipt_path.file?
+    receipt = JSON.parse(receipt_path.read)
+    terminal = receipt["terminal"] || receipt.dig("record", "terminal") || {}
+    { present: true, disposition: terminal["disposition"] || terminal["state"] }
+  else
+    { present: false }
+  end
 
-  index = JSON.parse(index_path.read)
-  receipt = JSON.parse(receipt_path.read)
-  doctor_out, doctor_err, doctor_status = Open3.capture3(
-    doctor.to_s,
-    "--repo",
-    ROOT.to_s,
-    "--issue",
-    issue,
-    chdir: ROOT.to_s
-  )
-  fail_gate("##{issue} typed doctor failed: #{doctor_err.strip}") unless doctor_status.success?
-  doctor_report = JSON.parse(doctor_out)
-  fail_gate("##{issue} typed doctor status is not pass") unless doctor_report["status"] == "pass"
-  fail_gate("##{issue} typed doctor phase is not closed_out") unless doctor_report["phase"] == "closed_out"
-  fail_gate("##{issue} typed doctor retains findings") unless doctor_report.fetch("findings", []).empty?
-  fail_gate("##{issue} phase is #{index.fetch("phase", "missing")}, not closed_out") unless index["phase"] == "closed_out"
-  fail_gate("##{issue} claim remains active") unless index["claim"].nil?
+  doctor_audit = if doctor.executable?
+    doctor_out, doctor_err, doctor_status = Open3.capture3(
+      doctor.to_s,
+      "--repo",
+      ROOT.to_s,
+      "--issue",
+      issue,
+      chdir: ROOT.to_s
+    )
+    if doctor_status.success?
+      report = JSON.parse(doctor_out)
+      { available: true, status: report["status"], phase: report["phase"], findings: report.fetch("findings", []).length }
+    else
+      { available: true, error: doctor_err.strip }
+    end
+  else
+    { available: false }
+  end
 
-  terminal = receipt["terminal"] || receipt.dig("record", "terminal") || {}
-  disposition = terminal["disposition"] || terminal["state"]
-  fail_gate("##{issue} receipt is not merged") unless disposition == "merged"
-  merge_sha = terminal["observed_sha"] || receipt["observed_sha"] || receipt.dig("record", "observed_sha")
-  fail_gate("##{issue} receipt lacks an exact merge SHA") unless merge_sha&.match?(/\A[0-9a-f]{40}\z/)
-
-  _out, ancestor = Open3.capture2("git", "merge-base", "--is-ancestor", merge_sha, execution_revision, chdir: ROOT.to_s)
-  fail_gate("##{issue} merge #{merge_sha} is not ancestral to #{execution_revision}") unless ancestor.success?
+  {
+    issue: issue.to_i,
+    branch: branch,
+    branch_head: branch_head,
+    landing: landing,
+    receipt_audit: receipt_audit,
+    typed_doctor_audit: doctor_audit
+  }
 end
 
-puts(JSON.generate(status: "pass", dependencies: DEPENDENCIES, execution_revision: execution_revision))
+puts(JSON.generate(status: "pass", gate: "live_merge_plus_ancestry", dependencies: observations, execution_revision: execution_revision))

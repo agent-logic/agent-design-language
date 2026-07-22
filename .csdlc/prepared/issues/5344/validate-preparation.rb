@@ -25,13 +25,13 @@ cards.each do |card|
 end
 
 text = cards.map { |card| BASE.join("cards/#{card}.md").read }.join("\n")
-%w[5350 5361 closed_out receipt ancestry rollback selector Runtime\ v2 no-deferral PVF].each do |needle|
+%w[5350 5361 live\ merged ancestry audit-only receipt rollback selector Runtime\ v2 no-deferral PVF].each do |needle|
   require_truth(text.include?(needle.gsub("\\ ", " ")), "cards omit #{needle}")
 end
 
 design = PREP.join("design.md").read
 diagram = PREP.join("diagram.mmd").read
-%w[5350 5361 closed_out receipt ancestor exact prior bytes compare-and-swap #5343 Runtime\ v2].each do |needle|
+%w[5350 5361 live\ merge ancestry audit-only receipt exact prior bytes compare-and-swap #5343 Runtime\ v2].each do |needle|
   require_truth(design.downcase.include?(needle.gsub("\\ ", " ").downcase), "design omits #{needle}")
 end
 require_truth(diagram.include?("flowchart TD"), "diagram is not Mermaid flowchart")
@@ -56,5 +56,6 @@ require_truth(text.include?("800") && text.include?("1,200"), "cards omit LoC bu
 require_truth((text.include?("1,800") || text.include?("1800")) && (text.include?("3,600") || text.include?("3600")), "cards omit time budgets")
 require_truth(text.include?("COTS"), "cards omit COTS decision")
 require_truth(text.include?("no deferred") || text.include?("No deferred") || text.include?("no-deferral"), "cards omit no-deferral contract")
+require_truth(text.include?("audit-only"), "cards do not mark receipts and typed closeout audit-only")
 
 puts(JSON.pretty_generate(status: "pass", issue: 5344, phase: index["phase"], generation: index["generation"], cards: cards.length, protected_paths: paths.length))

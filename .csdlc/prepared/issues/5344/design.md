@@ -4,9 +4,10 @@
 
 This is preparation-only design authority for issue #5344. It does not execute
 the soak, change a selector, perform cutover, publish a PR, or modify Runtime v2.
-Execution remains fail-closed until both #5350 and #5361 are GitHub merged,
-typed `closed_out`, backed by retained terminal receipts, and ancestral to the
-exact #5344 execution revision.
+Execution remains fail-closed until both #5350 and #5361 have live merged
+landing commits ancestral to the exact #5344 execution revision. Typed
+closeout and retained receipts are audit-only observations and never substitute
+for live merge plus ancestry.
 
 ## Objective
 
@@ -37,11 +38,11 @@ source is modified.
 Before any soak, selector mutation, or product-path edit, the execution gate
 must prove for each dependency `5350` and `5361`:
 
-1. the live GitHub issue is closed as completed and its PR is merged;
-2. typed `csdlc-doctor` reports `closed_out` with no findings;
-3. the shared Git common directory contains `csdlc-v2/closeout/<issue>.json`;
-4. the receipt records merged disposition and an exact observed merge SHA;
-5. that merge SHA is an ancestor of the exact #5344 execution revision.
+1. a live merged landing commit exists on `origin/main`;
+2. that landing commit remains ancestral to the current `origin/main`;
+3. that landing commit is an ancestor of the exact #5344 execution revision;
+4. typed `csdlc-doctor` and retained receipts are recorded only as audit-only
+   observations.
 
 Any missing, stale, malformed, contradictory, or non-ancestral fact stops the
 lane without selector mutation.

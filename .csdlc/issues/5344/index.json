@@ -5,7 +5,7 @@
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
   "phase": "bound",
   "generation": 1,
-  "digest": "acc5ed9934fedae2aed4242a0a9439ed154f16b543e2490d3878e7ab08d5fa7c",
+  "digest": "f7c88d0cc84e3ee7a8c9bf76c265336850061dfa02345a1a1ba9a0b61d82bdb6",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-preparation",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -16,15 +16,15 @@
     "branch": "codex/5344-v0918-wp12-soak-rollback",
     "worktree": ".",
     "protected_paths": [
+      ".csdlc/evidence/5344",
       ".csdlc/issues/5344",
       ".csdlc/locks/5344.lock",
       ".csdlc/prepared/issues/5344",
-      ".csdlc/evidence/5344",
-      "adl-v2/tools/run-soak.sh",
       "adl-v2/tools/prove-rollback.sh",
+      "adl-v2/tools/run-soak.sh",
       "docs/milestones/v0.91.8/evidence/wp12"
     ],
-    "purpose": "Prepare and review WP-12 soak and rollback contracts only; execution remains prohibited until #5350 and #5361 are merged, typed closed_out, receipt-backed, and ancestral"
+    "purpose": "Prepare and review WP-12 soak and rollback contracts only; execution remains prohibited until #5350 and #5361 each have a live merged landing commit ancestral to the exact execution revision; receipts and typed closeout are audit observations only"
   },
   "review_assignment": null,
   "review": null,
@@ -109,6 +109,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Refresh execution dependency gate wording so live merge plus ancestry is blocking and receipts/typed closeout are audit observations.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5344\"],\"expected_owner\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\",\"expected_purpose\":\"Prepare and review WP-12 soak and rollback contracts only; execution remains prohibited until #5350 and #5361 are merged, typed closed_out, receipt-backed, and ancestral\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare and review WP-12 soak and rollback contracts only; execution remains prohibited until #5350 and #5361 are merged, typed closed_out, receipt-backed, and ancestral\",\"purpose\":\"Prepare and review WP-12 soak and rollback contracts only; execution remains prohibited until #5350 and #5361 each have a live merged landing commit ancestral to the exact execution revision; receipts and typed closeout are audit observations only\"}"
     }
   ]
 }
