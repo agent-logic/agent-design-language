@@ -1,5 +1,5 @@
 use csdlc_v2::{
-    build_and_install_binaries, edit_issue, install_binaries, resolve_operator_generation,
+    edit_issue, install_binaries, install_prebuilt_binaries, resolve_operator_generation,
     verify_coexistence, BootstrapRequest, CardKind, Claim, CoexistenceInventory, EditRequest,
     Generation, LifecyclePhase, SemanticOperation, SkillManifest, Store,
 };
@@ -80,7 +80,7 @@ fn installer_records_provenance_without_replacing_other_files() {
     let destination_parent = tempfile::tempdir().unwrap();
     let destination = destination_parent.path().join("csdlc-v2");
     fs::write(destination_parent.path().join("v1-stays"), b"v1").unwrap();
-    let receipt = build_and_install_binaries(&repo, &destination).unwrap();
+    let receipt = install_prebuilt_binaries(&repo, prebuilt_binaries(), &destination).unwrap();
     assert_eq!(fs::read(lockfile).unwrap(), lockfile_before);
     assert_eq!(receipt.binaries.len(), 12);
     assert_eq!(
@@ -191,7 +191,7 @@ fn stale_owner_binary_provenance_fails_closed() {
 }
 
 #[test]
-fn untracked_build_input_is_rejected_before_cargo_runs() {
+fn untracked_build_input_is_rejected_before_install() {
     let repo = tempfile::tempdir().unwrap();
     git(repo.path(), &["init", "-b", "main"]);
     git(
@@ -214,7 +214,8 @@ fn untracked_build_input_is_rejected_before_cargo_runs() {
     )
     .unwrap();
     let destination = tempfile::tempdir().unwrap().path().join("csdlc-v2");
-    let error = build_and_install_binaries(repo.path(), &destination).unwrap_err();
+    let error =
+        install_prebuilt_binaries(repo.path(), prebuilt_binaries(), &destination).unwrap_err();
     assert!(error.message.contains("dirty csdlc-v2 sources"));
     assert!(!repo.path().join("cargo-ran").exists());
     assert!(!destination.exists());
@@ -225,7 +226,7 @@ fn freshly_installed_stable_edit_binary_is_executable() {
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
     let parent = tempfile::tempdir().unwrap();
     let destination = parent.path().join("csdlc-v2");
-    build_and_install_binaries(&repo, &destination).unwrap();
+    install_prebuilt_binaries(&repo, prebuilt_binaries(), &destination).unwrap();
 
     let fixture = tempfile::tempdir().unwrap();
     git(fixture.path(), &["init", "-b", "main"]);
@@ -504,10 +505,16 @@ fn symlinked_installed_binaries_fail_coexistence() {
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
     let parent = tempfile::tempdir().unwrap();
     let bins = parent.path().join("csdlc-v2");
-    build_and_install_binaries(&repo, &bins).unwrap();
+    install_prebuilt_binaries(&repo, prebuilt_binaries(), &bins).unwrap();
     fs::remove_file(bins.join("csdlc-init")).unwrap();
     symlink("/bin/true", bins.join("csdlc-init")).unwrap();
     let report = verify_coexistence(&repo, &bins, &CoexistenceInventory::load().unwrap()).unwrap();
     assert!(!report.pass);
     assert_eq!(report.missing_v2_binaries, vec!["csdlc-init"]);
+}
+
+fn prebuilt_binaries() -> &'static std::path::Path {
+    std::path::Path::new(env!("CARGO_BIN_EXE_csdlc-install"))
+        .parent()
+        .expect("Cargo binary directory")
 }

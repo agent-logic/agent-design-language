@@ -303,7 +303,11 @@ pub fn install_binaries(source: &Path, destination: &Path) -> Result<InstallRece
     install_binaries_with_revision(source, destination, None)
 }
 
-pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<InstallReceipt> {
+pub fn install_prebuilt_binaries(
+    repo: &Path,
+    source: &Path,
+    destination: &Path,
+) -> Result<InstallReceipt> {
     let manifest_path = repo.join("csdlc-v2/Cargo.toml");
     if !is_regular_file(&manifest_path) {
         return Err(V2Error::new(
@@ -318,31 +322,7 @@ pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<Ins
             "refusing to stamp owner binaries from dirty csdlc-v2 sources",
         ));
     }
-    let status = std::process::Command::new("cargo")
-        .args(["build", "--locked", "--manifest-path"])
-        .arg(&manifest_path)
-        .arg("--bins")
-        .current_dir(repo)
-        .status()
-        .map_err(io_error)?;
-    if !status.success() {
-        return Err(V2Error::new(
-            ErrorCode::ValidationFailed,
-            "cargo failed to build the typed C-SDLC binaries",
-        ));
-    }
-    let after = crate::git::run(repo, &["rev-parse", "HEAD"])?;
-    if before.stdout != after.stdout || !csdlc_sources_are_clean(repo)? {
-        return Err(V2Error::new(
-            ErrorCode::ValidationFailed,
-            "csdlc-v2 source revision changed or became dirty during the build",
-        ));
-    }
-    install_binaries_with_revision(
-        &repo.join("csdlc-v2/target/debug"),
-        destination,
-        Some(format!("git:{}", after.stdout)),
-    )
+    install_binaries_with_revision(source, destination, Some(format!("git:{}", before.stdout)))
 }
 
 fn csdlc_sources_are_clean(repo: &Path) -> Result<bool> {
