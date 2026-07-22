@@ -12,7 +12,18 @@ Status: draft
 
 ## Scope
 
-
+adl/tools/run_cargo_validation.sh
+adl/tools/test_run_cargo_validation.sh
+csdlc-v2/src/operator.rs
+csdlc-v2/src/proof.rs
+csdlc-v2/src/readiness.rs
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate10a.rs
+csdlc-v2/tests/gate7.rs
+csdlc-v2/tests/gate7_lifecycle.rs
+.csdlc/issues/5624
+.csdlc/prepared/issues/5624
+.csdlc/evidence/5624
 
 ## Prompts
 
@@ -36,8 +47,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:0794c7282bcfe1d39fa21baa4b9b4a71d17890c6:9198f9170b47dce50a1a1054266f3c0d26aba7d7fad3e93cc6e999e0f9492ec1")
 
-Reviewer: None
+Reviewer: Some("subagent:019f8ab8-7865-7263-832c-2922bae1b9d3")
 
-Result: pre_review
+Result: pass
