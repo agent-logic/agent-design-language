@@ -212,6 +212,14 @@ fn finalize_is_one_atomic_implemented_transition_and_failure_writes_no_state() {
         std::fs::read(store.issue_dir(5627).join("index.json")).expect("unchanged"),
         before
     );
+    assert!(!temp.path().join("failed-evidence").exists());
+    assert!(std::fs::read_dir(temp.path())
+        .expect("root")
+        .all(|entry| !entry
+            .expect("entry")
+            .file_name()
+            .to_string_lossy()
+            .starts_with(".csdlc-finalize-")));
     let implemented =
         finalize(&store, request("/usr/bin/true", "passing-evidence")).expect("finalize");
     assert_eq!(implemented.phase, LifecyclePhase::Implemented);

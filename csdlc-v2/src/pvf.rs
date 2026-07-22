@@ -523,8 +523,34 @@ pub fn finalize(store: &Store, request: FinalizeRequest) -> Result<IssueRecord> 
         .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
         .validate(&request.claim_id, crate::store::now_seconds()?)?;
 
-    let report = execute(request.execution)?;
+    let evidence_dir = request.execution.evidence_dir.clone();
+    let evidence_parent = evidence_dir.parent().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "finalize evidence directory must have a parent",
+        )
+    })?;
+    fs::create_dir_all(evidence_parent)?;
+    let nonce = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map_err(|_| V2Error::new(ErrorCode::Io, "system clock is before the Unix epoch"))?
+        .as_nanos();
+    let staging_dir = evidence_parent.join(format!(
+        ".csdlc-finalize-{}-{}-{nonce}",
+        request.issue,
+        std::process::id()
+    ));
+    let mut execution = request.execution.clone();
+    execution.evidence_dir = staging_dir.clone();
+    let report = match execute(execution) {
+        Ok(report) => report,
+        Err(error) => {
+            let _ = fs::remove_dir_all(&staging_dir);
+            return Err(error);
+        }
+    };
     if report.disposition != ValidationDisposition::LocalPass {
+        let _ = fs::remove_dir_all(&staging_dir);
         return Err(V2Error::new(
             ErrorCode::ValidationFailed,
             "finalize requires a complete local validation pass",
@@ -549,7 +575,23 @@ pub fn finalize(store: &Store, request: FinalizeRequest) -> Result<IssueRecord> 
                 .unwrap_or_else(|| format!("pvf:{}", lane.lane)),
         })
         .collect();
-    store.commit_implementation(ImplementationCommit {
+    let backup_dir = evidence_parent.join(format!(
+        ".csdlc-finalize-backup-{}-{}-{nonce}",
+        request.issue,
+        std::process::id()
+    ));
+    let had_evidence = evidence_dir.exists();
+    if had_evidence {
+        fs::rename(&evidence_dir, &backup_dir)?;
+    }
+    if let Err(error) = fs::rename(&staging_dir, &evidence_dir) {
+        if had_evidence {
+            let _ = fs::rename(&backup_dir, &evidence_dir);
+        }
+        let _ = fs::remove_dir_all(&staging_dir);
+        return Err(error.into());
+    }
+    let committed = store.commit_implementation(ImplementationCommit {
         issue: request.issue,
         expected_generation: request.expected_generation,
         expected_digest: request.expected_digest,
@@ -559,7 +601,22 @@ pub fn finalize(store: &Store, request: FinalizeRequest) -> Result<IssueRecord> 
         changes: request.changes,
         artifacts: request.artifacts,
         validation,
-    })
+    });
+    match committed {
+        Ok(record) => {
+            if had_evidence {
+                fs::remove_dir_all(&backup_dir)?;
+            }
+            Ok(record)
+        }
+        Err(error) => {
+            let _ = fs::remove_dir_all(&evidence_dir);
+            if had_evidence {
+                let _ = fs::rename(&backup_dir, &evidence_dir);
+            }
+            Err(error)
+        }
+    }
 }
 
 fn skipped_evidence(lane: &PvfLane, status: LaneStatus) -> LaneEvidence {

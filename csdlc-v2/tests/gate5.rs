@@ -745,7 +745,6 @@ fn typed_publication_metadata_commit_does_not_stale_review_but_source_drift_does
         (".csdlc/issues/7/cards/sor.md", "card\n"),
         (".csdlc/issues/7/cards/sor.values.json", "{}\n"),
         (".csdlc/prepared/issues/7/publication.json", "{}\n"),
-        (".csdlc/requests/7-publish.json", "{}\n"),
         (".csdlc/publication/7.intent.json", "{}\n"),
     ] {
         let target = temp.path().join(path);
@@ -756,6 +755,21 @@ fn typed_publication_metadata_commit_does_not_stale_review_but_source_drift_does
     let to = git_out(temp.path(), &["rev-parse", "HEAD"]);
     let current = csdlc_v2::git::clean_commit_revision(&to);
     assert!(evaluate_publication_review_in_repo(temp.path(), Some(&evidence), &current).ready);
+
+    std::fs::write(temp.path().join(".csdlc/requests/7-publish.json"), "{}\n")
+        .expect("obsolete tracked request");
+    git(temp.path(), &["add", ".csdlc/requests/7-publish.json"]);
+    git(
+        temp.path(),
+        &["commit", "-m", "obsolete tracked request drift"],
+    );
+    let request_drift = git_out(temp.path(), &["rev-parse", "HEAD"]);
+    let request_drift_revision = csdlc_v2::git::clean_commit_revision(&request_drift);
+    let request_report =
+        evaluate_publication_review_in_repo(temp.path(), Some(&evidence), &request_drift_revision);
+    assert!(request_report
+        .blocker_codes
+        .contains(&"review_stale".into()));
 
     std::fs::write(
         temp.path().join(".csdlc/issues/7/cards/sor.md"),
