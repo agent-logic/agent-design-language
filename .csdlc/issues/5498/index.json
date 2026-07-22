@@ -5,7 +5,7 @@
   "initialization_digest": "5641d1b95d616b80f136aa634bd62c0690db925d85c3841f15df8b666fe5c66c",
   "phase": "bound",
   "generation": 8,
-  "digest": "f7067ab01b6ea0eb20737f2187998655a3f439b7ce23be84bbb58a1b60a8d175",
+  "digest": "b50bf35afe2ccf5581b1abdd907a0d11cd5abaaef587ec9fa9e2abe726cf2834",
   "claim": {
     "id": "claim-5498-v0918-wp10a-task-context-adapter-preparation",
     "owner": "codex:issue-5498-preparation",
@@ -18,9 +18,12 @@
     "protected_paths": [
       ".csdlc/issues/5498",
       ".csdlc/locks/5498.lock",
-      ".csdlc/prepared/issues/5498"
+      ".csdlc/prepared/issues/5498",
+      "adl-v2/Cargo.lock",
+      "adl-v2/Cargo.toml",
+      "adl-v2/crates/adl-workcell-task-adapter"
     ],
-    "purpose": "Prepare and review WP-10A task and context-handoff adapter contracts only; implementation remains blocked on #5499 and the WP-09 interface gate"
+    "purpose": "Implement, validate, review, publish, merge, and close issue #5498 within the isolated task and context-handoff adapter crate boundary."
   },
   "review_assignment": null,
   "review": null,
@@ -154,6 +157,20 @@
       "actor": "codex:issue-5498-preparation-digest-sync-no-new-review",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Activate issue #5498 after live merge, ancestry, and disjoint path confirmation passed for #5499 and #5349.",
+      "operation": "{\"add_protected_paths\":[\"adl-v2/crates/adl-workcell-task-adapter\"],\"expected_owner\":\"codex:issue-5498-preparation\",\"expected_purpose\":\"Prepare and review WP-10A task and context-handoff adapter contracts only; implementation remains blocked on #5499 and the WP-09 interface gate\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare and review WP-10A task and context-handoff adapter contracts only; implementation remains blocked on #5499 and the WP-09 interface gate\",\"purpose\":\"Implement, validate, review, publish, merge, and close issue #5498 within the isolated task and context-handoff adapter crate boundary.\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Register the bounded task adapter as a first-class ADL v2 workspace member and retain the workspace lock update.",
+      "operation": "{\"add_protected_paths\":[\"adl-v2/Cargo.toml\",\"adl-v2/Cargo.lock\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

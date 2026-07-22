@@ -134,6 +134,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "adl-workcell-task-adapter"
+version = "0.1.0"
+dependencies = [
+ "blake3",
+ "futures",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+ "tokio",
+]
+
+[[package]]
 name = "ahash"
 version = "0.8.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
