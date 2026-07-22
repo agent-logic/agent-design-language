@@ -14,8 +14,7 @@ Status: draft
 
 .csdlc/issues/5590/audit.jsonl
 .csdlc/issues/5590/index.json
-.csdlc/prepared/issues/5590/amend-guardian-cli-coverage-claim.json
-.csdlc/prepared/issues/5590/record-coverage-impact-rereview-finding.json
+.csdlc/prepared/issues/5590/record-guardian-coverage-portability-finding.json
 adl-runtime/tests/guardian_cli.rs
 adl/tools/check_coverage_impact.sh
 adl/tools/test_check_coverage_impact.sh

@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5590/audit.jsonl\n.csdlc/issues/5590/index.json\n.csdlc/prepared/issues/5590/amend-guardian-cli-coverage-claim.json\n.csdlc/prepared/issues/5590/record-coverage-impact-rereview-finding.json\nadl-runtime/tests/guardian_cli.rs\nadl/tools/check_coverage_impact.sh\nadl/tools/test_check_coverage_impact.sh",
+      "review_scope": ".csdlc/issues/5590/audit.jsonl\n.csdlc/issues/5590/index.json\n.csdlc/prepared/issues/5590/record-guardian-coverage-portability-finding.json\nadl-runtime/tests/guardian_cli.rs\nadl/tools/check_coverage_impact.sh\nadl/tools/test_check_coverage_impact.sh",
       "review_revision": "git-blake3:c74af8bb1928075f2cb9580ffaf906f7d49c509f:175fa7171c0a07f55b9a1de2d6688cb5edb2d0d6812a380568e1dfdecf6a6221",
       "reviewer": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
       "review_prompts": [
