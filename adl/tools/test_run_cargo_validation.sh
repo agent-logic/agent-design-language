@@ -9,7 +9,10 @@ trap 'rm -rf "$tmp_dir"' EXIT
 fake="$tmp_dir/fake command"
 cat >"$fake" <<'EOF'
 #!/usr/bin/env bash
-printf '%s\n%s\n' "$CARGO_HOME" "$CARGO_TARGET_DIR"
+printf '%s\n%s\n%s\n%s\n%s\n%s\n' \
+  "$CARGO_HOME" "$CARGO_TARGET_DIR" \
+  "$GIT_AUTHOR_NAME" "$GIT_AUTHOR_EMAIL" \
+  "$GIT_COMMITTER_NAME" "$GIT_COMMITTER_EMAIL"
 EOF
 chmod +x "$fake"
 
@@ -19,6 +22,21 @@ explicit="$(cd "$explicit" && pwd -P)"
 output="$(ADL_CARGO_BUILD_ROOT="$explicit" CARGO_HOME=/bad/home CARGO_TARGET_DIR=/bad/target bash "$WRAPPER" "$fake")"
 grep -Fx "$explicit/cargo-home" <<<"$output" >/dev/null
 grep -Fx "$explicit/cargo-target" <<<"$output" >/dev/null
+grep -Fx "ADL Validation" <<<"$output" >/dev/null
+grep -Fx "validation@agent-logic.invalid" <<<"$output" >/dev/null
+
+output="$(
+  ADL_CARGO_BUILD_ROOT="$explicit" \
+  GIT_AUTHOR_NAME="Caller Author" \
+  GIT_AUTHOR_EMAIL="caller-author@example.invalid" \
+  GIT_COMMITTER_NAME="Caller Committer" \
+  GIT_COMMITTER_EMAIL="caller-committer@example.invalid" \
+  bash "$WRAPPER" "$fake"
+)"
+grep -Fx "Caller Author" <<<"$output" >/dev/null
+grep -Fx "caller-author@example.invalid" <<<"$output" >/dev/null
+grep -Fx "Caller Committer" <<<"$output" >/dev/null
+grep -Fx "caller-committer@example.invalid" <<<"$output" >/dev/null
 
 fallback="$tmp_dir/fast work"
 mkdir -p "$fallback"

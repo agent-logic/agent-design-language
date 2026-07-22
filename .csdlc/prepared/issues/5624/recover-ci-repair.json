@@ -1,8 +1,8 @@
 {
   "issue": 5624,
-  "expected_generation": 8,
-  "expected_digest": "9f6dc18ce2f09e05841a937e554b9aff6279ae0bb47b9b50917f3a66c83096d1",
+  "expected_generation": 13,
+  "expected_digest": "a2984e12d8d87b5adb99bafe6f10086fee3e683b58cae49ce95d3ffa1ca64bbf",
   "claim_id": "claim-5624-csdlc-prune-topology",
   "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
-  "reason": "Recover the published review after exact-head CI proved the checkout target symlink violates Gate 10A clean-source provenance."
+  "reason": "Recover the published review after exact-head CI proved standalone fixture commits lacked deterministic Git author identity."
 }

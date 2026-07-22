@@ -3,13 +3,13 @@
   "issue": 5624,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "304bc75a127522c6590ce93430b3be8b667c66b0bf3e3655403207b67290c8f5",
-  "phase": "reviewed",
-  "generation": 12,
-  "digest": "b4b7776e87c4b10a15fa9a9d8f3bfd6c3065a5eefd4f655c4f42211ea81b0f4d",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "6f80f51f3af73c95db97463e8ac88c51a03bce82bbee27bc16758754e2bc6273",
   "claim": {
     "id": "claim-5624-csdlc-prune-topology",
     "owner": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
-    "generation": 12,
+    "generation": 15,
     "acquired_unix_seconds": 1784728873,
     "expires_unix_seconds": 1784815273,
     "heartbeat_unix_seconds": 1784728873,
@@ -30,45 +30,8 @@
     ],
     "purpose": "Repair guarded prune topology resolution without changing terminal evidence"
   },
-  "review_assignment": {
-    "reviewer": "subagent:codex-5624-ci-repair-review",
-    "assigned_by": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
-    "revision": "git-blake3:9c303ba0cbd0a88eaf0963e23419e82f606c97aa:d5c09700d1e2586e383ae287f54a8c6486cb76d0a11df4b49b67a6f41f2f9280",
-    "scope": [
-      "adl/tools/run_cargo_validation.sh",
-      "adl/tools/test_run_cargo_validation.sh",
-      "csdlc-v2/src/operator.rs",
-      "csdlc-v2/src/proof.rs",
-      "csdlc-v2/src/readiness.rs",
-      "csdlc-v2/tests/gate10a.rs",
-      "csdlc-v2/tests/gate7.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs",
-      ".csdlc/issues/5624",
-      ".csdlc/prepared/issues/5624",
-      ".csdlc/evidence/5624"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:codex-5624-ci-repair-review",
-    "scope": [
-      "adl/tools/run_cargo_validation.sh",
-      "adl/tools/test_run_cargo_validation.sh",
-      "csdlc-v2/src/operator.rs",
-      "csdlc-v2/src/proof.rs",
-      "csdlc-v2/src/readiness.rs",
-      "csdlc-v2/tests/gate10a.rs",
-      "csdlc-v2/tests/gate7.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs",
-      ".csdlc/issues/5624",
-      ".csdlc/prepared/issues/5624",
-      ".csdlc/evidence/5624"
-    ],
-    "reviewed_revision": "git-blake3:9c303ba0cbd0a88eaf0963e23419e82f606c97aa:d5c09700d1e2586e383ae287f54a8c6486cb76d0a11df4b49b67a6f41f2f9280",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -83,34 +46,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7aa36908d6ca84bb7f53a1c7541ab497c34dec66b37eb197bdff0d1c98c57f08",
+      "values_digest": "7d1aa479ec3dacc83a91c345d381549e914f539da144605da0d51bcef2b572bf",
       "rendered_digest": "06e5ab1be8cc7d5816ec72758e04559f7684d528bd7b46c0647bede733c57a22",
       "ast_digest": "094674ef061582ab0bcf312f027c55d3877cfc2fc61d0952750ecb201e691d86"
     },
     "stp": {
-      "values_digest": "c3b933f96c7698d0bbab2b330c84e983b4a2bfa66206d9197b07508f37c48916",
+      "values_digest": "d86546099437ad11b6162fc7dc68e0d1871930f1c2cd0278184080918fc6d8f0",
       "rendered_digest": "eebaf5f062ae8503f17e787a5637e20cd0437a0d319929cce3f45871fff97f0f",
       "ast_digest": "1230e46e7ca236a55a6d951e35884fd82b312507f9cf49b1090f995fa3faecba"
     },
     "spp": {
-      "values_digest": "60abc607d97982b2cb6248d5a27a7f57bffdccbd7478b147cc5ff866e4981fcf",
+      "values_digest": "071ee9e60038a0d4328b149436578923f99e694730a94f58f715293a32f81556",
       "rendered_digest": "02a13340e8e4f6f2ea9374b9dd5f07ecc531f7ae16d32fe3f1a47dd9f72ad379",
       "ast_digest": "df1bdf54aeec330351e91915758d99b1c3f77841dda23f7cc50e5cc8773a4182"
     },
     "vpp": {
-      "values_digest": "b66613c3adb83abfe65b69a50113b2c3442ec4d6991a19306d61f17dc79edf36",
+      "values_digest": "83b05141a567fda2f2e6b5ac987341508793b529e1e1216bfec009f3808b0852",
       "rendered_digest": "45f9cff3c88464d4edeff0d54ffd43a4fa96ec78056407d165d40cf98daab741",
       "ast_digest": "859e4740d233dfd2bf86a0cbc3cd81d5d4a158bc4754f3cf37587c79f646519e"
     },
     "srp": {
-      "values_digest": "d0b9196d92075fd6dcd931866e7802b4739dc7d41dbd58e42a7217a105c7dafd",
-      "rendered_digest": "10b91a8fee448505019541c8f006b1704bf0a267e7744ea87caf7ad2cad2ace5",
-      "ast_digest": "0b24f970e0e1fd7acc27d09171659720114e4d51701fe1c83452f3faa39c6e2a"
+      "values_digest": "735f225270b4abb3ef0e8c935e5d09cb67a361c3f41433d6cc51b0530d1830da",
+      "rendered_digest": "a5a78a470a414120d9decf81bcce8bac7da4ff8ae1700bf58af278b18c9309e0",
+      "ast_digest": "0db995696113421ef2853a2dc7f24fa4493f5011b324c8af4e15867a608372de"
     },
     "sor": {
-      "values_digest": "d26b2b6a993aab0138fa8f1d5b99dd4552952a0d5ec356f69b487be042f7b387",
-      "rendered_digest": "6bd3ba2a0bc74a7d06f25c9fff248eb1fb25f461efceb59db5f4bd6572e25e78",
-      "ast_digest": "2edf317550f547a719b70dcb9866eb6ef1156ff9dd74381c6147540de5f0ebd4"
+      "values_digest": "32f771969b910ba9dd0a41a163806bf5af7c5e4465635124765f68174dd124a1",
+      "rendered_digest": "577fb35e9e0df28476db187040bb7747550e4839eac8a3be005f5af7bc3b93f2",
+      "ast_digest": "22a5ecd9bcf2aee741c771ec98b99f9e86bd0e548fac8bf72f7f4e58f22a26c0"
     }
   },
   "transitions": [
@@ -162,6 +125,20 @@
       "to": "reviewed",
       "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
       "reason": "The single exact-revision CI-repair review completed with zero findings and zero blockers."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "Recover the published review after exact-head CI proved standalone fixture commits lacked deterministic Git author identity."
     }
   ],
   "audit": [
@@ -283,6 +260,27 @@
       "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
       "reason": "The single exact-revision CI-repair review completed with zero findings and zero blockers.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "Recover the published review after exact-head CI proved standalone fixture commits lacked deterministic Git author identity.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "Record the exact hosted-CI Git identity repair proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_run_cargo_validation.sh\",\"and\",\"cargo\",\"test\",\"--test\",\"gate2\",\"and\",\"fmt\",\"and\",\"strict-clippy\"],\"purpose\":\"Prove deterministic validation-only Git identity, all affected Gate2 fixture commits, formatting, and strict Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5624/validation-git-identity.json\"}}"
     }
   ]
 }

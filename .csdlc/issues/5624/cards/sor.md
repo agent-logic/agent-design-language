@@ -48,6 +48,24 @@ Resolve terminal worktree identity canonically while preserving exact branch, to
     "purpose": "Prove the external Cargo target contract, Gate 10A provenance, guarded prune behavior, complete C-SDLC v2 suite, formatting, and strict Clippy in one FastWork run.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5624/validation-a2c79708e.json"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_run_cargo_validation.sh",
+      "and",
+      "cargo",
+      "test",
+      "--test",
+      "gate2",
+      "and",
+      "fmt",
+      "and",
+      "strict-clippy"
+    ],
+    "purpose": "Prove deterministic validation-only Git identity, all affected Gate2 fixture commits, formatting, and strict Clippy.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5624/validation-git-identity.json"
   }
 ]
 
