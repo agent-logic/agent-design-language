@@ -1,8 +1,8 @@
 use adl_workcell_task_adapter::{
     context_digest, AdapterLimits, AuthorityFailure, AuthorityVerifier, CallerAuthority,
-    CancellationPolicy, ContextPacket, TaskAdapter, TaskAuthority, TaskObservation, TaskOperation,
-    TaskOutcome, TaskRef, TaskRequest, TaskStatus, TaskTransport, TaskTransportErrorCode,
-    TransportFailure, TransportReceipt, TASK_ADAPTER_CONTRACT_VERSION,
+    ContextPacket, TaskAdapter, TaskAuthority, TaskObservation, TaskOperation, TaskOutcome,
+    TaskRef, TaskRequest, TaskStatus, TaskTransport, TaskTransportErrorCode, TransportFailure,
+    TransportReceipt, TASK_ADAPTER_CONTRACT_VERSION,
 };
 use futures::{future::BoxFuture, FutureExt};
 use std::sync::{
@@ -107,9 +107,6 @@ fn request(operation: TaskOperation) -> TaskRequest {
         },
         observed_unix_seconds: 100,
         deadline_ms: 1_000,
-        cancellation: CancellationPolicy {
-            cancel_on_timeout: false,
-        },
         caller: CallerAuthority {
             subject: "conductor".into(),
             may_cancel: true,
@@ -127,6 +124,24 @@ fn harness(
     Arc<Verifier>,
     TaskAdapter<Transport, Verifier>,
 ) {
+    harness_with_evidence(
+        allow,
+        delay_ms,
+        status,
+        vec!["proof:b".into(), "proof:a".into(), "proof:a".into()],
+    )
+}
+
+fn harness_with_evidence(
+    allow: bool,
+    delay_ms: u64,
+    status: TaskStatus,
+    evidence_refs: Vec<String>,
+) -> (
+    Arc<Transport>,
+    Arc<Verifier>,
+    TaskAdapter<Transport, Verifier>,
+) {
     let transport = Arc::new(Transport {
         execute_calls: AtomicUsize::new(0),
         observe_calls: AtomicUsize::new(0),
@@ -135,7 +150,7 @@ fn harness(
             task: Some(task()),
             outcome: TaskOutcome::Created,
             transport_timestamp_ms: 42,
-            evidence_refs: vec!["proof:b".into(), "proof:a".into(), "proof:a".into()],
+            evidence_refs,
         },
         observation: TaskObservation {
             task: task(),
@@ -320,6 +335,70 @@ async fn terminal_observation_blocks_later_message_and_handoff() {
         TaskTransportErrorCode::TerminalTask
     );
     assert_eq!(transport.execute_calls.load(Ordering::SeqCst), 1);
+}
+
+#[tokio::test]
+async fn cancel_serializes_with_message_for_the_same_task() {
+    let (transport, _, adapter) = harness(true, 30, TaskStatus::Cancelled);
+    let adapter = Arc::new(adapter);
+    let cancel_adapter = Arc::clone(&adapter);
+    let cancel = tokio::spawn(async move {
+        cancel_adapter
+            .execute(request(TaskOperation::Cancel { task: task() }))
+            .await
+    });
+    sleep(Duration::from_millis(2)).await;
+
+    let mut message = request(TaskOperation::Message { task: task() });
+    message.idempotency_key = "operation-2".into();
+    let message_error = adapter.execute(message).await.unwrap_err();
+    assert_eq!(message_error.code, TaskTransportErrorCode::TerminalTask);
+    assert_eq!(
+        cancel.await.unwrap().unwrap().outcome,
+        TaskOutcome::Cancelled
+    );
+    assert_eq!(transport.execute_calls.load(Ordering::SeqCst), 1);
+}
+
+#[tokio::test]
+async fn repeated_cancel_replays_terminal_receipt_without_transport() {
+    let (transport, _, adapter) = harness(true, 0, TaskStatus::Cancelled);
+    let first = adapter
+        .execute(request(TaskOperation::Cancel { task: task() }))
+        .await
+        .unwrap();
+    let mut second_request = request(TaskOperation::Cancel { task: task() });
+    second_request.idempotency_key = "operation-2".into();
+    let second = adapter.execute(second_request).await.unwrap();
+
+    assert_eq!(first.outcome, TaskOutcome::Cancelled);
+    assert_eq!(second.outcome, TaskOutcome::Cancelled);
+    assert_eq!(second.idempotency_key, "operation-2");
+    assert_eq!(transport.execute_calls.load(Ordering::SeqCst), 1);
+    assert_eq!(transport.observe_calls.load(Ordering::SeqCst), 1);
+}
+
+#[tokio::test]
+async fn evidence_references_reject_secrets_urls_and_oversize_values() {
+    for (index, evidence_ref) in [
+        "proof:token=private".to_string(),
+        "https://private.example/transcript".to_string(),
+        format!("proof:{}", "x".repeat(1_024)),
+    ]
+    .into_iter()
+    .enumerate()
+    {
+        let (_, _, adapter) =
+            harness_with_evidence(true, 0, TaskStatus::Running, vec![evidence_ref]);
+        let mut create = request(TaskOperation::Create {
+            client_task_key: format!("client-{index}"),
+        });
+        create.idempotency_key = format!("operation-{index}");
+        assert_eq!(
+            adapter.execute(create).await.unwrap_err().code,
+            TaskTransportErrorCode::InvalidContext
+        );
+    }
 }
 
 #[tokio::test]

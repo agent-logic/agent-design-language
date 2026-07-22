@@ -5,7 +5,7 @@
   "initialization_digest": "5641d1b95d616b80f136aa634bd62c0690db925d85c3841f15df8b666fe5c66c",
   "phase": "implemented",
   "generation": 9,
-  "digest": "771014cb43ecf68a8aa46b5c6b3bff49de555f2c46bac9e898e434c6a6fa56c1",
+  "digest": "4245197de098fec3833f802d3371d20daa6053671da47f8c709e0a131977e95a",
   "claim": {
     "id": "claim-5498-v0918-wp10a-task-context-adapter-preparation",
     "owner": "codex:issue-5498-preparation",
@@ -25,7 +25,18 @@
     ],
     "purpose": "Implement, validate, review, publish, merge, and close issue #5498 within the isolated task and context-handoff adapter crate boundary."
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f8c25-5bb5-7db2-965d-f9ccaa25f006",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:01886657d63ddb2858d4fadc884ebe04b99ee0d5:c577aaf61a16607a62e0df727087374f65ba868906a4639579993f3635d8663e",
+    "scope": [
+      "adl-v2/Cargo.toml",
+      "adl-v2/Cargo.lock",
+      "adl-v2/crates/adl-workcell-task-adapter",
+      ".csdlc/issues/5498",
+      ".csdlc/prepared/issues/5498"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -61,9 +72,9 @@
       "ast_digest": "38d54c82690f9bfb38f60a42d962c860fde39037eb532470cfc6301ac49681fd"
     },
     "srp": {
-      "values_digest": "01887f316c8641a5fb06c6e63669f0afc709887b7a0f57967c8ba80184100752",
-      "rendered_digest": "360ea2312814aad796bc6e8e757cbcf069b8671bde10d90bbcb8eb6f3bd13406",
-      "ast_digest": "180986a6bbbdcd5f003b3bb17ca7c90dc735c048739f3df655b3535a1ee47e0d"
+      "values_digest": "8f070e2af46a8aa0f98dbf0bfb7757f7e040af08fd0280f077eda7609a2ed57e",
+      "rendered_digest": "80e553a5299ac82cdd70b45c90e504b37505b727a7f8d0fd15e2bd6a231a0453",
+      "ast_digest": "88a333aa578ca369a71afb99a2c5a0ab2f7a931327dd9839c68035476db75907"
     },
     "sor": {
       "values_digest": "fd0015ef67b65cf1882c93eec89ba4eecda3fc73273f49b723401f1432bbb59c",
@@ -185,6 +196,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The bounded task adapter is committed at 84712aedd, and its 11 focused tests, strict Clippy, formatting, dependency gate, and LoC budgets pass on FastWork.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

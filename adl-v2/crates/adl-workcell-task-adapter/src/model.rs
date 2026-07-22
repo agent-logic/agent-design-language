@@ -9,6 +9,7 @@ pub struct AdapterLimits {
     pub max_idempotency_key_bytes: usize,
     pub max_idempotency_entries: usize,
     pub max_evidence_refs: usize,
+    pub max_evidence_ref_bytes: usize,
     pub max_deadline_ms: u64,
 }
 
@@ -19,6 +20,7 @@ impl Default for AdapterLimits {
             max_idempotency_key_bytes: 256,
             max_idempotency_entries: 10_000,
             max_evidence_refs: 128,
+            max_evidence_ref_bytes: 1_024,
             max_deadline_ms: 300_000,
         }
     }
@@ -36,7 +38,6 @@ pub struct TaskRequest {
     pub context: ContextPacket,
     pub observed_unix_seconds: u64,
     pub deadline_ms: u64,
-    pub cancellation: CancellationPolicy,
     pub caller: CallerAuthority,
 }
 
@@ -65,12 +66,6 @@ pub struct ContextPacket {
     pub freshness_token: String,
     pub content_digest: String,
     pub content: String,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct CancellationPolicy {
-    pub cancel_on_timeout: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

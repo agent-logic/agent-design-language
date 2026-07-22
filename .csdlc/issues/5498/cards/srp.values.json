@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5498\n.csdlc/locks/5498.lock\n.csdlc/prepared/issues/5498\n.csdlc/evidence/5498\nadl-v2/crates/adl-workcell-task-adapter",
+      "review_scope": "adl-v2/Cargo.toml\nadl-v2/Cargo.lock\nadl-v2/crates/adl-workcell-task-adapter\n.csdlc/issues/5498\n.csdlc/prepared/issues/5498",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

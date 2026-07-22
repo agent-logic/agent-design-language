@@ -34,13 +34,15 @@ pub trait TaskTransport: Send + Sync {
 
 type CachedResult = Result<TaskReceipt, TaskTransportError>;
 type OperationSlot = Arc<Mutex<Option<(String, CachedResult)>>>;
+type TaskSlot = Arc<Mutex<()>>;
 
 pub struct TaskAdapter<T, A> {
     transport: Arc<T>,
     authority: Arc<A>,
     limits: AdapterLimits,
     operations: Mutex<BTreeMap<String, OperationSlot>>,
-    terminal_tasks: Mutex<BTreeMap<String, TaskStatus>>,
+    task_slots: Mutex<BTreeMap<String, TaskSlot>>,
+    terminal_receipts: Mutex<BTreeMap<String, TaskReceipt>>,
 }
 
 impl<T, A> TaskAdapter<T, A>
@@ -54,7 +56,8 @@ where
             authority,
             limits,
             operations: Mutex::new(BTreeMap::new()),
-            terminal_tasks: Mutex::new(BTreeMap::new()),
+            task_slots: Mutex::new(BTreeMap::new()),
+            terminal_receipts: Mutex::new(BTreeMap::new()),
         }
     }
 
@@ -97,13 +100,23 @@ where
     }
 
     async fn dispatch(&self, request: &TaskRequest, digest: &str) -> CachedResult {
-        self.reject_after_terminal(request).await?;
+        let task_slot = match request.operation.task() {
+            Some(task) => Some(self.task_slot(&task.id).await?),
+            None => None,
+        };
+        let _task_guard = match task_slot.as_ref() {
+            Some(slot) => Some(slot.lock().await),
+            None => None,
+        };
         let deadline = Duration::from_millis(request.deadline_ms);
         let future = async {
             self.authority
                 .verify(request)
                 .await
                 .map_err(TaskTransportError::from_authority)?;
+            if let Some(receipt) = self.terminal_result(request, digest).await? {
+                return Ok(receipt);
+            }
             let transport = self
                 .transport
                 .execute(request)
@@ -128,6 +141,16 @@ where
         if transport.evidence_refs.len() > self.limits.max_evidence_refs {
             return Err(TaskTransportError::resource_limit());
         }
+        for evidence_ref in &transport.evidence_refs {
+            if evidence_ref.trim().is_empty()
+                || evidence_ref.len() > self.limits.max_evidence_ref_bytes
+                || contains_secret_marker(evidence_ref)
+                || evidence_ref.contains("://")
+                || evidence_ref.chars().any(char::is_control)
+            {
+                return Err(TaskTransportError::invalid_context());
+            }
+        }
 
         if let TaskOperation::Cancel { task } = &request.operation {
             let observation = self
@@ -137,19 +160,9 @@ where
                 .map_err(TaskTransportError::from_transport)?;
             transport.task = Some(observation.task.clone());
             transport.outcome = cancel_outcome(&observation.status);
-            self.record_terminal(&observation).await;
-        } else if let TaskOutcome::Observed(observation) = &transport.outcome {
-            self.record_terminal(observation).await;
-        } else if let (Some(task), Some(status)) = (&transport.task, transport.outcome.status()) {
-            if status.is_terminal() {
-                self.terminal_tasks
-                    .lock()
-                    .await
-                    .insert(task.id.clone(), status);
-            }
         }
 
-        Ok(TaskReceipt {
+        let receipt = TaskReceipt {
             contract: TASK_ADAPTER_CONTRACT_VERSION.into(),
             idempotency_key: request.idempotency_key.clone(),
             request_digest: digest.into(),
@@ -158,32 +171,56 @@ where
             outcome: transport.outcome,
             transport_timestamp_ms: transport.transport_timestamp_ms,
             evidence_refs: transport.evidence_refs,
-        })
-    }
-
-    async fn reject_after_terminal(&self, request: &TaskRequest) -> Result<(), TaskTransportError> {
-        let Some(task) = request.operation.task() else {
-            return Ok(());
         };
-        let terminal = self.terminal_tasks.lock().await.get(&task.id).cloned();
-        if terminal.is_some()
-            && matches!(
-                request.operation,
-                TaskOperation::Message { .. } | TaskOperation::Handoff { .. }
-            )
+        if receipt
+            .outcome
+            .status()
+            .is_some_and(|status| status.is_terminal())
         {
-            return Err(TaskTransportError::terminal_task());
+            if let Some(task) = &receipt.task {
+                self.terminal_receipts
+                    .lock()
+                    .await
+                    .insert(task.id.clone(), receipt.clone());
+            }
         }
-        Ok(())
+        Ok(receipt)
     }
 
-    async fn record_terminal(&self, observation: &TaskObservation) {
-        if observation.status.is_terminal() {
-            self.terminal_tasks
-                .lock()
-                .await
-                .insert(observation.task.id.clone(), observation.status.clone());
+    async fn terminal_result(
+        &self,
+        request: &TaskRequest,
+        digest: &str,
+    ) -> Result<Option<TaskReceipt>, TaskTransportError> {
+        let Some(task) = request.operation.task() else {
+            return Ok(None);
+        };
+        let terminal = self.terminal_receipts.lock().await.get(&task.id).cloned();
+        match (&request.operation, terminal) {
+            (TaskOperation::Message { .. } | TaskOperation::Handoff { .. }, Some(_)) => {
+                Err(TaskTransportError::terminal_task())
+            }
+            (TaskOperation::Cancel { .. }, Some(mut receipt)) => {
+                receipt.idempotency_key.clone_from(&request.idempotency_key);
+                receipt.request_digest = digest.into();
+                receipt.operation = OperationKind::Cancel;
+                Ok(Some(receipt))
+            }
+            _ => Ok(None),
         }
+    }
+
+    async fn task_slot(&self, task_id: &str) -> Result<TaskSlot, TaskTransportError> {
+        let mut task_slots = self.task_slots.lock().await;
+        if task_slots.len() >= self.limits.max_idempotency_entries
+            && !task_slots.contains_key(task_id)
+        {
+            return Err(TaskTransportError::resource_limit());
+        }
+        Ok(task_slots
+            .entry(task_id.into())
+            .or_insert_with(|| Arc::new(Mutex::new(())))
+            .clone())
     }
 }
 

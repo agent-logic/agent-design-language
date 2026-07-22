@@ -12,11 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/5498
-.csdlc/locks/5498.lock
-.csdlc/prepared/issues/5498
-.csdlc/evidence/5498
+adl-v2/Cargo.toml
+adl-v2/Cargo.lock
 adl-v2/crates/adl-workcell-task-adapter
+.csdlc/issues/5498
+.csdlc/prepared/issues/5498
 
 ## Prompts
 
