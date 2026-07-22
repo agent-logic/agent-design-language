@@ -45,7 +45,7 @@ Diagram: .csdlc/prepared/issues/5499/diagram.mmd
   },
   {
     "lane": "dependency-gate",
-    "proof_role": "Fail closed until #5340, #5341, #5342, and final WP-09 gate #5349 have merged typed closeout receipts ancestral to HEAD",
+    "proof_role": "Fail closed until #5340, #5341, #5342, and final WP-09 gate #5349 are live-merged and their merged revisions are ancestral to HEAD; typed closeout and receipts are audit-only",
     "acceptance_ids": [
       "AC-1",
       "AC-6"
@@ -82,7 +82,7 @@ Diagram: .csdlc/prepared/issues/5499/diagram.mmd
       ".csdlc/prepared/issues/5499/validate-conductor.sh"
     ],
     "parallel_group": "conductor-local",
-    "defer_reason": "Preparation only: do not select until #5340, #5341, #5342, and final WP-09 gate #5349 are merged, typed closed_out, receipt-backed, and ancestral, and the product manifest exists"
+    "defer_reason": "Preparation only: do not select until #5340, #5341, #5342, and final WP-09 gate #5349 are live-merged and ancestral, and the product manifest exists"
   },
   {
     "lane": "diff-hygiene",

@@ -43,7 +43,7 @@ After WP-09 and direct dependencies are terminal, the conductor admits only read
 - Use installed typed C-SDLC v2 binaries and semantic card operations only
 - Keep the primary checkout clean on main; all tracked #5499 work stays in the dedicated issue worktree
 - Do not use raw gh, AWS, credentials, network providers, Runtime v2, or product implementation during preparation
-- Do not implement until #5340, #5341, #5342, and final WP-09 gate #5349 are GitHub merged, typed closed_out, receipt-backed, and ancestral
+- Product implementation may start only after #5340, #5341, #5342, and final WP-09 gate #5349 are live-merged and their merged revisions are ancestral to the execution base; typed closeout and receipts are audit-only and must not block readiness by themselves
 - Use /Volumes/FastWork for every Cargo artifact, cache, and temporary build surface
-- Run bounded preparation review now and mandatory exact-revision code review before publication
+- Run the mandatory exact-revision code review immediately before PR publication; do not add preparation review churn
 - Preparation may be committed and pushed, but no PR may be opened and no publication may occur in this preparation-only task

@@ -13,10 +13,10 @@ flowchart TD
     O --> L["#5501 live distributed workcell proof"]
     L --> U["#5497 umbrella closeout"]
 
-    D5340["#5340 typed closed_out"] --> Gate["Execution dependency gate"]
-    D5341["#5341 typed closed_out"] --> Gate
-    D5342["#5342 typed closed_out"] --> Gate
-    D5349["#5349 WP-09 merged + typed closed_out"] --> Gate
+    D5340["#5340 live-merged + ancestral"] --> Gate["Execution dependency gate"]
+    D5341["#5341 live-merged + ancestral"] --> Gate
+    D5342["#5342 live-merged + ancestral"] --> Gate
+    D5349["#5349 WP-09 live-merged + ancestral"] --> Gate
     Gate --> C
 
     C -. "never owns" .-> N["Task creation / GitHub mutation / merge / closeout"]

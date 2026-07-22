@@ -30,8 +30,10 @@
 
 The reviewer verified all six typed cards, preparation-only protected paths,
 no product or Runtime v2 changes, a clean committed range, and the final WP-09
-gate at #5349. Implementation remains blocked on retained merged typed
-`closed_out` receipts and ancestry for #5340, #5341, #5342, and #5349.
+gate at #5349. Implementation remains blocked only until #5340, #5341, #5342,
+and #5349 are live-merged and ancestral to the execution base; typed closeout
+and retained receipts are audit-only evidence and must not block readiness by
+themselves.
 
 This file records the completed review. It does not publish the issue, advance
 the lifecycle beyond `bound`, or grant product-write authority.

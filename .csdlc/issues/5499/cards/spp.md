@@ -12,18 +12,18 @@ Status: ready
 
 ## Summary
 
-Prepare and review the pure conductor contract, hold product scope behind exact retained closeout and ancestry gates, then later implement a small COTS-backed deterministic planner for #5498 consumption.
+Prepare the pure conductor contract, hold product scope behind live merge and ancestry gates, then later implement a small COTS-backed deterministic planner for #5498 consumption. Typed closeout and receipts are audit evidence only.
 
 ## Plan
 
-Revision 1
+Revision 5
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Render, validate, and independently review all six cards, design, diagram, dependencies, protected paths, COTS, budgets, and PVF lanes",
+    "action": "Render, validate, and retain all six cards, design, diagram, dependency, scope, COTS, budgets, and PVF lanes",
     "acceptance_ids": [
       "AC-1",
       "AC-4",
@@ -34,7 +34,7 @@ Revision 1
   },
   {
     "id": "S2",
-    "action": "Wait fail-closed for #5340, #5341, #5342, and final gate #5349 merged typed closeout and ancestry before amending product scope",
+    "action": "Fail closed until #5340, #5341, #5342, and final gate #5349 are live-merged and their merged revisions are ancestral to the execution base; treat typed closeout and receipts as audit-only evidence",
     "acceptance_ids": [
       "AC-1",
       "AC-6"
@@ -57,7 +57,7 @@ Revision 1
   },
   {
     "id": "S4",
-    "action": "Run focused and full proof, exact-revision review, typed publication, serialized merge, post-merge validation, and closeout",
+    "action": "Run focused and full proof, exact-revision review immediately before PR, typed publication, serialized merge, post-merge validation, and closeout",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -72,7 +72,8 @@ Revision 1
 ## Invariants
 
 - no tracked work on main
-- no product implementation before #5349 and direct dependencies are merged typed closed_out
+- no product implementation before #5349 and direct dependencies are live-merged and ancestral to the execution base
+- typed closeout and retained receipts are audit-only evidence and do not block readiness by themselves
 - preparation claim protects only issue-local lifecycle paths
 - no Runtime v2 edits or dependencies
 - no AWS, network, provider, or GitHub mutation
@@ -100,17 +101,17 @@ Revision 1
 
 .csdlc/prepared/issues/5499/design.md
 
-Digest: 808a27103da870697efd0b927a2dabc699c5bccc42a58f85d3bbf287743b86f4
+Digest: d3f525b932319d7be0ec2b328ebdcc341cff975c2522c06e26233962cd1c3b9a
 
 ## Diagram
 
 .csdlc/prepared/issues/5499/diagram.mmd
 
-Digest: f271df2d7413ad573a07bea66b13ffcbe5151f8c273d26aa9c64dc0ef426849e
+Digest: f8be3217162f6fa0150d77e9be1a6abf7f7af3fedcfd10c5910728672bb086f9
 
 ## Stop Conditions
 
-- a required retained closeout receipt is absent, non-merged, or not ancestral
+- a required dependency merge is absent from origin/main or its merged revision is not ancestral to the execution base
 - a planned product path overlaps another active typed claim
 - input state is stale, incomplete, cyclic, ambiguous, or contains an unknown validation lane
 - implementation requires task operations or lifecycle mutation

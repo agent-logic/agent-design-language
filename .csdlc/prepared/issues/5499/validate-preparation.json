@@ -22,7 +22,7 @@
       {
         "id": "preparation-contract",
         "proof_role": "Complete issue-specific cards, design, dependency, scope, COTS, budget, and no-product-change proof",
-        "purpose": "Verify all six cards exist, the claim is issue-local, #5349 remains the final implementation gate, and no product change is present",
+        "purpose": "Verify all six cards exist, the claim is issue-local, #5349 remains the final implementation gate, receipts are audit-only, and no product change is present",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},
         "credentials": [],
@@ -38,15 +38,15 @@
       },
       {
         "id": "dependency-gate",
-        "proof_role": "Terminal dependency and ancestry gate",
-        "purpose": "Fail closed until #5340, #5341, #5342, and final WP-09 gate #5349 are merged, typed closed_out, receipt-backed, and ancestral",
+        "proof_role": "Live merge and ancestry dependency gate",
+        "purpose": "Fail closed until #5340, #5341, #5342, and final WP-09 gate #5349 are live-merged and their merged revisions are ancestral to HEAD; report typed closeout and receipts as audit-only",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},
         "credentials": [],
         "network": "denied",
         "dependencies": [],
         "parallel_group": "future-conductor",
-        "release_gate": "optional",
+        "release_gate": "required",
         "execution": "local",
         "timeout_seconds": 60,
         "executable": "ruby",
@@ -90,7 +90,7 @@
     ]
   },
   "selection": {
-    "requested_lanes": ["typed-doctor", "preparation-contract", "diff-hygiene"],
+    "requested_lanes": ["typed-doctor", "preparation-contract", "dependency-gate", "diff-hygiene"],
     "allow_network": false,
     "available_credentials": []
   },

@@ -26,7 +26,7 @@ abort("unexpected protected paths") unless claim.fetch("protected_paths").sort =
 abort("claim grants product authority") if claim.fetch("protected_paths").any? { |path| path.start_with?("adl-v2/") }
 
 text = required.select { |path| %w[.md .mmd].include?(path.extname) }.map(&:read).join("\n")
-%w[#5340 #5341 #5342 #5349 petgraph serde blake3 thiserror 3,000 600].each do |needle|
+%w[#5340 #5341 #5342 #5349 petgraph serde blake3 thiserror 3,000 600 audit-only].each do |needle|
   abort("missing preparation contract term #{needle}") unless text.include?(needle)
 end
 

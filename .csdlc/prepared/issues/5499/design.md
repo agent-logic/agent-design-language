@@ -3,9 +3,10 @@
 ## Status
 
 Preparation only. Issue #5499 must not implement product code until WP-09
-#5349 is merged, typed `closed_out`, has a retained shared-Git receipt, and its
-merged revision is an ancestor of the execution base. The direct issue
-dependencies #5340, #5341, and #5342 must satisfy the same terminal predicate.
+#5349 and the direct issue dependencies #5340, #5341, and #5342 are live-merged
+and their merged revisions are ancestors of the execution base. Typed closeout
+and retained shared-Git receipts are audit-only evidence and must not block
+readiness by themselves.
 
 ## Purpose
 
@@ -100,8 +101,9 @@ exception; the 20K repository ceiling is not authority for growth here.
 1. Preparation validation proves all six cards, design, diagram, dependency
    gate, COTS declarations, budgets, scope boundaries, and no-product-change
    posture.
-2. The dependency gate verifies terminal shared receipts, merged disposition,
-   and ancestry for #5340, #5341, #5342, and final gate #5349.
+2. The dependency gate verifies live merge and ancestry for #5340, #5341,
+   #5342, and final gate #5349; retained receipts are reported as audit-only
+   evidence.
 3. Future focused tests cover deterministic ordering, cycles, stale claims,
    missing cards, unknown lanes, WIP limits, exact and prefix path collisions,
    serialization gates, and content-derived correlation ids.
@@ -109,7 +111,7 @@ exception; the 20K repository ceiling is not authority for growth here.
    subagent review complete before publication.
 5. The future conductor lane is retained in the network-denied PVF manifest but
    remains unselected and explicitly deferred until every dependency gate is
-   terminal and the product manifest exists. Its Cargo commands use `--offline`
+   live-merged and ancestral and the product manifest exists. Its Cargo commands use `--offline`
    so a missing same-host cache fails closed instead of reaching the network.
 6. Preparation diff hygiene compares the recorded issue base to exact `HEAD`,
    rather than treating a clean working tree as proof of the committed patch.
@@ -125,7 +127,7 @@ exception; the 20K repository ceiling is not authority for growth here.
 
 ## Stop Conditions
 
-- #5349 or any direct dependency lacks merged typed closeout and ancestry.
+- #5349 or any direct dependency lacks live merge or ancestry.
 - A product path overlaps another active typed claim.
 - The implementation requires lifecycle or scheduling authority beyond this
   pure planning boundary.

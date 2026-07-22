@@ -36,10 +36,11 @@ Prepare all issue contracts now; do not implement or claim product paths until #
 ## Dependencies
 
 - parent WP-10A umbrella #5497
-- portable engine WP-06 #5340 merged and typed closed_out
-- Runtime v3 adapter WP-08 #5341 merged and typed closed_out
-- remaining substrate WP-07 #5342 merged and typed closed_out
-- final provider and governed-tool interface freeze WP-09 #5349 merged and typed closed_out
+- portable engine WP-06 #5340 live-merged and ancestral to execution base
+- Runtime v3 adapter WP-08 #5341 live-merged and ancestral to execution base
+- remaining substrate WP-07 #5342 live-merged and ancestral to execution base
+- final provider and governed-tool interface freeze WP-09 #5349 live-merged and ancestral to execution base
+- typed closeout and retained receipts are audit-only evidence and must not block readiness by themselves
 
 ## Inputs
 
