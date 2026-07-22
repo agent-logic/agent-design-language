@@ -17,6 +17,7 @@ csdlc-v2/tests/gate7.rs
 csdlc-v2/tests/gate7_lifecycle.rs
 .csdlc/issues/5624
 .csdlc/prepared/issues/5624
+.csdlc/evidence/5624
 
 ## Prompts
 
@@ -40,8 +41,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:e970ffa2eaa4ece145af4960bd82250fb181901e:3ce7f05bc4c2508c984fdbefa80727d2c69375f85829978105afb53c111433f4")
 
-Reviewer: None
+Reviewer: Some("subagent:codex-5624-exact-review")
 
-Result: pre_review
+Result: pass
