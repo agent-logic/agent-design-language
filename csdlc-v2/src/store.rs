@@ -2327,10 +2327,16 @@ impl Store {
         validate_updated_cards(self, &record, &cards)?;
         hydrate_projections(&mut record, &cards)?;
         record.digest = record_digest(&record)?;
-        if !staged_evidence.is_dir() {
-            return Err(V2Error::new(
+        let staged_metadata = fs::symlink_metadata(staged_evidence).map_err(|_| {
+            V2Error::new(
                 ErrorCode::InvalidInput,
                 "staged finalize evidence is missing",
+            )
+        })?;
+        if staged_metadata.file_type().is_symlink() || !staged_metadata.is_dir() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "staged finalize evidence must be a real directory",
             ));
         }
         let evidence_parent = evidence_dir.parent().ok_or_else(|| {
@@ -2358,6 +2364,22 @@ impl Store {
                 ));
             }
             return Err(error.into());
+        }
+        if fs::symlink_metadata(evidence_dir)
+            .map(|metadata| metadata.file_type().is_symlink() || !metadata.is_dir())
+            .unwrap_or(true)
+        {
+            let _ = fs::remove_file(evidence_dir);
+            if had_evidence && fs::rename(&backup, evidence_dir).is_err() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "failed to restore evidence after unsafe finalize publication",
+                ));
+            }
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "published finalize evidence must be a real directory",
+            ));
         }
         if let Err(error) = self.commit(issue, &record, &cards, false) {
             let remove_result = fs::remove_dir_all(evidence_dir);

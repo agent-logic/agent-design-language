@@ -232,6 +232,20 @@ fn finalize_is_one_atomic_implemented_transition_and_failure_writes_no_state() {
         finalize(&store, unsafe_request).unwrap_err().code,
         ErrorCode::UnsafeCheckout
     );
+    std::fs::create_dir_all(temp.path().join("outside")).expect("outside directory");
+    let mut symlink_request = request("/bin/sh");
+    symlink_request.execution.manifest.lanes[0].argv = vec![
+        "-c".into(),
+        "for d in .csdlc/evidence/.csdlc-finalize-*; do rm -rf \"$d\"; ln -s ../../../outside \"$d\"; done".into(),
+    ];
+    assert_eq!(
+        finalize(&store, symlink_request).unwrap_err().code,
+        ErrorCode::UnsafeCheckout
+    );
+    assert_eq!(
+        std::fs::read(evidence_dir.join("prior.log")).expect("prior evidence remains"),
+        b"prior evidence\n"
+    );
     let implemented = finalize(&store, request("/usr/bin/true")).expect("finalize");
     assert_eq!(implemented.phase, LifecyclePhase::Implemented);
     assert_eq!(implemented.generation, record.generation + 1);

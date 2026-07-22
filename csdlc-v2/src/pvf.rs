@@ -563,12 +563,12 @@ pub fn finalize(store: &Store, request: FinalizeRequest) -> Result<IssueRecord> 
     let report = match execute(execution) {
         Ok(report) => report,
         Err(error) => {
-            let _ = fs::remove_dir_all(&staging_dir);
+            let _ = remove_path_no_follow(&staging_dir);
             return Err(error);
         }
     };
     if report.disposition != ValidationDisposition::LocalPass {
-        let _ = fs::remove_dir_all(&staging_dir);
+        let _ = remove_path_no_follow(&staging_dir);
         return Err(V2Error::new(
             ErrorCode::ValidationFailed,
             "finalize requires a complete local validation pass",
@@ -609,7 +609,7 @@ pub fn finalize(store: &Store, request: FinalizeRequest) -> Result<IssueRecord> 
         &evidence_dir,
     );
     if committed.is_err() && staging_dir.exists() {
-        fs::remove_dir_all(&staging_dir).map_err(|_| {
+        remove_path_no_follow(&staging_dir).map_err(|_| {
             V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "failed to remove staged evidence after finalize rejection",
@@ -617,6 +617,19 @@ pub fn finalize(store: &Store, request: FinalizeRequest) -> Result<IssueRecord> 
         })?;
     }
     committed
+}
+
+fn remove_path_no_follow(path: &Path) -> std::io::Result<()> {
+    let metadata = match fs::symlink_metadata(path) {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+        Err(error) => return Err(error),
+    };
+    if metadata.file_type().is_symlink() || metadata.is_file() {
+        fs::remove_file(path)
+    } else {
+        fs::remove_dir_all(path)
+    }
 }
 
 fn skipped_evidence(lane: &PvfLane, status: LaneStatus) -> LaneEvidence {
