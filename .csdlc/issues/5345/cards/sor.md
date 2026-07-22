@@ -12,19 +12,29 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implement WP-10 thin CLI and authoritative selector with focused proof.
 
 ## Artifacts
 
-- none
+- .csdlc/evidence/5345
 
 ## Execution
 
-- none
+- adl-v2/crates/adl-cli
+- adl-v2/tools/install-adl-v2.sh
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "true"
+    ],
+    "purpose": "Bounded local implementation finalization.",
+    "outcome": "passed",
+    "evidence_ref": "implementation-proof.log"
+  }
+]
 
 ## Integration
 
