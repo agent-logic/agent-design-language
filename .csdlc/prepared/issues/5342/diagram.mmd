@@ -9,7 +9,8 @@ flowchart LR
   B --> V["Ed25519 verifier"]
   P["External immutable trust policy"] --> V
   T["Caller-supplied logical verification time"] --> V
-  V --> O{"Verified outcome"}
+  V --> G["External ReplayGuard atomic admission"]
+  G --> O{"Verified outcome"}
   O -->|"valid"| Q["Trusted typed record"]
   O -->|"tamper / unknown key / expiry / revoke / bounds"| F["Stable fail-closed error"]
   X["Runtime v2/v3, adapters, persistence, telemetry backends, cloud"] -. "outside WP-07" .-> F

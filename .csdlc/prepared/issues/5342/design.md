@@ -55,8 +55,8 @@ payload identities from envelope signatures and future canonical grammars.
 ## Signing and trust
 
 Real signing uses the audited `ed25519-dalek` crate. The public API accepts an
-explicit signing key or a signing trait; it never generates keys, reads key
-files, scans environment variables, or contacts a key service. The verifying
+explicit `ed25519_dalek::SigningKey`; it never generates keys, reads key files,
+scans environment variables, or contacts a key service. The verifying
 side receives an immutable `TrustPolicy` mapping key ids to Ed25519 public keys,
 allowed record kinds, profile version, logical validity interval, and explicit
 revocation state. Verification requires an operator-supplied logical time and
@@ -103,16 +103,17 @@ declared.
 
 ## Bounds
 
-All constructors and decoders enforce explicit limits for canonical payload,
-envelope, incoming channel bytes, JSON nesting depth, total container/member
-count, message, metadata entries, metadata key/value length, identity/key-id/
-kind/profile/version strings, signature and digest encodings, error detail,
-trace attributes, artifact descriptors, schema extension count, trust entries,
-and replay entries. The channel decoder checks its byte ceiling before parsing
-and uses a depth-limited strict JSON deserializer; typed constructors validate
-collection counts before cloning. Serialization uses a capped in-memory
-writer. No default path is unbounded, and no validation failure returns
-partially trusted data or commits replay state.
+Validation, canonicalization, signing, trust-policy construction, replay
+admission, and channel decoding enforce explicit limits for canonical payload,
+encoded envelope bytes, incoming channel bytes, JSON nesting depth, total
+container/member count, strings, metadata entries, trace attributes, trust
+entries, and replay entries. The channel decoder checks its byte ceiling before
+parsing and uses a depth-limited strict JSON deserializer. Public record structs
+remain directly constructible, but they cannot be canonicalized, signed, or
+trusted until `Record::validate` passes. Envelope serialization checks the
+encoded `Vec<u8>` against `max_envelope_bytes` before returning it; it is not a
+streaming capped writer. No validation failure returns partially trusted data or
+commits replay state.
 
 ## COTS
 
