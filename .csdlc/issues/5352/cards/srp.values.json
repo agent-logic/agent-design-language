@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5352,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][handoff] Finalize exact-revision v0.92 consumption handoff",
+    "slug": "v0918-wp14-v092-consumption-handoff",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Future review covers only the #5352 exact-revision handoff artifact and issue-local lifecycle records; exclude implementation of birthday, Adaptive Learning, sibling WP-14 children, GitHub mutation, AWS, and closeout authority.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the handoff gate require live merge plus ancestry for #5384, #5358, and #5361?",
+        "Could any wording treat receipts as execution authority?",
+        "Does the packet avoid birthday, Adaptive Learning, and v0.92 implementation claims?",
+        "Is the later handoff ledger exact-revision and rollback-boundary oriented?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

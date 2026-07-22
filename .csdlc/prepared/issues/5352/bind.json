@@ -1,0 +1,24 @@
+{
+  "issue": 5352,
+  "base_branch": "main",
+  "branch": "codex/5352-v0918-preparation",
+  "worktree": ".",
+  "claim": {
+    "id": "claim-5352-v0918-preparation",
+    "owner": "codex:issue-5352-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1784755996,
+    "expires_unix_seconds": 1785360796,
+    "heartbeat_unix_seconds": 1784755996,
+    "branch": "codex/5352-v0918-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5352",
+      ".csdlc/locks/5352.lock",
+      ".csdlc/prepared/issues/5352",
+      ".csdlc/evidence/5352",
+      "docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md"
+    ],
+    "purpose": "Prepare issue #5352 for later WP-14 exact-revision handoff execution without implementation"
+  }
+}

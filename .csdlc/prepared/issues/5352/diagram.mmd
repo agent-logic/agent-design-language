@@ -1,0 +1,9 @@
+flowchart TD
+  I5352["#5352 WP-14 handoff"] --> Gate["Live merge + ancestry gate"]
+  D5384["#5384 WP-14A umbrella"] --> Gate
+  D5358["#5358 C-SDLC v2 acceptance"] --> Gate
+  D5361["#5361 Runtime v3 acceptance"] --> Gate
+  Gate --> Ledger["Exact-revision v0.92 handoff ledger"]
+  Ledger --> Consumers["WP-21/WP-22 and v0.92 consumers"]
+  Receipts["Closeout receipts"] -. "audit only; non-blocking" .-> Ledger
+  Ledger -. "non-claim" .-> Birthday["No birthday or Adaptive Learning implementation"]

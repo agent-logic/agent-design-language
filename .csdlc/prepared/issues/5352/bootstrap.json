@@ -1,0 +1,136 @@
+{
+  "issue": 5352,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5352/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5352/diagram.mmd",
+  "design_reviewer": "operator:wp14-preparation",
+  "design_approved": true,
+  "claim": {
+    "id": "claim-5352-v0918-preparation",
+    "owner": "codex:issue-5352-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1784755996,
+    "expires_unix_seconds": 1785360796,
+    "heartbeat_unix_seconds": 1784755996,
+    "branch": "codex/5352-v0918-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5352",
+      ".csdlc/locks/5352.lock",
+      ".csdlc/prepared/issues/5352",
+      ".csdlc/evidence/5352",
+      "docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md"
+    ],
+    "purpose": "Prepare issue #5352 for later WP-14 exact-revision handoff execution without implementation"
+  },
+  "initial": {
+    "title": "[v0.91.8][WP-14][handoff] Finalize exact-revision v0.92 consumption handoff",
+    "slug": "v0918-wp14-v092-consumption-handoff",
+    "version": "v0.91.8",
+    "goal": "Prepare a later execution lane that will bind v0.92 consumption to exact reviewed ADL v2, Runtime v3, and C-SDLC v2 revisions.",
+    "required_outcome": "An execution-ready preparation packet for a future exact-revision v0.92 handoff ledger, with live dependency gates and non-claim boundaries recorded.",
+    "declared_scope": [
+      "six-card C-SDLC v2 preparation packet",
+      "concise handoff design and dependency diagram",
+      "future exact-revision ledger plan",
+      "live merge and ancestry dependency gates"
+    ],
+    "authority_boundary": [
+      "preparation only in this session",
+      "no implementation, PR publication, review, broad tests, raw gh, AWS, or root-main writes",
+      "later execution requires live merge plus ancestry for #5384, #5358, and #5361 on current origin/main",
+      "closeout receipts are audit-only and non-blocking",
+      "no birthday or Adaptive Learning implementation is claimed"
+    ],
+    "operator_constraints": [
+      "use typed C-SDLC v2 only",
+      "work only in /Volumes/FastWork/adl-wp-5352 on codex/5352-v0918-preparation",
+      "commit and push only the clean preparation branch",
+      "do not publish a PR or mutate GitHub",
+      "do not advance to implementation during preparation"
+    ],
+    "task_boundary": "Prepare #5352 for later execution and stop before handoff artifact implementation.",
+    "deliverables": [
+      "generated six-card C-SDLC v2 packet",
+      "concise issue-local design",
+      "concise dependency diagram",
+      "focused preparation validation evidence"
+    ],
+    "acceptance_criteria": [
+      "AC-1: #5384, #5358, and #5361 are recorded as live merge plus ancestry gates for later execution",
+      "AC-2: receipts are recorded only as audit evidence and cannot release execution",
+      "AC-3: the future handoff ledger must name exact commits, schemas, installed binaries, rollback boundaries, and residual risks",
+      "AC-4: no v0.92 birthday, Adaptive Learning, implementation, PR, review, or closeout claim is made by preparation"
+    ],
+    "dependencies": [
+      "#5384 WP-14A live-merged and ancestral on current origin/main",
+      "#5358 C-SDLC v2 acceptance live-merged and ancestral on current origin/main",
+      "#5361 Runtime v3 acceptance live-merged and ancestral on current origin/main",
+      "closeout receipts audit-only and non-blocking"
+    ],
+    "repo_inputs": [
+      "GitHub issue #5352",
+      "GitHub issue #5384",
+      "GitHub issue #5358",
+      "GitHub issue #5361",
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "docs/milestones/v0.91.8/WBS_v0.91.8.md",
+      "docs/milestones/v0.91.8/README.md"
+    ],
+    "non_goals": [
+      "implementation of the handoff ledger during preparation",
+      "birthday or Adaptive Learning implementation",
+      "PR publication or review",
+      "GitHub mutation",
+      "AWS or provider execution",
+      "broad test execution"
+    ],
+    "plan_summary": "Prepare the issue-local packet now; later execution re-checks live merge and ancestry, then writes and validates the exact-revision handoff ledger.",
+    "steps": [
+      {"id": "S1", "action": "Generate issue-local C-SDLC v2 cards, design, and diagram", "status": "pending", "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"]},
+      {"id": "S2", "action": "Re-check live dependency merge plus ancestry before future implementation", "status": "pending", "acceptance_ids": ["AC-1", "AC-2"]},
+      {"id": "S3", "action": "Implement the exact-revision handoff ledger only after dependencies release execution", "status": "pending", "acceptance_ids": ["AC-3", "AC-4"]},
+      {"id": "S4", "action": "Run focused validation and exact pre-PR review during later execution", "status": "pending", "acceptance_ids": ["AC-3", "AC-4"]}
+    ],
+    "invariants": [
+      "live merge plus ancestry is required before execution",
+      "receipts are audit-only",
+      "preparation does not advance implementation state",
+      "all claims remain exact-revision and evidence-bound"
+    ],
+    "risks": [
+      "open #5361 or #5384 could block later execution",
+      "historical receipts could be mistaken for current ancestry",
+      "handoff text could accidentally imply v0.92 implementation readiness"
+    ],
+    "planning_profile": "small",
+    "stop_conditions": [
+      "#5361 or #5384 remains open without an operator-approved evidence blocker",
+      "required dependency merge is absent from current origin/main ancestry",
+      "handoff evidence lacks exact revision or rollback truth",
+      "scope pressure asks preparation to implement v0.92"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "wp14-handoff-prep",
+        "proof_role": "Validate issue-local preparation packet shape and dependency-gate language without implementation",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 1000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5352/validate_preparation.rb"],
+        "parallel_group": "wp14-preparation",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on missing six-card packet, missing design or diagram, implementation-state advancement, live dependency ambiguity, or receipt-gated execution language.",
+    "review_prompts": [
+      "Does the handoff gate require live merge plus ancestry for #5384, #5358, and #5361?",
+      "Could any wording treat receipts as execution authority?",
+      "Does the packet avoid birthday, Adaptive Learning, and v0.92 implementation claims?",
+      "Is the later handoff ledger exact-revision and rollback-boundary oriented?"
+    ],
+    "review_scope": "Future review covers only the #5352 exact-revision handoff artifact and issue-local lifecycle records; exclude implementation of birthday, Adaptive Learning, sibling WP-14 children, GitHub mutation, AWS, and closeout authority."
+  }
+}

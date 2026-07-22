@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5352,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][handoff] Finalize exact-revision v0.92 consumption handoff",
+    "slug": "v0918-wp14-v092-consumption-handoff",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "wp14-handoff-prep",
+          "proof_role": "Validate issue-local preparation packet shape and dependency-gate language without implementation",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 1000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5352/validate_preparation.rb"
+          ],
+          "parallel_group": "wp14-preparation",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on missing six-card packet, missing design or diagram, implementation-state advancement, live dependency ambiguity, or receipt-gated execution language.",
+      "design_ref": ".csdlc/prepared/issues/5352/design.md",
+      "design_digest": "2a5d7686733d7b8d77c0dfd437f17216e3a900c7dd9e01db3cf1be8d8fb9723e",
+      "diagram_ref": ".csdlc/prepared/issues/5352/diagram.mmd",
+      "diagram_digest": "6b4e05cd0ff006a75623c4406ad4655a413ef756af56d0734b01503d4e1ef924"
+    }
+  }
+}

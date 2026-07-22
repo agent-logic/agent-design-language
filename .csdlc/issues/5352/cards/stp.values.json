@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5352,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][handoff] Finalize exact-revision v0.92 consumption handoff",
+    "slug": "v0918-wp14-v092-consumption-handoff",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Prepare #5352 for later execution and stop before handoff artifact implementation.",
+      "deliverables": [
+        "generated six-card C-SDLC v2 packet",
+        "concise issue-local design",
+        "concise dependency diagram",
+        "focused preparation validation evidence"
+      ],
+      "acceptance_criteria": [
+        "AC-1: #5384, #5358, and #5361 are recorded as live merge plus ancestry gates for later execution",
+        "AC-2: receipts are recorded only as audit evidence and cannot release execution",
+        "AC-3: the future handoff ledger must name exact commits, schemas, installed binaries, rollback boundaries, and residual risks",
+        "AC-4: no v0.92 birthday, Adaptive Learning, implementation, PR, review, or closeout claim is made by preparation"
+      ],
+      "dependencies": [
+        "#5384 WP-14A live-merged and ancestral on current origin/main",
+        "#5358 C-SDLC v2 acceptance live-merged and ancestral on current origin/main",
+        "#5361 Runtime v3 acceptance live-merged and ancestral on current origin/main",
+        "closeout receipts audit-only and non-blocking"
+      ],
+      "repo_inputs": [
+        "GitHub issue #5352",
+        "GitHub issue #5384",
+        "GitHub issue #5358",
+        "GitHub issue #5361",
+        "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+        "docs/milestones/v0.91.8/WBS_v0.91.8.md",
+        "docs/milestones/v0.91.8/README.md"
+      ],
+      "non_goals": [
+        "implementation of the handoff ledger during preparation",
+        "birthday or Adaptive Learning implementation",
+        "PR publication or review",
+        "GitHub mutation",
+        "AWS or provider execution",
+        "broad test execution"
+      ]
+    }
+  }
+}
