@@ -49,6 +49,8 @@ enum Command {
     Select {
         generation: String,
         #[arg(long)]
+        expected_digest: Option<String>,
+        #[arg(long)]
         root: Option<PathBuf>,
     },
     Rollback {
@@ -64,7 +66,7 @@ struct Selector {
     previous: Option<Selection>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 struct Selection {
     generation: String,
     executable: String,
@@ -147,8 +149,12 @@ fn dispatch(command: Command) -> Result<(), String> {
             ok: true,
             result: digest_file(&input)?,
         }),
-        Command::Select { generation, root } => mutate_selector(root.as_deref(), generation, false),
-        Command::Rollback { root } => mutate_selector(root.as_deref(), String::new(), true),
+        Command::Select {
+            generation,
+            expected_digest,
+            root,
+        } => mutate_selector(root.as_deref(), generation, expected_digest, false),
+        Command::Rollback { root } => mutate_selector(root.as_deref(), String::new(), None, true),
     }
 }
 
@@ -200,7 +206,12 @@ fn digest_file(path: &Path) -> Result<serde_json::Value, String> {
     Ok(serde_json::json!({"path": path, "sha256": format!("{:x}", Sha256::digest(bytes))}))
 }
 
-fn mutate_selector(root: Option<&Path>, generation: String, rollback: bool) -> Result<(), String> {
+fn mutate_selector(
+    root: Option<&Path>,
+    generation: String,
+    expected_digest: Option<String>,
+    rollback: bool,
+) -> Result<(), String> {
     let root = selector_root(root);
     fs::create_dir_all(&root).map_err(|e| e.to_string())?;
     let lock = File::create(root.join("selector.lock")).map_err(|e| e.to_string())?;
@@ -223,6 +234,14 @@ fn mutate_selector(root: Option<&Path>, generation: String, rollback: bool) -> R
             .as_str()
             .unwrap_or_default()
             .to_string();
+        if let Some(expected) = expected_digest.as_deref() {
+            if expected != digest {
+                return Err(format!(
+                    "compare-and-swap digest mismatch: expected {expected}, observed {digest}"
+                ));
+            }
+        }
+        verify_install_receipt(&root, &generation, &digest)?;
         Selection {
             generation: generation.clone(),
             executable: executable.display().to_string(),
@@ -230,6 +249,7 @@ fn mutate_selector(root: Option<&Path>, generation: String, rollback: bool) -> R
             receipt: format!("sha256:{digest}"),
         }
     };
+    verify_selection(&root, &next)?;
     selector.previous = selector.current.take();
     selector.current = Some(next.clone());
     let bytes = serde_json::to_vec_pretty(&selector).map_err(|e| e.to_string())?;
@@ -238,9 +258,41 @@ fn mutate_selector(root: Option<&Path>, generation: String, rollback: bool) -> R
     temp.as_file().sync_all().map_err(|e| e.to_string())?;
     temp.persist(selector_path(Some(&root)))
         .map_err(|e| e.error.to_string())?;
+    if load_selector(Some(&root))?.current.as_ref() != Some(&next) {
+        return Err("selector re-read mismatch".into());
+    }
     print_json(&Envelope {
         schema: RECEIPT_SCHEMA,
         ok: true,
         result: serde_json::json!({"selection": next, "rollback": rollback}),
     })
+}
+
+fn verify_install_receipt(root: &Path, generation: &str, digest: &str) -> Result<(), String> {
+    let path = root.join("receipts").join(format!("{generation}.json"));
+    let value: serde_json::Value = serde_json::from_slice(
+        &fs::read(&path).map_err(|e| format!("read receipt {}: {e}", path.display()))?,
+    )
+    .map_err(|e| format!("parse receipt {}: {e}", path.display()))?;
+    if value["schema"] != "adl.install.receipt.v1"
+        || value["binary"] != generation
+        || value["sha256"].as_str() != Some(digest)
+    {
+        return Err(format!("receipt identity mismatch: {}", path.display()));
+    }
+    Ok(())
+}
+
+fn verify_selection(root: &Path, selection: &Selection) -> Result<(), String> {
+    let observed = digest_file(Path::new(&selection.executable))?["sha256"]
+        .as_str()
+        .unwrap_or_default()
+        .to_string();
+    if observed != selection.digest {
+        return Err(format!(
+            "selection digest mismatch: expected {}, observed {}",
+            selection.digest, observed
+        ));
+    }
+    verify_install_receipt(root, &selection.generation, &selection.digest)
 }

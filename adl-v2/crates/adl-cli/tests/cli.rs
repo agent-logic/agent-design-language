@@ -1,3 +1,4 @@
+use sha2::{Digest, Sha256};
 use std::fs;
 use std::process::Command;
 
@@ -39,6 +40,13 @@ fn malformed_input_fails_with_stderr_only() {
 fn selector_select_inspect_and_rollback_are_transactional() {
     let root = tempfile::tempdir().expect("selector root");
     fs::write(root.path().join("v2"), b"binary-v2").expect("generation");
+    fs::create_dir(root.path().join("receipts")).expect("receipts");
+    let digest = format!("{:x}", Sha256::digest(b"binary-v2"));
+    fs::write(
+        root.path().join("receipts/v2.json"),
+        format!(r#"{{"schema":"adl.install.receipt.v1","binary":"v2","sha256":"{digest}"}}"#),
+    )
+    .expect("receipt");
     let selected = cli()
         .args(["select", "v2", "--root", root.path().to_str().unwrap()])
         .output()
