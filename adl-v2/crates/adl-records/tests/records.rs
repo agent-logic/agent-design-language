@@ -28,6 +28,39 @@ fn event(sequence: u64) -> Record {
     })
 }
 
+fn all_records() -> Vec<Record> {
+    let digest = "ab".repeat(32);
+    vec![
+        Record::Error(ErrorRecord {
+            header: header(1),
+            code: "E1".into(),
+            message: "failed".into(),
+            retryable: false,
+        }),
+        event(2),
+        Record::Trace(TraceRecord {
+            header: header(3),
+            trace_id: "trace".into(),
+            span_id: "span".into(),
+            parent_span_id: Some("parent".into()),
+            operation: "execute".into(),
+            attributes: BTreeMap::from([("component".into(), "engine".into())]),
+        }),
+        Record::ExecutionResult(ExecutionResult {
+            header: header(4),
+            status: "succeeded".into(),
+            output_digest: Some(digest.clone()),
+            diagnostic: Some("complete".into()),
+        }),
+        Record::Artifact(ArtifactDescriptor {
+            header: header(5),
+            media_type: "application/json".into(),
+            content_digest: digest,
+            byte_length: 42,
+        }),
+    ]
+}
+
 fn policy(key: &SigningKey, revoked: bool, kinds: &[RecordKind]) -> TrustPolicy {
     TrustPolicy::new(
         BTreeMap::from([(
@@ -48,37 +81,7 @@ fn policy(key: &SigningKey, revoked: bool, kinds: &[RecordKind]) -> TrustPolicy 
 
 #[test]
 fn all_record_contracts_validate_and_schema_is_versioned() {
-    let digest = "ab".repeat(32);
-    let records = vec![
-        Record::Error(ErrorRecord {
-            header: header(1),
-            code: "E1".into(),
-            message: "failed".into(),
-            retryable: false,
-        }),
-        event(2),
-        Record::Trace(TraceRecord {
-            header: header(3),
-            trace_id: "trace".into(),
-            span_id: "span".into(),
-            parent_span_id: None,
-            operation: "execute".into(),
-            attributes: BTreeMap::from([("component".into(), "engine".into())]),
-        }),
-        Record::ExecutionResult(ExecutionResult {
-            header: header(4),
-            status: "succeeded".into(),
-            output_digest: Some(digest.clone()),
-            diagnostic: None,
-        }),
-        Record::Artifact(ArtifactDescriptor {
-            header: header(5),
-            media_type: "application/json".into(),
-            content_digest: digest,
-            byte_length: 42,
-        }),
-    ];
-    for record in records {
+    for record in all_records() {
         record.validate(&Limits::default()).unwrap();
         assert!(!canonical_bytes(&record, &Limits::default())
             .unwrap()
@@ -99,23 +102,44 @@ fn checked_schema_matches_structural_decoder_and_declares_semantic_stage() {
         .as_str()
         .unwrap()
         .contains("mandatory"));
-    let schema = jsonschema::validator_for(&schema_bundle["record"]).unwrap();
-    let valid = serde_json::to_value(event(1)).unwrap();
-    assert!(schema.is_valid(&valid));
-    assert!(serde_json::from_value::<Record>(valid)
-        .unwrap()
-        .validate(&Limits::default())
-        .is_ok());
-    let mut unknown = serde_json::to_value(event(1)).unwrap();
-    unknown["record"]["unknown"] = serde_json::Value::Bool(true);
-    assert!(!schema.is_valid(&unknown));
-    let mut semantic = serde_json::to_value(event(1)).unwrap();
-    semantic["record"]["header"]["sequence"] = serde_json::Value::from(0);
-    assert!(schema.is_valid(&semantic));
-    assert!(serde_json::from_value::<Record>(semantic)
-        .unwrap()
-        .validate(&Limits::default())
-        .is_err());
+    let record_schema = jsonschema::validator_for(&schema_bundle["record"]).unwrap();
+    let envelope_schema = jsonschema::validator_for(&schema_bundle["signed_envelope"]).unwrap();
+    let limits = Limits::default();
+    let key = SigningKey::from_bytes(&[14; 32]);
+    for record in all_records() {
+        let valid = serde_json::to_value(&record).unwrap();
+        assert!(record_schema.is_valid(&valid));
+        assert!(serde_json::from_value::<Record>(valid.clone())
+            .unwrap()
+            .validate(&limits)
+            .is_ok());
+
+        let mut outer_unknown = valid.clone();
+        outer_unknown["unknown"] = serde_json::Value::Bool(true);
+        assert!(!record_schema.is_valid(&outer_unknown));
+        assert!(serde_json::from_value::<Record>(outer_unknown).is_err());
+
+        let mut nested_unknown = valid.clone();
+        nested_unknown["record"]["unknown"] = serde_json::Value::Bool(true);
+        assert!(!record_schema.is_valid(&nested_unknown));
+        assert!(serde_json::from_value::<Record>(nested_unknown).is_err());
+
+        let mut semantic = valid;
+        semantic["record"]["header"]["sequence"] = serde_json::Value::from(0);
+        assert!(record_schema.is_valid(&semantic));
+        assert!(serde_json::from_value::<Record>(semantic)
+            .unwrap()
+            .validate(&limits)
+            .is_err());
+
+        let envelope = sign_record(record.clone(), "key-1", &key, &limits).unwrap();
+        let valid_envelope = serde_json::to_value(envelope).unwrap();
+        assert!(envelope_schema.is_valid(&valid_envelope));
+        let mut unknown_envelope = valid_envelope;
+        unknown_envelope["unknown"] = serde_json::Value::Bool(true);
+        assert!(!envelope_schema.is_valid(&unknown_envelope));
+        assert!(serde_json::from_value::<adl_records::SignedEnvelope>(unknown_envelope).is_err());
+    }
 }
 
 #[test]
@@ -284,7 +308,7 @@ fn every_declared_limit_has_a_negative_proof() {
 }
 
 #[test]
-fn trust_policy_rejects_unknown_wrong_kind_expiry_and_revocation() {
+fn trust_policy_rejects_unknown_wrong_profile_kind_time_window_and_revocation() {
     let limits = Limits::default();
     let key = SigningKey::from_bytes(&[8; 32]);
     let envelope = sign_record(event(1), "key-1", &key, &limits).unwrap();
@@ -307,7 +331,26 @@ fn trust_policy_rejects_unknown_wrong_kind_expiry_and_revocation() {
             .unwrap(),
             100,
         ),
+        (
+            TrustPolicy::new(
+                BTreeMap::from([(
+                    "key-1".into(),
+                    TrustEntry {
+                        verifying_key: key.verifying_key(),
+                        profile_version: 2,
+                        allowed_kinds: BTreeSet::from([RecordKind::Event]),
+                        not_before: 0,
+                        not_after: 1000,
+                        revoked: false,
+                    },
+                )]),
+                &limits,
+            )
+            .unwrap(),
+            100,
+        ),
         (policy(&key, false, &[RecordKind::Error]), 100),
+        (policy(&key, false, &[RecordKind::Event]), 9),
         (policy(&key, false, &[RecordKind::Event]), 1001),
         (policy(&key, true, &[RecordKind::Event]), 100),
     ] {

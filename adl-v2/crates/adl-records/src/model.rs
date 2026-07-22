@@ -118,7 +118,12 @@ pub struct ArtifactDescriptor {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
-#[serde(tag = "kind", content = "record", rename_all = "snake_case")]
+#[serde(
+    deny_unknown_fields,
+    tag = "kind",
+    content = "record",
+    rename_all = "snake_case"
+)]
 pub enum Record {
     Error(ErrorRecord),
     Event(EventRecord),

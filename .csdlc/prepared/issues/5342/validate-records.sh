@@ -171,6 +171,7 @@ case "$mode" in
     verify_dependencies
     verify_scope_and_claims
     verify_budget_and_cots
+    run_bounded 120 bash -c 'cargo run --quiet --manifest-path "$1" --example generate_schema --locked | diff -u "$2" -' _ "$manifest" "$root/adl-v2/crates/adl-records/schema/adl-records.schema.json"
     run_bounded 600 cargo test --manifest-path "$manifest" --all-targets --locked
     run_bounded 300 cargo test --manifest-path "$manifest" --test tamper_channel --locked
     run_bounded 120 cargo fmt --manifest-path "$manifest" -- --check

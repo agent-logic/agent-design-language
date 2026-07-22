@@ -170,39 +170,60 @@ fn metadata_contract_optional_fields_and_every_variant_are_bound() {
         metadata: BTreeMap::from([("signed".into(), "yes".into())]),
     };
     let records = vec![
-        Record::Error(adl_records::ErrorRecord {
-            header: header(1),
-            code: "E".into(),
-            message: "m".into(),
-            retryable: true,
-        }),
-        Record::Event(EventRecord {
-            header: header(2),
-            name: "e".into(),
-            detail: "d".into(),
-        }),
-        Record::Trace(adl_records::TraceRecord {
-            header: header(3),
-            trace_id: "t".into(),
-            span_id: "s".into(),
-            parent_span_id: Some("p".into()),
-            operation: "o".into(),
-            attributes: BTreeMap::from([("a".into(), "b".into())]),
-        }),
-        Record::ExecutionResult(adl_records::ExecutionResult {
-            header: header(4),
-            status: "ok".into(),
-            output_digest: Some(digest.clone()),
-            diagnostic: Some("done".into()),
-        }),
-        Record::Artifact(adl_records::ArtifactDescriptor {
-            header: header(5),
-            media_type: "text/plain".into(),
-            content_digest: digest,
-            byte_length: 1,
-        }),
+        (
+            Record::Error(adl_records::ErrorRecord {
+                header: header(1),
+                code: "E".into(),
+                message: "m".into(),
+                retryable: true,
+            }),
+            vec!["code", "message", "retryable"],
+        ),
+        (
+            Record::Event(EventRecord {
+                header: header(2),
+                name: "e".into(),
+                detail: "d".into(),
+            }),
+            vec!["name", "detail"],
+        ),
+        (
+            Record::Trace(adl_records::TraceRecord {
+                header: header(3),
+                trace_id: "t".into(),
+                span_id: "s".into(),
+                parent_span_id: Some("p".into()),
+                operation: "o".into(),
+                attributes: BTreeMap::from([("a".into(), "b".into())]),
+            }),
+            vec![
+                "trace_id",
+                "span_id",
+                "parent_span_id",
+                "operation",
+                "attributes",
+            ],
+        ),
+        (
+            Record::ExecutionResult(adl_records::ExecutionResult {
+                header: header(4),
+                status: "ok".into(),
+                output_digest: Some(digest.clone()),
+                diagnostic: Some("done".into()),
+            }),
+            vec!["status", "output_digest", "diagnostic"],
+        ),
+        (
+            Record::Artifact(adl_records::ArtifactDescriptor {
+                header: header(5),
+                media_type: "text/plain".into(),
+                content_digest: digest,
+                byte_length: 1,
+            }),
+            vec!["media_type", "content_digest", "byte_length"],
+        ),
     ];
-    for record in records {
+    for (record, variant_fields) in records {
         let kind = record.kind();
         let policy = TrustPolicy::new(
             BTreeMap::from([(
@@ -220,20 +241,36 @@ fn metadata_contract_optional_fields_and_every_variant_are_bound() {
         )
         .unwrap();
         let envelope = sign_record(record, "key-1", &key, &limits).unwrap();
-        let mut value = serde_json::to_value(envelope).unwrap();
-        value["payload"]["record"]["header"]["metadata"]["signed"] = Value::String("no".into());
-        let decoded = decode_envelope(&serde_json::to_vec(&value).unwrap(), &limits).unwrap();
-        assert_eq!(
-            verify_envelope(
+        let original = serde_json::to_value(envelope).unwrap();
+        let mut paths = vec![vec!["header", "metadata", "signed"]];
+        paths.extend(variant_fields.into_iter().map(|field| vec![field]));
+        for path in paths {
+            let mut value = original.clone();
+            let mut current = &mut value["payload"]["record"];
+            for component in &path[..path.len() - 1] {
+                current = &mut current[*component];
+            }
+            let leaf = path[path.len() - 1];
+            current[leaf] = match current[leaf] {
+                Value::Bool(value) => Value::Bool(!value),
+                Value::Number(_) => Value::from(99),
+                Value::Object(_) => serde_json::json!({"a": "changed"}),
+                _ => Value::String("tampered".into()),
+            };
+            let decoded = decode_envelope(&serde_json::to_vec(&value).unwrap(), &limits).unwrap();
+            let code = verify_envelope(
                 &decoded,
                 &policy,
                 &mut InMemoryReplayGuard::new(&limits),
                 10,
-                &limits
+                &limits,
             )
             .unwrap_err()
-            .code,
-            ErrorCode::InvalidEnvelope
-        );
+            .code;
+            assert!(matches!(
+                code,
+                ErrorCode::InvalidEnvelope | ErrorCode::InvalidRecord | ErrorCode::Bounds
+            ));
+        }
     }
 }
