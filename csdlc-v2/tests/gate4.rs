@@ -171,7 +171,7 @@ fn manifest() -> PvfManifest {
 fn finalize_is_one_atomic_implemented_transition_and_failure_writes_no_state() {
     let (temp, store, record) = bound_fixture();
     let before = std::fs::read(store.issue_dir(5627).join("index.json")).expect("before");
-    let request = |executable: &str, evidence: &str| FinalizeRequest {
+    let request = |executable: &str| FinalizeRequest {
         schema: "csdlc.finalize_request.v1".into(),
         issue: 5627,
         expected_generation: record.generation,
@@ -198,12 +198,15 @@ fn finalize_is_one_atomic_implemented_transition_and_failure_writes_no_state() {
                 tokens: 10,
             },
             root: temp.path().into(),
-            evidence_dir: temp.path().join(evidence),
+            evidence_dir: temp.path().join(".csdlc/evidence/5627"),
             cancellation_file: None,
         },
     };
+    let evidence_dir = temp.path().join(".csdlc/evidence/5627");
+    std::fs::create_dir_all(&evidence_dir).expect("prior evidence directory");
+    std::fs::write(evidence_dir.join("prior.log"), b"prior evidence\n").expect("prior evidence");
     assert_eq!(
-        finalize(&store, request("/usr/bin/false", "failed-evidence"))
+        finalize(&store, request("/usr/bin/false"))
             .unwrap_err()
             .code,
         ErrorCode::ValidationFailed
@@ -212,16 +215,24 @@ fn finalize_is_one_atomic_implemented_transition_and_failure_writes_no_state() {
         std::fs::read(store.issue_dir(5627).join("index.json")).expect("unchanged"),
         before
     );
-    assert!(!temp.path().join("failed-evidence").exists());
-    assert!(std::fs::read_dir(temp.path())
-        .expect("root")
+    assert_eq!(
+        std::fs::read(evidence_dir.join("prior.log")).expect("prior evidence remains"),
+        b"prior evidence\n"
+    );
+    assert!(std::fs::read_dir(temp.path().join(".csdlc/evidence"))
+        .expect("evidence parent")
         .all(|entry| !entry
             .expect("entry")
             .file_name()
             .to_string_lossy()
             .starts_with(".csdlc-finalize-")));
-    let implemented =
-        finalize(&store, request("/usr/bin/true", "passing-evidence")).expect("finalize");
+    let mut unsafe_request = request("/usr/bin/true");
+    unsafe_request.execution.evidence_dir = temp.path().join("unrelated");
+    assert_eq!(
+        finalize(&store, unsafe_request).unwrap_err().code,
+        ErrorCode::UnsafeCheckout
+    );
+    let implemented = finalize(&store, request("/usr/bin/true")).expect("finalize");
     assert_eq!(implemented.phase, LifecyclePhase::Implemented);
     assert_eq!(implemented.generation, record.generation + 1);
     assert_eq!(

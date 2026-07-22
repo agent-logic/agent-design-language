@@ -524,6 +524,24 @@ pub fn finalize(store: &Store, request: FinalizeRequest) -> Result<IssueRecord> 
         .validate(&request.claim_id, crate::store::now_seconds()?)?;
 
     let evidence_dir = request.execution.evidence_dir.clone();
+    let expected_evidence_dir = store
+        .root()
+        .join(".csdlc")
+        .join("evidence")
+        .join(request.issue.to_string());
+    if evidence_dir != expected_evidence_dir
+        || [
+            store.root().join(".csdlc"),
+            store.root().join(".csdlc/evidence"),
+        ]
+        .iter()
+        .any(|path| fs::symlink_metadata(path).is_ok_and(|metadata| metadata.is_symlink()))
+    {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "finalize evidence must use the issue-owned repository evidence directory",
+        ));
+    }
     let evidence_parent = evidence_dir.parent().ok_or_else(|| {
         V2Error::new(
             ErrorCode::InvalidInput,
@@ -575,48 +593,30 @@ pub fn finalize(store: &Store, request: FinalizeRequest) -> Result<IssueRecord> 
                 .unwrap_or_else(|| format!("pvf:{}", lane.lane)),
         })
         .collect();
-    let backup_dir = evidence_parent.join(format!(
-        ".csdlc-finalize-backup-{}-{}-{nonce}",
-        request.issue,
-        std::process::id()
-    ));
-    let had_evidence = evidence_dir.exists();
-    if had_evidence {
-        fs::rename(&evidence_dir, &backup_dir)?;
+    let committed = store.commit_implementation(
+        ImplementationCommit {
+            issue: request.issue,
+            expected_generation: request.expected_generation,
+            expected_digest: request.expected_digest,
+            claim_id: request.claim_id,
+            actor: request.actor,
+            summary: request.summary,
+            changes: request.changes,
+            artifacts: request.artifacts,
+            validation,
+        },
+        &staging_dir,
+        &evidence_dir,
+    );
+    if committed.is_err() && staging_dir.exists() {
+        fs::remove_dir_all(&staging_dir).map_err(|_| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "failed to remove staged evidence after finalize rejection",
+            )
+        })?;
     }
-    if let Err(error) = fs::rename(&staging_dir, &evidence_dir) {
-        if had_evidence {
-            let _ = fs::rename(&backup_dir, &evidence_dir);
-        }
-        let _ = fs::remove_dir_all(&staging_dir);
-        return Err(error.into());
-    }
-    let committed = store.commit_implementation(ImplementationCommit {
-        issue: request.issue,
-        expected_generation: request.expected_generation,
-        expected_digest: request.expected_digest,
-        claim_id: request.claim_id,
-        actor: request.actor,
-        summary: request.summary,
-        changes: request.changes,
-        artifacts: request.artifacts,
-        validation,
-    });
-    match committed {
-        Ok(record) => {
-            if had_evidence {
-                fs::remove_dir_all(&backup_dir)?;
-            }
-            Ok(record)
-        }
-        Err(error) => {
-            let _ = fs::remove_dir_all(&evidence_dir);
-            if had_evidence {
-                let _ = fs::rename(&backup_dir, &evidence_dir);
-            }
-            Err(error)
-        }
-    }
+    committed
 }
 
 fn skipped_evidence(lane: &PvfLane, status: LaneStatus) -> LaneEvidence {

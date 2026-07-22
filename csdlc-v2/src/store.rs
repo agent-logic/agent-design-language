@@ -2260,6 +2260,8 @@ impl Store {
     pub(crate) fn commit_implementation(
         &self,
         commit: ImplementationCommit,
+        staged_evidence: &Path,
+        evidence_dir: &Path,
     ) -> Result<IssueRecord> {
         let issue = commit.issue;
         let _lock = self.lock(issue)?;
@@ -2325,7 +2327,59 @@ impl Store {
         validate_updated_cards(self, &record, &cards)?;
         hydrate_projections(&mut record, &cards)?;
         record.digest = record_digest(&record)?;
-        self.commit(issue, &record, &cards, false)?;
+        if !staged_evidence.is_dir() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "staged finalize evidence is missing",
+            ));
+        }
+        let evidence_parent = evidence_dir.parent().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidInput, "evidence directory has no parent")
+        })?;
+        let backup = evidence_parent.join(format!(
+            ".csdlc-finalize-backup-{issue}-{}",
+            std::process::id()
+        ));
+        if backup.exists() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "stale finalize evidence backup requires reconciliation",
+            ));
+        }
+        let had_evidence = evidence_dir.exists();
+        if had_evidence {
+            fs::rename(evidence_dir, &backup)?;
+        }
+        if let Err(error) = fs::rename(staged_evidence, evidence_dir) {
+            if had_evidence && fs::rename(&backup, evidence_dir).is_err() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "failed to restore evidence after finalize publication error",
+                ));
+            }
+            return Err(error.into());
+        }
+        if let Err(error) = self.commit(issue, &record, &cards, false) {
+            let remove_result = fs::remove_dir_all(evidence_dir);
+            let restore_result = if had_evidence {
+                fs::rename(&backup, evidence_dir)
+            } else {
+                Ok(())
+            };
+            if remove_result.is_err() || restore_result.is_err() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    format!(
+                        "state commit failed and evidence rollback requires reconciliation: {}",
+                        error.message
+                    ),
+                ));
+            }
+            return Err(error);
+        }
+        if had_evidence {
+            fs::remove_dir_all(&backup)?;
+        }
         Ok(record)
     }
 
