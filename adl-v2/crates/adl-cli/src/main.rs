@@ -1,6 +1,6 @@
 use adl_compiler::compile;
 use adl_language::{json_schema, parse_and_validate_json, parse_and_validate_yaml};
-use clap::{Parser, Subcommand, ValueEnum};
+use clap::{Parser, Subcommand};
 use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -153,12 +153,16 @@ fn dispatch(command: Command) -> Result<(), String> {
 }
 
 fn read_document(path: &Path, yaml: bool) -> Result<adl_language::AdlDocument, String> {
-    let bytes = fs::read(path).map_err(|e| format!("read {}: {e}", path.display()))?;
+    let source = fs::read_to_string(path).map_err(|e| format!("read {}: {e}", path.display()))?;
     if yaml {
-        parse_and_validate_yaml(&bytes).map_err(|e| e.to_string())
+        parse_and_validate_yaml(&source).map_err(format_diagnostics)
     } else {
-        parse_and_validate_json(&bytes).map_err(|e| e.to_string())
+        parse_and_validate_json(&source).map_err(format_diagnostics)
     }
+}
+
+fn format_diagnostics(diagnostics: Vec<adl_language::Diagnostic>) -> String {
+    serde_json::to_string(&diagnostics).unwrap_or_else(|_| "validation failed".into())
 }
 
 fn print_json<T: Serialize>(value: &T) -> Result<(), String> {

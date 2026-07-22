@@ -6,6 +6,10 @@ rust-version = "1.85"
 license = "Apache-2.0"
 description = "Thin ADL v2 CLI and authoritative generation selector"
 
+[[bin]]
+name = "adl-v2"
+path = "src/main.rs"
+
 [dependencies]
 adl-compiler = { path = "../adl-compiler" }
 adl-engine = { path = "../adl-engine" }
