@@ -315,10 +315,14 @@ runtime_v3_surfaces_changed="$TMP/runtime-v3-surfaces-changed.txt"
 cat >"$runtime_v3_surfaces_changed" <<'EOF'
 M	adl/src/cli/runtime_v3_cmd.rs
 M	adl-runtime/src/guardian.rs
+A	adl-runtime/src/bin/adl-runtime-guardian.rs
 EOF
 runtime_v3_expression="$(bash "$SCRIPT" --changed-files "$runtime_v3_surfaces_changed" --print-risk-nextest-expression)"
 grep -F "binary_id(adl::bin/adl) and test(/^cli::runtime_v3_cmd::tests::/)" <<<"$runtime_v3_expression" >/dev/null
 grep -F "test(/^guardian::tests::/)" <<<"$runtime_v3_expression" >/dev/null
+runtime_v3_filters="$TMP/runtime-v3-filters.txt"
+bash "$SCRIPT" --changed-files "$runtime_v3_surfaces_changed" --print-risk-filters >"$runtime_v3_filters"
+[ "$(grep -Fxc runtime_v3_guardian "$runtime_v3_filters")" -eq 1 ]
 if grep -Fq "binary_id(adl-runtime)" <<<"$runtime_v3_expression"; then
   echo "Runtime v3 guardian mapping must remain parseable in the adl workspace" >&2
   exit 1

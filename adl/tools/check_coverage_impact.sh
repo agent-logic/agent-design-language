@@ -276,7 +276,8 @@ candidate_filter_for_path() {
     adl/src/cli/runtime_v3_cmd.rs)
       printf 'runtime_v3_selector'
       ;;
-    adl-runtime/src/guardian.rs)
+    adl-runtime/src/guardian.rs|\
+    adl-runtime/src/bin/adl-runtime-guardian.rs)
       printf 'runtime_v3_guardian'
       ;;
     adl-runtime/src/runtime_api_auth.rs)

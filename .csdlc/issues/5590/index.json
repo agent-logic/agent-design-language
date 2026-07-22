@@ -3,13 +3,13 @@
   "issue": 5590,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "23af54704a287240d22af7ec75e979b61e6577225862d85aa2bc509d532b60b1",
-  "phase": "published",
-  "generation": 10,
-  "digest": "1c1b3801e5abbae2648208881cb37431c0f192581a4b66a0580cd831794a1e80",
+  "phase": "implemented",
+  "generation": 11,
+  "digest": "ddb1f2d533292828f012950341af5d0e0f545c09e9dda120154b9c8a5a1833cd",
   "claim": {
     "id": "claim-5590-runtime-v3-parity-d-preparation",
     "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
-    "generation": 10,
+    "generation": 11,
     "acquired_unix_seconds": 1784601952,
     "expires_unix_seconds": 1785206752,
     "heartbeat_unix_seconds": 1784601952,
@@ -32,147 +32,20 @@
       "adl-runtime-kernel/tests/telemetry.rs",
       "adl-runtime/src/bin/adl-runtime-guardian.rs",
       "adl-runtime/src/guardian.rs",
+      "adl/tools/check_coverage_impact.sh",
       "adl/tools/run_runtime_v3_guardian_soak.sh",
       "adl/tools/run_runtime_v3_operational_proof.sh",
       "adl/tools/runtime_v3_operational_selector.sh",
+      "adl/tools/test_check_coverage_impact.sh",
       "adl/tools/test_runtime_v3_operational_selector.sh",
       "demos/v0.91.7/html-observatory",
       "infra/runtime-v3"
     ],
     "purpose": "Implement every #5590 Runtime v3 Parity-D outcome: secure configured HTTPS and WebSocket access, live Observatory consumption, external guardian recovery, Vector telemetry boundary, operational Runtime v3 rollback, and exact positive and negative proof"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
-    "assigned_by": "codex:5590-sole-writer-takeover",
-    "revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
-    "scope": [
-      ".csdlc/issues/5590/audit.jsonl",
-      ".csdlc/issues/5590/index.json",
-      ".csdlc/prepared/issues/5590/run_filtered_test_lane.sh",
-      ".csdlc/prepared/issues/5590/run_operational_selector_transition.sh",
-      ".csdlc/prepared/issues/5590/transition-guardian-binary-claim.json",
-      ".csdlc/prepared/issues/5590/transition-implementation-claim.json",
-      ".csdlc/prepared/issues/5590/transition-lockfile-claim.json",
-      ".csdlc/prepared/issues/5590/transition-operational-proof-claim.json",
-      ".csdlc/prepared/issues/5590/transition-websocket-dependency-claim.json",
-      "adl-runtime-kernel/Cargo.lock",
-      "adl-runtime-kernel/Cargo.toml",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime/src/bin/adl-runtime-guardian.rs",
-      "adl/tools/run_runtime_v3_operational_proof.sh",
-      "adl/tools/runtime_v3_operational_selector.sh",
-      "adl/tools/test_runtime_v3_operational_selector.sh",
-      "demos/v0.91.7/html-observatory/app.js"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
-    "scope": [
-      ".csdlc/issues/5590/audit.jsonl",
-      ".csdlc/issues/5590/index.json",
-      ".csdlc/prepared/issues/5590/run_filtered_test_lane.sh",
-      ".csdlc/prepared/issues/5590/run_operational_selector_transition.sh",
-      ".csdlc/prepared/issues/5590/transition-guardian-binary-claim.json",
-      ".csdlc/prepared/issues/5590/transition-implementation-claim.json",
-      ".csdlc/prepared/issues/5590/transition-lockfile-claim.json",
-      ".csdlc/prepared/issues/5590/transition-operational-proof-claim.json",
-      ".csdlc/prepared/issues/5590/transition-websocket-dependency-claim.json",
-      "adl-runtime-kernel/Cargo.lock",
-      "adl-runtime-kernel/Cargo.toml",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime/src/bin/adl-runtime-guardian.rs",
-      "adl/tools/run_runtime_v3_operational_proof.sh",
-      "adl/tools/runtime_v3_operational_selector.sh",
-      "adl/tools/test_runtime_v3_operational_selector.sh",
-      "demos/v0.91.7/html-observatory/app.js"
-    ],
-    "reviewed_revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
-    "findings": [
-      {
-        "id": "selector-process-ownership",
-        "severity": "p1",
-        "summary": "The selector now serializes transitions and routes stop through instance-owned supervisor state rather than externally signaling a stored PID.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
-        "route": null
-      },
-      {
-        "id": "selector-descendant-shutdown",
-        "severity": "p1",
-        "summary": "Replacement waits for a stopped receipt emitted only after guardian exit and descendant cleanup; timeout fails closed.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
-        "route": null
-      },
-      {
-        "id": "websocket-token-revocation",
-        "severity": "p1",
-        "summary": "Authenticated sessions revalidate credentials on every refresh and close after rotation.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
-        "route": null
-      },
-      {
-        "id": "continuity-proof-overclaim",
-        "severity": "p2",
-        "summary": "The proof restarts candidate and prior runtimes through the cryptographic restore path and verifies generation-2 key, integrity, and lineage.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
-        "route": null
-      },
-      {
-        "id": "proof-cleanup-liveness",
-        "severity": "p2",
-        "summary": "Proof cleanup uses confirmed selector shutdown and preserves the proof directory on unconfirmed termination.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
-        "route": null
-      },
-      {
-        "id": "observatory-stale-close-state",
-        "severity": "p2",
-        "summary": "The browser handles close events, clears matching socket identity, and downgrades live state.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "A selector killed with SIGKILL can leave a stale lock requiring explicit operator recovery; the stale lock fails closed and cannot launch a competing Runtime.",
-      "Runtime v3 is 12,842 physical lines, a reviewed necessary and nonduplicative +159 delta over the prior 12,683 reviewed point and +633 over the pinned 12,209 baseline."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5590,
-    "pull_request": 5621,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5621",
-    "base": "main",
-    "head": "codex/5590-runtime-v3-parity-d",
-    "revision": "git-blake3:db0cf4591c87d63c9924fef76a14bec4e375df7c:d66f6e860149f31aa936910839e46e5e2cf1e787f04047c135830b04a8917aa6",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -186,34 +59,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "50f35db4fb0b9f3ffb6d879ff91225e97844961c4a70057b88500e3a7c0d6a72",
+      "values_digest": "37f170d811ed6af26beba3c41a60273ebf530f7f8f8a391545528ee0654cfa89",
       "rendered_digest": "e88f17d82847eda7ebf748e6c5c0db98b6dcb4035390cd6e8e990e7d271cf925",
       "ast_digest": "cafd78c5558bddede73d9c794101793129f298be4d15bfa1dc68b8e94b94104f"
     },
     "stp": {
-      "values_digest": "2216fed9e9f7225ba01e835755760a66931567b0500c22d779aec8c7ea857a00",
+      "values_digest": "d27ccf6ca953399e138d25eab7d83f71c7d1c28fd405ecf16c5df169fd48012a",
       "rendered_digest": "3ce05fb3e369f9f1b6d6456f7340b025e10df76e891e73a2ba55828aa33f4a36",
       "ast_digest": "062ccdf6b207cd880685dabf22082d9d1d3b5644eb0a931e8b041091b225099e"
     },
     "spp": {
-      "values_digest": "00b09c07eee82987890f8ba89ec4aaf6a3be1550583f12f85296681513dc6c14",
+      "values_digest": "a75694e6b9a87b4586bd9be7e7a46f8e4bef2ab67564700c28509545bead2d0e",
       "rendered_digest": "99669c02524aa94692d53473e4a79cb2efa7f8b4c28e037150268db97b2546cd",
       "ast_digest": "eca6800a4ab66571e1763a76ef7d1ad673b08d4effedb0bc3bacb21155117849"
     },
     "vpp": {
-      "values_digest": "cd987ab572b15148c34c912d67497347966bc8119c72ea1783d2f1ce82b9690d",
+      "values_digest": "9c75e2a86abc916c556efc8007d6f0b6fcc92160adfb55b894915afe38906f60",
       "rendered_digest": "cf314ec09a7efd878b8586f1629211c9c42136f40fe5625bdc193e099e569755",
       "ast_digest": "88550d94d71abf970d92338718154e89d69115e0e48ca926f3927d92ed06b1a7"
     },
     "srp": {
-      "values_digest": "e9c0aa7b074347f91b900e631722a3f93c66fdb75e6230a1be539e56fe7f128c",
-      "rendered_digest": "d219de15fae5c980b13ae530e2a4a1d383429d7443a33e6d0677ba672689ae83",
-      "ast_digest": "b9e0e558d796e82a441377de221c2ecaad9572f8bbcd43a6d48f039c9cfde613"
+      "values_digest": "a7b8609d3c291981015ce28e3f54fd47f09e626eceee61c300ccdc384df617c6",
+      "rendered_digest": "abb1436d0c50a481fab83abf003008d0f3e3c4a0be2451cecdaee152853a0fed",
+      "ast_digest": "011b78944dafe9593635fd6c90830d4fea86cd9c00830db9b9418736472e8db7"
     },
     "sor": {
-      "values_digest": "c54ec638cefa143f9530d4e7d2ab1a2724d29f3d7d9dab3b15f84131ded62801",
-      "rendered_digest": "9e41f00807b6a29a55e32e3d004957cbdff359027c7bb43d2aa1960306420a82",
-      "ast_digest": "9699d1fd040e94ef7ed105498b34833281b41a2b9c1f9172124187d1fe616118"
+      "values_digest": "318085736a3cd936cc82294a9c1481a893049f4e19824fb1ea8562fd0d296697",
+      "rendered_digest": "a7bd74bc5e0b931a51cedb15bedde9ea8bdae3f2a0672153fe8091cccdc27ab6",
+      "ast_digest": "1ec5b5726d1a697d3cfa738ccdb3693d7b7641732bc310c62dd59ad1b1274686"
     }
   },
   "transitions": [
@@ -251,6 +124,13 @@
       "to": "published",
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "Exact-head hosted CI failed closed because the new external Runtime v3 guardian binary lacks an explicit PR-fast coverage mapping; recover review and publication truth for the bounded mapping correction."
     }
   ],
   "audit": [
@@ -393,6 +273,20 @@
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "record exact existing PR ready-for-review after remote success",
       "operation": "record_ready_publication"
+    },
+    {
+      "sequence": 21,
+      "generation": 11,
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "Exact-head hosted CI failed closed because the new external Runtime v3 guardian binary lacks an explicit PR-fast coverage mapping; recover review and publication truth for the bounded mapping correction.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 11,
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "Add the exact PR-fast coverage mapping and regression required for the new external Runtime v3 guardian binary after hosted CI failed closed on the unmapped source path",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
