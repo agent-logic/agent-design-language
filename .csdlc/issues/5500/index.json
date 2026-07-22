@@ -1,0 +1,117 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5500,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "c7b71d2ec0c21b06e757cc871bd2629c17b8d0f6b0f6347a524d55c6dc9dafa8",
+  "phase": "bound",
+  "generation": 2,
+  "digest": "43dec4d0824463be8343bdb079b5749f34fb4108432de2b27f6cc29ee38b0bae",
+  "claim": {
+    "id": "claim-5500-v0918-wp10a-dashboard-preparation",
+    "owner": "codex:issue-5500-preparation",
+    "generation": 2,
+    "acquired_unix_seconds": 1784670000,
+    "expires_unix_seconds": 1785274800,
+    "heartbeat_unix_seconds": 1784670000,
+    "branch": "codex/5500-v0918-wp10a-dashboard",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5500",
+      ".csdlc/locks/5500.lock",
+      ".csdlc/prepared/issues/5500"
+    ],
+    "purpose": "Prepare and review the read-only WP-10A operator dashboard only; product implementation remains blocked on #5498 and final WP-09 gate #5349"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5500/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5500/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019f8628-e8d2-7762-b325-5d4caa699de9",
+      "revision": "430ffbd58df8fd8f05dce14f34ebb1bae0e7850fe1b8c28fe7a442315aeadfc6"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "45596a125ab41ce6310ac3dedb9b23ce58ea7ecdda930c75ad2a3df0fe308d2f",
+      "rendered_digest": "252756e917dd37711048c740df95bfb9d340d21e5fa88380322a4399a38e87df",
+      "ast_digest": "793871e42b15e354a6e913d796412b9787d163bb591ccea972f1a0ab58784ea6"
+    },
+    "stp": {
+      "values_digest": "df737402716afdfdd1145f6f8b4ddb93a7678489139ba97f42c93a62165ded4f",
+      "rendered_digest": "357f78931df0c6c875769eea32f4d6a2078bb3ef12df3ec0642ca2394a1fb377",
+      "ast_digest": "33cb6ea2076c050605c6e64a7287af3ee382179aa4683405ed2c75169049837e"
+    },
+    "spp": {
+      "values_digest": "1372bbae16e3a75b07fd6d1364a0e6140d19d2d9ca9e187619de5f6fec2f2122",
+      "rendered_digest": "401166f19be7f1a6fdd87cd0722374640acc54297dbc27621acc10f97c3b7916",
+      "ast_digest": "1adfe6c2cb4db5f6d4a5a290356f9f37c1d391e3b71f34234187553f6f2c5232"
+    },
+    "vpp": {
+      "values_digest": "e2a732fdf1b7162324e60326689a7369a0b923d535e505729191c858244e9c24",
+      "rendered_digest": "64bc84f192354d053b1f2b5f1a3b221491b7a1168c82bd1cca53e93a8a9bfafb",
+      "ast_digest": "7230bf44bd7fa7becfeba2536e72ca06e1a4dec2922f1e0e1fb4177835558260"
+    },
+    "srp": {
+      "values_digest": "f6e523d1b2c0657647680934bf4fc2c4219518f0898ee04df6a947ff94dec1ae",
+      "rendered_digest": "bd62d7d6a88c04f2548f0baa412f0a12ec654fb5582c38cb24c51be3aedfa722",
+      "ast_digest": "333d3948ca0d4aaa50dd59e1eea95719f842136b4b15037aa6ffa7b3102a727c"
+    },
+    "sor": {
+      "values_digest": "19ecf9517ef88d3874b017cb338b45134af3d81ff566e6eeb1be46c030a05e91",
+      "rendered_digest": "85c3e5ac597961f89c87191cdb15c483c04a5f58bc26ee083e503c1159ff2ade",
+      "ast_digest": "0b74b00fa24d0ed1361a5a8b2131ad0e8b65d43bfae258a510a6dc5a46b227f3"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5500-preparation",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5500-preparation",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5500-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:019f8628-e8d2-7762-b325-5d4caa699de9",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-5500-preparation",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-5500-preparation",
+      "reason": "Resolve preparation review finding by aligning the complete typed validation envelope with generated VPP truth while preserving the 120-second focused dashboard cap",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Extend docs/tooling/milestone-dashboard and compose with the existing Runtime v3 Observatory rather than creating another dashboard framework or backend\",\"AC-2: Render issue/task ownership, claim heartbeat, branch/worktree, lifecycle phase, dependencies, protected paths, PR/check/review state, outputs, blockers, and agent topology from typed bounded inputs\",\"AC-3: Mark every value live, retained, stale, unknown, blocked, or non-authoritative with source, revision or timestamp, and freshness; missing evidence never becomes green\",\"AC-4: Remain strictly read-only with zero mutation requests, no hidden authority, no private transcript or secret retention, and authenticated HTTPS-only live Runtime access\",\"AC-5: Treat all input as untrusted and prove schema/version checks, text-safe rendering, URL/origin restrictions, payload/count limits, timeouts/backoff, and stale downgrade\",\"AC-6: Work at mobile-sized layouts and pass deterministic retained/live/partial/stale/security fixtures without network access\",\"AC-7: Stay within 2,000 implementation LoC, 2,000 test/fixture LoC, fewer than 100 focused cases, a 120-second focused dashboard validation cap, a 3,600-second complete typed orchestration envelope, and zero new direct dependencies by default\"]}"
+    }
+  ]
+}
