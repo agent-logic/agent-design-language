@@ -31,7 +31,7 @@ when "dependency"
 when "mock"
   exec(environment, "cargo", "test", "--manifest-path", MANIFEST, "--test", "mock_adapter")
 when "https"
-  exec(environment, "cargo", "test", "--manifest-path", MANIFEST, "--test", "https_adapter")
+  exec(environment, "cargo", "test", "--manifest-path", MANIFEST, "--features", "test-transport", "--test", "https_adapter")
 when "governed-tool"
   exec(environment, "cargo", "test", "--manifest-path", MANIFEST, "--test", "governed_tool_adapter")
 when "compatibility"
