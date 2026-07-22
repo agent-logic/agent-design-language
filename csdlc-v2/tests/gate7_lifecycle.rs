@@ -483,6 +483,24 @@ fn fixture_with_validation_history_and_publication(
     validation_history: Vec<ValidationResult>,
     publish: bool,
 ) -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
+    fixture_with_validation_history_publication_and_worktree(
+        issue,
+        title,
+        scenario,
+        validation_history,
+        publish,
+        false,
+    )
+}
+
+fn fixture_with_validation_history_publication_and_worktree(
+    issue: u64,
+    title: &str,
+    scenario: &str,
+    validation_history: Vec<ValidationResult>,
+    publish: bool,
+    issue_local_worktree: bool,
+) -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
     let temp = tempfile::tempdir().unwrap();
     std::fs::create_dir_all(temp.path().join("docs")).unwrap();
     std::fs::write(temp.path().join("docs/design.md"), "# design\n").unwrap();
@@ -521,7 +539,11 @@ fn fixture_with_validation_history_and_publication(
                 expires_unix_seconds: u64::MAX,
                 heartbeat_unix_seconds: 1,
                 branch: "issue-7".into(),
-                worktree: temp.path().to_string_lossy().into_owned(),
+                worktree: if issue_local_worktree {
+                    ".".into()
+                } else {
+                    temp.path().to_string_lossy().into_owned()
+                },
                 protected_paths: vec!["src".into()],
                 purpose: "gate7 fixture".into(),
             },
@@ -712,6 +734,87 @@ fn fixture_with_validation_history_and_publication(
     record = Store::new(store.root()).load_record(issue).unwrap();
     assert_eq!(record.phase, LifecyclePhase::Published);
     (temp, store, record, sha)
+}
+
+#[test]
+fn prune_command_accepts_issue_local_terminal_without_rewriting_receipt() {
+    let issue = 5624;
+    let (temp, store, record, sha) = fixture_with_validation_history_publication_and_worktree(
+        issue,
+        "Issue-local prune fixture",
+        "issue-local-prune",
+        vec![ValidationResult {
+            command: vec!["cargo".into(), "test".into()],
+            purpose: "prune proof".into(),
+            outcome: EvidenceOutcome::Passed,
+            evidence_ref: "evidence.json".into(),
+        }],
+        true,
+        true,
+    );
+    let ready = record_readiness(
+        &store,
+        ReadinessRequest {
+            schema: "csdlc.readiness_request.v1".into(),
+            issue,
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            claim_id: "claim".into(),
+            actor: "shepherd".into(),
+            pull_request: 70,
+            head_sha: sha.clone(),
+            required_checks: vec!["fast".into()],
+            require_review: true,
+            checks: vec![csdlc_v2::CheckObservation {
+                name: "fast".into(),
+                requirement: csdlc_v2::CheckRequirement::Required,
+                conclusion: csdlc_v2::CheckConclusion::Success,
+                details_url: None,
+            }],
+            review_state: RemoteReviewState::Approved,
+            conflict_state: ConflictState::Clean,
+            post_publication_findings: vec![],
+        },
+    )
+    .unwrap();
+    closeout_issue(
+        &store,
+        TerminalObservation {
+            schema: "csdlc.terminal_observation.v1".into(),
+            issue,
+            expected_generation: ready.generation,
+            expected_digest: ready.digest,
+            claim_id: "claim".into(),
+            actor: "closer".into(),
+            pull_request: Some(70),
+            disposition: TerminalDisposition::Merged,
+            observed_sha: Some(sha),
+            observed_state: "merged".into(),
+            approved_no_pr_reason: None,
+            receipt_path: format!("csdlc-v2/closeout/{issue}.json"),
+        },
+    )
+    .unwrap();
+    store.retain_terminal_receipt(issue).unwrap();
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "terminal projection"]);
+
+    let receipt_path = store.terminal_receipt_path(issue).unwrap();
+    let receipt_before = fs::read(&receipt_path).unwrap();
+    let output = std::process::Command::new(env!("CARGO_BIN_EXE_csdlc-closeout"))
+        .current_dir(temp.path())
+        .args(["--root", ".", "validate-prune", "--issue", "5624"])
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let report: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(report["eligible"], true);
+    assert_eq!(report["pruned"], false);
+    assert_eq!(fs::read(receipt_path).unwrap(), receipt_before);
 }
 
 #[test]
