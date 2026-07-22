@@ -1,1 +1,1 @@
-{"status":"pass","parser":"mermaid-flowchart","diagram":".csdlc/prepared/issues/5500/diagram.mmd"}
+{"status":"pass","parser":"mermaid-cli","diagram":".csdlc/prepared/issues/5500/diagram.mmd","execution":"direct-offline-cots-lane"}

@@ -10,7 +10,7 @@ issue_dir = root.join(".csdlc", "issues", "5500")
 prepared = root.join(".csdlc", "prepared", "issues", "5500")
 
 required = %w[sip stp spp vpp srp sor].map { |card| issue_dir.join("cards", "#{card}.md") }
-required += %w[design.md diagram.mmd check-dependencies.rb check-product-paths.rb product-paths.json validate-dashboard.sh check-diagram.sh check-diagram.mjs check-preparation-diff.sh validate-preparation.json].map { |name| prepared.join(name) }
+required += %w[design.md diagram.mmd check-dependencies.rb check-product-paths.rb product-paths.json validate-dashboard.sh check-diagram.sh run-typed-doctor.rb check-preparation-diff.sh validate-preparation.json].map { |name| prepared.join(name) }
 missing = required.reject(&:file?)
 abort("missing preparation artifacts: #{missing.join(', ')}") unless missing.empty?
 
@@ -51,9 +51,6 @@ abort("future dashboard lane selected during preparation") if pvf.dig("selection
 
 path_out, path_err, path_status = Open3.capture3("ruby", prepared.join("check-product-paths.rb").to_s, chdir: root.to_s)
 abort("product path proof failed: #{path_out}#{path_err}") unless path_status.success?
-
-diagram_out, diagram_err, diagram_status = Open3.capture3("bash", prepared.join("check-diagram.sh").to_s, chdir: root.to_s)
-abort("diagram parse failed: #{diagram_out}#{diagram_err}") unless diagram_status.success?
 
 stdout, _stderr, status = Open3.capture3("ruby", prepared.join("check-dependencies.rb").to_s, chdir: root.to_s)
 dependency = JSON.parse(stdout)

@@ -30,8 +30,16 @@ worktrees, _stderr, status = Open3.capture3("git", "worktree", "list", "--porcel
 abort("cannot enumerate worktrees") unless status.success?
 active = []
 worktrees.scan(/^worktree (.+)$/).flatten.each do |worktree|
-  Dir.glob(File.join(worktree, ".csdlc", "issues", "*", "index.json")).sort.each do |index_path|
-    record = JSON.parse(File.read(index_path)) rescue next
+  abort("registered worktree is unreadable: #{worktree}") unless File.directory?(worktree) && File.readable?(worktree)
+  issues_dir = File.join(worktree, ".csdlc", "issues")
+  next unless File.exist?(issues_dir)
+  abort("typed issue directory is unreadable: #{issues_dir}") unless File.directory?(issues_dir) && File.readable?(issues_dir)
+  Dir.glob(File.join(issues_dir, "*", "index.json")).sort.each do |index_path|
+    begin
+      record = JSON.parse(File.read(index_path))
+    rescue StandardError => error
+      abort("cannot read typed claim record #{index_path}: #{error.class}: #{error.message}")
+    end
     claim = record["claim"]
     next if claim.nil? || record["issue"] == 5500
     claim.fetch("protected_paths", []).each do |claimed|

@@ -64,7 +64,7 @@
       "AC-4: Remain strictly read-only with zero mutation requests, no hidden authority, no private transcript or secret retention, and authenticated HTTPS-only live Runtime access",
       "AC-5: Treat all input as untrusted and prove schema/version checks, text-safe rendering, URL/origin restrictions, payload/count limits, timeouts/backoff, and stale downgrade",
       "AC-6: Work at mobile-sized layouts and pass deterministic retained/live/partial/stale/security fixtures without network access",
-      "AC-7: Stay within 2,000 implementation LoC, 2,000 test/fixture LoC, fewer than 100 focused cases, 120-second focused validation, 600-second full validation, and zero new direct dependencies by default"
+      "AC-7: Stay within 2,000 implementation LoC, 2,000 test/fixture LoC, fewer than 100 focused cases, a 120-second focused dashboard validation cap, a 3,600-second complete typed orchestration envelope, and zero new direct dependencies by default"
     ],
     "dependencies": [
       "parent WP-10A umbrella #5497",

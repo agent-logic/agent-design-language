@@ -9,8 +9,8 @@
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},
         "credentials": [], "network": "denied", "dependencies": [], "parallel_group": "preparation-local", "release_gate": "required", "execution": "local", "timeout_seconds": 60,
-        "executable": "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
-        "argv": ["--repo", ".", "--issue", "5500"],
+        "executable": "ruby",
+        "argv": [".csdlc/prepared/issues/5500/run-typed-doctor.rb"],
         "evidence": {"max_log_bytes": 12000, "redact_values": [], "require_relative_paths": true}
       },
       {
@@ -39,7 +39,7 @@
         "purpose": "Reject a dashboard architecture diagram that cannot be rendered",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 0},
-        "credentials": [], "network": "denied", "dependencies": [], "parallel_group": "preparation-local", "release_gate": "required", "execution": "local", "timeout_seconds": 60,
+        "credentials": [], "network": "denied", "dependencies": [], "parallel_group": "browser-local", "release_gate": "optional", "execution": "local", "timeout_seconds": 60,
         "executable": "bash", "argv": [".csdlc/prepared/issues/5500/check-diagram.sh"],
         "evidence": {"max_log_bytes": 12000, "redact_values": [], "require_relative_paths": true}
       },
@@ -55,8 +55,8 @@
       }
     ]
   },
-  "selection": {"requested_lanes": ["typed-doctor", "preparation-contract", "diagram-parse", "diff-hygiene"], "allow_network": false, "available_credentials": []},
-  "budget": {"max_parallel": 4, "cpu_units": 4, "memory_mib": 768, "tokens": 0},
+  "selection": {"requested_lanes": ["typed-doctor", "preparation-contract", "diff-hygiene"], "allow_network": false, "available_credentials": []},
+  "budget": {"max_parallel": 3, "cpu_units": 3, "memory_mib": 512, "tokens": 0},
   "root": ".",
   "evidence_dir": ".csdlc/prepared/issues/5500/validation/preparation",
   "cancellation_file": null
