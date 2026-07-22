@@ -3,13 +3,13 @@
   "issue": 5590,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "23af54704a287240d22af7ec75e979b61e6577225862d85aa2bc509d532b60b1",
-  "phase": "reviewed",
-  "generation": 15,
-  "digest": "599e2c5cda94549b52320c88fa625973d13c47ae328b2c457bac0cbab7bfd2a2",
+  "phase": "published",
+  "generation": 16,
+  "digest": "a8b9d8a2673c60fb528217aca4cdbcf64adec791b5423d1089f5109a5305f181",
   "claim": {
     "id": "claim-5590-runtime-v3-parity-d-preparation",
     "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
-    "generation": 15,
+    "generation": 16,
     "acquired_unix_seconds": 1784601952,
     "expires_unix_seconds": 1785206752,
     "heartbeat_unix_seconds": 1784601952,
@@ -96,7 +96,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5590,
+    "pull_request": 5621,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5621",
+    "base": "main",
+    "head": "codex/5590-runtime-v3-parity-d",
+    "revision": "git-blake3:04e1a02fe958529af31f8ecc52017855a36fad99:eb9d4df2dac2a085a26daacaca2db54b33ee4e0a5daf0670ed73fc4be1778823",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -110,34 +120,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d455219085586c90a7ecca207c3f0edd71a5e507f6cb8a186db9cfdb6b414eef",
+      "values_digest": "f378ee1d6091795d426fd0f31e22215f02e1230d84d0fd90af2e30e59d6426a3",
       "rendered_digest": "e88f17d82847eda7ebf748e6c5c0db98b6dcb4035390cd6e8e990e7d271cf925",
       "ast_digest": "cafd78c5558bddede73d9c794101793129f298be4d15bfa1dc68b8e94b94104f"
     },
     "stp": {
-      "values_digest": "e1c77440c9eadbdc4f65dfa747ec8a4b13bb0896684f65d8ca3f0b8eca499ce3",
+      "values_digest": "d2fea151fad1f8d297f8041570a1ecc0f7282dc5a8c7d1d70ea08d5b673ae807",
       "rendered_digest": "3ce05fb3e369f9f1b6d6456f7340b025e10df76e891e73a2ba55828aa33f4a36",
       "ast_digest": "062ccdf6b207cd880685dabf22082d9d1d3b5644eb0a931e8b041091b225099e"
     },
     "spp": {
-      "values_digest": "194ec4a08073cf100f84ba69902527de980246bb582760ac110e6d5b4bad95ab",
+      "values_digest": "49831231e84a0ce6f7328aca1c8b1b881631b1d0ebbf07cbab3ab6fe30356337",
       "rendered_digest": "99669c02524aa94692d53473e4a79cb2efa7f8b4c28e037150268db97b2546cd",
       "ast_digest": "eca6800a4ab66571e1763a76ef7d1ad673b08d4effedb0bc3bacb21155117849"
     },
     "vpp": {
-      "values_digest": "8948ce4f034f16903240bf2d30bb3007abd6db4021cd2c50072b40d05438973d",
+      "values_digest": "085170bdc549b3ff3657f860c92ed2d12a6f21d64b062d6e0f572afc3237bd44",
       "rendered_digest": "cf314ec09a7efd878b8586f1629211c9c42136f40fe5625bdc193e099e569755",
       "ast_digest": "88550d94d71abf970d92338718154e89d69115e0e48ca926f3927d92ed06b1a7"
     },
     "srp": {
-      "values_digest": "fddfdf138719f69dbb3adbcc793bf9a6cf38ffcceda82b94b402f90c0391191d",
+      "values_digest": "363b77ec1aab88204d55b84c8c678259087df9e9df5f2ec7f931ca44a4fb2508",
       "rendered_digest": "e995801391e090de93127d2a29deccbeffdbd45767eff28b5c82d3d210009f6d",
       "ast_digest": "95a05e45a4938782d79ec2ed4105045b4aefc1005d542ea2a841b94191e54e2d"
     },
     "sor": {
-      "values_digest": "c9558e23555b7d728a7df95a39612fd296871b980b374d43db1ff73088669b7a",
-      "rendered_digest": "a7bd74bc5e0b931a51cedb15bedde9ea8bdae3f2a0672153fe8091cccdc27ab6",
-      "ast_digest": "1ec5b5726d1a697d3cfa738ccdb3693d7b7641732bc310c62dd59ad1b1274686"
+      "values_digest": "500e54f675998e9cca6db98c05b59524699fdc23e12aaf195e32e9576cbcf177",
+      "rendered_digest": "9e41f00807b6a29a55e32e3d004957cbdff359027c7bb43d2aa1960306420a82",
+      "ast_digest": "9699d1fd040e94ef7ed105498b34833281b41a2b9c1f9172124187d1fe616118"
     }
   },
   "transitions": [
@@ -189,6 +199,13 @@
       "to": "reviewed",
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "Exact guardian coverage remediation rereview passed with the P1 and P2 fixed and zero actionable blockers."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -401,6 +418,13 @@
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "Exact guardian coverage remediation rereview passed with the P1 and P2 fixed and zero actionable blockers.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 31,
+      "generation": 16,
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

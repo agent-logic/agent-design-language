@@ -42,11 +42,11 @@ Implemented secure Runtime v3 local and remote Observatory access through config
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
