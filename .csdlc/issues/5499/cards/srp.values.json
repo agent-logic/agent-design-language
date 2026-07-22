@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5499\n.csdlc/locks/5499.lock\n.csdlc/prepared/issues/5499\n.csdlc/evidence/5499\nadl-v2/crates/adl-workcell-conductor",
+      "review_scope": "adl-v2/crates/adl-workcell-conductor\n.csdlc/issues/5499\n.csdlc/prepared/issues/5499",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

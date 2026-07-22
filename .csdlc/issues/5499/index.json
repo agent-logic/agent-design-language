@@ -5,7 +5,7 @@
   "initialization_digest": "316fcd95ede2f0eb1272cb321481d3b3a4fee04f249b216c1c2d80d694dfb98f",
   "phase": "implemented",
   "generation": 13,
-  "digest": "17d008d1675f4eeea3f2dffff39c3c65283d9bf0fc255db8b00c4854a4c6d6f7",
+  "digest": "ff24dee76e4b8bd82c5743c369780be9e8a48cd5115102f6bae27e304cd2a533",
   "claim": {
     "id": "claim-5499-v0918-wp10a-conductor-preparation",
     "owner": "codex:issue-5499-preparation",
@@ -23,7 +23,16 @@
     ],
     "purpose": "Implement, validate, review, publish, merge, and close issue #5499 within the isolated pure conductor crate boundary."
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f8bf0-a08b-7c92-ac2f-ca70c074bde7",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:317b87471587319908e0da6312467dcbd3736463:a5993232b5cb79538e96d9e6a30340c0e54d694018084f5392d726bcfc8ecd81",
+    "scope": [
+      "adl-v2/crates/adl-workcell-conductor",
+      ".csdlc/issues/5499",
+      ".csdlc/prepared/issues/5499"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -59,9 +68,9 @@
       "ast_digest": "a5821dee6458838fc2e4ea6bbeefe5c0d391b26409d7312189143fa0ba8849ab"
     },
     "srp": {
-      "values_digest": "8d05a25a8319dd8b1abd0f296502e1b9e921866753b6fc7ca3f49629f78aacd7",
-      "rendered_digest": "e0141e003033571b20b3a71dc8634c1eff67b4972592de0f21c97b6bc83ed067",
-      "ast_digest": "d361a360e4f94f6f3b7d80fcf5cd6b9cf61d758c7aee4afea7e7a836080ef633"
+      "values_digest": "dea9da114a25f8981b64e21c8b30759318e7daa941f7922e26ef5335f4a29b8a",
+      "rendered_digest": "d0f7f6bc9d8a4f6f2d50ce3ba26cfe931641ab0147dbd0679c3b77b0b141aec3",
+      "ast_digest": "28d78a49f0c5fa6fd1d54306be10cdb0fee9a1806db07c37f1ea5e28043bf2ce"
     },
     "sor": {
       "values_digest": "c49796f9139a6e29645b0456562a3da36e033a1c4806458524ef580a30dc735f",
@@ -211,6 +220,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The bounded implementation and complete focused validation are ready for the single pre-PR exact-revision review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

@@ -12,11 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/5499
-.csdlc/locks/5499.lock
-.csdlc/prepared/issues/5499
-.csdlc/evidence/5499
 adl-v2/crates/adl-workcell-conductor
+.csdlc/issues/5499
+.csdlc/prepared/issues/5499
 
 ## Prompts
 
