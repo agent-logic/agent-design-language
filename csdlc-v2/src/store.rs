@@ -29,6 +29,30 @@ pub struct Store {
     root: PathBuf,
 }
 
+#[derive(Debug, Clone)]
+pub(crate) struct ImplementationCommit {
+    pub issue: u64,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub claim_id: String,
+    pub actor: String,
+    pub summary: String,
+    pub changes: Vec<String>,
+    pub artifacts: Vec<String>,
+    pub validation: Vec<ValidationResult>,
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct ReviewCommit {
+    pub issue: u64,
+    pub expected_digest: String,
+    pub actor: String,
+    pub claim_id: String,
+    pub evidence: ReviewEvidence,
+    pub result: crate::cards::ReviewResult,
+    pub advance_reviewed: bool,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 struct TerminalTransactionJournal {
     schema: String,
@@ -2233,15 +2257,80 @@ impl Store {
         Ok(record)
     }
 
-    pub(crate) fn commit_review(
+    pub(crate) fn commit_implementation(
         &self,
-        issue: u64,
-        expected_digest: &str,
-        actor: String,
-        claim_id: &str,
-        evidence: ReviewEvidence,
-        result: crate::cards::ReviewResult,
+        commit: ImplementationCommit,
     ) -> Result<IssueRecord> {
+        let issue = commit.issue;
+        let _lock = self.lock(issue)?;
+        self.recover_if_needed(issue)?;
+        let mut record = self.load_record(issue)?;
+        if record.generation != commit.expected_generation
+            || record.digest != commit.expected_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "implementation finalization changed before commit",
+            ));
+        }
+        record
+            .claim
+            .as_ref()
+            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
+            .validate(&commit.claim_id, now_seconds()?)?;
+        if record.phase != LifecyclePhase::Bound || commit.validation.is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "implementation finalization requires bound phase and validation evidence",
+            ));
+        }
+        for result in &commit.validation {
+            validate_result(result)?;
+        }
+        if !terminal_validation_passed(&commit.validation) {
+            return Err(V2Error::new(
+                ErrorCode::ValidationFailed,
+                "implementation finalization requires passing validation evidence",
+            ));
+        }
+        let mut cards = self.load_cards(issue)?;
+        verify_cards(self, &record, &cards)?;
+        let sor = match &mut cards.get_mut(&CardKind::Sor).expect("SOR").content {
+            CardContent::Sor(values) => values,
+            _ => unreachable!("SOR"),
+        };
+        sor.summary = commit.summary;
+        sor.actual_changes.extend(commit.changes);
+        sor.artifacts.extend(commit.artifacts);
+        sor.actual_validation.extend(commit.validation);
+        record.advance(
+            LifecyclePhase::Implemented,
+            commit.actor.clone(),
+            "execution and passing validation finalized atomically".into(),
+        )?;
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        if let Some(claim) = record.claim.as_mut() {
+            claim.generation = record.generation;
+        }
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor: commit.actor,
+            reason: "atomically record execution, validation, and implemented phase".into(),
+            operation: "finalize_implementation".into(),
+        });
+        validate_updated_cards(self, &record, &cards)?;
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        self.commit(issue, &record, &cards, false)?;
+        Ok(record)
+    }
+
+    pub(crate) fn commit_review(&self, commit: ReviewCommit) -> Result<IssueRecord> {
+        let issue = commit.issue;
         let _lock = self.lock(issue)?;
         self.recover_if_needed(issue)?;
         let mut record = self.load_record(issue)?;
@@ -2249,8 +2338,8 @@ impl Store {
             .claim
             .as_ref()
             .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
-            .validate(claim_id, now_seconds()?)?;
-        if record.digest != expected_digest {
+            .validate(&commit.claim_id, now_seconds()?)?;
+        if record.digest != commit.expected_digest {
             return Err(V2Error::new(
                 ErrorCode::StaleDigest,
                 "review record changed before commit",
@@ -2262,12 +2351,13 @@ impl Store {
             CardContent::Srp(values) => values,
             _ => unreachable!("SRP"),
         };
-        srp.reviewer = Some(evidence.reviewer.clone());
-        srp.review_scope = evidence.scope.join("\n");
-        srp.review_revision = Some(evidence.reviewed_revision.clone());
-        srp.review_result = result;
-        srp.residual_risk = evidence.residual_risks.clone();
-        srp.findings = evidence
+        srp.reviewer = Some(commit.evidence.reviewer.clone());
+        srp.review_scope = commit.evidence.scope.join("\n");
+        srp.review_revision = Some(commit.evidence.reviewed_revision.clone());
+        srp.review_result = commit.result;
+        srp.residual_risk = commit.evidence.residual_risks.clone();
+        srp.findings = commit
+            .evidence
             .findings
             .iter()
             .map(|finding| crate::cards::ReviewFinding {
@@ -2288,12 +2378,24 @@ impl Store {
         if let Some(claim) = record.claim.as_mut() {
             claim.generation = record.generation;
         }
-        record.review = Some(evidence);
+        record.review = Some(commit.evidence);
+        if commit.advance_reviewed && commit.result == crate::cards::ReviewResult::Pass {
+            record.advance(
+                LifecyclePhase::Reviewed,
+                commit.actor.clone(),
+                "exact scoped review passed".into(),
+            )?;
+        }
         record.audit.push(AuditEvent {
             sequence: record.audit.len() as u64 + 1,
             generation: record.generation,
-            actor,
-            reason: "atomically record review evidence and SRP projection".into(),
+            actor: commit.actor,
+            reason: if commit.advance_reviewed {
+                "atomically record exact review evidence and reviewed phase"
+            } else {
+                "atomically record assigned review evidence and SRP projection"
+            }
+            .into(),
             operation: "record_review".into(),
         });
         hydrate_projections(&mut record, &cards)?;
@@ -3097,8 +3199,8 @@ fn validate_phase_guard(
     let validation_passed = terminal_validation_passed(&sor.actual_validation);
     if next == LifecyclePhase::Published
         && (!review_current
-            || record.review_assignment.as_ref().is_none_or(|assignment| {
-                crate::git::substantive_revision(store.root(), &assignment.scope).map_or(
+            || record.review.as_ref().is_none_or(|review| {
+                crate::git::substantive_revision(store.root(), &review.scope).map_or(
                     true,
                     |current| {
                         !evaluate_publication_review_in_repo(
@@ -3122,8 +3224,8 @@ fn validate_phase_guard(
     }
     if next == LifecyclePhase::MergeReady
         && (!review_current
-            || record.review_assignment.as_ref().is_none_or(|assignment| {
-                crate::git::substantive_revision(store.root(), &assignment.scope).map_or(
+            || record.review.as_ref().is_none_or(|review| {
+                crate::git::substantive_revision(store.root(), &review.scope).map_or(
                     true,
                     |current| {
                         !evaluate_publication_review_in_repo(

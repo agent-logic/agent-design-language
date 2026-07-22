@@ -14,7 +14,9 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use strum::{AsRefStr, Display, EnumString};
 
-use crate::{ErrorCode, Result, V2Error};
+use crate::cards::{EvidenceOutcome, ValidationResult};
+use crate::store::ImplementationCommit;
+use crate::{ErrorCode, IssueRecord, Result, Store, V2Error};
 
 #[derive(
     Debug,
@@ -168,6 +170,20 @@ pub struct ExecutionRequest {
     pub root: PathBuf,
     pub evidence_dir: PathBuf,
     pub cancellation_file: Option<PathBuf>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct FinalizeRequest {
+    pub schema: String,
+    pub issue: u64,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub claim_id: String,
+    pub actor: String,
+    pub summary: String,
+    pub changes: Vec<String>,
+    pub artifacts: Vec<String>,
+    pub execution: ExecutionRequest,
 }
 
 #[derive(
@@ -478,6 +494,71 @@ pub fn execute(request: ExecutionRequest) -> Result<ExecutionReport> {
         disposition,
         selected_waves: dag.waves,
         evidence,
+    })
+}
+
+pub fn finalize(store: &Store, request: FinalizeRequest) -> Result<IssueRecord> {
+    if request.schema != "csdlc.finalize_request.v1"
+        || request.actor.trim().is_empty()
+        || request.summary.trim().is_empty()
+        || request.changes.is_empty()
+        || request.execution.root != store.root()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "finalize request identity, execution root, or execution summary is invalid",
+        ));
+    }
+    let before = store.load_record(request.issue)?;
+    if before.generation != request.expected_generation || before.digest != request.expected_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "finalize request does not match canonical record",
+        ));
+    }
+    before
+        .claim
+        .as_ref()
+        .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
+        .validate(&request.claim_id, crate::store::now_seconds()?)?;
+
+    let report = execute(request.execution)?;
+    if report.disposition != ValidationDisposition::LocalPass {
+        return Err(V2Error::new(
+            ErrorCode::ValidationFailed,
+            "finalize requires a complete local validation pass",
+        ));
+    }
+    let validation = report
+        .evidence
+        .iter()
+        .map(|lane| ValidationResult {
+            command: lane.command.clone(),
+            purpose: lane.purpose.clone(),
+            outcome: match lane.status {
+                LaneStatus::Passed => EvidenceOutcome::Passed,
+                LaneStatus::AcceptedNonGoal => EvidenceOutcome::SkippedNonGoal,
+                LaneStatus::DeferredCi => EvidenceOutcome::Deferred,
+                LaneStatus::Failed | LaneStatus::TimedOut => EvidenceOutcome::Failed,
+                LaneStatus::Blocked => EvidenceOutcome::Blocked,
+            },
+            evidence_ref: lane
+                .log_ref
+                .clone()
+                .unwrap_or_else(|| format!("pvf:{}", lane.lane)),
+        })
+        .collect();
+    store.commit_implementation(ImplementationCommit {
+        issue: request.issue,
+        expected_generation: request.expected_generation,
+        expected_digest: request.expected_digest,
+        claim_id: request.claim_id,
+        actor: request.actor,
+        summary: request.summary,
+        changes: request.changes,
+        artifacts: request.artifacts,
+        validation,
     })
 }
 

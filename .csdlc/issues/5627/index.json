@@ -1,0 +1,133 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5627,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "92b057b98eaffbebc0305e839a75bd5da4470abc6d6a59af788534ba1a6e814d",
+  "phase": "implemented",
+  "generation": 1,
+  "digest": "89fae7806757d553209ee1e624dd3c37311b0ba67d0da4ed46b7d3da6be926e7",
+  "claim": {
+    "id": "claim-5627-csdlc-four-command-lifecycle",
+    "owner": "codex:issue-5627-slot-4",
+    "generation": 1,
+    "acquired_unix_seconds": 1784731479,
+    "expires_unix_seconds": 1784817879,
+    "heartbeat_unix_seconds": 1784731479,
+    "branch": "codex/5627-csdlc-four-command-lifecycle",
+    "worktree": ".",
+    "protected_paths": [
+      "csdlc-v2/src/pvf.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/bin/csdlc-validate.rs",
+      "csdlc-v2/src/bin/csdlc-review.rs",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/tests/gate4.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "csdlc-v2/tests/gate6.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs",
+      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      ".csdlc/issues/5627",
+      ".csdlc/prepared/issues/5627",
+      ".csdlc/evidence/5627"
+    ],
+    "purpose": "Collapse routine C-SDLC v2 execution into four typed commands while preserving exact evidence and terminal receipts"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5627/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5627/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:issue-5627",
+      "revision": "2b73dd1a448490348950b976c921d865eb959bc4085375775920376af5faeae5"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "dd81e7edd8d197783f14ab7e685d8738c025e87ffe46a40ba8ba42a97de4218b",
+      "rendered_digest": "e6e73876dc7bd82ac55ca7a6cc3a10545639dd3c14488089af5d92a122d7bbfa",
+      "ast_digest": "d233640b8e779d5495b476c22971c4be14501dff194b670c49f6e3f1c37bf7a6"
+    },
+    "stp": {
+      "values_digest": "481f10dfd048d2a91cc41eb4aaceeb032533bfc0c9fb7a77368a9f34719e29bb",
+      "rendered_digest": "f6924dc16918555def0742818a9d2553b78b1dd7305344c65c6472e2a20cdf99",
+      "ast_digest": "0b9e841b8caa6e3451c4e863dddcac5e7a9dd9731eeb4c5d78b79f288deff2e5"
+    },
+    "spp": {
+      "values_digest": "1aa64881c50ad27f8529a1a9e3990d8b4ff0b53ccf4c117293320e5d26085c3b",
+      "rendered_digest": "f5b752361b5d434f9ec0b09e86a0d837a3c7db5afe926d04270ec93169769543",
+      "ast_digest": "2bc25ee4074dcce7f28affcbdc644724a19f6c42c1b90fc66d06d78739dc405e"
+    },
+    "vpp": {
+      "values_digest": "2903ad591521d59a494776396ff6cb5eb612b9813cfe9fb302f3b29665fe6311",
+      "rendered_digest": "ec6bb20d98e9e235fd4b5069645490a2bdce5f0d7a93c3c4432f24ccbe1aeba7",
+      "ast_digest": "3472842d6972bd76928bc12581882745eb61561bf63dde1a3e12f628e0257384"
+    },
+    "srp": {
+      "values_digest": "e5aa58a1675a22aa37ce512c01ea55b4c45175d0896c28a54aafa71410c1518e",
+      "rendered_digest": "33718d242013d1ed7777497b98d8bed11442003fc0c75f938cf7c3abbf7e06b3",
+      "ast_digest": "e9d132cccbf787f8ee76453b72c408e29ddfef30e5c9ae2884dd4e5be5fd1ecd"
+    },
+    "sor": {
+      "values_digest": "9f5ebb44e9497ca40235e538722b0c77d89a2d815b814ec6d236a55a9d56d3fa",
+      "rendered_digest": "0e092c267d208dd9b60f4f50051dd24d6e6842d824d74f53b126aead5ad5737e",
+      "ast_digest": "782b19b8a43133b670008b1d5adf99ae42feabba4a2fbca11fedc6a68039837f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5627-slot-4",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5627-slot-4",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f8a5b-d18e-7a43-af0f-670f1e44082a",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5627-slot-4",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:issue-5627-slot-4",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f8a5b-d18e-7a43-af0f-670f1e44082a",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
