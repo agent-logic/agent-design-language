@@ -127,7 +127,11 @@ fn dispatch(command: Command) -> Result<(), String> {
                     .collect::<Vec<_>>()
                     .join("; ")
             })?;
-            let result = serde_json::json!({"contract": adl_engine::ENGINE_CONTRACT_VERSION, "status": "planned", "plan": plan});
+            let policy = adl_engine::EnginePolicy::provider_for(&plan, 1);
+            let engine =
+                adl_engine::Engine::new(plan.clone(), policy, adl_engine::EngineLimits::default())
+                    .map_err(|error| format!("{error:?}"))?;
+            let result = serde_json::json!({"contract": adl_engine::ENGINE_CONTRACT_VERSION, "status": "ready", "plan": plan, "snapshot": engine.snapshot()});
             print_json(&Envelope {
                 schema: "adl.run.v1",
                 ok: true,
@@ -196,7 +200,19 @@ fn load_selector(root: Option<&Path>) -> Result<Selector, String> {
             previous: None,
         });
     }
-    serde_json::from_slice(&fs::read(path).map_err(|e| e.to_string())?).map_err(|e| e.to_string())
+    let selector: Selector =
+        serde_json::from_slice(&fs::read(path).map_err(|_| "read selector failed")?)
+            .map_err(|_| "selector schema rejected")?;
+    if selector.schema != SELECTOR_SCHEMA {
+        return Err("selector schema rejected".into());
+    }
+    if let Some(previous) = selector.previous.as_ref() {
+        validate_generation(&previous.generation)?;
+    }
+    if let Some(current) = selector.current.as_ref() {
+        validate_generation(&current.generation)?;
+    }
+    Ok(selector)
 }
 
 fn digest_file(path: &Path) -> Result<serde_json::Value, String> {
@@ -275,6 +291,7 @@ fn mutate_selector(
 }
 
 fn verify_install_receipt(root: &Path, generation: &str, digest: &str) -> Result<(), String> {
+    validate_generation(generation)?;
     let path = root.join("receipts").join(format!("{generation}.json"));
     let value: serde_json::Value = serde_json::from_slice(
         &fs::read(&path).map_err(|e| format!("read receipt {}: {e}", path.display()))?,
