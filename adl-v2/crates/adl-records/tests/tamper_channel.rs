@@ -103,6 +103,18 @@ fn every_signed_field_class_rejects_tampering() {
 }
 
 #[test]
+fn valid_shape_digest_and_signature_corruption_reach_crypto_checks() {
+    assert_eq!(
+        rejects(|value| value["payload_digest"] = Value::String("00".repeat(32))),
+        ErrorCode::InvalidEnvelope
+    );
+    assert_eq!(
+        rejects(|value| value["signature"] = Value::String("00".repeat(64))),
+        ErrorCode::InvalidSignature
+    );
+}
+
+#[test]
 fn duplicate_unknown_truncated_extended_utf8_float_and_oversize_fail() {
     let (_, _, envelope, limits) = fixture();
     let bytes = encode_envelope(&envelope, &limits).unwrap();

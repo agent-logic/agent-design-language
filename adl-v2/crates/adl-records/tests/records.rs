@@ -1,10 +1,13 @@
+use std::cell::{Cell, RefCell};
 use std::collections::{BTreeMap, BTreeSet};
+use std::rc::Rc;
 
 use adl_records::{
-    assert_replay_guard_conformance, canonical_bytes, decode_envelope, encode_envelope,
-    sign_record, verify_envelope, ArtifactDescriptor, ErrorCode, ErrorRecord, EventRecord,
-    ExecutionResult, InMemoryReplayGuard, Limits, Record, RecordHeader, RecordKind, TraceRecord,
-    TrustEntry, TrustPolicy, CONTRACT_VERSION,
+    assert_durable_replay_guard_conformance, assert_replay_guard_conformance, canonical_bytes,
+    decode_envelope, encode_envelope, sign_record, verify_envelope, ArtifactDescriptor,
+    DurableReplayGuardHarness, ErrorCode, ErrorRecord, EventRecord, ExecutionResult,
+    InMemoryReplayGuard, Limits, Record, RecordError, RecordHeader, RecordKind, ReplayGuard,
+    ReplayToken, TraceRecord, TrustEntry, TrustPolicy, CONTRACT_VERSION,
 };
 use ed25519_dalek::SigningKey;
 use sha2::Digest;
@@ -193,6 +196,7 @@ fn sign_encode_decode_verify_round_trip_and_replay_fails() {
 fn replay_guard_conformance_and_trust_policy_digest_are_deterministic() {
     let limits = Limits::default();
     assert_replay_guard_conformance(&mut InMemoryReplayGuard::new(&limits)).unwrap();
+    assert_durable_replay_guard_conformance(&mut TestDurableHarness::default()).unwrap();
     let key = SigningKey::from_bytes(&[12; 32]);
     let first = policy(&key, false, &[RecordKind::Event, RecordKind::Error]);
     let second = policy(&key, false, &[RecordKind::Error, RecordKind::Event]);
@@ -204,6 +208,83 @@ fn replay_guard_conformance_and_trust_policy_digest_are_deterministic() {
         first.digest(&limits).unwrap(),
         second.digest(&limits).unwrap()
     );
+}
+
+#[derive(Clone, Default, PartialEq, Eq)]
+struct TestDurableState {
+    admitted: BTreeSet<ReplayToken>,
+    last_sequence: BTreeMap<(String, String), u64>,
+}
+
+#[derive(Default)]
+struct TestDurableHarness {
+    state: Rc<RefCell<TestDurableState>>,
+    fail_next: Rc<Cell<bool>>,
+}
+
+struct TestDurableGuard {
+    state: Rc<RefCell<TestDurableState>>,
+    fail_next: Rc<Cell<bool>>,
+}
+
+impl ReplayGuard for TestDurableGuard {
+    fn admit_atomically(&mut self, token: ReplayToken) -> adl_records::Result<()> {
+        let mut candidate = self.state.borrow().clone();
+        if candidate.admitted.contains(&token) {
+            return Err(RecordError {
+                code: ErrorCode::Replay,
+                message: "test duplicate",
+            });
+        }
+        let stream = (token.key_id.clone(), token.subject_id.clone());
+        if candidate
+            .last_sequence
+            .get(&stream)
+            .is_some_and(|last| token.sequence <= *last)
+        {
+            return Err(RecordError {
+                code: ErrorCode::Replay,
+                message: "test rollback",
+            });
+        }
+        candidate.last_sequence.insert(stream, token.sequence);
+        candidate.admitted.insert(token);
+        if self.fail_next.replace(false) {
+            return Err(RecordError {
+                code: ErrorCode::Replay,
+                message: "injected commit failure",
+            });
+        }
+        *self.state.borrow_mut() = candidate;
+        Ok(())
+    }
+}
+
+impl DurableReplayGuardHarness for TestDurableHarness {
+    type Guard = TestDurableGuard;
+    type Snapshot = TestDurableState;
+
+    fn reset(&mut self) -> adl_records::Result<()> {
+        *self.state.borrow_mut() = TestDurableState::default();
+        self.fail_next.set(false);
+        Ok(())
+    }
+
+    fn open(&mut self) -> adl_records::Result<Self::Guard> {
+        Ok(TestDurableGuard {
+            state: Rc::clone(&self.state),
+            fail_next: Rc::clone(&self.fail_next),
+        })
+    }
+
+    fn snapshot(&self) -> adl_records::Result<Self::Snapshot> {
+        Ok(self.state.borrow().clone())
+    }
+
+    fn fail_next_commit(&mut self) -> adl_records::Result<()> {
+        self.fail_next.set(true);
+        Ok(())
+    }
 }
 
 #[test]
@@ -364,6 +445,23 @@ fn trust_policy_rejects_unknown_wrong_profile_kind_time_window_and_revocation() 
         .unwrap_err();
         assert_eq!(error.code, ErrorCode::Trust);
     }
+}
+
+#[test]
+fn trust_policy_rejects_correct_id_with_wrong_verifying_key() {
+    let limits = Limits::default();
+    let signing_key = SigningKey::from_bytes(&[8; 32]);
+    let wrong_key = SigningKey::from_bytes(&[18; 32]);
+    let envelope = sign_record(event(1), "key-1", &signing_key, &limits).unwrap();
+    let error = verify_envelope(
+        &envelope,
+        &policy(&wrong_key, false, &[RecordKind::Event]),
+        &mut InMemoryReplayGuard::new(&limits),
+        100,
+        &limits,
+    )
+    .unwrap_err();
+    assert_eq!(error.code, ErrorCode::InvalidSignature);
 }
 
 #[test]

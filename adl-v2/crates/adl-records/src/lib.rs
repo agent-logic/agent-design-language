@@ -13,6 +13,7 @@ pub use model::{
 };
 pub use signing::{decode_envelope, encode_envelope, sign_record, verify_envelope, SignedEnvelope};
 pub use trust::{
-    assert_replay_guard_conformance, InMemoryReplayGuard, ReplayGuard, ReplayToken, TrustEntry,
+    assert_durable_replay_guard_conformance, assert_replay_guard_conformance,
+    DurableReplayGuardHarness, InMemoryReplayGuard, ReplayGuard, ReplayToken, TrustEntry,
     TrustPolicy,
 };

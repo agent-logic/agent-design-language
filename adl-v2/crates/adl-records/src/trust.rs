@@ -81,6 +81,19 @@ pub trait ReplayGuard {
     fn admit_atomically(&mut self, token: ReplayToken) -> Result<()>;
 }
 
+/// Consumer-supplied factory and failure injector for proving a durable replay
+/// guard across independent opens. The state snapshot must represent all
+/// durable replay state that an admission can change.
+pub trait DurableReplayGuardHarness {
+    type Guard: ReplayGuard;
+    type Snapshot: Eq;
+
+    fn reset(&mut self) -> Result<()>;
+    fn open(&mut self) -> Result<Self::Guard>;
+    fn snapshot(&self) -> Result<Self::Snapshot>;
+    fn fail_next_commit(&mut self) -> Result<()>;
+}
+
 #[derive(Debug, Clone)]
 pub struct InMemoryReplayGuard {
     maximum: usize,
@@ -193,6 +206,57 @@ pub fn assert_replay_guard_conformance<G: ReplayGuard>(guard: &mut G) -> Result<
         payload_digest: [3; 32],
     };
     guard.admit_atomically(next)
+}
+
+/// Proves durable-before-success and unchanged-state-on-error behavior through
+/// the consumer's real open, snapshot, and commit-failure surfaces.
+pub fn assert_durable_replay_guard_conformance<H: DurableReplayGuardHarness>(
+    harness: &mut H,
+) -> Result<()> {
+    harness.reset()?;
+    let first = conformance_token("one", 1, 1);
+    harness.open()?.admit_atomically(first.clone())?;
+    if harness.open()?.admit_atomically(first).is_ok() {
+        return Err(RecordError::new(
+            ErrorCode::Replay,
+            "reopened guard lost admitted token",
+        ));
+    }
+
+    let before_failure = harness.snapshot()?;
+    harness.fail_next_commit()?;
+    let second = conformance_token("two", 2, 2);
+    if harness.open()?.admit_atomically(second.clone()).is_ok() {
+        return Err(RecordError::new(
+            ErrorCode::Replay,
+            "injected replay commit failure succeeded",
+        ));
+    }
+    if harness.snapshot()? != before_failure {
+        return Err(RecordError::new(
+            ErrorCode::Replay,
+            "failed replay commit changed durable state",
+        ));
+    }
+
+    harness.open()?.admit_atomically(second.clone())?;
+    if harness.open()?.admit_atomically(second).is_ok() {
+        return Err(RecordError::new(
+            ErrorCode::Replay,
+            "successful replay commit was not durable",
+        ));
+    }
+    Ok(())
+}
+
+fn conformance_token(record_id: &str, sequence: u64, digest_byte: u8) -> ReplayToken {
+    ReplayToken {
+        key_id: "conformance-key".into(),
+        subject_id: "subject".into(),
+        record_id: record_id.into(),
+        sequence,
+        payload_digest: [digest_byte; 32],
+    }
 }
 
 fn append_len(output: &mut Vec<u8>, length: usize) -> Result<()> {

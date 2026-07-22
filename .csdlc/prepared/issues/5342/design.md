@@ -23,8 +23,8 @@ contract version, the signing profile, key id, canonical payload digest, and an
 Ed25519 signature. Canonical payload bytes use this exact grammar:
 
 1. Tags are fixed: `0x00` null, `0x01` false, `0x02` true, `0x03` unsigned
-   integer, `0x04` signed integer, `0x05` UTF-8 string, `0x06` byte string,
-   `0x07` array, and `0x08` object. Signed integers are encoded as their
+   integer, `0x04` signed integer, `0x05` UTF-8 string, `0x07` array, and
+   `0x08` object. `0x06` is unassigned in grammar version 1. Signed integers are encoded as their
    two's-complement `i64` bit pattern in eight big-endian bytes; unsigned
    integers are eight-byte big-endian `u64` values.
 2. UTF-8 strings are preserved byte-for-byte after JSON escape decoding; no
@@ -34,8 +34,8 @@ Ed25519 signature. Canonical payload bytes use this exact grammar:
    length-prefixed key followed by its recursively encoded value.
 4. Arrays preserve declared order and use a one-byte array tag, an unsigned
    big-endian `u32` element count, then recursively encoded values.
-5. Strings and byte fields are one-byte tagged and unsigned big-endian `u32`
-   length-prefixed. Booleans and null have distinct one-byte tags. Signed and
+5. Strings are one-byte tagged and unsigned big-endian `u32` length-prefixed.
+   Booleans and null have distinct one-byte tags. Signed and
    unsigned integers use distinct tags plus fixed-width big-endian `u64`
    values. Floating-point values are rejected.
 
@@ -79,9 +79,12 @@ first-use behavior.
 
 `ReplayGuard::admit_atomically` is a normative external contract: durable and
 in-memory state must remain unchanged on error, and an admitted token must be
-durable before success. The crate exports a conformance helper that proves
-duplicate rejection, rollback rejection, and successful progress after those
-failures; the bundled bounded implementation passes it.
+durable before success. The crate exports an in-process conformance helper for
+duplicate, rollback, and post-failure progress, plus a durable harness contract
+that requires consumer-supplied reset, independent reopen, durable snapshot,
+and injected commit-failure surfaces. The durable helper proves replay rejection
+after reopen, unchanged durable state after injected failure, and persistence of
+a later successful admission. The bundled test backend passes both helpers.
 
 Generated JSON Schema is the checked structural stage. It proves variant,
 field, type, unknown-field, and representation shape. Rust `Record::validate`
