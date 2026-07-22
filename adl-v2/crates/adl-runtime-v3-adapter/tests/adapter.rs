@@ -10,11 +10,12 @@ use adl_records::{
     TrustEntry, TrustPolicy,
 };
 use adl_runtime_kernel::{
-    AdapterKind, AdapterPolicy, AuthorityMode, CanonicalIngress, ComponentRegistry, Kernel,
-    LocalAgentExecutor, OperationalAdapter, OperationalFactory, RuntimeRecorder,
+    AdapterKind, AdapterPolicy, AuthorityMode, CanonicalIngress, ComponentRegistry, IngressError,
+    Kernel, LocalAgentExecutor, OperationalAdapter, OperationalFactory, RuntimeRecorder,
 };
 use adl_runtime_v3_adapter::{
-    dispatch_event_header, dispatch_metadata, prepare, submit, AdapterError, WORK_KIND,
+    dispatch_event_header, dispatch_metadata, map_runtime_outcome, prepare, submit, AdapterError,
+    WORK_KIND,
 };
 use ed25519_dalek::SigningKey;
 
@@ -396,5 +397,46 @@ async fn canonical_ingress_preserves_closed_failure() {
     let outcome = submit(&ingress, prepared(&plan(), provider_effect())).await;
     assert!(
         matches!(outcome.completion, PortCompletion::Provider(ref value) if matches!(value.outcome, CompletionOutcome::Failure(ref failure) if failure.class == FailureClass::Resource))
+    );
+}
+
+fn mapped_failure(error: IngressError) -> adl_runtime_v3_adapter::AdapterOutcome {
+    map_runtime_outcome(
+        provider_effect(),
+        dispatch_event_header("dispatch-1", "run-1", 1, 10, BTreeMap::new()),
+        Err(error),
+    )
+}
+
+#[test]
+fn runtime_conflict_remains_a_protocol_failure() {
+    let outcome = mapped_failure(IngressError::Conflict);
+    assert!(
+        matches!(outcome.completion, PortCompletion::Provider(ref value) if matches!(value.outcome, CompletionOutcome::Failure(ref failure) if failure.class == FailureClass::Protocol))
+    );
+    assert!(
+        matches!(outcome.record, Record::Error(ref value) if value.code == "protocol" && !value.retryable)
+    );
+}
+
+#[test]
+fn runtime_saturation_remains_a_retryable_saturation_failure() {
+    let outcome = mapped_failure(IngressError::Saturated);
+    assert!(
+        matches!(outcome.completion, PortCompletion::Provider(ref value) if matches!(value.outcome, CompletionOutcome::Failure(ref failure) if failure.class == FailureClass::Saturation))
+    );
+    assert!(
+        matches!(outcome.record, Record::Error(ref value) if value.code == "saturation" && value.retryable)
+    );
+}
+
+#[test]
+fn runtime_execution_failure_remains_permanent() {
+    let outcome = mapped_failure(IngressError::ExecutionFailed);
+    assert!(
+        matches!(outcome.completion, PortCompletion::Provider(ref value) if matches!(value.outcome, CompletionOutcome::Failure(ref failure) if failure.class == FailureClass::Permanent))
+    );
+    assert!(
+        matches!(outcome.record, Record::Error(ref value) if value.code == "permanent" && !value.retryable)
     );
 }

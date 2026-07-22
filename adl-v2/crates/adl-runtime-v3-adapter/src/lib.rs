@@ -7,7 +7,9 @@ use adl_records::{
     verify_envelope, EventRecord, Limits, Record, RecordHeader, ReplayGuard, SignedEnvelope,
     TrustPolicy, CONTRACT_VERSION,
 };
-use adl_runtime_kernel::{CanonicalIngress, DomainWork, DOMAIN_WORK_SCHEMA};
+use adl_runtime_kernel::{
+    CanonicalIngress, DomainResult, DomainWork, IngressError, DOMAIN_WORK_SCHEMA,
+};
 use sha2::{Digest, Sha256};
 
 mod outcome;
@@ -108,7 +110,16 @@ pub fn prepare<G: ReplayGuard>(
 
 pub async fn submit(ingress: &CanonicalIngress, dispatch: VerifiedDispatch) -> AdapterOutcome {
     let result = ingress.submit(dispatch.work, dispatch.correlation_id).await;
-    outcome::map_outcome(dispatch.effect, dispatch.source_header, result)
+    map_runtime_outcome(dispatch.effect, dispatch.source_header, result)
+}
+
+/// Maps a public Runtime v3 ingress result into the ADL engine and records contracts.
+pub fn map_runtime_outcome(
+    effect: EngineEffect,
+    source_header: RecordHeader,
+    result: Result<DomainResult, IngressError>,
+) -> AdapterOutcome {
+    outcome::map_outcome(effect, source_header, result)
 }
 
 fn validate_plan_effect(plan: &ExecutionPlan, effect: &EngineEffect) -> Result<(), AdapterError> {
