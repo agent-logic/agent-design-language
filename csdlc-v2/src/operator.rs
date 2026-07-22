@@ -319,7 +319,7 @@ pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<Ins
         ));
     }
     let status = std::process::Command::new("cargo")
-        .args(["build", "--manifest-path"])
+        .args(["build", "--locked", "--manifest-path"])
         .arg(&manifest_path)
         .arg("--bins")
         .current_dir(repo)

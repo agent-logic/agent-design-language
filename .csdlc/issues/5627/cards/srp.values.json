@@ -7,15 +7,15 @@
     "title": "[v0.91.8][csdlc-v2][performance] Collapse routine lifecycle into four commands",
     "slug": "csdlc-four-command-lifecycle",
     "version": "v0.91.8",
-    "generation": 3
+    "generation": 4
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src\ncsdlc-v2/tests\ncsdlc-v2/operator/skills",
-      "review_revision": "git-blake3:1f7a7ad90fb50b40d15eecf5aa2e956f972cc007:af029d7053b726f9e12d3bf2163ca62bf92d7a6eb9c30339cdda1f86ceae5a5f",
-      "reviewer": "subagent:019f8ac1-4c2f-7af0-9686-dd1ed7da93dc",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can validation failure alter index, cards, audit, or generation?",
         "Can review record accept stale or out-of-scope evidence without assignment?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }

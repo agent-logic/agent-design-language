@@ -71,11 +71,11 @@ Implemented the four-command C-SDLC v2 routine lifecycle: atomic validation fina
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

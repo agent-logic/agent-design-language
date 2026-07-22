@@ -8,13 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-csdlc-v2/src
-csdlc-v2/tests
-csdlc-v2/operator/skills
+
 
 ## Prompts
 
@@ -38,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:1f7a7ad90fb50b40d15eecf5aa2e956f972cc007:af029d7053b726f9e12d3bf2163ca62bf92d7a6eb9c30339cdda1f86ceae5a5f")
+Revision: None
 
-Reviewer: Some("subagent:019f8ac1-4c2f-7af0-9686-dd1ed7da93dc")
+Reviewer: None
 
-Result: pass
+Result: pre_review

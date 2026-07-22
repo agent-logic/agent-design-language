@@ -75,10 +75,13 @@ fn coexistence_fails_closed_when_v1_or_v2_is_missing() {
 #[test]
 fn installer_records_provenance_without_replacing_other_files() {
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
+    let lockfile = repo.join("csdlc-v2/Cargo.lock");
+    let lockfile_before = fs::read(&lockfile).unwrap();
     let destination_parent = tempfile::tempdir().unwrap();
     let destination = destination_parent.path().join("csdlc-v2");
     fs::write(destination_parent.path().join("v1-stays"), b"v1").unwrap();
     let receipt = build_and_install_binaries(&repo, &destination).unwrap();
+    assert_eq!(fs::read(lockfile).unwrap(), lockfile_before);
     assert_eq!(receipt.binaries.len(), 12);
     assert_eq!(
         fs::read(destination_parent.path().join("v1-stays")).unwrap(),

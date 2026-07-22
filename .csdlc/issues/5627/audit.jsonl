@@ -4,3 +4,5 @@
 {"sequence":4,"generation":1,"actor":"codex:issue-5627-slot-4","reason":"Include stale-review path classification in the four-command lifecycle repair.","operation":"{\"add_protected_paths\":[\"csdlc-v2/src/git.rs\"],\"operation\":\"amend_claim_scope\"}"}
 {"sequence":5,"generation":2,"actor":"codex:issue-5627-slot-4","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":6,"generation":3,"actor":"codex:issue-5627-slot-4","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":7,"generation":4,"actor":"codex:issue-5627-slot-4","reason":"Exact hosted C-SDLC v2 CI exposed nested unlocked Cargo build drift; recover publication for bounded repair.","operation":"recover_review"}
+{"sequence":8,"generation":4,"actor":"codex:issue-5627-slot-4","reason":"Repair the exact #5627 hosted C-SDLC installer failure without creating another issue.","operation":"{\"add_protected_paths\":[\"csdlc-v2/src/operator.rs\",\"csdlc-v2/tests/gate10a.rs\"],\"operation\":\"amend_claim_scope\"}"}
