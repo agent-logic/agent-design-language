@@ -35,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted PR checks and downstream #5498 integration remain pending.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:3830eedb32fac3034e07022ed643cb8588bc9360:57c23716de491338b6fb7938d40e52eb32ee86686be141f93e0aed0609c62b73")
 
-Reviewer: None
+Reviewer: Some("subagent:019f8bf0-a08b-7c92-ac2f-ca70c074bde7")
 
-Result: pre_review
+Result: pass
