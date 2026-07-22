@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "23af54704a287240d22af7ec75e979b61e6577225862d85aa2bc509d532b60b1",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "4132aedbcfe7a7c18941cccffdb0163aca7edf5d03369e202b93745db59aadb8",
+  "generation": 13,
+  "digest": "aefe86936c21a696542bcc4b035b268d641aaa6a60c7adba8d77070b2ef84676",
   "claim": {
     "id": "claim-5590-runtime-v3-parity-d-preparation",
     "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
-    "generation": 12,
+    "generation": 13,
     "acquired_unix_seconds": 1784601952,
     "expires_unix_seconds": 1785206752,
     "heartbeat_unix_seconds": 1784601952,
@@ -58,7 +58,36 @@
       "adl/tools/test_check_coverage_impact.sh"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
+    "scope": [
+      ".csdlc/issues/5590/audit.jsonl",
+      ".csdlc/issues/5590/index.json",
+      ".csdlc/prepared/issues/5590/amend-guardian-cli-coverage-claim.json",
+      ".csdlc/prepared/issues/5590/record-coverage-impact-rereview-finding.json",
+      "adl-runtime/tests/guardian_cli.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "reviewed_revision": "git-blake3:c74af8bb1928075f2cb9580ffaf906f7d49c509f:175fa7171c0a07f55b9a1de2d6688cb5edb2d0d6812a380568e1dfdecf6a6221",
+    "findings": [
+      {
+        "id": "guardian-cli-portability",
+        "severity": "p2",
+        "summary": "The black-box success and invalid-input cases hard-code /usr/bin/true, making the required coverage regression Unix-specific despite a cross-platform guardian.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Whole-crate all-target Clippy still reports two pre-existing cav.rs lib-test warnings outside the #5590 protected paths; focused guardian_cli Clippy passes."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -73,32 +102,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6741f535d5b39ac61246c64c5f8ecdb856329941f1d2fbfba342d05ee8c34ccb",
+      "values_digest": "a59ad6ca582231ed20559c8b6d446f24284352411bc0c61ea7c2596d76c4b88a",
       "rendered_digest": "e88f17d82847eda7ebf748e6c5c0db98b6dcb4035390cd6e8e990e7d271cf925",
       "ast_digest": "cafd78c5558bddede73d9c794101793129f298be4d15bfa1dc68b8e94b94104f"
     },
     "stp": {
-      "values_digest": "4b7d6825200abbfc951e828f633146cf6f62cadc7cce21205613eaa7c3a023de",
+      "values_digest": "bbc47453eff7081bf7a62da283feb52f83909796b9bf35bd4a13568dceef666f",
       "rendered_digest": "3ce05fb3e369f9f1b6d6456f7340b025e10df76e891e73a2ba55828aa33f4a36",
       "ast_digest": "062ccdf6b207cd880685dabf22082d9d1d3b5644eb0a931e8b041091b225099e"
     },
     "spp": {
-      "values_digest": "70073f6051ec46b67d1560ab87e820e4f03e344ce00de1e433e8b4aec2d6d91a",
+      "values_digest": "8f2eb9d71caeddc691d7941b01d45349b2c69ac7cda9fd6dd714ce651fbd76fa",
       "rendered_digest": "99669c02524aa94692d53473e4a79cb2efa7f8b4c28e037150268db97b2546cd",
       "ast_digest": "eca6800a4ab66571e1763a76ef7d1ad673b08d4effedb0bc3bacb21155117849"
     },
     "vpp": {
-      "values_digest": "98a565ee9c9421df9d83c08e53d11d2e5578b414977648ff9c11833b32801ea8",
+      "values_digest": "9a191adf56596264ab6d0726392e7b407c627561ba76b223e7fa9c673906cd84",
       "rendered_digest": "cf314ec09a7efd878b8586f1629211c9c42136f40fe5625bdc193e099e569755",
       "ast_digest": "88550d94d71abf970d92338718154e89d69115e0e48ca926f3927d92ed06b1a7"
     },
     "srp": {
-      "values_digest": "b5bf9c92edf24638dcfcdbba12f9769b921b2424b777440bd7e2b75e9e7a6d60",
-      "rendered_digest": "48d41b5b84ca36e36264e8bd7a56b09c49b39eb7d60ada7b2af85c5e22fa4a8c",
-      "ast_digest": "0ced4ac047b1870d748519adaa2b9c1e65cb1356c857107ab7fd7c874015e8c5"
+      "values_digest": "a024e6a5207a40ab14f9ced30c84a590da76eee616f48acba1eb8c8b58f6b52c",
+      "rendered_digest": "69c6393a3f7a229b316c09afc962083219708753390a95a8ae9d1d7a005beb75",
+      "ast_digest": "b6e07be4c3feb8ee27d6d46d6f6b548037a619bba1269f6a2d979983c58734d2"
     },
     "sor": {
-      "values_digest": "048c11edee384b0f3177e36379c2f5340f14a7bfa903f6e77e0230b58a92770f",
+      "values_digest": "9d84ec1a78b2e2ca1bf5b64745cb950ce47f197e5f63d7b559d870c69cec6d27",
       "rendered_digest": "a7bd74bc5e0b931a51cedb15bedde9ea8bdae3f2a0672153fe8091cccdc27ab6",
       "ast_digest": "1ec5b5726d1a697d3cfa738ccdb3693d7b7641732bc310c62dd59ad1b1274686"
     }
@@ -329,6 +358,13 @@
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 13,
+      "actor": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }

@@ -1,4 +1,8 @@
-use std::process::{Command, Output};
+use std::{
+    fs,
+    path::PathBuf,
+    process::{Command, Output},
+};
 
 fn guardian(args: &[&str]) -> Output {
     Command::new(env!("CARGO_BIN_EXE_adl-runtime-guardian"))
@@ -26,11 +30,26 @@ fn complete_args<'a>(kernel: &'a str, continuity_root: &'a str) -> Vec<&'a str> 
     ]
 }
 
+fn portable_success_child(root: &std::path::Path) -> PathBuf {
+    let source = root.join("success_child.rs");
+    let executable = root.join(format!("success_child{}", std::env::consts::EXE_SUFFIX));
+    fs::write(&source, "fn main() {}\n").unwrap();
+    let status = Command::new("rustc")
+        .arg(&source)
+        .arg("-o")
+        .arg(&executable)
+        .status()
+        .expect("the Rust test toolchain should resolve rustc");
+    assert!(status.success(), "portable child compilation failed");
+    executable
+}
+
 #[test]
-fn guardian_cli_reports_successful_child_as_json() {
+fn guardian_cli_reports_successful_portable_child_as_json() {
     let continuity = tempfile::tempdir().unwrap();
+    let child = portable_success_child(continuity.path());
     let output = guardian(&complete_args(
-        "/usr/bin/true",
+        child.to_str().unwrap(),
         continuity.path().to_str().unwrap(),
     ));
 
@@ -62,11 +81,11 @@ fn guardian_cli_reports_spawn_failure_without_restart() {
 #[test]
 fn guardian_cli_rejects_incomplete_unknown_and_invalid_numeric_arguments() {
     for args in [
-        vec!["--kernel", "/usr/bin/true"],
+        vec!["--kernel", "unused"],
         vec!["--unknown", "value"],
         vec![
             "--kernel",
-            "/usr/bin/true",
+            "unused",
             "--init",
             "runtime.toml",
             "--continuity-root",

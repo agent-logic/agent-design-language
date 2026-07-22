@@ -325,12 +325,18 @@ grep -F "binary_id(adl-runtime::guardian_cli) and test(/^guardian_cli_/)" <<<"$r
 runtime_v3_filters="$TMP/runtime-v3-filters.txt"
 bash "$SCRIPT" --changed-files "$runtime_v3_surfaces_changed" --print-risk-filters >"$runtime_v3_filters"
 [ "$(grep -Fxc runtime_v3_guardian "$runtime_v3_filters")" -eq 1 ]
+runtime_v3_guardian_changed="$TMP/runtime-v3-guardian-changed.txt"
+cat >"$runtime_v3_guardian_changed" <<'EOF'
+M	adl-runtime/src/guardian.rs
+A	adl-runtime/src/bin/adl-runtime-guardian.rs
+EOF
+runtime_v3_guardian_expression="$(bash "$SCRIPT" --changed-files "$runtime_v3_guardian_changed" --print-risk-nextest-expression)"
 runtime_v3_inventory="$TMP/runtime-v3-inventory.txt"
 cargo nextest list --manifest-path "$ROOT/adl-runtime/Cargo.toml" \
-  -E "$runtime_v3_expression" >"$runtime_v3_inventory"
+  -E "$runtime_v3_guardian_expression" >"$runtime_v3_inventory"
 grep -Fx "adl-runtime::bin/adl-runtime-guardian tests::guardian_cli_requires_complete_bounded_configuration" \
   "$runtime_v3_inventory" >/dev/null
-grep -Fx "adl-runtime::guardian_cli guardian_cli_reports_successful_child_as_json" \
+grep -Fx "adl-runtime::guardian_cli guardian_cli_reports_successful_portable_child_as_json" \
   "$runtime_v3_inventory" >/dev/null
 grep -Fx "adl-runtime::guardian_cli guardian_cli_reports_spawn_failure_without_restart" \
   "$runtime_v3_inventory" >/dev/null

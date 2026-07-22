@@ -34,9 +34,9 @@ adl/tools/test_check_coverage_impact.sh
 
 [
   {
-    "id": "guardian-binary-coverage-selection",
-    "severity": "p1",
-    "summary": "The guardian binary path maps only to guardian library tests; it omits the binary unit test, leaving adl-runtime-guardian.rs at 0/135 under focused llvm-cov.",
+    "id": "guardian-cli-portability",
+    "severity": "p2",
+    "summary": "The black-box success and invalid-input cases hard-code /usr/bin/true, making the required coverage regression Unix-specific despite a cross-platform guardian.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -51,11 +51,11 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Whole-crate all-target Clippy still reports two pre-existing cav.rs lib-test warnings outside the #5590 protected paths; focused guardian_cli Clippy passes.
 
 ## Review Result
 
-Revision: Some("git-blake3:60da76bcee609930a34c1f409be7131aef75e13d:48ee173827b26195151190f46876d1f72b3a4f5b9edc0a0fe9b21ead0b507f94")
+Revision: Some("git-blake3:c74af8bb1928075f2cb9580ffaf906f7d49c509f:175fa7171c0a07f55b9a1de2d6688cb5edb2d0d6812a380568e1dfdecf6a6221")
 
 Reviewer: Some("subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a")
 
