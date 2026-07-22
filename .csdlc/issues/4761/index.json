@@ -1,0 +1,81 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 4761,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "36807e223cd3ec8843cd05ba70c0fcb97781b607454c3b9886199b0050236dca",
+  "phase": "initialized",
+  "generation": 0,
+  "digest": "e82d693a4832702b87e1d266f09c8c30299a793a665d986d914a1ff7d3a49464",
+  "claim": {
+    "id": "prep-4761-v0918-wp14",
+    "owner": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
+    "generation": 0,
+    "acquired_unix_seconds": 1784755804,
+    "expires_unix_seconds": 1785360604,
+    "heartbeat_unix_seconds": 1784755804,
+    "branch": "codex/4761-v0918-wp14-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/4761",
+      ".csdlc/locks/4761.lock",
+      ".csdlc/prepared/issues/4761"
+    ],
+    "purpose": "Preparation only for later execution of the WP-14 v0.92 capability envelope; no implementation, PR, review, merge, or closeout."
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/4761/design.md",
+  "diagram_path": ".csdlc/prepared/issues/4761/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
+      "revision": "1fbbea0320750d00a24ac8c756417c15021596db4ba68651b071d8410dae86dc"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ce3e424edf49ca67b72c8fef29d8afe24b38cea1fec14d74cf0ae6bd0b2d5e2e",
+      "rendered_digest": "7b1bed25c6ade86405512c426890c0b956583335c304d0007d4cac79aa03e017",
+      "ast_digest": "7a6b54d290072c86a59545ec152d1fc5a76bfeda248c64f384caf33b383e8c48"
+    },
+    "stp": {
+      "values_digest": "62a7887ebbf843ed46ee79a44b3f41fa89a1cb11a4aabb40cf0f152e394bed39",
+      "rendered_digest": "006d1d6a57e20f7f6edf72af1d1c851391c52683d8f49586ffaae4e12df448ca",
+      "ast_digest": "7d0f800eb18a6225b15b6517f7738fc3bac592e4c4f5db41075d15d580456d5b"
+    },
+    "spp": {
+      "values_digest": "6ff12cb82d0b44f9aa3803a650291570773d46520633824ae9772187655093d5",
+      "rendered_digest": "e2584a9b8ff8d45e2a3300e95b95448b77b72bf631b4a1aea60a47a038e126d0",
+      "ast_digest": "f2a4484ea20d9abf03f11bdb94f1bcae7b57aa4de4f0ea13dc82c63d92168d3a"
+    },
+    "vpp": {
+      "values_digest": "27422d8765470a9c30d15ed5d7e6c70c7694b5f69fa366db8aacca3be09bb913",
+      "rendered_digest": "2f9cbef9d86bb09e4759eb888ee374ad1036d166879a2be0fc766cf542dbc673",
+      "ast_digest": "841ba78f180b29b4a4a6ea1a6180fa75495708a66bd2c1fc24e9e180d8f40047"
+    },
+    "srp": {
+      "values_digest": "7ea731523a0da952ae9e02e33ac13142738b4ce02cc327098d33ae1b4e8e54d6",
+      "rendered_digest": "3927c80fb701abbabe4bf06484a983f83eb7560d79067c42ac6512b54cb9bcf7",
+      "ast_digest": "103c7bc8b6f9228068f008216e325517ae1e000e78db97045d4e107b8e9ca6b6"
+    },
+    "sor": {
+      "values_digest": "1ade1a5b52e4a95e94958511c97bc3d5f21d22ae10fffa32bfe60309e6e84186",
+      "rendered_digest": "97df2a3a1985e4939de47d25aab8664ffcd8aa0c8c94b4550ece9af6f74ddaf6",
+      "ast_digest": "c393868546cfab4c9e4866d6630b88334e2cb3a10596f575804144562e258c80"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    }
+  ]
+}
