@@ -59,9 +59,9 @@ when "inventory-and-boundary"
   )
   files = Dir.glob("adl-v2/crates/adl-runtime-v3-adapter/{src,tests}/**/*").select { |path| File.file?(path) }
   matches = files.flat_map do |path|
-    File.readlines(path, chomp: true).each_with_index.filter_map do |line, index|
+    File.readlines(path, chomp: true).each_with_index.map do |line, index|
       "#{path}:#{index + 1}:#{line}" if line.match?(forbidden)
-    end
+    end.compact
   end
   unless matches.empty?
     warn matches.join("\n")
