@@ -1,0 +1,19 @@
+{
+  "issue": 5342,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "57c692cd2a889b75a3fa902e6dacbfdd8b21764d5093fa901e42862672f95966",
+  "claim_id": "claim-5342-v0918-wp07-records-signing",
+  "actor": "codex:5342-owner",
+  "reason": "Record the complete exact FastWork proof at implementation commit 77c354522.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", ".csdlc/prepared/issues/5342/validate-records.sh", "all"],
+      "purpose": "Prove records, canonical bytes, real signatures, external trust, replay, strict channels, tamper rejection, COTS, scope, LoC, formatting, strict Clippy, and fresh-process determinism.",
+      "outcome": "passed",
+      "evidence_ref": "Implementation commit 77c354522: 880 implementation LoC; 460 test/fixture LoC; 9 integration tests plus fresh-process harness; all-target tests, tamper target, fmt, strict Clippy, exact COTS, dependency receipts/ancestry, scope, and claim collision checks passed on /Volumes/FastWork."
+    }
+  },
+  "fail_after_backup": false
+}

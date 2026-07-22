@@ -12,19 +12,34 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented bounded ADL v2 stable record contracts, exact canonical bytes, real Ed25519 signed envelopes, external trust policy, atomic replay control, strict channel decoding, and fresh-process verification.
 
 ## Artifacts
 
-- none
+- adl-v2/crates/adl-records
+- .csdlc/prepared/issues/5342/validate-records.sh
 
 ## Execution
 
-- none
+- Added deny-unknown-fields stable error, event, trace, execution-result, and artifact contracts with explicit limits
+- Added exact tagged canonical grammar, SHA-256 payload identities, complete Ed25519 preimage binding, and strict duplicate-key channel decoding
+- Added immutable external trust policy plus caller-owned replay guard with duplicate, rollback, and capacity rejection
+- Added deterministic fresh-process, tamper, bounds, schema, trust, COTS, scope, LoC, formatting, and strict lint proof
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/5342/validate-records.sh",
+      "all"
+    ],
+    "purpose": "Prove records, canonical bytes, real signatures, external trust, replay, strict channels, tamper rejection, COTS, scope, LoC, formatting, strict Clippy, and fresh-process determinism.",
+    "outcome": "passed",
+    "evidence_ref": "Implementation commit 77c354522: 880 implementation LoC; 460 test/fixture LoC; 9 integration tests plus fresh-process harness; all-target tests, tamper target, fmt, strict Clippy, exact COTS, dependency receipts/ancestry, scope, and claim collision checks passed on /Volumes/FastWork."
+  }
+]
 
 ## Integration
 
