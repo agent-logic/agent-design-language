@@ -2,3 +2,4 @@
 {"sequence":2,"generation":0,"actor":"codex:issue-5627-slot-4","reason":"bind branch/worktree and activate claim","operation":"bind"}
 {"sequence":3,"generation":1,"actor":"codex:019f8a5b-d18e-7a43-af0f-670f1e44082a","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":4,"generation":1,"actor":"codex:issue-5627-slot-4","reason":"Include stale-review path classification in the four-command lifecycle repair.","operation":"{\"add_protected_paths\":[\"csdlc-v2/src/git.rs\"],\"operation\":\"amend_claim_scope\"}"}
+{"sequence":5,"generation":2,"actor":"codex:issue-5627-slot-4","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

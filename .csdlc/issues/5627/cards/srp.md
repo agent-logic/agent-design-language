@@ -12,24 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-csdlc-v2/src/pvf.rs
-csdlc-v2/src/store.rs
-csdlc-v2/src/review.rs
-csdlc-v2/src/publication.rs
-csdlc-v2/src/doctor.rs
-csdlc-v2/src/cards.rs
-csdlc-v2/src/bin/csdlc-validate.rs
-csdlc-v2/src/bin/csdlc-review.rs
-csdlc-v2/src/bin/csdlc-publish.rs
-csdlc-v2/tests/gate4.rs
-csdlc-v2/tests/gate5.rs
-csdlc-v2/tests/gate6.rs
-csdlc-v2/tests/gate7_lifecycle.rs
-csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md
-csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md
-csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md
-.csdlc/issues/5627
-.csdlc/prepared/issues/5627
+csdlc-v2/src
+csdlc-v2/tests
+csdlc-v2/operator/skills
 
 ## Prompts
 
@@ -53,8 +38,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1f7a7ad90fb50b40d15eecf5aa2e956f972cc007:af029d7053b726f9e12d3bf2163ca62bf92d7a6eb9c30339cdda1f86ceae5a5f")
 
-Reviewer: None
+Reviewer: Some("subagent:019f8ac1-4c2f-7af0-9686-dd1ed7da93dc")
 
-Result: pre_review
+Result: pass
