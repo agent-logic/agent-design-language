@@ -42,7 +42,11 @@ worktrees.scan(/^worktree (.+)$/).flatten.each do |worktree|
     end
     claim = record["claim"]
     next if claim.nil? || record["issue"] == 5500
-    claim.fetch("protected_paths", []).each do |claimed|
+    protected_paths = claim.fetch("protected_paths")
+    unless protected_paths.is_a?(Array) && !protected_paths.empty? && protected_paths.all? { |path| path.is_a?(String) }
+      abort("active claim has invalid protected_paths: #{index_path}")
+    end
+    protected_paths.each do |claimed|
       candidate = normalized(claimed)
       own.each do |path|
         active << "##{record['issue']}: #{path} overlaps active #{candidate}" if overlaps?(path, candidate)
