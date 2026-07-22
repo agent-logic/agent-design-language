@@ -8,11 +8,11 @@
   },
   "authority": {
     "5498": "planned product path after terminal dependency gates and typed claim amendment",
-    "adjacent": "fail-closed reservation pending confirmation by each issue owner"
+    "adjacent": "confirmed disjoint against the current issue-owner preparation claims and reviewed product reservations"
   },
   "confirmations": {
-    "5499": "pending",
-    "5500": "pending",
-    "5502": "pending"
+    "5499": "confirmed",
+    "5500": "confirmed",
+    "5502": "confirmed"
   }
 }
