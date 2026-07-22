@@ -1,0 +1,28 @@
+{
+  "issue": 5624,
+  "expected_generation": 10,
+  "expected_digest": "96142ddf1d26d00b1fe181ea5ef887a3c384f4b7731784b21c0d15a3f6a8c95f",
+  "claim_id": "claim-5624-csdlc-prune-topology",
+  "actor": "subagent:codex-5624-ci-repair-review",
+  "evidence": {
+    "reviewer": "subagent:codex-5624-ci-repair-review",
+    "scope": [
+      "adl/tools/run_cargo_validation.sh",
+      "adl/tools/test_run_cargo_validation.sh",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/proof.rs",
+      "csdlc-v2/src/readiness.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate7.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs",
+      ".csdlc/issues/5624",
+      ".csdlc/prepared/issues/5624",
+      ".csdlc/evidence/5624"
+    ],
+    "reviewed_revision": "git-blake3:9c303ba0cbd0a88eaf0963e23419e82f606c97aa:d5c09700d1e2586e383ae287f54a8c6486cb76d0a11df4b49b67a6f41f2f9280",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

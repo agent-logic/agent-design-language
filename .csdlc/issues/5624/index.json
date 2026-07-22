@@ -3,13 +3,13 @@
   "issue": 5624,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "304bc75a127522c6590ce93430b3be8b667c66b0bf3e3655403207b67290c8f5",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "819b6616d07363d959ffcb6f954705785d1340deb1dec2586dc658b4d0320d7e",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "b4b7776e87c4b10a15fa9a9d8f3bfd6c3065a5eefd4f655c4f42211ea81b0f4d",
   "claim": {
     "id": "claim-5624-csdlc-prune-topology",
     "owner": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
-    "generation": 10,
+    "generation": 12,
     "acquired_unix_seconds": 1784728873,
     "expires_unix_seconds": 1784815273,
     "heartbeat_unix_seconds": 1784728873,
@@ -30,8 +30,45 @@
     ],
     "purpose": "Repair guarded prune topology resolution without changing terminal evidence"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:codex-5624-ci-repair-review",
+    "assigned_by": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+    "revision": "git-blake3:9c303ba0cbd0a88eaf0963e23419e82f606c97aa:d5c09700d1e2586e383ae287f54a8c6486cb76d0a11df4b49b67a6f41f2f9280",
+    "scope": [
+      "adl/tools/run_cargo_validation.sh",
+      "adl/tools/test_run_cargo_validation.sh",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/proof.rs",
+      "csdlc-v2/src/readiness.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate7.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs",
+      ".csdlc/issues/5624",
+      ".csdlc/prepared/issues/5624",
+      ".csdlc/evidence/5624"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:codex-5624-ci-repair-review",
+    "scope": [
+      "adl/tools/run_cargo_validation.sh",
+      "adl/tools/test_run_cargo_validation.sh",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/proof.rs",
+      "csdlc-v2/src/readiness.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate7.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs",
+      ".csdlc/issues/5624",
+      ".csdlc/prepared/issues/5624",
+      ".csdlc/evidence/5624"
+    ],
+    "reviewed_revision": "git-blake3:9c303ba0cbd0a88eaf0963e23419e82f606c97aa:d5c09700d1e2586e383ae287f54a8c6486cb76d0a11df4b49b67a6f41f2f9280",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -46,32 +83,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e3155786ef629241f640e1af1a850887c095de369c2c03884f40724d08ec32f6",
+      "values_digest": "7aa36908d6ca84bb7f53a1c7541ab497c34dec66b37eb197bdff0d1c98c57f08",
       "rendered_digest": "06e5ab1be8cc7d5816ec72758e04559f7684d528bd7b46c0647bede733c57a22",
       "ast_digest": "094674ef061582ab0bcf312f027c55d3877cfc2fc61d0952750ecb201e691d86"
     },
     "stp": {
-      "values_digest": "4846632d01afc2817e176cd486ad9d570b9b370bc3e2e3ea9697e5a8dc5eced8",
+      "values_digest": "c3b933f96c7698d0bbab2b330c84e983b4a2bfa66206d9197b07508f37c48916",
       "rendered_digest": "eebaf5f062ae8503f17e787a5637e20cd0437a0d319929cce3f45871fff97f0f",
       "ast_digest": "1230e46e7ca236a55a6d951e35884fd82b312507f9cf49b1090f995fa3faecba"
     },
     "spp": {
-      "values_digest": "70d1651a3527ef8b23a53dea6d8a3f533a566dee0fcd79b841c5c33a3eb8642f",
+      "values_digest": "60abc607d97982b2cb6248d5a27a7f57bffdccbd7478b147cc5ff866e4981fcf",
       "rendered_digest": "02a13340e8e4f6f2ea9374b9dd5f07ecc531f7ae16d32fe3f1a47dd9f72ad379",
       "ast_digest": "df1bdf54aeec330351e91915758d99b1c3f77841dda23f7cc50e5cc8773a4182"
     },
     "vpp": {
-      "values_digest": "cea3ae780013c4c38d9a7da1052eb64daf01bc387b6dfb4ad71922c04cdef238",
+      "values_digest": "b66613c3adb83abfe65b69a50113b2c3442ec4d6991a19306d61f17dc79edf36",
       "rendered_digest": "45f9cff3c88464d4edeff0d54ffd43a4fa96ec78056407d165d40cf98daab741",
       "ast_digest": "859e4740d233dfd2bf86a0cbc3cd81d5d4a158bc4754f3cf37587c79f646519e"
     },
     "srp": {
-      "values_digest": "abd5dfd3034fcb40775e7d055edb851bfe50e3cc6bfbb10b53a486062e8107f7",
-      "rendered_digest": "a5a78a470a414120d9decf81bcce8bac7da4ff8ae1700bf58af278b18c9309e0",
-      "ast_digest": "0db995696113421ef2853a2dc7f24fa4493f5011b324c8af4e15867a608372de"
+      "values_digest": "d0b9196d92075fd6dcd931866e7802b4739dc7d41dbd58e42a7217a105c7dafd",
+      "rendered_digest": "10b91a8fee448505019541c8f006b1704bf0a267e7744ea87caf7ad2cad2ace5",
+      "ast_digest": "0b24f970e0e1fd7acc27d09171659720114e4d51701fe1c83452f3faa39c6e2a"
     },
     "sor": {
-      "values_digest": "598ebf416d7de2a1baf7496a9931a1fba276b6eeca06eb3b899528377e03dca7",
+      "values_digest": "d26b2b6a993aab0138fa8f1d5b99dd4552952a0d5ec356f69b487be042f7b387",
       "rendered_digest": "6bd3ba2a0bc74a7d06f25c9fff248eb1fb25f461efceb59db5f4bd6572e25e78",
       "ast_digest": "2edf317550f547a719b70dcb9866eb6ef1156ff9dd74381c6147540de5f0ebd4"
     }
@@ -118,6 +155,13 @@
       "to": "implemented",
       "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
       "reason": "Recover the published review after exact-head CI proved the checkout target symlink violates Gate 10A clean-source provenance."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "The single exact-revision CI-repair review completed with zero findings and zero blockers."
     }
   ],
   "audit": [
@@ -218,6 +262,27 @@
       "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
       "reason": "Record the single consolidated post-CI-repair validation packet.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/5624/run_focused_validation.sh\"],\"purpose\":\"Prove the external Cargo target contract, Gate 10A provenance, guarded prune behavior, complete C-SDLC v2 suite, formatting, and strict Clippy in one FastWork run.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5624/validation-a2c79708e.json\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "subagent:codex-5624-ci-repair-review",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "The single exact-revision CI-repair review completed with zero findings and zero blockers.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
