@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.merged_publication_reconciliation_request.v1",
+  "publication": {
+    "schema": "csdlc.publication_request.v1",
+    "issue": 5624,
+    "expected_generation": 22,
+    "expected_digest": "d0ef25a346544777034018eafb279829067c6d7ad74c9ebf930dceb7c27c17d7",
+    "claim_id": "claim-5624-csdlc-prune-topology",
+    "actor": "codex:issue-5624-slot-1",
+    "repository": "danielbaustin/agent-design-language",
+    "base": "main",
+    "head": "codex/5624-csdlc-prune-topology",
+    "title": "[v0.91.8][csdlc-v2][prune] Resolve issue-local terminal worktree topology safely",
+    "body": "Closes #5624\n\nResolves literal dot, exact absolute, and repository-relative terminal worktree identities to one canonical checkout before guarded prune. Exact branch, live worktree topology, and cleanliness remain mandatory; malformed, missing, traversal, suffix-collision, wrong-checkout, wrong-branch, and dirty targets fail closed. Terminal receipt bytes are never rewritten.\n\nFocused prune tests, command-level issue-local closeout proof, the complete C-SDLC v2 all-target suite, formatting, and strict Clippy pass on /Volumes/FastWork. The assigned exact-revision review completed with zero findings.",
+    "draft": false,
+    "remote": "origin",
+    "token_file": "/Users/daniel/keys/github.token"
+  },
+  "pull_request": 5625
+}
