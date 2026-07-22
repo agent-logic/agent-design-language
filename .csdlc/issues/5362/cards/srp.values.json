@@ -1,0 +1,28 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5362,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-21] Align feature list and v0.92 planning truth",
+    "slug": "v0918-wp21-feature-list-v092-planning-truth",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Future review only; preparation performs no review churn.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are feature dispositions evidence-bound?",
+        "Do v0.92 inputs avoid birthday implementation claims?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
