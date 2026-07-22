@@ -1,0 +1,21 @@
+{
+  "schema": "csdlc.readiness_request.v1",
+  "issue": 5615,
+  "expected_generation": 21,
+  "expected_digest": "8a8115d0a31d3cffdc176ec1200cfc46724ca19a53fa70056b8948c57a7107bd",
+  "claim_id": "claim-5615-csdlc-ci-fastwork-routing",
+  "actor": "codex:5615-owner",
+  "pull_request": 5622,
+  "head_sha": "7fd0cd063c40e7a0dc181e1546f1963a4c4cfbef",
+  "required_checks": ["adl-ci", "adl-coverage", "adl-tooling-contracts", "adl-path-policy"],
+  "require_review": false,
+  "checks": [
+    {"name":"adl-ci","requirement":"required","conclusion":"success","details_url":"https://github.com/danielbaustin/agent-design-language/actions/runs/29925346068/job/88941265472"},
+    {"name":"adl-coverage","requirement":"required","conclusion":"success","details_url":"https://github.com/danielbaustin/agent-design-language/actions/runs/29925346068/job/88941027686"},
+    {"name":"adl-tooling-contracts","requirement":"required","conclusion":"success","details_url":"https://github.com/danielbaustin/agent-design-language/actions/runs/29925346068/job/88940982779"},
+    {"name":"adl-path-policy","requirement":"required","conclusion":"success","details_url":"https://github.com/danielbaustin/agent-design-language/actions/runs/29925346068/job/88940934472"}
+  ],
+  "review_state": "not_required",
+  "conflict_state": "clean",
+  "post_publication_findings": []
+}

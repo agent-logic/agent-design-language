@@ -3,33 +3,10 @@
   "issue": 5615,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "36d04edef06074ba46ddc14aab9493fc35023e2395b1fac82d2c714b0cde44e0",
-  "phase": "merge_ready",
-  "generation": 20,
-  "digest": "719065eb69c6d69f863a25d44cc2d41c6d67794ef0bd5779e0a9b1c3f46b157e",
-  "claim": {
-    "id": "claim-5615-csdlc-ci-fastwork-routing",
-    "owner": "codex:5615-owner",
-    "generation": 20,
-    "acquired_unix_seconds": 1784669026,
-    "expires_unix_seconds": 1784755426,
-    "heartbeat_unix_seconds": 1784669026,
-    "branch": "codex/5615-csdlc-ci-fastwork-routing",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/evidence/5615",
-      ".csdlc/issues/5615",
-      ".csdlc/prepared/issues/5615",
-      ".github/workflows/ci.yaml",
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/ci_path_policy.sh",
-      "adl/tools/run_cargo_validation.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_run_cargo_validation.sh",
-      "adl/tools/test_select_validation_lanes.sh"
-    ],
-    "purpose": "Implement focused C-SDLC CI classification and portable external Cargo build routing"
-  },
+  "phase": "closed_out",
+  "generation": 23,
+  "digest": "5a88c868ddf8666a1edeaa1e2a1f589f38c6331b04dec2a5c1ff9fc442fa008b",
+  "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019f86da-0771-72d1-bbeb-a9aead4be515",
     "assigned_by": "codex:5615-owner",
@@ -60,37 +37,37 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5622",
     "base": "main",
     "head": "codex/5615-csdlc-ci-fastwork-routing",
-    "revision": "git-blake3:4e8d515d046469171f4f9b301cd764f4643a3717:69b3dfa89fb0f0b4b955e30639ee8da6f74e78f5d3ebb71a07248131a08f29d1",
+    "revision": "git-blake3:7fd0cd063c40e7a0dc181e1546f1963a4c4cfbef:c40bff248420d277359a4ed98bfb085f43efccf71cb6a4e3809d7d9934ed6f67",
     "draft": false,
-    "observed_state": "open"
+    "observed_state": "merged"
   },
   "readiness": {
     "pull_request": 5622,
-    "head_sha": "4e8d515d046469171f4f9b301cd764f4643a3717",
+    "head_sha": "7fd0cd063c40e7a0dc181e1546f1963a4c4cfbef",
     "checks": [
       {
         "name": "adl-ci",
         "requirement": "required",
         "conclusion": "success",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29925055505/job/88940260843"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29925346068/job/88941265472"
       },
       {
         "name": "adl-coverage",
         "requirement": "required",
         "conclusion": "success",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29925055505/job/88940064722"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29925346068/job/88941027686"
       },
       {
         "name": "adl-tooling-contracts",
         "requirement": "required",
         "conclusion": "success",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29925055505/job/88940006624"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29925346068/job/88940982779"
       },
       {
         "name": "adl-path-policy",
         "requirement": "required",
         "conclusion": "success",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29925055505/job/88939961157"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29925346068/job/88940934472"
       }
     ],
     "review_state": "not_required",
@@ -99,7 +76,28 @@
     "ready": true,
     "blockers": []
   },
-  "terminal": null,
+  "terminal": {
+    "pull_request": 5622,
+    "disposition": "merged",
+    "observed_sha": "7fd0cd063c40e7a0dc181e1546f1963a4c4cfbef",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5615.json",
+    "released_branch": "codex/5615-csdlc-ci-fastwork-routing",
+    "released_worktree": ".",
+    "released_protected_paths": [
+      ".csdlc/evidence/5615",
+      ".csdlc/issues/5615",
+      ".csdlc/prepared/issues/5615",
+      ".github/workflows/ci.yaml",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/run_cargo_validation.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_run_cargo_validation.sh",
+      "adl/tools/test_select_validation_lanes.sh"
+    ]
+  },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5615/design.md",
   "diagram_path": ".csdlc/prepared/issues/5615/diagram.mmd",
@@ -111,34 +109,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b2cb93ad55436a15edd611f5fdf6de50af0951dd5b0c33208abc0507ae3e8385",
+      "values_digest": "0e3cce62cf24de502486ecc8f7fb5d9a37853aa7c5ec3ca19ec70d64271b4376",
       "rendered_digest": "be640d024da16ba461e342ca879bd18ccb5a94d3e2e30929a32e8cd5c5f934e8",
       "ast_digest": "bc5391a707067b1bbc3d2de5e4c96dc08f93b1432936430e49ca9d1b800dff97"
     },
     "stp": {
-      "values_digest": "16f23eab6d6c2eb3b9070a2fca71f6454e51203757e5d48834050d394460584c",
+      "values_digest": "f5c161a49fdd1e0bbcfa535fa5dc948fa134b1efa9d195a67518474c9f5e9c35",
       "rendered_digest": "f7a191e9d029748eb3099859f1538f9aad0d923ec8b93be1fe014c1e81608ca8",
       "ast_digest": "b64629174c1fb8dd2121ab2ca4b014eaca6d4249bd88572a9bada856f3b1fe15"
     },
     "spp": {
-      "values_digest": "2ac458fc6b82e073c82d73191ca77cd11b7ddd8456153bdb63082f4530678a28",
+      "values_digest": "bf02274a06e0852860e42c576521a8f5e6ee112c7a3c1d6d6c0ed60877369652",
       "rendered_digest": "973dd60787d6042b0950e1a9a8c8fc276f57b00b6dfaca30337d1111749b7fce",
       "ast_digest": "396c5db84e434ad1a9493920bf66c41387cb028376e4d47a8a7c7115f5721fc9"
     },
     "vpp": {
-      "values_digest": "dba845c38f2ba174a96a3d804861420b32d42ec7d612c52844d868d76ccd2c2b",
+      "values_digest": "53a1f8e9f9c90d41b6c6fb5975797ca3916f41f8cee1f1a4b4aad41d88f43bf9",
       "rendered_digest": "1a0def1323d9b5974aa111585d67017f3dd9ae217d48107f0f33f6ba0ac54929",
       "ast_digest": "0924498c22b4cdffb38c7c2b3a69f979a971b4f52b1111cbde5322bbc0237bc7"
     },
     "srp": {
-      "values_digest": "d97640c1e899be27cdfcccc56b240a974a7e53fe45657c6f7639e64c0535a47c",
+      "values_digest": "703fe07fd289b4d6dab0711ef0f332b2ebe61e3a5856ff2a405f677d4d5cc696",
       "rendered_digest": "ac75da82076ea873b4d1b08d11dc8b89c4649b1ccefd948d21ec6d7a673f46da",
       "ast_digest": "eba3f7bb9cff55f78554c6d2c4b60bc7189595ac767ef99b6ec3b866daf87e69"
     },
     "sor": {
-      "values_digest": "399636277eb0b39a3acf303b5d868004c89427bf4d571c404bf9b0e32579ad5a",
-      "rendered_digest": "72a643ec019d0d4aeb9386ddd02b1af2c3835d58b2c2853c96534d8b48903261",
-      "ast_digest": "310bf4b4d47bc5cb59e41a27e2a7682722e4d3b50a77ab31846c4cd9b28ff2c2"
+      "values_digest": "3e132df4d08409d69da1dc9fe9fa0842b8d1318a7cba168a52216ff38c775401",
+      "rendered_digest": "1a11ce00b08147724ff3ec9c909058274de2f170a4ab59e9a3d99ddc6455947f",
+      "ast_digest": "9fded9cc153cc428d48f81688241fb53b9573c5f7bfd30ff713e65176f146990"
     }
   },
   "transitions": [
@@ -204,6 +202,20 @@
       "to": "merge_ready",
       "actor": "codex:5615-owner",
       "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 10,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:5615-owner",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 11,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:5615-owner",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -402,6 +414,27 @@
       "actor": "codex:5615-owner",
       "reason": "record normalized remote readiness without replacing pre-publication review",
       "operation": "record_readiness_reconcile_metadata_only_published_revision"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "codex:5615-owner",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:5615-owner",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex:5615-owner",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
     }
   ]
 }
