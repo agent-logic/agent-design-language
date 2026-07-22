@@ -54,6 +54,18 @@ fn selector_select_inspect_and_rollback_are_transactional() {
         .output()
         .expect("select");
     assert!(selected.status.success());
+    let stale = cli()
+        .args([
+            "select",
+            "v2",
+            "--expected-current-digest",
+            "deadbeef",
+            "--root",
+            root.path().to_str().unwrap(),
+        ])
+        .output()
+        .expect("stale select");
+    assert!(!stale.status.success());
     let receipt: serde_json::Value = serde_json::from_slice(&selected.stdout).expect("receipt");
     assert_eq!(receipt["schema"], "adl.selector.receipt.v1");
 
