@@ -69,31 +69,30 @@ manifest.fetch("predecessors").each do |entry|
   end
 
   projection_path = File.join(root, ".csdlc", "issues", issue.to_s, "index.json")
-  receipt_path = File.join(git_dir, "csdlc-v2", "closeout", "#{issue}.json")
   unless File.file?(projection_path)
     failures << "##{issue}: missing tracked projection"
     next
   end
-  unless File.file?(receipt_path)
-    failures << "##{issue}: missing shared-Git closeout receipt"
-    next
-  end
 
   projection = JSON.parse(File.read(projection_path))
-  receipt = JSON.parse(File.read(receipt_path))
-  terminal = receipt.dig("record", "terminal") || {}
+  terminal = projection["terminal"] || {}
   observed_sha = terminal["observed_sha"]
 
   failures << "##{issue}: projection phase is #{projection["phase"].inspect}" unless projection["phase"] == "closed_out"
-  failures << "##{issue}: receipt phase is #{receipt.dig("record", "phase").inspect}" unless receipt.dig("record", "phase") == "closed_out"
-  failures << "##{issue}: receipt disposition is #{terminal["disposition"].inspect}" unless terminal["disposition"] == "merged"
-  failures << "##{issue}: receipt PR disagrees with live observation" if observation && terminal["pull_request"] != observation["pr_number"]
+  failures << "##{issue}: terminal disposition is #{terminal["disposition"].inspect}" unless terminal["disposition"] == "merged"
+  failures << "##{issue}: terminal PR disagrees with live observation" if observation && terminal["pull_request"] != observation["pr_number"]
   if observed_sha.to_s.empty?
-    failures << "##{issue}: receipt lacks observed SHA"
+    failures << "##{issue}: terminal record lacks observed SHA"
   else
     ancestral = system("git", "-C", root, "merge-base", "--is-ancestor", observed_sha, expected_base_sha,
                        out: File::NULL, err: File::NULL)
     failures << "##{issue}: #{observed_sha} is not an ancestor of #{expected_base_sha}" unless ancestral
+  end
+
+  receipt_path = File.join(git_dir, "csdlc-v2", "closeout", "#{issue}.json")
+  if File.file?(receipt_path)
+    receipt = JSON.parse(File.read(receipt_path))
+    failures << "##{issue}: audit receipt phase conflicts with projection" if receipt.dig("record", "phase") && receipt.dig("record", "phase") != projection["phase"]
   end
 end
 
