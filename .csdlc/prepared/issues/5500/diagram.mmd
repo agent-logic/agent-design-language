@@ -13,8 +13,8 @@ flowchart TD
     D -. "never owns" .-> X["Mutation / task control / replan / merge / closeout"]
     X --> B["Typed owner binaries and adapters"]
 
-    D5498["#5498 merged + typed closed_out"] --> Gate["Execution dependency gate"]
-    D5349["#5349 WP-09 merged + typed closed_out"] --> Gate
+    D5498["#5498 live-merged + ancestral"] --> Gate["Execution dependency gate"]
+    D5349["#5349 WP-09 live-merged + ancestral"] --> Gate
     Gate --> N
 
     S5502["#5502 convergence and replanning"] -. "disjoint sibling" .-> D

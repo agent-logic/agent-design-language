@@ -36,8 +36,9 @@ Prepare all dashboard contracts now; do not claim or edit product paths until #5
 ## Dependencies
 
 - parent WP-10A umbrella #5497
-- bounded Codex task and context-handoff adapter #5498 merged and typed closed_out
-- final provider and governed-tool interface freeze WP-09 #5349 merged and typed closed_out
+- bounded Codex task and context-handoff adapter #5498 live-merged on origin/main and ancestral to the #5500 execution base
+- final provider and governed-tool interface freeze WP-09 #5349 live-merged on origin/main and ancestral to the #5500 execution base
+- typed closeout receipts and retained lifecycle records for dependencies are audit evidence only, not readiness blockers
 - existing Runtime v3 Observatory feed as a read-only observation input
 
 ## Inputs

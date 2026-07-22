@@ -26,7 +26,7 @@
     "slug": "v0-91-8-wp-10a-read-only-workcell-dashboard",
     "version": "v0.91.8",
     "goal": "Prepare the existing milestone dashboard to become a secure read-only operator projection for distributed C-SDLC workcell and Runtime v3 Observatory state without acquiring mutation or lifecycle authority.",
-    "required_outcome": "After #5498 and final WP-09 gate #5349 are terminal, one mobile-capable dashboard deterministically presents typed retained workcell state plus bounded live Runtime v3 observations with explicit provenance, freshness, and authority labels.",
+    "required_outcome": "After #5498 and final WP-09 gate #5349 are live-merged on origin/main and ancestral to the #5500 execution base, one mobile-capable dashboard deterministically presents typed retained workcell state plus bounded live Runtime v3 observations with explicit provenance, freshness, and authority labels.",
     "declared_scope": [
       "extend docs/tooling/milestone-dashboard instead of creating a new framework",
       "typed generated workcell snapshot normalization and rendering",
@@ -44,7 +44,7 @@
       "Use installed typed C-SDLC v2 binaries and semantic card operations only",
       "Keep root main clean; all tracked #5500 work stays in its dedicated issue worktree",
       "Do not use raw gh, AWS, credentials, provider calls, Runtime v2, product implementation, publication, or PR creation during preparation",
-      "Do not implement until #5498 and #5349 are merged, typed closed_out, receipt-backed, claim-free, and ancestral",
+      "Do not implement until #5498 and #5349 are live-merged on origin/main and ancestral to the execution base; typed closeout receipts are audit evidence only",
       "Use /Volumes/FastWork for build and validation output",
       "Run bounded preparation review, fix every actionable finding, then commit and push preparation only"
     ],
@@ -55,7 +55,7 @@
       "preparation-only protected-path claim disjoint from #5502 and other workcell children",
       "executable dependency, preparation, and future dashboard validation contracts",
       "COTS, LoC/test/time budgets, PVF lanes, security and non-authority boundaries",
-      "bounded independent preparation review with findings fixed"
+      "one bounded implementation review immediately before PR; no preparation review churn"
     ],
     "acceptance_criteria": [
       "AC-1: Extend docs/tooling/milestone-dashboard and compose with the existing Runtime v3 Observatory rather than creating another dashboard framework or backend",
@@ -68,8 +68,9 @@
     ],
     "dependencies": [
       "parent WP-10A umbrella #5497",
-      "bounded Codex task and context-handoff adapter #5498 merged and typed closed_out",
-      "final provider and governed-tool interface freeze WP-09 #5349 merged and typed closed_out",
+      "bounded Codex task and context-handoff adapter #5498 live-merged on origin/main and ancestral to the #5500 execution base",
+      "final provider and governed-tool interface freeze WP-09 #5349 live-merged on origin/main and ancestral to the #5500 execution base",
+      "typed closeout receipts and retained lifecycle records for dependencies are audit evidence only, not readiness blockers",
       "existing Runtime v3 Observatory feed as a read-only observation input"
     ],
     "repo_inputs": [
@@ -92,10 +93,10 @@
     ],
     "plan_summary": "Prepare and independently review a small read-only extension of the existing milestone dashboard, hold product scope behind exact #5498/#5349 terminal gates, then later implement deterministic secure fixture-backed projection and Runtime Observatory composition.",
     "steps": [
-      {"id":"S1","action":"Render, validate, and independently review all six cards, design, diagram, dependencies, protected paths, COTS, budgets, security boundaries, and PVF lanes","status":"pending","acceptance_ids":["AC-1","AC-3","AC-4","AC-7"]},
-      {"id":"S2","action":"Wait fail-closed for #5498 and final gate #5349 merged typed closeout, claim release, retained receipts, and ancestry","status":"pending","acceptance_ids":["AC-1","AC-4"]},
+      {"id":"S1","action":"Render and validate all six cards, design, diagram, dependencies, protected paths, COTS, budgets, security boundaries, and PVF lanes without adding preparation review churn","status":"pending","acceptance_ids":["AC-1","AC-3","AC-4","AC-7"]},
+      {"id":"S2","action":"Wait fail-closed for #5498 and final gate #5349 to be live-merged on origin/main and ancestral to the #5500 execution base; retain typed closeout receipts as audit evidence only","status":"pending","acceptance_ids":["AC-1","AC-4"]},
       {"id":"S3","action":"Extend the existing dashboard with typed snapshot and bounded live observation adapters, safe deterministic rendering, mobile layout, and zero mutation capability","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"]},
-      {"id":"S4","action":"Run focused and full proof, exact-revision review, typed publication, serialized merge, post-merge validation, and closeout","status":"pending","acceptance_ids":["AC-3","AC-4","AC-5","AC-6","AC-7"]}
+      {"id":"S4","action":"Run focused and full proof, exact-revision implementation review immediately before PR, typed publication, serialized merge, post-merge validation, and closeout","status":"pending","acceptance_ids":["AC-3","AC-4","AC-5","AC-6","AC-7"]}
     ],
     "risks": [
       "the view could accidentally become a second source of truth or mutation surface",
@@ -115,7 +116,7 @@
       "deterministic safe rendering with explicit provenance and freshness"
     ],
     "stop_conditions": [
-      "#5498 or #5349 lacks a merged typed closed_out receipt, released claim, or ancestry",
+      "#5498 or #5349 is not live-merged on origin/main or its merged revision is not ancestral to the #5500 execution base",
       "a future dashboard path overlaps an active typed claim including #5502 or another workcell child",
       "implementation requires mutation, a second state store, a backend, or lifecycle authority",
       "live access cannot remain authenticated HTTPS and configuration-driven",
@@ -132,8 +133,8 @@
     "planning_profile": "medium",
     "validation_lanes": [
       {"lane":"preparation-contract","proof_role":"Prove six-card, design, diagram, dependency, scope, COTS, budget, security, and no-product-change preparation truth","deterministic":true,"resource_profile":"small","parallel_group":"preparation-local","budget_seconds":120,"budget_tokens":2000,"argv":["ruby",".csdlc/prepared/issues/5500/validate-preparation.rb"],"acceptance_ids":["AC-1","AC-3","AC-4","AC-7"]},
-      {"lane":"dependency-gate","proof_role":"Fail closed until #5498 and final WP-09 gate #5349 have merged typed closeout receipts, released claims, and ancestry","deterministic":true,"resource_profile":"small","parallel_group":"preparation-local","budget_seconds":60,"budget_tokens":1000,"argv":["ruby",".csdlc/prepared/issues/5500/check-dependencies.rb"],"acceptance_ids":["AC-1","AC-4"]},
-      {"lane":"dashboard-contract","proof_role":"Run offline deterministic dashboard fixture, security, mobile-layout, syntax, and non-authority tests after dependency admission","deterministic":true,"resource_profile":"small","parallel_group":"dashboard-local","budget_seconds":120,"budget_tokens":3000,"argv":["bash",".csdlc/prepared/issues/5500/validate-dashboard.sh"],"acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],"defer_reason":"Preparation only: do not select until #5498 and #5349 are merged, typed closed_out, receipt-backed, claim-free, and ancestral"},
+      {"lane":"dependency-gate","proof_role":"Fail closed until #5498 and final WP-09 gate #5349 are live-merged on origin/main and ancestral to the #5500 execution base; typed closeout receipts are audit evidence only","deterministic":true,"resource_profile":"small","parallel_group":"preparation-local","budget_seconds":60,"budget_tokens":1000,"argv":["ruby",".csdlc/prepared/issues/5500/check-dependencies.rb"],"acceptance_ids":["AC-1","AC-4"]},
+      {"lane":"dashboard-contract","proof_role":"Run offline deterministic dashboard fixture, security, mobile-layout, syntax, and non-authority tests after dependency admission","deterministic":true,"resource_profile":"small","parallel_group":"dashboard-local","budget_seconds":120,"budget_tokens":3000,"argv":["bash",".csdlc/prepared/issues/5500/validate-dashboard.sh"],"acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],"defer_reason":"Preparation only: do not select until #5498 and #5349 are live-merged on origin/main and ancestral to the #5500 execution base"},
       {"lane":"diff-hygiene","proof_role":"Verify exact issue-branch preparation patch hygiene","deterministic":true,"resource_profile":"small","parallel_group":"preparation-local","budget_seconds":60,"budget_tokens":1000,"argv":["bash",".csdlc/prepared/issues/5500/check-preparation-diff.sh"],"acceptance_ids":["AC-7"]}
     ],
     "failure_policy": "Fail closed on absent or stale terminal dependencies, overlapping paths, malformed or oversized input, unsupported schema, unsafe URL/origin, freshness ambiguity, credential exposure, mutation capability, authority confusion, nondeterministic output, or budget breach; blocked preparation never grants product authority.",

@@ -28,7 +28,7 @@ abort("unexpected protected paths") unless claim.fetch("protected_paths").sort =
 abort("claim grants product authority") if claim.fetch("protected_paths").any? { |path| path.start_with?("docs/tooling/", "adl/tools/") }
 
 text = required.select { |path| %w[.md .mmd].include?(path.extname) }.map(&:read).join("\n")
-%w[#5498 #5349 #5502 read-only HTTPS stale unknown non-authoritative 2,000 3,600].each do |needle|
+%w[#5498 #5349 #5502 read-only HTTPS stale unknown non-authoritative audit-only 2,000 3,600].each do |needle|
   abort("missing preparation contract term #{needle}") unless text.include?(needle)
 end
 abort("design creates a second dashboard") unless text.include?("No second dashboard framework")
@@ -57,6 +57,8 @@ dependency = JSON.parse(stdout)
 unless status.success? || (status.exitstatus == 3 && dependency["status"] == "waiting")
   abort("dependency gate did not return ready or truthful waiting")
 end
+abort("dependency predicate drift") unless dependency["predicate"] == "live merge on origin/main plus ancestry to HEAD"
+abort("typed closeout receipts must remain audit-only") unless dependency.fetch("audit_only").include?("typed closeout receipts")
 
 _diff_out, diff_err, diff_status = Open3.capture3("bash", prepared.join("check-preparation-diff.sh").to_s, chdir: root.to_s)
 abort("diff hygiene failed: #{diff_err}") unless diff_status.success?

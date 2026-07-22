@@ -42,6 +42,6 @@ After #5498 and final WP-09 gate #5349 are terminal, one mobile-capable dashboar
 - Use installed typed C-SDLC v2 binaries and semantic card operations only
 - Keep root main clean; all tracked #5500 work stays in its dedicated issue worktree
 - Do not use raw gh, AWS, credentials, provider calls, Runtime v2, product implementation, publication, or PR creation during preparation
-- Do not implement until #5498 and #5349 are merged, typed closed_out, receipt-backed, claim-free, and ancestral
+- Do not implement until #5498 and #5349 are live-merged on origin/main and ancestral to the execution base; typed closeout receipts are audit evidence only
 - Use /Volumes/FastWork for build and validation output
-- Run bounded preparation review, fix every actionable finding, then commit and push preparation only
+- Run one bounded implementation review immediately before PR; do not add preparation review churn

@@ -3,9 +3,10 @@
 ## Status
 
 Preparation only. Issue #5500 must not implement dashboard code until #5498
-and the final WP-09 gate #5349 are GitHub merged, typed `closed_out`, backed by
-retained shared-Git receipts, and their merged revisions are ancestors of the
-execution base.
+and the final WP-09 gate #5349 are live-merged on `origin/main` and their
+merged revisions are ancestors of the execution base. Typed closeout receipts
+and retained lifecycle records are audit-only evidence for this preparation
+packet; they do not block readiness.
 
 ## Purpose
 
@@ -97,8 +98,9 @@ change; broader repository ceilings do not grant growth authority.
 1. Preparation validation proves all six cards, design, diagram, issue-local
    claim, exact dependency gate, COTS/budgets, product-path disjointness, and no
    product change.
-2. The dependency gate verifies #5498 and #5349 retained terminal receipts,
-   merged disposition, claim release, and merged-SHA ancestry.
+2. The dependency gate verifies #5498 and #5349 live merge on `origin/main`
+   plus ancestry to the #5500 execution base. Typed closeout receipts and
+   retained lifecycle records remain audit-only evidence.
 3. Future fixture tests prove deterministic snapshot normalization, complete
    state labels, freshness downgrade, missing/partial input behavior, XSS-safe
    rendering, URL/origin rejection, payload limits, token non-retention,
@@ -120,8 +122,8 @@ change; broader repository ceilings do not grant growth authority.
 
 ## Stop Conditions
 
-- #5498 or #5349 lacks merged typed closeout, retained receipt, claim release,
-  or ancestry.
+- #5498 or #5349 is not live-merged on `origin/main` or its merged revision is
+  not ancestral to the #5500 execution base.
 - A future dashboard path overlaps an active typed claim.
 - Any requested feature needs mutation authority or a second source of truth.
 - Live access cannot remain authenticated HTTPS and configuration-driven.

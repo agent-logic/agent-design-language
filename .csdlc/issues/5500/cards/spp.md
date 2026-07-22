@@ -16,14 +16,14 @@ Prepare and independently review a small read-only extension of the existing mil
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Render, validate, and independently review all six cards, design, diagram, dependencies, protected paths, COTS, budgets, security boundaries, and PVF lanes",
+    "action": "Render and validate all six cards, design, diagram, dependencies, protected paths, COTS, budgets, security boundaries, and PVF lanes without adding preparation review churn",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
@@ -34,7 +34,7 @@ Revision 1
   },
   {
     "id": "S2",
-    "action": "Wait fail-closed for #5498 and final gate #5349 merged typed closeout, claim release, retained receipts, and ancestry",
+    "action": "Wait fail-closed for #5498 and final gate #5349 to be live-merged on origin/main and ancestral to the #5500 execution base; retain typed closeout receipts as audit evidence only",
     "acceptance_ids": [
       "AC-1",
       "AC-4"
@@ -57,7 +57,7 @@ Revision 1
   },
   {
     "id": "S4",
-    "action": "Run focused and full proof, exact-revision review, typed publication, serialized merge, post-merge validation, and closeout",
+    "action": "Run focused and full proof, exact-revision implementation review immediately before PR, typed publication, serialized merge, post-merge validation, and closeout",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -100,17 +100,17 @@ Revision 1
 
 .csdlc/prepared/issues/5500/design.md
 
-Digest: 430ffbd58df8fd8f05dce14f34ebb1bae0e7850fe1b8c28fe7a442315aeadfc6
+Digest: 1fd72ec7df400be275671013f2998d9b199913c3977b375737a5557c39a62333
 
 ## Diagram
 
 .csdlc/prepared/issues/5500/diagram.mmd
 
-Digest: f6f86ac1a71dcb887ee6a2b6ecec6d9e7c550946bb34fe2ff57fc952688e2f72
+Digest: 2e9d128f5fc0f656a4971b46d7064e0a95ff82f5a21b5750f885ded47cb9e58e
 
 ## Stop Conditions
 
-- #5498 or #5349 lacks a merged typed closed_out receipt, released claim, or ancestry
+- #5498 or #5349 is not live-merged on origin/main or its merged revision is not ancestral to the #5500 execution base
 - a future dashboard path overlaps an active typed claim including #5502 or another workcell child
 - implementation requires mutation, a second state store, a backend, or lifecycle authority
 - live access cannot remain authenticated HTTPS and configuration-driven

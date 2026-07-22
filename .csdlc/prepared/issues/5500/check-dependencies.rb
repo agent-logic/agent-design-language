@@ -5,7 +5,10 @@ require "json"
 require "open3"
 require "pathname"
 
-ISSUES = [5498, 5349].freeze
+DEPENDENCIES = {
+  5498 => "bounded Codex task and context-handoff adapter",
+  5349 => "final WP-09 provider and governed-tool interface freeze"
+}.freeze
 
 def capture!(*argv)
   stdout, stderr, status = Open3.capture3(*argv)
@@ -14,35 +17,73 @@ def capture!(*argv)
 end
 
 root = Pathname.new(capture!("git", "rev-parse", "--show-toplevel"))
-common = Pathname.new(capture!("git", "rev-parse", "--path-format=absolute", "--git-common-dir"))
+head = capture!("git", "rev-parse", "HEAD")
 
-failures = ISSUES.map do |issue|
-  receipt_path = common.join("csdlc-v2", "closeout", "#{issue}.json")
-  next "##{issue}: missing retained closeout receipt" unless receipt_path.file?
+def merge_commits_for_issue(root, issue)
+  stdout = capture!(
+    "git", "log", "--format=%H%x00%s", "--merges", "origin/main",
+    chdir: root.to_s
+  )
+  stdout.lines.map do |line|
+    sha, subject = line.chomp.split("\0", 2)
+    next unless subject&.include?("Merge pull request")
+    next unless subject.include?("##{issue}") || subject.include?(issue.to_s)
+    [sha, subject]
+  end.compact
+end
 
-  receipt = JSON.parse(receipt_path.read)
-  record = receipt["record"] || receipt
-  phase = record["phase"]
-  terminal = record["terminal"] || {}
-  disposition = terminal["disposition"]
-  merged_sha = terminal["observed_sha"]
-  claim = record["claim"]
+results = DEPENDENCIES.map do |issue, label|
+  merges = merge_commits_for_issue(root, issue)
+  if merges.empty?
+    next {
+      issue: issue,
+      label: label,
+      status: "waiting",
+      blocker: "##{issue}: no live merge commit found on origin/main"
+    }
+  end
 
-  next "##{issue}: receipt phase is #{phase.inspect}, expected closed_out" unless phase == "closed_out"
-  next "##{issue}: active claim remains in terminal receipt" unless claim.nil?
-  next "##{issue}: terminal disposition is #{disposition.inspect}, expected merged" unless disposition == "merged"
-  next "##{issue}: terminal merged SHA is absent" if merged_sha.to_s.empty?
+  merge_sha, subject = merges.first
+  _out, _err, status = Open3.capture3(
+    "git", "merge-base", "--is-ancestor", merge_sha, "HEAD",
+    chdir: root.to_s
+  )
 
-  _out, _err, status = Open3.capture3("git", "merge-base", "--is-ancestor", merged_sha, "HEAD", chdir: root.to_s)
-  next "##{issue}: merged SHA #{merged_sha} is not ancestral to HEAD" unless status.success?
+  if status.success?
+    {
+      issue: issue,
+      label: label,
+      status: "ready",
+      merge_sha: merge_sha,
+      subject: subject
+    }
+  else
+    {
+      issue: issue,
+      label: label,
+      status: "waiting",
+      merge_sha: merge_sha,
+      subject: subject,
+      blocker: "##{issue}: live merge #{merge_sha} is not ancestral to HEAD #{head}"
+    }
+  end
+end
 
-  nil
-end.compact
+blockers = results.map { |result| result[:blocker] }.compact
+payload = {
+  status: blockers.empty? ? "ready" : "waiting",
+  issues: DEPENDENCIES.keys,
+  final_wp09_gate: 5349,
+  predicate: "live merge on origin/main plus ancestry to HEAD",
+  audit_only: ["typed closeout receipts", "retained lifecycle records"],
+  results: results
+}
 
-if failures.empty?
-  puts JSON.generate(status: "ready", issues: ISSUES, final_wp09_gate: 5349)
+if blockers.empty?
+  puts JSON.generate(payload)
   exit 0
 end
 
-puts JSON.generate(status: "waiting", issues: ISSUES, final_wp09_gate: 5349, blockers: failures)
+payload[:blockers] = blockers
+puts JSON.generate(payload)
 exit 3

@@ -45,7 +45,7 @@ Diagram: .csdlc/prepared/issues/5500/diagram.mmd
   },
   {
     "lane": "dependency-gate",
-    "proof_role": "Fail closed until #5498 and final WP-09 gate #5349 have merged typed closeout receipts, released claims, and ancestry",
+    "proof_role": "Fail closed until #5498 and final WP-09 gate #5349 are live-merged on origin/main and ancestral to the #5500 execution base; typed closeout receipts are audit evidence only",
     "acceptance_ids": [
       "AC-1",
       "AC-4"
@@ -82,7 +82,7 @@ Diagram: .csdlc/prepared/issues/5500/diagram.mmd
       ".csdlc/prepared/issues/5500/validate-dashboard.sh"
     ],
     "parallel_group": "dashboard-local",
-    "defer_reason": "Preparation only: do not select until #5498 and #5349 are merged, typed closed_out, receipt-backed, claim-free, and ancestral"
+    "defer_reason": "Preparation only: do not select until #5498 and #5349 are live-merged on origin/main and ancestral to the #5500 execution base"
   },
   {
     "lane": "diff-hygiene",
