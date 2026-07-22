@@ -1,0 +1,112 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5341,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "c2abc3f4639db9f22c08b1794d2639a7cc3316e6b33452400ea9fcdfb5dc4c9a",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "8ee93bdf6cf2e6e0cce0c1baa9025194ecab9d4cee1844a82a33531a136b7e27",
+  "claim": {
+    "id": "claim-5341-v0918-runtime-v3-adapter",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 0,
+    "acquired_unix_seconds": 1784748073,
+    "expires_unix_seconds": 1785352873,
+    "heartbeat_unix_seconds": 1784748073,
+    "branch": "codex/5341-v0918-runtime-v3-adapter",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5341",
+      ".csdlc/issues/5341",
+      ".csdlc/locks/5341.lock",
+      ".csdlc/prepared/issues/5341",
+      "adl-v2/crates/adl-runtime-v3-adapter"
+    ],
+    "purpose": "Implement and fully prove the thin #5341 ADL v2 to Runtime v3 adapter after #5340, #5342, and #5591 are merged and ancestral to current origin/main; dependency closeout proceeds independently and cannot block execution"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5341/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5341/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:daniel",
+      "revision": "a85968cdb8685e8d95e05db20b8347223693983fe1d137c09c953cfc2e4d3b83"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2d4aa4ee4fa33b702c08568602db5b20b4044bb1e86fc329af6961aec4b11b18",
+      "rendered_digest": "eca055a7389419550ca925adbe2396ad480f130f88452ab0aa1a36de72d59869",
+      "ast_digest": "5a51d8348637384618858b238c992646a85b3d2f5ddaaebab000c54f1241f57a"
+    },
+    "stp": {
+      "values_digest": "0ce5e4461bfbaf7750df72bcf671cd19d15e3e6b8249a4db3054f03971a6bd8f",
+      "rendered_digest": "706bc6f267353a1313e56edf08a2a0aeb8d2f881d27443a92cee2deb7f390e8e",
+      "ast_digest": "a8ca7aec0fdee0c4c9e6cded597197df33a1383fe8b2f18eddc30a0d17113351"
+    },
+    "spp": {
+      "values_digest": "f314d3566ed985b0a9204502e02385ff3e6a2fbabc6e24eaf7660fc3e753ebbf",
+      "rendered_digest": "099624597330089a289ad0f6068c264d4076566bafb7a07da18911e6497fd3d7",
+      "ast_digest": "404d61fa4797aeb2af8910bb4af94a8825a1223c73a27e17e1fa113c90593c42"
+    },
+    "vpp": {
+      "values_digest": "e4aa482076048b7fddeec33ce41b18daf7b9b4b4da8b9a5ce262be92a13ed0df",
+      "rendered_digest": "857d0e8bc6975491a574af8e9ec2421ef055b825c0da9fdc521472d999dd5742",
+      "ast_digest": "5fb4c57c4af3af38ce65e4303cec9d326b42cdd7b117bfd61b126779a40469b1"
+    },
+    "srp": {
+      "values_digest": "d2e8ae19299887043cdb167b248b798eaf0ceb2b6c3d13144812d1c454422ceb",
+      "rendered_digest": "a2c3d4835ef7b4567ffed3a3568e34bbf5946f5e815eccebce9365ca7945c173",
+      "ast_digest": "5d46b01705b417ebbf2d1920369d8aadad1ff1616a6991b3205313669aa16267"
+    },
+    "sor": {
+      "values_digest": "f55dc88b37401d350f4190c27c91fc29156c15f557ad4d4e173ffdbcc8fa3822",
+      "rendered_digest": "f210b9073c363fbfc0fe7f120d317cb99078d16506bb7142d4bb032a0ba68422",
+      "ast_digest": "d2629294be7d34691ef8a7638c3ddc042d0bb160d6373116f27ed1252ae3bfc7"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "align active authority with the operator rule that merged dependency truth releases execution while closeout proceeds in parallel",
+      "operation": "{\"add_protected_paths\":[\"adl-v2/crates/adl-runtime-v3-adapter\"],\"expected_owner\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\",\"expected_purpose\":\"Implement and fully prove the thin #5341 ADL v2 to Runtime v3 adapter after the executable dependency gate verifies #5340, #5342, and #5591 are merged, typed closed_out, receipt-retained, and ancestral to current origin/main\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Implement and fully prove the thin #5341 ADL v2 to Runtime v3 adapter after the executable dependency gate verifies #5340, #5342, and #5591 are merged, typed closed_out, receipt-retained, and ancestral to current origin/main\",\"purpose\":\"Implement and fully prove the thin #5341 ADL v2 to Runtime v3 adapter after #5340, #5342, and #5591 are merged and ancestral to current origin/main; dependency closeout proceeds independently and cannot block execution\"}"
+    }
+  ]
+}
