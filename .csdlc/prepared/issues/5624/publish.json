@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.publication_request.v1",
   "issue": 5624,
-  "expected_generation": 12,
-  "expected_digest": "b4b7776e87c4b10a15fa9a9d8f3bfd6c3065a5eefd4f655c4f42211ea81b0f4d",
+  "expected_generation": 21,
+  "expected_digest": "c9e16414ac3491e9bc31a73ddd7edf213e533c3b9398ad72678c4ce4529221bf",
   "claim_id": "claim-5624-csdlc-prune-topology",
   "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
   "repository": "danielbaustin/agent-design-language",
