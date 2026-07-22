@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5348,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-23] Release ceremony and lifecycle closeout",
+    "slug": "v0918-wp23-release-ceremony-closeout",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "preparation-doctor",
+          "proof_role": "Validate the generated typed C-SDLC v2 preparation packet",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 1000,
+          "argv": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "5348"
+          ],
+          "parallel_group": "release-tail-preparation",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on missing live predecessor merge, stale ancestry, incomplete release evidence, or hidden implementation need.",
+      "design_ref": ".csdlc/prepared/issues/5348/design.md",
+      "design_digest": "42d446da6fa9a799916632221c98363aa110577a72b8d384fde26d815fbdcf4f",
+      "diagram_ref": ".csdlc/prepared/issues/5348/diagram.mmd",
+      "diagram_digest": "6bf90d440819d3f76adb93d445146829144efd9e7f870d1b1d84e82c14b98990"
+    }
+  }
+}

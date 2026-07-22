@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5348,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-23] Release ceremony and lifecycle closeout",
+    "slug": "v0918-wp23-release-ceremony-closeout",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Execute the canonical WP-23 release ceremony after WP-22 next-milestone review.",
+      "required_outcome": "Release evidence, tag and publication truth, and reconciled issue, PR, card, milestone, and v0.92 handoff state.",
+      "declared_scope": [
+        "release ceremony truth",
+        "tag and publication evidence",
+        "lifecycle closeout reconciliation"
+      ],
+      "authority_boundary": [
+        "typed C-SDLC v2 only",
+        "no execution before live predecessor merge plus ancestry",
+        "receipts audit-only",
+        "no raw gh, AWS, PR, merge, or closeout during preparation"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "preparation only",
+        "no tracked root-main writes",
+        "one issue-bound FastWork branch",
+        "minimal packet: six cards, design, diagram, focused doctor validation"
+      ]
+    }
+  }
+}

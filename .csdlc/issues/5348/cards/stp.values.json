@@ -1,0 +1,46 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5348,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-23] Release ceremony and lifecycle closeout",
+    "slug": "v0918-wp23-release-ceremony-closeout",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Prepare lifecycle packet only; release ceremony is future execution work.",
+      "deliverables": [
+        "generated six-card preparation packet",
+        "concise design and diagram",
+        "focused typed doctor validation"
+      ],
+      "acceptance_criteria": [
+        "AC-1: preparation packet is generated through typed C-SDLC v2",
+        "AC-2: future execution is blocked on #5359 live merge and ancestry",
+        "AC-3: receipts are recorded as audit evidence only",
+        "AC-4: no implementation, PR, AWS, raw gh, or root-main tracked write occurs"
+      ],
+      "dependencies": [
+        "WP-22 #5359 live merged into origin/main",
+        "#5359 observed merge SHA ancestral to exact #5348 execution base"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md",
+        "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+        "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+        "issue #5348"
+      ],
+      "non_goals": [
+        "implementation or remediation during ceremony",
+        "release tagging during preparation",
+        "PR publication",
+        "receipt-gated execution"
+      ]
+    }
+  }
+}

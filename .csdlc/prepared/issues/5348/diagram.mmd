@@ -1,0 +1,8 @@
+flowchart TD
+    A["WP-22 #5359 live merged on origin/main"] --> B{"Merge SHA ancestral to #5348 base?"}
+    B -- "No" --> X["Block ceremony"]
+    B -- "Yes" --> C["Verify accepted release evidence"]
+    C --> D["Reconcile tag, notes, issue, PR, card, and milestone truth"]
+    D --> E["No hidden implementation or remediation"]
+    E --> F["Exact revision review before any PR"]
+    F --> G["Authorized release closeout"]
