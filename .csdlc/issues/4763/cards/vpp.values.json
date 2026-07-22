@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 4763,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][birthday-docs] Prepare #4763 first-birthday docs and external non-claims",
+    "slug": "v0918-wp14-birthday-docs-nonclaims-prep-4763",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "prep-doctor",
+          "proof_role": "Focused v2 state integrity check only.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "csdlc-doctor",
+            "--issue",
+            "4763"
+          ],
+          "parallel_group": "prep",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed and report the exact v2 doctor or init error; do not repair outside the prep boundary.",
+      "design_ref": ".csdlc/prepared/issues/4763/design.md",
+      "design_digest": "e51328796a6ea0996de9efa39c48e17dceb3ee479d7b6aabbc5041a769e261ce",
+      "diagram_ref": ".csdlc/prepared/issues/4763/diagram.mmd",
+      "diagram_digest": "d56694512dce221c0f0b5ca31e5d3fc20b141f9f134a057a674d1830ac07fc6f"
+    }
+  }
+}
