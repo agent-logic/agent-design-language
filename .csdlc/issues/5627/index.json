@@ -3,13 +3,13 @@
   "issue": 5627,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "92b057b98eaffbebc0305e839a75bd5da4470abc6d6a59af788534ba1a6e814d",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "66b56b14392c96419517d5c85afe3c8b823f86c57f97184dc9acedf33b6cd6e7",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "a3072fbe64c877fcba7aa6362c6e6c22dd7e7e9dfd35da1de6f6029ed9dbe192",
   "claim": {
     "id": "claim-5627-csdlc-four-command-lifecycle",
     "owner": "codex:issue-5627-slot-4",
-    "generation": 8,
+    "generation": 9,
     "acquired_unix_seconds": 1784731479,
     "expires_unix_seconds": 1784817879,
     "heartbeat_unix_seconds": 1784731479,
@@ -42,7 +42,40 @@
     "purpose": "Collapse routine C-SDLC v2 execution into four typed commands while preserving exact evidence and terminal receipts"
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "operator:codex-5627-integrated-disposition",
+    "scope": [
+      "csdlc-v2/src",
+      "csdlc-v2/tests",
+      "csdlc-v2/operator/skills"
+    ],
+    "reviewed_revision": "git-blake3:19eddfa3e94e8ad09168ca4e30faec7471b23c18:25036cb4a79276db85bb971bc68038990fee02b589bdab628191d44eabd04296",
+    "findings": [
+      {
+        "id": "prebuilt-provenance",
+        "severity": "p1",
+        "summary": "Do not stamp arbitrary prebuilt binaries as the current Git revision.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:19eddfa3e94e8ad09168ca4e30faec7471b23c18:25036cb4a79276db85bb971bc68038990fee02b589bdab628191d44eabd04296",
+        "route": null
+      },
+      {
+        "id": "gate10a-evidence",
+        "severity": "p2",
+        "summary": "Retain the exact Gate 10A CI-repair validation result.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:19eddfa3e94e8ad09168ca4e30faec7471b23c18:25036cb4a79276db85bb971bc68038990fee02b589bdab628191d44eabd04296",
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -57,32 +90,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "423d4313c1367a8797ef1fbb1db7fef66b746cdb6116c3701df606a6614c9a16",
+      "values_digest": "0cde9210c8d75151e78332272b5936ab101ff6e7d9a9a1be0faecbb92d5f2120",
       "rendered_digest": "e6e73876dc7bd82ac55ca7a6cc3a10545639dd3c14488089af5d92a122d7bbfa",
       "ast_digest": "d233640b8e779d5495b476c22971c4be14501dff194b670c49f6e3f1c37bf7a6"
     },
     "stp": {
-      "values_digest": "94e31bb4feae6ee853b5c264b80c6f11476bb0b2c2e240475907b1237f89168c",
+      "values_digest": "ba4ad8862ee1cb22d24f23b583c33560be95175dfa247abf8119eace410d2c92",
       "rendered_digest": "f6924dc16918555def0742818a9d2553b78b1dd7305344c65c6472e2a20cdf99",
       "ast_digest": "0b9e841b8caa6e3451c4e863dddcac5e7a9dd9731eeb4c5d78b79f288deff2e5"
     },
     "spp": {
-      "values_digest": "2ca10813a79bd893d62e4be5b11a0ce17977ea38625e953f2d5313048183816e",
+      "values_digest": "dd1cdabeab35b34ba682f6c3eeb5ee7adcbd2b15210e8534f8362de7a1aff526",
       "rendered_digest": "f5b752361b5d434f9ec0b09e86a0d837a3c7db5afe926d04270ec93169769543",
       "ast_digest": "2bc25ee4074dcce7f28affcbdc644724a19f6c42c1b90fc66d06d78739dc405e"
     },
     "vpp": {
-      "values_digest": "2f6ea6be2e6a0a7f6b8c5f310efe21808ef22ff0e3f9ea1889ab0d799cbb1c46",
+      "values_digest": "e0511df8a5d04e7258498d3226461f982d8a588062a10762eff79e9e589e75ea",
       "rendered_digest": "ec6bb20d98e9e235fd4b5069645490a2bdce5f0d7a93c3c4432f24ccbe1aeba7",
       "ast_digest": "3472842d6972bd76928bc12581882745eb61561bf63dde1a3e12f628e0257384"
     },
     "srp": {
-      "values_digest": "8964cd392a7feaffb9113b0bb9345991c0d89cb6c57c4d2bd5580a3f72f4f612",
-      "rendered_digest": "f37809eb32f5ebfbcc7fbb3db0bcdb19e639e03371a75b1f93b2a05be5af1ec6",
-      "ast_digest": "31288833fae6d8c8def455bd363c510f9bcf2a88835bd3cb00bbfa0cb98fd38b"
+      "values_digest": "3f0806a18998eb8c42142fdd15ffbc2fe7fa7bdbb9a0826ef8364ab31c780fa8",
+      "rendered_digest": "ec69249a03380100049272f98608940bab94207f7fca0d27814b6152d348cc7e",
+      "ast_digest": "a31138b88ad69e0049cd7ac4aa353a81e758d200a1b9413392f0d819298b377f"
     },
     "sor": {
-      "values_digest": "5687fb9b3bc919df1b5b878bf5dac121ee0ab0d374d0fad1331336b9b054a598",
+      "values_digest": "16b1d7b99071012e965429b458420d7a789258ae5b5ac33c739cad01bae233e0",
       "rendered_digest": "e1a99d28e16bcafa10f6249457a6805b96b483d350b8768aedf2103b39c1ea0f",
       "ast_digest": "67d57554996fabea642f9c66596359aeb1a1654a4bdb86efce9833444a73ac9a"
     }
@@ -150,6 +183,13 @@
       "to": "implemented",
       "actor": "codex:issue-5627-slot-4",
       "reason": "Integrate merged #5625 once, resolve the sole operator.rs overlap, and refresh exact publication identity."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5627-slot-4",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -236,6 +276,13 @@
       "actor": "codex:issue-5627-slot-4",
       "reason": "Integrate merged #5625 once, resolve the sole operator.rs overlap, and refresh exact publication identity.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:issue-5627-slot-4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -10,3 +10,4 @@
 {"sequence":10,"generation":6,"actor":"codex:issue-5627-slot-4","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":11,"generation":7,"actor":"codex:issue-5627-slot-4","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":12,"generation":8,"actor":"codex:issue-5627-slot-4","reason":"Integrate merged #5625 once, resolve the sole operator.rs overlap, and refresh exact publication identity.","operation":"recover_review"}
+{"sequence":13,"generation":9,"actor":"codex:issue-5627-slot-4","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
