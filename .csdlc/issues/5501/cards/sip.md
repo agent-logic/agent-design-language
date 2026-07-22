@@ -42,8 +42,8 @@ After every implementation dependency is terminal, a retained exact-revision pac
 - Use installed typed C-SDLC v2 binaries and current-registry semantic card operations only
 - Keep root main untouched; all tracked #5501 preparation stays in /Volumes/FastWork/adl-wp-5501
 - Preparation only: no live task execution, product implementation, PR, publication, merge, Runtime v2, AWS, raw gh, credentials, provider calls, paid services, or hidden network authority
-- Do not execute until #5349, #5499, #5498, #5500, and #5502 are merged, typed closed_out, receipt-backed, claim-free, and ancestral
+- Do not execute the live workcell until #5349, #5499, #5498, #5500, and #5502 have live merged heads ancestral to the execution revision; typed closeout and retained receipts are audit-only signals, not readiness blockers
 - Future proof requires at least two real writable Codex shards with distinct issue claims, branches, worktrees, and disjoint protected paths
 - Fixture-only, mock-only, prose-only, screenshot-only, and library-only evidence never counts as the live proof
 - Use /Volumes/FastWork for generated validation output
-- Run bounded preparation review, fix every actionable finding, commit, and push preparation only
+- One bounded review immediately before PR is required by operator policy; do not add preparation review churn

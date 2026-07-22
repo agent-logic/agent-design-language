@@ -20,7 +20,7 @@
       ".csdlc/prepared/issues/5501",
       ".csdlc/evidence/5501"
     ],
-    "purpose": "Prepare and review #5501 live distributed Codex workcell proof contracts only; no execution or product work until #5349, #5499, #5498, #5500, and #5502 are merged, typed closed_out, receipt-backed, claim-free, and ancestral"
+    "purpose": "Prepare #5501 live distributed Codex workcell proof contracts only; no execution or product work until #5349, #5499, #5498, #5500, and #5502 have live merged heads ancestral to execution revision; typed closeout and retained receipts are audit-only"
   },
   "initial": {
     "title": "[v0.91.8][WP-10A][multi-agent][proof] Run live distributed Codex workcell end to end",
@@ -45,20 +45,20 @@
       "Use installed typed C-SDLC v2 binaries and current-registry semantic card operations only",
       "Keep root main untouched; all tracked #5501 preparation stays in /Volumes/FastWork/adl-wp-5501",
       "Preparation only: no live task execution, product implementation, PR, publication, merge, Runtime v2, AWS, raw gh, credentials, provider calls, paid services, or hidden network authority",
-      "Do not execute until #5349, #5499, #5498, #5500, and #5502 are merged, typed closed_out, receipt-backed, claim-free, and ancestral",
+      "Do not execute the live workcell until #5349, #5499, #5498, #5500, and #5502 have live merged heads ancestral to the execution revision; typed closeout and retained receipts are audit-only signals, not readiness blockers",
       "Future proof requires at least two real writable Codex shards with distinct issue claims, branches, worktrees, and disjoint protected paths",
       "Fixture-only, mock-only, prose-only, screenshot-only, and library-only evidence never counts as the live proof",
       "Use /Volumes/FastWork for generated validation output",
-      "Run bounded preparation review, fix every actionable finding, commit, and push preparation only"
+      "One bounded review immediately before PR is required by operator policy; do not add preparation review churn"
     ],
-    "task_boundary": "Prepare all six cards, reviewed design and diagram, exact dependency and proof gates, COTS, budgets, PVF, and review evidence; do not execute tasks or claim product paths.",
+    "task_boundary": "Prepare all six cards, design, diagram, exact dependency and proof gates, COTS, budgets, and PVF; do not execute tasks, add preparation review churn, open a PR, or claim product paths.",
     "deliverables": [
       "all six issue-specific current-registry typed cards",
-      "reviewed live distributed workcell proof design and Mermaid diagram",
-      "exact preparation-only protected paths and fail-closed dependency gate",
+      "live distributed workcell proof design and Mermaid diagram",
+      "exact preparation-only protected paths and fail-closed live merge plus ancestry dependency gate",
       "executable preparation and future live-proof validation contracts",
       "zero-new-dependency COTS posture, LoC/shard/time budgets, and PVF classification",
-      "bounded preparation review with every finding fixed"
+      "zero preparation review churn; one bounded review remains immediately before PR"
     ],
     "acceptance_criteria": [
       "AC-1: The admitted plan creates at least two real parallel writable Codex shards with distinct issues, typed claims, branches, worktrees, and disjoint protected/write paths; fixture or prose substitutes fail",
@@ -70,11 +70,12 @@
     ],
     "dependencies": [
       "parent WP-10A umbrella #5497 remains open until this proof and child convergence complete",
-      "WP-09 provider and governed-tool adapter #5349 merged and typed closed_out",
-      "conductor #5499 merged and typed closed_out",
-      "Codex task and bounded context adapter #5498 merged and typed closed_out",
-      "live dashboard #5500 merged and typed closed_out",
-      "output convergence and deterministic replanning #5502 merged and typed closed_out",
+      "WP-09 provider and governed-tool adapter #5349 live merged head must be ancestral to the execution revision",
+      "conductor #5499 live merged head must be ancestral to the execution revision",
+      "Codex task and bounded context adapter #5498 live merged head must be ancestral to the execution revision",
+      "live dashboard #5500 live merged head must be ancestral to the execution revision",
+      "output convergence and deterministic replanning #5502 live merged head must be ancestral to the execution revision",
+      "typed closeout state and retained receipts for #5349, #5499, #5498, #5500, and #5502 are audit-only and must not block execution readiness when live merge plus ancestry truth is satisfied",
       "Runtime v3 acceptance #5361 and shadow parity #5350 consume the completed live proof"
     ],
     "repo_inputs": [
@@ -85,7 +86,7 @@
       "docs/milestones/v0.91.8/WBS_v0.91.8.md",
       "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
       "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
-      "future terminal dependency receipts and exact reviewed public contracts"
+      "future live merge evidence and audit-only terminal receipts"
     ],
     "non_goals": [
       "live task execution or product implementation during preparation",
@@ -96,13 +97,14 @@
     ],
     "plan_summary": "Render and validate six cards; freeze the real live-proof boundary, exact dependency gates, preparation-only ownership, zero-new-dependency COTS posture, budgets, PVF, evidence identity, negative case, dashboard, convergence, serialized integration, and fair baseline contracts; obtain bounded review and fix findings; commit and push preparation only.",
     "steps": [
-      {"id":"S1","action":"Complete six cards, design, diagram, dependency and preparation validators, exact protected paths, COTS, budgets, PVF, bounded review/fixes, commit, and push without live or product work","status":"in_progress","acceptance_ids":["AC-1","AC-4","AC-6"]},
-      {"id":"S2","action":"Wait fail-closed for #5349, #5499, #5498, #5500, and #5502 merged typed closeout, claim release, retained receipts, and ancestry","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3"]},
+      {"id":"S1","action":"Complete six cards, design, diagram, dependency and preparation validators, exact protected paths, COTS, budgets, and PVF without live, product, PR, or additional preparation-review work","status":"pending","acceptance_ids":["AC-1","AC-4","AC-6"]},
+      {"id":"S2","action":"Wait fail-closed for #5349, #5499, #5498, #5500, and #5502 live merged heads to be ancestral to the execution revision; typed closeout and retained receipts are audit-only signals, not readiness blockers","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3"]},
       {"id":"S3","action":"Validate the admitted live-run manifest and execute at least two real disjoint writable Codex shards with bounded provenance-bearing context, negative-case refusal, dashboard observations, output review, and convergence","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3","AC-6"]},
       {"id":"S4","action":"Run the equivalent bounded single-agent baseline, compare timing and coordination overhead, retain exact proof, complete serialized review/publication/checks/merge/post-merge validation/closeout, and hand evidence to #5497, #5350, and #5361","status":"pending","acceptance_ids":["AC-4","AC-5","AC-6"]}
     ],
     "invariants": [
-      "no live or product work before every terminal dependency gate",
+      "no live or product work before every execution dependency has live merge plus ancestry truth",
+      "typed closeout state and retained receipts are audit-only and do not block readiness when live merge plus ancestry truth is satisfied",
       "preparation claim protects only issue-local lifecycle and evidence paths",
       "at least two real writable shards have distinct issue claims, branches, worktrees, and disjoint protected paths",
       "fixture, mock, prose, screenshot, or library-only evidence cannot satisfy live proof",
@@ -122,15 +124,15 @@
     ],
     "planning_profile": "large",
     "stop_conditions": [
-      "any dependency lacks merged typed closeout, receipt, claim release, or ancestry",
+      "any execution dependency lacks a live merged head ancestral to the execution revision",
       "fewer than two real writable shards can be admitted with disjoint typed claims and paths",
       "task, context, output, review, dashboard, convergence, or closeout identity cannot be proven",
       "the negative case or single-agent baseline cannot be executed truthfully",
       "execution requires out-of-claim product writes, Runtime v2, AWS, credentials, paid services, hidden authority, or deferred acceptance proof"
     ],
     "validation_lanes": [
-      {"lane":"preparation-contract","proof_role":"Prove six-card, design, diagram, dependency, scope, COTS, budget, PVF, and zero-product-change preparation truth","deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":3000,"argv":["ruby",".csdlc/prepared/issues/5501/validate-preparation.rb"],"parallel_group":"preparation","acceptance_ids":["AC-1","AC-4","AC-6"]},
-      {"lane":"dependency-terminal-gate","proof_role":"Fail closed until #5349, #5499, #5498, #5500, and #5502 have merged typed closeout receipts, released claims, and ancestry","deterministic":true,"resource_profile":"small","budget_seconds":60,"budget_tokens":1500,"argv":["ruby",".csdlc/prepared/issues/5501/check-dependencies.rb"],"parallel_group":"execution-gate","acceptance_ids":["AC-1","AC-2","AC-3"],"defer_reason":"Run only when execution is requested; it must fail closed until every dependency is terminal"},
+      {"lane":"preparation-contract","proof_role":"Prove six-card, design, diagram, live-merge dependency, scope, COTS, budget, PVF, and zero-product-change preparation truth","deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":3000,"argv":["ruby",".csdlc/prepared/issues/5501/validate-preparation.rb"],"parallel_group":"preparation","acceptance_ids":["AC-1","AC-4","AC-6"]},
+      {"lane":"dependency-terminal-gate","proof_role":"Fail closed until #5349, #5499, #5498, #5500, and #5502 live merged heads are ancestral to the execution revision; typed closeout and retained receipts remain audit-only","deterministic":true,"resource_profile":"small","budget_seconds":60,"budget_tokens":1500,"argv":["ruby",".csdlc/prepared/issues/5501/check-dependencies.rb"],"parallel_group":"execution-gate","acceptance_ids":["AC-1","AC-2","AC-3"],"defer_reason":"Run only when execution is requested; it must fail closed until every dependency has live merge plus ancestry truth"},
       {"lane":"live-manifest","proof_role":"Validate two-to-four real shard identities, disjoint claims and paths, bounded context, negative case, dashboard observation plan, serialized gates, timing plan, and fair baseline before task creation","deterministic":true,"resource_profile":"medium","budget_seconds":120,"budget_tokens":4000,"argv":["ruby",".csdlc/prepared/issues/5501/run-validation-lane.rb","live-manifest"],"parallel_group":"execution","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6"],"defer_reason":"Mandatory after terminal dependencies and before live task creation; not selected during preparation"},
       {"lane":"live-two-shard","proof_role":"Execute and retain the real admitted multi-task workcell with negative refusal, live observations, review, convergence, and serialized integration truth","deterministic":false,"resource_profile":"large","budget_seconds":1800,"budget_tokens":12000,"argv":["ruby",".csdlc/prepared/issues/5501/run-validation-lane.rb","live-two-shard"],"parallel_group":"live-proof","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-6"],"defer_reason":"Mandatory execution proof after dependency admission; forbidden during preparation"},
       {"lane":"baseline-comparison","proof_role":"Run equivalent bounded single-agent work and retain elapsed, coordination, failure, retry, and comparability evidence","deterministic":false,"resource_profile":"large","budget_seconds":1800,"budget_tokens":8000,"argv":["ruby",".csdlc/prepared/issues/5501/run-validation-lane.rb","baseline-comparison"],"parallel_group":"live-proof","acceptance_ids":["AC-5","AC-6"],"defer_reason":"Mandatory execution evidence after the live workcell; forbidden during preparation"},

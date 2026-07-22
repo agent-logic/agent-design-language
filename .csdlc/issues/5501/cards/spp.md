@@ -16,24 +16,24 @@ Render and validate six cards; freeze the real live-proof boundary, exact depend
 
 ## Plan
 
-Revision 1
+Revision 4
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Complete six cards, design, diagram, dependency and preparation validators, exact protected paths, COTS, budgets, PVF, bounded review/fixes, commit, and push without live or product work",
+    "action": "Complete six cards, design, diagram, dependency and preparation validators, exact protected paths, COTS, budgets, and PVF without live, product, PR, or additional preparation-review work",
     "acceptance_ids": [
       "AC-1",
       "AC-4",
       "AC-6"
     ],
-    "status": "in_progress"
+    "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Wait fail-closed for #5349, #5499, #5498, #5500, and #5502 merged typed closeout, claim release, retained receipts, and ancestry",
+    "action": "Wait fail-closed for #5349, #5499, #5498, #5500, and #5502 live merged heads to be ancestral to the execution revision; typed closeout and retained receipts are audit-only signals, not readiness blockers",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -66,7 +66,8 @@ Revision 1
 
 ## Invariants
 
-- no live or product work before every terminal dependency gate
+- no live or product work before every execution dependency has live merge plus ancestry truth
+- typed closeout state and retained receipts are audit-only and do not block readiness when live merge plus ancestry truth is satisfied
 - preparation claim protects only issue-local lifecycle and evidence paths
 - at least two real writable shards have distinct issue claims, branches, worktrees, and disjoint protected paths
 - fixture, mock, prose, screenshot, or library-only evidence cannot satisfy live proof
@@ -97,17 +98,17 @@ Revision 1
 
 .csdlc/prepared/issues/5501/design.md
 
-Digest: 1e55bed0d09764e9005b2294741c6465c4330c5da7870ce2bae997f7838ce24b
+Digest: 4909f3533378d71d43cac913e87bfa7047e8aa08e6c279087ea5273116f03e7f
 
 ## Diagram
 
 .csdlc/prepared/issues/5501/diagram.mmd
 
-Digest: 6011d34aa500eaa29052cf40c9f12f5c47279b278c354106dc06f5918712d7b6
+Digest: 38aa0234f183017794bea187c7d5664d236c9c2ee40094c89c74834549816031
 
 ## Stop Conditions
 
-- any dependency lacks merged typed closeout, receipt, claim release, or ancestry
+- any execution dependency lacks a live merged head ancestral to the execution revision
 - fewer than two real writable shards can be admitted with disjoint typed claims and paths
 - task, context, output, review, dashboard, convergence, or closeout identity cannot be proven
 - the negative case or single-agent baseline cannot be executed truthfully

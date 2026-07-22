@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-10A][multi-agent][proof] Run live distributed Codex workcell end to end",
     "slug": "v0918-wp10a-live-distributed-codex-workcell-proof",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 8
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "preparation-contract",
-          "proof_role": "Prove six-card, design, diagram, dependency, scope, COTS, budget, PVF, and zero-product-change preparation truth",
+          "proof_role": "Prove six-card, design, diagram, live-merge dependency, scope, COTS, budget, PVF, and zero-product-change preparation truth",
           "acceptance_ids": [
             "AC-1",
             "AC-4",
@@ -36,7 +36,7 @@
         },
         {
           "lane": "dependency-terminal-gate",
-          "proof_role": "Fail closed until #5349, #5499, #5498, #5500, and #5502 have merged typed closeout receipts, released claims, and ancestry",
+          "proof_role": "Fail closed until #5349, #5499, #5498, #5500, and #5502 live merged heads are ancestral to the execution revision; typed closeout and retained receipts remain audit-only",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -51,7 +51,7 @@
             ".csdlc/prepared/issues/5501/check-dependencies.rb"
           ],
           "parallel_group": "execution-gate",
-          "defer_reason": "Run only when execution is requested; it must fail closed until every dependency is terminal"
+          "defer_reason": "Run only when execution is requested; it must fail closed until every dependency has live merge plus ancestry truth"
         },
         {
           "lane": "live-manifest",
@@ -145,9 +145,9 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed without task execution, publication, merge, closeout, or consumer handoff on incomplete dependencies, claim collision, fewer than two real disjoint writable shards, stale or unbounded context, manual dashboard assertions, missing negative case, unreviewed output, ambiguous convergence, unserialized integration, incomparable baseline, secret/path leakage, red CI, stale review, deferred proof, or budget breach.",
       "design_ref": ".csdlc/prepared/issues/5501/design.md",
-      "design_digest": "1e55bed0d09764e9005b2294741c6465c4330c5da7870ce2bae997f7838ce24b",
+      "design_digest": "4909f3533378d71d43cac913e87bfa7047e8aa08e6c279087ea5273116f03e7f",
       "diagram_ref": ".csdlc/prepared/issues/5501/diagram.mmd",
-      "diagram_digest": "6011d34aa500eaa29052cf40c9f12f5c47279b278c354106dc06f5918712d7b6"
+      "diagram_digest": "38aa0234f183017794bea187c7d5664d236c9c2ee40094c89c74834549816031"
     }
   }
 }

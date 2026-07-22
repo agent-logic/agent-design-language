@@ -34,7 +34,8 @@ publication, PR, Runtime v2, AWS, or root-main mutation.
 - The empty manifest template exits 2 and cannot be mistaken for live proof.
 - Fixtures, mocks, prose, screenshots, and library tests cannot satisfy the
   live proof.
-- Execution remains fail-closed on terminal, receipt-backed, claim-free,
-  ancestral #5349, #5499, #5498, #5500, and #5502 dependencies.
+- Execution remains fail-closed on live merged #5349, #5499, #5498, #5500,
+  and #5502 heads that are ancestral to the execution revision. Typed
+  closeout and retained receipts are audit-only readiness observations.
 
 No actionable review finding remains.

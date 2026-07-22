@@ -5,7 +5,7 @@
       {
         "id": "preparation-contract",
         "proof_role": "six_card_design_scope_dependency_live_proof_and_budget_integrity",
-        "purpose": "After typed design approval is recorded, verify all six cards, approved design/diagram, exact terminal dependencies, real-workcell non-substitution boundary, bounded authority, protected paths, COTS, budgets, PVF, and zero product changes.",
+        "purpose": "Verify all six cards, design/diagram, live merge plus ancestry dependency truth, real-workcell non-substitution boundary, bounded authority, protected paths, COTS, budgets, PVF, and zero product changes.",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 3000},
         "credentials": [],

@@ -18,6 +18,6 @@
       ".csdlc/prepared/issues/5501",
       ".csdlc/evidence/5501"
     ],
-    "purpose": "Prepare and review #5501 live distributed Codex workcell proof contracts only; no execution or product work until #5349, #5499, #5498, #5500, and #5502 are merged, typed closed_out, receipt-backed, claim-free, and ancestral"
+    "purpose": "Prepare #5501 live distributed Codex workcell proof contracts only; no execution or product work until #5349, #5499, #5498, #5500, and #5502 have live merged heads ancestral to execution revision; typed closeout and retained receipts are audit-only"
   }
 }

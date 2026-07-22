@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5501/diagram.mmd
 [
   {
     "lane": "preparation-contract",
-    "proof_role": "Prove six-card, design, diagram, dependency, scope, COTS, budget, PVF, and zero-product-change preparation truth",
+    "proof_role": "Prove six-card, design, diagram, live-merge dependency, scope, COTS, budget, PVF, and zero-product-change preparation truth",
     "acceptance_ids": [
       "AC-1",
       "AC-4",
@@ -44,7 +44,7 @@ Diagram: .csdlc/prepared/issues/5501/diagram.mmd
   },
   {
     "lane": "dependency-terminal-gate",
-    "proof_role": "Fail closed until #5349, #5499, #5498, #5500, and #5502 have merged typed closeout receipts, released claims, and ancestry",
+    "proof_role": "Fail closed until #5349, #5499, #5498, #5500, and #5502 live merged heads are ancestral to the execution revision; typed closeout and retained receipts remain audit-only",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -59,7 +59,7 @@ Diagram: .csdlc/prepared/issues/5501/diagram.mmd
       ".csdlc/prepared/issues/5501/check-dependencies.rb"
     ],
     "parallel_group": "execution-gate",
-    "defer_reason": "Run only when execution is requested; it must fail closed until every dependency is terminal"
+    "defer_reason": "Run only when execution is requested; it must fail closed until every dependency has live merge plus ancestry truth"
   },
   {
     "lane": "live-manifest",

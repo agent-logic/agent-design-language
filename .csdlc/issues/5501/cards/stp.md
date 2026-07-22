@@ -17,11 +17,10 @@ Prepare all six cards, reviewed design and diagram, exact dependency and proof g
 ## Deliverables
 
 - all six issue-specific current-registry typed cards
-- reviewed live distributed workcell proof design and Mermaid diagram
-- exact preparation-only protected paths and fail-closed dependency gate
+- live distributed workcell proof design and Mermaid diagram
+- exact preparation-only protected paths and fail-closed live merge plus ancestry dependency gate
 - executable preparation and future live-proof validation contracts
 - zero-new-dependency COTS posture, LoC/shard/time budgets, and PVF classification
-- bounded preparation review with every finding fixed
 
 ## Acceptance
 
@@ -35,11 +34,12 @@ Prepare all six cards, reviewed design and diagram, exact dependency and proof g
 ## Dependencies
 
 - parent WP-10A umbrella #5497 remains open until this proof and child convergence complete
-- WP-09 provider and governed-tool adapter #5349 merged and typed closed_out
-- conductor #5499 merged and typed closed_out
-- Codex task and bounded context adapter #5498 merged and typed closed_out
-- live dashboard #5500 merged and typed closed_out
-- output convergence and deterministic replanning #5502 merged and typed closed_out
+- WP-09 provider and governed-tool adapter #5349 live merged head must be ancestral to the execution revision
+- conductor #5499 live merged head must be ancestral to the execution revision
+- Codex task and bounded context adapter #5498 live merged head must be ancestral to the execution revision
+- live dashboard #5500 live merged head must be ancestral to the execution revision
+- output convergence and deterministic replanning #5502 live merged head must be ancestral to the execution revision
+- typed closeout state and retained receipts for #5349, #5499, #5498, #5500, and #5502 are audit-only and must not block execution readiness when live merge plus ancestry truth is satisfied
 - Runtime v3 acceptance #5361 and shadow parity #5350 consume the completed live proof
 
 ## Inputs

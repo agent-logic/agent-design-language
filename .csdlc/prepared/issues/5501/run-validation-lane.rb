@@ -19,6 +19,6 @@ warn("#{lane} is execution-gated and has no live proof in the preparation-only p
 puts JSON.pretty_generate(
   status: "blocked",
   lane: lane,
-  reason: "#5349, #5499, #5498, #5500, and #5502 must be merged and typed closed_out"
+  reason: "#5349, #5499, #5498, #5500, and #5502 must have live merged heads ancestral to the execution revision"
 )
 exit 2

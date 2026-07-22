@@ -33,7 +33,7 @@ cards.each do |card|
 end
 
 text = cards.map { |card| BASE.join("cards/#{card}.md").read }.join("\n")
-required = %w[#5349 #5499 #5498 #5500 #5502 closed_out receipt ancestry real writable shard context dashboard converge baseline COTS PVF 2,500 3,600]
+required = %w[#5349 #5499 #5498 #5500 #5502 live merged ancestry audit-only real writable shard context dashboard converge baseline COTS PVF 2,500 3,600]
 required.each { |term| require_truth(text.downcase.include?(term.downcase), "cards omit #{term}") }
 %w[fixture-only prose-only screenshot-only library-only].each do |term|
   require_truth(text.downcase.include?(term), "cards omit non-proof boundary #{term}")
@@ -41,7 +41,7 @@ end
 
 design = PREP.join("design.md").read
 diagram = PREP.join("diagram.mmd").read
-%w[#5349 #5499 #5498 #5500 #5502 closed_out real codex claim worktree live-run-manifest context dashboard convergence baseline serialized].each do |term|
+%w[#5349 #5499 #5498 #5500 #5502 live merged ancestry real codex claim worktree live-run-manifest context dashboard convergence baseline serialized].each do |term|
   require_truth(design.downcase.include?(term.downcase), "design omits #{term}")
 end
 require_truth(diagram.include?("flowchart TD"), "diagram is not a Mermaid flowchart")

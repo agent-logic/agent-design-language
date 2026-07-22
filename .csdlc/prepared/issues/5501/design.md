@@ -4,9 +4,10 @@
 
 Preparation only. No live workcell execution, product implementation,
 publication, or PR is authorized by this packet. Execution remains fail-closed
-until WP-09 #5349 and WP-10A children #5499, #5498, #5500, and #5502 are all
-GitHub merged, typed `closed_out`, claim-free, backed by retained merged
-receipts, and ancestral to the execution revision.
+until WP-09 #5349 and WP-10A children #5499, #5498, #5500, and #5502 all have
+live merged heads that are ancestral to the execution revision. Typed
+`closed_out` state and retained receipts are audit-only signals and must not
+block readiness when live merge plus ancestry truth is satisfied.
 
 ## Purpose
 
@@ -117,11 +118,13 @@ message bus, cloud resource, or orchestration framework is planned.
 
 ## Validation Plan
 
-1. Preparation proof checks all six cards, reviewed design/diagram, exact
+1. Preparation proof checks all six cards, design/diagram, exact live-merge
    dependencies, preparation-only paths, COTS, budgets, PVF, and zero product
    changes.
-2. The dependency gate proves #5349, #5499, #5498, #5500, and #5502 terminal
-   receipts, claim release, merged disposition, and ancestry.
+2. The dependency gate proves #5349, #5499, #5498, #5500, and #5502 live
+   merged heads are ancestral to the execution revision. Typed closeout,
+   retained receipts, and claim-release records are retained as audit-only
+   observations.
 3. A dry contract gate validates the live-run manifest, disjoint write sets,
    exact issue/claim/branch/worktree/revision identities, bounded context
    schema, negative case, dashboard observation plan, timing plan, and baseline
@@ -146,8 +149,7 @@ message bus, cloud resource, or orchestration framework is planned.
 
 ## Stop Conditions
 
-- Any dependency lacks merged typed closeout, receipt, claim release, or
-  ancestry.
+- Any dependency lacks a live merged head ancestral to the execution revision.
 - Fewer than two real writable shards can be admitted with disjoint claims and
   protected paths.
 - Context identity, redaction, task provenance, dashboard observations, or
