@@ -1,0 +1,12 @@
+{
+  "issue": 5627,
+  "claim_id": "claim-5627-csdlc-four-command-lifecycle",
+  "expected_generation": 1,
+  "expected_digest": "89fae7806757d553209ee1e624dd3c37311b0ba67d0da4ed46b7d3da6be926e7",
+  "now_unix_seconds": 1784739571,
+  "actor": "codex:issue-5627-slot-4",
+  "reason": "Include stale-review path classification in the four-command lifecycle repair.",
+  "add_protected_paths": [
+    "csdlc-v2/src/git.rs"
+  ]
+}

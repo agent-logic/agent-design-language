@@ -5,7 +5,7 @@
   "initialization_digest": "92b057b98eaffbebc0305e839a75bd5da4470abc6d6a59af788534ba1a6e814d",
   "phase": "implemented",
   "generation": 1,
-  "digest": "89fae7806757d553209ee1e624dd3c37311b0ba67d0da4ed46b7d3da6be926e7",
+  "digest": "2e59c8ff58396eb327a31ce75bedf65191f32dfb04cd6ae7af15dce4f2fc7ad6",
   "claim": {
     "id": "claim-5627-csdlc-four-command-lifecycle",
     "owner": "codex:issue-5627-slot-4",
@@ -16,25 +16,26 @@
     "branch": "codex/5627-csdlc-four-command-lifecycle",
     "worktree": ".",
     "protected_paths": [
-      "csdlc-v2/src/pvf.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/review.rs",
-      "csdlc-v2/src/publication.rs",
-      "csdlc-v2/src/doctor.rs",
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/bin/csdlc-validate.rs",
-      "csdlc-v2/src/bin/csdlc-review.rs",
+      ".csdlc/evidence/5627",
+      ".csdlc/issues/5627",
+      ".csdlc/prepared/issues/5627",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
       "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/bin/csdlc-review.rs",
+      "csdlc-v2/src/bin/csdlc-validate.rs",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/src/git.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/pvf.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/src/store.rs",
       "csdlc-v2/tests/gate4.rs",
       "csdlc-v2/tests/gate5.rs",
       "csdlc-v2/tests/gate6.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs",
-      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
-      "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
-      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
-      ".csdlc/issues/5627",
-      ".csdlc/prepared/issues/5627",
-      ".csdlc/evidence/5627"
+      "csdlc-v2/tests/gate7_lifecycle.rs"
     ],
     "purpose": "Collapse routine C-SDLC v2 execution into four typed commands while preserving exact evidence and terminal receipts"
   },
@@ -128,6 +129,13 @@
       "actor": "codex:019f8a5b-d18e-7a43-af0f-670f1e44082a",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:issue-5627-slot-4",
+      "reason": "Include stale-review path classification in the four-command lifecycle repair.",
+      "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/git.rs\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
