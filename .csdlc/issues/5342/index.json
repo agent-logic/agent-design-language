@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "212fb29ba4dd1b21f17aa90ad19bd87f2497143204cb620d0f5699c00b26a631",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "d3aa31c42ed90290d70751bb03b188019af43b211629d293cb52ebc392d6766a",
+  "generation": 9,
+  "digest": "cf8274cca5de5b19ebf423b4db534fc1032686f1b7384d365da717eacff57187",
   "claim": {
     "id": "claim-5342-v0918-wp07-records-signing",
     "owner": "codex:5342-owner",
-    "generation": 8,
+    "generation": 9,
     "acquired_unix_seconds": 1784727950,
     "expires_unix_seconds": 1785332750,
     "heartbeat_unix_seconds": 1784727950,
@@ -40,34 +40,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "522ddf3f2dd4448616e2169dae9c063f385b81e3695043e4a9e222d2ac5d084a",
+      "values_digest": "06a87588544bece7975fb5e8dc44f2ff8392ce6c0c1ef2a054fbbbbc821e8b20",
       "rendered_digest": "9cac2b2b36d4769996d01344b1691c33cd490ec594bd001acfaabb6dd0413867",
       "ast_digest": "24b239d8057c1a540715ead5ddcdac68ff6d3e7903d37c2301a3a3b72534ec85"
     },
     "stp": {
-      "values_digest": "ae1a6da450f876e9ddf1e314d60fc5303dd12fcd729c9001b4976cb17acde3bd",
+      "values_digest": "096ec372dd6c3fcafccf018203a0c2f033d731a21699fb4809cea8c44440ce71",
       "rendered_digest": "b7982a51a91a37f3d8ccebc96e88109dda2c7019f3d3ee68340a185291cab2e0",
       "ast_digest": "ea671c1c132ac2a76f5d16832b4186506aaafb8e2501b6d6eede2955a586c375"
     },
     "spp": {
-      "values_digest": "e99415e3f80580a167db7d28b6111ee0de140714c55897d02a3bd3ae45e401b4",
+      "values_digest": "8670c4b585168503708c207406087e0c24fd5f02ab5f85687d84b5567bb440b8",
       "rendered_digest": "44cf6967639dcba61a699361dbd3fbdb6f4ac4a07d3c5a858afc18211174f006",
       "ast_digest": "85658cb208a91abab18134859a54bd6ec2b52f65a7591b1ef30e40a76d87d25d"
     },
     "vpp": {
-      "values_digest": "933cd3056621988d8bb340131fb31a07678006f3bb19ac4ec8d1e7964d32688e",
+      "values_digest": "14e7f65de28770bab68c54568529d56ed821827826d6054ae25fa17e93f2ef17",
       "rendered_digest": "14e26a30034d1b2841a6fa4253451b48c3b17fa48d08fbd76268aa8114888bef",
       "ast_digest": "357b8bcb38ab9f55561748977b3b78f4526a8a4ee4b06958760435182a7d213f"
     },
     "srp": {
-      "values_digest": "6a22ac3ce51fd65117152b34922e8af74f7fb7a81968c57347be293989503d96",
+      "values_digest": "dc1e35d2423a8df8145814600b41682e7abb150f3665e94fac329b02c80aa73c",
       "rendered_digest": "65464b34dcd7d09e423455cf1cd4fa83046aa20d54bbbef276dc44d3f4824a0d",
       "ast_digest": "405501ab81ff51bd2030b551cd0dd10a7bc1e70b61a005484e9f2e6fd051d2f1"
     },
     "sor": {
-      "values_digest": "afd02ac288d13cdc21452658ed700136aaae002513617ead83f900d568c33f3c",
-      "rendered_digest": "749effb775836e4b416eec245f129998ed5dc9874142a06b6fb6cb6bae2ea838",
-      "ast_digest": "eb371a4cf874537425128cd2f365bd920b09df63853f330e62788ce95e4921ae"
+      "values_digest": "aba9594d92f6b0d499b77d496aea8592ad43b7cf7b91d067b9f80989989ecf82",
+      "rendered_digest": "2cfddb32ac5030c96aca01474f7a60d77722b8ba4517ed4ea42d3ceb9145f172",
+      "ast_digest": "310316d183d83afc7b3420ad73e7b545906774c34fd5267b3aed850deed105b5"
     }
   },
   "transitions": [
@@ -156,6 +156,13 @@
       "actor": "subagent:019f8a51-f6d9-7620-beff-9c2249046612",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:5342-owner",
+      "reason": "Refresh the complete exact FastWork proof at reviewed head 081d52bdd0c073801503f2b6f0f4f9e0d4f2432e.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/5342/validate-records.sh\",\"all\",\"081d52bdd0c073801503f2b6f0f4f9e0d4f2432e\"],\"purpose\":\"Prove records, canonical bytes, real signatures, external trust, replay, strict channels, tamper rejection, COTS, scope, LoC, formatting, strict Clippy, and fresh-process determinism.\",\"outcome\":\"passed\",\"evidence_ref\":\"Exact head 081d52bdd0c073801503f2b6f0f4f9e0d4f2432e: 1039 implementation LoC; 878 test/fixture LoC; 10 records tests and 5 tamper/channel tests; schema diff, all-target tests, repeated tamper target, fmt, strict Clippy, exact COTS, dependency receipts/ancestry, scope, and claim collision checks passed on /Volumes/FastWork in 2 seconds.\"}}"
     }
   ]
 }
