@@ -2,14 +2,14 @@
   "schema": "adl.csdlc.predecessor_gate.v1",
   "issue": 5384,
   "base_ref": "origin/main",
-  "expected_base_sha": "09c0bd1784216dbce1ad4cdebfe2d453af6e3d9d",
+  "expected_base_sha": "79c7dccf12540863f6c038e1fd7ef45e2357a55e",
   "live_evidence": ".csdlc/prepared/issues/5384/live-dependency-snapshot.json",
   "max_live_evidence_age_seconds": 3600,
   "requirements": [
     "live_issue_closed",
     "implementation_pr_merged",
     "typed_phase_closed_out",
-    "shared_git_terminal_receipt",
+    "shared_git_terminal_receipt_audit_optional",
     "terminal_disposition_merged",
     "observed_sha_ancestor_of_base_ref"
   ],
