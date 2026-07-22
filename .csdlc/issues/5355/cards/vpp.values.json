@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5355,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-21A] Prepare next-milestone closeout plan",
+    "slug": "v0918-wp21a-next-milestone-closeout-plan",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "preparation-doctor",
+          "proof_role": "Validate the generated typed C-SDLC v2 preparation packet",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 1000,
+          "argv": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "5355"
+          ],
+          "parallel_group": "release-tail-preparation",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on missing live predecessor merge, stale ancestry, missing canonical docs, or unsupported handoff claims.",
+      "design_ref": ".csdlc/prepared/issues/5355/design.md",
+      "design_digest": "c708bc570694fbd8d88095ef40569313c219bfb5d15465b93ef4b43806359ebe",
+      "diagram_ref": ".csdlc/prepared/issues/5355/diagram.mmd",
+      "diagram_digest": "4dc2f21e876feeea6bf768a3815fc9afc3d0ab59f8f2e965042df91b3aa23a88"
+    }
+  }
+}
