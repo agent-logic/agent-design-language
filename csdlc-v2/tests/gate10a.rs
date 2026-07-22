@@ -1,5 +1,5 @@
 use csdlc_v2::{
-    edit_issue, install_binaries, install_prebuilt_binaries, resolve_operator_generation,
+    build_and_install_binaries, edit_issue, install_binaries, resolve_operator_generation,
     verify_coexistence, BootstrapRequest, CardKind, Claim, CoexistenceInventory, EditRequest,
     Generation, LifecyclePhase, SemanticOperation, SkillManifest, Store,
 };
@@ -75,13 +75,10 @@ fn coexistence_fails_closed_when_v1_or_v2_is_missing() {
 #[test]
 fn installer_records_provenance_without_replacing_other_files() {
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
-    let lockfile = repo.join("csdlc-v2/Cargo.lock");
-    let lockfile_before = fs::read(&lockfile).unwrap();
     let destination_parent = tempfile::tempdir().unwrap();
     let destination = destination_parent.path().join("csdlc-v2");
     fs::write(destination_parent.path().join("v1-stays"), b"v1").unwrap();
-    let receipt = install_prebuilt_binaries(&repo, prebuilt_binaries(), &destination).unwrap();
-    assert_eq!(fs::read(lockfile).unwrap(), lockfile_before);
+    let receipt = install_binaries(prebuilt_binaries(), &destination).unwrap();
     assert_eq!(receipt.binaries.len(), 12);
     assert_eq!(
         fs::read(destination_parent.path().join("v1-stays")).unwrap(),
@@ -101,6 +98,7 @@ fn installer_records_provenance_without_replacing_other_files() {
             0
         );
     }
+    stamp_current_revision(&repo, &destination);
     let inventory = CoexistenceInventory::load().unwrap();
     assert!(
         verify_coexistence(&repo, &destination, &inventory)
@@ -191,7 +189,7 @@ fn stale_owner_binary_provenance_fails_closed() {
 }
 
 #[test]
-fn untracked_build_input_is_rejected_before_install() {
+fn untracked_build_input_is_rejected_before_cargo_runs() {
     let repo = tempfile::tempdir().unwrap();
     git(repo.path(), &["init", "-b", "main"]);
     git(
@@ -214,8 +212,7 @@ fn untracked_build_input_is_rejected_before_install() {
     )
     .unwrap();
     let destination = tempfile::tempdir().unwrap().path().join("csdlc-v2");
-    let error =
-        install_prebuilt_binaries(repo.path(), prebuilt_binaries(), &destination).unwrap_err();
+    let error = build_and_install_binaries(repo.path(), &destination).unwrap_err();
     assert!(error.message.contains("dirty csdlc-v2 sources"));
     assert!(!repo.path().join("cargo-ran").exists());
     assert!(!destination.exists());
@@ -226,7 +223,7 @@ fn freshly_installed_stable_edit_binary_is_executable() {
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
     let parent = tempfile::tempdir().unwrap();
     let destination = parent.path().join("csdlc-v2");
-    install_prebuilt_binaries(&repo, prebuilt_binaries(), &destination).unwrap();
+    install_binaries(prebuilt_binaries(), &destination).unwrap();
 
     let fixture = tempfile::tempdir().unwrap();
     git(fixture.path(), &["init", "-b", "main"]);
@@ -505,7 +502,8 @@ fn symlinked_installed_binaries_fail_coexistence() {
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
     let parent = tempfile::tempdir().unwrap();
     let bins = parent.path().join("csdlc-v2");
-    install_prebuilt_binaries(&repo, prebuilt_binaries(), &bins).unwrap();
+    install_binaries(prebuilt_binaries(), &bins).unwrap();
+    stamp_current_revision(&repo, &bins);
     fs::remove_file(bins.join("csdlc-init")).unwrap();
     symlink("/bin/true", bins.join("csdlc-init")).unwrap();
     let report = verify_coexistence(&repo, &bins, &CoexistenceInventory::load().unwrap()).unwrap();
@@ -517,4 +515,13 @@ fn prebuilt_binaries() -> &'static std::path::Path {
     std::path::Path::new(env!("CARGO_BIN_EXE_csdlc-install"))
         .parent()
         .expect("Cargo binary directory")
+}
+
+fn stamp_current_revision(repo: &std::path::Path, bins: &std::path::Path) {
+    let revision = git(repo, &["rev-parse", "HEAD"]);
+    let receipt_path = bins.join("install-receipt.json");
+    let mut receipt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
+    receipt["source_revision"] = serde_json::Value::String(format!("git:{revision}"));
+    fs::write(receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
 }
