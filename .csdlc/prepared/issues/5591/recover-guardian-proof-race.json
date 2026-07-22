@@ -1,0 +1,8 @@
+{
+  "issue": 5591,
+  "expected_generation": 16,
+  "expected_digest": "c4662c4caac383eabee527ffe92822c2f3f657a6864051e37d5344a3532104b5",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+  "reason": "Current hosted Runtime coverage exposed a nondeterministic guardian descendant-startup proof race; recover published review truth for exact-head validation and rereview of the deterministic readiness handshake."
+}

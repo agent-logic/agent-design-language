@@ -1,6 +1,7 @@
 use std::{
     future::pending,
     io::{BufRead, BufReader, Read},
+    net::ToSocketAddrs,
     path::{Path, PathBuf},
     process::{Command, Stdio},
     sync::{
@@ -14,8 +15,8 @@ use adl_runtime_kernel::{
     channel,
     proof::{build_proof_runtime, run_proof},
     ChannelFullPolicy, Component, ComponentContext, ComponentError, ComponentFactory, ComponentId,
-    ComponentRegistry, ComponentSpec, ControlAction, FailurePolicy, Kernel, KernelExit,
-    RuntimeRecorder, SendError, SignedControlCommand,
+    ComponentRegistry, ComponentSpec, ControlAction, DomainWork, FailurePolicy, Kernel, KernelExit,
+    RuntimeRecorder, SendError, SignedControlCommand, DOMAIN_WORK_SCHEMA,
 };
 use async_trait::async_trait;
 
@@ -357,15 +358,22 @@ wait = "1s"
 }
 
 #[cfg(unix)]
-#[test]
+#[tokio::test]
 #[ignore = "requires ADL_HORUST_BIN and binds Runtime v3 control test port"]
-fn horust_forwards_sigterm_and_runtime_checkpoints_cleanly() {
+async fn horust_forwards_sigterm_and_runtime_checkpoints_cleanly() {
     use ed25519_dalek::SigningKey;
+    use tokio_rustls::rustls::{pki_types::CertificateDer, ClientConfig, RootCertStore};
 
     let directory = tempfile::tempdir().unwrap();
     let continuity_root = directory.path().join("horust-sigterm");
-    let init = write_test_runtime_init(directory.path(), control_test_addr().parse().unwrap());
-    let verifying_key = SigningKey::from_bytes(&[19_u8; 32]).verifying_key();
+    let address = (CONTROL_TEST_HOST, CONTROL_TEST_PORT)
+        .to_socket_addrs()
+        .unwrap()
+        .next()
+        .unwrap();
+    let (init, certificate_der) =
+        write_test_runtime_init_with_certificate(directory.path(), address);
+    let control_key = SigningKey::from_bytes(&[19_u8; 32]);
     let mut command = Command::new(horust_binary());
     configure_process_group(&mut command);
     let mut guardian = ChildGuard::new(
@@ -379,7 +387,7 @@ fn horust_forwards_sigterm_and_runtime_checkpoints_cleanly() {
             .env("ADL_RUNTIME_CONTINUITY_ROOT", &continuity_root)
             .env(
                 "ADL_RUNTIME_CONTROL_PUBLIC_KEY_HEX",
-                hex::encode(verifying_key.as_bytes()),
+                hex::encode(control_key.verifying_key().as_bytes()),
             )
             .env("ADL_RUNTIME_CONTROL_KEY_ID", "guardian-test")
             .env("ADL_RUNTIME_CONTROL_PRINCIPAL", "guardian-test")
@@ -407,7 +415,41 @@ fn horust_forwards_sigterm_and_runtime_checkpoints_cleanly() {
     );
 
     wait_for_control_port(guardian.0.as_mut().unwrap());
-    std::thread::sleep(Duration::from_millis(250));
+    let mut roots = RootCertStore::empty();
+    roots.add(CertificateDer::from(certificate_der)).unwrap();
+    let connector = tokio_rustls::TlsConnector::from(Arc::new(
+        ClientConfig::builder()
+            .with_root_certificates(roots)
+            .with_no_client_auth(),
+    ));
+    let observatory = tls_request(&connector, address,
+        b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer guardian-observatory-token-00000001\r\nConnection: close\r\n\r\n").await;
+    let feed: serde_json::Value =
+        serde_json::from_str(observatory.split("\r\n\r\n").nth(1).unwrap()).unwrap();
+    let instance_id = feed["runtime_instance_id"].as_str().unwrap();
+    let command = SignedControlCommand::sign(
+        "guardian-submit",
+        blake3::hash(b"guardian-submit").to_hex()[..32].to_owned(),
+        instance_id,
+        "guardian-test",
+        ControlAction::Submit {
+            work: DomainWork {
+                schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                work_id: "guardian-work".to_owned(),
+                kind: "parity-a".to_owned(),
+                payload: b"horust-live-ingress".to_vec(),
+            },
+        },
+        "guardian-test",
+        &control_key,
+    )
+    .unwrap();
+    let body = serde_json::to_vec(&command).unwrap();
+    let head = format!("POST /v1/control HTTP/1.1\r\nHost: localhost\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n", body.len());
+    let mut request = head.into_bytes();
+    request.extend(body);
+    let submitted = tls_request(&connector, address, &request).await;
+    assert!(submitted.starts_with("HTTP/1.1 200 OK"));
     assert_eq!(
         unsafe { libc::kill(-(guardian.0.as_ref().unwrap().id() as i32), libc::SIGTERM) },
         0
@@ -429,6 +471,31 @@ fn horust_forwards_sigterm_and_runtime_checkpoints_cleanly() {
     .unwrap();
     assert_eq!(continuity["schema"], "adl.runtime.checkpoint.v1");
     assert_eq!(continuity["generation"], 1);
+    let checkpoint: serde_json::Value = serde_json::from_slice(
+        &std::fs::read(continuity_root.join("generation-1/0000-live_kernel.bin")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(checkpoint["ingress"]["accepted_through"], 1);
+    assert!(checkpoint["ingress"]["completed"]["guardian-work"]["result_hash"].is_string());
+}
+
+#[cfg(unix)]
+async fn tls_request(
+    connector: &tokio_rustls::TlsConnector,
+    address: std::net::SocketAddr,
+    request: &[u8],
+) -> String {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    use tokio_rustls::rustls::pki_types::ServerName;
+    let stream = tokio::net::TcpStream::connect(address).await.unwrap();
+    let mut stream = connector
+        .connect(ServerName::try_from("localhost").unwrap(), stream)
+        .await
+        .unwrap();
+    stream.write_all(request).await.unwrap();
+    let mut response = Vec::new();
+    stream.read_to_end(&mut response).await.unwrap();
+    String::from_utf8(response).unwrap()
 }
 
 fn horust_binary() -> PathBuf {
@@ -713,7 +780,7 @@ fn pressure_checkpoint_failure_keeps_signal_shutdown_responsive() {
     init_text.push_str(
         r#"
 [weather]
-sample_millis = 60000
+sample_millis = 100
 memory_recover_used_basis_points = 0
 memory_warning_used_basis_points = 1
 memory_stop_used_basis_points = 2
@@ -809,6 +876,130 @@ cpu_stop_basis_points = 2
     .unwrap();
     assert_eq!(manifest["generation"], 1);
     assert_eq!(manifest["signing_algorithm"], "ed25519");
+}
+
+#[cfg(unix)]
+#[tokio::test]
+async fn pressure_closes_ingress_serializes_live_work_and_stops_cleanly() {
+    use ed25519_dalek::SigningKey;
+    use tokio_rustls::rustls::{pki_types::CertificateDer, ClientConfig, RootCertStore};
+
+    let directory = tempfile::tempdir().unwrap();
+    let continuity_root = directory.path().join("pressure-success");
+    let probe = std::net::TcpListener::bind((CONTROL_TEST_HOST, 0)).unwrap();
+    let address = probe.local_addr().unwrap();
+    drop(probe);
+    let (init, certificate_der) =
+        write_test_runtime_init_with_certificate(directory.path(), address);
+    let mut init_text = std::fs::read_to_string(&init).unwrap();
+    init_text.push_str(&format!(
+        r#"
+[weather]
+sample_millis = 500
+disk_stop_free_bytes = {}
+disk_warning_free_bytes = {}
+disk_recover_free_bytes = {}
+"#,
+        9_000_000_000_000_000_000_u64, 9_000_000_000_000_000_001_u64, 9_000_000_000_000_000_002_u64
+    ));
+    std::fs::write(&init, init_text).unwrap();
+    let control_key = SigningKey::from_bytes(&[43_u8; 32]);
+    let mut child = Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"))
+        .arg("serve")
+        .arg("--init")
+        .arg(&init)
+        .arg("--continuity-root")
+        .arg(&continuity_root)
+        .env(
+            "ADL_RUNTIME_CONTROL_PUBLIC_KEY_HEX",
+            hex::encode(control_key.verifying_key().as_bytes()),
+        )
+        .env("ADL_RUNTIME_CONTROL_KEY_ID", "pressure-test")
+        .env("ADL_RUNTIME_CONTROL_PRINCIPAL", "pressure-test")
+        .env(
+            "ADL_RUNTIME_CONTINUITY_SIGNING_KEY_HEX",
+            hex::encode([47_u8; 32]),
+        )
+        .env("ADL_RUNTIME_CONTINUITY_MIN_GENERATION", "0")
+        .env(
+            "ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX",
+            hex::encode(
+                SigningKey::from_bytes(&[53_u8; 32])
+                    .verifying_key()
+                    .as_bytes(),
+            ),
+        )
+        .env(
+            "ADL_RUNTIME_OBSERVATORY_TOKEN",
+            "pressure-observatory-token-000001",
+        )
+        .stdout(Stdio::null())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let stderr = child.stderr.take().unwrap();
+    let (ready_tx, ready_rx) = std::sync::mpsc::channel();
+    let stderr_reader = std::thread::spawn(move || {
+        let mut output = String::new();
+        for line in BufReader::new(stderr).lines() {
+            let line = line.unwrap();
+            if line.contains("event=control_ready") {
+                let instance = line
+                    .split_whitespace()
+                    .find_map(|field| field.strip_prefix("instance_id="))
+                    .unwrap()
+                    .to_owned();
+                let _ = ready_tx.send(instance);
+            }
+            output.push_str(&line);
+            output.push('\n');
+        }
+        output
+    });
+    let instance_id = ready_rx.recv_timeout(Duration::from_secs(5)).unwrap();
+    let mut roots = RootCertStore::empty();
+    roots.add(CertificateDer::from(certificate_der)).unwrap();
+    let connector = tokio_rustls::TlsConnector::from(Arc::new(
+        ClientConfig::builder()
+            .with_root_certificates(roots)
+            .with_no_client_auth(),
+    ));
+    let command = SignedControlCommand::sign(
+        "pressure-submit",
+        blake3::hash(b"pressure-submit").to_hex()[..32].to_owned(),
+        instance_id,
+        "pressure-test",
+        ControlAction::Submit {
+            work: DomainWork {
+                schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                work_id: "pressure-work".to_owned(),
+                kind: "parity-a".to_owned(),
+                payload: b"serialize-before-stop".to_vec(),
+            },
+        },
+        "pressure-test",
+        &control_key,
+    )
+    .unwrap();
+    let body = serde_json::to_vec(&command).unwrap();
+    let mut request = format!("POST /v1/control HTTP/1.1\r\nHost: localhost\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n", body.len()).into_bytes();
+    request.extend(body);
+    assert!(tls_request(&connector, address, &request)
+        .await
+        .starts_with("HTTP/1.1 200 OK"));
+    let status = child.wait().unwrap();
+    let stderr = stderr_reader.join().unwrap();
+    assert!(
+        status.success(),
+        "pressure shutdown failed ({status}): {stderr}"
+    );
+    assert!(stderr.contains("event=resource_pressure_stop"));
+    let checkpoint: serde_json::Value = serde_json::from_slice(
+        &std::fs::read(continuity_root.join("generation-1/0000-live_kernel.bin")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(checkpoint["ingress"]["accepted_through"], 1);
+    assert!(checkpoint["ingress"]["completed"]["pressure-work"]["result_hash"].is_string());
 }
 
 #[cfg(unix)]
@@ -954,27 +1145,65 @@ async fn signed_https_shutdown_checkpoints_and_forgery_cannot_stop_the_process()
             String::from_utf8(response).unwrap()
         }
     };
-    let signed = |id: &str| {
+    let signed = |id: &str, action: ControlAction| {
         SignedControlCommand::sign(
             id,
             blake3::hash(id.as_bytes()).to_hex()[..32].to_owned(),
             &instance_id,
             "remote-test",
-            ControlAction::Shutdown { grace_millis: 500 },
+            action,
             "remote-test",
             &control_key,
         )
         .unwrap()
     };
-    let mut forged = signed("forged-stop");
+    let work = DomainWork {
+        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+        work_id: "guardian-work-1".to_owned(),
+        kind: "parity-a".to_owned(),
+        payload: b"guardian-live-ingress".to_vec(),
+    };
+    let submit_response = request(signed(
+        "valid-submit",
+        ControlAction::Submit { work: work.clone() },
+    ))
+    .await;
+    assert!(submit_response.starts_with("HTTP/1.1 200 OK"));
+    let submit: serde_json::Value =
+        serde_json::from_str(submit_response.split("\r\n\r\n").nth(1).unwrap()).unwrap();
+    assert_eq!(submit["outcome"]["result"], "submitted");
+    assert_eq!(submit["outcome"]["work_result"]["accepted_sequence"], 1);
+
+    let stream = tokio::net::TcpStream::connect(address).await.unwrap();
+    let mut stream = connector
+        .connect(ServerName::try_from("localhost").unwrap(), stream)
+        .await
+        .unwrap();
+    stream.write_all(b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer guardian-observatory-token-00000004\r\nConnection: close\r\n\r\n").await.unwrap();
+    let mut observatory_response = Vec::new();
+    stream.read_to_end(&mut observatory_response).await.unwrap();
+    let observatory_response = String::from_utf8(observatory_response).unwrap();
+    assert!(observatory_response.starts_with("HTTP/1.1 200 OK"));
+    let observatory: serde_json::Value =
+        serde_json::from_str(observatory_response.split("\r\n\r\n").nth(1).unwrap()).unwrap();
+    assert_eq!(observatory["ingress"]["accepted_through"], 1);
+    assert_eq!(
+        observatory["ingress"]["completed"]["guardian-work-1"]["result_hash"],
+        submit["outcome"]["work_result"]["result_hash"]
+    );
+
+    let mut forged = signed("forged-stop", ControlAction::Shutdown { grace_millis: 500 });
     forged.signature = hex::encode([0_u8; 64]);
     assert!(request(forged).await.starts_with("HTTP/1.1 401"));
     assert!(child.try_wait().unwrap().is_none());
     assert!(!continuity_root.join("generation-1").exists());
 
-    assert!(request(signed("valid-stop"))
-        .await
-        .starts_with("HTTP/1.1 200 OK"));
+    assert!(request(signed(
+        "valid-stop",
+        ControlAction::Shutdown { grace_millis: 500 },
+    ))
+    .await
+    .starts_with("HTTP/1.1 200 OK"));
     let status = child.wait().unwrap();
     let stderr = stderr_reader.join().unwrap();
     assert!(
@@ -987,6 +1216,15 @@ async fn signed_https_shutdown_checkpoints_and_forgery_cannot_stop_the_process()
     .unwrap();
     assert_eq!(manifest["generation"], 1);
     assert_eq!(manifest["signing_algorithm"], "ed25519");
+    let checkpoint: serde_json::Value = serde_json::from_slice(
+        &std::fs::read(continuity_root.join("generation-1/0000-live_kernel.bin")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(checkpoint["ingress"]["accepted_through"], 1);
+    assert_eq!(
+        checkpoint["ingress"]["completed"]["guardian-work-1"]["result_hash"],
+        submit["outcome"]["work_result"]["result_hash"]
+    );
 }
 
 #[tokio::test]
