@@ -41,11 +41,11 @@ Implemented a pure deterministic ADL v2 conductor that validates typed lifecycle
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

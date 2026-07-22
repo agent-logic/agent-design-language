@@ -3,13 +3,13 @@
   "issue": 5499,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "316fcd95ede2f0eb1272cb321481d3b3a4fee04f249b216c1c2d80d694dfb98f",
-  "phase": "reviewed",
-  "generation": 16,
-  "digest": "c9d53292f6832b43fb1d9fe4d9ae91523a53d0403557fc0c7fb1f822ded1e6b6",
+  "phase": "published",
+  "generation": 17,
+  "digest": "6f10215b771f5ab667e10ab66197acffc37e30109f945fc65a664bffee559edf",
   "claim": {
     "id": "claim-5499-v0918-wp10a-conductor-preparation",
     "owner": "codex:issue-5499-preparation",
-    "generation": 16,
+    "generation": 17,
     "acquired_unix_seconds": 1784660260,
     "expires_unix_seconds": 1785265060,
     "heartbeat_unix_seconds": 1784660260,
@@ -48,7 +48,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5499,
+    "pull_request": 5638,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5638",
+    "base": "main",
+    "head": "codex/5499-v0918-wp10a-conductor",
+    "revision": "git-blake3:00c49f0a253df5994f45034d3cda45d3903b6d96:8638c1e7d6ebad1ad09d09a6314f2b4f946427a0c6a0b90687433ae267311371",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -62,34 +72,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "81d68612ed61beba7a364aaa1d739f24243a6b6117bd3da6cfeb21c433f6ae3b",
+      "values_digest": "b16e143c5c2cb7caaa640cda2f7e50e19d88406583c5a97da928798cdde41d88",
       "rendered_digest": "298ef4143b59030573e3941f723bd25261caee61126a1802c78a18bde1cf8b0a",
       "ast_digest": "a0b3aee2137a978641197549cee2a876c2fd84d5134829133098c5b0993ee109"
     },
     "stp": {
-      "values_digest": "174a9c2c4a88915fe6f6e497a71159332040f8ea7de13702293737390bf14b23",
+      "values_digest": "06375419cd46a9d36c88b6bbb17ed06bc6daf4ebcc8ae3fee9c8bfb8b5991c5f",
       "rendered_digest": "16059d6a9c7da6d23cbeb849b193d4deacd493e8459212264d1fcc6d53543c2c",
       "ast_digest": "abe8f161669a2f26c90ca7fdf06a8e93a1b9c97a2f0c0797d3bd87009e9ef093"
     },
     "spp": {
-      "values_digest": "44e6dd31313633b5a33ef895948341d976da357ee3cd20da14d07d30eea5372e",
+      "values_digest": "d5c56d7780f18fa4ce2a5cb0a1a4fff7baa5b9d77dcdfbade79dc3db1c6307ac",
       "rendered_digest": "088bc3a3551683681e35de8beb17cea49c4bbeeb10826b34628ec562712514cf",
       "ast_digest": "2bec72de52caab99f7b6e29892c9b06d51e4b7728fed1ca3e0c5af35c4cdf845"
     },
     "vpp": {
-      "values_digest": "bd44fa056db801fce71ba121e8c0db91329f3de0a67f2fb378fac6546a7f71c2",
+      "values_digest": "1c5adc38105fe7f5ad7db2fe40ef29ace19f7dd2d4d92bdca782a48762405e17",
       "rendered_digest": "1eabfd2ca105bdec3628ec97dc7e989dc82ac19d337a408ce21ebdbfcd57ec82",
       "ast_digest": "a5821dee6458838fc2e4ea6bbeefe5c0d391b26409d7312189143fa0ba8849ab"
     },
     "srp": {
-      "values_digest": "a3c78dcd14007f7c352ed6653aceaf43b3979fa771f5b3fa3e30227230c5fb94",
+      "values_digest": "835a61f7ea596021f3f1fcb4932f93d9775a690d1ee08a718f132c6c9d6ac48d",
       "rendered_digest": "0ff62fbaa0e080b654a1091c56636851e3e7e37dd661412135c02905f841bfdf",
       "ast_digest": "ac7462c595d722c7788a16d8de7ba46aab6691762a54acf94f97a35ff4471fd5"
     },
     "sor": {
-      "values_digest": "86962405bb4b85f56f145013624c5d8004a471374b10160bb75efa4e3f51308a",
-      "rendered_digest": "67813e3f31666c714eb5650d8111c7cbd7f892c2588fb8dd2ae4eabaca86b04e",
-      "ast_digest": "9a3ef4bbb7d9c03b93f01f106dc4068e28ef6b016a87ec8dd8781f33870a814f"
+      "values_digest": "d6b3ba23b62f819323f3bb19ee71fa269b0e3f0ba65dc0c81a97819cce1b0812",
+      "rendered_digest": "bec7c92ae626949788a450763c03c97bca2bfa72ad10b8d2e1e5f4fbce315fbc",
+      "ast_digest": "daf1d58f17cd34e4b26718e3a26032acbdc189f1ad470956b8876e6612e47d79"
     }
   },
   "transitions": [
@@ -120,6 +130,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The single pre-PR review is clean after both actionable findings were fixed and revalidated."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -276,6 +293,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The single pre-PR review is clean after both actionable findings were fixed and revalidated.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

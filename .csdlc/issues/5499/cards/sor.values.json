@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-10A][multi-agent] Implement issue-graph-to-live-task conductor",
     "slug": "v0-91-8-wp-10a-issue-graph-live-task-conductor",
     "version": "v0.91.8",
-    "generation": 16
+    "generation": 17
   },
   "status": "pre_phase",
   "content": {
@@ -34,8 +34,8 @@
           "evidence_ref": "local:5499-fastwork-10-tests-strict-clippy-601-impl-loc-218-test-loc-under-5s"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
