@@ -32,14 +32,16 @@ fn malformed_input_fails_with_stderr_only() {
         .output()
         .expect("validate");
     assert!(!output.status.success());
-    assert!(output.stdout.is_empty());
-    assert!(!output.stderr.is_empty());
+    let error: serde_json::Value = serde_json::from_slice(&output.stdout).expect("error JSON");
+    assert_eq!(error["schema"], "adl.error.v1");
+    assert!(output.stderr.is_empty());
 }
 
 #[test]
 fn selector_select_inspect_and_rollback_are_transactional() {
     let root = tempfile::tempdir().expect("selector root");
-    fs::write(root.path().join("v2"), b"binary-v2").expect("generation");
+    fs::create_dir(root.path().join("bin")).expect("bin");
+    fs::write(root.path().join("bin/v2"), b"binary-v2").expect("generation");
     fs::create_dir(root.path().join("receipts")).expect("receipts");
     let digest = format!("{:x}", Sha256::digest(b"binary-v2"));
     fs::write(
@@ -68,5 +70,7 @@ fn selector_select_inspect_and_rollback_are_transactional() {
         .output()
         .expect("rollback");
     assert!(!rolled_back.status.success());
-    assert!(rolled_back.stdout.is_empty());
+    let error: serde_json::Value =
+        serde_json::from_slice(&rolled_back.stdout).expect("rollback error");
+    assert_eq!(error["schema"], "adl.error.v1");
 }

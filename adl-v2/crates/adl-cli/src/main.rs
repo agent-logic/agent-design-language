@@ -49,7 +49,7 @@ enum Command {
     Select {
         generation: String,
         #[arg(long)]
-        expected_digest: Option<String>,
+        expected_current_digest: Option<String>,
         #[arg(long)]
         root: Option<PathBuf>,
     },
@@ -83,7 +83,7 @@ struct Envelope<T: Serialize> {
 
 fn main() {
     if let Err(error) = dispatch(Cli::parse().command) {
-        eprintln!("adl-v2: {error}");
+        let _ = print_json(&serde_json::json!({"schema":"adl.error.v1","ok":false,"error":error}));
         std::process::exit(2);
     }
 }
@@ -151,9 +151,9 @@ fn dispatch(command: Command) -> Result<(), String> {
         }),
         Command::Select {
             generation,
-            expected_digest,
+            expected_current_digest,
             root,
-        } => mutate_selector(root.as_deref(), generation, expected_digest, false),
+        } => mutate_selector(root.as_deref(), generation, expected_current_digest, false),
         Command::Rollback { root } => mutate_selector(root.as_deref(), String::new(), None, true),
     }
 }
@@ -203,13 +203,15 @@ fn digest_file(path: &Path) -> Result<serde_json::Value, String> {
     let mut file = File::open(path).map_err(|e| e.to_string())?;
     let mut bytes = Vec::new();
     file.read_to_end(&mut bytes).map_err(|e| e.to_string())?;
-    Ok(serde_json::json!({"path": path, "sha256": format!("{:x}", Sha256::digest(bytes))}))
+    Ok(
+        serde_json::json!({"path": path.file_name().and_then(|n| n.to_str()).unwrap_or("input"), "sha256": format!("{:x}", Sha256::digest(bytes))}),
+    )
 }
 
 fn mutate_selector(
     root: Option<&Path>,
     generation: String,
-    expected_digest: Option<String>,
+    expected_current_digest: Option<String>,
     rollback: bool,
 ) -> Result<(), String> {
     let root = selector_root(root);
@@ -217,13 +219,24 @@ fn mutate_selector(
     let lock = File::create(root.join("selector.lock")).map_err(|e| e.to_string())?;
     lock.lock_exclusive().map_err(|e| e.to_string())?;
     let mut selector = load_selector(Some(&root))?;
+    if let Some(expected) = expected_current_digest.as_deref() {
+        let observed = selector
+            .current
+            .as_ref()
+            .map(|selection| selection.digest.as_str())
+            .unwrap_or("");
+        if expected != observed {
+            return Err("compare-and-swap current digest mismatch".into());
+        }
+    }
     let next = if rollback {
         selector
             .previous
             .clone()
             .ok_or_else(|| "no verified previous generation".to_string())?
     } else {
-        let executable = root.join(&generation);
+        validate_generation(&generation)?;
+        let executable = root.join("bin").join(&generation);
         if !executable.is_file() {
             return Err(format!(
                 "generation executable is missing: {}",
@@ -234,13 +247,6 @@ fn mutate_selector(
             .as_str()
             .unwrap_or_default()
             .to_string();
-        if let Some(expected) = expected_digest.as_deref() {
-            if expected != digest {
-                return Err(format!(
-                    "compare-and-swap digest mismatch: expected {expected}, observed {digest}"
-                ));
-            }
-        }
         verify_install_receipt(&root, &generation, &digest)?;
         Selection {
             generation: generation.clone(),
@@ -283,8 +289,30 @@ fn verify_install_receipt(root: &Path, generation: &str, digest: &str) -> Result
     Ok(())
 }
 
+fn validate_generation(generation: &str) -> Result<(), String> {
+    if generation.is_empty()
+        || generation == "."
+        || generation == ".."
+        || generation.contains('/')
+        || generation.contains('\\')
+    {
+        return Err("invalid generation name".into());
+    }
+    Ok(())
+}
+
 fn verify_selection(root: &Path, selection: &Selection) -> Result<(), String> {
-    let observed = digest_file(Path::new(&selection.executable))?["sha256"]
+    let executable = Path::new(&selection.executable);
+    let root = root
+        .canonicalize()
+        .map_err(|_| "selector root unavailable")?;
+    let executable_root = executable
+        .canonicalize()
+        .map_err(|_| "selected executable unavailable")?;
+    if !executable_root.starts_with(&root) {
+        return Err("selected executable escapes selector root".into());
+    }
+    let observed = digest_file(&executable_root)?["sha256"]
         .as_str()
         .unwrap_or_default()
         .to_string();
@@ -294,5 +322,5 @@ fn verify_selection(root: &Path, selection: &Selection) -> Result<(), String> {
             selection.digest, observed
         ));
     }
-    verify_install_receipt(root, &selection.generation, &selection.digest)
+    verify_install_receipt(&root, &selection.generation, &selection.digest)
 }
