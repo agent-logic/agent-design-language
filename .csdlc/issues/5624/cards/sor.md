@@ -44,11 +44,11 @@ Resolve terminal worktree identity canonically while preserving exact branch, to
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
