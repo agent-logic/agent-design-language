@@ -23,3 +23,19 @@ touch MCP alignment, or claim demo readiness.
 
 This is the current #4741 tooling blocker. Per operator instruction, no binary
 was built or replaced during this issue.
+
+## Tooling truth captured
+
+The first pre-commit attempt had already been appended to the SOR before
+independent review rejected its revision identity. The nonterminal
+`csdlc-edit` surface has no typed replace/remove operation for an existing
+validation result. The correction therefore uses the supported append-only
+route twice:
+
+- an authoritative blocked result points to `live-staged-proof.json`;
+- a later blocked result repeats the exact command, purpose, and evidence
+  reference of the stale entry so C-SDLC v2 latest-result semantics prevent
+  that historical identity from remaining passed.
+
+The audit remains immutable. A future typed nonterminal validation-replacement
+operation would make this repair less indirect.
