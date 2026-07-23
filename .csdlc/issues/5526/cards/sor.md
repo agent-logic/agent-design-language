@@ -61,11 +61,11 @@ Added deterministic first-class provider profiles and preserved vendor identity 
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
