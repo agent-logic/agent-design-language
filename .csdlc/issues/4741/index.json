@@ -3,19 +3,20 @@
   "issue": 4741,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6da60e6fc4092eeaaef14e46cd5c57a84272538fe5bc92a030061a4160ebb1bf",
-  "phase": "bound",
-  "generation": 4,
-  "digest": "94a48ae681909a0fd34cb21dc80b64e28f370ae4a215df0e53451c1feab92586",
+  "phase": "implemented",
+  "generation": 9,
+  "digest": "1a27e8f3ee1b99921f29778392ba089dc3b3af34fa8a1a1acd76de659d3cd19d",
   "claim": {
     "id": "claim-4741-v0918-wp15-unity-editor-liveness-prep",
     "owner": "codex:issue-4741-preparation",
-    "generation": 4,
+    "generation": 9,
     "acquired_unix_seconds": 1784835199,
     "expires_unix_seconds": 1785439999,
     "heartbeat_unix_seconds": 1784835199,
     "branch": "codex/4741-v0918-wp15-unity-editor-liveness-prep",
     "worktree": ".",
     "protected_paths": [
+      ".csdlc/evidence/4741",
       ".csdlc/issues/4741",
       ".csdlc/locks/4741.lock",
       ".csdlc/prepared/issues/4741",
@@ -27,7 +28,7 @@
       "adl/tools/test_v0916_unity_observatory_unity65_smoke.sh",
       "docs/tooling/unity_observatory_editor_batch_proof.md"
     ],
-    "purpose": "Prepare #4741 for bounded v0.91.8 WP-15 Unity editor liveness and batch-proof reliability execution"
+    "purpose": "Execute only #4741 Unity editor liveness, safe proof-mode selection, approved staging, semantic progress classification, focused tests, selector registration, retained live-or-staged proof, review, publication, and closeout; do not absorb #5332 ILPP diagnosis, #4739 MCP alignment, scene work, runtime semantics, assets, or investor rendering"
   },
   "review_assignment": null,
   "review": null,
@@ -45,34 +46,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1e750a934493d97275b7271ebcc961d0dc1bc34d434892e699e5b2cfe4a01213",
+      "values_digest": "05ba820a7ef71f34a9eae3dd91a679e40fd8ff3c0570bb198fc9cf976b3e104b",
       "rendered_digest": "20465ed8051ca296e888398621e97ba0038327558f5b412e2565ea50ee3dddd9",
       "ast_digest": "5f8c10f932a676f52809aa8ad1da360a0197ad7d9736b83ba8c2e6fa566ef483"
     },
     "stp": {
-      "values_digest": "96f06277c1a91522be1781ea126d213317301d1359915ee0a4c5c86e51ee181a",
+      "values_digest": "85c869d97e693e837cdb72da5e2a07332b6c48419ea2b016d2402dde27c3dfc0",
       "rendered_digest": "c1c74e60ed6c539cc615eba12aa1f2ed710218c44c4e9018edb478659e4e6080",
       "ast_digest": "a6d752e92ee16452e02031576d2a0e8752a84f6e9cafcb558680bc75efe815b6"
     },
     "spp": {
-      "values_digest": "f17ea701f39def4f5d81ae990295efdbd3dd5b2fe7c260f20cc91337986a55d7",
+      "values_digest": "98e2e5556d57ab4cffe8108fcec63b9983b3f552681f9369bcfae51e7fb38852",
       "rendered_digest": "c336a64f984f171b4dd6a93457504a07b6a53b4c9f6cc3d70d0a69d79aaf726e",
       "ast_digest": "d9fd3f5761aaab6f6570781fcdb46584b441e655028ee8d09adff788bc0d3fe5"
     },
     "vpp": {
-      "values_digest": "d7e2ffe0a6ddac42622937f2fbe7ebcc00c886308543b26bfeb31fffb1a6c840",
+      "values_digest": "0226f28e1756672b7ff4bc6dccf9fa6898ee5fb1bf0117f8203ce9052b6fa859",
       "rendered_digest": "86818866e461a232a32c457b36902a4c4ee220ff68c02f6c71a5c7817548dd7c",
       "ast_digest": "05b38482e7841e8ca4a6d9e629be99b7baa1bfd1bed3c1df5e0c5dd74c321efc"
     },
     "srp": {
-      "values_digest": "ea3cc63c812d2fb9c4fcbd14f902e3e54f91c680f6754b3fb76524e64a3479b1",
+      "values_digest": "1764cd747c82b2283a29a25dfd9b5d123b3f27242fca2c02d5c69691f88c6bea",
       "rendered_digest": "dd059b64312a4bf6f31dfa29b6629d85d2bf548fdb341eaac572aa278a5371dd",
       "ast_digest": "a80984fc87e439ee8599352e50f1110f51c385f514c66620975c5710122a407a"
     },
     "sor": {
-      "values_digest": "cebeaaf7c4bdd6786d36a8d367c9929144596de827974c19a200b0ac38bb5a15",
-      "rendered_digest": "ab03ede3dd6f184edc54db2e3dc2f7c79c9104fd5b47ea25b4ffae1123421e60",
-      "ast_digest": "cf1f884f9f636412b1dda9ad381f14f515c3d3ce10071b4ce54f0dcd98e1986d"
+      "values_digest": "ec6846a65feb9e74e334efa6869ed6496b4d734a0c7e8fe2403557c1c470d115",
+      "rendered_digest": "b0abff33674f26c511230ecf1e2dc275bcfa5f4598dad7766872cf23f1197ffc",
+      "ast_digest": "f5f022f3d3249df02e678531d7942cf6c3e774b016189f4489b15a717a1db2fe"
     }
   },
   "transitions": [
@@ -89,6 +90,13 @@
       "to": "bound",
       "actor": "codex:issue-4741-preparation",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-4741-execution",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -140,6 +148,55 @@
       "actor": "operator:v0918-wp15-unity-specialist-recheck",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:issue-4741-execution",
+      "reason": "Begin bounded #4741 execution after typed doctor pass and explicit operator authorization",
+      "operation": "{\"add_protected_paths\":[\".csdlc/evidence/4741\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
+      "actor": "codex:issue-4741-execution",
+      "reason": "Begin bounded #4741 execution after typed doctor pass and explicit operator authorization",
+      "operation": "{\"add_protected_paths\":[\".csdlc/evidence/4741\"],\"expected_owner\":\"codex:issue-4741-preparation\",\"expected_purpose\":\"Prepare #4741 for bounded v0.91.8 WP-15 Unity editor liveness and batch-proof reliability execution\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare #4741 for bounded v0.91.8 WP-15 Unity editor liveness and batch-proof reliability execution\",\"purpose\":\"Execute only #4741 Unity editor liveness, safe proof-mode selection, approved staging, semantic progress classification, focused tests, selector registration, retained live-or-staged proof, review, publication, and closeout; do not absorb #5332 ILPP diagnosis, #4739 MCP alignment, scene work, runtime semantics, assets, or investor rendering\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:issue-4741-execution",
+      "reason": "Record the bounded Unity editor-liveness implementation and retained staged proof",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented deterministic Unity proof-mode selection, exact PID-metadata liveness checks, approved staging, semantic progress monitoring, contextual blocker classification, focused selector registration, and one retained staged outcome.\",\"changes\":[\"Select and print open_editor, fresh_batch, or skipped_fail_closed before Unity work.\",\"Use repository-installed adl process status against exact PID metadata and fail closed on ambiguous project locks.\",\"Stage only under /Volumes/FastWork or issue-local .adl storage and pass the owner binary a repository-relative packet reference.\",\"Reset liveness only on import, compile, validation, or terminal markers; classify readonly text in temporal context.\",\"Route generic external startup-classifier outcomes without embedding #5332 signatures or thresholds.\",\"Register one focused Unity editor-liveness validation lane and add no-Unity regression coverage plus an operator runbook.\"],\"artifacts\":[\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh\",\"adl/config/validation_lane_selector.v0.91.6.json\",\"adl/tools/test_select_validation_lanes.sh\",\"docs/tooling/unity_observatory_editor_batch_proof.md\",\".csdlc/evidence/4741/live-staged-proof.json\",\".csdlc/evidence/4741/LIVE_STAGED_PROOF.md\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:issue-4741-execution",
+      "reason": "Record the focused deterministic Unity liveness proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh\"],\"purpose\":\"Prove safe mode selection, exact process-status routing, relative packet invocation, semantic progress, contextual readonly handling, idle/crash/licensing/external outcomes, and cleanup without launching Unity; coupled contract, selector, shell syntax, JSON, and diff checks also passed.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local focused proof passed: unit PASS, v0.91.6 contract guardrails PASS, validation selector PASS, four wrapper syntax checks PASS, JSON parsing PASS, and git diff --check PASS.\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:issue-4741-execution",
+      "reason": "Record the exact live-or-staged liveness proof outcome",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\"],\"purpose\":\"Prove one real safe-mode Unity attempt records exact progress and terminal truth without an arbitrary total ceiling.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/4741/live-staged-proof.json records fresh_batch on Unity 6000.5.1f1, readonly followed by import and compilation progress, semantic fingerprint 1:1:1:0, and expected fail-closed exit 124 terminal_outcome=semantic_progress_idle after 300 idle seconds. Unity validation was not reached and is not claimed.\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:issue-4741-execution",
+      "reason": "Correct stale pre-commit live proof with the exact-head fail-closed owner-binary provenance outcome",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\"],\"purpose\":\"Run one exact-head safe-mode Unity attempt after implementation review and retain precise prerequisite or runtime truth.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/4741/live-staged-proof.json supersedes the stale pre-commit attempt: reviewed revision 2fb6fa86fee8b96457e0c179646a0c5109861e4a selected skipped_fail_closed and returned owner_binary_provenance_invalid before Unity launch because the installed repository adl source hash does not match the current declared source root. No binary was built or replaced.\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:issue-4741-execution",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
