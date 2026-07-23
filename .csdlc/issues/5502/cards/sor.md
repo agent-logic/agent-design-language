@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -55,13 +55,13 @@ merged
 
 ## Publication
 
-Publication: ready
+Publication: closed
 
 Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 

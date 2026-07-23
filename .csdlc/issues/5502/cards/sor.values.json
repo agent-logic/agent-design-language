@@ -7,9 +7,9 @@
     "title": "[v0.91.8][WP-10A][multi-agent] Implement output convergence and deterministic replanning",
     "slug": "v0918-wp10a-output-convergence-deterministic-replanning",
     "version": "v0.91.8",
-    "generation": 16
+    "generation": 18
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -45,9 +45,9 @@
         }
       ],
       "integration_state": "merged",
-      "publication_state": "ready",
+      "publication_state": "closed",
       "merge_state": "merged",
-      "closeout_state": "not_started",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
