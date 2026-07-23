@@ -246,7 +246,7 @@
       "proof_sha256": "cd3e017b279cdff542549138607c8fea866ec510eb051a582f0bf4a07973937f"
     },
     {
-      "surface": "ci",
+      "surface": "local_pre_pr_validation",
       "status": "passed",
       "revision": "36d20ffcc47980a265a73d3c6c6cee662390afec",
       "proof_ref": ".csdlc/evidence/5361/acceptance-proof-summary.json",
@@ -280,6 +280,7 @@
   "notes": [
     "Retained receipts are audit evidence and did not block downstream WP-12; live PR landing ancestry is recorded in .csdlc/evidence/5361/dependency-ancestry.json.",
     "Operator-provided background guardian at https://localhost:20997 was stale during acceptance; bounded FastWork operational proof started a fresh local guardian and proved HTTPS, Observatory, rollback, and continuity.",
+    "GitHub PR CI is not claimed by this pre-publication register and remains required during publish/shepherd/closeout.",
     "Runtime v3 inventory is a reviewed exception over the 12000 target but below the hard 20000-line ceiling and 1000-test ceiling."
   ]
 }

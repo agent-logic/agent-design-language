@@ -5,7 +5,7 @@
   "initialization_digest": "ebdd95a3dd79978c1931a478ce8e543a15106fe5d6856db8975346413279baaa",
   "phase": "implemented",
   "generation": 12,
-  "digest": "7c471dff75e467f361a9d2e2965b30a4d79f757d76147c9c3cdfddcdd82544c5",
+  "digest": "0cfcc22ee9c806b47a0bab8e973a600eb67ecf1d3373382c038b62da6910125c",
   "claim": {
     "id": "claim-5361-v0918-runtime-v3-acceptance-readiness",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -24,7 +24,18 @@
     ],
     "purpose": "Execute #5361 Runtime v3 acceptance evidence only on the existing bound worktree: prove dependency ancestry, stable install/deployment, live guardian HTTPS and Observatory health, 10000-agent scale, weather, continuity, rollback, consumer readiness, exact current Runtime v3 parity, and explicit GPU/remote/AWS non-claims; do not edit Runtime v2 or add product features unless a bounded acceptance defect requires it."
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "gpt-5.5:required-pre-pr-review",
+    "assigned_by": "codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e",
+    "revision": "git-blake3:e938d1f029f43141e3830ae4133ea04b72826026:10dff60f8ca6435e10397e7d2f0dd766ae72592d0b2588c82c59e26f5f39b425",
+    "scope": [
+      "adl-runtime/src/cav.rs",
+      ".csdlc/evidence/5361",
+      ".csdlc/prepared/issues/5361/validate-acceptance.json",
+      "docs/milestones/v0.91.8/review/runtime_v3_acceptance_5361.v1.json",
+      ".csdlc/issues/5361"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -60,9 +71,9 @@
       "ast_digest": "926f5d3711c59b566783d129172572177e6254456811b0a5fea7670236016e65"
     },
     "srp": {
-      "values_digest": "2fc487c83f787fcbf7fbe66110ca3a843e18e15dac70e2e015e0907ca18e070e",
-      "rendered_digest": "92cdc1f6d9376d89afe2df7e0ec34da7687e41d2d82a2767a32a9f28a6880179",
-      "ast_digest": "9ecca93efc33bee80e68473696ec84118423e80de7fd64579e5db479dfb7bab1"
+      "values_digest": "41ab4f1091320d44506c4799546aef5eeb1ebdcf189065a95b4bd27be0133861",
+      "rendered_digest": "17edec372f919f1a49a68d07fae9e2b653b73bcb48bd513e2ab707373edff3eb",
+      "ast_digest": "50c34343be2c34014b2c2a0e596f89c3f2d0a9f3ee3ea83eddd4b1ce3340144d"
     },
     "sor": {
       "values_digest": "2f49df74c208ae555d0e13aff01df244d3e12681f693c5b850c3da4e6e983384",
@@ -205,6 +216,13 @@
       "actor": "codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e",
       "reason": "Complete bounded #5361 Runtime v3 acceptance evidence and validation; ready for the required exact-head GPT-5.5 review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

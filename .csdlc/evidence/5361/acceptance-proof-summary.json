@@ -1,7 +1,8 @@
 {
   "schema": "adl.runtime_v3.acceptance.proof_summary.v1",
   "issue": 5361,
-  "head": "b8fe8ac5cccb66d90aadb3cb784f98a32e436d0e",
+  "worktree_refresh_merge_head": "b8fe8ac5cccb66d90aadb3cb784f98a32e436d0e",
+  "revision_note": "This summary is retained by the acceptance register's exact proof revision and digest; worktree_refresh_merge_head is the origin/main refresh point used before evidence execution, not a PR or terminal CI claim.",
   "dependency_gate": "passed_with_live_pr_landing_ancestry; retained receipts are audit evidence",
   "stable_install": "passed via csdlc-install install and verify into .adl/bin/csdlc-v2",
   "background_guardian": "not_available; recorded pid was stale and localhost:20997 refused connection",
@@ -9,6 +10,7 @@
   "scale": "10000-agent configuration verified in background runtime-init.toml and Runtime v3 control tests prove bounded sample projection",
   "weather": "Runtime v3 weather tests and HTTPS Observatory proof cover weather freshness and stop policy; background configured weather thresholds recorded",
   "parity": "Current Runtime v3 kernel and supervision suites passed; exact ADL v1/v2 shadow parity consumed from #5350 landing",
+  "github_ci": "not_claimed_pre_publication; PR CI must be shepherded after csdlc-publish and terminal closeout must record the observed result",
   "non_claims": [
     {
       "surface": "aws",

@@ -55,7 +55,7 @@
       },
       {
         "id": "quality-and-independence-register",
-        "proof_role": "Verify Runtime v2 independence, strict lint, budgets, CI/readiness evidence, review, and non-claims",
+        "proof_role": "Verify Runtime v2 independence, strict lint, budgets, local pre-PR readiness evidence, review, and non-claims",
         "purpose": "Validate #5361 quality acceptance register entries",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},

@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Review the exact #5361 preparation revision across all six typed cards, the acceptance design, dependency diagram, protected paths, acceptance-register validator, and typed preparation requests. Verify complete bidirectional AC-1 through AC-7 SPP/VPP coverage; correct dependency ordering; explicit Runtime v2 independence, HTTPS-only and address-configuration boundaries, no-AWS boundary, and unsupported-claim boundaries; and confirm that no required parity, consumer, operational, rollback, review, or quality obligation is deferred, weakened, omitted, or treated as fixture-only proof. Confirm this revision remains preparation-only and makes no implementation, acceptance, deployment, publication, or closeout claim.
+adl-runtime/src/cav.rs
+.csdlc/evidence/5361
+.csdlc/prepared/issues/5361/validate-acceptance.json
+docs/milestones/v0.91.8/review/runtime_v3_acceptance_5361.v1.json
+.csdlc/issues/5361
 
 ## Prompts
 
