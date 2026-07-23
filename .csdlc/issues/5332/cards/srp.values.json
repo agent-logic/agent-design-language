@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5332,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-15][unity][tooling] Classify and fix Unity ILPP GetDomainName loop in observatory batch proof",
+    "slug": "v0918-wp15-unity-ilpp-getdomainname-loop",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/tools/lib/unity_observatory_batch_classifiers.sh\nadl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\nadl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh\ndocs/tooling/unity_ilpp_getdomainname_diagnosis.md\n.csdlc/issues/5332\n.csdlc/prepared/issues/5332",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the classifier require the complete ILPP signature family and reset on real progress?",
+        "Does the matrix vary one cause at a time and retain enough evidence to support attribution?",
+        "Is readonly-database handling independent and progress-aware?",
+        "Does the normal-start regression prove the classifier does not break successful Unity proof?",
+        "Is the final diff limited to #5332 ownership?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

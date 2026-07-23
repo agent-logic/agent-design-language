@@ -1,0 +1,106 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5332,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-15][unity][tooling] Classify and fix Unity ILPP GetDomainName loop in observatory batch proof",
+    "slug": "v0918-wp15-unity-ilpp-getdomainname-loop",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "unity-ilpp-classifier-unit",
+          "proof_role": "Prove complete-signature classification, semantic progress reset, readonly progression, and normal-start behavior without Unity",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-8",
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 5000,
+          "argv": [
+            "bash",
+            "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh"
+          ],
+          "parallel_group": "unity-ilpp-static",
+          "defer_reason": null
+        },
+        {
+          "lane": "unity-ilpp-staged-reproduction",
+          "proof_role": "Reproduce or clear the ILPP loop in one #4741-approved staged batch mode",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-6",
+            "AC-9"
+          ],
+          "deterministic": false,
+          "resource_profile": "large",
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
+          "argv": [
+            "bash",
+            "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh"
+          ],
+          "parallel_group": "unity-ilpp-live",
+          "defer_reason": "Run only after #4741 provides exact safe staged-project ownership and the deterministic classifier lane passes."
+        },
+        {
+          "lane": "unity-ilpp-diagnostic-matrix",
+          "proof_role": "Retain one-variable environment comparisons that isolate the ILPP failure owner",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": false,
+          "resource_profile": "large",
+          "budget_seconds": 1800,
+          "budget_tokens": 8000,
+          "argv": [
+            "bash",
+            "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh"
+          ],
+          "parallel_group": "unity-ilpp-live",
+          "defer_reason": "Execute only the cells still required after the baseline reproduction; do not run redundant Unity comparisons."
+        },
+        {
+          "lane": "unity-ilpp-diff-hygiene",
+          "proof_role": "Prove bounded text and shell hygiene",
+          "acceptance_ids": [
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "unity-ilpp-static",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on incomplete signature attribution, arbitrary total-runtime ceilings, multi-variable diagnosis, unsafe staging, secret-bearing host evidence, adjacent Unity scope, or unsupported root-cause and readiness claims.",
+      "design_ref": ".csdlc/prepared/issues/5332/design.md",
+      "design_digest": "236902bff7f84f7613a2ea354724c3834f6dec993e8a029b8b8b5c078d633c6e",
+      "diagram_ref": ".csdlc/prepared/issues/5332/diagram.mmd",
+      "diagram_digest": "d2774d7d3cc655ca1b4e0e1af44fa388b839152f89bff99978d985024c10cb28"
+    }
+  }
+}
