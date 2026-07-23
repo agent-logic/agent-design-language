@@ -1,0 +1,108 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 4741,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "6da60e6fc4092eeaaef14e46cd5c57a84272538fe5bc92a030061a4160ebb1bf",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "4424131a1ae24348fbe532cde12487ae0fa65f9b46ff14e55e3b89d0b56e600a",
+  "claim": {
+    "id": "claim-4741-v0918-wp15-unity-editor-liveness-prep",
+    "owner": "codex:issue-4741-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1784835199,
+    "expires_unix_seconds": 1785439999,
+    "heartbeat_unix_seconds": 1784835199,
+    "branch": "codex/4741-v0918-wp15-unity-editor-liveness-prep",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/4741",
+      ".csdlc/locks/4741.lock",
+      ".csdlc/prepared/issues/4741",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
+      "adl/tools/test_v0916_unity_observatory_soak_integration.sh",
+      "adl/tools/test_v0916_unity_observatory_unity65_smoke.sh",
+      "docs/tooling/unity_observatory_editor_batch_proof.md"
+    ],
+    "purpose": "Prepare #4741 for bounded v0.91.8 WP-15 Unity editor liveness and batch-proof reliability execution"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/4741/design.md",
+  "diagram_path": ".csdlc/prepared/issues/4741/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:v0918-wp15-unity-preparation",
+      "revision": "3571c4f3f88aabad5f06e6ef2090cf525e40609898940afaf4d5d9e32e039107"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "345a74b8f403b33e1b5385b081f2af5152855362107683982836e9ce9c82e465",
+      "rendered_digest": "20465ed8051ca296e888398621e97ba0038327558f5b412e2565ea50ee3dddd9",
+      "ast_digest": "5f8c10f932a676f52809aa8ad1da360a0197ad7d9736b83ba8c2e6fa566ef483"
+    },
+    "stp": {
+      "values_digest": "90954198cc9a2381a5b8a49e7a91c3c44b602a1367731fc3bff1a234b26554f4",
+      "rendered_digest": "127b8e89505650bd3ceb852dac0450ff7a9d4924ba0a0a33db3b5c4a2ecf07b6",
+      "ast_digest": "de67dd76741a010d7ef1c0942a0ce31d5b039a8190fdc34f54806999d5d0cec0"
+    },
+    "spp": {
+      "values_digest": "fb85d7ac0cb6c8d8f4edaca9634f4e344bbb750274d37153ac1ba8e10a55ce7c",
+      "rendered_digest": "8e9fb5ef1562503fad8f4ad938ed55f86f2a0b7dc268b3cbb6347b0eeb3055a8",
+      "ast_digest": "b4499b94977bbfefd174f3f70611ba266dbec1d3373ebdf4693c4313c18074c8"
+    },
+    "vpp": {
+      "values_digest": "c295013d43f06eea9ae0f83d9f2c6fba1e6525dcdd391488ca782ca2e3013900",
+      "rendered_digest": "56077fd4ef7fe4219f9b8b26001a0e7899e2b3973f984885f323b860af1a86fb",
+      "ast_digest": "dfcc246235079277f441cdd0c72613bc53c7f3f94b834ef46656c5058cb099f4"
+    },
+    "srp": {
+      "values_digest": "4d7c6b8d9af9dbbd17fbf43348de7c03393f7c7af8f3b360785f1666879f0ec1",
+      "rendered_digest": "dd059b64312a4bf6f31dfa29b6629d85d2bf548fdb341eaac572aa278a5371dd",
+      "ast_digest": "a80984fc87e439ee8599352e50f1110f51c385f514c66620975c5710122a407a"
+    },
+    "sor": {
+      "values_digest": "20c046139cabde5c2a9ae13837e47f116845194c50cb9a5c22b30e07503d4e38",
+      "rendered_digest": "ab03ede3dd6f184edc54db2e3dc2f7c79c9104fd5b47ea25b4ffae1123421e60",
+      "ast_digest": "cf1f884f9f636412b1dda9ad381f14f515c3d3ce10071b4ce54f0dcd98e1986d"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-4741-preparation",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-4741-preparation",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-4741-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:issue-4741-preparation",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}

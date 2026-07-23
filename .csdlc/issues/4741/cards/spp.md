@@ -1,0 +1,128 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 4741
+
+Repository: danielbaustin/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Port only the current-base proof wrappers, formalize three execution modes, add deterministic progress/classifier tests, then run one focused live or staged proof and retain exact outcome truth.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Review current wrapper contracts and selectively port mode selection, approved staging, scratch isolation, and progress-watchdog behavior from preserved predecessor work",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-10"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Implement precise crash, licensing, readonly-progress, idle, and routed ILPP classifications without taking ownership of #5332 diagnosis",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-10"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Expand focused no-Unity unit fixtures for mode selection, semantic progress, blocker routing, and cleanup",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-6",
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Update the bounded operator runbook and run one live or staged proof using the selected safe mode",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-9"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Record bounded review findings and exact proof or blocker truth for WP-15 consumption",
+    "acceptance_ids": [
+      "AC-9",
+      "AC-10"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- Only one declared proof mode owns a project directory at a time
+- Semantic progress, not elapsed wall-clock alone, governs liveness
+- Staging and scratch state remain outside /private/tmp
+- Repository binaries remain the operational source of truth
+- Preserved predecessor work is not reset, overwritten, or silently absorbed
+
+## Risks
+
+- Unity can keep logs active while repeating a non-progress startup loop
+- A live editor can own the same project directory targeted by batch mode
+- Readonly-database text can precede successful import and must be classified in context
+- The older candidate diff contains Unity scene changes outside #4741
+- Unity editor paths and installed versions can drift
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/4741/design.md
+
+Digest: 3571c4f3f88aabad5f06e6ef2090cf525e40609898940afaf4d5d9e32e039107
+
+## Diagram
+
+.csdlc/prepared/issues/4741/diagram.mmd
+
+Digest: 24c7a546ace5c2982dda86f87b28c3966de6fca88d4ae5c7376dc94ce4f5df49
+
+## Stop Conditions
+
+- The intended project is already owned and no approved editor-mediated proof exists
+- The configured Unity editor is absent or has an unapproved baseline
+- Execution requires #4739 MCP internals or #5332 ILPP repair
+- The proof requires Unity scene or runtime semantic changes
+- Staging cannot be isolated under /Volumes/FastWork or issue-local .adl storage
+
+## Handoff
+
+Proceed only after doctor readiness.

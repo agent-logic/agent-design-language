@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 4741,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-15][unity][tooling] Make Unity editor liveness and batch proof reliable for deployed observatory",
+    "slug": "v0918-wp15-unity-editor-liveness-batch-proof",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\nadl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh\nadl/tools/test_v0916_unity_observatory_soak_integration.sh\nadl/tools/test_v0916_unity_observatory_unity65_smoke.sh\ndocs/tooling/unity_observatory_editor_batch_proof.md\n.csdlc/issues/4741\n.csdlc/prepared/issues/4741",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does mode selection prevent concurrent ownership of one Unity project directory?",
+        "Does progress monitoring distinguish semantic progress from repeating log noise without an arbitrary total ceiling?",
+        "Are readonly database and ILPP signatures classified in the correct ownership boundary?",
+        "Can focused tests prove every wrapper branch without launching Unity?",
+        "Is the final diff free of MCP, ILPP root-cause, scene, runtime, asset, and rendering scope?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
