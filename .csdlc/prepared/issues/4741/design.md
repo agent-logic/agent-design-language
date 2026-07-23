@@ -21,8 +21,9 @@ Issue #4741 owns editor/project liveness classification, launch-mode selection,
 staging isolation, progress monitoring, cleanup, and focused wrapper tests.
 
 Issue #4739 owns Unity-MCP project and endpoint alignment. Issue #5332 owns the
-ILPP `GetDomainName: -1` retry-loop cause and classifier details. #4741 may
-recognize and route a #5332 signature but must not diagnose or repair ILPP.
+ILPP `GetDomainName: -1` retry-loop cause, signature, threshold, and classifier.
+#4741 may consume and route a generic external startup-classifier result but
+must not encode, diagnose, or repair ILPP.
 
 Scene building, asset fallback, runtime contract semantics, investor rendering,
 and walkthrough capture are outside this issue.
@@ -44,4 +45,6 @@ only wrapper liveness, staging, progress-watchdog, and focused-test changes.
    readonly-database-without-progress, or routed ILPP signatures.
 6. Preserve one concise result packet containing mode, project, editor version,
    progress classifier, log reference, and terminal outcome.
+7. Register the issue-owned wrapper paths in the validation selector and prove
+   the focused lane selection without widening to the full Unity proof matrix.
 

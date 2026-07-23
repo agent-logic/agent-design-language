@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6da60e6fc4092eeaaef14e46cd5c57a84272538fe5bc92a030061a4160ebb1bf",
   "phase": "bound",
-  "generation": 0,
-  "digest": "4424131a1ae24348fbe532cde12487ae0fa65f9b46ff14e55e3b89d0b56e600a",
+  "generation": 2,
+  "digest": "49e2638bd4e4ccb5695932bf58206c8c8a1d2e7b6a2b25bdb8a8a5e5aefb20fa",
   "claim": {
     "id": "claim-4741-v0918-wp15-unity-editor-liveness-prep",
     "owner": "codex:issue-4741-preparation",
-    "generation": 0,
+    "generation": 2,
     "acquired_unix_seconds": 1784835199,
     "expires_unix_seconds": 1785439999,
     "heartbeat_unix_seconds": 1784835199,
@@ -19,6 +19,8 @@
       ".csdlc/issues/4741",
       ".csdlc/locks/4741.lock",
       ".csdlc/prepared/issues/4741",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
       "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
       "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
       "adl/tools/test_v0916_unity_observatory_soak_integration.sh",
@@ -37,38 +39,38 @@
   "diagram_path": ".csdlc/prepared/issues/4741/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator:v0918-wp15-unity-preparation",
-      "revision": "3571c4f3f88aabad5f06e6ef2090cf525e40609898940afaf4d5d9e32e039107"
+      "reviewer": "operator:v0918-wp15-unity-specialist-review",
+      "revision": "921c05e08b1eb76b76432d2376fe67f6371085e07e0969e19652acb4cad07ce2"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "345a74b8f403b33e1b5385b081f2af5152855362107683982836e9ce9c82e465",
+      "values_digest": "78b873769b5a785917bd94c47e88d7f093a765ba91d76fd40703e32f2481f50a",
       "rendered_digest": "20465ed8051ca296e888398621e97ba0038327558f5b412e2565ea50ee3dddd9",
       "ast_digest": "5f8c10f932a676f52809aa8ad1da360a0197ad7d9736b83ba8c2e6fa566ef483"
     },
     "stp": {
-      "values_digest": "90954198cc9a2381a5b8a49e7a91c3c44b602a1367731fc3bff1a234b26554f4",
-      "rendered_digest": "127b8e89505650bd3ceb852dac0450ff7a9d4924ba0a0a33db3b5c4a2ecf07b6",
-      "ast_digest": "de67dd76741a010d7ef1c0942a0ce31d5b039a8190fdc34f54806999d5d0cec0"
+      "values_digest": "577ae336d3d1b3e1db95da89602bfa93ed68c3faadb75dd3b2b6c22e9f03d6c8",
+      "rendered_digest": "c1c74e60ed6c539cc615eba12aa1f2ed710218c44c4e9018edb478659e4e6080",
+      "ast_digest": "a6d752e92ee16452e02031576d2a0e8752a84f6e9cafcb558680bc75efe815b6"
     },
     "spp": {
-      "values_digest": "fb85d7ac0cb6c8d8f4edaca9634f4e344bbb750274d37153ac1ba8e10a55ce7c",
-      "rendered_digest": "8e9fb5ef1562503fad8f4ad938ed55f86f2a0b7dc268b3cbb6347b0eeb3055a8",
-      "ast_digest": "b4499b94977bbfefd174f3f70611ba266dbec1d3373ebdf4693c4313c18074c8"
+      "values_digest": "654d1d1b2668253f180b7b823cc0df6c674b48466bad69ee3c90de5220e5faa1",
+      "rendered_digest": "410115708543f2f3fe9d97fe363bfb2a66fc27c9257a4ed29724578261532a08",
+      "ast_digest": "1a040216122c645a9263b2caf84cc846e2f3920f26b892d758a55ee84a84ea7c"
     },
     "vpp": {
-      "values_digest": "c295013d43f06eea9ae0f83d9f2c6fba1e6525dcdd391488ca782ca2e3013900",
-      "rendered_digest": "56077fd4ef7fe4219f9b8b26001a0e7899e2b3973f984885f323b860af1a86fb",
-      "ast_digest": "dfcc246235079277f441cdd0c72613bc53c7f3f94b834ef46656c5058cb099f4"
+      "values_digest": "91cba64f09ea9f8a9a1c5723b9ba6141ff3ccff5316b7c1539315fe9e778df18",
+      "rendered_digest": "86818866e461a232a32c457b36902a4c4ee220ff68c02f6c71a5c7817548dd7c",
+      "ast_digest": "05b38482e7841e8ca4a6d9e629be99b7baa1bfd1bed3c1df5e0c5dd74c321efc"
     },
     "srp": {
-      "values_digest": "4d7c6b8d9af9dbbd17fbf43348de7c03393f7c7af8f3b360785f1666879f0ec1",
+      "values_digest": "2920734a7f7a64bdd8c1fd09a9f50f17d57f5606684c7e6039f28b1159463800",
       "rendered_digest": "dd059b64312a4bf6f31dfa29b6629d85d2bf548fdb341eaac572aa278a5371dd",
       "ast_digest": "a80984fc87e439ee8599352e50f1110f51c385f514c66620975c5710122a407a"
     },
     "sor": {
-      "values_digest": "20c046139cabde5c2a9ae13837e47f116845194c50cb9a5c22b30e07503d4e38",
+      "values_digest": "678f18384edc0c20e9f8be93fe330f691dbfd1eb5916f265f7ca7071869bd541",
       "rendered_digest": "ab03ede3dd6f184edc54db2e3dc2f7c79c9104fd5b47ea25b4ffae1123421e60",
       "ast_digest": "cf1f884f9f636412b1dda9ad381f14f515c3d3ce10071b4ce54f0dcd98e1986d"
     }
@@ -103,6 +105,27 @@
       "actor": "codex:issue-4741-preparation",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "operator:v0918-wp15-unity-specialist-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:issue-4741-preparation",
+      "reason": "Reserve focused validation selector registration required by specialist readiness review",
+      "operation": "{\"add_protected_paths\":[\"adl/config/validation_lane_selector.v0.91.6.json\",\"adl/tools/test_select_validation_lanes.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:issue-4741-preparation",
+      "reason": "Apply specialist review findings for generic classifier handoff and focused selector registration",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: every proof attempt prints open_editor, fresh_batch, or skipped_fail_closed before Unity work begins\",\"AC-2: exact-project liveness uses permission-safe adl process status evidence and never broad ps, pgrep, or lsof output\",\"AC-3: fresh_batch never opens the same project directory already owned by an editor and stages only under /Volumes/FastWork or issue-local .adl storage\",\"AC-4: wrappers use repository-installed owner binaries and the configured Unity editor path without building replacement binaries\",\"AC-5: progress monitoring keys off meaningful import, compile, validation, or terminal markers and does not impose an arbitrary total runtime ceiling\",\"AC-6: crash, licensing, missing project, readonly database without subsequent import progress, idle progress, and a generic external startup-classifier failure each produce a precise bounded outcome\",\"AC-7: readonly-database text is not fatal after verified asset-import progress\",\"AC-8: focused unit tests prove mode selection, progress reset, idle failure, readonly progression, cleanup, and generic external-classifier routing without launching Unity\",\"AC-9: one live or staged proof records editor version, canonical project, mode, progress classifier, log reference, and exact success or blocker truth\",\"AC-10: the final diff excludes #4739 MCP alignment internals, #5332 ILPP signature and threshold logic, Unity scene code, runtime semantics, asset work, and rendering polish\",\"AC-11: validation selector registration maps the issue-owned wrapper paths to one focused Unity liveness lane and its selector test passes\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Review current wrapper contracts and selectively port mode selection, approved staging, scratch isolation, and progress-watchdog behavior from preserved predecessor work\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement precise crash, licensing, readonly-progress, idle, and generic external-classifier handoff outcomes without encoding #5332 ILPP signatures or thresholds\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Expand focused no-Unity unit fixtures for mode selection, semantic progress, generic classifier routing, and cleanup\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Register the issue-owned paths in the validation selector and prove focused lane selection\",\"acceptance_ids\":[\"AC-10\",\"AC-11\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Update the bounded operator runbook and run one live or staged proof using the selected safe mode\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S6\",\"action\":\"Record bounded review findings and exact proof or blocker truth for WP-15 consumption\",\"acceptance_ids\":[\"AC-9\",\"AC-10\",\"AC-11\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"unity-editor-liveness-unit\",\"proof_role\":\"Prove mode selection, semantic progress, generic classifier routing, and cleanup without launching Unity\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh\"],\"parallel_group\":\"unity-liveness-static\",\"defer_reason\":null},{\"lane\":\"unity-editor-liveness-contract\",\"proof_role\":\"Prove Observatory wrapper contract and issue-owned path integration\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_contract.sh\"],\"parallel_group\":\"unity-liveness-static\",\"defer_reason\":null},{\"lane\":\"unity-editor-selector-registration\",\"proof_role\":\"Prove the validation selector chooses the focused Unity liveness lane for issue-owned wrapper paths\",\"acceptance_ids\":[\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"parallel_group\":\"unity-liveness-static\",\"defer_reason\":null},{\"lane\":\"unity-editor-live-or-staged-proof\",\"proof_role\":\"Retain one exact editor-mode or staged-batch outcome with semantic progress evidence\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\"],\"parallel_group\":\"unity-liveness-live\",\"defer_reason\":\"Run only after deterministic wrapper and selector lanes pass and the operator-selected project is available; retain an exact fail-closed result when no safe mode exists.\"},{\"lane\":\"unity-editor-diff-hygiene\",\"proof_role\":\"Prove bounded text and shell hygiene\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"unity-liveness-static\",\"defer_reason\":null}]}"
     }
   ]
 }

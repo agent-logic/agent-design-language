@@ -30,11 +30,12 @@ Selectively port and finish only the editor/batch liveness and proof-wrapper sur
 3. AC-3: fresh_batch never opens the same project directory already owned by an editor and stages only under /Volumes/FastWork or issue-local .adl storage
 4. AC-4: wrappers use repository-installed owner binaries and the configured Unity editor path without building replacement binaries
 5. AC-5: progress monitoring keys off meaningful import, compile, validation, or terminal markers and does not impose an arbitrary total runtime ceiling
-6. AC-6: crash, licensing, missing project, readonly database without subsequent import progress, idle progress, and routed ILPP signatures each produce a precise bounded outcome
+6. AC-6: crash, licensing, missing project, readonly database without subsequent import progress, idle progress, and a generic external startup-classifier failure each produce a precise bounded outcome
 7. AC-7: readonly-database text is not fatal after verified asset-import progress
-8. AC-8: focused unit tests prove mode selection, progress reset, idle failure, readonly progression, cleanup, and #5332 routing without launching Unity
+8. AC-8: focused unit tests prove mode selection, progress reset, idle failure, readonly progression, cleanup, and generic external-classifier routing without launching Unity
 9. AC-9: one live or staged proof records editor version, canonical project, mode, progress classifier, log reference, and exact success or blocker truth
-10. AC-10: the final diff excludes #4739 MCP alignment internals, #5332 ILPP diagnosis, Unity scene code, runtime semantics, asset work, and rendering polish
+10. AC-10: the final diff excludes #4739 MCP alignment internals, #5332 ILPP signature and threshold logic, Unity scene code, runtime semantics, asset work, and rendering polish
+11. AC-11: validation selector registration maps the issue-owned wrapper paths to one focused Unity liveness lane and its selector test passes
 
 ## Dependencies
 

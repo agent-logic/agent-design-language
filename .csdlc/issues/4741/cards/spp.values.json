@@ -7,13 +7,13 @@
     "title": "[v0.91.8][WP-15][unity][tooling] Make Unity editor liveness and batch proof reliable for deployed observatory",
     "slug": "v0918-wp15-unity-editor-liveness-batch-proof",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 2
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Port only the current-base proof wrappers, formalize three execution modes, add deterministic progress/classifier tests, then run one focused live or staged proof and retain exact outcome truth.",
       "steps": [
         {
@@ -31,7 +31,7 @@
         },
         {
           "id": "S2",
-          "action": "Implement precise crash, licensing, readonly-progress, idle, and routed ILPP classifications without taking ownership of #5332 diagnosis",
+          "action": "Implement precise crash, licensing, readonly-progress, idle, and generic external-classifier handoff outcomes without encoding #5332 ILPP signatures or thresholds",
           "acceptance_ids": [
             "AC-5",
             "AC-6",
@@ -42,7 +42,7 @@
         },
         {
           "id": "S3",
-          "action": "Expand focused no-Unity unit fixtures for mode selection, semantic progress, blocker routing, and cleanup",
+          "action": "Expand focused no-Unity unit fixtures for mode selection, semantic progress, generic classifier routing, and cleanup",
           "acceptance_ids": [
             "AC-1",
             "AC-6",
@@ -53,6 +53,15 @@
         },
         {
           "id": "S4",
+          "action": "Register the issue-owned paths in the validation selector and prove focused lane selection",
+          "acceptance_ids": [
+            "AC-10",
+            "AC-11"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
           "action": "Update the bounded operator runbook and run one live or staged proof using the selected safe mode",
           "acceptance_ids": [
             "AC-2",
@@ -64,11 +73,12 @@
           "status": "pending"
         },
         {
-          "id": "S5",
+          "id": "S6",
           "action": "Record bounded review findings and exact proof or blocker truth for WP-15 consumption",
           "acceptance_ids": [
             "AC-9",
-            "AC-10"
+            "AC-10",
+            "AC-11"
           ],
           "status": "pending"
         }
@@ -102,7 +112,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/4741/design.md",
-      "design_digest": "3571c4f3f88aabad5f06e6ef2090cf525e40609898940afaf4d5d9e32e039107",
+      "design_digest": "921c05e08b1eb76b76432d2376fe67f6371085e07e0969e19652acb4cad07ce2",
       "diagram_ref": ".csdlc/prepared/issues/4741/diagram.mmd",
       "diagram_digest": "24c7a546ace5c2982dda86f87b28c3966de6fca88d4ae5c7376dc94ce4f5df49"
     }

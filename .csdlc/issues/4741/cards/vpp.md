@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/4741/diagram.mmd
 [
   {
     "lane": "unity-editor-liveness-unit",
-    "proof_role": "Prove mode selection, semantic progress, blocker routing, and cleanup without launching Unity",
+    "proof_role": "Prove mode selection, semantic progress, generic classifier routing, and cleanup without launching Unity",
     "acceptance_ids": [
       "AC-1",
       "AC-5",
@@ -67,6 +67,24 @@ Diagram: .csdlc/prepared/issues/4741/diagram.mmd
     "defer_reason": null
   },
   {
+    "lane": "unity-editor-selector-registration",
+    "proof_role": "Prove the validation selector chooses the focused Unity liveness lane for issue-owned wrapper paths",
+    "acceptance_ids": [
+      "AC-10",
+      "AC-11"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 180,
+    "budget_tokens": 3000,
+    "argv": [
+      "bash",
+      "adl/tools/test_select_validation_lanes.sh"
+    ],
+    "parallel_group": "unity-liveness-static",
+    "defer_reason": null
+  },
+  {
     "lane": "unity-editor-live-or-staged-proof",
     "proof_role": "Retain one exact editor-mode or staged-batch outcome with semantic progress evidence",
     "acceptance_ids": [
@@ -88,7 +106,7 @@ Diagram: .csdlc/prepared/issues/4741/diagram.mmd
       "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh"
     ],
     "parallel_group": "unity-liveness-live",
-    "defer_reason": "Run only after the deterministic wrapper lanes pass and the operator-selected project is available; retain an exact fail-closed result when no safe mode exists."
+    "defer_reason": "Run only after deterministic wrapper and selector lanes pass and the operator-selected project is available; retain an exact fail-closed result when no safe mode exists."
   },
   {
     "lane": "unity-editor-diff-hygiene",
@@ -124,6 +142,7 @@ Tokens: 25000
 
 - `bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh`
 - `bash adl/tools/test_v0916_unity_observatory_contract.sh`
+- `bash adl/tools/test_select_validation_lanes.sh`
 - `bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh`
 - `git diff --check`
 

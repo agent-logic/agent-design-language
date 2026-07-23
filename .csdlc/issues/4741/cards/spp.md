@@ -16,7 +16,7 @@ Port only the current-base proof wrappers, formalize three execution modes, add 
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -36,7 +36,7 @@ Revision 1
   },
   {
     "id": "S2",
-    "action": "Implement precise crash, licensing, readonly-progress, idle, and routed ILPP classifications without taking ownership of #5332 diagnosis",
+    "action": "Implement precise crash, licensing, readonly-progress, idle, and generic external-classifier handoff outcomes without encoding #5332 ILPP signatures or thresholds",
     "acceptance_ids": [
       "AC-5",
       "AC-6",
@@ -47,7 +47,7 @@ Revision 1
   },
   {
     "id": "S3",
-    "action": "Expand focused no-Unity unit fixtures for mode selection, semantic progress, blocker routing, and cleanup",
+    "action": "Expand focused no-Unity unit fixtures for mode selection, semantic progress, generic classifier routing, and cleanup",
     "acceptance_ids": [
       "AC-1",
       "AC-6",
@@ -58,6 +58,15 @@ Revision 1
   },
   {
     "id": "S4",
+    "action": "Register the issue-owned paths in the validation selector and prove focused lane selection",
+    "acceptance_ids": [
+      "AC-10",
+      "AC-11"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
     "action": "Update the bounded operator runbook and run one live or staged proof using the selected safe mode",
     "acceptance_ids": [
       "AC-2",
@@ -69,11 +78,12 @@ Revision 1
     "status": "pending"
   },
   {
-    "id": "S5",
+    "id": "S6",
     "action": "Record bounded review findings and exact proof or blocker truth for WP-15 consumption",
     "acceptance_ids": [
       "AC-9",
-      "AC-10"
+      "AC-10",
+      "AC-11"
     ],
     "status": "pending"
   }
@@ -107,7 +117,7 @@ Revision 1
 
 .csdlc/prepared/issues/4741/design.md
 
-Digest: 3571c4f3f88aabad5f06e6ef2090cf525e40609898940afaf4d5d9e32e039107
+Digest: 921c05e08b1eb76b76432d2376fe67f6371085e07e0969e19652acb4cad07ce2
 
 ## Diagram
 
