@@ -134,6 +134,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "adl-workcell-convergence"
+version = "0.1.0"
+dependencies = [
+ "adl-workcell-conductor",
+ "blake3",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+]
+
+[[package]]
 name = "adl-workcell-task-adapter"
 version = "0.1.0"
 dependencies = [
