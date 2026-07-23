@@ -17,3 +17,4 @@
 {"sequence":17,"generation":12,"actor":"codex:019f8d39-12e9-7371-b306-79e06138da8a","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":18,"generation":13,"actor":"gpt-5.5:required-pre-pr-review","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":19,"generation":14,"actor":"codex:019f8d39-12e9-7371-b306-79e06138da8a","reason":"The assigned GPT-5.5 pre-PR review passed at the exact repaired revision with zero blockers.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":20,"generation":15,"actor":"codex:019f8d39-12e9-7371-b306-79e06138da8a","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

@@ -67,11 +67,11 @@ Retained the #5501 live distributed workcell proof packet using the real merged 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

@@ -3,13 +3,13 @@
   "issue": 5501,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "a6431154f7be59025286f7b5235b96d831871ce2b05f99bb4bb953c68443e0cf",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "448d6b51e5f1afb21e012d1c4593001b302599c012488a55762db517fc0b89c9",
+  "phase": "published",
+  "generation": 15,
+  "digest": "7c0988eca75760b7a29717f263153603b867d7365569d1f0b99e69449f24b3c6",
   "claim": {
     "id": "claim-5501-v0918-live-workcell-proof-preparation",
     "owner": "codex:5501-preparation-owner",
-    "generation": 14,
+    "generation": 15,
     "acquired_unix_seconds": 1784663431,
     "expires_unix_seconds": 1785268231,
     "heartbeat_unix_seconds": 1784663431,
@@ -89,7 +89,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5501,
+    "pull_request": 5643,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5643",
+    "base": "main",
+    "head": "codex/5501-v0918-preparation",
+    "revision": "git-blake3:eda94c8ee79efe8dd6c3e417ced2bcda18ff3ffc:3a6da1c3f86e7594fa3513e93811f830069d35dd78326c79952ca4d2dfb382b3",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -103,34 +113,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0d050a1d1a28ecf7a83d786f50665bc703fa5c40c1d69678328d17c7e76754c8",
+      "values_digest": "8236dc9b763ecb81a15e159fe2ef0832c5b4fee06131733c56e433d8f5798bc7",
       "rendered_digest": "f2a932c51b1d7860fc0f678e9b6ea923398bc9365e4cb430c5c01edf42fefcf7",
       "ast_digest": "e78232912dd57081a0e1c81b66e7dec090bcc9e019f503c2b72a0aeaa256fe81"
     },
     "stp": {
-      "values_digest": "850cb36d8e428b620809bd113b287168da642a9d0a999426a02fd41cb50e129b",
+      "values_digest": "0e67483d3c2b988b9602e80b7617af516bc12387af399eb44f2dd9510878e63e",
       "rendered_digest": "caf9b8be48ce5317592b6bebf886bf47e5cd51d91b428a695978e1bc3e33c0dc",
       "ast_digest": "1b2428e70bcafadc2154777e5caf28067a620e8dbec1faebf23a9f350073d819"
     },
     "spp": {
-      "values_digest": "0dd4d1f98a010dbf6ae2a1de3dbca2a7c344b3c0491e121509a17f68414bef3f",
+      "values_digest": "cc61075c610c0c56c272140f39b7b50a9e4c3b4dbe38f31174e44554dc824172",
       "rendered_digest": "e555de659be1e0af4f7b3a66345b5e7a92a1af150fb4f787b7e1c9f31ba2be04",
       "ast_digest": "edcaefc0129863fd66a3ecb3eb281939a983f05ea4567a9b89ca36a20425c5a8"
     },
     "vpp": {
-      "values_digest": "3f7cea7299742cc6c3a38533305cf8b695a0afe1051ce1f809e9cfa37b722b4f",
+      "values_digest": "9278c02e63bd15f4db5f827f1c05ea5efc40d2a29a38613c28aae40710dc207b",
       "rendered_digest": "7bf3aa501fe30164ba8671026f123e6096ebaaf20a6c4692d7f1eac592857999",
       "ast_digest": "7447ca34c6f242f550fad71653e5809de3403c2a2c2ea715f7b73a2d99738a00"
     },
     "srp": {
-      "values_digest": "105af8c220cc6ef56b11c4dcb4b389de77ab667cb13cd1d2fc204d0fccf4942a",
+      "values_digest": "0003252c53e887381feb5679db7c7b46fdf6d7b18bf45fbad42beb813866f154",
       "rendered_digest": "a322f163c7b9d7631e984d7d78d04328cf93a4c67d40857640a32b643e7c76e8",
       "ast_digest": "b8b3a0f37dc001afa6408f26d008580c438fe6bab18acaa66a1f55ad44d955e7"
     },
     "sor": {
-      "values_digest": "783538f2e2c2b0b5d9a931abcf54643141c717f87c4d189c1c6b200e7e363107",
-      "rendered_digest": "299463d8eaf6cab14708f0f65ca109fb245e25808c2469b6461c1083952f0b76",
-      "ast_digest": "d988d3f4803c68934a0b65d661593d8cf8cd53b8e425e730c7ad1514925547b5"
+      "values_digest": "92a9efdf86b9be884479112fb1628b9b03501654f6f3efb2f952b91f2c80acf1",
+      "rendered_digest": "8c1d74cd419542a10140277624e8da4b6515a8f07a683dec287eff4523fb8133",
+      "ast_digest": "e2dd967d5a52aaede19e68ac9c8feb3fec449c8d2ff77a4e73fdf7d89912bb3d"
     }
   },
   "transitions": [
@@ -161,6 +171,13 @@
       "to": "reviewed",
       "actor": "codex:019f8d39-12e9-7371-b306-79e06138da8a",
       "reason": "The assigned GPT-5.5 pre-PR review passed at the exact repaired revision with zero blockers."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f8d39-12e9-7371-b306-79e06138da8a",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -296,6 +313,13 @@
       "actor": "codex:019f8d39-12e9-7371-b306-79e06138da8a",
       "reason": "The assigned GPT-5.5 pre-PR review passed at the exact repaired revision with zero blockers.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:019f8d39-12e9-7371-b306-79e06138da8a",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
