@@ -42,9 +42,9 @@ only wrapper liveness, staging, progress-watchdog, and focused-test changes.
 4. For fresh batch mode, copy only the required project into an approved
    writable staging root and isolate mutable Unity/.NET scratch state.
 5. Track semantic log progress and fail on bounded idle, crash, licensing,
-   readonly-database-without-progress, or routed ILPP signatures.
+   readonly-database-without-progress, or a generic external startup-classifier
+   result.
 6. Preserve one concise result packet containing mode, project, editor version,
    progress classifier, log reference, and terminal outcome.
 7. Register the issue-owned wrapper paths in the validation selector and prove
    the focused lane selection without widening to the full Unity proof matrix.
-

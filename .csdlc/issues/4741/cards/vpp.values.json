@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-15][unity][tooling] Make Unity editor liveness and batch proof reliable for deployed observatory",
     "slug": "v0918-wp15-unity-editor-liveness-batch-proof",
     "version": "v0.91.8",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -123,9 +123,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on ambiguous project ownership, undeclared proof mode, arbitrary total-runtime ceilings, non-semantic log activity, unsafe staging, locally built owner binaries, adjacent Unity scope, or unsupported readiness claims.",
       "design_ref": ".csdlc/prepared/issues/4741/design.md",
-      "design_digest": "921c05e08b1eb76b76432d2376fe67f6371085e07e0969e19652acb4cad07ce2",
+      "design_digest": "087fb3265f17bc8a69e89b4eca87b7bec0c04c26f7ccc39c3bb348c068497b4c",
       "diagram_ref": ".csdlc/prepared/issues/4741/diagram.mmd",
-      "diagram_digest": "24c7a546ace5c2982dda86f87b28c3966de6fca88d4ae5c7376dc94ce4f5df49"
+      "diagram_digest": "c74db180b4891e7b82f8e873817ea8b69591320de04e884841c8c1029779aeac"
     }
   }
 }

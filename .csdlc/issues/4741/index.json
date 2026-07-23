@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6da60e6fc4092eeaaef14e46cd5c57a84272538fe5bc92a030061a4160ebb1bf",
   "phase": "bound",
-  "generation": 2,
-  "digest": "49e2638bd4e4ccb5695932bf58206c8c8a1d2e7b6a2b25bdb8a8a5e5aefb20fa",
+  "generation": 4,
+  "digest": "94a48ae681909a0fd34cb21dc80b64e28f370ae4a215df0e53451c1feab92586",
   "claim": {
     "id": "claim-4741-v0918-wp15-unity-editor-liveness-prep",
     "owner": "codex:issue-4741-preparation",
-    "generation": 2,
+    "generation": 4,
     "acquired_unix_seconds": 1784835199,
     "expires_unix_seconds": 1785439999,
     "heartbeat_unix_seconds": 1784835199,
@@ -39,38 +39,38 @@
   "diagram_path": ".csdlc/prepared/issues/4741/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator:v0918-wp15-unity-specialist-review",
-      "revision": "921c05e08b1eb76b76432d2376fe67f6371085e07e0969e19652acb4cad07ce2"
+      "reviewer": "operator:v0918-wp15-unity-specialist-recheck",
+      "revision": "087fb3265f17bc8a69e89b4eca87b7bec0c04c26f7ccc39c3bb348c068497b4c"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "78b873769b5a785917bd94c47e88d7f093a765ba91d76fd40703e32f2481f50a",
+      "values_digest": "1e750a934493d97275b7271ebcc961d0dc1bc34d434892e699e5b2cfe4a01213",
       "rendered_digest": "20465ed8051ca296e888398621e97ba0038327558f5b412e2565ea50ee3dddd9",
       "ast_digest": "5f8c10f932a676f52809aa8ad1da360a0197ad7d9736b83ba8c2e6fa566ef483"
     },
     "stp": {
-      "values_digest": "577ae336d3d1b3e1db95da89602bfa93ed68c3faadb75dd3b2b6c22e9f03d6c8",
+      "values_digest": "96f06277c1a91522be1781ea126d213317301d1359915ee0a4c5c86e51ee181a",
       "rendered_digest": "c1c74e60ed6c539cc615eba12aa1f2ed710218c44c4e9018edb478659e4e6080",
       "ast_digest": "a6d752e92ee16452e02031576d2a0e8752a84f6e9cafcb558680bc75efe815b6"
     },
     "spp": {
-      "values_digest": "654d1d1b2668253f180b7b823cc0df6c674b48466bad69ee3c90de5220e5faa1",
-      "rendered_digest": "410115708543f2f3fe9d97fe363bfb2a66fc27c9257a4ed29724578261532a08",
-      "ast_digest": "1a040216122c645a9263b2caf84cc846e2f3920f26b892d758a55ee84a84ea7c"
+      "values_digest": "f17ea701f39def4f5d81ae990295efdbd3dd5b2fe7c260f20cc91337986a55d7",
+      "rendered_digest": "c336a64f984f171b4dd6a93457504a07b6a53b4c9f6cc3d70d0a69d79aaf726e",
+      "ast_digest": "d9fd3f5761aaab6f6570781fcdb46584b441e655028ee8d09adff788bc0d3fe5"
     },
     "vpp": {
-      "values_digest": "91cba64f09ea9f8a9a1c5723b9ba6141ff3ccff5316b7c1539315fe9e778df18",
+      "values_digest": "d7e2ffe0a6ddac42622937f2fbe7ebcc00c886308543b26bfeb31fffb1a6c840",
       "rendered_digest": "86818866e461a232a32c457b36902a4c4ee220ff68c02f6c71a5c7817548dd7c",
       "ast_digest": "05b38482e7841e8ca4a6d9e629be99b7baa1bfd1bed3c1df5e0c5dd74c321efc"
     },
     "srp": {
-      "values_digest": "2920734a7f7a64bdd8c1fd09a9f50f17d57f5606684c7e6039f28b1159463800",
+      "values_digest": "ea3cc63c812d2fb9c4fcbd14f902e3e54f91c680f6754b3fb76524e64a3479b1",
       "rendered_digest": "dd059b64312a4bf6f31dfa29b6629d85d2bf548fdb341eaac572aa278a5371dd",
       "ast_digest": "a80984fc87e439ee8599352e50f1110f51c385f514c66620975c5710122a407a"
     },
     "sor": {
-      "values_digest": "678f18384edc0c20e9f8be93fe330f691dbfd1eb5916f265f7ca7071869bd541",
+      "values_digest": "cebeaaf7c4bdd6786d36a8d367c9929144596de827974c19a200b0ac38bb5a15",
       "rendered_digest": "ab03ede3dd6f184edc54db2e3dc2f7c79c9104fd5b47ea25b4ffae1123421e60",
       "ast_digest": "cf1f884f9f636412b1dda9ad381f14f515c3d3ce10071b4ce54f0dcd98e1986d"
     }
@@ -126,6 +126,20 @@
       "actor": "codex:issue-4741-preparation",
       "reason": "Apply specialist review findings for generic classifier handoff and focused selector registration",
       "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: every proof attempt prints open_editor, fresh_batch, or skipped_fail_closed before Unity work begins\",\"AC-2: exact-project liveness uses permission-safe adl process status evidence and never broad ps, pgrep, or lsof output\",\"AC-3: fresh_batch never opens the same project directory already owned by an editor and stages only under /Volumes/FastWork or issue-local .adl storage\",\"AC-4: wrappers use repository-installed owner binaries and the configured Unity editor path without building replacement binaries\",\"AC-5: progress monitoring keys off meaningful import, compile, validation, or terminal markers and does not impose an arbitrary total runtime ceiling\",\"AC-6: crash, licensing, missing project, readonly database without subsequent import progress, idle progress, and a generic external startup-classifier failure each produce a precise bounded outcome\",\"AC-7: readonly-database text is not fatal after verified asset-import progress\",\"AC-8: focused unit tests prove mode selection, progress reset, idle failure, readonly progression, cleanup, and generic external-classifier routing without launching Unity\",\"AC-9: one live or staged proof records editor version, canonical project, mode, progress classifier, log reference, and exact success or blocker truth\",\"AC-10: the final diff excludes #4739 MCP alignment internals, #5332 ILPP signature and threshold logic, Unity scene code, runtime semantics, asset work, and rendering polish\",\"AC-11: validation selector registration maps the issue-owned wrapper paths to one focused Unity liveness lane and its selector test passes\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Review current wrapper contracts and selectively port mode selection, approved staging, scratch isolation, and progress-watchdog behavior from preserved predecessor work\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement precise crash, licensing, readonly-progress, idle, and generic external-classifier handoff outcomes without encoding #5332 ILPP signatures or thresholds\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Expand focused no-Unity unit fixtures for mode selection, semantic progress, generic classifier routing, and cleanup\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Register the issue-owned paths in the validation selector and prove focused lane selection\",\"acceptance_ids\":[\"AC-10\",\"AC-11\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Update the bounded operator runbook and run one live or staged proof using the selected safe mode\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S6\",\"action\":\"Record bounded review findings and exact proof or blocker truth for WP-15 consumption\",\"acceptance_ids\":[\"AC-9\",\"AC-10\",\"AC-11\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"unity-editor-liveness-unit\",\"proof_role\":\"Prove mode selection, semantic progress, generic classifier routing, and cleanup without launching Unity\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh\"],\"parallel_group\":\"unity-liveness-static\",\"defer_reason\":null},{\"lane\":\"unity-editor-liveness-contract\",\"proof_role\":\"Prove Observatory wrapper contract and issue-owned path integration\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_contract.sh\"],\"parallel_group\":\"unity-liveness-static\",\"defer_reason\":null},{\"lane\":\"unity-editor-selector-registration\",\"proof_role\":\"Prove the validation selector chooses the focused Unity liveness lane for issue-owned wrapper paths\",\"acceptance_ids\":[\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"parallel_group\":\"unity-liveness-static\",\"defer_reason\":null},{\"lane\":\"unity-editor-live-or-staged-proof\",\"proof_role\":\"Retain one exact editor-mode or staged-batch outcome with semantic progress evidence\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\"],\"parallel_group\":\"unity-liveness-live\",\"defer_reason\":\"Run only after deterministic wrapper and selector lanes pass and the operator-selected project is available; retain an exact fail-closed result when no safe mode exists.\"},{\"lane\":\"unity-editor-diff-hygiene\",\"proof_role\":\"Prove bounded text and shell hygiene\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"unity-liveness-static\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "operator:v0918-wp15-unity-specialist-recheck",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "operator:v0918-wp15-unity-specialist-recheck",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

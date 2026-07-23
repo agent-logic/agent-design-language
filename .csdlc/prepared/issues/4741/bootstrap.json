@@ -212,4 +212,3 @@
     "failure_policy": "Fail closed on ambiguous project ownership, undeclared proof mode, arbitrary total-runtime ceilings, non-semantic log activity, unsafe staging, locally built owner binaries, adjacent Unity scope, or unsupported readiness claims."
   }
 }
-
