@@ -3,6 +3,8 @@
   "run_id": "wp10a-5501-fa49c2d0",
   "issue": 5501,
   "execution_head": "1d84d3fba125fa3aff84fe4b33ae258773beda57",
+  "execution_head_role": "dependency_integration_head",
+  "review_binding_ref": ".csdlc/prepared/issues/5501/evidence-review-binding.json",
   "merged_dependency_head": "fa49c2d0f32147547f0aafdca8bfbc841c49258a",
   "task_content_boundary": "Task identifiers, revisions, paths, timestamps, outcomes, and source-grounded evidence refs only; private transcript content is not retained.",
   "shards": [
