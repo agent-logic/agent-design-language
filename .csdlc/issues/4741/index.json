@@ -3,13 +3,13 @@
   "issue": 4741,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6da60e6fc4092eeaaef14e46cd5c57a84272538fe5bc92a030061a4160ebb1bf",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "2b1bfe61e4f3c7b0af81aa850d251c94c0b43126c5431a5f99fb578ef39ba66d",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "85fedf86ec4259faf24d8b22d2bb85992babac6cb6a376e416dc635aa970db7a",
   "claim": {
     "id": "claim-4741-v0918-wp15-unity-editor-liveness-prep",
     "owner": "codex:issue-4741-preparation",
-    "generation": 11,
+    "generation": 13,
     "acquired_unix_seconds": 1784835199,
     "expires_unix_seconds": 1785439999,
     "heartbeat_unix_seconds": 1784835199,
@@ -30,8 +30,42 @@
     ],
     "purpose": "Execute only #4741 Unity editor liveness, safe proof-mode selection, approved staging, semantic progress classification, focused tests, selector registration, retained live-or-staged proof, review, publication, and closeout; do not absorb #5332 ILPP diagnosis, #4739 MCP alignment, scene work, runtime semantics, assets, or investor rendering"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f90d6-07c1-7091-b996-73007e6a80fb",
+    "assigned_by": "codex:issue-4741-execution",
+    "revision": "git-blake3:8968219908eb3d2c48dfeba1352b9c8fba8044e6:76290fec2b00ec30d9256d11ce90189117cb9e3392f22065d32a0f2a36fcfbd8",
+    "scope": [
+      ".csdlc/issues/4741",
+      ".csdlc/prepared/issues/4741",
+      ".csdlc/evidence/4741",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
+      "docs/tooling/unity_observatory_editor_batch_proof.md"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f90d6-07c1-7091-b996-73007e6a80fb",
+    "scope": [
+      ".csdlc/issues/4741",
+      ".csdlc/prepared/issues/4741",
+      ".csdlc/evidence/4741",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
+      "docs/tooling/unity_observatory_editor_batch_proof.md"
+    ],
+    "reviewed_revision": "git-blake3:8968219908eb3d2c48dfeba1352b9c8fba8044e6:76290fec2b00ec30d9256d11ce90189117cb9e3392f22065d32a0f2a36fcfbd8",
+    "findings": [],
+    "residual_risks": [
+      "Unity execution and scene validation remain unproved because the repository-installed owner binary provenance does not match the current declared source root.",
+      "The append-only SOR repair is indirect because csdlc-edit has no nonterminal validation replace/remove operation; exact latest-result identity now blocks the stale historical pass."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -46,32 +80,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "407fd1a794e92aaa6e9cc6b65304314a434136c1fa4d6ac3100acd12ec0ab9b9",
+      "values_digest": "a1285866b9b357fca460029bd00e5908f33a2268eed41ac41a8f0eb62ffae21c",
       "rendered_digest": "20465ed8051ca296e888398621e97ba0038327558f5b412e2565ea50ee3dddd9",
       "ast_digest": "5f8c10f932a676f52809aa8ad1da360a0197ad7d9736b83ba8c2e6fa566ef483"
     },
     "stp": {
-      "values_digest": "1133b80c9f1c8836a98c690bae18298604b48c8c17cfdc302dd503af041c12f3",
+      "values_digest": "a6aa75eb3531955760131f768ff310e5745dfd2d61751795b85f65c57453d265",
       "rendered_digest": "c1c74e60ed6c539cc615eba12aa1f2ed710218c44c4e9018edb478659e4e6080",
       "ast_digest": "a6d752e92ee16452e02031576d2a0e8752a84f6e9cafcb558680bc75efe815b6"
     },
     "spp": {
-      "values_digest": "0b262752aaed15f3d530d8fc6fcf837d756475013bee069f02fe6abe38e8b71d",
+      "values_digest": "3917763bba70322701936ad315b40f8255997a0c067c10c864cdc56668cc3baa",
       "rendered_digest": "c336a64f984f171b4dd6a93457504a07b6a53b4c9f6cc3d70d0a69d79aaf726e",
       "ast_digest": "d9fd3f5761aaab6f6570781fcdb46584b441e655028ee8d09adff788bc0d3fe5"
     },
     "vpp": {
-      "values_digest": "49c1efab01369f02cbc85c42bd67913eff5f8e76a583dbfeffcd88c398b1fc1d",
+      "values_digest": "eb6d30671f892af654425c505a29a4f79e1d1d8f56aea0571225fa472d9dc933",
       "rendered_digest": "86818866e461a232a32c457b36902a4c4ee220ff68c02f6c71a5c7817548dd7c",
       "ast_digest": "05b38482e7841e8ca4a6d9e629be99b7baa1bfd1bed3c1df5e0c5dd74c321efc"
     },
     "srp": {
-      "values_digest": "95811c0d9028776a2ac39e94aed9e2328e1b35ba18640cb0fef6935126a833a2",
-      "rendered_digest": "dd059b64312a4bf6f31dfa29b6629d85d2bf548fdb341eaac572aa278a5371dd",
-      "ast_digest": "a80984fc87e439ee8599352e50f1110f51c385f514c66620975c5710122a407a"
+      "values_digest": "9a19829e71a22808cc8ff08bec2bfa40138fbdce565130e35a8728d78bfc0a2b",
+      "rendered_digest": "a5a0eb9767639e5c33990e9a448e55fe28f19058834eab8a1c44c58b9f787aaa",
+      "ast_digest": "5b1826f21757b4f201a968d5b1a5c030f3deecb9904e45174229ea2e6336d372"
     },
     "sor": {
-      "values_digest": "e0e95e381f32c1816e9aa95c638e4577cf147e4a5ca57e6127eeb2059a3fb139",
+      "values_digest": "98aab71f8ea121e804e6731c9c2a70171da39a1553b0c30a281accd46d7d6cba",
       "rendered_digest": "d70493ea7a8da32acc8ad6b2d0b7f01b4638e5d69a305fd67e9cbb9ec5808f76",
       "ast_digest": "37ac926d16e9ca8bc0bfb590594fdff46a9cd71192964d4f9abd5a077a011a64"
     }
@@ -97,6 +131,13 @@
       "to": "implemented",
       "actor": "codex:issue-4741-execution",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-4741-execution",
+      "reason": "Advance the assigned exact-revision PASS review to reviewed phase with retained residual risks"
     }
   ],
   "audit": [
@@ -211,6 +252,27 @@
       "actor": "codex:issue-4741-execution",
       "reason": "Block the exact three-field identity of the stale pre-commit live validation using C-SDLC v2 latest-result semantics",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\"],\"purpose\":\"Prove one real safe-mode Unity attempt records exact progress and terminal truth without an arbitrary total ceiling.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/4741/live-staged-proof.json records fresh_batch on Unity 6000.5.1f1, readonly followed by import and compilation progress, semantic fingerprint 1:1:1:0, and expected fail-closed exit 124 terminal_outcome=semantic_progress_idle after 300 idle seconds. Unity validation was not reached and is not claimed.\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:issue-4741-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "subagent:019f90d6-07c1-7091-b996-73007e6a80fb",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:issue-4741-execution",
+      "reason": "Advance the assigned exact-revision PASS review to reviewed phase with retained residual risks",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
