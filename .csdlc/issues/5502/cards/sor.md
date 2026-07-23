@@ -51,11 +51,11 @@ Implemented the isolated ADL v2 workcell convergence crate after live dependency
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
