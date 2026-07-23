@@ -1,0 +1,18 @@
+{
+  "issue": 5591,
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "expected_owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+  "expected_generation": 2,
+  "expected_digest": "9300282a6d43c8088c79534e04a0add030e78da93f4fd109ed50f197d6f7ca71",
+  "now_unix_seconds": 1784586151,
+  "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+  "reason": "Begin full Runtime v3 Parity-A implementation on the reviewed #5336 stack while preserving its merge as the publication and integration gate",
+  "purpose": "Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets",
+  "add_protected_paths": [
+    ".csdlc/evidence/5591",
+    "adl-runtime-kernel",
+    "adl-runtime",
+    "infra/runtime-v3",
+    "adl/tools/run_runtime_v3_guardian_soak.sh"
+  ]
+}

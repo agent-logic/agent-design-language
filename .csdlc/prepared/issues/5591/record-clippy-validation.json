@@ -1,0 +1,27 @@
+{
+  "issue": 5591,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "c74ab7c11946f6323ccf36fdad5079aab8c18c34877b61c6f3976b3b0a9f7619",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+  "reason": "Retain the strict all-target Runtime v3 lint proof from the implementation owner.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "clippy",
+        "--manifest-path",
+        "adl-runtime-kernel/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "purpose": "Prove the Parity-A implementation and test targets are warning-free under strict Clippy",
+      "outcome": "passed",
+      "evidence_ref": "owner:019f8189-8205-7dd3-bbe2-f7f4dddd098a@6f19349e6d6227c362f5d73dce2c977aab41c1db:/Volumes/FastWork/adl-5591/runtime-target"
+    }
+  }
+}

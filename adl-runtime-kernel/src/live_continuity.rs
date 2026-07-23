@@ -11,9 +11,10 @@ use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
 use crate::{
-    CheckpointAuthority, CheckpointCoordinator, CheckpointManifest, CheckpointParticipant,
-    CheckpointRequest, ContinuityError, ContinuityHead, KernelExit, LifecycleControl,
-    LoadedCheckpoint, MigrationPolicy, RuntimeRecorder, RuntimeSnapshot, RUNTIME_SNAPSHOT_SCHEMA,
+    CanonicalIngress, CheckpointAuthority, CheckpointCoordinator, CheckpointManifest,
+    CheckpointParticipant, CheckpointRequest, ContinuityError, ContinuityHead, IngressSnapshot,
+    KernelExit, LifecycleControl, LoadedCheckpoint, MigrationPolicy, RuntimeRecorder,
+    RuntimeSnapshot, RUNTIME_SNAPSHOT_SCHEMA,
 };
 
 pub const LIVE_KERNEL_SNAPSHOT_SCHEMA: &str = "adl.runtime.live_kernel_snapshot.v1";
@@ -47,6 +48,8 @@ pub struct LiveKernelCheckpoint {
     pub schema: String,
     pub identity: LiveKernelSnapshot,
     pub runtime: RuntimeSnapshot,
+    #[serde(default)]
+    pub ingress: IngressSnapshot,
 }
 
 #[derive(Debug, Error)]
@@ -73,6 +76,7 @@ pub struct LiveContinuity {
     minimum_generation: u64,
     generation: u64,
     last_integrity: Option<String>,
+    ingress: Option<CanonicalIngress>,
 }
 
 impl LiveContinuity {
@@ -95,7 +99,13 @@ impl LiveContinuity {
             minimum_generation,
             generation: 0,
             last_integrity: None,
+            ingress: None,
         }
+    }
+
+    pub fn with_canonical_ingress(mut self, ingress: CanonicalIngress) -> Self {
+        self.ingress = Some(ingress);
+        self
     }
 
     pub fn signing_key_from_hex(value: &str) -> Result<[u8; 32], LiveContinuityError> {
@@ -126,7 +136,7 @@ impl LiveContinuity {
         }
         let (loaded, schema) = self.load_generation(generation).await?;
         let bytes = &loaded.blobs["live_kernel"];
-        let restored = match schema {
+        let (restored, ingress) = match schema {
             LIVE_KERNEL_CHECKPOINT_SCHEMA => {
                 let checkpoint: LiveKernelCheckpoint = serde_json::from_slice(bytes)
                     .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?;
@@ -143,14 +153,20 @@ impl LiveContinuity {
                         "live runtime snapshot does not match the signed manifest".to_owned(),
                     ));
                 }
-                checkpoint.identity
+                (checkpoint.identity, Some(checkpoint.ingress))
             }
-            LIVE_KERNEL_SNAPSHOT_SCHEMA => serde_json::from_slice::<LiveKernelSnapshot>(bytes)
-                .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?,
+            LIVE_KERNEL_SNAPSHOT_SCHEMA => (
+                serde_json::from_slice::<LiveKernelSnapshot>(bytes)
+                    .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?,
+                None,
+            ),
             _ => unreachable!("load_generation only accepts known schemas"),
         };
         if restored != self.snapshot {
             return Err(LiveContinuityError::SnapshotIdentity);
+        }
+        if let (Some(target), Some(snapshot)) = (&self.ingress, ingress) {
+            target.restore(snapshot);
         }
         self.validate_lineage(&loaded.manifest).await?;
         self.generation = generation;
@@ -177,6 +193,11 @@ impl LiveContinuity {
                 schema: LIVE_KERNEL_CHECKPOINT_SCHEMA.to_owned(),
                 identity: self.snapshot.clone(),
                 runtime: runtime.clone(),
+                ingress: self
+                    .ingress
+                    .as_ref()
+                    .map(CanonicalIngress::snapshot)
+                    .unwrap_or_default(),
             },
         });
         let manifest = self

@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5645,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "Add typed fail-closed csdlc-merge command",
+    "slug": "typed-csdlc-merge-command",
+    "version": "v0.91.8",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2 merge command and focused tests",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Check exact-head and readiness enforcement",
+        "Check no token leakage",
+        "Check publish/merge separation"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

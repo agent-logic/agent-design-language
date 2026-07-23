@@ -1,0 +1,8 @@
+{
+  "issue": 5337,
+  "expected_generation": 54,
+  "expected_digest": "a6c2df95f21942856541f38eb3f4eedb5779af321816c45368e85f3d83139eea",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "PR #5611 merged and current origin/main was integrated exactly once; recover stale publication review truth for final exact-head validation and review."
+}

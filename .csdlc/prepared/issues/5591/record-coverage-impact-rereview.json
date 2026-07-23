@@ -1,0 +1,23 @@
+{
+  "issue": 5591,
+  "expected_generation": 27,
+  "expected_digest": "d53de47bc1ffcff0e8f4bc262e2881e1faff5451832609a436aafd3283cc7af4",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "subagent:/root/review_5591_coverage_fix",
+  "evidence": {
+    "reviewer": "subagent:/root/review_5591_coverage_fix",
+    "scope": [
+      "adl-runtime/src/guardian.rs",
+      ".csdlc/issues/5591/cards/sor.values.json",
+      ".csdlc/issues/5591/cards/srp.values.json"
+    ],
+    "reviewed_revision": "git-blake3:469a18c11a849450cacc4f69d439c0cedd09c2d7:9337215d67c352e9f65f505e8f9323687bae48d1ee3dff9a29648624e4a826a9",
+    "findings": [],
+    "residual_risks": [
+      "The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass.",
+      "Runtime v3 remains 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the extra lines necessary, non-duplicative, and functionally required after safe consolidation. The 20,000 ceiling is not exception authority."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

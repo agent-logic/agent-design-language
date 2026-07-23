@@ -1,0 +1,24 @@
+{
+  "issue": 5591,
+  "expected_generation": 10,
+  "expected_digest": "6ebc211c0969d3da6c96a7521adaabcf7f7eaea51b72310fa78f4877cb774195",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "reviewer": "subagent:/root/review_5591_exact_head",
+  "assigned_by": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+  "scope": [
+    "adl-runtime-kernel/src/assembly.rs",
+    "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/ingress.rs",
+    "adl-runtime-kernel/src/lib.rs",
+    "adl-runtime-kernel/src/live_continuity.rs",
+    "adl-runtime-kernel/src/telemetry.rs",
+    "adl-runtime-kernel/src/weather.rs",
+    "adl-runtime-kernel/tests/assembly.rs",
+    "adl-runtime-kernel/tests/control.rs",
+    "adl-runtime-kernel/tests/guardian_soak.rs",
+    "infra/horust/adl-runtime-kernel.toml",
+    ".csdlc/issues/5591/cards/sor.values.json",
+    ".csdlc/issues/5591/cards/vpp.values.json"
+  ]
+}

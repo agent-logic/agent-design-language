@@ -1,0 +1,62 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5337,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-03] Build normalized characterization and determinism corpus",
+    "slug": "v0918-wp03-characterization-corpus-preparation",
+    "version": "v0.91.8",
+    "generation": 66
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Build, populate, document, and prove the independent adl-characterization crate and its complete pinned-v1 corpus; modify only adl-characterization and issue-local #5337 lifecycle/evidence paths.",
+      "deliverables": [
+        "standalone adl-characterization library and adl-characterize CLI",
+        "versioned corpus manifest and JSON Schema",
+        "positive and negative ADL fixtures covering every required behavior",
+        "three or more raw pinned-v1 observations per corpus case plus deterministic normalized outcomes",
+        "declared normalizer contract and implementation that preserves semantic arrays, identifiers, errors, exits, and signature verdicts",
+        "complete behavior-to-case coverage map with fail-closed validation",
+        "focused unit, integration, CLI, and full-crate tests",
+        "README, architecture design, evidence manifest, and exact-revision review/publication proof"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The standalone adl-characterization crate and CLI build without depending on the incumbent adl crate and pin v1 revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72 in the corpus contract",
+        "AC-2: The versioned schema-valid corpus covers CLI help/version, six-primitives print-plan, graph JSON, prompts, fork/join, map and branch reorder equivalence, sequential reorder difference, argument/YAML/schema/reference/state/cycle negatives, repeated byte stability, local mock execution, and fixed Ed25519 sign/verify/tamper",
+        "AC-3: Every corpus case has at least three retained raw v1 observations recording binary digest, arguments, exit status, stdout, stderr, repetition, and derived normalized result",
+        "AC-4: Normalization is declared per case, limited to JSON object-key order, declared root prefixes, named volatile fields, and exact observability lines, while preserving arrays, IDs, errors, values, exits, prompt order, and signature verdicts",
+        "AC-5: The comparator proves repeated stability, declared equivalence and semantic difference groups, expected exits/fragments, and fails on unexplained nondeterminism or overbroad/no-op normalization",
+        "AC-6: A complete coverage map assigns every required behavior to known corpus cases and rejects missing, duplicate, or unknown mappings",
+        "AC-7: Focused unit, integration, CLI, schema, evidence, and full-crate validation pass locally with Cargo output on /Volumes/FastWork and without AWS, credentials, or network providers",
+        "AC-8: Exact-revision bounded review has no unresolved actionable findings, typed C-SDLC review/publication truth is current, and no acceptance criterion is deferred"
+      ],
+      "dependencies": [
+        "operator-authorized #5337 implementation and bound worktree",
+        "reviewed WP-02 #5336 head 8c9a8687d is the explicit stacked architecture base and includes merged coverage repair #5602",
+        "PR #5599 must merge before #5337 publication or integration; then current main must be integrated and exact-revision proof rerun",
+        "pinned incumbent revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+        "locally built caller-supplied v1 binary with no network or credentials"
+      ],
+      "repo_inputs": [
+        "GitHub issue #5337 retrieved through adl-issue",
+        "docs/milestones/v0.91.8/DESIGN_v0.91.8.md",
+        "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+        "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+        "pinned ADL v1 public CLI behavior at 19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+        "adl/tests/cli_smoke behavior names used only to identify public black-box surfaces"
+      ],
+      "non_goals": [
+        "no porting or linking of incumbent ADL internal implementation or tests",
+        "no Runtime v2 or incumbent adl source edits",
+        "no replacement ADL compiler or runtime implementation",
+        "no credentialed, network, remote, AWS, or paid-provider execution",
+        "no normalization that erases semantic differences",
+        "no shared milestone, cutover, deletion, or v0.92 changes"
+      ]
+    }
+  }
+}

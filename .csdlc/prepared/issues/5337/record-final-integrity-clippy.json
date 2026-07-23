@@ -1,0 +1,18 @@
+{
+  "issue": 5337,
+  "card": "sor",
+  "expected_generation": 44,
+  "expected_digest": "995a7c7e55ff07cfd8e0d8e60bb55429256c64ae7c2ed32c1e48b05873468f68",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record strict lint proof for the final remediation revision.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "clippy", "--manifest-path", "adl-characterization/Cargo.toml", "--all-targets", "--", "-D", "warnings"],
+      "purpose": "Prove all final source, integrity checks, and adversarial tests are warning-free.",
+      "outcome": "passed",
+      "evidence_ref": "Commit 13f21e6bc: strict all-target Clippy passed with Cargo output under /Volumes/FastWork."
+    }
+  }
+}

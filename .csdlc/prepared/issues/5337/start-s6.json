@@ -1,0 +1,11 @@
+{
+  "issue": 5337,
+  "card": "spp",
+  "expected_generation": 33,
+  "expected_digest": "83945063707ab73f777faf64bbb5e4d4511dacc6a07dfb55cd94248b84170262",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Begin bounded exact-revision review while retaining the explicit #5336 merge publication gate.",
+  "operation": {"operation": "update_plan_step", "step_id": "S6", "status": "in_progress"},
+  "fail_after_backup": false
+}

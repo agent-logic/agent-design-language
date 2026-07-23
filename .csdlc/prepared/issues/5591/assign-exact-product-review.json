@@ -1,0 +1,16 @@
+{
+  "issue": 5591,
+  "expected_generation": 6,
+  "expected_digest": "0558e554edc6061b14724b3d1120e04ae2a8dcf5d1a5e7d696614978784666e5",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "reviewer": "subagent:019f8277-0050-7db0-a96b-05593df9c703",
+  "assigned_by": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+  "scope": [
+    "adl-runtime-kernel/src/assembly.rs",
+    "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/ingress.rs",
+    "adl-runtime-kernel/tests/assembly.rs",
+    "adl-runtime-kernel/tests/control.rs"
+  ]
+}

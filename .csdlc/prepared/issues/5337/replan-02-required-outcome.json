@@ -1,0 +1,15 @@
+{
+  "issue": 5337,
+  "card": "sip",
+  "expected_generation": 5,
+  "expected_digest": "9de9d3dc3dd40a276a7779828b55e6c2e0aade94f5e736df760e9d7845615291",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Replace preparation-only outcome with complete issue acceptance",
+  "operation": {
+    "operation": "replan",
+    "field": "required_outcome",
+    "value": "A complete adl-characterization crate, versioned corpus, narrow normalizer contract, at least three retained v1 observations per case, coverage map, deterministic reports, focused and full tests, exact-revision review, and typed publication all pass with no deferred criteria."
+  },
+  "fail_after_backup": false
+}
