@@ -12,10 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/5502
-.csdlc/locks/5502.lock
-.csdlc/prepared/issues/5502
-.csdlc/evidence/5502
+adl-v2/Cargo.toml
+adl-v2/Cargo.lock
+adl-v2/crates/adl-workcell-convergence
+.csdlc/prepared/issues/5502/run-validation-lane.rb
 
 ## Prompts
 
@@ -38,8 +38,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9f89413d33327b8a523af20057c0fa0a5f0f4f60:e0442c8b5a955e39ceffb266340b623d8f33393e4377557137bf34e4a7463afc")
 
-Reviewer: None
+Reviewer: Some("gpt-5.5:codex-exec-review:019f8c5a-2717-7bc0-b649-33f7843dcd72")
 
-Result: pre_review
+Result: pass

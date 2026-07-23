@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-10A][multi-agent] Implement output convergence and deterministic replanning",
     "slug": "v0918-wp10a-output-convergence-deterministic-replanning",
     "version": "v0.91.8",
-    "generation": 13
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5502\n.csdlc/locks/5502.lock\n.csdlc/prepared/issues/5502\n.csdlc/evidence/5502",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-v2/Cargo.toml\nadl-v2/Cargo.lock\nadl-v2/crates/adl-workcell-convergence\n.csdlc/prepared/issues/5502/run-validation-lane.rb",
+      "review_revision": "git-blake3:9f89413d33327b8a523af20057c0fa0a5f0f4f60:e0442c8b5a955e39ceffb266340b623d8f33393e4377557137bf34e4a7463afc",
+      "reviewer": "gpt-5.5:codex-exec-review:019f8c5a-2717-7bc0-b649-33f7843dcd72",
       "review_prompts": [
         "Can any missing, stale, forged, overlapping, out-of-scope, or revision-discontinuous output bypass convergence rejection?",
         "Can changed assumptions or partial success be hidden, reordered nondeterministically, or converted into silent scope expansion?",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
