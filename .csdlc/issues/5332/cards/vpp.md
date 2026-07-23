@@ -46,7 +46,7 @@ Diagram: .csdlc/prepared/issues/5332/diagram.mmd
   },
   {
     "lane": "unity-ilpp-selector-registration",
-    "proof_role": "Prove the validation selector chooses the focused Unity ILPP lane for every issue-owned implementation, wrapper, unit, and diagnosis path",
+    "proof_role": "Prove the validation selector chooses the focused Unity ILPP lane for every issue-owned implementation, wrapper, unit, matrix-runner, and diagnosis path",
     "acceptance_ids": [
       "AC-10",
       "AC-11"
@@ -84,7 +84,7 @@ Diagram: .csdlc/prepared/issues/5332/diagram.mmd
   },
   {
     "lane": "unity-ilpp-diagnostic-matrix",
-    "proof_role": "Retain one-variable environment comparisons that isolate the ILPP failure owner",
+    "proof_role": "Run explicit one-variable environment cells and retain comparisons that isolate the ILPP failure owner",
     "acceptance_ids": [
       "AC-5",
       "AC-6",
@@ -96,10 +96,10 @@ Diagram: .csdlc/prepared/issues/5332/diagram.mmd
     "budget_tokens": 8000,
     "argv": [
       "bash",
-      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh"
+      "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh"
     ],
     "parallel_group": "unity-ilpp-live",
-    "defer_reason": "Execute only the cells still required after the baseline reproduction; do not run redundant Unity comparisons."
+    "defer_reason": "Run after the baseline reproduction identifies which declared cells remain necessary; the runner changes one declared variable per cell and skips redundant comparisons."
   },
   {
     "lane": "unity-ilpp-diff-hygiene",
@@ -136,7 +136,7 @@ Tokens: 50000
 - `bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh`
 - `bash adl/tools/test_select_validation_lanes.sh`
 - `bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh`
-- `bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh`
+- `bash adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh`
 - `git diff --check`
 
 ## Failure Semantics

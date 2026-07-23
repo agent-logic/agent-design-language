@@ -210,4 +210,3 @@
     "failure_policy": "Fail closed on incomplete signature attribution, arbitrary total-runtime ceilings, multi-variable diagnosis, unsafe staging, secret-bearing host evidence, adjacent Unity scope, or unsupported root-cause and readiness claims."
   }
 }
-
