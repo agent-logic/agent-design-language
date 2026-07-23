@@ -2269,6 +2269,47 @@ fn later_failure_blocks_merged_and_closed_unmerged_terminal_closeout() {
 }
 
 #[test]
+fn no_pr_closeout_produces_doctor_valid_terminal_state() {
+    let issue = 75;
+    let (temp, store, record, _) = fixture_with_validation_history_and_publication(
+        issue,
+        "Gate 7 no-PR closeout fixture",
+        "no-pr-closeout",
+        vec![ValidationResult {
+            command: vec!["cargo".into(), "test".into()],
+            purpose: "proof".into(),
+            outcome: EvidenceOutcome::Passed,
+            evidence_ref: "evidence.json".into(),
+        }],
+        false,
+    );
+    let closed = closeout_issue(
+        &store,
+        TerminalObservation {
+            schema: "csdlc.terminal_observation.v1".into(),
+            issue,
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            claim_id: "claim".into(),
+            actor: "closer".into(),
+            pull_request: None,
+            disposition: TerminalDisposition::ClosedNoPr,
+            observed_sha: None,
+            observed_state: "closed_no_pr".into(),
+            approved_no_pr_reason: Some("operator-approved no-PR closeout".into()),
+            receipt_path: format!("csdlc-v2/closeout/{issue}.json"),
+        },
+    )
+    .unwrap();
+
+    assert_eq!(closed.phase, LifecyclePhase::ClosedOut);
+    assert!(closed.claim.is_none());
+    let doctor = csdlc_v2::diagnose(&Store::new(temp.path()), issue);
+    assert_eq!(doctor.phase, Some(LifecyclePhase::ClosedOut));
+    assert!(doctor.findings.is_empty());
+}
+
+#[test]
 fn unresolved_post_review_finding_is_not_projected_as_complete() {
     let issue = 74;
     let (temp, store, record, sha) = fixture_with_validation_history(
