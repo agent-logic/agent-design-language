@@ -4,12 +4,17 @@
 //! `adl-runtime-kernel serve --init <init-path> <continuity-path>`. It intentionally does not
 //! become a platform service manager and does not supervise Runtime v2.
 
+use std::io;
 use std::path::PathBuf;
 use std::process::Stdio;
 use std::time::Duration;
 
+use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine as _};
+use rand::RngCore;
 use serde::{Deserialize, Serialize};
-use tokio::io::AsyncReadExt;
+use subtle::ConstantTimeEq;
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio::net::TcpListener;
 use tokio::process::{Child, Command};
 use tokio::task::JoinHandle;
 use tokio::time::{sleep, timeout};
@@ -18,6 +23,10 @@ use tokio_util::sync::CancellationToken;
 pub const GUARDIAN_SCHEMA: &str = "adl.runtime_v3.external_guardian.v2";
 pub const MAX_CAPTURE_BYTES: u64 = 64 * 1024;
 const CAPTURE_DRAIN_GRACE: Duration = Duration::from_millis(500);
+const GUARDIAN_LEASE_AUTH_TIMEOUT: Duration = Duration::from_secs(5);
+pub const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
+pub const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
+pub const GUARDIAN_REQUIRED_ENV: &str = "ADL_RUNTIME_GUARDIAN_REQUIRED";
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct GuardianConfig {
@@ -138,7 +147,28 @@ pub async fn run_guardian(
 
     loop {
         attempts = attempts.saturating_add(1);
-        let spawned = spawn_child(&config);
+        let lease = match GuardianLease::bind().await {
+            Ok(lease) => lease,
+            Err(error) => {
+                attempts_detail.push(GuardianAttempt {
+                    attempt: attempts,
+                    pid: None,
+                    exit_code: None,
+                    signal: None,
+                    stdout: String::new(),
+                    stderr: String::new(),
+                    reason_code: format!("guardian_lease_failed:{error}"),
+                });
+                return Ok(outcome(
+                    &config,
+                    GuardianTerminalState::SpawnFailed,
+                    attempts,
+                    restarts,
+                    attempts_detail,
+                ));
+            }
+        };
+        let spawned = spawn_child(&config, &lease);
         let mut child = match spawned {
             Ok(child) => child,
             Err(error) => {
@@ -162,6 +192,29 @@ pub async fn run_guardian(
         };
 
         let pid = child.id();
+        let mut child_tree = match ChildTree::attach(pid) {
+            Ok(child_tree) => child_tree,
+            Err(error) => {
+                let _ = child.start_kill();
+                let _ = child.wait().await;
+                attempts_detail.push(GuardianAttempt {
+                    attempt: attempts,
+                    pid,
+                    exit_code: None,
+                    signal: None,
+                    stdout: String::new(),
+                    stderr: String::new(),
+                    reason_code: format!("child_tree_failed:{error}"),
+                });
+                return Ok(outcome(
+                    &config,
+                    GuardianTerminalState::SpawnFailed,
+                    attempts,
+                    restarts,
+                    attempts_detail,
+                ));
+            }
+        };
         let stdout = child
             .stdout
             .take()
@@ -172,13 +225,14 @@ pub async fn run_guardian(
             .take()
             .map(capture_pipe)
             .unwrap_or_else(|| tokio::spawn(async { String::new() }));
+        let lease_task = tokio::spawn(lease.authenticate_and_hold());
 
         let attempt_exit = tokio::select! {
             _ = shutdown.cancelled() => {
-                let signal = terminate_child_tree(&mut child);
+                let signal = terminate_child_tree(&mut child, &mut child_tree);
                 let wait_result = timeout(Duration::from_millis(config.shutdown_grace_ms), child.wait()).await;
                 if wait_result.is_err() {
-                    force_kill_child_tree(&mut child);
+                    force_kill_child_tree(&mut child, &mut child_tree);
                     let _ = child.kill().await;
                     let _ = child.wait().await;
                 }
@@ -199,7 +253,7 @@ pub async fn run_guardian(
                     Ok(status) => {
                         let code = status.code();
                         let signal = exit_signal(&status);
-                        graceful_terminate_process_group(pid);
+                        child_tree.graceful_terminate(pid);
                         let attempt_exit = classify_exit(&config, code, restarts);
                         let reason_code = reason_code_for_exit(&config, code, restarts);
                         let attempt = attempt_record(
@@ -230,6 +284,7 @@ pub async fn run_guardian(
                 }
             }
         };
+        lease_task.abort();
 
         match attempt_exit {
             AttemptExit::Restart => {
@@ -306,21 +361,228 @@ pub async fn run_guardian_with_os_signals(
 pub async fn run_guardian_with_os_signals(
     config: GuardianConfig,
 ) -> Result<GuardianOutcome, GuardianConfigError> {
-    run_guardian(config, CancellationToken::new()).await
+    let shutdown = CancellationToken::new();
+    let signal_shutdown = shutdown.clone();
+    let signal_task = tokio::spawn(async move {
+        if tokio::signal::ctrl_c().await.is_ok() {
+            signal_shutdown.cancel();
+        }
+    });
+    let outcome = run_guardian(config, shutdown).await;
+    signal_task.abort();
+    outcome
 }
 
-fn spawn_child(config: &GuardianConfig) -> std::io::Result<Child> {
+struct GuardianLease {
+    listener: TcpListener,
+    address: String,
+    token: String,
+}
+
+impl GuardianLease {
+    async fn bind() -> std::io::Result<Self> {
+        let listener = TcpListener::bind(("127.0.0.1", 0)).await?;
+        let address = listener.local_addr()?.to_string();
+        let mut token = [0_u8; 32];
+        rand::rngs::OsRng.fill_bytes(&mut token);
+        Ok(Self {
+            listener,
+            address,
+            token: URL_SAFE_NO_PAD.encode(token),
+        })
+    }
+
+    async fn authenticate_and_hold(self) {
+        loop {
+            let Ok(Ok((mut stream, peer))) =
+                timeout(GUARDIAN_LEASE_AUTH_TIMEOUT, self.listener.accept()).await
+            else {
+                continue;
+            };
+            if !peer.ip().is_loopback() {
+                continue;
+            }
+            let mut supplied = vec![0_u8; self.token.len()];
+            let authenticated = timeout(
+                GUARDIAN_LEASE_AUTH_TIMEOUT,
+                stream.read_exact(&mut supplied),
+            )
+            .await
+            .is_ok_and(|result| result.is_ok())
+                && bool::from(supplied.as_slice().ct_eq(self.token.as_bytes()));
+            if !authenticated {
+                continue;
+            }
+            if stream.write_all(b"ok").await.is_err() {
+                return;
+            }
+            let mut closed = [0_u8; 1];
+            let _ = stream.read(&mut closed).await;
+            return;
+        }
+    }
+}
+
+fn spawn_child(config: &GuardianConfig, lease: &GuardianLease) -> std::io::Result<Child> {
     let mut command = Command::new(&config.program);
     command
         .args(&config.args)
         .envs(config.env.iter().map(|(name, value)| (name, value)))
+        .env(GUARDIAN_LEASE_ADDRESS_ENV, &lease.address)
+        .env(GUARDIAN_LEASE_TOKEN_ENV, &lease.token)
+        .env(GUARDIAN_REQUIRED_ENV, "1")
         .stdin(Stdio::null())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .kill_on_drop(true);
     #[cfg(unix)]
     command.process_group(0);
+    #[cfg(windows)]
+    command.creation_flags(windows_sys::Win32::System::Threading::CREATE_NEW_PROCESS_GROUP);
     command.spawn()
+}
+
+struct ChildTree {
+    #[cfg(windows)]
+    job: WindowsJob,
+}
+
+impl ChildTree {
+    fn attach(pid: Option<u32>) -> io::Result<Self> {
+        Self::attach_platform(pid)
+    }
+
+    #[cfg(unix)]
+    fn attach_platform(_pid: Option<u32>) -> io::Result<Self> {
+        Ok(Self {})
+    }
+
+    #[cfg(windows)]
+    fn attach_platform(pid: Option<u32>) -> io::Result<Self> {
+        Ok(Self {
+            job: WindowsJob::assign_child(pid.ok_or_else(|| {
+                io::Error::new(io::ErrorKind::InvalidInput, "child pid unavailable")
+            })?)?,
+        })
+    }
+
+    fn terminate(&mut self, pid: Option<u32>) {
+        self.terminate_platform(pid);
+    }
+
+    #[cfg(unix)]
+    fn terminate_platform(&mut self, pid: Option<u32>) {
+        terminate_process_group(pid, libc::SIGTERM);
+    }
+
+    #[cfg(windows)]
+    fn terminate_platform(&mut self, _pid: Option<u32>) {
+        let _ = self.job.terminate(1);
+    }
+
+    fn force_kill(&mut self, pid: Option<u32>) {
+        self.force_kill_platform(pid);
+    }
+
+    #[cfg(unix)]
+    fn force_kill_platform(&mut self, pid: Option<u32>) {
+        force_kill_process_group(pid);
+    }
+
+    #[cfg(windows)]
+    fn force_kill_platform(&mut self, _pid: Option<u32>) {
+        let _ = self.job.terminate(1);
+    }
+
+    fn graceful_terminate(&mut self, pid: Option<u32>) {
+        self.graceful_terminate_platform(pid);
+    }
+
+    #[cfg(unix)]
+    fn graceful_terminate_platform(&mut self, pid: Option<u32>) {
+        graceful_terminate_process_group(pid);
+    }
+
+    #[cfg(windows)]
+    fn graceful_terminate_platform(&mut self, _pid: Option<u32>) {
+        let _ = self.job.terminate(0);
+    }
+}
+
+#[cfg(windows)]
+struct WindowsJob {
+    handle: windows_sys::Win32::Foundation::HANDLE,
+}
+
+#[cfg(windows)]
+impl WindowsJob {
+    fn assign_child(pid: u32) -> io::Result<Self> {
+        use std::mem;
+        use std::ptr;
+        use windows_sys::Win32::Foundation::{CloseHandle, FALSE, HANDLE, INVALID_HANDLE_VALUE};
+        use windows_sys::Win32::System::JobObjects::{
+            AssignProcessToJobObject, CreateJobObjectW, JobObjectExtendedLimitInformation,
+            SetInformationJobObject, JOBOBJECT_EXTENDED_LIMIT_INFORMATION,
+            JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE,
+        };
+        use windows_sys::Win32::System::Threading::{
+            OpenProcess, PROCESS_SET_QUOTA, PROCESS_TERMINATE,
+        };
+
+        unsafe {
+            let job = CreateJobObjectW(ptr::null(), ptr::null());
+            if job.is_null() || job == INVALID_HANDLE_VALUE {
+                return Err(io::Error::last_os_error());
+            }
+            let job_guard = WindowsJob { handle: job };
+
+            let mut info = mem::zeroed::<JOBOBJECT_EXTENDED_LIMIT_INFORMATION>();
+            info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+            if SetInformationJobObject(
+                job_guard.handle,
+                JobObjectExtendedLimitInformation,
+                ptr::addr_of!(info).cast(),
+                mem::size_of_val(&info) as u32,
+            ) == 0
+            {
+                return Err(io::Error::last_os_error());
+            }
+
+            let process: HANDLE = OpenProcess(PROCESS_SET_QUOTA | PROCESS_TERMINATE, FALSE, pid);
+            if process.is_null() {
+                return Err(io::Error::last_os_error());
+            }
+            let assigned = AssignProcessToJobObject(job_guard.handle, process);
+            let close_result = CloseHandle(process);
+            if assigned == 0 {
+                return Err(io::Error::last_os_error());
+            }
+            if close_result == 0 {
+                return Err(io::Error::last_os_error());
+            }
+            Ok(job_guard)
+        }
+    }
+
+    fn terminate(&self, exit_code: u32) -> io::Result<()> {
+        unsafe {
+            if windows_sys::Win32::System::JobObjects::TerminateJobObject(self.handle, exit_code)
+                == 0
+            {
+                return Err(io::Error::last_os_error());
+            }
+        }
+        Ok(())
+    }
+}
+
+#[cfg(windows)]
+impl Drop for WindowsJob {
+    fn drop(&mut self) {
+        unsafe {
+            windows_sys::Win32::Foundation::CloseHandle(self.handle);
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -459,26 +721,27 @@ fn outcome(
 }
 
 #[cfg(unix)]
-fn terminate_child_tree(child: &mut Child) -> Option<i32> {
+fn terminate_child_tree(child: &mut Child, child_tree: &mut ChildTree) -> Option<i32> {
     let pid = child.id()?;
     let signal = libc::SIGTERM;
-    terminate_process_group(Some(pid), signal);
+    child_tree.terminate(Some(pid));
     Some(signal)
 }
 
 #[cfg(not(unix))]
-fn terminate_child_tree(child: &mut Child) -> Option<i32> {
-    let _ = child.start_kill();
+fn terminate_child_tree(child: &mut Child, child_tree: &mut ChildTree) -> Option<i32> {
+    child_tree.terminate(child.id());
     None
 }
 
 #[cfg(unix)]
-fn force_kill_child_tree(child: &mut Child) {
-    force_kill_process_group(child.id());
+fn force_kill_child_tree(child: &mut Child, child_tree: &mut ChildTree) {
+    child_tree.force_kill(child.id());
 }
 
 #[cfg(not(unix))]
-fn force_kill_child_tree(child: &mut Child) {
+fn force_kill_child_tree(child: &mut Child, child_tree: &mut ChildTree) {
+    child_tree.force_kill(child.id());
     let _ = child.start_kill();
 }
 
@@ -491,9 +754,6 @@ fn terminate_process_group(pid: Option<u32>, signal: i32) {
         libc::kill(-process_group, signal);
     }
 }
-
-#[cfg(not(unix))]
-fn terminate_process_group(_pid: Option<u32>, _signal: i32) {}
 
 #[cfg(unix)]
 fn force_kill_process_group(pid: Option<u32>) {
@@ -521,9 +781,6 @@ fn process_group_alive(_pid: Option<u32>) -> bool {
 fn graceful_terminate_process_group(pid: Option<u32>) {
     terminate_process_group(pid, libc::SIGTERM);
 }
-
-#[cfg(not(unix))]
-fn graceful_terminate_process_group(_pid: Option<u32>) {}
 
 #[cfg(unix)]
 fn exit_signal(status: &std::process::ExitStatus) -> Option<i32> {
@@ -569,6 +826,13 @@ mod tests {
             let mut permissions = fs::metadata(&path).expect("metadata").permissions();
             permissions.set_mode(0o755);
             fs::set_permissions(&path, permissions).expect("chmod");
+            path
+        }
+
+        #[cfg(windows)]
+        fn script(&self, name: &str, body: &str) -> PathBuf {
+            let path = self.path(name);
+            fs::write(&path, body).expect("write script");
             path
         }
     }
@@ -866,6 +1130,71 @@ mod tests {
         assert!(outcome.attempts_detail[0]
             .stdout
             .contains("<adl_guardian_capture_deadline_exceeded>"));
+    }
+
+    #[cfg(windows)]
+    #[tokio::test]
+    async fn child_exit_terminates_descendants_with_windows_job_object() {
+        let root = TestRoot::new("windows-descendant-cleanup");
+        let descendant_file = root.path("descendant-pid");
+        let script = root.script(
+            "descendant.ps1",
+            r#"$child = Start-Process powershell.exe -PassThru -WindowStyle Hidden -ArgumentList @('-NoProfile', '-Command', 'while ($true) { Start-Sleep -Milliseconds 200 }')
+Set-Content -LiteralPath $env:ADL_DESCENDANT_FILE -Value $child.Id
+exit 0
+"#,
+        );
+        let mut config =
+            GuardianConfig::runtime_kernel("powershell.exe", "unused", "runtime-init.toml");
+        config.args = vec![
+            "-NoProfile".to_owned(),
+            "-ExecutionPolicy".to_owned(),
+            "Bypass".to_owned(),
+            "-File".to_owned(),
+            script.to_string_lossy().into_owned(),
+        ];
+        config.env.push((
+            "ADL_DESCENDANT_FILE".to_owned(),
+            descendant_file.to_string_lossy().into(),
+        ));
+
+        let outcome = timeout(
+            Duration::from_secs(5),
+            run_guardian(config, CancellationToken::new()),
+        )
+        .await
+        .expect("guardian cleanup must be bounded")
+        .unwrap();
+
+        assert_eq!(
+            outcome.terminal_state,
+            GuardianTerminalState::ExitedSuccessfully
+        );
+        let descendant = fs::read_to_string(&descendant_file)
+            .unwrap()
+            .trim()
+            .to_owned();
+        let deadline = std::time::Instant::now() + Duration::from_secs(3);
+        loop {
+            let status = std::process::Command::new("powershell.exe")
+                .args([
+                    "-NoProfile",
+                    "-Command",
+                    &format!(
+                        "if (Get-Process -Id {descendant} -ErrorAction SilentlyContinue) {{ exit 1 }} else {{ exit 0 }}"
+                    ),
+                ])
+                .status()
+                .unwrap();
+            if status.success() {
+                break;
+            }
+            assert!(
+                std::time::Instant::now() < deadline,
+                "guardian descendant survived Windows Job Object cleanup"
+            );
+            sleep(Duration::from_millis(50)).await;
+        }
     }
 
     #[cfg(unix)]

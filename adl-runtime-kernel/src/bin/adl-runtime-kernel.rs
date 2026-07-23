@@ -18,7 +18,13 @@ use adl_runtime_kernel::{
     TrustedControlKey, ValidatedReasoningGraph, MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA,
     REQUIRED_OPERATIONAL_ADAPTERS,
 };
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio::net::TcpStream;
 use tokio_util::sync::CancellationToken;
+
+const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
+const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
+const GUARDIAN_REQUIRED_ENV: &str = "ADL_RUNTIME_GUARDIAN_REQUIRED";
 
 #[tokio::main]
 async fn main() -> ExitCode {
@@ -32,6 +38,13 @@ async fn main() -> ExitCode {
                 Err(error) => {
                     eprintln!("{error}");
                     return ExitCode::from(64);
+                }
+            };
+            let mut guardian_lease = match connect_guardian_lease().await {
+                Ok(lease) => lease,
+                Err(error) => {
+                    eprintln!("runtime Guardian lease invalid: {error}");
+                    return ExitCode::from(78);
                 }
             };
             let init = match RuntimeInitConfig::load(serve_args.init_path.clone()) {
@@ -376,6 +389,10 @@ async fn main() -> ExitCode {
                     let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
                     break 'serve ExitCode::from(70);
                 },
+                _ = guardian_lease_lost(guardian_lease.as_mut()) => {
+                    eprintln!("event=guardian_lease_lost action=checkpoint_shutdown");
+                    TerminalTrigger::GuardianLost
+                },
                 };
 
                 let standard_deadline = std::time::Duration::from_secs(5);
@@ -390,6 +407,9 @@ async fn main() -> ExitCode {
                     ),
                     TerminalTrigger::Signal => {
                         ("signal", standard_deadline, shutdown_grace, false, None)
+                    }
+                    TerminalTrigger::GuardianLost => {
+                        ("guardian", standard_deadline, shutdown_grace, false, None)
                     }
                     TerminalTrigger::Signed(request) => (
                         "signed",
@@ -523,6 +543,7 @@ async fn main() -> ExitCode {
 enum TerminalTrigger {
     Pressure,
     Signal,
+    GuardianLost,
     Signed(CheckpointShutdownRequest),
 }
 
@@ -589,6 +610,57 @@ async fn shutdown_signal() -> std::io::Result<()> {
     {
         tokio::signal::ctrl_c().await
     }
+}
+
+async fn connect_guardian_lease() -> Result<Option<TcpStream>, String> {
+    let required = std::env::var(GUARDIAN_REQUIRED_ENV).is_ok_and(|value| value == "1");
+    let address = std::env::var(GUARDIAN_LEASE_ADDRESS_ENV).ok();
+    let token = std::env::var(GUARDIAN_LEASE_TOKEN_ENV).ok();
+    let (address, token) = match (address, token) {
+        (None, None) if !required => return Ok(None),
+        (Some(address), Some(token)) if !address.is_empty() && !token.is_empty() => {
+            (address, token)
+        }
+        _ => return Err("required lease address and token are missing".to_owned()),
+    };
+    let parsed = address
+        .parse::<std::net::SocketAddr>()
+        .map_err(|_| "lease address is invalid".to_owned())?;
+    if !parsed.ip().is_loopback() {
+        return Err("lease address must be loopback".to_owned());
+    }
+    let mut stream = tokio::time::timeout(
+        std::time::Duration::from_secs(5),
+        TcpStream::connect(parsed),
+    )
+    .await
+    .map_err(|_| "lease connection timed out".to_owned())?
+    .map_err(|error| format!("lease connection failed: {error}"))?;
+    stream
+        .write_all(token.as_bytes())
+        .await
+        .map_err(|error| format!("lease authentication failed: {error}"))?;
+    let mut acknowledgement = [0_u8; 2];
+    tokio::time::timeout(
+        std::time::Duration::from_secs(5),
+        stream.read_exact(&mut acknowledgement),
+    )
+    .await
+    .map_err(|_| "lease authentication timed out".to_owned())?
+    .map_err(|error| format!("lease authentication failed: {error}"))?;
+    if acknowledgement != *b"ok" {
+        return Err("lease authentication was refused".to_owned());
+    }
+    Ok(Some(stream))
+}
+
+async fn guardian_lease_lost(lease: Option<&mut TcpStream>) {
+    let Some(lease) = lease else {
+        std::future::pending::<()>().await;
+        return;
+    };
+    let mut unexpected = [0_u8; 1];
+    let _ = lease.read(&mut unexpected).await;
 }
 
 async fn file_hash(path: &std::path::Path) -> std::io::Result<String> {

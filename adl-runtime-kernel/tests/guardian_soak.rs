@@ -1,7 +1,6 @@
 use std::{
     future::pending,
-    io::{BufRead, BufReader, Read},
-    net::ToSocketAddrs,
+    io::{BufRead, BufReader},
     path::{Path, PathBuf},
     process::{Command, Stdio},
     sync::{
@@ -10,6 +9,8 @@ use std::{
     },
     time::Duration,
 };
+#[cfg(unix)]
+use std::{io::Read, net::ToSocketAddrs};
 
 use adl_runtime_kernel::{
     channel,
@@ -20,9 +21,12 @@ use adl_runtime_kernel::{
 };
 use async_trait::async_trait;
 
+#[cfg(unix)]
 const CONTROL_TEST_HOST: &str = "localhost";
+#[cfg(unix)]
 const CONTROL_TEST_PORT: u16 = 20_997;
 
+#[cfg(unix)]
 #[test]
 fn packaging_preserves_one_guardian_neutral_child_contract() {
     let rustysd = include_str!("../../infra/rustysd/adl-runtime-kernel.service");
@@ -498,6 +502,7 @@ async fn tls_request(
     String::from_utf8(response).unwrap()
 }
 
+#[cfg(unix)]
 fn horust_binary() -> PathBuf {
     let configured = PathBuf::from(
         std::env::var_os("ADL_HORUST_BIN")
@@ -598,6 +603,7 @@ fn configure_process_group(command: &mut Command) {
     }
 }
 
+#[cfg(unix)]
 fn repo_path(relative: &str) -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent()
@@ -605,28 +611,43 @@ fn repo_path(relative: &str) -> PathBuf {
         .join(relative)
 }
 
+#[cfg(unix)]
 fn control_test_addr() -> String {
     format!("{CONTROL_TEST_HOST}:{CONTROL_TEST_PORT}")
 }
 
-#[cfg(unix)]
 fn write_test_runtime_init(directory: &Path, address: std::net::SocketAddr) -> PathBuf {
     write_test_runtime_init_with_certificate(directory, address).0
 }
 
-#[cfg(unix)]
 fn write_test_runtime_init_with_certificate(
     directory: &Path,
     address: std::net::SocketAddr,
 ) -> (PathBuf, Vec<u8>) {
-    use rcgen::{generate_simple_self_signed, CertifiedKey};
+    use rcgen::{
+        date_time_ymd, BasicConstraints, CertificateParams, CertifiedIssuer, IsCa, KeyPair,
+    };
 
-    let CertifiedKey { cert, signing_key } =
-        generate_simple_self_signed(["localhost".to_owned()]).unwrap();
+    let mut ca_params = CertificateParams::new(["adl-runtime-v3-test-ca".to_owned()]).unwrap();
+    ca_params.is_ca = IsCa::Ca(BasicConstraints::Constrained(0));
+    ca_params.not_before = date_time_ymd(2026, 1, 1);
+    ca_params.not_after = date_time_ymd(2036, 1, 1);
+    let ca_key = KeyPair::generate().unwrap();
+    let ca = CertifiedIssuer::self_signed(ca_params, ca_key).unwrap();
+    let leaf_key = KeyPair::generate().unwrap();
+    let mut leaf_params = CertificateParams::new([
+        "localhost".to_owned(),
+        "127.0.0.1".to_owned(),
+        "::1".to_owned(),
+    ])
+    .unwrap();
+    leaf_params.not_before = date_time_ymd(2026, 1, 1);
+    leaf_params.not_after = date_time_ymd(2036, 1, 1);
+    let leaf = leaf_params.signed_by(&leaf_key, &ca).unwrap();
     let certificate = directory.join("cert.pem");
     let private_key = directory.join("key.pem");
-    std::fs::write(&certificate, cert.pem()).unwrap();
-    std::fs::write(&private_key, signing_key.serialize_pem()).unwrap();
+    std::fs::write(&certificate, leaf.pem()).unwrap();
+    std::fs::write(&private_key, leaf_key.serialize_pem()).unwrap();
     let init = directory.join("runtime-init.toml");
     std::fs::write(
         &init,
@@ -651,7 +672,7 @@ sample_limit = 1
         ),
     )
     .unwrap();
-    (init, cert.der().to_vec())
+    (init, ca.der().to_vec())
 }
 
 #[cfg(unix)]
@@ -662,7 +683,6 @@ fn write_executable(path: &Path, contents: &str) {
     std::fs::set_permissions(path, std::fs::Permissions::from_mode(0o700)).unwrap();
 }
 
-#[cfg(unix)]
 fn toml_path(path: &Path) -> String {
     let value = path.to_string_lossy();
     assert!(!value.contains(['\n', '\r']));
@@ -761,6 +781,107 @@ fn serve_handles_guardian_sigterm_with_a_clean_checkpointed_exit() {
     assert_eq!(continuity["schema"], "adl.runtime.checkpoint.v1");
     assert_eq!(continuity["generation"], 1);
     assert_eq!(continuity["signing_algorithm"], "ed25519");
+}
+
+#[tokio::test]
+async fn guardian_lease_loss_checkpoints_and_stops_the_real_kernel() {
+    use ed25519_dalek::SigningKey;
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+
+    let directory = tempfile::tempdir().unwrap();
+    let continuity_root = directory.path().join("guardian-lease-continuity");
+    let api_probe = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+    let api_address = api_probe.local_addr().unwrap();
+    drop(api_probe);
+    let init = write_test_runtime_init(directory.path(), api_address);
+    let lease_listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let lease_address = lease_listener.local_addr().unwrap();
+    let lease_token = "portable-guardian-lease-token-00000001";
+    let mut child = Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"))
+        .arg("serve")
+        .arg("--init")
+        .arg(&init)
+        .arg("--continuity-root")
+        .arg(&continuity_root)
+        .env("ADL_RUNTIME_GUARDIAN_REQUIRED", "1")
+        .env(
+            "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS",
+            lease_address.to_string(),
+        )
+        .env("ADL_RUNTIME_GUARDIAN_LEASE_TOKEN", lease_token)
+        .env(
+            "ADL_RUNTIME_CONTROL_PUBLIC_KEY_HEX",
+            hex::encode(
+                SigningKey::from_bytes(&[17_u8; 32])
+                    .verifying_key()
+                    .as_bytes(),
+            ),
+        )
+        .env(
+            "ADL_RUNTIME_CONTINUITY_SIGNING_KEY_HEX",
+            hex::encode([23_u8; 32]),
+        )
+        .env("ADL_RUNTIME_CONTINUITY_MIN_GENERATION", "0")
+        .env(
+            "ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX",
+            hex::encode(
+                SigningKey::from_bytes(&[29_u8; 32])
+                    .verifying_key()
+                    .as_bytes(),
+            ),
+        )
+        .env(
+            "ADL_RUNTIME_OBSERVATORY_TOKEN",
+            "guardian-observatory-token-00000004",
+        )
+        .stdout(Stdio::null())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let (mut lease, peer) = tokio::time::timeout(Duration::from_secs(5), lease_listener.accept())
+        .await
+        .expect("kernel did not connect to its Guardian lease")
+        .unwrap();
+    assert!(peer.ip().is_loopback());
+    let mut supplied = vec![0_u8; lease_token.len()];
+    lease.read_exact(&mut supplied).await.unwrap();
+    assert_eq!(supplied, lease_token.as_bytes());
+    lease.write_all(b"ok").await.unwrap();
+
+    let stderr = child.stderr.take().unwrap();
+    let (ready_tx, ready_rx) = std::sync::mpsc::channel();
+    let stderr_reader = std::thread::spawn(move || {
+        let mut output = String::new();
+        for line in BufReader::new(stderr).lines() {
+            let line = line.unwrap();
+            if line.contains("event=control_ready") {
+                let _ = ready_tx.send(());
+            }
+            output.push_str(&line);
+            output.push('\n');
+        }
+        output
+    });
+    ready_rx
+        .recv_timeout(Duration::from_secs(5))
+        .expect("kernel did not become ready under its Guardian lease");
+    drop(lease);
+
+    let status = tokio::task::spawn_blocking(move || child.wait().unwrap())
+        .await
+        .unwrap();
+    let stderr = stderr_reader.join().unwrap();
+    assert!(
+        status.success(),
+        "Guardian lease shutdown failed ({status}): {stderr}"
+    );
+    assert!(stderr.contains("event=guardian_lease_lost action=checkpoint_shutdown"));
+    let manifest: serde_json::Value = serde_json::from_slice(
+        &std::fs::read(continuity_root.join("generation-1/manifest.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(manifest["generation"], 1);
+    assert_eq!(manifest["signing_algorithm"], "ed25519");
 }
 
 #[cfg(unix)]
@@ -1043,15 +1164,16 @@ fn serve_refuses_reused_continuity_and_operation_keys() {
         .contains("runtime continuity and operation keys must be distinct"));
 }
 
-#[cfg(unix)]
 #[tokio::test]
-async fn signed_https_shutdown_checkpoints_and_forgery_cannot_stop_the_process() {
+async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_process() {
     use ed25519_dalek::SigningKey;
+    use futures::{SinkExt, StreamExt};
     use tokio::io::{AsyncReadExt, AsyncWriteExt};
     use tokio_rustls::rustls::{
         pki_types::{CertificateDer, ServerName},
         ClientConfig, RootCertStore,
     };
+    use tokio_tungstenite::tungstenite::{client::IntoClientRequest, Message};
 
     let directory = tempfile::tempdir().unwrap();
     let continuity_root = directory.path().join("remote-continuity");
@@ -1117,13 +1239,29 @@ async fn signed_https_shutdown_checkpoints_and_forgery_cannot_stop_the_process()
         .recv_timeout(Duration::from_secs(5))
         .expect("serve did not report control readiness");
 
-    let mut roots = RootCertStore::empty();
-    roots.add(CertificateDer::from(certificate_der)).unwrap();
-    let connector = tokio_rustls::TlsConnector::from(Arc::new(
+    let client_config = Arc::new(
         ClientConfig::builder()
-            .with_root_certificates(roots)
+            .with_root_certificates({
+                let mut roots = RootCertStore::empty();
+                roots
+                    .add(CertificateDer::from(certificate_der.clone()))
+                    .unwrap();
+                roots
+            })
             .with_no_client_auth(),
-    ));
+    );
+    let connector = tokio_rustls::TlsConnector::from(client_config.clone());
+    let wrong_host_stream = tokio::net::TcpStream::connect(address).await.unwrap();
+    assert!(
+        connector
+            .connect(
+                ServerName::try_from("wrong.local").unwrap(),
+                wrong_host_stream,
+            )
+            .await
+            .is_err(),
+        "test CA leaf unexpectedly validated for the wrong hostname"
+    );
     let request = |mut command: SignedControlCommand| {
         let connector = connector.clone();
         async move {
@@ -1191,6 +1329,41 @@ async fn signed_https_shutdown_checkpoints_and_forgery_cannot_stop_the_process()
         observatory["ingress"]["completed"]["guardian-work-1"]["result_hash"],
         submit["outcome"]["work_result"]["result_hash"]
     );
+
+    let websocket_request = format!("wss://localhost:{}/v1/observatory/ws", address.port());
+    let mut websocket_request = websocket_request.into_client_request().unwrap();
+    websocket_request
+        .headers_mut()
+        .insert("Origin", "https://localhost:8765".parse().unwrap());
+    let websocket_stream = tokio::net::TcpStream::connect(address).await.unwrap();
+    let (mut websocket, _) = tokio_tungstenite::client_async_tls_with_config(
+        websocket_request,
+        websocket_stream,
+        None,
+        Some(tokio_tungstenite::Connector::Rustls(client_config)),
+    )
+    .await
+    .unwrap();
+    websocket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": "adl.runtime_v3.observatory_ws_auth.v1",
+                "bearer_token": "guardian-observatory-token-00000004"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let feed = tokio::time::timeout(Duration::from_secs(3), websocket.next())
+        .await
+        .expect("WSS Observatory feed did not arrive")
+        .expect("WSS Observatory connection closed")
+        .expect("WSS Observatory frame failed");
+    let feed = serde_json::from_str::<serde_json::Value>(feed.to_text().unwrap()).unwrap();
+    assert_eq!(feed["schema"], "adl.runtime_v3.observatory_feed.v2");
+    assert_eq!(feed["runtime_selection"], "runtime_v3_explicit_opt_in");
+    websocket.close(None).await.unwrap();
 
     let mut forged = signed("forged-stop", ControlAction::Shutdown { grace_millis: 500 });
     forged.signature = hex::encode([0_u8; 64]);
