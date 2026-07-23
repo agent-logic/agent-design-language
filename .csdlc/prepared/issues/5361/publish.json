@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.publication_request.v1",
   "issue": 5361,
-  "expected_generation": 14,
-  "expected_digest": "13ae01fb08bf1749c9f3a38a2eaea2ba1ade53078f905b59665b7f95a11adcfb",
+  "expected_generation": 15,
+  "expected_digest": "a35df2d252a84f4596048ce5f291cdd0a88297ba3c7da2b23823835b32f62667",
   "claim_id": "claim-5361-v0918-runtime-v3-acceptance-readiness",
   "actor": "codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e",
   "repository": "danielbaustin/agent-design-language",
