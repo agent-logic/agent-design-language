@@ -12,7 +12,14 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/5526/implementation/provider-expansion.log
+adl/src/provider/http_family.rs
+adl/src/provider/mod.rs
+adl/src/provider/profiles.rs
+adl/src/provider_substrate.rs
+adl/tools/check_coverage_impact.sh
+adl/tests/provider_tests/http_family.rs
+adl/tests/provider_tests/profiles.rs
 
 ## Prompts
 
@@ -34,12 +41,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No live provider calls or credentials were used; hosted endpoint behavior remains deferred to credentialed integration proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:e7cf3f11a4b2de79a9738eb34489401f6803688e:e2918e90a536cd6d304757ab0cfccca10662e02575eebd02b4f9f483ad5d29cb")
 
-Reviewer: None
+Reviewer: Some("codex:review_5632")
 
-Result: pre_review
+Result: pass
