@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "json"
+require "open3"
 require "pathname"
 
 ROOT = Pathname.new(__dir__).join("../../../..").expand_path
@@ -38,6 +39,7 @@ end
 def revision(value, label)
   text(value, label)
   fail_closed("#{label} must be an exact Git revision") unless value.match?(HEX40)
+  value
 end
 
 def repo_paths(value, label)
@@ -74,8 +76,9 @@ proof_path = ROOT.join(".csdlc/evidence/5501/retained-live-proof.json")
 baseline_path = ROOT.join(".csdlc/evidence/5501/single-agent-comparison.json")
 negative_path = ROOT.join(".csdlc/evidence/5501/negative-case-refusal.json")
 convergence_path = ROOT.join(".csdlc/evidence/5501/convergence-decision.json")
+binding_path = ROOT.join(".csdlc/prepared/issues/5501/evidence-review-binding.json")
 
-[proof_path, baseline_path, negative_path, convergence_path].each do |path|
+[proof_path, baseline_path, negative_path, convergence_path, binding_path].each do |path|
   fail_closed("#{path.relative_path_from(ROOT)} is absent") unless path.file?
 end
 
@@ -85,7 +88,38 @@ fail_closed("unexpected proof schema") unless proof["schema"] == "adl.wp10a.reta
 fail_closed("proof issue must be 5501") unless proof["issue"] == 5501
 revision(proof["execution_head"], "execution_head")
 revision(proof["merged_dependency_head"], "merged_dependency_head")
+unless proof["execution_head_role"] == "dependency_integration_head"
+  fail_closed("execution_head role must distinguish dependency integration from evidence review")
+end
+unless proof["review_binding_ref"] == binding_path.relative_path_from(ROOT).to_s
+  fail_closed("proof review binding ref is absent or stale")
+end
 fail_closed("proof must state transcript exclusion") unless text(proof["task_content_boundary"], "task_content_boundary").include?("private transcript")
+
+binding = object(read_json(binding_path), "review_binding")
+unless binding["schema"] == "adl.wp10a.evidence-review-binding.v1" && binding["issue"] == 5501
+  fail_closed("review binding identity mismatch")
+end
+evidence_revision = revision(binding["evidence_revision"], "review_binding.evidence_revision")
+scope = repo_paths(binding["scope"], "review_binding.scope")
+unless binding["relation"] == "reviewed_head_must_descend_from_evidence_revision_with_zero_scoped_diff"
+  fail_closed("review binding relation mismatch")
+end
+ancestor = system(
+  "git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", evidence_revision, "HEAD",
+  out: File::NULL, err: File::NULL
+)
+fail_closed("evidence revision is not ancestral to reviewed head") unless ancestor
+unchanged = system(
+  "git", "-C", ROOT.to_s, "diff", "--quiet", "#{evidence_revision}..HEAD", "--", *scope,
+  out: File::NULL, err: File::NULL
+)
+fail_closed("reviewed evidence differs from its bound evidence revision") unless unchanged
+execution_ancestral = system(
+  "git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", proof["execution_head"], evidence_revision,
+  out: File::NULL, err: File::NULL
+)
+fail_closed("dependency integration head is not ancestral to evidence revision") unless execution_ancestral
 
 shards = array(proof["shards"], "shards")
 fail_closed("proof must retain exactly two real shards") unless shards.length == 2
