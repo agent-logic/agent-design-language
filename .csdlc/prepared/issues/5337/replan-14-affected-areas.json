@@ -1,0 +1,18 @@
+{
+  "issue": 5337,
+  "card": "spp",
+  "expected_generation": 17,
+  "expected_digest": "1c0b8bdaa413c64b81dbd87952afe742f99f35d60e847194cbed8032f4c01031",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Declare only issue-owned implementation areas",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-characterization crate, corpus, observations, tests, and documentation",
+      "issue-local .csdlc/issues/5337, .csdlc/prepared/issues/5337, and .csdlc/evidence/5337"
+    ]
+  },
+  "fail_after_backup": false
+}

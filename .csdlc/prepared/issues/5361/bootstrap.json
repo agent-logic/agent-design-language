@@ -1,0 +1,214 @@
+{
+  "issue": 5361,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5361/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5361/diagram.mmd",
+  "design_reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "design_approved": true,
+  "claim": {
+    "id": "claim-5361-v0918-runtime-v3-acceptance-readiness",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 0,
+    "acquired_unix_seconds": 1784570111,
+    "expires_unix_seconds": 1785174911,
+    "heartbeat_unix_seconds": 1784570111,
+    "branch": "codex/5361-v0918-runtime-v3-acceptance-readiness",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5361",
+      ".csdlc/locks/5361.lock",
+      ".csdlc/prepared/issues/5361"
+    ],
+    "purpose": "Prepare and review Runtime v3 acceptance cards and dependency truth without executing acceptance"
+  },
+  "initial": {
+    "title": "[v0.91.8][WP-14] Fully accept and deploy Runtime v3",
+    "slug": "v0-91-8-wp-14-runtime-v3-acceptance",
+    "version": "v0.91.8",
+    "goal": "Accept Runtime v3 at an exact revision after all parity, consumer, operational, rollback, and workcell proof dependencies converge.",
+    "required_outcome": "Runtime v3 is installed through its stable owner path, operationally proven, rollback-capable, reviewed, and consumable by ADL v2 and v0.92 without relying on Runtime v2 implementation paths.",
+    "declared_scope": [
+      "Runtime v3 integrated acceptance and retained proof synthesis",
+      "Parity-A through Parity-D evidence consumption",
+      "ADL v2 adapter and provider/tool consumer proof",
+      "guardian, secure access, Observatory, rollback, and operations proof",
+      "live multi-agent workcell output-contract consumption"
+    ],
+    "authority_boundary": [
+      "#5361 owns Runtime v3 acceptance synthesis",
+      "#5591, #5592, #5589, and #5590 own parity implementation",
+      "#5501 owns live workcell proof",
+      "#5384 consumes completed #5361 evidence",
+      "typed C-SDLC v2 records and exact-revision review govern acceptance"
+    ],
+    "task_boundary": "Prepare acceptance cards now; execute acceptance only after every declared dependency is integrated and proven.",
+    "deliverables": [
+      "reviewed Runtime v3 acceptance contract and dependency graph",
+      "exact-revision parity and consumer proof register",
+      "guardian, access, Observatory, operations, and rollback evidence",
+      "line-count, module-growth, test-count, CI, and residual non-claim report",
+      "truthful acceptance or blocker disposition for #5384 consumption"
+    ],
+    "acceptance_criteria": [
+      "AC-1: #5591 completes before #5592, #5589, and #5590, and all four parity packets are reviewed and integrated",
+      "AC-2: Runtime v3 executes canonical ingress, continuity, checkpoint/replay/resume, and graceful pressure shutdown at the accepted revision",
+      "AC-3: Reasoning graphs, loops, affect-control, adaptive learning, governed operations, and secure access have explicit parity proof or blocker disposition",
+      "AC-4: #5341, #5349, and #5501 prove real Runtime v3 consumers without Runtime v2 implementation dependencies",
+      "AC-5: Guardian, HTTPS local/remote API, Observatory, telemetry, rollback, and recovery proof passes with no hard-coded address",
+      "AC-6: Focused tests, strict lint, CI, line-count, module-growth, dependency, and exact-revision review gates pass",
+      "AC-7: Unsupported GPU, remote-provider, or deployment claims remain explicit non-claims and cannot be promoted by this umbrella"
+    ],
+    "dependencies": [
+      "merged WP-01 #5594",
+      "Runtime v3 architecture authority #5336",
+      "Parity-A #5591 before Parity-B #5592, Parity-C #5589, and Parity-D #5590",
+      "ADL v2 Runtime adapter #5341",
+      "provider and tool adapter owner #5349",
+      "live multi-agent workcell proof #5501"
+    ],
+    "repo_inputs": [
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
+      "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
+      "adl-runtime",
+      "adl-runtime-kernel",
+      "infra/runtime-v3"
+    ],
+    "non_goals": [
+      "acceptance execution during card preparation",
+      "Runtime v2 implementation reuse or deletion",
+      "v0.92 activation or release approval",
+      "new feature scope beyond declared parity",
+      "AWS use",
+      "hard-coded network addresses"
+    ],
+    "plan_summary": "Prepare and review the Runtime v3 acceptance contract, wait for architecture and parity dependencies, then synthesize exact-revision operational, consumer, rollback, and workcell proof for #5384.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Prepare and review all six acceptance cards, dependency graph, protected paths, and validation lanes",
+        "status": "pending",
+        "acceptance_ids": ["AC-1", "AC-6", "AC-7"]
+      },
+      {
+        "id": "S2",
+        "action": "Consume reviewed Parity-A through Parity-D and Runtime v3 consumer evidence at exact revisions",
+        "status": "pending",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"]
+      },
+      {
+        "id": "S3",
+        "action": "Run guardian, secure access, Observatory, telemetry, pressure, rollback, and recovery acceptance",
+        "status": "pending",
+        "acceptance_ids": ["AC-2", "AC-5", "AC-6"]
+      },
+      {
+        "id": "S4",
+        "action": "Synthesize live workcell and consumer proof, review the exact revision, and publish truthful acceptance or blocker state",
+        "status": "pending",
+        "acceptance_ids": ["AC-4", "AC-6", "AC-7"]
+      }
+    ],
+    "risks": [
+      "fixture-only parity could be mistaken for integrated behavior",
+      "parallel parity children may collide on shared Runtime kernel paths",
+      "Runtime v2 imports could silently defeat cutover independence",
+      "network configuration could regress to loopback-only or hard-coded addresses",
+      "unsupported remote or GPU evidence could be overstated"
+    ],
+    "invariants": [
+      "no tracked work on main",
+      "no acceptance execution before dependencies integrate",
+      "no Runtime v2 implementation files",
+      "no hard-coded IP addresses",
+      "HTTPS only for network access",
+      "no AWS",
+      "one serialized integration queue"
+    ],
+    "stop_conditions": [
+      "#5336 architecture authority is not integrated",
+      "any required parity or consumer dependency remains open or unreviewed",
+      "protected paths overlap without explicit serialization",
+      "acceptance requires Runtime v2 implementation reuse",
+      "a required proof can only be represented as an unsupported claim"
+    ],
+    "review_prompts": [
+      "Does the dependency order prevent fixture-only or partial parity from closing acceptance?",
+      "Does every v0.91.7 Runtime feature have a Runtime v3 owner, proof, or explicit blocker?",
+      "Are Runtime v2 implementation paths excluded from the accepted boot and consumer surfaces?",
+      "Are network, guardian, Observatory, pressure, rollback, and retained-state claims proven at one exact revision?",
+      "Are GPU, remote-provider, and deployment non-claims stated without weakening local acceptance truth?"
+    ],
+    "planning_profile": "large",
+    "validation_lanes": [
+      {
+        "lane": "acceptance-register",
+        "proof_role": "Fail closed unless architecture, parity, consumer, and workcell dependencies are integrated at exact revisions and unsupported surfaces remain explicit non-claims",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local-control",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5361/validate_acceptance_register.rb"],
+        "acceptance_ids": ["AC-1", "AC-4", "AC-7"]
+      },
+      {
+        "lane": "runtime-v3-kernel",
+        "proof_role": "Run the isolated Runtime v3 kernel test suite",
+        "deterministic": true,
+        "resource_profile": "large",
+        "parallel_group": "runtime-v3-local",
+        "budget_seconds": 1800,
+        "budget_tokens": 8000,
+        "argv": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml"],
+        "acceptance_ids": ["AC-2", "AC-3", "AC-5", "AC-6"]
+      },
+      {
+        "lane": "runtime-v3-supervision",
+        "proof_role": "Run the isolated Runtime v3 supervision and component test suite",
+        "deterministic": true,
+        "resource_profile": "large",
+        "parallel_group": "runtime-v3-local",
+        "budget_seconds": 1800,
+        "budget_tokens": 8000,
+        "argv": ["cargo", "test", "--manifest-path", "adl-runtime/Cargo.toml"],
+        "acceptance_ids": ["AC-2", "AC-5", "AC-6"]
+      },
+      {
+        "lane": "guardian-soak",
+        "proof_role": "Exercise guardian lifecycle, health, and graceful shutdown through the owner script",
+        "deterministic": false,
+        "resource_profile": "large",
+        "parallel_group": "runtime-v3-live",
+        "budget_seconds": 2400,
+        "budget_tokens": 12000,
+        "argv": ["bash", "adl/tools/run_runtime_v3_guardian_soak.sh"],
+        "acceptance_ids": ["AC-2", "AC-5", "AC-6"]
+      },
+      {
+        "lane": "runtime-v3-inventory",
+        "proof_role": "Report Runtime v3 source size and preserve the module-growth budget",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "runtime-v3-local",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["bash", "adl/tools/report_runtime_v3_loc.sh"],
+        "acceptance_ids": ["AC-6"]
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Verify issue-branch patch hygiene at the exact reviewed revision",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local-control",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["git", "diff", "--check"],
+        "acceptance_ids": ["AC-6"]
+      }
+    ],
+    "failure_policy": "Fail closed on missing parity, consumer, guardian, secure-access, Observatory, rollback, exact-revision, independence, or retained-state proof; preserve unsupported remote and GPU outcomes as non-claims."
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "issue": 5337,
+  "card": "sor",
+  "expected_generation": 35,
+  "expected_digest": "ebb806d1ff9f701156b40f12368f1892e985c437f4355863efc73970511ecb88",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record focused all-target crate validation from external FastWork Cargo output.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "adl-characterization/Cargo.toml", "--all-targets"],
+      "purpose": "Prove all unit, path-boundary, schema, coverage, retained-evidence, repeated-divergence, tamper, and CLI contracts.",
+      "outcome": "passed",
+      "evidence_ref": "Commit 5da012921: 13 tests passed with CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5337-target."
+    }
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,149 @@
+{
+  "issue": 5339,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5339/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5339/diagram.mmd",
+  "design_reviewer": "codex:5339-preparation",
+  "design_approved": false,
+  "claim": {
+    "id": "claim-5339-v0918-wp04-preparation",
+    "owner": "codex:5339-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1784615902,
+    "expires_unix_seconds": 1785220702,
+    "heartbeat_unix_seconds": 1784615902,
+    "branch": "codex/5339-v0918-wp04-language-core",
+    "worktree": ".worktrees/adl-wp-5339",
+    "protected_paths": [
+      ".csdlc/issues/5339",
+      ".csdlc/prepared/issues/5339",
+      ".csdlc/evidence/5339",
+      "adl-v2/crates/adl-language"
+    ],
+    "purpose": "Prepare the complete #5339 clean-room language-core contract one dependency wave ahead; implementation remains prohibited until #5337 is merged and typed closed_out"
+  },
+  "initial": {
+    "title": "[v0.91.8][WP-04] Implement clean-room six-primitives language core",
+    "slug": "v0918-wp04-clean-room-six-primitives-language-core",
+    "version": "v0.91.8",
+    "goal": "Implement a small, side-effect-free ADL v2 language crate defining provider, tool, agent, task, workflow, and run documents with strict parsing, schemas, semantic validation, and deterministic canonicalization.",
+    "required_outcome": "The independent adl-language crate accepts the reviewed #5337 characterization corpus, rejects unknown or invalid structure and references with stable diagnostics, emits deterministic canonical representations and schemas, and introduces no runtime, control-plane, network, clock, filesystem-mutation, or cloud authority.",
+    "declared_scope": [
+      "adl-v2/crates/adl-language typed six-primitives source model",
+      "strict YAML and JSON parsing with fail-closed unknown-field handling",
+      "versioned JSON Schema generation and checked schema fixtures",
+      "semantic identity and reference validation within the language boundary",
+      "deterministic canonicalization and stable machine-readable diagnostics",
+      "issue-local lifecycle, design, validation, review, and evidence records"
+    ],
+    "authority_boundary": [
+      "Issue #5339 owns only the adl-language crate and issue-local C-SDLC records",
+      "#5336 architecture and budget authority plus #5337 reviewed corpus are read-only inputs",
+      "The language crate is pure and owns no compiler DAG expansion, engine behavior, Runtime v3 services, C-SDLC lifecycle, provider transport, governed-tool execution, or cloud access",
+      "Incumbent ADL implementation, schemas, tests, and fixtures are behavioral evidence only and must not be copied, adapted, imported, or linked into the clean-room crate",
+      "Implementation begins only after #5337 is merged and its typed terminal phase is closed_out"
+    ],
+    "operator_constraints": [
+      "Use installed typed C-SDLC v2 binaries and semantic card edits only",
+      "Never edit tracked issue work on root main",
+      "Do not use raw gh, AWS, credentials, or network providers",
+      "Preparation may finish while #5337 publishes, but no product implementation may begin before its merged and typed closed_out signal",
+      "Use /Volumes/FastWork for Rust build output when implementation starts",
+      "Run bounded subagent design and exact-revision code reviews before publication"
+    ],
+    "task_boundary": "Prepare and, only after the dependency gate becomes terminal, implement the clean-room adl-language crate; do not absorb compiler, engine, contracts, adapters, CLI, selector, parity, deletion, or Runtime v3 work.",
+    "deliverables": [
+      "Typed Rust models for provider, tool, agent, task, workflow, run, and the versioned root document",
+      "Strict YAML and JSON parsers with stable diagnostic codes and source locations where available",
+      "Versioned JSON Schemas plus positive, negative, unknown-field, duplicate-identity, and broken-reference fixtures",
+      "Pure semantic validator and deterministic canonicalization contract",
+      "Characterization-parity proof against the reviewed #5337 corpus",
+      "Dependency, source-size, test-size, and validation-latency budget report",
+      "COTS decision record for serde, serde_json, YAML parsing, schemars, and schema validation"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Provider, tool, agent, task, workflow, and run are explicit typed contracts under one versioned document root, with unknown fields rejected",
+      "AC-2: YAML and JSON inputs produce one equivalent validated model or stable typed diagnostics without network, clock, environment, provider, runtime, or filesystem-mutation authority",
+      "AC-3: Generated checked schemas and fixtures stay structurally aligned with the Rust types, including negative unknown-field and malformed-value cases",
+      "AC-4: Semantic validation rejects duplicate identities, invalid versioning, unresolved cross-primitive references, and language-level cycles where the reviewed contract declares them invalid",
+      "AC-5: Canonicalization is deterministic across map order, YAML versus JSON representation, and repeated runs, and does not invent compiler ExecutionPlan semantics",
+      "AC-6: Every applicable #5337 language characterization case is mapped and passes, while intentional differences are explicitly classified rather than normalized away",
+      "AC-7: The crate uses only reviewed COTS serialization/schema components and excludes ADL v1, Runtime v2/v3, C-SDLC, async runtime, HTTP, cloud, database, and provider SDK dependencies",
+      "AC-8: WP-04 stays within a reviewed provisional allocation of 4000 implementation LoC and 4000 test/fixture LoC, with focused warm validation under 120 seconds and complete deterministic validation under 600 seconds; any variance requires evidence-backed review without weakening proof",
+      "AC-9: Implementation, review, and publication begin only from a current #5337 merged plus typed closed_out dependency signal"
+    ],
+    "dependencies": [
+      "#5336 architecture, clean-room provenance, ownership, and budget authority integrated",
+      "#5337 PR #5607 merged",
+      "#5337 typed lifecycle phase closed_out",
+      "Reviewed #5337 characterization corpus and normalization contract available on current main"
+    ],
+    "repo_inputs": [
+      "AGENTS.md",
+      "docs/milestones/v0.91.8/DESIGN_v0.91.8.md",
+      "docs/milestones/v0.91.8/WBS_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "docs/milestones/v0.91.8/features/ADL_V2_CORE_v0.91.8.md",
+      "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+      "adl-characterization/corpus/v1/corpus.yaml",
+      "adl-characterization/corpus/v1/schema.json",
+      "adl-characterization/corpus/v1/COVERAGE.md",
+      "adl-characterization/observations/v1/verification.json"
+    ],
+    "non_goals": [
+      "Compiler resolution, composition expansion, patterns, stable execution-node identity, or ExecutionPlan generation owned by #5338",
+      "Engine scheduling, retry, join, resume, ports, or execution owned by #5340",
+      "Portable records, signing, trust, and verification owned by #5342",
+      "Runtime v3, provider/tool adapters, CLI, selector, parity, cutover, deletion, deployment, or AWS work",
+      "Compatibility aliases or broad incumbent behavior not present in the reviewed #5337 contract"
+    ],
+    "plan_summary": "Freeze the six-primitives language boundary and COTS/budget decisions during preparation; after #5337 is merged and typed closed_out, construct the independent crate, implement strict parsing/schema/semantic validation/canonicalization, prove mapped corpus parity and budgets, then complete exact-revision review and typed publication.",
+    "steps": [
+      {"id":"S1","action":"Complete and review issue-specific cards, clean-room design, dependency boundary, protected paths, COTS decisions, and budgets without product implementation","acceptance_ids":["AC-7","AC-8","AC-9"],"status":"pending"},
+      {"id":"S2","action":"After #5337 is merged and typed closed_out, create the independent adl-language crate and implement the six typed primitives plus strict YAML and JSON parsing","acceptance_ids":["AC-1","AC-2","AC-7","AC-9"],"status":"pending"},
+      {"id":"S3","action":"Implement checked schemas, semantic validation, deterministic canonicalization, stable diagnostics, and focused positive and negative fixtures","acceptance_ids":["AC-3","AC-4","AC-5"],"status":"pending"},
+      {"id":"S4","action":"Map and prove the reviewed #5337 corpus, dependency and size budgets, warm/full latency, strict Clippy, exact-revision review, and publication readiness","acceptance_ids":["AC-6","AC-7","AC-8"],"status":"pending"}
+    ],
+    "invariants": [
+      "The six primitives remain provider, tool, agent, task, workflow, and singular run",
+      "Parsing and validation are pure and deterministic",
+      "Unknown fields and unresolved references fail closed",
+      "Canonicalization preserves meaning and never suppresses a characterized semantic difference",
+      "The language crate does not gain compiler, runtime, provider, control-plane, or cloud authority",
+      "No incumbent implementation or test code is reused in the clean-room crate",
+      "No implementation before #5337 merged and typed closed_out"
+    ],
+    "risks": [
+      "The characterization contract may expose compatibility behavior that conflicts with a minimal clean-room model",
+      "Schema generation and deserialization may drift if their contracts are tested independently rather than jointly",
+      "YAML coercion or duplicate-key behavior may create JSON/YAML inconsistency",
+      "Semantic reference checks may accidentally absorb compiler-owned resolution behavior",
+      "A per-crate provisional budget can become a target that pressures proof quality"
+    ],
+    "planning_profile": "large",
+    "stop_conditions": [
+      "#5337 is not both merged and typed closed_out when product implementation would begin",
+      "The current #5337 corpus or normalization contract is missing, stale, or has unreviewed ambiguity",
+      "Required behavior would copy or link incumbent ADL implementation",
+      "A proposed dependency introduces runtime, network, control-plane, cloud, database, or provider authority",
+      "Language semantics cannot be separated cleanly from #5338 compiler ownership",
+      "Budget variance lacks evidence-backed review or would weaken required proof"
+    ],
+    "validation_lanes": [
+      {"lane":"typed-preparation","proof_role":"Required preparation gate: validate all six canonical cards, design references, protected-path scope, dependency stop, and lifecycle consistency","acceptance_ids":["AC-7","AC-8","AC-9"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":2000,"argv":[".adl/bin/csdlc-v2/csdlc-doctor","--repo",".","--issue","5339"],"parallel_group":"preparation","defer_reason":null},
+      {"lane":"language-focused","proof_role":"Prove strict parse, schema alignment, semantic validation, diagnostics, and canonicalization across all six primitives","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],"deterministic":true,"resource_profile":"medium","budget_seconds":120,"budget_tokens":6000,"argv":["cargo","test","--package","adl-language","--all-targets"],"parallel_group":"language-local","defer_reason":"Execute only after #5337 is merged and typed closed_out and implementation exists"},
+      {"lane":"language-quality","proof_role":"Prove warning-free clean-room language implementation and test code","acceptance_ids":["AC-1","AC-3","AC-4","AC-7"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":3000,"argv":["cargo","clippy","--package","adl-language","--all-targets","--","-D","warnings"],"parallel_group":"language-local","defer_reason":"Execute only after #5337 is merged and typed closed_out and implementation exists"},
+      {"lane":"characterization-parity","proof_role":"Map and prove every applicable reviewed #5337 language case with explicit intentional-difference classification","acceptance_ids":["AC-2","AC-5","AC-6"],"deterministic":true,"resource_profile":"medium","budget_seconds":300,"budget_tokens":5000,"argv":["cargo","test","--package","adl-language","--test","characterization_parity"],"parallel_group":"language-parity","defer_reason":"Execute only after #5337 is merged and typed closed_out and its corpus is on current main"},
+      {"lane":"language-budgets","proof_role":"Enforce reviewed dependency exclusions, provisional source/test allocation, and complete deterministic validation under milestone ceilings","acceptance_ids":["AC-7","AC-8"],"deterministic":true,"resource_profile":"small","budget_seconds":600,"budget_tokens":3000,"argv":["cargo","test","--package","adl-language","--all-targets"],"parallel_group":"language-budget","defer_reason":"Execute at the implementation revision with measured LoC, dependency, and latency evidence"}
+    ],
+    "failure_policy": "Fail closed without implementation or publication on a false/stale dependency signal, unknown-field acceptance, schema/model drift, unresolved references, nondeterministic canonicalization, unclassified characterization mismatch, forbidden dependency, or unsupported budget variance.",
+    "review_prompts": [
+      "Does the model define exactly the six primitives without absorbing compiler, engine, runtime, adapter, CLI, or C-SDLC authority?",
+      "Can YAML or JSON coercion, duplicate keys, unknown fields, aliases, ordering, or numeric representation bypass strict validation or canonical equality?",
+      "Do generated schemas, Rust deserialization, semantic validation, and fixtures prove one aligned contract?",
+      "Is every applicable #5337 characterization case mapped, and are intentional differences evidence-backed rather than normalized away?",
+      "Are COTS choices and the provisional LoC/test/latency allocation minimal, measured, and subordinate to correctness?"
+    ],
+    "review_scope": ".csdlc/issues/5339\n.csdlc/prepared/issues/5339\n.csdlc/evidence/5339\nadl-v2/crates/adl-language"
+  }
+}

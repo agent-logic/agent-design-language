@@ -1,0 +1,22 @@
+{
+  "issue": 5337,
+  "card": "spp",
+  "expected_generation": 19,
+  "expected_digest": "38f5db65d849f3b14b99a793f48954f6eef1ce968b6d4cd61316ec4c32cf5306",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record complete implementation risks",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "risks",
+    "values": [
+      "normalization could hide a semantic regression",
+      "graph output alone may hide sequential ordering, requiring print-plan comparison",
+      "environmental noise may cause false nondeterminism",
+      "fixed signing evidence could accidentally retain private material",
+      "large raw evidence could obscure corpus coverage",
+      "v1 build provenance could drift from the pinned revision"
+    ]
+  },
+  "fail_after_backup": false
+}

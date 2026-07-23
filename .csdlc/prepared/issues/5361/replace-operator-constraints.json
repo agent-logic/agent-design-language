@@ -1,0 +1,20 @@
+{
+  "issue": 5361,
+  "card": "sip",
+  "expected_generation": 2,
+  "expected_digest": "eaf9fdb925a07194a6d097d0b215348822856f4d341c84704f7b623a2df2bcee",
+  "claim_id": "claim-5361-v0918-runtime-v3-acceptance-readiness",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Restore explicit Runtime v3 acceptance constraints through the preparation-safe typed SIP operation",
+  "operation": {
+    "operation": "replace_operator_constraints",
+    "values": [
+      "Use only the typed C-SDLC v2 lifecycle and installed owner binaries on the bound #5361 branch; never edit tracked issue work on main",
+      "Keep this preparation revision limited to #5361 cards, dependency design, diagram, validation contract, and typed request records; do not perform Runtime product implementation or acceptance execution in this lane",
+      "When execution begins after the declared dependencies integrate, satisfy every AC-1 through AC-7 obligation with exact-revision proof; do not defer, weaken, omit, or replace required parity, consumer, operational, rollback, review, or quality work with fixture-only evidence",
+      "Do not depend on Runtime v2 implementation paths, hard-code network addresses, or permit non-HTTPS access",
+      "Do not use raw gh or AWS; unsupported GPU, remote-provider, and deployment claims remain explicit out-of-scope non-claims unless later reviewed evidence brings them into scope"
+    ]
+  },
+  "fail_after_backup": false
+}

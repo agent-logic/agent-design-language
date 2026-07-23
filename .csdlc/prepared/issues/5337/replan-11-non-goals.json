@@ -1,0 +1,22 @@
+{
+  "issue": 5337,
+  "card": "stp",
+  "expected_generation": 14,
+  "expected_digest": "aa5301a14ca5ca1c8e1b9be8e38bec225143661a7a67946afdea5cf8e891afaf",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Remove preparation non-goals and preserve clean-room limits",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "non_goals",
+    "values": [
+      "no porting or linking of incumbent ADL internal implementation or tests",
+      "no Runtime v2 or incumbent adl source edits",
+      "no replacement ADL compiler or runtime implementation",
+      "no credentialed, network, remote, AWS, or paid-provider execution",
+      "no normalization that erases semantic differences",
+      "no shared milestone, cutover, deletion, or v0.92 changes"
+    ]
+  },
+  "fail_after_backup": false
+}

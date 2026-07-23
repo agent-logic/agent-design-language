@@ -1,0 +1,64 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 5591
+
+Repository: danielbaustin/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Prepare the complete implementation contract now; do not amend into product paths, edit product code, run acceptance, bind implementation authority, or claim readiness until #5336 is green and merged.
+
+## Deliverables
+
+- guardian-launched canonical ingress implementation and typed contract
+- live initialized-process proof across lifecycle, topology, backpressure, configuration, continuity, recovery, access, and Observatory surfaces
+- versioned atomic checkpoint plus deterministic replay/resume implementation and authenticity proof
+- configured resource-pressure graceful serialization and shutdown implementation
+- configured TLS-authenticated local and remote access with no hard-coded address
+- negative authority, insecure-access, malformed-input, corrupt-state, duplicate-work, and pressure-path evidence
+- consolidation or deletion of overlapping placeholder Runtime v3 core code without Runtime v2 edits
+- exact-revision COTS dependency inventory and current Runtime v3 LoC/module/test budget report
+
+## Acceptance
+
+1. AC-1: The guardian launches the configured canonical Runtime v3 process and representative domain work traverses one production secure typed ingress and bounded channels; fixture, library-only, mocked-process, or degraded evidence is insufficient
+2. AC-2: Kernel lifecycle, topology, backpressure, service contracts, and configuration execute live with deterministic retained evidence at the exact accepted revision
+3. AC-3: Versioned checksummed atomic checkpoints replay and resume deterministically with identical observable state and next-work results, no duplicate execution, and fail-closed rejection of corrupt, truncated, incompatible, out-of-order, duplicate, or unauthorized state
+4. AC-4: Configured resource pressure stops admission, drains or serializes bounded work, commits a final checkpoint, emits terminal evidence, and shuts down gracefully within a tested bound; restart resumes without loss or duplication
+5. AC-5: Configuration-driven TLS-authenticated local and remote access works without hard-coded addresses, while HTTP-only, missing or invalid credentials, authority escalation, malformed ingress, unknown types, and oversized frames fail closed
+6. AC-6: Observatory exposes authenticated machine-readable lifecycle, ingress, queue, checkpoint, replay, resume, pressure, access, health, and shutdown output from the live guardian-launched process
+7. AC-7: Maintained COTS crates are used where practical, Runtime v2 implementation paths remain absent, overlapping Runtime v3 placeholders are consolidated, and no AWS, cutover, deletion, provider-deployment, or unsupported remote-execution claim is introduced
+8. AC-8: Focused tests, strict format/lint, exact-revision review, dependency inventory, source LoC, module growth, and test count pass the integrated #5336 budget without weakening any behavioral or negative proof
+
+## Dependencies
+
+- #5361 prepared Runtime v3 acceptance umbrella
+- exact reviewed #5336 head 8fa1bfe66e677ed3ae160b3fee81d204d4211a37 is the stacked implementation base
+- #5336 green merge into main remains mandatory before #5591 publication, merge, integrated readiness, or final exact-revision acceptance
+- reviewed #5591 ingress contract before #5592, #5589, and #5590 implementation
+- #5341 consumes the accepted ingress contract after review
+
+## Inputs
+
+- https://github.com/danielbaustin/agent-design-language/issues/5591
+- .csdlc/prepared/issues/5361/design.md
+- docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md
+- docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md
+- docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md
+- adl-runtime-kernel/Cargo.toml
+- adl-runtime/Cargo.toml
+- infra/runtime-v3
+
+## Non Goals
+
+- partial implementation before #5336 integration
+- Runtime v2 source reuse, modification, defaulting, cutover, or deletion
+- AWS, GPU, provider deployment, or unsupported remote-execution claims
+- hard-coded IP addresses, HTTP-only access, or unauthenticated Observatory output
+- reasoning, adaptive-learning, governed-operations, or rollback scope owned by later parity children except interfaces strictly required by Parity-A

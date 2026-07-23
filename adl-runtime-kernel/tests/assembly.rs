@@ -1,19 +1,37 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
-    sync::Arc,
+    sync::{
+        atomic::{AtomicUsize, Ordering},
+        Arc, Mutex,
+    },
     time::Duration,
 };
 
 use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly, mark_unavailable_live_services, AdapterKind,
-    ClockAuthority, ComponentId, DegradedOperationExecutor, LiveBindings, RunningState,
-    RuntimeRecorder, TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource,
+    ClockAuthority, ComponentId, DegradedOperationExecutor, DomainWork, ExecutorError,
+    IngressError, LiveBindings, OperationExecutor, OperationRequest, RunningState, RuntimeRecorder,
+    TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA,
     PASSIVE_LIVE_SERVICES, REQUIRED_OPERATIONAL_ADAPTERS,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
 
 struct FixedTime;
+
+struct EchoExecutor {
+    calls: Arc<AtomicUsize>,
+    request: Arc<Mutex<Option<OperationRequest>>>,
+}
+
+#[async_trait]
+impl OperationExecutor for EchoExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        self.calls.fetch_add(1, Ordering::SeqCst);
+        *self.request.lock().unwrap() = Some(request.clone());
+        Ok(request.payload.clone())
+    }
+}
 
 #[async_trait]
 impl TimeSampleSource for FixedTime {
@@ -40,6 +58,7 @@ fn bindings(recorder: RuntimeRecorder) -> LiveBindings {
         .collect();
     let key = SigningKey::from_bytes(&[31; 32]);
     LiveBindings {
+        recorder: recorder.clone(),
         operation_executors: executors,
         permit_keys: BTreeMap::from([("operator".to_owned(), key.verifying_key())]),
         reasoning: bootstrap_reasoning_services(recorder).unwrap(),
@@ -64,6 +83,7 @@ fn live_assembly_has_the_frozen_service_inventory() {
         "aee".to_owned(),
         "agent_runtime".to_owned(),
         "checkpoint_store".to_owned(),
+        "canonical_ingress".to_owned(),
         "chronosense".to_owned(),
         "cloud_bridge".to_owned(),
         "cognition_review_record".to_owned(),
@@ -86,7 +106,7 @@ fn live_assembly_has_the_frozen_service_inventory() {
         "trusted_time".to_owned(),
     ]);
     assert_eq!(names, expected);
-    assert_eq!(assembly.topology.startup_order().len(), 26);
+    assert_eq!(assembly.topology.startup_order().len(), 27);
 }
 
 #[test]
@@ -126,7 +146,7 @@ async fn live_assembly_starts_and_qualifies_time() {
     .unwrap();
     mark_unavailable_live_services(&recorder);
     let snapshot = recorder.snapshot();
-    assert_eq!(snapshot.components.len(), 26);
+    assert_eq!(snapshot.components.len(), 27);
     let degraded = REQUIRED_OPERATIONAL_ADAPTERS
         .into_iter()
         .map(|kind| kind.service_name())
@@ -144,6 +164,119 @@ async fn live_assembly_starts_and_qualifies_time() {
         snapshot.components[&ComponentId::new("observability")],
         RunningState::Running
     );
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        adl_runtime_kernel::KernelExit::Clean
+    );
+}
+
+#[tokio::test]
+async fn canonical_ingress_dispatches_allowlisted_work_and_commits_only_success() {
+    let recorder = RuntimeRecorder::new(128);
+    let calls = Arc::new(AtomicUsize::new(0));
+    let dispatched = Arc::new(Mutex::new(None));
+    let mut live = bindings(recorder.clone());
+    live.operation_executors.insert(
+        AdapterKind::Agent,
+        Arc::new(EchoExecutor {
+            calls: calls.clone(),
+            request: dispatched.clone(),
+        }),
+    );
+    let assembly = build_live_assembly(live).unwrap();
+    let ingress = assembly.canonical_ingress.clone();
+    let handle = adl_runtime_kernel::Kernel::new(assembly.topology, recorder)
+        .start()
+        .await
+        .unwrap();
+    let work = DomainWork {
+        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+        work_id: "dispatch-success".to_owned(),
+        kind: "parity-a".to_owned(),
+        payload: b"component-output".to_vec(),
+    };
+    let result = ingress
+        .submit(work.clone(), "0123456789abcdef0123456789abcdef".to_owned())
+        .await
+        .unwrap();
+    assert_eq!(calls.load(Ordering::SeqCst), 1);
+    assert_eq!(result.accepted_sequence, 1);
+    assert_eq!(
+        dispatched.lock().unwrap().as_ref().unwrap(),
+        &OperationRequest {
+            schema: adl_runtime_kernel::OPERATION_REQUEST_SCHEMA.to_owned(),
+            request_id: "dispatch-success".to_owned(),
+            idempotency_key: "dispatch-success".to_owned(),
+            principal: "canonical-ingress".to_owned(),
+            payload: b"component-output".to_vec(),
+            permit: None,
+        }
+    );
+
+    let unsupported = ingress
+        .submit(
+            DomainWork {
+                work_id: "dispatch-unsupported".to_owned(),
+                kind: "not-allowlisted".to_owned(),
+                ..work.clone()
+            },
+            "1123456789abcdef0123456789abcdef".to_owned(),
+        )
+        .await;
+    assert_eq!(unsupported, Err(IngressError::UnsupportedKind));
+    assert_eq!(
+        ingress
+            .submit(
+                DomainWork {
+                    work_id: "dispatch-unsupported".to_owned(),
+                    kind: "not-allowlisted".to_owned(),
+                    ..work.clone()
+                },
+                "1123456789abcdef0123456789abcdef".to_owned(),
+            )
+            .await,
+        Err(IngressError::UnsupportedKind)
+    );
+    for kind in [AdapterKind::Provider, AdapterKind::CloudBridge] {
+        assert_eq!(
+            ingress
+                .submit(
+                    DomainWork {
+                        work_id: format!("governed-{}", kind.service_name()),
+                        kind: kind.service_name().to_owned(),
+                        ..work.clone()
+                    },
+                    "1923456789abcdef0123456789abcdef".to_owned(),
+                )
+                .await,
+            Err(IngressError::UnsupportedKind)
+        );
+    }
+    let failed = ingress
+        .submit(
+            DomainWork {
+                work_id: "dispatch-failed".to_owned(),
+                kind: AdapterKind::Shepherd.service_name().to_owned(),
+                ..work.clone()
+            },
+            "2123456789abcdef0123456789abcdef".to_owned(),
+        )
+        .await;
+    assert_eq!(failed, Err(IngressError::ExecutionFailed));
+    assert_eq!(
+        ingress
+            .submit(
+                DomainWork {
+                    work_id: "dispatch-failed".to_owned(),
+                    kind: AdapterKind::Shepherd.service_name().to_owned(),
+                    ..work
+                },
+                "2123456789abcdef0123456789abcdef".to_owned(),
+            )
+            .await,
+        Err(IngressError::ExecutionFailed)
+    );
+    assert_eq!(ingress.snapshot().accepted_through, 1);
     assert_eq!(
         handle.shutdown(Duration::from_secs(1)).await.unwrap(),
         adl_runtime_kernel::KernelExit::Clean

@@ -1,0 +1,11 @@
+{
+  "issue": 5337,
+  "card": "spp",
+  "expected_generation": 28,
+  "expected_digest": "dfffa6feba458d78ebf7eea58e2b3602febf9153e6cdf7b97abf5ddd28d1c400",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "The independent manifest, runner, normalizer, comparator, report model, and CLI are implemented and green.",
+  "operation": {"operation": "update_plan_step", "step_id": "S1", "status": "completed"},
+  "fail_after_backup": false
+}

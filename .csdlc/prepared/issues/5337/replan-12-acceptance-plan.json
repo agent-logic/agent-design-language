@@ -1,0 +1,183 @@
+{
+  "issue": 5337,
+  "card": "spp",
+  "expected_generation": 15,
+  "expected_digest": "5ced1a0c240d8972b66ec98d4d333067ff217621e2ffb1e185294f53417970ab",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Atomically replace acceptance criteria, implementation steps, and validation lanes",
+  "operation": {
+    "operation": "replace_acceptance_plan",
+    "acceptance_criteria": [
+      "AC-1: The standalone adl-characterization crate and CLI build without depending on the incumbent adl crate and pin v1 revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72 in the corpus contract",
+      "AC-2: The versioned schema-valid corpus covers CLI help/version, six-primitives print-plan, graph JSON, prompts, fork/join, map and branch reorder equivalence, sequential reorder difference, argument/YAML/schema/reference/state/cycle negatives, repeated byte stability, local mock execution, and fixed Ed25519 sign/verify/tamper",
+      "AC-3: Every corpus case has at least three retained raw v1 observations recording binary digest, arguments, exit status, stdout, stderr, repetition, and derived normalized result",
+      "AC-4: Normalization is declared per case, limited to JSON object-key order, declared root prefixes, named volatile fields, and exact observability lines, while preserving arrays, IDs, errors, values, exits, prompt order, and signature verdicts",
+      "AC-5: The comparator proves repeated stability, declared equivalence and semantic difference groups, expected exits/fragments, and fails on unexplained nondeterminism or overbroad/no-op normalization",
+      "AC-6: A complete coverage map assigns every required behavior to known corpus cases and rejects missing, duplicate, or unknown mappings",
+      "AC-7: Focused unit, integration, CLI, schema, evidence, and full-crate validation pass locally with Cargo output on /Volumes/FastWork and without AWS, credentials, or network providers",
+      "AC-8: Exact-revision bounded review has no unresolved actionable findings, typed C-SDLC review/publication truth is current, and no acceptance criterion is deferred"
+    ],
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Implement the independent crate, typed manifest/schema model, runner, normalizer, comparator, report model, and CLI",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-4",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Author the complete versioned positive and negative fixture corpus and behavior coverage map",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-6"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Build the pinned v1 binary locally and capture at least three immutable observations for every case",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-3"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Verify normalization, equivalence, semantic differences, expected failures, coverage, and deterministic reports",
+        "acceptance_ids": [
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Run focused and full validation with external Cargo output and retain exact evidence",
+        "acceptance_ids": [
+          "AC-7"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S6",
+        "action": "Run bounded exact-revision review, fix every actionable finding, and publish through typed lifecycle gates",
+        "acceptance_ids": [
+          "AC-8"
+        ],
+        "status": "pending"
+      }
+    ],
+    "validation_lanes": [
+      {
+        "lane": "characterization-unit-and-integration",
+        "proof_role": "Prove manifest/schema, runner, normalization, comparison, coverage, and negative safety contracts",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-4",
+          "AC-5",
+          "AC-6",
+          "AC-7"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 4000,
+        "argv": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "adl-characterization/Cargo.toml",
+          "--all-targets"
+        ],
+        "parallel_group": "local-rust",
+        "defer_reason": null
+      },
+      {
+        "lane": "pinned-v1-corpus-verification",
+        "proof_role": "Verify all retained repeated observations and the complete coverage map against the versioned corpus",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6",
+          "AC-7"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 4000,
+        "argv": [
+          "cargo",
+          "run",
+          "--manifest-path",
+          "adl-characterization/Cargo.toml",
+          "--bin",
+          "adl-characterize",
+          "--",
+          "verify",
+          "--corpus",
+          "adl-characterization/corpus/v1/corpus.yaml",
+          "--observations",
+          "adl-characterization/observations/v1"
+        ],
+        "parallel_group": "local-proof",
+        "defer_reason": null
+      },
+      {
+        "lane": "format-and-lint",
+        "proof_role": "Prove the standalone crate is formatted and warning-free under strict Clippy",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-7"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 2000,
+        "argv": [
+          "cargo",
+          "clippy",
+          "--manifest-path",
+          "adl-characterization/Cargo.toml",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "parallel_group": "local-rust",
+        "defer_reason": null
+      },
+      {
+        "lane": "typed-review-and-publication",
+        "proof_role": "Prove exact-revision review, resolved findings, lifecycle integrity, and publication readiness",
+        "acceptance_ids": [
+          "AC-8"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 2000,
+        "argv": [
+          "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
+          "--repo",
+          ".",
+          "--issue",
+          "5337"
+        ],
+        "parallel_group": "local-review",
+        "defer_reason": null
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

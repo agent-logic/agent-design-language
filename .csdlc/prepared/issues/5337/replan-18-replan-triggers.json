@@ -1,0 +1,20 @@
+{
+  "issue": 5337,
+  "card": "spp",
+  "expected_generation": 21,
+  "expected_digest": "b40d86ef1e5795bf24e94d8f4cb39f674123d0c0abc05bd795a7a308cadf1574",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record bounded replan triggers",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "replan_triggers",
+    "values": [
+      "the public v1 CLI shape at the pinned revision differs from a planned command",
+      "a required behavior needs a safer local fixture to avoid network or credentials",
+      "a declared normalizer rule matches no evidence or masks a semantic difference",
+      "the coverage map reveals a required behavior with no executable case"
+    ]
+  },
+  "fail_after_backup": false
+}

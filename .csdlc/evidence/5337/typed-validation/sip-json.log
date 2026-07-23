@@ -1,0 +1,39 @@
+{
+    "identity": {
+        "schema_version": "1.0.0",
+        "template_version": "1.0.0",
+        "issue": 5337,
+        "repository": "danielbaustin/agent-design-language",
+        "title": "[v0.91.8][WP-03] Build normalized characterization and determinism corpus",
+        "slug": "v0918-wp03-characterization-corpus-preparation",
+        "version": "v0.91.8",
+        "generation": 3
+    },
+    "status": "ready",
+    "content": {
+        "card_kind": "sip",
+        "values": {
+            "goal": "Prepare #5337 for a future compact normalized v1 characterization and determinism corpus without executing product scope.",
+            "required_outcome": "All six current-template cards, issue-local design, validation contract, dependency boundary, and preparation-only readiness truth are complete and reviewed while corpus implementation remains pending on WP-02 and separate authorization.",
+            "declared_scope": [
+                "issue-local typed C-SDLC v2 cards and canonical record for #5337",
+                "issue-local characterization-corpus design and diagram",
+                "preparation-only validation and review evidence",
+                "truthful dependency and non-implementation readiness disposition"
+            ],
+            "authority_boundary": [
+                "Sprint #5595 authorizes #5337 card preparation in opening-wave slot 2",
+                "Issue #5337 owns future WP-03 characterization-corpus implementation",
+                "WP-02 #5336 remains the hard implementation dependency",
+                "Typed C-SDLC v2 binaries and records are lifecycle authority"
+            ],
+            "initial_assumptions": [],
+            "operator_constraints": [
+                "Use typed C-SDLC v2 and ADL owner binaries only",
+                "Preparation only until #5336 is integrated",
+                "Do not modify shared or product paths during preparation",
+                "Do not use AWS or raw gh"
+            ]
+        }
+    }
+}

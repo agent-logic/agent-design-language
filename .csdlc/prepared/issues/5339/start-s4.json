@@ -1,0 +1,3 @@
+{
+  "issue":5339,"card":"spp","expected_generation":8,"expected_digest":"32c59041af10d9eeccb0b0e1d03b730e88cf011d181c850228289d86631dfbae","claim_id":"claim-5339-v0918-wp04-preparation","actor":"codex:019f8363-51f7-7102-881c-d47e18fdfae6","reason":"Local corpus, dependency, size, latency, and strict-Clippy proof passed; begin exact-revision review and publication readiness.","operation":{"operation":"update_plan_step","step_id":"S4","status":"in_progress"},"fail_after_backup":false
+}

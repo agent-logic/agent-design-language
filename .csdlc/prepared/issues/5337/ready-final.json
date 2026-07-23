@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.ready_publication_request.v1",
+  "issue": 5337,
+  "expected_generation": 62,
+  "expected_digest": "b835a05a0429838026e01ba11ef5c142d726fc372674135bca840bf4c2cee5f1",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5607,
+  "expected_head_sha": "373f99bd940304734ef64dcdd511303533a00c38",
+  "token_file": null
+}
