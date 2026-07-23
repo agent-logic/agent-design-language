@@ -1,7 +1,7 @@
 {
   "issue": 5361,
   "expected_generation": 12,
-  "expected_digest": "7c471dff75e467f361a9d2e2965b30a4d79f757d76147c9c3cdfddcdd82544c5",
+  "expected_digest": "0cfcc22ee9c806b47a0bab8e973a600eb67ecf1d3373382c038b62da6910125c",
   "claim_id": "claim-5361-v0918-runtime-v3-acceptance-readiness",
   "reviewer": "gpt-5.5:required-pre-pr-review",
   "assigned_by": "codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e",

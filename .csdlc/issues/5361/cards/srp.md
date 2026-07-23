@@ -36,12 +36,15 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The operator-provided background guardian at https://localhost:20997 remained stale/unavailable during acceptance; #5361 records that truth and relies on bounded FastWork Runtime v3 operational proof plus retained dependency evidence instead of promoting the stale process as healthy.
+- GitHub PR CI is intentionally not claimed by the pre-publication acceptance register; it remains required for publish, shepherding, merge, and terminal closeout.
+- Runtime v3 inventory is a reviewed exception over the 12000-line target while still below the 20000 hard safety ceiling.
+- AWS, GPU, and remote-provider execution remain explicit non-claims.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b9d1e48dea1c25470449effc4e715552a853390c:b94627cc54a90b54511bd20e3f52250e7560d02d473aae78bb5257fa31ec5f44")
 
-Reviewer: None
+Reviewer: Some("gpt-5.5:required-pre-pr-review")
 
-Result: pre_review
+Result: pass
