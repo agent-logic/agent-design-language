@@ -12,10 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/5501
-.csdlc/locks/5501.lock
-.csdlc/prepared/issues/5501
 .csdlc/evidence/5501
+.csdlc/issues/5501
+.csdlc/prepared/issues/5501
 
 ## Prompts
 

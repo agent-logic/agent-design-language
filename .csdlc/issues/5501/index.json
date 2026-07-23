@@ -5,7 +5,7 @@
   "initialization_digest": "a6431154f7be59025286f7b5235b96d831871ce2b05f99bb4bb953c68443e0cf",
   "phase": "implemented",
   "generation": 12,
-  "digest": "d9280a59dd1eb3e27d8670dd872845de0ce2b5f890347dbbafc785082402546f",
+  "digest": "0ea70086ee27147674d471c2a35cdb988b6cb4a3dc670626b2785b8750b74cf8",
   "claim": {
     "id": "claim-5501-v0918-live-workcell-proof-preparation",
     "owner": "codex:5501-preparation-owner",
@@ -23,7 +23,16 @@
     ],
     "purpose": "Prepare #5501 live distributed Codex workcell proof contracts only; no execution or product work until #5349, #5499, #5498, #5500, and #5502 have live merged heads ancestral to execution revision; typed closeout and retained receipts are audit-only"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "gpt-5.5:required-pre-pr-review",
+    "assigned_by": "codex:019f8d39-12e9-7371-b306-79e06138da8a",
+    "revision": "git-blake3:7a0a170de2445e741cac0eff1bde27b7bdcf2f0f:8b9080e958ce15b918c50a1dfdd3ec803f4b4da1b4c66e321c8189fd2dd44d60",
+    "scope": [
+      ".csdlc/evidence/5501",
+      ".csdlc/issues/5501",
+      ".csdlc/prepared/issues/5501"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -59,9 +68,9 @@
       "ast_digest": "7447ca34c6f242f550fad71653e5809de3403c2a2c2ea715f7b73a2d99738a00"
     },
     "srp": {
-      "values_digest": "7a43f950aa42d9bf4e2d51618cb76b4e3f542025b0be671b84b619b16cc93be3",
-      "rendered_digest": "8401f7f2e7ab14d9c8c3d8dab3b03a1031e9605fb842bcdfc469cc0545239f96",
-      "ast_digest": "6de0b75ccdd913f075db035a601c22dbb5e8d24c01ddeacebd58967a35b603df"
+      "values_digest": "c4daaaadab290ab379ca76d357a1fad7bad7167ee33bc67544342db89216e87d",
+      "rendered_digest": "bc594f7d5fc646429398c9edf01fa4eb0351d20e618f3f9c57a4232db9d5eb4b",
+      "ast_digest": "3f1cfe512f3ebf086b7a28cdd9d86735c88246a9afaae058608e94c96b360846"
     },
     "sor": {
       "values_digest": "f3e211a812a3efdb5a08d7f662bc430caaf459bfce7e243b3fb81a9150e47f9c",
@@ -197,6 +206,13 @@
       "actor": "codex:019f8d39-12e9-7371-b306-79e06138da8a",
       "reason": "Record the typed csdlc-validate live proof report.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-wp-5501\",\"--request\",\".csdlc/prepared/issues/5501/live-validation-request.json\"],\"purpose\":\"Execute the typed PVF validation request for #5501 retained WP-10A live proof evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5501/live-validation/\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:019f8d39-12e9-7371-b306-79e06138da8a",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

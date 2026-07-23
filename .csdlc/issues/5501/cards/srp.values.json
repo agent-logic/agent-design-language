@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5501\n.csdlc/locks/5501.lock\n.csdlc/prepared/issues/5501\n.csdlc/evidence/5501",
+      "review_scope": ".csdlc/evidence/5501\n.csdlc/issues/5501\n.csdlc/prepared/issues/5501",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
