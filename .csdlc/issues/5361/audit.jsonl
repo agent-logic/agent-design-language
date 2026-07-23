@@ -18,3 +18,4 @@
 {"sequence":18,"generation":12,"actor":"codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":19,"generation":13,"actor":"gpt-5.5:required-pre-pr-review","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":20,"generation":14,"actor":"codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e","reason":"The required exact-head GPT-5.5 pre-PR review completed with no findings and documented residual truth boundaries; advance #5361 to reviewed for typed publication.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":21,"generation":15,"actor":"codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

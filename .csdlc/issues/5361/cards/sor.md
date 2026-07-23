@@ -61,11 +61,11 @@ Executed #5361 Runtime v3 acceptance as an evidence-only gate, refreshed the sta
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
