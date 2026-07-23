@@ -3,13 +3,13 @@
   "issue": 5344,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
-  "phase": "bound",
-  "generation": 2,
-  "digest": "58319f575ad388fa481046c195d54f5807f1b743e72bc16e83a593b6d5f382c8",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "5930ff662c9f97b6fe8e815e918edf4cf284b2efa3214562a89c0654b834693c",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-preparation",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 2,
+    "generation": 4,
     "acquired_unix_seconds": 1784660034,
     "expires_unix_seconds": 1785264834,
     "heartbeat_unix_seconds": 1784660034,
@@ -20,11 +20,22 @@
       ".csdlc/issues/5344",
       ".csdlc/locks/5344.lock",
       ".csdlc/prepared/issues/5344",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/continuity.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/weather.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/governed_operations.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/tests/guardian_cli.rs",
       "adl-v2/tools/prove-rollback.sh",
       "adl-v2/tools/run-soak.sh",
       "docs/milestones/v0.91.8/evidence/wp12"
     ],
-    "purpose": "Prepare and review WP-12 soak and rollback contracts only; execution remains prohibited until #5350 and #5361 each have a live merged landing commit ancestral to the exact execution revision; receipts and typed closeout are audit observations only"
+    "purpose": "Execute #5344 Runtime v3 opt-in soak and rollback proof, repair Guardian process-0 child ownership so a dead Guardian cannot leave an orphan Runtime, validate on macOS, Linux, and native Windows, and retain truthful evidence without weakening TLS or deleting Runtime v1"
   },
   "review_assignment": null,
   "review": null,
@@ -42,34 +53,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c19c4ac37ce8e3468c783cc5ee274a999698249e44904313d00c2317b1f9e2f1",
+      "values_digest": "a7aebc1771270726c863acd147607ce27f99f5127168fad4faf94c154d52731f",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "52ff727d9494c641f6fa4d3e1a1a321de130e444807b2133ceb59265b112fc41",
+      "values_digest": "4bf0c3b3c13be1e4446c0ac36aa13269decb655ec70153c4d7b20a89d3b9ba30",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "5bec26a35c3e31ae19b6bdbbe5568b80f1a9ad4f27cb935acd0992629be9fe3c",
+      "values_digest": "d3068c7076fc6e04a17790ef1b774bcb96086d5ab34ea64f08228b81cba51c60",
       "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
       "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "b02480b25a9a328dfdda81c23b559e195750fc57cb966d2aa95a6763188bc0ff",
+      "values_digest": "f5788687c0cc7cafdebeb4a6c67604ded0ac455c877b8f6777c0ca9222934894",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "394e243ee89bad58260b2c776ea0fbb379afc386b2421429aba81cd940bf9e0d",
+      "values_digest": "32a8a705b86f8c3f00069fde2f236d443c9744f91321f56d9231f90cc4bd0738",
       "rendered_digest": "9f92a47cf8c396424894eb687f685a7b05e9826822323ccd0e72e298cfd238bc",
       "ast_digest": "afe0ee04ae0ebbf9ae96de2e4d490233804e754faedd38bdc4b4bff6bb393522"
     },
     "sor": {
-      "values_digest": "2a4a664376760bb1ae2b4ffc60d517f44738f561499f14fdeaec8ec9d637e8c5",
-      "rendered_digest": "b988f6b885b4030524cd50c9207db8c4ec3352b5b54a3389e385aad84385aaf1",
-      "ast_digest": "0f1489fbe677a573c797292e700f987461f4de1e467add1682b6a066cc48d387"
+      "values_digest": "ab35f221bc01afbbdd0cf524575128c7512bfac9a3b24349bceb200d8fb1b982",
+      "rendered_digest": "f66f573a5d786da525c5ba74b504bd81ee2dd94c0eedc5493042ce2ba8f586fa",
+      "ast_digest": "f7fc9373a8b50f6472e82666c44cf7c11abe0b4befca7e039002bb7bf1628165"
     }
   },
   "transitions": [
@@ -86,6 +97,13 @@
       "to": "bound",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -123,6 +141,55 @@
       "actor": "subagent:019f861f-f629-7e71-8596-060ac0f87665",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Begin WP-12 execution after #5350 and #5361 merged and became ancestral, including the operator-required cross-platform process-0 stability proof",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime/src/guardian.rs\",\"adl-runtime/tests/guardian_cli.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\"],\"expected_owner\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\",\"expected_purpose\":\"Prepare and review WP-12 soak and rollback contracts only; execution remains prohibited until #5350 and #5361 each have a live merged landing commit ancestral to the exact execution revision; receipts and typed closeout are audit observations only\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare and review WP-12 soak and rollback contracts only; execution remains prohibited until #5350 and #5361 each have a live merged landing commit ancestral to the exact execution revision; receipts and typed closeout are audit observations only\",\"purpose\":\"Execute #5344 Runtime v3 opt-in soak and rollback proof, repair Guardian process-0 child ownership so a dead Guardian cannot leave an orphan Runtime, validate on macOS, Linux, and native Windows, and retain truthful evidence without weakening TLS or deleting Runtime v1\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Enable Tokio networking already used by the cross-platform authenticated Guardian lease",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime/Cargo.toml\"],\"expected_owner\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\",\"expected_purpose\":\"Execute #5344 Runtime v3 opt-in soak and rollback proof, repair Guardian process-0 child ownership so a dead Guardian cannot leave an orphan Runtime, validate on macOS, Linux, and native Windows, and retain truthful evidence without weakening TLS or deleting Runtime v1\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Execute #5344 Runtime v3 opt-in soak and rollback proof, repair Guardian process-0 child ownership so a dead Guardian cannot leave an orphan Runtime, validate on macOS, Linux, and native Windows, and retain truthful evidence without weakening TLS or deleting Runtime v1\",\"purpose\":\"Execute #5344 Runtime v3 opt-in soak and rollback proof, repair Guardian process-0 child ownership so a dead Guardian cannot leave an orphan Runtime, validate on macOS, Linux, and native Windows, and retain truthful evidence without weakening TLS or deleting Runtime v1\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Retain the dependency lock update caused by enabling Tokio networking for the Guardian lease",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime/Cargo.lock\"],\"expected_owner\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\",\"expected_purpose\":\"Execute #5344 Runtime v3 opt-in soak and rollback proof, repair Guardian process-0 child ownership so a dead Guardian cannot leave an orphan Runtime, validate on macOS, Linux, and native Windows, and retain truthful evidence without weakening TLS or deleting Runtime v1\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Execute #5344 Runtime v3 opt-in soak and rollback proof, repair Guardian process-0 child ownership so a dead Guardian cannot leave an orphan Runtime, validate on macOS, Linux, and native Windows, and retain truthful evidence without weakening TLS or deleting Runtime v1\",\"purpose\":\"Execute #5344 Runtime v3 opt-in soak and rollback proof, repair Guardian process-0 child ownership so a dead Guardian cannot leave an orphan Runtime, validate on macOS, Linux, and native Windows, and retain truthful evidence without weakening TLS or deleting Runtime v1\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Complete the native Windows process-0 and strict TLS proof exposed by the #5344 cross-platform validation",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/tests/governed_operations.rs\"],\"expected_owner\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\",\"expected_purpose\":\"Execute #5344 Runtime v3 opt-in soak and rollback proof, repair Guardian process-0 child ownership so a dead Guardian cannot leave an orphan Runtime, validate on macOS, Linux, and native Windows, and retain truthful evidence without weakening TLS or deleting Runtime v1\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Execute #5344 Runtime v3 opt-in soak and rollback proof, repair Guardian process-0 child ownership so a dead Guardian cannot leave an orphan Runtime, validate on macOS, Linux, and native Windows, and retain truthful evidence without weakening TLS or deleting Runtime v1\",\"purpose\":\"Execute #5344 Runtime v3 opt-in soak and rollback proof, repair Guardian process-0 child ownership so a dead Guardian cannot leave an orphan Runtime, validate on macOS, Linux, and native Windows, and retain truthful evidence without weakening TLS or deleting Runtime v1\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Repair the live-soak defect where transient CPU saturation was treated as capacity-threatening pressure and cleanly stopped a healthy Runtime",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/src/continuity.rs\",\"adl-runtime-kernel/src/weather.rs\",\"adl-runtime-kernel/tests/configuration.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record completed native Guardian and Observatory soak execution at exact commit 2f3cd919b.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented and proved the Runtime v3 Guardian process-0 contract across macOS and native Windows, including authenticated Guardian lease shutdown, Windows Job Object child-tree cleanup, governed-operations Windows compilation, strict CA-backed HTTPS/WSS Observatory access with SAN verification and wrong-host rejection, and signed checkpoint serialization without insecure TLS fallback.\",\"changes\":[\"Added authenticated loopback Guardian lease injection so the kernel checkpoints and exits when its Guardian process disappears\",\"Added native Windows Job Object ownership with kill-on-close cleanup for Guardian child trees\",\"Made governed_operations compile on Windows by gating Unix process-group behavior\",\"Made Runtime v3 continuity checkpoint writes portable by syncing through write-capable file handles and tolerating Windows directory flush denial after file fsync\",\"Made guardian_soak proof portable with a private test CA, explicit CA/leaf validity, SAN-correct leaf, Rustls HTTPS/WSS client trust, and wrong-host rejection\",\"Retained native Nessus MSVC build/test evidence without WSL, Docker, AWS, plaintext, disabled verification, or insecure curl flags\"],\"artifacts\":[\"commit 2f3cd919b\",\".csdlc/evidence/5344/wp12-guardian-observatory-tls-2026-07-23.md\",\"adl-runtime/src/guardian.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/continuity.rs\",\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

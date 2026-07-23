@@ -12,19 +12,55 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented and proved the Runtime v3 Guardian process-0 and Observatory TLS soak boundary on macOS and native Windows.
 
 ## Artifacts
 
-- none
+- commit 2f3cd919b
+- .csdlc/evidence/5344/wp12-guardian-observatory-tls-2026-07-23.md
+- adl-runtime/src/guardian.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime-kernel/src/continuity.rs
+- adl-runtime-kernel/src/governed_operations.rs
+- adl-runtime-kernel/tests/guardian_soak.rs
+- commit 2f3cd919b
+- adl-runtime/src/guardian.rs
+- adl-runtime/Cargo.toml
+- adl-runtime/Cargo.lock
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime-kernel/src/continuity.rs
+- adl-runtime-kernel/src/governed_operations.rs
+- adl-runtime-kernel/tests/guardian_soak.rs
+- .csdlc/evidence/5344/wp12-guardian-observatory-tls-2026-07-23.md
+- .csdlc/prepared/issues/5344/finalize-guardian-windows-proof.sh
 
 ## Execution
 
-- none
+- Added authenticated loopback Guardian lease injection so the kernel checkpoints and exits when its Guardian process disappears
+- Added native Windows Job Object ownership with kill-on-close cleanup for Guardian child trees
+- Made governed_operations compile on Windows by gating Unix process-group behavior
+- Made Runtime v3 continuity checkpoint writes portable by syncing through write-capable file handles and tolerating Windows directory flush denial after file fsync
+- Made guardian_soak proof portable with a private test CA, explicit CA/leaf validity, SAN-correct leaf, Rustls HTTPS/WSS client trust, and wrong-host rejection
+- Retained native Nessus MSVC build/test evidence without WSL, Docker, AWS, plaintext, disabled verification, or insecure curl flags
+- Added authenticated Guardian lease shutdown so a kernel checkpoints and exits when its Guardian disappears.
+- Added native Windows Job Object ownership for bounded child-tree cleanup.
+- Made governed operations and continuity checkpointing portable across Windows and Unix.
+- Added strict CA-backed HTTPS/WSS Guardian soak proofs with SAN validation and wrong-host rejection.
+- Retained native Nessus MSVC build and test evidence without WSL, Docker, AWS, plaintext, disabled verification, or insecure curl flags.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/5344/finalize-guardian-windows-proof.sh"
+    ],
+    "purpose": "Verify the retained Nessus native Windows proof, confirm the committed Guardian/TLS source surface has not drifted, and rerun the focused local Guardian lease and HTTPS/WSS soak tests.",
+    "outcome": "passed",
+    "evidence_ref": "guardian-windows-tls-finalize.log"
+  }
+]
 
 ## Integration
 
