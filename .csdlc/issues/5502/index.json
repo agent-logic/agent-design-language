@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "934f17887e0891330b3a364da07a049b3a1cdb0d4855d4ab65eb1a06d32d2630",
   "phase": "published",
-  "generation": 15,
-  "digest": "ba356d89dc7a223d4419e85e144ec1de59c8f1423a74839bec045210b6b90c71",
+  "generation": 16,
+  "digest": "64b72173fdd8f36a53faf410841a52bd71ded9ed0234fcda9a88181ca432bca0",
   "claim": {
     "id": "claim-5502-v0918-output-convergence-preparation",
     "owner": "codex:5502-preparation-owner",
-    "generation": 15,
+    "generation": 16,
     "acquired_unix_seconds": 1784662362,
     "expires_unix_seconds": 1785267162,
     "heartbeat_unix_seconds": 1784662362,
@@ -49,9 +49,9 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5641",
     "base": "main",
     "head": "codex/5502-v0918-preparation",
-    "revision": "git-blake3:fc9cfa5040eb819bfb0dc6248c6b7a6ac3dcc97c:a40147c772c2218c305bdae8b569cd9b11e0507f296b9bf6989dd68d89452a42",
+    "revision": "git-blake3:3b900210cd30ee381c860a624499d1e4d8aea0d8:a12cbacb5e7a79a43be545d3f686a264b533589795b12c47732f2c49b656c810",
     "draft": false,
-    "observed_state": "open"
+    "observed_state": "merged"
   },
   "readiness": null,
   "terminal": null,
@@ -66,34 +66,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1b92773c1f5f120a4642183d33583d721db88824a05715132161642304cdf278",
+      "values_digest": "030802db52a51e9ab17ea7ae0cfcbf7e1e3bf11123f8ee8f814d6a495cd43d4c",
       "rendered_digest": "c688b0b636c2a737baaaab17d4468f4bddad0e84238599ed939493cff1a1f42c",
       "ast_digest": "0063913266be673762df419abab1a5e3d7fcee2680530657645d268539080489"
     },
     "stp": {
-      "values_digest": "5d8b802992b184038e5445ba89d944ea4af5b258626086316cbf4ea931fe8912",
+      "values_digest": "d4d036a6e67b36fd1627ae38b96276d3de39267ee66ced504e9ef32e7391f9f8",
       "rendered_digest": "ca1e05b8c739d2af0169aec05adc48e0aff775d4be3fc362babcae9615f2f968",
       "ast_digest": "fe8d6cc236ac9880a52a1a547255924b6e05b94f43351c243b39450e6abbd9ba"
     },
     "spp": {
-      "values_digest": "985f9ec3073c5dcc092d62728f192eb5d9e1f72e123fb3d3ee87caef6a843cbf",
+      "values_digest": "6e8588021730cdeb01e7b869991294b434861757b785c4a04157005362ecc9c6",
       "rendered_digest": "31a0096ecf934d0702ef0fda9711aab020f4f3b4a8c22f009a29fec14790fe4b",
       "ast_digest": "dc57f81c1079cc14d2b5a3547fd00371cb633300660d27d4de0a96a57518575d"
     },
     "vpp": {
-      "values_digest": "0a769fca893e5bd98d8ba657f79feb53a13612964affeb9acabaf477dc73c3f1",
+      "values_digest": "d187f8a8d1ce46bdb2c65be42e0aaf7bce678cd0615e8b84c7b9d6b610e140da",
       "rendered_digest": "f15fcc8661d7640603fa36c6e930197532af9c70e8068b6128ecc47893626e26",
       "ast_digest": "e4294e3c88b48a9aab0dc276e717a9d83b91d365f0f6ed346a3513cf28107445"
     },
     "srp": {
-      "values_digest": "82d25980bab3b169c97cc25c39d7ee2cde7f21c2f82b4da2b8beb6688843a9ee",
+      "values_digest": "a244c20f81bae0897602a7bdd423732467fab07934503baf45d9678373a797ae",
       "rendered_digest": "18e4c0408320380033d2ff62de5410b6acd1e41012473db167ff7ed37108ec62",
       "ast_digest": "996139c5b142c1c3c3e02c0dd91a5e2f4fa402029dfe7ded02770e4abd6d4b90"
     },
     "sor": {
-      "values_digest": "1016b840bbbad5fc4bf46239a81f158bb11bfdb7c99ddd4d94ee2202afc8bd69",
-      "rendered_digest": "b5bded7fa00e28b6ea53d76cf2d393de73b888d0e6a3a95ab229dc4a9e466670",
-      "ast_digest": "d8f5b94c0ec10745b29e7f453cb8fb6835c92ffe19a5cbe5ece7162f172aefc3"
+      "values_digest": "b3d1280500a8e7149eb7e36e5586b663724cdc8e94c10d6abdc0b6096f0ef9f3",
+      "rendered_digest": "8b99d67cbd25d6c569c0ef4ad2736c17ed0020b7f35f8b90c1148045ac46fec8",
+      "ast_digest": "637ca783efe249a85d43520ce910fd25a3fea56a9f13037a925133280ff14cca"
     }
   },
   "transitions": [
@@ -259,6 +259,13 @@
       "actor": "codex:019f8c3b-ed47-78e1-a671-d78b1fd3a063",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:019f8c3b-ed47-78e1-a671-d78b1fd3a063",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
     }
   ]
 }
