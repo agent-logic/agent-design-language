@@ -12,7 +12,15 @@ Status: pre_phase
 
 ## Scope
 
-Review only #5526 provider/model expansion implementation paths, deterministic fixtures, issue-local records, validation evidence, and authority boundaries. Exclude AWS, Bedrock, Runtime v3 parity implementation outside provider consumption, WP-10A product implementation, and lifecycle closeout authority.
+.csdlc/evidence/5526/implementation/provider-expansion.log
+.csdlc/issues/5526
+.csdlc/prepared/issues/5526
+adl/src/provider/http_family.rs
+adl/src/provider/mod.rs
+adl/src/provider/profiles.rs
+adl/src/provider_substrate.rs
+adl/tests/provider_tests/http_family.rs
+adl/tests/provider_tests/profiles.rs
 
 ## Prompts
 
@@ -34,12 +42,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No live provider calls or credentials were used; hosted endpoint behavior remains deferred to credentialed integration proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9a8bad6cb221491bd06c2cbc17fd3e090e204ee4:cdfd442ec4cf7d542f9c2fbe9bf2a22f26f4cbaee4be06ad79567cac96261b3d")
 
-Reviewer: None
+Reviewer: Some("codex:review_5632")
 
-Result: pre_review
+Result: pass

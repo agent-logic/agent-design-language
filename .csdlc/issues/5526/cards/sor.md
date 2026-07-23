@@ -61,11 +61,11 @@ Added deterministic first-class provider profiles and preserved vendor identity 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
