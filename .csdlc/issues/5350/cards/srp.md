@@ -12,9 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/5350
-.csdlc/locks/5350.lock
-.csdlc/prepared/issues/5350
+adl-characterization
+.csdlc/evidence/5350
+.csdlc/prepared/issues/5350/validate-parity.sh
+.csdlc/prepared/issues/5350/source-inventory.json
 
 ## Prompts
 

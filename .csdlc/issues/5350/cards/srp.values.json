@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5350\n.csdlc/locks/5350.lock\n.csdlc/prepared/issues/5350",
+      "review_scope": "adl-characterization\n.csdlc/evidence/5350\n.csdlc/prepared/issues/5350/validate-parity.sh\n.csdlc/prepared/issues/5350/source-inventory.json",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

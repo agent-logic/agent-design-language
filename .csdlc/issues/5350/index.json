@@ -5,7 +5,7 @@
   "initialization_digest": "b074920ed80645449927fbe79ead7b0121e5a676d7cb37acfe270a3419c11f44",
   "phase": "implemented",
   "generation": 10,
-  "digest": "58783885595802e2e16ed550a9dcb20193757cf8ce832472830f22ff706e3a38",
+  "digest": "835a892e6636dc6ecd60e1d4d44742a8ea2cf2888fa34494e85f352759f5cd33",
   "claim": {
     "id": "claim-5350-v0918-wp11-shadow-parity-preparation",
     "owner": "codex:5350-preparation-owner",
@@ -24,7 +24,17 @@
     ],
     "purpose": "Implement, validate, review once, publish, merge, and close WP-11 exact-revision ADL v1/v2 shadow parity plus read-only Runtime v3 and WP-10A evidence overlays."
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f8dd9-24c7-7b50-96d2-29a7a1c2fdad",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:1b75522906d7a4ac169a38bfcbbe9fdfb7eaea30:159a48d977e9b033acff80c3884461fc3ee65b3b6ff9612986bcef4718cd773a",
+    "scope": [
+      "adl-characterization",
+      ".csdlc/evidence/5350",
+      ".csdlc/prepared/issues/5350/validate-parity.sh",
+      ".csdlc/prepared/issues/5350/source-inventory.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -60,9 +70,9 @@
       "ast_digest": "9a42f55fab8cc3bfdca616b379be2d18dd9b9514f2d41c9fd0850cbb513a3521"
     },
     "srp": {
-      "values_digest": "72a24607d81667b027705ceb03b0ad8a4b971e4ebf6cc65bfaec2ade27c11794",
-      "rendered_digest": "1dc1a260bbfd8c9bb8941988afe0f591a19e19c461358f00be34a86770211306",
-      "ast_digest": "0a684815e2eaf54f9db2a72bd2f1e4a83362d379c69249192363ce007c7e80a5"
+      "values_digest": "06a845cb4aa1cd3a7b39beec5066a9367893d6bd3eebcdc6e7bc0f49ee09af41",
+      "rendered_digest": "021d26afcf0c2f8a2b87b27beb292eb3cd9e1c71c6ced218e39e237d14a7828b",
+      "ast_digest": "361274f946452f175666ece2ec2e8bf1698fad220aa774bb3581fbe4d72941bd"
     },
     "sor": {
       "values_digest": "b73af6b145027dff1afef511bf428dd22600b5721c39b1a137dc00a91d7242e1",
@@ -191,6 +201,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Record the complete deterministic shadow parity and overlay proof.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/5350/validate-parity.sh\",\"complete\"],\"purpose\":\"Prove 25 mapped cases, 150 observations, 23 behaviors, ten Runtime groups, adapters, WP-10A live evidence, and deterministic byte-stable rerun.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5350/shadow-report.json\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

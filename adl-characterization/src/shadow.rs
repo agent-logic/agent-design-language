@@ -95,6 +95,7 @@ pub struct ShadowInputs<'a> {
     pub runtime_plan: &'a Path,
     pub corpus_path: &'a Path,
     pub observations: &'a Path,
+    pub work_root: &'a Path,
 }
 
 pub fn load_shadow_manifest(path: &Path) -> Result<ShadowManifest> {
@@ -138,8 +139,13 @@ pub fn run_shadow(inputs: &ShadowInputs<'_>, manifest: &ShadowManifest) -> Resul
         let mut candidate_observations = Vec::new();
         let mut normalized_observations = Vec::new();
         for _ in 1..=corpus.repetitions {
-            let observation =
-                run_candidate_case(&binary, root, shadow_case, corpus.command_timeout_ms)?;
+            let observation = run_candidate_case(
+                &binary,
+                root,
+                inputs.work_root,
+                shadow_case,
+                corpus.command_timeout_ms,
+            )?;
             normalized_observations.push(normalize_candidate(&observation, shadow_case)?);
             candidate_observations.push(observation);
         }
@@ -400,7 +406,7 @@ fn receipt_overlay(
         reviewer: value
             .pointer("/record/review/reviewer")
             .and_then(serde_json::Value::as_str)
-            .map(str::to_owned),
+            .map(portable_reviewer),
         evidence_sha256,
         status: "pass".into(),
     })
@@ -537,6 +543,15 @@ fn verify_manifest(corpus: &Corpus, manifest: &ShadowManifest) -> Result<()> {
         if case.steps.is_empty() {
             bail!("shadow case {} has no executable steps", case.id);
         }
+        for step in &case.steps {
+            if !local_command_shape(&step.args) {
+                bail!(
+                    "shadow case {} step {} has a forbidden command shape",
+                    case.id,
+                    step.id
+                );
+            }
+        }
         match case.disposition {
             ShadowDisposition::ApprovedIntentionalDifference if case.decision_ref.is_none() => {
                 bail!(
@@ -583,15 +598,75 @@ fn verify_manifest(corpus: &Corpus, manifest: &ShadowManifest) -> Result<()> {
     Ok(())
 }
 
+fn local_command_shape(args: &[String]) -> bool {
+    match args {
+        [flag] => matches!(
+            flag.as_str(),
+            "--help" | "--version" | "--definitely-invalid"
+        ),
+        [command, path, format]
+            if matches!(command.as_str(), "plan" | "validate")
+                && format == "--yaml"
+                && path.starts_with("{ROOT}/fixtures/")
+                && path.ends_with(".adl.yaml")
+                && !path.contains("..")
+                && !path.contains("://") =>
+        {
+            true
+        }
+        [command, path, format] => {
+            command == "run" && path == "{ROOT}/fixtures/mock-run.adl.yaml" && format == "--yaml"
+        }
+        [command, path, flag_a, value_a, flag_b, value_b] => match command.as_str() {
+            "sign" => {
+                path == "{ROOT}/../v2/event-record.json"
+                    && flag_a == "--key-id"
+                    && value_a == "characterization-fixed"
+                    && flag_b == "--key-hex"
+                    && value_b.len() == 64
+                    && value_b.bytes().all(|byte| byte.is_ascii_hexdigit())
+            }
+            "verify" => {
+                path == "{WORK}/signed.json"
+                    && flag_a == "--public-key-hex"
+                    && value_a.len() == 64
+                    && value_a.bytes().all(|byte| byte.is_ascii_hexdigit())
+                    && flag_b == "--logical-time"
+                    && value_b.parse::<u64>().is_ok()
+            }
+            _ => false,
+        },
+        _ => false,
+    }
+}
+
+fn portable_reviewer(reviewer: &str) -> String {
+    let Some((kind, path)) = reviewer.split_once(":/") else {
+        return reviewer.to_owned();
+    };
+    let identity = Path::new(path)
+        .file_name()
+        .and_then(|value| value.to_str())
+        .filter(|value| !value.is_empty())
+        .unwrap_or("redacted");
+    format!("{kind}:{identity}")
+}
+
 fn run_candidate_case(
     binary: &Path,
     root: &Path,
+    work_root: &Path,
     case: &ShadowCase,
     timeout_ms: u64,
 ) -> Result<Vec<CommandObservation>> {
+    fs::create_dir_all(work_root)
+        .with_context(|| format!("create shadow work root {}", work_root.display()))?;
+    let work_root = work_root
+        .canonicalize()
+        .with_context(|| format!("resolve shadow work root {}", work_root.display()))?;
     let temp = tempfile::Builder::new()
         .prefix("adl-shadow-")
-        .tempdir_in(std::env::temp_dir())?;
+        .tempdir_in(&work_root)?;
     let work = temp.path().canonicalize()?;
     let root = root.canonicalize()?;
     let mut commands = Vec::new();
@@ -792,21 +867,32 @@ fn group_status(
     if rows.iter().any(|row| row.disposition.is_blocking()) {
         return Ok("blocker".into());
     }
+    let first = candidate.get(&cases[0]).expect("inventory verified");
+    let equal = cases.iter().skip(1).all(|id| {
+        semantic_commands_equal(
+            &candidate.get(id).expect("inventory verified").commands,
+            &first.commands,
+        )
+    });
+    if equal != expect_equal {
+        return Ok("blocker".into());
+    }
     if rows
         .iter()
         .all(|row| row.disposition == ShadowDisposition::ApprovedIntentionalDifference)
     {
         return Ok("approved_intentional_difference".into());
     }
-    let first = candidate.get(&cases[0]).expect("inventory verified");
-    let equal = cases
-        .iter()
-        .skip(1)
-        .all(|id| candidate.get(id).expect("inventory verified").commands == first.commands);
-    if equal != expect_equal {
-        return Ok("blocker".into());
-    }
     Ok("pass".into())
+}
+
+fn semantic_commands_equal(left: &[CommandObservation], right: &[CommandObservation]) -> bool {
+    left.len() == right.len()
+        && left.iter().zip(right).all(|(left, right)| {
+            left.exit_code == right.exit_code
+                && left.stdout == right.stdout
+                && left.stderr == right.stderr
+        })
 }
 
 fn behavior_rows(corpus: &Corpus, manifest: &ShadowManifest) -> Vec<ShadowBehavior> {
@@ -1007,5 +1093,109 @@ mod tests {
         assert!(work_path("{WORK}/../escape", work.path()).is_err());
         assert!(work_path("/tmp/escape", work.path()).is_err());
         assert!(work_path("{WORK}/safe/file", work.path()).is_ok());
+    }
+
+    #[test]
+    fn intentional_difference_cannot_bypass_group_semantics() {
+        let manifest = approved_manifest(&["a", "b"]);
+        let unequal = BTreeMap::from([
+            ("a".into(), normalized("a", "first")),
+            ("b".into(), normalized("b", "second")),
+        ]);
+        assert_eq!(
+            group_status(&["a".into(), "b".into()], &unequal, &manifest, true).unwrap(),
+            "blocker"
+        );
+
+        let equal = BTreeMap::from([
+            ("a".into(), normalized("a", "same")),
+            ("b".into(), normalized("b", "same")),
+        ]);
+        assert_eq!(
+            group_status(&["a".into(), "b".into()], &equal, &manifest, false).unwrap(),
+            "blocker"
+        );
+    }
+
+    #[test]
+    fn command_policy_accepts_only_reviewed_local_shapes() {
+        assert!(local_command_shape(&["--help".into()]));
+        assert!(local_command_shape(&[
+            "validate".into(),
+            "{ROOT}/fixtures/unknown-agent.adl.yaml".into(),
+            "--yaml".into()
+        ]));
+        assert!(local_command_shape(&[
+            "run".into(),
+            "{ROOT}/fixtures/mock-run.adl.yaml".into(),
+            "--yaml".into()
+        ]));
+        assert!(!local_command_shape(&[
+            "run".into(),
+            "{ROOT}/fixtures/network-run.adl.yaml".into(),
+            "--yaml".into()
+        ]));
+        assert!(!local_command_shape(&[
+            "validate".into(),
+            "https://example.invalid/input.yaml".into(),
+            "--yaml".into()
+        ]));
+    }
+
+    #[test]
+    fn reviewer_identity_drops_host_paths() {
+        assert_eq!(
+            portable_reviewer("subagent:/root/review_5591"),
+            "subagent:review_5591"
+        );
+        assert_eq!(
+            portable_reviewer("gpt-5.5:required-pre-pr-review"),
+            "gpt-5.5:required-pre-pr-review"
+        );
+    }
+
+    fn approved_manifest(ids: &[&str]) -> ShadowManifest {
+        ShadowManifest {
+            schema: SHADOW_MANIFEST_SCHEMA.into(),
+            candidate_revision: "c".repeat(40),
+            candidate_binary_sha256: "d".repeat(64),
+            candidate_lock_sha256: "e".repeat(64),
+            candidate_install_receipt_sha256: "f".repeat(64),
+            candidate_selector_generation: "adl-v2".into(),
+            candidate_selector_sha256: "1".repeat(64),
+            decisions: BTreeMap::new(),
+            cases: ids
+                .iter()
+                .map(|id| ShadowCase {
+                    id: (*id).into(),
+                    disposition: ShadowDisposition::ApprovedIntentionalDifference,
+                    steps: vec![],
+                    normalization: vec![],
+                    decision_ref: None,
+                })
+                .collect(),
+        }
+    }
+
+    fn normalized(id: &str, stdout: &str) -> NormalizedObservation {
+        NormalizedObservation {
+            schema: "test".into(),
+            case_id: id.into(),
+            repetition: 1,
+            incumbent_revision: "a".repeat(40),
+            binary_sha256: "b".repeat(64),
+            commands: vec![CommandObservation {
+                step_id: "step".into(),
+                declared_args: vec![],
+                expanded_args: vec![],
+                exit_code: 0,
+                captured_stdout_sha256: String::new(),
+                captured_stderr_sha256: String::new(),
+                portable_stdout_sha256: String::new(),
+                portable_stderr_sha256: String::new(),
+                stdout: stdout.into(),
+                stderr: String::new(),
+            }],
+        }
     }
 }

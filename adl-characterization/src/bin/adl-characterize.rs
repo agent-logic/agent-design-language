@@ -58,6 +58,8 @@ enum Command {
         #[arg(long)]
         observations: PathBuf,
         #[arg(long)]
+        work_root: PathBuf,
+        #[arg(long)]
         manifest: PathBuf,
         #[arg(long)]
         report: PathBuf,
@@ -98,6 +100,7 @@ fn main() -> Result<()> {
             runtime_plan,
             corpus,
             observations,
+            work_root,
             manifest,
             report,
         } => {
@@ -113,6 +116,7 @@ fn main() -> Result<()> {
                     runtime_plan: &runtime_plan,
                     corpus_path: &corpus,
                     observations: &observations,
+                    work_root: &work_root,
                 },
                 &manifest,
             )?;

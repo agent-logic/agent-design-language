@@ -15,6 +15,7 @@ report="${ADL_SHADOW_REPORT:-$root/.csdlc/evidence/5350/shadow-report.json}"
 corpus="$root/adl-characterization/corpus/v1/corpus.yaml"
 observations="$root/adl-characterization/observations/v1"
 manifest="$root/adl-characterization/corpus/v2/shadow.yaml"
+work_root="${ADL_SHADOW_WORK_ROOT:-/Volumes/FastWork/adl-5350-shadow-work}"
 runtime_plan="$root/docs/milestones/v0.91.8/runtime_v3_functional_parity_plan_v0.91.8.json"
 lockfile="$root/adl-v2/Cargo.lock"
 install_receipt="$root/.csdlc/evidence/5350/adl-v2-install/receipts/adl-v2.json"
@@ -46,6 +47,7 @@ run_shadow() {
     --runtime-plan "$runtime_plan" \
     --corpus "$corpus" \
     --observations "$observations" \
+    --work-root "$work_root" \
     --manifest "$manifest" \
     --report "$output" >/dev/null
 }

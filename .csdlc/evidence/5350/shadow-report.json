@@ -1321,7 +1321,7 @@
       "integrated_sha": "0f22baf5d4b2fdef485164aa4c83002fdb520a3e",
       "receipt_sha256": "e1921dcbc667c7fde0ae09e553ba10ba128fa89ca6f1feed598e06b0cea3ec49",
       "reviewed_revision": "git-blake3:1103b3b784f570d651a54f5e9ced80960b978d48:4bf9e5c9c336295939b5d4199b835c97bc060503d93c801887ca1ef848270a47",
-      "reviewer": "subagent:/root/review_5589_exact",
+      "reviewer": "subagent:review_5589_exact",
       "evidence_sha256": null,
       "status": "pass"
     },
@@ -1353,7 +1353,7 @@
       "integrated_sha": "59b61985c9964e56d83272efa7035f12be462fd7",
       "receipt_sha256": "8c8e1d38d1d9c370d90dda70e3b97cae0ee2aeee15bb7e1352e08c729ab1df3e",
       "reviewed_revision": "git-blake3:469a18c11a849450cacc4f69d439c0cedd09c2d7:9337215d67c352e9f65f505e8f9323687bae48d1ee3dff9a29648624e4a826a9",
-      "reviewer": "subagent:/root/review_5591_coverage_fix",
+      "reviewer": "subagent:review_5591_coverage_fix",
       "evidence_sha256": null,
       "status": "pass"
     },
@@ -1367,7 +1367,7 @@
       "integrated_sha": "dbd461697755c048f9b9bbb7eb1a3ca66b0c3e56",
       "receipt_sha256": "7e1ef145c65317bd6a08be3fa3270c23d3933e64008d852c568a8513c05286b3",
       "reviewed_revision": "git-blake3:73bd5d04cb5f10d9e64586f80ff434b7d77fa52e:2962f8ca10a796dde9cf3cef7bdb4cd0b07915dc64cf59c8af4aa43f9548200b",
-      "reviewer": "subagent:/root/review_5592_integrated_exact",
+      "reviewer": "subagent:review_5592_integrated_exact",
       "evidence_sha256": null,
       "status": "pass"
     }
@@ -1393,7 +1393,7 @@
       "integrated_sha": "a9c974a84093cf13990d9cbe0b5827d7445bc3ce",
       "receipt_sha256": "a06078745c8d81ae7e9333b58868f5c48aa652d9ecd560bbc7034a842924a4c9",
       "reviewed_revision": "git-blake3:706ef96511fbdeba8f57cae096c41d0551d070fc:50404c66b91a5924a065f7c2401dbddee58c04c87c9a9fbf5b75b77acaa14ff5",
-      "reviewer": "subagent:/root/wp09_review",
+      "reviewer": "subagent:wp09_review",
       "evidence_sha256": null,
       "status": "pass"
     }
