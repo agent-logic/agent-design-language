@@ -1,0 +1,118 @@
+{
+  "status": "ready",
+  "dependency_rule": "live_merge_plus_ancestry",
+  "audit_only": [
+    "typed_closeout",
+    "retained_receipt",
+    "claim_release_projection"
+  ],
+  "blockers": [
+
+  ],
+  "dependencies": [
+    {
+      "issue": 5349,
+      "live_merge_sha": "79c7dccf12540863f6c038e1fd7ef45e2357a55e",
+      "ancestral_to_origin_main": true,
+      "ancestral_to_head": true,
+      "receipt_audit": {
+        "present": true,
+        "phase": "closed_out",
+        "claim_active": false,
+        "disposition": "merged",
+        "observed_sha": "a9c974a84093cf13990d9cbe0b5827d7445bc3ce"
+      },
+      "projection_audit": {
+        "present": true,
+        "phase": "published",
+        "claim_active": true
+      }
+    },
+    {
+      "issue": 5499,
+      "live_merge_sha": "d8f02c5b77099552c376436acd695f2bf8922de6",
+      "ancestral_to_origin_main": true,
+      "ancestral_to_head": true,
+      "receipt_audit": {
+        "present": false
+      },
+      "projection_audit": {
+        "present": true,
+        "phase": "published",
+        "claim_active": true
+      }
+    },
+    {
+      "issue": 5498,
+      "live_merge_sha": "7d6095acd0da8fe9e1a622387a229a02ecd824dc",
+      "ancestral_to_origin_main": true,
+      "ancestral_to_head": true,
+      "receipt_audit": {
+        "present": true,
+        "phase": "closed_out",
+        "claim_active": false,
+        "disposition": "merged",
+        "observed_sha": "96359ed5bc008c63632e76a72eb1f2f77bfd9dd1"
+      },
+      "projection_audit": {
+        "present": true,
+        "phase": "published",
+        "claim_active": true
+      }
+    },
+    {
+      "issue": 5500,
+      "live_merge_sha": "fa49c2d0f32147547f0aafdca8bfbc841c49258a",
+      "ancestral_to_origin_main": true,
+      "ancestral_to_head": true,
+      "receipt_audit": {
+        "present": true,
+        "phase": "closed_out",
+        "claim_active": false,
+        "disposition": "merged",
+        "observed_sha": "a24992cfaecfb6adaa2f82ea1b780dd7d1cc6803"
+      },
+      "projection_audit": {
+        "present": true,
+        "phase": "implemented",
+        "claim_active": true
+      }
+    },
+    {
+      "issue": 5502,
+      "live_merge_sha": "1cbbf4eb5531814f7b4f0fdc9edeaa1df78410cd",
+      "ancestral_to_origin_main": true,
+      "ancestral_to_head": true,
+      "receipt_audit": {
+        "present": true,
+        "phase": "closed_out",
+        "claim_active": false,
+        "disposition": "merged",
+        "observed_sha": "3b900210cd30ee381c860a624499d1e4d8aea0d8"
+      },
+      "projection_audit": {
+        "present": true,
+        "phase": "published",
+        "claim_active": true
+      }
+    }
+  ]
+}
+{
+  "status": "pass",
+  "shards": 2,
+  "run_id": "wp10a-5501-fa49c2d0"
+}
+{
+  "status": "pass",
+  "retained_shards": [
+    5500,
+    5502
+  ],
+  "negative_case": "PathOverlap",
+  "baseline": "measured_lifecycle_window_comparison"
+}
+{
+  "status": "pass",
+  "lane": "post-merge-exact"
+}
