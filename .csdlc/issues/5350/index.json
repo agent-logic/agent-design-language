@@ -3,13 +3,13 @@
   "issue": 5350,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b074920ed80645449927fbe79ead7b0121e5a676d7cb37acfe270a3419c11f44",
-  "phase": "bound",
-  "generation": 5,
-  "digest": "708c4354b0c4b418e36c37237d4534870d6907f1d8dcb950eee33c40347261ca",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "58783885595802e2e16ed550a9dcb20193757cf8ce832472830f22ff706e3a38",
   "claim": {
     "id": "claim-5350-v0918-wp11-shadow-parity-preparation",
     "owner": "codex:5350-preparation-owner",
-    "generation": 5,
+    "generation": 10,
     "acquired_unix_seconds": 1784659713,
     "expires_unix_seconds": 1785264513,
     "heartbeat_unix_seconds": 1784659713,
@@ -40,34 +40,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4e4f4f74398acb4a49944c62b785f1daf2c06934369a0493e3dd8fe7953cf615",
+      "values_digest": "19498c7253b7c2da09f08b7c562435aa73380ce70370981236e973b79d8a34e7",
       "rendered_digest": "dc689541ec2955089b025d909e7606401c3b2b0bf68671e3190fd0f1751ff9f6",
       "ast_digest": "035e8a6ece992b3bc6d4dd247f4d325ef4ada0f0c0ddd4722fe4fe3377245dad"
     },
     "stp": {
-      "values_digest": "4edbe34b21eff58194947318a0b336bf4a51e9b0adc96a21462c9522bd768d9b",
+      "values_digest": "02ac0038bb1e0456d90d2528f9f4776dda6955aee4cda553e11d62b662256726",
       "rendered_digest": "1858886d9b3223f98259beff738cdcb64122b0aa3bea60b408c143cde4e44c38",
       "ast_digest": "35bb3095fb4b1e7b96f94693c6727f993b48ab1491b25614e2ba69750a315274"
     },
     "spp": {
-      "values_digest": "32e713249f55615ad54f04c32e5ca23c4fb50fc852939e52fb611283a22ebf55",
+      "values_digest": "ba0c15962b099a7e6c916323c86311b96db153e6ca081fa6a476eafbfdc4d3b4",
       "rendered_digest": "e217d5bf7e0a34e6bda38b75ceca367b552089336faf7f66afe8a3a3060cc003",
       "ast_digest": "39f237408f9951efe1851f6ff4df430047d3efda00e00a41badff7a46ea47316"
     },
     "vpp": {
-      "values_digest": "6327ff691caf9c1aed213e80b85a57c9fd8a8d32e88ef781a3f69694b4c0a88a",
+      "values_digest": "0a377cd9636529ab7d69db6e28a470a9da9112f3220c3be967d42fe2e1d5986d",
       "rendered_digest": "9fdce009ce227bced894fa36e25cadbe8f630e7d842475610cffc12a573dbc7e",
       "ast_digest": "9a42f55fab8cc3bfdca616b379be2d18dd9b9514f2d41c9fd0850cbb513a3521"
     },
     "srp": {
-      "values_digest": "5232adb5fa31107ea921fb8012de5163c663488eb62bea0190da8cbca4cde075",
+      "values_digest": "72a24607d81667b027705ceb03b0ad8a4b971e4ebf6cc65bfaec2ade27c11794",
       "rendered_digest": "1dc1a260bbfd8c9bb8941988afe0f591a19e19c461358f00be34a86770211306",
       "ast_digest": "0a684815e2eaf54f9db2a72bd2f1e4a83362d379c69249192363ce007c7e80a5"
     },
     "sor": {
-      "values_digest": "de46bb0902688b3d8a231cb490e0e5dc7b0f4557a664ac4f80b7ae452bc11c5c",
-      "rendered_digest": "7c5e7905c745a775fa4dfcbbadcee5d0d48d1fff703f934fae93b6f8d1c9720c",
-      "ast_digest": "a062f3d5f1f6270382b8e323506a6a75ad45f6cc96e5e686833ad0dbb54d4a34"
+      "values_digest": "b73af6b145027dff1afef511bf428dd22600b5721c39b1a137dc00a91d7242e1",
+      "rendered_digest": "cd15a5acdabe6cfc5c0717de55cc9e7f476087aed68dea87a6b9f0ba2e31b4a2",
+      "ast_digest": "6d2e83e0564973931a487f3eb41bfe260272a4169be96d3cc6330eeb8f822eea"
     }
   },
   "transitions": [
@@ -84,6 +84,13 @@
       "to": "bound",
       "actor": "codex:5350-preparation-owner",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance WP-11 after the bounded implementation was committed."
     }
   ],
   "audit": [
@@ -149,6 +156,41 @@
       "actor": "codex:5350-preparation-owner",
       "reason": "Record the implemented, executable, non-deferred WP-11 validation lanes",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"subject-and-corpus-verification\",\"proof_role\":\"Verify both exact subjects, dependency receipts or truthful squash integration, corpus bundle, evidence envelopes, portable stream hashes, and command policy\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3500,\"argv\":[\"bash\",\".csdlc/prepared/issues/5350/validate-parity.sh\",\"subjects\"],\"parallel_group\":\"parity-local\",\"defer_reason\":null},{\"lane\":\"exact-shadow-comparison\",\"proof_role\":\"Run and compare every corpus case, behavior, repetition, equivalence group, and difference group with only explicit reviewed normalization\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":8000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5350/validate-parity.sh\",\"compare\"],\"parallel_group\":\"parity-local\",\"defer_reason\":null},{\"lane\":\"runtime-workcell-overlay\",\"proof_role\":\"Verify exact Runtime ten-group and WP-10A live evidence, reject non-live credit, and preserve #5361 downstream direction\",\"acceptance_ids\":[\"AC-7\",\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5350/validate-parity.sh\",\"overlays\"],\"parallel_group\":\"parity-overlay\",\"defer_reason\":null},{\"lane\":\"parity-complete\",\"proof_role\":\"Enforce zero blockers or unclassified rows, strict lint, exact COTS and scope, 1500/2000 LoC budgets, 120-test ceiling, deterministic rerun, no network, and one final exact-revision review\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":12000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5350/validate-parity.sh\",\"complete\"],\"parallel_group\":\"parity-final\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the bounded WP-11 shadow parity implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented exact-revision ADL v1/v2 shadow execution, deterministic mismatch classification, and read-only Runtime v3 and WP-10A evidence overlays.\",\"changes\":[\"Added the v2 shadow corpus and explicit reviewed command mappings.\",\"Added bounded deterministic execution and fail-closed comparison logic.\",\"Added Runtime ten-group, adapter, and WP-10A live evidence verification.\",\"Replaced the validation stub with four executable no-build lanes.\"],\"artifacts\":[\"adl-characterization/src/shadow.rs\",\"adl-characterization/corpus/v2/shadow.yaml\",\".csdlc/evidence/5350/shadow-report.json\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance WP-11 after the bounded implementation was committed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the focused adl-characterization test suite.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-characterization/Cargo.toml\"],\"purpose\":\"Prove the retained v1 evidence, v2 shadow comparison, fail-closed execution, and manifest contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5350/shadow-report.json\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record strict all-target Clippy proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-characterization/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for every adl-characterization target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5350/shadow-report.json\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the complete deterministic shadow parity and overlay proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/5350/validate-parity.sh\",\"complete\"],\"purpose\":\"Prove 25 mapped cases, 150 observations, 23 behaviors, ten Runtime groups, adapters, WP-10A live evidence, and deterministic byte-stable rerun.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5350/shadow-report.json\"}}"
     }
   ]
 }
