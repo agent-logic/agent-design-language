@@ -144,8 +144,28 @@ fail_closed("convergence must cover both shards") unless convergence["integrated
 baseline = object(read_json(baseline_path), "baseline")
 reject_forbidden_keys(baseline, "baseline")
 fail_closed("baseline schema mismatch") unless baseline["schema"] == "adl.wp10a.single-agent-comparison.v1"
-fail_closed("baseline must not claim a substitute run") unless baseline["baseline_status"] == "comparison_only_not_executed_as_substitute"
-fail_closed("baseline must avoid numeric speedup claims") unless baseline.dig("comparison", "fairness_result") == "bounded_comparison_without_speedup_claim"
+unless baseline["baseline_status"] == "measured_lifecycle_window_comparison"
+  fail_closed("baseline must retain the measured lifecycle-window comparison")
+end
+parallel_seconds = baseline.dig("parallel_workcell", "observed_window", "elapsed_seconds")
+serialized_seconds = baseline.dig("single_agent_baseline", "serialized_observed_window_seconds")
+unless parallel_seconds.is_a?(Integer) && parallel_seconds.positive?
+  fail_closed("parallel observed window must be measured in positive seconds")
+end
+unless serialized_seconds.is_a?(Integer) && serialized_seconds >= parallel_seconds
+  fail_closed("serialized observed window must be measured and no shorter than the parallel window")
+end
+children = array(baseline.dig("parallel_workcell", "child_windows"), "parallel_workcell.child_windows")
+fail_closed("comparison must retain both child timing windows") unless children.map { |child| child["issue"] } == [5500, 5502]
+children.each_with_index do |child, index|
+  fail_closed("child window #{index} lacks measured seconds") unless child["elapsed_seconds"].is_a?(Integer) && child["elapsed_seconds"].positive?
+  fail_closed("child window #{index} lacks retry counts") unless child["ci_reruns"].is_a?(Integer) && child["integration_retries"].is_a?(Integer)
+  text(child["observed_failure"], "child_windows[#{index}].observed_failure")
+end
+unless baseline.dig("comparison", "fairness_result") == "measured_bounded_comparison_without_speedup_claim"
+  fail_closed("baseline comparison fairness boundary is absent")
+end
+fail_closed("baseline must not claim numeric speedup") unless baseline.dig("comparison", "numeric_speedup_claim") == false
 
 puts JSON.pretty_generate(
   status: "pass",

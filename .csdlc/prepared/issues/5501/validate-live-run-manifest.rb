@@ -2,11 +2,13 @@
 # frozen_string_literal: true
 
 require "json"
+require "digest"
 require "pathname"
 
+ROOT = Pathname.new(__dir__).join("../../../..").expand_path
 SCHEMA = "adl.wp10a.live-workcell-manifest.v1"
 HEX40 = /\A[0-9a-f]{40}\z/
-HEX64 = /\A(?:blake3:)?[0-9a-f]{64}\z/
+HEX64 = /\A(?:sha256:)?[0-9a-f]{64}\z/
 SHARD_KEYS = %w[
   issue claim_id claim_generation claim_owner branch worktree source_revision
   protected_paths write_paths task_id context_envelope_digest output_ref
@@ -31,7 +33,8 @@ end
 
 def digest(value, label)
   text(value, label)
-  fail_closed("#{label} must be a BLAKE3-compatible digest") unless value.match?(HEX64)
+  fail_closed("#{label} must be a SHA-256 digest") unless value.match?(HEX64)
+  value.delete_prefix("sha256:")
 end
 
 def revision(value, label)
@@ -52,6 +55,24 @@ def repo_paths(value, label)
   end
   fail_closed("#{label} contains duplicates") unless normalized.uniq.length == normalized.length
   normalized
+end
+
+def evidence_ref(value, expected_digest, label)
+  text(value, "#{label}.ref")
+  candidate = Pathname.new(value)
+  fail_closed("#{label}.ref must be repository-relative") if candidate.absolute?
+  clean = candidate.cleanpath.to_s
+  fail_closed("#{label}.ref escapes the repository") if clean == ".." || clean.start_with?("../")
+  fail_closed("#{label}.ref is not normalized") unless clean == value
+
+  path = ROOT.join(clean).cleanpath
+  fail_closed("#{label}.ref escapes the repository") unless path.to_s.start_with?("#{ROOT}/")
+  fail_closed("#{label}.ref is absent") unless path.file?
+
+  expected = digest(expected_digest, "#{label}.digest")
+  actual = Digest::SHA256.file(path).hexdigest
+  fail_closed("#{label}.digest does not match #{clean}") unless actual == expected
+  clean
 end
 
 def overlap?(left, right)
@@ -86,14 +107,12 @@ reject_forbidden_keys(manifest)
 plan = object(manifest["admitted_plan"], "admitted_plan")
 fail_closed("admitted plan must come from #5499") unless plan["issue"] == 5499
 revision(plan["revision"], "admitted_plan.revision")
-digest(plan["digest"], "admitted_plan.digest")
-text(plan["review_ref"], "admitted_plan.review_ref")
+evidence_ref(plan["review_ref"], plan["digest"], "admitted_plan")
 
 negative = object(manifest["negative_case"], "negative_case")
 text(negative["kind"], "negative_case.kind")
 fail_closed("negative case must retain a real refusal") unless negative["refused"] == true
-text(negative["evidence_ref"], "negative_case.evidence_ref")
-digest(negative["evidence_digest"], "negative_case.evidence_digest")
+evidence_ref(negative["evidence_ref"], negative["evidence_digest"], "negative_case")
 
 shards = manifest["shards"]
 fail_closed("live proof requires two to four real shards") unless shards.is_a?(Array) && (2..4).cover?(shards.length)
@@ -106,12 +125,12 @@ shards.each_with_index do |raw, index|
   fail_closed("shards[#{index}].issue must be positive") unless shard["issue"].is_a?(Integer) && shard["issue"].positive?
   text(shard["claim_id"], "shards[#{index}].claim_id")
   fail_closed("shards[#{index}].claim_generation must be positive") unless shard["claim_generation"].is_a?(Integer) && shard["claim_generation"].positive?
-  %w[claim_owner branch worktree task_id output_ref review_ref].each do |key|
+  %w[claim_owner branch worktree task_id review_ref].each do |key|
     text(shard[key], "shards[#{index}].#{key}")
   end
   revision(shard["source_revision"], "shards[#{index}].source_revision")
   digest(shard["context_envelope_digest"], "shards[#{index}].context_envelope_digest")
-  digest(shard["output_digest"], "shards[#{index}].output_digest")
+  evidence_ref(shard["output_ref"], shard["output_digest"], "shards[#{index}].output")
   protected_paths = repo_paths(shard["protected_paths"], "shards[#{index}].protected_paths")
   write_paths = repo_paths(shard["write_paths"], "shards[#{index}].write_paths")
   fail_closed("shards[#{index}] writes outside its protected paths") unless write_paths.all? do |write|
@@ -131,23 +150,23 @@ end
 dashboard = object(manifest["dashboard"], "dashboard")
 fail_closed("dashboard must come from #5500") unless dashboard["source_issue"] == 5500
 fail_closed("dashboard cannot contain manual green assertions") unless dashboard["manual_assertions"] == false
-text(dashboard["observation_ref"], "dashboard.observation_ref")
-digest(dashboard["observation_digest"], "dashboard.observation_digest")
+evidence_ref(dashboard["observation_ref"], dashboard["observation_digest"], "dashboard.observation")
 
 convergence = object(manifest["convergence"], "convergence")
 fail_closed("convergence must come from #5502") unless convergence["source_issue"] == 5502
-text(convergence["decision_ref"], "convergence.decision_ref")
-digest(convergence["decision_digest"], "convergence.decision_digest")
+evidence_ref(convergence["decision_ref"], convergence["decision_digest"], "convergence.decision")
 
 baseline = object(manifest["baseline"], "baseline")
-digest(baseline["declared_work_digest"], "baseline.declared_work_digest")
-text(baseline["equivalence_review_ref"], "baseline.equivalence_review_ref")
+evidence_ref(
+  baseline["equivalence_review_ref"],
+  baseline["declared_work_digest"],
+  "baseline.equivalence_review"
+)
 fail_closed("baseline budget must be 1..1800 seconds") unless baseline["budget_seconds"].is_a?(Integer) && (1..1800).cover?(baseline["budget_seconds"])
 
 review = object(manifest["manifest_review"], "manifest_review")
 text(review["reviewer"], "manifest_review.reviewer")
-text(review["review_ref"], "manifest_review.review_ref")
-digest(review["reviewed_digest"], "manifest_review.reviewed_digest")
+evidence_ref(review["review_ref"], review["reviewed_digest"], "manifest_review")
 fail_closed("manifest review must pass") unless review["result"] == "pass"
 
   puts JSON.pretty_generate(status: "pass", shards: shards.length, run_id: manifest["run_id"])

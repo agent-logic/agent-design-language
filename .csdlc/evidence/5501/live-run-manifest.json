@@ -74,7 +74,7 @@
     "decision_digest": "d2d8a9e552d1b1bf6883cc66103b0429c82ca57c13ef998c5eda5fbc3abf912b"
   },
   "baseline": {
-    "declared_work_digest": "2cb399a79bef69955d6b843529688f58ad4c2bbccd4c02de575df4ed1dcc6f35",
+    "declared_work_digest": "fb4e2c174ac0c0e7d4b2cfe3e09dbd39c351b39e4a56a5f819081a811dcce2d7",
     "equivalence_review_ref": ".csdlc/evidence/5501/single-agent-comparison.json",
     "budget_seconds": 1800
   },

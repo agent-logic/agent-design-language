@@ -6,7 +6,13 @@ require "open3"
 require "pathname"
 
 ROOT = Pathname.new(__dir__).join("../../../..").expand_path
-DEPENDENCIES = %w[5349 5499 5498 5500 5502].freeze
+EXPECTED_MERGES = {
+  "5349" => "79c7dccf12540863f6c038e1fd7ef45e2357a55e",
+  "5499" => "d8f02c5b77099552c376436acd695f2bf8922de6",
+  "5498" => "7d6095acd0da8fe9e1a622387a229a02ecd824dc",
+  "5500" => "fa49c2d0f32147547f0aafdca8bfbc841c49258a",
+  "5502" => "1cbbf4eb5531814f7b4f0fdc9edeaa1df78410cd"
+}.freeze
 
 def fail_closed(message)
   warn(message)
@@ -55,31 +61,27 @@ unless system("git", "-C", ROOT.to_s, "rev-parse", "--verify", origin_main, out:
   fail_closed("origin/main is unavailable; refresh live repository state before dependency admission")
 end
 
-log, log_status = Open3.capture2("git", "-C", ROOT.to_s, "log", "--format=%H%x00%B%x00END", "--max-count=500", origin_main)
-fail_closed("cannot inspect origin/main dependency history") unless log_status.success?
-
 results = []
 blockers = []
-DEPENDENCIES.each do |issue|
-  marker = /(?:#|issue[ -])#{Regexp.escape(issue)}\b/i
-  merged = log.split("\u0000END\n").find { |entry| entry.match?(marker) }
-  unless merged
-    blockers << { issue: issue.to_i, reason: "no_live_merged_commit_evidence_on_origin_main" }
-    next
-  end
-
-  merge_sha = merged.split("\u0000", 2).first
-  unless merge_sha.to_s.match?(/\A[0-9a-f]{40}\z/)
-    blockers << { issue: issue.to_i, reason: "live_merge_sha_malformed" }
-    next
-  end
-  ancestral = system("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", merge_sha, "HEAD",
-                     out: File::NULL, err: File::NULL)
-  unless ancestral
+EXPECTED_MERGES.each do |issue, merge_sha|
+  exists = system("git", "-C", ROOT.to_s, "cat-file", "-e", "#{merge_sha}^{commit}",
+                  out: File::NULL, err: File::NULL)
+  origin_ancestral = exists && system(
+    "git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", merge_sha, origin_main,
+    out: File::NULL, err: File::NULL
+  )
+  head_ancestral = origin_ancestral && system(
+    "git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", merge_sha, "HEAD",
+    out: File::NULL, err: File::NULL
+  )
+  unless head_ancestral
     blockers << {
       issue: issue.to_i,
       live_merge_sha: merge_sha,
-      reason: "live_merge_sha_not_ancestral_to_5501_head"
+      commit_exists: exists,
+      ancestral_to_origin_main: origin_ancestral,
+      ancestral_to_5501_head: head_ancestral,
+      reason: "exact_live_merge_sha_missing_or_not_ancestral"
     }
     next
   end
@@ -87,6 +89,7 @@ DEPENDENCIES.each do |issue|
   results << {
     issue: issue.to_i,
     live_merge_sha: merge_sha,
+    ancestral_to_origin_main: true,
     ancestral_to_head: true,
     receipt_audit: audit_receipt(common, issue),
     projection_audit: audit_projection(issue)
