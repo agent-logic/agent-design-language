@@ -3,13 +3,13 @@
   "issue": 5350,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b074920ed80645449927fbe79ead7b0121e5a676d7cb37acfe270a3419c11f44",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "835a892e6636dc6ecd60e1d4d44742a8ea2cf2888fa34494e85f352759f5cd33",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "700571529d8fd899a3b5251a890c36020796c9a37d7d3a8962d954eeb56354dc",
   "claim": {
     "id": "claim-5350-v0918-wp11-shadow-parity-preparation",
     "owner": "codex:5350-preparation-owner",
-    "generation": 10,
+    "generation": 12,
     "acquired_unix_seconds": 1784659713,
     "expires_unix_seconds": 1785264513,
     "heartbeat_unix_seconds": 1784659713,
@@ -27,7 +27,7 @@
   "review_assignment": {
     "reviewer": "subagent:019f8dd9-24c7-7b50-96d2-29a7a1c2fdad",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:1b75522906d7a4ac169a38bfcbbe9fdfb7eaea30:159a48d977e9b033acff80c3884461fc3ee65b3b6ff9612986bcef4718cd773a",
+    "revision": "git-blake3:46ec62f20a70f163ba0a632bde60877cc3514197:4c3351e7565cc9faed2c2bca1d2b1c7fd139513afee7bcf2d6c8068bf58a4279",
     "scope": [
       "adl-characterization",
       ".csdlc/evidence/5350",
@@ -35,7 +35,64 @@
       ".csdlc/prepared/issues/5350/source-inventory.json"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019f8dd9-24c7-7b50-96d2-29a7a1c2fdad",
+    "scope": [
+      "adl-characterization",
+      ".csdlc/evidence/5350",
+      ".csdlc/prepared/issues/5350/validate-parity.sh",
+      ".csdlc/prepared/issues/5350/source-inventory.json"
+    ],
+    "reviewed_revision": "git-blake3:46ec62f20a70f163ba0a632bde60877cc3514197:4c3351e7565cc9faed2c2bca1d2b1c7fd139513afee7bcf2d6c8068bf58a4279",
+    "findings": [
+      {
+        "id": "F-5350-1",
+        "severity": "p1",
+        "summary": "Approved-difference rows bypassed comparison-group invariants.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:46ec62f20a70f163ba0a632bde60877cc3514197:4c3351e7565cc9faed2c2bca1d2b1c7fd139513afee7bcf2d6c8068bf58a4279",
+        "route": null
+      },
+      {
+        "id": "F-5350-2",
+        "severity": "p2",
+        "summary": "Retained shadow report leaked host-path-shaped reviewer identifiers.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:46ec62f20a70f163ba0a632bde60877cc3514197:4c3351e7565cc9faed2c2bca1d2b1c7fd139513afee7bcf2d6c8068bf58a4279",
+        "route": null
+      },
+      {
+        "id": "F-5350-3",
+        "severity": "p2",
+        "summary": "Shadow manifest command policy did not fail closed to reviewed local-only command shapes.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:46ec62f20a70f163ba0a632bde60877cc3514197:4c3351e7565cc9faed2c2bca1d2b1c7fd139513afee7bcf2d6c8068bf58a4279",
+        "route": null
+      },
+      {
+        "id": "F-5350-4",
+        "severity": "p3",
+        "summary": "Shadow work directories followed ambient TMPDIR instead of the declared FastWork root.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:46ec62f20a70f163ba0a632bde60877cc3514197:4c3351e7565cc9faed2c2bca1d2b1c7fd139513afee7bcf2d6c8068bf58a4279",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The 25 candidate rows remain approved intentional differences because v2 deliberately replaces the v1 CLI and output contracts; each row retains explicit authority, replacement proof, risk, and rollback.",
+      "Runtime and WP-10A overlays are read-only evidence bindings and do not authorize cutover, default-selector changes, or product execution."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -50,32 +107,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "19498c7253b7c2da09f08b7c562435aa73380ce70370981236e973b79d8a34e7",
+      "values_digest": "ddc9cd8a7e9516aef8df0650422e2886d2fa7a503b2ec3bb706d59b685184dff",
       "rendered_digest": "dc689541ec2955089b025d909e7606401c3b2b0bf68671e3190fd0f1751ff9f6",
       "ast_digest": "035e8a6ece992b3bc6d4dd247f4d325ef4ada0f0c0ddd4722fe4fe3377245dad"
     },
     "stp": {
-      "values_digest": "02ac0038bb1e0456d90d2528f9f4776dda6955aee4cda553e11d62b662256726",
+      "values_digest": "9f378f00eb79a3f04a42572dd556e5956ad12ad0c53443f0d79def99fd79331e",
       "rendered_digest": "1858886d9b3223f98259beff738cdcb64122b0aa3bea60b408c143cde4e44c38",
       "ast_digest": "35bb3095fb4b1e7b96f94693c6727f993b48ab1491b25614e2ba69750a315274"
     },
     "spp": {
-      "values_digest": "ba0c15962b099a7e6c916323c86311b96db153e6ca081fa6a476eafbfdc4d3b4",
+      "values_digest": "5d100d7f291ba7c475a26bbac652b978084bcfcab174186a53464c84c750f064",
       "rendered_digest": "e217d5bf7e0a34e6bda38b75ceca367b552089336faf7f66afe8a3a3060cc003",
       "ast_digest": "39f237408f9951efe1851f6ff4df430047d3efda00e00a41badff7a46ea47316"
     },
     "vpp": {
-      "values_digest": "0a377cd9636529ab7d69db6e28a470a9da9112f3220c3be967d42fe2e1d5986d",
+      "values_digest": "f4a987e7d26c581a33c079fb6669d407bb4d2278af615c025d36688c672ff5ab",
       "rendered_digest": "9fdce009ce227bced894fa36e25cadbe8f630e7d842475610cffc12a573dbc7e",
       "ast_digest": "9a42f55fab8cc3bfdca616b379be2d18dd9b9514f2d41c9fd0850cbb513a3521"
     },
     "srp": {
-      "values_digest": "06a845cb4aa1cd3a7b39beec5066a9367893d6bd3eebcdc6e7bc0f49ee09af41",
-      "rendered_digest": "021d26afcf0c2f8a2b87b27beb292eb3cd9e1c71c6ced218e39e237d14a7828b",
-      "ast_digest": "361274f946452f175666ece2ec2e8bf1698fad220aa774bb3581fbe4d72941bd"
+      "values_digest": "a0600ce85615c19799ef0613ba964520e6fbb78a2075b19ff778cfc2c8a85f4d",
+      "rendered_digest": "ab709f8f904cc827219fc467d5dfdb952499564da3e928ec887b86b7e05b598b",
+      "ast_digest": "bdea80d76fb91e5eefcf53380de8392a3c0bf7e9e699524349640ed3bcb6991c"
     },
     "sor": {
-      "values_digest": "b73af6b145027dff1afef511bf428dd22600b5721c39b1a137dc00a91d7242e1",
+      "values_digest": "c9ed0db5731a33d19086144c997c942bc46f43b5378c49cf5381364397aa3bb2",
       "rendered_digest": "cd15a5acdabe6cfc5c0717de55cc9e7f476087aed68dea87a6b9f0ba2e31b4a2",
       "ast_digest": "6d2e83e0564973931a487f3eb41bfe260272a4169be96d3cc6330eeb8f822eea"
     }
@@ -101,6 +158,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Advance WP-11 after the bounded implementation was committed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance WP-11 after its single final exact-revision review passed with every finding fixed."
     }
   ],
   "audit": [
@@ -208,6 +272,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "subagent:019f8dd9-24c7-7b50-96d2-29a7a1c2fdad",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance WP-11 after its single final exact-revision review passed with every finding fixed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
