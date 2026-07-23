@@ -5,8 +5,8 @@
   "base": "main",
   "head": "codex/5526-v0918-provider-expansion",
   "title": "[v0.91.8][WP-09][provider] Add current agentic model provider identities",
-  "body": "Closes #5526\n\nAdds deterministic first-class provider profiles and stable model identities for Kimi K2.5, MiniMax M2.5, hosted Qwen3 Max, xAI/Grok 4.5, Mistral Medium 3.5/Small 4/Devstral 2, Cohere Command A+ and North Mini Code, DeepSeek V4, Z.ai GLM-5, and Gemini 3.1.\n\nThe shared HTTP adapter preserves legacy generic HTTP behavior while using profile-declared chat payloads and vendor-specific response shapes for the expanded lanes. Vendor identity overrides fail closed, and direct provider routes remain distinct from OpenRouter and local Ollama/vLLM compatibility lanes.\n\nValidation: focused provider tests passed, strict Clippy passed, cargo fmt --check passed, and git diff --check passed. No credentials, live provider calls, AWS, or Bedrock execution was used.",
+  "body": "Closes #5526\n\nAdds deterministic first-class provider profiles and stable model identities for Kimi K2.5, MiniMax M2.5, hosted Qwen3 Max, xAI/Grok 4.5, Mistral Medium 3.5/Small 4/Devstral 2, Cohere Command A+ and North Mini Code, DeepSeek V4, Z.ai GLM-5, and Gemini 3.1.\n\nThe shared HTTP adapter preserves legacy generic HTTP behavior while using profile-declared chat payloads and vendor-specific response shapes for the expanded lanes. Vendor identity overrides fail closed, and direct provider routes remain distinct from OpenRouter and local Ollama/vLLM compatibility lanes.\n\nValidation: focused provider tests passed, coverage-impact mapping tests passed, strict Clippy passed, cargo fmt --check passed, and git diff --check passed. No credentials, live provider calls, AWS, or Bedrock execution was used.",
   "draft": false,
-  "revision": "git-blake3:9a8bad6cb221491bd06c2cbc17fd3e090e204ee4:cdfd442ec4cf7d542f9c2fbe9bf2a22f26f4cbaee4be06ad79567cac96261b3d",
-  "commit_sha": "9a8bad6cb221491bd06c2cbc17fd3e090e204ee4"
+  "revision": "git-blake3:1635229e7227fc79cd4ed300c701df4ccf95ecb7:f7a4cc655023637c51c97c0faf6a19d4c53f67a1ea45618eb493384dcafb445e",
+  "commit_sha": "1635229e7227fc79cd4ed300c701df4ccf95ecb7"
 }
