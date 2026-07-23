@@ -10,3 +10,4 @@
 {"sequence":10,"generation":6,"actor":"codex:5526-execution","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":11,"generation":7,"actor":"codex:5526-execution","reason":"Exact-head assigned review passed with no actionable findings; advance to Reviewed for typed publication.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":12,"generation":8,"actor":"codex:5526-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":13,"generation":9,"actor":"codex:5526-execution","reason":"Current PR head advanced with the required provider coverage mapping and current-main ancestry; recover stale publication review for exact-head re-review.","operation":"recover_review"}
