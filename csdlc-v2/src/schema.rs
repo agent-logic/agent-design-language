@@ -5,6 +5,7 @@ use crate::lifecycle::{
     AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest, RecoverClaimRequest,
     ReleaseClosedClaimRequest, TransitionActiveClaimRequest,
 };
+use crate::merge::{MergeRequest, MergeResult};
 use crate::migration::{ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison};
 use crate::model::IssueRecord;
 use crate::model::{
@@ -66,6 +67,8 @@ pub fn public_schema_bundle() -> Value {
         "readiness_request": schemars::schema_for!(ReadinessRequest),
         "readiness_report": schemars::schema_for!(ReadinessReport),
         "terminal_observation": schemars::schema_for!(TerminalObservation),
+        "merge_request": schemars::schema_for!(MergeRequest),
+        "merge_result": schemars::schema_for!(MergeResult),
         "legacy_import_request": schemars::schema_for!(LegacyImportRequest),
         "legacy_import_report": schemars::schema_for!(ImportReport),
         "normalized_outcome": schemars::schema_for!(NormalizedOutcome),

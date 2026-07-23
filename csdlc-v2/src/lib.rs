@@ -9,6 +9,7 @@ pub mod git;
 pub mod github;
 pub mod github_token;
 pub mod lifecycle;
+pub mod merge;
 pub mod migration;
 pub mod model;
 pub mod operator;
@@ -39,6 +40,7 @@ pub use lifecycle::{
     release_closed_claim, transition_active_claim, AmendClaimScopeRequest, BindRequest, BindResult,
     HeartbeatRequest, RecoverClaimRequest, ReleaseClosedClaimRequest, TransitionActiveClaimRequest,
 };
+pub use merge::{MergeMethod, MergeRequest, MergeResult};
 pub use migration::{
     compare_shadow, generate_compatibility_view, import_legacy, write_compatibility_view_atomic,
     ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison,
