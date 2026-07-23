@@ -16,3 +16,4 @@
 {"sequence":16,"generation":10,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":17,"generation":11,"actor":"subagent:019f8dd9-24c7-7b50-96d2-29a7a1c2fdad","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":18,"generation":12,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Advance WP-11 after its single final exact-revision review passed with every finding fixed.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":19,"generation":13,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

@@ -3,13 +3,13 @@
   "issue": 5350,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b074920ed80645449927fbe79ead7b0121e5a676d7cb37acfe270a3419c11f44",
-  "phase": "reviewed",
-  "generation": 12,
-  "digest": "700571529d8fd899a3b5251a890c36020796c9a37d7d3a8962d954eeb56354dc",
+  "phase": "published",
+  "generation": 13,
+  "digest": "c56b441e571bdfc8db351e9fe8dbd121bb4f1439d502756a8dc12f35075f3af7",
   "claim": {
     "id": "claim-5350-v0918-wp11-shadow-parity-preparation",
     "owner": "codex:5350-preparation-owner",
-    "generation": 12,
+    "generation": 13,
     "acquired_unix_seconds": 1784659713,
     "expires_unix_seconds": 1785264513,
     "heartbeat_unix_seconds": 1784659713,
@@ -93,7 +93,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5350,
+    "pull_request": 5649,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5649",
+    "base": "main",
+    "head": "codex/5350-v0918-wp11-shadow-parity",
+    "revision": "git-blake3:5aefde7aae2d293f6a048ba5848f060a627d874a:09174ef2199ba32bcf934c8e704ecbe857a3d60d34d6fc36884748b01bf9c00f",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -107,34 +117,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ddc9cd8a7e9516aef8df0650422e2886d2fa7a503b2ec3bb706d59b685184dff",
+      "values_digest": "3b5e0ceb26040f5b91a6aa6e7206c9ccd0bc0d36991018f69c7db064f9748633",
       "rendered_digest": "dc689541ec2955089b025d909e7606401c3b2b0bf68671e3190fd0f1751ff9f6",
       "ast_digest": "035e8a6ece992b3bc6d4dd247f4d325ef4ada0f0c0ddd4722fe4fe3377245dad"
     },
     "stp": {
-      "values_digest": "9f378f00eb79a3f04a42572dd556e5956ad12ad0c53443f0d79def99fd79331e",
+      "values_digest": "a8ba28b48821f71010c35e3e4f3e1f1400c01da5497dd28a939050b477cdc676",
       "rendered_digest": "1858886d9b3223f98259beff738cdcb64122b0aa3bea60b408c143cde4e44c38",
       "ast_digest": "35bb3095fb4b1e7b96f94693c6727f993b48ab1491b25614e2ba69750a315274"
     },
     "spp": {
-      "values_digest": "5d100d7f291ba7c475a26bbac652b978084bcfcab174186a53464c84c750f064",
+      "values_digest": "782311711b12e3bbcfaf9efce3303f959ecf1552775e8322b95583673eb5d81f",
       "rendered_digest": "e217d5bf7e0a34e6bda38b75ceca367b552089336faf7f66afe8a3a3060cc003",
       "ast_digest": "39f237408f9951efe1851f6ff4df430047d3efda00e00a41badff7a46ea47316"
     },
     "vpp": {
-      "values_digest": "f4a987e7d26c581a33c079fb6669d407bb4d2278af615c025d36688c672ff5ab",
+      "values_digest": "974baecda2d2fe1be8e9b0265fcd74b611828493f1751a7fa17fe5eeda8712b3",
       "rendered_digest": "9fdce009ce227bced894fa36e25cadbe8f630e7d842475610cffc12a573dbc7e",
       "ast_digest": "9a42f55fab8cc3bfdca616b379be2d18dd9b9514f2d41c9fd0850cbb513a3521"
     },
     "srp": {
-      "values_digest": "a0600ce85615c19799ef0613ba964520e6fbb78a2075b19ff778cfc2c8a85f4d",
+      "values_digest": "59438f37f1719def86a1343c25bcd025d442da88ee19f7033152e0c29cfae37c",
       "rendered_digest": "ab709f8f904cc827219fc467d5dfdb952499564da3e928ec887b86b7e05b598b",
       "ast_digest": "bdea80d76fb91e5eefcf53380de8392a3c0bf7e9e699524349640ed3bcb6991c"
     },
     "sor": {
-      "values_digest": "c9ed0db5731a33d19086144c997c942bc46f43b5378c49cf5381364397aa3bb2",
-      "rendered_digest": "cd15a5acdabe6cfc5c0717de55cc9e7f476087aed68dea87a6b9f0ba2e31b4a2",
-      "ast_digest": "6d2e83e0564973931a487f3eb41bfe260272a4169be96d3cc6330eeb8f822eea"
+      "values_digest": "cb07655e0cf880c5b3465bf56b3f0de920422db26004c31f0cc0ef52d709cb02",
+      "rendered_digest": "0d1f39971f0df2b3607808c3e52f67475e65ea002896b8d5b2bf4015ddbd8428",
+      "ast_digest": "ae38fa1f7b200fe64cb7a27f00d7ab21d933feb8c60a89ad2ae0ad546cf1e369"
     }
   },
   "transitions": [
@@ -165,6 +175,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Advance WP-11 after its single final exact-revision review passed with every finding fixed."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -293,6 +310,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Advance WP-11 after its single final exact-revision review passed with every finding fixed.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
