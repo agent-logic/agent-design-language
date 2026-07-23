@@ -337,6 +337,27 @@
       "reason": "portable_html_observatory_surface_requires_governed_demo_smoke"
     },
     {
+      "id": "unity_editor_liveness",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "review",
+      "proof_role": "demo_contract",
+      "requirement_ids": [
+        "unity_editor_liveness"
+      ],
+      "path_selectors": [
+        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh"
+      ],
+      "path_hints": [
+        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+        "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh"
+      ],
+      "command": "bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh && bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0916_unity_observatory_contract.sh",
+      "run_command": "bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh && bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0916_unity_observatory_contract.sh",
+      "reason": "unity_editor_liveness_paths_require_focused_mode_and_watchdog_proof"
+    },
+    {
       "id": "unity_observatory_contract_surface",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
