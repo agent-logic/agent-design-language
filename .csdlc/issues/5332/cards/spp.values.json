@@ -7,13 +7,13 @@
     "title": "[v0.91.8][WP-15][unity][tooling] Classify and fix Unity ILPP GetDomainName loop in observatory batch proof",
     "slug": "v0918-wp15-unity-ilpp-getdomainname-loop",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 2
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Extract the ILPP classifier, prove it with deterministic fixtures, reproduce through #4741 safe staging, run a one-variable diagnostic matrix, apply only the isolated root-cause fix, and prove normal batch behavior.",
       "steps": [
         {
@@ -42,7 +42,7 @@
         },
         {
           "id": "S3",
-          "action": "Run the smallest one-variable environment matrix needed to isolate wrapper, mutable state, host/domain identity, or Unity version",
+          "action": "Run the smallest one-variable environment matrix needed to isolate wrapper, mutable state, host or domain identity, or Unity version",
           "acceptance_ids": [
             "AC-5",
             "AC-6",
@@ -61,13 +61,23 @@
         },
         {
           "id": "S5",
+          "action": "Register all issue-owned paths in the validation selector and prove focused lane selection",
+          "acceptance_ids": [
+            "AC-10",
+            "AC-11"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S6",
           "action": "Run focused fixtures and one safe normal-start regression, then record bounded review and WP-15 outcome truth",
           "acceptance_ids": [
             "AC-3",
             "AC-4",
             "AC-8",
             "AC-9",
-            "AC-10"
+            "AC-10",
+            "AC-11"
           ],
           "status": "pending"
         }
@@ -101,7 +111,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5332/design.md",
-      "design_digest": "236902bff7f84f7613a2ea354724c3834f6dec993e8a029b8b8b5c078d633c6e",
+      "design_digest": "85859fde33a4a012111fadaae832d4d62a1ead894e213ecef7acad86708f8e79",
       "diagram_ref": ".csdlc/prepared/issues/5332/diagram.mmd",
       "diagram_digest": "d2774d7d3cc655ca1b4e0e1af44fa388b839152f89bff99978d985024c10cb28"
     }

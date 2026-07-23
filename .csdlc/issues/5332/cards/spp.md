@@ -16,7 +16,7 @@ Extract the ILPP classifier, prove it with deterministic fixtures, reproduce thr
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -47,7 +47,7 @@ Revision 1
   },
   {
     "id": "S3",
-    "action": "Run the smallest one-variable environment matrix needed to isolate wrapper, mutable state, host/domain identity, or Unity version",
+    "action": "Run the smallest one-variable environment matrix needed to isolate wrapper, mutable state, host or domain identity, or Unity version",
     "acceptance_ids": [
       "AC-5",
       "AC-6",
@@ -66,13 +66,23 @@ Revision 1
   },
   {
     "id": "S5",
+    "action": "Register all issue-owned paths in the validation selector and prove focused lane selection",
+    "acceptance_ids": [
+      "AC-10",
+      "AC-11"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S6",
     "action": "Run focused fixtures and one safe normal-start regression, then record bounded review and WP-15 outcome truth",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
       "AC-8",
       "AC-9",
-      "AC-10"
+      "AC-10",
+      "AC-11"
     ],
     "status": "pending"
   }
@@ -106,7 +116,7 @@ Revision 1
 
 .csdlc/prepared/issues/5332/design.md
 
-Digest: 236902bff7f84f7613a2ea354724c3834f6dec993e8a029b8b8b5c078d633c6e
+Digest: 85859fde33a4a012111fadaae832d4d62a1ead894e213ecef7acad86708f8e79
 
 ## Diagram
 

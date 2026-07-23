@@ -35,6 +35,7 @@ Implement only the ILPP loop classifier, controlled diagnosis, and proven root-c
 8. AC-8: focused no-Unity tests cover incomplete signature, complete repeating loop, progress reset, readonly progression, and normal ILPP start
 9. AC-9: one safe staged regression reaches the existing Observatory validator success marker or records a precise post-ILPP blocker without claiming full demo readiness
 10. AC-10: the final diff excludes #4739 MCP internals, #4741 general liveness and mode selection, Unity scene code, runtime semantics, asset work, and rendering polish
+11. AC-11: validation selector registration maps the classifier, wrapper, focused unit, and diagnosis paths to one focused Unity ILPP lane and its selector test passes
 
 ## Dependencies
 

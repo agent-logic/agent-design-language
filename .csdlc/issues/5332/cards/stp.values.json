@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-15][unity][tooling] Classify and fix Unity ILPP GetDomainName loop in observatory batch proof",
     "slug": "v0918-wp15-unity-ilpp-getdomainname-loop",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 2
   },
   "status": "ready",
   "content": {
@@ -32,7 +32,8 @@
         "AC-7: the minimal root-cause fix is applied only after the matrix isolates its owner; otherwise the exact current blocker and owner are recorded",
         "AC-8: focused no-Unity tests cover incomplete signature, complete repeating loop, progress reset, readonly progression, and normal ILPP start",
         "AC-9: one safe staged regression reaches the existing Observatory validator success marker or records a precise post-ILPP blocker without claiming full demo readiness",
-        "AC-10: the final diff excludes #4739 MCP internals, #4741 general liveness and mode selection, Unity scene code, runtime semantics, asset work, and rendering polish"
+        "AC-10: the final diff excludes #4739 MCP internals, #4741 general liveness and mode selection, Unity scene code, runtime semantics, asset work, and rendering polish",
+        "AC-11: validation selector registration maps the classifier, wrapper, focused unit, and diagnosis paths to one focused Unity ILPP lane and its selector test passes"
       ],
       "dependencies": [
         "#4741 safe fresh_batch mode or equivalent exact staged-project ownership proof",

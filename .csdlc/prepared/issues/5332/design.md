@@ -19,6 +19,8 @@ Issue #5332 owns:
 - a controlled matrix isolating Unity version, host/domain identity, mutable
   HOME/TMP/XDG state, and wrapper staging;
 - focused no-Unity fixtures for loop, progress, and normal-start behavior;
+- registration of the classifier, wrapper, focused unit proof, and diagnosis
+  packet in the repository validation-lane selector;
 - retained root-cause or irreducible blocker evidence.
 
 Issue #4741 owns editor liveness, execution-mode selection, staging lifecycle,
@@ -53,3 +55,12 @@ signature count, terminal classification, and retained log reference.
 - Do not print credentials, complete environment dumps, or broad host process
   state.
 
+## Focused proof
+
+- Run the no-Unity classifier fixtures for loop, progress-reset, and normal
+  startup behavior.
+- Run the repository validation-lane selector test and verify every changed
+  implementation, wrapper, unit, and diagnosis path maps to the focused Unity
+  ILPP lane.
+- Run only the smallest staged Unity reproduction cells needed to distinguish
+  root cause after the no-Unity proof is green.

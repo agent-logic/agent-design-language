@@ -45,6 +45,24 @@ Diagram: .csdlc/prepared/issues/5332/diagram.mmd
     "defer_reason": null
   },
   {
+    "lane": "unity-ilpp-selector-registration",
+    "proof_role": "Prove the validation selector chooses the focused Unity ILPP lane for every issue-owned implementation, wrapper, unit, and diagnosis path",
+    "acceptance_ids": [
+      "AC-10",
+      "AC-11"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 180,
+    "budget_tokens": 3000,
+    "argv": [
+      "bash",
+      "adl/tools/test_select_validation_lanes.sh"
+    ],
+    "parallel_group": "unity-ilpp-static",
+    "defer_reason": null
+  },
+  {
     "lane": "unity-ilpp-staged-reproduction",
     "proof_role": "Reproduce or clear the ILPP loop in one #4741-approved staged batch mode",
     "acceptance_ids": [
@@ -62,7 +80,7 @@ Diagram: .csdlc/prepared/issues/5332/diagram.mmd
       "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh"
     ],
     "parallel_group": "unity-ilpp-live",
-    "defer_reason": "Run only after #4741 provides exact safe staged-project ownership and the deterministic classifier lane passes."
+    "defer_reason": "Run only after #4741 provides exact safe staged-project ownership and the deterministic classifier and selector lanes pass."
   },
   {
     "lane": "unity-ilpp-diagnostic-matrix",
@@ -116,6 +134,7 @@ Tokens: 50000
 ## Commands
 
 - `bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh`
+- `bash adl/tools/test_select_validation_lanes.sh`
 - `bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh`
 - `bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh`
 - `git diff --check`
