@@ -26,7 +26,48 @@ Status: pre_phase
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5501-1",
+    "severity": "p1",
+    "summary": "Dependency readiness did not bind the exact live merge commits and ancestry.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:aeb7822d2c2eff54cb3ad1e3bda0d3c513d3f53b:e1abe21209ebfbbc2cd8c7866a79d32510928fc28dd0976c6650a7154425a3e8",
+    "route": null
+  },
+  {
+    "id": "F-5501-2",
+    "severity": "p1",
+    "summary": "Manifest digest fields were not bound to normalized existing evidence paths and exact bytes.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:aeb7822d2c2eff54cb3ad1e3bda0d3c513d3f53b:e1abe21209ebfbbc2cd8c7866a79d32510928fc28dd0976c6650a7154425a3e8",
+    "route": null
+  },
+  {
+    "id": "F-5501-3",
+    "severity": "p2",
+    "summary": "Retained live proof was not bound non-circularly to the exact reviewed evidence revision.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:aeb7822d2c2eff54cb3ad1e3bda0d3c513d3f53b:e1abe21209ebfbbc2cd8c7866a79d32510928fc28dd0976c6650a7154425a3e8",
+    "route": null
+  },
+  {
+    "id": "F-5501-4",
+    "severity": "p2",
+    "summary": "Timing and baseline evidence did not contain measured comparable lifecycle windows and explicit non-claims.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:aeb7822d2c2eff54cb3ad1e3bda0d3c513d3f53b:e1abe21209ebfbbc2cd8c7866a79d32510928fc28dd0976c6650a7154425a3e8",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -34,12 +75,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The retained timing comparison measures observed PR lifecycle windows, not pure coding time, and makes no numeric speedup claim.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:aeb7822d2c2eff54cb3ad1e3bda0d3c513d3f53b:e1abe21209ebfbbc2cd8c7866a79d32510928fc28dd0976c6650a7154425a3e8")
 
-Reviewer: None
+Reviewer: Some("gpt-5.5:required-pre-pr-review")
 
-Result: pre_review
+Result: pass
