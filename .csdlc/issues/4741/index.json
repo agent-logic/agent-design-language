@@ -3,13 +3,13 @@
   "issue": 4741,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6da60e6fc4092eeaaef14e46cd5c57a84272538fe5bc92a030061a4160ebb1bf",
-  "phase": "reviewed",
-  "generation": 13,
-  "digest": "85fedf86ec4259faf24d8b22d2bb85992babac6cb6a376e416dc635aa970db7a",
+  "phase": "published",
+  "generation": 14,
+  "digest": "14bc4281fdf765c770a98dd4cb13db1386f92dac75323d9e74fe500d35011da3",
   "claim": {
     "id": "claim-4741-v0918-wp15-unity-editor-liveness-prep",
     "owner": "codex:issue-4741-preparation",
-    "generation": 13,
+    "generation": 14,
     "acquired_unix_seconds": 1784835199,
     "expires_unix_seconds": 1785439999,
     "heartbeat_unix_seconds": 1784835199,
@@ -66,7 +66,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 4741,
+    "pull_request": 5651,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5651",
+    "base": "main",
+    "head": "codex/4741-v0918-wp15-unity-editor-liveness-prep",
+    "revision": "git-blake3:3696c827990e088f3610563dffa6dbc80e847c1e:920d687317a45cf1a47e58c1393c228761687986c98305a704d80fb4430fd3d0",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -80,34 +90,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a1285866b9b357fca460029bd00e5908f33a2268eed41ac41a8f0eb62ffae21c",
+      "values_digest": "552a7e57ffd42a33db5a5ec2c700e7a84a6a790bb9879a873ef804fddf356bcd",
       "rendered_digest": "20465ed8051ca296e888398621e97ba0038327558f5b412e2565ea50ee3dddd9",
       "ast_digest": "5f8c10f932a676f52809aa8ad1da360a0197ad7d9736b83ba8c2e6fa566ef483"
     },
     "stp": {
-      "values_digest": "a6aa75eb3531955760131f768ff310e5745dfd2d61751795b85f65c57453d265",
+      "values_digest": "cf36e85d0819a01f990e6acd1aaf5558bab52d102103b718565ab3d409761ae1",
       "rendered_digest": "c1c74e60ed6c539cc615eba12aa1f2ed710218c44c4e9018edb478659e4e6080",
       "ast_digest": "a6d752e92ee16452e02031576d2a0e8752a84f6e9cafcb558680bc75efe815b6"
     },
     "spp": {
-      "values_digest": "3917763bba70322701936ad315b40f8255997a0c067c10c864cdc56668cc3baa",
+      "values_digest": "84b9f9f545f09089b0f6aac1096b9fb9b9cb90319a8f8766ea636179ec9bba39",
       "rendered_digest": "c336a64f984f171b4dd6a93457504a07b6a53b4c9f6cc3d70d0a69d79aaf726e",
       "ast_digest": "d9fd3f5761aaab6f6570781fcdb46584b441e655028ee8d09adff788bc0d3fe5"
     },
     "vpp": {
-      "values_digest": "eb6d30671f892af654425c505a29a4f79e1d1d8f56aea0571225fa472d9dc933",
+      "values_digest": "47134384b0619287d240e30dd826a34a5969215fb9a945a95fed80c35d040799",
       "rendered_digest": "86818866e461a232a32c457b36902a4c4ee220ff68c02f6c71a5c7817548dd7c",
       "ast_digest": "05b38482e7841e8ca4a6d9e629be99b7baa1bfd1bed3c1df5e0c5dd74c321efc"
     },
     "srp": {
-      "values_digest": "9a19829e71a22808cc8ff08bec2bfa40138fbdce565130e35a8728d78bfc0a2b",
+      "values_digest": "ff889f51aeae7b10326a857d89d526a7bd8be93bf8ad0090ecc11ba859c9ad40",
       "rendered_digest": "a5a0eb9767639e5c33990e9a448e55fe28f19058834eab8a1c44c58b9f787aaa",
       "ast_digest": "5b1826f21757b4f201a968d5b1a5c030f3deecb9904e45174229ea2e6336d372"
     },
     "sor": {
-      "values_digest": "98aab71f8ea121e804e6731c9c2a70171da39a1553b0c30a281accd46d7d6cba",
-      "rendered_digest": "d70493ea7a8da32acc8ad6b2d0b7f01b4638e5d69a305fd67e9cbb9ec5808f76",
-      "ast_digest": "37ac926d16e9ca8bc0bfb590594fdff46a9cd71192964d4f9abd5a077a011a64"
+      "values_digest": "3fb4bc1c65cd87d80b8c6a58ffa05ec8a663b22ebba66093e36b862c797d671b",
+      "rendered_digest": "2c491f3137784637a3165c8ab743d1efa62f27a60af86828098a4c601643c8b3",
+      "ast_digest": "2630fa3b0c8625427f4cb3cf9682ddb7c444c07946ad387dbade10fe1e3420b5"
     }
   },
   "transitions": [
@@ -138,6 +148,13 @@
       "to": "reviewed",
       "actor": "codex:issue-4741-execution",
       "reason": "Advance the assigned exact-revision PASS review to reviewed phase with retained residual risks"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-4741-publication",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -273,6 +290,13 @@
       "actor": "codex:issue-4741-execution",
       "reason": "Advance the assigned exact-revision PASS review to reviewed phase with retained residual risks",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:issue-4741-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

@@ -134,11 +134,11 @@ Implemented and independently reviewed a fail-closed Unity editor-liveness proof
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
