@@ -1,0 +1,7 @@
+{
+  "issue": 5339,
+  "expected_generation": 0,
+  "expected_digest": "538b13ae66e58dec527e572e9a2d40cd8bd034b489ae2595120a4e88358c8669",
+  "claim_id": "claim-5339-v0918-wp04-preparation",
+  "reviewer": "codex:5339-preparation"
+}
