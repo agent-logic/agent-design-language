@@ -1,0 +1,35 @@
+{
+  "schema": "adl.wp10a.single-agent-comparison.v1",
+  "kind": "truthful_single_agent_comparison",
+  "declared_work": "Implement equivalent dashboard plus convergence work in one serialized agent lane with the same dependency, validation, review, publication, and merge boundaries.",
+  "baseline_status": "comparison_only_not_executed_as_substitute",
+  "budget_seconds": 1800,
+  "parallel_workcell": {
+    "shards": [
+      5500,
+      5502
+    ],
+    "observed_outcome": "both_shards_merged",
+    "coordination_overhead_observed": [
+      "distinct issue claims",
+      "distinct branches",
+      "distinct worktrees",
+      "disjoint protected and write paths",
+      "serialized publication and merge gates"
+    ]
+  },
+  "single_agent_baseline": {
+    "would_have_serialized": [
+      "dashboard implementation",
+      "convergence implementation",
+      "focused validation for both surfaces",
+      "review and publication handoff for both surfaces"
+    ],
+    "observed_runtime_seconds": null,
+    "reason_runtime_not_claimed": "No equivalent single-agent execution was run in this #5501 session; retaining a fabricated runtime would be false evidence."
+  },
+  "comparison": {
+    "claim": "The completed parallel workcell proved safe disjoint execution and serialized integration gates; it does not prove a numeric speedup over a single-agent baseline.",
+    "fairness_result": "bounded_comparison_without_speedup_claim"
+  }
+}
