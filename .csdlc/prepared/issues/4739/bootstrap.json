@@ -192,4 +192,3 @@
     "failure_policy": "Fail closed on project or endpoint ambiguity, fixed-port assumptions, cloud fallback, missing read-only proof, secret exposure, broad process scans, adjacent Unity scope, or unsupported readiness claims."
   }
 }
-

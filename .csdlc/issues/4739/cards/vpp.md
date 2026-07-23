@@ -40,11 +40,10 @@ Diagram: .csdlc/prepared/issues/4739/diagram.mmd
     "budget_tokens": 4000,
     "argv": [
       "bash",
-      "-c",
-      "test -n \"${ADL_UNITY_MCP_UNIT_TEST:-}\" && test -x \"$ADL_UNITY_MCP_UNIT_TEST\" && \"$ADL_UNITY_MCP_UNIT_TEST\""
+      "adl/tools/test_v0916_unity_mcp_alignment_unit.sh"
     ],
     "parallel_group": "unity-mcp-static",
-    "defer_reason": "Set ADL_UNITY_MCP_UNIT_TEST to the repository-owned dedicated unit script created in S2; the lane fails closed if the executable is absent."
+    "defer_reason": null
   },
   {
     "lane": "unity-mcp-alignment-contract",
@@ -122,10 +121,10 @@ Diagram: .csdlc/prepared/issues/4739/diagram.mmd
     "argv": [
       "bash",
       "-c",
-      "test -n \"${ADL_UNITY_MCP_PROBE:-}\" && test -x \"$ADL_UNITY_MCP_PROBE\" && test -n \"${ADL_UNITY_PROJECT_PATH:-}\" && \"$ADL_UNITY_MCP_PROBE\" --project \"$ADL_UNITY_PROJECT_PATH\""
+      "test -n \"${ADL_UNITY_PROJECT_PATH:-}\" && bash adl/tools/probe_unity_mcp_observatory_alignment.sh --project \"$ADL_UNITY_PROJECT_PATH\""
     ],
     "parallel_group": "unity-mcp-live",
-    "defer_reason": "Set ADL_UNITY_MCP_PROBE and ADL_UNITY_PROJECT_PATH after S1 creates the repository-owned probe; run only when the intended Unity project is available."
+    "defer_reason": "Set ADL_UNITY_PROJECT_PATH to the intended canonical project and run only when that Unity project is available; the repository-relative probe path remains fixed and reviewable."
   }
 ]
 
@@ -141,11 +140,11 @@ Tokens: 25000
 
 ## Commands
 
-- `bash -c test -n "${ADL_UNITY_MCP_UNIT_TEST:-}" && test -x "$ADL_UNITY_MCP_UNIT_TEST" && "$ADL_UNITY_MCP_UNIT_TEST"`
+- `bash adl/tools/test_v0916_unity_mcp_alignment_unit.sh`
 - `bash adl/tools/test_v0916_unity_observatory_contract.sh`
 - `bash adl/tools/test_select_validation_lanes.sh`
 - `git diff --check`
-- `bash -c test -n "${ADL_UNITY_MCP_PROBE:-}" && test -x "$ADL_UNITY_MCP_PROBE" && test -n "${ADL_UNITY_PROJECT_PATH:-}" && "$ADL_UNITY_MCP_PROBE" --project "$ADL_UNITY_PROJECT_PATH"`
+- `bash -c test -n "${ADL_UNITY_PROJECT_PATH:-}" && bash adl/tools/probe_unity_mcp_observatory_alignment.sh --project "$ADL_UNITY_PROJECT_PATH"`
 
 ## Failure Semantics
 

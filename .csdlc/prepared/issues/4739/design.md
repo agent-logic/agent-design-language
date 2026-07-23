@@ -50,4 +50,3 @@ reviewing the current base.
   to one focused non-Unity alignment lane; selector behavior has a focused test.
 - A live probe is retained only when the intended project is running; otherwise
   the exact fail-closed result remains truthful blocker evidence.
-
