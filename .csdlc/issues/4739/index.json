@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "dd98199cf21b7a3ece23619ecfd7fd926dd8e153555179e8af5f50d245522f73",
   "phase": "bound",
-  "generation": 0,
-  "digest": "92e74bd853d9617d42af9fcc5aa369e05506ba84dfcdacce4917257670196a48",
+  "generation": 2,
+  "digest": "c1cc16e209996cda4fb01431b4d924dea922916a0b34709bc248a0d3c45be0cb",
   "claim": {
     "id": "claim-4739-v0918-wp15-unity-mcp-alignment-prep",
     "owner": "codex:issue-4739-preparation",
-    "generation": 0,
+    "generation": 2,
     "acquired_unix_seconds": 1784834939,
     "expires_unix_seconds": 1785439739,
     "heartbeat_unix_seconds": 1784834939,
@@ -19,7 +19,9 @@
       ".csdlc/issues/4739",
       ".csdlc/locks/4739.lock",
       ".csdlc/prepared/issues/4739",
+      "adl/config/validation_lane_selector.v0.91.6.json",
       "adl/tools/probe_unity_mcp_observatory_alignment.sh",
+      "adl/tools/test_select_validation_lanes.sh",
       "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
       "adl/tools/test_v0916_unity_observatory_contract.sh",
       "docs/tooling/unity_mcp_observatory_alignment.md"
@@ -36,38 +38,38 @@
   "diagram_path": ".csdlc/prepared/issues/4739/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator:v0918-wp15-unity-preparation",
-      "revision": "e001339551f65c1ca92bff6051fd886164cb4a05a5aa820a2155b27ec27f2494"
+      "reviewer": "operator:v0918-wp15-unity-specialist-review",
+      "revision": "50b12d0b81cab1e005e6537f3575dd94b16faa4020d1de408d829b8f961a03ad"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "d2fb0f896b609be7648343020bb935a170c25c8da6303f7d48fc24ca9705e42e",
+      "values_digest": "c96884ed614d5301c88478015e85e42f36cfe13bf237496787cb4e3ea6cf3013",
       "rendered_digest": "852d256aa4e58fd08de6627b3fd6e0acf93774015e66867c5f741def394dc82d",
       "ast_digest": "b99c684fea927a93bbd78fb09740bd17af70365951f28d8d3b1a8d757eb23a11"
     },
     "stp": {
-      "values_digest": "39c177e7a0170b2c5131d0b8a2d08e25e2ac05b0a5847854971ae6ffde505004",
-      "rendered_digest": "79bddb35fa503038b8ee92b8a982094d0e49effa2f5df6e261497307942e7e19",
-      "ast_digest": "2bf5b67447eb215aa3bfbbad7bd5eee13b847cb9d0f58a6a122bdd3ee5fc7ede"
+      "values_digest": "d6059f5e7d7a3ab322cd92b00ea33e7861fe95d7c54f8ea0355dae19dca5dda3",
+      "rendered_digest": "808f385eec200495109d2d1b18f22baf8ddfde289f75bd0667bbd02d02398873",
+      "ast_digest": "c9c8bb5e5a80486621d3de2f791c7811fa732c17e84dc6612aa100050400e163"
     },
     "spp": {
-      "values_digest": "b8e0d4255fd49bf8af58f6a73460ef9791086c06ad3055f7e9722138eeec0756",
-      "rendered_digest": "537dfa81a60701bd9dd7173e2e08984ca8b0cebcc2947a13dea4234eceec1fb5",
-      "ast_digest": "238f3b9c1b10c8f142237a7f8c68754dec89bd6f8f1ee55a6cfa899effc4f868"
+      "values_digest": "c60b592dce147b047fe4034020c2a67666277c5e7f39588153da25e68b2b04f4",
+      "rendered_digest": "37930cbbe37a52f591cd0db1c99a406b6b6b28dcf9d404e8a2074bb9e55250e5",
+      "ast_digest": "939ed0b75472716a24c125bbcbbbd61884ff65c6f97db48a701724897d302b9b"
     },
     "vpp": {
-      "values_digest": "c5123b812b49c56972219cbc50f81921ae660650b0e22372468f031ebe391c1c",
-      "rendered_digest": "d458317377a75dbf398c01a509edebc47f93889400575c5376977756792453ff",
-      "ast_digest": "c41ecd2d788a7896d61e6ce41459f84827b607f8b411a8d2f3d6a6ddafe21847"
+      "values_digest": "ebd99c864f42e4a6aaf46154a628994362fed42a5afbce4fa4f21f801c639417",
+      "rendered_digest": "45f79bd81ee33428a72c66445a3d28ccb371db383646cca63b0d987b95c40003",
+      "ast_digest": "dec464ea2ace47112e7172156ea2064cd7f8f4b95272ad5adca5a21103dc9c20"
     },
     "srp": {
-      "values_digest": "1bfb1e975a7bf03d30742520e64550f7366f235db5faa6b85e4241fba04d8199",
+      "values_digest": "a290c535d989a861f5bf91d28fbcf2dfa31ec0cb2a9f8f07138fd69fa169fb5a",
       "rendered_digest": "890531e1fd3e8512be7cb627ff78d11705bfa04846d2b21be509dbd7d12e2cc5",
       "ast_digest": "06516366cf0f4bd5643ae6197bf3f76e4ccd08828716266d09879e47b5322977"
     },
     "sor": {
-      "values_digest": "41e534c5f0dcc54810d3ab6c7c64e9f9227d0fbae0122cdedabb6e7f83f0f2c7",
+      "values_digest": "59d8ea1d0da8fa87e704f3dbbda9274f7f58d261c4c8ac2261c8f960b3423e59",
       "rendered_digest": "c9f1596cf442b65a871994072a33242dbafd13e7a873a85cfcf6bec74bdd6f3f",
       "ast_digest": "1b81a13f103209856a87291ec14bdc5cdecbb81afb77004bf9d9ff6904f956b6"
     }
@@ -102,6 +104,27 @@
       "actor": "codex:issue-4739-preparation",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "operator:v0918-wp15-unity-specialist-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:issue-4739-preparation",
+      "reason": "Reserve focused validation selector registration required by specialist readiness review",
+      "operation": "{\"add_protected_paths\":[\"adl/config/validation_lane_selector.v0.91.6.json\",\"adl/tools/test_select_validation_lanes.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:issue-4739-preparation",
+      "reason": "Apply specialist review findings for dedicated unit, selector, and live-probe validation contracts",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: the probe canonicalizes and reports the intended Unity project path and derives the active MCP endpoint without assuming a fixed port\",\"AC-2: a read-only MCP scene or tool call is attempted only after project and endpoint identity agree\",\"AC-3: project mismatch, missing editor, cloud or external fallback, malformed status, ambiguous endpoint, and read-only tool failure each produce deterministic FAIL_CLOSED output\",\"AC-4: retained output redacts URL userinfo, tokens, authorization values, credentials, and secret-bearing Unity settings\",\"AC-5: local liveness uses adl process status and no broad ps, pgrep, or lsof scan\",\"AC-6: a dedicated no-Unity unit script exercises matching status, project mismatch, missing editor, cloud fallback, malformed status, endpoint ambiguity, redaction, and read-only tool failure\",\"AC-7: live proof succeeds against the intended Observatory project or records the exact current blocker and owner without claiming runtime, visual, or investor readiness\",\"AC-8: the final diff excludes #4741 batch-liveness, #5332 ILPP, scene-fallback, runtime-contract, asset, and walkthrough implementation\",\"AC-9: validation selector registration maps the probe, dedicated unit test, and runbook to one focused non-Unity alignment lane and its selector test passes\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Review the current Unity-MCP CLI contract and selectively port only the repository-safe alignment probe from preserved predecessor work\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Add the dedicated no-Unity unit script and deterministic fixtures for successful alignment and every declared fail-closed classifier\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Register the probe, dedicated unit test, and runbook in the validation selector and prove focused lane selection\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Update the bounded operator runbook and WP-15 routing note without widening into adjacent Unity owners\",\"acceptance_ids\":[\"AC-7\",\"AC-8\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Run focused unit, contract, selector, and diff proof, then perform one live read-only probe only when the intended project is available\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S6\",\"action\":\"Record bounded review findings and exact proof or blocker truth for WP-15 consumption\",\"acceptance_ids\":[\"AC-7\",\"AC-8\",\"AC-9\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"unity-mcp-alignment-unit\",\"proof_role\":\"Execute the dedicated no-Unity parser, mismatch, redaction, and read-only failure fixtures\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":4000,\"argv\":[\"bash\",\"-c\",\"test -n \\\"${ADL_UNITY_MCP_UNIT_TEST:-}\\\" && test -x \\\"$ADL_UNITY_MCP_UNIT_TEST\\\" && \\\"$ADL_UNITY_MCP_UNIT_TEST\\\"\"],\"parallel_group\":\"unity-mcp-static\",\"defer_reason\":\"Set ADL_UNITY_MCP_UNIT_TEST to the repository-owned dedicated unit script created in S2; the lane fails closed if the executable is absent.\"},{\"lane\":\"unity-mcp-alignment-contract\",\"proof_role\":\"Prove repository shell contract and focused static integration for the alignment surface\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_contract.sh\"],\"parallel_group\":\"unity-mcp-static\",\"defer_reason\":null},{\"lane\":\"unity-mcp-selector-registration\",\"proof_role\":\"Prove issue-owned paths select the focused non-Unity MCP alignment lane\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"parallel_group\":\"unity-mcp-static\",\"defer_reason\":null},{\"lane\":\"unity-mcp-diff-hygiene\",\"proof_role\":\"Prove bounded text and script hygiene for the issue-owned diff\",\"acceptance_ids\":[\"AC-4\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"unity-mcp-static\",\"defer_reason\":null},{\"lane\":\"unity-mcp-live-read-only\",\"proof_role\":\"Execute the repository-owned probe against the intended project and retain exact read-only alignment or blocker truth\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"bash\",\"-c\",\"test -n \\\"${ADL_UNITY_MCP_PROBE:-}\\\" && test -x \\\"$ADL_UNITY_MCP_PROBE\\\" && test -n \\\"${ADL_UNITY_PROJECT_PATH:-}\\\" && \\\"$ADL_UNITY_MCP_PROBE\\\" --project \\\"$ADL_UNITY_PROJECT_PATH\\\"\"],\"parallel_group\":\"unity-mcp-live\",\"defer_reason\":\"Set ADL_UNITY_MCP_PROBE and ADL_UNITY_PROJECT_PATH after S1 creates the repository-owned probe; run only when the intended Unity project is available.\"}]}"
     }
   ]
 }

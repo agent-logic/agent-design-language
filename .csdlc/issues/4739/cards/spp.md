@@ -16,7 +16,7 @@ Port the bounded alignment probe onto the current base, add deterministic failur
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -35,7 +35,7 @@ Revision 1
   },
   {
     "id": "S2",
-    "action": "Add deterministic fixtures and focused tests for successful alignment and every declared fail-closed classifier",
+    "action": "Add the dedicated no-Unity unit script and deterministic fixtures for successful alignment and every declared fail-closed classifier",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -45,16 +45,26 @@ Revision 1
   },
   {
     "id": "S3",
-    "action": "Update the bounded operator runbook and WP-15 routing note without widening into adjacent Unity owners",
+    "action": "Register the probe, dedicated unit test, and runbook in the validation selector and prove focused lane selection",
     "acceptance_ids": [
-      "AC-7",
-      "AC-8"
+      "AC-8",
+      "AC-9"
     ],
     "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Run focused static and deterministic proof, then perform one live read-only MCP probe only when the intended project is available",
+    "action": "Update the bounded operator runbook and WP-15 routing note without widening into adjacent Unity owners",
+    "acceptance_ids": [
+      "AC-7",
+      "AC-8",
+      "AC-9"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Run focused unit, contract, selector, and diff proof, then perform one live read-only probe only when the intended project is available",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -62,16 +72,18 @@ Revision 1
       "AC-4",
       "AC-5",
       "AC-6",
-      "AC-7"
+      "AC-7",
+      "AC-9"
     ],
     "status": "pending"
   },
   {
-    "id": "S5",
+    "id": "S6",
     "action": "Record bounded review findings and exact proof or blocker truth for WP-15 consumption",
     "acceptance_ids": [
       "AC-7",
-      "AC-8"
+      "AC-8",
+      "AC-9"
     ],
     "status": "pending"
   }
@@ -104,7 +116,7 @@ Revision 1
 
 .csdlc/prepared/issues/4739/design.md
 
-Digest: e001339551f65c1ca92bff6051fd886164cb4a05a5aa820a2155b27ec27f2494
+Digest: 50b12d0b81cab1e005e6537f3575dd94b16faa4020d1de408d829b8f961a03ad
 
 ## Diagram
 

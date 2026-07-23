@@ -29,9 +29,10 @@ Selectively port and finish only the MCP alignment surface from preserved predec
 3. AC-3: project mismatch, missing editor, cloud or external fallback, malformed status, ambiguous endpoint, and read-only tool failure each produce deterministic FAIL_CLOSED output
 4. AC-4: retained output redacts URL userinfo, tokens, authorization values, credentials, and secret-bearing Unity settings
 5. AC-5: local liveness uses adl process status and no broad ps, pgrep, or lsof scan
-6. AC-6: focused fixtures and contract tests pass without requiring a live Unity editor
+6. AC-6: a dedicated no-Unity unit script exercises matching status, project mismatch, missing editor, cloud fallback, malformed status, endpoint ambiguity, redaction, and read-only tool failure
 7. AC-7: live proof succeeds against the intended Observatory project or records the exact current blocker and owner without claiming runtime, visual, or investor readiness
 8. AC-8: the final diff excludes #4741 batch-liveness, #5332 ILPP, scene-fallback, runtime-contract, asset, and walkthrough implementation
+9. AC-9: validation selector registration maps the probe, dedicated unit test, and runbook to one focused non-Unity alignment lane and its selector test passes
 
 ## Dependencies
 

@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-15][unity][tooling] Align Unity-MCP live project and port proof for deployed observatory",
     "slug": "v0918-wp15-unity-mcp-live-project-endpoint-alignment",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 2
   },
   "status": "ready",
   "content": {
@@ -27,9 +27,10 @@
         "AC-3: project mismatch, missing editor, cloud or external fallback, malformed status, ambiguous endpoint, and read-only tool failure each produce deterministic FAIL_CLOSED output",
         "AC-4: retained output redacts URL userinfo, tokens, authorization values, credentials, and secret-bearing Unity settings",
         "AC-5: local liveness uses adl process status and no broad ps, pgrep, or lsof scan",
-        "AC-6: focused fixtures and contract tests pass without requiring a live Unity editor",
+        "AC-6: a dedicated no-Unity unit script exercises matching status, project mismatch, missing editor, cloud fallback, malformed status, endpoint ambiguity, redaction, and read-only tool failure",
         "AC-7: live proof succeeds against the intended Observatory project or records the exact current blocker and owner without claiming runtime, visual, or investor readiness",
-        "AC-8: the final diff excludes #4741 batch-liveness, #5332 ILPP, scene-fallback, runtime-contract, asset, and walkthrough implementation"
+        "AC-8: the final diff excludes #4741 batch-liveness, #5332 ILPP, scene-fallback, runtime-contract, asset, and walkthrough implementation",
+        "AC-9: validation selector registration maps the probe, dedicated unit test, and runbook to one focused non-Unity alignment lane and its selector test passes"
       ],
       "dependencies": [
         "Current repository-approved Unity-MCP CLI contract",

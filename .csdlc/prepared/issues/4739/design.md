@@ -46,6 +46,8 @@ reviewing the current base.
   missing Unity editor, cloud/external fallback, malformed status, and failed
   read-only tool calls.
 - Shell syntax and contract tests prove the repository command shape.
+- The validation selector maps the probe, its dedicated unit test, and runbook
+  to one focused non-Unity alignment lane; selector behavior has a focused test.
 - A live probe is retained only when the intended project is running; otherwise
   the exact fail-closed result remains truthful blocker evidence.
 
