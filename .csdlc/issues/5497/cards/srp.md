@@ -12,7 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-Review only the #5497 issue-local lifecycle packet, child ordering, authority boundaries, and completion truth; exclude all child product implementations.
+.csdlc/evidence/5497
+.csdlc/issues/5497
+.csdlc/prepared/issues/5497
 
 ## Prompts
 
@@ -35,8 +37,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:3b4f0e86ab226be9ab3550d55c0c20c0410511bd:166a4f316ffa2b58e6be048f222f775a980b33a91ad22deb61ef70b1cc6d3be6")
 
-Reviewer: None
+Reviewer: Some("codex:wp10a-umbrella-closeout")
 
-Result: pre_review
+Result: pass

@@ -3,30 +3,49 @@
   "issue": 5497,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c6e620b56bb20d05e80108946e607e27a14fa96e7b1c807ead448a6f1df17803",
-  "phase": "implemented",
-  "generation": 1,
-  "digest": "6cf7fa292dcb1b3656a876ae11c70c5dd6c433c9c3fe89d8ac032d891478ac73",
-  "claim": {
-    "id": "claim-5497-v0918-wp10a-umbrella-preparation",
-    "owner": "codex:wp10a-preparation",
-    "generation": 1,
-    "acquired_unix_seconds": 1784753408,
-    "expires_unix_seconds": 1785358208,
-    "heartbeat_unix_seconds": 1784753408,
-    "branch": "codex/5497-v0918-wp10a-umbrella",
-    "worktree": ".",
-    "protected_paths": [
+  "phase": "closed_out",
+  "generation": 4,
+  "digest": "459f98a799d1ab7f994deb6142a6567446f88306ed019deeff81a2a47456c152",
+  "claim": null,
+  "review_assignment": {
+    "reviewer": "codex:wp10a-umbrella-closeout",
+    "assigned_by": "codex:wp10a-umbrella-closeout",
+    "revision": "git-blake3:3b4f0e86ab226be9ab3550d55c0c20c0410511bd:166a4f316ffa2b58e6be048f222f775a980b33a91ad22deb61ef70b1cc6d3be6",
+    "scope": [
+      ".csdlc/evidence/5497",
+      ".csdlc/issues/5497",
+      ".csdlc/prepared/issues/5497"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:wp10a-umbrella-closeout",
+    "scope": [
+      ".csdlc/evidence/5497",
+      ".csdlc/issues/5497",
+      ".csdlc/prepared/issues/5497"
+    ],
+    "reviewed_revision": "git-blake3:3b4f0e86ab226be9ab3550d55c0c20c0410511bd:166a4f316ffa2b58e6be048f222f775a980b33a91ad22deb61ef70b1cc6d3be6",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": null,
+  "readiness": null,
+  "terminal": {
+    "pull_request": null,
+    "disposition": "closed_no_pr",
+    "observed_sha": null,
+    "observed_state": "closed_no_pr",
+    "receipt_path": "csdlc-v2/closeout/5497.json",
+    "released_branch": "codex/5497-v0918-wp10a-umbrella",
+    "released_worktree": ".",
+    "released_protected_paths": [
       ".csdlc/issues/5497",
       ".csdlc/locks/5497.lock",
       ".csdlc/prepared/issues/5497"
-    ],
-    "purpose": "Prepare the WP-10A coordination umbrella only; child issues own all product implementation"
+    ]
   },
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
-  "readiness": null,
-  "terminal": null,
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5497/design.md",
   "diagram_path": ".csdlc/prepared/issues/5497/diagram.mmd",
@@ -38,34 +57,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a8cde6e6b272f0d63dbc247af382b41748396424211ea89593f29a15a3ecb444",
+      "values_digest": "a45a880305ad930bc4a2918a63c0cd4fd204dd3d70fab8ef29cfee7eeeaae159",
       "rendered_digest": "b911bfaff60f9808ee9b10da0fb5ed545b4e36c109d9cb6213e05cae02e80901",
       "ast_digest": "0e8599ad63d56e8022a3d5c33dba1c46c3c5e113c7a5a70ff0f4d5a5492ec0e5"
     },
     "stp": {
-      "values_digest": "44495d5505c4c45123d5367cb44e50ca6e4523bd93b6b3203453893c2d1bcb3f",
+      "values_digest": "97b27c261bed33da4da4ca8aeb52b919b523bcea260cde871ed206eab833bdcc",
       "rendered_digest": "75f2f3f9dfb196a7837233a85ffdee18b670c48e1cdacf729221bbb17af42ec9",
       "ast_digest": "bca16a80da304e2f9d533a9a13fc4c8a7b8a7da0d6bc041a90c8f3730c492056"
     },
     "spp": {
-      "values_digest": "9aa38fcff2af514a052557b54409a8a1acce434edf49f85c3cbbf8caac538c4d",
+      "values_digest": "9074ae03aa33eb70e78e34e28e7b075fcea7eb4cd9879a853503615d11918328",
       "rendered_digest": "0e83d457806b8d246138829cbbacb86500f4d42f42cb0df4bb2cc367bc39fc0f",
       "ast_digest": "ae82224bb35ff99784452393b85c98d43eaaa4c5a9564cb041aeed1323e8e531"
     },
     "vpp": {
-      "values_digest": "40a501a99d28ab2f8eff0375437aa5084c9d5651529cea94945a2185c5e9282e",
+      "values_digest": "9cc9129f8d788d92389680a44416ae8a3ca1c21de29652aa791e27e30110741e",
       "rendered_digest": "3ce29e278a1b8ee0c81810abccfd44645901e4f451363865a4da52e4bdca0c13",
       "ast_digest": "fddd8ca00722ab90afc1eeccbee6940c4260438614790c8afb531c8c7890f6c5"
     },
     "srp": {
-      "values_digest": "18c8e99120e5fe6bac5f08511fdd1f305c80d5d2e9f57daf5e1ef22c4f1d624c",
-      "rendered_digest": "ea0b05584229659d58c682dfcbf62e490535d5dd2eee1e7811ae6f546e235c91",
-      "ast_digest": "fef6f7190d1ffbc7adacd258dc1c42ec39f5c443b0074c2457985e4741cdc21b"
+      "values_digest": "f6852ddd78ff70c73b3ac8fdddfbdc2cfa9ad3bcfc6dfcc70ef79d538433412c",
+      "rendered_digest": "abee5daed58a48be76b27c646ac1c93e3dac9e5790462271f66987ae03bc53af",
+      "ast_digest": "b64226b8f08f38b7378699b6b73c7ca33113f1c22286c80c3b3c863b4c210105"
     },
     "sor": {
-      "values_digest": "922f1f7b9eb57b9211d1ed4eaace2a5e08395ddd1de6a78acef2baba3aacbb57",
-      "rendered_digest": "8dacd68fb31e6cbcb65cf9269999aa764e6c2950272b182678e2a0b9d562531d",
-      "ast_digest": "3a5951ec861c0727cb54219b325324c6663c9557ec76ed53f669549263b27e4f"
+      "values_digest": "78a2885d6a1c7968c171f79f75d8ba3a0587916bc4c226d2e6a03cd5866df7e6",
+      "rendered_digest": "556ec81808e8c343977d274c108182d402761949238756f01a5acda2850c18d8",
+      "ast_digest": "1d060791331b43b30447cfaa76cbb42efefabf8e80479bd6cc6437b290c4de0f"
     }
   },
   "transitions": [
@@ -89,6 +108,20 @@
       "to": "implemented",
       "actor": "codex:wp10a-umbrella-closeout",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:wp10a-umbrella-closeout",
+      "reason": "The assigned bounded review passed at the exact umbrella packet revision with zero findings."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "closed_out",
+      "actor": "codex:wp10a-umbrella-closeout",
+      "reason": "observed approved non-merged terminal disposition"
     }
   ],
   "audit": [
@@ -112,6 +145,34 @@
       "actor": "codex:wp10a-umbrella-closeout",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:wp10a-umbrella-closeout",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:wp10a-umbrella-closeout",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:wp10a-umbrella-closeout",
+      "reason": "The assigned bounded review passed at the exact umbrella packet revision with zero findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:wp10a-umbrella-closeout",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
     }
   ]
 }

@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -40,17 +40,17 @@ Finalize the WP-10A umbrella coordination packet with its declared issue-local r
 
 ## Integration
 
-not_started
+closed_no_pr
 
 ## Publication
 
-Publication: not_published
+Publication: closed
 
-Merge: not_merged
+Merge: closed_unmerged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 

@@ -7,9 +7,9 @@
     "title": "[v0.91.8][WP-10A][multi-agent] Implement end-to-end distributed C-SDLC workcell",
     "slug": "v0-91-8-wp-10a-distributed-workcell-umbrella",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 4
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -33,10 +33,10 @@
           "evidence_ref": "umbrella-readiness.log"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "closed_no_pr",
+      "publication_state": "closed",
+      "merge_state": "closed_unmerged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
