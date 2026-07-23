@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6da60e6fc4092eeaaef14e46cd5c57a84272538fe5bc92a030061a4160ebb1bf",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "1a27e8f3ee1b99921f29778392ba089dc3b3af34fa8a1a1acd76de659d3cd19d",
+  "generation": 10,
+  "digest": "6b9459ea3cbc1723905dcf50051b8ac6d3ee6c9959ef7af014d763380c173e58",
   "claim": {
     "id": "claim-4741-v0918-wp15-unity-editor-liveness-prep",
     "owner": "codex:issue-4741-preparation",
-    "generation": 9,
+    "generation": 10,
     "acquired_unix_seconds": 1784835199,
     "expires_unix_seconds": 1785439999,
     "heartbeat_unix_seconds": 1784835199,
@@ -46,34 +46,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "05ba820a7ef71f34a9eae3dd91a679e40fd8ff3c0570bb198fc9cf976b3e104b",
+      "values_digest": "81a2f56a3dcc3342f3feca4e0ceb091f30c5e0758d175dd6684e217d05bc42c5",
       "rendered_digest": "20465ed8051ca296e888398621e97ba0038327558f5b412e2565ea50ee3dddd9",
       "ast_digest": "5f8c10f932a676f52809aa8ad1da360a0197ad7d9736b83ba8c2e6fa566ef483"
     },
     "stp": {
-      "values_digest": "85c869d97e693e837cdb72da5e2a07332b6c48419ea2b016d2402dde27c3dfc0",
+      "values_digest": "ddeb10bbe1f9d25f029d418f5355c74b9e814e58700a94883b4f46992cbe5043",
       "rendered_digest": "c1c74e60ed6c539cc615eba12aa1f2ed710218c44c4e9018edb478659e4e6080",
       "ast_digest": "a6d752e92ee16452e02031576d2a0e8752a84f6e9cafcb558680bc75efe815b6"
     },
     "spp": {
-      "values_digest": "98e2e5556d57ab4cffe8108fcec63b9983b3f552681f9369bcfae51e7fb38852",
+      "values_digest": "ee269f771345597b3b4d15b7d1cfc614670a38c703bbd3f56f7fe7f8553dc5e0",
       "rendered_digest": "c336a64f984f171b4dd6a93457504a07b6a53b4c9f6cc3d70d0a69d79aaf726e",
       "ast_digest": "d9fd3f5761aaab6f6570781fcdb46584b441e655028ee8d09adff788bc0d3fe5"
     },
     "vpp": {
-      "values_digest": "0226f28e1756672b7ff4bc6dccf9fa6898ee5fb1bf0117f8203ce9052b6fa859",
+      "values_digest": "538d3032239b042953ab2030b48d0ab760ddddb009395eaeefffbee6208fc6c1",
       "rendered_digest": "86818866e461a232a32c457b36902a4c4ee220ff68c02f6c71a5c7817548dd7c",
       "ast_digest": "05b38482e7841e8ca4a6d9e629be99b7baa1bfd1bed3c1df5e0c5dd74c321efc"
     },
     "srp": {
-      "values_digest": "1764cd747c82b2283a29a25dfd9b5d123b3f27242fca2c02d5c69691f88c6bea",
+      "values_digest": "6131967842c69b09be86079b418592322d0613f1360f922eeea5a7f4baff1437",
       "rendered_digest": "dd059b64312a4bf6f31dfa29b6629d85d2bf548fdb341eaac572aa278a5371dd",
       "ast_digest": "a80984fc87e439ee8599352e50f1110f51c385f514c66620975c5710122a407a"
     },
     "sor": {
-      "values_digest": "ec6846a65feb9e74e334efa6869ed6496b4d734a0c7e8fe2403557c1c470d115",
-      "rendered_digest": "b0abff33674f26c511230ecf1e2dc275bcfa5f4598dad7766872cf23f1197ffc",
-      "ast_digest": "f5f022f3d3249df02e678531d7942cf6c3e774b016189f4489b15a717a1db2fe"
+      "values_digest": "e30756bb60629d8e3f9ce5ba949a23007d3c8d8411edb9712599d4c4dc03dce3",
+      "rendered_digest": "b1062afdb9953cf7b42d7d18f35e65e68fa3a8c5636787fd303747d95e10d538",
+      "ast_digest": "ace96a3f055d07ff573232499c23decef075da7da11058bf2d66af34299b56f3"
     }
   },
   "transitions": [
@@ -197,6 +197,13 @@
       "actor": "codex:issue-4741-execution",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:issue-4741-execution",
+      "reason": "Explicitly supersede the stale pre-commit live validation identity with authoritative exact-head blocker truth",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\"],\"purpose\":\"Prove one real safe-mode Unity attempt records exact progress and terminal truth without an arbitrary total ceiling.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/4741/live-staged-proof.json is the authoritative exact-head result and explicitly supersedes the earlier passed entry with this same command and purpose identity: revision 2fb6fa86fee8b96457e0c179646a0c5109861e4a returned skipped_fail_closed / owner_binary_provenance_invalid before Unity launch.\"}}"
     }
   ]
 }

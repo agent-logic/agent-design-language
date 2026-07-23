@@ -111,6 +111,15 @@ Implemented and independently reviewed a fail-closed Unity editor-liveness proof
     "purpose": "Prove the Observatory wrapper remains within the declared Unity liveness and non-goal boundary.",
     "outcome": "passed",
     "evidence_ref": "unity-observatory-contract.log"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh"
+    ],
+    "purpose": "Prove one real safe-mode Unity attempt records exact progress and terminal truth without an arbitrary total ceiling.",
+    "outcome": "blocked",
+    "evidence_ref": ".csdlc/evidence/4741/live-staged-proof.json is the authoritative exact-head result and explicitly supersedes the earlier passed entry with this same command and purpose identity: revision 2fb6fa86fee8b96457e0c179646a0c5109861e4a returned skipped_fail_closed / owner_binary_provenance_invalid before Unity launch."
   }
 ]
 
