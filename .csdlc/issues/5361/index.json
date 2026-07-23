@@ -3,13 +3,13 @@
   "issue": 5361,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "ebdd95a3dd79978c1931a478ce8e543a15106fe5d6856db8975346413279baaa",
-  "phase": "bound",
-  "generation": 9,
-  "digest": "9bafa504b6dee8fb0c94420f0c4a8542a99fca49db2f4bbe8e91ac4a3121c72c",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "7c471dff75e467f361a9d2e2965b30a4d79f757d76147c9c3cdfddcdd82544c5",
   "claim": {
     "id": "claim-5361-v0918-runtime-v3-acceptance-readiness",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 9,
+    "generation": 12,
     "acquired_unix_seconds": 1784570111,
     "expires_unix_seconds": 1785174911,
     "heartbeat_unix_seconds": 1784570111,
@@ -40,34 +40,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c02115c2205de5e5e436fccd838a7d1d199309ba8576e03aad7b451130b3d78f",
+      "values_digest": "94c2d0d9178b50fc27bf39b25902edea0c21519e6ab0b79c63376ca197b0e1a9",
       "rendered_digest": "6aa78535f4f63b766b922a584705026557ec56a41ae2ed71d52edfbb1f765e56",
       "ast_digest": "82a351bc376e35f8e07ac2f983acfe4a7491ccf8027c70bbedf4e3047681c29f"
     },
     "stp": {
-      "values_digest": "a39a882fcf5e87347265c077eef7a946d86b8f6bc91d42ae7a64e64fb3a7aab4",
+      "values_digest": "2b2823b165ccd63437ef75e531a7496913afe87452e57ceaa0ca8650abd310d5",
       "rendered_digest": "575ead3c9dea30a617a405d0492883e3a70c13957f12056c7267edd511fcbe41",
       "ast_digest": "21e0002a8cd85ee18787f9169ad1ba94b8d71499ec9f67be13bd61c08124907a"
     },
     "spp": {
-      "values_digest": "471caf90e8b32feb4a7834cdc7f9372124e046898152cee504fd842bd5f8e54f",
+      "values_digest": "d8517931a42d0f852c8eb43fddea4c58e42ff9dde975f8e9385c34875cb42913",
       "rendered_digest": "0b473194c1eb5f8618365aca0b4a45fd7d19716bd0a2caaf86e13d977dd9d22e",
       "ast_digest": "ee439ab143bea00bef6c42c8cc750c6348d43657794020233fce263afd639cdb"
     },
     "vpp": {
-      "values_digest": "392960082c923f2c2e4d87ed77356854ee5e9955896f11deb2a99405abf1b71b",
+      "values_digest": "1b6296890a94e8f6da19d73b6599af71e1c0cbb31508b3b9f8afe78cf1fa2016",
       "rendered_digest": "8badb6f862fcc246fbadcd2dd0b89f63c1fac9360b4ce512694019c9deec3ff6",
       "ast_digest": "926f5d3711c59b566783d129172572177e6254456811b0a5fea7670236016e65"
     },
     "srp": {
-      "values_digest": "cfe76be8d52fea89150e81dd7035887196f4c7407e7fb4354fd2030fa068f2c2",
+      "values_digest": "2fc487c83f787fcbf7fbe66110ca3a843e18e15dac70e2e015e0907ca18e070e",
       "rendered_digest": "92cdc1f6d9376d89afe2df7e0ec34da7687e41d2d82a2767a32a9f28a6880179",
       "ast_digest": "9ecca93efc33bee80e68473696ec84118423e80de7fd64579e5db479dfb7bab1"
     },
     "sor": {
-      "values_digest": "87af7f92dfce3c882c87f94e2995daad9b6b681a86158b0d7aacbc52b773e11c",
-      "rendered_digest": "0428fc08418f1f1e2f712fbb9e13743cac67e32b8a22bec5b272266a857a0308",
-      "ast_digest": "ddda70a8fa7e24a260403a21a0e41146e9d94ecf024bf61ecde6879b4477ada7"
+      "values_digest": "2f49df74c208ae555d0e13aff01df244d3e12681f693c5b850c3da4e6e983384",
+      "rendered_digest": "0ad77d84b17a635800ed3aa8c6abbc09b00256931946991003e20019e41e43f0",
+      "ast_digest": "44dabb9c50ee906933ba2c88364a996ea212ec672d5aa28f283335bf09e26e17"
     }
   },
   "transitions": [
@@ -84,6 +84,13 @@
       "to": "bound",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e",
+      "reason": "Complete bounded #5361 Runtime v3 acceptance evidence and validation; ready for the required exact-head GPT-5.5 review."
     }
   ],
   "audit": [
@@ -177,6 +184,27 @@
       "actor": "codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e",
       "reason": "Strict acceptance Clippy exposed two test-only Runtime v3 CAV initializer defects; add only the bounded file required to fix that acceptance defect.",
       "operation": "{\"add_protected_paths\":[\"adl-runtime/src/cav.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e",
+      "reason": "Record the bounded Runtime v3 acceptance evidence execution after dependency ancestry, FastWork proof, live-guardian probe, strict validation, and exact acceptance register validation completed.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Executed #5361 Runtime v3 acceptance as an evidence-only gate, refreshed the stable v2 install, proved dependency ancestry, ran focused FastWork Runtime v3 validation, recorded the stale background guardian probe, and fixed the only acceptance defect: two test-only CAV initializers that failed strict Clippy.\",\"changes\":[\"Merged current origin/main into the existing #5361 worktree and verified dependency closeout receipts plus live landing ancestry.\",\"Refreshed .adl/bin/csdlc-v2 from the refreshed source and verified the v2 coexistence inventory.\",\"Ran Runtime v3 operational proof for external guardian HTTPS bearer auth, WSS Observatory, rollback restore, and cryptographic continuity restore.\",\"Ran Runtime v3 kernel and supervision tests, strict Clippy, formatting, dependency inventory, LoC/test-count inventory, typed doctor, and acceptance-register validation.\",\"Recorded the operator-provided background guardian at https://localhost:20997 as unavailable because the stored PID was stale and the port refused connection.\",\"Converted two adl-runtime CAV tests from mutation-after-default setup to struct initializers to satisfy strict Clippy without product behavior changes.\"],\"artifacts\":[\"docs/milestones/v0.91.8/review/runtime_v3_acceptance_5361.v1.json\",\".csdlc/evidence/5361\",\".csdlc/prepared/issues/5361/validate-acceptance.json\",\".csdlc/prepared/issues/5361/transition-acceptance-evidence-claim.json\",\".csdlc/prepared/issues/5361/amend-cav-clippy-defect-claim.json\",\"adl-runtime/src/cav.rs\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e",
+      "reason": "Record the complete focused Runtime v3 acceptance validation bundle.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\".adl/bin/csdlc-v2/csdlc-install install --repo . --destination .adl/bin/csdlc-v2\",\".adl/bin/csdlc-v2/csdlc-install verify --repo . --bin-dir .adl/bin/csdlc-v2 --inventory csdlc-v2/operator/coexistence.json\",\"ADL_RUNTIME_V3_PROOF_ROOT=/Volumes/FastWork/adl-5361 CARGO_TARGET_DIR=/Volumes/FastWork/adl-5361/runtime-target bash adl/tools/run_runtime_v3_operational_proof.sh\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5361/kernel-test-target cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5361/runtime-test-target cargo test --locked --manifest-path adl-runtime/Cargo.toml\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5361/kernel-clippy-target cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5361/runtime-clippy-target cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --all-targets --all-features -- -D warnings\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check\",\"cargo fmt --manifest-path adl-runtime/Cargo.toml --all -- --check\",\"cargo tree --locked --manifest-path adl-runtime-kernel/Cargo.toml\",\"cargo tree --locked --manifest-path adl-runtime/Cargo.toml\",\"bash adl/tools/report_runtime_v3_loc.sh\",\".adl/bin/csdlc-v2/csdlc-validate --root . --request .csdlc/prepared/issues/5361/validate-acceptance.json\",\".adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 5361\",\"git diff --check\"],\"purpose\":\"Prove stable v2 install, dependency ancestry, Runtime v3 HTTPS/Observatory/rollback/continuity operational readiness, 10000-agent configuration and bounded projection, weather/continuity/rollback behavior, consumer/parity register completeness, Runtime v2 independence, strict lint/format/dependency/test/budget proof, explicit AWS/GPU/remote-provider non-claims, and exact acceptance-register validation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5361\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:019f8f7c-b1ca-7642-85ed-0f423d4f9a3e",
+      "reason": "Complete bounded #5361 Runtime v3 acceptance evidence and validation; ready for the required exact-head GPT-5.5 review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
