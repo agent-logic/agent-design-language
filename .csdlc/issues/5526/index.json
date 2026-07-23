@@ -3,13 +3,13 @@
   "issue": 5526,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "aa79cce1287aca59dd56189550419dcb23f760e748a577a219b017f0e3012566",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "57d039538716d32ec6e988b6cf9d627c4396f9160b43efd60053bc01655320d7",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "64dc8e1742c002f49ae1b732c7bc9a93a280f4d07ee8b2a520d922c4163c4d0d",
   "claim": {
     "id": "claim-5526-v0918-provider-expansion-preparation",
     "owner": "codex:issue-5526-preparation",
-    "generation": 9,
+    "generation": 11,
     "acquired_unix_seconds": 1784755008,
     "expires_unix_seconds": 1785359808,
     "heartbeat_unix_seconds": 1784755008,
@@ -35,8 +35,45 @@
     ],
     "purpose": "Prepare issue #5526 provider/model expansion for later execution without product implementation"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex:review_5632",
+    "assigned_by": "codex:5526-execution",
+    "revision": "git-blake3:7f2b1e69784411270525e7c81422c230f8c5f4c3:f88f5719408dea5849198deae8d1b5c59e4c229b037e6dd0e3bc963b3d970943",
+    "scope": [
+      ".csdlc/evidence/5526/implementation/provider-expansion.log",
+      ".csdlc/issues/5526",
+      ".csdlc/prepared/issues/5526",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tests/provider_tests/http_family.rs",
+      "adl/tests/provider_tests/profiles.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:review_5632",
+    "scope": [
+      ".csdlc/evidence/5526/implementation/provider-expansion.log",
+      ".csdlc/issues/5526",
+      ".csdlc/prepared/issues/5526",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tests/provider_tests/http_family.rs",
+      "adl/tests/provider_tests/profiles.rs"
+    ],
+    "reviewed_revision": "git-blake3:7f2b1e69784411270525e7c81422c230f8c5f4c3:f88f5719408dea5849198deae8d1b5c59e4c229b037e6dd0e3bc963b3d970943",
+    "findings": [],
+    "residual_risks": [
+      "No live provider calls or credentials were used; hosted endpoint behavior remains deferred to credentialed integration proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -51,32 +88,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7ccb76e7511faf13f14fac096de035f4393e8b1998a866f0576a372296193600",
+      "values_digest": "e14cc0b188e435c6a96e15657b0149f5945ebd4b0370b070196bca123c94e290",
       "rendered_digest": "1213092da816153169db6e4d2aff6b6d46221fe900ff59a7574a063ad482ce4b",
       "ast_digest": "7519a32389dc5c87c915d7d0ff85ce7bd1d486bfa9219391081934a11a831971"
     },
     "stp": {
-      "values_digest": "0e0edbe85a8a6eb1eeb78f4cb764875e63cfa9ed70ca1dbace507d42c8df9b60",
+      "values_digest": "02d9d1a4c1b690a026cce275798ecf6a633b8e38e2f4567e15b154935572a152",
       "rendered_digest": "86472053f63307ddac09bdac4bdaaa4d2f4feee9f5d8eabad2e39bd4124c10a7",
       "ast_digest": "a2bf0fbb42c293aac03e58ac1c66e4c2aa869f904bb955447f9aaf884fd87cfb"
     },
     "spp": {
-      "values_digest": "d794713fa882b535e32cc7567549839ca29faf88a9f4da24df64a807b4e2dba9",
+      "values_digest": "639cbdf5232aede65ebf7c1dabc190c75c346ee7be48ebff602ccad11d485559",
       "rendered_digest": "176f8e29bf09fe3f53485305e07b8004e034410a43dbf9478889e975c4c8a873",
       "ast_digest": "c0b763057f0f79ef17f86469bd795047ebe8f7e385c2d8e7d95c23cccbe4227b"
     },
     "vpp": {
-      "values_digest": "2a074910b91491302b2816be9151a4ad5035bf8967889252764bff009239790f",
+      "values_digest": "744402d874cb565b522c57d98652f87a8c2389eeeff610d0a11d07a82880fd04",
       "rendered_digest": "c75a2a3735faf3a04baa93afab9540a742db00055e57b62ff08e38c6038b3667",
       "ast_digest": "4237a1ccf4f678cf64705be40b5b98bad86b7da1517a9a089a96793456e4d759"
     },
     "srp": {
-      "values_digest": "ccbf71f7120fabb1ef6139a1996d16845e5f7ca87dc36ed5514e4aac7030a37b",
-      "rendered_digest": "c6a487bbe513bb6aaef5ada17e42822f911a81938521359d5f2a7b7c6ff46608",
-      "ast_digest": "8f3537e296101602c598c6b28f160bb9576486729458fe0eb4414bf8b5edc51d"
+      "values_digest": "e650a4fa8295b8037868771e73837a337c1f284f4c680ea69b1ea7820a6ea154",
+      "rendered_digest": "923a2c1be5414c6438963dd9a8ed1f68235e9a6c2761cc5b1d6df1366b3bdbe8",
+      "ast_digest": "c4d77ff2172bcddcd504a3009710bed66508c4e34a6e06b2d09195368d9ef345"
     },
     "sor": {
-      "values_digest": "5247398cc0b91fe251f5885572a83e09766f4f1618bd881fb590053732cc9c36",
+      "values_digest": "360d3ac9954142aca598ee3c4b23bb732fb6ed631325e6be5cd94a9b51bdb702",
       "rendered_digest": "f86c92c0607faecb6b890374c15d725b35dc574bdd6d10a277170537b1ffe9e6",
       "ast_digest": "15478783a7c26d936c5ce06a6d2218da0299762ddd202c52bcde882735356dc7"
     }
@@ -123,6 +160,13 @@
       "to": "implemented",
       "actor": "codex:5526-execution",
       "reason": "Current PR head advanced with the required provider coverage mapping and current-main ancestry; recover stale publication review for exact-head re-review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5526-execution",
+      "reason": "Exact current-main head review passed with no actionable findings; advance to Reviewed for publication update."
     }
   ],
   "audit": [
@@ -216,6 +260,27 @@
       "actor": "codex:5526-execution",
       "reason": "Current PR head advanced with the required provider coverage mapping and current-main ancestry; recover stale publication review for exact-head re-review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:5526-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:5526-execution",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:5526-execution",
+      "reason": "Exact current-main head review passed with no actionable findings; advance to Reviewed for publication update.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
