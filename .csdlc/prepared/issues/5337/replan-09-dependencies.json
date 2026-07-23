@@ -1,0 +1,20 @@
+{
+  "issue": 5337,
+  "card": "stp",
+  "expected_generation": 12,
+  "expected_digest": "475f35034ff67bf8f174d9884083a1044ed947473955833cd289599e8a237b23",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Replace preparation dependencies with executable dependencies",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "operator-authorized #5337 implementation and bound worktree",
+      "pinned incumbent revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+      "locally built caller-supplied v1 binary with no network or credentials",
+      "WP-02 #5336 architecture denominator as planning context; no source dependency"
+    ]
+  },
+  "fail_after_backup": false
+}

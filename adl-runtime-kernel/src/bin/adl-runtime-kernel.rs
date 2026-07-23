@@ -10,12 +10,13 @@ use adl_runtime_kernel::{
     load_control_tls, mark_unavailable_live_services, monitor_until_stop,
     proof::{load_capsule, run_proof},
     serve_control_listener_until_ready, verifying_key_from_hex, AdaptationState,
-    CheckpointingControl, ControlAuthority, ControlCapability, ControlService,
-    DegradedOperationExecutor, Kernel, KernelExit, LiveBindings, LiveContinuity,
-    LiveKernelSnapshot, LoopDefinition, LoopStatus, ReasoningEdge, ReasoningGraphDefinition,
-    ReasoningNode, RecordedObservation, RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder,
-    SysinfoWeatherObserver, TimeQualificationBounds, TrustedControlKey, ValidatedReasoningGraph,
-    MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA, REQUIRED_OPERATIONAL_ADAPTERS,
+    CheckpointShutdownRequest, CheckpointingControl, ControlAuthority, ControlCapability,
+    ControlService, DegradedOperationExecutor, Kernel, KernelExit, LiveBindings, LiveContinuity,
+    LiveKernelSnapshot, LocalAgentExecutor, LoopDefinition, LoopStatus, ReasoningEdge,
+    ReasoningGraphDefinition, ReasoningNode, RecordedObservation, RsntpTimeSampleSource,
+    RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver, TimeQualificationBounds,
+    TrustedControlKey, ValidatedReasoningGraph, MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA,
+    REQUIRED_OPERATIONAL_ADAPTERS,
 };
 use tokio_util::sync::CancellationToken;
 
@@ -81,14 +82,16 @@ async fn main() -> ExitCode {
             let operation_executors = REQUIRED_OPERATIONAL_ADAPTERS
                 .into_iter()
                 .map(|kind| {
-                    (
-                        kind,
-                        Arc::new(DegradedOperationExecutor::new(format!(
-                            "{} executor is not configured",
-                            kind.service_name()
-                        )))
-                            as Arc<dyn adl_runtime_kernel::OperationExecutor>,
-                    )
+                    let executor: Arc<dyn adl_runtime_kernel::OperationExecutor> =
+                        if kind == adl_runtime_kernel::AdapterKind::Agent {
+                            Arc::new(LocalAgentExecutor)
+                        } else {
+                            Arc::new(DegradedOperationExecutor::new(format!(
+                                "{} executor is not configured",
+                                kind.service_name()
+                            )))
+                        };
+                    (kind, executor)
                 })
                 .collect();
             let operation_key = match std::env::var("ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX")
@@ -116,6 +119,7 @@ async fn main() -> ExitCode {
             let sntp_server = std::env::var("ADL_RUNTIME_SNTP_SERVER")
                 .unwrap_or_else(|_| "pool.ntp.org".to_owned());
             let assembly = match build_live_assembly(LiveBindings {
+                recorder: recorder.clone(),
                 operation_executors,
                 permit_keys: BTreeMap::from([(operation_key_id.clone(), operation_key)]),
                 reasoning,
@@ -205,7 +209,8 @@ async fn main() -> ExitCode {
                 &continuity_secret,
                 snapshot,
                 minimum_generation,
-            );
+            )
+            .with_canonical_ingress(assembly.canonical_ingress.clone());
             if let Err(error) = continuity.restore_latest(&recorder).await {
                 eprintln!("runtime continuity restore refused: {error}");
                 return ExitCode::from(78);
@@ -217,6 +222,7 @@ async fn main() -> ExitCode {
                     verifying_key: public_key,
                     capabilities: BTreeSet::from([
                         ControlCapability::Read,
+                        ControlCapability::Execute,
                         ControlCapability::Stop,
                     ]),
                 },
@@ -241,15 +247,18 @@ async fn main() -> ExitCode {
             mark_unavailable_live_services(&recorder);
             let instance_id = generate_runtime_instance_id();
             let (lifecycle, mut shutdown_requests) = CheckpointingControl::channel(4);
-            let service = Arc::new(ControlService::new_with_observatory_config_and_agents(
-                instance_id.clone(),
-                recorder.clone(),
-                lifecycle,
-                authority,
-                1024,
-                init.observatory_allowed_origins(),
-                init.agent_population(),
-            ));
+            let service = Arc::new(
+                ControlService::new_with_observatory_config_and_agents(
+                    instance_id.clone(),
+                    recorder.clone(),
+                    lifecycle,
+                    authority,
+                    1024,
+                    init.observatory_allowed_origins(),
+                    init.agent_population(),
+                )
+                .with_canonical_ingress(assembly.canonical_ingress.clone()),
+            );
             let observatory_token = match std::env::var("ADL_RUNTIME_OBSERVATORY_TOKEN") {
                 Ok(token) => token,
                 Err(_) => {
@@ -262,6 +271,13 @@ async fn main() -> ExitCode {
                 .is_err()
             {
                 eprintln!("runtime Observatory read token is invalid");
+                return ExitCode::from(78);
+            }
+            if service
+                .set_public_base_url(&init.api.public_base_url)
+                .is_err()
+            {
+                eprintln!("runtime public HTTPS base is invalid");
                 return ExitCode::from(78);
             }
             service.set_weather_stale_after(std::time::Duration::from_millis(
@@ -289,7 +305,11 @@ async fn main() -> ExitCode {
             };
             eprintln!(
                 "{}",
-                adl_runtime_kernel::control_ready_event(&instance_id, bound_address)
+                adl_runtime_kernel::control_ready_event(
+                    &instance_id,
+                    bound_address,
+                    &init.api.public_base_url,
+                )
             );
             let mut pressure_retry_at = None;
             'serve: loop {
@@ -307,122 +327,44 @@ async fn main() -> ExitCode {
                     .await
                 };
                 tokio::pin!(pressure_monitor);
-                let terminal = tokio::select! {
+                let trigger = tokio::select! {
                 pressure = &mut pressure_monitor => {
-                    eprintln!(
-                        "event=resource_pressure_stop state={:?} decision={:?}",
-                        pressure.resource_state,
-                        pressure.shutdown_decision,
-                    );
-                    if !service.pause_admission_if_idle() {
-                        eprintln!("event=resource_pressure_wait reason=control_command_in_flight");
-                        pressure_retry_at = Some(
-                            tokio::time::Instant::now()
-                                + std::time::Duration::from_millis(init.weather.sample_millis),
-                        );
-                        continue 'serve;
-                    }
-                    if let Err(error) = continuity
-                        .checkpoint(&recorder, pressure_checkpoint_deadline)
-                        .await
-                    {
-                        eprintln!("runtime pressure continuity checkpoint failed: {error}");
-                        service.reopen_admission();
-                        pressure_retry_at = Some(
-                            tokio::time::Instant::now()
-                                + std::time::Duration::from_millis(init.weather.sample_millis),
-                        );
-                        continue 'serve;
-                    }
-                    api_shutdown.cancel();
-                    let shutdown = handle.shutdown(std::time::Duration::from_secs(10)).await;
-                    drain_control_api(&mut api).await;
-                    match shutdown {
-                        Ok(exit) => process_exit(exit),
-                        Err(error) => {
-                            eprintln!("runtime pressure shutdown failed: {error}");
-                            ExitCode::from(70)
-                        }
-                    }
-                }
+                    eprintln!("event=resource_pressure_stop state={:?} decision={:?}",
+                        pressure.resource_state, pressure.shutdown_decision);
+                    TerminalTrigger::Pressure
+                },
                 signal = shutdown_signal() => {
                     if let Err(error) = signal {
                         eprintln!("runtime signal handler failed: {error}");
                         api_shutdown.cancel();
                         let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
                         drain_control_api(&mut api).await;
-                        return ExitCode::from(70);
+                        break 'serve ExitCode::from(70);
                     }
-                    api_shutdown.cancel();
-                    if let Err(error) = continuity
-                        .checkpoint(&recorder, std::time::Duration::from_secs(5))
-                        .await
-                    {
-                        eprintln!("runtime continuity checkpoint failed: {error}");
-                        let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
-                        drain_control_api(&mut api).await;
-                        return ExitCode::from(74);
-                    }
-                    let shutdown = handle.shutdown(std::time::Duration::from_secs(10)).await;
-                    drain_control_api(&mut api).await;
-                    match shutdown {
-                        Ok(exit) => {
-                            process_exit(exit)
-                        },
-                        Err(error) => {
-                            eprintln!("runtime shutdown failed: {error}");
-                            ExitCode::from(70)
-                        }
-                    }
-                }
+                    TerminalTrigger::Signal
+                },
                 request = shutdown_requests.recv() => {
                     let Some(request) = request else {
                         eprintln!("runtime checkpoint shutdown channel closed");
                         api_shutdown.cancel();
                         let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
                         drain_control_api(&mut api).await;
-                        return ExitCode::from(70);
+                        break 'serve ExitCode::from(70);
                     };
-                    if let Err(error) = continuity
-                        .checkpoint(&recorder, std::time::Duration::from_secs(5))
-                        .await
-                    {
-                        eprintln!("runtime continuity checkpoint failed: {error}");
-                        request.respond(Err(()));
-                        api_shutdown.cancel();
-                        let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
-                        drain_control_api(&mut api).await;
-                        return ExitCode::from(74);
-                    }
-                    let shutdown = handle.shutdown(request.grace).await;
-                    match shutdown {
-                        Ok(exit) => {
-                            request.respond(Ok(exit.clone()));
-                            api_shutdown.cancel();
-                            drain_control_api(&mut api).await;
-                            process_exit(exit)
-                        }
-                        Err(error) => {
-                            eprintln!("runtime shutdown failed: {error}");
-                            request.respond(Err(()));
-                            api_shutdown.cancel();
-                            drain_control_api(&mut api).await;
-                            ExitCode::from(70)
-                        }
-                    }
-                }
+                    TerminalTrigger::Signed(request)
+                },
                 exit = handle.wait_for_exit() => match exit {
                     Ok(exit) => {
                         api_shutdown.cancel();
                         drain_control_api(&mut api).await;
-                        process_exit(exit)
+                        break 'serve process_exit(exit);
                     },
                     Err(error) => {
                         eprintln!("runtime kernel task failed: {error}");
                         api_shutdown.cancel();
                         let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
                         drain_control_api(&mut api).await;
-                        ExitCode::from(70)
+                        break 'serve ExitCode::from(70);
                     }
                 },
                 result = &mut api => {
@@ -432,9 +374,76 @@ async fn main() -> ExitCode {
                         Err(error) => eprintln!("runtime control API task failed: {error}"),
                     }
                     let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
-                    ExitCode::from(70)
+                    break 'serve ExitCode::from(70);
                 },
                 };
+
+                let standard_deadline = std::time::Duration::from_secs(5);
+                let shutdown_grace = std::time::Duration::from_secs(10);
+                let (label, deadline, grace, retry_pressure, mut request) = match trigger {
+                    TerminalTrigger::Pressure => (
+                        "pressure",
+                        pressure_checkpoint_deadline,
+                        shutdown_grace,
+                        true,
+                        None,
+                    ),
+                    TerminalTrigger::Signal => {
+                        ("signal", standard_deadline, shutdown_grace, false, None)
+                    }
+                    TerminalTrigger::Signed(request) => (
+                        "signed",
+                        standard_deadline,
+                        request.grace,
+                        false,
+                        Some(request),
+                    ),
+                };
+                let terminal_result = service
+                    .serialize_terminal_checkpoint(&mut continuity, deadline)
+                    .await;
+                if let Err(error) = terminal_result {
+                    if retry_pressure {
+                        eprintln!("runtime pressure continuity checkpoint failed: {error}");
+                        if !service.reopen_admission_if_no_terminal() {
+                            eprintln!(
+                                "event=resource_pressure_wait reason=terminal_request_pending"
+                            );
+                        }
+                        pressure_retry_at = Some(
+                            tokio::time::Instant::now()
+                                + std::time::Duration::from_millis(init.weather.sample_millis),
+                        );
+                        continue 'serve;
+                    }
+                    eprintln!("runtime {label} terminal serialization failed: {error}");
+                    if let Some(request) = request.take() {
+                        request.respond(Err(()));
+                    }
+                    api_shutdown.cancel();
+                    let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
+                    drain_control_api(&mut api).await;
+                    break 'serve ExitCode::from(74);
+                }
+
+                api_shutdown.cancel();
+                let shutdown = handle.shutdown(grace).await;
+                let terminal = match shutdown {
+                    Ok(exit) => {
+                        if let Some(request) = request.take() {
+                            request.respond(Ok(exit.clone()));
+                        }
+                        process_exit(exit)
+                    }
+                    Err(error) => {
+                        eprintln!("runtime {label} shutdown failed: {error}");
+                        if let Some(request) = request.take() {
+                            request.respond(Err(()));
+                        }
+                        ExitCode::from(70)
+                    }
+                };
+                drain_control_api(&mut api).await;
                 break 'serve terminal;
             }
         }
@@ -509,6 +518,12 @@ async fn main() -> ExitCode {
             ExitCode::from(64)
         }
     }
+}
+
+enum TerminalTrigger {
+    Pressure,
+    Signal,
+    Signed(CheckpointShutdownRequest),
 }
 
 struct ServeArgs {

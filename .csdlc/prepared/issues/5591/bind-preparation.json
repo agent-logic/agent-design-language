@@ -1,0 +1,22 @@
+{
+  "issue": 5591,
+  "base_branch": "codex/5336-v0918-runtime-parity-plan",
+  "branch": "codex/5591-runtime-v3-parity-a-preparation",
+  "worktree": ".",
+  "claim": {
+    "id": "claim-5591-runtime-v3-parity-a-preparation",
+    "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+    "generation": 0,
+    "acquired_unix_seconds": 1784584932,
+    "expires_unix_seconds": 1785189732,
+    "heartbeat_unix_seconds": 1784584932,
+    "branch": "codex/5591-runtime-v3-parity-a-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5591",
+      ".csdlc/locks/5591.lock",
+      ".csdlc/prepared/issues/5591"
+    ],
+    "purpose": "Prepare and review complete six-card Runtime v3 Parity-A truth while #5336 integration remains the sole implementation stop"
+  }
+}

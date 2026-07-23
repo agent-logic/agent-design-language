@@ -1,0 +1,24 @@
+{
+  "issue": 5337,
+  "expected_generation": 50,
+  "expected_digest": "3a7a97d88b872fe59dd72a12571f17b3eb01eb4070acc1810513429e7be6bd35",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "evidence": {
+    "reviewer": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "scope": [
+      "adl-characterization",
+      ".csdlc/issues/5337",
+      ".csdlc/prepared/issues/5337",
+      ".csdlc/evidence/5337"
+    ],
+    "reviewed_revision": "git-blake3:c5b7fda0e618ca15d322f3a0052b70a3278ba012:cabd4a1dd3bb609efb1a1667e149be2cce26a549f610a9ef36489fe665e6f17d",
+    "findings": [],
+    "residual_risks": [
+      "Pre-tokenization stream bytes are not retained; captured-stream hashes rely on the trusted capture implementation and exact reviewed Git revision, while portable bytes and envelopes remain offline-recomputable.",
+      "An inherited blank-line-at-EOF warning exists in upstream main at .csdlc/issues/5600/retained/diagram.mmd; it is outside #5337 and absent from the issue-range diff."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

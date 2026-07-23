@@ -1,0 +1,27 @@
+{
+  "schema": "adl.characterization.normalized.v1",
+  "case_id": "branch-order-b",
+  "repetition": 2,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "commands": [
+    {
+      "step_id": "plan",
+      "declared_args": [
+        "{ROOT}/fixtures/branch-b.adl.yaml",
+        "--print-plan"
+      ],
+      "expanded_args": [
+        "<ROOT>/fixtures/branch-b.adl.yaml",
+        "--print-plan"
+      ],
+      "exit_code": 0,
+      "captured_stdout_sha256": "b9999b0ed2095443f9d7f34a91177fad6b2f66bb4344cdd28b853101ffbf4c86",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "b9999b0ed2095443f9d7f34a91177fad6b2f66bb4344cdd28b853101ffbf4c86",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "Resolved run: branch-order\nWorkflow:     pattern:p\nSteps:        3\n  0. p::p::a::left  agent=worker provider=local task=left\n  1. p::p::b::right  agent=worker provider=local task=right\n  2. p::p::join  agent=worker provider=local task=join\n",
+      "stderr": ""
+    }
+  ]
+}

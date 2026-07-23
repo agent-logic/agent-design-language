@@ -1,0 +1,14 @@
+{
+  "issue": 5337,
+  "card": "sor",
+  "expected_generation": 56,
+  "expected_digest": "4bf30e76c12d9ba8260424374090814e7045e7b257d22771a5c80aa9c9a6d8bf",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Advance the clean final integrated-head exact-revision review for typed publication.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  },
+  "fail_after_backup": false
+}

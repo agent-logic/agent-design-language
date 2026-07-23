@@ -1,0 +1,14 @@
+{
+  "issue": 5337,
+  "card": "srp",
+  "expected_generation": 1,
+  "expected_digest": "047c109349f9366bc1fea2840cb11c5767bda0493f71f912dd2c9c7e6e28c6da",
+  "claim_id": "claim-5337-v0918-wp03-preparation",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Make the review card accurately target the exact preparation revision rather than implying product implementation.",
+  "operation": {
+    "operation": "set_field",
+    "field": "review_scope",
+    "value": "Exact #5337 preparation-artifact revision before any preparation publication; review issue-local cards, design, validation/readiness truth, protected scope, and explicit non-implementation blockers only."
+  }
+}

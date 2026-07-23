@@ -1,0 +1,189 @@
+{
+  "issue": 5337,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5337/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5337/diagram.mmd",
+  "design_reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "design_approved": true,
+  "claim": {
+    "id": "claim-5337-v0918-wp03-preparation",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 0,
+    "acquired_unix_seconds": 1784570080,
+    "expires_unix_seconds": 1785174880,
+    "heartbeat_unix_seconds": 1784570080,
+    "branch": "codex/5337-v0918-wp03-preparation",
+    "worktree": ".worktrees/adl-wp-5337",
+    "protected_paths": [
+      ".csdlc/issues/5337",
+      ".csdlc/prepared/issues/5337",
+      ".csdlc/evidence/5337"
+    ],
+    "purpose": "Prepare typed #5337 cards, design, validation, and readiness one dependency wave ahead without implementing the characterization corpus"
+  },
+  "initial": {
+    "title": "[v0.91.8][WP-03] Build normalized characterization and determinism corpus",
+    "slug": "v0918-wp03-characterization-corpus-preparation",
+    "version": "v0.91.8",
+    "goal": "Prepare #5337 for a future compact normalized v1 characterization and determinism corpus without executing product scope.",
+    "required_outcome": "All six current-template cards, issue-local design, validation contract, dependency boundary, and preparation-only readiness truth are complete and reviewed while corpus implementation remains pending on WP-02 and separate authorization.",
+    "declared_scope": [
+      "issue-local typed C-SDLC v2 cards and canonical record for #5337",
+      "issue-local characterization-corpus design and diagram",
+      "preparation-only validation and review evidence",
+      "truthful dependency and non-implementation readiness disposition"
+    ],
+    "authority_boundary": [
+      "Sprint #5595 authorizes #5337 card preparation in opening-wave slot 2",
+      "Issue #5337 owns future WP-03 characterization-corpus implementation",
+      "WP-02 #5336 remains the hard implementation dependency",
+      "Typed C-SDLC v2 binaries and records are lifecycle authority"
+    ],
+    "task_boundary": "Prepare cards, design, validation, review, and readiness only; do not implement fixtures, normalizer behavior, replay execution, product tests, or shared milestone-doc changes.",
+    "deliverables": [
+      "six issue-specific cards rendered from docs/templates/prompts/current.json",
+      "issue-local design and architecture diagram",
+      "PVF-classified preparation and future corpus validation plan",
+      "bounded exact-revision subagent review with findings disposition",
+      "preparation-only publication or blocked handoff truth"
+    ],
+    "acceptance_criteria": [
+      "AC-1: SIP, STP, SPP, VPP, SRP, and SOR are generated from the active current.json template set and pass typed schema and structure validation",
+      "AC-2: Cards and design preserve #5595 authorization, #5336 dependency, clean-room behavioral-evidence boundaries, and no shared milestone-doc overlap",
+      "AC-3: The future corpus contract requires versioned positive and negative cases, repeated outcomes, declared normalization, coverage mapping, and nondeterminism disposition",
+      "AC-4: Preparation validation and future corpus proof lanes are PVF-classifiable with proof role, determinism posture, resource profile, and release-gate status",
+      "AC-5: Bounded subagent review covers the exact substantive revision and all actionable findings are dispositioned before publication",
+      "AC-6: Preparation closes or hands off without claiming corpus implementation, WP-02 satisfaction, milestone readiness, cutover, deletion, or v0.92 activation"
+    ],
+    "dependencies": [
+      "open sprint umbrella #5595 opening-wave slot 2 authorization",
+      "WP-02 #5336 must be accepted before future product implementation",
+      "active prompt-template registry docs/templates/prompts/current.json"
+    ],
+    "repo_inputs": [
+      "GitHub issue #5337 retrieved through adl-issue",
+      "GitHub sprint issue #5595 retrieved through adl-issue",
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "docs/milestones/v0.91.8/DESIGN_v0.91.8.md",
+      "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+      "docs/templates/prompts/current.json"
+    ],
+    "non_goals": [
+      "no corpus fixtures, normalizer code, replay execution, or product tests",
+      "no porting of legacy internal tests",
+      "no shared milestone planning or feature-document edits",
+      "no downstream implementation binding or claim-path reservation",
+      "no AWS, raw gh, Runtime/C-SDLC implementation, deletion, cutover, or v0.92 activation"
+    ],
+    "plan_summary": "Initialize and bind #5337, verify and semantically normalize all six generated cards, validate current-template and PVF truth, commit issue-local preparation artifacts, run bounded exact-revision subagent review, fix findings, and publish only if the typed lifecycle accepts a preparation-only boundary.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Initialize and bind the issue-local typed lifecycle record in the dedicated #5337 worktree",
+        "status": "pending",
+        "acceptance_ids": ["AC-1", "AC-2"]
+      },
+      {
+        "id": "S2",
+        "action": "Validate and, only through csdlc-edit, normalize six current-template cards for preparation-only truth",
+        "status": "pending",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"]
+      },
+      {
+        "id": "S3",
+        "action": "Run focused typed validation and confirm protected-path and dependency boundaries",
+        "status": "pending",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"]
+      },
+      {
+        "id": "S4",
+        "action": "Commit the substantive preparation revision and run bounded exact-revision subagent review",
+        "status": "pending",
+        "acceptance_ids": ["AC-5"]
+      },
+      {
+        "id": "S5",
+        "action": "Record findings disposition and publish or retain a truthful blocked preparation handoff through typed lifecycle gates",
+        "status": "pending",
+        "acceptance_ids": ["AC-5", "AC-6"]
+      }
+    ],
+    "risks": [
+      "preparation language could be mistaken for authorization to implement the corpus",
+      "overbroad protected paths could collide with shared milestone documentation or sibling lanes",
+      "normalization rules could hide semantic mismatches if left unconstrained",
+      "generated cards could remain generic while passing only superficial structure checks"
+    ],
+    "invariants": [
+      "no tracked issue work on main",
+      "all card mutation remains csdlc-edit owned",
+      "only issue-local preparation paths are protected",
+      "WP-02 acceptance precedes future implementation",
+      "v1 is behavioral evidence rather than source authority",
+      "no AWS and no raw gh"
+    ],
+    "stop_conditions": [
+      "another live claim or worktree owns #5337",
+      "WP-03 preparation would require shared milestone-doc edits",
+      "a lifecycle route would record product implementation or dependency satisfaction",
+      "current-template provenance or typed card validation cannot be established",
+      "publication would require bypassing current review truth"
+    ],
+    "review_prompts": [
+      "Do all six cards and the design remain preparation-only and issue-specific?",
+      "Is #5336 preserved as a hard implementation dependency while #5595 authorizes only card preparation?",
+      "Does the future corpus contract cover positive and negative behavior, repetition, normalization, coverage, and nondeterminism without implementing them?",
+      "Are protected paths issue-local and collision-safe with shared milestone and sibling work?",
+      "Are PVF lanes and non-claims sufficient for a truthful preparation handoff?"
+    ],
+    "planning_profile": "medium",
+    "validation_lanes": [
+      {
+        "lane": "typed-card-contracts",
+        "proof_role": "Validate all six rendered cards, active-template provenance, structure schemas, and canonical lifecycle consistency",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local-preparation",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": [".adl/bin/csdlc-v2/csdlc-doctor", "--repo", ".", "--issue", "5337"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-6"]
+      },
+      {
+        "lane": "issue-local-scope",
+        "proof_role": "Verify preparation diff hygiene and absence of shared milestone or product implementation changes",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local-preparation",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["git", "diff", "--check"],
+        "acceptance_ids": ["AC-2", "AC-6"]
+      },
+      {
+        "lane": "exact-revision-review-evidence",
+        "proof_role": "Verify that bounded subagent review is assigned to the substantive commit and that actionable findings have typed dispositions before publication",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local-review",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": [".adl/bin/csdlc-v2/csdlc-doctor", "--repo", ".", "--issue", "5337"],
+        "acceptance_ids": ["AC-5", "AC-6"]
+      },
+      {
+        "lane": "future-corpus-proof",
+        "proof_role": "Future implementation lane for versioned positive and negative fixtures, repeated v1 outcomes, normalization safety, coverage mapping, and nondeterminism disposition",
+        "deterministic": true,
+        "resource_profile": "medium",
+        "parallel_group": "future-implementation",
+        "budget_seconds": 900,
+        "budget_tokens": 4000,
+        "argv": ["cargo", "test", "--manifest-path", "adl/Cargo.toml", "characterization"],
+        "acceptance_ids": ["AC-3", "AC-4"],
+        "defer_reason": "Product implementation and its focused proof are not authorized in this preparation-only session"
+      }
+    ],
+    "failure_policy": "Fail closed on non-current template provenance, invalid cards, generic or implementation-claiming prose, shared-path overlap, missing #5336 dependency, hidden normalization, skipped review, AWS/raw-gh use, or any product-scope execution."
+  }
+}

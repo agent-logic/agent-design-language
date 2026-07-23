@@ -51,6 +51,10 @@ name = "csdlc-publish"
 path = "src/bin/csdlc-publish.rs"
 
 [[bin]]
+name = "csdlc-merge"
+path = "src/bin/csdlc-merge.rs"
+
+[[bin]]
 name = "csdlc-closeout"
 path = "src/bin/csdlc-closeout.rs"
 

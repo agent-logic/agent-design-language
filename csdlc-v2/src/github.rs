@@ -1,7 +1,7 @@
 use octocrab::models::pulls::{MergeableState, ReviewState};
 use octocrab::params::repos::Commitish;
 use serde::{Deserialize, Serialize};
-use std::{collections::BTreeMap, fs, path::Path};
+use std::collections::BTreeMap;
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct PrStateRequest {
@@ -169,39 +169,7 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
 }
 
 fn resolve_token(path: Option<&str>) -> crate::Result<String> {
-    for key in ["ADL_GITHUB_TOKEN", "GITHUB_TOKEN", "GH_TOKEN"] {
-        if let Ok(v) = std::env::var(key) {
-            if !v.trim().is_empty() {
-                return Ok(v);
-            }
-        }
-    }
-    let path = path
-        .map(std::path::PathBuf::from)
-        .or_else(|| std::env::var_os("ADL_GITHUB_TOKEN_FILE").map(std::path::PathBuf::from))
-        .or_else(|| {
-            std::env::var_os("HOME")
-                .map(|home| std::path::PathBuf::from(home).join("keys/github.token"))
-        })
-        .ok_or_else(|| {
-            crate::V2Error::new(
-                crate::ErrorCode::InvalidInput,
-                "GitHub token source is unavailable",
-            )
-        })?;
-    let value = fs::read_to_string(Path::new(&path)).map_err(|_| {
-        crate::V2Error::new(
-            crate::ErrorCode::InvalidInput,
-            "GitHub token source is unavailable",
-        )
-    })?;
-    if value.trim().is_empty() {
-        return Err(crate::V2Error::new(
-            crate::ErrorCode::InvalidInput,
-            "GitHub token source is empty",
-        ));
-    }
-    Ok(value.trim().into())
+    crate::github_token::resolve(path)
 }
 fn conclusion(value: Option<&str>) -> &'static str {
     match value {

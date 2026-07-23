@@ -1,0 +1,21 @@
+{
+  "issue": 5337,
+  "card": "stp",
+  "expected_generation": 25,
+  "expected_digest": "dbc97f423cad3a57f4961e4ca483bedaeca1f88596beacefaa567ffc0e72bdae",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record the operator-authorized exact reviewed WP-02 stacked base and integration gate",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "operator-authorized #5337 implementation and bound worktree",
+      "reviewed WP-02 #5336 head 8fa1bfe66e677ed3ae160b3fee81d204d4211a37 is the explicit stacked architecture base",
+      "PR #5599 must merge before #5337 publication or integration; then current main must be integrated and exact-revision proof rerun",
+      "pinned incumbent revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+      "locally built caller-supplied v1 binary with no network or credentials"
+    ]
+  },
+  "fail_after_backup": false
+}

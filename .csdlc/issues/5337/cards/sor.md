@@ -1,0 +1,174 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 5337
+
+Repository: danielbaustin/agent-design-language
+
+Card: sor
+
+Status: complete
+
+## Summary
+
+Closed the default-execution policy bypass and retained-evidence integrity gap with exact command shapes, corpus-bundle binding, portable stream digests, and recomputable observation envelopes.
+
+## Artifacts
+
+- adl-characterization/README.md
+- adl-characterization/corpus/v1/corpus.yaml
+- adl-characterization/corpus/v1/schema.json
+- adl-characterization/corpus/v1/COVERAGE.md
+- adl-characterization/observations/v1/verification.json
+- adl-characterization/tests
+- .csdlc/evidence/5337/review-5da012921.md
+- adl-characterization/src/compare.rs
+- adl-characterization/src/manifest.rs
+- adl-characterization/src/runner.rs
+- adl-characterization/tests/evidence.rs
+- adl-characterization/tests/manifest.rs
+- .csdlc/evidence/5337/review-13f21e6bc.md
+- adl-characterization/src/manifest.rs
+- adl-characterization/src/model.rs
+- adl-characterization/src/compare.rs
+- adl-characterization/tests/evidence.rs
+- adl-characterization/tests/manifest.rs
+
+## Execution
+
+- Implemented the typed corpus manifest, JSON Schema validation, runner, narrow normalizer, comparator, verification report, and CLI
+- Added 19 fixtures and 25 cases covering 23 required positive, negative, ordering, mock-execution, determinism, and Ed25519 behaviors
+- Retained 75 raw and 75 derived normalized observations plus an exact binary and source identity report
+- Added 13 unit, manifest, evidence-integrity, and CLI tests plus PVF-classified documentation
+- Revalidate step count/order, declared and portable arguments, exits, required fragments, digest shape, and path hygiene during offline verify with class-specific tamper tests
+- Fail corpus loading unless commands are local-only and the sole --run case uses only mock profiles, approved arguments, and no remote route
+- Use wait-timeout for bounded child execution, kill and reap timeout, classify deterministically, and preserve prior complete output through staged replacement
+- Rename the false unknown-run-reference claim to the observed unsupported-run-field schema rejection
+- Retain portable ROOT/WORK-tokenized streams plus hashes of exact pre-tokenization bytes and reject machine-local retained paths
+- Restrict every corpus command to an exact approved non-executing shape or the sole exact local-mock execution shape
+- Bind each retained observation to a deterministic symlink-rejecting corpus-tree digest
+- Retain separate exact-capture and recomputable portable stream hashes under a complete observation envelope
+- Reject corpus, expanded-argument, captured-hash, portable-hash, and joint raw-plus-normalized tampering offline
+- Document the exact-byte trust boundary without claiming an operating-system network sandbox
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-characterization/Cargo.toml",
+      "--all-targets"
+    ],
+    "purpose": "Prove all unit, path-boundary, schema, coverage, retained-evidence, repeated-divergence, tamper, and CLI contracts.",
+    "outcome": "passed",
+    "evidence_ref": "Commit 5da012921: 13 tests passed with CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5337-target."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-characterization/Cargo.toml",
+      "--all-targets"
+    ],
+    "purpose": "Prove all original contracts plus command-contract tamper classes, local-only policy rejection, portable path hygiene, bounded timeout, and atomic prior-capture preservation.",
+    "outcome": "passed",
+    "evidence_ref": "Commit 6652c4ab7: 23 tests passed with CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5337-target."
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-characterization/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove all remediated source and tests are warning-free.",
+    "outcome": "passed",
+    "evidence_ref": "Commit 6652c4ab7: strict all-target Clippy passed with CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5337-target."
+  },
+  {
+    "command": [
+      "adl-characterize",
+      "capture",
+      "--binary",
+      "/Volumes/FastWork/adl-5337-v1-target/debug/adl",
+      "--corpus",
+      "adl-characterization/corpus/v1/corpus.yaml",
+      "--observations",
+      "adl-characterization/observations/v1",
+      "--report",
+      "adl-characterization/observations/v1/verification.json"
+    ],
+    "purpose": "Capture and then offline-verify all 25 cases and 75 executions from the exact pinned binary, atomically replace evidence, and retain only portable tokenized streams plus exact byte hashes.",
+    "outcome": "passed",
+    "evidence_ref": "adl-characterization/observations/v1/verification.json at commit 6652c4ab7: 25 cases, 75 observations, 23 behaviors, two equivalence groups, one difference group, status pass; no /Users or /private/var path remained."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-characterization/Cargo.toml",
+      "--all-targets"
+    ],
+    "purpose": "Prove exact command-shape rejection, corpus and observation integrity, every prior remediation, retained evidence, and CLI behavior.",
+    "outcome": "passed",
+    "evidence_ref": "Commit 13f21e6bc: 29 tests passed with CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5337-target; exact re-review independently repeated 29/29 under /Volumes/FastWork/adl-5337-rereview2-target."
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-characterization/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove all final source, integrity checks, and adversarial tests are warning-free.",
+    "outcome": "passed",
+    "evidence_ref": "Commit 13f21e6bc: strict all-target Clippy passed with Cargo output under /Volumes/FastWork."
+  },
+  {
+    "command": [
+      "adl-characterize",
+      "verify",
+      "--corpus",
+      "adl-characterization/corpus/v1/corpus.yaml",
+      "--observations",
+      "adl-characterization/observations/v1",
+      "--report",
+      "adl-characterization/observations/v1/verification.json"
+    ],
+    "purpose": "Recompute corpus and observation integrity and verify all retained black-box characterization evidence offline.",
+    "outcome": "passed",
+    "evidence_ref": "Commit 13f21e6bc: 25 cases, 75 observations, 23 behaviors, two equivalence groups, one difference group, status pass; committed observations contain no /Users, /private/var, /Volumes, /tmp, or /home paths."
+  }
+]
+
+## Integration
+
+merged
+
+## Publication
+
+Publication: closed
+
+Merge: merged
+
+## Closeout
+
+complete
+
+## Follow Ups
+
+- none

@@ -1,0 +1,25 @@
+{
+  "issue": 5337,
+  "expected_claim_id": "claim-5337-v0918-wp03-preparation",
+  "expected_generation": 4,
+  "now_unix_seconds": 1784585647,
+  "replacement": {
+    "id": "claim-5337-v0918-wp03-implementation",
+    "owner": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+    "generation": 4,
+    "acquired_unix_seconds": 1784585647,
+    "expires_unix_seconds": 1785190447,
+    "heartbeat_unix_seconds": 1784585647,
+    "branch": "codex/5337-v0918-wp03-preparation",
+    "worktree": ".worktrees/adl-wp-5337",
+    "protected_paths": [
+      ".csdlc/evidence/5337",
+      ".csdlc/issues/5337",
+      ".csdlc/prepared/issues/5337",
+      "adl-characterization"
+    ],
+    "purpose": "Fully implement, validate, review, and publish issue #5337's independent pinned-v1 characterization corpus; keep integration blocked until PR #5599 merges"
+  },
+  "recovery_actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Voluntarily expire the preparation-only claim and reacquire truthful implementation authority with the same narrow protected paths"
+}
