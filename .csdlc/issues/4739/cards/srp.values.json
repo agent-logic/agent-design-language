@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 4739,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-15][unity][tooling] Align Unity-MCP live project and port proof for deployed observatory",
+    "slug": "v0918-wp15-unity-mcp-live-project-endpoint-alignment",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/tools/probe_unity_mcp_observatory_alignment.sh\nadl/tools/test_v0916_unity_mcp_alignment_unit.sh\nadl/tools/test_v0916_unity_observatory_contract.sh\ndocs/tooling/unity_mcp_observatory_alignment.md\n.csdlc/issues/4739\n.csdlc/prepared/issues/4739",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every pass require matching project identity, endpoint identity, liveness, and a read-only MCP result?",
+        "Can malformed, cloud, missing-editor, and mismatched-project states fail closed without leaking secrets?",
+        "Is the final change limited to #4739 ownership and free of batch, ILPP, scene, runtime, and rendering work?",
+        "Are fixed-port assumptions absent from code, tests, and documentation?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
