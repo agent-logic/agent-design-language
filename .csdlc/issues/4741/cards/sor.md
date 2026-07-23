@@ -138,7 +138,7 @@ pr_open
 
 ## Publication
 
-Publication: ready
+Publication: draft
 
 Merge: not_merged
 

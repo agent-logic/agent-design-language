@@ -18,3 +18,4 @@
 {"sequence":18,"generation":12,"actor":"subagent:019f90d6-07c1-7091-b996-73007e6a80fb","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":19,"generation":13,"actor":"codex:issue-4741-execution","reason":"Advance the assigned exact-revision PASS review to reviewed phase with retained residual risks","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":20,"generation":14,"actor":"codex:issue-4741-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":21,"generation":15,"actor":"codex:issue-4741-shepherd","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness_reconcile_metadata_only_published_revision"}
