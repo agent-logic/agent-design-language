@@ -264,7 +264,8 @@ candidate_filter_for_path() {
     adl/src/provider/http_family/config.rs|\
     adl/src/provider/local.rs|\
     adl/src/provider/mod.rs|\
-    adl/src/provider/profiles.rs)
+    adl/src/provider/profiles.rs|\
+    adl/src/provider_substrate.rs)
       printf 'provider_hardening'
       ;;
     adl/src/cli/tooling_cmd/markdown.rs)
