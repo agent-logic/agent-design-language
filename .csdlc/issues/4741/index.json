@@ -3,13 +3,13 @@
   "issue": 4741,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6da60e6fc4092eeaaef14e46cd5c57a84272538fe5bc92a030061a4160ebb1bf",
-  "phase": "published",
-  "generation": 15,
-  "digest": "1c860973f7586f13290472e6213610e4d289b8107b1f3cbb435a2de8078d8563",
+  "phase": "merge_ready",
+  "generation": 19,
+  "digest": "72f74b8d84064bfb7a572fef5a334249b8962e8ed2c00865fc593e3019fcf0fd",
   "claim": {
     "id": "claim-4741-v0918-wp15-unity-editor-liveness-prep",
     "owner": "codex:issue-4741-preparation",
-    "generation": 15,
+    "generation": 19,
     "acquired_unix_seconds": 1784835199,
     "expires_unix_seconds": 1785439999,
     "heartbeat_unix_seconds": 1784835199,
@@ -73,108 +73,110 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5651",
     "base": "main",
     "head": "codex/4741-v0918-wp15-unity-editor-liveness-prep",
-    "revision": "git-blake3:db1682656d035234c59553a90e9013b4edb0ab21:4f1677c59c9ae55f7a2df5693bf91ad727195e94113f875b21d712a0167df676",
+    "revision": "git-blake3:fb9487d157fbbc357d90a4427cd078c4025ddcb8:e110d3e8361d4b7c9247d6abbe905f6fe430a6631b0707f5947f935c2e981f0d",
     "draft": false,
     "observed_state": "open"
   },
   "readiness": {
     "pull_request": 5651,
-    "head_sha": "db1682656d035234c59553a90e9013b4edb0ab21",
+    "head_sha": "fb9487d157fbbc357d90a4427cd078c4025ddcb8",
     "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347326684"
+      },
       {
         "name": "adl-coverage",
         "requirement": "required",
-        "conclusion": "pending",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346779971"
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347055827"
       },
       {
         "name": "adl-coverage-hosted",
         "requirement": "optional",
         "conclusion": "success",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346739590"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347015687"
       },
       {
         "name": "adl-coverage-runtime-hosted",
         "requirement": "optional",
         "conclusion": "skipped",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346739864"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347016064"
       },
       {
         "name": "adl-coverage-workspace-hosted",
         "requirement": "optional",
         "conclusion": "skipped",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346740026"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347015879"
       },
       {
         "name": "adl-demo-proof",
-        "requirement": "required",
+        "requirement": "optional",
         "conclusion": "skipped",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346740121"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347016139"
       },
       {
         "name": "adl-path-policy",
-        "requirement": "required",
+        "requirement": "optional",
         "conclusion": "success",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346710674"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89346989085"
       },
       {
         "name": "adl-runtime-v3-fast",
         "requirement": "optional",
         "conclusion": "skipped",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346740094"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347016112"
       },
       {
         "name": "adl-rust-fmt-clippy",
         "requirement": "optional",
         "conclusion": "skipped",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346739783"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347015976"
       },
       {
         "name": "adl-rust-tests",
         "requirement": "optional",
         "conclusion": "skipped",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346739877"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347016019"
       },
       {
         "name": "adl-slow-proof",
         "requirement": "optional",
         "conclusion": "skipped",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346740055"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347016037"
       },
       {
         "name": "adl-spot-ci-and-coverage",
         "requirement": "optional",
         "conclusion": "skipped",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346739657"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347015838"
       },
       {
         "name": "adl-tooling-contracts",
-        "requirement": "required",
-        "conclusion": "pending",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346739022"
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347015252"
       },
       {
         "name": "adl-v2-standalone",
         "requirement": "optional",
         "conclusion": "skipped",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346739956"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347016306"
       },
       {
         "name": "csdlc-v2-standalone",
         "requirement": "optional",
         "conclusion": "skipped",
-        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30048986916/job/89346739598"
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30049078027/job/89347016190"
       }
     ],
     "review_state": "not_required",
-    "conflict_state": "pending",
+    "conflict_state": "clean",
     "post_publication_findings": [],
-    "ready": false,
-    "blockers": [
-      "required_checks_pending",
-      "required_checks_failed",
-      "conflict_state_not_clean"
-    ]
+    "ready": true,
+    "blockers": []
   },
   "terminal": null,
   "migration": null,
@@ -188,34 +190,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7709ee57b34312705bdff7e45228388ea84cbe53a485096f26fda8056efe1c32",
+      "values_digest": "02fda152759f25bd55b1ea5f8da81b8a29f79037e5c1d6ecbde7e11751ba1ac5",
       "rendered_digest": "20465ed8051ca296e888398621e97ba0038327558f5b412e2565ea50ee3dddd9",
       "ast_digest": "5f8c10f932a676f52809aa8ad1da360a0197ad7d9736b83ba8c2e6fa566ef483"
     },
     "stp": {
-      "values_digest": "4ee3af23292a30bebf5981ad3f3b041d8729d03c3588638a6c6b08f8a4e21592",
+      "values_digest": "78cfacfdcc12ffaa408bda1b2e201555e916f5d13d08e73205f57ea986ade893",
       "rendered_digest": "c1c74e60ed6c539cc615eba12aa1f2ed710218c44c4e9018edb478659e4e6080",
       "ast_digest": "a6d752e92ee16452e02031576d2a0e8752a84f6e9cafcb558680bc75efe815b6"
     },
     "spp": {
-      "values_digest": "713d8fa1b442f72563916dabfda3aaf6e4b6905f4dc93f19e94b9b7b631341e4",
+      "values_digest": "8cbc02f46604ecbd6e3f87cb87b7dffcb3d946e6dd0c290354448f678bf05ae6",
       "rendered_digest": "c336a64f984f171b4dd6a93457504a07b6a53b4c9f6cc3d70d0a69d79aaf726e",
       "ast_digest": "d9fd3f5761aaab6f6570781fcdb46584b441e655028ee8d09adff788bc0d3fe5"
     },
     "vpp": {
-      "values_digest": "73ae9bb17d4ab68c314845defe3ad8ae2e855766b07aa0bcbfea9a03478e153e",
+      "values_digest": "3b34ccc16c752ca2f00d7aaca529734047aa4227a1bf8356b9d161d6ac37d3c9",
       "rendered_digest": "86818866e461a232a32c457b36902a4c4ee220ff68c02f6c71a5c7817548dd7c",
       "ast_digest": "05b38482e7841e8ca4a6d9e629be99b7baa1bfd1bed3c1df5e0c5dd74c321efc"
     },
     "srp": {
-      "values_digest": "7cb472587d0738316e9b556a75edc92ae38d4ec134e6a68f6d81100e2d626991",
+      "values_digest": "860e55b86fc004ce9a8ba8ba0c4a8bf23f71b189929ae9ca787bb8e9da5bf659",
       "rendered_digest": "a5a0eb9767639e5c33990e9a448e55fe28f19058834eab8a1c44c58b9f787aaa",
       "ast_digest": "5b1826f21757b4f201a968d5b1a5c030f3deecb9904e45174229ea2e6336d372"
     },
     "sor": {
-      "values_digest": "f230445d54894cb94be65ff2eca50dabc58e18150b75144a37ef35c90ac25984",
-      "rendered_digest": "ad57278aa02d87097d84f7fa0ae269bc3e0cfe09674c64974fdf795ae41bb898",
-      "ast_digest": "fc4dc2b69a84ad8a47921dda3469728fdf2b1722666ea6cce68ea3588005e86f"
+      "values_digest": "49a6be62bde6025666a6ab4d4715eee3b64d8c6102b08fdbd004b4ea9eecaac8",
+      "rendered_digest": "cd560963ef2f740ee38c9dd13c65e64c37f44803713b925d0e94195a5fd7c54e",
+      "ast_digest": "bbe3417441c297d85b06166ebe0902ee35b19b130ac0fba1e9b4e8700fb13d4d"
     }
   },
   "transitions": [
@@ -253,6 +255,13 @@
       "to": "published",
       "actor": "codex:issue-4741-publication",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:issue-4741-shepherd",
+      "reason": "observed required checks, review, and conflict readiness"
     }
   ],
   "audit": [
@@ -399,6 +408,34 @@
     {
       "sequence": 21,
       "generation": 15,
+      "actor": "codex:issue-4741-shepherd",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness_reconcile_metadata_only_published_revision"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:issue-4741-shepherd",
+      "reason": "Classify the exact-head fail-closed observation as passing evidence for the wrapper contract without claiming Unity launch or scene validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\"],\"purpose\":\"Run one exact-head safe-mode Unity attempt after implementation review and retain precise prerequisite or runtime truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/4741/live-staged-proof.json supersedes the stale pre-commit attempt: reviewed revision 2fb6fa86fee8b96457e0c179646a0c5109861e4a selected skipped_fail_closed and returned owner_binary_provenance_invalid before Unity launch because the installed repository adl source hash does not match the current declared source root. No binary was built or replaced.\"}}"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:issue-4741-shepherd",
+      "reason": "Classify the authoritative fail-closed packet as passing evidence for the declared safe-mode wrapper outcome while retaining the Unity non-claim",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\"],\"purpose\":\"Prove one real safe-mode Unity attempt records exact progress and terminal truth without an arbitrary total ceiling.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/4741/live-staged-proof.json is the authoritative exact-head result and explicitly supersedes the earlier passed entry with this same command and purpose identity: revision 2fb6fa86fee8b96457e0c179646a0c5109861e4a returned skipped_fail_closed / owner_binary_provenance_invalid before Unity launch.\"}}"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:issue-4741-shepherd",
+      "reason": "Retire the stale pre-commit Unity attempt from current exact-head readiness without deleting append-only historical evidence",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\"],\"purpose\":\"Prove one real safe-mode Unity attempt records exact progress and terminal truth without an arbitrary total ceiling.\",\"outcome\":\"skipped_non_goal\",\"evidence_ref\":\".csdlc/evidence/4741/live-staged-proof.json records fresh_batch on Unity 6000.5.1f1, readonly followed by import and compilation progress, semantic fingerprint 1:1:1:0, and expected fail-closed exit 124 terminal_outcome=semantic_progress_idle after 300 idle seconds. Unity validation was not reached and is not claimed.\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
       "actor": "codex:issue-4741-shepherd",
       "reason": "record normalized remote readiness without replacing pre-publication review",
       "operation": "record_readiness_reconcile_metadata_only_published_revision"
