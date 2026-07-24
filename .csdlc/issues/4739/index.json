@@ -3,13 +3,13 @@
   "issue": 4739,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "dd98199cf21b7a3ece23619ecfd7fd926dd8e153555179e8af5f50d245522f73",
-  "phase": "implemented",
-  "generation": 19,
-  "digest": "29e216963974156f7661df4ad30852439218777a2c544c7c0b3c3eb87a165084",
+  "phase": "reviewed",
+  "generation": 21,
+  "digest": "157acde3833830b70aad2bb3da12414444420c010242aee64ce07f77bc1fc0a8",
   "claim": {
     "id": "claim-4739-v0918-wp15-unity-mcp-alignment-prep",
     "owner": "codex:issue-4739-preparation",
-    "generation": 19,
+    "generation": 21,
     "acquired_unix_seconds": 1784834939,
     "expires_unix_seconds": 1785439739,
     "heartbeat_unix_seconds": 1784834939,
@@ -43,7 +43,89 @@
       ".csdlc/prepared/issues/4739"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019f95ae-c03a-7e90-808f-803f476c9738",
+    "scope": [
+      "adl/tools/probe_unity_mcp_observatory_alignment.sh",
+      "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
+      "adl/tools/test_v0916_unity_observatory_contract.sh",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "docs/tooling/unity_mcp_observatory_alignment.md",
+      ".csdlc/issues/4739",
+      ".csdlc/prepared/issues/4739"
+    ],
+    "reviewed_revision": "git-blake3:3cbf07444fb6f81675a00c47bc70748216c66301:d4de34bc85d82814f695fc02cd3de45901cb8773be1bb80fc80ac6dd23d93660",
+    "findings": [
+      {
+        "id": "R1",
+        "severity": "p1",
+        "summary": "Endpoint reachability was not initially bound to Unity Application.dataPath for the intended project.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3cbf07444fb6f81675a00c47bc70748216c66301:d4de34bc85d82814f695fc02cd3de45901cb8773be1bb80fc80ac6dd23d93660",
+        "route": null
+      },
+      {
+        "id": "R2",
+        "severity": "p1",
+        "summary": "The initial parser rejected valid explicit random-port status output containing a distinct derived local URL.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3cbf07444fb6f81675a00c47bc70748216c66301:d4de34bc85d82814f695fc02cd3de45901cb8773be1bb80fc80ac6dd23d93660",
+        "route": null
+      },
+      {
+        "id": "R3",
+        "severity": "p2",
+        "summary": "Explicit local URL input initially concealed persisted string or numeric Cloud mode.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3cbf07444fb6f81675a00c47bc70748216c66301:d4de34bc85d82814f695fc02cd3de45901cb8773be1bb80fc80ac6dd23d93660",
+        "route": null
+      },
+      {
+        "id": "R4",
+        "severity": "p2",
+        "summary": "Initial sanitization omitted Unity cloudToken and additional authorization and environment-secret forms.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3cbf07444fb6f81675a00c47bc70748216c66301:d4de34bc85d82814f695fc02cd3de45901cb8773be1bb80fc80ac6dd23d93660",
+        "route": null
+      },
+      {
+        "id": "R5",
+        "severity": "p1",
+        "summary": "The live Unity result was initially summarized without a retained sanitized output artifact.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3cbf07444fb6f81675a00c47bc70748216c66301:d4de34bc85d82814f695fc02cd3de45901cb8773be1bb80fc80ac6dd23d93660",
+        "route": null
+      },
+      {
+        "id": "R6",
+        "severity": "p1",
+        "summary": "The design-time SRP scope initially omitted the changed validation selector and selector test.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3cbf07444fb6f81675a00c47bc70748216c66301:d4de34bc85d82814f695fc02cd3de45901cb8773be1bb80fc80ac6dd23d93660",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Unity-MCP CLI 0.82.2 can report zero Unity processes for the live intended editor, so the bounded PID plus project-local Editor.log fallback remains necessary.",
+      "The observed 0.82.3 to 0.86.1 plugin update-order defect remains external; this proof uses the compatible pinned package and records the defect under #4739.",
+      "This review proves local MCP project and scene alignment only; it does not establish runtime integration, visual quality, or investor readiness."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -58,32 +140,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8edbed2439a3c0283e34bf6e41efe6e25523f80ee4afd3ad7c17d347c2199ee3",
+      "values_digest": "bf196ce7d42b910e52d5b12105d4199f0ad0047b77bffba086ecaf5cc084a9d7",
       "rendered_digest": "852d256aa4e58fd08de6627b3fd6e0acf93774015e66867c5f741def394dc82d",
       "ast_digest": "b99c684fea927a93bbd78fb09740bd17af70365951f28d8d3b1a8d757eb23a11"
     },
     "stp": {
-      "values_digest": "ef6acd25c12ce1b2923c92c3ee0b36837e51e9643caa8feabf0d09d214d203a7",
+      "values_digest": "20f3d0cc8a62a6b9280f168e5fb5d0cff05e9cd4d7f8adba6e827480e05a521d",
       "rendered_digest": "808f385eec200495109d2d1b18f22baf8ddfde289f75bd0667bbd02d02398873",
       "ast_digest": "c9c8bb5e5a80486621d3de2f791c7811fa732c17e84dc6612aa100050400e163"
     },
     "spp": {
-      "values_digest": "5092ab3785e60fc4bf14361e2bf23d4ef48137428685394f6db4738111ea7950",
+      "values_digest": "d5bfb1cd787c9ef7b1f03a371e464dbdeaf51c75621386710e1a08ce27f58f15",
       "rendered_digest": "27760ee56794bdccca077809f711289289cc046705c50a42e808f9be153424bc",
       "ast_digest": "2703ff108d755b83452c403ea19e953ac1f98ceabd3f3df72dd1b45f9c5bfb6b"
     },
     "vpp": {
-      "values_digest": "3bcb3eb227574472e69a44c695a5a03bdb1a081d6cc62005f79c12b364e75c66",
+      "values_digest": "04457e9b860985b7a16198d8e235ace848c174a79de3c4e4ff460a7c2ef7b878",
       "rendered_digest": "f2daeb59f868fe1d40ebf9bcfd2550b82d82043c2b81bded4fccc900490205c2",
       "ast_digest": "3b51b461e9ae08b0f8e9bbe74d5057a256fd7a0adc97eafa4e550f0c29d16c1e"
     },
     "srp": {
-      "values_digest": "8acadf1f6686b36d4b79ec776d1eabe62a0b823be2be5d3555b484e0d513a032",
-      "rendered_digest": "1684b02c7a9a5fcc4ab43932009fe5fad5eec5c69b2e5c47f4b2a1001d5e6ce9",
-      "ast_digest": "8333d9c99b01a2044ede7ee94dd1ea7a711ea6d6e513c6c76d4efa72e099c1b3"
+      "values_digest": "2fcfb35923ae6b1cf5dce9141626d0bbb51ee1ab31ed3b78ded12f8af9004762",
+      "rendered_digest": "2254eac2da14577d488fce920771f482f8ec78b4d6b338a8bdffaf25ea3e08eb",
+      "ast_digest": "aedf112e9ef0db9ffbbeee3dfe1f919e07e94de398de1fcdeccfa2d45bc5bc4a"
     },
     "sor": {
-      "values_digest": "9cae48633604033e73784fb84f65c47888e213b5f364c49504eebd45aa438dd5",
+      "values_digest": "f0b53966dba898c688509f214d691f22670b727c2e86ada00ea2d576b0553e74",
       "rendered_digest": "d840936e5583ba3f624506eb755aeb2239a0b6cb85c3c3e5bd6445bc899b2860",
       "ast_digest": "61692a9165f5828c2fe2e59b8e1d5ab6762bc53b5bc01644e788ea49b71ffa75"
     }
@@ -109,6 +191,13 @@
       "to": "implemented",
       "actor": "codex:issue-4739-preparation",
       "reason": "The bounded implementation, all six SPP steps, focused validation, and live Unity-MCP alignment proof are recorded."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-4739-preparation",
+      "reason": "The assigned exact-revision review is complete, all actionable findings are fixed at the reviewed revision, and SRP retains the proof boundaries."
     }
   ],
   "audit": [
@@ -272,6 +361,20 @@
       "actor": "codex:issue-4739-preparation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "subagent:019f95ae-c03a-7e90-808f-803f476c9738",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:issue-4739-preparation",
+      "reason": "The assigned exact-revision review is complete, all actionable findings are fixed at the reviewed revision, and SRP retains the proof boundaries.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
