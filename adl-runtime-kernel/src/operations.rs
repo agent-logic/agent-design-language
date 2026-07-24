@@ -62,6 +62,21 @@ impl AdapterKind {
         }
     }
 
+    pub fn operation_name(self) -> &'static str {
+        match self {
+            Self::Agent => "agent.execute",
+            Self::Shepherd => "shepherd.admit",
+            Self::Provider => "provider.dispatch",
+            Self::Scheduler => "scheduler.schedule",
+            Self::Chronosense => "chronosense.sample",
+            Self::Acip => "acip.exchange",
+            Self::A2a => "a2a.send",
+            Self::CloudBridge => "cloud_bridge.forward",
+            Self::CheckpointStore => "checkpoint.store",
+            Self::Lifelog => "lifelog.append",
+        }
+    }
+
     fn capability(self) -> String {
         format!("runtime.{}", self.service_name())
     }

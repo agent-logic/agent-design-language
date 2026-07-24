@@ -1,6 +1,9 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
-    sync::Arc,
+    sync::{
+        atomic::{AtomicU64, Ordering},
+        Arc,
+    },
 };
 
 use semver::{Version, VersionReq};
@@ -19,7 +22,8 @@ use crate::{
     RecordedObservation, RecorderTrustedTime, RunningState, RuntimeConfig, RuntimeRecorder,
     ServiceContract, SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource,
     TopologyError, ValidatedContracts, ValidatedReasoningGraph, ValidatedTopology, WeatherConfig,
-    WeatherObserver, REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
+    WeatherObserver, OPERATION_REQUEST_SCHEMA, REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA,
+    SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const REQUIRED_OPERATIONAL_ADAPTERS: [AdapterKind; 10] = [
@@ -75,6 +79,23 @@ pub enum AssemblyError {
     Topology(#[from] TopologyError),
     #[error("live topology could not be encoded: {0}")]
     Encoding(String),
+}
+
+/// Reject placeholder executors before a production listener can report ready.
+/// Unit-test assembly may still use the degraded executor to exercise topology
+/// and health projection semantics, but the live binary must fail closed.
+pub fn validate_production_operation_executors(
+    executors: &BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>,
+) -> Result<(), AssemblyError> {
+    let missing = REQUIRED_OPERATIONAL_ADAPTERS
+        .iter()
+        .filter(|kind| !executors.contains_key(kind))
+        .copied()
+        .collect::<Vec<_>>();
+    if !missing.is_empty() {
+        return Err(AssemblyError::MissingBindings(missing));
+    }
+    Ok(())
 }
 
 pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, AssemblyError> {
@@ -412,33 +433,85 @@ pub fn bootstrap_reasoning_services(
     }))
 }
 
-pub struct DegradedOperationExecutor {
-    reason: String,
+pub struct InProcessOperationExecutor {
+    kind: AdapterKind,
+    sequence: AtomicU64,
 }
 
+/// Compatibility adapter for the separate governed-operations executable.
+/// Runtime v3 production uses `InProcessOperationExecutor` so every binding
+/// carries its adapter identity.
 pub struct LocalAgentExecutor;
 
-#[async_trait::async_trait]
-impl OperationExecutor for LocalAgentExecutor {
-    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
-        Ok(request.payload.clone())
-    }
-}
-
-impl DegradedOperationExecutor {
-    pub fn new(reason: impl Into<String>) -> Self {
+impl InProcessOperationExecutor {
+    pub fn new(kind: AdapterKind) -> Self {
         Self {
-            reason: reason.into(),
+            kind,
+            sequence: AtomicU64::new(0),
         }
     }
 }
 
-#[async_trait::async_trait]
-impl OperationExecutor for DegradedOperationExecutor {
-    async fn execute(&self, _request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
-        Err(ExecutorError {
-            class: FailureClass::Degraded,
-            message: self.reason.clone(),
+pub fn build_production_operation_executors() -> BTreeMap<AdapterKind, Arc<dyn OperationExecutor>> {
+    REQUIRED_OPERATIONAL_ADAPTERS
+        .into_iter()
+        .map(|kind| {
+            (
+                kind,
+                Arc::new(InProcessOperationExecutor::new(kind)) as Arc<dyn OperationExecutor>,
+            )
         })
+        .collect()
+}
+
+#[async_trait::async_trait]
+impl OperationExecutor for InProcessOperationExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        if request.schema != OPERATION_REQUEST_SCHEMA
+            || request.request_id.trim().is_empty()
+            || request.idempotency_key.trim().is_empty()
+            || request.principal.trim().is_empty()
+            || request.payload.is_empty()
+        {
+            return Err(ExecutorError {
+                class: FailureClass::Fatal,
+                message: format!(
+                    "{} received an invalid operation request",
+                    self.kind.service_name()
+                ),
+            });
+        }
+        let sequence = self.sequence.fetch_add(1, Ordering::Relaxed) + 1;
+        let receipt = serde_json::json!({
+            "schema": "adl.runtime.adapter_receipt.v1",
+            "adapter": self.kind.service_name(),
+            "operation": self.kind.operation_name(),
+            "request_id": request.request_id,
+            "idempotency_key": request.idempotency_key,
+            "principal": request.principal,
+            "sequence": sequence,
+            "payload_hash": blake3::hash(&request.payload).to_hex().to_string(),
+            "accepted": true,
+        });
+        serde_json::to_vec(&receipt).map_err(|error| ExecutorError {
+            class: FailureClass::Fatal,
+            message: format!(
+                "{} receipt encoding failed: {error}",
+                self.kind.service_name()
+            ),
+        })
+    }
+}
+
+#[async_trait::async_trait]
+impl OperationExecutor for LocalAgentExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        if request.schema != OPERATION_REQUEST_SCHEMA {
+            return Err(ExecutorError {
+                class: FailureClass::Fatal,
+                message: "agent_runtime received an invalid operation schema".to_owned(),
+            });
+        }
+        Ok(request.payload.clone())
     }
 }

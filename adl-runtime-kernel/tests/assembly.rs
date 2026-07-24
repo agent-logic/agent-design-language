@@ -8,11 +8,12 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly, mark_unavailable_live_services, AdapterKind,
-    ClockAuthority, ComponentId, DegradedOperationExecutor, DomainWork, ExecutorError,
-    IngressError, LiveBindings, OperationExecutor, OperationRequest, RunningState, RuntimeRecorder,
-    TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA,
-    PASSIVE_LIVE_SERVICES, REQUIRED_OPERATIONAL_ADAPTERS,
+    bootstrap_reasoning_services, build_live_assembly, build_production_operation_executors,
+    mark_unavailable_live_services, validate_production_operation_executors, AdapterKind,
+    ClockAuthority, ComponentId, DomainWork, ExecutorError, IngressError, LiveBindings,
+    OperationExecutor, OperationRequest, RunningState, RuntimeRecorder, TimeQualificationBounds,
+    TimeSample, TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA, PASSIVE_LIVE_SERVICES,
+    REQUIRED_OPERATIONAL_ADAPTERS,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -22,6 +23,18 @@ struct FixedTime;
 struct EchoExecutor {
     calls: Arc<AtomicUsize>,
     request: Arc<Mutex<Option<OperationRequest>>>,
+}
+
+struct FailingExecutor;
+
+#[async_trait]
+impl OperationExecutor for FailingExecutor {
+    async fn execute(&self, _request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        Err(ExecutorError {
+            class: adl_runtime_kernel::FailureClass::Fatal,
+            message: "intentional test failure".to_owned(),
+        })
+    }
 }
 
 #[async_trait]
@@ -51,7 +64,7 @@ fn bindings(recorder: RuntimeRecorder) -> LiveBindings {
         .map(|kind| {
             (
                 kind,
-                Arc::new(DegradedOperationExecutor::new("not configured"))
+                Arc::new(adl_runtime_kernel::InProcessOperationExecutor::new(kind))
                     as Arc<dyn adl_runtime_kernel::OperationExecutor>,
             )
         })
@@ -123,6 +136,38 @@ fn live_assembly_refuses_a_missing_executor_binding() {
     assert!(error.to_string().contains("CloudBridge"));
 }
 
+#[test]
+fn production_readiness_accepts_complete_in_process_bindings() {
+    let executors = build_production_operation_executors();
+    assert_eq!(executors.len(), REQUIRED_OPERATIONAL_ADAPTERS.len());
+    validate_production_operation_executors(&executors).unwrap();
+}
+
+#[tokio::test]
+async fn every_production_adapter_executes_its_typed_operation_boundary() {
+    let executors = build_production_operation_executors();
+    for kind in REQUIRED_OPERATIONAL_ADAPTERS {
+        let receipt: serde_json::Value = serde_json::from_slice(
+            &executors[&kind]
+                .execute(&OperationRequest {
+                    schema: adl_runtime_kernel::OPERATION_REQUEST_SCHEMA.to_owned(),
+                    request_id: format!("adapter-{}", kind.service_name()),
+                    idempotency_key: format!("idempotency-{}", kind.service_name()),
+                    principal: "runtime-test".to_owned(),
+                    payload: b"typed-adapter-input".to_vec(),
+                    permit: None,
+                })
+                .await
+                .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(receipt["schema"], "adl.runtime.adapter_receipt.v1");
+        assert_eq!(receipt["adapter"], kind.service_name());
+        assert_eq!(receipt["operation"], kind.operation_name());
+        assert_eq!(receipt["accepted"], true);
+    }
+}
+
 #[tokio::test]
 async fn live_assembly_starts_and_qualifies_time() {
     let recorder = RuntimeRecorder::new(128);
@@ -183,6 +228,8 @@ async fn canonical_ingress_dispatches_allowlisted_work_and_commits_only_success(
             request: dispatched.clone(),
         }),
     );
+    live.operation_executors
+        .insert(AdapterKind::Shepherd, Arc::new(FailingExecutor));
     let assembly = build_live_assembly(live).unwrap();
     let ingress = assembly.canonical_ingress.clone();
     let handle = adl_runtime_kernel::Kernel::new(assembly.topology, recorder)
