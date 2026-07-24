@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/tools/probe_unity_mcp_observatory_alignment.sh\nadl/tools/test_v0916_unity_mcp_alignment_unit.sh\nadl/tools/test_v0916_unity_observatory_contract.sh\ndocs/tooling/unity_mcp_observatory_alignment.md\n.csdlc/issues/4739\n.csdlc/prepared/issues/4739",
+      "review_scope": "adl/tools/probe_unity_mcp_observatory_alignment.sh\nadl/tools/test_v0916_unity_mcp_alignment_unit.sh\nadl/tools/test_v0916_unity_observatory_contract.sh\nadl/config/validation_lane_selector.v0.91.6.json\nadl/tools/test_select_validation_lanes.sh\ndocs/tooling/unity_mcp_observatory_alignment.md\n.csdlc/issues/4739\n.csdlc/prepared/issues/4739",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

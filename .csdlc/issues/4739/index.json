@@ -5,7 +5,7 @@
   "initialization_digest": "dd98199cf21b7a3ece23619ecfd7fd926dd8e153555179e8af5f50d245522f73",
   "phase": "implemented",
   "generation": 19,
-  "digest": "c209233cf7d738a45c0269d07cef3094094de44d3620bff111a7b646abd93834",
+  "digest": "29e216963974156f7661df4ad30852439218777a2c544c7c0b3c3eb87a165084",
   "claim": {
     "id": "claim-4739-v0918-wp15-unity-mcp-alignment-prep",
     "owner": "codex:issue-4739-preparation",
@@ -28,7 +28,21 @@
     ],
     "purpose": "Prepare #4739 for bounded v0.91.8 WP-15 Unity-MCP project and endpoint alignment execution"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f95ae-c03a-7e90-808f-803f476c9738",
+    "assigned_by": "codex:issue-4739-preparation",
+    "revision": "git-blake3:3cbf07444fb6f81675a00c47bc70748216c66301:d4de34bc85d82814f695fc02cd3de45901cb8773be1bb80fc80ac6dd23d93660",
+    "scope": [
+      "adl/tools/probe_unity_mcp_observatory_alignment.sh",
+      "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
+      "adl/tools/test_v0916_unity_observatory_contract.sh",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "docs/tooling/unity_mcp_observatory_alignment.md",
+      ".csdlc/issues/4739",
+      ".csdlc/prepared/issues/4739"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -64,9 +78,9 @@
       "ast_digest": "3b51b461e9ae08b0f8e9bbe74d5057a256fd7a0adc97eafa4e550f0c29d16c1e"
     },
     "srp": {
-      "values_digest": "959144920eb91fbda7588c72d384911af6950c73a55b06a275869c6fc446d041",
-      "rendered_digest": "890531e1fd3e8512be7cb627ff78d11705bfa04846d2b21be509dbd7d12e2cc5",
-      "ast_digest": "06516366cf0f4bd5643ae6197bf3f76e4ccd08828716266d09879e47b5322977"
+      "values_digest": "8acadf1f6686b36d4b79ec776d1eabe62a0b823be2be5d3555b484e0d513a032",
+      "rendered_digest": "1684b02c7a9a5fcc4ab43932009fe5fad5eec5c69b2e5c47f4b2a1001d5e6ce9",
+      "ast_digest": "8333d9c99b01a2044ede7ee94dd1ea7a711ea6d6e513c6c76d4efa72e099c1b3"
     },
     "sor": {
       "values_digest": "9cae48633604033e73784fb84f65c47888e213b5f364c49504eebd45aa438dd5",
@@ -251,6 +265,13 @@
       "actor": "codex:issue-4739-preparation",
       "reason": "Correct the retained proof location after exact review established that issue-card transactions replace undeclared files inside the issue projection.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"-c\",\"UNITY_MCP_CLI=/Users/daniel/git/Unity-MCP/cli/dist/cli.js ADL_PROCESS_BIN=/Users/daniel/git/agent-design-language/.adl/bin/adl bash adl/tools/probe_unity_mcp_observatory_alignment.sh --project /Volumes/FastWork/adl-unity-observatory/operator-provisioned-5332/unity-observatory --url http://localhost:23011 --editor-pid 9344 > .csdlc/prepared/issues/4739/unity-mcp-alignment-live.txt\"],\"purpose\":\"Retain sanitized live proof at the protected prepared-artifact path that survives typed card projections.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/4739/unity-mcp-alignment-live.txt sha256:2ec84c325ec8864e531fd1e6b0a881c439418daf6e246c302927de8d09452a95; supersedes the non-retained issue-local path from the prior validation entry; focused PCRE2 secret-pattern scan returned no matches.\"}}"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:issue-4739-preparation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

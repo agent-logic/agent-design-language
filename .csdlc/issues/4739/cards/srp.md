@@ -15,6 +15,8 @@ Status: pre_phase
 adl/tools/probe_unity_mcp_observatory_alignment.sh
 adl/tools/test_v0916_unity_mcp_alignment_unit.sh
 adl/tools/test_v0916_unity_observatory_contract.sh
+adl/config/validation_lane_selector.v0.91.6.json
+adl/tools/test_select_validation_lanes.sh
 docs/tooling/unity_mcp_observatory_alignment.md
 .csdlc/issues/4739
 .csdlc/prepared/issues/4739
