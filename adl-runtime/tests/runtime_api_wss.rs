@@ -193,7 +193,10 @@ async fn wss_auth_rotation_revocation_and_shutdown_are_real_tls_frames() {
         .unwrap();
     let matrix_frame: serde_json::Value =
         serde_json::from_str(&socket.next().await.unwrap().unwrap().into_text().unwrap()).unwrap();
-    assert_eq!(matrix_frame["schema"], CSM_RUNTIME_API_FEATURE_MATRIX_SCHEMA);
+    assert_eq!(
+        matrix_frame["schema"],
+        CSM_RUNTIME_API_FEATURE_MATRIX_SCHEMA
+    );
     assert_eq!(
         matrix_frame["rows"][0]["feature"],
         "wss_authenticated_bidirectional_exchange"
@@ -297,6 +300,9 @@ fn health_telemetry_matrix_and_init_file_are_truthful() {
     assert_eq!(init["runtime_api"]["mode"].as_str(), Some("api_only"));
     assert_eq!(init["runtime_api"]["port"].as_integer(), Some(20_997));
     assert_eq!(init["runtime_api"]["wss_path"].as_str(), Some("/acip/ws"));
-    assert_eq!(init["runtime_api"]["auth"].as_str(), Some("runtime_api_bearer"));
+    assert_eq!(
+        init["runtime_api"]["auth"].as_str(),
+        Some("runtime_api_bearer")
+    );
     assert_eq!(CSM_RUNTIME_API_DEFAULT_PORT, 20_997);
 }

@@ -7,7 +7,7 @@
     "title": "[v0.91.8][runtime-v3][observatory] Complete authenticated WSS and feature proofs",
     "slug": "v0-91-8-runtime-v3-wss-feature-proofs",
     "version": "v0.91.8",
-    "generation": 5
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
@@ -57,6 +57,20 @@
           "purpose": "Prove #5665 Runtime API WSS and Observatory truth without URL-only, fixture-only, metadata-only, Python, AWS, or degraded proof.",
           "outcome": "passed",
           "evidence_ref": "runtime-v3-wss-focused.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "check",
+            "--locked",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--bin",
+            "run_wp12_acip_websocket_transport_proof"
+          ],
+          "purpose": "Prove the retired WP-12 wrapper source still compiles as a fail-closed tombstone while removing the duplicate proof generator path.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5665/wp12-wrapper-tombstone-check.log"
         }
       ],
       "integration_state": "worktree_only",

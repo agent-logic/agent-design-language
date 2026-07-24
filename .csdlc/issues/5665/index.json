@@ -3,13 +3,13 @@
   "issue": 5665,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "de3b5856d4e47ed1ebb369e7783dc3b928af156f44ee05ce3494807c656c9e30",
-  "phase": "reviewed",
-  "generation": 5,
-  "digest": "f2b39c577106f1ed59d071867c6f814822f2a31e693d943f68176077c30616bf",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "e559fe13303e85b00b98f064dfe541e648960dba6a1c10f38a788322311913f6",
   "claim": {
     "id": "claim-5665-runtime-v3-wss-feature-proofs",
     "owner": "codex:issue-5665-slot-1",
-    "generation": 5,
+    "generation": 7,
     "acquired_unix_seconds": 1784935430,
     "expires_unix_seconds": 1785540230,
     "heartbeat_unix_seconds": 1784935430,
@@ -21,63 +21,20 @@
       ".csdlc/locks/5665.lock",
       ".csdlc/prepared/issues/5665",
       "adl-runtime/Cargo.toml",
+      "adl-runtime/src/observability.rs",
       "adl-runtime/src/runtime_api.rs",
       "adl-runtime/src/runtime_api_auth.rs",
-      "adl-runtime/src/observability.rs",
       "adl-runtime/src/shutdown.rs",
       "adl-runtime/tests/runtime_api_wss.rs",
-      "infra/runtime-v3/runtime-api-5665.toml",
-      "docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json"
+      "adl/Cargo.lock",
+      "adl/src/bin/run_wp12_acip_websocket_transport_proof.rs",
+      "docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json",
+      "infra/runtime-v3/runtime-api-5665.toml"
     ],
     "purpose": "Complete authenticated Runtime v3 WSS and feature proof matrix without HTML Observatory redesign"
   },
-  "review_assignment": {
-    "reviewer": "Pauli",
-    "assigned_by": "codex:issue-5665-slot-1",
-    "revision": "git-blake3:f9717b162541eafed276cc7ab1d59a43663cd6ec:31640a070e029b4a35d9c166479a0a04b91e0e926dcb4e470bb90e41f2d3b0eb",
-    "scope": [
-      "adl-runtime/src/runtime_api.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "adl-runtime/Cargo.toml",
-      "adl-runtime/Cargo.lock",
-      "infra/runtime-v3/runtime-api-5665.toml",
-      "docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json",
-      ".csdlc/evidence/5665/runtime-v3-wss-focused.log",
-      ".csdlc/evidence/5665/runtime-v3-strict-clippy.log"
-    ]
-  },
-  "review": {
-    "reviewer": "Pauli",
-    "scope": [
-      "adl-runtime/src/runtime_api.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "adl-runtime/Cargo.toml",
-      "adl-runtime/Cargo.lock",
-      "infra/runtime-v3/runtime-api-5665.toml",
-      "docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json",
-      ".csdlc/evidence/5665/runtime-v3-wss-focused.log",
-      ".csdlc/evidence/5665/runtime-v3-strict-clippy.log"
-    ],
-    "reviewed_revision": "git-blake3:f9717b162541eafed276cc7ab1d59a43663cd6ec:31640a070e029b4a35d9c166479a0a04b91e0e926dcb4e470bb90e41f2d3b0eb",
-    "findings": [
-      {
-        "id": "P2-stale-lifecycle-review-state",
-        "severity": "p2",
-        "summary": "Committed lifecycle state at f9717b162 still recorded the older Halley review and stale residual risks, so exact pre-PR review coverage was overclaimed until typed recovery and a new review record were applied.",
-        "actionable": true,
-        "in_scope": false,
-        "disposition": "out_of_scope",
-        "fix_revision": null,
-        "route": "Resolved by typed csdlc-review recover plus this csdlc-review record metadata update; no runtime code change was required."
-      }
-    ],
-    "residual_risks": [
-      "The WSS shutdown path intentionally returns an API-only shutdown_ack and does not stop the runtime process; consumers must not treat it as runtime stop proof.",
-      "#5663 and #5664 protected-path records were not visible in this worktree; visible #5657 protected paths were disjoint from the changed paths."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -92,34 +49,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "21f359a6fc784b61afe220b8b0e899898437aa1cc1a32795fdbcc5902e6bc061",
+      "values_digest": "d54baedb9ac016a93d0ab687a1475ebd46a46c8392ea6928b9db1e60603ccd8d",
       "rendered_digest": "dcda6e18ce8d3f336740dcdf7ae9ef6df97c63ab57c0027a9cda03bde9a7e61c",
       "ast_digest": "552dc5d250d0b5e354c06cd8c0708bebc52b5bb9be16a24f8cddff1333eddd88"
     },
     "stp": {
-      "values_digest": "230d0d193749c6f8f7420d9a8cb14bd206d8aa927155bb6dd6679ec7cd0eb51a",
+      "values_digest": "2859d80020af0a8c81ce692a1ec7d34710d6f59060c61b5aafc6e5fadc912151",
       "rendered_digest": "180c0fdd339b9336b9756ca1699baad2ab4d92b2f31d4d053579527bfa508052",
       "ast_digest": "5b1833288c45238cc2daf644dfa04fc8cdc4d58959c70bcfac24aa55168cf306"
     },
     "spp": {
-      "values_digest": "7883ab7d0e88243fc16a6e4bca177d73c64234ce235526500e933fe80be11a7e",
+      "values_digest": "2ad146219cb7b3958fb1e946d766e8c63b288731019d714d55ed89f39384c32f",
       "rendered_digest": "0393b9f7a00cb350b2af7a8a05e563ecacb96d3dcdfeb60d719936cec55c83f8",
       "ast_digest": "e75f7acd2ff2c1cabfd381de260d797cfbd5c84f99e8658d762e62c36a928c1b"
     },
     "vpp": {
-      "values_digest": "11033e17e7ba4dd2ffd15a88f4684846810a12eb726ede1275732e578aea79f6",
+      "values_digest": "4a6d59406ce55241274b3e241f5efde3d0f602208ac6be5125ede9046a16ec9d",
       "rendered_digest": "cd536331740ee0cf5d5e398d8df5a638163c27e42f3ab4a73c779e1a07cdbada",
       "ast_digest": "fcfeba3e3e8d15e35ea5c655fb03885d647827dd20e9c67bb04f5f7c652b89c3"
     },
     "srp": {
-      "values_digest": "953fb85df3b3f3593393d20f1dc42f8a4db08bb03e509ad7f10584e65c3aed99",
-      "rendered_digest": "b9eeb56a108525b069f1fdf16671ce494d24c2599fc8a77181e868cba5822054",
-      "ast_digest": "8fcf9ef27eeb63d6fb109b30c9cb6a485966f458a74f17adcdde2c3561697ecc"
+      "values_digest": "c707230b35e32a0c7a7a7ec8f95fb477429e03327847d4995d8f4520c093c9f4",
+      "rendered_digest": "5e81eae1eef19981cf911bd22667f2f64ad6267a3aff5535887b52e0522b846a",
+      "ast_digest": "57821f0831b46ece151f81598d8529c3e08207fffa4f37c37dd2d4e6ceafbb71"
     },
     "sor": {
-      "values_digest": "207e95bb0dc03899b87e3d114a237681d94cd79557d01051e41ef22ba0103dcf",
-      "rendered_digest": "a1a108fe54b69c88e57f8b60ae8fe0fb5b228c8415bc0a0daee9e7fb578571d2",
-      "ast_digest": "2c0c23c1ecf0bbaed50f601f735fae4948820489ed96634a23fa2fec13cc505c"
+      "values_digest": "b943150ffab3c7860ed56eced6842baaeee295dcd6345b972af31b68f796749e",
+      "rendered_digest": "d13057e44c89730b5a78fbe852388617af0b72a1cec26807e5ca204ae5c0ad4c",
+      "ast_digest": "6364af354c5354a48fa06ce99069c77a8ced54d35269d542b47bfbe5928fd8cd"
     }
   },
   "transitions": [
@@ -164,6 +121,13 @@
       "to": "reviewed",
       "actor": "codex:issue-5665-slot-1",
       "reason": "Advance to reviewed after Pauli exact-head review evidence was recorded for f9717b162541eafed276cc7ab1d59a43663cd6ec."
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "Recover reviewed state to perform a lifecycle-approved source-only removal of obsolete duplicate WP-12 WSS proof wrapper logic without touching the #5587-owned adl/Cargo.toml."
     }
   ],
   "audit": [
@@ -222,6 +186,34 @@
       "actor": "codex:issue-5665-slot-1",
       "reason": "Advance to reviewed after Pauli exact-head review evidence was recorded for f9717b162541eafed276cc7ab1d59a43663cd6ec.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "Recover reviewed state to perform a lifecycle-approved source-only removal of obsolete duplicate WP-12 WSS proof wrapper logic without touching the #5587-owned adl/Cargo.toml.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "narrowly replace obsolete duplicate WP-12 websocket proof wrapper source with a compatibility tombstone while leaving the #5587-owned adl/Cargo.toml untouched",
+      "operation": "{\"add_protected_paths\":[\"adl/src/bin/run_wp12_acip_websocket_transport_proof.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "allow focused wrapper bin compile check to refresh adl/Cargo.lock after adl-runtime dependency graph changed",
+      "operation": "{\"add_protected_paths\":[\"adl/Cargo.lock\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "Record focused compile proof for the retired WP-12 wrapper tombstone.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"run_wp12_acip_websocket_transport_proof\"],\"purpose\":\"Prove the retired WP-12 wrapper source still compiles as a fail-closed tombstone while removing the duplicate proof generator path.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5665/wp12-wrapper-tombstone-check.log\"}}"
     }
   ]
 }

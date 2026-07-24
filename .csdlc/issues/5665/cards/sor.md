@@ -61,6 +61,20 @@ Completed an API-only Runtime v3 Rustls WSS proof surface with authenticated upg
     "purpose": "Prove #5665 Runtime API WSS and Observatory truth without URL-only, fixture-only, metadata-only, Python, AWS, or degraded proof.",
     "outcome": "passed",
     "evidence_ref": "runtime-v3-wss-focused.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "check",
+      "--locked",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "run_wp12_acip_websocket_transport_proof"
+    ],
+    "purpose": "Prove the retired WP-12 wrapper source still compiles as a fail-closed tombstone while removing the duplicate proof generator path.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5665/wp12-wrapper-tombstone-check.log"
   }
 ]
 
