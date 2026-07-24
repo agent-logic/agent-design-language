@@ -3,13 +3,13 @@
   "issue": 5332,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8ee9091ce142a919549ed8c48a16a744272dd8463de1041c3cfccc5d0dc1a76d",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "077d825199a50191520454bfe0641945c6270105344d2414a24fadd196384944",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "49e41225dea0aa91f8def42afc3a5db9d3d762bd2c7b33c33820967f5d7c130c",
   "claim": {
     "id": "claim-5332-v0918-wp15-unity-ilpp-exec-prep",
     "owner": "codex:issue-5332-execution-preparation",
-    "generation": 13,
+    "generation": 15,
     "acquired_unix_seconds": 1784835366,
     "expires_unix_seconds": 1785440166,
     "heartbeat_unix_seconds": 1784835366,
@@ -31,8 +31,46 @@
     ],
     "purpose": "Prepare #5332 for bounded v0.91.8 WP-15 Unity ILPP GetDomainName loop diagnosis and regression execution"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:019f9573-ce90-7512-81f1-f56ff3ceeb1f",
+    "assigned_by": "codex:019f24c9-f798-7ad2-9a9c-886b434eb62c",
+    "revision": "git-blake3:ff789a110aaf9072ff66a300ff87a831ec7034c5:2c196c74114b554628bbca6a35543e14709b95005be25f36b32e14a81b078449",
+    "scope": [
+      ".csdlc/evidence/5332",
+      ".csdlc/issues/5332",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/lib/unity_observatory_batch_classifiers.sh",
+      "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
+      "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "docs/tooling/unity_ilpp_getdomainname_diagnosis.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:019f9573-ce90-7512-81f1-f56ff3ceeb1f",
+    "scope": [
+      ".csdlc/evidence/5332",
+      ".csdlc/issues/5332",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/lib/unity_observatory_batch_classifiers.sh",
+      "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
+      "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "docs/tooling/unity_ilpp_getdomainname_diagnosis.md"
+    ],
+    "reviewed_revision": "git-blake3:ff789a110aaf9072ff66a300ff87a831ec7034c5:2c196c74114b554628bbca6a35543e14709b95005be25f36b32e14a81b078449",
+    "findings": [],
+    "residual_risks": [
+      "Restricted execution lanes that deny getdomainname remain unsuitable for live Unity batch proof and now fail closed before staging.",
+      "The successful staged shell and flagship validator proves scene composition and contract validity, not investor-ready runtime-shell layout or complete demo polish."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -47,32 +85,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d17a4af7cc73c7163d1b23d02969c0b75eb1dbf02bb6e36e5d8de99375605b35",
+      "values_digest": "823af13e04a6c0eca1be7f968ca76b1a5f3320bb851538c64b6797379f2557eb",
       "rendered_digest": "8f31fb0ca25e7bd75c334fa2bc43dc3e7927111f10ff48d41cb0a87516b45bdc",
       "ast_digest": "b2b564fdb4eb26f2538c0bd33c83c1a9634b5d358746ea16b7f62f8a6d147188"
     },
     "stp": {
-      "values_digest": "5a63ffb894572ddc412eb32c06fd2b6b29b2c2aa6ae6839b70837d1083bba64a",
+      "values_digest": "45d10b96f113d0e12972aa6b3c8104e04f5fb68af937ba7987e9fec25322c21d",
       "rendered_digest": "a24d878594ee062f7396f2d97dcc98edc222d0c728d37633d4f76d219beea13a",
       "ast_digest": "2394df5d9d77dce7f60bc8ffe658c1b819c42691fc50cbe5e3f4e9708c3022cf"
     },
     "spp": {
-      "values_digest": "34f03301464c40d73b87c142a97c40203939917274dbe08fbcceff18a55bb731",
+      "values_digest": "d1360a2f29f527c7a9fe3b8600b0996f475e5cec85b611217eed9491c4d7352b",
       "rendered_digest": "e74415d8178ce860e5fc9afb3e2f781b85e612ada97dd0409d9ea09acefad3ec",
       "ast_digest": "1dfd2f4b6b2b37a33b729ad82d81c4a912ad688948ca83112285a5955b02e892"
     },
     "vpp": {
-      "values_digest": "194d4726398792a4b8333779a3dcdcb12ca25165356e30b5270e8efd4b502cc0",
+      "values_digest": "f7bcd302ab7e4551c7e61360285d88f81c0dbcc4f735151dff856f70cc814a41",
       "rendered_digest": "fb1b7b549e626368f2e1f387050d68266a882d894e89653005c02330ab839a1f",
       "ast_digest": "825bdfee86f3406b48dd8850e354f9fd2be2e7b04c8e3d983287ff9880b929e1"
     },
     "srp": {
-      "values_digest": "01f21dc27603a425078c455afea812b64ac597ca55da7ad36cda2e38f117108c",
-      "rendered_digest": "14be806d8144b23ca9ad9f79c46b22d29f91f3bb78b59c597dccb4cee3b2c134",
-      "ast_digest": "e9ffc39b9d0fa78be3d172c3b6b9098ae02e35b2364af169bb8bd309e782eb43"
+      "values_digest": "e3eb317a45aa2b2177d6a7b737451d643889c861f97227204ee8f93ed50790e8",
+      "rendered_digest": "18253f26a5a09bca3e67f4b04e66c3bf23b4a47710c1ed69cc65836d78825bec",
+      "ast_digest": "faa5accd2ce1a6606843bbf4589175767b7847c7cd1dea2dd01b296762b77fee"
     },
     "sor": {
-      "values_digest": "805dd2727af956da01e7218c42c0ce15b14eed4f6bfd93fed6093b27c8fd965e",
+      "values_digest": "5fdb413bd4cfac053d25a2e9cce56e1e4f3f8dfac0ddbb1d9e6b226113438de0",
       "rendered_digest": "d6d7b86a344cc1c2ad61900226792320c1bb9582ba96a97814587a1c65058ab9",
       "ast_digest": "daec70f82137c5f78a90f43bf7ab6549057f07b37e38e0708115f9906598447f"
     }
@@ -98,6 +136,13 @@
       "to": "implemented",
       "actor": "codex:issue-5332-unity-ilpp-execution",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f24c9-f798-7ad2-9a9c-886b434eb62c",
+      "reason": "Advance the exact reviewed Unity ILPP implementation with no actionable review findings."
     }
   ],
   "audit": [
@@ -233,6 +278,27 @@
       "actor": "codex:issue-5332-unity-ilpp-execution",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:019f24c9-f798-7ad2-9a9c-886b434eb62c",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex-subagent:019f9573-ce90-7512-81f1-f56ff3ceeb1f",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:019f24c9-f798-7ad2-9a9c-886b434eb62c",
+      "reason": "Advance the exact reviewed Unity ILPP implementation with no actionable review findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
