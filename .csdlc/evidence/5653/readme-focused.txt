@@ -1,6 +1,6 @@
 README focused validation for issue #5653
 
-Revision under test: 3a45acd5d
+Revision under test: 2b3e397fb
 
 1. git diff --check
    PASS
