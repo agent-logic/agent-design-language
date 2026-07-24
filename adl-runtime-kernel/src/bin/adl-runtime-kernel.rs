@@ -6,17 +6,17 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly, execute_loop, generate_runtime_instance_id,
-    load_control_tls, mark_unavailable_live_services, monitor_until_stop,
+    bootstrap_reasoning_services, build_live_assembly, build_production_operation_executors,
+    execute_loop, generate_runtime_instance_id, load_control_tls, mark_unavailable_live_services,
+    monitor_until_stop,
     proof::{load_capsule, run_proof},
     serve_control_listener_until_ready, validate_production_operation_executors,
     verifying_key_from_hex, AdaptationState, CheckpointShutdownRequest, CheckpointingControl,
-    ControlAuthority, ControlCapability, ControlService, InProcessOperationExecutor, Kernel,
-    KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot, LoopDefinition, LoopStatus,
-    ReasoningEdge, ReasoningGraphDefinition, ReasoningNode, RecordedObservation,
-    RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
-    TimeQualificationBounds, TrustedControlKey, ValidatedReasoningGraph, MAX_SHADOW_FIXTURE_BYTES,
-    REASONING_GRAPH_SCHEMA, REQUIRED_OPERATIONAL_ADAPTERS,
+    ControlAuthority, ControlCapability, ControlService, Kernel, KernelExit, LiveBindings,
+    LiveContinuity, LiveKernelSnapshot, LoopDefinition, LoopStatus, ReasoningEdge,
+    ReasoningGraphDefinition, ReasoningNode, RecordedObservation, RsntpTimeSampleSource,
+    RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver, TimeQualificationBounds,
+    TrustedControlKey, ValidatedReasoningGraph, MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA,
 };
 use tokio_util::sync::CancellationToken;
 
@@ -79,14 +79,7 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let operation_executors = REQUIRED_OPERATIONAL_ADAPTERS
-                .into_iter()
-                .map(|kind| {
-                    let executor: Arc<dyn adl_runtime_kernel::OperationExecutor> =
-                        Arc::new(InProcessOperationExecutor::new(kind));
-                    (kind, executor)
-                })
-                .collect();
+            let operation_executors = build_production_operation_executors();
             if let Err(error) = validate_production_operation_executors(&operation_executors) {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);

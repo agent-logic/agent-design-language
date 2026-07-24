@@ -1,6 +1,9 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
-    sync::Arc,
+    sync::{
+        atomic::{AtomicU64, Ordering},
+        Arc,
+    },
 };
 
 use semver::{Version, VersionReq};
@@ -432,6 +435,7 @@ pub fn bootstrap_reasoning_services(
 
 pub struct InProcessOperationExecutor {
     kind: AdapterKind,
+    sequence: AtomicU64,
 }
 
 /// Compatibility adapter for the separate governed-operations executable.
@@ -441,23 +445,61 @@ pub struct LocalAgentExecutor;
 
 impl InProcessOperationExecutor {
     pub fn new(kind: AdapterKind) -> Self {
-        Self { kind }
+        Self {
+            kind,
+            sequence: AtomicU64::new(0),
+        }
     }
+}
+
+pub fn build_production_operation_executors() -> BTreeMap<AdapterKind, Arc<dyn OperationExecutor>> {
+    REQUIRED_OPERATIONAL_ADAPTERS
+        .into_iter()
+        .map(|kind| {
+            (
+                kind,
+                Arc::new(InProcessOperationExecutor::new(kind)) as Arc<dyn OperationExecutor>,
+            )
+        })
+        .collect()
 }
 
 #[async_trait::async_trait]
 impl OperationExecutor for InProcessOperationExecutor {
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
-        if request.schema != OPERATION_REQUEST_SCHEMA {
+        if request.schema != OPERATION_REQUEST_SCHEMA
+            || request.request_id.trim().is_empty()
+            || request.idempotency_key.trim().is_empty()
+            || request.principal.trim().is_empty()
+            || request.payload.is_empty()
+        {
             return Err(ExecutorError {
                 class: FailureClass::Fatal,
                 message: format!(
-                    "{} received an invalid operation schema",
+                    "{} received an invalid operation request",
                     self.kind.service_name()
                 ),
             });
         }
-        Ok(request.payload.clone())
+        let sequence = self.sequence.fetch_add(1, Ordering::Relaxed) + 1;
+        let receipt = serde_json::json!({
+            "schema": "adl.runtime.adapter_receipt.v1",
+            "adapter": self.kind.service_name(),
+            "operation": self.kind.operation_name(),
+            "request_id": request.request_id,
+            "idempotency_key": request.idempotency_key,
+            "principal": request.principal,
+            "sequence": sequence,
+            "payload_hash": blake3::hash(&request.payload).to_hex().to_string(),
+            "accepted": true,
+        });
+        serde_json::to_vec(&receipt).map_err(|error| ExecutorError {
+            class: FailureClass::Fatal,
+            message: format!(
+                "{} receipt encoding failed: {error}",
+                self.kind.service_name()
+            ),
+        })
     }
 }
 
