@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "618ba16c12e2d0dbd97423264edc8d3549285dffa958884cab7a2bbf4d8beeaf",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "cda3628c546f37310b915ae448ed361a45fa9051c58583e9bc6c3588d71f084b",
+  "generation": 7,
+  "digest": "75a72c7bdb3d79dd96dcd1597cb44b3cf6d90c0e237dc5fae757685dc4a9adcc",
   "claim": {
     "id": "claim-5655-csdlc-github-actions",
     "owner": "codex:issue-5655-slot-1",
-    "generation": 6,
+    "generation": 7,
     "acquired_unix_seconds": 1784920947,
     "expires_unix_seconds": 1785525747,
     "heartbeat_unix_seconds": 1784920947,
@@ -48,34 +48,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d04fa4b94ff36ab5f17454ebfe604cc327c6604086bdd1bd7f14e06a24a071cf",
+      "values_digest": "ce11117584fc1652689f6771224325c37013c2b0b098d56099f636d09fb44824",
       "rendered_digest": "dd03c87e89ee978781207f310746e82a4f6c5b0ab94ffd32bc07f7fc626bf2ec",
       "ast_digest": "f3dcf1664bed3e6551ae08b2f4d1c9094ecee8f90350da2e5d3c595a53238d69"
     },
     "stp": {
-      "values_digest": "6309840d1a1361209edb3873a60041ab3cabcd1110d0ff4e119a96e3630ae313",
+      "values_digest": "29b77d6614bc12e79e9a9ef2f255b32716db20ee9a1b640209bb5f8e1a04956e",
       "rendered_digest": "c9079bc4ea58e1e738d98705f2e7174a64b327e49144d07e22782615f0d993d5",
       "ast_digest": "6bf7534476300afda08cee033439735be95e7de65943efcac6c0c877eae69ac0"
     },
     "spp": {
-      "values_digest": "ec27b7ece7c38cf642b1238f7f50313a1a1bbd9035b46ed395ba32fd9a76dc33",
+      "values_digest": "a43c83442d4fe44743f1d13eec7457eecc33cd1846fc9e326c855cf55d699d43",
       "rendered_digest": "be2cfe7e9a9f224276827047a381ae37376b6151e537703ccc098f9a98329d39",
       "ast_digest": "4ea1a765d9494f866bbeb2c36a46896d9345502cc911608fb3a774571a60ff6c"
     },
     "vpp": {
-      "values_digest": "7ee1ecbc728667a2a457ae1a408bd802b461916fba023324b755c070a322f0b8",
+      "values_digest": "362929bdf288d164f3d5a994d6208495ea87ca60d4caa7b8d7d004ac4c3bf432",
       "rendered_digest": "fd705c28f03dbb536dacb251c4f79a81dcf6e8e9bdc978d49178553ecd7ee634",
       "ast_digest": "ee83fdaf3584426850b6cc2caa367155f04012db62e72953b116314b4f52bfd6"
     },
     "srp": {
-      "values_digest": "f36335df6f77e2900d2522a67f0750aac0b8b30d2ff5f85d636001550c097347",
+      "values_digest": "f13e4b7f9b5ce0fe97def903c93ceecffbbb1a2819ff57d842746161a841ad99",
       "rendered_digest": "d7b8505e7ddd996d094895e30ac3d7f30cd3ad4f742f8241ce6e183da7166fd8",
       "ast_digest": "86ec1e661bbdd48b183e77463a0bda6514916dc05eae8a49e5a6487d235faee5"
     },
     "sor": {
-      "values_digest": "5c2e2348691dc559f877f96dd0afbbfa618230a448e57cbaa0be7db4c280f514",
-      "rendered_digest": "740f31ef2cd95d8dfce49093d31e90db4c2a46c0b9e190b7c7df37a26bc20b19",
-      "ast_digest": "3a8ecfac79b65693ccd33766714eeceb71cd1ffae958b69c812631921a5a6613"
+      "values_digest": "238d46a3196c2168dd652775881444756ca47caa3571ad09b714da466b048882",
+      "rendered_digest": "6bc340d50c30fe3bbf52f4e1bac74aa503b6cadf520ef723b4c5d6d57bb09693",
+      "ast_digest": "d549c3006aca403c0045cb9b370cf4e37dac86ad42451922ef2befe3aa4686c3"
     }
   },
   "transitions": [
@@ -171,6 +171,13 @@
       "actor": "codex:issue-5655-slot-1",
       "reason": "Cover the typed stale-claim release record for #5648 that was required to unblock #5655 implementation scope.",
       "operation": "{\"add_protected_paths\":[\".csdlc/issues/5648\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "Record review-fix validation for exact issue update and close readback.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove review fixes for issue_update/issue_close exact readback and expanded focused mutation coverage without regressing C-SDLC v2.\",\"outcome\":\"passed\",\"evidence_ref\":\"Full suite passed after Boole review fixes, including gate_github_actions 6/6 covering create/comment/update/close/stale-readback and doc-test 1/1; TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp; CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target\"}}"
     }
   ]
 }

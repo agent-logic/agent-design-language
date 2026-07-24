@@ -6,10 +6,12 @@ use std::io::{Read, Write};
 use std::net::{SocketAddr, TcpListener, TcpStream};
 use std::sync::{
     atomic::{AtomicBool, Ordering},
-    mpsc, Arc, Mutex,
+    mpsc, Arc, Mutex, MutexGuard,
 };
 use std::thread;
 use std::time::Duration;
+
+static TEST_GITHUB_ENV_LOCK: Mutex<()> = Mutex::new(());
 
 fn base_request(action: GithubAction) -> GithubActionRequest {
     GithubActionRequest {
@@ -95,14 +97,10 @@ async fn pr_state_requires_pull_request_before_token_resolution() {
 
 #[tokio::test]
 async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
-    let server = LocalGithub::start();
-    let previous_base = std::env::var_os("CSDLC_V2_TEST_GITHUB_API_BASE");
-    std::env::set_var("CSDLC_V2_TEST_GITHUB_API_BASE", server.uri());
-    let mut token = tempfile::NamedTempFile::new().expect("token file");
-    writeln!(token, "fake-token").expect("write token");
+    let env = LocalGithubEnv::start();
 
     let mut create = base_request(GithubAction::IssueCreate);
-    create.token_file = Some(token.path().to_string_lossy().into_owned());
+    create.token_file = Some(env.token_file());
     create.title = Some("Repo-native GitHub action surface".into());
     create.body = Some("Create issue body".into());
     create.labels = vec!["area:tools".into(), "version:v0.91.8".into()];
@@ -111,7 +109,7 @@ async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
     assert_eq!(first.issue.as_ref().unwrap().number, 77);
     assert_eq!(second.issue.as_ref().unwrap().number, 77);
     assert!(second.issue.as_ref().unwrap().marker_present);
-    assert_eq!(server.count("POST", "/repos/owner/repo/issues"), 1);
+    assert_eq!(env.server.count("POST", "/repos/owner/repo/issues"), 1);
 
     let mut comment = base_request(GithubAction::IssueComment);
     comment.token_file = create.token_file.clone();
@@ -124,26 +122,58 @@ async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
     assert_eq!(first_comment.comment_id, Some(9001));
     assert_eq!(second_comment.comment_id, Some(9001));
     assert_eq!(
-        server.count("POST", "/repos/owner/repo/issues/77/comments"),
+        env.server
+            .count("POST", "/repos/owner/repo/issues/77/comments"),
         1
     );
-    server.assert_clean();
 
-    match previous_base {
-        Some(value) => std::env::set_var("CSDLC_V2_TEST_GITHUB_API_BASE", value),
-        None => std::env::remove_var("CSDLC_V2_TEST_GITHUB_API_BASE"),
-    }
+    let mut update = base_request(GithubAction::IssueUpdate);
+    update.token_file = Some(env.token_file());
+    update.issue = Some(77);
+    update.title = Some("Updated GitHub action surface".into());
+    update.body = Some("Updated body".into());
+    update.labels = vec!["area:tools".into(), "version:v0.91.8".into()];
+    update.assignees = vec!["codex-reviewer".into()];
+    update.milestone = Some(91);
+    let updated = execute_github_action(&update).await.expect("update");
+    let issue = updated.issue.as_ref().expect("issue");
+    assert_eq!(issue.title, "Updated GitHub action surface");
+    assert_eq!(issue.milestone, Some(91));
+    assert!(issue.labels.contains(&"area:tools".into()));
+    assert!(issue.assignees.contains(&"codex-reviewer".into()));
+    assert!(issue.marker_present);
+
+    let mut close = base_request(GithubAction::IssueClose);
+    close.token_file = Some(env.token_file());
+    close.issue = Some(77);
+    let closed = execute_github_action(&close).await.expect("close");
+    assert_eq!(closed.issue.as_ref().expect("issue").state, "closed");
+
+    env.server.force_stale_patch_readback();
+    let mut stale_update = base_request(GithubAction::IssueUpdate);
+    stale_update.token_file = Some(env.token_file());
+    stale_update.issue = Some(77);
+    stale_update.title = Some("Title that will not stick".into());
+    let error = execute_github_action(&stale_update)
+        .await
+        .expect_err("stale readback");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert!(error.message.contains("readback"));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 3);
+    env.server.assert_clean();
 }
 
 #[derive(Default)]
 struct LocalGithubState {
     issue: Option<Value>,
     comment: Option<Value>,
+    stale_patch_readback: bool,
 }
 
 struct LocalGithub {
     address: SocketAddr,
     requests: Arc<Mutex<Vec<(String, String)>>>,
+    state: Arc<Mutex<LocalGithubState>>,
     failures: Arc<Mutex<Vec<String>>>,
     stop: Arc<AtomicBool>,
     thread: Option<thread::JoinHandle<()>>,
@@ -201,6 +231,7 @@ impl LocalGithub {
         Self {
             address,
             requests,
+            state,
             failures,
             stop,
             thread: Some(thread),
@@ -224,6 +255,10 @@ impl LocalGithub {
         let failures = self.failures.lock().unwrap();
         assert!(failures.is_empty(), "{failures:?}");
     }
+
+    fn force_stale_patch_readback(&self) {
+        self.state.lock().unwrap().stale_patch_readback = true;
+    }
 }
 
 impl Drop for LocalGithub {
@@ -232,6 +267,43 @@ impl Drop for LocalGithub {
         let _ = TcpStream::connect(self.address);
         if let Some(thread) = self.thread.take() {
             let _ = thread.join();
+        }
+    }
+}
+
+struct LocalGithubEnv {
+    _guard: MutexGuard<'static, ()>,
+    server: LocalGithub,
+    token: tempfile::NamedTempFile,
+    previous_base: Option<std::ffi::OsString>,
+}
+
+impl LocalGithubEnv {
+    fn start() -> Self {
+        let guard = TEST_GITHUB_ENV_LOCK.lock().expect("test env lock");
+        let server = LocalGithub::start();
+        let previous_base = std::env::var_os("CSDLC_V2_TEST_GITHUB_API_BASE");
+        std::env::set_var("CSDLC_V2_TEST_GITHUB_API_BASE", server.uri());
+        let mut token = tempfile::NamedTempFile::new().expect("token file");
+        writeln!(token, "fake-token").expect("write token");
+        Self {
+            _guard: guard,
+            server,
+            token,
+            previous_base,
+        }
+    }
+
+    fn token_file(&self) -> String {
+        self.token.path().to_string_lossy().into_owned()
+    }
+}
+
+impl Drop for LocalGithubEnv {
+    fn drop(&mut self) {
+        match &self.previous_base {
+            Some(value) => std::env::set_var("CSDLC_V2_TEST_GITHUB_API_BASE", value),
+            None => std::env::remove_var("CSDLC_V2_TEST_GITHUB_API_BASE"),
         }
     }
 }
@@ -277,15 +349,55 @@ fn read_request(stream: &mut TcpStream) -> Option<MockRequest> {
         })
         .and_then(|value| value.trim().parse::<usize>().ok())
         .unwrap_or(0);
-    let mut body = vec![0_u8; content_length];
-    if content_length > 0 {
-        stream.read_exact(&mut body).ok()?;
-    }
+    let chunked = headers.lines().any(|line| {
+        line.to_ascii_lowercase()
+            .trim()
+            .eq("transfer-encoding: chunked")
+    });
+    let body = if chunked {
+        read_chunked_body(stream)?
+    } else {
+        let mut body = vec![0_u8; content_length];
+        if content_length > 0 {
+            stream.read_exact(&mut body).ok()?;
+        }
+        body
+    };
     Some(MockRequest {
         method,
         target,
         body: String::from_utf8(body).ok()?,
     })
+}
+
+fn read_chunked_body(stream: &mut TcpStream) -> Option<Vec<u8>> {
+    let mut body = Vec::new();
+    loop {
+        let size_line = read_crlf_line(stream)?;
+        let size = usize::from_str_radix(size_line.trim(), 16).ok()?;
+        if size == 0 {
+            let _ = read_crlf_line(stream)?;
+            break;
+        }
+        let mut chunk = vec![0_u8; size];
+        stream.read_exact(&mut chunk).ok()?;
+        body.extend(chunk);
+        let _ = read_crlf_line(stream)?;
+    }
+    Some(body)
+}
+
+fn read_crlf_line(stream: &mut TcpStream) -> Option<String> {
+    let mut line = Vec::new();
+    let mut byte = [0_u8; 1];
+    while stream.read_exact(&mut byte).is_ok() {
+        line.push(byte[0]);
+        if line.ends_with(b"\r\n") {
+            line.truncate(line.len().saturating_sub(2));
+            return String::from_utf8(line).ok();
+        }
+    }
+    None
 }
 
 fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value {
@@ -298,20 +410,64 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
         }),
         ("POST", "/repos/owner/repo/issues") => {
             let payload: Value = serde_json::from_str(&request.body).expect("issue payload");
-            let issue = json!({
-                "number": 77,
-                "title": payload["title"],
-                "body": payload["body"],
-                "state": "open",
-                "labels": [{"name":"area:tools"}, {"name":"version:v0.91.8"}],
-                "assignees": [],
-                "milestone": null
-            });
+            let labels = payload
+                .get("labels")
+                .and_then(Value::as_array)
+                .into_iter()
+                .flatten()
+                .filter_map(Value::as_str)
+                .collect::<Vec<_>>();
+            let issue = open_issue(
+                payload["title"].as_str().expect("title"),
+                payload["body"].as_str().expect("body"),
+                labels,
+                Vec::new(),
+                payload.get("milestone").and_then(Value::as_u64),
+            );
             assert!(issue["body"].as_str().unwrap().contains(&marker));
             state.issue = Some(issue.clone());
             issue
         }
         ("GET", "/repos/owner/repo/issues/77") => state.issue.clone().expect("issue exists"),
+        ("PATCH", "/repos/owner/repo/issues/77") => {
+            let payload: Value = serde_json::from_str(&request.body).expect("patch payload");
+            if state.stale_patch_readback {
+                return state.issue.clone().expect("issue exists");
+            }
+            let mut issue = state.issue.clone().expect("issue exists");
+            if let Some(title) = payload.get("title") {
+                issue["title"] = title.clone();
+            }
+            if let Some(body) = payload.get("body") {
+                issue["body"] = body.clone();
+            }
+            if let Some(state_value) = payload.get("state") {
+                issue["state"] = state_value.clone();
+            }
+            if let Some(labels) = payload.get("labels").and_then(Value::as_array) {
+                issue["labels"] = Value::Array(
+                    labels
+                        .iter()
+                        .filter_map(Value::as_str)
+                        .map(|name| json!({"name": name}))
+                        .collect(),
+                );
+            }
+            if let Some(assignees) = payload.get("assignees").and_then(Value::as_array) {
+                issue["assignees"] = Value::Array(
+                    assignees
+                        .iter()
+                        .filter_map(Value::as_str)
+                        .map(|login| json!({"login": login}))
+                        .collect(),
+                );
+            }
+            if let Some(milestone) = payload.get("milestone").and_then(Value::as_u64) {
+                issue["milestone"] = json!({"number": milestone});
+            }
+            state.issue = Some(issue.clone());
+            issue
+        }
         ("GET", "/repos/owner/repo/issues/77/comments") => Value::Array(
             state
                 .comment
@@ -331,6 +487,24 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
             request.method, request.target
         ),
     }
+}
+
+fn open_issue(
+    title: &str,
+    body: &str,
+    labels: Vec<&str>,
+    assignees: Vec<&str>,
+    milestone: Option<u64>,
+) -> Value {
+    json!({
+        "number": 77,
+        "title": title,
+        "body": body,
+        "state": "open",
+        "labels": labels.into_iter().map(|name| json!({"name": name})).collect::<Vec<_>>(),
+        "assignees": assignees.into_iter().map(|login| json!({"login": login})).collect::<Vec<_>>(),
+        "milestone": milestone.map(|number| json!({"number": number}))
+    })
 }
 
 fn write_response(stream: &mut TcpStream, body: Value) {

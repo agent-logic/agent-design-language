@@ -136,7 +136,11 @@ pub async fn execute_github_action(
         GithubAction::IssueUpdate => {
             let number = required_issue(request)?;
             update_issue(&crab, owner, repo, number, request).await?;
-            read_issue_packet(&crab, owner, repo, number, request.operation_key.as_deref()).await?
+            let packet =
+                read_issue_packet(&crab, owner, repo, number, request.operation_key.as_deref())
+                    .await?;
+            verify_issue_update_readback(&packet, request)?;
+            packet
         }
         GithubAction::IssueComment => {
             let number = required_issue(request)?;
@@ -201,7 +205,11 @@ pub async fn execute_github_action(
                 json!({"state": "closed", "state_reason": "completed"}),
             )
             .await?;
-            read_issue_packet(&crab, owner, repo, number, request.operation_key.as_deref()).await?
+            let packet =
+                read_issue_packet(&crab, owner, repo, number, request.operation_key.as_deref())
+                    .await?;
+            verify_issue_closed(&packet)?;
+            packet
         }
         GithubAction::IssueRead => {
             let number = required_issue(request)?;
@@ -225,7 +233,10 @@ fn validate_request(request: &GithubActionRequest) -> crate::Result<()> {
     split_repository(&request.repository)?;
     if matches!(
         request.action,
-        GithubAction::IssueCreate | GithubAction::IssueComment
+        GithubAction::IssueCreate
+            | GithubAction::IssueUpdate
+            | GithubAction::IssueComment
+            | GithubAction::IssueClose
     ) {
         required_marker(request)?;
     }
@@ -472,6 +483,52 @@ fn verify_issue_identity(
         ));
     }
     Ok(())
+}
+
+fn verify_issue_update_readback(
+    packet: &GithubIssuePacket,
+    request: &GithubActionRequest,
+) -> crate::Result<()> {
+    if request
+        .title
+        .as_ref()
+        .is_some_and(|title| &packet.title != title)
+        || request
+            .body
+            .as_ref()
+            .is_some_and(|_| !packet.marker_present)
+        || request
+            .state
+            .as_ref()
+            .is_some_and(|state| &packet.state != state)
+        || !requested_values_are_present(&request.labels, &packet.labels)
+        || !requested_values_are_present(&request.assignees, &packet.assignees)
+        || request
+            .milestone
+            .is_some_and(|milestone| packet.milestone != Some(milestone))
+    {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "issue update readback differs from governed request",
+        ));
+    }
+    Ok(())
+}
+
+fn verify_issue_closed(packet: &GithubIssuePacket) -> crate::Result<()> {
+    if packet.state != "closed" {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "issue close readback did not observe closed state",
+        ));
+    }
+    Ok(())
+}
+
+fn requested_values_are_present(requested: &[String], observed: &[String]) -> bool {
+    let requested = requested.iter().cloned().collect::<BTreeSet<_>>();
+    let observed = observed.iter().cloned().collect::<BTreeSet<_>>();
+    requested.is_subset(&observed)
 }
 
 async fn find_marked_issues(

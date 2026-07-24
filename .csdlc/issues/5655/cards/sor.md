@@ -74,6 +74,18 @@ Implemented a repo-native Rust csdlc-github command for idempotent issue create/
     "purpose": "Prove the new GitHub action command surface does not regress C-SDLC v2 lifecycle, schema, publication, merge, closeout, import, and cutover behavior.",
     "outcome": "passed",
     "evidence_ref": "Full suite passed including gate_github_actions 6/6 and doc-test 1/1 with TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp and CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml"
+    ],
+    "purpose": "Prove review fixes for issue_update/issue_close exact readback and expanded focused mutation coverage without regressing C-SDLC v2.",
+    "outcome": "passed",
+    "evidence_ref": "Full suite passed after Boole review fixes, including gate_github_actions 6/6 covering create/comment/update/close/stale-readback and doc-test 1/1; TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp; CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target"
   }
 ]
 
