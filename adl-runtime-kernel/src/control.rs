@@ -8,6 +8,9 @@ use std::{
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
+use adl_runtime::acip::{
+    decode_protobuf_envelope, websocket_frame_status, CSM_ACIP_WEBSOCKET_SCHEMA,
+};
 use async_trait::async_trait;
 use axum::{
     body::Bytes,
@@ -1001,6 +1004,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
     };
 
     let mut refresh = tokio::time::interval(OBSERVATORY_WS_REFRESH);
+    let mut last_acip_sequence = 0_u64;
     loop {
         tokio::select! {
             _ = refresh.tick() => {
@@ -1074,7 +1078,29 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         break;
                     }
                 }
-                Some(Ok(Message::Binary(_))) | Some(Err(_)) => {
+                Some(Ok(Message::Binary(payload))) => {
+                    let status = match decode_protobuf_envelope(&payload) {
+                        Ok(envelope) if envelope.monotonic_sequence > last_acip_sequence => {
+                            last_acip_sequence = envelope.monotonic_sequence;
+                            websocket_frame_status(&payload, true)
+                        }
+                        Ok(envelope) => serde_json::json!({
+                            "schema": CSM_ACIP_WEBSOCKET_SCHEMA,
+                            "status": "rejected",
+                            "message_id": envelope.message_id,
+                            "reason": "monotonic_sequence_must_advance",
+                            "sequence_reserved": false
+                        }),
+                        Err(_) => websocket_frame_status(&payload, true),
+                    };
+                    let Ok(payload) = serde_json::to_string(&status) else {
+                        break;
+                    };
+                    if socket.send(Message::Text(payload.into())).await.is_err() {
+                        break;
+                    }
+                }
+                Some(Err(_)) => {
                     let _ = socket.send(Message::Close(Some(CloseFrame {
                         code: close_code::POLICY,
                         reason: "unsupported_websocket_frame".into(),

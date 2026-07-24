@@ -12,6 +12,7 @@ use std::{
 #[cfg(unix)]
 use std::{io::Read, net::ToSocketAddrs};
 
+use adl_runtime::acip::{encode_protobuf_envelope, CSM_ACIP_WEBSOCKET_SCHEMA};
 use adl_runtime_kernel::{
     channel,
     proof::{build_proof_runtime, run_proof},
@@ -1424,6 +1425,80 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         "adl.runtime.control_response.v1"
     );
     assert_eq!(accepted["response"]["outcome"]["result"], "snapshot");
+    let acip_frame = encode_protobuf_envelope(
+        "acip-wss-1",
+        "agent-a",
+        "agent-b",
+        "consult",
+        &serde_json::json!({"message": "Can you review this bounded proposal?"}),
+        1,
+    )
+    .unwrap();
+    websocket
+        .send(Message::Binary(acip_frame.clone().into()))
+        .await
+        .unwrap();
+    let acip_accepted = tokio::time::timeout(Duration::from_secs(3), async {
+        loop {
+            let frame = websocket
+                .next()
+                .await
+                .expect("WSS connection closed before ACIP result")
+                .expect("WSS ACIP result frame failed");
+            let value =
+                serde_json::from_str::<serde_json::Value>(frame.to_text().unwrap()).unwrap();
+            if value["schema"] == CSM_ACIP_WEBSOCKET_SCHEMA {
+                break value;
+            }
+        }
+    })
+    .await
+    .expect("WSS ACIP acceptance did not arrive");
+    assert_eq!(acip_accepted["status"], "accepted");
+    assert_eq!(acip_accepted["message_id"], "acip-wss-1");
+    assert_eq!(acip_accepted["sequence_reserved"], true);
+
+    websocket
+        .send(Message::Binary(acip_frame.into()))
+        .await
+        .unwrap();
+    let acip_replayed = tokio::time::timeout(Duration::from_secs(3), async {
+        loop {
+            let frame = websocket
+                .next()
+                .await
+                .expect("WSS connection closed before ACIP replay rejection")
+                .expect("WSS ACIP replay frame failed");
+            let value =
+                serde_json::from_str::<serde_json::Value>(frame.to_text().unwrap()).unwrap();
+            if value["schema"] == CSM_ACIP_WEBSOCKET_SCHEMA {
+                break value;
+            }
+        }
+    })
+    .await
+    .expect("WSS ACIP replay rejection did not arrive");
+    assert_eq!(acip_replayed["status"], "rejected");
+    assert_eq!(acip_replayed["reason"], "monotonic_sequence_must_advance");
+    assert_eq!(acip_replayed["sequence_reserved"], false);
+
+    let feed_after_control = tokio::time::timeout(Duration::from_secs(3), async {
+        loop {
+            let frame = websocket
+                .next()
+                .await
+                .expect("WSS connection closed before post-control telemetry")
+                .expect("WSS post-control telemetry frame failed");
+            let value =
+                serde_json::from_str::<serde_json::Value>(frame.to_text().unwrap()).unwrap();
+            if value["schema"] == "adl.runtime_v3.observatory_feed.v2" {
+                break value;
+            }
+        }
+    })
+    .await
+    .expect("WSS telemetry did not continue after bidirectional control");
+    assert_eq!(feed_after_control["ingress"]["accepted_through"], 1);
     websocket.close(None).await.unwrap();
 
     let mut forged = signed("forged-stop", ControlAction::Shutdown { grace_millis: 500 });
