@@ -34,16 +34,26 @@ Updated the root README milestone badge and status to v0.91.8 release-tail truth
     "purpose": "Prove README wording, homepage link, badge branch, and documentation whitespace/link boundary",
     "outcome": "passed",
     "evidence_ref": "Focused README assertions and git diff check passed; https://agent-logic.ai returned HTTP 200."
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Verify published-release links, homepage link, canonical main badges, and documentation whitespace",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5653/readme-focused.txt"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 

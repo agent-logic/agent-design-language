@@ -3,13 +3,13 @@
   "issue": 5653,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f93988ed395e1db7da2af464587de5654c71f80272e6421ecc4db7ea96396b24",
-  "phase": "published",
-  "generation": 7,
-  "digest": "c4f74558194a7508185d3a17651e900b309b66e6d3412cde3b38d12b10700815",
+  "phase": "implemented",
+  "generation": 9,
+  "digest": "77c79c932a68d5643acac10fb28d636cb4cdcd922757316cf954b9035c42956e",
   "claim": {
     "id": "claim-5653-readme-refresh",
     "owner": "codex:5653-execution",
-    "generation": 7,
+    "generation": 9,
     "acquired_unix_seconds": 1784850000,
     "expires_unix_seconds": 1785454800,
     "heartbeat_unix_seconds": 1784850000,
@@ -26,37 +26,15 @@
   "review_assignment": {
     "reviewer": "bounded-subagent-review-5653",
     "assigned_by": "codex:5653-execution",
-    "revision": "git-blake3:1c99697c41823e5dd8a00cd71e76a5beb95bfca9:ab7b241f87931339871652ea4ec3bc16d8551ac89d6a95289c6d4715f0ddb213",
+    "revision": "git-blake3:5e7edfb35d16c2c6da9201654a911c5157430ca6:29e1ef67c402c766516a2ed0fae5adfad89f8e02a13b9504b4bcfd6963c84ce7",
     "scope": [
       "README.md",
+      "docs/milestones/v0.91.7/RELEASE_NOTES_v0.91.7.md",
       ".csdlc/issues/5653"
     ]
   },
-  "review": {
-    "reviewer": "bounded-subagent-review-5653",
-    "scope": [
-      "README.md",
-      ".csdlc/issues/5653"
-    ],
-    "reviewed_revision": "git-blake3:1c99697c41823e5dd8a00cd71e76a5beb95bfca9:ab7b241f87931339871652ea4ec3bc16d8551ac89d6a95289c6d4715f0ddb213",
-    "findings": [],
-    "residual_risks": [
-      "README reflects release-tail evidence and does not approve a public release or resolve the separate failing main CI run."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5653,
-    "pull_request": 5654,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5654",
-    "base": "main",
-    "head": "codex/5653-readme-refresh",
-    "revision": "git-blake3:4ebe362edaed675dbc851fa7f525ad9a6781d514:332595c478c38373cfeda86b9fb4d3a8c384c7bf4172bd4d7300c43929f4aa1c",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -70,34 +48,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a62c690e953d160455e963469755d0d46d93923da95a484dd209ac524bafdb51",
+      "values_digest": "d00650fd9461237c6ede5a25690f41e680a8d0583667f807568daa7afe984bfe",
       "rendered_digest": "08c5cc81d85386e4830f55879804707ac47a4a4a3aed9f8a50712bb06df1d431",
       "ast_digest": "d5b072e2ec5bd5ccfefa6d229adc847d756093c0b2943cfd00b89e6086fede45"
     },
     "stp": {
-      "values_digest": "c2e348bad905836eeabf2d6ae2c1f0c84a19ab0dd125b34e5ce30cf3669d0dbc",
+      "values_digest": "da0b34ab8d0840f9ac19fd2462a8fbdcf1af9752191f40cde39869856852366d",
       "rendered_digest": "c5478426342378c63ea804905ce0fc88cd59607a062ebba7061dd009cae92249",
       "ast_digest": "8164e8ea8fdcd7dab7c10bbe503b78abe50915f0412b91d7ffe740cb54471207"
     },
     "spp": {
-      "values_digest": "fd05c09cbcb53fc5cb10b6be0882ca09f123ce7379c69bc4f63e478415aae622",
+      "values_digest": "2bab48f91902b993c8f5d8c90d7b6cbd5b519b44d8e5c831d3a0ac9ce8280348",
       "rendered_digest": "f82573d0e66df1d20c1de70adbc5a1c4d9acfcc45fbfeed32687e4d1b1914a34",
       "ast_digest": "ffbfe684bc741900f734c846e596640acca9d6e93edc3b1d8b700a4ca932bcda"
     },
     "vpp": {
-      "values_digest": "0bb4012bc4125a4cf34b243d75f85fcead5cdfab0d2885a8f6c7453858f8e0f2",
+      "values_digest": "bc166078615b9b9562c7e0bede283f8490c2e9542654ea091e7e62bddc35c9c2",
       "rendered_digest": "7432a95506b37c19720ce8359973d32d10e1c832390402655a2df360c77f14ac",
       "ast_digest": "7133c3b49fbea776903d755a7d0fccc787f648f590a946f2f1cbd9ef3825031e"
     },
     "srp": {
-      "values_digest": "d127d9fcce7dfea36545dcae8c83d27b2f0ada9dbab37f458d7632f609a2aae4",
-      "rendered_digest": "ac179f16f2672397db506449292f3baea7e31b202e7e21511d1b4ee4c0c9d0c8",
-      "ast_digest": "88bc6397236d6e65ee82353ddb84087059103e21012e54087778e299592f1b7f"
+      "values_digest": "175971157061a4418ddd4126cdeb015d6eeea990cc794a8e26db5e842fcfb9b7",
+      "rendered_digest": "8e186236a3807d51d646b391bb022f646d9507452d2ce30f4e0f52aff7dfeb9d",
+      "ast_digest": "c0cf69d45e8936f03b09d346a8edfd250899d5ea032d314c4cda850909a30783"
     },
     "sor": {
-      "values_digest": "59878af9753abd0339a0a09f0b4b666dfebdf42bd9f218b43213ca961cead16e",
-      "rendered_digest": "bf2a05b7b02c883d19f2b17cb688abb0e4ee51be1906831771e43834c12b260f",
-      "ast_digest": "4eef2d06f1dece278fdfb4c7f497326eac2873fe1dd9f55f42f4c7b92f863fde"
+      "values_digest": "5b55da91854740e755369218e8649cfff503a173aa0d2dd31daeebadceaf6986",
+      "rendered_digest": "1caaffba7c8ee137b6d4a477a7e2d91ce0f4d5ad7a3e8159845b8311d030823f",
+      "ast_digest": "0738328dac3259117c2613a3895473348acf1a1724f48df7f23e5a911739fe3c"
     }
   },
   "transitions": [
@@ -135,6 +113,13 @@
       "to": "published",
       "actor": "codex:5653-execution",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5653-execution",
+      "reason": "Release-truth documentation changed after draft publication; recover stale review and publication truth for exact-head re-review."
     }
   ],
   "audit": [
@@ -214,6 +199,27 @@
       "actor": "codex:5653-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:5653-execution",
+      "reason": "Release-truth documentation changed after draft publication; recover stale review and publication truth for exact-head re-review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:5653-execution",
+      "reason": "Revalidate README and release-note truth after publishing v0.91.7.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify published-release links, homepage link, canonical main badges, and documentation whitespace\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5653/readme-focused.txt\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:5653-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

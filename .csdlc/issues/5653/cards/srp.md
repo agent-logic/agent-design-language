@@ -8,11 +8,12 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
 README.md
+docs/milestones/v0.91.7/RELEASE_NOTES_v0.91.7.md
 .csdlc/issues/5653
 
 ## Prompts
@@ -31,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- README reflects release-tail evidence and does not approve a public release or resolve the separate failing main CI run.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:1c99697c41823e5dd8a00cd71e76a5beb95bfca9:ab7b241f87931339871652ea4ec3bc16d8551ac89d6a95289c6d4715f0ddb213")
+Revision: None
 
-Reviewer: Some("bounded-subagent-review-5653")
+Reviewer: None
 
-Result: pass
+Result: pre_review
