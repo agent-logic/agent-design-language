@@ -301,6 +301,7 @@ struct GovernedExecutor {
     shepherd: Arc<OperationalAdapter>,
     failure: Arc<Mutex<BTreeMap<String, String>>>,
     scheduler_admission: Arc<tokio::sync::Semaphore>,
+    provider_condition: String,
 }
 
 #[async_trait::async_trait]
@@ -319,10 +320,16 @@ impl OperationExecutor for GovernedExecutor {
             BTreeMap::from([("permit".to_owned(), self.permit_key)]),
             shell,
         );
-        let recorded = aee
-            .actuate(&prepared.permit)
-            .await
-            .map_err(|_| executor_error("actuation_rejected"))?;
+        let recorded = match aee.actuate(&prepared.permit).await {
+            Ok(recorded) => recorded,
+            Err(_)
+                if prepared.command.action == "provider.invoke"
+                    && self.provider_condition == "timeout" =>
+            {
+                return Err(executor_error("provider_timeout"));
+            }
+            Err(_) => return Err(executor_error("actuation_rejected")),
+        };
         if recorded.success {
             Ok(recorded.result_bytes)
         } else {
@@ -531,6 +538,7 @@ async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> 
         shepherd,
         failure: failure.clone(),
         scheduler_admission,
+        provider_condition: config.provider_condition.clone(),
     });
     executors.insert(AdapterKind::Agent, agent_executor.clone());
     executors.insert(

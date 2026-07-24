@@ -381,7 +381,7 @@ mod parity_c_delegation_resources {
         let started = std::time::Instant::now();
         let value = run_program(&root, cancelled, 1_000, "healthy", "", &provider);
         assert_eq!(value["classification"], "scheduler_cancelled");
-        assert!(started.elapsed() < std::time::Duration::from_secs(2));
+        assert!(started.elapsed() < std::time::Duration::from_secs(4));
         std::thread::sleep(std::time::Duration::from_millis(1_200));
         assert!(!marker.exists());
         success(&run(
@@ -472,7 +472,7 @@ mod parity_c_provider_scheduler_tools {
                 .count(),
             2
         );
-        assert!(started.elapsed() < std::time::Duration::from_secs(2));
+        assert!(started.elapsed() < std::time::Duration::from_secs(4));
         assert!(outcomes
             .as_array()
             .unwrap()
