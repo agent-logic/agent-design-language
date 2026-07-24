@@ -660,9 +660,13 @@ async fn execute_inner(
     let lock = StateLock::acquire(config).map_err(|error| (error, RuntimeState::default()))?;
     let mut state = load_state(config).map_err(|error| (error, RuntimeState::default()))?;
     let now = services.clock.fetch_add(1, Ordering::SeqCst);
-    let refuse = |reason: &str, state: &RuntimeState| Err((reason.to_owned(), state.clone()));
+    macro_rules! refuse {
+        ($reason:expr, $state:expr) => {
+            return Err(($reason.to_owned(), $state.clone()));
+        };
+    }
     if state.shutdown {
-        return refuse("admission_closed", &state);
+        refuse!("admission_closed", &state);
     }
     if !safe_id(&command.request_id)
         || !safe_id(&command.idempotency_key)
@@ -670,26 +674,26 @@ async fn execute_inner(
         || !safe_id(&command.agent_id)
         || command.units == 0
     {
-        return refuse("invalid_request", &state);
+        refuse!("invalid_request", &state);
     }
     if now <= state.last_time {
-        return refuse("unqualified_or_regressing_time", &state);
+        refuse!("unqualified_or_regressing_time", &state);
     }
     if command
         .read_citizen_id
         .as_deref()
         .is_some_and(|subject| subject != command.citizen_id)
     {
-        return refuse("cross_identity_denied", &state);
+        refuse!("cross_identity_denied", &state);
     }
     if config
         .revoked_commitments
         .contains(&command.commitment.commitment_id)
     {
-        return refuse("revoked", &state);
+        refuse!("revoked", &state);
     }
     if state.pending_requests.contains(&command.request_id) {
-        return refuse("incomplete_recovery_quarantined", &state);
+        refuse!("incomplete_recovery_quarantined", &state);
     }
     if let Some(cached) = state.completed.get(&command.idempotency_key) {
         if cached.request_id != command.request_id
@@ -697,19 +701,19 @@ async fn execute_inner(
             || cached.command_fingerprint
                 != command_fingerprint(command).map_err(|error| (error, state.clone()))?
         {
-            return refuse("idempotency_conflict", &state);
+            refuse!("idempotency_conflict", &state);
         }
         return Ok(success_outcome(cached, true));
     }
     if state.request_ids.contains(&command.request_id) {
-        return refuse("request_replay", &state);
+        refuse!("request_replay", &state);
     }
     if state.completed.len() >= MAX_STATE_ENTRIES
         || state.request_ids.len() >= MAX_STATE_ENTRIES
         || (state.private_state.len() >= MAX_STATE_ENTRIES
             && !state.private_state.contains_key(&capability_scope(command)))
     {
-        return refuse("state_capacity_exhausted", &state);
+        refuse!("state_capacity_exhausted", &state);
     }
 
     let permit_signer = SigningKey::from_bytes(&config.permit_key);
@@ -755,9 +759,9 @@ async fn execute_inner(
                 .and_then(|(id, decision)| gate.record_appeal(id, &evidence, decision).ok())
                 .is_some_and(|appeal| appeal.accepted);
             if appealed {
-                return refuse("appeal_retry_recorded", &state);
+                refuse!("appeal_retry_recorded", &state);
             } else {
-                return refuse(refusal_classification(evidence.reason), &state);
+                refuse!(refusal_classification(evidence.reason), &state);
             }
         }
     };
@@ -805,7 +809,7 @@ async fn execute_inner(
                     })
                     .unwrap_or_else(|| classify_configured_failure(config, command).to_owned())
             };
-            return refuse(&classification, &state);
+            refuse!(&classification, &state);
         }
     };
 
