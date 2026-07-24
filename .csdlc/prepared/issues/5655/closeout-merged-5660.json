@@ -1,0 +1,12 @@
+{
+  "issue": 5655,
+  "expected_generation": 23,
+  "expected_digest": "e5b0a0fe7f950119d552929d94ba63757eea95a82063e4899f4591cc7995c339",
+  "claim_id": "claim-5655-csdlc-github-actions",
+  "actor": "codex:issue-5655-slot-1",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5660,
+  "disposition": "merged",
+  "approved_no_pr_reason": null,
+  "token_file": "/Users/daniel/keys/github.token"
+}

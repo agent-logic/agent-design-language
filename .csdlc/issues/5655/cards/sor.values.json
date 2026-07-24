@@ -7,9 +7,9 @@
     "title": "[v0.91.8][csdlc-v2][tooling] Add repo-native Rust GitHub actions",
     "slug": "v0-91-8-csdlc-v2-github-actions",
     "version": "v0.91.8",
-    "generation": 22
+    "generation": 24
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -124,10 +124,10 @@
           "evidence_ref": "Strict Clippy passed after collapsing the issue_create guard and returning normalize_issue directly. Focused gate_github_actions passed 2/2; full csdlc-v2 suite passed including gate_github_actions 2/2 and Doc-tests csdlc_v2 1/1. TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp; CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target."
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

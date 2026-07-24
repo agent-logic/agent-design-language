@@ -26,3 +26,5 @@
 {"sequence":26,"generation":20,"actor":"codex:issue-5655-slot-1","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":27,"generation":21,"actor":"codex:issue-5655-slot-1","reason":"record exact existing PR ready-for-review after remote success","operation":"record_ready_publication"}
 {"sequence":28,"generation":22,"actor":"codex:issue-5655-slot-1","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness_reconcile_metadata_only_published_revision"}
+{"sequence":29,"generation":23,"actor":"codex:issue-5655-slot-1","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness_reconcile_metadata_only_published_revision"}
+{"sequence":30,"generation":24,"actor":"codex:issue-5655-slot-1","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
