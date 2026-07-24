@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5653,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][docs] Refresh README status, release, CI, and homepage links",
+    "slug": "readme-status-release-homepage-refresh",
+    "version": "v0.91.8",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "root README documentation refresh",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Check README status against current release evidence",
+        "Check homepage and badge links",
+        "Check for stale or unsupported release claims"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
