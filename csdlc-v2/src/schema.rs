@@ -3,7 +3,8 @@ use serde_json::{json, Value};
 use crate::doctor::DoctorReport;
 use crate::lifecycle::{
     AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest, RecoverClaimRequest,
-    ReleaseClosedClaimRequest, TransitionActiveClaimRequest,
+    ReleaseClosedClaimRequest, RevokeActiveClaimRequest, RevokeActiveClaimResult,
+    TransitionActiveClaimRequest,
 };
 use crate::merge::{MergeRequest, MergeResult};
 use crate::migration::{ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison};
@@ -37,6 +38,8 @@ pub fn public_schema_bundle() -> Value {
         "bind_result": schemars::schema_for!(BindResult),
         "recover_claim_request": schemars::schema_for!(RecoverClaimRequest),
         "release_closed_claim_request": schemars::schema_for!(ReleaseClosedClaimRequest),
+        "revoke_active_claim_request": schemars::schema_for!(RevokeActiveClaimRequest),
+        "revoke_active_claim_result": schemars::schema_for!(RevokeActiveClaimResult),
         "amend_claim_scope_request": schemars::schema_for!(AmendClaimScopeRequest),
         "transition_active_claim_request": schemars::schema_for!(TransitionActiveClaimRequest),
         "heartbeat_request": schemars::schema_for!(HeartbeatRequest),
