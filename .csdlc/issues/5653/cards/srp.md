@@ -32,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The main ci badge reflects the independent latest main workflow; this documentation change does not alter CI behavior.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5e7edfb35d16c2c6da9201654a911c5157430ca6:29e1ef67c402c766516a2ed0fae5adfad89f8e02a13b9504b4bcfd6963c84ce7")
 
-Reviewer: None
+Reviewer: Some("bounded-subagent-review-5653")
 
-Result: pre_review
+Result: pass
