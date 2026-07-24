@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "de3b5856d4e47ed1ebb369e7783dc3b928af156f44ee05ce3494807c656c9e30",
   "phase": "reviewed",
-  "generation": 2,
-  "digest": "bfbf6b7f9613167831851b1e27d6b87026de4f1d6056db16d7b7b47cb24c66b7",
+  "generation": 5,
+  "digest": "f2b39c577106f1ed59d071867c6f814822f2a31e693d943f68176077c30616bf",
   "claim": {
     "id": "claim-5665-runtime-v3-wss-feature-proofs",
     "owner": "codex:issue-5665-slot-1",
-    "generation": 2,
+    "generation": 5,
     "acquired_unix_seconds": 1784935430,
     "expires_unix_seconds": 1785540230,
     "heartbeat_unix_seconds": 1784935430,
@@ -31,9 +31,10 @@
     ],
     "purpose": "Complete authenticated Runtime v3 WSS and feature proof matrix without HTML Observatory redesign"
   },
-  "review_assignment": null,
-  "review": {
-    "reviewer": "Halley",
+  "review_assignment": {
+    "reviewer": "Pauli",
+    "assigned_by": "codex:issue-5665-slot-1",
+    "revision": "git-blake3:f9717b162541eafed276cc7ab1d59a43663cd6ec:31640a070e029b4a35d9c166479a0a04b91e0e926dcb4e470bb90e41f2d3b0eb",
     "scope": [
       "adl-runtime/src/runtime_api.rs",
       "adl-runtime/tests/runtime_api_wss.rs",
@@ -41,17 +42,38 @@
       "adl-runtime/Cargo.lock",
       "infra/runtime-v3/runtime-api-5665.toml",
       "docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json",
-      ".csdlc/issues/5665/index.json",
-      ".csdlc/issues/5665/cards/sor.md",
+      ".csdlc/evidence/5665/runtime-v3-wss-focused.log",
+      ".csdlc/evidence/5665/runtime-v3-strict-clippy.log"
+    ]
+  },
+  "review": {
+    "reviewer": "Pauli",
+    "scope": [
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "infra/runtime-v3/runtime-api-5665.toml",
+      "docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json",
       ".csdlc/evidence/5665/runtime-v3-wss-focused.log",
       ".csdlc/evidence/5665/runtime-v3-strict-clippy.log"
     ],
-    "reviewed_revision": "git-blake3:03d8292bfdb6db74b0c8d166df98826777e70ab8:3ead98d699dfdeb62da19d669ba7fd6a90595f55928f50d764dc165d0c8a3020",
-    "findings": [],
+    "reviewed_revision": "git-blake3:f9717b162541eafed276cc7ab1d59a43663cd6ec:31640a070e029b4a35d9c166479a0a04b91e0e926dcb4e470bb90e41f2d3b0eb",
+    "findings": [
+      {
+        "id": "P2-stale-lifecycle-review-state",
+        "severity": "p2",
+        "summary": "Committed lifecycle state at f9717b162 still recorded the older Halley review and stale residual risks, so exact pre-PR review coverage was overclaimed until typed recovery and a new review record were applied.",
+        "actionable": true,
+        "in_scope": false,
+        "disposition": "out_of_scope",
+        "fix_revision": null,
+        "route": "Resolved by typed csdlc-review recover plus this csdlc-review record metadata update; no runtime code change was required."
+      }
+    ],
     "residual_risks": [
       "The WSS shutdown path intentionally returns an API-only shutdown_ack and does not stop the runtime process; consumers must not treat it as runtime stop proof.",
-      "The WSS integration test exercises TLS setup, failed auth, authenticated ping/pong, rotation overlap, revocation close, and shutdown ack; the feature_matrix frame is indirectly covered through matrix helper validation.",
-      "The port 20997 init file is string-checked in the test rather than parsed end-to-end."
+      "#5663 and #5664 protected-path records were not visible in this worktree; visible #5657 protected paths were disjoint from the changed paths."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -70,34 +92,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5e70a784c108ba43ffa44561d3d1ce3d9cedda6b5a754e3a611adbeec8f83d26",
+      "values_digest": "21f359a6fc784b61afe220b8b0e899898437aa1cc1a32795fdbcc5902e6bc061",
       "rendered_digest": "dcda6e18ce8d3f336740dcdf7ae9ef6df97c63ab57c0027a9cda03bde9a7e61c",
       "ast_digest": "552dc5d250d0b5e354c06cd8c0708bebc52b5bb9be16a24f8cddff1333eddd88"
     },
     "stp": {
-      "values_digest": "d0fd1f27da6223d2ccde0eede1d523f7edb65ea2afc353e48194a271bb7c383c",
+      "values_digest": "230d0d193749c6f8f7420d9a8cb14bd206d8aa927155bb6dd6679ec7cd0eb51a",
       "rendered_digest": "180c0fdd339b9336b9756ca1699baad2ab4d92b2f31d4d053579527bfa508052",
       "ast_digest": "5b1833288c45238cc2daf644dfa04fc8cdc4d58959c70bcfac24aa55168cf306"
     },
     "spp": {
-      "values_digest": "8a0a9baa414d2fddcdc7ac84c15774661aac3ca0d891a68483f8ae815d43d4f6",
+      "values_digest": "7883ab7d0e88243fc16a6e4bca177d73c64234ce235526500e933fe80be11a7e",
       "rendered_digest": "0393b9f7a00cb350b2af7a8a05e563ecacb96d3dcdfeb60d719936cec55c83f8",
       "ast_digest": "e75f7acd2ff2c1cabfd381de260d797cfbd5c84f99e8658d762e62c36a928c1b"
     },
     "vpp": {
-      "values_digest": "2298457ee3ccff80ad504e1e95b2f4a183d97f55401cbb145be8abf86edd460b",
+      "values_digest": "11033e17e7ba4dd2ffd15a88f4684846810a12eb726ede1275732e578aea79f6",
       "rendered_digest": "cd536331740ee0cf5d5e398d8df5a638163c27e42f3ab4a73c779e1a07cdbada",
       "ast_digest": "fcfeba3e3e8d15e35ea5c655fb03885d647827dd20e9c67bb04f5f7c652b89c3"
     },
     "srp": {
-      "values_digest": "d21c908f93772ea371f6efded81f33b48ae145d776019b358e4ce92a620aea8a",
-      "rendered_digest": "df3eae356c873f7a2cb34fe07cc00ae434a634e676ae2e99a42f381053c55dd9",
-      "ast_digest": "283c3c9a90a5d1a559433877b78e4e670b0271465e3a22591b70cdc5fb485a42"
+      "values_digest": "953fb85df3b3f3593393d20f1dc42f8a4db08bb03e509ad7f10584e65c3aed99",
+      "rendered_digest": "b9eeb56a108525b069f1fdf16671ce494d24c2599fc8a77181e868cba5822054",
+      "ast_digest": "8fcf9ef27eeb63d6fb109b30c9cb6a485966f458a74f17adcdde2c3561697ecc"
     },
     "sor": {
-      "values_digest": "6de7da828bbee240a04a8582110527f004389fe00d7dbda9f7046d45468b4aae",
-      "rendered_digest": "c22d16f5cfda5942c06bed10a6104e9bf437f9aff4d296dccef127cafd852f9b",
-      "ast_digest": "110f577b051065849785ff20142bfe5c1b3dee658cecbafa4b435d4cff3461f0"
+      "values_digest": "207e95bb0dc03899b87e3d114a237681d94cd79557d01051e41ef22ba0103dcf",
+      "rendered_digest": "a1a108fe54b69c88e57f8b60ae8fe0fb5b228c8415bc0a0daee9e7fb578571d2",
+      "ast_digest": "2c0c23c1ecf0bbaed50f601f735fae4948820489ed96634a23fa2fec13cc505c"
     }
   },
   "transitions": [
@@ -128,6 +150,20 @@
       "to": "reviewed",
       "actor": "codex:issue-5665-slot-1",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "Recover reviewed state after proof-strengthening commit f9717b162541eafed276cc7ab1d59a43663cd6ec added direct WSS feature_matrix frame coverage and parsed init TOML proof."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "Advance to reviewed after Pauli exact-head review evidence was recorded for f9717b162541eafed276cc7ab1d59a43663cd6ec."
     }
   ],
   "audit": [
@@ -158,6 +194,34 @@
       "actor": "codex:issue-5665-slot-1",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "Recover reviewed state after proof-strengthening commit f9717b162541eafed276cc7ab1d59a43663cd6ec added direct WSS feature_matrix frame coverage and parsed init TOML proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "Advance to reviewed after Pauli exact-head review evidence was recorded for f9717b162541eafed276cc7ab1d59a43663cd6ec.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

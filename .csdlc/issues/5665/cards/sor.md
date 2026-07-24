@@ -66,7 +66,7 @@ Completed an API-only Runtime v3 Rustls WSS proof surface with authenticated upg
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

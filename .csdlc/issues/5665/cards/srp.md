@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -18,8 +18,6 @@ adl-runtime/Cargo.toml
 adl-runtime/Cargo.lock
 infra/runtime-v3/runtime-api-5665.toml
 docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json
-.csdlc/issues/5665/index.json
-.csdlc/issues/5665/cards/sor.md
 .csdlc/evidence/5665/runtime-v3-wss-focused.log
 .csdlc/evidence/5665/runtime-v3-strict-clippy.log
 
@@ -33,7 +31,18 @@ docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json
 
 ## Findings
 
-[]
+[
+  {
+    "id": "P2-stale-lifecycle-review-state",
+    "severity": "p2",
+    "summary": "Committed lifecycle state at f9717b162 still recorded the older Halley review and stale residual risks, so exact pre-PR review coverage was overclaimed until typed recovery and a new review record were applied.",
+    "actionable": true,
+    "in_scope": false,
+    "disposition": "out_of_scope",
+    "fix_revision": null,
+    "route": "Resolved by typed csdlc-review recover plus this csdlc-review record metadata update; no runtime code change was required."
+  }
+]
 
 ## Dispositions
 
@@ -42,13 +51,12 @@ Every actionable finding requires a terminal disposition.
 ## Residual Risk
 
 - The WSS shutdown path intentionally returns an API-only shutdown_ack and does not stop the runtime process; consumers must not treat it as runtime stop proof.
-- The WSS integration test exercises TLS setup, failed auth, authenticated ping/pong, rotation overlap, revocation close, and shutdown ack; the feature_matrix frame is indirectly covered through matrix helper validation.
-- The port 20997 init file is string-checked in the test rather than parsed end-to-end.
+- #5663 and #5664 protected-path records were not visible in this worktree; visible #5657 protected paths were disjoint from the changed paths.
 
 ## Review Result
 
-Revision: Some("git-blake3:03d8292bfdb6db74b0c8d166df98826777e70ab8:3ead98d699dfdeb62da19d669ba7fd6a90595f55928f50d764dc165d0c8a3020")
+Revision: Some("git-blake3:f9717b162541eafed276cc7ab1d59a43663cd6ec:31640a070e029b4a35d9c166479a0a04b91e0e926dcb4e470bb90e41f2d3b0eb")
 
-Reviewer: Some("Halley")
+Reviewer: Some("Pauli")
 
 Result: pass

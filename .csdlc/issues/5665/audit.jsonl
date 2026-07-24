@@ -2,3 +2,7 @@
 {"sequence":2,"generation":0,"actor":"codex:issue-5665-slot-1","reason":"bind branch/worktree and activate claim","operation":"bind"}
 {"sequence":3,"generation":1,"actor":"codex:issue-5665-slot-1","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":4,"generation":2,"actor":"codex:issue-5665-slot-1","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":5,"generation":3,"actor":"codex:issue-5665-slot-1","reason":"Recover reviewed state after proof-strengthening commit f9717b162541eafed276cc7ab1d59a43663cd6ec added direct WSS feature_matrix frame coverage and parsed init TOML proof.","operation":"recover_review"}
+{"sequence":6,"generation":3,"actor":"codex:issue-5665-slot-1","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":7,"generation":4,"actor":"codex:issue-5665-slot-1","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
+{"sequence":8,"generation":5,"actor":"codex:issue-5665-slot-1","reason":"Advance to reviewed after Pauli exact-head review evidence was recorded for f9717b162541eafed276cc7ab1d59a43663cd6ec.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
