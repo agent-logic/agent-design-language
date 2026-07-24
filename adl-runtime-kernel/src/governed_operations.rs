@@ -322,11 +322,15 @@ impl OperationExecutor for GovernedExecutor {
         );
         let recorded = match aee.actuate(&prepared.permit).await {
             Ok(recorded) => recorded,
-            Err(_)
-                if prepared.command.action == "provider.invoke"
-                    && self.provider_condition == "timeout" =>
-            {
-                return Err(executor_error("provider_timeout"));
+            Err(_) if prepared.command.action == "provider.invoke" => {
+                let classification = match self.provider_condition.as_str() {
+                    "auth" => "provider_auth",
+                    "quota" => "provider_quota",
+                    "malformed" => "provider_malformed_output",
+                    "unavailable" => "provider_unavailable",
+                    _ => "provider_timeout",
+                };
+                return Err(executor_error(classification));
             }
             Err(_) => return Err(executor_error("actuation_rejected")),
         };
@@ -982,6 +986,8 @@ fn classify_operation(error: adl_runtime_kernel::OperationError) -> String {
 fn classify_configured_failure(config: &RuntimeConfig, command: &GovernedCommand) -> &'static str {
     if command.cancelled {
         "scheduler_cancelled"
+    } else if command.action == "provider.invoke" && config.provider_condition == "healthy" {
+        "provider_timeout"
     } else {
         match config.provider_condition.as_str() {
             "timeout" => "provider_timeout",
