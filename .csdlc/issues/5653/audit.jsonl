@@ -14,3 +14,4 @@
 {"sequence":14,"generation":9,"actor":"codex:5653-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":15,"generation":10,"actor":"bounded-subagent-review-5653","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":16,"generation":11,"actor":"codex:5653-execution","reason":"Exact release-truth review completed with no actionable findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":17,"generation":12,"actor":"codex:5653-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
