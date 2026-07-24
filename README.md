@@ -153,8 +153,9 @@ from issue
 
 ### v0.91.8 - Active Bridge Milestone
 
-v0.91.7 has retained closeout evidence for the active v0.91.8 bridge; its
-ceremony packet did not create a public release tag or hosted release.
+v0.91.7 is now published as the [ADL v0.91.7 GitHub release](https://github.com/danielbaustin/agent-design-language/releases/tag/v0.91.7)
+and remains the implementation/readiness tranche feeding the active v0.91.8
+bridge.
 v0.91.8 WP-01 `#5594` is reconciling execution readiness under
 milestone sprint umbrella `#5595`; no downstream implementation is ready from
 planning prose alone. The bridge must accept ADL v2, Runtime v3, and C-SDLC v2
@@ -322,9 +323,9 @@ production markets.
 - Current ADL and Runtime v2 crate version: 0.91.7
 - Independent Runtime v3 kernel package version: 0.92.0; it remains separately
   versioned and does not by itself claim v0.92 activation readiness
-- Most recently completed implementation/readiness tranche: v0.91.7
-- Public release tags currently extend through v0.91.5; later milestone records
-  remain release-tail evidence rather than hosted releases.
+- Most recently completed implementation/readiness tranche and public release:
+  v0.91.7 ([GitHub release](https://github.com/danielbaustin/agent-design-language/releases/tag/v0.91.7))
+- The active v0.91.8 bridge remains unreleased pending its documented gates.
 - Current milestone state: WP-01 readiness is in progress; later v0.91.8 work
   remains planned or dependency-blocked
 - Primary implementation language: Rust
