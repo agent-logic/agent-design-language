@@ -103,11 +103,11 @@ Implemented a repo-native Rust csdlc-github command for idempotent issue create/
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
