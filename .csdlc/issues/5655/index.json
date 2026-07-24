@@ -3,13 +3,13 @@
   "issue": 5655,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "618ba16c12e2d0dbd97423264edc8d3549285dffa958884cab7a2bbf4d8beeaf",
-  "phase": "published",
-  "generation": 11,
-  "digest": "e3a5f432ef52732590bddeb174d4942aa72dadee9cffe6bbda75693af9660a03",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "26e16a2af5e1b1490d476c651b5bee98e6faa5cbc2a92475cc02dc58fabc1922",
   "claim": {
     "id": "claim-5655-csdlc-github-actions",
     "owner": "codex:issue-5655-slot-1",
-    "generation": 11,
+    "generation": 13,
     "acquired_unix_seconds": 1784920947,
     "expires_unix_seconds": 1785525747,
     "heartbeat_unix_seconds": 1784920947,
@@ -32,44 +32,9 @@
     ],
     "purpose": "Implement one Rust-only, idempotent GitHub action surface for C-SDLC v2"
   },
-  "review_assignment": {
-    "reviewer": "Boole",
-    "assigned_by": "codex:issue-5655-slot-1",
-    "revision": "git-blake3:7ea92d637fca550a7ef834ac89a96dba987579b3:b08e0d46befe0d91c8bd82164299cb72335ca2d55e3f4ce34274f5e55fc5354d",
-    "scope": [
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/tests/gate_github_actions.rs",
-      ".csdlc/issues/5655/cards/sor.md",
-      ".csdlc/issues/5655/index.json"
-    ]
-  },
-  "review": {
-    "reviewer": "Boole",
-    "scope": [
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/tests/gate_github_actions.rs",
-      ".csdlc/issues/5655/cards/sor.md",
-      ".csdlc/issues/5655/index.json"
-    ],
-    "reviewed_revision": "git-blake3:7ea92d637fca550a7ef834ac89a96dba987579b3:b08e0d46befe0d91c8bd82164299cb72335ca2d55e3f4ce34274f5e55fc5354d",
-    "findings": [],
-    "residual_risks": [
-      "Review was read-only and did not rerun tests; validation evidence is the implementation owner run recorded in SOR."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5655,
-    "pull_request": 5660,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5660",
-    "base": "main",
-    "head": "codex/5655-csdlc-github-actions",
-    "revision": "git-blake3:c8353bf9b5ad7940d009e2660c2c1b1cc7a1e9e6:128cbe2a78ba59db1fe56850bfc6098106fbd70d2cbc8271099113e34b29d2b7",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -83,34 +48,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9114b9688d41facef2e0469196ae01281baa5ff7761325315bcdefd13a6fce3c",
+      "values_digest": "d7c41c753897917bdccc3eb3ef298843eeba2ca2046de936ecb074ad02888f7c",
       "rendered_digest": "dd03c87e89ee978781207f310746e82a4f6c5b0ab94ffd32bc07f7fc626bf2ec",
       "ast_digest": "f3dcf1664bed3e6551ae08b2f4d1c9094ecee8f90350da2e5d3c595a53238d69"
     },
     "stp": {
-      "values_digest": "6afbbe1cd5525cd33aa11dc1463444fa49d42ac39dd7de99e204723a224fd314",
+      "values_digest": "f41738c11a635d73d48b8005b95b6a743fc33fdafa5bcebb28fe54af1199e52c",
       "rendered_digest": "c9079bc4ea58e1e738d98705f2e7174a64b327e49144d07e22782615f0d993d5",
       "ast_digest": "6bf7534476300afda08cee033439735be95e7de65943efcac6c0c877eae69ac0"
     },
     "spp": {
-      "values_digest": "426f74a805ffa17e23294a9fa10b1109fbd4f98de7154855b7b348b945dc6598",
+      "values_digest": "0cc7786749d1bd12a2b476782a3904a348a853c0644c0d88424dc75e38a49ae8",
       "rendered_digest": "be2cfe7e9a9f224276827047a381ae37376b6151e537703ccc098f9a98329d39",
       "ast_digest": "4ea1a765d9494f866bbeb2c36a46896d9345502cc911608fb3a774571a60ff6c"
     },
     "vpp": {
-      "values_digest": "71fd02c9342bb8f5251657a600198a09ac043e9405f092f7c1a5fd693e5757a1",
+      "values_digest": "ca49f3b93713466578e875c681afbc694a67000bae2c9c5b4fa8dc9090dfacd2",
       "rendered_digest": "fd705c28f03dbb536dacb251c4f79a81dcf6e8e9bdc978d49178553ecd7ee634",
       "ast_digest": "ee83fdaf3584426850b6cc2caa367155f04012db62e72953b116314b4f52bfd6"
     },
     "srp": {
-      "values_digest": "26bd13b860b00d6a23da138bfe44452f70bc9d2a9a429f154a42d4695072127e",
-      "rendered_digest": "337f7bb872ef572b261fa3a4ce23b2019cc544028c775160c513eafa28e0a034",
-      "ast_digest": "4784fe87c4390043620a42a6458f328466bcabb916f812721a2cc3e80eaa366b"
+      "values_digest": "7ba71168377b36955a36886e65743fe194daffae02bd1bbf86ace5aedde68635",
+      "rendered_digest": "cb2a95062a043172898fbc6e655ef4e566a8799c633436a7cf036675ef0d5923",
+      "ast_digest": "f0bddf593c095c9dd55c6cc4663eac995dabd93866805103ebbb345dccb2a390"
     },
     "sor": {
-      "values_digest": "3923e6286f56c0d4330d357dbb26b4245a21384f125ebcbeb4d5e844a051d664",
-      "rendered_digest": "0a6b076aa708151d9d189247daf392bd38cab8d3d5a33881730509744a02ddda",
-      "ast_digest": "29cc6c3c3f52b9069af9cc79cb8ca42cda8ed0880b98aa0d0b3a2dfee9062bf5"
+      "values_digest": "3e472372a5ae929766a39c3d35908cb0f328b1ac0c468687dc182dfef9416680",
+      "rendered_digest": "fbad84fe7915b1c2d146cf802dd23f18e98a1cf5f0e2a372ee01c7bbb8482f44",
+      "ast_digest": "6dc885858df7301d17eb392f8e6d1dd9459aae546ee8a463ed75100f8edc1b03"
     }
   },
   "transitions": [
@@ -148,6 +113,13 @@
       "to": "published",
       "actor": "codex:issue-5655-slot-1",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "Recover stale #5655 review and publication after rebasing the issue branch onto current origin/main."
     }
   ],
   "audit": [
@@ -262,6 +234,20 @@
       "actor": "codex:issue-5655-slot-1",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "Recover stale #5655 review and publication after rebasing the issue branch onto current origin/main.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "Record #5655 validation after rebasing onto current origin/main and recovering stale publication truth.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove the rebased Rust-only csdlc-github action surface and full C-SDLC v2 suite after stale review/publication recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"After rebase onto origin/main 1facdf209: focused gate_github_actions passed 2/2; full csdlc-v2 suite passed including gate_github_actions 2/2 and Doc-tests csdlc_v2 1/1. TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp; CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target.\"}}"
     }
   ]
 }
