@@ -98,6 +98,16 @@ Added a fail-closed Unity-MCP Observatory alignment lane that binds the live end
     "purpose": "Retain sanitized, reviewable live endpoint, project identity, permission-safe port, and read-only scene output.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/issues/4739/evidence/unity-mcp-alignment-live.txt sha256:2ec84c325ec8864e531fd1e6b0a881c439418daf6e246c302927de8d09452a95; focused PCRE2 secret-pattern scan returned no matches."
+  },
+  {
+    "command": [
+      "bash",
+      "-c",
+      "UNITY_MCP_CLI=/Users/daniel/git/Unity-MCP/cli/dist/cli.js ADL_PROCESS_BIN=/Users/daniel/git/agent-design-language/.adl/bin/adl bash adl/tools/probe_unity_mcp_observatory_alignment.sh --project /Volumes/FastWork/adl-unity-observatory/operator-provisioned-5332/unity-observatory --url http://localhost:23011 --editor-pid 9344 > .csdlc/prepared/issues/4739/unity-mcp-alignment-live.txt"
+    ],
+    "purpose": "Retain sanitized live proof at the protected prepared-artifact path that survives typed card projections.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/prepared/issues/4739/unity-mcp-alignment-live.txt sha256:2ec84c325ec8864e531fd1e6b0a881c439418daf6e246c302927de8d09452a95; supersedes the non-retained issue-local path from the prior validation entry; focused PCRE2 secret-pattern scan returned no matches."
   }
 ]
 

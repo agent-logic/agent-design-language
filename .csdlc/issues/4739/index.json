@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "dd98199cf21b7a3ece23619ecfd7fd926dd8e153555179e8af5f50d245522f73",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "a57e76b21e9aac07f013f905a762b4ed3cc5686925ef494ebac76bdac1c7881d",
+  "generation": 19,
+  "digest": "c209233cf7d738a45c0269d07cef3094094de44d3620bff111a7b646abd93834",
   "claim": {
     "id": "claim-4739-v0918-wp15-unity-mcp-alignment-prep",
     "owner": "codex:issue-4739-preparation",
-    "generation": 18,
+    "generation": 19,
     "acquired_unix_seconds": 1784834939,
     "expires_unix_seconds": 1785439739,
     "heartbeat_unix_seconds": 1784834939,
@@ -44,34 +44,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e73c9ea67099515bb92031ecfcd7dafdf654fa7ae862485382519edd541817b2",
+      "values_digest": "8edbed2439a3c0283e34bf6e41efe6e25523f80ee4afd3ad7c17d347c2199ee3",
       "rendered_digest": "852d256aa4e58fd08de6627b3fd6e0acf93774015e66867c5f741def394dc82d",
       "ast_digest": "b99c684fea927a93bbd78fb09740bd17af70365951f28d8d3b1a8d757eb23a11"
     },
     "stp": {
-      "values_digest": "ee06db8df17e70ea8233f58e3c2471ac9351740a6bd1d05bce407d15b7673515",
+      "values_digest": "ef6acd25c12ce1b2923c92c3ee0b36837e51e9643caa8feabf0d09d214d203a7",
       "rendered_digest": "808f385eec200495109d2d1b18f22baf8ddfde289f75bd0667bbd02d02398873",
       "ast_digest": "c9c8bb5e5a80486621d3de2f791c7811fa732c17e84dc6612aa100050400e163"
     },
     "spp": {
-      "values_digest": "29f9b3405bd06f1ae5d19f14aa188c44238fd0e486f87d5b584fbd4aabcbbf09",
+      "values_digest": "5092ab3785e60fc4bf14361e2bf23d4ef48137428685394f6db4738111ea7950",
       "rendered_digest": "27760ee56794bdccca077809f711289289cc046705c50a42e808f9be153424bc",
       "ast_digest": "2703ff108d755b83452c403ea19e953ac1f98ceabd3f3df72dd1b45f9c5bfb6b"
     },
     "vpp": {
-      "values_digest": "fb01842fafee5a8b1b2dcb2dadae353c4d2a4c48996a81157e2b8b709b8a789a",
+      "values_digest": "3bcb3eb227574472e69a44c695a5a03bdb1a081d6cc62005f79c12b364e75c66",
       "rendered_digest": "f2daeb59f868fe1d40ebf9bcfd2550b82d82043c2b81bded4fccc900490205c2",
       "ast_digest": "3b51b461e9ae08b0f8e9bbe74d5057a256fd7a0adc97eafa4e550f0c29d16c1e"
     },
     "srp": {
-      "values_digest": "bc5c6d0883af79f0dc6c4b0e38ed36d7e4130f807a22fedf83046fff19a237a5",
+      "values_digest": "959144920eb91fbda7588c72d384911af6950c73a55b06a275869c6fc446d041",
       "rendered_digest": "890531e1fd3e8512be7cb627ff78d11705bfa04846d2b21be509dbd7d12e2cc5",
       "ast_digest": "06516366cf0f4bd5643ae6197bf3f76e4ccd08828716266d09879e47b5322977"
     },
     "sor": {
-      "values_digest": "82c73144336e509d81d8b708f5543f0fce5e0379e40887873ad14983c9c4f784",
-      "rendered_digest": "09abd151e2c33deeafddca9580529c1f4d62436e21e22f9d8dd01ab19d552460",
-      "ast_digest": "8d528c6187aee3ec0b23f33773ece25a16fee85f81e69d2747fbfd916ef4cb06"
+      "values_digest": "9cae48633604033e73784fb84f65c47888e213b5f364c49504eebd45aa438dd5",
+      "rendered_digest": "d840936e5583ba3f624506eb755aeb2239a0b6cb85c3c3e5bd6445bc899b2860",
+      "ast_digest": "61692a9165f5828c2fe2e59b8e1d5ab6762bc53b5bc01644e788ea49b71ffa75"
     }
   },
   "transitions": [
@@ -244,6 +244,13 @@
       "actor": "codex:issue-4739-preparation",
       "reason": "Anchor the live Unity-MCP claim to retained sanitized exact output after mandatory review identified the missing evidence artifact.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"-c\",\"UNITY_MCP_CLI=/Users/daniel/git/Unity-MCP/cli/dist/cli.js ADL_PROCESS_BIN=/Users/daniel/git/agent-design-language/.adl/bin/adl bash adl/tools/probe_unity_mcp_observatory_alignment.sh --project /Volumes/FastWork/adl-unity-observatory/operator-provisioned-5332/unity-observatory --url http://localhost:23011 --editor-pid 9344 > .csdlc/issues/4739/evidence/unity-mcp-alignment-live.txt\"],\"purpose\":\"Retain sanitized, reviewable live endpoint, project identity, permission-safe port, and read-only scene output.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/4739/evidence/unity-mcp-alignment-live.txt sha256:2ec84c325ec8864e531fd1e6b0a881c439418daf6e246c302927de8d09452a95; focused PCRE2 secret-pattern scan returned no matches.\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:issue-4739-preparation",
+      "reason": "Correct the retained proof location after exact review established that issue-card transactions replace undeclared files inside the issue projection.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"-c\",\"UNITY_MCP_CLI=/Users/daniel/git/Unity-MCP/cli/dist/cli.js ADL_PROCESS_BIN=/Users/daniel/git/agent-design-language/.adl/bin/adl bash adl/tools/probe_unity_mcp_observatory_alignment.sh --project /Volumes/FastWork/adl-unity-observatory/operator-provisioned-5332/unity-observatory --url http://localhost:23011 --editor-pid 9344 > .csdlc/prepared/issues/4739/unity-mcp-alignment-live.txt\"],\"purpose\":\"Retain sanitized live proof at the protected prepared-artifact path that survives typed card projections.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/4739/unity-mcp-alignment-live.txt sha256:2ec84c325ec8864e531fd1e6b0a881c439418daf6e246c302927de8d09452a95; supersedes the non-retained issue-local path from the prior validation entry; focused PCRE2 secret-pattern scan returned no matches.\"}}"
     }
   ]
 }
