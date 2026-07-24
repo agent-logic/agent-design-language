@@ -12,3 +12,4 @@
 {"sequence":12,"generation":9,"actor":"bounded-subagent-review-5648","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":13,"generation":10,"actor":"codex:5648-execution","reason":"Bounded exact-head review is complete with no findings","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":14,"generation":11,"actor":"codex:5648-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":15,"generation":12,"actor":"codex:5648-execution","reason":"Recover exact review identity after publication metadata commits; implementation scope is unchanged.","operation":"recover_review"}

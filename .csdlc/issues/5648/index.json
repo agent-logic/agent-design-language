@@ -3,13 +3,13 @@
   "issue": 5648,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7825c6b94e04ddb0cac12bf61e8c50dc765cc55c3a09139c3158bfaeab569bd7",
-  "phase": "published",
-  "generation": 11,
-  "digest": "49aa708894457741b33454644ea346a293363f48ff2d92c8bc36f9926819bdc6",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "937769c975d52603f9a0b9c30725784b595f9aa0691b0e9ef782ee6db2aaa0dd",
   "claim": {
     "id": "claim-5648-operator-active-claim-revoke",
     "owner": "codex:5648-execution",
-    "generation": 11,
+    "generation": 12,
     "acquired_unix_seconds": 1784850000,
     "expires_unix_seconds": 1785454800,
     "heartbeat_unix_seconds": 1784850000,
@@ -24,48 +24,9 @@
     ],
     "purpose": "Implement the typed operator-authorized active-claim revoke operation"
   },
-  "review_assignment": {
-    "reviewer": "bounded-subagent-review-5648",
-    "assigned_by": "codex:5648-execution",
-    "revision": "git-blake3:ce7165c2429c70c1f8ee0741dba5f7e2f9066e47:cd76969c26526f6a08099f3b17e2124ce9b62c4c0c08dfe5e1128abd3e315f99",
-    "scope": [
-      "csdlc-v2/src/lifecycle.rs",
-      "csdlc-v2/src/bin/csdlc-bind.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/gate2.rs",
-      ".csdlc/issues/5648"
-    ]
-  },
-  "review": {
-    "reviewer": "bounded-subagent-review-5648",
-    "scope": [
-      "csdlc-v2/src/lifecycle.rs",
-      "csdlc-v2/src/bin/csdlc-bind.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/gate2.rs",
-      ".csdlc/issues/5648"
-    ],
-    "reviewed_revision": "git-blake3:ce7165c2429c70c1f8ee0741dba5f7e2f9066e47:cd76969c26526f6a08099f3b17e2124ce9b62c4c0c08dfe5e1128abd3e315f99",
-    "findings": [],
-    "residual_risks": [
-      "The operator authority marker is validated as explicit non-empty provenance; its external authorization remains an operator responsibility."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5648,
-    "pull_request": 5652,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5652",
-    "base": "main",
-    "head": "codex/5648-operator-active-claim-revoke",
-    "revision": "git-blake3:41ac5f614e82116d7e6d898101afbc86268ad94f:810fe66cb9885d7b9817324cf64ef6f3eede5989e0e9273c7701ccc5305dd214",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -79,34 +40,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "698fd6a579b060d03dae7174f74c5a85760ebccd530c402986fa4c594f6f35a2",
+      "values_digest": "e543a52a927369ef0432c34c01901dc93ced0e4c4ab002f2281090fad77ca367",
       "rendered_digest": "e72896d0b7253c68ce09691fd4d7f593f92482b54cba39a0a4dfaaaee8d20ba7",
       "ast_digest": "5b0b577f8cb5f6796f0fd69b70c1785d14b7cd3b67f86ee38938d6db3aafe7f9"
     },
     "stp": {
-      "values_digest": "2d52d6dd9ffa9de92b4b305c9d099241b456629fe25a900093e27a3dc133fe05",
+      "values_digest": "6926f15f419bd7b61298e69db7009dcd7fe9d1c5eea11aa683fb5b4db901cf6e",
       "rendered_digest": "66e9e6fcfc30f03ee1b717f1b3cbdc8c6369e654d9d147d51aa4c7ca1c40c553",
       "ast_digest": "928017994783412b64e548d091926e3eb91230cefe901f1dc39d0ce5c44934b6"
     },
     "spp": {
-      "values_digest": "df1eb1a23d4c89d4573128ecb54245cfc4cbc0ba262d6dd1cf8f40a4edbf0e40",
+      "values_digest": "655a19ce1917a828ccaf63a284ae4f7c31d2d567e091b6a5ccc19119f3d9d9be",
       "rendered_digest": "295d15c686cda476728622cec28b10932433c3cc888741fa89da602cde5c1bca",
       "ast_digest": "0df86d853f90fae839698ac61801d6994f1b14da36844a8763b27cce6b2774cc"
     },
     "vpp": {
-      "values_digest": "4eb0f932b0ae92e159a619e0de89bbefcae6431f19176f3facdaff2b2e2cf35e",
+      "values_digest": "42397277d9aa14c25e039ca144c804af781d2511e979f3720feb73617ee91ffe",
       "rendered_digest": "ea0fc83f3b89425d2ed030143a09b0c7b3482e10877a1d348c4b6528d987db61",
       "ast_digest": "1c7f26416ac828e71ddd64bce2d1fc163356c9e9d14d9b323a1af612fe9cfe45"
     },
     "srp": {
-      "values_digest": "7040c2d7d671b04ea9ef1c1619bc4cc9b35a294719f04628e06f23bb0ad6f441",
-      "rendered_digest": "241f39af5165791be620c320e822e211b7b7bb1e9564550851d584496b20c8c3",
-      "ast_digest": "270b7b3718df756b1e892480d307989f3119f3f93b87a26eae45878ecfd421db"
+      "values_digest": "e16faadcd8426f8b5ef6d8bdfc338d0e61730a6c3c3914036446a995548cb31e",
+      "rendered_digest": "9a6ad50f6ae1a7a5478d5e4900998b1108b2762a0a54451364177567aaaf0362",
+      "ast_digest": "ad9145f6fa58199103b24e419b9c487a29c7a014f4ee75a086c2b35755a9c649"
     },
     "sor": {
-      "values_digest": "b49a17536fad3bd6a71bf1bb3a2485ac5e1e2b27e013126f9c9690d5ee9b5c70",
-      "rendered_digest": "604689a306d7c2d4f568422fd74f8ea6dbfc7c0bffb3e4c4d39c5fb2dbf608f2",
-      "ast_digest": "34dd73132910504501b284ce6b2101d27c9e778798ea64d0197aee8a672b6c80"
+      "values_digest": "e9fc31a91cbdbe43f50c4f7009f0e6b97d6e323e44ed64aaf0e7dc08d021d74b",
+      "rendered_digest": "36089c40b2035f8d9445b203f0c7b9b22a152b9486bfbad59bcee9a36fe7b828",
+      "ast_digest": "039eb60f4cc9b7616b9721d62c44a312c2bd63f07fc3535edbf31931060a041d"
     }
   },
   "transitions": [
@@ -144,6 +105,13 @@
       "to": "published",
       "actor": "codex:5648-execution",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5648-execution",
+      "reason": "Recover exact review identity after publication metadata commits; implementation scope is unchanged."
     }
   ],
   "audit": [
@@ -244,6 +212,13 @@
       "actor": "codex:5648-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:5648-execution",
+      "reason": "Recover exact review identity after publication metadata commits; implementation scope is unchanged.",
+      "operation": "recover_review"
     }
   ]
 }

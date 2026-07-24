@@ -7,25 +7,23 @@
     "title": "[v0.91.8][csdlc-v2][tools] Add explicit operator active-claim revoke",
     "slug": "operator-active-claim-revoke",
     "version": "v0.91.8",
-    "generation": 11
+    "generation": 12
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/lifecycle.rs\ncsdlc-v2/src/bin/csdlc-bind.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/tests/gate2.rs\n.csdlc/issues/5648",
-      "review_revision": "git-blake3:ce7165c2429c70c1f8ee0741dba5f7e2f9066e47:cd76969c26526f6a08099f3b17e2124ce9b62c4c0c08dfe5e1128abd3e315f99",
-      "reviewer": "bounded-subagent-review-5648",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Check operator authority and CAS boundaries",
         "Check phase/protected-path truth",
         "Check no direct state or secret leakage"
       ],
       "findings": [],
-      "residual_risk": [
-        "The operator authority marker is validated as explicit non-empty provenance; its external authorization remains an operator responsibility."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
