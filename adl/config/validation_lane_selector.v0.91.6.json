@@ -337,6 +337,29 @@
       "reason": "portable_html_observatory_surface_requires_governed_demo_smoke"
     },
     {
+      "id": "unity_mcp_alignment",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "review",
+      "proof_role": "demo_contract",
+      "requirement_ids": [
+        "unity_mcp_alignment"
+      ],
+      "path_selectors": [
+        "adl/tools/probe_unity_mcp_observatory_alignment.sh",
+        "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
+        "docs/tooling/unity_mcp_observatory_alignment.md"
+      ],
+      "path_hints": [
+        "adl/tools/probe_unity_mcp_observatory_alignment.sh",
+        "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
+        "docs/tooling/unity_mcp_observatory_alignment.md"
+      ],
+      "command": "bash -n adl/tools/probe_unity_mcp_observatory_alignment.sh && bash -n adl/tools/test_v0916_unity_mcp_alignment_unit.sh && bash adl/tools/test_v0916_unity_mcp_alignment_unit.sh && bash adl/tools/test_v0916_unity_observatory_contract.sh",
+      "run_command": "bash -n adl/tools/probe_unity_mcp_observatory_alignment.sh && bash -n adl/tools/test_v0916_unity_mcp_alignment_unit.sh && bash adl/tools/test_v0916_unity_mcp_alignment_unit.sh && bash adl/tools/test_v0916_unity_observatory_contract.sh",
+      "reason": "unity_mcp_alignment_paths_require_project_endpoint_and_read_only_failure_classifier_proof"
+    },
+    {
       "id": "unity_editor_liveness",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
