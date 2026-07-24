@@ -1,6 +1,7 @@
 use serde_json::{json, Value};
 
 use crate::doctor::DoctorReport;
+use crate::github::{GithubActionRequest, GithubActionResult, GithubIssuePacket, PrStatePacket};
 use crate::lifecycle::{
     AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest, RecoverClaimRequest,
     ReleaseClosedClaimRequest, RevokeActiveClaimRequest, RevokeActiveClaimResult,
@@ -51,6 +52,10 @@ pub fn public_schema_bundle() -> Value {
         "terminal_sor_artifact_repair_request": schemars::schema_for!(TerminalSorArtifactRepairRequest),
         "terminal_sor_validation_repair_request": schemars::schema_for!(TerminalSorValidationRepairRequest),
         "doctor_report": schemars::schema_for!(DoctorReport),
+        "github_action_request": schemars::schema_for!(GithubActionRequest),
+        "github_action_result": schemars::schema_for!(GithubActionResult),
+        "github_issue_packet": schemars::schema_for!(GithubIssuePacket),
+        "github_pr_state_packet": schemars::schema_for!(PrStatePacket),
         "pvf_manifest": schemars::schema_for!(PvfManifest),
         "pvf_execution_request": schemars::schema_for!(ExecutionRequest),
         "finalize_request": schemars::schema_for!(FinalizeRequest),
