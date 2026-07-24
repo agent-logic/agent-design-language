@@ -7,7 +7,7 @@
     "title": "[v0.91.8][csdlc-v2][tooling] Add repo-native Rust GitHub actions",
     "slug": "v0-91-8-csdlc-v2-github-actions",
     "version": "v0.91.8",
-    "generation": 15
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
@@ -108,8 +108,8 @@
           "evidence_ref": "After rebase onto origin/main 1facdf209: focused gate_github_actions passed 2/2; full csdlc-v2 suite passed including gate_github_actions 2/2 and Doc-tests csdlc_v2 1/1. TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp; CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target."
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "draft",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

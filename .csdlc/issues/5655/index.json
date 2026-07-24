@@ -3,13 +3,13 @@
   "issue": 5655,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "618ba16c12e2d0dbd97423264edc8d3549285dffa958884cab7a2bbf4d8beeaf",
-  "phase": "reviewed",
-  "generation": 15,
-  "digest": "a8bf9eb565613a8072f31357665108e9f0168e606395e4b4b05fa2e46535b607",
+  "phase": "published",
+  "generation": 16,
+  "digest": "83c0f7c566f6c46af5aaed567bb8b04f96183da3a7be5a15791c95b355332a68",
   "claim": {
     "id": "claim-5655-csdlc-github-actions",
     "owner": "codex:issue-5655-slot-1",
-    "generation": 15,
+    "generation": 16,
     "acquired_unix_seconds": 1784920947,
     "expires_unix_seconds": 1785525747,
     "heartbeat_unix_seconds": 1784920947,
@@ -59,7 +59,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5655,
+    "pull_request": 5660,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5660",
+    "base": "main",
+    "head": "codex/5655-csdlc-github-actions",
+    "revision": "git-blake3:dfc7ac090e97c2b65a7760c46baaf1a53c889f5a:5e24ac6b6bfda13139604679068cb59cff43ee1fcc3e96c36cf2fa7dbc5c0726",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -73,34 +83,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f10d8879219c6ff523696c20cca25d36fabae6cd59649632c7acf59db0073aa9",
+      "values_digest": "35605724e45970d5cf9bd2054be6a0b813e186bf4a89a37d0066edea7c519154",
       "rendered_digest": "dd03c87e89ee978781207f310746e82a4f6c5b0ab94ffd32bc07f7fc626bf2ec",
       "ast_digest": "f3dcf1664bed3e6551ae08b2f4d1c9094ecee8f90350da2e5d3c595a53238d69"
     },
     "stp": {
-      "values_digest": "8469164a8714731dbbf97c0dc4bba7554f81a8bf1af267822d89362f954686e2",
+      "values_digest": "d6459e4778d5d7acb9188068a6fb3016d8ed9e8455a4eaf4ae3a0f7359a3da9d",
       "rendered_digest": "c9079bc4ea58e1e738d98705f2e7174a64b327e49144d07e22782615f0d993d5",
       "ast_digest": "6bf7534476300afda08cee033439735be95e7de65943efcac6c0c877eae69ac0"
     },
     "spp": {
-      "values_digest": "52531cab5f80ba49def68d69d2b8a01ceb26feba97f7d715ba08fad0d5c52720",
+      "values_digest": "b11a7fb6ccab054d85a7ec217645985a0eb9232982f77778ce9e5b713ccbdfae",
       "rendered_digest": "be2cfe7e9a9f224276827047a381ae37376b6151e537703ccc098f9a98329d39",
       "ast_digest": "4ea1a765d9494f866bbeb2c36a46896d9345502cc911608fb3a774571a60ff6c"
     },
     "vpp": {
-      "values_digest": "c0d65b284ac1bc63df7e102c8774f1fb15d1fbe6ac940cb29657d47e25de0dc5",
+      "values_digest": "dde1ee001fabc12acb7830f42c8e7236e9cec6fe6857dc1dcea92b4d478251ea",
       "rendered_digest": "fd705c28f03dbb536dacb251c4f79a81dcf6e8e9bdc978d49178553ecd7ee634",
       "ast_digest": "ee83fdaf3584426850b6cc2caa367155f04012db62e72953b116314b4f52bfd6"
     },
     "srp": {
-      "values_digest": "a1f1149e0ff83aa1da05cc59fcb430df905cddad26cb1878188a16f28b941869",
+      "values_digest": "44b62a435cef21a815cf967b792249c71afb2463d3a9f48a9e767bf2b2643900",
       "rendered_digest": "00fb6a3c3038be3f20095bda48dfe9b18cbc827cc185eb2020307975817ef610",
       "ast_digest": "f661b13892d6feed62ac0cd066fc57513bc3400d56c7a8eb0e04920e731b9d1f"
     },
     "sor": {
-      "values_digest": "4643ca68a1d256dc799b63ae319a8e7a2ecb77abdcf0a427b8cb4ebe579bf264",
-      "rendered_digest": "fbad84fe7915b1c2d146cf802dd23f18e98a1cf5f0e2a372ee01c7bbb8482f44",
-      "ast_digest": "6dc885858df7301d17eb392f8e6d1dd9459aae546ee8a463ed75100f8edc1b03"
+      "values_digest": "3626c0ee497ed4014ec3a6035f4fb42d36fee83747e1d23e1fbaa7ca59edff13",
+      "rendered_digest": "0f92087edbf02621aaaaad2f8a9f9343a5338ba99e1fadd48576128376ee0351",
+      "ast_digest": "e52bbf8396ca2f58a9004239f73b1403c3e39d8bae5facd570d2fb5a77300798"
     }
   },
   "transitions": [
@@ -152,6 +162,13 @@
       "to": "reviewed",
       "actor": "codex:issue-5655-slot-1",
       "reason": "Advance #5655 after Boole exact-head review passed on the rebased branch."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -301,6 +318,13 @@
       "actor": "codex:issue-5655-slot-1",
       "reason": "Advance #5655 after Boole exact-head review passed on the rebased branch.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

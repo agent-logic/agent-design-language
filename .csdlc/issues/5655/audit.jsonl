@@ -19,3 +19,4 @@
 {"sequence":19,"generation":13,"actor":"codex:issue-5655-slot-1","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":20,"generation":14,"actor":"codex:issue-5655-slot-1","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":21,"generation":15,"actor":"codex:issue-5655-slot-1","reason":"Advance #5655 after Boole exact-head review passed on the rebased branch.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":22,"generation":16,"actor":"codex:issue-5655-slot-1","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
