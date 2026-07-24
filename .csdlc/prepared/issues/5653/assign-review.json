@@ -1,0 +1,9 @@
+{
+  "issue": 5653,
+  "expected_generation": 4,
+  "expected_digest": "ef52cf38da25054414c81a6d13cf865bf5eb477dedf37e8cd9b72ed41cd9306e",
+  "claim_id": "claim-5653-readme-refresh",
+  "reviewer": "bounded-subagent-review-5653",
+  "assigned_by": "codex:5653-execution",
+  "scope": ["README.md", ".csdlc/issues/5653"]
+}
