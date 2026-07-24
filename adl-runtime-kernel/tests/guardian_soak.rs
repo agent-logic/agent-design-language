@@ -1365,6 +1365,10 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
     assert_eq!(feed["schema"], "adl.runtime_v3.observatory_feed.v2");
     assert_eq!(feed["runtime_selection"], "runtime_v3_explicit_opt_in");
     assert_eq!(feed["control"]["websocket_full_duplex"], true);
+    assert_eq!(
+        feed["control"]["websocket_acip_binary_schema"],
+        CSM_ACIP_WEBSOCKET_SCHEMA
+    );
 
     let mut forged_ws = signed("wss-forged", ControlAction::Snapshot);
     forged_ws.signature = hex::encode([0_u8; 64]);
