@@ -786,6 +786,33 @@ assert "test_v0916_unity_observatory_soak_integration.sh" in lane["command"]
 assert "csm_observatory_cli_writes_unity_contract_bundle" in lane["command"]
 PY
 
+unity_mcp_alignment="$TMP/unity-mcp-alignment.txt"
+cat >"$unity_mcp_alignment" <<'EOF'
+A	adl/tools/probe_unity_mcp_observatory_alignment.sh
+A	adl/tools/test_v0916_unity_mcp_alignment_unit.sh
+A	docs/tooling/unity_mcp_observatory_alignment.md
+EOF
+bash "$SCRIPT" --changed-files "$unity_mcp_alignment" --json >"$TMP/unity-mcp-alignment.json"
+python3 - <<'PY' "$TMP/unity-mcp-alignment.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["aggregate_status"] == "selected"
+assert profile["pr_publication_sufficient"] is True
+assert set(profile["lanes"].keys()) == {"unity_mcp_alignment"}
+lane = profile["lanes"]["unity_mcp_alignment"]
+assert lane["matched_paths"] == [
+    "adl/tools/probe_unity_mcp_observatory_alignment.sh",
+    "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
+    "docs/tooling/unity_mcp_observatory_alignment.md",
+]
+assert lane["proof_role"] == "demo_contract"
+assert lane["owner"] == "review"
+assert "test_v0916_unity_mcp_alignment_unit.sh" in lane["command"]
+assert "test_v0916_unity_observatory_contract.sh" in lane["command"]
+PY
+
 unity_observatory_v0917="$TMP/unity-observatory-v0917.txt"
 cat >"$unity_observatory_v0917" <<'EOF'
 A	adl/tools/test_v0917_unity_observatory_integrated_proof.sh
