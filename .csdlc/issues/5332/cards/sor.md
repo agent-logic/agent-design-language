@@ -108,11 +108,11 @@ Implement and prove fail-closed Unity ILPP diagnosis plus a successful staged Ob
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
