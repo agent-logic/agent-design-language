@@ -5,7 +5,7 @@
   "initialization_digest": "dd98199cf21b7a3ece23619ecfd7fd926dd8e153555179e8af5f50d245522f73",
   "phase": "implemented",
   "generation": 23,
-  "digest": "2ceb9bdad582221aa498b64cd604608dc4a796bd20e24e742d6851a8b774bd96",
+  "digest": "0bb0741a80db2030fd5840ca5ece3e2ecc3032709de3de8b25c8ae413cdf34c2",
   "claim": {
     "id": "claim-4739-v0918-wp15-unity-mcp-alignment-prep",
     "owner": "codex:issue-4739-preparation",
@@ -28,7 +28,21 @@
     ],
     "purpose": "Prepare #4739 for bounded v0.91.8 WP-15 Unity-MCP project and endpoint alignment execution"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f95ae-c03a-7e90-808f-803f476c9738",
+    "assigned_by": "codex:issue-4739-preparation",
+    "revision": "git-blake3:2934df9a89a307ce245bf7dbdfed6d0e8ad87a07:898bfbd0900756209ed3125799503ce5b05870e89e443ee9f4453704a80ffded",
+    "scope": [
+      "adl/tools/probe_unity_mcp_observatory_alignment.sh",
+      "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
+      "adl/tools/test_v0916_unity_observatory_contract.sh",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "docs/tooling/unity_mcp_observatory_alignment.md",
+      ".csdlc/issues/4739",
+      ".csdlc/prepared/issues/4739"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -64,9 +78,9 @@
       "ast_digest": "3b51b461e9ae08b0f8e9bbe74d5057a256fd7a0adc97eafa4e550f0c29d16c1e"
     },
     "srp": {
-      "values_digest": "75cb9f4a5fa3c7fa43861e9c7053cc690123833ab5267dc5a787653f99522144",
-      "rendered_digest": "1d457f53c36270e614407eb4b073c77aabe878b24b9d790e08cc06af2497e744",
-      "ast_digest": "40e81664093144e7b7f27000f87c1b351860891bd9a43e9e65b8c758a34594d5"
+      "values_digest": "86993c004c07f5eb5bbcb5e2d0128ff0e8f8c520d8b8f26e162885eb0ed6f7ed",
+      "rendered_digest": "c5949d76ef7cb925fe6d0e2cec0ac5fe1d9e3e451118acf4b6d952544a009211",
+      "ast_digest": "6332f418a7ddb300f9318377d53238bc1c20645dc1edda35a9d3d60b6cb51d93"
     },
     "sor": {
       "values_digest": "049cff81269d3966c00733b9c95d2d4ce0466e4dd4ea07c6c2736b47a2fb9989",
@@ -307,6 +321,13 @@
       "actor": "codex:issue-4739-preparation",
       "reason": "Origin main advanced after ready publication; recover stale review and publication truth for an exact-head review after the clean base merge.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:issue-4739-preparation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

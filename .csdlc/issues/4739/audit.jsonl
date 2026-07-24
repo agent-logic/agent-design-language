@@ -25,3 +25,4 @@
 {"sequence":25,"generation":21,"actor":"codex:issue-4739-preparation","reason":"The assigned exact-revision review is complete, all actionable findings are fixed at the reviewed revision, and SRP retains the proof boundaries.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":26,"generation":22,"actor":"codex:issue-4739-preparation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":27,"generation":23,"actor":"codex:issue-4739-preparation","reason":"Origin main advanced after ready publication; recover stale review and publication truth for an exact-head review after the clean base merge.","operation":"recover_review"}
+{"sequence":28,"generation":23,"actor":"codex:issue-4739-preparation","reason":"assign bounded exact-revision review","operation":"assign_review"}
