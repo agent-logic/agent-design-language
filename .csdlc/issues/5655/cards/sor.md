@@ -86,6 +86,18 @@ Implemented a repo-native Rust csdlc-github command for idempotent issue create/
     "purpose": "Prove review fixes for issue_update/issue_close exact readback and expanded focused mutation coverage without regressing C-SDLC v2.",
     "outcome": "passed",
     "evidence_ref": "Full suite passed after Boole review fixes, including gate_github_actions 6/6 covering create/comment/update/close/stale-readback and doc-test 1/1; TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp; CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml"
+    ],
+    "purpose": "Prove the Rust-only csdlc-github action surface, including issue create/comment/update/close exact readback, body equality, exact label and assignee sets, stale and extra readback rejection, and full C-SDLC v2 regression safety.",
+    "outcome": "passed",
+    "evidence_ref": "Focused gate_github_actions passed 2/2; full csdlc-v2 suite passed including gate_github_actions 2/2 and Doc-tests csdlc_v2 1/1. TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp; CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target."
   }
 ]
 

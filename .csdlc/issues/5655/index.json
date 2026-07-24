@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "618ba16c12e2d0dbd97423264edc8d3549285dffa958884cab7a2bbf4d8beeaf",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "75a72c7bdb3d79dd96dcd1597cb44b3cf6d90c0e237dc5fae757685dc4a9adcc",
+  "generation": 8,
+  "digest": "bcf02199de2e83e245231bbb6f06cc6984e854327c0fa1fb63b57c7b7733fc3e",
   "claim": {
     "id": "claim-5655-csdlc-github-actions",
     "owner": "codex:issue-5655-slot-1",
-    "generation": 7,
+    "generation": 8,
     "acquired_unix_seconds": 1784920947,
     "expires_unix_seconds": 1785525747,
     "heartbeat_unix_seconds": 1784920947,
@@ -48,34 +48,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ce11117584fc1652689f6771224325c37013c2b0b098d56099f636d09fb44824",
+      "values_digest": "e018a93720e250d06e61cba8304c98e3d37a183411dbd92320d413206407053e",
       "rendered_digest": "dd03c87e89ee978781207f310746e82a4f6c5b0ab94ffd32bc07f7fc626bf2ec",
       "ast_digest": "f3dcf1664bed3e6551ae08b2f4d1c9094ecee8f90350da2e5d3c595a53238d69"
     },
     "stp": {
-      "values_digest": "29b77d6614bc12e79e9a9ef2f255b32716db20ee9a1b640209bb5f8e1a04956e",
+      "values_digest": "e052ee544744ccf56ba0409a3f7193dba7eff5c22529309220958ffec1d9406a",
       "rendered_digest": "c9079bc4ea58e1e738d98705f2e7174a64b327e49144d07e22782615f0d993d5",
       "ast_digest": "6bf7534476300afda08cee033439735be95e7de65943efcac6c0c877eae69ac0"
     },
     "spp": {
-      "values_digest": "a43c83442d4fe44743f1d13eec7457eecc33cd1846fc9e326c855cf55d699d43",
+      "values_digest": "e97f7cbb284452b618a5c3d267037d327b87b3c444c8e54d848e3fd3cc66375c",
       "rendered_digest": "be2cfe7e9a9f224276827047a381ae37376b6151e537703ccc098f9a98329d39",
       "ast_digest": "4ea1a765d9494f866bbeb2c36a46896d9345502cc911608fb3a774571a60ff6c"
     },
     "vpp": {
-      "values_digest": "362929bdf288d164f3d5a994d6208495ea87ca60d4caa7b8d7d004ac4c3bf432",
+      "values_digest": "f88c5a4b1832f2503c3bf9d1a7048ef5539ad94cc96d25c35e637f19965d487c",
       "rendered_digest": "fd705c28f03dbb536dacb251c4f79a81dcf6e8e9bdc978d49178553ecd7ee634",
       "ast_digest": "ee83fdaf3584426850b6cc2caa367155f04012db62e72953b116314b4f52bfd6"
     },
     "srp": {
-      "values_digest": "f13e4b7f9b5ce0fe97def903c93ceecffbbb1a2819ff57d842746161a841ad99",
+      "values_digest": "bcdb3ccf27468b8c7f436a9095b364783d4379f792127f089808b6cafbc23b65",
       "rendered_digest": "d7b8505e7ddd996d094895e30ac3d7f30cd3ad4f742f8241ce6e183da7166fd8",
       "ast_digest": "86ec1e661bbdd48b183e77463a0bda6514916dc05eae8a49e5a6487d235faee5"
     },
     "sor": {
-      "values_digest": "238d46a3196c2168dd652775881444756ca47caa3571ad09b714da466b048882",
-      "rendered_digest": "6bc340d50c30fe3bbf52f4e1bac74aa503b6cadf520ef723b4c5d6d57bb09693",
-      "ast_digest": "d549c3006aca403c0045cb9b370cf4e37dac86ad42451922ef2befe3aa4686c3"
+      "values_digest": "c0fdebf59e403120a56a1ece34a2b6367d526384e88b90873aee9104f51bb5c4",
+      "rendered_digest": "bef84c46f963b452a74ae26142893ca5be17f58b882aa27fd4e06bcac890f927",
+      "ast_digest": "3e18417062360ed4c0e309cc0fae1606d27c27233832131ad4eb3b1ae472b324"
     }
   },
   "transitions": [
@@ -178,6 +178,13 @@
       "actor": "codex:issue-5655-slot-1",
       "reason": "Record review-fix validation for exact issue update and close readback.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove review fixes for issue_update/issue_close exact readback and expanded focused mutation coverage without regressing C-SDLC v2.\",\"outcome\":\"passed\",\"evidence_ref\":\"Full suite passed after Boole review fixes, including gate_github_actions 6/6 covering create/comment/update/close/stale-readback and doc-test 1/1; TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp; CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "Record final exact-readback remediation validation after Boole review findings.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove the Rust-only csdlc-github action surface, including issue create/comment/update/close exact readback, body equality, exact label and assignee sets, stale and extra readback rejection, and full C-SDLC v2 regression safety.\",\"outcome\":\"passed\",\"evidence_ref\":\"Focused gate_github_actions passed 2/2; full csdlc-v2 suite passed including gate_github_actions 2/2 and Doc-tests csdlc_v2 1/1. TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp; CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target.\"}}"
     }
   ]
 }

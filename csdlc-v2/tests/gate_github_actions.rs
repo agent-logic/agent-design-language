@@ -10,6 +10,7 @@ use std::sync::{
 };
 use std::thread;
 use std::time::Duration;
+use std::{panic, panic::AssertUnwindSafe};
 
 static TEST_GITHUB_ENV_LOCK: Mutex<()> = Mutex::new(());
 
@@ -36,6 +37,7 @@ fn base_request(action: GithubAction) -> GithubActionRequest {
 
 #[test]
 fn operation_marker_is_stable_and_idempotent() {
+    let _guard = TEST_GITHUB_ENV_LOCK.lock().expect("test env lock");
     let marker = marker_line("issue-5655.test-key");
     assert_eq!(
         marker,
@@ -48,55 +50,45 @@ fn operation_marker_is_stable_and_idempotent() {
 }
 
 #[tokio::test]
-async fn issue_create_requires_valid_operation_key() {
-    let mut request = base_request(GithubAction::IssueCreate);
-    request.title = Some("Title".into());
-    request.body = Some("Body".into());
-    request.operation_key = None;
-    let error = execute_github_action(&request)
+async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
+    let mut invalid_key = base_request(GithubAction::IssueCreate);
+    invalid_key.title = Some("Title".into());
+    invalid_key.body = Some("Body".into());
+    invalid_key.operation_key = None;
+    let error = execute_github_action(&invalid_key)
         .await
         .expect_err("missing key");
     assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
 
-    request.operation_key = Some("../bad".into());
-    let error = execute_github_action(&request).await.expect_err("bad key");
+    invalid_key.operation_key = Some("../bad".into());
+    let error = execute_github_action(&invalid_key)
+        .await
+        .expect_err("bad key");
     assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
-}
 
-#[tokio::test]
-async fn issue_create_requires_title_and_body_before_token_resolution() {
-    let request = base_request(GithubAction::IssueCreate);
-    let error = execute_github_action(&request)
+    let missing_body = base_request(GithubAction::IssueCreate);
+    let error = execute_github_action(&missing_body)
         .await
         .expect_err("missing title/body");
     assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
     assert!(error.message.contains("title and body"));
-}
 
-#[tokio::test]
-async fn issue_update_rejects_invalid_state_before_token_resolution() {
-    let mut request = base_request(GithubAction::IssueUpdate);
-    request.issue = Some(42);
-    request.state = Some("done".into());
-    let error = execute_github_action(&request)
+    let mut invalid_state = base_request(GithubAction::IssueUpdate);
+    invalid_state.issue = Some(42);
+    invalid_state.state = Some("done".into());
+    let error = execute_github_action(&invalid_state)
         .await
         .expect_err("invalid state");
     assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
     assert!(error.message.contains("state"));
-}
 
-#[tokio::test]
-async fn pr_state_requires_pull_request_before_token_resolution() {
-    let request = base_request(GithubAction::PrState);
-    let error = execute_github_action(&request)
+    let missing_pr = base_request(GithubAction::PrState);
+    let error = execute_github_action(&missing_pr)
         .await
         .expect_err("missing pull request");
     assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
     assert!(error.message.contains("pull_request"));
-}
 
-#[tokio::test]
-async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
     let env = LocalGithubEnv::start();
 
     let mut create = base_request(GithubAction::IssueCreate);
@@ -138,9 +130,16 @@ async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
     let updated = execute_github_action(&update).await.expect("update");
     let issue = updated.issue.as_ref().expect("issue");
     assert_eq!(issue.title, "Updated GitHub action surface");
+    assert_eq!(
+        issue.body,
+        append_marker("Updated body", "issue-5655.test-key")
+    );
     assert_eq!(issue.milestone, Some(91));
-    assert!(issue.labels.contains(&"area:tools".into()));
-    assert!(issue.assignees.contains(&"codex-reviewer".into()));
+    assert_eq!(
+        sorted(issue.labels.clone()),
+        vec!["area:tools".to_string(), "version:v0.91.8".to_string()]
+    );
+    assert_eq!(issue.assignees, vec!["codex-reviewer".to_string()]);
     assert!(issue.marker_present);
 
     let mut close = base_request(GithubAction::IssueClose);
@@ -149,17 +148,29 @@ async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
     let closed = execute_github_action(&close).await.expect("close");
     assert_eq!(closed.issue.as_ref().expect("issue").state, "closed");
 
+    env.server.force_extra_patch_readback();
+    let mut extra_update = base_request(GithubAction::IssueUpdate);
+    extra_update.token_file = Some(env.token_file());
+    extra_update.issue = Some(77);
+    extra_update.labels = vec!["area:tools".into()];
+    extra_update.assignees = vec!["codex-reviewer".into()];
+    let error = execute_github_action(&extra_update)
+        .await
+        .expect_err("extra readback values");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert!(error.message.contains("readback"));
+
     env.server.force_stale_patch_readback();
     let mut stale_update = base_request(GithubAction::IssueUpdate);
     stale_update.token_file = Some(env.token_file());
     stale_update.issue = Some(77);
-    stale_update.title = Some("Title that will not stick".into());
+    stale_update.body = Some("Body that will not stick".into());
     let error = execute_github_action(&stale_update)
         .await
         .expect_err("stale readback");
     assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
     assert!(error.message.contains("readback"));
-    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 3);
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 4);
     env.server.assert_clean();
 }
 
@@ -168,6 +179,7 @@ struct LocalGithubState {
     issue: Option<Value>,
     comment: Option<Value>,
     stale_patch_readback: bool,
+    extra_patch_readback: bool,
 }
 
 struct LocalGithub {
@@ -198,12 +210,24 @@ impl LocalGithub {
             while !thread_stop.load(Ordering::SeqCst) {
                 match listener.accept() {
                     Ok((mut stream, _)) => {
+                        stream.set_nonblocking(false).expect("blocking stream");
                         if let Some(request) = read_request(&mut stream) {
                             thread_requests
                                 .lock()
                                 .unwrap()
                                 .push((request.method.clone(), request.path_only()));
-                            let response = respond(&thread_state, request);
+                            let response = match panic::catch_unwind(AssertUnwindSafe(|| {
+                                respond(&thread_state, request.clone())
+                            })) {
+                                Ok(response) => response,
+                                Err(_) => {
+                                    thread_failures.lock().unwrap().push(format!(
+                                        "mock response panicked for {} {} body={}",
+                                        request.method, request.target, request.body
+                                    ));
+                                    json!({"error": "mock response panicked"})
+                                }
+                            };
                             write_response(&mut stream, response);
                         } else {
                             thread_failures
@@ -259,6 +283,10 @@ impl LocalGithub {
     fn force_stale_patch_readback(&self) {
         self.state.lock().unwrap().stale_patch_readback = true;
     }
+
+    fn force_extra_patch_readback(&self) {
+        self.state.lock().unwrap().extra_patch_readback = true;
+    }
 }
 
 impl Drop for LocalGithub {
@@ -308,6 +336,7 @@ impl Drop for LocalGithubEnv {
     }
 }
 
+#[derive(Clone)]
 struct MockRequest {
     method: String,
     target: String,
@@ -465,6 +494,16 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
             if let Some(milestone) = payload.get("milestone").and_then(Value::as_u64) {
                 issue["milestone"] = json!({"number": milestone});
             }
+            if state.extra_patch_readback {
+                issue["labels"]
+                    .as_array_mut()
+                    .expect("labels")
+                    .push(json!({"name": "stale-extra"}));
+                issue["assignees"]
+                    .as_array_mut()
+                    .expect("assignees")
+                    .push(json!({"login": "stale-extra"}));
+            }
             state.issue = Some(issue.clone());
             issue
         }
@@ -505,6 +544,11 @@ fn open_issue(
         "assignees": assignees.into_iter().map(|login| json!({"login": login})).collect::<Vec<_>>(),
         "milestone": milestone.map(|number| json!({"number": number}))
     })
+}
+
+fn sorted(mut values: Vec<String>) -> Vec<String> {
+    values.sort();
+    values
 }
 
 fn write_response(stream: &mut TcpStream, body: Value) {

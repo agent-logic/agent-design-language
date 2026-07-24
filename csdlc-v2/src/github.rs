@@ -493,16 +493,16 @@ fn verify_issue_update_readback(
         .title
         .as_ref()
         .is_some_and(|title| &packet.title != title)
-        || request
-            .body
-            .as_ref()
-            .is_some_and(|_| !packet.marker_present)
+        || request.body.as_ref().is_some_and(|body| {
+            packet.body != append_marker(body, request.operation_key.as_deref().unwrap_or_default())
+        })
         || request
             .state
             .as_ref()
             .is_some_and(|state| &packet.state != state)
-        || !requested_values_are_present(&request.labels, &packet.labels)
-        || !requested_values_are_present(&request.assignees, &packet.assignees)
+        || (!request.labels.is_empty() && !requested_values_match(&request.labels, &packet.labels))
+        || (!request.assignees.is_empty()
+            && !requested_values_match(&request.assignees, &packet.assignees))
         || request
             .milestone
             .is_some_and(|milestone| packet.milestone != Some(milestone))
@@ -525,10 +525,10 @@ fn verify_issue_closed(packet: &GithubIssuePacket) -> crate::Result<()> {
     Ok(())
 }
 
-fn requested_values_are_present(requested: &[String], observed: &[String]) -> bool {
+fn requested_values_match(requested: &[String], observed: &[String]) -> bool {
     let requested = requested.iter().cloned().collect::<BTreeSet<_>>();
     let observed = observed.iter().cloned().collect::<BTreeSet<_>>();
-    requested.is_subset(&observed)
+    requested == observed
 }
 
 async fn find_marked_issues(
