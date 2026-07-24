@@ -3,13 +3,13 @@
   "issue": 4739,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "dd98199cf21b7a3ece23619ecfd7fd926dd8e153555179e8af5f50d245522f73",
-  "phase": "reviewed",
-  "generation": 25,
-  "digest": "e580b47b63b7f093e4d03871657a0203cfe8dc7224ce74bfb998860fc7c47734",
+  "phase": "published",
+  "generation": 26,
+  "digest": "72ed4bd86133232d49da1c7086e3d03c8b6e7d747803fcabea3f9429b15befbf",
   "claim": {
     "id": "claim-4739-v0918-wp15-unity-mcp-alignment-prep",
     "owner": "codex:issue-4739-preparation",
-    "generation": 25,
+    "generation": 26,
     "acquired_unix_seconds": 1784834939,
     "expires_unix_seconds": 1785439739,
     "heartbeat_unix_seconds": 1784834939,
@@ -65,7 +65,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 4739,
+    "pull_request": 5661,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5661",
+    "base": "main",
+    "head": "codex/4739-v0918-wp15-unity-mcp-alignment-prep",
+    "revision": "git-blake3:cbddd7c8c01c9b9b3b4a9d84e654c44c424fc2cf:587eddbafcd06439f8bf57d3fbd1e61398abc3f4ed4a9ec6325cd77c70d5eb50",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -79,34 +89,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "526d46a6d82f42011ebd6ba37c30ef36a0356199bb0fcbe7492392f6614bce56",
+      "values_digest": "a39414ba58eb988b8f4023dd6c15ac937e7bf1ab5d0c06052064465bd09c4af5",
       "rendered_digest": "852d256aa4e58fd08de6627b3fd6e0acf93774015e66867c5f741def394dc82d",
       "ast_digest": "b99c684fea927a93bbd78fb09740bd17af70365951f28d8d3b1a8d757eb23a11"
     },
     "stp": {
-      "values_digest": "e0ca6843dbe5e756aa525b61efff4c7ba06c23f9d090edb14e955b6fb0932662",
+      "values_digest": "6ac9e85f74040ef39ce13c77d2be3b5bef27918cc0998b6f82a1dcde61c4719e",
       "rendered_digest": "808f385eec200495109d2d1b18f22baf8ddfde289f75bd0667bbd02d02398873",
       "ast_digest": "c9c8bb5e5a80486621d3de2f791c7811fa732c17e84dc6612aa100050400e163"
     },
     "spp": {
-      "values_digest": "fc424aeb54117bedc0856c74a39cb0eef5b62763de147bbb2421a4f5297b228b",
+      "values_digest": "fba18182d804b3767b7c360dd07207520f9d0f4a92ed37da7d0184839b5b149e",
       "rendered_digest": "27760ee56794bdccca077809f711289289cc046705c50a42e808f9be153424bc",
       "ast_digest": "2703ff108d755b83452c403ea19e953ac1f98ceabd3f3df72dd1b45f9c5bfb6b"
     },
     "vpp": {
-      "values_digest": "ac5ae110b4af7e3caddb793b69cb2558b39cdf9da98d98b157f7dc1dc30d0ad3",
+      "values_digest": "f0c8ca2ba6bb69ad39601708715cc42a65c8fb248fd84b561351fd817c6c28d9",
       "rendered_digest": "f2daeb59f868fe1d40ebf9bcfd2550b82d82043c2b81bded4fccc900490205c2",
       "ast_digest": "3b51b461e9ae08b0f8e9bbe74d5057a256fd7a0adc97eafa4e550f0c29d16c1e"
     },
     "srp": {
-      "values_digest": "092ac22a6c8fca61d408088afe2834225f680abe35b4f27e9ef76ec47851faae",
+      "values_digest": "94d3d5663dcf19699c8a87f2437dd7d1a40ca2eafab00c4db0c8d5880cf33636",
       "rendered_digest": "ccd4a3a3799b6e4ed860673a6b32ed94021978516ba7083e964a49445a09bc8e",
       "ast_digest": "44f11ab09bede69bdef6dfd527388fae5c60eb24850c09220b1e13e75c8e7bf0"
     },
     "sor": {
-      "values_digest": "c88be8ffd159060ac526826e97e76a4d0fc41ff36ec1078faeddf1c045687476",
-      "rendered_digest": "c419f46e4bfeaa6e5aaf1c6c4e688729a788aebb32c77e593bfc6614cbc7d754",
-      "ast_digest": "e6d3ab8dace24a2861958aa1fd9d10158946bce0434d493cec3fa27487a042ce"
+      "values_digest": "3a9929776085d079c2fd35014a38f8337dd556c71e453960ccc1cfbd49c120d1",
+      "rendered_digest": "7a91ba23ac0c14553024dd02cba02a5cb429d8aca0d78d73bad030cb9c2f32d2",
+      "ast_digest": "a907a1934f420794c0bc2c8564fc118a5877ee535c24b96b6054ff90565c6c82"
     }
   },
   "transitions": [
@@ -158,6 +168,13 @@
       "to": "reviewed",
       "actor": "codex:issue-4739-preparation",
       "reason": "Advance the exact post-merge Unity-MCP alignment implementation after independent review passed with no actionable findings."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-4739-preparation",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -370,6 +387,13 @@
       "actor": "codex:issue-4739-preparation",
       "reason": "Advance the exact post-merge Unity-MCP alignment implementation after independent review passed with no actionable findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 31,
+      "generation": 26,
+      "actor": "codex:issue-4739-preparation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

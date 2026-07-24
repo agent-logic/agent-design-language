@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "base": "main",
   "head": "codex/4739-v0918-wp15-unity-mcp-alignment-prep",
-  "title": "[v0.91.8][WP-15][unity][tooling] Align live Observatory MCP project and endpoint proof",
-  "body": "Closes #4739\n\nAdds a focused fail-closed Unity-MCP alignment lane for the deployed Observatory. The probe requires persisted Custom mode, an explicitly discovered or unambiguous loopback endpoint, intended editor liveness, MCP-returned Unity Application.dataPath matching the canonical project, permission-safe bound-port proof, and a successful read-only scene-list-opened result.\n\nDeterministic fixtures cover project and endpoint mismatch, missing editor, string and numeric Cloud mode, external fallback, random-port status, ambiguity, malformed output, project-identity mismatch, tool failure, ordering, and expanded secret redaction. The validation selector maps the issue-owned surface to one focused lane.\n\nLive retained proof records the intended FastWork Observatory project with FlagshipObservatoryStage loaded, clean, valid, and RootCount 12. Exact-revision review passed after six findings were fixed. This PR proves MCP project and scene alignment only; runtime integration and investor-quality visual polish remain owned by subsequent Unity issues.",
+  "title": "[v0.91.8][WP-15][unity][tooling] Align Unity-MCP live project and port proof for deployed observatory",
+  "body": "Closes #4739.\n\n## Outcome\n\nAdds a fail-closed Unity-MCP Observatory alignment lane that accepts read-only scene evidence only when the canonical project, persisted Custom mode, one loopback endpoint, editor liveness, MCP-reported `Application.dataPath`, permission-safe port status, and loaded scene all agree.\n\n## Focused proof\n\n- deterministic project, endpoint, Cloud-mode, ordering, failure, and redaction fixtures\n- Observatory shell-contract guardrails\n- validation-selector registration\n- live local MCP proof against the intended Observatory editor and `FlagshipObservatoryStage`\n- exact-head independent review with no actionable findings\n\n## Boundary\n\nThis proves local Unity editor, MCP endpoint, project, and scene alignment. It does not claim runtime integration, visual quality, or investor readiness; those remain in the dedicated Unity demo issues.",
   "draft": false,
-  "revision": "git-blake3:d460d242a7e7b06c96d8ed1a3e7edf2aa232acf1:f43f6106728372b5c2816b7a309982d9e16539ee51f22bc867d13f21d91aaf47",
-  "commit_sha": "d460d242a7e7b06c96d8ed1a3e7edf2aa232acf1"
+  "revision": "git-blake3:cbddd7c8c01c9b9b3b4a9d84e654c44c424fc2cf:587eddbafcd06439f8bf57d3fbd1e61398abc3f4ed4a9ec6325cd77c70d5eb50",
+  "commit_sha": "cbddd7c8c01c9b9b3b4a9d84e654c44c424fc2cf"
 }
