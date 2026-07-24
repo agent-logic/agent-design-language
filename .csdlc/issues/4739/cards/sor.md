@@ -113,11 +113,11 @@ Added a fail-closed Unity-MCP Observatory alignment lane that binds the live end
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

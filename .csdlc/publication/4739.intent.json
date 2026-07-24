@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 4739,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/4739-v0918-wp15-unity-mcp-alignment-prep",
+  "title": "[v0.91.8][WP-15][unity][tooling] Align live Observatory MCP project and endpoint proof",
+  "body": "Closes #4739\n\nAdds a focused fail-closed Unity-MCP alignment lane for the deployed Observatory. The probe requires persisted Custom mode, an explicitly discovered or unambiguous loopback endpoint, intended editor liveness, MCP-returned Unity Application.dataPath matching the canonical project, permission-safe bound-port proof, and a successful read-only scene-list-opened result.\n\nDeterministic fixtures cover project and endpoint mismatch, missing editor, string and numeric Cloud mode, external fallback, random-port status, ambiguity, malformed output, project-identity mismatch, tool failure, ordering, and expanded secret redaction. The validation selector maps the issue-owned surface to one focused lane.\n\nLive retained proof records the intended FastWork Observatory project with FlagshipObservatoryStage loaded, clean, valid, and RootCount 12. Exact-revision review passed after six findings were fixed. This PR proves MCP project and scene alignment only; runtime integration and investor-quality visual polish remain owned by subsequent Unity issues.",
+  "draft": false,
+  "revision": "git-blake3:d460d242a7e7b06c96d8ed1a3e7edf2aa232acf1:f43f6106728372b5c2816b7a309982d9e16539ee51f22bc867d13f21d91aaf47",
+  "commit_sha": "d460d242a7e7b06c96d8ed1a3e7edf2aa232acf1"
+}
