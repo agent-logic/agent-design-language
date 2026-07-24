@@ -5,7 +5,7 @@
   "initialization_digest": "f93988ed395e1db7da2af464587de5654c71f80272e6421ecc4db7ea96396b24",
   "phase": "implemented",
   "generation": 4,
-  "digest": "de67d62b94d243833c55e7cfe46af8551bb6d9ec185bde1e2e92be84dfd057d8",
+  "digest": "aac4a402a06c837174935caa088d9142b605eba27329bf7a1ce1e3ff8f30430e",
   "claim": {
     "id": "claim-5653-readme-refresh",
     "owner": "codex:5653-execution",
@@ -26,7 +26,7 @@
   "review_assignment": {
     "reviewer": "bounded-subagent-review-5653",
     "assigned_by": "codex:5653-execution",
-    "revision": "git-blake3:fbef0f15e47e3de88e8c8635864871e684964900:7181325c776b28acdd9b3d8cc425a940757223644bc2924a204db6bb44eef951",
+    "revision": "git-blake3:1c99697c41823e5dd8a00cd71e76a5beb95bfca9:ab7b241f87931339871652ea4ec3bc16d8551ac89d6a95289c6d4715f0ddb213",
     "scope": [
       "README.md",
       ".csdlc/issues/5653"
@@ -145,6 +145,13 @@
     },
     {
       "sequence": 7,
+      "generation": 4,
+      "actor": "codex:5653-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
       "generation": 4,
       "actor": "codex:5653-execution",
       "reason": "assign bounded exact-revision review",
