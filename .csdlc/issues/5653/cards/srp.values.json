@@ -7,23 +7,25 @@
     "title": "[v0.91.8][docs] Refresh README status, release, CI, and homepage links",
     "slug": "readme-status-release-homepage-refresh",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "README.md\n.csdlc/issues/5653",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:1c99697c41823e5dd8a00cd71e76a5beb95bfca9:ab7b241f87931339871652ea4ec3bc16d8551ac89d6a95289c6d4715f0ddb213",
+      "reviewer": "bounded-subagent-review-5653",
       "review_prompts": [
         "Check README status against current release evidence",
         "Check homepage and badge links",
         "Check for stale or unsupported release claims"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "README reflects release-tail evidence and does not approve a public release or resolve the separate failing main CI run."
+      ],
+      "review_result": "pass"
     }
   }
 }

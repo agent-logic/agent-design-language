@@ -31,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- README reflects release-tail evidence and does not approve a public release or resolve the separate failing main CI run.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1c99697c41823e5dd8a00cd71e76a5beb95bfca9:ab7b241f87931339871652ea4ec3bc16d8551ac89d6a95289c6d4715f0ddb213")
 
-Reviewer: None
+Reviewer: Some("bounded-subagent-review-5653")
 
-Result: pre_review
+Result: pass

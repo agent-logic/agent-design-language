@@ -3,13 +3,13 @@
   "issue": 5653,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f93988ed395e1db7da2af464587de5654c71f80272e6421ecc4db7ea96396b24",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "aac4a402a06c837174935caa088d9142b605eba27329bf7a1ce1e3ff8f30430e",
+  "phase": "published",
+  "generation": 7,
+  "digest": "c4f74558194a7508185d3a17651e900b309b66e6d3412cde3b38d12b10700815",
   "claim": {
     "id": "claim-5653-readme-refresh",
     "owner": "codex:5653-execution",
-    "generation": 4,
+    "generation": 7,
     "acquired_unix_seconds": 1784850000,
     "expires_unix_seconds": 1785454800,
     "heartbeat_unix_seconds": 1784850000,
@@ -32,8 +32,31 @@
       ".csdlc/issues/5653"
     ]
   },
-  "review": null,
-  "publication": null,
+  "review": {
+    "reviewer": "bounded-subagent-review-5653",
+    "scope": [
+      "README.md",
+      ".csdlc/issues/5653"
+    ],
+    "reviewed_revision": "git-blake3:1c99697c41823e5dd8a00cd71e76a5beb95bfca9:ab7b241f87931339871652ea4ec3bc16d8551ac89d6a95289c6d4715f0ddb213",
+    "findings": [],
+    "residual_risks": [
+      "README reflects release-tail evidence and does not approve a public release or resolve the separate failing main CI run."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5653,
+    "pull_request": 5654,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5654",
+    "base": "main",
+    "head": "codex/5653-readme-refresh",
+    "revision": "git-blake3:4ebe362edaed675dbc851fa7f525ad9a6781d514:332595c478c38373cfeda86b9fb4d3a8c384c7bf4172bd4d7300c43929f4aa1c",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -47,34 +70,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "60d5f6faa0e87d78b8e89553d56d1161d8dc9c36fa4967e7a32ddcc49314a1d4",
+      "values_digest": "a62c690e953d160455e963469755d0d46d93923da95a484dd209ac524bafdb51",
       "rendered_digest": "08c5cc81d85386e4830f55879804707ac47a4a4a3aed9f8a50712bb06df1d431",
       "ast_digest": "d5b072e2ec5bd5ccfefa6d229adc847d756093c0b2943cfd00b89e6086fede45"
     },
     "stp": {
-      "values_digest": "880f876838c082a1f886c3ef3ae0ebd6c0aedae194ef06cb1db4ad77f8a77179",
+      "values_digest": "c2e348bad905836eeabf2d6ae2c1f0c84a19ab0dd125b34e5ce30cf3669d0dbc",
       "rendered_digest": "c5478426342378c63ea804905ce0fc88cd59607a062ebba7061dd009cae92249",
       "ast_digest": "8164e8ea8fdcd7dab7c10bbe503b78abe50915f0412b91d7ffe740cb54471207"
     },
     "spp": {
-      "values_digest": "1a1c0bdcc031cdd1509e84e0c93cfab4c12e0d77dca99eeb8d78b4b79206358f",
+      "values_digest": "fd05c09cbcb53fc5cb10b6be0882ca09f123ce7379c69bc4f63e478415aae622",
       "rendered_digest": "f82573d0e66df1d20c1de70adbc5a1c4d9acfcc45fbfeed32687e4d1b1914a34",
       "ast_digest": "ffbfe684bc741900f734c846e596640acca9d6e93edc3b1d8b700a4ca932bcda"
     },
     "vpp": {
-      "values_digest": "d0d1146b47dbb854a118e84ac02c9996f402f272881212fb67677af6224d47c9",
+      "values_digest": "0bb4012bc4125a4cf34b243d75f85fcead5cdfab0d2885a8f6c7453858f8e0f2",
       "rendered_digest": "7432a95506b37c19720ce8359973d32d10e1c832390402655a2df360c77f14ac",
       "ast_digest": "7133c3b49fbea776903d755a7d0fccc787f648f590a946f2f1cbd9ef3825031e"
     },
     "srp": {
-      "values_digest": "c233df9f0a050eb14836f75a9bd4b2d7461d9a3efae91e15114aa0f54a5aecd2",
-      "rendered_digest": "cdc49ce379abdb301eae486c6eece4d45a4f53cde4e272704332166623928938",
-      "ast_digest": "cd23f07be2b0395b504b9dba1ca798612c8e139b4975ef30f97ba09bc1c2214c"
+      "values_digest": "d127d9fcce7dfea36545dcae8c83d27b2f0ada9dbab37f458d7632f609a2aae4",
+      "rendered_digest": "ac179f16f2672397db506449292f3baea7e31b202e7e21511d1b4ee4c0c9d0c8",
+      "ast_digest": "88bc6397236d6e65ee82353ddb84087059103e21012e54087778e299592f1b7f"
     },
     "sor": {
-      "values_digest": "3034a124d8fd97387bf66b8c4578550b6529835dda58a6b35c5ab6790041b21d",
-      "rendered_digest": "90a3100e1725ae0b36d1b7c6b6058bebeac5ea5a2ab4671f35364ec284c3789e",
-      "ast_digest": "848148c601bceb675e357cb13f534396fb05bea38c95ce5cf771bc25f185fb05"
+      "values_digest": "59878af9753abd0339a0a09f0b4b666dfebdf42bd9f218b43213ca961cead16e",
+      "rendered_digest": "bf2a05b7b02c883d19f2b17cb688abb0e4ee51be1906831771e43834c12b260f",
+      "ast_digest": "4eef2d06f1dece278fdfb4c7f497326eac2873fe1dd9f55f42f4c7b92f863fde"
     }
   },
   "transitions": [
@@ -98,6 +121,20 @@
       "to": "implemented",
       "actor": "codex:5653-execution",
       "reason": "README implementation is complete and focused proof is green"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5653-execution",
+      "reason": "Exact-head bounded review completed with no actionable findings."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5653-execution",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -156,6 +193,27 @@
       "actor": "codex:5653-execution",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "bounded-subagent-review-5653",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:5653-execution",
+      "reason": "Exact-head bounded review completed with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:5653-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

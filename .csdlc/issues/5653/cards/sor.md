@@ -39,11 +39,11 @@ Updated the root README milestone badge and status to v0.91.8 release-tail truth
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
