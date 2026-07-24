@@ -3,13 +3,13 @@
   "issue": 5648,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7825c6b94e04ddb0cac12bf61e8c50dc765cc55c3a09139c3158bfaeab569bd7",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "4452451bac56b2b8878629cbd8f8ecd866baf0fe7cae042e95b725c476a6dce6",
+  "phase": "published",
+  "generation": 15,
+  "digest": "e105187c5664e8b9387a7296dade389ac9fb2f0581db75d5120fda95663677c2",
   "claim": {
     "id": "claim-5648-operator-active-claim-revoke",
     "owner": "codex:5648-execution",
-    "generation": 14,
+    "generation": 15,
     "acquired_unix_seconds": 1784850000,
     "expires_unix_seconds": 1785454800,
     "heartbeat_unix_seconds": 1784850000,
@@ -55,7 +55,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5648,
+    "pull_request": 5652,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5652",
+    "base": "main",
+    "head": "codex/5648-operator-active-claim-revoke",
+    "revision": "git-blake3:39970ecf82562d7022c90cb930d66142b9b6cf62:c4b2a6746fa998c5768c43d02844772f2bed7e652b4cebbc10138661c4c7f8e2",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -69,34 +79,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dc8d2aa146683cc359a53ca7ace81e655284f8b2216fc73dc00fbc01d021d3d2",
+      "values_digest": "1ce4391f54e9c443125e25b0430efc2685e996718a7468b5ff9eccb44609093d",
       "rendered_digest": "e72896d0b7253c68ce09691fd4d7f593f92482b54cba39a0a4dfaaaee8d20ba7",
       "ast_digest": "5b0b577f8cb5f6796f0fd69b70c1785d14b7cd3b67f86ee38938d6db3aafe7f9"
     },
     "stp": {
-      "values_digest": "df62e719ec112084388fb622caac110eb60d8d4fa5758fc151aa72c7588cc9c9",
+      "values_digest": "5418ea5d58c1b6d2e6046a67dfa57845eb2bdc156ef594bbf41fbdbe616181b9",
       "rendered_digest": "66e9e6fcfc30f03ee1b717f1b3cbdc8c6369e654d9d147d51aa4c7ca1c40c553",
       "ast_digest": "928017994783412b64e548d091926e3eb91230cefe901f1dc39d0ce5c44934b6"
     },
     "spp": {
-      "values_digest": "1fc32bc91c8e3c67d563d07bb6605382b3bf181eca5c024efe47362037bb47c4",
+      "values_digest": "24011a8f3b20640569c7e060a19242195480f4fcf813e84f8748b4eb99b33ed5",
       "rendered_digest": "295d15c686cda476728622cec28b10932433c3cc888741fa89da602cde5c1bca",
       "ast_digest": "0df86d853f90fae839698ac61801d6994f1b14da36844a8763b27cce6b2774cc"
     },
     "vpp": {
-      "values_digest": "f3f39669f7f9a55cf6ec1af7a1a3df05b44968c43ce7062160f8876619888fca",
+      "values_digest": "ba010352d94064df89be5c3edcb936295ee17fd3387e0f169083fa02dce07d15",
       "rendered_digest": "ea0fc83f3b89425d2ed030143a09b0c7b3482e10877a1d348c4b6528d987db61",
       "ast_digest": "1c7f26416ac828e71ddd64bce2d1fc163356c9e9d14d9b323a1af612fe9cfe45"
     },
     "srp": {
-      "values_digest": "8b4371d214770688e78a8c2f158e399c763f1049dd85f9ab61fa596a0e2efba0",
+      "values_digest": "1b6cbc053e20ddc1e8da611379f4496bf0ef0ad4555cb69ada6c988ba87f5c5d",
       "rendered_digest": "1c98084887828d7f861da81982c9ed95dd2d5cf5fbfe769b45c242bd43053ff5",
       "ast_digest": "cb1d60eac83dbaf986b8c72f506b03d5c82e3ebfa04e2fd0e77d7f739c2ded0d"
     },
     "sor": {
-      "values_digest": "ee78a97542ed602a7362f0f1fadfe616aade00ae5ba4327bd739c118679dd9f9",
-      "rendered_digest": "36089c40b2035f8d9445b203f0c7b9b22a152b9486bfbad59bcee9a36fe7b828",
-      "ast_digest": "039eb60f4cc9b7616b9721d62c44a312c2bd63f07fc3535edbf31931060a041d"
+      "values_digest": "9f817374be06e810f762a80ef818057180d5300731c92d4b91785decc79d2884",
+      "rendered_digest": "604689a306d7c2d4f568422fd74f8ea6dbfc7c0bffb3e4c4d39c5fb2dbf608f2",
+      "ast_digest": "34dd73132910504501b284ce6b2101d27c9e778798ea64d0197aee8a672b6c80"
     }
   },
   "transitions": [
@@ -148,6 +158,13 @@
       "to": "reviewed",
       "actor": "codex:5648-execution",
       "reason": "Final exact-head review is complete with no findings"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5648-execution",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -276,6 +293,13 @@
       "actor": "codex:5648-execution",
       "reason": "Final exact-head review is complete with no findings",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:5648-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

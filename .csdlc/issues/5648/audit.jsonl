@@ -16,3 +16,4 @@
 {"sequence":16,"generation":12,"actor":"codex:5648-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":17,"generation":13,"actor":"bounded-subagent-review-5648","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":18,"generation":14,"actor":"codex:5648-execution","reason":"Final exact-head review is complete with no findings","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":19,"generation":15,"actor":"codex:5648-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
