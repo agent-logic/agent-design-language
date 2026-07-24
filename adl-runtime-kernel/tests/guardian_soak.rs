@@ -1363,6 +1363,67 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
     let feed = serde_json::from_str::<serde_json::Value>(feed.to_text().unwrap()).unwrap();
     assert_eq!(feed["schema"], "adl.runtime_v3.observatory_feed.v2");
     assert_eq!(feed["runtime_selection"], "runtime_v3_explicit_opt_in");
+    assert_eq!(feed["control"]["websocket_full_duplex"], true);
+
+    let mut forged_ws = signed("wss-forged", ControlAction::Snapshot);
+    forged_ws.signature = hex::encode([0_u8; 64]);
+    websocket
+        .send(Message::Text(
+            serde_json::to_string(&forged_ws).unwrap().into(),
+        ))
+        .await
+        .unwrap();
+    let rejected = tokio::time::timeout(Duration::from_secs(3), async {
+        loop {
+            let frame = websocket
+                .next()
+                .await
+                .expect("WSS connection closed before rejection")
+                .expect("WSS rejection frame failed");
+            let value =
+                serde_json::from_str::<serde_json::Value>(frame.to_text().unwrap()).unwrap();
+            if value["schema"] == "adl.runtime_v3.observatory_ws_control_result.v1" {
+                break value;
+            }
+        }
+    })
+    .await
+    .expect("WSS rejection result did not arrive");
+    assert_eq!(rejected["status"], "rejected");
+    assert_eq!(rejected["command_id"], "wss-forged");
+    assert_eq!(rejected["error"], "authentication_failed");
+
+    let snapshot = signed("wss-snapshot", ControlAction::Snapshot);
+    websocket
+        .send(Message::Text(
+            serde_json::to_string(&snapshot).unwrap().into(),
+        ))
+        .await
+        .unwrap();
+    let accepted = tokio::time::timeout(Duration::from_secs(3), async {
+        loop {
+            let frame = websocket
+                .next()
+                .await
+                .expect("WSS connection closed before control result")
+                .expect("WSS control result frame failed");
+            let value =
+                serde_json::from_str::<serde_json::Value>(frame.to_text().unwrap()).unwrap();
+            if value["schema"] == "adl.runtime_v3.observatory_ws_control_result.v1" {
+                break value;
+            }
+        }
+    })
+    .await
+    .expect("WSS control result did not arrive");
+    assert_eq!(accepted["status"], "accepted");
+    assert_eq!(accepted["command_id"], "wss-snapshot");
+    assert_eq!(accepted["correlation_id"], snapshot.correlation_id);
+    assert_eq!(
+        accepted["response"]["schema"],
+        "adl.runtime.control_response.v1"
+    );
+    assert_eq!(accepted["response"]["outcome"]["result"], "snapshot");
     websocket.close(None).await.unwrap();
 
     let mut forged = signed("forged-stop", ControlAction::Shutdown { grace_millis: 500 });

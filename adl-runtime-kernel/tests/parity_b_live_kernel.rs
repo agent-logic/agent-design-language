@@ -14,11 +14,6 @@ use adl_runtime_kernel::{
 };
 use ed25519_dalek::SigningKey;
 
-#[cfg(unix)]
-#[allow(dead_code)]
-#[path = "../../adl-runtime/src/guardian.rs"]
-mod runtime_guardian;
-
 fn hash(value: &[u8]) -> String {
     blake3::hash(value).to_hex().to_string()
 }
@@ -132,10 +127,10 @@ fn request() -> ParityBRequest {
 #[tokio::test]
 #[cfg(unix)]
 async fn live_graph_executes_through_guardian_canonical_ingress() {
+    use adl_runtime::guardian::{run_guardian, GuardianConfig, GuardianTerminalState};
     use adl_runtime_kernel::{
         ControlAction, ControlOutcome, ControlResponse, SignedControlCommand,
     };
-    use runtime_guardian::{run_guardian, GuardianConfig, GuardianTerminalState};
 
     let directory = tempfile::tempdir().unwrap();
     let continuity_root = directory.path().join("continuity");

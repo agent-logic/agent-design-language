@@ -1,0 +1,33 @@
+{
+  "schema": "adl.wp12.platform_proof.v1",
+  "issue": 5344,
+  "platform": "macos-arm64",
+  "status": "pass",
+  "guardian_process_zero": true,
+  "os_service_manager": "launchd",
+  "tls": {
+    "transport": "https_wss_only",
+    "private_ca_verified": true,
+    "san_hostname_verified": true,
+    "wrong_hostname_rejected": true,
+    "verification_bypass_used": false
+  },
+  "runtime": {
+    "agent_count": 10000,
+    "child_kill_restarted": true,
+    "guardian_kill_stopped_old_child": true,
+    "os_manager_restarted_guardian": true,
+    "continuity_restored_generation": 2,
+    "cpu_saturation_basis_points": 10000,
+    "cpu_saturation_did_not_restart": true,
+    "post_load_recovered_healthy": true,
+    "guardian_pid_stable": true,
+    "runtime_instance_stable": true,
+    "continuity_generation_stable": true
+  },
+  "observatory": {
+    "authenticated_https_feed": true,
+    "authenticated_websocket": true
+  },
+  "evidence_boundary": "Exact local PIDs and machine-local paths are retained only in issue-local private evidence."
+}

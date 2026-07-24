@@ -495,6 +495,22 @@ fn resource_policy_warns_stops_and_recovers_with_hysteresis() {
     );
 }
 
+#[test]
+fn cpu_saturation_is_observable_without_restarting_a_healthy_runtime() {
+    let thresholds = WeatherConfig::default();
+    let saturated = sample(10_000, 0, thresholds.disk_recover_free_bytes);
+
+    assert_eq!(
+        adl_runtime_kernel::resource_state(&thresholds, &saturated, ResourceState::Healthy),
+        ResourceState::Warning
+    );
+    assert_eq!(
+        WeatherHealthReport::from_sample(&thresholds, saturated, ResourceState::Healthy)
+            .shutdown_decision,
+        ShutdownDecision::Continue
+    );
+}
+
 struct SequenceWeatherObserver {
     samples: VecDeque<WeatherSample>,
 }

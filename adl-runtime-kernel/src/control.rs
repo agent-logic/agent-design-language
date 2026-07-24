@@ -41,6 +41,8 @@ pub const MAX_SHUTDOWN_GRACE_MILLIS: u64 = 60_000;
 pub const CONTROL_API_SHUTDOWN_GRACE: Duration = Duration::from_secs(2);
 pub const OBSERVATORY_WS_PATH: &str = "/v1/observatory/ws";
 pub const OBSERVATORY_WS_AUTH_SCHEMA: &str = "adl.runtime_v3.observatory_ws_auth.v1";
+pub const OBSERVATORY_WS_CONTROL_RESULT_SCHEMA: &str =
+    "adl.runtime_v3.observatory_ws_control_result.v1";
 pub const MAX_OBSERVATORY_WS_FRAME_BYTES: usize = 64 * 1024;
 const OBSERVATORY_WS_AUTH_TIMEOUT: Duration = Duration::from_secs(5);
 const OBSERVATORY_WS_REFRESH: Duration = Duration::from_secs(1);
@@ -533,6 +535,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     .clone(),
                 read_endpoint: "/v1/observatory".to_owned(),
                 websocket_endpoint: OBSERVATORY_WS_PATH.to_owned(),
+                websocket_full_duplex: true,
                 signed_command_endpoint: "/v1/control".to_owned(),
                 signed_commands_required_for_mutation: true,
                 bearer_token_required_for_read: true,
@@ -714,6 +717,7 @@ pub struct ObservatoryControlFeed {
     pub public_base_url: String,
     pub read_endpoint: String,
     pub websocket_endpoint: String,
+    pub websocket_full_duplex: bool,
     pub signed_command_endpoint: String,
     pub signed_commands_required_for_mutation: bool,
     pub bearer_token_required_for_read: bool,
@@ -954,6 +958,20 @@ struct ObservatoryWsAuth {
     bearer_token: String,
 }
 
+#[derive(Serialize)]
+struct ObservatoryWsControlResult {
+    schema: &'static str,
+    status: &'static str,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    command_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    correlation_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    response: Option<ControlResponse>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    error: Option<&'static str>,
+}
+
 async fn observatory_ws_session<C: LifecycleControl + 'static>(
     mut socket: WebSocket,
     service: Arc<ControlService<C>>,
@@ -1008,10 +1026,58 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                 }
                 Some(Ok(Message::Pong(_))) => {}
                 Some(Ok(Message::Close(_))) | None => break,
-                Some(Ok(Message::Text(_))) | Some(Ok(Message::Binary(_))) | Some(Err(_)) => {
+                Some(Ok(Message::Text(payload))) => {
+                    let command = serde_json::from_str::<SignedControlCommand>(&payload);
+                    let (command_id, correlation_id) = command
+                        .as_ref()
+                        .map(|command| {
+                            (
+                                is_safe_identifier(&command.command_id)
+                                    .then(|| command.command_id.clone()),
+                                is_correlation_id(&command.correlation_id)
+                                    .then(|| command.correlation_id.clone()),
+                            )
+                        })
+                        .unwrap_or((None, None));
+                    let result = match command {
+                        Ok(command) => match service.execute(command).await {
+                            Ok(response) => ObservatoryWsControlResult {
+                                schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                                status: "accepted",
+                                command_id,
+                                correlation_id,
+                                response: Some(response),
+                                error: None,
+                            },
+                            Err(error) => ObservatoryWsControlResult {
+                                schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                                status: "rejected",
+                                command_id,
+                                correlation_id,
+                                response: None,
+                                error: Some(control_error_code(&error)),
+                            },
+                        },
+                        Err(_) => ObservatoryWsControlResult {
+                            schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                            status: "rejected",
+                            command_id: None,
+                            correlation_id: None,
+                            response: None,
+                            error: Some("invalid_request"),
+                        },
+                    };
+                    let Ok(payload) = serde_json::to_string(&result) else {
+                        break;
+                    };
+                    if socket.send(Message::Text(payload.into())).await.is_err() {
+                        break;
+                    }
+                }
+                Some(Ok(Message::Binary(_))) | Some(Err(_)) => {
                     let _ = socket.send(Message::Close(Some(CloseFrame {
                         code: close_code::POLICY,
-                        reason: "read_only_observatory".into(),
+                        reason: "unsupported_websocket_frame".into(),
                     }))).await;
                     break;
                 }
@@ -1063,7 +1129,7 @@ async fn control_handler<C: LifecycleControl + 'static>(
 }
 
 fn control_error_response(error: ControlError) -> Response {
-    let status = match error {
+    let status = match &error {
         ControlError::Authentication => StatusCode::UNAUTHORIZED,
         ControlError::Unauthorized => StatusCode::FORBIDDEN,
         ControlError::IdempotencyConflict
@@ -1077,16 +1143,24 @@ fn control_error_response(error: ControlError) -> Response {
     };
     let payload = ControlErrorPayload {
         schema: "adl.runtime.control_error.v1",
-        code: match status {
-            StatusCode::UNAUTHORIZED => "authentication_failed",
-            StatusCode::FORBIDDEN => "unauthorized",
-            StatusCode::CONFLICT => "idempotency_conflict",
-            StatusCode::SERVICE_UNAVAILABLE => "temporarily_unavailable",
-            StatusCode::GONE => "stale_runtime_instance",
-            _ => "invalid_request",
-        },
+        code: control_error_code(&error),
     };
     cors_json(status, payload, None)
+}
+
+fn control_error_code(error: &ControlError) -> &'static str {
+    match error {
+        ControlError::Authentication => "authentication_failed",
+        ControlError::Unauthorized => "unauthorized",
+        ControlError::IdempotencyConflict
+        | ControlError::InFlight
+        | ControlError::LifecycleAlreadyRequested => "idempotency_conflict",
+        ControlError::AdmissionClosed
+        | ControlError::IdempotencyCapacity
+        | ControlError::Internal => "temporarily_unavailable",
+        ControlError::StaleRuntimeInstance => "stale_runtime_instance",
+        _ => "invalid_request",
+    }
 }
 
 fn allowed_origin<C: LifecycleControl + 'static>(

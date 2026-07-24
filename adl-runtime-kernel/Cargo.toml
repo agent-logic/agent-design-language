@@ -31,6 +31,7 @@ uuid = { version = "1", features = ["v4"] }
 libc = "0.2"
 
 [dev-dependencies]
+adl-runtime = { path = "../adl-runtime" }
 rcgen = "0.14"
 tempfile = "3"
 tokio-rustls = "0.26"

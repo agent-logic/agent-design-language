@@ -1,0 +1,154 @@
+{
+  "schema": "adl.wp12.soak_manifest.v1",
+  "issue": 5344,
+  "selector": {
+    "generations": [
+      "adl-v1-fixture",
+      "adl-v2"
+    ],
+    "timeout_seconds": 120
+  },
+  "scenarios": [
+    {
+      "id": "ci-fast-lane-contract",
+      "kind": "contract",
+      "claim_class": "ci_contract",
+      "path": "adl/tools/run_owner_validation_lane.sh",
+      "pattern": "runtime",
+      "argv": [
+        "bash",
+        "adl/tools/run_owner_validation_lane.sh",
+        "runtime"
+      ],
+      "expected_exit": 0,
+      "timeout_seconds": 30
+    },
+    {
+      "id": "demo-plan",
+      "kind": "adl_v2",
+      "claim_class": "demo",
+      "argv": [
+        "plan",
+        "adl-characterization/corpus/v1/fixtures/six-primitives.adl.yaml",
+        "--yaml"
+      ],
+      "expected_exit": 0,
+      "timeout_seconds": 30
+    },
+    {
+      "id": "demo-run",
+      "kind": "adl_v2",
+      "claim_class": "demo",
+      "argv": [
+        "run",
+        "adl-characterization/corpus/v1/fixtures/mock-run.adl.yaml",
+        "--yaml"
+      ],
+      "expected_exit": 0,
+      "timeout_seconds": 30
+    },
+    {
+      "id": "local-schema",
+      "kind": "adl_v2",
+      "claim_class": "local_deterministic",
+      "argv": [
+        "schema"
+      ],
+      "expected_exit": 0,
+      "timeout_seconds": 30
+    },
+    {
+      "id": "local-validate",
+      "kind": "adl_v2",
+      "claim_class": "local_deterministic",
+      "argv": [
+        "validate",
+        "adl-characterization/corpus/v1/fixtures/six-primitives.adl.yaml",
+        "--yaml"
+      ],
+      "expected_exit": 0,
+      "timeout_seconds": 30
+    },
+    {
+      "id": "negative-malformed",
+      "kind": "adl_v2",
+      "claim_class": "negative",
+      "argv": [
+        "validate",
+        "adl-characterization/corpus/v1/fixtures/malformed.adl.yaml",
+        "--yaml"
+      ],
+      "expected_exit": 2,
+      "timeout_seconds": 30
+    },
+    {
+      "id": "provider-disposition",
+      "kind": "artifact",
+      "claim_class": "provider_disposition",
+      "path": "docs/milestones/v0.91.8/evidence/wp12/platform-provider.json",
+      "required_schema": "adl.wp12.platform_proof.v1",
+      "required_status": "pass",
+      "argv": [
+        "verify-artifact",
+        "docs/milestones/v0.91.8/evidence/wp12/platform-provider.json"
+      ],
+      "expected_exit": 0,
+      "timeout_seconds": 30
+    },
+    {
+      "id": "rollback-matrix",
+      "kind": "rollback",
+      "claim_class": "rollback",
+      "argv": [
+        "bash",
+        "adl-v2/tools/prove-rollback.sh",
+        "--manifest",
+        "docs/milestones/v0.91.8/evidence/wp12/manifest.json"
+      ],
+      "expected_exit": 0,
+      "timeout_seconds": 300
+    },
+    {
+      "id": "runtime-linux",
+      "kind": "artifact",
+      "claim_class": "runtime_v3_live",
+      "path": "docs/milestones/v0.91.8/evidence/wp12/platform-linux.json",
+      "required_schema": "adl.wp12.platform_proof.v1",
+      "required_status": "pass",
+      "argv": [
+        "verify-artifact",
+        "docs/milestones/v0.91.8/evidence/wp12/platform-linux.json"
+      ],
+      "expected_exit": 0,
+      "timeout_seconds": 30
+    },
+    {
+      "id": "runtime-macos",
+      "kind": "artifact",
+      "claim_class": "runtime_v3_live",
+      "path": "docs/milestones/v0.91.8/evidence/wp12/platform-macos.json",
+      "required_schema": "adl.wp12.platform_proof.v1",
+      "required_status": "pass",
+      "argv": [
+        "verify-artifact",
+        "docs/milestones/v0.91.8/evidence/wp12/platform-macos.json"
+      ],
+      "expected_exit": 0,
+      "timeout_seconds": 30
+    },
+    {
+      "id": "runtime-windows",
+      "kind": "artifact",
+      "claim_class": "runtime_v3_live",
+      "path": "docs/milestones/v0.91.8/evidence/wp12/platform-windows.json",
+      "required_schema": "adl.wp12.platform_proof.v1",
+      "required_status": "pass",
+      "argv": [
+        "verify-artifact",
+        "docs/milestones/v0.91.8/evidence/wp12/platform-windows.json"
+      ],
+      "expected_exit": 0,
+      "timeout_seconds": 30
+    }
+  ]
+}

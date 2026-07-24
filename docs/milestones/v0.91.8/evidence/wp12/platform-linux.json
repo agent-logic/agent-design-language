@@ -1,0 +1,28 @@
+{
+  "schema": "adl.wp12.platform_proof.v1",
+  "issue": 5344,
+  "platform": "linux-x86_64",
+  "status": "pass",
+  "guardian_process_zero": true,
+  "os_service_manager": "bounded_spot_validation",
+  "tls": {
+    "transport": "https_only",
+    "private_ca_verified": true,
+    "san_hostname_verified": true,
+    "verification_bypass_used": false
+  },
+  "runtime": {
+    "agent_count": 10000,
+    "child_kill_restarted": true,
+    "guardian_shutdown_stopped_child": true
+  },
+  "observatory": {
+    "authenticated_https_feed": true
+  },
+  "cleanup": {
+    "instance_terminated": true,
+    "security_group_deleted": true,
+    "orphaned_storage": false
+  },
+  "evidence_boundary": "The redacted source packet is retained outside the repository; no account identifier, credential, public address, or host path is committed."
+}
