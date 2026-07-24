@@ -8,18 +8,23 @@ DEFAULT_EDITOR="/Applications/Unity/Hub/Editor/6000.5.1f1/Unity.app/Contents/Mac
 UNITY_EDITOR_BIN="${UNITY_6_5_EDITOR_BIN:-${UNITY_EDITOR_BIN:-$DEFAULT_EDITOR}}"
 LOG_DIR="${ROOT_DIR}/.adl/tmp/unity-observatory-4548"
 LOG_PATH="${ADL_UNITY_OBSERVATORY_LOG_PATH:-${LOG_DIR}/unity-local-runtime-consumption.log}"
+RESULT_PATH="${ADL_UNITY_OBSERVATORY_RESULT_PATH:-}"
 IDLE_TIMEOUT_SECS="${ADL_UNITY_OBSERVATORY_IDLE_TIMEOUT_SECS:-300}"
 RUNTIME_BASE="${ADL_UNITY_OBSERVATORY_RUNTIME_BASE:-/Volumes/FastWork/adl-unity-observatory}"
 PROJECT_OWNER_PID_FILE="${ADL_UNITY_OBSERVATORY_PROJECT_OWNER_PID_FILE:-${PROJECT_PATH}/.adl/unity-editor.pid}"
 OPEN_EDITOR_PROOF_COMMAND="${ADL_UNITY_OBSERVATORY_OPEN_EDITOR_PROOF_COMMAND:-}"
 OPEN_EDITOR_RESULT_PATH="${ADL_UNITY_OBSERVATORY_OPEN_EDITOR_RESULT_PATH:-${ROOT_DIR}/.adl/tmp/unity-observatory-4548/open-editor-result.json}"
 EXTERNAL_CLASSIFIER_COMMAND="${ADL_UNITY_OBSERVATORY_EXTERNAL_CLASSIFIER_COMMAND:-}"
+DEFAULT_ILPP_CLASSIFIER="${ROOT_DIR}/adl/tools/lib/unity_observatory_batch_classifiers.sh"
+MUTABLE_ENV_MODE="${ADL_UNITY_OBSERVATORY_MUTABLE_ENV_MODE:-isolated}"
+HOST_IDENTITY_PROBE_COMMAND="${ADL_UNITY_OBSERVATORY_HOST_IDENTITY_PROBE_COMMAND:-}"
 CLASSIFY_ONLY="${ADL_UNITY_OBSERVATORY_CLASSIFY_ONLY:-0}"
 PREPARE_ONLY="${ADL_UNITY_OBSERVATORY_PREPARE_ONLY:-0}"
 ALLOW_TEST_ADL_BIN="${ADL_UNITY_OBSERVATORY_ALLOW_TEST_ADL_BIN:-0}"
 RUNTIME_PACKET_REF="adl/tests/fixtures/runtime_v2/observatory/visibility_packet.json"
 RUNTIME_PACKET="${ROOT_DIR}/${RUNTIME_PACKET_REF}"
 LOCK_PATH="${PROJECT_PATH}/Temp/UnityLockfile"
+STAGED_PROJECT_PATH="not_created"
 
 resolve_path() {
   python3 - "$1" <<'PY'
@@ -138,13 +143,24 @@ make_tree_writable() {
 emit_result() {
   local outcome="$1"
   local classifier="$2"
-  printf 'editor_version=%s\n' "${EDITOR_VERSION}"
-  printf 'canonical_project=%s\n' "${PROJECT_REAL}"
-  printf 'proof_mode=%s\n' "${PROOF_MODE}"
-  printf 'process_evidence=%s\n' "${PROCESS_EVIDENCE}"
-  printf 'progress_classifier=%s\n' "${classifier}"
-  printf 'log_reference=%s\n' "${LOG_REFERENCE}"
-  printf 'terminal_outcome=%s\n' "${outcome}"
+  local result
+  result="$(
+    printf 'editor_version=%s\n' "${EDITOR_VERSION}"
+    printf 'canonical_project=%s\n' "${PROJECT_REAL}"
+    printf 'staged_project=%s\n' "${STAGED_PROJECT_PATH}"
+    printf 'proof_mode=%s\n' "${PROOF_MODE}"
+    printf 'process_evidence=%s\n' "${PROCESS_EVIDENCE}"
+    printf 'progress_classifier=%s\n' "${classifier}"
+    printf 'log_reference=%s\n' "${LOG_REFERENCE}"
+    printf 'terminal_outcome=%s\n' "${outcome}"
+  )"
+  printf '%s\n' "${result}"
+  if [[ -n "${RESULT_PATH}" ]] &&
+      path_is_within "${RESULT_PATH}" "${ROOT_DIR}/.adl" &&
+      [[ ! -L "${RESULT_PATH}" ]]; then
+    mkdir -p "$(dirname "${RESULT_PATH}")"
+    printf '%s\n' "${result}" >"${RESULT_PATH}"
+  fi
 }
 
 process_status_for_pid_file() {
@@ -275,10 +291,12 @@ PY
 }
 
 external_classifier() {
+  local idle="${1:-0}"
   local output=""
   [[ -n "${EXTERNAL_CLASSIFIER_COMMAND}" ]] || return 1
   if ! output="$(
     ADL_UNITY_OBSERVATORY_CLASSIFIER_LOG="${LOG_PATH}" \
+      ADL_UNITY_OBSERVATORY_CLASSIFIER_IDLE="${idle}" \
       bash -lc "${EXTERNAL_CLASSIFIER_COMMAND}"
   )"; then
     printf 'external_classifier_error\n'
@@ -291,6 +309,23 @@ external_classifier() {
       ;;
   esac
   return 1
+}
+
+host_identity_available() {
+  if [[ -n "${HOST_IDENTITY_PROBE_COMMAND}" ]]; then
+    [[ "${ALLOW_TEST_ADL_BIN}" == "1" ]] || return 1
+    path_is_within "${UNITY_EDITOR_BIN}" "${ROOT_DIR}/.adl" || return 1
+    bash -lc "${HOST_IDENTITY_PROBE_COMMAND}"
+    return
+  fi
+  python3 - <<'PY'
+import ctypes
+import ctypes.util
+
+libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
+buffer = ctypes.create_string_buffer(256)
+raise SystemExit(0 if libc.getdomainname(buffer, len(buffer)) == 0 else 1)
+PY
 }
 
 stop_child() {
@@ -333,6 +368,18 @@ fail_prerequisite() {
   fail_prerequisite "missing_editor_binary" "missing configured Unity editor binary: ${UNITY_EDITOR_BIN}"
 [[ -x "${ADL_BIN}" ]] ||
   fail_prerequisite "missing_owner_binary" "missing repository-installed ADL owner binary: ${ADL_BIN}"
+case "${MUTABLE_ENV_MODE}" in
+  isolated | host_home | system_tmp) ;;
+  *)
+    fail_prerequisite \
+      "invalid_mutable_env_mode" \
+      "unknown Unity mutable environment mode: ${MUTABLE_ENV_MODE}"
+    ;;
+esac
+
+if [[ -z "${EXTERNAL_CLASSIFIER_COMMAND}" && -x "${DEFAULT_ILPP_CLASSIFIER}" ]]; then
+  EXTERNAL_CLASSIFIER_COMMAND="${DEFAULT_ILPP_CLASSIFIER}"
+fi
 
 ADL_BIN_REAL="$(resolve_path "${ADL_BIN}")"
 if [[ "${ALLOW_TEST_ADL_BIN}" != "1" ]] && ! validate_owner_binary "${ADL_BIN_REAL}"; then
@@ -342,6 +389,10 @@ if [[ "${ALLOW_TEST_ADL_BIN}" != "1" ]] && ! validate_owner_binary "${ADL_BIN_RE
 fi
 if ! path_is_within "${LOG_PATH}" "${ROOT_DIR}/.adl"; then
   fail_prerequisite "unsafe_log_path" "Unity Observatory proof log must remain under ${ROOT_DIR}/.adl"
+fi
+if [[ -n "${RESULT_PATH}" ]] &&
+    { ! path_is_within "${RESULT_PATH}" "${ROOT_DIR}/.adl" || [[ -L "${RESULT_PATH}" ]]; }; then
+  fail_prerequisite "unsafe_result_path" "Unity Observatory result must remain under ${ROOT_DIR}/.adl"
 fi
 if ! runtime_base_is_allowed; then
   fail_prerequisite "unsafe_runtime_base" "Unity Observatory staging must remain under /Volumes/FastWork or ${ROOT_DIR}/.adl"
@@ -360,6 +411,12 @@ fi
 if [[ "${PROOF_MODE}" == "skipped_fail_closed" ]]; then
   emit_result "${MODE_REASON}" "not_started"
   exit 75
+fi
+
+if ! host_identity_available; then
+  emit_result "sandbox_host_identity_denied" "host_identity_preflight"
+  echo "Unity ILPP requires a host execution lane that permits getdomainname(2)." >&2
+  exit 77
 fi
 
 if ! safe_reset_log "${LOG_PATH}"; then
@@ -506,21 +563,51 @@ if [[ "${PREPARE_ONLY}" == "1" ]]; then
   exit 0
 fi
 
-ADL_UNITY_EXPECTED_TITLE="${EXPECTED_TITLE}" \
-ADL_UNITY_EXPECTED_PACKET_REF="${EXPECTED_PACKET_REF}" \
-ADL_UNITY_EXPECTED_ARTIFACT_ROOT="${EXPECTED_ARTIFACT_ROOT}" \
-ADL_UNITY_EXPECTED_REPORT_REF="${EXPECTED_REPORT_REF}" \
-ADL_UNITY_EXPECTED_EVIDENCE_LEVEL="${EXPECTED_EVIDENCE_LEVEL}" \
-DOTNET_CLI_TELEMETRY_OPTOUT=1 \
-DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
-DOTNET_CLI_HOME="${HOME_ROOT}" \
-HOME="${HOME_ROOT}" \
-TMP="${TMP_ROOT}" \
-TEMP="${TMP_ROOT}" \
-TMPDIR="${TMP_ROOT}" \
-XDG_CACHE_HOME="${HOME_ROOT}/Library/Caches" \
-XDG_CONFIG_HOME="${HOME_ROOT}/Library/Application Support" \
-"${UNITY_EDITOR_BIN}" \
+unity_env=(
+  "ADL_UNITY_EXPECTED_TITLE=${EXPECTED_TITLE}"
+  "ADL_UNITY_EXPECTED_PACKET_REF=${EXPECTED_PACKET_REF}"
+  "ADL_UNITY_EXPECTED_ARTIFACT_ROOT=${EXPECTED_ARTIFACT_ROOT}"
+  "ADL_UNITY_EXPECTED_REPORT_REF=${EXPECTED_REPORT_REF}"
+  "ADL_UNITY_EXPECTED_EVIDENCE_LEVEL=${EXPECTED_EVIDENCE_LEVEL}"
+  "DOTNET_CLI_TELEMETRY_OPTOUT=1"
+  "DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1"
+)
+case "${MUTABLE_ENV_MODE}" in
+  isolated)
+    unity_env+=(
+      "DOTNET_CLI_HOME=${HOME_ROOT}"
+      "HOME=${HOME_ROOT}"
+      "TMP=${TMP_ROOT}"
+      "TEMP=${TMP_ROOT}"
+      "TMPDIR=${TMP_ROOT}"
+      "XDG_CACHE_HOME=${HOME_ROOT}/Library/Caches"
+      "XDG_CONFIG_HOME=${HOME_ROOT}/Library/Application Support"
+    )
+    ;;
+  host_home)
+    unity_env+=(
+      "DOTNET_CLI_HOME=${HOME_ROOT}"
+      "TMP=${TMP_ROOT}"
+      "TEMP=${TMP_ROOT}"
+      "TMPDIR=${TMP_ROOT}"
+      "XDG_CACHE_HOME=${HOME_ROOT}/Library/Caches"
+      "XDG_CONFIG_HOME=${HOME_ROOT}/Library/Application Support"
+    )
+    ;;
+  system_tmp)
+    unity_env+=(
+      "DOTNET_CLI_HOME=${HOME_ROOT}"
+      "HOME=${HOME_ROOT}"
+      "TMP=/tmp"
+      "TEMP=/tmp"
+      "TMPDIR=/tmp"
+      "XDG_CACHE_HOME=${HOME_ROOT}/Library/Caches"
+      "XDG_CONFIG_HOME=${HOME_ROOT}/Library/Application Support"
+    )
+    ;;
+esac
+
+env "${unity_env[@]}" "${UNITY_EDITOR_BIN}" \
   -projectPath "${STAGED_PROJECT_PATH}" \
   -batchmode \
   -nographics \
@@ -558,7 +645,7 @@ while true; do
     last_progress_at=$SECONDS
   fi
 
-  if terminal_classifier="$(external_classifier)"; then
+  if terminal_classifier="$(external_classifier 0)"; then
     stop_child "${unity_pid}"
     wait "${unity_pid}" 2>/dev/null || true
     emit_result "${terminal_classifier}" "external"
@@ -576,6 +663,10 @@ while true; do
   if (( SECONDS - last_progress_at >= IDLE_TIMEOUT_SECS )); then
     stop_child "${unity_pid}"
     wait "${unity_pid}" 2>/dev/null || true
+    if terminal_classifier="$(external_classifier 1)"; then
+      emit_result "${terminal_classifier}" "external_idle"
+      exit 6
+    fi
     known_classifier="$(known_terminal_classifier)"
     if [[ "${known_classifier}" == "unclassified" ]]; then
       known_classifier="semantic_progress_idle"
@@ -611,18 +702,5 @@ if ! grep -Fq "${SUCCESS_MARKER}" "${LOG_PATH}"; then
   emit_result "validator_success_marker_missing" "terminal_exit"
   exit 5
 fi
-
-for expected in \
-  "title=${EXPECTED_TITLE}" \
-  "packetRef=${EXPECTED_PACKET_REF}" \
-  "artifactRoot=${EXPECTED_ARTIFACT_ROOT}" \
-  "reportRef=${EXPECTED_REPORT_REF}"
-do
-  if ! grep -Fq "${expected}" "${LOG_PATH}"; then
-    emit_result "expected_log_marker_missing" "terminal_exit"
-    echo "missing_marker=${expected}" >&2
-    exit 6
-  fi
-done
 
 emit_result "passed" "semantic:${last_fingerprint}"

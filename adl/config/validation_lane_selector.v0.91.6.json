@@ -358,6 +358,31 @@
       "reason": "unity_editor_liveness_paths_require_focused_mode_and_watchdog_proof"
     },
     {
+      "id": "unity_ilpp_diagnostics",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "review",
+      "proof_role": "demo_contract",
+      "requirement_ids": [
+        "unity_ilpp_diagnostics"
+      ],
+      "path_selectors": [
+        "adl/tools/lib/unity_observatory_batch_classifiers.sh",
+        "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
+        "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+        "docs/tooling/unity_ilpp_getdomainname_diagnosis.md"
+      ],
+      "path_hints": [
+        "adl/tools/lib/unity_observatory_batch_classifiers.sh",
+        "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
+        "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+        "docs/tooling/unity_ilpp_getdomainname_diagnosis.md"
+      ],
+      "command": "bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh && bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash -n adl/tools/lib/unity_observatory_batch_classifiers.sh && bash -n adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh && bash -n adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "run_command": "bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh && bash -n adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash -n adl/tools/lib/unity_observatory_batch_classifiers.sh && bash -n adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh && bash -n adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "reason": "unity_ilpp_paths_require_focused_host_identity_and_progress_classifier_proof"
+    },
+    {
       "id": "unity_observatory_contract_surface",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
