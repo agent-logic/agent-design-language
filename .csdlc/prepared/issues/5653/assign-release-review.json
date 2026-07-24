@@ -5,6 +5,7 @@
   "claim_id":"claim-5653-readme-refresh",
   "actor":"codex:5653-execution",
   "reviewer":"bounded-subagent-review-5653",
+  "assigned_by":"codex:5653-execution",
   "scope":["README.md","docs/milestones/v0.91.7/RELEASE_NOTES_v0.91.7.md",".csdlc/issues/5653"],
   "reason":"Review exact release-truth documentation and refreshed proof before updating publication."
 }
