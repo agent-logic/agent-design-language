@@ -3,13 +3,13 @@
   "issue": 4739,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "dd98199cf21b7a3ece23619ecfd7fd926dd8e153555179e8af5f50d245522f73",
-  "phase": "implemented",
-  "generation": 23,
-  "digest": "0bb0741a80db2030fd5840ca5ece3e2ecc3032709de3de8b25c8ae413cdf34c2",
+  "phase": "reviewed",
+  "generation": 25,
+  "digest": "e580b47b63b7f093e4d03871657a0203cfe8dc7224ce74bfb998860fc7c47734",
   "claim": {
     "id": "claim-4739-v0918-wp15-unity-mcp-alignment-prep",
     "owner": "codex:issue-4739-preparation",
-    "generation": 23,
+    "generation": 25,
     "acquired_unix_seconds": 1784834939,
     "expires_unix_seconds": 1785439739,
     "heartbeat_unix_seconds": 1784834939,
@@ -43,7 +43,28 @@
       ".csdlc/prepared/issues/4739"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019f95ae-c03a-7e90-808f-803f476c9738",
+    "scope": [
+      "adl/tools/probe_unity_mcp_observatory_alignment.sh",
+      "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
+      "adl/tools/test_v0916_unity_observatory_contract.sh",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "docs/tooling/unity_mcp_observatory_alignment.md",
+      ".csdlc/issues/4739",
+      ".csdlc/prepared/issues/4739"
+    ],
+    "reviewed_revision": "git-blake3:2934df9a89a307ce245bf7dbdfed6d0e8ad87a07:898bfbd0900756209ed3125799503ce5b05870e89e443ee9f4453704a80ffded",
+    "findings": [],
+    "residual_risks": [
+      "Unity-MCP CLI 0.82.2 can report zero Unity processes for the live intended editor, so the bounded PID plus project-local Editor.log fallback remains necessary.",
+      "The observed 0.82.3 to 0.86.1 plugin update-order defect remains external; this proof uses the compatible pinned package and records the defect under #4739.",
+      "This review proves local MCP project and scene alignment only; it does not establish runtime integration, visual quality, or investor readiness."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -58,32 +79,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "47ed15e6f0c08bf2fdf2a20f5c53962bcd6230ea8d1af23eac0b31ee2849f6e1",
+      "values_digest": "526d46a6d82f42011ebd6ba37c30ef36a0356199bb0fcbe7492392f6614bce56",
       "rendered_digest": "852d256aa4e58fd08de6627b3fd6e0acf93774015e66867c5f741def394dc82d",
       "ast_digest": "b99c684fea927a93bbd78fb09740bd17af70365951f28d8d3b1a8d757eb23a11"
     },
     "stp": {
-      "values_digest": "b5af70ec742caeb9be2751dc8bc3fca9df9c4f515991a1ecb7fb37d8d145bf7b",
+      "values_digest": "e0ca6843dbe5e756aa525b61efff4c7ba06c23f9d090edb14e955b6fb0932662",
       "rendered_digest": "808f385eec200495109d2d1b18f22baf8ddfde289f75bd0667bbd02d02398873",
       "ast_digest": "c9c8bb5e5a80486621d3de2f791c7811fa732c17e84dc6612aa100050400e163"
     },
     "spp": {
-      "values_digest": "3354fc68b9928f8009ee79131ee0f018ae7a7fa69873eb6f885809da34f0ae8d",
+      "values_digest": "fc424aeb54117bedc0856c74a39cb0eef5b62763de147bbb2421a4f5297b228b",
       "rendered_digest": "27760ee56794bdccca077809f711289289cc046705c50a42e808f9be153424bc",
       "ast_digest": "2703ff108d755b83452c403ea19e953ac1f98ceabd3f3df72dd1b45f9c5bfb6b"
     },
     "vpp": {
-      "values_digest": "5764b26b0f60035d9bc53ac5836383de689f2a9775bb9dd2c2b584fa7dbd5198",
+      "values_digest": "ac5ae110b4af7e3caddb793b69cb2558b39cdf9da98d98b157f7dc1dc30d0ad3",
       "rendered_digest": "f2daeb59f868fe1d40ebf9bcfd2550b82d82043c2b81bded4fccc900490205c2",
       "ast_digest": "3b51b461e9ae08b0f8e9bbe74d5057a256fd7a0adc97eafa4e550f0c29d16c1e"
     },
     "srp": {
-      "values_digest": "86993c004c07f5eb5bbcb5e2d0128ff0e8f8c520d8b8f26e162885eb0ed6f7ed",
-      "rendered_digest": "c5949d76ef7cb925fe6d0e2cec0ac5fe1d9e3e451118acf4b6d952544a009211",
-      "ast_digest": "6332f418a7ddb300f9318377d53238bc1c20645dc1edda35a9d3d60b6cb51d93"
+      "values_digest": "092ac22a6c8fca61d408088afe2834225f680abe35b4f27e9ef76ec47851faae",
+      "rendered_digest": "ccd4a3a3799b6e4ed860673a6b32ed94021978516ba7083e964a49445a09bc8e",
+      "ast_digest": "44f11ab09bede69bdef6dfd527388fae5c60eb24850c09220b1e13e75c8e7bf0"
     },
     "sor": {
-      "values_digest": "049cff81269d3966c00733b9c95d2d4ce0466e4dd4ea07c6c2736b47a2fb9989",
+      "values_digest": "c88be8ffd159060ac526826e97e76a4d0fc41ff36ec1078faeddf1c045687476",
       "rendered_digest": "c419f46e4bfeaa6e5aaf1c6c4e688729a788aebb32c77e593bfc6614cbc7d754",
       "ast_digest": "e6d3ab8dace24a2861958aa1fd9d10158946bce0434d493cec3fa27487a042ce"
     }
@@ -130,6 +151,13 @@
       "to": "implemented",
       "actor": "codex:issue-4739-preparation",
       "reason": "Origin main advanced after ready publication; recover stale review and publication truth for an exact-head review after the clean base merge."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-4739-preparation",
+      "reason": "Advance the exact post-merge Unity-MCP alignment implementation after independent review passed with no actionable findings."
     }
   ],
   "audit": [
@@ -328,6 +356,20 @@
       "actor": "codex:issue-4739-preparation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 24,
+      "actor": "subagent:019f95ae-c03a-7e90-808f-803f476c9738",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 25,
+      "actor": "codex:issue-4739-preparation",
+      "reason": "Advance the exact post-merge Unity-MCP alignment implementation after independent review passed with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
