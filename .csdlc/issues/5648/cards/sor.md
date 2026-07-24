@@ -63,11 +63,11 @@ Added typed operator-authorized active-claim revoke with CAS, expiry guard, audi
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
