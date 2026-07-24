@@ -1,7 +1,7 @@
 {
   "issue": 5653,
   "expected_generation": 4,
-  "expected_digest": "ef52cf38da25054414c81a6d13cf865bf5eb477dedf37e8cd9b72ed41cd9306e",
+  "expected_digest": "de67d62b94d243833c55e7cfe46af8551bb6d9ec185bde1e2e92be84dfd057d8",
   "claim_id": "claim-5653-readme-refresh",
   "reviewer": "bounded-subagent-review-5653",
   "assigned_by": "codex:5653-execution",
