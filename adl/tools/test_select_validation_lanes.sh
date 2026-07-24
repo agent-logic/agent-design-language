@@ -862,6 +862,35 @@ assert lane["matched_paths"] == [
 ]
 assert "test_v0916_unity_observatory_local_runtime_consumption.sh" in lane["command"]
 assert "test_v0916_unity_observatory_local_runtime_consumption_unit.sh" in lane["command"]
+assert "test_v0916_unity_observatory_contract.sh" in lane["command"]
+PY
+
+unity_ilpp_diagnostics="$TMP/unity-ilpp-diagnostics.txt"
+cat >"$unity_ilpp_diagnostics" <<'EOF'
+A	adl/tools/lib/unity_observatory_batch_classifiers.sh
+A	adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh
+A	adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh
+A	docs/tooling/unity_ilpp_getdomainname_diagnosis.md
+EOF
+bash "$SCRIPT" --changed-files "$unity_ilpp_diagnostics" --json >"$TMP/unity-ilpp-diagnostics.json"
+python3 - <<'PY' "$TMP/unity-ilpp-diagnostics.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["aggregate_status"] == "selected"
+assert set(profile["lanes"].keys()) == {"unity_ilpp_diagnostics"}
+lane = profile["lanes"]["unity_ilpp_diagnostics"]
+assert lane["matched_paths"] == [
+    "adl/tools/lib/unity_observatory_batch_classifiers.sh",
+    "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
+    "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+    "docs/tooling/unity_ilpp_getdomainname_diagnosis.md",
+]
+assert lane["proof_role"] == "demo_contract"
+assert "unity_observatory_batch_classifiers.sh" in lane["command"]
+assert "run_v0918_unity_ilpp_diagnostic_matrix.sh" in lane["command"]
+assert "test_v0918_unity_ilpp_diagnostic_matrix.sh" in lane["command"]
 PY
 
 for unity_full_lane_path in \

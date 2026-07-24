@@ -29,13 +29,13 @@ Implement only the ILPP loop classifier, controlled diagnosis, and proven root-c
 2. AC-2: repeated complete signatures without semantic progress classify as ilpp_retry_loop without waiting for an arbitrary total runtime ceiling
 3. AC-3: import, compile, validator, or terminal progress resets the non-progress classifier and preserves successful batch behavior
 4. AC-4: readonly-database text remains a separate classifier and is not fatal after verified staged import progress
-5. AC-5: the controlled matrix distinguishes wrapper staging, mutable HOME TMP XDG isolation, host or domain identity, and Unity version with one variable changed per cell
-6. AC-6: each matrix cell retains Unity version, canonical staged project, non-secret environment shape, semantic progress markers, signature count, terminal classification, and log reference
+5. AC-5: the controlled matrix declares isolated, host-HOME, and system-temp cells with one named variable group changed per comparison, records host capability before staging, and permits an approved-host isolated proof
+6. AC-6: each matrix cell retains Unity version, source project, staged-project state as an actual path or not_created, non-secret environment shape, semantic progress markers, signature counts, terminal classification, and issue-local log references
 7. AC-7: the minimal root-cause fix is applied only after the matrix isolates its owner; otherwise the exact current blocker and owner are recorded
-8. AC-8: focused no-Unity tests cover incomplete signature, complete repeating loop, progress reset, readonly progression, and normal ILPP start
+8. AC-8: focused no-Unity tests cover incomplete signature, complete repeating loop, progress reset, readonly progression, normal ILPP start, default and single-cell matrix selection, evidence fields, path confinement, and status aggregation
 9. AC-9: one safe staged regression reaches the existing Observatory validator success marker or records a precise post-ILPP blocker without claiming full demo readiness
 10. AC-10: the final diff excludes #4739 MCP internals, #4741 general liveness and mode selection, Unity scene code, runtime semantics, asset work, and rendering polish
-11. AC-11: validation selector registration maps the classifier, wrapper, focused unit, and diagnosis paths to one focused Unity ILPP lane and its selector test passes
+11. AC-11: validation selector registration preserves the existing Unity liveness and contract lane, maps the new classifier, matrix runner, matrix test, and diagnosis paths to a focused Unity ILPP lane whose command reruns wrapper and unit proof, and its selector test passes
 
 ## Dependencies
 
