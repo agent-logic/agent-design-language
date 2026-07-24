@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-active-claim revoke lifecycle operation and focused tests
+csdlc-v2/src/lifecycle.rs
+csdlc-v2/src/bin/csdlc-bind.rs
+csdlc-v2/src/schema.rs
+csdlc-v2/src/lib.rs
+csdlc-v2/tests/gate2.rs
+.csdlc/issues/5648
 
 ## Prompts
 
@@ -30,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The operator authority marker is validated as explicit non-empty provenance; its external authorization remains an operator responsibility.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ce7165c2429c70c1f8ee0741dba5f7e2f9066e47:cd76969c26526f6a08099f3b17e2124ce9b62c4c0c08dfe5e1128abd3e315f99")
 
-Reviewer: None
+Reviewer: Some("bounded-subagent-review-5648")
 
-Result: pre_review
+Result: pass

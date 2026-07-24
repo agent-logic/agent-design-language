@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7825c6b94e04ddb0cac12bf61e8c50dc765cc55c3a09139c3158bfaeab569bd7",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "3ab8955892aefe028ddc1073de993006f3658299e34408974a47c84f590cda58",
+  "generation": 9,
+  "digest": "d6fa89e797bc5aaf85a572ace6fe5160c92c6a8a78f6ed32a8138de28f8ec813",
   "claim": {
     "id": "claim-5648-operator-active-claim-revoke",
     "owner": "codex:5648-execution",
-    "generation": 8,
+    "generation": 9,
     "acquired_unix_seconds": 1784850000,
     "expires_unix_seconds": 1785454800,
     "heartbeat_unix_seconds": 1784850000,
@@ -24,8 +24,37 @@
     ],
     "purpose": "Implement the typed operator-authorized active-claim revoke operation"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "bounded-subagent-review-5648",
+    "assigned_by": "codex:5648-execution",
+    "revision": "git-blake3:ce7165c2429c70c1f8ee0741dba5f7e2f9066e47:cd76969c26526f6a08099f3b17e2124ce9b62c4c0c08dfe5e1128abd3e315f99",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/bin/csdlc-bind.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/5648"
+    ]
+  },
+  "review": {
+    "reviewer": "bounded-subagent-review-5648",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/bin/csdlc-bind.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/5648"
+    ],
+    "reviewed_revision": "git-blake3:ce7165c2429c70c1f8ee0741dba5f7e2f9066e47:cd76969c26526f6a08099f3b17e2124ce9b62c4c0c08dfe5e1128abd3e315f99",
+    "findings": [],
+    "residual_risks": [
+      "The operator authority marker is validated as explicit non-empty provenance; its external authorization remains an operator responsibility."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -40,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5cd86f1f788110d5b5cb09d86fb4caad85fc5d14d37360d979b8fabb019026b2",
+      "values_digest": "95ac3a8f7f452cf720f499b7048d68e8e4e708bc95fb64a07bea3b3b0b470f5d",
       "rendered_digest": "e72896d0b7253c68ce09691fd4d7f593f92482b54cba39a0a4dfaaaee8d20ba7",
       "ast_digest": "5b0b577f8cb5f6796f0fd69b70c1785d14b7cd3b67f86ee38938d6db3aafe7f9"
     },
     "stp": {
-      "values_digest": "7cac17e87c71676741da2eb6badaab1c9f2711dfbc8fc156c90308770d24eea4",
+      "values_digest": "924e6eac555513f3a74c82997dcb8eb33d43b169f3f6cd82df10a178b88b4965",
       "rendered_digest": "66e9e6fcfc30f03ee1b717f1b3cbdc8c6369e654d9d147d51aa4c7ca1c40c553",
       "ast_digest": "928017994783412b64e548d091926e3eb91230cefe901f1dc39d0ce5c44934b6"
     },
     "spp": {
-      "values_digest": "8fa27eac50b305e2c981744cb7bb57eef47c4cc81f1856cc357b0347376045df",
+      "values_digest": "567c83dd2d6f189c68d2e7abfe96a44843ea4742c8e9eb538f63fe9396b134b6",
       "rendered_digest": "295d15c686cda476728622cec28b10932433c3cc888741fa89da602cde5c1bca",
       "ast_digest": "0df86d853f90fae839698ac61801d6994f1b14da36844a8763b27cce6b2774cc"
     },
     "vpp": {
-      "values_digest": "6e3511d7b9ce897896c1114bcc99b8f1a4a9bdc2024c52940636d396441ed351",
+      "values_digest": "79dd1b63ff87ba8dbd42fddaff1b4ed40e69d19d176dc2155fcfe7a589e26954",
       "rendered_digest": "ea0fc83f3b89425d2ed030143a09b0c7b3482e10877a1d348c4b6528d987db61",
       "ast_digest": "1c7f26416ac828e71ddd64bce2d1fc163356c9e9d14d9b323a1af612fe9cfe45"
     },
     "srp": {
-      "values_digest": "2023ce95ff47a8f1fd1a7919d2f8b4b023b49d94016173e397a096e816b72808",
-      "rendered_digest": "43d9211f4144fb5bf2b15cbf69497be5658c8aefad1793236b9574a180cd4a45",
-      "ast_digest": "261dd1c3bd417bbf90f072d75769a6cc9c6b64226ea37c9ee9eba3b6f6f4cd83"
+      "values_digest": "7d1f3531f1bdfc788fd69889b2214795b3131f87d59f6bb01f12b30462f23ae9",
+      "rendered_digest": "241f39af5165791be620c320e822e211b7b7bb1e9564550851d584496b20c8c3",
+      "ast_digest": "270b7b3718df756b1e892480d307989f3119f3f93b87a26eae45878ecfd421db"
     },
     "sor": {
-      "values_digest": "af24ce7d976914b91b71c3ecddbb797793ab1b69113e0cd63e901c24c9901ffa",
+      "values_digest": "adfc1a0388060b9f5c9f595ff843cf1c5c175994e5e107955d1d691876bdf119",
       "rendered_digest": "5cd5bedc67ec3997b433bb9fd658caf2e43ff11c60772db3e1c10644265e4843",
       "ast_digest": "8aa0106ba856e742637fa8d25808387ccdde835f093ba98873009bd618694392"
     }
@@ -163,6 +192,20 @@
       "actor": "codex:5648-execution",
       "reason": "Implementation is complete and focused validation is green",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:5648-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "bounded-subagent-review-5648",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }

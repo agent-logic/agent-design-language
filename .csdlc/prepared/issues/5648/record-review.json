@@ -1,0 +1,16 @@
+{
+  "issue": 5648,
+  "expected_generation": 8,
+  "expected_digest": "1b5ee61c4b9e45e9a0a1627278f6bab0ead5ae86c0c6a051ba95eed90a3c1ae8",
+  "claim_id": "claim-5648-operator-active-claim-revoke",
+  "actor": "bounded-subagent-review-5648",
+  "evidence": {
+    "reviewer": "bounded-subagent-review-5648",
+    "scope": ["csdlc-v2/src/lifecycle.rs", "csdlc-v2/src/bin/csdlc-bind.rs", "csdlc-v2/src/schema.rs", "csdlc-v2/src/lib.rs", "csdlc-v2/tests/gate2.rs", ".csdlc/issues/5648"],
+    "reviewed_revision": "git-blake3:ce7165c2429c70c1f8ee0741dba5f7e2f9066e47:cd76969c26526f6a08099f3b17e2124ce9b62c4c0c08dfe5e1128abd3e315f99",
+    "findings": [],
+    "residual_risks": ["The operator authority marker is validated as explicit non-empty provenance; its external authorization remains an operator responsibility."],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}
