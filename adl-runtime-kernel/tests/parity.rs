@@ -1,11 +1,14 @@
 use std::{collections::BTreeMap, sync::Arc};
 
+#[cfg(unix)]
+use adl_runtime_kernel::ShadowBackend;
+
 use adl_runtime_kernel::{
     close_baseline_modules, AdaptationState, BackendFailure, BackendFailureKind,
     CompatibilityFacade, CompatibilityRoute, CoverageContract, DivergenceClass, ExpectedRelation,
     Footprint, FootprintComparison, NormalizedOutcome, ParityError, ProcessBackend,
-    ProcessBackendConfig, ProcessOutput, RecordedBackend, RuntimeGeneration, ShadowBackend,
-    ShadowHarness, ShadowReport, SharedFixture,
+    ProcessBackendConfig, ProcessOutput, RecordedBackend, RuntimeGeneration, ShadowHarness,
+    ShadowReport, SharedFixture,
 };
 use std::time::Duration;
 
@@ -591,6 +594,7 @@ fn validate_three_iteration_fixture(fixture: &SharedFixture) -> Result<(), Backe
     }
 }
 
+#[cfg(unix)]
 fn validate_three_iteration_padded_fixture(fixture: &SharedFixture) -> Result<(), BackendFailure> {
     if fixture.input["max_iterations"] == 3 {
         Ok(())
@@ -602,6 +606,7 @@ fn validate_three_iteration_padded_fixture(fixture: &SharedFixture) -> Result<()
     }
 }
 
+#[cfg(unix)]
 fn normalize_never(_: &serde_json::Value) -> Result<NormalizedOutcome, BackendFailure> {
     Err(BackendFailure::new("normalizer_should_not_run"))
 }

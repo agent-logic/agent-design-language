@@ -1,16 +1,18 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
     sync::Arc,
-    time::Duration,
 };
+
+#[cfg(unix)]
+use std::time::Duration;
 
 use adl_runtime_kernel::{
     feature_dispositions, graph_patch_hash, rollback_candidate, AdaptationState, AdaptationStore,
-    AdapterKind, AdvisorySignals, CognitionGates, DomainWork, FeatureDispositionKind, GraphPatch,
-    LoopDefinition, LoopStatus, MutationAuthority, MutationGate, MutationGrant, OperationExecutor,
-    ParityBError, ParityBExecutor, ParityBRequest, PatchKind, ReasoningEdge,
-    ReasoningGraphDefinition, ReasoningNode, RecordedObservation, TrustedMutationKey, TrustedTime,
-    PARITY_B_REQUEST_SCHEMA, REASONING_GRAPH_SCHEMA,
+    AdvisorySignals, CognitionGates, FeatureDispositionKind, GraphPatch, LoopDefinition,
+    LoopStatus, MutationAuthority, MutationGate, MutationGrant, OperationExecutor, ParityBError,
+    ParityBExecutor, ParityBRequest, PatchKind, ReasoningEdge, ReasoningGraphDefinition,
+    ReasoningNode, RecordedObservation, TrustedMutationKey, TrustedTime, PARITY_B_REQUEST_SCHEMA,
+    REASONING_GRAPH_SCHEMA,
 };
 use ed25519_dalek::SigningKey;
 
@@ -129,7 +131,8 @@ fn request() -> ParityBRequest {
 async fn live_graph_executes_through_guardian_canonical_ingress() {
     use adl_runtime::guardian::{run_guardian, GuardianConfig, GuardianTerminalState};
     use adl_runtime_kernel::{
-        ControlAction, ControlOutcome, ControlResponse, SignedControlCommand,
+        AdapterKind, ControlAction, ControlOutcome, ControlResponse, DomainWork,
+        SignedControlCommand,
     };
 
     let directory = tempfile::tempdir().unwrap();
