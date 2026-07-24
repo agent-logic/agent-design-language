@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/lifecycle.rs
+csdlc-v2/src/bin/csdlc-bind.rs
+csdlc-v2/src/schema.rs
+csdlc-v2/src/lib.rs
+csdlc-v2/tests/gate2.rs
+.csdlc/issues/5648
 
 ## Prompts
 
@@ -30,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The operator authority marker is validated as explicit non-empty provenance; its external authorization remains an operator responsibility.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:da05119e80b0cb0b6f768cf935ec9e0e10d7055e:a6ca8d1765314aed2615d3b45135cd78a4fdb9006f2ee1b311bdea0dd2b09879")
 
-Reviewer: None
+Reviewer: Some("bounded-subagent-review-5648")
 
-Result: pre_review
+Result: pass

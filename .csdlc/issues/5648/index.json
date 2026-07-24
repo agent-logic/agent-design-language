@@ -3,13 +3,13 @@
   "issue": 5648,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7825c6b94e04ddb0cac12bf61e8c50dc765cc55c3a09139c3158bfaeab569bd7",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "937769c975d52603f9a0b9c30725784b595f9aa0691b0e9ef782ee6db2aaa0dd",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "4452451bac56b2b8878629cbd8f8ecd866baf0fe7cae042e95b725c476a6dce6",
   "claim": {
     "id": "claim-5648-operator-active-claim-revoke",
     "owner": "codex:5648-execution",
-    "generation": 12,
+    "generation": 14,
     "acquired_unix_seconds": 1784850000,
     "expires_unix_seconds": 1785454800,
     "heartbeat_unix_seconds": 1784850000,
@@ -24,8 +24,37 @@
     ],
     "purpose": "Implement the typed operator-authorized active-claim revoke operation"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "bounded-subagent-review-5648",
+    "assigned_by": "codex:5648-execution",
+    "revision": "git-blake3:da05119e80b0cb0b6f768cf935ec9e0e10d7055e:a6ca8d1765314aed2615d3b45135cd78a4fdb9006f2ee1b311bdea0dd2b09879",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/bin/csdlc-bind.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/5648"
+    ]
+  },
+  "review": {
+    "reviewer": "bounded-subagent-review-5648",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/bin/csdlc-bind.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/5648"
+    ],
+    "reviewed_revision": "git-blake3:da05119e80b0cb0b6f768cf935ec9e0e10d7055e:a6ca8d1765314aed2615d3b45135cd78a4fdb9006f2ee1b311bdea0dd2b09879",
+    "findings": [],
+    "residual_risks": [
+      "The operator authority marker is validated as explicit non-empty provenance; its external authorization remains an operator responsibility."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -40,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e543a52a927369ef0432c34c01901dc93ced0e4c4ab002f2281090fad77ca367",
+      "values_digest": "dc8d2aa146683cc359a53ca7ace81e655284f8b2216fc73dc00fbc01d021d3d2",
       "rendered_digest": "e72896d0b7253c68ce09691fd4d7f593f92482b54cba39a0a4dfaaaee8d20ba7",
       "ast_digest": "5b0b577f8cb5f6796f0fd69b70c1785d14b7cd3b67f86ee38938d6db3aafe7f9"
     },
     "stp": {
-      "values_digest": "6926f15f419bd7b61298e69db7009dcd7fe9d1c5eea11aa683fb5b4db901cf6e",
+      "values_digest": "df62e719ec112084388fb622caac110eb60d8d4fa5758fc151aa72c7588cc9c9",
       "rendered_digest": "66e9e6fcfc30f03ee1b717f1b3cbdc8c6369e654d9d147d51aa4c7ca1c40c553",
       "ast_digest": "928017994783412b64e548d091926e3eb91230cefe901f1dc39d0ce5c44934b6"
     },
     "spp": {
-      "values_digest": "655a19ce1917a828ccaf63a284ae4f7c31d2d567e091b6a5ccc19119f3d9d9be",
+      "values_digest": "1fc32bc91c8e3c67d563d07bb6605382b3bf181eca5c024efe47362037bb47c4",
       "rendered_digest": "295d15c686cda476728622cec28b10932433c3cc888741fa89da602cde5c1bca",
       "ast_digest": "0df86d853f90fae839698ac61801d6994f1b14da36844a8763b27cce6b2774cc"
     },
     "vpp": {
-      "values_digest": "42397277d9aa14c25e039ca144c804af781d2511e979f3720feb73617ee91ffe",
+      "values_digest": "f3f39669f7f9a55cf6ec1af7a1a3df05b44968c43ce7062160f8876619888fca",
       "rendered_digest": "ea0fc83f3b89425d2ed030143a09b0c7b3482e10877a1d348c4b6528d987db61",
       "ast_digest": "1c7f26416ac828e71ddd64bce2d1fc163356c9e9d14d9b323a1af612fe9cfe45"
     },
     "srp": {
-      "values_digest": "e16faadcd8426f8b5ef6d8bdfc338d0e61730a6c3c3914036446a995548cb31e",
-      "rendered_digest": "9a6ad50f6ae1a7a5478d5e4900998b1108b2762a0a54451364177567aaaf0362",
-      "ast_digest": "ad9145f6fa58199103b24e419b9c487a29c7a014f4ee75a086c2b35755a9c649"
+      "values_digest": "8b4371d214770688e78a8c2f158e399c763f1049dd85f9ab61fa596a0e2efba0",
+      "rendered_digest": "1c98084887828d7f861da81982c9ed95dd2d5cf5fbfe769b45c242bd43053ff5",
+      "ast_digest": "cb1d60eac83dbaf986b8c72f506b03d5c82e3ebfa04e2fd0e77d7f739c2ded0d"
     },
     "sor": {
-      "values_digest": "e9fc31a91cbdbe43f50c4f7009f0e6b97d6e323e44ed64aaf0e7dc08d021d74b",
+      "values_digest": "ee78a97542ed602a7362f0f1fadfe616aade00ae5ba4327bd739c118679dd9f9",
       "rendered_digest": "36089c40b2035f8d9445b203f0c7b9b22a152b9486bfbad59bcee9a36fe7b828",
       "ast_digest": "039eb60f4cc9b7616b9721d62c44a312c2bd63f07fc3535edbf31931060a041d"
     }
@@ -112,6 +141,13 @@
       "to": "implemented",
       "actor": "codex:5648-execution",
       "reason": "Recover exact review identity after publication metadata commits; implementation scope is unchanged."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5648-execution",
+      "reason": "Final exact-head review is complete with no findings"
     }
   ],
   "audit": [
@@ -219,6 +255,27 @@
       "actor": "codex:5648-execution",
       "reason": "Recover exact review identity after publication metadata commits; implementation scope is unchanged.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:5648-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "bounded-subagent-review-5648",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:5648-execution",
+      "reason": "Final exact-head review is complete with no findings",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
