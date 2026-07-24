@@ -5,7 +5,7 @@
   "initialization_digest": "f93988ed395e1db7da2af464587de5654c71f80272e6421ecc4db7ea96396b24",
   "phase": "implemented",
   "generation": 4,
-  "digest": "ef52cf38da25054414c81a6d13cf865bf5eb477dedf37e8cd9b72ed41cd9306e",
+  "digest": "de67d62b94d243833c55e7cfe46af8551bb6d9ec185bde1e2e92be84dfd057d8",
   "claim": {
     "id": "claim-5653-readme-refresh",
     "owner": "codex:5653-execution",
@@ -23,7 +23,15 @@
     ],
     "purpose": "Refresh root README status, CI, release posture, and homepage link"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "bounded-subagent-review-5653",
+    "assigned_by": "codex:5653-execution",
+    "revision": "git-blake3:fbef0f15e47e3de88e8c8635864871e684964900:7181325c776b28acdd9b3d8cc425a940757223644bc2924a204db6bb44eef951",
+    "scope": [
+      "README.md",
+      ".csdlc/issues/5653"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -59,9 +67,9 @@
       "ast_digest": "7133c3b49fbea776903d755a7d0fccc787f648f590a946f2f1cbd9ef3825031e"
     },
     "srp": {
-      "values_digest": "be55b6e58830b88e7227c83428141c89bf47eaca22c0c1ce9a2fbc9c6a147762",
-      "rendered_digest": "4710554447092e41532c0cb64e6692ef18bb3353bd8ce5e0d1ff5c098e72bd87",
-      "ast_digest": "27f2888abb265f91eac19076e029f52a22afdd37a1ad2e5fbbbad23de2764fd5"
+      "values_digest": "c233df9f0a050eb14836f75a9bd4b2d7461d9a3efae91e15114aa0f54a5aecd2",
+      "rendered_digest": "cdc49ce379abdb301eae486c6eece4d45a4f53cde4e272704332166623928938",
+      "ast_digest": "cd23f07be2b0395b504b9dba1ca798612c8e139b4975ef30f97ba09bc1c2214c"
     },
     "sor": {
       "values_digest": "3034a124d8fd97387bf66b8c4578550b6529835dda58a6b35c5ab6790041b21d",
@@ -134,6 +142,13 @@
       "actor": "codex:5653-execution",
       "reason": "README implementation is complete and focused proof is green",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:5653-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

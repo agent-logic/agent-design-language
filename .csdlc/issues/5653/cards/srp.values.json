@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "root README documentation refresh",
+      "review_scope": "README.md\n.csdlc/issues/5653",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

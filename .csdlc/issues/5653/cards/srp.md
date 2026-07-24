@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-root README documentation refresh
+README.md
+.csdlc/issues/5653
 
 ## Prompts
 
