@@ -7,15 +7,15 @@
     "title": "[v0.91.8][runtime-v3][observatory] Complete authenticated WSS and feature proofs",
     "slug": "v0-91-8-runtime-v3-wss-feature-proofs",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 2
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review the exact #5665 adl-runtime API/auth/observability/shutdown implementation, clean-checkout init file, feature/adapter matrix, tests, LoC measurement, and validation evidence.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/runtime_api.rs\nadl-runtime/tests/runtime_api_wss.rs\nadl-runtime/Cargo.toml\nadl-runtime/Cargo.lock\ninfra/runtime-v3/runtime-api-5665.toml\ndocs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json\n.csdlc/issues/5665/index.json\n.csdlc/issues/5665/cards/sor.md\n.csdlc/evidence/5665/runtime-v3-wss-focused.log\n.csdlc/evidence/5665/runtime-v3-strict-clippy.log",
+      "review_revision": "git-blake3:03d8292bfdb6db74b0c8d166df98826777e70ab8:3ead98d699dfdeb62da19d669ba7fd6a90595f55928f50d764dc165d0c8a3020",
+      "reviewer": "Halley",
       "review_prompts": [
         "Does the WSS proof exercise a real Axum/Tokio/Rustls API path rather than URL, fixture, or metadata proof?",
         "Are authentication, bidirectional frames, token rotation, token revocation, and shutdown covered?",
@@ -24,8 +24,12 @@
         "Did the change stay disjoint from #5657/#5663/#5664 protected paths and preserve the API-only runtime boundary?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The WSS shutdown path intentionally returns an API-only shutdown_ack and does not stop the runtime process; consumers must not treat it as runtime stop proof.",
+        "The WSS integration test exercises TLS setup, failed auth, authenticated ping/pong, rotation overlap, revocation close, and shutdown ack; the feature_matrix frame is indirectly covered through matrix helper validation.",
+        "The port 20997 init file is string-checked in the test rather than parsed end-to-end."
+      ],
+      "review_result": "pass"
     }
   }
 }

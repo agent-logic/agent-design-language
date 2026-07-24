@@ -3,13 +3,13 @@
   "issue": 5665,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "de3b5856d4e47ed1ebb369e7783dc3b928af156f44ee05ce3494807c656c9e30",
-  "phase": "implemented",
-  "generation": 1,
-  "digest": "bccffa58d2c5417aa2e81501817c28ce6cc3d3b505571c85b745cd92f2f9fbf2",
+  "phase": "reviewed",
+  "generation": 2,
+  "digest": "bfbf6b7f9613167831851b1e27d6b87026de4f1d6056db16d7b7b47cb24c66b7",
   "claim": {
     "id": "claim-5665-runtime-v3-wss-feature-proofs",
     "owner": "codex:issue-5665-slot-1",
-    "generation": 1,
+    "generation": 2,
     "acquired_unix_seconds": 1784935430,
     "expires_unix_seconds": 1785540230,
     "heartbeat_unix_seconds": 1784935430,
@@ -32,7 +32,30 @@
     "purpose": "Complete authenticated Runtime v3 WSS and feature proof matrix without HTML Observatory redesign"
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "Halley",
+    "scope": [
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "infra/runtime-v3/runtime-api-5665.toml",
+      "docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json",
+      ".csdlc/issues/5665/index.json",
+      ".csdlc/issues/5665/cards/sor.md",
+      ".csdlc/evidence/5665/runtime-v3-wss-focused.log",
+      ".csdlc/evidence/5665/runtime-v3-strict-clippy.log"
+    ],
+    "reviewed_revision": "git-blake3:03d8292bfdb6db74b0c8d166df98826777e70ab8:3ead98d699dfdeb62da19d669ba7fd6a90595f55928f50d764dc165d0c8a3020",
+    "findings": [],
+    "residual_risks": [
+      "The WSS shutdown path intentionally returns an API-only shutdown_ack and does not stop the runtime process; consumers must not treat it as runtime stop proof.",
+      "The WSS integration test exercises TLS setup, failed auth, authenticated ping/pong, rotation overlap, revocation close, and shutdown ack; the feature_matrix frame is indirectly covered through matrix helper validation.",
+      "The port 20997 init file is string-checked in the test rather than parsed end-to-end."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -47,32 +70,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3eeadb38c26fe096802fff1e91f34877f5f4ef2b39548cc2c9ce1f12e9c65f36",
+      "values_digest": "5e70a784c108ba43ffa44561d3d1ce3d9cedda6b5a754e3a611adbeec8f83d26",
       "rendered_digest": "dcda6e18ce8d3f336740dcdf7ae9ef6df97c63ab57c0027a9cda03bde9a7e61c",
       "ast_digest": "552dc5d250d0b5e354c06cd8c0708bebc52b5bb9be16a24f8cddff1333eddd88"
     },
     "stp": {
-      "values_digest": "3a15b5666f177a9aaadbea16972e8215ab962f2d653249f1f9577e7bafd73ecc",
+      "values_digest": "d0fd1f27da6223d2ccde0eede1d523f7edb65ea2afc353e48194a271bb7c383c",
       "rendered_digest": "180c0fdd339b9336b9756ca1699baad2ab4d92b2f31d4d053579527bfa508052",
       "ast_digest": "5b1833288c45238cc2daf644dfa04fc8cdc4d58959c70bcfac24aa55168cf306"
     },
     "spp": {
-      "values_digest": "4f5a987023987fc96ae3bed944a20c7d44498460cbe5a4407e90b14caa3207db",
+      "values_digest": "8a0a9baa414d2fddcdc7ac84c15774661aac3ca0d891a68483f8ae815d43d4f6",
       "rendered_digest": "0393b9f7a00cb350b2af7a8a05e563ecacb96d3dcdfeb60d719936cec55c83f8",
       "ast_digest": "e75f7acd2ff2c1cabfd381de260d797cfbd5c84f99e8658d762e62c36a928c1b"
     },
     "vpp": {
-      "values_digest": "7457c9d05bd0e3a3ff0b0bef35e70a8d079aa1f206f7f94ed83c60f0f82261b1",
+      "values_digest": "2298457ee3ccff80ad504e1e95b2f4a183d97f55401cbb145be8abf86edd460b",
       "rendered_digest": "cd536331740ee0cf5d5e398d8df5a638163c27e42f3ab4a73c779e1a07cdbada",
       "ast_digest": "fcfeba3e3e8d15e35ea5c655fb03885d647827dd20e9c67bb04f5f7c652b89c3"
     },
     "srp": {
-      "values_digest": "82d8b5dd07f6d0202290730da17cdcbc82ee64c7761f30e9d5cc009d94ebb6d5",
-      "rendered_digest": "a38cb261d1d207ea50c6f298a923cb380a236bb2956d10b37d22c010139c4769",
-      "ast_digest": "cb043be7f87599d0c049bd29c5043783b44add1fe89b1c850b1bc02dc0b0994c"
+      "values_digest": "d21c908f93772ea371f6efded81f33b48ae145d776019b358e4ce92a620aea8a",
+      "rendered_digest": "df3eae356c873f7a2cb34fe07cc00ae434a634e676ae2e99a42f381053c55dd9",
+      "ast_digest": "283c3c9a90a5d1a559433877b78e4e670b0271465e3a22591b70cdc5fb485a42"
     },
     "sor": {
-      "values_digest": "ca73bc7e022e008788e615894bc5410b46c50013d20627373001a0be76aa52d5",
+      "values_digest": "6de7da828bbee240a04a8582110527f004389fe00d7dbda9f7046d45468b4aae",
       "rendered_digest": "c22d16f5cfda5942c06bed10a6104e9bf437f9aff4d296dccef127cafd852f9b",
       "ast_digest": "110f577b051065849785ff20142bfe5c1b3dee658cecbafa4b435d4cff3461f0"
     }
@@ -98,6 +121,13 @@
       "to": "implemented",
       "actor": "codex:issue-5665-slot-1",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -121,6 +151,13 @@
       "actor": "codex:issue-5665-slot-1",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

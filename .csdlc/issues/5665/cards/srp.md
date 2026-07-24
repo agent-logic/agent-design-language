@@ -12,7 +12,16 @@ Status: pre_phase
 
 ## Scope
 
-Review the exact #5665 adl-runtime API/auth/observability/shutdown implementation, clean-checkout init file, feature/adapter matrix, tests, LoC measurement, and validation evidence.
+adl-runtime/src/runtime_api.rs
+adl-runtime/tests/runtime_api_wss.rs
+adl-runtime/Cargo.toml
+adl-runtime/Cargo.lock
+infra/runtime-v3/runtime-api-5665.toml
+docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json
+.csdlc/issues/5665/index.json
+.csdlc/issues/5665/cards/sor.md
+.csdlc/evidence/5665/runtime-v3-wss-focused.log
+.csdlc/evidence/5665/runtime-v3-strict-clippy.log
 
 ## Prompts
 
@@ -32,12 +41,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The WSS shutdown path intentionally returns an API-only shutdown_ack and does not stop the runtime process; consumers must not treat it as runtime stop proof.
+- The WSS integration test exercises TLS setup, failed auth, authenticated ping/pong, rotation overlap, revocation close, and shutdown ack; the feature_matrix frame is indirectly covered through matrix helper validation.
+- The port 20997 init file is string-checked in the test rather than parsed end-to-end.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:03d8292bfdb6db74b0c8d166df98826777e70ab8:3ead98d699dfdeb62da19d669ba7fd6a90595f55928f50d764dc165d0c8a3020")
 
-Reviewer: None
+Reviewer: Some("Halley")
 
-Result: pre_review
+Result: pass
