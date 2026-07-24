@@ -1,0 +1,9 @@
+{
+  "issue": 5648,
+  "expected_generation": 8,
+  "expected_digest": "3ab8955892aefe028ddc1073de993006f3658299e34408974a47c84f590cda58",
+  "claim_id": "claim-5648-operator-active-claim-revoke",
+  "reviewer": "bounded-subagent-review-5648",
+  "assigned_by": "codex:5648-execution",
+  "scope": ["csdlc-v2/src/lifecycle.rs", "csdlc-v2/src/bin/csdlc-bind.rs", "csdlc-v2/src/schema.rs", "csdlc-v2/src/lib.rs", "csdlc-v2/tests/gate2.rs", ".csdlc/issues/5648"]
+}

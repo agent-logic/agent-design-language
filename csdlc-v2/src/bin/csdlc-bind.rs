@@ -1,8 +1,9 @@
 use clap::Parser;
 use csdlc_v2::{
     amend_claim_scope, bind_issue, heartbeat_claim, recover_claim, release_closed_claim,
-    transition_active_claim, AmendClaimScopeRequest, BindRequest, HeartbeatRequest,
-    RecoverClaimRequest, ReleaseClosedClaimRequest, Store, TransitionActiveClaimRequest,
+    revoke_active_claim, transition_active_claim, AmendClaimScopeRequest, BindRequest,
+    HeartbeatRequest, RecoverClaimRequest, ReleaseClosedClaimRequest, RevokeActiveClaimRequest,
+    Store, TransitionActiveClaimRequest,
 };
 use std::{fs, path::PathBuf};
 
@@ -20,13 +21,26 @@ struct Cli {
     amend_request: Option<PathBuf>,
     #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "amend_request", "release_request"])]
     transition_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "amend_request", "transition_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "amend_request", "transition_request", "revoke_request"])]
     release_request: Option<PathBuf>,
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "amend_request", "transition_request", "release_request"])]
+    revoke_request: Option<PathBuf>,
 }
 
 fn main() {
     let cli = Cli::parse();
-    let result = if let Some(path) = cli.transition_request {
+    let result = if let Some(path) = cli.revoke_request {
+        fs::read(path)
+            .map_err(csdlc_v2::V2Error::from)
+            .and_then(|bytes| {
+                serde_json::from_slice::<RevokeActiveClaimRequest>(&bytes)
+                    .map_err(csdlc_v2::V2Error::from)
+            })
+            .and_then(|request| {
+                revoke_active_claim(&Store::new(cli.root.clone()), request)
+                    .map(|value| serde_json::to_value(value).expect("JSON"))
+            })
+    } else if let Some(path) = cli.transition_request {
         fs::read(path)
             .map_err(csdlc_v2::V2Error::from)
             .and_then(|bytes| {
@@ -76,7 +90,7 @@ fn main() {
         let path = cli.request.ok_or_else(|| {
             csdlc_v2::V2Error::new(
                 csdlc_v2::ErrorCode::InvalidInput,
-                "one of --request, --heartbeat-request, --recover-request, --amend-request, --transition-request, or --release-request is required",
+                "one of --request, --heartbeat-request, --recover-request, --amend-request, --transition-request, --release-request, or --revoke-request is required",
             )
         });
         path.and_then(|path| fs::read(path).map_err(csdlc_v2::V2Error::from))

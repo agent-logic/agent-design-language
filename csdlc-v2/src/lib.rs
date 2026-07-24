@@ -37,8 +37,9 @@ pub use error::{ErrorCode, Result, V2Error};
 pub use git::shared_request_path;
 pub use lifecycle::{
     amend_claim_scope, bind_issue, heartbeat_claim, initialize_native_json, recover_claim,
-    release_closed_claim, transition_active_claim, AmendClaimScopeRequest, BindRequest, BindResult,
-    HeartbeatRequest, RecoverClaimRequest, ReleaseClosedClaimRequest, TransitionActiveClaimRequest,
+    release_closed_claim, revoke_active_claim, transition_active_claim, AmendClaimScopeRequest,
+    BindRequest, BindResult, HeartbeatRequest, RecoverClaimRequest, ReleaseClosedClaimRequest,
+    RevokeActiveClaimRequest, RevokeActiveClaimResult, TransitionActiveClaimRequest,
 };
 pub use merge::{MergeMethod, MergeRequest, MergeResult};
 pub use migration::{

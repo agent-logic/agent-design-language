@@ -1,0 +1,168 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5648,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "7825c6b94e04ddb0cac12bf61e8c50dc765cc55c3a09139c3158bfaeab569bd7",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "3ab8955892aefe028ddc1073de993006f3658299e34408974a47c84f590cda58",
+  "claim": {
+    "id": "claim-5648-operator-active-claim-revoke",
+    "owner": "codex:5648-execution",
+    "generation": 8,
+    "acquired_unix_seconds": 1784850000,
+    "expires_unix_seconds": 1785454800,
+    "heartbeat_unix_seconds": 1784850000,
+    "branch": "codex/5648-operator-active-claim-revoke",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5648",
+      ".csdlc/locks/5648.lock",
+      ".csdlc/prepared/issues/5648",
+      "csdlc-v2/src",
+      "csdlc-v2/tests"
+    ],
+    "purpose": "Implement the typed operator-authorized active-claim revoke operation"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5648/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5648/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5648-preparation-review",
+      "revision": "0e446588d03734935d2f8e1cc35060784bd7ff9cfe4e7debb60cdf30c76b3b2b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "5cd86f1f788110d5b5cb09d86fb4caad85fc5d14d37360d979b8fabb019026b2",
+      "rendered_digest": "e72896d0b7253c68ce09691fd4d7f593f92482b54cba39a0a4dfaaaee8d20ba7",
+      "ast_digest": "5b0b577f8cb5f6796f0fd69b70c1785d14b7cd3b67f86ee38938d6db3aafe7f9"
+    },
+    "stp": {
+      "values_digest": "7cac17e87c71676741da2eb6badaab1c9f2711dfbc8fc156c90308770d24eea4",
+      "rendered_digest": "66e9e6fcfc30f03ee1b717f1b3cbdc8c6369e654d9d147d51aa4c7ca1c40c553",
+      "ast_digest": "928017994783412b64e548d091926e3eb91230cefe901f1dc39d0ce5c44934b6"
+    },
+    "spp": {
+      "values_digest": "8fa27eac50b305e2c981744cb7bb57eef47c4cc81f1856cc357b0347376045df",
+      "rendered_digest": "295d15c686cda476728622cec28b10932433c3cc888741fa89da602cde5c1bca",
+      "ast_digest": "0df86d853f90fae839698ac61801d6994f1b14da36844a8763b27cce6b2774cc"
+    },
+    "vpp": {
+      "values_digest": "6e3511d7b9ce897896c1114bcc99b8f1a4a9bdc2024c52940636d396441ed351",
+      "rendered_digest": "ea0fc83f3b89425d2ed030143a09b0c7b3482e10877a1d348c4b6528d987db61",
+      "ast_digest": "1c7f26416ac828e71ddd64bce2d1fc163356c9e9d14d9b323a1af612fe9cfe45"
+    },
+    "srp": {
+      "values_digest": "2023ce95ff47a8f1fd1a7919d2f8b4b023b49d94016173e397a096e816b72808",
+      "rendered_digest": "43d9211f4144fb5bf2b15cbf69497be5658c8aefad1793236b9574a180cd4a45",
+      "ast_digest": "261dd1c3bd417bbf90f072d75769a6cc9c6b64226ea37c9ee9eba3b6f6f4cd83"
+    },
+    "sor": {
+      "values_digest": "af24ce7d976914b91b71c3ecddbb797793ab1b69113e0cd63e901c24c9901ffa",
+      "rendered_digest": "5cd5bedc67ec3997b433bb9fd658caf2e43ff11c60772db3e1c10644265e4843",
+      "ast_digest": "8aa0106ba856e742637fa8d25808387ccdde835f093ba98873009bd618694392"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5648-execution",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5648-execution",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5648-execution",
+      "reason": "Implementation is complete and focused validation is green"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5648-execution",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:5648-preparation-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5648-execution",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:5648-execution",
+      "reason": "Record focused typed validation for operator active-claim revoke",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5648/validate-local.json\"],\"purpose\":\"Prove operator CAS revoke, stale guards, formatting, and strict targeted lint\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5648/local contains a local_pass three-lane proof: claim-revoke focused tests, cargo fmt --check, and strict targeted Clippy all passed.\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:5648-preparation-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5648-execution",
+      "reason": "Record remediated focused typed validation for operator active-claim revoke",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5648/validate-local.json\"],\"purpose\":\"Prove operator CAS revoke, stale guards, formatting, and strict targeted lint\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5648/local contains a local_pass three-lane proof: claim-revoke focused tests, cargo fmt --check, and strict targeted Clippy all passed.\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:5648-preparation-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:5648-execution",
+      "reason": "Record remediated focused typed validation for operator active-claim revoke",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5648/validate-local.json\"],\"purpose\":\"Prove operator CAS revoke, stale guards, formatting, and strict targeted lint\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5648/local contains a local_pass three-lane proof: claim-revoke focused tests, cargo fmt --check, and strict targeted Clippy all passed.\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:5648-execution",
+      "reason": "Record implementation of typed operator active-claim revoke",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added typed operator-authorized active-claim revoke with CAS, expiry guard, audit, schema, CLI route, and focused tests.\",\"changes\":[\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/src/bin/csdlc-bind.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/tests/gate2.rs\"],\"artifacts\":[\".csdlc/evidence/5648/local\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:5648-execution",
+      "reason": "Implementation is complete and focused validation is green",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

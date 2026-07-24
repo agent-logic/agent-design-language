@@ -761,6 +761,144 @@ fn active_claim_transition_atomically_updates_purpose_and_scope() {
 }
 
 #[test]
+fn claim_revoke_clears_unexpired_claim_with_operator_cas_audit() {
+    let (_temp, store, record) = fixture();
+    let claim_id = record.claim.as_ref().expect("claim").id.clone();
+    let result = csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: claim_id.clone(),
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5648".into(),
+            reason: "release abandoned setup claim before lease expiry".into(),
+        },
+    )
+    .expect("revoke");
+    assert_eq!(result.claim_id, claim_id);
+    assert_eq!(result.previous_owner, "agent");
+    assert!(result.released);
+    assert_eq!(result.generation, record.generation);
+    let released = store.load_record(42).expect("record");
+    assert!(released.claim.is_none());
+    assert_eq!(released.phase, record.phase);
+    assert_eq!(released.digest, result.digest);
+    assert!(!released
+        .claim
+        .as_ref()
+        .is_some_and(|claim| claim.protected_paths.iter().any(|path| path == "src")));
+    assert!(released
+        .audit
+        .last()
+        .expect("audit")
+        .operation
+        .contains("revoke_active_claim"));
+    assert!(released
+        .audit
+        .last()
+        .expect("audit")
+        .operation
+        .contains("operator-authorized:5648"));
+}
+
+#[test]
+fn claim_revoke_fails_closed_for_stale_digest_and_missing_authority() {
+    let (_temp, store, record) = fixture();
+    let claim_id = record.claim.as_ref().expect("claim").id.clone();
+    let stale = csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: claim_id.clone(),
+            expected_generation: record.generation,
+            expected_digest: "stale".into(),
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5648".into(),
+            reason: "stale request".into(),
+        },
+    )
+    .expect_err("stale digest");
+    assert!(matches!(stale.code, ErrorCode::StaleDigest));
+    let missing_authority = csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: claim_id,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: " ".into(),
+            reason: "missing authority".into(),
+        },
+    )
+    .expect_err("authority required");
+    assert!(matches!(missing_authority.code, ErrorCode::InvalidInput));
+
+    let stale_generation = csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: "claim-1".into(),
+            expected_generation: record.generation + 1,
+            expected_digest: record.digest.clone(),
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5648".into(),
+            reason: "stale generation".into(),
+        },
+    )
+    .expect_err("stale generation");
+    assert!(matches!(stale_generation.code, ErrorCode::StaleGeneration));
+
+    let claim_mismatch = csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: "wrong-claim".into(),
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5648".into(),
+            reason: "claim mismatch".into(),
+        },
+    )
+    .expect_err("claim mismatch");
+    assert!(matches!(claim_mismatch.code, ErrorCode::InvalidClaim));
+}
+
+#[test]
+fn claim_revoke_requires_unexpired_claim() {
+    let (_temp, store, record) = fixture();
+    let error = csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: "claim-1".into(),
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            now_unix_seconds: u64::MAX,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5648".into(),
+            reason: "expired request must route to recovery".into(),
+        },
+    )
+    .expect_err("expired claim");
+    assert!(matches!(error.code, ErrorCode::ExpiredClaim));
+}
+
+#[test]
 fn active_claim_transition_rejects_stale_owner_without_any_write() {
     let (_temp, store, mut record) = fixture();
     record = csdlc_v2::edit_issue(
@@ -2118,6 +2256,8 @@ fn public_schema_bundle_covers_requests_state_and_doctor_output() {
         "bind_result",
         "recover_claim_request",
         "release_closed_claim_request",
+        "revoke_active_claim_request",
+        "revoke_active_claim_result",
         "amend_claim_scope_request",
         "issue_record",
         "terminal_receipt",

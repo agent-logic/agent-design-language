@@ -52,6 +52,33 @@ pub struct ReleaseClosedClaimRequest {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct RevokeActiveClaimRequest {
+    pub issue: u64,
+    pub repository: String,
+    pub expected_claim_id: String,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub now_unix_seconds: u64,
+    pub actor: String,
+    pub operator_authority: String,
+    pub reason: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct RevokeActiveClaimResult {
+    pub schema: String,
+    pub issue: u64,
+    pub claim_id: String,
+    pub previous_owner: String,
+    pub actor: String,
+    pub operator_authority: String,
+    pub reason: String,
+    pub generation: u64,
+    pub digest: String,
+    pub released: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct HeartbeatRequest {
     pub issue: u64,
     pub claim_id: String,
@@ -831,6 +858,98 @@ pub fn release_closed_claim(
     record.digest = crate::store::record_digest(&record)?;
     store.replace_record(request.issue, &request.expected_digest, &record)?;
     Ok(evidence)
+}
+
+pub fn revoke_active_claim(
+    store: &Store,
+    request: RevokeActiveClaimRequest,
+) -> Result<RevokeActiveClaimResult> {
+    if request.issue == 0
+        || request.repository.trim().is_empty()
+        || request.expected_claim_id.trim().is_empty()
+        || request.expected_digest.trim().is_empty()
+        || request.actor.trim().is_empty()
+        || request.operator_authority.trim().is_empty()
+        || request.reason.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "issue, repository, claim, digest, actor, operator authority, and reason are required",
+        ));
+    }
+    let mut record = store.load_record(request.issue)?;
+    if record.repository != request.repository {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "active-claim revoke repository mismatch",
+        ));
+    }
+    if record.generation != request.expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "active-claim revoke generation is stale",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "active-claim revoke digest is stale",
+        ));
+    }
+    if record.phase == crate::LifecyclePhase::ClosedOut {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "closed-out issue cannot have an active claim revoked",
+        ));
+    }
+    let current = record
+        .claim
+        .as_ref()
+        .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?;
+    if current.id != request.expected_claim_id {
+        return Err(V2Error::new(
+            ErrorCode::InvalidClaim,
+            "active-claim revoke claim compare-and-swap failed",
+        ));
+    }
+    let claim_id = current.id.clone();
+    let previous_owner = current.owner.clone();
+    if request.now_unix_seconds >= current.expires_unix_seconds {
+        return Err(V2Error::new(
+            ErrorCode::ExpiredClaim,
+            "expired claim must use expiry recovery instead of operator revoke",
+        ));
+    }
+    record.claim = None;
+    record.audit.push(AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: request.actor.clone(),
+        reason: request.reason.clone(),
+        operation: serde_json::json!({
+            "operation": "revoke_active_claim",
+            "operator_authority": request.operator_authority,
+            "claim_id": claim_id,
+            "previous_owner": previous_owner,
+        })
+        .to_string(),
+    });
+    record.digest = crate::store::record_digest(&record)?;
+    let generation = record.generation;
+    let digest = record.digest.clone();
+    store.replace_record(request.issue, &request.expected_digest, &record)?;
+    Ok(RevokeActiveClaimResult {
+        schema: "csdlc.revoke_active_claim_result.v1".into(),
+        issue: request.issue,
+        claim_id,
+        previous_owner,
+        actor: request.actor,
+        operator_authority: request.operator_authority,
+        reason: request.reason,
+        generation,
+        digest,
+        released: true,
+    })
 }
 
 fn unix_now() -> Result<u64> {
