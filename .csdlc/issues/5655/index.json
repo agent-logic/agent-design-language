@@ -3,13 +3,13 @@
   "issue": 5655,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "618ba16c12e2d0dbd97423264edc8d3549285dffa958884cab7a2bbf4d8beeaf",
-  "phase": "implemented",
-  "generation": 18,
-  "digest": "dc7a5e116188d18ceaf9c0311b27872a66ba8fe37cf899034f7ea7562406ea49",
+  "phase": "reviewed",
+  "generation": 19,
+  "digest": "462c7493b8a163da6403c6cae3c67c5346b17b1cdcd70f5d7753d1b27afef8d5",
   "claim": {
     "id": "claim-5655-csdlc-github-actions",
     "owner": "codex:issue-5655-slot-1",
-    "generation": 18,
+    "generation": 19,
     "acquired_unix_seconds": 1784920947,
     "expires_unix_seconds": 1785525747,
     "heartbeat_unix_seconds": 1784920947,
@@ -33,7 +33,22 @@
     "purpose": "Implement one Rust-only, idempotent GitHub action surface for C-SDLC v2"
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "Boole",
+    "scope": [
+      "csdlc-v2/src/github.rs",
+      ".csdlc/issues/5655/index.json",
+      ".csdlc/issues/5655/cards/sor.md",
+      ".csdlc/issues/5655/cards/srp.md"
+    ],
+    "reviewed_revision": "git-blake3:1eb3e59819222fe59a590abbbc3b18bbe19643d1:3e0ffb11a77571d35b2c1d0a65dde2b0ecba9be381994fcdd52ef0df40434435",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only and did not rerun tests; validation evidence is the implementation owner strict Clippy, focused gate, and full suite run recorded in SOR."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -48,32 +63,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "50b29fa195d5915b27199a7f10ac6bd711b6d4493a4d500c0d831e234fe4c888",
+      "values_digest": "64a6f1fe3702fb1ee2e18a44149b6f6b2db76737a6592404e0aec79c868cac35",
       "rendered_digest": "dd03c87e89ee978781207f310746e82a4f6c5b0ab94ffd32bc07f7fc626bf2ec",
       "ast_digest": "f3dcf1664bed3e6551ae08b2f4d1c9094ecee8f90350da2e5d3c595a53238d69"
     },
     "stp": {
-      "values_digest": "b4aa927d65b6dc071313c378f696e1952931108861f6ff3068718ecec607b504",
+      "values_digest": "4cc54039e2c197b43b84ce08fb6fefdc6b0c2e52ef106f1e9a856fe383da07ac",
       "rendered_digest": "c9079bc4ea58e1e738d98705f2e7174a64b327e49144d07e22782615f0d993d5",
       "ast_digest": "6bf7534476300afda08cee033439735be95e7de65943efcac6c0c877eae69ac0"
     },
     "spp": {
-      "values_digest": "7091267e8f165ca152d7e7d9ff6225ee40a90235e3bdfc56a428de2d15076497",
+      "values_digest": "67e85bc356c033af1b0356e41f5edff5a3074b34ec830a1863e2a450c10e20ee",
       "rendered_digest": "be2cfe7e9a9f224276827047a381ae37376b6151e537703ccc098f9a98329d39",
       "ast_digest": "4ea1a765d9494f866bbeb2c36a46896d9345502cc911608fb3a774571a60ff6c"
     },
     "vpp": {
-      "values_digest": "8866e75b34eb4e429f771cb3c72bd75ce218c2d81fa77f46f514574462c3a14f",
+      "values_digest": "4c8197a7f8f7b9bbc15d7a3d6709cecbd609e4d91bf4fd53ccea1c189ef70efb",
       "rendered_digest": "fd705c28f03dbb536dacb251c4f79a81dcf6e8e9bdc978d49178553ecd7ee634",
       "ast_digest": "ee83fdaf3584426850b6cc2caa367155f04012db62e72953b116314b4f52bfd6"
     },
     "srp": {
-      "values_digest": "f21409b08a2bf3f3c8260f9faf9ea3400dfbeb9964069c12004d0ebe64e772fd",
-      "rendered_digest": "cb2a95062a043172898fbc6e655ef4e566a8799c633436a7cf036675ef0d5923",
-      "ast_digest": "f0bddf593c095c9dd55c6cc4663eac995dabd93866805103ebbb345dccb2a390"
+      "values_digest": "067bb7bbb5f2adb6671bd5c338c08a2cff1e026a4d4a75eb95529e1169ace586",
+      "rendered_digest": "b615174d7757447e3e7294d616b6bb07a6c1f8e3fba6c0f50d148cd1ddb6452f",
+      "ast_digest": "b06240e7c56b11222728440f5a399e7d0d84a0b87eff929c0defeae7c01bb8c0"
     },
     "sor": {
-      "values_digest": "e542f4abc0e7f706929c59a4b1c8444a691226e9c288f7dcd098d8732c6c6a68",
+      "values_digest": "07f5c224fd1aef39e29b74ae373ac31c8779938ccabf1cfa9f761afc00f1b74f",
       "rendered_digest": "f45c6edfa78dc04c8cfaa553131b4854db15c9e48d21c25e146813e50b0997ae",
       "ast_digest": "f2c5b4c9f7e78e6cd5a1700010393327eb16f53450f8cdbc749ccf7875b4f2fe"
     }
@@ -141,6 +156,13 @@
       "to": "implemented",
       "actor": "codex:issue-5655-slot-1",
       "reason": "Recover stale #5655 review and publication after the CI strict Clippy lint repair changed csdlc-v2/src/github.rs."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -311,6 +333,13 @@
       "actor": "codex:issue-5655-slot-1",
       "reason": "Record #5655 strict Clippy CI repair validation after recovering stale publication truth.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the CI-reported strict Clippy blockers in csdlc-v2/src/github.rs are fixed before re-review and republication.\",\"outcome\":\"passed\",\"evidence_ref\":\"Strict Clippy passed after collapsing the issue_create guard and returning normalize_issue directly. Focused gate_github_actions passed 2/2; full csdlc-v2 suite passed including gate_github_actions 2/2 and Doc-tests csdlc_v2 1/1. TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp; CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target.\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

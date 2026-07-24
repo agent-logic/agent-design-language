@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/github.rs
+.csdlc/issues/5655/index.json
+.csdlc/issues/5655/cards/sor.md
+.csdlc/issues/5655/cards/srp.md
 
 ## Prompts
 
@@ -32,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review was read-only and did not rerun tests; validation evidence is the implementation owner strict Clippy, focused gate, and full suite run recorded in SOR.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1eb3e59819222fe59a590abbbc3b18bbe19643d1:3e0ffb11a77571d35b2c1d0a65dde2b0ecba9be381994fcdd52ef0df40434435")
 
-Reviewer: None
+Reviewer: Some("Boole")
 
-Result: pre_review
+Result: pass
