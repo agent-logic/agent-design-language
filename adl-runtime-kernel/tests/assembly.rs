@@ -8,11 +8,12 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly, mark_unavailable_live_services, AdapterKind,
-    ClockAuthority, ComponentId, DegradedOperationExecutor, DomainWork, ExecutorError,
-    IngressError, LiveBindings, OperationExecutor, OperationRequest, RunningState, RuntimeRecorder,
-    TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA,
-    PASSIVE_LIVE_SERVICES, REQUIRED_OPERATIONAL_ADAPTERS,
+    bootstrap_reasoning_services, build_live_assembly, mark_unavailable_live_services,
+    validate_production_operation_executors, AdapterKind, ClockAuthority, ComponentId,
+    DegradedOperationExecutor, DomainWork, ExecutorError, IngressError, LiveBindings,
+    OperationExecutor, OperationRequest, RunningState, RuntimeRecorder, TimeQualificationBounds,
+    TimeSample, TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA, PASSIVE_LIVE_SERVICES,
+    REQUIRED_OPERATIONAL_ADAPTERS,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -121,6 +122,18 @@ fn live_assembly_refuses_a_missing_executor_binding() {
         Err(error) => error,
     };
     assert!(error.to_string().contains("CloudBridge"));
+}
+
+#[test]
+fn production_readiness_rejects_degraded_executor_bindings() {
+    let recorder = RuntimeRecorder::new(128);
+    let bindings = bindings(recorder);
+    let error = validate_production_operation_executors(&bindings.operation_executors)
+        .expect_err("degraded placeholders must not reach production readiness");
+    let message = error.to_string();
+    assert!(message.contains("production operation adapters are unavailable"));
+    assert!(message.contains("Provider"));
+    assert!(message.contains("Lifelog"));
 }
 
 #[tokio::test]

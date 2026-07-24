@@ -160,6 +160,10 @@ pub enum OperationError {
 
 #[async_trait]
 pub trait OperationExecutor: Send + Sync + 'static {
+    fn readiness_error(&self) -> Option<String> {
+        None
+    }
+
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError>;
 }
 

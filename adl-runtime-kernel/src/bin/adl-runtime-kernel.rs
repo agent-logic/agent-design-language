@@ -9,14 +9,14 @@ use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly, execute_loop, generate_runtime_instance_id,
     load_control_tls, mark_unavailable_live_services, monitor_until_stop,
     proof::{load_capsule, run_proof},
-    serve_control_listener_until_ready, verifying_key_from_hex, AdaptationState,
-    CheckpointShutdownRequest, CheckpointingControl, ControlAuthority, ControlCapability,
-    ControlService, DegradedOperationExecutor, Kernel, KernelExit, LiveBindings, LiveContinuity,
-    LiveKernelSnapshot, LocalAgentExecutor, LoopDefinition, LoopStatus, ReasoningEdge,
-    ReasoningGraphDefinition, ReasoningNode, RecordedObservation, RsntpTimeSampleSource,
-    RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver, TimeQualificationBounds,
-    TrustedControlKey, ValidatedReasoningGraph, MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA,
-    REQUIRED_OPERATIONAL_ADAPTERS,
+    serve_control_listener_until_ready, validate_production_operation_executors,
+    verifying_key_from_hex, AdaptationState, CheckpointShutdownRequest, CheckpointingControl,
+    ControlAuthority, ControlCapability, ControlService, DegradedOperationExecutor, Kernel,
+    KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot, LocalAgentExecutor,
+    LoopDefinition, LoopStatus, ReasoningEdge, ReasoningGraphDefinition, ReasoningNode,
+    RecordedObservation, RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder,
+    SysinfoWeatherObserver, TimeQualificationBounds, TrustedControlKey, ValidatedReasoningGraph,
+    MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA, REQUIRED_OPERATIONAL_ADAPTERS,
 };
 use tokio_util::sync::CancellationToken;
 
@@ -94,6 +94,10 @@ async fn main() -> ExitCode {
                     (kind, executor)
                 })
                 .collect();
+            if let Err(error) = validate_production_operation_executors(&operation_executors) {
+                eprintln!("runtime live operation adapters unavailable: {error}");
+                return ExitCode::from(78);
+            }
             let operation_key = match std::env::var("ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX")
                 .map_err(|_| ())
                 .and_then(|value| verifying_key_from_hex(&value).map_err(|_| ()))
@@ -168,13 +172,10 @@ async fn main() -> ExitCode {
                 .contracts()
                 .map(|contract| (contract.service.clone(), contract.config_schema.clone()))
                 .collect::<BTreeMap<_, _>>();
-            let (tls_certificate_hash, tls_private_key_hash) = match tokio::try_join!(
-                file_hash(&init.api.tls.certificate_chain_path),
-                file_hash(&init.api.tls.private_key_path),
-            ) {
-                Ok(hashes) => hashes,
+            let tls_certificate_hash = match file_hash(&init.api.tls.certificate_chain_path).await {
+                Ok(hash) => hash,
                 Err(error) => {
-                    eprintln!("runtime TLS identity could not be hashed: {error}");
+                    eprintln!("runtime TLS certificate identity could not be hashed: {error}");
                     return ExitCode::from(78);
                 }
             };
@@ -189,7 +190,6 @@ async fn main() -> ExitCode {
                 "control_key": hex::encode(public_key.as_bytes()),
                 "continuity_key_id": &continuity_key_id,
                 "tls_certificate_hash": tls_certificate_hash,
-                "tls_private_key_hash": tls_private_key_hash,
             });
             let config_hash = blake3::hash(
                 &serde_json::to_vec(&binding_projection)

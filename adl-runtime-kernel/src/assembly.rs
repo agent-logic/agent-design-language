@@ -69,12 +69,42 @@ pub struct LiveAssembly {
 pub enum AssemblyError {
     #[error("missing live operation executor bindings: {0:?}")]
     MissingBindings(Vec<AdapterKind>),
+    #[error("production operation adapters are unavailable: {0:?}")]
+    UnavailableBindings(Vec<(AdapterKind, String)>),
     #[error(transparent)]
     Operation(#[from] OperationError),
     #[error(transparent)]
     Topology(#[from] TopologyError),
     #[error("live topology could not be encoded: {0}")]
     Encoding(String),
+}
+
+/// Reject placeholder executors before a production listener can report ready.
+/// Unit-test assembly may still use the degraded executor to exercise topology
+/// and health projection semantics, but the live binary must fail closed.
+pub fn validate_production_operation_executors(
+    executors: &BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>,
+) -> Result<(), AssemblyError> {
+    let missing = REQUIRED_OPERATIONAL_ADAPTERS
+        .iter()
+        .filter(|kind| !executors.contains_key(kind))
+        .copied()
+        .collect::<Vec<_>>();
+    if !missing.is_empty() {
+        return Err(AssemblyError::MissingBindings(missing));
+    }
+    let unavailable = REQUIRED_OPERATIONAL_ADAPTERS
+        .iter()
+        .filter_map(|kind| {
+            executors[kind]
+                .readiness_error()
+                .map(|reason| (*kind, reason))
+        })
+        .collect::<Vec<_>>();
+    if !unavailable.is_empty() {
+        return Err(AssemblyError::UnavailableBindings(unavailable));
+    }
+    Ok(())
 }
 
 pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, AssemblyError> {
@@ -435,6 +465,10 @@ impl DegradedOperationExecutor {
 
 #[async_trait::async_trait]
 impl OperationExecutor for DegradedOperationExecutor {
+    fn readiness_error(&self) -> Option<String> {
+        Some(self.reason.clone())
+    }
+
     async fn execute(&self, _request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
         Err(ExecutorError {
             class: FailureClass::Degraded,
