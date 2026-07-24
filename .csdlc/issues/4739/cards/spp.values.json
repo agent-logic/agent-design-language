@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-15][unity][tooling] Align Unity-MCP live project and port proof for deployed observatory",
     "slug": "v0918-wp15-unity-mcp-live-project-endpoint-alignment",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 17
   },
   "status": "ready",
   "content": {
@@ -26,7 +26,7 @@
             "AC-5",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -36,7 +36,7 @@
             "AC-4",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -45,7 +45,7 @@
             "AC-8",
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -55,7 +55,7 @@
             "AC-8",
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -70,7 +70,7 @@
             "AC-7",
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S6",
@@ -80,7 +80,7 @@
             "AC-8",
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [],
