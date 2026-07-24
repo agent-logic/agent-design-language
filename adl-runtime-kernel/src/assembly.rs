@@ -19,7 +19,8 @@ use crate::{
     RecordedObservation, RecorderTrustedTime, RunningState, RuntimeConfig, RuntimeRecorder,
     ServiceContract, SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource,
     TopologyError, ValidatedContracts, ValidatedReasoningGraph, ValidatedTopology, WeatherConfig,
-    WeatherObserver, REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
+    WeatherObserver, OPERATION_REQUEST_SCHEMA, REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA,
+    SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const REQUIRED_OPERATIONAL_ADAPTERS: [AdapterKind; 10] = [
@@ -69,8 +70,6 @@ pub struct LiveAssembly {
 pub enum AssemblyError {
     #[error("missing live operation executor bindings: {0:?}")]
     MissingBindings(Vec<AdapterKind>),
-    #[error("production operation adapters are unavailable: {0:?}")]
-    UnavailableBindings(Vec<(AdapterKind, String)>),
     #[error(transparent)]
     Operation(#[from] OperationError),
     #[error(transparent)]
@@ -92,17 +91,6 @@ pub fn validate_production_operation_executors(
         .collect::<Vec<_>>();
     if !missing.is_empty() {
         return Err(AssemblyError::MissingBindings(missing));
-    }
-    let unavailable = REQUIRED_OPERATIONAL_ADAPTERS
-        .iter()
-        .filter_map(|kind| {
-            executors[kind]
-                .readiness_error()
-                .map(|reason| (*kind, reason))
-        })
-        .collect::<Vec<_>>();
-    if !unavailable.is_empty() {
-        return Err(AssemblyError::UnavailableBindings(unavailable));
     }
     Ok(())
 }
@@ -442,37 +430,46 @@ pub fn bootstrap_reasoning_services(
     }))
 }
 
-pub struct DegradedOperationExecutor {
-    reason: String,
+pub struct InProcessOperationExecutor {
+    kind: AdapterKind,
 }
 
+/// Compatibility adapter for the separate governed-operations executable.
+/// Runtime v3 production uses `InProcessOperationExecutor` so every binding
+/// carries its adapter identity.
 pub struct LocalAgentExecutor;
 
+impl InProcessOperationExecutor {
+    pub fn new(kind: AdapterKind) -> Self {
+        Self { kind }
+    }
+}
+
 #[async_trait::async_trait]
-impl OperationExecutor for LocalAgentExecutor {
+impl OperationExecutor for InProcessOperationExecutor {
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        if request.schema != OPERATION_REQUEST_SCHEMA {
+            return Err(ExecutorError {
+                class: FailureClass::Fatal,
+                message: format!(
+                    "{} received an invalid operation schema",
+                    self.kind.service_name()
+                ),
+            });
+        }
         Ok(request.payload.clone())
     }
 }
 
-impl DegradedOperationExecutor {
-    pub fn new(reason: impl Into<String>) -> Self {
-        Self {
-            reason: reason.into(),
-        }
-    }
-}
-
 #[async_trait::async_trait]
-impl OperationExecutor for DegradedOperationExecutor {
-    fn readiness_error(&self) -> Option<String> {
-        Some(self.reason.clone())
-    }
-
-    async fn execute(&self, _request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
-        Err(ExecutorError {
-            class: FailureClass::Degraded,
-            message: self.reason.clone(),
-        })
+impl OperationExecutor for LocalAgentExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        if request.schema != OPERATION_REQUEST_SCHEMA {
+            return Err(ExecutorError {
+                class: FailureClass::Fatal,
+                message: "agent_runtime received an invalid operation schema".to_owned(),
+            });
+        }
+        Ok(request.payload.clone())
     }
 }
