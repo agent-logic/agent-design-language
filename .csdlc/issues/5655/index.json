@@ -3,13 +3,13 @@
   "issue": 5655,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "618ba16c12e2d0dbd97423264edc8d3549285dffa958884cab7a2bbf4d8beeaf",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "26e16a2af5e1b1490d476c651b5bee98e6faa5cbc2a92475cc02dc58fabc1922",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "a8bf9eb565613a8072f31357665108e9f0168e606395e4b4b05fa2e46535b607",
   "claim": {
     "id": "claim-5655-csdlc-github-actions",
     "owner": "codex:issue-5655-slot-1",
-    "generation": 13,
+    "generation": 15,
     "acquired_unix_seconds": 1784920947,
     "expires_unix_seconds": 1785525747,
     "heartbeat_unix_seconds": 1784920947,
@@ -32,8 +32,33 @@
     ],
     "purpose": "Implement one Rust-only, idempotent GitHub action surface for C-SDLC v2"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "Boole",
+    "assigned_by": "codex:issue-5655-slot-1",
+    "revision": "git-blake3:18798020d78d70b26937084f83edf89084c2567b:de3184f625db90eea82ebbe27516a5687b81433397629ce0f4c8418497d108c9",
+    "scope": [
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate_github_actions.rs",
+      ".csdlc/issues/5655/cards/sor.md",
+      ".csdlc/issues/5655/index.json"
+    ]
+  },
+  "review": {
+    "reviewer": "Boole",
+    "scope": [
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate_github_actions.rs",
+      ".csdlc/issues/5655/cards/sor.md",
+      ".csdlc/issues/5655/index.json"
+    ],
+    "reviewed_revision": "git-blake3:18798020d78d70b26937084f83edf89084c2567b:de3184f625db90eea82ebbe27516a5687b81433397629ce0f4c8418497d108c9",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only and did not rerun tests; validation evidence is the implementation owner run recorded in SOR after rebase."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -48,32 +73,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d7c41c753897917bdccc3eb3ef298843eeba2ca2046de936ecb074ad02888f7c",
+      "values_digest": "f10d8879219c6ff523696c20cca25d36fabae6cd59649632c7acf59db0073aa9",
       "rendered_digest": "dd03c87e89ee978781207f310746e82a4f6c5b0ab94ffd32bc07f7fc626bf2ec",
       "ast_digest": "f3dcf1664bed3e6551ae08b2f4d1c9094ecee8f90350da2e5d3c595a53238d69"
     },
     "stp": {
-      "values_digest": "f41738c11a635d73d48b8005b95b6a743fc33fdafa5bcebb28fe54af1199e52c",
+      "values_digest": "8469164a8714731dbbf97c0dc4bba7554f81a8bf1af267822d89362f954686e2",
       "rendered_digest": "c9079bc4ea58e1e738d98705f2e7174a64b327e49144d07e22782615f0d993d5",
       "ast_digest": "6bf7534476300afda08cee033439735be95e7de65943efcac6c0c877eae69ac0"
     },
     "spp": {
-      "values_digest": "0cc7786749d1bd12a2b476782a3904a348a853c0644c0d88424dc75e38a49ae8",
+      "values_digest": "52531cab5f80ba49def68d69d2b8a01ceb26feba97f7d715ba08fad0d5c52720",
       "rendered_digest": "be2cfe7e9a9f224276827047a381ae37376b6151e537703ccc098f9a98329d39",
       "ast_digest": "4ea1a765d9494f866bbeb2c36a46896d9345502cc911608fb3a774571a60ff6c"
     },
     "vpp": {
-      "values_digest": "ca49f3b93713466578e875c681afbc694a67000bae2c9c5b4fa8dc9090dfacd2",
+      "values_digest": "c0d65b284ac1bc63df7e102c8774f1fb15d1fbe6ac940cb29657d47e25de0dc5",
       "rendered_digest": "fd705c28f03dbb536dacb251c4f79a81dcf6e8e9bdc978d49178553ecd7ee634",
       "ast_digest": "ee83fdaf3584426850b6cc2caa367155f04012db62e72953b116314b4f52bfd6"
     },
     "srp": {
-      "values_digest": "7ba71168377b36955a36886e65743fe194daffae02bd1bbf86ace5aedde68635",
-      "rendered_digest": "cb2a95062a043172898fbc6e655ef4e566a8799c633436a7cf036675ef0d5923",
-      "ast_digest": "f0bddf593c095c9dd55c6cc4663eac995dabd93866805103ebbb345dccb2a390"
+      "values_digest": "a1f1149e0ff83aa1da05cc59fcb430df905cddad26cb1878188a16f28b941869",
+      "rendered_digest": "00fb6a3c3038be3f20095bda48dfe9b18cbc827cc185eb2020307975817ef610",
+      "ast_digest": "f661b13892d6feed62ac0cd066fc57513bc3400d56c7a8eb0e04920e731b9d1f"
     },
     "sor": {
-      "values_digest": "3e472372a5ae929766a39c3d35908cb0f328b1ac0c468687dc182dfef9416680",
+      "values_digest": "4643ca68a1d256dc799b63ae319a8e7a2ecb77abdcf0a427b8cb4ebe579bf264",
       "rendered_digest": "fbad84fe7915b1c2d146cf802dd23f18e98a1cf5f0e2a372ee01c7bbb8482f44",
       "ast_digest": "6dc885858df7301d17eb392f8e6d1dd9459aae546ee8a463ed75100f8edc1b03"
     }
@@ -120,6 +145,13 @@
       "to": "implemented",
       "actor": "codex:issue-5655-slot-1",
       "reason": "Recover stale #5655 review and publication after rebasing the issue branch onto current origin/main."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "Advance #5655 after Boole exact-head review passed on the rebased branch."
     }
   ],
   "audit": [
@@ -248,6 +280,27 @@
       "actor": "codex:issue-5655-slot-1",
       "reason": "Record #5655 validation after rebasing onto current origin/main and recovering stale publication truth.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove the rebased Rust-only csdlc-github action surface and full C-SDLC v2 suite after stale review/publication recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"After rebase onto origin/main 1facdf209: focused gate_github_actions passed 2/2; full csdlc-v2 suite passed including gate_github_actions 2/2 and Doc-tests csdlc_v2 1/1. TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp; CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target.\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "Advance #5655 after Boole exact-head review passed on the rebased branch.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
