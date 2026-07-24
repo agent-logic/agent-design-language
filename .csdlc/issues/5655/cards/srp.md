@@ -12,10 +12,7 @@ Status: draft
 
 ## Scope
 
-csdlc-v2/src/github.rs
-csdlc-v2/tests/gate_github_actions.rs
-.csdlc/issues/5655/cards/sor.md
-.csdlc/issues/5655/index.json
+
 
 ## Prompts
 
@@ -35,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Review was read-only and did not rerun tests; validation evidence is the implementation owner run recorded in SOR after rebase.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:18798020d78d70b26937084f83edf89084c2567b:de3184f625db90eea82ebbe27516a5687b81433397629ce0f4c8418497d108c9")
+Revision: None
 
-Reviewer: Some("Boole")
+Reviewer: None
 
-Result: pass
+Result: pre_review

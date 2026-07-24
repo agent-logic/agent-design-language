@@ -254,15 +254,14 @@ fn validate_request(request: &GithubActionRequest) -> crate::Result<()> {
             ));
         }
     }
-    if matches!(request.action, GithubAction::IssueCreate) {
-        if request.title.as_deref().is_none_or(|v| v.trim().is_empty())
-            || request.body.as_deref().is_none_or(|v| v.trim().is_empty())
-        {
-            return Err(crate::V2Error::new(
-                crate::ErrorCode::InvalidInput,
-                "title and body are required for issue_create",
-            ));
-        }
+    if matches!(request.action, GithubAction::IssueCreate)
+        && (request.title.as_deref().is_none_or(|v| v.trim().is_empty())
+            || request.body.as_deref().is_none_or(|v| v.trim().is_empty()))
+    {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::InvalidInput,
+            "title and body are required for issue_create",
+        ));
     }
     if let Some(state) = &request.state {
         if !matches!(state.as_str(), "open" | "closed") {
@@ -406,7 +405,7 @@ async fn read_issue_packet(
         )
         .await
         .map_err(remote)?;
-    Ok(normalize_issue(&format!("{owner}/{repo}"), &value, marker)?)
+    normalize_issue(&format!("{owner}/{repo}"), &value, marker)
 }
 
 fn normalize_issue(

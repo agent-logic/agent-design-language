@@ -110,16 +110,32 @@ Implemented a repo-native Rust csdlc-github command for idempotent issue create/
     "purpose": "Prove the rebased Rust-only csdlc-github action surface and full C-SDLC v2 suite after stale review/publication recovery.",
     "outcome": "passed",
     "evidence_ref": "After rebase onto origin/main 1facdf209: focused gate_github_actions passed 2/2; full csdlc-v2 suite passed including gate_github_actions 2/2 and Doc-tests csdlc_v2 1/1. TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp; CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target."
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove the CI-reported strict Clippy blockers in csdlc-v2/src/github.rs are fixed before re-review and republication.",
+    "outcome": "passed",
+    "evidence_ref": "Strict Clippy passed after collapsing the issue_create guard and returning normalize_issue directly. Focused gate_github_actions passed 2/2; full csdlc-v2 suite passed including gate_github_actions 2/2 and Doc-tests csdlc_v2 1/1. TMPDIR=/Volumes/FastWork/adl-builds/5655-tmp; CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5655-csdlc-v2-target."
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 
