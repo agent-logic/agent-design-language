@@ -1,6 +1,6 @@
 {
   "issue": 5653,
-  "card": "vpp",
+  "card": "sor",
   "expected_generation": 8,
   "expected_digest": "8e94cc4a16674d4bf27654bc70804ef95468b23d91913878f7c72fca06296985",
   "claim_id": "claim-5653-readme-refresh",
