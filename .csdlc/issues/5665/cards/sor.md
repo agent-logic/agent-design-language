@@ -1,0 +1,83 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 5665
+
+Repository: danielbaustin/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Completed an API-only Runtime v3 Rustls WSS proof surface with authenticated upgrade, bidirectional frames, rotation/revocation rechecks, shutdown acknowledgement, health-state distinctions, sink-bounded telemetry, port 20997 init truth, and a feature/adapter matrix.
+
+## Artifacts
+
+- adl-runtime/src/runtime_api.rs
+- adl-runtime/tests/runtime_api_wss.rs
+- infra/runtime-v3/runtime-api-5665.toml
+- docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json
+- .csdlc/prepared/issues/5665/amend-obsolete-wp12-wrapper-scope.json
+
+## Execution
+
+- Added Axum/Rustls Runtime API helpers in adl-runtime for /health, /metrics, and /acip/ws.
+- Reused the existing RuntimeApiCredentialStore for WSS handshake authentication and live revocation checks.
+- Added Runtime API health-state, telemetry sink-capability, and feature-matrix contracts.
+- Added a real TLS/WSS integration test that exercises auth failure, successful bidirectional frames, credential rotation overlap, revocation closeout, and shutdown acknowledgement.
+- Added the clean-checkout Runtime API init file for port 20997 and the #5665 feature/adapter matrix artifact.
+- Recorded the blocked obsolete-wrapper deletion attempt: #5587 still protects adl/Cargo.toml.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove the #5665 Runtime API implementation is warning-clean under strict Clippy.",
+    "outcome": "passed",
+    "evidence_ref": "runtime-v3-strict-clippy.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml"
+    ],
+    "purpose": "Prove #5665 Runtime API WSS and Observatory truth without URL-only, fixture-only, metadata-only, Python, AWS, or degraded proof.",
+    "outcome": "passed",
+    "evidence_ref": "runtime-v3-wss-focused.log"
+  }
+]
+
+## Integration
+
+not_started
+
+## Publication
+
+Publication: not_published
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

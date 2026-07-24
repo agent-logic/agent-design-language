@@ -1,0 +1,126 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5665,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "de3b5856d4e47ed1ebb369e7783dc3b928af156f44ee05ce3494807c656c9e30",
+  "phase": "implemented",
+  "generation": 1,
+  "digest": "bccffa58d2c5417aa2e81501817c28ce6cc3d3b505571c85b745cd92f2f9fbf2",
+  "claim": {
+    "id": "claim-5665-runtime-v3-wss-feature-proofs",
+    "owner": "codex:issue-5665-slot-1",
+    "generation": 1,
+    "acquired_unix_seconds": 1784935430,
+    "expires_unix_seconds": 1785540230,
+    "heartbeat_unix_seconds": 1784935430,
+    "branch": "codex/5665-runtime-v3-wss-feature-proofs",
+    "worktree": ".worktrees/adl-wp-5665",
+    "protected_paths": [
+      ".csdlc/evidence/5665",
+      ".csdlc/issues/5665",
+      ".csdlc/locks/5665.lock",
+      ".csdlc/prepared/issues/5665",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl-runtime/src/observability.rs",
+      "adl-runtime/src/shutdown.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "infra/runtime-v3/runtime-api-5665.toml",
+      "docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json"
+    ],
+    "purpose": "Complete authenticated Runtime v3 WSS and feature proof matrix without HTML Observatory redesign"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5665/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5665/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:5665",
+      "revision": "a38343406caefa6490aada3028618c6aafb1fd78cf71547091f631fb2488c819"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "3eeadb38c26fe096802fff1e91f34877f5f4ef2b39548cc2c9ce1f12e9c65f36",
+      "rendered_digest": "dcda6e18ce8d3f336740dcdf7ae9ef6df97c63ab57c0027a9cda03bde9a7e61c",
+      "ast_digest": "552dc5d250d0b5e354c06cd8c0708bebc52b5bb9be16a24f8cddff1333eddd88"
+    },
+    "stp": {
+      "values_digest": "3a15b5666f177a9aaadbea16972e8215ab962f2d653249f1f9577e7bafd73ecc",
+      "rendered_digest": "180c0fdd339b9336b9756ca1699baad2ab4d92b2f31d4d053579527bfa508052",
+      "ast_digest": "5b1833288c45238cc2daf644dfa04fc8cdc4d58959c70bcfac24aa55168cf306"
+    },
+    "spp": {
+      "values_digest": "4f5a987023987fc96ae3bed944a20c7d44498460cbe5a4407e90b14caa3207db",
+      "rendered_digest": "0393b9f7a00cb350b2af7a8a05e563ecacb96d3dcdfeb60d719936cec55c83f8",
+      "ast_digest": "e75f7acd2ff2c1cabfd381de260d797cfbd5c84f99e8658d762e62c36a928c1b"
+    },
+    "vpp": {
+      "values_digest": "7457c9d05bd0e3a3ff0b0bef35e70a8d079aa1f206f7f94ed83c60f0f82261b1",
+      "rendered_digest": "cd536331740ee0cf5d5e398d8df5a638163c27e42f3ab4a73c779e1a07cdbada",
+      "ast_digest": "fcfeba3e3e8d15e35ea5c655fb03885d647827dd20e9c67bb04f5f7c652b89c3"
+    },
+    "srp": {
+      "values_digest": "82d8b5dd07f6d0202290730da17cdcbc82ee64c7761f30e9d5cc009d94ebb6d5",
+      "rendered_digest": "a38cb261d1d207ea50c6f298a923cb380a236bb2956d10b37d22c010139c4769",
+      "ast_digest": "cb043be7f87599d0c049bd29c5043783b44add1fe89b1c850b1bc02dc0b0994c"
+    },
+    "sor": {
+      "values_digest": "ca73bc7e022e008788e615894bc5410b46c50013d20627373001a0be76aa52d5",
+      "rendered_digest": "c22d16f5cfda5942c06bed10a6104e9bf437f9aff4d296dccef127cafd852f9b",
+      "ast_digest": "110f577b051065849785ff20142bfe5c1b3dee658cecbafa4b435d4cff3461f0"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

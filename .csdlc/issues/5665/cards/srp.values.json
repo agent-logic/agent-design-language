@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5665,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][runtime-v3][observatory] Complete authenticated WSS and feature proofs",
+    "slug": "v0-91-8-runtime-v3-wss-feature-proofs",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review the exact #5665 adl-runtime API/auth/observability/shutdown implementation, clean-checkout init file, feature/adapter matrix, tests, LoC measurement, and validation evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the WSS proof exercise a real Axum/Tokio/Rustls API path rather than URL, fixture, or metadata proof?",
+        "Are authentication, bidirectional frames, token rotation, token revocation, and shutdown covered?",
+        "Are Observatory health states and telemetry fields truthful and sink-bounded?",
+        "Does the feature/adapter matrix avoid unresolved claimed features?",
+        "Did the change stay disjoint from #5657/#5663/#5664 protected paths and preserve the API-only runtime boundary?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
