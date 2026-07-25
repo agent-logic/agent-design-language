@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8a868f7f1c699671b7c60dd6bcfe05caaacf4325c016d16985f480282293ebac",
   "phase": "published",
-  "generation": 5,
-  "digest": "8f0c172b2370de74b29290e99a265f72cd6a66fae432bb4f43e2d404fb9cbe16",
+  "generation": 6,
+  "digest": "59e792a5a95670a68207b37ce8f9f4f6b0170a6eb93abd85b2ff29167ddd653e",
   "claim": {
     "id": "claim-5666-throughput-fast-lane",
     "owner": "codex:issue-5666-slot-1",
-    "generation": 5,
+    "generation": 6,
     "acquired_unix_seconds": 1785024000,
     "expires_unix_seconds": 1785628800,
     "heartbeat_unix_seconds": 1785024000,
@@ -52,8 +52,8 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5668",
     "base": "main",
     "head": "codex/5666-throughput-fast-lane",
-    "revision": "git-blake3:977cdfcc2236cd87b40e6feaac38359d5629d208:3695fa5b85299175494d75012a680a4842fef2658b9f789fc7879c1e0dbe4612",
-    "draft": true,
+    "revision": "git-blake3:d5e1e48a5207481d4bd1b4a35b4c8e0d44281452:c03d4af05f94b148ba36e76abc1e31138572d8b883152bb9b728d2d24984dc16",
+    "draft": false,
     "observed_state": "open"
   },
   "readiness": null,
@@ -69,34 +69,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2527b43a15738b5e78b297c43d54f13e0abbc4bcd74050155d7069ac64a555a3",
+      "values_digest": "a45a05299c1e2ab970b93c35d314c2a143dbad6a41a6222685729283d4e75303",
       "rendered_digest": "2d53e4b1a319307fcce4afc1632f5afadeec20050c235d3e6da8a71ad40d896e",
       "ast_digest": "85f6117b94d62a7fd03bad16aa1c0c84fdcec16850e17fbdaa6f84481da00b76"
     },
     "stp": {
-      "values_digest": "d5794b3b1ef7b9fe8c46cc268c91f342b3342b93c56a4c8e62887ae9a4b8ed5e",
+      "values_digest": "55a883231c015f3c0e833bbd061e6eef0277b379bb8e6a771c1ae2a1d4ccb27f",
       "rendered_digest": "a4c0abe508c7bb29e28f63b0c2fdc92486301073de7e33060318a772bbfd9f92",
       "ast_digest": "02700ec02f2df43fc142b1e043e4e26227582ed0dc542d2b8637b5ac30078348"
     },
     "spp": {
-      "values_digest": "c59fce63967702904c5fee9942deec4877273a8e53cc202e1c7e05bcf60209db",
+      "values_digest": "b7bc502c5aa81c007bc523198b112abcf2b87218da4b5105e05c93c3d33d33f7",
       "rendered_digest": "cd4648f2df73491bc7b633be48d68db3c4ddbd010cea03fb5eb165f9eb56fbd6",
       "ast_digest": "622f57b394e1c0aaddf781eb1b01b4cd68f00d508f58d163a73b0ed440c60449"
     },
     "vpp": {
-      "values_digest": "1efa1e3cd167bba6b40c7a0fbca14d2263faa895ae51f90519b0500431f417db",
+      "values_digest": "e5a1eb15c4ea77ca90de2fd1b98d58d8d251c5901d228f886b5af21afe563da8",
       "rendered_digest": "969cb2176f0a1f54315d31479c4d7c14fbada32e603264652f1106a88fc5103e",
       "ast_digest": "72ac249f6b8d31d5714634abb4777ad71fbbbd222c476b5abbf7ced5b29acc09"
     },
     "srp": {
-      "values_digest": "3b02b2c67f24a05d757f3bee5885437e9512c4981b20253b68cb8046e6ad415b",
+      "values_digest": "c0b080e5ce8d4242d508e2386108be055e1c932682c22eacef31992bb05fc063",
       "rendered_digest": "df7b07152a8de8fec15e52f4168cb93d6c641f0e3d2a6150ff1f4ed150659d90",
       "ast_digest": "90cb3f6e0b5863227f3f41a5a5dac0afe778aa8a1acb94aae5771ace2951842a"
     },
     "sor": {
-      "values_digest": "d7b52dfd10f70eb7a37a7ec569278b662df632ec5995978149c00e6ad42d3a9b",
-      "rendered_digest": "1263eb5e4333d8efbcd72b9bf93c7bd664821b565a976e51ce5fd6e4c2ff07a9",
-      "ast_digest": "5c668cb8bac8a56cdab0e706b03d9869f5dfc03ba2a1f024e28b0c3ea182b86a"
+      "values_digest": "9cb8475b5ad82f145508b8d836e2fec2c468daf606f5052c3a37d3788b82c641",
+      "rendered_digest": "94a199105206278bb69f74d5272026b72a9eabf7274892e1a5baca5a65a85612",
+      "ast_digest": "d38c2f2308fc8a8c624e34f07eef9789f9879f9f5571fc3e3dcf3b8ee072c02d"
     }
   },
   "transitions": [
@@ -185,6 +185,13 @@
       "actor": "codex:issue-5666-slot-1",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-5666-slot-1",
+      "reason": "record exact existing PR ready-for-review after remote success",
+      "operation": "record_ready_publication"
     }
   ]
 }
