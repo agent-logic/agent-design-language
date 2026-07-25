@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "de3b5856d4e47ed1ebb369e7783dc3b928af156f44ee05ce3494807c656c9e30",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "881a75c46bb33eac8f92ef09b83c95ea05ef297cda5ee8abb1cb322e77db5f96",
+  "generation": 12,
+  "digest": "22cabd12459e5fbab2786bf3154be8a96b0d0e31fba37d1c8742ffb9e18f7da6",
   "claim": {
     "id": "claim-5665-runtime-v3-wss-feature-proofs",
     "owner": "codex:issue-5665-slot-1",
-    "generation": 11,
+    "generation": 12,
     "acquired_unix_seconds": 1784935430,
     "expires_unix_seconds": 1785540230,
     "heartbeat_unix_seconds": 1784935430,
@@ -117,34 +117,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "577eb370e9e313f98450a578747b1e6aaf912b632e91879faf7a800aa4884320",
+      "values_digest": "496cbc0f373423fefd9c9953846054c77c83f299dec3ff252ca3deb6c47ddb0e",
       "rendered_digest": "dcda6e18ce8d3f336740dcdf7ae9ef6df97c63ab57c0027a9cda03bde9a7e61c",
       "ast_digest": "552dc5d250d0b5e354c06cd8c0708bebc52b5bb9be16a24f8cddff1333eddd88"
     },
     "stp": {
-      "values_digest": "977d4aa3e5261599b32bbfcab4d5e0f8faa34c15ea4c8052f844881e59838801",
+      "values_digest": "e375cd64ecb04249ef108295721d914cf9fe5f1fdcc8f2f3d34907651b590f9e",
       "rendered_digest": "180c0fdd339b9336b9756ca1699baad2ab4d92b2f31d4d053579527bfa508052",
       "ast_digest": "5b1833288c45238cc2daf644dfa04fc8cdc4d58959c70bcfac24aa55168cf306"
     },
     "spp": {
-      "values_digest": "03395175d8c42d5a170f8a37532dae46e9b9508c83e26410291788028dd71769",
+      "values_digest": "2b90282b760db6e0e53eafb43d13c7e764837782a34a485ec553a2a0a2d3b130",
       "rendered_digest": "0393b9f7a00cb350b2af7a8a05e563ecacb96d3dcdfeb60d719936cec55c83f8",
       "ast_digest": "e75f7acd2ff2c1cabfd381de260d797cfbd5c84f99e8658d762e62c36a928c1b"
     },
     "vpp": {
-      "values_digest": "cd5f4c89192b6135514177a7b7f253c0eb1b523faa057ec631604b096adb656e",
+      "values_digest": "46106cc5d64e1d9079a2616e5fbc111e1e642941fdf15f15c735ab7e44894270",
       "rendered_digest": "cd536331740ee0cf5d5e398d8df5a638163c27e42f3ab4a73c779e1a07cdbada",
       "ast_digest": "fcfeba3e3e8d15e35ea5c655fb03885d647827dd20e9c67bb04f5f7c652b89c3"
     },
     "srp": {
-      "values_digest": "088ea89db6c72ac9d03ea0bef753f961c1b76c38a887a57c3dc4b176689262e0",
+      "values_digest": "b81041d2d36f7aeee074eac51d494691121bcbcbb80e488ef176e703c9cc7df7",
       "rendered_digest": "79194db7b9595845a4220ec80a086a90f3707ba61f9140add048d2766dbb0dc1",
       "ast_digest": "8928c0fe538d7a2c0ef633ca02e429319aa3fc288550c82a92632f2929a5e430"
     },
     "sor": {
-      "values_digest": "372635d87308ff42f9e07f4c88b474a3e0fab17f2113d791fb344f2fcb350764",
-      "rendered_digest": "a93b235daa5d6aae8b326c6d724b42d5cd40fd06eeae0aa33cc27de9670e8c6f",
-      "ast_digest": "36a2a0dedb980259f6e5d0f0d4f41ef59f261979e977de6f1b77d2f884b7f507"
+      "values_digest": "b389d2b333cb0308dfb693506cdf8cbc7096ba16f6befee82b5e0f7b54d9008f",
+      "rendered_digest": "c0453f4ecc4ade2544d2f7abe7aa346c377fd4ffbeaa69aac3dbc304935c7f10",
+      "ast_digest": "72c7530687645359f698f57fd61f474d7fdf23a2b13e8c2599209796b15ed178"
     }
   },
   "transitions": [
@@ -324,6 +324,13 @@
       "actor": "codex:issue-5665-slot-1",
       "reason": "atomically record assigned review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "Record proof that the WSS feature_matrix frame is backed by the committed #5665 feature/adapter matrix artifact rather than a test-local subset.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"purpose\":\"Prove the authenticated Runtime API WSS feature_matrix frame serves the committed feature/adapter matrix artifact, including health-state and telemetry rows.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5665/runtime-v3-wss-focused.log\"}}"
     }
   ]
 }

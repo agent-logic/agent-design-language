@@ -96,6 +96,20 @@ Completed an API-only Runtime v3 Rustls WSS proof surface with authenticated upg
     "purpose": "Measure physical added and deleted lines against main and preserve the net-negative #5665 proof after replacing obsolete wrappers with fail-closed tombstones.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5665/runtime-v3-loc-measurement.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "runtime_api_wss"
+    ],
+    "purpose": "Prove the authenticated Runtime API WSS feature_matrix frame serves the committed feature/adapter matrix artifact, including health-state and telemetry rows.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5665/runtime-v3-wss-focused.log"
   }
 ]
 

@@ -11,7 +11,7 @@ git diff --numstat main | awk '{add+=$1; del+=$2} END {print add, del, add-del}'
 Observed after staging the exact issue payload:
 
 ```text
-additions=4321 deletions=5347 net=-1026
+additions=4471 deletions=5347 net=-876
 ```
 
 Retired executable Runtime v2 / retained-proof wrappers:

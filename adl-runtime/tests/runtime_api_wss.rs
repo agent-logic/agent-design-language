@@ -2,11 +2,11 @@ use std::{collections::BTreeSet, sync::Arc, time::Duration};
 
 use adl_runtime::{
     runtime_api::{
-        runtime_api_feature_matrix, runtime_api_health_report, runtime_api_telemetry_event,
-        serve_runtime_api_listener_until, RuntimeApiCapabilityHealth, RuntimeApiFeatureMatrixRow,
-        RuntimeApiHealthState, RuntimeApiService, RuntimeApiTelemetryConfig,
-        RuntimeApiTelemetrySink, CSM_RUNTIME_API_DEFAULT_PORT,
-        CSM_RUNTIME_API_FEATURE_MATRIX_SCHEMA, CSM_RUNTIME_API_WSS_SESSION_SCHEMA,
+        runtime_api_health_report, runtime_api_telemetry_event, serve_runtime_api_listener_until,
+        RuntimeApiCapabilityHealth, RuntimeApiFeatureMatrix, RuntimeApiHealthState,
+        RuntimeApiService, RuntimeApiTelemetryConfig, RuntimeApiTelemetrySink,
+        CSM_RUNTIME_API_DEFAULT_PORT, CSM_RUNTIME_API_FEATURE_MATRIX_SCHEMA,
+        CSM_RUNTIME_API_WSS_SESSION_SCHEMA,
     },
     runtime_api_auth::RuntimeApiCredentialStore,
 };
@@ -67,23 +67,11 @@ fn telemetry() -> RuntimeApiTelemetryConfig {
     }
 }
 
-fn matrix() -> adl_runtime::runtime_api::RuntimeApiFeatureMatrix {
-    runtime_api_feature_matrix(vec![
-        RuntimeApiFeatureMatrixRow {
-            feature: "wss_authenticated_bidirectional_exchange".into(),
-            adapter: "runtime_api_wss".into(),
-            claimed: true,
-            health_state: RuntimeApiHealthState::Healthy,
-            proof: "adl-runtime/tests/runtime_api_wss.rs::wss_auth_rotation_revocation_and_shutdown_are_real_tls_frames".into(),
-        },
-        RuntimeApiFeatureMatrixRow {
-            feature: "html_observatory_ui_redesign".into(),
-            adapter: "separate_client".into(),
-            claimed: false,
-            health_state: RuntimeApiHealthState::Unimplemented,
-            proof: "non_goal".into(),
-        },
-    ])
+fn matrix() -> RuntimeApiFeatureMatrix {
+    serde_json::from_str(include_str!(
+        "../../docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json"
+    ))
+    .unwrap()
 }
 
 async fn server(
@@ -191,16 +179,9 @@ async fn wss_auth_rotation_revocation_and_shutdown_are_real_tls_frames() {
         ))
         .await
         .unwrap();
-    let matrix_frame: serde_json::Value =
+    let matrix_frame: RuntimeApiFeatureMatrix =
         serde_json::from_str(&socket.next().await.unwrap().unwrap().into_text().unwrap()).unwrap();
-    assert_eq!(
-        matrix_frame["schema"],
-        CSM_RUNTIME_API_FEATURE_MATRIX_SCHEMA
-    );
-    assert_eq!(
-        matrix_frame["rows"][0]["feature"],
-        "wss_authenticated_bidirectional_exchange"
-    );
+    assert_eq!(matrix_frame, matrix());
 
     store.rotate().unwrap();
     let (mut old_overlap_socket, _) = connect_async_tls_with_config(
@@ -294,6 +275,15 @@ fn health_telemetry_matrix_and_init_file_are_truthful() {
     let matrix = matrix();
     assert_eq!(matrix.schema, CSM_RUNTIME_API_FEATURE_MATRIX_SCHEMA);
     assert!(matrix.unresolved_claimed_features.is_empty());
+    let features = matrix
+        .rows
+        .iter()
+        .map(|row| row.feature.as_str())
+        .collect::<BTreeSet<_>>();
+    assert!(features.contains("wss_authenticated_bidirectional_exchange"));
+    assert!(features.contains("observatory_health_distinctions"));
+    assert!(features.contains("sink_bounded_telemetry"));
+    assert!(features.contains("html_observatory_ui_redesign"));
 
     let init: toml::Value =
         toml::from_str(include_str!("../../infra/runtime-v3/runtime-api-5665.toml")).unwrap();
