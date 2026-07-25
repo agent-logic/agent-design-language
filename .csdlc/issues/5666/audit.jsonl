@@ -2,3 +2,4 @@
 {"sequence":2,"generation":1,"actor":"operator:5666","reason":"approve completed issue design","operation":"approve_design"}
 {"sequence":3,"generation":1,"actor":"codex:issue-5666-slot-1","reason":"bind branch/worktree and activate claim","operation":"bind"}
 {"sequence":4,"generation":2,"actor":"codex:issue-5666-slot-1","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":5,"generation":3,"actor":"operator:5666","reason":"reapprove changed issue design","operation":"approve_design"}
