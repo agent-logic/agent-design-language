@@ -18,11 +18,17 @@ adl-runtime/Cargo.toml
 adl-runtime/Cargo.lock
 adl/Cargo.lock
 adl/src/bin/run_wp12_acip_websocket_transport_proof.rs
+adl/src/bin/run_v0916_acip_aee_memory_integration.rs
+adl/src/bin/run_v0916_integrated_runtime_soak.rs
+adl/src/bin/run_v0916_runtime_failure_injection.rs
+adl/src/bin/run_v0917_integrated_resilience_failure_injection.rs
 infra/runtime-v3/runtime-api-5665.toml
 docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json
 .csdlc/evidence/5665/runtime-v3-wss-focused.log
 .csdlc/evidence/5665/runtime-v3-strict-clippy.log
 .csdlc/evidence/5665/wp12-wrapper-tombstone-check.log
+.csdlc/evidence/5665/runtime-v2-wrapper-tombstone-checks.log
+.csdlc/evidence/5665/runtime-v3-loc-measurement.md
 .csdlc/issues/5665/index.json
 
 ## Prompts
@@ -37,24 +43,14 @@ docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json
 
 [
   {
-    "id": "P1-net-loc-reduction-unproven",
-    "severity": "p1",
-    "summary": "Net physical LoC reduction is not proved and appears unsatisfied for the full requested scope: the WP-12 wrapper dropped from 241 to 13 lines, but the issue branch remains net positive from main once the Runtime API and proof surface are included.",
+    "id": "P2-feature-matrix-proof-uses-test-local-subset",
+    "severity": "p2",
+    "summary": "The committed feature/adapter matrix claims health-state and telemetry rows, but the WSS feature_matrix proof served only a test-local subset and never parsed or compared the committed JSON artifact.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
     "fix_revision": null,
     "route": null
-  },
-  {
-    "id": "P2-review-scope-omitted-lifecycle-index",
-    "severity": "p2",
-    "summary": "The initially assigned Locke review scope omitted .csdlc/issues/5665/index.json even though the review was asked to cover lifecycle state.",
-    "actionable": true,
-    "in_scope": false,
-    "disposition": "out_of_scope",
-    "fix_revision": null,
-    "route": "Superseded by this direct csdlc-review record, whose scope includes .csdlc/issues/5665/index.json."
   }
 ]
 
@@ -64,13 +60,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The strict Clippy retained log is terse and records Cargo success rather than echoing the full command; the command was rerun and the typed SOR records the argv.
-- #5663 and #5664 protected-path records were not visible in this worktree; visible #5657 protected paths were disjoint from the changed paths.
+- #5663 and #5664 issue records were not present in this commit, so protected-path disjointness for those is limited to visible repo evidence; #5657 visible protected paths are disjoint.
 
 ## Review Result
 
-Revision: Some("git-blake3:37d4f5555d38f5e958c40990cef42e1e569bb7ce:61865b3d6d2e14ae70ec54d511ed2a3347fd0a742a1aba20cfa6becc7d6b1670")
+Revision: Some("git-blake3:a1cd93f29b80669bea015b00b88178dcf3bc60c8:87bbf819caab77f31c1de855e4d4935c8235c47b1f85dc4ca071f2e3ccc14e1d")
 
-Reviewer: Some("Locke")
+Reviewer: Some("Noether")
 
 Result: changes_required

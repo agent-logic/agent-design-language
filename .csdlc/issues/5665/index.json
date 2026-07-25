@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "de3b5856d4e47ed1ebb369e7783dc3b928af156f44ee05ce3494807c656c9e30",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "85a804c1c75dcebf00844786fbec799c8903fee9b838aec977bb371fc3d90b6c",
+  "generation": 11,
+  "digest": "881a75c46bb33eac8f92ef09b83c95ea05ef297cda5ee8abb1cb322e77db5f96",
   "claim": {
     "id": "claim-5665-runtime-v3-wss-feature-proofs",
     "owner": "codex:issue-5665-slot-1",
-    "generation": 10,
+    "generation": 11,
     "acquired_unix_seconds": 1784935430,
     "expires_unix_seconds": 1785540230,
     "heartbeat_unix_seconds": 1784935430,
@@ -37,9 +37,10 @@
     ],
     "purpose": "Complete authenticated Runtime v3 WSS and feature proof matrix without HTML Observatory redesign"
   },
-  "review_assignment": null,
-  "review": {
-    "reviewer": "Locke",
+  "review_assignment": {
+    "reviewer": "Noether",
+    "assigned_by": "codex:issue-5665-slot-1",
+    "revision": "git-blake3:a1cd93f29b80669bea015b00b88178dcf3bc60c8:87bbf819caab77f31c1de855e4d4935c8235c47b1f85dc4ca071f2e3ccc14e1d",
     "scope": [
       "adl-runtime/src/runtime_api.rs",
       "adl-runtime/tests/runtime_api_wss.rs",
@@ -47,39 +48,57 @@
       "adl-runtime/Cargo.lock",
       "adl/Cargo.lock",
       "adl/src/bin/run_wp12_acip_websocket_transport_proof.rs",
+      "adl/src/bin/run_v0916_acip_aee_memory_integration.rs",
+      "adl/src/bin/run_v0916_integrated_runtime_soak.rs",
+      "adl/src/bin/run_v0916_runtime_failure_injection.rs",
+      "adl/src/bin/run_v0917_integrated_resilience_failure_injection.rs",
       "infra/runtime-v3/runtime-api-5665.toml",
       "docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json",
       ".csdlc/evidence/5665/runtime-v3-wss-focused.log",
       ".csdlc/evidence/5665/runtime-v3-strict-clippy.log",
       ".csdlc/evidence/5665/wp12-wrapper-tombstone-check.log",
+      ".csdlc/evidence/5665/runtime-v2-wrapper-tombstone-checks.log",
+      ".csdlc/evidence/5665/runtime-v3-loc-measurement.md",
+      ".csdlc/issues/5665/index.json"
+    ]
+  },
+  "review": {
+    "reviewer": "Noether",
+    "scope": [
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "adl/Cargo.lock",
+      "adl/src/bin/run_wp12_acip_websocket_transport_proof.rs",
+      "adl/src/bin/run_v0916_acip_aee_memory_integration.rs",
+      "adl/src/bin/run_v0916_integrated_runtime_soak.rs",
+      "adl/src/bin/run_v0916_runtime_failure_injection.rs",
+      "adl/src/bin/run_v0917_integrated_resilience_failure_injection.rs",
+      "infra/runtime-v3/runtime-api-5665.toml",
+      "docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json",
+      ".csdlc/evidence/5665/runtime-v3-wss-focused.log",
+      ".csdlc/evidence/5665/runtime-v3-strict-clippy.log",
+      ".csdlc/evidence/5665/wp12-wrapper-tombstone-check.log",
+      ".csdlc/evidence/5665/runtime-v2-wrapper-tombstone-checks.log",
+      ".csdlc/evidence/5665/runtime-v3-loc-measurement.md",
       ".csdlc/issues/5665/index.json"
     ],
-    "reviewed_revision": "git-blake3:37d4f5555d38f5e958c40990cef42e1e569bb7ce:61865b3d6d2e14ae70ec54d511ed2a3347fd0a742a1aba20cfa6becc7d6b1670",
+    "reviewed_revision": "git-blake3:a1cd93f29b80669bea015b00b88178dcf3bc60c8:87bbf819caab77f31c1de855e4d4935c8235c47b1f85dc4ca071f2e3ccc14e1d",
     "findings": [
       {
-        "id": "P1-net-loc-reduction-unproven",
-        "severity": "p1",
-        "summary": "Net physical LoC reduction is not proved and appears unsatisfied for the full requested scope: the WP-12 wrapper dropped from 241 to 13 lines, but the issue branch remains net positive from main once the Runtime API and proof surface are included.",
+        "id": "P2-feature-matrix-proof-uses-test-local-subset",
+        "severity": "p2",
+        "summary": "The committed feature/adapter matrix claims health-state and telemetry rows, but the WSS feature_matrix proof served only a test-local subset and never parsed or compared the committed JSON artifact.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
         "fix_revision": null,
         "route": null
-      },
-      {
-        "id": "P2-review-scope-omitted-lifecycle-index",
-        "severity": "p2",
-        "summary": "The initially assigned Locke review scope omitted .csdlc/issues/5665/index.json even though the review was asked to cover lifecycle state.",
-        "actionable": true,
-        "in_scope": false,
-        "disposition": "out_of_scope",
-        "fix_revision": null,
-        "route": "Superseded by this direct csdlc-review record, whose scope includes .csdlc/issues/5665/index.json."
       }
     ],
     "residual_risks": [
-      "The strict Clippy retained log is terse and records Cargo success rather than echoing the full command; the command was rerun and the typed SOR records the argv.",
-      "#5663 and #5664 protected-path records were not visible in this worktree; visible #5657 protected paths were disjoint from the changed paths."
+      "#5663 and #5664 issue records were not present in this commit, so protected-path disjointness for those is limited to visible repo evidence; #5657 visible protected paths are disjoint."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -98,32 +117,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "29d0eee314f626f6dd99c73b20f8ccc6bf8f3ae88865cd4124dc26c697cbe1a8",
+      "values_digest": "577eb370e9e313f98450a578747b1e6aaf912b632e91879faf7a800aa4884320",
       "rendered_digest": "dcda6e18ce8d3f336740dcdf7ae9ef6df97c63ab57c0027a9cda03bde9a7e61c",
       "ast_digest": "552dc5d250d0b5e354c06cd8c0708bebc52b5bb9be16a24f8cddff1333eddd88"
     },
     "stp": {
-      "values_digest": "41ab47b11846b728e7ef0c34ce5b266307abd14ebd73903995e0514b3d4ff6b7",
+      "values_digest": "977d4aa3e5261599b32bbfcab4d5e0f8faa34c15ea4c8052f844881e59838801",
       "rendered_digest": "180c0fdd339b9336b9756ca1699baad2ab4d92b2f31d4d053579527bfa508052",
       "ast_digest": "5b1833288c45238cc2daf644dfa04fc8cdc4d58959c70bcfac24aa55168cf306"
     },
     "spp": {
-      "values_digest": "9d13598b7fd735aac38005f4bba85a065b3deea03e31d4088f12ff1ab420ad08",
+      "values_digest": "03395175d8c42d5a170f8a37532dae46e9b9508c83e26410291788028dd71769",
       "rendered_digest": "0393b9f7a00cb350b2af7a8a05e563ecacb96d3dcdfeb60d719936cec55c83f8",
       "ast_digest": "e75f7acd2ff2c1cabfd381de260d797cfbd5c84f99e8658d762e62c36a928c1b"
     },
     "vpp": {
-      "values_digest": "66117cc55c330f57fb8f91293a5d67a6521578ae9c26e2a3e6381c3d50b8d839",
+      "values_digest": "cd5f4c89192b6135514177a7b7f253c0eb1b523faa057ec631604b096adb656e",
       "rendered_digest": "cd536331740ee0cf5d5e398d8df5a638163c27e42f3ab4a73c779e1a07cdbada",
       "ast_digest": "fcfeba3e3e8d15e35ea5c655fb03885d647827dd20e9c67bb04f5f7c652b89c3"
     },
     "srp": {
-      "values_digest": "6f6656c1fb8677dcd9c267e8acf1850e981415e03d7f50cd56dfa7b4a567ef77",
-      "rendered_digest": "615778a20ab7b0af7fc7cdec1033225cd4720695e379411a565320af398b6f75",
-      "ast_digest": "ba004c2099fde7a9e03eea1c58292ff8b737db894435c013e68927a5d4b39c5f"
+      "values_digest": "088ea89db6c72ac9d03ea0bef753f961c1b76c38a887a57c3dc4b176689262e0",
+      "rendered_digest": "79194db7b9595845a4220ec80a086a90f3707ba61f9140add048d2766dbb0dc1",
+      "ast_digest": "8928c0fe538d7a2c0ef633ca02e429319aa3fc288550c82a92632f2929a5e430"
     },
     "sor": {
-      "values_digest": "40d9d25e2e57b601929ce7759a26772397adc8a55d8201b5dc72281c9fcfe26b",
+      "values_digest": "372635d87308ff42f9e07f4c88b474a3e0fab17f2113d791fb344f2fcb350764",
       "rendered_digest": "a93b235daa5d6aae8b326c6d724b42d5cd40fd06eeae0aa33cc27de9670e8c6f",
       "ast_digest": "36a2a0dedb980259f6e5d0f0d4f41ef59f261979e977de6f1b77d2f884b7f507"
     }
@@ -291,6 +310,20 @@
       "actor": "codex:issue-5665-slot-1",
       "reason": "Record physical LoC measurement proving the #5665 implementation is net-negative after retiring obsolete proof wrappers.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--numstat\",\"main\"],\"purpose\":\"Measure physical added and deleted lines against main and preserve the net-negative #5665 proof after replacing obsolete wrappers with fail-closed tombstones.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5665/runtime-v3-loc-measurement.md\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }
