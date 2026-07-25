@@ -52,11 +52,11 @@ Implemented a proportional developer throughput fast-lane policy, linked it from
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
