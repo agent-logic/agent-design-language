@@ -45,7 +45,17 @@ docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json
   {
     "id": "P2-feature-matrix-proof-uses-test-local-subset",
     "severity": "p2",
-    "summary": "The committed feature/adapter matrix claims health-state and telemetry rows, but the WSS feature_matrix proof served only a test-local subset and never parsed or compared the committed JSON artifact.",
+    "summary": "The prior matrix proof gap is fixed: runtime_api_wss.rs now loads the committed #5665 matrix artifact, serves it through RuntimeApiService, compares the WSS feature_matrix response to the parsed artifact, and asserts the health/telemetry rows are present.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:2cc0a99ec9027bd357cb5557a6859d4e3dddd16b:ffc5b5cb625a98c0847289d2cbe998b6b0a80d4580391b48d6d7073e2d1542c6",
+    "route": null
+  },
+  {
+    "id": "P3-validation-record-command-mismatch",
+    "severity": "p3",
+    "summary": "The matrix-fix SOR validation record names the targeted runtime_api_wss argv, but the referenced evidence log contains the broader full adl-runtime test run. The proof is real, but the lifecycle argv and log should match.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -60,11 +70,11 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- #5663 and #5664 issue records were not present in this commit, so protected-path disjointness for those is limited to visible repo evidence; #5657 visible protected paths are disjoint.
+- Noether did not run tests during review. The committed log shows runtime_api_wss passing, strict Clippy evidence remains terse, and #5663/#5664 records remain absent from visible repo evidence.
 
 ## Review Result
 
-Revision: Some("git-blake3:a1cd93f29b80669bea015b00b88178dcf3bc60c8:87bbf819caab77f31c1de855e4d4935c8235c47b1f85dc4ca071f2e3ccc14e1d")
+Revision: Some("git-blake3:2cc0a99ec9027bd357cb5557a6859d4e3dddd16b:ffc5b5cb625a98c0847289d2cbe998b6b0a80d4580391b48d6d7073e2d1542c6")
 
 Reviewer: Some("Noether")
 

@@ -110,6 +110,18 @@ Completed an API-only Runtime v3 Rustls WSS proof surface with authenticated upg
     "purpose": "Prove the authenticated Runtime API WSS feature_matrix frame serves the committed feature/adapter matrix artifact, including health-state and telemetry rows.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5665/runtime-v3-wss-focused.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml"
+    ],
+    "purpose": "Prove the committed matrix-artifact WSS feature_matrix path as part of the full adl-runtime test suite retained in the evidence log.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5665/runtime-v3-wss-focused.log"
   }
 ]
 

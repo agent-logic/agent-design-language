@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "de3b5856d4e47ed1ebb369e7783dc3b928af156f44ee05ce3494807c656c9e30",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "22cabd12459e5fbab2786bf3154be8a96b0d0e31fba37d1c8742ffb9e18f7da6",
+  "generation": 14,
+  "digest": "9c660aa624d69bbdb562cbf9211038363edfd7efe9917638b0f8d03afd6e0882",
   "claim": {
     "id": "claim-5665-runtime-v3-wss-feature-proofs",
     "owner": "codex:issue-5665-slot-1",
-    "generation": 12,
+    "generation": 14,
     "acquired_unix_seconds": 1784935430,
     "expires_unix_seconds": 1785540230,
     "heartbeat_unix_seconds": 1784935430,
@@ -40,7 +40,7 @@
   "review_assignment": {
     "reviewer": "Noether",
     "assigned_by": "codex:issue-5665-slot-1",
-    "revision": "git-blake3:a1cd93f29b80669bea015b00b88178dcf3bc60c8:87bbf819caab77f31c1de855e4d4935c8235c47b1f85dc4ca071f2e3ccc14e1d",
+    "revision": "git-blake3:2cc0a99ec9027bd357cb5557a6859d4e3dddd16b:ffc5b5cb625a98c0847289d2cbe998b6b0a80d4580391b48d6d7073e2d1542c6",
     "scope": [
       "adl-runtime/src/runtime_api.rs",
       "adl-runtime/tests/runtime_api_wss.rs",
@@ -84,12 +84,22 @@
       ".csdlc/evidence/5665/runtime-v3-loc-measurement.md",
       ".csdlc/issues/5665/index.json"
     ],
-    "reviewed_revision": "git-blake3:a1cd93f29b80669bea015b00b88178dcf3bc60c8:87bbf819caab77f31c1de855e4d4935c8235c47b1f85dc4ca071f2e3ccc14e1d",
+    "reviewed_revision": "git-blake3:2cc0a99ec9027bd357cb5557a6859d4e3dddd16b:ffc5b5cb625a98c0847289d2cbe998b6b0a80d4580391b48d6d7073e2d1542c6",
     "findings": [
       {
         "id": "P2-feature-matrix-proof-uses-test-local-subset",
         "severity": "p2",
-        "summary": "The committed feature/adapter matrix claims health-state and telemetry rows, but the WSS feature_matrix proof served only a test-local subset and never parsed or compared the committed JSON artifact.",
+        "summary": "The prior matrix proof gap is fixed: runtime_api_wss.rs now loads the committed #5665 matrix artifact, serves it through RuntimeApiService, compares the WSS feature_matrix response to the parsed artifact, and asserts the health/telemetry rows are present.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:2cc0a99ec9027bd357cb5557a6859d4e3dddd16b:ffc5b5cb625a98c0847289d2cbe998b6b0a80d4580391b48d6d7073e2d1542c6",
+        "route": null
+      },
+      {
+        "id": "P3-validation-record-command-mismatch",
+        "severity": "p3",
+        "summary": "The matrix-fix SOR validation record names the targeted runtime_api_wss argv, but the referenced evidence log contains the broader full adl-runtime test run. The proof is real, but the lifecycle argv and log should match.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -98,7 +108,7 @@
       }
     ],
     "residual_risks": [
-      "#5663 and #5664 issue records were not present in this commit, so protected-path disjointness for those is limited to visible repo evidence; #5657 visible protected paths are disjoint."
+      "Noether did not run tests during review. The committed log shows runtime_api_wss passing, strict Clippy evidence remains terse, and #5663/#5664 records remain absent from visible repo evidence."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -117,34 +127,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "496cbc0f373423fefd9c9953846054c77c83f299dec3ff252ca3deb6c47ddb0e",
+      "values_digest": "e401cdf02ac3f2f8a099800bb67e09c2486a59f3fc4a53d11948d4231265ae4f",
       "rendered_digest": "dcda6e18ce8d3f336740dcdf7ae9ef6df97c63ab57c0027a9cda03bde9a7e61c",
       "ast_digest": "552dc5d250d0b5e354c06cd8c0708bebc52b5bb9be16a24f8cddff1333eddd88"
     },
     "stp": {
-      "values_digest": "e375cd64ecb04249ef108295721d914cf9fe5f1fdcc8f2f3d34907651b590f9e",
+      "values_digest": "9378adf84edd3b075c4b1b9b3a0c75ca73199b5da8279435bf47f2793f364f1a",
       "rendered_digest": "180c0fdd339b9336b9756ca1699baad2ab4d92b2f31d4d053579527bfa508052",
       "ast_digest": "5b1833288c45238cc2daf644dfa04fc8cdc4d58959c70bcfac24aa55168cf306"
     },
     "spp": {
-      "values_digest": "2b90282b760db6e0e53eafb43d13c7e764837782a34a485ec553a2a0a2d3b130",
+      "values_digest": "63244784b75423f55b3d29bcee997a11310a61cfe76bd6fa7b593765241d7dcf",
       "rendered_digest": "0393b9f7a00cb350b2af7a8a05e563ecacb96d3dcdfeb60d719936cec55c83f8",
       "ast_digest": "e75f7acd2ff2c1cabfd381de260d797cfbd5c84f99e8658d762e62c36a928c1b"
     },
     "vpp": {
-      "values_digest": "46106cc5d64e1d9079a2616e5fbc111e1e642941fdf15f15c735ab7e44894270",
+      "values_digest": "6104f18f8d897e8e7ef7acfd495b2f89c6b613d4f1736451dcb0c021cd4f4fe9",
       "rendered_digest": "cd536331740ee0cf5d5e398d8df5a638163c27e42f3ab4a73c779e1a07cdbada",
       "ast_digest": "fcfeba3e3e8d15e35ea5c655fb03885d647827dd20e9c67bb04f5f7c652b89c3"
     },
     "srp": {
-      "values_digest": "b81041d2d36f7aeee074eac51d494691121bcbcbb80e488ef176e703c9cc7df7",
-      "rendered_digest": "79194db7b9595845a4220ec80a086a90f3707ba61f9140add048d2766dbb0dc1",
-      "ast_digest": "8928c0fe538d7a2c0ef633ca02e429319aa3fc288550c82a92632f2929a5e430"
+      "values_digest": "5231d29dbff4019118c3b1d8d2908702aee10af8c6de74a1b940d87f32f00db4",
+      "rendered_digest": "1982924cc233de796655b11097a4991ffbf5ec98b283f04568643fdb86ec134a",
+      "ast_digest": "3dcb968acc8919619aa61feabe0282b438b47f9aacf5d049f3e25363755ad053"
     },
     "sor": {
-      "values_digest": "b389d2b333cb0308dfb693506cdf8cbc7096ba16f6befee82b5e0f7b54d9008f",
-      "rendered_digest": "c0453f4ecc4ade2544d2f7abe7aa346c377fd4ffbeaa69aac3dbc304935c7f10",
-      "ast_digest": "72c7530687645359f698f57fd61f474d7fdf23a2b13e8c2599209796b15ed178"
+      "values_digest": "b414779770fd51a638337781b7abd19a9fffb047b04128e890c99e4b721ad370",
+      "rendered_digest": "f8beb9261360fdd2fb0218d00e84cc4fb07c408065b0c3bd0f0ec61540b28968",
+      "ast_digest": "4e4ff0a9bfb1a80611b2fc2a3f63055d5bb164b00666a052e071b444657f1526"
     }
   },
   "transitions": [
@@ -331,6 +341,27 @@
       "actor": "codex:issue-5665-slot-1",
       "reason": "Record proof that the WSS feature_matrix frame is backed by the committed #5665 feature/adapter matrix artifact rather than a test-local subset.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"purpose\":\"Prove the authenticated Runtime API WSS feature_matrix frame serves the committed feature/adapter matrix artifact, including health-state and telemetry rows.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5665/runtime-v3-wss-focused.log\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 12,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "Record superseding matrix-artifact proof with argv matching the retained full adl-runtime test log.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Prove the committed matrix-artifact WSS feature_matrix path as part of the full adl-runtime test suite retained in the evidence log.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5665/runtime-v3-wss-focused.log\"}}"
     }
   ]
 }
