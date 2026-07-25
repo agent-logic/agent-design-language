@@ -45,21 +45,21 @@ docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json
   {
     "id": "P2-feature-matrix-proof-uses-test-local-subset",
     "severity": "p2",
-    "summary": "The prior matrix proof gap is fixed: runtime_api_wss.rs now loads the committed #5665 matrix artifact, serves it through RuntimeApiService, compares the WSS feature_matrix response to the parsed artifact, and asserts the health/telemetry rows are present.",
+    "summary": "Fixed: runtime_api_wss.rs loads the committed matrix artifact, injects it into RuntimeApiService, compares the WSS feature_matrix response to the parsed artifact, and asserts health/telemetry rows are present.",
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:2cc0a99ec9027bd357cb5557a6859d4e3dddd16b:ffc5b5cb625a98c0847289d2cbe998b6b0a80d4580391b48d6d7073e2d1542c6",
+    "fix_revision": "git-blake3:3fc16746788801da641552c2a862da8997305828:047a47b0a339af9db73aeaa074962e3e98d84a4aa31a7e84971d8cbc4e9e5abd",
     "route": null
   },
   {
     "id": "P3-validation-record-command-mismatch",
     "severity": "p3",
-    "summary": "The matrix-fix SOR validation record names the targeted runtime_api_wss argv, but the referenced evidence log contains the broader full adl-runtime test run. The proof is real, but the lifecycle argv and log should match.",
+    "summary": "Fixed: index.json and SOR now carry a superseding validation record whose argv is the full adl-runtime test command and whose evidence_ref matches the retained full-test log.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:3fc16746788801da641552c2a862da8997305828:047a47b0a339af9db73aeaa074962e3e98d84a4aa31a7e84971d8cbc4e9e5abd",
     "route": null
   }
 ]
@@ -70,12 +70,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Noether did not run tests during review. The committed log shows runtime_api_wss passing, strict Clippy evidence remains terse, and #5663/#5664 records remain absent from visible repo evidence.
+- Noether did not run tests during read-only review. Strict Clippy evidence remains terse, and #5663/#5664 records remain absent from visible repo evidence, so that disjointness check remains limited to visible paths.
 
 ## Review Result
 
-Revision: Some("git-blake3:2cc0a99ec9027bd357cb5557a6859d4e3dddd16b:ffc5b5cb625a98c0847289d2cbe998b6b0a80d4580391b48d6d7073e2d1542c6")
+Revision: Some("git-blake3:3fc16746788801da641552c2a862da8997305828:047a47b0a339af9db73aeaa074962e3e98d84a4aa31a7e84971d8cbc4e9e5abd")
 
 Reviewer: Some("Noether")
 
-Result: changes_required
+Result: pass
