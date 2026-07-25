@@ -75,6 +75,27 @@ Completed an API-only Runtime v3 Rustls WSS proof surface with authenticated upg
     "purpose": "Prove the retired WP-12 wrapper source still compiles as a fail-closed tombstone while removing the duplicate proof generator path.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5665/wp12-wrapper-tombstone-check.log"
+  },
+  {
+    "command": [
+      "bash",
+      "-lc",
+      "for bin in run_wp12_acip_websocket_transport_proof run_v0916_acip_aee_memory_integration run_v0916_integrated_runtime_soak run_v0916_runtime_failure_injection run_v0917_integrated_resilience_failure_injection; do cargo check --locked --manifest-path adl/Cargo.toml --bin \"$bin\"; done"
+    ],
+    "purpose": "Prove each retired executable Runtime v2 or duplicate WSS proof wrapper compiles as a fail-closed tombstone while #5665 owns the real Runtime v3 API WSS proof.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5665/runtime-v2-wrapper-tombstone-checks.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--numstat",
+      "main"
+    ],
+    "purpose": "Measure physical added and deleted lines against main and preserve the net-negative #5665 proof after replacing obsolete wrappers with fail-closed tombstones.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5665/runtime-v3-loc-measurement.md"
   }
 ]
 

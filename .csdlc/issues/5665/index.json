@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "de3b5856d4e47ed1ebb369e7783dc3b928af156f44ee05ce3494807c656c9e30",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "0609f1f204c98669a8cb7ed7cba780d601c743bd351e7249e79a04610bfd8712",
+  "generation": 10,
+  "digest": "85a804c1c75dcebf00844786fbec799c8903fee9b838aec977bb371fc3d90b6c",
   "claim": {
     "id": "claim-5665-runtime-v3-wss-feature-proofs",
     "owner": "codex:issue-5665-slot-1",
-    "generation": 8,
+    "generation": 10,
     "acquired_unix_seconds": 1784935430,
     "expires_unix_seconds": 1785540230,
     "heartbeat_unix_seconds": 1784935430,
@@ -27,6 +27,10 @@
       "adl-runtime/src/shutdown.rs",
       "adl-runtime/tests/runtime_api_wss.rs",
       "adl/Cargo.lock",
+      "adl/src/bin/run_v0916_acip_aee_memory_integration.rs",
+      "adl/src/bin/run_v0916_integrated_runtime_soak.rs",
+      "adl/src/bin/run_v0916_runtime_failure_injection.rs",
+      "adl/src/bin/run_v0917_integrated_resilience_failure_injection.rs",
       "adl/src/bin/run_wp12_acip_websocket_transport_proof.rs",
       "docs/milestones/v0.91.8/review/runtime/5665_feature_adapter_matrix.json",
       "infra/runtime-v3/runtime-api-5665.toml"
@@ -94,34 +98,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "efe251b9748cc6d1f1e8cee7a8291b2b0cac54b3ac49d52b5006881c9def501b",
+      "values_digest": "29d0eee314f626f6dd99c73b20f8ccc6bf8f3ae88865cd4124dc26c697cbe1a8",
       "rendered_digest": "dcda6e18ce8d3f336740dcdf7ae9ef6df97c63ab57c0027a9cda03bde9a7e61c",
       "ast_digest": "552dc5d250d0b5e354c06cd8c0708bebc52b5bb9be16a24f8cddff1333eddd88"
     },
     "stp": {
-      "values_digest": "037167255a7de3c77e3331553673bfedb9fc3f97d3c27595b93b6135e4e926f9",
+      "values_digest": "41ab47b11846b728e7ef0c34ce5b266307abd14ebd73903995e0514b3d4ff6b7",
       "rendered_digest": "180c0fdd339b9336b9756ca1699baad2ab4d92b2f31d4d053579527bfa508052",
       "ast_digest": "5b1833288c45238cc2daf644dfa04fc8cdc4d58959c70bcfac24aa55168cf306"
     },
     "spp": {
-      "values_digest": "295514f7ad059bf535a550e19eb619554c3546d5cacd0c0e68d327c973425e0e",
+      "values_digest": "9d13598b7fd735aac38005f4bba85a065b3deea03e31d4088f12ff1ab420ad08",
       "rendered_digest": "0393b9f7a00cb350b2af7a8a05e563ecacb96d3dcdfeb60d719936cec55c83f8",
       "ast_digest": "e75f7acd2ff2c1cabfd381de260d797cfbd5c84f99e8658d762e62c36a928c1b"
     },
     "vpp": {
-      "values_digest": "887c1088d76a646503b5c663e156009abe0f1b41d264627f5e065473d767060e",
+      "values_digest": "66117cc55c330f57fb8f91293a5d67a6521578ae9c26e2a3e6381c3d50b8d839",
       "rendered_digest": "cd536331740ee0cf5d5e398d8df5a638163c27e42f3ab4a73c779e1a07cdbada",
       "ast_digest": "fcfeba3e3e8d15e35ea5c655fb03885d647827dd20e9c67bb04f5f7c652b89c3"
     },
     "srp": {
-      "values_digest": "96c0c538e0cd516a572c4274edca62e07f625be438847b579f12d5b43e2a6f0d",
+      "values_digest": "6f6656c1fb8677dcd9c267e8acf1850e981415e03d7f50cd56dfa7b4a567ef77",
       "rendered_digest": "615778a20ab7b0af7fc7cdec1033225cd4720695e379411a565320af398b6f75",
       "ast_digest": "ba004c2099fde7a9e03eea1c58292ff8b737db894435c013e68927a5d4b39c5f"
     },
     "sor": {
-      "values_digest": "edf323c1c5fb92be78509bbe200e3e95736c3dea3b874d34e5a9c01bf337ca7e",
-      "rendered_digest": "d13057e44c89730b5a78fbe852388617af0b72a1cec26807e5ca204ae5c0ad4c",
-      "ast_digest": "6364af354c5354a48fa06ce99069c77a8ced54d35269d542b47bfbe5928fd8cd"
+      "values_digest": "40d9d25e2e57b601929ce7759a26772397adc8a55d8201b5dc72281c9fcfe26b",
+      "rendered_digest": "a93b235daa5d6aae8b326c6d724b42d5cd40fd06eeae0aa33cc27de9670e8c6f",
+      "ast_digest": "36a2a0dedb980259f6e5d0f0d4f41ef59f261979e977de6f1b77d2f884b7f507"
     }
   },
   "transitions": [
@@ -266,6 +270,27 @@
       "actor": "codex:issue-5665-slot-1",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "retire obsolete Runtime v2 retained-proof generator wrappers after #5665 replaces URL/fixture/degraded WSS evidence with real Runtime v3 API WSS proof",
+      "operation": "{\"add_protected_paths\":[\"adl/src/bin/run_v0916_acip_aee_memory_integration.rs\",\"adl/src/bin/run_v0916_integrated_runtime_soak.rs\",\"adl/src/bin/run_v0916_runtime_failure_injection.rs\",\"adl/src/bin/run_v0917_integrated_resilience_failure_injection.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "Record focused compile proof for the retired Runtime v2 retained-proof wrapper tombstones.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"-lc\",\"for bin in run_wp12_acip_websocket_transport_proof run_v0916_acip_aee_memory_integration run_v0916_integrated_runtime_soak run_v0916_runtime_failure_injection run_v0917_integrated_resilience_failure_injection; do cargo check --locked --manifest-path adl/Cargo.toml --bin \\\"$bin\\\"; done\"],\"purpose\":\"Prove each retired executable Runtime v2 or duplicate WSS proof wrapper compiles as a fail-closed tombstone while #5665 owns the real Runtime v3 API WSS proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5665/runtime-v2-wrapper-tombstone-checks.log\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:issue-5665-slot-1",
+      "reason": "Record physical LoC measurement proving the #5665 implementation is net-negative after retiring obsolete proof wrappers.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--numstat\",\"main\"],\"purpose\":\"Measure physical added and deleted lines against main and preserve the net-negative #5665 proof after replacing obsolete wrappers with fail-closed tombstones.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5665/runtime-v3-loc-measurement.md\"}}"
     }
   ]
 }
