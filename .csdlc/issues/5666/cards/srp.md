@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Review the fast-lane policy doc, routing link, selector reference, focused contract test, and issue-local lifecycle truth.
+.csdlc/evidence/5666
+.csdlc/issues/5666
+.csdlc/prepared/issues/5666
+adl/tools/test_developer_throughput_fast_lane.sh
+docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md
+docs/tooling/VALIDATION_PLATFORM_ROUTING.md
 
 ## Prompts
 
@@ -32,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review confirmed the initial placeholder design finding was fixed before this exact scoped revision; remaining lock file is untracked and outside HEAD.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:30e495fda450d10a4e29b0c57195f759224a7214:bf3cbab163693daa1084c8119b458a550c59032eea66798f753f22166e22d3e6")
 
-Reviewer: None
+Reviewer: Some("subagent:sagan")
 
-Result: pre_review
+Result: pass

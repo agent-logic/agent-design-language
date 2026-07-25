@@ -3,13 +3,13 @@
   "issue": 5666,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8a868f7f1c699671b7c60dd6bcfe05caaacf4325c016d16985f480282293ebac",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "186c33c496b2a27dda72ac1546ea01ad1316b857d35d77dddf2251bef7961d08",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "5c052b363c3a9b82df1ab2fe227174a6711a2242ffc3167f8205ceb046be71e0",
   "claim": {
     "id": "claim-5666-throughput-fast-lane",
     "owner": "codex:issue-5666-slot-1",
-    "generation": 3,
+    "generation": 4,
     "acquired_unix_seconds": 1785024000,
     "expires_unix_seconds": 1785628800,
     "heartbeat_unix_seconds": 1785024000,
@@ -27,7 +27,24 @@
     "purpose": "Add a proportional fast-lane policy and focused contract proof for small ADL fixes"
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:sagan",
+    "scope": [
+      ".csdlc/evidence/5666",
+      ".csdlc/issues/5666",
+      ".csdlc/prepared/issues/5666",
+      "adl/tools/test_developer_throughput_fast_lane.sh",
+      "docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md",
+      "docs/tooling/VALIDATION_PLATFORM_ROUTING.md"
+    ],
+    "reviewed_revision": "git-blake3:30e495fda450d10a4e29b0c57195f759224a7214:bf3cbab163693daa1084c8119b458a550c59032eea66798f753f22166e22d3e6",
+    "findings": [],
+    "residual_risks": [
+      "Review confirmed the initial placeholder design finding was fixed before this exact scoped revision; remaining lock file is untracked and outside HEAD."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -42,32 +59,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a99a2217dc3eaf44ffba3cc7565738e73a037d74e55e5c080b06f895287ed360",
+      "values_digest": "d3c26ed1839a271be7ea27106f198e451bea07322a5d5d8d1ce73996fecb02c2",
       "rendered_digest": "2d53e4b1a319307fcce4afc1632f5afadeec20050c235d3e6da8a71ad40d896e",
       "ast_digest": "85f6117b94d62a7fd03bad16aa1c0c84fdcec16850e17fbdaa6f84481da00b76"
     },
     "stp": {
-      "values_digest": "6959e26561b1304b1465ed53e98925a49125ecc0ebee4226377331ac27df5d73",
+      "values_digest": "6bce762f7fcd0d29f3ae122d4af45b52c5576fa35cbc29901a991508f7a80507",
       "rendered_digest": "a4c0abe508c7bb29e28f63b0c2fdc92486301073de7e33060318a772bbfd9f92",
       "ast_digest": "02700ec02f2df43fc142b1e043e4e26227582ed0dc542d2b8637b5ac30078348"
     },
     "spp": {
-      "values_digest": "c660a64603e9e60d55a5d7e7b6ee4b0f4b2f697393500b4ef9a18e29b0d3c415",
+      "values_digest": "b305a71baab90d677b713948110cc5f11f5f48a4e4c996cea784e1a325ba2c96",
       "rendered_digest": "cd4648f2df73491bc7b633be48d68db3c4ddbd010cea03fb5eb165f9eb56fbd6",
       "ast_digest": "622f57b394e1c0aaddf781eb1b01b4cd68f00d508f58d163a73b0ed440c60449"
     },
     "vpp": {
-      "values_digest": "fa366876cdaa97e4892f94c0c6da4a7e776d1b18f297da9d4e0500d877ee0b04",
+      "values_digest": "b0a7cc749678681c336c559ce37f84b699863415c0f6a06b136ce6d182b5f3cb",
       "rendered_digest": "969cb2176f0a1f54315d31479c4d7c14fbada32e603264652f1106a88fc5103e",
       "ast_digest": "72ac249f6b8d31d5714634abb4777ad71fbbbd222c476b5abbf7ced5b29acc09"
     },
     "srp": {
-      "values_digest": "43531f3f82f8a8fb5637f2e9ee5841782a4a5e9ad38c77cc6f291c93fc18a8c6",
-      "rendered_digest": "52fb257dda403d49ee324f3c1f6b52da1214006bfdb30f815888f951076af167",
-      "ast_digest": "cd414cccf429eb48108a495cbb5c509255aa873e07b21321521a97f248d40ba4"
+      "values_digest": "0fc775390db280e030aa3b7c779cf11ac2506dfa6858d9d078dd1c062d8519be",
+      "rendered_digest": "df7b07152a8de8fec15e52f4168cb93d6c641f0e3d2a6150ff1f4ed150659d90",
+      "ast_digest": "90cb3f6e0b5863227f3f41a5a5dac0afe778aa8a1acb94aae5771ace2951842a"
     },
     "sor": {
-      "values_digest": "c71a285a925b1da91c74fc98e877ddfd5dde5ec9b9f326c04f33dee5040018d4",
+      "values_digest": "33bab9e16a1d1c8668bab96fd05cf3d329732f3b9bb07d3d79988b20a26431b1",
       "rendered_digest": "25298bd0591358dd514cfcfbfff4ed019e4e220f1b93bdb59eaf7fa182806669",
       "ast_digest": "6984b90631575fad7062963427eed6389ebb2a0fb0e4829a3d2ac18fbf61fa5e"
     }
@@ -93,6 +110,13 @@
       "to": "implemented",
       "actor": "codex:issue-5666-slot-1",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5666-slot-1",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -130,6 +154,13 @@
       "actor": "operator:5666",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-5666-slot-1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
