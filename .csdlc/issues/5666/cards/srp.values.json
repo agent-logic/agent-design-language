@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5666,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][tools][ci] Add proportional fast lane for small fixes",
+    "slug": "v0-91-8-tools-ci-throughput-fast-lane",
+    "version": "v0.91.8",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review the fast-lane policy doc, routing link, selector reference, focused contract test, and issue-local lifecycle truth.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the policy make lifecycle and validation proportional without weakening typed C-SDLC v2?",
+        "Does it clearly separate tiny fixes from runtime/product work?",
+        "Does it prevent local-disk fallback when FastWork is required?",
+        "Does it stop unchanged GitHub waiting and require blocker-only updates?",
+        "Is the implementation intentionally small?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

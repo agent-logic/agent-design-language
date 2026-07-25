@@ -1,0 +1,7 @@
+{
+  "issue": 5666,
+  "expected_generation": 0,
+  "expected_digest": "b91114086aa6a16e9cc8ad5214ced373e7fd3f0898a5fe117a23c0bb7efe2a88",
+  "claim_id": "claim-5666-throughput-fast-lane",
+  "reviewer": "operator:5666"
+}
