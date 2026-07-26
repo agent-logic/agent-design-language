@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5670,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][ci][coverage] Parallelize hosted coverage with shard producers and aggregation gate",
+    "slug": "v0-91-8-ci-coverage-hosted-shards",
+    "version": "v0.91.8",
+    "generation": 9
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review workflow topology, coverage runner shard controls, focused contract tests, and issue-local lifecycle truth.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the workflow make hosted coverage faster by parallelizing producers while keeping one authoritative final gate?",
+        "Can any shard or aggregation path silently skip required coverage evidence?",
+        "Are run ids, profile roots, output roots, logs, and artifacts isolated per shard?",
+        "Do focused contracts prove topology and failure behavior without overfitting?",
+        "Is the change proportional and free of AWS/product/runtime scope?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
