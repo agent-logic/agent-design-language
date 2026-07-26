@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f0956ae3f1c83909acb21792fa8016035926ce54c66ff3c20504c484a18e4c36",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "accb61712613c69c50e35ad2dab13113e832a53cfe70ac00259b0a7bfa62c0eb",
+  "generation": 9,
+  "digest": "6e5d6e3ecc0940e33d40c9c938c239fcd7cf8d59d72439598a2afb93762b4d46",
   "claim": {
     "id": "claim-5658-bound-worktree-lifecycle",
     "owner": "codex:5658-execution",
-    "generation": 8,
+    "generation": 9,
     "acquired_unix_seconds": 1785037680,
     "expires_unix_seconds": 1785642480,
     "heartbeat_unix_seconds": 1785037680,
@@ -42,34 +42,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ad7c7d0288de291a6f35a9a95e27889dda57c6f5d4c242c87e225dfd8469ecd3",
+      "values_digest": "40e790fc5224a68de9cec32cf01b34d943fb45af3500b5e2ba58efa96535fdf6",
       "rendered_digest": "551ba08dc73004705b04e86ccaa077c8e4bcfcb1069e144cee65074be9fecace",
       "ast_digest": "bb4f521e7ac0b09e53d10f9b43cc86eed0fff465875c43595db60ac7b70cdf83"
     },
     "stp": {
-      "values_digest": "068bf5752424d897fa177ba59a8f1543400a13f924457f6e8b8f3f026f049411",
+      "values_digest": "365e4955a72421ebe6a9ef36ddb072c3cfaa8f0a561ac8668f19d05b053dcd36",
       "rendered_digest": "5aaeed13c9bd7ab5302de29deab901a15da4cfa9e10a73d7cedb8e418860f594",
       "ast_digest": "7e3ee6c313328af17261029213091258211585874fa491693c0a0351b553fb6a"
     },
     "spp": {
-      "values_digest": "e44af25e24bfe6e4c50e748134501ecc170e3a19018c63911b1669975a32ffe0",
+      "values_digest": "682c0b9335322429e678f43bfdbb94042ccdb437fac5992bb0aac2fc9c90376d",
       "rendered_digest": "53a740a9166c06be89e2c686fe0f58e051b66f377bab77c84ee1848b8f6758e8",
       "ast_digest": "52608b7fcd8455e58feb6c765a7519d16520b4b8274528889aa5f086e2213ff6"
     },
     "vpp": {
-      "values_digest": "b99b4a849482abc8e7f7b5912226793db0ee31b6ecd109eb9290fd6c6c0315eb",
+      "values_digest": "69f56de9c9976260f17dfbbe73cdb748aabd2da93ebdd645d2f352e43a4cc26f",
       "rendered_digest": "34dfcb06286b53578b0167aef9662c22f46ec9ad3cf994f6af18e8c50232698c",
       "ast_digest": "3f5b47021b687b2c8c7e5064bc56612f8a06ebd6ee617ccae80a79b5282db099"
     },
     "srp": {
-      "values_digest": "bbfca206edc2a01ce253aed4eeb4ed527051eba467b1786f265f525804dcd626",
+      "values_digest": "a9b6da5ae4b161cce0bbf7d9341d63d68e81311e39f29d55689411b0733b2191",
       "rendered_digest": "051afe682cfa2731069980abbde64f884dcc5e4afde63c3909f50e36a016b903",
       "ast_digest": "1271940f05c3f49f99046598ee18120e23e126c423677b2dcf71dbd54c442b3d"
     },
     "sor": {
-      "values_digest": "73cf64bb8e4b584062ccfc486c5560a0ca74e04106dce5d31fc06247bda4a667",
-      "rendered_digest": "48a05c619f62af32893301ad196d13442dbb6274f658e8a667d5abe66818dd08",
-      "ast_digest": "32a58a7559ddb33c2644e88b71a2ac7ad472cb4e77a1678f4fadbdd7f50dde66"
+      "values_digest": "c9208f2d7c3a7498cb99664dd6150bae75d3d2797c981d39f5c7a991ea5a47a1",
+      "rendered_digest": "2494ca2a8d15cebd0103d17414dc2c0523ab670df4051ebaab4c3a3643d1b42d",
+      "ast_digest": "2987828f3f0814d5aef4faeaf1a58edec4c2fad91917673b5540854dc34442ed"
     }
   },
   "transitions": [
@@ -193,6 +193,13 @@
       "actor": "codex:5658-execution",
       "reason": "Record focused validation after idempotent bind identity check repair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"--test\",\"gate7_lifecycle\"],\"purpose\":\"Verify CI standalone gate2 behavior and gate7 idempotent bind identity rejection after final review finding repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"local PASS on d305d501b with TMPDIR=/Volumes/FastWork/adl-wp-5658/.adl/tmp and CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5658/adl/target; gate2 47 passed, gate7_lifecycle 31 passed\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:5658-execution",
+      "reason": "Record focused validation after idempotent bind identity check repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"--test\",\"gate7_lifecycle\"],\"purpose\":\"Verify CI standalone gate2 behavior and gate7 idempotent bind identity tuple rejection after final review finding repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"local PASS after adding repository, issue, and initialization_digest idempotent-bind identity negative cases with TMPDIR=/Volumes/FastWork/adl-wp-5658/.adl/tmp and CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5658/adl/target; gate2 47 passed, gate7_lifecycle 33 passed\"}}"
     }
   ]
 }

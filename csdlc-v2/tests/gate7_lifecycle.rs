@@ -498,6 +498,46 @@ fn bind_idempotent_reuse_rejects_target_with_different_lifecycle_identity() {
     assert_eq!(error.code, ErrorCode::ReconciliationRequired);
 }
 
+#[test]
+fn bind_idempotent_reuse_rejects_target_with_different_issue_identity() {
+    let issue = 5658;
+    let (temp, store, claim) = basic_bind_fixture(issue);
+    bind_issue(&store, bind_request(issue, claim.clone())).unwrap();
+    let target = temp.path().join(format!("issue-{issue}"));
+    let target_store = Store::new(&target);
+    let mut target_record = target_store.load_record(issue).unwrap();
+    target_record.issue = issue + 1;
+    fs::write(
+        target_store.issue_dir(issue).join("index.json"),
+        serde_json::to_vec_pretty(&target_record).unwrap(),
+    )
+    .unwrap();
+
+    let error = bind_issue(&store, bind_request(issue, claim)).unwrap_err();
+
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+}
+
+#[test]
+fn bind_idempotent_reuse_rejects_target_with_different_initialization_digest() {
+    let issue = 5658;
+    let (temp, store, claim) = basic_bind_fixture(issue);
+    bind_issue(&store, bind_request(issue, claim.clone())).unwrap();
+    let target = temp.path().join(format!("issue-{issue}"));
+    let target_store = Store::new(&target);
+    let mut target_record = target_store.load_record(issue).unwrap();
+    target_record.initialization_digest = "different-initialization-digest".into();
+    fs::write(
+        target_store.issue_dir(issue).join("index.json"),
+        serde_json::to_vec_pretty(&target_record).unwrap(),
+    )
+    .unwrap();
+
+    let error = bind_issue(&store, bind_request(issue, claim)).unwrap_err();
+
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+}
+
 const PULL_REQUEST_PATH: &str = "/repos/example/repo/pulls/70";
 
 #[derive(Clone, Debug, PartialEq, Eq)]
