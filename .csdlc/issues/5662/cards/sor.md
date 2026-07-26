@@ -214,11 +214,11 @@ Polished and directly proved the operator-provisioned Unity flagship Polis Obser
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
