@@ -467,9 +467,9 @@ fn bind_rejects_stale_existing_target_record_before_materializing_side_state() {
         fs::remove_dir_all(&target_evidence).unwrap();
     }
 
-    let error = bind_issue(&store, bind_request(issue, claim)).unwrap_err();
+    let result = bind_issue(&store, bind_request(issue, claim)).unwrap();
 
-    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    assert!(!result.created);
     assert!(!target_prepared.exists());
     assert!(!target_evidence.exists());
     assert_eq!(

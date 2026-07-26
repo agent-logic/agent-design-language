@@ -203,7 +203,18 @@ fn directory_matches_recursive(source: &Path, destination: &Path) -> Result<bool
     let source_metadata = match fs::symlink_metadata(source) {
         Ok(metadata) => metadata,
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-            return Ok(!destination.exists());
+            return match fs::symlink_metadata(destination) {
+                Ok(metadata) if metadata.file_type().is_symlink() => Err(V2Error::new(
+                    ErrorCode::UnsafeCheckout,
+                    "bound lifecycle materialization refuses symlinked state",
+                )),
+                Ok(metadata) if metadata.is_dir() => {
+                    Ok(fs::read_dir(destination)?.next().is_none())
+                }
+                Ok(_) => Ok(false),
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(true),
+                Err(error) => Err(error.into()),
+            };
         }
         Err(error) => return Err(error.into()),
     };
@@ -584,6 +595,48 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         }
     }
     request.claim.validate(&request.claim.id, unix_now()?)?;
+    let created = !issue_local && !wanted.exists();
+    if !issue_local && !created {
+        let target = Store::new(wanted.clone());
+        if let Ok(target_record) = target.load_record(request.issue) {
+            if target_record.phase == crate::LifecyclePhase::Bound
+                && target_record.claim.as_ref() == Some(&request.claim)
+            {
+                let source_prepared = store
+                    .root()
+                    .join(".csdlc/prepared/issues")
+                    .join(request.issue.to_string());
+                let target_prepared = target
+                    .root()
+                    .join(".csdlc/prepared/issues")
+                    .join(request.issue.to_string());
+                require_matching_tree(
+                    &source_prepared,
+                    &target_prepared,
+                    "bound worktree already contains different prepared lifecycle state",
+                )?;
+                let source_evidence = store
+                    .root()
+                    .join(".csdlc/evidence")
+                    .join(request.issue.to_string());
+                let target_evidence = target
+                    .root()
+                    .join(".csdlc/evidence")
+                    .join(request.issue.to_string());
+                require_matching_tree(
+                    &source_evidence,
+                    &target_evidence,
+                    "bound worktree already contains different evidence lifecycle state",
+                )?;
+                return Ok(BindResult {
+                    created: false,
+                    branch: request.branch,
+                    worktree: request.worktree,
+                    claim_id: request.claim.id,
+                });
+            }
+        }
+    }
     let mut record = store.load_record(request.issue)?;
     let expected_digest = record.digest.clone();
     let was_bound = record.phase == crate::LifecyclePhase::Bound;
@@ -618,7 +671,6 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             "issue phase cannot be bound",
         ));
     }
-    let created = !issue_local && !wanted.exists();
     if created {
         let base = request.base_branch.as_str();
         let branch = request.branch.as_str();
