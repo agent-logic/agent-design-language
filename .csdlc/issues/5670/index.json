@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "189f55df87cf559fd27a662e23c235ee98ca1dcaa46109a05abf98c030a43f61",
   "phase": "published",
-  "generation": 12,
-  "digest": "454af1d7bb93cda75c7b091801962e471e81c59c8ab5cf8882d67c411a8210bf",
+  "generation": 13,
+  "digest": "0c0d23f095f24cffdc98f00f123d32278e2e897200bc3732847daf0401501717",
   "claim": {
     "id": "claim-5670-coverage-shard-fanout",
     "owner": "codex:issue-5670-slot-1",
-    "generation": 12,
+    "generation": 13,
     "acquired_unix_seconds": 1785024000,
     "expires_unix_seconds": 1785628800,
     "heartbeat_unix_seconds": 1785024000,
@@ -91,8 +91,8 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5672",
     "base": "main",
     "head": "codex/5670-coverage-shard-fanout",
-    "revision": "git-blake3:e9175b94a75905147f039e6e1e29a45d6cd3d749:9f455c0997da9b5faea5d101f8111d121f7bcd68472670da0cf7caca6afa8bfa",
-    "draft": true,
+    "revision": "git-blake3:8c889130bd13aaf9346412c8f8a99b15457990b8:85e601b94dee0ba3085f3c1ecd02574ad3e79a571a15b9545ed5305e583a2d34",
+    "draft": false,
     "observed_state": "open"
   },
   "readiness": null,
@@ -108,34 +108,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c56395a7ccd9d3185dc6f58fcd4da54b8c4edd90ebd587a5045a28267291c764",
+      "values_digest": "273b66c26763d915342d08f7cff736d826e12658f470b132ef568488fc78942d",
       "rendered_digest": "e743359b1c5769dc49b8fd90ee237badb385ea5feb1852c92b435b6560f38494",
       "ast_digest": "086f752886cf8bb183377d8cbd45a67fd68c38fd8ea967e621b233042bb32c66"
     },
     "stp": {
-      "values_digest": "cb20363f55f12ae66d090de9da96bef2b466957b9fdf2892874620ef72f76359",
+      "values_digest": "4c1e15e056c3db480d4fa8477509d7701c1b9dbf4149242629c52cc9fd86d653",
       "rendered_digest": "905185bfdd5bfa459b6e8c24b85f6a5e551c5cf8432167e2d034b353c76f62b2",
       "ast_digest": "6d17d7a0d8b6c3fd95ed88409df0bf41ec2f7b8f4c3a47b20cca9e7dae3fbf49"
     },
     "spp": {
-      "values_digest": "1123aeff500b3116b68f68867e531be06e84619af428059ebe029af30a4f47a4",
+      "values_digest": "90e31ba56daceca84856d8c6e22aa486f30d34f212658e022ca44455a22e5701",
       "rendered_digest": "1fc1a47856848a7d52d2090410db17e46fb8f7e0238b556c8c863685a2b303e6",
       "ast_digest": "493a3be6be8199d24d66f81e7ca1837c9d3351131066a74cb70c547df72b7ab7"
     },
     "vpp": {
-      "values_digest": "e5a84ac800490f5eca7031aa7937d847904af9201f8c2b6a17fa6fe782a70230",
+      "values_digest": "df860262610ab1d2cc4749bdd0d4aaac6a4d8db9b3442a9588a32aced4bcaceb",
       "rendered_digest": "4b69edcfd4fcdbac8ac9ced4c433018efd6f1e468d9baaaf8af9156c833ce8bf",
       "ast_digest": "0792ee6a342e50956b148d0d53cd2550877055e24ce4db1cb204115a2ce53061"
     },
     "srp": {
-      "values_digest": "3adb5d29921d3a7f748bccada01be0c19f8efaa6afa81a2527aac4caa3858cd3",
+      "values_digest": "356e4081ac572b2993a6684256cb288788cba493c48c61452fccad5711b902f5",
       "rendered_digest": "a5de19b7c673346342595885eca26ef44c3be98260a0d4e476311da667ca172d",
       "ast_digest": "b6b06c8a75442e41536d76070a7aeb7fd4db68fa02c6d2dfef9f2d14078820ba"
     },
     "sor": {
-      "values_digest": "abc1ea0b5c0ba7c50d8e8e806f088552c57080f0fbe2756feb81a1e2e6ecdc55",
-      "rendered_digest": "0d1684ab2cf1768270fe1a35ea5b4a61b8d9971722a5368b25dad3f3caae9be9",
-      "ast_digest": "faf9468b2adf919051a7a56b8166e8049a51a063423db73f365edf707a70efd1"
+      "values_digest": "3dde885cdbcf4e8dab5bbff277ce601a4430de88d7ed6a997922be84203bb45b",
+      "rendered_digest": "bcfcda6e33b44dbf0da58908f38d356a7d303506d451cfe0651e907cd0005142",
+      "ast_digest": "eab5e11e3282b4197a12c35ce4752002ee68603acd72414c7d1ec211b7d81f26"
     }
   },
   "transitions": [
@@ -280,6 +280,13 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "record exact existing PR ready-for-review after remote success",
+      "operation": "record_ready_publication"
     }
   ]
 }

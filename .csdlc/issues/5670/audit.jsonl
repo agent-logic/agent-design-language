@@ -13,3 +13,4 @@
 {"sequence":13,"generation":10,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":14,"generation":11,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"Exact-head bounded review completed for faa3dfdee with both review findings fixed and residual hosted CI proof truth retained.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":15,"generation":12,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":16,"generation":13,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"record exact existing PR ready-for-review after remote success","operation":"record_ready_publication"}
