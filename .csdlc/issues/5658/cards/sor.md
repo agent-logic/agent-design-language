@@ -76,16 +76,31 @@ Implemented bound-worktree lifecycle materialization for typed C-SDLC v2 bind an
     "purpose": "Verify final bound-worktree lifecycle hardening, including stale registered target record rejection before prepared/evidence side-state materialization.",
     "outcome": "passed",
     "evidence_ref": "local PASS on aa3dce8c8 with TMPDIR=/Volumes/FastWork/adl-wp-5658/.adl/tmp and CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5658/adl/target; 30 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate2",
+      "--test",
+      "gate7_lifecycle"
+    ],
+    "purpose": "Verify CI standalone gate2 expectations now use worktree-owned lifecycle state while gate7 bound-worktree materialization invariants remain green.",
+    "outcome": "passed",
+    "evidence_ref": "local PASS on 47c29e27a with TMPDIR=/Volumes/FastWork/adl-wp-5658/.adl/tmp and CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5658/adl/target; gate2 47 passed, gate7_lifecycle 30 passed"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
