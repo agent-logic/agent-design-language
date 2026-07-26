@@ -3,13 +3,13 @@
   "issue": 5662,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c133384b57de0ae1944c6c2342e7271a812f5ae28385db2b57e011d67aa1ed45",
-  "phase": "implemented",
-  "generation": 48,
-  "digest": "83e9bba9bd88022bffc03dde96464f222cdc869fdb5c43191222e3bd561ce28d",
+  "phase": "reviewed",
+  "generation": 49,
+  "digest": "4b537c9abfde9595fb01e98e71f360c8e7d9b74329241083715d69b321e50a64",
   "claim": {
     "id": "claim-5662-v0918-wp15-unity-observatory-polish",
     "owner": "codex:issue-5662-execution",
-    "generation": 48,
+    "generation": 49,
     "acquired_unix_seconds": 1784926413,
     "expires_unix_seconds": 1785531213,
     "heartbeat_unix_seconds": 1784926413,
@@ -35,7 +35,142 @@
     "purpose": "Execute #5662 as the bounded WP-15 visual and runtime presentation polish lane for the flagship Unity Observatory"
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:lagrange:019fa08a-85f5-75c1-a411-db74c1d1e031",
+    "scope": [
+      "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs",
+      "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml",
+      "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss",
+      "demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss",
+      "demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json",
+      "demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity",
+      "demos/v0.91.6/unity-observatory/PROOF_PACKET.md",
+      ".csdlc/issues/5662",
+      ".csdlc/prepared/issues/5662"
+    ],
+    "reviewed_revision": "git-blake3:eb7403a86b2d4a9649eaff8ee247cf978e76d5d1:4ca901916f76c6397493dce538b6cfff7df290cd123e9f29dd02f4d70fb6ec92",
+    "findings": [
+      {
+        "id": "R5662-01",
+        "severity": "p1",
+        "summary": "The Unity adapter supports only unauthenticated loopback HTTP CSM reads and cannot consume the current bearer-authenticated HTTPS Runtime v3 Observatory feed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:eb7403a86b2d4a9649eaff8ee247cf978e76d5d1:4ca901916f76c6397493dce538b6cfff7df290cd123e9f29dd02f4d70fb6ec92",
+        "route": null
+      },
+      {
+        "id": "R5662-02",
+        "severity": "p1",
+        "summary": "The communication surface falsely says no ACIP endpoint exists even though current Runtime v3 exposes authenticated control channels; Unity must report the missing signed proposal mapping instead.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:eb7403a86b2d4a9649eaff8ee247cf978e76d5d1:4ca901916f76c6397493dce538b6cfff7df290cd123e9f29dd02f4d70fb6ec92",
+        "route": null
+      },
+      {
+        "id": "R5662-03",
+        "severity": "p1",
+        "summary": "Legacy CSM schema validation accepts any suffix after the version prefix, including invalid schemas such as vgarbage, so aggregate Live classification remains fail open.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:eb7403a86b2d4a9649eaff8ee247cf978e76d5d1:4ca901916f76c6397493dce538b6cfff7df290cd123e9f29dd02f4d70fb6ec92",
+        "route": null
+      },
+      {
+        "id": "R5662-04",
+        "severity": "p2",
+        "summary": "Both retained captures expose a large floating foreground wedge and open void because the builder deactivates the foundations and supports it creates, contradicting the grounded composition acceptance criterion.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:eb7403a86b2d4a9649eaff8ee247cf978e76d5d1:4ca901916f76c6397493dce538b6cfff7df290cd123e9f29dd02f4d70fb6ec92",
+        "route": null
+      },
+      {
+        "id": "R5662-05",
+        "severity": "p2",
+        "summary": "The fixed dashboard lacks the required clear navigation iconography, bounded internal scroll surfaces, and dynamic active navigation state.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:eb7403a86b2d4a9649eaff8ee247cf978e76d5d1:4ca901916f76c6397493dce538b6cfff7df290cd123e9f29dd02f4d70fb6ec92",
+        "route": null
+      },
+      {
+        "id": "R5662-06",
+        "severity": "p1",
+        "summary": "Runtime v3 Live classification does not require the authoritative signed control endpoint to equal /v1/control.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:eb7403a86b2d4a9649eaff8ee247cf978e76d5d1:4ca901916f76c6397493dce538b6cfff7df290cd123e9f29dd02f4d70fb6ec92",
+        "route": null
+      },
+      {
+        "id": "R5662-07",
+        "severity": "p1",
+        "summary": "Runtime v3 proof overstates bearer transport and UI projection because it does not execute shared header construction or visibly assert agent, proof, continuity, and CloudWatch-route projections.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:eb7403a86b2d4a9649eaff8ee247cf978e76d5d1:4ca901916f76c6397493dce538b6cfff7df290cd123e9f29dd02f4d70fb6ec92",
+        "route": null
+      },
+      {
+        "id": "R5662-08",
+        "severity": "p2",
+        "summary": "Runtime v3 HTTP protocol errors such as 401 and 500 are passed to the classifier as transport failures and become Disconnected instead of Degraded.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:eb7403a86b2d4a9649eaff8ee247cf978e76d5d1:4ca901916f76c6397493dce538b6cfff7df290cd123e9f29dd02f4d70fb6ec92",
+        "route": null
+      },
+      {
+        "id": "R5662-09",
+        "severity": "p1",
+        "summary": "Publication truth remains pre-review with open findings and historical intermediate capture references not explicitly identified as superseded.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:eb7403a86b2d4a9649eaff8ee247cf978e76d5d1:4ca901916f76c6397493dce538b6cfff7df290cd123e9f29dd02f4d70fb6ec92",
+        "route": null
+      },
+      {
+        "id": "R5662-10",
+        "severity": "p2",
+        "summary": "The executable Runtime v3 projection validator does not assert the parsed proof state even though the publication packet claims proof projection coverage.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:eb7403a86b2d4a9649eaff8ee247cf978e76d5d1:4ca901916f76c6397493dce538b6cfff7df290cd123e9f29dd02f4d70fb6ec92",
+        "route": null
+      },
+      {
+        "id": "R5662-11",
+        "severity": "p3",
+        "summary": "The proof packet says only two PNGs are retained although the commit also retains baseline and restart captures as superseded intermediates.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:eb7403a86b2d4a9649eaff8ee247cf978e76d5d1:4ca901916f76c6397493dce538b6cfff7df290cd123e9f29dd02f4d70fb6ec92",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Runtime v3 validation is executable in-editor parser, classifier, bearer-auth construction, and UI projection proof, not a live HTTPS listener exchange.",
+      "The retained publication captures truthfully show DEMO / FIXTURE data rather than a live Polis.",
+      "Full rendering depends on operator-provisioned licensed Unity assets outside Git."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -50,32 +185,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "27161c8656b4f6e8308d39d048db11c8b9f47c3731eba20af259f0b5a0d13575",
+      "values_digest": "b5b781634d828cc991d909737c74025a0cb8463790e3745048137d7f20a6544b",
       "rendered_digest": "c54ed0eeae66b922c99e62a881fe553ab68523a5255118b90f49c4e395f9bd56",
       "ast_digest": "776ceac8d00ecdf4efbd6ac0e0a4d20fd1bdc1a260d250b33da282d2bf4b98ee"
     },
     "stp": {
-      "values_digest": "2719c6826285c3a94f7e5544c2e6f14115cb9047bb2c380089070c4356684ca4",
+      "values_digest": "dfb2fce8bb872b4230fb2bba6ee50ede438e21c60b0c06656a5ee74f4157d4f8",
       "rendered_digest": "6f5f21aa76f9fc678df2ee836968a9d03c158d75b38b2ebb3e7e814e7f817caa",
       "ast_digest": "f7c824be35a59f9492d712780e0ebbbd7cedf3825bcfd128fa7acf5af05c9fbe"
     },
     "spp": {
-      "values_digest": "5c6624283c26375e76563a74b4de31cb58384b7a5343456f70427022a4612acc",
+      "values_digest": "97c76722c69e19e3798883dcdca34e71af2163c9f404d9236ded4d467267e8bd",
       "rendered_digest": "527937b7eed6e6d86f7ace168964fa5f3e5ba6e8484426c669148b73bff1b00f",
       "ast_digest": "ea77a2d73d1996710dd648308d2bb19cf13774ba8e307adf7e3b9419e6e7dd0e"
     },
     "vpp": {
-      "values_digest": "95d40d42febd83468ae049eed9ae932ebbcdff0f69e543c497e28c5818a65296",
+      "values_digest": "bf12af20e4480810ed2a9c8a3a97a7a185c0b1af8d093c685ebf0ad517ca8091",
       "rendered_digest": "cc6f38ced71df638a585dc800d676dced75d015671976d58b29eb01ef2a63d00",
       "ast_digest": "4bacb67395a623f531a49699bad29e7024ddb7b406f005bc3a1debe0ca0ed646"
     },
     "srp": {
-      "values_digest": "c4bd60e28032b9a6308f930f34ed78cbaa412d8b185b2b1c6f479cd6db0661f6",
-      "rendered_digest": "cce25e392dabe91e9466bed0dcbee1b2b093fed4876d952a2b5c4efb9556cba8",
-      "ast_digest": "5244990f98d1fd2c8fc3f5ce89245ce6f5a5f1db827f1fcabf6a19d308730fb2"
+      "values_digest": "c03bd79813386eda2410ba970d06feb883dc4dacca9631665452b022d1d0a7a2",
+      "rendered_digest": "b257a9d2d261469830ff1a7f29421df130352d76ff3235e2b91e3cde8ea41eea",
+      "ast_digest": "543d0abdfc88e13cd65c467bc1260c6b194e0d8c1d6d3f0c6a478b7d0026e13f"
     },
     "sor": {
-      "values_digest": "8674801b7b26147bbc28b4017c1f13a21aa6999fbe0cf9a06e9f872d0821c433",
+      "values_digest": "dba8681f052e8fa36f102c016a8442273aa76c4feb2b596ca49e89d62763a196",
       "rendered_digest": "9b38363629e818bbe43ec5a460de855e8b91aaee0739c0c0687c1af76dea14cd",
       "ast_digest": "eddd2e134b2edcfc07ae265abd9d0e61365685d0c66502a2b515757039a7a312"
     }
@@ -115,6 +250,13 @@
       "to": "implemented",
       "actor": "codex:issue-5662-execution",
       "reason": "Return to implemented so the final S6 review step can be marked complete before recording the unchanged exact PASS evidence."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5662-execution",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -488,6 +630,13 @@
       "actor": "codex:issue-5662-execution",
       "reason": "Complete bounded pre-publication review after exact scoped PASS and resolution of all eleven findings.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S6\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 54,
+      "generation": 49,
+      "actor": "codex:issue-5662-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
