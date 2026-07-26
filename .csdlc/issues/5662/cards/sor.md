@@ -214,7 +214,7 @@ Polished and directly proved the operator-provisioned Unity flagship Polis Obser
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

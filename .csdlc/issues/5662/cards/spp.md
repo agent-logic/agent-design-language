@@ -85,7 +85,7 @@ Revision 1
       "AC-9",
       "AC-10"
     ],
-    "status": "in_progress"
+    "status": "completed"
   }
 ]
 

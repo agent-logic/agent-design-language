@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-15][unity][demo] Polish flagship Polis Observatory visual and runtime presentation",
     "slug": "v0918-wp15-flagship-polis-observatory-polish",
     "version": "v0.91.8",
-    "generation": 45
+    "generation": 48
   },
   "status": "ready",
   "content": {
@@ -80,7 +80,7 @@
             "AC-9",
             "AC-10"
           ],
-          "status": "in_progress"
+          "status": "completed"
         }
       ],
       "affected_areas": [],
