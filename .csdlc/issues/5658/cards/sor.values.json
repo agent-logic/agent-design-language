@@ -7,7 +7,7 @@
     "title": "[v0.91.8][csdlc-v2][tooling] Keep all issue lifecycle writes in the bound worktree",
     "slug": "csdlc-bound-worktree-lifecycle-writes",
     "version": "v0.91.8",
-    "generation": 7
+    "generation": 8
   },
   "status": "pre_phase",
   "content": {
@@ -87,6 +87,21 @@
           "purpose": "Verify CI standalone gate2 expectations now use worktree-owned lifecycle state while gate7 bound-worktree materialization invariants remain green.",
           "outcome": "passed",
           "evidence_ref": "local PASS on 47c29e27a with TMPDIR=/Volumes/FastWork/adl-wp-5658/.adl/tmp and CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5658/adl/target; gate2 47 passed, gate7_lifecycle 30 passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2",
+            "--test",
+            "gate7_lifecycle"
+          ],
+          "purpose": "Verify CI standalone gate2 behavior and gate7 idempotent bind identity rejection after final review finding repair.",
+          "outcome": "passed",
+          "evidence_ref": "local PASS on d305d501b with TMPDIR=/Volumes/FastWork/adl-wp-5658/.adl/tmp and CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5658/adl/target; gate2 47 passed, gate7_lifecycle 31 passed"
         }
       ],
       "integration_state": "worktree_only",

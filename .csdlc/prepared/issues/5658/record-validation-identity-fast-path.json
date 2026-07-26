@@ -1,0 +1,28 @@
+{
+  "issue": 5658,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "7809f6e883baabed9f715e0c054fedaa3efe953acfff50e6693bbc2150d24237",
+  "claim_id": "claim-5658-bound-worktree-lifecycle",
+  "actor": "codex:5658-execution",
+  "reason": "Record focused validation after idempotent bind identity check repair.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--test",
+        "gate2",
+        "--test",
+        "gate7_lifecycle"
+      ],
+      "purpose": "Verify CI standalone gate2 behavior and gate7 idempotent bind identity rejection after final review finding repair.",
+      "outcome": "passed",
+      "evidence_ref": "local PASS on d305d501b with TMPDIR=/Volumes/FastWork/adl-wp-5658/.adl/tmp and CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5658/adl/target; gate2 47 passed, gate7_lifecycle 31 passed"
+    }
+  },
+  "fail_after_backup": false
+}
