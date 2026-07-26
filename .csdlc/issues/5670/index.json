@@ -3,13 +3,13 @@
   "issue": 5670,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "189f55df87cf559fd27a662e23c235ee98ca1dcaa46109a05abf98c030a43f61",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "5416220dd89ac88a888680b53aa4cd8ee138ad9cdb2707786aa70a1c881d2a5a",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "d708b54f48aab3f4be3f4cdc554225b4bd73b4c9a3ea1639b03bef30147dafc7",
   "claim": {
     "id": "claim-5670-coverage-shard-fanout",
     "owner": "codex:issue-5670-slot-1",
-    "generation": 9,
+    "generation": 11,
     "acquired_unix_seconds": 1785024000,
     "expires_unix_seconds": 1785628800,
     "heartbeat_unix_seconds": 1785024000,
@@ -28,8 +28,62 @@
     ],
     "purpose": "Parallelize hosted coverage with shard producers and an aggregation gate"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f9c5d-654d-7af1-ab7a-f205c27ca0b2",
+    "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
+    "revision": "git-blake3:faa3dfdee98540cdf9ad020e08368702693e9839:e5a41237348e8b4632ab5812b319319a68e66c149cba2912488e6d95d0adbb7c",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/5670",
+      ".csdlc/issues/5670",
+      ".csdlc/prepared/issues/5670"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f9c5d-654d-7af1-ab7a-f205c27ca0b2",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      ".csdlc/evidence/5670",
+      ".csdlc/issues/5670",
+      ".csdlc/prepared/issues/5670"
+    ],
+    "reviewed_revision": "git-blake3:faa3dfdee98540cdf9ad020e08368702693e9839:e5a41237348e8b4632ab5812b319319a68e66c149cba2912488e6d95d0adbb7c",
+    "findings": [
+      {
+        "id": "F-5670-1",
+        "severity": "p1",
+        "summary": "Report-only aggregation could include compile-only or build-script profraw before shard import.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:faa3dfdee98540cdf9ad020e08368702693e9839:e5a41237348e8b4632ab5812b319319a68e66c149cba2912488e6d95d0adbb7c",
+        "route": null
+      },
+      {
+        "id": "F-5670-2",
+        "severity": "p2",
+        "summary": "Non-full PR-fast coverage used the four-shard topology and shard_count provenance.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:faa3dfdee98540cdf9ad020e08368702693e9839:e5a41237348e8b4632ab5812b319319a68e66c149cba2912488e6d95d0adbb7c",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Hosted GitHub Actions artifact fan-in has not run locally; the workflow and contract tests cover shape and CI must provide hosted integration proof after publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -44,32 +98,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "304ace2efefc27f233ee4eaace16cdc7865a83e066c8900f4f0643ca4ae247fe",
+      "values_digest": "f066aa174e5d366b05efe3e1fba01d51b4993eb0b2530131801e7d8524ecd421",
       "rendered_digest": "e743359b1c5769dc49b8fd90ee237badb385ea5feb1852c92b435b6560f38494",
       "ast_digest": "086f752886cf8bb183377d8cbd45a67fd68c38fd8ea967e621b233042bb32c66"
     },
     "stp": {
-      "values_digest": "2f9b5dadc770112021e743a093494cd4cfcef9525728423d13a9ffb90a383087",
+      "values_digest": "dc0cf3acc1d04bf0f831669590b586d95acb3eb9f75ae05a1df8772e2963bb66",
       "rendered_digest": "905185bfdd5bfa459b6e8c24b85f6a5e551c5cf8432167e2d034b353c76f62b2",
       "ast_digest": "6d17d7a0d8b6c3fd95ed88409df0bf41ec2f7b8f4c3a47b20cca9e7dae3fbf49"
     },
     "spp": {
-      "values_digest": "23cc9581000b62c95dc607071e6d2dae138461296f8094d65f981b154c79eebb",
+      "values_digest": "4c4cafe57fb66f53298b439c70e6a4665701402921b1ce8867cf0114dce6061e",
       "rendered_digest": "1fc1a47856848a7d52d2090410db17e46fb8f7e0238b556c8c863685a2b303e6",
       "ast_digest": "493a3be6be8199d24d66f81e7ca1837c9d3351131066a74cb70c547df72b7ab7"
     },
     "vpp": {
-      "values_digest": "e1b51fbca5642d7005332668a31819d10defe1855f14d9a4eebc9b137b4d35af",
+      "values_digest": "5fc4ef1132af01992f0fcb32f2e7dff0a6e54be991dfe246ee8911dff53ccf10",
       "rendered_digest": "4b69edcfd4fcdbac8ac9ced4c433018efd6f1e468d9baaaf8af9156c833ce8bf",
       "ast_digest": "0792ee6a342e50956b148d0d53cd2550877055e24ce4db1cb204115a2ce53061"
     },
     "srp": {
-      "values_digest": "d3b96682c9a3eb104adcc10b39e95ef5c99671f738c43c336632b9a00aeaca9b",
-      "rendered_digest": "c4476738c04b91d5c26ab7a1ff889a3d94dc7ecbcb686df442237a3e9ae710f0",
-      "ast_digest": "169e539574e169e4f4e12f35ba38e805331d042ebd16f93a4bd2b724c9743dc3"
+      "values_digest": "3939b5d0d66002577bec68ff876a430c4bd7acc91b8f65988eb510a0f6246a89",
+      "rendered_digest": "a5de19b7c673346342595885eca26ef44c3be98260a0d4e476311da667ca172d",
+      "ast_digest": "b6b06c8a75442e41536d76070a7aeb7fd4db68fa02c6d2dfef9f2d14078820ba"
     },
     "sor": {
-      "values_digest": "5ca196a1ba82f987c752c3d2e1c32f09334dfeb4de7e32d7587159e501192189",
+      "values_digest": "8694ff333c9f2089f38fdd791e60c556bb0cd2d1df098f8717564978c6a921c8",
       "rendered_digest": "ad5d9dc015b19922e2b5193e378cb7b516eb178fd4a3f1d4e253632f84c8f168",
       "ast_digest": "44f2b2a590f93bd14c6eb1af00df1c3f08c1e91916da8e616916eb7e20db3b36"
     }
@@ -95,6 +149,13 @@
       "to": "implemented",
       "actor": "codex:issue-5670-slot-1",
       "reason": "Advance after implementation and focused validation completed in the bound FastWork worktree."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-head bounded review completed for faa3dfdee with both review findings fixed and residual hosted CI proof truth retained."
     }
   ],
   "audit": [
@@ -174,6 +235,27 @@
       "actor": "codex:issue-5670-slot-1",
       "reason": "Advance after implementation and focused validation completed in the bound FastWork worktree.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-head bounded review completed for faa3dfdee with both review findings fixed and residual hosted CI proof truth retained.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

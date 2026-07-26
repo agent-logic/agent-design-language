@@ -12,7 +12,14 @@ Status: pre_phase
 
 ## Scope
 
-Review workflow topology, coverage runner shard controls, focused contract tests, and issue-local lifecycle truth.
+.github/workflows/ci.yaml
+adl/tools/run_authoritative_coverage_lane.sh
+adl/tools/test_run_authoritative_coverage_lane.sh
+adl/tools/test_ci_runtime_contracts.sh
+adl/tools/test_ci_path_policy.sh
+.csdlc/evidence/5670
+.csdlc/issues/5670
+.csdlc/prepared/issues/5670
 
 ## Prompts
 
@@ -24,7 +31,28 @@ Review workflow topology, coverage runner shard controls, focused contract tests
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5670-1",
+    "severity": "p1",
+    "summary": "Report-only aggregation could include compile-only or build-script profraw before shard import.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:faa3dfdee98540cdf9ad020e08368702693e9839:e5a41237348e8b4632ab5812b319319a68e66c149cba2912488e6d95d0adbb7c",
+    "route": null
+  },
+  {
+    "id": "F-5670-2",
+    "severity": "p2",
+    "summary": "Non-full PR-fast coverage used the four-shard topology and shard_count provenance.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:faa3dfdee98540cdf9ad020e08368702693e9839:e5a41237348e8b4632ab5812b319319a68e66c149cba2912488e6d95d0adbb7c",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -32,12 +60,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted GitHub Actions artifact fan-in has not run locally; the workflow and contract tests cover shape and CI must provide hosted integration proof after publication.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:faa3dfdee98540cdf9ad020e08368702693e9839:e5a41237348e8b4632ab5812b319319a68e66c149cba2912488e6d95d0adbb7c")
 
-Reviewer: None
+Reviewer: Some("subagent:019f9c5d-654d-7af1-ab7a-f205c27ca0b2")
 
-Result: pre_review
+Result: pass
