@@ -1,0 +1,58 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5658,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][tooling] Keep all issue lifecycle writes in the bound worktree",
+    "slug": "csdlc-bound-worktree-lifecycle-writes",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented bound-worktree lifecycle materialization for typed C-SDLC v2 bind and added a regression proving the primary checkout does not advance to bound.",
+      "actual_changes": [
+        "Added lifecycle materialization helpers that copy issue records, cards, prepared artifacts, and evidence roots into the target worktree before committing a non-local bind transition.",
+        "Changed bind commit routing so issue-local binds still commit in place, while non-local binds commit through a Store rooted at the declared worktree.",
+        "Added a gate7 regression that bootstraps on primary main, binds a new issue worktree with absent ignored .csdlc state, and verifies the target worktree owns the bound record while primary remains initialized."
+      ],
+      "artifacts": [
+        "csdlc-v2/src/lifecycle.rs",
+        "csdlc-v2/tests/gate7_lifecycle.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate7_lifecycle"
+          ],
+          "purpose": "Prove bound-worktree lifecycle materialization and fail-closed primary-main behavior.",
+          "outcome": "passed",
+          "evidence_ref": "csdlc-lifecycle-focused.log"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Verify changed files have no whitespace or patch hygiene errors.",
+          "outcome": "passed",
+          "evidence_ref": "diff-hygiene.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

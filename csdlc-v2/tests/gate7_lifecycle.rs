@@ -3,16 +3,17 @@ use csdlc_v2::cards::{
     StepStatus, ValidationLane, ValidationResult,
 };
 use csdlc_v2::{
-    assign_review, closeout_issue, edit_issue, prepare_publication, prepare_ready_publication,
-    prepare_ready_reconciliation, record_merged_publication, record_publication, record_readiness,
-    record_ready_publication, record_review, validate_ready_reconciliation_state,
-    validate_ready_remote, BootstrapRequest, CardKind, Claim, ConflictState, EditRequest,
-    ErrorCode, InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent,
-    PublicationRequest, ReadinessRequest, ReadyPublicationReconciliationRequest,
-    ReadyPublicationRequest, ReconcileTerminalRequest, RemotePullRequest, RemoteReviewState,
-    ReviewAssignmentRequest, ReviewEvidence, ReviewRecordRequest, SemanticOperation, Store,
-    TerminalDesignRepairRequest, TerminalDisposition, TerminalObservation,
-    TerminalPlanStepRepairRequest, TerminalSorArtifactRepairRequest,
+    assign_review, bind_issue, closeout_issue, edit_issue, prepare_publication,
+    prepare_ready_publication, prepare_ready_reconciliation, record_merged_publication,
+    record_publication, record_readiness, record_ready_publication, record_review,
+    validate_ready_reconciliation_state, validate_ready_remote, BindRequest, BootstrapRequest,
+    CardKind, Claim, ConflictState, EditRequest, ErrorCode, InitialCardInput, LifecyclePhase,
+    PlanningProfile, PublicationIntent, PublicationRequest, ReadinessRequest,
+    ReadyPublicationReconciliationRequest, ReadyPublicationRequest, ReconcileTerminalRequest,
+    RemotePullRequest, RemoteReviewState, ReviewAssignmentRequest, ReviewEvidence,
+    ReviewRecordRequest, SemanticOperation, Store, TerminalDesignRepairRequest,
+    TerminalDisposition, TerminalObservation, TerminalPlanStepRepairRequest,
+    TerminalSorArtifactRepairRequest,
 };
 use std::collections::BTreeMap;
 use std::fs;
@@ -127,6 +128,133 @@ fn git_output(root: &std::path::Path, args: &[&str]) -> String {
         .unwrap();
     assert!(output.status.success());
     String::from_utf8(output.stdout).unwrap().trim().to_owned()
+}
+
+#[test]
+fn bind_materializes_lifecycle_state_in_new_issue_worktree() {
+    let temp = tempfile::tempdir().unwrap();
+    fs::create_dir_all(temp.path().join("docs")).unwrap();
+    fs::write(temp.path().join("docs/design.md"), "# design\n").unwrap();
+    fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n A-->B\n",
+    )
+    .unwrap();
+    fs::write(temp.path().join("README.md"), "fixture\n").unwrap();
+    install_native_authority(temp.path());
+    git(temp.path(), &["init", "-b", "main"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "fixture"]);
+
+    let issue = 5658;
+    let store = Store::new(temp.path());
+    let claim = Claim {
+        id: "claim-5658".into(),
+        owner: "agent".into(),
+        generation: 0,
+        acquired_unix_seconds: 1,
+        expires_unix_seconds: u64::MAX,
+        heartbeat_unix_seconds: 1,
+        branch: "issue-5658".into(),
+        worktree: "issue-5658".into(),
+        protected_paths: vec!["src".into()],
+        purpose: "bound worktree fixture".into(),
+    };
+    let initialized = bootstrap_issue(
+        &store,
+        BootstrapRequest {
+            issue,
+            repository: "example/repo".into(),
+            design_path: "docs/design.md".into(),
+            diagram_path: "docs/diagram.mmd".into(),
+            design_reviewer: "architect".into(),
+            design_approved: true,
+            claim: claim.clone(),
+            initial: InitialCardInput {
+                title: "Bound worktree fixture".into(),
+                slug: "bound-worktree-fixture".into(),
+                version: "v0.91.8".into(),
+                goal: "prove bind materializes into the target worktree".into(),
+                required_outcome: "bound worktree owns lifecycle writes".into(),
+                declared_scope: vec!["src".into()],
+                authority_boundary: vec!["typed v2 only".into()],
+                operator_constraints: vec!["no main writes after bind".into()],
+                task_boundary: "bind issue from primary into a dedicated worktree".into(),
+                deliverables: vec!["bound record".into()],
+                acceptance_criteria: vec!["AC-1: target worktree has bound state".into()],
+                dependencies: vec!["none".into()],
+                repo_inputs: vec!["csdlc-v2/src/lifecycle.rs".into()],
+                non_goals: vec!["no source implementation".into()],
+                plan_summary: "bootstrap on primary, bind to a new issue worktree, and assert lifecycle state lives in that worktree".into(),
+                steps: vec![PlanStep {
+                    id: "S1".into(),
+                    action: "bind to dedicated worktree".into(),
+                    status: StepStatus::Pending,
+                    acceptance_ids: vec!["AC-1".into()],
+                }],
+                invariants: vec!["primary record stays initialized".into()],
+                risks: vec!["bind may write to primary".into()],
+                planning_profile: PlanningProfile::Small,
+                stop_conditions: vec!["target state missing".into()],
+                validation_lanes: vec![ValidationLane {
+                    lane: "bind-materialization".into(),
+                    proof_role: "prove target worktree has bound state".into(),
+                    deterministic: true,
+                    resource_profile: ResourceProfile::Small,
+                    parallel_group: "unit".into(),
+                    budget_seconds: 60,
+                    budget_tokens: 1000,
+                    argv: vec!["cargo".into(), "test".into()],
+                    acceptance_ids: vec!["AC-1".into()],
+                    defer_reason: None,
+                }],
+                failure_policy: "fail closed on root mismatch".into(),
+                review_prompts: vec!["does bind write only to target?".into()],
+                review_scope: "csdlc-v2/src/lifecycle.rs".into(),
+            },
+        },
+    )
+    .unwrap();
+    assert_eq!(initialized.phase, LifecyclePhase::Initialized);
+    let primary_before = fs::read(store.issue_dir(issue).join("index.json")).unwrap();
+
+    bind_issue(
+        &store,
+        BindRequest {
+            issue,
+            base_branch: "main".into(),
+            branch: "issue-5658".into(),
+            worktree: "issue-5658".into(),
+            claim,
+        },
+    )
+    .unwrap();
+
+    assert_eq!(
+        store.load_record(issue).unwrap().phase,
+        LifecyclePhase::Initialized,
+        "primary checkout record must not advance to bound"
+    );
+    assert_eq!(
+        fs::read(store.issue_dir(issue).join("index.json")).unwrap(),
+        primary_before,
+        "bind must not rewrite primary checkout issue record"
+    );
+    let target = temp.path().join("issue-5658");
+    let target_store = Store::new(&target);
+    let bound = target_store.load_record(issue).unwrap();
+    assert_eq!(bound.phase, LifecyclePhase::Bound);
+    assert_eq!(bound.claim.as_ref().unwrap().worktree, "issue-5658");
+    assert!(target_store
+        .issue_dir(issue)
+        .join("cards/sor.values.json")
+        .is_file());
+    assert!(target.join("docs/design.md").is_file());
 }
 
 const PULL_REQUEST_PATH: &str = "/repos/example/repo/pulls/70";

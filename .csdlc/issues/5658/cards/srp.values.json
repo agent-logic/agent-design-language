@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5658,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][tooling] Keep all issue lifecycle writes in the bound worktree",
+    "slug": "csdlc-bound-worktree-lifecycle-writes",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/lifecycle.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate7_lifecycle.rs",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any execution-phase typed command still write issue lifecycle state to primary main after binding?",
+        "Does the regression prove absent ignored .csdlc state is materialized into the bound worktree?",
+        "Were claim, lock, and exact-revision protections preserved without broad bypasses?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

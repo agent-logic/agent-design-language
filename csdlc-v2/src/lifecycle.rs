@@ -145,6 +145,69 @@ fn terminally_released(store: &Store, local: &crate::IssueRecord) -> Result<bool
     Ok(true)
 }
 
+fn copy_dir_recursive(source: &Path, destination: &Path) -> Result<()> {
+    if !source.exists() {
+        return Ok(());
+    }
+    fs::create_dir_all(destination)?;
+    for entry in fs::read_dir(source)? {
+        let entry = entry?;
+        let source_path = entry.path();
+        let destination_path = destination.join(entry.file_name());
+        if source_path.is_dir() {
+            copy_dir_recursive(&source_path, &destination_path)?;
+        } else {
+            if let Some(parent) = destination_path.parent() {
+                fs::create_dir_all(parent)?;
+            }
+            fs::copy(&source_path, &destination_path)?;
+        }
+    }
+    Ok(())
+}
+
+fn materialize_bound_issue_state(source: &Store, target_root: &Path, issue: u64) -> Result<Store> {
+    let target = Store::new(target_root.to_path_buf());
+    if source.root().canonicalize()? == target.root().canonicalize()? {
+        return Ok(target);
+    }
+
+    let source_record = source.load_record(issue)?;
+    let target_issue_dir = target.issue_dir(issue);
+    if target_issue_dir.exists() {
+        let target_record = target.load_record(issue)?;
+        if target_record.issue != issue
+            || target_record.repository != source_record.repository
+            || target_record.initialization_digest != source_record.initialization_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "bound worktree already contains different issue lifecycle state",
+            ));
+        }
+    } else {
+        copy_dir_recursive(&source.issue_dir(issue), &target_issue_dir)?;
+    }
+
+    let source_prepared = source
+        .root()
+        .join(".csdlc/prepared/issues")
+        .join(issue.to_string());
+    let target_prepared = target
+        .root()
+        .join(".csdlc/prepared/issues")
+        .join(issue.to_string());
+    copy_dir_recursive(&source_prepared, &target_prepared)?;
+    fs::create_dir_all(
+        target
+            .root()
+            .join(".csdlc/evidence")
+            .join(issue.to_string()),
+    )?;
+    fs::create_dir_all(target.root().join(".csdlc/locks"))?;
+    Ok(target)
+}
+
 pub(crate) fn initialize_issue(
     store: &Store,
     mut request: BootstrapRequest,
@@ -460,7 +523,12 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             operation: "bind".into(),
         });
         record.digest = crate::store::record_digest(&record)?;
-        if let Err(error) = store.replace_record(request.issue, &expected_digest, &record) {
+        let commit_store = if issue_local {
+            Store::new(store.root().to_path_buf())
+        } else {
+            materialize_bound_issue_state(store, &wanted, request.issue)?
+        };
+        if let Err(error) = commit_store.replace_record(request.issue, &expected_digest, &record) {
             if created {
                 let remove = git::run(
                     store.root(),
