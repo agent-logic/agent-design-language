@@ -199,6 +199,59 @@ fn copy_dir_recursive(source: &Path, destination: &Path) -> Result<()> {
     Ok(())
 }
 
+fn directory_matches_recursive(source: &Path, destination: &Path) -> Result<bool> {
+    let source_metadata = match fs::symlink_metadata(source) {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            return Ok(!destination.exists());
+        }
+        Err(error) => return Err(error.into()),
+    };
+    let destination_metadata = match fs::symlink_metadata(destination) {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(false),
+        Err(error) => return Err(error.into()),
+    };
+    if source_metadata.file_type().is_symlink() || destination_metadata.file_type().is_symlink() {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "bound lifecycle materialization refuses symlinked state",
+        ));
+    }
+    if source_metadata.is_dir() != destination_metadata.is_dir() {
+        return Ok(false);
+    }
+    if source_metadata.is_dir() {
+        let mut source_entries = std::collections::BTreeSet::new();
+        for entry in fs::read_dir(source)? {
+            let entry = entry?;
+            source_entries.insert(entry.file_name());
+        }
+        let mut destination_entries = std::collections::BTreeSet::new();
+        for entry in fs::read_dir(destination)? {
+            let entry = entry?;
+            destination_entries.insert(entry.file_name());
+        }
+        if source_entries != destination_entries {
+            return Ok(false);
+        }
+        for entry in source_entries {
+            if !directory_matches_recursive(&source.join(&entry), &destination.join(&entry))? {
+                return Ok(false);
+            }
+        }
+        return Ok(true);
+    }
+    Ok(fs::read(source)? == fs::read(destination)?)
+}
+
+fn require_matching_tree(source: &Path, destination: &Path, message: &str) -> Result<()> {
+    if destination.exists() && !directory_matches_recursive(source, destination)? {
+        return Err(V2Error::new(ErrorCode::ReconciliationRequired, message));
+    }
+    Ok(())
+}
+
 fn materialize_bound_issue_state(source: &Store, target_root: &Path, issue: u64) -> Result<Store> {
     let target = Store::new(target_root.to_path_buf());
     if source.root().canonicalize()? == target.root().canonicalize()? {
@@ -230,6 +283,11 @@ fn materialize_bound_issue_state(source: &Store, target_root: &Path, issue: u64)
         .root()
         .join(".csdlc/prepared/issues")
         .join(issue.to_string());
+    require_matching_tree(
+        &source_prepared,
+        &target_prepared,
+        "bound worktree already contains different prepared lifecycle state",
+    )?;
     copy_dir_recursive(&source_prepared, &target_prepared)?;
     let source_evidence = source
         .root()
@@ -239,6 +297,11 @@ fn materialize_bound_issue_state(source: &Store, target_root: &Path, issue: u64)
         .root()
         .join(".csdlc/evidence")
         .join(issue.to_string());
+    require_matching_tree(
+        &source_evidence,
+        &target_evidence,
+        "bound worktree already contains different evidence lifecycle state",
+    )?;
     copy_dir_recursive(&source_evidence, &target_evidence)?;
     fs::create_dir_all(&target_evidence)?;
     fs::create_dir_all(target.root().join(".csdlc/locks"))?;

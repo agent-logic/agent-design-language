@@ -427,6 +427,31 @@ fn bind_rejects_symlinked_lifecycle_state_and_cleans_created_worktree() {
     assert!(branches.is_empty());
 }
 
+#[test]
+fn bind_rejects_stale_existing_target_side_state_without_mutating_it() {
+    let issue = 5658;
+    let (temp, store, claim) = basic_bind_fixture(issue);
+    bind_issue(&store, bind_request(issue, claim.clone())).unwrap();
+    let target_prepared = temp
+        .path()
+        .join(format!("issue-{issue}/.csdlc/prepared/issues/{issue}"));
+    let stale = target_prepared.join("stale-request.json");
+    fs::create_dir_all(&target_prepared).unwrap();
+    fs::write(&stale, "stale\n").unwrap();
+
+    let error = bind_issue(&store, bind_request(issue, claim)).unwrap_err();
+
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    assert_eq!(fs::read_to_string(stale).unwrap(), "stale\n");
+    assert_eq!(
+        Store::new(temp.path().join(format!("issue-{issue}")))
+            .load_record(issue)
+            .unwrap()
+            .phase,
+        LifecyclePhase::Bound
+    );
+}
+
 const PULL_REQUEST_PATH: &str = "/repos/example/repo/pulls/70";
 
 #[derive(Clone, Debug, PartialEq, Eq)]
