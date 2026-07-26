@@ -81,11 +81,11 @@ Implemented bound-worktree lifecycle materialization for typed C-SDLC v2 bind an
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 5658,
+  "expected_generation": 4,
+  "expected_digest": "7fdcfdc3dde4bdf68305a0c163f58ab0bdb50e07065c6d56507cc2e232e868d0",
+  "claim_id": "claim-5658-bound-worktree-lifecycle",
+  "actor": "codex:5658-execution",
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5658-bound-worktree-lifecycle",
+  "title": "[v0.91.8][csdlc-v2][tooling] Keep lifecycle writes in bound worktree",
+  "body": "Closes #5658\n\nKeeps typed C-SDLC v2 bind lifecycle writes rooted in the declared issue worktree instead of advancing primary-main issue state during non-local bind. The bind path now materializes issue records, prepared artifacts, evidence roots, and locks into the registered target Git worktree before committing the bound transition there.\n\nHardening included the pre-PR review findings: unregistered target directories fail closed, symlinked lifecycle state is rejected, created-worktree failures are compensated, evidence is copied with issue state, and stale existing target lifecycle/prepared/evidence state fails closed before side-state mutation.\n\nFocused validation:\n- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle` passed locally on FastWork with 30 tests.\n- `git diff --check origin/main...HEAD` passed.\n\nPre-PR review: bounded subagent review is clean at exact head `eb6d7dde9f5bdf8e916d4458874c79b532767e13`.",
+  "draft": false,
+  "remote": "origin",
+  "token_file": null
+}
