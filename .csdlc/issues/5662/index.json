@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c133384b57de0ae1944c6c2342e7271a812f5ae28385db2b57e011d67aa1ed45",
   "phase": "implemented",
-  "generation": 40,
-  "digest": "2a84dd5ba9bd605c153008b80d0552f5edaa229bbc1c70a618661b64741056cb",
+  "generation": 43,
+  "digest": "4c04ab293770c3c71300aa5d8d62d24c58a455d69f93c11aa8205d1434b80c35",
   "claim": {
     "id": "claim-5662-v0918-wp15-unity-observatory-polish",
     "owner": "codex:issue-5662-execution",
-    "generation": 40,
+    "generation": 43,
     "acquired_unix_seconds": 1784926413,
     "expires_unix_seconds": 1785531213,
     "heartbeat_unix_seconds": 1784926413,
@@ -50,34 +50,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "16e0ca99a7355dc390c4d41ef17c43fc1ab2527067b2cd972503c95b9d175435",
+      "values_digest": "1a25d4a6f40044b35ca81a301e2c4c8dcd168b402a8f3ed83777c14dd7af23ee",
       "rendered_digest": "c54ed0eeae66b922c99e62a881fe553ab68523a5255118b90f49c4e395f9bd56",
       "ast_digest": "776ceac8d00ecdf4efbd6ac0e0a4d20fd1bdc1a260d250b33da282d2bf4b98ee"
     },
     "stp": {
-      "values_digest": "b86313a55ef3c22cc9417ced704e2d193118ac9f5fbdb00d2fe56f03805a5a97",
+      "values_digest": "67877c901dac60c102fd67eaba2dcbed0f2e0cefea23fb55d5e042476584bd92",
       "rendered_digest": "6f5f21aa76f9fc678df2ee836968a9d03c158d75b38b2ebb3e7e814e7f817caa",
       "ast_digest": "f7c824be35a59f9492d712780e0ebbbd7cedf3825bcfd128fa7acf5af05c9fbe"
     },
     "spp": {
-      "values_digest": "59eb1e93469897190b53814721ae6d8d5001d6df5069edaec71feb9968851828",
+      "values_digest": "a7e18a95ec16efd0e5608dd1dff6e690dde6ddcf0960f2d50e82dbd398c26b45",
       "rendered_digest": "de03d8388baeb69fc9c56274aa1ac2ee6267eb4139e62333a82f04d8d37a35d3",
       "ast_digest": "4b92c0dd4ddcd0a6fd39cb4193e8c4e132baa4c365f4d5756937b9c62d984adf"
     },
     "vpp": {
-      "values_digest": "a380ff004ea5b7133c43f3f0f60928142a2cd8ac2414fe70d7d40528c8841f22",
+      "values_digest": "6aac04737b7c0716848f7afa571baa45437e9ae059adfe1f1f76103f688f0019",
       "rendered_digest": "cc6f38ced71df638a585dc800d676dced75d015671976d58b29eb01ef2a63d00",
       "ast_digest": "4bacb67395a623f531a49699bad29e7024ddb7b406f005bc3a1debe0ca0ed646"
     },
     "srp": {
-      "values_digest": "5ccb1e0cf709403b54e7ac226e6585d5e358f46b3a3d3a04eff1d21f53377082",
-      "rendered_digest": "696489631f74fe15364e13dc5ea3a60f6e257116abf3cee0190f2301c04196d6",
-      "ast_digest": "c26b10c321eba241eb2e6c55a8a0c377d7a0e4dea644850d53d965e8483727e5"
+      "values_digest": "9f5de66a88b8bac0e43cb9d4aefa04ed98723fcf2149406423eb8835fc2a4867",
+      "rendered_digest": "9ae7952ae065c5776d7a5ab98f07c6c257664435c116cf88347c5c851ee6f7ff",
+      "ast_digest": "aff92a4f7dd84e34a0c6d6fa0b69eb460c7f0feb8dc69fc316f826a9f57df6af"
     },
     "sor": {
-      "values_digest": "34b6ce56443985ae5c3509290321d6b276f0ae47b40aac3c6515a466b1210a04",
-      "rendered_digest": "f0284a3c90e5606e2b6ce01e6ae770c78cf45fa2ae233343f342505637a6ac95",
-      "ast_digest": "30f5314b11e8c4f37843798afebf7c0f6ee5db22bbb09dbfdd67fd15d604e3d1"
+      "values_digest": "176c3234c19bd64eb147fb5ba79dc3b32064aa7d7c9f87465195c192363bb6e6",
+      "rendered_digest": "a1a35cbc864d94b6d0e40f9bf2faf7fb55b3abe4461d06708ca5c18de2f4dd83",
+      "ast_digest": "7ecec0d9cf4ca3853becc11eb77c0ba58df15e70baf18516d972545b81bb9e0e"
     }
   },
   "transitions": [
@@ -418,6 +418,27 @@
       "actor": "codex:issue-5662-execution",
       "reason": "Fixed at 1f3358afa by explicitly marking intermediate captures superseded and retaining the current final evidence boundary in SOR truth.",
       "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R5662-09\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 46,
+      "generation": 41,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Record R5662-10 from the third bounded pre-publication review.",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R5662-10\",\"severity\":\"p2\",\"summary\":\"The executable Runtime v3 projection validator does not assert the parsed proof state even though the publication packet claims proof projection coverage.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 47,
+      "generation": 42,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Record R5662-11 from the third bounded pre-publication review.",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R5662-11\",\"severity\":\"p3\",\"summary\":\"The proof packet says only two PNGs are retained although the commit also retains baseline and restart captures as superseded intermediates.\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"open\",\"fix_revision\":null,\"route\":null}}"
+    },
+    {
+      "sequence": 48,
+      "generation": 43,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Record fresh direct Unity-MCP and focused repository proof after resolving the third-review findings.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"unity-mcp-cli\",\"run-tool\",\"script-execute\",\"ObservatoryMcpProof.Run\",\"and\",\"bash\",\"adl/tools/test_v0916_unity_observatory_contract.sh\",\"and\",\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove the final parsed Runtime v3 proof-state assertion, superseded-capture publication wording, and focused repository contract after third-review remediation\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/5662/live-unity-proof.md\"}}"
     }
   ]
 }

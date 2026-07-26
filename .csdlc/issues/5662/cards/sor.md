@@ -191,6 +191,24 @@ Polished and directly proved the operator-provisioned Unity flagship Polis Obser
     "purpose": "Post-review proof of exact signed-control capability validation, bearer-header construction, protocol-error degradation, parsed Runtime v3 agent/proof/continuity/CloudWatch UI projection, fixed shell behavior, and repository diff hygiene",
     "outcome": "passed",
     "evidence_ref": ".csdlc/prepared/issues/5662/live-unity-proof.md"
+  },
+  {
+    "command": [
+      "unity-mcp-cli",
+      "run-tool",
+      "script-execute",
+      "ObservatoryMcpProof.Run",
+      "and",
+      "bash",
+      "adl/tools/test_v0916_unity_observatory_contract.sh",
+      "and",
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Prove the final parsed Runtime v3 proof-state assertion, superseded-capture publication wording, and focused repository contract after third-review remediation",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/prepared/issues/5662/live-unity-proof.md"
   }
 ]
 

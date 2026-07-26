@@ -117,6 +117,8 @@ require_contains "${VALIDATOR_PATH}" "Bearer validator-token"
 require_contains "${VALIDATOR_PATH}" "UnityWebRequest.Result.ProtocolError"
 require_contains "${VALIDATOR_PATH}" "checkpoint generation 12"
 require_contains "${VALIDATOR_PATH}" "vector.runtime_v3_cloudwatch_emf"
+require_contains "${VALIDATOR_PATH}" "switch not authorized"
+require_contains "${PROOF_PATH}" "superseded intermediate history"
 
 require_contains "${RESOURCE_META_PATH}" "guid: 40320000000000000000000000003000"
 require_contains "${CONTRACT_META_PATH}" "guid: 40320000000000000000000000003001"

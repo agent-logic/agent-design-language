@@ -124,6 +124,26 @@ demos/v0.91.6/unity-observatory/PROOF_PACKET.md
     "disposition": "fixed",
     "fix_revision": null,
     "route": null
+  },
+  {
+    "id": "R5662-10",
+    "severity": "p2",
+    "summary": "The executable Runtime v3 projection validator does not assert the parsed proof state even though the publication packet claims proof projection coverage.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "R5662-11",
+    "severity": "p3",
+    "summary": "The proof packet says only two PNGs are retained although the commit also retains baseline and restart captures as superseded intermediates.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
   }
 ]
 

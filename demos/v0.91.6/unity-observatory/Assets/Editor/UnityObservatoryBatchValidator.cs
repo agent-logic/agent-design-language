@@ -754,8 +754,14 @@ namespace ADL.Demos.UnityObservatory.Editor
                 );
             }
             selectRuntimeProjection.Invoke(controller, new object[] { "Evidence" });
+            string runtimeV3Proof =
+                root.Q<Label>("inspector-evidence")?.text ?? string.Empty;
             if (
-                !(root.Q<Label>("inspector-room")?.text ?? string.Empty).Contains(
+                !runtimeV3Proof.Contains(
+                    "switch not authorized",
+                    StringComparison.Ordinal
+                )
+                || !(root.Q<Label>("inspector-room")?.text ?? string.Empty).Contains(
                     "checkpoint generation 12",
                     StringComparison.Ordinal
                 )

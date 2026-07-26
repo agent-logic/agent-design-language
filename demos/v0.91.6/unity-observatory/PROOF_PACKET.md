@@ -124,8 +124,9 @@ imported third-party asset roots and generated proof/plugin payloads are not
 repository publication payloads until a later issue records license, storage,
 and subset approval. The retained review surface for that decision is
 `docs/milestones/v0.91.7/review/unity_observatory_4745/4745-asset-mcp-publication-policy.md`.
-Issue `#5662` retains only its two bounded rendered Play Mode frames as
-issue-specific visual evidence; it does not publish an imported asset root,
+Issue `#5662` identifies two bounded rendered Play Mode frames as its current
+publication evidence and retains the baseline and restart captures only as
+superseded intermediate history. It does not publish an imported asset root,
 reusable licensed source asset, generated plugin payload, or redistribution
 bundle.
 
