@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c133384b57de0ae1944c6c2342e7271a812f5ae28385db2b57e011d67aa1ed45",
   "phase": "implemented",
-  "generation": 43,
-  "digest": "4c04ab293770c3c71300aa5d8d62d24c58a455d69f93c11aa8205d1434b80c35",
+  "generation": 45,
+  "digest": "60f7c3166c72d128fa9963f49f5822f305bfa8d681d3d9bbbce2e9face03560e",
   "claim": {
     "id": "claim-5662-v0918-wp15-unity-observatory-polish",
     "owner": "codex:issue-5662-execution",
-    "generation": 43,
+    "generation": 45,
     "acquired_unix_seconds": 1784926413,
     "expires_unix_seconds": 1785531213,
     "heartbeat_unix_seconds": 1784926413,
@@ -50,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1a25d4a6f40044b35ca81a301e2c4c8dcd168b402a8f3ed83777c14dd7af23ee",
+      "values_digest": "5122bb1070be6dbbcdece43ad14f1bf7dfae540f4e78001d27aacee5950fa458",
       "rendered_digest": "c54ed0eeae66b922c99e62a881fe553ab68523a5255118b90f49c4e395f9bd56",
       "ast_digest": "776ceac8d00ecdf4efbd6ac0e0a4d20fd1bdc1a260d250b33da282d2bf4b98ee"
     },
     "stp": {
-      "values_digest": "67877c901dac60c102fd67eaba2dcbed0f2e0cefea23fb55d5e042476584bd92",
+      "values_digest": "3f1fb6521b6cab5c721716d9d9abe89ceac191ce6906a448122aaca8fe22cfc3",
       "rendered_digest": "6f5f21aa76f9fc678df2ee836968a9d03c158d75b38b2ebb3e7e814e7f817caa",
       "ast_digest": "f7c824be35a59f9492d712780e0ebbbd7cedf3825bcfd128fa7acf5af05c9fbe"
     },
     "spp": {
-      "values_digest": "a7e18a95ec16efd0e5608dd1dff6e690dde6ddcf0960f2d50e82dbd398c26b45",
+      "values_digest": "3a5d8ae331d83c05f31503ed57ca985d908421a3f4ab4065db7cad088f58f5f6",
       "rendered_digest": "de03d8388baeb69fc9c56274aa1ac2ee6267eb4139e62333a82f04d8d37a35d3",
       "ast_digest": "4b92c0dd4ddcd0a6fd39cb4193e8c4e132baa4c365f4d5756937b9c62d984adf"
     },
     "vpp": {
-      "values_digest": "6aac04737b7c0716848f7afa571baa45437e9ae059adfe1f1f76103f688f0019",
+      "values_digest": "8b5afa2de1ea96a6b3b78700c444a50ffb408f6b12ac31c62fe722fbaed792b8",
       "rendered_digest": "cc6f38ced71df638a585dc800d676dced75d015671976d58b29eb01ef2a63d00",
       "ast_digest": "4bacb67395a623f531a49699bad29e7024ddb7b406f005bc3a1debe0ca0ed646"
     },
     "srp": {
-      "values_digest": "9f5de66a88b8bac0e43cb9d4aefa04ed98723fcf2149406423eb8835fc2a4867",
-      "rendered_digest": "9ae7952ae065c5776d7a5ab98f07c6c257664435c116cf88347c5c851ee6f7ff",
-      "ast_digest": "aff92a4f7dd84e34a0c6d6fa0b69eb460c7f0feb8dc69fc316f826a9f57df6af"
+      "values_digest": "d8a3e8bc31f72c8c2fd68aadae3f3d04a92b7818da790c64361c1b89def3dc8e",
+      "rendered_digest": "6ee1501d5d6adebe0783a974477bdf11971a1005afe184f43c49437d60f528f5",
+      "ast_digest": "a57a5ead41baedc944172c9096004e7dcac0f9aac594ca121e9c1381812fcbae"
     },
     "sor": {
-      "values_digest": "176c3234c19bd64eb147fb5ba79dc3b32064aa7d7c9f87465195c192363bb6e6",
+      "values_digest": "4f7f6c0124feecf6fccf6e7495f33a78b43472a3800eab4b1d89a7f0713dafd9",
       "rendered_digest": "a1a35cbc864d94b6d0e40f9bf2faf7fb55b3abe4461d06708ca5c18de2f4dd83",
       "ast_digest": "7ecec0d9cf4ca3853becc11eb77c0ba58df15e70baf18516d972545b81bb9e0e"
     }
@@ -439,6 +439,20 @@
       "actor": "codex:issue-5662-execution",
       "reason": "Record fresh direct Unity-MCP and focused repository proof after resolving the third-review findings.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"unity-mcp-cli\",\"run-tool\",\"script-execute\",\"ObservatoryMcpProof.Run\",\"and\",\"bash\",\"adl/tools/test_v0916_unity_observatory_contract.sh\",\"and\",\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove the final parsed Runtime v3 proof-state assertion, superseded-capture publication wording, and focused repository contract after third-review remediation\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/5662/live-unity-proof.md\"}}"
+    },
+    {
+      "sequence": 49,
+      "generation": 44,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Fixed at f466b1cf1 by asserting the visible parsed Runtime v3 proof state in the live in-editor validator.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R5662-10\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 50,
+      "generation": 45,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Fixed at f466b1cf1 by distinguishing the two current publication frames from retained superseded intermediate captures.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R5662-11\",\"disposition\":\"fixed\"}"
     }
   ]
 }
