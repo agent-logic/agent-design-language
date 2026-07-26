@@ -478,6 +478,26 @@ fn bind_rejects_stale_existing_target_record_before_materializing_side_state() {
     );
 }
 
+#[test]
+fn bind_idempotent_reuse_rejects_target_with_different_lifecycle_identity() {
+    let issue = 5658;
+    let (temp, store, claim) = basic_bind_fixture(issue);
+    bind_issue(&store, bind_request(issue, claim.clone())).unwrap();
+    let target = temp.path().join(format!("issue-{issue}"));
+    let target_store = Store::new(&target);
+    let mut target_record = target_store.load_record(issue).unwrap();
+    target_record.repository = "different/repo".into();
+    fs::write(
+        target_store.issue_dir(issue).join("index.json"),
+        serde_json::to_vec_pretty(&target_record).unwrap(),
+    )
+    .unwrap();
+
+    let error = bind_issue(&store, bind_request(issue, claim)).unwrap_err();
+
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+}
+
 const PULL_REQUEST_PATH: &str = "/repos/example/repo/pulls/70";
 
 #[derive(Clone, Debug, PartialEq, Eq)]

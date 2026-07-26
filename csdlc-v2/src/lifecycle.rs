@@ -599,9 +599,19 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
     if !issue_local && !created {
         let target = Store::new(wanted.clone());
         if let Ok(target_record) = target.load_record(request.issue) {
+            let source_record = store.load_record(request.issue)?;
             if target_record.phase == crate::LifecyclePhase::Bound
                 && target_record.claim.as_ref() == Some(&request.claim)
             {
+                if target_record.issue != request.issue
+                    || target_record.repository != source_record.repository
+                    || target_record.initialization_digest != source_record.initialization_digest
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "bound worktree already contains different issue lifecycle state",
+                    ));
+                }
                 let source_prepared = store
                     .root()
                     .join(".csdlc/prepared/issues")
