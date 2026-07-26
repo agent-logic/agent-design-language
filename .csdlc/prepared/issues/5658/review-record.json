@@ -1,0 +1,23 @@
+{
+  "issue": 5658,
+  "expected_generation": 3,
+  "expected_digest": "902d8ff8133c0a1e34fbb791ffb3fefef547dfe404fcc21b5a2d7ae09411135f",
+  "claim_id": "claim-5658-bound-worktree-lifecycle",
+  "actor": "codex:5658-execution",
+  "evidence": {
+    "reviewer": "subagent:019f9ca1-8516-7b91-973a-d8168626031a",
+    "scope": [
+      ".csdlc/issues/5658",
+      ".csdlc/prepared/issues/5658",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ],
+    "reviewed_revision": "git-blake3:eb6d7dde9f5bdf8e916d4458874c79b532767e13:1bdfac49c6fcb748a4b8f74409178de8de7a43c951e228ad319b0e568e81f1a9",
+    "findings": [],
+    "residual_risks": [
+      "Review did not rerun Rust tests; local owner validation recorded 30 passing gate7 lifecycle tests with FastWork target output."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

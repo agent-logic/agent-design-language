@@ -3,13 +3,13 @@
   "issue": 5658,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f0956ae3f1c83909acb21792fa8016035926ce54c66ff3c20504c484a18e4c36",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "902d8ff8133c0a1e34fbb791ffb3fefef547dfe404fcc21b5a2d7ae09411135f",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "7fdcfdc3dde4bdf68305a0c163f58ab0bdb50e07065c6d56507cc2e232e868d0",
   "claim": {
     "id": "claim-5658-bound-worktree-lifecycle",
     "owner": "codex:5658-execution",
-    "generation": 3,
+    "generation": 4,
     "acquired_unix_seconds": 1785037680,
     "expires_unix_seconds": 1785642480,
     "heartbeat_unix_seconds": 1785037680,
@@ -26,7 +26,22 @@
     "purpose": "Keep typed C-SDLC lifecycle writes rooted in the bound issue worktree"
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019f9ca1-8516-7b91-973a-d8168626031a",
+    "scope": [
+      ".csdlc/issues/5658",
+      ".csdlc/prepared/issues/5658",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ],
+    "reviewed_revision": "git-blake3:eb6d7dde9f5bdf8e916d4458874c79b532767e13:1bdfac49c6fcb748a4b8f74409178de8de7a43c951e228ad319b0e568e81f1a9",
+    "findings": [],
+    "residual_risks": [
+      "Review did not rerun Rust tests; local owner validation recorded 30 passing gate7 lifecycle tests with FastWork target output."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -41,32 +56,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ba732773fa42a68821f3a2e7508c7688a592e6b3eabe825048b2fd496d466e8a",
+      "values_digest": "00b0bb143614f0848b0b8e881854528525481ea69225388d3658567611e46f9d",
       "rendered_digest": "551ba08dc73004705b04e86ccaa077c8e4bcfcb1069e144cee65074be9fecace",
       "ast_digest": "bb4f521e7ac0b09e53d10f9b43cc86eed0fff465875c43595db60ac7b70cdf83"
     },
     "stp": {
-      "values_digest": "621da4f823b82d6cd4c10d4664b9c86ddba8782c666895fddebe7f87c30c8c63",
+      "values_digest": "ea96f7c9cbbf96fb9d997baa9fe6f84327e039b61f6a689f97725348197ee596",
       "rendered_digest": "5aaeed13c9bd7ab5302de29deab901a15da4cfa9e10a73d7cedb8e418860f594",
       "ast_digest": "7e3ee6c313328af17261029213091258211585874fa491693c0a0351b553fb6a"
     },
     "spp": {
-      "values_digest": "478bd97b49dab8082002305f6bf8a0f87e369fe1af5fcf4d64a19118b2dc123d",
+      "values_digest": "3d1970186d13c40d12490016a8aaa73532294e0a0c6159940f08961f2192f3ee",
       "rendered_digest": "53a740a9166c06be89e2c686fe0f58e051b66f377bab77c84ee1848b8f6758e8",
       "ast_digest": "52608b7fcd8455e58feb6c765a7519d16520b4b8274528889aa5f086e2213ff6"
     },
     "vpp": {
-      "values_digest": "c684adcfb66a583ac3ebec05601d0c68142e077f8833fb2e1c35ddab44251356",
+      "values_digest": "badd039dfb86b4f351917be156921bb398288bc20908242f80cfc812b213e5d2",
       "rendered_digest": "34dfcb06286b53578b0167aef9662c22f46ec9ad3cf994f6af18e8c50232698c",
       "ast_digest": "3f5b47021b687b2c8c7e5064bc56612f8a06ebd6ee617ccae80a79b5282db099"
     },
     "srp": {
-      "values_digest": "f067930c1092ff361a5af734e84a58747b46c312dfa20ca0d9bd3d39065c4909",
-      "rendered_digest": "2ffb0e26622c9359eb899852d0ae538f9afbd63ef88840c07b50338087329de3",
-      "ast_digest": "7de6239fec7f2ae9b991e0fd22a343c843d0a9ad7ddd4ea7cb46a0a040bbaa05"
+      "values_digest": "ac032ef02969cf1158a14bacee0e209f8b629d9491b7989f1c1eb8cc93add636",
+      "rendered_digest": "efad11c60aaf44b910d35f7b60ef4d2ec7622573caba4e594277662ec9fd6f71",
+      "ast_digest": "e690e8373014b3e86c0e55d6c4eb4220a4142a6193616280e50aadd8a692ec63"
     },
     "sor": {
-      "values_digest": "1f1d4da3a9151987785a0e67afb6b726f7e19d9fcb13654b192c11b416bff41e",
+      "values_digest": "9ce594e3dfc38df79507375f7d56010fc874161a5411146210460adc95f9911b",
       "rendered_digest": "e2e7e2085953e145b229b65401f63debbb85d04314aedeeaeb653211881aedc9",
       "ast_digest": "1247da734cab394de4cf8eeea28e340a13a1cf70c1f1e42c5e96c4ee34008bc0"
     }
@@ -92,6 +107,13 @@
       "to": "implemented",
       "actor": "codex:5658-execution",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5658-execution",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -129,6 +151,13 @@
       "actor": "codex:5658-execution",
       "reason": "Record final focused validation after stale target CAS-ordering repair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate7_lifecycle\"],\"purpose\":\"Verify final bound-worktree lifecycle hardening, including stale registered target record rejection before prepared/evidence side-state materialization.\",\"outcome\":\"passed\",\"evidence_ref\":\"local PASS on aa3dce8c8 with TMPDIR=/Volumes/FastWork/adl-wp-5658/.adl/tmp and CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5658/adl/target; 30 passed\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5658-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

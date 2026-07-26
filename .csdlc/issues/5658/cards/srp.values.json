@@ -7,23 +7,25 @@
     "title": "[v0.91.8][csdlc-v2][tooling] Keep all issue lifecycle writes in the bound worktree",
     "slug": "csdlc-bound-worktree-lifecycle-writes",
     "version": "v0.91.8",
-    "generation": 3
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/lifecycle.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate7_lifecycle.rs",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/5658\n.csdlc/prepared/issues/5658\ncsdlc-v2/src/lifecycle.rs\ncsdlc-v2/tests/gate7_lifecycle.rs",
+      "review_revision": "git-blake3:eb6d7dde9f5bdf8e916d4458874c79b532767e13:1bdfac49c6fcb748a4b8f74409178de8de7a43c951e228ad319b0e568e81f1a9",
+      "reviewer": "subagent:019f9ca1-8516-7b91-973a-d8168626031a",
       "review_prompts": [
         "Can any execution-phase typed command still write issue lifecycle state to primary main after binding?",
         "Does the regression prove absent ignored .csdlc state is materialized into the bound worktree?",
         "Were claim, lock, and exact-revision protections preserved without broad bypasses?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review did not rerun Rust tests; local owner validation recorded 30 passing gate7 lifecycle tests with FastWork target output."
+      ],
+      "review_result": "pass"
     }
   }
 }
