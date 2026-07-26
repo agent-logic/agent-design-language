@@ -1,15 +1,15 @@
 {
   "schema": "csdlc.publication_request.v1",
   "issue": 5658,
-  "expected_generation": 4,
-  "expected_digest": "7fdcfdc3dde4bdf68305a0c163f58ab0bdb50e07065c6d56507cc2e232e868d0",
+  "expected_generation": 10,
+  "expected_digest": "5fca1e6534e5cb85d996f80c7c97fd805dbddb222644b1f437e58c559ff69127",
   "claim_id": "claim-5658-bound-worktree-lifecycle",
   "actor": "codex:5658-execution",
   "repository": "danielbaustin/agent-design-language",
   "base": "main",
   "head": "codex/5658-bound-worktree-lifecycle",
   "title": "[v0.91.8][csdlc-v2][tooling] Keep lifecycle writes in bound worktree",
-  "body": "Closes #5658\n\nKeeps typed C-SDLC v2 bind lifecycle writes rooted in the declared issue worktree instead of advancing primary-main issue state during non-local bind. The bind path now materializes issue records, prepared artifacts, evidence roots, and locks into the registered target Git worktree before committing the bound transition there.\n\nHardening included the pre-PR review findings: unregistered target directories fail closed, symlinked lifecycle state is rejected, created-worktree failures are compensated, evidence is copied with issue state, and stale existing target lifecycle/prepared/evidence state fails closed before side-state mutation.\n\nFocused validation:\n- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle` passed locally on FastWork with 30 tests.\n- `git diff --check origin/main...HEAD` passed.\n\nPre-PR review: bounded subagent review is clean at exact head `eb6d7dde9f5bdf8e916d4458874c79b532767e13`.",
+  "body": "Closes #5658\n\nKeeps typed C-SDLC v2 bind lifecycle writes rooted in the declared issue worktree instead of advancing primary-main issue state during non-local bind. The bind path now materializes issue records, prepared artifacts, evidence roots, and locks into the registered target Git worktree before committing the bound transition there.\n\nHardening included the pre-PR review findings: unregistered target directories fail closed, symlinked lifecycle state is rejected, created-worktree failures are compensated, evidence is copied with issue state, stale existing target lifecycle/prepared/evidence state fails closed before side-state mutation, gate2 standalone expectations use worktree-owned lifecycle state, and idempotent rebind verifies the target issue/repository/initialization_digest tuple before returning success.\n\nFocused validation:\n- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate2 --test gate7_lifecycle` passed locally on FastWork with gate2 47 passed and gate7_lifecycle 33 passed.\n- `git diff --check origin/main...HEAD` passed.\n- `csdlc-doctor --repo . --issue 5658` passed at reviewed generation 10.\n\nPre-PR review: bounded subagent review is clean for the substantive source/test revision `d29836f671df537b6bb3e18ba4dd34f55119350e`; current publication head `a5c122c06c1f0d5e76ce2301f19dac8341eeff33` adds typed review metadata only.",
   "draft": false,
   "remote": "origin",
   "token_file": null
