@@ -41,7 +41,7 @@ demos/v0.91.6/unity-observatory/PROOF_PACKET.md
     "summary": "The Unity adapter supports only unauthenticated loopback HTTP CSM reads and cannot consume the current bearer-authenticated HTTPS Runtime v3 Observatory feed.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   },
@@ -51,7 +51,7 @@ demos/v0.91.6/unity-observatory/PROOF_PACKET.md
     "summary": "The communication surface falsely says no ACIP endpoint exists even though current Runtime v3 exposes authenticated control channels; Unity must report the missing signed proposal mapping instead.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   },
@@ -61,7 +61,7 @@ demos/v0.91.6/unity-observatory/PROOF_PACKET.md
     "summary": "Legacy CSM schema validation accepts any suffix after the version prefix, including invalid schemas such as vgarbage, so aggregate Live classification remains fail open.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   },
@@ -71,7 +71,7 @@ demos/v0.91.6/unity-observatory/PROOF_PACKET.md
     "summary": "Both retained captures expose a large floating foreground wedge and open void because the builder deactivates the foundations and supports it creates, contradicting the grounded composition acceptance criterion.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   },
@@ -81,7 +81,7 @@ demos/v0.91.6/unity-observatory/PROOF_PACKET.md
     "summary": "The fixed dashboard lacks the required clear navigation iconography, bounded internal scroll surfaces, and dynamic active navigation state.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   },
@@ -91,7 +91,7 @@ demos/v0.91.6/unity-observatory/PROOF_PACKET.md
     "summary": "Runtime v3 Live classification does not require the authoritative signed control endpoint to equal /v1/control.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   },
@@ -101,7 +101,7 @@ demos/v0.91.6/unity-observatory/PROOF_PACKET.md
     "summary": "Runtime v3 proof overstates bearer transport and UI projection because it does not execute shared header construction or visibly assert agent, proof, continuity, and CloudWatch-route projections.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   },
@@ -111,7 +111,7 @@ demos/v0.91.6/unity-observatory/PROOF_PACKET.md
     "summary": "Runtime v3 HTTP protocol errors such as 401 and 500 are passed to the classifier as transport failures and become Disconnected instead of Degraded.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   },
@@ -121,7 +121,7 @@ demos/v0.91.6/unity-observatory/PROOF_PACKET.md
     "summary": "Publication truth remains pre-review with open findings and historical intermediate capture references not explicitly identified as superseded.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   }

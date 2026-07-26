@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c133384b57de0ae1944c6c2342e7271a812f5ae28385db2b57e011d67aa1ed45",
   "phase": "implemented",
-  "generation": 31,
-  "digest": "546b5f014aa54778276843a904cea5817ccdb78083e7b05fd370cd23226727d2",
+  "generation": 40,
+  "digest": "2a84dd5ba9bd605c153008b80d0552f5edaa229bbc1c70a618661b64741056cb",
   "claim": {
     "id": "claim-5662-v0918-wp15-unity-observatory-polish",
     "owner": "codex:issue-5662-execution",
-    "generation": 31,
+    "generation": 40,
     "acquired_unix_seconds": 1784926413,
     "expires_unix_seconds": 1785531213,
     "heartbeat_unix_seconds": 1784926413,
@@ -50,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4000f333b521e510e2d66edcf42d0f6a44f3d7eee9d78d33ad141731a7ee8079",
+      "values_digest": "16e0ca99a7355dc390c4d41ef17c43fc1ab2527067b2cd972503c95b9d175435",
       "rendered_digest": "c54ed0eeae66b922c99e62a881fe553ab68523a5255118b90f49c4e395f9bd56",
       "ast_digest": "776ceac8d00ecdf4efbd6ac0e0a4d20fd1bdc1a260d250b33da282d2bf4b98ee"
     },
     "stp": {
-      "values_digest": "fddb5776d1849cebfb942346dd7109c81812f258e08206582cb5114194449704",
+      "values_digest": "b86313a55ef3c22cc9417ced704e2d193118ac9f5fbdb00d2fe56f03805a5a97",
       "rendered_digest": "6f5f21aa76f9fc678df2ee836968a9d03c158d75b38b2ebb3e7e814e7f817caa",
       "ast_digest": "f7c824be35a59f9492d712780e0ebbbd7cedf3825bcfd128fa7acf5af05c9fbe"
     },
     "spp": {
-      "values_digest": "68a27a9e79b8b3316e2955ea8e7416dc4b05fb212c783179982797e6f89965e6",
+      "values_digest": "59eb1e93469897190b53814721ae6d8d5001d6df5069edaec71feb9968851828",
       "rendered_digest": "de03d8388baeb69fc9c56274aa1ac2ee6267eb4139e62333a82f04d8d37a35d3",
       "ast_digest": "4b92c0dd4ddcd0a6fd39cb4193e8c4e132baa4c365f4d5756937b9c62d984adf"
     },
     "vpp": {
-      "values_digest": "0a75d13a3570bc42774d12bb039d0e82a0586c8a9ad7416651dbbb445c2b0f7f",
+      "values_digest": "a380ff004ea5b7133c43f3f0f60928142a2cd8ac2414fe70d7d40528c8841f22",
       "rendered_digest": "cc6f38ced71df638a585dc800d676dced75d015671976d58b29eb01ef2a63d00",
       "ast_digest": "4bacb67395a623f531a49699bad29e7024ddb7b406f005bc3a1debe0ca0ed646"
     },
     "srp": {
-      "values_digest": "dc2205f71e3b6e0f345f56579a06e58fa6ccd4bf5ab8753414f4167e68ed8bf9",
-      "rendered_digest": "bd4e040f06cbc6121c77c071a1c8c4f7b68c868a8585027f1cc64c9e4935902b",
-      "ast_digest": "65a5ce54ce9feac10ca66014b793be7d5a5005026d4eaf45ca93d40a22a577b3"
+      "values_digest": "5ccb1e0cf709403b54e7ac226e6585d5e358f46b3a3d3a04eff1d21f53377082",
+      "rendered_digest": "696489631f74fe15364e13dc5ea3a60f6e257116abf3cee0190f2301c04196d6",
+      "ast_digest": "c26b10c321eba241eb2e6c55a8a0c377d7a0e4dea644850d53d965e8483727e5"
     },
     "sor": {
-      "values_digest": "297e2d1fa52fa9e40bd6f17bb7e3f70b3a4767dcccfd46d46ee9aeaaf5f01f97",
+      "values_digest": "34b6ce56443985ae5c3509290321d6b276f0ae47b40aac3c6515a466b1210a04",
       "rendered_digest": "f0284a3c90e5606e2b6ce01e6ae770c78cf45fa2ae233343f342505637a6ac95",
       "ast_digest": "30f5314b11e8c4f37843798afebf7c0f6ee5db22bbb09dbfdd67fd15d604e3d1"
     }
@@ -355,6 +355,69 @@
       "actor": "codex:issue-5662-execution",
       "reason": "Make historical evidence and the final executable Runtime v3 proof boundary explicit before the exact implementation commit.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Polished and directly proved the operator-provisioned Unity flagship Polis Observatory as a coherent, grounded, fixed command-room presentation. The current publication evidence is final-playmode-1920x1080.png and final-playmode-2560x1440.png; earlier baseline and restart captures remain immutable intermediate evidence and are explicitly superseded. Runtime v3 support is proved as HTTPS endpoint policy, bearer-header construction, exact feed and signed-control classification, parsed UI projection, and fail-closed communication behavior, not as a live listener exchange.\",\"changes\":[\"Marked baseline-1920x1080.png and final-playmode-1920x1080-restart.png as historical intermediate evidence superseded by the two current final-playmode captures.\",\"Completed the second-review remediation for exact /v1/control truth, bearer-header construction, HTTP protocol degradation, and visible Runtime v3 agent, proof, continuity, and CloudWatch-route projection.\"],\"artifacts\":[]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 32,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Fixed at 1f3358afa by adding current HTTPS bearer Runtime v3 Observatory feed support.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R5662-01\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 38,
+      "generation": 33,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Fixed at 1f3358afa by reporting the missing governed signed Unity proposal mapping instead of denying Runtime v3 control.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R5662-02\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 39,
+      "generation": 34,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Fixed at 1f3358afa by requiring exact legacy CSM schema equality and rejecting suffix variants.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R5662-03\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 40,
+      "generation": 35,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Fixed at 1f3358afa by activating and validating the foundation, fascia, supports, platform, stairs, shadow, and bounded causeway.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R5662-04\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 41,
+      "generation": 36,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Fixed at 1f3358afa by adding clear navigation glyphs, dynamic active state, and bounded event and inspector ScrollViews.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R5662-05\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 42,
+      "generation": 37,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Fixed at 1f3358afa by requiring signed_command_endpoint to equal /v1/control and testing hostile endpoint degradation.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R5662-06\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 43,
+      "generation": 38,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Fixed at 1f3358afa by sharing bearer-header construction with the real probe, visibly projecting Runtime v3 agent, proof, continuity, and CloudWatch-route fields, and narrowing listener claims.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R5662-07\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 39,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Fixed at 1f3358afa by classifying HTTP ProtocolError responses as Degraded while retaining connection and data-processing failures as Disconnected.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R5662-08\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 45,
+      "generation": 40,
+      "actor": "codex:issue-5662-execution",
+      "reason": "Fixed at 1f3358afa by explicitly marking intermediate captures superseded and retaining the current final evidence boundary in SOR truth.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R5662-09\",\"disposition\":\"fixed\"}"
     }
   ]
 }
