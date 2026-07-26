@@ -98,11 +98,11 @@ Implemented hosted full coverage with four workspace profraw shard producers and
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
