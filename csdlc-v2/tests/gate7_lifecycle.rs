@@ -452,6 +452,32 @@ fn bind_rejects_stale_existing_target_side_state_without_mutating_it() {
     );
 }
 
+#[test]
+fn bind_rejects_stale_existing_target_record_before_materializing_side_state() {
+    let issue = 5658;
+    let (temp, store, claim) = basic_bind_fixture(issue);
+    bind_issue(&store, bind_request(issue, claim.clone())).unwrap();
+    let target = temp.path().join(format!("issue-{issue}"));
+    let target_prepared = target.join(format!(".csdlc/prepared/issues/{issue}"));
+    let target_evidence = target.join(format!(".csdlc/evidence/{issue}"));
+    if target_prepared.exists() {
+        fs::remove_dir_all(&target_prepared).unwrap();
+    }
+    if target_evidence.exists() {
+        fs::remove_dir_all(&target_evidence).unwrap();
+    }
+
+    let error = bind_issue(&store, bind_request(issue, claim)).unwrap_err();
+
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    assert!(!target_prepared.exists());
+    assert!(!target_evidence.exists());
+    assert_eq!(
+        Store::new(&target).load_record(issue).unwrap().phase,
+        LifecyclePhase::Bound
+    );
+}
+
 const PULL_REQUEST_PATH: &str = "/repos/example/repo/pulls/70";
 
 #[derive(Clone, Debug, PartialEq, Eq)]

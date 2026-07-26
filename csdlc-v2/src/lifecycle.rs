@@ -271,6 +271,11 @@ fn materialize_bound_issue_state(source: &Store, target_root: &Path, issue: u64)
                 "bound worktree already contains different issue lifecycle state",
             ));
         }
+        require_matching_tree(
+            &source.issue_dir(issue),
+            &target_issue_dir,
+            "bound worktree already contains stale issue lifecycle state",
+        )?;
     } else {
         copy_dir_recursive(&source.issue_dir(issue), &target_issue_dir)?;
     }

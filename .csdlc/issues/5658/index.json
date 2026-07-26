@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f0956ae3f1c83909acb21792fa8016035926ce54c66ff3c20504c484a18e4c36",
   "phase": "implemented",
-  "generation": 1,
-  "digest": "69e5d5efd9198d737cdbfa00462e71ba2a9f2dc61d2de8a915e54341591de38f",
+  "generation": 2,
+  "digest": "3b4c2ced4ef2d495975b0229160b7982a3c0e74d4c1f31797c43d40a786bf0e4",
   "claim": {
     "id": "claim-5658-bound-worktree-lifecycle",
     "owner": "codex:5658-execution",
-    "generation": 1,
+    "generation": 2,
     "acquired_unix_seconds": 1785037680,
     "expires_unix_seconds": 1785642480,
     "heartbeat_unix_seconds": 1785037680,
@@ -41,34 +41,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b53353f8c063ca3f214785ba30041a96aecfab4fbf12abd374c8681ed68f53c2",
+      "values_digest": "61317fce0afac6fc9ca51771277f405bb26008ed63e25f2e137559d035eb3059",
       "rendered_digest": "551ba08dc73004705b04e86ccaa077c8e4bcfcb1069e144cee65074be9fecace",
       "ast_digest": "bb4f521e7ac0b09e53d10f9b43cc86eed0fff465875c43595db60ac7b70cdf83"
     },
     "stp": {
-      "values_digest": "bd779bb3c8f4274f7a77cf27fc2a457e166864f98acfdc2ac96aee119983fe24",
+      "values_digest": "06e0874e4b46b669430f4ed4ce9770b06fc510d89c60e67b8f16d1822183b807",
       "rendered_digest": "5aaeed13c9bd7ab5302de29deab901a15da4cfa9e10a73d7cedb8e418860f594",
       "ast_digest": "7e3ee6c313328af17261029213091258211585874fa491693c0a0351b553fb6a"
     },
     "spp": {
-      "values_digest": "2be8df0f87eab526f41d4c5820785af25c130744aaecba3c51ad283593180600",
+      "values_digest": "938732787a3f7f1b95e4f845a34c58aebee8e2f0431dbe92e03ae1947aa344c4",
       "rendered_digest": "53a740a9166c06be89e2c686fe0f58e051b66f377bab77c84ee1848b8f6758e8",
       "ast_digest": "52608b7fcd8455e58feb6c765a7519d16520b4b8274528889aa5f086e2213ff6"
     },
     "vpp": {
-      "values_digest": "edfda2cab54a9e532be2df2db502756dac813a086dbf26b9365f86f917b7dc80",
+      "values_digest": "a584466a3e71074fc94464bf0330cb49fc5796c9fa6031af6178281bf8b112d0",
       "rendered_digest": "34dfcb06286b53578b0167aef9662c22f46ec9ad3cf994f6af18e8c50232698c",
       "ast_digest": "3f5b47021b687b2c8c7e5064bc56612f8a06ebd6ee617ccae80a79b5282db099"
     },
     "srp": {
-      "values_digest": "264d46bba295eaec9e3d06e4d89b48e543059533532fc4e0103b0af561d27b9e",
+      "values_digest": "0b853f12d2fcbfea2749cb3d24488b8014b0ae547a0ef6894fd6009d4c1760f0",
       "rendered_digest": "2ffb0e26622c9359eb899852d0ae538f9afbd63ef88840c07b50338087329de3",
       "ast_digest": "7de6239fec7f2ae9b991e0fd22a343c843d0a9ad7ddd4ea7cb46a0a040bbaa05"
     },
     "sor": {
-      "values_digest": "f4a86e597aa4c3f46ad256ba2b05de7a2981b8c171722b9ff7ef52f265ed1baf",
-      "rendered_digest": "3223dd7a70ee89da6efb4fe8fc325fae1784fc7383072581ce4c11a392f96fe8",
-      "ast_digest": "446d65b82b0b6e7ff09cbf0dace30d440511a53750eee6fe5c991bc1c0d13190"
+      "values_digest": "efba7d04b026d80da1ad1fe5c277508e45b598ab7e20b36240d182763bec955e",
+      "rendered_digest": "0cf3c5023457767a58c7b538d01307cfe5df685c7c31c7eb90f0f016474181ed",
+      "ast_digest": "c1a8b2b0f8b8519e39da8c344e3f8132ab2fbe55d1b7ef576e6374115b6ca779"
     }
   },
   "transitions": [
@@ -115,6 +115,13 @@
       "actor": "codex:5658-execution",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:5658-execution",
+      "reason": "Record focused validation after pre-PR review hardening fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate7_lifecycle\"],\"purpose\":\"Verify bound-worktree lifecycle materialization, unregistered target rejection, evidence transfer, symlink fail-closed cleanup, and stale target side-state rejection after pre-PR review fixes.\",\"outcome\":\"passed\",\"evidence_ref\":\"local PASS on 9481fa2e0 with TMPDIR=/Volumes/FastWork/adl-wp-5658/.adl/tmp and CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5658/adl/target; 29 passed\"}}"
     }
   ]
 }

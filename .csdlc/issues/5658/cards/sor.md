@@ -50,6 +50,19 @@ Implemented bound-worktree lifecycle materialization for typed C-SDLC v2 bind an
     "purpose": "Verify changed files have no whitespace or patch hygiene errors.",
     "outcome": "passed",
     "evidence_ref": "diff-hygiene.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate7_lifecycle"
+    ],
+    "purpose": "Verify bound-worktree lifecycle materialization, unregistered target rejection, evidence transfer, symlink fail-closed cleanup, and stale target side-state rejection after pre-PR review fixes.",
+    "outcome": "passed",
+    "evidence_ref": "local PASS on 9481fa2e0 with TMPDIR=/Volumes/FastWork/adl-wp-5658/.adl/tmp and CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5658/adl/target; 29 passed"
   }
 ]
 
