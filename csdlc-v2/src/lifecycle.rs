@@ -146,15 +146,48 @@ fn terminally_released(store: &Store, local: &crate::IssueRecord) -> Result<bool
 }
 
 fn copy_dir_recursive(source: &Path, destination: &Path) -> Result<()> {
-    if !source.exists() {
+    let Ok(source_metadata) = fs::symlink_metadata(source) else {
         return Ok(());
+    };
+    if source_metadata.file_type().is_symlink() {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "bound lifecycle materialization refuses symlinked source state",
+        ));
+    }
+    if !source_metadata.is_dir() {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "bound lifecycle materialization source must be a directory",
+        ));
+    }
+    if fs::symlink_metadata(destination).is_ok_and(|metadata| metadata.file_type().is_symlink()) {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "bound lifecycle materialization refuses symlinked target state",
+        ));
     }
     fs::create_dir_all(destination)?;
     for entry in fs::read_dir(source)? {
         let entry = entry?;
         let source_path = entry.path();
         let destination_path = destination.join(entry.file_name());
-        if source_path.is_dir() {
+        let metadata = fs::symlink_metadata(&source_path)?;
+        if metadata.file_type().is_symlink() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "bound lifecycle materialization refuses symlinked source entries",
+            ));
+        }
+        if fs::symlink_metadata(&destination_path)
+            .is_ok_and(|target| target.file_type().is_symlink())
+        {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "bound lifecycle materialization refuses symlinked target entries",
+            ));
+        }
+        if metadata.is_dir() {
             copy_dir_recursive(&source_path, &destination_path)?;
         } else {
             if let Some(parent) = destination_path.parent() {
@@ -198,12 +231,16 @@ fn materialize_bound_issue_state(source: &Store, target_root: &Path, issue: u64)
         .join(".csdlc/prepared/issues")
         .join(issue.to_string());
     copy_dir_recursive(&source_prepared, &target_prepared)?;
-    fs::create_dir_all(
-        target
-            .root()
-            .join(".csdlc/evidence")
-            .join(issue.to_string()),
-    )?;
+    let source_evidence = source
+        .root()
+        .join(".csdlc/evidence")
+        .join(issue.to_string());
+    let target_evidence = target
+        .root()
+        .join(".csdlc/evidence")
+        .join(issue.to_string());
+    copy_dir_recursive(&source_evidence, &target_evidence)?;
+    fs::create_dir_all(&target_evidence)?;
     fs::create_dir_all(target.root().join(".csdlc/locks"))?;
     Ok(target)
 }
@@ -421,13 +458,19 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
     };
     let wanted_text = wanted_compare.to_string_lossy();
     let listed = git::worktrees(store.root())?;
-    if let Some((branch, _)) = listed.iter().find(|(_, path)| path == &wanted_text) {
+    let listed_for_wanted = listed.iter().find(|(_, path)| path == &wanted_text);
+    if let Some((branch, _)) = listed_for_wanted {
         if branch != &request.branch {
             return Err(V2Error::new(
                 ErrorCode::ClaimCollision,
                 "worktree is bound to a different branch",
             ));
         }
+    } else if !issue_local && wanted.exists() {
+        return Err(V2Error::new(
+            ErrorCode::ClaimCollision,
+            "requested worktree path exists but is not a registered Git worktree",
+        ));
     }
     if let Some((_, path)) = listed.iter().find(|(branch, _)| branch == &request.branch) {
         if path != &wanted_text {
@@ -523,12 +566,15 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             operation: "bind".into(),
         });
         record.digest = crate::store::record_digest(&record)?;
-        let commit_store = if issue_local {
-            Store::new(store.root().to_path_buf())
-        } else {
-            materialize_bound_issue_state(store, &wanted, request.issue)?
-        };
-        if let Err(error) = commit_store.replace_record(request.issue, &expected_digest, &record) {
+        let commit_result = (|| {
+            let commit_store = if issue_local {
+                Store::new(store.root().to_path_buf())
+            } else {
+                materialize_bound_issue_state(store, &wanted, request.issue)?
+            };
+            commit_store.replace_record(request.issue, &expected_digest, &record)
+        })();
+        if let Err(error) = commit_result {
             if created {
                 let remove = git::run(
                     store.root(),
