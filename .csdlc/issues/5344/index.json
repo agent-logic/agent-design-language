@@ -5,7 +5,7 @@
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
   "phase": "implemented",
   "generation": 4,
-  "digest": "4aa34d2e1df8bc9746b1979cfef0f72ac8088dd05aeafc5b3634230120710c4e",
+  "digest": "77e3d56d6dd46d7b04fd7a4a776a856687d8c6f3390d77a5727ca097cd34fc8c",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-preparation",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -37,6 +37,7 @@
       "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
       "adl-runtime/src/guardian.rs",
       "adl-runtime/tests/guardian_cli.rs",
+      "adl-v2/Cargo.lock",
       "adl-v2/tools/prove-rollback.sh",
       "adl-v2/tools/run-soak.sh",
       "docs/milestones/v0.91.8/evidence/wp12"
@@ -224,6 +225,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Add the cross-platform Rust-only 10000-cycle Guardian-owned Runtime v3 lifecycle proof required for WP-12 acceptance",
       "operation": "{\"add_protected_paths\":[\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Reconcile the stale adl-v2 lockfile exposed by the unchanged WP-12 locked rollback proof after integrating current main",
+      "operation": "{\"add_protected_paths\":[\"adl-v2/Cargo.lock\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
