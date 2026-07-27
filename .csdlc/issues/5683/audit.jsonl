@@ -17,3 +17,4 @@
 {"sequence":17,"generation":12,"actor":"Hooke","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":18,"generation":13,"actor":"codex:issue-5683-unity-remediation","reason":"Hooke completed exact-head review after current-main integration with no actionable findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":19,"generation":14,"actor":"codex:issue-5683-unity-remediation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":20,"generation":15,"actor":"codex:issue-5683-unity-remediation","reason":"The ready PR became behind after #5688 merged; recover for one current-main exact-head review and same-PR republication.","operation":"recover_review"}
