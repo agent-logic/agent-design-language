@@ -29,6 +29,14 @@ use tracing_subscriber::{
     Registry,
 };
 
+#[cfg(windows)]
+use std::os::windows::process::CommandExt;
+#[cfg(windows)]
+use windows_sys::Win32::System::{
+    Console::{GenerateConsoleCtrlEvent, CTRL_BREAK_EVENT},
+    Threading::CREATE_NEW_PROCESS_GROUP,
+};
+
 pub const VECTOR_COMPONENT_VERSION: &str = "0.56.0";
 pub const VECTOR_COMPONENT_BINARY_REF: &str = ".adl/bin/vector";
 #[cfg(windows)]
@@ -184,7 +192,8 @@ impl RuntimeVectorPipeline {
             .map_err(|_| "runtime_vector_log_unavailable")?;
         let stderr = append_file(&root.join("logs/vector.stderr.log"))
             .map_err(|_| "runtime_vector_log_unavailable")?;
-        let mut child = Command::new(&config.vector_binary)
+        let mut command = Command::new(&config.vector_binary);
+        command
             .arg("--config-json")
             .arg(&config_path)
             .arg("--require-healthy")
@@ -195,7 +204,10 @@ impl RuntimeVectorPipeline {
             .arg(config.drain_timeout.as_secs().max(1).to_string())
             .stdin(Stdio::null())
             .stdout(Stdio::from(stdout))
-            .stderr(Stdio::from(stderr))
+            .stderr(Stdio::from(stderr));
+        #[cfg(windows)]
+        command.creation_flags(CREATE_NEW_PROCESS_GROUP);
+        let mut child = command
             .spawn()
             .map_err(|_| "vector_binary_missing_or_not_executable")?;
         let child_pid = child.id();
@@ -313,14 +325,15 @@ impl RuntimeVectorPipeline {
             let _ = ingress.flush();
             let _ = ingress.sync_data();
         }
-        self.drain_complete = self.wait_for_master_sequence(drain_sequence);
+        let vector_stopped_cleanly = self.terminate_vector();
+        self.drain_complete =
+            vector_stopped_cleanly && self.wait_for_master_sequence(drain_sequence);
         if !self.drain_complete {
             self.last_failure = Some("master_log_drain_incomplete".to_owned());
         }
         let _ = self
             .audit_master_log(&current_platform(), &self.config.lifecycle_suite)
             .and_then(|report| write_json_atomic(&self.audit_path, &report));
-        self.terminate_vector();
     }
 
     fn wait_for_master_sequence(&self, sequence: u64) -> bool {
@@ -334,28 +347,32 @@ impl RuntimeVectorPipeline {
         false
     }
 
-    fn terminate_vector(&mut self) {
+    fn terminate_vector(&mut self) -> bool {
         let Some(mut child) = self.child.take() else {
-            return;
+            return false;
         };
         #[cfg(unix)]
-        unsafe {
-            let _ = libc::kill(child.id() as i32, libc::SIGTERM);
-        }
-        #[cfg(not(unix))]
-        {
+        let signaled = unsafe { libc::kill(child.id() as i32, libc::SIGTERM) == 0 };
+        #[cfg(windows)]
+        let signaled = unsafe { GenerateConsoleCtrlEvent(CTRL_BREAK_EVENT, child.id()) != 0 };
+        #[cfg(not(any(unix, windows)))]
+        let signaled = false;
+        if !signaled {
             let _ = child.kill();
+            let _ = child.wait();
+            return false;
         }
         let deadline = Instant::now() + self.config.drain_timeout;
         while Instant::now() < deadline {
             match child.try_wait() {
-                Ok(Some(_)) => return,
+                Ok(Some(status)) => return status.success(),
                 Ok(None) => sleep(Duration::from_millis(50)),
                 Err(_) => break,
             }
         }
         let _ = child.kill();
         let _ = child.wait();
+        false
     }
 
     #[cfg(test)]

@@ -16,6 +16,12 @@ use tokio::task::JoinHandle;
 use tokio::time::{sleep, timeout};
 use tokio_util::sync::CancellationToken;
 
+#[cfg(windows)]
+use windows_sys::Win32::System::{
+    Console::{GenerateConsoleCtrlEvent, CTRL_BREAK_EVENT},
+    Threading::CREATE_NEW_PROCESS_GROUP,
+};
+
 pub const GUARDIAN_SCHEMA: &str = "adl.runtime_v3.external_guardian.v2";
 pub const MAX_CAPTURE_BYTES: u64 = 64 * 1024;
 const CAPTURE_DRAIN_GRACE: Duration = Duration::from_millis(500);
@@ -323,6 +329,8 @@ fn spawn_child(config: &GuardianConfig) -> std::io::Result<Child> {
         .kill_on_drop(true);
     #[cfg(unix)]
     command.process_group(0);
+    #[cfg(windows)]
+    command.creation_flags(CREATE_NEW_PROCESS_GROUP);
     command.spawn()
 }
 
@@ -464,7 +472,17 @@ fn terminate_child_tree(child: &mut Child) -> Option<i32> {
     Some(signal)
 }
 
-#[cfg(not(unix))]
+#[cfg(windows)]
+fn terminate_child_tree(child: &mut Child) -> Option<i32> {
+    let pid = child.id()?;
+    if unsafe { GenerateConsoleCtrlEvent(CTRL_BREAK_EVENT, pid) } == 0 {
+        let _ = child.start_kill();
+        return None;
+    }
+    i32::try_from(CTRL_BREAK_EVENT).ok()
+}
+
+#[cfg(not(any(unix, windows)))]
 fn terminate_child_tree(child: &mut Child) -> Option<i32> {
     let _ = child.start_kill();
     None
