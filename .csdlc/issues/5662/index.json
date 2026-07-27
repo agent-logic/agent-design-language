@@ -3,37 +3,10 @@
   "issue": 5662,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c133384b57de0ae1944c6c2342e7271a812f5ae28385db2b57e011d67aa1ed45",
-  "phase": "published",
-  "generation": 50,
-  "digest": "408be2ecac8e610a2237b48a5b7a5ef00d0dfc01cab869742e124b0da358a70b",
-  "claim": {
-    "id": "claim-5662-v0918-wp15-unity-observatory-polish",
-    "owner": "codex:issue-5662-execution",
-    "generation": 50,
-    "acquired_unix_seconds": 1784926413,
-    "expires_unix_seconds": 1785531213,
-    "heartbeat_unix_seconds": 1784926413,
-    "branch": "codex/5662-v0918-unity-observatory-polish",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/issues/5662",
-      ".csdlc/locks/5662.lock",
-      ".csdlc/prepared/issues/5662",
-      "adl/tools/test_v0916_unity_observatory_contract.sh",
-      "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs",
-      "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
-      "demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss",
-      "demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json",
-      "demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity",
-      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs",
-      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs",
-      "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss",
-      "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml",
-      "demos/v0.91.6/unity-observatory/PROOF_PACKET.md",
-      "demos/v0.91.6/unity-observatory/Packages/manifest.json"
-    ],
-    "purpose": "Execute #5662 as the bounded WP-15 visual and runtime presentation polish lane for the flagship Unity Observatory"
-  },
+  "phase": "closed_out",
+  "generation": 56,
+  "digest": "ab684ecdb4646868e091d849592deb51884322b8cca88c4a2209ec71effa10ea",
+  "claim": null,
   "review_assignment": null,
   "review": {
     "reviewer": "subagent:lagrange:019fa08a-85f5-75c1-a411-db74c1d1e031",
@@ -178,15 +151,146 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5677",
     "base": "main",
     "head": "codex/5662-v0918-unity-observatory-polish",
-    "revision": "git-blake3:5a03673467efe91989f791d1ed43d8ebcff2457c:aec1c948fe87122a4a2544d63f4a6d80c80e8dcdb4bc9e8fa4efe58096416ce7",
+    "revision": "git-blake3:ac3278e8b0a7e98783ca6d6e1333358e84f3c01a:b888bcdeafdef7f93680e59591a2d42417bf7accebefc35cbe2ccf5ad7cb2420",
     "draft": false,
-    "observed_state": "open"
+    "observed_state": "merged"
   },
-  "readiness": null,
-  "terminal": null,
+  "readiness": {
+    "pull_request": 5677,
+    "head_sha": "ac3278e8b0a7e98783ca6d6e1333358e84f3c01a",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89858163362"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857101583"
+      },
+      {
+        "name": "adl-coverage-hosted",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857085945"
+      },
+      {
+        "name": "adl-coverage-runtime-hosted",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857086230"
+      },
+      {
+        "name": "adl-coverage-workspace-fast-hosted",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857086159"
+      },
+      {
+        "name": "adl-coverage-workspace-hosted (${{ matrix.shard }}/4)",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857086262"
+      },
+      {
+        "name": "adl-demo-proof",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857085763"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857067809"
+      },
+      {
+        "name": "adl-runtime-v3-fast",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857086109"
+      },
+      {
+        "name": "adl-rust-fmt-clippy",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857085960"
+      },
+      {
+        "name": "adl-rust-tests",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857086004"
+      },
+      {
+        "name": "adl-slow-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857086013"
+      },
+      {
+        "name": "adl-spot-ci-and-coverage",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857085954"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857085755"
+      },
+      {
+        "name": "adl-v2-standalone",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857085924"
+      },
+      {
+        "name": "csdlc-v2-standalone",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226338433/job/89857086084"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5677,
+    "disposition": "merged",
+    "observed_sha": "ac3278e8b0a7e98783ca6d6e1333358e84f3c01a",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5662.json",
+    "released_branch": "codex/5662-v0918-unity-observatory-polish",
+    "released_worktree": ".",
+    "released_protected_paths": [
+      ".csdlc/issues/5662",
+      ".csdlc/locks/5662.lock",
+      ".csdlc/prepared/issues/5662",
+      "adl/tools/test_v0916_unity_observatory_contract.sh",
+      "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss",
+      "demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json",
+      "demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity",
+      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs",
+      "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss",
+      "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml",
+      "demos/v0.91.6/unity-observatory/PROOF_PACKET.md",
+      "demos/v0.91.6/unity-observatory/Packages/manifest.json"
+    ]
+  },
   "migration": null,
-  "design_path": ".csdlc/prepared/issues/5662/design.md",
-  "diagram_path": ".csdlc/prepared/issues/5662/diagram.mmd",
+  "design_path": ".csdlc/issues/5662/retained/design.md",
+  "diagram_path": ".csdlc/issues/5662/retained/diagram.mmd",
   "design_review": {
     "approved": {
       "reviewer": "operator:issue-5662-live-session",
@@ -195,34 +299,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "101b96c12d0cc2a1b296d9c80d77ba45dc3dda6814499bf539f75d5fa4494e6c",
+      "values_digest": "f9b496c231640966fe5f92eabf7d0a46e47eb02e92c734f7b651de87b0f455e1",
       "rendered_digest": "c54ed0eeae66b922c99e62a881fe553ab68523a5255118b90f49c4e395f9bd56",
       "ast_digest": "776ceac8d00ecdf4efbd6ac0e0a4d20fd1bdc1a260d250b33da282d2bf4b98ee"
     },
     "stp": {
-      "values_digest": "33748cac4e55b993f0163a3d8b5ec0898dfafbb6c210c14bcebda3d589a24e6b",
+      "values_digest": "22d5f16d6e63b048bc106f4e2b6c0cdde87ee801ddf9f933f18a6c110a615ab4",
       "rendered_digest": "6f5f21aa76f9fc678df2ee836968a9d03c158d75b38b2ebb3e7e814e7f817caa",
       "ast_digest": "f7c824be35a59f9492d712780e0ebbbd7cedf3825bcfd128fa7acf5af05c9fbe"
     },
     "spp": {
-      "values_digest": "152b6c3c1e9f57b2ff35589d803935d0f089f4421559fe38c9cafd1a1919cd35",
-      "rendered_digest": "527937b7eed6e6d86f7ace168964fa5f3e5ba6e8484426c669148b73bff1b00f",
-      "ast_digest": "ea77a2d73d1996710dd648308d2bb19cf13774ba8e307adf7e3b9419e6e7dd0e"
+      "values_digest": "9fedd0d4e4bbce31a46e1d664ba88c9536cea5cca23b9077e9e0915d8f442233",
+      "rendered_digest": "aff9a46e8e08494a89365f109962f4ee89315431a49115b71cfae08961208ae2",
+      "ast_digest": "6738722d8d407b3bffdb93437961b9c6bb573b655ccaf1da1bc86963c7a0ede8"
     },
     "vpp": {
-      "values_digest": "6d15c661b53718ba4ed8259bc838a507927eb40f87fcdae7e4f0692f348688b2",
-      "rendered_digest": "cc6f38ced71df638a585dc800d676dced75d015671976d58b29eb01ef2a63d00",
-      "ast_digest": "4bacb67395a623f531a49699bad29e7024ddb7b406f005bc3a1debe0ca0ed646"
+      "values_digest": "1d1b64b23a1c2ffe0d3ad20f413e16d130c281dca28eb69a9bc98b4506907780",
+      "rendered_digest": "d51435beb2b8d769391a5b6b2a94eb7f2c41f0fbbfe0e751ca97c1e3cbdebf76",
+      "ast_digest": "1df24258dc494cf1c49073932272ef434f2dbcef85764f84dc522edf2d942230"
     },
     "srp": {
-      "values_digest": "64470823a08f4bd814e457064077de65d91c14201b5329fee7e087b779128f05",
-      "rendered_digest": "b257a9d2d261469830ff1a7f29421df130352d76ff3235e2b91e3cde8ea41eea",
-      "ast_digest": "543d0abdfc88e13cd65c467bc1260c6b194e0d8c1d6d3f0c6a478b7d0026e13f"
+      "values_digest": "c4a17369a52c4610538850ec7acd815eb70c9091a7ee0d3586ac12b7aed55eec",
+      "rendered_digest": "768beffddeaee79bd8254d7a404fd22df9215fc702c2ae2c152a1cf124d47934",
+      "ast_digest": "aa885e27049dd48816c121f0a950c4c580687e0bce1d2a4669bee4de2d09662c"
     },
     "sor": {
-      "values_digest": "44ce4f8e31b184d0baad31c94aaebe88b8325794459a7ec107bc1c5b1d7f6c01",
-      "rendered_digest": "4479eab7679dbb5a507ed0d163dd348cf401b074a09bf2715e5b4e4c5d9ae25b",
-      "ast_digest": "a56c11609e464e7bc744e86fbf6fe20c0003c2dbf4a20ee5ffe1b3feb1b36cae"
+      "values_digest": "8e952480bee95c1ce51a462ac0ac13ed96465f98bc24b6c6301ec6b974872ca0",
+      "rendered_digest": "6775588db6948f02914e1ec0e5e48905cee0ce26032d583136b522e2363bc0e9",
+      "ast_digest": "5f42471ce848a1bb2128040b49687aebbf1d35e6de0a92861574ddaa9e6065c1"
     }
   },
   "transitions": [
@@ -274,6 +378,27 @@
       "to": "published",
       "actor": "codex:issue-5662-execution",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:issue-5662-execution",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 9,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:issue-5662-execution",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 10,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:issue-5662-execution",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -661,6 +786,48 @@
       "actor": "codex:issue-5662-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 56,
+      "generation": 51,
+      "actor": "codex:issue-5662-execution",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness_reconcile_metadata_only_published_revision"
+    },
+    {
+      "sequence": 57,
+      "generation": 52,
+      "actor": "codex:issue-5662-execution",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 58,
+      "generation": 53,
+      "actor": "codex:issue-5662-execution",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 59,
+      "generation": 54,
+      "actor": "codex:issue-5662-execution",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 60,
+      "generation": 55,
+      "actor": "codex:issue-5662-execution",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 61,
+      "generation": 56,
+      "actor": "codex:issue-5662-closeout",
+      "reason": "Materialize the retained terminal receipt after exact-head PR #5677 merge.",
+      "operation": "reconcile_terminal"
     }
   ]
 }

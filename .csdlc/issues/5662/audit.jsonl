@@ -53,3 +53,9 @@
 {"sequence":53,"generation":48,"actor":"codex:issue-5662-execution","reason":"Complete bounded pre-publication review after exact scoped PASS and resolution of all eleven findings.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S6\",\"status\":\"completed\"}"}
 {"sequence":54,"generation":49,"actor":"codex:issue-5662-execution","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":55,"generation":50,"actor":"codex:issue-5662-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":56,"generation":51,"actor":"codex:issue-5662-execution","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness_reconcile_metadata_only_published_revision"}
+{"sequence":57,"generation":52,"actor":"codex:issue-5662-execution","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":58,"generation":53,"actor":"codex:issue-5662-execution","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":59,"generation":54,"actor":"codex:issue-5662-execution","reason":"atomically record observed merged GitHub publication and SOR projection","operation":"record_merged_publication"}
+{"sequence":60,"generation":55,"actor":"codex:issue-5662-execution","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":61,"generation":56,"actor":"codex:issue-5662-closeout","reason":"Materialize the retained terminal receipt after exact-head PR #5677 merge.","operation":"reconcile_terminal"}
