@@ -24,10 +24,22 @@ const STRESS_RUNS: u64 = 100;
 const STRESS_SECONDS: u64 = 10;
 const ENDURANCE_RUNS: u64 = 10;
 const ENDURANCE_SECONDS: u64 = 600;
+const PLATFORM_PROOF_SCHEMA: &str = "adl.wp12.platform_proof.v1";
 
 #[tokio::main]
 async fn main() -> ExitCode {
-    let args = match Args::parse(std::env::args().skip(1)) {
+    let raw_args = std::env::args().skip(1).collect::<Vec<_>>();
+    if raw_args.iter().any(|arg| arg == "--aggregate-platform") {
+        return match AggregateArgs::parse(raw_args.into_iter()) {
+            Ok(args) => aggregate_platform(&args),
+            Err(error) => {
+                eprintln!("{error}");
+                ExitCode::from(64)
+            }
+        };
+    }
+
+    let args = match Args::parse(raw_args.into_iter()) {
         Ok(args) => args,
         Err(error) => {
             eprintln!("{error}");
@@ -318,6 +330,77 @@ impl Args {
             revision,
             suite,
         })
+    }
+}
+
+struct AggregateArgs {
+    preflight_report: PathBuf,
+    lifecycle_report: PathBuf,
+    stress_report: PathBuf,
+    endurance_report: PathBuf,
+    output: PathBuf,
+}
+
+impl AggregateArgs {
+    fn parse(mut args: impl Iterator<Item = String>) -> Result<Self, String> {
+        let mut aggregate = false;
+        let mut preflight_report = None;
+        let mut lifecycle_report = None;
+        let mut stress_report = None;
+        let mut endurance_report = None;
+        let mut output = None;
+        while let Some(argument) = args.next() {
+            let value = |args: &mut dyn Iterator<Item = String>, name: &str| {
+                args.next()
+                    .ok_or_else(|| format!("{name} requires a value"))
+            };
+            match argument.as_str() {
+                "--aggregate-platform" => aggregate = true,
+                "--preflight-report" => {
+                    preflight_report = Some(PathBuf::from(value(&mut args, "--preflight-report")?))
+                }
+                "--lifecycle-report" => {
+                    lifecycle_report = Some(PathBuf::from(value(&mut args, "--lifecycle-report")?))
+                }
+                "--stress-report" => {
+                    stress_report = Some(PathBuf::from(value(&mut args, "--stress-report")?))
+                }
+                "--endurance-report" => {
+                    endurance_report = Some(PathBuf::from(value(&mut args, "--endurance-report")?))
+                }
+                "--output" => output = Some(PathBuf::from(value(&mut args, "--output")?)),
+                _ => return Err(format!("unknown platform aggregation option: {argument}")),
+            }
+        }
+        if !aggregate {
+            return Err("--aggregate-platform is required".to_owned());
+        }
+        let args = Self {
+            preflight_report: preflight_report
+                .ok_or_else(|| "--preflight-report is required".to_owned())?,
+            lifecycle_report: lifecycle_report
+                .ok_or_else(|| "--lifecycle-report is required".to_owned())?,
+            stress_report: stress_report.ok_or_else(|| "--stress-report is required".to_owned())?,
+            endurance_report: endurance_report
+                .ok_or_else(|| "--endurance-report is required".to_owned())?,
+            output: output.ok_or_else(|| "--output is required".to_owned())?,
+        };
+        for path in [
+            &args.preflight_report,
+            &args.lifecycle_report,
+            &args.stress_report,
+            &args.endurance_report,
+        ] {
+            if !path.is_file() {
+                return Err(format!("report does not exist: {}", path.display()));
+            }
+        }
+        if !args.output.is_absolute() {
+            return Err(
+                "--output must be an absolute path for atomic platform proof writes".to_owned(),
+            );
+        }
+        Ok(args)
     }
 }
 
@@ -751,6 +834,340 @@ fn verify_master_log(args: &Args, fixture: &ProductionFixture) -> Result<LogProo
     })
 }
 
+fn aggregate_platform(args: &AggregateArgs) -> ExitCode {
+    match build_platform_proof(args) {
+        Ok(proof) => {
+            if let Err(error) = write_report(&args.output, &proof) {
+                eprintln!("failed writing platform proof: {error}");
+                return ExitCode::from(66);
+            }
+            println!("{proof}");
+            ExitCode::SUCCESS
+        }
+        Err(error) => {
+            eprintln!("{error}");
+            ExitCode::from(1)
+        }
+    }
+}
+
+struct SoakReport {
+    value: serde_json::Value,
+    revision: String,
+    kernel_sha256: String,
+    platform: String,
+    architecture: String,
+}
+
+fn build_platform_proof(args: &AggregateArgs) -> Result<serde_json::Value, String> {
+    let preflight = read_soak_report(&args.preflight_report, "preflight_1x")?;
+    let lifecycle = read_soak_report(&args.lifecycle_report, "lifecycle_10000")?;
+    let stress = read_soak_report(&args.stress_report, "stress_100x10s")?;
+    let endurance = read_soak_report(&args.endurance_report, "endurance_10x600s")?;
+    let reports = [&preflight, &lifecycle, &stress, &endurance];
+    let first = reports[0];
+    for report in reports {
+        if report.revision != first.revision {
+            return Err("platform reports do not share one exact Git revision".to_owned());
+        }
+        if report.kernel_sha256 != first.kernel_sha256 {
+            return Err("platform reports do not share one Runtime v3 kernel digest".to_owned());
+        }
+        if report.platform != first.platform || report.architecture != first.architecture {
+            return Err(
+                "platform reports mix native platform or architecture identities".to_owned(),
+            );
+        }
+    }
+    let platform_id = platform_proof_id(&first.platform, &first.architecture)?;
+    Ok(serde_json::json!({
+        "schema": PLATFORM_PROOF_SCHEMA,
+        "issue": 5344,
+        "platform": platform_id,
+        "native_os": first.platform,
+        "architecture": first.architecture,
+        "status": "pass",
+        "guardian_process_zero": true,
+        "native_execution": true,
+        "wsl_used": false,
+        "docker_used": false,
+        "lifecycle_acceptance": {
+            "revision": first.revision,
+            "kernel_sha256": first.kernel_sha256,
+            "all_logs_clean": true,
+            "preflight": suite_summary(&preflight.value),
+            "lifecycle_10000": suite_summary(&lifecycle.value),
+            "stress_100x10s": suite_summary(&stress.value),
+            "endurance_10x600s": suite_summary(&endurance.value),
+        },
+    }))
+}
+
+fn read_soak_report(path: &Path, expected_suite: &str) -> Result<SoakReport, String> {
+    let value: serde_json::Value = serde_json::from_slice(
+        &std::fs::read(path).map_err(|error| format!("{} unreadable: {error}", path.display()))?,
+    )
+    .map_err(|error| format!("{} is invalid JSON: {error}", path.display()))?;
+    require_string(&value, "schema", REPORT_SCHEMA)?;
+    require_string(&value, "status", "pass")?;
+    require_string(&value, "suite", expected_suite)?;
+    let platform = string_field(&value, "platform")?;
+    let architecture = string_field(&value, "architecture")?;
+    let native_platform = std::env::consts::OS;
+    let native_architecture = std::env::consts::ARCH;
+    if platform != native_platform || architecture != native_architecture {
+        return Err(format!(
+            "{expected_suite} was collected for {platform}/{architecture}, not native {native_platform}/{native_architecture}"
+        ));
+    }
+    let revision = string_field(&value, "revision")?;
+    if !is_lower_hex(&revision, 40) {
+        return Err(format!("{expected_suite} has invalid revision identity"));
+    }
+    let kernel_sha256 = string_field(&value, "kernel_sha256")?;
+    if !is_lower_hex(&kernel_sha256, 64) {
+        return Err(format!("{expected_suite} has invalid kernel digest"));
+    }
+    if u64_field(&value, "failed_cycles")? != 0 || u64_field(&value, "degraded_cycles")? != 0 {
+        return Err(format!("{expected_suite} reported failure or degradation"));
+    }
+    require_bool(&value, "guardian_owned", true)?;
+    require_bool(&value, "runtime_kernel_process_per_cycle", true)?;
+    require_bool(&value, "logging_complete", true)?;
+    require_string(&value, "master_log_status", "clean")?;
+    if u64_field(&value, "master_log_records")? == 0 {
+        return Err(format!("{expected_suite} retained no master log records"));
+    }
+    validate_suite_counts(&value, expected_suite)?;
+    validate_log_proof(&value, expected_suite)?;
+    Ok(SoakReport {
+        value,
+        revision,
+        kernel_sha256,
+        platform,
+        architecture,
+    })
+}
+
+fn validate_suite_counts(value: &serde_json::Value, suite: &str) -> Result<(), String> {
+    match suite {
+        "preflight_1x" => {
+            require_bool(value, "acceptance_eligible", false)?;
+            require_u64(value, "requested_cycles", 1)?;
+            require_u64(value, "requested_runs", 1)?;
+            require_u64(value, "completed_runs", 1)?;
+            require_u64(value, "completed_cycles", 1)?;
+        }
+        "lifecycle_10000" => {
+            require_bool(value, "acceptance_eligible", true)?;
+            require_u64(value, "requested_cycles", REQUIRED_CYCLES)?;
+            require_u64(value, "requested_runs", 1)?;
+            require_u64(value, "completed_runs", 1)?;
+            require_u64(value, "completed_cycles", REQUIRED_CYCLES)?;
+        }
+        "stress_100x10s" => {
+            require_bool(value, "acceptance_eligible", true)?;
+            require_u64(value, "requested_runs", STRESS_RUNS)?;
+            require_u64(value, "duration_seconds_per_run", STRESS_SECONDS)?;
+            require_u64(value, "completed_runs", STRESS_RUNS)?;
+            require_positive(value, "completed_cycles")?;
+            require_positive(value, "minimum_cycles_per_run")?;
+        }
+        "endurance_10x600s" => {
+            require_bool(value, "acceptance_eligible", true)?;
+            require_u64(value, "requested_runs", ENDURANCE_RUNS)?;
+            require_u64(value, "duration_seconds_per_run", ENDURANCE_SECONDS)?;
+            require_u64(value, "completed_runs", ENDURANCE_RUNS)?;
+            require_positive(value, "completed_cycles")?;
+            require_positive(value, "minimum_cycles_per_run")?;
+        }
+        _ => return Err(format!("unsupported suite identity: {suite}")),
+    }
+    Ok(())
+}
+
+fn validate_log_proof(value: &serde_json::Value, suite: &str) -> Result<(), String> {
+    let log_records = u64_field(value, "master_log_records")?;
+    let master_log = safe_repo_path(&string_field(value, "master_log_ref")?)?;
+    let master_log_sha256 = string_field(value, "master_log_sha256")?;
+    if !is_lower_hex(&master_log_sha256, 64)
+        || file_sha256(&master_log).map_err(|e| e.to_string())? != master_log_sha256
+    {
+        return Err(format!(
+            "{suite} master log digest did not match retained file"
+        ));
+    }
+    let master_log_text = std::fs::read_to_string(&master_log)
+        .map_err(|error| format!("{suite} master log unreadable: {error}"))?;
+    let counted_records = u64::try_from(
+        master_log_text
+            .lines()
+            .filter(|line| !line.trim().is_empty())
+            .count(),
+    )
+    .map_err(|_| format!("{suite} master log count overflowed"))?;
+    if counted_records != log_records {
+        return Err(format!(
+            "{suite} master log record count does not match report"
+        ));
+    }
+    for line in master_log_text
+        .lines()
+        .filter(|line| !line.trim().is_empty())
+    {
+        serde_json::from_str::<serde_json::Value>(line)
+            .map_err(|error| format!("{suite} master log contains invalid JSONL: {error}"))?;
+    }
+
+    let audit = safe_repo_path(&string_field(value, "log_audit_ref")?)?;
+    let audit_sha256 = string_field(value, "log_audit_sha256")?;
+    if !is_lower_hex(&audit_sha256, 64)
+        || file_sha256(&audit).map_err(|e| e.to_string())? != audit_sha256
+    {
+        return Err(format!("{suite} audit digest did not match retained file"));
+    }
+    let audit_value: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&audit).map_err(|error| error.to_string())?)
+            .map_err(|error| format!("{suite} audit is invalid JSON: {error}"))?;
+    let zero_counters = [
+        "malformed_records",
+        "missing_required_fields",
+        "sequence_gaps",
+        "error_events",
+        "degraded_events",
+        "unexplained_restarts",
+        "incomplete_drains",
+    ]
+    .iter()
+    .all(|field| audit_value[*field].as_u64() == Some(0));
+    if audit_value["schema"] != "adl.runtime.master_log_audit.v1"
+        || audit_value["status"] != "pass"
+        || audit_value["platform"] != value["platform"]
+        || audit_value["suite"] != suite
+        || audit_value["revision"] != value["revision"]
+        || audit_value["master_log_sha256"] != master_log_sha256
+        || audit_value["record_count"].as_u64() != Some(log_records)
+        || !zero_counters
+    {
+        return Err(format!("{suite} audit did not prove clean compact logging"));
+    }
+    Ok(())
+}
+
+fn suite_summary(value: &serde_json::Value) -> serde_json::Value {
+    serde_json::json!({
+        "status": value["status"],
+        "suite": value["suite"],
+        "requested_cycles": value["requested_cycles"],
+        "requested_runs": value["requested_runs"],
+        "duration_seconds_per_run": value["duration_seconds_per_run"],
+        "completed_runs": value["completed_runs"],
+        "completed_cycles": value["completed_cycles"],
+        "minimum_cycles_per_run": value["minimum_cycles_per_run"],
+        "failed_cycles": value["failed_cycles"],
+        "degraded_cycles": value["degraded_cycles"],
+        "guardian_owned": value["guardian_owned"],
+        "runtime_kernel_process_per_cycle": value["runtime_kernel_process_per_cycle"],
+        "acceptance_eligible": value["acceptance_eligible"],
+        "logging_complete": value["logging_complete"],
+        "log_checked_cycles": value["log_checked_cycles"],
+        "master_log_status": value["master_log_status"],
+        "master_log_ref": value["master_log_ref"],
+        "master_log_sha256": value["master_log_sha256"],
+        "master_log_records": value["master_log_records"],
+        "log_audit_ref": value["log_audit_ref"],
+        "log_audit_sha256": value["log_audit_sha256"],
+    })
+}
+
+fn platform_proof_id(platform: &str, architecture: &str) -> Result<&'static str, String> {
+    match (platform, architecture) {
+        ("macos", "aarch64") => Ok("macos-arm64"),
+        ("linux", "x86_64") => Ok("linux-x86_64"),
+        ("windows", "x86_64") => Ok("windows-x86_64-msvc"),
+        _ => Err(format!(
+            "unsupported native WP-12 platform identity: {platform}/{architecture}"
+        )),
+    }
+}
+
+fn safe_repo_path(path: &str) -> Result<PathBuf, String> {
+    let candidate = Path::new(path);
+    if candidate.is_absolute()
+        || candidate
+            .components()
+            .any(|component| matches!(component, std::path::Component::ParentDir))
+    {
+        return Err(format!("evidence path is not repo-relative: {path}"));
+    }
+    let root = std::env::current_dir()
+        .map_err(|error| format!("current checkout unavailable: {error}"))?
+        .canonicalize()
+        .map_err(|error| format!("current checkout cannot be canonicalized: {error}"))?;
+    let resolved = root.join(candidate);
+    let canonical = resolved
+        .canonicalize()
+        .map_err(|error| format!("retained evidence path unavailable: {path}: {error}"))?;
+    canonical
+        .strip_prefix(&root)
+        .map_err(|_| format!("evidence path escaped repository checkout: {path}"))?;
+    Ok(canonical)
+}
+
+fn require_string(value: &serde_json::Value, field: &str, expected: &str) -> Result<(), String> {
+    let actual = string_field(value, field)?;
+    if actual != expected {
+        return Err(format!("{field} was {actual}, expected {expected}"));
+    }
+    Ok(())
+}
+
+fn require_bool(value: &serde_json::Value, field: &str, expected: bool) -> Result<(), String> {
+    let actual = value[field]
+        .as_bool()
+        .ok_or_else(|| format!("{field} must be boolean"))?;
+    if actual != expected {
+        return Err(format!("{field} was {actual}, expected {expected}"));
+    }
+    Ok(())
+}
+
+fn require_u64(value: &serde_json::Value, field: &str, expected: u64) -> Result<(), String> {
+    let actual = u64_field(value, field)?;
+    if actual != expected {
+        return Err(format!("{field} was {actual}, expected {expected}"));
+    }
+    Ok(())
+}
+
+fn require_positive(value: &serde_json::Value, field: &str) -> Result<(), String> {
+    let actual = u64_field(value, field)?;
+    if actual == 0 {
+        return Err(format!("{field} must be greater than zero"));
+    }
+    Ok(())
+}
+
+fn string_field(value: &serde_json::Value, field: &str) -> Result<String, String> {
+    value[field]
+        .as_str()
+        .map(ToOwned::to_owned)
+        .ok_or_else(|| format!("{field} must be string"))
+}
+
+fn u64_field(value: &serde_json::Value, field: &str) -> Result<u64, String> {
+    value[field]
+        .as_u64()
+        .ok_or_else(|| format!("{field} must be unsigned integer"))
+}
+
+fn is_lower_hex(value: &str, length: usize) -> bool {
+    value.len() == length
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
+}
+
 fn repo_relative(path: &Path) -> Result<String, String> {
     let root = std::env::current_dir()
         .map_err(|error| format!("current checkout unavailable: {error}"))?
@@ -1060,5 +1477,267 @@ mod tests {
                 "unexpectedly accepted {mode:?}"
             );
         }
+    }
+
+    #[test]
+    fn aggregates_four_exact_lifecycle_reports_with_compact_clean_logs() {
+        let root = std::env::current_dir().expect("current directory");
+        let temp = tempfile::tempdir_in(&root).expect("repo-local temp evidence");
+        let revision = "0123456789abcdef0123456789abcdef01234567";
+        let kernel_sha256 = &"a".repeat(64);
+        let preflight = write_sample_report(
+            &root,
+            temp.path(),
+            "preflight_1x",
+            revision,
+            kernel_sha256,
+            1,
+            1,
+            Some(1),
+            None,
+        );
+        let lifecycle = write_sample_report(
+            &root,
+            temp.path(),
+            "lifecycle_10000",
+            revision,
+            kernel_sha256,
+            1,
+            REQUIRED_CYCLES,
+            Some(REQUIRED_CYCLES),
+            None,
+        );
+        let stress = write_sample_report(
+            &root,
+            temp.path(),
+            "stress_100x10s",
+            revision,
+            kernel_sha256,
+            STRESS_RUNS,
+            42,
+            None,
+            Some(STRESS_SECONDS),
+        );
+        let endurance = write_sample_report(
+            &root,
+            temp.path(),
+            "endurance_10x600s",
+            revision,
+            kernel_sha256,
+            ENDURANCE_RUNS,
+            24,
+            None,
+            Some(ENDURANCE_SECONDS),
+        );
+        let output = temp.path().join("platform-proof.json");
+        let args = AggregateArgs {
+            preflight_report: preflight,
+            lifecycle_report: lifecycle,
+            stress_report: stress,
+            endurance_report: endurance,
+            output: output.clone(),
+        };
+
+        let proof = build_platform_proof(&args).expect("platform proof");
+        write_report(&output, &proof).expect("atomic proof write");
+        let written: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(output).expect("written proof"))
+                .expect("proof JSON");
+
+        assert_eq!(written["schema"], PLATFORM_PROOF_SCHEMA);
+        assert_eq!(written["status"], "pass");
+        assert_eq!(
+            written["lifecycle_acceptance"]["lifecycle_10000"]["completed_cycles"],
+            REQUIRED_CYCLES
+        );
+        assert_eq!(
+            written["lifecycle_acceptance"]["lifecycle_10000"]["master_log_records"],
+            3
+        );
+        assert_eq!(
+            written["lifecycle_acceptance"]["stress_100x10s"]["master_log_records"],
+            3
+        );
+    }
+
+    #[test]
+    fn rejects_compact_log_reports_when_audit_count_drifts() {
+        let root = std::env::current_dir().expect("current directory");
+        let temp = tempfile::tempdir_in(&root).expect("repo-local temp evidence");
+        let revision = "0123456789abcdef0123456789abcdef01234567";
+        let kernel_sha256 = &"a".repeat(64);
+        let preflight = write_sample_report(
+            &root,
+            temp.path(),
+            "preflight_1x",
+            revision,
+            kernel_sha256,
+            1,
+            1,
+            Some(1),
+            None,
+        );
+        let lifecycle = write_sample_report(
+            &root,
+            temp.path(),
+            "lifecycle_10000",
+            revision,
+            kernel_sha256,
+            1,
+            REQUIRED_CYCLES,
+            Some(REQUIRED_CYCLES),
+            None,
+        );
+        let stress = write_sample_report(
+            &root,
+            temp.path(),
+            "stress_100x10s",
+            revision,
+            kernel_sha256,
+            STRESS_RUNS,
+            42,
+            None,
+            Some(STRESS_SECONDS),
+        );
+        let endurance = write_sample_report(
+            &root,
+            temp.path(),
+            "endurance_10x600s",
+            revision,
+            kernel_sha256,
+            ENDURANCE_RUNS,
+            24,
+            None,
+            Some(ENDURANCE_SECONDS),
+        );
+        let lifecycle_value: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&lifecycle).expect("lifecycle report"))
+                .expect("JSON report");
+        let audit = root.join(
+            lifecycle_value["log_audit_ref"]
+                .as_str()
+                .expect("audit ref"),
+        );
+        let mut audit_value: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&audit).expect("audit")).expect("audit JSON");
+        audit_value["record_count"] = serde_json::json!(4);
+        std::fs::write(
+            &audit,
+            serde_json::to_vec_pretty(&audit_value).expect("audit bytes"),
+        )
+        .expect("write drifted audit");
+        let drifted_audit_sha256 = file_sha256(&audit).expect("audit sha");
+        let mut lifecycle_value = lifecycle_value;
+        lifecycle_value["log_audit_sha256"] = serde_json::json!(drifted_audit_sha256);
+        std::fs::write(
+            &lifecycle,
+            serde_json::to_vec_pretty(&lifecycle_value).expect("report bytes"),
+        )
+        .expect("write drifted report");
+        let args = AggregateArgs {
+            preflight_report: preflight,
+            lifecycle_report: lifecycle,
+            stress_report: stress,
+            endurance_report: endurance,
+            output: temp.path().join("platform-proof.json"),
+        };
+
+        let error = build_platform_proof(&args).expect_err("drifted audit rejected");
+        assert!(error.contains("audit did not prove clean compact logging"));
+    }
+
+    fn write_sample_report(
+        root: &Path,
+        temp: &Path,
+        suite: &str,
+        revision: &str,
+        kernel_sha256: &str,
+        completed_runs: u64,
+        completed_cycles: u64,
+        requested_cycles: Option<u64>,
+        duration_seconds: Option<u64>,
+    ) -> PathBuf {
+        let suite_dir = temp.join(suite);
+        std::fs::create_dir_all(&suite_dir).expect("suite dir");
+        let log = suite_dir.join("master.log.jsonl");
+        std::fs::write(
+            &log,
+            b"{\"sequence\":1,\"level\":\"info\"}\n{\"sequence\":2,\"level\":\"info\"}\n{\"sequence\":3,\"level\":\"info\"}\n",
+        )
+        .expect("master log");
+        let log_sha256 = file_sha256(&log).expect("log sha");
+        let audit = suite_dir.join("master-log-audit.json");
+        let audit_value = serde_json::json!({
+            "schema": "adl.runtime.master_log_audit.v1",
+            "status": "pass",
+            "platform": std::env::consts::OS,
+            "suite": suite,
+            "revision": revision,
+            "master_log_sha256": log_sha256,
+            "record_count": 3,
+            "malformed_records": 0,
+            "missing_required_fields": 0,
+            "sequence_gaps": 0,
+            "error_events": 0,
+            "degraded_events": 0,
+            "unexplained_restarts": 0,
+            "incomplete_drains": 0,
+        });
+        std::fs::write(
+            &audit,
+            serde_json::to_vec_pretty(&audit_value).expect("audit bytes"),
+        )
+        .expect("audit");
+        let audit_sha256 = file_sha256(&audit).expect("audit sha");
+        let requested_runs = match suite {
+            "stress_100x10s" => STRESS_RUNS,
+            "endurance_10x600s" => ENDURANCE_RUNS,
+            _ => 1,
+        };
+        let report = serde_json::json!({
+            "schema": REPORT_SCHEMA,
+            "status": "pass",
+            "suite": suite,
+            "platform": std::env::consts::OS,
+            "architecture": std::env::consts::ARCH,
+            "revision": revision,
+            "requested_cycles": requested_cycles,
+            "requested_runs": requested_runs,
+            "duration_seconds_per_run": duration_seconds,
+            "completed_runs": completed_runs,
+            "completed_cycles": completed_cycles,
+            "minimum_cycles_per_run": completed_cycles.max(1),
+            "failed_cycles": 0,
+            "degraded_cycles": 0,
+            "guardian_owned": true,
+            "runtime_kernel_process_per_cycle": true,
+            "acceptance_eligible": suite != "preflight_1x",
+            "logging_complete": true,
+            "log_checked_cycles": completed_cycles,
+            "master_log_status": "clean",
+            "master_log_ref": rel(root, &log),
+            "master_log_sha256": log_sha256,
+            "master_log_records": 3,
+            "log_audit_ref": rel(root, &audit),
+            "log_audit_sha256": audit_sha256,
+            "continuity_generation": completed_cycles,
+            "kernel_sha256": kernel_sha256,
+            "duration_millis": 1,
+            "failure": null,
+        });
+        let report_path = suite_dir.join("report.json");
+        std::fs::write(
+            &report_path,
+            serde_json::to_vec_pretty(&report).expect("report bytes"),
+        )
+        .expect("report");
+        report_path
+    }
+
+    fn rel(root: &Path, path: &Path) -> String {
+        path.strip_prefix(root)
+            .expect("repo-relative test path")
+            .to_string_lossy()
+            .replace('\\', "/")
     }
 }

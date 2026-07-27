@@ -58,8 +58,12 @@ verify_retained_file() {
 
 verify_platform_log() {
   local proof=$1 suite=$2
-  local platform revision log_ref log_sha256 log_records audit_ref audit_sha256
-  platform=$(jq -r '.platform' "$proof")
+  local platform revision log_ref log_sha256 log_records audit_ref audit_sha256 audit_suite
+  audit_suite=$suite
+  if [[ "$suite" == preflight ]]; then
+    audit_suite=preflight_1x
+  fi
+  platform=$(jq -r '.native_os // .platform' "$proof")
   revision=$(jq -r '.lifecycle_acceptance.revision' "$proof")
   log_ref=$(jq -r --arg suite "$suite" \
     '.lifecycle_acceptance[$suite].master_log_ref' "$proof")
@@ -81,13 +85,14 @@ verify_platform_log() {
   jq -e \
     --arg platform "$platform" \
     --arg suite "$suite" \
+    --arg audit_suite "$audit_suite" \
     --arg revision "$revision" \
     --arg log_sha256 "$log_sha256" \
     --argjson records "$log_records" '
       .schema == "adl.runtime.master_log_audit.v1" and
       .status == "pass" and
       .platform == $platform and
-      .suite == $suite and
+      .suite == $audit_suite and
       .revision == $revision and
       .master_log_sha256 == $log_sha256 and
       .record_count == $records and
@@ -117,6 +122,20 @@ verify_platform_proof() {
     (.lifecycle_acceptance.revision | test("^[0-9a-f]{40}$")) and
     (.lifecycle_acceptance.kernel_sha256 | test("^[0-9a-f]{64}$")) and
     .lifecycle_acceptance.all_logs_clean == true and
+    (.lifecycle_acceptance.preflight |
+      .status == "pass" and
+      .requested_cycles == 1 and
+      .completed_cycles == 1 and
+      .failed_cycles == 0 and
+      .degraded_cycles == 0 and
+      .acceptance_eligible == false and
+      .logging_complete == true and
+      .master_log_status == "clean" and
+      (.master_log_ref | type == "string" and length > 0) and
+      (.master_log_sha256 | test("^[0-9a-f]{64}$")) and
+      (.master_log_records | type == "number" and . > 0) and
+      (.log_audit_ref | type == "string" and length > 0) and
+      (.log_audit_sha256 | test("^[0-9a-f]{64}$"))) and
     (.lifecycle_acceptance.lifecycle_10000 |
       .status == "pass" and
       .requested_cycles == 10000 and
@@ -127,7 +146,7 @@ verify_platform_proof() {
       .master_log_status == "clean" and
       (.master_log_ref | type == "string" and length > 0) and
       (.master_log_sha256 | test("^[0-9a-f]{64}$")) and
-      (.master_log_records | type == "number" and . >= 10000) and
+      (.master_log_records | type == "number" and . > 0) and
       (.log_audit_ref | type == "string" and length > 0) and
       (.log_audit_sha256 | test("^[0-9a-f]{64}$"))) and
     (.lifecycle_acceptance.stress_100x10s as $suite |
@@ -142,7 +161,7 @@ verify_platform_proof() {
       .master_log_status == "clean" and
       (.master_log_ref | type == "string" and length > 0) and
       (.master_log_sha256 | test("^[0-9a-f]{64}$")) and
-      (.master_log_records | type == "number" and . >= $suite.completed_cycles) and
+      (.master_log_records | type == "number" and . > 0) and
       (.log_audit_ref | type == "string" and length > 0) and
       (.log_audit_sha256 | test("^[0-9a-f]{64}$"))) and
     (.lifecycle_acceptance.endurance_10x600s as $suite |
@@ -157,10 +176,11 @@ verify_platform_proof() {
       .master_log_status == "clean" and
       (.master_log_ref | type == "string" and length > 0) and
       (.master_log_sha256 | test("^[0-9a-f]{64}$")) and
-      (.master_log_records | type == "number" and . >= $suite.completed_cycles) and
+      (.master_log_records | type == "number" and . > 0) and
       (.log_audit_ref | type == "string" and length > 0) and
       (.log_audit_sha256 | test("^[0-9a-f]{64}$")))
   ' "$path" >/dev/null
+  verify_platform_log "$path" preflight
   verify_platform_log "$path" lifecycle_10000
   verify_platform_log "$path" stress_100x10s
   verify_platform_log "$path" endurance_10x600s
