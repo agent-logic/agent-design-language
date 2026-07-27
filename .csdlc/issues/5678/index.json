@@ -3,13 +3,13 @@
   "issue": 5678,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "a8929912340773ff014f08e9b4e54d53b2c977b1ed4edf0a117ef744c9f37f9b",
-  "phase": "implemented",
-  "generation": 2,
-  "digest": "605f31947d37501ef103789c73af7af0632fc7a746cbf1d4a158e682b7f85c52",
+  "phase": "reviewed",
+  "generation": 3,
+  "digest": "35773a615651999d6466c03d5b309db9ad57cac2e018d10ef7c86a40572a903c",
   "claim": {
     "id": "claim-5678-opus-review-runbook",
     "owner": "codex:issue-5678-opus-review-runbook",
-    "generation": 2,
+    "generation": 3,
     "acquired_unix_seconds": 1785113059,
     "expires_unix_seconds": 1785717859,
     "heartbeat_unix_seconds": 1785113059,
@@ -62,32 +62,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a80314a846c54e5645730dc222d73c47c54d38986f74b1f7a2eb6b35b8143323",
+      "values_digest": "2a0f067a2636c775251a897de67d28cfd5267ca32111298005dbc0aa8bd7d6ea",
       "rendered_digest": "faa47f2d0ae17873882a598895a45032c0ea7c7db76c1b9e3411fd64dedb9322",
       "ast_digest": "915281c92a70e03260aba7d012faf3a263dbba6668d6e2781b4ef1ade5b57141"
     },
     "stp": {
-      "values_digest": "f95854364f5ae58f65c6272677c6e15d783b1b8475ef4db48066c058049d312a",
+      "values_digest": "302df2ac8a824df205d4b5d977a19f55ed828a86ca622cbaec0c5075ff58be32",
       "rendered_digest": "b0ac5e917693b4b9262b66c912e5a93edea8edc6863045d8e0d8df3d7f167b23",
       "ast_digest": "ca444edc344be37a3af5e319f4d19d132b4aee5de753b993902803f2858a9285"
     },
     "spp": {
-      "values_digest": "53309fb7a14b29741efc6f584d76419f9bb689f2a1eef95782e1190e2170e068",
+      "values_digest": "348f53eafeb23d3d281c6f0fda91dfd35a761a5deb9631dc5bc86fb832c0e473",
       "rendered_digest": "8706fe6804687023b38e877b914b7b699e6f8a98a7ea0d0dc138a61fca5c989d",
       "ast_digest": "83d50d7c07b7a72eb69590155a10f59fdb7b3bd671a962b2e08b427e798386dc"
     },
     "vpp": {
-      "values_digest": "008a03e41f5df96af120c2628e4e53097068d233d8f004f37ca3b96589299154",
+      "values_digest": "8ac838cd17d17005cf5ec58d1d8cc0bfea7990caf9aba54aa0a7ed7d89aaa073",
       "rendered_digest": "91bbf26318a639cd38f88ae52d6638883d32a2cc8bdbcb0649c3f319db668548",
       "ast_digest": "0ded64ad3154fa1c8263e6648e6eed6fb379b134ad702194661b6dbe8554556a"
     },
     "srp": {
-      "values_digest": "5911f48865f26a51a6d4911a3eaae0f9309e05977376503df608936b7c363355",
+      "values_digest": "f6d1cbabcc990ba3521b53108d5f7c1b56812b19ef760c5b2f5d77033184862f",
       "rendered_digest": "ab1dcc4ec34949fba2e303f46e7560855019c5747a0a5d78f0844bb9b45fff47",
       "ast_digest": "a5e61b6b039221b15f80f1ff6d098d657f299c6b68c78f517cbe14dab8c9f72e"
     },
     "sor": {
-      "values_digest": "b3ad728ef509e9a60d692571acf24729bc4cd5dcc3387fccfe5d8cbdc1b71d3c",
+      "values_digest": "53f0878fbb7ca5e95828c57126dc23d8a65dfbca803b51fc1c76597323b0b88a",
       "rendered_digest": "9c6257dde90cc5ab445ed98cd356ab2decad322b476eb9d886afc1c5a52e2ce0",
       "ast_digest": "b55d4256f331ce9f70c28f75d355bb594824ad3a9e8973b906a9042445faa8e4"
     }
@@ -113,6 +113,13 @@
       "to": "implemented",
       "actor": "codex:issue-5678-opus-review-runbook",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5678-opus-review-runbook",
+      "reason": "Exact scoped review passed with no actionable findings."
     }
   ],
   "audit": [
@@ -150,6 +157,13 @@
       "actor": "codex:issue-5678-opus-review-runbook",
       "reason": "atomically record assigned review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-5678-opus-review-runbook",
+      "reason": "Exact scoped review passed with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

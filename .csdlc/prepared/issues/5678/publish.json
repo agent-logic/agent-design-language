@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.publication_request.v1",
   "issue": 5678,
-  "expected_generation": 2,
-  "expected_digest": "605f31947d37501ef103789c73af7af0632fc7a746cbf1d4a158e682b7f85c52",
+  "expected_generation": 3,
+  "expected_digest": "35773a615651999d6466c03d5b309db9ad57cac2e018d10ef7c86a40572a903c",
   "claim_id": "claim-5678-opus-review-runbook",
   "actor": "codex:issue-5678-opus-review-runbook",
   "repository": "danielbaustin/agent-design-language",
