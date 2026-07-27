@@ -3,13 +3,13 @@
   "issue": 5683,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b8d92d7710c00944967def4c4d3e923aa274554cc31b48a8fa49da34b6a77d97",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "95f052e75a26e145a0364ab6dce5cf0115c72a8b5179360c2b41c205142aa576",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "c25e54d6441e5c8198d5b0a6b8e5795d018305671b3f081e4e479a93e8004ec6",
   "claim": {
     "id": "claim-5683-v0918-unity-observatory-visual-remediation",
     "owner": "codex:issue-5683-unity-remediation",
-    "generation": 11,
+    "generation": 13,
     "acquired_unix_seconds": 1785113461,
     "expires_unix_seconds": 1785718261,
     "heartbeat_unix_seconds": 1785113461,
@@ -33,8 +33,94 @@
     ],
     "purpose": "Remediate the visible flagship Unity Observatory render artifacts and retain direct investor-facing proof"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "Hooke",
+    "assigned_by": "codex:issue-5683-unity-remediation",
+    "revision": "git-blake3:3d8a1d013622fe40c656d18ece0c1bdfa94ee0b1:b7cc0ee764b1082e68c6d08e5c123f1d582b0dae1fbf0dd0513a866c14aba781",
+    "scope": [
+      ".csdlc/evidence/5683/LIVE_UNITY_PROOF.md",
+      ".csdlc/evidence/5683/TOOLING_ANOMALIES.md",
+      ".csdlc/evidence/5683/capture_unity_mcp_image.mjs",
+      ".csdlc/evidence/5683/final-full-hd-game-view.png",
+      ".csdlc/evidence/5683/final-qhd-game-view.png",
+      ".csdlc/evidence/5683/raw-environment-full-hd-pass-3.png",
+      ".csdlc/evidence/5683/raw-environment-qhd-pass-3.png",
+      ".csdlc/evidence/5683/record-execution-request.json",
+      ".csdlc/evidence/5683/record-validation-alignment-request.json",
+      ".csdlc/evidence/5683/record-validation-contract-request.json",
+      ".csdlc/evidence/5683/record-validation-diff-request.json",
+      ".csdlc/evidence/5683/record-validation-live-unity-request.json",
+      ".csdlc/issues/5683/audit.jsonl",
+      ".csdlc/issues/5683/cards/sip.md",
+      ".csdlc/issues/5683/cards/sip.values.json",
+      ".csdlc/issues/5683/cards/sor.md",
+      ".csdlc/issues/5683/cards/sor.values.json",
+      ".csdlc/issues/5683/cards/spp.md",
+      ".csdlc/issues/5683/cards/spp.values.json",
+      ".csdlc/issues/5683/cards/srp.md",
+      ".csdlc/issues/5683/cards/srp.values.json",
+      ".csdlc/issues/5683/cards/stp.md",
+      ".csdlc/issues/5683/cards/stp.values.json",
+      ".csdlc/issues/5683/cards/vpp.md",
+      ".csdlc/issues/5683/cards/vpp.values.json",
+      ".csdlc/issues/5683/index.json",
+      ".csdlc/locks/5683.lock",
+      ".csdlc/prepared/issues/5683/advance-implemented.json",
+      ".csdlc/prepared/issues/5683/design.md",
+      ".csdlc/prepared/issues/5683/diagram.mmd",
+      "adl/tools/test_v0916_unity_observatory_contract.sh",
+      "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs"
+    ]
+  },
+  "review": {
+    "reviewer": "Hooke",
+    "scope": [
+      ".csdlc/evidence/5683/LIVE_UNITY_PROOF.md",
+      ".csdlc/evidence/5683/TOOLING_ANOMALIES.md",
+      ".csdlc/evidence/5683/capture_unity_mcp_image.mjs",
+      ".csdlc/evidence/5683/final-full-hd-game-view.png",
+      ".csdlc/evidence/5683/final-qhd-game-view.png",
+      ".csdlc/evidence/5683/raw-environment-full-hd-pass-3.png",
+      ".csdlc/evidence/5683/raw-environment-qhd-pass-3.png",
+      ".csdlc/evidence/5683/record-execution-request.json",
+      ".csdlc/evidence/5683/record-validation-alignment-request.json",
+      ".csdlc/evidence/5683/record-validation-contract-request.json",
+      ".csdlc/evidence/5683/record-validation-diff-request.json",
+      ".csdlc/evidence/5683/record-validation-live-unity-request.json",
+      ".csdlc/issues/5683/audit.jsonl",
+      ".csdlc/issues/5683/cards/sip.md",
+      ".csdlc/issues/5683/cards/sip.values.json",
+      ".csdlc/issues/5683/cards/sor.md",
+      ".csdlc/issues/5683/cards/sor.values.json",
+      ".csdlc/issues/5683/cards/spp.md",
+      ".csdlc/issues/5683/cards/spp.values.json",
+      ".csdlc/issues/5683/cards/srp.md",
+      ".csdlc/issues/5683/cards/srp.values.json",
+      ".csdlc/issues/5683/cards/stp.md",
+      ".csdlc/issues/5683/cards/stp.values.json",
+      ".csdlc/issues/5683/cards/vpp.md",
+      ".csdlc/issues/5683/cards/vpp.values.json",
+      ".csdlc/issues/5683/index.json",
+      ".csdlc/locks/5683.lock",
+      ".csdlc/prepared/issues/5683/advance-implemented.json",
+      ".csdlc/prepared/issues/5683/design.md",
+      ".csdlc/prepared/issues/5683/diagram.mmd",
+      "adl/tools/test_v0916_unity_observatory_contract.sh",
+      "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs"
+    ],
+    "reviewed_revision": "git-blake3:3d8a1d013622fe40c656d18ece0c1bdfa94ee0b1:b7cc0ee764b1082e68c6d08e5c123f1d582b0dae1fbf0dd0513a866c14aba781",
+    "findings": [],
+    "residual_risks": [
+      "Game View sizing relies on UnityEditor reflection and may need adjustment after Unity upgrades.",
+      "The static contract test remains source-presence oriented; retained exact-revision Unity proof provides behavioral evidence.",
+      "The scene is clean but intentionally sparse after disabling problematic imported content.",
+      "Runtime presentation remains truthfully fixture and contract-only, not live CSM proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -49,32 +135,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3c4563a53d4aebfd8b8916ea1275f88616aac71d5c2986667d1cbb907604bc34",
+      "values_digest": "e4866813ba8f5eaac73217f1931788eaa233ac9764c6b9332ba0bfdcb5bcb9f9",
       "rendered_digest": "97eb54524cf0d293522d3a4495666eb42e739b1b42ba37900ca1f5aaa56c0a12",
       "ast_digest": "0c03f048e200173e885009fe047a19e43bd02a640170325798ed7a27bf605e10"
     },
     "stp": {
-      "values_digest": "55416c378d2d82faa64c9055c691385e6feeef6021f5b68250644cbf49a8a5de",
+      "values_digest": "e1bbd71d84100257cae421d7e933b9ba042b2b937cfc3fdc85f2a2a46076e543",
       "rendered_digest": "f8dc2201d62c7e21dceadb61a7c10233389be658313c8f63ac25348e9e1edf00",
       "ast_digest": "d37d59892d1f7204cb729e440b219d6b55c81d4ed62ce975f471411b40a9afed"
     },
     "spp": {
-      "values_digest": "96dae1c4660e6fdbb0d2e73a2d8f1da45ae9aa73310a4a8378ec5453074fba66",
+      "values_digest": "169f878fe2f6ec9e7f4297e96c4932220dcb9681a454aaebf9585b37235caff5",
       "rendered_digest": "178bbbb1925bde42767d52c63fefc30ef90ad09474b6a1598f8211b4f427e2b4",
       "ast_digest": "4470b796182f02708b62ec973df468d5db684af2193e31bb12acde87e5f4c247"
     },
     "vpp": {
-      "values_digest": "2d75ecdf8cf24b80e2cd3ee2175b2036617f39fa46520f7e851dd5cfd2277457",
+      "values_digest": "aabafbc66f347c2daea3bce962f1a095c3af7e66c157be5c09af297fe474c782",
       "rendered_digest": "ac2aa75bf11d40548a14b2e77c6fdc4393e9c210a6ab1ca081aa94b3c849b843",
       "ast_digest": "978c22ad29a905bd2756f36b20e6fa5e4e396f74ae3452bbbe8142be75371478"
     },
     "srp": {
-      "values_digest": "1cf466d0aa8778f07cfc9f943c6673888033b2fa0468dfbc6e59507d122cc20f",
-      "rendered_digest": "a0105f7ee7b148040e0d090d5b8bec734a90d53eaa3b3a20cacdd3ef4cda864f",
-      "ast_digest": "af0b4866425cbb899c18bac80acd972031bfa943473bbbcb0c45f03592a074d7"
+      "values_digest": "375fc990f36b96e9777ff643e6c4cd8891fcce59372da23d35a370c8129d73f5",
+      "rendered_digest": "25b6f65849d9f838240614bf2e9a8e7880910af4c2f70779d8490aa98ee73138",
+      "ast_digest": "0aebd668e2f6ae442f5ca730e98906c1ce763e6a54982ad7f2be08abc1030f1b"
     },
     "sor": {
-      "values_digest": "8428da5e333eb499722c5a9dc747ce3c950376e4921530f7a0b35ffb0382dd53",
+      "values_digest": "b4da975e09af0ce8cdc0841425555d14101d2c5aaf7c4e0abebba1fe8c93b264",
       "rendered_digest": "fbea83839d05e04c052e2c83bb6af06a33796fa17f0b824d6e72d95f26ab19ff",
       "ast_digest": "830785ce55769c6f390bb5012a06aef98fcead00b8c11c9f7224c4376f92f5c3"
     }
@@ -121,6 +207,13 @@
       "to": "implemented",
       "actor": "codex:issue-5683-unity-remediation",
       "reason": "The published branch was behind current main after PR #5690 merged; recover review truth for exact-head re-review and same-PR republication."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "Hooke completed exact-head review after current-main integration with no actionable findings."
     }
   ],
   "audit": [
@@ -228,6 +321,27 @@
       "actor": "codex:issue-5683-unity-remediation",
       "reason": "The published branch was behind current main after PR #5690 merged; recover review truth for exact-head re-review and same-PR republication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "Hooke",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "Hooke completed exact-head review after current-main integration with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

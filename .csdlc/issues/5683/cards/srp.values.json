@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-15][unity][demo] Remediate flagship Observatory render artifacts and presentation proof",
     "slug": "v0918-unity-observatory-visual-remediation",
     "version": "v0.91.8",
-    "generation": 11
+    "generation": 13
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/5683/LIVE_UNITY_PROOF.md\n.csdlc/evidence/5683/TOOLING_ANOMALIES.md\n.csdlc/evidence/5683/capture_unity_mcp_image.mjs\n.csdlc/evidence/5683/final-full-hd-game-view.png\n.csdlc/evidence/5683/final-qhd-game-view.png\n.csdlc/evidence/5683/raw-environment-full-hd-pass-3.png\n.csdlc/evidence/5683/raw-environment-qhd-pass-3.png\n.csdlc/evidence/5683/record-execution-request.json\n.csdlc/evidence/5683/record-validation-alignment-request.json\n.csdlc/evidence/5683/record-validation-contract-request.json\n.csdlc/evidence/5683/record-validation-diff-request.json\n.csdlc/evidence/5683/record-validation-live-unity-request.json\n.csdlc/issues/5683/audit.jsonl\n.csdlc/issues/5683/cards/sip.md\n.csdlc/issues/5683/cards/sip.values.json\n.csdlc/issues/5683/cards/sor.md\n.csdlc/issues/5683/cards/sor.values.json\n.csdlc/issues/5683/cards/spp.md\n.csdlc/issues/5683/cards/spp.values.json\n.csdlc/issues/5683/cards/srp.md\n.csdlc/issues/5683/cards/srp.values.json\n.csdlc/issues/5683/cards/stp.md\n.csdlc/issues/5683/cards/stp.values.json\n.csdlc/issues/5683/cards/vpp.md\n.csdlc/issues/5683/cards/vpp.values.json\n.csdlc/issues/5683/index.json\n.csdlc/locks/5683.lock\n.csdlc/prepared/issues/5683/advance-implemented.json\n.csdlc/prepared/issues/5683/design.md\n.csdlc/prepared/issues/5683/diagram.mmd\nadl/tools/test_v0916_unity_observatory_contract.sh\ndemos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs\ndemos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs",
+      "review_revision": "git-blake3:3d8a1d013622fe40c656d18ece0c1bdfa94ee0b1:b7cc0ee764b1082e68c6d08e5c123f1d582b0dae1fbf0dd0513a866c14aba781",
+      "reviewer": "Hooke",
       "review_prompts": [
         "Does either target-resolution hero frame retain any corrupted-looking cyan or green geometry, particle, material, or lighting artifact?",
         "Are the architecture, terrain, camera, and lighting composition coherent and investor-presentable?",
@@ -24,8 +24,13 @@
         "Does the proof index link the actual demo evidence rather than lifecycle metadata?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Game View sizing relies on UnityEditor reflection and may need adjustment after Unity upgrades.",
+        "The static contract test remains source-presence oriented; retained exact-revision Unity proof provides behavioral evidence.",
+        "The scene is clean but intentionally sparse after disabling problematic imported content.",
+        "Runtime presentation remains truthfully fixture and contract-only, not live CSM proof."
+      ],
+      "review_result": "pass"
     }
   }
 }

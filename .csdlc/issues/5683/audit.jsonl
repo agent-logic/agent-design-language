@@ -13,3 +13,6 @@
 {"sequence":13,"generation":9,"actor":"codex:issue-5683-unity-remediation","reason":"Hooke completed the assigned exact-revision review with no actionable findings; all prior findings are resolved.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":14,"generation":10,"actor":"codex:issue-5683-unity-remediation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":15,"generation":11,"actor":"codex:issue-5683-unity-remediation","reason":"The published branch was behind current main after PR #5690 merged; recover review truth for exact-head re-review and same-PR republication.","operation":"recover_review"}
+{"sequence":16,"generation":11,"actor":"codex:issue-5683-unity-remediation","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":17,"generation":12,"actor":"Hooke","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
+{"sequence":18,"generation":13,"actor":"codex:issue-5683-unity-remediation","reason":"Hooke completed exact-head review after current-main integration with no actionable findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
