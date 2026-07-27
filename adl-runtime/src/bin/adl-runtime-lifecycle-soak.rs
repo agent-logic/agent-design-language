@@ -1492,9 +1492,6 @@ mod tests {
             revision,
             kernel_sha256,
             1,
-            1,
-            Some(1),
-            None,
         );
         let lifecycle = write_sample_report(
             &root,
@@ -1502,10 +1499,7 @@ mod tests {
             "lifecycle_10000",
             revision,
             kernel_sha256,
-            1,
             REQUIRED_CYCLES,
-            Some(REQUIRED_CYCLES),
-            None,
         );
         let stress = write_sample_report(
             &root,
@@ -1513,10 +1507,7 @@ mod tests {
             "stress_100x10s",
             revision,
             kernel_sha256,
-            STRESS_RUNS,
             42,
-            None,
-            Some(STRESS_SECONDS),
         );
         let endurance = write_sample_report(
             &root,
@@ -1524,10 +1515,7 @@ mod tests {
             "endurance_10x600s",
             revision,
             kernel_sha256,
-            ENDURANCE_RUNS,
             24,
-            None,
-            Some(ENDURANCE_SECONDS),
         );
         let output = temp.path().join("platform-proof.json");
         let args = AggregateArgs {
@@ -1573,9 +1561,6 @@ mod tests {
             revision,
             kernel_sha256,
             1,
-            1,
-            Some(1),
-            None,
         );
         let lifecycle = write_sample_report(
             &root,
@@ -1583,10 +1568,7 @@ mod tests {
             "lifecycle_10000",
             revision,
             kernel_sha256,
-            1,
             REQUIRED_CYCLES,
-            Some(REQUIRED_CYCLES),
-            None,
         );
         let stress = write_sample_report(
             &root,
@@ -1594,10 +1576,7 @@ mod tests {
             "stress_100x10s",
             revision,
             kernel_sha256,
-            STRESS_RUNS,
             42,
-            None,
-            Some(STRESS_SECONDS),
         );
         let endurance = write_sample_report(
             &root,
@@ -1605,10 +1584,7 @@ mod tests {
             "endurance_10x600s",
             revision,
             kernel_sha256,
-            ENDURANCE_RUNS,
             24,
-            None,
-            Some(ENDURANCE_SECONDS),
         );
         let lifecycle_value: serde_json::Value =
             serde_json::from_slice(&std::fs::read(&lifecycle).expect("lifecycle report"))
@@ -1652,10 +1628,7 @@ mod tests {
         suite: &str,
         revision: &str,
         kernel_sha256: &str,
-        completed_runs: u64,
         completed_cycles: u64,
-        requested_cycles: Option<u64>,
-        duration_seconds: Option<u64>,
     ) -> PathBuf {
         let suite_dir = temp.join(suite);
         std::fs::create_dir_all(&suite_dir).expect("suite dir");
@@ -1689,10 +1662,12 @@ mod tests {
         )
         .expect("audit");
         let audit_sha256 = file_sha256(&audit).expect("audit sha");
-        let requested_runs = match suite {
-            "stress_100x10s" => STRESS_RUNS,
-            "endurance_10x600s" => ENDURANCE_RUNS,
-            _ => 1,
+        let (requested_runs, requested_cycles, duration_seconds) = match suite {
+            "preflight_1x" => (1, Some(1), None),
+            "lifecycle_10000" => (1, Some(REQUIRED_CYCLES), None),
+            "stress_100x10s" => (STRESS_RUNS, None, Some(STRESS_SECONDS)),
+            "endurance_10x600s" => (ENDURANCE_RUNS, None, Some(ENDURANCE_SECONDS)),
+            _ => panic!("unsupported sample suite"),
         };
         let report = serde_json::json!({
             "schema": REPORT_SCHEMA,
@@ -1704,7 +1679,7 @@ mod tests {
             "requested_cycles": requested_cycles,
             "requested_runs": requested_runs,
             "duration_seconds_per_run": duration_seconds,
-            "completed_runs": completed_runs,
+            "completed_runs": requested_runs,
             "completed_cycles": completed_cycles,
             "minimum_cycles_per_run": completed_cycles.max(1),
             "failed_cycles": 0,
