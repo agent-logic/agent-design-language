@@ -3,13 +3,13 @@
   "issue": 5695,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4cd0d8a97a8b7d3afd28be679d16291fe95cd477e824555b1d506ac0a4e9d96e",
-  "phase": "reviewed",
-  "generation": 7,
-  "digest": "1ef055beb239b1a34a461854caaf4a7a7c1dbf6fa7e7ac3d505ad563067d5ca3",
+  "phase": "published",
+  "generation": 8,
+  "digest": "f65d08744c1cefe8fd485fcc876688eb9e1ed3d47cec7b0686c59bd7c219823d",
   "claim": {
     "id": "claim-5695-pr-state-mergeability",
     "owner": "codex:issue-5695-pr-state-mergeability",
-    "generation": 7,
+    "generation": 8,
     "acquired_unix_seconds": 1785113059,
     "expires_unix_seconds": 1785717859,
     "heartbeat_unix_seconds": 1785113059,
@@ -37,7 +37,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5695,
+    "pull_request": 5700,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5700",
+    "base": "main",
+    "head": "codex/5695-pr-state-mergeability",
+    "revision": "git-blake3:de2d0d41719e0fcbcdb4c091d317b934e31272bf:c09282da955af34ca222576964ad0608b6956ed8ce2132ced8b06c7a96004303",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -51,34 +61,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a8b402b4097087525cd39f46c7de2f7ee50f7f8441c5bedcfdc13c99bf089760",
+      "values_digest": "f2e7ed46be176a36e983086ffb80ece1fc870f82e327c9b7ded8916db36ff8e4",
       "rendered_digest": "0bd0312dca36c5465c44956f51706ee27ae9e44398b13a02fdc224bfd78569e9",
       "ast_digest": "0c2a59857e860bd7ae0a8f611e082de8977429525241bf0a59390ed38b9d5cda"
     },
     "stp": {
-      "values_digest": "284372b3bfc96feb7116090e5a61f3392ceee42e57a3e3b689a3320b7193a90c",
+      "values_digest": "e61dc995e6463b17bfe442189b9cf4643b01ea647b7d7065e8cb6a28ec544bf0",
       "rendered_digest": "603c196dd25a2209c96aa42dc5a7dd77296cb6ccb73635059fd9a50cc3446f96",
       "ast_digest": "74971ba8475b35d5b1657bbb4eb873ba81a338d32a79423fc040773507b4c585"
     },
     "spp": {
-      "values_digest": "e09009765fe64c29a224c326d7d89e66109e5bb2664b44847825b725eddf4043",
+      "values_digest": "c9687ce540fa430a8737473a35d32fb9d4f6a68ad745f5ccc8193abe6760d63f",
       "rendered_digest": "f48fece8f16014831d9445f95695e0bc911416284a0d81fcd1d650ca24786eed",
       "ast_digest": "56d9e7ce4145caa1e12259397f852f0271f8e2c4ff44783e4e89526172e10b35"
     },
     "vpp": {
-      "values_digest": "ae771afcf4ac9480b5facc93412bd9008522def35fb1152f0622f95dfb840951",
+      "values_digest": "6a98ab4827c3950fd82c02cd9992aaa2027bfc20e5a45b16e608c7abfce4751a",
       "rendered_digest": "b407dde88cf2d8569bd120633d7e73d8428b47ffeb27d1a60a7fbecf70c837ab",
       "ast_digest": "3f71256bb7daed94a674523b02b7f02511727afaf240bf38cda0e8a3ed14f20d"
     },
     "srp": {
-      "values_digest": "bb0dd5ff45ea1aed1febd103dda7af6a355457c166aac146e3c98a593ab4844f",
+      "values_digest": "465c125bf07f3c314e4c7da7b2b990e3de6e830958f629b7366ad50ea4391ad2",
       "rendered_digest": "65cfb8a3e07b486db5fc35428b0f5b0b11e44c0fd851d42be716977d83df1b39",
       "ast_digest": "8a805ce73d036ab603258648135364391a12497a7a2193762962f1537487c0a7"
     },
     "sor": {
-      "values_digest": "0a687e7a6f9316d17a173e47b7bd067da8caf67060592560c200057b7c288400",
-      "rendered_digest": "21f1fe461aa70ad026af3e7a153303dacd4d77e4b78f629a0c71a0e416bd8b60",
-      "ast_digest": "1017615474063afb28b2b2412d7d227651bffe50199b2a0735536c111b8619bb"
+      "values_digest": "cf3073d5d81cd1dd3c2404d7b6c46a4dedd3e66df63fd08f89aa7da5aef29913",
+      "rendered_digest": "c2a633b8dac553108aeb998e1ed745e1b57c8ee668c72e32c56a92f60fa806f0",
+      "ast_digest": "36d8f5ad10889e5b01f96431f6978f431de1f82948213939161e8377c7f9ab37"
     }
   },
   "transitions": [
@@ -109,6 +119,13 @@
       "to": "reviewed",
       "actor": "codex:issue-5695-pr-state-mergeability",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-5695-pr-state-mergeability",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -174,6 +191,13 @@
       "actor": "codex:issue-5695-pr-state-mergeability",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-5695-pr-state-mergeability",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
