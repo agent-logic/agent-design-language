@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4cd0d8a97a8b7d3afd28be679d16291fe95cd477e824555b1d506ac0a4e9d96e",
   "phase": "bound",
-  "generation": 0,
-  "digest": "54fa34738664cac8e726737411b9fc1256ab9f9841c80347bdd7124d1a5f604c",
+  "generation": 4,
+  "digest": "c44fa5eb6b5fb03460f84380fe07054aa7f1132f4f22504eb706fcaae345e203",
   "claim": {
     "id": "claim-5695-pr-state-mergeability",
     "owner": "codex:issue-5695-pr-state-mergeability",
-    "generation": 0,
+    "generation": 4,
     "acquired_unix_seconds": 1785113059,
     "expires_unix_seconds": 1785717859,
     "heartbeat_unix_seconds": 1785113059,
@@ -40,34 +40,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "454d6cb5d93bd19d3b6e953126bc6bcf65d9732702618b2b5110941760b6804d",
+      "values_digest": "ebb4cac2bf65a82a67cb324f08751eb75e8eb88e699711b7a776a1770793f9f7",
       "rendered_digest": "0bd0312dca36c5465c44956f51706ee27ae9e44398b13a02fdc224bfd78569e9",
       "ast_digest": "0c2a59857e860bd7ae0a8f611e082de8977429525241bf0a59390ed38b9d5cda"
     },
     "stp": {
-      "values_digest": "72970c5d3024492925d02a5ebda0e6ad623129d01df9dab5917c4d05d58007eb",
+      "values_digest": "7d3e516f4344dd59253c6566641c761bf1e77ef58c349c026ca6f38dd0ecb35b",
       "rendered_digest": "603c196dd25a2209c96aa42dc5a7dd77296cb6ccb73635059fd9a50cc3446f96",
       "ast_digest": "74971ba8475b35d5b1657bbb4eb873ba81a338d32a79423fc040773507b4c585"
     },
     "spp": {
-      "values_digest": "686f9b00c0f155561308352d15cf0830f171103aaa9d01e477ba88d30bc525b9",
+      "values_digest": "80c01881244f75e477d8f2695048ab0f3ccf25c380aa147c90a30abd92761a51",
       "rendered_digest": "f48fece8f16014831d9445f95695e0bc911416284a0d81fcd1d650ca24786eed",
       "ast_digest": "56d9e7ce4145caa1e12259397f852f0271f8e2c4ff44783e4e89526172e10b35"
     },
     "vpp": {
-      "values_digest": "8517f6f6751a3cb667c9f96e36a2354acee6aac41e2884d0f4f698aa6a40ce13",
+      "values_digest": "787810dc8325442054063c0d283871c94be26436564cd26b5d7b2230afbc568d",
       "rendered_digest": "b407dde88cf2d8569bd120633d7e73d8428b47ffeb27d1a60a7fbecf70c837ab",
       "ast_digest": "3f71256bb7daed94a674523b02b7f02511727afaf240bf38cda0e8a3ed14f20d"
     },
     "srp": {
-      "values_digest": "767590e0c0113bfae86f5fbda40fe7329f9cad428673694841799e96193fc26b",
+      "values_digest": "77583a04d1c10a9a8473dbb80eb02f591b0cc2feb06ab966ad82fb4cdddda323",
       "rendered_digest": "8b2fac739e999414ac4a6325f598f3e9317cb89e095f8ab19a7be1e670564104",
       "ast_digest": "5a303f2bb5ef4739f4790b358e01c77a677ae2dae2743e8490499e5c4ce2111a"
     },
     "sor": {
-      "values_digest": "112549043d1f9383a3ea7314f31151764b6f6ac10a63dd754b76088605517b48",
-      "rendered_digest": "296508bbded983fc8fa67f8cfe5af34a18c9eb09778b114e66ef1fc1b6a9e560",
-      "ast_digest": "b8b660ebb97d17e221ed93aab969673b244337cb99dace43ffecda0d9e699062"
+      "values_digest": "87a2bcd91251f855d3895b99ded456f3f91fd984d5775ddb30c872a68c328cb5",
+      "rendered_digest": "0b369434eda10cb7b2c53dfe9dcaa233aa499d3b936fd96f06e54d2a8f069930",
+      "ast_digest": "8739deb82842c61ee814a17be03cbe8fab216af78ed401595846c819d084800e"
     }
   },
   "transitions": [
@@ -100,6 +100,34 @@
       "actor": "codex:issue-5695-pr-state-mergeability",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-5695-pr-state-mergeability",
+      "reason": "Record bounded implementation before review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implement explicit GitHub mergeability-state normalization and preserve fail-closed pending behavior.\",\"changes\":[\"Map Behind, Blocked, Clean, Dirty, Draft, HasHooks, Unstable, and Unknown explicitly\",\"Classify blocked, unstable, draft, and unknown as waiting; behind as stale_base; dirty as conflicted\",\"Add focused coverage for all supported mergeability variants and classification behavior\"],\"artifacts\":[\"csdlc-v2/src/github.rs\",\".csdlc/issues/5695/cards/sor.md\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-5695-pr-state-mergeability",
+      "reason": "Record focused formatting validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--check\"],\"purpose\":\"Verify formatting for the bounded Rust change.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:cargo-fmt-check:passed\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-5695-pr-state-mergeability",
+      "reason": "Record focused mergeability classification tests.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"-p\",\"csdlc-v2\",\"github::tests\"],\"purpose\":\"Exercise every supported mergeability variant and preserve fail-closed pending classification.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:cargo-test-github-tests:3-passed\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-5695-pr-state-mergeability",
+      "reason": "Record strict lint validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"-p\",\"csdlc-v2\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Verify strict lint for the touched Rust library.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:cargo-clippy-csdlc-v2-lib:passed\"}}"
     }
   ]
 }

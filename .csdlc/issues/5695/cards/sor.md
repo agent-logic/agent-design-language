@@ -12,19 +12,60 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implement explicit GitHub mergeability-state normalization and preserve fail-closed pending behavior.
 
 ## Artifacts
 
-- none
+- csdlc-v2/src/github.rs
+- .csdlc/issues/5695/cards/sor.md
 
 ## Execution
 
-- none
+- Map Behind, Blocked, Clean, Dirty, Draft, HasHooks, Unstable, and Unknown explicitly
+- Classify blocked, unstable, draft, and unknown as waiting; behind as stale_base; dirty as conflicted
+- Add focused coverage for all supported mergeability variants and classification behavior
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--check"
+    ],
+    "purpose": "Verify formatting for the bounded Rust change.",
+    "outcome": "passed",
+    "evidence_ref": "local:cargo-fmt-check:passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "-p",
+      "csdlc-v2",
+      "github::tests"
+    ],
+    "purpose": "Exercise every supported mergeability variant and preserve fail-closed pending classification.",
+    "outcome": "passed",
+    "evidence_ref": "local:cargo-test-github-tests:3-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "-p",
+      "csdlc-v2",
+      "--lib",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Verify strict lint for the touched Rust library.",
+    "outcome": "passed",
+    "evidence_ref": "local:cargo-clippy-csdlc-v2-lib:passed"
+  }
+]
 
 ## Integration
 
