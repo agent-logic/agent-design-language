@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using ADL.Demos.UnityObservatory;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -29,6 +31,7 @@ namespace ADL.Demos.UnityObservatory.Editor
         private const string InvestorHeroCameraObjectName = "Investor Hero Camera";
         private const string ContractResourcePath = "observatory_contract";
         private const string HeroProofPath = "Proof/flagship-observatory-investor-hero.png";
+        private const string HeroProofQhdPath = "Proof/flagship-observatory-investor-hero-qhd.png";
 
         private static readonly string[] RequiredAssetRoots =
         {
@@ -249,6 +252,7 @@ namespace ADL.Demos.UnityObservatory.Editor
             EnsureAssetBackedArchitecture(scene);
             EnsureInvestorPresentation(scene);
             EnsureInvestorArrivalAndDepth(scene);
+            DisableIncompatibleHeroParticles(scene);
             EnsureProofCameras(scene);
 
             EditorSceneManager.SaveScene(scene, ScenePath);
@@ -260,11 +264,19 @@ namespace ADL.Demos.UnityObservatory.Editor
         {
             EnsureFlagshipStage();
             ValidateFlagshipStage(EditorSceneManager.OpenScene(ScenePath));
+            SetGameViewFullHd();
+            SetGameViewQhd();
             Debug.Log("ADL flagship observatory stage validation passed.");
         }
 
         [MenuItem("ADL/Observatory/Capture Flagship Investor Hero Proof")]
         public static void CaptureInvestorHeroProof()
+        {
+            CaptureInvestorHeroProofSet();
+        }
+
+        [MenuItem("ADL/Observatory/Capture Flagship Investor Hero Proof Set")]
+        public static void CaptureInvestorHeroProofSet()
         {
             EnsureFlagshipStage();
             Scene scene = EditorSceneManager.OpenScene(ScenePath);
@@ -279,21 +291,184 @@ namespace ADL.Demos.UnityObservatory.Editor
                 );
             }
 
-            string absolutePath = Path.Combine(Directory.GetCurrentDirectory(), HeroProofPath);
+            CaptureCameraProof(camera, HeroProofPath, 1920, 1080);
+            CaptureCameraProof(camera, HeroProofQhdPath, 2560, 1440);
+            Debug.Log(
+                $"ADL flagship observatory hero proof set captured. fullHd={HeroProofPath}; qhd={HeroProofQhdPath}"
+            );
+        }
+
+        [MenuItem("ADL/Observatory/Set Game View Full HD")]
+        public static void SetGameViewFullHd()
+        {
+            SetGameViewResolution(1920, 1080, "ADL Full HD");
+        }
+
+        [MenuItem("ADL/Observatory/Set Game View QHD")]
+        public static void SetGameViewQhd()
+        {
+            SetGameViewResolution(2560, 1440, "ADL QHD");
+        }
+
+        private static void SetGameViewResolution(int width, int height, string label)
+        {
+            const BindingFlags InstanceMembers =
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+            Assembly editorAssembly = typeof(UnityEditor.Editor).Assembly;
+            Type gameViewType = editorAssembly.GetType("UnityEditor.GameView");
+            Type gameViewSizesType = editorAssembly.GetType("UnityEditor.GameViewSizes");
+            Type gameViewSizeType = editorAssembly.GetType("UnityEditor.GameViewSize");
+            Type gameViewSizeKindType = editorAssembly.GetType("UnityEditor.GameViewSizeType");
+            Type gameViewSizeGroupType = editorAssembly.GetType("UnityEditor.GameViewSizeGroupType");
+            if (
+                gameViewType == null
+                || gameViewSizesType == null
+                || gameViewSizeType == null
+                || gameViewSizeKindType == null
+                || gameViewSizeGroupType == null
+            )
+            {
+                throw new InvalidOperationException(
+                    "Unity Game View reflection types are unavailable in this editor."
+                );
+            }
+
+            Type singletonType = typeof(ScriptableSingleton<>).MakeGenericType(gameViewSizesType);
+            object sizes = singletonType
+                .GetProperty(
+                    "instance",
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static
+                )
+                ?.GetValue(null);
+            object standalone = Enum.Parse(gameViewSizeGroupType, "Standalone");
+            object group = gameViewSizesType
+                .GetMethod("GetGroup", InstanceMembers)
+                ?.Invoke(sizes, new[] { standalone });
+            if (group == null)
+            {
+                throw new InvalidOperationException("Unity Standalone Game View size group is unavailable.");
+            }
+
+            MethodInfo getTotalCount = group
+                .GetType()
+                .GetMethod("GetTotalCount", InstanceMembers);
+            MethodInfo getGameViewSize = group
+                .GetType()
+                .GetMethod("GetGameViewSize", InstanceMembers);
+            int selectedIndex = FindGameViewResolution(
+                group,
+                getTotalCount,
+                getGameViewSize,
+                width,
+                height
+            );
+            if (selectedIndex < 0)
+            {
+                object fixedResolution = Enum.Parse(gameViewSizeKindType, "FixedResolution");
+                object customSize = Activator.CreateInstance(
+                    gameViewSizeType,
+                    fixedResolution,
+                    width,
+                    height,
+                    label
+                );
+                group
+                    .GetType()
+                    .GetMethod("AddCustomSize", InstanceMembers)
+                    ?.Invoke(group, new[] { customSize });
+                selectedIndex = FindGameViewResolution(
+                    group,
+                    getTotalCount,
+                    getGameViewSize,
+                    width,
+                    height
+                );
+            }
+
+            EditorWindow gameView = Resources
+                .FindObjectsOfTypeAll(gameViewType)
+                .OfType<EditorWindow>()
+                .FirstOrDefault();
+            PropertyInfo selectedSize = gameViewType.GetProperty(
+                "selectedSizeIndex",
+                InstanceMembers
+            );
+            if (gameView == null || selectedSize == null || selectedIndex < 0)
+            {
+                throw new InvalidOperationException(
+                    $"Unity Game View could not select {width}x{height}. "
+                        + $"gameView={gameView != null}; selectedSize={selectedSize != null}; "
+                        + $"selectedIndex={selectedIndex}; getTotalCount={getTotalCount != null}; "
+                        + $"getGameViewSize={getGameViewSize != null}."
+                );
+            }
+
+            selectedSize.SetValue(gameView, selectedIndex);
+            gameView.Repaint();
+            Debug.Log($"ADL Observatory Game View selected {width}x{height}.");
+        }
+
+        private static int FindGameViewResolution(
+            object group,
+            MethodInfo getTotalCount,
+            MethodInfo getGameViewSize,
+            int width,
+            int height
+        )
+        {
+            const BindingFlags InstanceMembers =
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+            if (getTotalCount == null || getGameViewSize == null)
+            {
+                return -1;
+            }
+
+            int count = (int)getTotalCount.Invoke(group, null);
+            for (int index = 0; index < count; index++)
+            {
+                object size = getGameViewSize.Invoke(group, new object[] { index });
+                PropertyInfo sizeWidth = size
+                    ?.GetType()
+                    .GetProperty("width", InstanceMembers);
+                PropertyInfo sizeHeight = size
+                    ?.GetType()
+                    .GetProperty("height", InstanceMembers);
+                if (
+                    sizeWidth != null
+                    && sizeHeight != null
+                    && (int)sizeWidth.GetValue(size) == width
+                    && (int)sizeHeight.GetValue(size) == height
+                )
+                {
+                    return index;
+                }
+            }
+
+            return -1;
+        }
+
+        private static void CaptureCameraProof(
+            Camera camera,
+            string projectRelativePath,
+            int width,
+            int height
+        )
+        {
+            string absolutePath = Path.Combine(Directory.GetCurrentDirectory(), projectRelativePath);
             Directory.CreateDirectory(Path.GetDirectoryName(absolutePath));
             RenderTexture previousTarget = camera.targetTexture;
             RenderTexture previousActive = RenderTexture.active;
-            RenderTexture target = new RenderTexture(1920, 1080, 24)
+            RenderTexture target = new RenderTexture(width, height, 24)
             {
                 antiAliasing = 4,
             };
-            Texture2D image = new Texture2D(1920, 1080, TextureFormat.RGB24, false);
+            Texture2D image = new Texture2D(width, height, TextureFormat.RGB24, false);
             try
             {
                 camera.targetTexture = target;
                 RenderTexture.active = target;
                 camera.Render();
-                image.ReadPixels(new Rect(0, 0, 1920, 1080), 0, 0);
+                image.ReadPixels(new Rect(0, 0, width, height), 0, 0);
                 image.Apply();
                 File.WriteAllBytes(absolutePath, image.EncodeToPNG());
             }
@@ -305,8 +480,7 @@ namespace ADL.Demos.UnityObservatory.Editor
                 UnityEngine.Object.DestroyImmediate(target);
             }
 
-            ValidateHeroProofArtifact(absolutePath);
-            Debug.Log($"ADL flagship observatory hero proof captured. path={HeroProofPath}");
+            ValidateHeroProofArtifact(absolutePath, width, height);
         }
 
         public static void ValidateFlagshipStage(Scene scene)
@@ -426,7 +600,11 @@ namespace ADL.Demos.UnityObservatory.Editor
             );
         }
 
-        private static void ValidateHeroProofArtifact(string absolutePath)
+        private static void ValidateHeroProofArtifact(
+            string absolutePath,
+            int expectedWidth,
+            int expectedHeight
+        )
         {
             FileInfo proofFile = new FileInfo(absolutePath);
             if (!proofFile.Exists || proofFile.Length < 512 * 1024)
@@ -434,6 +612,27 @@ namespace ADL.Demos.UnityObservatory.Editor
                 throw new InvalidOperationException(
                     $"Flagship stage hero proof artifact is missing or too small: {HeroProofPath}"
                 );
+            }
+
+            Texture2D proofImage = new Texture2D(2, 2, TextureFormat.RGB24, false);
+            try
+            {
+                if (
+                    !proofImage.LoadImage(File.ReadAllBytes(absolutePath), false)
+                    || proofImage.width != expectedWidth
+                    || proofImage.height != expectedHeight
+                )
+                {
+                    throw new InvalidOperationException(
+                        $"Flagship stage hero proof has unexpected dimensions. "
+                            + $"expected={expectedWidth}x{expectedHeight}; "
+                            + $"actual={proofImage.width}x{proofImage.height}."
+                    );
+                }
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(proofImage);
             }
         }
 
@@ -487,9 +686,9 @@ namespace ADL.Demos.UnityObservatory.Editor
             cameraObject.tag = "MainCamera";
             ConfigureProofCamera(
                 cameraObject,
-                new Vector3(6.5f, 4.4f, -15.8f),
-                new Vector3(3.8f, 2.95f, -4.1f),
-                35f,
+                new Vector3(8.2f, 5.25f, -13.0f),
+                new Vector3(3.8f, 3.75f, -4.6f),
+                34f,
                 0f
             );
         }
@@ -517,9 +716,9 @@ namespace ADL.Demos.UnityObservatory.Editor
             EnsureNamedProofCamera(
                 scene,
                 InvestorHeroCameraObjectName,
-                new Vector3(6.5f, 4.4f, -15.8f),
-                new Vector3(3.8f, 2.95f, -4.1f),
-                35f,
+                new Vector3(8.2f, 5.25f, -13.0f),
+                new Vector3(3.8f, 3.75f, -4.6f),
+                34f,
                 -18f
             );
         }
@@ -586,7 +785,7 @@ namespace ADL.Demos.UnityObservatory.Editor
 
             light.type = LightType.Directional;
             light.color = new Color(1f, 0.94f, 0.88f, 1f);
-            light.intensity = 0.38f;
+            light.intensity = 1.08f;
             light.shadows = LightShadows.Soft;
             lightObject.transform.rotation = Quaternion.Euler(44f, -32f, 0f);
         }
@@ -597,41 +796,41 @@ namespace ADL.Demos.UnityObservatory.Editor
                 scene,
                 "Investor Cyan Rim Light",
                 new Vector3(-1.2f, 5.4f, -3.5f),
-                new Color(0.08f, 0.74f, 1f, 1f),
-                0.56f,
-                8.5f
+                new Color(0.22f, 0.62f, 0.82f, 1f),
+                0.8f,
+                10.5f
             );
             EnsurePointLight(
                 scene,
                 "Investor Amber Proof Wall Key",
                 new Vector3(5.4f, 3.2f, -2.6f),
                 new Color(1f, 0.72f, 0.34f, 1f),
-                0.58f,
-                5.5f
+                1.05f,
+                7.5f
             );
             EnsurePointLight(
                 scene,
                 "Investor Runtime Floor Wash",
                 new Vector3(3.8f, 1.25f, -7.6f),
-                new Color(0.1f, 0.95f, 0.82f, 1f),
-                0.32f,
-                6.2f
+                new Color(0.18f, 0.72f, 0.68f, 1f),
+                0.62f,
+                8.2f
             );
             EnsurePointLight(
                 scene,
                 "Investor Arrival Portal Glow",
                 new Vector3(0f, 2.3f, -10.2f),
                 new Color(0.34f, 0.78f, 1f, 1f),
-                0.42f,
-                7.4f
+                0.78f,
+                9.4f
             );
             EnsurePointLight(
                 scene,
                 "Investor Witness Rail Warmth",
                 new Vector3(-1.9f, 2.15f, -7.8f),
                 new Color(1f, 0.66f, 0.36f, 1f),
-                0.38f,
-                5.4f
+                0.68f,
+                7.4f
             );
         }
 
@@ -713,7 +912,7 @@ namespace ADL.Demos.UnityObservatory.Editor
                     existing.transform.SetParent(rig.transform, false);
                     existing.name = AnchorName(index);
                     ConfigureAnchor(index, existing, positions[index]);
-                    existing.SetActive(index != 0);
+                    existing.SetActive(false);
                 }
             }
         }
@@ -755,6 +954,21 @@ namespace ADL.Demos.UnityObservatory.Editor
             }
         }
 
+        private static void DisableIncompatibleHeroParticles(Scene scene)
+        {
+            GameObject rig = FindRoot(scene, ProofRigObjectName);
+            if (rig == null)
+            {
+                return;
+            }
+
+            foreach (ParticleSystem particleSystem in rig.GetComponentsInChildren<ParticleSystem>(true))
+            {
+                particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                particleSystem.gameObject.SetActive(false);
+            }
+        }
+
         private static void EnsureCompositionMarkers(Scene scene)
         {
             GameObject rig = FindRoot(scene, ProofRigObjectName);
@@ -768,6 +982,7 @@ namespace ADL.Demos.UnityObservatory.Editor
             beacon.transform.localPosition = new Vector3(3.8f, 4.12f, -5.2f);
             beacon.transform.localScale = Vector3.one * 0.36f;
             SetMaterial(beacon, new Color(0.12f, 0.82f, 1f, 1f), 0.9f);
+            beacon.SetActive(false);
 
             for (int index = 0; index < 3; index++)
             {
@@ -777,6 +992,7 @@ namespace ADL.Demos.UnityObservatory.Editor
                 pylon.transform.localPosition = new Vector3(3.8f, 3.25f, -5.2f) + offset;
                 pylon.transform.localScale = new Vector3(0.08f, 0.9f, 0.08f);
                 SetMaterial(pylon, new Color(0.025f, 0.038f, 0.052f, 1f), 0.2f);
+                pylon.SetActive(false);
             }
         }
 
@@ -786,8 +1002,8 @@ namespace ADL.Demos.UnityObservatory.Editor
             Vector3 center = new Vector3(3.8f, 3.05f, -5.2f);
 
             GameObject globe = EnsurePrimitive(scene, rig, HolographicGlobeObjectName, PrimitiveType.Sphere);
-            globe.transform.localPosition = center + new Vector3(0f, 1.95f, 0f);
-            globe.transform.localScale = Vector3.one * 0.72f;
+            globe.transform.localPosition = center + new Vector3(0f, 1.0f, 0f);
+            globe.transform.localScale = Vector3.one * 0.68f;
             SetMaterial(globe, new Color(0.03f, 0.58f, 0.72f, 1f), 0.95f, true);
 
             Light globeLight = globe.GetComponent<Light>();
@@ -798,8 +1014,8 @@ namespace ADL.Demos.UnityObservatory.Editor
 
             globeLight.type = LightType.Point;
             globeLight.color = new Color(0.13f, 0.78f, 1f, 1f);
-            globeLight.intensity = 0.38f;
-            globeLight.range = 4.5f;
+            globeLight.intensity = 0.62f;
+            globeLight.range = 5.5f;
             globeLight.shadows = LightShadows.None;
 
             for (int index = 0; index < 16; index++)
@@ -808,10 +1024,7 @@ namespace ADL.Demos.UnityObservatory.Editor
                 Vector3 radial = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
 
                 GameObject rail = EnsurePrimitive(scene, rig, $"Observation Rail {index + 1:00}", PrimitiveType.Cube);
-                rail.transform.localPosition = center + radial * 3.9f + new Vector3(0f, 0.85f, 0f);
-                rail.transform.localRotation = Quaternion.Euler(0f, angle, 0f);
-                rail.transform.localScale = new Vector3(0.08f, 0.08f, 0.72f);
-                SetMaterial(rail, new Color(0.035f, 0.052f, 0.065f, 1f), 0.55f);
+                rail.SetActive(false);
 
                 if (index % 2 == 0)
                 {
@@ -819,13 +1032,82 @@ namespace ADL.Demos.UnityObservatory.Editor
                     light.transform.localPosition = center + radial * 3.25f + new Vector3(0f, 0.95f, 0f);
                     light.transform.localScale = Vector3.one * 0.12f;
                     SetMaterial(light, new Color(0.05f, 0.9f, 1f, 1f), 0.8f, true);
+                    light.SetActive(false);
                 }
             }
 
-            EnsureTelemetryPanel(scene, rig, "Telemetry Panel Left", center + new Vector3(-3.9f, 2.0f, 1.2f), 30f);
-            EnsureTelemetryPanel(scene, rig, "Telemetry Panel Center", center + new Vector3(0f, 2.25f, 2.5f), 0f);
-            EnsureTelemetryPanel(scene, rig, "Telemetry Panel Right", center + new Vector3(3.9f, 2.0f, 1.2f), -30f);
+            Color perimeterColor = new Color(0.025f, 0.38f, 0.46f, 1f);
+            GameObject frontPerimeter = EnsurePrimitiveRibbon(
+                scene,
+                rig,
+                "Observation Perimeter Front",
+                center + new Vector3(0f, 0.62f, -3.5f),
+                Quaternion.identity,
+                new Vector3(3.55f, 0.055f, 0.055f),
+                perimeterColor
+            );
+            frontPerimeter.SetActive(false);
+            GameObject rearPerimeter = EnsurePrimitiveRibbon(
+                scene,
+                rig,
+                "Observation Perimeter Rear",
+                center + new Vector3(0f, 0.62f, 3.5f),
+                Quaternion.identity,
+                new Vector3(3.55f, 0.055f, 0.055f),
+                perimeterColor
+            );
+            rearPerimeter.SetActive(false);
+            GameObject leftPerimeter = EnsurePrimitiveRibbon(
+                scene,
+                rig,
+                "Observation Perimeter Left",
+                center + new Vector3(-3.5f, 0.62f, 0f),
+                Quaternion.identity,
+                new Vector3(0.055f, 0.055f, 3.55f),
+                perimeterColor
+            );
+            leftPerimeter.SetActive(false);
+            GameObject rightPerimeter = EnsurePrimitiveRibbon(
+                scene,
+                rig,
+                "Observation Perimeter Right",
+                center + new Vector3(3.5f, 0.62f, 0f),
+                Quaternion.identity,
+                new Vector3(0.055f, 0.055f, 3.55f),
+                perimeterColor
+            );
+            rightPerimeter.SetActive(false);
+
+            GameObject telemetryLeft = EnsureTelemetryPanel(
+                scene,
+                rig,
+                "Telemetry Panel Left",
+                center + new Vector3(-3.9f, 2.0f, 1.2f),
+                30f
+            );
+            GameObject telemetryCenter = EnsureTelemetryPanel(
+                scene,
+                rig,
+                "Telemetry Panel Center",
+                center + new Vector3(0f, 2.25f, 2.5f),
+                0f
+            );
+            GameObject telemetryRight = EnsureTelemetryPanel(
+                scene,
+                rig,
+                "Telemetry Panel Right",
+                center + new Vector3(3.9f, 2.0f, 1.2f),
+                -30f
+            );
+            telemetryLeft.SetActive(false);
+            telemetryCenter.SetActive(false);
+            telemetryRight.SetActive(false);
             EnsureRuntimePolisProjection(scene, rig, center);
+            Transform runtimeProjection = rig.transform.Find(RuntimePolisProjectionName);
+            if (runtimeProjection != null)
+            {
+                runtimeProjection.gameObject.SetActive(false);
+            }
         }
 
         private static void EnsureEnvironmentalBackdrop(Scene scene)
@@ -839,6 +1121,128 @@ namespace ADL.Demos.UnityObservatory.Editor
             );
             Vector3 center = new Vector3(3.8f, 2.95f, -5.2f);
 
+            GameObject roomFloor = EnsurePrimitive(
+                scene,
+                backdrop,
+                "Investor Observatory Room Floor",
+                PrimitiveType.Cube
+            );
+            roomFloor.transform.localPosition = center + new Vector3(0f, -0.42f, 1.15f);
+            roomFloor.transform.localScale = new Vector3(9.2f, 0.2f, 8.6f);
+            SetMaterial(roomFloor, new Color(0.065f, 0.115f, 0.135f, 1f), 0.58f);
+
+            GameObject frontApron = EnsurePrimitive(
+                scene,
+                backdrop,
+                "Investor Observatory Front Apron",
+                PrimitiveType.Cube
+            );
+            frontApron.transform.localPosition = center + new Vector3(0f, -1.05f, -4.2f);
+            frontApron.transform.localScale = new Vector3(9.2f, 0.82f, 0.28f);
+            SetMaterial(frontApron, new Color(0.04f, 0.085f, 0.105f, 1f), 0.52f);
+
+            GameObject rearWall = EnsurePrimitive(
+                scene,
+                backdrop,
+                "Investor Observatory Rear Wall",
+                PrimitiveType.Cube
+            );
+            rearWall.transform.localPosition = center + new Vector3(0f, 2.05f, 5.65f);
+            rearWall.transform.localScale = new Vector3(9.2f, 4.2f, 0.24f);
+            SetMaterial(rearWall, new Color(0.045f, 0.125f, 0.16f, 1f), 0.62f, true);
+
+            GameObject heroWall = EnsurePrimitive(
+                scene,
+                backdrop,
+                "Observatory Hero Feature Wall",
+                PrimitiveType.Cube
+            );
+            heroWall.transform.localPosition = center + new Vector3(0f, 1.35f, 5.28f);
+            heroWall.transform.localScale = new Vector3(4.4f, 2.45f, 0.16f);
+            SetMaterial(heroWall, new Color(0.025f, 0.12f, 0.17f, 1f), 0.7f);
+
+            GameObject heroWallCore = EnsurePrimitive(
+                scene,
+                backdrop,
+                "Observatory Hero Feature Core",
+                PrimitiveType.Cube
+            );
+            heroWallCore.transform.localPosition = center + new Vector3(0f, 1.35f, 5.08f);
+            heroWallCore.transform.localScale = new Vector3(2.75f, 1.25f, 0.055f);
+            SetMaterial(heroWallCore, new Color(0.02f, 0.42f, 0.53f, 1f), 0.82f, true);
+
+            foreach (float xOffset in new[] { -3.45f, 3.45f })
+            {
+                GameObject featureRail = EnsurePrimitive(
+                    scene,
+                    backdrop,
+                    xOffset < 0f ? "Observatory Hero Rail Left" : "Observatory Hero Rail Right",
+                    PrimitiveType.Cube
+                );
+                featureRail.transform.localPosition = center + new Vector3(xOffset, 1.35f, 5.05f);
+                featureRail.transform.localScale = new Vector3(0.055f, 2.05f, 0.055f);
+                SetMaterial(featureRail, new Color(0.08f, 0.72f, 0.86f, 1f), 0.86f, true);
+            }
+
+            GameObject globePlinth = EnsurePrimitive(
+                scene,
+                backdrop,
+                "Holographic Globe Plinth",
+                PrimitiveType.Cylinder
+            );
+            globePlinth.transform.localPosition = center + new Vector3(0f, 0.12f, 0f);
+            globePlinth.transform.localRotation = Quaternion.Euler(0f, 22.5f, 0f);
+            globePlinth.transform.localScale = new Vector3(1.15f, 0.35f, 1.15f);
+            SetMaterial(globePlinth, new Color(0.035f, 0.13f, 0.16f, 1f), 0.68f);
+
+            GameObject globePlinthLight = EnsurePrimitive(
+                scene,
+                backdrop,
+                "Holographic Globe Plinth Light",
+                PrimitiveType.Cylinder
+            );
+            globePlinthLight.transform.localPosition = center + new Vector3(0f, 0.5f, 0f);
+            globePlinthLight.transform.localRotation = Quaternion.Euler(0f, 22.5f, 0f);
+            globePlinthLight.transform.localScale = new Vector3(0.86f, 0.035f, 0.86f);
+            SetMaterial(globePlinthLight, new Color(0.06f, 0.78f, 0.9f, 1f), 0.92f, true);
+
+            GameObject leftWall = EnsurePrimitive(
+                scene,
+                backdrop,
+                "Investor Observatory Left Wing",
+                PrimitiveType.Cube
+            );
+            leftWall.transform.localPosition = center + new Vector3(-8.7f, 1.85f, 1.05f);
+            leftWall.transform.localRotation = Quaternion.Euler(0f, -8f, 0f);
+            leftWall.transform.localScale = new Vector3(0.24f, 4.0f, 6.4f);
+            SetMaterial(leftWall, new Color(0.02f, 0.065f, 0.09f, 1f), 0.5f);
+
+            GameObject rightWall = EnsurePrimitive(
+                scene,
+                backdrop,
+                "Investor Observatory Right Wing",
+                PrimitiveType.Cube
+            );
+            rightWall.transform.localPosition = center + new Vector3(8.7f, 1.85f, 1.05f);
+            rightWall.transform.localRotation = Quaternion.Euler(0f, 8f, 0f);
+            rightWall.transform.localScale = new Vector3(0.24f, 4.0f, 6.4f);
+            SetMaterial(rightWall, new Color(0.02f, 0.065f, 0.09f, 1f), 0.5f);
+
+            foreach (float xOffset in new[] { -5.85f, 5.85f })
+            {
+                GameObject lightColumn = EnsurePrimitive(
+                    scene,
+                    backdrop,
+                    xOffset < 0f
+                        ? "Investor Rear Light Column Left"
+                        : "Investor Rear Light Column Right",
+                    PrimitiveType.Cube
+                );
+                lightColumn.transform.localPosition = center + new Vector3(xOffset, 2.15f, 5.42f);
+                lightColumn.transform.localScale = new Vector3(0.055f, 2.45f, 0.06f);
+                SetMaterial(lightColumn, new Color(0.08f, 0.72f, 0.86f, 1f), 0.85f, true);
+            }
+
             GameObject dome = EnsurePrimitive(scene, backdrop, "Atmospheric Horizon Dome", PrimitiveType.Sphere);
             dome.transform.localPosition = center + new Vector3(10.5f, 8.2f, 25.5f);
             dome.transform.localRotation = Quaternion.identity;
@@ -849,7 +1253,7 @@ namespace ADL.Demos.UnityObservatory.Editor
             space.transform.localPosition = center + new Vector3(0f, 4.4f, 14.8f);
             space.transform.localRotation = Quaternion.identity;
             space.transform.localScale = new Vector3(42f, 14f, 0.12f);
-            SetMaterial(space, new Color(0.018f, 0.055f, 0.075f, 1f), 0.15f);
+            SetMaterial(space, new Color(0.025f, 0.08f, 0.11f, 1f), 0.24f, true);
 
             GameObject plinth = EnsurePrimitive(
                 scene,
@@ -1023,8 +1427,8 @@ namespace ADL.Demos.UnityObservatory.Editor
             rail.transform.localPosition = localPosition;
             rail.transform.localRotation = Quaternion.identity;
             rail.transform.localScale = new Vector3(0.045f, 0.035f, 2.4f);
-            rail.SetActive(true);
             SetMaterial(rail, new Color(0.03f, 0.68f, 0.86f, 1f), 0.78f, true);
+            rail.SetActive(false);
         }
 
         private static void EnsureInvestorArrivalAndDepth(Scene scene)
@@ -1090,7 +1494,7 @@ namespace ADL.Demos.UnityObservatory.Editor
                 new Vector3(0.7f, 1.25f, 0.7f)
             );
 
-            EnsurePrefabChild(
+            GameObject starProjector = EnsurePrefabChild(
                 scene,
                 layer,
                 "Deep Space Star Projector",
@@ -1099,6 +1503,7 @@ namespace ADL.Demos.UnityObservatory.Editor
                 Quaternion.Euler(0f, 180f, 0f),
                 new Vector3(0.68f, 0.68f, 0.68f)
             );
+            starProjector.SetActive(false);
 
             EnsurePrefabChild(
                 scene,
@@ -1240,6 +1645,7 @@ namespace ADL.Demos.UnityObservatory.Editor
                 "Executive Proof Caption",
                 "Left Power Generator",
                 "Right Power Generator",
+                "Deep Space Star Projector",
             })
             {
                 Transform hidden = layer.transform.Find(hiddenFromHero);
@@ -1449,6 +1855,21 @@ namespace ADL.Demos.UnityObservatory.Editor
                 0.022f,
                 new Color(1f, 0.92f, 0.62f, 1f)
             );
+
+            foreach (string sideDisplay in new[]
+            {
+                "Polis Evidence Wall",
+                "Polis Evidence Header",
+                "Polis Evidence Flow",
+                "Polis Operator Guardrail",
+            })
+            {
+                Transform display = projection.transform.Find(sideDisplay);
+                if (display != null)
+                {
+                    display.gameObject.SetActive(false);
+                }
+            }
         }
 
         private static RuntimeProjectionSnapshot LoadRuntimeProjectionSnapshot()
@@ -1645,7 +2066,7 @@ namespace ADL.Demos.UnityObservatory.Editor
                 new Vector3(0.82f, 0.82f, 0.82f)
             );
 
-            EnsurePrefabChild(
+            GameObject leftPresentationWall = EnsurePrefabChild(
                 scene,
                 architecture,
                 "Left Presentation Wall",
@@ -1654,8 +2075,9 @@ namespace ADL.Demos.UnityObservatory.Editor
                 Quaternion.Euler(0f, 76f, 0f),
                 new Vector3(0.46f, 0.46f, 0.46f)
             );
+            leftPresentationWall.SetActive(false);
 
-            EnsurePrefabChild(
+            GameObject rightPresentationWall = EnsurePrefabChild(
                 scene,
                 architecture,
                 "Right Presentation Wall",
@@ -1664,15 +2086,16 @@ namespace ADL.Demos.UnityObservatory.Editor
                 Quaternion.Euler(0f, -76f, 0f),
                 new Vector3(0.46f, 0.46f, 0.46f)
             );
+            rightPresentationWall.SetActive(false);
 
             EnsurePrefabChild(
                 scene,
                 architecture,
                 "Rear Focal Column Left",
                 "Assets/Sci-Fi Styled Modular Pack/Prefabs/Decorative elements/Column/column_middle.prefab",
-                center + new Vector3(-2.85f, 1.38f, 4.02f),
+                center + new Vector3(-3.25f, 1.05f, 4.72f),
                 Quaternion.Euler(0f, 0f, 0f),
-                new Vector3(0.86f, 1.18f, 0.86f)
+                new Vector3(0.52f, 0.82f, 0.52f)
             );
 
             EnsurePrefabChild(
@@ -1680,9 +2103,9 @@ namespace ADL.Demos.UnityObservatory.Editor
                 architecture,
                 "Rear Focal Column Right",
                 "Assets/Sci-Fi Styled Modular Pack/Prefabs/Decorative elements/Column/column_middle.prefab",
-                center + new Vector3(2.85f, 1.38f, 4.02f),
+                center + new Vector3(3.25f, 1.05f, 4.72f),
                 Quaternion.Euler(0f, 0f, 0f),
-                new Vector3(0.86f, 1.18f, 0.86f)
+                new Vector3(0.52f, 0.82f, 0.52f)
             );
 
             EnsurePrefabChild(
@@ -1735,7 +2158,7 @@ namespace ADL.Demos.UnityObservatory.Editor
                 new Vector3(0.68f, 0.68f, 0.68f)
             );
 
-            EnsurePrefabChild(
+            GameObject shieldCore = EnsurePrefabChild(
                 scene,
                 architecture,
                 "Shield Core Hologram Base",
@@ -1744,8 +2167,9 @@ namespace ADL.Demos.UnityObservatory.Editor
                 Quaternion.identity,
                 new Vector3(0.48f, 0.48f, 0.48f)
             );
+            shieldCore.SetActive(false);
 
-            EnsurePrefabChild(
+            GameObject orbitalProjector = EnsurePrefabChild(
                 scene,
                 architecture,
                 "Orbital Projector",
@@ -1754,8 +2178,9 @@ namespace ADL.Demos.UnityObservatory.Editor
                 Quaternion.Euler(0f, 180f, 0f),
                 new Vector3(0.55f, 0.55f, 0.55f)
             );
+            orbitalProjector.SetActive(false);
 
-            EnsurePrefabChild(
+            GameObject leftServerRack = EnsurePrefabChild(
                 scene,
                 architecture,
                 "Left Server Rack",
@@ -1764,8 +2189,9 @@ namespace ADL.Demos.UnityObservatory.Editor
                 Quaternion.Euler(0f, 68f, 0f),
                 new Vector3(0.8f, 0.8f, 0.8f)
             );
+            leftServerRack.SetActive(false);
 
-            EnsurePrefabChild(
+            GameObject rightServerRack = EnsurePrefabChild(
                 scene,
                 architecture,
                 "Right Server Rack",
@@ -1774,6 +2200,7 @@ namespace ADL.Demos.UnityObservatory.Editor
                 Quaternion.Euler(0f, -68f, 0f),
                 new Vector3(0.8f, 0.8f, 0.8f)
             );
+            rightServerRack.SetActive(false);
 
             GameObject leftArm = EnsurePrefabChild(
                 scene,
@@ -1811,9 +2238,18 @@ namespace ADL.Demos.UnityObservatory.Editor
                     new Vector3(0.55f, 0.55f, 0.55f)
                 );
             }
+
+            foreach (Transform child in architecture.transform)
+            {
+                bool retainForHero =
+                    string.Equals(child.name, "Presentation Floor Plate", StringComparison.Ordinal)
+                    || string.Equals(child.name, "Rear Focal Column Left", StringComparison.Ordinal)
+                    || string.Equals(child.name, "Rear Focal Column Right", StringComparison.Ordinal);
+                child.gameObject.SetActive(retainForHero);
+            }
         }
 
-        private static void EnsureTelemetryPanel(
+        private static GameObject EnsureTelemetryPanel(
             Scene scene,
             GameObject rig,
             string name,
@@ -1826,6 +2262,7 @@ namespace ADL.Demos.UnityObservatory.Editor
             panel.transform.localRotation = Quaternion.Euler(0f, yaw, 0f);
             panel.transform.localScale = new Vector3(1.15f, 0.58f, 0.04f);
             SetMaterial(panel, new Color(0.02f, 0.43f, 0.58f, 1f), 0.85f, true);
+            return panel;
         }
 
         private static GameObject EnsurePrimitive(Scene scene, GameObject parent, string objectName, PrimitiveType primitiveType)
@@ -1945,7 +2382,7 @@ namespace ADL.Demos.UnityObservatory.Editor
             if (emissive)
             {
                 material.EnableKeyword("_EMISSION");
-                material.SetColor("_EmissionColor", color * 0.72f);
+                material.SetColor("_EmissionColor", color * 0.58f);
             }
             else
             {
@@ -1956,10 +2393,10 @@ namespace ADL.Demos.UnityObservatory.Editor
         private static void EnsureAmbientLighting()
         {
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-            RenderSettings.ambientLight = new Color(0.045f, 0.062f, 0.078f, 1f);
+            RenderSettings.ambientLight = new Color(0.2f, 0.23f, 0.26f, 1f);
             RenderSettings.fog = true;
-            RenderSettings.fogColor = new Color(0.028f, 0.075f, 0.1f, 1f);
-            RenderSettings.fogDensity = 0.0055f;
+            RenderSettings.fogColor = new Color(0.045f, 0.075f, 0.09f, 1f);
+            RenderSettings.fogDensity = 0.0024f;
         }
 
         private static string AnchorName(int index)
