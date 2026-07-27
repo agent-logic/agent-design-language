@@ -125,7 +125,7 @@ impl RuntimeVectorConfig {
 
 pub struct RuntimeVectorPipeline {
     child: Option<Child>,
-    ingress: Arc<Mutex<Option<ChildStdin>>>,
+    ingress: Arc<Mutex<IngressState>>,
     sequence: Arc<AtomicU64>,
     config: RuntimeVectorConfig,
     master_log_path: PathBuf,
@@ -193,12 +193,15 @@ impl RuntimeVectorPipeline {
         let mut child = command
             .spawn()
             .map_err(|_| "vector_binary_missing_or_not_executable")?;
-        let ingress = Arc::new(Mutex::new(Some(
-            child
-                .stdin
-                .take()
-                .ok_or("runtime_vector_stdin_unavailable")?,
-        )));
+        let ingress = Arc::new(Mutex::new(IngressState {
+            stdin: Some(
+                child
+                    .stdin
+                    .take()
+                    .ok_or("runtime_vector_stdin_unavailable")?,
+            ),
+            failure: None,
+        }));
         if install_subscriber {
             tracing::subscriber::set_global_default(Registry::default().with(
                 RuntimeTracingLayer::new(ingress.clone(), sequence.clone(), config.clone()),
@@ -308,7 +311,7 @@ impl RuntimeVectorPipeline {
             return Ok(());
         }
         if !self.drain_complete {
-            let drain_sequence = self.sequence.load(Ordering::SeqCst);
+            let sequence_before_drain = self.sequence.load(Ordering::SeqCst);
             tracing::info!(
                 target: "adl_runtime_kernel",
                 component = "observability",
@@ -317,8 +320,16 @@ impl RuntimeVectorPipeline {
                 drain = true,
                 "Runtime v3 observability drain complete"
             );
+            let next_sequence = self.sequence.load(Ordering::SeqCst);
+            if next_sequence != sequence_before_drain.saturating_add(1) {
+                return Err("observability_drain_marker_not_emitted".to_owned());
+            }
+            let drain_sequence = next_sequence.saturating_sub(1);
             if let Ok(mut ingress) = self.ingress.lock() {
-                if let Some(stdin) = ingress.as_mut() {
+                if let Some(failure) = ingress.failure.take() {
+                    return Err(format!("observability_ingress_write_failed:{failure}"));
+                }
+                if let Some(stdin) = ingress.stdin.as_mut() {
                     stdin
                         .flush()
                         .map_err(|error| format!("observability_ingress_flush_failed:{error}"))?;
@@ -360,7 +371,7 @@ impl RuntimeVectorPipeline {
             durable = master_log_contains_sequence(&self.master_log_path, sequence);
         }
         if let Ok(mut ingress) = self.ingress.lock() {
-            ingress.take();
+            ingress.stdin.take();
         }
         signal_vector_shutdown(&mut child);
         while Instant::now() < deadline {
@@ -616,14 +627,14 @@ pub fn render_vector_config(root: &Path, config: &RuntimeVectorConfig) -> Value 
 
 #[derive(Clone)]
 struct RuntimeTracingLayer {
-    ingress: Arc<Mutex<Option<ChildStdin>>>,
+    ingress: Arc<Mutex<IngressState>>,
     sequence: Arc<AtomicU64>,
     config: RuntimeVectorConfig,
 }
 
 impl RuntimeTracingLayer {
     fn new(
-        ingress: Arc<Mutex<Option<ChildStdin>>>,
+        ingress: Arc<Mutex<IngressState>>,
         sequence: Arc<AtomicU64>,
         config: RuntimeVectorConfig,
     ) -> Self {
@@ -659,10 +670,10 @@ impl RuntimeTracingLayer {
             Value::Number(serde_json::Number::from(1)),
         );
         if let Ok(mut ingress) = self.ingress.lock() {
-            let Some(file) = ingress.as_mut() else {
+            let Some(file) = ingress.stdin.as_mut() else {
                 return;
             };
-            let sequence = self.sequence.fetch_add(1, Ordering::SeqCst);
+            let sequence = self.sequence.load(Ordering::SeqCst);
             let record = json!({
                 "schema": RUNTIME_MASTER_LOG_RECORD_SCHEMA,
                 "timestamp": format!("unix:{}", epoch_millis_now()),
@@ -690,11 +701,22 @@ impl RuntimeTracingLayer {
                 "parent_span_id": parent_span_id,
                 "fields": fields
             });
-            let _ = serde_json::to_writer(&mut *file, &record);
-            let _ = file.write_all(b"\n");
-            let _ = file.flush();
+            let write = serde_json::to_writer(&mut *file, &record)
+                .and_then(|()| file.write_all(b"\n").map_err(serde_json::Error::io))
+                .and_then(|()| file.flush().map_err(serde_json::Error::io));
+            match write {
+                Ok(()) => self
+                    .sequence
+                    .store(sequence.saturating_add(1), Ordering::SeqCst),
+                Err(error) => ingress.failure = Some(error.to_string()),
+            }
         }
     }
+}
+
+struct IngressState {
+    stdin: Option<ChildStdin>,
+    failure: Option<String>,
 }
 
 #[derive(Clone, Debug)]
