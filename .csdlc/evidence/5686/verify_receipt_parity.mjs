@@ -62,15 +62,29 @@ for (const [relativePath, expected] of Object.entries(receipt.authored_artifacts
   }
 }
 
-const changedPaths = execFileSync(
+const baseRevision = execFileSync(
+  "git",
+  ["merge-base", "origin/main", "HEAD"],
+  { cwd: root, encoding: "utf8" },
+).trim();
+const committedPaths = execFileSync(
+  "git",
+  ["diff", "--name-only", baseRevision, "HEAD"],
+  { cwd: root, encoding: "utf8" },
+)
+  .trimEnd()
+  .split("\n")
+  .filter(Boolean);
+const worktreePaths = execFileSync(
   "git",
   ["status", "--porcelain=v1", "--untracked-files=all"],
   { cwd: root, encoding: "utf8" },
 )
-  .trim()
+  .trimEnd()
   .split("\n")
   .filter(Boolean)
   .map((line) => line.slice(3));
+const changedPaths = [...new Set([...committedPaths, ...worktreePaths])].sort();
 for (const relativePath of changedPaths) {
   if (!allowedPaths.some((allowed) => relativePath.startsWith(allowed))) {
     failures.push(`out-of-scope path: ${relativePath}`);
@@ -85,6 +99,7 @@ const result = {
   projection_digest: projection.digest,
   phase: projection.phase,
   generation: projection.generation,
+  base_revision: baseRevision,
   changed_paths: changedPaths,
   parity: failures.length === 0,
   failures,
