@@ -363,7 +363,9 @@ async fn main() -> ExitCode {
                 Ok(signal) => signal,
                 Err(error) => {
                     eprintln!("runtime signal handler registration failed: {error}");
-                    observability.shutdown();
+                    if let Err(error) = observability.shutdown() {
+                        eprintln!("runtime observability shutdown failed: {error}");
+                    }
                     return ExitCode::from(78);
                 }
             };
@@ -371,7 +373,9 @@ async fn main() -> ExitCode {
                 Ok(listener) => listener,
                 Err(error) => {
                     eprintln!("runtime control API bind failed: {error}");
-                    observability.shutdown();
+                    if let Err(error) = observability.shutdown() {
+                        eprintln!("runtime observability shutdown failed: {error}");
+                    }
                     return ExitCode::from(70);
                 }
             };
@@ -382,7 +386,9 @@ async fn main() -> ExitCode {
                 Ok(handle) => handle,
                 Err(error) => {
                     eprintln!("runtime kernel failed to start: {error}");
-                    observability.shutdown();
+                    if let Err(error) = observability.shutdown() {
+                        eprintln!("runtime observability shutdown failed: {error}");
+                    }
                     return ExitCode::from(70);
                 }
             };
@@ -400,7 +406,9 @@ async fn main() -> ExitCode {
                     eprintln!("runtime control API failed before readiness");
                     let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
                     drain_control_api(&mut api).await;
-                    observability.shutdown();
+                    if let Err(error) = observability.shutdown() {
+                        eprintln!("runtime observability shutdown failed: {error}");
+                    }
                     return ExitCode::from(70);
                 }
             };
@@ -578,8 +586,13 @@ async fn main() -> ExitCode {
                 drain_control_api(&mut api).await;
                 break 'serve terminal;
             };
-            observability.shutdown();
-            terminal
+            match observability.shutdown() {
+                Ok(()) => terminal,
+                Err(error) => {
+                    eprintln!("runtime observability shutdown failed: {error}");
+                    ExitCode::from(74)
+                }
+            }
         }
         "shadow-loop" => match run_shadow_loop().await {
             Ok(value) => {

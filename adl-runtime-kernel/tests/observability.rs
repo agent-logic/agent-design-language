@@ -191,7 +191,7 @@ fn runtime_vector_pipeline_writes_auditable_master_log() {
         reason = "ok",
         "observability test event"
     );
-    pipeline.shutdown();
+    pipeline.shutdown().unwrap();
 
     let report = pipeline.audit_master_log("macos", "wp-12").unwrap();
 

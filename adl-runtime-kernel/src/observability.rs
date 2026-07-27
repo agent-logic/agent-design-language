@@ -305,31 +305,43 @@ impl RuntimeVectorPipeline {
         &self.master_log_path
     }
 
-    pub fn shutdown(&mut self) {
-        if self.drain_complete {
-            return;
+    pub fn shutdown(&mut self) -> Result<(), String> {
+        if self.drain_complete && self.audit_path.is_file() {
+            return Ok(());
         }
-        let drain_sequence = self.sequence.load(Ordering::SeqCst);
-        tracing::info!(
-            target: "adl_runtime_kernel",
-            component = "observability",
-            operation = "observability_drain_complete",
-            reason = "shutdown_drained",
-            drain = true,
-            "Runtime v3 observability drain complete"
-        );
-        if let Ok(mut ingress) = self.ingress.lock() {
-            let _ = ingress.flush();
-            let _ = ingress.sync_data();
-        }
-        self.drain_complete = self.wait_for_master_sequence(drain_sequence);
         if !self.drain_complete {
-            self.last_failure = Some("master_log_drain_incomplete".to_owned());
+            let drain_sequence = self.sequence.load(Ordering::SeqCst);
+            tracing::info!(
+                target: "adl_runtime_kernel",
+                component = "observability",
+                operation = "observability_drain_complete",
+                reason = "shutdown_drained",
+                drain = true,
+                "Runtime v3 observability drain complete"
+            );
+            if let Ok(mut ingress) = self.ingress.lock() {
+                ingress
+                    .flush()
+                    .map_err(|error| format!("observability_ingress_flush_failed:{error}"))?;
+                ingress
+                    .sync_data()
+                    .map_err(|error| format!("observability_ingress_sync_failed:{error}"))?;
+            }
+            self.drain_complete = self.wait_for_master_sequence(drain_sequence);
+            if !self.drain_complete {
+                self.last_failure = Some("master_log_drain_incomplete".to_owned());
+            }
+            self.terminate_vector();
         }
-        self.terminate_vector();
-        let _ = self
+        let report = self
             .audit_master_log(&current_platform(), &self.config.lifecycle_suite)
-            .and_then(|report| write_json_atomic(&self.audit_path, &report));
+            .map_err(|error| format!("master_log_audit_failed:{error}"))?;
+        write_json_atomic(&self.audit_path, &report)
+            .map_err(|error| format!("master_log_audit_write_failed:{error}"))?;
+        if !self.drain_complete || report.status != "pass" {
+            return Err("master_log_shutdown_audit_failed".to_owned());
+        }
+        Ok(())
     }
 
     fn wait_for_master_sequence(&self, sequence: u64) -> bool {
@@ -387,7 +399,7 @@ impl RuntimeVectorPipeline {
 
 impl Drop for RuntimeVectorPipeline {
     fn drop(&mut self) {
-        self.shutdown();
+        let _ = self.shutdown();
     }
 }
 
