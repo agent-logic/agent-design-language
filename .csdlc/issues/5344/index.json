@@ -5,7 +5,7 @@
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
   "phase": "implemented",
   "generation": 4,
-  "digest": "7f1a936acd4559bba3bb5de933ab5a8eb57fe412ddea87fb1e1575f6fa56c0b0",
+  "digest": "4aa34d2e1df8bc9746b1979cfef0f72ac8088dd05aeafc5b3634230120710c4e",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-preparation",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -34,6 +34,7 @@
       "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
       "adl-runtime/Cargo.lock",
       "adl-runtime/Cargo.toml",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
       "adl-runtime/src/guardian.rs",
       "adl-runtime/tests/guardian_cli.rs",
       "adl-v2/tools/prove-rollback.sh",
@@ -216,6 +217,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Retain the kernel lockfile update for the explicit adl-runtime test dependency replacing source inclusion",
       "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/Cargo.lock\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Add the cross-platform Rust-only 10000-cycle Guardian-owned Runtime v3 lifecycle proof required for WP-12 acceptance",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

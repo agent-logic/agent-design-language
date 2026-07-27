@@ -2,7 +2,7 @@
   "schema": "adl.wp12.soak_report.v1",
   "issue": 5344,
   "status": "pass",
-  "revision": "f97d27558e399be03fb70700a1505ec3aa23284d",
+  "revision": "ddbc905b285b09f8eb31a6923d53746835a99543",
   "manifest_sha256": "6f4aa9550e85d5b3e2a0e2cf30404ff18ea0941ba72af97dcdac91f720f87caa",
   "mode": "run",
   "results": [
@@ -11,7 +11,7 @@
       "claim_class": "ci_contract",
       "status": "pass",
       "exit_code": 0,
-      "duration_ms": 59,
+      "duration_ms": 60,
       "artifact_sha256": "69ec5be754d5d108110b2db3782f4ed270f69fc914272bebc2d9da3017130611"
     },
     {
@@ -19,7 +19,7 @@
       "claim_class": "demo",
       "status": "pass",
       "exit_code": 0,
-      "duration_ms": 121,
+      "duration_ms": 123,
       "artifact_sha256": "a63b415e51d8c845b25320d0abe02543f661517637d8a6edf32557649479b0f6"
     },
     {
@@ -27,7 +27,7 @@
       "claim_class": "demo",
       "status": "pass",
       "exit_code": 0,
-      "duration_ms": 122,
+      "duration_ms": 121,
       "artifact_sha256": "f02858857dd6f73382ba2ea151edb17b4dd19fcbc4ec35fd88712e2f2408e599"
     },
     {
@@ -35,7 +35,7 @@
       "claim_class": "local_deterministic",
       "status": "pass",
       "exit_code": 0,
-      "duration_ms": 127,
+      "duration_ms": 121,
       "artifact_sha256": "8edbfe748dcf5646bd04d63517f6be02fb42e2803cca4bf961140a7b576881fa"
     },
     {
@@ -43,7 +43,7 @@
       "claim_class": "local_deterministic",
       "status": "pass",
       "exit_code": 0,
-      "duration_ms": 128,
+      "duration_ms": 119,
       "artifact_sha256": "0355b366e05ac94d9bb34eb53fc7142d0c86f4e3747e8ccef6124df02fc83f86"
     },
     {
@@ -51,7 +51,7 @@
       "claim_class": "negative",
       "status": "pass",
       "exit_code": 2,
-      "duration_ms": 126,
+      "duration_ms": 125,
       "artifact_sha256": "98c73141140c1866a8cbb1dcd9bdf3e458370f88df4537c1c608b439acd2e9a3"
     },
     {
@@ -67,15 +67,15 @@
       "claim_class": "rollback",
       "status": "pass",
       "exit_code": 0,
-      "duration_ms": 3468,
-      "artifact_sha256": "58e15a0ea3e69b463c20c4d528be8dc2b2ee46cf03b25d72cef4346533b7e9ad"
+      "duration_ms": 3474,
+      "artifact_sha256": "0b878b4968c70c9dc773a918492a30fa05ec2dc70ce2743266072acd295de4d8"
     },
     {
       "id": "runtime-linux",
       "claim_class": "runtime_v3_live",
       "status": "pass",
       "exit_code": 0,
-      "duration_ms": 57,
+      "duration_ms": 61,
       "artifact_sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74"
     },
     {
@@ -83,7 +83,7 @@
       "claim_class": "runtime_v3_live",
       "status": "pass",
       "exit_code": 0,
-      "duration_ms": 63,
+      "duration_ms": 62,
       "artifact_sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74"
     },
     {
@@ -91,7 +91,7 @@
       "claim_class": "runtime_v3_live",
       "status": "pass",
       "exit_code": 0,
-      "duration_ms": 58,
+      "duration_ms": 63,
       "artifact_sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74"
     }
   ],
@@ -99,11 +99,11 @@
     "schema": "adl.wp12.rollback_report.v1",
     "issue": 5344,
     "status": "pass",
-    "revision": "f97d27558e399be03fb70700a1505ec3aa23284d",
+    "revision": "ddbc905b285b09f8eb31a6923d53746835a99543",
     "selector_root": "isolated_ephemeral",
-    "prior_sha256": "40c50badf10226614063b7739eb1865420b9adaa759a431af06a46d306bbc07d",
-    "selected_sha256": "7566f3bea2e1214f8bafbaa173d4fb2f93b5151cbb38ff257959652590b2855e",
-    "restored_sha256": "40c50badf10226614063b7739eb1865420b9adaa759a431af06a46d306bbc07d",
+    "prior_sha256": "d300683d17afce6a411eac0b653f7246b25f0a12206877e3f75e0a5d043a5a78",
+    "selected_sha256": "83f54683f3bce28a6de72da7a1f693142d79e0b593a6f85bde339009f284fd8f",
+    "restored_sha256": "d300683d17afce6a411eac0b653f7246b25f0a12206877e3f75e0a5d043a5a78",
     "v1_fixture_sha256": "6bb5f3fe57c0278df6e0a3879b4354d6e1e9e1fa070e600abc899cfa108cffba",
     "v2_sha256": "6bb5f3fe57c0278df6e0a3879b4354d6e1e9e1fa070e600abc899cfa108cffba",
     "exact_prior_bytes_restored": true,
