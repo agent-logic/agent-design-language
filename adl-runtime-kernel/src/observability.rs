@@ -186,7 +186,8 @@ impl RuntimeVectorPipeline {
             .map_err(|_| "runtime_vector_log_unavailable")?;
         let stderr = append_file(&root.join("logs/vector.stderr.log"))
             .map_err(|_| "runtime_vector_log_unavailable")?;
-        let mut child = Command::new(&config.vector_binary)
+        let mut command = Command::new(&config.vector_binary);
+        command
             .arg("--config-json")
             .arg(&config_path)
             .arg("--require-healthy")
@@ -197,7 +198,13 @@ impl RuntimeVectorPipeline {
             .arg(config.drain_timeout.as_secs().max(1).to_string())
             .stdin(Stdio::null())
             .stdout(Stdio::from(stdout))
-            .stderr(Stdio::from(stderr))
+            .stderr(Stdio::from(stderr));
+        #[cfg(windows)]
+        {
+            use std::os::windows::process::CommandExt;
+            command.creation_flags(windows_sys::Win32::System::Threading::CREATE_NEW_PROCESS_GROUP);
+        }
+        let mut child = command
             .spawn()
             .map_err(|_| "vector_binary_missing_or_not_executable")?;
         let child_pid = child.id();
@@ -344,9 +351,17 @@ impl RuntimeVectorPipeline {
         unsafe {
             let _ = libc::kill(child.id() as i32, libc::SIGTERM);
         }
-        #[cfg(not(unix))]
+        #[cfg(windows)]
         {
-            let _ = child.kill();
+            let signaled = unsafe {
+                windows_sys::Win32::System::Console::GenerateConsoleCtrlEvent(
+                    windows_sys::Win32::System::Console::CTRL_BREAK_EVENT,
+                    child.id(),
+                )
+            } != 0;
+            if !signaled {
+                let _ = child.kill();
+            }
         }
         let deadline = Instant::now() + self.config.drain_timeout;
         while Instant::now() < deadline {
