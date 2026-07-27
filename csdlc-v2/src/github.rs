@@ -997,6 +997,7 @@ mod tests {
         assert!(!run_is_newer(None, 10, Some(20), 20));
     }
 
+    #[test]
     fn classifies_mergeability_states_without_treating_pending_as_stale() {
         for state in ["blocked", "unstable", "draft", "unknown"] {
             let mut value = packet("success");
