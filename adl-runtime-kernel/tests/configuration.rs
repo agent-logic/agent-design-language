@@ -1,5 +1,6 @@
 use std::{
     collections::{BTreeMap, VecDeque},
+    process::Command,
     sync::Arc,
 };
 
@@ -618,4 +619,19 @@ fn vector_boundary_declares_cloudwatch_emf_route_without_kernel_exporter() {
     assert!(vector_config.contains("\"Name\": \"runtime_event_count\""));
     assert!(!vector_config.contains("aws_access_key_id"));
     assert!(!vector_config.contains("aws_secret_access_key"));
+}
+
+#[test]
+fn runtime_kernel_rejects_demo_and_implicit_demo_startup() {
+    for arguments in [Vec::<&str>::new(), vec!["demo"]] {
+        let output = Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"))
+            .args(arguments)
+            .output()
+            .expect("run Runtime v3 kernel");
+
+        assert_eq!(output.status.code(), Some(64));
+        let stderr = String::from_utf8(output.stderr).expect("usage is UTF-8");
+        assert!(stderr.contains("usage: adl-runtime-kernel"));
+        assert!(!stderr.contains("|demo"));
+    }
 }

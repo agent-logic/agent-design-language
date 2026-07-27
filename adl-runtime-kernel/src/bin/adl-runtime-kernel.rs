@@ -34,7 +34,10 @@ const GUARDIAN_REQUIRED_ENV: &str = "ADL_RUNTIME_GUARDIAN_REQUIRED";
 #[tokio::main]
 async fn main() -> ExitCode {
     let mut args = std::env::args().skip(1);
-    let command = args.next().unwrap_or_else(|| "demo".to_owned());
+    let Some(command) = args.next() else {
+        print_usage();
+        return ExitCode::from(64);
+    };
 
     match command.as_str() {
         "serve" => {
@@ -568,26 +571,6 @@ async fn main() -> ExitCode {
                 break 'serve terminal;
             }
         }
-        "demo" => {
-            let capsule = capsule_arg(args);
-            match run_proof(&capsule, 3).await {
-                Ok((exit, continuity)) => {
-                    println!(
-                        "{}",
-                        serde_json::json!({
-                            "schema": "adl.runtime_kernel.proof.v1",
-                            "exit": format!("{exit:?}"),
-                            "capsule": continuity,
-                        })
-                    );
-                    ExitCode::SUCCESS
-                }
-                Err(error) => {
-                    eprintln!("runtime kernel proof failed: {error}");
-                    ExitCode::from(70)
-                }
-            }
-        }
         "shadow-loop" => match run_shadow_loop().await {
             Ok(value) => {
                 println!("{value}");
@@ -633,12 +616,16 @@ async fn main() -> ExitCode {
             }
         }
         _ => {
-            eprintln!(
-                "usage: adl-runtime-kernel [serve [--init path] [--continuity-root path]|demo [capsule-path]|shadow-loop|fatal-once [capsule-path]]"
-            );
+            print_usage();
             ExitCode::from(64)
         }
     }
+}
+
+fn print_usage() {
+    eprintln!(
+        "usage: adl-runtime-kernel [serve [--init path] [--continuity-root path]|shadow-loop|fatal-once [capsule-path]]"
+    );
 }
 
 enum TerminalTrigger {
