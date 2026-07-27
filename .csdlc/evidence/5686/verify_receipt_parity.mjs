@@ -2,7 +2,7 @@
 
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -12,9 +12,12 @@ const commonDir = execFileSync(
   { cwd: root, encoding: "utf8" },
 ).trim();
 
-const receipt = JSON.parse(
-  readFileSync(join(commonDir, "csdlc-v2/closeout/5662.json"), "utf8"),
+const trackedReceiptPath = join(
+  root,
+  ".csdlc/evidence/5686/5662-closeout-receipt.json",
 );
+const canonicalReceiptPath = join(commonDir, "csdlc-v2/closeout/5662.json");
+const receipt = JSON.parse(readFileSync(trackedReceiptPath, "utf8"));
 const projection = JSON.parse(
   readFileSync(join(root, ".csdlc/issues/5662/index.json"), "utf8"),
 );
@@ -40,6 +43,13 @@ const canonicalize = (value) => {
 };
 const canonicalJson = (value) => JSON.stringify(canonicalize(value));
 const failures = [];
+
+if (existsSync(canonicalReceiptPath)) {
+  const canonicalReceipt = JSON.parse(readFileSync(canonicalReceiptPath, "utf8"));
+  if (canonicalJson(receipt) !== canonicalJson(canonicalReceipt)) {
+    failures.push("tracked receipt differs from canonical closeout receipt");
+  }
+}
 
 if (canonicalJson(projection) !== canonicalJson(receipt.record)) {
   failures.push("projected issue record differs from receipt.record");
@@ -92,6 +102,8 @@ const result = {
   schema: "adl.csdlc_terminal_projection_parity.v1",
   issue: 5662,
   receipt_ref: receipt.receipt_ref,
+  tracked_receipt: ".csdlc/evidence/5686/5662-closeout-receipt.json",
+  canonical_receipt_compared: existsSync(canonicalReceiptPath),
   receipt_digest: receipt.record.digest,
   projection_digest: projection.digest,
   phase: projection.phase,
