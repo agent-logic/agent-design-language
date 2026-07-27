@@ -1,0 +1,156 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5683,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "b8d92d7710c00944967def4c4d3e923aa274554cc31b48a8fa49da34b6a77d97",
+  "phase": "bound",
+  "generation": 6,
+  "digest": "d9837ae6dc81db7b358d381801492fec9daefea8ea114670a735951835ca1e97",
+  "claim": {
+    "id": "claim-5683-v0918-unity-observatory-visual-remediation",
+    "owner": "codex:issue-5683-unity-remediation",
+    "generation": 6,
+    "acquired_unix_seconds": 1785113461,
+    "expires_unix_seconds": 1785718261,
+    "heartbeat_unix_seconds": 1785113461,
+    "branch": "codex/5683-v0918-unity-observatory-visual-remediation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5683",
+      ".csdlc/issues/5683",
+      ".csdlc/locks/5683.lock",
+      ".csdlc/prepared/issues/5683",
+      "adl/tools/test_v0916_unity_observatory_contract.sh",
+      "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Resources/ObservatoryShellRuntime.uss",
+      "demos/v0.91.6/unity-observatory/Assets/Scenes/FlagshipObservatoryStage.unity",
+      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs",
+      "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uss",
+      "demos/v0.91.6/unity-observatory/Assets/UI/ObservatoryShell.uxml",
+      "demos/v0.91.6/unity-observatory/PROOF_PACKET.md"
+    ],
+    "purpose": "Remediate the visible flagship Unity Observatory render artifacts and retain direct investor-facing proof"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5683/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5683/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:issue-5683",
+      "revision": "bbeff4ac48bda1380f3fa3262e92c99b9caede7d047641a22b410de5c0e21652"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "1c5ee7af01f3b98cf7f879a888a3530ea1ff6ee0cc02088967000f86e5fc9fc1",
+      "rendered_digest": "97eb54524cf0d293522d3a4495666eb42e739b1b42ba37900ca1f5aaa56c0a12",
+      "ast_digest": "0c03f048e200173e885009fe047a19e43bd02a640170325798ed7a27bf605e10"
+    },
+    "stp": {
+      "values_digest": "c5f8b48efd05c95a91ccb54881ed633977b03bb35837a6f60851c64735836da0",
+      "rendered_digest": "f8dc2201d62c7e21dceadb61a7c10233389be658313c8f63ac25348e9e1edf00",
+      "ast_digest": "d37d59892d1f7204cb729e440b219d6b55c81d4ed62ce975f471411b40a9afed"
+    },
+    "spp": {
+      "values_digest": "c75591107ab1fe000b77f5c4e6ec503b55e565b72c4f6c69420a0b00daf2f86c",
+      "rendered_digest": "178bbbb1925bde42767d52c63fefc30ef90ad09474b6a1598f8211b4f427e2b4",
+      "ast_digest": "4470b796182f02708b62ec973df468d5db684af2193e31bb12acde87e5f4c247"
+    },
+    "vpp": {
+      "values_digest": "6a0c81013c9f5200acca0d18e0a795a6d0e0134d9ebe0386e44250aba4fb2aef",
+      "rendered_digest": "ac2aa75bf11d40548a14b2e77c6fdc4393e9c210a6ab1ca081aa94b3c849b843",
+      "ast_digest": "978c22ad29a905bd2756f36b20e6fa5e4e396f74ae3452bbbe8142be75371478"
+    },
+    "srp": {
+      "values_digest": "dfee9263ee4a1dddc21335000893e21fa9fa79204b1f10fe38790623e5e22cff",
+      "rendered_digest": "01a0ebb621497021813c2fe36fdd1112d8bec979ff3eac6e881a673e07bd154f",
+      "ast_digest": "87641cb4694da02940e5b8e8d971c0145965cdd88dc5192433a621b60f879268"
+    },
+    "sor": {
+      "values_digest": "c56366630760c484207f914e3fc735bc63e0e1d44776c6278cc616fa55e01bcb",
+      "rendered_digest": "76510d6c94f1f4d79ee2291feeaddd3a06eeef792ea84f6413eeae0a99f7316e",
+      "ast_digest": "7a7932a32e68fe312fb15b8dba7a1daf022be859698ae8c73ba9f993d9db7bee"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "operator:issue-5683",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "Record observed issue-bound Unity execution before review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Remediated the flagship Unity Observatory hero view in the bound worktree and retained direct dual-resolution Unity proof.\",\"changes\":[\"Suppressed incompatible imported particle systems and particle-heavy prefab roots that produced square render corruption.\",\"Reframed and relit the investor hero camera, added a bounded observatory room shell, and normalized presentation geometry.\",\"Added deterministic Full HD and QHD camera and Game View proof helpers.\",\"Increased command-shell legibility while preserving explicit fixture and contract-only truth labels.\",\"Extended the focused Unity Observatory contract guardrail for the remediated stage-builder proof surface.\"],\"artifacts\":[\".csdlc/evidence/5683/final-full-hd-game-view.png\",\".csdlc/evidence/5683/final-qhd-game-view.png\",\".csdlc/evidence/5683/raw-environment-full-hd-pass-3.png\",\".csdlc/evidence/5683/raw-environment-qhd-pass-3.png\",\".csdlc/evidence/5683/LIVE_UNITY_PROOF.md\",\".csdlc/evidence/5683/TOOLING_ANOMALIES.md\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "Record focused Unity Observatory contract validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_contract.sh\"],\"purpose\":\"Verify the runtime shell contract and the remediated flagship stage-builder proof surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5683/LIVE_UNITY_PROOF.md\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "Record live Unity-MCP alignment proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/probe_unity_mcp_observatory_alignment.sh\"],\"purpose\":\"Prove exact agreement among the operator-provisioned project, local MCP endpoint, live editor, and opened flagship scene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5683/LIVE_UNITY_PROOF.md\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "Record direct live Unity validation and dual-resolution visual proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"unity-mcp-cli\",\"run-tool\",\"reflection-method-call\",\"ValidateFlagshipStageMenu\"],\"purpose\":\"Validate the live flagship scene and visually inspect direct Full HD and QHD Play Mode captures.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5683/LIVE_UNITY_PROOF.md\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "Record focused diff hygiene validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify whitespace and patch hygiene for the bounded issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5683/LIVE_UNITY_PROOF.md\"}}"
+    }
+  ]
+}

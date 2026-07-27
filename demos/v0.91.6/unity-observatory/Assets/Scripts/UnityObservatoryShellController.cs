@@ -794,7 +794,7 @@ namespace ADL.Demos.UnityObservatory
 
         private VisualElement BuildCommandTopBar()
         {
-            VisualElement topBar = CreateCommandPanel(0.88f);
+            VisualElement topBar = CreateCommandPanel(0.96f);
             topBar.style.height = 54f;
             topBar.style.flexDirection = FlexDirection.Row;
             topBar.style.alignItems = Align.Center;
@@ -896,7 +896,7 @@ namespace ADL.Demos.UnityObservatory
 
         private VisualElement BuildCommandNavigation()
         {
-            VisualElement nav = CreateCommandPanel(0.86f);
+            VisualElement nav = CreateCommandPanel(0.96f);
             nav.style.width = 132f;
             nav.style.paddingTop = 10f;
             nav.style.paddingLeft = 8f;
@@ -982,7 +982,7 @@ namespace ADL.Demos.UnityObservatory
 
         private VisualElement BuildPanopticonSurface()
         {
-            VisualElement panel = CreateCommandPanel(0.38f);
+            VisualElement panel = CreateCommandPanel(0.58f);
             panel.style.flexGrow = 1f;
             panel.style.minHeight = 150f;
             panel.style.paddingLeft = 12f;
@@ -1046,7 +1046,7 @@ namespace ADL.Demos.UnityObservatory
 
         private VisualElement BuildEventStream()
         {
-            VisualElement panel = CreateCommandPanel(0.86f);
+            VisualElement panel = CreateCommandPanel(0.94f);
             panel.style.height = 116f;
             panel.style.marginTop = 6f;
             panel.style.paddingLeft = 10f;

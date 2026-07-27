@@ -6,6 +6,7 @@ README_PATH="${ROOT_DIR}/demos/v0.91.6/unity-observatory/README.md"
 PROOF_PATH="${ROOT_DIR}/demos/v0.91.6/unity-observatory/PROOF_PACKET.md"
 BOOTSTRAP_PATH="${ROOT_DIR}/demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryBootstrap.cs"
 SHELL_PATH="${ROOT_DIR}/demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs"
+FLAGSHIP_BUILDER_PATH="${ROOT_DIR}/demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs"
 VALIDATOR_PATH="${ROOT_DIR}/demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryBatchValidator.cs"
 MANIFEST_PATH="${ROOT_DIR}/demos/v0.91.6/unity-observatory/Packages/manifest.json"
 RESOURCE_DIR="${ROOT_DIR}/demos/v0.91.6/unity-observatory/Assets/Resources"
@@ -18,6 +19,7 @@ for path in \
   "${PROOF_PATH}" \
   "${BOOTSTRAP_PATH}" \
   "${SHELL_PATH}" \
+  "${FLAGSHIP_BUILDER_PATH}" \
   "${VALIDATOR_PATH}" \
   "${MANIFEST_PATH}" \
   "${RESOURCE_META_PATH}" \
@@ -101,6 +103,14 @@ require_contains "${SHELL_PATH}" "root.style.flexGrow = 1f"
 require_contains "${SHELL_PATH}" "CreateNavigationButton"
 require_contains "${SHELL_PATH}" "event-stream-scroll"
 require_contains "${SHELL_PATH}" "inspector-scroll"
+require_contains "${FLAGSHIP_BUILDER_PATH}" "DisableIncompatibleHeroParticles"
+require_contains "${FLAGSHIP_BUILDER_PATH}" "ParticleSystemStopBehavior.StopEmittingAndClear"
+require_contains "${FLAGSHIP_BUILDER_PATH}" "CaptureCameraProof(camera, HeroProofPath, 1920, 1080)"
+require_contains "${FLAGSHIP_BUILDER_PATH}" "CaptureCameraProof(camera, HeroProofQhdPath, 2560, 1440)"
+require_contains "${FLAGSHIP_BUILDER_PATH}" "SetGameViewResolution(1920, 1080, \"ADL Full HD\")"
+require_contains "${FLAGSHIP_BUILDER_PATH}" "SetGameViewResolution(2560, 1440, \"ADL QHD\")"
+require_contains "${FLAGSHIP_BUILDER_PATH}" "Investor Observatory Room Floor"
+require_contains "${FLAGSHIP_BUILDER_PATH}" "Investor Observatory Rear Wall"
 require_contains "${BOOTSTRAP_PATH}" "controller.Build(root)"
 require_contains "${BOOTSTRAP_PATH}" "built synchronously before the first bootstrap yield"
 require_contains "${BOOTSTRAP_PATH}" "Application.runInBackground = true"
