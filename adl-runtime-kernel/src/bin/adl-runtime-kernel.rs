@@ -363,6 +363,7 @@ async fn main() -> ExitCode {
                 Ok(signal) => signal,
                 Err(error) => {
                     eprintln!("runtime signal handler registration failed: {error}");
+                    observability.shutdown();
                     return ExitCode::from(78);
                 }
             };
@@ -370,6 +371,7 @@ async fn main() -> ExitCode {
                 Ok(listener) => listener,
                 Err(error) => {
                     eprintln!("runtime control API bind failed: {error}");
+                    observability.shutdown();
                     return ExitCode::from(70);
                 }
             };
@@ -380,6 +382,7 @@ async fn main() -> ExitCode {
                 Ok(handle) => handle,
                 Err(error) => {
                     eprintln!("runtime kernel failed to start: {error}");
+                    observability.shutdown();
                     return ExitCode::from(70);
                 }
             };
@@ -397,6 +400,7 @@ async fn main() -> ExitCode {
                     eprintln!("runtime control API failed before readiness");
                     let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
                     drain_control_api(&mut api).await;
+                    observability.shutdown();
                     return ExitCode::from(70);
                 }
             };
@@ -411,7 +415,7 @@ async fn main() -> ExitCode {
             let mut pressure_retry_at = None;
             let mut observability_tick = tokio::time::interval(std::time::Duration::from_secs(1));
             observability_tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
-            'serve: loop {
+            let terminal = 'serve: loop {
                 if let Err(error) = observability.poll_health() {
                     recorder.set_observability_pipeline(observability.snapshot());
                     eprintln!("runtime observability pipeline failed: {error}");
@@ -573,7 +577,9 @@ async fn main() -> ExitCode {
                 };
                 drain_control_api(&mut api).await;
                 break 'serve terminal;
-            }
+            };
+            observability.shutdown();
+            terminal
         }
         "shadow-loop" => match run_shadow_loop().await {
             Ok(value) => {
