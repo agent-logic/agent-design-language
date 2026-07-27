@@ -392,12 +392,9 @@ async fn reconcile_created_issue_by_marker_search(
 
 fn is_retryable_created_issue_readback(error: &crate::V2Error) -> bool {
     error.code == crate::ErrorCode::ReconciliationRequired
-        && (error
+        && error
             .message
             .contains("created issue marker search found no matching issue")
-            || error
-                .message
-                .contains("created issue marker search found multiple matching issues"))
 }
 
 fn retry_policy_error(error: RetryPolicyError) -> crate::V2Error {

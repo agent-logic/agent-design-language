@@ -124,6 +124,7 @@ async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
     env.server.force_noisy_issue_search();
     env.server.force_duplicate_issue_search_result();
     env.server.force_created_issue_marker_lag(1);
+    env.server.force_empty_issue_search(1);
 
     let mut create = base_request(GithubAction::IssueCreate);
     create.token_file = Some(env.token_file());
@@ -216,6 +217,7 @@ struct LocalGithubState {
     extra_patch_readback: bool,
     noisy_issue_search: bool,
     duplicate_issue_search_result: bool,
+    empty_issue_search_reads: usize,
     created_issue_marker_lag_reads: usize,
 }
 
@@ -331,6 +333,10 @@ impl LocalGithub {
 
     fn force_duplicate_issue_search_result(&self) {
         self.state.lock().unwrap().duplicate_issue_search_result = true;
+    }
+
+    fn force_empty_issue_search(&self, reads: usize) {
+        self.state.lock().unwrap().empty_issue_search_reads = reads;
     }
 
     fn force_created_issue_marker_lag(&self, reads: usize) {
@@ -484,7 +490,11 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
     match (request.method.as_str(), request.path_only().as_str()) {
         ("GET", "/search/issues") => json!({
             "total_count": state.issue.as_ref().map_or(0, |_| if state.noisy_issue_search { 2 } else { 1 }),
-            "items": state.issue.as_ref().map(|issue| {
+            "items": if state.empty_issue_search_reads > 0 {
+                state.empty_issue_search_reads -= 1;
+                Vec::new()
+            } else {
+                state.issue.as_ref().map(|issue| {
                 let mut items = vec![issue.clone()];
                 if state.duplicate_issue_search_result {
                     items.push(issue.clone());
@@ -500,7 +510,8 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
                     ));
                 }
                 items
-            }).unwrap_or_default()
+                }).unwrap_or_default()
+            }
         }),
         ("POST", "/repos/owner/repo/issues") => {
             let payload: Value = serde_json::from_str(&request.body).expect("issue payload");

@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "75c9cff2d2d9255cea839a5fbc388b881ac96d87f1b17509562024d338d6d3a6",
   "phase": "implemented",
-  "generation": 27,
-  "digest": "e7f37e7ac4773dfc7e014ce6af3aa7846e59992a2f067113c59958fcbad4924b",
+  "generation": 31,
+  "digest": "056f27d343e292c68ddba2374eace78ad7e101249f429c7a40bb97e41f041733",
   "claim": {
     "id": "claim-5684-csdlc-github-split",
     "owner": "codex",
-    "generation": 27,
+    "generation": 31,
     "acquired_unix_seconds": 1785115334,
     "expires_unix_seconds": 1785201734,
     "heartbeat_unix_seconds": 1785115334,
@@ -68,34 +68,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "22d7089fb4c6cb7a1914d83e10864c5ef85b5d34ccfdf8556002cf91f18a9d1c",
+      "values_digest": "46f666dbc7a587d78971ee158bad16991e954ab52a8960f21433d6150030b0c5",
       "rendered_digest": "858d9191e0e8690e5775f2444cde97db7e55675c237650533c57b708bbae67e3",
       "ast_digest": "3be7db06c77ee168c5a5088e36b2efd3eff5fea8e4b28de9476ff5cad93be89d"
     },
     "stp": {
-      "values_digest": "ac5d444f9da553e2ebfa5df9fd1a881720d6bb67963dc7860368de6d77d59866",
+      "values_digest": "b8ecaa6e50c7779c61ada1cc516394041de3c1a17a889e969c3510950099946b",
       "rendered_digest": "7f6db876a57f71505632afe8a874ed6b2f75af2665d19263d35140117c78a039",
       "ast_digest": "26abde4d04c92dbd379c514502f1bec3d6fa5559b95b2cd3972f06a45652e39f"
     },
     "spp": {
-      "values_digest": "72075d0b439431a950c89febf639326699658874c2b2aaa408b81a8a6869010d",
+      "values_digest": "f2b8dae307741c51e9778d24fe48919fbe46ea54d063357a6201c4026bc1074d",
       "rendered_digest": "9d919a55fff295a632dc95828738c622441f7adbd56527cda6920e1f56bced85",
       "ast_digest": "9a7a6c02eb787c220207111dcd5ef4e5e148fb5c22c9a9dfdc5bff773534f349"
     },
     "vpp": {
-      "values_digest": "36f82df1e4d11903fcaaa48abdd895e4274c61259f7effe400ea4c0e14e972f8",
+      "values_digest": "952b8175d16df92e264c14224598689e703a6bd250328c00004bbc44bd64c860",
       "rendered_digest": "91d4afe6f345de33e4d32d51cf8dc010188981773badc84d51ff791079760a01",
       "ast_digest": "72a71b7e336ccce441a868f9216609233ceef970cea09e5e5793c5c95f71f91f"
     },
     "srp": {
-      "values_digest": "ce5551790a0779074b8702e115cd91c7fb7d7c13c299be5fafcb92a0b6e72557",
+      "values_digest": "4af375cc8b3bfdf632bd32b13391f5c16e7b1e9beada9ad47d0413c23ea8d561",
       "rendered_digest": "fc03616052937346c1203080260a8a8559cdc21ead7a2fcae7f88028e645ddf1",
       "ast_digest": "efb9c9ae4081c5b0cf7ab8765f357f55eb4e843941e0d225f3e8e31f3ce0ec73"
     },
     "sor": {
-      "values_digest": "1363dcb26f7ab31f2b95b1b3aa29450b98518f36ced4e35d93f5991a6db32da7",
-      "rendered_digest": "9697f794e9c12dc594491786e579244bbac84d739c08a20f86a96732e77e0348",
-      "ast_digest": "b3d79b09015b91f141a06ec0a41faec387cabc0f8b95328ab2e37e263283ac9d"
+      "values_digest": "a59b39cf5ebbcd1b8bd8614cdcdac1eea3401d2ed0e6b6e33742a25123333072",
+      "rendered_digest": "883b1a05a13c361c24b5e257b21736ad459cb33b61a8f6fa640b61ada28c9876",
+      "ast_digest": "a1bcaa5178abbc04b7f72fd202f1747f5e439fedc84f667f5ca29620ec3f219c"
     }
   },
   "transitions": [
@@ -408,6 +408,34 @@
       "actor": "codex:5684-execution",
       "reason": "Record issue_create post-create race validation evidence.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Run full csdlc-v2 GitHub action test target after issue_create marker-search fallback fix.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-create-race-github-action-tests.log\"}}"
+    },
+    {
+      "sequence": 33,
+      "generation": 28,
+      "actor": "codex:5684-execution",
+      "reason": "Record post-create race review finding fixes.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/backoff crate, runtime backoff wiring, install/coexistence manifest enforcement, current docs/skill/template updates, deleted structured-prompt wrapper bootstrap guidance repair, post-publication Opus/Hegel findings remediation, issue_create post-create confirmation race repair, and exact-head P3 review fixes for retry scope plus zero-search proof.\",\"changes\":[\"Stopped retrying multiple distinct exact-marker matches during post-create confirmation so terminal ambiguity remains an actionable reconciliation_required error.\",\"Added a transient empty marker-search simulation before search recovery to prove the retryable zero-result path that happens after successful issue creation but before search consistency catches up.\"],\"artifacts\":[\"Ohm exact-head review at 113a67dab found two P3s: over-broad retry for multiple exact markers and missing zero-search regression proof; both fixed in the current delta.\"]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 29,
+      "actor": "codex:5684-execution",
+      "reason": "Record post-create race P3 validation evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest\",\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Run csdlc-v2 rustfmt check after narrowing issue_create confirmation retry semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-create-race-p3-fmt-check.log\"}}"
+    },
+    {
+      "sequence": 35,
+      "generation": 30,
+      "actor": "codex:5684-execution",
+      "reason": "Record post-create race P3 validation evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"issue_create_and_comment_reconcile_by_marker_with_exact_readback\",\"--\",\"--nocapture\"],\"purpose\":\"Run focused issue_create confirmation regression with stale direct readback, transient empty search, duplicate same-issue search rows, and noisy non-marker candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-create-race-p3-focused-test.log\"}}"
+    },
+    {
+      "sequence": 36,
+      "generation": 31,
+      "actor": "codex:5684-execution",
+      "reason": "Record post-create race P3 validation evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Run full csdlc-v2 GitHub action test target after narrowing post-create retry semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-create-race-p3-github-action-tests.log\"}}"
     }
   ]
 }

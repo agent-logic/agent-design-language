@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/backoff crate, runtime backoff wiring, install/coexistence manifest enforcement, current docs/skill/template updates, deleted structured-prompt wrapper bootstrap guidance repair, post-publication Opus/Hegel findings remediation, and issue_create post-create confirmation race repair.
+Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/backoff crate, runtime backoff wiring, install/coexistence manifest enforcement, current docs/skill/template updates, deleted structured-prompt wrapper bootstrap guidance repair, post-publication Opus/Hegel findings remediation, issue_create post-create confirmation race repair, and exact-head P3 review fixes for retry scope plus zero-search proof.
 
 ## Artifacts
 
@@ -32,6 +32,7 @@ Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/back
 - CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check: pass
 - CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions issue_create_and_comment_reconcile_by_marker_with_exact_readback -- --nocapture: pass, 1 test
 - CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions: pass, 3 tests
+- Ohm exact-head review at 113a67dab found two P3s: over-broad retry for multiple exact markers and missing zero-search regression proof; both fixed in the current delta.
 
 ## Execution
 
@@ -53,6 +54,8 @@ Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/back
 - Fixed issue_create post-create confirmation so direct marker readback falls back to idempotent marker search inside the same retry policy instead of falsely reporting reconciliation_required after a successful issue mutation.
 - Deduplicated marker-search candidate issue numbers before exact packet verification so duplicate search results for the same created issue do not look like multiple acceptable matches.
 - Extended the local GitHub regression to hide the marker on first direct read and return duplicate/noisy search results while still proving exactly one issue POST.
+- Stopped retrying multiple distinct exact-marker matches during post-create confirmation so terminal ambiguity remains an actionable reconciliation_required error.
+- Added a transient empty marker-search simulation before search recovery to prove the retryable zero-result path that happens after successful issue creation but before search consistency catches up.
 
 ## Validation
 
@@ -269,6 +272,55 @@ Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/back
     "purpose": "Run full csdlc-v2 GitHub action test target after issue_create marker-search fallback fix.",
     "outcome": "passed",
     "evidence_ref": "post-create-race-github-action-tests.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest",
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all",
+      "--",
+      "--check"
+    ],
+    "purpose": "Run csdlc-v2 rustfmt check after narrowing issue_create confirmation retry semantics.",
+    "outcome": "passed",
+    "evidence_ref": "post-create-race-p3-fmt-check.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate_github_actions",
+      "issue_create_and_comment_reconcile_by_marker_with_exact_readback",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Run focused issue_create confirmation regression with stale direct readback, transient empty search, duplicate same-issue search rows, and noisy non-marker candidate.",
+    "outcome": "passed",
+    "evidence_ref": "post-create-race-p3-focused-test.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate_github_actions"
+    ],
+    "purpose": "Run full csdlc-v2 GitHub action test target after narrowing post-create retry semantics.",
+    "outcome": "passed",
+    "evidence_ref": "post-create-race-p3-github-action-tests.log"
   }
 ]
 
