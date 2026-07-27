@@ -507,9 +507,27 @@ async fn execute_cycle(
         .map_err(|_| "Guardian did not complete production shutdown".to_owned())?
         .map_err(|error| format!("Guardian task failed: {error}"))?
         .map_err(|error| format!("{error:?}"))?;
+    validate_guardian_outcome(&outcome)?;
+    verify_generation(continuity_root, cycle).map_err(|error| {
+        format!(
+            "{error}; guardian_stderr={}",
+            diagnostic_tail(&outcome.attempts_detail[0].stderr, &args.state_root)
+        )
+    })?;
+    verify_writer_lock_released(&fixture.local_state_root)?;
     ready?;
-    validate_cycle(&outcome)?;
-    verify_generation(continuity_root, cycle)
+    validate_guardian_output(&outcome)?;
+    Ok(())
+}
+
+fn diagnostic_tail(output: &str, state_root: &Path) -> String {
+    let redacted = output.replace(&state_root.to_string_lossy().to_string(), "<state-root>");
+    let tail = redacted
+        .char_indices()
+        .rev()
+        .nth(4_095)
+        .map_or(redacted.as_str(), |(index, _)| &redacted[index..]);
+    tail.replace(['\n', '\r'], " | ")
 }
 
 async fn wait_for_authenticated_observatory(
@@ -583,10 +601,10 @@ fn validate_observatory(observatory: &serde_json::Value) -> Result<(), String> {
             "Runtime v3 Observatory did not expose the production control contract".to_owned(),
         );
     }
-    reject_non_operational_state(observatory)
+    reject_non_operational_state(observatory, "$")
 }
 
-fn reject_non_operational_state(value: &serde_json::Value) -> Result<(), String> {
+fn reject_non_operational_state(value: &serde_json::Value, path: &str) -> Result<(), String> {
     match value {
         serde_json::Value::String(value) => {
             let normalized = value.to_ascii_lowercase();
@@ -597,21 +615,32 @@ fn reject_non_operational_state(value: &serde_json::Value) -> Result<(), String>
                 })
             {
                 return Err(format!(
-                    "Runtime v3 Observatory reported non-operational state: {value}"
+                    "Runtime v3 Observatory reported non-operational state at {path}: {value}"
                 ));
             }
         }
         serde_json::Value::Array(values) => {
-            for value in values {
-                reject_non_operational_state(value)?;
+            for (index, value) in values.iter().enumerate() {
+                reject_non_operational_state(value, &format!("{path}[{index}]"))?;
             }
         }
         serde_json::Value::Object(values) => {
-            for value in values.values() {
-                reject_non_operational_state(value)?;
+            for (key, value) in values {
+                reject_non_operational_state(value, &format!("{path}.{key}"))?;
             }
         }
         _ => {}
+    }
+    Ok(())
+}
+
+fn verify_writer_lock_released(local_state_root: &Path) -> Result<(), String> {
+    let writer_lock = local_state_root.join("writer.lock");
+    if writer_lock.exists() {
+        return Err(format!(
+            "production adapter writer lock survived clean shutdown: {}",
+            writer_lock.display()
+        ));
     }
     Ok(())
 }
@@ -644,7 +673,7 @@ fn prepare_state_root(path: &Path) -> Result<(), String> {
     Ok(())
 }
 
-fn validate_cycle(outcome: &GuardianOutcome) -> Result<(), String> {
+fn validate_guardian_outcome(outcome: &GuardianOutcome) -> Result<(), String> {
     if outcome.terminal_state != GuardianTerminalState::ShutdownForwarded
         || outcome.attempts != 1
         || outcome.restarts != 0
@@ -656,6 +685,11 @@ fn validate_cycle(outcome: &GuardianOutcome) -> Result<(), String> {
     if attempt.reason_code != "shutdown_signal_forwarded" || attempt.pid.is_none() {
         return Err(format!("unexpected guardian attempt: {attempt:?}"));
     }
+    Ok(())
+}
+
+fn validate_guardian_output(outcome: &GuardianOutcome) -> Result<(), String> {
+    let attempt = &outcome.attempts_detail[0];
     let output = format!("{}\n{}", attempt.stdout, attempt.stderr).to_ascii_lowercase();
     if ["degraded", "unavailable", "panic", "fatal"]
         .iter()
