@@ -351,10 +351,7 @@ async fn read_created_issue_packet(
             if packet.marker_present {
                 Ok(packet)
             } else {
-                Err(crate::V2Error::new(
-                    crate::ErrorCode::ReconciliationRequired,
-                    "created issue direct readback did not observe operation marker",
-                ))
+                reconcile_created_issue_by_marker_search(crab, owner, repo, number, marker).await
             }
         },
         is_retryable_created_issue_readback,
@@ -365,11 +362,42 @@ async fn read_created_issue_packet(
     execution.result
 }
 
+async fn reconcile_created_issue_by_marker_search(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    number: u64,
+    marker: &str,
+) -> crate::Result<GithubIssuePacket> {
+    let matches = find_marked_issue_packets(crab, owner, repo, marker).await?;
+    match matches.as_slice() {
+        [packet] if packet.number == number => Ok(packet.clone()),
+        [] => Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "created issue marker search found no matching issue",
+        )),
+        [packet] => Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            format!(
+                "created issue marker search found different issue {} instead of {}",
+                packet.number, number
+            ),
+        )),
+        _ => Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "created issue marker search found multiple matching issues",
+        )),
+    }
+}
+
 fn is_retryable_created_issue_readback(error: &crate::V2Error) -> bool {
     error.code == crate::ErrorCode::ReconciliationRequired
-        && error
+        && (error
             .message
-            .contains("created issue direct readback did not observe operation marker")
+            .contains("created issue marker search found no matching issue")
+            || error
+                .message
+                .contains("created issue marker search found multiple matching issues"))
 }
 
 fn retry_policy_error(error: RetryPolicyError) -> crate::V2Error {
@@ -583,6 +611,19 @@ async fn find_marked_issues(
     repo: &str,
     marker: &str,
 ) -> crate::Result<Vec<u64>> {
+    Ok(find_marked_issue_packets(crab, owner, repo, marker)
+        .await?
+        .into_iter()
+        .map(|packet| packet.number)
+        .collect())
+}
+
+async fn find_marked_issue_packets(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    marker: &str,
+) -> crate::Result<Vec<GithubIssuePacket>> {
     let query = format!(
         "repo:{owner}/{repo} type:issue in:body {}",
         marker_line(marker)
@@ -600,12 +641,12 @@ async fn find_marked_issues(
         .into_iter()
         .flatten()
         .filter_map(|item| item.get("number").and_then(Value::as_u64))
-        .collect::<Vec<_>>();
+        .collect::<BTreeSet<_>>();
     let mut exact_matches = Vec::new();
     for number in candidates {
         let packet = read_issue_packet(crab, owner, repo, number, Some(marker)).await?;
         if packet.marker_present {
-            exact_matches.push(number);
+            exact_matches.push(packet);
         }
     }
     Ok(exact_matches)

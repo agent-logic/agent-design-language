@@ -122,6 +122,7 @@ async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
 
     let env = LocalGithubEnv::start();
     env.server.force_noisy_issue_search();
+    env.server.force_duplicate_issue_search_result();
     env.server.force_created_issue_marker_lag(1);
 
     let mut create = base_request(GithubAction::IssueCreate);
@@ -214,6 +215,7 @@ struct LocalGithubState {
     stale_patch_readback: bool,
     extra_patch_readback: bool,
     noisy_issue_search: bool,
+    duplicate_issue_search_result: bool,
     created_issue_marker_lag_reads: usize,
 }
 
@@ -325,6 +327,10 @@ impl LocalGithub {
 
     fn force_noisy_issue_search(&self) {
         self.state.lock().unwrap().noisy_issue_search = true;
+    }
+
+    fn force_duplicate_issue_search_result(&self) {
+        self.state.lock().unwrap().duplicate_issue_search_result = true;
     }
 
     fn force_created_issue_marker_lag(&self, reads: usize) {
@@ -480,6 +486,9 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
             "total_count": state.issue.as_ref().map_or(0, |_| if state.noisy_issue_search { 2 } else { 1 }),
             "items": state.issue.as_ref().map(|issue| {
                 let mut items = vec![issue.clone()];
+                if state.duplicate_issue_search_result {
+                    items.push(issue.clone());
+                }
                 if state.noisy_issue_search {
                     items.push(open_issue_number(
                         78,

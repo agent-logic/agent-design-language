@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/backoff crate, runtime backoff wiring, install/coexistence manifest enforcement, current docs/skill/template updates, deleted structured-prompt wrapper bootstrap guidance repair, and post-publication Opus/Hegel findings remediation.
+Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/backoff crate, runtime backoff wiring, install/coexistence manifest enforcement, current docs/skill/template updates, deleted structured-prompt wrapper bootstrap guidance repair, post-publication Opus/Hegel findings remediation, and issue_create post-create confirmation race repair.
 
 ## Artifacts
 
@@ -29,6 +29,9 @@ Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/back
 - Direct Anthropic claude-opus-5 and OpenRouter anthropic/claude-opus-5 both failed closed with HTTP 200 but no usable final review text; no clean Opus-5 verdict was fabricated.
 - Hegel exact delta review returned CLEAN after fixes.
 - Pasteur PR janitor identified csdlc-v2-standalone format failure; local fmt check now passes.
+- CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check: pass
+- CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions issue_create_and_comment_reconcile_by_marker_with_exact_readback -- --nocapture: pass, 1 test
+- CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions: pass, 3 tests
 
 ## Execution
 
@@ -47,6 +50,9 @@ Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/back
 - Documented and tested the adl-resilience exponential-backoff cap.
 - Extended owner-binary dirty-source guarding to include the shared adl-resilience path dependency before cargo runs.
 - Formatted csdlc-v2/tests/gate10a.rs to repair the failing csdlc-v2-standalone format check.
+- Fixed issue_create post-create confirmation so direct marker readback falls back to idempotent marker search inside the same retry policy instead of falsely reporting reconciliation_required after a successful issue mutation.
+- Deduplicated marker-search candidate issue numbers before exact packet verification so duplicate search results for the same created issue do not look like multiple acceptable matches.
+- Extended the local GitHub regression to hide the marker on first direct read and return duplicate/noisy search results while still proving exactly one issue POST.
 
 ## Validation
 
@@ -214,6 +220,55 @@ Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/back
     "purpose": "Run csdlc-v2 clippy with warnings denied through the repo cargo validation wrapper using FastWork build output.",
     "outcome": "passed",
     "evidence_ref": "post-opus-csdlc-v2-clippy.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest",
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all",
+      "--",
+      "--check"
+    ],
+    "purpose": "Run csdlc-v2 rustfmt check after issue_create marker-search fallback fix.",
+    "outcome": "passed",
+    "evidence_ref": "post-create-race-fmt-check.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate_github_actions",
+      "issue_create_and_comment_reconcile_by_marker_with_exact_readback",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Run focused issue_create post-create confirmation race regression with marker lag and duplicate/noisy search results.",
+    "outcome": "passed",
+    "evidence_ref": "post-create-race-focused-test.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate_github_actions"
+    ],
+    "purpose": "Run full csdlc-v2 GitHub action test target after issue_create marker-search fallback fix.",
+    "outcome": "passed",
+    "evidence_ref": "post-create-race-github-action-tests.log"
   }
 ]
 
