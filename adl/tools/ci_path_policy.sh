@@ -422,6 +422,16 @@ is_docs_tooling_contract_gate_workflow_change() {
   grep -F -- "+    if: needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && needs.adl_path_policy.outputs.ci_contracts_required == 'true'" <<<"$changed_payload" >/dev/null || return 1
 }
 
+is_docs_tooling_contract_gate_policy_change() {
+  local path="$1"
+  [ "$path" = "adl/tools/ci_path_policy.sh" ] || return 1
+  local changed_payload
+  changed_payload="$(git_pr_patch "$path" | awk '/^[+-]/ && $0 !~ /^(---|\+\+\+)/ { print }')"
+  grep -F -- "+is_docs_tooling_contract_gate_workflow_change()" <<<"$changed_payload" >/dev/null || return 1
+  grep -F -- "+is_docs_tooling_contract_gate_policy_change()" <<<"$changed_payload" >/dev/null || return 1
+  grep -F -- "+            reason=\"docs_tooling_contract_gate_change_skips_authoritative_coverage\"" <<<"$changed_payload" >/dev/null
+}
+
 is_validation_summary_and_reporting_workflow_change() {
   local path="$1"
   [ "$path" = ".github/workflows/ci.yaml" ] || return 1
@@ -1560,7 +1570,7 @@ EOF
           continue
         fi
         if is_full_coverage_policy_surface "$path"; then
-          if is_docs_tooling_contract_gate_workflow_change "$path"; then
+          if is_docs_tooling_contract_gate_workflow_change "$path" || is_docs_tooling_contract_gate_policy_change "$path"; then
             reason="docs_tooling_contract_gate_change_skips_authoritative_coverage"
             continue
           fi
