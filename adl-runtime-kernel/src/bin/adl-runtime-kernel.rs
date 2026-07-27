@@ -1,14 +1,18 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
+    future::Future,
     path::PathBuf,
+    pin::Pin,
     process::ExitCode,
     sync::Arc,
 };
 
+#[path = "../observability.rs"]
+mod observability;
+
 use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly, build_production_operation_executors,
-    execute_loop, generate_runtime_instance_id, load_control_tls, mark_unavailable_live_services,
-    monitor_until_stop,
+    execute_loop, generate_runtime_instance_id, load_control_tls, monitor_until_stop,
     proof::{load_capsule, run_proof},
     serve_control_listener_until_ready, validate_production_operation_executors,
     verifying_key_from_hex, AdaptationState, CheckpointShutdownRequest, CheckpointingControl,
@@ -18,6 +22,7 @@ use adl_runtime_kernel::{
     RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver, TimeQualificationBounds,
     TrustedControlKey, ValidatedReasoningGraph, MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA,
 };
+use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio_util::sync::CancellationToken;
 
 #[tokio::main]
@@ -71,14 +76,6 @@ async fn main() -> ExitCode {
                 eprintln!("runtime continuity key id is empty");
                 return ExitCode::from(78);
             }
-            let recorder = RuntimeRecorder::new(1_024);
-            let reasoning = match bootstrap_reasoning_services(recorder.clone()) {
-                Ok(reasoning) => reasoning,
-                Err(error) => {
-                    eprintln!("runtime reasoning bootstrap invalid: {error}");
-                    return ExitCode::from(78);
-                }
-            };
             let operation_state_dir = match std::env::var("ADL_RUNTIME_V3_LOCAL_STATE_DIR")
                 .ok()
                 .filter(|value| !value.trim().is_empty())
@@ -105,6 +102,15 @@ async fn main() -> ExitCode {
                 }
                 Err(error) => {
                     eprintln!("runtime local adapter state root is invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let instance_id = generate_runtime_instance_id();
+            let recorder = RuntimeRecorder::new(1_024);
+            let reasoning = match bootstrap_reasoning_services(recorder.clone()) {
+                Ok(reasoning) => reasoning,
+                Err(error) => {
+                    eprintln!("runtime reasoning bootstrap invalid: {error}");
                     return ExitCode::from(78);
                 }
             };
@@ -274,7 +280,6 @@ async fn main() -> ExitCode {
                     ]),
                 },
             )]));
-            let instance_id = generate_runtime_instance_id();
             let (lifecycle, mut shutdown_requests) = CheckpointingControl::channel(4);
             let service = Arc::new(
                 ControlService::new_with_observatory_config_and_agents(
@@ -315,6 +320,32 @@ async fn main() -> ExitCode {
             let pressure_checkpoint_deadline =
                 std::time::Duration::from_millis(init.weather.checkpoint_deadline_millis);
             let api_shutdown = tokio_util::sync::CancellationToken::new();
+            let vector_config = match RuntimeVectorConfig::from_runtime_environment(
+                operation_state_identity.clone(),
+                instance_id.clone(),
+                runtime_revision(),
+            ) {
+                Ok(config) => config,
+                Err(error) => {
+                    eprintln!("runtime observability configuration invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let observability = match RuntimeVectorPipeline::start(vector_config) {
+                Ok(pipeline) => pipeline,
+                Err(error) => {
+                    eprintln!("runtime observability pipeline unavailable: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            recorder.set_observability_pipeline(observability.snapshot());
+            let mut shutdown_signal = match ShutdownSignalReceiver::register() {
+                Ok(signal) => signal,
+                Err(error) => {
+                    eprintln!("runtime signal handler registration failed: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             let listener = match tokio::net::TcpListener::bind(socket_addrs.as_slice()).await {
                 Ok(listener) => listener,
                 Err(error) => {
@@ -322,7 +353,6 @@ async fn main() -> ExitCode {
                     return ExitCode::from(70);
                 }
             };
-            mark_unavailable_live_services(&recorder);
             let mut handle = match Kernel::new(assembly.topology, recorder.clone())
                 .start()
                 .await
@@ -360,6 +390,7 @@ async fn main() -> ExitCode {
             );
             let mut pressure_retry_at = None;
             'serve: loop {
+                recorder.set_observability_pipeline(observability.snapshot());
                 let weather_service = service.clone();
                 let pressure_delay = pressure_retry_at.take();
                 let pressure_monitor = async {
@@ -380,7 +411,7 @@ async fn main() -> ExitCode {
                         pressure.resource_state, pressure.shutdown_decision);
                     TerminalTrigger::Pressure
                 },
-                signal = shutdown_signal() => {
+                signal = shutdown_signal.recv() => {
                     if let Err(error) = signal {
                         eprintln!("runtime signal handler failed: {error}");
                         api_shutdown.cancel();
@@ -622,19 +653,33 @@ fn capsule_arg(mut args: impl Iterator<Item = String>) -> PathBuf {
         .unwrap_or_else(|| PathBuf::from("adl-runtime-kernel-continuity.json"))
 }
 
-async fn shutdown_signal() -> std::io::Result<()> {
+struct ShutdownSignalReceiver {
+    ctrl_c: Pin<Box<dyn Future<Output = std::io::Result<()>>>>,
     #[cfg(unix)]
-    {
-        let mut terminate =
-            tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())?;
-        tokio::select! {
-            result = tokio::signal::ctrl_c() => result,
-            _ = terminate.recv() => Ok(()),
-        }
+    terminate: tokio::signal::unix::Signal,
+}
+
+impl ShutdownSignalReceiver {
+    fn register() -> std::io::Result<Self> {
+        Ok(Self {
+            ctrl_c: Box::pin(tokio::signal::ctrl_c()),
+            #[cfg(unix)]
+            terminate: tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())?,
+        })
     }
-    #[cfg(not(unix))]
-    {
-        tokio::signal::ctrl_c().await
+
+    async fn recv(&mut self) -> std::io::Result<()> {
+        #[cfg(unix)]
+        {
+            tokio::select! {
+                result = &mut self.ctrl_c => result,
+                _ = self.terminate.recv() => Ok(()),
+            }
+        }
+        #[cfg(not(unix))]
+        {
+            (&mut self.ctrl_c).await
+        }
     }
 }
 
@@ -642,6 +687,13 @@ async fn file_hash(path: &std::path::Path) -> std::io::Result<String> {
     Ok(blake3::hash(&tokio::fs::read(path).await?)
         .to_hex()
         .to_string())
+}
+
+fn runtime_revision() -> String {
+    std::env::var("ADL_RUNTIME_REVISION")
+        .ok()
+        .filter(|value| !value.trim().is_empty())
+        .unwrap_or_else(|| env!("CARGO_PKG_VERSION").to_owned())
 }
 
 async fn run_shadow_loop() -> Result<serde_json::Value, String> {

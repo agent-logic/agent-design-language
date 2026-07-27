@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5691,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][runtime-v3][observability] Integrate tracing with Vector durable master logging",
+    "slug": "runtime-v3-vector-otel-master-log",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Runtime v3 observability implementation, Vector config, status/API exposure, clean-log auditor, and focused proof evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify Runtime v3 uses existing tracing plus pinned Vector, not a custom logging facade or duplicate master writer.",
+        "Verify Vector owns durable output, OTLP logs/traces/metrics export, buffering, retry, redaction, drain, and failure observability.",
+        "Verify Runtime v2 OTEL parity and status/API exposure are real, not fixture-only or degraded acceptance.",
+        "Verify all tests and evidence are issue-local and do not touch the #5344 lifecycle harness path."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
