@@ -121,6 +121,14 @@ fn vector_config_declares_durable_master_otlp_and_bounded_buffers() {
         json!(root.join("durable/master.log.jsonl").to_string_lossy())
     );
     assert_eq!(
+        rendered["sources"]["runtime_v3_ingress"]["glob_minimum_cooldown_ms"],
+        10
+    );
+    assert_eq!(
+        rendered["sources"]["runtime_v3_ingress"]["max_read_bytes"],
+        1_048_576
+    );
+    assert_eq!(
         rendered["sinks"]["runtime_v3_master_log"]["buffer"]["type"],
         "disk"
     );
