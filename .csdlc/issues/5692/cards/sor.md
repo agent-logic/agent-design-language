@@ -64,11 +64,11 @@ Implemented #5692 closing-keyword policy and publication verifier enforcement.
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

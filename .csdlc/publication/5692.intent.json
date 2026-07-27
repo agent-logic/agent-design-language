@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5692,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5692-pr-closing-linkage-policy",
+  "title": "[v0.91.7][tools] Require PR closing linkage for issue publication",
+  "body": "Closes #5692\n\n## Summary\n- require implementation PR bodies to use a GitHub closing keyword for the tracked issue\n- make csdlc-publish reject bare issue mentions during request and remote PR validation\n- bind qualified closing references to the governed repository so cross-repo refs cannot satisfy ADL issue closeout\n\n## Validation\n- cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate6\n- cargo check --locked --manifest-path csdlc-v2/Cargo.toml --bin csdlc-publish\n- cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check\n- git diff --check\n\n## Review\n- bounded subagent review found one P1 cross-repo qualified-reference gap\n- fixed and re-reviewed clean at b23a8f87e76536fdbf65a6be78ca64b2a3918b19",
+  "draft": false,
+  "revision": "git-blake3:b23a8f87e76536fdbf65a6be78ca64b2a3918b19:a7e4c35e19734c21bc504eb8d84721230270f247278c7a764d1d1f3dc238a4a9",
+  "commit_sha": "b23a8f87e76536fdbf65a6be78ca64b2a3918b19"
+}

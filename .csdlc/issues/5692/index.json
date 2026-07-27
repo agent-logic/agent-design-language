@@ -3,13 +3,13 @@
   "issue": 5692,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0e010b7be5b7702ce678c559ba77b16bd11d31729435c80922445f1ad4bf4d78",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "7a683149adfde655667183a994cc7ccf99fce5e25e2d9455e2016ffcfe5a9256",
+  "phase": "published",
+  "generation": 6,
+  "digest": "ec82755c25c1a90fd92b0c14a8a72cf723dd857392e9f53b12978875cd1580a4",
   "claim": {
     "id": "claim-5692-pr-closing-linkage-policy",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 4,
+    "generation": 6,
     "acquired_unix_seconds": 1785120624,
     "expires_unix_seconds": 1785207024,
     "heartbeat_unix_seconds": 1785120624,
@@ -28,8 +28,44 @@
     "purpose": "implement #5692 PR closing linkage policy and publish verifier"
   },
   "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review": {
+    "reviewer": "bounded-subagent:019fa471-1206-7ab2-b567-b31f2cb1a3c3",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate6.rs"
+    ],
+    "reviewed_revision": "git-blake3:b23a8f87e76536fdbf65a6be78ca64b2a3918b19:a7e4c35e19734c21bc504eb8d84721230270f247278c7a764d1d1f3dc238a4a9",
+    "findings": [
+      {
+        "id": "5692-P1-qualified-cross-repo-closing-ref",
+        "severity": "p1",
+        "summary": "Repository-qualified closing references must match the governed repository; wrong/repo#5692 cannot satisfy ADL issue auto-close linkage.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:b23a8f87e76536fdbf65a6be78ca64b2a3918b19:a7e4c35e19734c21bc504eb8d84721230270f247278c7a764d1d1f3dc238a4a9",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "No live PR body was observed before publication; csdlc-publish will validate the publication request and remote PR body again during publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5692,
+    "pull_request": 5696,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5696",
+    "base": "main",
+    "head": "codex/5692-pr-closing-linkage-policy",
+    "revision": "git-blake3:b23a8f87e76536fdbf65a6be78ca64b2a3918b19:a7e4c35e19734c21bc504eb8d84721230270f247278c7a764d1d1f3dc238a4a9",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -43,34 +79,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cc21f29227951682fcc1fd7bb1f97c4b7c867d15f91b5119e09d0bb6bc115b08",
+      "values_digest": "116778c7e3a7097320687688d7f6d3314f790ad50253181f6acbdbbce323b1a8",
       "rendered_digest": "fb06afcbe05e997154f8494d15eecb2f5fa4004055371e5f7c2327642025e0b1",
       "ast_digest": "30aa7387442b636f648ee359f0ba7178ac0bab9c295b7efa23f1c2da11fe2012"
     },
     "stp": {
-      "values_digest": "99efe5fdc25a83703102745371384a11f2d691628f5f0469b453b253404decbf",
+      "values_digest": "7bc1349692cf59c499896df1129e469cf9588c3cb620cf03b08b8e858658242c",
       "rendered_digest": "d04f8b7b350117a2f4ba630e97e775fd87b80162e83fd7261e92cfcd520f8b02",
       "ast_digest": "99909f5eb3bfa5ad3da5d25694994b7fd7c3eabc5ab27d1ddf6c85bb5f656282"
     },
     "spp": {
-      "values_digest": "d20217c3feecd87e7c3bc5f57b25c6e893c9391e9ca52a66b0f1579a7a5c60c3",
+      "values_digest": "f0b074261007886d8da346ba0ca2d934aff05504a3e45de5f48bd2fe0b41e51c",
       "rendered_digest": "16c40f6083c864198702121b815fc40d6e2913d75efa2749b3d8133075a505e2",
       "ast_digest": "4a0a5df7ab0c21c6c26dce9e9c48611f0e4cb2542a27de482be00f210e9df61d"
     },
     "vpp": {
-      "values_digest": "f960614666e5bcff3786bcc929bfdc675dd5f43bf39eeabc61b3499e238c8670",
+      "values_digest": "01ecf0c35ea8ddf7466f53dca6e13aeb04746a7063aa26d516ce85401b4b7461",
       "rendered_digest": "3d5707e4104ed5851f2f79dd02e44c59e32f782ea57b6c0e2109c6c9b6fcb249",
       "ast_digest": "b17c8ebdf1a3a7d5ae0bc96935d661c78800c476c99cdd7e8d7097a0a896ec55"
     },
     "srp": {
-      "values_digest": "044ab86f69cd0651ac4b55e500a6102e0b9291c58b5ede5710d0e335f87a8e76",
-      "rendered_digest": "98d02165a67d8a7e6bbc9a19be972fa187cc031eaf4e5f825c41bda096ffb796",
-      "ast_digest": "aa96e6213da37a75b0935e8e2edffa39f4fc5da9021523bcf93d4ec77c6ab633"
+      "values_digest": "528d53675d6b44f4fc830a42d34f65c6aee9f222964d49106cb5553a438b42e2",
+      "rendered_digest": "fdf5861e6b734ccb429a57639422b63c01619b3fc5393f4ef179c66e77bf5051",
+      "ast_digest": "1dd485e86bcb2df5dcc43fc01d7b9b87237976e4f63b3d9293b13a8f45c6c534"
     },
     "sor": {
-      "values_digest": "90c7803ef22bfc9a97fc0510f1d62e731ae76776c7db454bce279b98ba68dc9e",
-      "rendered_digest": "0f9e109564472bb7f9781e63e059c7a50c415a65650b0464bdded1148b36f9ba",
-      "ast_digest": "c59d0634142c7cda2145dfcc973e6323736cb4b93c68b4829c142543690e02f8"
+      "values_digest": "109928487b46c18bc1e9c241ce100fdcacbd0fd7b13f9e5e70a041edd0be9c08",
+      "rendered_digest": "c48a489da229c539a4c82e790a930798685ab847544e5a2e3ee4d7fa10bd9042",
+      "ast_digest": "7dfc6cdec6790bc766d9142bfb5143d5cf200f21cc156dd3860f5e82842653e7"
     }
   },
   "transitions": [
@@ -94,6 +130,20 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "advance #5692 after implementation and focused proof"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -145,6 +195,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "advance #5692 after implementation and focused proof",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
