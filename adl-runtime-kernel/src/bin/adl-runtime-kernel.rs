@@ -261,7 +261,6 @@ async fn main() -> ExitCode {
                 "control_key": hex::encode(public_key.as_bytes()),
                 "continuity_key_id": &continuity_key_id,
                 "continuity_key": hex::encode(continuity_public_key.as_bytes()),
-                "continuity_minimum_generation": minimum_generation,
                 "operation_state_root": operation_state_identity,
                 "tls_certificate_hash": tls_certificate_hash,
             });
