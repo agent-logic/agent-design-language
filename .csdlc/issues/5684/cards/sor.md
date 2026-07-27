@@ -1,0 +1,130 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 5684
+
+Repository: danielbaustin/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/backoff crate, runtime backoff wiring, install/coexistence manifest enforcement, current docs/skill/template updates, and deleted structured-prompt wrapper bootstrap guidance repair.
+
+## Artifacts
+
+- git diff --check origin/main...HEAD: pass
+- CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo test --manifest-path adl-resilience/Cargo.toml: pass, 3 tests
+- CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions: pass, 3 tests
+- CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo test --manifest-path csdlc-v2/Cargo.toml --test gate10a: pass, 14 tests
+- CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo check --manifest-path adl-runtime/Cargo.toml: pass
+- CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo test --manifest-path csdlc-v2/Cargo.toml --test gate10a current_bootstrap_guidance_does_not_call_deleted_prompt_wrapper: pass, 1 test
+- rg "bash adl/tools/validate_structured_prompt\\.sh" docs/templates/prompts/1.0.3 csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md docs/default_workflow.md docs/tooling/README.md docs/tooling/structured-prompt-validator-binary-resolution.md csdlc-v2/AGENTS.md: no matches
+- CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest csdlc-install install --repo /Volumes/FastWork/adl-csdlc-install-manifest --destination /Volumes/FastWork/adl-5684-install-proof-a0a270a/csdlc-v2: pass, source_revision git:a0a270adc67678af9d4f5cb4712e1b2d3d8264aa, 21 binaries including csdlc-github-issue, csdlc-github-pr, and csdlc-merge
+- csdlc-install verify --repo /Volumes/FastWork/adl-csdlc-install-manifest --bin-dir /Volumes/FastWork/adl-5684-install-proof-a0a270a/csdlc-v2 --inventory csdlc-v2/operator/coexistence.json: pass true, no missing v2 binaries
+
+## Execution
+
+- Added adl-resilience shared crate with retry policy and capped exponential backoff primitives.
+- Wired csdlc-v2 GitHub issue-create readback retry through adl-resilience.
+- Wired adl-runtime guardian and supervision backoff through adl-resilience.
+- Added csdlc-github-issue and csdlc-github-pr split owner binaries while retaining csdlc-github compatibility.
+- Updated operator skills/coexistence inventory so csdlc-github-issue, csdlc-github-pr, csdlc-pr-state, csdlc-github, and csdlc-merge are required.
+- Updated current GitHub boundary, owner-binary install, default workflow, C-SDLC v2 AGENTS, and operator skill docs.
+- Replaced current structured-prompt validator wrapper guidance with typed csdlc-validate guidance and added Gate 10A regression coverage.
+- Finalized #5684 implementation after focused validation of split GitHub binaries, stable install inventory, shared resilience wiring, and deleted bootstrap-wrapper guard.
+- Updated active prompt-template 1.0.3 structure schemas so new/current bootstrap structure guidance no longer blesses bash adl/tools/validate_structured_prompt.sh.
+- Refreshed stable owner-binary install proof at source revision a0a270adc67678af9d4f5cb4712e1b2d3d8264aa after active template-schema repair was committed.
+
+## Validation
+
+[
+  {
+    "command": [
+      "/usr/bin/git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Run git diff --check across the PR diff.",
+    "outcome": "passed",
+    "evidence_ref": "diff-check.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate10a"
+    ],
+    "purpose": "Run Gate 10A installer/coexistence/bootstrap guidance tests.",
+    "outcome": "passed",
+    "evidence_ref": "gate10a-install-bootstrap-tests.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate_github_actions"
+    ],
+    "purpose": "Run csdlc-v2 GitHub action tests.",
+    "outcome": "passed",
+    "evidence_ref": "github-action-split-tests.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-resilience/Cargo.toml"
+    ],
+    "purpose": "Run adl-resilience unit tests.",
+    "outcome": "passed",
+    "evidence_ref": "resilience-tests.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest",
+      "cargo",
+      "check",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml"
+    ],
+    "purpose": "Run adl-runtime cargo check.",
+    "outcome": "passed",
+    "evidence_ref": "runtime-resilience-check.log"
+  }
+]
+
+## Integration
+
+worktree_only
+
+## Publication
+
+Publication: not_published
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

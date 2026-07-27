@@ -1,0 +1,281 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5684,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "75c9cff2d2d9255cea839a5fbc388b881ac96d87f1b17509562024d338d6d3a6",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "f61baa797d02f375b0b79151714c24af8b92d636203abe95cced987d270fe0a4",
+  "claim": {
+    "id": "claim-5684-csdlc-github-split",
+    "owner": "codex",
+    "generation": 9,
+    "acquired_unix_seconds": 1785115334,
+    "expires_unix_seconds": 1785201734,
+    "heartbeat_unix_seconds": 1785115334,
+    "branch": "codex/5684-csdlc-github-tool-split",
+    "worktree": "/Volumes/FastWork/adl-csdlc-install-manifest",
+    "protected_paths": [
+      ".csdlc/issues/5684",
+      "adl-resilience",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/src/supervision.rs",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/Cargo.lock",
+      "csdlc-v2/Cargo.toml",
+      "csdlc-v2/operator/coexistence.json",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-github-issue.rs",
+      "csdlc-v2/src/bin/csdlc-github-pr.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate_github_actions.rs",
+      "docs/default_workflow.md",
+      "docs/templates/prompts/1.0.3/schemas/sip.structure.json",
+      "docs/templates/prompts/1.0.3/schemas/sor.structure.json",
+      "docs/templates/prompts/1.0.3/schemas/spp.structure.json",
+      "docs/templates/prompts/1.0.3/schemas/srp.structure.json",
+      "docs/templates/prompts/1.0.3/schemas/stp.structure.json",
+      "docs/templates/prompts/1.0.3/schemas/vpp.structure.json",
+      "docs/templates/prompts/1.0.3/sor.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "docs/tooling/OWNER_BINARY_INSTALLATION.md",
+      "docs/tooling/README.md",
+      "docs/tooling/structured-prompt-validator-binary-resolution.md"
+    ],
+    "purpose": "Execute #5684 C-SDLC GitHub owner-binary split"
+  },
+  "review_assignment": null,
+  "review": {
+    "reviewer": "subagent:019fa13d-ca2e-7f13-b556-dbe8e168d611",
+    "scope": [
+      ".csdlc/issues/5684/audit.jsonl",
+      ".csdlc/issues/5684/cards/sip.md",
+      ".csdlc/issues/5684/cards/sip.values.json",
+      ".csdlc/issues/5684/cards/sor.md",
+      ".csdlc/issues/5684/cards/sor.values.json",
+      ".csdlc/issues/5684/cards/spp.md",
+      ".csdlc/issues/5684/cards/spp.values.json",
+      ".csdlc/issues/5684/cards/srp.md",
+      ".csdlc/issues/5684/cards/srp.values.json",
+      ".csdlc/issues/5684/cards/stp.md",
+      ".csdlc/issues/5684/cards/stp.values.json",
+      ".csdlc/issues/5684/cards/vpp.md",
+      ".csdlc/issues/5684/cards/vpp.values.json",
+      ".csdlc/issues/5684/design.md",
+      ".csdlc/issues/5684/diagram.mmd",
+      ".csdlc/issues/5684/index.json",
+      "adl-resilience/Cargo.lock",
+      "adl-resilience/Cargo.toml",
+      "adl-resilience/src/lib.rs",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/src/supervision.rs",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/Cargo.lock",
+      "csdlc-v2/Cargo.toml",
+      "csdlc-v2/operator/coexistence.json",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-github-issue.rs",
+      "csdlc-v2/src/bin/csdlc-github-pr.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate_github_actions.rs",
+      "docs/default_workflow.md",
+      "docs/templates/prompts/1.0.3/schemas/sip.structure.json",
+      "docs/templates/prompts/1.0.3/schemas/sor.structure.json",
+      "docs/templates/prompts/1.0.3/schemas/spp.structure.json",
+      "docs/templates/prompts/1.0.3/schemas/srp.structure.json",
+      "docs/templates/prompts/1.0.3/schemas/stp.structure.json",
+      "docs/templates/prompts/1.0.3/schemas/vpp.structure.json",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "docs/tooling/OWNER_BINARY_INSTALLATION.md",
+      "docs/tooling/README.md",
+      "docs/tooling/structured-prompt-validator-binary-resolution.md"
+    ],
+    "reviewed_revision": "git-blake3:f97c1234b3ccd8b2e8abf376c4e0eeb11f3da205:0ccaf66709c0ba2c3f8ad79b7c1e6acf5462de342bf7e71795c68a0c88369bc6",
+    "findings": [],
+    "residual_risks": [
+      "Historical audit entries retain the earlier 9006007f install-proof observation; current SOR values/rendered card and superseding audit sequence 8 record refreshed install proof at a0a270adc67678af9d4f5cb4712e1b2d3d8264aa.",
+      "Read-only reviewer did not rerun Cargo tests or install commands; local implementation owner reran focused validation and install/verify proof on FastWork."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/issues/5684/design.md",
+  "diagram_path": ".csdlc/issues/5684/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator",
+      "revision": "71c69c042f97526ace7f3ad9dc7c42d109e1b04d274e8afdf59893176c698eb8"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "cf2a8f543e4538c03c974c744a507e60a260f0a8f374337b06981a5516e609ea",
+      "rendered_digest": "858d9191e0e8690e5775f2444cde97db7e55675c237650533c57b708bbae67e3",
+      "ast_digest": "3be7db06c77ee168c5a5088e36b2efd3eff5fea8e4b28de9476ff5cad93be89d"
+    },
+    "stp": {
+      "values_digest": "c67817122264933c3704183eb85082af5fa2095a9771f539ca48d5b6a14fee30",
+      "rendered_digest": "7f6db876a57f71505632afe8a874ed6b2f75af2665d19263d35140117c78a039",
+      "ast_digest": "26abde4d04c92dbd379c514502f1bec3d6fa5559b95b2cd3972f06a45652e39f"
+    },
+    "spp": {
+      "values_digest": "ff77fa091b679026407cdffdc8ba9ab1f0f0990446857b0e4d0a9c3582abeaac",
+      "rendered_digest": "9d919a55fff295a632dc95828738c622441f7adbd56527cda6920e1f56bced85",
+      "ast_digest": "9a7a6c02eb787c220207111dcd5ef4e5e148fb5c22c9a9dfdc5bff773534f349"
+    },
+    "vpp": {
+      "values_digest": "4d7a3d2f16a126b9ffe00b766d03c8299df363c4bd33430e5169b11e0d2dd7f6",
+      "rendered_digest": "91d4afe6f345de33e4d32d51cf8dc010188981773badc84d51ff791079760a01",
+      "ast_digest": "72a71b7e336ccce441a868f9216609233ceef970cea09e5e5793c5c95f71f91f"
+    },
+    "srp": {
+      "values_digest": "95636825e676dad8bbba09891de6996811f83d880d87f051a87d0d7b34d5cdcf",
+      "rendered_digest": "ccb81e0ff9be1170678fa96c31e30888f2e12119812a275fda9acf58759ed0cd",
+      "ast_digest": "531458c8b14b383e3cab1b47d10b99730689f2eaf4b6682517d4362250818c75"
+    },
+    "sor": {
+      "values_digest": "72395e421b4b82697365fd4f26d6b7507f8cb49530a8ba252a42074b942e6d90",
+      "rendered_digest": "01b964b8d048859581e512b22ebddc7492197189c04acaf1192b5c96c1504f1c",
+      "ast_digest": "297ec00092017d2469636c4f9d0718f3d6b4977d355f9161ed207aa17ced8a4e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "Advance #5684 after issue-specific cards and validation plan initialized."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "Bind #5684 to the FastWork issue worktree already holding the implementation."
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Recover stale review after committing review lifecycle metadata so exact-head review can be recorded for the current clean head."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "Advance #5684 after issue-specific cards and validation plan initialized.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "Bind #5684 to the FastWork issue worktree already holding the implementation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"bound\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "Record exact-head implementation and validation evidence for #5684.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/backoff crate, runtime backoff wiring, install/coexistence manifest enforcement, current docs/skill updates, and deleted structured-prompt wrapper bootstrap guidance repair.\",\"changes\":[\"Added adl-resilience shared crate with retry policy and capped exponential backoff primitives.\",\"Wired csdlc-v2 GitHub issue-create readback retry through adl-resilience.\",\"Wired adl-runtime guardian and supervision backoff through adl-resilience.\",\"Added csdlc-github-issue and csdlc-github-pr split owner binaries while retaining csdlc-github compatibility.\",\"Updated operator skills/coexistence inventory so csdlc-github-issue, csdlc-github-pr, csdlc-pr-state, csdlc-github, and csdlc-merge are required.\",\"Updated current GitHub boundary, owner-binary install, default workflow, C-SDLC v2 AGENTS, and operator skill docs.\",\"Replaced current structured-prompt validator wrapper guidance with typed csdlc-validate guidance and added Gate 10A regression coverage.\"],\"artifacts\":[\"git diff --check origin/main...HEAD: pass\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo test --manifest-path adl-resilience/Cargo.toml: pass, 3 tests\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions: pass, 3 tests\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo test --manifest-path csdlc-v2/Cargo.toml --test gate10a: pass, 14 tests\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo check --manifest-path adl-runtime/Cargo.toml: pass\",\"csdlc-install install from git:9006007f939e185380c783cb34b25ee6f7e416fd into /Volumes/FastWork/adl-5684-install-proof-9006007/csdlc-v2: pass, 21 binaries including csdlc-github-issue and csdlc-github-pr\",\"csdlc-install verify against csdlc-v2/operator/coexistence.json: pass true, no missing v2 binaries\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "Include current active prompt-template surfaces in #5684 bootstrap repair so new bootstrap guidance cannot retain deleted validate_structured_prompt.sh commands.",
+      "operation": "{\"add_protected_paths\":[\"docs/templates/prompts/1.0.3/sor.md\",\"docs/templates/prompts/1.0.3/schemas/sip.structure.json\",\"docs/templates/prompts/1.0.3/schemas/stp.structure.json\",\"docs/templates/prompts/1.0.3/schemas/spp.structure.json\",\"docs/templates/prompts/1.0.3/schemas/vpp.structure.json\",\"docs/templates/prompts/1.0.3/schemas/srp.structure.json\",\"docs/templates/prompts/1.0.3/schemas/sor.structure.json\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "Record active prompt-template schema repair for deleted bootstrap validator command.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/backoff crate, runtime backoff wiring, install/coexistence manifest enforcement, current docs/skill/template updates, and deleted structured-prompt wrapper bootstrap guidance repair.\",\"changes\":[\"Updated active prompt-template 1.0.3 structure schemas so new/current bootstrap structure guidance no longer blesses bash adl/tools/validate_structured_prompt.sh.\"],\"artifacts\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest cargo test --manifest-path csdlc-v2/Cargo.toml --test gate10a current_bootstrap_guidance_does_not_call_deleted_prompt_wrapper: pass, 1 test\",\"rg \\\"bash adl/tools/validate_structured_prompt\\\\\\\\.sh\\\" docs/templates/prompts/1.0.3 csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md docs/default_workflow.md docs/tooling/README.md docs/tooling/structured-prompt-validator-binary-resolution.md csdlc-v2/AGENTS.md: no matches\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "Refresh #5684 stable install proof after source/template commit moved.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/backoff crate, runtime backoff wiring, install/coexistence manifest enforcement, current docs/skill/template updates, and deleted structured-prompt wrapper bootstrap guidance repair.\",\"changes\":[\"Refreshed stable owner-binary install proof at source revision a0a270adc67678af9d4f5cb4712e1b2d3d8264aa after active template-schema repair was committed.\"],\"artifacts\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest csdlc-install install --repo /Volumes/FastWork/adl-csdlc-install-manifest --destination /Volumes/FastWork/adl-5684-install-proof-a0a270a/csdlc-v2: pass, source_revision git:a0a270adc67678af9d4f5cb4712e1b2d3d8264aa, 21 binaries including csdlc-github-issue, csdlc-github-pr, and csdlc-merge\",\"csdlc-install verify --repo /Volumes/FastWork/adl-csdlc-install-manifest --bin-dir /Volumes/FastWork/adl-5684-install-proof-a0a270a/csdlc-v2 --inventory csdlc-v2/operator/coexistence.json: pass true, no missing v2 binaries\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "Recover stale review after committing review lifecycle metadata so exact-head review can be recorded for the current clean head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    }
+  ]
+}

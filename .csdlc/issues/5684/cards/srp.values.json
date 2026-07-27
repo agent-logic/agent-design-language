@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5684,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "Split GitHub tool surface into smaller owner binaries",
+    "slug": "csdlc-github-tool-split",
+    "version": "v0.91.8",
+    "generation": 9
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/5684/audit.jsonl\n.csdlc/issues/5684/cards/sip.md\n.csdlc/issues/5684/cards/sip.values.json\n.csdlc/issues/5684/cards/sor.md\n.csdlc/issues/5684/cards/sor.values.json\n.csdlc/issues/5684/cards/spp.md\n.csdlc/issues/5684/cards/spp.values.json\n.csdlc/issues/5684/cards/srp.md\n.csdlc/issues/5684/cards/srp.values.json\n.csdlc/issues/5684/cards/stp.md\n.csdlc/issues/5684/cards/stp.values.json\n.csdlc/issues/5684/cards/vpp.md\n.csdlc/issues/5684/cards/vpp.values.json\n.csdlc/issues/5684/design.md\n.csdlc/issues/5684/diagram.mmd\n.csdlc/issues/5684/index.json\nadl-resilience/Cargo.lock\nadl-resilience/Cargo.toml\nadl-resilience/src/lib.rs\nadl-runtime/Cargo.lock\nadl-runtime/Cargo.toml\nadl-runtime/src/guardian.rs\nadl-runtime/src/lib.rs\nadl-runtime/src/supervision.rs\ncsdlc-v2/AGENTS.md\ncsdlc-v2/Cargo.lock\ncsdlc-v2/Cargo.toml\ncsdlc-v2/operator/coexistence.json\ncsdlc-v2/operator/skills.json\ncsdlc-v2/operator/skills/csdlc-v2-github/SKILL.md\ncsdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\ncsdlc-v2/src/bin/csdlc-github-issue.rs\ncsdlc-v2/src/bin/csdlc-github-pr.rs\ncsdlc-v2/src/github.rs\ncsdlc-v2/tests/gate10a.rs\ncsdlc-v2/tests/gate_github_actions.rs\ndocs/default_workflow.md\ndocs/templates/prompts/1.0.3/schemas/sip.structure.json\ndocs/templates/prompts/1.0.3/schemas/sor.structure.json\ndocs/templates/prompts/1.0.3/schemas/spp.structure.json\ndocs/templates/prompts/1.0.3/schemas/srp.structure.json\ndocs/templates/prompts/1.0.3/schemas/stp.structure.json\ndocs/templates/prompts/1.0.3/schemas/vpp.structure.json\ndocs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\ndocs/tooling/OWNER_BINARY_INSTALLATION.md\ndocs/tooling/README.md\ndocs/tooling/structured-prompt-validator-binary-resolution.md",
+      "review_revision": "git-blake3:f97c1234b3ccd8b2e8abf376c4e0eeb11f3da205:0ccaf66709c0ba2c3f8ad79b7c1e6acf5462de342bf7e71795c68a0c88369bc6",
+      "reviewer": "subagent:019fa13d-ca2e-7f13-b556-dbe8e168d611",
+      "review_prompts": [
+        "Review whether split binaries materially reduce the GitHub command surface and whether install/coexistence enforcement covers the new binaries."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Historical audit entries retain the earlier 9006007f install-proof observation; current SOR values/rendered card and superseding audit sequence 8 record refreshed install proof at a0a270adc67678af9d4f5cb4712e1b2d3d8264aa.",
+        "Read-only reviewer did not rerun Cargo tests or install commands; local implementation owner reran focused validation and install/verify proof on FastWork."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

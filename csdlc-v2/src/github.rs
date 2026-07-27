@@ -5,6 +5,8 @@ use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::collections::{BTreeMap, BTreeSet};
 
+use adl_resilience::{execute_retry_policy_async, RetryPolicyError, RetryPolicyV1};
+
 #[derive(Debug, Clone, Deserialize)]
 pub struct PrStateRequest {
     pub repository: String,
@@ -320,16 +322,44 @@ async fn reconcile_issue_create(
                 "created issue has no number",
             )
         })?;
-    let matches = find_marked_issues(crab, owner, repo, marker).await?;
-    if matches != vec![number] {
-        return Err(crate::V2Error::new(
-            crate::ErrorCode::ReconciliationRequired,
-            "created issue marker readback is ambiguous",
-        ));
-    }
-    let packet = read_issue_packet(crab, owner, repo, number, Some(marker)).await?;
+    let packet = read_created_issue_packet(crab, owner, repo, number, marker).await?;
     verify_issue_identity(&packet, request)?;
     Ok(packet)
+}
+
+async fn read_created_issue_packet(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    number: u64,
+    marker: &str,
+) -> crate::Result<GithubIssuePacket> {
+    let policy = RetryPolicyV1::new(4, Some(250));
+    let execution = execute_retry_policy_async(
+        &policy,
+        |_| async {
+            let packet = read_issue_packet(crab, owner, repo, number, Some(marker)).await?;
+            if packet.marker_present {
+                Ok(packet)
+            } else {
+                Err(crate::V2Error::new(
+                    crate::ErrorCode::ReconciliationRequired,
+                    "created issue direct readback did not observe operation marker",
+                ))
+            }
+        },
+        tokio::time::sleep,
+    )
+    .await
+    .map_err(retry_policy_error)?;
+    execution.result
+}
+
+fn retry_policy_error(error: RetryPolicyError) -> crate::V2Error {
+    crate::V2Error::new(
+        crate::ErrorCode::ValidationFailed,
+        format!("GitHub readback retry policy failed: {error:?}"),
+    )
 }
 
 async fn update_issue(

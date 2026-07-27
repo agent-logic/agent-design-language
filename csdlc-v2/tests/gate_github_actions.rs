@@ -2,8 +2,10 @@ use csdlc_v2::{
     append_marker, execute_github_action, marker_line, GithubAction, GithubActionRequest,
 };
 use serde_json::{json, Value};
+use std::fs;
 use std::io::{Read, Write};
 use std::net::{SocketAddr, TcpListener, TcpStream};
+use std::process::Command;
 use std::sync::{
     atomic::{AtomicBool, Ordering},
     mpsc, Arc, Mutex, MutexGuard,
@@ -49,6 +51,35 @@ fn operation_marker_is_stable_and_idempotent() {
     assert!(once.contains(&marker));
 }
 
+#[test]
+fn split_github_binaries_reject_the_wrong_surface_before_network() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let issue_request = temp.path().join("issue.json");
+    let pr_request = temp.path().join("pr.json");
+    let mut issue = base_request(GithubAction::IssueRead);
+    issue.issue = Some(77);
+    fs::write(&issue_request, serde_json::to_vec_pretty(&issue).unwrap()).unwrap();
+    let mut pr = base_request(GithubAction::PrState);
+    pr.pull_request = Some(88);
+    fs::write(&pr_request, serde_json::to_vec_pretty(&pr).unwrap()).unwrap();
+
+    let issue_binary_rejects_pr = Command::new(env!("CARGO_BIN_EXE_csdlc-github-issue"))
+        .args(["run", "--request", pr_request.to_str().unwrap()])
+        .output()
+        .expect("run csdlc-github-issue");
+    assert!(!issue_binary_rejects_pr.status.success());
+    let issue_stdout = String::from_utf8_lossy(&issue_binary_rejects_pr.stdout);
+    assert!(issue_stdout.contains("only accepts issue actions"));
+
+    let pr_binary_rejects_issue = Command::new(env!("CARGO_BIN_EXE_csdlc-github-pr"))
+        .args(["run", "--request", issue_request.to_str().unwrap()])
+        .output()
+        .expect("run csdlc-github-pr");
+    assert!(!pr_binary_rejects_issue.status.success());
+    let pr_stdout = String::from_utf8_lossy(&pr_binary_rejects_issue.stdout);
+    assert!(pr_stdout.contains("only accepts pr_state actions"));
+}
+
 #[tokio::test]
 async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
     let mut invalid_key = base_request(GithubAction::IssueCreate);
@@ -91,6 +122,7 @@ async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
 
     let env = LocalGithubEnv::start();
     env.server.force_noisy_issue_search();
+    env.server.force_created_issue_marker_lag(1);
 
     let mut create = base_request(GithubAction::IssueCreate);
     create.token_file = Some(env.token_file());
@@ -182,6 +214,7 @@ struct LocalGithubState {
     stale_patch_readback: bool,
     extra_patch_readback: bool,
     noisy_issue_search: bool,
+    created_issue_marker_lag_reads: usize,
 }
 
 struct LocalGithub {
@@ -292,6 +325,10 @@ impl LocalGithub {
 
     fn force_noisy_issue_search(&self) {
         self.state.lock().unwrap().noisy_issue_search = true;
+    }
+
+    fn force_created_issue_marker_lag(&self, reads: usize) {
+        self.state.lock().unwrap().created_issue_marker_lag_reads = reads;
     }
 }
 
@@ -476,7 +513,14 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
             state.issue = Some(issue.clone());
             issue
         }
-        ("GET", "/repos/owner/repo/issues/77") => state.issue.clone().expect("issue exists"),
+        ("GET", "/repos/owner/repo/issues/77") => {
+            let mut issue = state.issue.clone().expect("issue exists");
+            if state.created_issue_marker_lag_reads > 0 {
+                state.created_issue_marker_lag_reads -= 1;
+                issue["body"] = json!("Create issue body without indexed marker yet");
+            }
+            issue
+        }
         ("GET", "/repos/owner/repo/issues/78") => open_issue_number(
             78,
             "Unrelated issue",
