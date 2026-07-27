@@ -50,6 +50,35 @@ fn current_operator_guidance_has_no_sunset_v1_route() {
 }
 
 #[test]
+fn current_bootstrap_guidance_does_not_call_deleted_prompt_wrapper() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
+    let current_guidance = [
+        "docs/default_workflow.md",
+        "docs/tooling/README.md",
+        "docs/tooling/structured-prompt-validator-binary-resolution.md",
+        "csdlc-v2/AGENTS.md",
+        "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
+        "docs/templates/prompts/1.0.3/schemas/sip.structure.json",
+        "docs/templates/prompts/1.0.3/schemas/stp.structure.json",
+        "docs/templates/prompts/1.0.3/schemas/spp.structure.json",
+        "docs/templates/prompts/1.0.3/schemas/vpp.structure.json",
+        "docs/templates/prompts/1.0.3/schemas/srp.structure.json",
+        "docs/templates/prompts/1.0.3/schemas/sor.structure.json",
+    ];
+    for relative in current_guidance {
+        let text = fs::read_to_string(repo.join(relative)).unwrap();
+        assert!(
+            !text.contains("bash adl/tools/validate_structured_prompt.sh")
+                && !text.contains(
+                    "adl/tools/validate_structured_prompt.sh` is a compatibility wrapper"
+                ),
+            "current bootstrap guidance calls deleted prompt wrapper: {relative}"
+        );
+    }
+}
+
+#[test]
 fn current_guidance_guard_rejects_exact_former_wrapper_command() {
     let former = "Run `bash ./adl/tools/pr.sh run 42`; pr.sh remains the default.";
     assert!(!current_guidance_is_v2_only(former, &[]));
@@ -89,6 +118,8 @@ fn installer_records_provenance_without_replacing_other_files() {
     );
     assert!(destination.join("install-receipt.json").is_file());
     assert!(destination.join("csdlc-github").is_file());
+    assert!(destination.join("csdlc-github-issue").is_file());
+    assert!(destination.join("csdlc-github-pr").is_file());
     assert!(destination.join("csdlc-install").is_file());
     assert!(destination.join("csdlc-merge").is_file());
     #[cfg(unix)]
@@ -242,8 +273,48 @@ fn untracked_build_input_is_rejected_before_cargo_runs() {
     .unwrap();
     let destination = tempfile::tempdir().unwrap().path().join("csdlc-v2");
     let error = build_and_install_binaries(repo.path(), &destination).unwrap_err();
-    assert!(error.message.contains("dirty csdlc-v2 sources"));
+    assert!(error.message.contains("dirty C-SDLC owner sources"));
     assert!(!repo.path().join("cargo-ran").exists());
+    assert!(!destination.exists());
+}
+
+#[test]
+fn dirty_shared_owner_dependency_is_rejected_before_cargo_runs() {
+    let repo = tempfile::tempdir().unwrap();
+    git(repo.path(), &["init", "-b", "main"]);
+    git(
+        repo.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(repo.path(), &["config", "user.name", "C-SDLC Test"]);
+    fs::create_dir_all(repo.path().join("csdlc-v2/src")).unwrap();
+    fs::create_dir_all(repo.path().join("adl-resilience/src")).unwrap();
+    fs::write(
+        repo.path().join("csdlc-v2/Cargo.toml"),
+        "[package]\nname='fixture'\nversion='0.1.0'\nedition='2021'\n",
+    )
+    .unwrap();
+    fs::write(repo.path().join("csdlc-v2/src/main.rs"), "fn main() {}\n").unwrap();
+    fs::write(
+        repo.path().join("adl-resilience/Cargo.toml"),
+        "[package]\nname='adl-resilience'\nversion='0.1.0'\nedition='2021'\n",
+    )
+    .unwrap();
+    fs::write(
+        repo.path().join("adl-resilience/src/lib.rs"),
+        "pub fn clean() {}\n",
+    )
+    .unwrap();
+    git(repo.path(), &["add", "."]);
+    git(repo.path(), &["commit", "-m", "tracked source"]);
+    fs::write(
+        repo.path().join("adl-resilience/src/lib.rs"),
+        "pub fn dirty_dependency() {}\n",
+    )
+    .unwrap();
+    let destination = tempfile::tempdir().unwrap().path().join("csdlc-v2");
+    let error = build_and_install_binaries(repo.path(), &destination).unwrap_err();
+    assert!(error.message.contains("dirty C-SDLC owner sources"));
     assert!(!destination.exists());
 }
 
