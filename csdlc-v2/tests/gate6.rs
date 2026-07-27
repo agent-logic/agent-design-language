@@ -86,7 +86,7 @@ fn publication_body_requires_github_closing_keyword_for_issue() {
         "Closes: agent-logic/agent-design-language#5236",
     ] {
         assert!(
-            body_has_github_closing_keyword(body, 5236),
+            body_has_github_closing_keyword(body, 5236, "agent-logic/agent-design-language"),
             "{body:?} should close the issue"
         );
     }
@@ -96,9 +96,10 @@ fn publication_body_requires_github_closing_keyword_for_issue() {
         "Closes #52360",
         "Closes issue 5236",
         "Close\n#5236",
+        "Closes wrong/repo#5236",
     ] {
         assert!(
-            !body_has_github_closing_keyword(body, 5236),
+            !body_has_github_closing_keyword(body, 5236, "agent-logic/agent-design-language"),
             "{body:?} should not count as GitHub auto-close linkage"
         );
     }
