@@ -14,7 +14,6 @@ Status: pre_phase
 
 docs/tooling/OPUS_REVIEW_RUNBOOK.md
 adl/tools/test_opus_review_runbook.sh
-.csdlc/issues/5678
 
 ## Prompts
 
@@ -32,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The ignored operator-local .adl/docs/TBD mirror remains outside the tracked canonical runbook and must be refreshed separately when an operator needs that local convenience path.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:df6c1ba075d262917aa71cea2f40ecfe71abced1:150c1020942ff8c3fe690eebbcf51f95dc7e6a65db7dcdc19f86fef79ddcd3b1")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:review-5678-runbook")
 
-Result: pre_review
+Result: pass
