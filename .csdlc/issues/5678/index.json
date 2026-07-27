@@ -3,13 +3,13 @@
   "issue": 5678,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "a8929912340773ff014f08e9b4e54d53b2c977b1ed4edf0a117ef744c9f37f9b",
-  "phase": "bound",
-  "generation": 0,
-  "digest": "c05e6911cb12a2dd23ff3541a657c7e38817c37898cf1be25ff0da05d00b6033",
+  "phase": "implemented",
+  "generation": 1,
+  "digest": "fb16e52d70a6c6b5e17e62a282577695101ba7c3f629ad2086f2e5a5c58a97f3",
   "claim": {
     "id": "claim-5678-opus-review-runbook",
     "owner": "codex:issue-5678-opus-review-runbook",
-    "generation": 0,
+    "generation": 1,
     "acquired_unix_seconds": 1785113059,
     "expires_unix_seconds": 1785717859,
     "heartbeat_unix_seconds": 1785113059,
@@ -41,34 +41,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b4a75500667e00a7abc19d85e6265c7b5f73b02137da9dca1f61aaac21a2affd",
+      "values_digest": "d8a9ae84dfa04e2c2a3d6519dd111f5112e6887b78e925cec6cd41c691d59198",
       "rendered_digest": "faa47f2d0ae17873882a598895a45032c0ea7c7db76c1b9e3411fd64dedb9322",
       "ast_digest": "915281c92a70e03260aba7d012faf3a263dbba6668d6e2781b4ef1ade5b57141"
     },
     "stp": {
-      "values_digest": "e8e82654a71f15b4377ca5e45ceca336a18d81e78866f34ce3a54207cee9a128",
+      "values_digest": "30dbce293d3aa26060279c0e82d29af0a35f3102efc2c55c8c82eba541c07397",
       "rendered_digest": "b0ac5e917693b4b9262b66c912e5a93edea8edc6863045d8e0d8df3d7f167b23",
       "ast_digest": "ca444edc344be37a3af5e319f4d19d132b4aee5de753b993902803f2858a9285"
     },
     "spp": {
-      "values_digest": "1cb8854adfe4e49eb84854254298cd755f863259a5375e8761b7e972c032977c",
+      "values_digest": "66bf4b35b393fd848c1a119f9f760542a16724412f24a7937bd056f8ed1bf6f3",
       "rendered_digest": "8706fe6804687023b38e877b914b7b699e6f8a98a7ea0d0dc138a61fca5c989d",
       "ast_digest": "83d50d7c07b7a72eb69590155a10f59fdb7b3bd671a962b2e08b427e798386dc"
     },
     "vpp": {
-      "values_digest": "0b2d5f02d57ea54ea23fc4f35453c749f7337582f28ee51b10ce9ba843e68df5",
+      "values_digest": "3125470bf854b64e6bcf95a876fa70243cf7af064bc639e43816bd8f9c3150c8",
       "rendered_digest": "91bbf26318a639cd38f88ae52d6638883d32a2cc8bdbcb0649c3f319db668548",
       "ast_digest": "0ded64ad3154fa1c8263e6648e6eed6fb379b134ad702194661b6dbe8554556a"
     },
     "srp": {
-      "values_digest": "412a7a22b33e83e8a34e59c7fa1113fb11f28ccf1ff79101886bfd54af297a07",
+      "values_digest": "2b838615eebbbb6ddde3811b54b23428545260e90bba0db438927452b6d59436",
       "rendered_digest": "d6dd5eb63c43cbaef9a52f563f1a66b03454ee9fa9e14f6439ad382893fecf3e",
       "ast_digest": "b8c70c04d80f754bcbac984e6a720a4fcf3b45fdb20b88ee5dd630e74348cb72"
     },
     "sor": {
-      "values_digest": "59b7a283826495c778b11b527e9195ee917a6ed98d193eaae4db95fcd99e1268",
-      "rendered_digest": "57c4d6d389583ddceff2d4d46f026e90f3d6b73daa5ccdad0da200ca3973afe0",
-      "ast_digest": "102e9e49f8e8e3f5cc722b3560c31c4c7f6fd95cbbde5d2f58c7e3771b1445a7"
+      "values_digest": "7a7463808c126c475ae3089c658115454fd5c59dd60d3e49600218b2954fa4b8",
+      "rendered_digest": "9c6257dde90cc5ab445ed98cd356ab2decad322b476eb9d886afc1c5a52e2ce0",
+      "ast_digest": "b55d4256f331ce9f70c28f75d355bb594824ad3a9e8973b906a9042445faa8e4"
     }
   },
   "transitions": [
@@ -85,6 +85,13 @@
       "to": "bound",
       "actor": "codex:issue-5678-opus-review-runbook",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-5678-opus-review-runbook",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -101,6 +108,13 @@
       "actor": "codex:issue-5678-opus-review-runbook",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-5678-opus-review-runbook",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
