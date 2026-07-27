@@ -3,13 +3,13 @@
   "issue": 5684,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "75c9cff2d2d9255cea839a5fbc388b881ac96d87f1b17509562024d338d6d3a6",
-  "phase": "reviewed",
-  "generation": 37,
-  "digest": "eea3b19729f179824b9f7cde2b02d01848b9ebbc776923b750a8164923cf7ce4",
+  "phase": "published",
+  "generation": 38,
+  "digest": "989e92102dfe8d0056c3054f5477a95b2eda64c3a96e4abf9c6ef050aed97f71",
   "claim": {
     "id": "claim-5684-csdlc-github-split",
     "owner": "codex",
-    "generation": 37,
+    "generation": 38,
     "acquired_unix_seconds": 1785115334,
     "expires_unix_seconds": 1785201734,
     "heartbeat_unix_seconds": 1785115334,
@@ -238,7 +238,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5684,
+    "pull_request": 5688,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5688",
+    "base": "main",
+    "head": "codex/5684-csdlc-github-tool-split",
+    "revision": "git-blake3:3b87c22093630bc2a146b999dd5138aa18237486:31c80151c503579497c6ad4a74c2d7bef397423328109974eb1d2c7ee0485ad2",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -252,34 +262,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6747d76e844a253f1e059a72e630fb92f31f64dd1560fe6c6160b0dd3a9b62ca",
+      "values_digest": "ea477d0ae7fdc9df00df74614afa490d599badd90d6257895d48c8cd19c00a1d",
       "rendered_digest": "858d9191e0e8690e5775f2444cde97db7e55675c237650533c57b708bbae67e3",
       "ast_digest": "3be7db06c77ee168c5a5088e36b2efd3eff5fea8e4b28de9476ff5cad93be89d"
     },
     "stp": {
-      "values_digest": "930a6dda35b045e0a7ad66523112461c89b41230e38d821cac2aea4860eba376",
+      "values_digest": "0447ade95811ad2391b998655a45530e581b59f518d9730898043dd86ddbeead",
       "rendered_digest": "7f6db876a57f71505632afe8a874ed6b2f75af2665d19263d35140117c78a039",
       "ast_digest": "26abde4d04c92dbd379c514502f1bec3d6fa5559b95b2cd3972f06a45652e39f"
     },
     "spp": {
-      "values_digest": "6a4f8a6748fff4f47573aa2a1cf3af10cd9ca541d28a7bb4a16c854d0c9902e3",
+      "values_digest": "aa6d5b5537031ed6dccbbde1673c44860b4f12af0f359cce2f7f887ff38a5441",
       "rendered_digest": "9d919a55fff295a632dc95828738c622441f7adbd56527cda6920e1f56bced85",
       "ast_digest": "9a7a6c02eb787c220207111dcd5ef4e5e148fb5c22c9a9dfdc5bff773534f349"
     },
     "vpp": {
-      "values_digest": "0569c7c3ec50f4bd8df7034936b731fcf9df75e4d2c21c0a3ab9dcf14b4e3ae7",
+      "values_digest": "96b34d29ac035ec8590ca2ff8fd276139644af25be86a1a8217907f07d19f170",
       "rendered_digest": "91d4afe6f345de33e4d32d51cf8dc010188981773badc84d51ff791079760a01",
       "ast_digest": "72a71b7e336ccce441a868f9216609233ceef970cea09e5e5793c5c95f71f91f"
     },
     "srp": {
-      "values_digest": "d1447a3ced1b1fe0dc6d7e59a26a6a698df79a6138948d776326a81f9a776d9b",
+      "values_digest": "5951043379fd24bd52bab011860811ecb9ed4d74810b245cef93f9862869728f",
       "rendered_digest": "dd3ba71fcc5b674de3ea55292cfdb35759553707c5034f2e07a122c2d4ad15a9",
       "ast_digest": "2df62b979246737a15905f44faef73619e575e69f164a865acf940d30329b560"
     },
     "sor": {
-      "values_digest": "84da22d0559ec063d39d26c3a6bec24ffd53f9ef3f7a77008de5cd717f5244a9",
-      "rendered_digest": "ffdbf27b5c8fa728be0b0054178c3f4fd0dfe2658be9546a2c2acf4fdb8a4061",
-      "ast_digest": "84b37409f5a9e1b01411e34c1ed0c7774b2e1a5d3a5507ef0081322d79a02ecf"
+      "values_digest": "b6b0709ae894b5f96491057fd2ab65f212b4411f8e61aa98a551e7389ea33e0e",
+      "rendered_digest": "266daae28dbde3dcb706a3d9b0c703ee00e093c40ea95d936bcb89220dda1734",
+      "ast_digest": "2b101bbb4bd2b91149e52e8e31486f5b0e80235da4e91762347d3cb3dcd287e8"
     }
   },
   "transitions": [
@@ -373,6 +383,13 @@
       "to": "reviewed",
       "actor": "codex:5684-execution",
       "reason": "Kierkegaard exact-head review at 2afe605fde2134030c4cc4f5dbec5b19bb174bf8 returned CLEAN after post-create confirmation race fixes."
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5684-execution",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -676,6 +693,13 @@
       "actor": "codex:5684-execution",
       "reason": "Kierkegaard exact-head review at 2afe605fde2134030c4cc4f5dbec5b19bb174bf8 returned CLEAN after post-create confirmation race fixes.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 38,
+      "actor": "codex:5684-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

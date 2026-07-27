@@ -41,3 +41,4 @@
 {"sequence":41,"generation":35,"actor":"codex:5684-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":42,"generation":36,"actor":"codex:5684-execution","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":43,"generation":37,"actor":"codex:5684-execution","reason":"Kierkegaard exact-head review at 2afe605fde2134030c4cc4f5dbec5b19bb174bf8 returned CLEAN after post-create confirmation race fixes.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":44,"generation":38,"actor":"codex:5684-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

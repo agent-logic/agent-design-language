@@ -377,11 +377,11 @@ Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/back
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
