@@ -808,7 +808,30 @@ async fn execute_cycle(
     let guardian_process_id = guardian
         .id()
         .ok_or_else(|| "Guardian binary did not expose a process id".to_owned())?;
-    let ready = wait_for_authenticated_observatory(fixture, &mut guardian).await;
+    let ready = match wait_for_authenticated_observatory(fixture, &mut guardian).await {
+        Ok(ready) => ready,
+        Err(readiness_error) => {
+            if matches!(guardian.try_wait(), Ok(None)) {
+                let _ = request_native_shutdown(&mut guardian).await;
+            }
+            let output = tokio::time::timeout(fixture.shutdown_wait, guardian.wait_with_output())
+                .await
+                .map_err(|_| {
+                    format!("{readiness_error}; Guardian did not stop after readiness failure")
+                })?
+                .map_err(|error| {
+                    format!(
+                        "{readiness_error}; Guardian process wait after readiness failure failed: {error}"
+                    )
+                })?;
+            return Err(format!(
+                "{readiness_error}; guardian_status={}; guardian_stdout={}; guardian_stderr={}",
+                output.status,
+                diagnostic_tail(&String::from_utf8_lossy(&output.stdout), &args.state_root),
+                diagnostic_tail(&String::from_utf8_lossy(&output.stderr), &args.state_root)
+            ));
+        }
+    };
     request_native_shutdown(&mut guardian).await?;
     let output = tokio::time::timeout(fixture.shutdown_wait, guardian.wait_with_output())
         .await
@@ -830,7 +853,7 @@ async fn execute_cycle(
         )
     })?;
     verify_writer_lock_released(&fixture.local_state_root)?;
-    let observatory = ready?;
+    let observatory = ready;
     let runtime_instance_id = observatory["runtime_instance_id"]
         .as_str()
         .ok_or_else(|| "Runtime v3 Observatory did not expose runtime_instance_id".to_owned())?
