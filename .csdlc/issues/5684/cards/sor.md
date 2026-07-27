@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/backoff crate, runtime backoff wiring, install/coexistence manifest enforcement, current docs/skill/template updates, and deleted structured-prompt wrapper bootstrap guidance repair.
+Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/backoff crate, runtime backoff wiring, install/coexistence manifest enforcement, current docs/skill/template updates, deleted structured-prompt wrapper bootstrap guidance repair, and post-publication Opus/Hegel findings remediation.
 
 ## Artifacts
 
@@ -25,6 +25,10 @@ Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/back
 - rg "bash adl/tools/validate_structured_prompt\\.sh" docs/templates/prompts/1.0.3 csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md docs/default_workflow.md docs/tooling/README.md docs/tooling/structured-prompt-validator-binary-resolution.md csdlc-v2/AGENTS.md: no matches
 - CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest csdlc-install install --repo /Volumes/FastWork/adl-csdlc-install-manifest --destination /Volumes/FastWork/adl-5684-install-proof-a0a270a/csdlc-v2: pass, source_revision git:a0a270adc67678af9d4f5cb4712e1b2d3d8264aa, 21 binaries including csdlc-github-issue, csdlc-github-pr, and csdlc-merge
 - csdlc-install verify --repo /Volumes/FastWork/adl-csdlc-install-manifest --bin-dir /Volumes/FastWork/adl-5684-install-proof-a0a270a/csdlc-v2 --inventory csdlc-v2/operator/coexistence.json: pass true, no missing v2 binaries
+- Opus-family review via OpenRouter anthropic/claude-opus-4.8 returned 4 findings; P1/P3/P3 fixed and stdout/stderr convention accepted as matching the existing csdlc-github contract.
+- Direct Anthropic claude-opus-5 and OpenRouter anthropic/claude-opus-5 both failed closed with HTTP 200 but no usable final review text; no clean Opus-5 verdict was fabricated.
+- Hegel exact delta review returned CLEAN after fixes.
+- Pasteur PR janitor identified csdlc-v2-standalone format failure; local fmt check now passes.
 
 ## Execution
 
@@ -38,6 +42,11 @@ Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/back
 - Finalized #5684 implementation after focused validation of split GitHub binaries, stable install inventory, shared resilience wiring, and deleted bootstrap-wrapper guard.
 - Updated active prompt-template 1.0.3 structure schemas so new/current bootstrap structure guidance no longer blesses bash adl/tools/validate_structured_prompt.sh.
 - Refreshed stable owner-binary install proof at source revision a0a270adc67678af9d4f5cb4712e1b2d3d8264aa after active template-schema repair was committed.
+- Added a shared PR-state request conversion used by both csdlc-github and csdlc-github-pr so split binaries cannot drift from the compatibility facade.
+- Added retry-classifier support to adl-resilience and restricted issue-create readback retries to the known transient marker-lag reconciliation case.
+- Documented and tested the adl-resilience exponential-backoff cap.
+- Extended owner-binary dirty-source guarding to include the shared adl-resilience path dependency before cargo runs.
+- Formatted csdlc-v2/tests/gate10a.rs to repair the failing csdlc-v2-standalone format check.
 
 ## Validation
 
@@ -108,6 +117,103 @@ Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/back
     "purpose": "Run adl-runtime cargo check.",
     "outcome": "passed",
     "evidence_ref": "runtime-resilience-check.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-resilience/Cargo.toml"
+    ],
+    "purpose": "Run adl-resilience unit tests after retry-classifier and backoff-cap fixes.",
+    "outcome": "passed",
+    "evidence_ref": "post-opus-resilience-tests.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate_github_actions"
+    ],
+    "purpose": "Run csdlc-v2 GitHub action tests after split PR-state conversion and issue-create retry classifier fixes.",
+    "outcome": "passed",
+    "evidence_ref": "post-opus-github-action-tests.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate10a"
+    ],
+    "purpose": "Run Gate 10A install/coexistence tests after owner-source dirty guard and formatter repair.",
+    "outcome": "passed",
+    "evidence_ref": "post-opus-gate10a-tests.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "ADL_CARGO_BUILD_ROOT=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest-ci",
+      "bash",
+      "adl/tools/run_cargo_validation.sh",
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml"
+    ],
+    "purpose": "Run full csdlc-v2 locked test suite through the repo cargo validation wrapper using FastWork build output.",
+    "outcome": "passed",
+    "evidence_ref": "post-opus-csdlc-v2-full-tests.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "ADL_CARGO_BUILD_ROOT=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest-ci",
+      "bash",
+      "adl/tools/run_cargo_validation.sh",
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all",
+      "--",
+      "--check"
+    ],
+    "purpose": "Run csdlc-v2 rustfmt check matching the failed GitHub standalone format step.",
+    "outcome": "passed",
+    "evidence_ref": "post-opus-csdlc-v2-fmt-check.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "ADL_CARGO_BUILD_ROOT=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest-ci",
+      "bash",
+      "adl/tools/run_cargo_validation.sh",
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Run csdlc-v2 clippy with warnings denied through the repo cargo validation wrapper using FastWork build output.",
+    "outcome": "passed",
+    "evidence_ref": "post-opus-csdlc-v2-clippy.log"
   }
 ]
 

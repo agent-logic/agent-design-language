@@ -3,19 +3,20 @@
   "issue": 5684,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "75c9cff2d2d9255cea839a5fbc388b881ac96d87f1b17509562024d338d6d3a6",
-  "phase": "reviewed",
-  "generation": 11,
-  "digest": "01fe1a71731e26d2fd96c7ffe0860a1be64c2cc291fd242530d1e791c1fefeaf",
+  "phase": "implemented",
+  "generation": 20,
+  "digest": "ffda9d9fa757d838f6ac073c50035e6ebec9b68f1f65305b90ee5d131eb68d9b",
   "claim": {
     "id": "claim-5684-csdlc-github-split",
     "owner": "codex",
-    "generation": 11,
+    "generation": 20,
     "acquired_unix_seconds": 1785115334,
     "expires_unix_seconds": 1785201734,
     "heartbeat_unix_seconds": 1785115334,
     "branch": "codex/5684-csdlc-github-tool-split",
     "worktree": "/Volumes/FastWork/adl-csdlc-install-manifest",
     "protected_paths": [
+      ".csdlc/evidence/5684",
       ".csdlc/issues/5684",
       "adl-resilience",
       "adl-runtime/Cargo.lock",
@@ -33,6 +34,7 @@
       "csdlc-v2/src/bin/csdlc-github-issue.rs",
       "csdlc-v2/src/bin/csdlc-github-pr.rs",
       "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/operator.rs",
       "csdlc-v2/tests/gate10a.rs",
       "csdlc-v2/tests/gate_github_actions.rs",
       "docs/default_workflow.md",
@@ -51,66 +53,7 @@
     "purpose": "Execute #5684 C-SDLC GitHub owner-binary split"
   },
   "review_assignment": null,
-  "review": {
-    "reviewer": "subagent:019fa13d-ca2e-7f13-b556-dbe8e168d611",
-    "scope": [
-      ".csdlc/issues/5684/audit.jsonl",
-      ".csdlc/issues/5684/cards/sip.md",
-      ".csdlc/issues/5684/cards/sip.values.json",
-      ".csdlc/issues/5684/cards/sor.md",
-      ".csdlc/issues/5684/cards/sor.values.json",
-      ".csdlc/issues/5684/cards/spp.md",
-      ".csdlc/issues/5684/cards/spp.values.json",
-      ".csdlc/issues/5684/cards/srp.md",
-      ".csdlc/issues/5684/cards/srp.values.json",
-      ".csdlc/issues/5684/cards/stp.md",
-      ".csdlc/issues/5684/cards/stp.values.json",
-      ".csdlc/issues/5684/cards/vpp.md",
-      ".csdlc/issues/5684/cards/vpp.values.json",
-      ".csdlc/issues/5684/design.md",
-      ".csdlc/issues/5684/diagram.mmd",
-      ".csdlc/issues/5684/index.json",
-      "adl-resilience/Cargo.lock",
-      "adl-resilience/Cargo.toml",
-      "adl-resilience/src/lib.rs",
-      "adl-runtime/Cargo.lock",
-      "adl-runtime/Cargo.toml",
-      "adl-runtime/src/guardian.rs",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/src/supervision.rs",
-      "csdlc-v2/AGENTS.md",
-      "csdlc-v2/Cargo.lock",
-      "csdlc-v2/Cargo.toml",
-      "csdlc-v2/operator/coexistence.json",
-      "csdlc-v2/operator/skills.json",
-      "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
-      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
-      "csdlc-v2/src/bin/csdlc-github-issue.rs",
-      "csdlc-v2/src/bin/csdlc-github-pr.rs",
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/tests/gate10a.rs",
-      "csdlc-v2/tests/gate_github_actions.rs",
-      "docs/default_workflow.md",
-      "docs/templates/prompts/1.0.3/schemas/sip.structure.json",
-      "docs/templates/prompts/1.0.3/schemas/sor.structure.json",
-      "docs/templates/prompts/1.0.3/schemas/spp.structure.json",
-      "docs/templates/prompts/1.0.3/schemas/srp.structure.json",
-      "docs/templates/prompts/1.0.3/schemas/stp.structure.json",
-      "docs/templates/prompts/1.0.3/schemas/vpp.structure.json",
-      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
-      "docs/tooling/OWNER_BINARY_INSTALLATION.md",
-      "docs/tooling/README.md",
-      "docs/tooling/structured-prompt-validator-binary-resolution.md"
-    ],
-    "reviewed_revision": "git-blake3:9ab421333a10d6c74ff5774e93bb2193998e3e25:4039b253232ec793e3d455c5d741d2ada28fe3d6c1b1528e4c17e7b1b4f27185",
-    "findings": [],
-    "residual_risks": [
-      "Historical audit entries retain the earlier 9006007f install-proof observation; current SOR values/rendered card and superseding audit sequence 8 record refreshed install proof at a0a270adc67678af9d4f5cb4712e1b2d3d8264aa.",
-      "Read-only reviewer did not rerun Cargo tests or install commands; local implementation owner reran focused validation and install/verify proof on FastWork."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -125,34 +68,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "835cebd63afc1353448e43ce32fc083628981c9ff8696a0cf0f45e18396f2c81",
+      "values_digest": "30f933ef28d840b13b84a2cc06fc49e4acebfaab135d7b9c15ee87184074f3a4",
       "rendered_digest": "858d9191e0e8690e5775f2444cde97db7e55675c237650533c57b708bbae67e3",
       "ast_digest": "3be7db06c77ee168c5a5088e36b2efd3eff5fea8e4b28de9476ff5cad93be89d"
     },
     "stp": {
-      "values_digest": "fb4dfbfaf930ac95b295ba92675368432bcba6b2e31967fedbcb5c762ac3cf6a",
+      "values_digest": "70ff3bf0ed24d5689eb8ff72f18b6d50d0410688cc25810b9f757542d8a2b057",
       "rendered_digest": "7f6db876a57f71505632afe8a874ed6b2f75af2665d19263d35140117c78a039",
       "ast_digest": "26abde4d04c92dbd379c514502f1bec3d6fa5559b95b2cd3972f06a45652e39f"
     },
     "spp": {
-      "values_digest": "290c8a3ecba12108b78edcc109071f7b5657ecb88f5a4875d5d278ba8386dc6f",
+      "values_digest": "c688d0f280dd8820d70065e25e7d6228cc7f71ec041774b3ed804c3df00b207e",
       "rendered_digest": "9d919a55fff295a632dc95828738c622441f7adbd56527cda6920e1f56bced85",
       "ast_digest": "9a7a6c02eb787c220207111dcd5ef4e5e148fb5c22c9a9dfdc5bff773534f349"
     },
     "vpp": {
-      "values_digest": "aebf1866ddafcb8ccba36aabdef0b3c3aadcc2dc783f5efcb89d586c6f4d47ef",
+      "values_digest": "a97991a62a7f2c48aefeb32e3a83985b57ceeef0161ab3886257b8bbb18a0cb6",
       "rendered_digest": "91d4afe6f345de33e4d32d51cf8dc010188981773badc84d51ff791079760a01",
       "ast_digest": "72a71b7e336ccce441a868f9216609233ceef970cea09e5e5793c5c95f71f91f"
     },
     "srp": {
-      "values_digest": "8e36cf243641aa6ad0d7c3d49919c220b4008ad19ff7178a25d7966b60db0de1",
-      "rendered_digest": "3d66183c4a5368a047cde3a8c7d08d7e3c4cc8a00def17c7e19876e977cad559",
-      "ast_digest": "20274ae783e47b320c0e65f5896bc227de0b0b3e47b90b34e2beadb69184f1fd"
+      "values_digest": "eb8148a3275cc49793ad76303030eeda2f7bde2c34aa4c4bab5024aae03d5fbd",
+      "rendered_digest": "fc03616052937346c1203080260a8a8559cdc21ead7a2fcae7f88028e645ddf1",
+      "ast_digest": "efb9c9ae4081c5b0cf7ab8765f357f55eb4e843941e0d225f3e8e31f3ce0ec73"
     },
     "sor": {
-      "values_digest": "508aafbe4b43e476899b966c9a371e638ea7c276e0ea2e15165808a458f476f4",
-      "rendered_digest": "01b964b8d048859581e512b22ebddc7492197189c04acaf1192b5c96c1504f1c",
-      "ast_digest": "297ec00092017d2469636c4f9d0718f3d6b4977d355f9161ed207aa17ced8a4e"
+      "values_digest": "b53902e0ee80548c0cb37420a18b05d1cfeed37bf1cba59144701cc510e909ac",
+      "rendered_digest": "572b8ac82f57b874829cbb4eefaf045c3574cfa0117c0d57c5f6d1bff7dc5d4d",
+      "ast_digest": "487d69644cd9e6601cfd9a6dd11681df74036fcdbf88bff209f20d0723cf10e6"
     }
   },
   "transitions": [
@@ -211,6 +154,20 @@
       "to": "reviewed",
       "actor": "codex",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5684-execution",
+      "reason": "Recover stale published review after operator-requested Opus/Hegel findings and CI formatter failure fixes changed substantive source; exact-head review and publication will be re-recorded after the new commit."
     }
   ],
   "audit": [
@@ -304,6 +261,83 @@
       "actor": "codex",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:5684-execution",
+      "reason": "Recover stale published review after operator-requested Opus/Hegel findings and CI formatter failure fixes changed substantive source; exact-head review and publication will be re-recorded after the new commit.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:5684-execution",
+      "reason": "Opus/Hegel remediation requires installer dirty-source guard changes in csdlc-v2/src/operator.rs; add the exact source path before committing the fix.",
+      "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/operator.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:5684-execution",
+      "reason": "Record Opus/Hegel findings and CI formatter remediation after typed review recovery.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/backoff crate, runtime backoff wiring, install/coexistence manifest enforcement, current docs/skill/template updates, deleted structured-prompt wrapper bootstrap guidance repair, and post-publication Opus/Hegel findings remediation.\",\"changes\":[\"Added a shared PR-state request conversion used by both csdlc-github and csdlc-github-pr so split binaries cannot drift from the compatibility facade.\",\"Added retry-classifier support to adl-resilience and restricted issue-create readback retries to the known transient marker-lag reconciliation case.\",\"Documented and tested the adl-resilience exponential-backoff cap.\",\"Extended owner-binary dirty-source guarding to include the shared adl-resilience path dependency before cargo runs.\",\"Formatted csdlc-v2/tests/gate10a.rs to repair the failing csdlc-v2-standalone format check.\"],\"artifacts\":[\"Opus-family review via OpenRouter anthropic/claude-opus-4.8 returned 4 findings; P1/P3/P3 fixed and stdout/stderr convention accepted as matching the existing csdlc-github contract.\",\"Direct Anthropic claude-opus-5 and OpenRouter anthropic/claude-opus-5 both failed closed with HTTP 200 but no usable final review text; no clean Opus-5 verdict was fabricated.\",\"Hegel exact delta review returned CLEAN after fixes.\",\"Pasteur PR janitor identified csdlc-v2-standalone format failure; local fmt check now passes.\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:5684-execution",
+      "reason": "Record post-publication remediation validation evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest\",\"cargo\",\"test\",\"--manifest-path\",\"adl-resilience/Cargo.toml\"],\"purpose\":\"Run adl-resilience unit tests after retry-classifier and backoff-cap fixes.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-opus-resilience-tests.log\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:5684-execution",
+      "reason": "Record post-publication remediation validation evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Run csdlc-v2 GitHub action tests after split PR-state conversion and issue-create retry classifier fixes.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-opus-github-action-tests.log\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:5684-execution",
+      "reason": "Record post-publication remediation validation evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"purpose\":\"Run Gate 10A install/coexistence tests after owner-source dirty guard and formatter repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-opus-gate10a-tests.log\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:5684-execution",
+      "reason": "Record post-publication remediation validation evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"ADL_CARGO_BUILD_ROOT=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest-ci\",\"bash\",\"adl/tools/run_cargo_validation.sh\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Run full csdlc-v2 locked test suite through the repo cargo validation wrapper using FastWork build output.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-opus-csdlc-v2-full-tests.log\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:5684-execution",
+      "reason": "Record post-publication remediation validation evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"ADL_CARGO_BUILD_ROOT=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest-ci\",\"bash\",\"adl/tools/run_cargo_validation.sh\",\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Run csdlc-v2 rustfmt check matching the failed GitHub standalone format step.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-opus-csdlc-v2-fmt-check.log\"}}"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex:5684-execution",
+      "reason": "Record post-publication remediation validation evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"ADL_CARGO_BUILD_ROOT=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest-ci\",\"bash\",\"adl/tools/run_cargo_validation.sh\",\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run csdlc-v2 clippy with warnings denied through the repo cargo validation wrapper using FastWork build output.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-opus-csdlc-v2-clippy.log\"}}"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:5684-execution",
+      "reason": "Track the #5684 validation evidence files referenced by SOR after post-publication remediation.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/evidence/5684\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

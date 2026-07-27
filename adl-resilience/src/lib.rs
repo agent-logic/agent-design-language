@@ -5,6 +5,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 pub const RESILIENCE_RETRY_POLICY_SCHEMA_V1: &str = "adl.resilience.retry_policy.v1";
+const MAX_BACKOFF_EXPONENT: u32 = 20;
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -53,7 +54,9 @@ pub enum RetryPolicyError {
 }
 
 pub fn capped_exponential_backoff_ms(base_ms: u64, cap_ms: u64, failures: u32) -> u64 {
-    let exponent = failures.saturating_sub(1).min(20);
+    // Keep the left shift comfortably below u64 width; cap_ms still owns the
+    // public saturation behavior for callers.
+    let exponent = failures.saturating_sub(1).min(MAX_BACKOFF_EXPONENT);
     let multiplier = 1_u64.checked_shl(exponent).unwrap_or(u64::MAX);
     base_ms.saturating_mul(multiplier).min(cap_ms)
 }
@@ -95,11 +98,25 @@ pub struct RetryExecution<T, E> {
 
 pub fn execute_retry_policy_sync<T, E, F, S>(
     policy: &RetryPolicyV1,
+    operation: F,
+    sleep: S,
+) -> Result<RetryExecution<T, E>, RetryPolicyError>
+where
+    F: FnMut(u32) -> Result<T, E>,
+    S: FnMut(Duration),
+{
+    execute_retry_policy_sync_with_classifier(policy, operation, |_| true, sleep)
+}
+
+pub fn execute_retry_policy_sync_with_classifier<T, E, F, C, S>(
+    policy: &RetryPolicyV1,
     mut operation: F,
+    mut should_retry: C,
     mut sleep: S,
 ) -> Result<RetryExecution<T, E>, RetryPolicyError>
 where
     F: FnMut(u32) -> Result<T, E>,
+    C: FnMut(&E) -> bool,
     S: FnMut(Duration),
 {
     policy.validate()?;
@@ -116,10 +133,9 @@ where
                 });
             }
             Err(error) => {
+                let retryable = should_retry(&error);
                 last_error = Some(error);
-                let Some(record) = failed_attempt(policy, started, attempt_index) else {
-                    break;
-                };
+                let record = failed_attempt(policy, started, attempt_index, retryable);
                 let retry_allowed = record.retry_allowed;
                 let delay = Duration::from_millis(record.scheduled_backoff_ms);
                 attempts.push(record);
@@ -140,12 +156,28 @@ where
 
 pub async fn execute_retry_policy_async<T, E, F, Fut, S, SleepFut>(
     policy: &RetryPolicyV1,
+    operation: F,
+    sleep: S,
+) -> Result<RetryExecution<T, E>, RetryPolicyError>
+where
+    F: FnMut(u32) -> Fut,
+    Fut: Future<Output = Result<T, E>>,
+    S: FnMut(Duration) -> SleepFut,
+    SleepFut: Future<Output = ()>,
+{
+    execute_retry_policy_async_with_classifier(policy, operation, |_| true, sleep).await
+}
+
+pub async fn execute_retry_policy_async_with_classifier<T, E, F, Fut, C, S, SleepFut>(
+    policy: &RetryPolicyV1,
     mut operation: F,
+    mut should_retry: C,
     mut sleep: S,
 ) -> Result<RetryExecution<T, E>, RetryPolicyError>
 where
     F: FnMut(u32) -> Fut,
     Fut: Future<Output = Result<T, E>>,
+    C: FnMut(&E) -> bool,
     S: FnMut(Duration) -> SleepFut,
     SleepFut: Future<Output = ()>,
 {
@@ -163,10 +195,9 @@ where
                 });
             }
             Err(error) => {
+                let retryable = should_retry(&error);
                 last_error = Some(error);
-                let Some(record) = failed_attempt(policy, started, attempt_index) else {
-                    break;
-                };
+                let record = failed_attempt(policy, started, attempt_index, retryable);
                 let retry_allowed = record.retry_allowed;
                 let delay = Duration::from_millis(record.scheduled_backoff_ms);
                 attempts.push(record);
@@ -198,11 +229,12 @@ fn failed_attempt(
     policy: &RetryPolicyV1,
     started: Instant,
     attempt_index: u32,
-) -> Option<RetryAttemptRecordV1> {
+    retryable: bool,
+) -> RetryAttemptRecordV1 {
     let within_attempt_budget = attempt_index < policy.max_attempts.max(1);
     let delay = policy.delay(started);
-    let retry_allowed = within_attempt_budget && delay.is_some();
-    Some(RetryAttemptRecordV1 {
+    let retry_allowed = retryable && within_attempt_budget && delay.is_some();
+    RetryAttemptRecordV1 {
         attempt_index,
         retry_allowed,
         scheduled_backoff_ms: if retry_allowed {
@@ -217,7 +249,7 @@ fn failed_attempt(
         } else {
             Some(RetryTerminalReasonV1::RetryBudgetExhausted)
         },
-    })
+    }
 }
 
 fn trace(attempts: Vec<RetryAttemptRecordV1>) -> RetryExecutionTraceV1 {
@@ -272,5 +304,17 @@ mod tests {
         assert_eq!(capped_exponential_backoff_ms(100, 5_000, 1), 100);
         assert_eq!(capped_exponential_backoff_ms(100, 5_000, 2), 200);
         assert_eq!(capped_exponential_backoff_ms(100, 5_000, 99), 5_000);
+    }
+
+    #[test]
+    fn capped_exponential_backoff_is_monotonic_until_cap() {
+        let mut previous = 0;
+        for failures in 0..64 {
+            let next = capped_exponential_backoff_ms(100, 5_000, failures);
+            assert!(next >= previous);
+            assert!(next <= 5_000);
+            previous = next;
+        }
+        assert_eq!(previous, 5_000);
     }
 }

@@ -5,9 +5,10 @@ use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::collections::{BTreeMap, BTreeSet};
 
-use adl_resilience::{execute_retry_policy_async, RetryPolicyError, RetryPolicyV1};
+use adl_resilience::{execute_retry_policy_async_with_classifier, RetryPolicyError, RetryPolicyV1};
 
 #[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct PrStateRequest {
     pub repository: String,
     pub pull_request: u64,
@@ -76,6 +77,23 @@ pub struct GithubActionRequest {
     pub linked_issue: Option<u64>,
 }
 
+impl TryFrom<&GithubActionRequest> for PrStateRequest {
+    type Error = crate::V2Error;
+
+    fn try_from(request: &GithubActionRequest) -> crate::Result<Self> {
+        Ok(Self {
+            repository: request.repository.clone(),
+            pull_request: request.pull_request.ok_or_else(|| {
+                crate::V2Error::new(crate::ErrorCode::InvalidInput, "pull_request is required")
+            })?,
+            required_checks: request.required_checks.clone(),
+            require_review: request.require_review,
+            token_file: request.token_file.clone(),
+            linked_issue: request.linked_issue,
+        })
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct GithubIssuePacket {
     pub schema: String,
@@ -107,16 +125,7 @@ pub async fn execute_github_action(
 ) -> crate::Result<GithubActionResult> {
     validate_request(request)?;
     if matches!(request.action, GithubAction::PrState) {
-        let pr_request = PrStateRequest {
-            repository: request.repository.clone(),
-            pull_request: request.pull_request.ok_or_else(|| {
-                crate::V2Error::new(crate::ErrorCode::InvalidInput, "pull_request is required")
-            })?,
-            required_checks: request.required_checks.clone(),
-            require_review: request.require_review,
-            token_file: request.token_file.clone(),
-            linked_issue: request.linked_issue,
-        };
+        let pr_request = PrStateRequest::try_from(request)?;
         let pr_state = collect_pr_state(&pr_request).await?;
         return Ok(GithubActionResult {
             schema: "csdlc.github_action_result.v1".into(),
@@ -335,7 +344,7 @@ async fn read_created_issue_packet(
     marker: &str,
 ) -> crate::Result<GithubIssuePacket> {
     let policy = RetryPolicyV1::new(4, Some(250));
-    let execution = execute_retry_policy_async(
+    let execution = execute_retry_policy_async_with_classifier(
         &policy,
         |_| async {
             let packet = read_issue_packet(crab, owner, repo, number, Some(marker)).await?;
@@ -348,11 +357,19 @@ async fn read_created_issue_packet(
                 ))
             }
         },
+        is_retryable_created_issue_readback,
         tokio::time::sleep,
     )
     .await
     .map_err(retry_policy_error)?;
     execution.result
+}
+
+fn is_retryable_created_issue_readback(error: &crate::V2Error) -> bool {
+    error.code == crate::ErrorCode::ReconciliationRequired
+        && error
+            .message
+            .contains("created issue direct readback did not observe operation marker")
 }
 
 fn retry_policy_error(error: RetryPolicyError) -> crate::V2Error {

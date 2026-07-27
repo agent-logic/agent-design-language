@@ -63,15 +63,6 @@ async fn run(path: &PathBuf) -> csdlc_v2::Result<serde_json::Value> {
             "csdlc-github-pr only accepts pr_state actions; use csdlc-github-issue for issue actions",
         ));
     }
-    let pr_request = PrStateRequest {
-        repository: request.repository,
-        pull_request: request
-            .pull_request
-            .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "pull_request is required"))?,
-        required_checks: request.required_checks,
-        require_review: request.require_review,
-        token_file: request.token_file,
-        linked_issue: request.linked_issue,
-    };
+    let pr_request = PrStateRequest::try_from(&request)?;
     serde_json::to_value(collect_pr_state(&pr_request).await?).map_err(Into::into)
 }

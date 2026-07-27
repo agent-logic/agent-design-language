@@ -70,7 +70,9 @@ fn current_bootstrap_guidance_does_not_call_deleted_prompt_wrapper() {
         let text = fs::read_to_string(repo.join(relative)).unwrap();
         assert!(
             !text.contains("bash adl/tools/validate_structured_prompt.sh")
-                && !text.contains("adl/tools/validate_structured_prompt.sh` is a compatibility wrapper"),
+                && !text.contains(
+                    "adl/tools/validate_structured_prompt.sh` is a compatibility wrapper"
+                ),
             "current bootstrap guidance calls deleted prompt wrapper: {relative}"
         );
     }
@@ -271,8 +273,48 @@ fn untracked_build_input_is_rejected_before_cargo_runs() {
     .unwrap();
     let destination = tempfile::tempdir().unwrap().path().join("csdlc-v2");
     let error = build_and_install_binaries(repo.path(), &destination).unwrap_err();
-    assert!(error.message.contains("dirty csdlc-v2 sources"));
+    assert!(error.message.contains("dirty C-SDLC owner sources"));
     assert!(!repo.path().join("cargo-ran").exists());
+    assert!(!destination.exists());
+}
+
+#[test]
+fn dirty_shared_owner_dependency_is_rejected_before_cargo_runs() {
+    let repo = tempfile::tempdir().unwrap();
+    git(repo.path(), &["init", "-b", "main"]);
+    git(
+        repo.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(repo.path(), &["config", "user.name", "C-SDLC Test"]);
+    fs::create_dir_all(repo.path().join("csdlc-v2/src")).unwrap();
+    fs::create_dir_all(repo.path().join("adl-resilience/src")).unwrap();
+    fs::write(
+        repo.path().join("csdlc-v2/Cargo.toml"),
+        "[package]\nname='fixture'\nversion='0.1.0'\nedition='2021'\n",
+    )
+    .unwrap();
+    fs::write(repo.path().join("csdlc-v2/src/main.rs"), "fn main() {}\n").unwrap();
+    fs::write(
+        repo.path().join("adl-resilience/Cargo.toml"),
+        "[package]\nname='adl-resilience'\nversion='0.1.0'\nedition='2021'\n",
+    )
+    .unwrap();
+    fs::write(
+        repo.path().join("adl-resilience/src/lib.rs"),
+        "pub fn clean() {}\n",
+    )
+    .unwrap();
+    git(repo.path(), &["add", "."]);
+    git(repo.path(), &["commit", "-m", "tracked source"]);
+    fs::write(
+        repo.path().join("adl-resilience/src/lib.rs"),
+        "pub fn dirty_dependency() {}\n",
+    )
+    .unwrap();
+    let destination = tempfile::tempdir().unwrap().path().join("csdlc-v2");
+    let error = build_and_install_binaries(repo.path(), &destination).unwrap_err();
+    assert!(error.message.contains("dirty C-SDLC owner sources"));
     assert!(!destination.exists());
 }
 
