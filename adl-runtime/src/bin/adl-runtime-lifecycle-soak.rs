@@ -469,7 +469,7 @@ async fn execute_cycle(
     continuity_root: &Path,
     run: u64,
     cycle: u64,
-    audit_on_shutdown: bool,
+    retain_log: bool,
 ) -> Result<(), String> {
     std::fs::create_dir_all(continuity_root)
         .map_err(|error| format!("could not create continuity root: {error}"))?;
@@ -529,15 +529,6 @@ async fn execute_cycle(
             ),
             ("ADL_RUNTIME_LIFECYCLE_RUN".to_owned(), run.to_string()),
             ("ADL_RUNTIME_LIFECYCLE_CYCLE".to_owned(), cycle.to_string()),
-            (
-                "ADL_RUNTIME_MASTER_LOG_AUDIT".to_owned(),
-                if audit_on_shutdown {
-                    "shutdown"
-                } else {
-                    "deferred"
-                }
-                .to_owned(),
-            ),
             ("ADL_RUNTIME_REVISION".to_owned(), args.revision.clone()),
         ],
         restart_budget: 0,
@@ -566,6 +557,11 @@ async fn execute_cycle(
     verify_writer_lock_released(&fixture.local_state_root)?;
     ready?;
     validate_guardian_output(&outcome)?;
+    verify_master_log(args, fixture)?;
+    if !retain_log {
+        std::fs::remove_dir_all(fixture.local_state_root.join("observability"))
+            .map_err(|error| format!("checked Vector log could not be discarded: {error}"))?;
+    }
     Ok(())
 }
 
@@ -918,6 +914,11 @@ fn report(
         "runtime_kernel_process_per_cycle": true,
         "acceptance_eligible": !matches!(args.suite, Suite::Preflight),
         "logging_complete": logging_complete,
+        "log_checked_cycles": if logging_complete {
+            Some(execution.completed_cycles)
+        } else {
+            None
+        },
         "master_log_status": if logging_complete { "clean" } else { "incomplete" },
         "master_log_ref": master_log_ref,
         "master_log_sha256": master_log_sha256,

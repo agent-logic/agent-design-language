@@ -282,7 +282,6 @@ fn vector_config(root: PathBuf, otlp_endpoint: Option<String>) -> RuntimeVectorC
         otlp_endpoint,
         otlp_timeout_millis: 5_000,
         drain_timeout: std::time::Duration::from_millis(1_000),
-        audit_on_shutdown: true,
     }
 }
 

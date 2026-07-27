@@ -54,7 +54,6 @@ pub struct RuntimeVectorConfig {
     pub otlp_endpoint: Option<String>,
     pub otlp_timeout_millis: u64,
     pub drain_timeout: Duration,
-    pub audit_on_shutdown: bool,
 }
 
 impl RuntimeVectorConfig {
@@ -91,15 +90,6 @@ impl RuntimeVectorConfig {
             .and_then(|value| parse_duration_millis(&value))
             .map(Duration::from_millis)
             .unwrap_or(DEFAULT_DRAIN_TIMEOUT);
-        let audit_on_shutdown = match std::env::var("ADL_RUNTIME_MASTER_LOG_AUDIT") {
-            Ok(value) if value == "shutdown" => true,
-            Ok(value) if value == "deferred" => false,
-            Ok(_) => return Err("runtime_master_log_audit_mode_invalid".to_owned()),
-            Err(std::env::VarError::NotPresent) => true,
-            Err(std::env::VarError::NotUnicode(_)) => {
-                return Err("runtime_master_log_audit_mode_invalid".to_owned())
-            }
-        };
         Ok(Self {
             vector_binary,
             state_root,
@@ -129,7 +119,6 @@ impl RuntimeVectorConfig {
             otlp_endpoint,
             otlp_timeout_millis,
             drain_timeout,
-            audit_on_shutdown,
         })
     }
 }
@@ -330,11 +319,9 @@ impl RuntimeVectorPipeline {
         if !self.drain_complete {
             self.last_failure = Some("master_log_drain_incomplete".to_owned());
         }
-        if self.config.audit_on_shutdown {
-            let _ = self
-                .audit_master_log(&current_platform(), &self.config.lifecycle_suite)
-                .and_then(|report| write_json_atomic(&self.audit_path, &report));
-        }
+        let _ = self
+            .audit_master_log(&current_platform(), &self.config.lifecycle_suite)
+            .and_then(|report| write_json_atomic(&self.audit_path, &report));
         self.terminate_vector();
     }
 
