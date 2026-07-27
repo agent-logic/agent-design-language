@@ -750,10 +750,16 @@ pub fn classify_pr_state(packet: &PrStatePacket, require_review: bool) -> &'stat
     {
         return "failed";
     }
-    if packet.merge_state == "behind" || packet.merge_state == "dirty" {
+    if packet.merge_state == "behind" {
         return "stale_base";
     }
-    if packet.merge_state == "unknown" {
+    if packet.merge_state == "dirty" {
+        return "conflicted";
+    }
+    if matches!(
+        packet.merge_state.as_str(),
+        "blocked" | "unstable" | "draft" | "unknown"
+    ) {
         return "waiting";
     }
     if packet
@@ -881,12 +887,7 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
     } else {
         "pending"
     };
-    let merge_state = match pr.mergeable_state {
-        Some(MergeableState::Dirty) => "dirty",
-        Some(MergeableState::Unknown) | None => "unknown",
-        Some(MergeableState::Clean | MergeableState::HasHooks) => "clean",
-        _ => "behind",
-    };
+    let merge_state = normalize_mergeable_state(pr.mergeable_state);
     let mut packet = PrStatePacket {
         schema: "csdlc.github_pr_state.v1".into(),
         repository: request.repository.clone(),
@@ -903,6 +904,20 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
     };
     packet.classification = classify_pr_state(&packet, request.require_review).into();
     Ok(packet)
+}
+
+pub(crate) fn normalize_mergeable_state(state: Option<MergeableState>) -> &'static str {
+    match state {
+        Some(MergeableState::Behind) => "behind",
+        Some(MergeableState::Blocked) => "blocked",
+        Some(MergeableState::Clean) => "clean",
+        Some(MergeableState::Dirty) => "dirty",
+        Some(MergeableState::Draft) => "draft",
+        Some(MergeableState::HasHooks) => "clean",
+        Some(MergeableState::Unstable) => "unstable",
+        Some(MergeableState::Unknown) | None => "unknown",
+        _ => "unknown",
+    }
 }
 
 fn resolve_token(path: Option<&str>) -> crate::Result<String> {
@@ -980,5 +995,40 @@ mod tests {
         assert!(run_is_newer(Some(20), 30, None, 20));
         assert!(!run_is_newer(Some(10), 30, Some(20), 20));
         assert!(!run_is_newer(None, 10, Some(20), 20));
+    }
+
+    #[test]
+    fn classifies_mergeability_states_without_treating_pending_as_stale() {
+        for state in ["blocked", "unstable", "draft", "unknown"] {
+            let mut value = packet("success");
+            value.merge_state = state.into();
+            assert_eq!(classify_pr_state(&value, true), "waiting", "{state}");
+        }
+
+        let mut behind = packet("success");
+        behind.merge_state = "behind".into();
+        assert_eq!(classify_pr_state(&behind, false), "stale_base");
+
+        let mut dirty = packet("success");
+        dirty.merge_state = "dirty".into();
+        assert_eq!(classify_pr_state(&dirty, false), "conflicted");
+    }
+
+    #[test]
+    fn normalizes_every_supported_mergeability_variant_explicitly() {
+        let cases = [
+            (Some(MergeableState::Behind), "behind"),
+            (Some(MergeableState::Blocked), "blocked"),
+            (Some(MergeableState::Clean), "clean"),
+            (Some(MergeableState::Dirty), "dirty"),
+            (Some(MergeableState::Draft), "draft"),
+            (Some(MergeableState::HasHooks), "clean"),
+            (Some(MergeableState::Unstable), "unstable"),
+            (Some(MergeableState::Unknown), "unknown"),
+            (None, "unknown"),
+        ];
+        for (state, expected) in cases {
+            assert_eq!(normalize_mergeable_state(state), expected);
+        }
     }
 }

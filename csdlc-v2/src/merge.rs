@@ -267,6 +267,18 @@ mod tests {
     }
 
     #[test]
+    fn accepts_has_hooks_after_github_normalization_to_clean() {
+        let mut value = packet();
+        value.merge_state = crate::github::normalize_mergeable_state(Some(
+            octocrab::models::pulls::MergeableState::HasHooks,
+        ))
+        .into();
+        assert_eq!(value.merge_state, "clean");
+        value.classification = crate::github::classify_pr_state(&value, true).into();
+        validate_remote(&value, &request()).expect("normalized has-hooks state should merge");
+    }
+
+    #[test]
     fn rejects_head_drift() {
         let mut value = packet();
         value.head_sha = "different".into();
