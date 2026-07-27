@@ -1,0 +1,115 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5692,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "0e010b7be5b7702ce678c559ba77b16bd11d31729435c80922445f1ad4bf4d78",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "29ad0b8ea94f855ee51e13d6afbcd50726f03531cf7237ae23ce915f0aff4128",
+  "claim": {
+    "id": "claim-5692-pr-closing-linkage-policy",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 0,
+    "acquired_unix_seconds": 1785120624,
+    "expires_unix_seconds": 1785207024,
+    "heartbeat_unix_seconds": 1785120624,
+    "branch": "codex/5692-pr-closing-linkage-policy",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5692",
+      ".csdlc/issues/5692",
+      ".csdlc/locks/5692.lock",
+      ".csdlc/prepared/issues/5692",
+      "AGENTS.md",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate6.rs"
+    ],
+    "purpose": "implement #5692 PR closing linkage policy and publish verifier"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5692/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5692/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator",
+      "revision": "3cca33ade693a39c39e24c7316370f9c2350a844aebd089abd7e1f481a746260"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6da0d2321db517739411cfafc6be165a18bebfed3eb1a8fd67094fa282fec262",
+      "rendered_digest": "fb06afcbe05e997154f8494d15eecb2f5fa4004055371e5f7c2327642025e0b1",
+      "ast_digest": "30aa7387442b636f648ee359f0ba7178ac0bab9c295b7efa23f1c2da11fe2012"
+    },
+    "stp": {
+      "values_digest": "6918250b9a99380970fdd349237df2494df7e76d3b5898b6ed6ae475d3ff3c7f",
+      "rendered_digest": "d04f8b7b350117a2f4ba630e97e775fd87b80162e83fd7261e92cfcd520f8b02",
+      "ast_digest": "99909f5eb3bfa5ad3da5d25694994b7fd7c3eabc5ab27d1ddf6c85bb5f656282"
+    },
+    "spp": {
+      "values_digest": "88115acf3c9ad0fd80f0173da9206ff6260c86cffe8626799674917378d27f66",
+      "rendered_digest": "16c40f6083c864198702121b815fc40d6e2913d75efa2749b3d8133075a505e2",
+      "ast_digest": "4a0a5df7ab0c21c6c26dce9e9c48611f0e4cb2542a27de482be00f210e9df61d"
+    },
+    "vpp": {
+      "values_digest": "81d4867ea9bb412ee1f497d80b998f0c4db639a40bf8ceab3cdf50b9ba86fb2e",
+      "rendered_digest": "3d5707e4104ed5851f2f79dd02e44c59e32f782ea57b6c0e2109c6c9b6fcb249",
+      "ast_digest": "b17c8ebdf1a3a7d5ae0bc96935d661c78800c476c99cdd7e8d7097a0a896ec55"
+    },
+    "srp": {
+      "values_digest": "2c0b16f1d295786f66363cacad6b147ef3516d2e70f4702575ff73f31c3ab5ab",
+      "rendered_digest": "98d02165a67d8a7e6bbc9a19be972fa187cc031eaf4e5f825c41bda096ffb796",
+      "ast_digest": "aa96e6213da37a75b0935e8e2edffa39f4fc5da9021523bcf93d4ec77c6ab633"
+    },
+    "sor": {
+      "values_digest": "d0c71bf459ac903caba570bcdb930fe514e6ce3b7c2ae91eb3fee8c01197aeb3",
+      "rendered_digest": "34724d3b338836f033996846ee84e4776aa7b4b4bcbff101186eb0376abefd81",
+      "ast_digest": "ace165208467110497fe7d2cc66988a9394d146a94dc8c92d55fb867e750765e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "include existing PR publication-mode guard in #5692 verifier enforcement",
+      "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/bin/csdlc-publish.rs\"],\"operation\":\"amend_claim_scope\"}"
+    }
+  ]
+}

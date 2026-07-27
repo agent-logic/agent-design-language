@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5692,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][publication] Require implementation PR closing keyword",
+    "slug": "pr-closing-linkage-policy",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "AGENTS.md, csdlc-v2/src/publication.rs, csdlc-v2/tests/gate6.rs",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Review only AGENTS.md closing-keyword policy wording, csdlc-v2 publication body validation, and focused tests. Findings first; no workflow rewrite."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
