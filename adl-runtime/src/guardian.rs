@@ -499,7 +499,7 @@ impl ChildTree {
 
 #[cfg(windows)]
 struct WindowsJob {
-    handle: windows_sys::Win32::Foundation::HANDLE,
+    handle: usize,
 }
 
 #[cfg(windows)]
@@ -522,12 +522,14 @@ impl WindowsJob {
             if job.is_null() || job == INVALID_HANDLE_VALUE {
                 return Err(io::Error::last_os_error());
             }
-            let job_guard = WindowsJob { handle: job };
+            let job_guard = WindowsJob {
+                handle: job as usize,
+            };
 
             let mut info = mem::zeroed::<JOBOBJECT_EXTENDED_LIMIT_INFORMATION>();
             info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
             if SetInformationJobObject(
-                job_guard.handle,
+                job_guard.handle(),
                 JobObjectExtendedLimitInformation,
                 ptr::addr_of!(info).cast(),
                 mem::size_of_val(&info) as u32,
@@ -540,7 +542,7 @@ impl WindowsJob {
             if process.is_null() {
                 return Err(io::Error::last_os_error());
             }
-            let assigned = AssignProcessToJobObject(job_guard.handle, process);
+            let assigned = AssignProcessToJobObject(job_guard.handle(), process);
             let close_result = CloseHandle(process);
             if assigned == 0 {
                 return Err(io::Error::last_os_error());
@@ -554,7 +556,7 @@ impl WindowsJob {
 
     fn terminate(&self, exit_code: u32) -> io::Result<()> {
         unsafe {
-            if windows_sys::Win32::System::JobObjects::TerminateJobObject(self.handle, exit_code)
+            if windows_sys::Win32::System::JobObjects::TerminateJobObject(self.handle(), exit_code)
                 == 0
             {
                 return Err(io::Error::last_os_error());
@@ -562,13 +564,17 @@ impl WindowsJob {
         }
         Ok(())
     }
+
+    fn handle(&self) -> windows_sys::Win32::Foundation::HANDLE {
+        self.handle as windows_sys::Win32::Foundation::HANDLE
+    }
 }
 
 #[cfg(windows)]
 impl Drop for WindowsJob {
     fn drop(&mut self) {
         unsafe {
-            windows_sys::Win32::Foundation::CloseHandle(self.handle);
+            windows_sys::Win32::Foundation::CloseHandle(self.handle());
         }
     }
 }
