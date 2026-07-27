@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented #5692 closing-keyword policy and publication verifier enforcement.
+Implemented #5692 closing-keyword policy plus exact-head PR-state freshness for typed merge.
 
 ## Artifacts
 
@@ -21,6 +21,10 @@ Implemented #5692 closing-keyword policy and publication verifier enforcement.
 - cargo check --locked --manifest-path csdlc-v2/Cargo.toml --bin csdlc-publish => passed
 - cargo fmt --manifest-path csdlc-v2/Cargo.toml => passed
 - git diff --check => passed
+- cargo test --locked --manifest-path csdlc-v2/Cargo.toml github::tests::newer_check_run_identity_replaces_stale_duplicate_name => 1 passed
+- cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate6 => 8 passed
+- cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check => passed
+- git diff --check => passed
 
 ## Execution
 
@@ -28,6 +32,9 @@ Implemented #5692 closing-keyword policy and publication verifier enforcement.
 - csdlc-v2 publication request and remote PR validation now require a real GitHub closing keyword for the tracked issue.
 - csdlc-publish existing-PR publication-mode guard now uses the same closing-keyword predicate.
 - Focused gate6 tests cover accepted closing keywords and rejected bare issue mentions.
+- csdlc-v2 shared PR-state collection now fetches all check-run pages for the exact PR head.
+- Duplicate check-run names now select the newest started_at/run-id identity so superseded failed runs cannot override current green runs.
+- The freshness rule is covered by a focused unit test and keeps csdlc-pr-state, csdlc-shepherd, and csdlc-merge aligned with readiness observation.
 
 ## Validation
 
@@ -59,6 +66,19 @@ Implemented #5692 closing-keyword policy and publication verifier enforcement.
     "purpose": "Publish binary compile proof plus formatting/diff hygiene",
     "outcome": "passed",
     "evidence_ref": "local command output: csdlc-publish check passed; cargo fmt and git diff --check passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "github::tests::newer_check_run_identity_replaces_stale_duplicate_name"
+    ],
+    "purpose": "Focused PR-state duplicate check-run freshness proof",
+    "outcome": "passed",
+    "evidence_ref": "local command output: github::tests::newer_check_run_identity_replaces_stale_duplicate_name passed on FastWork target"
   }
 ]
 
