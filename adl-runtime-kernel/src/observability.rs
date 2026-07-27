@@ -327,11 +327,10 @@ impl RuntimeVectorPipeline {
                     .sync_data()
                     .map_err(|error| format!("observability_ingress_sync_failed:{error}"))?;
             }
-            self.drain_complete = self.wait_for_master_sequence(drain_sequence);
+            self.drain_complete = self.terminate_vector_after_drain(drain_sequence);
             if !self.drain_complete {
                 self.last_failure = Some("master_log_drain_incomplete".to_owned());
             }
-            self.terminate_vector();
         }
         let report = self
             .audit_master_log(&current_platform(), &self.config.lifecycle_suite)
@@ -344,20 +343,9 @@ impl RuntimeVectorPipeline {
         Ok(())
     }
 
-    fn wait_for_master_sequence(&self, sequence: u64) -> bool {
-        let deadline = Instant::now() + self.config.drain_timeout;
-        while Instant::now() < deadline {
-            if master_log_contains_sequence(&self.master_log_path, sequence) {
-                return true;
-            }
-            sleep(Duration::from_millis(50));
-        }
-        false
-    }
-
-    fn terminate_vector(&mut self) {
+    fn terminate_vector_after_drain(&mut self, sequence: u64) -> bool {
         let Some(mut child) = self.child.take() else {
-            return;
+            return master_log_contains_sequence(&self.master_log_path, sequence);
         };
         #[cfg(unix)]
         unsafe {
@@ -376,15 +364,21 @@ impl RuntimeVectorPipeline {
             }
         }
         let deadline = Instant::now() + self.config.drain_timeout;
+        let mut durable = master_log_contains_sequence(&self.master_log_path, sequence);
         while Instant::now() < deadline {
+            durable |= master_log_contains_sequence(&self.master_log_path, sequence);
             match child.try_wait() {
-                Ok(Some(_)) => return,
+                Ok(Some(_)) => {
+                    return durable
+                        || master_log_contains_sequence(&self.master_log_path, sequence);
+                }
                 Ok(None) => sleep(Duration::from_millis(50)),
                 Err(_) => break,
             }
         }
         let _ = child.kill();
         let _ = child.wait();
+        durable || master_log_contains_sequence(&self.master_log_path, sequence)
     }
 
     #[cfg(test)]
