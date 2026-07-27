@@ -9,8 +9,12 @@ use std::process::Stdio;
 use std::time::Duration;
 
 use adl_resilience::capped_exponential_backoff;
+use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine as _};
+use rand::RngCore;
 use serde::{Deserialize, Serialize};
-use tokio::io::AsyncReadExt;
+use subtle::ConstantTimeEq;
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio::net::TcpListener;
 use tokio::process::{Child, Command};
 use tokio::task::JoinHandle;
 use tokio::time::{sleep, timeout};
@@ -25,6 +29,10 @@ use windows_sys::Win32::System::{
 pub const GUARDIAN_SCHEMA: &str = "adl.runtime_v3.external_guardian.v2";
 pub const MAX_CAPTURE_BYTES: u64 = 64 * 1024;
 const CAPTURE_DRAIN_GRACE: Duration = Duration::from_millis(500);
+const GUARDIAN_LEASE_AUTH_TIMEOUT: Duration = Duration::from_secs(5);
+pub const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
+pub const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
+pub const GUARDIAN_REQUIRED_ENV: &str = "ADL_RUNTIME_GUARDIAN_REQUIRED";
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct GuardianConfig {
@@ -145,7 +153,28 @@ pub async fn run_guardian(
 
     loop {
         attempts = attempts.saturating_add(1);
-        let spawned = spawn_child(&config);
+        let lease = match GuardianLease::bind().await {
+            Ok(lease) => lease,
+            Err(error) => {
+                attempts_detail.push(GuardianAttempt {
+                    attempt: attempts,
+                    pid: None,
+                    exit_code: None,
+                    signal: None,
+                    stdout: String::new(),
+                    stderr: String::new(),
+                    reason_code: format!("guardian_lease_failed:{error}"),
+                });
+                return Ok(outcome(
+                    &config,
+                    GuardianTerminalState::SpawnFailed,
+                    attempts,
+                    restarts,
+                    attempts_detail,
+                ));
+            }
+        };
+        let spawned = spawn_child(&config, &lease);
         let mut child = match spawned {
             Ok(child) => child,
             Err(error) => {
@@ -179,6 +208,7 @@ pub async fn run_guardian(
             .take()
             .map(capture_pipe)
             .unwrap_or_else(|| tokio::spawn(async { String::new() }));
+        let lease_task = tokio::spawn(lease.authenticate_and_hold());
 
         let attempt_exit = tokio::select! {
             _ = shutdown.cancelled() => {
@@ -239,6 +269,7 @@ pub async fn run_guardian(
                 }
             }
         };
+        lease_task.abort();
 
         match attempt_exit {
             AttemptExit::Restart => {
@@ -318,11 +349,64 @@ pub async fn run_guardian_with_os_signals(
     run_guardian(config, CancellationToken::new()).await
 }
 
-fn spawn_child(config: &GuardianConfig) -> std::io::Result<Child> {
+struct GuardianLease {
+    listener: TcpListener,
+    address: String,
+    token: String,
+}
+
+impl GuardianLease {
+    async fn bind() -> std::io::Result<Self> {
+        let listener = TcpListener::bind(("127.0.0.1", 0)).await?;
+        let address = listener.local_addr()?.to_string();
+        let mut token = [0_u8; 32];
+        rand::rngs::OsRng.fill_bytes(&mut token);
+        Ok(Self {
+            listener,
+            address,
+            token: URL_SAFE_NO_PAD.encode(token),
+        })
+    }
+
+    async fn authenticate_and_hold(self) {
+        loop {
+            let Ok(Ok((mut stream, peer))) =
+                timeout(GUARDIAN_LEASE_AUTH_TIMEOUT, self.listener.accept()).await
+            else {
+                continue;
+            };
+            if !peer.ip().is_loopback() {
+                continue;
+            }
+            let mut supplied = vec![0_u8; self.token.len()];
+            let authenticated = timeout(
+                GUARDIAN_LEASE_AUTH_TIMEOUT,
+                stream.read_exact(&mut supplied),
+            )
+            .await
+            .is_ok_and(|result| result.is_ok())
+                && bool::from(supplied.as_slice().ct_eq(self.token.as_bytes()));
+            if !authenticated {
+                continue;
+            }
+            if stream.write_all(b"ok").await.is_err() {
+                return;
+            }
+            let mut closed = [0_u8; 1];
+            let _ = stream.read(&mut closed).await;
+            return;
+        }
+    }
+}
+
+fn spawn_child(config: &GuardianConfig, lease: &GuardianLease) -> std::io::Result<Child> {
     let mut command = Command::new(&config.program);
     command
         .args(&config.args)
         .envs(config.env.iter().map(|(name, value)| (name, value)))
+        .env(GUARDIAN_LEASE_ADDRESS_ENV, &lease.address)
+        .env(GUARDIAN_LEASE_TOKEN_ENV, &lease.token)
+        .env(GUARDIAN_REQUIRED_ENV, "1")
         .stdin(Stdio::null())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())

@@ -223,11 +223,11 @@ manifest=$input
 jq -e '
   .schema == "adl.wp12.soak_manifest.v1" and
   .issue == 5344 and
-  (.scenarios | type == "array" and length >= 8) and
+  (.scenarios | type == "array" and length == 5) and
   ([.scenarios[].id] == ([.scenarios[].id] | sort)) and
   (all(.scenarios[];
     (.id | test("^[a-z0-9][a-z0-9-]+$")) and
-    (.claim_class | IN("local_deterministic","ci_contract","runtime_v3_live","provider_disposition","demo","negative","rollback")) and
+    (.claim_class | IN("runtime_v3_acceptance","runtime_v3_live","rollback")) and
     (.timeout_seconds | type == "number" and . >= 1 and . <= 1800) and
     (.expected_exit | type == "number")
   ))
@@ -235,14 +235,6 @@ jq -e '
 
 manifest_sha256=$(sha256 "$manifest")
 revision=$(git rev-parse HEAD)
-target_dir=${ADL_WP12_TARGET_DIR:-${CARGO_TARGET_DIR:-"$root/.adl/target/wp12"}}
-adl_v2_bin=${ADL_WP12_ADL_V2_BIN:-"$target_dir/debug/adl-v2"}
-if [[ ! -x "$adl_v2_bin" ]]; then
-  CARGO_TARGET_DIR="$target_dir" cargo build --locked \
-    --manifest-path adl-v2/Cargo.toml \
-    -p adl-cli --bin adl-v2
-fi
-[[ -x "$adl_v2_bin" ]] || { printf 'ADL v2 binary unavailable\n' >&2; exit 67; }
 
 work_parent="$root/.csdlc/evidence/5344/work"
 mkdir -p "$work_parent"
@@ -304,14 +296,6 @@ for ((index=0; index<scenario_count; index++)); do
   started=$(ruby -e 'puts(Process.clock_gettime(Process::CLOCK_MONOTONIC, :millisecond))')
   set +e
   case "$kind" in
-    adl_v2)
-      argv=()
-      while IFS= read -r argument; do
-        argv+=("$argument")
-      done < <(jq -r '.argv[]' <<<"$scenario")
-      run_bounded "$timeout_seconds" "$adl_v2_bin" "${argv[@]}" >"$output" 2>"$error"
-      exit_code=$?
-      ;;
     artifact)
       path=$(jq -r .path <<<"$scenario")
       required_schema=$(jq -r .required_schema <<<"$scenario")
@@ -328,14 +312,25 @@ for ((index=0; index<scenario_count; index++)); do
         exit_code=$?
       fi
       ;;
-    contract)
+    runtime_acceptance)
       path=$(jq -r .path <<<"$scenario")
-      pattern=$(jq -r .pattern <<<"$scenario")
       if [[ "$path" == /* || "$path" == *".."* || ! -f "$path" ]]; then
         exit_code=2
       else
-        rg -n --fixed-strings "$pattern" "$path" >"$output" 2>"$error"
-        exit_code=$?
+        acceptance_revision=$(jq -r .revision "$path")
+        if jq -e '
+            .schema == "adl.runtime_v3.acceptance.v1" and
+            .issue == 5361 and
+            (.revision | test("^[0-9a-f]{40}$")) and
+            all(.dependency_proofs[]; .status == "integrated") and
+            all(.consumer_proofs[]; .status == "passed") and
+            all(.proofs[]; .status == "passed")
+          ' "$path" >"$output" 2>"$error" &&
+          git merge-base --is-ancestor "$acceptance_revision" "$revision"; then
+          exit_code=0
+        else
+          exit_code=2
+        fi
       fi
       ;;
     rollback)

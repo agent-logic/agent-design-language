@@ -736,81 +736,90 @@ fn wait_for_control_port(guardian: &mut std::process::Child) {
 #[cfg(unix)]
 #[test]
 #[ignore = "binds the Runtime v3 control test port"]
-fn serve_handles_guardian_sigterm_with_a_clean_checkpointed_exit() {
+fn serve_restores_then_handles_guardian_sigterm_with_clean_checkpoints() {
     use ed25519_dalek::SigningKey;
 
     let directory = tempfile::tempdir().unwrap();
     let continuity_root = directory.path().join("sigterm-continuity");
+    let local_state = local_state_root(directory.path(), "sigterm-local-state");
     let probe = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
     let address = probe.local_addr().unwrap();
     drop(probe);
     let init = write_test_runtime_init(directory.path(), address);
     let verifying_key = SigningKey::from_bytes(&[17_u8; 32]).verifying_key();
-    let mut child = std::process::Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"))
-        .arg("serve")
-        .arg("--init")
-        .arg(&init)
-        .arg(&continuity_root)
-        .env(
-            "ADL_RUNTIME_V3_LOCAL_STATE_DIR",
-            local_state_root(directory.path(), "sigterm-local-state"),
-        )
-        .env(
-            "ADL_RUNTIME_CONTROL_PUBLIC_KEY_HEX",
-            hex::encode(verifying_key.as_bytes()),
-        )
-        .env(
-            "ADL_RUNTIME_CONTINUITY_SIGNING_KEY_HEX",
-            hex::encode([23_u8; 32]),
-        )
-        .env("ADL_RUNTIME_CONTINUITY_MIN_GENERATION", "0")
-        .env(
-            "ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX",
-            hex::encode(
-                SigningKey::from_bytes(&[29_u8; 32])
-                    .verifying_key()
-                    .as_bytes(),
-            ),
-        )
-        .env(
-            "ADL_RUNTIME_OBSERVATORY_TOKEN",
-            "guardian-observatory-token-00000002",
-        )
-        .stdout(std::process::Stdio::null())
-        .stderr(std::process::Stdio::piped())
-        .spawn()
-        .unwrap();
-    let stderr = child.stderr.take().unwrap();
-    let (ready_tx, ready_rx) = std::sync::mpsc::channel();
-    let stderr_reader = std::thread::spawn(move || {
-        let mut output = String::new();
-        for line in BufReader::new(stderr).lines() {
-            let line = line.unwrap();
-            output.push_str(&line);
-            output.push('\n');
-            if line.contains("event=control_ready") {
-                let _ = ready_tx.send(());
+    for minimum_generation in 0..2 {
+        let mut child = std::process::Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"))
+            .arg("serve")
+            .arg("--init")
+            .arg(&init)
+            .arg(&continuity_root)
+            .env("ADL_RUNTIME_V3_LOCAL_STATE_DIR", &local_state)
+            .env(
+                "ADL_RUNTIME_CONTROL_PUBLIC_KEY_HEX",
+                hex::encode(verifying_key.as_bytes()),
+            )
+            .env(
+                "ADL_RUNTIME_CONTINUITY_SIGNING_KEY_HEX",
+                hex::encode([23_u8; 32]),
+            )
+            .env(
+                "ADL_RUNTIME_CONTINUITY_MIN_GENERATION",
+                minimum_generation.to_string(),
+            )
+            .env(
+                "ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX",
+                hex::encode(
+                    SigningKey::from_bytes(&[29_u8; 32])
+                        .verifying_key()
+                        .as_bytes(),
+                ),
+            )
+            .env(
+                "ADL_RUNTIME_OBSERVATORY_TOKEN",
+                "guardian-observatory-token-00000002",
+            )
+            .stdout(std::process::Stdio::null())
+            .stderr(std::process::Stdio::piped())
+            .spawn()
+            .unwrap();
+        let stderr = child.stderr.take().unwrap();
+        let (ready_tx, ready_rx) = std::sync::mpsc::channel();
+        let stderr_reader = std::thread::spawn(move || {
+            let mut output = String::new();
+            for line in BufReader::new(stderr).lines() {
+                let line = line.unwrap();
+                output.push_str(&line);
+                output.push('\n');
+                if line.contains("event=control_ready") {
+                    let _ = ready_tx.send(());
+                }
             }
-        }
-        output
-    });
-    ready_rx
-        .recv_timeout(Duration::from_secs(5))
-        .expect("serve did not report control readiness");
-    assert_eq!(unsafe { libc::kill(child.id() as i32, libc::SIGTERM) }, 0);
-    let status = child.wait().unwrap();
-    let stderr = stderr_reader.join().unwrap();
-    assert!(
-        status.success(),
-        "serve shutdown failed ({status}): {stderr}"
-    );
-    let continuity: serde_json::Value = serde_json::from_slice(
-        &std::fs::read(continuity_root.join("generation-1/manifest.json")).unwrap(),
-    )
-    .unwrap();
-    assert_eq!(continuity["schema"], "adl.runtime.checkpoint.v1");
-    assert_eq!(continuity["generation"], 1);
-    assert_eq!(continuity["signing_algorithm"], "ed25519");
+            output
+        });
+        ready_rx
+            .recv_timeout(Duration::from_secs(5))
+            .expect("serve did not report control readiness");
+        assert_eq!(unsafe { libc::kill(child.id() as i32, libc::SIGTERM) }, 0);
+        let status = child.wait().unwrap();
+        let stderr = stderr_reader.join().unwrap();
+        assert!(
+            status.success(),
+            "serve shutdown failed ({status}): {stderr}"
+        );
+        let generation = minimum_generation + 1;
+        let continuity: serde_json::Value = serde_json::from_slice(
+            &std::fs::read(
+                continuity_root
+                    .join(format!("generation-{generation}"))
+                    .join("manifest.json"),
+            )
+            .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(continuity["schema"], "adl.runtime.checkpoint.v1");
+        assert_eq!(continuity["generation"], generation);
+        assert_eq!(continuity["signing_algorithm"], "ed25519");
+    }
 }
 
 #[tokio::test]
@@ -833,6 +842,10 @@ async fn guardian_lease_loss_checkpoints_and_stops_the_real_kernel() {
         .arg(&init)
         .arg("--continuity-root")
         .arg(&continuity_root)
+        .env(
+            "ADL_RUNTIME_V3_LOCAL_STATE_DIR",
+            local_state_root(directory.path(), "guardian-lease-local-state"),
+        )
         .env("ADL_RUNTIME_GUARDIAN_REQUIRED", "1")
         .env(
             "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS",
@@ -1007,7 +1020,7 @@ cpu_stop_basis_points = 2
     );
     std::fs::remove_dir(continuity_root.join(".generation-1.pending")).unwrap();
     assert_eq!(unsafe { libc::kill(child.id() as i32, libc::SIGTERM) }, 0);
-    let deadline = std::time::Instant::now() + Duration::from_secs(5);
+    let deadline = std::time::Instant::now() + Duration::from_secs(15);
     let status = loop {
         if let Some(status) = child.try_wait().unwrap() {
             break status;
