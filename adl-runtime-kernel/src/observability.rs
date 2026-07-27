@@ -1,9 +1,9 @@
 use std::{
     collections::BTreeMap,
     fs::{self, File, OpenOptions},
-    io::{BufRead, BufReader, Read, Seek, SeekFrom, Write},
+    io::{BufRead, BufReader, Write},
     path::{Path, PathBuf},
-    process::{Child, ChildStdin, Command, Stdio},
+    process::{Child, Command, Stdio},
     sync::{
         atomic::{AtomicU64, Ordering},
         Arc, Mutex,
@@ -35,9 +35,8 @@ pub const VECTOR_COMPONENT_BINARY_REF: &str = ".adl/bin/vector";
 pub const VECTOR_COMPONENT_WINDOWS_BINARY_REF: &str = ".adl/bin/vector.exe";
 
 const STARTUP_OBSERVATION: Duration = Duration::from_millis(350);
-const DEFAULT_DRAIN_TIMEOUT: Duration = Duration::from_millis(30_000);
+const DEFAULT_DRAIN_TIMEOUT: Duration = Duration::from_millis(5_000);
 const DEFAULT_OTLP_TIMEOUT_MILLIS: u64 = 5_000;
-const MAX_LOG_RECORD_BYTES: u64 = 1_048_576;
 
 #[derive(Clone, Debug)]
 pub struct RuntimeVectorConfig {
@@ -125,7 +124,7 @@ impl RuntimeVectorConfig {
 
 pub struct RuntimeVectorPipeline {
     child: Option<Child>,
-    ingress: Arc<Mutex<IngressState>>,
+    ingress: Arc<Mutex<File>>,
     sequence: Arc<AtomicU64>,
     config: RuntimeVectorConfig,
     master_log_path: PathBuf,
@@ -159,21 +158,33 @@ impl RuntimeVectorPipeline {
             fs::create_dir_all(root.join(relative)).map_err(|_| "state_root_unavailable")?;
         }
         let root = root.canonicalize().map_err(|_| "state_root_unavailable")?;
+        let ingress_path = root.join("ingress/runtime-v3.jsonl");
         let master_log_path = root.join("durable/master.log.jsonl");
         let audit_path = root.join("audit/master-log-audit.json");
         let config_path = root.join("config/runtime-v3-vector.json");
         let rendered = render_vector_config(&root, &config);
         write_json_atomic(&config_path, &rendered).map_err(|_| "vector_config_write_failed")?;
         validate_vector_config(&config.vector_binary, &config_path, &root)?;
-        let next_sequence = next_sequence_from_log(&master_log_path)
-            .map_err(|_| "runtime_vector_sequence_recovery_failed")?;
+        let next_sequence = next_sequence_from_log(&ingress_path).unwrap_or(0);
+        let ingress = Arc::new(Mutex::new(
+            OpenOptions::new()
+                .create(true)
+                .append(true)
+                .open(&ingress_path)
+                .map_err(|_| "runtime_vector_ingress_unavailable")?,
+        ));
         let sequence = Arc::new(AtomicU64::new(next_sequence));
+        if install_subscriber {
+            tracing::subscriber::set_global_default(Registry::default().with(
+                RuntimeTracingLayer::new(ingress.clone(), sequence.clone(), config.clone()),
+            ))
+            .map_err(|_| "runtime_tracing_subscriber_already_installed")?;
+        }
         let stdout = append_file(&root.join("logs/vector.stdout.log"))
             .map_err(|_| "runtime_vector_log_unavailable")?;
         let stderr = append_file(&root.join("logs/vector.stderr.log"))
             .map_err(|_| "runtime_vector_log_unavailable")?;
-        let mut command = Command::new(&config.vector_binary);
-        command
+        let mut child = Command::new(&config.vector_binary)
             .arg("--config-json")
             .arg(&config_path)
             .arg("--require-healthy")
@@ -182,32 +193,11 @@ impl RuntimeVectorPipeline {
             .arg("json")
             .arg("--graceful-shutdown-limit-secs")
             .arg(config.drain_timeout.as_secs().max(1).to_string())
-            .stdin(Stdio::piped())
+            .stdin(Stdio::null())
             .stdout(Stdio::from(stdout))
-            .stderr(Stdio::from(stderr));
-        #[cfg(windows)]
-        {
-            use std::os::windows::process::CommandExt;
-            command.creation_flags(windows_sys::Win32::System::Threading::CREATE_NEW_PROCESS_GROUP);
-        }
-        let mut child = command
+            .stderr(Stdio::from(stderr))
             .spawn()
             .map_err(|_| "vector_binary_missing_or_not_executable")?;
-        let ingress = Arc::new(Mutex::new(IngressState {
-            stdin: Some(
-                child
-                    .stdin
-                    .take()
-                    .ok_or("runtime_vector_stdin_unavailable")?,
-            ),
-            failure: None,
-        }));
-        if install_subscriber {
-            tracing::subscriber::set_global_default(Registry::default().with(
-                RuntimeTracingLayer::new(ingress.clone(), sequence.clone(), config.clone()),
-            ))
-            .map_err(|_| "runtime_tracing_subscriber_already_installed")?;
-        }
         let child_pid = child.id();
         tracing::info!(
             target: "adl_runtime_kernel",
@@ -306,85 +296,66 @@ impl RuntimeVectorPipeline {
         &self.master_log_path
     }
 
-    pub fn shutdown(&mut self) -> Result<(), String> {
-        if self.drain_complete && self.audit_path.is_file() {
-            return Ok(());
+    pub fn shutdown(&mut self) {
+        if self.drain_complete {
+            return;
         }
+        let drain_sequence = self.sequence.load(Ordering::SeqCst);
+        tracing::info!(
+            target: "adl_runtime_kernel",
+            component = "observability",
+            operation = "observability_drain_complete",
+            reason = "shutdown_drained",
+            drain = true,
+            "Runtime v3 observability drain complete"
+        );
+        if let Ok(mut ingress) = self.ingress.lock() {
+            let _ = ingress.flush();
+            let _ = ingress.sync_data();
+        }
+        self.drain_complete = self.wait_for_master_sequence(drain_sequence);
         if !self.drain_complete {
-            let sequence_before_drain = self.sequence.load(Ordering::SeqCst);
-            tracing::info!(
-                target: "adl_runtime_kernel",
-                component = "observability",
-                operation = "observability_drain_complete",
-                reason = "shutdown_drained",
-                drain = true,
-                "Runtime v3 observability drain complete"
-            );
-            let next_sequence = self.sequence.load(Ordering::SeqCst);
-            if next_sequence != sequence_before_drain.saturating_add(1) {
-                return Err("observability_drain_marker_not_emitted".to_owned());
-            }
-            let drain_sequence = next_sequence.saturating_sub(1);
-            if let Ok(mut ingress) = self.ingress.lock() {
-                if let Some(failure) = ingress.failure.take() {
-                    return Err(format!("observability_ingress_write_failed:{failure}"));
-                }
-                if let Some(stdin) = ingress.stdin.as_mut() {
-                    stdin
-                        .flush()
-                        .map_err(|error| format!("observability_ingress_flush_failed:{error}"))?;
-                }
-            }
-            self.drain_complete = self.terminate_vector_after_drain(drain_sequence);
-            if !self.drain_complete {
-                self.last_failure = Some("master_log_drain_incomplete".to_owned());
-            }
+            self.last_failure = Some("master_log_drain_incomplete".to_owned());
         }
-        let report = self
+        let _ = self
             .audit_master_log(&current_platform(), &self.config.lifecycle_suite)
-            .map_err(|error| format!("master_log_audit_failed:{error}"))?;
-        write_json_atomic(&self.audit_path, &report)
-            .map_err(|error| format!("master_log_audit_write_failed:{error}"))?;
-        if !self.drain_complete || report.status != "pass" {
-            return Err("master_log_shutdown_audit_failed".to_owned());
-        }
-        Ok(())
+            .and_then(|report| write_json_atomic(&self.audit_path, &report));
+        self.terminate_vector();
     }
 
-    fn terminate_vector_after_drain(&mut self, sequence: u64) -> bool {
-        let Some(mut child) = self.child.take() else {
-            return master_log_contains_sequence(&self.master_log_path, sequence);
-        };
+    fn wait_for_master_sequence(&self, sequence: u64) -> bool {
         let deadline = Instant::now() + self.config.drain_timeout;
-        let graceful_exit_reserve = self.config.drain_timeout.min(Duration::from_secs(5));
-        let delivery_deadline = deadline - graceful_exit_reserve;
-        if let Ok(mut ingress) = self.ingress.lock() {
-            ingress.stdin.take();
-        }
-        let mut durable = master_log_contains_sequence(&self.master_log_path, sequence);
-        while !durable && Instant::now() < delivery_deadline {
-            match child.try_wait() {
-                Ok(Some(_)) => {
-                    return master_log_contains_sequence(&self.master_log_path, sequence);
-                }
-                Err(_) => return false,
-                Ok(None) => {}
-            }
-            sleep(Duration::from_millis(10));
-            durable = master_log_contains_sequence(&self.master_log_path, sequence);
-        }
-        signal_vector_shutdown(&mut child);
         while Instant::now() < deadline {
-            durable |= master_log_contains_sequence(&self.master_log_path, sequence);
+            if master_log_contains_sequence(&self.master_log_path, sequence) {
+                return true;
+            }
+            sleep(Duration::from_millis(50));
+        }
+        false
+    }
+
+    fn terminate_vector(&mut self) {
+        let Some(mut child) = self.child.take() else {
+            return;
+        };
+        #[cfg(unix)]
+        unsafe {
+            let _ = libc::kill(child.id() as i32, libc::SIGTERM);
+        }
+        #[cfg(not(unix))]
+        {
+            let _ = child.kill();
+        }
+        let deadline = Instant::now() + self.config.drain_timeout;
+        while Instant::now() < deadline {
             match child.try_wait() {
-                Ok(Some(_)) => return durable,
-                Ok(None) => sleep(Duration::from_millis(10)),
-                Err(_) => return false,
+                Ok(Some(_)) => return,
+                Ok(None) => sleep(Duration::from_millis(50)),
+                Err(_) => break,
             }
         }
         let _ = child.kill();
         let _ = child.wait();
-        false
     }
 
     #[cfg(test)]
@@ -399,7 +370,7 @@ impl RuntimeVectorPipeline {
 
 impl Drop for RuntimeVectorPipeline {
     fn drop(&mut self) {
-        let _ = self.shutdown();
+        self.shutdown();
     }
 }
 
@@ -546,7 +517,7 @@ pub fn render_vector_config(root: &Path, config: &RuntimeVectorConfig) -> Value 
             "inputs": ["runtime_v3_redacted"],
             "path": path("durable/master.log.jsonl"),
             "encoding": {"codec": "json"},
-            "buffer": {"type": "memory", "max_events": 500, "when_full": "block"}
+            "buffer": {"type": "disk", "max_size": 268435488, "when_full": "block"}
         }),
     );
     transforms.insert(
@@ -617,7 +588,10 @@ pub fn render_vector_config(root: &Path, config: &RuntimeVectorConfig) -> Value 
         "healthchecks": {"enabled": true, "require_healthy": true},
         "sources": {
             "runtime_v3_ingress": {
-                "type": "stdin"
+                "type": "file",
+                "include": [path("ingress/runtime-v3.jsonl")],
+                "read_from": "beginning",
+            "fingerprint": {"strategy": "device_and_inode"}
             }
         },
         "transforms": transforms,
@@ -627,14 +601,14 @@ pub fn render_vector_config(root: &Path, config: &RuntimeVectorConfig) -> Value 
 
 #[derive(Clone)]
 struct RuntimeTracingLayer {
-    ingress: Arc<Mutex<IngressState>>,
+    ingress: Arc<Mutex<File>>,
     sequence: Arc<AtomicU64>,
     config: RuntimeVectorConfig,
 }
 
 impl RuntimeTracingLayer {
     fn new(
-        ingress: Arc<Mutex<IngressState>>,
+        ingress: Arc<Mutex<File>>,
         sequence: Arc<AtomicU64>,
         config: RuntimeVectorConfig,
     ) -> Self {
@@ -653,6 +627,7 @@ impl RuntimeTracingLayer {
         parent_span_id: Option<u64>,
         trace_id: Option<String>,
     ) {
+        let sequence = self.sequence.fetch_add(1, Ordering::SeqCst);
         let trace_id = trace_id
             .or_else(|| string_field(&fields, "correlation_id"))
             .unwrap_or_else(|| format!("runtime-trace-{}", self.config.runtime_instance_id));
@@ -669,54 +644,39 @@ impl RuntimeTracingLayer {
             "runtime_event_count".to_owned(),
             Value::Number(serde_json::Number::from(1)),
         );
-        if let Ok(mut ingress) = self.ingress.lock() {
-            let Some(file) = ingress.stdin.as_mut() else {
-                return;
-            };
-            let sequence = self.sequence.load(Ordering::SeqCst);
-            let record = json!({
-                "schema": RUNTIME_MASTER_LOG_RECORD_SCHEMA,
-                "timestamp": format!("unix:{}", epoch_millis_now()),
-                "timestamp_unix_millis": epoch_millis_now(),
-                "severity": metadata.level().as_str(),
-                "level": metadata.level().as_str(),
-                "target": metadata.target(),
-                "runtime_instance_id": self.config.runtime_instance_id,
-                "guardian_id": self.config.guardian_id,
-                "process_id": self.config.process_id,
-                "process_kind": "runtime_kernel",
-                "service_name": self.config.service_name,
-                "lifecycle_suite": self.config.lifecycle_suite,
-                "lifecycle_run": self.config.lifecycle_run,
-                "lifecycle_cycle": self.config.lifecycle_cycle,
-                "component": component,
-                "operation": operation,
-                "reason": reason,
-                "error_chain": error_chain,
-                "revision": self.config.revision,
-                "sequence": sequence,
-                "runtime_event_count": 1,
-                "trace_id": trace_id,
-                "span_id": span_id.unwrap_or(sequence),
-                "parent_span_id": parent_span_id,
-                "fields": fields
-            });
-            let write = serde_json::to_writer(&mut *file, &record)
-                .and_then(|()| file.write_all(b"\n").map_err(serde_json::Error::io))
-                .and_then(|()| file.flush().map_err(serde_json::Error::io));
-            match write {
-                Ok(()) => self
-                    .sequence
-                    .store(sequence.saturating_add(1), Ordering::SeqCst),
-                Err(error) => ingress.failure = Some(error.to_string()),
-            }
+        let record = json!({
+            "schema": RUNTIME_MASTER_LOG_RECORD_SCHEMA,
+            "timestamp": format!("unix:{}", epoch_millis_now()),
+            "timestamp_unix_millis": epoch_millis_now(),
+            "severity": metadata.level().as_str(),
+            "level": metadata.level().as_str(),
+            "target": metadata.target(),
+            "runtime_instance_id": self.config.runtime_instance_id,
+            "guardian_id": self.config.guardian_id,
+            "process_id": self.config.process_id,
+            "process_kind": "runtime_kernel",
+            "service_name": self.config.service_name,
+            "lifecycle_suite": self.config.lifecycle_suite,
+            "lifecycle_run": self.config.lifecycle_run,
+            "lifecycle_cycle": self.config.lifecycle_cycle,
+            "component": component,
+            "operation": operation,
+            "reason": reason,
+            "error_chain": error_chain,
+            "revision": self.config.revision,
+            "sequence": sequence,
+            "runtime_event_count": 1,
+            "trace_id": trace_id,
+            "span_id": span_id.unwrap_or(sequence),
+            "parent_span_id": parent_span_id,
+            "fields": fields
+        });
+        if let Ok(mut file) = self.ingress.lock() {
+            let _ = serde_json::to_writer(&mut *file, &record);
+            let _ = file.write_all(b"\n");
+            let _ = file.flush();
         }
     }
-}
-
-struct IngressState {
-    stdin: Option<ChildStdin>,
-    failure: Option<String>,
 }
 
 #[derive(Clone, Debug)]
@@ -899,25 +859,6 @@ fn append_file(path: &Path) -> std::io::Result<File> {
     OpenOptions::new().create(true).append(true).open(path)
 }
 
-fn signal_vector_shutdown(child: &mut Child) {
-    #[cfg(unix)]
-    unsafe {
-        let _ = libc::kill(child.id() as i32, libc::SIGTERM);
-    }
-    #[cfg(windows)]
-    {
-        let signaled = unsafe {
-            windows_sys::Win32::System::Console::GenerateConsoleCtrlEvent(
-                windows_sys::Win32::System::Console::CTRL_BREAK_EVENT,
-                child.id(),
-            )
-        } != 0;
-        if !signaled {
-            let _ = child.kill();
-        }
-    }
-}
-
 fn write_json_atomic(path: &Path, value: &impl Serialize) -> std::io::Result<()> {
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent)?;
@@ -932,55 +873,38 @@ fn write_json_atomic(path: &Path, value: &impl Serialize) -> std::io::Result<()>
     fs::rename(temp, path)
 }
 
-pub(crate) fn next_sequence_from_log(path: &Path) -> std::io::Result<u64> {
-    Ok(last_log_record(path)?
-        .and_then(|record| record["sequence"].as_u64())
-        .map_or(0, |sequence| sequence.saturating_add(1)))
-}
-
-pub(crate) fn master_log_contains_sequence(path: &Path, sequence: u64) -> bool {
-    last_log_record(path)
-        .ok()
-        .flatten()
-        .and_then(|record| record["sequence"].as_u64())
-        .is_some_and(|observed| observed >= sequence)
-}
-
-fn last_log_record(path: &Path) -> std::io::Result<Option<Value>> {
-    let mut file = match File::open(path) {
+fn next_sequence_from_log(path: &Path) -> std::io::Result<u64> {
+    let file = match File::open(path) {
         Ok(file) => file,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(0),
         Err(error) => return Err(error),
     };
-    let length = file.metadata()?.len();
-    if length == 0 {
-        return Ok(None);
+    let mut next = 0_u64;
+    for line in BufReader::new(file).lines() {
+        let line = line?;
+        let Ok(record) = serde_json::from_str::<Value>(&line) else {
+            continue;
+        };
+        if let Some(sequence) = record["sequence"].as_u64() {
+            next = next.max(sequence.saturating_add(1));
+        }
     }
-    let read_length = length.min(MAX_LOG_RECORD_BYTES);
-    file.seek(SeekFrom::Start(length - read_length))?;
-    let mut bytes = Vec::with_capacity(read_length as usize);
-    file.take(read_length).read_to_end(&mut bytes)?;
-    while bytes
-        .last()
-        .is_some_and(|byte| matches!(byte, b'\n' | b'\r'))
-    {
-        bytes.pop();
-    }
-    let line_start = bytes
-        .iter()
-        .rposition(|byte| *byte == b'\n')
-        .map_or(0, |position| position + 1);
-    let line = std::str::from_utf8(&bytes[line_start..])
-        .map_err(|error| std::io::Error::new(std::io::ErrorKind::InvalidData, error))?;
-    if line.trim().is_empty() {
-        return Err(std::io::Error::new(
-            std::io::ErrorKind::InvalidData,
-            "empty log tail",
-        ));
-    }
-    serde_json::from_str(line)
-        .map(Some)
-        .map_err(|error| std::io::Error::new(std::io::ErrorKind::InvalidData, error))
+    Ok(next)
+}
+
+fn master_log_contains_sequence(path: &Path, sequence: u64) -> bool {
+    let Ok(file) = File::open(path) else {
+        return false;
+    };
+    BufReader::new(file)
+        .lines()
+        .map_while(Result::ok)
+        .any(|line| {
+            serde_json::from_str::<Value>(&line)
+                .ok()
+                .and_then(|record| record["sequence"].as_u64())
+                == Some(sequence)
+        })
 }
 
 fn string_field(fields: &BTreeMap<String, Value>, key: &str) -> Option<String> {

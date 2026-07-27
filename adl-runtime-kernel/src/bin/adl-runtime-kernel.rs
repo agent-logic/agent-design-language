@@ -11,34 +11,25 @@ use std::{
 mod observability;
 
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly, build_production_operation_executors,
-    execute_loop, generate_runtime_instance_id, load_control_tls, monitor_until_stop,
+    bootstrap_reasoning_services, build_live_assembly,
+    build_production_operation_executors_with_recorder, execute_loop, generate_runtime_instance_id,
+    load_control_tls, monitor_until_stop,
     proof::{load_capsule, run_proof},
     serve_control_listener_until_ready, validate_production_operation_executors,
     verifying_key_from_hex, AdaptationState, CheckpointShutdownRequest, CheckpointingControl,
     ControlAuthority, ControlCapability, ControlService, Kernel, KernelExit, LiveBindings,
     LiveContinuity, LiveKernelSnapshot, LoopDefinition, LoopStatus, ReasoningEdge,
     ReasoningGraphDefinition, ReasoningNode, RecordedObservation, RsntpTimeSampleSource,
-    RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver, SystemTimeSampleSource,
-    TimeQualificationBounds, TimeSampleSource, TrustedControlKey, ValidatedReasoningGraph,
-    MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA,
+    RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver, TimeQualificationBounds,
+    TrustedControlKey, ValidatedReasoningGraph, MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
-use tokio::io::{AsyncReadExt, AsyncWriteExt};
-use tokio::net::TcpStream;
 use tokio_util::sync::CancellationToken;
-
-const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
-const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
-const GUARDIAN_REQUIRED_ENV: &str = "ADL_RUNTIME_GUARDIAN_REQUIRED";
 
 #[tokio::main]
 async fn main() -> ExitCode {
     let mut args = std::env::args().skip(1);
-    let Some(command) = args.next() else {
-        print_usage();
-        return ExitCode::from(64);
-    };
+    let command = args.next().unwrap_or_else(|| "demo".to_owned());
 
     match command.as_str() {
         "serve" => {
@@ -47,13 +38,6 @@ async fn main() -> ExitCode {
                 Err(error) => {
                     eprintln!("{error}");
                     return ExitCode::from(64);
-                }
-            };
-            let mut guardian_lease = match connect_guardian_lease().await {
-                Ok(lease) => lease,
-                Err(error) => {
-                    eprintln!("runtime Guardian lease invalid: {error}");
-                    return ExitCode::from(78);
                 }
             };
             let init = match RuntimeInitConfig::load(serve_args.init_path.clone()) {
@@ -131,14 +115,16 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let operation_executors =
-                match build_production_operation_executors(operation_state_identity.clone()) {
-                    Ok(executors) => executors,
-                    Err(error) => {
-                        eprintln!("runtime local adapter state root is invalid: {error}");
-                        return ExitCode::from(78);
-                    }
-                };
+            let operation_executors = match build_production_operation_executors_with_recorder(
+                operation_state_identity.clone(),
+                recorder.clone(),
+            ) {
+                Ok(executors) => executors,
+                Err(error) => {
+                    eprintln!("runtime local adapter state root is invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             if let Err(error) = validate_production_operation_executors(&operation_executors) {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);
@@ -165,26 +151,14 @@ async fn main() -> ExitCode {
                 eprintln!("runtime operation key id is empty");
                 return ExitCode::from(78);
             }
-            let (time_source, time_source_identity): (Arc<dyn TimeSampleSource>, String) =
-                match std::env::var("ADL_RUNTIME_SNTP_SERVER")
-                    .ok()
-                    .filter(|server| !server.trim().is_empty())
-                {
-                    Some(server) => (
-                        Arc::new(RsntpTimeSampleSource::new(server.clone())),
-                        format!("sntp:{server}"),
-                    ),
-                    None => (
-                        Arc::new(SystemTimeSampleSource),
-                        "host_system_clock".to_owned(),
-                    ),
-                };
+            let sntp_server = std::env::var("ADL_RUNTIME_SNTP_SERVER")
+                .unwrap_or_else(|_| "pool.ntp.org".to_owned());
             let assembly = match build_live_assembly(LiveBindings {
                 recorder: recorder.clone(),
                 operation_executors,
                 permit_keys: BTreeMap::from([(operation_key_id.clone(), operation_key)]),
                 reasoning,
-                time_source,
+                time_source: Arc::new(RsntpTimeSampleSource::new(sntp_server.clone())),
                 time_bounds: TimeQualificationBounds {
                     timeout: std::time::Duration::from_secs(3),
                     max_offset: std::time::Duration::from_secs(5),
@@ -250,10 +224,17 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            let tls_private_key_hash = match file_hash(&init.api.tls.private_key_path).await {
+                Ok(hash) => hash,
+                Err(error) => {
+                    eprintln!("runtime TLS private key identity could not be hashed: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             let binding_projection = serde_json::json!({
                 "assembly_config_hash": assembly.config_hash,
                 "runtime_init": &init,
-                "time_source": &time_source_identity,
+                "sntp_server": &sntp_server,
                 "operation_key_id": &operation_key_id,
                 "operation_key": hex::encode(operation_key.as_bytes()),
                 "control_key_id": &key_id,
@@ -261,8 +242,10 @@ async fn main() -> ExitCode {
                 "control_key": hex::encode(public_key.as_bytes()),
                 "continuity_key_id": &continuity_key_id,
                 "continuity_key": hex::encode(continuity_public_key.as_bytes()),
+                "continuity_minimum_generation": minimum_generation,
                 "operation_state_root": operation_state_identity,
                 "tls_certificate_hash": tls_certificate_hash,
+                "tls_private_key_hash": tls_private_key_hash,
             });
             let config_hash = blake3::hash(
                 &serde_json::to_vec(&binding_projection)
@@ -363,9 +346,6 @@ async fn main() -> ExitCode {
                 Ok(signal) => signal,
                 Err(error) => {
                     eprintln!("runtime signal handler registration failed: {error}");
-                    if let Err(error) = observability.shutdown() {
-                        eprintln!("runtime observability shutdown failed: {error}");
-                    }
                     return ExitCode::from(78);
                 }
             };
@@ -373,9 +353,6 @@ async fn main() -> ExitCode {
                 Ok(listener) => listener,
                 Err(error) => {
                     eprintln!("runtime control API bind failed: {error}");
-                    if let Err(error) = observability.shutdown() {
-                        eprintln!("runtime observability shutdown failed: {error}");
-                    }
                     return ExitCode::from(70);
                 }
             };
@@ -386,9 +363,6 @@ async fn main() -> ExitCode {
                 Ok(handle) => handle,
                 Err(error) => {
                     eprintln!("runtime kernel failed to start: {error}");
-                    if let Err(error) = observability.shutdown() {
-                        eprintln!("runtime observability shutdown failed: {error}");
-                    }
                     return ExitCode::from(70);
                 }
             };
@@ -406,9 +380,6 @@ async fn main() -> ExitCode {
                     eprintln!("runtime control API failed before readiness");
                     let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
                     drain_control_api(&mut api).await;
-                    if let Err(error) = observability.shutdown() {
-                        eprintln!("runtime observability shutdown failed: {error}");
-                    }
                     return ExitCode::from(70);
                 }
             };
@@ -423,7 +394,7 @@ async fn main() -> ExitCode {
             let mut pressure_retry_at = None;
             let mut observability_tick = tokio::time::interval(std::time::Duration::from_secs(1));
             observability_tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
-            let terminal = 'serve: loop {
+            'serve: loop {
                 if let Err(error) = observability.poll_health() {
                     recorder.set_observability_pipeline(observability.snapshot());
                     eprintln!("runtime observability pipeline failed: {error}");
@@ -508,10 +479,6 @@ async fn main() -> ExitCode {
                         let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
                         break 'serve ExitCode::from(70);
                     },
-                    _ = guardian_lease_lost(guardian_lease.as_mut()) => {
-                        eprintln!("event=guardian_lease_lost action=checkpoint_shutdown");
-                        break 'wait TerminalTrigger::GuardianLost;
-                    },
                     };
                 };
 
@@ -527,9 +494,6 @@ async fn main() -> ExitCode {
                     ),
                     TerminalTrigger::Signal => {
                         ("signal", standard_deadline, shutdown_grace, false, None)
-                    }
-                    TerminalTrigger::GuardianLost => {
-                        ("guardian", standard_deadline, shutdown_grace, false, None)
                     }
                     TerminalTrigger::Signed(request) => (
                         "signed",
@@ -585,12 +549,25 @@ async fn main() -> ExitCode {
                 };
                 drain_control_api(&mut api).await;
                 break 'serve terminal;
-            };
-            match observability.shutdown() {
-                Ok(()) => terminal,
+            }
+        }
+        "demo" => {
+            let capsule = capsule_arg(args);
+            match run_proof(&capsule, 3).await {
+                Ok((exit, continuity)) => {
+                    println!(
+                        "{}",
+                        serde_json::json!({
+                            "schema": "adl.runtime_kernel.proof.v1",
+                            "exit": format!("{exit:?}"),
+                            "capsule": continuity,
+                        })
+                    );
+                    ExitCode::SUCCESS
+                }
                 Err(error) => {
-                    eprintln!("runtime observability shutdown failed: {error}");
-                    ExitCode::from(74)
+                    eprintln!("runtime kernel proof failed: {error}");
+                    ExitCode::from(70)
                 }
             }
         }
@@ -639,22 +616,17 @@ async fn main() -> ExitCode {
             }
         }
         _ => {
-            print_usage();
+            eprintln!(
+                "usage: adl-runtime-kernel [serve [--init path] [--continuity-root path]|demo [capsule-path]|shadow-loop|fatal-once [capsule-path]]"
+            );
             ExitCode::from(64)
         }
     }
 }
 
-fn print_usage() {
-    eprintln!(
-        "usage: adl-runtime-kernel [serve [--init path] [--continuity-root path]|shadow-loop|fatal-once [capsule-path]]"
-    );
-}
-
 enum TerminalTrigger {
     Pressure,
     Signal,
-    GuardianLost,
     Signed(CheckpointShutdownRequest),
 }
 
@@ -735,57 +707,6 @@ impl ShutdownSignalReceiver {
             (&mut self.ctrl_c).await
         }
     }
-}
-
-async fn connect_guardian_lease() -> Result<Option<TcpStream>, String> {
-    let required = std::env::var(GUARDIAN_REQUIRED_ENV).is_ok_and(|value| value == "1");
-    let address = std::env::var(GUARDIAN_LEASE_ADDRESS_ENV).ok();
-    let token = std::env::var(GUARDIAN_LEASE_TOKEN_ENV).ok();
-    let (address, token) = match (address, token) {
-        (None, None) if !required => return Ok(None),
-        (Some(address), Some(token)) if !address.is_empty() && !token.is_empty() => {
-            (address, token)
-        }
-        _ => return Err("required lease address and token are missing".to_owned()),
-    };
-    let parsed = address
-        .parse::<std::net::SocketAddr>()
-        .map_err(|_| "lease address is invalid".to_owned())?;
-    if !parsed.ip().is_loopback() {
-        return Err("lease address must be loopback".to_owned());
-    }
-    let mut stream = tokio::time::timeout(
-        std::time::Duration::from_secs(5),
-        TcpStream::connect(parsed),
-    )
-    .await
-    .map_err(|_| "lease connection timed out".to_owned())?
-    .map_err(|error| format!("lease connection failed: {error}"))?;
-    stream
-        .write_all(token.as_bytes())
-        .await
-        .map_err(|error| format!("lease authentication failed: {error}"))?;
-    let mut acknowledgement = [0_u8; 2];
-    tokio::time::timeout(
-        std::time::Duration::from_secs(5),
-        stream.read_exact(&mut acknowledgement),
-    )
-    .await
-    .map_err(|_| "lease authentication timed out".to_owned())?
-    .map_err(|error| format!("lease authentication failed: {error}"))?;
-    if acknowledgement != *b"ok" {
-        return Err("lease authentication was refused".to_owned());
-    }
-    Ok(Some(stream))
-}
-
-async fn guardian_lease_lost(lease: Option<&mut TcpStream>) {
-    let Some(lease) = lease else {
-        std::future::pending::<()>().await;
-        return;
-    };
-    let mut unexpected = [0_u8; 1];
-    let _ = lease.read(&mut unexpected).await;
 }
 
 async fn file_hash(path: &std::path::Path) -> std::io::Result<String> {

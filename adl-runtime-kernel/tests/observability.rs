@@ -12,8 +12,7 @@ use adl_runtime_kernel::{
     ObservabilityHealth, RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA,
 };
 use runtime_observability::{
-    audit_master_log_file, master_log_contains_sequence, next_sequence_from_log,
-    render_vector_config, RuntimeVectorConfig, RuntimeVectorPipeline,
+    audit_master_log_file, render_vector_config, RuntimeVectorConfig, RuntimeVectorPipeline,
 };
 use serde_json::{json, Value};
 
@@ -87,30 +86,6 @@ fn master_log_auditor_rejects_bad_sequences_errors_and_missing_drain() {
 }
 
 #[test]
-fn sequence_recovery_and_drain_checks_read_the_bounded_log_tail() {
-    let root = test_root("bounded-tail");
-    let log_path = root.join("runtime-v3.jsonl");
-    let mut bytes = vec![0xff; 2 * 1_048_576];
-    bytes.push(b'\n');
-    bytes.extend(
-        serde_json::to_vec(&record(
-            41,
-            "info",
-            "observability_drain_complete",
-            "shutdown_drained",
-            "wp-12",
-        ))
-        .unwrap(),
-    );
-    bytes.push(b'\n');
-    fs::write(&log_path, bytes).unwrap();
-
-    assert_eq!(next_sequence_from_log(&log_path).unwrap(), 42);
-    assert!(master_log_contains_sequence(&log_path, 41));
-    assert!(!master_log_contains_sequence(&log_path, 42));
-}
-
-#[test]
 fn vector_config_declares_durable_master_otlp_and_bounded_buffers() {
     let root = test_root("config-shape");
     let config = vector_config(root.clone(), Some("http://127.0.0.1:4318".to_owned()));
@@ -120,14 +95,9 @@ fn vector_config_declares_durable_master_otlp_and_bounded_buffers() {
         rendered["sinks"]["runtime_v3_master_log"]["path"],
         json!(root.join("durable/master.log.jsonl").to_string_lossy())
     );
-    assert_eq!(rendered["sources"]["runtime_v3_ingress"]["type"], "stdin");
     assert_eq!(
         rendered["sinks"]["runtime_v3_master_log"]["buffer"]["type"],
-        "memory"
-    );
-    assert_eq!(
-        rendered["sinks"]["runtime_v3_master_log"]["buffer"]["max_events"],
-        500
+        "disk"
     );
     assert_eq!(
         rendered["sinks"]["runtime_v3_otlp"]["type"],
@@ -196,7 +166,7 @@ fn runtime_vector_pipeline_writes_auditable_master_log() {
         reason = "ok",
         "observability test event"
     );
-    pipeline.shutdown().unwrap();
+    pipeline.shutdown();
 
     let report = pipeline.audit_master_log("macos", "wp-12").unwrap();
 

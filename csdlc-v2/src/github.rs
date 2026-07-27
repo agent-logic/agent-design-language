@@ -5,7 +5,10 @@ use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::collections::{BTreeMap, BTreeSet};
 
+use adl_resilience::{execute_retry_policy_async_with_classifier, RetryPolicyError, RetryPolicyV1};
+
 #[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct PrStateRequest {
     pub repository: String,
     pub pull_request: u64,
@@ -74,6 +77,23 @@ pub struct GithubActionRequest {
     pub linked_issue: Option<u64>,
 }
 
+impl TryFrom<&GithubActionRequest> for PrStateRequest {
+    type Error = crate::V2Error;
+
+    fn try_from(request: &GithubActionRequest) -> crate::Result<Self> {
+        Ok(Self {
+            repository: request.repository.clone(),
+            pull_request: request.pull_request.ok_or_else(|| {
+                crate::V2Error::new(crate::ErrorCode::InvalidInput, "pull_request is required")
+            })?,
+            required_checks: request.required_checks.clone(),
+            require_review: request.require_review,
+            token_file: request.token_file.clone(),
+            linked_issue: request.linked_issue,
+        })
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct GithubIssuePacket {
     pub schema: String,
@@ -105,16 +125,7 @@ pub async fn execute_github_action(
 ) -> crate::Result<GithubActionResult> {
     validate_request(request)?;
     if matches!(request.action, GithubAction::PrState) {
-        let pr_request = PrStateRequest {
-            repository: request.repository.clone(),
-            pull_request: request.pull_request.ok_or_else(|| {
-                crate::V2Error::new(crate::ErrorCode::InvalidInput, "pull_request is required")
-            })?,
-            required_checks: request.required_checks.clone(),
-            require_review: request.require_review,
-            token_file: request.token_file.clone(),
-            linked_issue: request.linked_issue,
-        };
+        let pr_request = PrStateRequest::try_from(request)?;
         let pr_state = collect_pr_state(&pr_request).await?;
         return Ok(GithubActionResult {
             schema: "csdlc.github_action_result.v1".into(),
@@ -320,16 +331,77 @@ async fn reconcile_issue_create(
                 "created issue has no number",
             )
         })?;
-    let matches = find_marked_issues(crab, owner, repo, marker).await?;
-    if matches != vec![number] {
-        return Err(crate::V2Error::new(
-            crate::ErrorCode::ReconciliationRequired,
-            "created issue marker readback is ambiguous",
-        ));
-    }
-    let packet = read_issue_packet(crab, owner, repo, number, Some(marker)).await?;
+    let packet = read_created_issue_packet(crab, owner, repo, number, marker).await?;
     verify_issue_identity(&packet, request)?;
     Ok(packet)
+}
+
+async fn read_created_issue_packet(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    number: u64,
+    marker: &str,
+) -> crate::Result<GithubIssuePacket> {
+    let policy = RetryPolicyV1::new(4, Some(250));
+    let execution = execute_retry_policy_async_with_classifier(
+        &policy,
+        |_| async {
+            let packet = read_issue_packet(crab, owner, repo, number, Some(marker)).await?;
+            if packet.marker_present {
+                Ok(packet)
+            } else {
+                reconcile_created_issue_by_marker_search(crab, owner, repo, number, marker).await
+            }
+        },
+        is_retryable_created_issue_readback,
+        tokio::time::sleep,
+    )
+    .await
+    .map_err(retry_policy_error)?;
+    execution.result
+}
+
+async fn reconcile_created_issue_by_marker_search(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    number: u64,
+    marker: &str,
+) -> crate::Result<GithubIssuePacket> {
+    let matches = find_marked_issue_packets(crab, owner, repo, marker).await?;
+    match matches.as_slice() {
+        [packet] if packet.number == number => Ok(packet.clone()),
+        [] => Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "created issue marker search found no matching issue",
+        )),
+        [packet] => Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            format!(
+                "created issue marker search found different issue {} instead of {}",
+                packet.number, number
+            ),
+        )),
+        _ => Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "created issue marker search found multiple matching issues",
+        )),
+    }
+}
+
+fn is_retryable_created_issue_readback(error: &crate::V2Error) -> bool {
+    error.code == crate::ErrorCode::ReconciliationRequired
+        && error
+            .message
+            .contains("created issue marker search found no matching issue")
+}
+
+fn retry_policy_error(error: RetryPolicyError) -> crate::V2Error {
+    crate::V2Error::new(
+        crate::ErrorCode::ValidationFailed,
+        format!("GitHub readback retry policy failed: {error:?}"),
+    )
 }
 
 async fn update_issue(
@@ -536,6 +608,19 @@ async fn find_marked_issues(
     repo: &str,
     marker: &str,
 ) -> crate::Result<Vec<u64>> {
+    Ok(find_marked_issue_packets(crab, owner, repo, marker)
+        .await?
+        .into_iter()
+        .map(|packet| packet.number)
+        .collect())
+}
+
+async fn find_marked_issue_packets(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    marker: &str,
+) -> crate::Result<Vec<GithubIssuePacket>> {
     let query = format!(
         "repo:{owner}/{repo} type:issue in:body {}",
         marker_line(marker)
@@ -553,12 +638,12 @@ async fn find_marked_issues(
         .into_iter()
         .flatten()
         .filter_map(|item| item.get("number").and_then(Value::as_u64))
-        .collect::<Vec<_>>();
+        .collect::<BTreeSet<_>>();
     let mut exact_matches = Vec::new();
     for number in candidates {
         let packet = read_issue_packet(crab, owner, repo, number, Some(marker)).await?;
         if packet.marker_present {
-            exact_matches.push(number);
+            exact_matches.push(packet);
         }
     }
     Ok(exact_matches)
@@ -717,16 +802,51 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
             "PR head is absent",
         )
     })?;
-    let page = crab
+    let mut page_number = 1_u32;
+    let first_page = crab
         .checks(owner, repo)
         .list_check_runs_for_git_ref(Commitish(head.sha.clone()))
         .per_page(100)
+        .page(page_number)
         .send()
         .await
         .map_err(remote)?;
+    let total = first_page.total_count as usize;
+    let mut check_runs = first_page.check_runs;
+    while check_runs.len() < total {
+        page_number += 1;
+        let next_page = crab
+            .checks(owner, repo)
+            .list_check_runs_for_git_ref(Commitish(head.sha.clone()))
+            .per_page(100)
+            .page(page_number)
+            .send()
+            .await
+            .map_err(remote)?;
+        if next_page.check_runs.is_empty() {
+            return Err(crate::V2Error::new(
+                crate::ErrorCode::ReconciliationRequired,
+                "GitHub check-run pagination ended before total_count",
+            ));
+        }
+        check_runs.extend(next_page.check_runs);
+    }
     let mut latest = BTreeMap::new();
-    for run in page.check_runs {
-        latest.insert(run.name.clone(), run);
+    for run in check_runs {
+        let replace =
+            latest
+                .get(&run.name)
+                .is_none_or(|prior: &octocrab::models::checks::CheckRun| {
+                    run_is_newer(
+                        run.started_at.map(|time| time.timestamp_millis()),
+                        run.id.0,
+                        prior.started_at.map(|time| time.timestamp_millis()),
+                        prior.id.0,
+                    )
+                });
+        if replace {
+            latest.insert(run.name.clone(), run);
+        }
     }
     let checks = latest
         .into_values()
@@ -799,6 +919,21 @@ fn conclusion(value: Option<&str>) -> &'static str {
         _ => "unknown",
     }
 }
+
+fn run_is_newer(
+    candidate_started_millis: Option<i64>,
+    candidate_id: u64,
+    prior_started_millis: Option<i64>,
+    prior_id: u64,
+) -> bool {
+    candidate_started_millis.zip(prior_started_millis).map_or(
+        candidate_id >= prior_id,
+        |(candidate_started, prior_started)| {
+            (candidate_started, candidate_id) >= (prior_started, prior_id)
+        },
+    )
+}
+
 fn remote(error: octocrab::Error) -> crate::V2Error {
     crate::V2Error::new(
         crate::ErrorCode::RemoteFailure,
@@ -835,5 +970,15 @@ mod tests {
         assert_eq!(classify_pr_state(&packet("success"), true), "ready");
         assert_eq!(classify_pr_state(&packet("pending"), false), "waiting");
         assert_eq!(classify_pr_state(&packet("failure"), false), "failed");
+    }
+
+    #[test]
+    fn newer_check_run_identity_replaces_stale_duplicate_name() {
+        assert!(run_is_newer(Some(20), 20, Some(10), 10));
+        assert!(run_is_newer(Some(20), 30, Some(20), 20));
+        assert!(run_is_newer(None, 30, Some(20), 20));
+        assert!(run_is_newer(Some(20), 30, None, 20));
+        assert!(!run_is_newer(Some(10), 30, Some(20), 20));
+        assert!(!run_is_newer(None, 10, Some(20), 20));
     }
 }
