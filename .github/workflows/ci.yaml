@@ -179,7 +179,7 @@ jobs:
   adl_tooling_contracts:
     name: adl-tooling-contracts
     needs: adl_path_policy
-    if: needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true'
+    if: needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && needs.adl_path_policy.outputs.ci_contracts_required == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read

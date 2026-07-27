@@ -412,6 +412,16 @@ is_validation_manager_test_deferral_workflow_change() {
   [ "$saw_deferral" = true ]
 }
 
+is_docs_tooling_contract_gate_workflow_change() {
+  local path="$1"
+  [ "$path" = ".github/workflows/ci.yaml" ] || return 1
+  local changed_payload
+  changed_payload="$(git_pr_patch "$path" | awk '/^[+-]/ && $0 !~ /^(---|\+\+\+)/ { print }')"
+  [ "$(printf '%s\n' "$changed_payload" | sed '/^$/d' | wc -l | tr -d ' ')" -eq 2 ] || return 1
+  grep -F -- "-    if: needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true'" <<<"$changed_payload" >/dev/null || return 1
+  grep -F -- "+    if: needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && needs.adl_path_policy.outputs.ci_contracts_required == 'true'" <<<"$changed_payload" >/dev/null || return 1
+}
+
 is_validation_summary_and_reporting_workflow_change() {
   local path="$1"
   [ "$path" = ".github/workflows/ci.yaml" ] || return 1
@@ -1550,6 +1560,10 @@ EOF
           continue
         fi
         if is_full_coverage_policy_surface "$path"; then
+          if is_docs_tooling_contract_gate_workflow_change "$path"; then
+            reason="docs_tooling_contract_gate_change_skips_authoritative_coverage"
+            continue
+          fi
           if is_validation_profile_summary_workflow_change "$path"; then
             reason="validation_profile_summary_workflow_change_skips_authoritative_coverage"
             continue
