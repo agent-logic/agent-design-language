@@ -3,13 +3,13 @@
   "issue": 5686,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4596ba7749c802bc3bdc53df41c48eecce8cdeee5b25e059a41d4402149d646e",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "14719855eada419b1ee3eda8e79abe85ecc91bd4406cbfc215d580b3bd130995",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "868929c59a6089fd75b0660f13483ae2ba78a9d0cfcb020e8450b6e0736d7a61",
   "claim": {
     "id": "claim-5686-publish-5662-terminal-projection",
     "owner": "codex:issue-5686-terminal-projection",
-    "generation": 4,
+    "generation": 5,
     "acquired_unix_seconds": 1785114576,
     "expires_unix_seconds": 1785719376,
     "heartbeat_unix_seconds": 1785114576,
@@ -118,32 +118,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "364eb1cdff25e516b7132594548811d79bfcad9365f8193023bf408d92807da8",
+      "values_digest": "e9a538d6e7da3966be2d7d0299d7bb7d4b72e854d0374a2d38dd28058c74c985",
       "rendered_digest": "0d7713241fe900c8d8579564c26b48b39c451b7d4435d292ca621efeb3136c3c",
       "ast_digest": "8a15b3a2dd4fccf451651961e2b68f07f6570a2a897d8c24ebc7bcd6e11e14d1"
     },
     "stp": {
-      "values_digest": "7f1640d9a14e2d088babdeac524f18e7c449f2138b2b45f7d1227e5e6652d4ea",
+      "values_digest": "82a3c092289a67439101e99abd3376f274a05a2b9c48860ac8e34a1f51677b71",
       "rendered_digest": "840697839468764076aa5373208a9cfec8ebfcea542995afa8ac9e631ae7755b",
       "ast_digest": "141aecbb2a2742b6efd4f844be0ea23af0bddd22b322662f0900eeb2b2f487a1"
     },
     "spp": {
-      "values_digest": "2fc2a47c6f031c7fd64b9f80d86ce6e3731367522dde4f5817ee9e00ef3a91d0",
+      "values_digest": "ceee06b157e97c72b5276bd1afa3cd1580e70d8651a192472746800c7c4af6a4",
       "rendered_digest": "8e14fc0ba38b1d85da6f7ddab5c62ffb45d01df6385333a3ee368981e495af87",
       "ast_digest": "94b7106a85f3d312f1eb6be261310607ea928638fbeed380843e6a8795120881"
     },
     "vpp": {
-      "values_digest": "26866b41fe024feb5f3b11b2c17fb915ff3f598b99c52e6e71422c021bc31290",
+      "values_digest": "d0f38351cd55bea947e8e29c3290a600570d9403ef047b05225490218c9da10c",
       "rendered_digest": "e1e0d880dcf30a09930ba69a3b9e6aa7005d4a6a429a8466360d33b3b4771fd1",
       "ast_digest": "3bb96ba1209fbe10069342b218226715be2fd5b1f35f03f5d7195f1dff47afb6"
     },
     "srp": {
-      "values_digest": "819b56fc1d92bfe6cd303fea462e6be93750d1ce526ea2b420d0673f8e0a5171",
+      "values_digest": "dbe18d7072cf2c63fc460598652d3f966d82d7be145096851d3a389b3f1c49de",
       "rendered_digest": "683935c89a620307543f09217a9734774e22df816ccd7dd9f375dab2c1459d58",
       "ast_digest": "b12b35088bf0fea14e5537eea9767a6dd1a4aa6d63cda1b8d71673c2218db098"
     },
     "sor": {
-      "values_digest": "e675ce3bfa1be12f6845249b80c7a05b43e21a3cfcc609a1f549e1dabeb7fc99",
+      "values_digest": "2070eacd71ab1dfc2fc5338dc841b06fb141b68c9462bf8e79f4418512c4d476",
       "rendered_digest": "9e1a7e58c877c8aac30098d5fdaf6749e10b59abfe753aab162a69f3563b52bc",
       "ast_digest": "63f2423fdbf966d85a1cac1d582e825bc1f44b31295e3af852bb3e9f4ec4c451"
     }
@@ -169,6 +169,13 @@
       "to": "implemented",
       "actor": "codex:issue-5686-terminal-projection",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5686-terminal-projection",
+      "reason": "Enter reviewed phase after the compatibility review assignment and passing exact-head evidence were recorded."
     }
   ],
   "audit": [
@@ -220,6 +227,13 @@
       "actor": "codex:issue-5686-terminal-projection",
       "reason": "atomically record assigned review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-5686-terminal-projection",
+      "reason": "Enter reviewed phase after the compatibility review assignment and passing exact-head evidence were recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
