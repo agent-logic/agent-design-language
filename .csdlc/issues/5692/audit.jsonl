@@ -7,3 +7,4 @@
 {"sequence":7,"generation":4,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"advance #5692 after implementation and focused proof","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
 {"sequence":8,"generation":5,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":9,"generation":6,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":10,"generation":7,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"Recover #5692 from published stale remote head after preserving publication metadata locally; re-review and republish exact current head.","operation":"recover_review"}

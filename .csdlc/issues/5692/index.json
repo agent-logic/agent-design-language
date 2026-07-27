@@ -3,13 +3,13 @@
   "issue": 5692,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0e010b7be5b7702ce678c559ba77b16bd11d31729435c80922445f1ad4bf4d78",
-  "phase": "published",
-  "generation": 6,
-  "digest": "ec82755c25c1a90fd92b0c14a8a72cf723dd857392e9f53b12978875cd1580a4",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "fbf9961aec7da29cb5a96a43a871591a683b78011e11befaf9d897343c9d1993",
   "claim": {
     "id": "claim-5692-pr-closing-linkage-policy",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 6,
+    "generation": 7,
     "acquired_unix_seconds": 1785120624,
     "expires_unix_seconds": 1785207024,
     "heartbeat_unix_seconds": 1785120624,
@@ -28,44 +28,8 @@
     "purpose": "implement #5692 PR closing linkage policy and publish verifier"
   },
   "review_assignment": null,
-  "review": {
-    "reviewer": "bounded-subagent:019fa471-1206-7ab2-b567-b31f2cb1a3c3",
-    "scope": [
-      "AGENTS.md",
-      "csdlc-v2/src/bin/csdlc-publish.rs",
-      "csdlc-v2/src/publication.rs",
-      "csdlc-v2/tests/gate6.rs"
-    ],
-    "reviewed_revision": "git-blake3:b23a8f87e76536fdbf65a6be78ca64b2a3918b19:a7e4c35e19734c21bc504eb8d84721230270f247278c7a764d1d1f3dc238a4a9",
-    "findings": [
-      {
-        "id": "5692-P1-qualified-cross-repo-closing-ref",
-        "severity": "p1",
-        "summary": "Repository-qualified closing references must match the governed repository; wrong/repo#5692 cannot satisfy ADL issue auto-close linkage.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:b23a8f87e76536fdbf65a6be78ca64b2a3918b19:a7e4c35e19734c21bc504eb8d84721230270f247278c7a764d1d1f3dc238a4a9",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "No live PR body was observed before publication; csdlc-publish will validate the publication request and remote PR body again during publication."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5692,
-    "pull_request": 5696,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5696",
-    "base": "main",
-    "head": "codex/5692-pr-closing-linkage-policy",
-    "revision": "git-blake3:b23a8f87e76536fdbf65a6be78ca64b2a3918b19:a7e4c35e19734c21bc504eb8d84721230270f247278c7a764d1d1f3dc238a4a9",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -79,34 +43,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "116778c7e3a7097320687688d7f6d3314f790ad50253181f6acbdbbce323b1a8",
+      "values_digest": "970fbe0a11dcf6a64793f38120ac6e34260b1b7faffd486b64e6db882262f07a",
       "rendered_digest": "fb06afcbe05e997154f8494d15eecb2f5fa4004055371e5f7c2327642025e0b1",
       "ast_digest": "30aa7387442b636f648ee359f0ba7178ac0bab9c295b7efa23f1c2da11fe2012"
     },
     "stp": {
-      "values_digest": "7bc1349692cf59c499896df1129e469cf9588c3cb620cf03b08b8e858658242c",
+      "values_digest": "c0284aa4ea5d676db38a7323fca76be53bfacf2092f4a86da098517fa17eecf4",
       "rendered_digest": "d04f8b7b350117a2f4ba630e97e775fd87b80162e83fd7261e92cfcd520f8b02",
       "ast_digest": "99909f5eb3bfa5ad3da5d25694994b7fd7c3eabc5ab27d1ddf6c85bb5f656282"
     },
     "spp": {
-      "values_digest": "f0b074261007886d8da346ba0ca2d934aff05504a3e45de5f48bd2fe0b41e51c",
+      "values_digest": "4bc8b96b0ec00b12299f58f744c10fba609a71a6b85648294d690be149fb8ae2",
       "rendered_digest": "16c40f6083c864198702121b815fc40d6e2913d75efa2749b3d8133075a505e2",
       "ast_digest": "4a0a5df7ab0c21c6c26dce9e9c48611f0e4cb2542a27de482be00f210e9df61d"
     },
     "vpp": {
-      "values_digest": "01ecf0c35ea8ddf7466f53dca6e13aeb04746a7063aa26d516ce85401b4b7461",
+      "values_digest": "5c90368a0c23c81111a0214bbcfc9c392055f3277514fd5cacf5473027a077c6",
       "rendered_digest": "3d5707e4104ed5851f2f79dd02e44c59e32f782ea57b6c0e2109c6c9b6fcb249",
       "ast_digest": "b17c8ebdf1a3a7d5ae0bc96935d661c78800c476c99cdd7e8d7097a0a896ec55"
     },
     "srp": {
-      "values_digest": "528d53675d6b44f4fc830a42d34f65c6aee9f222964d49106cb5553a438b42e2",
-      "rendered_digest": "fdf5861e6b734ccb429a57639422b63c01619b3fc5393f4ef179c66e77bf5051",
-      "ast_digest": "1dd485e86bcb2df5dcc43fc01d7b9b87237976e4f63b3d9293b13a8f45c6c534"
+      "values_digest": "b723486cbdd013a9b7f2e01e42f44950af96fe044c1c8f93cd007a6c3041a3e1",
+      "rendered_digest": "7805d8109c5f6ca96abdbc6498cec6c9053c1f665774f62cfe7674a3bac973d2",
+      "ast_digest": "ba131a2b1fd066bf91d1752f5410a8107aa19a107c9286252e347fc73fcd9c2b"
     },
     "sor": {
-      "values_digest": "109928487b46c18bc1e9c241ce100fdcacbd0fd7b13f9e5e70a041edd0be9c08",
-      "rendered_digest": "c48a489da229c539a4c82e790a930798685ab847544e5a2e3ee4d7fa10bd9042",
-      "ast_digest": "7dfc6cdec6790bc766d9142bfb5143d5cf200f21cc156dd3860f5e82842653e7"
+      "values_digest": "c312324587ea9aafd0558721d032a29de7f8be5f723edf2f4cff6c040a12ad78",
+      "rendered_digest": "a87af08a232e929837cbf235be5d1255212eaff6d8bc1a868c63d7b3f95f46e4",
+      "ast_digest": "e93e48f629fd2763a6f67654c9024b6745dd31d6fc7fda6ac428b23487126341"
     }
   },
   "transitions": [
@@ -144,6 +108,13 @@
       "to": "published",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Recover #5692 from published stale remote head after preserving publication metadata locally; re-review and republish exact current head."
     }
   ],
   "audit": [
@@ -209,6 +180,13 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Recover #5692 from published stale remote head after preserving publication metadata locally; re-review and republish exact current head.",
+      "operation": "recover_review"
     }
   ]
 }

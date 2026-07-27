@@ -7,34 +7,21 @@
     "title": "[v0.91.8][csdlc-v2][publication] Require implementation PR closing keyword",
     "slug": "pr-closing-linkage-policy",
     "version": "v0.91.8",
-    "generation": 6
+    "generation": 7
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "AGENTS.md\ncsdlc-v2/src/bin/csdlc-publish.rs\ncsdlc-v2/src/publication.rs\ncsdlc-v2/tests/gate6.rs",
-      "review_revision": "git-blake3:b23a8f87e76536fdbf65a6be78ca64b2a3918b19:a7e4c35e19734c21bc504eb8d84721230270f247278c7a764d1d1f3dc238a4a9",
-      "reviewer": "bounded-subagent:019fa471-1206-7ab2-b567-b31f2cb1a3c3",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Review only AGENTS.md closing-keyword policy wording, csdlc-v2 publication body validation, and focused tests. Findings first; no workflow rewrite."
       ],
-      "findings": [
-        {
-          "id": "5692-P1-qualified-cross-repo-closing-ref",
-          "severity": "p1",
-          "summary": "Repository-qualified closing references must match the governed repository; wrong/repo#5692 cannot satisfy ADL issue auto-close linkage.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:b23a8f87e76536fdbf65a6be78ca64b2a3918b19:a7e4c35e19734c21bc504eb8d84721230270f247278c7a764d1d1f3dc238a4a9",
-          "route": null
-        }
-      ],
-      "residual_risk": [
-        "No live PR body was observed before publication; csdlc-publish will validate the publication request and remote PR body again during publication."
-      ],
-      "review_result": "pass"
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
