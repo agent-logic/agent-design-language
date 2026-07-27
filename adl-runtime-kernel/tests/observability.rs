@@ -123,7 +123,11 @@ fn vector_config_declares_durable_master_otlp_and_bounded_buffers() {
     assert_eq!(rendered["sources"]["runtime_v3_ingress"]["type"], "stdin");
     assert_eq!(
         rendered["sinks"]["runtime_v3_master_log"]["buffer"]["type"],
-        "disk"
+        "memory"
+    );
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_master_log"]["buffer"]["max_events"],
+        500
     );
     assert_eq!(
         rendered["sinks"]["runtime_v3_otlp"]["type"],

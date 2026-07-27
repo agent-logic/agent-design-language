@@ -546,7 +546,7 @@ pub fn render_vector_config(root: &Path, config: &RuntimeVectorConfig) -> Value 
             "inputs": ["runtime_v3_redacted"],
             "path": path("durable/master.log.jsonl"),
             "encoding": {"codec": "json"},
-            "buffer": {"type": "disk", "max_size": 268435488, "when_full": "block"}
+            "buffer": {"type": "memory", "max_events": 500, "when_full": "block"}
         }),
     );
     transforms.insert(
