@@ -323,7 +323,6 @@ impl RuntimeVectorPipeline {
                         .flush()
                         .map_err(|error| format!("observability_ingress_flush_failed:{error}"))?;
                 }
-                ingress.take();
             }
             self.drain_complete = self.terminate_vector_after_drain(drain_sequence);
             if !self.drain_complete {
@@ -359,6 +358,9 @@ impl RuntimeVectorPipeline {
             }
             sleep(Duration::from_millis(10));
             durable = master_log_contains_sequence(&self.master_log_path, sequence);
+        }
+        if let Ok(mut ingress) = self.ingress.lock() {
+            ingress.take();
         }
         signal_vector_shutdown(&mut child);
         while Instant::now() < deadline {
