@@ -131,16 +131,14 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let operation_executors = match build_production_operation_executors(
-                operation_state_identity.clone(),
-                recorder.clone(),
-            ) {
-                Ok(executors) => executors,
-                Err(error) => {
-                    eprintln!("runtime local adapter state root is invalid: {error}");
-                    return ExitCode::from(78);
-                }
-            };
+            let operation_executors =
+                match build_production_operation_executors(operation_state_identity.clone()) {
+                    Ok(executors) => executors,
+                    Err(error) => {
+                        eprintln!("runtime local adapter state root is invalid: {error}");
+                        return ExitCode::from(78);
+                    }
+                };
             if let Err(error) = validate_production_operation_executors(&operation_executors) {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);

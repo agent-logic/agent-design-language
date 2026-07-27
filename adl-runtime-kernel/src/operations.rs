@@ -276,7 +276,6 @@ fn notify_in_flight_owner_error(
 pub struct OperationalFactory {
     adapter: Arc<OperationalAdapter>,
     dependencies: Vec<ComponentId>,
-    inputs: Vec<PortSpec>,
     sender: BoundedSender<OperationEnvelope>,
     receiver: Arc<Mutex<BoundedReceiver<OperationEnvelope>>>,
     accepting: Arc<RwLock<bool>>,
@@ -284,27 +283,10 @@ pub struct OperationalFactory {
 
 impl OperationalFactory {
     pub fn new(adapter: Arc<OperationalAdapter>, dependencies: Vec<ComponentId>) -> Self {
-        let inputs = adapter.spec(dependencies.clone()).inputs;
-        Self::with_inputs(adapter, dependencies, inputs)
-    }
-
-    pub fn with_control_dependencies(
-        adapter: Arc<OperationalAdapter>,
-        dependencies: Vec<ComponentId>,
-    ) -> Self {
-        Self::with_inputs(adapter, dependencies, Vec::new())
-    }
-
-    fn with_inputs(
-        adapter: Arc<OperationalAdapter>,
-        dependencies: Vec<ComponentId>,
-        inputs: Vec<PortSpec>,
-    ) -> Self {
         let (sender, receiver) = channel(adapter.policy.capacity, ChannelFullPolicy::Reject);
         Self {
             adapter,
             dependencies,
-            inputs,
             sender,
             receiver: Arc::new(Mutex::new(receiver)),
             accepting: Arc::new(RwLock::new(true)),
@@ -398,9 +380,7 @@ impl Component for OperationalComponent {
 
 impl ComponentFactory for OperationalFactory {
     fn spec(&self) -> ComponentSpec {
-        let mut spec = self.adapter.spec(self.dependencies.clone());
-        spec.inputs = self.inputs.clone();
-        spec
+        self.adapter.spec(self.dependencies.clone())
     }
 
     fn build(&self) -> Box<dyn Component> {

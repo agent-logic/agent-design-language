@@ -10,8 +10,7 @@ use adl_runtime_kernel::{
     AdapterKind, AdapterPolicy, AuthorityMode, ExecutionPermit, FailureClass, OperationError,
     OperationExecutor, OperationRequest, OperationalAdapter, ProtocolAdapter, ProtocolEndpoint,
     ProtocolFrame, ProtocolResponse, ProtocolSecret, ProtocolSecurity, ProtocolStatus,
-    RuntimeRecorder, MAX_PROTOCOL_FRAME_FRESHNESS_MILLIS, MAX_PROTOCOL_RESPONSE_BYTES,
-    OPERATION_REQUEST_SCHEMA,
+    MAX_PROTOCOL_FRAME_FRESHNESS_MILLIS, MAX_PROTOCOL_RESPONSE_BYTES, OPERATION_REQUEST_SCHEMA,
 };
 use ed25519_dalek::SigningKey;
 use rcgen::{generate_simple_self_signed, CertifiedKey};
@@ -798,11 +797,7 @@ fn production_builder_returns_no_partial_executors_when_protocol_config_is_missi
     }
     let executors = build_protocol_production_operation_executors();
     let root = TempDir::new().unwrap();
-    let canonical = build_production_operation_executors(
-        root.path().join("local-state"),
-        RuntimeRecorder::new(16),
-    )
-    .unwrap();
+    let canonical = build_production_operation_executors(root.path().join("local-state")).unwrap();
     for (key, value) in previous {
         if let Some(value) = value {
             env::set_var(key, value);
