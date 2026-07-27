@@ -608,6 +608,9 @@ fn weather_health_report_serializes_stop_policy_and_gpu_non_pass_state() {
 fn vector_boundary_declares_cloudwatch_emf_route_without_kernel_exporter() {
     let vector_config = include_str!("../vector/runtime-v3.yaml");
 
+    assert!(vector_config.contains("runtime_v3_master_log"));
+    assert!(vector_config.contains("runtime_v3_otlp"));
+    assert!(vector_config.contains("${ADL_RUNTIME_V3_MASTER_LOG}"));
     assert!(vector_config.contains("runtime_v3_cloudwatch_emf"));
     assert!(vector_config.contains("ADL/RuntimeV3"));
     assert!(vector_config.contains("CloudWatchMetrics"));

@@ -1,0 +1,120 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5691,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "93fb8bb9549834cea33762de65cc0a71e0bd13731185901887c0a135b00c7866",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "853a537f040b95ebc143be1f0506470fe9b8fe3df385e9f9e5e76b03d095366c",
+  "claim": {
+    "id": "claim-5691-runtime-v3-vector-otel",
+    "owner": "codex:5691-runtime-v3-vector-otel",
+    "generation": 0,
+    "acquired_unix_seconds": 1785120116,
+    "expires_unix_seconds": 1785724916,
+    "heartbeat_unix_seconds": 1785120116,
+    "branch": "codex/5691-runtime-v3-vector-otel",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5691",
+      ".csdlc/issues/5691",
+      ".csdlc/locks/5691.lock",
+      ".csdlc/prepared/issues/5691",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/observability.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/observability.rs",
+      "adl-runtime-kernel/vector/runtime-v3.yaml",
+      "adl/tools/install_vector_component.ps1",
+      "adl/tools/install_vector_component.sh"
+    ],
+    "purpose": "Implement Runtime v3 tracing to pinned Vector OTEL/durable master logging parity"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5691/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5691/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:issue-5691-body",
+      "revision": "13f250b1e7c82f3bb0aa7d0dc41f77547639292508eb8c680e48813e8af58002"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "500521f5b9b31a814498b6cfd7e7bb7d204cd18aacf50b2c35be114c95a65b9a",
+      "rendered_digest": "cb4894b03fdb8c47ee365e92f8af8072c7559724a8743d0f285bc69ff33b62d8",
+      "ast_digest": "060d409f6da985c7a45f86ff7d00791a6b2c1ccdbe1af6c4d30f78c1bdc0146b"
+    },
+    "stp": {
+      "values_digest": "40f12a33e97944767008dfa8240e6b7bb81ea27a1e4403707d42069f1152e100",
+      "rendered_digest": "753b35fbc984d857b17d7ed116d50e25489343ebd4d1da05f2781624da1d7429",
+      "ast_digest": "a88710b807d9cecd2a03f561f83fa91ee48a3410facb654b6d1ea2eacef1316a"
+    },
+    "spp": {
+      "values_digest": "ecfe9060c3db31eb78a0319f3b3724fde5d4c0eeaec69626296453ec3e668c8c",
+      "rendered_digest": "965a094199c3bba1eea9e9533803affeaba95d5357256ff85e3a5023e04db2da",
+      "ast_digest": "2b793e8309173e6f1c998844616acb71b13a5636320004df8578d8306a0075b1"
+    },
+    "vpp": {
+      "values_digest": "859efdc40939010918d78d0aeadb3b676dc3ce31b959994ef56f8e8065061c08",
+      "rendered_digest": "368dea366bfae5a82733d0b64f6179bdae320692c338d27794a6ef7250bf8295",
+      "ast_digest": "8b17faed4ffec54106c01facfd2d68fc1ff5723d105499cd50fa41a35f3fe1cf"
+    },
+    "srp": {
+      "values_digest": "e891d9a6b46d476888c05a524e9715f38839f4d1a4a8987a6acc933f9f7d0121",
+      "rendered_digest": "9c145d60c3e91239ca419cd04c7d6d39c529ae2272ae8a6f20e61903ae8efe7f",
+      "ast_digest": "6ea7021a06d784f933861de3c685374833cc34d878d0afa489723249b9ff3d31"
+    },
+    "sor": {
+      "values_digest": "ef66a3fe6952334a29cb4e6ea3d5080b4e6d9ad5ec664ceae1e9faa7e8f62dcf",
+      "rendered_digest": "2fa6080fb8d538466449423581f25857d26df0fd8683ca7b2e3bcf3496e0c068",
+      "ast_digest": "44f148b58496a58158d91c20edddf71ea6c5a37707332ee7185c422346f455e0"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5691-runtime-v3-vector-otel",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5691-runtime-v3-vector-otel",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5691-runtime-v3-vector-otel",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:5691-runtime-v3-vector-otel",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:5691-runtime-v3-vector-otel",
+      "reason": "Add repo-native macOS/Linux/Windows pinned Vector provisioning paths required by #5691 Runtime v3 master-log acceptance without touching Runtime code outside the existing issue scope.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/install_vector_component.sh\",\"adl/tools/install_vector_component.ps1\"],\"operation\":\"amend_claim_scope\"}"
+    }
+  ]
+}

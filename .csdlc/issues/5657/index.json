@@ -5,31 +5,8 @@
   "initialization_digest": "ef36cef510717d019edeb96f12e5187579cb8c39402fb4270b3a9344a7974e49",
   "phase": "implemented",
   "generation": 2,
-  "digest": "fa376aed6ddd7d15df1394d30c62a41fa156489b6796422a0a4aef7c11cbcd76",
-  "claim": {
-    "id": "claim-5657-runtime-v3-launch-recovery",
-    "owner": "codex:issue-5657-slot-1",
-    "generation": 2,
-    "acquired_unix_seconds": 1784930000,
-    "expires_unix_seconds": 1785534800,
-    "heartbeat_unix_seconds": 1784930000,
-    "branch": "codex/5657-runtime-v3-launch-recovery",
-    "worktree": ".worktrees/adl-wp-5657",
-    "protected_paths": [
-      ".csdlc/evidence/5657",
-      ".csdlc/issues/5657",
-      ".csdlc/locks/5657.lock",
-      ".csdlc/prepared/issues/5657",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "infra/runtime-v3/runtime-init.toml"
-    ],
-    "purpose": "Implement one truthful Guardian-owned Runtime v3 launch and Observatory path"
-  },
+  "digest": "84d1ee502e3122b21be2d31b5a6a04cc80c6976baa2a4055d27f8bd7a76fccc5",
+  "claim": null,
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -127,6 +104,13 @@
       "actor": "codex:issue-5657-runtime-launch",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:5691-runtime-v3-vector-otel",
+      "reason": "Release stale active claim for GitHub-closed #5657 so #5691 can claim production Runtime v3 observability startup/status paths without manual record edits.",
+      "operation": "{\"observation_source\":\"github://danielbaustin/agent-design-language/issues/5657\",\"observed_issue_state\":\"closed\",\"operation\":\"release_closed_claim\"}"
     }
   ]
 }
