@@ -5,8 +5,8 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    serve_control_listener, ControlAuthority, ControlCapability, ControlService, KernelExit,
-    LifecycleControl, RuntimeRecorder, TrustedControlKey, OBSERVATORY_FEED_SCHEMA,
+    serve_control_listener, ControlApiPolicy, ControlAuthority, ControlCapability, ControlService,
+    KernelExit, LifecycleControl, RuntimeRecorder, TrustedControlKey, OBSERVATORY_FEED_SCHEMA,
     OBSERVATORY_WS_AUTH_SCHEMA, OBSERVATORY_WS_PATH,
 };
 use async_trait::async_trait;
@@ -86,7 +86,18 @@ async fn websocket_server(
         .await
         .unwrap();
     let address = listener.local_addr().unwrap();
-    let server = tokio::spawn(serve_control_listener(service, listener, tls));
+    let server = tokio::spawn(serve_control_listener(
+        service,
+        listener,
+        tls,
+        ControlApiPolicy::new(
+            Duration::from_secs(2),
+            Duration::from_secs(5),
+            Duration::from_secs(1),
+            64 * 1024,
+        )
+        .unwrap(),
+    ));
     (address, connector, server)
 }
 
@@ -211,7 +222,33 @@ async fn observatory_websocket_rejects_bad_auth_and_client_data() {
         .send(Message::Binary(vec![1, 2, 3].into()))
         .await
         .unwrap();
-    assert!(matches!(socket.next().await, Some(Ok(Message::Close(_)))));
+    let rejected = tokio::time::timeout(Duration::from_secs(2), async {
+        while let Some(message) = socket.next().await {
+            if let Ok(Message::Text(payload)) = message {
+                let value: serde_json::Value = serde_json::from_str(&payload).unwrap();
+                if value["schema"] == adl_runtime_kernel::ACIP_WEBSOCKET_SCHEMA {
+                    return value;
+                }
+            }
+        }
+        panic!("authenticated Observatory session ended before ACIP rejection");
+    })
+    .await
+    .unwrap();
+    assert_eq!(rejected["status"], "rejected");
+    assert_eq!(rejected["sequence_reserved"], false);
+    socket.send(Message::Ping(Vec::new().into())).await.unwrap();
+    let pong = tokio::time::timeout(Duration::from_secs(2), async {
+        while let Some(message) = socket.next().await {
+            if matches!(message, Ok(Message::Pong(_))) {
+                return true;
+            }
+        }
+        false
+    })
+    .await
+    .unwrap();
+    assert!(pong);
     server.abort();
 }
 

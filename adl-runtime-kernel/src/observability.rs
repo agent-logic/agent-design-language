@@ -5,51 +5,44 @@ use std::{
     path::{Path, PathBuf},
     process::{Child, Command, Stdio},
     sync::{
-        atomic::{AtomicU64, Ordering},
+        atomic::{AtomicBool, AtomicU64, Ordering},
         Arc, Mutex,
     },
     thread::sleep,
-    time::{Duration, Instant, SystemTime},
+    time::{Duration, Instant},
 };
 
 use adl_runtime_kernel::{
-    ObservabilityHealth, ObservabilityPipelineSnapshot, RUNTIME_MASTER_LOG_AUDIT_SCHEMA,
-    RUNTIME_MASTER_LOG_RECORD_SCHEMA, RUNTIME_OBSERVABILITY_PIPELINE_SCHEMA,
+    ObservabilityHealth, ObservabilityPipelineSnapshot, RuntimeObservabilityInitConfig,
+    RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA,
+    RUNTIME_OBSERVABILITY_PIPELINE_SCHEMA,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
+use time::{format_description::well_known::Rfc3339, OffsetDateTime};
 use tracing::{
     field::{Field, Visit},
-    span, Event, Id, Metadata, Subscriber,
+    Event, Metadata, Subscriber,
 };
 use tracing_subscriber::{
+    filter::Targets,
     layer::{Context, Layer},
     prelude::*,
-    registry::LookupSpan,
     Registry,
 };
 
 #[cfg(windows)]
 use std::os::windows::process::CommandExt;
 #[cfg(windows)]
-use windows_sys::Win32::System::{
-    Console::{GenerateConsoleCtrlEvent, CTRL_BREAK_EVENT},
-    Threading::CREATE_NEW_PROCESS_GROUP,
-};
+use windows_sys::Win32::System::Threading::CREATE_NEW_PROCESS_GROUP;
 
 pub const VECTOR_COMPONENT_VERSION: &str = "0.56.0";
-pub const VECTOR_COMPONENT_BINARY_REF: &str = ".adl/bin/vector";
-#[cfg(windows)]
-pub const VECTOR_COMPONENT_WINDOWS_BINARY_REF: &str = ".adl/bin/vector.exe";
-
-const STARTUP_OBSERVATION: Duration = Duration::from_millis(350);
-const DEFAULT_DRAIN_TIMEOUT: Duration = Duration::from_millis(5_000);
-const DEFAULT_OTLP_TIMEOUT_MILLIS: u64 = 5_000;
+const SEQUENCE_CHECKPOINT_SCHEMA: &str = "adl.runtime_v3.observability.sequence.v1";
+static ATOMIC_WRITE_COUNTER: AtomicU64 = AtomicU64::new(0);
 
 #[derive(Clone, Debug)]
 pub struct RuntimeVectorConfig {
     pub vector_binary: PathBuf,
-    pub state_root: PathBuf,
     pub runtime_instance_id: String,
     pub guardian_id: String,
     pub process_id: u32,
@@ -60,72 +53,56 @@ pub struct RuntimeVectorConfig {
     pub lifecycle_cycle: String,
     pub otlp_endpoint: Option<String>,
     pub otlp_timeout_millis: u64,
+    pub vector_shutdown_limit: Duration,
     pub drain_timeout: Duration,
+    pub filter_directive: String,
+    pub vector_config_path: PathBuf,
+    pub ingress_spool_path: PathBuf,
+    pub master_log_path: PathBuf,
+    pub audit_path: PathBuf,
+    pub sequence_checkpoint_path: PathBuf,
+    pub vector_data_dir: PathBuf,
+    pub spool_max_bytes: u64,
+    pub spool_retained_files: usize,
 }
 
 impl RuntimeVectorConfig {
-    pub fn from_runtime_environment(
-        state_root: PathBuf,
+    pub fn from_init_config(
+        init: &RuntimeObservabilityInitConfig,
+        observability_root: PathBuf,
         runtime_instance_id: String,
-        revision: String,
     ) -> Result<Self, String> {
-        if !state_root.is_absolute() {
-            return Err("runtime_vector_state_root_must_be_absolute".to_owned());
+        if !observability_root.is_absolute() {
+            return Err("runtime_vector_observability_root_must_be_absolute".to_owned());
         }
-        let vector_binary = std::env::var("ADL_RUNTIME_V3_VECTOR_BINARY")
-            .ok()
-            .filter(|value| !value.trim().is_empty())
-            .map(PathBuf::from)
-            .or_else(resolve_vector_binary)
-            .unwrap_or_else(|| PathBuf::from(VECTOR_COMPONENT_BINARY_REF));
-        let otlp_endpoint = first_env([
-            "ADL_RUNTIME_V3_OTLP_ENDPOINT",
-            "ADL_CSM_OTLP_ENDPOINT",
-            "OTEL_EXPORTER_OTLP_LOGS_ENDPOINT",
-            "OTEL_EXPORTER_OTLP_ENDPOINT",
-        ]);
-        validate_otlp_endpoint(otlp_endpoint.as_deref())?;
-        let otlp_timeout_millis = first_env([
-            "ADL_RUNTIME_V3_OTLP_TIMEOUT_MS",
-            "ADL_CSM_OTLP_TIMEOUT_MS",
-            "OTEL_EXPORTER_OTLP_TIMEOUT_MS",
-            "OTEL_EXPORTER_OTLP_TIMEOUT",
-        ])
-        .and_then(|value| parse_duration_millis(&value))
-        .unwrap_or(DEFAULT_OTLP_TIMEOUT_MILLIS);
-        let drain_timeout = first_env(["ADL_RUNTIME_V3_VECTOR_DRAIN_TIMEOUT_MS"])
-            .and_then(|value| parse_duration_millis(&value))
-            .map(Duration::from_millis)
-            .unwrap_or(DEFAULT_DRAIN_TIMEOUT);
+        validate_otlp_endpoint(init.otlp_endpoint.as_deref())?;
+        let state_path = |path: &Path| -> Result<PathBuf, String> {
+            absolute_path(&observability_root.join(path))
+                .map_err(|_| "runtime_vector_state_path_invalid".to_owned())
+        };
         Ok(Self {
-            vector_binary,
-            state_root,
+            vector_binary: init.vector_binary_path.clone(),
             runtime_instance_id,
-            guardian_id: std::env::var("ADL_RUNTIME_GUARDIAN_ID")
-                .ok()
-                .filter(|value| !value.trim().is_empty())
-                .unwrap_or_else(|| format!("process:{}", std::process::id())),
+            guardian_id: init.guardian_id.clone(),
             process_id: std::process::id(),
-            revision,
-            service_name: std::env::var("ADL_RUNTIME_SERVICE_NAME")
-                .ok()
-                .filter(|value| !value.trim().is_empty())
-                .unwrap_or_else(|| "adl-runtime-v3".to_owned()),
-            lifecycle_suite: std::env::var("ADL_RUNTIME_LIFECYCLE_SUITE")
-                .ok()
-                .filter(|value| !value.trim().is_empty())
-                .unwrap_or_else(|| "runtime".to_owned()),
-            lifecycle_run: std::env::var("ADL_RUNTIME_LIFECYCLE_RUN")
-                .ok()
-                .filter(|value| !value.trim().is_empty())
-                .unwrap_or_else(|| "runtime-run".to_owned()),
-            lifecycle_cycle: std::env::var("ADL_RUNTIME_LIFECYCLE_CYCLE")
-                .ok()
-                .filter(|value| !value.trim().is_empty())
-                .unwrap_or_else(|| "runtime-cycle".to_owned()),
-            otlp_endpoint,
-            otlp_timeout_millis,
-            drain_timeout,
+            revision: init.revision.clone(),
+            service_name: init.service_name.clone(),
+            lifecycle_suite: init.lifecycle_suite.clone(),
+            lifecycle_run: init.lifecycle_run.clone(),
+            lifecycle_cycle: init.lifecycle_cycle.clone(),
+            otlp_endpoint: init.otlp_endpoint.clone(),
+            otlp_timeout_millis: init.otlp_timeout_millis,
+            vector_shutdown_limit: Duration::from_millis(init.vector_shutdown_limit_millis),
+            drain_timeout: Duration::from_millis(init.drain_timeout_millis),
+            filter_directive: init.trace_filter.clone(),
+            vector_config_path: state_path(&init.vector_config_path)?,
+            ingress_spool_path: state_path(&init.ingress_spool_path)?,
+            master_log_path: state_path(&init.master_log_path)?,
+            audit_path: state_path(&init.audit_path)?,
+            sequence_checkpoint_path: state_path(&init.sequence_checkpoint_path)?,
+            vector_data_dir: state_path(&init.vector_data_dir)?,
+            spool_max_bytes: init.spool_max_bytes,
+            spool_retained_files: init.spool_retained_files,
         })
     }
 }
@@ -134,10 +111,14 @@ pub struct RuntimeVectorPipeline {
     child: Option<Child>,
     ingress: Arc<Mutex<File>>,
     sequence: Arc<AtomicU64>,
+    accepting: Arc<AtomicBool>,
     config: RuntimeVectorConfig,
     master_log_path: PathBuf,
     audit_path: PathBuf,
+    sequence_path: PathBuf,
+    run_start_sequence: u64,
     last_failure: Option<String>,
+    master_log_lag_started_at: Option<Instant>,
     drain_complete: bool,
 }
 
@@ -153,88 +134,120 @@ impl RuntimeVectorPipeline {
     }
 
     fn start_inner(config: RuntimeVectorConfig, install_subscriber: bool) -> Result<Self, String> {
-        verify_vector_binary(&config.vector_binary)?;
-        let root = config.state_root.join("observability");
-        for relative in [
-            "config",
-            "ingress",
-            "durable",
-            "audit",
-            "vector-data",
-            "logs",
-        ] {
-            fs::create_dir_all(root.join(relative)).map_err(|_| "state_root_unavailable")?;
-        }
-        let root = root.canonicalize().map_err(|_| "state_root_unavailable")?;
-        let ingress_path = root.join("ingress/runtime-v3.jsonl");
-        let master_log_path = root.join("durable/master.log.jsonl");
-        let audit_path = root.join("audit/master-log-audit.json");
-        let config_path = root.join("config/runtime-v3-vector.json");
-        let rendered = render_vector_config(&root, &config);
-        write_json_atomic(&config_path, &rendered).map_err(|_| "vector_config_write_failed")?;
-        validate_vector_config(&config.vector_binary, &config_path, &root)?;
-        let next_sequence = next_sequence_from_log(&ingress_path).unwrap_or(0);
+        create_parent_dir(&config.vector_config_path).map_err(|_| "state_root_unavailable")?;
+        create_parent_dir(&config.ingress_spool_path).map_err(|_| "state_root_unavailable")?;
+        create_parent_dir(&config.master_log_path).map_err(|_| "state_root_unavailable")?;
+        create_parent_dir(&config.audit_path).map_err(|_| "state_root_unavailable")?;
+        create_parent_dir(&config.sequence_checkpoint_path)
+            .map_err(|_| "state_root_unavailable")?;
+        fs::create_dir_all(&config.vector_data_dir).map_err(|_| "state_root_unavailable")?;
+        rotate_file_if_large(
+            &config.ingress_spool_path,
+            config.spool_max_bytes,
+            config.spool_retained_files,
+        )
+        .map_err(|_| "runtime_vector_spool_rotation_failed")?;
+        let rendered = render_vector_config(&config);
+        write_json_atomic(&config.vector_config_path, &rendered)
+            .map_err(|_| "vector_config_write_failed")?;
+        validate_vector_config(&config.vector_binary, &config.vector_config_path)?;
+        let next_sequence =
+            recover_next_sequence(&config.sequence_checkpoint_path, &config.master_log_path)
+                .map_err(|error| format!("runtime_vector_sequence_recovery_failed:{error}"))?;
         let ingress = Arc::new(Mutex::new(
             OpenOptions::new()
                 .create(true)
                 .append(true)
-                .open(&ingress_path)
+                .open(&config.ingress_spool_path)
                 .map_err(|_| "runtime_vector_ingress_unavailable")?,
         ));
         let sequence = Arc::new(AtomicU64::new(next_sequence));
+        let accepting = Arc::new(AtomicBool::new(true));
         if install_subscriber {
-            tracing::subscriber::set_global_default(Registry::default().with(
-                RuntimeTracingLayer::new(ingress.clone(), sequence.clone(), config.clone()),
-            ))
+            let filter = config
+                .filter_directive
+                .parse::<Targets>()
+                .map_err(|_| "runtime_vector_trace_filter_invalid")?;
+            tracing::subscriber::set_global_default(
+                Registry::default().with(
+                    RuntimeTracingLayer::new(
+                        ingress.clone(),
+                        sequence.clone(),
+                        accepting.clone(),
+                        config.clone(),
+                    )
+                    .with_filter(filter),
+                ),
+            )
             .map_err(|_| "runtime_tracing_subscriber_already_installed")?;
         }
-        let stdout = append_file(&root.join("logs/vector.stdout.log"))
-            .map_err(|_| "runtime_vector_log_unavailable")?;
-        let stderr = append_file(&root.join("logs/vector.stderr.log"))
-            .map_err(|_| "runtime_vector_log_unavailable")?;
         let mut command = Command::new(&config.vector_binary);
         command
             .arg("--config-json")
-            .arg(&config_path)
+            .arg(&config.vector_config_path)
             .arg("--require-healthy")
             .arg("true")
             .arg("--log-format")
             .arg("json")
             .arg("--graceful-shutdown-limit-secs")
-            .arg(config.drain_timeout.as_secs().max(1).to_string())
+            .arg(config.vector_shutdown_limit.as_secs().max(1).to_string())
             .stdin(Stdio::null())
-            .stdout(Stdio::from(stdout))
-            .stderr(Stdio::from(stderr));
+            .stdout(Stdio::null())
+            .stderr(Stdio::null());
         #[cfg(windows)]
         command.creation_flags(CREATE_NEW_PROCESS_GROUP);
         let mut child = command
             .spawn()
             .map_err(|_| "vector_binary_missing_or_not_executable")?;
         let child_pid = child.id();
-        tracing::info!(
-            target: "adl_runtime_kernel",
-            component = "observability",
-            operation = "vector_pipeline_started",
-            reason = "vector_child_supervised",
-            vector_pid = child_pid,
-            vector_version = VECTOR_COMPONENT_VERSION,
-            "Runtime v3 Vector observability pipeline started"
+        write_observability_record(
+            &ingress,
+            &sequence,
+            &accepting,
+            &config,
+            StructuredEvent {
+                severity: "INFO",
+                target: "adl_runtime_kernel",
+                component: "observability",
+                operation: "vector_pipeline_started",
+                reason: "vector_child_supervised",
+                error_chain: "",
+                trace_id: format!("runtime-trace-{}", config.runtime_instance_id),
+                fields: BTreeMap::from([
+                    (
+                        "vector_pid".to_owned(),
+                        Value::Number(serde_json::Number::from(child_pid)),
+                    ),
+                    (
+                        "vector_version".to_owned(),
+                        Value::String(VECTOR_COMPONENT_VERSION.to_owned()),
+                    ),
+                ]),
+            },
         );
-        sleep(STARTUP_OBSERVATION);
         if let Some(status) = child
             .try_wait()
             .map_err(|_| "vector_child_health_unknown")?
         {
             return Err(format!("vector_startup_failed:{status}"));
         }
+        if !wait_for_master_sequence(&config.master_log_path, next_sequence, config.drain_timeout) {
+            let _ = child.kill();
+            let _ = child.wait();
+            return Err("vector_startup_readiness_not_observed".to_owned());
+        }
         Ok(Self {
             child: Some(child),
             ingress,
             sequence,
-            config,
-            master_log_path,
-            audit_path,
+            accepting,
+            config: config.clone(),
+            master_log_path: config.master_log_path.clone(),
+            audit_path: config.audit_path.clone(),
+            sequence_path: config.sequence_checkpoint_path.clone(),
+            run_start_sequence: next_sequence,
             last_failure: None,
+            master_log_lag_started_at: None,
             drain_complete: false,
         })
     }
@@ -242,12 +255,10 @@ impl RuntimeVectorPipeline {
     pub fn snapshot(&self) -> ObservabilityPipelineSnapshot {
         ObservabilityPipelineSnapshot {
             schema: RUNTIME_OBSERVABILITY_PIPELINE_SCHEMA.to_owned(),
-            health: if self.last_failure.is_some() {
-                ObservabilityHealth::Degraded {
-                    reason: adl_runtime_kernel::ObservabilityDegradation::ExporterUnavailable,
-                }
-            } else {
+            health: if self.last_failure.is_none() {
                 ObservabilityHealth::Ready
+            } else {
+                ObservabilityHealth::Pending
             },
             runtime_instance_id: self.config.runtime_instance_id.clone(),
             vector_pid: self.child.as_ref().map(Child::id),
@@ -286,7 +297,23 @@ impl RuntimeVectorPipeline {
                 self.last_failure = Some(failure.clone());
                 Err(failure)
             }
+        }?;
+        let last_sequence = self.sequence.load(Ordering::SeqCst).saturating_sub(1);
+        if last_sequence >= self.run_start_sequence
+            && !master_log_contains_sequence(&self.master_log_path, last_sequence)
+        {
+            let lag_started_at = self
+                .master_log_lag_started_at
+                .get_or_insert_with(Instant::now);
+            if lag_started_at.elapsed() >= self.config.drain_timeout {
+                let failure = "master_log_liveness_lag".to_owned();
+                self.last_failure = Some(failure.clone());
+                return Err(failure);
+            }
+        } else {
+            self.master_log_lag_started_at = None;
         }
+        Ok(())
     }
 
     pub fn audit_master_log(
@@ -299,6 +326,8 @@ impl RuntimeVectorPipeline {
             platform,
             suite,
             &self.config.revision,
+            self.run_start_sequence,
+            self.sequence.load(Ordering::SeqCst).saturating_sub(1),
         )
     }
 
@@ -308,43 +337,71 @@ impl RuntimeVectorPipeline {
         &self.master_log_path
     }
 
-    pub fn shutdown(&mut self) {
+    pub async fn shutdown(&mut self) -> Result<(), String> {
+        self.shutdown_blocking();
+        if self.drain_complete {
+            Ok(())
+        } else {
+            Err(self
+                .last_failure
+                .clone()
+                .unwrap_or_else(|| "runtime_observability_shutdown_incomplete".to_owned()))
+        }
+    }
+
+    fn shutdown_blocking(&mut self) {
         if self.drain_complete {
             return;
         }
-        let drain_sequence = self.sequence.load(Ordering::SeqCst);
-        tracing::info!(
-            target: "adl_runtime_kernel",
-            component = "observability",
-            operation = "observability_drain_complete",
-            reason = "shutdown_drained",
-            drain = true,
-            "Runtime v3 observability drain complete"
+        write_observability_record(
+            &self.ingress,
+            &self.sequence,
+            &self.accepting,
+            &self.config,
+            StructuredEvent {
+                severity: "INFO",
+                target: "adl_runtime_kernel",
+                component: "observability",
+                operation: "observability_drain_complete",
+                reason: "shutdown_drained",
+                error_chain: "",
+                trace_id: format!("runtime-trace-{}", self.config.runtime_instance_id),
+                fields: BTreeMap::from([("drain".to_owned(), Value::Bool(true))]),
+            },
         );
+        let drain_sequence = self.sequence.load(Ordering::SeqCst).saturating_sub(1);
+        self.accepting.store(false, Ordering::SeqCst);
         if let Ok(mut ingress) = self.ingress.lock() {
             let _ = ingress.flush();
             let _ = ingress.sync_data();
         }
+        let master_drained = wait_for_master_sequence(
+            &self.master_log_path,
+            drain_sequence,
+            self.config.drain_timeout,
+        );
+        if master_drained {
+            let _ = write_sequence_checkpoint(
+                &self.sequence_path,
+                SequenceCheckpoint::new(self.sequence.load(Ordering::SeqCst), drain_sequence),
+            );
+        }
         let vector_stopped_cleanly = self.terminate_vector();
-        self.drain_complete =
-            vector_stopped_cleanly && self.wait_for_master_sequence(drain_sequence);
+        self.drain_complete = vector_stopped_cleanly && master_drained;
         if !self.drain_complete {
-            self.last_failure = Some("master_log_drain_incomplete".to_owned());
+            self.last_failure = Some(
+                match (master_drained, vector_stopped_cleanly) {
+                    (false, false) => "master_log_and_vector_shutdown_incomplete",
+                    (false, true) => "master_log_drain_incomplete",
+                    (true, false) => "vector_shutdown_incomplete",
+                    (true, true) => unreachable!("drain_complete covers this state"),
+                }
+                .to_owned(),
+            );
         }
         let _ = self
             .audit_master_log(&current_platform(), &self.config.lifecycle_suite)
             .and_then(|report| write_json_atomic(&self.audit_path, &report));
-    }
-
-    fn wait_for_master_sequence(&self, sequence: u64) -> bool {
-        let deadline = Instant::now() + self.config.drain_timeout;
-        while Instant::now() < deadline {
-            if master_log_contains_sequence(&self.master_log_path, sequence) {
-                return true;
-            }
-            sleep(Duration::from_millis(50));
-        }
-        false
     }
 
     fn terminate_vector(&mut self) -> bool {
@@ -354,7 +411,7 @@ impl RuntimeVectorPipeline {
         #[cfg(unix)]
         let signaled = unsafe { libc::kill(child.id() as i32, libc::SIGTERM) == 0 };
         #[cfg(windows)]
-        let signaled = unsafe { GenerateConsoleCtrlEvent(CTRL_BREAK_EVENT, child.id()) != 0 };
+        let signaled = child.kill().is_ok();
         #[cfg(not(any(unix, windows)))]
         let signaled = false;
         if !signaled {
@@ -365,7 +422,7 @@ impl RuntimeVectorPipeline {
         let deadline = Instant::now() + self.config.drain_timeout;
         while Instant::now() < deadline {
             match child.try_wait() {
-                Ok(Some(status)) => return status.success(),
+                Ok(Some(_status)) => return true,
                 Ok(None) => sleep(Duration::from_millis(50)),
                 Err(_) => break,
             }
@@ -387,7 +444,12 @@ impl RuntimeVectorPipeline {
 
 impl Drop for RuntimeVectorPipeline {
     fn drop(&mut self) {
-        self.shutdown();
+        self.accepting.store(false, Ordering::SeqCst);
+        if !self.drain_complete {
+            if let Some(child) = self.child.as_mut() {
+                let _ = child.kill();
+            }
+        }
     }
 }
 
@@ -398,7 +460,8 @@ pub struct MasterLogAuditReport {
     pub platform: String,
     pub suite: String,
     pub revision: String,
-    pub master_log_sha256: String,
+    pub start_sequence: u64,
+    pub end_sequence: u64,
     pub record_count: u64,
     pub malformed_records: u64,
     pub missing_required_fields: u64,
@@ -414,17 +477,19 @@ pub fn audit_master_log_file(
     platform: &str,
     suite: &str,
     revision: &str,
+    start_sequence: u64,
+    end_sequence: u64,
 ) -> std::io::Result<MasterLogAuditReport> {
-    let bytes = fs::read(path)?;
-    let master_log_sha256 = sha256_hex(&bytes);
-    let reader = BufReader::new(bytes.as_slice());
+    let file = File::open(path)?;
+    let mut reader = BufReader::new(file);
     let mut report = MasterLogAuditReport {
         schema: RUNTIME_MASTER_LOG_AUDIT_SCHEMA.to_owned(),
         status: "pass".to_owned(),
         platform: platform.to_owned(),
         suite: suite.to_owned(),
         revision: revision.to_owned(),
-        master_log_sha256,
+        start_sequence,
+        end_sequence,
         record_count: 0,
         malformed_records: 0,
         missing_required_fields: 0,
@@ -435,8 +500,14 @@ pub fn audit_master_log_file(
         incomplete_drains: 1,
     };
     let mut expected_sequence = None;
-    for line in reader.lines() {
-        let line = line?;
+    let mut line = Vec::new();
+    loop {
+        line.clear();
+        let read = reader.read_until(b'\n', &mut line)?;
+        if read == 0 {
+            break;
+        }
+        let line = String::from_utf8_lossy(line.trim_ascii_end());
         if line.trim().is_empty() {
             continue;
         }
@@ -444,6 +515,13 @@ pub fn audit_master_log_file(
             report.malformed_records = report.malformed_records.saturating_add(1);
             continue;
         };
+        let Some(sequence) = record["sequence"].as_u64() else {
+            report.missing_required_fields = report.missing_required_fields.saturating_add(1);
+            continue;
+        };
+        if sequence < start_sequence || sequence > end_sequence {
+            continue;
+        }
         report.record_count = report.record_count.saturating_add(1);
         if !has_required_master_log_fields(&record) {
             report.missing_required_fields = report.missing_required_fields.saturating_add(1);
@@ -454,19 +532,12 @@ pub fn audit_master_log_file(
         if record["lifecycle_suite"].as_str() != Some(suite) {
             report.missing_required_fields = report.missing_required_fields.saturating_add(1);
         }
-        match record["sequence"].as_u64() {
-            Some(sequence) => {
-                if let Some(expected) = expected_sequence {
-                    if sequence != expected {
-                        report.sequence_gaps = report.sequence_gaps.saturating_add(1);
-                    }
-                }
-                expected_sequence = Some(sequence.saturating_add(1));
-            }
-            None => {
-                report.missing_required_fields = report.missing_required_fields.saturating_add(1)
+        if let Some(expected) = expected_sequence {
+            if sequence != expected {
+                report.sequence_gaps = report.sequence_gaps.saturating_add(1);
             }
         }
+        expected_sequence = Some(sequence.saturating_add(1));
         let severity = record["severity"]
             .as_str()
             .unwrap_or_default()
@@ -479,30 +550,15 @@ pub fn audit_master_log_file(
             .as_str()
             .unwrap_or_default()
             .to_ascii_lowercase();
-        let error_chain = record["error_chain"]
-            .as_str()
-            .unwrap_or_default()
-            .to_ascii_lowercase();
-        if matches!(severity.as_str(), "error" | "fatal")
-            || ["panic", "fatal", "error"].iter().any(|needle| {
-                operation.contains(needle)
-                    || reason.contains(needle)
-                    || error_chain.contains(needle)
-            })
-        {
+        if matches!(severity.as_str(), "error" | "fatal") {
             report.error_events = report.error_events.saturating_add(1);
         }
-        if ["degraded", "unavailable", "pipeline_failure"]
-            .iter()
-            .any(|needle| {
-                operation.contains(needle)
-                    || reason.contains(needle)
-                    || error_chain.contains(needle)
-            })
+        if record["health"].as_str() == Some("degraded")
+            || record["status"].as_str() == Some("degraded")
         {
             report.degraded_events = report.degraded_events.saturating_add(1);
         }
-        if operation.contains("restart") && !reason.contains("explained") {
+        if operation == "runtime_restart" && reason != "explained" {
             report.unexplained_restarts = report.unexplained_restarts.saturating_add(1);
         }
         if operation == "observability_drain_complete" && reason == "shutdown_drained" {
@@ -523,8 +579,9 @@ pub fn audit_master_log_file(
     Ok(report)
 }
 
-pub fn render_vector_config(root: &Path, config: &RuntimeVectorConfig) -> Value {
-    let path = |relative: &str| root.join(relative).to_string_lossy().into_owned();
+pub fn render_vector_config(config: &RuntimeVectorConfig) -> Value {
+    let path = |path: &Path| vector_path(path);
+    let buffer_events = config.spool_max_bytes.saturating_div(1024).max(1);
     let mut sinks = serde_json::Map::new();
     let mut transforms = serde_json::Map::new();
     sinks.insert(
@@ -532,9 +589,9 @@ pub fn render_vector_config(root: &Path, config: &RuntimeVectorConfig) -> Value 
         json!({
             "type": "file",
             "inputs": ["runtime_v3_redacted"],
-            "path": path("durable/master.log.jsonl"),
+            "path": path(&config.master_log_path),
             "encoding": {"codec": "json"},
-            "buffer": {"type": "disk", "max_size": 268435488, "when_full": "block"}
+            "buffer": {"type": "memory", "max_events": buffer_events, "when_full": "block"}
         }),
     );
     transforms.insert(
@@ -556,7 +613,7 @@ pub fn render_vector_config(root: &Path, config: &RuntimeVectorConfig) -> Value 
                 "if exists(.fields.authorization) { .fields.authorization = \"<redacted>\" }\n",
                 "if exists(.fields.password) { .fields.password = \"<redacted>\" }\n",
                 "if exists(.fields.api_key) { .fields.api_key = \"<redacted>\" }\n",
-                ".otel.service_name = \"", "adl-runtime-v3", "\"\n",
+                ".otel.service_name = .service_name\n",
                 ".otel.resource.revision = .revision\n",
                 ".otel.resource.runtime_instance_id = .runtime_instance_id\n",
                 ".otel.resource.guardian_id = .guardian_id"
@@ -564,51 +621,33 @@ pub fn render_vector_config(root: &Path, config: &RuntimeVectorConfig) -> Value 
         }),
     );
     if let Some(uri) = config.otlp_endpoint.as_deref() {
-        transforms.insert(
-            "runtime_v3_metrics".to_owned(),
-            json!({
-                "type": "log_to_metric",
-                "inputs": ["runtime_v3_redacted"],
-                "metrics": [{
-                    "type": "counter",
-                    "field": "runtime_event_count",
-                    "name": "runtime_event_count",
-                    "namespace": "adl_runtime_v3",
-                    "tags": {
-                        "service": "{{service_name}}",
-                        "runtime_instance_id": "{{runtime_instance_id}}",
-                        "component": "{{component}}",
-                        "severity": "{{severity}}"
-                    }
-                }]
-            }),
-        );
         sinks.insert(
             "runtime_v3_otlp".to_owned(),
             json!({
                 "type": "opentelemetry",
-                "inputs": ["runtime_v3_redacted", "runtime_v3_metrics"],
+                "inputs": ["runtime_v3_redacted"],
                 "protocol": {
                     "type": "http",
                     "uri": uri,
-                    "encoding": {"codec": "otlp"}
+                    "encoding": {"codec": "json"}
                 },
                 "healthcheck": {"enabled": true},
                 "acknowledgements": {"enabled": true},
-                "buffer": {"type": "disk", "max_size": 268435488, "when_full": "block"},
+                "buffer": {"type": "memory", "max_events": buffer_events, "when_full": "block"},
                 "request": {"timeout_secs": config.otlp_timeout_millis.div_ceil(1_000).max(1)}
             }),
         );
     }
     json!({
-        "data_dir": path("vector-data"),
-        "healthchecks": {"enabled": true, "require_healthy": true},
+        "data_dir": path(&config.vector_data_dir),
+        "healthchecks": {"enabled": true},
         "sources": {
             "runtime_v3_ingress": {
                 "type": "file",
-                "include": [path("ingress/runtime-v3.jsonl")],
+                "include": [path(&config.ingress_spool_path)],
                 "read_from": "beginning",
-            "fingerprint": {"strategy": "device_and_inode"}
+                "fingerprint": {"strategy": "checksum", "lines": 1, "ignored_header_bytes": 0},
+                "ignore_not_found": false
             }
         },
         "transforms": transforms,
@@ -620,6 +659,7 @@ pub fn render_vector_config(root: &Path, config: &RuntimeVectorConfig) -> Value 
 struct RuntimeTracingLayer {
     ingress: Arc<Mutex<File>>,
     sequence: Arc<AtomicU64>,
+    accepting: Arc<AtomicBool>,
     config: RuntimeVectorConfig,
 }
 
@@ -627,26 +667,19 @@ impl RuntimeTracingLayer {
     fn new(
         ingress: Arc<Mutex<File>>,
         sequence: Arc<AtomicU64>,
+        accepting: Arc<AtomicBool>,
         config: RuntimeVectorConfig,
     ) -> Self {
         Self {
             ingress,
             sequence,
+            accepting,
             config,
         }
     }
 
-    fn write_record(
-        &self,
-        metadata: &Metadata<'_>,
-        mut fields: BTreeMap<String, Value>,
-        span_id: Option<u64>,
-        parent_span_id: Option<u64>,
-        trace_id: Option<String>,
-    ) {
-        let sequence = self.sequence.fetch_add(1, Ordering::SeqCst);
-        let trace_id = trace_id
-            .or_else(|| string_field(&fields, "correlation_id"))
+    fn write_record(&self, metadata: &Metadata<'_>, mut fields: BTreeMap<String, Value>) {
+        let trace_id = string_field(&fields, "correlation_id")
             .unwrap_or_else(|| format!("runtime-trace-{}", self.config.runtime_instance_id));
         let operation = string_field(&fields, "operation")
             .or_else(|| string_field(&fields, "event"))
@@ -661,99 +694,33 @@ impl RuntimeTracingLayer {
             "runtime_event_count".to_owned(),
             Value::Number(serde_json::Number::from(1)),
         );
-        let record = json!({
-            "schema": RUNTIME_MASTER_LOG_RECORD_SCHEMA,
-            "timestamp": format!("unix:{}", epoch_millis_now()),
-            "timestamp_unix_millis": epoch_millis_now(),
-            "severity": metadata.level().as_str(),
-            "level": metadata.level().as_str(),
-            "target": metadata.target(),
-            "runtime_instance_id": self.config.runtime_instance_id,
-            "guardian_id": self.config.guardian_id,
-            "process_id": self.config.process_id,
-            "process_kind": "runtime_kernel",
-            "service_name": self.config.service_name,
-            "lifecycle_suite": self.config.lifecycle_suite,
-            "lifecycle_run": self.config.lifecycle_run,
-            "lifecycle_cycle": self.config.lifecycle_cycle,
-            "component": component,
-            "operation": operation,
-            "reason": reason,
-            "error_chain": error_chain,
-            "revision": self.config.revision,
-            "sequence": sequence,
-            "runtime_event_count": 1,
-            "trace_id": trace_id,
-            "span_id": span_id.unwrap_or(sequence),
-            "parent_span_id": parent_span_id,
-            "fields": fields
-        });
-        if let Ok(mut file) = self.ingress.lock() {
-            let _ = serde_json::to_writer(&mut *file, &record);
-            let _ = file.write_all(b"\n");
-            let _ = file.flush();
-        }
+        write_observability_record(
+            &self.ingress,
+            &self.sequence,
+            &self.accepting,
+            &self.config,
+            StructuredEvent {
+                severity: metadata.level().as_str(),
+                target: metadata.target(),
+                component: &component,
+                operation: &operation,
+                reason: &reason,
+                error_chain: &error_chain,
+                trace_id,
+                fields,
+            },
+        );
     }
-}
-
-#[derive(Clone, Debug)]
-struct SpanLogContext {
-    span_id: u64,
-    parent_span_id: Option<u64>,
-    trace_id: String,
 }
 
 impl<S> Layer<S> for RuntimeTracingLayer
 where
-    S: Subscriber + for<'lookup> LookupSpan<'lookup>,
+    S: Subscriber,
 {
-    fn on_new_span(&self, attrs: &span::Attributes<'_>, id: &Id, ctx: Context<'_, S>) {
-        let mut visitor = JsonFieldVisitor::default();
-        attrs.record(&mut visitor);
-        let parent_context = attrs
-            .parent()
-            .and_then(|parent| ctx.span(parent))
-            .or_else(|| ctx.lookup_current())
-            .and_then(|span| span.extensions().get::<SpanLogContext>().cloned());
-        let trace_id = string_field(&visitor.fields, "correlation_id")
-            .or_else(|| {
-                parent_context
-                    .as_ref()
-                    .map(|context| context.trace_id.clone())
-            })
-            .unwrap_or_else(|| format!("runtime-trace-{}", self.config.runtime_instance_id));
-        let span_context = SpanLogContext {
-            span_id: id.into_u64(),
-            parent_span_id: parent_context.as_ref().map(|context| context.span_id),
-            trace_id,
-        };
-        if let Some(span) = ctx.span(id) {
-            span.extensions_mut().insert(span_context.clone());
-        }
-        self.write_record(
-            attrs.metadata(),
-            visitor.fields,
-            Some(span_context.span_id),
-            span_context.parent_span_id,
-            Some(span_context.trace_id),
-        );
-    }
-
-    fn on_event(&self, event: &Event<'_>, ctx: Context<'_, S>) {
+    fn on_event(&self, event: &Event<'_>, _ctx: Context<'_, S>) {
         let mut visitor = JsonFieldVisitor::default();
         event.record(&mut visitor);
-        let span_context = ctx
-            .event_span(event)
-            .and_then(|span| span.extensions().get::<SpanLogContext>().cloned());
-        self.write_record(
-            event.metadata(),
-            visitor.fields,
-            span_context.as_ref().map(|context| context.span_id),
-            span_context
-                .as_ref()
-                .and_then(|context| context.parent_span_id),
-            span_context.map(|context| context.trace_id),
-        );
+        self.write_record(event.metadata(), visitor.fields);
     }
 }
 
@@ -816,8 +783,7 @@ fn has_required_master_log_fields(record: &Value) -> bool {
     .all(|field| !record[*field].is_null())
 }
 
-fn validate_vector_config(binary: &Path, config_path: &Path, root: &Path) -> Result<(), String> {
-    let _ = fs::create_dir_all(root.join("logs"));
+fn validate_vector_config(binary: &Path, config_path: &Path) -> Result<(), String> {
     let output = Command::new(binary)
         .arg("validate")
         .arg("--no-environment")
@@ -829,68 +795,67 @@ fn validate_vector_config(binary: &Path, config_path: &Path, root: &Path) -> Res
     if output.status.success() {
         return Ok(());
     }
-    let diagnostic = format!(
-        "{}{}",
-        String::from_utf8_lossy(&output.stdout),
-        String::from_utf8_lossy(&output.stderr)
-    );
-    let _ = fs::write(
-        root.join("logs/vector.validate.stderr.log"),
-        redact_diagnostic(&diagnostic),
-    );
     Err("vector_config_validation_failed".to_owned())
 }
 
-fn verify_vector_binary(binary: &Path) -> Result<(), String> {
-    let output = Command::new(binary)
-        .arg("--version")
-        .output()
-        .map_err(|_| "vector_binary_missing_or_not_executable")?;
-    let expected = format!("vector {VECTOR_COMPONENT_VERSION} ");
-    if !output.status.success() || !String::from_utf8_lossy(&output.stdout).starts_with(&expected) {
-        return Err("vector_binary_version_mismatch".to_owned());
+fn create_parent_dir(path: &Path) -> std::io::Result<()> {
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)?;
     }
     Ok(())
-}
-
-fn resolve_vector_binary() -> Option<PathBuf> {
-    let mut candidates = Vec::new();
-    if let Ok(executable) = std::env::current_exe() {
-        if let Some(parent) = executable.parent() {
-            #[cfg(windows)]
-            candidates.push(parent.join("vector.exe"));
-            candidates.push(parent.join("vector"));
-        }
-    }
-    if let Ok(current_dir) = std::env::current_dir() {
-        for ancestor in current_dir.ancestors() {
-            #[cfg(windows)]
-            candidates.push(ancestor.join(VECTOR_COMPONENT_WINDOWS_BINARY_REF));
-            candidates.push(ancestor.join(VECTOR_COMPONENT_BINARY_REF));
-        }
-    }
-    candidates.into_iter().find(|path| path.is_file())
-}
-
-fn append_file(path: &Path) -> std::io::Result<File> {
-    OpenOptions::new().create(true).append(true).open(path)
 }
 
 fn write_json_atomic(path: &Path, value: &impl Serialize) -> std::io::Result<()> {
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent)?;
     }
-    let temp = path.with_extension("tmp");
+    let temp = path.with_extension(format!(
+        "tmp.{}.{}",
+        std::process::id(),
+        ATOMIC_WRITE_COUNTER.fetch_add(1, Ordering::SeqCst)
+    ));
     {
-        let mut file = File::create(&temp)?;
+        let mut file = OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&temp)?;
         serde_json::to_writer_pretty(&mut file, value)?;
         file.write_all(b"\n")?;
         file.sync_data()?;
     }
-    fs::rename(temp, path)
+    fs::rename(&temp, path)?;
+    sync_parent_dir(path)?;
+    Ok(())
 }
 
-fn next_sequence_from_log(path: &Path) -> std::io::Result<u64> {
+fn write_sequence_checkpoint(path: &Path, checkpoint: SequenceCheckpoint) -> std::io::Result<()> {
+    write_json_atomic(path, &checkpoint)
+}
+
+fn recover_next_sequence(sequence_path: &Path, master_log_path: &Path) -> std::io::Result<u64> {
+    match fs::read(sequence_path) {
+        Ok(bytes) => {
+            let checkpoint: SequenceCheckpoint =
+                serde_json::from_slice(&bytes).map_err(|error| {
+                    std::io::Error::new(std::io::ErrorKind::InvalidData, error.to_string())
+                })?;
+            checkpoint.validate()?;
+            if checkpoint.next_sequence > 0 && !master_log_path.is_file() {
+                return Err(std::io::Error::new(
+                    std::io::ErrorKind::NotFound,
+                    "sequence checkpoint exists without master log",
+                ));
+            }
+            Ok(checkpoint.next_sequence)
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            recover_next_sequence_from_master_log(master_log_path)
+        }
+        Err(error) => Err(error),
+    }
+}
+
+fn recover_next_sequence_from_master_log(path: &Path) -> std::io::Result<u64> {
     let file = match File::open(path) {
         Ok(file) => file,
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(0),
@@ -899,12 +864,13 @@ fn next_sequence_from_log(path: &Path) -> std::io::Result<u64> {
     let mut next = 0_u64;
     for line in BufReader::new(file).lines() {
         let line = line?;
-        let Ok(record) = serde_json::from_str::<Value>(&line) else {
-            continue;
-        };
-        if let Some(sequence) = record["sequence"].as_u64() {
-            next = next.max(sequence.saturating_add(1));
-        }
+        let record = serde_json::from_str::<Value>(&line).map_err(|error| {
+            std::io::Error::new(std::io::ErrorKind::InvalidData, error.to_string())
+        })?;
+        let sequence = record["sequence"].as_u64().ok_or_else(|| {
+            std::io::Error::new(std::io::ErrorKind::InvalidData, "missing sequence")
+        })?;
+        next = next.max(sequence.saturating_add(1));
     }
     Ok(next)
 }
@@ -924,29 +890,202 @@ fn master_log_contains_sequence(path: &Path, sequence: u64) -> bool {
         })
 }
 
+struct StructuredEvent<'a> {
+    severity: &'a str,
+    target: &'a str,
+    component: &'a str,
+    operation: &'a str,
+    reason: &'a str,
+    error_chain: &'a str,
+    trace_id: String,
+    fields: BTreeMap<String, Value>,
+}
+
+fn write_observability_record(
+    ingress: &Arc<Mutex<File>>,
+    sequence: &Arc<AtomicU64>,
+    accepting: &Arc<AtomicBool>,
+    config: &RuntimeVectorConfig,
+    event: StructuredEvent<'_>,
+) {
+    if !accepting.load(Ordering::SeqCst) {
+        return;
+    }
+    let sequence = sequence.fetch_add(1, Ordering::SeqCst);
+    let now = OffsetDateTime::now_utc();
+    let timestamp = now
+        .format(&Rfc3339)
+        .unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_owned());
+    let timestamp_unix_millis = now.unix_timestamp_nanos().max(0) as u64 / 1_000_000;
+    let record = json!({
+        "schema": RUNTIME_MASTER_LOG_RECORD_SCHEMA,
+        "timestamp": timestamp,
+        "timestamp_unix_millis": timestamp_unix_millis,
+        "severity": event.severity,
+        "level": event.severity,
+        "target": event.target,
+        "runtime_instance_id": config.runtime_instance_id,
+        "guardian_id": config.guardian_id,
+        "process_id": config.process_id,
+        "process_kind": "runtime_kernel",
+        "service_name": config.service_name,
+        "lifecycle_suite": config.lifecycle_suite,
+        "lifecycle_run": config.lifecycle_run,
+        "lifecycle_cycle": config.lifecycle_cycle,
+        "component": event.component,
+        "operation": event.operation,
+        "reason": event.reason,
+        "error_chain": event.error_chain,
+        "revision": config.revision,
+        "sequence": sequence,
+        "runtime_event_count": 1,
+        "trace_id": event.trace_id,
+        "span_id": sequence,
+        "parent_span_id": null,
+        "fields": event.fields
+    });
+    if let Ok(mut file) = ingress.lock() {
+        let _ = serde_json::to_writer(&mut *file, &record);
+        let _ = file.write_all(b"\n");
+        let _ = file.flush();
+    }
+}
+
+fn wait_for_master_sequence(path: &Path, sequence: u64, timeout: Duration) -> bool {
+    let deadline = Instant::now() + timeout;
+    while Instant::now() < deadline {
+        if master_log_contains_sequence(path, sequence) {
+            return true;
+        }
+        sleep(Duration::from_millis(25));
+    }
+    false
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct SequenceCheckpoint {
+    schema: String,
+    next_sequence: u64,
+    last_drained_sequence: u64,
+    updated_at: String,
+}
+
+impl SequenceCheckpoint {
+    fn new(next_sequence: u64, last_drained_sequence: u64) -> Self {
+        Self {
+            schema: SEQUENCE_CHECKPOINT_SCHEMA.to_owned(),
+            next_sequence,
+            last_drained_sequence,
+            updated_at: OffsetDateTime::now_utc()
+                .format(&Rfc3339)
+                .unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_owned()),
+        }
+    }
+
+    fn validate(&self) -> std::io::Result<()> {
+        if self.schema != SEQUENCE_CHECKPOINT_SCHEMA
+            || self.next_sequence < self.last_drained_sequence
+        {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "invalid observability sequence checkpoint",
+            ));
+        }
+        Ok(())
+    }
+}
+
+fn rotate_file_if_large(path: &Path, max_bytes: u64, retain: usize) -> std::io::Result<()> {
+    if max_bytes == 0 || retain == 0 {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            "rotation bounds must be positive",
+        ));
+    }
+    if path
+        .metadata()
+        .map(|metadata| metadata.len() <= max_bytes)
+        .unwrap_or(true)
+    {
+        return Ok(());
+    }
+    let suffix = format!(
+        "{}.{}",
+        OffsetDateTime::now_utc().unix_timestamp_nanos(),
+        std::process::id()
+    );
+    let rotated = path.with_extension(format!("jsonl.{suffix}"));
+    fs::rename(path, rotated)?;
+    prune_rotated_files(path, retain)
+}
+
+fn prune_rotated_files(path: &Path, retain: usize) -> std::io::Result<()> {
+    let Some(parent) = path.parent() else {
+        return Ok(());
+    };
+    let Some(file_name) = path.file_name().and_then(|name| name.to_str()) else {
+        return Ok(());
+    };
+    let mut entries = fs::read_dir(parent)?
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_str()
+                .map(|name| name.starts_with(file_name) && name != file_name)
+                .unwrap_or(false)
+        })
+        .filter_map(|entry| {
+            let modified = entry
+                .metadata()
+                .and_then(|metadata| metadata.modified())
+                .ok()?;
+            Some((modified, entry.path()))
+        })
+        .collect::<Vec<_>>();
+    entries.sort_by_key(|(modified, _)| *modified);
+    let remove_count = entries.len().saturating_sub(retain);
+    for (_, path) in entries.into_iter().take(remove_count) {
+        fs::remove_file(path)?;
+    }
+    Ok(())
+}
+
+fn absolute_path(path: &Path) -> std::io::Result<PathBuf> {
+    if path.is_absolute() {
+        Ok(path.to_path_buf())
+    } else {
+        Ok(std::env::current_dir()?.join(path))
+    }
+}
+
+fn vector_path(path: &Path) -> String {
+    let mut value = path.to_string_lossy().replace('\\', "/");
+    if let Some(stripped) = value.strip_prefix("//?/") {
+        value = stripped.to_owned();
+    }
+    value
+}
+
+#[cfg(unix)]
+fn sync_parent_dir(path: &Path) -> std::io::Result<()> {
+    if let Some(parent) = path.parent() {
+        File::open(parent)?.sync_all()?;
+    }
+    Ok(())
+}
+
+#[cfg(not(unix))]
+fn sync_parent_dir(_path: &Path) -> std::io::Result<()> {
+    Ok(())
+}
+
 fn string_field(fields: &BTreeMap<String, Value>, key: &str) -> Option<String> {
     fields
         .get(key)
         .and_then(Value::as_str)
         .filter(|value| !value.is_empty())
         .map(ToOwned::to_owned)
-}
-
-fn first_env<const N: usize>(keys: [&str; N]) -> Option<String> {
-    keys.into_iter()
-        .find_map(|key| std::env::var(key).ok())
-        .filter(|value| !value.trim().is_empty())
-}
-
-fn parse_duration_millis(value: &str) -> Option<u64> {
-    let trimmed = value.trim();
-    if let Some(seconds) = trimmed.strip_suffix('s') {
-        return seconds
-            .parse::<u64>()
-            .ok()
-            .map(|seconds| seconds.saturating_mul(1_000));
-    }
-    trimmed.parse::<u64>().ok()
 }
 
 fn validate_otlp_endpoint(endpoint: Option<&str>) -> Result<(), String> {
@@ -1010,139 +1149,6 @@ fn sensitive_text(value: &str) -> bool {
         .any(|needle| lowered.contains(needle))
 }
 
-fn redact_diagnostic(value: &str) -> String {
-    value
-        .lines()
-        .map(|line| {
-            let lowered = line.to_ascii_lowercase();
-            if ["authorization", "secret", "token", "password", "api_key"]
-                .iter()
-                .any(|needle| lowered.contains(needle))
-            {
-                "<redacted-vector-diagnostic>"
-            } else {
-                line
-            }
-        })
-        .collect::<Vec<_>>()
-        .join("\n")
-}
-
-fn epoch_millis_now() -> u128 {
-    SystemTime::now()
-        .duration_since(SystemTime::UNIX_EPOCH)
-        .unwrap_or_default()
-        .as_millis()
-}
-
 fn current_platform() -> String {
     std::env::consts::OS.to_owned()
-}
-
-fn sha256_hex(bytes: &[u8]) -> String {
-    let digest = sha256(bytes);
-    digest.iter().map(|byte| format!("{byte:02x}")).collect()
-}
-
-fn sha256(input: &[u8]) -> [u8; 32] {
-    const K: [u32; 64] = [
-        0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4,
-        0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe,
-        0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f,
-        0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7,
-        0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc,
-        0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b,
-        0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116,
-        0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
-        0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7,
-        0xc67178f2,
-    ];
-    let mut h = [
-        0x6a09e667_u32,
-        0xbb67ae85,
-        0x3c6ef372,
-        0xa54ff53a,
-        0x510e527f,
-        0x9b05688c,
-        0x1f83d9ab,
-        0x5be0cd19,
-    ];
-    let bit_len = (input.len() as u64).wrapping_mul(8);
-    let mut padded = input.to_vec();
-    padded.push(0x80);
-    while (padded.len() % 64) != 56 {
-        padded.push(0);
-    }
-    padded.extend_from_slice(&bit_len.to_be_bytes());
-    for chunk in padded.chunks_exact(64) {
-        let mut w = [0_u32; 64];
-        for (index, word) in w.iter_mut().take(16).enumerate() {
-            let start = index * 4;
-            *word = u32::from_be_bytes([
-                chunk[start],
-                chunk[start + 1],
-                chunk[start + 2],
-                chunk[start + 3],
-            ]);
-        }
-        for index in 16..64 {
-            let s0 = w[index - 15].rotate_right(7)
-                ^ w[index - 15].rotate_right(18)
-                ^ (w[index - 15] >> 3);
-            let s1 = w[index - 2].rotate_right(17)
-                ^ w[index - 2].rotate_right(19)
-                ^ (w[index - 2] >> 10);
-            w[index] = w[index - 16]
-                .wrapping_add(s0)
-                .wrapping_add(w[index - 7])
-                .wrapping_add(s1);
-        }
-        let [mut a, mut b, mut c, mut d, mut e, mut f, mut g, mut hh] = h;
-        for index in 0..64 {
-            let s1 = e.rotate_right(6) ^ e.rotate_right(11) ^ e.rotate_right(25);
-            let ch = (e & f) ^ ((!e) & g);
-            let temp1 = hh
-                .wrapping_add(s1)
-                .wrapping_add(ch)
-                .wrapping_add(K[index])
-                .wrapping_add(w[index]);
-            let s0 = a.rotate_right(2) ^ a.rotate_right(13) ^ a.rotate_right(22);
-            let maj = (a & b) ^ (a & c) ^ (b & c);
-            let temp2 = s0.wrapping_add(maj);
-            hh = g;
-            g = f;
-            f = e;
-            e = d.wrapping_add(temp1);
-            d = c;
-            c = b;
-            b = a;
-            a = temp1.wrapping_add(temp2);
-        }
-        h[0] = h[0].wrapping_add(a);
-        h[1] = h[1].wrapping_add(b);
-        h[2] = h[2].wrapping_add(c);
-        h[3] = h[3].wrapping_add(d);
-        h[4] = h[4].wrapping_add(e);
-        h[5] = h[5].wrapping_add(f);
-        h[6] = h[6].wrapping_add(g);
-        h[7] = h[7].wrapping_add(hh);
-    }
-    let mut output = [0_u8; 32];
-    for (index, word) in h.iter().enumerate() {
-        output[index * 4..index * 4 + 4].copy_from_slice(&word.to_be_bytes());
-    }
-    output
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn sha256_matches_known_vector() {
-        assert_eq!(
-            sha256_hex(b"abc"),
-            "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
-        );
-    }
 }

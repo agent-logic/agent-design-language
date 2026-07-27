@@ -2,15 +2,12 @@ use std::{
     collections::{BTreeMap, BTreeSet},
     future::Future,
     io::Write,
-    net::{IpAddr, SocketAddr},
+    net::SocketAddr,
     sync::Arc,
     sync::Mutex,
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
-use adl_runtime::acip::{
-    decode_protobuf_envelope, websocket_frame_status, CSM_ACIP_WEBSOCKET_SCHEMA,
-};
 use async_trait::async_trait;
 use axum::{
     body::Bytes,
@@ -30,25 +27,52 @@ use thiserror::Error;
 use tracing::Instrument;
 
 use crate::{
-    BootstrapEvent, CanonicalIngress, CheckpointManifest, DomainResult, DomainWork, IngressError,
-    KernelControl, KernelExit, LiveContinuity, ObservabilityHealth, RuntimeRecorder,
-    RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport,
+    acip_frame_status, decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest,
+    DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LiveContinuity,
+    ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
+    WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
 pub const CONTROL_RESPONSE_SCHEMA: &str = "adl.runtime.control_response.v1";
 pub const LEGACY_OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_feed.v1";
 pub const OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_feed.v2";
-pub const DEFAULT_CONTROL_API_PORT: u16 = 20_997;
 pub const MAX_SHUTDOWN_GRACE_MILLIS: u64 = 60_000;
-pub const CONTROL_API_SHUTDOWN_GRACE: Duration = Duration::from_secs(2);
 pub const OBSERVATORY_WS_PATH: &str = "/v1/observatory/ws";
 pub const OBSERVATORY_WS_AUTH_SCHEMA: &str = "adl.runtime_v3.observatory_ws_auth.v1";
 pub const OBSERVATORY_WS_CONTROL_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_ws_control_result.v1";
-pub const MAX_OBSERVATORY_WS_FRAME_BYTES: usize = 64 * 1024;
-const OBSERVATORY_WS_AUTH_TIMEOUT: Duration = Duration::from_secs(5);
-const OBSERVATORY_WS_REFRESH: Duration = Duration::from_secs(1);
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct ControlApiPolicy {
+    pub shutdown_grace: Duration,
+    pub websocket_auth_timeout: Duration,
+    pub websocket_refresh: Duration,
+    pub websocket_max_frame_bytes: usize,
+}
+
+impl ControlApiPolicy {
+    pub fn new(
+        shutdown_grace: Duration,
+        websocket_auth_timeout: Duration,
+        websocket_refresh: Duration,
+        websocket_max_frame_bytes: usize,
+    ) -> Result<Self, ControlApiError> {
+        if shutdown_grace.is_zero()
+            || websocket_auth_timeout.is_zero()
+            || websocket_refresh.is_zero()
+            || websocket_max_frame_bytes == 0
+        {
+            return Err(ControlApiError::MissingPolicy);
+        }
+        Ok(Self {
+            shutdown_grace,
+            websocket_auth_timeout,
+            websocket_refresh,
+            websocket_max_frame_bytes,
+        })
+    }
+}
 
 pub fn control_ready_event(
     instance_id: &str,
@@ -283,6 +307,7 @@ pub struct ControlService<C> {
     control_addr: Mutex<SocketAddr>,
     public_base_url: Mutex<String>,
     canonical_ingress: Option<CanonicalIngress>,
+    api_policy: Mutex<Option<ControlApiPolicy>>,
 }
 
 impl<C: LifecycleControl + 'static> ControlService<C> {
@@ -299,7 +324,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             lifecycle,
             authority,
             max_records,
-            ["https://localhost:8765".to_owned()],
+            std::iter::empty(),
             AgentPopulationFeed::single(),
         )
     }
@@ -355,10 +380,25 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             observatory_bearer_digest: Mutex::new(None),
             observatory_allowed_origins,
             agent_population,
-            control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], DEFAULT_CONTROL_API_PORT))),
-            public_base_url: Mutex::new(format!("https://localhost:{DEFAULT_CONTROL_API_PORT}")),
+            control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
+            public_base_url: Mutex::new("https://localhost".to_owned()),
             canonical_ingress: None,
+            api_policy: Mutex::new(None),
         }
+    }
+
+    fn set_api_policy(&self, policy: ControlApiPolicy) {
+        *self
+            .api_policy
+            .lock()
+            .expect("control API policy mutex poisoned") = Some(policy);
+    }
+
+    fn api_policy(&self) -> ControlApiPolicy {
+        self.api_policy
+            .lock()
+            .expect("control API policy mutex poisoned")
+            .expect("control API policy validated before router startup")
     }
 
     pub fn with_canonical_ingress(mut self, ingress: CanonicalIngress) -> Self {
@@ -539,7 +579,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 read_endpoint: "/v1/observatory".to_owned(),
                 websocket_endpoint: OBSERVATORY_WS_PATH.to_owned(),
                 websocket_full_duplex: true,
-                websocket_acip_binary_schema: CSM_ACIP_WEBSOCKET_SCHEMA.to_owned(),
+                websocket_acip_binary_schema: ACIP_WEBSOCKET_SCHEMA.to_owned(),
                 signed_command_endpoint: "/v1/control".to_owned(),
                 signed_commands_required_for_mutation: true,
                 bearer_token_required_for_read: true,
@@ -822,42 +862,34 @@ pub async fn load_control_tls(
     .map_err(|error| ControlApiError::Tls(error.to_string()))
 }
 
-pub async fn serve_control_api<C: LifecycleControl + 'static>(
-    service: Arc<ControlService<C>>,
-    bind_ip: IpAddr,
-    tls: axum_server::tls_rustls::RustlsConfig,
-) -> Result<(), ControlApiError> {
-    let listener = tokio::net::TcpListener::bind((bind_ip, DEFAULT_CONTROL_API_PORT))
-        .await
-        .map_err(|error| ControlApiError::Bind(error.to_string()))?;
-    serve_control_listener(service, listener, tls).await
-}
-
 pub async fn serve_control_listener<C: LifecycleControl + 'static>(
     service: Arc<ControlService<C>>,
     listener: tokio::net::TcpListener,
     tls: axum_server::tls_rustls::RustlsConfig,
+    api_policy: ControlApiPolicy,
 ) -> Result<(), ControlApiError> {
-    serve_control_listener_until(service, listener, tls, std::future::pending()).await
+    serve_control_listener_until(service, listener, tls, api_policy, std::future::pending()).await
 }
 
 pub async fn serve_control_listener_until<C, F>(
     service: Arc<ControlService<C>>,
     listener: tokio::net::TcpListener,
     tls: axum_server::tls_rustls::RustlsConfig,
+    api_policy: ControlApiPolicy,
     shutdown: F,
 ) -> Result<(), ControlApiError>
 where
     C: LifecycleControl + 'static,
     F: Future<Output = ()> + Send + 'static,
 {
-    serve_control_listener_until_inner(service, listener, tls, None, shutdown).await
+    serve_control_listener_until_inner(service, listener, tls, api_policy, None, shutdown).await
 }
 
 pub async fn serve_control_listener_until_ready<C, F>(
     service: Arc<ControlService<C>>,
     listener: tokio::net::TcpListener,
     tls: axum_server::tls_rustls::RustlsConfig,
+    api_policy: ControlApiPolicy,
     ready: tokio::sync::oneshot::Sender<SocketAddr>,
     shutdown: F,
 ) -> Result<(), ControlApiError>
@@ -865,13 +897,15 @@ where
     C: LifecycleControl + 'static,
     F: Future<Output = ()> + Send + 'static,
 {
-    serve_control_listener_until_inner(service, listener, tls, Some(ready), shutdown).await
+    serve_control_listener_until_inner(service, listener, tls, api_policy, Some(ready), shutdown)
+        .await
 }
 
 async fn serve_control_listener_until_inner<C, F>(
     service: Arc<ControlService<C>>,
     listener: tokio::net::TcpListener,
     tls: axum_server::tls_rustls::RustlsConfig,
+    api_policy: ControlApiPolicy,
     ready: Option<tokio::sync::oneshot::Sender<SocketAddr>>,
     shutdown: F,
 ) -> Result<(), ControlApiError>
@@ -879,6 +913,7 @@ where
     C: LifecycleControl + 'static,
     F: Future<Output = ()> + Send + 'static,
 {
+    service.set_api_policy(api_policy);
     let address = listener
         .local_addr()
         .map_err(|error| ControlApiError::Bind(error.to_string()))?;
@@ -898,7 +933,7 @@ where
     let shutdown_handle = handle.clone();
     let shutdown_task = tokio::spawn(async move {
         shutdown.await;
-        shutdown_handle.graceful_shutdown(Some(CONTROL_API_SHUTDOWN_GRACE));
+        shutdown_handle.graceful_shutdown(Some(api_policy.shutdown_grace));
     });
     let server = axum_server::from_tcp_rustls(listener, tls)
         .map_err(|error| ControlApiError::Bind(error.to_string()))?
@@ -951,8 +986,9 @@ async fn observatory_ws_handler<C: LifecycleControl + 'static>(
     if allowed_origin(&service, &headers).is_none() {
         return StatusCode::FORBIDDEN.into_response();
     }
-    ws.max_frame_size(MAX_OBSERVATORY_WS_FRAME_BYTES)
-        .max_message_size(MAX_OBSERVATORY_WS_FRAME_BYTES)
+    let api_policy = service.api_policy();
+    ws.max_frame_size(api_policy.websocket_max_frame_bytes)
+        .max_message_size(api_policy.websocket_max_frame_bytes)
         .on_upgrade(move |socket| observatory_ws_session(socket, service))
 }
 
@@ -981,9 +1017,13 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
     mut socket: WebSocket,
     service: Arc<ControlService<C>>,
 ) {
-    let authenticated = tokio::time::timeout(OBSERVATORY_WS_AUTH_TIMEOUT, socket.recv()).await;
+    let api_policy = service.api_policy();
+    let authenticated =
+        tokio::time::timeout(api_policy.websocket_auth_timeout, socket.recv()).await;
     let bearer_token = match authenticated {
-        Ok(Some(Ok(Message::Text(payload)))) if payload.len() <= MAX_OBSERVATORY_WS_FRAME_BYTES => {
+        Ok(Some(Ok(Message::Text(payload))))
+            if payload.len() <= api_policy.websocket_max_frame_bytes =>
+        {
             serde_json::from_str::<ObservatoryWsAuth>(&payload)
                 .ok()
                 .filter(|auth| auth.schema == OBSERVATORY_WS_AUTH_SCHEMA)
@@ -1005,7 +1045,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
         return;
     };
 
-    let mut refresh = tokio::time::interval(OBSERVATORY_WS_REFRESH);
+    let mut refresh = tokio::time::interval(api_policy.websocket_refresh);
     let mut last_acip_sequence = 0_u64;
     loop {
         tokio::select! {
@@ -1081,19 +1121,19 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                     }
                 }
                 Some(Ok(Message::Binary(payload))) => {
-                    let status = match decode_protobuf_envelope(&payload) {
+                    let status = match decode_acip_envelope(&payload) {
                         Ok(envelope) if envelope.monotonic_sequence > last_acip_sequence => {
                             last_acip_sequence = envelope.monotonic_sequence;
-                            websocket_frame_status(&payload, true)
+                            acip_frame_status(&payload)
                         }
                         Ok(envelope) => serde_json::json!({
-                            "schema": CSM_ACIP_WEBSOCKET_SCHEMA,
+                            "schema": ACIP_WEBSOCKET_SCHEMA,
                             "status": "rejected",
                             "message_id": envelope.message_id,
                             "reason": "monotonic_sequence_must_advance",
                             "sequence_reserved": false
                         }),
-                        Err(_) => websocket_frame_status(&payload, true),
+                        Err(_) => acip_frame_status(&payload),
                     };
                     let Ok(payload) = serde_json::to_string(&status) else {
                         break;
@@ -1352,6 +1392,8 @@ pub enum ControlError {
 
 #[derive(Debug, Error, Eq, PartialEq)]
 pub enum ControlApiError {
+    #[error("control API policy is missing or contains a zero operational bound")]
+    MissingPolicy,
     #[error("control API bind failed: {0}")]
     Bind(String),
     #[error("control API TLS configuration failed: {0}")]

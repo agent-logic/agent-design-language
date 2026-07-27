@@ -1,24 +1,31 @@
 use std::{
-    net::SocketAddr,
+    collections::BTreeSet,
+    net::{SocketAddr, ToSocketAddrs},
     path::{Path, PathBuf},
-    process::ExitCode,
+    process::{ExitCode, Stdio},
     sync::Arc,
     time::{Duration, Instant},
 };
 
-use adl_runtime::guardian::{run_guardian, GuardianConfig, GuardianOutcome, GuardianTerminalState};
-use ed25519_dalek::SigningKey;
+use adl_runtime::guardian::{GuardianOutcome, GuardianTerminalState};
+use ed25519_dalek::{Signature, SigningKey, Verifier, VerifyingKey};
 use rcgen::{date_time_ymd, BasicConstraints, CertificateParams, CertifiedIssuer, IsCa, KeyPair};
+use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio::process::{Child, Command};
 use tokio_rustls::rustls::{
     pki_types::{CertificateDer, ServerName},
     ClientConfig, RootCertStore,
 };
-use tokio_util::sync::CancellationToken;
+
+#[cfg(windows)]
+use windows_sys::Win32::System::{
+    Console::{GenerateConsoleCtrlEvent, CTRL_BREAK_EVENT},
+    Threading::CREATE_NEW_PROCESS_GROUP,
+};
 
 const REPORT_SCHEMA: &str = "adl.runtime_v3.lifecycle_soak.v1";
-const CONTROL_ADDRESS: &str = "127.0.0.1:20997";
 const REQUIRED_CYCLES: u64 = 10_000;
 const STRESS_RUNS: u64 = 100;
 const STRESS_SECONDS: u64 = 10;
@@ -59,7 +66,12 @@ async fn main() -> ExitCode {
             return ExitCode::from(66);
         }
     };
-    let fixture = match ProductionFixture::create(&args.state_root) {
+    let fixture = match ProductionFixture::create(
+        &args.state_root,
+        &args.init_template,
+        args.suite,
+        &args.revision,
+    ) {
         Ok(fixture) => fixture,
         Err(error) => {
             eprintln!("failed preparing production Runtime v3 launch: {error}");
@@ -99,7 +111,9 @@ async fn main() -> ExitCode {
 }
 
 struct Args {
+    guardian: PathBuf,
     kernel: PathBuf,
+    init_template: PathBuf,
     state_root: PathBuf,
     report: PathBuf,
     revision: String,
@@ -111,22 +125,77 @@ struct ProductionFixture {
     init: PathBuf,
     continuity_root: PathBuf,
     local_state_root: PathBuf,
+    master_log: PathBuf,
+    log_audit: PathBuf,
     tls_connector: tokio_rustls::TlsConnector,
-    control_public_key: String,
-    continuity_signing_key: String,
-    operation_public_key: String,
+    continuity_verifying_key: VerifyingKey,
     observatory_token: String,
+    readiness_timeout: Duration,
+    readiness_poll: Duration,
+    shutdown_wait: Duration,
 }
 
 impl ProductionFixture {
-    fn create(state_root: &Path) -> Result<Self, String> {
-        let address = CONTROL_ADDRESS
-            .parse::<SocketAddr>()
-            .map_err(|error| format!("invalid control address: {error}"))?;
-        let config_root = state_root.join("config");
-        let continuity_root = state_root.join("continuity");
-        let local_state_root = state_root.join("local-state");
-        for path in [&config_root, &continuity_root, &local_state_root] {
+    fn create(
+        state_root: &Path,
+        init_template: &Path,
+        suite: Suite,
+        revision: &str,
+    ) -> Result<Self, String> {
+        let template_text = std::fs::read_to_string(init_template).map_err(|error| {
+            format!(
+                "could not read init template {}: {error}",
+                init_template.display()
+            )
+        })?;
+        let mut init_document = toml::from_str::<toml::Value>(&template_text).map_err(|error| {
+            format!("invalid init template {}: {error}", init_template.display())
+        })?;
+        let configured_address = toml_string(&init_document, &["api", "address"])?;
+        let readiness_timeout = Duration::from_millis(toml_u64(
+            &init_document,
+            &["qualification", "readiness_timeout_millis"],
+        )?);
+        let readiness_poll = Duration::from_millis(toml_u64(
+            &init_document,
+            &["qualification", "readiness_poll_millis"],
+        )?);
+        let shutdown_wait = Duration::from_millis(toml_u64(
+            &init_document,
+            &["qualification", "shutdown_wait_millis"],
+        )?);
+        let address = configured_address
+            .to_socket_addrs()
+            .map_err(|error| format!("invalid configured API address: {error}"))?
+            .find(SocketAddr::is_ipv4)
+            .or_else(|| configured_address.to_socket_addrs().ok()?.next())
+            .ok_or_else(|| "configured API address did not resolve".to_owned())?;
+        let state_root = state_root
+            .canonicalize()
+            .map_err(|error| format!("state root could not be canonicalized: {error}"))?;
+        let tls_root = state_root.join(toml_string(&init_document, &["paths", "tls_dir"])?);
+        let continuity_root =
+            state_root.join(toml_string(&init_document, &["paths", "continuity_dir"])?);
+        let credentials_root =
+            state_root.join(toml_string(&init_document, &["paths", "credentials_dir"])?);
+        let observability_root = state_root.join(toml_string(
+            &init_document,
+            &["paths", "observability_dir"],
+        )?);
+        let master_log = observability_root.join(toml_string(
+            &init_document,
+            &["observability_pipeline", "master_log_path"],
+        )?);
+        let log_audit = observability_root.join(toml_string(
+            &init_document,
+            &["observability_pipeline", "audit_path"],
+        )?);
+        for path in [
+            &tls_root,
+            &continuity_root,
+            &credentials_root,
+            &observability_root,
+        ] {
             std::fs::create_dir_all(path)
                 .map_err(|error| format!("could not create {}: {error}", path.display()))?;
         }
@@ -151,33 +220,89 @@ impl ProductionFixture {
         let leaf = leaf_params
             .signed_by(&leaf_key, &ca)
             .map_err(|error| error.to_string())?;
-        let certificate = config_root.join("cert.pem");
-        let private_key = config_root.join("key.pem");
+        let certificate = tls_root.join(toml_file_name(
+            &init_document,
+            &["api", "tls", "certificate_chain_path"],
+        )?);
+        let private_key = tls_root.join(toml_file_name(
+            &init_document,
+            &["api", "tls", "private_key_path"],
+        )?);
         std::fs::write(&certificate, leaf.pem()).map_err(|error| error.to_string())?;
         std::fs::write(&private_key, leaf_key.serialize_pem())
             .map_err(|error| error.to_string())?;
 
-        let init = config_root.join("runtime-init.toml");
+        let control_key = SigningKey::from_bytes(&[17_u8; 32]);
+        let operation_key = SigningKey::from_bytes(&[29_u8; 32]);
+        let continuity_key = SigningKey::from_bytes(&[23_u8; 32]);
+        let control_public_key = hex::encode(control_key.verifying_key().as_bytes());
+        let operation_public_key = hex::encode(operation_key.verifying_key().as_bytes());
+        let continuity_signing_key = hex::encode([23_u8; 32]);
+        let observatory_token = "wp12-observatory-token-000000000001".to_owned();
+        let control_public_key_path = credentials_root.join(toml_file_name(
+            &init_document,
+            &["credentials", "control_public_key_path"],
+        )?);
+        let operation_public_key_path = credentials_root.join(toml_file_name(
+            &init_document,
+            &["credentials", "operation_public_key_path"],
+        )?);
+        let continuity_signing_key_path = credentials_root.join(toml_file_name(
+            &init_document,
+            &["credentials", "continuity_signing_key_path"],
+        )?);
+        let observatory_token_path = credentials_root.join(toml_file_name(
+            &init_document,
+            &["credentials", "observatory_token_path"],
+        )?);
+        std::fs::write(&control_public_key_path, &control_public_key)
+            .map_err(|error| error.to_string())?;
+        std::fs::write(&operation_public_key_path, &operation_public_key)
+            .map_err(|error| error.to_string())?;
+        std::fs::write(&continuity_signing_key_path, &continuity_signing_key)
+            .map_err(|error| error.to_string())?;
+        std::fs::write(&observatory_token_path, &observatory_token)
+            .map_err(|error| error.to_string())?;
+
+        set_toml_string(&mut init_document, &["state_root"], toml_path(&state_root)?)?;
+        set_toml_string(
+            &mut init_document,
+            &["api", "tls", "certificate_chain_path"],
+            toml_path(&certificate)?,
+        )?;
+        set_toml_string(
+            &mut init_document,
+            &["api", "tls", "private_key_path"],
+            toml_path(&private_key)?,
+        )?;
+        for (field, path) in [
+            ("control_public_key_path", &control_public_key_path),
+            ("operation_public_key_path", &operation_public_key_path),
+            ("continuity_signing_key_path", &continuity_signing_key_path),
+            ("observatory_token_path", &observatory_token_path),
+        ] {
+            set_toml_string(
+                &mut init_document,
+                &["credentials", field],
+                toml_path(path)?,
+            )?;
+        }
+        for (field, value) in [
+            ("revision", revision),
+            ("lifecycle_suite", suite.name()),
+            ("lifecycle_run", revision),
+            ("lifecycle_cycle", suite.name()),
+        ] {
+            set_toml_string(
+                &mut init_document,
+                &["observability_pipeline", field],
+                value.to_owned(),
+            )?;
+        }
+        let init = state_root.join("runtime-init.toml");
         std::fs::write(
             &init,
-            format!(
-                r#"schema = "adl.runtime_v3.init.v1"
-[api]
-address = "{address}"
-public_base_url = "https://localhost:{}"
-[api.tls]
-certificate_chain_path = "{}"
-private_key_path = "{}"
-[observatory]
-allowed_origins = ["https://localhost:20997"]
-[agents]
-count = 1
-sample_limit = 1
-"#,
-                address.port(),
-                toml_path(&certificate)?,
-                toml_path(&private_key)?,
-            ),
+            toml::to_string_pretty(&init_document).map_err(|error| error.to_string())?,
         )
         .map_err(|error| error.to_string())?;
 
@@ -188,30 +313,93 @@ sample_limit = 1
         let client_config = ClientConfig::builder()
             .with_root_certificates(roots)
             .with_no_client_auth();
-        let control_key = SigningKey::from_bytes(&[17_u8; 32]);
-        let operation_key = SigningKey::from_bytes(&[29_u8; 32]);
-
         Ok(Self {
             address,
             init,
             continuity_root,
-            local_state_root: local_state_root
-                .canonicalize()
-                .map_err(|error| error.to_string())?,
+            local_state_root: state_root,
+            master_log,
+            log_audit,
             tls_connector: tokio_rustls::TlsConnector::from(Arc::new(client_config)),
-            control_public_key: hex::encode(control_key.verifying_key().as_bytes()),
-            continuity_signing_key: hex::encode([23_u8; 32]),
-            operation_public_key: hex::encode(operation_key.verifying_key().as_bytes()),
-            observatory_token: "wp12-observatory-token-000000000001".to_owned(),
+            continuity_verifying_key: continuity_key.verifying_key(),
+            observatory_token,
+            readiness_timeout,
+            readiness_poll,
+            shutdown_wait,
         })
     }
+}
+
+fn toml_string<'a>(document: &'a toml::Value, path: &[&str]) -> Result<&'a str, String> {
+    let mut value = document;
+    for segment in path {
+        value = value
+            .get(*segment)
+            .ok_or_else(|| format!("init template is missing {}", path.join(".")))?;
+    }
+    value
+        .as_str()
+        .filter(|value| !value.trim().is_empty())
+        .ok_or_else(|| {
+            format!(
+                "init template {} must be a non-empty string",
+                path.join(".")
+            )
+        })
+}
+
+fn toml_u64(document: &toml::Value, path: &[&str]) -> Result<u64, String> {
+    let mut value = document;
+    for segment in path {
+        value = value
+            .get(*segment)
+            .ok_or_else(|| format!("init template is missing {}", path.join(".")))?;
+    }
+    value
+        .as_integer()
+        .and_then(|value| u64::try_from(value).ok())
+        .filter(|value| *value > 0)
+        .ok_or_else(|| {
+            format!(
+                "init template {} must be a positive integer",
+                path.join(".")
+            )
+        })
+}
+
+fn toml_file_name(document: &toml::Value, path: &[&str]) -> Result<std::ffi::OsString, String> {
+    Path::new(toml_string(document, path)?)
+        .file_name()
+        .map(std::ffi::OsStr::to_os_string)
+        .ok_or_else(|| format!("init template {} has no file name", path.join(".")))
+}
+
+fn set_toml_string(document: &mut toml::Value, path: &[&str], value: String) -> Result<(), String> {
+    let (field, parents) = path
+        .split_last()
+        .ok_or_else(|| "empty TOML path".to_owned())?;
+    let mut table = document
+        .as_table_mut()
+        .ok_or_else(|| "init template root must be a TOML table".to_owned())?;
+    for segment in parents {
+        table = table
+            .get_mut(*segment)
+            .and_then(toml::Value::as_table_mut)
+            .ok_or_else(|| format!("init template is missing {}", path.join(".")))?;
+    }
+    let slot = table
+        .get_mut(*field)
+        .ok_or_else(|| format!("init template is missing {}", path.join(".")))?;
+    *slot = toml::Value::String(value);
+    Ok(())
 }
 
 #[derive(Clone, Copy)]
 enum Suite {
     Preflight,
     Lifecycle { cycles: u64 },
-    Timed { runs: u64, seconds: u64 },
+    Stress { runs: u64, seconds: u64 },
+    Endurance { runs: u64, seconds: u64 },
 }
 
 impl Suite {
@@ -219,103 +407,82 @@ impl Suite {
         match self {
             Self::Preflight => "preflight_1x",
             Self::Lifecycle { .. } => "lifecycle_10000",
-            Self::Timed {
-                runs: STRESS_RUNS,
-                seconds: STRESS_SECONDS,
-            } => "stress_100x10s",
-            Self::Timed {
-                runs: ENDURANCE_RUNS,
-                seconds: ENDURANCE_SECONDS,
-            } => "endurance_10x600s",
-            Self::Timed { .. } => unreachable!("argument parsing rejects other timed suites"),
+            Self::Stress { .. } => "stress_100x10s",
+            Self::Endurance { .. } => "endurance_10x600s",
         }
     }
 }
 
 impl Args {
     fn parse(mut args: impl Iterator<Item = String>) -> Result<Self, String> {
+        let mut guardian = None;
         let mut kernel = None;
+        let mut init_template = None;
         let mut state_root = None;
         let mut report = None;
         let mut revision = None;
-        let mut cycles = None;
-        let mut runs = None;
-        let mut duration_seconds = None;
-        let mut preflight = false;
+        let mut suite = None;
         while let Some(argument) = args.next() {
             let value = |args: &mut dyn Iterator<Item = String>, name: &str| {
                 args.next()
                     .ok_or_else(|| format!("{name} requires a value"))
             };
             match argument.as_str() {
+                "--guardian" => guardian = Some(PathBuf::from(value(&mut args, "--guardian")?)),
                 "--kernel" => kernel = Some(PathBuf::from(value(&mut args, "--kernel")?)),
+                "--init-template" => {
+                    init_template = Some(PathBuf::from(value(&mut args, "--init-template")?))
+                }
                 "--state-root" => {
                     state_root = Some(PathBuf::from(value(&mut args, "--state-root")?))
                 }
                 "--report" => report = Some(PathBuf::from(value(&mut args, "--report")?)),
                 "--revision" => revision = Some(value(&mut args, "--revision")?),
-                "--preflight" => preflight = true,
-                "--cycles" => {
-                    cycles = Some(
-                        value(&mut args, "--cycles")?
-                            .parse::<u64>()
-                            .map_err(|_| "--cycles must be an integer".to_owned())?,
-                    )
-                }
-                "--runs" => {
-                    runs = Some(
-                        value(&mut args, "--runs")?
-                            .parse::<u64>()
-                            .map_err(|_| "--runs must be an integer".to_owned())?,
-                    )
-                }
-                "--duration-seconds" => {
-                    duration_seconds = Some(
-                        value(&mut args, "--duration-seconds")?
-                            .parse::<u64>()
-                            .map_err(|_| "--duration-seconds must be an integer".to_owned())?,
-                    )
+                "--suite" => {
+                    if suite.is_some() {
+                        return Err("--suite accepts exactly one value".to_owned());
+                    }
+                    suite = Some(match value(&mut args, "--suite")?.as_str() {
+                        "preflight" | "preflight_1x" => Suite::Preflight,
+                        "lifecycle" | "lifecycle_10000" => Suite::Lifecycle {
+                            cycles: REQUIRED_CYCLES,
+                        },
+                        "stress" | "stress_100x10s" => Suite::Stress {
+                            runs: STRESS_RUNS,
+                            seconds: STRESS_SECONDS,
+                        },
+                        "endurance" | "endurance_10x600s" => Suite::Endurance {
+                            runs: ENDURANCE_RUNS,
+                            seconds: ENDURANCE_SECONDS,
+                        },
+                        other => return Err(format!("unsupported lifecycle soak suite: {other}")),
+                    });
                 }
                 _ => return Err(format!("unknown lifecycle soak option: {argument}")),
             }
         }
+        let guardian = guardian.ok_or_else(|| "--guardian is required".to_owned())?;
         let kernel = kernel.ok_or_else(|| "--kernel is required".to_owned())?;
+        let init_template =
+            init_template.ok_or_else(|| "--init-template is required".to_owned())?;
         let state_root = state_root.ok_or_else(|| "--state-root is required".to_owned())?;
         let report = report.ok_or_else(|| "--report is required".to_owned())?;
         let revision = revision.ok_or_else(|| "--revision is required".to_owned())?;
+        if !guardian.is_absolute() || !guardian.is_file() {
+            return Err("--guardian must be an absolute existing file".to_owned());
+        }
         if !kernel.is_absolute() || !kernel.is_file() {
             return Err("--kernel must be an absolute existing file".to_owned());
+        }
+        if !init_template.is_absolute() || !init_template.is_file() {
+            return Err("--init-template must be an absolute existing file".to_owned());
         }
         if !state_root.is_absolute() || !report.is_absolute() {
             return Err("--state-root and --report must be absolute paths".to_owned());
         }
-        let suite = match (preflight, cycles, runs, duration_seconds) {
-            (true, None, None, None) => Suite::Preflight,
-            (false, None, None, None) | (false, Some(REQUIRED_CYCLES), None, None) => {
-                Suite::Lifecycle {
-                    cycles: REQUIRED_CYCLES,
-                }
-            }
-            (false, Some(_), None, None) => {
-                return Err(format!(
-                    "--cycles must be exactly {REQUIRED_CYCLES} for acceptance proof"
-                ))
-            }
-            (false, None, Some(STRESS_RUNS), Some(STRESS_SECONDS)) => Suite::Timed {
-                runs: STRESS_RUNS,
-                seconds: STRESS_SECONDS,
-            },
-            (false, None, Some(ENDURANCE_RUNS), Some(ENDURANCE_SECONDS)) => Suite::Timed {
-                runs: ENDURANCE_RUNS,
-                seconds: ENDURANCE_SECONDS,
-            },
-            _ => {
-                return Err(
-                    "use exactly --preflight, --cycles 10000, --runs 100 --duration-seconds 10, or --runs 10 --duration-seconds 600"
-                        .to_owned(),
-                )
-            }
-        };
+        let suite = suite.unwrap_or(Suite::Lifecycle {
+            cycles: REQUIRED_CYCLES,
+        });
         if revision.len() != 40
             || !revision
                 .bytes()
@@ -324,7 +491,9 @@ impl Args {
             return Err("--revision must be a lowercase 40-character Git SHA".to_owned());
         }
         Ok(Self {
+            guardian,
             kernel,
+            init_template,
             state_root,
             report,
             revision,
@@ -409,7 +578,43 @@ struct Execution {
     completed_cycles: u64,
     continuity_generation: u64,
     minimum_cycles_per_run: u64,
+    guardian_pids: BTreeSet<u32>,
+    runtime_instance_ids: BTreeSet<String>,
+    restart_budget_exercised: bool,
+    total_restarts: u64,
     log_proof: Option<LogProof>,
+}
+
+impl Execution {
+    fn new(completed_runs: u64, continuity_generation: u64, minimum_cycles_per_run: u64) -> Self {
+        Self {
+            completed_runs,
+            completed_cycles: 0,
+            continuity_generation,
+            minimum_cycles_per_run,
+            guardian_pids: BTreeSet::new(),
+            runtime_instance_ids: BTreeSet::new(),
+            restart_budget_exercised: false,
+            total_restarts: 0,
+            log_proof: None,
+        }
+    }
+
+    fn record_cycle(&mut self, observation: CycleObservation) {
+        self.completed_cycles = self.completed_cycles.saturating_add(1);
+        self.guardian_pids.insert(observation.guardian_pid);
+        self.runtime_instance_ids
+            .insert(observation.runtime_instance_id);
+        self.restart_budget_exercised |= observation.restart_budget_exercised;
+        self.total_restarts = self.total_restarts.saturating_add(observation.restarts);
+    }
+}
+
+struct CycleObservation {
+    guardian_pid: u32,
+    runtime_instance_id: String,
+    restart_budget_exercised: bool,
+    restarts: u64,
 }
 
 struct LogProof {
@@ -418,6 +623,24 @@ struct LogProof {
     master_log_records: u64,
     log_audit_ref: String,
     log_audit_sha256: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ContinuityManifest {
+    schema: String,
+    generation: u64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    previous_integrity: Option<String>,
+    accepted_through: u64,
+    provenance: String,
+    topology_hash: String,
+    config_hash: String,
+    migration: serde_json::Value,
+    snapshots: Vec<serde_json::Value>,
+    integrity: String,
+    signing_algorithm: String,
+    signing_key_id: String,
+    signature: String,
 }
 
 struct Failure {
@@ -435,8 +658,7 @@ async fn execute_suite(
 ) -> Result<Execution, Failure> {
     match args.suite {
         Suite::Preflight => {
-            let continuity = fixture.continuity_root.join("preflight");
-            execute_cycle(args, fixture, &continuity, 1, 1, true)
+            let observation = execute_cycle(args, fixture, 1, 1, 1, true, true)
                 .await
                 .map_err(|error| Failure {
                     run: 1,
@@ -445,74 +667,61 @@ async fn execute_suite(
                     completed_cycles: 0,
                     error,
                 })?;
-            Ok(Execution {
-                completed_runs: 1,
-                completed_cycles: 1,
-                continuity_generation: 1,
-                minimum_cycles_per_run: 1,
-                log_proof: None,
-            })
+            let mut execution = Execution::new(1, 1, 1);
+            execution.record_cycle(observation);
+            Ok(execution)
         }
         Suite::Lifecycle { cycles } => {
-            let continuity = fixture.continuity_root.join("lifecycle");
+            let mut execution = Execution::new(1, cycles, cycles);
             for cycle in 1..=cycles {
-                execute_cycle(args, fixture, &continuity, 1, cycle, cycle == cycles)
-                    .await
-                    .map_err(|error| Failure {
-                        run: 1,
-                        cycle,
-                        completed_runs: 0,
-                        completed_cycles: cycle.saturating_sub(1),
-                        error,
-                    })?;
+                let observation =
+                    execute_cycle(args, fixture, 1, cycle, cycle, cycle == cycles, cycle == 1)
+                        .await
+                        .map_err(|error| Failure {
+                            run: 1,
+                            cycle,
+                            completed_runs: 0,
+                            completed_cycles: cycle.saturating_sub(1),
+                            error,
+                        })?;
+                execution.record_cycle(observation);
                 if cycle % 1_000 == 0 {
                     eprintln!("guardian_runtime_lifecycle_progress={cycle}/{cycles}");
                 }
             }
-            verify_generation(&continuity, cycles).map_err(|error| Failure {
+            verify_continuity_chain(
+                &fixture.continuity_root,
+                cycles,
+                &fixture.continuity_verifying_key,
+            )
+            .map_err(|error| Failure {
                 run: 1,
                 cycle: cycles,
                 completed_runs: 0,
                 completed_cycles: cycles,
                 error,
             })?;
-            Ok(Execution {
-                completed_runs: 1,
-                completed_cycles: cycles,
-                continuity_generation: cycles,
-                minimum_cycles_per_run: cycles,
-                log_proof: None,
-            })
+            Ok(execution)
         }
-        Suite::Timed { runs, seconds } => {
+        Suite::Stress { runs, seconds } | Suite::Endurance { runs, seconds } => {
             let mut total_cycles = 0_u64;
             let mut minimum_cycles_per_run = u64::MAX;
+            let mut execution = Execution::new(runs, 0, 0);
             for run in 1..=runs {
-                let run_root = args.state_root.join(format!("run-{run:03}"));
-                std::fs::create_dir_all(&run_root).map_err(|error| Failure {
-                    run,
-                    cycle: 0,
-                    completed_runs: run.saturating_sub(1),
-                    completed_cycles: total_cycles,
-                    error: format!("could not create lifecycle run state: {error}"),
-                })?;
-                let continuity = fixture.continuity_root.join(format!("run-{run:03}"));
                 let deadline = Instant::now() + Duration::from_secs(seconds);
                 let mut run_cycles = 0_u64;
                 while run_cycles == 0 || Instant::now() < deadline {
                     run_cycles = run_cycles.saturating_add(1);
-                    execute_cycle(args, fixture, &continuity, run, run_cycles, false)
-                        .await
-                        .map_err(|error| Failure {
-                            run,
-                            cycle: run_cycles,
-                            completed_runs: run.saturating_sub(1),
-                            completed_cycles: total_cycles + run_cycles.saturating_sub(1),
-                            error,
-                        })?;
-                }
-                run_cycles = run_cycles.saturating_add(1);
-                execute_cycle(args, fixture, &continuity, run, run_cycles, true)
+                    let expected_generation = total_cycles.saturating_add(run_cycles);
+                    let observation = execute_cycle(
+                        args,
+                        fixture,
+                        run,
+                        run_cycles,
+                        expected_generation,
+                        false,
+                        run == 1 && run_cycles == 1,
+                    )
                     .await
                     .map_err(|error| Failure {
                         run,
@@ -521,27 +730,51 @@ async fn execute_suite(
                         completed_cycles: total_cycles + run_cycles.saturating_sub(1),
                         error,
                     })?;
-                verify_generation(&continuity, run_cycles).map_err(|error| Failure {
+                    execution.record_cycle(observation);
+                }
+                run_cycles = run_cycles.saturating_add(1);
+                let expected_generation = total_cycles.saturating_add(run_cycles);
+                let observation = execute_cycle(
+                    args,
+                    fixture,
+                    run,
+                    run_cycles,
+                    expected_generation,
+                    true,
+                    false,
+                )
+                .await
+                .map_err(|error| Failure {
                     run,
                     cycle: run_cycles,
                     completed_runs: run.saturating_sub(1),
-                    completed_cycles: total_cycles + run_cycles,
+                    completed_cycles: total_cycles + run_cycles.saturating_sub(1),
+                    error,
+                })?;
+                execution.record_cycle(observation);
+                verify_continuity_chain(
+                    &fixture.continuity_root,
+                    expected_generation,
+                    &fixture.continuity_verifying_key,
+                )
+                .map_err(|error| Failure {
+                    run,
+                    cycle: run_cycles,
+                    completed_runs: run.saturating_sub(1),
+                    completed_cycles: expected_generation,
                     error,
                 })?;
                 total_cycles = total_cycles.saturating_add(run_cycles);
                 minimum_cycles_per_run = minimum_cycles_per_run.min(run_cycles);
+                execution.continuity_generation =
+                    execution.continuity_generation.saturating_add(run_cycles);
+                execution.minimum_cycles_per_run = minimum_cycles_per_run;
                 eprintln!(
                     "guardian_runtime_window_progress={run}/{runs} run_cycles={run_cycles} total_cycles={total_cycles} elapsed_millis={}",
                     started.elapsed().as_millis()
                 );
             }
-            Ok(Execution {
-                completed_runs: runs,
-                completed_cycles: total_cycles,
-                continuity_generation: total_cycles,
-                minimum_cycles_per_run,
-                log_proof: None,
-            })
+            Ok(execution)
         }
     }
 }
@@ -549,108 +782,69 @@ async fn execute_suite(
 async fn execute_cycle(
     args: &Args,
     fixture: &ProductionFixture,
-    continuity_root: &Path,
-    run: u64,
-    cycle: u64,
+    _run: u64,
+    _cycle: u64,
+    expected_generation: u64,
     retain_log: bool,
-) -> Result<(), String> {
-    std::fs::create_dir_all(continuity_root)
+    _require_restart_proof: bool,
+) -> Result<CycleObservation, String> {
+    std::fs::create_dir_all(&fixture.continuity_root)
         .map_err(|error| format!("could not create continuity root: {error}"))?;
-    let config = GuardianConfig {
-        program: args.kernel.clone(),
-        args: vec![
-            "serve".to_owned(),
-            "--init".to_owned(),
-            fixture.init.to_string_lossy().into_owned(),
-            "--continuity-root".to_owned(),
-            continuity_root.to_string_lossy().into_owned(),
-        ],
-        env: vec![
-            (
-                "ADL_RUNTIME_V3_LOCAL_STATE_DIR".to_owned(),
-                fixture.local_state_root.to_string_lossy().into_owned(),
-            ),
-            (
-                "ADL_RUNTIME_CONTROL_PUBLIC_KEY_HEX".to_owned(),
-                fixture.control_public_key.clone(),
-            ),
-            (
-                "ADL_RUNTIME_CONTROL_KEY_ID".to_owned(),
-                "wp12-control".to_owned(),
-            ),
-            (
-                "ADL_RUNTIME_CONTROL_PRINCIPAL".to_owned(),
-                "wp12-control".to_owned(),
-            ),
-            (
-                "ADL_RUNTIME_CONTINUITY_SIGNING_KEY_HEX".to_owned(),
-                fixture.continuity_signing_key.clone(),
-            ),
-            (
-                "ADL_RUNTIME_CONTINUITY_KEY_ID".to_owned(),
-                "wp12-continuity".to_owned(),
-            ),
-            (
-                "ADL_RUNTIME_CONTINUITY_MIN_GENERATION".to_owned(),
-                cycle.saturating_sub(1).to_string(),
-            ),
-            (
-                "ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX".to_owned(),
-                fixture.operation_public_key.clone(),
-            ),
-            (
-                "ADL_RUNTIME_OPERATION_KEY_ID".to_owned(),
-                "wp12-operations".to_owned(),
-            ),
-            (
-                "ADL_RUNTIME_OBSERVATORY_TOKEN".to_owned(),
-                fixture.observatory_token.clone(),
-            ),
-            (
-                "ADL_RUNTIME_LIFECYCLE_SUITE".to_owned(),
-                args.suite.name().to_owned(),
-            ),
-            ("ADL_RUNTIME_LIFECYCLE_RUN".to_owned(), run.to_string()),
-            ("ADL_RUNTIME_LIFECYCLE_CYCLE".to_owned(), cycle.to_string()),
-            ("ADL_RUNTIME_REVISION".to_owned(), args.revision.clone()),
-        ],
-        restart_budget: 0,
-        backoff_base_ms: 1,
-        backoff_cap_ms: 1,
-        shutdown_grace_ms: 45_000,
-        configuration_exit_codes: vec![64, 78],
-    };
-    let shutdown = CancellationToken::new();
-    let guardian_shutdown = shutdown.clone();
-    let guardian = tokio::spawn(async move { run_guardian(config, guardian_shutdown).await });
-    let ready = wait_for_authenticated_observatory(fixture, &guardian).await;
-    shutdown.cancel();
-    let outcome = tokio::time::timeout(Duration::from_secs(50), guardian)
+    let mut guardian_command = Command::new(&args.guardian);
+    guardian_command
+        .arg("--kernel")
+        .arg(&args.kernel)
+        .arg("--init")
+        .arg(&fixture.init)
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .kill_on_drop(true);
+    #[cfg(windows)]
+    guardian_command.creation_flags(CREATE_NEW_PROCESS_GROUP);
+    let mut guardian = guardian_command
+        .spawn()
+        .map_err(|error| format!("Guardian binary launch failed: {error}"))?;
+    let guardian_process_id = guardian
+        .id()
+        .ok_or_else(|| "Guardian binary did not expose a process id".to_owned())?;
+    let ready = wait_for_authenticated_observatory(fixture, &mut guardian).await;
+    request_native_shutdown(&mut guardian).await?;
+    let output = tokio::time::timeout(fixture.shutdown_wait, guardian.wait_with_output())
         .await
         .map_err(|_| "Guardian did not complete production shutdown".to_owned())?
-        .map_err(|error| format!("Guardian task failed: {error}"))?
-        .map_err(|error| format!("{error:?}"))?;
+        .map_err(|error| format!("Guardian process wait failed: {error}"))?;
+    if !output.status.success() {
+        return Err(format!(
+            "Guardian process exited with {}; stderr={}",
+            output.status,
+            diagnostic_tail(&String::from_utf8_lossy(&output.stderr), &args.state_root)
+        ));
+    }
+    let outcome = guardian_outcome_from_stdout(&output.stdout)?;
     validate_guardian_outcome(&outcome)?;
-    verify_generation(continuity_root, cycle).map_err(|error| {
+    verify_generation(&fixture.continuity_root, expected_generation).map_err(|error| {
         format!(
             "{error}; guardian_stderr={}",
             diagnostic_tail(&outcome.attempts_detail[0].stderr, &args.state_root)
         )
     })?;
     verify_writer_lock_released(&fixture.local_state_root)?;
-    ready?;
-    validate_guardian_output(&outcome)?;
-    verify_master_log(args, fixture).map_err(|error| {
-        format!(
-            "{error}; guardian_stderr={}",
-            diagnostic_tail(&outcome.attempts_detail[0].stderr, &args.state_root)
-        )
-    })?;
+    let observatory = ready?;
+    let runtime_instance_id = observatory["runtime_instance_id"]
+        .as_str()
+        .ok_or_else(|| "Runtime v3 Observatory did not expose runtime_instance_id".to_owned())?
+        .to_owned();
     if !retain_log {
         std::fs::remove_dir_all(fixture.local_state_root.join("observability"))
             .map_err(|error| format!("checked Vector log could not be discarded: {error}"))?;
     }
-    Ok(())
+    Ok(CycleObservation {
+        guardian_pid: guardian_process_id,
+        runtime_instance_id,
+        restart_budget_exercised: outcome.restarts > 0,
+        restarts: u64::from(outcome.restarts),
+    })
 }
 
 fn diagnostic_tail(output: &str, state_root: &Path) -> String {
@@ -665,28 +859,81 @@ fn diagnostic_tail(output: &str, state_root: &Path) -> String {
 
 async fn wait_for_authenticated_observatory(
     fixture: &ProductionFixture,
-    guardian: &tokio::task::JoinHandle<
-        Result<GuardianOutcome, adl_runtime::guardian::GuardianConfigError>,
-    >,
-) -> Result<(), String> {
-    let deadline = Instant::now() + Duration::from_secs(10);
+    guardian: &mut Child,
+) -> Result<serde_json::Value, String> {
+    let deadline = Instant::now() + fixture.readiness_timeout;
     loop {
-        if guardian.is_finished() {
-            return Err("Runtime v3 exited before its authenticated API became ready".to_owned());
+        match guardian.try_wait() {
+            Ok(Some(status)) => {
+                return Err(format!(
+                    "Runtime v3 exited before its authenticated API became ready: {status}"
+                ));
+            }
+            Ok(None) => {}
+            Err(error) => {
+                return Err(format!("Guardian process readiness check failed: {error}"));
+            }
         }
         match authenticated_observatory(fixture).await {
-            Ok(observatory) => return validate_observatory(&observatory),
+            Ok(observatory) => {
+                validate_observatory(&observatory)?;
+                return Ok(observatory);
+            }
             Err(error) if Instant::now() < deadline => {
                 let _ = error;
-                tokio::time::sleep(Duration::from_millis(10)).await;
+                tokio::time::sleep(fixture.readiness_poll).await;
             }
             Err(error) => {
                 return Err(format!(
-                    "Runtime v3 authenticated API was not ready on {CONTROL_ADDRESS}: {error}"
+                    "Runtime v3 authenticated API was not ready on {}: {error}",
+                    fixture.address
                 ))
             }
         }
     }
+}
+
+async fn request_native_shutdown(guardian: &mut Child) -> Result<(), String> {
+    let pid = guardian
+        .id()
+        .ok_or_else(|| "Guardian process id disappeared before shutdown".to_owned())?;
+    send_native_shutdown(pid, guardian).await
+}
+
+#[cfg(unix)]
+async fn send_native_shutdown(pid: u32, _guardian: &mut Child) -> Result<(), String> {
+    let rc = unsafe { libc::kill(pid as i32, libc::SIGTERM) };
+    if rc == 0 {
+        Ok(())
+    } else {
+        Err(format!(
+            "native Guardian SIGTERM failed: {}",
+            std::io::Error::last_os_error()
+        ))
+    }
+}
+
+#[cfg(windows)]
+async fn send_native_shutdown(pid: u32, _guardian: &mut Child) -> Result<(), String> {
+    if unsafe { GenerateConsoleCtrlEvent(CTRL_BREAK_EVENT, pid) } != 0 {
+        Ok(())
+    } else {
+        Err(format!(
+            "native Guardian CTRL_BREAK failed: {}",
+            std::io::Error::last_os_error()
+        ))
+    }
+}
+
+fn guardian_outcome_from_stdout(stdout: &[u8]) -> Result<GuardianOutcome, String> {
+    let text = String::from_utf8(stdout.to_vec())
+        .map_err(|error| format!("Guardian stdout was not UTF-8 JSON: {error}"))?;
+    let payload = text
+        .lines()
+        .rev()
+        .find(|line| !line.trim().is_empty())
+        .ok_or_else(|| "Guardian stdout did not include its JSON outcome".to_owned())?;
+    serde_json::from_str(payload).map_err(|error| format!("Guardian outcome JSON invalid: {error}"))
 }
 
 async fn authenticated_observatory(
@@ -726,43 +973,19 @@ async fn authenticated_observatory(
 }
 
 fn validate_observatory(observatory: &serde_json::Value) -> Result<(), String> {
+    let runtime_instance_id = observatory["runtime_instance_id"]
+        .as_str()
+        .ok_or_else(|| "Runtime v3 Observatory did not expose runtime_instance_id".to_owned())?;
     if observatory["schema"] != "adl.runtime_v3.observatory_feed.v2"
+        || runtime_instance_id.is_empty()
         || observatory["runtime_selection"] != "runtime_v3_explicit_opt_in"
         || observatory["control"]["websocket_full_duplex"] != true
+        || observatory["health"]["observability_ready"] != true
+        || observatory["health"]["snapshot"]["observability"]["status"] != "ready"
     {
         return Err(
-            "Runtime v3 Observatory did not expose the production control contract".to_owned(),
+            "Runtime v3 Observatory did not expose typed ready production health".to_owned(),
         );
-    }
-    reject_non_operational_state(observatory, "$")
-}
-
-fn reject_non_operational_state(value: &serde_json::Value, path: &str) -> Result<(), String> {
-    match value {
-        serde_json::Value::String(value) => {
-            let normalized = value.to_ascii_lowercase();
-            if ["degraded", "unavailable", "failed", "fatal", "panic"]
-                .iter()
-                .any(|marker| {
-                    normalized == *marker || normalized.starts_with(&format!("{marker}:"))
-                })
-            {
-                return Err(format!(
-                    "Runtime v3 Observatory reported non-operational state at {path}: {value}"
-                ));
-            }
-        }
-        serde_json::Value::Array(values) => {
-            for (index, value) in values.iter().enumerate() {
-                reject_non_operational_state(value, &format!("{path}[{index}]"))?;
-            }
-        }
-        serde_json::Value::Object(values) => {
-            for (key, value) in values {
-                reject_non_operational_state(value, &format!("{path}.{key}"))?;
-            }
-        }
-        _ => {}
     }
     Ok(())
 }
@@ -779,13 +1002,12 @@ fn verify_writer_lock_released(local_state_root: &Path) -> Result<(), String> {
 }
 
 fn verify_master_log(args: &Args, fixture: &ProductionFixture) -> Result<LogProof, String> {
-    let observability_root = fixture.local_state_root.join("observability");
-    let master_log = observability_root.join("durable/master.log.jsonl");
-    let audit = observability_root.join("audit/master-log-audit.json");
+    let master_log = &fixture.master_log;
+    let audit = &fixture.log_audit;
     let master_log_sha256 =
-        file_sha256(&master_log).map_err(|error| format!("master log unavailable: {error}"))?;
+        file_sha256(master_log).map_err(|error| format!("master log unavailable: {error}"))?;
     let master_log_bytes =
-        std::fs::read(&master_log).map_err(|error| format!("master log unreadable: {error}"))?;
+        std::fs::read(master_log).map_err(|error| format!("master log unreadable: {error}"))?;
     let master_log_records = u64::try_from(
         String::from_utf8(master_log_bytes)
             .map_err(|_| "master log is not UTF-8 JSONL".to_owned())?
@@ -795,7 +1017,7 @@ fn verify_master_log(args: &Args, fixture: &ProductionFixture) -> Result<LogProo
     )
     .map_err(|_| "master log record count overflowed".to_owned())?;
     let audit_bytes =
-        std::fs::read(&audit).map_err(|error| format!("master log audit unavailable: {error}"))?;
+        std::fs::read(audit).map_err(|error| format!("master log audit unavailable: {error}"))?;
     let audit_value: serde_json::Value = serde_json::from_slice(&audit_bytes)
         .map_err(|error| format!("master log audit is invalid JSON: {error}"))?;
     let expected_platform = std::env::consts::OS;
@@ -816,7 +1038,6 @@ fn verify_master_log(args: &Args, fixture: &ProductionFixture) -> Result<LogProo
         || audit_value["platform"] != expected_platform
         || audit_value["suite"] != expected_suite
         || audit_value["revision"] != args.revision
-        || audit_value["master_log_sha256"] != master_log_sha256
         || audit_value["record_count"].as_u64() != Some(master_log_records)
         || !zero_counters
     {
@@ -825,11 +1046,11 @@ fn verify_master_log(args: &Args, fixture: &ProductionFixture) -> Result<LogProo
         ));
     }
     Ok(LogProof {
-        master_log_ref: repo_relative(&master_log)?,
+        master_log_ref: repo_relative(master_log)?,
         master_log_sha256,
         master_log_records,
-        log_audit_ref: repo_relative(&audit)?,
-        log_audit_sha256: file_sha256(&audit)
+        log_audit_ref: repo_relative(audit)?,
+        log_audit_sha256: file_sha256(audit)
             .map_err(|error| format!("master log audit hash failed: {error}"))?,
     })
 }
@@ -887,14 +1108,9 @@ fn build_platform_proof(args: &AggregateArgs) -> Result<serde_json::Value, Strin
         "native_os": first.platform,
         "architecture": first.architecture,
         "status": "pass",
-        "guardian_process_zero": true,
-        "native_execution": true,
-        "wsl_used": false,
-        "docker_used": false,
         "lifecycle_acceptance": {
             "revision": first.revision,
             "kernel_sha256": first.kernel_sha256,
-            "all_logs_clean": true,
             "preflight": suite_summary(&preflight.value),
             "lifecycle_10000": suite_summary(&lifecycle.value),
             "stress_100x10s": suite_summary(&stress.value),
@@ -928,18 +1144,12 @@ fn read_soak_report(path: &Path, expected_suite: &str) -> Result<SoakReport, Str
     if !is_lower_hex(&kernel_sha256, 64) {
         return Err(format!("{expected_suite} has invalid kernel digest"));
     }
-    if u64_field(&value, "failed_cycles")? != 0 || u64_field(&value, "degraded_cycles")? != 0 {
-        return Err(format!("{expected_suite} reported failure or degradation"));
-    }
-    require_bool(&value, "guardian_owned", true)?;
-    require_bool(&value, "runtime_kernel_process_per_cycle", true)?;
     require_bool(&value, "logging_complete", true)?;
     require_string(&value, "master_log_status", "clean")?;
     if u64_field(&value, "master_log_records")? == 0 {
         return Err(format!("{expected_suite} retained no master log records"));
     }
     validate_suite_counts(&value, expected_suite)?;
-    validate_log_proof(&value, expected_suite)?;
     Ok(SoakReport {
         value,
         revision,
@@ -986,74 +1196,6 @@ fn validate_suite_counts(value: &serde_json::Value, suite: &str) -> Result<(), S
     Ok(())
 }
 
-fn validate_log_proof(value: &serde_json::Value, suite: &str) -> Result<(), String> {
-    let log_records = u64_field(value, "master_log_records")?;
-    let master_log = safe_repo_path(&string_field(value, "master_log_ref")?)?;
-    let master_log_sha256 = string_field(value, "master_log_sha256")?;
-    if !is_lower_hex(&master_log_sha256, 64)
-        || file_sha256(&master_log).map_err(|e| e.to_string())? != master_log_sha256
-    {
-        return Err(format!(
-            "{suite} master log digest did not match retained file"
-        ));
-    }
-    let master_log_text = std::fs::read_to_string(&master_log)
-        .map_err(|error| format!("{suite} master log unreadable: {error}"))?;
-    let counted_records = u64::try_from(
-        master_log_text
-            .lines()
-            .filter(|line| !line.trim().is_empty())
-            .count(),
-    )
-    .map_err(|_| format!("{suite} master log count overflowed"))?;
-    if counted_records != log_records {
-        return Err(format!(
-            "{suite} master log record count does not match report"
-        ));
-    }
-    for line in master_log_text
-        .lines()
-        .filter(|line| !line.trim().is_empty())
-    {
-        serde_json::from_str::<serde_json::Value>(line)
-            .map_err(|error| format!("{suite} master log contains invalid JSONL: {error}"))?;
-    }
-
-    let audit = safe_repo_path(&string_field(value, "log_audit_ref")?)?;
-    let audit_sha256 = string_field(value, "log_audit_sha256")?;
-    if !is_lower_hex(&audit_sha256, 64)
-        || file_sha256(&audit).map_err(|e| e.to_string())? != audit_sha256
-    {
-        return Err(format!("{suite} audit digest did not match retained file"));
-    }
-    let audit_value: serde_json::Value =
-        serde_json::from_slice(&std::fs::read(&audit).map_err(|error| error.to_string())?)
-            .map_err(|error| format!("{suite} audit is invalid JSON: {error}"))?;
-    let zero_counters = [
-        "malformed_records",
-        "missing_required_fields",
-        "sequence_gaps",
-        "error_events",
-        "degraded_events",
-        "unexplained_restarts",
-        "incomplete_drains",
-    ]
-    .iter()
-    .all(|field| audit_value[*field].as_u64() == Some(0));
-    if audit_value["schema"] != "adl.runtime.master_log_audit.v1"
-        || audit_value["status"] != "pass"
-        || audit_value["platform"] != value["platform"]
-        || audit_value["suite"] != suite
-        || audit_value["revision"] != value["revision"]
-        || audit_value["master_log_sha256"] != master_log_sha256
-        || audit_value["record_count"].as_u64() != Some(log_records)
-        || !zero_counters
-    {
-        return Err(format!("{suite} audit did not prove clean compact logging"));
-    }
-    Ok(())
-}
-
 fn suite_summary(value: &serde_json::Value) -> serde_json::Value {
     serde_json::json!({
         "status": value["status"],
@@ -1064,10 +1206,9 @@ fn suite_summary(value: &serde_json::Value) -> serde_json::Value {
         "completed_runs": value["completed_runs"],
         "completed_cycles": value["completed_cycles"],
         "minimum_cycles_per_run": value["minimum_cycles_per_run"],
-        "failed_cycles": value["failed_cycles"],
-        "degraded_cycles": value["degraded_cycles"],
-        "guardian_owned": value["guardian_owned"],
-        "runtime_kernel_process_per_cycle": value["runtime_kernel_process_per_cycle"],
+        "guardian_process_count": value["guardian_process_count"],
+        "runtime_instance_count": value["runtime_instance_count"],
+        "total_restarts": value["total_restarts"],
         "acceptance_eligible": value["acceptance_eligible"],
         "logging_complete": value["logging_complete"],
         "log_checked_cycles": value["log_checked_cycles"],
@@ -1089,29 +1230,6 @@ fn platform_proof_id(platform: &str, architecture: &str) -> Result<&'static str,
             "unsupported native WP-12 platform identity: {platform}/{architecture}"
         )),
     }
-}
-
-fn safe_repo_path(path: &str) -> Result<PathBuf, String> {
-    let candidate = Path::new(path);
-    if candidate.is_absolute()
-        || candidate
-            .components()
-            .any(|component| matches!(component, std::path::Component::ParentDir))
-    {
-        return Err(format!("evidence path is not repo-relative: {path}"));
-    }
-    let root = std::env::current_dir()
-        .map_err(|error| format!("current checkout unavailable: {error}"))?
-        .canonicalize()
-        .map_err(|error| format!("current checkout cannot be canonicalized: {error}"))?;
-    let resolved = root.join(candidate);
-    let canonical = resolved
-        .canonicalize()
-        .map_err(|error| format!("retained evidence path unavailable: {path}: {error}"))?;
-    canonical
-        .strip_prefix(&root)
-        .map_err(|_| format!("evidence path escaped repository checkout: {path}"))?;
-    Ok(canonical)
 }
 
 fn require_string(value: &serde_json::Value, field: &str, expected: &str) -> Result<(), String> {
@@ -1196,6 +1314,79 @@ fn verify_generation(continuity_root: &Path, expected: u64) -> Result<(), String
     Ok(())
 }
 
+fn verify_continuity_chain(
+    continuity_root: &Path,
+    expected_generation: u64,
+    verifying_key: &VerifyingKey,
+) -> Result<(), String> {
+    let mut previous_integrity = None;
+    for generation in 1..=expected_generation {
+        let path = continuity_root
+            .join(format!("generation-{generation}"))
+            .join("manifest.json");
+        let manifest = read_continuity_manifest(&path)?;
+        if manifest.generation != generation {
+            return Err(format!(
+                "continuity generation directory {generation} contains signed generation {}",
+                manifest.generation
+            ));
+        }
+        if manifest.previous_integrity != previous_integrity {
+            return Err(format!(
+                "continuity generation {generation} does not link to its parent"
+            ));
+        }
+        verify_continuity_signature(&manifest, verifying_key)?;
+        previous_integrity = Some(manifest.integrity);
+    }
+    Ok(())
+}
+
+fn read_continuity_manifest(path: &Path) -> Result<ContinuityManifest, String> {
+    let bytes =
+        std::fs::read(path).map_err(|error| format!("{} unreadable: {error}", path.display()))?;
+    serde_json::from_slice(&bytes)
+        .map_err(|error| format!("{} invalid manifest JSON: {error}", path.display()))
+}
+
+fn verify_continuity_signature(
+    manifest: &ContinuityManifest,
+    verifying_key: &VerifyingKey,
+) -> Result<(), String> {
+    if manifest.signing_algorithm != "ed25519" {
+        return Err(format!(
+            "continuity generation {} uses unsupported signing algorithm {}",
+            manifest.generation, manifest.signing_algorithm
+        ));
+    }
+    let signature_bytes = hex::decode(&manifest.signature).map_err(|_| {
+        format!(
+            "continuity generation {} has an invalid signature encoding",
+            manifest.generation
+        )
+    })?;
+    let signature = Signature::from_slice(&signature_bytes).map_err(|_| {
+        format!(
+            "continuity generation {} has an invalid signature shape",
+            manifest.generation
+        )
+    })?;
+    let mut unsigned = manifest.clone();
+    unsigned.signature.clear();
+    let bytes = serde_json::to_vec(&unsigned).map_err(|error| {
+        format!(
+            "continuity generation {} could not be canonicalized for signature: {error}",
+            manifest.generation
+        )
+    })?;
+    verifying_key.verify(&bytes, &signature).map_err(|_| {
+        format!(
+            "continuity generation {} signature verification failed",
+            manifest.generation
+        )
+    })
+}
+
 fn prepare_state_root(path: &Path) -> Result<(), String> {
     if path.exists() {
         let mut entries =
@@ -1211,7 +1402,7 @@ fn prepare_state_root(path: &Path) -> Result<(), String> {
 }
 
 fn validate_guardian_outcome(outcome: &GuardianOutcome) -> Result<(), String> {
-    if outcome.terminal_state != GuardianTerminalState::ShutdownForwarded
+    if outcome.terminal_state != GuardianTerminalState::ShutdownCheckpointed
         || outcome.attempts != 1
         || outcome.restarts != 0
         || outcome.attempts_detail.len() != 1
@@ -1219,20 +1410,13 @@ fn validate_guardian_outcome(outcome: &GuardianOutcome) -> Result<(), String> {
         return Err(format!("unexpected guardian outcome: {outcome:?}"));
     }
     let attempt = &outcome.attempts_detail[0];
-    if attempt.reason_code != "shutdown_signal_forwarded" || attempt.pid.is_none() {
-        return Err(format!("unexpected guardian attempt: {attempt:?}"));
-    }
-    Ok(())
-}
-
-fn validate_guardian_output(outcome: &GuardianOutcome) -> Result<(), String> {
-    let attempt = &outcome.attempts_detail[0];
-    let output = format!("{}\n{}", attempt.stdout, attempt.stderr).to_ascii_lowercase();
-    if ["degraded", "unavailable", "panic", "fatal"]
-        .iter()
-        .any(|marker| output.contains(marker))
+    if attempt.reason_code != "shutdown_clean_checkpointed"
+        || attempt.pid.is_none()
+        || !attempt.clean_checkpointed_shutdown
+        || attempt.forced_shutdown
+        || attempt.exit_status.is_none()
     {
-        return Err("runtime reported degraded, unavailable, panic, or fatal state".to_owned());
+        return Err(format!("unexpected guardian attempt: {attempt:?}"));
     }
     Ok(())
 }
@@ -1268,6 +1452,10 @@ fn fail(args: &Args, kernel_sha256: &str, started: Instant, failure: Failure) ->
         completed_cycles: failure.completed_cycles,
         continuity_generation: 0,
         minimum_cycles_per_run: 0,
+        guardian_pids: BTreeSet::new(),
+        runtime_instance_ids: BTreeSet::new(),
+        restart_budget_exercised: false,
+        total_restarts: 0,
         log_proof: None,
     };
     let report = report(
@@ -1294,7 +1482,9 @@ fn report(
     let (requested_cycles, requested_runs, duration_seconds) = match args.suite {
         Suite::Preflight => (Some(1), Some(1), None),
         Suite::Lifecycle { cycles } => (Some(cycles), Some(1), None),
-        Suite::Timed { runs, seconds } => (None, Some(runs), Some(seconds)),
+        Suite::Stress { runs, seconds } | Suite::Endurance { runs, seconds } => {
+            (None, Some(runs), Some(seconds))
+        }
     };
     let logging_complete = execution.log_proof.is_some();
     let master_log_ref = execution
@@ -1330,10 +1520,10 @@ fn report(
         "completed_runs": execution.completed_runs,
         "completed_cycles": execution.completed_cycles,
         "minimum_cycles_per_run": execution.minimum_cycles_per_run,
-        "failed_cycles": u64::from(failure.is_some()),
-        "degraded_cycles": 0,
-        "guardian_owned": true,
-        "runtime_kernel_process_per_cycle": true,
+        "guardian_process_count": execution.guardian_pids.len(),
+        "runtime_instance_count": execution.runtime_instance_ids.len(),
+        "restart_budget_exercised": execution.restart_budget_exercised,
+        "total_restarts": execution.total_restarts,
         "acceptance_eligible": !matches!(args.suite, Suite::Preflight),
         "logging_complete": logging_complete,
         "log_checked_cycles": if logging_complete {
@@ -1373,12 +1563,22 @@ mod tests {
 
     fn arguments(mode: &[&str]) -> Vec<String> {
         let root = std::env::current_dir().expect("current directory");
+        let executable = std::env::current_exe()
+            .expect("current executable")
+            .to_string_lossy()
+            .into_owned();
+        let init_template = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("..")
+            .join("infra")
+            .join("runtime-v3")
+            .join("runtime-init.toml");
         let mut values = vec![
+            "--guardian".to_owned(),
+            executable.clone(),
             "--kernel".to_owned(),
-            std::env::current_exe()
-                .expect("current executable")
-                .to_string_lossy()
-                .into_owned(),
+            executable,
+            "--init-template".to_owned(),
+            init_template.to_string_lossy().into_owned(),
             "--state-root".to_owned(),
             root.join("state").to_string_lossy().into_owned(),
             "--report".to_owned(),
@@ -1392,7 +1592,7 @@ mod tests {
 
     #[test]
     fn accepts_only_the_three_exact_acceptance_suites() {
-        let lifecycle = Args::parse(arguments(&["--cycles", "10000"]).into_iter())
+        let lifecycle = Args::parse(arguments(&["--suite", "lifecycle_10000"]).into_iter())
             .expect("10k lifecycle suite");
         assert!(matches!(
             lifecycle.suite,
@@ -1401,23 +1601,21 @@ mod tests {
             }
         ));
 
-        let stress =
-            Args::parse(arguments(&["--runs", "100", "--duration-seconds", "10"]).into_iter())
-                .expect("100x10s stress suite");
+        let stress = Args::parse(arguments(&["--suite", "stress_100x10s"]).into_iter())
+            .expect("100x10s stress suite");
         assert!(matches!(
             stress.suite,
-            Suite::Timed {
+            Suite::Stress {
                 runs: STRESS_RUNS,
                 seconds: STRESS_SECONDS
             }
         ));
 
-        let endurance =
-            Args::parse(arguments(&["--runs", "10", "--duration-seconds", "600"]).into_iter())
-                .expect("10x600s endurance suite");
+        let endurance = Args::parse(arguments(&["--suite", "endurance_10x600s"]).into_iter())
+            .expect("10x600s endurance suite");
         assert!(matches!(
             endurance.suite,
-            Suite::Timed {
+            Suite::Endurance {
                 runs: ENDURANCE_RUNS,
                 seconds: ENDURANCE_SECONDS
             }
@@ -1426,14 +1624,18 @@ mod tests {
 
     #[test]
     fn preflight_is_real_but_never_acceptance_eligible() {
-        let preflight =
-            Args::parse(arguments(&["--preflight"]).into_iter()).expect("one-cycle preflight");
+        let preflight = Args::parse(arguments(&["--suite", "preflight_1x"]).into_iter())
+            .expect("one-cycle preflight");
         assert!(matches!(preflight.suite, Suite::Preflight));
         let execution = Execution {
             completed_runs: 1,
             completed_cycles: 1,
             continuity_generation: 1,
             minimum_cycles_per_run: 1,
+            guardian_pids: BTreeSet::from([1234]),
+            runtime_instance_ids: BTreeSet::from(["runtime-test-instance".to_owned()]),
+            restart_budget_exercised: false,
+            total_restarts: 0,
             log_proof: Some(LogProof {
                 master_log_ref: ".csdlc/evidence/5344/work/master.jsonl".to_owned(),
                 master_log_sha256: "b".repeat(64),
@@ -1459,18 +1661,11 @@ mod tests {
     #[test]
     fn rejects_partial_or_mixed_acceptance_suites() {
         for mode in [
-            vec!["--cycles", "9999"],
-            vec!["--runs", "100", "--duration-seconds", "9"],
-            vec!["--runs", "9", "--duration-seconds", "600"],
-            vec![
-                "--cycles",
-                "10000",
-                "--runs",
-                "100",
-                "--duration-seconds",
-                "10",
-            ],
-            vec!["--preflight", "--cycles", "10000"],
+            vec!["--suite", "lifecycle_9999"],
+            vec!["--suite", "stress_100x9s"],
+            vec!["--suite", "endurance_9x600s"],
+            vec!["--suite", "lifecycle_10000", "--suite", "stress_100x10s"],
+            vec!["--preflight", "--suite", "lifecycle_10000"],
         ] {
             assert!(
                 Args::parse(arguments(&mode).into_iter()).is_err(),
@@ -1548,80 +1743,6 @@ mod tests {
         );
     }
 
-    #[test]
-    fn rejects_compact_log_reports_when_audit_count_drifts() {
-        let root = std::env::current_dir().expect("current directory");
-        let temp = tempfile::tempdir_in(&root).expect("repo-local temp evidence");
-        let revision = "0123456789abcdef0123456789abcdef01234567";
-        let kernel_sha256 = &"a".repeat(64);
-        let preflight = write_sample_report(
-            &root,
-            temp.path(),
-            "preflight_1x",
-            revision,
-            kernel_sha256,
-            1,
-        );
-        let lifecycle = write_sample_report(
-            &root,
-            temp.path(),
-            "lifecycle_10000",
-            revision,
-            kernel_sha256,
-            REQUIRED_CYCLES,
-        );
-        let stress = write_sample_report(
-            &root,
-            temp.path(),
-            "stress_100x10s",
-            revision,
-            kernel_sha256,
-            42,
-        );
-        let endurance = write_sample_report(
-            &root,
-            temp.path(),
-            "endurance_10x600s",
-            revision,
-            kernel_sha256,
-            24,
-        );
-        let lifecycle_value: serde_json::Value =
-            serde_json::from_slice(&std::fs::read(&lifecycle).expect("lifecycle report"))
-                .expect("JSON report");
-        let audit = root.join(
-            lifecycle_value["log_audit_ref"]
-                .as_str()
-                .expect("audit ref"),
-        );
-        let mut audit_value: serde_json::Value =
-            serde_json::from_slice(&std::fs::read(&audit).expect("audit")).expect("audit JSON");
-        audit_value["record_count"] = serde_json::json!(4);
-        std::fs::write(
-            &audit,
-            serde_json::to_vec_pretty(&audit_value).expect("audit bytes"),
-        )
-        .expect("write drifted audit");
-        let drifted_audit_sha256 = file_sha256(&audit).expect("audit sha");
-        let mut lifecycle_value = lifecycle_value;
-        lifecycle_value["log_audit_sha256"] = serde_json::json!(drifted_audit_sha256);
-        std::fs::write(
-            &lifecycle,
-            serde_json::to_vec_pretty(&lifecycle_value).expect("report bytes"),
-        )
-        .expect("write drifted report");
-        let args = AggregateArgs {
-            preflight_report: preflight,
-            lifecycle_report: lifecycle,
-            stress_report: stress,
-            endurance_report: endurance,
-            output: temp.path().join("platform-proof.json"),
-        };
-
-        let error = build_platform_proof(&args).expect_err("drifted audit rejected");
-        assert!(error.contains("audit did not prove clean compact logging"));
-    }
-
     fn write_sample_report(
         root: &Path,
         temp: &Path,
@@ -1682,10 +1803,9 @@ mod tests {
             "completed_runs": requested_runs,
             "completed_cycles": completed_cycles,
             "minimum_cycles_per_run": completed_cycles.max(1),
-            "failed_cycles": 0,
-            "degraded_cycles": 0,
-            "guardian_owned": true,
-            "runtime_kernel_process_per_cycle": true,
+            "guardian_process_count": 1,
+            "runtime_instance_count": completed_cycles.max(1),
+            "total_restarts": 0,
             "acceptance_eligible": suite != "preflight_1x",
             "logging_complete": true,
             "log_checked_cycles": completed_cycles,

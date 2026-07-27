@@ -25,11 +25,11 @@ use crate::{
     FailureClass, FailurePolicy, LifecycleGuarantees, LoopDefinition, MutationAuthority,
     MutationGate, OperationError, OperationExecutor, OperationRequest, OperationalAdapter,
     OperationalFactory, QualifiedTimeFactory, ReasoningGraphDefinition, ReasoningNode,
-    ReasoningServices, RecordedObservation, RecorderTrustedTime, RunningState, RuntimeConfig,
-    RuntimeRecorder, ServiceContract, SysinfoWeatherObserver, TimeQualificationBounds,
-    TimeSampleSource, TopologyError, TrustedTime, ValidatedContracts, ValidatedReasoningGraph,
-    ValidatedTopology, WeatherConfig, WeatherObserver, OPERATION_REQUEST_SCHEMA,
-    REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
+    ReasoningServices, RecordedObservation, RecorderTrustedTime, RuntimeConfig, RuntimeRecorder,
+    ServiceContract, SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource,
+    TopologyError, TrustedTime, ValidatedContracts, ValidatedReasoningGraph, ValidatedTopology,
+    WeatherConfig, WeatherObserver, OPERATION_REQUEST_SCHEMA, REASONING_GRAPH_SCHEMA,
+    RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const REQUIRED_OPERATIONAL_ADAPTERS: [AdapterKind; 10] = [
@@ -45,18 +45,6 @@ pub const REQUIRED_OPERATIONAL_ADAPTERS: [AdapterKind; 10] = [
     AdapterKind::Lifelog,
 ];
 const LOCAL_WRITER_LOCK_SCHEMA: &str = "adl.runtime.local_writer_lock.v1";
-
-pub const PASSIVE_LIVE_SERVICES: [&str; 9] = [
-    "governance_ingress",
-    "freedom_gate",
-    "aee",
-    "governance_audit",
-    "moral_affect_wellbeing_adapter",
-    "curiosity_intelligence_theory_of_mind_adapter",
-    "cognition_review_record",
-    "system_weather",
-    "signed_continuity",
-];
 
 pub struct LiveBindings {
     pub recorder: RuntimeRecorder,
@@ -434,25 +422,6 @@ impl Component for InfrastructureComponent {
         context.ready();
         context.cancellation.cancelled().await;
         Ok(())
-    }
-}
-
-pub fn live_service_names(contracts: &ValidatedContracts) -> BTreeSet<String> {
-    contracts
-        .contracts()
-        .map(|contract| contract.service.clone())
-        .collect()
-}
-
-pub fn mark_unavailable_live_services(recorder: &RuntimeRecorder) {
-    for kind in REQUIRED_OPERATIONAL_ADAPTERS {
-        recorder.set_component_state(
-            ComponentId::new(kind.service_name()),
-            RunningState::Degraded,
-        );
-    }
-    for service in PASSIVE_LIVE_SERVICES {
-        recorder.set_component_state(ComponentId::new(service), RunningState::Degraded);
     }
 }
 

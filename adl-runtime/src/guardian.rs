@@ -5,8 +5,8 @@
 //! become a platform service manager and does not supervise Runtime v2.
 
 use std::path::PathBuf;
-use std::process::Stdio;
-use std::time::Duration;
+use std::process::{ExitStatus, Stdio};
+use std::time::{Duration, Instant};
 
 use adl_resilience::capped_exponential_backoff;
 use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine as _};
@@ -21,15 +21,17 @@ use tokio::time::{sleep, timeout};
 use tokio_util::sync::CancellationToken;
 
 #[cfg(windows)]
-use windows_sys::Win32::System::{
-    Console::{GenerateConsoleCtrlEvent, CTRL_BREAK_EVENT},
-    Threading::CREATE_NEW_PROCESS_GROUP,
+use std::os::windows::io::AsRawHandle;
+
+#[cfg(windows)]
+use windows_sys::Win32::{
+    Foundation::{CloseHandle, HANDLE},
+    System::JobObjects::{AssignProcessToJobObject, CreateJobObjectW, TerminateJobObject},
 };
 
 pub const GUARDIAN_SCHEMA: &str = "adl.runtime_v3.external_guardian.v2";
-pub const MAX_CAPTURE_BYTES: u64 = 64 * 1024;
-const CAPTURE_DRAIN_GRACE: Duration = Duration::from_millis(500);
-const GUARDIAN_LEASE_AUTH_TIMEOUT: Duration = Duration::from_secs(5);
+#[cfg(windows)]
+const WINDOWS_FORCED_TERMINATION_EXIT_CODE: u32 = 0xAD1D_F0CE;
 pub const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
 pub const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
 pub const GUARDIAN_REQUIRED_ENV: &str = "ADL_RUNTIME_GUARDIAN_REQUIRED";
@@ -42,31 +44,33 @@ pub struct GuardianConfig {
     pub restart_budget: u32,
     pub backoff_base_ms: u64,
     pub backoff_cap_ms: u64,
+    pub healthy_window_ms: u64,
+    pub child_shutdown_budget_ms: u64,
     pub shutdown_grace_ms: u64,
+    pub lease_auth_timeout_ms: u64,
+    pub lease_auth_attempts: u32,
+    pub capture_max_bytes: u64,
+    pub capture_drain_grace_ms: u64,
     pub configuration_exit_codes: Vec<i32>,
 }
 
 impl GuardianConfig {
-    pub fn runtime_kernel(
-        program: impl Into<PathBuf>,
-        continuity_path: impl Into<String>,
-        init_path: impl Into<String>,
-    ) -> Self {
+    pub fn runtime_kernel(program: impl Into<PathBuf>, init_path: impl Into<String>) -> Self {
         Self {
             program: program.into(),
-            args: vec![
-                "serve".to_string(),
-                "--init".to_string(),
-                init_path.into(),
-                "--capsule".to_string(),
-                continuity_path.into(),
-            ],
+            args: vec!["serve".to_string(), "--init".to_string(), init_path.into()],
             env: Vec::new(),
-            restart_budget: 3,
-            backoff_base_ms: 100,
-            backoff_cap_ms: 5_000,
-            shutdown_grace_ms: 10_000,
-            configuration_exit_codes: vec![64, 78],
+            restart_budget: 0,
+            backoff_base_ms: 0,
+            backoff_cap_ms: 0,
+            healthy_window_ms: 0,
+            child_shutdown_budget_ms: 0,
+            shutdown_grace_ms: 0,
+            lease_auth_timeout_ms: 0,
+            lease_auth_attempts: 0,
+            capture_max_bytes: 0,
+            capture_drain_grace_ms: 0,
+            configuration_exit_codes: Vec::new(),
         }
     }
 
@@ -87,8 +91,18 @@ impl GuardianConfig {
         if self.backoff_cap_ms < self.backoff_base_ms {
             return Err(GuardianConfigError::BackoffCapBelowBase);
         }
-        if self.shutdown_grace_ms == 0 {
+        if self.healthy_window_ms == 0
+            || self.child_shutdown_budget_ms == 0
+            || self.shutdown_grace_ms == 0
+            || self.lease_auth_timeout_ms == 0
+            || self.lease_auth_attempts == 0
+            || self.capture_max_bytes == 0
+            || self.capture_drain_grace_ms == 0
+        {
             return Err(GuardianConfigError::ZeroShutdownGrace);
+        }
+        if self.shutdown_grace_ms <= self.child_shutdown_budget_ms {
+            return Err(GuardianConfigError::ShutdownGraceBelowChildBudget);
         }
         Ok(())
     }
@@ -102,6 +116,7 @@ pub enum GuardianConfigError {
     ZeroBackoff,
     BackoffCapBelowBase,
     ZeroShutdownGrace,
+    ShutdownGraceBelowChildBudget,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -109,8 +124,10 @@ pub enum GuardianConfigError {
 pub enum GuardianTerminalState {
     ExitedSuccessfully,
     ConfigurationExit,
+    ShutdownCheckpointed,
     RestartBudgetExhausted,
     ShutdownForwarded,
+    ShutdownForced,
     SpawnFailed,
 }
 
@@ -119,7 +136,11 @@ pub struct GuardianAttempt {
     pub attempt: u32,
     pub pid: Option<u32>,
     pub exit_code: Option<i32>,
-    pub signal: Option<i32>,
+    pub exit_status: Option<String>,
+    pub unix_signal: Option<i32>,
+    pub windows_ctrl_event: Option<u32>,
+    pub forced_shutdown: bool,
+    pub clean_checkpointed_shutdown: bool,
     pub stdout: String,
     pub stderr: String,
     pub reason_code: String,
@@ -150,6 +171,7 @@ pub async fn run_guardian(
     let mut attempts_detail = Vec::new();
     let mut attempts = 0_u32;
     let mut restarts = 0_u32;
+    let mut restart_budget_used = 0_u32;
 
     loop {
         attempts = attempts.saturating_add(1);
@@ -160,7 +182,11 @@ pub async fn run_guardian(
                     attempt: attempts,
                     pid: None,
                     exit_code: None,
-                    signal: None,
+                    exit_status: None,
+                    unix_signal: None,
+                    windows_ctrl_event: None,
+                    forced_shutdown: false,
+                    clean_checkpointed_shutdown: false,
                     stdout: String::new(),
                     stderr: String::new(),
                     reason_code: format!("guardian_lease_failed:{error}"),
@@ -174,7 +200,7 @@ pub async fn run_guardian(
                 ));
             }
         };
-        let spawned = spawn_child(&config, &lease);
+        let spawned = GuardedChild::spawn(&config, &lease);
         let mut child = match spawned {
             Ok(child) => child,
             Err(error) => {
@@ -182,7 +208,11 @@ pub async fn run_guardian(
                     attempt: attempts,
                     pid: None,
                     exit_code: None,
-                    signal: None,
+                    exit_status: None,
+                    unix_signal: None,
+                    windows_ctrl_event: None,
+                    forced_shutdown: false,
+                    clean_checkpointed_shutdown: false,
                     stdout: String::new(),
                     stderr: String::new(),
                     reason_code: format!("spawn_failed:{error}"),
@@ -198,70 +228,125 @@ pub async fn run_guardian(
         };
 
         let pid = child.id();
+        let attempt_started = Instant::now();
         let stdout = child
+            .child
             .stdout
             .take()
-            .map(capture_pipe)
+            .map(|pipe| capture_pipe(pipe, config.capture_max_bytes))
             .unwrap_or_else(|| tokio::spawn(async { String::new() }));
         let stderr = child
+            .child
             .stderr
             .take()
-            .map(capture_pipe)
+            .map(|pipe| capture_pipe(pipe, config.capture_max_bytes))
             .unwrap_or_else(|| tokio::spawn(async { String::new() }));
-        let lease_task = tokio::spawn(lease.authenticate_and_hold());
+        let lease_task = tokio::spawn(lease.authenticate_and_hold(
+            Duration::from_millis(config.lease_auth_timeout_ms),
+            config.lease_auth_attempts,
+        ));
 
         let attempt_exit = tokio::select! {
             _ = shutdown.cancelled() => {
-                let signal = terminate_child_tree(&mut child);
+                lease_task.abort();
                 let wait_result = timeout(Duration::from_millis(config.shutdown_grace_ms), child.wait()).await;
-                if wait_result.is_err() {
-                    force_kill_child_tree(&mut child);
-                    let _ = child.kill().await;
-                    let _ = child.wait().await;
+                let (status, forced, clean, reason_code, signals) = match wait_result {
+                    Ok(Ok(status)) => (
+                        Some(status),
+                        false,
+                        true,
+                        "shutdown_clean_checkpointed".to_string(),
+                        AttemptSignals::default(),
+                    ),
+                    Ok(Err(error)) => {
+                        let signals = child.force_shutdown();
+                        (
+                            None,
+                            true,
+                            false,
+                            format!("wait_failed:{error}"),
+                            signals,
+                        )
+                    }
+                    Err(_) => {
+                        let signals = child.force_shutdown();
+                        let status = child.wait().await.ok();
+                        (
+                            status,
+                            true,
+                            false,
+                            "shutdown_grace_exhausted_forced".to_string(),
+                            signals,
+                        )
+                    }
+                };
+                let terminal = if forced {
+                    GuardianTerminalState::ShutdownForced
                 } else {
-                    graceful_terminate_process_group(pid);
-                }
+                    GuardianTerminalState::ShutdownCheckpointed
+                };
+                let exit_code = status.as_ref().and_then(ExitStatus::code);
+                let signals =
+                    signals.merge(status.as_ref().and_then(exit_signal).unwrap_or_default());
                 let attempt = attempt_record(
+                    &config,
                     attempts,
-                    pid,
-                    None,
-                    signal,
+                    AttemptRecordMeta {
+                        pid,
+                        exit_code,
+                        exit_status: status.as_ref().map(|status| format!("{status:?}")),
+                        signals,
+                        forced_shutdown: forced,
+                        clean_checkpointed_shutdown: clean,
+                        reason_code,
+                    },
                     stdout,
                     stderr,
-                    "shutdown_signal_forwarded",
                 ).await;
                 attempts_detail.push(attempt);
-                AttemptExit::Terminal(GuardianTerminalState::ShutdownForwarded)
+                AttemptExit::Terminal(terminal)
             }
             status = child.wait() => {
                 match status {
                     Ok(status) => {
                         let code = status.code();
-                        let signal = exit_signal(&status);
-                        graceful_terminate_process_group(pid);
-                        let attempt_exit = classify_exit(&config, code, restarts);
-                        let reason_code = reason_code_for_exit(&config, code, restarts);
+                        let healthy_window = attempt_started.elapsed()
+                            >= Duration::from_millis(config.healthy_window_ms);
+                        let attempt_exit = classify_exit(&config, code, restart_budget_used, healthy_window);
+                        let reason_code = reason_code_for_exit(&config, code, restart_budget_used, healthy_window);
                         let attempt = attempt_record(
+                            &config,
                             attempts,
-                            pid,
-                            code,
-                            signal,
+                            AttemptRecordMeta {
+                                pid,
+                                exit_code: code,
+                                exit_status: Some(format!("{status:?}")),
+                                signals: exit_signal(&status).unwrap_or_default(),
+                                forced_shutdown: false,
+                                clean_checkpointed_shutdown: false,
+                                reason_code,
+                            },
                             stdout,
                             stderr,
-                            reason_code,
                         ).await;
                         attempts_detail.push(attempt);
                         attempt_exit
                     }
                     Err(error) => {
                         let attempt = attempt_record(
+                            &config,
                             attempts,
-                            pid,
-                            None,
-                            None,
+                            AttemptRecordMeta {
+                                pid,
+                                exit_code: None,
+                                exit_status: None,
+                                signals: AttemptSignals::default(),
+                                forced_shutdown: false,
+                                clean_checkpointed_shutdown: false,
+                                reason_code: format!("wait_failed:{error}"),
+                            },
                             stdout,
                             stderr,
-                            format!("wait_failed:{error}"),
                         ).await;
                         attempts_detail.push(attempt);
                         AttemptExit::Terminal(GuardianTerminalState::SpawnFailed)
@@ -272,15 +357,24 @@ pub async fn run_guardian(
         lease_task.abort();
 
         match attempt_exit {
-            AttemptExit::Restart => {
+            AttemptExit::Restart { reset_budget } => {
                 restarts = restarts.saturating_add(1);
+                restart_budget_used = if reset_budget {
+                    1
+                } else {
+                    restart_budget_used.saturating_add(1)
+                };
                 tokio::select! {
                     _ = shutdown.cancelled() => {
                         attempts_detail.push(GuardianAttempt {
                             attempt: attempts,
                             pid: None,
                             exit_code: None,
-                            signal: None,
+                            exit_status: None,
+                            unix_signal: None,
+                            windows_ctrl_event: None,
+                            forced_shutdown: false,
+                            clean_checkpointed_shutdown: false,
                             stdout: String::new(),
                             stderr: String::new(),
                             reason_code: "shutdown_during_restart_backoff".to_string(),
@@ -346,7 +440,57 @@ pub async fn run_guardian_with_os_signals(
 pub async fn run_guardian_with_os_signals(
     config: GuardianConfig,
 ) -> Result<GuardianOutcome, GuardianConfigError> {
-    run_guardian(config, CancellationToken::new()).await
+    #[cfg(windows)]
+    {
+        use tokio::signal::windows::{ctrl_break, ctrl_c, ctrl_close, ctrl_shutdown};
+
+        let shutdown = CancellationToken::new();
+        let signal_shutdown = shutdown.clone();
+        let signal_task = tokio::spawn(async move {
+            let mut ctrl_c = ctrl_c().ok();
+            let mut ctrl_break = ctrl_break().ok();
+            let mut ctrl_close = ctrl_close().ok();
+            let mut ctrl_shutdown = ctrl_shutdown().ok();
+            tokio::select! {
+                _ = async {
+                    if let Some(signal) = ctrl_c.as_mut() {
+                        signal.recv().await;
+                    } else {
+                        std::future::pending::<()>().await;
+                    }
+                } => {}
+                _ = async {
+                    if let Some(signal) = ctrl_break.as_mut() {
+                        signal.recv().await;
+                    } else {
+                        std::future::pending::<()>().await;
+                    }
+                } => {}
+                _ = async {
+                    if let Some(signal) = ctrl_close.as_mut() {
+                        signal.recv().await;
+                    } else {
+                        std::future::pending::<()>().await;
+                    }
+                } => {}
+                _ = async {
+                    if let Some(signal) = ctrl_shutdown.as_mut() {
+                        signal.recv().await;
+                    } else {
+                        std::future::pending::<()>().await;
+                    }
+                } => {}
+            }
+            signal_shutdown.cancel();
+        });
+        let outcome = run_guardian(config, shutdown).await;
+        signal_task.abort();
+        outcome
+    }
+    #[cfg(not(windows))]
+    {
+        run_guardian(config, CancellationToken::new()).await
+    }
 }
 
 struct GuardianLease {
@@ -368,10 +512,9 @@ impl GuardianLease {
         })
     }
 
-    async fn authenticate_and_hold(self) {
-        loop {
-            let Ok(Ok((mut stream, peer))) =
-                timeout(GUARDIAN_LEASE_AUTH_TIMEOUT, self.listener.accept()).await
+    async fn authenticate_and_hold(self, auth_timeout: Duration, max_attempts: u32) {
+        for _ in 0..max_attempts {
+            let Ok(Ok((mut stream, peer))) = timeout(auth_timeout, self.listener.accept()).await
             else {
                 continue;
             };
@@ -379,12 +522,9 @@ impl GuardianLease {
                 continue;
             }
             let mut supplied = vec![0_u8; self.token.len()];
-            let authenticated = timeout(
-                GUARDIAN_LEASE_AUTH_TIMEOUT,
-                stream.read_exact(&mut supplied),
-            )
-            .await
-            .is_ok_and(|result| result.is_ok())
+            let authenticated = timeout(auth_timeout, stream.read_exact(&mut supplied))
+                .await
+                .is_ok_and(|result| result.is_ok())
                 && bool::from(supplied.as_slice().ct_eq(self.token.as_bytes()));
             if !authenticated {
                 continue;
@@ -399,32 +539,79 @@ impl GuardianLease {
     }
 }
 
-fn spawn_child(config: &GuardianConfig, lease: &GuardianLease) -> std::io::Result<Child> {
-    let mut command = Command::new(&config.program);
-    command
-        .args(&config.args)
-        .envs(config.env.iter().map(|(name, value)| (name, value)))
-        .env(GUARDIAN_LEASE_ADDRESS_ENV, &lease.address)
-        .env(GUARDIAN_LEASE_TOKEN_ENV, &lease.token)
-        .env(GUARDIAN_REQUIRED_ENV, "1")
-        .stdin(Stdio::null())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .kill_on_drop(true);
-    #[cfg(unix)]
-    command.process_group(0);
+struct GuardedChild {
+    child: Child,
     #[cfg(windows)]
-    command.creation_flags(CREATE_NEW_PROCESS_GROUP);
-    command.spawn()
+    job: WindowsJob,
+}
+
+impl GuardedChild {
+    fn spawn(config: &GuardianConfig, lease: &GuardianLease) -> std::io::Result<Self> {
+        let mut command = Command::new(&config.program);
+        command
+            .args(&config.args)
+            .envs(config.env.iter().map(|(name, value)| (name, value)))
+            .env(GUARDIAN_LEASE_ADDRESS_ENV, &lease.address)
+            .env(GUARDIAN_LEASE_TOKEN_ENV, &lease.token)
+            .env(GUARDIAN_REQUIRED_ENV, "1")
+            .stdin(Stdio::null())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .kill_on_drop(true);
+        #[cfg(unix)]
+        command.process_group(0);
+        #[cfg(windows)]
+        let job = WindowsJob::create()?;
+        #[cfg(windows)]
+        let mut child = command.spawn()?;
+        #[cfg(not(windows))]
+        let child = command.spawn()?;
+        #[cfg(windows)]
+        {
+            if let Err(error) = job.assign(&child) {
+                let _ = child.start_kill();
+                return Err(error);
+            }
+            Ok(Self { child, job })
+        }
+        #[cfg(not(windows))]
+        {
+            Ok(Self { child })
+        }
+    }
+
+    fn id(&self) -> Option<u32> {
+        self.child.id()
+    }
+
+    async fn wait(&mut self) -> std::io::Result<ExitStatus> {
+        self.child.wait().await
+    }
+
+    fn force_shutdown(&mut self) -> AttemptSignals {
+        #[cfg(windows)]
+        {
+            force_shutdown(&mut self.child, &self.job)
+        }
+        #[cfg(not(windows))]
+        {
+            force_shutdown(&mut self.child)
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum AttemptExit {
-    Restart,
+    Restart { reset_budget: bool },
     Terminal(GuardianTerminalState),
 }
 
-fn classify_exit(config: &GuardianConfig, code: Option<i32>, restarts: u32) -> AttemptExit {
+fn classify_exit(
+    config: &GuardianConfig,
+    code: Option<i32>,
+    restarts: u32,
+    healthy_window: bool,
+) -> AttemptExit {
     if code == Some(0) {
         return AttemptExit::Terminal(GuardianTerminalState::ExitedSuccessfully);
     }
@@ -434,14 +621,22 @@ fn classify_exit(config: &GuardianConfig, code: Option<i32>, restarts: u32) -> A
     {
         return AttemptExit::Terminal(GuardianTerminalState::ConfigurationExit);
     }
-    if restarts >= config.restart_budget {
+    let budget_restarts = if healthy_window { 0 } else { restarts };
+    if budget_restarts >= config.restart_budget {
         AttemptExit::Terminal(GuardianTerminalState::RestartBudgetExhausted)
     } else {
-        AttemptExit::Restart
+        AttemptExit::Restart {
+            reset_budget: healthy_window,
+        }
     }
 }
 
-fn reason_code_for_exit(config: &GuardianConfig, code: Option<i32>, restarts: u32) -> String {
+fn reason_code_for_exit(
+    config: &GuardianConfig,
+    code: Option<i32>,
+    restarts: u32,
+    healthy_window: bool,
+) -> String {
     if code == Some(0) {
         return "child_exited_successfully".to_string();
     }
@@ -451,37 +646,64 @@ fn reason_code_for_exit(config: &GuardianConfig, code: Option<i32>, restarts: u3
     {
         return "configuration_exit".to_string();
     }
-    if restarts >= config.restart_budget {
+    let budget_restarts = if healthy_window { 0 } else { restarts };
+    if budget_restarts >= config.restart_budget {
         "restart_budget_exhausted".to_string()
+    } else if healthy_window {
+        "child_failed_after_healthy_window_restart_scheduled".to_string()
     } else {
         "child_failed_restart_scheduled".to_string()
     }
 }
 
-async fn attempt_record(
-    attempt: u32,
+#[derive(Debug, Clone, Copy, Default)]
+struct AttemptSignals {
+    unix_signal: Option<i32>,
+    windows_ctrl_event: Option<u32>,
+}
+
+impl AttemptSignals {
+    fn merge(self, other: Self) -> Self {
+        Self {
+            unix_signal: self.unix_signal.or(other.unix_signal),
+            windows_ctrl_event: self.windows_ctrl_event.or(other.windows_ctrl_event),
+        }
+    }
+}
+
+struct AttemptRecordMeta {
     pid: Option<u32>,
     exit_code: Option<i32>,
-    signal: Option<i32>,
+    exit_status: Option<String>,
+    signals: AttemptSignals,
+    forced_shutdown: bool,
+    clean_checkpointed_shutdown: bool,
+    reason_code: String,
+}
+
+async fn attempt_record(
+    config: &GuardianConfig,
+    attempt: u32,
+    meta: AttemptRecordMeta,
     stdout: JoinHandle<String>,
     stderr: JoinHandle<String>,
-    reason_code: impl Into<String>,
 ) -> GuardianAttempt {
     let (stdout, stderr) = tokio::join!(
-        bounded_capture(stdout, CAPTURE_DRAIN_GRACE),
-        bounded_capture(stderr, CAPTURE_DRAIN_GRACE),
+        bounded_capture(stdout, Duration::from_millis(config.capture_drain_grace_ms)),
+        bounded_capture(stderr, Duration::from_millis(config.capture_drain_grace_ms)),
     );
-    if stdout.1 || stderr.1 || process_group_alive(pid) {
-        force_kill_process_group(pid);
-    }
     GuardianAttempt {
         attempt,
-        pid,
-        exit_code,
-        signal,
+        pid: meta.pid,
+        exit_code: meta.exit_code,
+        exit_status: meta.exit_status,
+        unix_signal: meta.signals.unix_signal,
+        windows_ctrl_event: meta.signals.windows_ctrl_event,
+        forced_shutdown: meta.forced_shutdown,
+        clean_checkpointed_shutdown: meta.clean_checkpointed_shutdown,
         stdout: stdout.0,
         stderr: stderr.0,
-        reason_code: reason_code.into(),
+        reason_code: meta.reason_code,
     }
 }
 
@@ -495,7 +717,7 @@ async fn bounded_capture(mut capture: JoinHandle<String>, grace: Duration) -> (S
     }
 }
 
-fn capture_pipe<R>(mut pipe: R) -> JoinHandle<String>
+fn capture_pipe<R>(mut pipe: R, max_bytes: u64) -> JoinHandle<String>
 where
     R: tokio::io::AsyncRead + Unpin + Send + 'static,
 {
@@ -507,7 +729,7 @@ where
             match pipe.read(&mut scratch).await {
                 Ok(0) => break,
                 Ok(read) => {
-                    let remaining = (MAX_CAPTURE_BYTES as usize).saturating_sub(bytes.len());
+                    let remaining = (max_bytes as usize).saturating_sub(bytes.len());
                     if remaining > 0 {
                         bytes.extend_from_slice(&scratch[..read.min(remaining)]);
                     }
@@ -546,93 +768,95 @@ fn outcome(
     }
 }
 
-#[cfg(unix)]
-fn terminate_child_tree(child: &mut Child) -> Option<i32> {
-    let pid = child.id()?;
-    let signal = libc::SIGTERM;
-    unsafe {
-        libc::kill(i32::try_from(pid).ok()?, signal);
-    }
-    Some(signal)
+#[cfg(windows)]
+struct WindowsJob {
+    handle: HANDLE,
 }
 
 #[cfg(windows)]
-fn terminate_child_tree(child: &mut Child) -> Option<i32> {
-    let pid = child.id()?;
-    if unsafe { GenerateConsoleCtrlEvent(CTRL_BREAK_EVENT, pid) } == 0 {
-        let _ = child.start_kill();
-        return None;
+unsafe impl Send for WindowsJob {}
+
+#[cfg(windows)]
+impl WindowsJob {
+    fn create() -> std::io::Result<Self> {
+        let handle = unsafe { CreateJobObjectW(std::ptr::null(), std::ptr::null()) };
+        if handle.is_null() {
+            Err(std::io::Error::last_os_error())
+        } else {
+            Ok(Self { handle })
+        }
     }
-    i32::try_from(CTRL_BREAK_EVENT).ok()
+
+    fn assign(&self, child: &Child) -> std::io::Result<()> {
+        let assigned =
+            unsafe { AssignProcessToJobObject(self.handle, child.as_raw_handle() as HANDLE) };
+        if assigned == 0 {
+            Err(std::io::Error::last_os_error())
+        } else {
+            Ok(())
+        }
+    }
+
+    fn terminate(&self) -> bool {
+        unsafe { TerminateJobObject(self.handle, WINDOWS_FORCED_TERMINATION_EXIT_CODE) != 0 }
+    }
+}
+
+#[cfg(windows)]
+impl Drop for WindowsJob {
+    fn drop(&mut self) {
+        unsafe {
+            CloseHandle(self.handle);
+        }
+    }
+}
+
+#[cfg(unix)]
+fn force_shutdown(child: &mut Child) -> AttemptSignals {
+    child
+        .id()
+        .and_then(|pid| i32::try_from(pid).ok())
+        .filter(|process_group| unsafe { libc::kill(-*process_group, libc::SIGKILL) == 0 })
+        .map(|_| AttemptSignals {
+            unix_signal: Some(libc::SIGKILL),
+            windows_ctrl_event: None,
+        })
+        .unwrap_or_else(|| {
+            let _ = child.start_kill();
+            AttemptSignals::default()
+        })
+}
+
+#[cfg(windows)]
+fn force_shutdown(child: &mut Child, job: &WindowsJob) -> AttemptSignals {
+    if job.terminate() {
+        AttemptSignals {
+            unix_signal: None,
+            windows_ctrl_event: None,
+        }
+    } else {
+        let _ = child.start_kill();
+        AttemptSignals::default()
+    }
 }
 
 #[cfg(not(any(unix, windows)))]
-fn terminate_child_tree(child: &mut Child) -> Option<i32> {
+fn force_shutdown(child: &mut Child) -> AttemptSignals {
     let _ = child.start_kill();
-    None
+    AttemptSignals::default()
 }
 
 #[cfg(unix)]
-fn force_kill_child_tree(child: &mut Child) {
-    force_kill_process_group(child.id());
-}
-
-#[cfg(not(unix))]
-fn force_kill_child_tree(child: &mut Child) {
-    let _ = child.start_kill();
-}
-
-#[cfg(unix)]
-fn terminate_process_group(pid: Option<u32>, signal: i32) {
-    let Some(process_group) = pid.and_then(|pid| i32::try_from(pid).ok()) else {
-        return;
-    };
-    unsafe {
-        libc::kill(-process_group, signal);
-    }
-}
-
-#[cfg(not(unix))]
-fn terminate_process_group(_pid: Option<u32>, _signal: i32) {}
-
-#[cfg(unix)]
-fn force_kill_process_group(pid: Option<u32>) {
-    terminate_process_group(pid, libc::SIGKILL);
-}
-
-#[cfg(not(unix))]
-fn force_kill_process_group(_pid: Option<u32>) {}
-
-#[cfg(unix)]
-fn process_group_alive(pid: Option<u32>) -> bool {
-    let Some(process_group) = pid.and_then(|pid| i32::try_from(pid).ok()) else {
-        return false;
-    };
-    (unsafe { libc::kill(-process_group, 0) == 0 })
-        || std::io::Error::last_os_error().raw_os_error() == Some(libc::EPERM)
-}
-
-#[cfg(not(unix))]
-fn process_group_alive(_pid: Option<u32>) -> bool {
-    false
-}
-
-#[cfg(unix)]
-fn graceful_terminate_process_group(pid: Option<u32>) {
-    terminate_process_group(pid, libc::SIGTERM);
-}
-
-#[cfg(not(unix))]
-fn graceful_terminate_process_group(_pid: Option<u32>) {}
-
-#[cfg(unix)]
-fn exit_signal(status: &std::process::ExitStatus) -> Option<i32> {
+fn exit_signal(status: &std::process::ExitStatus) -> Option<AttemptSignals> {
     use std::os::unix::process::ExitStatusExt;
-    status.signal()
+    status.signal().map(|signal| AttemptSignals {
+        unix_signal: Some(signal),
+        windows_ctrl_event: None,
+    })
 }
 
 #[cfg(not(unix))]
-fn exit_signal(_status: &std::process::ExitStatus) -> Option<i32> {
+fn exit_signal(_status: &std::process::ExitStatus) -> Option<AttemptSignals> {
     None
 }
 
@@ -653,7 +877,14 @@ mod tests {
                 .duration_since(UNIX_EPOCH)
                 .expect("time")
                 .as_nanos();
-            let root = std::env::temp_dir().join(format!("adl-guardian-{name}-{unique}"));
+            let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join("..")
+                .join(".csdlc")
+                .join("evidence")
+                .join("5344")
+                .join("work")
+                .join("guardian-tests")
+                .join(format!("adl-guardian-{name}-{unique}"));
             fs::create_dir_all(&root).expect("test root");
             Self(root)
         }
@@ -671,6 +902,20 @@ mod tests {
             fs::set_permissions(&path, permissions).expect("chmod");
             path
         }
+
+        fn rust_child(&self, name: &str, source: &str) -> PathBuf {
+            let source_path = self.path(&format!("{name}.rs"));
+            let executable = self.path(&format!("{name}{}", std::env::consts::EXE_SUFFIX));
+            fs::write(&source_path, source).expect("write Rust child");
+            let status = std::process::Command::new("rustc")
+                .arg(&source_path)
+                .arg("-o")
+                .arg(&executable)
+                .status()
+                .expect("run rustc");
+            assert!(status.success(), "compile Rust child");
+            executable
+        }
     }
 
     impl Drop for TestRoot {
@@ -679,36 +924,33 @@ mod tests {
         }
     }
 
+    fn test_config(program: impl Into<PathBuf>) -> GuardianConfig {
+        let mut config = GuardianConfig::runtime_kernel(program, "runtime-init.toml");
+        config.restart_budget = 3;
+        config.backoff_base_ms = 1;
+        config.backoff_cap_ms = 10;
+        config.healthy_window_ms = 100;
+        config.child_shutdown_budget_ms = 100;
+        config.shutdown_grace_ms = 200;
+        config.lease_auth_timeout_ms = 100;
+        config.lease_auth_attempts = 3;
+        config.capture_max_bytes = 65_536;
+        config.capture_drain_grace_ms = 100;
+        config.configuration_exit_codes = vec![64];
+        config
+    }
+
     #[test]
-    fn runtime_kernel_config_preserves_init_and_capsule_paths() {
-        let config = GuardianConfig::runtime_kernel(
-            "adl-runtime-kernel",
-            "continuity.json",
-            "runtime-init.toml",
-        );
-        assert_eq!(
-            config.args,
-            [
-                "serve",
-                "--init",
-                "runtime-init.toml",
-                "--capsule",
-                "continuity.json"
-            ]
-        );
-        assert_eq!(config.configuration_exit_codes, [64, 78]);
+    fn runtime_kernel_config_preserves_single_init_path() {
+        let config = test_config("adl-runtime-kernel");
+        assert_eq!(config.args, ["serve", "--init", "runtime-init.toml"]);
+        assert_eq!(config.configuration_exit_codes, [64]);
         assert_eq!(config.validate(), Ok(()));
     }
 
     #[test]
     fn invalid_configuration_and_spawn_failure_fail_closed() {
-        let base = || {
-            GuardianConfig::runtime_kernel(
-                "adl-runtime-kernel",
-                "continuity.json",
-                "runtime-init.toml",
-            )
-        };
+        let base = || test_config("adl-runtime-kernel");
         let mut invalid_env = base();
         invalid_env
             .env
@@ -721,6 +963,8 @@ mod tests {
         inverted_backoff.backoff_base_ms = inverted_backoff.backoff_cap_ms + 1;
         let mut zero_shutdown_grace = base();
         zero_shutdown_grace.shutdown_grace_ms = 0;
+        let mut insufficient_shutdown_grace = base();
+        insufficient_shutdown_grace.shutdown_grace_ms = 100;
 
         for (config, expected) in [
             (invalid_env, GuardianConfigError::InvalidEnvironmentName),
@@ -728,6 +972,10 @@ mod tests {
             (zero_backoff, GuardianConfigError::ZeroBackoff),
             (inverted_backoff, GuardianConfigError::BackoffCapBelowBase),
             (zero_shutdown_grace, GuardianConfigError::ZeroShutdownGrace),
+            (
+                insufficient_shutdown_grace,
+                GuardianConfigError::ShutdownGraceBelowChildBudget,
+            ),
         ] {
             assert_eq!(config.validate(), Err(expected));
         }
@@ -736,11 +984,7 @@ mod tests {
     #[tokio::test]
     async fn missing_child_program_is_reported_without_restart() {
         let root = TestRoot::new("missing-program");
-        let mut config = GuardianConfig::runtime_kernel(
-            root.path("adl-guardian-program-that-does-not-exist"),
-            "continuity.json",
-            "runtime-init.toml",
-        );
+        let mut config = test_config(root.path("adl-guardian-program-that-does-not-exist"));
         config.restart_budget = 5;
 
         let outcome = run_guardian(config, CancellationToken::new())
@@ -760,8 +1004,9 @@ mod tests {
     async fn captured_output_is_bounded() {
         let root = TestRoot::new("bounded-output");
         let script = root.script("noisy.sh", "#!/bin/sh\nyes x | head -c 70000\nexit 0\n");
-        let mut config = GuardianConfig::runtime_kernel(script, "unused", "runtime-init.toml");
+        let mut config = test_config(script);
         config.args.clear();
+        let capture_max_bytes = config.capture_max_bytes;
 
         let outcome = run_guardian(config, CancellationToken::new())
             .await
@@ -772,7 +1017,7 @@ mod tests {
             GuardianTerminalState::ExitedSuccessfully
         );
         let stdout = &outcome.attempts_detail[0].stdout;
-        assert!(stdout.len() <= MAX_CAPTURE_BYTES as usize + 40);
+        assert!(stdout.len() <= capture_max_bytes as usize + 40);
         assert!(stdout.contains("<adl_guardian_output_truncated>"));
     }
 
@@ -784,7 +1029,7 @@ mod tests {
             "env.sh",
             "#!/bin/sh\necho \"$ADL_GUARDIAN_ENV_PROBE\"\nexit 0\n",
         );
-        let mut config = GuardianConfig::runtime_kernel(script, "unused", "runtime-init.toml");
+        let mut config = test_config(script);
         config.args.clear();
         config
             .env
@@ -813,7 +1058,7 @@ mod tests {
                 counter = counter.display()
             ),
         );
-        let mut config = GuardianConfig::runtime_kernel(script, "unused", "runtime-init.toml");
+        let mut config = test_config(script);
         config.args.clear();
         config.restart_budget = 3;
         config.backoff_base_ms = 1;
@@ -845,7 +1090,7 @@ mod tests {
     async fn restart_budget_exhaustion_is_terminal() {
         let root = TestRoot::new("budget");
         let script = root.script("fail.sh", "#!/bin/sh\necho failed >&2\nexit 7\n");
-        let mut config = GuardianConfig::runtime_kernel(script, "unused", "runtime-init.toml");
+        let mut config = test_config(script);
         config.args.clear();
         config.restart_budget = 2;
         config.backoff_base_ms = 1;
@@ -866,10 +1111,45 @@ mod tests {
 
     #[cfg(unix)]
     #[tokio::test]
+    async fn restart_budget_resets_after_healthy_window() {
+        let root = TestRoot::new("healthy-reset");
+        let counter = root.path("counter");
+        let script = root.script(
+            "healthy-reset.sh",
+            &format!(
+                "#!/bin/sh\ncount=$(cat {counter} 2>/dev/null || echo 0)\ncount=$((count + 1))\necho $count > {counter}\nsleep 0.08\nif [ \"$count\" -lt 3 ]; then exit 7; fi\nexit 0\n",
+                counter = counter.display()
+            ),
+        );
+        let mut config = test_config(script);
+        config.args.clear();
+        config.restart_budget = 1;
+        config.backoff_base_ms = 1;
+        config.backoff_cap_ms = 1;
+        config.healthy_window_ms = 50;
+
+        let outcome = run_guardian(config, CancellationToken::new())
+            .await
+            .unwrap();
+
+        assert_eq!(
+            outcome.terminal_state,
+            GuardianTerminalState::ExitedSuccessfully
+        );
+        assert_eq!(outcome.attempts, 3);
+        assert_eq!(outcome.restarts, 2);
+        assert!(outcome.attempts_detail[..2]
+            .iter()
+            .all(|attempt| attempt.reason_code
+                == "child_failed_after_healthy_window_restart_scheduled"));
+    }
+
+    #[cfg(unix)]
+    #[tokio::test]
     async fn configuration_exit_does_not_restart() {
         let root = TestRoot::new("config");
         let script = root.script("config.sh", "#!/bin/sh\necho bad-config >&2\nexit 64\n");
-        let mut config = GuardianConfig::runtime_kernel(script, "unused", "runtime-init.toml");
+        let mut config = test_config(script);
         config.args.clear();
         config.restart_budget = 5;
 
@@ -886,79 +1166,64 @@ mod tests {
         assert_eq!(outcome.last_reason(), Some("configuration_exit"));
     }
 
-    #[cfg(unix)]
     #[tokio::test]
-    async fn shutdown_forwards_sigterm_and_reaps_child() {
+    async fn shutdown_closes_authenticated_lease_and_reaps_child() {
         let root = TestRoot::new("shutdown");
-        let term_file = root.path("term-seen");
-        let script = root.script(
-            "trap.sh",
-            &format!(
-                "#!/bin/sh\ntrap 'echo term > {term_file}; exit 0' TERM\nwhile true; do sleep 1; done\n",
-                term_file = term_file.display()
-            ),
+        let ready = root.path("ready");
+        let child = root.rust_child(
+            "lease-child",
+            r#"
+use std::io::{Read, Write};
+use std::net::TcpStream;
+
+fn main() {
+    let address = std::env::var("ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS").unwrap();
+    let token = std::env::var("ADL_RUNTIME_GUARDIAN_LEASE_TOKEN").unwrap();
+    let mut stream = TcpStream::connect(address).unwrap();
+    stream.write_all(token.as_bytes()).unwrap();
+    let mut acknowledgement = [0_u8; 2];
+    stream.read_exact(&mut acknowledgement).unwrap();
+    assert_eq!(&acknowledgement, b"ok");
+    std::fs::write(std::env::args().nth(1).unwrap(), b"ready").unwrap();
+    let mut closed = [0_u8; 1];
+    assert_eq!(stream.read(&mut closed).unwrap(), 0);
+}
+"#,
         );
-        let mut config = GuardianConfig::runtime_kernel(script, "unused", "runtime-init.toml");
-        config.args.clear();
+        let mut config = test_config(child);
+        config.args = vec![ready.to_string_lossy().into_owned()];
         config.shutdown_grace_ms = 2_000;
         let shutdown = CancellationToken::new();
         let cancel = shutdown.clone();
 
         let task = tokio::spawn(run_guardian(config, shutdown));
-        sleep(Duration::from_millis(100)).await;
+        let deadline = std::time::Instant::now() + Duration::from_secs(2);
+        while !ready.exists() && std::time::Instant::now() < deadline {
+            sleep(Duration::from_millis(10)).await;
+        }
+        assert!(ready.exists(), "child must authenticate its Guardian lease");
         cancel.cancel();
         let outcome = task.await.unwrap().unwrap();
 
         assert_eq!(
             outcome.terminal_state,
-            GuardianTerminalState::ShutdownForwarded
+            GuardianTerminalState::ShutdownCheckpointed
         );
         assert_eq!(outcome.attempts, 1);
         assert_eq!(outcome.restarts, 0);
-        assert_eq!(outcome.last_reason(), Some("shutdown_signal_forwarded"));
-        assert_eq!(fs::read_to_string(term_file).unwrap(), "term\n");
-        assert_eq!(outcome.attempts_detail[0].signal, Some(libc::SIGTERM));
+        assert_eq!(outcome.last_reason(), Some("shutdown_clean_checkpointed"));
+        let attempt = &outcome.attempts_detail[0];
+        assert_eq!(attempt.unix_signal, None);
+        assert_eq!(attempt.windows_ctrl_event, None);
+        assert!(attempt.clean_checkpointed_shutdown);
+        assert!(!attempt.forced_shutdown);
+        assert!(attempt.exit_status.is_some());
     }
 
     #[cfg(unix)]
     #[tokio::test]
-    async fn shutdown_leaves_descendants_to_child_until_child_exits() {
-        let root = TestRoot::new("child-owned-shutdown");
-        let descendant_term = root.path("descendant-term");
-        let child_observation = root.path("child-observation");
-        let script = root.script(
-            "child-owned-shutdown.sh",
-            &format!(
-                "#!/bin/sh\ntrap 'echo descendant-term > {descendant_term}; exit 0' TERM\nwhile true; do sleep 1; done &\ntrap 'sleep 0.1; if [ -f {descendant_term} ]; then echo group-signaled > {child_observation}; else echo child-only > {child_observation}; fi; exit 0' TERM\nwhile true; do sleep 1; done\n",
-                descendant_term = descendant_term.display(),
-                child_observation = child_observation.display(),
-            ),
-        );
-        let mut config = GuardianConfig::runtime_kernel(script, "unused", "runtime-init.toml");
-        config.args.clear();
-        config.shutdown_grace_ms = 2_000;
-        let shutdown = CancellationToken::new();
-        let cancel = shutdown.clone();
-
-        let task = tokio::spawn(run_guardian(config, shutdown));
-        sleep(Duration::from_millis(100)).await;
-        cancel.cancel();
-        let outcome = task.await.unwrap().unwrap();
-
-        assert_eq!(
-            outcome.terminal_state,
-            GuardianTerminalState::ShutdownForwarded
-        );
-        assert_eq!(
-            fs::read_to_string(child_observation).unwrap(),
-            "child-only\n"
-        );
-    }
-
-    #[cfg(unix)]
-    #[tokio::test]
-    async fn child_exit_terminates_descendants_and_bounds_inherited_pipe_capture() {
-        let root = TestRoot::new("descendant-cleanup");
+    async fn child_exit_never_signals_process_group_after_reap() {
+        let root = TestRoot::new("no-post-reap-signal");
         let descendant_file = root.path("descendant-pid");
         let descendant_ready = root.path("descendant-ready");
         let script = root.script(
@@ -969,7 +1234,7 @@ mod tests {
                 descendant_ready = descendant_ready.display()
             ),
         );
-        let mut config = GuardianConfig::runtime_kernel(script, "unused", "runtime-init.toml");
+        let mut config = test_config(script);
         config.args.clear();
 
         let outcome = timeout(
@@ -984,60 +1249,65 @@ mod tests {
             outcome.terminal_state,
             GuardianTerminalState::ExitedSuccessfully
         );
+        assert_eq!(outcome.attempts_detail[0].unix_signal, None);
+        assert!(!outcome.attempts_detail[0].forced_shutdown);
+        assert!(!outcome.attempts_detail[0].clean_checkpointed_shutdown);
         let descendant = fs::read_to_string(descendant_file)
             .unwrap()
             .trim()
             .parse::<i32>()
             .unwrap();
-        let deadline = std::time::Instant::now() + Duration::from_secs(1);
-        while unsafe { libc::kill(descendant, 0) } == 0 && std::time::Instant::now() < deadline {
-            sleep(Duration::from_millis(10)).await;
-        }
         assert_eq!(
             unsafe { libc::kill(descendant, 0) },
-            -1,
-            "guardian descendant survived process-group cleanup"
+            0,
+            "the child-owned descendant should survive because Guardian no longer signals by reaped pgid"
         );
         assert!(outcome.attempts_detail[0]
             .stdout
             .contains("<adl_guardian_capture_deadline_exceeded>"));
+        let _ = unsafe { libc::kill(descendant, libc::SIGKILL) };
     }
 
     #[cfg(unix)]
     #[tokio::test]
-    async fn child_exit_terminates_descendants_that_close_inherited_pipes() {
-        let root = TestRoot::new("detached-descendant-cleanup");
-        let descendant_file = root.path("descendant-pid");
+    async fn shutdown_timeout_forces_process_group_before_reap() {
+        let root = TestRoot::new("shutdown-force");
+        let started = root.path("started");
         let script = root.script(
-            "detached-descendant.sh",
+            "ignore-term.sh",
             &format!(
-                "#!/bin/sh\n(trap '' TERM; exec >/dev/null 2>&1; while true; do sleep 1; done) &\necho $! > {descendant_file}\nexit 0\n",
-                descendant_file = descendant_file.display()
+                "#!/bin/sh\ntrap '' TERM\necho started > {started}\nwhile true; do sleep 1; done\n",
+                started = started.display()
             ),
         );
-        let mut config = GuardianConfig::runtime_kernel(script, "unused", "runtime-init.toml");
+        let mut config = test_config(script);
         config.args.clear();
+        config.child_shutdown_budget_ms = 10;
+        config.shutdown_grace_ms = 50;
+        let shutdown = CancellationToken::new();
+        let cancel = shutdown.clone();
 
-        let outcome = timeout(
-            Duration::from_secs(2),
-            run_guardian(config, CancellationToken::new()),
-        )
-        .await
-        .expect("guardian cleanup must be bounded")
-        .unwrap();
-
-        let descendant = fs::read_to_string(descendant_file)
-            .unwrap()
-            .trim()
-            .parse::<i32>()
-            .unwrap();
-        let deadline = std::time::Instant::now() + Duration::from_secs(1);
-        while unsafe { libc::kill(descendant, 0) } == 0 && std::time::Instant::now() < deadline {
+        let task = tokio::spawn(run_guardian(config, shutdown));
+        let deadline = std::time::Instant::now() + Duration::from_secs(2);
+        while !started.exists() && std::time::Instant::now() < deadline {
             sleep(Duration::from_millis(10)).await;
         }
-        assert_eq!(unsafe { libc::kill(descendant, 0) }, -1);
-        assert!(!outcome.attempts_detail[0]
-            .stdout
-            .contains("<adl_guardian_capture_deadline_exceeded>"));
+        cancel.cancel();
+        let outcome = task.await.unwrap().unwrap();
+
+        assert_eq!(
+            outcome.terminal_state,
+            GuardianTerminalState::ShutdownForced
+        );
+        assert!(outcome.attempts_detail[0].forced_shutdown);
+        assert_eq!(outcome.attempts_detail[0].unix_signal, Some(libc::SIGKILL));
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn windows_job_object_handle_can_be_owned_by_guardian_task() {
+        fn assert_send<T: Send>() {}
+
+        assert_send::<WindowsJob>();
     }
 }

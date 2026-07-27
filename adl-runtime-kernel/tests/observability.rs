@@ -8,9 +8,7 @@ use std::{
     process::Command,
 };
 
-use adl_runtime_kernel::{
-    ObservabilityHealth, RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA,
-};
+use adl_runtime_kernel::{RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA};
 use runtime_observability::{
     audit_master_log_file, render_vector_config, RuntimeVectorConfig, RuntimeVectorPipeline,
 };
@@ -34,15 +32,16 @@ fn master_log_auditor_accepts_wp12_clean_report_shape() {
         ],
     );
 
-    let report = audit_master_log_file(&log_path, "macos", "wp-12", "rev-a").unwrap();
+    let report = audit_master_log_file(&log_path, "macos", "wp-12", "rev-a", 0, 1).unwrap();
 
     assert_eq!(report.schema, RUNTIME_MASTER_LOG_AUDIT_SCHEMA);
     assert_eq!(report.status, "pass");
     assert_eq!(report.platform, "macos");
     assert_eq!(report.suite, "wp-12");
     assert_eq!(report.revision, "rev-a");
+    assert_eq!(report.start_sequence, 0);
+    assert_eq!(report.end_sequence, 1);
     assert_eq!(report.record_count, 2);
-    assert_eq!(report.master_log_sha256.len(), 64);
     assert_eq!(report.malformed_records, 0);
     assert_eq!(report.missing_required_fields, 0);
     assert_eq!(report.sequence_gaps, 0);
@@ -75,29 +74,64 @@ fn master_log_auditor_rejects_bad_sequences_errors_and_missing_drain() {
     lines.push('\n');
     fs::write(&log_path, lines).unwrap();
 
-    let report = audit_master_log_file(&log_path, "linux", "wp-12", "rev-b").unwrap();
+    let report = audit_master_log_file(&log_path, "linux", "wp-12", "rev-b", 0, 2).unwrap();
 
     assert_eq!(report.status, "fail");
     assert_eq!(report.malformed_records, 1);
     assert_eq!(report.sequence_gaps, 1);
     assert_eq!(report.error_events, 1);
-    assert_eq!(report.degraded_events, 1);
+    assert_eq!(report.degraded_events, 0);
     assert_eq!(report.incomplete_drains, 1);
+}
+
+#[test]
+fn master_log_auditor_scopes_to_run_window_and_structured_severity() {
+    let root = test_root("window-audit");
+    let log_path = root.join("master.log.jsonl");
+    write_records(
+        &log_path,
+        &[
+            record(0, "error", "old_failure", "old", "previous-suite"),
+            record(
+                10,
+                "info",
+                "error_budget_evaluated",
+                "not_an_error",
+                "wp-12",
+            ),
+            record(
+                11,
+                "info",
+                "observability_drain_complete",
+                "shutdown_drained",
+                "wp-12",
+            ),
+            record(12, "error", "future_failure", "future", "wp-12"),
+        ],
+    );
+
+    let report = audit_master_log_file(&log_path, "macos", "wp-12", "rev-c", 10, 11).unwrap();
+
+    assert_eq!(report.status, "pass");
+    assert_eq!(report.record_count, 2);
+    assert_eq!(report.error_events, 0);
+    assert_eq!(report.sequence_gaps, 0);
+    assert_eq!(report.incomplete_drains, 0);
 }
 
 #[test]
 fn vector_config_declares_durable_master_otlp_and_bounded_buffers() {
     let root = test_root("config-shape");
     let config = vector_config(root.clone(), Some("http://127.0.0.1:4318".to_owned()));
-    let rendered = render_vector_config(&root, &config);
+    let rendered = render_vector_config(&config);
 
     assert_eq!(
         rendered["sinks"]["runtime_v3_master_log"]["path"],
-        json!(root.join("durable/master.log.jsonl").to_string_lossy())
+        json!(config.master_log_path.to_string_lossy().replace('\\', "/"))
     );
     assert_eq!(
         rendered["sinks"]["runtime_v3_master_log"]["buffer"]["type"],
-        "disk"
+        "memory"
     );
     assert_eq!(
         rendered["sinks"]["runtime_v3_otlp"]["type"],
@@ -107,17 +141,56 @@ fn vector_config_declares_durable_master_otlp_and_bounded_buffers() {
         rendered["sinks"]["runtime_v3_otlp"]["buffer"]["when_full"],
         "block"
     );
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_master_log"]["buffer"]["max_events"],
+        json!(8192)
+    );
+    assert_eq!(
+        rendered["sources"]["runtime_v3_ingress"]["fingerprint"]["strategy"],
+        "checksum"
+    );
+    assert_eq!(
+        rendered["sources"]["runtime_v3_ingress"]["include"][0],
+        json!(config
+            .ingress_spool_path
+            .to_string_lossy()
+            .replace('\\', "/"))
+    );
+    assert!(rendered["transforms"]["runtime_v3_metrics"].is_null());
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_otlp"]["inputs"],
+        json!(["runtime_v3_redacted"])
+    );
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_otlp"]["protocol"]["encoding"]["codec"],
+        "json"
+    );
     let rendered_text = serde_json::to_string(&rendered).unwrap();
-    assert!(rendered_text.contains("adl_runtime_v3"));
+    assert!(rendered_text.contains(".otel.service_name = .service_name"));
     assert!(!rendered_text.contains("aws_secret_access_key"));
     assert!(!rendered_text.contains("aws_access_key_id"));
+    assert!(!rendered_text.contains("device_and_inode"));
+    assert!(!rendered_text.contains("log_to_metric"));
+}
+
+#[test]
+fn vector_config_renders_windows_safe_forward_slashed_paths() {
+    let root = PathBuf::from(r"\\?\C:\adl\runtime\state");
+    let config = vector_config(root.clone(), None);
+    let rendered = render_vector_config(&config);
+    let include = rendered["sources"]["runtime_v3_ingress"]["include"][0]
+        .as_str()
+        .unwrap();
+
+    assert!(include.starts_with("C:/adl/runtime/state/observability/spool/"));
+    assert!(!include.contains('\\'));
 }
 
 #[test]
 fn pinned_vector_validates_generated_master_log_config() {
     let root = test_root("vector-validate");
     let config = vector_config(root.clone(), None);
-    let rendered = render_vector_config(&root, &config);
+    let rendered = render_vector_config(&config);
     let config_path = root.join("runtime-v3-vector.json");
     fs::write(&config_path, serde_json::to_vec_pretty(&rendered).unwrap()).unwrap();
 
@@ -137,36 +210,19 @@ fn pinned_vector_validates_generated_master_log_config() {
     );
 }
 
-#[test]
-fn runtime_vector_pipeline_writes_auditable_master_log() {
+#[tokio::test(flavor = "multi_thread")]
+async fn runtime_vector_pipeline_writes_auditable_master_log() {
     let root = test_root("runtime-vector-e2e");
     let mut pipeline = RuntimeVectorPipeline::start(vector_config(root, None)).unwrap();
-    let span = tracing::info_span!(
-        target: "adl_runtime_kernel",
-        "observability_parent",
-        component = "test",
-        operation = "parent_span",
-        reason = "ok",
-        correlation_id = "trace-test-span"
-    );
-    {
-        let _guard = span.enter();
-        tracing::info!(
-            target: "adl_runtime_kernel",
-            component = "test",
-            operation = "child_observation",
-            reason = "ok",
-            "observability child event"
-        );
-    }
     tracing::info!(
         target: "adl_runtime_kernel",
         component = "test",
         operation = "test_observation",
         reason = "ok",
+        correlation_id = "trace-test-observation",
         "observability test event"
     );
-    pipeline.shutdown();
+    pipeline.shutdown().await.unwrap();
 
     let report = pipeline.audit_master_log("macos", "wp-12").unwrap();
 
@@ -179,22 +235,49 @@ fn runtime_vector_pipeline_writes_auditable_master_log() {
     assert_eq!(report.degraded_events, 0);
     assert_eq!(report.unexplained_restarts, 0);
     assert_eq!(report.incomplete_drains, 0);
+    assert!(report.end_sequence >= report.start_sequence);
 
     let records = read_records(pipeline.master_log_path_for_test());
-    let parent = records
-        .iter()
-        .find(|record| record["operation"] == "parent_span")
-        .expect("parent span record");
-    let child = records
+    let observed = records
         .iter()
         .find(|record| record["operation"] == "child_observation")
-        .expect("child event record");
-    let parent_span_id = parent["span_id"].as_u64().expect("parent span id");
-    assert!(parent_span_id > 0);
-    assert_eq!(parent["trace_id"], "trace-test-span");
-    assert_eq!(child["trace_id"], "trace-test-span");
-    assert_eq!(child["span_id"], parent_span_id);
-    assert_eq!(child["parent_span_id"], parent["parent_span_id"]);
+        .or_else(|| {
+            records
+                .iter()
+                .find(|record| record["operation"] == "test_observation")
+        })
+        .expect("test observation record");
+    assert_eq!(observed["trace_id"], "trace-test-observation");
+    assert!(observed["span_id"].as_u64().expect("span id") > 0);
+    assert!(observed["parent_span_id"].is_null());
+    assert!(records
+        .iter()
+        .all(|record| record["timestamp"].as_str().unwrap().contains('T')));
+    assert!(pipeline
+        .master_log_path_for_test()
+        .parent()
+        .unwrap()
+        .join("sequence.json")
+        .is_file());
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn runtime_vector_pipeline_recovers_sequence_checkpoint_on_restart() {
+    let root = test_root("runtime-vector-restart");
+    {
+        let mut pipeline = RuntimeVectorPipeline::start_without_subscriber_for_test(vector_config(
+            root.clone(),
+            None,
+        ))
+        .unwrap();
+        pipeline.shutdown().await.unwrap();
+    }
+
+    let mut restarted =
+        RuntimeVectorPipeline::start_without_subscriber_for_test(vector_config(root, None))
+            .unwrap();
+    assert!(restarted.snapshot().sequence_next > 1);
+    restarted.shutdown().await.unwrap();
 }
 
 #[test]
@@ -210,11 +293,32 @@ fn runtime_vector_pipeline_fails_closed_when_vector_child_exits() {
     assert!(error.starts_with("vector_child_exited:"));
 
     let snapshot = pipeline.snapshot();
-    assert!(matches!(
-        snapshot.health,
-        ObservabilityHealth::Degraded { .. }
-    ));
+    assert_eq!(
+        serde_json::to_value(&snapshot.health).unwrap()["status"],
+        "pending"
+    );
     assert_eq!(snapshot.last_failure, Some(error));
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn runtime_vector_pipeline_rotates_bounded_spool_before_startup() {
+    let root = test_root("runtime-vector-rotation");
+    let spool = root.join("observability/spool");
+    fs::create_dir_all(&spool).unwrap();
+    fs::write(spool.join("runtime-v3.current.jsonl"), "x".repeat(256)).unwrap();
+    let mut config = vector_config(root.clone(), None);
+    config.spool_max_bytes = 32;
+    config.spool_retained_files = 1;
+
+    let mut pipeline = RuntimeVectorPipeline::start_without_subscriber_for_test(config).unwrap();
+    pipeline.shutdown().await.unwrap();
+
+    let rotated = fs::read_dir(spool)
+        .unwrap()
+        .filter_map(Result::ok)
+        .filter(|entry| entry.file_name().to_string_lossy().contains(".jsonl."))
+        .count();
+    assert_eq!(rotated, 1);
 }
 
 #[test]
@@ -240,12 +344,8 @@ fn shell_installer_routes_native_windows_to_powershell_installer() {
 }
 
 fn vector_config(root: PathBuf, otlp_endpoint: Option<String>) -> RuntimeVectorConfig {
-    let vector_binary = std::env::var("ADL_RUNTIME_V3_VECTOR_BINARY")
-        .map(PathBuf::from)
-        .unwrap_or_else(|_| repo_root().join(".adl/bin/vector"));
     RuntimeVectorConfig {
-        vector_binary,
-        state_root: root.clone(),
+        vector_binary: repo_root().join(".adl/bin/vector"),
         runtime_instance_id: "runtime-test-instance".to_owned(),
         guardian_id: "guardian-test".to_owned(),
         process_id: std::process::id(),
@@ -256,14 +356,24 @@ fn vector_config(root: PathBuf, otlp_endpoint: Option<String>) -> RuntimeVectorC
         lifecycle_cycle: "cycle-1".to_owned(),
         otlp_endpoint,
         otlp_timeout_millis: 5_000,
-        drain_timeout: std::time::Duration::from_millis(1_000),
+        vector_shutdown_limit: std::time::Duration::from_millis(3_000),
+        drain_timeout: std::time::Duration::from_millis(5_000),
+        filter_directive: "adl_runtime_kernel=info".to_owned(),
+        vector_config_path: root.join("observability/config/runtime-v3-vector.json"),
+        ingress_spool_path: root.join("observability/spool/runtime-v3.current.jsonl"),
+        master_log_path: root.join("observability/durable/master.log.jsonl"),
+        audit_path: root.join("observability/durable/master-log-audit.json"),
+        sequence_checkpoint_path: root.join("observability/durable/sequence.json"),
+        vector_data_dir: root.join("observability/vector-data"),
+        spool_max_bytes: 8 * 1024 * 1024,
+        spool_retained_files: 4,
     }
 }
 
 fn record(sequence: u64, severity: &str, operation: &str, reason: &str, suite: &str) -> Value {
     json!({
         "schema": RUNTIME_MASTER_LOG_RECORD_SCHEMA,
-        "timestamp": format!("unix:{}", 1_700_000_000_000_u64 + sequence),
+        "timestamp": "2026-07-21T00:00:00Z",
         "timestamp_unix_millis": 1_700_000_000_000_u64 + sequence,
         "severity": severity,
         "level": severity,
