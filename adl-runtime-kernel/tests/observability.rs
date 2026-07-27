@@ -8,7 +8,9 @@ use std::{
     process::Command,
 };
 
-use adl_runtime_kernel::{RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA};
+use adl_runtime_kernel::{
+    ObservabilityHealth, RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA,
+};
 use runtime_observability::{
     audit_master_log_file, render_vector_config, RuntimeVectorConfig, RuntimeVectorPipeline,
 };
@@ -139,6 +141,24 @@ fn pinned_vector_validates_generated_master_log_config() {
 fn runtime_vector_pipeline_writes_auditable_master_log() {
     let root = test_root("runtime-vector-e2e");
     let mut pipeline = RuntimeVectorPipeline::start(vector_config(root, None)).unwrap();
+    let span = tracing::info_span!(
+        target: "adl_runtime_kernel",
+        "observability_parent",
+        component = "test",
+        operation = "parent_span",
+        reason = "ok",
+        correlation_id = "trace-test-span"
+    );
+    {
+        let _guard = span.enter();
+        tracing::info!(
+            target: "adl_runtime_kernel",
+            component = "test",
+            operation = "child_observation",
+            reason = "ok",
+            "observability child event"
+        );
+    }
     tracing::info!(
         target: "adl_runtime_kernel",
         component = "test",
@@ -159,6 +179,42 @@ fn runtime_vector_pipeline_writes_auditable_master_log() {
     assert_eq!(report.degraded_events, 0);
     assert_eq!(report.unexplained_restarts, 0);
     assert_eq!(report.incomplete_drains, 0);
+
+    let records = read_records(pipeline.master_log_path_for_test());
+    let parent = records
+        .iter()
+        .find(|record| record["operation"] == "parent_span")
+        .expect("parent span record");
+    let child = records
+        .iter()
+        .find(|record| record["operation"] == "child_observation")
+        .expect("child event record");
+    let parent_span_id = parent["span_id"].as_u64().expect("parent span id");
+    assert!(parent_span_id > 0);
+    assert_eq!(parent["trace_id"], "trace-test-span");
+    assert_eq!(child["trace_id"], "trace-test-span");
+    assert_eq!(child["span_id"], parent_span_id);
+    assert_eq!(child["parent_span_id"], parent["parent_span_id"]);
+}
+
+#[test]
+fn runtime_vector_pipeline_fails_closed_when_vector_child_exits() {
+    let root = test_root("runtime-vector-health");
+    let mut pipeline =
+        RuntimeVectorPipeline::start_without_subscriber_for_test(vector_config(root, None))
+            .unwrap();
+    assert!(pipeline.poll_health().is_ok());
+
+    pipeline.stop_vector_for_test();
+    let error = pipeline.poll_health().unwrap_err();
+    assert!(error.starts_with("vector_child_exited:"));
+
+    let snapshot = pipeline.snapshot();
+    assert!(matches!(
+        snapshot.health,
+        ObservabilityHealth::Degraded { .. }
+    ));
+    assert_eq!(snapshot.last_failure, Some(error));
 }
 
 #[test]
@@ -241,6 +297,14 @@ fn write_records(path: &Path, records: &[Value]) {
         lines.push('\n');
     }
     fs::write(path, lines).unwrap();
+}
+
+fn read_records(path: &Path) -> Vec<Value> {
+    fs::read_to_string(path)
+        .unwrap()
+        .lines()
+        .map(|line| serde_json::from_str(line).unwrap())
+        .collect()
 }
 
 fn test_root(name: &str) -> PathBuf {

@@ -331,7 +331,7 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let observability = match RuntimeVectorPipeline::start(vector_config) {
+            let mut observability = match RuntimeVectorPipeline::start(vector_config) {
                 Ok(pipeline) => pipeline,
                 Err(error) => {
                     eprintln!("runtime observability pipeline unavailable: {error}");
@@ -389,7 +389,17 @@ async fn main() -> ExitCode {
                 )
             );
             let mut pressure_retry_at = None;
+            let mut observability_tick = tokio::time::interval(std::time::Duration::from_secs(1));
+            observability_tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
             'serve: loop {
+                if let Err(error) = observability.poll_health() {
+                    recorder.set_observability_pipeline(observability.snapshot());
+                    eprintln!("runtime observability pipeline failed: {error}");
+                    api_shutdown.cancel();
+                    let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
+                    drain_control_api(&mut api).await;
+                    break 'serve ExitCode::from(70);
+                }
                 recorder.set_observability_pipeline(observability.snapshot());
                 let weather_service = service.clone();
                 let pressure_delay = pressure_retry_at.take();
@@ -405,55 +415,68 @@ async fn main() -> ExitCode {
                     .await
                 };
                 tokio::pin!(pressure_monitor);
-                let trigger = tokio::select! {
-                pressure = &mut pressure_monitor => {
-                    eprintln!("event=resource_pressure_stop state={:?} decision={:?}",
-                        pressure.resource_state, pressure.shutdown_decision);
-                    TerminalTrigger::Pressure
-                },
-                signal = shutdown_signal.recv() => {
-                    if let Err(error) = signal {
-                        eprintln!("runtime signal handler failed: {error}");
-                        api_shutdown.cancel();
-                        let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
-                        drain_control_api(&mut api).await;
-                        break 'serve ExitCode::from(70);
-                    }
-                    TerminalTrigger::Signal
-                },
-                request = shutdown_requests.recv() => {
-                    let Some(request) = request else {
-                        eprintln!("runtime checkpoint shutdown channel closed");
-                        api_shutdown.cancel();
-                        let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
-                        drain_control_api(&mut api).await;
-                        break 'serve ExitCode::from(70);
-                    };
-                    TerminalTrigger::Signed(request)
-                },
-                exit = handle.wait_for_exit() => match exit {
-                    Ok(exit) => {
-                        api_shutdown.cancel();
-                        drain_control_api(&mut api).await;
-                        break 'serve process_exit(exit);
+                let trigger = 'wait: loop {
+                    tokio::select! {
+                    pressure = &mut pressure_monitor => {
+                        eprintln!("event=resource_pressure_stop state={:?} decision={:?}",
+                            pressure.resource_state, pressure.shutdown_decision);
+                        break 'wait TerminalTrigger::Pressure;
                     },
-                    Err(error) => {
-                        eprintln!("runtime kernel task failed: {error}");
-                        api_shutdown.cancel();
+                    _ = observability_tick.tick() => {
+                        if let Err(error) = observability.poll_health() {
+                            recorder.set_observability_pipeline(observability.snapshot());
+                            eprintln!("runtime observability pipeline failed: {error}");
+                            api_shutdown.cancel();
+                            let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
+                            drain_control_api(&mut api).await;
+                            break 'serve ExitCode::from(70);
+                        }
+                        recorder.set_observability_pipeline(observability.snapshot());
+                    },
+                    signal = shutdown_signal.recv() => {
+                        if let Err(error) = signal {
+                            eprintln!("runtime signal handler failed: {error}");
+                            api_shutdown.cancel();
+                            let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
+                            drain_control_api(&mut api).await;
+                            break 'serve ExitCode::from(70);
+                        }
+                        break 'wait TerminalTrigger::Signal;
+                    },
+                    request = shutdown_requests.recv() => {
+                        let Some(request) = request else {
+                            eprintln!("runtime checkpoint shutdown channel closed");
+                            api_shutdown.cancel();
+                            let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
+                            drain_control_api(&mut api).await;
+                            break 'serve ExitCode::from(70);
+                        };
+                        break 'wait TerminalTrigger::Signed(request);
+                    },
+                    exit = handle.wait_for_exit() => match exit {
+                        Ok(exit) => {
+                            api_shutdown.cancel();
+                            drain_control_api(&mut api).await;
+                            break 'serve process_exit(exit);
+                        },
+                        Err(error) => {
+                            eprintln!("runtime kernel task failed: {error}");
+                            api_shutdown.cancel();
+                            let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
+                            drain_control_api(&mut api).await;
+                            break 'serve ExitCode::from(70);
+                        }
+                    },
+                    result = &mut api => {
+                        match result {
+                            Ok(Ok(())) => eprintln!("runtime control API stopped unexpectedly"),
+                            Ok(Err(error)) => eprintln!("runtime control API failed: {error}"),
+                            Err(error) => eprintln!("runtime control API task failed: {error}"),
+                        }
                         let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
-                        drain_control_api(&mut api).await;
                         break 'serve ExitCode::from(70);
-                    }
-                },
-                result = &mut api => {
-                    match result {
-                        Ok(Ok(())) => eprintln!("runtime control API stopped unexpectedly"),
-                        Ok(Err(error)) => eprintln!("runtime control API failed: {error}"),
-                        Err(error) => eprintln!("runtime control API task failed: {error}"),
-                    }
-                    let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
-                    break 'serve ExitCode::from(70);
-                },
+                    },
+                    };
                 };
 
                 let standard_deadline = std::time::Duration::from_secs(5);

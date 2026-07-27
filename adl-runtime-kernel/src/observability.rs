@@ -22,6 +22,12 @@ use tracing::{
     field::{Field, Visit},
     span, Event, Id, Metadata, Subscriber,
 };
+use tracing_subscriber::{
+    layer::{Context, Layer},
+    prelude::*,
+    registry::LookupSpan,
+    Registry,
+};
 
 pub const VECTOR_COMPONENT_VERSION: &str = "0.56.0";
 pub const VECTOR_COMPONENT_BINARY_REF: &str = ".adl/bin/vector";
@@ -129,6 +135,16 @@ pub struct RuntimeVectorPipeline {
 
 impl RuntimeVectorPipeline {
     pub fn start(config: RuntimeVectorConfig) -> Result<Self, String> {
+        Self::start_inner(config, true)
+    }
+
+    #[cfg(test)]
+    #[allow(dead_code)]
+    pub fn start_without_subscriber_for_test(config: RuntimeVectorConfig) -> Result<Self, String> {
+        Self::start_inner(config, false)
+    }
+
+    fn start_inner(config: RuntimeVectorConfig, install_subscriber: bool) -> Result<Self, String> {
         verify_vector_binary(&config.vector_binary)?;
         let root = config.state_root.join("observability");
         for relative in [
@@ -158,12 +174,12 @@ impl RuntimeVectorPipeline {
                 .map_err(|_| "runtime_vector_ingress_unavailable")?,
         ));
         let sequence = Arc::new(AtomicU64::new(next_sequence));
-        tracing::subscriber::set_global_default(RuntimeTracingSubscriber::new(
-            ingress.clone(),
-            sequence.clone(),
-            config.clone(),
-        ))
-        .map_err(|_| "runtime_tracing_subscriber_already_installed")?;
+        if install_subscriber {
+            tracing::subscriber::set_global_default(Registry::default().with(
+                RuntimeTracingLayer::new(ingress.clone(), sequence.clone(), config.clone()),
+            ))
+            .map_err(|_| "runtime_tracing_subscriber_already_installed")?;
+        }
         let stdout = append_file(&root.join("logs/vector.stdout.log"))
             .map_err(|_| "runtime_vector_log_unavailable")?;
         let stderr = append_file(&root.join("logs/vector.stderr.log"))
@@ -234,6 +250,33 @@ impl RuntimeVectorPipeline {
         }
     }
 
+    pub fn poll_health(&mut self) -> Result<(), String> {
+        let Some(child) = self.child.as_mut() else {
+            if self.drain_complete {
+                return Ok(());
+            }
+            let failure = self
+                .last_failure
+                .clone()
+                .unwrap_or_else(|| "vector_child_missing".to_owned());
+            self.last_failure = Some(failure.clone());
+            return Err(failure);
+        };
+        match child.try_wait() {
+            Ok(Some(status)) => {
+                let failure = format!("vector_child_exited:{status}");
+                self.last_failure = Some(failure.clone());
+                Err(failure)
+            }
+            Ok(None) => Ok(()),
+            Err(_) => {
+                let failure = "vector_child_health_unknown".to_owned();
+                self.last_failure = Some(failure.clone());
+                Err(failure)
+            }
+        }
+    }
+
     pub fn audit_master_log(
         &self,
         platform: &str,
@@ -245,6 +288,12 @@ impl RuntimeVectorPipeline {
             suite,
             &self.config.revision,
         )
+    }
+
+    #[cfg(test)]
+    #[allow(dead_code)]
+    pub fn master_log_path_for_test(&self) -> &Path {
+        &self.master_log_path
     }
 
     pub fn shutdown(&mut self) {
@@ -307,6 +356,15 @@ impl RuntimeVectorPipeline {
         }
         let _ = child.kill();
         let _ = child.wait();
+    }
+
+    #[cfg(test)]
+    #[allow(dead_code)]
+    pub fn stop_vector_for_test(&mut self) {
+        if let Some(child) = self.child.as_mut() {
+            let _ = child.kill();
+            let _ = child.wait();
+        }
     }
 }
 
@@ -542,13 +600,13 @@ pub fn render_vector_config(root: &Path, config: &RuntimeVectorConfig) -> Value 
 }
 
 #[derive(Clone)]
-struct RuntimeTracingSubscriber {
+struct RuntimeTracingLayer {
     ingress: Arc<Mutex<File>>,
     sequence: Arc<AtomicU64>,
     config: RuntimeVectorConfig,
 }
 
-impl RuntimeTracingSubscriber {
+impl RuntimeTracingLayer {
     fn new(
         ingress: Arc<Mutex<File>>,
         sequence: Arc<AtomicU64>,
@@ -567,8 +625,12 @@ impl RuntimeTracingSubscriber {
         mut fields: BTreeMap<String, Value>,
         span_id: Option<u64>,
         parent_span_id: Option<u64>,
+        trace_id: Option<String>,
     ) {
         let sequence = self.sequence.fetch_add(1, Ordering::SeqCst);
+        let trace_id = trace_id
+            .or_else(|| string_field(&fields, "correlation_id"))
+            .unwrap_or_else(|| format!("runtime-trace-{}", self.config.runtime_instance_id));
         let operation = string_field(&fields, "operation")
             .or_else(|| string_field(&fields, "event"))
             .unwrap_or_else(|| metadata.name().to_owned());
@@ -604,7 +666,7 @@ impl RuntimeTracingSubscriber {
             "revision": self.config.revision,
             "sequence": sequence,
             "runtime_event_count": 1,
-            "trace_id": string_field(&fields, "correlation_id").unwrap_or_else(|| format!("runtime-trace-{}", self.config.runtime_instance_id)),
+            "trace_id": trace_id,
             "span_id": span_id.unwrap_or(sequence),
             "parent_span_id": parent_span_id,
             "fields": fields
@@ -617,37 +679,65 @@ impl RuntimeTracingSubscriber {
     }
 }
 
-impl Subscriber for RuntimeTracingSubscriber {
-    fn enabled(&self, _metadata: &Metadata<'_>) -> bool {
-        true
-    }
+#[derive(Clone, Debug)]
+struct SpanLogContext {
+    span_id: u64,
+    parent_span_id: Option<u64>,
+    trace_id: String,
+}
 
-    fn new_span(&self, attrs: &span::Attributes<'_>) -> Id {
-        let span_id = self.sequence.load(Ordering::SeqCst);
+impl<S> Layer<S> for RuntimeTracingLayer
+where
+    S: Subscriber + for<'lookup> LookupSpan<'lookup>,
+{
+    fn on_new_span(&self, attrs: &span::Attributes<'_>, id: &Id, ctx: Context<'_, S>) {
         let mut visitor = JsonFieldVisitor::default();
         attrs.record(&mut visitor);
+        let parent_context = attrs
+            .parent()
+            .and_then(|parent| ctx.span(parent))
+            .or_else(|| ctx.lookup_current())
+            .and_then(|span| span.extensions().get::<SpanLogContext>().cloned());
+        let trace_id = string_field(&visitor.fields, "correlation_id")
+            .or_else(|| {
+                parent_context
+                    .as_ref()
+                    .map(|context| context.trace_id.clone())
+            })
+            .unwrap_or_else(|| format!("runtime-trace-{}", self.config.runtime_instance_id));
+        let span_context = SpanLogContext {
+            span_id: id.into_u64(),
+            parent_span_id: parent_context.as_ref().map(|context| context.span_id),
+            trace_id,
+        };
+        if let Some(span) = ctx.span(id) {
+            span.extensions_mut().insert(span_context.clone());
+        }
         self.write_record(
             attrs.metadata(),
             visitor.fields,
-            Some(span_id),
-            attrs.parent().map(Id::into_u64),
+            Some(span_context.span_id),
+            span_context.parent_span_id,
+            Some(span_context.trace_id),
         );
-        Id::from_u64(span_id)
     }
 
-    fn record(&self, _span: &Id, _values: &span::Record<'_>) {}
-
-    fn record_follows_from(&self, _span: &Id, _follows: &Id) {}
-
-    fn event(&self, event: &Event<'_>) {
+    fn on_event(&self, event: &Event<'_>, ctx: Context<'_, S>) {
         let mut visitor = JsonFieldVisitor::default();
         event.record(&mut visitor);
-        self.write_record(event.metadata(), visitor.fields, None, None);
+        let span_context = ctx
+            .event_span(event)
+            .and_then(|span| span.extensions().get::<SpanLogContext>().cloned());
+        self.write_record(
+            event.metadata(),
+            visitor.fields,
+            span_context.as_ref().map(|context| context.span_id),
+            span_context
+                .as_ref()
+                .and_then(|context| context.parent_span_id),
+            span_context.map(|context| context.trace_id),
+        );
     }
-
-    fn enter(&self, _span: &Id) {}
-
-    fn exit(&self, _span: &Id) {}
 }
 
 #[derive(Default)]
