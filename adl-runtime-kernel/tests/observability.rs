@@ -12,7 +12,8 @@ use adl_runtime_kernel::{
     ObservabilityHealth, RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA,
 };
 use runtime_observability::{
-    audit_master_log_file, render_vector_config, RuntimeVectorConfig, RuntimeVectorPipeline,
+    audit_master_log_file, master_log_contains_sequence, next_sequence_from_log,
+    render_vector_config, RuntimeVectorConfig, RuntimeVectorPipeline,
 };
 use serde_json::{json, Value};
 
@@ -83,6 +84,30 @@ fn master_log_auditor_rejects_bad_sequences_errors_and_missing_drain() {
     assert_eq!(report.error_events, 1);
     assert_eq!(report.degraded_events, 1);
     assert_eq!(report.incomplete_drains, 1);
+}
+
+#[test]
+fn sequence_recovery_and_drain_checks_read_the_bounded_log_tail() {
+    let root = test_root("bounded-tail");
+    let log_path = root.join("runtime-v3.jsonl");
+    let mut bytes = vec![0xff; 2 * 1_048_576];
+    bytes.push(b'\n');
+    bytes.extend(
+        serde_json::to_vec(&record(
+            41,
+            "info",
+            "observability_drain_complete",
+            "shutdown_drained",
+            "wp-12",
+        ))
+        .unwrap(),
+    );
+    bytes.push(b'\n');
+    fs::write(&log_path, bytes).unwrap();
+
+    assert_eq!(next_sequence_from_log(&log_path).unwrap(), 42);
+    assert!(master_log_contains_sequence(&log_path, 41));
+    assert!(!master_log_contains_sequence(&log_path, 42));
 }
 
 #[test]
@@ -257,6 +282,7 @@ fn vector_config(root: PathBuf, otlp_endpoint: Option<String>) -> RuntimeVectorC
         otlp_endpoint,
         otlp_timeout_millis: 5_000,
         drain_timeout: std::time::Duration::from_millis(1_000),
+        audit_on_shutdown: true,
     }
 }
 

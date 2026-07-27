@@ -1,7 +1,7 @@
 use std::{
     collections::BTreeMap,
     fs::{self, File, OpenOptions},
-    io::{BufRead, BufReader, Write},
+    io::{BufRead, BufReader, Read, Seek, SeekFrom, Write},
     path::{Path, PathBuf},
     process::{Child, Command, Stdio},
     sync::{
@@ -37,6 +37,7 @@ pub const VECTOR_COMPONENT_WINDOWS_BINARY_REF: &str = ".adl/bin/vector.exe";
 const STARTUP_OBSERVATION: Duration = Duration::from_millis(350);
 const DEFAULT_DRAIN_TIMEOUT: Duration = Duration::from_millis(5_000);
 const DEFAULT_OTLP_TIMEOUT_MILLIS: u64 = 5_000;
+const MAX_LOG_RECORD_BYTES: u64 = 1_048_576;
 
 #[derive(Clone, Debug)]
 pub struct RuntimeVectorConfig {
@@ -53,6 +54,7 @@ pub struct RuntimeVectorConfig {
     pub otlp_endpoint: Option<String>,
     pub otlp_timeout_millis: u64,
     pub drain_timeout: Duration,
+    pub audit_on_shutdown: bool,
 }
 
 impl RuntimeVectorConfig {
@@ -89,6 +91,15 @@ impl RuntimeVectorConfig {
             .and_then(|value| parse_duration_millis(&value))
             .map(Duration::from_millis)
             .unwrap_or(DEFAULT_DRAIN_TIMEOUT);
+        let audit_on_shutdown = match std::env::var("ADL_RUNTIME_MASTER_LOG_AUDIT") {
+            Ok(value) if value == "shutdown" => true,
+            Ok(value) if value == "deferred" => false,
+            Ok(_) => return Err("runtime_master_log_audit_mode_invalid".to_owned()),
+            Err(std::env::VarError::NotPresent) => true,
+            Err(std::env::VarError::NotUnicode(_)) => {
+                return Err("runtime_master_log_audit_mode_invalid".to_owned())
+            }
+        };
         Ok(Self {
             vector_binary,
             state_root,
@@ -118,6 +129,7 @@ impl RuntimeVectorConfig {
             otlp_endpoint,
             otlp_timeout_millis,
             drain_timeout,
+            audit_on_shutdown,
         })
     }
 }
@@ -165,7 +177,8 @@ impl RuntimeVectorPipeline {
         let rendered = render_vector_config(&root, &config);
         write_json_atomic(&config_path, &rendered).map_err(|_| "vector_config_write_failed")?;
         validate_vector_config(&config.vector_binary, &config_path, &root)?;
-        let next_sequence = next_sequence_from_log(&ingress_path).unwrap_or(0);
+        let next_sequence = next_sequence_from_log(&ingress_path)
+            .map_err(|_| "runtime_vector_sequence_recovery_failed")?;
         let ingress = Arc::new(Mutex::new(
             OpenOptions::new()
                 .create(true)
@@ -317,9 +330,11 @@ impl RuntimeVectorPipeline {
         if !self.drain_complete {
             self.last_failure = Some("master_log_drain_incomplete".to_owned());
         }
-        let _ = self
-            .audit_master_log(&current_platform(), &self.config.lifecycle_suite)
-            .and_then(|report| write_json_atomic(&self.audit_path, &report));
+        if self.config.audit_on_shutdown {
+            let _ = self
+                .audit_master_log(&current_platform(), &self.config.lifecycle_suite)
+                .and_then(|report| write_json_atomic(&self.audit_path, &report));
+        }
         self.terminate_vector();
     }
 
@@ -873,38 +888,55 @@ fn write_json_atomic(path: &Path, value: &impl Serialize) -> std::io::Result<()>
     fs::rename(temp, path)
 }
 
-fn next_sequence_from_log(path: &Path) -> std::io::Result<u64> {
-    let file = match File::open(path) {
-        Ok(file) => file,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(0),
-        Err(error) => return Err(error),
-    };
-    let mut next = 0_u64;
-    for line in BufReader::new(file).lines() {
-        let line = line?;
-        let Ok(record) = serde_json::from_str::<Value>(&line) else {
-            continue;
-        };
-        if let Some(sequence) = record["sequence"].as_u64() {
-            next = next.max(sequence.saturating_add(1));
-        }
-    }
-    Ok(next)
+pub(crate) fn next_sequence_from_log(path: &Path) -> std::io::Result<u64> {
+    Ok(last_log_record(path)?
+        .and_then(|record| record["sequence"].as_u64())
+        .map_or(0, |sequence| sequence.saturating_add(1)))
 }
 
-fn master_log_contains_sequence(path: &Path, sequence: u64) -> bool {
-    let Ok(file) = File::open(path) else {
-        return false;
+pub(crate) fn master_log_contains_sequence(path: &Path, sequence: u64) -> bool {
+    last_log_record(path)
+        .ok()
+        .flatten()
+        .and_then(|record| record["sequence"].as_u64())
+        .is_some_and(|observed| observed >= sequence)
+}
+
+fn last_log_record(path: &Path) -> std::io::Result<Option<Value>> {
+    let mut file = match File::open(path) {
+        Ok(file) => file,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(error) => return Err(error),
     };
-    BufReader::new(file)
-        .lines()
-        .map_while(Result::ok)
-        .any(|line| {
-            serde_json::from_str::<Value>(&line)
-                .ok()
-                .and_then(|record| record["sequence"].as_u64())
-                == Some(sequence)
-        })
+    let length = file.metadata()?.len();
+    if length == 0 {
+        return Ok(None);
+    }
+    let read_length = length.min(MAX_LOG_RECORD_BYTES);
+    file.seek(SeekFrom::Start(length - read_length))?;
+    let mut bytes = Vec::with_capacity(read_length as usize);
+    file.take(read_length).read_to_end(&mut bytes)?;
+    while bytes
+        .last()
+        .is_some_and(|byte| matches!(byte, b'\n' | b'\r'))
+    {
+        bytes.pop();
+    }
+    let line_start = bytes
+        .iter()
+        .rposition(|byte| *byte == b'\n')
+        .map_or(0, |position| position + 1);
+    let line = std::str::from_utf8(&bytes[line_start..])
+        .map_err(|error| std::io::Error::new(std::io::ErrorKind::InvalidData, error))?;
+    if line.trim().is_empty() {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "empty log tail",
+        ));
+    }
+    serde_json::from_str(line)
+        .map(Some)
+        .map_err(|error| std::io::Error::new(std::io::ErrorKind::InvalidData, error))
 }
 
 fn string_field(fields: &BTreeMap<String, Value>, key: &str) -> Option<String> {

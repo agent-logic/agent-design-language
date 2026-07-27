@@ -353,7 +353,7 @@ async fn execute_suite(
     match args.suite {
         Suite::Preflight => {
             let continuity = fixture.continuity_root.join("preflight");
-            execute_cycle(args, fixture, &continuity, 1, 1)
+            execute_cycle(args, fixture, &continuity, 1, 1, true)
                 .await
                 .map_err(|error| Failure {
                     run: 1,
@@ -373,7 +373,7 @@ async fn execute_suite(
         Suite::Lifecycle { cycles } => {
             let continuity = fixture.continuity_root.join("lifecycle");
             for cycle in 1..=cycles {
-                execute_cycle(args, fixture, &continuity, 1, cycle)
+                execute_cycle(args, fixture, &continuity, 1, cycle, cycle == cycles)
                     .await
                     .map_err(|error| Failure {
                         run: 1,
@@ -418,7 +418,7 @@ async fn execute_suite(
                 let mut run_cycles = 0_u64;
                 while run_cycles == 0 || Instant::now() < deadline {
                     run_cycles = run_cycles.saturating_add(1);
-                    execute_cycle(args, fixture, &continuity, run, run_cycles)
+                    execute_cycle(args, fixture, &continuity, run, run_cycles, false)
                         .await
                         .map_err(|error| Failure {
                             run,
@@ -428,6 +428,16 @@ async fn execute_suite(
                             error,
                         })?;
                 }
+                run_cycles = run_cycles.saturating_add(1);
+                execute_cycle(args, fixture, &continuity, run, run_cycles, true)
+                    .await
+                    .map_err(|error| Failure {
+                        run,
+                        cycle: run_cycles,
+                        completed_runs: run.saturating_sub(1),
+                        completed_cycles: total_cycles + run_cycles.saturating_sub(1),
+                        error,
+                    })?;
                 verify_generation(&continuity, run_cycles).map_err(|error| Failure {
                     run,
                     cycle: run_cycles,
@@ -459,6 +469,7 @@ async fn execute_cycle(
     continuity_root: &Path,
     run: u64,
     cycle: u64,
+    audit_on_shutdown: bool,
 ) -> Result<(), String> {
     std::fs::create_dir_all(continuity_root)
         .map_err(|error| format!("could not create continuity root: {error}"))?;
@@ -518,6 +529,15 @@ async fn execute_cycle(
             ),
             ("ADL_RUNTIME_LIFECYCLE_RUN".to_owned(), run.to_string()),
             ("ADL_RUNTIME_LIFECYCLE_CYCLE".to_owned(), cycle.to_string()),
+            (
+                "ADL_RUNTIME_MASTER_LOG_AUDIT".to_owned(),
+                if audit_on_shutdown {
+                    "shutdown"
+                } else {
+                    "deferred"
+                }
+                .to_owned(),
+            ),
             ("ADL_RUNTIME_REVISION".to_owned(), args.revision.clone()),
         ],
         restart_budget: 0,
