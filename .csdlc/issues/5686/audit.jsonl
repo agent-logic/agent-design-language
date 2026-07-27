@@ -6,3 +6,4 @@
 {"sequence":6,"generation":3,"actor":"codex:issue-5686-terminal-projection","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":7,"generation":4,"actor":"codex:issue-5686-terminal-projection","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":8,"generation":5,"actor":"codex:issue-5686-terminal-projection","reason":"Enter reviewed phase after the compatibility review assignment and passing exact-head evidence were recorded.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":9,"generation":6,"actor":"codex:issue-5686-terminal-projection","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
