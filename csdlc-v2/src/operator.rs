@@ -323,10 +323,10 @@ pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<Ins
         ));
     }
     let before = crate::git::run(repo, &["rev-parse", "HEAD"])?;
-    if !csdlc_sources_are_clean(repo)? {
+    if !owner_binary_sources_are_clean(repo)? {
         return Err(V2Error::new(
             ErrorCode::ValidationFailed,
-            "refusing to stamp owner binaries from dirty csdlc-v2 sources",
+            "refusing to stamp owner binaries from dirty C-SDLC owner sources",
         ));
     }
     if destination.is_dir() {
@@ -357,10 +357,10 @@ pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<Ins
         ));
     }
     let after = crate::git::run(repo, &["rev-parse", "HEAD"])?;
-    if before.stdout != after.stdout || !csdlc_sources_are_clean(repo)? {
+    if before.stdout != after.stdout || !owner_binary_sources_are_clean(repo)? {
         return Err(V2Error::new(
             ErrorCode::ValidationFailed,
-            "csdlc-v2 source revision changed or became dirty during the build",
+            "C-SDLC owner source revision changed or became dirty during the build",
         ));
     }
     install_binaries_with_revision(
@@ -412,7 +412,7 @@ pub fn validate_external_cargo_target(repo: &Path, target: &Path) -> Result<Path
     Ok(canonical_target)
 }
 
-fn csdlc_sources_are_clean(repo: &Path) -> Result<bool> {
+fn owner_binary_sources_are_clean(repo: &Path) -> Result<bool> {
     let status = crate::git::run(
         repo,
         &[
@@ -421,6 +421,7 @@ fn csdlc_sources_are_clean(repo: &Path) -> Result<bool> {
             "--untracked-files=all",
             "--",
             "csdlc-v2",
+            "adl-resilience",
         ],
     )?;
     Ok(status.stdout.trim().is_empty())

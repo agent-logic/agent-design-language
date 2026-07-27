@@ -5,7 +5,10 @@ use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::collections::{BTreeMap, BTreeSet};
 
+use adl_resilience::{execute_retry_policy_async_with_classifier, RetryPolicyError, RetryPolicyV1};
+
 #[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct PrStateRequest {
     pub repository: String,
     pub pull_request: u64,
@@ -74,6 +77,23 @@ pub struct GithubActionRequest {
     pub linked_issue: Option<u64>,
 }
 
+impl TryFrom<&GithubActionRequest> for PrStateRequest {
+    type Error = crate::V2Error;
+
+    fn try_from(request: &GithubActionRequest) -> crate::Result<Self> {
+        Ok(Self {
+            repository: request.repository.clone(),
+            pull_request: request.pull_request.ok_or_else(|| {
+                crate::V2Error::new(crate::ErrorCode::InvalidInput, "pull_request is required")
+            })?,
+            required_checks: request.required_checks.clone(),
+            require_review: request.require_review,
+            token_file: request.token_file.clone(),
+            linked_issue: request.linked_issue,
+        })
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct GithubIssuePacket {
     pub schema: String,
@@ -105,16 +125,7 @@ pub async fn execute_github_action(
 ) -> crate::Result<GithubActionResult> {
     validate_request(request)?;
     if matches!(request.action, GithubAction::PrState) {
-        let pr_request = PrStateRequest {
-            repository: request.repository.clone(),
-            pull_request: request.pull_request.ok_or_else(|| {
-                crate::V2Error::new(crate::ErrorCode::InvalidInput, "pull_request is required")
-            })?,
-            required_checks: request.required_checks.clone(),
-            require_review: request.require_review,
-            token_file: request.token_file.clone(),
-            linked_issue: request.linked_issue,
-        };
+        let pr_request = PrStateRequest::try_from(request)?;
         let pr_state = collect_pr_state(&pr_request).await?;
         return Ok(GithubActionResult {
             schema: "csdlc.github_action_result.v1".into(),
@@ -320,16 +331,77 @@ async fn reconcile_issue_create(
                 "created issue has no number",
             )
         })?;
-    let matches = find_marked_issues(crab, owner, repo, marker).await?;
-    if matches != vec![number] {
-        return Err(crate::V2Error::new(
-            crate::ErrorCode::ReconciliationRequired,
-            "created issue marker readback is ambiguous",
-        ));
-    }
-    let packet = read_issue_packet(crab, owner, repo, number, Some(marker)).await?;
+    let packet = read_created_issue_packet(crab, owner, repo, number, marker).await?;
     verify_issue_identity(&packet, request)?;
     Ok(packet)
+}
+
+async fn read_created_issue_packet(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    number: u64,
+    marker: &str,
+) -> crate::Result<GithubIssuePacket> {
+    let policy = RetryPolicyV1::new(4, Some(250));
+    let execution = execute_retry_policy_async_with_classifier(
+        &policy,
+        |_| async {
+            let packet = read_issue_packet(crab, owner, repo, number, Some(marker)).await?;
+            if packet.marker_present {
+                Ok(packet)
+            } else {
+                reconcile_created_issue_by_marker_search(crab, owner, repo, number, marker).await
+            }
+        },
+        is_retryable_created_issue_readback,
+        tokio::time::sleep,
+    )
+    .await
+    .map_err(retry_policy_error)?;
+    execution.result
+}
+
+async fn reconcile_created_issue_by_marker_search(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    number: u64,
+    marker: &str,
+) -> crate::Result<GithubIssuePacket> {
+    let matches = find_marked_issue_packets(crab, owner, repo, marker).await?;
+    match matches.as_slice() {
+        [packet] if packet.number == number => Ok(packet.clone()),
+        [] => Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "created issue marker search found no matching issue",
+        )),
+        [packet] => Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            format!(
+                "created issue marker search found different issue {} instead of {}",
+                packet.number, number
+            ),
+        )),
+        _ => Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "created issue marker search found multiple matching issues",
+        )),
+    }
+}
+
+fn is_retryable_created_issue_readback(error: &crate::V2Error) -> bool {
+    error.code == crate::ErrorCode::ReconciliationRequired
+        && error
+            .message
+            .contains("created issue marker search found no matching issue")
+}
+
+fn retry_policy_error(error: RetryPolicyError) -> crate::V2Error {
+    crate::V2Error::new(
+        crate::ErrorCode::ValidationFailed,
+        format!("GitHub readback retry policy failed: {error:?}"),
+    )
 }
 
 async fn update_issue(
@@ -536,6 +608,19 @@ async fn find_marked_issues(
     repo: &str,
     marker: &str,
 ) -> crate::Result<Vec<u64>> {
+    Ok(find_marked_issue_packets(crab, owner, repo, marker)
+        .await?
+        .into_iter()
+        .map(|packet| packet.number)
+        .collect())
+}
+
+async fn find_marked_issue_packets(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    marker: &str,
+) -> crate::Result<Vec<GithubIssuePacket>> {
     let query = format!(
         "repo:{owner}/{repo} type:issue in:body {}",
         marker_line(marker)
@@ -553,12 +638,12 @@ async fn find_marked_issues(
         .into_iter()
         .flatten()
         .filter_map(|item| item.get("number").and_then(Value::as_u64))
-        .collect::<Vec<_>>();
+        .collect::<BTreeSet<_>>();
     let mut exact_matches = Vec::new();
     for number in candidates {
         let packet = read_issue_packet(crab, owner, repo, number, Some(marker)).await?;
         if packet.marker_present {
-            exact_matches.push(number);
+            exact_matches.push(packet);
         }
     }
     Ok(exact_matches)

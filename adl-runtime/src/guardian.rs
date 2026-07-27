@@ -8,6 +8,7 @@ use std::path::PathBuf;
 use std::process::Stdio;
 use std::time::Duration;
 
+use adl_resilience::capped_exponential_backoff;
 use serde::{Deserialize, Serialize};
 use tokio::io::AsyncReadExt;
 use tokio::process::{Child, Command};
@@ -432,14 +433,7 @@ where
 }
 
 fn backoff(config: &GuardianConfig, restarts: u32) -> Duration {
-    let exponent = restarts.saturating_sub(1).min(20);
-    let multiplier = 1_u64.checked_shl(exponent).unwrap_or(u64::MAX);
-    Duration::from_millis(
-        config
-            .backoff_base_ms
-            .saturating_mul(multiplier)
-            .min(config.backoff_cap_ms),
-    )
+    capped_exponential_backoff(config.backoff_base_ms, config.backoff_cap_ms, restarts)
 }
 
 fn outcome(
