@@ -186,7 +186,7 @@ fn shell_installer_routes_native_windows_to_powershell_installer() {
 fn vector_config(root: PathBuf, otlp_endpoint: Option<String>) -> RuntimeVectorConfig {
     let vector_binary = std::env::var("ADL_RUNTIME_V3_VECTOR_BINARY")
         .map(PathBuf::from)
-        .unwrap_or_else(|_| PathBuf::from(".adl/bin/vector"));
+        .unwrap_or_else(|_| repo_root().join(".adl/bin/vector"));
     RuntimeVectorConfig {
         vector_binary,
         state_root: root.clone(),
