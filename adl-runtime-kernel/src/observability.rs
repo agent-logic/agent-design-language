@@ -35,7 +35,7 @@ pub const VECTOR_COMPONENT_BINARY_REF: &str = ".adl/bin/vector";
 pub const VECTOR_COMPONENT_WINDOWS_BINARY_REF: &str = ".adl/bin/vector.exe";
 
 const STARTUP_OBSERVATION: Duration = Duration::from_millis(350);
-const DEFAULT_DRAIN_TIMEOUT: Duration = Duration::from_millis(5_000);
+const DEFAULT_DRAIN_TIMEOUT: Duration = Duration::from_millis(30_000);
 const DEFAULT_OTLP_TIMEOUT_MILLIS: u64 = 5_000;
 const MAX_LOG_RECORD_BYTES: u64 = 1_048_576;
 
