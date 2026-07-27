@@ -429,3 +429,83 @@ fn write_report(path: &Path, report: &serde_json::Value) -> std::io::Result<()> 
     std::fs::write(&temporary, serde_json::to_vec_pretty(report)?)?;
     std::fs::rename(temporary, path)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn arguments(mode: &[&str]) -> Vec<String> {
+        let root = std::env::current_dir().expect("current directory");
+        let mut values = vec![
+            "--kernel".to_owned(),
+            std::env::current_exe()
+                .expect("current executable")
+                .to_string_lossy()
+                .into_owned(),
+            "--state-root".to_owned(),
+            root.join("state").to_string_lossy().into_owned(),
+            "--report".to_owned(),
+            root.join("report.json").to_string_lossy().into_owned(),
+            "--revision".to_owned(),
+            "0123456789abcdef0123456789abcdef01234567".to_owned(),
+        ];
+        values.extend(mode.iter().map(|value| (*value).to_owned()));
+        values
+    }
+
+    #[test]
+    fn accepts_only_the_three_exact_acceptance_suites() {
+        let lifecycle = Args::parse(arguments(&["--cycles", "10000"]).into_iter())
+            .expect("10k lifecycle suite");
+        assert!(matches!(
+            lifecycle.suite,
+            Suite::Lifecycle {
+                cycles: REQUIRED_CYCLES
+            }
+        ));
+
+        let stress =
+            Args::parse(arguments(&["--runs", "100", "--duration-seconds", "10"]).into_iter())
+                .expect("100x10s stress suite");
+        assert!(matches!(
+            stress.suite,
+            Suite::Timed {
+                runs: STRESS_RUNS,
+                seconds: STRESS_SECONDS
+            }
+        ));
+
+        let endurance =
+            Args::parse(arguments(&["--runs", "10", "--duration-seconds", "600"]).into_iter())
+                .expect("10x600s endurance suite");
+        assert!(matches!(
+            endurance.suite,
+            Suite::Timed {
+                runs: ENDURANCE_RUNS,
+                seconds: ENDURANCE_SECONDS
+            }
+        ));
+    }
+
+    #[test]
+    fn rejects_partial_or_mixed_acceptance_suites() {
+        for mode in [
+            vec!["--cycles", "9999"],
+            vec!["--runs", "100", "--duration-seconds", "9"],
+            vec!["--runs", "9", "--duration-seconds", "600"],
+            vec![
+                "--cycles",
+                "10000",
+                "--runs",
+                "100",
+                "--duration-seconds",
+                "10",
+            ],
+        ] {
+            assert!(
+                Args::parse(arguments(&mode).into_iter()).is_err(),
+                "unexpectedly accepted {mode:?}"
+            );
+        }
+    }
+}
