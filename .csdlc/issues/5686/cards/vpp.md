@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5686/diagram.mmd
 [
   {
     "lane": "terminal-projection-shape",
-    "proof_role": "Prove the retained #5662 terminal projection commit and bounded path set are present",
+    "proof_role": "Prove exact receipt parity, the bounded retained path set, and current file content against the committed SHA-256 manifest",
     "acceptance_ids": [
       "AC-1",
       "AC-3"
@@ -35,11 +35,8 @@ Diagram: .csdlc/prepared/issues/5686/diagram.mmd
     "budget_seconds": 120,
     "budget_tokens": 2000,
     "argv": [
-      "git",
-      "show",
-      "--stat",
-      "--oneline",
-      "d95b4b0c5ebcc4c4fa95d8dccf19558296c53c6c"
+      "node",
+      ".csdlc/evidence/5686/verify_receipt_parity.mjs"
     ],
     "parallel_group": "records",
     "defer_reason": null
@@ -95,7 +92,7 @@ Tokens: 10000
 
 ## Commands
 
-- `git show --stat --oneline d95b4b0c5ebcc4c4fa95d8dccf19558296c53c6c`
+- `node .csdlc/evidence/5686/verify_receipt_parity.mjs`
 - `git diff --check`
 - `git rev-parse HEAD`
 

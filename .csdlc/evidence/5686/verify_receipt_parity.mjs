@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -16,6 +17,12 @@ const receipt = JSON.parse(
 );
 const projection = JSON.parse(
   readFileSync(join(root, ".csdlc/issues/5662/index.json"), "utf8"),
+);
+const retainedManifest = JSON.parse(
+  readFileSync(
+    join(root, ".csdlc/evidence/5686/retained-projection-sha256.json"),
+    "utf8",
+  ),
 );
 
 const canonicalize = (value) => {
@@ -33,8 +40,6 @@ const canonicalize = (value) => {
 };
 const canonicalJson = (value) => JSON.stringify(canonicalize(value));
 const failures = [];
-const firstRetainedRevision = "6487f1ef8d97549c5ccf092946d93a7aa67c60de";
-const retainedProjectionRevision = "d95b4b0c5ebcc4c4fa95d8dccf19558296c53c6c";
 const projectionPaths = [
   ".csdlc/issues/5662/",
   ".csdlc/publication/5662.intent.json",
@@ -98,28 +103,7 @@ for (const relativePath of changedPaths) {
   }
 }
 
-const retainedParent = execFileSync(
-  "git",
-  ["rev-parse", `${firstRetainedRevision}^`],
-  { cwd: root, encoding: "utf8" },
-).trim();
-const expectedProjectionPaths = execFileSync(
-  "git",
-  [
-    "diff",
-    "--name-only",
-    retainedParent,
-    retainedProjectionRevision,
-    "--",
-    ".csdlc/issues/5662",
-    ".csdlc/publication/5662.intent.json",
-  ],
-  { cwd: root, encoding: "utf8" },
-)
-  .trimEnd()
-  .split("\n")
-  .filter(Boolean)
-  .sort();
+const expectedProjectionPaths = Object.keys(retainedManifest.files).sort();
 const actualProjectionPaths = changedPaths.filter((relativePath) =>
   projectionPaths.some((allowed) => relativePath.startsWith(allowed)),
 );
@@ -127,22 +111,15 @@ if (canonicalJson(actualProjectionPaths) !== canonicalJson(expectedProjectionPat
   failures.push("projected path set differs from the two retained commits");
 }
 
-try {
-  execFileSync(
-    "git",
-    [
-      "diff",
-      "--quiet",
-      retainedProjectionRevision,
-      "HEAD",
-      "--",
-      ".csdlc/issues/5662",
-      ".csdlc/publication/5662.intent.json",
-    ],
-    { cwd: root, stdio: "ignore" },
-  );
-} catch {
-  failures.push("projected files differ from retained terminal revision");
+for (const [relativePath, expectedDigest] of Object.entries(
+  retainedManifest.files,
+)) {
+  const actualDigest = createHash("sha256")
+    .update(readFileSync(join(root, relativePath)))
+    .digest("hex");
+  if (actualDigest !== expectedDigest) {
+    failures.push(`${relativePath} differs from retained projection manifest`);
+  }
 }
 
 const result = {
@@ -154,7 +131,9 @@ const result = {
   phase: projection.phase,
   generation: projection.generation,
   base_revision: baseRevision,
-  retained_projection_revision: retainedProjectionRevision,
+  retained_projection_manifest:
+    ".csdlc/evidence/5686/retained-projection-sha256.json",
+  source_revisions: retainedManifest.source_revisions,
   expected_projection_path_count: expectedProjectionPaths.length,
   changed_path_count: changedPaths.length,
   parity: failures.length === 0,
