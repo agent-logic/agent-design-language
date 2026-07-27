@@ -33,9 +33,13 @@ const canonicalize = (value) => {
 };
 const canonicalJson = (value) => JSON.stringify(canonicalize(value));
 const failures = [];
-const allowedPaths = [
+const firstRetainedRevision = "6487f1ef8d97549c5ccf092946d93a7aa67c60de";
+const retainedProjectionRevision = "d95b4b0c5ebcc4c4fa95d8dccf19558296c53c6c";
+const projectionPaths = [
   ".csdlc/issues/5662/",
   ".csdlc/publication/5662.intent.json",
+];
+const allowedPaths = [
   ".csdlc/issues/5686/",
   ".csdlc/prepared/issues/5686/",
   ".csdlc/evidence/5686/",
@@ -86,9 +90,59 @@ const worktreePaths = execFileSync(
   .map((line) => line.slice(3));
 const changedPaths = [...new Set([...committedPaths, ...worktreePaths])].sort();
 for (const relativePath of changedPaths) {
-  if (!allowedPaths.some((allowed) => relativePath.startsWith(allowed))) {
+  if (
+    !projectionPaths.some((allowed) => relativePath.startsWith(allowed)) &&
+    !allowedPaths.some((allowed) => relativePath.startsWith(allowed))
+  ) {
     failures.push(`out-of-scope path: ${relativePath}`);
   }
+}
+
+const retainedParent = execFileSync(
+  "git",
+  ["rev-parse", `${firstRetainedRevision}^`],
+  { cwd: root, encoding: "utf8" },
+).trim();
+const expectedProjectionPaths = execFileSync(
+  "git",
+  [
+    "diff",
+    "--name-only",
+    retainedParent,
+    retainedProjectionRevision,
+    "--",
+    ".csdlc/issues/5662",
+    ".csdlc/publication/5662.intent.json",
+  ],
+  { cwd: root, encoding: "utf8" },
+)
+  .trimEnd()
+  .split("\n")
+  .filter(Boolean)
+  .sort();
+const actualProjectionPaths = changedPaths.filter((relativePath) =>
+  projectionPaths.some((allowed) => relativePath.startsWith(allowed)),
+);
+if (canonicalJson(actualProjectionPaths) !== canonicalJson(expectedProjectionPaths)) {
+  failures.push("projected path set differs from the two retained commits");
+}
+
+try {
+  execFileSync(
+    "git",
+    [
+      "diff",
+      "--quiet",
+      retainedProjectionRevision,
+      "HEAD",
+      "--",
+      ".csdlc/issues/5662",
+      ".csdlc/publication/5662.intent.json",
+    ],
+    { cwd: root, stdio: "ignore" },
+  );
+} catch {
+  failures.push("projected files differ from retained terminal revision");
 }
 
 const result = {
@@ -100,7 +154,9 @@ const result = {
   phase: projection.phase,
   generation: projection.generation,
   base_revision: baseRevision,
-  changed_paths: changedPaths,
+  retained_projection_revision: retainedProjectionRevision,
+  expected_projection_path_count: expectedProjectionPaths.length,
+  changed_path_count: changedPaths.length,
   parity: failures.length === 0,
   failures,
 };
