@@ -1,0 +1,126 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5686,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "4596ba7749c802bc3bdc53df41c48eecce8cdeee5b25e059a41d4402149d646e",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "ac51f2f970a525c2b788f83f42235397380e1c5c8359990af8e2be509500412d",
+  "claim": {
+    "id": "claim-5686-publish-5662-terminal-projection",
+    "owner": "codex:issue-5686-terminal-projection",
+    "generation": 2,
+    "acquired_unix_seconds": 1785114576,
+    "expires_unix_seconds": 1785719376,
+    "heartbeat_unix_seconds": 1785114576,
+    "branch": "codex/5686-publish-5662-terminal-projection",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5662",
+      ".csdlc/publication/5662.intent.json",
+      ".csdlc/issues/5686",
+      ".csdlc/locks/5686.lock",
+      ".csdlc/prepared/issues/5686"
+    ],
+    "purpose": "Publish the receipt-matching #5662 terminal projection to main through a governed repair PR"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5686/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5686/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:issue-5686",
+      "revision": "079de390db78dcf9b2f9143fc3abf5328bb8795d32b17d4c368451f9756099f4"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "19c4b516f351b0d24e8dccc1cd02a1b0ba6b691fc1c1695aeadc3f623ac4a95b",
+      "rendered_digest": "0d7713241fe900c8d8579564c26b48b39c451b7d4435d292ca621efeb3136c3c",
+      "ast_digest": "8a15b3a2dd4fccf451651961e2b68f07f6570a2a897d8c24ebc7bcd6e11e14d1"
+    },
+    "stp": {
+      "values_digest": "47fa89cdebe4aa4b3d6e9a7ece06c71c848fff1d7b2e8bf661fe489a547a1dc8",
+      "rendered_digest": "840697839468764076aa5373208a9cfec8ebfcea542995afa8ac9e631ae7755b",
+      "ast_digest": "141aecbb2a2742b6efd4f844be0ea23af0bddd22b322662f0900eeb2b2f487a1"
+    },
+    "spp": {
+      "values_digest": "24f7cfb5259bd509b01afdaa562b8cd44d3cc726c9d3c6c5af0fb2c89499d6f0",
+      "rendered_digest": "8e14fc0ba38b1d85da6f7ddab5c62ffb45d01df6385333a3ee368981e495af87",
+      "ast_digest": "94b7106a85f3d312f1eb6be261310607ea928638fbeed380843e6a8795120881"
+    },
+    "vpp": {
+      "values_digest": "f35b8a3a34bc3fd7cbe5d29d0168061dddd4637d191bb6c099c108cfbee8542c",
+      "rendered_digest": "8db5db8f874eec6369ecf47f2d3f520c9b61e492efe6642bba045590be0e517f",
+      "ast_digest": "9a500ad4538e20a2f512cfd6d98d0e9fe2484244b75c05e3c97a074c4cb85ea6"
+    },
+    "srp": {
+      "values_digest": "3ba3d00acdeee83556f5f750977f5bc9096a6f30608b85ff013b36be3036326e",
+      "rendered_digest": "3dfdc0fe6a2b9074f8308c7eda16b6ffeceb4ab9568f42a95728dfa63f969371",
+      "ast_digest": "2643d88d5f2f6da336cdcdd5266b1f1772d5275b37ced61ddda5bffb0b98186c"
+    },
+    "sor": {
+      "values_digest": "21335e76b11554fab5c38f27c3c06e96cf14468b9fc6663f620b4b1d52ebca08",
+      "rendered_digest": "9e1a7e58c877c8aac30098d5fdaf6749e10b59abfe753aab162a69f3563b52bc",
+      "ast_digest": "63f2423fdbf966d85a1cac1d582e825bc1f44b31295e3af852bb3e9f4ec4c451"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5686-terminal-projection",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5686-terminal-projection",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-5686-terminal-projection",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5686-terminal-projection",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "operator:issue-5686",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-5686-terminal-projection",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-5686-terminal-projection",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

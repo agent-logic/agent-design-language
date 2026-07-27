@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5686,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][records] Publish #5662 terminal projection to main",
+    "slug": "publish-5662-terminal-projection",
+    "version": "v0.91.8",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/5662\n.csdlc/publication/5662.intent.json\n.csdlc/issues/5686\n.csdlc/prepared/issues/5686",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the resulting #5662 record exactly match the canonical terminal receipt?",
+        "Is the diff limited to terminal projection and #5686 lifecycle truth?",
+        "Did any implementation or canonical receipt content change?",
+        "Does the PR target current main?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
