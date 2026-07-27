@@ -358,6 +358,9 @@ impl RuntimeVectorPipeline {
         let deadline = Instant::now() + self.config.drain_timeout;
         let graceful_exit_reserve = self.config.drain_timeout.min(Duration::from_secs(5));
         let delivery_deadline = deadline - graceful_exit_reserve;
+        if let Ok(mut ingress) = self.ingress.lock() {
+            ingress.stdin.take();
+        }
         let mut durable = master_log_contains_sequence(&self.master_log_path, sequence);
         while !durable && Instant::now() < delivery_deadline {
             match child.try_wait() {
@@ -369,9 +372,6 @@ impl RuntimeVectorPipeline {
             }
             sleep(Duration::from_millis(10));
             durable = master_log_contains_sequence(&self.master_log_path, sequence);
-        }
-        if let Ok(mut ingress) = self.ingress.lock() {
-            ingress.stdin.take();
         }
         signal_vector_shutdown(&mut child);
         while Instant::now() < deadline {
