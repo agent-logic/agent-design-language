@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "75c9cff2d2d9255cea839a5fbc388b881ac96d87f1b17509562024d338d6d3a6",
   "phase": "implemented",
-  "generation": 31,
-  "digest": "056f27d343e292c68ddba2374eace78ad7e101249f429c7a40bb97e41f041733",
+  "generation": 35,
+  "digest": "b63e45fb5f6a7801f229f67f4d1f59ebf80b9df8485c8201827e0a154e8d4a95",
   "claim": {
     "id": "claim-5684-csdlc-github-split",
     "owner": "codex",
-    "generation": 31,
+    "generation": 35,
     "acquired_unix_seconds": 1785115334,
     "expires_unix_seconds": 1785201734,
     "heartbeat_unix_seconds": 1785115334,
@@ -68,34 +68,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "46f666dbc7a587d78971ee158bad16991e954ab52a8960f21433d6150030b0c5",
+      "values_digest": "573ef3b3301e757dc249c2096784f5fdf54af774cebcacf6b7c17061d7167896",
       "rendered_digest": "858d9191e0e8690e5775f2444cde97db7e55675c237650533c57b708bbae67e3",
       "ast_digest": "3be7db06c77ee168c5a5088e36b2efd3eff5fea8e4b28de9476ff5cad93be89d"
     },
     "stp": {
-      "values_digest": "b8ecaa6e50c7779c61ada1cc516394041de3c1a17a889e969c3510950099946b",
+      "values_digest": "24232b5715e21c85ab5582660e3b439d48946af9e79fc3c794f77b7ce3dd6ded",
       "rendered_digest": "7f6db876a57f71505632afe8a874ed6b2f75af2665d19263d35140117c78a039",
       "ast_digest": "26abde4d04c92dbd379c514502f1bec3d6fa5559b95b2cd3972f06a45652e39f"
     },
     "spp": {
-      "values_digest": "f2b8dae307741c51e9778d24fe48919fbe46ea54d063357a6201c4026bc1074d",
+      "values_digest": "ba423c7122562fbd99d0f07d14926b93d7820977a8bd1d6dd162381a54ec5cfc",
       "rendered_digest": "9d919a55fff295a632dc95828738c622441f7adbd56527cda6920e1f56bced85",
       "ast_digest": "9a7a6c02eb787c220207111dcd5ef4e5e148fb5c22c9a9dfdc5bff773534f349"
     },
     "vpp": {
-      "values_digest": "952b8175d16df92e264c14224598689e703a6bd250328c00004bbc44bd64c860",
+      "values_digest": "547d7b8661454ac837221d8e5ec660ad8a782471f611d822679c5c247d4da1fc",
       "rendered_digest": "91d4afe6f345de33e4d32d51cf8dc010188981773badc84d51ff791079760a01",
       "ast_digest": "72a71b7e336ccce441a868f9216609233ceef970cea09e5e5793c5c95f71f91f"
     },
     "srp": {
-      "values_digest": "4af375cc8b3bfdf632bd32b13391f5c16e7b1e9beada9ad47d0413c23ea8d561",
+      "values_digest": "55d55d083769d50907bfb8ca08a71643047970c57997f5f1e00188809315a778",
       "rendered_digest": "fc03616052937346c1203080260a8a8559cdc21ead7a2fcae7f88028e645ddf1",
       "ast_digest": "efb9c9ae4081c5b0cf7ab8765f357f55eb4e843941e0d225f3e8e31f3ce0ec73"
     },
     "sor": {
-      "values_digest": "a59b39cf5ebbcd1b8bd8614cdcdac1eea3401d2ed0e6b6e33742a25123333072",
-      "rendered_digest": "883b1a05a13c361c24b5e257b21736ad459cb33b61a8f6fa640b61ada28c9876",
-      "ast_digest": "a1bcaa5178abbc04b7f72fd202f1747f5e439fedc84f667f5ca29620ec3f219c"
+      "values_digest": "5e63632640b4e144dd580e4d60cafb384d37091c07a727b81163395759faaea2",
+      "rendered_digest": "ffdbf27b5c8fa728be0b0054178c3f4fd0dfe2658be9546a2c2acf4fdb8a4061",
+      "ast_digest": "84b37409f5a9e1b01411e34c1ed0c7774b2e1a5d3a5507ef0081322d79a02ecf"
     }
   },
   "transitions": [
@@ -436,6 +436,34 @@
       "actor": "codex:5684-execution",
       "reason": "Record post-create race P3 validation evidence.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Run full csdlc-v2 GitHub action test target after narrowing post-create retry semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-create-race-p3-github-action-tests.log\"}}"
+    },
+    {
+      "sequence": 37,
+      "generation": 32,
+      "actor": "codex:5684-execution",
+      "reason": "Record corrected post-create zero-search proof.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented split C-SDLC GitHub owner binaries, shared adl-resilience retry/backoff crate, runtime backoff wiring, install/coexistence manifest enforcement, current docs/skill/template updates, deleted structured-prompt wrapper bootstrap guidance repair, post-publication Opus/Hegel findings remediation, issue_create post-create confirmation race repair, and corrected exact proof that transient empty marker search occurs after successful issue creation.\",\"changes\":[\"Moved the transient empty marker-search simulation so it is armed by successful POST creation, ensuring the first empty search occurs during post-create confirmation rather than the pre-create idempotency scan.\"],\"artifacts\":[\"Epicurus exact-head review at 1ab421541 found the zero-search regression proof was consumed before POST; the corrected test now arms zero-search from the POST handler and passes focused/full GitHub action tests.\"]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 33,
+      "actor": "codex:5684-execution",
+      "reason": "Record corrected post-create zero-search validation evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest\",\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Run csdlc-v2 rustfmt check after correcting post-create zero-search proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-create-race-p3b-fmt-check.log\"}}"
+    },
+    {
+      "sequence": 39,
+      "generation": 34,
+      "actor": "codex:5684-execution",
+      "reason": "Record corrected post-create zero-search validation evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"issue_create_and_comment_reconcile_by_marker_with_exact_readback\",\"--\",\"--nocapture\"],\"purpose\":\"Run focused issue_create confirmation regression with transient empty marker search armed after successful POST.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-create-race-p3b-focused-test.log\"}}"
+    },
+    {
+      "sequence": 40,
+      "generation": 35,
+      "actor": "codex:5684-execution",
+      "reason": "Record corrected post-create zero-search validation evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/usr/bin/env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/cargo-targets/adl-csdlc-install-manifest\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Run full csdlc-v2 GitHub action test target after correcting post-create zero-search proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-create-race-p3b-github-action-tests.log\"}}"
     }
   ]
 }

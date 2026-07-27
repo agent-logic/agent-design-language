@@ -124,7 +124,7 @@ async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
     env.server.force_noisy_issue_search();
     env.server.force_duplicate_issue_search_result();
     env.server.force_created_issue_marker_lag(1);
-    env.server.force_empty_issue_search(1);
+    env.server.force_empty_issue_search_after_create(1);
 
     let mut create = base_request(GithubAction::IssueCreate);
     create.token_file = Some(env.token_file());
@@ -218,6 +218,7 @@ struct LocalGithubState {
     noisy_issue_search: bool,
     duplicate_issue_search_result: bool,
     empty_issue_search_reads: usize,
+    empty_issue_search_after_create: usize,
     created_issue_marker_lag_reads: usize,
 }
 
@@ -335,8 +336,8 @@ impl LocalGithub {
         self.state.lock().unwrap().duplicate_issue_search_result = true;
     }
 
-    fn force_empty_issue_search(&self, reads: usize) {
-        self.state.lock().unwrap().empty_issue_search_reads = reads;
+    fn force_empty_issue_search_after_create(&self, reads: usize) {
+        self.state.lock().unwrap().empty_issue_search_after_create = reads;
     }
 
     fn force_created_issue_marker_lag(&self, reads: usize) {
@@ -531,6 +532,7 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
             );
             assert!(issue["body"].as_str().unwrap().contains(&marker));
             state.issue = Some(issue.clone());
+            state.empty_issue_search_reads = state.empty_issue_search_after_create;
             issue
         }
         ("GET", "/repos/owner/repo/issues/77") => {
