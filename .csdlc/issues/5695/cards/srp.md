@@ -14,7 +14,6 @@ Status: pre_phase
 
 csdlc-v2/src/github.rs
 csdlc-v2/src/merge.rs
-.csdlc/issues/5695
 
 ## Prompts
 
@@ -36,8 +35,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9325a45f7906d50cf2d280c9211470fa10b69f67:69ac1b5709559a69a6af7acc19651d13e7933f01160cde6a8cdba607a2832b77")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:review-5695")
 
-Result: pre_review
+Result: pass
