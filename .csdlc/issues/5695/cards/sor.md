@@ -12,11 +12,14 @@ Status: pre_phase
 
 ## Summary
 
-Implement explicit GitHub mergeability-state normalization and preserve fail-closed pending behavior.
+Preserve HasHooks as the clean merge target accepted by csdlc-merge.
 
 ## Artifacts
 
 - csdlc-v2/src/github.rs
+- .csdlc/issues/5695/cards/sor.md
+- csdlc-v2/src/github.rs
+- csdlc-v2/src/merge.rs
 - .csdlc/issues/5695/cards/sor.md
 
 ## Execution
@@ -24,6 +27,8 @@ Implement explicit GitHub mergeability-state normalization and preserve fail-clo
 - Map Behind, Blocked, Clean, Dirty, Draft, HasHooks, Unstable, and Unknown explicitly
 - Classify blocked, unstable, draft, and unknown as waiting; behind as stale_base; dirty as conflicted
 - Add focused coverage for all supported mergeability variants and classification behavior
+- Normalize HasHooks to clean to preserve merge-gate compatibility
+- Add a regression test proving the normalized HasHooks packet is accepted by validate_remote
 
 ## Validation
 

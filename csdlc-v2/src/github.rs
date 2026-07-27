@@ -906,14 +906,14 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
     Ok(packet)
 }
 
-fn normalize_mergeable_state(state: Option<MergeableState>) -> &'static str {
+pub(crate) fn normalize_mergeable_state(state: Option<MergeableState>) -> &'static str {
     match state {
         Some(MergeableState::Behind) => "behind",
         Some(MergeableState::Blocked) => "blocked",
         Some(MergeableState::Clean) => "clean",
         Some(MergeableState::Dirty) => "dirty",
         Some(MergeableState::Draft) => "draft",
-        Some(MergeableState::HasHooks) => "has_hooks",
+        Some(MergeableState::HasHooks) => "clean",
         Some(MergeableState::Unstable) => "unstable",
         Some(MergeableState::Unknown) | None => "unknown",
         _ => "unknown",
@@ -1021,7 +1021,7 @@ mod tests {
             (Some(MergeableState::Clean), "clean"),
             (Some(MergeableState::Dirty), "dirty"),
             (Some(MergeableState::Draft), "draft"),
-            (Some(MergeableState::HasHooks), "has_hooks"),
+            (Some(MergeableState::HasHooks), "clean"),
             (Some(MergeableState::Unstable), "unstable"),
             (Some(MergeableState::Unknown), "unknown"),
             (None, "unknown"),

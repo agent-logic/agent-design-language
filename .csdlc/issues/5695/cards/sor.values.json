@@ -7,20 +7,25 @@
     "title": "[v0.91.8][csdlc-v2][tooling] Preserve blocked and unstable PR mergeability states",
     "slug": "pr-state-mergeability",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implement explicit GitHub mergeability-state normalization and preserve fail-closed pending behavior.",
+      "summary": "Preserve HasHooks as the clean merge target accepted by csdlc-merge.",
       "actual_changes": [
         "Map Behind, Blocked, Clean, Dirty, Draft, HasHooks, Unstable, and Unknown explicitly",
         "Classify blocked, unstable, draft, and unknown as waiting; behind as stale_base; dirty as conflicted",
-        "Add focused coverage for all supported mergeability variants and classification behavior"
+        "Add focused coverage for all supported mergeability variants and classification behavior",
+        "Normalize HasHooks to clean to preserve merge-gate compatibility",
+        "Add a regression test proving the normalized HasHooks packet is accepted by validate_remote"
       ],
       "artifacts": [
         "csdlc-v2/src/github.rs",
+        ".csdlc/issues/5695/cards/sor.md",
+        "csdlc-v2/src/github.rs",
+        "csdlc-v2/src/merge.rs",
         ".csdlc/issues/5695/cards/sor.md"
       ],
       "actual_validation": [
