@@ -225,11 +225,13 @@ pub async fn run_guardian(
             .take()
             .map(capture_pipe)
             .unwrap_or_else(|| tokio::spawn(async { String::new() }));
-        let lease_task = tokio::spawn(lease.authenticate_and_hold());
+        let mut lease_task = tokio::spawn(lease.authenticate_and_hold());
 
         let attempt_exit = tokio::select! {
             _ = shutdown.cancelled() => {
-                let signal = terminate_child_tree(&mut child, &mut child_tree);
+                lease_task.abort();
+                let _ = (&mut lease_task).await;
+                let signal = terminate_child(&mut child);
                 let wait_result = timeout(Duration::from_millis(config.shutdown_grace_ms), child.wait()).await;
                 if wait_result.is_err() {
                     force_kill_child_tree(&mut child, &mut child_tree);
@@ -464,20 +466,6 @@ impl ChildTree {
                 io::Error::new(io::ErrorKind::InvalidInput, "child pid unavailable")
             })?)?,
         })
-    }
-
-    fn terminate(&mut self, pid: Option<u32>) {
-        self.terminate_platform(pid);
-    }
-
-    #[cfg(unix)]
-    fn terminate_platform(&mut self, pid: Option<u32>) {
-        terminate_process_group(pid, libc::SIGTERM);
-    }
-
-    #[cfg(windows)]
-    fn terminate_platform(&mut self, _pid: Option<u32>) {
-        let _ = self.job.terminate(1);
     }
 
     fn force_kill(&mut self, pid: Option<u32>) {
@@ -721,16 +709,19 @@ fn outcome(
 }
 
 #[cfg(unix)]
-fn terminate_child_tree(child: &mut Child, child_tree: &mut ChildTree) -> Option<i32> {
+fn terminate_child(child: &mut Child) -> Option<i32> {
     let pid = child.id()?;
     let signal = libc::SIGTERM;
-    child_tree.terminate(Some(pid));
+    if let Ok(pid) = i32::try_from(pid) {
+        unsafe {
+            libc::kill(pid, signal);
+        }
+    }
     Some(signal)
 }
 
 #[cfg(not(unix))]
-fn terminate_child_tree(child: &mut Child, child_tree: &mut ChildTree) -> Option<i32> {
-    child_tree.terminate(child.id());
+fn terminate_child(_child: &mut Child) -> Option<i32> {
     None
 }
 
