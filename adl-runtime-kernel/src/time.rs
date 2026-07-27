@@ -1,7 +1,7 @@
 use std::{
     fmt,
     sync::{Arc, Mutex},
-    time::{Duration, Instant},
+    time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 
 use async_trait::async_trait;
@@ -122,6 +122,27 @@ pub struct BlockingTimeSampleSource<F> {
 
 pub struct RsntpTimeSampleSource {
     server: String,
+}
+
+#[derive(Clone, Copy, Debug, Default)]
+pub struct SystemTimeSampleSource;
+
+#[async_trait]
+impl TimeSampleSource for SystemTimeSampleSource {
+    async fn sample(&self) -> Result<TimeSample, TimeSampleError> {
+        let unix_millis = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .map_err(|error| TimeSampleError::new(error.to_string()))?
+            .as_millis()
+            .try_into()
+            .map_err(|_| TimeSampleError::new("system clock exceeds supported range"))?;
+        Ok(TimeSample {
+            source: "host_system_clock".to_owned(),
+            unix_millis,
+            offset_millis: 0,
+            round_trip: Duration::ZERO,
+        })
+    }
 }
 
 impl RsntpTimeSampleSource {

@@ -19,8 +19,9 @@ use adl_runtime_kernel::{
     ControlAuthority, ControlCapability, ControlService, Kernel, KernelExit, LiveBindings,
     LiveContinuity, LiveKernelSnapshot, LoopDefinition, LoopStatus, ReasoningEdge,
     ReasoningGraphDefinition, ReasoningNode, RecordedObservation, RsntpTimeSampleSource,
-    RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver, TimeQualificationBounds,
-    TrustedControlKey, ValidatedReasoningGraph, MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA,
+    RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver, SystemTimeSampleSource,
+    TimeQualificationBounds, TimeSampleSource, TrustedControlKey, ValidatedReasoningGraph,
+    MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -164,14 +165,26 @@ async fn main() -> ExitCode {
                 eprintln!("runtime operation key id is empty");
                 return ExitCode::from(78);
             }
-            let sntp_server = std::env::var("ADL_RUNTIME_SNTP_SERVER")
-                .unwrap_or_else(|_| "pool.ntp.org".to_owned());
+            let (time_source, time_source_identity): (Arc<dyn TimeSampleSource>, String) =
+                match std::env::var("ADL_RUNTIME_SNTP_SERVER")
+                    .ok()
+                    .filter(|server| !server.trim().is_empty())
+                {
+                    Some(server) => (
+                        Arc::new(RsntpTimeSampleSource::new(server.clone())),
+                        format!("sntp:{server}"),
+                    ),
+                    None => (
+                        Arc::new(SystemTimeSampleSource),
+                        "host_system_clock".to_owned(),
+                    ),
+                };
             let assembly = match build_live_assembly(LiveBindings {
                 recorder: recorder.clone(),
                 operation_executors,
                 permit_keys: BTreeMap::from([(operation_key_id.clone(), operation_key)]),
                 reasoning,
-                time_source: Arc::new(RsntpTimeSampleSource::new(sntp_server.clone())),
+                time_source,
                 time_bounds: TimeQualificationBounds {
                     timeout: std::time::Duration::from_secs(3),
                     max_offset: std::time::Duration::from_secs(5),
@@ -237,17 +250,10 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let tls_private_key_hash = match file_hash(&init.api.tls.private_key_path).await {
-                Ok(hash) => hash,
-                Err(error) => {
-                    eprintln!("runtime TLS private key identity could not be hashed: {error}");
-                    return ExitCode::from(78);
-                }
-            };
             let binding_projection = serde_json::json!({
                 "assembly_config_hash": assembly.config_hash,
                 "runtime_init": &init,
-                "sntp_server": &sntp_server,
+                "time_source": &time_source_identity,
                 "operation_key_id": &operation_key_id,
                 "operation_key": hex::encode(operation_key.as_bytes()),
                 "control_key_id": &key_id,
@@ -258,7 +264,6 @@ async fn main() -> ExitCode {
                 "continuity_minimum_generation": minimum_generation,
                 "operation_state_root": operation_state_identity,
                 "tls_certificate_hash": tls_certificate_hash,
-                "tls_private_key_hash": tls_private_key_hash,
             });
             let config_hash = blake3::hash(
                 &serde_json::to_vec(&binding_projection)
