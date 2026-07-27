@@ -414,6 +414,14 @@ async fn agent_scheduler_checkpoint_cancellation_and_storage_are_real() {
     assert!(build_production_operation_executors(&production_locked_root).is_err());
     drop(production_writer);
     assert!(build_production_operation_executors(&production_locked_root).is_ok());
+    let explicit_shutdown_root = root.path().join("explicit-shutdown");
+    let explicitly_shutdown =
+        build_production_operation_executors(&explicit_shutdown_root).unwrap();
+    for executor in explicitly_shutdown.values() {
+        executor.shutdown().await.unwrap();
+    }
+    assert!(!explicit_shutdown_root.join("writer.lock").exists());
+    assert!(build_production_operation_executors(&explicit_shutdown_root).is_ok());
 
     let stale_root = root.path().join("stale-writer");
     let stale_lock = stale_root.join("writer.lock");

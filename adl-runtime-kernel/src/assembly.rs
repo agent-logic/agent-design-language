@@ -4,7 +4,7 @@ use std::{
     io::{self, Write},
     path::{Path, PathBuf},
     sync::{
-        atomic::{AtomicU64, Ordering},
+        atomic::{AtomicBool, AtomicU64, AtomicUsize, Ordering},
         Arc, Mutex,
     },
     time::{SystemTime, UNIX_EPOCH},
@@ -443,6 +443,7 @@ pub fn bootstrap_reasoning_services(
 pub struct InProcessOperationExecutor {
     kind: AdapterKind,
     state: Arc<LocalRuntimeState>,
+    shutdown: AtomicBool,
 }
 
 impl InProcessOperationExecutor {
@@ -457,12 +458,17 @@ impl InProcessOperationExecutor {
     ) -> std::io::Result<Self> {
         Ok(Self {
             kind,
-            state: Arc::new(LocalRuntimeState::new_in(state_dir.into())?),
+            state: Arc::new(LocalRuntimeState::new_in(state_dir.into(), 1)?),
+            shutdown: AtomicBool::new(false),
         })
     }
 
     fn with_state(kind: AdapterKind, state: Arc<LocalRuntimeState>) -> Self {
-        Self { kind, state }
+        Self {
+            kind,
+            state,
+            shutdown: AtomicBool::new(false),
+        }
     }
 }
 
@@ -474,6 +480,7 @@ struct LocalRuntimeState {
     writer_id: String,
     writer_pid: u32,
     writer_lock_path: PathBuf,
+    active_executor_bindings: AtomicUsize,
 }
 
 #[derive(Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -484,7 +491,7 @@ struct WriterLockOwner {
 }
 
 impl LocalRuntimeState {
-    fn new_in(state_dir: PathBuf) -> std::io::Result<Self> {
+    fn new_in(state_dir: PathBuf, active_executor_bindings: usize) -> std::io::Result<Self> {
         if state_dir.as_os_str().is_empty() || !state_dir.is_absolute() {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -504,11 +511,19 @@ impl LocalRuntimeState {
             writer_id,
             writer_pid,
             writer_lock_path: lock_path,
+            active_executor_bindings: AtomicUsize::new(active_executor_bindings),
         })
     }
 
     fn next_sequence(&self) -> u64 {
         self.sequence.fetch_add(1, Ordering::Relaxed) + 1
+    }
+
+    fn release_executor_binding(&self) -> io::Result<()> {
+        if self.active_executor_bindings.fetch_sub(1, Ordering::AcqRel) == 1 {
+            release_writer_lock(&self.writer_lock_path, &self.writer_id, self.writer_pid)?;
+        }
+        Ok(())
     }
 }
 
@@ -680,7 +695,10 @@ fn writer_pid_active(pid: u32) -> bool {
 pub fn build_production_operation_executors(
     state_dir: impl Into<PathBuf>,
 ) -> io::Result<BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>> {
-    let state = Arc::new(LocalRuntimeState::new_in(state_dir.into())?);
+    let state = Arc::new(LocalRuntimeState::new_in(
+        state_dir.into(),
+        REQUIRED_OPERATIONAL_ADAPTERS.len(),
+    )?);
     Ok(REQUIRED_OPERATIONAL_ADAPTERS
         .into_iter()
         .map(|kind| {
@@ -698,6 +716,15 @@ impl OperationExecutor for InProcessOperationExecutor {
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
         self.execute_with_cancellation(request, &CancellationToken::new())
             .await
+    }
+
+    async fn shutdown(&self) -> Result<(), ExecutorError> {
+        if !self.shutdown.swap(true, Ordering::AcqRel) {
+            self.state
+                .release_executor_binding()
+                .map_err(|error| local_io("local writer lock release failed", error))?;
+        }
+        Ok(())
     }
 
     async fn execute_with_cancellation(
