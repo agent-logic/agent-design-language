@@ -9,7 +9,9 @@ use std::{
 };
 
 use adl_runtime_kernel::{RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA};
-use runtime_observability::{audit_master_log_file, render_vector_config, RuntimeVectorConfig};
+use runtime_observability::{
+    audit_master_log_file, render_vector_config, RuntimeVectorConfig, RuntimeVectorPipeline,
+};
 use serde_json::{json, Value};
 
 #[test]
@@ -131,6 +133,32 @@ fn pinned_vector_validates_generated_master_log_config() {
         String::from_utf8_lossy(&output.stdout),
         String::from_utf8_lossy(&output.stderr)
     );
+}
+
+#[test]
+fn runtime_vector_pipeline_writes_auditable_master_log() {
+    let root = test_root("runtime-vector-e2e");
+    let mut pipeline = RuntimeVectorPipeline::start(vector_config(root, None)).unwrap();
+    tracing::info!(
+        target: "adl_runtime_kernel",
+        component = "test",
+        operation = "test_observation",
+        reason = "ok",
+        "observability test event"
+    );
+    pipeline.shutdown();
+
+    let report = pipeline.audit_master_log("macos", "wp-12").unwrap();
+
+    assert_eq!(report.schema, RUNTIME_MASTER_LOG_AUDIT_SCHEMA);
+    assert_eq!(report.status, "pass");
+    assert!(report.record_count >= 2);
+    assert_eq!(report.malformed_records, 0);
+    assert_eq!(report.sequence_gaps, 0);
+    assert_eq!(report.error_events, 0);
+    assert_eq!(report.degraded_events, 0);
+    assert_eq!(report.unexplained_restarts, 0);
+    assert_eq!(report.incomplete_drains, 0);
 }
 
 #[test]
