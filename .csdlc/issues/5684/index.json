@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "75c9cff2d2d9255cea839a5fbc388b881ac96d87f1b17509562024d338d6d3a6",
   "phase": "reviewed",
-  "generation": 9,
-  "digest": "f61baa797d02f375b0b79151714c24af8b92d636203abe95cced987d270fe0a4",
+  "generation": 11,
+  "digest": "01fe1a71731e26d2fd96c7ffe0860a1be64c2cc291fd242530d1e791c1fefeaf",
   "claim": {
     "id": "claim-5684-csdlc-github-split",
     "owner": "codex",
-    "generation": 9,
+    "generation": 11,
     "acquired_unix_seconds": 1785115334,
     "expires_unix_seconds": 1785201734,
     "heartbeat_unix_seconds": 1785115334,
@@ -102,7 +102,7 @@
       "docs/tooling/README.md",
       "docs/tooling/structured-prompt-validator-binary-resolution.md"
     ],
-    "reviewed_revision": "git-blake3:f97c1234b3ccd8b2e8abf376c4e0eeb11f3da205:0ccaf66709c0ba2c3f8ad79b7c1e6acf5462de342bf7e71795c68a0c88369bc6",
+    "reviewed_revision": "git-blake3:9ab421333a10d6c74ff5774e93bb2193998e3e25:4039b253232ec793e3d455c5d741d2ada28fe3d6c1b1528e4c17e7b1b4f27185",
     "findings": [],
     "residual_risks": [
       "Historical audit entries retain the earlier 9006007f install-proof observation; current SOR values/rendered card and superseding audit sequence 8 record refreshed install proof at a0a270adc67678af9d4f5cb4712e1b2d3d8264aa.",
@@ -125,32 +125,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cf2a8f543e4538c03c974c744a507e60a260f0a8f374337b06981a5516e609ea",
+      "values_digest": "835cebd63afc1353448e43ce32fc083628981c9ff8696a0cf0f45e18396f2c81",
       "rendered_digest": "858d9191e0e8690e5775f2444cde97db7e55675c237650533c57b708bbae67e3",
       "ast_digest": "3be7db06c77ee168c5a5088e36b2efd3eff5fea8e4b28de9476ff5cad93be89d"
     },
     "stp": {
-      "values_digest": "c67817122264933c3704183eb85082af5fa2095a9771f539ca48d5b6a14fee30",
+      "values_digest": "fb4dfbfaf930ac95b295ba92675368432bcba6b2e31967fedbcb5c762ac3cf6a",
       "rendered_digest": "7f6db876a57f71505632afe8a874ed6b2f75af2665d19263d35140117c78a039",
       "ast_digest": "26abde4d04c92dbd379c514502f1bec3d6fa5559b95b2cd3972f06a45652e39f"
     },
     "spp": {
-      "values_digest": "ff77fa091b679026407cdffdc8ba9ab1f0f0990446857b0e4d0a9c3582abeaac",
+      "values_digest": "290c8a3ecba12108b78edcc109071f7b5657ecb88f5a4875d5d278ba8386dc6f",
       "rendered_digest": "9d919a55fff295a632dc95828738c622441f7adbd56527cda6920e1f56bced85",
       "ast_digest": "9a7a6c02eb787c220207111dcd5ef4e5e148fb5c22c9a9dfdc5bff773534f349"
     },
     "vpp": {
-      "values_digest": "4d7a3d2f16a126b9ffe00b766d03c8299df363c4bd33430e5169b11e0d2dd7f6",
+      "values_digest": "aebf1866ddafcb8ccba36aabdef0b3c3aadcc2dc783f5efcb89d586c6f4d47ef",
       "rendered_digest": "91d4afe6f345de33e4d32d51cf8dc010188981773badc84d51ff791079760a01",
       "ast_digest": "72a71b7e336ccce441a868f9216609233ceef970cea09e5e5793c5c95f71f91f"
     },
     "srp": {
-      "values_digest": "95636825e676dad8bbba09891de6996811f83d880d87f051a87d0d7b34d5cdcf",
-      "rendered_digest": "ccb81e0ff9be1170678fa96c31e30888f2e12119812a275fda9acf58759ed0cd",
-      "ast_digest": "531458c8b14b383e3cab1b47d10b99730689f2eaf4b6682517d4362250818c75"
+      "values_digest": "8e36cf243641aa6ad0d7c3d49919c220b4008ad19ff7178a25d7966b60db0de1",
+      "rendered_digest": "3d66183c4a5368a047cde3a8c7d08d7e3c4cc8a00def17c7e19876e977cad559",
+      "ast_digest": "20274ae783e47b320c0e65f5896bc227de0b0b3e47b90b34e2beadb69184f1fd"
     },
     "sor": {
-      "values_digest": "72395e421b4b82697365fd4f26d6b7507f8cb49530a8ba252a42074b942e6d90",
+      "values_digest": "508aafbe4b43e476899b966c9a371e638ea7c276e0ea2e15165808a458f476f4",
       "rendered_digest": "01b964b8d048859581e512b22ebddc7492197189c04acaf1192b5c96c1504f1c",
       "ast_digest": "297ec00092017d2469636c4f9d0718f3d6b4977d355f9161ed207aa17ced8a4e"
     }
@@ -193,6 +193,20 @@
     },
     {
       "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Recover stale review after amended lifecycle commit; next review record will be committed as a forward metadata-only commit."
+    },
+    {
+      "sequence": 8,
       "from": "implemented",
       "to": "reviewed",
       "actor": "codex",
@@ -273,6 +287,20 @@
     {
       "sequence": 11,
       "generation": 9,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "Recover stale review after amended lifecycle commit; next review record will be committed as a forward metadata-only commit.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
       "actor": "codex",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"

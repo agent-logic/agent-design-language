@@ -9,3 +9,5 @@
 {"sequence":9,"generation":7,"actor":"codex","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":10,"generation":8,"actor":"codex","reason":"Recover stale review after committing review lifecycle metadata so exact-head review can be recorded for the current clean head.","operation":"recover_review"}
 {"sequence":11,"generation":9,"actor":"codex","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":12,"generation":10,"actor":"codex","reason":"Recover stale review after amended lifecycle commit; next review record will be committed as a forward metadata-only commit.","operation":"recover_review"}
+{"sequence":13,"generation":11,"actor":"codex","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
