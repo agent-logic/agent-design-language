@@ -7,6 +7,7 @@
   ],
   "files": {
     ".csdlc/issues/5662/audit.jsonl": "eacb6f3c92483f8bb220fdf413cb8b296d85a2ea304112bc0a6e251d263eed47",
+    ".csdlc/issues/5662/cards/sip.md": "13c3e5b1e045fcadb3350198eff1e6fed4639c5df858ded685a299a9ee39b86d",
     ".csdlc/issues/5662/cards/sip.values.json": "0b48f7bb1070916e90afd37c1dea60f6391d868a0a2dbb1b7036748fdd9f9da7",
     ".csdlc/issues/5662/cards/sor.md": "3de546dfcd3066c7b7ceebd4de93bd570e9b0af68eddb94753d761ea8f2d7b3b",
     ".csdlc/issues/5662/cards/sor.values.json": "42a8a1c2515bcbbe8ebc95043e7968aa48bf0d7bbae0b5a733dbc4edfe89ef59",
@@ -14,6 +15,7 @@
     ".csdlc/issues/5662/cards/spp.values.json": "9f1d44e91fd472082bb7b1ffa3e02bd3a4d1ec6d5efcbedd7eb8aa090f78d7d1",
     ".csdlc/issues/5662/cards/srp.md": "0914c285f49944b1bb71f43d7f5329f6ef4acac4edd7b08d844cdc28c76611f9",
     ".csdlc/issues/5662/cards/srp.values.json": "b6dd0670231dc1be0be22ac87ac46ece7625281c54c780d36677fd5ba827ce75",
+    ".csdlc/issues/5662/cards/stp.md": "d01a0214f03348b5c855f2bff93103e554e10ae48c3bb5420f67accf22b50ab6",
     ".csdlc/issues/5662/cards/stp.values.json": "a3a1de3bdbc71cfe9428a3175deb46f2e0f785811431dff75e0c9baf2638cd91",
     ".csdlc/issues/5662/cards/vpp.md": "e529fe9556847f7faaf9ab31b29c97637ca40528a947de3e8fc4b07da81aeb4a",
     ".csdlc/issues/5662/cards/vpp.values.json": "ec7b915eaf39148f1a8c045e46430dd8e1c1697bf65057cd19267b772d8dad90",

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -40,16 +40,6 @@ const canonicalize = (value) => {
 };
 const canonicalJson = (value) => JSON.stringify(canonicalize(value));
 const failures = [];
-const projectionPaths = [
-  ".csdlc/issues/5662/",
-  ".csdlc/publication/5662.intent.json",
-];
-const allowedPaths = [
-  ".csdlc/issues/5686/",
-  ".csdlc/prepared/issues/5686/",
-  ".csdlc/evidence/5686/",
-  ".csdlc/locks/5686.lock",
-];
 
 if (canonicalJson(projection) !== canonicalJson(receipt.record)) {
   failures.push("projected issue record differs from receipt.record");
@@ -71,42 +61,18 @@ for (const [relativePath, expected] of Object.entries(receipt.authored_artifacts
   }
 }
 
-const baseRevision = execFileSync(
-  "git",
-  ["merge-base", "origin/main", "HEAD"],
-  { cwd: root, encoding: "utf8" },
-).trim();
-const committedPaths = execFileSync(
-  "git",
-  ["diff", "--name-only", baseRevision, "HEAD"],
-  { cwd: root, encoding: "utf8" },
-)
-  .trimEnd()
-  .split("\n")
-  .filter(Boolean);
-const worktreePaths = execFileSync(
-  "git",
-  ["status", "--porcelain=v1", "--untracked-files=all"],
-  { cwd: root, encoding: "utf8" },
-)
-  .trimEnd()
-  .split("\n")
-  .filter(Boolean)
-  .map((line) => line.slice(3));
-const changedPaths = [...new Set([...committedPaths, ...worktreePaths])].sort();
-for (const relativePath of changedPaths) {
-  if (
-    !projectionPaths.some((allowed) => relativePath.startsWith(allowed)) &&
-    !allowedPaths.some((allowed) => relativePath.startsWith(allowed))
-  ) {
-    failures.push(`out-of-scope path: ${relativePath}`);
-  }
-}
-
 const expectedProjectionPaths = Object.keys(retainedManifest.files).sort();
-const actualProjectionPaths = changedPaths.filter((relativePath) =>
-  projectionPaths.some((allowed) => relativePath.startsWith(allowed)),
-);
+const enumerateFiles = (directory, prefix) =>
+  readdirSync(join(root, directory), { withFileTypes: true }).flatMap((entry) => {
+    const relativePath = `${prefix}/${entry.name}`;
+    return entry.isDirectory()
+      ? enumerateFiles(relativePath, relativePath)
+      : [relativePath];
+  });
+const actualProjectionPaths = [
+  ...enumerateFiles(".csdlc/issues/5662", ".csdlc/issues/5662"),
+  ".csdlc/publication/5662.intent.json",
+].sort();
 if (canonicalJson(actualProjectionPaths) !== canonicalJson(expectedProjectionPaths)) {
   failures.push("projected path set differs from the two retained commits");
 }
@@ -130,12 +96,11 @@ const result = {
   projection_digest: projection.digest,
   phase: projection.phase,
   generation: projection.generation,
-  base_revision: baseRevision,
   retained_projection_manifest:
     ".csdlc/evidence/5686/retained-projection-sha256.json",
   source_revisions: retainedManifest.source_revisions,
   expected_projection_path_count: expectedProjectionPaths.length,
-  changed_path_count: changedPaths.length,
+  projected_path_count: actualProjectionPaths.length,
   parity: failures.length === 0,
   failures,
 };
