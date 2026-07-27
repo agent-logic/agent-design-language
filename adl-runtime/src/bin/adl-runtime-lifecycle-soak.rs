@@ -534,7 +534,7 @@ async fn execute_cycle(
         restart_budget: 0,
         backoff_base_ms: 1,
         backoff_cap_ms: 1,
-        shutdown_grace_ms: 10_000,
+        shutdown_grace_ms: 45_000,
         configuration_exit_codes: vec![64, 78],
     };
     let shutdown = CancellationToken::new();
@@ -542,7 +542,7 @@ async fn execute_cycle(
     let guardian = tokio::spawn(async move { run_guardian(config, guardian_shutdown).await });
     let ready = wait_for_authenticated_observatory(fixture, &guardian).await;
     shutdown.cancel();
-    let outcome = tokio::time::timeout(Duration::from_secs(15), guardian)
+    let outcome = tokio::time::timeout(Duration::from_secs(50), guardian)
         .await
         .map_err(|_| "Guardian did not complete production shutdown".to_owned())?
         .map_err(|error| format!("Guardian task failed: {error}"))?
@@ -557,7 +557,12 @@ async fn execute_cycle(
     verify_writer_lock_released(&fixture.local_state_root)?;
     ready?;
     validate_guardian_output(&outcome)?;
-    verify_master_log(args, fixture)?;
+    verify_master_log(args, fixture).map_err(|error| {
+        format!(
+            "{error}; guardian_stderr={}",
+            diagnostic_tail(&outcome.attempts_detail[0].stderr, &args.state_root)
+        )
+    })?;
     if !retain_log {
         std::fs::remove_dir_all(fixture.local_state_root.join("observability"))
             .map_err(|error| format!("checked Vector log could not be discarded: {error}"))?;

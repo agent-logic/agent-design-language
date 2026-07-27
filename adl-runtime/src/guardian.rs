@@ -59,7 +59,7 @@ impl GuardianConfig {
             restart_budget: 3,
             backoff_base_ms: 100,
             backoff_cap_ms: 5_000,
-            shutdown_grace_ms: 10_000,
+            shutdown_grace_ms: 45_000,
             configuration_exit_codes: vec![64, 78],
         }
     }
