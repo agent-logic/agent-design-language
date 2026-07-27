@@ -5,8 +5,8 @@
   "base": "main",
   "head": "codex/5683-v0918-unity-observatory-visual-remediation",
   "title": "[v0.91.8][WP-15][unity][demo] Remediate flagship Observatory render artifacts and presentation proof",
-  "body": "Closes #5683\n\nRemediates the flagship Unity Observatory hero stage by removing incompatible particle and prefab artifacts, grounding the command deck in a coherent room composition, and retaining direct Full HD and QHD Unity proof. The shell remains truthfully labeled as demo, contract-only, fixture projection rather than claiming live CSM authority.\n\nFocused proof passed: live Unity-MCP project and scene alignment, 43 prefab instances / 107 objects / 4 cameras / 7 lights, exact 1920x1080 and 2560x1440 Game View selection and captures, decoded raw-image dimension checks, the Unity Observatory contract guardrail, and git diff hygiene. Hooke completed exact-head review after current-main integration with no actionable findings.",
+  "body": "Closes #5683\n\nRemediates the flagship Unity Observatory visual artifacts, retains direct Full HD and QHD live-editor proof, and tightens focused contract validation. Runtime presentation remains explicitly fixture and contract-only. Hooke completed exact-head review after current-main integration with no actionable findings.",
   "draft": false,
-  "revision": "git-blake3:d3885369bb53ec455905fbdf28108bae71f32032:3a9d859c0b36a2f9b6d737652f97b4cebfcb05656fb63396cfb3ff2770250061",
-  "commit_sha": "d3885369bb53ec455905fbdf28108bae71f32032"
+  "revision": "git-blake3:a8832158d65476586719d17c37bee6174b844b98:930b23fefa28b988f0cdfc4cbfe08ac2607cf5f0874ea3bb2a928c967fa9c850",
+  "commit_sha": "a8832158d65476586719d17c37bee6174b844b98"
 }

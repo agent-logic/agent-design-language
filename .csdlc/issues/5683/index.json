@@ -3,13 +3,13 @@
   "issue": 5683,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b8d92d7710c00944967def4c4d3e923aa274554cc31b48a8fa49da34b6a77d97",
-  "phase": "reviewed",
-  "generation": 17,
-  "digest": "beb38bd47e8deb0af4b6699c8b2f94119aa6f9b19bd80938babc8205aa8748ee",
+  "phase": "published",
+  "generation": 18,
+  "digest": "33d623e9d865d503906d2047ee86d4d88930c975585717e78715219410464131",
   "claim": {
     "id": "claim-5683-v0918-unity-observatory-visual-remediation",
     "owner": "codex:issue-5683-unity-remediation",
-    "generation": 17,
+    "generation": 18,
     "acquired_unix_seconds": 1785113461,
     "expires_unix_seconds": 1785718261,
     "heartbeat_unix_seconds": 1785113461,
@@ -121,7 +121,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5683,
+    "pull_request": 5693,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5693",
+    "base": "main",
+    "head": "codex/5683-v0918-unity-observatory-visual-remediation",
+    "revision": "git-blake3:a8832158d65476586719d17c37bee6174b844b98:930b23fefa28b988f0cdfc4cbfe08ac2607cf5f0874ea3bb2a928c967fa9c850",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -135,34 +145,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d9fe0709c306f336bf8dfb0586affea14c0bbedc2ff344011859707504927e16",
+      "values_digest": "98f309f15e1917dbc148322175de0059e958127198a3521d7b315276b6406126",
       "rendered_digest": "97eb54524cf0d293522d3a4495666eb42e739b1b42ba37900ca1f5aaa56c0a12",
       "ast_digest": "0c03f048e200173e885009fe047a19e43bd02a640170325798ed7a27bf605e10"
     },
     "stp": {
-      "values_digest": "e75ae8b6f023df57a2fe61757f35ae3a31efd9b5c212081419b961dccce25717",
+      "values_digest": "d062791e688c92b713042cffae84ef5e959ec4766c4fb50e2919ae982dff317a",
       "rendered_digest": "f8dc2201d62c7e21dceadb61a7c10233389be658313c8f63ac25348e9e1edf00",
       "ast_digest": "d37d59892d1f7204cb729e440b219d6b55c81d4ed62ce975f471411b40a9afed"
     },
     "spp": {
-      "values_digest": "87c2e5b936aae5dda41f375815316383880e11d89ff5ea12275702e9e49c462e",
+      "values_digest": "43038dcb01adfafc5408634fadf3a174cc1fffd5cd5bf30343c47708bb10426e",
       "rendered_digest": "178bbbb1925bde42767d52c63fefc30ef90ad09474b6a1598f8211b4f427e2b4",
       "ast_digest": "4470b796182f02708b62ec973df468d5db684af2193e31bb12acde87e5f4c247"
     },
     "vpp": {
-      "values_digest": "6f3413b0177643508f230d48323d2bf4682058c3a93a892bccae80ca8fb059ec",
+      "values_digest": "75e7b385b9d77dc65c90e665b5aff0dffc34b14b0939d80b3993bd2bd7650aeb",
       "rendered_digest": "ac2aa75bf11d40548a14b2e77c6fdc4393e9c210a6ab1ca081aa94b3c849b843",
       "ast_digest": "978c22ad29a905bd2756f36b20e6fa5e4e396f74ae3452bbbe8142be75371478"
     },
     "srp": {
-      "values_digest": "9f5236bf1b533087dc59c0cf4551e2b05f8bd506c3c0983d4af11df47c8fa07c",
+      "values_digest": "8c23e87dfe5cf0a8e6fde918555aafee4add2f6f0d4c04395d4d8bd27c47e306",
       "rendered_digest": "0fffb3a731293199a7e847c3c31b9c347cbd03d4c4297a9e2896dbae95198157",
       "ast_digest": "33b80f2676e354d9fe1ccf766888f5c3db1456a6116e7a1bbe7e56a3981da72f"
     },
     "sor": {
-      "values_digest": "29d5987c527a58c70f4e4e45c8c7a102835bc16c0faa30efe4bf59fe51505ef7",
-      "rendered_digest": "fbea83839d05e04c052e2c83bb6af06a33796fa17f0b824d6e72d95f26ab19ff",
-      "ast_digest": "830785ce55769c6f390bb5012a06aef98fcead00b8c11c9f7224c4376f92f5c3"
+      "values_digest": "cc7fb378cd4479d9b8f76ec1be667ad286cbfd84c232c1ccfccd865adfbb23d0",
+      "rendered_digest": "55e2fe0132497b7b31957d8af85f9d47bef1c0dfee956ebd20f1444bd62c5a5e",
+      "ast_digest": "c8eda1f2a0e4ec7d1e61d742023261b9d69e73b173b438862540c34c6211f275"
     }
   },
   "transitions": [
@@ -235,6 +245,13 @@
       "to": "reviewed",
       "actor": "codex:issue-5683-unity-remediation",
       "reason": "Hooke completed exact-head review after current-main integration with no actionable findings."
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -398,6 +415,13 @@
       "actor": "codex:issue-5683-unity-remediation",
       "reason": "Hooke completed exact-head review after current-main integration with no actionable findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
