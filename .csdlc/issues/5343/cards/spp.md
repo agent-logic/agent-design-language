@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Render and validate all six cards; freeze exact #5344/#5345 dependency gates, selector transaction, fresh-install identity, explicit-v1 rollback window, evidence schema, ownership, protected paths, COTS, budgets, PVF, and no-deferral invariants; obtain bounded preparation review and fix findings; commit and push preparation only; remain blocked until #5344 is merged and typed closed_out; then execute the full reviewed lifecycle without widening scope.
+Render and validate all six cards; freeze exact #5344/#5345 dependency gates, selector transaction, fresh-install identity, explicit-v1 rollback window, evidence schema, ownership, protected paths, COTS, budgets, PVF, and no-deferral invariants; commit and push preparation only without preparation-review churn; remain blocked until #5344 and #5345 each have live merged landing commits ancestral to the exact execution revision; treat receipts and typed closeout as audit-only observations; then execute the full reviewed lifecycle and run the single bounded review just before PR without widening scope.
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 

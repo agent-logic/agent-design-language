@@ -2,8 +2,8 @@
   "status": "pass",
   "issue": 5343,
   "phase": "bound",
-  "generation": 1,
+  "generation": 3,
   "cards": 6,
   "protected_paths": 5,
-  "dependency_gate": "blocked_until_5344_and_5345_closed_out"
+  "dependency_gate": "blocked_until_5344_and_5345_live_merged_and_ancestral"
 }

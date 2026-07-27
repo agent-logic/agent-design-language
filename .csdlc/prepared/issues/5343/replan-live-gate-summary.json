@@ -1,8 +1,8 @@
 {
   "issue": 5343,
   "card": "spp",
-  "expected_generation": 1,
-  "expected_digest": "e410506b63d58337909aebd026d341e079f8f73f871f4f6a1344cee745677ff6",
+  "expected_generation": 2,
+  "expected_digest": "f2ca577d2376266de1721fe2622cba6a6581b4cbc8a11c20c9f2c9d7f014c3d6",
   "claim_id": "claim-5343-v0918-wp12-reversible-default-switch-preparation",
   "actor": "codex:5343-preparation-owner",
   "reason": "Refresh preparation plan wording so execution is gated by live merge plus ancestry and review is deferred until pre-PR.",

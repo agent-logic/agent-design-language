@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7ae22a9c8742977941bf696bfe2123d8d59ab3b7711264cfe5220a16802c44e6",
   "phase": "bound",
-  "generation": 2,
-  "digest": "f2ca577d2376266de1721fe2622cba6a6581b4cbc8a11c20c9f2c9d7f014c3d6",
+  "generation": 3,
+  "digest": "bcde2a0d21fbe6726aa56e592b476ff3bf5734a4e3823dc60219ce585ab1b0e9",
   "claim": {
     "id": "claim-5343-v0918-wp12-reversible-default-switch-preparation",
     "owner": "codex:5343-preparation-owner",
-    "generation": 2,
+    "generation": 3,
     "acquired_unix_seconds": 1784661008,
     "expires_unix_seconds": 1785265808,
     "heartbeat_unix_seconds": 1784661008,
@@ -40,32 +40,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b9f522a18b489c6df952bac4e6bfbceea0eb521418d36a16d45e26159eed29c3",
+      "values_digest": "a8219cd910219017856c97bb6be6a755b2c7e55a624fe6650be16e15bbdc6ddf",
       "rendered_digest": "56e9f6179e9157659276d6bcf35efb8f016bba7c7822b2b0d797679cd31adf6b",
       "ast_digest": "4bed42107b13c69d3d7d4cb8f18e052c2f7c26199f6173d1dc3260de1fe9a993"
     },
     "stp": {
-      "values_digest": "eee58f67b5206cc9a42fbe59a282dc57018c412609649cb5255bb80fe79a18cf",
+      "values_digest": "43093a3967af1ba1623a62fad7444d8b3adfd571750d336f1038b4743ed056dd",
       "rendered_digest": "2603a355245577778350785ca55e828e84a8d35adeb0eb9f05104b02c8c6526c",
       "ast_digest": "af5271338c52d97d190cb14ef68d417dc5c34afcf8b72c635a7f9459680efb65"
     },
     "spp": {
-      "values_digest": "20e62ec1d5107403b92d997029ae34aacae1471ce172fbdf47d43d5c31380de7",
-      "rendered_digest": "d2526cfffbc69debdb19eb1a5b420f93517e3b38fa216c8ac1845617e2555f85",
-      "ast_digest": "802063e268ccf1cd8a59c6d4e9c88d96e596d94e4743728fc47a5203db7aa243"
+      "values_digest": "51274b2aafc68ab0d444936a064801348afe114f4c3918adf671fce2c4cd0b4a",
+      "rendered_digest": "3da2989ec5ff927aaa2bbd0b862d2886423537c46ab8e9875b330b8517116ef4",
+      "ast_digest": "0b1eae23efc996efa8ef28a15cab98817890c4072f06de4225cf07e5b5581152"
     },
     "vpp": {
-      "values_digest": "5fe7a36298301ef10902b56641c907433dc6f5c84582d7c491f47d77371215eb",
+      "values_digest": "d6fbf04fb6339fa4e181b216ed4382748ebf29672887e582368de81dedaa4b78",
       "rendered_digest": "fce8305ab1090841e17e497762748258f6161061e41dcaaea2cf51fa8305a404",
       "ast_digest": "37eb53d9ee8c01020aee78e6453d0a09e2372697646dc623e5dd5c339ed913f0"
     },
     "srp": {
-      "values_digest": "911a7a382e88ce523e9b67496697aee9d0ed46ee09cbccbacbb1fc5385272318",
+      "values_digest": "d69849b4ba12778ea1409473d020dcffefe7805aa75790c4d8f4653ec5796d2b",
       "rendered_digest": "f4731a595f0ea709411ae2a767f16132b61ed257458d981bdf08189045ea5f01",
       "ast_digest": "9159372c6f4b2a7bea8ec696ce1ccec0a6ab2c276b740e65603dff8585d11472"
     },
     "sor": {
-      "values_digest": "7b71b36b77c4c046f1c20add05eb38b9a23543137ab6ea41378f2afffbd3ad14",
+      "values_digest": "0bbd86eca2b3f2db322aef5faa945a2c50a189dbdebe6f5b80350d5f6f070341",
       "rendered_digest": "69db27ce1aefed9fd2e870c57fc5b3a1c8774407e607f668343698a4e632d107",
       "ast_digest": "7c9edd7d19be81fc09e9373523b99e7387931ab7021ec4b9404269bc5cd98cf6"
     }
@@ -121,6 +121,13 @@
       "actor": "external:deepseek:deepseek-chat",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:5343-preparation-owner",
+      "reason": "Refresh preparation plan wording so execution is gated by live merge plus ancestry and review is deferred until pre-PR.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Render and validate all six cards; freeze exact #5344/#5345 dependency gates, selector transaction, fresh-install identity, explicit-v1 rollback window, evidence schema, ownership, protected paths, COTS, budgets, PVF, and no-deferral invariants; commit and push preparation only without preparation-review churn; remain blocked until #5344 and #5345 each have live merged landing commits ancestral to the exact execution revision; treat receipts and typed closeout as audit-only observations; then execute the full reviewed lifecycle and run the single bounded review just before PR without widening scope.\",\"operation\":\"replan\",\"previous_value\":\"Render and validate all six cards; freeze exact #5344/#5345 dependency gates, selector transaction, fresh-install identity, explicit-v1 rollback window, evidence schema, ownership, protected paths, COTS, budgets, PVF, and no-deferral invariants; obtain bounded preparation review and fix findings; commit and push preparation only; remain blocked until #5344 is merged and typed closed_out; then execute the full reviewed lifecycle without widening scope.\"}"
     }
   ]
 }
