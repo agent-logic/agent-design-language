@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-15][unity][demo] Polish flagship Polis Observatory visual and runtime presentation",
     "slug": "v0918-wp15-flagship-polis-observatory-polish",
     "version": "v0.91.8",
-    "generation": 50
+    "generation": 56
   },
   "status": "ready",
   "content": {
@@ -81,9 +81,9 @@
       "planned_validation_seconds": 7200,
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on project ambiguity, compile errors, cloud fallback, unlabelled fixture data, unsupported runtime claims, licensed payload publication, player or replacement binary builds, missing dual-resolution proof, or unrecorded tooling anomalies.",
-      "design_ref": ".csdlc/prepared/issues/5662/design.md",
+      "design_ref": ".csdlc/issues/5662/retained/design.md",
       "design_digest": "839b1c7ffdd1889782e2acdaad102275bc1cb3963a0648b61ae9ee547281b94e",
-      "diagram_ref": ".csdlc/prepared/issues/5662/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5662/retained/diagram.mmd",
       "diagram_digest": "3a6decd7e0c4c19e795f4da0eeba9215d86eebcec4539209107430ab060fc72d"
     }
   }

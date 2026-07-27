@@ -1368,6 +1368,7 @@
         "docs/**",
         "*.md",
         ".csdlc/**",
+        "adl/tools/test_opus_review_runbook.sh",
         "adl/tools/validate_v0917_*_status.sh"
       ],
       "path_hints": [
