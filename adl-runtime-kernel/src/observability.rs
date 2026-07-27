@@ -319,10 +319,10 @@ impl RuntimeVectorPipeline {
         if !self.drain_complete {
             self.last_failure = Some("master_log_drain_incomplete".to_owned());
         }
+        self.terminate_vector();
         let _ = self
             .audit_master_log(&current_platform(), &self.config.lifecycle_suite)
             .and_then(|report| write_json_atomic(&self.audit_path, &report));
-        self.terminate_vector();
     }
 
     fn wait_for_master_sequence(&self, sequence: u64) -> bool {
