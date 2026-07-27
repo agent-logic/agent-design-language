@@ -12,10 +12,39 @@ Status: pre_phase
 
 ## Scope
 
-demos/v0.91.6/unity-observatory
-.csdlc/evidence/5683
-.csdlc/issues/5683
-.csdlc/prepared/issues/5683
+.csdlc/evidence/5683/LIVE_UNITY_PROOF.md
+.csdlc/evidence/5683/TOOLING_ANOMALIES.md
+.csdlc/evidence/5683/capture_unity_mcp_image.mjs
+.csdlc/evidence/5683/final-full-hd-game-view.png
+.csdlc/evidence/5683/final-qhd-game-view.png
+.csdlc/evidence/5683/raw-environment-full-hd-pass-3.png
+.csdlc/evidence/5683/raw-environment-qhd-pass-3.png
+.csdlc/evidence/5683/record-execution-request.json
+.csdlc/evidence/5683/record-validation-alignment-request.json
+.csdlc/evidence/5683/record-validation-contract-request.json
+.csdlc/evidence/5683/record-validation-diff-request.json
+.csdlc/evidence/5683/record-validation-live-unity-request.json
+.csdlc/issues/5683/audit.jsonl
+.csdlc/issues/5683/cards/sip.md
+.csdlc/issues/5683/cards/sip.values.json
+.csdlc/issues/5683/cards/sor.md
+.csdlc/issues/5683/cards/sor.values.json
+.csdlc/issues/5683/cards/spp.md
+.csdlc/issues/5683/cards/spp.values.json
+.csdlc/issues/5683/cards/srp.md
+.csdlc/issues/5683/cards/srp.values.json
+.csdlc/issues/5683/cards/stp.md
+.csdlc/issues/5683/cards/stp.values.json
+.csdlc/issues/5683/cards/vpp.md
+.csdlc/issues/5683/cards/vpp.values.json
+.csdlc/issues/5683/index.json
+.csdlc/locks/5683.lock
+.csdlc/prepared/issues/5683/advance-implemented.json
+.csdlc/prepared/issues/5683/design.md
+.csdlc/prepared/issues/5683/diagram.mmd
+adl/tools/test_v0916_unity_observatory_contract.sh
+demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs
+demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs
 
 ## Prompts
 

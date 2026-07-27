@@ -5,7 +5,7 @@
   "initialization_digest": "b8d92d7710c00944967def4c4d3e923aa274554cc31b48a8fa49da34b6a77d97",
   "phase": "implemented",
   "generation": 7,
-  "digest": "d2f4ded8a89ebcdc2887d104dd1feb751c823469c0b14e9feac200357baac75a",
+  "digest": "5a81d4ff22eebe09d9ee5a7f09e9ee2b541b56f02ca743c6dd4ec9cf01465362",
   "claim": {
     "id": "claim-5683-v0918-unity-observatory-visual-remediation",
     "owner": "codex:issue-5683-unity-remediation",
@@ -33,7 +33,46 @@
     ],
     "purpose": "Remediate the visible flagship Unity Observatory render artifacts and retain direct investor-facing proof"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "Hooke",
+    "assigned_by": "codex:issue-5683-unity-remediation",
+    "revision": "git-blake3:939752e5c2821d502f84a2397fb3943d3af152a8:ca8d1b9e0e76920a2f1851cf2eaaf9c197523b35b9a84f35afaa06d941aad62e",
+    "scope": [
+      ".csdlc/evidence/5683/LIVE_UNITY_PROOF.md",
+      ".csdlc/evidence/5683/TOOLING_ANOMALIES.md",
+      ".csdlc/evidence/5683/capture_unity_mcp_image.mjs",
+      ".csdlc/evidence/5683/final-full-hd-game-view.png",
+      ".csdlc/evidence/5683/final-qhd-game-view.png",
+      ".csdlc/evidence/5683/raw-environment-full-hd-pass-3.png",
+      ".csdlc/evidence/5683/raw-environment-qhd-pass-3.png",
+      ".csdlc/evidence/5683/record-execution-request.json",
+      ".csdlc/evidence/5683/record-validation-alignment-request.json",
+      ".csdlc/evidence/5683/record-validation-contract-request.json",
+      ".csdlc/evidence/5683/record-validation-diff-request.json",
+      ".csdlc/evidence/5683/record-validation-live-unity-request.json",
+      ".csdlc/issues/5683/audit.jsonl",
+      ".csdlc/issues/5683/cards/sip.md",
+      ".csdlc/issues/5683/cards/sip.values.json",
+      ".csdlc/issues/5683/cards/sor.md",
+      ".csdlc/issues/5683/cards/sor.values.json",
+      ".csdlc/issues/5683/cards/spp.md",
+      ".csdlc/issues/5683/cards/spp.values.json",
+      ".csdlc/issues/5683/cards/srp.md",
+      ".csdlc/issues/5683/cards/srp.values.json",
+      ".csdlc/issues/5683/cards/stp.md",
+      ".csdlc/issues/5683/cards/stp.values.json",
+      ".csdlc/issues/5683/cards/vpp.md",
+      ".csdlc/issues/5683/cards/vpp.values.json",
+      ".csdlc/issues/5683/index.json",
+      ".csdlc/locks/5683.lock",
+      ".csdlc/prepared/issues/5683/advance-implemented.json",
+      ".csdlc/prepared/issues/5683/design.md",
+      ".csdlc/prepared/issues/5683/diagram.mmd",
+      "adl/tools/test_v0916_unity_observatory_contract.sh",
+      "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -69,9 +108,9 @@
       "ast_digest": "978c22ad29a905bd2756f36b20e6fa5e4e396f74ae3452bbbe8142be75371478"
     },
     "srp": {
-      "values_digest": "af40f9585ed953cc6d4ee161ad814b5cd8acb3faa71719eb305afedfff0cf9ef",
-      "rendered_digest": "01a0ebb621497021813c2fe36fdd1112d8bec979ff3eac6e881a673e07bd154f",
-      "ast_digest": "87641cb4694da02940e5b8e8d971c0145965cdd88dc5192433a621b60f879268"
+      "values_digest": "4a4903b5389680fdde4b5c1f95a0e9018f7f01e5f4b1c24b7652a16e7a9210ff",
+      "rendered_digest": "957c4b3ae02f6145c0bbb726729d05b556b8bef0db27220a98e122aea4786814",
+      "ast_digest": "cf73d943e90861bcd504e3011238b7e077136fd189b54c0bf7bee0ac126313f9"
     },
     "sor": {
       "values_digest": "c5a8775c8f93946718cf8f6476847efed9a8b572c882e9d665cd48861285505a",
@@ -165,6 +204,13 @@
       "actor": "codex:issue-5683-unity-remediation",
       "reason": "The bounded Unity remediation is committed and its focused contract, alignment, live-editor, visual, and diff validations passed.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
