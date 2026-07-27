@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5683,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5683-v0918-unity-observatory-visual-remediation",
+  "title": "[v0.91.8][WP-15][unity][demo] Remediate flagship Observatory render artifacts and presentation proof",
+  "body": "Closes #5683\n\nRemediates the flagship Unity Observatory hero stage by removing incompatible particle and prefab artifacts, grounding the command deck in a coherent room composition, and retaining direct Full HD and QHD Unity proof. The shell remains truthfully labeled as demo, contract-only, fixture projection rather than claiming live CSM authority.\n\nFocused proof passed: live Unity-MCP project and scene alignment, 43 prefab instances / 107 objects / 4 cameras / 7 lights, exact 1920x1080 and 2560x1440 Game View selection and captures, decoded raw-image dimension checks, the Unity Observatory contract guardrail, and git diff hygiene. Hooke completed exact-revision review with no actionable findings.",
+  "draft": false,
+  "revision": "git-blake3:c3b8a4a500c1b22364f4488e59917472b0864275:976982f2ee73f97e471291aeedadc959ff0f8c36c222a52c56d3e9b42cc53998",
+  "commit_sha": "c3b8a4a500c1b22364f4488e59917472b0864275"
+}

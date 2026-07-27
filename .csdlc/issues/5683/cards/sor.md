@@ -77,11 +77,11 @@ Remediated the flagship Unity Observatory hero view in the bound worktree and re
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
