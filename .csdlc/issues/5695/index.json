@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4cd0d8a97a8b7d3afd28be679d16291fe95cd477e824555b1d506ac0a4e9d96e",
   "phase": "published",
-  "generation": 8,
-  "digest": "f65d08744c1cefe8fd485fcc876688eb9e1ed3d47cec7b0686c59bd7c219823d",
+  "generation": 11,
+  "digest": "9b3f4f2407334aab97ef241b932625b61483e2f17d07f89e27639e30a7ad9f0d",
   "claim": {
     "id": "claim-5695-pr-state-mergeability",
     "owner": "codex:issue-5695-pr-state-mergeability",
-    "generation": 8,
+    "generation": 11,
     "acquired_unix_seconds": 1785113059,
     "expires_unix_seconds": 1785717859,
     "heartbeat_unix_seconds": 1785113059,
@@ -31,7 +31,7 @@
       "csdlc-v2/src/github.rs",
       "csdlc-v2/src/merge.rs"
     ],
-    "reviewed_revision": "git-blake3:9325a45f7906d50cf2d280c9211470fa10b69f67:69ac1b5709559a69a6af7acc19651d13e7933f01160cde6a8cdba607a2832b77",
+    "reviewed_revision": "git-blake3:ac0df9138d3b80d48d8480bf7761bd581da787bb:91b31c0fb64a9065135b6e8b340b714e18a66bea661a18a31bbcb8cdc956406c",
     "findings": [],
     "residual_risks": [],
     "completed": true,
@@ -44,7 +44,7 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5700",
     "base": "main",
     "head": "codex/5695-pr-state-mergeability",
-    "revision": "git-blake3:de2d0d41719e0fcbcdb4c091d317b934e31272bf:c09282da955af34ca222576964ad0608b6956ed8ce2132ced8b06c7a96004303",
+    "revision": "git-blake3:ac0df9138d3b80d48d8480bf7761bd581da787bb:91b31c0fb64a9065135b6e8b340b714e18a66bea661a18a31bbcb8cdc956406c",
     "draft": false,
     "observed_state": "open"
   },
@@ -61,32 +61,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f2e7ed46be176a36e983086ffb80ece1fc870f82e327c9b7ded8916db36ff8e4",
+      "values_digest": "22855858fac0bac5f947cea341f4679c7274a75db4973ac0994c8020a667b630",
       "rendered_digest": "0bd0312dca36c5465c44956f51706ee27ae9e44398b13a02fdc224bfd78569e9",
       "ast_digest": "0c2a59857e860bd7ae0a8f611e082de8977429525241bf0a59390ed38b9d5cda"
     },
     "stp": {
-      "values_digest": "e61dc995e6463b17bfe442189b9cf4643b01ea647b7d7065e8cb6a28ec544bf0",
+      "values_digest": "26c7ffd8a26febbda1e88b5afa5a00f3ba50534ddd1d0c4a7bbf8f995c30ff51",
       "rendered_digest": "603c196dd25a2209c96aa42dc5a7dd77296cb6ccb73635059fd9a50cc3446f96",
       "ast_digest": "74971ba8475b35d5b1657bbb4eb873ba81a338d32a79423fc040773507b4c585"
     },
     "spp": {
-      "values_digest": "c9687ce540fa430a8737473a35d32fb9d4f6a68ad745f5ccc8193abe6760d63f",
+      "values_digest": "ebb48d87af6ea8eec6dde5a1db27395b2eb38057a31103aa406f74dec50e2083",
       "rendered_digest": "f48fece8f16014831d9445f95695e0bc911416284a0d81fcd1d650ca24786eed",
       "ast_digest": "56d9e7ce4145caa1e12259397f852f0271f8e2c4ff44783e4e89526172e10b35"
     },
     "vpp": {
-      "values_digest": "6a98ab4827c3950fd82c02cd9992aaa2027bfc20e5a45b16e608c7abfce4751a",
+      "values_digest": "b5248dd1ffcaf8b2bf4ae720d26d8629cd1815df24e0717e21866af7aa099a5a",
       "rendered_digest": "b407dde88cf2d8569bd120633d7e73d8428b47ffeb27d1a60a7fbecf70c837ab",
       "ast_digest": "3f71256bb7daed94a674523b02b7f02511727afaf240bf38cda0e8a3ed14f20d"
     },
     "srp": {
-      "values_digest": "465c125bf07f3c314e4c7da7b2b990e3de6e830958f629b7366ad50ea4391ad2",
-      "rendered_digest": "65cfb8a3e07b486db5fc35428b0f5b0b11e44c0fd851d42be716977d83df1b39",
-      "ast_digest": "8a805ce73d036ab603258648135364391a12497a7a2193762962f1537487c0a7"
+      "values_digest": "363b65c29fbe6e6015ea7a5591e3cc7977d553b8630f0b722b730c201d811a07",
+      "rendered_digest": "0c83c2db6f4c604d67b581b9bd3fe3b48630aa4f5790ec3566d5bc1ff23965e9",
+      "ast_digest": "7e9df8d348ac9f9b4e62f797684ab08a57189f39e48c125f758efba5687e2781"
     },
     "sor": {
-      "values_digest": "cf3073d5d81cd1dd3c2404d7b6c46a4dedd3e66df63fd08f89aa7da5aef29913",
+      "values_digest": "e3114fc7dbbb7d603c3c8e4f0481e201285fd884e7c1687708407abca2a5e2e3",
       "rendered_digest": "c2a633b8dac553108aeb998e1ed745e1b57c8ee668c72e32c56a92f60fa806f0",
       "ast_digest": "36d8f5ad10889e5b01f96431f6978f431de1f82948213939161e8377c7f9ab37"
     }
@@ -122,6 +122,27 @@
     },
     {
       "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-5695-pr-state-mergeability",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-5695-pr-state-mergeability",
+      "reason": "Rebase changed the substantive revision; recover stale publication and review truth before recording the new exact-head review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5695-pr-state-mergeability",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:issue-5695-pr-state-mergeability",
@@ -195,6 +216,27 @@
     {
       "sequence": 10,
       "generation": 8,
+      "actor": "codex:issue-5695-pr-state-mergeability",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-5695-pr-state-mergeability",
+      "reason": "Rebase changed the substantive revision; recover stale publication and review truth before recording the new exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-5695-pr-state-mergeability",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
       "actor": "codex:issue-5695-pr-state-mergeability",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"

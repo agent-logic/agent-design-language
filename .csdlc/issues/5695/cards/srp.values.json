@@ -7,14 +7,14 @@
     "title": "[v0.91.8][csdlc-v2][tooling] Preserve blocked and unstable PR mergeability states",
     "slug": "pr-state-mergeability",
     "version": "v0.91.8",
-    "generation": 8
+    "generation": 11
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2/src/github.rs\ncsdlc-v2/src/merge.rs",
-      "review_revision": "git-blake3:9325a45f7906d50cf2d280c9211470fa10b69f67:69ac1b5709559a69a6af7acc19651d13e7933f01160cde6a8cdba607a2832b77",
+      "review_revision": "git-blake3:ac0df9138d3b80d48d8480bf7761bd581da787bb:91b31c0fb64a9065135b6e8b340b714e18a66bea661a18a31bbcb8cdc956406c",
       "reviewer": "codex-subagent:review-5695",
       "review_prompts": [
         "Does every supported octocrab MergeableState map explicitly?",
