@@ -20,8 +20,9 @@ use adl_runtime_kernel::{
     ControlAuthority, ControlCapability, ControlService, Kernel, KernelExit, LiveBindings,
     LiveContinuity, LiveKernelSnapshot, LoopDefinition, LoopStatus, ReasoningEdge,
     ReasoningGraphDefinition, ReasoningNode, RecordedObservation, RsntpTimeSampleSource,
-    RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver, TimeQualificationBounds,
-    TrustedControlKey, ValidatedReasoningGraph, MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA,
+    RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver, SystemTimeSampleSource,
+    TimeQualificationBounds, TimeSampleSource, TrustedControlKey, ValidatedReasoningGraph,
+    MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio_util::sync::CancellationToken;
@@ -151,14 +152,33 @@ async fn main() -> ExitCode {
                 eprintln!("runtime operation key id is empty");
                 return ExitCode::from(78);
             }
-            let sntp_server = std::env::var("ADL_RUNTIME_SNTP_SERVER")
-                .unwrap_or_else(|_| "pool.ntp.org".to_owned());
+            let (time_source, time_source_identity): (Arc<dyn TimeSampleSource>, String) =
+                match std::env::var("ADL_RUNTIME_SNTP_SERVER") {
+                    Ok(server) if server == server.trim() && !server.is_empty() => (
+                        Arc::new(RsntpTimeSampleSource::new(server.clone())),
+                        format!("sntp:{server}"),
+                    ),
+                    Ok(_) => {
+                        eprintln!(
+                            "ADL_RUNTIME_SNTP_SERVER must be non-empty without surrounding whitespace"
+                        );
+                        return ExitCode::from(78);
+                    }
+                    Err(std::env::VarError::NotPresent) => (
+                        Arc::new(SystemTimeSampleSource),
+                        "host_system_clock".to_owned(),
+                    ),
+                    Err(std::env::VarError::NotUnicode(_)) => {
+                        eprintln!("ADL_RUNTIME_SNTP_SERVER is not valid Unicode");
+                        return ExitCode::from(78);
+                    }
+                };
             let assembly = match build_live_assembly(LiveBindings {
                 recorder: recorder.clone(),
                 operation_executors,
                 permit_keys: BTreeMap::from([(operation_key_id.clone(), operation_key)]),
                 reasoning,
-                time_source: Arc::new(RsntpTimeSampleSource::new(sntp_server.clone())),
+                time_source,
                 time_bounds: TimeQualificationBounds {
                     timeout: std::time::Duration::from_secs(3),
                     max_offset: std::time::Duration::from_secs(5),
@@ -234,7 +254,7 @@ async fn main() -> ExitCode {
             let binding_projection = serde_json::json!({
                 "assembly_config_hash": assembly.config_hash,
                 "runtime_init": &init,
-                "sntp_server": &sntp_server,
+                "time_source": &time_source_identity,
                 "operation_key_id": &operation_key_id,
                 "operation_key": hex::encode(operation_key.as_bytes()),
                 "control_key_id": &key_id,

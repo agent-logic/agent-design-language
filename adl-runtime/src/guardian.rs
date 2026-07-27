@@ -182,6 +182,8 @@ pub async fn run_guardian(
                     force_kill_child_tree(&mut child);
                     let _ = child.kill().await;
                     let _ = child.wait().await;
+                } else {
+                    graceful_terminate_process_group(pid);
                 }
                 let attempt = attempt_record(
                     attempts,
@@ -456,7 +458,9 @@ fn outcome(
 fn terminate_child_tree(child: &mut Child) -> Option<i32> {
     let pid = child.id()?;
     let signal = libc::SIGTERM;
-    terminate_process_group(Some(pid), signal);
+    unsafe {
+        libc::kill(i32::try_from(pid).ok()?, signal);
+    }
     Some(signal)
 }
 
@@ -812,6 +816,41 @@ mod tests {
         assert_eq!(outcome.last_reason(), Some("shutdown_signal_forwarded"));
         assert_eq!(fs::read_to_string(term_file).unwrap(), "term\n");
         assert_eq!(outcome.attempts_detail[0].signal, Some(libc::SIGTERM));
+    }
+
+    #[cfg(unix)]
+    #[tokio::test]
+    async fn shutdown_leaves_descendants_to_child_until_child_exits() {
+        let root = TestRoot::new("child-owned-shutdown");
+        let descendant_term = root.path("descendant-term");
+        let child_observation = root.path("child-observation");
+        let script = root.script(
+            "child-owned-shutdown.sh",
+            &format!(
+                "#!/bin/sh\ntrap 'echo descendant-term > {descendant_term}; exit 0' TERM\nwhile true; do sleep 1; done &\ntrap 'sleep 0.1; if [ -f {descendant_term} ]; then echo group-signaled > {child_observation}; else echo child-only > {child_observation}; fi; exit 0' TERM\nwhile true; do sleep 1; done\n",
+                descendant_term = descendant_term.display(),
+                child_observation = child_observation.display(),
+            ),
+        );
+        let mut config = GuardianConfig::runtime_kernel(script, "unused", "runtime-init.toml");
+        config.args.clear();
+        config.shutdown_grace_ms = 2_000;
+        let shutdown = CancellationToken::new();
+        let cancel = shutdown.clone();
+
+        let task = tokio::spawn(run_guardian(config, shutdown));
+        sleep(Duration::from_millis(100)).await;
+        cancel.cancel();
+        let outcome = task.await.unwrap().unwrap();
+
+        assert_eq!(
+            outcome.terminal_state,
+            GuardianTerminalState::ShutdownForwarded
+        );
+        assert_eq!(
+            fs::read_to_string(child_observation).unwrap(),
+            "child-only\n"
+        );
     }
 
     #[cfg(unix)]
