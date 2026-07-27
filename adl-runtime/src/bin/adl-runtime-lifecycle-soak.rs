@@ -55,9 +55,26 @@ async fn main() -> ExitCode {
         }
     };
 
-    let execution = match execute_suite(&args, &fixture, started).await {
+    let mut execution = match execute_suite(&args, &fixture, started).await {
         Ok(execution) => execution,
         Err(failure) => return fail(&args, &kernel_sha256, started, failure),
+    };
+    execution.log_proof = match verify_master_log(&args, &fixture) {
+        Ok(proof) => Some(proof),
+        Err(error) => {
+            return fail(
+                &args,
+                &kernel_sha256,
+                started,
+                Failure {
+                    run: execution.completed_runs,
+                    cycle: execution.completed_cycles,
+                    completed_runs: execution.completed_runs,
+                    completed_cycles: execution.completed_cycles,
+                    error,
+                },
+            )
+        }
     };
 
     let report = report(&args, &kernel_sha256, started, "pass", &execution, None);
@@ -309,6 +326,15 @@ struct Execution {
     completed_cycles: u64,
     continuity_generation: u64,
     minimum_cycles_per_run: u64,
+    log_proof: Option<LogProof>,
+}
+
+struct LogProof {
+    master_log_ref: String,
+    master_log_sha256: String,
+    master_log_records: u64,
+    log_audit_ref: String,
+    log_audit_sha256: String,
 }
 
 struct Failure {
@@ -341,6 +367,7 @@ async fn execute_suite(
                 completed_cycles: 1,
                 continuity_generation: 1,
                 minimum_cycles_per_run: 1,
+                log_proof: None,
             })
         }
         Suite::Lifecycle { cycles } => {
@@ -371,6 +398,7 @@ async fn execute_suite(
                 completed_cycles: cycles,
                 continuity_generation: cycles,
                 minimum_cycles_per_run: cycles,
+                log_proof: None,
             })
         }
         Suite::Timed { runs, seconds } => {
@@ -419,6 +447,7 @@ async fn execute_suite(
                 completed_cycles: total_cycles,
                 continuity_generation: total_cycles,
                 minimum_cycles_per_run,
+                log_proof: None,
             })
         }
     }
@@ -645,6 +674,76 @@ fn verify_writer_lock_released(local_state_root: &Path) -> Result<(), String> {
     Ok(())
 }
 
+fn verify_master_log(args: &Args, fixture: &ProductionFixture) -> Result<LogProof, String> {
+    let observability_root = fixture.local_state_root.join("observability");
+    let master_log = observability_root.join("durable/master.log.jsonl");
+    let audit = observability_root.join("audit/master-log-audit.json");
+    let master_log_sha256 =
+        file_sha256(&master_log).map_err(|error| format!("master log unavailable: {error}"))?;
+    let master_log_bytes =
+        std::fs::read(&master_log).map_err(|error| format!("master log unreadable: {error}"))?;
+    let master_log_records = u64::try_from(
+        String::from_utf8(master_log_bytes)
+            .map_err(|_| "master log is not UTF-8 JSONL".to_owned())?
+            .lines()
+            .filter(|line| !line.trim().is_empty())
+            .count(),
+    )
+    .map_err(|_| "master log record count overflowed".to_owned())?;
+    let audit_bytes =
+        std::fs::read(&audit).map_err(|error| format!("master log audit unavailable: {error}"))?;
+    let audit_value: serde_json::Value = serde_json::from_slice(&audit_bytes)
+        .map_err(|error| format!("master log audit is invalid JSON: {error}"))?;
+    let expected_platform = std::env::consts::OS;
+    let expected_suite = args.suite.name();
+    let zero_counters = [
+        "malformed_records",
+        "missing_required_fields",
+        "sequence_gaps",
+        "error_events",
+        "degraded_events",
+        "unexplained_restarts",
+        "incomplete_drains",
+    ]
+    .iter()
+    .all(|field| audit_value[*field].as_u64() == Some(0));
+    if audit_value["schema"] != "adl.runtime.master_log_audit.v1"
+        || audit_value["status"] != "pass"
+        || audit_value["platform"] != expected_platform
+        || audit_value["suite"] != expected_suite
+        || audit_value["revision"] != args.revision
+        || audit_value["master_log_sha256"] != master_log_sha256
+        || audit_value["record_count"].as_u64() != Some(master_log_records)
+        || !zero_counters
+    {
+        return Err(format!(
+            "Vector master log audit did not prove a clean {expected_platform}/{expected_suite} lifecycle"
+        ));
+    }
+    Ok(LogProof {
+        master_log_ref: repo_relative(&master_log)?,
+        master_log_sha256,
+        master_log_records,
+        log_audit_ref: repo_relative(&audit)?,
+        log_audit_sha256: file_sha256(&audit)
+            .map_err(|error| format!("master log audit hash failed: {error}"))?,
+    })
+}
+
+fn repo_relative(path: &Path) -> Result<String, String> {
+    let root = std::env::current_dir()
+        .map_err(|error| format!("current checkout unavailable: {error}"))?
+        .canonicalize()
+        .map_err(|error| format!("current checkout cannot be canonicalized: {error}"))?;
+    let path = path
+        .canonicalize()
+        .map_err(|error| format!("evidence path cannot be canonicalized: {error}"))?;
+    let relative = path
+        .strip_prefix(&root)
+        .map_err(|_| "lifecycle evidence escaped the repository checkout".to_owned())?;
+    Ok(relative.to_string_lossy().replace('\\', "/"))
+}
+
 fn verify_generation(continuity_root: &Path, expected: u64) -> Result<(), String> {
     let manifest = continuity_root
         .join(format!("generation-{expected}"))
@@ -731,6 +830,7 @@ fn fail(args: &Args, kernel_sha256: &str, started: Instant, failure: Failure) ->
         completed_cycles: failure.completed_cycles,
         continuity_generation: 0,
         minimum_cycles_per_run: 0,
+        log_proof: None,
     };
     let report = report(
         args,
@@ -758,6 +858,27 @@ fn report(
         Suite::Lifecycle { cycles } => (Some(cycles), Some(1), None),
         Suite::Timed { runs, seconds } => (None, Some(runs), Some(seconds)),
     };
+    let logging_complete = execution.log_proof.is_some();
+    let master_log_ref = execution
+        .log_proof
+        .as_ref()
+        .map(|proof| proof.master_log_ref.as_str());
+    let master_log_sha256 = execution
+        .log_proof
+        .as_ref()
+        .map(|proof| proof.master_log_sha256.as_str());
+    let master_log_records = execution
+        .log_proof
+        .as_ref()
+        .map(|proof| proof.master_log_records);
+    let log_audit_ref = execution
+        .log_proof
+        .as_ref()
+        .map(|proof| proof.log_audit_ref.as_str());
+    let log_audit_sha256 = execution
+        .log_proof
+        .as_ref()
+        .map(|proof| proof.log_audit_sha256.as_str());
     serde_json::json!({
         "schema": REPORT_SCHEMA,
         "status": status,
@@ -776,6 +897,13 @@ fn report(
         "guardian_owned": true,
         "runtime_kernel_process_per_cycle": true,
         "acceptance_eligible": !matches!(args.suite, Suite::Preflight),
+        "logging_complete": logging_complete,
+        "master_log_status": if logging_complete { "clean" } else { "incomplete" },
+        "master_log_ref": master_log_ref,
+        "master_log_sha256": master_log_sha256,
+        "master_log_records": master_log_records,
+        "log_audit_ref": log_audit_ref,
+        "log_audit_sha256": log_audit_sha256,
         "continuity_generation": execution.continuity_generation,
         "kernel_sha256": kernel_sha256,
         "duration_millis": u64::try_from(started.elapsed().as_millis()).unwrap_or(u64::MAX),
@@ -863,6 +991,13 @@ mod tests {
             completed_cycles: 1,
             continuity_generation: 1,
             minimum_cycles_per_run: 1,
+            log_proof: Some(LogProof {
+                master_log_ref: ".csdlc/evidence/5344/work/master.jsonl".to_owned(),
+                master_log_sha256: "b".repeat(64),
+                master_log_records: 2,
+                log_audit_ref: ".csdlc/evidence/5344/work/audit.json".to_owned(),
+                log_audit_sha256: "c".repeat(64),
+            }),
         };
         let value = report(
             &preflight,
@@ -873,6 +1008,9 @@ mod tests {
             None,
         );
         assert_eq!(value["acceptance_eligible"], false);
+        assert_eq!(value["logging_complete"], true);
+        assert_eq!(value["master_log_status"], "clean");
+        assert_eq!(value["master_log_records"], 2);
     }
 
     #[test]
