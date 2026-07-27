@@ -79,6 +79,23 @@ Implemented #5692 closing-keyword policy plus exact-head PR-state freshness for 
     "purpose": "Focused PR-state duplicate check-run freshness proof",
     "outcome": "passed",
     "evidence_ref": "local command output: github::tests::newer_check_run_identity_replaces_stale_duplicate_name passed on FastWork target"
+  },
+  {
+    "command": [
+      "cargo",
+      "run",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--bin",
+      "csdlc-pr-state",
+      "--",
+      "--request",
+      "/Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/5692-pr-state.json"
+    ],
+    "purpose": "Live PR-state duplicate check-run freshness proof against PR #5696",
+    "outcome": "passed",
+    "evidence_ref": "local command output: fixed source reports PR #5696 classification ready with required checks from run 30286494108"
   }
 ]
 

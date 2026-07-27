@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0e010b7be5b7702ce678c559ba77b16bd11d31729435c80922445f1ad4bf4d78",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "7b3fbc0ecd95a406917c89ef577eb2a33676b2657fb4391817c090b203210b03",
+  "generation": 14,
+  "digest": "25977276e593a2801970c78cf525584b7e575623eb4daf2ebe4edcff6a30fc2a",
   "claim": {
     "id": "claim-5692-pr-closing-linkage-policy",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 13,
+    "generation": 14,
     "acquired_unix_seconds": 1785120624,
     "expires_unix_seconds": 1785207024,
     "heartbeat_unix_seconds": 1785120624,
@@ -44,34 +44,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0a1c72e002bf816648c789303538319466e209d8f1f74887fbc0676608b83120",
+      "values_digest": "17cf5ff3b77681ac3b1f796f88508bd83eadc459571ce52c10be20bb11d4d459",
       "rendered_digest": "fb06afcbe05e997154f8494d15eecb2f5fa4004055371e5f7c2327642025e0b1",
       "ast_digest": "30aa7387442b636f648ee359f0ba7178ac0bab9c295b7efa23f1c2da11fe2012"
     },
     "stp": {
-      "values_digest": "24ad3cfaffbec3dd912790dc143e41f1e2d926af9e93078aa987a2ea60b7991d",
+      "values_digest": "526985b7f0947a60fbdaa53703ae43ddeeb555b2f7ff7fb49788cd6e1ba8dce5",
       "rendered_digest": "d04f8b7b350117a2f4ba630e97e775fd87b80162e83fd7261e92cfcd520f8b02",
       "ast_digest": "99909f5eb3bfa5ad3da5d25694994b7fd7c3eabc5ab27d1ddf6c85bb5f656282"
     },
     "spp": {
-      "values_digest": "f94230e29da5f41f78b012058a29dff4ad4160366d97cd539961346f36eb67d1",
+      "values_digest": "0ce9a8cefe122b1313201590d6ee9b6c74f88de6573ad1aa7a5b566253007b2e",
       "rendered_digest": "16c40f6083c864198702121b815fc40d6e2913d75efa2749b3d8133075a505e2",
       "ast_digest": "4a0a5df7ab0c21c6c26dce9e9c48611f0e4cb2542a27de482be00f210e9df61d"
     },
     "vpp": {
-      "values_digest": "239ca76a1ad67cb25af4fde83654a17d3d2ac7f998cd880146c67634fba87335",
+      "values_digest": "e5fe1805315ddc027f29ebbf5b817b1a245f8bf6a249a191c09aefec8fd81d7e",
       "rendered_digest": "3d5707e4104ed5851f2f79dd02e44c59e32f782ea57b6c0e2109c6c9b6fcb249",
       "ast_digest": "b17c8ebdf1a3a7d5ae0bc96935d661c78800c476c99cdd7e8d7097a0a896ec55"
     },
     "srp": {
-      "values_digest": "ebab659c0d01bac3b2a6dda931eb5e2f63853cbdd92d3b61ab47335a3620ef55",
+      "values_digest": "4b3d7f557bfb4518e2ee02c2f686410847201caf9d57f6e25130a5f145ab3691",
       "rendered_digest": "7805d8109c5f6ca96abdbc6498cec6c9053c1f665774f62cfe7674a3bac973d2",
       "ast_digest": "ba131a2b1fd066bf91d1752f5410a8107aa19a107c9286252e347fc73fcd9c2b"
     },
     "sor": {
-      "values_digest": "77804c5884bf845f26ef82ac63dfd4e78bc1c70410bcb32280830f4fbeb6e706",
-      "rendered_digest": "fe6058e2576205671f00b9e4aa91d3f0651239e76fb99d0102dd1b87d1c3356f",
-      "ast_digest": "838b9a24c1ada69d9b5cb3a5b97ce266e8f4057bcf8dfbd4191ca65da2b6fc67"
+      "values_digest": "5e029bdd3b22699e0929ce97ddda69aed0773453d9d512eae3e987b10b9f0c21",
+      "rendered_digest": "1be817b9cd8ab6a923dd8c4b4d38a9bb834eaa580e6663caf7a6d1a9d037491f",
+      "ast_digest": "60cfad1e97d28c5dd933601b7a4226ae479bdf1a80bd2f7d0fa53f59923d0f98"
     }
   },
   "transitions": [
@@ -265,6 +265,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "record focused #5692 PR-state freshness proof",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"github::tests::newer_check_run_identity_replaces_stale_duplicate_name\"],\"purpose\":\"Focused PR-state duplicate check-run freshness proof\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output: github::tests::newer_check_run_identity_replaces_stale_duplicate_name passed on FastWork target\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "record live #5692 PR-state freshness proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"run\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-pr-state\",\"--\",\"--request\",\"/Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/5692-pr-state.json\"],\"purpose\":\"Live PR-state duplicate check-run freshness proof against PR #5696\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output: fixed source reports PR #5696 classification ready with required checks from run 30286494108\"}}"
     }
   ]
 }
