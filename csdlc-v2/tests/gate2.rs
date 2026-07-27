@@ -149,8 +149,9 @@ fn bind_fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
         },
     )
     .expect("bind fixture");
-    let bound = store.load_record(42).expect("bound record");
-    (temp, store, bound)
+    let bound_store = Store::new(temp.path().join(".worktrees/issue-42"));
+    let bound = bound_store.load_record(42).expect("bound record");
+    (temp, bound_store, bound)
 }
 
 fn bind_issue_5337_fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
@@ -187,8 +188,9 @@ fn bind_issue_5337_fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
         },
     )
     .expect("bind #5337 fixture");
-    let bound = store.load_record(5_337).expect("bound #5337 record");
-    (temp, store, bound)
+    let bound_store = Store::new(temp.path().join(".worktrees/issue-5337"));
+    let bound = bound_store.load_record(5_337).expect("bound #5337 record");
+    (temp, bound_store, bound)
 }
 
 fn edit_current(
@@ -402,15 +404,16 @@ fn bind_creates_and_idempotently_reuses_typed_worktree() {
     };
     let first = csdlc_v2::bind_issue(&store, request.clone()).expect("bind");
     assert!(first.created);
-    let bound_digest = store.load_record(42).expect("bound record").digest;
+    let bound_store = Store::new(temp.path().join(".worktrees/issue-42"));
+    let bound_digest = bound_store.load_record(42).expect("bound record").digest;
     assert_eq!(
-        store.load_record(42).expect("bound record").phase,
+        bound_store.load_record(42).expect("bound record").phase,
         csdlc_v2::LifecyclePhase::Bound
     );
     let second = csdlc_v2::bind_issue(&store, request).expect("rebind");
     assert!(!second.created);
     assert_eq!(
-        store.load_record(42).expect("reused record").digest,
+        bound_store.load_record(42).expect("reused record").digest,
         bound_digest
     );
 }
@@ -758,6 +761,144 @@ fn active_claim_transition_atomically_updates_purpose_and_scope() {
         audit["add_protected_paths"],
         serde_json::json!(["src", "tests"])
     );
+}
+
+#[test]
+fn claim_revoke_clears_unexpired_claim_with_operator_cas_audit() {
+    let (_temp, store, record) = fixture();
+    let claim_id = record.claim.as_ref().expect("claim").id.clone();
+    let result = csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: claim_id.clone(),
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5648".into(),
+            reason: "release abandoned setup claim before lease expiry".into(),
+        },
+    )
+    .expect("revoke");
+    assert_eq!(result.claim_id, claim_id);
+    assert_eq!(result.previous_owner, "agent");
+    assert!(result.released);
+    assert_eq!(result.generation, record.generation);
+    let released = store.load_record(42).expect("record");
+    assert!(released.claim.is_none());
+    assert_eq!(released.phase, record.phase);
+    assert_eq!(released.digest, result.digest);
+    assert!(!released
+        .claim
+        .as_ref()
+        .is_some_and(|claim| claim.protected_paths.iter().any(|path| path == "src")));
+    assert!(released
+        .audit
+        .last()
+        .expect("audit")
+        .operation
+        .contains("revoke_active_claim"));
+    assert!(released
+        .audit
+        .last()
+        .expect("audit")
+        .operation
+        .contains("operator-authorized:5648"));
+}
+
+#[test]
+fn claim_revoke_fails_closed_for_stale_digest_and_missing_authority() {
+    let (_temp, store, record) = fixture();
+    let claim_id = record.claim.as_ref().expect("claim").id.clone();
+    let stale = csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: claim_id.clone(),
+            expected_generation: record.generation,
+            expected_digest: "stale".into(),
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5648".into(),
+            reason: "stale request".into(),
+        },
+    )
+    .expect_err("stale digest");
+    assert!(matches!(stale.code, ErrorCode::StaleDigest));
+    let missing_authority = csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: claim_id,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: " ".into(),
+            reason: "missing authority".into(),
+        },
+    )
+    .expect_err("authority required");
+    assert!(matches!(missing_authority.code, ErrorCode::InvalidInput));
+
+    let stale_generation = csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: "claim-1".into(),
+            expected_generation: record.generation + 1,
+            expected_digest: record.digest.clone(),
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5648".into(),
+            reason: "stale generation".into(),
+        },
+    )
+    .expect_err("stale generation");
+    assert!(matches!(stale_generation.code, ErrorCode::StaleGeneration));
+
+    let claim_mismatch = csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: "wrong-claim".into(),
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5648".into(),
+            reason: "claim mismatch".into(),
+        },
+    )
+    .expect_err("claim mismatch");
+    assert!(matches!(claim_mismatch.code, ErrorCode::InvalidClaim));
+}
+
+#[test]
+fn claim_revoke_requires_unexpired_claim() {
+    let (_temp, store, record) = fixture();
+    let error = csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: "claim-1".into(),
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            now_unix_seconds: u64::MAX,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5648".into(),
+            reason: "expired request must route to recovery".into(),
+        },
+    )
+    .expect_err("expired claim");
+    assert!(matches!(error.code, ErrorCode::ExpiredClaim));
 }
 
 #[test]
@@ -1128,9 +1269,10 @@ fn bound_claim_scope_amendment_is_collision_checked_and_audited() {
         },
     )
     .expect("bind");
-    let bound = store.load_record(42).expect("bound");
+    let bound_store = Store::new(temp.path().join(".worktrees/issue-42"));
+    let bound = bound_store.load_record(42).expect("bound");
     let amended = amend_claim_scope(
-        &store,
+        &bound_store,
         AmendClaimScopeRequest {
             issue: 42,
             claim_id: "claim-1".into(),
@@ -1144,7 +1286,7 @@ fn bound_claim_scope_amendment_is_collision_checked_and_audited() {
     )
     .expect("amend");
     assert_eq!(amended.protected_paths, vec!["docs/review", "src"]);
-    let current = store.load_record(42).expect("current");
+    let current = bound_store.load_record(42).expect("current");
     assert_eq!(current.generation, bound.generation);
     assert!(current
         .audit
@@ -1158,14 +1300,14 @@ fn bound_claim_scope_amendment_is_collision_checked_and_audited() {
     other.claim.as_mut().expect("claim").id = "other".into();
     other.claim.as_mut().expect("claim").protected_paths = vec!["docs/owned".into()];
     other.claim.as_mut().expect("claim").expires_unix_seconds = 2;
-    fs::create_dir_all(store.issue_dir(43)).expect("other issue");
+    fs::create_dir_all(bound_store.issue_dir(43)).expect("other issue");
     fs::write(
-        store.issue_dir(43).join("index.json"),
+        bound_store.issue_dir(43).join("index.json"),
         serde_json::to_vec(&other).expect("json"),
     )
     .expect("other record");
     let error = amend_claim_scope(
-        &store,
+        &bound_store,
         AmendClaimScopeRequest {
             issue: 42,
             claim_id: "claim-1".into(),
@@ -1269,9 +1411,10 @@ fn bound_replan_is_typed_claimed_and_limited_to_planning_cards() {
         },
     )
     .expect("bind");
-    let bound_record = store.load_record(42).expect("bound record");
+    let bound_store = Store::new(temp.path().join(".worktrees/issue-42"));
+    let bound_record = bound_store.load_record(42).expect("bound record");
     let updated = edit_issue(
-        &store,
+        &bound_store,
         EditRequest {
             issue: 42,
             card: CardKind::Spp,
@@ -1294,7 +1437,7 @@ fn bound_replan_is_typed_claimed_and_limited_to_planning_cards() {
     assert!(replan_audit.contains("previous_value"));
     assert!(replan_audit.contains("Build then diagnose."));
     let sip = edit_issue(
-        &store,
+        &bound_store,
         EditRequest {
             issue: 42,
             card: CardKind::Sip,
@@ -1312,7 +1455,7 @@ fn bound_replan_is_typed_claimed_and_limited_to_planning_cards() {
     )
     .expect("SIP replan");
     let stp = edit_issue(
-        &store,
+        &bound_store,
         EditRequest {
             issue: 42,
             card: CardKind::Stp,
@@ -1330,7 +1473,7 @@ fn bound_replan_is_typed_claimed_and_limited_to_planning_cards() {
     )
     .expect("STP replan");
     let sip_constraints = edit_issue(
-        &store,
+        &bound_store,
         EditRequest {
             issue: 42,
             card: CardKind::Sip,
@@ -1347,7 +1490,7 @@ fn bound_replan_is_typed_claimed_and_limited_to_planning_cards() {
     )
     .expect("SIP constraint replacement");
     let srp_scope = edit_issue(
-        &store,
+        &bound_store,
         EditRequest {
             issue: 42,
             card: CardKind::Srp,
@@ -1364,9 +1507,11 @@ fn bound_replan_is_typed_claimed_and_limited_to_planning_cards() {
         },
     )
     .expect("bound SRP scope replan");
-    let before_invalid = store.load_cards(42).expect("cards before invalid edit");
+    let before_invalid = bound_store
+        .load_cards(42)
+        .expect("cards before invalid edit");
     let invalid = edit_issue(
-        &store,
+        &bound_store,
         EditRequest {
             issue: 42,
             card: CardKind::Stp,
@@ -1383,9 +1528,9 @@ fn bound_replan_is_typed_claimed_and_limited_to_planning_cards() {
     )
     .expect_err("SPP and VPP must cover every replacement criterion");
     assert!(matches!(invalid.code, ErrorCode::CardInvalid));
-    assert_eq!(store.load_cards(42).unwrap(), before_invalid);
+    assert_eq!(bound_store.load_cards(42).unwrap(), before_invalid);
     let stale = edit_issue(
-        &store,
+        &bound_store,
         EditRequest {
             issue: 42,
             card: CardKind::Stp,
@@ -1402,9 +1547,9 @@ fn bound_replan_is_typed_claimed_and_limited_to_planning_cards() {
     )
     .expect_err("removed criteria cannot leave stale SPP or VPP mappings");
     assert!(matches!(stale.code, ErrorCode::CardInvalid));
-    assert_eq!(store.load_cards(42).unwrap(), before_invalid);
+    assert_eq!(bound_store.load_cards(42).unwrap(), before_invalid);
     let prepared = edit_issue(
-        &store,
+        &bound_store,
         EditRequest {
             issue: 42,
             card: CardKind::Stp,
@@ -1421,7 +1566,7 @@ fn bound_replan_is_typed_claimed_and_limited_to_planning_cards() {
     )
     .expect("covered STP replacement");
     let sor = edit_issue(
-        &store,
+        &bound_store,
         EditRequest {
             issue: 42,
             card: CardKind::Sor,
@@ -1464,9 +1609,10 @@ fn bound_plan_progress_and_validation_lane_replacement_are_typed() {
         },
     )
     .expect("bind");
-    let bound = store.load_record(42).expect("bound");
+    let bound_store = Store::new(temp.path().join(".worktrees/issue-42"));
+    let bound = bound_store.load_record(42).expect("bound");
     let progressed = edit_issue(
-        &store,
+        &bound_store,
         EditRequest {
             issue: 42,
             card: CardKind::Spp,
@@ -1496,7 +1642,7 @@ fn bound_plan_progress_and_validation_lane_replacement_are_typed() {
         defer_reason: None,
     }];
     edit_issue(
-        &store,
+        &bound_store,
         EditRequest {
             issue: 42,
             card: CardKind::Vpp,
@@ -1512,7 +1658,7 @@ fn bound_plan_progress_and_validation_lane_replacement_are_typed() {
         },
     )
     .expect("replace lanes");
-    let cards = store.load_cards(42).expect("cards");
+    let cards = bound_store.load_cards(42).expect("cards");
     match &cards[&CardKind::Spp].content {
         csdlc_v2::cards::CardContent::Spp(spp) => {
             assert_eq!(spp.steps[0].status, csdlc_v2::cards::StepStatus::Completed)
@@ -1599,7 +1745,7 @@ fn illegal_transition_fails_closed() {
 
 #[test]
 fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_edits() {
-    let (temp, store, mut record) = bind_issue_5337_fixture();
+    let (_temp, store, mut record) = bind_issue_5337_fixture();
 
     for (card, field, replacement) in [
         (
@@ -1664,7 +1810,7 @@ fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_e
         ),
     ] {
         record = cli_edit_current(
-            temp.path(),
+            store.root(),
             &store,
             &record,
             card,
@@ -1675,7 +1821,7 @@ fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_e
         );
     }
     record = cli_edit_current(
-        temp.path(),
+        store.root(),
         &store,
         &record,
         CardKind::Sip,
@@ -1687,7 +1833,7 @@ fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_e
         },
     );
     record = cli_edit_current(
-        temp.path(),
+        store.root(),
         &store,
         &record,
         CardKind::Srp,
@@ -1697,7 +1843,7 @@ fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_e
         },
     );
     record = cli_edit_current(
-        temp.path(),
+        store.root(),
         &store,
         &record,
         CardKind::Spp,
@@ -1742,7 +1888,7 @@ fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_e
         },
     );
     record = cli_edit_current(
-        temp.path(),
+        store.root(),
         &store,
         &record,
         CardKind::Srp,
@@ -1754,9 +1900,9 @@ fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_e
 
     let cards = store.load_cards(5_337).expect("converted cards");
     let design_digest =
-        csdlc_v2::cards::digest(&fs::read(temp.path().join("docs/design.md")).expect("design"));
+        csdlc_v2::cards::digest(&fs::read(store.root().join("docs/design.md")).expect("design"));
     let diagram_digest =
-        csdlc_v2::cards::digest(&fs::read(temp.path().join("docs/diagram.mmd")).expect("diagram"));
+        csdlc_v2::cards::digest(&fs::read(store.root().join("docs/diagram.mmd")).expect("diagram"));
     csdlc_v2::cards::validate_cross_card(
         &cards,
         "docs/design.md",
@@ -2118,6 +2264,8 @@ fn public_schema_bundle_covers_requests_state_and_doctor_output() {
         "bind_result",
         "recover_claim_request",
         "release_closed_claim_request",
+        "revoke_active_claim_request",
+        "revoke_active_claim_result",
         "amend_claim_scope_request",
         "issue_record",
         "terminal_receipt",
@@ -2171,9 +2319,9 @@ fn placeholder_design_is_pending_then_can_be_completed_approved_and_bound() {
     );
     let cards = store.load_cards(42).expect("approved cards");
     let design_digest =
-        csdlc_v2::cards::digest(&fs::read(temp.path().join("docs/design.md")).expect("design"));
+        csdlc_v2::cards::digest(&fs::read(store.root().join("docs/design.md")).expect("design"));
     let diagram_digest =
-        csdlc_v2::cards::digest(&fs::read(temp.path().join("docs/diagram.mmd")).expect("diagram"));
+        csdlc_v2::cards::digest(&fs::read(store.root().join("docs/diagram.mmd")).expect("diagram"));
     for kind in [CardKind::Spp, CardKind::Vpp] {
         match &cards[&kind].content {
             csdlc_v2::cards::CardContent::Spp(values) => {
@@ -2209,7 +2357,10 @@ fn placeholder_design_is_pending_then_can_be_completed_approved_and_bound() {
     )
     .expect("bind");
     assert_eq!(
-        store.load_record(42).expect("record").phase,
+        Store::new(temp.path().join(".worktrees/issue-42"))
+            .load_record(42)
+            .expect("record")
+            .phase,
         csdlc_v2::LifecyclePhase::Bound
     );
 }
@@ -2392,9 +2543,9 @@ fn bound_and_implemented_design_reapproval_refreshes_truth_and_reviewed_rejects(
     assert_eq!(reapproved.transitions, implemented_transitions);
     assert_eq!(reapproved.generation, implemented.generation + 1);
     let design_digest =
-        csdlc_v2::cards::digest(&fs::read(temp.path().join("docs/design.md")).expect("design"));
+        csdlc_v2::cards::digest(&fs::read(store.root().join("docs/design.md")).expect("design"));
     let diagram_digest =
-        csdlc_v2::cards::digest(&fs::read(temp.path().join("docs/diagram.mmd")).expect("diagram"));
+        csdlc_v2::cards::digest(&fs::read(store.root().join("docs/diagram.mmd")).expect("diagram"));
     assert!(matches!(
         &reapproved.design_review,
         csdlc_v2::DesignReview::Approved { revision, .. } if revision == &design_digest
@@ -2584,9 +2735,9 @@ fn ready_transition_requires_current_design_and_automatic_budgets() {
         vpp.lanes[0].budget_tokens = vpp.planned_validation_tokens + 1;
     }
     let design_digest =
-        csdlc_v2::cards::digest(&fs::read(temp.path().join("docs/design.md")).expect("design"));
+        csdlc_v2::cards::digest(&fs::read(store.root().join("docs/design.md")).expect("design"));
     let diagram_digest =
-        csdlc_v2::cards::digest(&fs::read(temp.path().join("docs/diagram.mmd")).expect("diagram"));
+        csdlc_v2::cards::digest(&fs::read(store.root().join("docs/diagram.mmd")).expect("diagram"));
     assert!(csdlc_v2::cards::validate_cross_card(
         &over_budget,
         "docs/design.md",

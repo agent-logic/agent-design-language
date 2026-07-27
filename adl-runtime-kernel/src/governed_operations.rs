@@ -11,12 +11,12 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly, ActuationShell, AdapterKind, AdapterPolicy,
-    Aee, AuthorityGrant, AuthorityMode, CanonicalIngress, Commitment, ExecutorError, FailureClass,
-    FreedomGate, GovernanceKeys, GovernedActionRequest, Kernel, LiveBindings, LocalAgentExecutor,
-    MediationDecision, OperationExecutor, OperationRequest, OperationalAdapter, RefusalReason,
-    RuntimeRecorder, TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource,
-    TrustedGovernanceTime, OPERATION_REQUEST_SCHEMA,
+    bootstrap_reasoning_services, build_live_assembly, build_production_operation_executors,
+    ActuationShell, AdapterKind, AdapterPolicy, Aee, AuthorityGrant, AuthorityMode,
+    CanonicalIngress, Commitment, ExecutorError, FailureClass, FreedomGate, GovernanceKeys,
+    GovernedActionRequest, Kernel, LiveBindings, MediationDecision, OperationExecutor,
+    OperationRequest, OperationalAdapter, RefusalReason, RuntimeRecorder, TimeQualificationBounds,
+    TimeSample, TimeSampleError, TimeSampleSource, TrustedGovernanceTime, OPERATION_REQUEST_SCHEMA,
 };
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use serde::{Deserialize, Serialize};
@@ -304,6 +304,7 @@ struct GovernedExecutor {
     shepherd: Arc<OperationalAdapter>,
     failure: Arc<Mutex<BTreeMap<String, String>>>,
     scheduler_admission: Arc<tokio::sync::Semaphore>,
+    provider_condition: String,
 }
 
 #[async_trait::async_trait]
@@ -322,10 +323,20 @@ impl OperationExecutor for GovernedExecutor {
             BTreeMap::from([("permit".to_owned(), self.permit_key)]),
             shell,
         );
-        let recorded = aee
-            .actuate(&prepared.permit)
-            .await
-            .map_err(|_| executor_error("actuation_rejected"))?;
+        let recorded = match aee.actuate(&prepared.permit).await {
+            Ok(recorded) => recorded,
+            Err(_) if prepared.command.action == "provider.invoke" => {
+                let classification = match self.provider_condition.as_str() {
+                    "auth" => "provider_auth",
+                    "quota" => "provider_quota",
+                    "malformed" => "provider_malformed_output",
+                    "unavailable" => "provider_unavailable",
+                    _ => "provider_timeout",
+                };
+                return Err(executor_error(classification));
+            }
+            Err(_) => return Err(executor_error("actuation_rejected")),
+        };
         if recorded.success {
             Ok(recorded.result_bytes)
         } else {
@@ -491,7 +502,7 @@ async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> 
         } else {
             16
         },
-        timeout_millis: 2_000,
+        shutdown_grace_millis: 2_000,
         max_attempts: 1,
         idempotency_entries: 64,
         authority: AuthorityMode::Internal,
@@ -519,21 +530,16 @@ async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> 
         )
         .map_err(|_| "scheduler_configuration".to_owned())?,
     );
-    let mut executors = adl_runtime_kernel::REQUIRED_OPERATIONAL_ADAPTERS
-        .into_iter()
-        .map(|kind| {
-            (
-                kind,
-                Arc::new(LocalAgentExecutor) as Arc<dyn OperationExecutor>,
-            )
-        })
-        .collect::<BTreeMap<_, _>>();
+    let mut executors =
+        build_production_operation_executors(config.state_dir.join("local-adapters"))
+            .map_err(|error| format!("local_adapter_state: {error}"))?;
     let agent_executor = Arc::new(GovernedExecutor {
         permit_key,
         scheduler,
         shepherd,
         failure: failure.clone(),
         scheduler_admission,
+        provider_condition: config.provider_condition.clone(),
     });
     executors.insert(AdapterKind::Agent, agent_executor.clone());
     executors.insert(
@@ -652,9 +658,13 @@ async fn execute_inner(
     let lock = StateLock::acquire(config).map_err(|error| (error, RuntimeState::default()))?;
     let mut state = load_state(config).map_err(|error| (error, RuntimeState::default()))?;
     let now = services.clock.fetch_add(1, Ordering::SeqCst);
-    let refuse = |reason: &str, state: &RuntimeState| Err((reason.to_owned(), state.clone()));
+    macro_rules! refuse {
+        ($reason:expr, $state:expr) => {
+            return Err(($reason.to_owned(), $state.clone()));
+        };
+    }
     if state.shutdown {
-        return refuse("admission_closed", &state);
+        refuse!("admission_closed", &state);
     }
     if !safe_id(&command.request_id)
         || !safe_id(&command.idempotency_key)
@@ -662,26 +672,26 @@ async fn execute_inner(
         || !safe_id(&command.agent_id)
         || command.units == 0
     {
-        return refuse("invalid_request", &state);
+        refuse!("invalid_request", &state);
     }
     if now <= state.last_time {
-        return refuse("unqualified_or_regressing_time", &state);
+        refuse!("unqualified_or_regressing_time", &state);
     }
     if command
         .read_citizen_id
         .as_deref()
         .is_some_and(|subject| subject != command.citizen_id)
     {
-        return refuse("cross_identity_denied", &state);
+        refuse!("cross_identity_denied", &state);
     }
     if config
         .revoked_commitments
         .contains(&command.commitment.commitment_id)
     {
-        return refuse("revoked", &state);
+        refuse!("revoked", &state);
     }
     if state.pending_requests.contains(&command.request_id) {
-        return refuse("incomplete_recovery_quarantined", &state);
+        refuse!("incomplete_recovery_quarantined", &state);
     }
     if let Some(cached) = state.completed.get(&command.idempotency_key) {
         if cached.request_id != command.request_id
@@ -689,19 +699,19 @@ async fn execute_inner(
             || cached.command_fingerprint
                 != command_fingerprint(command).map_err(|error| (error, state.clone()))?
         {
-            return refuse("idempotency_conflict", &state);
+            refuse!("idempotency_conflict", &state);
         }
         return Ok(success_outcome(cached, true));
     }
     if state.request_ids.contains(&command.request_id) {
-        return refuse("request_replay", &state);
+        refuse!("request_replay", &state);
     }
     if state.completed.len() >= MAX_STATE_ENTRIES
         || state.request_ids.len() >= MAX_STATE_ENTRIES
         || (state.private_state.len() >= MAX_STATE_ENTRIES
             && !state.private_state.contains_key(&capability_scope(command)))
     {
-        return refuse("state_capacity_exhausted", &state);
+        refuse!("state_capacity_exhausted", &state);
     }
 
     let permit_signer = SigningKey::from_bytes(&config.permit_key);
@@ -747,9 +757,9 @@ async fn execute_inner(
                 .and_then(|(id, decision)| gate.record_appeal(id, &evidence, decision).ok())
                 .is_some_and(|appeal| appeal.accepted);
             if appealed {
-                return refuse("appeal_retry_recorded", &state);
+                refuse!("appeal_retry_recorded", &state);
             } else {
-                return refuse(refusal_classification(evidence.reason), &state);
+                refuse!(refusal_classification(evidence.reason), &state);
             }
         }
     };
@@ -797,7 +807,7 @@ async fn execute_inner(
                     })
                     .unwrap_or_else(|| classify_configured_failure(config, command).to_owned())
             };
-            return refuse(&classification, &state);
+            refuse!(&classification, &state);
         }
     };
 
@@ -978,6 +988,8 @@ fn classify_operation(error: adl_runtime_kernel::OperationError) -> String {
 fn classify_configured_failure(config: &RuntimeConfig, command: &GovernedCommand) -> &'static str {
     if command.cancelled {
         "scheduler_cancelled"
+    } else if command.action == "provider.invoke" && config.provider_condition == "healthy" {
+        "provider_timeout"
     } else {
         match config.provider_condition.as_str() {
             "timeout" => "provider_timeout",

@@ -17,6 +17,7 @@ pub mod parity;
 pub mod parity_b;
 pub mod private_state;
 pub mod proof;
+pub mod protocol_adapters;
 pub mod reasoning;
 pub mod supervisor;
 pub mod telemetry;
@@ -43,6 +44,13 @@ pub use operations::*;
 pub use parity::*;
 pub use parity_b::*;
 pub use private_state::*;
+pub use protocol_adapters::{
+    build_production_operation_executors as build_protocol_production_operation_executors,
+    protocol_operation_executors, protocol_operation_executors_from_env, ProtocolAdapter,
+    ProtocolBuildError, ProtocolEndpoint, ProtocolFrame, ProtocolResponse, ProtocolSecret,
+    ProtocolSecurity, ProtocolStatus, MAX_PROTOCOL_FRAME_FRESHNESS_MILLIS,
+    MAX_PROTOCOL_RESPONSE_BYTES, PROTOCOL_FRAME_SCHEMA, PROTOCOL_RESPONSE_SCHEMA,
+};
 pub use reasoning::*;
 pub use supervisor::{Kernel, KernelControl, KernelError, KernelExit, KernelHandle};
 pub use telemetry::*;
