@@ -3,13 +3,13 @@
   "issue": 5692,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0e010b7be5b7702ce678c559ba77b16bd11d31729435c80922445f1ad4bf4d78",
-  "phase": "implemented",
-  "generation": 15,
-  "digest": "c4ff502bd6223898fe26024e2083b928738e8df3c9db84d7cc9e57fa34f08083",
+  "phase": "reviewed",
+  "generation": 16,
+  "digest": "9ec5602104fe2b2442afb9774647e3f4d0495da2067ca7e362fc03d01aa61601",
   "claim": {
     "id": "claim-5692-pr-closing-linkage-policy",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 15,
+    "generation": 16,
     "acquired_unix_seconds": 1785120624,
     "expires_unix_seconds": 1785207024,
     "heartbeat_unix_seconds": 1785120624,
@@ -30,7 +30,45 @@
     "purpose": "implement #5692 PR closing linkage policy and publish verifier"
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "bounded-subagent:019fa486-fda3-7992-b8d6-1a804c046ffd",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate6.rs"
+    ],
+    "reviewed_revision": "git-blake3:45707a038c79fdbc9a1b60382a6e40bec12f9b4f:c0156b85618fdfc1b5cda630da3c40dcc940c199e62252a6b0125556b4497173",
+    "findings": [
+      {
+        "id": "5692-P1-pending-duplicate-check-run-freshness",
+        "severity": "p1",
+        "summary": "Duplicate check-run selection must let a newer pending duplicate supersede a stale completed duplicate even when started_at is absent.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:45707a038c79fdbc9a1b60382a6e40bec12f9b4f:c0156b85618fdfc1b5cda630da3c40dcc940c199e62252a6b0125556b4497173",
+        "route": null
+      },
+      {
+        "id": "5692-P2-stale-publication-intent-after-recovery",
+        "severity": "p2",
+        "summary": "Recovered implemented state must not carry a stale publication intent pinned to an older head.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:45707a038c79fdbc9a1b60382a6e40bec12f9b4f:c0156b85618fdfc1b5cda630da3c40dcc940c199e62252a6b0125556b4497173",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "GitHub CI must rerun on the republished exact head before merge readiness can be recorded again.",
+      "Publication will regenerate .csdlc/publication/5692.intent.json for the reviewed exact head."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -45,32 +83,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4bd346595ddd446d417c260ef1ceda9936ab1a0128ed98efe5a2dcc221ff9801",
+      "values_digest": "5aaf854d138cf842bc10845ccf55df3d590e1cf51106a1b06eccb4fce9cac6ad",
       "rendered_digest": "fb06afcbe05e997154f8494d15eecb2f5fa4004055371e5f7c2327642025e0b1",
       "ast_digest": "30aa7387442b636f648ee359f0ba7178ac0bab9c295b7efa23f1c2da11fe2012"
     },
     "stp": {
-      "values_digest": "9f1d5bfb1e04419fec0f7114905eb035a68a2c16d7d2d14637a92a3852a97d90",
+      "values_digest": "d5bda1ccb8655bf0a42e90d03e2fa437d2f7445323aa7452bb8523500b388306",
       "rendered_digest": "d04f8b7b350117a2f4ba630e97e775fd87b80162e83fd7261e92cfcd520f8b02",
       "ast_digest": "99909f5eb3bfa5ad3da5d25694994b7fd7c3eabc5ab27d1ddf6c85bb5f656282"
     },
     "spp": {
-      "values_digest": "42caa24a101774e08df3014bc14193db5751cfd076aa09810840bb7c62d50789",
+      "values_digest": "fbd2a456e3d422d61b9f4ade758cd888efa094959cbcc2328ded86125be9bdbe",
       "rendered_digest": "16c40f6083c864198702121b815fc40d6e2913d75efa2749b3d8133075a505e2",
       "ast_digest": "4a0a5df7ab0c21c6c26dce9e9c48611f0e4cb2542a27de482be00f210e9df61d"
     },
     "vpp": {
-      "values_digest": "5cf01844f3cd08ab2049ba9901830b011c71e459428040eb74113b4bded01295",
+      "values_digest": "359ebd39cf539a3999c85d966d88c0531ad57d0c1d1f7d5f44569c187dd502db",
       "rendered_digest": "3d5707e4104ed5851f2f79dd02e44c59e32f782ea57b6c0e2109c6c9b6fcb249",
       "ast_digest": "b17c8ebdf1a3a7d5ae0bc96935d661c78800c476c99cdd7e8d7097a0a896ec55"
     },
     "srp": {
-      "values_digest": "318662656eac15ce6f7318caf1f7cd93fd735ab31ba1e2f6a66dd16a2302a634",
-      "rendered_digest": "7805d8109c5f6ca96abdbc6498cec6c9053c1f665774f62cfe7674a3bac973d2",
-      "ast_digest": "ba131a2b1fd066bf91d1752f5410a8107aa19a107c9286252e347fc73fcd9c2b"
+      "values_digest": "f7ec24a0030236525dc06e2bd613a0cd58d59a57a230231ffe805561b9b9fcf2",
+      "rendered_digest": "1d0fa1b8fa8114050f1b9421b11d5fca00ca9a914f1dc76fd6d83cd92ce3419a",
+      "ast_digest": "073c51092042e666cb268cf723ec748bc26b6e66dcb04e009d6094098f56f2f2"
     },
     "sor": {
-      "values_digest": "3dc229c5e1fc2cb45e8db60844283e4c429f0b6280d4aa1dd4c7d57e137c608f",
+      "values_digest": "786f5fb9b72ef482638fee2e17545a2baf0086adcefbcf0a03217b22721af930",
       "rendered_digest": "70574d2f8468e67036d8e373236d74c2d0db5a7df2386072a26f329a2cb92c1e",
       "ast_digest": "1ce520eb285c422664abaa5e50113289598420f17ec9f2aee93bea31897626c7"
     }
@@ -145,6 +183,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Recover #5692 from merge_ready because csdlc-merge uses stale PR-state duplicate check-run selection while readiness observed exact-head green checks; patch shared PR-state freshness before republishing."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -287,6 +332,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "record #5692 review-fix disposition",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented #5692 closing-keyword policy plus exact-head PR-state freshness for typed merge.\",\"changes\":[\"Review P1 fixed: duplicate check-run freshness now falls back to run id when either started_at value is absent, so a newer pending duplicate can supersede stale completed checks.\",\"Review P2 fixed: stale .csdlc/publication/5692.intent.json was removed while #5692 is recovered to implemented; typed publication will regenerate current intent after exact-head review.\"],\"artifacts\":[\"reviewer: bounded-subagent 019fa486-fda3-7992-b8d6-1a804c046ffd found P1/P2 before this fix pass\",\"cargo test --locked --manifest-path csdlc-v2/Cargo.toml github::tests::newer_check_run_identity_replaces_stale_duplicate_name => 1 passed after P1 fix\",\"cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate6 => 8 passed after P1 fix\",\"cargo check --locked --manifest-path csdlc-v2/Cargo.toml --bin csdlc-merge --bin csdlc-pr-state --bin csdlc-shepherd --bin csdlc-github-pr => passed\",\"cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check => passed\",\"git diff --check => passed\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
