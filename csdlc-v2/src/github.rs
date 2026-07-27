@@ -926,7 +926,12 @@ fn run_is_newer(
     prior_started_millis: Option<i64>,
     prior_id: u64,
 ) -> bool {
-    (candidate_started_millis, candidate_id) >= (prior_started_millis, prior_id)
+    candidate_started_millis.zip(prior_started_millis).map_or(
+        candidate_id >= prior_id,
+        |(candidate_started, prior_started)| {
+            (candidate_started, candidate_id) >= (prior_started, prior_id)
+        },
+    )
 }
 
 fn remote(error: octocrab::Error) -> crate::V2Error {
@@ -971,6 +976,8 @@ mod tests {
     fn newer_check_run_identity_replaces_stale_duplicate_name() {
         assert!(run_is_newer(Some(20), 20, Some(10), 10));
         assert!(run_is_newer(Some(20), 30, Some(20), 20));
+        assert!(run_is_newer(None, 30, Some(20), 20));
+        assert!(run_is_newer(Some(20), 30, None, 20));
         assert!(!run_is_newer(Some(10), 30, Some(20), 20));
         assert!(!run_is_newer(None, 10, Some(20), 20));
     }

@@ -25,6 +25,12 @@ Implemented #5692 closing-keyword policy plus exact-head PR-state freshness for 
 - cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate6 => 8 passed
 - cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check => passed
 - git diff --check => passed
+- reviewer: bounded-subagent 019fa486-fda3-7992-b8d6-1a804c046ffd found P1/P2 before this fix pass
+- cargo test --locked --manifest-path csdlc-v2/Cargo.toml github::tests::newer_check_run_identity_replaces_stale_duplicate_name => 1 passed after P1 fix
+- cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate6 => 8 passed after P1 fix
+- cargo check --locked --manifest-path csdlc-v2/Cargo.toml --bin csdlc-merge --bin csdlc-pr-state --bin csdlc-shepherd --bin csdlc-github-pr => passed
+- cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check => passed
+- git diff --check => passed
 
 ## Execution
 
@@ -35,6 +41,8 @@ Implemented #5692 closing-keyword policy plus exact-head PR-state freshness for 
 - csdlc-v2 shared PR-state collection now fetches all check-run pages for the exact PR head.
 - Duplicate check-run names now select the newest started_at/run-id identity so superseded failed runs cannot override current green runs.
 - The freshness rule is covered by a focused unit test and keeps csdlc-pr-state, csdlc-shepherd, and csdlc-merge aligned with readiness observation.
+- Review P1 fixed: duplicate check-run freshness now falls back to run id when either started_at value is absent, so a newer pending duplicate can supersede stale completed checks.
+- Review P2 fixed: stale .csdlc/publication/5692.intent.json was removed while #5692 is recovered to implemented; typed publication will regenerate current intent after exact-head review.
 
 ## Validation
 
