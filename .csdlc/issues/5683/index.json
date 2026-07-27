@@ -3,13 +3,13 @@
   "issue": 5683,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b8d92d7710c00944967def4c4d3e923aa274554cc31b48a8fa49da34b6a77d97",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "5a81d4ff22eebe09d9ee5a7f09e9ee2b541b56f02ca743c6dd4ec9cf01465362",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "ef9d4c06bc09b17640ac4a696ab2110c255c0c71dc16485ade6c634a3e1d662d",
   "claim": {
     "id": "claim-5683-v0918-unity-observatory-visual-remediation",
     "owner": "codex:issue-5683-unity-remediation",
-    "generation": 7,
+    "generation": 9,
     "acquired_unix_seconds": 1785113461,
     "expires_unix_seconds": 1785718261,
     "heartbeat_unix_seconds": 1785113461,
@@ -36,7 +36,7 @@
   "review_assignment": {
     "reviewer": "Hooke",
     "assigned_by": "codex:issue-5683-unity-remediation",
-    "revision": "git-blake3:939752e5c2821d502f84a2397fb3943d3af152a8:ca8d1b9e0e76920a2f1851cf2eaaf9c197523b35b9a84f35afaa06d941aad62e",
+    "revision": "git-blake3:757d75f6a346f8671dc075d8b32ed0f4ea0f8191:cec4e56a2f8814813913a097d0fea5a676ca5ca790133dc8e2ff3cebb3995242",
     "scope": [
       ".csdlc/evidence/5683/LIVE_UNITY_PROOF.md",
       ".csdlc/evidence/5683/TOOLING_ANOMALIES.md",
@@ -73,7 +73,54 @@
       "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "Hooke",
+    "scope": [
+      ".csdlc/evidence/5683/LIVE_UNITY_PROOF.md",
+      ".csdlc/evidence/5683/TOOLING_ANOMALIES.md",
+      ".csdlc/evidence/5683/capture_unity_mcp_image.mjs",
+      ".csdlc/evidence/5683/final-full-hd-game-view.png",
+      ".csdlc/evidence/5683/final-qhd-game-view.png",
+      ".csdlc/evidence/5683/raw-environment-full-hd-pass-3.png",
+      ".csdlc/evidence/5683/raw-environment-qhd-pass-3.png",
+      ".csdlc/evidence/5683/record-execution-request.json",
+      ".csdlc/evidence/5683/record-validation-alignment-request.json",
+      ".csdlc/evidence/5683/record-validation-contract-request.json",
+      ".csdlc/evidence/5683/record-validation-diff-request.json",
+      ".csdlc/evidence/5683/record-validation-live-unity-request.json",
+      ".csdlc/issues/5683/audit.jsonl",
+      ".csdlc/issues/5683/cards/sip.md",
+      ".csdlc/issues/5683/cards/sip.values.json",
+      ".csdlc/issues/5683/cards/sor.md",
+      ".csdlc/issues/5683/cards/sor.values.json",
+      ".csdlc/issues/5683/cards/spp.md",
+      ".csdlc/issues/5683/cards/spp.values.json",
+      ".csdlc/issues/5683/cards/srp.md",
+      ".csdlc/issues/5683/cards/srp.values.json",
+      ".csdlc/issues/5683/cards/stp.md",
+      ".csdlc/issues/5683/cards/stp.values.json",
+      ".csdlc/issues/5683/cards/vpp.md",
+      ".csdlc/issues/5683/cards/vpp.values.json",
+      ".csdlc/issues/5683/index.json",
+      ".csdlc/locks/5683.lock",
+      ".csdlc/prepared/issues/5683/advance-implemented.json",
+      ".csdlc/prepared/issues/5683/design.md",
+      ".csdlc/prepared/issues/5683/diagram.mmd",
+      "adl/tools/test_v0916_unity_observatory_contract.sh",
+      "demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Scripts/UnityObservatoryShellController.cs"
+    ],
+    "reviewed_revision": "git-blake3:757d75f6a346f8671dc075d8b32ed0f4ea0f8191:cec4e56a2f8814813913a097d0fea5a676ca5ca790133dc8e2ff3cebb3995242",
+    "findings": [],
+    "residual_risks": [
+      "The static shell guardrail remains source-presence based, so future visual regressions still require direct live Unity proof.",
+      "Game View selection uses undocumented UnityEditor reflection APIs and may need adjustment after a Unity upgrade.",
+      "The clean hero composition deliberately deactivates substantial imported presentation content; future investor-polish work should restore selected assets deliberately.",
+      "Runtime remains explicitly DEMO DATA, CONTRACT ONLY, and FIXTURE PROJECTION; this review does not claim live CSM integration."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -88,32 +135,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "90414d2ec23f8f3bf330c35ff816421c63070df5a034b18c03fc58ca69f75b14",
+      "values_digest": "8a0be0f891d0cb0beb298dde3296a9d5bebf66f3f3a90cc940aa83eceab24a65",
       "rendered_digest": "97eb54524cf0d293522d3a4495666eb42e739b1b42ba37900ca1f5aaa56c0a12",
       "ast_digest": "0c03f048e200173e885009fe047a19e43bd02a640170325798ed7a27bf605e10"
     },
     "stp": {
-      "values_digest": "b9514a7b4ccb70166073f9e930f681a2bc0f1c37ef67337b340e3d7e7a14dbf9",
+      "values_digest": "8eb8800fbc4b733bae314e7739d294522be930279086e8c2c689c140bdd7becb",
       "rendered_digest": "f8dc2201d62c7e21dceadb61a7c10233389be658313c8f63ac25348e9e1edf00",
       "ast_digest": "d37d59892d1f7204cb729e440b219d6b55c81d4ed62ce975f471411b40a9afed"
     },
     "spp": {
-      "values_digest": "9c152e954fb1f8eabb4ad4838760157f5a2989531879a8dd7de134c3d2746172",
+      "values_digest": "69db7b41f570499106df49822201f13d27eb1ef6dd288e3653d7d444b2b5931f",
       "rendered_digest": "178bbbb1925bde42767d52c63fefc30ef90ad09474b6a1598f8211b4f427e2b4",
       "ast_digest": "4470b796182f02708b62ec973df468d5db684af2193e31bb12acde87e5f4c247"
     },
     "vpp": {
-      "values_digest": "ae510c4e182f5ae1c61028e922bc9ac5c1e39a0f4bd6cf5b0e50d97986505845",
+      "values_digest": "7d38bd9356989c27514163f4bfdc00136fa690647ce25e47d25ca1f4b2388508",
       "rendered_digest": "ac2aa75bf11d40548a14b2e77c6fdc4393e9c210a6ab1ca081aa94b3c849b843",
       "ast_digest": "978c22ad29a905bd2756f36b20e6fa5e4e396f74ae3452bbbe8142be75371478"
     },
     "srp": {
-      "values_digest": "4a4903b5389680fdde4b5c1f95a0e9018f7f01e5f4b1c24b7652a16e7a9210ff",
-      "rendered_digest": "957c4b3ae02f6145c0bbb726729d05b556b8bef0db27220a98e122aea4786814",
-      "ast_digest": "cf73d943e90861bcd504e3011238b7e077136fd189b54c0bf7bee0ac126313f9"
+      "values_digest": "a9d29ae4442b58310b1351451d98a0abcc5b1e37601b244a522f0995ecfb02c5",
+      "rendered_digest": "d27c2d56df0cf0dc75c83243025bf212214ce7bb61ea2b789d31e87f5cd2e23d",
+      "ast_digest": "9e28a5976d636b3a2879d3e5155f17432c0a425fa0b302610ac7c7bdf56a70c8"
     },
     "sor": {
-      "values_digest": "c5a8775c8f93946718cf8f6476847efed9a8b572c882e9d665cd48861285505a",
+      "values_digest": "3367b875a18acf6e6446391f94a8981dc30f27903ab8a9c161eb12d8b4c8519c",
       "rendered_digest": "76510d6c94f1f4d79ee2291feeaddd3a06eeef792ea84f6413eeae0a99f7316e",
       "ast_digest": "7a7932a32e68fe312fb15b8dba7a1daf022be859698ae8c73ba9f993d9db7bee"
     }
@@ -139,6 +186,13 @@
       "to": "implemented",
       "actor": "codex:issue-5683-unity-remediation",
       "reason": "The bounded Unity remediation is committed and its focused contract, alignment, live-editor, visual, and diff validations passed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "Hooke completed the assigned exact-revision review with no actionable findings; all prior findings are resolved."
     }
   ],
   "audit": [
@@ -211,6 +265,27 @@
       "actor": "codex:issue-5683-unity-remediation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "Hooke",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:issue-5683-unity-remediation",
+      "reason": "Hooke completed the assigned exact-revision review with no actionable findings; all prior findings are resolved.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

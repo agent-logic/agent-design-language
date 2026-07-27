@@ -64,12 +64,15 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The static shell guardrail remains source-presence based, so future visual regressions still require direct live Unity proof.
+- Game View selection uses undocumented UnityEditor reflection APIs and may need adjustment after a Unity upgrade.
+- The clean hero composition deliberately deactivates substantial imported presentation content; future investor-polish work should restore selected assets deliberately.
+- Runtime remains explicitly DEMO DATA, CONTRACT ONLY, and FIXTURE PROJECTION; this review does not claim live CSM integration.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:757d75f6a346f8671dc075d8b32ed0f4ea0f8191:cec4e56a2f8814813913a097d0fea5a676ca5ca790133dc8e2ff3cebb3995242")
 
-Reviewer: None
+Reviewer: Some("Hooke")
 
-Result: pre_review
+Result: pass
