@@ -2,7 +2,7 @@
 set -euo pipefail
 
 usage() {
-  printf 'usage: %s (--manifest PATH | --verify-report PATH | --post-merge PATH)\n' "$0" >&2
+  printf 'usage: %s (--manifest PATH | --verify-report PATH | --verify-platform PATH | --post-merge PATH)\n' "$0" >&2
   exit 64
 }
 
@@ -19,6 +19,12 @@ while (($#)); do
     --verify-report)
       [[ -z "$mode" && $# -ge 2 ]] || usage
       mode=verify
+      input=$2
+      shift 2
+      ;;
+    --verify-platform)
+      [[ -z "$mode" && $# -ge 2 ]] || usage
+      mode=verify_platform
       input=$2
       shift 2
       ;;
@@ -42,6 +48,122 @@ cd "$root"
 
 sha256() {
   shasum -a 256 "$1" | awk '{print $1}'
+}
+
+verify_retained_file() {
+  local path=$1 expected_sha256=$2
+  [[ "$path" != /* && "$path" != *".."* && -f "$path" ]] || return 1
+  [[ "$(sha256 "$path")" == "$expected_sha256" ]]
+}
+
+verify_platform_log() {
+  local proof=$1 suite=$2
+  local platform revision log_ref log_sha256 log_records audit_ref audit_sha256
+  platform=$(jq -r '.platform' "$proof")
+  revision=$(jq -r '.lifecycle_acceptance.revision' "$proof")
+  log_ref=$(jq -r --arg suite "$suite" \
+    '.lifecycle_acceptance[$suite].master_log_ref' "$proof")
+  log_sha256=$(jq -r --arg suite "$suite" \
+    '.lifecycle_acceptance[$suite].master_log_sha256' "$proof")
+  log_records=$(jq -r --arg suite "$suite" \
+    '.lifecycle_acceptance[$suite].master_log_records' "$proof")
+  audit_ref=$(jq -r --arg suite "$suite" \
+    '.lifecycle_acceptance[$suite].log_audit_ref' "$proof")
+  audit_sha256=$(jq -r --arg suite "$suite" \
+    '.lifecycle_acceptance[$suite].log_audit_sha256' "$proof")
+
+  verify_retained_file "$log_ref" "$log_sha256"
+  [[ "$(wc -l <"$log_ref" | tr -d ' ')" == "$log_records" ]]
+  jq -s -e --argjson records "$log_records" \
+    'length == $records and all(.[]; type == "object")' "$log_ref" >/dev/null
+
+  verify_retained_file "$audit_ref" "$audit_sha256"
+  jq -e \
+    --arg platform "$platform" \
+    --arg suite "$suite" \
+    --arg revision "$revision" \
+    --arg log_sha256 "$log_sha256" \
+    --argjson records "$log_records" '
+      .schema == "adl.runtime.master_log_audit.v1" and
+      .status == "pass" and
+      .platform == $platform and
+      .suite == $suite and
+      .revision == $revision and
+      .master_log_sha256 == $log_sha256 and
+      .record_count == $records and
+      .malformed_records == 0 and
+      .missing_required_fields == 0 and
+      .sequence_gaps == 0 and
+      .error_events == 0 and
+      .degraded_events == 0 and
+      .unexplained_restarts == 0 and
+      .incomplete_drains == 0
+    ' "$audit_ref" >/dev/null
+}
+
+verify_platform_proof() {
+  local path=$1
+  jq -e '
+    .schema == "adl.wp12.platform_proof.v1" and
+    .issue == 5344 and
+    .status == "pass" and
+    (.platform | IN("macos-arm64", "linux-x86_64", "windows-x86_64-msvc")) and
+    .guardian_process_zero == true and
+    .native_execution == true and
+    (if .platform == "windows-x86_64-msvc"
+      then .wsl_used == false and .docker_used == false
+      else true
+    end) and
+    (.lifecycle_acceptance.revision | test("^[0-9a-f]{40}$")) and
+    (.lifecycle_acceptance.kernel_sha256 | test("^[0-9a-f]{64}$")) and
+    .lifecycle_acceptance.all_logs_clean == true and
+    (.lifecycle_acceptance.lifecycle_10000 |
+      .status == "pass" and
+      .requested_cycles == 10000 and
+      .completed_cycles == 10000 and
+      .failed_cycles == 0 and
+      .degraded_cycles == 0 and
+      .logging_complete == true and
+      .master_log_status == "clean" and
+      (.master_log_ref | type == "string" and length > 0) and
+      (.master_log_sha256 | test("^[0-9a-f]{64}$")) and
+      (.master_log_records | type == "number" and . >= 10000) and
+      (.log_audit_ref | type == "string" and length > 0) and
+      (.log_audit_sha256 | test("^[0-9a-f]{64}$"))) and
+    (.lifecycle_acceptance.stress_100x10s as $suite |
+      $suite |
+      .status == "pass" and
+      .requested_runs == 100 and
+      .completed_runs == 100 and
+      .duration_seconds_per_run == 10 and
+      .failed_cycles == 0 and
+      .degraded_cycles == 0 and
+      .logging_complete == true and
+      .master_log_status == "clean" and
+      (.master_log_ref | type == "string" and length > 0) and
+      (.master_log_sha256 | test("^[0-9a-f]{64}$")) and
+      (.master_log_records | type == "number" and . >= $suite.completed_cycles) and
+      (.log_audit_ref | type == "string" and length > 0) and
+      (.log_audit_sha256 | test("^[0-9a-f]{64}$"))) and
+    (.lifecycle_acceptance.endurance_10x600s as $suite |
+      $suite |
+      .status == "pass" and
+      .requested_runs == 10 and
+      .completed_runs == 10 and
+      .duration_seconds_per_run == 600 and
+      .failed_cycles == 0 and
+      .degraded_cycles == 0 and
+      .logging_complete == true and
+      .master_log_status == "clean" and
+      (.master_log_ref | type == "string" and length > 0) and
+      (.master_log_sha256 | test("^[0-9a-f]{64}$")) and
+      (.master_log_records | type == "number" and . >= $suite.completed_cycles) and
+      (.log_audit_ref | type == "string" and length > 0) and
+      (.log_audit_sha256 | test("^[0-9a-f]{64}$")))
+  ' "$path" >/dev/null
+  verify_platform_log "$path" lifecycle_10000
+  verify_platform_log "$path" stress_100x10s
+  verify_platform_log "$path" endurance_10x600s
 }
 
 verify_report() {
@@ -70,6 +192,10 @@ verify_report() {
 
 if [[ "$mode" == verify ]]; then
   verify_report "$input"
+  exit 0
+fi
+if [[ "$mode" == verify_platform ]]; then
+  verify_platform_proof "$input"
   exit 0
 fi
 
@@ -172,6 +298,10 @@ for ((index=0; index<scenario_count; index++)); do
       required_status=$(jq -r .required_status <<<"$scenario")
       if [[ "$path" == /* || "$path" == *".."* || ! -f "$path" ]]; then
         exit_code=2
+      elif [[ "$required_schema" == "adl.wp12.platform_proof.v1" &&
+              "$claim_class" == "runtime_v3_live" ]]; then
+        verify_platform_proof "$path" >"$output" 2>"$error"
+        exit_code=$?
       else
         jq -e --arg schema "$required_schema" --arg status "$required_status" \
           '.schema == $schema and .status == $status' "$path" >"$output" 2>"$error"
