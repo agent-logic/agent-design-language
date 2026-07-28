@@ -1046,9 +1046,11 @@ async fn execute_cycle(
     )
     .await?;
     if !output.status.success() {
+        let outcome_diagnostic = guardian_failure_diagnostic(&output.stdout, &args.state_root);
         return Err(format!(
-            "Guardian process exited with {}; stdout={}; stderr={}",
+            "Guardian process exited with {}; guardian_outcome={}; stdout={}; stderr={}",
             output.status,
+            outcome_diagnostic,
             diagnostic_tail(&String::from_utf8_lossy(&output.stdout), &args.state_root),
             diagnostic_tail(&String::from_utf8_lossy(&output.stderr), &args.state_root)
         ));
@@ -1081,13 +1083,46 @@ async fn execute_cycle(
 }
 
 fn diagnostic_tail(output: &str, state_root: &Path) -> String {
+    diagnostic_suffix(output, state_root, 4_096)
+}
+
+fn diagnostic_suffix(output: &str, state_root: &Path, max_chars: usize) -> String {
     let redacted = output.replace(&state_root.to_string_lossy().to_string(), "<state-root>");
     let tail = redacted
         .char_indices()
         .rev()
-        .nth(4_095)
+        .nth(max_chars.saturating_sub(1))
         .map_or(redacted.as_str(), |(index, _)| &redacted[index..]);
     tail.replace(['\n', '\r'], " | ")
+}
+
+fn guardian_failure_diagnostic(stdout: &[u8], state_root: &Path) -> String {
+    let Ok(outcome) = guardian_outcome_from_stdout(stdout) else {
+        return "guardian_outcome_unparseable".to_owned();
+    };
+    let Some(attempt) = outcome.attempts_detail.last() else {
+        return format!(
+            "terminal_state={:?};attempts={};restarts={};last_attempt=missing",
+            outcome.terminal_state, outcome.attempts, outcome.restarts
+        );
+    };
+    format!(
+        "terminal_state={:?};attempts={};restarts={};attempt={};pid={:?};exit_code={:?};exit_status={:?};unix_signal={:?};windows_ctrl_event={:?};forced_shutdown={};clean_checkpointed_shutdown={};reason_code={};child_stdout_tail={};child_stderr_tail={}",
+        outcome.terminal_state,
+        outcome.attempts,
+        outcome.restarts,
+        attempt.attempt,
+        attempt.pid,
+        attempt.exit_code,
+        attempt.exit_status,
+        attempt.unix_signal,
+        attempt.windows_ctrl_event,
+        attempt.forced_shutdown,
+        attempt.clean_checkpointed_shutdown,
+        attempt.reason_code,
+        diagnostic_suffix(&attempt.stdout, state_root, 1_024),
+        diagnostic_suffix(&attempt.stderr, state_root, 1_024),
+    )
 }
 
 async fn wait_for_authenticated_observatory(
@@ -2121,6 +2156,40 @@ mod tests {
         assert_eq!(value["logging_complete"], true);
         assert_eq!(value["master_log_status"], "clean");
         assert_eq!(value["master_log_records"], 2);
+    }
+
+    #[test]
+    fn nonzero_guardian_diagnostic_preserves_child_exit_cause() {
+        let root = std::env::current_dir().expect("current directory");
+        let outcome = GuardianOutcome {
+            schema: "adl.runtime_v3.guardian.v1".to_owned(),
+            terminal_state: GuardianTerminalState::ShutdownForced,
+            attempts: 1,
+            restarts: 0,
+            attempts_detail: vec![adl_runtime::guardian::GuardianAttempt {
+                attempt: 1,
+                pid: Some(42),
+                exit_code: Some(70),
+                exit_status: Some("exit code: 70".to_owned()),
+                unix_signal: None,
+                windows_ctrl_event: Some(1),
+                forced_shutdown: false,
+                clean_checkpointed_shutdown: false,
+                stdout: format!("stopped {}", root.display()),
+                stderr: "runtime shutdown failed: component".to_owned(),
+                reason_code: "shutdown_child_failed".to_owned(),
+            }],
+        };
+        let stdout = serde_json::to_vec(&outcome).expect("Guardian outcome");
+
+        let diagnostic = guardian_failure_diagnostic(&stdout, &root);
+
+        assert!(diagnostic.contains("terminal_state=ShutdownForced"));
+        assert!(diagnostic.contains("exit_code=Some(70)"));
+        assert!(diagnostic.contains("windows_ctrl_event=Some(1)"));
+        assert!(diagnostic.contains("reason_code=shutdown_child_failed"));
+        assert!(diagnostic.contains("runtime shutdown failed: component"));
+        assert!(!diagnostic.contains(&root.to_string_lossy().to_string()));
     }
 
     #[test]
