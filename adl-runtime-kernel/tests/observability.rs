@@ -52,6 +52,33 @@ fn master_log_auditor_accepts_wp12_clean_report_shape() {
 }
 
 #[test]
+fn master_log_auditor_accepts_complete_records_regardless_of_physical_order() {
+    let root = test_root("reordered-audit");
+    let log_path = root.join("master.log.jsonl");
+    write_records(
+        &log_path,
+        &[
+            record(1, "info", "component_started", "ready", "wp-12"),
+            record(0, "info", "kernel_starting", "boot", "wp-12"),
+            record(
+                2,
+                "info",
+                "observability_drain_complete",
+                "shutdown_drained",
+                "wp-12",
+            ),
+        ],
+    );
+
+    let report = audit_master_log_file(&log_path, "macos", "wp-12", "rev-a", 0, 2).unwrap();
+
+    assert_eq!(report.status, "pass");
+    assert_eq!(report.record_count, 3);
+    assert_eq!(report.sequence_gaps, 0);
+    assert_eq!(report.incomplete_drains, 0);
+}
+
+#[test]
 fn master_log_auditor_rejects_bad_sequences_errors_and_missing_drain() {
     let root = test_root("bad-audit");
     let log_path = root.join("master.log.jsonl");

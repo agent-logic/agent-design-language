@@ -365,28 +365,27 @@ impl RuntimeVectorPipeline {
         if self.drain_complete {
             return;
         }
-        write_observability_record(
-            &self.ingress,
-            &self.sequence,
-            &self.accepting,
-            &self.config,
-            StructuredEvent {
-                severity: "INFO",
-                target: "adl_runtime_kernel",
-                component: "observability",
-                operation: "observability_drain_complete",
-                reason: "shutdown_drained",
-                error_chain: "",
-                trace_id: format!("runtime-trace-{}", self.config.runtime_instance_id),
-                fields: BTreeMap::from([("drain".to_owned(), Value::Bool(true))]),
-            },
-        );
-        let drain_sequence = self.sequence.load(Ordering::SeqCst).saturating_sub(1);
-        self.accepting.store(false, Ordering::SeqCst);
         if let Ok(mut ingress) = self.ingress.lock() {
+            self.accepting.store(false, Ordering::SeqCst);
+            let _ = write_observability_record_locked(
+                &mut ingress,
+                &self.sequence,
+                &self.config,
+                StructuredEvent {
+                    severity: "INFO",
+                    target: "adl_runtime_kernel",
+                    component: "observability",
+                    operation: "observability_drain_complete",
+                    reason: "shutdown_drained",
+                    error_chain: "",
+                    trace_id: format!("runtime-trace-{}", self.config.runtime_instance_id),
+                    fields: BTreeMap::from([("drain".to_owned(), Value::Bool(true))]),
+                },
+            );
             let _ = ingress.flush();
             let _ = ingress.sync_data();
         }
+        let drain_sequence = self.sequence.load(Ordering::SeqCst).saturating_sub(1);
         let master_drained = wait_for_master_sequence(
             &self.master_log_path,
             drain_sequence,
@@ -511,7 +510,6 @@ pub fn audit_master_log_file(
         unexplained_restarts: 0,
         incomplete_drains: 1,
     };
-    let mut expected_sequence = None;
     let mut records_by_sequence = BTreeMap::new();
     let mut line = Vec::new();
     loop {
@@ -552,12 +550,6 @@ pub fn audit_master_log_file(
         if record["lifecycle_suite"].as_str() != Some(suite) {
             report.missing_required_fields = report.missing_required_fields.saturating_add(1);
         }
-        if let Some(expected) = expected_sequence {
-            if sequence != expected {
-                report.sequence_gaps = report.sequence_gaps.saturating_add(1);
-            }
-        }
-        expected_sequence = Some(sequence.saturating_add(1));
         let severity = record["severity"]
             .as_str()
             .unwrap_or_default()
@@ -585,6 +577,12 @@ pub fn audit_master_log_file(
             report.incomplete_drains = 0;
         }
     }
+    let expected_records = end_sequence
+        .checked_sub(start_sequence)
+        .and_then(|distance| distance.checked_add(1))
+        .unwrap_or(0);
+    report.sequence_gaps =
+        expected_records.saturating_sub(u64::try_from(records_by_sequence.len()).unwrap_or(0));
     if report.record_count == 0
         || report.malformed_records != 0
         || report.missing_required_fields != 0
@@ -967,7 +965,21 @@ fn write_observability_record(
     if !accepting.load(Ordering::SeqCst) {
         return;
     }
-    let sequence = sequence.fetch_add(1, Ordering::SeqCst);
+    if let Ok(mut file) = ingress.lock() {
+        if !accepting.load(Ordering::SeqCst) {
+            return;
+        }
+        let _ = write_observability_record_locked(&mut file, sequence, config, event);
+    }
+}
+
+fn write_observability_record_locked(
+    file: &mut File,
+    sequence: &AtomicU64,
+    config: &RuntimeVectorConfig,
+    event: StructuredEvent<'_>,
+) -> std::io::Result<()> {
+    let current_sequence = sequence.load(Ordering::SeqCst);
     let now = OffsetDateTime::now_utc();
     let timestamp = now
         .format(&Rfc3339)
@@ -993,18 +1005,18 @@ fn write_observability_record(
         "reason": event.reason,
         "error_chain": event.error_chain,
         "revision": config.revision,
-        "sequence": sequence,
+        "sequence": current_sequence,
         "runtime_event_count": 1,
         "trace_id": event.trace_id,
-        "span_id": sequence,
+        "span_id": current_sequence,
         "parent_span_id": null,
         "fields": event.fields
     });
-    if let Ok(mut file) = ingress.lock() {
-        let _ = serde_json::to_writer(&mut *file, &record);
-        let _ = file.write_all(b"\n");
-        let _ = file.flush();
-    }
+    serde_json::to_writer(&mut *file, &record)?;
+    file.write_all(b"\n")?;
+    file.flush()?;
+    sequence.store(current_sequence.saturating_add(1), Ordering::SeqCst);
+    Ok(())
 }
 
 fn wait_for_master_sequence(path: &Path, sequence: u64, timeout: Duration) -> bool {
