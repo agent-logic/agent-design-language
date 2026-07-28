@@ -395,7 +395,7 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let listener = match tokio::net::TcpListener::bind(socket_addrs.as_slice()).await {
+            let listener = match bind_control_listener(&socket_addrs) {
                 Ok(listener) => listener,
                 Err(error) => {
                     eprintln!("runtime control API bind failed: {error}");
@@ -623,6 +623,48 @@ async fn main() -> ExitCode {
             ExitCode::from(64)
         }
     }
+}
+
+fn bind_control_listener(
+    socket_addrs: &[std::net::SocketAddr],
+) -> std::io::Result<tokio::net::TcpListener> {
+    let mut last_error = None;
+    for address in socket_addrs {
+        let domain = socket2::Domain::for_address(*address);
+        let socket =
+            match socket2::Socket::new(domain, socket2::Type::STREAM, Some(socket2::Protocol::TCP))
+            {
+                Ok(socket) => socket,
+                Err(error) => {
+                    last_error = Some(error);
+                    continue;
+                }
+            };
+        if let Err(error) = socket.set_reuse_address(true) {
+            last_error = Some(error);
+            continue;
+        }
+        if let Err(error) = socket.set_nonblocking(true) {
+            last_error = Some(error);
+            continue;
+        }
+        if let Err(error) = socket.bind(&socket2::SockAddr::from(*address)) {
+            last_error = Some(error);
+            continue;
+        }
+        if let Err(error) = socket.listen(i32::MAX) {
+            last_error = Some(error);
+            continue;
+        }
+        let listener = std::net::TcpListener::from(socket);
+        return tokio::net::TcpListener::from_std(listener);
+    }
+    Err(last_error.unwrap_or_else(|| {
+        std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            "no configured control API addresses",
+        )
+    }))
 }
 
 enum TerminalTrigger {
@@ -862,12 +904,30 @@ async fn drain_control_api(
     }
 }
 
-#[cfg(all(test, windows))]
+#[cfg(test)]
 mod tests {
-    use super::ShutdownSignalReceiver;
+    use super::bind_control_listener;
 
+    #[tokio::test]
+    async fn control_listener_rebinds_immediately_after_a_connection_closes() {
+        let first = bind_control_listener(&["127.0.0.1:0".parse().expect("loopback address")])
+            .expect("first listener");
+        let address = first.local_addr().expect("bound address");
+        let client = tokio::net::TcpStream::connect(address);
+        let (client, accepted) = tokio::join!(client, first.accept());
+        drop(client.expect("client connection"));
+        drop(accepted.expect("accepted connection").0);
+        drop(first);
+
+        let rebound = bind_control_listener(&[address]).expect("immediate listener restart");
+        assert_eq!(rebound.local_addr().expect("rebound address"), address);
+    }
+
+    #[cfg(windows)]
     #[test]
     fn shutdown_signal_receiver_registers_ctrl_break() {
+        use super::ShutdownSignalReceiver;
+
         let _receiver = ShutdownSignalReceiver::register()
             .expect("Windows Runtime v3 must register CTRL_C and CTRL_BREAK handlers");
     }
