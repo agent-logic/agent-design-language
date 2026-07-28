@@ -8,21 +8,26 @@ use std::{
 };
 
 use adl_runtime::guardian::{GuardianOutcome, GuardianTerminalState};
-use ed25519_dalek::{Signature, SigningKey, Verifier, VerifyingKey};
+use adl_runtime_kernel::verify_live_continuity_lineage;
+use ed25519_dalek::{SigningKey, VerifyingKey};
 use rcgen::{date_time_ymd, BasicConstraints, CertificateParams, CertifiedIssuer, IsCa, KeyPair};
-use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
-use tokio::process::{Child, Command};
+use tokio::process::{Child, ChildStderr, ChildStdout, Command};
 use tokio_rustls::rustls::{
     pki_types::{CertificateDer, ServerName},
     ClientConfig, RootCertStore,
 };
 
 #[cfg(windows)]
+use windows_sys::Win32::Foundation::{CloseHandle, HANDLE};
+#[cfg(windows)]
 use windows_sys::Win32::System::{
     Console::{GenerateConsoleCtrlEvent, CTRL_BREAK_EVENT},
-    Threading::CREATE_NEW_PROCESS_GROUP,
+    Threading::{
+        OpenProcess, TerminateProcess, CREATE_NEW_PROCESS_GROUP, PROCESS_QUERY_LIMITED_INFORMATION,
+        PROCESS_TERMINATE,
+    },
 };
 
 const REPORT_SCHEMA: &str = "adl.runtime_v3.lifecycle_soak.v1";
@@ -69,6 +74,8 @@ async fn main() -> ExitCode {
     let fixture = match ProductionFixture::create(
         &args.state_root,
         &args.init_template,
+        &args.kernel,
+        &args.vector,
         args.suite,
         &args.revision,
     ) {
@@ -79,26 +86,9 @@ async fn main() -> ExitCode {
         }
     };
 
-    let mut execution = match execute_suite(&args, &fixture, started).await {
+    let execution = match execute_suite(&args, &fixture, started).await {
         Ok(execution) => execution,
         Err(failure) => return fail(&args, &kernel_sha256, started, failure),
-    };
-    execution.log_proof = match verify_master_log(&args, &fixture) {
-        Ok(proof) => Some(proof),
-        Err(error) => {
-            return fail(
-                &args,
-                &kernel_sha256,
-                started,
-                Failure {
-                    run: execution.completed_runs,
-                    cycle: execution.completed_cycles,
-                    completed_runs: execution.completed_runs,
-                    completed_cycles: execution.completed_cycles,
-                    error,
-                },
-            )
-        }
     };
 
     let report = report(&args, &kernel_sha256, started, "pass", &execution, None);
@@ -113,6 +103,7 @@ async fn main() -> ExitCode {
 struct Args {
     guardian: PathBuf,
     kernel: PathBuf,
+    vector: PathBuf,
     init_template: PathBuf,
     state_root: PathBuf,
     report: PathBuf,
@@ -125,6 +116,7 @@ struct ProductionFixture {
     init: PathBuf,
     continuity_root: PathBuf,
     local_state_root: PathBuf,
+    observability_root: PathBuf,
     master_log: PathBuf,
     log_audit: PathBuf,
     tls_connector: tokio_rustls::TlsConnector,
@@ -139,6 +131,8 @@ impl ProductionFixture {
     fn create(
         state_root: &Path,
         init_template: &Path,
+        kernel: &Path,
+        vector: &Path,
         suite: Suite,
         revision: &str,
     ) -> Result<Self, String> {
@@ -229,7 +223,7 @@ impl ProductionFixture {
             &["api", "tls", "private_key_path"],
         )?);
         std::fs::write(&certificate, leaf.pem()).map_err(|error| error.to_string())?;
-        std::fs::write(&private_key, leaf_key.serialize_pem())
+        write_secret(&private_key, leaf_key.serialize_pem().as_bytes())
             .map_err(|error| error.to_string())?;
 
         let control_key = SigningKey::from_bytes(&[17_u8; 32]);
@@ -259,12 +253,25 @@ impl ProductionFixture {
             .map_err(|error| error.to_string())?;
         std::fs::write(&operation_public_key_path, &operation_public_key)
             .map_err(|error| error.to_string())?;
-        std::fs::write(&continuity_signing_key_path, &continuity_signing_key)
-            .map_err(|error| error.to_string())?;
-        std::fs::write(&observatory_token_path, &observatory_token)
+        write_secret(
+            &continuity_signing_key_path,
+            continuity_signing_key.as_bytes(),
+        )
+        .map_err(|error| error.to_string())?;
+        write_secret(&observatory_token_path, observatory_token.as_bytes())
             .map_err(|error| error.to_string())?;
 
         set_toml_string(&mut init_document, &["state_root"], toml_path(&state_root)?)?;
+        set_toml_string(
+            &mut init_document,
+            &["binaries", "kernel_path"],
+            toml_path(kernel)?,
+        )?;
+        set_toml_string(
+            &mut init_document,
+            &["observability_pipeline", "vector_binary_path"],
+            toml_path(vector)?,
+        )?;
         set_toml_string(
             &mut init_document,
             &["api", "tls", "certificate_chain_path"],
@@ -318,6 +325,7 @@ impl ProductionFixture {
             init,
             continuity_root,
             local_state_root: state_root,
+            observability_root,
             master_log,
             log_audit,
             tls_connector: tokio_rustls::TlsConnector::from(Arc::new(client_config)),
@@ -327,6 +335,40 @@ impl ProductionFixture {
             readiness_poll,
             shutdown_wait,
         })
+    }
+
+    fn configure_cycle(
+        &self,
+        args: &Args,
+        run: u64,
+        cycle: u64,
+        minimum_generation: u64,
+    ) -> Result<(), String> {
+        let text = std::fs::read_to_string(&self.init)
+            .map_err(|error| format!("runtime init became unreadable: {error}"))?;
+        let mut document = toml::from_str::<toml::Value>(&text)
+            .map_err(|error| format!("runtime init became invalid: {error}"))?;
+        set_toml_string(
+            &mut document,
+            &["observability_pipeline", "lifecycle_run"],
+            format!("{}:run-{run}", args.revision),
+        )?;
+        set_toml_string(
+            &mut document,
+            &["observability_pipeline", "lifecycle_cycle"],
+            format!("{}:run-{run}:cycle-{cycle}", args.suite.name()),
+        )?;
+        set_toml_integer(
+            &mut document,
+            &["credentials", "continuity_min_generation"],
+            minimum_generation,
+        )?;
+        std::fs::write(
+            &self.init,
+            toml::to_string_pretty(&document)
+                .map_err(|error| format!("runtime init could not be encoded: {error}"))?,
+        )
+        .map_err(|error| format!("runtime init cycle update failed: {error}"))
     }
 }
 
@@ -394,6 +436,27 @@ fn set_toml_string(document: &mut toml::Value, path: &[&str], value: String) -> 
     Ok(())
 }
 
+fn set_toml_integer(document: &mut toml::Value, path: &[&str], value: u64) -> Result<(), String> {
+    let value = i64::try_from(value).map_err(|_| format!("{} overflowed", path.join(".")))?;
+    let (field, parents) = path
+        .split_last()
+        .ok_or_else(|| "empty TOML path".to_owned())?;
+    let mut table = document
+        .as_table_mut()
+        .ok_or_else(|| "init template root must be a TOML table".to_owned())?;
+    for segment in parents {
+        table = table
+            .get_mut(*segment)
+            .and_then(toml::Value::as_table_mut)
+            .ok_or_else(|| format!("init template is missing {}", path.join(".")))?;
+    }
+    let slot = table
+        .get_mut(*field)
+        .ok_or_else(|| format!("init template is missing {}", path.join(".")))?;
+    *slot = toml::Value::Integer(value);
+    Ok(())
+}
+
 #[derive(Clone, Copy)]
 enum Suite {
     Preflight,
@@ -417,6 +480,7 @@ impl Args {
     fn parse(mut args: impl Iterator<Item = String>) -> Result<Self, String> {
         let mut guardian = None;
         let mut kernel = None;
+        let mut vector = None;
         let mut init_template = None;
         let mut state_root = None;
         let mut report = None;
@@ -430,6 +494,7 @@ impl Args {
             match argument.as_str() {
                 "--guardian" => guardian = Some(PathBuf::from(value(&mut args, "--guardian")?)),
                 "--kernel" => kernel = Some(PathBuf::from(value(&mut args, "--kernel")?)),
+                "--vector" => vector = Some(PathBuf::from(value(&mut args, "--vector")?)),
                 "--init-template" => {
                     init_template = Some(PathBuf::from(value(&mut args, "--init-template")?))
                 }
@@ -463,6 +528,7 @@ impl Args {
         }
         let guardian = guardian.ok_or_else(|| "--guardian is required".to_owned())?;
         let kernel = kernel.ok_or_else(|| "--kernel is required".to_owned())?;
+        let vector = vector.ok_or_else(|| "--vector is required".to_owned())?;
         let init_template =
             init_template.ok_or_else(|| "--init-template is required".to_owned())?;
         let state_root = state_root.ok_or_else(|| "--state-root is required".to_owned())?;
@@ -473,6 +539,9 @@ impl Args {
         }
         if !kernel.is_absolute() || !kernel.is_file() {
             return Err("--kernel must be an absolute existing file".to_owned());
+        }
+        if !vector.is_absolute() || !vector.is_file() {
+            return Err("--vector must be an absolute existing file".to_owned());
         }
         if !init_template.is_absolute() || !init_template.is_file() {
             return Err("--init-template must be an absolute existing file".to_owned());
@@ -493,6 +562,7 @@ impl Args {
         Ok(Self {
             guardian,
             kernel,
+            vector,
             init_template,
             state_root,
             report,
@@ -580,8 +650,12 @@ struct Execution {
     minimum_cycles_per_run: u64,
     guardian_pids: BTreeSet<u32>,
     runtime_instance_ids: BTreeSet<String>,
+    guardian_launches: u64,
+    runtime_starts: u64,
+    anti_rollback_minimum_enforced: bool,
     restart_budget_exercised: bool,
     total_restarts: u64,
+    log_checked_cycles: u64,
     log_proof: Option<LogProof>,
 }
 
@@ -594,8 +668,12 @@ impl Execution {
             minimum_cycles_per_run,
             guardian_pids: BTreeSet::new(),
             runtime_instance_ids: BTreeSet::new(),
+            guardian_launches: 0,
+            runtime_starts: 0,
+            anti_rollback_minimum_enforced: false,
             restart_budget_exercised: false,
             total_restarts: 0,
+            log_checked_cycles: 0,
             log_proof: None,
         }
     }
@@ -604,17 +682,105 @@ impl Execution {
         self.completed_cycles = self.completed_cycles.saturating_add(1);
         self.guardian_pids.insert(observation.guardian_pid);
         self.runtime_instance_ids
-            .insert(observation.runtime_instance_id);
+            .extend(observation.runtime_instance_ids);
+        self.guardian_launches = self.guardian_launches.saturating_add(1);
+        self.runtime_starts = self
+            .runtime_starts
+            .saturating_add(observation.runtime_starts);
+        self.anti_rollback_minimum_enforced |= observation.anti_rollback_minimum_enforced;
         self.restart_budget_exercised |= observation.restart_budget_exercised;
         self.total_restarts = self.total_restarts.saturating_add(observation.restarts);
+        self.log_checked_cycles = self.log_checked_cycles.saturating_add(1);
+        self.log_proof = Some(observation.log_proof);
     }
 }
 
 struct CycleObservation {
     guardian_pid: u32,
-    runtime_instance_id: String,
+    runtime_instance_ids: Vec<String>,
+    runtime_starts: u64,
+    anti_rollback_minimum_enforced: bool,
     restart_budget_exercised: bool,
     restarts: u64,
+    log_proof: LogProof,
+}
+
+struct CapturedOutput {
+    stdout: tokio::task::JoinHandle<std::io::Result<Vec<u8>>>,
+    stderr: tokio::task::JoinHandle<std::io::Result<Vec<u8>>>,
+}
+
+impl CapturedOutput {
+    fn take(child: &mut Child) -> Result<Self, String> {
+        let stdout = child
+            .stdout
+            .take()
+            .ok_or_else(|| "Guardian stdout capture was unavailable".to_owned())?;
+        let stderr = child
+            .stderr
+            .take()
+            .ok_or_else(|| "Guardian stderr capture was unavailable".to_owned())?;
+        Ok(Self {
+            stdout: tokio::spawn(read_stdout(stdout)),
+            stderr: tokio::spawn(read_stderr(stderr)),
+        })
+    }
+
+    async fn collect(self) -> Result<(Vec<u8>, Vec<u8>), String> {
+        let stdout = self
+            .stdout
+            .await
+            .map_err(|error| format!("Guardian stdout task failed: {error}"))?
+            .map_err(|error| format!("Guardian stdout read failed: {error}"))?;
+        let stderr = self
+            .stderr
+            .await
+            .map_err(|error| format!("Guardian stderr task failed: {error}"))?
+            .map_err(|error| format!("Guardian stderr read failed: {error}"))?;
+        Ok((stdout, stderr))
+    }
+}
+
+async fn read_stdout(mut stream: ChildStdout) -> std::io::Result<Vec<u8>> {
+    let mut bytes = Vec::new();
+    stream.read_to_end(&mut bytes).await?;
+    Ok(bytes)
+}
+
+async fn read_stderr(mut stream: ChildStderr) -> std::io::Result<Vec<u8>> {
+    let mut bytes = Vec::new();
+    stream.read_to_end(&mut bytes).await?;
+    Ok(bytes)
+}
+
+async fn finish_guardian(
+    guardian: &mut Child,
+    captured: CapturedOutput,
+    shutdown_wait: Duration,
+    runtime_process_id: Option<u32>,
+) -> Result<std::process::Output, String> {
+    let status = match tokio::time::timeout(shutdown_wait, guardian.wait()).await {
+        Ok(result) => result.map_err(|error| format!("Guardian process wait failed: {error}"))?,
+        Err(_) => {
+            if let Some(pid) = runtime_process_id {
+                let _ = force_runtime_exit(pid);
+            }
+            let _ = guardian.start_kill();
+            let _ = tokio::time::timeout(shutdown_wait, guardian.wait()).await;
+            let (stdout, stderr) = captured.collect().await?;
+            return Err(format!(
+                "Guardian did not complete production shutdown; guardian_stdout={}; guardian_stderr={}",
+                diagnostic_tail(&String::from_utf8_lossy(&stdout), Path::new(".")),
+                diagnostic_tail(&String::from_utf8_lossy(&stderr), Path::new("."))
+            ));
+        }
+    };
+    let (stdout, stderr) = captured.collect().await?;
+    Ok(std::process::Output {
+        status,
+        stdout,
+        stderr,
+    })
 }
 
 struct LogProof {
@@ -623,24 +789,6 @@ struct LogProof {
     master_log_records: u64,
     log_audit_ref: String,
     log_audit_sha256: String,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-struct ContinuityManifest {
-    schema: String,
-    generation: u64,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    previous_integrity: Option<String>,
-    accepted_through: u64,
-    provenance: String,
-    topology_hash: String,
-    config_hash: String,
-    migration: serde_json::Value,
-    snapshots: Vec<serde_json::Value>,
-    integrity: String,
-    signing_algorithm: String,
-    signing_key_id: String,
-    signature: String,
 }
 
 struct Failure {
@@ -694,6 +842,7 @@ async fn execute_suite(
                 cycles,
                 &fixture.continuity_verifying_key,
             )
+            .await
             .map_err(|error| Failure {
                 run: 1,
                 cycle: cycles,
@@ -752,18 +901,6 @@ async fn execute_suite(
                     error,
                 })?;
                 execution.record_cycle(observation);
-                verify_continuity_chain(
-                    &fixture.continuity_root,
-                    expected_generation,
-                    &fixture.continuity_verifying_key,
-                )
-                .map_err(|error| Failure {
-                    run,
-                    cycle: run_cycles,
-                    completed_runs: run.saturating_sub(1),
-                    completed_cycles: expected_generation,
-                    error,
-                })?;
                 total_cycles = total_cycles.saturating_add(run_cycles);
                 minimum_cycles_per_run = minimum_cycles_per_run.min(run_cycles);
                 execution.continuity_generation =
@@ -774,6 +911,19 @@ async fn execute_suite(
                     started.elapsed().as_millis()
                 );
             }
+            verify_continuity_chain(
+                &fixture.continuity_root,
+                total_cycles,
+                &fixture.continuity_verifying_key,
+            )
+            .await
+            .map_err(|error| Failure {
+                run: runs,
+                cycle: minimum_cycles_per_run,
+                completed_runs: runs,
+                completed_cycles: total_cycles,
+                error,
+            })?;
             Ok(execution)
         }
     }
@@ -782,18 +932,17 @@ async fn execute_suite(
 async fn execute_cycle(
     args: &Args,
     fixture: &ProductionFixture,
-    _run: u64,
-    _cycle: u64,
+    run: u64,
+    cycle: u64,
     expected_generation: u64,
     retain_log: bool,
-    _require_restart_proof: bool,
+    require_restart_proof: bool,
 ) -> Result<CycleObservation, String> {
+    fixture.configure_cycle(args, run, cycle, expected_generation.saturating_sub(1))?;
     std::fs::create_dir_all(&fixture.continuity_root)
         .map_err(|error| format!("could not create continuity root: {error}"))?;
     let mut guardian_command = Command::new(&args.guardian);
     guardian_command
-        .arg("--kernel")
-        .arg(&args.kernel)
         .arg("--init")
         .arg(&fixture.init)
         .stdin(Stdio::null())
@@ -805,25 +954,19 @@ async fn execute_cycle(
     let mut guardian = guardian_command
         .spawn()
         .map_err(|error| format!("Guardian binary launch failed: {error}"))?;
+    let captured = CapturedOutput::take(&mut guardian)?;
     let guardian_process_id = guardian
         .id()
         .ok_or_else(|| "Guardian binary did not expose a process id".to_owned())?;
-    let ready = match wait_for_authenticated_observatory(fixture, &mut guardian).await {
+    let first_ready = match wait_for_authenticated_observatory(fixture, &mut guardian).await {
         Ok(ready) => ready,
         Err(readiness_error) => {
             if matches!(guardian.try_wait(), Ok(None)) {
                 let _ = request_native_shutdown(&mut guardian).await;
             }
-            let output = tokio::time::timeout(fixture.shutdown_wait, guardian.wait_with_output())
+            let output = finish_guardian(&mut guardian, captured, fixture.shutdown_wait, None)
                 .await
-                .map_err(|_| {
-                    format!("{readiness_error}; Guardian did not stop after readiness failure")
-                })?
-                .map_err(|error| {
-                    format!(
-                        "{readiness_error}; Guardian process wait after readiness failure failed: {error}"
-                    )
-                })?;
+                .map_err(|error| format!("{readiness_error}; {error}"))?;
             return Err(format!(
                 "{readiness_error}; guardian_status={}; guardian_stdout={}; guardian_stderr={}",
                 output.status,
@@ -832,20 +975,76 @@ async fn execute_cycle(
             ));
         }
     };
-    request_native_shutdown(&mut guardian).await?;
-    let output = tokio::time::timeout(fixture.shutdown_wait, guardian.wait_with_output())
+    let first_runtime_instance_id = runtime_instance_id(&first_ready)?.to_owned();
+    let first_runtime_process_id = runtime_process_id(&first_ready)?;
+    let mut runtime_instance_ids = vec![first_runtime_instance_id.clone()];
+    if require_restart_proof {
+        if let Err(error) = force_runtime_exit(first_runtime_process_id) {
+            let _ = request_native_shutdown(&mut guardian).await;
+            let _ = finish_guardian(
+                &mut guardian,
+                captured,
+                fixture.shutdown_wait,
+                Some(first_runtime_process_id),
+            )
+            .await;
+            return Err(error);
+        }
+        let restarted = match wait_for_restarted_observatory(
+            fixture,
+            &mut guardian,
+            &first_runtime_instance_id,
+            first_runtime_process_id,
+        )
         .await
-        .map_err(|_| "Guardian did not complete production shutdown".to_owned())?
-        .map_err(|error| format!("Guardian process wait failed: {error}"))?;
+        {
+            Ok(restarted) => restarted,
+            Err(error) => {
+                let _ = request_native_shutdown(&mut guardian).await;
+                let _ = finish_guardian(
+                    &mut guardian,
+                    captured,
+                    fixture.shutdown_wait,
+                    Some(first_runtime_process_id),
+                )
+                .await;
+                return Err(error);
+            }
+        };
+        runtime_instance_ids.push(runtime_instance_id(&restarted)?.to_owned());
+    }
+    let latest_runtime_process_id = authenticated_observatory(fixture)
+        .await
+        .ok()
+        .and_then(|observatory| runtime_process_id(&observatory).ok());
+    if let Err(error) = request_native_shutdown(&mut guardian).await {
+        let _ = finish_guardian(
+            &mut guardian,
+            captured,
+            fixture.shutdown_wait,
+            latest_runtime_process_id,
+        )
+        .await;
+        return Err(error);
+    }
+    let output = finish_guardian(
+        &mut guardian,
+        captured,
+        fixture.shutdown_wait,
+        latest_runtime_process_id,
+    )
+    .await?;
     if !output.status.success() {
         return Err(format!(
-            "Guardian process exited with {}; stderr={}",
+            "Guardian process exited with {}; stdout={}; stderr={}",
             output.status,
+            diagnostic_tail(&String::from_utf8_lossy(&output.stdout), &args.state_root),
             diagnostic_tail(&String::from_utf8_lossy(&output.stderr), &args.state_root)
         ));
     }
+    reject_fatal_process_output(&output.stdout, &output.stderr)?;
     let outcome = guardian_outcome_from_stdout(&output.stdout)?;
-    validate_guardian_outcome(&outcome)?;
+    validate_guardian_outcome(&outcome, require_restart_proof)?;
     verify_generation(&fixture.continuity_root, expected_generation).map_err(|error| {
         format!(
             "{error}; guardian_stderr={}",
@@ -853,20 +1052,20 @@ async fn execute_cycle(
         )
     })?;
     verify_writer_lock_released(&fixture.local_state_root)?;
-    let observatory = ready;
-    let runtime_instance_id = observatory["runtime_instance_id"]
-        .as_str()
-        .ok_or_else(|| "Runtime v3 Observatory did not expose runtime_instance_id".to_owned())?
-        .to_owned();
+    let log_proof = verify_master_log(args, fixture, run, cycle)?;
     if !retain_log {
-        std::fs::remove_dir_all(fixture.local_state_root.join("observability"))
+        std::fs::remove_dir_all(&fixture.observability_root)
             .map_err(|error| format!("checked Vector log could not be discarded: {error}"))?;
     }
     Ok(CycleObservation {
         guardian_pid: guardian_process_id,
-        runtime_instance_id,
+        runtime_starts: u64::try_from(runtime_instance_ids.len())
+            .map_err(|_| "runtime start count overflowed".to_owned())?,
+        runtime_instance_ids,
+        anti_rollback_minimum_enforced: expected_generation > 1,
         restart_budget_exercised: outcome.restarts > 0,
         restarts: u64::from(outcome.restarts),
+        log_proof,
     })
 }
 
@@ -898,10 +1097,13 @@ async fn wait_for_authenticated_observatory(
             }
         }
         match authenticated_observatory(fixture).await {
-            Ok(observatory) => {
-                validate_observatory(&observatory)?;
-                return Ok(observatory);
-            }
+            Ok(observatory) => match validate_observatory(&observatory) {
+                Ok(()) => return Ok(observatory),
+                Err(_) if Instant::now() < deadline => {
+                    tokio::time::sleep(fixture.readiness_poll).await;
+                }
+                Err(error) => return Err(error),
+            },
             Err(error) if Instant::now() < deadline => {
                 let _ = error;
                 tokio::time::sleep(fixture.readiness_poll).await;
@@ -916,11 +1118,137 @@ async fn wait_for_authenticated_observatory(
     }
 }
 
+async fn wait_for_restarted_observatory(
+    fixture: &ProductionFixture,
+    guardian: &mut Child,
+    previous_instance_id: &str,
+    previous_process_id: u32,
+) -> Result<serde_json::Value, String> {
+    let deadline = Instant::now() + fixture.readiness_timeout;
+    loop {
+        match guardian.try_wait() {
+            Ok(Some(status)) => {
+                return Err(format!(
+                    "Guardian exited instead of restarting the killed kernel: {status}"
+                ));
+            }
+            Ok(None) => {}
+            Err(error) => return Err(format!("Guardian restart check failed: {error}")),
+        }
+        match authenticated_observatory(fixture).await {
+            Ok(observatory) => {
+                if validate_observatory(&observatory).is_ok() {
+                    let instance_id = runtime_instance_id(&observatory)?;
+                    let process_id = runtime_process_id(&observatory)?;
+                    if instance_id != previous_instance_id && process_id != previous_process_id {
+                        return Ok(observatory);
+                    }
+                }
+            }
+            Err(_) if Instant::now() < deadline => {}
+            Err(error) => {
+                return Err(format!(
+                    "Guardian did not restore the kernel after external termination: {error}"
+                ))
+            }
+        }
+        if Instant::now() >= deadline {
+            return Err(
+                "Guardian did not expose a distinct restarted kernel before deadline".into(),
+            );
+        }
+        tokio::time::sleep(fixture.readiness_poll).await;
+    }
+}
+
+fn runtime_instance_id(observatory: &serde_json::Value) -> Result<&str, String> {
+    observatory["runtime_instance_id"]
+        .as_str()
+        .filter(|value| !value.is_empty())
+        .ok_or_else(|| "Runtime v3 Observatory did not expose runtime_instance_id".to_owned())
+}
+
+fn runtime_process_id(observatory: &serde_json::Value) -> Result<u32, String> {
+    observatory["runtime_process_id"]
+        .as_u64()
+        .and_then(|value| u32::try_from(value).ok())
+        .filter(|value| *value > 0)
+        .ok_or_else(|| "Runtime v3 Observatory did not expose runtime_process_id".to_owned())
+}
+
 async fn request_native_shutdown(guardian: &mut Child) -> Result<(), String> {
     let pid = guardian
         .id()
         .ok_or_else(|| "Guardian process id disappeared before shutdown".to_owned())?;
     send_native_shutdown(pid, guardian).await
+}
+
+#[cfg(unix)]
+fn force_runtime_exit(pid: u32) -> Result<(), String> {
+    if unsafe { libc::kill(pid as i32, libc::SIGKILL) } == 0 {
+        Ok(())
+    } else {
+        Err(format!(
+            "external kernel SIGKILL fault failed: {}",
+            std::io::Error::last_os_error()
+        ))
+    }
+}
+
+#[cfg(windows)]
+fn force_runtime_exit(pid: u32) -> Result<(), String> {
+    struct Handle(HANDLE);
+    impl Drop for Handle {
+        fn drop(&mut self) {
+            if !self.0.is_null() {
+                unsafe {
+                    CloseHandle(self.0);
+                }
+            }
+        }
+    }
+    let handle = Handle(unsafe {
+        OpenProcess(
+            PROCESS_TERMINATE | PROCESS_QUERY_LIMITED_INFORMATION,
+            0,
+            pid,
+        )
+    });
+    if handle.0.is_null() {
+        return Err(format!(
+            "external kernel process open failed: {}",
+            std::io::Error::last_os_error()
+        ));
+    }
+    if unsafe { TerminateProcess(handle.0, 86) } == 0 {
+        return Err(format!(
+            "external kernel termination failed: {}",
+            std::io::Error::last_os_error()
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(not(any(unix, windows)))]
+fn force_runtime_exit(_pid: u32) -> Result<(), String> {
+    Err("external kernel termination is unsupported on this platform".to_owned())
+}
+
+fn reject_fatal_process_output(stdout: &[u8], stderr: &[u8]) -> Result<(), String> {
+    let combined = format!(
+        "{}\n{}",
+        String::from_utf8_lossy(stdout),
+        String::from_utf8_lossy(stderr)
+    )
+    .to_ascii_lowercase();
+    for forbidden in ["panicked at", "fatal:", "fatal error", "stack backtrace:"] {
+        if combined.contains(forbidden) {
+            return Err(format!(
+                "Guardian or kernel emitted forbidden fatal output marker: {forbidden}"
+            ));
+        }
+    }
+    Ok(())
 }
 
 #[cfg(unix)]
@@ -996,19 +1324,38 @@ async fn authenticated_observatory(
 }
 
 fn validate_observatory(observatory: &serde_json::Value) -> Result<(), String> {
-    let runtime_instance_id = observatory["runtime_instance_id"]
-        .as_str()
-        .ok_or_else(|| "Runtime v3 Observatory did not expose runtime_instance_id".to_owned())?;
+    let runtime_instance_id = runtime_instance_id(observatory)?;
+    let _runtime_process_id = runtime_process_id(observatory)?;
+    let snapshot = &observatory["health"]["snapshot"];
+    let components_ready = snapshot["components"]
+        .as_object()
+        .filter(|components| !components.is_empty())
+        .map(|components| {
+            components.values().all(|state| {
+                state
+                    .as_str()
+                    .is_some_and(|state| matches!(state, "ready" | "running"))
+            })
+        })
+        .unwrap_or(false);
     if observatory["schema"] != "adl.runtime_v3.observatory_feed.v2"
         || runtime_instance_id.is_empty()
         || observatory["runtime_selection"] != "runtime_v3_explicit_opt_in"
         || observatory["control"]["websocket_full_duplex"] != true
         || observatory["health"]["observability_ready"] != true
-        || observatory["health"]["snapshot"]["observability"]["status"] != "ready"
+        || snapshot["schema"] != "adl.runtime.control_snapshot.v1"
+        || snapshot["lifecycle"] != "running"
+        || snapshot["clock"]["status"] != "authoritative"
+        || snapshot["observability"]["status"] != "ready"
+        || snapshot["observability_pipeline"]["health"]["status"] != "ready"
+        || !components_ready
+        || observatory["proof"]["sidecar_required"] != false
     {
-        return Err(
-            "Runtime v3 Observatory did not expose typed ready production health".to_owned(),
-        );
+        return Err(format!(
+            "Runtime v3 Observatory did not expose typed ready production health: {}",
+            serde_json::to_string(&observatory["health"])
+                .unwrap_or_else(|_| "<invalid-health>".to_owned())
+        ));
     }
     Ok(())
 }
@@ -1024,21 +1371,58 @@ fn verify_writer_lock_released(local_state_root: &Path) -> Result<(), String> {
     Ok(())
 }
 
-fn verify_master_log(args: &Args, fixture: &ProductionFixture) -> Result<LogProof, String> {
+fn verify_master_log(
+    args: &Args,
+    fixture: &ProductionFixture,
+    run: u64,
+    cycle: u64,
+) -> Result<LogProof, String> {
     let master_log = &fixture.master_log;
     let audit = &fixture.log_audit;
     let master_log_sha256 =
         file_sha256(master_log).map_err(|error| format!("master log unavailable: {error}"))?;
     let master_log_bytes =
         std::fs::read(master_log).map_err(|error| format!("master log unreadable: {error}"))?;
-    let master_log_records = u64::try_from(
-        String::from_utf8(master_log_bytes)
-            .map_err(|_| "master log is not UTF-8 JSONL".to_owned())?
-            .lines()
-            .filter(|line| !line.trim().is_empty())
-            .count(),
-    )
-    .map_err(|_| "master log record count overflowed".to_owned())?;
+    let master_log_text = String::from_utf8(master_log_bytes)
+        .map_err(|_| "master log is not UTF-8 JSONL".to_owned())?;
+    let expected_run = format!("{}:run-{run}", args.revision);
+    let expected_cycle = format!("{}:run-{run}:cycle-{cycle}", args.suite.name());
+    let mut master_log_records = 0_u64;
+    for (index, line) in master_log_text
+        .lines()
+        .filter(|line| !line.trim().is_empty())
+        .enumerate()
+    {
+        let record: serde_json::Value = serde_json::from_str(line)
+            .map_err(|error| format!("master log record {} is invalid: {error}", index + 1))?;
+        if record["lifecycle_run"] != expected_run
+            || record["lifecycle_cycle"] != expected_cycle
+            || record["revision"] != args.revision
+        {
+            return Err(format!(
+                "master log record {} is not correlated to run {run} cycle {cycle}",
+                index + 1
+            ));
+        }
+        let searchable = format!(
+            "{} {} {} {}",
+            record["severity"], record["reason"], record["error_chain"], record["fields"]
+        )
+        .to_ascii_lowercase();
+        if ["panicked at", "fatal:", "fatal error", "stack backtrace:"]
+            .iter()
+            .any(|marker| searchable.contains(marker))
+        {
+            return Err(format!(
+                "master log record {} contains a forbidden fatal marker",
+                index + 1
+            ));
+        }
+        master_log_records = master_log_records.saturating_add(1);
+    }
+    if master_log_records == 0 {
+        return Err("master log retained no records for this lifecycle cycle".to_owned());
+    }
     let audit_bytes =
         std::fs::read(audit).map_err(|error| format!("master log audit unavailable: {error}"))?;
     let audit_value: serde_json::Value = serde_json::from_slice(&audit_bytes)
@@ -1169,10 +1553,42 @@ fn read_soak_report(path: &Path, expected_suite: &str) -> Result<SoakReport, Str
     }
     require_bool(&value, "logging_complete", true)?;
     require_string(&value, "master_log_status", "clean")?;
+    if u64_field(&value, "log_checked_cycles")? != u64_field(&value, "completed_cycles")? {
+        return Err(format!(
+            "{expected_suite} did not validate every completed cycle's Vector log"
+        ));
+    }
+    if u64_field(&value, "guardian_launch_count")? != u64_field(&value, "completed_cycles")? {
+        return Err(format!(
+            "{expected_suite} guardian launch count does not match completed cycles"
+        ));
+    }
+    if u64_field(&value, "runtime_start_count")? < u64_field(&value, "completed_cycles")? {
+        return Err(format!(
+            "{expected_suite} runtime start count is below completed cycles"
+        ));
+    }
+    if u64_field(&value, "runtime_start_count")?
+        != u64_field(&value, "completed_cycles")?
+            .saturating_add(u64_field(&value, "total_restarts")?)
+    {
+        return Err(format!(
+            "{expected_suite} runtime start count does not reconcile with restarts"
+        ));
+    }
+    if u64_field(&value, "runtime_instance_count")? != u64_field(&value, "runtime_start_count")? {
+        return Err(format!(
+            "{expected_suite} reused a runtime instance identity"
+        ));
+    }
+    require_bool(&value, "restart_budget_exercised", true)?;
     if u64_field(&value, "master_log_records")? == 0 {
         return Err(format!("{expected_suite} retained no master log records"));
     }
     validate_suite_counts(&value, expected_suite)?;
+    if expected_suite != "preflight_1x" {
+        require_bool(&value, "anti_rollback_minimum_enforced", true)?;
+    }
     Ok(SoakReport {
         value,
         revision,
@@ -1230,8 +1646,12 @@ fn suite_summary(value: &serde_json::Value) -> serde_json::Value {
         "completed_cycles": value["completed_cycles"],
         "minimum_cycles_per_run": value["minimum_cycles_per_run"],
         "guardian_process_count": value["guardian_process_count"],
+        "guardian_launch_count": value["guardian_launch_count"],
         "runtime_instance_count": value["runtime_instance_count"],
+        "runtime_start_count": value["runtime_start_count"],
         "total_restarts": value["total_restarts"],
+        "restart_budget_exercised": value["restart_budget_exercised"],
+        "anti_rollback_minimum_enforced": value["anti_rollback_minimum_enforced"],
         "acceptance_eligible": value["acceptance_eligible"],
         "logging_complete": value["logging_complete"],
         "log_checked_cycles": value["log_checked_cycles"],
@@ -1337,77 +1757,19 @@ fn verify_generation(continuity_root: &Path, expected: u64) -> Result<(), String
     Ok(())
 }
 
-fn verify_continuity_chain(
+async fn verify_continuity_chain(
     continuity_root: &Path,
     expected_generation: u64,
     verifying_key: &VerifyingKey,
 ) -> Result<(), String> {
-    let mut previous_integrity = None;
-    for generation in 1..=expected_generation {
-        let path = continuity_root
-            .join(format!("generation-{generation}"))
-            .join("manifest.json");
-        let manifest = read_continuity_manifest(&path)?;
-        if manifest.generation != generation {
-            return Err(format!(
-                "continuity generation directory {generation} contains signed generation {}",
-                manifest.generation
-            ));
-        }
-        if manifest.previous_integrity != previous_integrity {
-            return Err(format!(
-                "continuity generation {generation} does not link to its parent"
-            ));
-        }
-        verify_continuity_signature(&manifest, verifying_key)?;
-        previous_integrity = Some(manifest.integrity);
-    }
-    Ok(())
-}
-
-fn read_continuity_manifest(path: &Path) -> Result<ContinuityManifest, String> {
-    let bytes =
-        std::fs::read(path).map_err(|error| format!("{} unreadable: {error}", path.display()))?;
-    serde_json::from_slice(&bytes)
-        .map_err(|error| format!("{} invalid manifest JSON: {error}", path.display()))
-}
-
-fn verify_continuity_signature(
-    manifest: &ContinuityManifest,
-    verifying_key: &VerifyingKey,
-) -> Result<(), String> {
-    if manifest.signing_algorithm != "ed25519" {
-        return Err(format!(
-            "continuity generation {} uses unsupported signing algorithm {}",
-            manifest.generation, manifest.signing_algorithm
-        ));
-    }
-    let signature_bytes = hex::decode(&manifest.signature).map_err(|_| {
-        format!(
-            "continuity generation {} has an invalid signature encoding",
-            manifest.generation
-        )
-    })?;
-    let signature = Signature::from_slice(&signature_bytes).map_err(|_| {
-        format!(
-            "continuity generation {} has an invalid signature shape",
-            manifest.generation
-        )
-    })?;
-    let mut unsigned = manifest.clone();
-    unsigned.signature.clear();
-    let bytes = serde_json::to_vec(&unsigned).map_err(|error| {
-        format!(
-            "continuity generation {} could not be canonicalized for signature: {error}",
-            manifest.generation
-        )
-    })?;
-    verifying_key.verify(&bytes, &signature).map_err(|_| {
-        format!(
-            "continuity generation {} signature verification failed",
-            manifest.generation
-        )
-    })
+    verify_live_continuity_lineage(
+        continuity_root,
+        "runtime-continuity",
+        verifying_key.to_owned(),
+        expected_generation,
+    )
+    .await
+    .map_err(|error| format!("runtime continuity verification failed: {error}"))
 }
 
 fn prepare_state_root(path: &Path) -> Result<(), String> {
@@ -1424,15 +1786,23 @@ fn prepare_state_root(path: &Path) -> Result<(), String> {
     Ok(())
 }
 
-fn validate_guardian_outcome(outcome: &GuardianOutcome) -> Result<(), String> {
+fn validate_guardian_outcome(
+    outcome: &GuardianOutcome,
+    restart_required: bool,
+) -> Result<(), String> {
+    let expected_attempts = if restart_required { 2 } else { 1 };
+    let expected_restarts = if restart_required { 1 } else { 0 };
     if outcome.terminal_state != GuardianTerminalState::ShutdownCheckpointed
-        || outcome.attempts != 1
-        || outcome.restarts != 0
-        || outcome.attempts_detail.len() != 1
+        || outcome.attempts != expected_attempts
+        || outcome.restarts != expected_restarts
+        || outcome.attempts_detail.len() != expected_attempts as usize
     {
         return Err(format!("unexpected guardian outcome: {outcome:?}"));
     }
-    let attempt = &outcome.attempts_detail[0];
+    let attempt = outcome
+        .attempts_detail
+        .last()
+        .ok_or_else(|| "Guardian outcome omitted its final attempt".to_owned())?;
     if attempt.reason_code != "shutdown_clean_checkpointed"
         || attempt.pid.is_none()
         || !attempt.clean_checkpointed_shutdown
@@ -1477,8 +1847,12 @@ fn fail(args: &Args, kernel_sha256: &str, started: Instant, failure: Failure) ->
         minimum_cycles_per_run: 0,
         guardian_pids: BTreeSet::new(),
         runtime_instance_ids: BTreeSet::new(),
+        guardian_launches: 0,
+        runtime_starts: 0,
+        anti_rollback_minimum_enforced: false,
         restart_budget_exercised: false,
         total_restarts: 0,
+        log_checked_cycles: 0,
         log_proof: None,
     };
     let report = report(
@@ -1544,13 +1918,16 @@ fn report(
         "completed_cycles": execution.completed_cycles,
         "minimum_cycles_per_run": execution.minimum_cycles_per_run,
         "guardian_process_count": execution.guardian_pids.len(),
+        "guardian_launch_count": execution.guardian_launches,
         "runtime_instance_count": execution.runtime_instance_ids.len(),
+        "runtime_start_count": execution.runtime_starts,
+        "anti_rollback_minimum_enforced": execution.anti_rollback_minimum_enforced,
         "restart_budget_exercised": execution.restart_budget_exercised,
         "total_restarts": execution.total_restarts,
         "acceptance_eligible": !matches!(args.suite, Suite::Preflight),
         "logging_complete": logging_complete,
         "log_checked_cycles": if logging_complete {
-            Some(execution.completed_cycles)
+            Some(execution.log_checked_cycles)
         } else {
             None
         },
@@ -1580,6 +1957,19 @@ fn write_report(path: &Path, report: &serde_json::Value) -> std::io::Result<()> 
     std::fs::rename(temporary, path)
 }
 
+fn write_secret(path: &Path, bytes: &[u8]) -> std::io::Result<()> {
+    let mut options = std::fs::OpenOptions::new();
+    options.write(true).create_new(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        options.mode(0o600);
+    }
+    let mut file = options.open(path)?;
+    std::io::Write::write_all(&mut file, bytes)?;
+    file.sync_all()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1599,6 +1989,8 @@ mod tests {
             "--guardian".to_owned(),
             executable.clone(),
             "--kernel".to_owned(),
+            executable.clone(),
+            "--vector".to_owned(),
             executable,
             "--init-template".to_owned(),
             init_template.to_string_lossy().into_owned(),
@@ -1657,8 +2049,12 @@ mod tests {
             minimum_cycles_per_run: 1,
             guardian_pids: BTreeSet::from([1234]),
             runtime_instance_ids: BTreeSet::from(["runtime-test-instance".to_owned()]),
+            guardian_launches: 1,
+            runtime_starts: 1,
+            anti_rollback_minimum_enforced: false,
             restart_budget_exercised: false,
             total_restarts: 0,
+            log_checked_cycles: 1,
             log_proof: Some(LogProof {
                 master_log_ref: ".csdlc/evidence/5344/work/master.jsonl".to_owned(),
                 master_log_sha256: "b".repeat(64),
@@ -1827,8 +2223,12 @@ mod tests {
             "completed_cycles": completed_cycles,
             "minimum_cycles_per_run": completed_cycles.max(1),
             "guardian_process_count": 1,
-            "runtime_instance_count": completed_cycles.max(1),
-            "total_restarts": 0,
+            "guardian_launch_count": completed_cycles,
+            "runtime_instance_count": completed_cycles + 1,
+            "runtime_start_count": completed_cycles + 1,
+            "anti_rollback_minimum_enforced": suite != "preflight_1x",
+            "restart_budget_exercised": true,
+            "total_restarts": 1,
             "acceptance_eligible": suite != "preflight_1x",
             "logging_complete": true,
             "log_checked_cycles": completed_cycles,

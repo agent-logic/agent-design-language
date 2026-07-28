@@ -292,6 +292,10 @@ struct IdempotencyState {
     admission_open: bool,
 }
 
+struct AcipReplayState {
+    sequences_by_source: LruCache<String, u64>,
+}
+
 pub struct ControlService<C> {
     instance_id: String,
     recorder: RuntimeRecorder,
@@ -299,6 +303,7 @@ pub struct ControlService<C> {
     authority: ControlAuthority,
     max_records: usize,
     idempotency: Mutex<IdempotencyState>,
+    acip_replay: Mutex<AcipReplayState>,
     weather: Mutex<Option<ObservedWeather>>,
     weather_stale_after_millis: Mutex<u64>,
     observatory_bearer_digest: Mutex<Option<blake3::Hash>>,
@@ -374,6 +379,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 records: LruCache::unbounded(),
                 terminal_action: None,
                 admission_open: true,
+            }),
+            acip_replay: Mutex::new(AcipReplayState {
+                sequences_by_source: LruCache::unbounded(),
             }),
             weather: Mutex::new(None),
             weather_stale_after_millis: Mutex::new(30_000),
@@ -539,9 +547,27 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         true
     }
 
+    fn reserve_acip_sequence(&self, source: &str, sequence: u64) -> bool {
+        if sequence == 0 {
+            return false;
+        }
+        let mut state = self.acip_replay.lock().expect("ACIP replay mutex poisoned");
+        if let Some(previous) = state.sequences_by_source.get(source).copied() {
+            if sequence <= previous {
+                return false;
+            }
+        } else {
+            while state.sequences_by_source.len() >= self.max_records {
+                state.sequences_by_source.pop_lru();
+            }
+        }
+        state.sequences_by_source.put(source.to_owned(), sequence);
+        true
+    }
+
     pub fn observatory_feed(&self) -> ObservatoryFeed {
         let snapshot = self.recorder.snapshot();
-        let observability_ready = !matches!(snapshot.observability, ObservabilityHealth::Pending);
+        let observability_ready = matches!(snapshot.observability, ObservabilityHealth::Ready);
         let continuity_head = snapshot.continuity_head.clone();
         let events = self.recorder.events();
         let weather = self.weather.lock().expect("weather mutex poisoned").clone();
@@ -563,6 +589,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         ObservatoryFeed {
             schema: OBSERVATORY_FEED_SCHEMA.to_owned(),
             runtime_instance_id: self.instance_id.clone(),
+            runtime_process_id: std::process::id(),
             default_runtime_changed: false,
             runtime_selection: "runtime_v3_explicit_opt_in".to_owned(),
             control: ObservatoryControlFeed {
@@ -838,6 +865,7 @@ pub struct ObservatoryProofFeed {
 pub struct ObservatoryFeed {
     pub schema: String,
     pub runtime_instance_id: String,
+    pub runtime_process_id: u32,
     pub default_runtime_changed: bool,
     pub runtime_selection: String,
     pub control: ObservatoryControlFeed,
@@ -1046,7 +1074,6 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
     };
 
     let mut refresh = tokio::time::interval(api_policy.websocket_refresh);
-    let mut last_acip_sequence = 0_u64;
     loop {
         tokio::select! {
             _ = refresh.tick() => {
@@ -1122,8 +1149,10 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                 }
                 Some(Ok(Message::Binary(payload))) => {
                     let status = match decode_acip_envelope(&payload) {
-                        Ok(envelope) if envelope.monotonic_sequence > last_acip_sequence => {
-                            last_acip_sequence = envelope.monotonic_sequence;
+                        Ok(envelope) if service.reserve_acip_sequence(
+                            &envelope.source,
+                            envelope.monotonic_sequence,
+                        ) => {
                             acip_frame_status(&payload)
                         }
                         Ok(envelope) => serde_json::json!({

@@ -11,6 +11,7 @@ path = "src/lib.rs"
 
 [dependencies]
 adl-resilience = { path = "../adl-resilience" }
+adl-runtime-kernel = { path = "../adl-runtime-kernel" }
 axum = { version = "0.8", features = ["ws"] }
 axum-server = { version = "0.8", features = ["tls-rustls"] }
 base64 = "0.22"

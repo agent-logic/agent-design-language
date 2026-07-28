@@ -64,9 +64,13 @@ fn toml_path(path: &Path) -> String {
 
 fn explicit_runtime_sections_toml(state_root: &Path) -> String {
     let vector = std::env::current_dir().unwrap().join(".adl/bin/vector");
+    let kernel = std::env::current_exe().unwrap();
     let credentials = state_root.join("credentials");
     format!(
         r#"
+[binaries]
+kernel_path = "{}"
+
 [paths]
 continuity_dir = "continuity"
 tls_dir = "tls"
@@ -129,7 +133,6 @@ lifecycle_suite = "runtime"
 lifecycle_run = "runtime-run"
 lifecycle_cycle = "runtime-cycle"
 trace_filter = "adl_runtime_kernel=info,adl_runtime=info"
-otlp_endpoint = "http://127.0.0.1:4318"
 otlp_timeout_millis = 5000
 vector_shutdown_limit_millis = 3000
 drain_timeout_millis = 5000
@@ -157,6 +160,7 @@ cpu_recover_basis_points = 8000
 checkpoint_deadline_millis = 750
 snapshot_concurrency = 4
 "#,
+        toml_path(&kernel),
         toml_path(&credentials.join("control-public-key.hex")),
         toml_path(&credentials.join("operation-public-key.hex")),
         toml_path(&credentials.join("continuity-signing-key.hex")),

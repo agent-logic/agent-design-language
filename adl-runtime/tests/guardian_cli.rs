@@ -15,7 +15,11 @@ fn complete_args(kernel: &str, root: &std::path::Path) -> Vec<String> {
     let init = root.join("runtime-init.toml");
     fs::write(
         &init,
-        r#"
+        format!(
+            r#"
+[binaries]
+kernel_path = "{}"
+
 [shutdown]
 checkpoint_deadline_millis = 100
 kernel_grace_millis = 100
@@ -33,14 +37,11 @@ capture_max_bytes = 65536
 capture_drain_grace_millis = 100
 configuration_exit_codes = [64]
 "#,
+            kernel.replace('\\', "\\\\").replace('"', "\\\"")
+        ),
     )
     .unwrap();
-    vec![
-        "--kernel".to_owned(),
-        kernel.to_owned(),
-        "--init".to_owned(),
-        init.to_string_lossy().into_owned(),
-    ]
+    vec!["--init".to_owned(), init.to_string_lossy().into_owned()]
 }
 
 fn test_root(name: &str) -> tempfile::TempDir {
@@ -90,30 +91,25 @@ fn guardian_cli_reports_successful_portable_child_as_json() {
 }
 
 #[test]
-fn guardian_cli_reports_spawn_failure_without_restart() {
+fn guardian_cli_rejects_missing_kernel_before_launch() {
     let continuity = test_root("spawn-failure");
     let output = guardian(&complete_args(
         "/definitely/missing/adl-runtime-kernel",
         continuity.path(),
     ));
 
-    assert_eq!(output.status.code(), Some(70));
-    let payload: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
-    assert_eq!(payload["terminal_state"], "spawn_failed");
-    assert_eq!(payload["attempts"], 1);
+    assert_eq!(output.status.code(), Some(64));
+    assert!(String::from_utf8_lossy(&output.stderr)
+        .contains("binaries.kernel_path must be an absolute existing file"));
+    assert!(output.stdout.is_empty());
 }
 
 #[test]
 fn guardian_cli_rejects_incomplete_unknown_and_invalid_numeric_arguments() {
     for args in [
-        vec!["--kernel".to_owned(), "unused".to_owned()],
+        Vec::new(),
         vec!["--unknown".to_owned(), "value".to_owned()],
-        vec![
-            "--kernel".to_owned(),
-            "unused".to_owned(),
-            "--init".to_owned(),
-            "relative.toml".to_owned(),
-        ],
+        vec!["--init".to_owned(), "relative.toml".to_owned()],
     ] {
         let output = guardian(&args);
         assert_eq!(output.status.code(), Some(64));

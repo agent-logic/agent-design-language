@@ -40,7 +40,6 @@ async fn main() -> ExitCode {
 }
 
 fn parse_args(args: impl Iterator<Item = String>) -> Result<GuardianConfig, String> {
-    let mut kernel = None;
     let mut init = None;
     let mut args = args.peekable();
     while let Some(arg) = args.next() {
@@ -49,17 +48,19 @@ fn parse_args(args: impl Iterator<Item = String>) -> Result<GuardianConfig, Stri
                 .ok_or_else(|| format!("{name} requires a value"))
         };
         match arg.as_str() {
-            "--kernel" => kernel = Some(PathBuf::from(value(&mut args, "--kernel")?)),
             "--init" => init = Some(PathBuf::from(value(&mut args, "--init")?)),
             _ => return Err(format!("unknown guardian option: {arg}")),
         }
     }
-    let kernel = kernel.ok_or_else(|| "--kernel is required".to_owned())?;
     let init = init.ok_or_else(|| "--init is required".to_owned())?;
     if !init.is_absolute() {
         return Err("--init must be an absolute path".to_owned());
     }
     let init_config = load_init(&init)?;
+    let kernel = init_config.binaries.kernel_path.clone();
+    if !kernel.is_absolute() || !kernel.is_file() {
+        return Err("binaries.kernel_path must be an absolute existing file".to_owned());
+    }
     let child_shutdown_budget_ms = init_config
         .shutdown
         .checkpoint_deadline_millis
@@ -97,8 +98,14 @@ fn load_init(path: &Path) -> Result<RuntimeGuardianInitConfig, String> {
 
 #[derive(Debug, Deserialize)]
 struct RuntimeGuardianInitConfig {
+    binaries: RuntimeBinaries,
     guardian: GuardianPolicy,
     shutdown: ShutdownPolicy,
+}
+
+#[derive(Debug, Deserialize)]
+struct RuntimeBinaries {
+    kernel_path: PathBuf,
 }
 
 #[derive(Debug, Deserialize)]
@@ -144,7 +151,11 @@ mod tests {
         let path = root.join("runtime-init.toml");
         std::fs::write(
             &path,
-            r#"
+            format!(
+                r#"
+[binaries]
+kernel_path = "{}"
+
 [shutdown]
 checkpoint_deadline_millis = 5000
 kernel_grace_millis = 10000
@@ -162,6 +173,8 @@ capture_max_bytes = 65536
 capture_drain_grace_millis = 2000
 configuration_exit_codes = [64]
 "#,
+                std::env::current_exe().unwrap().display()
+            ),
         )
         .unwrap();
         path
@@ -171,7 +184,7 @@ configuration_exit_codes = [64]
     fn guardian_cli_loads_complete_bounded_configuration_from_init() {
         let init = init_file();
         let config = parse_args(
-            ["--kernel", "kernel", "--init", init.to_str().unwrap()]
+            ["--init", init.to_str().unwrap()]
                 .into_iter()
                 .map(str::to_owned),
         )
@@ -182,13 +195,8 @@ configuration_exit_codes = [64]
         assert_eq!(config.child_shutdown_budget_ms, 18_000);
         assert_eq!(config.shutdown_grace_ms, 18_500);
 
-        assert!(parse_args(["--kernel", "kernel"].into_iter().map(str::to_owned)).is_err());
+        assert!(parse_args(std::iter::empty()).is_err());
         assert!(parse_args(["--bogus", "x"].into_iter().map(str::to_owned)).is_err());
-        assert!(parse_args(
-            ["--kernel", "kernel", "--init", "relative.toml"]
-                .into_iter()
-                .map(str::to_owned)
-        )
-        .is_err());
+        assert!(parse_args(["--init", "relative.toml"].into_iter().map(str::to_owned)).is_err());
     }
 }

@@ -13,9 +13,9 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    ObservabilityHealth, ObservabilityPipelineSnapshot, RuntimeObservabilityInitConfig,
-    RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA,
-    RUNTIME_OBSERVABILITY_PIPELINE_SCHEMA,
+    ObservabilityDegradation, ObservabilityHealth, ObservabilityPipelineSnapshot,
+    RuntimeObservabilityInitConfig, RUNTIME_MASTER_LOG_AUDIT_SCHEMA,
+    RUNTIME_MASTER_LOG_RECORD_SCHEMA, RUNTIME_OBSERVABILITY_PIPELINE_SCHEMA,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -151,9 +151,19 @@ impl RuntimeVectorPipeline {
         write_json_atomic(&config.vector_config_path, &rendered)
             .map_err(|_| "vector_config_write_failed")?;
         validate_vector_config(&config.vector_binary, &config.vector_config_path)?;
-        let next_sequence =
-            recover_next_sequence(&config.sequence_checkpoint_path, &config.master_log_path)
-                .map_err(|error| format!("runtime_vector_sequence_recovery_failed:{error}"))?;
+        let next_sequence = recover_next_sequence(
+            &config.sequence_checkpoint_path,
+            &config.master_log_path,
+            &config.ingress_spool_path,
+        )
+        .map_err(|error| format!("runtime_vector_sequence_recovery_failed:{error}"))?;
+        let run_start_sequence = recover_run_start_sequence(
+            &config.master_log_path,
+            &config.lifecycle_run,
+            &config.lifecycle_cycle,
+            next_sequence,
+        )
+        .map_err(|error| format!("runtime_vector_run_window_recovery_failed:{error}"))?;
         let ingress = Arc::new(Mutex::new(
             OpenOptions::new()
                 .create(true)
@@ -245,7 +255,7 @@ impl RuntimeVectorPipeline {
             master_log_path: config.master_log_path.clone(),
             audit_path: config.audit_path.clone(),
             sequence_path: config.sequence_checkpoint_path.clone(),
-            run_start_sequence: next_sequence,
+            run_start_sequence,
             last_failure: None,
             master_log_lag_started_at: None,
             drain_complete: false,
@@ -258,7 +268,9 @@ impl RuntimeVectorPipeline {
             health: if self.last_failure.is_none() {
                 ObservabilityHealth::Ready
             } else {
-                ObservabilityHealth::Pending
+                ObservabilityHealth::Degraded {
+                    reason: ObservabilityDegradation::ExporterUnavailable,
+                }
             },
             runtime_instance_id: self.config.runtime_instance_id.clone(),
             vector_pid: self.child.as_ref().map(Child::id),
@@ -832,30 +844,38 @@ fn write_sequence_checkpoint(path: &Path, checkpoint: SequenceCheckpoint) -> std
     write_json_atomic(path, &checkpoint)
 }
 
-fn recover_next_sequence(sequence_path: &Path, master_log_path: &Path) -> std::io::Result<u64> {
-    match fs::read(sequence_path) {
+fn recover_next_sequence(
+    sequence_path: &Path,
+    master_log_path: &Path,
+    ingress_spool_path: &Path,
+) -> std::io::Result<u64> {
+    let checkpoint_next = match fs::read(sequence_path) {
         Ok(bytes) => {
             let checkpoint: SequenceCheckpoint =
                 serde_json::from_slice(&bytes).map_err(|error| {
                     std::io::Error::new(std::io::ErrorKind::InvalidData, error.to_string())
                 })?;
             checkpoint.validate()?;
-            if checkpoint.next_sequence > 0 && !master_log_path.is_file() {
+            if checkpoint.next_sequence > 0
+                && !master_log_path.is_file()
+                && !ingress_spool_path.is_file()
+            {
                 return Err(std::io::Error::new(
                     std::io::ErrorKind::NotFound,
-                    "sequence checkpoint exists without master log",
+                    "sequence checkpoint exists without master log or ingress spool",
                 ));
             }
-            Ok(checkpoint.next_sequence)
+            checkpoint.next_sequence
         }
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-            recover_next_sequence_from_master_log(master_log_path)
-        }
-        Err(error) => Err(error),
-    }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => 0,
+        Err(error) => return Err(error),
+    };
+    Ok(checkpoint_next
+        .max(recover_next_sequence_from_log(master_log_path)?)
+        .max(recover_next_sequence_from_log(ingress_spool_path)?))
 }
 
-fn recover_next_sequence_from_master_log(path: &Path) -> std::io::Result<u64> {
+fn recover_next_sequence_from_log(path: &Path) -> std::io::Result<u64> {
     let file = match File::open(path) {
         Ok(file) => file,
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(0),
@@ -873,6 +893,34 @@ fn recover_next_sequence_from_master_log(path: &Path) -> std::io::Result<u64> {
         next = next.max(sequence.saturating_add(1));
     }
     Ok(next)
+}
+
+fn recover_run_start_sequence(
+    path: &Path,
+    lifecycle_run: &str,
+    lifecycle_cycle: &str,
+    fallback: u64,
+) -> std::io::Result<u64> {
+    let file = match File::open(path) {
+        Ok(file) => file,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(fallback),
+        Err(error) => return Err(error),
+    };
+    let mut start = None;
+    for line in BufReader::new(file).lines() {
+        let record = serde_json::from_str::<Value>(&line?).map_err(|error| {
+            std::io::Error::new(std::io::ErrorKind::InvalidData, error.to_string())
+        })?;
+        if record["lifecycle_run"].as_str() == Some(lifecycle_run)
+            && record["lifecycle_cycle"].as_str() == Some(lifecycle_cycle)
+        {
+            let sequence = record["sequence"].as_u64().ok_or_else(|| {
+                std::io::Error::new(std::io::ErrorKind::InvalidData, "missing sequence")
+            })?;
+            start = Some(start.map_or(sequence, |current: u64| current.min(sequence)));
+        }
+    }
+    Ok(start.unwrap_or(fallback))
 }
 
 fn master_log_contains_sequence(path: &Path, sequence: u64) -> bool {

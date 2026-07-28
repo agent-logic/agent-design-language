@@ -218,6 +218,7 @@ pub enum ConfigError {
 pub struct RuntimeInitConfig {
     pub schema: String,
     pub state_root: PathBuf,
+    pub binaries: RuntimeBinariesInitConfig,
     pub paths: RuntimePathsInitConfig,
     pub api: RuntimeApiInitConfig,
     pub kernel: RuntimeKernelInitConfig,
@@ -254,6 +255,7 @@ impl RuntimeInitConfig {
             return Err(RuntimeInitError::UnsupportedSchema(self.schema.clone()));
         }
         validate_absolute_path("state_root", &self.state_root)?;
+        self.binaries.validate()?;
         self.paths.validate()?;
         self.kernel.validate()?;
         let tls_root = self.paths.tls_root(&self.state_root);
@@ -388,6 +390,18 @@ impl RuntimeInitConfig {
 
     pub fn continuity_root(&self) -> PathBuf {
         self.paths.continuity_root(&self.state_root)
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RuntimeBinariesInitConfig {
+    pub kernel_path: PathBuf,
+}
+
+impl RuntimeBinariesInitConfig {
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        validate_absolute_path("binaries.kernel_path", &self.kernel_path)
     }
 }
 

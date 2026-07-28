@@ -280,6 +280,27 @@ async fn runtime_vector_pipeline_recovers_sequence_checkpoint_on_restart() {
     restarted.shutdown().await.unwrap();
 }
 
+#[tokio::test(flavor = "multi_thread")]
+async fn runtime_vector_pipeline_recovers_uncheckpointed_crash_sequence_from_ingress() {
+    let root = test_root("runtime-vector-crash-recovery");
+    let config = vector_config(root, None);
+    fs::create_dir_all(config.ingress_spool_path.parent().unwrap()).unwrap();
+    write_records(
+        &config.ingress_spool_path,
+        &[record(
+            41,
+            "INFO",
+            "pre_crash_record",
+            "kernel_terminated_before_drain",
+            "wp-12",
+        )],
+    );
+
+    let mut restarted = RuntimeVectorPipeline::start_without_subscriber_for_test(config).unwrap();
+    assert!(restarted.snapshot().sequence_next > 42);
+    restarted.shutdown().await.unwrap();
+}
+
 #[test]
 fn runtime_vector_pipeline_fails_closed_when_vector_child_exits() {
     let root = test_root("runtime-vector-health");
@@ -295,7 +316,7 @@ fn runtime_vector_pipeline_fails_closed_when_vector_child_exits() {
     let snapshot = pipeline.snapshot();
     assert_eq!(
         serde_json::to_value(&snapshot.health).unwrap()["status"],
-        "pending"
+        "degraded"
     );
     assert_eq!(snapshot.last_failure, Some(error));
 }

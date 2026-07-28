@@ -1,6 +1,9 @@
 schema = "adl.runtime_v3.init.v1"
 state_root = "/var/lib/adl/runtime-v3"
 
+[binaries]
+kernel_path = "/opt/adl/bin/adl-runtime-kernel"
+
 [paths]
 continuity_dir = "continuity"
 tls_dir = "tls"
@@ -68,7 +71,7 @@ configuration_exit_codes = [64]
 
 [qualification]
 readiness_timeout_millis = 10000
-readiness_poll_millis = 10
+readiness_poll_millis = 50
 shutdown_wait_millis = 50000
 
 [observability_pipeline]
@@ -80,7 +83,6 @@ lifecycle_suite = "runtime-v3"
 lifecycle_run = "runtime-v3-production"
 lifecycle_cycle = "runtime-v3-production-cycle"
 trace_filter = "adl_runtime_kernel=info,adl_runtime=info"
-otlp_endpoint = "http://127.0.0.1:4318"
 otlp_timeout_millis = 5000
 vector_shutdown_limit_millis = 3000
 drain_timeout_millis = 5000
