@@ -384,6 +384,18 @@ async fn runtime_vector_pipeline_recovers_in_place_when_vector_child_exits() {
 }
 
 #[tokio::test(flavor = "multi_thread")]
+async fn runtime_vector_pipeline_accepts_an_already_reaped_vector_during_cleanup() {
+    let root = test_root("runtime-vector-already-reaped");
+    let mut pipeline =
+        RuntimeVectorPipeline::start_without_subscriber_for_test(vector_config(root, None))
+            .unwrap();
+
+    pipeline.stop_vector_for_test();
+
+    assert!(pipeline.terminate_vector_for_test());
+}
+
+#[tokio::test(flavor = "multi_thread")]
 async fn runtime_vector_pipeline_rotates_bounded_spool_before_startup() {
     let root = test_root("runtime-vector-rotation");
     let spool = root.join("observability/spool");

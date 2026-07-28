@@ -474,6 +474,9 @@ impl RuntimeVectorPipeline {
         let Some(mut child) = self.child.take() else {
             return false;
         };
+        if child.try_wait().is_ok_and(|status| status.is_some()) {
+            return true;
+        }
         #[cfg(unix)]
         let signaled = unsafe { libc::kill(child.id() as i32, libc::SIGTERM) == 0 };
         #[cfg(windows)]
@@ -481,6 +484,9 @@ impl RuntimeVectorPipeline {
         #[cfg(not(any(unix, windows)))]
         let signaled = false;
         if !signaled {
+            if child.try_wait().is_ok_and(|status| status.is_some()) {
+                return true;
+            }
             let _ = child.kill();
             let _ = child.wait();
             return false;
@@ -505,6 +511,12 @@ impl RuntimeVectorPipeline {
             let _ = child.kill();
             let _ = child.wait();
         }
+    }
+
+    #[cfg(test)]
+    #[allow(dead_code)]
+    pub fn terminate_vector_for_test(&mut self) -> bool {
+        self.terminate_vector()
     }
 }
 
