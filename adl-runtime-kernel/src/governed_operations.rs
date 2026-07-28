@@ -562,6 +562,8 @@ async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> 
             timeout: Duration::from_secs(1),
             max_offset: Duration::ZERO,
             max_round_trip: Duration::ZERO,
+            retry_delay: Duration::from_millis(10),
+            refresh_interval: Duration::from_secs(60),
         },
     })
     .map_err(|_| "topology_invalid".to_owned())?;

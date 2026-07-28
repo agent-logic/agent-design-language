@@ -319,9 +319,7 @@ impl RuntimeInitConfig {
         ] {
             validate_non_empty_trimmed(field, value)?;
         }
-        if let Some(server) = self.credentials.sntp_server.as_deref() {
-            validate_non_empty_trimmed("credentials.sntp_server", server)?;
-        }
+        validate_non_empty_trimmed("credentials.sntp_server", &self.credentials.sntp_server)?;
         for (field, path) in [
             (
                 "credentials.control_public_key_path",
@@ -477,6 +475,8 @@ pub struct RuntimeKernelInitConfig {
     pub trusted_time_sample_timeout_millis: u64,
     pub trusted_time_max_offset_millis: u64,
     pub trusted_time_max_round_trip_millis: u64,
+    pub trusted_time_retry_millis: u64,
+    pub trusted_time_refresh_millis: u64,
 }
 
 impl RuntimeKernelInitConfig {
@@ -527,6 +527,14 @@ impl RuntimeKernelInitConfig {
                 "kernel.trusted_time_max_round_trip_millis",
                 self.trusted_time_max_round_trip_millis,
             ),
+            (
+                "kernel.trusted_time_retry_millis",
+                self.trusted_time_retry_millis,
+            ),
+            (
+                "kernel.trusted_time_refresh_millis",
+                self.trusted_time_refresh_millis,
+            ),
         ] {
             validate_bounded_millis(field, value)?;
         }
@@ -564,7 +572,7 @@ pub struct RuntimeCredentialInitConfig {
     pub continuity_key_id: String,
     pub observatory_token_path: PathBuf,
     pub continuity_min_generation: u64,
-    pub sntp_server: Option<String>,
+    pub sntp_server: String,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]

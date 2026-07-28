@@ -12,6 +12,8 @@ const BOUNDS: TimeQualificationBounds = TimeQualificationBounds {
     timeout: Duration::from_millis(10),
     max_offset: Duration::from_millis(100),
     max_round_trip: Duration::from_millis(50),
+    retry_delay: Duration::from_millis(1),
+    refresh_interval: Duration::from_secs(60),
 };
 
 enum TestSource {

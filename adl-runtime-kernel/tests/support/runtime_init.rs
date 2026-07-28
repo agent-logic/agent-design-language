@@ -96,6 +96,8 @@ guardian_lease_auth_millis = 500
 trusted_time_sample_timeout_millis = 3000
 trusted_time_max_offset_millis = 5000
 trusted_time_max_round_trip_millis = 2000
+trusted_time_retry_millis = 1000
+trusted_time_refresh_millis = 60000
 [api]
 address = "{}"
 public_base_url = "https://localhost:{}"
@@ -115,6 +117,7 @@ continuity_signing_key_path = "{}"
 continuity_key_id = "runtime-continuity"
 observatory_token_path = "{}"
 continuity_min_generation = 0
+sntp_server = "time.cloudflare.com"
 [shutdown]
 checkpoint_deadline_millis = 5000
 kernel_grace_millis = 10000

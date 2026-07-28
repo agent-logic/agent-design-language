@@ -30,6 +30,8 @@ pub struct TimeQualificationBounds {
     pub timeout: Duration,
     pub max_offset: Duration,
     pub max_round_trip: Duration,
+    pub retry_delay: Duration,
+    pub refresh_interval: Duration,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -262,15 +264,39 @@ struct QualifiedTimeComponent {
 #[async_trait]
 impl Component for QualifiedTimeComponent {
     async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
-        context
-            .recorder
-            .set_clock_authority(initial_clock_authority());
+        let bootstrap =
+            qualify_time(&SystemTimeSampleSource, self.bounds, &context.cancellation).await;
+        context.recorder.set_clock_authority(bootstrap);
         context.ready();
-        let authority =
-            qualify_time(self.source.as_ref(), self.bounds, &context.cancellation).await;
-        context.recorder.set_clock_authority(authority);
-        context.cancellation.cancelled().await;
-        Ok(())
+
+        loop {
+            let authority =
+                qualify_time(self.source.as_ref(), self.bounds, &context.cancellation).await;
+            let delay = match authority {
+                ClockAuthority::Authoritative { .. } => {
+                    context.recorder.set_clock_authority(authority);
+                    self.bounds.refresh_interval
+                }
+                ClockAuthority::Degraded { ref reason }
+                    if reason == "time qualification cancelled" =>
+                {
+                    return Ok(());
+                }
+                ClockAuthority::Degraded { reason } => {
+                    tracing::warn!(
+                        event = "trusted_time_refresh_failed",
+                        reason,
+                        "SNTP refresh failed; retaining the last authoritative clock"
+                    );
+                    self.bounds.retry_delay
+                }
+            };
+
+            tokio::select! {
+                _ = context.cancellation.cancelled() => return Ok(()),
+                _ = tokio::time::sleep(delay) => {}
+            }
+        }
     }
 }
 

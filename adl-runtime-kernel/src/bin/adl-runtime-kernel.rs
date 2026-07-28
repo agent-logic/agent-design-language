@@ -18,8 +18,7 @@ use adl_runtime_kernel::{
     CheckpointShutdownRequest, CheckpointingControl, ControlApiPolicy, ControlAuthority,
     ControlCapability, ControlService, Kernel, KernelExit, LiveBindings, LiveContinuity,
     LiveKernelSnapshot, RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder,
-    SysinfoWeatherObserver, SystemTimeSampleSource, TimeQualificationBounds, TimeSampleSource,
-    TrustedControlKey,
+    SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource, TrustedControlKey,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -186,17 +185,10 @@ async fn main() -> ExitCode {
                 return ExitCode::from(78);
             }
             let operation_key_id = init.credentials.operation_key_id.clone();
-            let (time_source, time_source_identity): (Arc<dyn TimeSampleSource>, String) =
-                match init.credentials.sntp_server.as_deref() {
-                    Some(server) => (
-                        Arc::new(RsntpTimeSampleSource::new(server.to_owned())),
-                        format!("sntp:{server}"),
-                    ),
-                    None => (
-                        Arc::new(SystemTimeSampleSource),
-                        "host_system_clock".to_owned(),
-                    ),
-                };
+            let time_source_identity = format!("sntp:{}", init.credentials.sntp_server);
+            let time_source: Arc<dyn TimeSampleSource> = Arc::new(RsntpTimeSampleSource::new(
+                init.credentials.sntp_server.clone(),
+            ));
             let assembly = match build_live_assembly(LiveBindings {
                 recorder: recorder.clone(),
                 operation_executors,
@@ -212,6 +204,12 @@ async fn main() -> ExitCode {
                     ),
                     max_round_trip: std::time::Duration::from_millis(
                         init.kernel.trusted_time_max_round_trip_millis,
+                    ),
+                    retry_delay: std::time::Duration::from_millis(
+                        init.kernel.trusted_time_retry_millis,
+                    ),
+                    refresh_interval: std::time::Duration::from_millis(
+                        init.kernel.trusted_time_refresh_millis,
                     ),
                 },
             }) {
