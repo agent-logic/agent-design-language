@@ -1825,7 +1825,7 @@ fn toml_path(path: &Path) -> Result<String, String> {
     if value.contains(['\n', '\r']) {
         return Err("runtime configuration path contains a line break".to_owned());
     }
-    Ok(value.replace('\\', "\\\\").replace('"', "\\\""))
+    Ok(value.to_owned())
 }
 
 fn continuity_generation(path: &Path) -> Result<u64, String> {
@@ -1977,6 +1977,21 @@ fn write_secret(path: &Path, bytes: &[u8]) -> std::io::Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn toml_path_preserves_windows_paths_through_serializer_round_trip() {
+        let original = PathBuf::from(r#"C:\adl-wp-5344\state\quoted"name"#);
+        let document = toml::Value::Table(toml::map::Map::from_iter([(
+            "path".to_owned(),
+            toml::Value::String(toml_path(&original).expect("portable path")),
+        )]));
+        let serialized = toml::to_string(&document).expect("serialize path");
+        let parsed = toml::from_str::<toml::Value>(&serialized).expect("parse path");
+        assert_eq!(
+            parsed.get("path").and_then(toml::Value::as_str),
+            original.to_str()
+        );
+    }
 
     fn arguments(mode: &[&str]) -> Vec<String> {
         let root = std::env::current_dir().expect("current directory");
