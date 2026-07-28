@@ -371,6 +371,8 @@ fi
 if [[ -z "$LANE_BIN" ]]; then
   if [[ -x "$ROOT/tools/aws_remote_validation/target/debug/adl-aws-remote-validation" ]]; then
     LANE_BIN="$ROOT/tools/aws_remote_validation/target/debug/adl-aws-remote-validation"
+  elif [[ -x "$ROOT/.adl/bin/adl-aws-remote-validation" ]]; then
+    LANE_BIN="$ROOT/.adl/bin/adl-aws-remote-validation"
   elif [[ -x "${PRIMARY_ROOT:-$ROOT}/.adl/bin/adl-aws-remote-validation" ]]; then
     LANE_BIN="${PRIMARY_ROOT:-$ROOT}/.adl/bin/adl-aws-remote-validation"
   elif [[ -x "$ROOT/adl/target/debug/adl-aws-remote-validation" ]]; then

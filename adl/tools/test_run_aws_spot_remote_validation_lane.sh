@@ -6,6 +6,9 @@ SCRIPT="$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh"
 SETUP_SCRIPT="$ROOT/adl/tools/setup_aws_spot_remote_validation_github_resources.sh"
 WORKFLOW="$ROOT/.github/workflows/aws-spot-remote-validation.yaml"
 TMP_PARENT="$ROOT/.adl/tmp/aws-spot-remote-validation-tests"
+
+grep -F 'elif [[ -x "$ROOT/.adl/bin/adl-aws-remote-validation" ]]' "$SCRIPT" >/dev/null
+grep -F 'LANE_BIN="$ROOT/.adl/bin/adl-aws-remote-validation"' "$SCRIPT" >/dev/null
 mkdir -p "$TMP_PARENT"
 TMP="$(mktemp -d "$TMP_PARENT/test.XXXXXX")"
 trap 'rm -rf "$TMP"' EXIT

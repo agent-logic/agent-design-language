@@ -205,6 +205,16 @@ EOF
   git commit -q -m baseline
   base_sha="$(git rev-parse HEAD)"
 
+  printf 'invalid on Windows\n' > 'docs/windows:illegal.md'
+  git add 'docs/windows:illegal.md'
+  git commit -q -m windows-illegal-path
+  if "$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref "refs/pull/1/merge" >"$tmp_dir/windows-illegal.out" 2>"$tmp_dir/windows-illegal.err"; then
+    echo "expected path policy to reject a Windows-illegal tracked path" >&2
+    exit 1
+  fi
+  assert_file_has "$tmp_dir/windows-illegal.err" 'docs/windows:illegal.md'
+  git reset -q --hard "$base_sha"
+
   printf '\nmore docs\n' >> docs/readme.md
   git add docs/readme.md
   git commit -q -m docs-change
