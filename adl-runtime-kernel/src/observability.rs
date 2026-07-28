@@ -53,6 +53,8 @@ pub struct RuntimeVectorConfig {
     pub lifecycle_cycle: String,
     pub otlp_endpoint: Option<String>,
     pub otlp_timeout_millis: u64,
+    pub vector_startup_attempts: u32,
+    pub vector_startup_backoff: Duration,
     pub vector_shutdown_limit: Duration,
     pub drain_timeout: Duration,
     pub filter_directive: String,
@@ -92,6 +94,8 @@ impl RuntimeVectorConfig {
             lifecycle_cycle: init.lifecycle_cycle.clone(),
             otlp_endpoint: init.otlp_endpoint.clone(),
             otlp_timeout_millis: init.otlp_timeout_millis,
+            vector_startup_attempts: init.vector_startup_attempts,
+            vector_startup_backoff: Duration::from_millis(init.vector_startup_backoff_millis),
             vector_shutdown_limit: Duration::from_millis(init.vector_shutdown_limit_millis),
             drain_timeout: Duration::from_millis(init.drain_timeout_millis),
             filter_directive: init.trace_filter.clone(),
@@ -191,44 +195,7 @@ impl RuntimeVectorPipeline {
             )
             .map_err(|_| "runtime_tracing_subscriber_already_installed")?;
         }
-        let mut child = spawn_vector_child(&config)?;
-        let child_pid = child.id();
-        write_observability_record(
-            &ingress,
-            &sequence,
-            &accepting,
-            &config,
-            StructuredEvent {
-                severity: "INFO",
-                target: "adl_runtime_kernel",
-                component: "observability",
-                operation: "vector_pipeline_started",
-                reason: "vector_child_supervised",
-                error_chain: "",
-                trace_id: format!("runtime-trace-{}", config.runtime_instance_id),
-                fields: BTreeMap::from([
-                    (
-                        "vector_pid".to_owned(),
-                        Value::Number(serde_json::Number::from(child_pid)),
-                    ),
-                    (
-                        "vector_version".to_owned(),
-                        Value::String(VECTOR_COMPONENT_VERSION.to_owned()),
-                    ),
-                ]),
-            },
-        );
-        if let Some(status) = child
-            .try_wait()
-            .map_err(|_| "vector_child_health_unknown")?
-        {
-            return Err(format!("vector_startup_failed:{status}"));
-        }
-        if !wait_for_master_sequence(&config.master_log_path, next_sequence, config.drain_timeout) {
-            let _ = child.kill();
-            let _ = child.wait();
-            return Err("vector_startup_readiness_not_observed".to_owned());
-        }
+        let child = start_vector_with_retries(&config, &ingress, &sequence, &accepting)?;
         Ok(Self {
             child: Some(child),
             ingress,
@@ -1084,6 +1051,131 @@ fn write_observability_record_locked(
     file.flush()?;
     sequence.store(current_sequence.saturating_add(1), Ordering::SeqCst);
     Ok(())
+}
+
+fn start_vector_with_retries(
+    config: &RuntimeVectorConfig,
+    ingress: &Arc<Mutex<File>>,
+    sequence: &Arc<AtomicU64>,
+    accepting: &Arc<AtomicBool>,
+) -> Result<Child, String> {
+    let mut last_failure = "vector_startup_not_attempted".to_owned();
+    for attempt in 1..=config.vector_startup_attempts {
+        let mut child = match spawn_vector_child(config) {
+            Ok(child) => child,
+            Err(failure) => {
+                last_failure = failure;
+                if attempt < config.vector_startup_attempts {
+                    record_vector_start_retry(
+                        config,
+                        ingress,
+                        sequence,
+                        accepting,
+                        attempt,
+                        &last_failure,
+                    );
+                    sleep(config.vector_startup_backoff.saturating_mul(attempt));
+                    continue;
+                }
+                break;
+            }
+        };
+        let child_pid = child.id();
+        let probe_sequence = sequence.load(Ordering::SeqCst);
+        write_observability_record(
+            ingress,
+            sequence,
+            accepting,
+            config,
+            StructuredEvent {
+                severity: "INFO",
+                target: "adl_runtime_kernel",
+                component: "observability",
+                operation: "vector_pipeline_started",
+                reason: "vector_child_supervised",
+                error_chain: "",
+                trace_id: format!("runtime-trace-{}", config.runtime_instance_id),
+                fields: BTreeMap::from([
+                    (
+                        "startup_attempt".to_owned(),
+                        Value::Number(serde_json::Number::from(attempt)),
+                    ),
+                    (
+                        "vector_pid".to_owned(),
+                        Value::Number(serde_json::Number::from(child_pid)),
+                    ),
+                    (
+                        "vector_version".to_owned(),
+                        Value::String(VECTOR_COMPONENT_VERSION.to_owned()),
+                    ),
+                ]),
+            },
+        );
+        if sequence.load(Ordering::SeqCst) != probe_sequence.saturating_add(1) {
+            let _ = child.kill();
+            let _ = child.wait();
+            return Err("vector_startup_record_not_persisted".to_owned());
+        }
+
+        last_failure = match child.try_wait() {
+            Ok(Some(status)) => format!("vector_startup_failed:{status}"),
+            Err(_) => "vector_child_health_unknown".to_owned(),
+            Ok(None)
+                if wait_for_master_sequence(
+                    &config.master_log_path,
+                    probe_sequence,
+                    config.drain_timeout,
+                ) =>
+            {
+                return Ok(child);
+            }
+            Ok(None) => "vector_startup_readiness_not_observed".to_owned(),
+        };
+        if child.try_wait().ok().flatten().is_none() {
+            let _ = child.kill();
+        }
+        let _ = child.wait();
+        if attempt < config.vector_startup_attempts {
+            record_vector_start_retry(config, ingress, sequence, accepting, attempt, &last_failure);
+            sleep(config.vector_startup_backoff.saturating_mul(attempt));
+        }
+    }
+    Err(format!(
+        "{last_failure}:attempts_exhausted:{}",
+        config.vector_startup_attempts
+    ))
+}
+
+fn record_vector_start_retry(
+    config: &RuntimeVectorConfig,
+    ingress: &Arc<Mutex<File>>,
+    sequence: &Arc<AtomicU64>,
+    accepting: &Arc<AtomicBool>,
+    attempt: u32,
+    failure: &str,
+) {
+    write_observability_record(
+        ingress,
+        sequence,
+        accepting,
+        config,
+        StructuredEvent {
+            severity: "WARN",
+            target: "adl_runtime_kernel",
+            component: "observability",
+            operation: "vector_pipeline_start_retry",
+            reason: failure,
+            error_chain: failure,
+            trace_id: format!("runtime-trace-{}", config.runtime_instance_id),
+            fields: BTreeMap::from([
+                (
+                    "completed_attempt".to_owned(),
+                    Value::Number(serde_json::Number::from(attempt)),
+                ),
+                ("service_continues".to_owned(), Value::Bool(true)),
+            ]),
+        },
+    );
 }
 
 fn spawn_vector_child(config: &RuntimeVectorConfig) -> Result<Child, String> {

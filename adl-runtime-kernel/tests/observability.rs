@@ -396,6 +396,39 @@ async fn runtime_vector_pipeline_accepts_an_already_reaped_vector_during_cleanup
 }
 
 #[tokio::test(flavor = "multi_thread")]
+async fn runtime_vector_pipeline_exhausts_configured_startup_retries_truthfully() {
+    let root = test_root("runtime-vector-startup-retries");
+    let mut config = vector_config(root, None);
+    config.vector_startup_attempts = 3;
+    config.vector_startup_backoff = std::time::Duration::ZERO;
+    config.drain_timeout = std::time::Duration::ZERO;
+    let ingress = config.ingress_spool_path.clone();
+
+    let error = match RuntimeVectorPipeline::start_without_subscriber_for_test(config) {
+        Ok(_) => panic!("zero readiness budget unexpectedly started Vector"),
+        Err(error) => error,
+    };
+
+    assert!(error.contains("vector_startup_readiness_not_observed"));
+    assert!(error.contains("attempts_exhausted:3"));
+    let records = read_records(&ingress);
+    assert_eq!(
+        records
+            .iter()
+            .filter(|record| record["operation"] == "vector_pipeline_started")
+            .count(),
+        3
+    );
+    assert_eq!(
+        records
+            .iter()
+            .filter(|record| record["operation"] == "vector_pipeline_start_retry")
+            .count(),
+        2
+    );
+}
+
+#[tokio::test(flavor = "multi_thread")]
 async fn runtime_vector_pipeline_rotates_bounded_spool_before_startup() {
     let root = test_root("runtime-vector-rotation");
     let spool = root.join("observability/spool");
@@ -451,6 +484,8 @@ fn vector_config(root: PathBuf, otlp_endpoint: Option<String>) -> RuntimeVectorC
         lifecycle_cycle: "cycle-1".to_owned(),
         otlp_endpoint,
         otlp_timeout_millis: 5_000,
+        vector_startup_attempts: 3,
+        vector_startup_backoff: std::time::Duration::from_millis(1),
         vector_shutdown_limit: std::time::Duration::from_millis(3_000),
         drain_timeout: std::time::Duration::from_millis(5_000),
         filter_directive: "adl_runtime_kernel=info".to_owned(),

@@ -136,6 +136,8 @@ lifecycle_run = "runtime-run"
 lifecycle_cycle = "runtime-cycle"
 trace_filter = "adl_runtime_kernel=info,adl_runtime=info"
 otlp_timeout_millis = 5000
+vector_startup_attempts = 3
+vector_startup_backoff_millis = 100
 vector_shutdown_limit_millis = 3000
 drain_timeout_millis = 5000
 vector_config_path = "{}"
