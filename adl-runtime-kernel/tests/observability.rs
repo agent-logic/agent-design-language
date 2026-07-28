@@ -120,6 +120,39 @@ fn master_log_auditor_scopes_to_run_window_and_structured_severity() {
 }
 
 #[test]
+fn master_log_auditor_accepts_exact_replay_and_rejects_conflicting_sequence_reuse() {
+    let root = test_root("duplicate-replay-audit");
+    let log_path = root.join("master.log.jsonl");
+    let first = record(0, "info", "kernel_starting", "boot", "wp-12");
+    let drain = record(
+        1,
+        "info",
+        "observability_drain_complete",
+        "shutdown_drained",
+        "wp-12",
+    );
+    write_records(
+        &log_path,
+        &[first.clone(), drain.clone(), first, drain.clone()],
+    );
+
+    let report = audit_master_log_file(&log_path, "macos", "wp-12", "rev-c", 0, 1).unwrap();
+    assert_eq!(report.status, "pass");
+    assert_eq!(report.record_count, 2);
+    assert_eq!(report.sequence_gaps, 0);
+
+    let mut conflicting = drain;
+    conflicting["operation"] = json!("different_operation");
+    let mut file = fs::OpenOptions::new().append(true).open(&log_path).unwrap();
+    use std::io::Write as _;
+    writeln!(file, "{}", serde_json::to_string(&conflicting).unwrap()).unwrap();
+
+    let report = audit_master_log_file(&log_path, "macos", "wp-12", "rev-c", 0, 1).unwrap();
+    assert_eq!(report.status, "fail");
+    assert_eq!(report.malformed_records, 1);
+}
+
+#[test]
 fn vector_config_declares_durable_master_otlp_and_bounded_buffers() {
     let root = test_root("config-shape");
     let config = vector_config(root.clone(), Some("http://127.0.0.1:4318".to_owned()));

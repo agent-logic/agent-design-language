@@ -512,6 +512,7 @@ pub fn audit_master_log_file(
         incomplete_drains: 1,
     };
     let mut expected_sequence = None;
+    let mut records_by_sequence = BTreeMap::new();
     let mut line = Vec::new();
     loop {
         line.clear();
@@ -534,6 +535,13 @@ pub fn audit_master_log_file(
         if sequence < start_sequence || sequence > end_sequence {
             continue;
         }
+        if let Some(previous) = records_by_sequence.get(&sequence) {
+            if previous != &record {
+                report.malformed_records = report.malformed_records.saturating_add(1);
+            }
+            continue;
+        }
+        records_by_sequence.insert(sequence, record.clone());
         report.record_count = report.record_count.saturating_add(1);
         if !has_required_master_log_fields(&record) {
             report.missing_required_fields = report.missing_required_fields.saturating_add(1);
