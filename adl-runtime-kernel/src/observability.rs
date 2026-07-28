@@ -643,6 +643,7 @@ pub fn render_vector_config(config: &RuntimeVectorConfig) -> Value {
             "inputs": ["runtime_v3_redacted"],
             "path": path(&config.master_log_path),
             "encoding": {"codec": "json"},
+            "acknowledgements": {"enabled": true},
             "buffer": {"type": "memory", "max_events": buffer_events, "when_full": "block"}
         }),
     );

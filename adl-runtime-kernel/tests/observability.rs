@@ -194,6 +194,10 @@ fn vector_config_declares_durable_master_otlp_and_bounded_buffers() {
         "memory"
     );
     assert_eq!(
+        rendered["sinks"]["runtime_v3_master_log"]["acknowledgements"]["enabled"],
+        true
+    );
+    assert_eq!(
         rendered["sinks"]["runtime_v3_otlp"]["type"],
         "opentelemetry"
     );
