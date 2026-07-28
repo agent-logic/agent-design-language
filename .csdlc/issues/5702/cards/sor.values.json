@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5702,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][podcast] Launch weekly AI Agent Podcast with flawless audio, RSS, guests, and site design",
+    "slug": "podcast-launch-audio-rss-guests-site-plan",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Prepared the #5702 Podcast Studio next-week launch plan with audio/RSS as hard launch gates, ten-episode prep, guest support, Deepgram investigation, Agent Logic site alignment, and Gemini review incorporation.",
+      "actual_changes": [
+        "Created a reviewable launch plan under .adl/docs/TBD/ for #5702.",
+        "Recorded audio and RSS as required launch gates rather than optional follow-ons.",
+        "Planned ten generated episode specs, DeepSeek/human guest states, Deepgram comparison, RSS validation, audio QA, redaction, and website design alignment.",
+        "Called Gemini and incorporated the complete review suggestions while truthfully retaining failed/truncated earlier attempts as unavailable."
+      ],
+      "artifacts": [
+        ".adl/docs/TBD/PODCAST_STUDIO_NEXT_WEEK_LAUNCH_PLAN_5702.md",
+        ".adl/local-artifacts/5702-podcast-launch-plan/gemini-review-result.json",
+        ".csdlc/prepared/issues/5702/validate_podcast_launch_plan.py"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Ensure the documentation and lifecycle patch has no whitespace diff errors.",
+          "outcome": "passed",
+          "evidence_ref": "diff-hygiene.log"
+        },
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/5702/validate_podcast_launch_plan.py"
+          ],
+          "purpose": "Validate required podcast launch plan content, Gemini review result truth, source evidence paths, and removal of stale local website-path claims.",
+          "outcome": "passed",
+          "evidence_ref": "podcast-plan-contract.log"
+        },
+        {
+          "command": [
+            "/Volumes/FastWork/cargo-targets/adl-podcast-launch/debug/csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "5702"
+          ],
+          "purpose": "Verify typed lifecycle state for #5702 before finalizing implementation evidence.",
+          "outcome": "passed",
+          "evidence_ref": "typed-doctor.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

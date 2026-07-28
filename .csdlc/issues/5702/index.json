@@ -1,0 +1,119 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5702,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "9176384166190f289fe3a972b39c30ca0bf79a7afe9cecc9488d3c8688691660",
+  "phase": "implemented",
+  "generation": 1,
+  "digest": "589a1713c036f7280d57989428f0ee07c68874e04cca1c2df75043e66ee58ce3",
+  "claim": {
+    "id": "claim-5702-podcast-launch-plan",
+    "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
+    "generation": 1,
+    "acquired_unix_seconds": 1785267608,
+    "expires_unix_seconds": 1785354008,
+    "heartbeat_unix_seconds": 1785267608,
+    "branch": "codex/5702-podcast-launch-plan",
+    "worktree": ".",
+    "protected_paths": [
+      ".adl/docs/TBD/PODCAST_STUDIO_NEXT_WEEK_LAUNCH_PLAN_5702.md",
+      ".csdlc/issues/5702",
+      ".csdlc/prepared/issues/5702",
+      ".csdlc/evidence/5702",
+      ".csdlc/locks/5702.lock"
+    ],
+    "purpose": "prepare #5702 podcast launch plan for review"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5702/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5702/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator",
+      "revision": "5815986988c08d81cefccaa0f5f8109205dcac5cbbd98d0e79cd83be46ccfe2a"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ca1dc93111739bfee70a4b73ed03e270fc832d51390eaf982654a1ba84cf54f6",
+      "rendered_digest": "4acc008949f966ac714a55ba0b43c9828347a3d63a67a63605e3cb880abc8293",
+      "ast_digest": "be0f67abdfa488c9731b80dd120485436925f515af3d2e7105c6ad92fb713bc0"
+    },
+    "stp": {
+      "values_digest": "150b799de38c83a252aa68796ecd1ca070790fc42a2a1b1457c84c94fd00425d",
+      "rendered_digest": "eed904ddea0422c51f76edff00e89fd9b3c8a9122088b250a07ebd785f18f0b9",
+      "ast_digest": "442aa3fc35d3830b1f95bae1062dc0e6f2115fb034dde49efa824834e7f6001f"
+    },
+    "spp": {
+      "values_digest": "faef86b4bfead940e9fbea4a330ba15ae2d9c9f3acb843d2b6f3974001246cba",
+      "rendered_digest": "00cb692c00870adfda30033c42312eb5c61396112f5a2d2d09e135a34d89e85e",
+      "ast_digest": "a091611d326eff57b7d17683eaa5202356cb3b501093d85344ddbc5a95b6c2df"
+    },
+    "vpp": {
+      "values_digest": "99bf915c382fd3b0e9f42c424b26bc45e510b0e2216802b69cde76c59e4e0281",
+      "rendered_digest": "90c0572a12ee30c06d4ae58284900982b597dcaf53b811ceeb90a84a0a058da3",
+      "ast_digest": "dc8ecdf7168ba8f8fb160f27dd2a03cacfad260f93051357eb004692b49b0eb2"
+    },
+    "srp": {
+      "values_digest": "81bc5c757712433210185a6b8163c86952de7c130d90b95c264397ff5e1f70ba",
+      "rendered_digest": "a58fd4a5f36c045f730d5d1a981d8f975aae071ae14ca4f1040deb0e5cd1e92b",
+      "ast_digest": "f83490ba8ceb7f374b4107f4d987d1f3c488ea55a552e804cb584333114a1c33"
+    },
+    "sor": {
+      "values_digest": "adcb142a44b270ca01c6bfd958b45fe43f47e4fb3a7cfa9469586b2d935facd9",
+      "rendered_digest": "7babbac0069983d0c7bf4157599117eae65afe513960c860b6b0f1ba483431f2",
+      "ast_digest": "3331c3b63195b0e8de2e4b3d3a0aadba3d02ba72de197921f8f63dce913dfc5d"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
