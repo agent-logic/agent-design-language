@@ -10,6 +10,12 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
+#[cfg(windows)]
+use windows_sys::Win32::{
+    Foundation::{CloseHandle, ERROR_INVALID_PARAMETER, STILL_ACTIVE},
+    System::Threading::{GetExitCodeProcess, OpenProcess, PROCESS_QUERY_LIMITED_INFORMATION},
+};
+
 use semver::{Version, VersionReq};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
@@ -701,9 +707,9 @@ fn writer_lock_owner_recoverable(owner: &WriterLockOwner) -> bool {
     !writer_pid_active(owner.pid)
 }
 
-#[cfg(not(unix))]
-fn writer_lock_owner_recoverable(_owner: &WriterLockOwner) -> bool {
-    false
+#[cfg(windows)]
+fn writer_lock_owner_recoverable(owner: &WriterLockOwner) -> bool {
+    !writer_pid_active(owner.pid)
 }
 
 #[cfg(unix)]
@@ -717,6 +723,23 @@ fn writer_pid_active(pid: u32) -> bool {
         || io::Error::last_os_error()
             .raw_os_error()
             .is_some_and(|code| code == libc::EPERM)
+}
+
+#[cfg(windows)]
+fn writer_pid_active(pid: u32) -> bool {
+    if pid == 0 {
+        return false;
+    }
+    let handle = unsafe { OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, 0, pid) };
+    if handle.is_null() {
+        return io::Error::last_os_error().raw_os_error() != Some(ERROR_INVALID_PARAMETER as i32);
+    }
+    let mut exit_code = 0_u32;
+    let queried = unsafe { GetExitCodeProcess(handle, &mut exit_code) };
+    unsafe {
+        CloseHandle(handle);
+    }
+    queried == 0 || exit_code == STILL_ACTIVE as u32
 }
 
 pub fn build_production_operation_executors_with_recorder(
