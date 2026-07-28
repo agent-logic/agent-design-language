@@ -316,6 +316,20 @@ pub async fn run_guardian(
                         )
                     }
                 };
+                let cleanup = if clean {
+                    child
+                        .cleanup_descendants(Duration::from_millis(config.shutdown_grace_ms))
+                        .await
+                } else {
+                    DescendantCleanup::default()
+                };
+            let forced = forced || cleanup.remaining;
+                let clean = clean && !cleanup.remaining;
+                let reason_code = if cleanup.remaining {
+                    "shutdown_descendants_survived".to_string()
+                } else {
+                    reason_code
+                };
                 let terminal = if clean {
                     GuardianTerminalState::ShutdownCheckpointed
                 } else {
@@ -345,19 +359,17 @@ pub async fn run_guardian(
             status = child.wait() => {
                 match status {
                     Ok(status) => {
-                        child
+                        let _ = child
                             .cleanup_descendants(Duration::from_millis(config.shutdown_grace_ms))
                             .await;
                         let code = status.code();
-                        let now = Instant::now();
-                        prune_restart_window(
-                            &mut restart_window,
-                            now,
-                            Duration::from_millis(config.healthy_window_ms),
-                        );
-                        let recent_restarts = restart_window.len() as u32;
                         let healthy_window = attempt_started.elapsed()
                             >= Duration::from_millis(config.healthy_window_ms);
+                        reset_restart_window_after_healthy_attempt(
+                            &mut restart_window,
+                            healthy_window,
+                        );
+                        let recent_restarts = restart_window.len() as u32;
                         let attempt_exit = classify_exit(&config, code, recent_restarts);
                         let reason_code = reason_code_for_exit(&config, code, recent_restarts, healthy_window);
                         let attempt = attempt_record(
@@ -379,7 +391,7 @@ pub async fn run_guardian(
                         attempt_exit
                     }
                     Err(error) => {
-                        child
+                        let _ = child
                             .cleanup_descendants(Duration::from_millis(config.shutdown_grace_ms))
                             .await;
                         let attempt = attempt_record(
@@ -406,16 +418,17 @@ pub async fn run_guardian(
                 lease_finished = true;
                 match child.try_wait() {
                     Ok(Some(status)) => {
+                        let _ = child
+                            .cleanup_descendants(Duration::from_millis(config.shutdown_grace_ms))
+                            .await;
                         let code = status.code();
-                        let now = Instant::now();
-                        prune_restart_window(
-                            &mut restart_window,
-                            now,
-                            Duration::from_millis(config.healthy_window_ms),
-                        );
-                        let recent_restarts = restart_window.len() as u32;
                         let healthy_window = attempt_started.elapsed()
                             >= Duration::from_millis(config.healthy_window_ms);
+                        reset_restart_window_after_healthy_attempt(
+                            &mut restart_window,
+                            healthy_window,
+                        );
+                        let recent_restarts = restart_window.len() as u32;
                         let attempt_exit = classify_exit(&config, code, recent_restarts);
                         let reason_code = reason_code_for_exit(&config, code, recent_restarts, healthy_window);
                         let attempt = attempt_record(
@@ -438,11 +451,11 @@ pub async fn run_guardian(
                     }
                     Ok(None) => {
                         let lease_outcome = normalize_lease_result(lease_result);
-                        let now = Instant::now();
-                        prune_restart_window(
+                        let healthy_window = attempt_started.elapsed()
+                            >= Duration::from_millis(config.healthy_window_ms);
+                        reset_restart_window_after_healthy_attempt(
                             &mut restart_window,
-                            now,
-                            Duration::from_millis(config.healthy_window_ms),
+                            healthy_window,
                         );
                         let recent_restarts = restart_window.len() as u32;
                         let attempt_exit = classify_restartable_failure(&config, recent_restarts);
@@ -800,22 +813,23 @@ impl GuardedChild {
         }
     }
 
-    async fn cleanup_descendants(&self, grace: Duration) {
+    async fn cleanup_descendants(&self, grace: Duration) -> DescendantCleanup {
         #[cfg(unix)]
         if let Some(process_group) = self.process_group {
             // The supervised child is already reaped here. Any surviving member
             // proves an orphaned descendant in the dedicated child group.
-            if unsafe { libc::kill(-process_group, libc::SIGTERM) } == 0 {
-                let deadline = Instant::now() + grace;
-                while unsafe { libc::kill(-process_group, 0) } == 0 && Instant::now() < deadline {
-                    sleep(Duration::from_millis(10)).await;
-                }
-                if unsafe { libc::kill(-process_group, 0) } == 0 {
-                    unsafe {
-                        libc::kill(-process_group, libc::SIGKILL);
-                    }
-                }
+            if unsafe { libc::kill(-process_group, 0) } != 0 {
+                return DescendantCleanup::default();
             }
+            let _ = unsafe { libc::kill(-process_group, libc::SIGTERM) };
+            wait_for_process_group_exit(process_group, grace).await;
+            if unsafe { libc::kill(-process_group, 0) } == 0 {
+                let _ = unsafe { libc::kill(-process_group, libc::SIGKILL) };
+                wait_for_process_group_exit(process_group, grace).await;
+            }
+            return DescendantCleanup {
+                remaining: unsafe { libc::kill(-process_group, 0) } == 0,
+            };
         }
         #[cfg(windows)]
         {
@@ -832,7 +846,25 @@ impl GuardedChild {
             {
                 sleep(Duration::from_millis(10)).await;
             }
+            return DescendantCleanup {
+                remaining: self.job.active_processes().is_some_and(|count| count > 0),
+            };
         }
+        #[allow(unreachable_code)]
+        DescendantCleanup::default()
+    }
+}
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+struct DescendantCleanup {
+    remaining: bool,
+}
+
+#[cfg(unix)]
+async fn wait_for_process_group_exit(process_group: i32, grace: Duration) {
+    let deadline = Instant::now() + grace;
+    while unsafe { libc::kill(-process_group, 0) } == 0 && Instant::now() < deadline {
+        sleep(Duration::from_millis(10)).await;
     }
 }
 
@@ -901,16 +933,12 @@ fn reason_code_for_restartable_failure(
     }
 }
 
-fn prune_restart_window(
+fn reset_restart_window_after_healthy_attempt(
     restart_window: &mut VecDeque<Instant>,
-    now: Instant,
-    healthy_window: Duration,
+    healthy_window: bool,
 ) {
-    while restart_window
-        .front()
-        .is_some_and(|restart| now.duration_since(*restart) >= healthy_window)
-    {
-        restart_window.pop_front();
+    if healthy_window {
+        restart_window.clear();
     }
 }
 
@@ -1465,21 +1493,21 @@ mod tests {
 
     #[cfg(unix)]
     #[tokio::test]
-    async fn restart_budget_uses_sliding_window_for_recent_failures() {
-        let root = TestRoot::new("sliding-window");
+    async fn restart_budget_does_not_reset_during_backoff_without_healthy_uptime() {
+        let root = TestRoot::new("backoff-does-not-reset-budget");
         let counter = root.path("counter");
         let script = root.script(
-            "sliding-window.sh",
+            "backoff-does-not-reset-budget.sh",
             &format!(
-                "#!/bin/sh\ncount=$(cat {counter} 2>/dev/null || echo 0)\ncount=$((count + 1))\necho $count > {counter}\nif [ \"$count\" -eq 2 ]; then sleep 0.08; else sleep 0.01; fi\nexit 7\n",
+                "#!/bin/sh\ncount=$(cat {counter} 2>/dev/null || echo 0)\ncount=$((count + 1))\necho $count > {counter}\nif [ \"$count\" -ge 3 ]; then exit 0; fi\nexit 7\n",
                 counter = counter.display()
             ),
         );
         let mut config = test_config(script);
         config.args.clear();
-        config.restart_budget = 2;
-        config.backoff_base_ms = 1;
-        config.backoff_cap_ms = 1;
+        config.restart_budget = 1;
+        config.backoff_base_ms = 80;
+        config.backoff_cap_ms = 80;
         config.healthy_window_ms = 50;
 
         let outcome = run_guardian(config, CancellationToken::new())
@@ -1490,13 +1518,13 @@ mod tests {
             outcome.terminal_state,
             GuardianTerminalState::RestartBudgetExhausted
         );
-        assert_eq!(outcome.attempts, 4);
-        assert_eq!(outcome.restarts, 3);
+        assert_eq!(outcome.attempts, 2);
+        assert_eq!(outcome.restarts, 1);
         assert_eq!(outcome.last_reason(), Some("restart_budget_exhausted"));
         assert_eq!(
             fs::read_to_string(counter).unwrap().trim(),
-            "4",
-            "the first older restart is pruned, then the bounded recent window exhausts"
+            "2",
+            "backoff or downtime must not replenish restart budget without observed healthy child uptime"
         );
     }
 
@@ -1654,6 +1682,92 @@ fn main() {
         assert_eq!(attempt.unix_signal, Some(libc::SIGTERM));
         assert!(attempt.clean_checkpointed_shutdown);
         assert!(!attempt.forced_shutdown);
+    }
+
+    #[cfg(unix)]
+    #[tokio::test]
+    async fn clean_shutdown_terminates_descendant_spawned_by_successful_child() {
+        let root = TestRoot::new("shutdown-descendant-cleanup");
+        let ready = root.path("ready");
+        let descendant_pid = root.path("descendant-pid");
+        let descendant_ready = root.path("descendant-ready");
+        let child = root.rust_child(
+            "shutdown-descendant-child",
+            r#"
+use std::io::{Read, Write};
+use std::net::TcpStream;
+use std::process::Command;
+use std::time::{Duration, Instant};
+
+fn main() {
+    let address = std::env::var("ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS").unwrap();
+    let token = std::env::var("ADL_RUNTIME_GUARDIAN_LEASE_TOKEN").unwrap();
+    let ready = std::env::args().nth(1).unwrap();
+    let descendant_pid = std::env::args().nth(2).unwrap();
+    let descendant_ready = std::env::args().nth(3).unwrap();
+    let mut stream = TcpStream::connect(address).unwrap();
+    stream.write_all(token.as_bytes()).unwrap();
+    let mut acknowledgement = [0_u8; 2];
+    stream.read_exact(&mut acknowledgement).unwrap();
+    assert_eq!(&acknowledgement, b"ok");
+    std::fs::write(&ready, b"ready").unwrap();
+    let mut closed = [0_u8; 1];
+    assert_eq!(stream.read(&mut closed).unwrap(), 0);
+    let descendant = Command::new("sh")
+        .arg("-c")
+        .arg("echo ready > \"$1\"; while true; do sleep 1; done")
+        .arg("adl-descendant")
+        .arg(&descendant_ready)
+        .spawn()
+        .unwrap();
+    std::fs::write(&descendant_pid, descendant.id().to_string()).unwrap();
+    let deadline = Instant::now() + Duration::from_secs(2);
+    while !std::path::Path::new(&descendant_ready).exists() && Instant::now() < deadline {
+        std::thread::sleep(Duration::from_millis(10));
+    }
+}
+"#,
+        );
+        let mut config = test_config(child);
+        config.args = vec![
+            ready.to_string_lossy().into_owned(),
+            descendant_pid.to_string_lossy().into_owned(),
+            descendant_ready.to_string_lossy().into_owned(),
+        ];
+        config.child_shutdown_budget_ms = 500;
+        config.shutdown_grace_ms = 700;
+        let shutdown = CancellationToken::new();
+        let cancel = shutdown.clone();
+
+        let task = tokio::spawn(run_guardian(config, shutdown));
+        let deadline = Instant::now() + Duration::from_secs(2);
+        while !ready.exists() && Instant::now() < deadline {
+            sleep(Duration::from_millis(10)).await;
+        }
+        assert!(ready.exists(), "child must authenticate its Guardian lease");
+        cancel.cancel();
+        let outcome = task.await.unwrap().unwrap();
+
+        assert_eq!(
+            outcome.terminal_state,
+            GuardianTerminalState::ShutdownCheckpointed
+        );
+        assert_eq!(outcome.last_reason(), Some("shutdown_clean_checkpointed"));
+        assert!(outcome.attempts_detail[0].clean_checkpointed_shutdown);
+        let descendant = fs::read_to_string(descendant_pid)
+            .unwrap()
+            .trim()
+            .parse::<i32>()
+            .unwrap();
+        let deadline = Instant::now() + Duration::from_secs(1);
+        while unsafe { libc::kill(descendant, 0) } == 0 && Instant::now() < deadline {
+            sleep(Duration::from_millis(10)).await;
+        }
+        assert_ne!(
+            unsafe { libc::kill(descendant, 0) },
+            0,
+            "Guardian must not report a clean checkpointed shutdown while an owned descendant survives"
+        );
     }
 
     #[tokio::test]

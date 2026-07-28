@@ -34,7 +34,10 @@ use tracing_subscriber::{
 #[cfg(windows)]
 use std::os::windows::process::CommandExt;
 #[cfg(windows)]
-use windows_sys::Win32::System::Threading::CREATE_NEW_PROCESS_GROUP;
+use windows_sys::Win32::System::{
+    Console::{GenerateConsoleCtrlEvent, CTRL_BREAK_EVENT},
+    Threading::CREATE_NEW_PROCESS_GROUP,
+};
 
 pub const VECTOR_COMPONENT_VERSION: &str = "0.56.0";
 const SEQUENCE_CHECKPOINT_SCHEMA: &str = "adl.runtime_v3.observability.sequence.v1";
@@ -372,20 +375,15 @@ impl RuntimeVectorPipeline {
     }
 
     pub async fn shutdown(&mut self) -> Result<(), String> {
-        self.shutdown_blocking();
-        if self.drain_complete {
-            Ok(())
-        } else {
-            Err(self
-                .last_failure
-                .clone()
-                .unwrap_or_else(|| "runtime_observability_shutdown_incomplete".to_owned()))
-        }
+        self.shutdown_blocking()
     }
 
-    fn shutdown_blocking(&mut self) {
+    fn shutdown_blocking(&mut self) -> Result<(), String> {
         if self.drain_complete {
-            return;
+            return match self.last_failure.clone() {
+                Some(failure) => Err(failure),
+                None => Ok(()),
+            };
         }
         if let Ok(mut ingress) = self.ingress.lock() {
             self.accepting.store(false, Ordering::SeqCst);
@@ -432,43 +430,35 @@ impl RuntimeVectorPipeline {
                 .to_owned(),
             );
         }
-        let _ = self
+        if let Err(error) = self
             .audit_master_log(&current_platform(), &self.config.lifecycle_suite)
-            .and_then(|report| write_json_atomic(&self.audit_path, &report));
+            .and_then(|report| write_json_atomic(&self.audit_path, &report))
+        {
+            let failure = format!("master_log_audit_persistence_failed:{error}");
+            self.last_failure = Some(failure.clone());
+            return Err(failure);
+        }
+        if self.drain_complete {
+            Ok(())
+        } else {
+            Err(self
+                .last_failure
+                .clone()
+                .unwrap_or_else(|| "runtime_observability_shutdown_incomplete".to_owned()))
+        }
     }
 
     fn terminate_vector(&mut self) -> bool {
         let Some(mut child) = self.child.take() else {
             return false;
         };
-        if child.try_wait().is_ok_and(|status| status.is_some()) {
-            return true;
-        }
-        #[cfg(unix)]
-        let signaled = unsafe { libc::kill(child.id() as i32, libc::SIGTERM) == 0 };
-        #[cfg(windows)]
-        let signaled = child.kill().is_ok();
-        #[cfg(not(any(unix, windows)))]
-        let signaled = false;
-        if !signaled {
-            if child.try_wait().is_ok_and(|status| status.is_some()) {
-                return true;
-            }
-            let _ = child.kill();
-            let _ = child.wait();
-            return false;
-        }
-        let deadline = Instant::now() + self.config.drain_timeout;
-        while Instant::now() < deadline {
-            match child.try_wait() {
-                Ok(Some(_status)) => return true,
-                Ok(None) => sleep(Duration::from_millis(50)),
-                Err(_) => break,
-            }
-        }
-        let _ = child.kill();
-        let _ = child.wait();
-        false
+        terminate_vector_child(&mut child, self.config.drain_timeout)
+    }
+
+    #[cfg(test)]
+    #[allow(dead_code)]
+    pub fn terminate_vector_child_for_test(mut child: Child, drain_timeout: Duration) -> bool {
+        terminate_vector_child(&mut child, drain_timeout)
     }
 
     #[cfg(test)]
@@ -485,6 +475,46 @@ impl RuntimeVectorPipeline {
     pub fn terminate_vector_for_test(&mut self) -> bool {
         self.terminate_vector()
     }
+}
+
+fn terminate_vector_child(child: &mut Child, drain_timeout: Duration) -> bool {
+    if child.try_wait().is_ok_and(|status| status.is_some()) {
+        return true;
+    }
+    if !signal_vector_shutdown(child) {
+        if child.try_wait().is_ok_and(|status| status.is_some()) {
+            return true;
+        }
+        let _ = child.kill();
+        let _ = child.wait();
+        return false;
+    }
+    let deadline = Instant::now() + drain_timeout;
+    while Instant::now() < deadline {
+        match child.try_wait() {
+            Ok(Some(_status)) => return true,
+            Ok(None) => sleep(Duration::from_millis(50)),
+            Err(_) => break,
+        }
+    }
+    let _ = child.kill();
+    let _ = child.wait();
+    false
+}
+
+#[cfg(unix)]
+fn signal_vector_shutdown(child: &Child) -> bool {
+    unsafe { libc::kill(child.id() as i32, libc::SIGTERM) == 0 }
+}
+
+#[cfg(windows)]
+fn signal_vector_shutdown(child: &Child) -> bool {
+    unsafe { GenerateConsoleCtrlEvent(CTRL_BREAK_EVENT, child.id()) != 0 }
+}
+
+#[cfg(not(any(unix, windows)))]
+fn signal_vector_shutdown(_child: &Child) -> bool {
+    false
 }
 
 impl Drop for RuntimeVectorPipeline {

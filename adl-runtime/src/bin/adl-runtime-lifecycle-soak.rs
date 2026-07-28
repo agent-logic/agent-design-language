@@ -1,5 +1,7 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
+    fs::File,
+    io::Write,
     net::{SocketAddr, ToSocketAddrs},
     path::{Path, PathBuf},
     process::{ExitCode, Stdio},
@@ -10,6 +12,7 @@ use std::{
 use adl_runtime::guardian::{GuardianOutcome, GuardianTerminalState};
 use adl_runtime_kernel::verify_live_continuity_lineage;
 use ed25519_dalek::{SigningKey, VerifyingKey};
+use fs2::FileExt;
 use rcgen::{date_time_ymd, BasicConstraints, CertificateParams, CertifiedIssuer, IsCa, KeyPair};
 use sha2::{Digest, Sha256};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -85,6 +88,14 @@ async fn main() -> ExitCode {
             return ExitCode::from(66);
         }
     };
+    let _qualification_lock = match QualificationLock::acquire(&args.init_template, fixture.address)
+    {
+        Ok(lock) => lock,
+        Err(error) => {
+            eprintln!("failed acquiring lifecycle qualification lock: {error}");
+            return ExitCode::from(75);
+        }
+    };
 
     let execution = match execute_suite(&args, &fixture, started).await {
         Ok(execution) => execution,
@@ -125,6 +136,82 @@ struct ProductionFixture {
     readiness_timeout: Duration,
     readiness_poll: Duration,
     shutdown_wait: Duration,
+}
+
+#[derive(Debug)]
+struct QualificationLock {
+    file: File,
+}
+
+impl QualificationLock {
+    fn acquire(init_template: &Path, address: SocketAddr) -> Result<Self, String> {
+        let init_template = init_template.canonicalize().map_err(|error| {
+            format!(
+                "init template {} could not be canonicalized: {error}",
+                init_template.display()
+            )
+        })?;
+        let repository_root = init_template
+            .ancestors()
+            .find(|candidate| candidate.join(".git").exists())
+            .ok_or_else(|| {
+                format!(
+                    "init template {} is not inside a Git worktree",
+                    init_template.display()
+                )
+            })?;
+        let lock_dir = repository_root
+            .join(".adl")
+            .join("runtime-v3")
+            .join("qualification");
+        std::fs::create_dir_all(&lock_dir).map_err(|error| {
+            format!(
+                "could not create qualification lock directory {}: {error}",
+                lock_dir.display()
+            )
+        })?;
+        let address_key = address.to_string().replace([':', '[', ']'], "_");
+        Self::acquire_at(&lock_dir.join(format!("api-{address_key}.lock")), address)
+    }
+
+    fn acquire_at(path: &Path, address: SocketAddr) -> Result<Self, String> {
+        let mut file = std::fs::OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .read(true)
+            .write(true)
+            .open(path)
+            .map_err(|error| {
+                format!(
+                    "could not open qualification lock {}: {error}",
+                    path.display()
+                )
+            })?;
+        file.try_lock_exclusive().map_err(|error| {
+            format!(
+                "another lifecycle qualification owns configured API address {address} \
+                 (lock {}): {error}",
+                path.display()
+            )
+        })?;
+        file.set_len(0)
+            .and_then(|()| write!(file, "pid={}\naddress={address}\n", std::process::id()))
+            .and_then(|()| file.sync_data())
+            .map_err(|error| {
+                let _ = FileExt::unlock(&file);
+                format!(
+                    "could not record qualification lock owner in {}: {error}",
+                    path.display()
+                )
+            })?;
+        Ok(Self { file })
+    }
+}
+
+impl Drop for QualificationLock {
+    fn drop(&mut self) {
+        let _ = FileExt::unlock(&self.file);
+    }
 }
 
 impl ProductionFixture {
@@ -938,12 +1025,6 @@ async fn execute_cycle(
     retain_log: bool,
     require_restart_proof: bool,
 ) -> Result<CycleObservation, String> {
-    wait_for_control_address_release(
-        fixture.address,
-        fixture.readiness_timeout,
-        fixture.readiness_poll,
-    )
-    .await?;
     fixture.configure_cycle(args, run, cycle, expected_generation.saturating_sub(1))?;
     std::fs::create_dir_all(&fixture.continuity_root)
         .map_err(|error| format!("could not create continuity root: {error}"))?;
@@ -1086,37 +1167,6 @@ async fn execute_cycle(
         restarts: u64::from(outcome.restarts),
         log_proof,
     })
-}
-
-async fn wait_for_control_address_release(
-    address: SocketAddr,
-    timeout: Duration,
-    poll: Duration,
-) -> Result<(), String> {
-    let deadline = Instant::now() + timeout;
-    loop {
-        match std::net::TcpListener::bind(address) {
-            Ok(listener) => {
-                drop(listener);
-                return Ok(());
-            }
-            Err(error) if error.kind() == std::io::ErrorKind::AddrInUse => {
-                if Instant::now() >= deadline {
-                    return Err(format!(
-                        "configured API address {} was not released before the readiness deadline",
-                        address
-                    ));
-                }
-                tokio::time::sleep(poll).await;
-            }
-            Err(error) => {
-                return Err(format!(
-                    "configured API address {} could not be probed for release: {error}",
-                    address
-                ));
-            }
-        }
-    }
 }
 
 fn diagnostic_tail(output: &str, state_root: &Path) -> String {
@@ -2077,19 +2127,22 @@ fn write_secret(path: &Path, bytes: &[u8]) -> std::io::Result<()> {
 mod tests {
     use super::*;
 
-    #[tokio::test]
-    async fn waits_for_the_configured_api_address_to_be_released() {
-        let held = std::net::TcpListener::bind("127.0.0.1:0").expect("bind test listener");
-        let address = held.local_addr().expect("test listener address");
-        let release = tokio::spawn(async move {
-            tokio::time::sleep(Duration::from_millis(20)).await;
-            drop(held);
-        });
+    #[test]
+    fn qualification_lock_serializes_the_configured_api_address() {
+        let current_dir = std::env::current_dir().expect("current directory");
+        let directory = tempfile::tempdir_in(current_dir).expect("repo-local temporary directory");
+        let lock_path = directory.path().join("api.lock");
+        let address = "127.0.0.1:20997".parse().expect("test address");
 
-        wait_for_control_address_release(address, Duration::from_secs(1), Duration::from_millis(5))
-            .await
-            .expect("address should become reusable");
-        release.await.expect("release task");
+        let first =
+            QualificationLock::acquire_at(&lock_path, address).expect("first qualification lock");
+        let contention = QualificationLock::acquire_at(&lock_path, address)
+            .expect_err("second qualification must be rejected");
+        assert!(contention.contains("another lifecycle qualification owns"));
+
+        drop(first);
+        QualificationLock::acquire_at(&lock_path, address)
+            .expect("qualification lock should release with its owner");
     }
 
     #[test]
