@@ -1,5 +1,5 @@
 use std::{
-    collections::BTreeSet,
+    collections::{BTreeMap, BTreeSet},
     net::{SocketAddr, ToSocketAddrs},
     path::{Path, PathBuf},
     process::{ExitCode, Stdio},
@@ -1391,7 +1391,7 @@ fn verify_master_log(
         .map_err(|_| "master log is not UTF-8 JSONL".to_owned())?;
     let expected_run = format!("{}:run-{run}", args.revision);
     let expected_cycle = format!("{}:run-{run}:cycle-{cycle}", args.suite.name());
-    let mut master_log_records = 0_u64;
+    let mut records_by_sequence = BTreeMap::new();
     for (index, line) in master_log_text
         .lines()
         .filter(|line| !line.trim().is_empty())
@@ -1408,6 +1408,20 @@ fn verify_master_log(
                 index + 1
             ));
         }
+        let sequence = record["sequence"].as_u64().ok_or_else(|| {
+            format!(
+                "master log record {} omitted its numeric sequence",
+                index + 1
+            )
+        })?;
+        if let Some(previous) = records_by_sequence.get(&sequence) {
+            if previous != &record {
+                return Err(format!(
+                    "master log sequence {sequence} was reused with conflicting content"
+                ));
+            }
+            continue;
+        }
         let searchable = format!(
             "{} {} {} {}",
             record["severity"], record["reason"], record["error_chain"], record["fields"]
@@ -1422,8 +1436,10 @@ fn verify_master_log(
                 index + 1
             ));
         }
-        master_log_records = master_log_records.saturating_add(1);
+        records_by_sequence.insert(sequence, record);
     }
+    let master_log_records = u64::try_from(records_by_sequence.len())
+        .map_err(|_| "master log unique record count overflowed".to_owned())?;
     if master_log_records == 0 {
         return Err("master log retained no records for this lifecycle cycle".to_owned());
     }
