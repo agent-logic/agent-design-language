@@ -1062,8 +1062,13 @@ impl WindowsJob {
     }
 
     fn assign(&self, child: &Child) -> std::io::Result<()> {
-        let assigned =
-            unsafe { AssignProcessToJobObject(self.handle, child.raw_handle() as HANDLE) };
+        let child_handle = child.raw_handle().ok_or_else(|| {
+            std::io::Error::new(
+                std::io::ErrorKind::InvalidInput,
+                "spawned child does not expose a Windows process handle",
+            )
+        })?;
+        let assigned = unsafe { AssignProcessToJobObject(self.handle, child_handle as HANDLE) };
         if assigned == 0 {
             Err(std::io::Error::last_os_error())
         } else {
