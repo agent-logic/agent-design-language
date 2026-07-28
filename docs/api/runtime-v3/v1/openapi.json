@@ -1,0 +1,379 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ADL Runtime v3 Core API",
+    "version": "1.0.0",
+    "summary": "Versioned Runtime v3 control API contract",
+    "description": "Runtime Core API v1 documents only production Runtime v3 endpoints reachable in the Axum/Tokio/Rustls kernel. It does not claim Provider, ACIP, A2A, Cloud Bridge, metrics, health, checkpoint, scheduling, cancellation, or discovery endpoints as separate operational HTTP APIs unless the runtime actually exposes them."
+  },
+  "servers": [
+    {
+      "url": "{publicBaseUrl}",
+      "description": "Configured Runtime v3 HTTPS base URL from runtime init/config.",
+      "variables": {
+        "publicBaseUrl": {
+          "default": "https://localhost:20997",
+          "description": "Config-provided public base URL; port 20997 is the repository default, not a schema constant."
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "control",
+      "description": "Signed Runtime v3 control commands."
+    }
+  ],
+  "paths": {
+    "/v1/control": {
+      "post": {
+        "operationId": "runtimeControlCommand",
+        "tags": ["control"],
+        "summary": "Submit a signed Runtime v3 control command",
+        "description": "Executes a signed Ed25519 control command against the current runtime instance. The action may read a snapshot, submit canonical work through live ingress, or request shutdown according to the key capability set.",
+        "security": [
+          {
+            "runtimeSignedCommand": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignedControlCommand"
+              },
+              "examples": {
+                "snapshot": {
+                  "value": {
+                    "schema": "adl.runtime.control_command.v1",
+                    "runtime_instance_id": "runtime0001",
+                    "command_id": "cmd0001",
+                    "correlation_id": "corr-0001",
+                    "principal": "operator",
+                    "action": {
+                      "action": "snapshot"
+                    },
+                    "signing_algorithm": "ed25519",
+                    "signing_key_id": "operator-key",
+                    "signature": "00"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command accepted and executed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ControlResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthenticationFailed"
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/IdempotencyConflict"
+          },
+          "410": {
+            "$ref": "#/components/responses/StaleRuntimeInstance"
+          },
+          "503": {
+            "$ref": "#/components/responses/TemporarilyUnavailable"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "runtimeSignedCommand": {
+        "type": "mutualTLS",
+        "description": "Runtime transport is TLS/Rustls. Command authorization is additionally enforced by the Ed25519 signature fields in SignedControlCommand."
+      }
+    },
+    "responses": {
+      "InvalidRequest": {
+        "description": "Invalid request encoding, identifier, bounds, schema, or signature shape.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ControlError"
+            }
+          }
+        }
+      },
+      "AuthenticationFailed": {
+        "description": "Authentication failed.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ControlError"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Authenticated principal lacks the required control capability.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ControlError"
+            }
+          }
+        }
+      },
+      "IdempotencyConflict": {
+        "description": "Command id conflict, in-flight duplicate, or duplicate terminal lifecycle request.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ControlError"
+            }
+          }
+        }
+      },
+      "StaleRuntimeInstance": {
+        "description": "The command targets a stale runtime instance id.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ControlError"
+            }
+          }
+        }
+      },
+      "TemporarilyUnavailable": {
+        "description": "Runtime admission is closed, saturated, or temporarily unavailable.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ControlError"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "SignedControlCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "runtime_instance_id",
+          "command_id",
+          "correlation_id",
+          "principal",
+          "action",
+          "signing_algorithm",
+          "signing_key_id",
+          "signature"
+        ],
+        "properties": {
+          "schema": {
+            "const": "adl.runtime.control_command.v1"
+          },
+          "runtime_instance_id": {
+            "type": "string"
+          },
+          "command_id": {
+            "type": "string"
+          },
+          "correlation_id": {
+            "type": "string"
+          },
+          "principal": {
+            "type": "string"
+          },
+          "action": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ControlActionSnapshot"
+              },
+              {
+                "$ref": "#/components/schemas/ControlActionSubmit"
+              },
+              {
+                "$ref": "#/components/schemas/ControlActionShutdown"
+              }
+            ]
+          },
+          "signing_algorithm": {
+            "const": "ed25519"
+          },
+          "signing_key_id": {
+            "type": "string"
+          },
+          "signature": {
+            "type": "string",
+            "description": "Hex-encoded Ed25519 signature over the unsigned command JSON."
+          }
+        }
+      },
+      "ControlActionSnapshot": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action"],
+        "properties": {
+          "action": {
+            "const": "snapshot"
+          }
+        }
+      },
+      "ControlActionSubmit": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action", "work"],
+        "properties": {
+          "action": {
+            "const": "submit"
+          },
+          "work": {
+            "$ref": "#/components/schemas/DomainWork"
+          }
+        }
+      },
+      "ControlActionShutdown": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action", "grace_millis"],
+        "properties": {
+          "action": {
+            "const": "shutdown"
+          },
+          "grace_millis": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 60000
+          }
+        }
+      },
+      "DomainWork": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["kind", "idempotency_key", "payload"],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "Runtime-supported canonical ingress work kind."
+          },
+          "idempotency_key": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object"
+          }
+        }
+      },
+      "ControlResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "command_id", "correlation_id", "outcome"],
+        "properties": {
+          "schema": {
+            "const": "adl.runtime.control_response.v1"
+          },
+          "command_id": {
+            "type": "string"
+          },
+          "correlation_id": {
+            "type": "string"
+          },
+          "outcome": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ControlOutcomeSnapshot"
+              },
+              {
+                "$ref": "#/components/schemas/ControlOutcomeSubmitted"
+              },
+              {
+                "$ref": "#/components/schemas/ControlOutcomeShutdown"
+              }
+            ]
+          }
+        }
+      },
+      "ControlOutcomeSnapshot": {
+        "type": "object",
+        "required": ["result", "snapshot"],
+        "properties": {
+          "result": {
+            "const": "snapshot"
+          },
+          "snapshot": {
+            "type": "object"
+          }
+        }
+      },
+      "ControlOutcomeSubmitted": {
+        "type": "object",
+        "required": ["result", "work_result"],
+        "properties": {
+          "result": {
+            "const": "submitted"
+          },
+          "work_result": {
+            "type": "object"
+          }
+        }
+      },
+      "ControlOutcomeShutdown": {
+        "type": "object",
+        "required": ["result", "exit"],
+        "properties": {
+          "result": {
+            "const": "shutdown"
+          },
+          "exit": {
+            "enum": ["clean", "failed"]
+          }
+        }
+      },
+      "ControlError": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "code"],
+        "properties": {
+          "schema": {
+            "const": "adl.runtime.control_error.v1"
+          },
+          "code": {
+            "enum": [
+              "authentication_failed",
+              "unauthorized",
+              "idempotency_conflict",
+              "temporarily_unavailable",
+              "stale_runtime_instance",
+              "invalid_request"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "x-adl-api-identity": "runtime-core",
+  "x-adl-api-version": "v1",
+  "x-adl-route-inventory": [
+    {
+      "method": "post",
+      "path": "/v1/control",
+      "source": "adl-runtime-kernel/src/control.rs"
+    }
+  ],
+  "x-adl-non-claims": [
+    "No standalone HTTP metrics, provider, ACIP, A2A, cloud bridge, checkpoint, scheduler, cancellation, or trusted-time endpoints are exposed by this contract unless they become real Axum routes.",
+    "No fixture, degraded, simulated, or unavailable feature is documented as operational."
+  ]
+}

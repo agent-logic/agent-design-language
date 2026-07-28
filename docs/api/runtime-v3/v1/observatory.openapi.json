@@ -1,0 +1,389 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ADL Runtime-hosted Observatory API",
+    "version": "1.0.0",
+    "summary": "Versioned Runtime v3 Observatory data API contract",
+    "description": "Observatory API v1 documents runtime-hosted data and stream endpoints consumed by the separate Observatory application. The HTML application is not served by the runtime."
+  },
+  "servers": [
+    {
+      "url": "{publicBaseUrl}",
+      "description": "Configured Runtime v3 HTTPS base URL from runtime init/config.",
+      "variables": {
+        "publicBaseUrl": {
+          "default": "https://localhost:20997",
+          "description": "Config-provided public base URL; port 20997 is the repository default, not a schema constant."
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "observatory",
+      "description": "Authenticated Observatory snapshot and WSS stream."
+    }
+  ],
+  "paths": {
+    "/v1/observatory": {
+      "get": {
+        "operationId": "readObservatorySnapshot",
+        "tags": ["observatory"],
+        "summary": "Read the current Runtime v3 Observatory snapshot",
+        "security": [
+          {
+            "observatoryBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current Runtime v3 Observatory snapshot.",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObservatoryFeed"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/AuthenticationFailed"
+          },
+          "403": {
+            "$ref": "#/components/responses/OriginForbidden"
+          }
+        }
+      },
+      "options": {
+        "operationId": "observatoryCorsPreflight",
+        "tags": ["observatory"],
+        "summary": "Validate an allowed Observatory origin",
+        "responses": {
+          "204": {
+            "description": "Allowed origin preflight."
+          },
+          "403": {
+            "$ref": "#/components/responses/OriginForbidden"
+          }
+        }
+      }
+    },
+    "/v1/observatory/ws": {
+      "get": {
+        "operationId": "openObservatoryWebSocket",
+        "tags": ["observatory"],
+        "summary": "Open an authenticated read-only Observatory WSS session",
+        "description": "Upgrades to WebSocket. The first client text frame must be ObservatoryWsAuth. The server then emits ObservatoryFeed frames periodically. Client text or binary frames after authentication close the session with read_only_observatory. Revoked credentials close with credential_revoked.",
+        "security": [
+          {
+            "observatoryBearer": []
+          }
+        ],
+        "responses": {
+          "101": {
+            "description": "WebSocket upgrade accepted after origin validation. Frame-level authentication still occurs as the first text frame."
+          },
+          "403": {
+            "$ref": "#/components/responses/OriginForbidden"
+          }
+        },
+        "x-adl-websocket": {
+          "scheme": "wss",
+          "maxFrameBytes": 65536,
+          "authenticationTimeoutSeconds": 5,
+          "refreshSeconds": 1,
+          "clientFirstFrame": {
+            "$ref": "#/components/schemas/ObservatoryWsAuth"
+          },
+          "clientFrames": [
+            {
+              "type": "ping",
+              "serverReply": "pong"
+            },
+            {
+              "type": "close",
+              "serverReply": "close"
+            }
+          ],
+          "serverFrames": [
+            {
+              "$ref": "#/components/schemas/ObservatoryFeed"
+            }
+          ],
+          "policyCloseReasons": [
+            "authentication_failed",
+            "credential_revoked",
+            "read_only_observatory"
+          ],
+          "mutationAuthority": false
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "observatoryBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Bearer token configured outside code through Runtime v3 init/environment. WSS also requires the same bearer token in the first authenticated text frame."
+      }
+    },
+    "responses": {
+      "AuthenticationFailed": {
+        "description": "Missing, malformed, or incorrect Observatory bearer token.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ControlError"
+            }
+          }
+        }
+      },
+      "OriginForbidden": {
+        "description": "Origin is absent for WSS or not present in configured observatory.allowed_origins."
+      }
+    },
+    "schemas": {
+      "ObservatoryWsAuth": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "bearer_token"],
+        "properties": {
+          "schema": {
+            "const": "adl.runtime_v3.observatory_ws_auth.v1"
+          },
+          "bearer_token": {
+            "type": "string",
+            "minLength": 32,
+            "maxLength": 256
+          }
+        }
+      },
+      "ObservatoryFeed": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "schema",
+          "runtime_instance_id",
+          "default_runtime_changed",
+          "runtime_selection",
+          "control",
+          "health",
+          "continuity",
+          "ingress",
+          "agents",
+          "proof",
+          "events"
+        ],
+        "properties": {
+          "schema": {
+            "const": "adl.runtime_v3.observatory_feed.v2"
+          },
+          "runtime_instance_id": {
+            "type": "string"
+          },
+          "default_runtime_changed": {
+            "type": "boolean"
+          },
+          "runtime_selection": {
+            "const": "runtime_v3_explicit_opt_in"
+          },
+          "control": {
+            "$ref": "#/components/schemas/ObservatoryControlFeed"
+          },
+          "health": {
+            "$ref": "#/components/schemas/ObservatoryHealthFeed"
+          },
+          "weather": {
+            "type": ["object", "null"]
+          },
+          "weather_freshness": {
+            "type": ["object", "null"]
+          },
+          "continuity": {
+            "type": "object"
+          },
+          "ingress": {
+            "type": "object"
+          },
+          "agents": {
+            "$ref": "#/components/schemas/AgentPopulationFeed"
+          },
+          "proof": {
+            "$ref": "#/components/schemas/ObservatoryProofFeed"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "ObservatoryControlFeed": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "port",
+          "public_base_url",
+          "read_endpoint",
+          "websocket_endpoint",
+          "signed_command_endpoint",
+          "signed_commands_required_for_mutation",
+          "bearer_token_required_for_read",
+          "browser_mutation_authority"
+        ],
+        "properties": {
+          "port": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "public_base_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "read_endpoint": {
+            "const": "/v1/observatory"
+          },
+          "websocket_endpoint": {
+            "const": "/v1/observatory/ws"
+          },
+          "signed_command_endpoint": {
+            "const": "/v1/control"
+          },
+          "signed_commands_required_for_mutation": {
+            "const": true
+          },
+          "bearer_token_required_for_read": {
+            "const": true
+          },
+          "browser_mutation_authority": {
+            "const": false
+          }
+        }
+      },
+      "ObservatoryHealthFeed": {
+        "type": "object",
+        "required": ["snapshot", "observability_ready"],
+        "properties": {
+          "snapshot": {
+            "type": "object"
+          },
+          "observability_ready": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AgentPopulationFeed": {
+        "type": "object",
+        "required": ["total_count", "rendered_sample_count", "sample"],
+        "properties": {
+          "total_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "rendered_sample_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sample": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgentSample"
+            }
+          }
+        }
+      },
+      "AgentSample": {
+        "type": "object",
+        "required": ["id", "label", "role", "state", "detail"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          }
+        }
+      },
+      "ObservatoryProofFeed": {
+        "type": "object",
+        "required": [
+          "default_runtime_switch_authorized",
+          "runtime_v2_decommission_authorized",
+          "sidecar_required",
+          "vector_cloudwatch_route"
+        ],
+        "properties": {
+          "default_runtime_switch_authorized": {
+            "const": false
+          },
+          "runtime_v2_decommission_authorized": {
+            "const": false
+          },
+          "sidecar_required": {
+            "const": false
+          },
+          "vector_cloudwatch_route": {
+            "type": "string"
+          }
+        }
+      },
+      "ControlError": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "code"],
+        "properties": {
+          "schema": {
+            "const": "adl.runtime.control_error.v1"
+          },
+          "code": {
+            "enum": ["authentication_failed", "unauthorized", "invalid_request"]
+          }
+        }
+      }
+    }
+  },
+  "x-adl-api-identity": "observatory",
+  "x-adl-api-version": "v1",
+  "x-adl-html-application": "separate",
+  "x-adl-route-inventory": [
+    {
+      "method": "get",
+      "path": "/v1/observatory",
+      "source": "adl-runtime-kernel/src/control.rs"
+    },
+    {
+      "method": "options",
+      "path": "/v1/observatory",
+      "source": "adl-runtime-kernel/src/control.rs"
+    },
+    {
+      "method": "get",
+      "path": "/v1/observatory/ws",
+      "source": "adl-runtime-kernel/src/control.rs"
+    }
+  ],
+  "x-adl-non-claims": [
+    "The HTML Observatory app is not embedded in the runtime.",
+    "The WSS endpoint is currently read-only after authentication; mutation uses signed /v1/control commands.",
+    "No unavailable feature is presented as operational."
+  ]
+}

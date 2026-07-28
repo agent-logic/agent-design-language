@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5701,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][runtime-v3][api] Define the complete versioned Runtime and Observatory OpenAPI contracts",
+    "slug": "runtime-v3-openapi-contracts",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "docs/api/runtime-v3/v1\nadl-runtime-kernel/tests/openapi_contract.rs\n.csdlc/evidence/5701\n.csdlc/issues/5701",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Do the OpenAPI contracts cover every real production Runtime v3 and Observatory endpoint without documenting unavailable behavior?",
+        "Does route-parity validation prevent undocumented real routes and documented phantom routes?",
+        "Are WSS authentication, inbound frames, outbound frames, close/error behavior, and correlation identifiers documented accurately?",
+        "Are constants such as port and base URL represented through config/server variables rather than hard-coded runtime behavior?",
+        "Does the implementation avoid #5344 protected paths unless there is explicit typed transfer or release?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
