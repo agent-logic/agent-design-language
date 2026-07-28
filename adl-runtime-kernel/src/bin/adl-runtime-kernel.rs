@@ -451,10 +451,6 @@ async fn main() -> ExitCode {
                 if let Err(error) = observability.poll_health() {
                     recorder.set_observability_pipeline(observability.snapshot());
                     eprintln!("runtime observability pipeline failed: {error}");
-                    api_shutdown.cancel();
-                    let _ = handle.shutdown(kernel_shutdown_grace).await;
-                    drain_control_api(&mut api, api_drain_timeout).await;
-                    break 'serve ExitCode::from(70);
                 }
                 recorder.set_observability_pipeline(observability.snapshot());
                 let weather_service = service.clone();
@@ -482,10 +478,6 @@ async fn main() -> ExitCode {
                         if let Err(error) = observability.poll_health() {
                             recorder.set_observability_pipeline(observability.snapshot());
                             eprintln!("runtime observability pipeline failed: {error}");
-                            api_shutdown.cancel();
-                            let _ = handle.shutdown(kernel_shutdown_grace).await;
-                            drain_control_api(&mut api, api_drain_timeout).await;
-                            break 'serve ExitCode::from(70);
                         }
                         recorder.set_observability_pipeline(observability.snapshot());
                     },

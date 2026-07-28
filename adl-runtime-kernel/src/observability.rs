@@ -191,24 +191,7 @@ impl RuntimeVectorPipeline {
             )
             .map_err(|_| "runtime_tracing_subscriber_already_installed")?;
         }
-        let mut command = Command::new(&config.vector_binary);
-        command
-            .arg("--config-json")
-            .arg(&config.vector_config_path)
-            .arg("--require-healthy")
-            .arg("true")
-            .arg("--log-format")
-            .arg("json")
-            .arg("--graceful-shutdown-limit-secs")
-            .arg(config.vector_shutdown_limit.as_secs().max(1).to_string())
-            .stdin(Stdio::null())
-            .stdout(Stdio::null())
-            .stderr(Stdio::null());
-        #[cfg(windows)]
-        command.creation_flags(CREATE_NEW_PROCESS_GROUP);
-        let mut child = command
-            .spawn()
-            .map_err(|_| "vector_binary_missing_or_not_executable")?;
+        let mut child = spawn_vector_child(&config)?;
         let child_pid = child.id();
         write_observability_record(
             &ingress,
@@ -286,30 +269,24 @@ impl RuntimeVectorPipeline {
     }
 
     pub fn poll_health(&mut self) -> Result<(), String> {
-        let Some(child) = self.child.as_mut() else {
-            if self.drain_complete {
-                return Ok(());
-            }
-            let failure = self
-                .last_failure
-                .clone()
-                .unwrap_or_else(|| "vector_child_missing".to_owned());
-            self.last_failure = Some(failure.clone());
-            return Err(failure);
+        if self.drain_complete {
+            return Ok(());
+        }
+        let child_failure = match self.child.as_mut() {
+            None => Some(
+                self.last_failure
+                    .clone()
+                    .unwrap_or_else(|| "vector_child_missing".to_owned()),
+            ),
+            Some(child) => match child.try_wait() {
+                Ok(Some(status)) => Some(format!("vector_child_exited:{status}")),
+                Ok(None) => None,
+                Err(_) => Some("vector_child_health_unknown".to_owned()),
+            },
         };
-        match child.try_wait() {
-            Ok(Some(status)) => {
-                let failure = format!("vector_child_exited:{status}");
-                self.last_failure = Some(failure.clone());
-                Err(failure)
-            }
-            Ok(None) => Ok(()),
-            Err(_) => {
-                let failure = "vector_child_health_unknown".to_owned();
-                self.last_failure = Some(failure.clone());
-                Err(failure)
-            }
-        }?;
+        if let Some(failure) = child_failure {
+            return self.restart_vector_after_failure(failure);
+        }
         let last_sequence = self.sequence.load(Ordering::SeqCst).saturating_sub(1);
         if last_sequence >= self.run_start_sequence
             && !master_log_contains_sequence(&self.master_log_path, last_sequence)
@@ -319,12 +296,90 @@ impl RuntimeVectorPipeline {
                 .get_or_insert_with(Instant::now);
             if lag_started_at.elapsed() >= self.config.drain_timeout {
                 let failure = "master_log_liveness_lag".to_owned();
-                self.last_failure = Some(failure.clone());
-                return Err(failure);
+                return self.restart_vector_after_failure(failure);
             }
         } else {
             self.master_log_lag_started_at = None;
         }
+        Ok(())
+    }
+
+    fn restart_vector_after_failure(&mut self, failure: String) -> Result<(), String> {
+        self.last_failure = Some(failure.clone());
+        if let Some(mut child) = self.child.take() {
+            if child.try_wait().ok().flatten().is_none() {
+                let _ = child.kill();
+            }
+            let _ = child.wait();
+        }
+        let restart_sequence = self.sequence.load(Ordering::SeqCst);
+        write_observability_record(
+            &self.ingress,
+            &self.sequence,
+            &self.accepting,
+            &self.config,
+            StructuredEvent {
+                severity: "ERROR",
+                target: "adl_runtime_kernel",
+                component: "observability",
+                operation: "vector_pipeline_restarting",
+                reason: &failure,
+                error_chain: &failure,
+                trace_id: format!("runtime-trace-{}", self.config.runtime_instance_id),
+                fields: BTreeMap::from([("service_continues".to_owned(), Value::Bool(true))]),
+            },
+        );
+        if self.sequence.load(Ordering::SeqCst) != restart_sequence.saturating_add(1) {
+            let recovery_failure = format!("{failure}:restart_record_not_persisted");
+            self.last_failure = Some(recovery_failure.clone());
+            return Err(recovery_failure);
+        }
+        let mut child = match spawn_vector_child(&self.config) {
+            Ok(child) => child,
+            Err(error) => {
+                let recovery_failure = format!("{failure}:vector_restart_failed:{error}");
+                self.last_failure = Some(recovery_failure.clone());
+                return Err(recovery_failure);
+            }
+        };
+        if let Some(status) = child
+            .try_wait()
+            .map_err(|_| format!("{failure}:vector_restart_health_unknown"))?
+        {
+            let recovery_failure = format!("{failure}:vector_restart_exited:{status}");
+            self.last_failure = Some(recovery_failure.clone());
+            return Err(recovery_failure);
+        }
+        if !wait_for_master_sequence(
+            &self.master_log_path,
+            restart_sequence,
+            self.config.drain_timeout,
+        ) {
+            let _ = child.kill();
+            let _ = child.wait();
+            let recovery_failure = format!("{failure}:vector_restart_readiness_not_observed");
+            self.last_failure = Some(recovery_failure.clone());
+            return Err(recovery_failure);
+        }
+        self.child = Some(child);
+        self.master_log_lag_started_at = None;
+        self.last_failure = None;
+        write_observability_record(
+            &self.ingress,
+            &self.sequence,
+            &self.accepting,
+            &self.config,
+            StructuredEvent {
+                severity: "INFO",
+                target: "adl_runtime_kernel",
+                component: "observability",
+                operation: "vector_pipeline_recovered",
+                reason: "child_restarted",
+                error_chain: "",
+                trace_id: format!("runtime-trace-{}", self.config.runtime_instance_id),
+                fields: BTreeMap::from([("service_continued".to_owned(), Value::Bool(true))]),
+            },
+        );
         Ok(())
     }
 
@@ -1017,6 +1072,27 @@ fn write_observability_record_locked(
     file.flush()?;
     sequence.store(current_sequence.saturating_add(1), Ordering::SeqCst);
     Ok(())
+}
+
+fn spawn_vector_child(config: &RuntimeVectorConfig) -> Result<Child, String> {
+    let mut command = Command::new(&config.vector_binary);
+    command
+        .arg("--config-json")
+        .arg(&config.vector_config_path)
+        .arg("--require-healthy")
+        .arg("true")
+        .arg("--log-format")
+        .arg("json")
+        .arg("--graceful-shutdown-limit-secs")
+        .arg(config.vector_shutdown_limit.as_secs().max(1).to_string())
+        .stdin(Stdio::null())
+        .stdout(Stdio::null())
+        .stderr(Stdio::null());
+    #[cfg(windows)]
+    command.creation_flags(CREATE_NEW_PROCESS_GROUP);
+    command
+        .spawn()
+        .map_err(|_| "vector_binary_missing_or_not_executable".to_owned())
 }
 
 fn wait_for_master_sequence(path: &Path, sequence: u64, timeout: Duration) -> bool {

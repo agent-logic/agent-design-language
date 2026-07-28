@@ -361,24 +361,26 @@ async fn runtime_vector_pipeline_recovers_uncheckpointed_crash_sequence_from_ing
     restarted.shutdown().await.unwrap();
 }
 
-#[test]
-fn runtime_vector_pipeline_fails_closed_when_vector_child_exits() {
+#[tokio::test(flavor = "multi_thread")]
+async fn runtime_vector_pipeline_recovers_in_place_when_vector_child_exits() {
     let root = test_root("runtime-vector-health");
     let mut pipeline =
         RuntimeVectorPipeline::start_without_subscriber_for_test(vector_config(root, None))
             .unwrap();
     assert!(pipeline.poll_health().is_ok());
+    let original_pid = pipeline.snapshot().vector_pid;
 
     pipeline.stop_vector_for_test();
-    let error = pipeline.poll_health().unwrap_err();
-    assert!(error.starts_with("vector_child_exited:"));
+    pipeline.poll_health().unwrap();
 
     let snapshot = pipeline.snapshot();
     assert_eq!(
         serde_json::to_value(&snapshot.health).unwrap()["status"],
-        "degraded"
+        "ready"
     );
-    assert_eq!(snapshot.last_failure, Some(error));
+    assert_ne!(snapshot.vector_pid, original_pid);
+    assert_eq!(snapshot.last_failure, None);
+    pipeline.shutdown().await.unwrap();
 }
 
 #[tokio::test(flavor = "multi_thread")]
