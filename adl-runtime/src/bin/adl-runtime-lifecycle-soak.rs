@@ -938,6 +938,12 @@ async fn execute_cycle(
     retain_log: bool,
     require_restart_proof: bool,
 ) -> Result<CycleObservation, String> {
+    wait_for_control_address_release(
+        fixture.address,
+        fixture.readiness_timeout,
+        fixture.readiness_poll,
+    )
+    .await?;
     fixture.configure_cycle(args, run, cycle, expected_generation.saturating_sub(1))?;
     std::fs::create_dir_all(&fixture.continuity_root)
         .map_err(|error| format!("could not create continuity root: {error}"))?;
@@ -1080,6 +1086,37 @@ async fn execute_cycle(
         restarts: u64::from(outcome.restarts),
         log_proof,
     })
+}
+
+async fn wait_for_control_address_release(
+    address: SocketAddr,
+    timeout: Duration,
+    poll: Duration,
+) -> Result<(), String> {
+    let deadline = Instant::now() + timeout;
+    loop {
+        match std::net::TcpListener::bind(address) {
+            Ok(listener) => {
+                drop(listener);
+                return Ok(());
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::AddrInUse => {
+                if Instant::now() >= deadline {
+                    return Err(format!(
+                        "configured API address {} was not released before the readiness deadline",
+                        address
+                    ));
+                }
+                tokio::time::sleep(poll).await;
+            }
+            Err(error) => {
+                return Err(format!(
+                    "configured API address {} could not be probed for release: {error}",
+                    address
+                ));
+            }
+        }
+    }
 }
 
 fn diagnostic_tail(output: &str, state_root: &Path) -> String {
@@ -2039,6 +2076,21 @@ fn write_secret(path: &Path, bytes: &[u8]) -> std::io::Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[tokio::test]
+    async fn waits_for_the_configured_api_address_to_be_released() {
+        let held = std::net::TcpListener::bind("127.0.0.1:0").expect("bind test listener");
+        let address = held.local_addr().expect("test listener address");
+        let release = tokio::spawn(async move {
+            tokio::time::sleep(Duration::from_millis(20)).await;
+            drop(held);
+        });
+
+        wait_for_control_address_release(address, Duration::from_secs(1), Duration::from_millis(5))
+            .await
+            .expect("address should become reusable");
+        release.await.expect("release task");
+    }
 
     #[test]
     fn toml_path_preserves_windows_paths_through_serializer_round_trip() {
