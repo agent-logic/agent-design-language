@@ -1001,14 +1001,25 @@ async fn execute_cycle(
             Ok(restarted) => restarted,
             Err(error) => {
                 let _ = request_native_shutdown(&mut guardian).await;
-                let _ = finish_guardian(
+                let diagnostic = finish_guardian(
                     &mut guardian,
                     captured,
                     fixture.shutdown_wait,
                     Some(first_runtime_process_id),
                 )
-                .await;
-                return Err(error);
+                .await
+                .map(|output| {
+                    format!(
+                        "{error}; guardian_status={}; guardian_stdout={}; guardian_stderr={}",
+                        output.status,
+                        diagnostic_tail(&String::from_utf8_lossy(&output.stdout), &args.state_root),
+                        diagnostic_tail(&String::from_utf8_lossy(&output.stderr), &args.state_root)
+                    )
+                })
+                .unwrap_or_else(|diagnostic_error| {
+                    format!("{error}; guardian_diagnostic_failed={diagnostic_error}")
+                });
+                return Err(diagnostic);
             }
         };
         runtime_instance_ids.push(runtime_instance_id(&restarted)?.to_owned());
