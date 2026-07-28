@@ -719,11 +719,6 @@ fn writer_pid_active(pid: u32) -> bool {
             .is_some_and(|code| code == libc::EPERM)
 }
 
-#[cfg(not(unix))]
-fn writer_pid_active(pid: u32) -> bool {
-    pid == std::process::id()
-}
-
 pub fn build_production_operation_executors_with_recorder(
     state_dir: impl Into<PathBuf>,
     recorder: RuntimeRecorder,

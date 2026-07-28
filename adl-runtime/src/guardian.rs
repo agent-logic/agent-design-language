@@ -22,11 +22,6 @@ use tokio::time::{sleep, timeout};
 use tokio_util::sync::CancellationToken;
 
 #[cfg(windows)]
-use std::os::windows::io::AsRawHandle;
-#[cfg(windows)]
-use std::os::windows::process::CommandExt;
-
-#[cfg(windows)]
 use windows_sys::Win32::{
     Foundation::{CloseHandle, HANDLE},
     System::{
@@ -1068,7 +1063,7 @@ impl WindowsJob {
 
     fn assign(&self, child: &Child) -> std::io::Result<()> {
         let assigned =
-            unsafe { AssignProcessToJobObject(self.handle, child.as_raw_handle() as HANDLE) };
+            unsafe { AssignProcessToJobObject(self.handle, child.raw_handle() as HANDLE) };
         if assigned == 0 {
             Err(std::io::Error::last_os_error())
         } else {
