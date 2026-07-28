@@ -267,7 +267,13 @@ impl RuntimeInitConfig {
             ));
         }
         validate_https_base_url("api.public_base_url", &self.api.public_base_url)?;
+        if self.api.bind_attempts == 0 || self.api.bind_attempts > 100 {
+            return Err(RuntimeInitError::Policy(
+                "api.bind_attempts must be between 1 and 100".to_owned(),
+            ));
+        }
         for (field, value) in [
+            ("api.bind_retry_millis", self.api.bind_retry_millis),
             (
                 "api.websocket_auth_timeout_millis",
                 self.api.websocket_auth_timeout_millis,
@@ -547,6 +553,8 @@ impl RuntimeKernelInitConfig {
 pub struct RuntimeApiInitConfig {
     pub address: String,
     pub public_base_url: String,
+    pub bind_attempts: u32,
+    pub bind_retry_millis: u64,
     pub websocket_auth_timeout_millis: u64,
     pub websocket_refresh_millis: u64,
     pub websocket_max_frame_bytes: usize,

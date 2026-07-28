@@ -395,7 +395,13 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let listener = match bind_control_listener(&socket_addrs) {
+            let listener = match bind_control_listener(
+                &socket_addrs,
+                init.api.bind_attempts,
+                std::time::Duration::from_millis(init.api.bind_retry_millis),
+            )
+            .await
+            {
                 Ok(listener) => listener,
                 Err(error) => {
                     eprintln!("runtime control API bind failed: {error}");
@@ -625,7 +631,31 @@ async fn main() -> ExitCode {
     }
 }
 
-fn bind_control_listener(
+async fn bind_control_listener(
+    socket_addrs: &[std::net::SocketAddr],
+    attempts: u32,
+    retry_delay: std::time::Duration,
+) -> std::io::Result<tokio::net::TcpListener> {
+    let mut last_error = None;
+    for attempt in 1..=attempts {
+        match bind_control_listener_once(socket_addrs) {
+            Ok(listener) => return Ok(listener),
+            Err(error) if error.kind() == std::io::ErrorKind::AddrInUse && attempt < attempts => {
+                last_error = Some(error);
+                tokio::time::sleep(retry_delay).await;
+            }
+            Err(error) => return Err(error),
+        }
+    }
+    Err(last_error.unwrap_or_else(|| {
+        std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            "control API bind attempts must be nonzero",
+        )
+    }))
+}
+
+fn bind_control_listener_once(
     socket_addrs: &[std::net::SocketAddr],
 ) -> std::io::Result<tokio::net::TcpListener> {
     let mut last_error = None;
@@ -910,8 +940,13 @@ mod tests {
 
     #[tokio::test]
     async fn control_listener_rebinds_immediately_after_a_connection_closes() {
-        let first = bind_control_listener(&["127.0.0.1:0".parse().expect("loopback address")])
-            .expect("first listener");
+        let first = bind_control_listener(
+            &["127.0.0.1:0".parse().expect("loopback address")],
+            1,
+            std::time::Duration::ZERO,
+        )
+        .await
+        .expect("first listener");
         let address = first.local_addr().expect("bound address");
         let client = tokio::net::TcpStream::connect(address);
         let (client, accepted) = tokio::join!(client, first.accept());
@@ -919,8 +954,26 @@ mod tests {
         drop(accepted.expect("accepted connection").0);
         drop(first);
 
-        let rebound = bind_control_listener(&[address]).expect("immediate listener restart");
+        let rebound = bind_control_listener(&[address], 1, std::time::Duration::ZERO)
+            .await
+            .expect("immediate listener restart");
         assert_eq!(rebound.local_addr().expect("rebound address"), address);
+    }
+
+    #[tokio::test]
+    async fn control_listener_retries_until_a_live_owner_releases_the_port() {
+        let held = std::net::TcpListener::bind("127.0.0.1:0").expect("held listener");
+        let address = held.local_addr().expect("held address");
+        let release = tokio::spawn(async move {
+            tokio::time::sleep(std::time::Duration::from_millis(20)).await;
+            drop(held);
+        });
+
+        let rebound = bind_control_listener(&[address], 10, std::time::Duration::from_millis(5))
+            .await
+            .expect("listener retry");
+        assert_eq!(rebound.local_addr().expect("rebound address"), address);
+        release.await.expect("release task");
     }
 
     #[cfg(windows)]

@@ -194,6 +194,8 @@ state_root = "{}"
 [api]
 address = "127.0.0.1:20997"
 public_base_url = "https://runtime-gateway.example.test/prod"
+bind_attempts = 20
+bind_retry_millis = 100
 websocket_auth_timeout_millis = 5000
 websocket_refresh_millis = 1000
 websocket_max_frame_bytes = 65536
@@ -228,6 +230,8 @@ state_root = "{}"
 [api]
 address = "127.0.0.1:20997"
 public_base_url = "https://runtime-gateway.example.test"
+bind_attempts = 20
+bind_retry_millis = 100
 websocket_auth_timeout_millis = 5000
 websocket_refresh_millis = 1000
 websocket_max_frame_bytes = 65536
