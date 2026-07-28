@@ -1135,27 +1135,31 @@ async fn wait_for_restarted_observatory(
             Ok(None) => {}
             Err(error) => return Err(format!("Guardian restart check failed: {error}")),
         }
-        match authenticated_observatory(fixture).await {
-            Ok(observatory) => {
-                if validate_observatory(&observatory).is_ok() {
+        let observation = match authenticated_observatory(fixture).await {
+            Ok(observatory) => match validate_observatory(&observatory) {
+                Ok(()) => {
                     let instance_id = runtime_instance_id(&observatory)?;
                     let process_id = runtime_process_id(&observatory)?;
                     if instance_id != previous_instance_id && process_id != previous_process_id {
                         return Ok(observatory);
                     }
+                    format!(
+                            "authenticated Observatory still reported prior runtime instance {instance_id} process {process_id}"
+                        )
                 }
-            }
-            Err(_) if Instant::now() < deadline => {}
+                Err(error) => error,
+            },
+            Err(error) if Instant::now() < deadline => error,
             Err(error) => {
                 return Err(format!(
                     "Guardian did not restore the kernel after external termination: {error}"
                 ))
             }
-        }
+        };
         if Instant::now() >= deadline {
-            return Err(
-                "Guardian did not expose a distinct restarted kernel before deadline".into(),
-            );
+            return Err(format!(
+                "Guardian did not expose a distinct restarted kernel before deadline: {observation}"
+            ));
         }
         tokio::time::sleep(fixture.readiness_poll).await;
     }
