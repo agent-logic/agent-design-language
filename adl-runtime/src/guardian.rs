@@ -266,7 +266,7 @@ pub async fn run_guardian(
                 let _ = await_lease_task(&mut lease_task).await;
                 lease_finished = true;
                 let shutdown_grace = Duration::from_millis(config.shutdown_grace_ms);
-                let lease_grace = Duration::from_millis(config.capture_drain_grace_ms)
+                let lease_grace = Duration::from_millis(config.child_shutdown_budget_ms)
                     .min(shutdown_grace);
                 let lease_wait = timeout(lease_grace, child.wait()).await;
                 let (wait_result, graceful_signals) = match lease_wait {
@@ -1543,12 +1543,15 @@ fn main() {
     std::fs::write(std::env::args().nth(1).unwrap(), b"ready").unwrap();
     let mut closed = [0_u8; 1];
     assert_eq!(stream.read(&mut closed).unwrap(), 0);
+    std::thread::sleep(std::time::Duration::from_millis(100));
 }
 "#,
         );
         let mut config = test_config(child);
         config.args = vec![ready.to_string_lossy().into_owned()];
-        config.shutdown_grace_ms = 2_000;
+        config.capture_drain_grace_ms = 10;
+        config.child_shutdown_budget_ms = 500;
+        config.shutdown_grace_ms = 600;
         let shutdown = CancellationToken::new();
         let cancel = shutdown.clone();
 
@@ -1573,9 +1576,6 @@ fn main() {
         assert_eq!(attempt.unix_signal, None);
         #[cfg(not(unix))]
         assert_eq!(attempt.unix_signal, None);
-        #[cfg(windows)]
-        assert_eq!(attempt.windows_ctrl_event, Some(CTRL_BREAK_EVENT));
-        #[cfg(not(windows))]
         assert_eq!(attempt.windows_ctrl_event, None);
         assert!(attempt.clean_checkpointed_shutdown);
         assert!(!attempt.forced_shutdown);
