@@ -27,9 +27,10 @@ use windows_sys::Win32::{
     System::{
         Console::{GenerateConsoleCtrlEvent, CTRL_BREAK_EVENT},
         JobObjects::{
-            AssignProcessToJobObject, CreateJobObjectW, JobObjectExtendedLimitInformation,
-            SetInformationJobObject, TerminateJobObject, JOBOBJECT_EXTENDED_LIMIT_INFORMATION,
-            JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE,
+            AssignProcessToJobObject, CreateJobObjectW, JobObjectBasicAccountingInformation,
+            JobObjectExtendedLimitInformation, QueryInformationJobObject, SetInformationJobObject,
+            TerminateJobObject, JOBOBJECT_BASIC_ACCOUNTING_INFORMATION,
+            JOBOBJECT_EXTENDED_LIMIT_INFORMATION, JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE,
         },
         Threading::CREATE_NEW_PROCESS_GROUP,
     },
@@ -825,6 +826,12 @@ impl GuardedChild {
                 sleep(grace.min(Duration::from_millis(500))).await;
             }
             self.job.terminate();
+            let deadline = Instant::now() + grace;
+            while self.job.active_processes().is_some_and(|count| count > 0)
+                && Instant::now() < deadline
+            {
+                sleep(Duration::from_millis(10)).await;
+            }
         }
     }
 }
@@ -1078,6 +1085,20 @@ impl WindowsJob {
 
     fn terminate(&self) -> bool {
         unsafe { TerminateJobObject(self.handle, WINDOWS_FORCED_TERMINATION_EXIT_CODE) != 0 }
+    }
+
+    fn active_processes(&self) -> Option<u32> {
+        let mut accounting: JOBOBJECT_BASIC_ACCOUNTING_INFORMATION = unsafe { std::mem::zeroed() };
+        let queried = unsafe {
+            QueryInformationJobObject(
+                self.handle,
+                JobObjectBasicAccountingInformation,
+                &mut accounting as *mut _ as *mut std::ffi::c_void,
+                std::mem::size_of::<JOBOBJECT_BASIC_ACCOUNTING_INFORMATION>() as u32,
+                std::ptr::null_mut(),
+            )
+        };
+        (queried != 0).then_some(accounting.ActiveProcesses)
     }
 }
 
