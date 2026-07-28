@@ -487,6 +487,31 @@ fn runtime_init_rejects_ipv6_bind_addresses() {
 }
 
 #[test]
+fn continuity_identity_excludes_cycle_labels_and_anti_rollback_floor_only() {
+    let root = config_test_root();
+    let config =
+        adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
+            .unwrap();
+    let expected = config.continuity_identity_projection().unwrap();
+
+    let mut next_cycle = config.clone();
+    next_cycle.credentials.continuity_min_generation = 41;
+    next_cycle.observability_pipeline.lifecycle_run = "run-2".to_owned();
+    next_cycle.observability_pipeline.lifecycle_cycle = "cycle-42".to_owned();
+    assert_eq!(
+        next_cycle.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut changed_runtime = config;
+    changed_runtime.api.address = "127.0.0.1:20998".to_owned();
+    assert_ne!(
+        changed_runtime.continuity_identity_projection().unwrap(),
+        expected
+    );
+}
+
+#[test]
 fn runtime_init_rejects_config_manufactured_agent_population() {
     let toml = runtime_init_toml(
         r#"

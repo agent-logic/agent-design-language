@@ -261,9 +261,16 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            let runtime_init_identity = match init.continuity_identity_projection() {
+                Ok(identity) => identity,
+                Err(error) => {
+                    eprintln!("runtime init identity could not be encoded: {error}");
+                    return ExitCode::from(70);
+                }
+            };
             let binding_projection = serde_json::json!({
                 "assembly_config_hash": assembly.config_hash,
-                "runtime_init": &init,
+                "runtime_init": runtime_init_identity,
                 "time_source": &time_source_identity,
                 "operation_key_id": &operation_key_id,
                 "operation_key": hex::encode(operation_key.as_bytes()),

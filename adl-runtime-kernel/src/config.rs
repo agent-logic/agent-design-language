@@ -396,6 +396,24 @@ impl RuntimeInitConfig {
     pub fn continuity_root(&self) -> PathBuf {
         self.paths.continuity_root(&self.state_root)
     }
+
+    pub fn continuity_identity_projection(&self) -> Result<serde_json::Value, serde_json::Error> {
+        let mut value = serde_json::to_value(self)?;
+        if let Some(credentials) = value
+            .get_mut("credentials")
+            .and_then(serde_json::Value::as_object_mut)
+        {
+            credentials.remove("continuity_min_generation");
+        }
+        if let Some(observability) = value
+            .get_mut("observability_pipeline")
+            .and_then(serde_json::Value::as_object_mut)
+        {
+            observability.remove("lifecycle_run");
+            observability.remove("lifecycle_cycle");
+        }
+        Ok(value)
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
