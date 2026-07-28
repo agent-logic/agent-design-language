@@ -261,6 +261,11 @@ impl RuntimeInitConfig {
         let tls_root = self.paths.tls_root(&self.state_root);
         let credential_root = self.paths.credentials_root(&self.state_root);
         validate_non_empty_trimmed("api.address", &self.api.address)?;
+        if self.socket_addrs()?.iter().any(SocketAddr::is_ipv6) {
+            return Err(RuntimeInitError::Policy(
+                "api.address must resolve only to IPv4".to_owned(),
+            ));
+        }
         validate_https_base_url("api.public_base_url", &self.api.public_base_url)?;
         for (field, value) in [
             (

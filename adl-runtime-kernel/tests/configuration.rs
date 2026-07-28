@@ -188,7 +188,7 @@ schema = "adl.runtime_v3.init.v1"
 state_root = "{}"
 
 [api]
-address = "localhost:20997"
+address = "127.0.0.1:20997"
 public_base_url = "https://runtime-gateway.example.test/prod"
 websocket_auth_timeout_millis = 5000
 websocket_refresh_millis = 1000
@@ -222,7 +222,7 @@ schema = "adl.runtime_v3.init.v1"
 state_root = "{}"
 
 [api]
-address = "localhost:20997"
+address = "127.0.0.1:20997"
 public_base_url = "https://runtime-gateway.example.test"
 websocket_auth_timeout_millis = 5000
 websocket_refresh_millis = 1000
@@ -409,7 +409,7 @@ fn runtime_init_file_defines_local_and_remote_access_intent() {
             "https://observatory.example.test".to_owned()
         ]
     );
-    assert_eq!(init.api.address, "localhost:20997");
+    assert_eq!(init.api.address, "127.0.0.1:20997");
     assert_eq!(
         init.api.public_base_url,
         "https://runtime-gateway.example.test/prod"
@@ -480,6 +480,13 @@ allowed_origins = ["http://localhost:8765"]
 }
 
 #[test]
+fn runtime_init_rejects_ipv6_bind_addresses() {
+    let toml =
+        runtime_init_toml("").replace("address = \"127.0.0.1:20997\"", "address = \"[::1]:20997\"");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&toml).is_err());
+}
+
+#[test]
 fn runtime_init_rejects_config_manufactured_agent_population() {
     let toml = runtime_init_toml(
         r#"
@@ -513,7 +520,7 @@ fn runtime_init_rejects_missing_state_root_and_split_tls_roots() {
 schema = "adl.runtime_v3.init.v1"
 
 [api]
-address = "localhost:20997"
+address = "127.0.0.1:20997"
 public_base_url = "https://runtime-gateway.example.test"
 
 [api.tls]
@@ -529,7 +536,7 @@ schema = "adl.runtime_v3.init.v1"
 state_root = "{}"
 
 [api]
-address = "localhost:20997"
+address = "127.0.0.1:20997"
 public_base_url = "https://runtime-gateway.example.test"
 
 [api.tls]
@@ -546,7 +553,7 @@ schema = "adl.runtime_v3.init.v1"
 state_root = "{}"
 
 [api]
-address = "localhost:20997"
+address = "127.0.0.1:20997"
 public_base_url = "https://runtime-gateway.example.test"
 
 [api.tls]
@@ -563,7 +570,7 @@ schema = "adl.runtime_v3.init.v1"
 state_root = "{}"
 
 [api]
-address = "localhost:20997"
+address = "127.0.0.1:20997"
 public_base_url = "https://runtime-gateway.example.test"
 
 [api.tls]
@@ -618,7 +625,7 @@ schema = "adl.runtime_v3.init.v1"
 state_root = "{}"
 
 [api]
-address = "localhost:20997"
+address = "127.0.0.1:20997"
 public_base_url = "https://runtime-gateway.example.test"
 
 [api.tls]
@@ -634,7 +641,7 @@ schema = "adl.runtime_v3.init.v1"
 state_root = "{}"
 
 [api]
-address = "localhost:20997"
+address = "127.0.0.1:20997"
 public_base_url = "https://runtime-gateway.example.test"
 
 [api.tls]
