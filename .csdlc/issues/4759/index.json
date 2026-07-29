@@ -5,25 +5,8 @@
   "initialization_digest": "e14ee014a589057a3380656a449efc0a5ced9da2586edaf061a224c68f935c76",
   "phase": "bound",
   "generation": 0,
-  "digest": "30288df2ae84ee231850107c1074bb1f5b8acca7db34e01ee083e67d3cf7b341",
-  "claim": {
-    "id": "claim-4759-v0918-preparation",
-    "owner": "codex:issue-4759-preparation",
-    "generation": 0,
-    "acquired_unix_seconds": 1784755996,
-    "expires_unix_seconds": 1785360796,
-    "heartbeat_unix_seconds": 1784755996,
-    "branch": "codex/4759-v0918-preparation",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/issues/4759",
-      ".csdlc/locks/4759.lock",
-      ".csdlc/prepared/issues/4759",
-      ".csdlc/evidence/4759",
-      "docs/milestones/v0.91.8/handoff/issue-4759-activation-map.md"
-    ],
-    "purpose": "Prepare issue #4759 activation map for later execution without implementation"
-  },
+  "digest": "dd74bf2911930d7ec7186061ecec6ed2c91beedbcb4e272754386d93cb650e5b",
+  "claim": null,
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -100,6 +83,13 @@
       "actor": "codex:issue-4759-preparation",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:claim-hygiene",
+      "reason": "Release preparation-only ownership until issue execution actually starts",
+      "operation": "{\"claim_id\":\"claim-4759-v0918-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:preparation-does-not-own-execution-paths\",\"previous_owner\":\"codex:issue-4759-preparation\"}"
     }
   ]
 }
