@@ -633,6 +633,8 @@ fn serve_requires_init_declared_state_root_before_live_adapters_start() {
 [api]
 address = "{}"
 public_base_url = "https://localhost:{}"
+bind_attempts = 20
+bind_retry_millis = 100
 websocket_auth_timeout_millis = 5000
 websocket_refresh_millis = 1000
 websocket_max_frame_bytes = 65536
@@ -696,9 +698,12 @@ fn serve_refuses_reused_continuity_and_operation_keys() {
     let lease = TestGuardianLease::new("reused-key");
     let mut command = runtime_kernel_command(&init, &lease);
     let output = command.output().unwrap();
-    assert_eq!(output.status.code(), Some(78));
-    assert!(String::from_utf8_lossy(&output.stderr)
-        .contains("runtime continuity and operation keys must be distinct"));
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert_eq!(output.status.code(), Some(78), "kernel stderr: {stderr}");
+    assert!(
+        stderr.contains("runtime continuity and operation keys must be distinct"),
+        "kernel stderr: {stderr}"
+    );
 }
 
 #[tokio::test]

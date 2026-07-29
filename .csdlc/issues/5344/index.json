@@ -3,16 +3,16 @@
   "issue": 5344,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "b360298e2f637912e481d6d87a5eef39da69c7f014156b921e9c8889b070b6a5",
+  "phase": "published",
+  "generation": 42,
+  "digest": "3095680995fac1acd7fb131247b4f5f75cae7cf5f1b983d5c709329934d6662f",
   "claim": {
-    "id": "claim-5344-v0918-wp12-soak-rollback-preparation",
+    "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 4,
-    "acquired_unix_seconds": 1784660034,
-    "expires_unix_seconds": 1785264834,
-    "heartbeat_unix_seconds": 1784660034,
+    "generation": 42,
+    "acquired_unix_seconds": 1785295953,
+    "expires_unix_seconds": 1785900753,
+    "heartbeat_unix_seconds": 1785295953,
     "branch": "codex/5344-v0918-wp12-soak-rollback",
     "worktree": ".",
     "protected_paths": [
@@ -50,17 +50,57 @@
       "adl-v2/Cargo.lock",
       "adl-v2/tools/prove-rollback.sh",
       "adl-v2/tools/run-soak.sh",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_ci_path_policy.sh",
       "docs/milestones/v0.91.8/evidence/wp12",
       "infra/horust",
       "infra/runtime-v3/runtime-init.toml",
       "infra/rustysd",
       "infra/systemd"
     ],
-    "purpose": "Execute #5344 Runtime v3 opt-in soak and rollback proof, repair Guardian process-0 child ownership so a dead Guardian cannot leave an orphan Runtime, validate on macOS, Linux, and native Windows, and retain truthful evidence without weakening TLS or deleting Runtime v1"
+    "purpose": "Complete #5344 exact-revision Runtime v3 opt-in soak and rollback proof across macOS, Linux, and native Windows; retain reviewed evidence; publish and merge without weakening TLS, editing Runtime v2, or deleting Runtime v1"
   },
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:d0229bf68b99ae44115160c11a5d058c7da7f67b:b16d1172159088e5b124c583ae5cd30a9cfff729e9a833df21909609eda797b5",
+    "scope": [
+      ".csdlc/issues/5344",
+      ".csdlc/prepared/issues/5344",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+    "scope": [
+      ".csdlc/issues/5344",
+      ".csdlc/prepared/issues/5344",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "reviewed_revision": "git-blake3:d0229bf68b99ae44115160c11a5d058c7da7f67b:b16d1172159088e5b124c583ae5cd30a9cfff729e9a833df21909609eda797b5",
+    "findings": [],
+    "residual_risks": [
+      "The lifecycle-soak binary remains exercised by full CI and its native cross-platform process qualification suites, but is intentionally excluded from the in-process changed-source line threshold because llvm-cov cannot observe its child-process orchestration.",
+      "All ordinary production Rust and unmapped source remain subject to the unchanged fail-closed 80 percent changed-source coverage policy."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5344,
+    "pull_request": 5703,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5703",
+    "base": "main",
+    "head": "codex/5344-v0918-wp12-soak-rollback",
+    "revision": "git-blake3:49633dc9e97c1d606eb8f8347356e2a501d99eea:63076d45c4cc38d8082dd2f6686189792734cb8dd4b752aaf534ba6e6a65b186",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -74,34 +114,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a7aebc1771270726c863acd147607ce27f99f5127168fad4faf94c154d52731f",
+      "values_digest": "1fcfa08728a7104ebce8240582ac710abaaf1d7b12a053cfa113550b9f3c01a8",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "4bf0c3b3c13be1e4446c0ac36aa13269decb655ec70153c4d7b20a89d3b9ba30",
+      "values_digest": "e710bb8688f739858db1df4427cf0bb6707939941c28a0b3b39f5bff786b6aba",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "d3068c7076fc6e04a17790ef1b774bcb96086d5ab34ea64f08228b81cba51c60",
+      "values_digest": "54af54611707b12fae92278ab49811ace8b6e8db850b05eb816bcf6fc63fd3f0",
       "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
       "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "f5788687c0cc7cafdebeb4a6c67604ded0ac455c877b8f6777c0ca9222934894",
+      "values_digest": "0f45c29e50d2b051270af0300088b2320d3fcedbd4b6094e761614820171137b",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "32a8a705b86f8c3f00069fde2f236d443c9744f91321f56d9231f90cc4bd0738",
-      "rendered_digest": "9f92a47cf8c396424894eb687f685a7b05e9826822323ccd0e72e298cfd238bc",
-      "ast_digest": "afe0ee04ae0ebbf9ae96de2e4d490233804e754faedd38bdc4b4bff6bb393522"
+      "values_digest": "1899bc03725b2451ca7744c26a2bf584cfa3f26f37ba081db5c838537ca5a87b",
+      "rendered_digest": "1145a36dfa7a4f4d9a8a5059fb63d39188619473b3b3d9b63757c5b779fa79f9",
+      "ast_digest": "23fb2275d15b4593b5b16d7add4c2a185a15f52cfbb5215e2f27bc276d43bed6"
     },
     "sor": {
-      "values_digest": "ab35f221bc01afbbdd0cf524575128c7512bfac9a3b24349bceb200d8fb1b982",
-      "rendered_digest": "f66f573a5d786da525c5ba74b504bd81ee2dd94c0eedc5493042ce2ba8f586fa",
-      "ast_digest": "f7fc9373a8b50f6472e82666c44cf7c11abe0b4befca7e039002bb7bf1628165"
+      "values_digest": "676d019f524e0a17dd4fbb9ad7d6eb0b7f9b73946898d9c9981497d7b0aa3c34",
+      "rendered_digest": "a87055349ff5464f842e018dd17870d9a054d795992877012f860ecb18f2b10a",
+      "ast_digest": "b77d4b7e8ecd4b6217684060000d77bd8a2c41ba2da63cb5c839a8f2cfcdf4bf"
     }
   },
   "transitions": [
@@ -125,6 +165,139 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the assigned exact review completed with no findings."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The accepted #5343 cutover handoff fields and typed review projection were committed after the substantive clean #5344 review; recover for one bounded metadata-only exact-head follow-up before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the bounded exact handoff review completed with no findings."
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The committed typed review projection advanced Git HEAD; recover in place for the intended exact current-head metadata review before publication."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance the exact current publication head after its bounded review passed with no findings."
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-head CI failed because ci_path_policy parsed Git-quoted UTF-8 filenames already present on main as Windows-illegal paths; recover publication truth for the bounded parser correction and exact review."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance the bounded follow-up review solely to enter typed recovery and correct the accepted intermediate SRP prompt defect before final review."
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover the bounded follow-up review so the accepted intermediate stale SRP prompt defect can be corrected through the typed post-recovery operation before final exact-head review."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the corrected CI path-policy exact-head review passed with no findings."
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-head CI exposed a stale guardian inventory assertion and a lease-listener startup race in the authenticated healthy-window test; recover publication truth for bounded repair and one fresh exact review."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance the failed CI follow-up review solely to enter typed recovery, correct its two accepted blockers, and assign one final exact review."
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover the failed exact CI follow-up review after recording both blockers so the stale SRP prompts and validation truth can be corrected before one final exact review."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the corrected exact CI follow-up review passed with no findings."
+    },
+    {
+      "sequence": 19,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-head CI proved the external lifecycle qualification harness was incorrectly subjected to the in-process production-source line threshold after all authoritative producers passed; recover publication truth for one narrow classification contract fix."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the exact qualification-harness coverage classification review passed with no findings."
+    },
+    {
+      "sequence": 22,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -253,6 +426,363 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Own the exact Guardian-only Runtime v3 simplification, init-driven configuration, independent ACIP codec, shared real-launch proof helper, and removal of superseded external launchers required by the accepted WP-12 repair plan.",
       "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/src/acip.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/observability.rs\",\"adl-runtime-kernel/tests/kernel.rs\",\"adl-runtime-kernel/tests/observability.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"infra/horust\",\"infra/runtime-v3/runtime-init.toml\",\"infra/rustysd\",\"infra/systemd\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The active qualification lease expired while the authorized 10,000-cycle, stress, and endurance suites were still running; recover the same bounded ownership to finish evidence, review, publication, and merge.",
+      "operation": "{\"previous_owner\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\",\"observed_expiry_unix_seconds\":1785264834,\"recovery_actor\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\",\"reason\":\"The active qualification lease expired while the authorized 10,000-cycle, stress, and endurance suites were still running; recover the same bounded ownership to finish evidence, review, publication, and merge.\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 5,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the complete WP-12 execution surface before exact final review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Completed the exact-revision WP-12 opt-in soak and rollback proof: accepted Runtime v3 integration, real native Linux/macOS/Windows Guardian lifecycle qualification, deterministic isolated selector rollback, credential-free provider disposition without live-provider overclaim, and an explicitly non-deleting handoff candidate for #5343. Demo or fixture execution is not credited.\",\"changes\":[\"Ran native Guardian process-0 lifecycle qualification on Linux, macOS, and Windows at exact Runtime revision f9bb6cc736df1a68d539073f9214b663ae6c1ab2\",\"Completed 10,000-cycle, 100-by-10-second stress, and 10-by-600-second endurance suites on every platform with zero failed or degraded cycles\",\"Retained compact redacted platform reports, clean master logs, and audit hashes using repo-relative references\",\"Proved isolated adl-v2 fresh installation, locked selector mutation, failure recovery, and exact prior selector byte restoration\",\"Aligned platform verification with the Rust collector by accepting only identical duplicate sequence records and rejecting conflicting sequence reuse\",\"Recorded provider evidence as a credential-free non-live disposition and removed demo-mode credit in favor of real native qualification\",\"Preserved Runtime v1 and Runtime v2; changed no production default and authorized no legacy deletion\"],\"artifacts\":[\"docs/milestones/v0.91.8/evidence/wp12/manifest.json\",\"docs/milestones/v0.91.8/evidence/wp12/report.json\",\"docs/milestones/v0.91.8/evidence/wp12/platform-linux.json\",\"docs/milestones/v0.91.8/evidence/wp12/platform-macos.json\",\"docs/milestones/v0.91.8/evidence/wp12/platform-windows.json\",\"docs/milestones/v0.91.8/evidence/wp12/platform-provider.json\",\"docs/milestones/v0.91.8/evidence/wp12/cutover-handoff-5344.v1.json\",\".csdlc/evidence/5344/rollback/fresh-install-receipt.json\",\"commit b46e405cd2f341e5644b463a757c03bdc924af74\",\"commit 0e2bc61a0\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 6,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the final manifest-driven soak, platform verification, and exact selector restoration result.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env\",\"ADL_WP12_TARGET_DIR=wp12-target\",\"bash\",\"adl-v2/tools/run-soak.sh\",\"--manifest\",\"docs/milestones/v0.91.8/evidence/wp12/manifest.json\"],\"purpose\":\"Verify the accepted Runtime v3 artifact, native Linux/macOS/Windows lifecycle proofs, isolated fresh adl-v2 installation, rollback fault matrix, and exact prior selector-byte restoration.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.91.8/evidence/wp12/report.json\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 6,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 7,
+      "actor": "subagent:019fac48-c04a-70f1-8a0e-fca1cb4af863",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the assigned exact review completed with no findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 25,
+      "generation": 9,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The accepted #5343 cutover handoff fields and typed review projection were committed after the substantive clean #5344 review; recover for one bounded metadata-only exact-head follow-up before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 9,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 11,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the bounded exact handoff review completed with no findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 29,
+      "generation": 12,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The committed typed review projection advanced Git HEAD; recover in place for the intended exact current-head metadata review before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 12,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 13,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 14,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance the exact current publication head after its bounded review passed with no findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 33,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 34,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-head CI failed because ci_path_policy parsed Git-quoted UTF-8 filenames already present on main as Windows-illegal paths; recover publication truth for the bounded parser correction and exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Repair the exact CI path-policy defect exposed by #5703: Git-quoted UTF-8 filenames already present on main were misclassified as Windows-illegal paths.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/ci_path_policy.sh\",\"adl/tools/test_ci_path_policy.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 36,
+      "generation": 17,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the focused CI path-policy regression proof after the exact-head PR failure.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_path_policy.sh\"],\"purpose\":\"Prove literal UTF-8 tracked paths remain Windows-portable while genuinely illegal Windows path components still fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_ci_path_policy.sh\"}}"
+    },
+    {
+      "sequence": 37,
+      "generation": 17,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 18,
+      "actor": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 18,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 19,
+      "actor": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance the bounded follow-up review solely to enter typed recovery and correct the accepted intermediate SRP prompt defect before final review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 42,
+      "generation": 21,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover the bounded follow-up review so the accepted intermediate stale SRP prompt defect can be corrected through the typed post-recovery operation before final exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 22,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Correct the bounded recovery review prompts after the exact-head CI path-policy failure.",
+      "operation": "{\"operation\":\"correct_review_prompts_after_recovery\",\"values\":[\"Does the tracked-path scan consume Git's NUL-delimited literal filenames without reintroducing line-oriented parsing?\",\"Do UTF-8 paths, spaces, and embedded newlines preserve complete path components during Windows portability validation?\",\"Do genuine Windows-illegal characters, trailing spaces or dots, backslashes, and reserved device names still fail closed?\",\"Does the focused regression mirror the PR failure by retaining a portable UTF-8 baseline path while proving ordinary and newline-hidden illegal components are rejected?\",\"Are the recovery, focused validation, and exact-head review records scoped truthfully to the two CI path-policy files?\"]}"
+    },
+    {
+      "sequence": 44,
+      "generation": 22,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 23,
+      "actor": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 24,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the corrected CI path-policy exact-head review passed with no findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 47,
+      "generation": 25,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 48,
+      "generation": 26,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-head CI exposed a stale guardian inventory assertion and a lease-listener startup race in the authenticated healthy-window test; recover publication truth for bounded repair and one fresh exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 26,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Repair the two exact CI regressions exposed by PR #5703: a stale guardian inventory assertion and a startup race in the authenticated healthy-window test.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 50,
+      "generation": 26,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 27,
+      "actor": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 28,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Remove the final deleted guardian CLI test assertion and prove the live mapper inventory contract passes.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"F-5344-CI-FOLLOWUP-1\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 53,
+      "generation": 29,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the complete tooling-contract proof after removing both deleted guardian inventory assertions.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the Runtime v3 coverage mapper selects the live guardian and guardian_cli inventory and the complete tooling contract reaches its explicit PASS marker.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_check_coverage_impact.sh\"}}"
+    },
+    {
+      "sequence": 54,
+      "generation": 30,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the repeated authenticated healthy-window proof after bounding the local lease-listener startup retry.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"guardian::tests::restart_budget_resets_after_healthy_window\",\"--\",\"--exact\",\"(repeated 20 times)\"],\"purpose\":\"Prove the Guardian restart-budget test is deterministic and no longer spends a runtime attempt on a local listener startup race.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/guardian.rs\"}}"
+    },
+    {
+      "sequence": 55,
+      "generation": 31,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Accept the stale SRP prompt projection only as an intermediate recovery state; immediately recover reviewed truth, replace the prompts, and require a final clean exact review before publication.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"F-5344-CI-FOLLOWUP-2\",\"disposition\":\"accepted_risk\"}"
+    },
+    {
+      "sequence": 56,
+      "generation": 31,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 32,
+      "actor": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 33,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance the failed CI follow-up review solely to enter typed recovery, correct its two accepted blockers, and assign one final exact review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 59,
+      "generation": 34,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover the failed exact CI follow-up review after recording both blockers so the stale SRP prompts and validation truth can be corrected before one final exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 35,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Correct the final CI follow-up review prompts after exact-head failures exposed stale guardian inventory and lease-listener startup-race proofs.",
+      "operation": "{\"operation\":\"correct_review_prompts_after_recovery\",\"values\":[\"Does the Runtime v3 coverage mapping select every existing guardian unit and guardian_cli integration test without naming deleted tests?\",\"Does the tooling-contract regression execute the mapper expression against the live nextest inventory and end with an explicit PASS marker?\",\"Does the healthy-window test retry only the local authenticated lease-listener connection with a strict bound while leaving production Guardian behavior unchanged?\",\"Does repeated exact execution prove the restart-budget test remains deterministic after the listener startup-race repair?\",\"Was #5587 already GitHub merged and closed before its expired claim was recovered and released through supported typed routes without running or re-enabling the paused Drive mirror?\",\"Do the SRP, SOR, audit, and exact review truthfully cover only this bounded CI follow-up?\"]}"
+    },
+    {
+      "sequence": 61,
+      "generation": 35,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 36,
+      "actor": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 37,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the corrected exact CI follow-up review passed with no findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 64,
+      "generation": 38,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 65,
+      "generation": 39,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-head CI proved the external lifecycle qualification harness was incorrectly subjected to the in-process production-source line threshold after all authoritative producers passed; recover publication truth for one narrow classification contract fix.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 66,
+      "generation": 39,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 67,
+      "generation": 40,
+      "actor": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 68,
+      "generation": 41,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the exact qualification-harness coverage classification review passed with no findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 69,
+      "generation": 42,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

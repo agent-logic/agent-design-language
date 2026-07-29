@@ -1,5 +1,7 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
+    fs::File,
+    io::Write,
     net::{SocketAddr, ToSocketAddrs},
     path::{Path, PathBuf},
     process::{ExitCode, Stdio},
@@ -10,6 +12,7 @@ use std::{
 use adl_runtime::guardian::{GuardianOutcome, GuardianTerminalState};
 use adl_runtime_kernel::verify_live_continuity_lineage;
 use ed25519_dalek::{SigningKey, VerifyingKey};
+use fs2::FileExt;
 use rcgen::{date_time_ymd, BasicConstraints, CertificateParams, CertifiedIssuer, IsCa, KeyPair};
 use sha2::{Digest, Sha256};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -85,6 +88,14 @@ async fn main() -> ExitCode {
             return ExitCode::from(66);
         }
     };
+    let _qualification_lock = match QualificationLock::acquire(&args.init_template, fixture.address)
+    {
+        Ok(lock) => lock,
+        Err(error) => {
+            eprintln!("failed acquiring lifecycle qualification lock: {error}");
+            return ExitCode::from(75);
+        }
+    };
 
     let execution = match execute_suite(&args, &fixture, started).await {
         Ok(execution) => execution,
@@ -125,6 +136,82 @@ struct ProductionFixture {
     readiness_timeout: Duration,
     readiness_poll: Duration,
     shutdown_wait: Duration,
+}
+
+#[derive(Debug)]
+struct QualificationLock {
+    file: File,
+}
+
+impl QualificationLock {
+    fn acquire(init_template: &Path, address: SocketAddr) -> Result<Self, String> {
+        let init_template = init_template.canonicalize().map_err(|error| {
+            format!(
+                "init template {} could not be canonicalized: {error}",
+                init_template.display()
+            )
+        })?;
+        let repository_root = init_template
+            .ancestors()
+            .find(|candidate| candidate.join(".git").exists())
+            .ok_or_else(|| {
+                format!(
+                    "init template {} is not inside a Git worktree",
+                    init_template.display()
+                )
+            })?;
+        let lock_dir = repository_root
+            .join(".adl")
+            .join("runtime-v3")
+            .join("qualification");
+        std::fs::create_dir_all(&lock_dir).map_err(|error| {
+            format!(
+                "could not create qualification lock directory {}: {error}",
+                lock_dir.display()
+            )
+        })?;
+        let address_key = address.to_string().replace([':', '[', ']'], "_");
+        Self::acquire_at(&lock_dir.join(format!("api-{address_key}.lock")), address)
+    }
+
+    fn acquire_at(path: &Path, address: SocketAddr) -> Result<Self, String> {
+        let mut file = std::fs::OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .read(true)
+            .write(true)
+            .open(path)
+            .map_err(|error| {
+                format!(
+                    "could not open qualification lock {}: {error}",
+                    path.display()
+                )
+            })?;
+        file.try_lock_exclusive().map_err(|error| {
+            format!(
+                "another lifecycle qualification owns configured API address {address} \
+                 (lock {}): {error}",
+                path.display()
+            )
+        })?;
+        file.set_len(0)
+            .and_then(|()| write!(file, "pid={}\naddress={address}\n", std::process::id()))
+            .and_then(|()| file.sync_data())
+            .map_err(|error| {
+                let _ = FileExt::unlock(&file);
+                format!(
+                    "could not record qualification lock owner in {}: {error}",
+                    path.display()
+                )
+            })?;
+        Ok(Self { file })
+    }
+}
+
+impl Drop for QualificationLock {
+    fn drop(&mut self) {
+        let _ = FileExt::unlock(&self.file);
+    }
 }
 
 impl ProductionFixture {
@@ -857,6 +944,17 @@ async fn execute_suite(
             let mut minimum_cycles_per_run = u64::MAX;
             let mut execution = Execution::new(runs, 0, 0);
             for run in 1..=runs {
+                if run > 1 {
+                    discard_checked_observability(&fixture.observability_root).map_err(
+                        |error| Failure {
+                            run,
+                            cycle: 1,
+                            completed_runs: run.saturating_sub(1),
+                            completed_cycles: total_cycles,
+                            error,
+                        },
+                    )?;
+                }
                 let deadline = Instant::now() + Duration::from_secs(seconds);
                 let mut run_cycles = 0_u64;
                 while run_cycles == 0 || Instant::now() < deadline {
@@ -1046,9 +1144,11 @@ async fn execute_cycle(
     )
     .await?;
     if !output.status.success() {
+        let outcome_diagnostic = guardian_failure_diagnostic(&output.stdout, &args.state_root);
         return Err(format!(
-            "Guardian process exited with {}; stdout={}; stderr={}",
+            "Guardian process exited with {}; guardian_outcome={}; stdout={}; stderr={}",
             output.status,
+            outcome_diagnostic,
             diagnostic_tail(&String::from_utf8_lossy(&output.stdout), &args.state_root),
             diagnostic_tail(&String::from_utf8_lossy(&output.stderr), &args.state_root)
         ));
@@ -1065,8 +1165,7 @@ async fn execute_cycle(
     verify_writer_lock_released(&fixture.local_state_root)?;
     let log_proof = verify_master_log(args, fixture, run, cycle)?;
     if !retain_log {
-        std::fs::remove_dir_all(&fixture.observability_root)
-            .map_err(|error| format!("checked Vector log could not be discarded: {error}"))?;
+        discard_checked_observability(&fixture.observability_root)?;
     }
     Ok(CycleObservation {
         guardian_pid: guardian_process_id,
@@ -1080,14 +1179,58 @@ async fn execute_cycle(
     })
 }
 
+fn discard_checked_observability(observability_root: &Path) -> Result<(), String> {
+    match std::fs::remove_dir_all(observability_root) {
+        Ok(()) => Ok(()),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+        Err(error) => Err(format!(
+            "checked Vector log could not be discarded from {}: {error}",
+            observability_root.display()
+        )),
+    }
+}
+
 fn diagnostic_tail(output: &str, state_root: &Path) -> String {
+    diagnostic_suffix(output, state_root, 4_096)
+}
+
+fn diagnostic_suffix(output: &str, state_root: &Path, max_chars: usize) -> String {
     let redacted = output.replace(&state_root.to_string_lossy().to_string(), "<state-root>");
     let tail = redacted
         .char_indices()
         .rev()
-        .nth(4_095)
+        .nth(max_chars.saturating_sub(1))
         .map_or(redacted.as_str(), |(index, _)| &redacted[index..]);
     tail.replace(['\n', '\r'], " | ")
+}
+
+fn guardian_failure_diagnostic(stdout: &[u8], state_root: &Path) -> String {
+    let Ok(outcome) = guardian_outcome_from_stdout(stdout) else {
+        return "guardian_outcome_unparseable".to_owned();
+    };
+    let Some(attempt) = outcome.attempts_detail.last() else {
+        return format!(
+            "terminal_state={:?};attempts={};restarts={};last_attempt=missing",
+            outcome.terminal_state, outcome.attempts, outcome.restarts
+        );
+    };
+    format!(
+        "terminal_state={:?};attempts={};restarts={};attempt={};pid={:?};exit_code={:?};exit_status={:?};unix_signal={:?};windows_ctrl_event={:?};forced_shutdown={};clean_checkpointed_shutdown={};reason_code={};child_stdout_tail={};child_stderr_tail={}",
+        outcome.terminal_state,
+        outcome.attempts,
+        outcome.restarts,
+        attempt.attempt,
+        attempt.pid,
+        attempt.exit_code,
+        attempt.exit_status,
+        attempt.unix_signal,
+        attempt.windows_ctrl_event,
+        attempt.forced_shutdown,
+        attempt.clean_checkpointed_shutdown,
+        attempt.reason_code,
+        diagnostic_suffix(&attempt.stdout, state_root, 1_024),
+        diagnostic_suffix(&attempt.stderr, state_root, 1_024),
+    )
 }
 
 async fn wait_for_authenticated_observatory(
@@ -1546,9 +1689,14 @@ fn build_platform_proof(args: &AggregateArgs) -> Result<serde_json::Value, Strin
         "native_os": first.platform,
         "architecture": first.architecture,
         "status": "pass",
+        "guardian_process_zero": true,
+        "native_execution": true,
+        "wsl_used": false,
+        "docker_used": false,
         "lifecycle_acceptance": {
             "revision": first.revision,
             "kernel_sha256": first.kernel_sha256,
+            "all_logs_clean": true,
             "preflight": suite_summary(&preflight.value),
             "lifecycle_10000": suite_summary(&lifecycle.value),
             "stress_100x10s": suite_summary(&stress.value),
@@ -1675,6 +1823,8 @@ fn suite_summary(value: &serde_json::Value) -> serde_json::Value {
         "duration_seconds_per_run": value["duration_seconds_per_run"],
         "completed_runs": value["completed_runs"],
         "completed_cycles": value["completed_cycles"],
+        "failed_cycles": 0,
+        "degraded_cycles": 0,
         "minimum_cycles_per_run": value["minimum_cycles_per_run"],
         "guardian_process_count": value["guardian_process_count"],
         "guardian_launch_count": value["guardian_launch_count"],
@@ -2006,6 +2156,40 @@ mod tests {
     use super::*;
 
     #[test]
+    fn qualification_lock_serializes_the_configured_api_address() {
+        let current_dir = std::env::current_dir().expect("current directory");
+        let directory = tempfile::tempdir_in(current_dir).expect("repo-local temporary directory");
+        let lock_path = directory.path().join("api.lock");
+        let address = "127.0.0.1:20997".parse().expect("test address");
+
+        let first =
+            QualificationLock::acquire_at(&lock_path, address).expect("first qualification lock");
+        let contention = QualificationLock::acquire_at(&lock_path, address)
+            .expect_err("second qualification must be rejected");
+        assert!(contention.contains("another lifecycle qualification owns"));
+
+        drop(first);
+        QualificationLock::acquire_at(&lock_path, address)
+            .expect("qualification lock should release with its owner");
+    }
+
+    #[test]
+    fn checked_observability_is_discarded_between_timed_runs() {
+        let current_dir = std::env::current_dir().expect("current directory");
+        let directory = tempfile::tempdir_in(current_dir).expect("repo-local temporary directory");
+        let observability_root = directory.path().join("observability");
+        std::fs::create_dir_all(&observability_root).expect("observability root");
+        std::fs::write(observability_root.join("master.log.jsonl"), b"checked")
+            .expect("checked log");
+
+        discard_checked_observability(&observability_root)
+            .expect("retained prior-run log should be discarded");
+        assert!(!observability_root.exists());
+        discard_checked_observability(&observability_root)
+            .expect("already absent observability root is idempotent");
+    }
+
+    #[test]
     fn toml_path_preserves_windows_paths_through_serializer_round_trip() {
         let original = PathBuf::from(r#"C:\adl-wp-5344\state\quoted"name"#);
         let document = toml::Value::Table(toml::map::Map::from_iter([(
@@ -2124,6 +2308,40 @@ mod tests {
     }
 
     #[test]
+    fn nonzero_guardian_diagnostic_preserves_child_exit_cause() {
+        let root = std::env::current_dir().expect("current directory");
+        let outcome = GuardianOutcome {
+            schema: "adl.runtime_v3.guardian.v1".to_owned(),
+            terminal_state: GuardianTerminalState::ShutdownForced,
+            attempts: 1,
+            restarts: 0,
+            attempts_detail: vec![adl_runtime::guardian::GuardianAttempt {
+                attempt: 1,
+                pid: Some(42),
+                exit_code: Some(70),
+                exit_status: Some("exit code: 70".to_owned()),
+                unix_signal: None,
+                windows_ctrl_event: Some(1),
+                forced_shutdown: false,
+                clean_checkpointed_shutdown: false,
+                stdout: format!("stopped {}", root.display()),
+                stderr: "runtime shutdown failed: component".to_owned(),
+                reason_code: "shutdown_child_failed".to_owned(),
+            }],
+        };
+        let stdout = serde_json::to_vec(&outcome).expect("Guardian outcome");
+
+        let diagnostic = guardian_failure_diagnostic(&stdout, &root);
+
+        assert!(diagnostic.contains("terminal_state=ShutdownForced"));
+        assert!(diagnostic.contains("exit_code=Some(70)"));
+        assert!(diagnostic.contains("windows_ctrl_event=Some(1)"));
+        assert!(diagnostic.contains("reason_code=shutdown_child_failed"));
+        assert!(diagnostic.contains("runtime shutdown failed: component"));
+        assert!(!diagnostic.contains(&root.to_string_lossy().to_string()));
+    }
+
+    #[test]
     fn rejects_partial_or_mixed_acceptance_suites() {
         for mode in [
             vec!["--suite", "lifecycle_9999"],
@@ -2194,9 +2412,22 @@ mod tests {
 
         assert_eq!(written["schema"], PLATFORM_PROOF_SCHEMA);
         assert_eq!(written["status"], "pass");
+        assert_eq!(written["guardian_process_zero"], true);
+        assert_eq!(written["native_execution"], true);
+        assert_eq!(written["wsl_used"], false);
+        assert_eq!(written["docker_used"], false);
+        assert_eq!(written["lifecycle_acceptance"]["all_logs_clean"], true);
         assert_eq!(
             written["lifecycle_acceptance"]["lifecycle_10000"]["completed_cycles"],
             REQUIRED_CYCLES
+        );
+        assert_eq!(
+            written["lifecycle_acceptance"]["lifecycle_10000"]["failed_cycles"],
+            0
+        );
+        assert_eq!(
+            written["lifecycle_acceptance"]["lifecycle_10000"]["degraded_cycles"],
+            0
         );
         assert_eq!(
             written["lifecycle_acceptance"]["lifecycle_10000"]["master_log_records"],
@@ -2267,6 +2498,8 @@ mod tests {
             "duration_seconds_per_run": duration_seconds,
             "completed_runs": requested_runs,
             "completed_cycles": completed_cycles,
+            "failed_cycles": 0,
+            "degraded_cycles": 0,
             "minimum_cycles_per_run": completed_cycles.max(1),
             "guardian_process_count": 1,
             "guardian_launch_count": completed_cycles,

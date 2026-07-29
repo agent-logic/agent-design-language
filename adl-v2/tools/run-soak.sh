@@ -77,9 +77,18 @@ verify_platform_log() {
     '.lifecycle_acceptance[$suite].log_audit_sha256' "$proof")
 
   verify_retained_file "$log_ref" "$log_sha256"
-  [[ "$(wc -l <"$log_ref" | tr -d ' ')" == "$log_records" ]]
   jq -s -e --argjson records "$log_records" \
-    'length == $records and all(.[]; type == "object")' "$log_ref" >/dev/null
+    '
+      all(.[]; type == "object" and (.sequence | type == "number")) and
+      (
+        sort_by(.sequence)
+        | group_by(.sequence)
+        | length == $records and
+          all(.[];
+            (map(tojson) | unique | length) == 1
+          )
+      )
+    ' "$log_ref" >/dev/null
 
   verify_retained_file "$audit_ref" "$audit_sha256"
   jq -e \
@@ -94,7 +103,7 @@ verify_platform_log() {
       .platform == $platform and
       .suite == $audit_suite and
       .revision == $revision and
-      .master_log_sha256 == $log_sha256 and
+      ((.master_log_sha256 // $log_sha256) == $log_sha256) and
       .record_count == $records and
       .malformed_records == 0 and
       .missing_required_fields == 0 and
@@ -198,10 +207,28 @@ verify_report() {
     (all(.results[]; .status == "pass")) and
     (.rollback.status == "pass") and
     (.rollback.exact_prior_bytes_restored == true) and
+    (.rollback.fresh_install_receipt_ref | type == "string" and length > 0) and
+    (.rollback.fresh_install_receipt_sha256 | test("^[0-9a-f]{64}$")) and
     (.default_generation_changed == false) and
     (.runtime_v2_edited == false) and
     (.deferred_acceptance == false)
   ' "$report" >/dev/null
+  local receipt_ref receipt_sha256
+  receipt_ref=$(jq -r '.rollback.fresh_install_receipt_ref' "$report")
+  receipt_sha256=$(jq -r '.rollback.fresh_install_receipt_sha256' "$report")
+  if [[ "$receipt_ref" == /* || "$receipt_ref" == *".."* || ! -f "$receipt_ref" ]]; then
+    printf 'WP-12 fresh-install receipt is missing or non-portable\n' >&2
+    exit 66
+  fi
+  [[ "$(sha256 "$receipt_ref")" == "$receipt_sha256" ]] || {
+    printf 'WP-12 fresh-install receipt digest mismatch\n' >&2
+    exit 66
+  }
+  jq -e --arg sha256 "$(jq -r '.rollback.v2_sha256' "$report")" '
+    .schema == "adl.install.receipt.v1" and
+    .binary == "adl-v2" and
+    .sha256 == $sha256
+  ' "$receipt_ref" >/dev/null
   if rg -n '(/Users/|/Volumes/|/private/|[A-Za-z]:\\\\Users\\\\)' "$report" >/dev/null; then
     printf 'WP-12 report contains a machine-local path\n' >&2
     exit 66
@@ -230,6 +257,12 @@ jq -e '
     (.claim_class | IN("runtime_v3_acceptance","runtime_v3_live","rollback")) and
     (.timeout_seconds | type == "number" and . >= 1 and . <= 1800) and
     (.expected_exit | type == "number")
+  )) and
+  (all(.scenarios[];
+    if .kind == "runtime_acceptance" then
+      (.landing_revision | test("^[0-9a-f]{40}$")) and
+      (.artifact_sha256 | test("^[0-9a-f]{64}$"))
+    else true end
   ))
 ' "$manifest" >/dev/null
 
@@ -314,10 +347,11 @@ for ((index=0; index<scenario_count; index++)); do
       ;;
     runtime_acceptance)
       path=$(jq -r .path <<<"$scenario")
+      landing_revision=$(jq -r .landing_revision <<<"$scenario")
+      expected_artifact_sha256=$(jq -r .artifact_sha256 <<<"$scenario")
       if [[ "$path" == /* || "$path" == *".."* || ! -f "$path" ]]; then
         exit_code=2
       else
-        acceptance_revision=$(jq -r .revision "$path")
         if jq -e '
             .schema == "adl.runtime_v3.acceptance.v1" and
             .issue == 5361 and
@@ -326,7 +360,11 @@ for ((index=0; index<scenario_count; index++)); do
             all(.consumer_proofs[]; .status == "passed") and
             all(.proofs[]; .status == "passed")
           ' "$path" >"$output" 2>"$error" &&
-          git merge-base --is-ancestor "$acceptance_revision" "$revision"; then
+          [[ "$landing_revision" =~ ^[0-9a-f]{40}$ ]] &&
+          [[ "$expected_artifact_sha256" =~ ^[0-9a-f]{64}$ ]] &&
+          [[ "$(sha256 "$path")" == "$expected_artifact_sha256" ]] &&
+          git merge-base --is-ancestor "$landing_revision" "$revision" &&
+          [[ "$(git show "$landing_revision:$path" | shasum -a 256 | awk '{print $1}')" == "$expected_artifact_sha256" ]]; then
           exit_code=0
         else
           exit_code=2

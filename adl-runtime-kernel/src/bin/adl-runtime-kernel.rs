@@ -395,7 +395,13 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let listener = match tokio::net::TcpListener::bind(socket_addrs.as_slice()).await {
+            let listener = match bind_control_listener(
+                &socket_addrs,
+                init.api.bind_attempts,
+                std::time::Duration::from_millis(init.api.bind_retry_millis),
+            )
+            .await
+            {
                 Ok(listener) => listener,
                 Err(error) => {
                     eprintln!("runtime control API bind failed: {error}");
@@ -451,10 +457,6 @@ async fn main() -> ExitCode {
                 if let Err(error) = observability.poll_health() {
                     recorder.set_observability_pipeline(observability.snapshot());
                     eprintln!("runtime observability pipeline failed: {error}");
-                    api_shutdown.cancel();
-                    let _ = handle.shutdown(kernel_shutdown_grace).await;
-                    drain_control_api(&mut api, api_drain_timeout).await;
-                    break 'serve ExitCode::from(70);
                 }
                 recorder.set_observability_pipeline(observability.snapshot());
                 let weather_service = service.clone();
@@ -482,10 +484,6 @@ async fn main() -> ExitCode {
                         if let Err(error) = observability.poll_health() {
                             recorder.set_observability_pipeline(observability.snapshot());
                             eprintln!("runtime observability pipeline failed: {error}");
-                            api_shutdown.cancel();
-                            let _ = handle.shutdown(kernel_shutdown_grace).await;
-                            drain_control_api(&mut api, api_drain_timeout).await;
-                            break 'serve ExitCode::from(70);
                         }
                         recorder.set_observability_pipeline(observability.snapshot());
                     },
@@ -631,6 +629,72 @@ async fn main() -> ExitCode {
             ExitCode::from(64)
         }
     }
+}
+
+async fn bind_control_listener(
+    socket_addrs: &[std::net::SocketAddr],
+    attempts: u32,
+    retry_delay: std::time::Duration,
+) -> std::io::Result<tokio::net::TcpListener> {
+    let mut last_error = None;
+    for attempt in 1..=attempts {
+        match bind_control_listener_once(socket_addrs) {
+            Ok(listener) => return Ok(listener),
+            Err(error) if error.kind() == std::io::ErrorKind::AddrInUse && attempt < attempts => {
+                last_error = Some(error);
+                tokio::time::sleep(retry_delay).await;
+            }
+            Err(error) => return Err(error),
+        }
+    }
+    Err(last_error.unwrap_or_else(|| {
+        std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            "control API bind attempts must be nonzero",
+        )
+    }))
+}
+
+fn bind_control_listener_once(
+    socket_addrs: &[std::net::SocketAddr],
+) -> std::io::Result<tokio::net::TcpListener> {
+    let mut last_error = None;
+    for address in socket_addrs {
+        let domain = socket2::Domain::for_address(*address);
+        let socket =
+            match socket2::Socket::new(domain, socket2::Type::STREAM, Some(socket2::Protocol::TCP))
+            {
+                Ok(socket) => socket,
+                Err(error) => {
+                    last_error = Some(error);
+                    continue;
+                }
+            };
+        if let Err(error) = socket.set_reuse_address(true) {
+            last_error = Some(error);
+            continue;
+        }
+        if let Err(error) = socket.set_nonblocking(true) {
+            last_error = Some(error);
+            continue;
+        }
+        if let Err(error) = socket.bind(&socket2::SockAddr::from(*address)) {
+            last_error = Some(error);
+            continue;
+        }
+        if let Err(error) = socket.listen(i32::MAX) {
+            last_error = Some(error);
+            continue;
+        }
+        let listener = std::net::TcpListener::from(socket);
+        return tokio::net::TcpListener::from_std(listener);
+    }
+    Err(last_error.unwrap_or_else(|| {
+        std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            "no configured control API addresses",
+        )
+    }))
 }
 
 enum TerminalTrigger {
@@ -870,12 +934,53 @@ async fn drain_control_api(
     }
 }
 
-#[cfg(all(test, windows))]
+#[cfg(test)]
 mod tests {
-    use super::ShutdownSignalReceiver;
+    use super::bind_control_listener;
 
+    #[tokio::test]
+    async fn control_listener_rebinds_immediately_after_a_connection_closes() {
+        let first = bind_control_listener(
+            &["127.0.0.1:0".parse().expect("loopback address")],
+            1,
+            std::time::Duration::ZERO,
+        )
+        .await
+        .expect("first listener");
+        let address = first.local_addr().expect("bound address");
+        let client = tokio::net::TcpStream::connect(address);
+        let (client, accepted) = tokio::join!(client, first.accept());
+        drop(client.expect("client connection"));
+        drop(accepted.expect("accepted connection").0);
+        drop(first);
+
+        let rebound = bind_control_listener(&[address], 1, std::time::Duration::ZERO)
+            .await
+            .expect("immediate listener restart");
+        assert_eq!(rebound.local_addr().expect("rebound address"), address);
+    }
+
+    #[tokio::test]
+    async fn control_listener_retries_until_a_live_owner_releases_the_port() {
+        let held = std::net::TcpListener::bind("127.0.0.1:0").expect("held listener");
+        let address = held.local_addr().expect("held address");
+        let release = tokio::spawn(async move {
+            tokio::time::sleep(std::time::Duration::from_millis(20)).await;
+            drop(held);
+        });
+
+        let rebound = bind_control_listener(&[address], 10, std::time::Duration::from_millis(5))
+            .await
+            .expect("listener retry");
+        assert_eq!(rebound.local_addr().expect("rebound address"), address);
+        release.await.expect("release task");
+    }
+
+    #[cfg(windows)]
     #[test]
     fn shutdown_signal_receiver_registers_ctrl_break() {
+        use super::ShutdownSignalReceiver;
+
         let _receiver = ShutdownSignalReceiver::register()
             .expect("Windows Runtime v3 must register CTRL_C and CTRL_BREAK handlers");
     }

@@ -37,8 +37,8 @@ Verification:
 
 Rebuilt binaries from the #5344 worktree:
 
-- `cargo build --locked --manifest-path adl-runtime/Cargo.toml --bin adl-runtime-guardian --target-dir /Volumes/FastWork/adl-5344-target` passed after offline lock refresh for the existing `tokio/net` manifest change.
-- `cargo build --locked --manifest-path adl-runtime-kernel/Cargo.toml --bin adl-runtime-kernel --target-dir /Volumes/FastWork/adl-5344-target` passed.
+- `cargo build --locked --manifest-path adl-runtime/Cargo.toml --bin adl-runtime-guardian --target-dir <external-fast-target>` passed after offline lock refresh for the existing `tokio/net` manifest change.
+- `cargo build --locked --manifest-path adl-runtime-kernel/Cargo.toml --bin adl-runtime-kernel --target-dir <external-fast-target>` passed.
 
 Launch topology:
 

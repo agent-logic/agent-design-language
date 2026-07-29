@@ -3,9 +3,11 @@
 mod runtime_observability;
 
 use std::{
-    fs,
+    env, fs,
     path::{Path, PathBuf},
-    process::Command,
+    process::{Child, Command, Stdio},
+    thread::sleep,
+    time::{Duration, Instant},
 };
 
 use adl_runtime_kernel::{RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA};
@@ -13,6 +15,14 @@ use runtime_observability::{
     audit_master_log_file, render_vector_config, RuntimeVectorConfig, RuntimeVectorPipeline,
 };
 use serde_json::{json, Value};
+
+#[cfg(windows)]
+use std::os::windows::process::CommandExt;
+#[cfg(windows)]
+use windows_sys::Win32::System::{
+    Console::{AllocConsole, SetConsoleCtrlHandler},
+    Threading::CREATE_NEW_PROCESS_GROUP,
+};
 
 #[test]
 fn master_log_auditor_accepts_wp12_clean_report_shape() {
@@ -48,6 +58,33 @@ fn master_log_auditor_accepts_wp12_clean_report_shape() {
     assert_eq!(report.error_events, 0);
     assert_eq!(report.degraded_events, 0);
     assert_eq!(report.unexplained_restarts, 0);
+    assert_eq!(report.incomplete_drains, 0);
+}
+
+#[test]
+fn master_log_auditor_accepts_complete_records_regardless_of_physical_order() {
+    let root = test_root("reordered-audit");
+    let log_path = root.join("master.log.jsonl");
+    write_records(
+        &log_path,
+        &[
+            record(1, "info", "component_started", "ready", "wp-12"),
+            record(0, "info", "kernel_starting", "boot", "wp-12"),
+            record(
+                2,
+                "info",
+                "observability_drain_complete",
+                "shutdown_drained",
+                "wp-12",
+            ),
+        ],
+    );
+
+    let report = audit_master_log_file(&log_path, "macos", "wp-12", "rev-a", 0, 2).unwrap();
+
+    assert_eq!(report.status, "pass");
+    assert_eq!(report.record_count, 3);
+    assert_eq!(report.sequence_gaps, 0);
     assert_eq!(report.incomplete_drains, 0);
 }
 
@@ -165,6 +202,10 @@ fn vector_config_declares_durable_master_otlp_and_bounded_buffers() {
     assert_eq!(
         rendered["sinks"]["runtime_v3_master_log"]["buffer"]["type"],
         "memory"
+    );
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_master_log"]["acknowledgements"]["enabled"],
+        true
     );
     assert_eq!(
         rendered["sinks"]["runtime_v3_otlp"]["type"],
@@ -334,24 +375,129 @@ async fn runtime_vector_pipeline_recovers_uncheckpointed_crash_sequence_from_ing
     restarted.shutdown().await.unwrap();
 }
 
-#[test]
-fn runtime_vector_pipeline_fails_closed_when_vector_child_exits() {
+#[tokio::test(flavor = "multi_thread")]
+async fn runtime_vector_pipeline_recovers_in_place_when_vector_child_exits() {
     let root = test_root("runtime-vector-health");
     let mut pipeline =
         RuntimeVectorPipeline::start_without_subscriber_for_test(vector_config(root, None))
             .unwrap();
     assert!(pipeline.poll_health().is_ok());
+    let original_pid = pipeline.snapshot().vector_pid;
 
     pipeline.stop_vector_for_test();
-    let error = pipeline.poll_health().unwrap_err();
-    assert!(error.starts_with("vector_child_exited:"));
+    pipeline.poll_health().unwrap();
 
     let snapshot = pipeline.snapshot();
     assert_eq!(
         serde_json::to_value(&snapshot.health).unwrap()["status"],
-        "degraded"
+        "ready"
     );
-    assert_eq!(snapshot.last_failure, Some(error));
+    assert_ne!(snapshot.vector_pid, original_pid);
+    assert_eq!(snapshot.last_failure, None);
+    pipeline.shutdown().await.unwrap();
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn runtime_vector_pipeline_accepts_an_already_reaped_vector_during_cleanup() {
+    let root = test_root("runtime-vector-already-reaped");
+    let mut pipeline =
+        RuntimeVectorPipeline::start_without_subscriber_for_test(vector_config(root, None))
+            .unwrap();
+
+    pipeline.stop_vector_for_test();
+
+    assert!(pipeline.terminate_vector_for_test());
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn runtime_vector_pipeline_propagates_master_log_audit_persistence_failure() {
+    let root = test_root("runtime-vector-audit-persistence-failure");
+    let config = vector_config(root, None);
+    let audit_path = config.audit_path.clone();
+    let mut pipeline = RuntimeVectorPipeline::start_without_subscriber_for_test(config).unwrap();
+    fs::create_dir_all(&audit_path).unwrap();
+
+    let error = pipeline.shutdown().await.unwrap_err();
+
+    assert!(
+        error.contains("master_log_audit_persistence_failed"),
+        "{error}"
+    );
+    assert_eq!(
+        pipeline.snapshot().last_failure.as_deref(),
+        Some(error.as_str())
+    );
+}
+
+#[test]
+fn terminate_vector_child_reports_clean_for_cooperative_shutdown_signal() {
+    let root = test_root("vector-child-cooperative-shutdown");
+    let child = spawn_shutdown_helper(&root, false);
+
+    assert!(RuntimeVectorPipeline::terminate_vector_child_for_test(
+        child,
+        Duration::from_secs(2),
+    ));
+}
+
+#[test]
+fn terminate_vector_child_reports_incomplete_after_bounded_force_kill() {
+    let root = test_root("vector-child-force-kill-shutdown");
+    let child = spawn_shutdown_helper(&root, true);
+
+    assert!(!RuntimeVectorPipeline::terminate_vector_child_for_test(
+        child,
+        Duration::from_millis(150),
+    ));
+}
+
+#[test]
+fn observability_terminate_vector_child_helper() {
+    if env::var_os("ADL_OBSERVABILITY_TERMINATE_HELPER").is_none() {
+        return;
+    }
+    install_shutdown_helper_handler(
+        env::var_os("ADL_OBSERVABILITY_IGNORE_COOPERATIVE_SHUTDOWN").is_some(),
+    );
+    if let Some(path) = env::var_os("ADL_OBSERVABILITY_HELPER_READY") {
+        fs::write(path, b"ready").unwrap();
+    }
+    loop {
+        sleep(Duration::from_secs(60));
+    }
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn runtime_vector_pipeline_exhausts_configured_startup_retries_truthfully() {
+    let root = test_root("runtime-vector-startup-retries");
+    let mut config = vector_config(root, None);
+    config.vector_startup_attempts = 3;
+    config.vector_startup_backoff = std::time::Duration::ZERO;
+    config.drain_timeout = std::time::Duration::ZERO;
+    let ingress = config.ingress_spool_path.clone();
+
+    let error = match RuntimeVectorPipeline::start_without_subscriber_for_test(config) {
+        Ok(_) => panic!("zero readiness budget unexpectedly started Vector"),
+        Err(error) => error,
+    };
+
+    assert!(error.contains("vector_startup_readiness_not_observed"));
+    assert!(error.contains("attempts_exhausted:3"));
+    let records = read_records(&ingress);
+    assert_eq!(
+        records
+            .iter()
+            .filter(|record| record["operation"] == "vector_pipeline_started")
+            .count(),
+        3
+    );
+    assert_eq!(
+        records
+            .iter()
+            .filter(|record| record["operation"] == "vector_pipeline_start_retry")
+            .count(),
+        2
+    );
 }
 
 #[tokio::test(flavor = "multi_thread")]
@@ -410,6 +556,8 @@ fn vector_config(root: PathBuf, otlp_endpoint: Option<String>) -> RuntimeVectorC
         lifecycle_cycle: "cycle-1".to_owned(),
         otlp_endpoint,
         otlp_timeout_millis: 5_000,
+        vector_startup_attempts: 3,
+        vector_startup_backoff: std::time::Duration::from_millis(1),
         vector_shutdown_limit: std::time::Duration::from_millis(3_000),
         drain_timeout: std::time::Duration::from_millis(5_000),
         filter_directive: "adl_runtime_kernel=info".to_owned(),
@@ -469,6 +617,90 @@ fn read_records(path: &Path) -> Vec<Value> {
         .lines()
         .map(|line| serde_json::from_str(line).unwrap())
         .collect()
+}
+
+fn spawn_shutdown_helper(root: &Path, ignore_cooperative_shutdown: bool) -> Child {
+    prepare_console_for_ctrl_break_test();
+    let ready_path = root.join(if ignore_cooperative_shutdown {
+        "ignore.ready"
+    } else {
+        "cooperative.ready"
+    });
+    let mut command = Command::new(env::current_exe().unwrap());
+    command
+        .arg("--exact")
+        .arg("observability_terminate_vector_child_helper")
+        .arg("--nocapture")
+        .env("ADL_OBSERVABILITY_TERMINATE_HELPER", "1")
+        .env("ADL_OBSERVABILITY_HELPER_READY", &ready_path)
+        .env_remove("ADL_OBSERVABILITY_IGNORE_COOPERATIVE_SHUTDOWN")
+        .stdin(Stdio::null())
+        .stdout(Stdio::null())
+        .stderr(Stdio::null());
+    if ignore_cooperative_shutdown {
+        command.env("ADL_OBSERVABILITY_IGNORE_COOPERATIVE_SHUTDOWN", "1");
+    }
+    #[cfg(windows)]
+    command.creation_flags(CREATE_NEW_PROCESS_GROUP);
+
+    let mut child = command.spawn().unwrap();
+    let deadline = Instant::now() + Duration::from_secs(5);
+    while !ready_path.is_file() {
+        if let Some(status) = child.try_wait().unwrap() {
+            panic!("shutdown helper exited before readiness: {status}");
+        }
+        if Instant::now() >= deadline {
+            let _ = child.kill();
+            let _ = child.wait();
+            panic!("shutdown helper did not become ready");
+        }
+        sleep(Duration::from_millis(25));
+    }
+    child
+}
+
+#[cfg(windows)]
+fn prepare_console_for_ctrl_break_test() {
+    unsafe {
+        let _ = AllocConsole();
+    }
+}
+
+#[cfg(not(windows))]
+fn prepare_console_for_ctrl_break_test() {}
+
+#[cfg(unix)]
+fn install_shutdown_helper_handler(ignore_cooperative_shutdown: bool) {
+    unsafe {
+        if ignore_cooperative_shutdown {
+            libc::signal(libc::SIGTERM, libc::SIG_IGN);
+        }
+    }
+}
+
+#[cfg(windows)]
+fn install_shutdown_helper_handler(ignore_cooperative_shutdown: bool) {
+    unsafe {
+        let handler = if ignore_cooperative_shutdown {
+            ignore_console_control_for_test
+        } else {
+            exit_on_console_control_for_test
+        };
+        assert_ne!(SetConsoleCtrlHandler(Some(handler), 1), 0);
+    }
+}
+
+#[cfg(not(any(unix, windows)))]
+fn install_shutdown_helper_handler(_ignore_cooperative_shutdown: bool) {}
+
+#[cfg(windows)]
+unsafe extern "system" fn ignore_console_control_for_test(_control_type: u32) -> i32 {
+    1
+}
+
+#[cfg(windows)]
+unsafe extern "system" fn exit_on_console_control_for_test(_control_type: u32) -> i32 {
+    std::process::exit(0);
 }
 
 fn test_root(name: &str) -> PathBuf {

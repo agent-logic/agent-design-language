@@ -27,6 +27,8 @@
       "kind": "runtime_acceptance",
       "claim_class": "runtime_v3_acceptance",
       "path": "docs/milestones/v0.91.8/review/runtime_v3_acceptance_5361.v1.json",
+      "landing_revision": "f7258b07e9da414bfee518f0c89a76071bc03ee8",
+      "artifact_sha256": "f6a1373b2900933a25564a838bd6cb1a2a60214dfb895893cebf6dd8825cff7f",
       "expected_exit": 0,
       "timeout_seconds": 30
     },

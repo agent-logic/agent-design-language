@@ -21,12 +21,19 @@ USAGE
 }
 
 assert_windows_portable_tracked_paths() {
-  local path component stem upper
+  local path component remainder stem upper
   local -a invalid=()
 
-  while IFS= read -r path; do
-    IFS='/' read -r -a components <<<"$path"
-    for component in "${components[@]}"; do
+  while IFS= read -r -d '' path; do
+    remainder="$path"
+    while :; do
+      if [[ "$remainder" == */* ]]; then
+        component="${remainder%%/*}"
+        remainder="${remainder#*/}"
+      else
+        component="$remainder"
+        remainder=""
+      fi
       stem="${component%%.*}"
       upper="$(printf '%s' "$stem" | tr '[:lower:]' '[:upper:]')"
       if [[ "$component" == *[\<\>\:\"\|\?\*\\]* ]] ||
@@ -35,8 +42,9 @@ assert_windows_portable_tracked_paths() {
         invalid+=("$path")
         break
       fi
+      [[ -z "$remainder" ]] && break
     done
-  done < <(git ls-files)
+  done < <(git ls-files -z)
 
   if [[ ${#invalid[@]} -gt 0 ]]; then
     printf 'ci_path_policy: tracked paths are not portable to Windows:\n' >&2

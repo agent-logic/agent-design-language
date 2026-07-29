@@ -101,6 +101,8 @@ trusted_time_refresh_millis = 60000
 [api]
 address = "{}"
 public_base_url = "https://localhost:{}"
+bind_attempts = 20
+bind_retry_millis = 100
 websocket_auth_timeout_millis = 5000
 websocket_refresh_millis = 1000
 websocket_max_frame_bytes = 65536
@@ -149,6 +151,8 @@ lifecycle_run = "runtime-run"
 lifecycle_cycle = "runtime-cycle"
 trace_filter = "adl_runtime_kernel=info,adl_runtime=info"
 otlp_timeout_millis = 5000
+vector_startup_attempts = 3
+vector_startup_backoff_millis = 100
 vector_shutdown_limit_millis = 3000
 drain_timeout_millis = 5000
 vector_config_path = "config/runtime-v3-vector.json"

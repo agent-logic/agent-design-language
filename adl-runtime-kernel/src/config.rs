@@ -267,7 +267,13 @@ impl RuntimeInitConfig {
             ));
         }
         validate_https_base_url("api.public_base_url", &self.api.public_base_url)?;
+        if self.api.bind_attempts == 0 || self.api.bind_attempts > 100 {
+            return Err(RuntimeInitError::Policy(
+                "api.bind_attempts must be between 1 and 100".to_owned(),
+            ));
+        }
         for (field, value) in [
+            ("api.bind_retry_millis", self.api.bind_retry_millis),
             (
                 "api.websocket_auth_timeout_millis",
                 self.api.websocket_auth_timeout_millis,
@@ -547,6 +553,8 @@ impl RuntimeKernelInitConfig {
 pub struct RuntimeApiInitConfig {
     pub address: String,
     pub public_base_url: String,
+    pub bind_attempts: u32,
+    pub bind_retry_millis: u64,
     pub websocket_auth_timeout_millis: u64,
     pub websocket_refresh_millis: u64,
     pub websocket_max_frame_bytes: usize,
@@ -729,6 +737,8 @@ pub struct RuntimeObservabilityInitConfig {
     pub trace_filter: String,
     pub otlp_endpoint: Option<String>,
     pub otlp_timeout_millis: u64,
+    pub vector_startup_attempts: u32,
+    pub vector_startup_backoff_millis: u64,
     pub vector_shutdown_limit_millis: u64,
     pub drain_timeout_millis: u64,
     pub vector_config_path: PathBuf,
@@ -770,6 +780,10 @@ impl RuntimeObservabilityInitConfig {
                 self.otlp_timeout_millis,
             ),
             (
+                "observability_pipeline.vector_startup_backoff_millis",
+                self.vector_startup_backoff_millis,
+            ),
+            (
                 "observability_pipeline.drain_timeout_millis",
                 self.drain_timeout_millis,
             ),
@@ -779,6 +793,12 @@ impl RuntimeObservabilityInitConfig {
             ),
         ] {
             validate_bounded_millis(field, value)?;
+        }
+        if self.vector_startup_attempts == 0 || self.vector_startup_attempts > 10 {
+            return Err(RuntimeInitError::Policy(
+                "observability_pipeline.vector_startup_attempts must be between 1 and 10"
+                    .to_owned(),
+            ));
         }
         if self.vector_shutdown_limit_millis >= self.drain_timeout_millis {
             return Err(RuntimeInitError::Policy(

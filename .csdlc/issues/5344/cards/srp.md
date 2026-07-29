@@ -8,26 +8,23 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
 .csdlc/issues/5344
-.csdlc/locks/5344.lock
 .csdlc/prepared/issues/5344
-.csdlc/evidence/5344
-adl-v2/tools/run-soak.sh
-adl-v2/tools/prove-rollback.sh
-docs/milestones/v0.91.8/evidence/wp12
+adl/tools/check_coverage_impact.sh
+adl/tools/test_check_coverage_impact.sh
 
 ## Prompts
 
-- Can any path, symlink, environment value, stale receipt, or argument escape the isolated selector root or mutate the default selector?
-- Does every selector mutation use the authoritative locked compare-and-swap API and prove exact prior-byte preservation or explicit exact rollback?
-- Do successful selection, failed selection, failed soak, interruption, contention, and verification mismatch all have deterministic negative proof?
-- Are #5350/#5361 merge, typed closeout, retained receipt, claim release, and ancestry predicates exact and fail-closed?
-- Does the manifest cover local, CI, Runtime v3, provider-disposition, demo, negative, and rollback scenarios without production overclaim?
-- Are COTS, dependency exclusions, LoC/module/test/time budgets, PVF classification, no-deferral, redaction, exact review, and post-merge proof complete?
+- Does the Runtime v3 coverage mapping select every existing guardian unit and guardian_cli integration test without naming deleted tests?
+- Does the tooling-contract regression execute the mapper expression against the live nextest inventory and end with an explicit PASS marker?
+- Does the healthy-window test retry only the local authenticated lease-listener connection with a strict bound while leaving production Guardian behavior unchanged?
+- Does repeated exact execution prove the restart-budget test remains deterministic after the listener startup-race repair?
+- Was #5587 already GitHub merged and closed before its expired claim was recovered and released through supported typed routes without running or re-enabling the paused Drive mirror?
+- Do the SRP, SOR, audit, and exact review truthfully cover only this bounded CI follow-up?
 
 ## Findings
 
@@ -39,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The lifecycle-soak binary remains exercised by full CI and its native cross-platform process qualification suites, but is intentionally excluded from the in-process changed-source line threshold because llvm-cov cannot observe its child-process orchestration.
+- All ordinary production Rust and unmapped source remain subject to the unchanged fail-closed 80 percent changed-source coverage policy.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:d0229bf68b99ae44115160c11a5d058c7da7f67b:b16d1172159088e5b124c583ae5cd30a9cfff729e9a833df21909609eda797b5")
 
-Reviewer: None
+Reviewer: Some("subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d")
 
-Result: pre_review
+Result: pass
