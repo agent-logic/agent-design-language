@@ -2,110 +2,64 @@
   "schema": "adl.wp12.soak_report.v1",
   "issue": 5344,
   "status": "pass",
-  "revision": "ddbc905b285b09f8eb31a6923d53746835a99543",
-  "manifest_sha256": "6f4aa9550e85d5b3e2a0e2cf30404ff18ea0941ba72af97dcdac91f720f87caa",
+  "revision": "b46e405cd2f341e5644b463a757c03bdc924af74",
+  "manifest_sha256": "26ca19ad7562ab81ae47ba41fa8e3ced8c219665e82f764d5f7017831a17ba83",
   "mode": "run",
   "results": [
-    {
-      "id": "ci-fast-lane-contract",
-      "claim_class": "ci_contract",
-      "status": "pass",
-      "exit_code": 0,
-      "duration_ms": 60,
-      "artifact_sha256": "69ec5be754d5d108110b2db3782f4ed270f69fc914272bebc2d9da3017130611"
-    },
-    {
-      "id": "demo-plan",
-      "claim_class": "demo",
-      "status": "pass",
-      "exit_code": 0,
-      "duration_ms": 123,
-      "artifact_sha256": "a63b415e51d8c845b25320d0abe02543f661517637d8a6edf32557649479b0f6"
-    },
-    {
-      "id": "demo-run",
-      "claim_class": "demo",
-      "status": "pass",
-      "exit_code": 0,
-      "duration_ms": 121,
-      "artifact_sha256": "f02858857dd6f73382ba2ea151edb17b4dd19fcbc4ec35fd88712e2f2408e599"
-    },
-    {
-      "id": "local-schema",
-      "claim_class": "local_deterministic",
-      "status": "pass",
-      "exit_code": 0,
-      "duration_ms": 121,
-      "artifact_sha256": "8edbfe748dcf5646bd04d63517f6be02fb42e2803cca4bf961140a7b576881fa"
-    },
-    {
-      "id": "local-validate",
-      "claim_class": "local_deterministic",
-      "status": "pass",
-      "exit_code": 0,
-      "duration_ms": 119,
-      "artifact_sha256": "0355b366e05ac94d9bb34eb53fc7142d0c86f4e3747e8ccef6124df02fc83f86"
-    },
-    {
-      "id": "negative-malformed",
-      "claim_class": "negative",
-      "status": "pass",
-      "exit_code": 2,
-      "duration_ms": 125,
-      "artifact_sha256": "98c73141140c1866a8cbb1dcd9bdf3e458370f88df4537c1c608b439acd2e9a3"
-    },
-    {
-      "id": "provider-disposition",
-      "claim_class": "provider_disposition",
-      "status": "pass",
-      "exit_code": 0,
-      "duration_ms": 60,
-      "artifact_sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74"
-    },
     {
       "id": "rollback-matrix",
       "claim_class": "rollback",
       "status": "pass",
       "exit_code": 0,
-      "duration_ms": 3474,
-      "artifact_sha256": "0b878b4968c70c9dc773a918492a30fa05ec2dc70ce2743266072acd295de4d8"
+      "duration_ms": 1167,
+      "artifact_sha256": "616d95ef24b76e7b1911121afe0bb1828b905168e67e0d6498194b74f5ad8921"
+    },
+    {
+      "id": "runtime-acceptance",
+      "claim_class": "runtime_v3_acceptance",
+      "status": "pass",
+      "exit_code": 0,
+      "duration_ms": 84,
+      "artifact_sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74"
     },
     {
       "id": "runtime-linux",
       "claim_class": "runtime_v3_live",
       "status": "pass",
       "exit_code": 0,
-      "duration_ms": 61,
-      "artifact_sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74"
+      "duration_ms": 227,
+      "artifact_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "id": "runtime-macos",
       "claim_class": "runtime_v3_live",
       "status": "pass",
       "exit_code": 0,
-      "duration_ms": 62,
-      "artifact_sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74"
+      "duration_ms": 226,
+      "artifact_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "id": "runtime-windows",
       "claim_class": "runtime_v3_live",
       "status": "pass",
       "exit_code": 0,
-      "duration_ms": 63,
-      "artifact_sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74"
+      "duration_ms": 231,
+      "artifact_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
   ],
   "rollback": {
     "schema": "adl.wp12.rollback_report.v1",
     "issue": 5344,
     "status": "pass",
-    "revision": "ddbc905b285b09f8eb31a6923d53746835a99543",
+    "revision": "b46e405cd2f341e5644b463a757c03bdc924af74",
     "selector_root": "isolated_ephemeral",
-    "prior_sha256": "d300683d17afce6a411eac0b653f7246b25f0a12206877e3f75e0a5d043a5a78",
-    "selected_sha256": "83f54683f3bce28a6de72da7a1f693142d79e0b593a6f85bde339009f284fd8f",
-    "restored_sha256": "d300683d17afce6a411eac0b653f7246b25f0a12206877e3f75e0a5d043a5a78",
-    "v1_fixture_sha256": "6bb5f3fe57c0278df6e0a3879b4354d6e1e9e1fa070e600abc899cfa108cffba",
-    "v2_sha256": "6bb5f3fe57c0278df6e0a3879b4354d6e1e9e1fa070e600abc899cfa108cffba",
+    "prior_sha256": "3c0c7d42b9bcf040c9ce5d7d421b6eccbf051253f7dd8c77b6a54624b35a4fcb",
+    "selected_sha256": "cfe2f14f1ab2d7d6c0043ba27c0c86faae7f3161baa4b2e5e74e0d659a2568d8",
+    "restored_sha256": "3c0c7d42b9bcf040c9ce5d7d421b6eccbf051253f7dd8c77b6a54624b35a4fcb",
+    "v1_fixture_sha256": "6e6c485f021c36fe32ee88b9d12f3e6e136ba23124c494ff8b590b23f0c6467c",
+    "v2_sha256": "6e6c485f021c36fe32ee88b9d12f3e6e136ba23124c494ff8b590b23f0c6467c",
+    "fresh_install_receipt_ref": ".csdlc/evidence/5344/rollback/fresh-install-receipt.json",
+    "fresh_install_receipt_sha256": "3d45aa497ae2644ac7891acd9631efdc1d8c338d85d642fe259ff733cdfa0561",
     "exact_prior_bytes_restored": true,
     "authoritative_cli_only": true,
     "cases": [

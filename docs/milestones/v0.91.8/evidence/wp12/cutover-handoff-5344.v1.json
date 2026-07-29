@@ -1,0 +1,63 @@
+{
+  "schema": "adl.wp12.cutover_handoff.v1",
+  "issue": 5344,
+  "child_issue": 5343,
+  "status": "pending_review",
+  "qualification_revision": "f9bb6cc736df1a68d539073f9214b663ae6c1ab2",
+  "evidence_revision": "b46e405cd2f341e5644b463a757c03bdc924af74",
+  "reviewed_revision": null,
+  "manifest": {
+    "ref": "docs/milestones/v0.91.8/evidence/wp12/manifest.json",
+    "sha256": "26ca19ad7562ab81ae47ba41fa8e3ced8c219665e82f764d5f7017831a17ba83"
+  },
+  "manifest_digest": "26ca19ad7562ab81ae47ba41fa8e3ced8c219665e82f764d5f7017831a17ba83",
+  "report": {
+    "ref": "docs/milestones/v0.91.8/evidence/wp12/report.json",
+    "sha256": "8c73b380ea3a8fb3b8f98d80f9aab00a6857772f2f3cc26fc7be5fa1bc4b3743",
+    "status": "pass"
+  },
+  "runtime_v3_acceptance": {
+    "ref": "docs/milestones/v0.91.8/review/runtime_v3_acceptance_5361.v1.json",
+    "sha256": "f6a1373b2900933a25564a838bd6cb1a2a60214dfb895893cebf6dd8825cff7f",
+    "landing_revision": "f7258b07e9da414bfee518f0c89a76071bc03ee8"
+  },
+  "provider_disposition": {
+    "ref": "docs/milestones/v0.91.8/evidence/wp12/platform-provider.json",
+    "sha256": "31167ef5007b73d7028ce5781ad9776a60087b1f8a4242945e14f44cd6032c5a",
+    "claim_class": "credential_free_disposition",
+    "live_provider_claim": false
+  },
+  "demo_disposition": {
+    "status": "removed_by_operator",
+    "replacement": "real native lifecycle qualification on Linux, macOS, and Windows",
+    "fixture_or_demo_credit_claimed": false
+  },
+  "platforms": {
+    "linux": {
+      "ref": "docs/milestones/v0.91.8/evidence/wp12/platform-linux.json",
+      "sha256": "f32c8594229e58b2eb39952fb7999084eab52a3c3cf04c9a4734552a4609196a"
+    },
+    "macos": {
+      "ref": "docs/milestones/v0.91.8/evidence/wp12/platform-macos.json",
+      "sha256": "a95284a5d9262bbb34c070ee161d037116e557522f3055ccad7e3b1bc206f654"
+    },
+    "windows": {
+      "ref": "docs/milestones/v0.91.8/evidence/wp12/platform-windows.json",
+      "sha256": "63a063d5332a29973b2cc4d2dbfbd6ec824d79fd2d00f4ab57752ba37ac5ad5a"
+    }
+  },
+  "prior_selector_digest": "3c0c7d42b9bcf040c9ce5d7d421b6eccbf051253f7dd8c77b6a54624b35a4fcb",
+  "selected_selector_digest": "cfe2f14f1ab2d7d6c0043ba27c0c86faae7f3161baa4b2e5e74e0d659a2568d8",
+  "restored_selector_digest": "3c0c7d42b9bcf040c9ce5d7d421b6eccbf051253f7dd8c77b6a54624b35a4fcb",
+  "fresh_install_receipt": {
+    "ref": ".csdlc/evidence/5344/rollback/fresh-install-receipt.json",
+    "sha256": "3d45aa497ae2644ac7891acd9631efdc1d8c338d85d642fe259ff733cdfa0561"
+  },
+  "rollback_window": {
+    "duration_days": 14,
+    "starts_at": "successful_5343_cutover",
+    "deletion_authorized": false
+  },
+  "legacy_deletion_authorized": false,
+  "unresolved_rows": []
+}
