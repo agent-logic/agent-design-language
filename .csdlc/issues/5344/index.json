@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "a3039944e5df1239c9efdc49f32a3df12be7423a09916f690a17df476c39ffa5",
+  "generation": 22,
+  "digest": "5bd4ce13ec7a818ab2fd831703898af827f486de5ba271b97c0b899197ee1af1",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 18,
+    "generation": 22,
     "acquired_unix_seconds": 1785295953,
     "expires_unix_seconds": 1785900753,
     "heartbeat_unix_seconds": 1785295953,
@@ -60,62 +60,8 @@
     ],
     "purpose": "Complete #5344 exact-revision Runtime v3 opt-in soak and rollback proof across macOS, Linux, and native Windows; retain reviewed evidence; publish and merge without weakening TLS, editing Runtime v2, or deleting Runtime v1"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
-    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:bf4e123ac967da193393c7ff5efdb1c21c951955:2ef1e23fe28721688dec6ff5133d5d2cae45432d3a53540f9cad67bd999adf8b",
-    "scope": [
-      ".csdlc/issues/5344",
-      ".csdlc/prepared/issues/5344",
-      "adl/tools/ci_path_policy.sh",
-      "adl/tools/test_ci_path_policy.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
-    "scope": [
-      ".csdlc/issues/5344",
-      ".csdlc/prepared/issues/5344",
-      "adl/tools/ci_path_policy.sh",
-      "adl/tools/test_ci_path_policy.sh"
-    ],
-    "reviewed_revision": "git-blake3:bf4e123ac967da193393c7ff5efdb1c21c951955:2ef1e23fe28721688dec6ff5133d5d2cae45432d3a53540f9cad67bd999adf8b",
-    "findings": [
-      {
-        "id": "F-5344-CI-1",
-        "severity": "p1",
-        "summary": "Line-oriented component splitting can hide a Windows-illegal suffix after an embedded newline.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-5344-CI-2",
-        "severity": "p2",
-        "summary": "The regression does not cover spaces or an illegal component after an embedded newline.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-5344-CI-3",
-        "severity": "p2",
-        "summary": "The SRP prompts remain stale selector questions instead of the bounded CI path-policy recovery scope.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -130,32 +76,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a883c85ad89b06ca189050922a9c7e7a8dda041bec4650a69f1ed939b5aa8daa",
+      "values_digest": "7e9605200dd7fc7ac3fcafa013eca9e12b1b615abdb74e9a9d8c3398af041ab3",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "9cb95d70f837960ac2e33386e0a79a02c25ea93bb66231e76b4e710360817bad",
+      "values_digest": "48f0564add68bea45c828be53f395ab18c63612f571969c8f48b84b6c75782a4",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "70d39bbcea805d9940bf4c15c45123f6d55660307f6f0dad9513ff83dc83d5d9",
+      "values_digest": "c63737cef502112c2ed05871089cb95f299aa46e4102e0c6c484eb39f7dbe802",
       "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
       "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "67b7554cbbf0e5f219681b490168b86ebb33c16a240dbbaef3c32c06613bd7b1",
+      "values_digest": "f60f30e60bc9ab86d216fd7d760ba182802b0e1e8059e6372285add687cd768a",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "c14a1267c4da8dc8a2ecba8edeba05e3526be6f1600f7afabcbb39f501190361",
-      "rendered_digest": "34fb8bf778c27e560bda955ad6df2f1e03728b8808c0a61acfba88bb78d6be83",
-      "ast_digest": "76acf2697dcda0ee77366fb750b87d6739852c2f1ada6804dafe0695afe091e9"
+      "values_digest": "b1a1a7517034be187d9b0b17b383179230c1f26c9e457b05e4a0d0f99a1ec8aa",
+      "rendered_digest": "a76e87ee47a3e077f05926b85af8577d44876a5a959444b95648f1cdbae7fca4",
+      "ast_digest": "84ae6e9dedc12bd9982dfa3ef5f465c6d77cca302b9876efa0fe791ce4e804e2"
     },
     "sor": {
-      "values_digest": "67aab010b9bfafe79f417630b5dc3269e216e1a2c1bfaea0804fb5a682a99967",
+      "values_digest": "ae3edf2546f89447ed8d1771d2ec9b8897d82a748083bc6e3c128c8560e88442",
       "rendered_digest": "1522f95bf5a70c21d71c7b2f525829a58239df6c3d8e5aeec5fdfc6dbe22323e",
       "ast_digest": "39696b3199968d078eec470cceaee18d1e96c15509a9a58860f68b19041e8fd7"
     }
@@ -230,6 +176,20 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact-head CI failed because ci_path_policy parsed Git-quoted UTF-8 filenames already present on main as Windows-illegal paths; recover publication truth for the bounded parser correction and exact review."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance the bounded follow-up review solely to enter typed recovery and correct the accepted intermediate SRP prompt defect before final review."
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover the bounded follow-up review so the accepted intermediate stale SRP prompt defect can be corrected through the typed post-recovery operation before final exact-head review."
     }
   ],
   "audit": [
@@ -498,6 +458,41 @@
       "actor": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
       "reason": "atomically record assigned review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 18,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 19,
+      "actor": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance the bounded follow-up review solely to enter typed recovery and correct the accepted intermediate SRP prompt defect before final review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 42,
+      "generation": 21,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover the bounded follow-up review so the accepted intermediate stale SRP prompt defect can be corrected through the typed post-recovery operation before final exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 22,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Correct the bounded recovery review prompts after the exact-head CI path-policy failure.",
+      "operation": "{\"operation\":\"correct_review_prompts_after_recovery\",\"values\":[\"Does the tracked-path scan consume Git's NUL-delimited literal filenames without reintroducing line-oriented parsing?\",\"Do UTF-8 paths, spaces, and embedded newlines preserve complete path components during Windows portability validation?\",\"Do genuine Windows-illegal characters, trailing spaces or dots, backslashes, and reserved device names still fail closed?\",\"Does the focused regression mirror the PR failure by retaining a portable UTF-8 baseline path while proving ordinary and newline-hidden illegal components are rejected?\",\"Are the recovery, focused validation, and exact-head review records scoped truthfully to the two CI path-policy files?\"]}"
     }
   ]
 }
