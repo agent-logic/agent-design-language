@@ -94,6 +94,16 @@ Implemented complete versioned Core and Observatory OpenAPI contracts and mounte
     "purpose": "Prove sole production OpenAPI authority, versioned route parity, canonical ACIP dispatch, failure-safe replay sequencing, first-frame Observatory authentication, guardian persistence, and strict Rust quality.",
     "outcome": "passed",
     "evidence_ref": "Kernel control 21/21; guardian soak 7/7; Observatory WSS 6/6; OpenAPI contracts 6/6; adl-runtime library 134/134; runtime API WSS 2/2; strict all-target kernel Clippy passed; strict all-target adl-runtime Clippy passed; git diff --check passed."
+  },
+  {
+    "command": [
+      "cargo",
+      "test-and-clippy",
+      "runtime-v3-openapi-integrated-suite"
+    ],
+    "purpose": "Prove the reviewed Runtime v3 OpenAPI and route behavior after integrating current main and regenerating both dependency lockfiles offline.",
+    "outcome": "passed",
+    "evidence_ref": "Kernel control 21/21; guardian soak 7/7; Observatory WSS 6/6; OpenAPI contracts 6/6; adl-runtime library 134/134; runtime API WSS 2/2; strict all-target Clippy passed for both crates; git diff --check passed; rebuilt guardian served both Swagger UIs with HTTP 200 and authenticated health and metrics with HTTP 200 on port 20997."
   }
 ]
 

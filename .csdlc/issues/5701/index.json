@@ -3,13 +3,13 @@
   "issue": 5701,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "b3d10afe147416e48d9058c364696af9465800796dad7093d7208c4092bbebd5",
+  "phase": "reviewed",
+  "generation": 16,
+  "digest": "cf9da295fa3a1f3c74cfc8bebb7f9a3376dfd218a2fb2ca75b57d0d654efffd0",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 13,
+    "generation": 16,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -39,8 +39,51 @@
     ],
     "purpose": "Define complete versioned Runtime v3 Core and Observatory OpenAPI contracts with route parity validation while coordinating around active WP-12 #5344 protected router/config paths"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019faf97-63e1-7a31-ab74-c8e905e82b30",
+    "assigned_by": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+    "revision": "git-blake3:f6c9d63ecd62a837a951e4106f964f215e7b64e6:b454fb763c1cbf2a46796a1fae04dc1fa4a9c3a830ee8fd1bed847626cded0ac",
+    "scope": [
+      "docs/api/runtime-v3/v1",
+      "adl-runtime-kernel/Cargo.lock",
+      "adl-runtime-kernel/Cargo.toml",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/acip.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "infra/runtime-v3/runtime-api-5665.toml"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019faf97-63e1-7a31-ab74-c8e905e82b30",
+    "scope": [
+      "docs/api/runtime-v3/v1",
+      "adl-runtime-kernel/Cargo.lock",
+      "adl-runtime-kernel/Cargo.toml",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/acip.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "infra/runtime-v3/runtime-api-5665.toml"
+    ],
+    "reviewed_revision": "git-blake3:f6c9d63ecd62a837a951e4106f964f215e7b64e6:b454fb763c1cbf2a46796a1fae04dc1fa4a9c3a830ee8fd1bed847626cded0ac",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -55,34 +98,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a71fbd7a00d8078c40dd170c9fe853a37d59c72e06b2ded24b6015c1f46e7b01",
+      "values_digest": "b21d64e6103bad8888439b8fc21634d59b9f63c2d4d592b04cb2f65a13d4c071",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "d4e0904772b9c604ceaf5a72543dcfb818e095371e2e00e99d53a6283772bb90",
+      "values_digest": "5bfca18469b689b7b0111c2250a40728ae7c49c7df8d0305e820316372c4c67c",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "9e8ea5e8a185597178b1642d581338e7114794b4c0b3d0cc64e09b1a4b08feca",
+      "values_digest": "fb7d6aadce59aa26adf1660e8999ebead7f01f4f4ef02bcdc94fe15194327aba",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "070231b016c6f51f9989884228fe0d48201648075bc2ca5a9408a6ec4922efb7",
+      "values_digest": "49a9f0687e46c413d743b4fca90c2fc2855c6cc1c918cef375b34831d8361238",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "aa5a0a3ac1c8bdb06773b5e18d6363459df149e9495dc431d2792a95fb15be4e",
-      "rendered_digest": "4332b7111e8799f6372a704ad504faaf40ee5f6455491d2f12ad667cb8ed24e0",
-      "ast_digest": "e686f3199e3333f0b9e8df55efe27a3c94331a2bb90f0162682c0d31f7d153b9"
+      "values_digest": "2674f46f8a5765c597bc6a9048ca09df2450062149b6e54545af89b81746c067",
+      "rendered_digest": "b0453fd166da6f2587bf0f0c5d73c22be31797ba7484a03c51e31d008c557744",
+      "ast_digest": "d99cbb6c5d951bfec29d9eae5c7bd67334c870ed9cf3cf0f14d9855f22b0943a"
     },
     "sor": {
-      "values_digest": "306a0aaba586b65af97c5a2b8ff86d7c30e94004d276c1374382283db24fa959",
-      "rendered_digest": "d46f91e378b833c54da23b9fd91938740d9f44c9208ddb25b47bf9b9bdfdda7a",
-      "ast_digest": "b0383b278033004b17143a5bcc982e19b19999a4de97eff39b02e97e97edfde6"
+      "values_digest": "78745d3cd517659cdb708b15bbcb3681ad41edd068fdaa8c1f42c8684943ec55",
+      "rendered_digest": "9c4f79d6ba80ec3abaa2a80ac5308bf3b202399bdd7fb2c907d880cf62947ee4",
+      "ast_digest": "753359c8974160d19ac52214cff3fb823c07cb15334a14488ddc771e3774777e"
     }
   },
   "transitions": [
@@ -148,6 +191,13 @@
       "to": "implemented",
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "Recover exact review and publication truth before integrating current main to resolve PR #5705's real merge conflict."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "The exact integrated-head GPT-5.5 review passed with zero findings after current-main conflict resolution and full validation."
     }
   ],
   "audit": [
@@ -304,6 +354,34 @@
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "Recover exact review and publication truth before integrating current main to resolve PR #5705's real merge conflict.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 14,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Record current-main integration validation after resolving PR #5705's merge conflict.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test-and-clippy\",\"runtime-v3-openapi-integrated-suite\"],\"purpose\":\"Prove the reviewed Runtime v3 OpenAPI and route behavior after integrating current main and regenerating both dependency lockfiles offline.\",\"outcome\":\"passed\",\"evidence_ref\":\"Kernel control 21/21; guardian soak 7/7; Observatory WSS 6/6; OpenAPI contracts 6/6; adl-runtime library 134/134; runtime API WSS 2/2; strict all-target Clippy passed for both crates; git diff --check passed; rebuilt guardian served both Swagger UIs with HTTP 200 and authenticated health and metrics with HTTP 200 on port 20997.\"}}"
+    },
+    {
+      "sequence": 24,
+      "generation": 14,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 15,
+      "actor": "subagent:019faf97-63e1-7a31-ab74-c8e905e82b30",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 16,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "The exact integrated-head GPT-5.5 review passed with zero findings after current-main conflict resolution and full validation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
