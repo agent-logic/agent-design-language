@@ -5,26 +5,8 @@
   "initialization_digest": "d391333554b11b0dae9033fb57979c1abf35567ca36a3bc2e29fc1802987f01b",
   "phase": "bound",
   "generation": 0,
-  "digest": "dbc9aa11a89b0ac131f2009e0a2c8e1303acb4d3a2ead33dc398116bff280fad",
-  "claim": {
-    "id": "claim-5346-v0918-wp13-deletion-preparation",
-    "owner": "codex:5346-preparation-owner",
-    "generation": 0,
-    "acquired_unix_seconds": 1784661641,
-    "expires_unix_seconds": 1785266441,
-    "heartbeat_unix_seconds": 1784661641,
-    "branch": "codex/5346-v0918-wp13-final-adl-deletion",
-    "worktree": ".worktrees/adl-wp-5346",
-    "protected_paths": [
-      ".csdlc/issues/5346",
-      ".csdlc/locks/5346.lock",
-      ".csdlc/prepared/issues/5346",
-      ".csdlc/evidence/5346",
-      "docs/milestones/v0.91.8/evidence/wp13/5346-deletion-eligibility.v1.json",
-      "docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json"
-    ],
-    "purpose": "Prepare and review #5346 only; no source path may be claimed or deleted until #5344/#5343/#5358/#5361 are merged, typed closed_out, receipt-backed, claim-free, ancestral, and the #5346/#5347 manifests prove disjoint ownership"
-  },
+  "digest": "e2c38851ca817f333ededc944bef4a04180d541a00043c3f8e0d7263a987d245",
+  "claim": null,
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -101,6 +83,20 @@
       "actor": "codex:5346-preparation-owner",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:claim-hygiene",
+      "reason": "WP-13 is deferred until immediately before internal review #5356",
+      "operation": "{\"previous_owner\":\"codex:5346-preparation-owner\",\"observed_expiry_unix_seconds\":1785266441,\"recovery_actor\":\"codex:claim-hygiene\",\"reason\":\"WP-13 is deferred until immediately before internal review #5356\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 0,
+      "actor": "codex:claim-hygiene",
+      "reason": "Release deferred WP-13 preparation ownership until execution actually starts",
+      "operation": "{\"claim_id\":\"claim-5346-release-only\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:preparation-does-not-own-execution-paths\",\"previous_owner\":\"codex:claim-hygiene\"}"
     }
   ]
 }
