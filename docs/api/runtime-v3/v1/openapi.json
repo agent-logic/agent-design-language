@@ -102,7 +102,7 @@
           "acip"
         ],
         "summary": "Open the authenticated bidirectional ACIP WebSocket carrier",
-        "description": "Upgrades to WebSocket after bearer authentication. The server sends an authenticated session frame, accepts bounded ACIP Protobuf binary envelopes, dispatches them through canonical ingress to the configured ACIP adapter, and returns a structured completion or rejection frame.",
+        "description": "Upgrades to WebSocket after bearer authentication. The server sends an authenticated session frame, accepts bounded ACIP Protobuf binary envelopes, dispatches each envelope through canonical ingress to the runtime service named by its route, and returns a structured completion or rejection frame.",
         "security": [
           {
             "runtimeBearer": []

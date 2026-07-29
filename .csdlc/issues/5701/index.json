@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "45a278f3ed99bb63de8d7efdb092899f76c901a36a39170fbe3c744973bd5d71",
+  "generation": 9,
+  "digest": "012ba4639a1cb8e3c12387258465888a5abbaa14bd7843a23fe1712b8841f1c5",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 7,
+    "generation": 9,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -24,6 +24,8 @@
       "adl-runtime-kernel/Cargo.toml",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
       "adl-runtime-kernel/tests/openapi_contract.rs",
       "adl-runtime/Cargo.lock",
       "adl-runtime/Cargo.toml",
@@ -37,8 +39,82 @@
     ],
     "purpose": "Define complete versioned Runtime v3 Core and Observatory OpenAPI contracts with route parity validation while coordinating around active WP-12 #5344 protected router/config paths"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019faf71-f57d-7c01-8ccf-8ceec597f8e7",
+    "assigned_by": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+    "revision": "git-blake3:86aab3d09800574a0aa95e270a6bbaa45cfb5b36:ddd2a916c2dfe7ad177c0f62e3242e19ed4b63c74d01f2fc0e93e7b8dcaa85e2",
+    "scope": [
+      "docs/api/runtime-v3/v1",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime/src/acip.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/tests/runtime_api_docs.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "infra/runtime-v3/runtime-api-5665.toml"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019faf71-f57d-7c01-8ccf-8ceec597f8e7",
+    "scope": [
+      "docs/api/runtime-v3/v1",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime/src/acip.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/tests/runtime_api_docs.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "infra/runtime-v3/runtime-api-5665.toml"
+    ],
+    "reviewed_revision": "git-blake3:86aab3d09800574a0aa95e270a6bbaa45cfb5b36:ddd2a916c2dfe7ad177c0f62e3242e19ed4b63c74d01f2fc0e93e7b8dcaa85e2",
+    "findings": [
+      {
+        "id": "R5701-01",
+        "severity": "p1",
+        "summary": "The secondary adl-runtime router served the same Core OpenAPI document while returning incompatible health and metrics schemas.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "R5701-02",
+        "severity": "p2",
+        "summary": "ACIP monotonic sequence state was retained when canonical ingress dispatch failed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "R5701-03",
+        "severity": "p2",
+        "summary": "The secondary adl-runtime route inventory test still asserted obsolete unversioned routes.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "R5701-04",
+        "severity": "p3",
+        "summary": "The Observatory WebSocket contract declared HTTP bearer authentication although the real handler authenticates in the first WebSocket frame.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -53,34 +129,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c1d0a2d78cefe05209ef29eacda59c8f401a303b109820c3e3a683285aac7925",
+      "values_digest": "2ab4bc065966b04369531db1f00edaef2784d44701f6514e685aa55566483733",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "d0ed1b766a622be92c1bb6a6f48e373ff68a48b1d0a01ae00d144b913928d3c9",
+      "values_digest": "81b42a42d3db0263e4cbdee295af445d1bde54073ef171f960402ed385f3a16e",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "613b6ec42935cf78e8ddf8b588393426778cf089cbef798e0409e0b5a4739f68",
+      "values_digest": "d58f448d0da124b44507fa8193dfdbb87c3668d577b381ed855271a929c4d397",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "0a00d21e592bbd86c45da7a05817baff2d1a17f92f521ad3ebd16f15a86cc8d1",
+      "values_digest": "bc522c6898b8a5c31222ff7b7148c0cc6066caf8a6ebfd695a21e604131b23c3",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "1e2a8c39aa513b9013b153b181cde534fdebd8c097973db52c0f31a24be83a77",
-      "rendered_digest": "4332b7111e8799f6372a704ad504faaf40ee5f6455491d2f12ad667cb8ed24e0",
-      "ast_digest": "e686f3199e3333f0b9e8df55efe27a3c94331a2bb90f0162682c0d31f7d153b9"
+      "values_digest": "99d5ae83ab3b6ced6e8a25b2a5f38a091b9e7b1da2d81982391e1c98985bea04",
+      "rendered_digest": "2d88decc52248d54cab9e6a06dee0cf71fd3cb7f00884bc0ec7f611b5a100569",
+      "ast_digest": "7432d85978b619490ce84d79937d93ebc399edde60cdec6c09fa891c5b718b62"
     },
     "sor": {
-      "values_digest": "c08b81717fd679dcf449f87ac023cca0acf24742b9ec06e2fd55bf6c6fae87cc",
-      "rendered_digest": "1df9ccbf714fc4627b6fd64908b4d85409dbaa1a1b5744fa72e181f5fadf56d1",
-      "ast_digest": "ffbc8199300227e7be29ba704f27e0b42a8bf5b10f03ef7ca144bf84f0e85b7a"
+      "values_digest": "aac0f6abc9e4a3bbf6285b7b6ed0988e2934bed57b394d3aaa2ab04303e50dde",
+      "rendered_digest": "d46f91e378b833c54da23b9fd91938740d9f44c9208ddb25b47bf9b9bdfdda7a",
+      "ast_digest": "b0383b278033004b17143a5bcc982e19b19999a4de97eff39b02e97e97edfde6"
     }
   },
   "transitions": [
@@ -211,6 +287,34 @@
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "Record the single consolidated proving validation after Gemini remediation and live runtime restart.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test-and-clippy\",\"runtime-v3-openapi-focused-suite\"],\"purpose\":\"Prove the versioned route inventory, typed OpenAPI contracts, real Observatory and ACIP WSS behavior, strict Rust quality, clean diff, live HTTPS documentation, authenticated health and metrics, and ready Vector observability pipeline.\",\"outcome\":\"passed\",\"evidence_ref\":\"Kernel control 21/21; OpenAPI contracts 6/6; Observatory WSS 5/5; runtime API docs 2/2; runtime API WSS 2/2; ACIP 5/5; strict kernel Clippy passed; git diff --check passed; live https://localhost:20997 returned 200 for both Swagger UIs and both specs, authenticated health observability_ready=true, authenticated metrics health=ready, and zero ERROR/FATAL master-log events.\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 7,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 7,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Add the two focused Runtime v3 integration-test paths required to prove the exact review remediations: canonical ACIP dispatch from Observatory WSS, failure-safe sequence rollback, and guardian soak parity. The prior #5344 router claim is terminal and released.",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/tests/guardian_soak.rs\",\"adl-runtime-kernel/tests/observatory.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 8,
+      "actor": "subagent:019faf71-f57d-7c01-8ccf-8ceec597f8e7",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 9,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Record the consolidated proof after resolving every actionable exact-review finding.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test-and-clippy\",\"runtime-v3-openapi-review-remediation\"],\"purpose\":\"Prove sole production OpenAPI authority, versioned route parity, canonical ACIP dispatch, failure-safe replay sequencing, first-frame Observatory authentication, guardian persistence, and strict Rust quality.\",\"outcome\":\"passed\",\"evidence_ref\":\"Kernel control 21/21; guardian soak 7/7; Observatory WSS 6/6; OpenAPI contracts 6/6; adl-runtime library 134/134; runtime API WSS 2/2; strict all-target kernel Clippy passed; strict all-target adl-runtime Clippy passed; git diff --check passed.\"}}"
     }
   ]
 }

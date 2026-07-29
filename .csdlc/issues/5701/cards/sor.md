@@ -84,6 +84,16 @@ Implemented complete versioned Core and Observatory OpenAPI contracts and mounte
     "purpose": "Prove the versioned route inventory, typed OpenAPI contracts, real Observatory and ACIP WSS behavior, strict Rust quality, clean diff, live HTTPS documentation, authenticated health and metrics, and ready Vector observability pipeline.",
     "outcome": "passed",
     "evidence_ref": "Kernel control 21/21; OpenAPI contracts 6/6; Observatory WSS 5/5; runtime API docs 2/2; runtime API WSS 2/2; ACIP 5/5; strict kernel Clippy passed; git diff --check passed; live https://localhost:20997 returned 200 for both Swagger UIs and both specs, authenticated health observability_ready=true, authenticated metrics health=ready, and zero ERROR/FATAL master-log events."
+  },
+  {
+    "command": [
+      "cargo",
+      "test-and-clippy",
+      "runtime-v3-openapi-review-remediation"
+    ],
+    "purpose": "Prove sole production OpenAPI authority, versioned route parity, canonical ACIP dispatch, failure-safe replay sequencing, first-frame Observatory authentication, guardian persistence, and strict Rust quality.",
+    "outcome": "passed",
+    "evidence_ref": "Kernel control 21/21; guardian soak 7/7; Observatory WSS 6/6; OpenAPI contracts 6/6; adl-runtime library 134/134; runtime API WSS 2/2; strict all-target kernel Clippy passed; strict all-target adl-runtime Clippy passed; git diff --check passed."
   }
 ]
 

@@ -12,7 +12,15 @@ Status: draft
 
 ## Scope
 
-
+docs/api/runtime-v3/v1
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/tests/control.rs
+adl-runtime-kernel/tests/openapi_contract.rs
+adl-runtime/src/acip.rs
+adl-runtime/src/runtime_api.rs
+adl-runtime/tests/runtime_api_docs.rs
+adl-runtime/tests/runtime_api_wss.rs
+infra/runtime-v3/runtime-api-5665.toml
 
 ## Prompts
 
@@ -24,7 +32,48 @@ Status: draft
 
 ## Findings
 
-[]
+[
+  {
+    "id": "R5701-01",
+    "severity": "p1",
+    "summary": "The secondary adl-runtime router served the same Core OpenAPI document while returning incompatible health and metrics schemas.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "R5701-02",
+    "severity": "p2",
+    "summary": "ACIP monotonic sequence state was retained when canonical ingress dispatch failed.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "R5701-03",
+    "severity": "p2",
+    "summary": "The secondary adl-runtime route inventory test still asserted obsolete unversioned routes.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "R5701-04",
+    "severity": "p3",
+    "summary": "The Observatory WebSocket contract declared HTTP bearer authentication although the real handler authenticates in the first WebSocket frame.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -36,8 +85,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:86aab3d09800574a0aa95e270a6bbaa45cfb5b36:ddd2a916c2dfe7ad177c0f62e3242e19ed4b63c74d01f2fc0e93e7b8dcaa85e2")
 
-Reviewer: None
+Reviewer: Some("subagent:019faf71-f57d-7c01-8ccf-8ceec597f8e7")
 
-Result: pre_review
+Result: changes_required

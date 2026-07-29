@@ -1,12 +1,17 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
-    sync::Arc,
+    sync::{
+        atomic::{AtomicUsize, Ordering},
+        Arc,
+    },
     time::Duration,
 };
 
 use adl_runtime_kernel::{
-    encode_acip_envelope, serve_control_listener, ControlApiPolicy, ControlAuthority,
-    ControlCapability, ControlService, KernelExit, LifecycleControl, RuntimeRecorder,
+    encode_acip_envelope, serve_control_listener, AdapterKind, AdapterPolicy, AuthorityMode,
+    CanonicalIngress, ComponentRegistry, ControlApiPolicy, ControlAuthority, ControlCapability,
+    ControlService, ExecutorError, FailureClass, Kernel, KernelExit, LifecycleControl,
+    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, RuntimeRecorder,
     TrustedControlKey, ACIP_WEBSOCKET_SCHEMA, OBSERVATORY_FEED_SCHEMA, OBSERVATORY_WS_AUTH_SCHEMA,
     OBSERVATORY_WS_PATH,
 };
@@ -27,6 +32,12 @@ use tokio_tungstenite::{
 
 struct FakeLifecycle;
 
+struct EchoExecutor;
+
+struct FailOnceExecutor {
+    attempts: AtomicUsize,
+}
+
 #[async_trait]
 impl LifecycleControl for FakeLifecycle {
     async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
@@ -34,7 +45,38 @@ impl LifecycleControl for FakeLifecycle {
     }
 }
 
-fn service(token: &str) -> Arc<ControlService<FakeLifecycle>> {
+#[async_trait]
+impl OperationExecutor for EchoExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        Ok(request.payload.clone())
+    }
+}
+
+#[async_trait]
+impl OperationExecutor for FailOnceExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        if self.attempts.fetch_add(1, Ordering::SeqCst) == 0 {
+            return Err(ExecutorError {
+                class: FailureClass::Fatal,
+                message: "injected dispatch failure".to_owned(),
+            });
+        }
+        Ok(request.payload.clone())
+    }
+}
+
+#[derive(Clone)]
+struct TestService {
+    service: Arc<ControlService<FakeLifecycle>>,
+    operation: OperationalFactory,
+    ingress: CanonicalIngress,
+}
+
+fn service(token: &str) -> TestService {
+    service_with_executor(token, Arc::new(EchoExecutor))
+}
+
+fn service_with_executor(token: &str, executor: Arc<dyn OperationExecutor>) -> TestService {
     let key = SigningKey::from_bytes(&[42; 32]);
     let authority = ControlAuthority::new(BTreeMap::from([(
         "operator-key".to_owned(),
@@ -44,23 +86,52 @@ fn service(token: &str) -> Arc<ControlService<FakeLifecycle>> {
             capabilities: BTreeSet::from([ControlCapability::Read]),
         },
     )]));
-    let service = Arc::new(ControlService::new_with_observatory_config(
-        "instance-ws",
-        RuntimeRecorder::new(8),
-        FakeLifecycle,
-        authority,
+    let recorder = RuntimeRecorder::new(8);
+    let adapter = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Acip,
+            AdapterPolicy {
+                capacity: 8,
+                max_in_flight: 4,
+                shutdown_grace_millis: 1_000,
+                max_attempts: 1,
+                idempotency_entries: 16,
+                authority: AuthorityMode::Internal,
+            },
+            executor,
+        )
+        .unwrap(),
+    );
+    let operation = OperationalFactory::new(adapter, vec![]);
+    let ingress = CanonicalIngress::new(
         8,
-        ["https://observatory.example.test".to_owned()],
-    ));
+        recorder.clone(),
+        BTreeMap::from([("acip".to_owned(), operation.clone())]),
+    );
+    let service = Arc::new(
+        ControlService::new_with_observatory_config(
+            "instance-ws",
+            recorder,
+            FakeLifecycle,
+            authority,
+            8,
+            ["https://observatory.example.test".to_owned()],
+        )
+        .with_canonical_ingress(ingress.clone()),
+    );
     service.set_observatory_bearer_token(token).unwrap();
     service
         .set_public_base_url("https://observatory.example.test:20997")
         .unwrap();
-    service
+    TestService {
+        service,
+        operation,
+        ingress,
+    }
 }
 
 async fn websocket_server(
-    service: Arc<ControlService<FakeLifecycle>>,
+    test_service: TestService,
 ) -> (
     std::net::SocketAddr,
     Connector,
@@ -87,18 +158,30 @@ async fn websocket_server(
         .await
         .unwrap();
     let address = listener.local_addr().unwrap();
-    let server = tokio::spawn(serve_control_listener(
-        service,
-        listener,
-        tls,
-        ControlApiPolicy::new(
-            Duration::from_secs(2),
-            Duration::from_secs(5),
-            Duration::from_secs(1),
-            64 * 1024,
+    let mut registry = ComponentRegistry::new();
+    registry.register(test_service.operation);
+    registry.register(test_service.ingress);
+    let kernel = Kernel::new(registry.validate().unwrap(), RuntimeRecorder::new(8))
+        .start()
+        .await
+        .unwrap();
+    let server = tokio::spawn(async move {
+        let result = serve_control_listener(
+            test_service.service,
+            listener,
+            tls,
+            ControlApiPolicy::new(
+                Duration::from_secs(2),
+                Duration::from_secs(5),
+                Duration::from_secs(1),
+                64 * 1024,
+            )
+            .unwrap(),
         )
-        .unwrap(),
-    ));
+        .await;
+        let _ = kernel.shutdown(Duration::from_secs(1)).await;
+        result
+    });
     (address, connector, server)
 }
 
@@ -224,7 +307,7 @@ async fn observatory_websocket_rejects_acip_replay_after_reconnect() {
                 "acip-reconnect-1",
                 "agent-source",
                 "runtime-target",
-                "consult",
+                "acip",
                 &serde_json::json!({"message": "first"}),
                 1,
             )
@@ -234,7 +317,7 @@ async fn observatory_websocket_rejects_acip_replay_after_reconnect() {
         .await
         .unwrap();
     let accepted = next_acip_status(&mut first).await;
-    assert_eq!(accepted["status"], "accepted");
+    assert_eq!(accepted["status"], "completed");
     assert_eq!(accepted["message_id"], "acip-reconnect-1");
     assert_eq!(accepted["sequence_reserved"], true);
     first.close(None).await.unwrap();
@@ -246,7 +329,7 @@ async fn observatory_websocket_rejects_acip_replay_after_reconnect() {
                 "acip-reconnect-1-replay",
                 "agent-source",
                 "runtime-target",
-                "consult",
+                "acip",
                 &serde_json::json!({"message": "replayed"}),
                 1,
             )
@@ -267,7 +350,7 @@ async fn observatory_websocket_rejects_acip_replay_after_reconnect() {
                 "acip-reconnect-2",
                 "agent-source",
                 "runtime-target",
-                "consult",
+                "acip",
                 &serde_json::json!({"message": "second"}),
                 2,
             )
@@ -277,9 +360,55 @@ async fn observatory_websocket_rejects_acip_replay_after_reconnect() {
         .await
         .unwrap();
     let advanced = next_acip_status(&mut second).await;
-    assert_eq!(advanced["status"], "accepted");
+    assert_eq!(advanced["status"], "completed");
     assert_eq!(advanced["message_id"], "acip-reconnect-2");
     assert_eq!(advanced["sequence_reserved"], true);
+    server.abort();
+}
+
+#[tokio::test]
+async fn failed_acip_dispatch_releases_sequence_for_retry() {
+    let token = "test-observatory-websocket-token-0008";
+    let service = service_with_executor(
+        token,
+        Arc::new(FailOnceExecutor {
+            attempts: AtomicUsize::new(0),
+        }),
+    );
+    let (address, connector, server) = websocket_server(service).await;
+    let mut socket = connect_authenticated(address, connector, token).await;
+    let frame = encode_acip_envelope(
+        "acip-retry-1",
+        "agent-source-retry",
+        "runtime-target",
+        "acip",
+        &serde_json::json!({"message": "retry me"}),
+        1,
+    )
+    .unwrap();
+
+    socket
+        .send(Message::Binary(frame.clone().into()))
+        .await
+        .unwrap();
+    let failed = next_acip_status(&mut socket).await;
+    assert_eq!(failed["status"], "rejected");
+    assert_eq!(failed["sequence_reserved"], false);
+
+    let retry = encode_acip_envelope(
+        "acip-retry-2",
+        "agent-source-retry",
+        "runtime-target",
+        "acip",
+        &serde_json::json!({"message": "retry after failure"}),
+        1,
+    )
+    .unwrap();
+    socket.send(Message::Binary(retry.into())).await.unwrap();
+    let retried = next_acip_status(&mut socket).await;
+    assert_eq!(retried["status"], "completed");
+    assert_eq!(retried["message_id"], "acip-retry-2");
+    assert_eq!(retried["sequence_reserved"], true);
     server.abort();
 }
 
@@ -390,6 +519,7 @@ async fn observatory_websocket_rejects_a_token_after_rotation() {
     .await
     .unwrap();
     service
+        .service
         .set_observatory_bearer_token("rotated-observatory-websocket-token-0004")
         .unwrap();
     socket
@@ -433,6 +563,7 @@ async fn observatory_websocket_revokes_an_authenticated_session_after_rotation()
         .unwrap();
     assert!(matches!(socket.next().await, Some(Ok(Message::Text(_)))));
     service
+        .service
         .set_observatory_bearer_token("rotated-observatory-websocket-token-0006")
         .unwrap();
     assert!(matches!(

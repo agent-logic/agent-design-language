@@ -28,10 +28,10 @@ use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
 use crate::{
-    acip_frame_status, decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest,
-    DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LiveContinuity,
-    ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
-    WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
+    decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest, DomainResult,
+    DomainWork, IngressError, KernelControl, KernelExit, LiveContinuity, ObservabilityHealth,
+    RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport,
+    ACIP_WEBSOCKET_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -307,6 +307,12 @@ struct AcipReplayState {
     sequences_by_source: LruCache<String, u64>,
 }
 
+struct AcipSequenceReservation {
+    source: String,
+    sequence: u64,
+    previous: Option<u64>,
+}
+
 pub struct ControlService<C> {
     instance_id: String,
     recorder: RuntimeRecorder,
@@ -558,14 +564,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         true
     }
 
-    fn reserve_acip_sequence(&self, source: &str, sequence: u64) -> bool {
+    fn reserve_acip_sequence(
+        &self,
+        source: &str,
+        sequence: u64,
+    ) -> Option<AcipSequenceReservation> {
         if sequence == 0 {
-            return false;
+            return None;
         }
         let mut state = self.acip_replay.lock().expect("ACIP replay mutex poisoned");
-        if let Some(previous) = state.sequences_by_source.get(source).copied() {
+        let previous = state.sequences_by_source.get(source).copied();
+        if let Some(previous) = previous {
             if sequence <= previous {
-                return false;
+                return None;
             }
         } else {
             while state.sequences_by_source.len() >= self.max_records {
@@ -573,7 +584,88 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             }
         }
         state.sequences_by_source.put(source.to_owned(), sequence);
-        true
+        Some(AcipSequenceReservation {
+            source: source.to_owned(),
+            sequence,
+            previous,
+        })
+    }
+
+    fn rollback_acip_sequence(&self, reservation: AcipSequenceReservation) {
+        let mut state = self.acip_replay.lock().expect("ACIP replay mutex poisoned");
+        if state.sequences_by_source.peek(&reservation.source).copied()
+            != Some(reservation.sequence)
+        {
+            return;
+        }
+        match reservation.previous {
+            Some(previous) => {
+                state.sequences_by_source.put(reservation.source, previous);
+            }
+            None => {
+                state.sequences_by_source.pop(&reservation.source);
+            }
+        }
+    }
+
+    async fn dispatch_acip_payload(&self, payload: &[u8]) -> serde_json::Value {
+        let envelope = match decode_acip_envelope(payload) {
+            Ok(envelope) => envelope,
+            Err(reason) => {
+                return serde_json::json!({
+                    "schema": ACIP_WEBSOCKET_SCHEMA,
+                    "status": "rejected",
+                    "reason": reason,
+                    "sequence_reserved": false
+                });
+            }
+        };
+        let Some(ingress) = &self.canonical_ingress else {
+            return serde_json::json!({
+                "schema": ACIP_WEBSOCKET_SCHEMA,
+                "status": "rejected",
+                "message_id": envelope.message_id,
+                "reason": "canonical_ingress_unavailable",
+                "sequence_reserved": false
+            });
+        };
+        let Some(reservation) =
+            self.reserve_acip_sequence(&envelope.source, envelope.monotonic_sequence)
+        else {
+            return serde_json::json!({
+                "schema": ACIP_WEBSOCKET_SCHEMA,
+                "status": "rejected",
+                "message_id": envelope.message_id,
+                "reason": "monotonic_sequence_must_advance",
+                "sequence_reserved": false
+            });
+        };
+        let work = DomainWork {
+            schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: envelope.message_id.clone(),
+            kind: envelope.route.clone(),
+            payload: envelope.payload_json.as_bytes().to_vec(),
+        };
+        match ingress.submit(work, envelope.message_id.clone()).await {
+            Ok(result) => serde_json::json!({
+                "schema": ACIP_WEBSOCKET_SCHEMA,
+                "status": "completed",
+                "message_id": envelope.message_id,
+                "accepted_sequence": result.accepted_sequence,
+                "result_hash": result.result_hash,
+                "sequence_reserved": true
+            }),
+            Err(error) => {
+                self.rollback_acip_sequence(reservation);
+                serde_json::json!({
+                    "schema": ACIP_WEBSOCKET_SCHEMA,
+                    "status": "rejected",
+                    "message_id": envelope.message_id,
+                    "reason": error.to_string(),
+                    "sequence_reserved": false
+                })
+            }
+        }
     }
 
     pub fn observatory_feed(&self) -> ObservatoryFeed {
@@ -1103,62 +1195,7 @@ async fn acip_ws_session<C: LifecycleControl + 'static>(
         }
         match message {
             Ok(Message::Binary(payload)) => {
-                let response = match decode_acip_envelope(&payload) {
-                    Ok(envelope)
-                        if service.reserve_acip_sequence(
-                            &envelope.source,
-                            envelope.monotonic_sequence,
-                        ) =>
-                    {
-                        let work = DomainWork {
-                            schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
-                            work_id: envelope.message_id.clone(),
-                            kind: "acip".to_owned(),
-                            payload: payload.to_vec(),
-                        };
-                        match &service.canonical_ingress {
-                            Some(ingress) => {
-                                match ingress.submit(work, envelope.message_id.clone()).await {
-                                    Ok(result) => serde_json::json!({
-                                        "schema": ACIP_WEBSOCKET_SCHEMA,
-                                        "status": "completed",
-                                        "message_id": envelope.message_id,
-                                        "accepted_sequence": result.accepted_sequence,
-                                        "result_hash": result.result_hash,
-                                        "sequence_reserved": true
-                                    }),
-                                    Err(error) => serde_json::json!({
-                                        "schema": ACIP_WEBSOCKET_SCHEMA,
-                                        "status": "rejected",
-                                        "message_id": envelope.message_id,
-                                        "reason": error.to_string(),
-                                        "sequence_reserved": true
-                                    }),
-                                }
-                            }
-                            None => serde_json::json!({
-                                "schema": ACIP_WEBSOCKET_SCHEMA,
-                                "status": "rejected",
-                                "message_id": envelope.message_id,
-                                "reason": "canonical_ingress_unavailable",
-                                "sequence_reserved": true
-                            }),
-                        }
-                    }
-                    Ok(envelope) => serde_json::json!({
-                        "schema": ACIP_WEBSOCKET_SCHEMA,
-                        "status": "rejected",
-                        "message_id": envelope.message_id,
-                        "reason": "monotonic_sequence_must_advance",
-                        "sequence_reserved": false
-                    }),
-                    Err(reason) => serde_json::json!({
-                        "schema": ACIP_WEBSOCKET_SCHEMA,
-                        "status": "rejected",
-                        "reason": reason,
-                        "sequence_reserved": false
-                    }),
-                };
+                let response = service.dispatch_acip_payload(&payload).await;
                 if socket
                     .send(Message::Text(response.to_string().into()))
                     .await
@@ -1350,22 +1387,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                     }
                 }
                 Some(Ok(Message::Binary(payload))) => {
-                    let status = match decode_acip_envelope(&payload) {
-                        Ok(envelope) if service.reserve_acip_sequence(
-                            &envelope.source,
-                            envelope.monotonic_sequence,
-                        ) => {
-                            acip_frame_status(&payload)
-                        }
-                        Ok(envelope) => serde_json::json!({
-                            "schema": ACIP_WEBSOCKET_SCHEMA,
-                            "status": "rejected",
-                            "message_id": envelope.message_id,
-                            "reason": "monotonic_sequence_must_advance",
-                            "sequence_reserved": false
-                        }),
-                        Err(_) => acip_frame_status(&payload),
-                    };
+                    let status = service.dispatch_acip_payload(&payload).await;
                     let Ok(payload) = serde_json::to_string(&status) else {
                         break;
                     };

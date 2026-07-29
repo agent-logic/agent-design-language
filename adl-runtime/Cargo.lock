@@ -42,8 +42,6 @@ dependencies = [
  "tokio-tungstenite",
  "tokio-util",
  "toml",
- "tower",
- "utoipa-swagger-ui",
  "windows-sys 0.61.2",
 ]
 

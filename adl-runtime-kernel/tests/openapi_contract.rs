@@ -6,7 +6,6 @@ const RUNTIME_OPENAPI: &str = include_str!("../../docs/api/runtime-v3/v1/openapi
 const OBSERVATORY_OPENAPI: &str =
     include_str!("../../docs/api/runtime-v3/v1/observatory.openapi.json");
 const CONTROL_RS: &str = include_str!("../src/control.rs");
-const RUNTIME_API_RS: &str = include_str!("../../adl-runtime/src/runtime_api.rs");
 
 #[test]
 fn runtime_and_observatory_openapi_contracts_are_valid_and_disjoint() {
@@ -204,34 +203,7 @@ fn documented_routes(document: &Value) -> BTreeSet<(String, String)> {
 }
 
 fn real_control_routes() -> BTreeSet<(String, String)> {
-    let mut routes = BTreeSet::new();
-    routes.extend(real_runtime_api_routes());
-    routes.extend(real_kernel_control_routes());
-    routes
-}
-
-fn real_runtime_api_routes() -> BTreeSet<(String, String)> {
-    let mut routes = BTreeSet::new();
-    for expected in [
-        "/v1/health",
-        "/v1/metrics",
-        "/v1/acip/ws",
-        "/v1/openapi.json",
-        "/v1/observatory/openapi.json",
-    ] {
-        assert!(
-            RUNTIME_API_RS.contains(&format!(".route(\"{expected}\""))
-                || RUNTIME_API_RS.contains(&format!("= \"{expected}\"")),
-            "runtime API router must still contain {expected}"
-        );
-        routes.insert(("get".to_owned(), expected.to_owned()));
-    }
-    assert!(
-        RUNTIME_API_RS.contains("CSM_RUNTIME_API_DOCS_PATH"),
-        "runtime API router must still contain the Swagger docs route constant"
-    );
-    routes.insert(("get".to_owned(), "/v1/docs/".to_owned()));
-    routes
+    real_kernel_control_routes()
 }
 
 fn real_kernel_control_routes() -> BTreeSet<(String, String)> {
@@ -245,6 +217,9 @@ fn real_kernel_control_routes() -> BTreeSet<(String, String)> {
             "/v1/health"
             | "/v1/metrics"
             | "/v1/acip/ws"
+            | "/v1/openapi.json"
+            | "/v1/observatory/openapi.json"
+            | "/v1/docs/"
             | "/v1/observatory/ws"
             | "/v1/observatory/docs/" => {
                 routes.insert(("get".to_owned(), route));
@@ -282,6 +257,17 @@ fn literal_routes_from_control_rs() -> BTreeSet<String> {
         "OBSERVATORY_WS_PATH constant must remain the documented route"
     );
     routes.insert("/v1/observatory/ws".to_owned());
+    for (constant, route) in [
+        ("RUNTIME_OPENAPI_PATH", "/v1/openapi.json"),
+        ("OBSERVATORY_OPENAPI_PATH", "/v1/observatory/openapi.json"),
+        ("API_DOCS_PATH", "/v1/docs/"),
+    ] {
+        assert!(
+            CONTROL_RS.contains(&format!("pub const {constant}: &str = \"{route}\"")),
+            "{constant} must remain the documented route"
+        );
+        routes.insert(route.to_owned());
+    }
     assert!(
         CONTROL_RS
             .contains("pub const OBSERVATORY_API_DOCS_PATH: &str = \"/v1/observatory/docs/\""),

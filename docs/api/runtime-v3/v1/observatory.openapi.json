@@ -30,11 +30,7 @@
         "operationId": "readObservatorySnapshot",
         "tags": ["observatory"],
         "summary": "Read the current Runtime v3 Observatory snapshot",
-        "security": [
-          {
-            "observatoryBearer": []
-          }
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Current Runtime v3 Observatory snapshot.",
