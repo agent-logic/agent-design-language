@@ -5,7 +5,7 @@
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
   "phase": "implemented",
   "generation": 9,
-  "digest": "eb2070aa11041f6f5fceb3a93084cb755dde1704a195e35abe03505141bf4b1c",
+  "digest": "eb317606cf42b6f72ff80cf45a13c196d9efe174be307c0357f9f032b122b7d6",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -58,7 +58,25 @@
     ],
     "purpose": "Complete #5344 exact-revision Runtime v3 opt-in soak and rollback proof across macOS, Linux, and native Windows; retain reviewed evidence; publish and merge without weakening TLS, editing Runtime v2, or deleting Runtime v1"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fac48-c04a-70f1-8a0e-fca1cb4af863",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:c4e8c18b11934ed4eebc02953772e66a05dc9e1c:b6faaee449d226982a628339826340debb51092214de1b8e9e18eaa089b189d0",
+    "scope": [
+      ".csdlc/issues/5344",
+      ".csdlc/evidence/5344",
+      ".csdlc/prepared/issues/5344",
+      "adl-runtime",
+      "adl-runtime-kernel",
+      "adl-v2/tools/prove-rollback.sh",
+      "adl-v2/tools/run-soak.sh",
+      "docs/milestones/v0.91.8/evidence/wp12",
+      "infra/horust",
+      "infra/runtime-v3/runtime-init.toml",
+      "infra/rustysd",
+      "infra/systemd"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -94,9 +112,9 @@
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "fb201f30e0937816fc86f722922162e37049c642e22da2bd8622cb378523ae26",
-      "rendered_digest": "161046d997324858befc4d46900d335a19b22440595a0d96be3fbc263a99a800",
-      "ast_digest": "f27842a7bd8e6e69bde481752b428c9b891133acde1465e84eb6147f2e061532"
+      "values_digest": "970f7c493e463cfd9f98c62b4d17ff5d3dc95270232593bc1f93db52870acae4",
+      "rendered_digest": "2498c86866ae2e1140efd77a39daac815b1fc62fad55bee49f122c3e860d5c0a",
+      "ast_digest": "7b43ff22f64633fe156e58105ab96ac3876d7fe447cd96c3377454e498330495"
     },
     "sor": {
       "values_digest": "5a514fd564477ac22105f58ce54c139cefef475bbf2350792eb0fc535121a9e6",
@@ -316,6 +334,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The accepted #5343 cutover handoff fields and typed review projection were committed after the substantive clean #5344 review; recover for one bounded metadata-only exact-head follow-up before publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 9,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

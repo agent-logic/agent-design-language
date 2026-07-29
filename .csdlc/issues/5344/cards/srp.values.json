@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/5344\n.csdlc/evidence/5344\n.csdlc/prepared/issues/5344\nadl-runtime\nadl-runtime-kernel\nadl-v2/tools/prove-rollback.sh\nadl-v2/tools/run-soak.sh\ndocs/milestones/v0.91.8/evidence/wp12\ninfra/horust\ninfra/runtime-v3/runtime-init.toml\ninfra/rustysd\ninfra/systemd",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
