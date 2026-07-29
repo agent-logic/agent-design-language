@@ -94,7 +94,7 @@ Completed the exact-revision WP-12 opt-in soak and rollback proof: accepted Runt
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

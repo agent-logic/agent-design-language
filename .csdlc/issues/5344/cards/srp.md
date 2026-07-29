@@ -8,22 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/issues/5344
-.csdlc/evidence/5344
-.csdlc/prepared/issues/5344
-adl-runtime
-adl-runtime-kernel
-adl-v2/tools/prove-rollback.sh
-adl-v2/tools/run-soak.sh
-docs/milestones/v0.91.8/evidence/wp12
-infra/horust
-infra/runtime-v3/runtime-init.toml
-infra/rustysd
-infra/systemd
+
 
 ## Prompts
 
@@ -44,14 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The retained 10,000-cycle, 100-by-10-second, and 10-by-600-second platform runs were verified rather than rerun during review.
-- Issue #5344 proves selector rollback with a v1 fixture; issue #5343 owns real retained-v1 executable restoration.
-- Runtime v1 and Runtime v2 remain installed rollback surfaces, the default remains unchanged, and legacy deletion is not authorized.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:8831d7bd2844f81457a50d5780e73eb0c0776764:b0303764ad1a0f1fd7f7ecbb6f16bb3bd1b745c6a02330664d291d1a6d463e79")
+Revision: None
 
-Reviewer: Some("subagent:019fac48-c04a-70f1-8a0e-fca1cb4af863")
+Reviewer: None
 
-Result: pass
+Result: pre_review
