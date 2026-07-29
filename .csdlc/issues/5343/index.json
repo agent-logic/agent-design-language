@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7ae22a9c8742977941bf696bfe2123d8d59ab3b7711264cfe5220a16802c44e6",
   "phase": "published",
-  "generation": 19,
-  "digest": "62bd806442f6de0d131b888921adc00560622e9b1b882f2fa16eef3ab6c824c9",
+  "generation": 20,
+  "digest": "abe3897c87d37d84977e1c4867497f07b2dec5a7c2d6a7e98bb11cf6e60eecbd",
   "claim": {
     "id": "claim-5343-v0918-wp12-reversible-default-switch-execution",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 19,
+    "generation": 20,
     "acquired_unix_seconds": 1785314375,
     "expires_unix_seconds": 1785919175,
     "heartbeat_unix_seconds": 1785314375,
@@ -83,8 +83,8 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5704",
     "base": "main",
     "head": "codex/5343-v0918-wp12-reversible-default-switch",
-    "revision": "git-blake3:4d52d4e1351c86881b3e9309d4c0b60134a9fbde:33fc2ffb57b05ca5dbe4a1e8bd9b197feb73ac2597aec51318e3dc29b4bec1eb",
-    "draft": true,
+    "revision": "git-blake3:6cfba6ba4eabfa15014215d4294ad0742595b846:3984f66e101971de2f6d28df688c19633a2e31e41f9e4731590f13de5c7c505b",
+    "draft": false,
     "observed_state": "open"
   },
   "readiness": null,
@@ -100,34 +100,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7ca4dabb3ff88faa6ea2060b23d9aa968a69a91336c394fc4b026b6ff3646f2b",
+      "values_digest": "c7a9c41e71e253f558fd943c9bf9ed9bc310948c547b8b3b8bd3d7b0691a2e4c",
       "rendered_digest": "56e9f6179e9157659276d6bcf35efb8f016bba7c7822b2b0d797679cd31adf6b",
       "ast_digest": "4bed42107b13c69d3d7d4cb8f18e052c2f7c26199f6173d1dc3260de1fe9a993"
     },
     "stp": {
-      "values_digest": "51f23d7f75fcaf19c6a22e9dbe765524d2c119ebc9dd3d7606681c507590f2a8",
+      "values_digest": "947357763bbfdb490151b980bc053de82a67c4c74c2752e38912cc20d6cfc804",
       "rendered_digest": "2603a355245577778350785ca55e828e84a8d35adeb0eb9f05104b02c8c6526c",
       "ast_digest": "af5271338c52d97d190cb14ef68d417dc5c34afcf8b72c635a7f9459680efb65"
     },
     "spp": {
-      "values_digest": "a82c3f24147c6abb218e82bb1cf5e5435a992dfb1f24be7b064e3069770fd96a",
+      "values_digest": "51f38a58606a110ef8109e883621f0868e267b21e721e772b6d1b08cb2fcfb29",
       "rendered_digest": "5b738a414feacadb91990e6ad0902603b75e20e8e581032ca8065519434a5878",
       "ast_digest": "b575f3c28cfae2265f950dba10fe6871aff29c4cffac4bef4db8439acf25aa3a"
     },
     "vpp": {
-      "values_digest": "8bb71db694500e41a43a6d5c107cff75b122cb7e22c6655be100a3d3274e5813",
+      "values_digest": "0651362ae7dc2c219ef605576dcf8313bb8c105bf4900ad868a969406ed0df74",
       "rendered_digest": "490f13ed699c7b032f54feda67d069688372326c121d9a7b3b73c27653069926",
       "ast_digest": "7bb857dcc7dae7e8bc06691fc7b203c3419d31e8481ffbce611dedf4e4c2cfb8"
     },
     "srp": {
-      "values_digest": "af570428f51169a57a9c2adf76897e1b72ea2dd49d70c252d6f878d4148d0fbf",
+      "values_digest": "ed10ae0a9e175c79b90b3ac6616cbd0fc22c7f100eddfb30b6721cab617662df",
       "rendered_digest": "c35c9d8e6beb1ba847fb1bdeac7b2121fba2238f4871153246444a0e14caeff8",
       "ast_digest": "1cc246a5abf6992d5952522763d7110b068514864697ea9bc7aba6d50797f2fa"
     },
     "sor": {
-      "values_digest": "40ebaa7d5d0497491035d2c7c93b154da2eab4415d1d7d5238759eb23fbf7e93",
-      "rendered_digest": "76d874429d8b2507766df85d714160f304810fd00992aea3eacb32beaa2ad3e6",
-      "ast_digest": "7b22e786a8f8ff2ff60dc735e39d9db1224d3452226b7d3dc3258eece92eddfd"
+      "values_digest": "8696ac976c061e12ef8d5d9ef16599d1e7cf0e98c42f915ff511cd30fa4da07a",
+      "rendered_digest": "29ec6165b10d195d31e0c847cdb1d0062c3f6cd6716db17da8ef164d16b80586",
+      "ast_digest": "d08ce41ccb87538af2e42150c93351772897a65b33b15b71837399b286c0f9f5"
     }
   },
   "transitions": [
@@ -342,6 +342,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "record exact existing PR ready-for-review after remote success",
+      "operation": "record_ready_publication"
     }
   ]
 }
