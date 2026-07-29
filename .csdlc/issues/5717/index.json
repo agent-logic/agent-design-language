@@ -1,0 +1,141 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5717,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "076248de115adaa0f9c9eff8cbbd8ff162b2d01f5bdb2d6a9d316c57f9ea4b83",
+  "phase": "implemented",
+  "generation": 1,
+  "digest": "04e89b0efdcbe1bf2fbb2055f8fa5e272df1653e709c5050cec12069acb5954c",
+  "claim": {
+    "id": "claim-5717-podcast-studio-copy",
+    "owner": "codex:5717-execution",
+    "generation": 1,
+    "acquired_unix_seconds": 1785361490,
+    "expires_unix_seconds": 1785966290,
+    "heartbeat_unix_seconds": 1785361490,
+    "branch": "codex/5717-podcast-studio-copy",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5715",
+      ".csdlc/issues/5717",
+      ".csdlc/locks/5717.lock",
+      ".csdlc/prepared/issues/5717",
+      "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio-reference/uploads/agent-logic-logo.png",
+      "demos/podcast/studio-reference/uploads/agent-logic-logo.svg",
+      "demos/podcast/studio/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio/podcast-studio.html",
+      "demos/podcast/studio/reference.sha256",
+      "demos/podcast/studio/uploads/agent-logic-logo.png",
+      "demos/podcast/studio/uploads/agent-logic-logo.svg"
+    ],
+    "purpose": "Update the integrated podcast studio page copy and logo for launch readiness while preserving the #5715 route, assets, audio, and RSS wiring"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5717/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5717/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5717-execution",
+      "revision": "1957aeebaa7648bba86dc24501cc9578d8e3c95fb5f5b80108aaedc5b5511d7a"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "66d37e8fe96d692797930b91607c703cf9eed58f9bbe5c21855dc6ef005548c4",
+      "rendered_digest": "72b19c7db1294878ef02538e3c2c1afcd75c4962eed345a546782b4c4a01703c",
+      "ast_digest": "44990155f81bd4fe0b63937ab141c8169a0b74a8c485f0f1ad1c67f06d9502dd"
+    },
+    "stp": {
+      "values_digest": "6645269df62387a797d3b10292c6fc07b56cccfbaf71befc353dfeb2e9437ae5",
+      "rendered_digest": "79384f1b1112b72739525c66c07f15aaf6b41ff8d1d4d9692428171882b8141f",
+      "ast_digest": "60a985e4b0af0ce1214f640fc699395f397face6fedd1ff9270f742992f7331a"
+    },
+    "spp": {
+      "values_digest": "069888e2a437c87ac5dfc620292e9acd6f08dbeab2d22eb14c97d33194c09830",
+      "rendered_digest": "28e613669030c5a2a9d4fd1fc5916d05013a7fede79a43e16c7475bd158e4ecc",
+      "ast_digest": "b7be51bebcc797093527fbf73e64ad8e991c4edd984f4c5a85eeda7d81be4302"
+    },
+    "vpp": {
+      "values_digest": "a3763d792fa1447b193b24fdef8f18ddaaa185a6789823a5393aa1455e95fce6",
+      "rendered_digest": "d4b179d6ddfe7e069e109aac976bf47c9b190fa9ae5d17e5ab31011b5df07990",
+      "ast_digest": "beb988a8127e2b82f642f57dae1be11765034e5e7375d161f975b12b60f8dc9d"
+    },
+    "srp": {
+      "values_digest": "88ecff1ae553ddc0e4fed7afdaec5281d3d519699d380ce4ee387bee213306ea",
+      "rendered_digest": "7a377d489847e5e58bacde5a7a07c43937656bb484642f730439c26f412b8173",
+      "ast_digest": "1cb33f50905e61ce88b8261d7cf38fef8bdb4dd8368c5a261007c83a3b7ea733"
+    },
+    "sor": {
+      "values_digest": "4c4613a9c6d718e48da6594a641e4a2eb7d54e6c2aecec0c5838d91fe7a17002",
+      "rendered_digest": "b8c945becfc15bd099268b2be10cad88f30433c31703d5c5e91ea1a918b52f1d",
+      "ast_digest": "75258da964116f44082617071f5f8d0e476f36196667501423f3d4b36fb1f4d0"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5717-execution",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5717-execution",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5717-execution",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5717-execution",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:5717-execution",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:5717-execution",
+      "reason": "Operator supplied the correct Agent Logic logo as an SVG rather than PNG; include the actual reference and generated SVG logo asset paths in #5717 protected scope before editing/committing them.",
+      "operation": "{\"add_protected_paths\":[\"demos/podcast/studio-reference/uploads/agent-logic-logo.svg\",\"demos/podcast/studio/uploads/agent-logic-logo.svg\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 0,
+      "actor": "codex:5717-execution",
+      "reason": "Cover the typed predecessor #5715 claim-release metadata required to bind and publish this stacked #5717 podcast studio follow-up without leaving implicit lifecycle side effects.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5715\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 1,
+      "actor": "codex:5717-execution",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

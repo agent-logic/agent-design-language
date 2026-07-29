@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5717,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][podcast][ui] Update podcast studio copy from integrated design",
+    "slug": "v0-91-8-podcast-ui-update-podcast-studio-copy-from-integrated-design",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "studio reference HTML, generated studio output, logo asset copy, digest files, and issue-local lifecycle record",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the studio page satisfy each operator-requested copy/logo/layout fix?",
+        "Are fake historical episode numbers removed in favor of proposed launch topics starting at 1?",
+        "Do the studio route, assets, audio artifact, and RSS feed still validate?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
