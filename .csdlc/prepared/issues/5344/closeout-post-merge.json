@@ -1,0 +1,12 @@
+{
+  "issue": 5344,
+  "expected_generation": 44,
+  "expected_digest": "70bbf45ceb06ea965e16b1f66c4cd1b35f906be4b8a8c63a9a16c1e753d283f2",
+  "claim_id": "claim-5344-v0918-wp12-soak-rollback-recovered",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5703,
+  "disposition": "merged",
+  "approved_no_pr_reason": null,
+  "token_file": "/Users/daniel/keys/github.token"
+}
