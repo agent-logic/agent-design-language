@@ -73,7 +73,7 @@ function formatCurrentTimestampLabel() {
 
 let livePollTimer = null;
 let retainedPollTimer = null;
-const OBSERVATORY_VERSION = "v0.91.7";
+const OBSERVATORY_VERSION = "Runtime v3";
 const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
 const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
 const RUNTIME_V3_OBSERVATORY_ENDPOINT = "/v1/observatory";
@@ -364,6 +364,7 @@ const DASHBOARD_FOCUS = {
     title: "Runtime mirror",
     status: "active",
     target: "#runtime-proof",
+    focusTarget: "#hero-ready-state",
     detail: "Runtime readiness, event tail, CloudWatch proof, and retained/live mode are visible in the fixed dashboard.",
     facts: ["Readiness and kernel state", "Event preview and gauges", "Retained/live mode status"]
   },
@@ -372,22 +373,25 @@ const DASHBOARD_FOCUS = {
     title: "CSM polis topology",
     status: "map ready",
     target: "#panopticon",
+    focusTarget: "#hero-agent-map",
     detail: "Agent roster, scheduler, telemetry, event stream, and checkpoint lanes are mirrored in the panopticon map.",
     facts: ["Role-specific topology icons", "Agent roster summary", "Health and signal lanes"]
   },
   "csm-api": {
     kicker: "CSM API",
     title: "Local control plane",
-    status: "read-only",
+    status: "public reads + governed writes",
     target: "#csm-api",
-    detail: "The CSM API surface is read-only: /status, /health, /ready, /metrics, and /events.",
-    facts: ["/status, /health, /ready", "/metrics and /events", "Browser access tracked by #5003"]
+    focusTarget: "#hero-api-list",
+    detail: "Runtime state is publicly readable; login and a trusted signature are required for control writes.",
+    facts: ["/health, /metrics, /observatory", "Signed /v1/control commands", "Authenticated full-duplex WSS"]
   },
   cloudwatch: {
     kicker: "AWS",
     title: "CloudWatch heartbeat",
     status: "source-linked",
     target: "#cloudwatch",
+    focusTarget: "#hero-cloudwatch-state",
     detail: "CloudWatch rows and event-tail evidence are loaded from retained redacted AWS proof artifacts.",
     facts: ["WP-08 heartbeat proof", "Redacted event tail", "No browser AWS write authority"]
   },
@@ -396,6 +400,7 @@ const DASHBOARD_FOCUS = {
     title: "ACIP/SNS envelope",
     status: "prepared",
     target: "#communication",
+    focusTarget: ".compact-composer",
     detail: "Comms prepare ACIP messages and mirror retained SNS proof; live AWS mutation remains runtime-owned.",
     facts: ["ACIP message draft", "SNS projection proof", "Redaction hygiene passed"]
   },
@@ -404,6 +409,7 @@ const DASHBOARD_FOCUS = {
     title: "Freedom gate",
     status: "bounded",
     target: "#governance",
+    focusTarget: "#hero-governance-state",
     detail: "Decision, invariant, and proposal-only action surfaces preserve the packet claim boundary.",
     facts: ["Freedom gate decisions", "Runtime invariants", "Proposal-only actions"]
   },
@@ -412,6 +418,7 @@ const DASHBOARD_FOCUS = {
     title: "Proof packet",
     status: "linked",
     target: "#evidence",
+    focusTarget: "#packet-link",
     detail: "Packet, operator report, CSM API proof, metrics mirror, and CloudWatch artifacts remain source-linked.",
     facts: ["Visibility packet", "Operator report", "CSM/AWS proof refs"]
   }
@@ -424,8 +431,8 @@ function updateDashboardFocus(key = "runtime", extraDetail = "") {
   setText("dashboard-focus-status", selected.status);
   setState("dashboard-focus-status", selected.status);
   setText("dashboard-focus-detail", extraDetail || selected.detail);
-  setHref("dashboard-focus-link", selected.target);
-  setText("dashboard-focus-link", "Surface selected");
+  setHref("dashboard-focus-link", selected.focusTarget);
+  setText("dashboard-focus-link", `View ${selected.title}`);
   renderRows("dashboard-focus-list", asArray(selected.facts).map((fact) => `
     <span class="dashboard-focus-item">${escapeHtml(fact)}</span>
   `));
@@ -445,6 +452,11 @@ function bindDashboardNavigation(packet = FALLBACK_PACKET) {
       event.preventDefault();
       const key = link.dataset.dashboardLink || "runtime";
       updateDashboardFocus(key);
+      const selected = DASHBOARD_FOCUS[key] || DASHBOARD_FOCUS.runtime;
+      globalThis.history?.replaceState(null, "", selected.target);
+      const panel = document.getElementById("dashboard-focus-panel");
+      panel?.setAttribute("tabindex", "-1");
+      panel?.focus({ preventScroll: true });
       if (key === "communication") {
         document.getElementById("prepare-envelope")?.click();
       }
@@ -453,10 +465,10 @@ function bindDashboardNavigation(packet = FALLBACK_PACKET) {
 
   document.getElementById("dashboard-focus-link")?.addEventListener("click", (event) => {
     event.preventDefault();
-    const target = document.querySelector(document.getElementById("dashboard-focus-link")?.getAttribute("href") || "#runtime-proof");
+    const target = document.querySelector(document.getElementById("dashboard-focus-link")?.getAttribute("href") || "#hero-ready-state");
     if (target) {
       target.setAttribute("tabindex", "-1");
-      target.focus({ preventScroll: true });
+      target.focus();
     }
   });
 
@@ -478,8 +490,10 @@ function bindDashboardNavigation(packet = FALLBACK_PACKET) {
     const link = document.createElement("a");
     link.href = url;
     link.download = "adl-html-observatory-proof-manifest.json";
+    document.body.appendChild(link);
     link.click();
-    URL.revokeObjectURL(url);
+    link.remove();
+    globalThis.setTimeout(() => URL.revokeObjectURL(url), 1000);
     updateDashboardFocus("evidence", "Export prepared a local proof manifest from the visible dashboard state.");
   });
 
@@ -500,13 +514,13 @@ function displayPacketId(_value) {
 
 function displayClaimBoundary(source = {}) {
   const evidenceLevel = formatLabel(source.evidence_level || "bounded local runtime capture");
-  return `${OBSERVATORY_VERSION} Observatory consumes a ${evidenceLevel} from runtime-owned artifacts, suitable for CSM polis inspection, and does not claim public API exposure, direct runtime mutation, or v0.92 coherence.`;
+  return `${OBSERVATORY_VERSION} Observatory consumes a ${evidenceLevel} from runtime-owned artifacts, supports public monitoring and runtime-governed signed writes, and does not claim browser-owned authority or v0.92 coherence.`;
 }
 
 function displayMilestoneText(value) {
   return String(value ?? "")
     .replaceAll("v0.91.6", OBSERVATORY_VERSION)
-    .replaceAll("v0916", "v0917");
+    .replaceAll("v0916", "runtime-v3");
 }
 
 function isLoopbackApiBase(value) {
@@ -613,14 +627,7 @@ async function fetchRuntimeV3ObservatorySnapshot(apiBase) {
   if (!isRuntimeV3ApiBase(base)) {
     throw new Error("Runtime v3 selection requires a configured HTTPS runtime API base.");
   }
-  const readToken = globalThis.sessionStorage?.getItem("adl.runtimeV3.observatoryToken") || "";
-  if (!readToken) {
-    throw new Error("Runtime v3 Observatory read token is not configured in session storage.");
-  }
-  const response = await fetch(`${base}${RUNTIME_V3_OBSERVATORY_ENDPOINT}`, {
-    method: "GET",
-    headers: { Authorization: `Bearer ${readToken}` }
-  });
+  const response = await fetch(`${base}${RUNTIME_V3_OBSERVATORY_ENDPOINT}`, { method: "GET" });
   if (!response.ok) {
     throw new Error(`${RUNTIME_V3_OBSERVATORY_ENDPOINT} returned ${response.status}`);
   }
@@ -690,27 +697,35 @@ function runtimeV3SnapshotFromFeed(feed) {
   };
 }
 
-function connectRuntimeV3ObservatoryWebSocket(apiBase, onSnapshot, onError, onClose = onError) {
+function connectRuntimeV3ObservatoryWebSocket(
+  apiBase,
+  onSnapshot,
+  onError,
+  onClose = onError,
+  onControlFrame = () => {}
+) {
   const base = normalizeApiBase(apiBase);
   if (!isRuntimeV3ApiBase(base)) {
     throw new Error("Runtime v3 selection requires a configured HTTPS runtime API base.");
-  }
-  const readToken = globalThis.sessionStorage?.getItem("adl.runtimeV3.observatoryToken") || "";
-  if (!readToken) {
-    throw new Error("Runtime v3 Observatory read token is not configured in session storage.");
   }
   const endpoint = new URL(`${base}${RUNTIME_V3_OBSERVATORY_WS_ENDPOINT}`);
   endpoint.protocol = "wss:";
   const socket = new WebSocket(endpoint.toString());
   socket.addEventListener("open", () => {
-    socket.send(JSON.stringify({
-      schema: RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA,
-      bearer_token: readToken
-    }));
+    const writeToken = globalThis.sessionStorage?.getItem("adl.runtimeV3.observatoryToken") || "";
+    if (writeToken) {
+      authenticateRuntimeV3ObservatorySocket(socket, writeToken);
+    }
   });
   socket.addEventListener("message", (event) => {
     try {
-      onSnapshot(runtimeV3SnapshotFromFeed(JSON.parse(String(event.data))));
+      const frame = JSON.parse(String(event.data));
+      if (frame.schema === RUNTIME_V3_OBSERVATORY_SCHEMA) {
+        onSnapshot(runtimeV3SnapshotFromFeed(frame));
+      } else if (frame.schema === "adl.runtime_v3.observatory_ws_control_result.v1" ||
+                 frame.schema === "adl.csm.acip_carrier.websocket_frame.v1") {
+        onControlFrame(frame);
+      }
     } catch (error) {
       onError(error instanceof Error ? error : new Error("Runtime v3 Observatory frame is invalid."));
       socket.close(1008, "invalid_observatory_frame");
@@ -723,6 +738,20 @@ function connectRuntimeV3ObservatoryWebSocket(apiBase, onSnapshot, onError, onCl
     onClose(new Error(`Runtime v3 Observatory WebSocket closed (${event.code}).`));
   });
   return socket;
+}
+
+function authenticateRuntimeV3ObservatorySocket(socket, token) {
+  if (!socket || socket.readyState !== WebSocket.OPEN) {
+    throw new Error("Runtime v3 Observatory WebSocket is not open.");
+  }
+  const writeToken = String(token || "").trim();
+  if (!writeToken) {
+    throw new Error("A runtime operator token is required for writes.");
+  }
+  socket.send(JSON.stringify({
+    schema: RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA,
+    bearer_token: writeToken
+  }));
 }
 
 async function fetchRetainedRuntimeSnapshot(refs = {}) {
@@ -1297,9 +1326,11 @@ function renderIntegrations(integrationInputs = {}) {
 function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsResourceSummary = {}) {
   const channel = document.getElementById("operator-channel");
   const message = document.getElementById("operator-message");
+  const compactMessage = document.getElementById("compact-operator-message");
   const apiBase = document.getElementById("runtime-api-base");
   const prepare = document.getElementById("prepare-envelope");
   const checkEvents = document.getElementById("check-events");
+  const compactClear = document.getElementById("compact-clear-envelope");
   const packetId = displayPacketId(packet.packet_id || "");
   const setCommunicationStatus = (status) => {
     setText("communication-status", status);
@@ -1309,7 +1340,7 @@ function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsRes
   const updateEnvelope = () => {
     const envelope = buildOperatorEnvelope({
       channel: channel?.value || "events",
-      message: message?.value || "",
+      message: compactMessage?.value || message?.value || "",
       packetId,
       acipSnsSummary,
       snsResourceSummary
@@ -1319,6 +1350,21 @@ function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsRes
   };
 
   prepare?.addEventListener("click", updateEnvelope);
+  compactMessage?.addEventListener("input", () => {
+    if (message) {
+      message.value = compactMessage.value;
+    }
+  });
+  compactClear?.addEventListener("click", () => {
+    if (message) {
+      message.value = "";
+    }
+    if (compactMessage) {
+      compactMessage.value = "";
+    }
+    renderEnvelope({});
+    setCommunicationStatus("draft cleared");
+  });
   checkEvents?.addEventListener("click", async () => {
     setCommunicationStatus("checking /events");
     try {
@@ -1337,7 +1383,7 @@ function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsRes
       renderEnvelope({
         ...buildOperatorEnvelope({
           channel: channel?.value || "events",
-          message: message?.value || "",
+          message: compactMessage?.value || message?.value || "",
           packetId,
           acipSnsSummary,
           snsResourceSummary
@@ -1361,9 +1407,18 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const dashboardConnect = document.getElementById("dashboard-connect-live");
   const dashboardRefresh = document.getElementById("dashboard-refresh-live");
   const dashboardStop = document.getElementById("dashboard-stop-live");
+  const modeSelect = document.getElementById("top-mode-select");
+  const operatorToken = document.getElementById("operator-write-token");
+  const operatorLogin = document.getElementById("operator-login");
+  const operatorLogout = document.getElementById("operator-logout");
+  const operatorAuthStatus = document.getElementById("operator-auth-status");
+  const signedControlCommand = document.getElementById("signed-control-command");
+  const sendSignedCommand = document.getElementById("send-signed-command");
+  const operatorControlResult = document.getElementById("operator-control-result");
   let lastLiveError = null;
   let runtimeBaseActive = false;
   let liveSocket = null;
+  let liveStoppedByOperator = false;
   const refs = {
     statusRef: document.querySelector(".observatory")?.dataset.csmStatusRef || "",
     healthRef: document.querySelector(".observatory")?.dataset.csmHealthRef || "",
@@ -1385,6 +1440,35 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     setState("dashboard-live-test-status", status);
     if (detail) {
       setText("dashboard-live-test-detail", detail);
+    }
+  };
+
+  const setWriteAccess = (enabled, status, detail) => {
+    if (operatorAuthStatus) {
+      operatorAuthStatus.textContent = status;
+      operatorAuthStatus.dataset.state = enabled ? "passed" : "open";
+    }
+    if (sendSignedCommand) {
+      sendSignedCommand.disabled = !enabled;
+    }
+    if (operatorControlResult && detail) {
+      operatorControlResult.textContent = detail;
+    }
+  };
+
+  const renderControlFrame = (frame) => {
+    if (frame.status === "authenticated") {
+      setWriteAccess(true, "write access enabled", JSON.stringify(frame, null, 2));
+      return;
+    }
+    if (frame.error === "credential_revoked" ||
+        frame.error === "authentication_failed" ||
+        frame.error === "write_authentication_required") {
+      setWriteAccess(false, "public read", JSON.stringify(frame, null, 2));
+      return;
+    }
+    if (operatorControlResult) {
+      operatorControlResult.textContent = JSON.stringify(frame, null, 2);
     }
   };
 
@@ -1463,6 +1547,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   };
 
   const stopPolling = () => {
+    liveStoppedByOperator = true;
     if (liveSocket) {
       liveSocket.close(1000, "operator_stop");
       liveSocket = null;
@@ -1478,36 +1563,63 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     lastLiveError = null;
     runtimeBaseActive = false;
     setText("live-status", "polling stopped");
+    setText("statusbar-websocket", "stopped");
     setRuntimeTestStatus("polling stopped", "Live polling is stopped; retained mirror remains available.");
   };
 
   const connectLive = () => {
     stopPolling();
+    liveStoppedByOperator = false;
     if (requestedRuntimeSelection() === "v3") {
-      const base = readApiBase();
       runtimeBaseActive = true;
       setText("live-status", "connecting secure stream");
-      setRuntimeTestStatus("connecting secure stream", `Opening ${base}${RUNTIME_V3_OBSERVATORY_WS_ENDPOINT}.`);
+      setText("statusbar-websocket", "connecting");
       try {
+        const base = readApiBase();
+        const socketEndpoint = new URL(`${base}${RUNTIME_V3_OBSERVATORY_WS_ENDPOINT}`);
+        socketEndpoint.protocol = "wss:";
+        setRuntimeTestStatus("connecting secure stream", `Opening ${socketEndpoint}.`);
         let socket;
         socket = connectRuntimeV3ObservatoryWebSocket(
           base,
           (snapshot) => {
+            if (liveStoppedByOperator || liveSocket !== socket) {
+              return;
+            }
             lastLiveError = null;
             renderPanopticon(snapshot, packet);
             setText("live-status", "live secure stream");
-            setRuntimeTestStatus("live secure stream", "Runtime v3 authenticated WebSocket feed is active.");
+            setText("statusbar-websocket", "connected");
+            setRuntimeTestStatus("live secure stream", "Runtime v3 public WebSocket feed is active; operator login is required only for writes.");
           },
-          (error) => renderLiveError(error),
           (error) => {
+            if (liveStoppedByOperator || liveSocket !== socket) {
+              return;
+            }
+            setText("statusbar-websocket", "disconnected");
+            renderLiveError(error);
+          },
+          (error) => {
+            if (liveStoppedByOperator) {
+              return;
+            }
             if (liveSocket === socket) {
               liveSocket = null;
+              setText("statusbar-websocket", "disconnected");
+              setWriteAccess(false, "public read", "The live connection closed. Public monitoring can reconnect without login.");
               renderLiveError(error);
             }
+          },
+          (frame) => {
+            if (liveStoppedByOperator || liveSocket !== socket) {
+              return;
+            }
+            renderControlFrame(frame);
           }
         );
         liveSocket = socket;
       } catch (error) {
+        setText("statusbar-websocket", "disconnected");
         renderLiveError(error);
       }
       return;
@@ -1522,6 +1634,74 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   dashboardConnect?.addEventListener("click", connectLive);
   dashboardRefresh?.addEventListener("click", refreshLive);
   dashboardStop?.addEventListener("click", stopPolling);
+  modeSelect?.addEventListener("change", () => {
+    if (modeSelect.value === "live") {
+      connectLive();
+      return;
+    }
+    stopPolling();
+    if (modeSelect.value === "published") {
+      refreshRetained();
+      return;
+    }
+    renderPanopticon({
+      mode: "retained",
+      fetchedAt: new Date().toISOString(),
+      status: {},
+      health: {},
+      ready: {},
+      metrics: {},
+      events: [],
+      errors: {}
+    }, packet);
+    setText("live-status", "retained mirror");
+    setRuntimeTestStatus("retained mirror", "Showing the retained proof packet without live or published endpoint polling.");
+  });
+  operatorLogin?.addEventListener("click", () => {
+    const token = operatorToken?.value.trim() || "";
+    if (!token) {
+      setWriteAccess(false, "login required", "Enter the operator write token.");
+      return;
+    }
+    globalThis.sessionStorage?.setItem("adl.runtimeV3.observatoryToken", token);
+    if (!liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
+      setWriteAccess(false, "connecting", "Opening the public stream before operator login.");
+      connectLive();
+      return;
+    }
+    setWriteAccess(false, "logging in", "Authenticating write access...");
+    authenticateRuntimeV3ObservatorySocket(liveSocket, token);
+  });
+  operatorLogout?.addEventListener("click", () => {
+    globalThis.sessionStorage?.removeItem("adl.runtimeV3.observatoryToken");
+    if (operatorToken) {
+      operatorToken.value = "";
+    }
+    liveSocket?.close(1000, "operator_logout");
+    liveSocket = null;
+    setWriteAccess(false, "public read", "Write access cleared. Public monitoring remains available.");
+    connectLive();
+  });
+  sendSignedCommand?.addEventListener("click", () => {
+    if (!liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
+      setWriteAccess(false, "connection required", "Connect to the Runtime v3 Observatory before sending a command.");
+      return;
+    }
+    try {
+      const command = JSON.parse(signedControlCommand?.value || "");
+      if (command.schema !== "adl.runtime.control_command.v1") {
+        throw new Error("Expected an adl.runtime.control_command.v1 signed envelope.");
+      }
+      liveSocket.send(JSON.stringify(command));
+      if (operatorControlResult) {
+        operatorControlResult.textContent = "Signed command submitted; awaiting runtime verification.";
+      }
+    } catch (error) {
+      if (operatorControlResult) {
+        operatorControlResult.textContent = error instanceof Error ? error.message : "Invalid signed command.";
+      }
+    }
+  });
 
   const queryApiBase = getQueryApiBase();
   if (queryApiBase) {
@@ -1608,6 +1788,7 @@ globalThis.AdlHtmlObservatory = {
   fetchRuntimeV3ObservatorySnapshot,
   runtimeV3SnapshotFromFeed,
   connectRuntimeV3ObservatoryWebSocket,
+  authenticateRuntimeV3ObservatorySocket,
   fetchRetainedRuntimeSnapshot,
   requestedRuntimeSelection,
   isRuntimeV3ApiBase,

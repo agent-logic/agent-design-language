@@ -885,6 +885,23 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         feed["control"]["websocket_acip_binary_schema"],
         ACIP_WEBSOCKET_SCHEMA
     );
+    let authenticated = tokio::time::timeout(Duration::from_secs(3), async {
+        loop {
+            let frame = websocket
+                .next()
+                .await
+                .expect("WSS connection closed before authentication result")
+                .expect("WSS authentication result frame failed");
+            let value =
+                serde_json::from_str::<serde_json::Value>(frame.to_text().unwrap()).unwrap();
+            if value["schema"] == "adl.runtime_v3.observatory_ws_control_result.v1" {
+                break value;
+            }
+        }
+    })
+    .await
+    .expect("WSS authentication result did not arrive");
+    assert_eq!(authenticated["status"], "authenticated");
 
     let mut forged_ws = signed("wss-forged", ControlAction::Snapshot);
     forged_ws.signature = hex::encode([0_u8; 64]);
@@ -949,8 +966,14 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         "acip-wss-1",
         "agent-a",
         "agent-b",
-        "consult",
-        &serde_json::json!({"message": "Can you review this bounded proposal?"}),
+        "agent_runtime",
+        &serde_json::json!({
+            "schema": "adl.runtime.local_agent_work.v1",
+            "tasks": [{
+                "op": "blake3",
+                "input": "Can you review this bounded proposal?"
+            }]
+        }),
         1,
     )
     .unwrap();
@@ -974,7 +997,10 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
     })
     .await
     .expect("WSS ACIP acceptance did not arrive");
-    assert_eq!(acip_accepted["status"], "accepted");
+    assert_eq!(
+        acip_accepted["status"], "completed",
+        "unexpected ACIP response: {acip_accepted}"
+    );
     assert_eq!(acip_accepted["message_id"], "acip-wss-1");
     assert_eq!(acip_accepted["sequence_reserved"], true);
 
@@ -1018,7 +1044,11 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
     })
     .await
     .expect("WSS telemetry did not continue after bidirectional control");
-    assert_eq!(feed_after_control["ingress"]["accepted_through"], 1);
+    assert_eq!(feed_after_control["ingress"]["accepted_through"], 2);
+    assert_eq!(
+        feed_after_control["ingress"]["completed"]["acip-wss-1"]["work_id"],
+        "acip-wss-1"
+    );
     websocket.close(None).await.unwrap();
 
     let mut forged = signed("forged-stop", ControlAction::Shutdown { grace_millis: 500 });
@@ -1084,9 +1114,13 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         &std::fs::read(continuity_root.join("generation-1/0000-live_kernel.bin")).unwrap(),
     )
     .unwrap();
-    assert_eq!(checkpoint["ingress"]["accepted_through"], 1);
+    assert_eq!(checkpoint["ingress"]["accepted_through"], 2);
     assert_eq!(
         checkpoint["ingress"]["completed"]["guardian-work-1"]["result_hash"],
         submit["outcome"]["work_result"]["result_hash"]
+    );
+    assert_eq!(
+        checkpoint["ingress"]["completed"]["acip-wss-1"]["work_id"],
+        "acip-wss-1"
     );
 }

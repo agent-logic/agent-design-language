@@ -35,7 +35,7 @@ fn health() -> adl_runtime::runtime_api::RuntimeApiHealthReport {
             capability: "html_observatory_ui".into(),
             state: RuntimeApiHealthState::Unimplemented,
             reason_code: "separate_client_boundary".into(),
-            evidence_ref: "demos/v0.91.7/html-observatory/README.md".into(),
+            evidence_ref: "demos/html-observatory/README.md".into(),
         },
         RuntimeApiCapabilityHealth {
             capability: "cloud_sink".into(),
@@ -122,7 +122,7 @@ async fn server(
 }
 
 fn request(address: std::net::SocketAddr, token: &str) -> Request<()> {
-    let mut request = format!("wss://localhost:{}/acip/ws", address.port())
+    let mut request = format!("wss://localhost:{}/v1/acip/ws", address.port())
         .into_client_request()
         .unwrap();
     request.headers_mut().insert(
@@ -289,7 +289,10 @@ fn health_telemetry_matrix_and_init_file_are_truthful() {
         toml::from_str(include_str!("../../infra/runtime-v3/runtime-api-5665.toml")).unwrap();
     assert_eq!(init["runtime_api"]["mode"].as_str(), Some("api_only"));
     assert_eq!(init["runtime_api"]["port"].as_integer(), Some(20_997));
-    assert_eq!(init["runtime_api"]["wss_path"].as_str(), Some("/acip/ws"));
+    assert_eq!(
+        init["runtime_api"]["wss_path"].as_str(),
+        Some("/v1/acip/ws")
+    );
     assert_eq!(
         init["runtime_api"]["auth"].as_str(),
         Some("runtime_api_bearer")

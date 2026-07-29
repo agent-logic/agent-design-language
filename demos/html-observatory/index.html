@@ -6,7 +6,7 @@
     <title>ADL HTML Observatory - Runtime Proof</title>
     <meta
       name="description"
-      content="Investor-ready HTML Observatory proof consuming the retained v0.91.7 CSM runtime packet."
+      content="ADL Observatory for the live Runtime v3 API with retained historical evidence."
     >
     <link rel="stylesheet" href="./styles.css?v=dashboard-acip-proved">
   </head>
@@ -90,15 +90,13 @@
         <a class="brand" href="#runtime-proof" aria-label="ADL HTML Observatory">
           <span class="brand-mark" aria-hidden="true"></span>
           <span>ADL Observatory</span>
-          <span class="version-chip">v0.91.7</span>
+          <span class="version-chip">Runtime v3</span>
         </a>
         <div class="topbar-controls" aria-label="Runtime controls">
-          <label class="top-select">
+          <div class="top-readout">
             <span>Environment</span>
-            <select aria-label="Environment">
-              <option>prod-polis</option>
-            </select>
-          </label>
+            <strong>prod-polis</strong>
+          </div>
           <label class="top-select">
             <span>Mode</span>
             <select id="top-mode-select" aria-label="Mode">
@@ -115,8 +113,8 @@
             <span>Capture Time</span>
             <strong id="hero-uptime">pending</strong>
           </div>
-          <a class="button button-secondary" id="packet-link" href="#" data-proof-link><svg><use href="#icon-packet"></use></svg>Packet</a>
-          <a class="button button-secondary" id="report-link" href="#" data-proof-link><svg><use href="#icon-evidence"></use></svg>Proof Report</a>
+          <a class="button button-secondary" id="packet-link" href="#" target="_blank" rel="noopener noreferrer" data-proof-link><svg><use href="#icon-packet"></use></svg>Packet</a>
+          <a class="button button-secondary" id="report-link" href="#" target="_blank" rel="noopener noreferrer" data-proof-link><svg><use href="#icon-evidence"></use></svg>Proof Report</a>
           <button class="button button-secondary" type="button" id="export-proof"><svg><use href="#icon-download"></use></svg>Export</button>
           <span class="status-pill">Operator</span>
         </div>
@@ -144,7 +142,7 @@
         <section class="ops-command" aria-labelledby="hero-title">
           <div class="panel-head">
             <div>
-              <p class="eyebrow">v0.91.7 / HTML Observatory integrated proof / CSM polis control room</p>
+              <p class="eyebrow">Runtime v3 / live Observatory / CSM polis control room</p>
               <h1 id="hero-title">Panopticon</h1>
             </div>
             <span class="mini-badge" id="evidence-level">pending</span>
@@ -276,8 +274,8 @@
             </article>
             <article>
               <span class="row-kicker">Operator Channel</span>
-              <strong id="hero-communication-status">offline draft</strong>
-              <p class="row-detail">Creates a proof envelope; runtime mutation is not claimed here.</p>
+              <strong id="hero-communication-status">public read</strong>
+              <p class="row-detail">Log in to submit runtime-verified signed commands; public monitoring remains available without login.</p>
             </article>
             <article>
               <span class="row-kicker">Governance Proof</span>
@@ -292,9 +290,9 @@
             </div>
             <p class="row-detail">Prepare a CSM event envelope from the communication pane; live sends require a proved loopback endpoint.</p>
             <div class="compact-comms-proof" id="compact-comms-proof" aria-label="ACIP and SNS proof summary"></div>
-            <div class="compact-message-box">Compose message to operator channel...</div>
+            <textarea class="compact-message-box" id="compact-operator-message" rows="2" aria-label="Operator message" placeholder="Compose message to operator channel..."></textarea>
             <div class="compact-message-actions">
-              <button class="button button-secondary" type="button">Clear</button>
+              <button class="button button-secondary" type="button" id="compact-clear-envelope">Clear</button>
               <a class="button button-primary" href="#communication" data-dashboard-link="communication" id="compact-prepare-envelope">Prepare Envelope</a>
             </div>
           </div>
@@ -395,7 +393,7 @@
               <p class="eyebrow">CSM runtime</p>
               <h2 id="map-title">Proof topology</h2>
             </div>
-            <span class="mini-badge">read only</span>
+            <span class="mini-badge">public reads + signed writes</span>
           </div>
           <div class="orbit-map" id="orbit-map" aria-label="Runtime lanes"></div>
         </section>
@@ -453,6 +451,23 @@
                 <option value="acip_sns">ACIP -> SNS projection</option>
               </select>
             </label>
+            <label class="field field-wide">
+              <span class="row-kicker">Operator write token</span>
+              <input id="operator-write-token" type="password" autocomplete="current-password" placeholder="Required only for writes">
+            </label>
+            <div class="communication-actions">
+              <button class="button button-primary" type="button" id="operator-login">Log in for writes</button>
+              <button class="button button-secondary" type="button" id="operator-logout">Log out</button>
+              <span class="mini-badge" id="operator-auth-status">public read</span>
+            </div>
+            <label class="field field-wide">
+              <span class="row-kicker">Signed Runtime v3 command</span>
+              <textarea id="signed-control-command" rows="8" spellcheck="false" placeholder='Paste an adl.runtime.control_command.v1 JSON envelope signed by a trusted operator key.'></textarea>
+            </label>
+            <div class="communication-actions">
+              <button class="button button-primary" type="button" id="send-signed-command" disabled>Send signed command</button>
+            </div>
+            <pre class="message-envelope" id="operator-control-result" aria-live="polite">Public monitoring is active. Log in to enable signed writes.</pre>
             <label class="field field-wide">
               <span class="row-kicker">Message</span>
               <textarea id="operator-message" rows="4">Request current CSM event tail and runtime readiness.</textarea>
@@ -546,7 +561,7 @@
       <footer class="dashboard-statusbar" aria-label="Observatory mirror status">
         <span><b id="statusbar-indicator"></b>Runtime Mirror</span>
         <span id="statusbar-source">retained packet</span>
-        <span>WebSocket <strong>not claimed</strong></span>
+        <span>WSS <strong id="statusbar-websocket">idle</strong></span>
         <span>Last Update <strong id="statusbar-updated">pending</strong></span>
         <span>Data Source <strong>Runtime v3 opt-in + CSM Runtime + AWS CloudWatch + ACIP/SNS</strong></span>
         <span>Mode <strong id="statusbar-mode">Retained Mirror</strong></span>
