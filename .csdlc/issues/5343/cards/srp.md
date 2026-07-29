@@ -29,7 +29,28 @@ adl-v2/crates/adl-cli/src/main.rs
 
 ## Findings
 
-[]
+[
+  {
+    "id": "P1-malformed-selector-transaction-not-proven",
+    "severity": "p1",
+    "summary": "The malformed-selector case inspected an incomplete separate root but did not exercise a selector transaction against malformed active state.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "P1-host-specific-default-target-path",
+    "severity": "p1",
+    "summary": "The cutover proof defaulted Cargo output to a machine-specific /Volumes/FastWork path.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -37,12 +58,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The reviewer did not rerun the mutating transaction-fault-matrix during read-only review.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1b88b75a5d9e43a49be3ca9221396372d1677d7c:947ae36b5d44f930264b733b47d8601e747397cc01a5f16bbbee3b232e27f685")
 
-Reviewer: None
+Reviewer: Some("subagent:gpt-5.5:Anscombe")
 
-Result: pre_review
+Result: changes_required

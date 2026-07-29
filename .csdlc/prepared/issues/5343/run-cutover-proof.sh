@@ -54,7 +54,7 @@ cleanup() {
 trap cleanup EXIT
 
 selector_root="$run_root/selector"
-target_dir=${ADL_WP12_TARGET_DIR:-${CARGO_TARGET_DIR:-/Volumes/FastWork/adl-wp-5343/target}}
+target_dir=${ADL_WP12_TARGET_DIR:-${CARGO_TARGET_DIR:-$root/target}}
 CARGO_NET_OFFLINE=true CARGO_TARGET_DIR="$target_dir" \
   bash adl-v2/tools/install-adl-v2.sh --test-root "$selector_root" \
   >"$run_root/install.stdout"
@@ -139,15 +139,18 @@ expect_failure_unchanged stale-cas "$prior_selector_sha256" \
   --expected-current-digest 0000000000000000000000000000000000000000000000000000000000000000
 
 malformed_root="$run_root/malformed-selector"
-mkdir -p "$malformed_root"
+cp -R "$selector_root" "$malformed_root"
 printf '{"schema":"adl.selector.v0","current":null,"previous":null}\n' \
   >"$malformed_root/selector.json"
-if "$adl_v2" inspect --root "$malformed_root" \
+malformed_selector_sha256=$(sha256 "$malformed_root/selector.json")
+if "$adl_v2" select adl-v2 --root "$malformed_root" \
   >"$run_root/malformed.stdout" 2>"$run_root/malformed.stderr"; then
   printf 'malformed selector unexpectedly succeeded\n' >&2
   exit 68
 fi
-assert_selector_unchanged "$prior_selector_sha256" malformed-selector
+[[ "$(sha256 "$malformed_root/selector.json")" == "$malformed_selector_sha256" ]] ||
+  { printf 'malformed selector transaction changed selector bytes\n' >&2; exit 67; }
+assert_selector_unchanged "$prior_selector_sha256" malformed-selector-isolation
 
 # A contender interrupted while blocked on the authoritative lock cannot
 # commit. The active selector must remain byte-identical.

@@ -2,12 +2,12 @@
   "schema": "adl.wp12.cutover_report.v1",
   "issue": 5343,
   "status": "pass",
-  "revision": "05ac125bc377a09bce4bdbbd571c5572b231805a",
+  "revision": "b5bded13838b70e2f5a06f077eef41eb7c95ae0d",
   "selector_root": "isolated_issue_evidence",
-  "prior_selector_sha256": "22e4b24a4fb6f8275ff12d31cb7328f2820b892268c8e8b077afe528204a7751",
-  "selected_selector_sha256": "46077a51368e33050fc0058816ef90e5f538e90084870de165adab96cc539382",
-  "restored_selector_sha256": "22e4b24a4fb6f8275ff12d31cb7328f2820b892268c8e8b077afe528204a7751",
-  "final_selector_sha256": "46077a51368e33050fc0058816ef90e5f538e90084870de165adab96cc539382",
+  "prior_selector_sha256": "47f115378908455abcdc08f507547462191750fae3d86141afb26c0f0d5b85a5",
+  "selected_selector_sha256": "441752b00e489141b1f5a7325e77bfc9d84dcbb00b9dc6e019d7d0b999c10ab6",
+  "restored_selector_sha256": "47f115378908455abcdc08f507547462191750fae3d86141afb26c0f0d5b85a5",
+  "final_selector_sha256": "441752b00e489141b1f5a7325e77bfc9d84dcbb00b9dc6e019d7d0b999c10ab6",
   "exact_prior_bytes_restored": true,
   "final_default": "adl-v2",
   "retained_previous": "adl-v1",
@@ -28,8 +28,8 @@
   },
   "rollback_window": {
     "duration_days": 14,
-    "starts_at": "2026-07-29T08:51:25Z",
-    "ends_at": "2026-08-12T08:51:25Z",
+    "starts_at": "2026-07-29T08:59:48Z",
+    "ends_at": "2026-08-12T08:59:48Z",
     "deletion_authorized": false
   },
   "failure_preservation": [
