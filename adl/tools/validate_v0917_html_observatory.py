@@ -219,6 +219,7 @@ def run_js_view_model(
           "hero-map-mode",
           "hero-event-title",
           "statusbar-mode",
+          "statusbar-websocket",
           "statusbar-updated",
           "statusbar-indicator",
           "agent-count",
@@ -713,6 +714,14 @@ def main() -> int:
     assert_contains("JS source-driven gauges", js, 'setText("hero-gauge-agents"')
     assert_contains("JS source-driven event title", js, 'setText("hero-event-title"')
     assert_contains("JS source-driven statusbar", js, 'setText("statusbar-mode"')
+    assert_contains("HTML WebSocket lifecycle statusbar", html, 'id="statusbar-websocket"')
+    assert_contains("JS WebSocket lifecycle statusbar", js, 'setText("statusbar-websocket"')
+    for websocket_state in ("connecting", "connected", "disconnected", "stopped"):
+      assert_contains(
+          f"JS WebSocket {websocket_state} status",
+          js,
+          f'setText("statusbar-websocket", "{websocket_state}")',
+      )
     assert_contains("JS statusbar current update timestamp", js, 'setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatCurrentTimestampLabel())')
     assert_contains("JS statusbar state indicator", js, 'setDataset("statusbar-indicator"')
 

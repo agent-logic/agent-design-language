@@ -1529,17 +1529,21 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     lastLiveError = null;
     runtimeBaseActive = false;
     setText("live-status", "polling stopped");
+    setText("statusbar-websocket", "stopped");
     setRuntimeTestStatus("polling stopped", "Live polling is stopped; retained mirror remains available.");
   };
 
   const connectLive = () => {
     stopPolling();
     if (requestedRuntimeSelection() === "v3") {
-      const base = readApiBase();
       runtimeBaseActive = true;
       setText("live-status", "connecting secure stream");
-      setRuntimeTestStatus("connecting secure stream", `Opening ${base}${RUNTIME_V3_OBSERVATORY_WS_ENDPOINT}.`);
+      setText("statusbar-websocket", "connecting");
       try {
+        const base = readApiBase();
+        const socketEndpoint = new URL(`${base}${RUNTIME_V3_OBSERVATORY_WS_ENDPOINT}`);
+        socketEndpoint.protocol = "wss:";
+        setRuntimeTestStatus("connecting secure stream", `Opening ${socketEndpoint}.`);
         let socket;
         socket = connectRuntimeV3ObservatoryWebSocket(
           base,
@@ -1547,12 +1551,17 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             lastLiveError = null;
             renderPanopticon(snapshot, packet);
             setText("live-status", "live secure stream");
+            setText("statusbar-websocket", "connected");
             setRuntimeTestStatus("live secure stream", "Runtime v3 public WebSocket feed is active; operator login is required only for writes.");
           },
-          (error) => renderLiveError(error),
+          (error) => {
+            setText("statusbar-websocket", "disconnected");
+            renderLiveError(error);
+          },
           (error) => {
             if (liveSocket === socket) {
               liveSocket = null;
+              setText("statusbar-websocket", "disconnected");
               setWriteAccess(false, "public read", "The live connection closed. Public monitoring can reconnect without login.");
               renderLiveError(error);
             }
@@ -1561,6 +1570,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         );
         liveSocket = socket;
       } catch (error) {
+        setText("statusbar-websocket", "disconnected");
         renderLiveError(error);
       }
       return;
