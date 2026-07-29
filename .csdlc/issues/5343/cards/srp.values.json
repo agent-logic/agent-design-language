@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5343\n.csdlc/locks/5343.lock\n.csdlc/prepared/issues/5343\n.csdlc/evidence/5343\ndocs/milestones/v0.91.8/evidence/wp12/cutover-5343",
+      "review_scope": ".csdlc/issues/5343\n.csdlc/prepared/issues/5343\ndocs/milestones/v0.91.8/evidence/wp12/cutover-5343/report.json\ndocs/milestones/v0.91.8/evidence/wp12/cutover-handoff-5344.v1.json\nadl-v2/tools/install-adl-v2.sh\nadl-v2/crates/adl-cli/src/main.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

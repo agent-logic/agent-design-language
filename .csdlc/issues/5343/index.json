@@ -5,7 +5,7 @@
   "initialization_digest": "7ae22a9c8742977941bf696bfe2123d8d59ab3b7711264cfe5220a16802c44e6",
   "phase": "implemented",
   "generation": 15,
-  "digest": "588443ae960b625cb51ed588a2f895463c5c30b6d76aafbef3110be653a1e5f1",
+  "digest": "b6989b196acf5120bef4a1ce533c359bf93a37710a4f44b1f0c39b76e4568f9e",
   "claim": {
     "id": "claim-5343-v0918-wp12-reversible-default-switch-execution",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -24,7 +24,19 @@
     ],
     "purpose": "Execute #5343 reversible ADL default switch through the merged authoritative selector: prove fresh ADL v2 installation, real incumbent v1 execution and exact restoration, final v2 selection, failure preservation, and a 14-day rollback window without legacy deletion or Runtime v2 edits"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:gpt-5.5:Anscombe",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:1b88b75a5d9e43a49be3ca9221396372d1677d7c:947ae36b5d44f930264b733b47d8601e747397cc01a5f16bbbee3b232e27f685",
+    "scope": [
+      ".csdlc/issues/5343",
+      ".csdlc/prepared/issues/5343",
+      "docs/milestones/v0.91.8/evidence/wp12/cutover-5343/report.json",
+      "docs/milestones/v0.91.8/evidence/wp12/cutover-handoff-5344.v1.json",
+      "adl-v2/tools/install-adl-v2.sh",
+      "adl-v2/crates/adl-cli/src/main.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -60,9 +72,9 @@
       "ast_digest": "7bb857dcc7dae7e8bc06691fc7b203c3419d31e8481ffbce611dedf4e4c2cfb8"
     },
     "srp": {
-      "values_digest": "8b7ea681b5ee8f2a1818833edbca6daeda405149e42ef0c888308a9148a808dd",
-      "rendered_digest": "f4731a595f0ea709411ae2a767f16132b61ed257458d981bdf08189045ea5f01",
-      "ast_digest": "9159372c6f4b2a7bea8ec696ce1ccec0a6ab2c276b740e65603dff8585d11472"
+      "values_digest": "e315b64ec515d17eac3494931921b00d5f2941ab6f226459a263d054993f6d7a",
+      "rendered_digest": "a0b363facadc269d62037487981c6edd3c6788ceca1d2967fe3d6b7f29d6fa54",
+      "ast_digest": "27f4878237e44ef26c0d1d6644772408931c5f516a629533aacdb55b5a6bd9ed"
     },
     "sor": {
       "values_digest": "1c88d0af870982d84e0d46bd584cd9328a76b407904be35b1aae2c789f7fcf98",
@@ -226,6 +238,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The complete reversible cutover implementation and exact-substantive-head validation are retained and passing.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

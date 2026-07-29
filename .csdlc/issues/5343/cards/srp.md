@@ -13,10 +13,11 @@ Status: pre_phase
 ## Scope
 
 .csdlc/issues/5343
-.csdlc/locks/5343.lock
 .csdlc/prepared/issues/5343
-.csdlc/evidence/5343
-docs/milestones/v0.91.8/evidence/wp12/cutover-5343
+docs/milestones/v0.91.8/evidence/wp12/cutover-5343/report.json
+docs/milestones/v0.91.8/evidence/wp12/cutover-handoff-5344.v1.json
+adl-v2/tools/install-adl-v2.sh
+adl-v2/crates/adl-cli/src/main.rs
 
 ## Prompts
 
