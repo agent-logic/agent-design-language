@@ -15,7 +15,7 @@ use adl_runtime_kernel::{
     ClockAuthority, ComponentRegistry, DomainWork, ExecutorError, FailureClass,
     InProcessOperationExecutor, LiveBindings, OperationError, OperationExecutor, OperationRequest,
     OperationalAdapter, OperationalFactory, RuntimeRecorder, TimeQualificationBounds, TimeSample,
-    TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA,
+    TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA, KERNEL_DURABLE_STATE_DB_FILE,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -470,6 +470,8 @@ async fn agent_scheduler_checkpoint_cancellation_and_storage_are_real() {
     )
     .await;
     drop(checkpoint);
+    assert!(checkpoint_root.join(KERNEL_DURABLE_STATE_DB_FILE).exists());
+    assert!(!checkpoint_root.join("checkpoint.json").exists());
     let restore =
         InProcessOperationExecutor::with_state_dir(AdapterKind::CheckpointStore, &checkpoint_root);
     let restored = value(
@@ -503,6 +505,14 @@ async fn agent_scheduler_checkpoint_cancellation_and_storage_are_real() {
     assert!(InProcessOperationExecutor::try_with_state_dir(
         AdapterKind::Lifelog,
         "relative-state-root"
+    )
+    .is_err());
+    let legacy_root = root.path().join("legacy-flat-state");
+    std::fs::create_dir_all(&legacy_root).unwrap();
+    std::fs::write(legacy_root.join("checkpoint.json"), b"legacy").unwrap();
+    assert!(InProcessOperationExecutor::try_with_state_dir(
+        AdapterKind::CheckpointStore,
+        &legacy_root
     )
     .is_err());
     assert!(build_production_operation_executors_with_recorder(
