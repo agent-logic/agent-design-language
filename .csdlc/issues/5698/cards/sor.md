@@ -137,11 +137,11 @@ Replace Runtime v3 kernel flat-file checkpoint and lifelog persistence with one 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
