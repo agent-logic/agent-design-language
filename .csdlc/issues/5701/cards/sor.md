@@ -104,6 +104,16 @@ Implemented complete versioned Core and Observatory OpenAPI contracts and mounte
     "purpose": "Prove the reviewed Runtime v3 OpenAPI and route behavior after integrating current main and regenerating both dependency lockfiles offline.",
     "outcome": "passed",
     "evidence_ref": "Kernel control 21/21; guardian soak 7/7; Observatory WSS 6/6; OpenAPI contracts 6/6; adl-runtime library 134/134; runtime API WSS 2/2; strict all-target Clippy passed for both crates; git diff --check passed; rebuilt guardian served both Swagger UIs with HTTP 200 and authenticated health and metrics with HTTP 200 on port 20997."
+  },
+  {
+    "command": [
+      "cargo",
+      "test-and-clippy",
+      "runtime-v3-public-observatory-suite"
+    ],
+    "purpose": "Prove anonymous runtime reads, optional WSS write login, signed control enforcement, credential revocation, API contract parity, and the separate HTML Observatory client.",
+    "outcome": "passed",
+    "evidence_ref": "Kernel control 21/21; Observatory WSS 6/6 including anonymous reads and authenticated signed write; OpenAPI contracts 6/6; strict all-target Clippy passed; HTML Observatory integrated proof passed; git diff --check passed; live Guardian served anonymous health, metrics, and Observatory HTTP on port 20997; browser showed live secure stream with 55 runtime events."
   }
 ]
 

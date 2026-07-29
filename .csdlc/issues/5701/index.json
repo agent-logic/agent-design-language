@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "8981e9457f072329cce60442a88b2044f3d1256fe2a8a22bdbbb4fdfb9f3eb63",
+  "generation": 19,
+  "digest": "3f452b4a90b1bed01fb4d7f9405fd3ff02fc8f63f148a548ac3b06d6deef80b6",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 18,
+    "generation": 19,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -59,34 +59,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d642b7aecf7dd2cf0e25848bf61a0e76da9a96b2d25cd7547deb83ad8c1f4784",
+      "values_digest": "49d4a245d2012812f2b33d41a1de1c92d8b6fe00032de931ac550d2754cdfdc4",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "e85725a1ce85ac1b63a36652935145bcc048f28280ea1c9b1e38e681a72cb2e6",
+      "values_digest": "9f9e20ea41beba1d8d43584543999dc17f5d49b44c2f8cf53e4f8cdfcdba3fc0",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "e149347bae907a8d091c3df43bb5e9714ae4ffbc8170f0e1e6077d92405a1707",
+      "values_digest": "e4435c9f65476bcb3171a5a4cf0da2e556a395600b17a0ded03180b9e119b9d2",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "0cfa38b97d296d653dd0f00711284a72eb228c9bc623174d9b7cbc84f8b1c1a0",
+      "values_digest": "d1e083f2ccc93402baa1be09210e65eedff29544339406265743b8f40c60ed91",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "4b468e9d7bbfee9154b4e5302b68531b6733bbe27898e964d990257d707262a4",
+      "values_digest": "78dee3278a9ea8bad937b1889e4c8c20ef2c5edbe39f6305b731fe27aee12e27",
       "rendered_digest": "4332b7111e8799f6372a704ad504faaf40ee5f6455491d2f12ad667cb8ed24e0",
       "ast_digest": "e686f3199e3333f0b9e8df55efe27a3c94331a2bb90f0162682c0d31f7d153b9"
     },
     "sor": {
-      "values_digest": "22cb15b9f10e3c74f4186df91bc5e9ff54a9019c51e869753949817b47faccea",
-      "rendered_digest": "9c4f79d6ba80ec3abaa2a80ac5308bf3b202399bdd7fb2c907d880cf62947ee4",
-      "ast_digest": "753359c8974160d19ac52214cff3fb823c07cb15334a14488ddc771e3774777e"
+      "values_digest": "a883192b1257c75dfa5064ff6a74ba2cb5d3b9b8f1fb3ab574da231027e1b799",
+      "rendered_digest": "7f9c0d5302972386ff06383aec7bed4dfca9b3e46849885dfe0973017c85f42f",
+      "ast_digest": "6b2c39293c1f8589acc9561857d15d5e3e79b6d0c924dafd004782cffb4790c2"
     }
   },
   "transitions": [
@@ -385,6 +385,13 @@
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "The existing HTML Observatory proof encoded the removed read-token requirement. Updating the exact validator and focused proof is required to prevent false CI failures and prove public reads with optional authenticated writes.",
       "operation": "{\"add_protected_paths\":[\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\",\"adl/tools/validate_v0917_html_observatory.py\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 31,
+      "generation": 19,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Record the corrected public-read and authenticated-write Observatory validation at commit 3a7621861.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test-and-clippy\",\"runtime-v3-public-observatory-suite\"],\"purpose\":\"Prove anonymous runtime reads, optional WSS write login, signed control enforcement, credential revocation, API contract parity, and the separate HTML Observatory client.\",\"outcome\":\"passed\",\"evidence_ref\":\"Kernel control 21/21; Observatory WSS 6/6 including anonymous reads and authenticated signed write; OpenAPI contracts 6/6; strict all-target Clippy passed; HTML Observatory integrated proof passed; git diff --check passed; live Guardian served anonymous health, metrics, and Observatory HTTP on port 20997; browser showed live secure stream with 55 runtime events.\"}}"
     }
   ]
 }
