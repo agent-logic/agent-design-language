@@ -559,7 +559,8 @@ def main() -> int:
     assert_contains("HTML retained CSM metrics ref", html, f'data-csm-metrics-ref="{CSM_METRICS_REF}"')
     assert_contains("HTML retained CSM events ref", html, f'data-csm-events-ref="{CSM_EVENTS_REF}"')
     assert_contains("HTML title", html, "ADL HTML Observatory - Runtime Proof")
-    assert_contains("HTML integrated proof copy", html, "HTML Observatory integrated proof")
+    assert_contains("HTML live Observatory copy", html, "Runtime v3 / live Observatory")
+    assert_not_contains("HTML obsolete visible version chip", html, '<span class="version-chip">v0.91.7</span>')
     assert_contains("HTML inline icon sprite", html, 'class="icon-sprite"')
     assert_contains("HTML pulse icon", html, 'href="#icon-pulse"')
     assert_contains("HTML packet icon", html, 'href="#icon-packet"')
@@ -677,7 +678,13 @@ def main() -> int:
     assert_contains("JS runtime query base bootstrap", js, "getQueryApiBase")
     assert_contains("JS runtime auto-connect gate", js, "shouldAutoConnectLive")
     assert_contains("JS dashboard runtime status mirror", js, 'setText("dashboard-live-test-status"')
-    assert_contains("JS v0.91.7 display version", js, 'OBSERVATORY_VERSION = "v0.91.7"')
+    assert_contains("JS Runtime v3 display version", js, 'OBSERVATORY_VERSION = "Runtime v3"')
+    assert_contains("HTML Runtime v3 version chip", html, '<span class="version-chip">Runtime v3</span>')
+    assert_contains(
+        "HTML Runtime v3 live Observatory eyebrow",
+        html,
+        "Runtime v3 / live Observatory / CSM polis control room",
+    )
     assert_contains("JS display claim boundary normalization", js, "displayClaimBoundary")
     assert_contains("JS display packet label normalization", js, "displayPacketId")
     assert_contains("JS retained runtime mirror polling", js, "fetchRetainedRuntimeSnapshot")

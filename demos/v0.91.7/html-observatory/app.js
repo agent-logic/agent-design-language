@@ -73,7 +73,7 @@ function formatCurrentTimestampLabel() {
 
 let livePollTimer = null;
 let retainedPollTimer = null;
-const OBSERVATORY_VERSION = "v0.91.7";
+const OBSERVATORY_VERSION = "Runtime v3";
 const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
 const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
 const RUNTIME_V3_OBSERVATORY_ENDPOINT = "/v1/observatory";
@@ -506,7 +506,7 @@ function displayClaimBoundary(source = {}) {
 function displayMilestoneText(value) {
   return String(value ?? "")
     .replaceAll("v0.91.6", OBSERVATORY_VERSION)
-    .replaceAll("v0916", "v0917");
+    .replaceAll("v0916", "runtime-v3");
 }
 
 function isLoopbackApiBase(value) {
