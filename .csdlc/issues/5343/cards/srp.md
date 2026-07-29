@@ -33,21 +33,21 @@ adl-v2/crates/adl-cli/src/main.rs
   {
     "id": "P1-malformed-selector-transaction-not-proven",
     "severity": "p1",
-    "summary": "The malformed-selector case inspected an incomplete separate root but did not exercise a selector transaction against malformed active state.",
+    "summary": "The malformed-selector case now executes a real selector transaction against copied active state and verifies both malformed and primary selector bytes remain unchanged.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:26457888a1c13abee54a8db7cd30ba15e25bbbbc:a36a58255d3f58d9583c6716786ca633e80257ddcd7c037e9f1ffbfc74a74af9",
     "route": null
   },
   {
     "id": "P1-host-specific-default-target-path",
     "severity": "p1",
-    "summary": "The cutover proof defaulted Cargo output to a machine-specific /Volumes/FastWork path.",
+    "summary": "The proof target now defaults portably through issue or Cargo configuration and then the repository-relative target directory.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:26457888a1c13abee54a8db7cd30ba15e25bbbbc:a36a58255d3f58d9583c6716786ca633e80257ddcd7c037e9f1ffbfc74a74af9",
     "route": null
   }
 ]
@@ -58,12 +58,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The reviewer did not rerun the mutating transaction-fault-matrix during read-only review.
+- The reviewer did not independently rerun the mutating transaction fault matrix; the conductor reran it at repair commit 8f5590dcd96fa173a84669b98c814a7d060c6882 and retained the passing exact report.
 
 ## Review Result
 
-Revision: Some("git-blake3:1b88b75a5d9e43a49be3ca9221396372d1677d7c:947ae36b5d44f930264b733b47d8601e747397cc01a5f16bbbee3b232e27f685")
+Revision: Some("git-blake3:26457888a1c13abee54a8db7cd30ba15e25bbbbc:a36a58255d3f58d9583c6716786ca633e80257ddcd7c037e9f1ffbfc74a74af9")
 
 Reviewer: Some("subagent:gpt-5.5:Anscombe")
 
-Result: changes_required
+Result: pass

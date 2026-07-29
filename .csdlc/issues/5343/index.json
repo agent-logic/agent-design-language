@@ -3,13 +3,13 @@
   "issue": 5343,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7ae22a9c8742977941bf696bfe2123d8d59ab3b7711264cfe5220a16802c44e6",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "a15f860178df6ca6e2187dd27c7af60d1418e62d6c935b2dc44cdf0f530b2aec",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "df7d9e16d43c2383eef00fb06e3a234f679a230ef005a10000e459749f0c6e57",
   "claim": {
     "id": "claim-5343-v0918-wp12-reversible-default-switch-execution",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 16,
+    "generation": 18,
     "acquired_unix_seconds": 1785314375,
     "expires_unix_seconds": 1785919175,
     "heartbeat_unix_seconds": 1785314375,
@@ -27,7 +27,7 @@
   "review_assignment": {
     "reviewer": "subagent:gpt-5.5:Anscombe",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:1b88b75a5d9e43a49be3ca9221396372d1677d7c:947ae36b5d44f930264b733b47d8601e747397cc01a5f16bbbee3b232e27f685",
+    "revision": "git-blake3:26457888a1c13abee54a8db7cd30ba15e25bbbbc:a36a58255d3f58d9583c6716786ca633e80257ddcd7c037e9f1ffbfc74a74af9",
     "scope": [
       ".csdlc/issues/5343",
       ".csdlc/prepared/issues/5343",
@@ -47,31 +47,31 @@
       "adl-v2/tools/install-adl-v2.sh",
       "adl-v2/crates/adl-cli/src/main.rs"
     ],
-    "reviewed_revision": "git-blake3:1b88b75a5d9e43a49be3ca9221396372d1677d7c:947ae36b5d44f930264b733b47d8601e747397cc01a5f16bbbee3b232e27f685",
+    "reviewed_revision": "git-blake3:26457888a1c13abee54a8db7cd30ba15e25bbbbc:a36a58255d3f58d9583c6716786ca633e80257ddcd7c037e9f1ffbfc74a74af9",
     "findings": [
       {
         "id": "P1-malformed-selector-transaction-not-proven",
         "severity": "p1",
-        "summary": "The malformed-selector case inspected an incomplete separate root but did not exercise a selector transaction against malformed active state.",
+        "summary": "The malformed-selector case now executes a real selector transaction against copied active state and verifies both malformed and primary selector bytes remain unchanged.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:26457888a1c13abee54a8db7cd30ba15e25bbbbc:a36a58255d3f58d9583c6716786ca633e80257ddcd7c037e9f1ffbfc74a74af9",
         "route": null
       },
       {
         "id": "P1-host-specific-default-target-path",
         "severity": "p1",
-        "summary": "The cutover proof defaulted Cargo output to a machine-specific /Volumes/FastWork path.",
+        "summary": "The proof target now defaults portably through issue or Cargo configuration and then the repository-relative target directory.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:26457888a1c13abee54a8db7cd30ba15e25bbbbc:a36a58255d3f58d9583c6716786ca633e80257ddcd7c037e9f1ffbfc74a74af9",
         "route": null
       }
     ],
     "residual_risks": [
-      "The reviewer did not rerun the mutating transaction-fault-matrix during read-only review."
+      "The reviewer did not independently rerun the mutating transaction fault matrix; the conductor reran it at repair commit 8f5590dcd96fa173a84669b98c814a7d060c6882 and retained the passing exact report."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -90,32 +90,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d9c37701111e76c7286987aa537504ded22d5f58f994529b0e289bce60137a65",
+      "values_digest": "d3f323bbabf3d1d1de89aae9662cb3a26ab5ab22e65e130c821717310105c258",
       "rendered_digest": "56e9f6179e9157659276d6bcf35efb8f016bba7c7822b2b0d797679cd31adf6b",
       "ast_digest": "4bed42107b13c69d3d7d4cb8f18e052c2f7c26199f6173d1dc3260de1fe9a993"
     },
     "stp": {
-      "values_digest": "f7e39a024300d67117c449e5d44cdbc54963a668ca555fa1b9b1de8a0214575a",
+      "values_digest": "0e0e9e3a12bf0cc3ed2b63965bd2fb356e90ad6fe055b6e0b7456e5669a5c11a",
       "rendered_digest": "2603a355245577778350785ca55e828e84a8d35adeb0eb9f05104b02c8c6526c",
       "ast_digest": "af5271338c52d97d190cb14ef68d417dc5c34afcf8b72c635a7f9459680efb65"
     },
     "spp": {
-      "values_digest": "ea7bab6f632eb4e24245b758901a399f3558c36b1a8bc9a2bb6e0847e441cf30",
+      "values_digest": "265a14719e0737a455f0c757f393d2c4fb37e908745fc653548f1451caffff3a",
       "rendered_digest": "5b738a414feacadb91990e6ad0902603b75e20e8e581032ca8065519434a5878",
       "ast_digest": "b575f3c28cfae2265f950dba10fe6871aff29c4cffac4bef4db8439acf25aa3a"
     },
     "vpp": {
-      "values_digest": "d341998fdd6c22fff5595a4664ed96dd193feb03b10df8efab3770d0affab874",
+      "values_digest": "06eb70aec86fff6daa34bdc3672acce5077842a3310b15d2916dc0594fed5222",
       "rendered_digest": "490f13ed699c7b032f54feda67d069688372326c121d9a7b3b73c27653069926",
       "ast_digest": "7bb857dcc7dae7e8bc06691fc7b203c3419d31e8481ffbce611dedf4e4c2cfb8"
     },
     "srp": {
-      "values_digest": "b765b096997d71e7a96d5a28bfdb96b8925cae1aee7f7d1ad76cbf9448d1608f",
-      "rendered_digest": "6c07ea5db17da7c662a2856d5884fef7e28773523eb28a954e4ee9d555b3c182",
-      "ast_digest": "25dda753453a46aa36306ec6322c29e729d5336d97da7f5bc0caaae8b84f3ac3"
+      "values_digest": "9fb2aaf8358e3797d3e70f63b64cc09514dd9872b9a0af8070097a8ee946ec43",
+      "rendered_digest": "c35c9d8e6beb1ba847fb1bdeac7b2121fba2238f4871153246444a0e14caeff8",
+      "ast_digest": "1cc246a5abf6992d5952522763d7110b068514864697ea9bc7aba6d50797f2fa"
     },
     "sor": {
-      "values_digest": "19f13c82157bfed387d8de4f31bd0cc8e38a40d410a6100158b14ddf8d21fcfa",
+      "values_digest": "e93d6ebc981897791a482058b83d75dac8c6b52d1f2dd4c866efbf467f3b9f36",
       "rendered_digest": "9e3bc492d0cba8512be699df6437b32283a4bcc146a967beb54d0cb402c769b6",
       "ast_digest": "125c15e405af51eaf067618fc2c81cc9fadbd2c804aefcb1f7e50da92ee19e7f"
     }
@@ -141,6 +141,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The complete reversible cutover implementation and exact-substantive-head validation are retained and passing."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance the clean exact remediation review with both P1 findings fixed."
     }
   ],
   "audit": [
@@ -290,6 +297,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record assigned review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "subagent:gpt-5.5:Anscombe",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance the clean exact remediation review with both P1 findings fixed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
