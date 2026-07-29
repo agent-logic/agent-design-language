@@ -3,13 +3,13 @@
   "issue": 5344,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
-  "phase": "implemented",
-  "generation": 35,
-  "digest": "8eede7e8938790da1fddc7b7bf2d71c8c54a9da35d28d7b72be4c72433a8814c",
+  "phase": "reviewed",
+  "generation": 37,
+  "digest": "b5fd7817b0dda1a6a796e0d9f9a1f4acb41fab068cec10cb2f66bbf5fddef9be",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 35,
+    "generation": 37,
     "acquired_unix_seconds": 1785295953,
     "expires_unix_seconds": 1785900753,
     "heartbeat_unix_seconds": 1785295953,
@@ -62,8 +62,35 @@
     ],
     "purpose": "Complete #5344 exact-revision Runtime v3 opt-in soak and rollback proof across macOS, Linux, and native Windows; retain reviewed evidence; publish and merge without weakening TLS, editing Runtime v2, or deleting Runtime v1"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:6db1d976a1b853d7f42fc15ad68870b02e2ffe0b:ae2f20c67dadfcaeb8006a5a2575309109c2964714adee5d185e2a686755603a",
+    "scope": [
+      ".csdlc/issues/5344",
+      ".csdlc/issues/5587",
+      ".csdlc/prepared/issues/5344",
+      "adl-runtime/src/guardian.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+    "scope": [
+      ".csdlc/issues/5344",
+      ".csdlc/issues/5587",
+      ".csdlc/prepared/issues/5344",
+      "adl-runtime/src/guardian.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "reviewed_revision": "git-blake3:6db1d976a1b853d7f42fc15ad68870b02e2ffe0b:ae2f20c67dadfcaeb8006a5a2575309109c2964714adee5d185e2a686755603a",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -78,32 +105,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "199248fda62c8686a602d97e56a8cb5a45e73d1210c10dc76df997e62b0aeb11",
+      "values_digest": "48cb1ae77b12a792b29f3dc6bdb2d42f784d3bc0f2ab1f75bcaeed68f662a588",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "ec668535bf205c71868e467ea545fe14624981273e5c0c2eed9fbdca1081bf82",
+      "values_digest": "09ac7a14e49491792c83f2fa1a5c303f09d16a6a33e543446029c0c0521e7a85",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "a2982232c939aafd8b97d0001fe5720066439ce4aaed375bc4fb5460b0b101d6",
+      "values_digest": "cb65b314ba03bd92d79dc5fa14e4334f4861d10e19029ce480ab190fa045cfb8",
       "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
       "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "fce4ae98e07e70ebae22fc2848133b9bc3c5405f79cc0daa51810151c72bce4d",
+      "values_digest": "845e6a2b911a77c3439f0b1954fe18a2f7abd973844a35dbe8fd843e08dcf63a",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "fd9b2d0f8bab5581e1f48f966225f82e4f277b2eb4a57486edbb1eb37a83d77c",
-      "rendered_digest": "8b558646f642cf5ea5318010c426e0aa436d0e52299153016fe2fa31ca757885",
-      "ast_digest": "da7d7c0811d1c3c24a6cc3c44d1f762833102df5a5a1b8ee1ee3b6084536bfe8"
+      "values_digest": "6c2f5ab6eb8a8c47c472461df5325c8e9cb57679f9104e8225d6278ec02e4033",
+      "rendered_digest": "77c99372e73a819b04d097241b06f33dffdc7463c9a8775a1de521831ac2e7ef",
+      "ast_digest": "d37656c1b225c8ebae2ac30ff1682657930352271d51b49b1c1b07ae3c5013f4"
     },
     "sor": {
-      "values_digest": "c05946adefb4400afe9a895381fa9e476265b9a3571937ce1de23d0befd621ba",
+      "values_digest": "d09075e95aa1e669773b1dad66bfd10a4c9f0386a9f5fa6146356bd65ee1d281",
       "rendered_digest": "66bd8d2e636afd8f063c4ace8c2cec6365b405a1dcdeadc37940fd9753798fe9",
       "ast_digest": "458b4418a87b84f71259875e33109ea0825a0ed1c0f42dec730bb81d98a46c22"
     }
@@ -227,6 +254,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Recover the failed exact CI follow-up review after recording both blockers so the stale SRP prompts and validation truth can be corrected before one final exact review."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the corrected exact CI follow-up review passed with no findings."
     }
   ],
   "audit": [
@@ -649,6 +683,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Correct the final CI follow-up review prompts after exact-head failures exposed stale guardian inventory and lease-listener startup-race proofs.",
       "operation": "{\"operation\":\"correct_review_prompts_after_recovery\",\"values\":[\"Does the Runtime v3 coverage mapping select every existing guardian unit and guardian_cli integration test without naming deleted tests?\",\"Does the tooling-contract regression execute the mapper expression against the live nextest inventory and end with an explicit PASS marker?\",\"Does the healthy-window test retry only the local authenticated lease-listener connection with a strict bound while leaving production Guardian behavior unchanged?\",\"Does repeated exact execution prove the restart-budget test remains deterministic after the listener startup-race repair?\",\"Was #5587 already GitHub merged and closed before its expired claim was recovered and released through supported typed routes without running or re-enabling the paused Drive mirror?\",\"Do the SRP, SOR, audit, and exact review truthfully cover only this bounded CI follow-up?\"]}"
+    },
+    {
+      "sequence": 61,
+      "generation": 35,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 36,
+      "actor": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 37,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the corrected exact CI follow-up review passed with no findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

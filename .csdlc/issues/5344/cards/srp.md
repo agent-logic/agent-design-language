@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/5344
+.csdlc/issues/5587
+.csdlc/prepared/issues/5344
+adl-runtime/src/guardian.rs
+adl/tools/check_coverage_impact.sh
+adl/tools/test_check_coverage_impact.sh
 
 ## Prompts
 
@@ -37,8 +42,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:6db1d976a1b853d7f42fc15ad68870b02e2ffe0b:ae2f20c67dadfcaeb8006a5a2575309109c2964714adee5d185e2a686755603a")
 
-Reviewer: None
+Reviewer: Some("subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d")
 
-Result: pre_review
+Result: pass
