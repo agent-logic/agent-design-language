@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 import argparse
 import email.utils
+import hashlib
 import html
 import json
 import re
+import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -16,6 +18,8 @@ TURN_FILES = [
     "05-gemini-deepening.md",
     "06-claude-closure.md",
 ]
+
+STUDIO_HTML = "podcast-studio.html"
 
 
 def read_json(path: Path) -> dict:
@@ -129,6 +133,7 @@ def write_launch_pages(out_root: Path, packet: dict, audio_file: str, audio_byte
       <p class=\"intro\">A reusable studio for friendly conversations with AI hosts, invited model guests, human guests, and listener questions.</p>
       <div class=\"actions\">
         <a class=\"button primary\" href=\"episodes/{slug}/\">Play episode 01</a>
+        <a class=\"button\" href=\"studio/\">Open studio design</a>
         <a class=\"button\" href=\"feed.xml\">RSS feed</a>
       </div>
       <audio controls preload=\"metadata\" src=\"audio/{html.escape(audio_file)}\"></audio>
@@ -209,6 +214,58 @@ def write_launch_pages(out_root: Path, packet: dict, audio_file: str, audio_byte
     (out_root / "feed.xml").write_text(rss, encoding="utf-8")
 
 
+def read_studio_reference_digest(reference_dir: Path) -> str:
+    digest_path = reference_dir / "REFERENCE_DIGESTS.txt"
+    if not digest_path.is_file():
+        raise SystemExit(f"missing studio reference digest manifest: {digest_path}")
+    for line in digest_path.read_text(encoding="utf-8").splitlines():
+        parts = line.split(maxsplit=1)
+        if len(parts) == 2 and parts[1] == STUDIO_HTML:
+            return parts[0]
+    raise SystemExit(f"studio reference digest manifest is missing {STUDIO_HTML}")
+
+
+def copy_studio_reference(out_root: Path, reference_dir: Path) -> None:
+    html_path = reference_dir / STUDIO_HTML
+    if not html_path.is_file():
+        raise SystemExit(f"missing studio reference HTML: {html_path}")
+    expected_digest = read_studio_reference_digest(reference_dir)
+    source_digest = hashlib.sha256(html_path.read_bytes()).hexdigest()
+    if source_digest != expected_digest:
+        raise SystemExit("studio reference HTML digest does not match REFERENCE_DIGESTS.txt")
+    target = out_root / "studio"
+    if target.exists():
+        shutil.rmtree(target)
+    shutil.copytree(reference_dir, target)
+    copied_digest = hashlib.sha256((target / STUDIO_HTML).read_bytes()).hexdigest()
+    if copied_digest != expected_digest:
+        raise SystemExit("copied studio reference HTML digest does not match source manifest")
+    (target / "reference.sha256").write_text(
+        f"{expected_digest}  {STUDIO_HTML}\n",
+        encoding="utf-8",
+    )
+    (target / "index.html").write_text(
+        """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=podcast-studio.html">
+  <title>Podcast Studio Design</title>
+  <style>
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    a { color: #2563eb; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <a href="podcast-studio.html">Open Podcast Studio design</a>
+</body>
+</html>
+""",
+        encoding="utf-8",
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--episodes", type=Path, required=True)
@@ -216,11 +273,17 @@ def main() -> None:
     parser.add_argument("--audio-source", type=Path, required=True)
     parser.add_argument("--audio-file", default="meet-the-ai-coworkers.wav")
     parser.add_argument("--audio-bytes", type=int, default=0)
+    parser.add_argument(
+        "--studio-reference",
+        type=Path,
+        default=Path(__file__).resolve().parents[2] / "demos" / "podcast" / "studio-reference",
+    )
     args = parser.parse_args()
     packet = read_json(args.episodes)
     episode = first_episode(packet)
     write_audio_source(args.audio_source, episode)
     write_launch_pages(args.out, packet, args.audio_file, args.audio_bytes)
+    copy_studio_reference(args.out, args.studio_reference)
 
 
 if __name__ == "__main__":

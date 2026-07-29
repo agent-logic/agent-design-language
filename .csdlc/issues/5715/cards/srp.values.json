@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5715,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][podcast][ui] Update podcast studio from operator-provided page design",
+    "slug": "v0-91-8-podcast-ui-update-podcast-studio-from-operator-provided-page-design",
+    "version": "v0.91.8",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "podcast generator, validator, generated demo podcast route, copied studio reference assets, and issue-local lifecycle record",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the integrated studio route preserve the exported HTML bytes and image/script assets while using only clean filenames?",
+        "Does the landing page route users to the studio without breaking episode/audio/RSS behavior?",
+        "Does validation fail closed on source/copy digest drift and missing audio/RSS surfaces?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
