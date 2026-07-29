@@ -34,9 +34,14 @@ jq -e '
 ' "$manifest" >/dev/null
 
 target_dir=${ADL_WP12_TARGET_DIR:-${CARGO_TARGET_DIR:-"$root/.adl/target/wp12"}}
-work_parent="$root/.csdlc/evidence/5344/work"
+revision=$(git rev-parse HEAD)
+work_parent=".csdlc/evidence/5344/work"
 mkdir -p "$work_parent"
-run_root=$(mktemp -d "$work_parent/rollback.XXXXXX")
+run_root="$work_parent/rollback-$revision"
+mkdir "$run_root" || {
+  printf 'deterministic rollback scratch root already exists: %s\n' "$run_root" >&2
+  exit 66
+}
 cleanup() {
   if [[ "${ADL_WP12_KEEP_WORK:-0}" != 1 ]]; then
     rm -rf "$run_root"
@@ -201,7 +206,7 @@ mv -f "$receipt_tmp" "$receipt_path"
 fresh_install_receipt_sha256=$(sha256 "$receipt_path")
 
 jq -n -c \
-  --arg revision "$(git rev-parse HEAD)" \
+  --arg revision "$revision" \
   --arg prior_sha256 "$prior_digest" \
   --arg selected_sha256 "$selected_digest" \
   --arg restored_sha256 "$restored_digest" \
