@@ -1,7 +1,7 @@
 {
   "issue": 5344,
-  "expected_generation": 27,
-  "expected_digest": "4cb00c49c89defbabe76d512bb0a32688dc79fdf7abe9f7350e4f56420274051",
+  "expected_generation": 33,
+  "expected_digest": "7e5fa3bb005042481a7714b030c70c57b9e4bc1fa5eba5dc2614f715e6f52c17",
   "claim_id": "claim-5344-v0918-wp12-soak-rollback-recovered",
   "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
   "reason": "Recover the failed exact CI follow-up review after recording both blockers so the stale SRP prompts and validation truth can be corrected before one final exact review."

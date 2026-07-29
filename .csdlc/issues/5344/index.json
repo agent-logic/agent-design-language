@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
   "phase": "implemented",
-  "generation": 31,
-  "digest": "b3143feca4f9ccb4e25f9bd1571e9e97b828432180d61540823d120e325796a3",
+  "generation": 35,
+  "digest": "8eede7e8938790da1fddc7b7bf2d71c8c54a9da35d28d7b72be4c72433a8814c",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 31,
+    "generation": 35,
     "acquired_unix_seconds": 1785295953,
     "expires_unix_seconds": 1785900753,
     "heartbeat_unix_seconds": 1785295953,
@@ -62,56 +62,8 @@
     ],
     "purpose": "Complete #5344 exact-revision Runtime v3 opt-in soak and rollback proof across macOS, Linux, and native Windows; retain reviewed evidence; publish and merge without weakening TLS, editing Runtime v2, or deleting Runtime v1"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
-    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:497b530553fc905e2d91b7e5397d82ec306dec4c:510594b56e9394c365ee1d3c6442cd6d84e2db83069eb2b1dc5509f987d1e6a3",
-    "scope": [
-      ".csdlc/issues/5344",
-      ".csdlc/issues/5587",
-      ".csdlc/prepared/issues/5344",
-      "adl-runtime/src/guardian.rs",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/test_check_coverage_impact.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
-    "scope": [
-      ".csdlc/issues/5344",
-      ".csdlc/issues/5587",
-      ".csdlc/prepared/issues/5344",
-      "adl-runtime/src/guardian.rs",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/test_check_coverage_impact.sh"
-    ],
-    "reviewed_revision": "git-blake3:497b530553fc905e2d91b7e5397d82ec306dec4c:510594b56e9394c365ee1d3c6442cd6d84e2db83069eb2b1dc5509f987d1e6a3",
-    "findings": [
-      {
-        "id": "F-5344-CI-FOLLOWUP-1",
-        "severity": "p1",
-        "summary": "The coverage contract still required a second deleted guardian CLI test, so the full tooling contract exited 1.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-5344-CI-FOLLOWUP-2",
-        "severity": "p1",
-        "summary": "The SRP and SOR still described the earlier path-policy repair and omitted the guardian, coverage-contract, and closed #5587 claim-release proof.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -126,32 +78,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "89955d8160eaa44e5841a4e1869bf9e0bb5912d161f128cdd618e0ceca73c67d",
+      "values_digest": "199248fda62c8686a602d97e56a8cb5a45e73d1210c10dc76df997e62b0aeb11",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "9948836592ab46c634cfe26e593888fc56537fd5300abab6bc29052ddbfe795b",
+      "values_digest": "ec668535bf205c71868e467ea545fe14624981273e5c0c2eed9fbdca1081bf82",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "94dca4d6f7025156c6f699673c9985c6ff4bbef75b2a4921bf9e5aee37a367aa",
+      "values_digest": "a2982232c939aafd8b97d0001fe5720066439ce4aaed375bc4fb5460b0b101d6",
       "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
       "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "831ffb04e0ee39e728df6549d5201eb0681cceed248c25c316340022c9cb4c0e",
+      "values_digest": "fce4ae98e07e70ebae22fc2848133b9bc3c5405f79cc0daa51810151c72bce4d",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "8e399a90fb3707e15e6228385c23be38b8b7c6ea49a71ec9ce1feb471f53525d",
-      "rendered_digest": "8b0b271100fd2f81c8c5d6dace422ff1d187f3523ab23e034e33898a5be9debe",
-      "ast_digest": "2cd17b494be5afc9433afffe79b422823928f868bb698604f6f3ddb809b1d695"
+      "values_digest": "fd9b2d0f8bab5581e1f48f966225f82e4f277b2eb4a57486edbb1eb37a83d77c",
+      "rendered_digest": "8b558646f642cf5ea5318010c426e0aa436d0e52299153016fe2fa31ca757885",
+      "ast_digest": "da7d7c0811d1c3c24a6cc3c44d1f762833102df5a5a1b8ee1ee3b6084536bfe8"
     },
     "sor": {
-      "values_digest": "5097c60b44dd0360ae5032771c2a28ca210b97a530e4488ff2c7dc95c34dae3b",
+      "values_digest": "c05946adefb4400afe9a895381fa9e476265b9a3571937ce1de23d0befd621ba",
       "rendered_digest": "66bd8d2e636afd8f063c4ace8c2cec6365b405a1dcdeadc37940fd9753798fe9",
       "ast_digest": "458b4418a87b84f71259875e33109ea0825a0ed1c0f42dec730bb81d98a46c22"
     }
@@ -261,6 +213,20 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact-head CI exposed a stale guardian inventory assertion and a lease-listener startup race in the authenticated healthy-window test; recover publication truth for bounded repair and one fresh exact review."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance the failed CI follow-up review solely to enter typed recovery, correct its two accepted blockers, and assign one final exact review."
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover the failed exact CI follow-up review after recording both blockers so the stale SRP prompts and validation truth can be corrected before one final exact review."
     }
   ],
   "audit": [
@@ -648,6 +614,41 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Accept the stale SRP prompt projection only as an intermediate recovery state; immediately recover reviewed truth, replace the prompts, and require a final clean exact review before publication.",
       "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"F-5344-CI-FOLLOWUP-2\",\"disposition\":\"accepted_risk\"}"
+    },
+    {
+      "sequence": 56,
+      "generation": 31,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 32,
+      "actor": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 33,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance the failed CI follow-up review solely to enter typed recovery, correct its two accepted blockers, and assign one final exact review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 59,
+      "generation": 34,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover the failed exact CI follow-up review after recording both blockers so the stale SRP prompts and validation truth can be corrected before one final exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 35,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Correct the final CI follow-up review prompts after exact-head failures exposed stale guardian inventory and lease-listener startup-race proofs.",
+      "operation": "{\"operation\":\"correct_review_prompts_after_recovery\",\"values\":[\"Does the Runtime v3 coverage mapping select every existing guardian unit and guardian_cli integration test without naming deleted tests?\",\"Does the tooling-contract regression execute the mapper expression against the live nextest inventory and end with an explicit PASS marker?\",\"Does the healthy-window test retry only the local authenticated lease-listener connection with a strict bound while leaving production Guardian behavior unchanged?\",\"Does repeated exact execution prove the restart-budget test remains deterministic after the listener startup-race repair?\",\"Was #5587 already GitHub merged and closed before its expired claim was recovered and released through supported typed routes without running or re-enabling the paused Drive mirror?\",\"Do the SRP, SOR, audit, and exact review truthfully cover only this bounded CI follow-up?\"]}"
     }
   ]
 }

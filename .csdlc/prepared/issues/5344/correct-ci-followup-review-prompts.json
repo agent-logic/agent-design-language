@@ -1,8 +1,8 @@
 {
   "issue": 5344,
   "card": "srp",
-  "expected_generation": 27,
-  "expected_digest": "4cb00c49c89defbabe76d512bb0a32688dc79fdf7abe9f7350e4f56420274051",
+  "expected_generation": 34,
+  "expected_digest": "d51fee0c029ce58bcdb0748475003bd9a4739d8e1c909305d9a360f67b70af50",
   "claim_id": "claim-5344-v0918-wp12-soak-rollback-recovered",
   "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
   "reason": "Correct the final CI follow-up review prompts after exact-head failures exposed stale guardian inventory and lease-listener startup-race proofs.",
