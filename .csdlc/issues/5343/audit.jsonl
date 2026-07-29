@@ -22,3 +22,4 @@
 {"sequence":22,"generation":16,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":23,"generation":17,"actor":"subagent:gpt-5.5:Anscombe","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":24,"generation":18,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Advance the clean exact remediation review with both P1 findings fixed.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":25,"generation":19,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

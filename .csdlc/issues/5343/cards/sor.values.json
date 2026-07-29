@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-12][cutover] Execute reviewed reversible ADL default switch",
     "slug": "v0918-wp12-reversible-adl-default-switch",
     "version": "v0.91.8",
-    "generation": 18
+    "generation": 19
   },
   "status": "pre_phase",
   "content": {
@@ -40,8 +40,8 @@
           "evidence_ref": "docs/milestones/v0.91.8/evidence/wp12/cutover-5343/report.json records status pass at substantive revision 05ac125bc377a09bce4bdbbd571c5572b231805a; fresh-install-override, rollback-window-evidence, cutover-budgets, typed doctor, and git diff --check also passed."
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "draft",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

@@ -3,13 +3,13 @@
   "issue": 5343,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7ae22a9c8742977941bf696bfe2123d8d59ab3b7711264cfe5220a16802c44e6",
-  "phase": "reviewed",
-  "generation": 18,
-  "digest": "df7d9e16d43c2383eef00fb06e3a234f679a230ef005a10000e459749f0c6e57",
+  "phase": "published",
+  "generation": 19,
+  "digest": "62bd806442f6de0d131b888921adc00560622e9b1b882f2fa16eef3ab6c824c9",
   "claim": {
     "id": "claim-5343-v0918-wp12-reversible-default-switch-execution",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 18,
+    "generation": 19,
     "acquired_unix_seconds": 1785314375,
     "expires_unix_seconds": 1785919175,
     "heartbeat_unix_seconds": 1785314375,
@@ -76,7 +76,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5343,
+    "pull_request": 5704,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5704",
+    "base": "main",
+    "head": "codex/5343-v0918-wp12-reversible-default-switch",
+    "revision": "git-blake3:4d52d4e1351c86881b3e9309d4c0b60134a9fbde:33fc2ffb57b05ca5dbe4a1e8bd9b197feb73ac2597aec51318e3dc29b4bec1eb",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -90,34 +100,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d3f323bbabf3d1d1de89aae9662cb3a26ab5ab22e65e130c821717310105c258",
+      "values_digest": "7ca4dabb3ff88faa6ea2060b23d9aa968a69a91336c394fc4b026b6ff3646f2b",
       "rendered_digest": "56e9f6179e9157659276d6bcf35efb8f016bba7c7822b2b0d797679cd31adf6b",
       "ast_digest": "4bed42107b13c69d3d7d4cb8f18e052c2f7c26199f6173d1dc3260de1fe9a993"
     },
     "stp": {
-      "values_digest": "0e0e9e3a12bf0cc3ed2b63965bd2fb356e90ad6fe055b6e0b7456e5669a5c11a",
+      "values_digest": "51f23d7f75fcaf19c6a22e9dbe765524d2c119ebc9dd3d7606681c507590f2a8",
       "rendered_digest": "2603a355245577778350785ca55e828e84a8d35adeb0eb9f05104b02c8c6526c",
       "ast_digest": "af5271338c52d97d190cb14ef68d417dc5c34afcf8b72c635a7f9459680efb65"
     },
     "spp": {
-      "values_digest": "265a14719e0737a455f0c757f393d2c4fb37e908745fc653548f1451caffff3a",
+      "values_digest": "a82c3f24147c6abb218e82bb1cf5e5435a992dfb1f24be7b064e3069770fd96a",
       "rendered_digest": "5b738a414feacadb91990e6ad0902603b75e20e8e581032ca8065519434a5878",
       "ast_digest": "b575f3c28cfae2265f950dba10fe6871aff29c4cffac4bef4db8439acf25aa3a"
     },
     "vpp": {
-      "values_digest": "06eb70aec86fff6daa34bdc3672acce5077842a3310b15d2916dc0594fed5222",
+      "values_digest": "8bb71db694500e41a43a6d5c107cff75b122cb7e22c6655be100a3d3274e5813",
       "rendered_digest": "490f13ed699c7b032f54feda67d069688372326c121d9a7b3b73c27653069926",
       "ast_digest": "7bb857dcc7dae7e8bc06691fc7b203c3419d31e8481ffbce611dedf4e4c2cfb8"
     },
     "srp": {
-      "values_digest": "9fb2aaf8358e3797d3e70f63b64cc09514dd9872b9a0af8070097a8ee946ec43",
+      "values_digest": "af570428f51169a57a9c2adf76897e1b72ea2dd49d70c252d6f878d4148d0fbf",
       "rendered_digest": "c35c9d8e6beb1ba847fb1bdeac7b2121fba2238f4871153246444a0e14caeff8",
       "ast_digest": "1cc246a5abf6992d5952522763d7110b068514864697ea9bc7aba6d50797f2fa"
     },
     "sor": {
-      "values_digest": "e93d6ebc981897791a482058b83d75dac8c6b52d1f2dd4c866efbf467f3b9f36",
-      "rendered_digest": "9e3bc492d0cba8512be699df6437b32283a4bcc146a967beb54d0cb402c769b6",
-      "ast_digest": "125c15e405af51eaf067618fc2c81cc9fadbd2c804aefcb1f7e50da92ee19e7f"
+      "values_digest": "40ebaa7d5d0497491035d2c7c93b154da2eab4415d1d7d5238759eb23fbf7e93",
+      "rendered_digest": "76d874429d8b2507766df85d714160f304810fd00992aea3eacb32beaa2ad3e6",
+      "ast_digest": "7b22e786a8f8ff2ff60dc735e39d9db1224d3452226b7d3dc3258eece92eddfd"
     }
   },
   "transitions": [
@@ -148,6 +158,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Advance the clean exact remediation review with both P1 findings fixed."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -318,6 +335,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Advance the clean exact remediation review with both P1 findings fixed.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
