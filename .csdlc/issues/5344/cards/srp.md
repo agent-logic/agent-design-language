@@ -13,12 +13,17 @@ Status: pre_phase
 ## Scope
 
 .csdlc/issues/5344
-.csdlc/locks/5344.lock
-.csdlc/prepared/issues/5344
 .csdlc/evidence/5344
-adl-v2/tools/run-soak.sh
+.csdlc/prepared/issues/5344
+adl-runtime
+adl-runtime-kernel
 adl-v2/tools/prove-rollback.sh
+adl-v2/tools/run-soak.sh
 docs/milestones/v0.91.8/evidence/wp12
+infra/horust
+infra/runtime-v3/runtime-init.toml
+infra/rustysd
+infra/systemd
 
 ## Prompts
 

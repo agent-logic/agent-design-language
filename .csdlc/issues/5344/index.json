@@ -5,7 +5,7 @@
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
   "phase": "implemented",
   "generation": 6,
-  "digest": "4599268058fb25a8d1ecdeab0fd63b05ded7a2f33b54a309b1edf87b0a908a1a",
+  "digest": "fe28f3c97e1b5f3df38a61392ee695d13883e4af2ae90131ecd2039260c5a49f",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -58,7 +58,25 @@
     ],
     "purpose": "Complete #5344 exact-revision Runtime v3 opt-in soak and rollback proof across macOS, Linux, and native Windows; retain reviewed evidence; publish and merge without weakening TLS, editing Runtime v2, or deleting Runtime v1"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fac48-c04a-70f1-8a0e-fca1cb4af863",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:8831d7bd2844f81457a50d5780e73eb0c0776764:b0303764ad1a0f1fd7f7ecbb6f16bb3bd1b745c6a02330664d291d1a6d463e79",
+    "scope": [
+      ".csdlc/issues/5344",
+      ".csdlc/evidence/5344",
+      ".csdlc/prepared/issues/5344",
+      "adl-runtime",
+      "adl-runtime-kernel",
+      "adl-v2/tools/prove-rollback.sh",
+      "adl-v2/tools/run-soak.sh",
+      "docs/milestones/v0.91.8/evidence/wp12",
+      "infra/horust",
+      "infra/runtime-v3/runtime-init.toml",
+      "infra/rustysd",
+      "infra/systemd"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -94,9 +112,9 @@
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "2d438fc20efd3d5d0b49a756e1ffdc819afe45fcc848724aea8fce252a86172c",
-      "rendered_digest": "9f92a47cf8c396424894eb687f685a7b05e9826822323ccd0e72e298cfd238bc",
-      "ast_digest": "afe0ee04ae0ebbf9ae96de2e4d490233804e754faedd38bdc4b4bff6bb393522"
+      "values_digest": "b51a4efd9d0d14aff42b8b29f9fdf584a945701239c392b5024c21aa6de0bf7b",
+      "rendered_digest": "a0dd5a4e8f13e8278068b3cf48a2874e9e3b9d2752fbfdd617c9694ece8284e2",
+      "ast_digest": "79a4d2afa80f14ef41961d7c1989c45baffcf9963f4b9d5be48784046ce69827"
     },
     "sor": {
       "values_digest": "4cbcdb3b35ed095902cc3b9eb6a3d1d10ba5665171a96fc81075ca549986a567",
@@ -274,6 +292,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Record the final manifest-driven soak, platform verification, and exact selector restoration result.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env\",\"ADL_WP12_TARGET_DIR=wp12-target\",\"bash\",\"adl-v2/tools/run-soak.sh\",\"--manifest\",\"docs/milestones/v0.91.8/evidence/wp12/manifest.json\"],\"purpose\":\"Verify the accepted Runtime v3 artifact, native Linux/macOS/Windows lifecycle proofs, isolated fresh adl-v2 installation, rollback fault matrix, and exact prior selector-byte restoration.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.91.8/evidence/wp12/report.json\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 6,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

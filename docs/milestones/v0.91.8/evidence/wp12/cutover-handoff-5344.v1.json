@@ -2,10 +2,10 @@
   "schema": "adl.wp12.cutover_handoff.v1",
   "issue": 5344,
   "child_issue": 5343,
-  "status": "pending_review",
+  "status": "accepted",
   "qualification_revision": "f9bb6cc736df1a68d539073f9214b663ae6c1ab2",
   "evidence_revision": "0e2bc61a0abec79fcc5b567c6030e10100606fba",
-  "reviewed_revision": null,
+  "reviewed_revision": "git-blake3:8831d7bd2844f81457a50d5780e73eb0c0776764:b0303764ad1a0f1fd7f7ecbb6f16bb3bd1b745c6a02330664d291d1a6d463e79",
   "manifest": {
     "ref": "docs/milestones/v0.91.8/evidence/wp12/manifest.json",
     "sha256": "26ca19ad7562ab81ae47ba41fa8e3ced8c219665e82f764d5f7017831a17ba83"
