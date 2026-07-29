@@ -5,12 +5,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
 PLAN = ROOT / ".adl/docs/TBD/PODCAST_STUDIO_NEXT_WEEK_LAUNCH_PLAN_5702.md"
-GEMINI = ROOT / ".adl/local-artifacts/5702-podcast-launch-plan/gemini-review-result.json"
+GEMINI = ROOT / ".csdlc/evidence/5702/gemini-3.1-pro-review-summary.json"
 
 
 required_patterns = [
     "Launch posture: audio and RSS are required launch gates",
-    "Gemini Review Incorporation",
+    "Gemini 3.1 Pro Review Incorporation",
     "Deepgram is an investigation lane, not a preselected vendor.",
     "Critical-path rule: harden the existing known route first.",
     "public podcast feed, expected route `/podcast/feed.xml`",
@@ -19,6 +19,15 @@ required_patterns = [
     "DeepSeek invited AI guest",
     "No launch until all lanes are green",
     "Implementation is not done until the follow-on issues prove:",
+    "gemini-3.1-pro-preview",
+    ".csdlc/evidence/5702/gemini-3.1-pro-review-summary.json",
+    "Apple Podcasts approval timing",
+    "URL-order dependency",
+    "CDATA",
+    "TTS chunking/retry",
+    "ID3v2.3",
+    "iOS Safari",
+    "publish-ready human guest episodes require signed/approved release state",
 ]
 
 forbidden_patterns = [
@@ -65,11 +74,17 @@ if not GEMINI.is_file():
 gemini = json.loads(GEMINI.read_text(encoding="utf-8"))
 if gemini.get("status") != "passed":
     fail(f"Gemini review did not pass: {gemini.get('status')!r}")
-if gemini.get("model") != "gemini-2.5-flash":
+if gemini.get("model") != "gemini-3.1-pro-preview":
     fail(f"unexpected Gemini model: {gemini.get('model')!r}")
+if gemini.get("required_model") != "Gemini 3.1 Pro":
+    fail(f"unexpected required Gemini model: {gemini.get('required_model')!r}")
+if gemini.get("required_model_api_id") != "gemini-3.1-pro-preview":
+    fail(f"unexpected required Gemini API id: {gemini.get('required_model_api_id')!r}")
 if gemini.get("finish_reasons") != ["STOP"]:
     fail(f"Gemini review did not finish cleanly: {gemini.get('finish_reasons')!r}")
 if int(gemini.get("output_chars") or 0) < 1000:
     fail("Gemini review output was unexpectedly short")
+if not gemini.get("review_sha256"):
+    fail("Gemini review summary is missing review digest")
 
 print("podcast launch plan validation passed")

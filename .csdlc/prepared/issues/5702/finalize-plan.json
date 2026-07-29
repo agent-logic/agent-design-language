@@ -10,11 +10,10 @@
     "Created a reviewable launch plan under .adl/docs/TBD/ for #5702.",
     "Recorded audio and RSS as required launch gates rather than optional follow-ons.",
     "Planned ten generated episode specs, DeepSeek/human guest states, Deepgram comparison, RSS validation, audio QA, redaction, and website design alignment.",
-    "Called Gemini and incorporated the complete review suggestions while truthfully retaining failed/truncated earlier attempts as unavailable."
+    "Called Gemini and incorporated or dispositioned the launch-critical review suggestions while truthfully retaining failed/truncated earlier attempts as unavailable."
   ],
   "artifacts": [
     ".adl/docs/TBD/PODCAST_STUDIO_NEXT_WEEK_LAUNCH_PLAN_5702.md",
-    ".adl/local-artifacts/5702-podcast-launch-plan/gemini-review-result.json",
     ".csdlc/prepared/issues/5702/validate_podcast_launch_plan.py"
   ],
   "execution": {
@@ -97,8 +96,15 @@
           "release_gate": "required",
           "execution": "local",
           "timeout_seconds": 30,
-          "executable": "/Volumes/FastWork/cargo-targets/adl-podcast-launch/debug/csdlc-doctor",
+          "executable": "cargo",
           "argv": [
+            "run",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--bin",
+            "csdlc-doctor",
+            "--",
             "--repo",
             ".",
             "--issue",
@@ -127,8 +133,8 @@
       "memory_mib": 512,
       "tokens": 0
     },
-    "root": "/Volumes/FastWork/adl-wp-5702",
-    "evidence_dir": "/Volumes/FastWork/adl-wp-5702/.csdlc/evidence/5702",
+    "root": ".",
+    "evidence_dir": ".csdlc/evidence/5702",
     "cancellation_file": null
   }
 }

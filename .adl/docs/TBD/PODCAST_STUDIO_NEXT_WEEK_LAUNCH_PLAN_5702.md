@@ -72,31 +72,62 @@ Launch blockers:
 - This plan does not authorize public claims before implementation proof and
   operator approval.
 
-## Gemini Review Incorporation
+## Gemini 3.1 Pro Review Incorporation
 
-Gemini review was requested on 2026-07-28 with `gemini-2.5-flash`. The first
-Flash attempt returned truncated text and the Pro retry returned no text, so
-both are treated as unavailable review attempts. A second Flash attempt returned
-complete suggestions with `finishReason=STOP`; the raw result is retained under
+Gemini review is required to use Gemini 3.1 Pro. Live model discovery for this
+credential exposes the generateContent model as `gemini-3.1-pro-preview`
+(`Gemini 3.1 Pro Preview`); the plain `gemini-3.1-pro` API id returned 404 and
+is not accepted as a completed review. Earlier non-3.1-Pro Gemini attempts are
+retained only as historical local attempts and are not accepted as review
+evidence for this issue. The current acceptable review artifact is the tracked
+summary under
+`.csdlc/evidence/5702/gemini-3.1-pro-review-summary.json`, with the raw local
+provider response retained under
 `.adl/local-artifacts/5702-podcast-launch-plan/gemini-review-result.json`.
 
 Actionable suggestions incorporated:
 
+- Use the live API id `gemini-3.1-pro-preview` as the current Gemini 3.1 Pro
+  review route and record the failed plain-id attempts truthfully.
 - Prioritize one proven audio route before evaluating a new vendor.
 - Automate episode directory/spec generation instead of preparing ten episodes
   manually.
 - Clarify DeepSeek guest metadata as placeholder/invited-state unless live
   guest participation is separately proven.
 - Define the audio hosting/CDN strategy before RSS enclosure URLs are generated.
-- Name concrete RSS validation, audio quality, redaction, website, player, and
-  fail-closed tests.
+- Name concrete RSS validation, byte-range, ID3, artwork, encoding, CORS,
+  cache, audio quality, redaction, website, player, and fail-closed tests.
 - Build the website route from Agent Logic templates/components first, not from
   the old standalone demo card.
+- Lock real Episode 001 script/content before using the audio pipeline as
+  launch proof; placeholder audio is allowed only as non-launch harness proof.
+- Validate RSS with Apple Podcasts Connect or an equivalent Apple-specific
+  preflight before making public directory-readiness claims.
+- Account for Apple Podcasts approval timing by treating submission readiness as
+  urgent once Episode 001 audio and feed URLs are stable.
+- Resolve the URL-order dependency before feed generation: define podcast index,
+  episode, feed, and audio URL structure in the site repository before emitting
+  final RSS.
+- Require XML escaping or CDATA handling for rich show-note/transcript fields.
+- Require TTS chunking/retry proof before a full episode audio run can count as
+  launch evidence.
+- Prefer ID3v2.3 tagging for directory/player compatibility.
+- Add iOS Safari playback to the website/player proof gate.
+- Treat human guest release/permission state as a publish-blocking field, not
+  just metadata.
 
-Resulting critical-path change: Deepgram remains a required investigation, but
-it must not consume the launch-critical slot until the existing audio route can
-produce a validated episode. Deepgram can become the selected route only if it
-passes the comparison after the baseline route is green.
+Resulting critical-path change: audio proof moves before broad episode-factory
+polish, and Deepgram remains a required investigation that must not consume the
+launch-critical slot until the existing audio route can produce a validated
+episode. Deepgram can become the selected route only if it passes the comparison
+after the baseline route is green.
+
+Operator-decision item:
+
+- Gemini 3.1 Pro recommends deferring the Deepgram comparison to a post-launch
+  optimization issue unless the existing audio route is already green. The
+  operator requirement still asks us to investigate Deepgram, so this plan keeps
+  the investigation lane but makes it non-blocking behind audio/RSS proof.
 
 ## Same-Day Execution Schedule
 
@@ -230,6 +261,8 @@ Required outputs per episode:
 - lossless or high-quality archive source, preferably `episode.wav`;
 - segment files for each speaker;
 - loudness/peak report;
+- embedded ID3v2 tags for title, artist, album/show, episode number, and
+  artwork, preferably ID3v2.3 for broad player compatibility;
 - audio manifest with provider, model, voice, renderer identity, source text
   digest, output digest, duration, sample rate, channel count, and QA result;
 - human listen-check note.
@@ -237,6 +270,10 @@ Required outputs per episode:
 Minimum audio QA:
 
 - format check;
+- encoding check with selected bitrate mode, bitrate, sample rate, and channel
+  count, for example 128-192 kbps MP3 at 44.1 kHz unless the audio issue proves
+  a better launch standard;
+- ID3 tag check;
 - duration check;
 - no zero-byte or silent segment;
 - no clipped peaks;
@@ -250,6 +287,8 @@ Minimum audio QA:
 - speaker voices distinguishable;
 - final concatenation matches manifest segment order;
 - audio digest stable after generation.
+- TTS chunking/retry behavior is tested for rate limits, character limits,
+  dropped connections, and mid-episode failure.
 
 Existing route:
 
@@ -268,7 +307,7 @@ Audio hosting decision:
 
 - choose final audio location before RSS work begins;
 - static hosting is acceptable only if bandwidth, cache behavior, content type,
-  and stable HTTPS URLs are verified;
+  byte-range `206 Partial Content`, CORS, and stable HTTPS URLs are verified;
 - if static hosting is insufficient, route audio through a CDN-backed asset path
   before feed enclosures are generated.
 
@@ -340,6 +379,8 @@ source inspection:
 - per-episode `<enclosure>` pointing to an HTTPS MP3 URL;
 - title, description, language, explicit flag, author/owner metadata,
   image/artwork, publication date, GUID, duration, and episode number;
+- required podcast tags such as `itunes:duration` and `itunes:explicit`;
+- rich text fields escaped safely or wrapped with XML-safe CDATA handling;
 - Atom self-link if supported;
 - podcast namespace tags if chosen;
 - stable URL and MIME type.
@@ -350,11 +391,22 @@ RSS validation:
 - feed URL resolves locally and after deploy;
 - all enclosure URLs resolve;
 - MIME type is `audio/mpeg`;
+- enclosure URLs support HTTP byte-range requests for podcast streaming;
+- audio host CORS supports the Agent Logic page if the player reads cross-origin
+  assets;
 - no draft episodes in public feed;
 - dates are RFC 822-compatible;
 - GUIDs stable and not reused;
+- feed artwork is JPEG or PNG, square, RGB, within podcast-directory size
+  bounds, and small enough for directory ingestion;
+- RSS/feed cache policy and cache invalidation path are documented before
+  deployment;
 - feed validator pass recorded using a named validator such as Cast Feed
   Validator, Podbase Podcast Validator, or an equivalent documented validator;
+- Apple Podcasts Connect draft/unlisted validation, or an explicit documented
+  Apple-specific alternative if Connect is unavailable before launch;
+- Apple Podcasts submission/approval timing captured before any "launch next
+  week" claim, since approval can lag validation;
 - feed content parsed and compared back to `episode.yaml`;
 - manual import check in at least one podcast client or validator before public
   claim.
@@ -415,6 +467,7 @@ Design checks:
 
 - local render at desktop and mobile widths;
 - at least Chrome and Safari local/browser checks if available;
+- iOS Safari playback check for mobile audio initialization/playback behavior;
 - audio player visible and usable;
 - audio player actually plays, seeks, and reports duration/progress;
 - RSS link discoverable;
@@ -442,6 +495,8 @@ Automated redaction checks:
 - fail on API-key-like strings and known secret markers;
 - fail on draft-only guest notes in public pages/feed;
 - fail on local RSS/audio enclosure URLs.
+- fail on `publish_ready` human guest episodes unless release/permission state
+  is `signed`, `approved`, or an operator-approved equivalent.
 
 No launch until all lanes are green or explicitly operator-accepted with a
 public-safe limitation.
@@ -483,12 +538,12 @@ design, audio provider experiments, and release/deploy authority.
 | --- | --- |
 | Episode spec | schema pass, missing required fields fail, unsafe slug fail, duplicate number fail |
 | Ten episodes | all ten specs parse, episode directories exist, draft/ready states truthful |
-| Guest support | DeepSeek AI guest metadata validates, human guest invitation state validates, unconfirmed guest cannot be advertised as confirmed |
+| Guest support | DeepSeek AI guest metadata validates, human guest invitation state validates, unconfirmed guest cannot be advertised as confirmed, publish-ready human guest episodes require signed/approved release state |
 | Audio | segment existence, final MP3 existence, duration, silence check, clipping check, loudness report, manifest digest match, listen-check note |
-| Audio integration | script-to-segments-to-MP3 end-to-end test, manifest/output digest match, failure when any segment is missing |
+| Audio integration | Episode 001 script/content locked, script-to-segments-to-MP3 end-to-end test, MP3 encoding check, ID3v2.3 tag/artwork check, TTS chunking/retry failure proof, manifest/output digest match, failure when any segment is missing |
 | Deepgram | three-sample render, STT round-trip, pronunciation check, metadata capture, no secrets in logs |
-| RSS | XML well-formedness, enclosure URLs, MIME type, date format, stable GUIDs, no draft episodes, feed content matches episode specs |
-| Website | local desktop/mobile render, navigation, audio player playback/seek/duration, transcript, RSS link, OpenGraph metadata, broken-link check |
+| RSS | URL structure defined before feed generation, XML well-formedness, CDATA/escaping for rich fields, enclosure URLs, MIME type, byte-range support, CORS when needed, artwork dimensions/format/size, `itunes:duration`, `itunes:explicit`, date format, stable GUIDs, no draft episodes, cache policy, feed content matches episode specs, Apple-specific validator preflight, Apple submission timing captured |
+| Website | local desktop/mobile render, navigation, audio player playback/seek/duration, iOS Safari playback, transcript, RSS link, OpenGraph metadata, broken-link check |
 | Redaction | no secrets, host paths, local artifact paths, account IDs, local URLs, or private guest notes |
 | Fail-closed | intentionally missing title, duplicate episode number, publish without review, audio claim without manifest, RSS claim without validated feed |
 | Launch proof | deployed route 200, deployed episode 200, deployed feed 200, audio URL 200, operator approval receipt |
@@ -499,8 +554,9 @@ This issue is done when:
 
 - #5702 exists;
 - this plan is present in `.adl/docs/TBD/`;
-- Gemini has reviewed it or the attempt is truthfully recorded as unavailable;
-- actionable Gemini suggestions are incorporated or listed for operator
+- Gemini 3.1 Pro has reviewed it or the exact model/provider blocker is
+  truthfully recorded as unavailable;
+- actionable Gemini 3.1 Pro suggestions are incorporated or listed for operator
   decision;
 - validation confirms required plan topics are present;
 - no implementation or deployment claims are made.
