@@ -3,13 +3,13 @@
   "issue": 5344,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
-  "phase": "reviewed",
-  "generation": 37,
-  "digest": "b5fd7817b0dda1a6a796e0d9f9a1f4acb41fab068cec10cb2f66bbf5fddef9be",
+  "phase": "published",
+  "generation": 38,
+  "digest": "000fa4bf6dd6adba9a08afdfe760ab11861be6ad52b326ec874b2380f5867f8d",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 37,
+    "generation": 38,
     "acquired_unix_seconds": 1785295953,
     "expires_unix_seconds": 1785900753,
     "heartbeat_unix_seconds": 1785295953,
@@ -91,7 +91,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5344,
+    "pull_request": 5703,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5703",
+    "base": "main",
+    "head": "codex/5344-v0918-wp12-soak-rollback",
+    "revision": "git-blake3:12b8fe0d57d2f31c10945925b2b91401ecdcd595:e77380356f96e24129ee5551d7b2162f4b68fda8181c60db0777b2f401180e07",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -105,34 +115,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "48cb1ae77b12a792b29f3dc6bdb2d42f784d3bc0f2ab1f75bcaeed68f662a588",
+      "values_digest": "8793f4e2d7500b4bb5956affd4c0864a80b2bc5c447f3b4d9bb2d66bd72f9123",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "09ac7a14e49491792c83f2fa1a5c303f09d16a6a33e543446029c0c0521e7a85",
+      "values_digest": "454b8e11f6b7814dee2b10f788dbc9e23fbc3385442e0e02d692fa0c032aeb8c",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "cb65b314ba03bd92d79dc5fa14e4334f4861d10e19029ce480ab190fa045cfb8",
+      "values_digest": "0181dd550ad6759ccfc54fd51a02df3fce4141938a1468c4deafd3cb9399bc0a",
       "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
       "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "845e6a2b911a77c3439f0b1954fe18a2f7abd973844a35dbe8fd843e08dcf63a",
+      "values_digest": "27473b0bbc3149ef629275488b6a342c646aeddb2c2b506d8692273ca78e33f7",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "6c2f5ab6eb8a8c47c472461df5325c8e9cb57679f9104e8225d6278ec02e4033",
+      "values_digest": "67da2edac07a5dca4de2e2c814bd5da921d2ec4ecb5ceee7ad196a97afd1e4a9",
       "rendered_digest": "77c99372e73a819b04d097241b06f33dffdc7463c9a8775a1de521831ac2e7ef",
       "ast_digest": "d37656c1b225c8ebae2ac30ff1682657930352271d51b49b1c1b07ae3c5013f4"
     },
     "sor": {
-      "values_digest": "d09075e95aa1e669773b1dad66bfd10a4c9f0386a9f5fa6146356bd65ee1d281",
-      "rendered_digest": "66bd8d2e636afd8f063c4ace8c2cec6365b405a1dcdeadc37940fd9753798fe9",
-      "ast_digest": "458b4418a87b84f71259875e33109ea0825a0ed1c0f42dec730bb81d98a46c22"
+      "values_digest": "45bf6f7d1ca7c364ee53441ca0c1b7c785219458b8c64d698367269de3e7c73c",
+      "rendered_digest": "a87055349ff5464f842e018dd17870d9a054d795992877012f860ecb18f2b10a",
+      "ast_digest": "b77d4b7e8ecd4b6217684060000d77bd8a2c41ba2da63cb5c839a8f2cfcdf4bf"
     }
   },
   "transitions": [
@@ -261,6 +271,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Advance after the corrected exact CI follow-up review passed with no findings."
+    },
+    {
+      "sequence": 19,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -704,6 +721,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Advance after the corrected exact CI follow-up review passed with no findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 64,
+      "generation": 38,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
