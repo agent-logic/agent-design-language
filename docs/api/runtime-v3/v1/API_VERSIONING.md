@@ -14,4 +14,4 @@ Compatibility rules:
 Current route-serving boundary:
 
 - Runtime v3 currently exposes `POST /v1/control`, `GET /v1/observatory`, `OPTIONS /v1/observatory`, and `GET /v1/observatory/ws`.
-- `GET /v1/openapi.json` and `GET /v1/observatory/openapi.json` are required discovery endpoints for #5701, but adding those Axum routes requires a typed path transfer or release from active WP-12 #5344 because it currently protects the router/config surfaces.
+- Runtime v3 does not currently serve `GET /v1/openapi.json` or `GET /v1/observatory/openapi.json`; this contract is retained as repository documentation until those discovery routes are implemented as real Axum routes.
