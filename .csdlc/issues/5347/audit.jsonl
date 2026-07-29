@@ -1,3 +1,5 @@
 {"sequence":1,"generation":0,"actor":"codex:current-session-5347","reason":"initialize issue record and all six cards","operation":"bootstrap"}
 {"sequence":2,"generation":1,"actor":"subagent:gpt-5.3-codex-spark-bounded-review","reason":"approve completed issue design","operation":"approve_design"}
 {"sequence":3,"generation":1,"actor":"codex:current-session-5347","reason":"bind branch/worktree and activate claim","operation":"bind"}
+{"sequence":4,"generation":1,"actor":"codex:claim-hygiene","reason":"WP-13 is deferred until immediately before internal review #5356","operation":"{\"previous_owner\":\"codex:current-session-5347\",\"observed_expiry_unix_seconds\":1785266879,\"recovery_actor\":\"codex:claim-hygiene\",\"reason\":\"WP-13 is deferred until immediately before internal review #5356\"}"}
+{"sequence":5,"generation":1,"actor":"codex:claim-hygiene","reason":"Release deferred WP-13 preparation ownership until execution actually starts","operation":"{\"claim_id\":\"claim-5347-release-only\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:preparation-does-not-own-execution-paths\",\"previous_owner\":\"codex:claim-hygiene\"}"}
