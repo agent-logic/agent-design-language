@@ -885,6 +885,23 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         feed["control"]["websocket_acip_binary_schema"],
         ACIP_WEBSOCKET_SCHEMA
     );
+    let authenticated = tokio::time::timeout(Duration::from_secs(3), async {
+        loop {
+            let frame = websocket
+                .next()
+                .await
+                .expect("WSS connection closed before authentication result")
+                .expect("WSS authentication result frame failed");
+            let value =
+                serde_json::from_str::<serde_json::Value>(frame.to_text().unwrap()).unwrap();
+            if value["schema"] == "adl.runtime_v3.observatory_ws_control_result.v1" {
+                break value;
+            }
+        }
+    })
+    .await
+    .expect("WSS authentication result did not arrive");
+    assert_eq!(authenticated["status"], "authenticated");
 
     let mut forged_ws = signed("wss-forged", ControlAction::Snapshot);
     forged_ws.signature = hex::encode([0_u8; 64]);
