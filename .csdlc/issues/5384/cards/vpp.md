@@ -24,106 +24,76 @@ Diagram: .csdlc/prepared/issues/5384/diagram.mmd
 
 [
   {
-    "lane": "typed-card-contracts",
-    "proof_role": "Required preparation gate for six-card current-native identity, structure, schema, digest, and canonical lifecycle consistency",
+    "lane": "typed-record",
+    "proof_role": "Confirm the #5384 typed projection is structurally valid.",
     "acceptance_ids": [
       "AC-1",
-      "AC-2",
-      "AC-5"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 2000,
-    "argv": [
-      ".adl/bin/csdlc-v2/csdlc-doctor",
-      "--repo",
-      ".",
-      "--issue",
-      "5384"
-    ],
-    "parallel_group": "local-preparation",
-    "defer_reason": null
-  },
-  {
-    "lane": "dependency-terminal-gate",
-    "proof_role": "Required promotion gate for complete predecessor typed closed_out receipts, merged disposition, and observed-SHA ancestry; live issue and PR state is separately refreshed through the approved connector",
-    "acceptance_ids": [
       "AC-3",
       "AC-5"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 2000,
-    "argv": [
-      "ruby",
-      ".csdlc/prepared/issues/5384/validate_dependency_gate.rb"
-    ],
-    "parallel_group": "local-preparation",
-    "defer_reason": null
-  },
-  {
-    "lane": "preparation-scope",
-    "proof_role": "Required preparation gate confirming that tracked and untracked changes remain inside the three authorized #5384 lifecycle paths",
-    "acceptance_ids": [
-      "AC-4",
-      "AC-5",
-      "AC-7"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 120,
-    "budget_tokens": 1000,
-    "argv": [
-      "ruby",
-      ".csdlc/prepared/issues/5384/validate_preparation_scope.rb"
-    ],
-    "parallel_group": "local-preparation",
-    "defer_reason": null
-  },
-  {
-    "lane": "diff-hygiene",
-    "proof_role": "Required preparation gate for whitespace and patch hygiene",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-7"
     ],
     "deterministic": true,
     "resource_profile": "small",
     "budget_seconds": 60,
     "budget_tokens": 500,
     "argv": [
+      ".adl/bin/csdlc-v2/csdlc-doctor",
+      "--issue",
+      "5384"
+    ],
+    "parallel_group": "preparation",
+    "defer_reason": null
+  },
+  {
+    "lane": "direct-inputs",
+    "proof_role": "Confirm the four direct acceptance inputs are closed and the WP-13 deferral is encoded.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-4"
+    ],
+    "deterministic": false,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 500,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5384/validate_dependency_gate.rb"
+    ],
+    "parallel_group": "preparation",
+    "defer_reason": null
+  },
+  {
+    "lane": "preparation-scope",
+    "proof_role": "Confirm preparation writes remain inside #5384 issue-local paths.",
+    "acceptance_ids": [
+      "AC-3"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 300,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5384/validate_preparation_scope.rb"
+    ],
+    "parallel_group": "preparation",
+    "defer_reason": null
+  },
+  {
+    "lane": "diff-hygiene",
+    "proof_role": "Confirm patch whitespace hygiene.",
+    "acceptance_ids": [
+      "AC-1"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 30,
+    "budget_tokens": 100,
+    "argv": [
       "git",
       "diff",
       "--check"
     ],
-    "parallel_group": "local-preparation",
-    "defer_reason": null
-  },
-  {
-    "lane": "exact-preparation-review",
-    "proof_role": "Required preparation gate for bounded independent review of cards, design, diagram, gates, and protected-path authority before typed approval and bind",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-6",
-      "AC-7"
-    ],
-    "deterministic": false,
-    "resource_profile": "medium",
-    "budget_seconds": 600,
-    "budget_tokens": 6000,
-    "argv": [
-      "codex",
-      "exec",
-      "--sandbox",
-      "read-only"
-    ],
-    "parallel_group": "review",
+    "parallel_group": "preparation",
     "defer_reason": null
   }
 ]
@@ -140,11 +110,10 @@ Tokens: 50000
 
 ## Commands
 
-- `.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 5384`
+- `.adl/bin/csdlc-v2/csdlc-doctor --issue 5384`
 - `ruby .csdlc/prepared/issues/5384/validate_dependency_gate.rb`
 - `ruby .csdlc/prepared/issues/5384/validate_preparation_scope.rb`
 - `git diff --check`
-- `codex exec --sandbox read-only`
 
 ## Failure Semantics
 

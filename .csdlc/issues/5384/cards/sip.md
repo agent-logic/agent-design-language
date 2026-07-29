@@ -39,9 +39,9 @@ All six current native typed cards, issue-specific design and diagram, COTS, bud
 
 ## Operator Constraints
 
-- Use typed C-SDLC v2 lifecycle operations only
-- Keep root main untouched and perform all writes in the current bound issue worktree represented by .
-- Do not implement product, Runtime, C-SDLC, documentation, test, workflow, deployment, or handoff scope
-- Do not create or publish a PR and do not advance publication or closeout
-- Do not use AWS, Runtime v2, raw gh, credentials, or fake approvals
-- Do not promote until every declared predecessor is merged, typed closed_out, receipted, and ancestral to refreshed origin/main
+- Use typed C-SDLC v2 lifecycle operations in the existing issue worktree; never write on main.
+- Prepare only: do not implement, publish, merge, or close #5384 in this step.
+- WP-13 deletion #5346/#5347 is deferred and does not block WP-14A.
+- Internal review #5356 must wait for the deferred deletion wave and focused post-deletion validation.
+- Use one bounded Gemini review before the eventual PR.
+- Reuse retained exact proof instead of rerunning expensive soak or lifecycle tests without cause.

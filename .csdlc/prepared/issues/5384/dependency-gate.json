@@ -1,49 +1,38 @@
 {
-  "schema": "adl.csdlc.predecessor_gate.v1",
+  "schema": "adl.wp14a.direct_input_gate.v1",
   "issue": 5384,
   "base_ref": "origin/main",
-  "expected_base_sha": "79c7dccf12540863f6c038e1fd7ef45e2357a55e",
-  "live_evidence": ".csdlc/prepared/issues/5384/live-dependency-snapshot.json",
-  "max_live_evidence_age_seconds": 3600,
+  "expected_base_sha": "e1b6a34e4763a79d1c40c641e64c0c061a0aa96c",
   "requirements": [
     "live_issue_closed",
-    "implementation_pr_merged",
-    "typed_phase_closed_out",
-    "shared_git_terminal_receipt_audit_optional",
-    "terminal_disposition_merged",
-    "observed_sha_ancestor_of_base_ref"
+    "merged_revision_present_in_acceptance_baseline"
   ],
-  "predecessors": [
-    {"issue": 5358, "role": "csdlc_v2_acceptance"},
-    {"issue": 5361, "role": "runtime_v3_acceptance"},
-    {"issue": 5346, "role": "wp13_adl_deletion"},
-    {"issue": 5347, "role": "wp13_external_band_deletion"},
-    {"issue": 5352, "role": "v092_exact_revision_handoff"},
-    {"issue": 4758, "role": "launch_readiness"},
-    {"issue": 4759, "role": "v092_activation_map"},
-    {"issue": 4760, "role": "memory_palace_handoff"},
-    {"issue": 4761, "role": "capability_envelope"},
-    {"issue": 4762, "role": "birth_witnesses"},
-    {"issue": 4763, "role": "birthday_docs"},
-    {"issue": 5007, "role": "memory_palace_adr"},
-    {"issue": 4739, "role": "unity_mcp_proof"},
-    {"issue": 4741, "role": "unity_liveness"},
-    {"issue": 5332, "role": "unity_ilpp"},
-    {"issue": 5107, "role": "adaptive_learning_dag_queue"},
-    {"issue": 5497, "role": "distributed_workcell_umbrella"},
-    {"issue": 5498, "role": "codex_context_adapter"},
-    {"issue": 5499, "role": "issue_graph_conductor"},
-    {"issue": 5500, "role": "workcell_dashboard"},
-    {"issue": 5501, "role": "live_distributed_workcell_proof"},
-    {"issue": 5502, "role": "output_convergence"},
-    {"issue": 5591, "role": "runtime_parity_a"},
-    {"issue": 5592, "role": "runtime_parity_b"},
-    {"issue": 5589, "role": "runtime_parity_c"},
-    {"issue": 5590, "role": "runtime_parity_d"},
-    {"issue": 5526, "role": "provider_expansion_input"},
-    {"issue": 5540, "role": "acceptance_inventory_input"},
-    {"issue": 5541, "role": "acceptance_inventory_input"},
-    {"issue": 5558, "role": "acceptance_inventory_input"},
-    {"issue": 5548, "role": "acceptance_inventory_input"}
+  "direct_inputs": [
+    {
+      "issue": 5358,
+      "role": "csdlc_v2_acceptance"
+    },
+    {
+      "issue": 5361,
+      "role": "runtime_v3_acceptance"
+    },
+    {
+      "issue": 5344,
+      "role": "adl_v2_soak_and_rollback"
+    },
+    {
+      "issue": 5343,
+      "role": "adl_v2_reversible_default_switch"
+    }
+  ],
+  "deferred_non_blocking": [
+    {
+      "issues": [
+        5346,
+        5347
+      ],
+      "execute_before": 5356,
+      "reason": "Operator scheduled final code deletion immediately before internal review."
+    }
   ]
 }

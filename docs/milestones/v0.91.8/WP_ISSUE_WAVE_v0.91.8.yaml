@@ -30,11 +30,11 @@ wp_issue_map:
   - {wp: WP-10A, issue: 5497}
   - {wp: WP-11, issue: 5350}
   - {wp: WP-12, issue: 5344}
-  - {wp: WP-13, issue: 5346}
   - {wp: WP-14A, issue: 5384}
   - {wp: WP-15, issue: 5354}
   - {wp: WP-16, issue: 5351}
   - {wp: WP-17, issue: 5360}
+  - {wp: WP-13, issue: 5346}
   - {wp: WP-18, issue: 5356}
   - {wp: WP-19, issue: 5357}
   - {wp: WP-20, issue: 5363}
@@ -129,11 +129,11 @@ parallel_execution:
       after_parity_a: [5592, 5589, 5590]
       concurrent_execution_requires_disjoint_protected_paths: true
   cutover_deletion_path:
-    serial_prefix: [5350, 5344, 5343]
+    serial_prefix: [5350, 5344, 5343, 5384, 5354, 5351, 5360]
     acceptance: [5358, 5361]
     disjoint_deletion_execution: [5346, 5347]
-    merge_rule: "Deletion PR merges and post-merge validation remain serial."
-  release_tail_serial: [5354, 5351, 5360, 5356, 5357, 5363, 5362, 5355, 5359, 5348]
+    merge_rule: "WP-13 is deferred until immediately before #5356; its two deletion PR merges and post-merge validation remain serial."
+  release_tail_serial: [5354, 5351, 5360, 5346, 5347, 5356, 5357, 5363, 5362, 5355, 5359, 5348]
 work_packages:
   - wp: WP-01
     issue: 5594
@@ -217,13 +217,13 @@ work_packages:
     issue: 5346
     title: Delete replaced incumbent surfaces
     outcome: Delete only reviewed replaced ADL compiler/CLI and external-owned bands through #5346/#5347.
-    depends_on: ["WP-12", "#5358", "#5361"]
+    depends_on: ["WP-14A", "WP-15", "WP-16", "WP-17"]
     deliverables: ["deletion manifest", "eligibility proof", "post-deletion validation"]
   - wp: WP-14A
     issue: 5384
     title: Integrated platform acceptance and deployment
     outcome: Accept and deploy ADL v2, Runtime v3, and C-SDLC v2 at exact reviewed revisions.
-    depends_on: ["WP-13", "#5358", "#5361"]
+    depends_on: ["#5358", "#5361", "#5344", "#5343"]
     deliverables: ["acceptance packet", "deployment proof"]
   - wp: WP-15
     issue: 5354

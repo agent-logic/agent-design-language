@@ -15,8 +15,8 @@
 | WP-10A | #5497 | Distributed C-SDLC workcell | Prove conductor, Codex task adapter, dashboard, convergence, and live distributed workcell without autonomous merge or closeout authority. | WP-09; children #5499, #5498, #5500, #5502, #5501 |
 | WP-11 | #5350 | Shadow parity | Compare exact ADL v1/v2 revisions across the approved corpus and classify mismatches; Runtime v3 parity is separately owned by #5361 and #5591/#5592/#5589/#5590. | WP-03, WP-10, completed WP-10A live proof, current Runtime v3 acceptance inputs |
 | WP-12 | #5344, #5343 | Soak, rollback, and reversible cutover | Run opt-in soak, prove rollback, and execute reviewed selector switch. | WP-11 and closed Runtime v3 acceptance #5361 |
-| WP-13 | #5346, #5347 | Deletion wave | Delete only reviewed and replaced incumbent surfaces after eligibility proof. | WP-12 plus current #5358/#5361 acceptance; disjoint manifests |
-| WP-14A | #5384 | Integrated platform acceptance and deployment | Accept and deploy ADL v2, Runtime v3, and C-SDLC v2 at exact revisions. | WP-13, #5358, #5361 |
+| WP-13 | #5346, #5347 | Deletion wave | Delete only reviewed and replaced incumbent surfaces after eligibility proof. Deferred until immediately before WP-18 internal review. | WP-14A through WP-17; disjoint manifests |
+| WP-14A | #5384 | Integrated platform acceptance and deployment | Accept and deploy ADL v2, Runtime v3, and C-SDLC v2 at exact revisions. | #5358, #5361, #5344, #5343 |
 | WP-15 | #5354 | Demo convergence | Demonstrate the integrated deployed stack and claim boundaries. | WP-14A |
 | WP-16 | #5351 | Quality gate | Run integrated platform quality gate. | WP-15 |
 | WP-17 | #5360 | Documentation alignment | Align README, feature docs, WBS, checklist, handoff, issue wave, deployment truth. | WP-16 |
@@ -31,8 +31,9 @@
 ## WP-14A Child Topology
 
 WP-14A consumes only C-SDLC v2 acceptance `#5358`, Runtime v3 acceptance
-`#5361`, and accepted ADL v2 deployment evidence. Downstream planning and demo
-tracks consume those accepted revisions; they do not block WP-14A.
+`#5361`, Runtime v3 soak and rollback `#5344`, and the reversible ADL selector
+switch `#5343`. WP-13 deletion `#5346`/`#5347` is deliberately deferred until
+immediately before internal review `#5356`; it does not block WP-14A.
 
 Unity Observatory tooling and proof issues `#4739`, `#4741`, and `#5332` belong
 to WP-15 `#5354`. They feed demo convergence independently and do not block

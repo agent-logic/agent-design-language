@@ -12,15 +12,15 @@ Status: pre_phase
 
 ## Scope
 
-Bounded preparation review of only .csdlc/issues/5384, .csdlc/prepared/issues/5384, and .csdlc/locks/5384.lock for card truth, design completeness, dependency topology, PVF/COTS/budget contracts, and inability to authorize product work.
+One bounded Gemini review of the exact WP-14A acceptance revision: direct-input revision identity, focused fresh-consumer proof, retained rollback/recovery evidence, residual-risk truth, deferred WP-13 scheduling, and non-absorption of downstream tracks.
 
 ## Prompts
 
-- Does the packet capture every predecessor named by the live issue, routing comment, canonical wave, and nested Runtime/workcell topology?
-- Can this claim authorize any product, Runtime, shared documentation, workflow, test, deployment, or publication write?
-- Are COTS, budget, PVF, and promotion requirements concrete and internally consistent?
-- Do all six cards remain truthful that preparation is complete while implementation has not started?
-- Would any missing receipt, terminal phase, merge disposition, or ancestry fact fail closed?
+- Do the exact accepted ADL v2, Runtime v3, and C-SDLC v2 revisions form one coherent deployable platform baseline?
+- Do the focused fresh-consumer checks exercise real operational entrypoints without rerunning unnecessary soak proof?
+- Are rollback, recovery, and residual-risk claims supported by retained exact evidence?
+- Is WP-13 deletion clearly deferred until immediately before #5356 and absent from WP-14A blocking logic?
+- Does the PR remain a compact acceptance packet without absorbing Unity, tooling remediation, Memory Palace, or v0.92 work?
 
 ## Findings
 

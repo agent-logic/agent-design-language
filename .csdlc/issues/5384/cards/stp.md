@@ -25,23 +25,19 @@ Prepare, validate, review, approve, bind, commit, and push issue-local lifecycle
 
 ## Acceptance
 
-1. AC-1: SIP, STP, SPP, VPP, SRP, and SOR render through current typed C-SDLC v2 native generation and validate
-2. AC-2: Design and diagram enumerate scope, evidence flow, COTS/reuse, budget, non-claims, promotion boundary, and downstream release-tail order
-3. AC-3: Every declared direct, child, nested, and routed predecessor is listed with merged, typed closed_out, receipt, and origin/main ancestry requirements
-4. AC-4: The active claim protects only #5384 issue, request, and lock paths and cannot authorize product or shared-document edits
-5. AC-5: Validation lanes are PVF-classified with proof role, determinism, resource profile, budgets, acceptance mapping, and required/deferred status encoded by proof_role and defer_reason
-6. AC-6: A bounded preparation subagent reviews the complete diff and all actionable findings are fixed before typed design approval and bind
-7. AC-7: The preparation branch is committed and pushed with no PR or publication and root main remains untouched
+1. AC-1: The six typed cards, design, and diagram describe the same thin WP-14A acceptance boundary.
+2. AC-2: Live GitHub truth confirms #5358, #5361, #5344, and #5343 are closed before execution.
+3. AC-3: Preparation remains issue-local and cannot authorize platform implementation or publication.
+4. AC-4: WP-13 #5346/#5347 is explicitly non-blocking for WP-14A and becomes mandatory immediately before #5356.
+5. AC-5: Execution reuses retained proof, runs only focused fresh-consumer checks, and receives one bounded Gemini review before PR publication.
 
 ## Dependencies
 
-- WP-13 #5346 and #5347
-- acceptance gates #5358 and #5361
-- WP-14 children #5352, #4758-#4763, #5007, #4739, #4741, #5332, and #5107
-- WP-10A #5497 and children #5498-#5502
-- Runtime v3 nested inputs #5591, #5592, #5589, #5590, and #5526
-- independently owned acceptance inventory inputs #5540, #5541, #5558, and #5548
-- all dependencies require merged state, typed closed_out projection, shared-Git receipt, and observed SHA ancestry on current origin/main before implementation promotion
+- C-SDLC v2 acceptance #5358
+- Runtime v3 acceptance #5361
+- ADL v2 soak and rollback proof #5344
+- ADL v2 reversible default switch #5343
+- WP-13 deletion #5346/#5347 is deferred and non-blocking for WP-14A; it becomes a hard gate immediately before internal review #5356
 
 ## Inputs
 

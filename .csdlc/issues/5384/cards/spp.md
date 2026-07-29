@@ -16,53 +16,43 @@ Render and validate the six typed cards, retain a complete issue-local evidence-
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Render and validate all six current native typed cards plus issue-specific design and diagram",
+    "action": "Normalize the issue-local cards, design, diagram, and direct-input manifest to the operator-approved schedule.",
     "acceptance_ids": [
       "AC-1",
-      "AC-2"
+      "AC-3",
+      "AC-4"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Validate COTS, budget, PVF, protected-path, and complete predecessor promotion gates",
+    "action": "Verify the four direct input issues are closed and record the exact baseline for later acceptance execution.",
     "acceptance_ids": [
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5"
+      "AC-2"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Run bounded preparation subagent review and repair every actionable finding",
+    "action": "Prepare the focused three-product fresh-consumer validation and compact acceptance ledger.",
     "acceptance_ids": [
-      "AC-6"
+      "AC-5"
     ],
     "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Approve and bind the preparation-only claim, commit and push without publication",
+    "action": "On separate execution authorization, run focused acceptance, obtain one Gemini review, and publish the WP-14A PR.",
     "acceptance_ids": [
-      "AC-4",
-      "AC-7"
-    ],
-    "status": "pending"
-  },
-  {
-    "id": "S5",
-    "action": "After a future separately authorized promotion gate passes, execute integrated WP-14A acceptance and handoff",
-    "acceptance_ids": [
-      "AC-3"
+      "AC-2",
+      "AC-5"
     ],
     "status": "pending"
   }
@@ -97,13 +87,13 @@ Revision 1
 
 .csdlc/prepared/issues/5384/design.md
 
-Digest: bec76e87d1e5520193a101ef4cbd9e4d90b77526334e3991524782e0fc68fe77
+Digest: d8d4bdae34791af754e1c9ba389c5181b7063a8b53fbce53af792354854ff4d8
 
 ## Diagram
 
 .csdlc/prepared/issues/5384/diagram.mmd
 
-Digest: 5dcaa986a3318096cb25ba898cc6ffa1f26790c0b952b0679195992ec7db91f2
+Digest: 58a47f484f346d190bc63ac9956e572f524e10e7856c9615fb676767621676a1
 
 ## Stop Conditions
 
