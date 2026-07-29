@@ -4,7 +4,7 @@
   "child_issue": 5343,
   "status": "pending_review",
   "qualification_revision": "f9bb6cc736df1a68d539073f9214b663ae6c1ab2",
-  "evidence_revision": "b46e405cd2f341e5644b463a757c03bdc924af74",
+  "evidence_revision": "0e2bc61a0abec79fcc5b567c6030e10100606fba",
   "reviewed_revision": null,
   "manifest": {
     "ref": "docs/milestones/v0.91.8/evidence/wp12/manifest.json",
@@ -13,7 +13,7 @@
   "manifest_digest": "26ca19ad7562ab81ae47ba41fa8e3ced8c219665e82f764d5f7017831a17ba83",
   "report": {
     "ref": "docs/milestones/v0.91.8/evidence/wp12/report.json",
-    "sha256": "8c73b380ea3a8fb3b8f98d80f9aab00a6857772f2f3cc26fc7be5fa1bc4b3743",
+    "sha256": "1812cc4964b01002910e3a28864d9e4360e994b1735246aae70ac2c4e6985845",
     "status": "pass"
   },
   "runtime_v3_acceptance": {
@@ -46,9 +46,9 @@
       "sha256": "63a063d5332a29973b2cc4d2dbfbd6ec824d79fd2d00f4ab57752ba37ac5ad5a"
     }
   },
-  "prior_selector_digest": "3c0c7d42b9bcf040c9ce5d7d421b6eccbf051253f7dd8c77b6a54624b35a4fcb",
-  "selected_selector_digest": "cfe2f14f1ab2d7d6c0043ba27c0c86faae7f3161baa4b2e5e74e0d659a2568d8",
-  "restored_selector_digest": "3c0c7d42b9bcf040c9ce5d7d421b6eccbf051253f7dd8c77b6a54624b35a4fcb",
+  "prior_selector_digest": "feff5680c1fe681b95140ce13d4b5352b261dd08d5219fd27bd6928e5d556970",
+  "selected_selector_digest": "a3653d349f6a5fe9f254dbb9297c7cfe79d8abcdea1df7b4e584e3bdd8456078",
+  "restored_selector_digest": "feff5680c1fe681b95140ce13d4b5352b261dd08d5219fd27bd6928e5d556970",
   "fresh_install_receipt": {
     "ref": ".csdlc/evidence/5344/rollback/fresh-install-receipt.json",
     "sha256": "3d45aa497ae2644ac7891acd9631efdc1d8c338d85d642fe259ff733cdfa0561"
