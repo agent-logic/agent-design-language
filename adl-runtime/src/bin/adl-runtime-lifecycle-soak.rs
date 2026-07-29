@@ -944,6 +944,17 @@ async fn execute_suite(
             let mut minimum_cycles_per_run = u64::MAX;
             let mut execution = Execution::new(runs, 0, 0);
             for run in 1..=runs {
+                if run > 1 {
+                    discard_checked_observability(&fixture.observability_root).map_err(
+                        |error| Failure {
+                            run,
+                            cycle: 1,
+                            completed_runs: run.saturating_sub(1),
+                            completed_cycles: total_cycles,
+                            error,
+                        },
+                    )?;
+                }
                 let deadline = Instant::now() + Duration::from_secs(seconds);
                 let mut run_cycles = 0_u64;
                 while run_cycles == 0 || Instant::now() < deadline {
@@ -1154,8 +1165,7 @@ async fn execute_cycle(
     verify_writer_lock_released(&fixture.local_state_root)?;
     let log_proof = verify_master_log(args, fixture, run, cycle)?;
     if !retain_log {
-        std::fs::remove_dir_all(&fixture.observability_root)
-            .map_err(|error| format!("checked Vector log could not be discarded: {error}"))?;
+        discard_checked_observability(&fixture.observability_root)?;
     }
     Ok(CycleObservation {
         guardian_pid: guardian_process_id,
@@ -1167,6 +1177,17 @@ async fn execute_cycle(
         restarts: u64::from(outcome.restarts),
         log_proof,
     })
+}
+
+fn discard_checked_observability(observability_root: &Path) -> Result<(), String> {
+    match std::fs::remove_dir_all(observability_root) {
+        Ok(()) => Ok(()),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+        Err(error) => Err(format!(
+            "checked Vector log could not be discarded from {}: {error}",
+            observability_root.display()
+        )),
+    }
 }
 
 fn diagnostic_tail(output: &str, state_root: &Path) -> String {
@@ -2143,6 +2164,22 @@ mod tests {
         drop(first);
         QualificationLock::acquire_at(&lock_path, address)
             .expect("qualification lock should release with its owner");
+    }
+
+    #[test]
+    fn checked_observability_is_discarded_between_timed_runs() {
+        let current_dir = std::env::current_dir().expect("current directory");
+        let directory = tempfile::tempdir_in(current_dir).expect("repo-local temporary directory");
+        let observability_root = directory.path().join("observability");
+        std::fs::create_dir_all(&observability_root).expect("observability root");
+        std::fs::write(observability_root.join("master.log.jsonl"), b"checked")
+            .expect("checked log");
+
+        discard_checked_observability(&observability_root)
+            .expect("retained prior-run log should be discarded");
+        assert!(!observability_root.exists());
+        discard_checked_observability(&observability_root)
+            .expect("already absent observability root is idempotent");
     }
 
     #[test]
