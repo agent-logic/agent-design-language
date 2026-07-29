@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Logic Podcast</title>
+  <link rel="alternate" type="application/rss+xml" title="Agent Logic Podcast" href="feed.xml">
+  <style>
+    :root { color-scheme: light; --blue: #2563eb; --ink: #101113; --muted: #5b6472; --line: #d8deea; --wash: #f6f9ff; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--ink); background: #ffffff; }
+    main { min-height: 100vh; }
+    .hero { padding: 42px 6vw 32px; background: linear-gradient(180deg, #ffffff 0%, var(--wash) 100%); border-bottom: 1px solid var(--line); }
+    .logo { width: min(420px, 80vw); height: auto; display: block; margin-bottom: 34px; }
+    .eyebrow { color: var(--blue); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0; }
+    h1 { font-size: clamp(2.3rem, 5vw, 5.2rem); line-height: 0.94; max-width: 940px; margin: 12px 0 16px; letter-spacing: 0; }
+    .intro { max-width: 760px; color: var(--muted); font-size: 1.18rem; line-height: 1.65; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px; border: 1px solid var(--ink); text-decoration: none; color: var(--ink); font-weight: 700; border-radius: 6px; }
+    .button.primary { background: var(--ink); color: #fff; }
+    .section { padding: 34px 6vw; border-bottom: 1px solid var(--line); }
+    h2 { font-size: 1.55rem; margin: 0 0 18px; letter-spacing: 0; }
+    .guests { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; max-width: 940px; }
+    .guest { min-height: 112px; border: 1px solid var(--line); border-radius: 999px; display: grid; place-items: center; text-align: center; padding: 20px; background: #fff; box-shadow: 0 18px 40px rgba(37,99,235,0.08); }
+    .guest span { color: var(--muted); font-size: 0.92rem; margin-top: 4px; }
+    .episode-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; max-width: 980px; }
+    .episode-list li { border-top: 1px solid var(--line); padding: 16px 0; }
+    .episode-list a { color: var(--ink); font-weight: 800; text-decoration: none; }
+    .episode-list span { display: block; color: var(--muted); margin-top: 4px; line-height: 1.45; }
+    audio { width: min(760px, 100%); margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <img class="logo" src="../v0.91.3/agent-logic-logo.png" alt="Agent Logic">
+      <div class="eyebrow">Weekly AI conversations</div>
+      <h1>Agent Logic Podcast</h1>
+      <p class="intro">A reusable studio for friendly conversations with AI hosts, invited model guests, human guests, and listener questions.</p>
+      <div class="actions">
+        <a class="button primary" href="episodes/meet-the-ai-coworkers/">Play episode 01</a>
+        <a class="button" href="feed.xml">RSS feed</a>
+      </div>
+      <audio controls preload="metadata" src="audio/meet-the-ai-coworkers.wav"></audio>
+    </section>
+    <section class="section">
+      <h2>Voices This Season</h2>
+      <div class="guests"><div class="guest"><strong>ChatGPT</strong><span>Lead host</span></div>
+<div class="guest"><strong>Gemini</strong><span>Field reporter</span></div>
+<div class="guest"><strong>Claude</strong><span>Story voice</span></div>
+<div class="guest"><strong>DeepSeek</strong><span>Week 2 guest</span></div>
+<div class="guest"><strong>Human guest</strong><span>Future interview</span></div>
+<div class="guest"><strong>Listener</strong><span>Question of the week</span></div></div>
+    </section>
+    <section class="section">
+      <h2>First Ten Episodes</h2>
+      <ol class="episode-list">
+        <li><a href="episodes/meet-the-ai-coworkers/">Episode 01: Meet the AI Coworkers</a><span>What is an AI agent, and why does it feel different from a chatbot?</span></li><li><a href="episodes/can-ai-be-a-good-teammate/">Episode 02: Can an AI Be a Good Teammate?</a><span>What makes an AI helpful in a real team instead of just impressive in a demo?</span></li><li><a href="episodes/talking-to-machines/">Episode 03: The Promise and Weirdness of Talking to Machines</a><span>Why do conversations with AI feel personal, useful, awkward, and powerful all at once?</span></li><li><a href="episodes/what-should-ai-do-for-us/">Episode 04: What Should We Let AI Do for Us?</a><span>Where is the line between useful delegation and giving away too much control?</span></li><li><a href="episodes/can-ai-help-us-think-better/">Episode 05: Can AI Help Us Think Better?</a><span>Do agents just answer questions, or can they improve how we reason?</span></li><li><a href="episodes/the-new-creative-room/">Episode 06: The New Creative Room</a><span>What happens when people and AI make things together in real time?</span></li><li><a href="episodes/trust-receipts-proof/">Episode 07: Trust, Receipts, and Proof</a><span>How do we know what an AI actually did?</span></li><li><a href="episodes/local-ai-vs-cloud-ai/">Episode 08: Local AI vs Cloud AI</a><span>Should your AI run on your laptop, in the cloud, or both?</span></li><li><a href="episodes/when-ai-gets-stuck/">Episode 09: When AI Gets Stuck</a><span>What should an AI system do when it is confused, blocked, or wrong?</span></li><li><a href="episodes/weekly-ai-studio/">Episode 10: What Does a Weekly AI Studio Look Like?</a><span>What did we learn from ten weeks of trying to make a real AI-assisted show?</span></li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>
