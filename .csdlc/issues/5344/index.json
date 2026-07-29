@@ -3,13 +3,13 @@
   "issue": 5344,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
-  "phase": "published",
-  "generation": 25,
-  "digest": "de68b2a34f12cc73fec44030aa579452015049a52869e580299095f4f450e641",
+  "phase": "implemented",
+  "generation": 26,
+  "digest": "0a66c1663e31ba0e0b6eacd00678c87817ed218712b909d867f8f1d7b838b2d5",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 25,
+    "generation": 26,
     "acquired_unix_seconds": 1785295953,
     "expires_unix_seconds": 1785900753,
     "heartbeat_unix_seconds": 1785295953,
@@ -50,7 +50,9 @@
       "adl-v2/Cargo.lock",
       "adl-v2/tools/prove-rollback.sh",
       "adl-v2/tools/run-soak.sh",
+      "adl/tools/check_coverage_impact.sh",
       "adl/tools/ci_path_policy.sh",
+      "adl/tools/test_check_coverage_impact.sh",
       "adl/tools/test_ci_path_policy.sh",
       "docs/milestones/v0.91.8/evidence/wp12",
       "infra/horust",
@@ -60,42 +62,9 @@
     ],
     "purpose": "Complete #5344 exact-revision Runtime v3 opt-in soak and rollback proof across macOS, Linux, and native Windows; retain reviewed evidence; publish and merge without weakening TLS, editing Runtime v2, or deleting Runtime v1"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
-    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:b493b89307aece6c1bb348a8741a8f0d5c3e6b90:493f594e6b2505ef40187fd704aea2033f7df248386a955196e26d10cc0ffe2a",
-    "scope": [
-      ".csdlc/issues/5344",
-      ".csdlc/prepared/issues/5344",
-      "adl/tools/ci_path_policy.sh",
-      "adl/tools/test_ci_path_policy.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
-    "scope": [
-      ".csdlc/issues/5344",
-      ".csdlc/prepared/issues/5344",
-      "adl/tools/ci_path_policy.sh",
-      "adl/tools/test_ci_path_policy.sh"
-    ],
-    "reviewed_revision": "git-blake3:b493b89307aece6c1bb348a8741a8f0d5c3e6b90:493f594e6b2505ef40187fd704aea2033f7df248386a955196e26d10cc0ffe2a",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5344,
-    "pull_request": 5703,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5703",
-    "base": "main",
-    "head": "codex/5344-v0918-wp12-soak-rollback",
-    "revision": "git-blake3:b493b89307aece6c1bb348a8741a8f0d5c3e6b90:493f594e6b2505ef40187fd704aea2033f7df248386a955196e26d10cc0ffe2a",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -109,34 +78,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e1194ec798471dc4cf4a79dee0c944e59abdc628189c51777d298a606da6e7f2",
+      "values_digest": "d5192e962ebbcde447fdcd6c6efcf3c4636d1bed9b1ffbbf27f285479b42ae4e",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "b4d6261b68399fd8203feb3816b50e1fce1613d6df18e3e9fbc40efd5a81c03d",
+      "values_digest": "de93cbe58df8cf7c1ee5dd874f057c8eaad608af81f6663d5b174702dda1dbdd",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "1511d20687081d73b7a9ffb40986e5585108914df6eb2c7ba0b985e2e4aff392",
+      "values_digest": "ff93bf5cec031cd5e78437057feb58a794a358ac15596447ad6a788b18f30f7e",
       "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
       "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "2828deb4307f786946709989c5c3e74476c9d012953120fa3add1d5c176d7d78",
+      "values_digest": "d2cd8282fe34ef8e627084c7f1d6ed401e6037b967548ace9cd6ac1ff67b6dee",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "53b6db1d9e93640f168dd2aed9e7cca1a8153eba9153f2934bf4a0cb87e71552",
-      "rendered_digest": "815f7c84cf8d1f46daf1473477b3516b0418cddc7cb6cda150800fcc04a4f72c",
-      "ast_digest": "a64d88679b9218c3d2fd5b63cd1f085b5724c7ac67a9471aff499405b4e7723e"
+      "values_digest": "4c1445d053080f80c8871ee4c7fa5135f07f65591ad1c16191ebd8fbe856ac2c",
+      "rendered_digest": "a76e87ee47a3e077f05926b85af8577d44876a5a959444b95648f1cdbae7fca4",
+      "ast_digest": "84ae6e9dedc12bd9982dfa3ef5f465c6d77cca302b9876efa0fe791ce4e804e2"
     },
     "sor": {
-      "values_digest": "ec3905931cd7b6a504bf1b7c00eba6860a2e1d65dcd3e71d9025de894d097da7",
-      "rendered_digest": "62ee6f417b0320582eb8938efc5a2252dcd68dbc2c8b92b376118a3ffb63e59d",
-      "ast_digest": "14a7c2cfc96fca1c0291b3fdf065ca1f0097da570a500ba0f8465742706981b6"
+      "values_digest": "54af813659ef0f4c09e294743b086d37eb85ee49c9cb32dff232f1932cd0b854",
+      "rendered_digest": "1522f95bf5a70c21d71c7b2f525829a58239df6c3d8e5aeec5fdfc6dbe22323e",
+      "ast_digest": "39696b3199968d078eec470cceaee18d1e96c15509a9a58860f68b19041e8fd7"
     }
   },
   "transitions": [
@@ -237,6 +206,13 @@
       "to": "published",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-head CI exposed a stale guardian inventory assertion and a lease-listener startup race in the authenticated healthy-window test; recover publication truth for bounded repair and one fresh exact review."
     }
   ],
   "audit": [
@@ -568,6 +544,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 48,
+      "generation": 26,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-head CI exposed a stale guardian inventory assertion and a lease-listener startup race in the authenticated healthy-window test; recover publication truth for bounded repair and one fresh exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 26,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Repair the two exact CI regressions exposed by PR #5703: a stale guardian inventory assertion and a startup race in the authenticated healthy-window test.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

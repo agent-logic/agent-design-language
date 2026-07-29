@@ -1536,7 +1536,15 @@ fn main() {
     std::fs::write(&counter, count.to_string()).unwrap();
     let address = std::env::var("ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS").unwrap();
     let token = std::env::var("ADL_RUNTIME_GUARDIAN_LEASE_TOKEN").unwrap();
-    let mut stream = TcpStream::connect(address).unwrap();
+    let mut stream = (0..100)
+        .find_map(|_| match TcpStream::connect(&address) {
+            Ok(stream) => Some(stream),
+            Err(_) => {
+                std::thread::sleep(Duration::from_millis(5));
+                None
+            }
+        })
+        .expect("guardian lease listener");
     stream.write_all(token.as_bytes()).unwrap();
     let mut acknowledgement = [0_u8; 2];
     stream.read_exact(&mut acknowledgement).unwrap();

@@ -103,11 +103,11 @@ Completed the exact-revision WP-12 opt-in soak and rollback proof: accepted Runt
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

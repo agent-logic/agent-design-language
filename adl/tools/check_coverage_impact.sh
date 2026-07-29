@@ -435,7 +435,7 @@ nextest_expression_for_filter() {
       printf 'binary_id(adl::bin/adl) and test(/^cli::runtime_v3_cmd::tests::/)'
       ;;
     runtime_v3_guardian)
-      printf 'test(/^guardian::tests::/) or (binary_id(adl-runtime::bin/adl-runtime-guardian) and test(/^tests::guardian_cli_requires_complete_bounded_configuration$/)) or (binary_id(adl-runtime::guardian_cli) and test(/^guardian_cli_/))'
+      printf 'test(/^guardian::tests::/) or (binary_id(adl-runtime::guardian_cli) and test(/^guardian_cli_/))'
       ;;
     runtime_v3_auth)
       printf 'test(/^runtime_api_auth::tests::/)'
