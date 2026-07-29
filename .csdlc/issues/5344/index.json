@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
   "phase": "implemented",
-  "generation": 26,
-  "digest": "0a66c1663e31ba0e0b6eacd00678c87817ed218712b909d867f8f1d7b838b2d5",
+  "generation": 31,
+  "digest": "b3143feca4f9ccb4e25f9bd1571e9e97b828432180d61540823d120e325796a3",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 26,
+    "generation": 31,
     "acquired_unix_seconds": 1785295953,
     "expires_unix_seconds": 1785900753,
     "heartbeat_unix_seconds": 1785295953,
@@ -62,8 +62,56 @@
     ],
     "purpose": "Complete #5344 exact-revision Runtime v3 opt-in soak and rollback proof across macOS, Linux, and native Windows; retain reviewed evidence; publish and merge without weakening TLS, editing Runtime v2, or deleting Runtime v1"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:497b530553fc905e2d91b7e5397d82ec306dec4c:510594b56e9394c365ee1d3c6442cd6d84e2db83069eb2b1dc5509f987d1e6a3",
+    "scope": [
+      ".csdlc/issues/5344",
+      ".csdlc/issues/5587",
+      ".csdlc/prepared/issues/5344",
+      "adl-runtime/src/guardian.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+    "scope": [
+      ".csdlc/issues/5344",
+      ".csdlc/issues/5587",
+      ".csdlc/prepared/issues/5344",
+      "adl-runtime/src/guardian.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "reviewed_revision": "git-blake3:497b530553fc905e2d91b7e5397d82ec306dec4c:510594b56e9394c365ee1d3c6442cd6d84e2db83069eb2b1dc5509f987d1e6a3",
+    "findings": [
+      {
+        "id": "F-5344-CI-FOLLOWUP-1",
+        "severity": "p1",
+        "summary": "The coverage contract still required a second deleted guardian CLI test, so the full tooling contract exited 1.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5344-CI-FOLLOWUP-2",
+        "severity": "p1",
+        "summary": "The SRP and SOR still described the earlier path-policy repair and omitted the guardian, coverage-contract, and closed #5587 claim-release proof.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -78,34 +126,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d5192e962ebbcde447fdcd6c6efcf3c4636d1bed9b1ffbbf27f285479b42ae4e",
+      "values_digest": "89955d8160eaa44e5841a4e1869bf9e0bb5912d161f128cdd618e0ceca73c67d",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "de93cbe58df8cf7c1ee5dd874f057c8eaad608af81f6663d5b174702dda1dbdd",
+      "values_digest": "9948836592ab46c634cfe26e593888fc56537fd5300abab6bc29052ddbfe795b",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "ff93bf5cec031cd5e78437057feb58a794a358ac15596447ad6a788b18f30f7e",
+      "values_digest": "94dca4d6f7025156c6f699673c9985c6ff4bbef75b2a4921bf9e5aee37a367aa",
       "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
       "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "d2cd8282fe34ef8e627084c7f1d6ed401e6037b967548ace9cd6ac1ff67b6dee",
+      "values_digest": "831ffb04e0ee39e728df6549d5201eb0681cceed248c25c316340022c9cb4c0e",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "4c1445d053080f80c8871ee4c7fa5135f07f65591ad1c16191ebd8fbe856ac2c",
-      "rendered_digest": "a76e87ee47a3e077f05926b85af8577d44876a5a959444b95648f1cdbae7fca4",
-      "ast_digest": "84ae6e9dedc12bd9982dfa3ef5f465c6d77cca302b9876efa0fe791ce4e804e2"
+      "values_digest": "8e399a90fb3707e15e6228385c23be38b8b7c6ea49a71ec9ce1feb471f53525d",
+      "rendered_digest": "8b0b271100fd2f81c8c5d6dace422ff1d187f3523ab23e034e33898a5be9debe",
+      "ast_digest": "2cd17b494be5afc9433afffe79b422823928f868bb698604f6f3ddb809b1d695"
     },
     "sor": {
-      "values_digest": "54af813659ef0f4c09e294743b086d37eb85ee49c9cb32dff232f1932cd0b854",
-      "rendered_digest": "1522f95bf5a70c21d71c7b2f525829a58239df6c3d8e5aeec5fdfc6dbe22323e",
-      "ast_digest": "39696b3199968d078eec470cceaee18d1e96c15509a9a58860f68b19041e8fd7"
+      "values_digest": "5097c60b44dd0360ae5032771c2a28ca210b97a530e4488ff2c7dc95c34dae3b",
+      "rendered_digest": "66bd8d2e636afd8f063c4ace8c2cec6365b405a1dcdeadc37940fd9753798fe9",
+      "ast_digest": "458b4418a87b84f71259875e33109ea0825a0ed1c0f42dec730bb81d98a46c22"
     }
   },
   "transitions": [
@@ -558,6 +606,48 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Repair the two exact CI regressions exposed by PR #5703: a stale guardian inventory assertion and a startup race in the authenticated healthy-window test.",
       "operation": "{\"add_protected_paths\":[\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 50,
+      "generation": 26,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 27,
+      "actor": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 28,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Remove the final deleted guardian CLI test assertion and prove the live mapper inventory contract passes.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"F-5344-CI-FOLLOWUP-1\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 53,
+      "generation": 29,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the complete tooling-contract proof after removing both deleted guardian inventory assertions.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the Runtime v3 coverage mapper selects the live guardian and guardian_cli inventory and the complete tooling contract reaches its explicit PASS marker.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_check_coverage_impact.sh\"}}"
+    },
+    {
+      "sequence": 54,
+      "generation": 30,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the repeated authenticated healthy-window proof after bounding the local lease-listener startup retry.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"guardian::tests::restart_budget_resets_after_healthy_window\",\"--\",\"--exact\",\"(repeated 20 times)\"],\"purpose\":\"Prove the Guardian restart-budget test is deterministic and no longer spends a runtime attempt on a local listener startup race.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/guardian.rs\"}}"
+    },
+    {
+      "sequence": 55,
+      "generation": 31,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Accept the stale SRP prompt projection only as an intermediate recovery state; immediately recover reviewed truth, replace the prompts, and require a final clean exact review before publication.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"F-5344-CI-FOLLOWUP-2\",\"disposition\":\"accepted_risk\"}"
     }
   ]
 }

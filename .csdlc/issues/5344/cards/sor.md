@@ -98,6 +98,31 @@ Completed the exact-revision WP-12 opt-in soak and rollback proof: accepted Runt
     "purpose": "Prove literal UTF-8 tracked paths remain Windows-portable while genuinely illegal Windows path components still fail closed.",
     "outcome": "passed",
     "evidence_ref": "adl/tools/test_ci_path_policy.sh"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "purpose": "Prove the Runtime v3 coverage mapper selects the live guardian and guardian_cli inventory and the complete tooling contract reaches its explicit PASS marker.",
+    "outcome": "passed",
+    "evidence_ref": "adl/tools/test_check_coverage_impact.sh"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "guardian::tests::restart_budget_resets_after_healthy_window",
+      "--",
+      "--exact",
+      "(repeated 20 times)"
+    ],
+    "purpose": "Prove the Guardian restart-budget test is deterministic and no longer spends a runtime attempt on a local listener startup race.",
+    "outcome": "passed",
+    "evidence_ref": "adl-runtime/src/guardian.rs"
   }
 ]
 

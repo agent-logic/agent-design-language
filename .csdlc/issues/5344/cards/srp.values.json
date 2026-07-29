@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-12] Run opt-in soak and prove rollback",
     "slug": "v0918-wp12-opt-in-soak-rollback",
     "version": "v0.91.8",
-    "generation": 26
+    "generation": 31
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/5344\n.csdlc/issues/5587\n.csdlc/prepared/issues/5344\nadl-runtime/src/guardian.rs\nadl/tools/check_coverage_impact.sh\nadl/tools/test_check_coverage_impact.sh",
+      "review_revision": "git-blake3:497b530553fc905e2d91b7e5397d82ec306dec4c:510594b56e9394c365ee1d3c6442cd6d84e2db83069eb2b1dc5509f987d1e6a3",
+      "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
       "review_prompts": [
         "Does the tracked-path scan consume Git's NUL-delimited literal filenames without reintroducing line-oriented parsing?",
         "Do UTF-8 paths, spaces, and embedded newlines preserve complete path components during Windows portability validation?",
@@ -23,9 +23,30 @@
         "Does the focused regression mirror the PR failure by retaining a portable UTF-8 baseline path while proving ordinary and newline-hidden illegal components are rejected?",
         "Are the recovery, focused validation, and exact-head review records scoped truthfully to the two CI path-policy files?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "F-5344-CI-FOLLOWUP-1",
+          "severity": "p1",
+          "summary": "The coverage contract still required a second deleted guardian CLI test, so the full tooling contract exited 1.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "F-5344-CI-FOLLOWUP-2",
+          "severity": "p1",
+          "summary": "The SRP and SOR still described the earlier path-policy repair and omitted the guardian, coverage-contract, and closed #5587 claim-release proof.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "accepted_risk",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "changes_required"
     }
   }
 }

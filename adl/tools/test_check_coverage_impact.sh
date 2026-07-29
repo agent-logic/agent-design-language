@@ -335,8 +335,6 @@ cargo nextest list --manifest-path "$ROOT/adl-runtime/Cargo.toml" \
   -E "$runtime_v3_guardian_expression" >"$runtime_v3_inventory"
 grep -Fx "adl-runtime::guardian_cli guardian_cli_reports_successful_portable_child_as_json" \
   "$runtime_v3_inventory" >/dev/null
-grep -Fx "adl-runtime::guardian_cli guardian_cli_reports_spawn_failure_without_restart" \
-  "$runtime_v3_inventory" >/dev/null
 grep -Fx "adl-runtime::guardian_cli guardian_cli_rejects_incomplete_unknown_and_invalid_numeric_arguments" \
   "$runtime_v3_inventory" >/dev/null
 if grep -Fq "binary_id(adl-runtime)" <<<"$runtime_v3_expression"; then
