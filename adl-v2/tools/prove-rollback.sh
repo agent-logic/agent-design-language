@@ -34,14 +34,6 @@ jq -e '
 ' "$manifest" >/dev/null
 
 target_dir=${ADL_WP12_TARGET_DIR:-${CARGO_TARGET_DIR:-"$root/.adl/target/wp12"}}
-adl_v2_bin=${ADL_WP12_ADL_V2_BIN:-"$target_dir/debug/adl-v2"}
-if [[ ! -x "$adl_v2_bin" ]]; then
-  CARGO_TARGET_DIR="$target_dir" cargo build --locked \
-    --manifest-path adl-v2/Cargo.toml \
-    -p adl-cli --bin adl-v2
-fi
-[[ -x "$adl_v2_bin" ]] || { printf 'ADL v2 binary unavailable\n' >&2; exit 66; }
-
 work_parent="$root/.csdlc/evidence/5344/work"
 mkdir -p "$work_parent"
 run_root=$(mktemp -d "$work_parent/rollback.XXXXXX")
@@ -52,7 +44,10 @@ cleanup() {
 }
 trap cleanup EXIT
 selector_root="$run_root/selector"
-mkdir -p "$selector_root/bin" "$selector_root/receipts"
+CARGO_TARGET_DIR="$target_dir" bash adl-v2/tools/install-adl-v2.sh \
+  --test-root "$selector_root" >"$run_root/fresh-install.stdout"
+adl_v2_bin="$selector_root/bin/adl-v2"
+[[ -x "$adl_v2_bin" ]] || { printf 'fresh ADL v2 install unavailable\n' >&2; exit 66; }
 
 sha256() {
   shasum -a 256 "$1" | awk '{print $1}'
@@ -71,9 +66,24 @@ install_generation() {
   printf '%s' "$digest"
 }
 
-# The v1 fixture is transaction evidence only. #5343 owns real v1 restoration.
-v2_digest=$(install_generation adl-v2 "$adl_v2_bin")
+# The installer owns the v2 binary and receipt. The v1 fixture is transaction
+# evidence only; #5343 owns real v1 restoration.
+v2_receipt="$selector_root/receipts/adl-v2.json"
+v2_digest=$(sha256 "$adl_v2_bin")
+jq -e --arg sha256 "$v2_digest" '
+  .schema == "adl.install.receipt.v1" and
+  .binary == "adl-v2" and
+  .sha256 == $sha256
+' "$v2_receipt" >/dev/null
 v1_digest=$(install_generation adl-v1-fixture "$adl_v2_bin")
+
+receipt_path="$root/.csdlc/evidence/5344/rollback/fresh-install-receipt.json"
+mkdir -p "$(dirname "$receipt_path")"
+receipt_tmp=$(mktemp "$(dirname "$receipt_path")/.fresh-install-receipt.XXXXXX")
+cp "$v2_receipt" "$receipt_tmp"
+chmod 644 "$receipt_tmp"
+mv -f "$receipt_tmp" "$receipt_path"
+fresh_install_receipt_sha256=$(sha256 "$receipt_path")
 
 run_cli() {
   "$adl_v2_bin" "$@" --root "$selector_root"
@@ -196,6 +206,8 @@ jq -n -c \
   --arg restored_sha256 "$restored_digest" \
   --arg v1_fixture_sha256 "$v1_digest" \
   --arg v2_sha256 "$v2_digest" \
+  --arg fresh_install_receipt_ref ".csdlc/evidence/5344/rollback/fresh-install-receipt.json" \
+  --arg fresh_install_receipt_sha256 "$fresh_install_receipt_sha256" \
   '{
     schema:"adl.wp12.rollback_report.v1",
     issue:5344,
@@ -207,6 +219,8 @@ jq -n -c \
     restored_sha256:$restored_sha256,
     v1_fixture_sha256:$v1_fixture_sha256,
     v2_sha256:$v2_sha256,
+    fresh_install_receipt_ref:$fresh_install_receipt_ref,
+    fresh_install_receipt_sha256:$fresh_install_receipt_sha256,
     exact_prior_bytes_restored:true,
     authoritative_cli_only:true,
     cases:[

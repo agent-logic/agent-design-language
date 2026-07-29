@@ -198,10 +198,28 @@ verify_report() {
     (all(.results[]; .status == "pass")) and
     (.rollback.status == "pass") and
     (.rollback.exact_prior_bytes_restored == true) and
+    (.rollback.fresh_install_receipt_ref | type == "string" and length > 0) and
+    (.rollback.fresh_install_receipt_sha256 | test("^[0-9a-f]{64}$")) and
     (.default_generation_changed == false) and
     (.runtime_v2_edited == false) and
     (.deferred_acceptance == false)
   ' "$report" >/dev/null
+  local receipt_ref receipt_sha256
+  receipt_ref=$(jq -r '.rollback.fresh_install_receipt_ref' "$report")
+  receipt_sha256=$(jq -r '.rollback.fresh_install_receipt_sha256' "$report")
+  if [[ "$receipt_ref" == /* || "$receipt_ref" == *".."* || ! -f "$receipt_ref" ]]; then
+    printf 'WP-12 fresh-install receipt is missing or non-portable\n' >&2
+    exit 66
+  fi
+  [[ "$(sha256 "$receipt_ref")" == "$receipt_sha256" ]] || {
+    printf 'WP-12 fresh-install receipt digest mismatch\n' >&2
+    exit 66
+  }
+  jq -e --arg sha256 "$(jq -r '.rollback.v2_sha256' "$report")" '
+    .schema == "adl.install.receipt.v1" and
+    .binary == "adl-v2" and
+    .sha256 == $sha256
+  ' "$receipt_ref" >/dev/null
   if rg -n '(/Users/|/Volumes/|/private/|[A-Za-z]:\\\\Users\\\\)' "$report" >/dev/null; then
     printf 'WP-12 report contains a machine-local path\n' >&2
     exit 66
