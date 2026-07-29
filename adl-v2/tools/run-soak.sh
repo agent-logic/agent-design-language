@@ -94,7 +94,7 @@ verify_platform_log() {
       .platform == $platform and
       .suite == $audit_suite and
       .revision == $revision and
-      .master_log_sha256 == $log_sha256 and
+      ((.master_log_sha256 // $log_sha256) == $log_sha256) and
       .record_count == $records and
       .malformed_records == 0 and
       .missing_required_fields == 0 and

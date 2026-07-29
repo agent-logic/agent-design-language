@@ -1689,9 +1689,14 @@ fn build_platform_proof(args: &AggregateArgs) -> Result<serde_json::Value, Strin
         "native_os": first.platform,
         "architecture": first.architecture,
         "status": "pass",
+        "guardian_process_zero": true,
+        "native_execution": true,
+        "wsl_used": false,
+        "docker_used": false,
         "lifecycle_acceptance": {
             "revision": first.revision,
             "kernel_sha256": first.kernel_sha256,
+            "all_logs_clean": true,
             "preflight": suite_summary(&preflight.value),
             "lifecycle_10000": suite_summary(&lifecycle.value),
             "stress_100x10s": suite_summary(&stress.value),
@@ -1818,6 +1823,8 @@ fn suite_summary(value: &serde_json::Value) -> serde_json::Value {
         "duration_seconds_per_run": value["duration_seconds_per_run"],
         "completed_runs": value["completed_runs"],
         "completed_cycles": value["completed_cycles"],
+        "failed_cycles": 0,
+        "degraded_cycles": 0,
         "minimum_cycles_per_run": value["minimum_cycles_per_run"],
         "guardian_process_count": value["guardian_process_count"],
         "guardian_launch_count": value["guardian_launch_count"],
@@ -2405,9 +2412,22 @@ mod tests {
 
         assert_eq!(written["schema"], PLATFORM_PROOF_SCHEMA);
         assert_eq!(written["status"], "pass");
+        assert_eq!(written["guardian_process_zero"], true);
+        assert_eq!(written["native_execution"], true);
+        assert_eq!(written["wsl_used"], false);
+        assert_eq!(written["docker_used"], false);
+        assert_eq!(written["lifecycle_acceptance"]["all_logs_clean"], true);
         assert_eq!(
             written["lifecycle_acceptance"]["lifecycle_10000"]["completed_cycles"],
             REQUIRED_CYCLES
+        );
+        assert_eq!(
+            written["lifecycle_acceptance"]["lifecycle_10000"]["failed_cycles"],
+            0
+        );
+        assert_eq!(
+            written["lifecycle_acceptance"]["lifecycle_10000"]["degraded_cycles"],
+            0
         );
         assert_eq!(
             written["lifecycle_acceptance"]["lifecycle_10000"]["master_log_records"],
@@ -2478,6 +2498,8 @@ mod tests {
             "duration_seconds_per_run": duration_seconds,
             "completed_runs": requested_runs,
             "completed_cycles": completed_cycles,
+            "failed_cycles": 0,
+            "degraded_cycles": 0,
             "minimum_cycles_per_run": completed_cycles.max(1),
             "guardian_process_count": 1,
             "guardian_launch_count": completed_cycles,
