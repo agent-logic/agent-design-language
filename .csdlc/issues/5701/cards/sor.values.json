@@ -7,7 +7,7 @@
     "title": "[v0.91.8][runtime-v3][api] Define the complete versioned Runtime and Observatory OpenAPI contracts",
     "slug": "runtime-v3-openapi-contracts",
     "version": "v0.91.8",
-    "generation": 20
+    "generation": 21
   },
   "status": "pre_phase",
   "content": {
@@ -112,8 +112,8 @@
           "evidence_ref": "Kernel control 21/21; Observatory WSS 6/6 including anonymous reads and authenticated signed write; OpenAPI contracts 6/6; strict all-target Clippy passed; HTML Observatory integrated proof passed; git diff --check passed; live Guardian served anonymous health, metrics, and Observatory HTTP on port 20997; browser showed live secure stream with 55 runtime events."
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
