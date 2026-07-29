@@ -97,7 +97,14 @@ fn observatory_wss_documents_real_bidirectional_frame_boundary() {
         .expect("serverFrames array")
         .iter()
         .any(|frame| frame["$ref"] == "#/components/schemas/ObservatoryFeed"));
-    assert_eq!(ws["mutationAuthority"], "signed_control_command_only");
+    assert_eq!(
+        ws["signedTextControlAuthority"],
+        "signed_control_command_only"
+    );
+    assert_eq!(
+        ws["binaryAcipAuthority"],
+        "authenticated_session_and_canonical_ingress_policy"
+    );
 
     let reasons: BTreeSet<&str> = ws["policyCloseReasons"]
         .as_array()

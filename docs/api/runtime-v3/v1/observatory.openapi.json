@@ -127,7 +127,8 @@
             "authentication_failed",
             "credential_revoked"
           ],
-          "mutationAuthority": "signed_control_command_only"
+          "signedTextControlAuthority": "signed_control_command_only",
+          "binaryAcipAuthority": "authenticated_session_and_canonical_ingress_policy"
         }
       }
     }
