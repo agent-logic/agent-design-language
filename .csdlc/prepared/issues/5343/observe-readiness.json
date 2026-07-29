@@ -1,0 +1,15 @@
+{
+  "issue": 5343,
+  "expected_generation": 20,
+  "expected_digest": "abe3897c87d37d84977e1c4867497f07b2dec5a7c2d6a7e98bb11cf6e60eecbd",
+  "claim_id": "claim-5343-v0918-wp12-reversible-default-switch-execution",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5704,
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "token_file": null
+}

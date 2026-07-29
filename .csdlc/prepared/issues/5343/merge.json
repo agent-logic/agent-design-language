@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.merge_request.v1",
+  "issue": 5343,
+  "expected_generation": 21,
+  "expected_digest": "5e78184e03067b91c19b09cd31361d97645bee48219bf0f2dcb4eb5d7fe34b41",
+  "claim_id": "claim-5343-v0918-wp12-reversible-default-switch-execution",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5704,
+  "base": "main",
+  "head": "codex/5343-v0918-wp12-reversible-default-switch",
+  "expected_head_sha": "e4bbc988cad682cbb2ff8d24085e1a99bccec1ce",
+  "merge_method": "squash",
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "token_file": null
+}
