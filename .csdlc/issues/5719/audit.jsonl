@@ -5,3 +5,4 @@
 {"sequence":5,"generation":1,"actor":"codex:5719-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":6,"generation":2,"actor":"codex:5719-execution","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":7,"generation":3,"actor":"codex:5719-execution","reason":"Exact bounded review passed with no actionable findings for the podcast CI coverage path-policy fix.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":8,"generation":4,"actor":"codex:5719-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

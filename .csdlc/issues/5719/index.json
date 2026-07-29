@@ -3,13 +3,13 @@
   "issue": 5719,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "3311f6460b0988706cb978ea2fcf7da322d7af3273fc5c96c2813a6f7a4fc271",
-  "phase": "reviewed",
-  "generation": 3,
-  "digest": "74857505551f86a7725ff9186ef05c99ba2be34a241ceb6d5e23a1ecac5fe960",
+  "phase": "published",
+  "generation": 4,
+  "digest": "6be197a401de175642148e96d722b5e743df0a76a3fedc316a0d20f518fe427e",
   "claim": {
     "id": "claim-5719-ci-coverage-page-policy",
     "owner": "codex:5719-execution",
-    "generation": 3,
+    "generation": 4,
     "acquired_unix_seconds": 1785363942,
     "expires_unix_seconds": 1785968742,
     "heartbeat_unix_seconds": 1785363942,
@@ -59,7 +59,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5719,
+    "pull_request": 5721,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5721",
+    "base": "main",
+    "head": "codex/5719-ci-coverage-page-policy",
+    "revision": "git-blake3:fdd526202033fd0d119ac020e341c1e40f8b0c79:2d5ce896bbe2adadfb376fc119859ec9159eb2f8aed49ac5acfaca25d4612acc",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -73,34 +83,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "17ed7544fa7e077fee1ba20731dde0b37357fbe0842a4332fd4e3080e751983d",
+      "values_digest": "cac0dcaa0ee9b77edfb921dae5be3a115e2e81b077f11cd3949b5c666f03f3b0",
       "rendered_digest": "5edc703d78bb5d850b627fa794f4eb45e023a7c3cf86f62a04ec9b1e6fbebef0",
       "ast_digest": "9798d8fc4365de347cba719ad458e1c5d6f62b23ba9451554a151dc6a99fd129"
     },
     "stp": {
-      "values_digest": "2621f8b3b5a9b58627499985b808b4e6add5a28fce4dcc58a35d0962b4554e0e",
+      "values_digest": "eecd6ab781cd3c18078b3f1d11ce54e620af35d881ec201d324198ffaccf01eb",
       "rendered_digest": "3a46127e74167c14f3cf932b65fd169a5f087f132c4f5c0473968f0c7003044c",
       "ast_digest": "36f64615fce3a1933d837007862c8eee9304620c5b01fbe632a35271b7624868"
     },
     "spp": {
-      "values_digest": "0722bbcfb48353d41961a08e44ecb6bebd518d4985b8ba9765be71e174dd926a",
+      "values_digest": "5e1e5a4471c54a5285ff11d4c94de350c311d412add41bc2c762aa5ed360dac6",
       "rendered_digest": "4c33e2a1cd788a668dcedeec7d45294528a99aa439cd07ac4118a1181f91cccd",
       "ast_digest": "df7462547dbef6bf41ecf7bbfe77d4f213d05d353d4ea38b290c28e07616325f"
     },
     "vpp": {
-      "values_digest": "5b065187044f6ffe02ed4188ce470d2601843ba7dc330e414a891d5593fbaeb7",
+      "values_digest": "0907db0945a24b9ca6504d1c6ae1502928060653c7572722d325f4f762052959",
       "rendered_digest": "53b870f75afb2af19703292ae1300e6d7251054fe899d5fac6685e941c194b58",
       "ast_digest": "7dde77af196d5a1964814b78770b680f9988b6f569a44e25219157e58306f985"
     },
     "srp": {
-      "values_digest": "d3a27b679a8b64d849bc1845a26012f0c1c105b8323523027792cdb8ba3a2664",
+      "values_digest": "0f4f1b0c0d4a42bc788212ae02b7acbcdb11cc05b353e81b502d593d0ebbff49",
       "rendered_digest": "5f5fba1cc84a8d39c69abcfc670f8f526070a8cad8012dbdf063a2e9e476d997",
       "ast_digest": "934f41a98fd3d24fc252acd7fa5d5fb1855a993707d3c462451e39e3706e2756"
     },
     "sor": {
-      "values_digest": "ca857ffa733505e36cbfa4dfe331d27275b0b6cb88a7f2b497e9657e421f5e4f",
-      "rendered_digest": "9adc0741edb43a4f3bbacf0e588aa47dd18141a9dc55769098d08c8943cc5924",
-      "ast_digest": "a7fc4bbefd160b498756c660b017ec6280a1af3cb39d7fa86ae630e4ae4f6463"
+      "values_digest": "ab202e8924787b55f69e3b8cca164bcc20981de24e4608b6758ac3622a26c895",
+      "rendered_digest": "2801be906fc260ce5adc6006122d9b4c2f6b2979d58d3b3be4c3ccb0569b96cf",
+      "ast_digest": "1fadc9c2e1f3978efdd0817e40dc16986174ae9c4729c711c9039287101b8835"
     }
   },
   "transitions": [
@@ -131,6 +141,13 @@
       "to": "reviewed",
       "actor": "codex:5719-execution",
       "reason": "Exact bounded review passed with no actionable findings for the podcast CI coverage path-policy fix."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5719-execution",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -182,6 +199,13 @@
       "actor": "codex:5719-execution",
       "reason": "Exact bounded review passed with no actionable findings for the podcast CI coverage path-policy fix.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:5719-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

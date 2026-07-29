@@ -44,11 +44,11 @@ Mapped podcast launch/studio demo surfaces into a focused podcast_launch_packet 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
