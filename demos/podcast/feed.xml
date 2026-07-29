@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Agent Logic Podcast</title>
+    <link>https://agent-logic.ai/podcast</link>
+    <description>Weekly conversations about working with AI systems in ordinary language.</description>
+    <language>en-us</language>
+    <item>
+      <title>Episode 01: Meet the AI Coworkers</title>
+      <link>https://agent-logic.ai/podcast/episodes/meet-the-ai-coworkers/</link>
+      <guid isPermaLink="true">https://agent-logic.ai/podcast/episodes/meet-the-ai-coworkers/</guid>
+      <pubDate>Mon, 27 Jul 2026 00:00:00 +0000</pubDate>
+      <description>A friendly first episode about what AI agents are, why they feel different from chatbots, and how people can work with them without turning everything into jargon.</description>
+      <enclosure url="https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.wav" length="417644" type="audio/wav" />
+    </item>
+  </channel>
+</rss>
