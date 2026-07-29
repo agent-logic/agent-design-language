@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use adl_runtime_kernel::{KernelDurableState, KERNEL_DURABLE_STATE_DB_FILE};
 use tempfile::TempDir;
 
@@ -60,4 +62,43 @@ fn legacy_flat_persistence_fails_closed_before_database_open() {
     let root = TempDir::new().unwrap();
     std::fs::write(root.path().join("checkpoint.json"), b"legacy-state").unwrap();
     assert!(KernelDurableState::open(root.path()).is_err());
+}
+
+#[test]
+fn concurrent_writes_advance_sequences_and_head_atomically() {
+    let root = TempDir::new().unwrap();
+    let state = Arc::new(KernelDurableState::open(root.path()).unwrap());
+    let mut handles = Vec::new();
+    for index in 0..16 {
+        let state = state.clone();
+        handles.push(std::thread::spawn(move || {
+            let payload = format!("state-{index}");
+            state
+                .store_local_checkpoint(
+                    "checkpoint_store",
+                    "checkpoint",
+                    &format!("store-{index}"),
+                    "alice",
+                    "writer-1",
+                    payload.as_bytes(),
+                )
+                .unwrap();
+            state
+                .append_local_lifelog(
+                    "lifelog",
+                    "lifelog",
+                    &format!("log-{index}"),
+                    "alice",
+                    payload.as_bytes(),
+                    false,
+                )
+                .unwrap();
+        }));
+    }
+    for handle in handles {
+        handle.join().unwrap();
+    }
+    let restored = state.restore_local_checkpoint("alice").unwrap();
+    assert_eq!(restored["generation"], 16);
+    assert_eq!(state.local_lifelog_len().unwrap(), 16);
 }

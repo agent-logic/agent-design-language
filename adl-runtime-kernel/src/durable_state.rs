@@ -70,7 +70,11 @@ impl KernelDurableState {
         writer_id: &str,
         state: &[u8],
     ) -> KernelDurableStateResult<Value> {
-        let generation = self.next_sequence("next_local_checkpoint_generation")?;
+        let mut write = self.database.begin_write().map_err(database_error)?;
+        write
+            .set_durability(Durability::Immediate)
+            .map_err(database_error)?;
+        let generation = next_sequence_in_transaction(&write, "next_local_checkpoint_generation")?;
         let state_hex = hex::encode(state);
         let value = serde_json::json!({
             "schema": LOCAL_CHECKPOINT_SCHEMA,
@@ -85,10 +89,6 @@ impl KernelDurableState {
         });
         validate_local_checkpoint_value(&value, principal, state)?;
         let encoded = serde_json::to_vec(&value)?;
-        let mut write = self.database.begin_write().map_err(database_error)?;
-        write
-            .set_durability(Durability::Immediate)
-            .map_err(database_error)?;
         {
             let mut records = write
                 .open_table(LOCAL_CHECKPOINTS)
@@ -152,7 +152,11 @@ impl KernelDurableState {
         payload: &[u8],
         redacted: bool,
     ) -> KernelDurableStateResult<Value> {
-        let sequence = self.next_sequence("next_local_lifelog_sequence")?;
+        let mut write = self.database.begin_write().map_err(database_error)?;
+        write
+            .set_durability(Durability::Immediate)
+            .map_err(database_error)?;
+        let sequence = next_sequence_in_transaction(&write, "next_local_lifelog_sequence")?;
         let value = serde_json::json!({
             "schema": LOCAL_LIFELOG_SCHEMA,
             "adapter": adapter,
@@ -165,10 +169,6 @@ impl KernelDurableState {
             "authoritative": false
         });
         let encoded = serde_json::to_vec(&value)?;
-        let mut write = self.database.begin_write().map_err(database_error)?;
-        write
-            .set_durability(Durability::Immediate)
-            .map_err(database_error)?;
         write
             .open_table(LOCAL_LIFELOG)
             .map_err(database_error)?
@@ -206,12 +206,12 @@ impl KernelDurableState {
         if entry["schema"] != GOVERNED_LIFELOG_SCHEMA {
             return Err(KernelDurableStateError::CheckpointCorrupt);
         }
-        let sequence = self.next_sequence("next_governed_lifelog_sequence")?;
-        let encoded = serde_json::to_vec(entry)?;
         let mut write = self.database.begin_write().map_err(database_error)?;
         write
             .set_durability(Durability::Immediate)
             .map_err(database_error)?;
+        let sequence = next_sequence_in_transaction(&write, "next_governed_lifelog_sequence")?;
+        let encoded = serde_json::to_vec(entry)?;
         write
             .open_table(GOVERNED_LIFELOG)
             .map_err(database_error)?
@@ -255,25 +255,20 @@ impl KernelDurableState {
         write.commit().map_err(database_error)?;
         Ok(())
     }
+}
 
-    fn next_sequence(&self, key: &str) -> KernelDurableStateResult<u64> {
-        let mut write = self.database.begin_write().map_err(database_error)?;
-        write
-            .set_durability(Durability::Immediate)
-            .map_err(database_error)?;
-        let next = {
-            let mut meta = write.open_table(META).map_err(database_error)?;
-            let next = meta
-                .get(key)
-                .map_err(database_error)?
-                .map_or(1, |value| value.value());
-            meta.insert(key, next.saturating_add(1))
-                .map_err(database_error)?;
-            next
-        };
-        write.commit().map_err(database_error)?;
-        Ok(next)
-    }
+fn next_sequence_in_transaction(
+    write: &redb::WriteTransaction,
+    key: &str,
+) -> KernelDurableStateResult<u64> {
+    let mut meta = write.open_table(META).map_err(database_error)?;
+    let next = meta
+        .get(key)
+        .map_err(database_error)?
+        .map_or(1, |value| value.value());
+    meta.insert(key, next.saturating_add(1))
+        .map_err(database_error)?;
+    Ok(next)
 }
 
 fn reject_legacy_flat_persistence(root: &Path) -> KernelDurableStateResult<()> {
