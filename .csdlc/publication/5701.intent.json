@@ -1,12 +1,16 @@
 {
-  "schema": "csdlc.publication_intent.v1",
+  "schema": "csdlc.publication_request.v1",
   "issue": 5701,
+  "expected_generation": 11,
+  "expected_digest": "e8578bd5dfd675703efd06bd9592519070407f9fec0640e5faeed50db4547cb8",
+  "claim_id": "claim-5701-runtime-v3-openapi-contracts",
+  "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
   "repository": "danielbaustin/agent-design-language",
   "base": "main",
   "head": "codex/5701-runtime-v3-openapi-contracts",
   "title": "[v0.91.8][runtime-v3][api] Define Runtime v3 OpenAPI contracts (#5701)",
   "body": "Closes #5701\n\n## Summary\n\nDefines the complete versioned Runtime v3 Core and Observatory OpenAPI 3.1 contracts and serves them from the real guardian-launched Axum/Tokio/Rustls listener. The runtime now exposes embedded raw contracts and Swagger UI, authenticated health and metrics, signed control, Observatory HTTP/WSS, and full-duplex ACIP WSS with bounded Protobuf frames and canonical ingress dispatch. The guardian kernel is the sole production API documentation authority.\n\n## Validation\n\n- Kernel control routes: 21/21 passed.\n- Guardian soak: 7/7 passed, including real ACIP dispatch persistence.\n- OpenAPI contract suite: 6/6 passed.\n- Real Observatory WSS: 6/6 passed, including failed-dispatch sequence rollback.\n- adl-runtime library: 134/134 passed.\n- Runtime API WSS: 2/2 passed.\n- Strict all-target Clippy passed for both Runtime crates; git diff --check passed.\n- Live HTTPS proof on port 20997 returned both Swagger UIs and both OpenAPI specs; authenticated health reported observability_ready=true; authenticated metrics reported health=ready; the Vector master log contained zero ERROR/FATAL events.\n- Gemini 3.1 Pro API review passed after its recommendations were fixed.\n- Final exact-head GPT-5.5 review passed with zero findings at 5459e860452afb19616af1df013d537f2915e18e.\n\n## Notes\n\nThe HTML Observatory remains a separate client. Documentation assets are embedded in the Rust runtime binary and require no Python process, sidecar server, or runtime CDN. Observatory snapshot HTTP authentication, first-frame WSS authentication, signed text control, and authenticated ACIP binary ingress are documented as distinct security boundaries.",
   "draft": false,
-  "revision": "git-blake3:5459e860452afb19616af1df013d537f2915e18e:0ce676bb7be7d1a703e633e479808f55a21022c73912393f3cb0e815f257e1de",
-  "commit_sha": "5459e860452afb19616af1df013d537f2915e18e"
+  "remote": "origin",
+  "token_file": "/Users/daniel/keys/github.token"
 }
