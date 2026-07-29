@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5698,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5698-runtime-v3-redb-state",
+  "title": "[v0.91.8][runtime-v3][state] Unify durable kernel state on redb",
+  "body": "Closes #5698\n\nUnifies Runtime v3 local adapter and governed-operation durable state on one redb-backed kernel store. The implementation replaces checkpoint.json/lifelog.jsonl persistence with `runtime-kernel.redb`, enforces an explicit absolute configured state root, fails closed when legacy flat persistence is present, preserves identity/integrity validation for restored checkpoint bytes, and retains the existing writer-lock and governed-operation behavior without fixture or receipt-only storage.\n\nValidation passed through typed C-SDLC PVF: durable_state 4/4 including the concurrent sequence/head regression, assembly 9/9, governed_operations 28/28, strict all-target Clippy, and git diff hygiene.\n\nGemini 3.1 Pro performed the bounded exact-head review. Its initial concurrency finding was fixed by allocating redb sequence numbers in the same write transaction as row/head persistence; the remediation verification returned PASS / no findings.",
+  "draft": false,
+  "revision": "git-blake3:7ec0523b8fba92a768b16211739e075342b73244:736c545b845e989c82155752fb19ac2c1fba9ada6ee3a41e47ec1e1f34a24496",
+  "commit_sha": "7ec0523b8fba92a768b16211739e075342b73244"
+}
