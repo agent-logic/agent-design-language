@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-12] Run opt-in soak and prove rollback",
     "slug": "v0918-wp12-opt-in-soak-rollback",
     "version": "v0.91.8",
-    "generation": 39
+    "generation": 41
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/5344\n.csdlc/prepared/issues/5344\nadl/tools/check_coverage_impact.sh\nadl/tools/test_check_coverage_impact.sh",
+      "review_revision": "git-blake3:d0229bf68b99ae44115160c11a5d058c7da7f67b:b16d1172159088e5b124c583ae5cd30a9cfff729e9a833df21909609eda797b5",
+      "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
       "review_prompts": [
         "Does the Runtime v3 coverage mapping select every existing guardian unit and guardian_cli integration test without naming deleted tests?",
         "Does the tooling-contract regression execute the mapper expression against the live nextest inventory and end with an explicit PASS marker?",
@@ -25,8 +25,11 @@
         "Do the SRP, SOR, audit, and exact review truthfully cover only this bounded CI follow-up?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The lifecycle-soak binary remains exercised by full CI and its native cross-platform process qualification suites, but is intentionally excluded from the in-process changed-source line threshold because llvm-cov cannot observe its child-process orchestration.",
+        "All ordinary production Rust and unmapped source remain subject to the unchanged fail-closed 80 percent changed-source coverage policy."
+      ],
+      "review_result": "pass"
     }
   }
 }

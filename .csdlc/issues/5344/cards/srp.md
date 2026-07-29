@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/5344
+.csdlc/prepared/issues/5344
+adl/tools/check_coverage_impact.sh
+adl/tools/test_check_coverage_impact.sh
 
 ## Prompts
 
@@ -33,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The lifecycle-soak binary remains exercised by full CI and its native cross-platform process qualification suites, but is intentionally excluded from the in-process changed-source line threshold because llvm-cov cannot observe its child-process orchestration.
+- All ordinary production Rust and unmapped source remain subject to the unchanged fail-closed 80 percent changed-source coverage policy.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:d0229bf68b99ae44115160c11a5d058c7da7f67b:b16d1172159088e5b124c583ae5cd30a9cfff729e9a833df21909609eda797b5")
 
-Reviewer: None
+Reviewer: Some("subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d")
 
-Result: pre_review
+Result: pass

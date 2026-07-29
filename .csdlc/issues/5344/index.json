@@ -3,13 +3,13 @@
   "issue": 5344,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
-  "phase": "implemented",
-  "generation": 39,
-  "digest": "69ffc5c08c6d03b7afdbd0c263b92d58d5a390447747df8e7593930da4ae4392",
+  "phase": "reviewed",
+  "generation": 41,
+  "digest": "b5d6606cd84b073a4b0d1239741b87d08165283af0b2880992b6964c6fb3b02c",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 39,
+    "generation": 41,
     "acquired_unix_seconds": 1785295953,
     "expires_unix_seconds": 1785900753,
     "heartbeat_unix_seconds": 1785295953,
@@ -62,8 +62,34 @@
     ],
     "purpose": "Complete #5344 exact-revision Runtime v3 opt-in soak and rollback proof across macOS, Linux, and native Windows; retain reviewed evidence; publish and merge without weakening TLS, editing Runtime v2, or deleting Runtime v1"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:d0229bf68b99ae44115160c11a5d058c7da7f67b:b16d1172159088e5b124c583ae5cd30a9cfff729e9a833df21909609eda797b5",
+    "scope": [
+      ".csdlc/issues/5344",
+      ".csdlc/prepared/issues/5344",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+    "scope": [
+      ".csdlc/issues/5344",
+      ".csdlc/prepared/issues/5344",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "reviewed_revision": "git-blake3:d0229bf68b99ae44115160c11a5d058c7da7f67b:b16d1172159088e5b124c583ae5cd30a9cfff729e9a833df21909609eda797b5",
+    "findings": [],
+    "residual_risks": [
+      "The lifecycle-soak binary remains exercised by full CI and its native cross-platform process qualification suites, but is intentionally excluded from the in-process changed-source line threshold because llvm-cov cannot observe its child-process orchestration.",
+      "All ordinary production Rust and unmapped source remain subject to the unchanged fail-closed 80 percent changed-source coverage policy."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -78,32 +104,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "20620301e42fd6e1480ff5708e721fd97712ea7013ca22d04c9ed7e3f17a73fa",
+      "values_digest": "0aa69005787cab1dbd2ef5bbb3c47d82f676ce64870824105985ffa26176fe2b",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "c772938c5232cb0d9ea3c54f0702810742f80f1a1a28d7b2dd23d9d8205c230b",
+      "values_digest": "d1928d60bbd035286003fc98dc80a6d5ed3f7a247d2c2a573280abf7ff53f1f7",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "78a0e720d47fe2b6986b2a7e5cbaaaa278c9e0de2d087a742e2db9f6565a464e",
+      "values_digest": "07b5985ad9e61bf20be5b526eb495e8f5942c874d5aa090b5132bd7fdfc61da5",
       "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
       "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "98d91c17b87ff084f689040f8c0426f9053bdafbdfd8efb684e39de12ca07990",
+      "values_digest": "a87cb4deb3f0ad6b725bcbbd0922f60eb6574ad5c718cf501e3bfad11666070b",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "3a8cc16cbe3fb631afbec09f3e0e52b680a94a25f348b393b457bc2facd9fcd0",
-      "rendered_digest": "8b558646f642cf5ea5318010c426e0aa436d0e52299153016fe2fa31ca757885",
-      "ast_digest": "da7d7c0811d1c3c24a6cc3c44d1f762833102df5a5a1b8ee1ee3b6084536bfe8"
+      "values_digest": "f7a0b059471e75218ab4b2e0e6cf447c6c66a602d6fb259787a1e2a5dc27bd5e",
+      "rendered_digest": "1145a36dfa7a4f4d9a8a5059fb63d39188619473b3b3d9b63757c5b779fa79f9",
+      "ast_digest": "23fb2275d15b4593b5b16d7add4c2a185a15f52cfbb5215e2f27bc276d43bed6"
     },
     "sor": {
-      "values_digest": "88a4fe39692d6c2774a1d03e407fe53022fed4509352be1dd102462231bc274f",
+      "values_digest": "0fc5632fc12aaddf6810fd2c13fbe6f66966b004a28b789a7df17a5018a3a0c2",
       "rendered_digest": "66bd8d2e636afd8f063c4ace8c2cec6365b405a1dcdeadc37940fd9753798fe9",
       "ast_digest": "458b4418a87b84f71259875e33109ea0825a0ed1c0f42dec730bb81d98a46c22"
     }
@@ -248,6 +274,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact-head CI proved the external lifecycle qualification harness was incorrectly subjected to the in-process production-source line threshold after all authoritative producers passed; recover publication truth for one narrow classification contract fix."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the exact qualification-harness coverage classification review passed with no findings."
     }
   ],
   "audit": [
@@ -705,6 +738,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact-head CI proved the external lifecycle qualification harness was incorrectly subjected to the in-process production-source line threshold after all authoritative producers passed; recover publication truth for one narrow classification contract fix.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 66,
+      "generation": 39,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 67,
+      "generation": 40,
+      "actor": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 68,
+      "generation": 41,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the exact qualification-harness coverage classification review passed with no findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
