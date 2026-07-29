@@ -3,13 +3,13 @@
   "issue": 5701,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
-  "phase": "reviewed",
-  "generation": 24,
-  "digest": "4a501819ecd5b0749bfcfc2567ff67673f80839e15a0e3342a69e8bea2b15d3e",
+  "phase": "published",
+  "generation": 25,
+  "digest": "bc29699d832d325f85c15f12d870e6fe4e2cbd7eb6e9c381ef8bfd365defcbc7",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 24,
+    "generation": 25,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -56,7 +56,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5701,
+    "pull_request": 5705,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5705",
+    "base": "main",
+    "head": "codex/5701-runtime-v3-openapi-contracts",
+    "revision": "git-blake3:9aa8ef3413dffd30611fb5d361ade25afb7ce522:8548771f583603d106a9f2c1cdb99f3bffab2db62308a91a0a6e40f85b15367c",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -70,34 +80,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d3774a933e9ba4d0273e1351dc1049ba2041c68bf0c38ec6af55f53ddb482545",
+      "values_digest": "1f07a92c221b5692435013707c1555e2170cb3e4b966b7835ae2000a2a200f3c",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "9ce54314f9817fea39cc7581116cd9c51a89500cc022980d6b730bd36bba7318",
+      "values_digest": "a5dda15c3c546ab2f8d71b368a081a59b1dcfda8b726246fe20a1718799ba162",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "b1ec5be0e1ccbe871f9ef9c1959bb7b8d2e3b4eb43f723d452c7ffd1d2d48044",
+      "values_digest": "4a483d5e225e04720bc9f35937488b7b76b746ee52df5bec0860eb26347ac7c8",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "755f82d965fd2c9be5679ab6da1c1770cd4788a5e7ecf7728bd5196deb5a7476",
+      "values_digest": "f6548e7ced1a1409edf82c19381e25e3cce21bf1e022527f87f6bb1e07b21e70",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "ca69f6e63e25f068910231503e97c98a45488528e636037ad967aa722b8fd40f",
+      "values_digest": "822e657a2f0681bda4c68fed8bfcac484c8f7daf5bfa5689a21d4eed652fdfa3",
       "rendered_digest": "929561d5af5adbc82ec1a5699341623fa64812eea0b1354d2de65580b0132f82",
       "ast_digest": "ea1192f60fbbc65f8209ce66fb4a34ae1b36d9ee4b315b92d800c17d9d7871dc"
     },
     "sor": {
-      "values_digest": "c8e01bd0ec5ca78958ff2935fd4ee44a1c60f2c90cdc24f2faed86370bdb007d",
-      "rendered_digest": "d398a0c7499c2e6bca1095b8ee74539f91b75f3826760596140b9b63e6eb3855",
-      "ast_digest": "e1903a3666c3e8e8e55873505ce5fff78b8f1940d2f789b2364496c56b1daa95"
+      "values_digest": "aad68ea36152790613b8d7526896af5e388ce479c254ce57187cc91c1af0812c",
+      "rendered_digest": "6952d693b89f698a9af43e14a00be7c143f51d4ae0e3c65fa103aa25fb5f743f",
+      "ast_digest": "d5b22965e45b9f8daa4de6de4a62ba05da2b3700e0763e9b82cd2820b187f974"
     }
   },
   "transitions": [
@@ -212,6 +222,13 @@
       "to": "reviewed",
       "actor": "subagent:019fafbd-db23-7681-a979-4cc0bc68585d",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -473,6 +490,13 @@
       "actor": "subagent:019fafbd-db23-7681-a979-4cc0bc68585d",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 25,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
