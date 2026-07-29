@@ -110,6 +110,14 @@ Replace Runtime v3 kernel flat-file checkpoint and lifelog persistence with one 
     "purpose": "Run governed operations regression tests after redb durable-state migration.",
     "outcome": "passed",
     "evidence_ref": "runtime-v3-redb-governed-operations.log"
+  },
+  {
+    "command": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-wp-5698 --request /Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/5698.json"
+    ],
+    "purpose": "Prove the real redb durable kernel-state migration after review remediation: durable_state 4/4 including concurrent sequence/head regression, assembly 9/9, governed_operations 28/28, strict all-target Clippy, and diff hygiene.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5698"
   }
 ]
 

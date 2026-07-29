@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "5c936af2d4303e52957cc506114cf14136f4282930d3072942d70ed5a4e1bfbb",
   "phase": "implemented",
-  "generation": 1,
-  "digest": "94c999399d3d5e663eb8f8fee66f9005bd48ec76a503c63647926a4c1bacbe9e",
+  "generation": 2,
+  "digest": "5a97f5ceab548535100e425bb60b00fbfe2f6acab07e92182080a3f0f462eb7a",
   "claim": {
     "id": "claim-5698-runtime-v3-redb-state",
     "owner": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
-    "generation": 1,
+    "generation": 2,
     "acquired_unix_seconds": 1785260636,
     "expires_unix_seconds": 1785865436,
     "heartbeat_unix_seconds": 1785260636,
@@ -48,34 +48,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c2a327a460a08283fa5f5acb140d8100001da61da2db9d28e47196528b99b57a",
+      "values_digest": "23825df030ee26fb46304a6f7564410531bb6fb49b7cc7a4681494c5add4b59d",
       "rendered_digest": "3abd1383590e2f46d38ca4fdab887c2c1d181aeefe285c2718eb75028fe0464f",
       "ast_digest": "afb0beb20cbc2fd79239c9e557998ab98fb2bef78a50c99090340f12849a540d"
     },
     "stp": {
-      "values_digest": "37f79d25281bb04b4057b2a1d29aca8cd4b0dc1b22530fd9aab3b03a8baa8439",
+      "values_digest": "0071287aec3fb67f2b0342f0037692a3e3c4deae25fe541454a1d26ec42d33dd",
       "rendered_digest": "307578437b6a0e3b70dc6589d6bd2515719a2e6ede19e1cac71e3ae6ac5e035a",
       "ast_digest": "ae04f7a2c522def21242a4e46c1c501aadc8085771f63052f9a8f7cb6285ccf9"
     },
     "spp": {
-      "values_digest": "1b04eeb3f6926fc302f2e83bc9ea89cc2f2dbee93ee3a0b540699150e98dae91",
+      "values_digest": "6f04e6136c5d562fd8a8e3259a51a027008cb7fdcdce07471ab1325f699cace7",
       "rendered_digest": "ca930a6a3f6b3001cac6da2b3c19ce1ab0918787d74208423db208ccf4c2e013",
       "ast_digest": "9137dd8bf7d06496a0772caa06f873aacab9e86ff4c483ca2418cadc34aed336"
     },
     "vpp": {
-      "values_digest": "ead22f26e2e10f2519774fd0032cb948c31e0440660d0826c6d114ea646f1618",
+      "values_digest": "40eeb670b5bd3702150091c1b3034c409daaf03b548df607c5ba57e11e14050d",
       "rendered_digest": "6b21d14956c1ea06625b93b8c19a995ef6a0d7ccbb8c1ec66568d5797ca31c54",
       "ast_digest": "62c8e99d8bb7a45660cb3246461fbeffa54e762fb08be6e1c3538ce21fe601a8"
     },
     "srp": {
-      "values_digest": "d2aba9a4064a7b21c66087e29894bd0058c779f3c4be56dd474762b1e1109af8",
+      "values_digest": "4cec02f889ce57474d17db23b1b7127cd24fed803ef1bb008e3a8de58f999376",
       "rendered_digest": "7565b180fb5a14782ddf61b9a27cad7726aad55c46f82d8600b69d13cb6ebd57",
       "ast_digest": "d174ae9efb01db0800dbf46144321478afb71ec1bae6fa20e77850f69bb0971f"
     },
     "sor": {
-      "values_digest": "f6a88c293faa514bea370751c0804b90076082c60c321f035a76fdedbe8edcc1",
-      "rendered_digest": "082b5e7d8ece07109a04b62c82f54a4a848415998d15347f4150bf26ab5b368b",
-      "ast_digest": "857a0174a060fc15af60c8ce4d735e6f9debe8c80dfe4c019076c244ca024a5b"
+      "values_digest": "3a3094da45583c4c3c8e0146c7450a0c8585adc5bb1e871bdbe8f5d316a16f6f",
+      "rendered_digest": "cb1b6bb812db48ef2248b13f1f80077d0348290d11a278fd4d2809e0f6a67434",
+      "ast_digest": "9935d684d5b65adee283ade03b0cbef0dba4b16703199b15bcb64da4823aa9b4"
     }
   },
   "transitions": [
@@ -129,6 +129,13 @@
       "actor": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
+      "reason": "Record focused proof after the Gemini exact-head review finding was fixed by making redb sequence allocation atomic with row/head writes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-wp-5698 --request /Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/5698.json\"],\"purpose\":\"Prove the real redb durable kernel-state migration after review remediation: durable_state 4/4 including concurrent sequence/head regression, assembly 9/9, governed_operations 28/28, strict all-target Clippy, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5698\"}}"
     }
   ]
 }
