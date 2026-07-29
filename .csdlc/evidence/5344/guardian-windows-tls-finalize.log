@@ -111,7 +111,7 @@ wp12 guardian/windows/tls finalize proof passed at 2f3cd919b98f65bf7ca8dbcf60e61
    Compiling prost v0.13.5
    Compiling serde_jcs v0.2.0
    Compiling tokio-util v0.7.18
-   Compiling adl-runtime v0.91.7 (/Volumes/FastWork/adl-wp-5344/adl-runtime)
+   Compiling adl-runtime v0.91.7 (adl-runtime)
     Finished `test` profile [unoptimized + debuginfo] target(s) in 8.35s
      Running unittests src/lib.rs (finalize-target/debug/deps/adl_runtime-90c6efcaacdf6425)
      Running unittests src/bin/adl-runtime-guardian.rs (finalize-target/debug/deps/adl_runtime_guardian-b026ed7368065caa)
@@ -261,7 +261,7 @@ wp12 guardian/windows/tls finalize proof passed at 2f3cd919b98f65bf7ca8dbcf60e61
    Compiling axum-server v0.8.0
    Compiling tokio-tungstenite v0.29.0
    Compiling axum v0.8.9
-   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-wp-5344/adl-runtime-kernel)
+   Compiling adl-runtime-kernel v0.92.0 (adl-runtime-kernel)
     Finished `test` profile [unoptimized + debuginfo] target(s) in 19.79s
      Running tests/guardian_soak.rs (finalize-target/debug/deps/guardian_soak-e713081aad081685)
     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s
