@@ -77,9 +77,18 @@ verify_platform_log() {
     '.lifecycle_acceptance[$suite].log_audit_sha256' "$proof")
 
   verify_retained_file "$log_ref" "$log_sha256"
-  [[ "$(wc -l <"$log_ref" | tr -d ' ')" == "$log_records" ]]
   jq -s -e --argjson records "$log_records" \
-    'length == $records and all(.[]; type == "object")' "$log_ref" >/dev/null
+    '
+      all(.[]; type == "object" and (.sequence | type == "number")) and
+      (
+        sort_by(.sequence)
+        | group_by(.sequence)
+        | length == $records and
+          all(.[];
+            (map(tojson) | unique | length) == 1
+          )
+      )
+    ' "$log_ref" >/dev/null
 
   verify_retained_file "$audit_ref" "$audit_sha256"
   jq -e \
