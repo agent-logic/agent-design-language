@@ -201,8 +201,8 @@ name: nightly-coverage-ratchet
 on:
   workflow_dispatch:
 EOF
-  mkdir -p 'docs/日本語'
-  printf 'portable UTF-8 path\n' > 'docs/日本語/readme.md'
+  mkdir -p 'docs/日本語 folder'
+  printf 'portable UTF-8 path\n' > 'docs/日本語 folder/readme file.md'
   git add .
   git commit -q -m baseline
   base_sha="$(git rev-parse HEAD)"
@@ -215,6 +215,17 @@ EOF
     exit 1
   fi
   assert_file_has "$tmp_dir/windows-illegal.err" 'docs/windows:illegal.md'
+  git reset -q --hard "$base_sha"
+
+  newline_illegal_path=$'docs/portable\nwindows:illegal.md'
+  printf 'invalid suffix after newline\n' > "$newline_illegal_path"
+  git add "$newline_illegal_path"
+  git commit -q -m windows-illegal-path-after-newline
+  if "$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref "refs/pull/1/merge" >"$tmp_dir/windows-newline-illegal.out" 2>"$tmp_dir/windows-newline-illegal.err"; then
+    echo "expected path policy to reject a Windows-illegal component after an embedded newline" >&2
+    exit 1
+  fi
+  assert_file_has "$tmp_dir/windows-newline-illegal.err" 'windows:illegal.md'
   git reset -q --hard "$base_sha"
 
   printf '\nmore docs\n' >> docs/readme.md

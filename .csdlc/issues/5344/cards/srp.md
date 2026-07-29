@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/5344
+.csdlc/prepared/issues/5344
+adl/tools/ci_path_policy.sh
+adl/tools/test_ci_path_policy.sh
 
 ## Prompts
 
@@ -25,7 +28,38 @@ Status: draft
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5344-CI-1",
+    "severity": "p1",
+    "summary": "Line-oriented component splitting can hide a Windows-illegal suffix after an embedded newline.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "F-5344-CI-2",
+    "severity": "p2",
+    "summary": "The regression does not cover spaces or an illegal component after an embedded newline.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "F-5344-CI-3",
+    "severity": "p2",
+    "summary": "The SRP prompts remain stale selector questions instead of the bounded CI path-policy recovery scope.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -37,8 +71,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:bf4e123ac967da193393c7ff5efdb1c21c951955:2ef1e23fe28721688dec6ff5133d5d2cae45432d3a53540f9cad67bd999adf8b")
 
-Reviewer: None
+Reviewer: Some("subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d")
 
-Result: pre_review
+Result: changes_required
