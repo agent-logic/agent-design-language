@@ -114,16 +114,26 @@ Implemented complete versioned Core and Observatory OpenAPI contracts and mounte
     "purpose": "Prove anonymous runtime reads, optional WSS write login, signed control enforcement, credential revocation, API contract parity, and the separate HTML Observatory client.",
     "outcome": "passed",
     "evidence_ref": "Kernel control 21/21; Observatory WSS 6/6 including anonymous reads and authenticated signed write; OpenAPI contracts 6/6; strict all-target Clippy passed; HTML Observatory integrated proof passed; git diff --check passed; live Guardian served anonymous health, metrics, and Observatory HTTP on port 20997; browser showed live secure stream with 55 runtime events."
+  },
+  {
+    "command": [
+      "cargo",
+      "test-and-clippy",
+      "runtime-v3-observatory-login-ci-repair"
+    ],
+    "purpose": "Prove the guardian soak consumes and validates the successful login acknowledgement before independently checking forged-command rejection and valid signed control behavior.",
+    "outcome": "passed",
+    "evidence_ref": "Guardian soak 7/7 passed; exact signed HTTPS/WSS shutdown and forgery test 1/1 passed; strict all-target adl-runtime-kernel Clippy passed; git diff --check passed."
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

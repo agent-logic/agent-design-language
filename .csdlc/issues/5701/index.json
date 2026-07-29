@@ -3,13 +3,13 @@
   "issue": 5701,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
-  "phase": "published",
-  "generation": 21,
-  "digest": "c0a1d8d411a7a45cecf5d0156c3a70fac196ff93714fd6169cbb21bf21582a90",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "4a501819ecd5b0749bfcfc2567ff67673f80839e15a0e3342a69e8bea2b15d3e",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 21,
+    "generation": 24,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -48,34 +48,15 @@
   "review": {
     "reviewer": "subagent:019fafbd-db23-7681-a979-4cc0bc68585d",
     "scope": [
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-      "adl/tools/validate_v0917_html_observatory.py",
-      "demos/v0.91.7/html-observatory/README.md",
-      "demos/v0.91.7/html-observatory/app.js",
-      "demos/v0.91.7/html-observatory/index.html",
-      "docs/api/runtime-v3/v1"
+      "adl-runtime-kernel/tests/guardian_soak.rs"
     ],
-    "reviewed_revision": "git-blake3:c22b25248166c277e7319d5e37f7e873fab560cd:b3bed829103c2845f83a7152268824f9a3faf936f0bca51b766cc74b93eda0f0",
+    "reviewed_revision": "git-blake3:a05c942d460ee906766d5e715b02a702425f9547:9d71624962896802462ba0ddb4ec75c7ef538d3924dd17c8f6137ef4ece2eb5c",
     "findings": [],
     "residual_risks": [],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5701,
-    "pull_request": 5705,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5705",
-    "base": "main",
-    "head": "codex/5701-runtime-v3-openapi-contracts",
-    "revision": "git-blake3:b3203707e947ee75b6ec19bb84a77f95436382e2:71bb0459be041d8c9c6fe833e5a20562e3f256c6c9a069856e468e5e09cba446",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -89,34 +70,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a91b5ce3d4ff3b7805732204145ef163090548cdc7e1eec4c479577cae6a17b4",
+      "values_digest": "d3774a933e9ba4d0273e1351dc1049ba2041c68bf0c38ec6af55f53ddb482545",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "4ce487bee4228327be317239bc0c9ad46ec376c7ccdf89c05c0d65275d3a0b1b",
+      "values_digest": "9ce54314f9817fea39cc7581116cd9c51a89500cc022980d6b730bd36bba7318",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "57924baf7bb5d2aff816fd0433f8810dc4ec8d173b44c660b3df81aba2f34279",
+      "values_digest": "b1ec5be0e1ccbe871f9ef9c1959bb7b8d2e3b4eb43f723d452c7ffd1d2d48044",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "bb2f032ce5be32dbf5883439aff7588bc1deabeacc34701e542842fda9f0f70b",
+      "values_digest": "755f82d965fd2c9be5679ab6da1c1770cd4788a5e7ecf7728bd5196deb5a7476",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "c98f41f7eebdc41af48a0e532acd00bc0a1478753540a8e208651754f715d19e",
-      "rendered_digest": "ab8b741fbe7ccd60832a41ec01073d81a833267f38e47355ba1681d2c16646e0",
-      "ast_digest": "27b11bf32d6c13dc465fa67cd2e87c3b36f37fee9dbbb38307889dd3bb2db59f"
+      "values_digest": "ca69f6e63e25f068910231503e97c98a45488528e636037ad967aa722b8fd40f",
+      "rendered_digest": "929561d5af5adbc82ec1a5699341623fa64812eea0b1354d2de65580b0132f82",
+      "ast_digest": "ea1192f60fbbc65f8209ce66fb4a34ae1b36d9ee4b315b92d800c17d9d7871dc"
     },
     "sor": {
-      "values_digest": "d109ee7f8f53aea94338aab29bda1fe5c94fe3d4a399567672249126ecfa7afe",
-      "rendered_digest": "e3ed3135a36c6d6a41da5e3d04aa737af71e8d2c4b2f317f610ef9d9bd309b09",
-      "ast_digest": "56f43f9c2c85d112b4edb5d2742fde147f6e37d555e49b98d2d36e4d2490493e"
+      "values_digest": "c8e01bd0ec5ca78958ff2935fd4ee44a1c60f2c90cdc24f2faed86370bdb007d",
+      "rendered_digest": "d398a0c7499c2e6bca1095b8ee74539f91b75f3826760596140b9b63e6eb3855",
+      "ast_digest": "e1903a3666c3e8e8e55873505ce5fff78b8f1940d2f789b2364496c56b1daa95"
     }
   },
   "transitions": [
@@ -217,6 +198,20 @@
       "to": "published",
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Recover exact review and publication truth after the fresh CI run exposed one stale guardian soak expectation: the test had not consumed the new successful Observatory login acknowledgement before asserting the subsequent forged-command rejection."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fafbd-db23-7681-a979-4cc0bc68585d",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -457,6 +452,27 @@
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 35,
+      "generation": 22,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Recover exact review and publication truth after the fresh CI run exposed one stale guardian soak expectation: the test had not consumed the new successful Observatory login acknowledgement before asserting the subsequent forged-command rejection.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 23,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Record the focused validation for the Observatory login acknowledgement CI repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test-and-clippy\",\"runtime-v3-observatory-login-ci-repair\"],\"purpose\":\"Prove the guardian soak consumes and validates the successful login acknowledgement before independently checking forged-command rejection and valid signed control behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"Guardian soak 7/7 passed; exact signed HTTPS/WSS shutdown and forgery test 1/1 passed; strict all-target adl-runtime-kernel Clippy passed; git diff --check passed.\"}}"
+    },
+    {
+      "sequence": 37,
+      "generation": 24,
+      "actor": "subagent:019fafbd-db23-7681-a979-4cc0bc68585d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

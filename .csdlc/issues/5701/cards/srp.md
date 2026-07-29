@@ -12,16 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/tests/control.rs
-adl-runtime-kernel/tests/observatory.rs
-adl-runtime-kernel/tests/openapi_contract.rs
-adl/tools/test_v0917_html_observatory_integrated_proof.sh
-adl/tools/validate_v0917_html_observatory.py
-demos/v0.91.7/html-observatory/README.md
-demos/v0.91.7/html-observatory/app.js
-demos/v0.91.7/html-observatory/index.html
-docs/api/runtime-v3/v1
+adl-runtime-kernel/tests/guardian_soak.rs
 
 ## Prompts
 
@@ -45,7 +36,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:c22b25248166c277e7319d5e37f7e873fab560cd:b3bed829103c2845f83a7152268824f9a3faf936f0bca51b766cc74b93eda0f0")
+Revision: Some("git-blake3:a05c942d460ee906766d5e715b02a702425f9547:9d71624962896802462ba0ddb4ec75c7ef538d3924dd17c8f6137ef4ece2eb5c")
 
 Reviewer: Some("subagent:019fafbd-db23-7681-a979-4cc0bc68585d")
 
