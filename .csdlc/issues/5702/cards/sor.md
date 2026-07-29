@@ -88,11 +88,11 @@ Prepared the #5702 Podcast Studio next-week launch plan with Gemini 3.1 Pro revi
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
