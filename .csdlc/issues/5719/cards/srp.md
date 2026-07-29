@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-CI path-policy classifier, CI path-policy tests, workflow contract assertions, and issue-local lifecycle records
+.csdlc/issues/5719
+.csdlc/evidence/5719
+.csdlc/prepared/issues/5719
+adl/config/validation_lane_selector.v0.91.6.json
+adl/tools/ci_path_policy.sh
+adl/tools/test_ci_path_policy.sh
 
 ## Prompts
 
@@ -30,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review was read-only and confirmed the selector/path-policy contract at exact HEAD b0f71eabb; hosted CI behavior remains deferred to the published PR checks.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b0f71eabb06945d5a7ad6147d7178586e3db86da:a6218709a4daeb864cd8deaf812e424aa9342260d5592dd722049a4ef0dd5be0")
 
-Reviewer: None
+Reviewer: Some("Heisenberg")
 
-Result: pre_review
+Result: pass

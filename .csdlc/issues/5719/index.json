@@ -3,13 +3,13 @@
   "issue": 5719,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "3311f6460b0988706cb978ea2fcf7da322d7af3273fc5c96c2813a6f7a4fc271",
-  "phase": "implemented",
-  "generation": 1,
-  "digest": "84e3c398057b359d7afc1c85049137aaecf4cf9bbd8907c8a763ed5b744b5146",
+  "phase": "reviewed",
+  "generation": 3,
+  "digest": "74857505551f86a7725ff9186ef05c99ba2be34a241ceb6d5e23a1ecac5fe960",
   "claim": {
     "id": "claim-5719-ci-coverage-page-policy",
     "owner": "codex:5719-execution",
-    "generation": 1,
+    "generation": 3,
     "acquired_unix_seconds": 1785363942,
     "expires_unix_seconds": 1785968742,
     "heartbeat_unix_seconds": 1785363942,
@@ -28,8 +28,37 @@
     ],
     "purpose": "Fix CI path-policy selection so podcast/demo page-only PRs do not schedule duplicate hosted runtime and workspace coverage while preserving full coverage for Rust/runtime/provider/tooling changes"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "Heisenberg",
+    "assigned_by": "codex:5719-execution",
+    "revision": "git-blake3:b0f71eabb06945d5a7ad6147d7178586e3db86da:a6218709a4daeb864cd8deaf812e424aa9342260d5592dd722049a4ef0dd5be0",
+    "scope": [
+      ".csdlc/issues/5719",
+      ".csdlc/evidence/5719",
+      ".csdlc/prepared/issues/5719",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/test_ci_path_policy.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "Heisenberg",
+    "scope": [
+      ".csdlc/issues/5719",
+      ".csdlc/evidence/5719",
+      ".csdlc/prepared/issues/5719",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/test_ci_path_policy.sh"
+    ],
+    "reviewed_revision": "git-blake3:b0f71eabb06945d5a7ad6147d7178586e3db86da:a6218709a4daeb864cd8deaf812e424aa9342260d5592dd722049a4ef0dd5be0",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only and confirmed the selector/path-policy contract at exact HEAD b0f71eabb; hosted CI behavior remains deferred to the published PR checks."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -44,32 +73,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c258b372d00b3e58ff5e0dccad9e226ad2d0e297d10fc96a556b91eec33e889f",
+      "values_digest": "17ed7544fa7e077fee1ba20731dde0b37357fbe0842a4332fd4e3080e751983d",
       "rendered_digest": "5edc703d78bb5d850b627fa794f4eb45e023a7c3cf86f62a04ec9b1e6fbebef0",
       "ast_digest": "9798d8fc4365de347cba719ad458e1c5d6f62b23ba9451554a151dc6a99fd129"
     },
     "stp": {
-      "values_digest": "ce1d4dcd5b9031758ab3990f7b8334a7b2587ee3b455bff3733818f6592cd005",
+      "values_digest": "2621f8b3b5a9b58627499985b808b4e6add5a28fce4dcc58a35d0962b4554e0e",
       "rendered_digest": "3a46127e74167c14f3cf932b65fd169a5f087f132c4f5c0473968f0c7003044c",
       "ast_digest": "36f64615fce3a1933d837007862c8eee9304620c5b01fbe632a35271b7624868"
     },
     "spp": {
-      "values_digest": "dbe58c1d55113fe481044f72c19f6b03fe846c5be12c3505c7f310461b7426b5",
+      "values_digest": "0722bbcfb48353d41961a08e44ecb6bebd518d4985b8ba9765be71e174dd926a",
       "rendered_digest": "4c33e2a1cd788a668dcedeec7d45294528a99aa439cd07ac4118a1181f91cccd",
       "ast_digest": "df7462547dbef6bf41ecf7bbfe77d4f213d05d353d4ea38b290c28e07616325f"
     },
     "vpp": {
-      "values_digest": "81727cacca40298974faf0900c125f1ed31d028a61cb7b03709ce6c4b7cd53f8",
+      "values_digest": "5b065187044f6ffe02ed4188ce470d2601843ba7dc330e414a891d5593fbaeb7",
       "rendered_digest": "53b870f75afb2af19703292ae1300e6d7251054fe899d5fac6685e941c194b58",
       "ast_digest": "7dde77af196d5a1964814b78770b680f9988b6f569a44e25219157e58306f985"
     },
     "srp": {
-      "values_digest": "bc4ed9e818f325eee449dc67a10ed1648618bf7d3fd0ac881aa59c97cca3598f",
-      "rendered_digest": "de2c0c280391ac5563267973a3ff09ec0c37199a8e603dc565911eefb24cb1bd",
-      "ast_digest": "32c873c2c71e1ac19d7d7716345bde3535dd54c9aad1205ef2ebd8ff3e78e382"
+      "values_digest": "d3a27b679a8b64d849bc1845a26012f0c1c105b8323523027792cdb8ba3a2664",
+      "rendered_digest": "5f5fba1cc84a8d39c69abcfc670f8f526070a8cad8012dbdf063a2e9e476d997",
+      "ast_digest": "934f41a98fd3d24fc252acd7fa5d5fb1855a993707d3c462451e39e3706e2756"
     },
     "sor": {
-      "values_digest": "7bc37c78b40efd801496f37bbd80486fd0cc9afc88178cfeb790140fdbacc4c2",
+      "values_digest": "ca857ffa733505e36cbfa4dfe331d27275b0b6cb88a7f2b497e9657e421f5e4f",
       "rendered_digest": "9adc0741edb43a4f3bbacf0e588aa47dd18141a9dc55769098d08c8943cc5924",
       "ast_digest": "a7fc4bbefd160b498756c660b017ec6280a1af3cb39d7fa86ae630e4ae4f6463"
     }
@@ -95,6 +124,13 @@
       "to": "implemented",
       "actor": "codex:5719-execution",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5719-execution",
+      "reason": "Exact bounded review passed with no actionable findings for the podcast CI coverage path-policy fix."
     }
   ],
   "audit": [
@@ -125,6 +161,27 @@
       "actor": "codex:5719-execution",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 1,
+      "actor": "codex:5719-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:5719-execution",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:5719-execution",
+      "reason": "Exact bounded review passed with no actionable findings for the podcast CI coverage path-policy fix.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
