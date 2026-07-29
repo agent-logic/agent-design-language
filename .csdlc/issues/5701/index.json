@@ -5,7 +5,7 @@
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
   "phase": "implemented",
   "generation": 19,
-  "digest": "3f452b4a90b1bed01fb4d7f9405fd3ff02fc8f63f148a548ac3b06d6deef80b6",
+  "digest": "37555cb96ea4ddfed9cfcd209cc5f96135a7023195710d8d4ebd832a2287b14d",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
@@ -38,6 +38,7 @@
       "adl/tools/validate_v0917_html_observatory.py",
       "demos/v0.91.7/html-observatory/README.md",
       "demos/v0.91.7/html-observatory/app.js",
+      "demos/v0.91.7/html-observatory/index.html",
       "docs/api/runtime-v3/v1",
       "infra/runtime-v3/runtime-api-5665.toml"
     ],
@@ -392,6 +393,13 @@
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "Record the corrected public-read and authenticated-write Observatory validation at commit 3a7621861.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test-and-clippy\",\"runtime-v3-public-observatory-suite\"],\"purpose\":\"Prove anonymous runtime reads, optional WSS write login, signed control enforcement, credential revocation, API contract parity, and the separate HTML Observatory client.\",\"outcome\":\"passed\",\"evidence_ref\":\"Kernel control 21/21; Observatory WSS 6/6 including anonymous reads and authenticated signed write; OpenAPI contracts 6/6; strict all-target Clippy passed; HTML Observatory integrated proof passed; git diff --check passed; live Guardian served anonymous health, metrics, and Observatory HTTP on port 20997; browser showed live secure stream with 55 runtime events.\"}}"
+    },
+    {
+      "sequence": 32,
+      "generation": 19,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "The exact review correctly found that the public-read client lacked a usable operator login and authenticated write surface. The HTML entry point is required to add explicit login, logout, signed-command submission, and status controls.",
+      "operation": "{\"add_protected_paths\":[\"demos/v0.91.7/html-observatory/index.html\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

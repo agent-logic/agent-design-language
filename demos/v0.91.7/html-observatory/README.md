@@ -149,19 +149,21 @@ path, set `[api].address` to the runtime host interface, set
 route's certificate and key paths, and add the dashboard origin to
 `[observatory].allowed_origins`. Public routing may be provided by the
 operator's ingress layer but is not hardcoded in Runtime v3 source. Remote and
-local reads use the same bearer requirement; CORS is an additional
-browser-origin control, not authentication. The runtime answers the browser's
-bounded `OPTIONS` preflight only for configured origins and allows only `GET`
-with the `Authorization` header.
+local health, metrics, and Observatory reads are public. CORS limits which
+browser origins may read responses but is not authentication. Native clients
+may read without an Origin header.
 
 ```text
 https://<observatory-host>/demos/v0.91.7/html-observatory/?runtime=v3&runtimeApiBase=https://<runtime-gateway-host>&live=1
 ```
 
-The Runtime v3 browser path consumes only the runtime-owned read feed at
-`/v1/observatory` with the session-scoped bearer token. It does not send signed
-control commands, does not change the
-default runtime, and does not authorize Runtime v2 decommission.
+The Runtime v3 browser path consumes the public runtime-owned read feed at
+`/v1/observatory` and the public read stream at `/v1/observatory/ws`. The
+Operator Channel can log in for writes on that socket and submit a complete
+pre-signed `adl.runtime.control_command.v1` envelope. The browser never creates
+or stores the signing key; Runtime v3 verifies the signature, principal,
+capability, runtime identity, and command policy before execution. Logging out
+reconnects the public read stream without write authority.
 
 The browser-served dashboard only receives CORS permission when its origin is
 listed in `[observatory].allowed_origins`. If the Runtime v3 API is reachable by
@@ -186,11 +188,12 @@ endpoint and separately retains the JavaScript mock as static
 rendering-contract coverage. This proves that the HTML Observatory can render an auto-refreshing CSM
 panopticon over retained publishable runtime API responses, and can upgrade to a
 live loopback CSM panopticon when the running CSM API base is supplied. It can
-also consume the authenticated Runtime v3 `/v1/observatory` read feed when
+also consume the public Runtime v3 `/v1/observatory` read feed when
 Runtime v3 is selected explicitly with a configured runtime API base. It renders the retained
 bounded runtime capture through a polished investor-facing operator UI, while exposing
 CSM API, CSM service, CloudWatch heartbeat, ACIP-SNS projection proof, Runtime
-v3 opt-in status, and WP-08 linkage status. It does not claim direct runtime
-mutation, browser-owned AWS publish authority, public/remote API exposure, Unity
+v3 opt-in status, and WP-08 linkage status. Its Operator Channel can submit
+pre-signed commands after write login, while Runtime v3 retains signature and
+policy authority. It does not claim browser-owned AWS publish authority, Unity
 completion, default Runtime v3 cutover, Runtime v2 decommission, full AWS signal
 bridge completion, S3 ObsMem archive completion, or v0.92 runtime completion.

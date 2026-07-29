@@ -253,7 +253,14 @@ def run_js_view_model(
           "dashboard-focus-link",
           "compact-comms-proof",
           "export-proof",
-          "prepare-envelope"
+          "prepare-envelope",
+          "operator-write-token",
+          "operator-login",
+          "operator-logout",
+          "operator-auth-status",
+          "signed-control-command",
+          "send-signed-command",
+          "operator-control-result"
         ].forEach((id) => element(id, {{ addEventListener: () => {{}} }}));
         elements.get("dashboard-live-api-base").value = "";
         const dashboardLinks = [
@@ -661,6 +668,10 @@ def main() -> int:
     assert_contains("JS Runtime v3 observatory schema", js, 'RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2"')
     assert_not_contains("JS public Runtime v3 reads omit bearer authentication", js, "Authorization: `Bearer ${readToken}`")
     assert_contains("JS Runtime v3 write login", js, "authenticateRuntimeV3ObservatorySocket")
+    assert_contains("JS Runtime v3 login result handling", js, 'frame.status === "authenticated"')
+    assert_contains("JS Runtime v3 signed command send", js, 'liveSocket.send(JSON.stringify(command))')
+    assert_contains("HTML Runtime v3 write login", html, 'id="operator-login"')
+    assert_contains("HTML Runtime v3 signed command input", html, 'id="signed-control-command"')
     assert_contains("JS Runtime v3 weather staleness", js, "weather_stale_after_millis")
     assert_contains("JS Runtime v3 explicit opt-in selection", js, "runtime_v3_explicit_opt_in")
     assert_contains("JS runtime query base bootstrap", js, "getQueryApiBase")

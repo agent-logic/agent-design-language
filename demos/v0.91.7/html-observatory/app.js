@@ -378,10 +378,10 @@ const DASHBOARD_FOCUS = {
   "csm-api": {
     kicker: "CSM API",
     title: "Local control plane",
-    status: "read-only",
+    status: "public reads + governed writes",
     target: "#csm-api",
-    detail: "The CSM API surface is read-only: /status, /health, /ready, /metrics, and /events.",
-    facts: ["/status, /health, /ready", "/metrics and /events", "Browser access tracked by #5003"]
+    detail: "Runtime state is publicly readable; login and a trusted signature are required for control writes.",
+    facts: ["/health, /metrics, /observatory", "Signed /v1/control commands", "Authenticated full-duplex WSS"]
   },
   cloudwatch: {
     kicker: "AWS",
@@ -500,7 +500,7 @@ function displayPacketId(_value) {
 
 function displayClaimBoundary(source = {}) {
   const evidenceLevel = formatLabel(source.evidence_level || "bounded local runtime capture");
-  return `${OBSERVATORY_VERSION} Observatory consumes a ${evidenceLevel} from runtime-owned artifacts, suitable for CSM polis inspection, and does not claim public API exposure, direct runtime mutation, or v0.92 coherence.`;
+  return `${OBSERVATORY_VERSION} Observatory consumes a ${evidenceLevel} from runtime-owned artifacts, supports public monitoring and runtime-governed signed writes, and does not claim browser-owned authority or v0.92 coherence.`;
 }
 
 function displayMilestoneText(value) {
@@ -683,7 +683,13 @@ function runtimeV3SnapshotFromFeed(feed) {
   };
 }
 
-function connectRuntimeV3ObservatoryWebSocket(apiBase, onSnapshot, onError, onClose = onError) {
+function connectRuntimeV3ObservatoryWebSocket(
+  apiBase,
+  onSnapshot,
+  onError,
+  onClose = onError,
+  onControlFrame = () => {}
+) {
   const base = normalizeApiBase(apiBase);
   if (!isRuntimeV3ApiBase(base)) {
     throw new Error("Runtime v3 selection requires a configured HTTPS runtime API base.");
@@ -702,6 +708,9 @@ function connectRuntimeV3ObservatoryWebSocket(apiBase, onSnapshot, onError, onCl
       const frame = JSON.parse(String(event.data));
       if (frame.schema === RUNTIME_V3_OBSERVATORY_SCHEMA) {
         onSnapshot(runtimeV3SnapshotFromFeed(frame));
+      } else if (frame.schema === "adl.runtime_v3.observatory_ws_control_result.v1" ||
+                 frame.schema === "adl.csm.acip_carrier.websocket_frame.v1") {
+        onControlFrame(frame);
       }
     } catch (error) {
       onError(error instanceof Error ? error : new Error("Runtime v3 Observatory frame is invalid."));
@@ -1367,6 +1376,13 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const dashboardConnect = document.getElementById("dashboard-connect-live");
   const dashboardRefresh = document.getElementById("dashboard-refresh-live");
   const dashboardStop = document.getElementById("dashboard-stop-live");
+  const operatorToken = document.getElementById("operator-write-token");
+  const operatorLogin = document.getElementById("operator-login");
+  const operatorLogout = document.getElementById("operator-logout");
+  const operatorAuthStatus = document.getElementById("operator-auth-status");
+  const signedControlCommand = document.getElementById("signed-control-command");
+  const sendSignedCommand = document.getElementById("send-signed-command");
+  const operatorControlResult = document.getElementById("operator-control-result");
   let lastLiveError = null;
   let runtimeBaseActive = false;
   let liveSocket = null;
@@ -1391,6 +1407,35 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     setState("dashboard-live-test-status", status);
     if (detail) {
       setText("dashboard-live-test-detail", detail);
+    }
+  };
+
+  const setWriteAccess = (enabled, status, detail) => {
+    if (operatorAuthStatus) {
+      operatorAuthStatus.textContent = status;
+      operatorAuthStatus.dataset.state = enabled ? "passed" : "open";
+    }
+    if (sendSignedCommand) {
+      sendSignedCommand.disabled = !enabled;
+    }
+    if (operatorControlResult && detail) {
+      operatorControlResult.textContent = detail;
+    }
+  };
+
+  const renderControlFrame = (frame) => {
+    if (frame.status === "authenticated") {
+      setWriteAccess(true, "write access enabled", JSON.stringify(frame, null, 2));
+      return;
+    }
+    if (frame.error === "credential_revoked" ||
+        frame.error === "authentication_failed" ||
+        frame.error === "write_authentication_required") {
+      setWriteAccess(false, "public read", JSON.stringify(frame, null, 2));
+      return;
+    }
+    if (operatorControlResult) {
+      operatorControlResult.textContent = JSON.stringify(frame, null, 2);
     }
   };
 
@@ -1508,9 +1553,11 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
           (error) => {
             if (liveSocket === socket) {
               liveSocket = null;
+              setWriteAccess(false, "public read", "The live connection closed. Public monitoring can reconnect without login.");
               renderLiveError(error);
             }
-          }
+          },
+          renderControlFrame
         );
         liveSocket = socket;
       } catch (error) {
@@ -1528,6 +1575,51 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   dashboardConnect?.addEventListener("click", connectLive);
   dashboardRefresh?.addEventListener("click", refreshLive);
   dashboardStop?.addEventListener("click", stopPolling);
+  operatorLogin?.addEventListener("click", () => {
+    const token = operatorToken?.value.trim() || "";
+    if (!token) {
+      setWriteAccess(false, "login required", "Enter the operator write token.");
+      return;
+    }
+    globalThis.sessionStorage?.setItem("adl.runtimeV3.observatoryToken", token);
+    if (!liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
+      setWriteAccess(false, "connecting", "Opening the public stream before operator login.");
+      connectLive();
+      return;
+    }
+    setWriteAccess(false, "logging in", "Authenticating write access...");
+    authenticateRuntimeV3ObservatorySocket(liveSocket, token);
+  });
+  operatorLogout?.addEventListener("click", () => {
+    globalThis.sessionStorage?.removeItem("adl.runtimeV3.observatoryToken");
+    if (operatorToken) {
+      operatorToken.value = "";
+    }
+    liveSocket?.close(1000, "operator_logout");
+    liveSocket = null;
+    setWriteAccess(false, "public read", "Write access cleared. Public monitoring remains available.");
+    connectLive();
+  });
+  sendSignedCommand?.addEventListener("click", () => {
+    if (!liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
+      setWriteAccess(false, "connection required", "Connect to the Runtime v3 Observatory before sending a command.");
+      return;
+    }
+    try {
+      const command = JSON.parse(signedControlCommand?.value || "");
+      if (command.schema !== "adl.runtime.control_command.v1") {
+        throw new Error("Expected an adl.runtime.control_command.v1 signed envelope.");
+      }
+      liveSocket.send(JSON.stringify(command));
+      if (operatorControlResult) {
+        operatorControlResult.textContent = "Signed command submitted; awaiting runtime verification.";
+      }
+    } catch (error) {
+      if (operatorControlResult) {
+        operatorControlResult.textContent = error instanceof Error ? error.message : "Invalid signed command.";
+      }
+    }
+  });
 
   const queryApiBase = getQueryApiBase();
   if (queryApiBase) {
