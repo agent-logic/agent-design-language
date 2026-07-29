@@ -7,15 +7,15 @@
     "title": "[v0.91.8][runtime-v3][state] Unify durable kernel state on redb",
     "slug": "runtime-v3-redb-durable-state",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 7
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/Cargo.lock\nadl-runtime-kernel/Cargo.toml\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/durable_state.rs\nadl-runtime-kernel/src/governed_operations.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/durable_state.rs\nadl-runtime-kernel/tests/governed_operations.rs\n.csdlc/evidence/5698",
-      "review_revision": "git-blake3:8dd143ab4aad09529315ae7b400b2e793fef2ec5:e5d0df256c00e828a3086d2e3982436536632d9e512110cb5e890e2de6268d26",
-      "reviewer": "provider:gemini-3.1-pro-preview",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify Runtime v3 checkpoint and lifelog production adapters use redb as the single durable state authority.",
         "Verify restart restores exact committed bytes and rejects identity, schema, generation, and hash mismatches.",
@@ -23,10 +23,8 @@
         "Verify scope coordination with #5344 and no tracked main or /private/tmp edits."
       ],
       "findings": [],
-      "residual_risk": [
-        "The initial Gemini exact-head review found non-atomic redb sequence allocation; current exact head 8dd143ab4aad09529315ae7b400b2e793fef2ec5 fixes it and Gemini remediation verification returned PASS / no findings."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

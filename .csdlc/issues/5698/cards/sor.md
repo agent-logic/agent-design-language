@@ -118,16 +118,30 @@ Replace Runtime v3 kernel flat-file checkpoint and lifelog persistence with one 
     "purpose": "Prove the real redb durable kernel-state migration after review remediation: durable_state 4/4 including concurrent sequence/head regression, assembly 9/9, governed_operations 28/28, strict all-target Clippy, and diff hygiene.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5698"
+  },
+  {
+    "command": [
+      "bash adl/tools/run_adl_v2_standalone.sh",
+      "cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5698/target --test assembly",
+      "cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5698/target --test durable_state",
+      "cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5698/target --test governed_operations",
+      "cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5698/target --all-targets -- -D warnings",
+      "cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5698/target",
+      "git diff --check"
+    ],
+    "purpose": "Prove the current #5698 PR repair: the adl-v2 standalone lane no longer fails on a stale Cargo.lock, the redb/state focused tests remain green, strict Runtime v3 Clippy is green, and the Runtime v3 fast lane including guardian_soak passes with Vector installed as CI does.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5698"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
