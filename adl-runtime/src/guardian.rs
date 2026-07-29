@@ -475,43 +475,108 @@ pub async fn run_guardian(
                     }
                     Ok(None) => {
                         let lease_outcome = normalize_lease_result(lease_result);
-                        let healthy_window = authenticated_healthy_window(
-                            &lease_authenticated,
-                            attempt_started,
-                            config.healthy_window_ms,
-                        );
-                        reset_restart_window_after_healthy_attempt(
-                            &mut restart_window,
-                            healthy_window,
-                        );
-                        let recent_restarts = restart_window.len() as u32;
-                        let attempt_exit = classify_restartable_failure(&config, recent_restarts);
-                        let reason_code = reason_code_for_restartable_failure(
-                            "guardian_lease_lost",
-                            lease_outcome.reason_code(),
-                            attempt_exit,
-                        );
-                        let signals = child.force_shutdown();
-                        let status = child.wait().await.ok();
-                        let signals =
-                            signals.merge(status.as_ref().and_then(exit_signal).unwrap_or_default());
-                        let attempt = attempt_record(
-                            &config,
-                            attempts,
-                            AttemptRecordMeta {
-                                pid,
-                                exit_code: status.as_ref().and_then(ExitStatus::code),
-                                exit_status: status.as_ref().map(|status| format!("{status:?}")),
-                                signals,
-                                forced_shutdown: true,
-                                clean_checkpointed_shutdown: false,
-                                reason_code,
-                            },
-                            stdout,
-                            stderr,
-                        ).await;
-                        attempts_detail.push(attempt);
-                        attempt_exit
+                        let child_exit_after_lease_close =
+                            timeout(Duration::from_millis(25), child.wait()).await;
+                        if let Ok(Ok(status)) = child_exit_after_lease_close {
+                            let cleanup = child
+                                .cleanup_descendants(Duration::from_millis(config.shutdown_grace_ms))
+                                .await;
+                            let code = status.code();
+                            let healthy_window = authenticated_healthy_window(
+                                &lease_authenticated,
+                                attempt_started,
+                                config.healthy_window_ms,
+                            );
+                            reset_restart_window_after_healthy_attempt(
+                                &mut restart_window,
+                                healthy_window,
+                            );
+                            let recent_restarts = restart_window.len() as u32;
+                            let (attempt_exit, reason_code, forced_shutdown) =
+                                classify_exit_after_cleanup(
+                                    &config,
+                                    code,
+                                    recent_restarts,
+                                    healthy_window,
+                                    cleanup,
+                                );
+                            let attempt = attempt_record(
+                                &config,
+                                attempts,
+                                AttemptRecordMeta {
+                                    pid,
+                                    exit_code: code,
+                                    exit_status: Some(format!("{status:?}")),
+                                    signals: exit_signal(&status).unwrap_or_default(),
+                                    forced_shutdown,
+                                    clean_checkpointed_shutdown: false,
+                                    reason_code,
+                                },
+                                stdout,
+                                stderr,
+                            )
+                            .await;
+                            attempts_detail.push(attempt);
+                            attempt_exit
+                        } else if let Ok(Err(error)) = child_exit_after_lease_close {
+                            let attempt = attempt_record(
+                                &config,
+                                attempts,
+                                AttemptRecordMeta {
+                                    pid,
+                                    exit_code: None,
+                                    exit_status: None,
+                                    signals: AttemptSignals::default(),
+                                    forced_shutdown: false,
+                                    clean_checkpointed_shutdown: false,
+                                    reason_code: format!("wait_failed:{error}"),
+                                },
+                                stdout,
+                                stderr,
+                            )
+                            .await;
+                            attempts_detail.push(attempt);
+                            AttemptExit::Terminal(GuardianTerminalState::SpawnFailed)
+                        } else {
+                            let healthy_window = authenticated_healthy_window(
+                                &lease_authenticated,
+                                attempt_started,
+                                config.healthy_window_ms,
+                            );
+                            reset_restart_window_after_healthy_attempt(
+                                &mut restart_window,
+                                healthy_window,
+                            );
+                            let recent_restarts = restart_window.len() as u32;
+                            let attempt_exit = classify_restartable_failure(&config, recent_restarts);
+                            let reason_code = reason_code_for_restartable_failure(
+                                "guardian_lease_lost",
+                                lease_outcome.reason_code(),
+                                attempt_exit,
+                            );
+                            let signals = child.force_shutdown();
+                            let status = child.wait().await.ok();
+                            let signals = signals
+                                .merge(status.as_ref().and_then(exit_signal).unwrap_or_default());
+                            let attempt = attempt_record(
+                                &config,
+                                attempts,
+                                AttemptRecordMeta {
+                                    pid,
+                                    exit_code: status.as_ref().and_then(ExitStatus::code),
+                                    exit_status: status.as_ref().map(|status| format!("{status:?}")),
+                                    signals,
+                                    forced_shutdown: true,
+                                    clean_checkpointed_shutdown: false,
+                                    reason_code,
+                                },
+                                stdout,
+                                stderr,
+                            )
+                            .await;
+                            attempts_detail.push(attempt);
+                            attempt_exit
+                        }
                     }
                     Err(error) => {
                         let attempt = attempt_record(
