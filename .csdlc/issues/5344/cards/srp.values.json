@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-12] Run opt-in soak and prove rollback",
     "slug": "v0918-wp12-opt-in-soak-rollback",
     "version": "v0.91.8",
-    "generation": 22
+    "generation": 25
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/5344\n.csdlc/prepared/issues/5344\nadl/tools/ci_path_policy.sh\nadl/tools/test_ci_path_policy.sh",
+      "review_revision": "git-blake3:b493b89307aece6c1bb348a8741a8f0d5c3e6b90:493f594e6b2505ef40187fd704aea2033f7df248386a955196e26d10cc0ffe2a",
+      "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
       "review_prompts": [
         "Does the tracked-path scan consume Git's NUL-delimited literal filenames without reintroducing line-oriented parsing?",
         "Do UTF-8 paths, spaces, and embedded newlines preserve complete path components during Windows portability validation?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

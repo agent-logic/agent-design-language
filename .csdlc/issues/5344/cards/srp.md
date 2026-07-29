@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/5344
+.csdlc/prepared/issues/5344
+adl/tools/ci_path_policy.sh
+adl/tools/test_ci_path_policy.sh
 
 ## Prompts
 
@@ -36,8 +39,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b493b89307aece6c1bb348a8741a8f0d5c3e6b90:493f594e6b2505ef40187fd704aea2033f7df248386a955196e26d10cc0ffe2a")
 
-Reviewer: None
+Reviewer: Some("subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d")
 
-Result: pre_review
+Result: pass
