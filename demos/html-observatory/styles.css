@@ -1422,7 +1422,7 @@ textarea,
 
 .event-table-header {
   display: grid;
-  grid-template-columns: 3rem minmax(8rem, 1fr) minmax(9rem, 0.85fr) 5rem 5rem;
+  grid-template-columns: 3rem 5rem minmax(8rem, 1fr) minmax(9rem, 0.85fr) 5rem 5rem;
   gap: 0.8rem;
   padding: 0.52rem 0;
   border-bottom: 1px solid var(--line);
@@ -1432,7 +1432,7 @@ textarea,
 }
 
 .event-table-row {
-  grid-template-columns: 3rem minmax(8rem, 1fr) minmax(9rem, 0.85fr) 5rem 5rem;
+  grid-template-columns: 3rem 5rem minmax(8rem, 1fr) minmax(9rem, 0.85fr) 5rem 5rem;
   align-items: center;
 }
 
