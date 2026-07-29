@@ -7,7 +7,7 @@
     "title": "[v0.91.8][runtime-v3][api] Define the complete versioned Runtime and Observatory OpenAPI contracts",
     "slug": "runtime-v3-openapi-contracts",
     "version": "v0.91.8",
-    "generation": 33
+    "generation": 34
   },
   "status": "pre_phase",
   "content": {
@@ -131,8 +131,8 @@
           "evidence_ref": "Focused HTML Observatory integrated proof passed; browser rendered Runtime v3 version chip, Runtime v3 live Observatory eyebrow, and 55 runtime events; git diff --check passed."
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
