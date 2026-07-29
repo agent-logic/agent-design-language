@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
   "phase": "implemented",
-  "generation": 1,
-  "digest": "20f0baa4f6a6bc36994f6a8fb09aece591b92f82dafa0d8c9329607a028424f5",
+  "generation": 7,
+  "digest": "45a278f3ed99bb63de8d7efdb092899f76c901a36a39170fbe3c744973bd5d71",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 1,
+    "generation": 7,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -20,8 +20,20 @@
       ".csdlc/issues/5701",
       ".csdlc/locks/5701.lock",
       ".csdlc/prepared/issues/5701",
+      "adl-runtime-kernel/Cargo.lock",
+      "adl-runtime-kernel/Cargo.toml",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/src/acip.rs",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/tests/runtime_api_docs.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl/Cargo.lock",
       "docs/api/runtime-v3/v1",
-      "adl-runtime-kernel/tests/openapi_contract.rs"
+      "infra/runtime-v3/runtime-api-5665.toml"
     ],
     "purpose": "Define complete versioned Runtime v3 Core and Observatory OpenAPI contracts with route parity validation while coordinating around active WP-12 #5344 protected router/config paths"
   },
@@ -41,34 +53,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f093f5b4e619bbd8b542652bcfbba2c1f63c768cfe9c85e1fd756f35953492de",
+      "values_digest": "c1d0a2d78cefe05209ef29eacda59c8f401a303b109820c3e3a683285aac7925",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "2b141131708460f35777e988629ba25e75884ee56d5b98c1f040ae165ef3ed9d",
+      "values_digest": "d0ed1b766a622be92c1bb6a6f48e373ff68a48b1d0a01ae00d144b913928d3c9",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "50a57a9ac6e570fbbd53072282a84d46a1e6c79636468915300e68de5f9aa00f",
+      "values_digest": "613b6ec42935cf78e8ddf8b588393426778cf089cbef798e0409e0b5a4739f68",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "5c3f586d5f38d77063e7817777589b34ad7218e0fb05e616e9c945d074824271",
+      "values_digest": "0a00d21e592bbd86c45da7a05817baff2d1a17f92f521ad3ebd16f15a86cc8d1",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "b4965670d1509cb1f551be01b4381637b90d69482dc01266bf61cd0483d6453c",
-      "rendered_digest": "ccb1814e06b34b030d0fcd935235a58300284339468c0f572a840640f54332bc",
-      "ast_digest": "ccba91bf4b8ed2211c273d42a1219f44f9856af3b256723528c49f068c1dc4b8"
+      "values_digest": "1e2a8c39aa513b9013b153b181cde534fdebd8c097973db52c0f31a24be83a77",
+      "rendered_digest": "4332b7111e8799f6372a704ad504faaf40ee5f6455491d2f12ad667cb8ed24e0",
+      "ast_digest": "e686f3199e3333f0b9e8df55efe27a3c94331a2bb90f0162682c0d31f7d153b9"
     },
     "sor": {
-      "values_digest": "706a581e8fcc2a9c9b739a9fd3606f864ebbea68ec61395e7866be44461f7026",
-      "rendered_digest": "3280f877c052cc44ddf1f8b575a96309a946a75966b395717f15ff2929f1b6fe",
-      "ast_digest": "d56f7b350a0250e67ed2ce1ae1bf013d44b128932bb70071d76ba45eb9855339"
+      "values_digest": "c08b81717fd679dcf449f87ac023cca0acf24742b9ec06e2fd55bf6c6fae87cc",
+      "rendered_digest": "1df9ccbf714fc4627b6fd64908b4d85409dbaa1a1b5744fa72e181f5fadf56d1",
+      "ast_digest": "ffbc8199300227e7be29ba704f27e0b42a8bf5b10f03ef7ca144bf84f0e85b7a"
     }
   },
   "transitions": [
@@ -92,6 +104,27 @@
       "to": "implemented",
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Gemini exact-head review completed with PASS and no actionable findings."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Operator expanded #5701 to require real Axum routes for raw OpenAPI JSON and browsable Swagger UI documentation, so the existing reviewed and published truth at 79dad564 is stale before further implementation."
     }
   ],
   "audit": [
@@ -115,6 +148,69 @@
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Gemini exact-head review completed with PASS and no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Operator expanded #5701 to require real Axum routes for raw OpenAPI JSON and browsable Swagger UI documentation, so the existing reviewed and published truth at 79dad564 is stale before further implementation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Operator expanded #5701 to require real Axum serving of raw OpenAPI JSON and browsable Swagger UI documentation; these paths are the minimal runtime router, dependency lockfile, and direct route-test surface.",
+      "operation": "{\"add_protected_paths\":[\"adl/Cargo.lock\",\"adl-runtime/Cargo.toml\",\"adl-runtime/src/runtime_api.rs\",\"adl-runtime/tests/runtime_api_docs.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Operator expanded #5701 to require real versioned Axum serving of raw OpenAPI JSON, browsable Swagger UI, authenticated health and metrics, and full-duplex ACIP WSS on the guardian-launched Runtime v3 listener. These are the minimal runtime route, protocol consistency, dependency, direct test, and configuration paths actually changed after #5344 released its terminal claim.",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/Cargo.lock\",\"adl-runtime-kernel/Cargo.toml\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime/Cargo.lock\",\"adl-runtime/Cargo.toml\",\"adl-runtime/src/acip.rs\",\"adl-runtime/src/runtime_api.rs\",\"adl-runtime/tests/runtime_api_docs.rs\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl/Cargo.lock\",\"infra/runtime-v3/runtime-api-5665.toml\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Record the completed Runtime v3 OpenAPI and production route implementation after #5344 released its claim.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented complete versioned Core and Observatory OpenAPI contracts and mounted their real authenticated Runtime v3 routes on the guardian-launched Axum/Tokio/Rustls listener.\",\"changes\":[\"Serve embedded Core and Observatory OpenAPI 3.1 documents plus human-readable Swagger UI without a sidecar server or runtime CDN.\",\"Expose authenticated /v1/health and /v1/metrics from live runtime state.\",\"Expose authenticated full-duplex /v1/acip/ws using bounded Protobuf frames, replay sequencing, canonical ingress, and real ACIP adapter dispatch.\",\"Replace opaque payload contracts with bounded typed schemas and align shared code-generation types across both documents.\"],\"artifacts\":[\"docs/api/runtime-v3/v1/openapi.json\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\".adl/local-artifacts/5701-gemini-review/result-final.json\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Record the single consolidated proving validation after Gemini remediation and live runtime restart.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test-and-clippy\",\"runtime-v3-openapi-focused-suite\"],\"purpose\":\"Prove the versioned route inventory, typed OpenAPI contracts, real Observatory and ACIP WSS behavior, strict Rust quality, clean diff, live HTTPS documentation, authenticated health and metrics, and ready Vector observability pipeline.\",\"outcome\":\"passed\",\"evidence_ref\":\"Kernel control 21/21; OpenAPI contracts 6/6; Observatory WSS 5/5; runtime API docs 2/2; runtime API WSS 2/2; ACIP 5/5; strict kernel Clippy passed; git diff --check passed; live https://localhost:20997 returned 200 for both Swagger UIs and both specs, authenticated health observability_ready=true, authenticated metrics health=ready, and zero ERROR/FATAL master-log events.\"}}"
     }
   ]
 }

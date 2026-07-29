@@ -14,4 +14,9 @@ Compatibility rules:
 Current route-serving boundary:
 
 - Runtime v3 currently exposes `POST /v1/control`, `GET /v1/observatory`, `OPTIONS /v1/observatory`, and `GET /v1/observatory/ws`.
-- Runtime v3 does not currently serve `GET /v1/openapi.json` or `GET /v1/observatory/openapi.json`; this contract is retained as repository documentation until those discovery routes are implemented as real Axum routes.
+- Runtime v3 serves the Core API contract at `GET /v1/openapi.json`.
+- Runtime v3 serves the Observatory API contract at `GET /v1/observatory/openapi.json`.
+- Runtime v3 serves an embedded Swagger UI at `GET /v1/docs/` with both contracts available from its API selector; `GET /v1/docs` redirects to the slash-stable route.
+- Runtime v3 serves a dedicated Observatory Swagger UI at `GET /v1/observatory/docs/`.
+- The documentation assets and OpenAPI documents are embedded in the Rust binary. They do not depend on the current working directory, a sidecar server, or a runtime CDN.
+- The documentation and raw spec routes are intentionally unauthenticated because they serve static schema artifacts only and contain no runtime state, credentials, or operator data. Operational routes retain their declared bearer, signed-command, or WebSocket authentication policy.

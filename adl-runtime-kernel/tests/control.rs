@@ -914,6 +914,90 @@ async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() 
         tls,
         test_api_policy(),
     ));
+    let runtime_openapi = https_request(
+        &client,
+        address,
+        b"GET /v1/openapi.json HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(runtime_openapi.starts_with("HTTP/1.1 200 OK"));
+    assert!(runtime_openapi.contains("content-type: application/json"));
+    assert!(runtime_openapi.contains("\"title\": \"ADL Runtime v3 Core API\""));
+    assert!(runtime_openapi.contains("\"/v1/acip/ws\""));
+
+    let observatory_openapi = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory/openapi.json HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(observatory_openapi.starts_with("HTTP/1.1 200 OK"));
+    assert!(observatory_openapi.contains("content-type: application/json"));
+    assert!(observatory_openapi.contains("\"title\": \"ADL Observatory API\""));
+    assert!(observatory_openapi.contains("\"/v1/observatory/ws\""));
+
+    let swagger_docs = https_request(
+        &client,
+        address,
+        b"GET /v1/docs/ HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(swagger_docs.starts_with("HTTP/1.1 200 OK"));
+    assert!(swagger_docs.contains("content-type: text/html"));
+    assert!(swagger_docs.contains("Swagger UI"));
+    let swagger_initializer = https_request(
+        &client,
+        address,
+        b"GET /v1/docs/swagger-initializer.js HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(swagger_initializer.starts_with("HTTP/1.1 200 OK"));
+    assert!(swagger_initializer.contains("javascript"));
+    assert!(swagger_initializer.contains("/v1/openapi.json"));
+    assert!(swagger_initializer.contains("/v1/observatory/openapi.json"));
+    let observatory_swagger_docs = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory/docs/ HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(observatory_swagger_docs.starts_with("HTTP/1.1 200 OK"));
+    assert!(observatory_swagger_docs.contains("content-type: text/html"));
+    let observatory_swagger_initializer = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory/docs/swagger-initializer.js HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(observatory_swagger_initializer.starts_with("HTTP/1.1 200 OK"));
+    assert!(observatory_swagger_initializer.contains("/v1/observatory/openapi.json"));
+    assert!(!observatory_swagger_initializer.contains("/v1/openapi.json"));
+
+    let health = https_request(
+        &client,
+        address,
+        b"GET /v1/health HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer test-observatory-token-0000000001\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(health.starts_with("HTTP/1.1 200 OK"));
+    assert!(health.contains(adl_runtime_kernel::RUNTIME_SNAPSHOT_SCHEMA));
+
+    let metrics = https_request(
+        &client,
+        address,
+        b"GET /v1/metrics HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer test-observatory-token-0000000001\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(metrics.starts_with("HTTP/1.1 200 OK"));
+
+    let acip_unauthorized = https_request(
+        &client,
+        address,
+        b"GET /v1/acip/ws HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(acip_unauthorized.starts_with("HTTP/1.1 400 Bad Request"));
+
     let preflight = https_request(
         &client,
         address,

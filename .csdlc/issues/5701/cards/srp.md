@@ -8,14 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-docs/api/runtime-v3/v1
-adl-runtime-kernel/tests/openapi_contract.rs
-.csdlc/evidence/5701
-.csdlc/issues/5701
+
 
 ## Prompts
 

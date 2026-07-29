@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented canonical Runtime Core API v1 and Observatory API v1 OpenAPI 3.1 contracts plus route-parity validation for the currently reachable Runtime v3 Axum routes. Discovery serving remains a typed protected-path gate because active #5344 owns the router/config surfaces.
+Implemented complete versioned Core and Observatory OpenAPI contracts and mounted their real authenticated Runtime v3 routes on the guardian-launched Axum/Tokio/Rustls listener.
 
 ## Artifacts
 
@@ -21,6 +21,11 @@ Implemented canonical Runtime Core API v1 and Observatory API v1 OpenAPI 3.1 con
 - docs/api/runtime-v3/v1/API_VERSIONING.md
 - adl-runtime-kernel/tests/openapi_contract.rs
 - commit 645d66a5f
+- docs/api/runtime-v3/v1/openapi.json
+- docs/api/runtime-v3/v1/observatory.openapi.json
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/tests/openapi_contract.rs
+- .adl/local-artifacts/5701-gemini-review/result-final.json
 
 ## Execution
 
@@ -28,6 +33,10 @@ Implemented canonical Runtime Core API v1 and Observatory API v1 OpenAPI 3.1 con
 - Added docs/api/runtime-v3/v1/observatory.openapi.json for the authenticated Observatory snapshot and WSS endpoint
 - Added docs/api/runtime-v3/v1/API_VERSIONING.md with independent Runtime Core and Observatory API versioning rules
 - Added adl-runtime-kernel/tests/openapi_contract.rs to parse contracts, resolve local refs, reject phantom route claims, and check WSS frame documentation
+- Serve embedded Core and Observatory OpenAPI 3.1 documents plus human-readable Swagger UI without a sidecar server or runtime CDN.
+- Expose authenticated /v1/health and /v1/metrics from live runtime state.
+- Expose authenticated full-duplex /v1/acip/ws using bounded Protobuf frames, replay sequencing, canonical ingress, and real ACIP adapter dispatch.
+- Replace opaque payload contracts with bounded typed schemas and align shared code-generation types across both documents.
 
 ## Validation
 
@@ -65,12 +74,22 @@ Implemented canonical Runtime Core API v1 and Observatory API v1 OpenAPI 3.1 con
     "purpose": "Focused #5701 contract validation",
     "outcome": "passed",
     "evidence_ref": "runtime-v3-openapi-contract.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test-and-clippy",
+      "runtime-v3-openapi-focused-suite"
+    ],
+    "purpose": "Prove the versioned route inventory, typed OpenAPI contracts, real Observatory and ACIP WSS behavior, strict Rust quality, clean diff, live HTTPS documentation, authenticated health and metrics, and ready Vector observability pipeline.",
+    "outcome": "passed",
+    "evidence_ref": "Kernel control 21/21; OpenAPI contracts 6/6; Observatory WSS 5/5; runtime API docs 2/2; runtime API WSS 2/2; ACIP 5/5; strict kernel Clippy passed; git diff --check passed; live https://localhost:20997 returned 200 for both Swagger UIs and both specs, authenticated health observability_ready=true, authenticated metrics health=ready, and zero ERROR/FATAL master-log events."
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

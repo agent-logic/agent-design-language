@@ -26,6 +26,14 @@ fn runtime_and_observatory_openapi_contracts_are_valid_and_disjoint() {
     assert_no_unavailable_operational_claims(&runtime);
     assert_no_unavailable_operational_claims(&observatory);
 
+    for shared_schema in ["ClockAuthority", "ObservabilityHealth"] {
+        assert_eq!(
+            runtime["components"]["schemas"][shared_schema],
+            observatory["components"]["schemas"][shared_schema],
+            "{shared_schema} must not drift between the Core and Observatory contracts"
+        );
+    }
+
     let runtime_routes = documented_routes(&runtime);
     let observatory_routes = documented_routes(&observatory);
     assert!(runtime_routes.is_disjoint(&observatory_routes));
@@ -47,6 +55,24 @@ fn openapi_paths_match_current_runtime_v3_axum_route_inventory() {
 }
 
 #[test]
+fn runtime_serves_machine_and_human_readable_openapi_docs() {
+    assert!(CONTROL_RS.contains("pub const RUNTIME_OPENAPI_PATH: &str = \"/v1/openapi.json\""));
+    assert!(CONTROL_RS
+        .contains("pub const OBSERVATORY_OPENAPI_PATH: &str = \"/v1/observatory/openapi.json\""));
+    assert!(CONTROL_RS.contains("pub const API_DOCS_PATH: &str = \"/v1/docs/\""));
+    assert!(CONTROL_RS
+        .contains("pub const OBSERVATORY_API_DOCS_PATH: &str = \"/v1/observatory/docs/\""));
+    assert!(CONTROL_RS.contains("SwaggerUi::new(API_DOCS_PATH)"));
+    assert!(CONTROL_RS.contains("SwaggerUi::new(OBSERVATORY_API_DOCS_PATH)"));
+    assert!(CONTROL_RS.contains(".validator_url(\"none\")"));
+    assert!(CONTROL_RS.contains("SwaggerUrl::with_primary(\"Runtime Core\""));
+    assert!(CONTROL_RS.contains("SwaggerUrl::new(\"Observatory\""));
+    assert!(CONTROL_RS.contains("include_str!(\"../../docs/api/runtime-v3/v1/openapi.json\")"));
+    assert!(CONTROL_RS
+        .contains("include_str!(\"../../docs/api/runtime-v3/v1/observatory.openapi.json\")"));
+}
+
+#[test]
 fn observatory_wss_documents_real_bidirectional_frame_boundary() {
     let observatory = parse_openapi(OBSERVATORY_OPENAPI);
     let ws = &observatory["paths"]["/v1/observatory/ws"]["get"]["x-adl-websocket"];
@@ -64,7 +90,7 @@ fn observatory_wss_documents_real_bidirectional_frame_boundary() {
         .expect("serverFrames array")
         .iter()
         .any(|frame| frame["$ref"] == "#/components/schemas/ObservatoryFeed"));
-    assert_eq!(ws["mutationAuthority"], false);
+    assert_eq!(ws["mutationAuthority"], "signed_control_command_only");
 
     let reasons: BTreeSet<&str> = ws["policyCloseReasons"]
         .as_array()
@@ -74,23 +100,18 @@ fn observatory_wss_documents_real_bidirectional_frame_boundary() {
         .collect();
     assert_eq!(
         reasons,
-        BTreeSet::from([
-            "authentication_failed",
-            "credential_revoked",
-            "read_only_observatory"
-        ])
+        BTreeSet::from(["authentication_failed", "credential_revoked",])
     );
 }
 
 #[test]
 fn runtime_core_wss_documents_real_bidirectional_acip_boundary() {
     let runtime = parse_openapi(RUNTIME_OPENAPI);
-    let ws = &runtime["paths"]["/acip/ws"]["get"]["x-adl-websocket"];
+    let ws = &runtime["paths"]["/v1/acip/ws"]["get"]["x-adl-websocket"];
 
     assert_eq!(ws["scheme"], "wss");
     assert_eq!(ws["maxFrameBytes"], 65_536);
     assert_eq!(ws["authentication"], "http_bearer_upgrade_header");
-    assert_eq!(ws["authRefreshMillis"], 25);
     assert_eq!(
         ws["serverFirstFrame"]["$ref"],
         "#/components/schemas/AcipAuthenticatedFrame"
@@ -100,17 +121,12 @@ fn runtime_core_wss_documents_real_bidirectional_acip_boundary() {
         .as_array()
         .expect("clientFrames array")
         .iter()
-        .any(|frame| frame["$ref"] == "#/components/schemas/AcipPingFrame"));
-    assert!(ws["clientFrames"]
-        .as_array()
-        .expect("clientFrames array")
-        .iter()
-        .any(|frame| frame["$ref"] == "#/components/schemas/AcipFeatureMatrixFrame"));
+        .any(|frame| frame["binarySchema"] == "adl.csm.acip_carrier.protobuf_envelope.v1"));
     assert!(ws["serverFrames"]
         .as_array()
         .expect("serverFrames array")
         .iter()
-        .any(|frame| frame["$ref"] == "#/components/schemas/RuntimeFeatureMatrix"));
+        .any(|frame| frame["$ref"] == "#/components/schemas/AcipDispatchResult"));
 
     let reasons: BTreeSet<&str> = ws["policyCloseReasons"]
         .as_array()
@@ -120,7 +136,7 @@ fn runtime_core_wss_documents_real_bidirectional_acip_boundary() {
         .collect();
     assert_eq!(
         reasons,
-        BTreeSet::from(["credential_revoked", "invalid_json", "unsupported_frame"])
+        BTreeSet::from(["binary_acip_frame_required", "credential_revoked"])
     );
 }
 
@@ -196,13 +212,25 @@ fn real_control_routes() -> BTreeSet<(String, String)> {
 
 fn real_runtime_api_routes() -> BTreeSet<(String, String)> {
     let mut routes = BTreeSet::new();
-    for expected in ["/health", "/metrics", "/acip/ws"] {
+    for expected in [
+        "/v1/health",
+        "/v1/metrics",
+        "/v1/acip/ws",
+        "/v1/openapi.json",
+        "/v1/observatory/openapi.json",
+    ] {
         assert!(
-            RUNTIME_API_RS.contains(&format!(".route(\"{expected}\"")),
+            RUNTIME_API_RS.contains(&format!(".route(\"{expected}\""))
+                || RUNTIME_API_RS.contains(&format!("= \"{expected}\"")),
             "runtime API router must still contain {expected}"
         );
         routes.insert(("get".to_owned(), expected.to_owned()));
     }
+    assert!(
+        RUNTIME_API_RS.contains("CSM_RUNTIME_API_DOCS_PATH"),
+        "runtime API router must still contain the Swagger docs route constant"
+    );
+    routes.insert(("get".to_owned(), "/v1/docs/".to_owned()));
     routes
 }
 
@@ -214,7 +242,11 @@ fn real_kernel_control_routes() -> BTreeSet<(String, String)> {
                 routes.insert(("get".to_owned(), route.clone()));
                 routes.insert(("options".to_owned(), route));
             }
-            "/v1/observatory/ws" => {
+            "/v1/health"
+            | "/v1/metrics"
+            | "/v1/acip/ws"
+            | "/v1/observatory/ws"
+            | "/v1/observatory/docs/" => {
                 routes.insert(("get".to_owned(), route));
             }
             "/v1/control" => {
@@ -228,7 +260,13 @@ fn real_kernel_control_routes() -> BTreeSet<(String, String)> {
 
 fn literal_routes_from_control_rs() -> BTreeSet<String> {
     let mut routes = BTreeSet::new();
-    for expected in ["/v1/observatory", "/v1/control"] {
+    for expected in [
+        "/v1/health",
+        "/v1/metrics",
+        "/v1/acip/ws",
+        "/v1/observatory",
+        "/v1/control",
+    ] {
         assert!(
             CONTROL_RS.contains(&format!("\"{expected}\"")),
             "control router must still contain {expected}"
@@ -244,6 +282,12 @@ fn literal_routes_from_control_rs() -> BTreeSet<String> {
         "OBSERVATORY_WS_PATH constant must remain the documented route"
     );
     routes.insert("/v1/observatory/ws".to_owned());
+    assert!(
+        CONTROL_RS
+            .contains("pub const OBSERVATORY_API_DOCS_PATH: &str = \"/v1/observatory/docs/\""),
+        "OBSERVATORY_API_DOCS_PATH constant must remain the documented route"
+    );
+    routes.insert("/v1/observatory/docs/".to_owned());
     routes
 }
 

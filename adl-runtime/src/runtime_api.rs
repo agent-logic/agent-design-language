@@ -16,6 +16,7 @@ use futures::StreamExt;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use tokio::net::TcpListener;
+use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
 use crate::runtime_api_auth::{
     RuntimeApiAuthDecision, RuntimeApiCredentialMetadata, RuntimeApiCredentialStore,
@@ -44,27 +45,33 @@ pub const CSM_RUNTIME_API_WSS_SESSION_SCHEMA: &str = "adl.csm.runtime_api.wss_se
 pub const CSM_RUNTIME_API_FEATURE_MATRIX_SCHEMA: &str = "adl.csm.runtime_api.feature_matrix.v1";
 pub const CSM_RUNTIME_API_TELEMETRY_EVENT_SCHEMA: &str = "adl.csm.runtime_api.telemetry_event.v1";
 pub const CSM_RUNTIME_API_DEFAULT_PORT: u16 = 20_997;
+pub const CSM_RUNTIME_API_OPENAPI_PATH: &str = "/v1/openapi.json";
+pub const CSM_RUNTIME_API_OBSERVATORY_OPENAPI_PATH: &str = "/v1/observatory/openapi.json";
+pub const CSM_RUNTIME_API_DOCS_PATH: &str = "/v1/docs/";
 const WSS_AUTH_REFRESH: Duration = Duration::from_millis(25);
 const MAX_WSS_FRAME_BYTES: usize = 64 * 1024;
+const RUNTIME_OPENAPI_JSON: &str = include_str!("../../docs/api/runtime-v3/v1/openapi.json");
+const OBSERVATORY_OPENAPI_JSON: &str =
+    include_str!("../../docs/api/runtime-v3/v1/observatory.openapi.json");
 
 pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 17] = [
-    "/status",
-    "/health",
-    "/ready",
-    "/metrics",
-    "/events",
-    "/chronosense",
-    "/weather",
-    "/shepherd",
-    "/cav",
-    "/curiosity",
-    "/acip",
-    "/acip/ws",
-    "/freedom-gate",
-    "/reasoning",
-    "/api-gateway-bridge",
-    "/constructability",
-    "/persistence",
+    "/v1/status",
+    "/v1/health",
+    "/v1/ready",
+    "/v1/metrics",
+    "/v1/events",
+    "/v1/chronosense",
+    "/v1/weather",
+    "/v1/shepherd",
+    "/v1/cav",
+    "/v1/curiosity",
+    "/v1/acip",
+    "/v1/acip/ws",
+    "/v1/freedom-gate",
+    "/v1/reasoning",
+    "/v1/api-gateway-bridge",
+    "/v1/constructability",
+    "/v1/persistence",
 ];
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
@@ -201,19 +208,28 @@ where
         shutdown.await;
         shutdown_handle.graceful_shutdown(Some(Duration::from_secs(1)));
     });
-    let router = Router::new()
-        .route("/health", get(health_handler))
-        .route("/metrics", get(metrics_handler))
-        .route("/acip/ws", get(wss_handler))
-        .with_state(service);
     let result = axum_server::from_tcp_rustls(listener, tls)
         .map_err(|error| format!("bind runtime API TLS listener: {error}"))?
         .handle(handle)
-        .serve(router.into_make_service())
+        .serve(runtime_api_router(service).into_make_service())
         .await
         .map_err(|error| format!("serve runtime API: {error}"));
     shutdown_task.abort();
     result
+}
+
+pub fn runtime_api_router(service: Arc<RuntimeApiService>) -> Router {
+    Router::new()
+        .route("/v1/health", get(health_handler))
+        .route("/v1/metrics", get(metrics_handler))
+        .route("/v1/acip/ws", get(wss_handler))
+        .route(CSM_RUNTIME_API_OPENAPI_PATH, get(runtime_openapi_handler))
+        .route(
+            CSM_RUNTIME_API_OBSERVATORY_OPENAPI_PATH,
+            get(observatory_openapi_handler),
+        )
+        .merge(openapi_docs_router())
+        .with_state(service)
 }
 
 pub async fn serve_runtime_api_on_port_until<F>(
@@ -253,6 +269,30 @@ async fn metrics_handler(
     Json(service.telemetry()).into_response()
 }
 
+async fn runtime_openapi_handler() -> Response {
+    openapi_json_response(RUNTIME_OPENAPI_JSON)
+}
+
+async fn observatory_openapi_handler() -> Response {
+    openapi_json_response(OBSERVATORY_OPENAPI_JSON)
+}
+
+fn openapi_json_response(document: &'static str) -> Response {
+    ([(header::CONTENT_TYPE, "application/json")], document).into_response()
+}
+
+fn openapi_docs_router() -> Router<Arc<RuntimeApiService>> {
+    SwaggerUi::new(CSM_RUNTIME_API_DOCS_PATH)
+        .config(
+            SwaggerConfig::new([
+                SwaggerUrl::with_primary("Runtime Core", CSM_RUNTIME_API_OPENAPI_PATH, true),
+                SwaggerUrl::new("Observatory", CSM_RUNTIME_API_OBSERVATORY_OPENAPI_PATH),
+            ])
+            .validator_url("none"),
+        )
+        .into()
+}
+
 async fn wss_handler(
     ws: WebSocketUpgrade,
     State(service): State<Arc<RuntimeApiService>>,
@@ -284,7 +324,7 @@ async fn wss_session(
     let hello = json!({
         "schema": CSM_RUNTIME_API_WSS_SESSION_SCHEMA,
         "event": "authenticated",
-        "path": "/acip/ws",
+        "path": "/v1/acip/ws",
         "bidirectional": true
     });
     if socket
@@ -440,7 +480,7 @@ mod tests {
         assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/cav"));
         assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/curiosity"));
         assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/acip"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/acip/ws"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/acip/ws"));
         assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/freedom-gate"));
         assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/reasoning"));
         assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/api-gateway-bridge"));

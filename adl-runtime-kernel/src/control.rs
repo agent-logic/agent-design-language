@@ -25,6 +25,7 @@ use lru::LruCache;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 use tracing::Instrument;
+use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
 use crate::{
     acip_frame_status, decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest,
@@ -38,10 +39,20 @@ pub const CONTROL_RESPONSE_SCHEMA: &str = "adl.runtime.control_response.v1";
 pub const LEGACY_OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_feed.v1";
 pub const OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_feed.v2";
 pub const MAX_SHUTDOWN_GRACE_MILLIS: u64 = 60_000;
+pub const API_DOCS_PATH: &str = "/v1/docs/";
+pub const OBSERVATORY_API_DOCS_PATH: &str = "/v1/observatory/docs/";
+pub const RUNTIME_OPENAPI_PATH: &str = "/v1/openapi.json";
+pub const OBSERVATORY_OPENAPI_PATH: &str = "/v1/observatory/openapi.json";
+pub const RUNTIME_HEALTH_PATH: &str = "/v1/health";
+pub const RUNTIME_METRICS_PATH: &str = "/v1/metrics";
+pub const ACIP_WS_PATH: &str = "/v1/acip/ws";
 pub const OBSERVATORY_WS_PATH: &str = "/v1/observatory/ws";
 pub const OBSERVATORY_WS_AUTH_SCHEMA: &str = "adl.runtime_v3.observatory_ws_auth.v1";
 pub const OBSERVATORY_WS_CONTROL_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_ws_control_result.v1";
+const RUNTIME_OPENAPI_DOCUMENT: &str = include_str!("../../docs/api/runtime-v3/v1/openapi.json");
+const OBSERVATORY_OPENAPI_DOCUMENT: &str =
+    include_str!("../../docs/api/runtime-v3/v1/observatory.openapi.json");
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ControlApiPolicy {
@@ -949,13 +960,35 @@ where
     let listener = listener
         .into_std()
         .map_err(|error| ControlApiError::Bind(error.to_string()))?;
+    let swagger_ui = SwaggerUi::new(API_DOCS_PATH).config(
+        SwaggerConfig::new([
+            SwaggerUrl::with_primary("Runtime Core", RUNTIME_OPENAPI_PATH, true),
+            SwaggerUrl::new("Observatory", OBSERVATORY_OPENAPI_PATH),
+        ])
+        .validator_url("none"),
+    );
+    let observatory_swagger_ui = SwaggerUi::new(OBSERVATORY_API_DOCS_PATH).config(
+        SwaggerConfig::new([SwaggerUrl::with_primary(
+            "Observatory",
+            OBSERVATORY_OPENAPI_PATH,
+            true,
+        )])
+        .validator_url("none"),
+    );
     let router = Router::new()
+        .route(RUNTIME_HEALTH_PATH, get(runtime_health_handler::<C>))
+        .route(RUNTIME_METRICS_PATH, get(runtime_metrics_handler::<C>))
+        .route(ACIP_WS_PATH, get(acip_ws_handler::<C>))
+        .route(RUNTIME_OPENAPI_PATH, get(runtime_openapi_handler))
+        .route(OBSERVATORY_OPENAPI_PATH, get(observatory_openapi_handler))
         .route(
             "/v1/observatory",
             get(observatory_feed_handler::<C>).options(observatory_preflight_handler::<C>),
         )
         .route(OBSERVATORY_WS_PATH, get(observatory_ws_handler::<C>))
         .route("/v1/control", post(control_handler::<C>))
+        .merge(swagger_ui)
+        .merge(observatory_swagger_ui)
         .with_state(service);
     let handle = axum_server::Handle::new();
     let shutdown_handle = handle.clone();
@@ -983,6 +1016,175 @@ where
         task.abort();
     }
     result
+}
+
+async fn runtime_openapi_handler() -> impl IntoResponse {
+    (
+        [(header::CONTENT_TYPE, "application/json")],
+        RUNTIME_OPENAPI_DOCUMENT,
+    )
+}
+
+async fn observatory_openapi_handler() -> impl IntoResponse {
+    (
+        [(header::CONTENT_TYPE, "application/json")],
+        OBSERVATORY_OPENAPI_DOCUMENT,
+    )
+}
+
+async fn runtime_health_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    headers: HeaderMap,
+) -> Response {
+    if !service.observatory_authorized(&headers) {
+        return control_error_response(ControlError::Authentication);
+    }
+    Json(service.observatory_feed().health).into_response()
+}
+
+async fn runtime_metrics_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    headers: HeaderMap,
+) -> Response {
+    if !service.observatory_authorized(&headers) {
+        return control_error_response(ControlError::Authentication);
+    }
+    Json(service.recorder.snapshot().observability_pipeline).into_response()
+}
+
+async fn acip_ws_handler<C: LifecycleControl + 'static>(
+    ws: WebSocketUpgrade,
+    State(service): State<Arc<ControlService<C>>>,
+    headers: HeaderMap,
+) -> Response {
+    let Some(bearer_token) = headers
+        .get(header::AUTHORIZATION)
+        .and_then(|value| value.to_str().ok())
+        .and_then(|value| value.strip_prefix("Bearer "))
+        .filter(|token| service.observatory_token_authorized(token))
+        .map(str::to_owned)
+    else {
+        return StatusCode::UNAUTHORIZED.into_response();
+    };
+    let api_policy = service.api_policy();
+    ws.max_frame_size(api_policy.websocket_max_frame_bytes)
+        .max_message_size(api_policy.websocket_max_frame_bytes)
+        .on_upgrade(move |socket| acip_ws_session(socket, service, bearer_token))
+}
+
+async fn acip_ws_session<C: LifecycleControl + 'static>(
+    mut socket: WebSocket,
+    service: Arc<ControlService<C>>,
+    bearer_token: String,
+) {
+    let authenticated = serde_json::json!({
+        "schema": ACIP_WEBSOCKET_SCHEMA,
+        "event": "authenticated",
+        "path": ACIP_WS_PATH,
+        "bidirectional": true
+    });
+    if socket
+        .send(Message::Text(authenticated.to_string().into()))
+        .await
+        .is_err()
+    {
+        return;
+    }
+
+    while let Some(message) = socket.recv().await {
+        if !service.observatory_token_authorized(&bearer_token) {
+            let _ = socket
+                .send(Message::Close(Some(CloseFrame {
+                    code: close_code::POLICY,
+                    reason: "credential_revoked".into(),
+                })))
+                .await;
+            return;
+        }
+        match message {
+            Ok(Message::Binary(payload)) => {
+                let response = match decode_acip_envelope(&payload) {
+                    Ok(envelope)
+                        if service.reserve_acip_sequence(
+                            &envelope.source,
+                            envelope.monotonic_sequence,
+                        ) =>
+                    {
+                        let work = DomainWork {
+                            schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
+                            work_id: envelope.message_id.clone(),
+                            kind: "acip".to_owned(),
+                            payload: payload.to_vec(),
+                        };
+                        match &service.canonical_ingress {
+                            Some(ingress) => {
+                                match ingress.submit(work, envelope.message_id.clone()).await {
+                                    Ok(result) => serde_json::json!({
+                                        "schema": ACIP_WEBSOCKET_SCHEMA,
+                                        "status": "completed",
+                                        "message_id": envelope.message_id,
+                                        "accepted_sequence": result.accepted_sequence,
+                                        "result_hash": result.result_hash,
+                                        "sequence_reserved": true
+                                    }),
+                                    Err(error) => serde_json::json!({
+                                        "schema": ACIP_WEBSOCKET_SCHEMA,
+                                        "status": "rejected",
+                                        "message_id": envelope.message_id,
+                                        "reason": error.to_string(),
+                                        "sequence_reserved": true
+                                    }),
+                                }
+                            }
+                            None => serde_json::json!({
+                                "schema": ACIP_WEBSOCKET_SCHEMA,
+                                "status": "rejected",
+                                "message_id": envelope.message_id,
+                                "reason": "canonical_ingress_unavailable",
+                                "sequence_reserved": true
+                            }),
+                        }
+                    }
+                    Ok(envelope) => serde_json::json!({
+                        "schema": ACIP_WEBSOCKET_SCHEMA,
+                        "status": "rejected",
+                        "message_id": envelope.message_id,
+                        "reason": "monotonic_sequence_must_advance",
+                        "sequence_reserved": false
+                    }),
+                    Err(reason) => serde_json::json!({
+                        "schema": ACIP_WEBSOCKET_SCHEMA,
+                        "status": "rejected",
+                        "reason": reason,
+                        "sequence_reserved": false
+                    }),
+                };
+                if socket
+                    .send(Message::Text(response.to_string().into()))
+                    .await
+                    .is_err()
+                {
+                    return;
+                }
+            }
+            Ok(Message::Ping(payload)) => {
+                if socket.send(Message::Pong(payload)).await.is_err() {
+                    return;
+                }
+            }
+            Ok(Message::Pong(_)) => {}
+            Ok(Message::Close(_)) => return,
+            Ok(Message::Text(_)) | Err(_) => {
+                let _ = socket
+                    .send(Message::Close(Some(CloseFrame {
+                        code: close_code::POLICY,
+                        reason: "binary_acip_frame_required".into(),
+                    })))
+                    .await;
+                return;
+            }
+        }
+    }
 }
 
 async fn observatory_feed_handler<C: LifecycleControl + 'static>(
