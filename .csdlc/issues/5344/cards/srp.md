@@ -44,12 +44,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The retained 10,000-cycle, 100-by-10-second, and 10-by-600-second platform runs were verified rather than rerun during review.
+- Issue #5344 proves selector rollback with a v1 fixture; issue #5343 owns real retained-v1 executable restoration.
+- Runtime v1 and Runtime v2 remain installed rollback surfaces, the default remains unchanged, and legacy deletion is not authorized.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:8831d7bd2844f81457a50d5780e73eb0c0776764:b0303764ad1a0f1fd7f7ecbb6f16bb3bd1b745c6a02330664d291d1a6d463e79")
 
-Reviewer: None
+Reviewer: Some("subagent:019fac48-c04a-70f1-8a0e-fca1cb4af863")
 
-Result: pre_review
+Result: pass

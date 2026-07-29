@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-12] Run opt-in soak and prove rollback",
     "slug": "v0918-wp12-opt-in-soak-rollback",
     "version": "v0.91.8",
-    "generation": 6
+    "generation": 8
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/5344\n.csdlc/evidence/5344\n.csdlc/prepared/issues/5344\nadl-runtime\nadl-runtime-kernel\nadl-v2/tools/prove-rollback.sh\nadl-v2/tools/run-soak.sh\ndocs/milestones/v0.91.8/evidence/wp12\ninfra/horust\ninfra/runtime-v3/runtime-init.toml\ninfra/rustysd\ninfra/systemd",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:8831d7bd2844f81457a50d5780e73eb0c0776764:b0303764ad1a0f1fd7f7ecbb6f16bb3bd1b745c6a02330664d291d1a6d463e79",
+      "reviewer": "subagent:019fac48-c04a-70f1-8a0e-fca1cb4af863",
       "review_prompts": [
         "Can any path, symlink, environment value, stale receipt, or argument escape the isolated selector root or mutate the default selector?",
         "Does every selector mutation use the authoritative locked compare-and-swap API and prove exact prior-byte preservation or explicit exact rollback?",
@@ -25,8 +25,12 @@
         "Are COTS, dependency exclusions, LoC/module/test/time budgets, PVF classification, no-deferral, redaction, exact review, and post-merge proof complete?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The retained 10,000-cycle, 100-by-10-second, and 10-by-600-second platform runs were verified rather than rerun during review.",
+        "Issue #5344 proves selector rollback with a v1 fixture; issue #5343 owns real retained-v1 executable restoration.",
+        "Runtime v1 and Runtime v2 remain installed rollback surfaces, the default remains unchanged, and legacy deletion is not authorized."
+      ],
+      "review_result": "pass"
     }
   }
 }

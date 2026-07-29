@@ -3,13 +3,13 @@
   "issue": 5344,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "fe28f3c97e1b5f3df38a61392ee695d13883e4af2ae90131ecd2039260c5a49f",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "cdfd0d2cc85ffeab50f8bdb5bf9e8d1050cb78c05ac52ccfc6db50b35cd3de49",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 6,
+    "generation": 8,
     "acquired_unix_seconds": 1785295953,
     "expires_unix_seconds": 1785900753,
     "heartbeat_unix_seconds": 1785295953,
@@ -77,7 +77,32 @@
       "infra/systemd"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019fac48-c04a-70f1-8a0e-fca1cb4af863",
+    "scope": [
+      ".csdlc/issues/5344",
+      ".csdlc/evidence/5344",
+      ".csdlc/prepared/issues/5344",
+      "adl-runtime",
+      "adl-runtime-kernel",
+      "adl-v2/tools/prove-rollback.sh",
+      "adl-v2/tools/run-soak.sh",
+      "docs/milestones/v0.91.8/evidence/wp12",
+      "infra/horust",
+      "infra/runtime-v3/runtime-init.toml",
+      "infra/rustysd",
+      "infra/systemd"
+    ],
+    "reviewed_revision": "git-blake3:8831d7bd2844f81457a50d5780e73eb0c0776764:b0303764ad1a0f1fd7f7ecbb6f16bb3bd1b745c6a02330664d291d1a6d463e79",
+    "findings": [],
+    "residual_risks": [
+      "The retained 10,000-cycle, 100-by-10-second, and 10-by-600-second platform runs were verified rather than rerun during review.",
+      "Issue #5344 proves selector rollback with a v1 fixture; issue #5343 owns real retained-v1 executable restoration.",
+      "Runtime v1 and Runtime v2 remain installed rollback surfaces, the default remains unchanged, and legacy deletion is not authorized."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -92,32 +117,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ce313bf2a533d14cd26d16b6a4e0cda138127c09b57d0b71e3ceac145f7c89b4",
+      "values_digest": "41d972e99b51de3c17546184ee78a4162802c6e780cb3f7932534d7abe6841a4",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "ed900f0cb0cef8588447abb84f17a69b098709cee80513d50c9d725024e64ff6",
+      "values_digest": "82814e40f43aec87c09f7d13536a080efdd83f679c7e42428436804245034f79",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "dc76bf795814f8b6be9f9d58bdbbf453021b3c8ca931aa9ff52d1ea6f320b152",
+      "values_digest": "73d8d14137f0ddc9b1103aee9df811917ca537b25b217ffbb171411133a7ce35",
       "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
       "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "f0f026a51bd280f6411f9fcabcc389e183760e2c42d3d6cbaf39abb238f28de3",
+      "values_digest": "750ef14978b7df529179aa4b4c91dc8b699180e319a7bd114b9fc455c2657765",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "b51a4efd9d0d14aff42b8b29f9fdf584a945701239c392b5024c21aa6de0bf7b",
-      "rendered_digest": "a0dd5a4e8f13e8278068b3cf48a2874e9e3b9d2752fbfdd617c9694ece8284e2",
-      "ast_digest": "79a4d2afa80f14ef41961d7c1989c45baffcf9963f4b9d5be48784046ce69827"
+      "values_digest": "e099e20a718b6c465d8550c88da5140c98b8442b56e47b05553ff91fe0d62b9d",
+      "rendered_digest": "1295c0a2862e1a134e8757ad54a986a916753a21b02764550e075d64befcc445",
+      "ast_digest": "9eeaa526acb7841cb67b37aa7c0ec54ca4ec46f82f046e89bc64ee79bc65a7d5"
     },
     "sor": {
-      "values_digest": "4cbcdb3b35ed095902cc3b9eb6a3d1d10ba5665171a96fc81075ca549986a567",
+      "values_digest": "ccd0d1643721222dabfa206d68a39af31401097bc29cf243ae78480aad5fc601",
       "rendered_digest": "b0dab5e24d8320b1e26f7cd04300d14bee4d6160b7989c627342628ea93f4673",
       "ast_digest": "030d1ac3779f3c69fc5fda54de85758ce1f12286029324519f94a50fb1c71896"
     }
@@ -143,6 +168,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the assigned exact review completed with no findings."
     }
   ],
   "audit": [
@@ -299,6 +331,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 7,
+      "actor": "subagent:019fac48-c04a-70f1-8a0e-fca1cb4af863",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the assigned exact review completed with no findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
