@@ -12,16 +12,7 @@ Status: draft
 
 ## Scope
 
-docs/api/runtime-v3/v1
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/tests/control.rs
-adl-runtime-kernel/tests/guardian_soak.rs
-adl-runtime-kernel/tests/observatory.rs
-adl-runtime-kernel/tests/openapi_contract.rs
-adl-runtime/src/acip.rs
-adl-runtime/src/runtime_api.rs
-adl-runtime/tests/runtime_api_wss.rs
-infra/runtime-v3/runtime-api-5665.toml
+
 
 ## Prompts
 
@@ -45,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:5459e860452afb19616af1df013d537f2915e18e:0ce676bb7be7d1a703e633e479808f55a21022c73912393f3cb0e815f257e1de")
+Revision: None
 
-Reviewer: Some("subagent:019faf8a-5313-7292-8ca5-57feb8f12d7b")
+Reviewer: None
 
-Result: pass
+Result: pre_review

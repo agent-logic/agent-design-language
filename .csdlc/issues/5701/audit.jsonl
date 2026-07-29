@@ -19,3 +19,4 @@
 {"sequence":19,"generation":10,"actor":"subagent:019faf8a-5313-7292-8ca5-57feb8f12d7b","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":20,"generation":11,"actor":"codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44","reason":"The final exact-head GPT-5.5 review passed with zero findings after all contract and security-boundary corrections.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":21,"generation":12,"actor":"codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":22,"generation":13,"actor":"codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44","reason":"Recover exact review and publication truth before integrating current main to resolve PR #5705's real merge conflict.","operation":"recover_review"}

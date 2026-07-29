@@ -99,11 +99,11 @@ Implemented complete versioned Core and Observatory OpenAPI contracts and mounte
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

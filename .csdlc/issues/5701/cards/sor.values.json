@@ -7,7 +7,7 @@
     "title": "[v0.91.8][runtime-v3][api] Define the complete versioned Runtime and Observatory OpenAPI contracts",
     "slug": "runtime-v3-openapi-contracts",
     "version": "v0.91.8",
-    "generation": 12
+    "generation": 13
   },
   "status": "pre_phase",
   "content": {
@@ -92,8 +92,8 @@
           "evidence_ref": "Kernel control 21/21; guardian soak 7/7; Observatory WSS 6/6; OpenAPI contracts 6/6; adl-runtime library 134/134; runtime API WSS 2/2; strict all-target kernel Clippy passed; strict all-target adl-runtime Clippy passed; git diff --check passed."
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

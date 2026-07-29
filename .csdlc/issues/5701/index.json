@@ -3,13 +3,13 @@
   "issue": 5701,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
-  "phase": "published",
-  "generation": 12,
-  "digest": "9249df03698f166c959a64e605a988a948d5f439ec0cbb624cdc3f1d6d2319b6",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "b3d10afe147416e48d9058c364696af9465800796dad7093d7208c4092bbebd5",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 12,
+    "generation": 13,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -39,54 +39,9 @@
     ],
     "purpose": "Define complete versioned Runtime v3 Core and Observatory OpenAPI contracts with route parity validation while coordinating around active WP-12 #5344 protected router/config paths"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019faf8a-5313-7292-8ca5-57feb8f12d7b",
-    "assigned_by": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "revision": "git-blake3:5459e860452afb19616af1df013d537f2915e18e:0ce676bb7be7d1a703e633e479808f55a21022c73912393f3cb0e815f257e1de",
-    "scope": [
-      "docs/api/runtime-v3/v1",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime/src/acip.rs",
-      "adl-runtime/src/runtime_api.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "infra/runtime-v3/runtime-api-5665.toml"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019faf8a-5313-7292-8ca5-57feb8f12d7b",
-    "scope": [
-      "docs/api/runtime-v3/v1",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime/src/acip.rs",
-      "adl-runtime/src/runtime_api.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "infra/runtime-v3/runtime-api-5665.toml"
-    ],
-    "reviewed_revision": "git-blake3:5459e860452afb19616af1df013d537f2915e18e:0ce676bb7be7d1a703e633e479808f55a21022c73912393f3cb0e815f257e1de",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5701,
-    "pull_request": 5705,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5705",
-    "base": "main",
-    "head": "codex/5701-runtime-v3-openapi-contracts",
-    "revision": "git-blake3:acdcd8af4543b0e3dd750f1f2a0d1d494302ae99:b0fcea9bd9f8da2e73e3f94c9ceb1da22b75b774fa54793b94e4900ac823e99f",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -100,34 +55,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "380ed19d21ec19d771d830b48b4f7bb8ef3f9c4a6b9cfcbf66f3122131f3592a",
+      "values_digest": "a71fbd7a00d8078c40dd170c9fe853a37d59c72e06b2ded24b6015c1f46e7b01",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "2714e5325ed4e0be85e0be493e297efc210b8078f4ae3c68d11a10f1eae4b2a8",
+      "values_digest": "d4e0904772b9c604ceaf5a72543dcfb818e095371e2e00e99d53a6283772bb90",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "4f729752b3da2488a05593b370de3fcc7eee5d7b309d621fc462ebfdb9a5a453",
+      "values_digest": "9e8ea5e8a185597178b1642d581338e7114794b4c0b3d0cc64e09b1a4b08feca",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "f2d4ba73aad73165955cc2267d578bedcb5b17b4fc4360726adbbface072fb2b",
+      "values_digest": "070231b016c6f51f9989884228fe0d48201648075bc2ca5a9408a6ec4922efb7",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "b0e54ead1473de244fbff0e84d821a079c82e7e83df8b73d1f05ad0f6640d5f6",
-      "rendered_digest": "90b2d6be2ad8e64f6beae500e02246cbd67d875db46201d92102bb1fd6d7d792",
-      "ast_digest": "eec5f0b180c527f69d44eaf94d283807eb4bb497c5b3bc776410d70dbb61e4b5"
+      "values_digest": "aa5a0a3ac1c8bdb06773b5e18d6363459df149e9495dc431d2792a95fb15be4e",
+      "rendered_digest": "4332b7111e8799f6372a704ad504faaf40ee5f6455491d2f12ad667cb8ed24e0",
+      "ast_digest": "e686f3199e3333f0b9e8df55efe27a3c94331a2bb90f0162682c0d31f7d153b9"
     },
     "sor": {
-      "values_digest": "302046921a80741857b00ad68e65b4e720bda0a4abd7d44a9eb9936367325d31",
-      "rendered_digest": "6a6fb913d266f358a7e48425ffe6eaea39c2ca9183d7342aae35c1d80ccbcb89",
-      "ast_digest": "1d53a8eafef5aa94fbe52c964bf252020bba9a42d16ac651f6b0fa3b36c7db9f"
+      "values_digest": "306a0aaba586b65af97c5a2b8ff86d7c30e94004d276c1374382283db24fa959",
+      "rendered_digest": "d46f91e378b833c54da23b9fd91938740d9f44c9208ddb25b47bf9b9bdfdda7a",
+      "ast_digest": "b0383b278033004b17143a5bcc982e19b19999a4de97eff39b02e97e97edfde6"
     }
   },
   "transitions": [
@@ -186,6 +141,13 @@
       "to": "published",
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Recover exact review and publication truth before integrating current main to resolve PR #5705's real merge conflict."
     }
   ],
   "audit": [
@@ -335,6 +297,13 @@
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 22,
+      "generation": 13,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Recover exact review and publication truth before integrating current main to resolve PR #5705's real merge conflict.",
+      "operation": "recover_review"
     }
   ]
 }
