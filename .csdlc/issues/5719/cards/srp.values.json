@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5719,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][ci][coverage] Avoid duplicate hosted coverage on podcast/demo page PRs",
+    "slug": "v0-91-8-ci-coverage-avoid-duplicate-hosted-coverage-on-podcast-demo-page-prs",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "CI path-policy classifier, CI path-policy tests, workflow contract assertions, and issue-local lifecycle records",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the policy narrowly target static podcast/demo page and launch packet UI paths?",
+        "Can a code-bearing Rust/runtime/provider/tooling path still trigger its required coverage lane?",
+        "Does the workflow keep the stable aggregator while avoiding duplicate hosted producers?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

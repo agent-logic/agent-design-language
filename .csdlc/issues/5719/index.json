@@ -1,0 +1,116 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5719,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "3311f6460b0988706cb978ea2fcf7da322d7af3273fc5c96c2813a6f7a4fc271",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "6ff3d9dc7225340bc39b65a35e52d097390ebecacdddd60e662a29bf7ae2e914",
+  "claim": {
+    "id": "claim-5719-ci-coverage-page-policy",
+    "owner": "codex:5719-execution",
+    "generation": 0,
+    "acquired_unix_seconds": 1785363942,
+    "expires_unix_seconds": 1785968742,
+    "heartbeat_unix_seconds": 1785363942,
+    "branch": "codex/5719-ci-coverage-page-policy",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5719",
+      ".csdlc/locks/5719.lock",
+      ".csdlc/prepared/issues/5719",
+      ".github/workflows/ci.yaml",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_validation_manager.sh"
+    ],
+    "purpose": "Fix CI path-policy selection so podcast/demo page-only PRs do not schedule duplicate hosted runtime and workspace coverage while preserving full coverage for Rust/runtime/provider/tooling changes"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5719/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5719/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5719-execution",
+      "revision": "669865d6d9df6873d4b8b4f54a492499d00d3173912437883abddd0bebee5b35"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ee3841c333293a813030b6ecdcb4fb19d0dd60b2656b5bb569d05b4a47cad53f",
+      "rendered_digest": "5edc703d78bb5d850b627fa794f4eb45e023a7c3cf86f62a04ec9b1e6fbebef0",
+      "ast_digest": "9798d8fc4365de347cba719ad458e1c5d6f62b23ba9451554a151dc6a99fd129"
+    },
+    "stp": {
+      "values_digest": "4da7ef20908f970f6a724cab0705abc3d6bca78d61d21cde774f7e926ea68545",
+      "rendered_digest": "3a46127e74167c14f3cf932b65fd169a5f087f132c4f5c0473968f0c7003044c",
+      "ast_digest": "36f64615fce3a1933d837007862c8eee9304620c5b01fbe632a35271b7624868"
+    },
+    "spp": {
+      "values_digest": "ae92709981e42fe5157d42f43f04eb1db1981333c161c48a51e76622180f10a0",
+      "rendered_digest": "4c33e2a1cd788a668dcedeec7d45294528a99aa439cd07ac4118a1181f91cccd",
+      "ast_digest": "df7462547dbef6bf41ecf7bbfe77d4f213d05d353d4ea38b290c28e07616325f"
+    },
+    "vpp": {
+      "values_digest": "407d4fbbededad36a589865a4db4f2603b17b2225e3c564bc9e1af31ba24ba3b",
+      "rendered_digest": "53b870f75afb2af19703292ae1300e6d7251054fe899d5fac6685e941c194b58",
+      "ast_digest": "7dde77af196d5a1964814b78770b680f9988b6f569a44e25219157e58306f985"
+    },
+    "srp": {
+      "values_digest": "0cedbe89db3fd183aa28f463003709a29f639719cb152449812b1e9d9618f088",
+      "rendered_digest": "de2c0c280391ac5563267973a3ff09ec0c37199a8e603dc565911eefb24cb1bd",
+      "ast_digest": "32c873c2c71e1ac19d7d7716345bde3535dd54c9aad1205ef2ebd8ff3e78e382"
+    },
+    "sor": {
+      "values_digest": "70074057b0fe173b70591e34cca9735632e61accfcf0782a80af61fb58497f79",
+      "rendered_digest": "a8ec80b18b27c94bb4c48fd637bc8bcdb75cf73c90cc0366702d08beb6bcbcbf",
+      "ast_digest": "b82237b664796f3985c5ac0644d5b65dd4707aa80739c37653f5116dbf4705a6"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5719-execution",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5719-execution",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5719-execution",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:5719-execution",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:5719-execution",
+      "reason": "The reproduced #5716-like failure is an unmapped validation-manager surface, so #5719 must update the validation lane selector manifest as part of the CI coverage selection fix.",
+      "operation": "{\"add_protected_paths\":[\"adl/config/validation_lane_selector.v0.91.6.json\"],\"operation\":\"amend_claim_scope\"}"
+    }
+  ]
+}
