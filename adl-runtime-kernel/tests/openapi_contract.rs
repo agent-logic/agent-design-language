@@ -6,6 +6,7 @@ const RUNTIME_OPENAPI: &str = include_str!("../../docs/api/runtime-v3/v1/openapi
 const OBSERVATORY_OPENAPI: &str =
     include_str!("../../docs/api/runtime-v3/v1/observatory.openapi.json");
 const CONTROL_RS: &str = include_str!("../src/control.rs");
+const RUNTIME_API_RS: &str = include_str!("../../adl-runtime/src/runtime_api.rs");
 
 #[test]
 fn runtime_and_observatory_openapi_contracts_are_valid_and_disjoint() {
@@ -81,6 +82,85 @@ fn observatory_wss_documents_real_bidirectional_frame_boundary() {
     );
 }
 
+#[test]
+fn runtime_core_wss_documents_real_bidirectional_acip_boundary() {
+    let runtime = parse_openapi(RUNTIME_OPENAPI);
+    let ws = &runtime["paths"]["/acip/ws"]["get"]["x-adl-websocket"];
+
+    assert_eq!(ws["scheme"], "wss");
+    assert_eq!(ws["maxFrameBytes"], 65_536);
+    assert_eq!(ws["authentication"], "http_bearer_upgrade_header");
+    assert_eq!(ws["authRefreshMillis"], 25);
+    assert_eq!(
+        ws["serverFirstFrame"]["$ref"],
+        "#/components/schemas/AcipAuthenticatedFrame"
+    );
+    assert_eq!(ws["bidirectional"], true);
+    assert!(ws["clientFrames"]
+        .as_array()
+        .expect("clientFrames array")
+        .iter()
+        .any(|frame| frame["$ref"] == "#/components/schemas/AcipPingFrame"));
+    assert!(ws["clientFrames"]
+        .as_array()
+        .expect("clientFrames array")
+        .iter()
+        .any(|frame| frame["$ref"] == "#/components/schemas/AcipFeatureMatrixFrame"));
+    assert!(ws["serverFrames"]
+        .as_array()
+        .expect("serverFrames array")
+        .iter()
+        .any(|frame| frame["$ref"] == "#/components/schemas/RuntimeFeatureMatrix"));
+
+    let reasons: BTreeSet<&str> = ws["policyCloseReasons"]
+        .as_array()
+        .expect("policyCloseReasons array")
+        .iter()
+        .map(|value| value.as_str().expect("close reason string"))
+        .collect();
+    assert_eq!(
+        reasons,
+        BTreeSet::from(["credential_revoked", "invalid_json", "unsupported_frame"])
+    );
+}
+
+#[test]
+fn openapi_operations_are_deterministic_client_generation_ready() {
+    let runtime = parse_openapi(RUNTIME_OPENAPI);
+    let observatory = parse_openapi(OBSERVATORY_OPENAPI);
+    let mut operation_ids = BTreeSet::new();
+
+    for document in [&runtime, &observatory] {
+        for (route, methods) in document["paths"].as_object().expect("OpenAPI paths object") {
+            for (method, operation) in methods.as_object().expect("path methods object") {
+                if !matches!(
+                    method.as_str(),
+                    "get" | "put" | "post" | "delete" | "options" | "head" | "patch" | "trace"
+                ) {
+                    continue;
+                }
+                let operation_id = operation["operationId"]
+                    .as_str()
+                    .unwrap_or_else(|| panic!("{method} {route} missing operationId"));
+                assert!(
+                    operation_id
+                        .chars()
+                        .all(|c| c.is_ascii_alphanumeric() || c == '_'),
+                    "{operation_id} must be generator-safe"
+                );
+                assert!(
+                    operation_ids.insert(operation_id.to_owned()),
+                    "duplicate operationId {operation_id}"
+                );
+                assert!(
+                    operation["responses"].is_object(),
+                    "{method} {route} must declare responses"
+                );
+            }
+        }
+    }
+}
+
 fn parse_openapi(source: &str) -> Value {
     serde_json::from_str(source).expect("OpenAPI document must parse as JSON")
 }
@@ -108,6 +188,25 @@ fn documented_routes(document: &Value) -> BTreeSet<(String, String)> {
 }
 
 fn real_control_routes() -> BTreeSet<(String, String)> {
+    let mut routes = BTreeSet::new();
+    routes.extend(real_runtime_api_routes());
+    routes.extend(real_kernel_control_routes());
+    routes
+}
+
+fn real_runtime_api_routes() -> BTreeSet<(String, String)> {
+    let mut routes = BTreeSet::new();
+    for expected in ["/health", "/metrics", "/acip/ws"] {
+        assert!(
+            RUNTIME_API_RS.contains(&format!(".route(\"{expected}\"")),
+            "runtime API router must still contain {expected}"
+        );
+        routes.insert(("get".to_owned(), expected.to_owned()));
+    }
+    routes
+}
+
+fn real_kernel_control_routes() -> BTreeSet<(String, String)> {
     let mut routes = BTreeSet::new();
     for route in literal_routes_from_control_rs() {
         match route.as_str() {

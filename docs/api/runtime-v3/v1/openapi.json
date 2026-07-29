@@ -3,8 +3,8 @@
   "info": {
     "title": "ADL Runtime v3 Core API",
     "version": "1.0.0",
-    "summary": "Versioned Runtime v3 control API contract",
-    "description": "Runtime Core API v1 documents only production Runtime v3 endpoints reachable in the Axum/Tokio/Rustls kernel. It does not claim Provider, ACIP, A2A, Cloud Bridge, metrics, health, checkpoint, scheduling, cancellation, or discovery endpoints as separate operational HTTP APIs unless the runtime actually exposes them."
+    "summary": "Versioned Runtime v3 core control, status, telemetry, and ACIP WSS contract",
+    "description": "Runtime Core API v1 documents only production Runtime v3 endpoints reachable in the Axum/Tokio/Rustls runtime. Feature-specific capabilities such as providers, agent-to-agent, cloud bridge, checkpoint, scheduling, cancellation, continuity, trusted-time, and telemetry internals are represented through the signed control command, health report, metrics report, or ACIP WSS feature-matrix frames unless a separate Axum route exists."
   },
   "servers": [
     {
@@ -13,18 +13,144 @@
       "variables": {
         "publicBaseUrl": {
           "default": "https://localhost:20997",
-          "description": "Config-provided public base URL; port 20997 is the repository default, not a schema constant."
+          "description": "Config-provided public base URL; port 20997 is the repository default example, not a schema constant."
         }
       }
     }
   ],
   "tags": [
     {
+      "name": "status",
+      "description": "Authenticated Runtime v3 health and telemetry reads."
+    },
+    {
+      "name": "acip",
+      "description": "Authenticated Runtime v3 ACIP bidirectional WebSocket carrier."
+    },
+    {
       "name": "control",
       "description": "Signed Runtime v3 control commands."
     }
   ],
   "paths": {
+    "/health": {
+      "get": {
+        "operationId": "readRuntimeHealth",
+        "tags": ["status"],
+        "summary": "Read Runtime v3 capability health",
+        "security": [
+          {
+            "runtimeBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Runtime v3 health report.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuntimeHealthReport"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/RuntimeAuthenticationFailed"
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "operationId": "readRuntimeMetrics",
+        "tags": ["status"],
+        "summary": "Read Runtime v3 telemetry sink configuration",
+        "security": [
+          {
+            "runtimeBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Runtime v3 telemetry sink configuration.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuntimeTelemetryConfig"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/RuntimeAuthenticationFailed"
+          }
+        }
+      }
+    },
+    "/acip/ws": {
+      "get": {
+        "operationId": "openAcipWebSocket",
+        "tags": ["acip"],
+        "summary": "Open the authenticated bidirectional ACIP WebSocket carrier",
+        "description": "Upgrades to WebSocket after bearer authentication. The server sends an authenticated session frame, accepts JSON text request frames, replies to ping, feature_matrix, shutdown, and generic text frames, and closes malformed or unsupported frames with policy close reasons.",
+        "security": [
+          {
+            "runtimeBearer": []
+          }
+        ],
+        "responses": {
+          "101": {
+            "description": "WebSocket upgrade accepted."
+          },
+          "401": {
+            "$ref": "#/components/responses/RuntimeAuthenticationFailed"
+          }
+        },
+        "x-adl-websocket": {
+          "scheme": "wss",
+          "maxFrameBytes": 65536,
+          "authentication": "http_bearer_upgrade_header",
+          "authRefreshMillis": 25,
+          "serverFirstFrame": {
+            "$ref": "#/components/schemas/AcipAuthenticatedFrame"
+          },
+          "clientFrames": [
+            {
+              "$ref": "#/components/schemas/AcipPingFrame"
+            },
+            {
+              "$ref": "#/components/schemas/AcipFeatureMatrixFrame"
+            },
+            {
+              "$ref": "#/components/schemas/AcipShutdownFrame"
+            },
+            {
+              "$ref": "#/components/schemas/AcipGenericTextFrame"
+            }
+          ],
+          "serverFrames": [
+            {
+              "$ref": "#/components/schemas/AcipPongFrame"
+            },
+            {
+              "$ref": "#/components/schemas/RuntimeFeatureMatrix"
+            },
+            {
+              "$ref": "#/components/schemas/AcipShutdownAckFrame"
+            },
+            {
+              "$ref": "#/components/schemas/AcipAckFrame"
+            }
+          ],
+          "policyCloseReasons": [
+            "credential_revoked",
+            "invalid_json",
+            "unsupported_frame"
+          ],
+          "bidirectional": true
+        }
+      }
+    },
     "/v1/control": {
       "post": {
         "operationId": "runtimeControlCommand",
@@ -78,7 +204,7 @@
             "$ref": "#/components/responses/InvalidRequest"
           },
           "401": {
-            "$ref": "#/components/responses/AuthenticationFailed"
+            "$ref": "#/components/responses/ControlAuthenticationFailed"
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
@@ -98,12 +224,27 @@
   },
   "components": {
     "securitySchemes": {
+      "runtimeBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Bearer token configured outside code through Runtime v3 init/environment."
+      },
       "runtimeSignedCommand": {
         "type": "mutualTLS",
         "description": "Runtime transport is TLS/Rustls. Command authorization is additionally enforced by the Ed25519 signature fields in SignedControlCommand."
       }
     },
     "responses": {
+      "RuntimeAuthenticationFailed": {
+        "description": "Missing, malformed, incorrect, or unavailable Runtime API bearer credential.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RuntimeApiError"
+            }
+          }
+        }
+      },
       "InvalidRequest": {
         "description": "Invalid request encoding, identifier, bounds, schema, or signature shape.",
         "content": {
@@ -114,8 +255,8 @@
           }
         }
       },
-      "AuthenticationFailed": {
-        "description": "Authentication failed.",
+      "ControlAuthenticationFailed": {
+        "description": "Control command authentication failed.",
         "content": {
           "application/json": {
             "schema": {
@@ -166,6 +307,226 @@
       }
     },
     "schemas": {
+      "RuntimeHealthState": {
+        "enum": ["unimplemented", "unavailable", "failed", "healthy"]
+      },
+      "RuntimeCapabilityHealth": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["capability", "state", "reason_code", "evidence_ref"],
+        "properties": {
+          "capability": {
+            "type": "string"
+          },
+          "state": {
+            "$ref": "#/components/schemas/RuntimeHealthState"
+          },
+          "reason_code": {
+            "type": "string"
+          },
+          "evidence_ref": {
+            "type": "string"
+          }
+        }
+      },
+      "RuntimeHealthReport": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "runtime_owner", "capabilities"],
+        "properties": {
+          "schema": {
+            "const": "adl.csm.runtime_api.health.v1"
+          },
+          "runtime_owner": {
+            "type": "string"
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RuntimeCapabilityHealth"
+            }
+          }
+        }
+      },
+      "RuntimeTelemetrySink": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sink", "supported_fields"],
+        "properties": {
+          "sink": {
+            "type": "string"
+          },
+          "supported_fields": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "RuntimeTelemetryConfig": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "sinks"],
+        "properties": {
+          "schema": {
+            "const": "adl.csm.runtime_api.metrics.v1"
+          },
+          "sinks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RuntimeTelemetrySink"
+            }
+          }
+        }
+      },
+      "RuntimeFeatureMatrixRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["feature", "adapter", "claimed", "health_state", "proof"],
+        "properties": {
+          "feature": {
+            "type": "string"
+          },
+          "adapter": {
+            "type": "string"
+          },
+          "claimed": {
+            "type": "boolean"
+          },
+          "health_state": {
+            "$ref": "#/components/schemas/RuntimeHealthState"
+          },
+          "proof": {
+            "type": "string"
+          }
+        }
+      },
+      "RuntimeFeatureMatrix": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "unresolved_claimed_features", "rows"],
+        "properties": {
+          "schema": {
+            "const": "adl.csm.runtime_api.feature_matrix.v1"
+          },
+          "unresolved_claimed_features": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RuntimeFeatureMatrixRow"
+            }
+          }
+        }
+      },
+      "AcipAuthenticatedFrame": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "event", "path", "bidirectional"],
+        "properties": {
+          "schema": {
+            "const": "adl.csm.runtime_api.wss_session.v1"
+          },
+          "event": {
+            "const": "authenticated"
+          },
+          "path": {
+            "const": "/acip/ws"
+          },
+          "bidirectional": {
+            "const": true
+          }
+        }
+      },
+      "AcipPingFrame": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "const": "ping"
+          },
+          "body": true
+        }
+      },
+      "AcipPongFrame": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "type", "body"],
+        "properties": {
+          "schema": {
+            "const": "adl.csm.runtime_api.wss_session.v1"
+          },
+          "type": {
+            "const": "pong"
+          },
+          "body": true
+        }
+      },
+      "AcipFeatureMatrixFrame": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "const": "feature_matrix"
+          }
+        }
+      },
+      "AcipShutdownFrame": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "const": "shutdown"
+          }
+        }
+      },
+      "AcipShutdownAckFrame": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "type", "status", "runtime_boundary"],
+        "properties": {
+          "schema": {
+            "const": "adl.csm.runtime_api.wss_session.v1"
+          },
+          "type": {
+            "const": "shutdown_ack"
+          },
+          "status": {
+            "const": "accepted"
+          },
+          "runtime_boundary": {
+            "const": "api_only"
+          }
+        }
+      },
+      "AcipGenericTextFrame": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Any other JSON text frame is echoed back in an acknowledgement frame."
+      },
+      "AcipAckFrame": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "type", "body"],
+        "properties": {
+          "schema": {
+            "const": "adl.csm.runtime_api.wss_session.v1"
+          },
+          "type": {
+            "const": "ack"
+          },
+          "body": true
+        }
+      },
       "SignedControlCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -341,6 +702,28 @@
           }
         }
       },
+      "RuntimeApiError": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "code", "reason"],
+        "properties": {
+          "schema": {
+            "const": "adl.csm.runtime_api.error.v1"
+          },
+          "code": {
+            "const": "authentication_failed"
+          },
+          "reason": {
+            "enum": [
+              "credential_store_unavailable",
+              "missing_authorization",
+              "malformed_authorization",
+              "unknown_bearer_token",
+              "credential_revoked"
+            ]
+          }
+        }
+      },
       "ControlError": {
         "type": "object",
         "additionalProperties": false,
@@ -367,13 +750,28 @@
   "x-adl-api-version": "v1",
   "x-adl-route-inventory": [
     {
+      "method": "get",
+      "path": "/health",
+      "source": "adl-runtime/src/runtime_api.rs"
+    },
+    {
+      "method": "get",
+      "path": "/metrics",
+      "source": "adl-runtime/src/runtime_api.rs"
+    },
+    {
+      "method": "get",
+      "path": "/acip/ws",
+      "source": "adl-runtime/src/runtime_api.rs"
+    },
+    {
       "method": "post",
       "path": "/v1/control",
       "source": "adl-runtime-kernel/src/control.rs"
     }
   ],
   "x-adl-non-claims": [
-    "No standalone HTTP metrics, provider, ACIP, A2A, cloud bridge, checkpoint, scheduler, cancellation, or trusted-time endpoints are exposed by this contract unless they become real Axum routes.",
+    "No standalone HTTP provider, A2A, cloud bridge, checkpoint, scheduler, cancellation, continuity, trusted-time, or discovery path is documented as operational unless a real Axum route exists.",
     "No fixture, degraded, simulated, or unavailable feature is documented as operational."
   ]
 }
