@@ -44,7 +44,8 @@ cleanup() {
 }
 trap cleanup EXIT
 selector_root="$run_root/selector"
-CARGO_TARGET_DIR="$target_dir" bash adl-v2/tools/install-adl-v2.sh \
+CARGO_NET_OFFLINE=true CARGO_TARGET_DIR="$target_dir" \
+  bash adl-v2/tools/install-adl-v2.sh \
   --test-root "$selector_root" >"$run_root/fresh-install.stdout"
 adl_v2_bin="$selector_root/bin/adl-v2"
 [[ -x "$adl_v2_bin" ]] || { printf 'fresh ADL v2 install unavailable\n' >&2; exit 66; }
