@@ -248,6 +248,12 @@ jq -e '
     (.claim_class | IN("runtime_v3_acceptance","runtime_v3_live","rollback")) and
     (.timeout_seconds | type == "number" and . >= 1 and . <= 1800) and
     (.expected_exit | type == "number")
+  )) and
+  (all(.scenarios[];
+    if .kind == "runtime_acceptance" then
+      (.landing_revision | test("^[0-9a-f]{40}$")) and
+      (.artifact_sha256 | test("^[0-9a-f]{64}$"))
+    else true end
   ))
 ' "$manifest" >/dev/null
 
@@ -332,10 +338,11 @@ for ((index=0; index<scenario_count; index++)); do
       ;;
     runtime_acceptance)
       path=$(jq -r .path <<<"$scenario")
+      landing_revision=$(jq -r .landing_revision <<<"$scenario")
+      expected_artifact_sha256=$(jq -r .artifact_sha256 <<<"$scenario")
       if [[ "$path" == /* || "$path" == *".."* || ! -f "$path" ]]; then
         exit_code=2
       else
-        acceptance_revision=$(jq -r .revision "$path")
         if jq -e '
             .schema == "adl.runtime_v3.acceptance.v1" and
             .issue == 5361 and
@@ -344,7 +351,11 @@ for ((index=0; index<scenario_count; index++)); do
             all(.consumer_proofs[]; .status == "passed") and
             all(.proofs[]; .status == "passed")
           ' "$path" >"$output" 2>"$error" &&
-          git merge-base --is-ancestor "$acceptance_revision" "$revision"; then
+          [[ "$landing_revision" =~ ^[0-9a-f]{40}$ ]] &&
+          [[ "$expected_artifact_sha256" =~ ^[0-9a-f]{64}$ ]] &&
+          [[ "$(sha256 "$path")" == "$expected_artifact_sha256" ]] &&
+          git merge-base --is-ancestor "$landing_revision" "$revision" &&
+          [[ "$(git show "$landing_revision:$path" | shasum -a 256 | awk '{print $1}')" == "$expected_artifact_sha256" ]]; then
           exit_code=0
         else
           exit_code=2
