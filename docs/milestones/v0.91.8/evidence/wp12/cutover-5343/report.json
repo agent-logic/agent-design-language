@@ -1,0 +1,47 @@
+{
+  "schema": "adl.wp12.cutover_report.v1",
+  "issue": 5343,
+  "status": "pass",
+  "revision": "05ac125bc377a09bce4bdbbd571c5572b231805a",
+  "selector_root": "isolated_issue_evidence",
+  "prior_selector_sha256": "22e4b24a4fb6f8275ff12d31cb7328f2820b892268c8e8b077afe528204a7751",
+  "selected_selector_sha256": "46077a51368e33050fc0058816ef90e5f538e90084870de165adab96cc539382",
+  "restored_selector_sha256": "22e4b24a4fb6f8275ff12d31cb7328f2820b892268c8e8b077afe528204a7751",
+  "final_selector_sha256": "46077a51368e33050fc0058816ef90e5f538e90084870de165adab96cc539382",
+  "exact_prior_bytes_restored": true,
+  "final_default": "adl-v2",
+  "retained_previous": "adl-v1",
+  "v1": {
+    "sha256": "03696d2f54b64dabcc7b4c445fd90fdcff2807cd17abd5a925800beae49ad5fb",
+    "version": "0.91.7",
+    "source_unchanged": true,
+    "isolated_copy_byte_identical": true,
+    "executed_before_cutover": true,
+    "executed_after_rollback": true
+  },
+  "v2": {
+    "sha256": "6e6c485f021c36fe32ee88b9d12f3e6e136ba23124c494ff8b590b23f0c6467c",
+    "version": "adl-v2 0.1.0",
+    "final_version": "adl-v2 0.1.0",
+    "fresh_install": true,
+    "executed": true
+  },
+  "rollback_window": {
+    "duration_days": 14,
+    "starts_at": "2026-07-29T08:51:25Z",
+    "ends_at": "2026-08-12T08:51:25Z",
+    "deletion_authorized": false
+  },
+  "failure_preservation": [
+    "invalid_generation",
+    "missing_receipt",
+    "wrong_digest",
+    "stale_compare_and_swap",
+    "malformed_selector",
+    "lock_contention_interruption",
+    "persistence_precondition_failure"
+  ],
+  "runtime_v2_edited": false,
+  "legacy_deleted": false,
+  "selector_implementation_reused": true
+}

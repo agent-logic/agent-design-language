@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5343/diagram.mmd
 [
   {
     "lane": "preparation-contract",
-    "proof_role": "Prove six typed cards, design/diagram, exact #5344/#5345 dependencies, protected paths, transaction and rollback-window invariants, COTS, budgets, PVF, no-deferral, and root safety",
+    "proof_role": "Prove six typed cards, design, protected paths, transaction and rollback invariants, COTS, budgets, and root safety",
     "acceptance_ids": [
       "AC-1",
       "AC-8",
@@ -43,8 +43,8 @@ Diagram: .csdlc/prepared/issues/5343/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "dependency-terminal-gate",
-    "proof_role": "Fail closed unless #5344 is merged, typed closed_out, receipt-backed, claim-free, ancestral, and accompanied by accepted exact soak/rollback handoff evidence",
+    "lane": "dependency-merge-gate",
+    "proof_role": "Prove #5344 and #5345 live merged landing commits are ancestral to the exact execution revision and the exact #5344 handoff is accepted; receipts are audit-only",
     "acceptance_ids": [
       "AC-1",
       "AC-2"
@@ -58,11 +58,11 @@ Diagram: .csdlc/prepared/issues/5343/diagram.mmd
       ".csdlc/prepared/issues/5343/check-dependencies.rb"
     ],
     "parallel_group": "execution-gate",
-    "defer_reason": "Run only when execution is requested; it must fail closed until #5344 is terminal and accepted"
+    "defer_reason": null
   },
   {
     "lane": "transaction-fault-matrix",
-    "proof_role": "Prove fresh-install identity, locked compare-and-swap selection, prior-byte preservation, deterministic receipt, and all transaction failure classes",
+    "proof_role": "Execute one fresh-install cutover proof covering identity, compare-and-swap, exact rollback, v1 and v2 execution, and every failure-preservation class",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -78,70 +78,70 @@ Diagram: .csdlc/prepared/issues/5343/diagram.mmd
       "transaction-fault-matrix"
     ],
     "parallel_group": "transaction",
-    "defer_reason": "Mandatory after terminal dependency gates and before publication"
+    "defer_reason": null
   },
   {
     "lane": "fresh-install-override",
-    "proof_role": "Prove the selected generation from a fresh install and explicit v1 override while retaining exact prior executable and receipt identity",
+    "proof_role": "Validate the retained report proves fresh v2 installation, final v2 selection, and retained v1",
     "acceptance_ids": [
       "AC-3",
       "AC-6"
     ],
     "deterministic": true,
-    "resource_profile": "medium",
-    "budget_seconds": 600,
-    "budget_tokens": 6000,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 2000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/5343/run-validation-lane.rb",
       "fresh-install-override"
     ],
-    "parallel_group": "cutover",
-    "defer_reason": "Mandatory after terminal dependency gates and before publication"
+    "parallel_group": "report-validation",
+    "defer_reason": null
   },
   {
     "lane": "rollback-window-evidence",
-    "proof_role": "Prove rollback-window start/end, checkpoint cadence, explicit-v1 checkpoints, exact rollback, and deterministic redacted evidence",
+    "proof_role": "Validate exact prior-byte restoration, post-rollback v1 execution, fourteen-day retention, and no deletion authority",
     "acceptance_ids": [
       "AC-5",
       "AC-6",
       "AC-7"
     ],
     "deterministic": true,
-    "resource_profile": "medium",
-    "budget_seconds": 600,
-    "budget_tokens": 6000,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 2000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/5343/run-validation-lane.rb",
       "rollback-window-evidence"
     ],
-    "parallel_group": "rollback-window",
-    "defer_reason": "Mandatory after the reviewed selector transaction and before publication"
+    "parallel_group": "report-validation",
+    "defer_reason": null
   },
   {
     "lane": "cutover-budgets",
-    "proof_role": "Enforce no new dependencies, no product or Runtime v2 edits, orchestration/test/module LoC, test count, complete no-deferral proof, and 1200-second ceiling",
+    "proof_role": "Enforce bounded orchestration, no Runtime v2 edits, no product implementation duplication, and no legacy deletion",
     "acceptance_ids": [
       "AC-7",
       "AC-8",
       "AC-9"
     ],
     "deterministic": true,
-    "resource_profile": "medium",
-    "budget_seconds": 1200,
-    "budget_tokens": 5000,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 2000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/5343/run-validation-lane.rb",
       "cutover-budgets"
     ],
     "parallel_group": "budgets",
-    "defer_reason": "Mandatory at the exact execution revision before publication"
+    "defer_reason": null
   },
   {
     "lane": "post-merge-exact",
-    "proof_role": "Re-run dependency ancestry, selector identity, explicit-v1, rollback-window, evidence integrity, budgets, exact revision identity, and WP-13 blocking gates after authorized merge",
+    "proof_role": "Verify merged ancestry and rerun exact report, dependency, identity, rollback-window, budget, and no-deletion checks before WP-12 completion",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -154,16 +154,16 @@ Diagram: .csdlc/prepared/issues/5343/diagram.mmd
       "AC-9"
     ],
     "deterministic": true,
-    "resource_profile": "large",
-    "budget_seconds": 1200,
-    "budget_tokens": 10000,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 5000,
     "argv": [
       "ruby",
       ".csdlc/prepared/issues/5343/run-validation-lane.rb",
       "post-merge-exact"
     ],
     "parallel_group": "post-merge",
-    "defer_reason": "Execute only after authorized merge and typed merged-state reconciliation; mandatory before closeout"
+    "defer_reason": "Run immediately after authorized merge; it does not block PR publication"
   }
 ]
 

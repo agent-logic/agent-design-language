@@ -14,9 +14,9 @@ def require_truth(condition, message)
 end
 
 index = JSON.parse(BASE.join("index.json").read)
-require_truth(%w[initialized bound reviewed].include?(index["phase"]), "unexpected preparation phase")
-require_truth(index["terminal"].nil?, "preparation cannot be terminal")
-require_truth(index["publication"].nil?, "preparation cannot be published")
+require_truth(%w[initialized bound implemented reviewed].include?(index["phase"]), "unexpected pre-publication phase")
+require_truth(index["terminal"].nil?, "pre-publication issue cannot be terminal")
+require_truth(index["publication"].nil?, "pre-publication issue cannot be published")
 
 cards = %w[sip stp spp vpp srp sor]
 cards.each do |card|
@@ -69,6 +69,9 @@ request = JSON.parse(PREP.join("bootstrap-request.json").read)
 constraints = request.dig("initial", "operator_constraints").join("\n")
 require_truth(constraints.include?("Preparation only"), "preparation-only boundary absent")
 require_truth(constraints.include?("no selector transaction"), "selector execution prohibition absent")
+if index["phase"] == "implemented"
+  require_truth(claim.fetch("purpose").include?("reversible ADL default switch"), "execution claim purpose is stale")
+end
 
 puts JSON.pretty_generate(
   status: "pass",
@@ -77,5 +80,5 @@ puts JSON.pretty_generate(
   generation: index["generation"],
   cards: cards.length,
   protected_paths: paths.length,
-  dependency_gate: "blocked_until_5344_and_5345_live_merged_and_ancestral"
+  dependency_gate: "accepted_live_merge_ancestry_and_handoff"
 )

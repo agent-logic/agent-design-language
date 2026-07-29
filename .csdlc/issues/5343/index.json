@@ -3,13 +3,13 @@
   "issue": 5343,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7ae22a9c8742977941bf696bfe2123d8d59ab3b7711264cfe5220a16802c44e6",
-  "phase": "bound",
-  "generation": 7,
-  "digest": "bb242adaa576ba20d2dd981c666a7778ceb2be2f12285d2458cb5f148587cf30",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "588443ae960b625cb51ed588a2f895463c5c30b6d76aafbef3110be653a1e5f1",
   "claim": {
     "id": "claim-5343-v0918-wp12-reversible-default-switch-execution",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 7,
+    "generation": 15,
     "acquired_unix_seconds": 1785314375,
     "expires_unix_seconds": 1785919175,
     "heartbeat_unix_seconds": 1785314375,
@@ -40,34 +40,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "92fe463cf3821dceeebb9914b9ba233a920f3b37d62508309824200cdc4be90d",
+      "values_digest": "41a5de241e32ecfba9449e38ff2937b7d9344a22092b14eb37e974eea0ae56d0",
       "rendered_digest": "56e9f6179e9157659276d6bcf35efb8f016bba7c7822b2b0d797679cd31adf6b",
       "ast_digest": "4bed42107b13c69d3d7d4cb8f18e052c2f7c26199f6173d1dc3260de1fe9a993"
     },
     "stp": {
-      "values_digest": "7dd5cd126ec3444ea618e694915e70d36d8f6fe7fb6b5b7fc4d827da38bea3bf",
+      "values_digest": "cc9eb2f47460995cc82b567211e50b4500a4cd182eb1868ed3aa0902f042bcaa",
       "rendered_digest": "2603a355245577778350785ca55e828e84a8d35adeb0eb9f05104b02c8c6526c",
       "ast_digest": "af5271338c52d97d190cb14ef68d417dc5c34afcf8b72c635a7f9459680efb65"
     },
     "spp": {
-      "values_digest": "2a726c12abdadd2bf77e80791aace2fd0ceb046ea9ae4fe9eec00ca32c1a369f",
-      "rendered_digest": "d72deb1edbaadd8139f5c375badcfca519cecc87d1f124aaf520a5d71349c9c6",
-      "ast_digest": "a52d082dc3babfd6fa92a451fa0aa155a19a8856dd2072ab2bb2936809edd52d"
+      "values_digest": "2553116d9fcdda0617c7d793875910d73cbec42762bea5dfb58fff6f3df552f2",
+      "rendered_digest": "5b738a414feacadb91990e6ad0902603b75e20e8e581032ca8065519434a5878",
+      "ast_digest": "b575f3c28cfae2265f950dba10fe6871aff29c4cffac4bef4db8439acf25aa3a"
     },
     "vpp": {
-      "values_digest": "7b3f065f482500eb424d3a88a6fea268e4db6d443d4f1f18afbaba9f31c218fa",
-      "rendered_digest": "fce8305ab1090841e17e497762748258f6161061e41dcaaea2cf51fa8305a404",
-      "ast_digest": "37eb53d9ee8c01020aee78e6453d0a09e2372697646dc623e5dd5c339ed913f0"
+      "values_digest": "06144cf5516fd895726b86e1902fa62bac65735697bf6032696677442f6fe9bd",
+      "rendered_digest": "490f13ed699c7b032f54feda67d069688372326c121d9a7b3b73c27653069926",
+      "ast_digest": "7bb857dcc7dae7e8bc06691fc7b203c3419d31e8481ffbce611dedf4e4c2cfb8"
     },
     "srp": {
-      "values_digest": "fc167edb03c19dc239c994ba36b4bd728382c8ba8b42527a810d49b0c17c6575",
+      "values_digest": "8b7ea681b5ee8f2a1818833edbca6daeda405149e42ef0c888308a9148a808dd",
       "rendered_digest": "f4731a595f0ea709411ae2a767f16132b61ed257458d981bdf08189045ea5f01",
       "ast_digest": "9159372c6f4b2a7bea8ec696ce1ccec0a6ab2c276b740e65603dff8585d11472"
     },
     "sor": {
-      "values_digest": "d719f371c56db47eb7158e87da99a80e5c3f6c7d064f0acfaf5865fa7a7588c4",
-      "rendered_digest": "69db27ce1aefed9fd2e870c57fc5b3a1c8774407e607f668343698a4e632d107",
-      "ast_digest": "7c9edd7d19be81fc09e9373523b99e7387931ab7021ec4b9404269bc5cd98cf6"
+      "values_digest": "1c88d0af870982d84e0d46bd584cd9328a76b407904be35b1aae2c789f7fcf98",
+      "rendered_digest": "9e3bc492d0cba8512be699df6437b32283a4bcc146a967beb54d0cb402c769b6",
+      "ast_digest": "125c15e405af51eaf067618fc2c81cc9fadbd2c804aefcb1f7e50da92ee19e7f"
     }
   },
   "transitions": [
@@ -84,6 +84,13 @@
       "to": "bound",
       "actor": "codex:5343-preparation-owner",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The complete reversible cutover implementation and exact-substantive-head validation are retained and passing."
     }
   ],
   "audit": [
@@ -163,6 +170,62 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Keep execution fail-closed on cutover integrity rather than unrelated closeout paperwork.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"A required live merged landing is not ancestral to the exact execution revision or the accepted #5344 handoff is contradictory\",\"Any intended protected path collides with an active typed claim\",\"The selector requires direct active-storage editing, implicit fallback, hidden network, credentials, AWS, Runtime v2 edits, or production-state mutation\",\"Exact prior selector bytes, digest, v1 executable, or receipt cannot be retained and verified\",\"Any rejected or interrupted transaction changes prior selector bytes\",\"Rollback does not restore exact prior bytes or retained v1 cannot execute after rollback\",\"The fourteen-day rollback window is absent or authorizes legacy deletion\",\"Evidence is secret-bearing, host-bound, incomplete, or not bound to the exact implementation revision\",\"Exact-revision review has an unresolved actionable finding\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Live merged dependency ancestry and the accepted #5344 handoff are verified.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Fresh ADL v2 installation and byte-identical retained v1 executable identities are verified.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "All malformed, stale, contended, interrupted, and persistence failure cases preserved exact prior selector bytes.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "ADL v2 executed, exact prior selector bytes were restored, retained v1 executed after rollback, and v2 was reselected with a fourteen-day no-deletion window.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Align validation with the executed live-merge gate and one-pass cutover proof; retain only the post-merge lane as future work.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Prove six typed cards, design, protected paths, transaction and rollback invariants, COTS, budgets, and root safety\",\"acceptance_ids\":[\"AC-1\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5343/validate-preparation.rb\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"dependency-merge-gate\",\"proof_role\":\"Prove #5344 and #5345 live merged landing commits are ancestral to the exact execution revision and the exact #5344 handoff is accepted; receipts are audit-only\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5343/check-dependencies.rb\"],\"parallel_group\":\"execution-gate\",\"defer_reason\":null},{\"lane\":\"transaction-fault-matrix\",\"proof_role\":\"Execute one fresh-install cutover proof covering identity, compare-and-swap, exact rollback, v1 and v2 execution, and every failure-preservation class\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":6000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5343/run-validation-lane.rb\",\"transaction-fault-matrix\"],\"parallel_group\":\"transaction\",\"defer_reason\":null},{\"lane\":\"fresh-install-override\",\"proof_role\":\"Validate the retained report proves fresh v2 installation, final v2 selection, and retained v1\",\"acceptance_ids\":[\"AC-3\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5343/run-validation-lane.rb\",\"fresh-install-override\"],\"parallel_group\":\"report-validation\",\"defer_reason\":null},{\"lane\":\"rollback-window-evidence\",\"proof_role\":\"Validate exact prior-byte restoration, post-rollback v1 execution, fourteen-day retention, and no deletion authority\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5343/run-validation-lane.rb\",\"rollback-window-evidence\"],\"parallel_group\":\"report-validation\",\"defer_reason\":null},{\"lane\":\"cutover-budgets\",\"proof_role\":\"Enforce bounded orchestration, no Runtime v2 edits, no product implementation duplication, and no legacy deletion\",\"acceptance_ids\":[\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5343/run-validation-lane.rb\",\"cutover-budgets\"],\"parallel_group\":\"budgets\",\"defer_reason\":null},{\"lane\":\"post-merge-exact\",\"proof_role\":\"Verify merged ancestry and rerun exact report, dependency, identity, rollback-window, budget, and no-deletion checks before WP-12 completion\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5343/run-validation-lane.rb\",\"post-merge-exact\"],\"parallel_group\":\"post-merge\",\"defer_reason\":\"Run immediately after authorized merge; it does not block PR publication\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the exact substantive reversible default-switch implementation and proof.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Executed the reviewed ADL v2 selector from a fresh isolated installation, proved failure preservation, restored and executed incumbent v1 exactly, then selected v2 as final while retaining v1 for a fourteen-day no-deletion rollback window.\",\"changes\":[\"Replaced receipt-blocking dependency checks with live merged landing ancestry and accepted handoff verification\",\"Added one bounded cutover proof using the authoritative ADL v2 selector implementation\",\"Proved malformed generation, missing receipt, wrong digest, stale compare-and-swap, malformed selector, lock interruption, and persistence failure preserve prior bytes\",\"Executed v2, restored exact prior selector bytes, executed byte-identical v1 0.91.7, and reselected v2 as final default\",\"Retained a fourteen-day rollback window without Runtime v2 edits or legacy deletion\"],\"artifacts\":[\"commit 05ac125bc377a09bce4bdbbd571c5572b231805a\",\".csdlc/prepared/issues/5343/run-cutover-proof.sh\",\".csdlc/prepared/issues/5343/run-validation-lane.rb\",\".csdlc/prepared/issues/5343/check-dependencies.rb\",\"docs/milestones/v0.91.8/evidence/wp12/cutover-5343/report.json\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the complete exact-substantive-head cutover validation result.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5343/run-validation-lane.rb\",\"transaction-fault-matrix\"],\"purpose\":\"Prove live dependency ancestry, fresh v2 installation and execution, byte-identical v1 retention and post-rollback execution, exact selector restoration, failure preservation, final v2 selection, bounded orchestration, and no legacy deletion.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.91.8/evidence/wp12/cutover-5343/report.json records status pass at substantive revision 05ac125bc377a09bce4bdbbd571c5572b231805a; fresh-install-override, rollback-window-evidence, cutover-budgets, typed doctor, and git diff --check also passed.\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The complete reversible cutover implementation and exact-substantive-head validation are retained and passing.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
