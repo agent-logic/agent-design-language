@@ -3,13 +3,13 @@
   "issue": 5698,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "5c936af2d4303e52957cc506114cf14136f4282930d3072942d70ed5a4e1bfbb",
-  "phase": "implemented",
-  "generation": 2,
-  "digest": "5a97f5ceab548535100e425bb60b00fbfe2f6acab07e92182080a3f0f462eb7a",
+  "phase": "reviewed",
+  "generation": 3,
+  "digest": "4a37741b5d75d76828694ad68bc2702cb2f7ab545999ee2746117ce393a57e45",
   "claim": {
     "id": "claim-5698-runtime-v3-redb-state",
     "owner": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
-    "generation": 2,
+    "generation": 3,
     "acquired_unix_seconds": 1785260636,
     "expires_unix_seconds": 1785865436,
     "heartbeat_unix_seconds": 1785260636,
@@ -33,7 +33,28 @@
     "purpose": "Implement #5698 Runtime v3 durable kernel-state unification on redb: replace local adapter and governed-operation flat-file checkpoint/lifelog persistence with real redb-backed persistence, recovery, integrity, and fail-closed migration behavior."
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "provider:gemini-3.1-pro-preview",
+    "scope": [
+      "adl-runtime-kernel/Cargo.lock",
+      "adl-runtime-kernel/Cargo.toml",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/durable_state.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/durable_state.rs",
+      "adl-runtime-kernel/tests/governed_operations.rs",
+      ".csdlc/evidence/5698"
+    ],
+    "reviewed_revision": "git-blake3:8dd143ab4aad09529315ae7b400b2e793fef2ec5:e5d0df256c00e828a3086d2e3982436536632d9e512110cb5e890e2de6268d26",
+    "findings": [],
+    "residual_risks": [
+      "The initial Gemini exact-head review found non-atomic redb sequence allocation; current exact head 8dd143ab4aad09529315ae7b400b2e793fef2ec5 fixes it and Gemini remediation verification returned PASS / no findings."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -48,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "23825df030ee26fb46304a6f7564410531bb6fb49b7cc7a4681494c5add4b59d",
+      "values_digest": "d0c4753453b9dde1adf40e665949c6a2951de729eec7ac8a5a27929a77ded01e",
       "rendered_digest": "3abd1383590e2f46d38ca4fdab887c2c1d181aeefe285c2718eb75028fe0464f",
       "ast_digest": "afb0beb20cbc2fd79239c9e557998ab98fb2bef78a50c99090340f12849a540d"
     },
     "stp": {
-      "values_digest": "0071287aec3fb67f2b0342f0037692a3e3c4deae25fe541454a1d26ec42d33dd",
+      "values_digest": "6e167531529b3012e0c897bd5f198497863ad42f2f9686f2d16b4fcac09e2435",
       "rendered_digest": "307578437b6a0e3b70dc6589d6bd2515719a2e6ede19e1cac71e3ae6ac5e035a",
       "ast_digest": "ae04f7a2c522def21242a4e46c1c501aadc8085771f63052f9a8f7cb6285ccf9"
     },
     "spp": {
-      "values_digest": "6f04e6136c5d562fd8a8e3259a51a027008cb7fdcdce07471ab1325f699cace7",
+      "values_digest": "b4070b57bdbff8676d82235bf5bcec797d3ce3f193d539488177ff3900aa438e",
       "rendered_digest": "ca930a6a3f6b3001cac6da2b3c19ce1ab0918787d74208423db208ccf4c2e013",
       "ast_digest": "9137dd8bf7d06496a0772caa06f873aacab9e86ff4c483ca2418cadc34aed336"
     },
     "vpp": {
-      "values_digest": "40eeb670b5bd3702150091c1b3034c409daaf03b548df607c5ba57e11e14050d",
+      "values_digest": "56e2074d0e0ebd3e0d297c9d0cd1128069590603c19bdc40c3a3132aced79526",
       "rendered_digest": "6b21d14956c1ea06625b93b8c19a995ef6a0d7ccbb8c1ec66568d5797ca31c54",
       "ast_digest": "62c8e99d8bb7a45660cb3246461fbeffa54e762fb08be6e1c3538ce21fe601a8"
     },
     "srp": {
-      "values_digest": "4cec02f889ce57474d17db23b1b7127cd24fed803ef1bb008e3a8de58f999376",
-      "rendered_digest": "7565b180fb5a14782ddf61b9a27cad7726aad55c46f82d8600b69d13cb6ebd57",
-      "ast_digest": "d174ae9efb01db0800dbf46144321478afb71ec1bae6fa20e77850f69bb0971f"
+      "values_digest": "22e1e0a7ce3256fa888b15838459142753d6cbc650d8f3e693b9395fbf864a1d",
+      "rendered_digest": "08e54d054aa936dd7a4c740beb834b288173231810e99460e23a9441e57319b8",
+      "ast_digest": "a18f5eaa2ccf9c66264d07feb3f5be73c64f6cdfd2a057183ad1f9a18a3704a5"
     },
     "sor": {
-      "values_digest": "3a3094da45583c4c3c8e0146c7450a0c8585adc5bb1e871bdbe8f5d316a16f6f",
+      "values_digest": "123e26be6a57ae9a13e26344c6b58297852560c0b5c49a505452a261e8af07dd",
       "rendered_digest": "cb1b6bb812db48ef2248b13f1f80077d0348290d11a278fd4d2809e0f6a67434",
       "ast_digest": "9935d684d5b65adee283ade03b0cbef0dba4b16703199b15bcb64da4823aa9b4"
     }
@@ -99,6 +120,13 @@
       "to": "implemented",
       "actor": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "provider:gemini-3.1-pro-preview",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -136,6 +164,13 @@
       "actor": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
       "reason": "Record focused proof after the Gemini exact-head review finding was fixed by making redb sequence allocation atomic with row/head writes.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-wp-5698 --request /Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/5698.json\"],\"purpose\":\"Prove the real redb durable kernel-state migration after review remediation: durable_state 4/4 including concurrent sequence/head regression, assembly 9/9, governed_operations 28/28, strict all-target Clippy, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5698\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "provider:gemini-3.1-pro-preview",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
