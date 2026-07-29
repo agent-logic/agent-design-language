@@ -5,25 +5,8 @@
   "initialization_digest": "b58583e72b8c948b14aeb7752ae4abcfead147a648ae567839dd26ecbc8aae79",
   "phase": "bound",
   "generation": 0,
-  "digest": "90e1357190b81519a666e11010af05e8d1cc5e74d3b94b34f9245eecde383617",
-  "claim": {
-    "id": "claim-5352-v0918-preparation",
-    "owner": "codex:issue-5352-preparation",
-    "generation": 0,
-    "acquired_unix_seconds": 1784755996,
-    "expires_unix_seconds": 1785360796,
-    "heartbeat_unix_seconds": 1784755996,
-    "branch": "codex/5352-v0918-preparation",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/issues/5352",
-      ".csdlc/locks/5352.lock",
-      ".csdlc/prepared/issues/5352",
-      ".csdlc/evidence/5352",
-      "docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md"
-    ],
-    "purpose": "Prepare issue #5352 for later WP-14 exact-revision handoff execution without implementation"
-  },
+  "digest": "a5a444e016f42936d74a7853bb7354b9788d1684af18a27ca7dcf64a5137a7c2",
+  "claim": null,
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -100,6 +83,13 @@
       "actor": "codex:issue-5352-preparation",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:claim-hygiene",
+      "reason": "Release preparation-only ownership until issue execution actually starts",
+      "operation": "{\"claim_id\":\"claim-5352-v0918-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:preparation-does-not-own-execution-paths\",\"previous_owner\":\"codex:issue-5352-preparation\"}"
     }
   ]
 }
