@@ -1,5 +1,6 @@
 //! Independent, additive runtime-kernel proof for ADL issue #5170.
 
+pub mod acip;
 pub mod assembly;
 pub mod channel;
 pub mod cognition;
@@ -25,6 +26,7 @@ pub mod time;
 pub mod topology;
 pub mod weather;
 
+pub use acip::*;
 pub use assembly::*;
 pub use channel::{channel, BoundedReceiver, BoundedSender, ChannelFullPolicy, SendError};
 pub use cognition::*;

@@ -214,6 +214,7 @@ struct ProviderPort {
 struct ProcessGroup(Option<u32>);
 impl Drop for ProcessGroup {
     fn drop(&mut self) {
+        #[cfg(unix)]
         if let Some(pid) = self.0 {
             unsafe { libc::kill(-(pid as i32), libc::SIGKILL) };
         }
@@ -233,14 +234,16 @@ impl OperationExecutor for ProviderPort {
                 message: format!("provider_{}", self.condition),
             });
         }
-        use std::os::unix::process::CommandExt;
         let mut command = tokio::process::Command::new(&self.program);
         command
-            .as_std_mut()
-            .process_group(0)
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::null());
+        #[cfg(unix)]
+        {
+            use std::os::unix::process::CommandExt;
+            command.as_std_mut().process_group(0);
+        }
         let mut child = command
             .kill_on_drop(true)
             .spawn()
@@ -559,6 +562,8 @@ async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> 
             timeout: Duration::from_secs(1),
             max_offset: Duration::ZERO,
             max_round_trip: Duration::ZERO,
+            retry_delay: Duration::from_millis(10),
+            refresh_interval: Duration::from_secs(60),
         },
     })
     .map_err(|_| "topology_invalid".to_owned())?;
@@ -647,6 +652,7 @@ fn refused_outcome(
     }
 }
 
+#[allow(clippy::result_large_err)]
 async fn execute_inner(
     config: &RuntimeConfig,
     command: &GovernedCommand,

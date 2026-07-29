@@ -1,4 +1,13 @@
-use std::{collections::BTreeMap, path::Path, sync::Arc, time::Duration};
+use std::{
+    collections::BTreeMap,
+    future::pending,
+    path::Path,
+    sync::{
+        atomic::{AtomicUsize, Ordering},
+        Arc,
+    },
+    time::Duration,
+};
 
 use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly,
@@ -15,6 +24,10 @@ use tempfile::TempDir;
 use tokio_util::sync::CancellationToken;
 
 struct FixedTime;
+
+struct PendingTime;
+
+struct RecoveringTime(AtomicUsize);
 
 struct PendingExecutor;
 
@@ -36,6 +49,28 @@ impl TimeSampleSource for FixedTime {
             source: "test-sntp".to_owned(),
             unix_millis: 1_720_000_000_000,
             offset_millis: 1,
+            round_trip: Duration::from_millis(1),
+        })
+    }
+}
+
+#[async_trait]
+impl TimeSampleSource for PendingTime {
+    async fn sample(&self) -> Result<TimeSample, TimeSampleError> {
+        pending().await
+    }
+}
+
+#[async_trait]
+impl TimeSampleSource for RecoveringTime {
+    async fn sample(&self) -> Result<TimeSample, TimeSampleError> {
+        if self.0.fetch_add(1, Ordering::SeqCst) == 0 {
+            return Err(TimeSampleError::new("injected network outage"));
+        }
+        Ok(TimeSample {
+            source: "recovered-sntp".to_owned(),
+            unix_millis: 1_720_000_000_000,
+            offset_millis: 0,
             round_trip: Duration::from_millis(1),
         })
     }
@@ -79,6 +114,8 @@ fn bindings(recorder: RuntimeRecorder, state_root: &Path) -> LiveBindings {
             timeout: Duration::from_secs(1),
             max_offset: Duration::from_millis(100),
             max_round_trip: Duration::from_millis(100),
+            retry_delay: Duration::from_millis(10),
+            refresh_interval: Duration::from_secs(60),
         },
     }
 }
@@ -786,6 +823,66 @@ async fn canonical_ingress_dispatches_real_agent_work() {
         .unwrap();
     assert_eq!(accepted.accepted_sequence, 1);
     assert_eq!(ingress.snapshot().accepted_through, 1);
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        adl_runtime_kernel::KernelExit::Clean
+    );
+}
+
+#[tokio::test]
+async fn unavailable_sntp_does_not_block_kernel_startup_or_erase_bootstrap_time() {
+    let recorder = RuntimeRecorder::new(128);
+    let root = TempDir::new().unwrap();
+    let mut live_bindings = bindings(recorder.clone(), root.path());
+    live_bindings.time_source = Arc::new(PendingTime);
+    live_bindings.time_bounds.timeout = Duration::from_millis(10);
+    let assembly = build_live_assembly(live_bindings).unwrap();
+
+    let handle = tokio::time::timeout(
+        Duration::from_secs(1),
+        adl_runtime_kernel::Kernel::new(assembly.topology, recorder.clone()).start(),
+    )
+    .await
+    .expect("SNTP cannot block kernel startup")
+    .unwrap();
+
+    assert!(matches!(
+        recorder.snapshot().clock,
+        ClockAuthority::Authoritative { source, .. } if source == "host_system_clock"
+    ));
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        adl_runtime_kernel::KernelExit::Clean
+    );
+}
+
+#[tokio::test]
+async fn sntp_recovers_after_startup_without_restarting_the_kernel() {
+    let recorder = RuntimeRecorder::new(128);
+    let root = TempDir::new().unwrap();
+    let mut live_bindings = bindings(recorder.clone(), root.path());
+    live_bindings.time_source = Arc::new(RecoveringTime(AtomicUsize::new(0)));
+    live_bindings.time_bounds.retry_delay = Duration::from_millis(1);
+    let assembly = build_live_assembly(live_bindings).unwrap();
+    let handle = adl_runtime_kernel::Kernel::new(assembly.topology, recorder.clone())
+        .start()
+        .await
+        .unwrap();
+
+    tokio::time::timeout(Duration::from_secs(1), async {
+        loop {
+            if matches!(
+                recorder.snapshot().clock,
+                ClockAuthority::Authoritative { source, .. } if source == "recovered-sntp"
+            ) {
+                break;
+            }
+            tokio::task::yield_now().await;
+        }
+    })
+    .await
+    .expect("SNTP refresh should recover in place");
+
     assert_eq!(
         handle.shutdown(Duration::from_secs(1)).await.unwrap(),
         adl_runtime_kernel::KernelExit::Clean
