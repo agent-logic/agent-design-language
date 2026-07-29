@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-12] Run opt-in soak and prove rollback",
     "slug": "v0918-wp12-opt-in-soak-rollback",
     "version": "v0.91.8",
-    "generation": 38
+    "generation": 39
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5344\n.csdlc/issues/5587\n.csdlc/prepared/issues/5344\nadl-runtime/src/guardian.rs\nadl/tools/check_coverage_impact.sh\nadl/tools/test_check_coverage_impact.sh",
-      "review_revision": "git-blake3:6db1d976a1b853d7f42fc15ad68870b02e2ffe0b:ae2f20c67dadfcaeb8006a5a2575309109c2964714adee5d185e2a686755603a",
-      "reviewer": "subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the Runtime v3 coverage mapping select every existing guardian unit and guardian_cli integration test without naming deleted tests?",
         "Does the tooling-contract regression execute the mapper expression against the live nextest inventory and end with an explicit PASS marker?",
@@ -26,7 +26,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }

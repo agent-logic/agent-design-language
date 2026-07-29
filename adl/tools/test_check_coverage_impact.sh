@@ -451,6 +451,21 @@ bash "$SCRIPT" --changed-files "$live_runtime_boundary_changed" --print-risk-fil
 bash "$SCRIPT" --changed-files "$live_runtime_boundary_changed" --require-summary-for-risk >/tmp/coverage-impact-live-runtime-boundary.out
 grep -F "Coverage-impact preflight passed: no risky changed Rust source files require local summary evidence." /tmp/coverage-impact-live-runtime-boundary.out >/dev/null
 
+runtime_qualification_harness_changed="$TMP/runtime-qualification-harness-changed.txt"
+printf 'A\tadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\n' >"$runtime_qualification_harness_changed"
+runtime_qualification_harness_filters="$TMP/runtime-qualification-harness-filters.txt"
+bash "$SCRIPT" --changed-files "$runtime_qualification_harness_changed" --print-risk-filters >"$runtime_qualification_harness_filters"
+[ ! -s "$runtime_qualification_harness_filters" ]
+runtime_qualification_harness_summary="$TMP/runtime-qualification-harness-summary.json"
+make_summary "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs" 1 100 "$runtime_qualification_harness_summary"
+bash "$SCRIPT" \
+  --changed-files "$runtime_qualification_harness_changed" \
+  --summary "$runtime_qualification_harness_summary" \
+  --threshold 80 \
+  >/tmp/coverage-impact-runtime-qualification-harness.out
+grep -F "Coverage-impact preflight passed for changed Rust source files" \
+  /tmp/coverage-impact-runtime-qualification-harness.out >/dev/null
+
 gws_live_changed="$TMP/gws-live-changed.txt"
 cat >"$gws_live_changed" <<'EOF'
 A	adl/src/gws_live_capability_execution_surface.rs
