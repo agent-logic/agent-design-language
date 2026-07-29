@@ -1,6 +1,5 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
-    io::Write,
     path::{Path, PathBuf},
     process::Stdio,
     sync::{
@@ -14,10 +13,10 @@ use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly,
     build_production_operation_executors_with_recorder, ActuationShell, AdapterKind, AdapterPolicy,
     Aee, AuthorityGrant, AuthorityMode, CanonicalIngress, Commitment, ExecutorError, FailureClass,
-    FreedomGate, GovernanceKeys, GovernedActionRequest, Kernel, LiveBindings, MediationDecision,
-    OperationExecutor, OperationRequest, OperationalAdapter, RefusalReason, RuntimeRecorder,
-    TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource, TrustedGovernanceTime,
-    OPERATION_REQUEST_SCHEMA,
+    FreedomGate, GovernanceKeys, GovernedActionRequest, Kernel, KernelDurableState, LiveBindings,
+    MediationDecision, OperationExecutor, OperationRequest, OperationalAdapter, RefusalReason,
+    RuntimeRecorder, TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource,
+    TrustedGovernanceTime, OPERATION_REQUEST_SCHEMA,
 };
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use serde::{Deserialize, Serialize};
@@ -889,17 +888,17 @@ fn adapter_inventory() -> Vec<String> {
 }
 
 fn load_state(config: &RuntimeConfig) -> Result<RuntimeState, String> {
-    let path = config.state_dir.join("checkpoint.json");
-    if !path.exists() {
+    let Some(bytes) = durable_state(config)?
+        .load_governed_state("parity-c")
+        .map_err(|_| "checkpoint_unavailable".to_owned())?
+    else {
         return Ok(RuntimeState {
             schema: STATE_SCHEMA.to_owned(),
             ..RuntimeState::default()
         });
-    }
-    let signed: SignedState = serde_json::from_slice(
-        &std::fs::read(path).map_err(|_| "checkpoint_unavailable".to_owned())?,
-    )
-    .map_err(|_| "checkpoint_corrupt".to_owned())?;
+    };
+    let signed: SignedState =
+        serde_json::from_slice(&bytes).map_err(|_| "checkpoint_corrupt".to_owned())?;
     if signed.state.schema != STATE_SCHEMA
         || state_integrity(&signed.state, &config.checkpoint_key)? != signed.integrity
     {
@@ -913,18 +912,9 @@ fn persist_state(config: &RuntimeConfig, state: &RuntimeState) -> Result<(), Str
         state: state.clone(),
         integrity: state_integrity(state, &config.checkpoint_key)?,
     };
-    let tmp = config
-        .state_dir
-        .join(format!("checkpoint.{}.tmp", std::process::id()));
-    let mut file = std::fs::File::create(&tmp).map_err(|_| "checkpoint_unavailable".to_owned())?;
-    file.write_all(&serde_json::to_vec(&signed).map_err(|_| "checkpoint_encoding".to_owned())?)
-        .map_err(|_| "checkpoint_unavailable".to_owned())?;
-    file.sync_all()
-        .map_err(|_| "checkpoint_unavailable".to_owned())?;
-    std::fs::rename(tmp, config.state_dir.join("checkpoint.json"))
-        .map_err(|_| "checkpoint_unavailable".to_owned())?;
-    std::fs::File::open(&config.state_dir)
-        .and_then(|directory| directory.sync_all())
+    let bytes = serde_json::to_vec(&signed).map_err(|_| "checkpoint_encoding".to_owned())?;
+    durable_state(config)?
+        .store_governed_state("parity-c", &bytes)
         .map_err(|_| "checkpoint_unavailable".to_owned())
 }
 
@@ -942,14 +932,13 @@ fn append_lifelog(
         "checkpoint_generation": outcome.generation,
         "redacted_fields": ["payload", "keys"]
     });
-    let mut file = std::fs::OpenOptions::new()
-        .create(true)
-        .append(true)
-        .open(config.state_dir.join("lifelog.jsonl"))
-        .map_err(|_| "lifelog_unavailable".to_owned())?;
-    writeln!(file, "{entry}").map_err(|_| "lifelog_unavailable".to_owned())?;
-    file.sync_data()
+    durable_state(config)?
+        .append_governed_lifelog(&entry)
         .map_err(|_| "lifelog_unavailable".to_owned())
+}
+
+fn durable_state(config: &RuntimeConfig) -> Result<KernelDurableState, String> {
+    KernelDurableState::open(&config.state_dir).map_err(|_| "checkpoint_unavailable".to_owned())
 }
 
 fn state_integrity(state: &RuntimeState, key: &[u8; 32]) -> Result<String, String> {

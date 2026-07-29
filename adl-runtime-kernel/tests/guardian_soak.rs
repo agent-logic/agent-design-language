@@ -24,7 +24,7 @@ use runtime_init::{
 };
 
 #[cfg(unix)]
-const CONTROL_TEST_HOST: &str = "localhost";
+const CONTROL_TEST_HOST: &str = "127.0.0.1";
 
 #[cfg(unix)]
 struct TestGuardianLease {

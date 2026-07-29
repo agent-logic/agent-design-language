@@ -28,14 +28,14 @@ use crate::{
     AuthorityMode, CanonicalIngress, Capability, CapabilityRequirement, ClockAuthority, Component,
     ComponentConfig, ComponentContext, ComponentError, ComponentFactory, ComponentId,
     ComponentSpec, DeterminismClass, ExecutorError, FactoryRegistration, FactoryRegistry,
-    FailureClass, FailurePolicy, LifecycleGuarantees, LoopDefinition, MutationAuthority,
-    MutationGate, OperationError, OperationExecutor, OperationRequest, OperationalAdapter,
-    OperationalFactory, QualifiedTimeFactory, ReasoningGraphDefinition, ReasoningNode,
-    ReasoningServices, RecordedObservation, RecorderTrustedTime, RuntimeConfig, RuntimeRecorder,
-    ServiceContract, SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource,
-    TopologyError, TrustedTime, ValidatedContracts, ValidatedReasoningGraph, ValidatedTopology,
-    WeatherConfig, WeatherObserver, OPERATION_REQUEST_SCHEMA, REASONING_GRAPH_SCHEMA,
-    RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
+    FailureClass, FailurePolicy, KernelDurableState, LifecycleGuarantees, LoopDefinition,
+    MutationAuthority, MutationGate, OperationError, OperationExecutor, OperationRequest,
+    OperationalAdapter, OperationalFactory, QualifiedTimeFactory, ReasoningGraphDefinition,
+    ReasoningNode, ReasoningServices, RecordedObservation, RecorderTrustedTime, RuntimeConfig,
+    RuntimeRecorder, ServiceContract, SysinfoWeatherObserver, TimeQualificationBounds,
+    TimeSampleSource, TopologyError, TrustedTime, ValidatedContracts, ValidatedReasoningGraph,
+    ValidatedTopology, WeatherConfig, WeatherObserver, OPERATION_REQUEST_SCHEMA,
+    REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const REQUIRED_OPERATIONAL_ADAPTERS: [AdapterKind; 10] = [
@@ -521,7 +521,7 @@ struct LocalRuntimeState {
     sequence: AtomicU64,
     admitted: Mutex<BTreeSet<String>>,
     scheduled: Mutex<LocalSchedulerState>,
-    state_dir: PathBuf,
+    durable: KernelDurableState,
     writer_id: String,
     writer_pid: u32,
     writer_lock_path: PathBuf,
@@ -548,11 +548,18 @@ impl LocalRuntimeState {
         let writer_pid = std::process::id();
         let lock_path = state_dir.join("writer.lock");
         acquire_writer_lock(&lock_path, &writer_id, writer_pid)?;
+        let durable = match KernelDurableState::open(&state_dir) {
+            Ok(durable) => durable,
+            Err(error) => {
+                let _ = release_writer_lock(&lock_path, &writer_id, writer_pid);
+                return Err(io::Error::other(error));
+            }
+        };
         Ok(Self {
             sequence: AtomicU64::new(0),
             admitted: Mutex::new(BTreeSet::new()),
             scheduled: Mutex::new(LocalSchedulerState::default()),
-            state_dir,
+            durable,
             writer_id,
             writer_pid,
             writer_lock_path: lock_path,
@@ -1023,32 +1030,13 @@ impl InProcessOperationExecutor {
                 "checkpoint_command_schema",
             ));
         }
-        fs::create_dir_all(&self.state.state_dir)
-            .map_err(|e| local_io("checkpoint_unavailable", e))?;
-        let path = self.state.state_dir.join("checkpoint.json");
         match command["action"].as_str().unwrap_or_default() {
             "restore" => {
-                let bytes = fs::read(&path).map_err(|e| local_io("checkpoint_unavailable", e))?;
-                let value: serde_json::Value = serde_json::from_slice(&bytes).map_err(|e| {
-                    adapter_error(FailureClass::Fatal, format!("checkpoint_corrupt: {e}"))
-                })?;
-                if value["schema"] != "adl.runtime.local_checkpoint.v1"
-                    || value["principal"] != request.principal
-                    || value["payload_hash"]
-                        != blake3::hash(
-                            &hex::decode(value["state_hex"].as_str().unwrap_or_default()).map_err(
-                                |_| adapter_error(FailureClass::Fatal, "checkpoint_state_encoding"),
-                            )?,
-                        )
-                        .to_hex()
-                        .to_string()
-                {
-                    return Err(adapter_error(
-                        FailureClass::Fatal,
-                        "checkpoint_identity_or_integrity",
-                    ));
-                }
-                return Ok(value);
+                return self
+                    .state
+                    .durable
+                    .restore_local_checkpoint(&request.principal)
+                    .map_err(|error| local_io("checkpoint_unavailable", error));
             }
             "store" => {}
             _ => return Err(adapter_error(FailureClass::Fatal, "checkpoint_action")),
@@ -1056,39 +1044,36 @@ impl InProcessOperationExecutor {
         let state_hex = command["state_hex"].as_str().unwrap_or_default();
         let state = hex::decode(state_hex)
             .map_err(|_| adapter_error(FailureClass::Fatal, "checkpoint_state_encoding"))?;
-        let value = serde_json::json!({"schema":"adl.runtime.local_checkpoint.v1","adapter":self.kind.service_name(),"operation":self.kind.operation_name(),"request_id":request.request_id,"principal":request.principal,"generation":self.state.next_sequence(),"writer_id":self.state.writer_id,"payload_hash":blake3::hash(&state).to_hex().to_string(),"state_hex":state_hex});
-        let tmp = self
-            .state
-            .state_dir
-            .join(format!("checkpoint.{}.tmp", self.state.next_sequence()));
-        let mut file = fs::File::create(&tmp).map_err(|e| local_io("checkpoint_unavailable", e))?;
-        file.write_all(
-            &serde_json::to_vec(&value).map_err(|e| local_io("checkpoint_unavailable", e))?,
-        )
-        .and_then(|_| file.sync_all())
-        .map_err(|e| local_io("checkpoint_unavailable", e))?;
-        fs::rename(tmp, path).map_err(|e| local_io("checkpoint_unavailable", e))?;
-        Ok(value)
+        self.state
+            .durable
+            .store_local_checkpoint(
+                self.kind.service_name(),
+                self.kind.operation_name(),
+                &request.request_id,
+                &request.principal,
+                &self.state.writer_id,
+                &state,
+            )
+            .map_err(|error| local_io("checkpoint_unavailable", error))
     }
 
     fn lifelog(&self, request: &OperationRequest) -> Result<serde_json::Value, ExecutorError> {
-        fs::create_dir_all(&self.state.state_dir)
-            .map_err(|e| local_io("lifelog_unavailable", e))?;
         let text = String::from_utf8_lossy(&request.payload);
         let lower = text.to_ascii_lowercase();
         let redacted = ["secret", "token", "password"]
             .iter()
             .any(|needle| lower.contains(needle));
-        let value = serde_json::json!({"schema":"adl.runtime.local_lifelog.v1","adapter":self.kind.service_name(),"operation":self.kind.operation_name(),"request_id":request.request_id,"principal":request.principal,"sequence":self.state.next_sequence(),"payload_hash":blake3::hash(&request.payload).to_hex().to_string(),"redacted":redacted,"authoritative":false});
-        let mut file = fs::OpenOptions::new()
-            .create(true)
-            .append(true)
-            .open(self.state.state_dir.join("lifelog.jsonl"))
-            .map_err(|e| local_io("lifelog_unavailable", e))?;
-        writeln!(file, "{value}")
-            .and_then(|_| file.sync_all())
-            .map_err(|e| local_io("lifelog_unavailable", e))?;
-        Ok(value)
+        self.state
+            .durable
+            .append_local_lifelog(
+                self.kind.service_name(),
+                self.kind.operation_name(),
+                &request.request_id,
+                &request.principal,
+                &request.payload,
+                redacted,
+            )
+            .map_err(|error| local_io("lifelog_unavailable", error))
     }
 }
 
