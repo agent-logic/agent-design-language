@@ -1378,6 +1378,19 @@ apply_validation_manager_routing() {
       reason="sprint_conductor_surface_requires_helper_contract_checks"
       return 0
       ;;
+    ready_to_run:podcast_launch_packet:false|\
+    ready_to_run:docs_diff_check,podcast_launch_packet:false|\
+    ready_to_run:podcast_launch_packet,docs_diff_check:false)
+      ci_contracts_required=true
+      demo_smoke_required=true
+      coverage_required=false
+      full_coverage_required=false
+      coverage_lane="skip"
+      coverage_authority="not_required"
+      coverage_execution_state="skipped_by_path_policy"
+      reason="podcast_launch_surface_requires_audio_rss_and_studio_packet_validation"
+      return 0
+      ;;
     ready_to_run:rust_dependency_cache_warmup_contracts:false|\
     ready_to_run:docs_diff_check,rust_dependency_cache_warmup_contracts:false|\
     ready_to_run:rust_dependency_cache_warmup_contracts,docs_diff_check:false)
