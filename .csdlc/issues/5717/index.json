@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "076248de115adaa0f9c9eff8cbbd8ff162b2d01f5bdb2d6a9d316c57f9ea4b83",
   "phase": "implemented",
-  "generation": 1,
-  "digest": "04e89b0efdcbe1bf2fbb2055f8fa5e272df1653e709c5050cec12069acb5954c",
+  "generation": 2,
+  "digest": "63ce08c9f994d4d27b8aa631654b210b7b2118803f39b81324b52140c678d0b1",
   "claim": {
     "id": "claim-5717-podcast-studio-copy",
     "owner": "codex:5717-execution",
-    "generation": 1,
+    "generation": 2,
     "acquired_unix_seconds": 1785361490,
     "expires_unix_seconds": 1785966290,
     "heartbeat_unix_seconds": 1785361490,
@@ -32,8 +32,47 @@
     ],
     "purpose": "Update the integrated podcast studio page copy and logo for launch readiness while preserving the #5715 route, assets, audio, and RSS wiring"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "gemini-3.1-pro-preview",
+    "assigned_by": "codex:5717-execution",
+    "revision": "git-blake3:64b747a9cd9601e2c6444930c38a5dc32f99397b:fe8ae0a0e65d286ccbee0e218380af44e4c43aae0caaeca0f374967c2e05f730",
+    "scope": [
+      ".csdlc/issues/5715",
+      ".csdlc/issues/5717",
+      ".csdlc/prepared/issues/5717",
+      ".csdlc/evidence/5717",
+      "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio-reference/uploads/agent-logic-logo.svg",
+      "demos/podcast/studio/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio/podcast-studio.html",
+      "demos/podcast/studio/reference.sha256",
+      "demos/podcast/studio/uploads/agent-logic-logo.svg"
+    ]
+  },
+  "review": {
+    "reviewer": "gemini-3.1-pro-preview",
+    "scope": [
+      ".csdlc/issues/5715",
+      ".csdlc/issues/5717",
+      ".csdlc/prepared/issues/5717",
+      ".csdlc/evidence/5717",
+      "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio-reference/podcast-studio.html",
+      "demos/podcast/studio-reference/uploads/agent-logic-logo.svg",
+      "demos/podcast/studio/REFERENCE_DIGESTS.txt",
+      "demos/podcast/studio/podcast-studio.html",
+      "demos/podcast/studio/reference.sha256",
+      "demos/podcast/studio/uploads/agent-logic-logo.svg"
+    ],
+    "reviewed_revision": "git-blake3:64b747a9cd9601e2c6444930c38a5dc32f99397b:fe8ae0a0e65d286ccbee0e218380af44e4c43aae0caaeca0f374967c2e05f730",
+    "findings": [],
+    "residual_risks": [
+      "The generated page intentionally uses relative feed and audio links; deployment must preserve the current demos/podcast/studio parent-child layout where ../feed.xml and ../audio/meet-the-ai-coworkers.wav resolve."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -48,32 +87,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "66d37e8fe96d692797930b91607c703cf9eed58f9bbe5c21855dc6ef005548c4",
+      "values_digest": "5f2be4c2c60a239fb0c39a1e2bec690a1c98f369a172f3674bcc709e4a93c7bc",
       "rendered_digest": "72b19c7db1294878ef02538e3c2c1afcd75c4962eed345a546782b4c4a01703c",
       "ast_digest": "44990155f81bd4fe0b63937ab141c8169a0b74a8c485f0f1ad1c67f06d9502dd"
     },
     "stp": {
-      "values_digest": "6645269df62387a797d3b10292c6fc07b56cccfbaf71befc353dfeb2e9437ae5",
+      "values_digest": "3d0be4717d49de2e109e342d03b07f40545b5491d4dea5b6c1da1e2201e36e92",
       "rendered_digest": "79384f1b1112b72739525c66c07f15aaf6b41ff8d1d4d9692428171882b8141f",
       "ast_digest": "60a985e4b0af0ce1214f640fc699395f397face6fedd1ff9270f742992f7331a"
     },
     "spp": {
-      "values_digest": "069888e2a437c87ac5dfc620292e9acd6f08dbeab2d22eb14c97d33194c09830",
+      "values_digest": "1f3f00b5baec7b8e07a0ba29c9a388d11a0b55a2eaa00bd6138c7056bba36d26",
       "rendered_digest": "28e613669030c5a2a9d4fd1fc5916d05013a7fede79a43e16c7475bd158e4ecc",
       "ast_digest": "b7be51bebcc797093527fbf73e64ad8e991c4edd984f4c5a85eeda7d81be4302"
     },
     "vpp": {
-      "values_digest": "a3763d792fa1447b193b24fdef8f18ddaaa185a6789823a5393aa1455e95fce6",
+      "values_digest": "d4899dbb5410c9385f02ab6fe4a55cf2c63b87c3512afd8f71d1d324cd1f7662",
       "rendered_digest": "d4b179d6ddfe7e069e109aac976bf47c9b190fa9ae5d17e5ab31011b5df07990",
       "ast_digest": "beb988a8127e2b82f642f57dae1be11765034e5e7375d161f975b12b60f8dc9d"
     },
     "srp": {
-      "values_digest": "88ecff1ae553ddc0e4fed7afdaec5281d3d519699d380ce4ee387bee213306ea",
-      "rendered_digest": "7a377d489847e5e58bacde5a7a07c43937656bb484642f730439c26f412b8173",
-      "ast_digest": "1cb33f50905e61ce88b8261d7cf38fef8bdb4dd8368c5a261007c83a3b7ea733"
+      "values_digest": "cc495ad247997beef35fa1250b6d90437801a0e2bc6a6e67bc83d19c7b2facb6",
+      "rendered_digest": "8944b93152774ff192af790b0835ad6a5bddc708cbdbc3278bfbb0d1beceb1ac",
+      "ast_digest": "0216cde15c45c454e5ea92ff77f96cfd0e0168f4596044f2f223e8da6b8ef24f"
     },
     "sor": {
-      "values_digest": "4c4613a9c6d718e48da6594a641e4a2eb7d54e6c2aecec0c5838d91fe7a17002",
+      "values_digest": "0022d3d2836bb97a43266c1ffd7bfe4d50f7453d5814a5843a47f88a9647dbb1",
       "rendered_digest": "b8c945becfc15bd099268b2be10cad88f30433c31703d5c5e91ea1a918b52f1d",
       "ast_digest": "75258da964116f44082617071f5f8d0e476f36196667501423f3d4b36fb1f4d0"
     }
@@ -136,6 +175,20 @@
       "actor": "codex:5717-execution",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 1,
+      "actor": "codex:5717-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 2,
+      "actor": "codex:5717-execution",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }
