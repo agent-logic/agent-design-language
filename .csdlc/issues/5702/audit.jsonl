@@ -14,3 +14,4 @@
 {"sequence":14,"generation":11,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"advance #5702 after assigned exact-head review passed","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":15,"generation":12,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":16,"generation":13,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":17,"generation":14,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness_reconcile_metadata_only_published_revision"}
