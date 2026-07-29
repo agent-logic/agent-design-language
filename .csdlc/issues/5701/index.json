@@ -3,13 +3,13 @@
   "issue": 5701,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
-  "phase": "implemented",
-  "generation": 31,
-  "digest": "331a806a2ca83ce1d64f54c908ac3da17c1385f03098a71181b1645523fc9182",
+  "phase": "reviewed",
+  "generation": 33,
+  "digest": "8879fd8950f22fcb6c70ec86d55de03b05e505be2ce8df4049f4bb23011285ad",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 31,
+    "generation": 33,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -56,8 +56,51 @@
     ],
     "purpose": "Define complete versioned Runtime v3 Core and Observatory OpenAPI contracts with route parity validation while coordinating around active WP-12 #5344 protected router/config paths"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fafe9-2cac-77d2-8aa9-fcbd0157746d",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:7801b941d0f00a89c8e8ebe4bc70eb93a73a8359:1d726d40a3ece4218b082358250bced33bde150f73d220bea8af825fc5975f35",
+    "scope": [
+      "demos/html-observatory",
+      "adl-runtime-kernel/tests/parity.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+      "docs/architecture/runtime_v3_observatory_consumption_5286.v1.json",
+      "docs/milestones/v0.91.7/DEMO_MATRIX_v0.91.7.md",
+      "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
+      "docs/milestones/v0.91.7/review/V0917_WP15_DEMO_CONVERGENCE_4642.md",
+      "docs/milestones/v0.91.7/review/demo_matrix_4691/4691-birthday-visible-demo-matrix-proof.md",
+      "docs/milestones/v0.91.7/review/wp15_demo_convergence_4642/feature_proof_coverage_4642.json",
+      "docs/milestones/v0.91.7/review/wp16_quality_gate_4643/quality_gate_4643.py",
+      "docs/reviews/v0.91.7/remaining-sprints-5403/RUNTIME_V3_LIVE_PARITY_REVIEW_5276.md"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fafe9-2cac-77d2-8aa9-fcbd0157746d",
+    "scope": [
+      "demos/html-observatory",
+      "adl-runtime-kernel/tests/parity.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+      "docs/architecture/runtime_v3_observatory_consumption_5286.v1.json",
+      "docs/milestones/v0.91.7/DEMO_MATRIX_v0.91.7.md",
+      "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
+      "docs/milestones/v0.91.7/review/V0917_WP15_DEMO_CONVERGENCE_4642.md",
+      "docs/milestones/v0.91.7/review/demo_matrix_4691/4691-birthday-visible-demo-matrix-proof.md",
+      "docs/milestones/v0.91.7/review/wp15_demo_convergence_4642/feature_proof_coverage_4642.json",
+      "docs/milestones/v0.91.7/review/wp16_quality_gate_4643/quality_gate_4643.py",
+      "docs/reviews/v0.91.7/remaining-sprints-5403/RUNTIME_V3_LIVE_PARITY_REVIEW_5276.md"
+    ],
+    "reviewed_revision": "git-blake3:7801b941d0f00a89c8e8ebe4bc70eb93a73a8359:1d726d40a3ece4218b082358250bced33bde150f73d220bea8af825fc5975f35",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -72,32 +115,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "44e3fa3a8c275af04fee8fad10690e21a7cb0307205955c37b5dbfd8e97dd920",
+      "values_digest": "b6c493825c4355e3a2f31f0e4f49ae03a9f60d41f657cb5a66b06805e41842ce",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "0552e07402c7236cb3e0e7198c2ab50c71042121f3ab01578d1fba52b45e1e5b",
+      "values_digest": "7e3425d3df41688260bce945f2dc563770d8f5df7c8ece4111d8f108ee9705e0",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "966d123f925a62cbcb0f3cf95544d36129c4017bc45361803a579dc1bce759fe",
+      "values_digest": "f9393a4f87d09b5cb44b005fe9ea3e4c461649c64b56e23fc30aa0983268a9ff",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "342cc9a33fc10d63f83e015cf75d8faca0f2a498ef61edad9ec91b9d005ac065",
+      "values_digest": "a1d94af9a7e26f9a772036d9344d7fec180f2cc7737ea9df7dcbf9a5bf53703a",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "22d1e60dc827fd042d9ecaf26ae5b2e4cb45875e9a1e4c6527d3245291223896",
-      "rendered_digest": "4332b7111e8799f6372a704ad504faaf40ee5f6455491d2f12ad667cb8ed24e0",
-      "ast_digest": "e686f3199e3333f0b9e8df55efe27a3c94331a2bb90f0162682c0d31f7d153b9"
+      "values_digest": "c6c5156f53fe4a56ed56ce536f382fdd58b2505f8237a26e6b9d7d23ad08b342",
+      "rendered_digest": "8fe9e8ebd3ea651c977492cc87439546563133dd5d962f4c56a2031849bbb775",
+      "ast_digest": "52220de7c23e22750f70ca7158886c77de91ac3e43bd577a92f534e2c447acd3"
     },
     "sor": {
-      "values_digest": "e68b89d8422b2967eec16ea69b2237be26ab5b09f15b8ff7088933d5b4dc7d98",
+      "values_digest": "9e42bfd9dbcf9878307e6e51d04637be0d90b1b92ad09bc2f126ca6c883e81ab",
       "rendered_digest": "2608c536f3f366aecd988f75518f3432a2a7f5ca068362ef2069f38f0cfb541e",
       "ast_digest": "05944f20a5ee8afb4007ccc89fffb08a367f1fc058b5e8423744c9469937060e"
     }
@@ -249,6 +292,13 @@
       "to": "implemented",
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "Recover exact review and publication truth after moving the unchanged Observatory design to the version-neutral demos/html-observatory public path."
+    },
+    {
+      "sequence": 22,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The exact GPT-5.5 review confirmed the Observatory design is unchanged, the version-neutral path is coherent, and all actionable findings are resolved."
     }
   ],
   "audit": [
@@ -573,6 +623,27 @@
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "Move the unchanged Observatory visual design to a version-neutral public path and update every active code, test, validation, architecture, and historical evidence reference that would otherwise point at a missing file.",
       "operation": "{\"add_protected_paths\":[\"demos/html-observatory\",\"adl-runtime-kernel/tests/parity.rs\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl/config/validation_lane_selector.v0.91.6.json\",\"adl/tools/test_select_validation_lanes.sh\",\"docs/architecture/runtime_v3_observatory_consumption_5286.v1.json\",\"docs/milestones/v0.91.7/DEMO_MATRIX_v0.91.7.md\",\"docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md\",\"docs/milestones/v0.91.7/review/V0917_WP15_DEMO_CONVERGENCE_4642.md\",\"docs/milestones/v0.91.7/review/demo_matrix_4691/4691-birthday-visible-demo-matrix-proof.md\",\"docs/milestones/v0.91.7/review/wp15_demo_convergence_4642/feature_proof_coverage_4642.json\",\"docs/milestones/v0.91.7/review/wp16_quality_gate_4643/quality_gate_4643.py\",\"docs/reviews/v0.91.7/remaining-sprints-5403/RUNTIME_V3_LIVE_PARITY_REVIEW_5276.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 47,
+      "generation": 31,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 32,
+      "actor": "subagent:019fafe9-2cac-77d2-8aa9-fcbd0157746d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 33,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The exact GPT-5.5 review confirmed the Observatory design is unchanged, the version-neutral path is coherent, and all actionable findings are resolved.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
