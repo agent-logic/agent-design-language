@@ -78,14 +78,6 @@ jq -e --arg sha256 "$v2_digest" '
 ' "$v2_receipt" >/dev/null
 v1_digest=$(install_generation adl-v1-fixture "$adl_v2_bin")
 
-receipt_path="$root/.csdlc/evidence/5344/rollback/fresh-install-receipt.json"
-mkdir -p "$(dirname "$receipt_path")"
-receipt_tmp=$(mktemp "$(dirname "$receipt_path")/.fresh-install-receipt.XXXXXX")
-cp "$v2_receipt" "$receipt_tmp"
-chmod 644 "$receipt_tmp"
-mv -f "$receipt_tmp" "$receipt_path"
-fresh_install_receipt_sha256=$(sha256 "$receipt_path")
-
 run_cli() {
   "$adl_v2_bin" "$@" --root "$selector_root"
 }
@@ -199,6 +191,14 @@ jq -e '
   .result.current.generation == "adl-v1-fixture" and
   .result.previous.generation == "adl-v2"
 ' <<<"$selector" >/dev/null
+
+receipt_path="$root/.csdlc/evidence/5344/rollback/fresh-install-receipt.json"
+mkdir -p "$(dirname "$receipt_path")"
+receipt_tmp=$(mktemp "$(dirname "$receipt_path")/.fresh-install-receipt.XXXXXX")
+cp "$v2_receipt" "$receipt_tmp"
+chmod 644 "$receipt_tmp"
+mv -f "$receipt_tmp" "$receipt_path"
+fresh_install_receipt_sha256=$(sha256 "$receipt_path")
 
 jq -n -c \
   --arg revision "$(git rev-parse HEAD)" \
