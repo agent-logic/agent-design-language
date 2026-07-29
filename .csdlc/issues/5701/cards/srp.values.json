@@ -7,15 +7,15 @@
     "title": "[v0.91.8][runtime-v3][api] Define the complete versioned Runtime and Observatory OpenAPI contracts",
     "slug": "runtime-v3-openapi-contracts",
     "version": "v0.91.8",
-    "generation": 17
+    "generation": 18
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "docs/api/runtime-v3/v1\nadl-runtime-kernel/Cargo.lock\nadl-runtime-kernel/Cargo.toml\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/guardian_soak.rs\nadl-runtime-kernel/tests/observatory.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime/Cargo.lock\nadl-runtime/Cargo.toml\nadl-runtime/src/acip.rs\nadl-runtime/src/runtime_api.rs\nadl-runtime/tests/runtime_api_wss.rs\ninfra/runtime-v3/runtime-api-5665.toml",
-      "review_revision": "git-blake3:f6c9d63ecd62a837a951e4106f964f215e7b64e6:b454fb763c1cbf2a46796a1fae04dc1fa4a9c3a830ee8fd1bed847626cded0ac",
-      "reviewer": "subagent:019faf97-63e1-7a31-ab74-c8e905e82b30",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Do the OpenAPI contracts cover every real production Runtime v3 and Observatory endpoint without documenting unavailable behavior?",
         "Does route-parity validation prevent undocumented real routes and documented phantom routes?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }

@@ -105,12 +105,16 @@ The default init file keeps the Runtime v3 listener on `localhost:20997`.
 Runtime v3 browser/API access is HTTPS-only. Before launch, provision a
 localhost certificate and private key at the `[api.tls]` paths in the init file;
 the repository does not retain private keys. Set a 32-to-256-character
-operator-local read token for the runtime process in
-`ADL_RUNTIME_OBSERVATORY_TOKEN`. In the browser session, set the same token
-without putting it in the URL or repository, then reload the page:
+operator-local write token for the runtime process in
+`ADL_RUNTIME_OBSERVATORY_TOKEN`. Health, metrics, Observatory snapshots, and
+the Observatory WSS feed are public read surfaces and require no token.
+
+Operator login is required only before the browser sends a signed control
+command or ACIP work. To enable writes for the current browser tab, set the same
+token without putting it in the URL or repository, then reconnect:
 
 ```js
-sessionStorage.setItem("adl.runtimeV3.observatoryToken", "<operator-local-token>")
+sessionStorage.setItem("adl.runtimeV3.observatoryToken", "<operator-local-token>");
 ```
 
 Serve this Observatory from the allowed HTTPS origin
@@ -120,8 +124,10 @@ Serve this Observatory from the allowed HTTPS origin
 https://localhost:8765/demos/v0.91.7/html-observatory/?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
 ```
 
-Both certificates must be trusted by the browser. The kernel terminates its own
-TLS connection; a local API Gateway or sidecar is not required.
+The token elevates only that WSS connection for writes; signature verification
+and canonical ingress policy still apply. Both certificates must be trusted by
+the browser. The kernel terminates its own TLS connection; a local API Gateway
+or sidecar is not required.
 
 One COTS way to serve the Observatory over local HTTPS is Caddy:
 

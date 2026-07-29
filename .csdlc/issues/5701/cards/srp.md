@@ -12,20 +12,7 @@ Status: draft
 
 ## Scope
 
-docs/api/runtime-v3/v1
-adl-runtime-kernel/Cargo.lock
-adl-runtime-kernel/Cargo.toml
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/tests/control.rs
-adl-runtime-kernel/tests/guardian_soak.rs
-adl-runtime-kernel/tests/observatory.rs
-adl-runtime-kernel/tests/openapi_contract.rs
-adl-runtime/Cargo.lock
-adl-runtime/Cargo.toml
-adl-runtime/src/acip.rs
-adl-runtime/src/runtime_api.rs
-adl-runtime/tests/runtime_api_wss.rs
-infra/runtime-v3/runtime-api-5665.toml
+
 
 ## Prompts
 
@@ -49,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:f6c9d63ecd62a837a951e4106f964f215e7b64e6:b454fb763c1cbf2a46796a1fae04dc1fa4a9c3a830ee8fd1bed847626cded0ac")
+Revision: None
 
-Reviewer: Some("subagent:019faf97-63e1-7a31-ab74-c8e905e82b30")
+Reviewer: None
 
-Result: pass
+Result: pre_review

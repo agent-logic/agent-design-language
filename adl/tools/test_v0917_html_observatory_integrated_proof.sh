@@ -60,7 +60,7 @@ python3 -m json.tool "${PACKET}" >/dev/null
 cargo test \
   --manifest-path "${ROOT_DIR}/adl-runtime-kernel/Cargo.toml" \
   --test control \
-  observatory_https_feed_requires_bearer_and_reports_weather_freshness \
+  observatory_https_reads_are_public_and_report_weather_freshness \
   -- --nocapture >/dev/null
 
 require_readme "Magic UI Pro AI Agent Template"

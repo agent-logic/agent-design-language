@@ -4,7 +4,7 @@
     "title": "ADL Observatory API",
     "version": "1.0.0",
     "summary": "Live runtime state for Observatory clients",
-    "description": "Use this API to read the current Observatory snapshot and receive authenticated live updates."
+    "description": "Read current runtime state without login. Login is required only to send signed control commands or ACIP work over the full-duplex WebSocket."
   },
   "servers": [
     {
@@ -21,7 +21,7 @@
   "tags": [
     {
       "name": "observatory",
-      "description": "Authenticated Observatory snapshot and WSS stream."
+      "description": "Public Observatory snapshots and live updates with authenticated writes."
     }
   ],
   "paths": {
@@ -30,11 +30,7 @@
         "operationId": "readObservatorySnapshot",
         "tags": ["observatory"],
         "summary": "Read the current Runtime v3 Observatory snapshot",
-        "security": [
-          {
-            "observatoryBearer": []
-          }
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Current Runtime v3 Observatory snapshot.",
@@ -52,9 +48,6 @@
                 }
               }
             }
-          },
-          "401": {
-            "$ref": "#/components/responses/AuthenticationFailed"
           },
           "403": {
             "$ref": "#/components/responses/OriginForbidden"
@@ -79,12 +72,12 @@
       "get": {
         "operationId": "openObservatoryWebSocket",
         "tags": ["observatory"],
-        "summary": "Open an authenticated full-duplex Observatory WSS session",
-        "description": "Upgrades to WebSocket after origin validation. The first client text frame authenticates the session. The server emits ObservatoryFeed frames periodically; subsequent signed text commands use the same command contract as /v1/control, and binary frames carry bounded ACIP Protobuf envelopes.",
+        "summary": "Open a public-read, authenticated-write Observatory WSS session",
+        "description": "Upgrades to WebSocket after origin validation and immediately emits public ObservatoryFeed frames. A client may log in at any time with an ObservatoryWsAuth text frame. Only an authenticated session may submit signed text commands or bounded ACIP Protobuf binary envelopes.",
         "security": [],
         "responses": {
           "101": {
-            "description": "WebSocket upgrade accepted after origin validation. Frame-level authentication still occurs as the first text frame."
+            "description": "WebSocket upgrade accepted after origin validation. Public feed frames begin immediately; frame-level login is required only for writes."
           },
           "403": {
             "$ref": "#/components/responses/OriginForbidden"
@@ -93,12 +86,12 @@
         "x-adl-websocket": {
           "scheme": "wss",
           "maxFrameBytes": 65536,
-          "authenticationTimeoutSeconds": 5,
           "refreshSeconds": 1,
-          "clientFirstFrame": {
-            "$ref": "#/components/schemas/ObservatoryWsAuth"
-          },
           "clientFrames": [
+            {
+              "$ref": "#/components/schemas/ObservatoryWsAuth",
+              "purpose": "optional_write_login"
+            },
             {
               "type": "ping",
               "serverReply": "pong"
@@ -123,10 +116,9 @@
               "$ref": "#/components/schemas/ObservatoryWsControlResult"
             }
           ],
-          "policyCloseReasons": [
-            "authentication_failed",
-            "credential_revoked"
-          ],
+          "publicReadFrames": true,
+          "writeAuthentication": "observatory_bearer_frame",
+          "credentialRevocation": "write_authority_removed_read_stream_continues",
           "signedTextControlAuthority": "signed_control_command_only",
           "binaryAcipAuthority": "authenticated_session_and_canonical_ingress_policy"
         }
@@ -134,24 +126,7 @@
     }
   },
   "components": {
-    "securitySchemes": {
-      "observatoryBearer": {
-        "type": "http",
-        "scheme": "bearer",
-        "description": "Bearer token configured outside code through Runtime v3 init/environment. WSS also requires the same bearer token in the first authenticated text frame."
-      }
-    },
     "responses": {
-      "AuthenticationFailed": {
-        "description": "Missing, malformed, or incorrect Observatory bearer token.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ControlError"
-            }
-          }
-        }
-      },
       "OriginForbidden": {
         "description": "Origin is absent for WSS or not present in configured observatory.allowed_origins."
       }
@@ -250,7 +225,7 @@
         "required": ["schema", "status"],
         "properties": {
           "schema": { "const": "adl.runtime_v3.observatory_ws_control_result.v1" },
-          "status": { "enum": ["accepted", "rejected"] },
+          "status": { "enum": ["authenticated", "accepted", "rejected"] },
           "command_id": { "type": ["string", "null"] },
           "correlation_id": { "type": ["string", "null"] },
           "response": {
@@ -385,6 +360,7 @@
           "signed_command_endpoint",
           "signed_commands_required_for_mutation",
           "bearer_token_required_for_read",
+          "login_required_for_mutation",
           "browser_mutation_authority"
         ],
         "properties": {
@@ -410,10 +386,13 @@
             "const": true
           },
           "bearer_token_required_for_read": {
+            "const": false
+          },
+          "login_required_for_mutation": {
             "const": true
           },
           "browser_mutation_authority": {
-            "const": false
+            "const": true
           }
         }
       },

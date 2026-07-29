@@ -3,13 +3,13 @@
   "issue": 5701,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
-  "phase": "published",
-  "generation": 17,
-  "digest": "4ef906942da34a83321b3b9efa18759599b924f467e245821006e0b1430fcf02",
+  "phase": "implemented",
+  "generation": 18,
+  "digest": "8981e9457f072329cce60442a88b2044f3d1256fe2a8a22bdbbb4fdfb9f3eb63",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 17,
+    "generation": 18,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -34,67 +34,18 @@
       "adl-runtime/tests/runtime_api_docs.rs",
       "adl-runtime/tests/runtime_api_wss.rs",
       "adl/Cargo.lock",
+      "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+      "adl/tools/validate_v0917_html_observatory.py",
+      "demos/v0.91.7/html-observatory/README.md",
+      "demos/v0.91.7/html-observatory/app.js",
       "docs/api/runtime-v3/v1",
       "infra/runtime-v3/runtime-api-5665.toml"
     ],
     "purpose": "Define complete versioned Runtime v3 Core and Observatory OpenAPI contracts with route parity validation while coordinating around active WP-12 #5344 protected router/config paths"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019faf97-63e1-7a31-ab74-c8e905e82b30",
-    "assigned_by": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "revision": "git-blake3:f6c9d63ecd62a837a951e4106f964f215e7b64e6:b454fb763c1cbf2a46796a1fae04dc1fa4a9c3a830ee8fd1bed847626cded0ac",
-    "scope": [
-      "docs/api/runtime-v3/v1",
-      "adl-runtime-kernel/Cargo.lock",
-      "adl-runtime-kernel/Cargo.toml",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime/Cargo.lock",
-      "adl-runtime/Cargo.toml",
-      "adl-runtime/src/acip.rs",
-      "adl-runtime/src/runtime_api.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "infra/runtime-v3/runtime-api-5665.toml"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019faf97-63e1-7a31-ab74-c8e905e82b30",
-    "scope": [
-      "docs/api/runtime-v3/v1",
-      "adl-runtime-kernel/Cargo.lock",
-      "adl-runtime-kernel/Cargo.toml",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime/Cargo.lock",
-      "adl-runtime/Cargo.toml",
-      "adl-runtime/src/acip.rs",
-      "adl-runtime/src/runtime_api.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "infra/runtime-v3/runtime-api-5665.toml"
-    ],
-    "reviewed_revision": "git-blake3:f6c9d63ecd62a837a951e4106f964f215e7b64e6:b454fb763c1cbf2a46796a1fae04dc1fa4a9c3a830ee8fd1bed847626cded0ac",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5701,
-    "pull_request": 5705,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5705",
-    "base": "main",
-    "head": "codex/5701-runtime-v3-openapi-contracts",
-    "revision": "git-blake3:df043aef3abb77df09e10c534200a7a354d905c1:738530235b40ec915b5220c74f7196cfdf811974bb245f90a7e6c4c3b8b10214",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -108,34 +59,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4e8f531d28d27be988eee15e1ab9a8137cc575d23b3fc4f69721f809f428e643",
+      "values_digest": "d642b7aecf7dd2cf0e25848bf61a0e76da9a96b2d25cd7547deb83ad8c1f4784",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "2485e57614bb186de2530378f2bd0e321e7581111df611dfe3d5c6e416334756",
+      "values_digest": "e85725a1ce85ac1b63a36652935145bcc048f28280ea1c9b1e38e681a72cb2e6",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "daca4a837e45a168ff9857b002b63bf9f7f3960f0e9e466c6696a643da6708b4",
+      "values_digest": "e149347bae907a8d091c3df43bb5e9714ae4ffbc8170f0e1e6077d92405a1707",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "73c1b6780d601cdfb5256bbb9e7b0acde6ceea98bbc0837bd3a2ee4a867954a0",
+      "values_digest": "0cfa38b97d296d653dd0f00711284a72eb228c9bc623174d9b7cbc84f8b1c1a0",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "b9abdc153ee36743ec5f67e583c6406fc5e34380fc787c5a924966cc7de2b845",
-      "rendered_digest": "b0453fd166da6f2587bf0f0c5d73c22be31797ba7484a03c51e31d008c557744",
-      "ast_digest": "d99cbb6c5d951bfec29d9eae5c7bd67334c870ed9cf3cf0f14d9855f22b0943a"
+      "values_digest": "4b468e9d7bbfee9154b4e5302b68531b6733bbe27898e964d990257d707262a4",
+      "rendered_digest": "4332b7111e8799f6372a704ad504faaf40ee5f6455491d2f12ad667cb8ed24e0",
+      "ast_digest": "e686f3199e3333f0b9e8df55efe27a3c94331a2bb90f0162682c0d31f7d153b9"
     },
     "sor": {
-      "values_digest": "3053eb20ab752fe9e1b9daeb67fc9413ce24f4422995bd3220b843a80b8d29b3",
-      "rendered_digest": "261d6f247f688cf97f7db14e5e3003617bcff8bbe0dd0d58a6a4e1729b49891d",
-      "ast_digest": "0342cea1516eb736d624d5ddc2dea4196669f9dc5be085daaf2f13bf10760506"
+      "values_digest": "22cb15b9f10e3c74f4186df91bc5e9ff54a9019c51e869753949817b47faccea",
+      "rendered_digest": "9c4f79d6ba80ec3abaa2a80ac5308bf3b202399bdd7fb2c907d880cf62947ee4",
+      "ast_digest": "753359c8974160d19ac52214cff3fb823c07cb15334a14488ddc771e3774777e"
     }
   },
   "transitions": [
@@ -215,6 +166,13 @@
       "to": "published",
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Operator clarified that Runtime v3 read APIs and Observatory read streams are public; authentication is required only for mutations. Recover review and publication truth before correcting the runtime, OpenAPI contract, and client."
     }
   ],
   "audit": [
@@ -406,6 +364,27 @@
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 28,
+      "generation": 18,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Operator clarified that Runtime v3 read APIs and Observatory read streams are public; authentication is required only for mutations. Recover review and publication truth before correcting the runtime, OpenAPI contract, and client.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 18,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Operator clarified that all Runtime v3 read APIs and Observatory read streams are public while mutations remain authenticated or signed. These two existing client files are the minimal HTML Observatory surface that must stop requiring a read token and document the public-read, governed-write boundary.",
+      "operation": "{\"add_protected_paths\":[\"demos/v0.91.7/html-observatory/app.js\",\"demos/v0.91.7/html-observatory/README.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 30,
+      "generation": 18,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "The existing HTML Observatory proof encoded the removed read-token requirement. Updating the exact validator and focused proof is required to prevent false CI failures and prove public reads with optional authenticated writes.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\",\"adl/tools/validate_v0917_html_observatory.py\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

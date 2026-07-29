@@ -73,10 +73,19 @@ fn runtime_serves_machine_and_human_readable_openapi_docs() {
 
 #[test]
 fn observatory_wss_documents_real_bidirectional_frame_boundary() {
+    let runtime = parse_openapi(RUNTIME_OPENAPI);
     let observatory = parse_openapi(OBSERVATORY_OPENAPI);
     assert_eq!(
+        runtime["paths"]["/v1/health"]["get"]["security"],
+        serde_json::json!([])
+    );
+    assert_eq!(
+        runtime["paths"]["/v1/metrics"]["get"]["security"],
+        serde_json::json!([])
+    );
+    assert_eq!(
         observatory["paths"]["/v1/observatory"]["get"]["security"],
-        serde_json::json!([{"observatoryBearer": []}])
+        serde_json::json!([])
     );
     assert_eq!(
         observatory["paths"]["/v1/observatory/ws"]["get"]["security"],
@@ -86,11 +95,12 @@ fn observatory_wss_documents_real_bidirectional_frame_boundary() {
 
     assert_eq!(ws["scheme"], "wss");
     assert_eq!(ws["maxFrameBytes"], 65_536);
-    assert_eq!(ws["authenticationTimeoutSeconds"], 5);
     assert_eq!(ws["refreshSeconds"], 1);
+    assert_eq!(ws["writeAuthentication"], "observatory_bearer_frame");
+    assert_eq!(ws["publicReadFrames"], true);
     assert_eq!(
-        ws["clientFirstFrame"]["$ref"],
-        "#/components/schemas/ObservatoryWsAuth"
+        ws["credentialRevocation"],
+        "write_authority_removed_read_stream_continues"
     );
     assert!(ws["serverFrames"]
         .as_array()
@@ -104,17 +114,6 @@ fn observatory_wss_documents_real_bidirectional_frame_boundary() {
     assert_eq!(
         ws["binaryAcipAuthority"],
         "authenticated_session_and_canonical_ingress_policy"
-    );
-
-    let reasons: BTreeSet<&str> = ws["policyCloseReasons"]
-        .as_array()
-        .expect("policyCloseReasons array")
-        .iter()
-        .map(|value| value.as_str().expect("close reason string"))
-        .collect();
-    assert_eq!(
-        reasons,
-        BTreeSet::from(["authentication_failed", "credential_revoked",])
     );
 }
 

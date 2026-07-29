@@ -474,27 +474,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         Ok(())
     }
 
-    fn observatory_authorized(&self, headers: &HeaderMap) -> bool {
-        let Some(expected) = *self
-            .observatory_bearer_digest
-            .lock()
-            .expect("observatory credential mutex poisoned")
-        else {
-            return false;
-        };
-        let Some(token) = headers
-            .get(header::AUTHORIZATION)
-            .and_then(|value| value.to_str().ok())
-            .and_then(|value| value.strip_prefix("Bearer "))
-        else {
-            return false;
-        };
-        constant_time_eq(
-            expected.as_bytes(),
-            blake3::hash(token.as_bytes()).as_bytes(),
-        )
-    }
-
     fn observatory_token_authorized(&self, token: &str) -> bool {
         let Some(expected) = *self
             .observatory_bearer_digest
@@ -712,8 +691,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 websocket_acip_binary_schema: ACIP_WEBSOCKET_SCHEMA.to_owned(),
                 signed_command_endpoint: "/v1/control".to_owned(),
                 signed_commands_required_for_mutation: true,
-                bearer_token_required_for_read: true,
-                browser_mutation_authority: false,
+                bearer_token_required_for_read: false,
+                login_required_for_mutation: true,
+                browser_mutation_authority: true,
             },
             health: ObservatoryHealthFeed {
                 snapshot,
@@ -896,6 +876,7 @@ pub struct ObservatoryControlFeed {
     pub signed_command_endpoint: String,
     pub signed_commands_required_for_mutation: bool,
     pub bearer_token_required_for_read: bool,
+    pub login_required_for_mutation: bool,
     pub browser_mutation_authority: bool,
 }
 
@@ -1126,21 +1107,13 @@ async fn observatory_openapi_handler() -> impl IntoResponse {
 
 async fn runtime_health_handler<C: LifecycleControl + 'static>(
     State(service): State<Arc<ControlService<C>>>,
-    headers: HeaderMap,
 ) -> Response {
-    if !service.observatory_authorized(&headers) {
-        return control_error_response(ControlError::Authentication);
-    }
     Json(service.observatory_feed().health).into_response()
 }
 
 async fn runtime_metrics_handler<C: LifecycleControl + 'static>(
     State(service): State<Arc<ControlService<C>>>,
-    headers: HeaderMap,
 ) -> Response {
-    if !service.observatory_authorized(&headers) {
-        return control_error_response(ControlError::Authentication);
-    }
     Json(service.recorder.snapshot().observability_pipeline).into_response()
 }
 
@@ -1232,16 +1205,6 @@ async fn observatory_feed_handler<C: LifecycleControl + 'static>(
     if headers.contains_key(header::ORIGIN) && allowed_origin.is_none() {
         return StatusCode::FORBIDDEN.into_response();
     }
-    if !service.observatory_authorized(&headers) {
-        return observatory_json(
-            StatusCode::UNAUTHORIZED,
-            ControlErrorPayload {
-                schema: "adl.runtime.control_error.v1",
-                code: "authentication_failed",
-            },
-            allowed_origin,
-        );
-    }
     observatory_json(StatusCode::OK, service.observatory_feed(), allowed_origin)
 }
 
@@ -1250,7 +1213,7 @@ async fn observatory_ws_handler<C: LifecycleControl + 'static>(
     State(service): State<Arc<ControlService<C>>>,
     headers: HeaderMap,
 ) -> Response {
-    if allowed_origin(&service, &headers).is_none() {
+    if headers.contains_key(header::ORIGIN) && allowed_origin(&service, &headers).is_none() {
         return StatusCode::FORBIDDEN.into_response();
     }
     let api_policy = service.api_policy();
@@ -1285,43 +1248,39 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
     service: Arc<ControlService<C>>,
 ) {
     let api_policy = service.api_policy();
-    let authenticated =
-        tokio::time::timeout(api_policy.websocket_auth_timeout, socket.recv()).await;
-    let bearer_token = match authenticated {
-        Ok(Some(Ok(Message::Text(payload))))
-            if payload.len() <= api_policy.websocket_max_frame_bytes =>
-        {
-            serde_json::from_str::<ObservatoryWsAuth>(&payload)
-                .ok()
-                .filter(|auth| auth.schema == OBSERVATORY_WS_AUTH_SCHEMA)
-                .and_then(|auth| {
-                    service
-                        .observatory_token_authorized(&auth.bearer_token)
-                        .then_some(auth.bearer_token)
-                })
-        }
-        _ => None,
-    };
-    let Some(bearer_token) = bearer_token else {
-        let _ = socket
-            .send(Message::Close(Some(CloseFrame {
-                code: close_code::POLICY,
-                reason: "authentication_failed".into(),
-            })))
-            .await;
+    let mut bearer_token: Option<String> = None;
+    let mut refresh = tokio::time::interval(api_policy.websocket_refresh);
+    refresh.tick().await;
+    let Ok(initial_feed) = serde_json::to_string(&service.observatory_feed()) else {
         return;
     };
+    if socket
+        .send(Message::Text(initial_feed.into()))
+        .await
+        .is_err()
+    {
+        return;
+    }
 
-    let mut refresh = tokio::time::interval(api_policy.websocket_refresh);
     loop {
         tokio::select! {
             _ = refresh.tick() => {
-                if !service.observatory_token_authorized(&bearer_token) {
-                    let _ = socket.send(Message::Close(Some(CloseFrame {
-                        code: close_code::POLICY,
-                        reason: "credential_revoked".into(),
-                    }))).await;
-                    break;
+                if bearer_token.as_deref().is_some_and(|token| !service.observatory_token_authorized(token)) {
+                    bearer_token = None;
+                    let revoked = ObservatoryWsControlResult {
+                        schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                        status: "rejected",
+                        command_id: None,
+                        correlation_id: None,
+                        response: None,
+                        error: Some("credential_revoked"),
+                    };
+                    let Ok(payload) = serde_json::to_string(&revoked) else {
+                        break;
+                    };
+                    if socket.send(Message::Text(payload.into())).await.is_err() {
+                        break;
+                    }
                 }
                 let Ok(payload) = serde_json::to_string(&service.observatory_feed()) else {
                     break;
@@ -1339,6 +1298,32 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                 Some(Ok(Message::Pong(_))) => {}
                 Some(Ok(Message::Close(_))) | None => break,
                 Some(Ok(Message::Text(payload))) => {
+                    if let Ok(auth) = serde_json::from_str::<ObservatoryWsAuth>(&payload) {
+                        let authorized = auth.schema == OBSERVATORY_WS_AUTH_SCHEMA
+                            && service.observatory_token_authorized(&auth.bearer_token);
+                        bearer_token = authorized.then_some(auth.bearer_token);
+                        let result = ObservatoryWsControlResult {
+                            schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                            status: if authorized { "authenticated" } else { "rejected" },
+                            command_id: None,
+                            correlation_id: None,
+                            response: None,
+                            error: (!authorized).then_some("authentication_failed"),
+                        };
+                        let Ok(payload) = serde_json::to_string(&result) else {
+                            break;
+                        };
+                        if socket.send(Message::Text(payload.into())).await.is_err() {
+                            break;
+                        }
+                        continue;
+                    }
+                    if bearer_token
+                        .as_deref()
+                        .is_some_and(|token| !service.observatory_token_authorized(token))
+                    {
+                        bearer_token = None;
+                    }
                     let command = serde_json::from_str::<SignedControlCommand>(&payload);
                     let (command_id, correlation_id) = command
                         .as_ref()
@@ -1351,7 +1336,17 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                             )
                         })
                         .unwrap_or((None, None));
-                    let result = match command {
+                    let result = if bearer_token.is_none() {
+                        ObservatoryWsControlResult {
+                            schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                            status: "rejected",
+                            command_id,
+                            correlation_id,
+                            response: None,
+                            error: Some("write_authentication_required"),
+                        }
+                    } else {
+                        match command {
                         Ok(command) => match service.execute(command).await {
                             Ok(response) => ObservatoryWsControlResult {
                                 schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
@@ -1378,7 +1373,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                             response: None,
                             error: Some("invalid_request"),
                         },
-                    };
+                    }};
                     let Ok(payload) = serde_json::to_string(&result) else {
                         break;
                     };
@@ -1387,7 +1382,21 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                     }
                 }
                 Some(Ok(Message::Binary(payload))) => {
-                    let status = service.dispatch_acip_payload(&payload).await;
+                    if bearer_token
+                        .as_deref()
+                        .is_some_and(|token| !service.observatory_token_authorized(token))
+                    {
+                        bearer_token = None;
+                    }
+                    let status = if bearer_token.is_some() {
+                        service.dispatch_acip_payload(&payload).await
+                    } else {
+                        serde_json::json!({
+                            "schema": OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                            "status": "rejected",
+                            "error": "write_authentication_required"
+                        })
+                    };
                     let Ok(payload) = serde_json::to_string(&status) else {
                         break;
                     };

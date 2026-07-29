@@ -809,7 +809,7 @@ async fn axum_adapter_serves_signed_control_payloads() {
 }
 
 #[tokio::test]
-async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() {
+async fn observatory_https_reads_are_public_and_report_weather_freshness() {
     let key = SigningKey::from_bytes(&[12; 32]);
     let recorder = RuntimeRecorder::new(8);
     recorder.set_topology_generation(11);
@@ -976,7 +976,7 @@ async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() 
     let health = https_request(
         &client,
         address,
-        b"GET /v1/health HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer test-observatory-token-0000000001\r\nConnection: close\r\n\r\n",
+        b"GET /v1/health HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
     )
     .await;
     assert!(health.starts_with("HTTP/1.1 200 OK"));
@@ -985,7 +985,7 @@ async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() 
     let metrics = https_request(
         &client,
         address,
-        b"GET /v1/metrics HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer test-observatory-token-0000000001\r\nConnection: close\r\n\r\n",
+        b"GET /v1/metrics HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
     )
     .await;
     assert!(metrics.starts_with("HTTP/1.1 200 OK"));
@@ -1009,14 +1009,14 @@ async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() 
     assert!(preflight.contains("access-control-allow-methods: GET"));
     assert!(preflight.contains("access-control-allow-headers: Authorization"));
     assert!(preflight.contains("cache-control: no-store"));
-    let unauthorized = https_request(
+    let public_response = https_request(
         &client,
         address,
         b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: https://localhost:8765\r\nConnection: close\r\n\r\n",
     )
     .await;
-    assert!(unauthorized.starts_with("HTTP/1.1 401 Unauthorized"));
-    assert!(unauthorized.contains("cache-control: no-store"));
+    assert!(public_response.starts_with("HTTP/1.1 200 OK"));
+    assert!(public_response.contains("cache-control: no-store"));
     let response = https_request(
         &client,
         address,
@@ -1030,8 +1030,9 @@ async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() 
     assert!(response.contains(adl_runtime_kernel::OBSERVATORY_FEED_SCHEMA));
     assert!(response.contains("\"runtime_selection\":\"runtime_v3_explicit_opt_in\""));
     assert!(response.contains("\"signed_commands_required_for_mutation\":true"));
-    assert!(response.contains("\"bearer_token_required_for_read\":true"));
-    assert!(response.contains("\"browser_mutation_authority\":false"));
+    assert!(response.contains("\"bearer_token_required_for_read\":false"));
+    assert!(response.contains("\"login_required_for_mutation\":true"));
+    assert!(response.contains("\"browser_mutation_authority\":true"));
     assert!(response.contains(&format!("\"port\":{}", address.port())));
     assert!(response.contains("\"event\":\"state:Running\""));
     assert!(response.contains("\"event\":\"clock_authority_updated\""));

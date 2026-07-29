@@ -21,7 +21,7 @@
   "tags": [
     {
       "name": "status",
-      "description": "Authenticated Runtime v3 health and telemetry reads."
+      "description": "Public Runtime v3 health and telemetry reads."
     },
     {
       "name": "acip",
@@ -44,11 +44,7 @@
           "status"
         ],
         "summary": "Read Runtime v3 capability health",
-        "security": [
-          {
-            "runtimeBearer": []
-          }
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Runtime v3 health report.",
@@ -59,9 +55,6 @@
                 }
               }
             }
-          },
-          "401": {
-            "$ref": "#/components/responses/RuntimeAuthenticationFailed"
           }
         }
       }
@@ -73,11 +66,7 @@
           "status"
         ],
         "summary": "Read Runtime v3 telemetry sink configuration",
-        "security": [
-          {
-            "runtimeBearer": []
-          }
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Runtime v3 telemetry sink configuration.",
@@ -88,9 +77,6 @@
                 }
               }
             }
-          },
-          "401": {
-            "$ref": "#/components/responses/RuntimeAuthenticationFailed"
           }
         }
       }

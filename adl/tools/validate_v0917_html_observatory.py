@@ -52,6 +52,11 @@ def assert_contains(label: str, haystack: str, needle: str) -> None:
         fail(f"{label} missing {needle!r}")
 
 
+def assert_not_contains(label: str, haystack: str, needle: str) -> None:
+    if needle in haystack:
+        fail(f"{label} contains forbidden text {needle!r}")
+
+
 def run_js_view_model(
     js_path: Path,
     packet_path: Path,
@@ -272,11 +277,8 @@ def run_js_view_model(
           querySelector: (selector) => selector === ".observatory" ? observatoryElement : null,
           querySelectorAll: (selector) => selector === "[data-dashboard-link]" ? dashboardLinks : []
         }};
-        const mockFetch = async (ref, options = {{}}) => {{
+        const mockFetch = async (ref) => {{
           const key = String(ref);
-          if (key.endsWith("/v1/observatory") && options.headers?.Authorization !== "Bearer validator-observatory-token-0001") {{
-            return {{ ok: false, status: 401, text: async () => "", json: async () => {{ throw new Error("unauthorized"); }} }};
-          }}
           const body = retainedFiles.get(key) || livePayloads.get(key);
           return body == null
             ? {{ ok: false, status: 404, text: async () => "", json: async () => {{ throw new Error("missing mock payload"); }} }}
@@ -297,7 +299,7 @@ def run_js_view_model(
           }},
           clearInterval: () => {{}},
           sessionStorage: {{
-            getItem: (key) => key === "adl.runtimeV3.observatoryToken" ? "validator-observatory-token-0001" : null
+            getItem: () => null
           }},
           globalThis: {{}}
         }};
@@ -657,7 +659,8 @@ def main() -> int:
     assert_contains("JS Runtime v3 observatory feed polling", js, "fetchRuntimeV3ObservatorySnapshot")
     assert_contains("JS Runtime v3 observatory endpoint", js, 'RUNTIME_V3_OBSERVATORY_ENDPOINT = "/v1/observatory"')
     assert_contains("JS Runtime v3 observatory schema", js, 'RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2"')
-    assert_contains("JS Runtime v3 bearer authentication", js, "Authorization: `Bearer ${readToken}`")
+    assert_not_contains("JS public Runtime v3 reads omit bearer authentication", js, "Authorization: `Bearer ${readToken}`")
+    assert_contains("JS Runtime v3 write login", js, "authenticateRuntimeV3ObservatorySocket")
     assert_contains("JS Runtime v3 weather staleness", js, "weather_stale_after_millis")
     assert_contains("JS Runtime v3 explicit opt-in selection", js, "runtime_v3_explicit_opt_in")
     assert_contains("JS runtime query base bootstrap", js, "getQueryApiBase")

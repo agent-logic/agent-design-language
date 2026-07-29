@@ -613,14 +613,7 @@ async function fetchRuntimeV3ObservatorySnapshot(apiBase) {
   if (!isRuntimeV3ApiBase(base)) {
     throw new Error("Runtime v3 selection requires a configured HTTPS runtime API base.");
   }
-  const readToken = globalThis.sessionStorage?.getItem("adl.runtimeV3.observatoryToken") || "";
-  if (!readToken) {
-    throw new Error("Runtime v3 Observatory read token is not configured in session storage.");
-  }
-  const response = await fetch(`${base}${RUNTIME_V3_OBSERVATORY_ENDPOINT}`, {
-    method: "GET",
-    headers: { Authorization: `Bearer ${readToken}` }
-  });
+  const response = await fetch(`${base}${RUNTIME_V3_OBSERVATORY_ENDPOINT}`, { method: "GET" });
   if (!response.ok) {
     throw new Error(`${RUNTIME_V3_OBSERVATORY_ENDPOINT} returned ${response.status}`);
   }
@@ -695,22 +688,21 @@ function connectRuntimeV3ObservatoryWebSocket(apiBase, onSnapshot, onError, onCl
   if (!isRuntimeV3ApiBase(base)) {
     throw new Error("Runtime v3 selection requires a configured HTTPS runtime API base.");
   }
-  const readToken = globalThis.sessionStorage?.getItem("adl.runtimeV3.observatoryToken") || "";
-  if (!readToken) {
-    throw new Error("Runtime v3 Observatory read token is not configured in session storage.");
-  }
   const endpoint = new URL(`${base}${RUNTIME_V3_OBSERVATORY_WS_ENDPOINT}`);
   endpoint.protocol = "wss:";
   const socket = new WebSocket(endpoint.toString());
   socket.addEventListener("open", () => {
-    socket.send(JSON.stringify({
-      schema: RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA,
-      bearer_token: readToken
-    }));
+    const writeToken = globalThis.sessionStorage?.getItem("adl.runtimeV3.observatoryToken") || "";
+    if (writeToken) {
+      authenticateRuntimeV3ObservatorySocket(socket, writeToken);
+    }
   });
   socket.addEventListener("message", (event) => {
     try {
-      onSnapshot(runtimeV3SnapshotFromFeed(JSON.parse(String(event.data))));
+      const frame = JSON.parse(String(event.data));
+      if (frame.schema === RUNTIME_V3_OBSERVATORY_SCHEMA) {
+        onSnapshot(runtimeV3SnapshotFromFeed(frame));
+      }
     } catch (error) {
       onError(error instanceof Error ? error : new Error("Runtime v3 Observatory frame is invalid."));
       socket.close(1008, "invalid_observatory_frame");
@@ -723,6 +715,20 @@ function connectRuntimeV3ObservatoryWebSocket(apiBase, onSnapshot, onError, onCl
     onClose(new Error(`Runtime v3 Observatory WebSocket closed (${event.code}).`));
   });
   return socket;
+}
+
+function authenticateRuntimeV3ObservatorySocket(socket, token) {
+  if (!socket || socket.readyState !== WebSocket.OPEN) {
+    throw new Error("Runtime v3 Observatory WebSocket is not open.");
+  }
+  const writeToken = String(token || "").trim();
+  if (!writeToken) {
+    throw new Error("A runtime operator token is required for writes.");
+  }
+  socket.send(JSON.stringify({
+    schema: RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA,
+    bearer_token: writeToken
+  }));
 }
 
 async function fetchRetainedRuntimeSnapshot(refs = {}) {
@@ -1496,7 +1502,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             lastLiveError = null;
             renderPanopticon(snapshot, packet);
             setText("live-status", "live secure stream");
-            setRuntimeTestStatus("live secure stream", "Runtime v3 authenticated WebSocket feed is active.");
+            setRuntimeTestStatus("live secure stream", "Runtime v3 public WebSocket feed is active; operator login is required only for writes.");
           },
           (error) => renderLiveError(error),
           (error) => {
@@ -1608,6 +1614,7 @@ globalThis.AdlHtmlObservatory = {
   fetchRuntimeV3ObservatorySnapshot,
   runtimeV3SnapshotFromFeed,
   connectRuntimeV3ObservatoryWebSocket,
+  authenticateRuntimeV3ObservatorySocket,
   fetchRetainedRuntimeSnapshot,
   requestedRuntimeSelection,
   isRuntimeV3ApiBase,
