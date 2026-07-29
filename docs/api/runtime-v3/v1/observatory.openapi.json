@@ -30,7 +30,11 @@
         "operationId": "readObservatorySnapshot",
         "tags": ["observatory"],
         "summary": "Read the current Runtime v3 Observatory snapshot",
-        "security": [],
+        "security": [
+          {
+            "observatoryBearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Current Runtime v3 Observatory snapshot.",
@@ -77,11 +81,7 @@
         "tags": ["observatory"],
         "summary": "Open an authenticated full-duplex Observatory WSS session",
         "description": "Upgrades to WebSocket after origin validation. The first client text frame authenticates the session. The server emits ObservatoryFeed frames periodically; subsequent signed text commands use the same command contract as /v1/control, and binary frames carry bounded ACIP Protobuf envelopes.",
-        "security": [
-          {
-            "observatoryBearer": []
-          }
-        ],
+        "security": [],
         "responses": {
           "101": {
             "description": "WebSocket upgrade accepted after origin validation. Frame-level authentication still occurs as the first text frame."

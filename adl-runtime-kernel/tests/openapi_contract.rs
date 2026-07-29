@@ -74,6 +74,14 @@ fn runtime_serves_machine_and_human_readable_openapi_docs() {
 #[test]
 fn observatory_wss_documents_real_bidirectional_frame_boundary() {
     let observatory = parse_openapi(OBSERVATORY_OPENAPI);
+    assert_eq!(
+        observatory["paths"]["/v1/observatory"]["get"]["security"],
+        serde_json::json!([{"observatoryBearer": []}])
+    );
+    assert_eq!(
+        observatory["paths"]["/v1/observatory/ws"]["get"]["security"],
+        serde_json::json!([])
+    );
     let ws = &observatory["paths"]["/v1/observatory/ws"]["get"]["x-adl-websocket"];
 
     assert_eq!(ws["scheme"], "wss");
