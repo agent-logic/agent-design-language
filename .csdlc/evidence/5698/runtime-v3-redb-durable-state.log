@@ -1,0 +1,10 @@
+
+running 3 tests
+test legacy_flat_persistence_fails_closed_before_database_open ... ok
+test governed_state_and_lifelog_survive_restart_without_flat_files ... ok
+test redb_local_checkpoint_persists_restores_and_rejects_identity_drift ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.18s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/durable_state.rs (target/debug/deps/durable_state-294882ba3ca4a733)

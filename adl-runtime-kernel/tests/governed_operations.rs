@@ -6,8 +6,9 @@ use std::{
 
 use adl_runtime_kernel::{
     AuthorityGrant, Commitment, FreedomGate, GovernanceKeys, GovernedActionRequest,
-    MediationDecision, OperatorDecision, OperatorDisposition, TrustedGovernanceTime,
-    AUTHORITY_GRANT_SCHEMA, COMMITMENT_SCHEMA, OPERATOR_DECISION_SCHEMA,
+    KernelDurableState, MediationDecision, OperatorDecision, OperatorDisposition,
+    TrustedGovernanceTime, AUTHORITY_GRANT_SCHEMA, COMMITMENT_SCHEMA, KERNEL_DURABLE_STATE_DB_FILE,
+    OPERATOR_DECISION_SCHEMA,
 };
 use ed25519_dalek::SigningKey;
 use serde_json::{json, Value};
@@ -175,6 +176,18 @@ fn run_program(
         String::from_utf8_lossy(&output.stderr)
     );
     serde_json::from_slice(&output.stdout).unwrap()
+}
+
+fn durable(root: &TempDir) -> KernelDurableState {
+    KernelDurableState::open(root.path().join("state")).unwrap()
+}
+
+fn governed_state(root: &TempDir) -> Value {
+    let bytes = durable(root)
+        .load_governed_state("parity-c")
+        .unwrap()
+        .expect("governed state was not persisted");
+    serde_json::from_slice(&bytes).unwrap()
 }
 
 fn success(value: &Value) {
@@ -538,10 +551,16 @@ mod parity_c_private_identity {
             signed_command("bob-write", "bob", 2_000),
             2_000,
         ));
-        let checkpoint = fs::read_to_string(root.path().join("state/checkpoint.json")).unwrap();
+        let checkpoint = governed_state(&root).to_string();
         assert!(checkpoint.contains("alice|provider.invoke|provider|commit-alice-write"));
         assert!(checkpoint.contains("bob|provider.invoke|provider|commit-bob-write"));
         assert!(!checkpoint.contains("private-alice-write"));
+        assert!(root
+            .path()
+            .join("state")
+            .join(KERNEL_DURABLE_STATE_DB_FILE)
+            .exists());
+        assert!(!root.path().join("state/checkpoint.json").exists());
     }
 
     #[test]
@@ -575,7 +594,8 @@ mod parity_c_private_identity {
             run(&root, request, 2_000)["classification"],
             "idempotent_replay"
         );
-        let log = fs::read_to_string(root.path().join("state/lifelog.jsonl")).unwrap();
+        let log =
+            serde_json::to_string(&durable(&root).governed_lifelog_entries().unwrap()).unwrap();
         assert!(!log.contains("private-persist"));
     }
 }
@@ -596,17 +616,24 @@ mod parity_c_time_continuity {
     #[test]
     fn authenticated_checkpoint_is_the_only_restore_authority() {
         let root = TempDir::new().unwrap();
-        fs::create_dir_all(root.path().join("state")).unwrap();
-        fs::write(root.path().join("state/checkpoint.lock"), b"stale-owner").unwrap();
         success(&run(
             &root,
             signed_command("checkpoint", "alice", 1_000),
             1_000,
         ));
-        let path = root.path().join("state/checkpoint.json");
-        let mut value: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        let store = durable(&root);
+        let mut value: Value = serde_json::from_slice(
+            &store
+                .load_governed_state("parity-c")
+                .unwrap()
+                .expect("governed state was not persisted"),
+        )
+        .unwrap();
         value["state"]["generation"] = 999.into();
-        fs::write(path, serde_json::to_vec(&value).unwrap()).unwrap();
+        store
+            .store_governed_state("parity-c", &serde_json::to_vec(&value).unwrap())
+            .unwrap();
+        drop(store);
         assert_eq!(
             run(
                 &root,
@@ -622,11 +649,13 @@ mod parity_c_time_continuity {
         let root = TempDir::new().unwrap();
         success(&run(&root, signed_command("log-a", "alice", 1_000), 1_000));
         success(&run(&root, signed_command("log-b", "alice", 2_000), 2_000));
-        let log = fs::read_to_string(root.path().join("state/lifelog.jsonl")).unwrap();
-        assert_eq!(log.lines().count(), 2);
+        let store = durable(&root);
+        let log = serde_json::to_string(&store.governed_lifelog_entries().unwrap()).unwrap();
+        assert_eq!(store.governed_lifelog_len().unwrap(), 2);
         assert!(!log.contains("private-log"));
-        fs::write(root.path().join("state/lifelog.jsonl"), b"tampered\n").unwrap();
+        drop(store);
         success(&run(&root, signed_command("log-c", "alice", 3_000), 3_000));
+        assert_eq!(durable(&root).governed_lifelog_len().unwrap(), 3);
     }
 
     #[test]
@@ -640,15 +669,19 @@ mod parity_c_time_continuity {
     }
 
     #[test]
-    fn shutdown_commits_final_checkpoint_and_isolates_lifelog_failure() {
+    fn shutdown_commits_final_checkpoint_and_closes_future_admission() {
         let root = TempDir::new().unwrap();
-        fs::create_dir_all(root.path().join("state/lifelog.jsonl")).unwrap();
         let mut shutdown = signed_command("shutdown", "alice", 1_000);
         shutdown["action"] = "system.shutdown".into();
         shutdown["resource"] = "kernel".into();
         resign(&mut shutdown, 1_000);
         success(&run(&root, shutdown, 1_000));
-        assert!(root.path().join("state/checkpoint.json").exists());
+        assert!(root
+            .path()
+            .join("state")
+            .join(KERNEL_DURABLE_STATE_DB_FILE)
+            .exists());
+        assert!(!root.path().join("state/lifelog.jsonl").exists());
         assert_eq!(
             run(
                 &root,

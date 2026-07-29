@@ -1,0 +1,134 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5698,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "5c936af2d4303e52957cc506114cf14136f4282930d3072942d70ed5a4e1bfbb",
+  "phase": "implemented",
+  "generation": 1,
+  "digest": "94c999399d3d5e663eb8f8fee66f9005bd48ec76a503c63647926a4c1bacbe9e",
+  "claim": {
+    "id": "claim-5698-runtime-v3-redb-state",
+    "owner": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
+    "generation": 1,
+    "acquired_unix_seconds": 1785260636,
+    "expires_unix_seconds": 1785865436,
+    "heartbeat_unix_seconds": 1785260636,
+    "branch": "codex/5698-runtime-v3-redb-state",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5698",
+      ".csdlc/issues/5698",
+      ".csdlc/locks/5698.lock",
+      ".csdlc/prepared/issues/5698",
+      "adl-runtime-kernel/Cargo.lock",
+      "adl-runtime-kernel/Cargo.toml",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/durable_state.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/durable_state.rs",
+      "adl-runtime-kernel/tests/governed_operations.rs"
+    ],
+    "purpose": "Implement #5698 Runtime v3 durable kernel-state unification on redb: replace local adapter and governed-operation flat-file checkpoint/lifelog persistence with real redb-backed persistence, recovery, integrity, and fail-closed migration behavior."
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5698/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5698/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:issue-5698-body",
+      "revision": "084aef585bb574dba031ec98f033395692dcab7fc080cbf8fb8c35bda32cee9e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c2a327a460a08283fa5f5acb140d8100001da61da2db9d28e47196528b99b57a",
+      "rendered_digest": "3abd1383590e2f46d38ca4fdab887c2c1d181aeefe285c2718eb75028fe0464f",
+      "ast_digest": "afb0beb20cbc2fd79239c9e557998ab98fb2bef78a50c99090340f12849a540d"
+    },
+    "stp": {
+      "values_digest": "37f79d25281bb04b4057b2a1d29aca8cd4b0dc1b22530fd9aab3b03a8baa8439",
+      "rendered_digest": "307578437b6a0e3b70dc6589d6bd2515719a2e6ede19e1cac71e3ae6ac5e035a",
+      "ast_digest": "ae04f7a2c522def21242a4e46c1c501aadc8085771f63052f9a8f7cb6285ccf9"
+    },
+    "spp": {
+      "values_digest": "1b04eeb3f6926fc302f2e83bc9ea89cc2f2dbee93ee3a0b540699150e98dae91",
+      "rendered_digest": "ca930a6a3f6b3001cac6da2b3c19ce1ab0918787d74208423db208ccf4c2e013",
+      "ast_digest": "9137dd8bf7d06496a0772caa06f873aacab9e86ff4c483ca2418cadc34aed336"
+    },
+    "vpp": {
+      "values_digest": "ead22f26e2e10f2519774fd0032cb948c31e0440660d0826c6d114ea646f1618",
+      "rendered_digest": "6b21d14956c1ea06625b93b8c19a995ef6a0d7ccbb8c1ec66568d5797ca31c54",
+      "ast_digest": "62c8e99d8bb7a45660cb3246461fbeffa54e762fb08be6e1c3538ce21fe601a8"
+    },
+    "srp": {
+      "values_digest": "d2aba9a4064a7b21c66087e29894bd0058c779f3c4be56dd474762b1e1109af8",
+      "rendered_digest": "7565b180fb5a14782ddf61b9a27cad7726aad55c46f82d8600b69d13cb6ebd57",
+      "ast_digest": "d174ae9efb01db0800dbf46144321478afb71ec1bae6fa20e77850f69bb0971f"
+    },
+    "sor": {
+      "values_digest": "f6a88c293faa514bea370751c0804b90076082c60c321f035a76fdedbe8edcc1",
+      "rendered_digest": "082b5e7d8ece07109a04b62c82f54a4a848415998d15347f4150bf26ab5b368b",
+      "ast_digest": "857a0174a060fc15af60c8ce4d735e6f9debe8c80dfe4c019076c244ca024a5b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
+      "reason": "WP-12 #5344 is GitHub closed, typed closed_out, claim-free, and its retained terminal receipt releases the Runtime v3 paths needed by #5698; begin the scoped redb durable kernel-state implementation.",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/Cargo.lock\",\"adl-runtime-kernel/Cargo.toml\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/durable_state.rs\",\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/durable_state.rs\",\"adl-runtime-kernel/tests/governed_operations.rs\"],\"expected_owner\":\"codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24\",\"expected_purpose\":\"Prepare and coordinate #5698 redb durable state work; product implementation is blocked until active WP-12 #5344 releases or transfers overlapping Runtime v3 paths\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare and coordinate #5698 redb durable state work; product implementation is blocked until active WP-12 #5344 releases or transfers overlapping Runtime v3 paths\",\"purpose\":\"Implement #5698 Runtime v3 durable kernel-state unification on redb: replace local adapter and governed-operation flat-file checkpoint/lifelog persistence with real redb-backed persistence, recovery, integrity, and fail-closed migration behavior.\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

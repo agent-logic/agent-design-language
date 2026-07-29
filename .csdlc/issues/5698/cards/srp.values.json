@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5698,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][runtime-v3][state] Unify durable kernel state on redb",
+    "slug": "runtime-v3-redb-durable-state",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Runtime v3 redb durable state module, checkpoint/lifelog adapter wiring, tests, and retained proof evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify Runtime v3 checkpoint and lifelog production adapters use redb as the single durable state authority.",
+        "Verify restart restores exact committed bytes and rejects identity, schema, generation, and hash mismatches.",
+        "Verify writer locking, corruption, and interrupted-write behavior fail closed without fallback JSON/JSONL storage.",
+        "Verify scope coordination with #5344 and no tracked main or /private/tmp edits."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
