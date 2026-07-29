@@ -12,7 +12,17 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/Cargo.lock
+adl-runtime-kernel/Cargo.toml
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/durable_state.rs
+adl-runtime-kernel/src/governed_operations.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/assembly.rs
+adl-runtime-kernel/tests/durable_state.rs
+adl-runtime-kernel/tests/governed_operations.rs
+adl-runtime-kernel/tests/guardian_soak.rs
+adl-v2/Cargo.lock
 
 ## Prompts
 
@@ -31,12 +41,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Gemini exact-head CI repair review for 89e162f79392a520678913cac7af47b6695a8d1a returned PASS / no findings. It confirmed the guardian_soak IPv4 loopback repair preserves real socket proof and matches Runtime v3's IPv4-only control-plane contract.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:89e162f79392a520678913cac7af47b6695a8d1a:e4f836330b00072bb8eb33d195876dcaf18298a1ff9b5d31be82123373a83eb5")
 
-Reviewer: None
+Reviewer: Some("provider:gemini-3.1-pro-preview")
 
-Result: pre_review
+Result: pass
