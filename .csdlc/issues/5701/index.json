@@ -3,13 +3,13 @@
   "issue": 5701,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
-  "phase": "published",
-  "generation": 30,
-  "digest": "ed8c7ee017f1642d42c080fb9c2ca1cb8ed4f18fb9c9a3daabd92398772d67e1",
+  "phase": "implemented",
+  "generation": 31,
+  "digest": "331a806a2ca83ce1d64f54c908ac3da17c1385f03098a71181b1645523fc9182",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 30,
+    "generation": 31,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -27,6 +27,7 @@
       "adl-runtime-kernel/tests/guardian_soak.rs",
       "adl-runtime-kernel/tests/observatory.rs",
       "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/parity.rs",
       "adl-runtime/Cargo.lock",
       "adl-runtime/Cargo.toml",
       "adl-runtime/src/acip.rs",
@@ -34,50 +35,30 @@
       "adl-runtime/tests/runtime_api_docs.rs",
       "adl-runtime/tests/runtime_api_wss.rs",
       "adl/Cargo.lock",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/test_select_validation_lanes.sh",
       "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
       "adl/tools/validate_v0917_html_observatory.py",
+      "demos/html-observatory",
       "demos/v0.91.7/html-observatory/README.md",
       "demos/v0.91.7/html-observatory/app.js",
       "demos/v0.91.7/html-observatory/index.html",
       "docs/api/runtime-v3/v1",
+      "docs/architecture/runtime_v3_observatory_consumption_5286.v1.json",
+      "docs/milestones/v0.91.7/DEMO_MATRIX_v0.91.7.md",
+      "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
+      "docs/milestones/v0.91.7/review/V0917_WP15_DEMO_CONVERGENCE_4642.md",
+      "docs/milestones/v0.91.7/review/demo_matrix_4691/4691-birthday-visible-demo-matrix-proof.md",
+      "docs/milestones/v0.91.7/review/wp15_demo_convergence_4642/feature_proof_coverage_4642.json",
+      "docs/milestones/v0.91.7/review/wp16_quality_gate_4643/quality_gate_4643.py",
+      "docs/reviews/v0.91.7/remaining-sprints-5403/RUNTIME_V3_LIVE_PARITY_REVIEW_5276.md",
       "infra/runtime-v3/runtime-api-5665.toml"
     ],
     "purpose": "Define complete versioned Runtime v3 Core and Observatory OpenAPI contracts with route parity validation while coordinating around active WP-12 #5344 protected router/config paths"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019fafe0-c5a2-78b3-af0a-352df7715ee1",
-    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:1379d077a4497d6b86cf72d00303b5bfbced0b88:bdd39ffbcc0504c9c0ac4fe1b5e03474a23a0f611cb4bd868ec0a911b35aa4ee",
-    "scope": [
-      "adl/tools/validate_v0917_html_observatory.py",
-      "demos/v0.91.7/html-observatory/app.js",
-      "demos/v0.91.7/html-observatory/index.html"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019fafe0-c5a2-78b3-af0a-352df7715ee1",
-    "scope": [
-      "adl/tools/validate_v0917_html_observatory.py",
-      "demos/v0.91.7/html-observatory/app.js",
-      "demos/v0.91.7/html-observatory/index.html"
-    ],
-    "reviewed_revision": "git-blake3:1379d077a4497d6b86cf72d00303b5bfbced0b88:bdd39ffbcc0504c9c0ac4fe1b5e03474a23a0f611cb4bd868ec0a911b35aa4ee",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5701,
-    "pull_request": 5705,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5705",
-    "base": "main",
-    "head": "codex/5701-runtime-v3-openapi-contracts",
-    "revision": "git-blake3:2156aa7bc2856f402ce617d4cba310803cfeed15:ec69d8113a409e1c54103706592a2ce659b8a9ab7af51770db5699716766af26",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -91,34 +72,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "46125563870ccbb957f2a0af843f2807b78027573daca8e2dd35fe6726c7c07c",
+      "values_digest": "44e3fa3a8c275af04fee8fad10690e21a7cb0307205955c37b5dbfd8e97dd920",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "bf8e8f0659cf37a59d70f443337d8acca897e156985f3e4cd7af3c9e295fe215",
+      "values_digest": "0552e07402c7236cb3e0e7198c2ab50c71042121f3ab01578d1fba52b45e1e5b",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "dc7c023c29195ecf28244580083cffb58a1d5beb72552fed2f41c7dcdff65a9b",
+      "values_digest": "966d123f925a62cbcb0f3cf95544d36129c4017bc45361803a579dc1bce759fe",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "16300a46c2055081a27b9279c2533f7c6a699f15541a5bbd004d11700830b1b3",
+      "values_digest": "342cc9a33fc10d63f83e015cf75d8faca0f2a498ef61edad9ec91b9d005ac065",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "a65bc6c61ccef9fc6a6c76a1830668c335b4fe94b49c6409ae18ee818a0ecb37",
-      "rendered_digest": "01446c10a0aaaea5b333dcefde6d092004888a4de4f461a8e3ef94dc46cc8054",
-      "ast_digest": "25ea146899a3de5b1cbff1b5bd80ccd518c8701eee19f16444759b29f5818a26"
+      "values_digest": "22d1e60dc827fd042d9ecaf26ae5b2e4cb45875e9a1e4c6527d3245291223896",
+      "rendered_digest": "4332b7111e8799f6372a704ad504faaf40ee5f6455491d2f12ad667cb8ed24e0",
+      "ast_digest": "e686f3199e3333f0b9e8df55efe27a3c94331a2bb90f0162682c0d31f7d153b9"
     },
     "sor": {
-      "values_digest": "15f9ac0791b58ca9354fb9b374edc36032207344c88bd5cc9e6fc048cd8326a5",
-      "rendered_digest": "5d2b59a9208ca12e82378ed1d50811c3139e10b0b1697f70664c737a798f9054",
-      "ast_digest": "10285be498bf895754bb97a73dd7616f17428d717f92ac269824af76e80fc2aa"
+      "values_digest": "e68b89d8422b2967eec16ea69b2237be26ab5b09f15b8ff7088933d5b4dc7d98",
+      "rendered_digest": "2608c536f3f366aecd988f75518f3432a2a7f5ca068362ef2069f38f0cfb541e",
+      "ast_digest": "05944f20a5ee8afb4007ccc89fffb08a367f1fc058b5e8423744c9469937060e"
     }
   },
   "transitions": [
@@ -261,6 +242,13 @@
       "to": "published",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 21,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Recover exact review and publication truth after moving the unchanged Observatory design to the version-neutral demos/html-observatory public path."
     }
   ],
   "audit": [
@@ -571,6 +559,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 45,
+      "generation": 31,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Recover exact review and publication truth after moving the unchanged Observatory design to the version-neutral demos/html-observatory public path.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 31,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "Move the unchanged Observatory visual design to a version-neutral public path and update every active code, test, validation, architecture, and historical evidence reference that would otherwise point at a missing file.",
+      "operation": "{\"add_protected_paths\":[\"demos/html-observatory\",\"adl-runtime-kernel/tests/parity.rs\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl/config/validation_lane_selector.v0.91.6.json\",\"adl/tools/test_select_validation_lanes.sh\",\"docs/architecture/runtime_v3_observatory_consumption_5286.v1.json\",\"docs/milestones/v0.91.7/DEMO_MATRIX_v0.91.7.md\",\"docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md\",\"docs/milestones/v0.91.7/review/V0917_WP15_DEMO_CONVERGENCE_4642.md\",\"docs/milestones/v0.91.7/review/demo_matrix_4691/4691-birthday-visible-demo-matrix-proof.md\",\"docs/milestones/v0.91.7/review/wp15_demo_convergence_4642/feature_proof_coverage_4642.json\",\"docs/milestones/v0.91.7/review/wp16_quality_gate_4643/quality_gate_4643.py\",\"docs/reviews/v0.91.7/remaining-sprints-5403/RUNTIME_V3_LIVE_PARITY_REVIEW_5276.md\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

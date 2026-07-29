@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-DEMO_DIR="${ROOT_DIR}/demos/v0.91.7/html-observatory"
+DEMO_DIR="${ROOT_DIR}/demos/html-observatory"
 HTML="${DEMO_DIR}/index.html"
 CSS="${DEMO_DIR}/styles.css"
 JS="${DEMO_DIR}/app.js"

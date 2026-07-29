@@ -74,7 +74,7 @@ python3 -m http.server 8765
 Then open:
 
 ```text
-http://localhost:8765/demos/v0.91.7/html-observatory/
+http://localhost:8765/demos/html-observatory/
 ```
 
 For the v0.91.7 real-runtime test path, start the existing repo `csm` binary in
@@ -90,7 +90,7 @@ adl/target/debug/csm api serve \
 ```
 
 ```text
-http://localhost:8765/demos/v0.91.7/html-observatory/?csmApiBase=http://localhost:24645&live=1
+http://localhost:8765/demos/html-observatory/?csmApiBase=http://localhost:24645&live=1
 ```
 
 For the Runtime v3 opt-in path, start the Runtime v3 kernel control API with
@@ -121,7 +121,7 @@ Serve this Observatory from the allowed HTTPS origin
 `https://localhost:8765`, then open:
 
 ```text
-https://localhost:8765/demos/v0.91.7/html-observatory/?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
+https://localhost:8765/demos/html-observatory/?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
 ```
 
 The token elevates only that WSS connection for writes; signature verification
@@ -154,7 +154,7 @@ browser origins may read responses but is not authentication. Native clients
 may read without an Origin header.
 
 ```text
-https://<observatory-host>/demos/v0.91.7/html-observatory/?runtime=v3&runtimeApiBase=https://<runtime-gateway-host>&live=1
+https://<observatory-host>/demos/html-observatory/?runtime=v3&runtimeApiBase=https://<runtime-gateway-host>&live=1
 ```
 
 The Runtime v3 browser path consumes the public runtime-owned read feed at

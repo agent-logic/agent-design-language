@@ -35,7 +35,7 @@ fn health() -> adl_runtime::runtime_api::RuntimeApiHealthReport {
             capability: "html_observatory_ui".into(),
             state: RuntimeApiHealthState::Unimplemented,
             reason_code: "separate_client_boundary".into(),
-            evidence_ref: "demos/v0.91.7/html-observatory/README.md".into(),
+            evidence_ref: "demos/html-observatory/README.md".into(),
         },
         RuntimeApiCapabilityHealth {
             capability: "cloud_sink".into(),

@@ -7,15 +7,15 @@
     "title": "[v0.91.8][runtime-v3][api] Define the complete versioned Runtime and Observatory OpenAPI contracts",
     "slug": "runtime-v3-openapi-contracts",
     "version": "v0.91.8",
-    "generation": 30
+    "generation": 31
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/tools/validate_v0917_html_observatory.py\ndemos/v0.91.7/html-observatory/app.js\ndemos/v0.91.7/html-observatory/index.html",
-      "review_revision": "git-blake3:1379d077a4497d6b86cf72d00303b5bfbced0b88:bdd39ffbcc0504c9c0ac4fe1b5e03474a23a0f611cb4bd868ec0a911b35aa4ee",
-      "reviewer": "subagent:019fafe0-c5a2-78b3-af0a-352df7715ee1",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Do the OpenAPI contracts cover every real production Runtime v3 and Observatory endpoint without documenting unavailable behavior?",
         "Does route-parity validation prevent undocumented real routes and documented phantom routes?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }
