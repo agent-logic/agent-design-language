@@ -5,7 +5,7 @@
   "initialization_digest": "5c936af2d4303e52957cc506114cf14136f4282930d3072942d70ed5a4e1bfbb",
   "phase": "implemented",
   "generation": 7,
-  "digest": "dd3cff0ca12adbfefd91d441f2e277cfb193a23fd7c021383ab2563832a520b9",
+  "digest": "205fcc008e72d3ed8d13248e4602f8fe155e05abf6a735fac5291ef64f8c6879",
   "claim": {
     "id": "claim-5698-runtime-v3-redb-state",
     "owner": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
@@ -29,6 +29,7 @@
       "adl-runtime-kernel/tests/assembly.rs",
       "adl-runtime-kernel/tests/durable_state.rs",
       "adl-runtime-kernel/tests/governed_operations.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
       "adl-v2/Cargo.lock"
     ],
     "purpose": "Implement #5698 Runtime v3 durable kernel-state unification on redb: replace local adapter and governed-operation flat-file checkpoint/lifelog persistence with real redb-backed persistence, recovery, integrity, and fail-closed migration behavior."
@@ -200,6 +201,13 @@
       "actor": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
       "reason": "Record #5698 exact-head CI repair proof after fixing the adl-v2 locked standalone lockfile drift and verifying Runtime v3 fast locally with the repo-local Vector binary available as in CI.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash adl/tools/run_adl_v2_standalone.sh\",\"cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5698/target --test assembly\",\"cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5698/target --test durable_state\",\"cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5698/target --test governed_operations\",\"cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5698/target --all-targets -- -D warnings\",\"cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5698/target\",\"git diff --check\"],\"purpose\":\"Prove the current #5698 PR repair: the adl-v2 standalone lane no longer fails on a stale Cargo.lock, the redb/state focused tests remain green, strict Runtime v3 Clippy is green, and the Runtime v3 fast lane including guardian_soak passes with Vector installed as CI does.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5698\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:019fa9d0-7df0-7140-ad76-de97ae0f0c24",
+      "reason": "Exact-head hosted Runtime v3 fast CI exposed a guardian_soak startup portability defect: localhost may resolve to IPv6 on Ubuntu while Runtime v3 intentionally supports IPv4 only. Include the narrow test path needed for the bounded CI repair.",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/tests/guardian_soak.rs\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
