@@ -3,13 +3,13 @@
   "issue": 5701,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
-  "phase": "reviewed",
-  "generation": 16,
-  "digest": "cf9da295fa3a1f3c74cfc8bebb7f9a3376dfd218a2fb2ca75b57d0d654efffd0",
+  "phase": "published",
+  "generation": 17,
+  "digest": "4ef906942da34a83321b3b9efa18759599b924f467e245821006e0b1430fcf02",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 16,
+    "generation": 17,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -84,7 +84,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5701,
+    "pull_request": 5705,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5705",
+    "base": "main",
+    "head": "codex/5701-runtime-v3-openapi-contracts",
+    "revision": "git-blake3:df043aef3abb77df09e10c534200a7a354d905c1:738530235b40ec915b5220c74f7196cfdf811974bb245f90a7e6c4c3b8b10214",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -98,34 +108,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b21d64e6103bad8888439b8fc21634d59b9f63c2d4d592b04cb2f65a13d4c071",
+      "values_digest": "4e8f531d28d27be988eee15e1ab9a8137cc575d23b3fc4f69721f809f428e643",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "5bfca18469b689b7b0111c2250a40728ae7c49c7df8d0305e820316372c4c67c",
+      "values_digest": "2485e57614bb186de2530378f2bd0e321e7581111df611dfe3d5c6e416334756",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "fb7d6aadce59aa26adf1660e8999ebead7f01f4f4ef02bcdc94fe15194327aba",
+      "values_digest": "daca4a837e45a168ff9857b002b63bf9f7f3960f0e9e466c6696a643da6708b4",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "49a9f0687e46c413d743b4fca90c2fc2855c6cc1c918cef375b34831d8361238",
+      "values_digest": "73c1b6780d601cdfb5256bbb9e7b0acde6ceea98bbc0837bd3a2ee4a867954a0",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "2674f46f8a5765c597bc6a9048ca09df2450062149b6e54545af89b81746c067",
+      "values_digest": "b9abdc153ee36743ec5f67e583c6406fc5e34380fc787c5a924966cc7de2b845",
       "rendered_digest": "b0453fd166da6f2587bf0f0c5d73c22be31797ba7484a03c51e31d008c557744",
       "ast_digest": "d99cbb6c5d951bfec29d9eae5c7bd67334c870ed9cf3cf0f14d9855f22b0943a"
     },
     "sor": {
-      "values_digest": "78745d3cd517659cdb708b15bbcb3681ad41edd068fdaa8c1f42c8684943ec55",
-      "rendered_digest": "9c4f79d6ba80ec3abaa2a80ac5308bf3b202399bdd7fb2c907d880cf62947ee4",
-      "ast_digest": "753359c8974160d19ac52214cff3fb823c07cb15334a14488ddc771e3774777e"
+      "values_digest": "3053eb20ab752fe9e1b9daeb67fc9413ce24f4422995bd3220b843a80b8d29b3",
+      "rendered_digest": "261d6f247f688cf97f7db14e5e3003617bcff8bbe0dd0d58a6a4e1729b49891d",
+      "ast_digest": "0342cea1516eb736d624d5ddc2dea4196669f9dc5be085daaf2f13bf10760506"
     }
   },
   "transitions": [
@@ -198,6 +208,13 @@
       "to": "reviewed",
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "The exact integrated-head GPT-5.5 review passed with zero findings after current-main conflict resolution and full validation."
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -382,6 +399,13 @@
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "The exact integrated-head GPT-5.5 review passed with zero findings after current-main conflict resolution and full validation.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 17,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
