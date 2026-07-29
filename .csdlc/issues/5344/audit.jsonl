@@ -24,3 +24,5 @@
 {"sequence":24,"generation":8,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Advance after the assigned exact review completed with no findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":25,"generation":9,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"The accepted #5343 cutover handoff fields and typed review projection were committed after the substantive clean #5344 review; recover for one bounded metadata-only exact-head follow-up before publication.","operation":"recover_review"}
 {"sequence":26,"generation":9,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":27,"generation":10,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
+{"sequence":28,"generation":11,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Advance after the bounded exact handoff review completed with no findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}

@@ -3,13 +3,13 @@
   "issue": 5344,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "eb317606cf42b6f72ff80cf45a13c196d9efe174be307c0357f9f032b122b7d6",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "c1bce4fb250adfe1b9b8a535f061a79fc99c6117b25612e046e6c21707e22012",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 9,
+    "generation": 11,
     "acquired_unix_seconds": 1785295953,
     "expires_unix_seconds": 1785900753,
     "heartbeat_unix_seconds": 1785295953,
@@ -77,7 +77,55 @@
       "infra/systemd"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019fac48-c04a-70f1-8a0e-fca1cb4af863",
+    "scope": [
+      ".csdlc/issues/5344",
+      ".csdlc/evidence/5344",
+      ".csdlc/prepared/issues/5344",
+      "adl-runtime",
+      "adl-runtime-kernel",
+      "adl-v2/tools/prove-rollback.sh",
+      "adl-v2/tools/run-soak.sh",
+      "docs/milestones/v0.91.8/evidence/wp12",
+      "infra/horust",
+      "infra/runtime-v3/runtime-init.toml",
+      "infra/rustysd",
+      "infra/systemd"
+    ],
+    "reviewed_revision": "git-blake3:c4e8c18b11934ed4eebc02953772e66a05dc9e1c:b6faaee449d226982a628339826340debb51092214de1b8e9e18eaa089b189d0",
+    "findings": [],
+    "residual_risks": [
+      "The retained 10,000-cycle, 100-by-10-second, and 10-by-600-second platform runs were verified rather than rerun during review.",
+      "Issue #5344 proves selector rollback with a v1 fixture; issue #5343 owns real retained-v1 executable restoration.",
+      "Runtime v1 and Runtime v2 remain installed rollback surfaces, the default remains unchanged, and legacy deletion is not authorized."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "metadata_only_review_projection",
+      "from_revision": "git-blake3:8831d7bd2844f81457a50d5780e73eb0c0776764:b0303764ad1a0f1fd7f7ecbb6f16bb3bd1b745c6a02330664d291d1a6d463e79",
+      "to_revision": "git-blake3:c4e8c18b11934ed4eebc02953772e66a05dc9e1c:b6faaee449d226982a628339826340debb51092214de1b8e9e18eaa089b189d0",
+      "from_commit": "8831d7bd2844f81457a50d5780e73eb0c0776764",
+      "to_commit": "c4e8c18b11934ed4eebc02953772e66a05dc9e1c",
+      "changed_paths": [
+        ".csdlc/issues/5344/audit.jsonl",
+        ".csdlc/issues/5344/cards/sip.values.json",
+        ".csdlc/issues/5344/cards/sor.md",
+        ".csdlc/issues/5344/cards/sor.values.json",
+        ".csdlc/issues/5344/cards/spp.values.json",
+        ".csdlc/issues/5344/cards/srp.md",
+        ".csdlc/issues/5344/cards/srp.values.json",
+        ".csdlc/issues/5344/cards/stp.values.json",
+        ".csdlc/issues/5344/cards/vpp.values.json",
+        ".csdlc/issues/5344/index.json",
+        ".csdlc/prepared/issues/5344/advance-reviewed-after-final-review.json",
+        ".csdlc/prepared/issues/5344/assign-final-review.json",
+        ".csdlc/prepared/issues/5344/record-final-review.json",
+        ".csdlc/prepared/issues/5344/recover-final-handoff-review.json",
+        "docs/milestones/v0.91.8/evidence/wp12/cutover-handoff-5344.v1.json"
+      ]
+    }
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -92,32 +140,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9023bcd00a4fda66da6e67774d6dcc390ca41efeef753ec436f437998105c2c9",
+      "values_digest": "3f61ecd3cd23113e1807a86a578695d7aa7e7ac388143b6e9611cb0608bfb47f",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "46c5e115a41443b18bec38d928af8644e5eb8a636f3b86b71802ba25dc8f5aaa",
+      "values_digest": "59e503e887cc8a107c3a99a9c522292c9b8560ffe1c9c49d57f56f162760f0c7",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "1edc1c5ab0756f209c42383e652084fbf0888cfe9c0dbac6b182f0113792b6ff",
+      "values_digest": "aeee10fdab79c550d2be09c8e413a13c2e22082a9538dced462554af512580f7",
       "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
       "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "12078fc2fc30c519974d0dadf5779141c0c4bb544ddf791a9a614f3fff101a59",
+      "values_digest": "99f7532a24e6836c1decb0ae945849e1dccfcfb2512f99a48ac28303c7d8b5ad",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "970f7c493e463cfd9f98c62b4d17ff5d3dc95270232593bc1f93db52870acae4",
-      "rendered_digest": "2498c86866ae2e1140efd77a39daac815b1fc62fad55bee49f122c3e860d5c0a",
-      "ast_digest": "7b43ff22f64633fe156e58105ab96ac3876d7fe447cd96c3377454e498330495"
+      "values_digest": "dee4e5ef2d7ad23632b116fe543b92792a9e34e1498102d153657ead3468d286",
+      "rendered_digest": "06ea690bc85eadd03b23a634f063892c84cad1d4bb6edb42df539c8716b96df2",
+      "ast_digest": "015f23fe512e332d06b6dcf17f857aa5dabd003ae015282dfb41cf9e509bf1ac"
     },
     "sor": {
-      "values_digest": "5a514fd564477ac22105f58ce54c139cefef475bbf2350792eb0fc535121a9e6",
+      "values_digest": "2ec03dad6516f0ed1255a081b979484981cf67cdc3ef60d72385e80437e6f654",
       "rendered_digest": "7f35f96a73f89bc1be2fbaf1074ed5754eb37cf89da553b66866170a45717a93",
       "ast_digest": "470401546c581944ebdd1aa5ba43dc325741e130589be2234f7074d310c32864"
     }
@@ -157,6 +205,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The accepted #5343 cutover handoff fields and typed review projection were committed after the substantive clean #5344 review; recover for one bounded metadata-only exact-head follow-up before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the bounded exact handoff review completed with no findings."
     }
   ],
   "audit": [
@@ -341,6 +396,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 11,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the bounded exact handoff review completed with no findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
