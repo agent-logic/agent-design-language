@@ -7,10 +7,6 @@ require "pathname"
 
 ROOT = Pathname.new(__dir__).join("../../../..").expand_path
 DEPENDENCIES = %w[5344 5345].freeze
-BRANCHES = {
-  "5344" => "origin/codex/5344-v0918-wp12-soak-rollback",
-  "5345" => "origin/codex/5345-v0918-wp10-thin-cli-selector"
-}.freeze
 
 def fail_closed(message)
   warn(message)
@@ -34,11 +30,13 @@ common = Pathname.new(common_dir)
 common = ROOT.join(common).cleanpath unless common.absolute?
 
 def dependency_observation(issue, common, head, origin_main)
-  branch = BRANCHES.fetch(issue)
-  branch_head, branch_err, branch_status = git("rev-parse", branch)
-  fail_closed("##{issue} branch #{branch} is unavailable: #{branch_err}") unless branch_status.success?
+  record_path = ROOT.join(".csdlc/issues/#{issue}/index.json")
+  fail_closed("##{issue} tracked lifecycle record is absent") unless record_path.file?
+  record = JSON.parse(record_path.read)
+  pull_request = record.dig("publication", "pull_request")
+  fail_closed("##{issue} tracked publication identity is absent") unless pull_request.is_a?(Integer) && pull_request.positive?
 
-  landing, _, landing_status = git("log", "-1", "--format=%H", "--grep=##{issue}", "origin/main")
+  landing, _, landing_status = git("log", "-1", "--format=%H", "--grep=##{pull_request}", "origin/main")
   fail_closed("##{issue} has no live merged landing commit on origin/main") unless landing_status.success? && landing.match?(/\A[0-9a-f]{40}\z/)
 
   _, _, origin_ancestor = git("merge-base", "--is-ancestor", landing, origin_main)
@@ -57,9 +55,9 @@ def dependency_observation(issue, common, head, origin_main)
     { present: false }
   end
 
-  { issue: issue.to_i, branch: branch, branch_head: branch_head, landing: landing, receipt_audit: receipt_audit }
+  { issue: issue.to_i, pull_request: pull_request, landing: landing, receipt_audit: receipt_audit }
 rescue JSON::ParserError => e
-  fail_closed("##{issue} audit receipt is malformed: #{e.message}")
+  fail_closed("##{issue} tracked JSON is malformed: #{e.message}")
 end
 
 dependencies = DEPENDENCIES.map { |issue| dependency_observation(issue, common, head, origin_main) }
@@ -85,8 +83,7 @@ puts JSON.pretty_generate(
   dependencies: dependencies.map do |dependency|
     {
       issue: dependency.fetch(:issue),
-      branch: dependency.fetch(:branch),
-      branch_head: dependency.fetch(:branch_head),
+      pull_request: dependency.fetch(:pull_request),
       landing: dependency.fetch(:landing),
       receipt_audit: dependency.fetch(:receipt_audit)
     }

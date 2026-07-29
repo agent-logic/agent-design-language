@@ -16,24 +16,14 @@ Render and validate all six cards; freeze exact #5344/#5345 dependency gates, se
 
 ## Plan
 
-Revision 2
+Revision 5
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Complete all six typed cards, design, diagram, exact dependency and protected-path gates, COTS, budgets, PVF, no-deferral, transaction and rollback-window invariants, preparation validation, bounded review/fixes, durable commit, and push without execution",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-8",
-      "AC-9"
-    ],
-    "status": "in_progress"
-  },
-  {
-    "id": "S2",
-    "action": "Maintain a read-only dependency watch and begin execution only after #5344 and #5345 satisfy live merge, typed closed_out, retained receipt, claim release, ancestry, and exact handoff gates",
+    "action": "Verify the live #5344 and #5345 merged landing commits are ancestral to the exact execution revision and accept the exact #5344 cutover handoff; observe lifecycle receipts only as audit metadata",
     "acceptance_ids": [
       "AC-1",
       "AC-2"
@@ -41,10 +31,19 @@ Revision 2
     "status": "pending"
   },
   {
-    "id": "S3",
-    "action": "Execute one reviewed fresh-install-bound locked compare-and-swap default switch through the #5345 interface and prove failure preservation without implementing selector behavior",
+    "id": "S2",
+    "action": "Fresh-install ADL v2 into an isolated issue evidence root, retain a byte-identical installed v1 executable, and verify both installation identities before mutation",
     "acceptance_ids": [
       "AC-3",
+      "AC-4",
+      "AC-8"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Exercise malformed input, receipt, digest, compare-and-swap, lock interruption, and persistence failures while proving the prior selector remains byte-identical",
+    "acceptance_ids": [
       "AC-4",
       "AC-5",
       "AC-8"
@@ -53,8 +52,9 @@ Revision 2
   },
   {
     "id": "S4",
-    "action": "Prove explicit v1 override, rollback-window checkpoints, exact restoration, evidence integrity, budgets, CI, and every negative case; fix all findings",
+    "action": "Select and execute v2, roll back exact prior bytes and execute v1, then select and execute v2 as final default with a fourteen-day no-deletion rollback window",
     "acceptance_ids": [
+      "AC-3",
       "AC-5",
       "AC-6",
       "AC-7",
@@ -64,7 +64,7 @@ Revision 2
   },
   {
     "id": "S5",
-    "action": "Obtain exact-revision review, publish through typed v2, shepherd required checks, merge only under authorization, run post-merge proof, close out, retain the terminal receipt, release the claim, and hand accepted evidence to WP-13",
+    "action": "Run one exact-revision review, publish through typed v2, shepherd required checks, merge, verify the integrated cutover evidence, and leave closeout nonblocking",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -82,15 +82,15 @@ Revision 2
 
 ## Invariants
 
-- No selector mutation begins before #5344 and #5345 are terminal, receipt-backed, claim-free, ancestral, and exact-evidence accepted
-- #5343 uses the authoritative #5345 transaction and never edits selector storage or implements a second selector
+- No selector mutation begins before #5344 and #5345 live merged landing commits are ancestral to the exact execution revision and the exact #5344 handoff is accepted; receipts and closeout are audit-only
+- #5343 reuses the authoritative #5345 selector transaction and never edits active selector storage directly or implements a second selector
 - The selected executable and installation receipt are exact and fresh-install verified before mutation
-- Prior selector bytes, digest, v1 executable, and v1 receipt remain intact throughout the rollback window
-- Every failure preserves prior bytes or uses explicit verified rollback through the same compare-and-swap interface
-- Rollback or explicit-v1 proof failure blocks publication, closeout, WP-13, and WP-14A
+- Prior selector bytes, digest, v1 executable, and v1 receipt remain intact throughout the fourteen-day rollback window
+- Every rejected or interrupted transaction preserves the prior selector bytes
+- Rollback restores exact prior selector bytes and executes retained v1 before v2 becomes final again
 - Evidence is deterministic, redacted, repo-relative, exact-revision bound, and non-secret
 - Runtime v2 and incumbent ADL remain untouched rollback targets and no legacy deletion occurs
-- All applicable acceptance and PVF lanes complete without deferral before publication
+- One exact-revision review runs immediately before publication and every actionable finding is fixed
 
 ## Risks
 
@@ -115,7 +115,7 @@ Revision 2
 
 .csdlc/prepared/issues/5343/design.md
 
-Digest: 255caed6a569e0f57e67a5d01757bd2fb3cfa284543209fed4229244e608435d
+Digest: 4be441ce171b50aad73aad5f6140fa5d0b9653ef83b10329870b13a818b7c91d
 
 ## Diagram
 
@@ -125,14 +125,15 @@ Digest: 9c3173bf34cdfcdc240b257dab20ffe3b2646471586e28eaa5bfdb8b9b2e239e
 
 ## Stop Conditions
 
-- Any #5344 or #5345 live merge, typed closed_out, retained receipt, claim release, ancestry, or exact evidence predicate is absent or contradictory
+- A required live merged landing is not ancestral to the exact execution revision or the accepted #5344 handoff is contradictory
 - Any intended protected path collides with an active typed claim
-- The selector requires direct storage editing, implicit fallback, hidden network, credentials, AWS, Runtime v2 edits, or production-state mutation
+- The selector requires direct active-storage editing, implicit fallback, hidden network, credentials, AWS, Runtime v2 edits, or production-state mutation
 - Exact prior selector bytes, digest, v1 executable, or receipt cannot be retained and verified
-- The rollback window is missing, expired, ambiguous, or not operator approved
-- Evidence is non-deterministic, secret-bearing, host-bound, or incomplete
-- Any acceptance or validation item would be deferred, skipped, or replaced with metadata-only proof
-- A LoC, module, test, dependency, or duration budget exceeds its limit without exact reviewed variance
+- Any rejected or interrupted transaction changes prior selector bytes
+- Rollback does not restore exact prior bytes or retained v1 cannot execute after rollback
+- The fourteen-day rollback window is absent or authorizes legacy deletion
+- Evidence is secret-bearing, host-bound, incomplete, or not bound to the exact implementation revision
+- Exact-revision review has an unresolved actionable finding
 
 ## Handoff
 
