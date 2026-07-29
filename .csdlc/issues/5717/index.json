@@ -3,13 +3,13 @@
   "issue": 5717,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "076248de115adaa0f9c9eff8cbbd8ff162b2d01f5bdb2d6a9d316c57f9ea4b83",
-  "phase": "reviewed",
-  "generation": 3,
-  "digest": "3ae0ed34e20709a3add4c8b645d14d0a4c118c41ade69ec292104be77be8c1a7",
+  "phase": "published",
+  "generation": 4,
+  "digest": "f418929d52d00c12e48f21f4602b5d085e644a3810d5652c4f70903d93daacf7",
   "claim": {
     "id": "claim-5717-podcast-studio-copy",
     "owner": "codex:5717-execution",
-    "generation": 3,
+    "generation": 4,
     "acquired_unix_seconds": 1785361490,
     "expires_unix_seconds": 1785966290,
     "heartbeat_unix_seconds": 1785361490,
@@ -73,7 +73,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5717,
+    "pull_request": 5720,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5720",
+    "base": "codex/5715-podcast-studio-design-integration",
+    "head": "codex/5717-podcast-studio-copy",
+    "revision": "git-blake3:a93ed685633760d4424dd7524cd715cf33cfcaea:51a17e1214455d0d913b58090d3d101ba5b5902b1544272c4bf8cdfbbfefcf27",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -87,34 +97,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3f88d54689c8e03474681430cf31b81820d67fe07845b7cad4423568059733c8",
+      "values_digest": "3eefaefd0435f365e868e47fba6c670a51b8a18726c436933d8c94d77285045d",
       "rendered_digest": "72b19c7db1294878ef02538e3c2c1afcd75c4962eed345a546782b4c4a01703c",
       "ast_digest": "44990155f81bd4fe0b63937ab141c8169a0b74a8c485f0f1ad1c67f06d9502dd"
     },
     "stp": {
-      "values_digest": "47733bc277dcb66717e13cd9d59d5d11f3f650fe5f71729241a2bde023089cf0",
+      "values_digest": "950c4d2494a21f514cfe1763a56bb598902545d5b0d472f59f58c2a3898b35db",
       "rendered_digest": "79384f1b1112b72739525c66c07f15aaf6b41ff8d1d4d9692428171882b8141f",
       "ast_digest": "60a985e4b0af0ce1214f640fc699395f397face6fedd1ff9270f742992f7331a"
     },
     "spp": {
-      "values_digest": "1f09eb7cc325b1ad1a1876620307886295cef66d43a6c2d0c2577dc3cf44e6ee",
+      "values_digest": "fa6d7df1e29be2118d51bca11cf6252f64a4254881f8a49cc5200c7d6d09513d",
       "rendered_digest": "28e613669030c5a2a9d4fd1fc5916d05013a7fede79a43e16c7475bd158e4ecc",
       "ast_digest": "b7be51bebcc797093527fbf73e64ad8e991c4edd984f4c5a85eeda7d81be4302"
     },
     "vpp": {
-      "values_digest": "80a1f3a49cde21a18b6def89d48041c41580880aa812faecee88d90056ad7abc",
+      "values_digest": "b5065d5ff2014e9acbcfe61e8579c9d394338b59820b6fa58b6fd689140d2497",
       "rendered_digest": "d4b179d6ddfe7e069e109aac976bf47c9b190fa9ae5d17e5ab31011b5df07990",
       "ast_digest": "beb988a8127e2b82f642f57dae1be11765034e5e7375d161f975b12b60f8dc9d"
     },
     "srp": {
-      "values_digest": "fde2fed013df510e8e4ddd343fdad46cf2a9eac3f5a7e8d4a12e4f665f115449",
+      "values_digest": "8999aa0d2a5f7725dd1ddff18bce5b2de5d82105b8a9394c729bccea504d2d6f",
       "rendered_digest": "8944b93152774ff192af790b0835ad6a5bddc708cbdbc3278bfbb0d1beceb1ac",
       "ast_digest": "0216cde15c45c454e5ea92ff77f96cfd0e0168f4596044f2f223e8da6b8ef24f"
     },
     "sor": {
-      "values_digest": "e8394cb88c45103c1cb3f7db554c0d594d6e473490c1ae6773b5d2ea1f55e344",
-      "rendered_digest": "b8c945becfc15bd099268b2be10cad88f30433c31703d5c5e91ea1a918b52f1d",
-      "ast_digest": "75258da964116f44082617071f5f8d0e476f36196667501423f3d4b36fb1f4d0"
+      "values_digest": "8574b86ce15b765c6a85736564394b03edeac7a09a2b127c2006e7e86f56cfad",
+      "rendered_digest": "1a79b4c1a50ed333d5024e7b8b747cd9940a5be1a75b4c597bebe6d60f0177c8",
+      "ast_digest": "a0965426bfb33077bb9250f7bd6b27e26932093afbef709c6ca1606655f0e318"
     }
   },
   "transitions": [
@@ -145,6 +155,13 @@
       "to": "reviewed",
       "actor": "codex:5717-execution",
       "reason": "Exact Gemini 3.1 Pro review passed with no actionable findings after the podcast studio copy, logo, link, and launch-readiness updates."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5717-execution",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -203,6 +220,13 @@
       "actor": "codex:5717-execution",
       "reason": "Exact Gemini 3.1 Pro review passed with no actionable findings after the podcast studio copy, logo, link, and launch-readiness updates.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
+      "actor": "codex:5717-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
