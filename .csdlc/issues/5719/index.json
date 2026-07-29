@@ -3,13 +3,13 @@
   "issue": 5719,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "3311f6460b0988706cb978ea2fcf7da322d7af3273fc5c96c2813a6f7a4fc271",
-  "phase": "bound",
-  "generation": 0,
-  "digest": "6ff3d9dc7225340bc39b65a35e52d097390ebecacdddd60e662a29bf7ae2e914",
+  "phase": "implemented",
+  "generation": 1,
+  "digest": "84e3c398057b359d7afc1c85049137aaecf4cf9bbd8907c8a763ed5b744b5146",
   "claim": {
     "id": "claim-5719-ci-coverage-page-policy",
     "owner": "codex:5719-execution",
-    "generation": 0,
+    "generation": 1,
     "acquired_unix_seconds": 1785363942,
     "expires_unix_seconds": 1785968742,
     "heartbeat_unix_seconds": 1785363942,
@@ -44,34 +44,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ee3841c333293a813030b6ecdcb4fb19d0dd60b2656b5bb569d05b4a47cad53f",
+      "values_digest": "c258b372d00b3e58ff5e0dccad9e226ad2d0e297d10fc96a556b91eec33e889f",
       "rendered_digest": "5edc703d78bb5d850b627fa794f4eb45e023a7c3cf86f62a04ec9b1e6fbebef0",
       "ast_digest": "9798d8fc4365de347cba719ad458e1c5d6f62b23ba9451554a151dc6a99fd129"
     },
     "stp": {
-      "values_digest": "4da7ef20908f970f6a724cab0705abc3d6bca78d61d21cde774f7e926ea68545",
+      "values_digest": "ce1d4dcd5b9031758ab3990f7b8334a7b2587ee3b455bff3733818f6592cd005",
       "rendered_digest": "3a46127e74167c14f3cf932b65fd169a5f087f132c4f5c0473968f0c7003044c",
       "ast_digest": "36f64615fce3a1933d837007862c8eee9304620c5b01fbe632a35271b7624868"
     },
     "spp": {
-      "values_digest": "ae92709981e42fe5157d42f43f04eb1db1981333c161c48a51e76622180f10a0",
+      "values_digest": "dbe58c1d55113fe481044f72c19f6b03fe846c5be12c3505c7f310461b7426b5",
       "rendered_digest": "4c33e2a1cd788a668dcedeec7d45294528a99aa439cd07ac4118a1181f91cccd",
       "ast_digest": "df7462547dbef6bf41ecf7bbfe77d4f213d05d353d4ea38b290c28e07616325f"
     },
     "vpp": {
-      "values_digest": "407d4fbbededad36a589865a4db4f2603b17b2225e3c564bc9e1af31ba24ba3b",
+      "values_digest": "81727cacca40298974faf0900c125f1ed31d028a61cb7b03709ce6c4b7cd53f8",
       "rendered_digest": "53b870f75afb2af19703292ae1300e6d7251054fe899d5fac6685e941c194b58",
       "ast_digest": "7dde77af196d5a1964814b78770b680f9988b6f569a44e25219157e58306f985"
     },
     "srp": {
-      "values_digest": "0cedbe89db3fd183aa28f463003709a29f639719cb152449812b1e9d9618f088",
+      "values_digest": "bc4ed9e818f325eee449dc67a10ed1648618bf7d3fd0ac881aa59c97cca3598f",
       "rendered_digest": "de2c0c280391ac5563267973a3ff09ec0c37199a8e603dc565911eefb24cb1bd",
       "ast_digest": "32c873c2c71e1ac19d7d7716345bde3535dd54c9aad1205ef2ebd8ff3e78e382"
     },
     "sor": {
-      "values_digest": "70074057b0fe173b70591e34cca9735632e61accfcf0782a80af61fb58497f79",
-      "rendered_digest": "a8ec80b18b27c94bb4c48fd637bc8bcdb75cf73c90cc0366702d08beb6bcbcbf",
-      "ast_digest": "b82237b664796f3985c5ac0644d5b65dd4707aa80739c37653f5116dbf4705a6"
+      "values_digest": "7bc37c78b40efd801496f37bbd80486fd0cc9afc88178cfeb790140fdbacc4c2",
+      "rendered_digest": "9adc0741edb43a4f3bbacf0e588aa47dd18141a9dc55769098d08c8943cc5924",
+      "ast_digest": "a7fc4bbefd160b498756c660b017ec6280a1af3cb39d7fa86ae630e4ae4f6463"
     }
   },
   "transitions": [
@@ -88,6 +88,13 @@
       "to": "bound",
       "actor": "codex:5719-execution",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5719-execution",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -111,6 +118,13 @@
       "actor": "codex:5719-execution",
       "reason": "The reproduced #5716-like failure is an unmapped validation-manager surface, so #5719 must update the validation lane selector manifest as part of the CI coverage selection fix.",
       "operation": "{\"add_protected_paths\":[\"adl/config/validation_lane_selector.v0.91.6.json\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:5719-execution",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
