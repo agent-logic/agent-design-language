@@ -66,3 +66,4 @@
 {"sequence":66,"generation":39,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":67,"generation":40,"actor":"subagent:019fac6c-4d03-74e3-90a2-3c3f07ed609d","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":68,"generation":41,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Advance after the exact qualification-harness coverage classification review passed with no findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":69,"generation":42,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

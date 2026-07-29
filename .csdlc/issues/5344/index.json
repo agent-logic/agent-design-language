@@ -3,13 +3,13 @@
   "issue": 5344,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
-  "phase": "reviewed",
-  "generation": 41,
-  "digest": "b5d6606cd84b073a4b0d1239741b87d08165283af0b2880992b6964c6fb3b02c",
+  "phase": "published",
+  "generation": 42,
+  "digest": "3095680995fac1acd7fb131247b4f5f75cae7cf5f1b983d5c709329934d6662f",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 41,
+    "generation": 42,
     "acquired_unix_seconds": 1785295953,
     "expires_unix_seconds": 1785900753,
     "heartbeat_unix_seconds": 1785295953,
@@ -90,7 +90,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5344,
+    "pull_request": 5703,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5703",
+    "base": "main",
+    "head": "codex/5344-v0918-wp12-soak-rollback",
+    "revision": "git-blake3:49633dc9e97c1d606eb8f8347356e2a501d99eea:63076d45c4cc38d8082dd2f6686189792734cb8dd4b752aaf534ba6e6a65b186",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -104,34 +114,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0aa69005787cab1dbd2ef5bbb3c47d82f676ce64870824105985ffa26176fe2b",
+      "values_digest": "1fcfa08728a7104ebce8240582ac710abaaf1d7b12a053cfa113550b9f3c01a8",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "d1928d60bbd035286003fc98dc80a6d5ed3f7a247d2c2a573280abf7ff53f1f7",
+      "values_digest": "e710bb8688f739858db1df4427cf0bb6707939941c28a0b3b39f5bff786b6aba",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "07b5985ad9e61bf20be5b526eb495e8f5942c874d5aa090b5132bd7fdfc61da5",
+      "values_digest": "54af54611707b12fae92278ab49811ace8b6e8db850b05eb816bcf6fc63fd3f0",
       "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
       "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "a87cb4deb3f0ad6b725bcbbd0922f60eb6574ad5c718cf501e3bfad11666070b",
+      "values_digest": "0f45c29e50d2b051270af0300088b2320d3fcedbd4b6094e761614820171137b",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "f7a0b059471e75218ab4b2e0e6cf447c6c66a602d6fb259787a1e2a5dc27bd5e",
+      "values_digest": "1899bc03725b2451ca7744c26a2bf584cfa3f26f37ba081db5c838537ca5a87b",
       "rendered_digest": "1145a36dfa7a4f4d9a8a5059fb63d39188619473b3b3d9b63757c5b779fa79f9",
       "ast_digest": "23fb2275d15b4593b5b16d7add4c2a185a15f52cfbb5215e2f27bc276d43bed6"
     },
     "sor": {
-      "values_digest": "0fc5632fc12aaddf6810fd2c13fbe6f66966b004a28b789a7df17a5018a3a0c2",
-      "rendered_digest": "66bd8d2e636afd8f063c4ace8c2cec6365b405a1dcdeadc37940fd9753798fe9",
-      "ast_digest": "458b4418a87b84f71259875e33109ea0825a0ed1c0f42dec730bb81d98a46c22"
+      "values_digest": "676d019f524e0a17dd4fbb9ad7d6eb0b7f9b73946898d9c9981497d7b0aa3c34",
+      "rendered_digest": "a87055349ff5464f842e018dd17870d9a054d795992877012f860ecb18f2b10a",
+      "ast_digest": "b77d4b7e8ecd4b6217684060000d77bd8a2c41ba2da63cb5c839a8f2cfcdf4bf"
     }
   },
   "transitions": [
@@ -281,6 +291,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Advance after the exact qualification-harness coverage classification review passed with no findings."
+    },
+    {
+      "sequence": 22,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -759,6 +776,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Advance after the exact qualification-harness coverage classification review passed with no findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 69,
+      "generation": 42,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
