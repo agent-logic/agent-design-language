@@ -3,13 +3,13 @@
   "issue": 5701,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
-  "phase": "implemented",
-  "generation": 19,
-  "digest": "37555cb96ea4ddfed9cfcd209cc5f96135a7023195710d8d4ebd832a2287b14d",
+  "phase": "reviewed",
+  "generation": 20,
+  "digest": "5f7cb0083172dd2e756b31e278394d1e462b4f2efc29b24cc886215b2f215448",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 19,
+    "generation": 20,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -45,7 +45,26 @@
     "purpose": "Define complete versioned Runtime v3 Core and Observatory OpenAPI contracts with route parity validation while coordinating around active WP-12 #5344 protected router/config paths"
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019fafbd-db23-7681-a979-4cc0bc68585d",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+      "adl/tools/validate_v0917_html_observatory.py",
+      "demos/v0.91.7/html-observatory/README.md",
+      "demos/v0.91.7/html-observatory/app.js",
+      "demos/v0.91.7/html-observatory/index.html",
+      "docs/api/runtime-v3/v1"
+    ],
+    "reviewed_revision": "git-blake3:c22b25248166c277e7319d5e37f7e873fab560cd:b3bed829103c2845f83a7152268824f9a3faf936f0bca51b766cc74b93eda0f0",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -60,32 +79,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "49d4a245d2012812f2b33d41a1de1c92d8b6fe00032de931ac550d2754cdfdc4",
+      "values_digest": "e2dbdefd99f77846b45e3e3e03db0cce71d068fbd943d0b7f4404e18c5506626",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "9f9e20ea41beba1d8d43584543999dc17f5d49b44c2f8cf53e4f8cdfcdba3fc0",
+      "values_digest": "d924f00cda29977f1897fb1456337170b4e2c2729a0e27c1ea0d2fc122e50d5f",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "e4435c9f65476bcb3171a5a4cf0da2e556a395600b17a0ded03180b9e119b9d2",
+      "values_digest": "a34c774f5324802e0e0d5b745b0a0718ea39f3c3caae3941e4ea5004849f202b",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "d1e083f2ccc93402baa1be09210e65eedff29544339406265743b8f40c60ed91",
+      "values_digest": "488db6acafdc262ee53a8b7c90309e9003582af349614af830eea809c93d9c7e",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "78dee3278a9ea8bad937b1889e4c8c20ef2c5edbe39f6305b731fe27aee12e27",
-      "rendered_digest": "4332b7111e8799f6372a704ad504faaf40ee5f6455491d2f12ad667cb8ed24e0",
-      "ast_digest": "e686f3199e3333f0b9e8df55efe27a3c94331a2bb90f0162682c0d31f7d153b9"
+      "values_digest": "f62dfc8efad0f61f3b6e98cb593e2180cd9456a706b3a6086edc37a898b44369",
+      "rendered_digest": "ab8b741fbe7ccd60832a41ec01073d81a833267f38e47355ba1681d2c16646e0",
+      "ast_digest": "27b11bf32d6c13dc465fa67cd2e87c3b36f37fee9dbbb38307889dd3bb2db59f"
     },
     "sor": {
-      "values_digest": "a883192b1257c75dfa5064ff6a74ba2cb5d3b9b8f1fb3ab574da231027e1b799",
+      "values_digest": "f262a27e59a8a2834af0430947f9293cdf582265d68cc9e6d17d10a6589b1989",
       "rendered_digest": "7f9c0d5302972386ff06383aec7bed4dfca9b3e46849885dfe0973017c85f42f",
       "ast_digest": "6b2c39293c1f8589acc9561857d15d5e3e79b6d0c924dafd004782cffb4790c2"
     }
@@ -174,6 +193,13 @@
       "to": "implemented",
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "Operator clarified that Runtime v3 read APIs and Observatory read streams are public; authentication is required only for mutations. Recover review and publication truth before correcting the runtime, OpenAPI contract, and client."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fafbd-db23-7681-a979-4cc0bc68585d",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -400,6 +426,13 @@
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "The exact review correctly found that the public-read client lacked a usable operator login and authenticated write surface. The HTML entry point is required to add explicit login, logout, signed-command submission, and status controls.",
       "operation": "{\"add_protected_paths\":[\"demos/v0.91.7/html-observatory/index.html\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 33,
+      "generation": 20,
+      "actor": "subagent:019fafbd-db23-7681-a979-4cc0bc68585d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
