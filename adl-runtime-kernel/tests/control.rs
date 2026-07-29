@@ -11,13 +11,14 @@ use adl_runtime_kernel::{
     channel, load_control_tls, serve_control_listener, serve_control_listener_until,
     serve_control_listener_until_ready, write_observability_event, write_payload, AdapterKind,
     AdapterPolicy, AuthorityMode, CanonicalIngress, CheckpointingControl, ClockAuthority,
-    ComponentId, ComponentRegistry, ContinuityHead, ControlAction, ControlAuthority,
-    ControlCapability, ControlError, ControlExit, ControlObservabilityEvent, ControlOutcome,
-    ControlService, DiskWeather, DomainWork, ExecutorError, Kernel, KernelExit, LifecycleControl,
-    LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, Observation,
-    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, ResourceState,
-    RuntimeEvent, RuntimeRecorder, RuntimeTlsInitConfig, ShutdownDecision, SignedControlCommand,
-    TrustedControlKey, WeatherConfig, WeatherHealthReport, WeatherSample, DOMAIN_WORK_SCHEMA,
+    ComponentId, ComponentRegistry, ContinuityHead, ControlAction, ControlApiPolicy,
+    ControlAuthority, ControlCapability, ControlError, ControlExit, ControlObservabilityEvent,
+    ControlOutcome, ControlService, DiskWeather, DomainWork, ExecutorError, Kernel, KernelExit,
+    LifecycleControl, LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation,
+    ObservabilityHealth, Observation, OperationExecutor, OperationRequest, OperationalAdapter,
+    OperationalFactory, ResourceState, RuntimeEvent, RuntimeRecorder, RuntimeTlsInitConfig,
+    ShutdownDecision, SignedControlCommand, TrustedControlKey, WeatherConfig, WeatherHealthReport,
+    WeatherSample, DOMAIN_WORK_SCHEMA,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -35,6 +36,16 @@ use tokio_rustls::{
 };
 
 const TEST_BIND_HOST: &str = "127.0.0.1";
+
+fn test_api_policy() -> ControlApiPolicy {
+    ControlApiPolicy::new(
+        Duration::from_secs(2),
+        Duration::from_secs(5),
+        Duration::from_millis(20),
+        64 * 1024,
+    )
+    .unwrap()
+}
 
 async fn test_https() -> (axum_server::tls_rustls::RustlsConfig, TlsConnector) {
     let CertifiedKey { cert, signing_key } =
@@ -771,6 +782,7 @@ async fn axum_adapter_serves_signed_control_payloads() {
         service,
         listener,
         tls,
+        test_api_policy(),
         ready_sender,
         std::future::pending(),
     ));
@@ -817,7 +829,7 @@ async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() 
         integrity: "snapshot-hash".to_owned(),
     });
     recorder.promote_observability();
-    let service = Arc::new(ControlService::new(
+    let service = Arc::new(ControlService::new_with_observatory_config(
         "instance-1",
         recorder,
         FakeLifecycle {
@@ -825,6 +837,7 @@ async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() 
         },
         authority(&key, [ControlCapability::Read]),
         4,
+        ["https://localhost:8765".to_owned()],
     ));
     let weather_config = WeatherConfig {
         disk_stop_free_bytes: 256,
@@ -895,7 +908,12 @@ async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() 
         .unwrap();
     let address = listener.local_addr().unwrap();
     let (tls, client) = test_https().await;
-    let server = tokio::spawn(serve_control_listener(service.clone(), listener, tls));
+    let server = tokio::spawn(serve_control_listener(
+        service.clone(),
+        listener,
+        tls,
+        test_api_policy(),
+    ));
     let preflight = https_request(
         &client,
         address,
@@ -1013,7 +1031,12 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
         .unwrap();
     let address = listener.local_addr().unwrap();
     let (tls, client) = test_https().await;
-    let server = tokio::spawn(serve_control_listener(service, listener, tls));
+    let server = tokio::spawn(serve_control_listener(
+        service,
+        listener,
+        tls,
+        test_api_policy(),
+    ));
 
     let response = https_request(
         &client,
@@ -1063,6 +1086,7 @@ async fn graceful_api_shutdown_drains_an_active_control_response() {
         service,
         listener,
         tls,
+        test_api_policy(),
         shutdown.clone().cancelled_owned(),
     ));
     let body = serde_json::to_vec(&signed(
@@ -1134,6 +1158,7 @@ async fn tls_shutdown_is_bounded_with_a_stalled_active_response() {
         service,
         listener,
         tls,
+        test_api_policy(),
         shutdown.clone().cancelled_owned(),
     ));
     let body = serde_json::to_vec(&signed(
@@ -1198,7 +1223,6 @@ fn ready_event_reports_the_bound_ephemeral_port() {
 
 #[test]
 fn payload_and_human_observability_use_separate_redacted_channels() {
-    assert_eq!(adl_runtime_kernel::DEFAULT_CONTROL_API_PORT, 20_997);
     let response = adl_runtime_kernel::ControlResponse {
         schema: adl_runtime_kernel::CONTROL_RESPONSE_SCHEMA.to_owned(),
         command_id: "read-1".to_owned(),

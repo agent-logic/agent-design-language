@@ -177,6 +177,10 @@ pub enum OperationError {
 pub trait OperationExecutor: Send + Sync + 'static {
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError>;
 
+    async fn shutdown(&self) -> Result<(), ExecutorError> {
+        Ok(())
+    }
+
     async fn execute_with_cancellation(
         &self,
         request: &OperationRequest,
@@ -366,6 +370,13 @@ impl Component for OperationalComponent {
                         tasks.abort_all();
                         while tasks.join_next().await.is_some() {}
                     }
+                    self.adapter.executor.shutdown().await.map_err(|error| {
+                        ComponentError::new(format!(
+                            "{} adapter shutdown failed: {}",
+                            self.adapter.kind.service_name(),
+                            error.message
+                        ))
+                    })?;
                     return Ok(());
                 },
                 Some(_) = tasks.join_next(), if !tasks.is_empty() => {},

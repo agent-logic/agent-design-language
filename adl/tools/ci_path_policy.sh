@@ -20,6 +20,39 @@ the full gates.
 USAGE
 }
 
+assert_windows_portable_tracked_paths() {
+  local path component remainder stem upper
+  local -a invalid=()
+
+  while IFS= read -r -d '' path; do
+    remainder="$path"
+    while :; do
+      if [[ "$remainder" == */* ]]; then
+        component="${remainder%%/*}"
+        remainder="${remainder#*/}"
+      else
+        component="$remainder"
+        remainder=""
+      fi
+      stem="${component%%.*}"
+      upper="$(printf '%s' "$stem" | tr '[:lower:]' '[:upper:]')"
+      if [[ "$component" == *[\<\>\:\"\|\?\*\\]* ]] ||
+         [[ "$component" == *[\ .] ]] ||
+         [[ "$upper" =~ ^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])$ ]]; then
+        invalid+=("$path")
+        break
+      fi
+      [[ -z "$remainder" ]] && break
+    done
+  done < <(git ls-files -z)
+
+  if [[ ${#invalid[@]} -gt 0 ]]; then
+    printf 'ci_path_policy: tracked paths are not portable to Windows:\n' >&2
+    printf '  %s\n' "${invalid[@]}" >&2
+    return 2
+  fi
+}
+
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --event-name)
@@ -53,6 +86,8 @@ while [ "$#" -gt 0 ]; do
       ;;
   esac
 done
+
+assert_windows_portable_tracked_paths
 
 bool_false=false
 rust_required="$bool_false"

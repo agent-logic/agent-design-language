@@ -5,9 +5,10 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    serve_control_listener, ControlAuthority, ControlCapability, ControlService, KernelExit,
-    LifecycleControl, RuntimeRecorder, TrustedControlKey, OBSERVATORY_FEED_SCHEMA,
-    OBSERVATORY_WS_AUTH_SCHEMA, OBSERVATORY_WS_PATH,
+    encode_acip_envelope, serve_control_listener, ControlApiPolicy, ControlAuthority,
+    ControlCapability, ControlService, KernelExit, LifecycleControl, RuntimeRecorder,
+    TrustedControlKey, ACIP_WEBSOCKET_SCHEMA, OBSERVATORY_FEED_SCHEMA, OBSERVATORY_WS_AUTH_SCHEMA,
+    OBSERVATORY_WS_PATH,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -21,7 +22,7 @@ use tokio_tungstenite::{
         http::{HeaderValue, Request},
         Message,
     },
-    Connector,
+    Connector, MaybeTlsStream, WebSocketStream,
 };
 
 struct FakeLifecycle;
@@ -86,7 +87,18 @@ async fn websocket_server(
         .await
         .unwrap();
     let address = listener.local_addr().unwrap();
-    let server = tokio::spawn(serve_control_listener(service, listener, tls));
+    let server = tokio::spawn(serve_control_listener(
+        service,
+        listener,
+        tls,
+        ControlApiPolicy::new(
+            Duration::from_secs(2),
+            Duration::from_secs(5),
+            Duration::from_secs(1),
+            64 * 1024,
+        )
+        .unwrap(),
+    ));
     (address, connector, server)
 }
 
@@ -98,6 +110,59 @@ fn request(address: std::net::SocketAddr, origin: &str) -> Request<()> {
         .headers_mut()
         .insert("Origin", HeaderValue::from_str(origin).unwrap());
     request
+}
+
+type TestSocket = WebSocketStream<MaybeTlsStream<tokio::net::TcpStream>>;
+
+async fn connect_authenticated(
+    address: std::net::SocketAddr,
+    connector: Connector,
+    token: &str,
+) -> TestSocket {
+    let (mut socket, _) = connect_async_tls_with_config(
+        request(address, "https://observatory.example.test"),
+        None,
+        false,
+        Some(connector),
+    )
+    .await
+    .unwrap();
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_AUTH_SCHEMA,
+                "bearer_token": token,
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let payload = tokio::time::timeout(Duration::from_secs(2), socket.next())
+        .await
+        .unwrap()
+        .unwrap()
+        .unwrap()
+        .into_text()
+        .unwrap();
+    assert!(payload.contains(OBSERVATORY_FEED_SCHEMA));
+    socket
+}
+
+async fn next_acip_status(socket: &mut TestSocket) -> serde_json::Value {
+    tokio::time::timeout(Duration::from_secs(2), async {
+        while let Some(message) = socket.next().await {
+            if let Ok(Message::Text(payload)) = message {
+                let value: serde_json::Value = serde_json::from_str(&payload).unwrap();
+                if value["schema"] == ACIP_WEBSOCKET_SCHEMA {
+                    return value;
+                }
+            }
+        }
+        panic!("authenticated Observatory session ended before ACIP status");
+    })
+    .await
+    .unwrap()
 }
 
 #[tokio::test]
@@ -145,6 +210,76 @@ async fn observatory_websocket_requires_allowed_origin_and_session_auth() {
     assert!(payload.contains("instance-ws"));
     assert!(payload.contains("https://observatory.example.test:20997"));
     assert!(payload.contains(OBSERVATORY_WS_PATH));
+    server.abort();
+}
+
+#[tokio::test]
+async fn observatory_websocket_rejects_acip_replay_after_reconnect() {
+    let token = "test-observatory-websocket-token-0007";
+    let (address, connector, server) = websocket_server(service(token)).await;
+    let mut first = connect_authenticated(address, connector.clone(), token).await;
+    first
+        .send(Message::Binary(
+            encode_acip_envelope(
+                "acip-reconnect-1",
+                "agent-source",
+                "runtime-target",
+                "consult",
+                &serde_json::json!({"message": "first"}),
+                1,
+            )
+            .unwrap()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let accepted = next_acip_status(&mut first).await;
+    assert_eq!(accepted["status"], "accepted");
+    assert_eq!(accepted["message_id"], "acip-reconnect-1");
+    assert_eq!(accepted["sequence_reserved"], true);
+    first.close(None).await.unwrap();
+
+    let mut second = connect_authenticated(address, connector, token).await;
+    second
+        .send(Message::Binary(
+            encode_acip_envelope(
+                "acip-reconnect-1-replay",
+                "agent-source",
+                "runtime-target",
+                "consult",
+                &serde_json::json!({"message": "replayed"}),
+                1,
+            )
+            .unwrap()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let replayed = next_acip_status(&mut second).await;
+    assert_eq!(replayed["status"], "rejected");
+    assert_eq!(replayed["message_id"], "acip-reconnect-1-replay");
+    assert_eq!(replayed["reason"], "monotonic_sequence_must_advance");
+    assert_eq!(replayed["sequence_reserved"], false);
+
+    second
+        .send(Message::Binary(
+            encode_acip_envelope(
+                "acip-reconnect-2",
+                "agent-source",
+                "runtime-target",
+                "consult",
+                &serde_json::json!({"message": "second"}),
+                2,
+            )
+            .unwrap()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let advanced = next_acip_status(&mut second).await;
+    assert_eq!(advanced["status"], "accepted");
+    assert_eq!(advanced["message_id"], "acip-reconnect-2");
+    assert_eq!(advanced["sequence_reserved"], true);
     server.abort();
 }
 
@@ -211,7 +346,33 @@ async fn observatory_websocket_rejects_bad_auth_and_client_data() {
         .send(Message::Binary(vec![1, 2, 3].into()))
         .await
         .unwrap();
-    assert!(matches!(socket.next().await, Some(Ok(Message::Close(_)))));
+    let rejected = tokio::time::timeout(Duration::from_secs(2), async {
+        while let Some(message) = socket.next().await {
+            if let Ok(Message::Text(payload)) = message {
+                let value: serde_json::Value = serde_json::from_str(&payload).unwrap();
+                if value["schema"] == ACIP_WEBSOCKET_SCHEMA {
+                    return value;
+                }
+            }
+        }
+        panic!("authenticated Observatory session ended before ACIP rejection");
+    })
+    .await
+    .unwrap();
+    assert_eq!(rejected["status"], "rejected");
+    assert_eq!(rejected["sequence_reserved"], false);
+    socket.send(Message::Ping(Vec::new().into())).await.unwrap();
+    let pong = tokio::time::timeout(Duration::from_secs(2), async {
+        while let Some(message) = socket.next().await {
+            if matches!(message, Ok(Message::Pong(_))) {
+                return true;
+            }
+        }
+        false
+    })
+    .await
+    .unwrap();
+    assert!(pong);
     server.abort();
 }
 
