@@ -7,15 +7,15 @@
     "title": "[v0.91.8][runtime-v3][api] Define the complete versioned Runtime and Observatory OpenAPI contracts",
     "slug": "runtime-v3-openapi-contracts",
     "version": "v0.91.8",
-    "generation": 9
+    "generation": 11
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "docs/api/runtime-v3/v1\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime/src/acip.rs\nadl-runtime/src/runtime_api.rs\nadl-runtime/tests/runtime_api_docs.rs\nadl-runtime/tests/runtime_api_wss.rs\ninfra/runtime-v3/runtime-api-5665.toml",
-      "review_revision": "git-blake3:86aab3d09800574a0aa95e270a6bbaa45cfb5b36:ddd2a916c2dfe7ad177c0f62e3242e19ed4b63c74d01f2fc0e93e7b8dcaa85e2",
-      "reviewer": "subagent:019faf71-f57d-7c01-8ccf-8ceec597f8e7",
+      "review_scope": "docs/api/runtime-v3/v1\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/guardian_soak.rs\nadl-runtime-kernel/tests/observatory.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime/src/acip.rs\nadl-runtime/src/runtime_api.rs\nadl-runtime/tests/runtime_api_wss.rs\ninfra/runtime-v3/runtime-api-5665.toml",
+      "review_revision": "git-blake3:5459e860452afb19616af1df013d537f2915e18e:0ce676bb7be7d1a703e633e479808f55a21022c73912393f3cb0e815f257e1de",
+      "reviewer": "subagent:019faf8a-5313-7292-8ca5-57feb8f12d7b",
       "review_prompts": [
         "Do the OpenAPI contracts cover every real production Runtime v3 and Observatory endpoint without documenting unavailable behavior?",
         "Does route-parity validation prevent undocumented real routes and documented phantom routes?",
@@ -23,50 +23,9 @@
         "Are constants such as port and base URL represented through config/server variables rather than hard-coded runtime behavior?",
         "Does the implementation avoid #5344 protected paths unless there is explicit typed transfer or release?"
       ],
-      "findings": [
-        {
-          "id": "R5701-01",
-          "severity": "p1",
-          "summary": "The secondary adl-runtime router served the same Core OpenAPI document while returning incompatible health and metrics schemas.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "R5701-02",
-          "severity": "p2",
-          "summary": "ACIP monotonic sequence state was retained when canonical ingress dispatch failed.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "R5701-03",
-          "severity": "p2",
-          "summary": "The secondary adl-runtime route inventory test still asserted obsolete unversioned routes.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "R5701-04",
-          "severity": "p3",
-          "summary": "The Observatory WebSocket contract declared HTTP bearer authentication although the real handler authenticates in the first WebSocket frame.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [],
-      "review_result": "changes_required"
+      "review_result": "pass"
     }
   }
 }

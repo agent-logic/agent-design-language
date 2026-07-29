@@ -3,13 +3,13 @@
   "issue": 5701,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "012ba4639a1cb8e3c12387258465888a5abbaa14bd7843a23fe1712b8841f1c5",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "e8578bd5dfd675703efd06bd9592519070407f9fec0640e5faeed50db4547cb8",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 9,
+    "generation": 11,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -40,77 +40,38 @@
     "purpose": "Define complete versioned Runtime v3 Core and Observatory OpenAPI contracts with route parity validation while coordinating around active WP-12 #5344 protected router/config paths"
   },
   "review_assignment": {
-    "reviewer": "subagent:019faf71-f57d-7c01-8ccf-8ceec597f8e7",
+    "reviewer": "subagent:019faf8a-5313-7292-8ca5-57feb8f12d7b",
     "assigned_by": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "revision": "git-blake3:86aab3d09800574a0aa95e270a6bbaa45cfb5b36:ddd2a916c2dfe7ad177c0f62e3242e19ed4b63c74d01f2fc0e93e7b8dcaa85e2",
+    "revision": "git-blake3:5459e860452afb19616af1df013d537f2915e18e:0ce676bb7be7d1a703e633e479808f55a21022c73912393f3cb0e815f257e1de",
     "scope": [
       "docs/api/runtime-v3/v1",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
       "adl-runtime-kernel/tests/openapi_contract.rs",
       "adl-runtime/src/acip.rs",
       "adl-runtime/src/runtime_api.rs",
-      "adl-runtime/tests/runtime_api_docs.rs",
       "adl-runtime/tests/runtime_api_wss.rs",
       "infra/runtime-v3/runtime-api-5665.toml"
     ]
   },
   "review": {
-    "reviewer": "subagent:019faf71-f57d-7c01-8ccf-8ceec597f8e7",
+    "reviewer": "subagent:019faf8a-5313-7292-8ca5-57feb8f12d7b",
     "scope": [
       "docs/api/runtime-v3/v1",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
       "adl-runtime-kernel/tests/openapi_contract.rs",
       "adl-runtime/src/acip.rs",
       "adl-runtime/src/runtime_api.rs",
-      "adl-runtime/tests/runtime_api_docs.rs",
       "adl-runtime/tests/runtime_api_wss.rs",
       "infra/runtime-v3/runtime-api-5665.toml"
     ],
-    "reviewed_revision": "git-blake3:86aab3d09800574a0aa95e270a6bbaa45cfb5b36:ddd2a916c2dfe7ad177c0f62e3242e19ed4b63c74d01f2fc0e93e7b8dcaa85e2",
-    "findings": [
-      {
-        "id": "R5701-01",
-        "severity": "p1",
-        "summary": "The secondary adl-runtime router served the same Core OpenAPI document while returning incompatible health and metrics schemas.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "R5701-02",
-        "severity": "p2",
-        "summary": "ACIP monotonic sequence state was retained when canonical ingress dispatch failed.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "R5701-03",
-        "severity": "p2",
-        "summary": "The secondary adl-runtime route inventory test still asserted obsolete unversioned routes.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "R5701-04",
-        "severity": "p3",
-        "summary": "The Observatory WebSocket contract declared HTTP bearer authentication although the real handler authenticates in the first WebSocket frame.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
+    "reviewed_revision": "git-blake3:5459e860452afb19616af1df013d537f2915e18e:0ce676bb7be7d1a703e633e479808f55a21022c73912393f3cb0e815f257e1de",
+    "findings": [],
     "residual_risks": [],
     "completed": true,
     "non_substantive_proof": null
@@ -129,32 +90,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2ab4bc065966b04369531db1f00edaef2784d44701f6514e685aa55566483733",
+      "values_digest": "cba9d5eebf209f1135890583805061326ac93b879f0c5eefaead6885422c1daf",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "81b42a42d3db0263e4cbdee295af445d1bde54073ef171f960402ed385f3a16e",
+      "values_digest": "3916b00af11ee9730ad7bcd81b15d2288d6410a6d004b28e2da107abed83379b",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "d58f448d0da124b44507fa8193dfdbb87c3668d577b381ed855271a929c4d397",
+      "values_digest": "b197b91624e2b9b89cdfea3e7d62bbe1507230216772cabd480dc08391cc3b6c",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "bc522c6898b8a5c31222ff7b7148c0cc6066caf8a6ebfd695a21e604131b23c3",
+      "values_digest": "248b3fcf4b38c8d02fcc09c9ad87088540ebc25e41598393908328229862865d",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "99d5ae83ab3b6ced6e8a25b2a5f38a091b9e7b1da2d81982391e1c98985bea04",
-      "rendered_digest": "2d88decc52248d54cab9e6a06dee0cf71fd3cb7f00884bc0ec7f611b5a100569",
-      "ast_digest": "7432d85978b619490ce84d79937d93ebc399edde60cdec6c09fa891c5b718b62"
+      "values_digest": "6dc055d594209105716e69e026906fa39022aaccda5ac9b2266dcd5b010a9538",
+      "rendered_digest": "90b2d6be2ad8e64f6beae500e02246cbd67d875db46201d92102bb1fd6d7d792",
+      "ast_digest": "eec5f0b180c527f69d44eaf94d283807eb4bb497c5b3bc776410d70dbb61e4b5"
     },
     "sor": {
-      "values_digest": "aac0f6abc9e4a3bbf6285b7b6ed0988e2934bed57b394d3aaa2ab04303e50dde",
+      "values_digest": "3dc5945115d286afea229a09301497e878be17ccf29b72871f6e57fb59487764",
       "rendered_digest": "d46f91e378b833c54da23b9fd91938740d9f44c9208ddb25b47bf9b9bdfdda7a",
       "ast_digest": "b0383b278033004b17143a5bcc982e19b19999a4de97eff39b02e97e97edfde6"
     }
@@ -201,6 +162,13 @@
       "to": "implemented",
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "Operator expanded #5701 to require real Axum routes for raw OpenAPI JSON and browsable Swagger UI documentation, so the existing reviewed and published truth at 79dad564 is stale before further implementation."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "The final exact-head GPT-5.5 review passed with zero findings after all contract and security-boundary corrections."
     }
   ],
   "audit": [
@@ -315,6 +283,34 @@
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "Record the consolidated proof after resolving every actionable exact-review finding.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test-and-clippy\",\"runtime-v3-openapi-review-remediation\"],\"purpose\":\"Prove sole production OpenAPI authority, versioned route parity, canonical ACIP dispatch, failure-safe replay sequencing, first-frame Observatory authentication, guardian persistence, and strict Rust quality.\",\"outcome\":\"passed\",\"evidence_ref\":\"Kernel control 21/21; guardian soak 7/7; Observatory WSS 6/6; OpenAPI contracts 6/6; adl-runtime library 134/134; runtime API WSS 2/2; strict all-target kernel Clippy passed; strict all-target adl-runtime Clippy passed; git diff --check passed.\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 9,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 9,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 10,
+      "actor": "subagent:019faf8a-5313-7292-8ca5-57feb8f12d7b",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 11,
+      "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
+      "reason": "The final exact-head GPT-5.5 review passed with zero findings after all contract and security-boundary corrections.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
