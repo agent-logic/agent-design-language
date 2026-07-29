@@ -3,13 +3,13 @@
   "issue": 5701,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
-  "phase": "published",
-  "generation": 25,
-  "digest": "bc29699d832d325f85c15f12d870e6fe4e2cbd7eb6e9c381ef8bfd365defcbc7",
+  "phase": "reviewed",
+  "generation": 29,
+  "digest": "63311e6761a88578d11e55c7b712bbe6d7b14b7a8f38aad5c2fb458010753b0c",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 25,
+    "generation": 29,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -44,29 +44,30 @@
     ],
     "purpose": "Define complete versioned Runtime v3 Core and Observatory OpenAPI contracts with route parity validation while coordinating around active WP-12 #5344 protected router/config paths"
   },
-  "review_assignment": null,
-  "review": {
-    "reviewer": "subagent:019fafbd-db23-7681-a979-4cc0bc68585d",
+  "review_assignment": {
+    "reviewer": "subagent:019fafe0-c5a2-78b3-af0a-352df7715ee1",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:1379d077a4497d6b86cf72d00303b5bfbced0b88:bdd39ffbcc0504c9c0ac4fe1b5e03474a23a0f611cb4bd868ec0a911b35aa4ee",
     "scope": [
-      "adl-runtime-kernel/tests/guardian_soak.rs"
+      "adl/tools/validate_v0917_html_observatory.py",
+      "demos/v0.91.7/html-observatory/app.js",
+      "demos/v0.91.7/html-observatory/index.html"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fafe0-c5a2-78b3-af0a-352df7715ee1",
+    "scope": [
+      "adl/tools/validate_v0917_html_observatory.py",
+      "demos/v0.91.7/html-observatory/app.js",
+      "demos/v0.91.7/html-observatory/index.html"
     ],
-    "reviewed_revision": "git-blake3:a05c942d460ee906766d5e715b02a702425f9547:9d71624962896802462ba0ddb4ec75c7ef538d3924dd17c8f6137ef4ece2eb5c",
+    "reviewed_revision": "git-blake3:1379d077a4497d6b86cf72d00303b5bfbced0b88:bdd39ffbcc0504c9c0ac4fe1b5e03474a23a0f611cb4bd868ec0a911b35aa4ee",
     "findings": [],
     "residual_risks": [],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5701,
-    "pull_request": 5705,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5705",
-    "base": "main",
-    "head": "codex/5701-runtime-v3-openapi-contracts",
-    "revision": "git-blake3:9aa8ef3413dffd30611fb5d361ade25afb7ce522:8548771f583603d106a9f2c1cdb99f3bffab2db62308a91a0a6e40f85b15367c",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -80,34 +81,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1f07a92c221b5692435013707c1555e2170cb3e4b966b7835ae2000a2a200f3c",
+      "values_digest": "54dbd65d63378c7cc6d484e4d3b11aafdb05172f41fc2ef6810d64a25753cbf9",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "a5dda15c3c546ab2f8d71b368a081a59b1dcfda8b726246fe20a1718799ba162",
+      "values_digest": "876d55f8a32038e49d6b540cda7cadc8d92ed45b77ec7aa7bc372ccb5e1bb332",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "4a483d5e225e04720bc9f35937488b7b76b746ee52df5bec0860eb26347ac7c8",
+      "values_digest": "160f7ddf7400489fe0ddc3f113b4aec9313e54110386f4b25a3d3b49554307f9",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "f6548e7ced1a1409edf82c19381e25e3cce21bf1e022527f87f6bb1e07b21e70",
+      "values_digest": "203e363680506f800119abde8f68fa234502e7765c7627b2c05c8c470ae0fe55",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "822e657a2f0681bda4c68fed8bfcac484c8f7daf5bfa5689a21d4eed652fdfa3",
-      "rendered_digest": "929561d5af5adbc82ec1a5699341623fa64812eea0b1354d2de65580b0132f82",
-      "ast_digest": "ea1192f60fbbc65f8209ce66fb4a34ae1b36d9ee4b315b92d800c17d9d7871dc"
+      "values_digest": "8696fda38fddd3577ad41c19caeb0154ea1ac861ccfd01442ac22acc2a93244d",
+      "rendered_digest": "01446c10a0aaaea5b333dcefde6d092004888a4de4f461a8e3ef94dc46cc8054",
+      "ast_digest": "25ea146899a3de5b1cbff1b5bd80ccd518c8701eee19f16444759b29f5818a26"
     },
     "sor": {
-      "values_digest": "aad68ea36152790613b8d7526896af5e388ce479c254ce57187cc91c1af0812c",
-      "rendered_digest": "6952d693b89f698a9af43e14a00be7c143f51d4ae0e3c65fa103aa25fb5f743f",
-      "ast_digest": "d5b22965e45b9f8daa4de6de4a62ba05da2b3700e0763e9b82cd2820b187f974"
+      "values_digest": "e67fa9fdbd09aca10ac8d0cf5b8473081f7f697995fd3aac066745fb3dc1298b",
+      "rendered_digest": "2608c536f3f366aecd988f75518f3432a2a7f5ca068362ef2069f38f0cfb541e",
+      "ast_digest": "05944f20a5ee8afb4007ccc89fffb08a367f1fc058b5e8423744c9469937060e"
     }
   },
   "transitions": [
@@ -229,6 +230,20 @@
       "to": "published",
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 18,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Issue #5718 identified stale v0.91.7 product branding in the live Observatory. Recover exact review and publication truth for the bounded Runtime v3 label correction on the existing path-owning #5701 lane."
+    },
+    {
+      "sequence": 19,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The exact GPT-5.5 review of the #5718 Runtime v3 Observatory label correction passed with zero findings."
     }
   ],
   "audit": [
@@ -497,6 +512,41 @@
       "actor": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 39,
+      "generation": 26,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Issue #5718 identified stale v0.91.7 product branding in the live Observatory. Recover exact review and publication truth for the bounded Runtime v3 label correction on the existing path-owning #5701 lane.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 27,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record focused proof for the Runtime v3 Observatory product-label correction tracked by #5718.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Prove the live Observatory renders Runtime v3 product branding while retaining historical evidence paths and unchanged Runtime v3 API behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"Focused HTML Observatory integrated proof passed; browser rendered Runtime v3 version chip, Runtime v3 live Observatory eyebrow, and 55 runtime events; git diff --check passed.\"}}"
+    },
+    {
+      "sequence": 41,
+      "generation": 27,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 28,
+      "actor": "subagent:019fafe0-c5a2-78b3-af0a-352df7715ee1",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 29,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The exact GPT-5.5 review of the #5718 Runtime v3 Observatory label correction passed with zero findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

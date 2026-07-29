@@ -124,16 +124,25 @@ Implemented complete versioned Core and Observatory OpenAPI contracts and mounte
     "purpose": "Prove the guardian soak consumes and validates the successful login acknowledgement before independently checking forged-command rejection and valid signed control behavior.",
     "outcome": "passed",
     "evidence_ref": "Guardian soak 7/7 passed; exact signed HTTPS/WSS shutdown and forgery test 1/1 passed; strict all-target adl-runtime-kernel Clippy passed; git diff --check passed."
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_v0917_html_observatory_integrated_proof.sh"
+    ],
+    "purpose": "Prove the live Observatory renders Runtime v3 product branding while retaining historical evidence paths and unchanged Runtime v3 API behavior.",
+    "outcome": "passed",
+    "evidence_ref": "Focused HTML Observatory integrated proof passed; browser rendered Runtime v3 version chip, Runtime v3 live Observatory eyebrow, and 55 runtime events; git diff --check passed."
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

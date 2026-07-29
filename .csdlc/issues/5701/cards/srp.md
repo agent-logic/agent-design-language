@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/tests/guardian_soak.rs
+adl/tools/validate_v0917_html_observatory.py
+demos/v0.91.7/html-observatory/app.js
+demos/v0.91.7/html-observatory/index.html
 
 ## Prompts
 
@@ -36,8 +38,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:a05c942d460ee906766d5e715b02a702425f9547:9d71624962896802462ba0ddb4ec75c7ef538d3924dd17c8f6137ef4ece2eb5c")
+Revision: Some("git-blake3:1379d077a4497d6b86cf72d00303b5bfbced0b88:bdd39ffbcc0504c9c0ac4fe1b5e03474a23a0f611cb4bd868ec0a911b35aa4ee")
 
-Reviewer: Some("subagent:019fafbd-db23-7681-a979-4cc0bc68585d")
+Reviewer: Some("subagent:019fafe0-c5a2-78b3-af0a-352df7715ee1")
 
 Result: pass
