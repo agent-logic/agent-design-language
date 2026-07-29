@@ -3,13 +3,13 @@
   "issue": 5701,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
-  "phase": "reviewed",
-  "generation": 29,
-  "digest": "63311e6761a88578d11e55c7b712bbe6d7b14b7a8f38aad5c2fb458010753b0c",
+  "phase": "published",
+  "generation": 30,
+  "digest": "ed8c7ee017f1642d42c080fb9c2ca1cb8ed4f18fb9c9a3daabd92398772d67e1",
   "claim": {
     "id": "claim-5701-runtime-v3-openapi-contracts",
     "owner": "codex:019fa9d0-3d42-7ed2-949c-3c6082e40a44",
-    "generation": 29,
+    "generation": 30,
     "acquired_unix_seconds": 1785260755,
     "expires_unix_seconds": 1785865555,
     "heartbeat_unix_seconds": 1785260755,
@@ -67,7 +67,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5701,
+    "pull_request": 5705,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5705",
+    "base": "main",
+    "head": "codex/5701-runtime-v3-openapi-contracts",
+    "revision": "git-blake3:2156aa7bc2856f402ce617d4cba310803cfeed15:ec69d8113a409e1c54103706592a2ce659b8a9ab7af51770db5699716766af26",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -81,34 +91,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "54dbd65d63378c7cc6d484e4d3b11aafdb05172f41fc2ef6810d64a25753cbf9",
+      "values_digest": "46125563870ccbb957f2a0af843f2807b78027573daca8e2dd35fe6726c7c07c",
       "rendered_digest": "3aceddc286d3979fc84fc785cf29d7ae9bb96969df26d5bbf560c1f1608f7f49",
       "ast_digest": "e1e1a0d0a95974007290221e7d26bacfd5c009250f2317d0264a9af15768ec3a"
     },
     "stp": {
-      "values_digest": "876d55f8a32038e49d6b540cda7cadc8d92ed45b77ec7aa7bc372ccb5e1bb332",
+      "values_digest": "bf8e8f0659cf37a59d70f443337d8acca897e156985f3e4cd7af3c9e295fe215",
       "rendered_digest": "9242ed1b2f88ecdb75d62726bd59ebc8cb96e649e4d8a9c873e4967a0cabe4bc",
       "ast_digest": "182e7d094d1d4e5362a215a5f3f0fe9a7b6175406570899df2a27d303fc45212"
     },
     "spp": {
-      "values_digest": "160f7ddf7400489fe0ddc3f113b4aec9313e54110386f4b25a3d3b49554307f9",
+      "values_digest": "dc7c023c29195ecf28244580083cffb58a1d5beb72552fed2f41c7dcdff65a9b",
       "rendered_digest": "085d7823ac2e76d829695ad9aa9be92c52f34e68057fc32a9d669fdcc0b849f1",
       "ast_digest": "b22da22b32b7ce06e736c150600cc2a52377b20b82b3c9c79114970755dc3c57"
     },
     "vpp": {
-      "values_digest": "203e363680506f800119abde8f68fa234502e7765c7627b2c05c8c470ae0fe55",
+      "values_digest": "16300a46c2055081a27b9279c2533f7c6a699f15541a5bbd004d11700830b1b3",
       "rendered_digest": "2fb8c5c39361a6bb76e2a997aa1c10422d175828c152dfb3f0a1b34e85918ce3",
       "ast_digest": "24ead77b3b148535c26da006bca42d249757d53bdf9f1db6fa9a9afbdcbcdc8b"
     },
     "srp": {
-      "values_digest": "8696fda38fddd3577ad41c19caeb0154ea1ac861ccfd01442ac22acc2a93244d",
+      "values_digest": "a65bc6c61ccef9fc6a6c76a1830668c335b4fe94b49c6409ae18ee818a0ecb37",
       "rendered_digest": "01446c10a0aaaea5b333dcefde6d092004888a4de4f461a8e3ef94dc46cc8054",
       "ast_digest": "25ea146899a3de5b1cbff1b5bd80ccd518c8701eee19f16444759b29f5818a26"
     },
     "sor": {
-      "values_digest": "e67fa9fdbd09aca10ac8d0cf5b8473081f7f697995fd3aac066745fb3dc1298b",
-      "rendered_digest": "2608c536f3f366aecd988f75518f3432a2a7f5ca068362ef2069f38f0cfb541e",
-      "ast_digest": "05944f20a5ee8afb4007ccc89fffb08a367f1fc058b5e8423744c9469937060e"
+      "values_digest": "15f9ac0791b58ca9354fb9b374edc36032207344c88bd5cc9e6fc048cd8326a5",
+      "rendered_digest": "5d2b59a9208ca12e82378ed1d50811c3139e10b0b1697f70664c737a798f9054",
+      "ast_digest": "10285be498bf895754bb97a73dd7616f17428d717f92ac269824af76e80fc2aa"
     }
   },
   "transitions": [
@@ -244,6 +254,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The exact GPT-5.5 review of the #5718 Runtime v3 Observatory label correction passed with zero findings."
+    },
+    {
+      "sequence": 20,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -547,6 +564,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The exact GPT-5.5 review of the #5718 Runtime v3 Observatory label correction passed with zero findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 30,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
