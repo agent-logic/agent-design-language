@@ -3,13 +3,13 @@
   "issue": 5715,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "9de995c461a3d35ca39f7101cac6fe4c389d72db4f3f3ea5283d6e690b53b6b2",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "d2c0068c9b351d6ce43c5116d21b7ffd2d43f33ca161a03b643ebf2d88b270d4",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "d9012b1d2378b8e60ee0c52a4e0589d1e755a87f10d8855623a19349159c8267",
   "claim": {
     "id": "claim-5715-podcast-studio-design-integration",
     "owner": "codex:5715-execution",
-    "generation": 3,
+    "generation": 4,
     "acquired_unix_seconds": 1785360552,
     "expires_unix_seconds": 1785965352,
     "heartbeat_unix_seconds": 1785360552,
@@ -29,7 +29,23 @@
     "purpose": "Integrate the operator-provided podcast studio page design into the current podcast route while preserving exact exported text/images, audio, and RSS"
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "Pasteur/read-only-exact-head-plus-local-clean-gate",
+    "scope": [
+      ".csdlc/issues/5715",
+      ".csdlc/locks/5715.lock",
+      ".csdlc/prepared/issues/5715",
+      "adl/tools/generate_podcast_launch_packet.py",
+      "adl/tools/validate_podcast_launch_packet.py",
+      "demos/podcast",
+      "docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json"
+    ],
+    "reviewed_revision": "git-blake3:288d3e214b166ffafe520049e8363d2f2fd3f4c7:8f6be6f0dd407f9a56072f2aa9e79b42aecb38b2e69e18e8697fdfb2fa013d6c",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -44,32 +60,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3a0c45d7966f133bb9e233d7df7faad39cbac5e5205eacf722b17524412cd722",
+      "values_digest": "93397b342c2002a30fd9d3be3cf5f1ad5cbf7e89d4e49feef9c036ac8e4bbb40",
       "rendered_digest": "0896d6a44f8c8390036ca18848d3d7c9dd5b67a7871c1d5ccfb0863f492aa374",
       "ast_digest": "bd0529a59f34d6bb81d832e1441c970f3a76530e43977779425d3ed6f1bea649"
     },
     "stp": {
-      "values_digest": "6ffd49b38a3089df6998d7b88e455f3969a73919e76ee3ab388bb66f7adc3cb3",
+      "values_digest": "3dc845f4afa9efdc82cf1b2023069af75bb959be73e8ba7eedd00f84ed505d43",
       "rendered_digest": "f644727e201527a626e8e7a370c39a08a014a387baeb17612ba26e322def8dd4",
       "ast_digest": "cd2c299385b215876cec0d11be8b1e834869d30b3245452a0d4a988f4ecbcf3e"
     },
     "spp": {
-      "values_digest": "d870aa532febf5ac3c575e48e13ab354437c0de7cb3cbd7566570b3c665bd5ba",
+      "values_digest": "a1cf0fabee48f325cd893211a0d5b545f08c317a0fcc72d4b2cd0f5fb15082bb",
       "rendered_digest": "df9a6400a6f4ee4c87b57c69142784f92c3de5fd532bebe03703f069944b8373",
       "ast_digest": "f91a7453f1a57c8d5249dd050b90fb495df21de43ad5a30c3e368209f8f91163"
     },
     "vpp": {
-      "values_digest": "e79b64d79e2e2f65ec2744312d6db69960f0f59da2056e4c844006ec829b03d3",
+      "values_digest": "ccc16046661c4397816032b96ba95a00967f686385d3b94dc5c97a892dce264b",
       "rendered_digest": "2037cd5862326b97435efa701519429349ed373a71ea1c0bd5c028300a4331b1",
       "ast_digest": "23bb4e86c15c372e86db37816c21871b576cb1568d4f24387df0e2a28b131359"
     },
     "srp": {
-      "values_digest": "bf06cca12c1df2b474c804bfadfebee83b5038e59cf3c7e5a7e80fc69d3ba060",
-      "rendered_digest": "57308563b5cd0d9eb3b96c0619b1c715c7c301116a334fd831226dd8125b050d",
-      "ast_digest": "cbba036581316e9539190532e7e00a5857b771db49dd396d267fa05a8f230b8c"
+      "values_digest": "9661d388b236d2c57ae5e505b4c2385c0b131b076b4e6681725d35a016b37531",
+      "rendered_digest": "462e4f473046b7ac853ed04f89fa6465c7d760df639bb89da92f1cc3bbd145fc",
+      "ast_digest": "40b340fe6e9d0fdff42e244c59c676f77fbfee4a3887bf713b7052e117f9c0b2"
     },
     "sor": {
-      "values_digest": "2e98efe8e85ac365a4ab4eb06973c05e0e47f76ce0c5304a7f4aa9c39e30cca0",
+      "values_digest": "eab28cb076ff19b363cb788da6b703be5b2b3760088cf1e052c32b2415d954ef",
       "rendered_digest": "827fb0240fb241159600e47657f7f82f44bf468da472fbd0fca7f519b901088e",
       "ast_digest": "0e83ae3597f5a23c68a53a242641adbe0e1aa2675395eb2d2dfed9c21a82a816"
     }
@@ -95,6 +111,13 @@
       "to": "implemented",
       "actor": "codex:5715-execution",
       "reason": "Podcast studio exact-export integration and focused validation are complete"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5715-execution",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -132,6 +155,13 @@
       "actor": "codex:5715-execution",
       "reason": "Podcast studio exact-export integration and focused validation are complete",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5715-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
