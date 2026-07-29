@@ -93,12 +93,10 @@
           <span class="version-chip">Runtime v3</span>
         </a>
         <div class="topbar-controls" aria-label="Runtime controls">
-          <label class="top-select">
+          <div class="top-readout">
             <span>Environment</span>
-            <select aria-label="Environment">
-              <option>prod-polis</option>
-            </select>
-          </label>
+            <strong>prod-polis</strong>
+          </div>
           <label class="top-select">
             <span>Mode</span>
             <select id="top-mode-select" aria-label="Mode">
@@ -115,8 +113,8 @@
             <span>Capture Time</span>
             <strong id="hero-uptime">pending</strong>
           </div>
-          <a class="button button-secondary" id="packet-link" href="#" data-proof-link><svg><use href="#icon-packet"></use></svg>Packet</a>
-          <a class="button button-secondary" id="report-link" href="#" data-proof-link><svg><use href="#icon-evidence"></use></svg>Proof Report</a>
+          <a class="button button-secondary" id="packet-link" href="#" target="_blank" rel="noopener noreferrer" data-proof-link><svg><use href="#icon-packet"></use></svg>Packet</a>
+          <a class="button button-secondary" id="report-link" href="#" target="_blank" rel="noopener noreferrer" data-proof-link><svg><use href="#icon-evidence"></use></svg>Proof Report</a>
           <button class="button button-secondary" type="button" id="export-proof"><svg><use href="#icon-download"></use></svg>Export</button>
           <span class="status-pill">Operator</span>
         </div>
@@ -292,9 +290,9 @@
             </div>
             <p class="row-detail">Prepare a CSM event envelope from the communication pane; live sends require a proved loopback endpoint.</p>
             <div class="compact-comms-proof" id="compact-comms-proof" aria-label="ACIP and SNS proof summary"></div>
-            <div class="compact-message-box">Compose message to operator channel...</div>
+            <textarea class="compact-message-box" id="compact-operator-message" rows="2" aria-label="Operator message" placeholder="Compose message to operator channel..."></textarea>
             <div class="compact-message-actions">
-              <button class="button button-secondary" type="button">Clear</button>
+              <button class="button button-secondary" type="button" id="compact-clear-envelope">Clear</button>
               <a class="button button-primary" href="#communication" data-dashboard-link="communication" id="compact-prepare-envelope">Prepare Envelope</a>
             </div>
           </div>

@@ -364,6 +364,7 @@ const DASHBOARD_FOCUS = {
     title: "Runtime mirror",
     status: "active",
     target: "#runtime-proof",
+    focusTarget: "#hero-ready-state",
     detail: "Runtime readiness, event tail, CloudWatch proof, and retained/live mode are visible in the fixed dashboard.",
     facts: ["Readiness and kernel state", "Event preview and gauges", "Retained/live mode status"]
   },
@@ -372,6 +373,7 @@ const DASHBOARD_FOCUS = {
     title: "CSM polis topology",
     status: "map ready",
     target: "#panopticon",
+    focusTarget: "#hero-agent-map",
     detail: "Agent roster, scheduler, telemetry, event stream, and checkpoint lanes are mirrored in the panopticon map.",
     facts: ["Role-specific topology icons", "Agent roster summary", "Health and signal lanes"]
   },
@@ -380,6 +382,7 @@ const DASHBOARD_FOCUS = {
     title: "Local control plane",
     status: "public reads + governed writes",
     target: "#csm-api",
+    focusTarget: "#hero-api-list",
     detail: "Runtime state is publicly readable; login and a trusted signature are required for control writes.",
     facts: ["/health, /metrics, /observatory", "Signed /v1/control commands", "Authenticated full-duplex WSS"]
   },
@@ -388,6 +391,7 @@ const DASHBOARD_FOCUS = {
     title: "CloudWatch heartbeat",
     status: "source-linked",
     target: "#cloudwatch",
+    focusTarget: "#hero-cloudwatch-state",
     detail: "CloudWatch rows and event-tail evidence are loaded from retained redacted AWS proof artifacts.",
     facts: ["WP-08 heartbeat proof", "Redacted event tail", "No browser AWS write authority"]
   },
@@ -396,6 +400,7 @@ const DASHBOARD_FOCUS = {
     title: "ACIP/SNS envelope",
     status: "prepared",
     target: "#communication",
+    focusTarget: ".compact-composer",
     detail: "Comms prepare ACIP messages and mirror retained SNS proof; live AWS mutation remains runtime-owned.",
     facts: ["ACIP message draft", "SNS projection proof", "Redaction hygiene passed"]
   },
@@ -404,6 +409,7 @@ const DASHBOARD_FOCUS = {
     title: "Freedom gate",
     status: "bounded",
     target: "#governance",
+    focusTarget: "#hero-governance-state",
     detail: "Decision, invariant, and proposal-only action surfaces preserve the packet claim boundary.",
     facts: ["Freedom gate decisions", "Runtime invariants", "Proposal-only actions"]
   },
@@ -412,6 +418,7 @@ const DASHBOARD_FOCUS = {
     title: "Proof packet",
     status: "linked",
     target: "#evidence",
+    focusTarget: "#packet-link",
     detail: "Packet, operator report, CSM API proof, metrics mirror, and CloudWatch artifacts remain source-linked.",
     facts: ["Visibility packet", "Operator report", "CSM/AWS proof refs"]
   }
@@ -424,8 +431,8 @@ function updateDashboardFocus(key = "runtime", extraDetail = "") {
   setText("dashboard-focus-status", selected.status);
   setState("dashboard-focus-status", selected.status);
   setText("dashboard-focus-detail", extraDetail || selected.detail);
-  setHref("dashboard-focus-link", selected.target);
-  setText("dashboard-focus-link", "Surface selected");
+  setHref("dashboard-focus-link", selected.focusTarget);
+  setText("dashboard-focus-link", `View ${selected.title}`);
   renderRows("dashboard-focus-list", asArray(selected.facts).map((fact) => `
     <span class="dashboard-focus-item">${escapeHtml(fact)}</span>
   `));
@@ -445,6 +452,11 @@ function bindDashboardNavigation(packet = FALLBACK_PACKET) {
       event.preventDefault();
       const key = link.dataset.dashboardLink || "runtime";
       updateDashboardFocus(key);
+      const selected = DASHBOARD_FOCUS[key] || DASHBOARD_FOCUS.runtime;
+      globalThis.history?.replaceState(null, "", selected.target);
+      const panel = document.getElementById("dashboard-focus-panel");
+      panel?.setAttribute("tabindex", "-1");
+      panel?.focus({ preventScroll: true });
       if (key === "communication") {
         document.getElementById("prepare-envelope")?.click();
       }
@@ -453,10 +465,10 @@ function bindDashboardNavigation(packet = FALLBACK_PACKET) {
 
   document.getElementById("dashboard-focus-link")?.addEventListener("click", (event) => {
     event.preventDefault();
-    const target = document.querySelector(document.getElementById("dashboard-focus-link")?.getAttribute("href") || "#runtime-proof");
+    const target = document.querySelector(document.getElementById("dashboard-focus-link")?.getAttribute("href") || "#hero-ready-state");
     if (target) {
       target.setAttribute("tabindex", "-1");
-      target.focus({ preventScroll: true });
+      target.focus();
     }
   });
 
@@ -478,8 +490,10 @@ function bindDashboardNavigation(packet = FALLBACK_PACKET) {
     const link = document.createElement("a");
     link.href = url;
     link.download = "adl-html-observatory-proof-manifest.json";
+    document.body.appendChild(link);
     link.click();
-    URL.revokeObjectURL(url);
+    link.remove();
+    globalThis.setTimeout(() => URL.revokeObjectURL(url), 1000);
     updateDashboardFocus("evidence", "Export prepared a local proof manifest from the visible dashboard state.");
   });
 
@@ -1312,9 +1326,11 @@ function renderIntegrations(integrationInputs = {}) {
 function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsResourceSummary = {}) {
   const channel = document.getElementById("operator-channel");
   const message = document.getElementById("operator-message");
+  const compactMessage = document.getElementById("compact-operator-message");
   const apiBase = document.getElementById("runtime-api-base");
   const prepare = document.getElementById("prepare-envelope");
   const checkEvents = document.getElementById("check-events");
+  const compactClear = document.getElementById("compact-clear-envelope");
   const packetId = displayPacketId(packet.packet_id || "");
   const setCommunicationStatus = (status) => {
     setText("communication-status", status);
@@ -1324,7 +1340,7 @@ function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsRes
   const updateEnvelope = () => {
     const envelope = buildOperatorEnvelope({
       channel: channel?.value || "events",
-      message: message?.value || "",
+      message: compactMessage?.value || message?.value || "",
       packetId,
       acipSnsSummary,
       snsResourceSummary
@@ -1334,6 +1350,21 @@ function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsRes
   };
 
   prepare?.addEventListener("click", updateEnvelope);
+  compactMessage?.addEventListener("input", () => {
+    if (message) {
+      message.value = compactMessage.value;
+    }
+  });
+  compactClear?.addEventListener("click", () => {
+    if (message) {
+      message.value = "";
+    }
+    if (compactMessage) {
+      compactMessage.value = "";
+    }
+    renderEnvelope({});
+    setCommunicationStatus("draft cleared");
+  });
   checkEvents?.addEventListener("click", async () => {
     setCommunicationStatus("checking /events");
     try {
@@ -1352,7 +1383,7 @@ function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsRes
       renderEnvelope({
         ...buildOperatorEnvelope({
           channel: channel?.value || "events",
-          message: message?.value || "",
+          message: compactMessage?.value || message?.value || "",
           packetId,
           acipSnsSummary,
           snsResourceSummary
@@ -1376,6 +1407,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const dashboardConnect = document.getElementById("dashboard-connect-live");
   const dashboardRefresh = document.getElementById("dashboard-refresh-live");
   const dashboardStop = document.getElementById("dashboard-stop-live");
+  const modeSelect = document.getElementById("top-mode-select");
   const operatorToken = document.getElementById("operator-write-token");
   const operatorLogin = document.getElementById("operator-login");
   const operatorLogout = document.getElementById("operator-logout");
@@ -1386,6 +1418,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   let lastLiveError = null;
   let runtimeBaseActive = false;
   let liveSocket = null;
+  let liveStoppedByOperator = false;
   const refs = {
     statusRef: document.querySelector(".observatory")?.dataset.csmStatusRef || "",
     healthRef: document.querySelector(".observatory")?.dataset.csmHealthRef || "",
@@ -1514,6 +1547,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   };
 
   const stopPolling = () => {
+    liveStoppedByOperator = true;
     if (liveSocket) {
       liveSocket.close(1000, "operator_stop");
       liveSocket = null;
@@ -1535,6 +1569,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
 
   const connectLive = () => {
     stopPolling();
+    liveStoppedByOperator = false;
     if (requestedRuntimeSelection() === "v3") {
       runtimeBaseActive = true;
       setText("live-status", "connecting secure stream");
@@ -1548,6 +1583,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         socket = connectRuntimeV3ObservatoryWebSocket(
           base,
           (snapshot) => {
+            if (liveStoppedByOperator || liveSocket !== socket) {
+              return;
+            }
             lastLiveError = null;
             renderPanopticon(snapshot, packet);
             setText("live-status", "live secure stream");
@@ -1555,10 +1593,16 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             setRuntimeTestStatus("live secure stream", "Runtime v3 public WebSocket feed is active; operator login is required only for writes.");
           },
           (error) => {
+            if (liveStoppedByOperator || liveSocket !== socket) {
+              return;
+            }
             setText("statusbar-websocket", "disconnected");
             renderLiveError(error);
           },
           (error) => {
+            if (liveStoppedByOperator) {
+              return;
+            }
             if (liveSocket === socket) {
               liveSocket = null;
               setText("statusbar-websocket", "disconnected");
@@ -1566,7 +1610,12 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
               renderLiveError(error);
             }
           },
-          renderControlFrame
+          (frame) => {
+            if (liveStoppedByOperator || liveSocket !== socket) {
+              return;
+            }
+            renderControlFrame(frame);
+          }
         );
         liveSocket = socket;
       } catch (error) {
@@ -1585,6 +1634,29 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   dashboardConnect?.addEventListener("click", connectLive);
   dashboardRefresh?.addEventListener("click", refreshLive);
   dashboardStop?.addEventListener("click", stopPolling);
+  modeSelect?.addEventListener("change", () => {
+    if (modeSelect.value === "live") {
+      connectLive();
+      return;
+    }
+    stopPolling();
+    if (modeSelect.value === "published") {
+      refreshRetained();
+      return;
+    }
+    renderPanopticon({
+      mode: "retained",
+      fetchedAt: new Date().toISOString(),
+      status: {},
+      health: {},
+      ready: {},
+      metrics: {},
+      events: [],
+      errors: {}
+    }, packet);
+    setText("live-status", "retained mirror");
+    setRuntimeTestStatus("retained mirror", "Showing the retained proof packet without live or published endpoint polling.");
+  });
   operatorLogin?.addEventListener("click", () => {
     const token = operatorToken?.value.trim() || "";
     if (!token) {

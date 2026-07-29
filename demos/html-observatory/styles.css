@@ -931,6 +931,7 @@ button {
 }
 
 .compact-message-box {
+  width: 100%;
   min-height: 2.5rem;
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -940,6 +941,8 @@ button {
   background: rgba(3, 8, 13, 0.45);
   font-family: var(--font-mono);
   font-size: 0.72rem;
+  line-height: 1.45;
+  resize: vertical;
 }
 
 .compact-comms-proof {
@@ -1651,6 +1654,23 @@ textarea,
 }
 
 @media (max-width: 980px) {
+  html,
+  body {
+    height: auto;
+    min-height: 100%;
+  }
+
+  body {
+    overflow: auto;
+  }
+
+  .observatory {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+    grid-template-rows: auto auto auto;
+  }
+
   .topbar,
   .dashboard-core,
   .live-control-strip,
@@ -1666,19 +1686,22 @@ textarea,
 
   .ops-hero {
     grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(0, 1fr) minmax(10.5rem, 0.42fr);
+    grid-template-rows: auto minmax(31rem, auto) minmax(24rem, auto);
+    height: auto;
+    overflow: visible;
     gap: 0.55rem;
   }
 
   .ops-command {
-    min-height: 0;
+    min-height: 31rem;
   }
 
   .ops-sidecar {
     display: grid;
-    grid-template-rows: minmax(0, 1fr);
+    grid-template-rows: minmax(16rem, auto) auto;
+    min-height: 24rem;
     padding: 0.55rem;
-    overflow: hidden;
+    overflow: auto;
   }
 
   .ops-sidecar > .panel-head,
@@ -1691,6 +1714,7 @@ textarea,
 
   .ops-sidecar .inspector-stack {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: 16rem;
     overflow: auto;
   }
 
@@ -1808,7 +1832,11 @@ textarea,
   }
 
   .topbar-controls {
-    display: none;
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 0.2rem;
   }
 
   .brand-mark {

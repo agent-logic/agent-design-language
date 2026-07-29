@@ -19,9 +19,9 @@ file. It also consumes the retained CSM runtime Observatory packet and operator
 report from the v0.91.7 Soak 2 evidence root, plus the current CSM runtime
 administration and AWS linkage evidence.
 
-The primary dashboard is intentionally fixed to the viewport: the page itself
-does not scroll, while the event stream and inspector areas own bounded internal
-overflow. The visible shell uses local inline SVG icons, role-specific topology
+The primary desktop dashboard is fixed to the viewport, while narrower browser
+windows use page scrolling so controls are never clipped. Event streams and
+inspector areas retain bounded internal overflow. The visible shell uses local inline SVG icons, role-specific topology
 glyphs for owner, readiness, scheduler, telemetry, event, and checkpoint lanes,
 non-overlapping graph nodes with signal-line affordances, a compact table-style
 event stream, rail telemetry, an inspector-style CSM API/gauge stack, and a
