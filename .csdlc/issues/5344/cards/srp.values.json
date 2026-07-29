@@ -7,14 +7,14 @@
     "title": "[v0.91.8][WP-12] Run opt-in soak and prove rollback",
     "slug": "v0918-wp12-opt-in-soak-rollback",
     "version": "v0.91.8",
-    "generation": 11
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/5344\n.csdlc/evidence/5344\n.csdlc/prepared/issues/5344\nadl-runtime\nadl-runtime-kernel\nadl-v2/tools/prove-rollback.sh\nadl-v2/tools/run-soak.sh\ndocs/milestones/v0.91.8/evidence/wp12\ninfra/horust\ninfra/runtime-v3/runtime-init.toml\ninfra/rustysd\ninfra/systemd",
-      "review_revision": "git-blake3:c4e8c18b11934ed4eebc02953772e66a05dc9e1c:b6faaee449d226982a628339826340debb51092214de1b8e9e18eaa089b189d0",
+      "review_revision": "git-blake3:9d1db6d9b9a268fbe5d9c1f6ddf9d5eac3f7a069:a05f84f3ced1cf5825946615daf35cc8f95c831330fe0f489477641cea3637ff",
       "reviewer": "subagent:019fac48-c04a-70f1-8a0e-fca1cb4af863",
       "review_prompts": [
         "Can any path, symlink, environment value, stale receipt, or argument escape the isolated selector root or mutate the default selector?",
