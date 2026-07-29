@@ -201,6 +201,8 @@ name: nightly-coverage-ratchet
 on:
   workflow_dispatch:
 EOF
+  mkdir -p 'docs/日本語'
+  printf 'portable UTF-8 path\n' > 'docs/日本語/readme.md'
   git add .
   git commit -q -m baseline
   base_sha="$(git rev-parse HEAD)"

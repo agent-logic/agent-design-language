@@ -89,16 +89,25 @@ Completed the exact-revision WP-12 opt-in soak and rollback proof: accepted Runt
     "purpose": "Verify the accepted Runtime v3 artifact, native Linux/macOS/Windows lifecycle proofs, isolated fresh adl-v2 installation, rollback fault matrix, and exact prior selector-byte restoration.",
     "outcome": "passed",
     "evidence_ref": "docs/milestones/v0.91.8/evidence/wp12/report.json"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_ci_path_policy.sh"
+    ],
+    "purpose": "Prove literal UTF-8 tracked paths remain Windows-portable while genuinely illegal Windows path components still fail closed.",
+    "outcome": "passed",
+    "evidence_ref": "adl/tools/test_ci_path_policy.sh"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

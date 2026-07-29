@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-12] Run opt-in soak and prove rollback",
     "slug": "v0918-wp12-opt-in-soak-rollback",
     "version": "v0.91.8",
-    "generation": 15
+    "generation": 17
   },
   "status": "pre_phase",
   "content": {
@@ -85,10 +85,19 @@
           "purpose": "Verify the accepted Runtime v3 artifact, native Linux/macOS/Windows lifecycle proofs, isolated fresh adl-v2 installation, rollback fault matrix, and exact prior selector-byte restoration.",
           "outcome": "passed",
           "evidence_ref": "docs/milestones/v0.91.8/evidence/wp12/report.json"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_ci_path_policy.sh"
+          ],
+          "purpose": "Prove literal UTF-8 tracked paths remain Windows-portable while genuinely illegal Windows path components still fail closed.",
+          "outcome": "passed",
+          "evidence_ref": "adl/tools/test_ci_path_policy.sh"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

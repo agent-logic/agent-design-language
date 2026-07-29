@@ -24,7 +24,7 @@ assert_windows_portable_tracked_paths() {
   local path component stem upper
   local -a invalid=()
 
-  while IFS= read -r path; do
+  while IFS= read -r -d '' path; do
     IFS='/' read -r -a components <<<"$path"
     for component in "${components[@]}"; do
       stem="${component%%.*}"
@@ -36,7 +36,7 @@ assert_windows_portable_tracked_paths() {
         break
       fi
     done
-  done < <(git ls-files)
+  done < <(git ls-files -z)
 
   if [[ ${#invalid[@]} -gt 0 ]]; then
     printf 'ci_path_policy: tracked paths are not portable to Windows:\n' >&2

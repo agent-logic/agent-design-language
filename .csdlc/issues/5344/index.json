@@ -3,13 +3,13 @@
   "issue": 5344,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
-  "phase": "published",
-  "generation": 15,
-  "digest": "ac3718ec5e5e8695f26289559a930af33bb632413ffa1f153b83f19a1bfcef3e",
+  "phase": "implemented",
+  "generation": 17,
+  "digest": "ece5c2f158e619ca2df0c56bcd85a72d1ee6d1f3f774ed30b5d130c2236e50d5",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-recovered",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 15,
+    "generation": 17,
     "acquired_unix_seconds": 1785295953,
     "expires_unix_seconds": 1785900753,
     "heartbeat_unix_seconds": 1785295953,
@@ -50,6 +50,8 @@
       "adl-v2/Cargo.lock",
       "adl-v2/tools/prove-rollback.sh",
       "adl-v2/tools/run-soak.sh",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/test_ci_path_policy.sh",
       "docs/milestones/v0.91.8/evidence/wp12",
       "infra/horust",
       "infra/runtime-v3/runtime-init.toml",
@@ -58,62 +60,9 @@
     ],
     "purpose": "Complete #5344 exact-revision Runtime v3 opt-in soak and rollback proof across macOS, Linux, and native Windows; retain reviewed evidence; publish and merge without weakening TLS, editing Runtime v2, or deleting Runtime v1"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019fac48-c04a-70f1-8a0e-fca1cb4af863",
-    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:9d1db6d9b9a268fbe5d9c1f6ddf9d5eac3f7a069:a05f84f3ced1cf5825946615daf35cc8f95c831330fe0f489477641cea3637ff",
-    "scope": [
-      ".csdlc/issues/5344",
-      ".csdlc/evidence/5344",
-      ".csdlc/prepared/issues/5344",
-      "adl-runtime",
-      "adl-runtime-kernel",
-      "adl-v2/tools/prove-rollback.sh",
-      "adl-v2/tools/run-soak.sh",
-      "docs/milestones/v0.91.8/evidence/wp12",
-      "infra/horust",
-      "infra/runtime-v3/runtime-init.toml",
-      "infra/rustysd",
-      "infra/systemd"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019fac48-c04a-70f1-8a0e-fca1cb4af863",
-    "scope": [
-      ".csdlc/issues/5344",
-      ".csdlc/evidence/5344",
-      ".csdlc/prepared/issues/5344",
-      "adl-runtime",
-      "adl-runtime-kernel",
-      "adl-v2/tools/prove-rollback.sh",
-      "adl-v2/tools/run-soak.sh",
-      "docs/milestones/v0.91.8/evidence/wp12",
-      "infra/horust",
-      "infra/runtime-v3/runtime-init.toml",
-      "infra/rustysd",
-      "infra/systemd"
-    ],
-    "reviewed_revision": "git-blake3:9d1db6d9b9a268fbe5d9c1f6ddf9d5eac3f7a069:a05f84f3ced1cf5825946615daf35cc8f95c831330fe0f489477641cea3637ff",
-    "findings": [],
-    "residual_risks": [
-      "The retained 10,000-cycle, 100-by-10-second, and 10-by-600-second platform runs were verified rather than rerun during review.",
-      "Issue #5344 proves selector rollback with a v1 fixture; issue #5343 owns real retained-v1 executable restoration.",
-      "Runtime v1 and Runtime v2 remain installed rollback surfaces, the default remains unchanged, and legacy deletion is not authorized."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5344,
-    "pull_request": 5703,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5703",
-    "base": "main",
-    "head": "codex/5344-v0918-wp12-soak-rollback",
-    "revision": "git-blake3:9d1db6d9b9a268fbe5d9c1f6ddf9d5eac3f7a069:a05f84f3ced1cf5825946615daf35cc8f95c831330fe0f489477641cea3637ff",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -127,34 +76,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d681d97a14e9af975453cc8f35196366a1a48a8b8103ecc64c41464239639bd4",
+      "values_digest": "d5eca70fc55435f010fd7c8dd6c8c825ee8913faad00703eb4b9cf38d3d26195",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "7138ffa6ba1591ce1a80982933f2dbaaa0f00b152fdbb5662c1d9f2d6117a9e1",
+      "values_digest": "52262207186eaa6c02f9f4adc2512ffb617883be0eee13b41a6087c04bcaee23",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "44b89c6f517b9a968f252b25994b87572507d44d5d47cb5b05dd5bf8c2c55cb8",
+      "values_digest": "2e4094158e2e87f679026188028f94a1b6821ff1087c025d6de6bd590808a496",
       "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
       "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "ab37e6f28d7ca17285f7484706d453cbfea553bf92f9d77ffb75aafe40ef02ef",
+      "values_digest": "2c0b9af150feaa94dde549308c329b09f1a6975b039f0ffd44761e8328e345ce",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "8dd8f96bd906ed89cd658f2ad9f9354b9004c1f34970660a97a752af06e2df7a",
-      "rendered_digest": "7fc4eea38c015b7801a2081058a1ac80a5f2495dca82703461ed2a08e3a6e3ac",
-      "ast_digest": "6967a2c617be3a83cfa0698f79e1d39583bbf88848ee1ed5282cc102c9b6c1b5"
+      "values_digest": "a1bfcc017cd6cdc141b35a5780bdf8c2a3b90425213c61feb8063a2d0b74897b",
+      "rendered_digest": "161046d997324858befc4d46900d335a19b22440595a0d96be3fbc263a99a800",
+      "ast_digest": "f27842a7bd8e6e69bde481752b428c9b891133acde1465e84eb6147f2e061532"
     },
     "sor": {
-      "values_digest": "c3cf0303efedb8c9b29bc1b26e8de18460d844424bca7297e515c25ddab2a3ba",
-      "rendered_digest": "7222efd503dcca31a1cec046b9b7d198bff91187d5eb185fa95f36a0fb603100",
-      "ast_digest": "a10c50b74888607954678bac8fb1e1950d85b99300df276405b7a909f5c81dcb"
+      "values_digest": "2c90e3f4c296cbaf1bace0ee6a1e20b64752ead6216ac946e7b971925e145beb",
+      "rendered_digest": "1522f95bf5a70c21d71c7b2f525829a58239df6c3d8e5aeec5fdfc6dbe22323e",
+      "ast_digest": "39696b3199968d078eec470cceaee18d1e96c15509a9a58860f68b19041e8fd7"
     }
   },
   "transitions": [
@@ -220,6 +169,13 @@
       "to": "published",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-head CI failed because ci_path_policy parsed Git-quoted UTF-8 filenames already present on main as Windows-illegal paths; recover publication truth for the bounded parser correction and exact review."
     }
   ],
   "audit": [
@@ -453,6 +409,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 34,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-head CI failed because ci_path_policy parsed Git-quoted UTF-8 filenames already present on main as Windows-illegal paths; recover publication truth for the bounded parser correction and exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Repair the exact CI path-policy defect exposed by #5703: Git-quoted UTF-8 filenames already present on main were misclassified as Windows-illegal paths.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/ci_path_policy.sh\",\"adl/tools/test_ci_path_policy.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 36,
+      "generation": 17,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the focused CI path-policy regression proof after the exact-head PR failure.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_path_policy.sh\"],\"purpose\":\"Prove literal UTF-8 tracked paths remain Windows-portable while genuinely illegal Windows path components still fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_ci_path_policy.sh\"}}"
     }
   ]
 }
