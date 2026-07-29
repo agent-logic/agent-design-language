@@ -11,9 +11,10 @@ use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
 use crate::{
-    CheckpointAuthority, CheckpointCoordinator, CheckpointManifest, CheckpointParticipant,
-    CheckpointRequest, ContinuityError, ContinuityHead, KernelExit, LifecycleControl,
-    LoadedCheckpoint, MigrationPolicy, RuntimeRecorder, RuntimeSnapshot, RUNTIME_SNAPSHOT_SCHEMA,
+    CanonicalIngress, CheckpointAuthority, CheckpointCoordinator, CheckpointManifest,
+    CheckpointParticipant, CheckpointRequest, ContinuityError, ContinuityHead, IngressSnapshot,
+    KernelExit, LifecycleControl, LoadedCheckpoint, MigrationPolicy, RuntimeRecorder,
+    RuntimeSnapshot, RUNTIME_SNAPSHOT_SCHEMA,
 };
 
 pub const LIVE_KERNEL_SNAPSHOT_SCHEMA: &str = "adl.runtime.live_kernel_snapshot.v1";
@@ -47,6 +48,8 @@ pub struct LiveKernelCheckpoint {
     pub schema: String,
     pub identity: LiveKernelSnapshot,
     pub runtime: RuntimeSnapshot,
+    #[serde(default)]
+    pub ingress: IngressSnapshot,
 }
 
 #[derive(Debug, Error)]
@@ -73,6 +76,7 @@ pub struct LiveContinuity {
     minimum_generation: u64,
     generation: u64,
     last_integrity: Option<String>,
+    ingress: Option<CanonicalIngress>,
 }
 
 impl LiveContinuity {
@@ -95,7 +99,13 @@ impl LiveContinuity {
             minimum_generation,
             generation: 0,
             last_integrity: None,
+            ingress: None,
         }
+    }
+
+    pub fn with_canonical_ingress(mut self, ingress: CanonicalIngress) -> Self {
+        self.ingress = Some(ingress);
+        self
     }
 
     pub fn signing_key_from_hex(value: &str) -> Result<[u8; 32], LiveContinuityError> {
@@ -126,7 +136,7 @@ impl LiveContinuity {
         }
         let (loaded, schema) = self.load_generation(generation).await?;
         let bytes = &loaded.blobs["live_kernel"];
-        let restored = match schema {
+        let (restored, ingress) = match schema {
             LIVE_KERNEL_CHECKPOINT_SCHEMA => {
                 let checkpoint: LiveKernelCheckpoint = serde_json::from_slice(bytes)
                     .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?;
@@ -143,14 +153,20 @@ impl LiveContinuity {
                         "live runtime snapshot does not match the signed manifest".to_owned(),
                     ));
                 }
-                checkpoint.identity
+                (checkpoint.identity, Some(checkpoint.ingress))
             }
-            LIVE_KERNEL_SNAPSHOT_SCHEMA => serde_json::from_slice::<LiveKernelSnapshot>(bytes)
-                .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?,
+            LIVE_KERNEL_SNAPSHOT_SCHEMA => (
+                serde_json::from_slice::<LiveKernelSnapshot>(bytes)
+                    .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?,
+                None,
+            ),
             _ => unreachable!("load_generation only accepts known schemas"),
         };
         if restored != self.snapshot {
             return Err(LiveContinuityError::SnapshotIdentity);
+        }
+        if let (Some(target), Some(snapshot)) = (&self.ingress, ingress) {
+            target.restore(snapshot);
         }
         self.validate_lineage(&loaded.manifest).await?;
         self.generation = generation;
@@ -177,6 +193,11 @@ impl LiveContinuity {
                 schema: LIVE_KERNEL_CHECKPOINT_SCHEMA.to_owned(),
                 identity: self.snapshot.clone(),
                 runtime: runtime.clone(),
+                ingress: self
+                    .ingress
+                    .as_ref()
+                    .map(CanonicalIngress::snapshot)
+                    .unwrap_or_default(),
             },
         });
         let manifest = self
@@ -261,6 +282,65 @@ impl LiveContinuity {
         }
         Err(ContinuityError::ServiceSchemaMismatch("live_kernel".to_owned()).into())
     }
+}
+
+pub async fn verify_live_continuity_lineage(
+    root: &Path,
+    signing_key_id: &str,
+    verifying_key: VerifyingKey,
+    expected_generation: u64,
+) -> Result<(), LiveContinuityError> {
+    if expected_generation == 0 {
+        return Ok(());
+    }
+    let coordinator = CheckpointCoordinator::new(
+        root,
+        CheckpointAuthority::from_bytes("read-only-verifier", &[0_u8; 32]),
+    );
+    let trusted_keys = BTreeMap::from([(signing_key_id.to_owned(), verifying_key)]);
+    let mut previous_integrity = None;
+    for generation in 1..=expected_generation {
+        let manifest_path = root
+            .join(format!("generation-{generation}"))
+            .join("manifest.json");
+        let bytes = tokio::fs::read(&manifest_path)
+            .await
+            .map_err(ContinuityError::from)?;
+        let manifest: CheckpointManifest = serde_json::from_slice(&bytes)
+            .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?;
+        let mut loaded = None;
+        for schema in [LIVE_KERNEL_CHECKPOINT_SCHEMA, LIVE_KERNEL_SNAPSHOT_SCHEMA] {
+            let schemas = BTreeMap::from([("live_kernel".to_owned(), schema.to_owned())]);
+            match coordinator
+                .load(
+                    generation,
+                    &manifest.topology_hash,
+                    &manifest.config_hash,
+                    &schemas,
+                    &trusted_keys,
+                )
+                .await
+            {
+                Ok(checkpoint) => {
+                    loaded = Some(checkpoint.manifest);
+                    break;
+                }
+                Err(ContinuityError::ServiceSchemaMismatch(service))
+                    if service == "live_kernel" => {}
+                Err(error) => return Err(error.into()),
+            }
+        }
+        let manifest = loaded.ok_or_else(|| {
+            LiveContinuityError::Continuity(ContinuityError::ServiceSchemaMismatch(
+                "live_kernel".to_owned(),
+            ))
+        })?;
+        if manifest.previous_integrity != previous_integrity {
+            return Err(LiveContinuityError::Lineage { generation });
+        }
+        previous_integrity = Some(manifest.integrity);
+    }
+    Ok(())
 }
 
 #[derive(Clone)]

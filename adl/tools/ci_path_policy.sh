@@ -20,6 +20,39 @@ the full gates.
 USAGE
 }
 
+assert_windows_portable_tracked_paths() {
+  local path component remainder stem upper
+  local -a invalid=()
+
+  while IFS= read -r -d '' path; do
+    remainder="$path"
+    while :; do
+      if [[ "$remainder" == */* ]]; then
+        component="${remainder%%/*}"
+        remainder="${remainder#*/}"
+      else
+        component="$remainder"
+        remainder=""
+      fi
+      stem="${component%%.*}"
+      upper="$(printf '%s' "$stem" | tr '[:lower:]' '[:upper:]')"
+      if [[ "$component" == *[\<\>\:\"\|\?\*\\]* ]] ||
+         [[ "$component" == *[\ .] ]] ||
+         [[ "$upper" =~ ^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])$ ]]; then
+        invalid+=("$path")
+        break
+      fi
+      [[ -z "$remainder" ]] && break
+    done
+  done < <(git ls-files -z)
+
+  if [[ ${#invalid[@]} -gt 0 ]]; then
+    printf 'ci_path_policy: tracked paths are not portable to Windows:\n' >&2
+    printf '  %s\n' "${invalid[@]}" >&2
+    return 2
+  fi
+}
+
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --event-name)
@@ -53,6 +86,8 @@ while [ "$#" -gt 0 ]; do
       ;;
   esac
 done
+
+assert_windows_portable_tracked_paths
 
 bool_false=false
 rust_required="$bool_false"
@@ -88,6 +123,8 @@ validation_profile_error=""
 validation_profile_report=""
 validation_profile_contract_lanes_selected="$bool_false"
 runtime_v3_fast_required="$bool_false"
+csdlc_v2_standalone_required="$bool_false"
+adl_v2_standalone_required="$bool_false"
 large_file_lines="${COVERAGE_IMPACT_LARGE_FILE_LINES:-200}"
 large_file_delta="${COVERAGE_IMPACT_LARGE_FILE_DELTA:-80}"
 pvf_slow_proof_policy_change=false
@@ -408,6 +445,26 @@ is_validation_manager_test_deferral_workflow_change() {
     esac
   done <<<"$diff_text"
   [ "$saw_deferral" = true ]
+}
+
+is_docs_tooling_contract_gate_workflow_change() {
+  local path="$1"
+  [ "$path" = ".github/workflows/ci.yaml" ] || return 1
+  local changed_payload
+  changed_payload="$(git_pr_patch "$path" | awk '/^[+-]/ && $0 !~ /^(---|\+\+\+)/ { print }')"
+  [ "$(printf '%s\n' "$changed_payload" | sed '/^$/d' | wc -l | tr -d ' ')" -eq 2 ] || return 1
+  grep -F -- "-    if: needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true'" <<<"$changed_payload" >/dev/null || return 1
+  grep -F -- "+    if: needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && needs.adl_path_policy.outputs.ci_contracts_required == 'true'" <<<"$changed_payload" >/dev/null || return 1
+}
+
+is_docs_tooling_contract_gate_policy_change() {
+  local path="$1"
+  [ "$path" = "adl/tools/ci_path_policy.sh" ] || return 1
+  local changed_payload
+  changed_payload="$(git_pr_patch "$path" | awk '/^[+-]/ && $0 !~ /^(---|\+\+\+)/ { print }')"
+  grep -F -- "+is_docs_tooling_contract_gate_workflow_change()" <<<"$changed_payload" >/dev/null || return 1
+  grep -F -- "+is_docs_tooling_contract_gate_policy_change()" <<<"$changed_payload" >/dev/null || return 1
+  grep -F -- "+            reason=\"docs_tooling_contract_gate_change_skips_authoritative_coverage\"" <<<"$changed_payload" >/dev/null
 }
 
 is_validation_summary_and_reporting_workflow_change() {
@@ -1234,8 +1291,58 @@ apply_validation_manager_routing() {
     mark_runtime_v3_csm_focused_validation
     return 0
   fi
+  if [ "$validation_profile_status" = "ready_to_run" ] \
+    && [ "$validation_profile_escalation_required" = "false" ]; then
+    selected_csdlc_v2=false
+    selected_adl_v2=false
+    selected_runtime_kernel=false
+    case ",$validation_profile_run_lanes," in
+      *,csdlc_v2_standalone,*) selected_csdlc_v2=true ;;
+    esac
+    case ",$validation_profile_run_lanes," in
+      *,adl_v2_standalone,*) selected_adl_v2=true ;;
+    esac
+    case ",$validation_profile_run_lanes," in
+      *,runtime_kernel_contracts,*) selected_runtime_kernel=true ;;
+    esac
+    if [ "$selected_csdlc_v2" = true ] || [ "$selected_adl_v2" = true ] || [ "$selected_runtime_kernel" = true ]; then
+      coverage_lane="skip"
+      coverage_authority="not_required"
+      coverage_execution_state="skipped_by_path_policy"
+      if [ "$selected_csdlc_v2" = true ]; then
+        csdlc_v2_standalone_required=true
+        ci_contracts_required=true
+      fi
+      if [ "$selected_adl_v2" = true ]; then
+        adl_v2_standalone_required=true
+      fi
+      if [ "$selected_runtime_kernel" = true ]; then
+        runtime_v3_fast_required=true
+      fi
+      if [ "$selected_adl_v2" = true ] && [ "$selected_csdlc_v2" != true ] && [ "$selected_runtime_kernel" != true ]; then
+        reason="standalone_adl_v2_surface_requires_only_its_independent_focused_suite"
+      elif [ "$selected_csdlc_v2" = true ] && [ "$selected_runtime_kernel" = true ]; then
+        reason="csdlc_v2_and_runtime_v3_surfaces_run_both_independent_focused_lanes"
+      elif [ "$selected_csdlc_v2" = true ]; then
+        reason="standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
+      else
+        reason="runtime_v3_only_change_runs_independent_runtime_kernel_fast_lane"
+      fi
+      return 0
+    fi
+  fi
   case "$validation_profile_status:$validation_profile_run_lanes:$validation_profile_escalation_required" in
-    ready_to_run:runtime_kernel_contracts:false)
+    ready_to_run:csdlc_v2_standalone:false)
+      ci_contracts_required=true
+      coverage_lane="skip"
+      coverage_authority="not_required"
+      coverage_execution_state="skipped_by_path_policy"
+      reason="standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
+      return 0
+      ;;
+    ready_to_run:runtime_kernel_contracts:false|\
+    ready_to_run:docs_diff_check,runtime_kernel_contracts:false|\
+    ready_to_run:runtime_kernel_contracts,docs_diff_check:false)
       runtime_v3_fast_required=true
       rust_required=false
       coverage_required=false
@@ -1386,6 +1493,18 @@ else
     saw_full_coverage_policy_surface=false
     saw_v0913_proof_surface=false
     changed_count="$(printf '%s\n' "$changed_files" | sed '/^$/d' | wc -l | tr -d ' ')"
+    while IFS= read -r path; do
+      case "$path" in
+        csdlc-v2/*)
+          csdlc_v2_standalone_required=true
+          ;;
+        adl-v2/*)
+          adl_v2_standalone_required=true
+          ;;
+      esac
+    done <<EOF
+$changed_files
+EOF
     if is_release_version_only_surface_change; then
       release_version_only=true
       reason="release_version_only_cargo_surface_change_runs_lightweight_validation"
@@ -1486,6 +1605,10 @@ EOF
           continue
         fi
         if is_full_coverage_policy_surface "$path"; then
+          if is_docs_tooling_contract_gate_workflow_change "$path" || is_docs_tooling_contract_gate_policy_change "$path"; then
+            reason="docs_tooling_contract_gate_change_skips_authoritative_coverage"
+            continue
+          fi
           if is_validation_profile_summary_workflow_change "$path"; then
             reason="validation_profile_summary_workflow_change_skips_authoritative_coverage"
             continue
@@ -1611,6 +1734,8 @@ emit "slow_proof_contract_required" "$slow_proof_contract_required"
 emit "skill_author_contracts_required" "$skill_author_contracts_required"
 emit "validation_profile_contract_lanes_selected" "$validation_profile_contract_lanes_selected"
 emit "runtime_v3_fast_required" "$runtime_v3_fast_required"
+emit "csdlc_v2_standalone_required" "$csdlc_v2_standalone_required"
+emit "adl_v2_standalone_required" "$adl_v2_standalone_required"
 emit "fail_closed" "$fail_closed"
 emit "coverage_lane" "$coverage_lane"
 emit "coverage_authority" "$coverage_authority"

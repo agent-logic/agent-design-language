@@ -1,0 +1,123 @@
+{
+  "issue": 5361,
+  "card": "vpp",
+  "expected_generation": 8,
+  "expected_digest": "c7568055bdcff8e29394e483da08fffc5d04549e5410ab244fc84d82e6ad5b75",
+  "claim_id": "claim-5361-v0918-runtime-v3-acceptance-readiness",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Fix review findings by separating dependency, access, operations, quality, and owner-test proof roles and preserving current deferrals.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "dependency-and-consumer-register",
+        "proof_role": "Verify retained exact-revision architecture, Runtime parity, ADL v1/v2 shadow parity, adapter, provider/tool, and live workcell evidence is integrated into the accepted revision",
+        "acceptance_ids": ["AC-1", "AC-4", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5361/validate_acceptance_register.rb", "--section", "dependencies"],
+        "parallel_group": "acceptance-register",
+        "defer_reason": "Wait for #5336, #5591, #5592, #5589, #5590, #5341, #5349, #5350, and #5501 to integrate and publish retained proof."
+      },
+      {
+        "lane": "secure-access-and-observatory-register",
+        "proof_role": "Verify retained HTTPS local/remote access, address configuration, Observatory, and telemetry proof at the accepted revision",
+        "acceptance_ids": ["AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5361/validate_acceptance_register.rb", "--section", "access"],
+        "parallel_group": "acceptance-register",
+        "defer_reason": "Wait for Parity-D #5590 and its retained secure-access and Observatory evidence."
+      },
+      {
+        "lane": "operations-and-rollback-register",
+        "proof_role": "Verify retained guardian, pressure shutdown, checkpoint/replay/resume, rollback, and recovery evidence at the accepted revision",
+        "acceptance_ids": ["AC-2", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5361/validate_acceptance_register.rb", "--section", "operations"],
+        "parallel_group": "acceptance-register",
+        "defer_reason": "Wait for Parity-A #5591 and Parity-D #5590 retained operational evidence."
+      },
+      {
+        "lane": "quality-and-independence-register",
+        "proof_role": "Verify Runtime v2 independence, reasoning and learning surfaces, strict lint, line count, module growth, dependency audit, test count, CI, exact-revision review, retained artifacts, and explicit AWS/GPU/remote-provider non-claims",
+        "acceptance_ids": ["AC-3", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5361/validate_acceptance_register.rb", "--section", "quality"],
+        "parallel_group": "acceptance-register",
+        "defer_reason": "Wait for all parity packets and accepted-revision CI evidence."
+      },
+      {
+        "lane": "runtime-v3-kernel",
+        "proof_role": "Run the isolated Runtime v3 kernel suite for ingress, continuity, cognition, secure access, Observatory, pressure, and rollback behavior",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 1500,
+        "budget_tokens": 7000,
+        "argv": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml"],
+        "parallel_group": "runtime-v3-local",
+        "defer_reason": "Run only after all four parity children integrate into the acceptance candidate."
+      },
+      {
+        "lane": "runtime-v3-supervision",
+        "proof_role": "Run the isolated Runtime v3 supervision and component lifecycle suite",
+        "acceptance_ids": ["AC-2", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 1500,
+        "budget_tokens": 7000,
+        "argv": ["cargo", "test", "--manifest-path", "adl-runtime/Cargo.toml"],
+        "parallel_group": "runtime-v3-local",
+        "defer_reason": "Run against the integrated Runtime v3 acceptance candidate."
+      },
+      {
+        "lane": "guardian-soak",
+        "proof_role": "Exercise guardian lifecycle, health, telemetry, pressure response, recovery, and graceful shutdown through the owner script",
+        "acceptance_ids": ["AC-2", "AC-5", "AC-6"],
+        "deterministic": false,
+        "resource_profile": "large",
+        "budget_seconds": 1800,
+        "budget_tokens": 10000,
+        "argv": ["bash", "adl/tools/run_runtime_v3_guardian_soak.sh"],
+        "parallel_group": "runtime-v3-live",
+        "defer_reason": "Run only after the integrated candidate and init configuration are fixed at an exact revision."
+      },
+      {
+        "lane": "runtime-v3-inventory",
+        "proof_role": "Report Runtime v3 line count, module growth, dependency audit, test count, and exact-revision review evidence",
+        "acceptance_ids": ["AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["bash", "adl/tools/report_runtime_v3_loc.sh"],
+        "parallel_group": "runtime-v3-local",
+        "defer_reason": "Run at the final acceptance candidate revision."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Verify issue-branch patch hygiene at the exact reviewed revision",
+        "acceptance_ids": ["AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "local-control",
+        "defer_reason": null
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

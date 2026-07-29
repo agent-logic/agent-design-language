@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5361,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14] Fully accept and deploy Runtime v3",
+    "slug": "v0-91-8-wp-14-runtime-v3-acceptance",
+    "version": "v0.91.8",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Accept Runtime v3 at an exact revision after all parity, consumer, operational, rollback, and workcell proof dependencies converge.",
+      "required_outcome": "Runtime v3 is installed through its stable owner path, operationally proven, rollback-capable, reviewed, and consumable by ADL v2 and v0.92 without relying on Runtime v2 implementation paths.",
+      "declared_scope": [
+        "Runtime v3 integrated acceptance and retained proof synthesis",
+        "Parity-A through Parity-D evidence consumption",
+        "ADL v2 adapter and provider/tool consumer proof",
+        "guardian, secure access, Observatory, rollback, and operations proof",
+        "live multi-agent workcell output-contract consumption"
+      ],
+      "authority_boundary": [
+        "#5361 owns Runtime v3 acceptance synthesis",
+        "#5591, #5592, #5589, and #5590 own parity implementation",
+        "#5501 owns live workcell proof",
+        "#5384 consumes completed #5361 evidence",
+        "typed C-SDLC v2 records and exact-revision review govern acceptance"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use only the typed C-SDLC v2 lifecycle and installed owner binaries on the bound #5361 branch; never edit tracked issue work on main",
+        "Keep this preparation revision limited to #5361 cards, dependency design, diagram, validation contract, and typed request records; do not perform Runtime product implementation or acceptance execution in this lane",
+        "When execution begins after the declared dependencies integrate, satisfy every AC-1 through AC-7 obligation with exact-revision proof; do not defer, weaken, omit, or replace required parity, consumer, operational, rollback, review, or quality work with fixture-only evidence",
+        "Do not depend on Runtime v2 implementation paths, hard-code network addresses, or permit non-HTTPS access",
+        "Do not use raw gh or AWS; unsupported GPU, remote-provider, and deployment claims remain explicit out-of-scope non-claims unless later reviewed evidence brings them into scope"
+      ]
+    }
+  }
+}

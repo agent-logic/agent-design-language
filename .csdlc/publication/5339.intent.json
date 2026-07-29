@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5339,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5339-v0918-wp04-language-core",
+  "title": "[v0.91.8][WP-04] Implement clean-room six-primitives language core",
+  "body": "Closes #5339\n\nAdds an independent, side-effect-free Rust language crate for ADL's provider, tool, agent, task, workflow, and singular run primitives. It provides duplicate-key-safe strict YAML/JSON parsing, a checked generated JSON Schema, stable semantic diagnostics for identities/references/state/cycles/run targets, and deterministic canonical JSON that sorts maps while preserving declared sequence order.\n\nThe reviewed #5337 corpus is mapped explicitly: all applicable language and ordering cases pass, compiler pattern expansion remains #5338 scope, and mock execution remains #5340 scope. Typed local validation passes 3 characterization plus 7 language tests, strict Clippy, exact five-package COTS/dependency guards, 702 implementation and 648 test/fixture lines (well under 4000/4000), and sub-second warm validation. Exact-revision review found no actionable findings after all remediations. No AWS, raw gh, Runtime v2, provider, network, control-plane, cloud, database, or migration authority was added.",
+  "draft": true,
+  "revision": "git-blake3:dd381726b9440060d35cc59cf2d02a32e86c89f6:91eac4b05e798f0d5b1e3fdd1d77e94d19129d7a6d1d5da4a11c3cd1e2da0b82",
+  "commit_sha": "dd381726b9440060d35cc59cf2d02a32e86c89f6"
+}

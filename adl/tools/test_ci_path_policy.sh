@@ -51,17 +51,20 @@ assert_file_order() {
 assert_current_coverage_workflow_contract() {
   local workflow="$ROOT_DIR/.github/workflows/ci.yaml"
   assert_file_has "$workflow" 'Determine PR fast coverage filters'
-  assert_file_has "$workflow" "if: github.event_name == 'pull_request' && steps.path-policy.outputs.coverage_required == 'true'"
+  assert_file_has "$workflow" "adl_coverage_workspace_fast_hosted:"
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.coverage_required == 'true' && needs.adl_path_policy.outputs.full_coverage_required != 'true'"
+  assert_file_has "$workflow" "if: github.event_name == 'pull_request' && !contains(github.event.pull_request.head.ref, 'csdlc-v2')"
   assert_file_has "$workflow" '--print-risk-nextest-expression > adl/coverage-impact-filter-expression.txt'
   assert_file_has "$workflow" 'filter_expression<<ADL_COVERAGE_EXPR'
   assert_file_has "$workflow" 'PR fast coverage summary (json)'
   # runtime-bounded-pr-fast-coverage-policy-change
-  assert_file_has "$workflow" "if: github.event_name == 'pull_request' && steps.path-policy.outputs.coverage_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.coverage-impact.outputs.needs_fast_summary == 'true'"
+  assert_file_has "$workflow" "if: github.event_name == 'pull_request' && steps.coverage-impact.outputs.needs_fast_summary == 'true'"
   assert_file_has "$workflow" 'bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"'
   assert_file_has "$workflow" 'PR coverage-impact preflight'
   assert_file_has "$workflow" 'args+=(--summary coverage-artifacts/workspace/adl/target/coverage-impact-summary.json)'
   assert_file_has "$workflow" 'args+=(--require-summary-for-risk)'
-  assert_file_has "$workflow" "if: steps.path-policy.outputs.full_coverage_required == 'true' || steps.coverage-impact.outputs.needs_fast_summary == 'true'"
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.full_coverage_required == 'true'"
+  assert_file_has "$workflow" "if: steps.path-policy.outputs.full_coverage_required == 'true'"
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh install-lld'
   assert_file_has "$workflow" 'bash adl/tools/setup_required_coverage_toolchain.sh configure "$GITHUB_ENV"'
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh verify'
@@ -70,11 +73,14 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" 'Coverage not required by path policy'
   assert_file_has "$workflow" "if: steps.path-policy.outputs.coverage_required != 'true'"
   assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-runtime-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
-  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-profraw-shard-${{ matrix.shard }}" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-aggregate-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
   assert_file_has "$workflow" 'Upload runtime coverage evidence'
   assert_file_has "$workflow" 'Upload workspace coverage evidence'
   assert_file_has "$workflow" 'name: adl-coverage-runtime-${{ github.run_id }}-${{ github.run_attempt }}'
   assert_file_has "$workflow" 'name: adl-coverage-workspace-${{ github.run_id }}-${{ github.run_attempt }}'
+  assert_file_has "$workflow" 'name: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}'
+  assert_file_has "$workflow" 'pattern: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-*'
   assert_file_has "$workflow" 'Coverage execution state: ${{ steps.path-policy.outputs.coverage_execution_state }}'
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh stats'
   assert_file_has "$workflow" "steps.coverage-toolchain.outputs.ready == 'true'"
@@ -89,6 +95,18 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.runtime_v3_fast_required == 'true'"
   assert_file_has "$workflow" 'cargo test --manifest-path adl-runtime-kernel/Cargo.toml'
   assert_file_has "$workflow" 'adl_runtime_v3_fast:${{ needs.adl_runtime_v3_fast.result }}'
+  assert_file_has "$workflow" 'name: csdlc-v2-standalone'
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.csdlc_v2_standalone_required == 'true'"
+  assert_file_has "$workflow" 'csdlc_v2_standalone:${{ needs.csdlc_v2_standalone.result }}'
+  assert_file_has "$workflow" 'selected C-SDLC v2 standalone lane is $CSDLC_V2_STANDALONE_RESULT; expected success'
+  assert_file_has "$workflow" 'unselected C-SDLC v2 standalone lane is $CSDLC_V2_STANDALONE_RESULT; expected skipped'
+  assert_file_has "$workflow" 'csdlc_v2_standalone_required must be exactly true or false'
+  assert_file_has "$workflow" 'name: adl-v2-standalone'
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.adl_v2_standalone_required == 'true'"
+  assert_file_has "$workflow" 'adl_v2_standalone:${{ needs.adl_v2_standalone.result }}'
+  assert_file_has "$workflow" 'selected ADL v2 standalone lane is $ADL_V2_STANDALONE_RESULT; expected success'
+  assert_file_has "$workflow" 'unselected ADL v2 standalone lane is $ADL_V2_STANDALONE_RESULT; expected skipped'
+  assert_file_has "$workflow" 'adl_v2_standalone_required must be exactly true or false'
   assert_file_has "$workflow" 'Full workspace coverage gate deferred for PR'
   assert_file_has "$workflow" 'adl/target/coverage-impact-summary.json'
   assert_file_not_has "$workflow" '--authority "adl_coverage_always_on"'
@@ -183,9 +201,32 @@ name: nightly-coverage-ratchet
 on:
   workflow_dispatch:
 EOF
+  mkdir -p 'docs/日本語 folder'
+  printf 'portable UTF-8 path\n' > 'docs/日本語 folder/readme file.md'
   git add .
   git commit -q -m baseline
   base_sha="$(git rev-parse HEAD)"
+
+  printf 'invalid on Windows\n' > 'docs/windows:illegal.md'
+  git add 'docs/windows:illegal.md'
+  git commit -q -m windows-illegal-path
+  if "$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref "refs/pull/1/merge" >"$tmp_dir/windows-illegal.out" 2>"$tmp_dir/windows-illegal.err"; then
+    echo "expected path policy to reject a Windows-illegal tracked path" >&2
+    exit 1
+  fi
+  assert_file_has "$tmp_dir/windows-illegal.err" 'docs/windows:illegal.md'
+  git reset -q --hard "$base_sha"
+
+  newline_illegal_path=$'docs/portable\nwindows:illegal.md'
+  printf 'invalid suffix after newline\n' > "$newline_illegal_path"
+  git add "$newline_illegal_path"
+  git commit -q -m windows-illegal-path-after-newline
+  if "$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref "refs/pull/1/merge" >"$tmp_dir/windows-newline-illegal.out" 2>"$tmp_dir/windows-newline-illegal.err"; then
+    echo "expected path policy to reject a Windows-illegal component after an embedded newline" >&2
+    exit 1
+  fi
+  assert_file_has "$tmp_dir/windows-newline-illegal.err" 'windows:illegal.md'
+  git reset -q --hard "$base_sha"
 
   printf '\nmore docs\n' >> docs/readme.md
   git add docs/readme.md
@@ -224,6 +265,80 @@ assert profile["selected_profile"] == "docs_diff_check_profile"
 assert profile["status"] == "ready_to_run"
 assert [item["lane_id"] for item in profile["run"]] == ["docs_diff_check"]
 PY
+
+  git checkout -q -b csdlc-metadata-only "$base_sha"
+  mkdir -p .csdlc/issues/1
+  printf '{"phase":"bound"}\n' > .csdlc/issues/1/index.json
+  git add .csdlc/issues/1/index.json
+  git commit -q -m csdlc-metadata-only
+  csdlc_metadata_head="$(git rev-parse HEAD)"
+  csdlc_metadata_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$csdlc_metadata_head" --ref "refs/pull/1/merge")"
+  assert_has "$csdlc_metadata_output" "csdlc_v2_standalone_required=false"
+  assert_has "$csdlc_metadata_output" "rust_required=false"
+  assert_has "$csdlc_metadata_output" "coverage_required=false"
+
+  git checkout -q -b csdlc-v2-standalone "$base_sha"
+  mkdir -p csdlc-v2/tests
+  printf '#[test]\nfn gate7_contract() {}\n' > csdlc-v2/tests/gate7_lifecycle.rs
+  git add csdlc-v2/tests/gate7_lifecycle.rs
+  git commit -q -m csdlc-v2-standalone
+  csdlc_v2_head="$(git rev-parse HEAD)"
+  csdlc_v2_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$csdlc_v2_head" --ref "refs/pull/1/merge")"
+  assert_has "$csdlc_v2_output" "csdlc_v2_standalone_required=true"
+  assert_has "$csdlc_v2_output" "rust_required=false"
+  assert_has "$csdlc_v2_output" "coverage_required=false"
+  assert_has "$csdlc_v2_output" "full_coverage_required=false"
+  assert_has "$csdlc_v2_output" "reason=standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
+
+  git checkout -q -b adl-v2-standalone "$base_sha"
+  mkdir -p adl-v2/crates/adl-records/src
+  printf 'pub fn signed_record() {}\n' > adl-v2/crates/adl-records/src/lib.rs
+  git add adl-v2/crates/adl-records/src/lib.rs
+  git commit -q -m adl-v2-standalone
+  adl_v2_head="$(git rev-parse HEAD)"
+  adl_v2_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$adl_v2_head" --ref "refs/pull/1/merge")"
+  assert_has "$adl_v2_output" "validation_profile_run_lanes=adl_v2_standalone"
+  assert_has "$adl_v2_output" "adl_v2_standalone_required=true"
+  assert_has "$adl_v2_output" "csdlc_v2_standalone_required=false"
+  assert_has "$adl_v2_output" "rust_required=false"
+  assert_has "$adl_v2_output" "coverage_required=false"
+  assert_has "$adl_v2_output" "full_coverage_required=false"
+  assert_has "$adl_v2_output" "demo_smoke_required=false"
+  assert_has "$adl_v2_output" "reason=standalone_adl_v2_surface_requires_only_its_independent_focused_suite"
+
+  git checkout -q -b csdlc-v2-operator-surface "$base_sha"
+  mkdir -p csdlc-v2/operator/skills/example
+  printf 'contract\n' > csdlc-v2/operator/skills/example/SKILL.md
+  git add csdlc-v2/operator/skills/example/SKILL.md
+  git commit -q -m csdlc-v2-operator-surface
+  csdlc_v2_operator_head="$(git rev-parse HEAD)"
+  csdlc_v2_operator_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$csdlc_v2_operator_head" --ref "refs/pull/1/merge")"
+  assert_has "$csdlc_v2_operator_output" "validation_profile_run_lanes=csdlc_v2_standalone"
+  assert_has "$csdlc_v2_operator_output" "csdlc_v2_standalone_required=true"
+
+  git checkout -q -b runtime-v3-with-lifecycle "$base_sha"
+  mkdir -p adl-runtime-kernel/src .csdlc/issues/5589
+  printf 'pub fn governed_operations() {}\n' > adl-runtime-kernel/src/governed_operations.rs
+  printf '{"phase":"published"}\n' > .csdlc/issues/5589/index.json
+  git add adl-runtime-kernel/src/governed_operations.rs .csdlc/issues/5589/index.json
+  git commit -q -m runtime-v3-with-lifecycle
+  runtime_v3_lifecycle_head="$(git rev-parse HEAD)"
+  runtime_v3_lifecycle_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_v3_lifecycle_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_v3_lifecycle_output" "runtime_v3_fast_required=true"
+  assert_has "$runtime_v3_lifecycle_output" "csdlc_v2_standalone_required=false"
+
+  git checkout -q -b runtime-v3-with-csdlc-v2 "$base_sha"
+  mkdir -p adl-runtime-kernel/src csdlc-v2/operator/skills/example
+  printf 'pub fn governed_operations() {}\n' > adl-runtime-kernel/src/governed_operations.rs
+  printf 'contract\n' > csdlc-v2/operator/skills/example/SKILL.md
+  git add adl-runtime-kernel/src/governed_operations.rs csdlc-v2/operator/skills/example/SKILL.md
+  git commit -q -m runtime-v3-with-csdlc-v2
+  runtime_v3_csdlc_head="$(git rev-parse HEAD)"
+  runtime_v3_csdlc_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_v3_csdlc_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_v3_csdlc_output" "validation_profile_run_lanes=csdlc_v2_standalone,runtime_kernel_contracts"
+  assert_has "$runtime_v3_csdlc_output" "csdlc_v2_standalone_required=true"
+  assert_has "$runtime_v3_csdlc_output" "runtime_v3_fast_required=true"
+  assert_has "$runtime_v3_csdlc_output" "reason=csdlc_v2_and_runtime_v3_surfaces_run_both_independent_focused_lanes"
 
   git checkout -q -b runtime-v3-only "$base_sha"
   mkdir -p infra/runtime-v3
