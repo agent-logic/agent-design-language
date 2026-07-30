@@ -3,13 +3,13 @@
   "issue": 5384,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4fecd6caf5933cf3222a602ae1033477f116376e15c34477ee930a42928b0422",
-  "phase": "reviewed",
-  "generation": 12,
-  "digest": "71b8dbf3d4bce976ecb2e7da753b3de2d63f9fe79d5369285b02ad9bc0698f14",
+  "phase": "published",
+  "generation": 13,
+  "digest": "513253cc28cbec829e301ea342e5a9fb1396e541c53bdec1f1b0321ac67fc696",
   "claim": {
     "id": "claim-5384-v0918-wp14a-preparation-refresh",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 12,
+    "generation": 13,
     "acquired_unix_seconds": 1785344832,
     "expires_unix_seconds": 1785949632,
     "heartbeat_unix_seconds": 1785344832,
@@ -57,7 +57,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5384,
+    "pull_request": 5726,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5726",
+    "base": "main",
+    "head": "codex/5384-v0918-wp14a-preparation-bound",
+    "revision": "git-blake3:ce85651b0c0f24bdd6db0f86cc2220a5f270757c:054510618e67075bb9790d5ed4673cbcf1fbabe9e4a42e7942be57ea1c3034b2",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -71,34 +81,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "98e6007d968f98ee845cc7af603ad63cb9c613d2f237e03ae9b385bd5657a9c4",
+      "values_digest": "20c2416411bbf3a1e2918044a00b1bcf9e9093a6b8ed94d9369f4683d685e981",
       "rendered_digest": "286d3f757711730b1576727865b6094c4a9723237780972df4df82e2ce888ed1",
       "ast_digest": "0ab3807a6424fd84604e4ba65823be473599f8fda23d5d5bb4864e0ac11d74bf"
     },
     "stp": {
-      "values_digest": "673f79291a8a4b98e00ad05e5d760b76644ac578e02bcf72b146911a46b028de",
+      "values_digest": "c38e902ebc187bd9d4bfad8845812ccc5fb4a6ef5df6353b3fcd29ee9b565d10",
       "rendered_digest": "8a07ade9800ae6179c5c8b7de90f9fee225025f78bfde617bfa891ba6831feba",
       "ast_digest": "6b4725d3cd8e3289ee8d21e4d89134235b8618668d4526ebd19228593380dedb"
     },
     "spp": {
-      "values_digest": "3c07c2f9d840b2b59685656f33700faefee214712b291840dd85830044d4a2c0",
+      "values_digest": "c7369759efb8518839708a867d6d44552f2a40bc7c7793c16b72720fb99cee9c",
       "rendered_digest": "4d172881e2ac713777fe42c96ef4b142c49cdd94d3330d47b14a32b199312b65",
       "ast_digest": "2c62695b2de072bce9c47be643b30b22c2fdac704a77d61c44e02ded1edce476"
     },
     "vpp": {
-      "values_digest": "67b09a846fbeaabcb47a206273feee1ffca16dd2db8f56a6070a7b8b2e0e0de2",
+      "values_digest": "0bfa5b0cc7a6c29f03425a0f22dcc5c1ce4210aceb74d308caffbb0286e51391",
       "rendered_digest": "ad1345bf09a1e19c7ead577869ea96f137860cb516ddb10673ebee94d04e5f85",
       "ast_digest": "58dfcd1f0086ba670094d8bdf622dee9a8992db9981e1c4940ccc4a42ffec723"
     },
     "srp": {
-      "values_digest": "953a4b30273e50c7e82d9614af91e026649905a10efdcb0c938c161c8a47f25a",
+      "values_digest": "1cba32cabc16c360637c80363ce516d11d1d4479d874be266c70fd8ba040e701",
       "rendered_digest": "ddc3a4ee3a57c69e241ceddcc7e59794a6e67d396fdf117e93b76226300564a0",
       "ast_digest": "7f1af67678cc01c1ca1f944a1afb2e590b7e0a983285ccf5352ac8aa19540b44"
     },
     "sor": {
-      "values_digest": "a08bf745923a68b55ddae3b63e2ef0b66139a4cb44a91a7ed7f708b4f9db31a9",
-      "rendered_digest": "b5d9a34b50ae3c5891b01bd7d55ea6751c62d7395269c4a322c47eb267d11374",
-      "ast_digest": "f68be559e0587d93965c3f3436dad933bfa453077ea387184e0eb84e4bed414e"
+      "values_digest": "22ee6c663b351e228c4588d44bf1bf6dcf4b4c0bb87d8a461037aa97d8b5cc55",
+      "rendered_digest": "099ba4b3a283f21e312a5836a46628f923cc8ecceeb52aa284d5368368ecf8cb",
+      "ast_digest": "c902696a6d700cda6c5bb6432c4a4dcd075e5ad7d85822238eda2d16c7d4a84a"
     }
   },
   "transitions": [
@@ -129,6 +139,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Gemini 3.1 Pro reviewed the exact WP-14A acceptance revision and returned PASS with zero blockers."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -257,6 +274,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Gemini 3.1 Pro reviewed the exact WP-14A acceptance revision and returned PASS with zero blockers.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

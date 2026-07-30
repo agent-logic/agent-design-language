@@ -44,11 +44,11 @@ Added a compact exact-revision platform acceptance ledger, repo-native executabl
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
