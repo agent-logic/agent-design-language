@@ -35,6 +35,10 @@ pub use eligibility::{
 };
 pub use error::{ErrorCode, Result, V2Error};
 pub use git::shared_request_path;
+pub use github::{
+    append_marker, execute_github_action, marker_line, GithubAction, GithubActionRequest,
+    GithubActionResult, GithubIssuePacket, PrCheck, PrStatePacket, PrStateRequest,
+};
 pub use lifecycle::{
     amend_claim_scope, bind_issue, heartbeat_claim, initialize_native_json, recover_claim,
     release_closed_claim, revoke_active_claim, transition_active_claim, AmendClaimScopeRequest,
@@ -71,9 +75,10 @@ pub use pvf::{
     FinalizeRequest, PvfManifest, ScheduleInput, ShepherdInput,
 };
 pub use readiness::{
-    classify_readiness, closeout_issue, record_readiness, CheckConclusion, CheckObservation,
-    CheckRequirement, ConflictState, PostPublicationFinding, ReadinessReport, ReadinessRequest,
-    RemoteReviewState, TerminalDisposition, TerminalObservation,
+    classify_readiness, closeout_issue, reconcile_terminal_observation_head, record_readiness,
+    validate_terminal_observation, CheckConclusion, CheckObservation, CheckRequirement,
+    ConflictState, PostPublicationFinding, ReadinessReport, ReadinessRequest, RemoteReviewState,
+    TerminalDisposition, TerminalObservation,
 };
 pub use review::{
     assign_review, evaluate_publication_review, evaluate_publication_review_in_repo, record_review,

@@ -89,7 +89,7 @@ pub(crate) const Z_AI_CHAT_COMPLETIONS_ENDPOINT: &str =
 pub(crate) const KIMI_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://api.moonshot.ai/v1/chat/completions";
 pub(crate) const MINIMAX_CHAT_COMPLETIONS_ENDPOINT: &str =
-    "https://api.minimax.io/v1/text/chatcompletion_v2";
+    "https://api.minimax.io/v1/chat/completions";
 pub(crate) const QWEN_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
 pub(crate) const XAI_CHAT_COMPLETIONS_ENDPOINT: &str = "https://api.x.ai/v1/chat/completions";
@@ -290,6 +290,15 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         );
     }
     // Claude-facing presets (same bounded HTTP substrate, distinct profile family)
+    m.insert(
+        "claude:claude-opus-5",
+        ProviderProfilePreset {
+            kind: "anthropic",
+            default_model: Some("claude-opus-5"),
+            provider_model_id: Some("claude-opus-5"),
+            endpoint: Some(ANTHROPIC_MESSAGES_ENDPOINT),
+        },
+    );
     for (name, model) in [
         ("claude:claude-3-7-sonnet", "claude-3-7-sonnet-latest"),
         ("claude:claude-3-5-haiku", "claude-3-5-haiku-latest"),

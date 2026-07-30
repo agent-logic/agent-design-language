@@ -5,25 +5,8 @@
   "initialization_digest": "7825c6b94e04ddb0cac12bf61e8c50dc765cc55c3a09139c3158bfaeab569bd7",
   "phase": "published",
   "generation": 15,
-  "digest": "e105187c5664e8b9387a7296dade389ac9fb2f0581db75d5120fda95663677c2",
-  "claim": {
-    "id": "claim-5648-operator-active-claim-revoke",
-    "owner": "codex:5648-execution",
-    "generation": 15,
-    "acquired_unix_seconds": 1784850000,
-    "expires_unix_seconds": 1785454800,
-    "heartbeat_unix_seconds": 1784850000,
-    "branch": "codex/5648-operator-active-claim-revoke",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/issues/5648",
-      ".csdlc/locks/5648.lock",
-      ".csdlc/prepared/issues/5648",
-      "csdlc-v2/src",
-      "csdlc-v2/tests"
-    ],
-    "purpose": "Implement the typed operator-authorized active-claim revoke operation"
-  },
+  "digest": "4e60faba06741b38d1030a71b2e0343a64c8f8f15b3cfc967bf65320b3e1412a",
+  "claim": null,
   "review_assignment": {
     "reviewer": "bounded-subagent-review-5648",
     "assigned_by": "codex:5648-execution",
@@ -300,6 +283,13 @@
       "actor": "codex:5648-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:issue-5655-slot-1",
+      "reason": "Release stale broad csdlc-v2 source/test claim from closed issue #5648 before implementing #5655.",
+      "operation": "{\"claim_id\":\"claim-5648-operator-active-claim-revoke\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"github://danielbaustin/agent-design-language/issues/5648 observed closed at 2026-07-24T18:04:54Z while retained published lifecycle claim blocks #5655 implementation scope\",\"previous_owner\":\"codex:5648-execution\"}"
     }
   ]
 }
