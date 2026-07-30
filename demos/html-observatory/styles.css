@@ -317,13 +317,16 @@ a {
 }
 
 .ops-sidecar {
-  display: grid;
-  align-content: start;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  display: flex;
+  flex-direction: column;
   gap: 0.62rem;
   min-height: 0;
   padding: clamp(0.7rem, 1.1vw, 0.95rem);
   overflow: auto;
+}
+
+.ops-sidecar > * {
+  flex: 0 0 auto;
 }
 
 .ops-sidecar h2 {
@@ -701,7 +704,7 @@ button {
 }
 
 .hero-agent-map::before {
-  content: "Runtime Kernel\A CSM v2\A " attr(data-state);
+  content: "Runtime Kernel\A Runtime v3\A " attr(data-state);
   white-space: pre;
   position: absolute;
   left: 50%;
@@ -863,7 +866,7 @@ button {
   display: grid;
   gap: 0.52rem;
   min-height: 0;
-  overflow: auto;
+  overflow: visible;
 }
 
 .inspector-stack article,

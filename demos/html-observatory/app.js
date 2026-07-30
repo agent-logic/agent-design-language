@@ -520,7 +520,9 @@ function displayClaimBoundary(source = {}) {
 function displayMilestoneText(value) {
   return String(value ?? "")
     .replaceAll("v0.91.6", OBSERVATORY_VERSION)
-    .replaceAll("v0916", "runtime-v3");
+    .replaceAll("v0916", "runtime-v3")
+    .replaceAll("v0.91.7", OBSERVATORY_VERSION)
+    .replaceAll("v0917", "runtime-v3");
 }
 
 function isLoopbackApiBase(value) {
@@ -1419,6 +1421,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   let runtimeBaseActive = false;
   let liveSocket = null;
   let liveStoppedByOperator = false;
+  let liveRequestGeneration = 0;
   const refs = {
     statusRef: document.querySelector(".observatory")?.dataset.csmStatusRef || "",
     healthRef: document.querySelector(".observatory")?.dataset.csmHealthRef || "",
@@ -1473,6 +1476,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   };
 
   const readApiBase = () => normalizeApiBase(dashboardBase?.value || apiBase?.value || communicationBase?.value || "");
+  const setLiveConnectionState = (state) => {
+    document.querySelector(".observatory")?.setAttribute("data-live-connection", state);
+  };
   mirrorApiBase(getQueryApiBase());
 
   const renderMinimalFallback = (error) => {
@@ -1515,6 +1521,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   };
 
   const refreshLive = async () => {
+    const requestGeneration = liveRequestGeneration;
     const base = readApiBase();
     if (!base) {
       runtimeBaseActive = false;
@@ -1530,6 +1537,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     setRuntimeTestStatus("polling loopback", `Checking ${base}/status, /health, /ready, /metrics, and /events.`);
     try {
       const snapshot = await fetchRuntimeSnapshot(base);
+      if (liveStoppedByOperator || requestGeneration !== liveRequestGeneration) {
+        return;
+      }
       const endpointKeys = ["status", "health", "ready", "metrics", "events"];
       const successfulEndpoints = endpointKeys.filter((key) => snapshot[key]);
       if (successfulEndpoints.length === 0) {
@@ -1542,12 +1552,17 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       const runtimeKind = snapshot.runtimeSelection === "runtime_v3_explicit_opt_in" ? "Runtime v3 observatory feed" : "loopback CSM server";
       setRuntimeTestStatus(status, Object.keys(snapshot.errors || {}).length ? "Runtime reached, but one or more endpoints failed." : `Runtime API endpoints responded from the ${runtimeKind}.`);
     } catch (error) {
+      if (liveStoppedByOperator || requestGeneration !== liveRequestGeneration) {
+        return;
+      }
       await renderLiveError(error);
     }
   };
 
   const stopPolling = () => {
     liveStoppedByOperator = true;
+    liveRequestGeneration += 1;
+    setLiveConnectionState("stopped");
     if (liveSocket) {
       liveSocket.close(1000, "operator_stop");
       liveSocket = null;
@@ -1570,6 +1585,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const connectLive = () => {
     stopPolling();
     liveStoppedByOperator = false;
+    setLiveConnectionState("connecting");
     if (requestedRuntimeSelection() === "v3") {
       runtimeBaseActive = true;
       setText("live-status", "connecting secure stream");
@@ -1590,6 +1606,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             renderPanopticon(snapshot, packet);
             setText("live-status", "live secure stream");
             setText("statusbar-websocket", "connected");
+            setLiveConnectionState("connected");
             setRuntimeTestStatus("live secure stream", "Runtime v3 public WebSocket feed is active; operator login is required only for writes.");
           },
           (error) => {
@@ -1628,12 +1645,12 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     livePollTimer = setInterval(refreshLive, 3000);
   };
 
-  connect?.addEventListener("click", connectLive);
-  refresh?.addEventListener("click", refreshLive);
-  stop?.addEventListener("click", stopPolling);
-  dashboardConnect?.addEventListener("click", connectLive);
-  dashboardRefresh?.addEventListener("click", refreshLive);
-  dashboardStop?.addEventListener("click", stopPolling);
+  if (connect) connect.onclick = connectLive;
+  if (refresh) refresh.onclick = refreshLive;
+  if (stop) stop.onclick = stopPolling;
+  if (dashboardConnect) dashboardConnect.onclick = connectLive;
+  if (dashboardRefresh) dashboardRefresh.onclick = refreshLive;
+  if (dashboardStop) dashboardStop.onclick = stopPolling;
   modeSelect?.addEventListener("change", () => {
     if (modeSelect.value === "live") {
       connectLive();
@@ -1745,6 +1762,11 @@ async function bootObservatory() {
   const snsResourceRef = root?.dataset.snsResourceRef || "";
   setHref("packet-link", packetRef);
   setHref("report-link", reportRef);
+  const runtimeApiBase = getQueryApiBase();
+  if (requestedRuntimeSelection() === "v3" && runtimeApiBase) {
+    setHref("packet-link", `${runtimeApiBase}${RUNTIME_V3_OBSERVATORY_ENDPOINT}`);
+    setHref("report-link", `${runtimeApiBase}/v1/observatory/docs/`);
+  }
 
   try {
     const [packet, reportText, serviceManifest, apiText, cloudwatchSummary, cloudwatchEvents, acipSnsSummary, snsResourceSummary] = await Promise.all([
