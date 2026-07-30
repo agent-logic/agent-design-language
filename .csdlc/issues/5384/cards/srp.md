@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-One bounded Gemini review of the exact WP-14A acceptance revision: direct-input revision identity, focused fresh-consumer proof, retained rollback/recovery evidence, residual-risk truth, deferred WP-13 scheduling, and non-absorption of downstream tracks.
+.csdlc/prepared/issues/5384/dependency-gate.json
+.csdlc/prepared/issues/5384/validate_dependency_gate.rb
+.csdlc/evidence/5384/platform-acceptance-ledger.v1.json
+docs/milestones/v0.91.8/review/V0918_WP14A_PLATFORM_ACCEPTANCE_5384.md
 
 ## Prompts
 
@@ -32,12 +35,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Compatibility binaries still report 0.91.7; WP-14A preserves that branding truth and does not relabel it.
+- WP-13 deletion remains deferred and deletion_authorized remains false until its separately scheduled gate before issue 5356.
+- Stale typed projections for already merged dependencies remain lifecycle reconciliation residuals and are not treated as product-acceptance blockers.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:71e3b70b8f7fd3f0ffca2c020eb78599fd115658:86b05589e58cc99d746b1d8af59839c4390f2b0ffae8da0f505438e5d95b0167")
 
-Reviewer: None
+Reviewer: Some("provider:gemini-3.1-pro-preview")
 
-Result: pre_review
+Result: pass
