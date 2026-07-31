@@ -7,25 +7,23 @@
     "title": "[v0.91.8][podcast][ui] Update podcast studio copy from integrated design",
     "slug": "v0-91-8-podcast-ui-update-podcast-studio-copy-from-integrated-design",
     "version": "v0.91.8",
-    "generation": 17
+    "generation": 18
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5717\n.csdlc/prepared/issues/5717\ndemos/_preview/podcast/index.html\ndemos/podcast/LAUNCH_READINESS.md\ndemos/podcast/episodes/meet-the-ai-coworkers/index.html\ndemos/podcast/feed.xml\ndemos/podcast/index.html",
-      "review_revision": "git-blake3:b2c7271a8ad8733ad651e8bdb68a3494d24604d8:e8c9dba00635d555c21090f950ddb058e8bed255498fd61727fa5f0be3785509",
-      "reviewer": "codex-subagent:019fb615-80b0-7bf3-b207-d3fc3499ee18",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the studio page satisfy each operator-requested copy/logo/layout fix?",
         "Are fake historical episode numbers removed in favor of proposed launch topics starting at 1?",
         "Do the studio route, assets, audio artifact, and RSS feed still validate?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Launch still requires public HTTPS hosting, mailbox verification for podcast@agent-logic.ai, final show artwork, final approved audio/title/description/publish-date/content-rights truth, directory account submissions after approval, and final human approval."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

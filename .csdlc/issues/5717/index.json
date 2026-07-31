@@ -3,13 +3,13 @@
   "issue": 5717,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "076248de115adaa0f9c9eff8cbbd8ff162b2d01f5bdb2d6a9d316c57f9ea4b83",
-  "phase": "published",
-  "generation": 17,
-  "digest": "d66d5d71f23bc9409858e5d916d99407c48596b28b9de0054f78753e45cf69c2",
+  "phase": "implemented",
+  "generation": 18,
+  "digest": "0d9e17dd67abccc77d9fbd6d78e65c690c54c34b7e72348f5cbff60376ea0613",
   "claim": {
     "id": "claim-5717-podcast-studio-copy",
     "owner": "codex:5717-execution",
-    "generation": 17,
+    "generation": 18,
     "acquired_unix_seconds": 1785361490,
     "expires_unix_seconds": 1785966290,
     "heartbeat_unix_seconds": 1785361490,
@@ -37,50 +37,9 @@
     ],
     "purpose": "Update the integrated podcast studio page copy and logo for launch readiness while preserving the #5715 route, assets, audio, and RSS wiring"
   },
-  "review_assignment": {
-    "reviewer": "codex-subagent:019fb615-80b0-7bf3-b207-d3fc3499ee18",
-    "assigned_by": "codex:5717-execution",
-    "revision": "git-blake3:b2c7271a8ad8733ad651e8bdb68a3494d24604d8:e8c9dba00635d555c21090f950ddb058e8bed255498fd61727fa5f0be3785509",
-    "scope": [
-      ".csdlc/issues/5717",
-      ".csdlc/prepared/issues/5717",
-      "demos/_preview/podcast/index.html",
-      "demos/podcast/LAUNCH_READINESS.md",
-      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
-      "demos/podcast/feed.xml",
-      "demos/podcast/index.html"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:019fb615-80b0-7bf3-b207-d3fc3499ee18",
-    "scope": [
-      ".csdlc/issues/5717",
-      ".csdlc/prepared/issues/5717",
-      "demos/_preview/podcast/index.html",
-      "demos/podcast/LAUNCH_READINESS.md",
-      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
-      "demos/podcast/feed.xml",
-      "demos/podcast/index.html"
-    ],
-    "reviewed_revision": "git-blake3:b2c7271a8ad8733ad651e8bdb68a3494d24604d8:e8c9dba00635d555c21090f950ddb058e8bed255498fd61727fa5f0be3785509",
-    "findings": [],
-    "residual_risks": [
-      "Launch still requires public HTTPS hosting, mailbox verification for podcast@agent-logic.ai, final show artwork, final approved audio/title/description/publish-date/content-rights truth, directory account submissions after approval, and final human approval."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5717,
-    "pull_request": 5720,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5720",
-    "base": "main",
-    "head": "codex/5717-podcast-studio-copy",
-    "revision": "git-blake3:39809c0f50e428698a8aa02f7acebabfaa8a9e66:166ab7291e74d8f1e43939d015a9103ee98e6533a981d9f0de7989744dc4029c",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -94,34 +53,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "851ad499a71106642c470bae343529e2c60e07334bed24b683b734d9f10e08b4",
+      "values_digest": "ed18740b5c360888f2b938f309f5fba7b1ef6f37b8f77e0571356a2fc719e78f",
       "rendered_digest": "72b19c7db1294878ef02538e3c2c1afcd75c4962eed345a546782b4c4a01703c",
       "ast_digest": "44990155f81bd4fe0b63937ab141c8169a0b74a8c485f0f1ad1c67f06d9502dd"
     },
     "stp": {
-      "values_digest": "bef8a2356643bcf832153409cb985fbb8d5be59356faf00d6acd2511e774463e",
+      "values_digest": "07c7ce3c95fc0bad92d652b9e55ca93b802e1c55071f7ed9bca0b3a25aa8b45e",
       "rendered_digest": "79384f1b1112b72739525c66c07f15aaf6b41ff8d1d4d9692428171882b8141f",
       "ast_digest": "60a985e4b0af0ce1214f640fc699395f397face6fedd1ff9270f742992f7331a"
     },
     "spp": {
-      "values_digest": "5d0d9bd416e924609f1b2071d2cf9a6412a82753a1b7b63b3ab14b7e666e28ee",
+      "values_digest": "e9cdab0d3f8a044521c9af4d6f3c8e3223dacc6e2e59c4159287d1c1fab4031c",
       "rendered_digest": "d3b4f7483ba6b1141a655013189e5d14ae73794d4cabd676351ba3e292b9c1af",
       "ast_digest": "a1410f989e1feab41cd381de6aa45590c9d044cec08b55dc55effad879befb2e"
     },
     "vpp": {
-      "values_digest": "78b6f7ea0f0df00fe4a81def35fb8300fb6af0a232b6af6b48557bd2a4cf12d8",
+      "values_digest": "4bd43988e346395913a6e767366777eae6d6e78e275e0a46a20ec5b35ae010d4",
       "rendered_digest": "d4b179d6ddfe7e069e109aac976bf47c9b190fa9ae5d17e5ab31011b5df07990",
       "ast_digest": "beb988a8127e2b82f642f57dae1be11765034e5e7375d161f975b12b60f8dc9d"
     },
     "srp": {
-      "values_digest": "d55bea72aab0de463e74e772bf0ac75096f7d34bc7e0d9155525def3ae583f12",
-      "rendered_digest": "f6713068146a4edd6b9c347b90dfab338d82370ada0303fdcfaf995eeeb86d5b",
-      "ast_digest": "e7574a2f28d59323d97221350d1c657a57e685dbffd4e44b8a9ebb2928793d87"
+      "values_digest": "08690b3a7af8595091aeda567b3fe269939388bf8309340b0f1fc74a35650358",
+      "rendered_digest": "7ff43835d9c12c8d4aaffcac0bac50156cd03205bcdf7c07e915f56f66a04bd0",
+      "ast_digest": "010eb63966f138acec24e07d24bb17a6486df34dfe594c54b4fcd97a32287f07"
     },
     "sor": {
-      "values_digest": "3cff9ff95e3ba9f21ef4b4e199b429e9abb73b168299004150da1ccf465da10a",
-      "rendered_digest": "518e1fa89e0bc8ad0214cdd4e31be152206e23183fa7364678e45822a0b57eed",
-      "ast_digest": "4f7d608f4f869d70fffe9655a9dac5d84a9fa85d8375e6e69b7d1461b4d1d9c6"
+      "values_digest": "46818a9de139bee5576985a0aca76014ba8157716ad4e0fe33c9aa96b6a2c49c",
+      "rendered_digest": "5fa9c9327a117da56d8ef1b66a69b3d3af689d2126a2fba39dfba987ca389693",
+      "ast_digest": "a30d9256f2c9bf79bc1b6b949a58bccdf98ec164ea4ccbbc0dbd97e0ab9a8b1b"
     }
   },
   "transitions": [
@@ -180,6 +139,13 @@
       "to": "published",
       "actor": "codex:5717-execution",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5717-execution",
+      "reason": "Recover #5717 from stale published review after PR #5720 exact-head review found in-scope validation and review-scope blockers."
     }
   ],
   "audit": [
@@ -357,6 +323,13 @@
       "actor": "codex:5717-execution",
       "reason": "record exact existing PR ready-for-review after remote success",
       "operation": "record_ready_publication"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:5717-execution",
+      "reason": "Recover #5717 from stale published review after PR #5720 exact-head review found in-scope validation and review-scope blockers.",
+      "operation": "recover_review"
     }
   ]
 }
