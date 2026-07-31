@@ -21,3 +21,7 @@
 {"sequence":21,"generation":14,"actor":"codex-subagent:019f9573-ce90-7512-81f1-f56ff3ceeb1f","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":22,"generation":15,"actor":"codex:019f24c9-f798-7ad2-9a9c-886b434eb62c","reason":"Advance the exact reviewed Unity ILPP implementation with no actionable review findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":23,"generation":16,"actor":"codex:019f24c9-f798-7ad2-9a9c-886b434eb62c","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":24,"generation":17,"actor":"codex:019f24c9-f798-7ad2-9a9c-886b434eb62c","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness_reconcile_metadata_only_published_revision"}
+{"sequence":25,"generation":18,"actor":"codex:issue-5332-execution-preparation","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":26,"generation":19,"actor":"codex:adl-post-merge-closeout","reason":"materialize retained terminal closeout receipt after post-merge sweep","operation":"reconcile_terminal"}
+{"sequence":27,"generation":20,"actor":"adl-post-merge-closeout","reason":"post-merge terminal reconciliation sweep","operation":"reconcile_terminal"}
