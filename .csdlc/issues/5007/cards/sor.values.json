@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-21][ADR] Prepare #5007 Memory Palace ADR acceptance",
     "slug": "v0918-wp14-memory-palace-adr-acceptance-prep-5007",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -125,8 +125,8 @@
           "evidence_ref": "memory-palace-adr-proof-boundary.log"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": [

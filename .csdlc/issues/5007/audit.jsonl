@@ -5,3 +5,4 @@
 {"sequence":5,"generation":2,"actor":"codex:5007-execution-2026-07-31","reason":"bind branch/worktree and activate claim","operation":"bind"}
 {"sequence":6,"generation":3,"actor":"codex:5007-execution-2026-07-31","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":7,"generation":4,"actor":"codex:exact-head-reviewer-5007","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":8,"generation":5,"actor":"codex:5007-execution-2026-07-31","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

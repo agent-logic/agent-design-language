@@ -132,11 +132,11 @@ Accepted the bounded Memory Palace context handoff architecture from #4760 ready
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
