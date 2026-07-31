@@ -104,9 +104,10 @@ Use this only after the merged #4762 proof is cited and the v0.92 birthday
 packet, exact-head review, and operator publication gates all pass.
 
 ADL v0.92 cites the first-birthday witness and receipt package at
-`docs/milestones/v0.91.8/review/v092_handoff_4762/`. The launch packet now cites the retained evidence
-for identity, continuity, memory grounding, capability envelope, governance
-context, witnesses, receipt, validation, and review. This is a bounded
+`docs/milestones/v0.91.8/review/v092_handoff_4762/`. The launch packet now
+cites the retained evidence for identity, continuity, memory grounding,
+capability envelope, governance context, witnesses, receipt, validation, and
+review. This is a bounded
 engineering birthday claim; it is not a claim of legal personhood,
 consciousness proof, production citizenship, or completed constitutional
 governance.
@@ -125,7 +126,8 @@ readiness of the launch documentation surface, not completion of the birthday.
 
 Do not publish text that says or implies:
 
-- the first birthday has happened before witness/receipt proof is accepted;
+- the first birthday has happened before retained witness/receipt proof is
+  cited and the v0.92 validation and operator publication gates pass;
 - startup, wake, restore, snapshot, copied state, or simulation is birth;
 - ADL has legal personhood, consciousness proof, subjective wellbeing, or
   production citizenship;
