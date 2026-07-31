@@ -3,13 +3,13 @@
   "issue": 4763,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "de570b0095a75b8aa7114f780283cfb652a4b99c9d315de2e0301efc58a83323",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "ef6071edeec03d631db71c35499c8fc9b7b74b23335e119df49d89f701c7a983",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "242f88c19767477f71735d2e734167bae13dc356b4c56936139d2636879d9bb2",
   "claim": {
     "id": "prep-4763-v0918-wp14-refresh-20260731",
     "owner": "codex:019f9ad4-4763-preparation-refresh",
-    "generation": 7,
+    "generation": 8,
     "acquired_unix_seconds": 1785525825,
     "expires_unix_seconds": 1786130625,
     "heartbeat_unix_seconds": 1785525825,
@@ -23,7 +23,39 @@
     "purpose": "Preparation-only refresh for #4763 first-birthday docs and external launch surfaces; no implementation, PR, publication, merge, or closeout."
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "gpt-5.5:bounded-implementation-review",
+    "scope": [
+      "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
+      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
+      "docs/milestones/v0.92/README.md",
+      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+      "docs/milestones/v0.92/external_launch",
+      "docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md",
+      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
+      "docs/milestones/v0.92/features/README.md"
+    ],
+    "reviewed_revision": "git-blake3:5c9cc95afd69a74f95ffb268d1649947d4003b01:cbd0c65944db49fc41354d57341a626886845c0623500f60e2a85996acb1893b",
+    "findings": [
+      {
+        "id": "IMPL-1",
+        "severity": "p2",
+        "summary": "The typed issue phase is implemented, but historical planning cards and SOR follow-ups still contain preparation-era wording. Publication must not leave readers without current implementation truth.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:5c9cc95afd69a74f95ffb268d1649947d4003b01:cbd0c65944db49fc41354d57341a626886845c0623500f60e2a85996acb1893b",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "#4762 remains open, so the only truthful publication mode is a draft/stacked PR and pending-proof launch posture.",
+      "Typed claim-purpose transition remains blocked by unrelated #5332 terminal-authority reconciliation; SOR records the blocker, and csdlc-doctor/finalize passed under the existing live claim.",
+      "Some preparation-era card text remains as historical planning context because the implemented phase only permits bounded SOR/SRP truth updates."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -38,32 +70,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2a8d5dcd729ba8cea8e945e6c1adf6b4eb9c40530a5a4446b02b30b4c168797d",
+      "values_digest": "e620c1b595ed85edc0e45aa47c5820bffd3f61b7af61ad45faf36c008215f8b6",
       "rendered_digest": "e2a837852a0cf17b65963d19fe34d7b2a6feae92bd583a035be2e97a33247881",
       "ast_digest": "589adbf9bce5296abecb6aecf382caf6c78fb490172791708636dc965330a598"
     },
     "stp": {
-      "values_digest": "285288d8c0bab405e899950d431687c0216f61d74bfc763f615c2658035eb8c5",
+      "values_digest": "627078dc2cbcd4a243ac7a5dd3319c6eb3ea0e69106f741a27450f3836889884",
       "rendered_digest": "8c326aba5b35dd9eab725412b98fbb8bb3534cc276b16d1005dba2aaa26f78eb",
       "ast_digest": "c1e5bc20ae673cd2054701b9ee6e5f9882f16cefdc4ba35f60bd405df9122bec"
     },
     "spp": {
-      "values_digest": "3914ba42ac9597e62c8fc1231bde325a2834ca04f57f966c98844c10ea58313a",
+      "values_digest": "3c2af24031a09b845eb3411ddd531e2b8e8746e2feeee5cfa40c3b60a5701f3a",
       "rendered_digest": "cbeb8d9d74a33c69a9537307d689db43f787dd54a0025a95c6e7e282e9d943ba",
       "ast_digest": "6c7909e9ab81d3d1dfba7a787ce793f5ba68da1591b26823300704ee3c42ad14"
     },
     "vpp": {
-      "values_digest": "bc049aa328fd1159b9d70603073b44a41bc9e11390423c9e0756d3ba5647c7f3",
+      "values_digest": "d1e1a61552b807709f61e0a2430ae70579048ecb1aba7ffdeaeddacbbc9eb311",
       "rendered_digest": "fad5e0e9ca739655592a7a4ffbd3885f1daa506ed5305abf782735b1b664540d",
       "ast_digest": "4709fdb235a000daf6fd128431b9a2fe2766a67ddb4b1944f33e6c80f2641ada"
     },
     "srp": {
-      "values_digest": "bd2b64cb41b9f11452c4cf3d8c07aa8efc2f7dc1d6c25681f1aabb95f78977c9",
-      "rendered_digest": "217821852d1b3c50a636826b8b8c4fc1b19e4fd1356e768b0d72b0a5cf1568ee",
-      "ast_digest": "2883b2cc03f2302e373d0858d2893b64922c24b9f1cf2b110dac2ecc453efd22"
+      "values_digest": "926c8fffada4a24ee1c690acc0cf699e55a1a76b2768637d8c8313b3e338fff7",
+      "rendered_digest": "35657cf74f157ac02f5597cd06eff7ee3a61cbf3196ee2ede570ebf62def746f",
+      "ast_digest": "0c50c6b80f63d41fd5a55d8c0c8da4a4d6e0bd3e96b1b0f7bc1049f013d64898"
     },
     "sor": {
-      "values_digest": "142ce69064409c0a43d1686a0939923140b3a7782078241503cc6205e3649805",
+      "values_digest": "0ab8dce7c834460c11bb51caf6a5a1121e1553682769387a8bddad68acdb2965",
       "rendered_digest": "7f2072973bde8729fbdd4550f80521c6e2aaaec1034a7eb1f76d1c8af1cea546",
       "ast_digest": "456f8e7f6a7a4223e7795063da24f6765099673f25f90f3fb73d1531a355cb74"
     }
@@ -89,6 +121,13 @@
       "to": "implemented",
       "actor": "codex:019fb9df-375d-7a73-a465-14e5da33a8d9",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019fb9df-375d-7a73-a465-14e5da33a8d9",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -161,6 +200,13 @@
       "actor": "codex:019fb9df-375d-7a73-a465-14e5da33a8d9",
       "reason": "record typed claim-purpose transition blocker observed during #4763 implementation",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"./csdlc-v2/target/debug/csdlc-bind\",\"--root\",\".\",\"--transition-request\",\"/Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/4763.json\"],\"purpose\":\"Transition the active #4763 claim purpose/scope from preparation-only to implementation/publication after binding.\",\"outcome\":\"blocked\",\"evidence_ref\":\"Typed transition failed closed with reconciliation_required: terminal authority for issue 5332 has different identity.\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:019fb9df-375d-7a73-a465-14e5da33a8d9",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

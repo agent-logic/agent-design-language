@@ -12,7 +12,14 @@ Status: ready
 
 ## Scope
 
-Bounded gpt-5.5 preparation review of #4763 cards, design, diagram, dependency gates, COTS/budgets/PVF lanes, rollback/no-deferral criteria, and non-implementation boundary after origin/main integration.
+docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md
+docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md
+docs/milestones/v0.92/README.md
+docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md
+docs/milestones/v0.92/external_launch
+docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md
+docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md
+docs/milestones/v0.92/features/README.md
 
 ## Prompts
 
@@ -25,23 +32,13 @@ Bounded gpt-5.5 preparation review of #4763 cards, design, diagram, dependency g
 
 [
   {
-    "id": "PREP-1",
+    "id": "IMPL-1",
     "severity": "p2",
-    "summary": "The dependency language must require #4762 actual retained implementation proof and must not treat #4762 claim, receipt, merge, or closeout as either a preparation blocker or proof substitute.",
+    "summary": "The typed issue phase is implemented, but historical planning cards and SOR follow-ups still contain preparation-era wording. Publication must not leave readers without current implementation truth.",
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "Encoded in SIP authority, STP dependencies, SPP invariants, VPP dependency-proof gate, design dependency gates, and SOR follow-ups.",
-    "route": null
-  },
-  {
-    "id": "PREP-2",
-    "severity": "p3",
-    "summary": "The PVF plan must name the typed #4763 reacquire/doctor obstruction and fail closed before later execution instead of hiding the unrelated #5332 blocker.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "Encoded in VPP typed-lifecycle-reacquire-doctor lane, SPP risks/stop conditions, design validation lanes, and SOR validation result.",
+    "fix_revision": "git-blake3:5c9cc95afd69a74f95ffb268d1649947d4003b01:cbd0c65944db49fc41354d57341a626886845c0623500f60e2a85996acb1893b",
     "route": null
   }
 ]
@@ -52,14 +49,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The bounded preparation review is an issue-local planning review, not lifecycle review authority for PR publication.
-- Typed C-SDLC reacquire/doctor remains blocked by unrelated #5332 reconciliation until separately repaired.
-- Later execution still depends on #4762 actual implementation proof and public-claim redaction.
+- #4762 remains open, so the only truthful publication mode is a draft/stacked PR and pending-proof launch posture.
+- Typed claim-purpose transition remains blocked by unrelated #5332 terminal-authority reconciliation; SOR records the blocker, and csdlc-doctor/finalize passed under the existing live claim.
+- Some preparation-era card text remains as historical planning context because the implemented phase only permits bounded SOR/SRP truth updates.
 
 ## Review Result
 
-Revision: Some("pre-commit-preparation-packet")
+Revision: Some("git-blake3:5c9cc95afd69a74f95ffb268d1649947d4003b01:cbd0c65944db49fc41354d57341a626886845c0623500f60e2a85996acb1893b")
 
-Reviewer: Some("gpt-5.5:bounded-preparation-review")
+Reviewer: Some("gpt-5.5:bounded-implementation-review")
 
 Result: pass
