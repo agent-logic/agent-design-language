@@ -15,3 +15,10 @@ birthday documentation; and `#5107` owns Adaptive Learning planning.
 v0.91.8 WP-21A handoff review alignment, and `#5359` owns release-tail
 closeout truth. Do not confuse future v0.91.8 WP-21A `#5355` with current
 v0.91.7 WP-21A `#5489`.
+
+#4762 contributes the auditable birth-witness and receipt handoff package at
+`docs/milestones/v0.91.8/review/v092_handoff_4762/`. WP-21 and v0.92 consumers
+may cite that directory for the witness/receipt row, but must preserve its
+explicit `birth_event_status: not_claimed` boundary until a future v0.92 birth
+packet supplies the required identity, continuity, memory, capability,
+witness, receipt, activation trace, validation output, and reviewer evidence.

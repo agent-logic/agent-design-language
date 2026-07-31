@@ -12,7 +12,7 @@ Status: ready
 
 ## Summary
 
-Run only preparation validation for #4762: diff hygiene, six-card surface integrity, bounded preparation review, and typed doctor with the expected expired-claim blocker recorded as execution-time work.
+Validate the #4762 docs/artifact handoff package with deterministic package-shape, diff-hygiene, claim-boundary, typed lifecycle, and exact-head review checks.
 
 ## Lane Inputs
 
@@ -24,10 +24,30 @@ Diagram: .csdlc/prepared/issues/4762/diagram.mmd
 
 [
   {
-    "lane": "prep-diff-hygiene",
-    "proof_role": "Confirm #4762 issue-local preparation artifacts have no whitespace/conflict-marker issues.",
+    "lane": "receipt-package-validator",
+    "proof_role": "Prove required register/receipt fields, witnesses, negative cases, source paths, handoff consumers, and forbidden-claim boundaries.",
     "acceptance_ids": [
-      "AC7"
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/4762/validate_birth_receipt_package.rb"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "diff-hygiene",
+    "proof_role": "Prove touched docs, cards, evidence, and package artifacts have no diff hygiene failures.",
+    "acceptance_ids": [
+      "AC-5"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -40,101 +60,46 @@ Diagram: .csdlc/prepared/issues/4762/diagram.mmd
       "--",
       ".csdlc/issues/4762",
       ".csdlc/prepared/issues/4762",
-      ".csdlc/evidence/4762"
+      ".csdlc/evidence/4762",
+      "docs/milestones/v0.91.8",
+      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md"
     ],
-    "parallel_group": "prep-local",
+    "parallel_group": "local",
     "defer_reason": null
   },
   {
-    "lane": "prep-card-surface",
-    "proof_role": "Confirm all six rendered cards and values files exist for #4762.",
+    "lane": "claim-boundary-scan",
+    "proof_role": "Retain searchable evidence for not_claimed and forbidden-claim boundaries.",
     "acceptance_ids": [
-      "AC1",
-      "AC4"
+      "AC-4"
     ],
     "deterministic": true,
     "resource_profile": "small",
     "budget_seconds": 120,
     "budget_tokens": 500,
     "argv": [
-      "test",
-      "-f",
-      ".csdlc/issues/4762/cards/sip.md",
-      "-a",
-      "-f",
-      ".csdlc/issues/4762/cards/stp.md",
-      "-a",
-      "-f",
-      ".csdlc/issues/4762/cards/spp.md",
-      "-a",
-      "-f",
-      ".csdlc/issues/4762/cards/vpp.md",
-      "-a",
-      "-f",
-      ".csdlc/issues/4762/cards/srp.md",
-      "-a",
-      "-f",
-      ".csdlc/issues/4762/cards/sor.md",
-      "-a",
-      "-f",
-      ".csdlc/issues/4762/cards/sip.values.json",
-      "-a",
-      "-f",
-      ".csdlc/issues/4762/cards/stp.values.json",
-      "-a",
-      "-f",
-      ".csdlc/issues/4762/cards/spp.values.json",
-      "-a",
-      "-f",
-      ".csdlc/issues/4762/cards/vpp.values.json",
-      "-a",
-      "-f",
-      ".csdlc/issues/4762/cards/srp.values.json",
-      "-a",
-      "-f",
-      ".csdlc/issues/4762/cards/sor.values.json"
+      "rg",
+      "birth_event_status|first true Godel-agent birthday has happened|not a birthday occurrence|not_claimed",
+      ".csdlc/prepared/issues/4762",
+      "docs/milestones/v0.91.8/review/v092_handoff_4762"
     ],
-    "parallel_group": "prep-local",
+    "parallel_group": "local",
     "defer_reason": null
   },
   {
-    "lane": "prep-doctor",
-    "proof_role": "Run typed doctor and record only the expected claim_not_live gate as deferred to execution-time acquisition.",
+    "lane": "exact-head-review",
+    "proof_role": "One exact-head pre-PR review over the changed #4762 package and lifecycle truth.",
     "acceptance_ids": [
-      "AC5",
-      "AC7"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 120,
-    "budget_tokens": 1000,
-    "argv": [
-      "csdlc-doctor",
-      "--repo",
-      "/Volumes/FastWork/adl-wp-4762",
-      "--issue",
-      "4762"
-    ],
-    "parallel_group": "prep-local",
-    "defer_reason": "Expected preparation-only blocker: existing claim is expired and must be acquired by the later execution session."
-  },
-  {
-    "lane": "prep-gpt-5.5-review",
-    "proof_role": "Bounded preparation review over cards, design, diagram, paths, budgets, PVF lanes, and non-claims.",
-    "acceptance_ids": [
-      "AC6"
+      "AC-5"
     ],
     "deterministic": false,
     "resource_profile": "small",
-    "budget_seconds": 1200,
+    "budget_seconds": 900,
     "budget_tokens": 6000,
     "argv": [
-      "openai",
-      "responses.create",
-      "--model",
-      "gpt-5.5",
-      "--bounded-preparation-review",
-      "#4762"
+      "codex-review",
+      "#4762",
+      "--exact-head"
     ],
     "parallel_group": "review",
     "defer_reason": null
@@ -143,25 +108,25 @@ Diagram: .csdlc/prepared/issues/4762/diagram.mmd
 
 ## Parallelization
 
-`prep-diff-hygiene` and `prep-card-surface` may run together. `prep-doctor` and `prep-gpt-5.5-review` should be recorded independently because one is typed local state and one is provider review evidence.
+Only declared parallel groups may overlap.
 
 ## Budgets
 
-Seconds: 1200
+Seconds: 1800
 
 Tokens: 8000
 
 ## Commands
 
-- `git diff --check -- .csdlc/issues/4762 .csdlc/prepared/issues/4762 .csdlc/evidence/4762`
-- `find .csdlc/issues/4762/cards -maxdepth 1 -type f`
-- `/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor --repo /Volumes/FastWork/adl-wp-4762 --issue 4762`
-- Bounded OpenAI Responses request using model `gpt-5.5` and the approved credential source, writing retained output under `.csdlc/evidence/4762/gpt-5.5-review/`
+- `ruby .csdlc/prepared/issues/4762/validate_birth_receipt_package.rb`
+- `git diff --check -- .csdlc/issues/4762 .csdlc/prepared/issues/4762 .csdlc/evidence/4762 docs/milestones/v0.91.8 docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md`
+- `rg birth_event_status|first true Godel-agent birthday has happened|not a birthday occurrence|not_claimed .csdlc/prepared/issues/4762 docs/milestones/v0.91.8/review/v092_handoff_4762`
+- `codex-review #4762 --exact-head`
 
 ## Failure Semantics
 
-Fail closed on diff hygiene, missing card/value files, review-identified preparation blockers, or any doctor finding other than the expected `claim_not_live`. Do not reacquire the claim in preparation. Do not convert unavailable provider review into a fake pass.
+Fail closed on validator failure, diff hygiene failure, missing claim-boundary evidence, unresolved exact-head review findings, or stale lifecycle publication truth.
 
 ## Handoff
 
-Later execution must refresh this VPP if it adds source code, validators, COTS dependencies, runtime changes, cloud services, publication, or closeout work.
+Retain typed evidence before convergence.

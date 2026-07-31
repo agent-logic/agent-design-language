@@ -7,39 +7,34 @@
     "title": "[v0.91.8][WP-21][birth-witnesses] Prepare #4762 birth witnesses and receipt package",
     "slug": "v0918-wp21-birth-witnesses-receipt-prep-4762",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 10
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
-      "goal": "Prepare issue-specific C-SDLC v2 planning state for later execution of the #4762 birth witnesses and receipt package.",
-      "required_outcome": "A later execution session can acquire a live #4762 claim and produce an auditable witness/receipt package, or fail closed with an operator-approved blocker naming the missing witness, receipt, redaction, or handoff dependency.",
+      "goal": "Implement the #4762 auditable birth-witness register and receipt package for v0.91.8 to v0.92 handoff consumption without claiming that the v0.92 birthday occurred.",
+      "required_outcome": "Retained witness, receipt, negative-case, validation, and handoff-consumption artifacts exist, validate deterministically, and preserve explicit non-claims for birthday occurrence, personhood, production citizenship, and v0.93 governance.",
       "declared_scope": [
-        "Complete six issue-specific #4762 cards for preparation only.",
-        "Preserve current v0.91.8 routing: #4762 is WP-21 under parent #5362, not WP-14A platform acceptance.",
-        "Plan the birth witness register and receipt package without creating those execution artifacts.",
-        "Name exact intended issue-local paths, COTS posture, budgets, PVF lanes, rollback criteria, and no-deferral criteria.",
-        "Retain one bounded preparation review and apply preparation-scope fixes."
+        "Retained #4762 schema, negative-case register, execution design, and validator under .csdlc/prepared/issues/4762/.",
+        "Reviewer-facing witness register, receipt, README, and summary under docs/milestones/v0.91.8/review/v092_handoff_4762/.",
+        "v0.91.8 and v0.92 handoff docs cite the package by exact path while preserving birth_event_status: not_claimed.",
+        "Focused validation and exact-head review evidence retained under .csdlc/evidence/4762/."
       ],
       "authority_boundary": [
-        "The GitHub issue body is the implementation closure authority: planning-only work cannot close #4762.",
-        "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml and docs/milestones/v0.91.8/WBS_v0.91.8.md are the current routing authority.",
-        "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md is the current v0.92 consumption row authority for Birth witnesses/receipt | #4762 | Auditable receipt package.",
-        "docs/milestones/v0.92/IDENTITY_CONTINUITY_AND_BIRTHDAY_PLAN_v0.92.md and related feature docs define the witness/receipt semantics consumed by later execution.",
-        "Execution-time claim acquisition, terminal receipts, PR publication, merge, and closeout are deferred and must not block this preparation branch."
+        "Issue #4762 authorizes the birth-witnesses and receipt package only.",
+        "This work may implement auditable handoff artifacts and validation scripts but may not start the future v0.92 birthday event.",
+        "Publication may create a ready PR with Closes #4762; merge and post-merge closeout remain out of scope for this session."
       ],
       "initial_assumptions": [
-        "origin/main at 51bc5ae51b57c19dbab693af1c5a45142995f4e5 is the current integrated baseline for this preparation pass.",
-        "The existing #4762 claim is expired; this is recorded as an execution-time gate rather than reacquired during preparation.",
-        "No implementation source path is required unless a later execution SPP/VPP revision explicitly authorizes it."
+        "The live reacquired claim binds this worktree and branch.",
+        "The package is docs/artifact validation work, not runtime/product code."
       ],
       "operator_constraints": [
-        "Use only /Volumes/FastWork/adl-wp-4762 on branch codex/4762-v0918-wp14-preparation.",
-        "Never use /private/tmp.",
-        "Preparation only: no implementation, PR, publication, merge, or closeout.",
-        "Do not let claim reacquisition, receipts, or closeout block preparation.",
-        "Do not start v0.92 implementation or claim birthday readiness."
+        "Operate only in /Volumes/FastWork/adl-wp-4762 on codex/4762-v0918-wp14-preparation.",
+        "Do not edit primary main and do not use /private/tmp.",
+        "Use repaired v2 binaries from /Volumes/FastWork/adl-wp-5737/csdlc-v2/target/debug.",
+        "Do not claim that the v0.92 birthday occurred."
       ]
     }
   }

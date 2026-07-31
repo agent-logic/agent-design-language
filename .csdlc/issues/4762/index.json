@@ -3,24 +3,29 @@
   "issue": 4762,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "a5fe0b1e9eec7136904a3d1d13c8f0df266a9db06f660c4b1d17db3909a15828",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "4435d51381e1f66de5751755dab86562f05ed9ac36417e0a335c63062fbc4d84",
+  "phase": "bound",
+  "generation": 10,
+  "digest": "cea89fb0a26e47e29c53ba113e7784fa8f9b5fd5d2d74fb3eab4e691864ba0db",
   "claim": {
-    "id": "prep-4762-v0918-wp14",
-    "owner": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
-    "generation": 0,
-    "acquired_unix_seconds": 1784755804,
-    "expires_unix_seconds": 1785360604,
-    "heartbeat_unix_seconds": 1784755804,
+    "id": "claim-4762-birth-witness-receipt-execution",
+    "owner": "codex:019fb9d5-3bcb-7123-bbbd-5bf33c1cb4d2",
+    "generation": 10,
+    "acquired_unix_seconds": 1785529361,
+    "expires_unix_seconds": 1786134161,
+    "heartbeat_unix_seconds": 1785529361,
     "branch": "codex/4762-v0918-wp14-preparation",
     "worktree": ".",
     "protected_paths": [
+      ".csdlc/evidence/4762",
       ".csdlc/issues/4762",
       ".csdlc/locks/4762.lock",
-      ".csdlc/prepared/issues/4762"
+      ".csdlc/prepared/issues/4762",
+      "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/review/v092_handoff_4762",
+      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md"
     ],
-    "purpose": "Preparation only for later execution of the WP-14 birth witnesses and receipt package; no implementation, PR, review, merge, or closeout."
+    "purpose": "Execute #4762 by producing the real auditable birth-witness register, receipt package, negative-case dispositions, validation evidence, exact-head review evidence, and v0.91.8/v0.92 handoff consumption links without claiming that the v0.92 birthday has occurred."
   },
   "review_assignment": null,
   "review": null,
@@ -32,43 +37,58 @@
   "diagram_path": ".csdlc/prepared/issues/4762/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
-      "revision": "446028e1ad05a64a2f18d5fd768d39c563c62338f98f1c37c66365a71e464294"
+      "reviewer": "codex:execution-design-reapproval",
+      "revision": "44ad81e9b236bbe02d0e44176741ebb41e51d59287aebafd177d8ea474b8b15d"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "88d5e69663ca5ae668b2baf7d4a097a043f437bd5d3d49aab8d2ad46ddeb8d3d",
-      "rendered_digest": "f818ceb917fe514fb7bc8adab5f06c8d133c4f26521137519cd463b4554fa67f",
-      "ast_digest": "75aab1d5659b654c5dfb2a8268b11398e682e69efa501d030f5981815e7ede70"
+      "values_digest": "f03abee483dceb04a30dd79fedef6aea0aaa0e0644046aaf294cd7e2f75a2aef",
+      "rendered_digest": "3855d82bd73b9f1e12cb3b12c210f6dc94228c0725e2849724582bd813410927",
+      "ast_digest": "f67d41548d1902bd5c6c5895fbbae0cfcfbc5bd019a475465dda3636a9c32db6"
     },
     "stp": {
-      "values_digest": "f3120cc76cd61fe63fd4cfae44ea1978c94a279ae95b0befd9cf87d0346c0680",
-      "rendered_digest": "cd84c714cc60529a52c59f9c9300bb1e30ce46c9ae321d568f94052242f25a18",
-      "ast_digest": "b71f58b3cddb07d73d8b133aa0a619dc114b32dcf9ac2a7c96b1d2073fa21521"
+      "values_digest": "1f171ac8aa43693f2a91154851af88a9c0f3715b69dd5f636ed8f2c0571c2f02",
+      "rendered_digest": "9f86e2b2c55eab338589f5eba77c42b140ddcd919f9e32bed41ec3b77bf45ee4",
+      "ast_digest": "a74ef0ca730f345373ed04e747980b5ead9b005c82ad5f4c5796153a87423132"
     },
     "spp": {
-      "values_digest": "e5f790bcec6fa36082c05ee68aa077de7ee7e6faf1fed0b901be36f536cf1e01",
-      "rendered_digest": "36711040b877d69d8d45d5bbf91c90745bd3389111b0288f8345bc4bb67040a5",
-      "ast_digest": "560f1fc138ff9e790cf0a17b0e7898ba4696c36bbaee4a22cd4fe03fdd6bf0cb"
+      "values_digest": "f6d73464a98fade9b397c1f015d095dfa15a7c46f56dd0b3bfc65915c1a0b989",
+      "rendered_digest": "db1fcb75eaf8c86d65875b3565b9cae6270b75b07d89d21f90585e11cbcb8a0e",
+      "ast_digest": "5e352d763e93d8f98e72586ef765a7f69051e081c3c809aec93400f691146a65"
     },
     "vpp": {
-      "values_digest": "53006a115bfee72b2f825d511ccb3c10ecbc480bfdd1d74054b4362ef6e7018b",
-      "rendered_digest": "e5cd551967ef3fc1ebe9ab15feb3571c570277cfa114fd3b27ce14fbcdcc6035",
-      "ast_digest": "6f2f95d0dc080a93277379d804983a14d3af0ce10cfafdde850e16d6ecfea597"
+      "values_digest": "574161cd2734f938f3fcbcba67c7571dff6fc752601eb32cb44260376ed153c2",
+      "rendered_digest": "688e5354e95a8310494bcec892d04e783a26f54c7cfeac20eb5a79a97286acce",
+      "ast_digest": "ec04bc237cf2fcac2c31348bcca85709e8d4c35e3454f10b70c0875dd800d1a8"
     },
     "srp": {
-      "values_digest": "475eb7646aee21710f44c9f03120dd7419592c1208a4c6419ad5f6dfff5abe46",
-      "rendered_digest": "3b1302859e7430ec521ac36270661c82b034134246002a44c1f456ba67754753",
-      "ast_digest": "85be40ee45931d8b4cfe1cbbc6374caf48953b3efdb60e662ad2a0a71aa3c6c4"
+      "values_digest": "1b282a59177a8724c073e28833b5a5cb08623c3c83db3630c239d417b87b3d7a",
+      "rendered_digest": "b6e209921fe957fd599c4ceb8bf15b71371939d820fe81c4e40356188354e112",
+      "ast_digest": "00492ddc06182314c0df13fdc03f51fc1258c43d946a456bd8701121a75f411f"
     },
     "sor": {
-      "values_digest": "425fa0c8ddb33ab6b148ff8c862b247303ee93f6b7deeec731a6e31dc5d070fe",
-      "rendered_digest": "e75fcd57d5d4c1849f8d3d21958b691b2ba7fb8be6c5498991a4e8f65346256f",
-      "ast_digest": "3ba9728ecb4c5344ce6b8da1b7ac48bfb71c98508c495551c80039adce6f3291"
+      "values_digest": "fd251a31009fa33a13bcc5823bc806d457300a21424397ab77f7d1e42ca57fb6",
+      "rendered_digest": "8731270f9f31bad81715e494902b9eaf026b61708a53a5111485c0d7db32bb02",
+      "ast_digest": "429ef8953dd8d5077db85af2793b9b755e2ca5492616faa2239491110d3f0ee0"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "Execution claim is live in the requested FastWork worktree; advance #4762 from initialized to ready before bound execution recording."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "Bind #4762 execution to the already-claimed /Volumes/FastWork/adl-wp-4762 worktree on codex/4762-v0918-wp14-preparation."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -76,6 +96,83 @@
       "actor": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019fb9d5-3bcb-7123-bbbd-5bf33c1cb4d2",
+      "reason": "Operator authorized #4762 execution in the existing FastWork worktree using the completed preparation packet; reacquire the expired preparation claim for the real auditable birth-witness and receipt package. Closeout and terminal receipt reconciliation remain a separate lane and do not block execution.",
+      "operation": "{\"branch\":\"codex/4762-v0918-wp14-preparation\",\"claim_id\":\"claim-4762-birth-witness-receipt-execution\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:019fb9d5-3bcb-7123-bbbd-5bf33c1cb4d2\",\"previous_claim_id\":\"prep-4762-v0918-wp14\",\"previous_owner\":\"codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11\",\"protected_paths\":[\".csdlc/evidence/4762\",\".csdlc/issues/4762\",\".csdlc/locks/4762.lock\",\".csdlc/prepared/issues/4762\",\"docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md\",\"docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md\",\"docs/milestones/v0.91.8/review/v092_handoff_4762\",\"docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md\"],\"purpose\":\"Execute #4762 by producing the real auditable birth-witness register, receipt package, negative-case dispositions, validation evidence, exact-head review evidence, and v0.91.8/v0.92 handoff consumption links without claiming that the v0.92 birthday has occurred.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:execution-design-reapproval",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "Repair stale ACn acceptance IDs to canonical AC-n form required by repaired C-SDLC v2 cross-card validation.",
+      "operation": "{\"operation\":\"repair_acceptance_id_shape\",\"from\":\"ACn\",\"to\":\"AC-n\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "Repair stale ACn acceptance IDs to canonical AC-n form required by repaired C-SDLC v2 cross-card validation.",
+      "operation": "{\"operation\":\"repair_acceptance_id_shape\",\"from\":\"ACn\",\"to\":\"AC-n\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "Repair stale ACn acceptance IDs to canonical AC-n form required by repaired C-SDLC v2 cross-card validation.",
+      "operation": "{\"operation\":\"repair_acceptance_id_shape\",\"from\":\"ACn\",\"to\":\"AC-n\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "Execution claim is live in the requested FastWork worktree; advance #4762 from initialized to ready before bound execution recording.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "Bind #4762 execution to the already-claimed /Volumes/FastWork/adl-wp-4762 worktree on codex/4762-v0918-wp14-preparation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"bound\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "Repair stale ACn acceptance IDs to canonical AC-n form required by repaired C-SDLC v2 cross-card validation.",
+      "operation": "{\"operation\":\"repair_acceptance_id_shape\",\"from\":\"ACn\",\"to\":\"AC-n\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "Record implemented #4762 birth-witness and receipt handoff package artifacts.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the #4762 auditable birth-witness register and receipt handoff package for v0.91.8 to v0.92 consumption without claiming that the v0.92 birthday occurred.\",\"changes\":[\"Added the retained witness/receipt schema, negative-case disposition register, execution design, validation notes, and deterministic Ruby validator under .csdlc/prepared/issues/4762/.\",\"Added the reviewer-facing witness register, birth receipt, README, and summary under docs/milestones/v0.91.8/review/v092_handoff_4762/.\",\"Updated v0.91.8 activation/handoff and v0.92 launch packet references so downstream consumers cite the #4762 package by exact path while preserving birth_event_status: not_claimed.\",\"Repaired stale C-SDLC card projection metadata and normalized lifecycle cards to execution truth in the bound issue worktree.\"],\"artifacts\":[\".csdlc/prepared/issues/4762/birth-witness-receipt-schema.v1.json\",\".csdlc/prepared/issues/4762/birth-witness-receipt-negative-cases.v1.json\",\".csdlc/prepared/issues/4762/birth-witness-receipt-design.md\",\".csdlc/prepared/issues/4762/birth-witness-receipt-validation.md\",\".csdlc/prepared/issues/4762/validate_birth_receipt_package.rb\",\"docs/milestones/v0.91.8/review/v092_handoff_4762/\",\"docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md\",\"docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md\",\"docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md\",\".csdlc/evidence/4762/implementation-validation/\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "Record focused #4762 package validator pass.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/4762/validate_birth_receipt_package.rb\"],\"purpose\":\"Validate required witness/receipt fields, witness coverage, negative cases, source paths, handoff consumers, and forbidden-claim boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/4762/implementation-validation/birth-witness-receipt-validator.log\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "Record focused #4762 diff hygiene pass.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"--\",\".csdlc/issues/4762\",\".csdlc/prepared/issues/4762\",\".csdlc/evidence/4762\",\"docs/milestones/v0.91.8\",\"docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md\"],\"purpose\":\"Confirm touched lifecycle, evidence, package, and handoff docs have no diff hygiene failures.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/4762/implementation-validation/diff-hygiene.log\"}}"
     }
   ]
 }

@@ -7,107 +7,99 @@
     "title": "[v0.91.8][WP-21][birth-witnesses] Prepare #4762 birth witnesses and receipt package",
     "slug": "v0918-wp21-birth-witnesses-receipt-prep-4762",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 10
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
-      "summary": "Prepare #4762 for later execution of an auditable birth witness register and receipt package while preserving the non-implementation boundary for this branch.",
+      "plan_revision": 3,
+      "summary": "Execute #4762 by delivering the retained auditable birth-witness register, receipt, negative-case dispositions, validation evidence, exact-head review evidence, and handoff consumption links without claiming the v0.92 birthday occurred.",
       "steps": [
         {
           "id": "S1",
-          "action": "Integrate current origin/main into /Volumes/FastWork/adl-wp-4762 on codex/4762-v0918-wp14-preparation.",
+          "action": "Create retained schema, negative-case, execution-design, and validator artifacts for the #4762 birth-witness/receipt package.",
           "acceptance_ids": [
-            "AC1"
+            "AC-1",
+            "AC-2",
+            "AC-4"
           ],
           "status": "completed"
         },
         {
           "id": "S2",
-          "action": "Refresh SIP/STP/SPP/VPP/SRP/SOR so each card is issue-specific, preparation-only, and aligned with current WP-21 routing.",
+          "action": "Create reviewer-facing witness register, receipt, README, and summary package under the v0.91.8 handoff review path.",
           "acceptance_ids": [
-            "AC1",
-            "AC5"
+            "AC-1",
+            "AC-4"
           ],
           "status": "completed"
         },
         {
           "id": "S3",
-          "action": "Author source-grounded design and Mermaid diagram for the later witness/receipt package.",
+          "action": "Wire exact handoff consumption references into v0.91.8 activation/handoff and v0.92 launch packet surfaces.",
           "acceptance_ids": [
-            "AC2",
-            "AC3"
+            "AC-3",
+            "AC-4"
           ],
           "status": "completed"
         },
         {
           "id": "S4",
-          "action": "Record exact dependencies, intended issue-local paths, COTS stance, LoC/time/token budgets, PVF lanes, rollback criteria, and no-deferral criteria.",
+          "action": "Run focused validation and retain issue-local evidence.",
           "acceptance_ids": [
-            "AC3",
-            "AC4"
+            "AC-2",
+            "AC-4",
+            "AC-5"
           ],
           "status": "completed"
         },
         {
           "id": "S5",
-          "action": "Run bounded preparation review and apply preparation-scope fixes.",
+          "action": "Obtain exact-head review, fix findings, record review truth, commit, push, and publish a ready PR with Closes #4762.",
           "acceptance_ids": [
-            "AC6"
+            "AC-5"
           ],
-          "status": "completed"
-        },
-        {
-          "id": "S6",
-          "action": "Run preparation validation and record expected claim_not_live doctor blocker without reacquiring the claim.",
-          "acceptance_ids": [
-            "AC7"
-          ],
-          "status": "completed"
+          "status": "pending"
         }
       ],
       "affected_areas": [
-        ".csdlc/issues/4762/cards/",
+        ".csdlc/issues/4762/",
         ".csdlc/prepared/issues/4762/",
-        ".csdlc/evidence/4762/preparation-validation/",
-        ".csdlc/evidence/4762/gpt-5.5-review/"
+        ".csdlc/evidence/4762/",
+        "docs/milestones/v0.91.8/review/v092_handoff_4762/",
+        "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
+        "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md",
+        "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md"
       ],
       "invariants": [
-        "Preparation does not implement, publish, merge, or close #4762.",
-        "The #4762 closure condition remains implementation plus integrated proof, not planning text.",
-        "The birth witness register and receipt package must be auditable and redaction-safe when later executed.",
-        "Missing birth evidence fails closed; it is not deferred as success.",
-        "The expired claim is not reacquired during preparation."
+        "The package is handoff evidence, not a birthday occurrence.",
+        "Missing identity, continuity, memory, capability, witness, receipt, activation, validation, or reviewer evidence fails closed for any future birth claim.",
+        "Lifecycle truth must distinguish local validation, exact-head review, PR publication, merge, and closeout."
       ],
       "risks": [
-        "Later execution may lack current identity, continuity, memory-grounding, capability, or reviewer evidence inputs.",
-        "The historical branch name says WP14 while current routing is WP-21; the preparation artifacts must keep that correction visible.",
-        "csdlc-doctor will continue to block on claim_not_live until execution-time claim acquisition occurs.",
-        "A model/provider review may be unavailable; if so, the evidence must record the provider refusal instead of fabricating a review."
+        "The historical branch slug says WP14 while current issue routing is WP-21; artifacts keep #4762 and WP-21 handoff truth explicit.",
+        "Future v0.92 consumers may overread the package as birthday completion; artifacts preserve birth_event_status: not_claimed."
       ],
       "execution_estimates": {
-        "elapsed_seconds": 10800,
-        "total_tokens": 60000,
-        "validation_seconds": 1200
+        "elapsed_seconds": 14400,
+        "total_tokens": 80000,
+        "validation_seconds": 1800
       },
       "stop_conditions": [
-        "Later execution requires production code, scripts, schema validators, new dependencies, cloud services, or runtime changes before SPP/VPP are revised.",
-        "Any artifact claims birthday readiness, legal personhood, production citizenship, public launch readiness, or v0.93 governance completion.",
-        "The preparation review reports an actionable preparation-scope blocker that cannot be fixed in cards/design/evidence.",
-        "Local validation finds a blocker other than the expected expired-claim gate."
+        "Stop if any artifact claims the v0.92 birthday occurred.",
+        "Stop if focused validation fails.",
+        "Stop if exact-head review reports unresolved actionable findings.",
+        "Stop before merge or post-merge closeout."
       ],
       "replan_triggers": [
-        "Later execution needs Rust, TypeScript, shell scripts, schema validators, provider calls, runtime integration, or cloud work.",
-        "WP-21 routing or v0.92 handoff source docs change after this preparation branch.",
-        "The intended witness/receipt artifact paths conflict with another issue or review packet.",
-        "Execution-time claim acquisition reports a live conflicting protected path."
+        "Runtime birthday activation, provider calls, cloud services, or production code become necessary.",
+        "Downstream v0.92 inputs require live identity, continuity, memory, or capability evidence instead of handoff contract artifacts."
       ],
       "design_ref": ".csdlc/prepared/issues/4762/design.md",
-      "design_digest": "b5f8c25ab8d85349758fd810aaf8336e6fcd82a066a4fa2eebd9140e01c88c7b",
+      "design_digest": "44ad81e9b236bbe02d0e44176741ebb41e51d59287aebafd177d8ea474b8b15d",
       "diagram_ref": ".csdlc/prepared/issues/4762/diagram.mmd",
-      "diagram_digest": "fdf2d0b5c0e906788f5579d14b1ebbdb76c7ab1645da78803aacf6f2df076923"
+      "diagram_digest": "86d6ec17a88e161d272c9d7580af9c207ee974d652e335b23941b6605a31ac85"
     }
   }
 }

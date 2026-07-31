@@ -14,7 +14,7 @@ These rows do not block WP-14A itself.
 | Lifecycle governance | #5358 | C-SDLC v2 typed lifecycle proof |
 | Capability envelope | #4761 | Evidence-backed capability envelope |
 | Memory Palace | #4760, #5007 | Acceptance boundary, handoff evidence, and ADR acceptance |
-| Birth witnesses/receipt | #4762 | Auditable receipt package |
+| Birth witnesses/receipt | #4762 | Auditable receipt package at `docs/milestones/v0.91.8/review/v092_handoff_4762/` |
 | Public launch docs | #4758, #4763 | Claim-bounded launch docs |
 | Adaptive Learning DAG | #5107 | Queued prerequisites and non-claims |
 | Distributed workcell | #5497, #5501 | One reviewed live workcell and bounded context/output-contract proof |
