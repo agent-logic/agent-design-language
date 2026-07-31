@@ -4992,6 +4992,74 @@ mod terminal_design_repair_tests {
     }
 
     #[test]
+    fn terminal_disposition_repair_follows_typed_reconcile_for_stale_implemented_projection() {
+        let (temp, store, authority, target, receipt, expected) = disposition_fixture();
+        let cards = store.load_cards(target.issue).expect("terminal cards");
+        let mut stale = target.clone();
+        let implemented = stale
+            .transitions
+            .iter()
+            .position(|event| event.to == LifecyclePhase::Implemented)
+            .expect("implemented transition");
+        stale.transitions.truncate(implemented + 1);
+        stale.phase = LifecyclePhase::Implemented;
+        stale.terminal = None;
+        stale.publication = None;
+        stale.readiness = None;
+        hydrate_projections(&mut stale, &cards).expect("stale projections");
+        stale.digest = record_digest(&stale).expect("stale digest");
+        store
+            .commit(stale.issue, &stale, &cards, false)
+            .expect("write stale projection");
+        assert_eq!(
+            store.load_terminal_receipt(target.issue).unwrap().unwrap(),
+            receipt,
+            "retained terminal authority must remain unchanged"
+        );
+
+        assert!(std::process::Command::new("git")
+            .args(["checkout", "-q", "-b", "recordless-recovery-test"])
+            .current_dir(temp.path())
+            .status()
+            .expect("create fixture branch")
+            .success());
+        let branch = crate::git::current_branch(temp.path()).expect("fixture branch");
+        let reconciled = store
+            .reconcile_terminal(ReconcileTerminalRequest {
+                issue: target.issue,
+                expected_initialization_digest: receipt.initialization_digest.clone(),
+                expected_branch: branch,
+                expected_worktree: temp.path().canonicalize().unwrap().to_string_lossy().into(),
+                actor: "codex:test".into(),
+                reason: "Materialize retained terminal authority before disposition repair.".into(),
+                follow_ups: Vec::new(),
+            })
+            .expect("typed terminal reconciliation");
+        assert_eq!(reconciled.phase, LifecyclePhase::ClosedOut);
+        let reconciled_receipt = store.load_terminal_receipt(target.issue).unwrap().unwrap();
+        assert_eq!(reconciled_receipt.record, reconciled);
+
+        let repaired = store
+            .repair_terminal_disposition(disposition_request(
+                &authority,
+                &reconciled,
+                &reconciled_receipt,
+                expected,
+                None,
+            ))
+            .expect("disposition repair after reconciliation");
+        assert_eq!(repaired.terminal.as_ref().unwrap().pull_request, Some(5634));
+        assert_eq!(
+            store
+                .load_terminal_receipt(target.issue)
+                .unwrap()
+                .unwrap()
+                .record,
+            repaired
+        );
+    }
+
+    #[test]
     fn terminal_receipt_transport_materializes_absent_clone_state_and_is_idempotent() {
         let (_temp, store, authority, target, receipt, _) = terminal_validation_fixture();
         fs::remove_dir_all(store.issue_dir(target.issue)).expect("remove projection");
