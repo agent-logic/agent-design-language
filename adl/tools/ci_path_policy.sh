@@ -1630,6 +1630,9 @@ EOF
             fi
             mark_pr_fast_rust_validation
             ;;
+          demos/podcast/*|demos/_preview/podcast/*)
+            ci_contracts_required=true
+            ;;
           demos/*|adl/tools/demo_*|adl/tools/test_demo_*)
             ci_contracts_required=true
             demo_smoke_required=true
