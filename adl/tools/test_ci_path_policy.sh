@@ -217,6 +217,18 @@ EOF
   assert_file_has "$tmp_dir/windows-illegal.err" 'docs/windows:illegal.md'
   git reset -q --hard "$base_sha"
 
+  git checkout -q -b windows-illegal-path-deletion-base "$base_sha"
+  printf 'invalid path to remove\n' > 'docs/windows:illegal.md'
+  git add 'docs/windows:illegal.md'
+  git commit -q -m windows-illegal-path-base
+  windows_illegal_base="$(git rev-parse HEAD)"
+  rm 'docs/windows:illegal.md'
+  git add 'docs/windows:illegal.md'
+  git commit -q -m remove-windows-illegal-path
+  "$POLICY" --event-name pull_request --base "$windows_illegal_base" --head HEAD --ref "refs/pull/1/merge" >"$tmp_dir/windows-illegal-delete.out"
+  assert_has "$(cat "$tmp_dir/windows-illegal-delete.out")" "fail_closed=false"
+  git reset -q --hard "$base_sha"
+
   newline_illegal_path=$'docs/portable\nwindows:illegal.md'
   printf 'invalid suffix after newline\n' > "$newline_illegal_path"
   git add "$newline_illegal_path"

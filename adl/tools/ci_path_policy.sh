@@ -46,8 +46,8 @@ assert_windows_portable_tracked_paths() {
     done
   done < <(
     if [ "$event_name" = "pull_request" ] && [ -n "${base_sha:-}" ] && [ -n "${head_sha:-}" ]; then
-      git diff --name-only -z --diff-filter=ACMRD "$base_sha...$head_sha" 2>/dev/null || \
-        git diff --name-only -z --diff-filter=ACMRD "$base_sha" "$head_sha" 2>/dev/null || true
+      git diff --name-only -z --diff-filter=ACMR "$base_sha...$head_sha" 2>/dev/null || \
+        git diff --name-only -z --diff-filter=ACMR "$base_sha" "$head_sha" 2>/dev/null || true
     else
       git ls-files -z
     fi
