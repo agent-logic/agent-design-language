@@ -711,10 +711,10 @@ html_observatory_v0917="$TMP/html-observatory-v0917.txt"
 cat >"$html_observatory_v0917" <<'EOF'
 A	adl/tools/test_v0917_html_observatory_integrated_proof.sh
 A	adl/tools/validate_v0917_html_observatory.py
-A	demos/v0.91.7/html-observatory/README.md
-A	demos/v0.91.7/html-observatory/app.js
-A	demos/v0.91.7/html-observatory/index.html
-A	demos/v0.91.7/html-observatory/styles.css
+A	demos/html-observatory/README.md
+A	demos/html-observatory/app.js
+A	demos/html-observatory/index.html
+A	demos/html-observatory/styles.css
 EOF
 bash "$SCRIPT" --changed-files "$html_observatory_v0917" --json >"$TMP/html-observatory-v0917.json"
 python3 - <<'PY' "$TMP/html-observatory-v0917.json"
@@ -734,10 +734,10 @@ assert lane["run_command"] == "bash adl/tools/test_v0917_html_observatory_integr
 assert set(lane["matched_paths"]) == {
     "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
     "adl/tools/validate_v0917_html_observatory.py",
-    "demos/v0.91.7/html-observatory/README.md",
-    "demos/v0.91.7/html-observatory/app.js",
-    "demos/v0.91.7/html-observatory/index.html",
-    "demos/v0.91.7/html-observatory/styles.css",
+    "demos/html-observatory/README.md",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/index.html",
+    "demos/html-observatory/styles.css",
 }
 PY
 
@@ -762,7 +762,17 @@ profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_lane_plan.v1"
 assert profile["aggregate_status"] == "selected"
 assert profile["pr_publication_sufficient"] is True
-assert set(profile["lanes"].keys()) == {"unity_observatory_contract_surface"}
+assert set(profile["lanes"].keys()) == {
+    "unity_editor_liveness",
+    "unity_observatory_contract_surface",
+}
+focused = profile["lanes"]["unity_editor_liveness"]
+assert focused["matched_paths"] == [
+    "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+]
+assert focused["status"] == "selected"
+assert focused["owner"] == "review"
+assert "test_v0916_unity_observatory_local_runtime_consumption_unit.sh" in focused["command"]
 lane = profile["lanes"]["unity_observatory_contract_surface"]
 assert lane["status"] == "selected"
 assert lane["proof_role"] == "demo_contract"
@@ -774,6 +784,33 @@ assert "test_v0916_unity_observatory_local_runtime_consumption_unit.sh" in lane[
 assert "test_v0916_unity_observatory_local_runtime_consumption.sh" in lane["command"]
 assert "test_v0916_unity_observatory_soak_integration.sh" in lane["command"]
 assert "csm_observatory_cli_writes_unity_contract_bundle" in lane["command"]
+PY
+
+unity_mcp_alignment="$TMP/unity-mcp-alignment.txt"
+cat >"$unity_mcp_alignment" <<'EOF'
+A	adl/tools/probe_unity_mcp_observatory_alignment.sh
+A	adl/tools/test_v0916_unity_mcp_alignment_unit.sh
+A	docs/tooling/unity_mcp_observatory_alignment.md
+EOF
+bash "$SCRIPT" --changed-files "$unity_mcp_alignment" --json >"$TMP/unity-mcp-alignment.json"
+python3 - <<'PY' "$TMP/unity-mcp-alignment.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["aggregate_status"] == "selected"
+assert profile["pr_publication_sufficient"] is True
+assert set(profile["lanes"].keys()) == {"unity_mcp_alignment"}
+lane = profile["lanes"]["unity_mcp_alignment"]
+assert lane["matched_paths"] == [
+    "adl/tools/probe_unity_mcp_observatory_alignment.sh",
+    "adl/tools/test_v0916_unity_mcp_alignment_unit.sh",
+    "docs/tooling/unity_mcp_observatory_alignment.md",
+]
+assert lane["proof_role"] == "demo_contract"
+assert lane["owner"] == "review"
+assert "test_v0916_unity_mcp_alignment_unit.sh" in lane["command"]
+assert "test_v0916_unity_observatory_contract.sh" in lane["command"]
 PY
 
 unity_observatory_v0917="$TMP/unity-observatory-v0917.txt"
@@ -827,6 +864,7 @@ assert lane["matched_paths"] == [
 ]
 assert "test_v0916_unity_observatory_local_runtime_consumption.sh" in lane["command"]
 assert "test_v0916_unity_observatory_local_runtime_consumption_unit.sh" in lane["command"]
+assert "test_v0916_unity_observatory_contract.sh" in lane["command"]
 PY
 
 unity_observatory_runtime_script="$TMP/unity-observatory-runtime-script.txt"
@@ -843,15 +881,65 @@ profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_lane_plan.v1"
 assert profile["aggregate_status"] == "selected"
 assert profile["pr_publication_sufficient"] is True
-assert set(profile["lanes"].keys()) == {"unity_observatory_contract_surface"}
-lane = profile["lanes"]["unity_observatory_contract_surface"]
+assert set(profile["lanes"].keys()) == {"unity_editor_liveness"}
+lane = profile["lanes"]["unity_editor_liveness"]
 assert lane["matched_paths"] == [
     "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
     "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
 ]
 assert "test_v0916_unity_observatory_local_runtime_consumption.sh" in lane["command"]
 assert "test_v0916_unity_observatory_local_runtime_consumption_unit.sh" in lane["command"]
+assert "test_v0916_unity_observatory_contract.sh" in lane["command"]
 PY
+
+unity_ilpp_diagnostics="$TMP/unity-ilpp-diagnostics.txt"
+cat >"$unity_ilpp_diagnostics" <<'EOF'
+A	adl/tools/lib/unity_observatory_batch_classifiers.sh
+A	adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh
+A	adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh
+A	docs/tooling/unity_ilpp_getdomainname_diagnosis.md
+EOF
+bash "$SCRIPT" --changed-files "$unity_ilpp_diagnostics" --json >"$TMP/unity-ilpp-diagnostics.json"
+python3 - <<'PY' "$TMP/unity-ilpp-diagnostics.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["aggregate_status"] == "selected"
+assert set(profile["lanes"].keys()) == {"unity_ilpp_diagnostics"}
+lane = profile["lanes"]["unity_ilpp_diagnostics"]
+assert lane["matched_paths"] == [
+    "adl/tools/lib/unity_observatory_batch_classifiers.sh",
+    "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
+    "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+    "docs/tooling/unity_ilpp_getdomainname_diagnosis.md",
+]
+assert lane["proof_role"] == "demo_contract"
+assert "unity_observatory_batch_classifiers.sh" in lane["command"]
+assert "run_v0918_unity_ilpp_diagnostic_matrix.sh" in lane["command"]
+assert "test_v0918_unity_ilpp_diagnostic_matrix.sh" in lane["command"]
+PY
+
+for unity_full_lane_path in \
+  adl/tools/test_v0916_unity_observatory_soak_integration.sh \
+  adl/tools/test_v0916_unity_observatory_unity65_smoke.sh
+do
+  unity_full_lane_input="$TMP/$(basename "$unity_full_lane_path").txt"
+  printf 'M\t%s\n' "$unity_full_lane_path" >"$unity_full_lane_input"
+  bash "$SCRIPT" --changed-files "$unity_full_lane_input" --json >"$unity_full_lane_input.json"
+  python3 - <<'PY' "$unity_full_lane_input.json" "$unity_full_lane_path"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+changed_path = sys.argv[2]
+assert set(profile["lanes"].keys()) == {"unity_observatory_contract_surface"}
+lane = profile["lanes"]["unity_observatory_contract_surface"]
+assert lane["matched_paths"] == [changed_path]
+assert "test_v0916_unity_observatory_soak_integration.sh" in lane["command"]
+assert "test_v0916_unity_observatory_unity65_smoke.sh" in lane["command"]
+PY
+done
 
 scheduler_provider_policy="$TMP/scheduler-provider-policy.txt"
 cat >"$scheduler_provider_policy" <<'EOF'
