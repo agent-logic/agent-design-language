@@ -712,10 +712,10 @@ html_observatory_v0917="$TMP/html-observatory-v0917.txt"
 cat >"$html_observatory_v0917" <<'EOF'
 A	adl/tools/test_v0917_html_observatory_integrated_proof.sh
 A	adl/tools/validate_v0917_html_observatory.py
-A	demos/v0.91.7/html-observatory/README.md
-A	demos/v0.91.7/html-observatory/app.js
-A	demos/v0.91.7/html-observatory/index.html
-A	demos/v0.91.7/html-observatory/styles.css
+A	demos/html-observatory/README.md
+A	demos/html-observatory/app.js
+A	demos/html-observatory/index.html
+A	demos/html-observatory/styles.css
 EOF
 bash "$SCRIPT" --changed-files "$html_observatory_v0917" --json >"$TMP/html-observatory-v0917.json"
 python3 - <<'PY' "$TMP/html-observatory-v0917.json"
@@ -735,10 +735,10 @@ assert lane["run_command"] == "bash adl/tools/test_v0917_html_observatory_integr
 assert set(lane["matched_paths"]) == {
     "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
     "adl/tools/validate_v0917_html_observatory.py",
-    "demos/v0.91.7/html-observatory/README.md",
-    "demos/v0.91.7/html-observatory/app.js",
-    "demos/v0.91.7/html-observatory/index.html",
-    "demos/v0.91.7/html-observatory/styles.css",
+    "demos/html-observatory/README.md",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/index.html",
+    "demos/html-observatory/styles.css",
 }
 PY
 

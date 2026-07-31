@@ -304,6 +304,33 @@
       "reason": "coverage_impact_surface_requires_coverage_impact_contract_checks"
     },
     {
+      "id": "podcast_launch_packet",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "review",
+      "proof_role": "demo_contract",
+      "requirement_ids": [
+        "podcast_launch_packet"
+      ],
+      "path_selectors": [
+        "adl/tools/generate_podcast_launch_packet.py",
+        "adl/tools/validate_podcast_launch_packet.py",
+        "adl/tools/test_podcast_launch_packet.sh",
+        "demos/podcast/**",
+        "docs/milestones/v0.91.8/review/podcast_launch_5711/**"
+      ],
+      "path_hints": [
+        "adl/tools/generate_podcast_launch_packet.py",
+        "adl/tools/validate_podcast_launch_packet.py",
+        "adl/tools/test_podcast_launch_packet.sh",
+        "demos/podcast/",
+        "docs/milestones/v0.91.8/review/podcast_launch_5711/"
+      ],
+      "command": "bash adl/tools/test_podcast_launch_packet.sh",
+      "run_command": "bash adl/tools/test_podcast_launch_packet.sh",
+      "reason": "podcast_launch_surface_requires_audio_rss_and_studio_packet_validation"
+    },
+    {
       "id": "html_observatory_governed_surface",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
@@ -502,12 +529,12 @@
       "path_selectors": [
         "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
         "adl/tools/validate_v0917_html_observatory.py",
-        "demos/v0.91.7/html-observatory/**"
+        "demos/html-observatory/**"
       ],
       "path_hints": [
         "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
         "adl/tools/validate_v0917_html_observatory.py",
-        "demos/v0.91.7/html-observatory/"
+        "demos/html-observatory/"
       ],
       "command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
       "run_command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",

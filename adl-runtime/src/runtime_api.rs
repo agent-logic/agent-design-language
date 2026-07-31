@@ -48,23 +48,23 @@ const WSS_AUTH_REFRESH: Duration = Duration::from_millis(25);
 const MAX_WSS_FRAME_BYTES: usize = 64 * 1024;
 
 pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 17] = [
-    "/status",
-    "/health",
-    "/ready",
-    "/metrics",
-    "/events",
-    "/chronosense",
-    "/weather",
-    "/shepherd",
-    "/cav",
-    "/curiosity",
-    "/acip",
-    "/acip/ws",
-    "/freedom-gate",
-    "/reasoning",
-    "/api-gateway-bridge",
-    "/constructability",
-    "/persistence",
+    "/v1/status",
+    "/v1/health",
+    "/v1/ready",
+    "/v1/metrics",
+    "/v1/events",
+    "/v1/chronosense",
+    "/v1/weather",
+    "/v1/shepherd",
+    "/v1/cav",
+    "/v1/curiosity",
+    "/v1/acip",
+    "/v1/acip/ws",
+    "/v1/freedom-gate",
+    "/v1/reasoning",
+    "/v1/api-gateway-bridge",
+    "/v1/constructability",
+    "/v1/persistence",
 ];
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
@@ -201,19 +201,22 @@ where
         shutdown.await;
         shutdown_handle.graceful_shutdown(Some(Duration::from_secs(1)));
     });
-    let router = Router::new()
-        .route("/health", get(health_handler))
-        .route("/metrics", get(metrics_handler))
-        .route("/acip/ws", get(wss_handler))
-        .with_state(service);
     let result = axum_server::from_tcp_rustls(listener, tls)
         .map_err(|error| format!("bind runtime API TLS listener: {error}"))?
         .handle(handle)
-        .serve(router.into_make_service())
+        .serve(runtime_api_router(service).into_make_service())
         .await
         .map_err(|error| format!("serve runtime API: {error}"));
     shutdown_task.abort();
     result
+}
+
+pub fn runtime_api_router(service: Arc<RuntimeApiService>) -> Router {
+    Router::new()
+        .route("/v1/health", get(health_handler))
+        .route("/v1/metrics", get(metrics_handler))
+        .route("/v1/acip/ws", get(wss_handler))
+        .with_state(service)
 }
 
 pub async fn serve_runtime_api_on_port_until<F>(
@@ -284,7 +287,7 @@ async fn wss_session(
     let hello = json!({
         "schema": CSM_RUNTIME_API_WSS_SESSION_SCHEMA,
         "event": "authenticated",
-        "path": "/acip/ws",
+        "path": "/v1/acip/ws",
         "bidirectional": true
     });
     if socket
@@ -433,18 +436,18 @@ mod tests {
 
     #[test]
     fn runtime_api_contract_keeps_canonical_routes() {
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/status"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/chronosense"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/weather"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/shepherd"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/cav"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/curiosity"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/acip"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/acip/ws"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/freedom-gate"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/reasoning"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/api-gateway-bridge"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/constructability"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/status"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/chronosense"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/weather"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/shepherd"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/cav"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/curiosity"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/acip"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/acip/ws"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/freedom-gate"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/reasoning"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/api-gateway-bridge"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/constructability"));
         assert_eq!(
             CSM_RUNTIME_API_STATUS_SCHEMA,
             "adl.csm.runtime_api.status.v1"

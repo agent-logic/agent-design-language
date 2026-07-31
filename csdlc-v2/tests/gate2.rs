@@ -3,7 +3,8 @@ use std::fs;
 use csdlc_v2::doctor::DoctorStatus;
 use csdlc_v2::{
     amend_claim_scope, diagnose, edit_issue, AmendClaimScopeRequest, BootstrapRequest, CardKind,
-    Claim, EditRequest, ErrorCode, PlanningCollectionField, SemanticOperation, Store,
+    Claim, EditRequest, ErrorCode, PlanningCollectionField, ReacquireClaimRequest,
+    SemanticOperation, Store,
 };
 use tempfile::TempDir;
 
@@ -1206,7 +1207,7 @@ fn heartbeat_is_compare_and_swap_and_missed_heartbeat_does_not_enable_recovery()
 
 #[test]
 fn heartbeat_and_expired_recovery_record_positive_evidence() {
-    let (_temp, store, record) = fixture();
+    let (temp, store, record) = fixture();
     csdlc_v2::heartbeat_claim(&store, 42, "claim-1", 0, 2, 60).expect("heartbeat");
     let replacement = Claim {
         id: "replacement".into(),
@@ -1216,10 +1217,25 @@ fn heartbeat_and_expired_recovery_record_positive_evidence() {
         expires_unix_seconds: u64::MAX,
         heartbeat_unix_seconds: 62,
         branch: "issue-42".into(),
-        worktree: ".worktrees/issue-42".into(),
+        worktree: ".".into(),
         protected_paths: vec!["src".into()],
         purpose: "explicit recovery".into(),
     };
+    let wrong_checkout = csdlc_v2::recover_claim(
+        &store,
+        csdlc_v2::RecoverClaimRequest {
+            issue: 42,
+            expected_claim_id: record.claim.as_ref().expect("claim").id.clone(),
+            expected_generation: 0,
+            now_unix_seconds: 62,
+            replacement: replacement.clone(),
+            recovery_actor: "operator".into(),
+            reason: "lease expired".into(),
+        },
+    )
+    .expect_err("wrong checkout");
+    assert_eq!(wrong_checkout.code, ErrorCode::UnsafeCheckout);
+    git(temp.path(), &["branch", "-m", "issue-42"]);
     let evidence = csdlc_v2::recover_claim(
         &store,
         csdlc_v2::RecoverClaimRequest {
@@ -1243,6 +1259,528 @@ fn heartbeat_and_expired_recovery_record_positive_evidence() {
             .expect("claim")
             .owner,
         "next"
+    );
+}
+
+fn reacquired_claim(generation: u64) -> Claim {
+    Claim {
+        id: "claim-reacquired".into(),
+        owner: "next-owner".into(),
+        generation,
+        acquired_unix_seconds: 10,
+        expires_unix_seconds: u64::MAX,
+        heartbeat_unix_seconds: 10,
+        branch: "issue-42".into(),
+        worktree: ".".into(),
+        protected_paths: vec!["src".into()],
+        purpose: "resume dormant issue".into(),
+    }
+}
+
+#[test]
+fn released_claim_reacquires_without_phase_or_audit_rewind() {
+    let (temp, store, record) = fixture();
+    git(temp.path(), &["branch", "-m", "issue-42"]);
+    let released = csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: "claim-1".into(),
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5727".into(),
+            reason: "deliberately release dormant preparation".into(),
+        },
+    )
+    .expect("release");
+    let dormant = store.load_record(42).expect("dormant");
+    let dormant_audit_len = dormant.audit.len();
+    let doctor = diagnose(&store, 42);
+    assert_eq!(doctor.status, DoctorStatus::Block);
+    assert_eq!(doctor.next_operation.as_deref(), Some("reacquire_claim"));
+
+    let request_path = temp.path().join("reacquire.json");
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&ReacquireClaimRequest {
+            issue: 42,
+            expected_generation: dormant.generation,
+            expected_digest: released.digest,
+            now_unix_seconds: 10,
+            actor: "next-owner".into(),
+            reason: "resume accepted work".into(),
+            replacement: reacquired_claim(dormant.generation),
+        })
+        .expect("serialize request"),
+    )
+    .expect("write request");
+    let output = std::process::Command::new(env!("CARGO_BIN_EXE_csdlc-bind"))
+        .args([
+            "--root",
+            temp.path().to_str().expect("root"),
+            "--reacquire-request",
+            request_path.to_str().expect("request"),
+        ])
+        .output()
+        .expect("run csdlc-bind");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let result: csdlc_v2::ReacquireClaimResult =
+        serde_json::from_slice(&output.stdout).expect("typed result");
+    let resumed = store.load_record(42).expect("resumed");
+    assert_eq!(resumed.phase, dormant.phase);
+    assert_eq!(resumed.audit.len(), dormant_audit_len + 1);
+    assert!(resumed.audit[dormant_audit_len - 1]
+        .operation
+        .contains("revoke_active_claim"));
+    assert!(resumed.audit[dormant_audit_len]
+        .operation
+        .contains("reacquire_claim"));
+    assert_eq!(result.previous_claim_id, None);
+    assert_eq!(diagnose(&store, 42).status, DoctorStatus::Pass);
+}
+
+#[test]
+fn expired_claim_reacquires_and_preserves_previous_owner_evidence() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    fs::create_dir_all(temp.path().join("docs")).expect("docs");
+    fs::write(temp.path().join("docs/design.md"), "# Reviewed design\n").expect("design");
+    fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n  A --> B\n",
+    )
+    .expect("diagram");
+    let store = Store::new(temp.path());
+    let mut bootstrap = request();
+    bootstrap.claim.expires_unix_seconds = u64::MAX - 2;
+    let record = initialize_issue(&store, bootstrap).expect("initialize");
+    git(temp.path(), &["branch", "-m", "issue-42"]);
+    let result = csdlc_v2::reacquire_claim(
+        &store,
+        ReacquireClaimRequest {
+            issue: 42,
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            now_unix_seconds: u64::MAX - 1,
+            actor: "next-owner".into(),
+            reason: "replace expired lease".into(),
+            replacement: Claim {
+                acquired_unix_seconds: u64::MAX - 1,
+                heartbeat_unix_seconds: u64::MAX - 1,
+                ..reacquired_claim(record.generation)
+            },
+        },
+    )
+    .expect("expired reacquire");
+    assert_eq!(result.previous_claim_id.as_deref(), Some("claim-1"));
+    assert_eq!(result.previous_owner.as_deref(), Some("agent"));
+}
+
+#[test]
+fn reacquire_fails_closed_for_stale_binding_and_live_overlap() {
+    let (temp, store, record) = fixture();
+    git(temp.path(), &["branch", "-m", "issue-42"]);
+    csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: "claim-1".into(),
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5727".into(),
+            reason: "release".into(),
+        },
+    )
+    .expect("release");
+    let dormant = store.load_record(42).expect("dormant");
+    let stale = csdlc_v2::reacquire_claim(
+        &store,
+        ReacquireClaimRequest {
+            issue: 42,
+            expected_generation: dormant.generation + 1,
+            expected_digest: dormant.digest.clone(),
+            now_unix_seconds: 10,
+            actor: "next-owner".into(),
+            reason: "stale".into(),
+            replacement: reacquired_claim(dormant.generation),
+        },
+    )
+    .expect_err("stale generation");
+    assert_eq!(stale.code, ErrorCode::StaleGeneration);
+
+    let stale_digest = csdlc_v2::reacquire_claim(
+        &store,
+        ReacquireClaimRequest {
+            issue: 42,
+            expected_generation: dormant.generation,
+            expected_digest: "stale".into(),
+            now_unix_seconds: 10,
+            actor: "next-owner".into(),
+            reason: "stale digest".into(),
+            replacement: reacquired_claim(dormant.generation),
+        },
+    )
+    .expect_err("stale digest");
+    assert_eq!(stale_digest.code, ErrorCode::StaleDigest);
+
+    let mut invalid_binding = reacquired_claim(dormant.generation);
+    invalid_binding.branch = "other-branch".into();
+    let invalid = csdlc_v2::reacquire_claim(
+        &store,
+        ReacquireClaimRequest {
+            issue: 42,
+            expected_generation: dormant.generation,
+            expected_digest: dormant.digest.clone(),
+            now_unix_seconds: 10,
+            actor: "next-owner".into(),
+            reason: "wrong branch".into(),
+            replacement: invalid_binding,
+        },
+    )
+    .expect_err("invalid binding");
+    assert_eq!(invalid.code, ErrorCode::UnsafeCheckout);
+
+    let mut invalid_worktree = reacquired_claim(dormant.generation);
+    invalid_worktree.worktree = ".worktrees/not-this-one".into();
+    let invalid = csdlc_v2::reacquire_claim(
+        &store,
+        ReacquireClaimRequest {
+            issue: 42,
+            expected_generation: dormant.generation,
+            expected_digest: dormant.digest.clone(),
+            now_unix_seconds: 10,
+            actor: "next-owner".into(),
+            reason: "wrong worktree".into(),
+            replacement: invalid_worktree,
+        },
+    )
+    .expect_err("invalid worktree");
+    assert_eq!(invalid.code, ErrorCode::UnsafeCheckout);
+
+    let mut other_request = request();
+    other_request.issue = 43;
+    other_request.claim.id = "claim-43".into();
+    other_request.claim.branch = "issue-42".into();
+    other_request.claim.worktree = ".".into();
+    other_request.claim.protected_paths = vec!["src/nested".into()];
+    initialize_issue(&store, other_request).expect("other issue");
+    let collision = csdlc_v2::reacquire_claim(
+        &store,
+        ReacquireClaimRequest {
+            issue: 42,
+            expected_generation: dormant.generation,
+            expected_digest: dormant.digest,
+            now_unix_seconds: 10,
+            actor: "next-owner".into(),
+            reason: "colliding resume".into(),
+            replacement: reacquired_claim(dormant.generation),
+        },
+    )
+    .expect_err("live overlap");
+    assert_eq!(collision.code, ErrorCode::ClaimCollision);
+}
+
+#[test]
+fn concurrent_reacquisition_across_worktrees_allows_only_one_overlapping_writer() {
+    let (temp, store, record_42) = fixture();
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "test"]);
+    csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: "claim-1".into(),
+            expected_generation: record_42.generation,
+            expected_digest: record_42.digest,
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5727".into(),
+            reason: "prepare dormant issue 42".into(),
+        },
+    )
+    .expect("release issue 42");
+
+    let mut request_43 = request();
+    request_43.issue = 43;
+    request_43.design_path = "docs/design-43.md".into();
+    request_43.diagram_path = "docs/diagram-43.mmd".into();
+    request_43.claim.id = "claim-43".into();
+    request_43.claim.branch = "issue-43".into();
+    request_43.claim.protected_paths = vec!["src/nested".into()];
+    fs::write(temp.path().join("docs/design-43.md"), "# Reviewed design\n").expect("design");
+    fs::write(
+        temp.path().join("docs/diagram-43.mmd"),
+        "flowchart LR\n  A --> B\n",
+    )
+    .expect("diagram");
+    let record_43 = initialize_issue(&store, request_43).expect("initialize issue 43");
+    csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 43,
+            repository: "example/repo".into(),
+            expected_claim_id: "claim-43".into(),
+            expected_generation: record_43.generation,
+            expected_digest: record_43.digest,
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:5727".into(),
+            reason: "prepare dormant issue 43".into(),
+        },
+    )
+    .expect("release issue 43");
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "two dormant issues"]);
+
+    let worktree_42 = temp.path().join("worktree-42");
+    let worktree_43 = temp.path().join("worktree-43");
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "issue-42",
+            worktree_42.to_str().expect("worktree 42"),
+        ],
+    );
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "issue-43",
+            worktree_43.to_str().expect("worktree 43"),
+        ],
+    );
+    let dormant_42 = Store::new(&worktree_42).load_record(42).expect("issue 42");
+    let dormant_43 = Store::new(&worktree_43).load_record(43).expect("issue 43");
+    let barrier = std::sync::Arc::new(std::sync::Barrier::new(2));
+
+    let run = |issue: u64,
+               root: std::path::PathBuf,
+               dormant: csdlc_v2::IssueRecord,
+               branch: &str,
+               claim_id: &str,
+               path: &str,
+               barrier: std::sync::Arc<std::sync::Barrier>| {
+        let branch = branch.to_owned();
+        let claim_id = claim_id.to_owned();
+        let path = path.to_owned();
+        std::thread::spawn(move || {
+            barrier.wait();
+            csdlc_v2::reacquire_claim(
+                &Store::new(root),
+                ReacquireClaimRequest {
+                    issue,
+                    expected_generation: dormant.generation,
+                    expected_digest: dormant.digest,
+                    now_unix_seconds: 10,
+                    actor: format!("owner-{issue}"),
+                    reason: "concurrent cross-worktree reacquisition".into(),
+                    replacement: Claim {
+                        id: claim_id,
+                        owner: format!("owner-{issue}"),
+                        generation: dormant.generation,
+                        acquired_unix_seconds: 10,
+                        expires_unix_seconds: u64::MAX,
+                        heartbeat_unix_seconds: 10,
+                        branch,
+                        worktree: ".".into(),
+                        protected_paths: vec![path],
+                        purpose: "prove one overlapping writer".into(),
+                    },
+                },
+            )
+        })
+    };
+    let thread_42 = run(
+        42,
+        worktree_42,
+        dormant_42,
+        "issue-42",
+        "claim-reacquired-42",
+        "src",
+        barrier.clone(),
+    );
+    let thread_43 = run(
+        43,
+        worktree_43,
+        dormant_43,
+        "issue-43",
+        "claim-reacquired-43",
+        "src/nested",
+        barrier,
+    );
+    let result_42 = thread_42.join().expect("issue 42 thread");
+    let result_43 = thread_43.join().expect("issue 43 thread");
+    let outcomes = [result_42, result_43];
+    assert_eq!(outcomes.iter().filter(|result| result.is_ok()).count(), 1);
+    assert_eq!(
+        outcomes
+            .iter()
+            .filter(|result| {
+                result
+                    .as_ref()
+                    .is_err_and(|error| error.code == ErrorCode::ClaimCollision)
+            })
+            .count(),
+        1
+    );
+    assert!(temp.path().join(".git/csdlc-v2/bindings.lock").exists());
+}
+
+#[test]
+fn expired_recovery_cannot_bypass_cross_worktree_overlap_authority() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let store = Store::new(temp.path());
+    let mut request_42 = request();
+    request_42.claim.protected_paths = vec!["old/42".into()];
+    request_42.claim.expires_unix_seconds = u64::MAX - 2;
+    fs::create_dir_all(temp.path().join("docs")).expect("docs");
+    fs::write(temp.path().join("docs/design.md"), "# Reviewed design\n").expect("design");
+    fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n  A --> B\n",
+    )
+    .expect("diagram");
+    let record_42 = initialize_issue(&store, request_42).expect("initialize issue 42");
+
+    let mut request_43 = request();
+    request_43.issue = 43;
+    request_43.design_path = "docs/design-43.md".into();
+    request_43.diagram_path = "docs/diagram-43.mmd".into();
+    request_43.claim.id = "claim-43".into();
+    request_43.claim.branch = "issue-43".into();
+    request_43.claim.worktree = ".worktrees/issue-43".into();
+    request_43.claim.protected_paths = vec!["old/43".into()];
+    request_43.claim.expires_unix_seconds = u64::MAX - 2;
+    fs::write(temp.path().join("docs/design-43.md"), "# Reviewed design\n").expect("design");
+    fs::write(
+        temp.path().join("docs/diagram-43.mmd"),
+        "flowchart LR\n  A --> B\n",
+    )
+    .expect("diagram");
+    let record_43 = initialize_issue(&store, request_43).expect("initialize issue 43");
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "test"]);
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "two expiring issues"]);
+
+    let worktree_42 = temp.path().join("worktree-42");
+    let worktree_43 = temp.path().join("worktree-43");
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "issue-42",
+            worktree_42.to_str().expect("worktree 42"),
+        ],
+    );
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "issue-43",
+            worktree_43.to_str().expect("worktree 43"),
+        ],
+    );
+    let barrier = std::sync::Arc::new(std::sync::Barrier::new(2));
+    let run = |issue: u64,
+               root: std::path::PathBuf,
+               record: csdlc_v2::IssueRecord,
+               claim_id: &str,
+               branch: &str,
+               worktree: &str,
+               path: &str,
+               barrier: std::sync::Arc<std::sync::Barrier>| {
+        let claim_id = claim_id.to_owned();
+        let branch = branch.to_owned();
+        let worktree = worktree.to_owned();
+        let path = path.to_owned();
+        std::thread::spawn(move || {
+            barrier.wait();
+            csdlc_v2::recover_claim(
+                &Store::new(root),
+                csdlc_v2::RecoverClaimRequest {
+                    issue,
+                    expected_claim_id: record.claim.expect("expired claim").id,
+                    expected_generation: record.generation,
+                    now_unix_seconds: u64::MAX - 1,
+                    replacement: Claim {
+                        id: claim_id,
+                        owner: format!("owner-{issue}"),
+                        generation: record.generation,
+                        acquired_unix_seconds: u64::MAX - 1,
+                        expires_unix_seconds: u64::MAX,
+                        heartbeat_unix_seconds: u64::MAX - 1,
+                        branch,
+                        worktree,
+                        protected_paths: vec![path],
+                        purpose: "recover through shared authority".into(),
+                    },
+                    recovery_actor: format!("operator-{issue}"),
+                    reason: "expired cross-worktree recovery".into(),
+                },
+            )
+        })
+    };
+    let thread_42 = run(
+        42,
+        worktree_42,
+        record_42,
+        "replacement-42",
+        "issue-42",
+        ".",
+        "src",
+        barrier.clone(),
+    );
+    let thread_43 = run(
+        43,
+        worktree_43,
+        record_43,
+        "replacement-43",
+        "issue-43",
+        ".",
+        "src/nested",
+        barrier,
+    );
+    let outcomes = [
+        thread_42.join().expect("issue 42 thread"),
+        thread_43.join().expect("issue 43 thread"),
+    ];
+    assert_eq!(outcomes.iter().filter(|result| result.is_ok()).count(), 1);
+    assert_eq!(
+        outcomes
+            .iter()
+            .filter(|result| {
+                result
+                    .as_ref()
+                    .is_err_and(|error| error.code == ErrorCode::ClaimCollision)
+            })
+            .count(),
+        1
     );
 }
 
@@ -2263,6 +2801,8 @@ fn public_schema_bundle_covers_requests_state_and_doctor_output() {
         "bind_request",
         "bind_result",
         "recover_claim_request",
+        "reacquire_claim_request",
+        "reacquire_claim_result",
         "release_closed_claim_request",
         "revoke_active_claim_request",
         "revoke_active_claim_result",

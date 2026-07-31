@@ -145,7 +145,12 @@ impl Store {
     }
 
     pub(crate) fn binding_lock(&self) -> Result<File> {
-        let dir = self.root.join(".csdlc/locks");
+        let common = crate::git::run(
+            &self.root,
+            &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+        )?
+        .stdout;
+        let dir = PathBuf::from(common).join("csdlc-v2");
         fs::create_dir_all(&dir)?;
         let file = OpenOptions::new()
             .create(true)
@@ -3136,19 +3141,6 @@ pub(crate) fn verify_record(record: &IssueRecord) -> Result<()> {
                 "claim invariant failed",
             ));
         }
-    } else if !record.audit.last().is_some_and(|event| {
-        serde_json::from_str::<serde_json::Value>(&event.operation)
-            .ok()
-            .and_then(|value| {
-                value
-                    .get("operation")
-                    .and_then(|v| v.as_str())
-                    .map(str::to_owned)
-            })
-            .as_deref()
-            == Some("release_closed_claim")
-    }) {
-        return Err(V2Error::new(ErrorCode::CorruptRecord, "claim missing"));
     }
     if let DesignReview::Approved { reviewer, revision } = &record.design_review {
         if reviewer.trim().is_empty() || revision.trim().is_empty() {
