@@ -1,0 +1,120 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5107,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "50e5a24f47771e5a22e2dcfacf667303ac7d1ed3df0b7b2895e393f664d19a60",
+  "phase": "implemented",
+  "generation": 1,
+  "digest": "9864d7f9da9190272e93fd9297c94f833854b4b1cdf45a1b5860a9dd319098f8",
+  "claim": {
+    "id": "claim-5107-adaptive-learning-dag-queue",
+    "owner": "codex:5107-execution",
+    "generation": 1,
+    "acquired_unix_seconds": 1785531133,
+    "expires_unix_seconds": 1786135933,
+    "heartbeat_unix_seconds": 1785531133,
+    "branch": "codex/5107-v092-adaptive-learning-dag-queue",
+    "worktree": ".worktrees/adl-wp-5107",
+    "protected_paths": [
+      ".csdlc/issues/5107",
+      ".csdlc/locks/5107.lock",
+      ".csdlc/prepared/issues/5107",
+      ".csdlc/evidence/5107",
+      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      "docs/milestones/v0.92/features/README.md"
+    ],
+    "purpose": "Implement the reviewed #5107 Adaptive Learning DAG planning queue and v0.92 handoff without opening downstream implementation early"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5107/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5107/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:daniel",
+      "revision": "50b2da2b406a51324c6d0479de9aabfb456ef5fbb19c222587bdbc9b7cbe6b90"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "e217b5bd8923c40fe6fde62a0851b4e569cef5354467d1e1407dde44cdac4212",
+      "rendered_digest": "55212c054a0300af7a14adf3c5643c8c06aa38173d5be66ce61e0065640f0aa6",
+      "ast_digest": "93a32b8964d51f72e30f472bc9dd8fb9919de9cf96cf8fadf136462eb67b549e"
+    },
+    "stp": {
+      "values_digest": "b4c8b85e4ef039189263337b5bf16f5960a7d2c7dea1c4f3437a484ab78cb9b5",
+      "rendered_digest": "c2e1df8c41414dd0ee799fc65b6b0223bb8fe5459f1efbb7dc6f0d52f326cb81",
+      "ast_digest": "02a43edaf68242d9073cae328d89198f95c44bf344d1ab4b2ed710ad5daa7c24"
+    },
+    "spp": {
+      "values_digest": "d9aa1feead63f97e75be127861b75593d3758e923f2ca5e1dcf0c5bd49fa7b8d",
+      "rendered_digest": "087a2f87a1de943b726d1084d6bc10fa8ffa6c242d829f1bb8501fbab9925dce",
+      "ast_digest": "343a69d6958af1fc52d145e8664aeb83f66bb648568a2fcf3b5779f6733c912d"
+    },
+    "vpp": {
+      "values_digest": "2749fed6dd1b0de4ae652cd2daab2551548db42fdbb7ad321c6273419f53035f",
+      "rendered_digest": "d1712c32cefe22eb87f1a7539aa819f6affd8a4c74910f40b0177a3ef9191975",
+      "ast_digest": "a5e126384464263c1cb810a3b5656e71d6492302808a4c4e21e258dfbbb514c1"
+    },
+    "srp": {
+      "values_digest": "232b2b110d6877f026b488f02ff58e6c17faa8dcf2d2d566143bac80a9f5986f",
+      "rendered_digest": "2ab7c9e890b0f6d56a785c9a98271b1f00fc9982af1b4e0455893ab37369ee1b",
+      "ast_digest": "10549e9d64191501ecb7da80708edeabc7a8cf8b57b629bc941ddc6685e1eea7"
+    },
+    "sor": {
+      "values_digest": "401b8f56bab6a8f47cc0d1ae0ab8a1f1b77c715f775438997d24a0645c7c5231",
+      "rendered_digest": "39b2567dcbcee3017f934ce13bf3aef4602d4e7933d07e64c21d2b6913722603",
+      "ast_digest": "4d63e8bc1ee906a85e7c6625fa8f8446b0fd89703353984994894fb0a0265952"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5107-execution",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5107-execution",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5107-execution",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5107-execution",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:5107-execution",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5107-execution",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
