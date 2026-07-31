@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Preparation packet completed for #4763 after origin/main integration. No documentation implementation, external publication, PR, merge, or closeout was performed.
+Implemented #4763 first-birthday docs and external launch surfaces as claim-bounded repository documentation; final birthday/public-launch proof remains gated on #4762 accepted witness and receipt evidence.
 
 ## Artifacts
 
@@ -26,6 +26,16 @@ Preparation packet completed for #4763 after origin/main integration. No documen
 - .csdlc/prepared/issues/4763/diagram.mmd
 - .csdlc/prepared/issues/4763/preparation-review.md
 - .csdlc/prepared/issues/4763/reacquire-claim-20260731.json
+- docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md
+- docs/milestones/v0.92/README.md
+- docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md
+- docs/milestones/v0.92/external_launch/README.md
+- docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md
+- docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md
+- docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md
+- docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md
+- docs/milestones/v0.92/features/README.md
+- docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md
 
 ## Execution
 
@@ -33,6 +43,9 @@ Preparation packet completed for #4763 after origin/main integration. No documen
 - Completed #4763 SIP, STP, SPP, VPP, SRP, and SOR cards with issue-specific preparation scope.
 - Completed #4763 preparation design, Mermaid diagram, reacquire request, and bounded preparation-review artifact.
 - Recorded typed reacquire obstruction from unrelated #5332 terminal-authority reconciliation as a blocker for lifecycle-clean future execution.
+- Added docs/milestones/v0.92/external_launch as the concrete launch-document surface with public-copy drafts, reviewer FAQ, publication gates, forbidden-claim rules, and #4762 dependency status.
+- Wired the launch surface into the v0.92 launch packet, milestone README, feature index, birthday feature docs, and activation bridge ledger.
+- Preserved a pending-proof posture because GitHub issue #4762 remains open and no accepted witness/receipt artifact is available.
 
 ## Validation
 
@@ -105,6 +118,48 @@ Preparation packet completed for #4763 after origin/main integration. No documen
     "purpose": "Preparation diff whitespace/path hygiene.",
     "outcome": "passed",
     "evidence_ref": "Run after temporary helper removal; final command output retained in session transcript."
+  },
+  {
+    "command": [
+      "/opt/homebrew/bin/git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Run the issue-required docs/card artifact hygiene check.",
+    "outcome": "passed",
+    "evidence_ref": "docs-diff-check.log"
+  },
+  {
+    "command": [
+      "/opt/homebrew/bin/git",
+      "ls-files",
+      "--error-unmatch",
+      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
+      "docs/milestones/v0.92/README.md",
+      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+      "docs/milestones/v0.92/external_launch/README.md",
+      "docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md",
+      "docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md",
+      "docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md",
+      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
+      "docs/milestones/v0.92/features/README.md",
+      "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md"
+    ],
+    "purpose": "Check that every #4763 external-launch artifact named in SOR is tracked by git.",
+    "outcome": "passed",
+    "evidence_ref": "launch-surface-tracked-paths.log"
+  },
+  {
+    "command": [
+      "./csdlc-v2/target/debug/csdlc-doctor",
+      "--repo",
+      ".",
+      "--issue",
+      "4763"
+    ],
+    "purpose": "Run csdlc-doctor for issue #4763 from the issue worktree.",
+    "outcome": "passed",
+    "evidence_ref": "typed-doctor.log"
   }
 ]
 
