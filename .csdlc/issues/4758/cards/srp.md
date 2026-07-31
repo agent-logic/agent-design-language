@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Scope
 
-Future review covers only the #4758 launch readiness artifact and issue-local lifecycle records; exclude v0.92 implementation, sibling WP-14 children, GitHub mutation, AWS, and closeout authority.
+.
 
 ## Prompts
 
@@ -23,7 +23,18 @@ Future review covers only the #4758 launch readiness artifact and issue-local li
 
 ## Findings
 
-[]
+[
+  {
+    "id": "R1",
+    "severity": "p2",
+    "summary": "consumption.v1.json originally recorded the pre-finalize parent as review_revision rather than the implementation evidence revision; fixed before typed review by recording the implementation commit and preventing future generator reruns from emitting a false SHA.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:91dc19bbd5c2095ac4940ed9b7d7097e92fa04bd:33aa546fea52ef65c283c1f445903fb4dcd8a92f09cdf2d1840322360c16f409",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -31,12 +42,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Open dependencies #5363, #5362, #5352, and #4763 remain recorded blockers/non-claims; the package is consumable but does not claim v0.92 launch readiness.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:91dc19bbd5c2095ac4940ed9b7d7097e92fa04bd:33aa546fea52ef65c283c1f445903fb4dcd8a92f09cdf2d1840322360c16f409")
 
-Reviewer: None
+Reviewer: Some("codex:bounded-pre-pr-review")
 
-Result: pre_review
+Result: pass

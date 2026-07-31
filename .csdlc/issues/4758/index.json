@@ -3,13 +3,13 @@
   "issue": 4758,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "de5ee30d1ad0d0178709db033b64c147dcf35243e84a3380c4537a42d1a72f87",
-  "phase": "implemented",
-  "generation": 2,
-  "digest": "88c1b96ba1441adfec5cad4ca79a57f221fa874abbdc002e8c78da35893002c9",
+  "phase": "reviewed",
+  "generation": 3,
+  "digest": "470168a86114879b2fee39fdf61043a8aac361285253e66fd35a7844a7e4d889",
   "claim": {
     "id": "claim-4758-v092-launch-readiness-execution",
     "owner": "codex:issue-4758-execution",
-    "generation": 2,
+    "generation": 3,
     "acquired_unix_seconds": 1785530311,
     "expires_unix_seconds": 1786135111,
     "heartbeat_unix_seconds": 1785530311,
@@ -24,7 +24,30 @@
     "purpose": "Implement and validate #4758 launch-readiness handoff evidence for v0.92 release review consumption"
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "codex:bounded-pre-pr-review",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:91dc19bbd5c2095ac4940ed9b7d7097e92fa04bd:33aa546fea52ef65c283c1f445903fb4dcd8a92f09cdf2d1840322360c16f409",
+    "findings": [
+      {
+        "id": "R1",
+        "severity": "p2",
+        "summary": "consumption.v1.json originally recorded the pre-finalize parent as review_revision rather than the implementation evidence revision; fixed before typed review by recording the implementation commit and preventing future generator reruns from emitting a false SHA.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:91dc19bbd5c2095ac4940ed9b7d7097e92fa04bd:33aa546fea52ef65c283c1f445903fb4dcd8a92f09cdf2d1840322360c16f409",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Open dependencies #5363, #5362, #5352, and #4763 remain recorded blockers/non-claims; the package is consumable but does not claim v0.92 launch readiness."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +62,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4bc2d498cb283e74d1bdbc04306aa216f61e97443d53324b5c981c51eaca8c40",
+      "values_digest": "87d565bf8663781d09526735b13a30a97b294f622033c9138409d70d459b2d67",
       "rendered_digest": "2e60667359875253e0d4be86d4bc6c1ec70d6dee0d4f15ea462efd09b4302519",
       "ast_digest": "ae2ee20f4a0af370c4682e6467b6a014aa1bf5f98e929d537e3fd94a3887d047"
     },
     "stp": {
-      "values_digest": "095152058fdf494d59380063f334056ea4bb9fd33eaaff2bf773488720c385df",
+      "values_digest": "af08a2279a3797e5565a9f3e5c0598b0f6da425fd5846dc8e4bf5eae6d5314c4",
       "rendered_digest": "7fae0a3d2942b8439a7e03ecc2e72e89f878b307b24c1568832758421349100e",
       "ast_digest": "c4c5c01d8db0a5211dddfe53fca126e8679e3832ee72b8d7a728ca418f978248"
     },
     "spp": {
-      "values_digest": "c5b08fe448c7bfd2aa183c8012dd40fe8e944aa01f983f5b826aa7740a5d29a3",
+      "values_digest": "eef284e56e10c7fe1fb7aae5ad7f71fcae52cac54e49cf25032f8f9bb2900334",
       "rendered_digest": "0324101e2bfebd62703fb3b77d4fe84cac18e369a618025ef8ec2440e2b8a434",
       "ast_digest": "4e7723ce99582ecee426f46fe4327d9ecb035d654a00f947114b58cb51e4db8d"
     },
     "vpp": {
-      "values_digest": "44df30d5f7c92d8d1fbe7c3bd7f487dc1acea9b5f7525c92157e726abdf8ffcb",
+      "values_digest": "de05fa622ed70169a31901b737da0a06cff0d338cca320f89cb247f9c6090be3",
       "rendered_digest": "2bf4c80f8931f0e7a84ec096a111fee6676fd86f78be673bd62b90ca3ae50621",
       "ast_digest": "b2eebb998e38b8d8bda7d4d9780ba53b5bb12c283036b04a0f955790fce9f802"
     },
     "srp": {
-      "values_digest": "e7706a33bf3caabcd34327d6d1e4287eeeec410c12e7288d13237661960e9cf6",
-      "rendered_digest": "0e67a29cd01dbabdcf61a835975029f5f9bcf82fba7dd138fbde1490172bffac",
-      "ast_digest": "cd6a74f1ae6c1e1dc5195d9c9a6c8cd302732509bb9051e4c6425605b4d6400b"
+      "values_digest": "fa4826c865f0d9c865bfdf46771f0701770474d4925cb7d35a335c344cd5fe08",
+      "rendered_digest": "8b44f6c6097806008d1661cfdfd6a9fb68077f9bfad23b8a52afd4c8247d0316",
+      "ast_digest": "4cccea57f4ae1099bbe4a46a34ae3759d5ed53f36e0c3ce5ea093db9dd4c9518"
     },
     "sor": {
-      "values_digest": "c46a365fb9f9b8063d4806cf49a00aaf1813ef24306d17b7d7f2d3bc2da3a4bd",
+      "values_digest": "c4f67655ac86212fff9fd29e2f70b2db4985d9870558c84e80efb9cfe9b2df87",
       "rendered_digest": "58bcbc87ee27fffd182e5c9452d188483536598af26c5e30310cd791137ce594",
       "ast_digest": "a07fca2a92b86a7fdbd8caa88f8bcdce3b861c541f3c5e47106c1e0c80a1e66c"
     }
@@ -90,6 +113,13 @@
       "to": "implemented",
       "actor": "codex:issue-4758-execution",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-4758-execution",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -134,6 +164,13 @@
       "actor": "codex:issue-4758-execution",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:issue-4758-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
