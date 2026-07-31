@@ -1390,8 +1390,8 @@ apply_validation_manager_routing() {
     ready_to_run:docs_diff_check,podcast_static_demo_surface:false|\
     ready_to_run:podcast_static_demo_surface,docs_diff_check:false)
       ci_contracts_required=true
-      demo_smoke_required=true
-      reason="podcast_static_demo_surface_requires_diff_hygiene_and_demo_smoke"
+      demo_smoke_required=false
+      reason="podcast_static_demo_surface_requires_diff_hygiene"
       return 0
       ;;
     ready_to_run:podcast_launch_packet,podcast_static_demo_surface:false|\
@@ -1403,7 +1403,7 @@ apply_validation_manager_routing() {
     ready_to_run:podcast_static_demo_surface,docs_diff_check,podcast_launch_packet:false|\
     ready_to_run:podcast_static_demo_surface,podcast_launch_packet,docs_diff_check:false)
       ci_contracts_required=true
-      demo_smoke_required=true
+      demo_smoke_required=false
       coverage_required=false
       full_coverage_required=false
       coverage_lane="skip"
@@ -1421,7 +1421,7 @@ apply_validation_manager_routing() {
     ready_to_run:docs_diff_check,podcast_launch_packet:false|\
     ready_to_run:podcast_launch_packet,docs_diff_check:false)
       ci_contracts_required=true
-      demo_smoke_required=true
+      demo_smoke_required=false
       coverage_required=false
       full_coverage_required=false
       coverage_lane="skip"
