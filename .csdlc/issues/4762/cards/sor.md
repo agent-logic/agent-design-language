@@ -92,11 +92,11 @@ Implemented the #4762 auditable birth-witness register and receipt handoff packa
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

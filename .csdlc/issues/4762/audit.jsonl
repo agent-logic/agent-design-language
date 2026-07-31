@@ -16,3 +16,4 @@
 {"sequence":16,"generation":13,"actor":"codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":17,"generation":14,"actor":"codex-exact-head-review-4762","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":18,"generation":15,"actor":"codex","reason":"Exact-head pre-PR review passed with no actionable findings, and #4762 remains bounded to the auditable birth-witness package without claiming that the v0.92 birthday occurred.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":19,"generation":16,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

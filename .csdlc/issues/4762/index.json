@@ -3,13 +3,13 @@
   "issue": 4762,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "a5fe0b1e9eec7136904a3d1d13c8f0df266a9db06f660c4b1d17db3909a15828",
-  "phase": "reviewed",
-  "generation": 15,
-  "digest": "cb156efccf150434b886604c0184b7abb4ad11b7c7a7786d132648d5e14c2b81",
+  "phase": "published",
+  "generation": 16,
+  "digest": "b20d81d4b4bda01e612268bfd5b30de547ba2a2b94b15f5aa7fd5b15fb3a3d2e",
   "claim": {
     "id": "claim-4762-birth-witness-receipt-execution",
     "owner": "codex:019fb9d5-3bcb-7123-bbbd-5bf33c1cb4d2",
-    "generation": 15,
+    "generation": 16,
     "acquired_unix_seconds": 1785529361,
     "expires_unix_seconds": 1786134161,
     "heartbeat_unix_seconds": 1785529361,
@@ -61,7 +61,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 4762,
+    "pull_request": 5744,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5744",
+    "base": "main",
+    "head": "codex/4762-v0918-wp14-preparation",
+    "revision": "git-blake3:71660428c889702b6869a0b77f8f0be53c86016c:be10da99d0df8589c2659be8f5aa170afecf47cf445374b41a2e3978f0aaa8b4",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -75,34 +85,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ea7ab3bcb5e58167e94ced4acc0e8c557a6e9e75b93a36a9c9a408a3b890f5da",
+      "values_digest": "9ca4eb04b389fe8d0ee326a2b81cde84b4c78267d391b0b469b8064bb170aade",
       "rendered_digest": "3855d82bd73b9f1e12cb3b12c210f6dc94228c0725e2849724582bd813410927",
       "ast_digest": "f67d41548d1902bd5c6c5895fbbae0cfcfbc5bd019a475465dda3636a9c32db6"
     },
     "stp": {
-      "values_digest": "70a6c6f96d84654bbc295231b7a92a0a837cbf14d1c3ef78d322814fbc1eef8b",
+      "values_digest": "2c5c69a327a18cb716963b88e48542d745687b8776e43cc992ae4afdda5bd366",
       "rendered_digest": "9f86e2b2c55eab338589f5eba77c42b140ddcd919f9e32bed41ec3b77bf45ee4",
       "ast_digest": "a74ef0ca730f345373ed04e747980b5ead9b005c82ad5f4c5796153a87423132"
     },
     "spp": {
-      "values_digest": "260008a99234a0cd815fd8647f1c0e4f7f9e458eecf2361efa8f0ff8938f0414",
+      "values_digest": "2fa3a5abd907d0cd2fd1950ecc1e8722ae0df6c55514700d05b8a61a4aa272bd",
       "rendered_digest": "db1fcb75eaf8c86d65875b3565b9cae6270b75b07d89d21f90585e11cbcb8a0e",
       "ast_digest": "5e352d763e93d8f98e72586ef765a7f69051e081c3c809aec93400f691146a65"
     },
     "vpp": {
-      "values_digest": "a053052b398130ad5d46c16e3d9850c81230bca5174a23db66a05db89367a454",
+      "values_digest": "82d0f1e976d77597c0f1361ae3ea71a2ef4aad781b9e185c050512a91957c4b2",
       "rendered_digest": "688e5354e95a8310494bcec892d04e783a26f54c7cfeac20eb5a79a97286acce",
       "ast_digest": "ec04bc237cf2fcac2c31348bcca85709e8d4c35e3454f10b70c0875dd800d1a8"
     },
     "srp": {
-      "values_digest": "8f2cff8b6b13103d4469e52d05cc4d6625c3edc7e4dcd02f1532a98479e2b6f6",
+      "values_digest": "b0298373273b369e5a036c5505544b39566570c97c4c4e2064bc51a1d6f99af4",
       "rendered_digest": "a87c38bb7906ed3a49f8d27fbfa18a90fc9e4c789536f0ce391606e7861e2b24",
       "ast_digest": "6a6ab07dc160cb63c9c4cf7fa57235cf4802565d63d319f9bee3288940889dcf"
     },
     "sor": {
-      "values_digest": "dc576546d8c11febeca2021e66bee0cb0137c22a3c821d29aca5a316e87efe4c",
-      "rendered_digest": "be9c4d3e3842a5e127d0023cc993bb78d19fe8d53211be9860da60f21a7023ed",
-      "ast_digest": "81c9f7bfff14275ec09a83df7d3e9dfcfdd32b469628b7be4199236a10238bde"
+      "values_digest": "0fa043aa532741d846d9fdb3859046645ba18bdae72e30488251b9ae997a0514",
+      "rendered_digest": "4c0f65cb25b9d310bc791452093a2d6868c0d85cd997157ae99fafaba30936d4",
+      "ast_digest": "c4fb06c48baf1b1df05169a4266db779276bb0ee8ab6ba21e61d5f4f056bcba5"
     }
   },
   "transitions": [
@@ -133,6 +143,13 @@
       "to": "reviewed",
       "actor": "codex",
       "reason": "Exact-head pre-PR review passed with no actionable findings, and #4762 remains bounded to the auditable birth-witness package without claiming that the v0.92 birthday occurred."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -261,6 +278,13 @@
       "actor": "codex",
       "reason": "Exact-head pre-PR review passed with no actionable findings, and #4762 remains bounded to the auditable birth-witness package without claiming that the v0.92 birthday occurred.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
