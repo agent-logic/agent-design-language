@@ -31,8 +31,8 @@ does not prove any demo has run.
 ## Scope
 
 The scope is birthday proof, negative cases, continuity, memory grounding,
-capability, ACP/cognitive-profile evidence, ACIP schema-public transport
-readiness, and governance handoff.
+capability, ACP/cognitive-profile evidence, adaptive-learning boundaries, ACIP
+schema-public transport readiness, and governance handoff.
 
 ## Runtime Preconditions
 
@@ -50,6 +50,7 @@ requirements once implementation exists.
 | D4 | Memory grounding proof | Birth references witnessed memory artifacts without exposing raw private memory. | Memory-grounding fixture and redacted packet. | Planned candidate |
 | D5 | Capability envelope proof | The birth record declares provider, model, tool, skill, authority, and limit context. | #4761 capability envelope and fail-closed validation report. | Pre-v0.92 envelope input available; demo still planned |
 | D6 | ACP / cognitive profile proof | Birth packet includes a bounded profile record grounded in evidence. | ACP/profile fixture, update rationale, redacted reviewer packet, and validation report. | Planned candidate |
+| D7A | Adaptive Learning DAG boundary proof | v0.92 can consume loop-runtime evidence and queue adaptive learning without claiming unproved graph mutation. | Runtime-status checklist, evaluation/state/graph-delta planning fixtures, and negative replay cases. | Planned candidate |
 | D7 | ACIP binary schema and WebSocket carrier proof | Binary ACIP remains inspectable through public schemas while message contents remain governed. | ACIP `.proto`, schema catalog fixture, JSON projection report, denied-access case, mock WebSocket trace packet. | Planned candidate |
 | D8 | Birthday-to-governance handoff | v0.93 governance can consume v0.92 identity evidence without redefining birth. | Handoff packet mapping identity evidence to future governance. | Planned candidate |
 
@@ -61,6 +62,9 @@ requirements once implementation exists.
 - Every capability claim must include limits and authority context.
 - Every cognitive-profile claim must cite evidence and remain distinct from
   identity, reputation, and standing.
+- Every adaptive-learning claim must distinguish bounded loop execution,
+  evaluated adaptation, policy-governed graph modification, and future Adaptive
+  Learning DAG proof.
 - Every binary ACIP claim must prove public-schema decodeability, deterministic
   JSON projection, and separate message-content authorization.
 - Demo outputs should distinguish engineering evidence from philosophical or
@@ -148,6 +152,22 @@ Expected proof:
 - privacy/redaction policy
 - validation report
 
+### D7A) Adaptive Learning DAG Boundary Proof
+
+The demo should show that loops are control flow, while adaptive learning
+requires additional evaluation, state-delta, policy, graph-delta, and replay
+evidence.
+
+Expected proof:
+
+- verified loop-runtime status checklist from `#5104`
+- evaluation-binding fixture
+- bounded state-delta fixture
+- policy decision for a proposed graph modification
+- accepted and rejected graph-delta examples
+- negative replay cases for forged history, discontinuous prefix, invalid
+  binding, unauthorized mutation, and unbounded recurrence
+
 ### D7) ACIP Binary Schema And WebSocket Carrier Proof
 
 The demo should show that binary ACIP is efficient without becoming opaque or
@@ -180,14 +200,17 @@ Expected proof:
 - These demos do not expose raw private state.
 - These demos do not turn cognitive profiles into public reputation or
   consciousness claims.
+- These demos do not prove full autonomous adaptive learning or unconstrained
+  graph mutation.
 - These demos do not prove production WebSocket security, cross-polis
   networking, or signed/queryable trace completion.
 
 ## Cross-Demo Validation
 
 The final demo set should cross-check that the birthday packet, negative suite,
-continuity proof, memory grounding, capability envelope, ACP profile, ACIP
-carrier proof, and governance handoff all tell one consistent story.
+continuity proof, memory grounding, capability envelope, ACP profile,
+adaptive-learning boundary proof, ACIP carrier proof, and governance handoff
+all tell one consistent story.
 
 ## Determinism Evidence
 
