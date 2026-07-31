@@ -209,15 +209,15 @@ def prove_live_websocket(runtime_base, ca_cert)
   websocket_path = "/v1/observatory/ws"
   tcp = TCPSocket.new(uri.host, uri.port)
   context = OpenSSL::SSL::SSLContext.new
-  context.verify_mode = OpenSSL::SSL::VERIFY_NONE
+  store = OpenSSL::X509::Store.new
+  store.add_file(ca_cert.to_s)
+  context.cert_store = store
+  context.verify_mode = OpenSSL::SSL::VERIFY_PEER
   socket = OpenSSL::SSL::SSLSocket.new(tcp, context)
   socket.hostname = uri.host
   socket.sync_close = true
   socket.connect
-  expected_certificate = OpenSSL::X509::Certificate.new(ca_cert.read)
-  fail_lane("live WSS certificate pin rejected") unless
-    Digest::SHA256.hexdigest(socket.peer_cert.to_der) ==
-      Digest::SHA256.hexdigest(expected_certificate.to_der) &&
+  fail_lane("live WSS certificate identity rejected") unless
     OpenSSL::SSL.verify_certificate_identity(socket.peer_cert, uri.host)
 
   key = Base64.strict_encode64(SecureRandom.random_bytes(16))
