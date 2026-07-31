@@ -1,0 +1,67 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5733,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-15][demo-matrix] Reconcile demo matrix and feature-proof coverage",
+    "slug": "v0918-demo-matrix-proof-coverage",
+    "version": "v0.91.8",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "v0918-demo-matrix-validator",
+          "proof_role": "Focused deterministic validation for owner, evidence, disposition, and contradiction coverage in the v0.91.8 demo matrix and feature-proof coverage docs.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1,
+          "argv": [
+            "python3",
+            "adl/tools/validate_v0918_demo_matrix.py"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "docs-diff-hygiene",
+          "proof_role": "Git diff whitespace hygiene for the bounded documentation and validator changes.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 1,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on stale issue/proof claims, missing owner, missing evidence/disposition, contradictory matrix rows, validator failure, or stale exact-head review.",
+      "design_ref": ".csdlc/prepared/issues/5733/design.md",
+      "design_digest": "3b0932e443cf6ed676cab582187dc83379097dfaf74cca4611a5dcc891108b16",
+      "diagram_ref": ".csdlc/prepared/issues/5733/diagram.mmd",
+      "diagram_digest": "113d43e863ff002fc23bd0326e3c05055552b5f73afc7539b94edca4b384dd4d"
+    }
+  }
+}
