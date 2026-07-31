@@ -52,11 +52,11 @@ Reconciled the v0.91.8 demo matrix and feature-proof coverage with current owner
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
