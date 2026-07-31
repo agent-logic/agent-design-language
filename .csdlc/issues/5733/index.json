@@ -3,13 +3,13 @@
   "issue": 5733,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "3164de19aa73e2b392aff34c090596e5ecb394e75067229a7898d36d8047b6fc",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "a77e68546983d7da43fa244af12f4e789135d1a255c9c56e3d8a76bffd1fd9c9",
+  "phase": "reviewed",
+  "generation": 6,
+  "digest": "c8da80148cb69bd839b4e0367da77f37a0121e347b57a05e587146626c4b0f1b",
   "claim": {
     "id": "claim-5733-demo-matrix-proof-coverage",
     "owner": "codex:5733-execution",
-    "generation": 4,
+    "generation": 6,
     "acquired_unix_seconds": 1785536500,
     "expires_unix_seconds": 1786141300,
     "heartbeat_unix_seconds": 1785536500,
@@ -28,8 +28,33 @@
     ],
     "purpose": "Reconcile v0.91.8 demo matrix and feature-proof coverage with current issue/proof truth without rerunning owned demos."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:Tesla:019fba53-992b-7722-9fd0-bc90a039799a",
+    "assigned_by": "codex:5733-execution",
+    "revision": "git-blake3:58e44a84a61c436c06290c6a8d983a4603d0edca:36ab3aa467263d8a9eef7b262e754164ca1ced825547a3222d058ef22c219698",
+    "scope": [
+      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
+      "docs/milestones/v0.91.8/review/wp15_demo_matrix_5733/RECONCILIATION_LEDGER_v1.md",
+      "adl/tools/validate_v0918_demo_matrix.py"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:Tesla:019fba53-992b-7722-9fd0-bc90a039799a",
+    "scope": [
+      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
+      "docs/milestones/v0.91.8/review/wp15_demo_matrix_5733/RECONCILIATION_LEDGER_v1.md",
+      "adl/tools/validate_v0918_demo_matrix.py"
+    ],
+    "reviewed_revision": "git-blake3:58e44a84a61c436c06290c6a8d983a4603d0edca:36ab3aa467263d8a9eef7b262e754164ca1ced825547a3222d058ef22c219698",
+    "findings": [],
+    "residual_risks": [
+      "The matrix consumes owner proof and does not rerun demos or implementation paths; downstream public launch, release-tail, and v0.92 activation gates remain owned by their open issues."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -44,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1651b0f988155b112a925a73a0cc4b3976824ee98c47546fc83f0f2fe85f4575",
+      "values_digest": "f98310ba44b81d0267ce558975f845e8daafa0d384d1397b6385d9118d0804c4",
       "rendered_digest": "82f06819984e0c30f378e374427e4606493502375e4a02094df0d945215bf170",
       "ast_digest": "587ab82b2b0b68393e3275328dedd8c1c3afcbb625c9e3ef35f2a60745bccf13"
     },
     "stp": {
-      "values_digest": "1bd2bf3f2a828189d7d6e682ca2b0917d5e9a975b81c82ac17c5baccb0025f78",
+      "values_digest": "d8c774f44978fa6fcdf4789b9d0cc0c52429e029868974f02190cdaba8ce3d4f",
       "rendered_digest": "eab4c5eb45ebc3dfd7e5eadebbc1904a8ea2dc5f1d7d09359774ef64fa49dd4a",
       "ast_digest": "871f4e895ceaa28fdf6a1a3e71d5abcccab7121df0c38c66b70783d5e5e16209"
     },
     "spp": {
-      "values_digest": "0e5dd464a9e518e7339b0c1ca02c457577912f7657433aeb5d28ffea72a5fa83",
+      "values_digest": "ba33f4e4b70f9054bb6379e7392a99135f00689bbc160591d1ba3a6936c3db4b",
       "rendered_digest": "ffaa8bdae16c63ca0b37cfa4e3252dc5a21dee3f4a37ef581b5550db68500828",
       "ast_digest": "8640b7924cacfe1607cfd475f44cfd088f0aa94e6ebaebc37dd6829ec114a11d"
     },
     "vpp": {
-      "values_digest": "93e2270260aa3ac843e4b534a8b411962c48889713057e93009ed62baae9fd85",
+      "values_digest": "d64fe6c4f162b892b91ba754cd7290179135a4646e04bd36fbcee70222c619fe",
       "rendered_digest": "76ea28a8b7c812896781483612c2065bcd2e73cd2fa9d3abadcd8b0ec5df47b1",
       "ast_digest": "a190b7092823dc3a7beb578c724e263d4ba390f7149856932d1d86c1dcb5fdef"
     },
     "srp": {
-      "values_digest": "89f7207fe6bef3982d4125e445259e64b2381b073b980589448ca097e49017c6",
-      "rendered_digest": "0901fdd7147718a98bb9c975248830ccedfeeb53449cdf284227db4918555d95",
-      "ast_digest": "92f4995c600a9016d685b8323f27c0669c5b240ff061ad20be6df76f4b121222"
+      "values_digest": "120faa92dde2ff21cb59787fb105901624c6b48ba29967644049fe802dd93cd9",
+      "rendered_digest": "aacfacd0f811f5b310afd755d77df7796e8af588005c51a96c01a72381c2396d",
+      "ast_digest": "0561cc505fc3aa5b0d01db41caf1b2ea2c220fbc58fad707ca0b263986ab70bf"
     },
     "sor": {
-      "values_digest": "b6edb21b48b9203e289fbb15d6c25ef8e70d8a61c077d93bba3aba7fe4ae081b",
+      "values_digest": "4c099d2823501bd72dabb7176ef9d38449f4169471f97b70b6b4d9232b33180c",
       "rendered_digest": "a042465297a317c8e65cd40e6d8933e43b5cad9876551fb204cfdb02b1a86149",
       "ast_digest": "8cb5069d5bb00623b6c2ffdbebe6414e5e39286f1504403fcf576cef37d7b565"
     }
@@ -95,6 +120,13 @@
       "to": "implemented",
       "actor": "codex:5733-execution",
       "reason": "Implementation and focused validation are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5733-execution",
+      "reason": "The assigned exact-commit review is complete with no actionable findings."
     }
   ],
   "audit": [
@@ -139,6 +171,27 @@
       "actor": "codex:5733-execution",
       "reason": "Implementation and focused validation are complete.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:5733-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:5733-execution",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:5733-execution",
+      "reason": "The assigned exact-commit review is complete with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
