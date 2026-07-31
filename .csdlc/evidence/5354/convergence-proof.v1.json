@@ -2,7 +2,7 @@
   "schema": "adl.v0918.wp15.convergence_proof.v1",
   "issue": 5354,
   "status": "pass",
-  "revision": "051946a9ab7cb6f9fbc29a9d80a2c86c0071a3fb",
+  "revision": "505709b5e3f8da7f6084732f6a55c6943e41cf18",
   "predecessor": {
     "issue": 5384,
     "pull_request": 5726,
@@ -22,6 +22,12 @@
   "runtime_v3": {
     "adapter_test": "canonical_ingress_maps_success_and_result_record",
     "wss_test": "observatory_websocket_allows_public_reads_and_requires_login_for_writes",
+    "live_wss": {
+      "endpoint": "/v1/observatory/ws",
+      "feed_schema": "adl.runtime_v3.observatory_feed.v2",
+      "client_message": "unauthenticated_write_probe",
+      "server_response": "write_authentication_required"
+    },
     "live_schema": "adl.runtime_v3.observatory_feed.v2",
     "runtime_instance_id": "831c080ba9a245c99142c5622b5b2ec7",
     "lifecycle": "running",
@@ -34,8 +40,8 @@
   },
   "csdlc_v2": {
     "selected_generation": "v2",
-    "phase": "bound",
-    "generation": 2,
+    "phase": "implemented",
+    "generation": 6,
     "claim_id": "claim-5354-v0918-wp15-reacquired",
     "doctor_status": "pass",
     "closeout_blocks_execution": false
