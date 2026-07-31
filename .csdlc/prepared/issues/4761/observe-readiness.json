@@ -1,0 +1,17 @@
+{
+  "issue": 4761,
+  "expected_generation": 17,
+  "expected_digest": "ff69d0fbb9bd14b541ad639f9543f1b29b518da553f78de19a5a5fb8e27eada2",
+  "claim_id": "claim-4761-v0918-wp14-capability-envelope-execution",
+  "actor": "codex:gpt-5.5-execution-4761",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5741,
+  "required_checks": [
+    "adl-path-policy",
+    "adl-ci",
+    "adl-coverage-hosted",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}
