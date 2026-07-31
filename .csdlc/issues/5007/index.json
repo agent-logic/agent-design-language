@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c789bbcb9f19495094fd9501a0b61a1c79f53d38af4e5b93f463f3d0408a773e",
   "phase": "implemented",
-  "generation": 3,
-  "digest": "9453600b9bc830e41103ec44671086269fc768522ae7341db608cefecd8d9f70",
+  "generation": 4,
+  "digest": "55de983ebee75e4dd5b7276106b0aea7956cfd88a3d6400c93c89e9348708167",
   "claim": {
     "id": "exec-5007-memory-palace-adr-20260731",
     "owner": "codex:5007-execution-2026-07-31",
-    "generation": 3,
+    "generation": 4,
     "acquired_unix_seconds": 1785533790,
     "expires_unix_seconds": 1786138590,
     "heartbeat_unix_seconds": 1785533790,
@@ -26,8 +26,32 @@
     ],
     "purpose": "Execution of #5007 Memory Palace ADR decision outcome using real #4760 proof surfaced by ready PR #5740; no merge or closeout."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex:exact-head-reviewer-5007",
+    "assigned_by": "codex:5007-execution-2026-07-31",
+    "revision": "git-blake3:4d5c02295f48dcdbca3cdf7c685666dd1821ce03:d184170fc37a3782f7d3fd606aca9cf6d2207c8d15d832a7c8e6036f86548782",
+    "scope": [
+      "docs/adr/0058-memory-palace-context-handoff-architecture.md",
+      "docs/adr/README.md",
+      "docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:exact-head-reviewer-5007",
+    "scope": [
+      "docs/adr/0058-memory-palace-context-handoff-architecture.md",
+      "docs/adr/README.md",
+      "docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md"
+    ],
+    "reviewed_revision": "git-blake3:4d5c02295f48dcdbca3cdf7c685666dd1821ce03:d184170fc37a3782f7d3fd606aca9cf6d2207c8d15d832a7c8e6036f86548782",
+    "findings": [],
+    "residual_risks": [
+      "#4760 proof is surfaced by ready PR #5740 at head 94156d55d0a1f4bfda7ce32ac136437520325906 and remains unmerged/unclosed; ADR 0058 preserves that boundary and should be refreshed if #5740 changes before merge.",
+      "#5007 review covers the ADR decision packet, ADR index, and v0.91.8 ADR plan updates; runtime proof remains #4760 scope and was not rerun for this docs/decision PR."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -42,32 +66,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "435be91867cf5e1352fa8f978518812c9579f9f1453e2d556fb2014efe324895",
+      "values_digest": "740befc00ee1181910f028da44ec11ca7d926a5fac29726d6102ed7ec7248aaa",
       "rendered_digest": "b7aa70bbfb4d82a27ae651fc541f1bb212d10ee70b59f1dabcfda940c4521dd2",
       "ast_digest": "3a96b10330cb5ee77ba7c0b3cabb09ede911477f275c09b339246d36a986b989"
     },
     "stp": {
-      "values_digest": "c1851d5fe609921abe35972b2457f03b1bec89b787c195022b1fb53d84a1fdc9",
+      "values_digest": "4d1214b19d94e575064ae6b55abbda8118cd59324f00dc8f75f876fe53916f81",
       "rendered_digest": "8ec075f0bebf17954e43b5d791df37f90ebe6d1a0d2a9527b7953c92e82650dd",
       "ast_digest": "f1bc415ad8ac03d786affb699812bebbc371b75f7453b5b4adf9b3db87db0c62"
     },
     "spp": {
-      "values_digest": "fca19f1b472864e020904eabd56edffd7dc6f3d04622ce30ccbe5ac9d6cb51c8",
+      "values_digest": "861f25ee2768251af0465b7ecd3bd34b0e214c5b1382dc5709ce3d2f8d69520c",
       "rendered_digest": "45177806428d365ff69947fe42e8917a85af783ae30b9ddfcc0c98a2c86fdf37",
       "ast_digest": "c12b0602ff7d058e73e64440683e0a06f75129339e70179b257b8da4b48daa3d"
     },
     "vpp": {
-      "values_digest": "b2d9769f92a47fb498810ca1ad50a9481c97675336284b721670839c16b1f1e5",
+      "values_digest": "d5d36758eb57c4c57df8bbf6964c1b4b177f2aedc0f2803c0316a738ea04e509",
       "rendered_digest": "17952b21ee01486f9d4b8b47ed251e31e1f001f1c389bc6fb62318e364845c8e",
       "ast_digest": "fed7c29710382db155a29d25c448b256ae7d95d2a40377da6f9efbfcc2c357f8"
     },
     "srp": {
-      "values_digest": "3bb16f22b15ef1b46424b4de1bb8bdd66f15d784d2bac7fd503f680957f6d388",
-      "rendered_digest": "ca9f8765efd122fddf5270235c4d6316a32cbfb126612c525e5f12f1424c96f4",
-      "ast_digest": "233bd15f24dafe0cbeb3b22eb06b582fb9c317030bd5396bf831400ccf882c2a"
+      "values_digest": "41b83f9bdeca114ccaf0b666c989d9f94116eb994265bb4dbbca5f9f93be7c41",
+      "rendered_digest": "35338fc5917377341ed437f44367c56b1b2b42887ac0beb5e9922187105200ce",
+      "ast_digest": "a972f9e7b994a117be4e001192537f0ca5356cfa9930493a82c08fcbed7c4cdd"
     },
     "sor": {
-      "values_digest": "b448711d04fe9037e83c4f6318752f68b116a63cde08868025faad0421857c00",
+      "values_digest": "66485d9ba213fcce80761ff8cefd461ecd545f88081d271ef776fa86ab5e2179",
       "rendered_digest": "64d89f17d5dde42043ff44271eea4285017e1774e0755436012445e18195b734",
       "ast_digest": "f9788e81886d07c7639191a327bc1d71e5947bfc710ba32c1d9dd5c84a3a7342"
     }
@@ -137,6 +161,20 @@
       "actor": "codex:5007-execution-2026-07-31",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:5007-execution-2026-07-31",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:exact-head-reviewer-5007",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }

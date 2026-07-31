@@ -12,7 +12,9 @@ Status: complete
 
 ## Scope
 
-Bounded GPT-5.5 preparation review of `.csdlc/issues/5007`, `.csdlc/prepared/issues/5007`, and `.csdlc/evidence/5007/preparation` only; no ADR execution, implementation, PR, publication, merge, or #4760 proof validation.
+docs/adr/0058-memory-palace-context-handoff-architecture.md
+docs/adr/README.md
+docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md
 
 ## Prompts
 
@@ -24,18 +26,7 @@ Bounded GPT-5.5 preparation review of `.csdlc/issues/5007`, `.csdlc/prepared/iss
 
 ## Findings
 
-[
-  {
-    "id": "PREP5007-GPT55-001",
-    "severity": "p2",
-    "summary": "Initial SRP said no preparation review and the packet omitted current operator-required exact paths, budgets, COTS, PVF, rollback, and no-deferral boundaries.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": null,
-    "route": "Fixed by the preparation packet refresh in this commit."
-  }
-]
+[]
 
 ## Dispositions
 
@@ -43,13 +34,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- This preparation review did not inspect future #4760 proof because #4760 is open at preparation time.
-- Execution must run a fresh exact-revision review after #4760 proof is available and before any PR/publication.
+- #4760 proof is surfaced by ready PR #5740 at head 94156d55d0a1f4bfda7ce32ac136437520325906 and remains unmerged/unclosed; ADR 0058 preserves that boundary and should be refreshed if #5740 changes before merge.
+- #5007 review covers the ADR decision packet, ADR index, and v0.91.8 ADR plan updates; runtime proof remains #4760 scope and was not rerun for this docs/decision PR.
 
 ## Review Result
 
-Revision: Some("0bad6cc5d095a18012cc9ec8f25b6731b7e699be+prep-refresh")
+Revision: Some("git-blake3:4d5c02295f48dcdbca3cdf7c685666dd1821ce03:d184170fc37a3782f7d3fd606aca9cf6d2207c8d15d832a7c8e6036f86548782")
 
-Reviewer: Some("gpt-5.5:bounded-preparation-review")
+Reviewer: Some("codex:exact-head-reviewer-5007")
 
 Result: pass

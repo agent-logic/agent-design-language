@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-21][ADR] Prepare #5007 Memory Palace ADR acceptance",
     "slug": "v0918-wp14-memory-palace-adr-acceptance-prep-5007",
     "version": "v0.91.8",
-    "generation": 3
+    "generation": 4
   },
   "status": "complete",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Bounded GPT-5.5 preparation review of `.csdlc/issues/5007`, `.csdlc/prepared/issues/5007`, and `.csdlc/evidence/5007/preparation` only; no ADR execution, implementation, PR, publication, merge, or #4760 proof validation.",
-      "review_revision": "0bad6cc5d095a18012cc9ec8f25b6731b7e699be+prep-refresh",
-      "reviewer": "gpt-5.5:bounded-preparation-review",
+      "review_scope": "docs/adr/0058-memory-palace-context-handoff-architecture.md\ndocs/adr/README.md\ndocs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md",
+      "review_revision": "git-blake3:4d5c02295f48dcdbca3cdf7c685666dd1821ce03:d184170fc37a3782f7d3fd606aca9cf6d2207c8d15d832a7c8e6036f86548782",
+      "reviewer": "codex:exact-head-reviewer-5007",
       "review_prompts": [
         "Does the packet keep #5007 execution explicitly blocked on actual completed #4760 Memory Palace implementation proof?",
         "Are exact dependencies, intended paths, COTS, LoC/time budgets, PVF lanes, rollback, and no-deferral boundaries present and issue-local?",
@@ -23,21 +23,10 @@
         "Are stale claim reconciliation and typed closeout receipts treated as execution-time lifecycle truth rather than preparation blockers?",
         "Do the cards avoid writes to `main`, `/private/tmp`, runtime source, provider/AWS surfaces, PR, publication, merge, or closeout?"
       ],
-      "findings": [
-        {
-          "id": "PREP5007-GPT55-001",
-          "severity": "p2",
-          "summary": "Initial SRP said no preparation review and the packet omitted current operator-required exact paths, budgets, COTS, PVF, rollback, and no-deferral boundaries.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": null,
-          "route": "Fixed by the preparation packet refresh in this commit."
-        }
-      ],
+      "findings": [],
       "residual_risk": [
-        "This preparation review did not inspect future #4760 proof because #4760 is open at preparation time.",
-        "Execution must run a fresh exact-revision review after #4760 proof is available and before any PR/publication."
+        "#4760 proof is surfaced by ready PR #5740 at head 94156d55d0a1f4bfda7ce32ac136437520325906 and remains unmerged/unclosed; ADR 0058 preserves that boundary and should be refreshed if #5740 changes before merge.",
+        "#5007 review covers the ADR decision packet, ADR index, and v0.91.8 ADR plan updates; runtime proof remains #4760 scope and was not rerun for this docs/decision PR."
       ],
       "review_result": "pass"
     }
