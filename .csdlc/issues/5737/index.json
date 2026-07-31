@@ -1,0 +1,108 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5737,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "8389c08811378222f293ccc0d9046c6ca438c358e387a9db2258defe952f0fd5",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "59da1941f47b59cc1faf1d0becfeab9f30764cfae7cf143530262d7fb58fcb83",
+  "claim": {
+    "id": "claim-5737-csdlc-authority-recovery",
+    "owner": "codex:5737-execution",
+    "generation": 0,
+    "acquired_unix_seconds": 1785532834,
+    "expires_unix_seconds": 1786137634,
+    "heartbeat_unix_seconds": 1785532834,
+    "branch": "codex/5737-csdlc-authority-recovery",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5737",
+      ".csdlc/locks/5737.lock",
+      ".csdlc/prepared/issues/5737",
+      ".csdlc/evidence/5737",
+      ".csdlc/publication/5737.intent.json",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs"
+    ],
+    "purpose": "Repair C-SDLC v2 claim authority recovery around unrelated terminal drift, stale inactive projections, and stale dormant design inputs."
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5737/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5737/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5737-preflight",
+      "revision": "6e29a4e399b52ccf6d9ae550bcc31a1706b048447f35e8b0eb2515120ecbeb68"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2b3168a6fe165640051966e5a3a55a96d489e4d02fe03735fe3d34318b116a35",
+      "rendered_digest": "1e6109b6a0691d18a348c552bc76c0b71ffb34bc9d07d47aa59577fd96c805d4",
+      "ast_digest": "89bc5b6c3a8c65de169b9514f44d96e0051c5be3ff294e9b9cac89f0f71b3847"
+    },
+    "stp": {
+      "values_digest": "1cfa685d545e533d6dfa85948cab78fa908f9b2ed715ef90017fa459ba7d1a67",
+      "rendered_digest": "3e675683d5950627268ae73f4b1bd46c6673497e36dac186c80ce8a8a20ad65d",
+      "ast_digest": "4d5ace43e52d7731963d5412ac1065ecb316db7ace71472429734ed9acba31bd"
+    },
+    "spp": {
+      "values_digest": "321caad21e6640e446c924b662a2088a2f4fd80adbe691da1c575e0e7369b012",
+      "rendered_digest": "6aeb12b6706325f3d15d6a10add9e3dd1459d65a8f22ff29559ef7ef7488feb1",
+      "ast_digest": "0cc5e8a1c5fe3afd4ddbe33673d66bec0704557cde46d918cc0cf4a33a97d8d5"
+    },
+    "vpp": {
+      "values_digest": "dd218553a22ad3ab9f14f8c6ad2e7cde06f62426d4b1b1972ad4abedd473462f",
+      "rendered_digest": "5a9b15f9dc7da6335ecbeebefe24d1c15ef42d21df1c35b751fd192f4754a7b0",
+      "ast_digest": "cd9e9544b4be82605a123385fd13ef45b04f986df6791aa57276d362c46f5a88"
+    },
+    "srp": {
+      "values_digest": "e0d8688a113b37f2bfa833f645301ed8d23a7f76a77c8267e51c2153abae8c5b",
+      "rendered_digest": "12a822f62d9a273911a7c8994e68727cf2bf8d2aecfe39491333e7f897cf48e4",
+      "ast_digest": "1f132041534cd8d860938937841abd38c6ad7070419b885b56bd11c63b90050e"
+    },
+    "sor": {
+      "values_digest": "3ae223a955bbbd8fcec19a72156c5dda0bfba0388d48b84292e79d6de4118cbb",
+      "rendered_digest": "bd1fa3f6230d2d3fcc9126c9ca33bb0b7500e489773588a1a12c1b9f7d765112",
+      "ast_digest": "0fd27f4627c0b4181d67f6b914b4d03a1d56d3c2a324a47e0e0e4d365efb2fc1"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5737-execution",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5737-execution",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5737-execution",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:5737-execution",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}

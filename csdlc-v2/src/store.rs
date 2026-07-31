@@ -1753,6 +1753,32 @@ impl Store {
         self.commit(issue, record, &cards, false)
     }
 
+    pub(crate) fn replace_authority_record(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        record: &IssueRecord,
+    ) -> Result<IssueRecord> {
+        let _lock = self.lock(issue)?;
+        self.recover_if_needed(issue)?;
+        let current = self.load_record(issue)?;
+        if current.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "record changed before compare-and-swap authority commit",
+            ));
+        }
+        let cards = self.load_cards(issue)?;
+        // Authority recovery accepts projection drift only when the typed card
+        // values, identities, generations, and rendered Markdown agree.
+        verify_authority_card_inputs(&current, &cards)?;
+        let mut repaired = record.clone();
+        hydrate_projections(&mut repaired, &cards)?;
+        repaired.digest = record_digest(&repaired)?;
+        self.commit(issue, &repaired, &cards, false)?;
+        Ok(repaired)
+    }
+
     pub(crate) fn commit_migration(
         &self,
         issue: u64,
@@ -3063,18 +3089,8 @@ fn verify_card_projections(
     record: &IssueRecord,
     cards: &BTreeMap<CardKind, CardValues>,
 ) -> Result<()> {
-    verify_record(record)?;
+    verify_authority_card_inputs(record, cards)?;
     for (kind, values) in cards {
-        if values.kind() != *kind
-            || values.identity.issue != record.issue
-            || values.identity.repository != record.repository
-            || values.identity.generation != record.generation
-        {
-            return Err(V2Error::new(
-                ErrorCode::CorruptRecord,
-                format!("{kind} identity/generation mismatch"),
-            ));
-        }
         let rendered = render(values)?;
         let projection = record.cards.get(kind).ok_or_else(|| {
             V2Error::new(
@@ -3098,6 +3114,27 @@ fn verify_card_projections(
                 format!("{kind} digest drift"),
             ));
         }
+    }
+    Ok(())
+}
+
+fn verify_authority_card_inputs(
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+) -> Result<()> {
+    verify_record(record)?;
+    for (kind, values) in cards {
+        if values.kind() != *kind
+            || values.identity.issue != record.issue
+            || values.identity.repository != record.repository
+            || values.identity.generation != record.generation
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("{kind} identity/generation mismatch"),
+            ));
+        }
+        render(values)?;
     }
     Ok(())
 }

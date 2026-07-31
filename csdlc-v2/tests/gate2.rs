@@ -2,9 +2,9 @@ use std::fs;
 
 use csdlc_v2::doctor::DoctorStatus;
 use csdlc_v2::{
-    amend_claim_scope, diagnose, edit_issue, AmendClaimScopeRequest, BootstrapRequest, CardKind,
-    Claim, EditRequest, ErrorCode, PlanningCollectionField, ReacquireClaimRequest,
-    SemanticOperation, Store,
+    amend_claim_scope, closeout_issue, diagnose, edit_issue, AmendClaimScopeRequest,
+    BootstrapRequest, CardKind, Claim, EditRequest, ErrorCode, PlanningCollectionField,
+    ReacquireClaimRequest, SemanticOperation, Store, TerminalDisposition, TerminalObservation,
 };
 use tempfile::TempDir;
 
@@ -1027,6 +1027,8 @@ fn active_claim_transition_guards_cas_expiry_collision_and_real_cli() {
     other.issue = 43;
     let other_claim = other.claim.as_mut().unwrap();
     other_claim.id = "claim-43".into();
+    other_claim.branch = "main".into();
+    other_claim.worktree = ".".into();
     other_claim.protected_paths = vec!["product/nested".into()];
     fs::create_dir_all(store.issue_dir(43)).unwrap();
     fs::write(
@@ -1148,7 +1150,10 @@ fn bind_refuses_overlapping_protected_path_reserved_by_another_issue() {
     git(temp.path(), &["commit", "-m", "fixture"]);
     let mut other = record.clone();
     other.issue = 43;
-    other.claim.as_mut().expect("claim").protected_paths = vec!["src/nested".into()];
+    let other_claim = other.claim.as_mut().expect("claim");
+    other_claim.branch = "main".into();
+    other_claim.worktree = ".".into();
+    other_claim.protected_paths = vec!["src/nested".into()];
     fs::create_dir_all(store.issue_dir(43)).expect("other issue");
     fs::write(
         store.issue_dir(43).join("index.json"),
@@ -1487,6 +1492,266 @@ fn reacquire_fails_closed_for_stale_binding_and_live_overlap() {
     )
     .expect_err("live overlap");
     assert_eq!(collision.code, ErrorCode::ClaimCollision);
+}
+
+#[test]
+fn inactive_stale_projection_with_stale_terminal_identity_does_not_block_authority() {
+    {
+        let (_temp, store) = fixture_with_unrelated_stale_terminal_identity();
+        initialize_issue(&store, request()).expect("unrelated stale receipt does not block init");
+    }
+
+    {
+        let (temp, store) = fixture_with_unrelated_stale_terminal_identity();
+        let record = initialize_issue(&store, request()).expect("initialize bind target");
+        git(
+            temp.path(),
+            &["config", "user.email", "test@example.invalid"],
+        );
+        git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+        git(temp.path(), &["add", "."]);
+        git(temp.path(), &["commit", "-m", "fixture"]);
+        let claim = record.claim.clone().expect("claim");
+        csdlc_v2::bind_issue(
+            &store,
+            csdlc_v2::BindRequest {
+                issue: 42,
+                base_branch: "main".into(),
+                branch: claim.branch.clone(),
+                worktree: claim.worktree.clone(),
+                claim,
+            },
+        )
+        .expect("unrelated stale receipt does not block bind");
+    }
+
+    {
+        let (temp, store) = fixture_with_unrelated_stale_terminal_identity();
+        let record = initialize_issue(&store, request()).expect("initialize reacquire target");
+        git(temp.path(), &["branch", "-m", "issue-42"]);
+        csdlc_v2::revoke_active_claim(
+            &store,
+            csdlc_v2::RevokeActiveClaimRequest {
+                issue: 42,
+                repository: "example/repo".into(),
+                expected_claim_id: "claim-1".into(),
+                expected_generation: record.generation,
+                expected_digest: record.digest,
+                now_unix_seconds: 2,
+                actor: "operator".into(),
+                operator_authority: "operator-authorized:test".into(),
+                reason: "release for stale receipt regression".into(),
+            },
+        )
+        .expect("release");
+        let dormant = store.load_record(42).expect("dormant");
+        fs::write(
+            temp.path().join("docs/design.md"),
+            "# Design changed while the claim was dormant\n",
+        )
+        .expect("stale dormant design");
+        let reacquired = csdlc_v2::reacquire_claim(
+            &store,
+            ReacquireClaimRequest {
+                issue: 42,
+                expected_generation: dormant.generation,
+                expected_digest: dormant.digest,
+                now_unix_seconds: 10,
+                actor: "next-owner".into(),
+                reason: "resume without consulting unrelated stale receipt".into(),
+                replacement: reacquired_claim(dormant.generation),
+            },
+        )
+        .expect("unrelated stale receipt does not block reacquire");
+        csdlc_v2::approve_design(
+            &store,
+            csdlc_v2::ApproveDesignRequest {
+                issue: 42,
+                expected_generation: reacquired.generation,
+                expected_digest: reacquired.digest,
+                claim_id: "claim-reacquired".into(),
+                reviewer: "recovery-reviewer".into(),
+            },
+        )
+        .expect("typed design reapproval follows authority recovery");
+    }
+}
+
+#[test]
+fn active_nonoverlap_does_not_consult_stale_terminal_identity() {
+    let (_temp, store) = fixture_with_stale_terminal_identity("main", "terminal-only");
+    initialize_issue(&store, request())
+        .expect("non-overlapping active claim does not consult unrelated terminal identity");
+}
+
+fn fixture_with_unrelated_stale_terminal_identity() -> (TempDir, Store) {
+    fixture_with_stale_terminal_identity("inactive-issue-43", "src")
+}
+
+fn fixture_with_stale_terminal_identity(
+    local_branch: &str,
+    protected_path: &str,
+) -> (TempDir, Store) {
+    let temp = tempfile::tempdir().expect("tempdir");
+    git(temp.path(), &["init", "-b", "main"]);
+    fs::create_dir_all(temp.path().join("docs")).expect("docs");
+    fs::write(temp.path().join("docs/design.md"), "# Reviewed design\n").expect("design");
+    fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n  A --> B\n",
+    )
+    .expect("diagram");
+    let store = Store::new(temp.path());
+    let mut local = request();
+    local.issue = 43;
+    local.claim.id = "claim-43-local".into();
+    local.claim.branch = local_branch.into();
+    local.claim.worktree = ".".into();
+    local.claim.protected_paths = vec![protected_path.into()];
+    local.initial.goal = "Local issue identity that differs from retained terminal receipt.".into();
+    initialize_issue(&store, local).expect("local unrelated issue");
+    install_stale_terminal_receipt_for_issue_43(&store);
+    (temp, store)
+}
+
+fn install_stale_terminal_receipt_for_issue_43(target: &Store) {
+    let source = tempfile::tempdir().expect("source tempdir");
+    fs::create_dir_all(source.path().join("docs")).expect("source docs");
+    fs::write(source.path().join("docs/design.md"), "# Reviewed design\n").expect("design");
+    fs::write(
+        source.path().join("docs/diagram.mmd"),
+        "flowchart LR\n  A --> B\n",
+    )
+    .expect("diagram");
+    let source_store = Store::new(source.path());
+    let mut request = request();
+    request.issue = 43;
+    request.claim.id = "claim-43-terminal".into();
+    request.claim.branch = "issue-43-terminal".into();
+    request.claim.worktree = ".".into();
+    request.claim.protected_paths = vec!["terminal-only".into()];
+    request.initial.goal = "Retained terminal identity that is stale for the local record.".into();
+    let mut record = initialize_issue(&source_store, request).expect("terminal source init");
+    for phase in [
+        csdlc_v2::LifecyclePhase::Ready,
+        csdlc_v2::LifecyclePhase::Bound,
+    ] {
+        record = edit_issue(
+            &source_store,
+            edit_for(
+                43,
+                "claim-43-terminal",
+                &record,
+                CardKind::Sip,
+                SemanticOperation::AdvancePhase { phase },
+            ),
+        )
+        .expect("advance terminal source");
+    }
+    record = edit_issue(
+        &source_store,
+        edit_for(
+            43,
+            "claim-43-terminal",
+            &record,
+            CardKind::Sor,
+            SemanticOperation::RecordExecution {
+                summary: "terminal source complete".into(),
+                changes: vec!["terminal source".into()],
+                artifacts: vec!["terminal-source.json".into()],
+            },
+        ),
+    )
+    .expect("record execution");
+    record = edit_issue(
+        &source_store,
+        edit_for(
+            43,
+            "claim-43-terminal",
+            &record,
+            CardKind::Sip,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Implemented,
+            },
+        ),
+    )
+    .expect("advance implemented");
+    record = edit_issue(
+        &source_store,
+        edit_for(
+            43,
+            "claim-43-terminal",
+            &record,
+            CardKind::Sor,
+            SemanticOperation::RecordValidation {
+                result: csdlc_v2::cards::ValidationResult {
+                    command: vec!["cargo".into(), "test".into()],
+                    purpose: "stale terminal identity regression proof".into(),
+                    outcome: csdlc_v2::cards::EvidenceOutcome::Passed,
+                    evidence_ref: "evidence/stale-terminal-identity.json".into(),
+                },
+            },
+        ),
+    )
+    .expect("record validation");
+    record = edit_issue(
+        &source_store,
+        edit_for(
+            43,
+            "claim-43-terminal",
+            &record,
+            CardKind::Srp,
+            SemanticOperation::RecordReview {
+                reviewer: "independent-reviewer".into(),
+                revision: "terminal-source-revision".into(),
+                result: csdlc_v2::cards::ReviewResult::Pass,
+                residual_risk: Vec::new(),
+            },
+        ),
+    )
+    .expect("record review");
+    record = edit_issue(
+        &source_store,
+        edit_for(
+            43,
+            "claim-43-terminal",
+            &record,
+            CardKind::Sip,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Reviewed,
+            },
+        ),
+    )
+    .expect("advance reviewed");
+    closeout_issue(
+        &source_store,
+        TerminalObservation {
+            schema: "csdlc.terminal_observation.v1".into(),
+            issue: 43,
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            claim_id: "claim-43-terminal".into(),
+            actor: "closer".into(),
+            pull_request: None,
+            disposition: TerminalDisposition::ClosedNoPr,
+            observed_sha: None,
+            observed_state: "closed_no_pr".into(),
+            approved_no_pr_reason: Some("operator-approved no-PR closeout".into()),
+            receipt_path: "csdlc-v2/closeout/43.json".into(),
+        },
+    )
+    .expect("close terminal source");
+    source_store
+        .retain_terminal_receipt(43)
+        .expect("retain source receipt");
+    let source_receipt = source_store
+        .terminal_receipt_path(43)
+        .expect("source receipt path");
+    let target_receipt = target
+        .terminal_receipt_path(43)
+        .expect("target receipt path");
+    fs::create_dir_all(target_receipt.parent().expect("receipt parent")).expect("receipt dir");
+    fs::copy(source_receipt, target_receipt).expect("copy stale receipt");
 }
 
 #[test]
@@ -1862,12 +2127,22 @@ fn bound_claim_scope_amendment_is_collision_checked_and_audited() {
 }
 
 fn edit(record: &csdlc_v2::IssueRecord, operation: SemanticOperation) -> EditRequest {
+    edit_for(42, "claim-1", record, CardKind::Sip, operation)
+}
+
+fn edit_for(
+    issue: u64,
+    claim_id: &str,
+    record: &csdlc_v2::IssueRecord,
+    card: CardKind,
+    operation: SemanticOperation,
+) -> EditRequest {
     EditRequest {
-        issue: 42,
-        card: CardKind::Sip,
+        issue,
+        card,
         expected_generation: record.generation,
         expected_digest: record.digest.clone(),
-        claim_id: "claim-1".into(),
+        claim_id: claim_id.into(),
         actor: "agent".into(),
         reason: "test edit".into(),
         operation,
