@@ -1394,6 +1394,24 @@ apply_validation_manager_routing() {
       reason="podcast_static_demo_surface_requires_diff_hygiene_and_demo_smoke"
       return 0
       ;;
+    ready_to_run:podcast_launch_packet,podcast_static_demo_surface:false|\
+    ready_to_run:podcast_static_demo_surface,podcast_launch_packet:false|\
+    ready_to_run:docs_diff_check,podcast_launch_packet,podcast_static_demo_surface:false|\
+    ready_to_run:docs_diff_check,podcast_static_demo_surface,podcast_launch_packet:false|\
+    ready_to_run:podcast_launch_packet,docs_diff_check,podcast_static_demo_surface:false|\
+    ready_to_run:podcast_launch_packet,podcast_static_demo_surface,docs_diff_check:false|\
+    ready_to_run:podcast_static_demo_surface,docs_diff_check,podcast_launch_packet:false|\
+    ready_to_run:podcast_static_demo_surface,podcast_launch_packet,docs_diff_check:false)
+      ci_contracts_required=true
+      demo_smoke_required=true
+      coverage_required=false
+      full_coverage_required=false
+      coverage_lane="skip"
+      coverage_authority="not_required"
+      coverage_execution_state="skipped_by_path_policy"
+      reason="podcast_launch_surface_requires_audio_rss_and_studio_packet_validation"
+      return 0
+      ;;
     ready_to_run:sprint_conductor_contracts:false|\
     ready_to_run:docs_diff_check,sprint_conductor_contracts:false)
       reason="sprint_conductor_surface_requires_helper_contract_checks"

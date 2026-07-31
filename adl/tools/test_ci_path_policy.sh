@@ -285,12 +285,12 @@ PY
   assert_has "$podcast_static_demo_output" "coverage_lane=skip"
   assert_has "$podcast_static_demo_output" "coverage_authority=not_required"
   assert_has "$podcast_static_demo_output" "coverage_execution_state=skipped_by_path_policy"
-  assert_has "$podcast_static_demo_output" "reason=podcast_static_demo_surface_requires_diff_hygiene_and_demo_smoke"
-  assert_has "$podcast_static_demo_output" "validation_profile_selected=podcast_static_demo_surface_profile"
+  assert_has "$podcast_static_demo_output" "reason=podcast_launch_surface_requires_audio_rss_and_studio_packet_validation"
+  assert_has "$podcast_static_demo_output" "validation_profile_selected=selected_2_lane_profile"
   assert_has "$podcast_static_demo_output" "validation_profile_status=ready_to_run"
   assert_has "$podcast_static_demo_output" "validation_profile_escalation_required=false"
-  assert_has "$podcast_static_demo_output" "validation_profile_run_lanes=podcast_static_demo_surface"
-  assert_has "$podcast_static_demo_output" "validation_profile_primary_reason=podcast_static_demo_surface_requires_diff_hygiene_and_demo_smoke"
+  assert_has "$podcast_static_demo_output" "validation_profile_run_lanes=podcast_launch_packet,podcast_static_demo_surface"
+  assert_has "$podcast_static_demo_output" "validation_profile_primary_reason=podcast_launch_surface_requires_audio_rss_and_studio_packet_validation"
 
   git checkout -q -b csdlc-metadata-only "$base_sha"
   mkdir -p .csdlc/issues/1

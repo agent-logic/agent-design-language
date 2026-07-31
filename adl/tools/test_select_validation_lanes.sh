@@ -758,16 +758,26 @@ profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_lane_plan.v1", json.dumps(profile, indent=2, sort_keys=True)
 assert profile["aggregate_status"] == "selected", json.dumps(profile, indent=2, sort_keys=True)
 assert profile["pr_publication_sufficient"] is True, json.dumps(profile, indent=2, sort_keys=True)
-assert set(profile["lanes"].keys()) == {"podcast_static_demo_surface"}, json.dumps(profile, indent=2, sort_keys=True)
-lane = profile["lanes"]["podcast_static_demo_surface"]
-assert lane["status"] == "selected", json.dumps(profile, indent=2, sort_keys=True)
-assert lane["proof_role"] == "demo_contract", json.dumps(profile, indent=2, sort_keys=True)
-assert lane["owner"] == "site", json.dumps(profile, indent=2, sort_keys=True)
-assert lane["run_command"] == "git diff --check", json.dumps(profile, indent=2, sort_keys=True)
-assert set(lane["matched_paths"]) == {
+assert set(profile["lanes"].keys()) == {
+    "podcast_launch_packet",
+    "podcast_static_demo_surface",
+}, json.dumps(profile, indent=2, sort_keys=True)
+launch_lane = profile["lanes"]["podcast_launch_packet"]
+assert launch_lane["status"] == "selected", json.dumps(profile, indent=2, sort_keys=True)
+assert launch_lane["proof_role"] == "demo_contract", json.dumps(profile, indent=2, sort_keys=True)
+assert launch_lane["owner"] == "review", json.dumps(profile, indent=2, sort_keys=True)
+assert launch_lane["run_command"] == "bash adl/tools/test_podcast_launch_packet.sh", json.dumps(profile, indent=2, sort_keys=True)
+assert set(launch_lane["matched_paths"]) == {
     "demos/podcast/index.html",
     "demos/podcast/feed.xml",
     "demos/podcast/studio/podcast-studio.html",
+}
+static_lane = profile["lanes"]["podcast_static_demo_surface"]
+assert static_lane["status"] == "selected", json.dumps(profile, indent=2, sort_keys=True)
+assert static_lane["proof_role"] == "demo_contract", json.dumps(profile, indent=2, sort_keys=True)
+assert static_lane["owner"] == "site", json.dumps(profile, indent=2, sort_keys=True)
+assert static_lane["run_command"] == "git diff --check", json.dumps(profile, indent=2, sort_keys=True)
+assert set(static_lane["matched_paths"]) == {
     "demos/_preview/podcast/index.html",
 }
 PY

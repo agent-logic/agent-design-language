@@ -79,15 +79,24 @@ import sys
 
 profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_profile.v1", json.dumps(profile, indent=2, sort_keys=True)
-assert profile["selected_profile"] == "podcast_static_demo_surface_profile", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["selected_profile"] == "selected_2_lane_profile", json.dumps(profile, indent=2, sort_keys=True)
 assert profile["status"] == "ready_to_run", json.dumps(profile, indent=2, sort_keys=True)
 assert profile["pr_publication_sufficient"] is True, json.dumps(profile, indent=2, sort_keys=True)
-assert [item["lane_id"] for item in profile["run"]] == ["podcast_static_demo_surface"], json.dumps(profile, indent=2, sort_keys=True)
-surface = profile["behavior_surfaces"][0]
-assert surface["id"] == "demo_contract_podcast_static_demo_surface"
-assert surface["owner"] == "site"
-assert surface["proof_role"] == "demo_contract"
-assert surface["resource_class"] == "tiny"
+assert [item["lane_id"] for item in profile["run"]] == [
+    "podcast_launch_packet",
+    "podcast_static_demo_surface",
+], json.dumps(profile, indent=2, sort_keys=True)
+surfaces = {surface["lane_id"]: surface for surface in profile["behavior_surfaces"]}
+launch_surface = surfaces["podcast_launch_packet"]
+assert launch_surface["id"] == "demo_contract_podcast_launch_packet"
+assert launch_surface["owner"] == "review"
+assert launch_surface["proof_role"] == "demo_contract"
+assert launch_surface["resource_class"] == "small"
+static_surface = surfaces["podcast_static_demo_surface"]
+assert static_surface["id"] == "demo_contract_podcast_static_demo_surface"
+assert static_surface["owner"] == "site"
+assert static_surface["proof_role"] == "demo_contract"
+assert static_surface["resource_class"] == "tiny"
 assert profile["escalation"]["required"] is False
 assert profile["escalation"]["reasons"] == []
 assert profile["diagnostics"] == []
