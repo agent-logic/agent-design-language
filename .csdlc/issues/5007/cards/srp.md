@@ -39,7 +39,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:4d5c02295f48dcdbca3cdf7c685666dd1821ce03:d184170fc37a3782f7d3fd606aca9cf6d2207c8d15d832a7c8e6036f86548782")
+Revision: Some("git-blake3:a343a68176eac5ae15811c398e468748450acd72:e916963e3d8e29dba0cdb5a8cc6f1e502061fe2254f8c0ccf5f3ce050ae310a6")
 
 Reviewer: Some("codex:exact-head-reviewer-5007")
 

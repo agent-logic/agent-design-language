@@ -3,9 +3,9 @@
   "issue": 5007,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c789bbcb9f19495094fd9501a0b61a1c79f53d38af4e5b93f463f3d0408a773e",
-  "phase": "implemented",
+  "phase": "reviewed",
   "generation": 4,
-  "digest": "55de983ebee75e4dd5b7276106b0aea7956cfd88a3d6400c93c89e9348708167",
+  "digest": "7c22918ae04136ca1d2d87b3993a2ae2acc5b20d83eda8387544cd7df1098cbd",
   "claim": {
     "id": "exec-5007-memory-palace-adr-20260731",
     "owner": "codex:5007-execution-2026-07-31",
@@ -26,16 +26,7 @@
     ],
     "purpose": "Execution of #5007 Memory Palace ADR decision outcome using real #4760 proof surfaced by ready PR #5740; no merge or closeout."
   },
-  "review_assignment": {
-    "reviewer": "codex:exact-head-reviewer-5007",
-    "assigned_by": "codex:5007-execution-2026-07-31",
-    "revision": "git-blake3:4d5c02295f48dcdbca3cdf7c685666dd1821ce03:d184170fc37a3782f7d3fd606aca9cf6d2207c8d15d832a7c8e6036f86548782",
-    "scope": [
-      "docs/adr/0058-memory-palace-context-handoff-architecture.md",
-      "docs/adr/README.md",
-      "docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md"
-    ]
-  },
+  "review_assignment": null,
   "review": {
     "reviewer": "codex:exact-head-reviewer-5007",
     "scope": [
@@ -43,7 +34,7 @@
       "docs/adr/README.md",
       "docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md"
     ],
-    "reviewed_revision": "git-blake3:4d5c02295f48dcdbca3cdf7c685666dd1821ce03:d184170fc37a3782f7d3fd606aca9cf6d2207c8d15d832a7c8e6036f86548782",
+    "reviewed_revision": "git-blake3:a343a68176eac5ae15811c398e468748450acd72:e916963e3d8e29dba0cdb5a8cc6f1e502061fe2254f8c0ccf5f3ce050ae310a6",
     "findings": [],
     "residual_risks": [
       "#4760 proof is surfaced by ready PR #5740 at head 94156d55d0a1f4bfda7ce32ac136437520325906 and remains unmerged/unclosed; ADR 0058 preserves that boundary and should be refreshed if #5740 changes before merge.",
@@ -86,9 +77,9 @@
       "ast_digest": "fed7c29710382db155a29d25c448b256ae7d95d2a40377da6f9efbfcc2c357f8"
     },
     "srp": {
-      "values_digest": "41b83f9bdeca114ccaf0b666c989d9f94116eb994265bb4dbbca5f9f93be7c41",
-      "rendered_digest": "35338fc5917377341ed437f44367c56b1b2b42887ac0beb5e9922187105200ce",
-      "ast_digest": "a972f9e7b994a117be4e001192537f0ca5356cfa9930493a82c08fcbed7c4cdd"
+      "values_digest": "fe80c6ffbc7b87fccb5177f851f9980844c68a0f05fee717899b47a044a91c2d",
+      "rendered_digest": "bd6f826939927ea4bcd91b945adbdf1915aadb37631370e5e29a6268379e2d37",
+      "ast_digest": "6d594263aece076d52b28d49da1c9ea6f6a03513d548edf283f9e7729bcb26e0"
     },
     "sor": {
       "values_digest": "66485d9ba213fcce80761ff8cefd461ecd545f88081d271ef776fa86ab5e2179",
@@ -117,6 +108,13 @@
       "to": "implemented",
       "actor": "codex:5007-execution-2026-07-31",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:exact-head-reviewer-5007",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -164,16 +162,9 @@
     },
     {
       "sequence": 7,
-      "generation": 3,
-      "actor": "codex:5007-execution-2026-07-31",
-      "reason": "assign bounded exact-revision review",
-      "operation": "assign_review"
-    },
-    {
-      "sequence": 8,
       "generation": 4,
       "actor": "codex:exact-head-reviewer-5007",
-      "reason": "atomically record assigned review evidence and SRP projection",
+      "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
     }
   ]
