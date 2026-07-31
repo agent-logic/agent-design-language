@@ -13,7 +13,14 @@ import sys
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[2]
+def repo_root() -> Path:
+    for candidate in Path(__file__).resolve().parents:
+        if (candidate / "docs/milestones/v0.91.8").is_dir() and (candidate / ".git").exists():
+            return candidate
+    fail("could not locate repository root")
+
+
+ROOT = repo_root()
 DEMO = ROOT / "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md"
 FEATURES = ROOT / "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
 LEDGER = ROOT / "docs/milestones/v0.91.8/review/wp15_demo_matrix_5733/RECONCILIATION_LEDGER_v1.md"

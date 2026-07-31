@@ -26,4 +26,4 @@ index after the WP-15 convergence and podcast launch-route work landed.
 - The v0.92 handoff rows preserve open-gate truth for downstream release-tail
   issues rather than converting preparation into activation proof.
 - The deterministic validator for #5733 is
-  `adl/tools/validate_v0918_demo_matrix.py`.
+  `docs/milestones/v0.91.8/review/wp15_demo_matrix_5733/validate_v0918_demo_matrix.py`.
