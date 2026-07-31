@@ -76,6 +76,49 @@ async fn restart_reuses_same_certificate_identity() {
 }
 
 #[tokio::test]
+async fn restart_repairs_stale_public_copy() {
+    let temp = tempfile::tempdir().unwrap();
+    let config = local_config(temp.path().to_path_buf());
+    let first = bootstrap_runtime_tls(&config).await.unwrap();
+    let public = first.public_certificate_path.as_ref().unwrap();
+    fs::write(public, b"stale public certificate").unwrap();
+
+    let second = bootstrap_runtime_tls(&config).await.unwrap();
+
+    assert_eq!(
+        second.event,
+        RuntimeTlsBootstrapEvent::LocalCertificateReused
+    );
+    assert_eq!(
+        fs::read(&second.certificate_chain_path).unwrap(),
+        fs::read(second.public_certificate_path.unwrap()).unwrap()
+    );
+}
+
+#[cfg(unix)]
+#[tokio::test]
+async fn restart_repairs_private_key_permission_drift() {
+    use std::os::unix::fs::PermissionsExt;
+
+    let temp = tempfile::tempdir().unwrap();
+    let config = local_config(temp.path().to_path_buf());
+    bootstrap_runtime_tls(&config).await.unwrap();
+    let key = key_path(temp.path());
+    fs::set_permissions(&key, fs::Permissions::from_mode(0o644)).unwrap();
+
+    let outcome = bootstrap_runtime_tls(&config).await.unwrap();
+
+    assert_eq!(
+        outcome.event,
+        RuntimeTlsBootstrapEvent::LocalCertificateReused
+    );
+    assert_eq!(
+        fs::metadata(key).unwrap().permissions().mode() & 0o777,
+        0o600
+    );
+}
+
+#[tokio::test]
 async fn configured_sans_are_validated_by_rustls() {
     let temp = tempfile::tempdir().unwrap();
     let config = local_config(temp.path().to_path_buf());

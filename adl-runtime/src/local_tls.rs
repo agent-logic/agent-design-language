@@ -7,13 +7,15 @@ use std::{
     sync::{Mutex, OnceLock},
 };
 
-use rcgen::{date_time_ymd, CertificateParams, ExtendedKeyUsagePurpose, KeyPair};
+use rcgen::{CertificateParams, ExtendedKeyUsagePurpose, KeyPair};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
+use time::{Duration, OffsetDateTime};
 
 pub const LOCAL_TLS_BOOTSTRAP_SCHEMA: &str = "adl.runtime_v3.local_tls_bootstrap.v1";
 pub const LOCAL_TLS_BOOTSTRAP_OUTCOME_SCHEMA: &str =
     "adl.runtime_v3.local_tls_bootstrap.outcome.v1";
+const LOCAL_CERTIFICATE_VALIDITY_DAYS: i64 = 397;
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -259,6 +261,7 @@ where
             }
             if cert_exists && !config.replace {
                 validate_rustls_pair(&paths.certificate_chain, &paths.private_key).await?;
+                enforce_private_key_permissions(&paths.private_key)?;
                 ensure_public_certificate_copy(
                     &paths.certificate_chain,
                     &paths.public_certificate,
@@ -317,8 +320,9 @@ fn generate_local_material(
     names.extend(config.ip_addresses.iter().map(ToString::to_string));
     let mut params = CertificateParams::new(names)
         .map_err(|error| LocalTlsError::Generate(error.to_string()))?;
-    params.not_before = date_time_ymd(2026, 1, 1);
-    params.not_after = date_time_ymd(2036, 1, 1);
+    let issued_at = OffsetDateTime::now_utc();
+    params.not_before = issued_at - Duration::hours(1);
+    params.not_after = issued_at + Duration::days(LOCAL_CERTIFICATE_VALIDITY_DAYS);
     params.extended_key_usages = vec![ExtendedKeyUsagePurpose::ServerAuth];
     let key = KeyPair::generate().map_err(|error| LocalTlsError::Generate(error.to_string()))?;
     let cert = params
@@ -340,39 +344,64 @@ async fn write_candidate(
         .tls_root
         .join(format!("public-certificate.{nonce}.tmp"));
     let key_tmp = paths.tls_root.join(format!("private-key.{nonce}.tmp"));
-    write_file(
-        &cert_tmp,
-        material.certificate_pem.as_bytes(),
-        FileMode::Public,
-    )?;
-    write_file(
-        &public_tmp,
-        material.certificate_pem.as_bytes(),
-        FileMode::Public,
-    )?;
-    write_file(
-        &key_tmp,
-        material.private_key_pem.as_bytes(),
-        FileMode::Private,
-    )?;
-    if let Err(error) = validate_rustls_pair(&cert_tmp, &key_tmp).await {
-        let _ = fs::remove_file(&cert_tmp);
-        let _ = fs::remove_file(&public_tmp);
-        let _ = fs::remove_file(&key_tmp);
+    let candidates = [&cert_tmp, &public_tmp, &key_tmp];
+    let write_result = (|| {
+        write_file(
+            &cert_tmp,
+            material.certificate_pem.as_bytes(),
+            FileMode::Public,
+        )?;
+        write_file(
+            &public_tmp,
+            material.certificate_pem.as_bytes(),
+            FileMode::Public,
+        )?;
+        write_file(
+            &key_tmp,
+            material.private_key_pem.as_bytes(),
+            FileMode::Private,
+        )
+    })();
+    if let Err(error) = write_result {
+        remove_files(&candidates);
         return Err(error);
     }
-    replace_file(&cert_tmp, &paths.certificate_chain)?;
-    replace_file(&public_tmp, &paths.public_certificate)?;
-    replace_file(&key_tmp, &paths.private_key)?;
+    if let Err(error) = enforce_private_key_permissions(&key_tmp) {
+        remove_files(&candidates);
+        return Err(error);
+    }
+    if let Err(error) = validate_rustls_pair(&cert_tmp, &key_tmp).await {
+        remove_files(&candidates);
+        return Err(error);
+    }
+    commit_candidate_files(
+        &paths.tls_root,
+        vec![
+            CandidateFile::new(cert_tmp, paths.certificate_chain.clone(), &nonce),
+            CandidateFile::new(public_tmp, paths.public_certificate.clone(), &nonce),
+            CandidateFile::new(key_tmp, paths.private_key.clone(), &nonce),
+        ],
+    )?;
     Ok(())
 }
 
 fn ensure_public_certificate_copy(source: &Path, target: &Path) -> Result<(), LocalTlsError> {
-    if target.exists() {
+    let bytes = fs::read(source).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    if target.exists()
+        && fs::read(target).map_err(|error| LocalTlsError::Io(error.to_string()))? == bytes
+    {
         return Ok(());
     }
-    let bytes = fs::read(source).map_err(|error| LocalTlsError::Io(error.to_string()))?;
-    write_file(target, &bytes, FileMode::Public)
+    let parent = target.parent().ok_or_else(|| {
+        LocalTlsError::Policy("public certificate path must have a parent directory".to_owned())
+    })?;
+    let nonce = format!("{}.{}", std::process::id(), unique_suffix());
+    let candidate = parent.join(format!("public-certificate.{nonce}.tmp"));
+    write_file(&candidate, &bytes, FileMode::Public)?;
+    commit_candidate_files(
+        parent,
+        vec![CandidateFile::new(candidate, target.to_path_buf(), &nonce)],
+    )
 }
 
 async fn validate_rustls_pair(certificate: &Path, private_key: &Path) -> Result<(), LocalTlsError> {
@@ -451,11 +480,163 @@ fn write_file(path: &Path, bytes: &[u8], mode: FileMode) -> Result<(), LocalTlsE
     Ok(())
 }
 
-fn replace_file(source: &Path, target: &Path) -> Result<(), LocalTlsError> {
-    if target.exists() {
-        fs::remove_file(target).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+struct CandidateFile {
+    candidate: PathBuf,
+    target: PathBuf,
+    backup: PathBuf,
+    original_backed_up: bool,
+    installed: bool,
+}
+
+impl CandidateFile {
+    fn new(candidate: PathBuf, target: PathBuf, nonce: &str) -> Self {
+        let backup = target.with_extension(format!("backup.{nonce}"));
+        Self {
+            candidate,
+            target,
+            backup,
+            original_backed_up: false,
+            installed: false,
+        }
     }
-    fs::rename(source, target).map_err(|error| LocalTlsError::Io(error.to_string()))
+}
+
+fn commit_candidate_files(
+    parent: &Path,
+    mut files: Vec<CandidateFile>,
+) -> Result<(), LocalTlsError> {
+    for index in 0..files.len() {
+        if !files[index].target.exists() {
+            continue;
+        }
+        if let Err(error) = fs::rename(&files[index].target, &files[index].backup) {
+            let rollback = rollback_candidate_files(&mut files);
+            return Err(transaction_error(
+                "back up existing TLS material",
+                error,
+                rollback,
+            ));
+        }
+        files[index].original_backed_up = true;
+    }
+
+    for index in 0..files.len() {
+        if let Err(error) = fs::rename(&files[index].candidate, &files[index].target) {
+            let rollback = rollback_candidate_files(&mut files);
+            return Err(transaction_error(
+                "install candidate TLS material",
+                error,
+                rollback,
+            ));
+        }
+        files[index].installed = true;
+    }
+
+    if let Err(error) = sync_directory(parent) {
+        let rollback = rollback_candidate_files(&mut files);
+        return Err(transaction_error(
+            "sync installed TLS material",
+            error,
+            rollback,
+        ));
+    }
+
+    for file in &files {
+        if file.original_backed_up {
+            let _ = fs::remove_file(&file.backup);
+        }
+    }
+    let _ = sync_directory(parent);
+    Ok(())
+}
+
+fn rollback_candidate_files(files: &mut [CandidateFile]) -> Result<(), String> {
+    let mut failures = Vec::new();
+    for file in files.iter_mut().rev() {
+        if file.installed && file.target.exists() {
+            if let Err(error) = fs::remove_file(&file.target) {
+                failures.push(format!("remove {}: {error}", file.target.display()));
+            }
+            file.installed = false;
+        }
+        if file.original_backed_up && file.backup.exists() {
+            if let Err(error) = fs::rename(&file.backup, &file.target) {
+                failures.push(format!(
+                    "restore {} from {}: {error}",
+                    file.target.display(),
+                    file.backup.display()
+                ));
+            } else {
+                file.original_backed_up = false;
+            }
+        }
+        if file.candidate.exists() {
+            let _ = fs::remove_file(&file.candidate);
+        }
+    }
+    if failures.is_empty() {
+        Ok(())
+    } else {
+        Err(failures.join("; "))
+    }
+}
+
+fn transaction_error(
+    operation: &str,
+    error: std::io::Error,
+    rollback: Result<(), String>,
+) -> LocalTlsError {
+    match rollback {
+        Ok(()) => LocalTlsError::Io(format!("{operation} failed and was rolled back: {error}")),
+        Err(rollback_error) => LocalTlsError::Io(format!(
+            "{operation} failed: {error}; rollback also failed: {rollback_error}"
+        )),
+    }
+}
+
+fn remove_files(paths: &[&PathBuf]) {
+    for path in paths {
+        let _ = fs::remove_file(path);
+    }
+}
+
+#[cfg(unix)]
+fn sync_directory(path: &Path) -> Result<(), std::io::Error> {
+    fs::File::open(path)?.sync_all()
+}
+
+#[cfg(not(unix))]
+fn sync_directory(_path: &Path) -> Result<(), std::io::Error> {
+    Ok(())
+}
+
+#[cfg(unix)]
+fn enforce_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
+    use std::os::unix::fs::{MetadataExt, PermissionsExt};
+
+    let metadata = fs::metadata(path).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    if metadata.mode() & 0o777 != 0o600 {
+        fs::set_permissions(path, fs::Permissions::from_mode(0o600))
+            .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    }
+    let repaired = fs::metadata(path).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    if repaired.mode() & 0o777 != 0o600 {
+        return Err(LocalTlsError::Policy(
+            "local TLS private key permissions are not 0600".to_owned(),
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(not(unix))]
+fn enforce_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
+    let metadata = fs::metadata(path).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    if !metadata.is_file() {
+        return Err(LocalTlsError::Policy(
+            "local TLS private key must be a regular file".to_owned(),
+        ));
+    }
+    Ok(())
 }
 
 fn sha256_file(path: &Path) -> Result<String, LocalTlsError> {
@@ -515,4 +696,40 @@ impl Drop for LocalBootstrapGuard {
 fn in_process_locks() -> &'static Mutex<BTreeSet<PathBuf>> {
     static LOCKS: OnceLock<Mutex<BTreeSet<PathBuf>>> = OnceLock::new();
     LOCKS.get_or_init(|| Mutex::new(BTreeSet::new()))
+}
+
+#[cfg(test)]
+mod transaction_tests {
+    use super::{commit_candidate_files, CandidateFile};
+    use std::fs;
+
+    #[test]
+    fn candidate_install_failure_restores_every_previous_target() {
+        let root = tempfile::tempdir().unwrap();
+        let first_target = root.path().join("first.pem");
+        let second_target = root.path().join("second.pem");
+        let third_target = root.path().join("third.pem");
+        let first_candidate = root.path().join("first.tmp");
+        let missing_candidate = root.path().join("missing.tmp");
+        let third_candidate = root.path().join("third.tmp");
+        fs::write(&first_target, b"old-first").unwrap();
+        fs::write(&second_target, b"old-second").unwrap();
+        fs::write(&third_target, b"old-third").unwrap();
+        fs::write(&first_candidate, b"new-first").unwrap();
+        fs::write(&third_candidate, b"new-third").unwrap();
+
+        let result = commit_candidate_files(
+            root.path(),
+            vec![
+                CandidateFile::new(first_candidate, first_target.clone(), "rollback"),
+                CandidateFile::new(missing_candidate, second_target.clone(), "rollback"),
+                CandidateFile::new(third_candidate, third_target.clone(), "rollback"),
+            ],
+        );
+
+        assert!(result.is_err());
+        assert_eq!(fs::read(first_target).unwrap(), b"old-first");
+        assert_eq!(fs::read(second_target).unwrap(), b"old-second");
+        assert_eq!(fs::read(third_target).unwrap(), b"old-third");
+    }
 }

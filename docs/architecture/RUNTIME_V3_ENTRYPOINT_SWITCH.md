@@ -74,7 +74,9 @@ key with restrictive permissions on Unix, writes the public certificate as a
 separate PEM file for trust import, validates the pair with rustls, and reuses
 the same certificate on ordinary restarts. Replacement requires
 `replace = true`; after replacement the operator must trust the new public
-certificate again.
+certificate again. Local certificates use a browser-compatible 397-day
+validity period. Before expiry, the operator explicitly replaces the local
+certificate and trusts the new public copy; ordinary restarts never rotate it.
 
 The runtime does not edit the macOS, Windows, or Linux trust store. Operators
 trust the generated public certificate once using the platform-native trust UI
