@@ -4,9 +4,28 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c9e538886b9fe939fe6a89f44b9ef31a4d75733f7a7e60cdbb4bf47dd806bfc9",
   "phase": "bound",
-  "generation": 1,
-  "digest": "0c929d374ac51f428abd8ecfe27451d7c20b6bdf1944cecc3b3ec91f26b19ef1",
-  "claim": null,
+  "generation": 2,
+  "digest": "85e8811211d613043f86f2aacf67d2d1e97683a1a4df041f957f0076b3bfb9f2",
+  "claim": {
+    "id": "claim-5354-v0918-wp15-reacquired",
+    "owner": "codex:5354-preparation-owner",
+    "generation": 2,
+    "acquired_unix_seconds": 1785465403,
+    "expires_unix_seconds": 1786070203,
+    "heartbeat_unix_seconds": 1785465403,
+    "branch": "codex/5354-v0918-wp15-ready",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5354",
+      ".csdlc/issues/5354",
+      ".csdlc/locks/5354.lock",
+      ".csdlc/prepared/issues/5354",
+      "adl-v2/Cargo.lock",
+      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
+    ],
+    "purpose": "Implement and validate the bounded WP-15 integrated convergence packet and its two milestone claim matrices."
+  },
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -23,32 +42,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7e0ab500725f69dced5af3b003cdfe9b22eb1ae2f059ee26bf0f7771a214b9eb",
+      "values_digest": "20495c177d13df8fa6c0d6e6ee9c1f52b6c79c8f10b240b287514d5a6c460559",
       "rendered_digest": "e842eaeba6122151cdb5edb96814a78b32509238169446a82c02c9eb66877981",
       "ast_digest": "39ef15d3feddac90905427c8f05b3d16770ca9035a47aaab9e96b188ce1413bf"
     },
     "stp": {
-      "values_digest": "07f0a48dcfd0804eda3bdea94d3ec8a55a7328e91b22f4dd660a37ba17f13eb5",
-      "rendered_digest": "35b07c4da8c5ca104518e5df33358b113aed29be2c34acb182c3b0b8031274e0",
-      "ast_digest": "8c570228ccd0f717d35271d8244ea9b668e8aac7d7d3183cd6cb31f1b50130d7"
+      "values_digest": "baf30bf8a73c6bf1c9781d357832a1eac38be9d80ec7572cb724faabc3be51a5",
+      "rendered_digest": "e2c760b22e8865f50e73be1a6755467798d3d319998ce754b8e7f799cd361ea7",
+      "ast_digest": "0757b0e68ce2cb5a6d202b6a293c0e29dd3fb95b47c56dc0fbd5f73ffc7147f6"
     },
     "spp": {
-      "values_digest": "dbd213fd489c60185dc70be902add54fbe5d8e94591cdafcfc3396581eef9c1c",
-      "rendered_digest": "ba19141667e74672e14f6043420a539a708c70f9806b028297ab76883cc3f521",
-      "ast_digest": "ed3869f0714ad4f327ffdebe85f1aaed476b888a3aeabb27b923b2eee5325aeb"
+      "values_digest": "46691df41e835fe6ab12995ed19673f560013717505b246ac22351d56447c25f",
+      "rendered_digest": "c19b1cc097ff6a7b9eec5b3920ba26d6edf91c1f7f2fac1847aaacf2543eadf6",
+      "ast_digest": "04c77660758778e8a55c0765242b6ccd276bbc7369f5f1faaeb57fb26fa79dca"
     },
     "vpp": {
-      "values_digest": "0be10c5ad98aa7b1301e9c49d32dc5821fbb951d619492d45280e5fca9eadf08",
-      "rendered_digest": "10a705df8b99ad388129ac3cd8bf104fbf712fb27e49a85c5b1be00273130ce0",
-      "ast_digest": "7e97ff40bd045b559c3535f65bac011993e6dc65aa9949309fbcd05e3c47c61f"
+      "values_digest": "2862d4f63f55944850f92cf311234c856e1749fe53259e26d918a411ca10bcee",
+      "rendered_digest": "ca4edd91fdd36f334682b18d5b579242dcc4f2310a862bdcb47704beb634bd51",
+      "ast_digest": "6bc62a0e927ff2440d9b154aec39e32b49c915138ecbd6e606b1d9c14931677e"
     },
     "srp": {
-      "values_digest": "8acaf1a13122037ed4331aac48034b07988bf48afc9f0439f7907edee7c64adb",
+      "values_digest": "174b1a8f86b5731163dab08f2ddfecd7fccb238370284e6ebb589aef20983873",
       "rendered_digest": "831b956fbfb268349d216750192b877051c3f85579eb02ca4b458fbce7ded8c4",
       "ast_digest": "11b29892d082ad3f5c05d2abce2772308fd56feb2e57753d3c0b9e1c06d42008"
     },
     "sor": {
-      "values_digest": "e497ea89df11550013eaf75501dfd2772d8f97ae77deb8894bc70325ddfaaf66",
+      "values_digest": "910b57a7d0f2760aa45060d71c9194040362fa22cd85c36d67f0b54c13f7503e",
       "rendered_digest": "a5ba407185e868e86b577334368860df5256133836b52a7fc8ac47488b656c05",
       "ast_digest": "6bf831ed5ae3beff8ddd181648851ad6626d427936486c315b97f2b931790eb6"
     }
@@ -139,6 +158,34 @@
       "actor": "codex:wp14a-preparation",
       "reason": "Release dormant WP-15 ownership from the WP-14A planning projection",
       "operation": "{\"claim_id\":\"claim-5354-wp14a-reconciliation-release-only\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:wp15-not-started-no-ownership\",\"previous_owner\":\"codex:wp14a-preparation\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 1,
+      "actor": "codex:5727-owner",
+      "reason": "Acceptance proof for #5727: resume the deliberately dormant WP-15 preparation claim without lifecycle rewind or direct record mutation",
+      "operation": "{\"branch\":\"codex/5354-v0918-wp15-ready\",\"claim_id\":\"claim-5354-v0918-wp15-reacquired\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5354-preparation-owner\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5354\",\".csdlc/locks/5354.lock\",\".csdlc/prepared/issues/5354\",\".csdlc/evidence/5354\"],\"purpose\":\"Resume #5354 preparation-only work without claiming product, demo, or shared milestone paths\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 1,
+      "actor": "codex:5354-wp15-owner",
+      "reason": "Begin the accepted WP-15 convergence implementation after the typed #5727 claim-reacquisition proof and terminal WP-14A dependency gate.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\"],\"expected_owner\":\"codex:5354-preparation-owner\",\"expected_purpose\":\"Resume #5354 preparation-only work without claiming product, demo, or shared milestone paths\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Resume #5354 preparation-only work without claiming product, demo, or shared milestone paths\",\"purpose\":\"Implement and validate the bounded WP-15 integrated convergence packet and its two milestone claim matrices.\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 1,
+      "actor": "codex:5354-wp15-owner",
+      "reason": "The first clean convergence build proved that the accepted ADL v2 dependency lock omits already-declared main-branch dependencies and fails under --locked. Add only the lockfile so WP-15 can restore reproducible clean builds.",
+      "operation": "{\"add_protected_paths\":[\"adl-v2/Cargo.lock\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 2,
+      "actor": "codex:5354-wp15-owner",
+      "reason": "Align WP-15 with repository policy: GitHub merge and exact ancestry release downstream execution; typed closeout is asynchronous bookkeeping and never blocks independent work.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: Demo execution starts only after #5384 is GitHub merged and closed and its exact merge SHA is ancestral to the #5354 execution revision; typed closeout is an asynchronous non-blocking follow-up.\",\"AC-2: The proof starts from a fresh consumer context and compiles one declared ADL v2 document into a canonical plan, executes it through the accepted Runtime v3 adapter and canonical ingress, and observes deterministic result and checkpoint identity without Runtime v2.\",\"AC-3: The proof exercises applicable installed C-SDLC v2 lifecycle boundaries and retains exact issue, claim, review, and publication identities without granting the demo autonomous lifecycle authority.\",\"AC-4: A retained convergence packet binds accepted product revisions, commands, outputs, artifacts, failure classes, and SHA-256 digests using repo-relative redaction-safe evidence.\",\"AC-5: The claim-boundary matrix and v0.91.8 demo and feature-proof matrices cite retained evidence and classify each claim as proven, blocked, deferred, non-applicable, or explicit non-claim; fixture, screenshot, prose, or metadata alone never receives live credit.\",\"AC-6: Missing, stale, substituted, non-ancestral, secret-bearing, host-bound, unauthorized, or partial evidence fails closed and no hard-coded credential enters retained output.\",\"AC-7: No new dependency is added; the harness and tightly coupled evidence remain bounded and reuse accepted repo binaries and a shared FastWork build target.\",\"AC-8: Applicable focused, integrated, matrix, complete, exact-review, CI, publication, and authorized merge proof completes without metadata-only substitution, stale review, or unsupported public claim; post-merge typed closeout is asynchronous and does not block downstream work.\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Complete six cards, design, diagram, bounded claim, COTS, budgets, PVF, typed bind and doctor, commit, and push.\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Verify #5384 is GitHub merged and closed and its exact merge SHA is ancestral; do not wait for typed closeout.\",\"acceptance_ids\":[\"AC-1\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Run the fresh-consumer three-product scenario and retain deterministic redaction-safe evidence at the amended exact paths.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Update the claim-boundary and demo/proof matrices, run complete validation and one exact review, publish through typed v2, and shepherd current-head CI; post-merge closeout runs asynchronously.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Prove current-registry six cards, reviewed design and diagram, bounded scope, COTS, budgets, PVF, and clean typed doctor truth.\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5354/validate-preparation.rb\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"wp14a-merge-gate\",\"proof_role\":\"Fail closed unless #5384 is GitHub merged and closed and its exact merge SHA is ancestral; never require typed closeout.\",\"acceptance_ids\":[\"AC-1\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5354/check-dependencies.rb\"],\"parallel_group\":\"execution-gate\",\"defer_reason\":null},{\"lane\":\"integrated-live-demo\",\"proof_role\":\"Prove ADL v2 compile and run, Runtime v3 canonical ingress and live TLS observation, full-duplex WSS, applicable C-SDLC v2 boundaries, and accepted Unity child evidence.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":8000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5354/run-validation-lane.rb\",\"integrated-live-demo\"],\"parallel_group\":\"demo\",\"defer_reason\":null},{\"lane\":\"claim-boundary-matrix\",\"proof_role\":\"Validate retained citations and proven, blocked, deferred, non-applicable, and explicit non-claim dispositions across the convergence packet and v0.91.8 matrices.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5354/run-validation-lane.rb\",\"claim-boundary-matrix\"],\"parallel_group\":\"demo\",\"defer_reason\":null},{\"lane\":\"complete\",\"proof_role\":\"Run the complete integrated, negative, redaction, identity, dependency, matrix, and exact-review pre-publication proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5354/run-validation-lane.rb\",\"complete\"],\"parallel_group\":\"pre-publication\",\"defer_reason\":null},{\"lane\":\"post-merge-exact\",\"proof_role\":\"Re-run exact integration and consumer proof after merge; typed closeout follows asynchronously and cannot gate downstream work.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5354/run-validation-lane.rb\",\"post-merge-exact\"],\"parallel_group\":\"post-merge\",\"defer_reason\":\"Runs only after merge and is never a prerequisite for downstream implementation.\"}]}"
     }
   ]
 }
