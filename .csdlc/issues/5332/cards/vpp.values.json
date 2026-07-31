@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-15][unity][tooling] Classify and fix Unity ILPP GetDomainName loop in observatory batch proof",
     "slug": "v0918-wp15-unity-ilpp-getdomainname-loop",
     "version": "v0.91.8",
-    "generation": 20
+    "generation": 16
   },
   "status": "ready",
   "content": {
@@ -115,9 +115,9 @@
       "planned_validation_seconds": 7200,
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on incomplete signature attribution, arbitrary total-runtime ceilings, multi-variable diagnosis, unsafe staging, secret-bearing host evidence, adjacent Unity scope, or unsupported root-cause and readiness claims.",
-      "design_ref": ".csdlc/issues/5332/retained/design.md",
+      "design_ref": ".csdlc/prepared/issues/5332/design.md",
       "design_digest": "85859fde33a4a012111fadaae832d4d62a1ead894e213ecef7acad86708f8e79",
-      "diagram_ref": ".csdlc/issues/5332/retained/diagram.mmd",
+      "diagram_ref": ".csdlc/prepared/issues/5332/diagram.mmd",
       "diagram_digest": "a62e9d1d8c7696ef0b12e4b5c99282b3a32c59e5bb5e89fdaa2570c26da0733a"
     }
   }

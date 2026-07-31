@@ -16,9 +16,9 @@ Execute the smallest proving validation DAG.
 
 ## Lane Inputs
 
-Design: .csdlc/issues/5332/retained/design.md
+Design: .csdlc/prepared/issues/5332/design.md
 
-Diagram: .csdlc/issues/5332/retained/diagram.mmd
+Diagram: .csdlc/prepared/issues/5332/diagram.mmd
 
 ## Selected Lanes
 
