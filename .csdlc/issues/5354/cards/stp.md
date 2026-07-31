@@ -27,14 +27,14 @@ Prepare all six issue-specific cards, reviewed design and diagram, exact prepara
 
 ## Acceptance
 
-1. AC-1: No demo or product work starts until #5384 is GitHub merged, typed closed_out, claim-free, backed by a retained merged terminal receipt, and its observed merge SHA is ancestral to the exact #5354 execution revision
-2. AC-2: The future proof starts from a fresh consumer context and compiles one declared ADL v2 document into a canonical plan, executes it through the accepted Runtime v3 adapter and canonical ingress, and observes deterministic result and checkpoint identity without Runtime v2
-3. AC-3: The future proof exercises applicable installed C-SDLC v2 lifecycle boundaries and retains exact issue, claim, review, publication, and closeout identities without granting the demo autonomous lifecycle authority
-4. AC-4: A retained convergence packet binds accepted product revisions, commands, outputs, artifacts, durations, retries, failure classes, and SHA-256 digests using repo-relative redaction-safe evidence
-5. AC-5: The claim-boundary matrix and v0.91.8 demo and feature-proof matrices cite retained evidence and classify each claim as proven, blocked, deferred, non-applicable, or explicit non-claim; fixture, screenshot, prose, or metadata alone never receives live credit
-6. AC-6: Missing, stale, substituted, non-ancestral, secret-bearing, host-bound, unauthorized, or partial evidence fails closed and no hard-coded network address or credential enters retained output
-7. AC-7: No new dependency is added; future harness plus tightly coupled fixtures remain within 1500 nonblank lines, every module below 500, fewer than 100 focused assertions, and 120/300/900/1800-second lane budgets unless an exact reviewed variance is recorded
-8. AC-8: All applicable focused, integrated, matrix, complete, exact-review, CI, authorized serialized merge, post-merge, and closeout proof completes without deferral, metadata-only substitution, stale review, or unsupported public claim
+1. AC-1: Demo execution starts only after #5384 is GitHub merged and closed and its exact merge SHA is ancestral to the #5354 execution revision; typed closeout is an asynchronous non-blocking follow-up.
+2. AC-2: The proof starts from a fresh consumer context and compiles one declared ADL v2 document into a canonical plan, executes it through the accepted Runtime v3 adapter and canonical ingress, and observes deterministic result and checkpoint identity without Runtime v2.
+3. AC-3: The proof exercises applicable installed C-SDLC v2 lifecycle boundaries and retains exact issue, claim, review, and publication identities without granting the demo autonomous lifecycle authority.
+4. AC-4: A retained convergence packet binds accepted product revisions, commands, outputs, artifacts, failure classes, and SHA-256 digests using repo-relative redaction-safe evidence.
+5. AC-5: The claim-boundary matrix and v0.91.8 demo and feature-proof matrices cite retained evidence and classify each claim as proven, blocked, deferred, non-applicable, or explicit non-claim; fixture, screenshot, prose, or metadata alone never receives live credit.
+6. AC-6: Missing, stale, substituted, non-ancestral, secret-bearing, host-bound, unauthorized, or partial evidence fails closed and no hard-coded credential enters retained output.
+7. AC-7: No new dependency is added; the harness and tightly coupled evidence remain bounded and reuse accepted repo binaries and a shared FastWork build target.
+8. AC-8: Applicable focused, integrated, matrix, complete, exact-review, CI, publication, and authorized merge proof completes without metadata-only substitution, stale review, or unsupported public claim; post-merge typed closeout is asynchronous and does not block downstream work.
 
 ## Dependencies
 

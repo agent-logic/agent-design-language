@@ -420,8 +420,9 @@ import json
 import sys
 
 plan = json.load(open(sys.argv[1]))
-assert plan["run_status"] == "passed"
-assert plan["lanes"]["docs_diff_check"]["run_status"] == "passed"
+assert plan["run_status"] == "passed", json.dumps(plan, indent=2, sort_keys=True)
+assert "docs_diff_check" in plan["lanes"], json.dumps(plan, indent=2, sort_keys=True)
+assert plan["lanes"]["docs_diff_check"]["run_status"] == "passed", json.dumps(plan, indent=2, sort_keys=True)
 PY
 
 invalid_manifest="$TMP/invalid-manifest.json"
@@ -738,6 +739,46 @@ assert set(lane["matched_paths"]) == {
     "demos/html-observatory/app.js",
     "demos/html-observatory/index.html",
     "demos/html-observatory/styles.css",
+}
+PY
+
+podcast_static_demo="$TMP/podcast-static-demo.txt"
+cat >"$podcast_static_demo" <<'EOF'
+A	demos/podcast/index.html
+A	demos/podcast/feed.xml
+A	demos/podcast/studio/podcast-studio.html
+A	demos/_preview/podcast/index.html
+EOF
+bash "$SCRIPT" --changed-files "$podcast_static_demo" --json >"$TMP/podcast-static-demo.json"
+python3 - <<'PY' "$TMP/podcast-static-demo.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_lane_plan.v1", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["aggregate_status"] == "selected", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["pr_publication_sufficient"] is True, json.dumps(profile, indent=2, sort_keys=True)
+assert set(profile["lanes"].keys()) == {
+    "podcast_launch_packet",
+    "podcast_static_demo_surface",
+}, json.dumps(profile, indent=2, sort_keys=True)
+launch_lane = profile["lanes"]["podcast_launch_packet"]
+assert launch_lane["status"] == "selected", json.dumps(profile, indent=2, sort_keys=True)
+assert launch_lane["proof_role"] == "demo_contract", json.dumps(profile, indent=2, sort_keys=True)
+assert launch_lane["owner"] == "review", json.dumps(profile, indent=2, sort_keys=True)
+assert launch_lane["run_command"] == "bash adl/tools/test_podcast_launch_packet.sh", json.dumps(profile, indent=2, sort_keys=True)
+assert set(launch_lane["matched_paths"]) == {
+    "demos/podcast/index.html",
+    "demos/podcast/feed.xml",
+    "demos/podcast/studio/podcast-studio.html",
+}
+static_lane = profile["lanes"]["podcast_static_demo_surface"]
+assert static_lane["status"] == "selected", json.dumps(profile, indent=2, sort_keys=True)
+assert static_lane["proof_role"] == "demo_contract", json.dumps(profile, indent=2, sort_keys=True)
+assert static_lane["owner"] == "site", json.dumps(profile, indent=2, sort_keys=True)
+assert static_lane["run_command"] == "git diff --check", json.dumps(profile, indent=2, sort_keys=True)
+assert set(static_lane["matched_paths"]) == {
+    "demos/_preview/podcast/index.html",
 }
 PY
 

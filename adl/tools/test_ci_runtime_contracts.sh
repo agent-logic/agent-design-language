@@ -286,6 +286,19 @@ for required_fragment in (
             f"missing fragment: {required_fragment}"
         )
 
+podcast_launch_packet_if = step_optional_if("podcast launch packet contract")
+if podcast_launch_packet_if != "contains(needs.adl_path_policy.outputs.validation_profile_run_lanes, 'podcast_launch_packet')":
+    raise SystemExit(
+        "podcast launch packet contract must run from the selected validation-profile lane; "
+        f"found: {podcast_launch_packet_if}"
+    )
+podcast_launch_packet_run = step_run("podcast launch packet contract")
+if podcast_launch_packet_run != "bash adl/tools/test_podcast_launch_packet.sh":
+    raise SystemExit(
+        "podcast launch packet contract must run the podcast-specific packet proof; "
+        f"found: {podcast_launch_packet_run}"
+    )
+
 ordinary_test = step_run("test")
 expected_ordinary_test = (
     'bash adl/tools/run_pr_fast_test_lane.sh --base "${{ github.event.pull_request.base.sha }}" '
