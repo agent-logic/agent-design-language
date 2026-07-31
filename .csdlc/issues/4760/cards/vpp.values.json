@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-14][memory-palace] Prepare #4760 Memory Palace context-problem handoff",
     "slug": "v0918-wp14-memory-palace-context-handoff-prep-4760",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 10
   },
   "status": "ready",
   "content": {
@@ -39,9 +39,9 @@
       "planned_validation_seconds": 1200,
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed and report the exact v2 doctor or init error; do not repair outside the prep boundary.",
-      "design_ref": ".csdlc/prepared/issues/4760/design.md",
+      "design_ref": ".csdlc/issues/4760/retained/design.md",
       "design_digest": "1c0974d04443fd8c73d72e6faf75bc9a3869ef45024f807cd7e8db982f42924a",
-      "diagram_ref": ".csdlc/prepared/issues/4760/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/4760/retained/diagram.mmd",
       "diagram_digest": "6824392dbb71e4ec147551d199e821bbebfaf8f84602d9590b666e1856e0b907"
     }
   }

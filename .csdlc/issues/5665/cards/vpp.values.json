@@ -7,7 +7,7 @@
     "title": "[v0.91.8][runtime-v3][observatory] Complete authenticated WSS and feature proofs",
     "slug": "v0-91-8-runtime-v3-wss-feature-proofs",
     "version": "v0.91.8",
-    "generation": 16
+    "generation": 21
   },
   "status": "ready",
   "content": {
@@ -67,9 +67,9 @@
       "planned_validation_seconds": 7200,
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on protected-path overlap, missing real WSS proof, unsupported telemetry claim, unresolved feature matrix row, failed validation, failed strict Clippy, missing LoC reduction, or unresolved exact-review finding.",
-      "design_ref": ".csdlc/prepared/issues/5665/design.md",
+      "design_ref": ".csdlc/issues/5665/retained/design.md",
       "design_digest": "a38343406caefa6490aada3028618c6aafb1fd78cf71547091f631fb2488c819",
-      "diagram_ref": ".csdlc/prepared/issues/5665/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5665/retained/diagram.mmd",
       "diagram_digest": "81026e4f2c6a93a2d9cfbe394fb8aeed2858402981855259e8fc7291627a9262"
     }
   }

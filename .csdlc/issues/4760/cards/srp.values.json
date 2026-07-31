@@ -7,22 +7,21 @@
     "title": "[v0.91.8][WP-14][memory-palace] Prepare #4760 Memory Palace context-problem handoff",
     "slug": "v0918-wp14-memory-palace-context-handoff-prep-4760",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 10
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl/src/memory_palace.rs\nadl/src/lib.rs\nadl/src/long_lived_agent.rs\nadl/tests/memory_palace_tests.rs\nadl/tests/fixtures/memory_palace/long_running_context.json",
-      "review_revision": "git-blake3:80a098937899ff4602d0c91d46ac61cff9453486:628d6c613ad1fd065e76e02aa17283ff76c3bf4ecf21f522267bbfbf90514daf",
-      "reviewer": "codex:exact-head-reviewer-4760",
+      "review_revision": "git-blake3:9719252262913351144a20adf0affb7ed4b5480d:0e9a3cc5bcd6025584c2714a370314d9681ae6bdc98439fb7fb5205a7801cf7b",
+      "reviewer": "subagent:/root/review_5727",
       "review_prompts": [
         "Later review should verify that execution remained within #4760 and did not overclaim v0.92 readiness."
       ],
       "findings": [],
       "residual_risk": [
-        "cargo test --locked remains unavailable because the branch's checked-in adl/Cargo.lock is stale for the current manifest graph; focused validation used the issue-local offline wrapper that refuses pre-existing lock dirtiness and restores transient lock refresh.",
-        "Review was bounded to the #4760 Memory Palace implementation, fixture, long-lived-agent consumer hook, and issue-local lifecycle evidence; broader long-lived-agent runtime behavior was not exhaustively revalidated."
+        "The final merged-head delta after the prior Memory Palace review is disjoint from this scope and changes only adl/src/csm_runtime_api.rs; the existing focused Memory Palace validation and prior scope review remain the execution proof."
       ],
       "review_result": "pass"
     }

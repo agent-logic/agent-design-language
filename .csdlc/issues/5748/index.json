@@ -5,7 +5,7 @@
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
   "phase": "bound",
   "generation": 0,
-  "digest": "04e4f42e09069c382007730541a4dc2230169f72327342f2888612a2cdb669c3",
+  "digest": "451e7c9a35edc51cc78f69ec40f6c4a733d2e8c01e77c7c436cdc7a71196a012",
   "claim": {
     "id": "claim-5748-terminal-recovery",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
@@ -16,10 +16,19 @@
     "branch": "codex/5748-terminal-recovery",
     "worktree": ".worktrees/adl-wp-5748",
     "protected_paths": [
+      ".csdlc/evidence/5748",
+      ".csdlc/issues/4760",
+      ".csdlc/issues/5548",
+      ".csdlc/issues/5632",
+      ".csdlc/issues/5665",
+      ".csdlc/issues/5670",
+      ".csdlc/issues/5708",
+      ".csdlc/issues/5728",
+      ".csdlc/issues/5735",
+      ".csdlc/issues/5746",
       ".csdlc/issues/5748",
       ".csdlc/locks/5748.lock",
-      ".csdlc/prepared/issues/5748",
-      ".csdlc/evidence/5748"
+      ".csdlc/prepared/issues/5748"
     ],
     "purpose": "Coordinate receipt-backed terminal recovery for the remaining closed v0.91.8 issue inventory without touching product code or #5746"
   },
@@ -99,6 +108,34 @@
       "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Authorize receipt-backed reconciliation for the three existing special-case terminal receipts without overlapping receipt creation in issue-local worktrees.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5632\",\".csdlc/issues/5665\",\".csdlc/issues/5670\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 0,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Authorize aggregate materialization for the new valid #4760 receipt and the #5728/#5735 receipts delivered by lane A.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/4760\",\".csdlc/issues/5728\",\".csdlc/issues/5735\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 0,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Authorize aggregate materialization for the valid #5548 superseded terminal receipt.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5548\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 0,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Authorize aggregate materialization for the valid #5746 and #5708 terminal receipts delivered by the coordinated closeout lanes.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5708\",\".csdlc/issues/5746\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
