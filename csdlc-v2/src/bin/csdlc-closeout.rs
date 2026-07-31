@@ -9,9 +9,10 @@ use csdlc_v2::error::{ErrorCode, V2Error};
 use csdlc_v2::{
     classify_readiness, closeout_issue, reconcile_terminal_observation_head, record_readiness,
     CheckConclusion, CheckObservation, CheckRequirement, ConflictState, PostPublicationFinding,
-    ReadinessRequest, RemoteReviewState, Store, TerminalDesignRepairRequest, TerminalDisposition,
-    TerminalDispositionRepairRequest, TerminalObservation, TerminalPlanStepRepairRequest,
-    TerminalReceipt, TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
+    ReadinessRequest, RecordlessTerminalRecoveryRequest, RemoteReviewState, Store,
+    TerminalDesignRepairRequest, TerminalDisposition, TerminalDispositionRepairRequest,
+    TerminalObservation, TerminalPlanStepRepairRequest, TerminalReceipt,
+    TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
     TerminalSorValidationRepairRequest,
 };
 use fs2::FileExt;
@@ -71,6 +72,10 @@ enum Command {
         request: PathBuf,
     },
     TransportReceipt {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    RecoverRecordless {
         #[arg(long)]
         request: PathBuf,
     },
@@ -171,6 +176,10 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         >(
             request,
         )?)?),
+        Command::RecoverRecordless { request } => json(
+            store
+                .recover_recordless_terminal(read::<RecordlessTerminalRecoveryRequest>(request)?)?,
+        ),
         Command::PreparePrune { issue } => {
             let record = store.load_record(*issue)?;
             if record.phase != csdlc_v2::LifecyclePhase::ClosedOut {

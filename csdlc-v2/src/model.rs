@@ -283,6 +283,33 @@ pub struct TerminalReceiptTransportRequest {
     pub fail_after_stage: Option<String>,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum RecordlessClosureKind {
+    Merged,
+    Duplicate,
+    Superseded,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct RecordlessTerminalRecoveryRequest {
+    pub authority_issue: u64,
+    pub expected_authority_generation: u64,
+    pub expected_authority_digest: String,
+    pub authority_claim_id: String,
+    pub actor: String,
+    pub issue: crate::github::GithubIssuePacket,
+    pub closure_kind: RecordlessClosureKind,
+    pub pull_request: Option<u64>,
+    pub observed_head_sha: Option<String>,
+    pub observed_merge_sha: Option<String>,
+    pub related_issue: Option<u64>,
+    pub reason: String,
+    pub validation: ValidationResult,
+    #[serde(default)]
+    pub fail_after_stage: Option<String>,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct MigrationEvidence {
     pub schema: String,

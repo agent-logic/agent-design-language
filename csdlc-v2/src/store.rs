@@ -17,11 +17,11 @@ use crate::cards::{
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
     AuditEvent, CardProjection, Claim, DesignReview, IssueRecord, LifecyclePhase,
-    PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest, ReviewAssignment,
-    ReviewEvidence, TerminalDesignRepairRequest, TerminalDispositionRepairRequest,
-    TerminalEvidence, TerminalPlanStepRepairRequest, TerminalReceipt,
-    TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
-    TerminalSorValidationRepairRequest, TransitionEvent,
+    PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest, RecordlessClosureKind,
+    RecordlessTerminalRecoveryRequest, ReviewAssignment, ReviewEvidence,
+    TerminalDesignRepairRequest, TerminalDispositionRepairRequest, TerminalEvidence,
+    TerminalPlanStepRepairRequest, TerminalReceipt, TerminalReceiptTransportRequest,
+    TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest, TransitionEvent,
 };
 use crate::review::evaluate_publication_review_in_repo;
 
@@ -1330,6 +1330,337 @@ impl Store {
         self.replace_receipt_bytes(&receipt_path, Some(&journal.target_receipt))?;
         self.remove_terminal_transaction_journal(issue)?;
         Ok(request.receipt.record)
+    }
+
+    pub fn recover_recordless_terminal(
+        &self,
+        request: RecordlessTerminalRecoveryRequest,
+    ) -> Result<IssueRecord> {
+        validate_result(&request.validation)?;
+        let issue = request.issue.number;
+        if issue == 0
+            || issue == request.authority_issue
+            || request.actor.trim().is_empty()
+            || request.reason.trim().is_empty()
+            || request.issue.schema != "csdlc.github_issue.v1"
+            || request.issue.state != "closed"
+            || request.issue.repository.trim().is_empty()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "recordless terminal recovery identity is incomplete",
+            ));
+        }
+        let (disposition, observed_sha, observed_state) = match request.closure_kind {
+            RecordlessClosureKind::Merged => {
+                if request.pull_request.is_none()
+                    || request.pull_request == Some(0)
+                    || request
+                        .observed_head_sha
+                        .as_deref()
+                        .unwrap_or_default()
+                        .trim()
+                        .is_empty()
+                    || request
+                        .observed_merge_sha
+                        .as_deref()
+                        .unwrap_or_default()
+                        .trim()
+                        .is_empty()
+                    || request.related_issue.is_some()
+                    || !request
+                        .observed_head_sha
+                        .as_deref()
+                        .is_some_and(valid_git_sha)
+                    || !request
+                        .observed_merge_sha
+                        .as_deref()
+                        .is_some_and(valid_git_sha)
+                    || request.validation.outcome != crate::cards::EvidenceOutcome::Passed
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::InvalidInput,
+                        "recordless merged recovery requires exact PR, head, merge, and passing evidence",
+                    ));
+                }
+                (
+                    crate::readiness::TerminalDisposition::Merged,
+                    request.observed_head_sha.clone(),
+                    "merged".to_owned(),
+                )
+            }
+            RecordlessClosureKind::Duplicate | RecordlessClosureKind::Superseded => {
+                if request.pull_request.is_some()
+                    || request.observed_head_sha.is_some()
+                    || request.observed_merge_sha.is_some()
+                    || request.related_issue.is_none()
+                    || request.related_issue == Some(issue)
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::InvalidInput,
+                        "recordless duplicate or superseded recovery requires one related issue and no PR evidence",
+                    ));
+                }
+                (
+                    crate::readiness::TerminalDisposition::ClosedNoPr,
+                    None,
+                    "closed_no_pr".to_owned(),
+                )
+            }
+        };
+        let _terminal_repair_lock = self.terminal_repair_lock()?;
+        let (first, second) = if request.authority_issue < issue {
+            (request.authority_issue, issue)
+        } else {
+            (issue, request.authority_issue)
+        };
+        let _first_lock = self.lock(first)?;
+        let _second_lock = self.lock(second)?;
+        self.recover_with_terminal_lock(request.authority_issue)?;
+        self.recover_with_terminal_lock(issue)?;
+        let authority = self.load_record(request.authority_issue)?;
+        if authority.generation != request.expected_authority_generation
+            || authority.digest != request.expected_authority_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "recordless recovery authority is stale",
+            ));
+        }
+        if authority.repository != request.issue.repository {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "recordless issue repository differs from recovery authority",
+            ));
+        }
+        let claim = authority.claim.as_ref().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::MissingClaim,
+                "recordless recovery authority claim missing",
+            )
+        })?;
+        claim.validate(&request.authority_claim_id, now_seconds()?)?;
+        if !claim_covers_issue(claim, issue) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "recordless recovery authority does not cover target issue",
+            ));
+        }
+        let receipt_path = self.terminal_receipt_path(issue)?;
+        if self.issue_dir(issue).exists() || receipt_path.exists() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "recordless recovery requires absent projection and receipt",
+            ));
+        }
+
+        let closure_ref = match request.closure_kind {
+            RecordlessClosureKind::Merged => format!(
+                "pull_request:{} head:{} merge:{}",
+                request.pull_request.expect("validated PR"),
+                request
+                    .observed_head_sha
+                    .as_deref()
+                    .expect("validated head"),
+                request
+                    .observed_merge_sha
+                    .as_deref()
+                    .expect("validated merge")
+            ),
+            RecordlessClosureKind::Duplicate => {
+                format!(
+                    "duplicate_of:issue:{}",
+                    request.related_issue.expect("validated relation")
+                )
+            }
+            RecordlessClosureKind::Superseded => format!(
+                "superseded_by:issue:{}",
+                request.related_issue.expect("validated relation")
+            ),
+        };
+        let design_path = format!(".csdlc/issues/{issue}/retained/design.md");
+        let diagram_path = format!(".csdlc/issues/{issue}/retained/diagram.mmd");
+        let body_digest = digest(request.issue.body.as_bytes());
+        let design = format!(
+            "# Recordless terminal recovery for issue #{issue}\n\n{}\n\nClosure evidence: `{closure_ref}`. GitHub issue state: closed. Source body digest: `{body_digest}`.\n\nThis recovery records observed terminal disposition only. It does not reconstruct or claim historical implementation, review, publication, readiness, or CI execution.\n",
+            request.reason,
+        );
+        let diagram = format!(
+            "flowchart LR\n  G[GitHub issue #{issue} closed] --> E[Exact terminal evidence]\n  E --> R[Typed recordless recovery]\n  R --> T[Terminal receipt and projection]\n"
+        );
+        let design_digest = digest(design.as_bytes());
+        let diagram_digest = digest(diagram.as_bytes());
+        let version = request
+            .issue
+            .labels
+            .iter()
+            .find(|label| label.starts_with("version:"))
+            .cloned()
+            .unwrap_or_else(|| "version:unclassified".into());
+        let recovery_non_claim = "No historical implementation, review, publication, readiness, or CI lifecycle is reconstructed by this terminal recovery.".to_owned();
+        let mut cards = initial_cards(
+            issue,
+            &request.issue.repository,
+            &design_path,
+            &design_digest,
+            &diagram_path,
+            &diagram_digest,
+            InitialCardInput {
+                title: request.issue.title.clone(),
+                slug: format!("recordless-terminal-recovery-{issue}"),
+                version,
+                goal: format!("Retain truthful terminal authority for closed issue #{issue}."),
+                required_outcome: "A receipt-backed closed-out projection containing terminal evidence and explicit historical non-claims.".into(),
+                declared_scope: vec![format!(".csdlc/issues/{issue}/")],
+                authority_boundary: vec![recovery_non_claim.clone()],
+                operator_constraints: vec!["typed C-SDLC v2 only".into()],
+                task_boundary: "Record observed closure without reconstructing unavailable lifecycle history.".into(),
+                deliverables: vec!["terminal projection".into(), "retained terminal receipt".into()],
+                acceptance_criteria: vec!["issue is observed closed".into(), "terminal evidence is internally consistent".into()],
+                dependencies: request.related_issue.map(|value| vec![format!("issue:{value}")]).unwrap_or_else(|| vec!["exact merged PR evidence".into()]),
+                repo_inputs: vec![format!("github-issue:{issue}"), closure_ref, format!("github-body-blake3:{body_digest}")],
+                non_goals: vec![recovery_non_claim.clone()],
+                plan_summary: "Validate exact closure evidence and atomically retain terminal authority.".into(),
+                steps: vec![crate::cards::PlanStep { id: "S1".into(), action: "Retain terminal recovery evidence".into(), acceptance_ids: vec!["AC-1".into(), "AC-2".into()], status: StepStatus::Completed }],
+                invariants: vec!["target projection and receipt are absent before recovery".into(), recovery_non_claim.clone()],
+                risks: vec!["remote evidence supplied to this deterministic operation must come from the typed GitHub observation surface".into()],
+                planning_profile: crate::cards::PlanningProfile::Small,
+                stop_conditions: vec!["existing target authority".into(), "stale recovery authority".into(), "inconsistent closure evidence".into()],
+                validation_lanes: vec![crate::cards::ValidationLane { lane: "terminal-evidence".into(), proof_role: "Validate observed closure evidence".into(), acceptance_ids: vec!["AC-1".into(), "AC-2".into()], deterministic: true, resource_profile: crate::cards::ResourceProfile::Small, budget_seconds: 30, budget_tokens: 100, argv: request.validation.command.clone(), parallel_group: "terminal-recovery".into(), defer_reason: None }],
+                failure_policy: "Fail closed without exact, internally consistent terminal evidence.".into(),
+                review_prompts: vec!["Does the receipt preserve explicit non-claims about unavailable lifecycle history?".into()],
+                review_scope: format!(".csdlc/issues/{issue}/"),
+            },
+        )?;
+        for card in cards.values_mut() {
+            card.identity.generation = 1;
+        }
+        let CardContent::Srp(srp) = &mut cards.get_mut(&CardKind::Srp).expect("SRP").content else {
+            unreachable!()
+        };
+        srp.residual_risk = vec![recovery_non_claim.clone()];
+        let CardContent::Sor(sor) = &mut cards.get_mut(&CardKind::Sor).expect("SOR").content else {
+            unreachable!()
+        };
+        sor.summary = request.reason.clone();
+        sor.actual_changes = vec!["Typed recordless terminal recovery projection only.".into()];
+        sor.artifacts = vec![design_path.clone(), diagram_path.clone()];
+        sor.actual_validation = vec![request.validation.clone()];
+        sor.integration_state = if disposition == crate::readiness::TerminalDisposition::Merged {
+            crate::cards::IntegrationState::Merged
+        } else {
+            crate::cards::IntegrationState::ClosedNoPr
+        };
+        sor.publication_state = crate::cards::PublicationState::Closed;
+        sor.merge_state = if disposition == crate::readiness::TerminalDisposition::Merged {
+            crate::cards::MergeState::Merged
+        } else {
+            crate::cards::MergeState::ClosedUnmerged
+        };
+        sor.closeout_state = crate::cards::CloseoutState::Complete;
+        sor.follow_ups = request
+            .related_issue
+            .map(|value| vec![format!("issue:{value}")])
+            .unwrap_or_default();
+        cards.get_mut(&CardKind::Sor).expect("SOR").status = crate::cards::CardStatus::Complete;
+        let terminal = TerminalEvidence {
+            pull_request: request.pull_request,
+            disposition,
+            observed_sha,
+            observed_state,
+            receipt_path: format!("csdlc-v2/closeout/{issue}.json"),
+            released_branch: String::new(),
+            released_worktree: String::new(),
+            released_protected_paths: Vec::new(),
+        };
+        let initialization_digest = digest(&serde_json::to_vec(&request)?);
+        let transition = TransitionEvent {
+            sequence: 1,
+            from: LifecyclePhase::Initialized,
+            to: LifecyclePhase::ClosedOut,
+            actor: request.actor.clone(),
+            reason: request.reason.clone(),
+        };
+        let audit = AuditEvent {
+            sequence: 1,
+            generation: 1,
+            actor: request.actor.clone(),
+            reason: request.reason.clone(),
+            operation: "recover_recordless_terminal".into(),
+        };
+        let mut record = IssueRecord {
+            schema: "csdlc.issue.index.v1".into(),
+            issue,
+            repository: request.issue.repository.clone(),
+            initialization_digest,
+            phase: LifecyclePhase::ClosedOut,
+            generation: 1,
+            digest: String::new(),
+            claim: None,
+            review_assignment: None,
+            review: None,
+            publication: None,
+            readiness: None,
+            terminal: Some(terminal),
+            migration: None,
+            design_path: design_path.clone(),
+            diagram_path: diagram_path.clone(),
+            design_review: DesignReview::Approved {
+                reviewer: request.actor.clone(),
+                revision: design_digest,
+            },
+            cards: BTreeMap::new(),
+            transitions: vec![transition],
+            audit: vec![audit],
+        };
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        let authored_artifacts = BTreeMap::from([(design_path, design), (diagram_path, diagram)]);
+        let mut receipt = TerminalReceipt {
+            schema: "csdlc.terminal_receipt.v1".into(),
+            issue,
+            repository: record.repository.clone(),
+            initialization_digest: record.initialization_digest.clone(),
+            receipt_ref: format!("csdlc-v2/closeout/{issue}.json"),
+            authored_artifacts,
+            record: record.clone(),
+            cards: cards.clone(),
+            digest: String::new(),
+        };
+        receipt.digest = terminal_receipt_digest(&receipt)?;
+        validate_terminal_receipt(&receipt)?;
+        let journal = TerminalTransactionJournal {
+            schema: "csdlc.terminal_transaction.v1".into(),
+            issue,
+            stage: "prepared_recordless_terminal_recovery".into(),
+            original_record_digest: None,
+            target_record_digest: record.digest.clone(),
+            original_receipt: None,
+            target_receipt: serde_json::to_vec_pretty(&receipt)?,
+        };
+        self.write_terminal_transaction_journal(&journal)?;
+        if request.fail_after_stage.as_deref() == Some("after_journal") {
+            return Err(V2Error::new(
+                ErrorCode::InterruptedTransaction,
+                "injected recordless recovery failure",
+            ));
+        }
+        self.commit_with_authored(
+            issue,
+            &record,
+            &cards,
+            false,
+            Some(&receipt.authored_artifacts),
+        )?;
+        if request.fail_after_stage.as_deref() == Some("after_projection") {
+            return Err(V2Error::new(
+                ErrorCode::InterruptedTransaction,
+                "injected recordless recovery failure",
+            ));
+        }
+        self.replace_receipt_bytes(&receipt_path, Some(&journal.target_receipt))?;
+        self.remove_terminal_transaction_journal(issue)?;
+        Ok(record)
     }
 
     pub fn repair_terminal_disposition(
@@ -3498,10 +3829,21 @@ pub(crate) fn verify_record(record: &IssueRecord) -> Result<()> {
         ));
     }
     let mut phase = LifecyclePhase::Initialized;
+    let recordless_recovery = record.generation == 1
+        && record.audit.len() == 1
+        && record.transitions.len() == 1
+        && record.audit[0].operation == "recover_recordless_terminal"
+        && record.audit[0].generation == 1
+        && record.audit[0].actor == record.transitions[0].actor
+        && record.audit[0].reason == record.transitions[0].reason;
     for (index, event) in record.transitions.iter().enumerate() {
+        let direct_recordless_closeout = recordless_recovery
+            && record.transitions.len() == 1
+            && event.from == LifecyclePhase::Initialized
+            && event.to == LifecyclePhase::ClosedOut;
         if event.sequence != index as u64 + 1
             || event.from != phase
-            || !event.from.allows(event.to)
+            || (!event.from.allows(event.to) && !direct_recordless_closeout)
             || event.actor.is_empty()
             || event.reason.is_empty()
         {
@@ -4153,6 +4495,10 @@ fn claim_covers_issue(claim: &Claim, issue: u64) -> bool {
         .any(|path| path.trim_end_matches('/') == target)
 }
 
+fn valid_git_sha(value: &str) -> bool {
+    matches!(value.len(), 40 | 64) && value.bytes().all(|byte| byte.is_ascii_hexdigit())
+}
+
 fn complete_step_status(status: &mut StepStatus) -> Result<()> {
     if !matches!(*status, StepStatus::Pending | StepStatus::InProgress) {
         return Err(V2Error::new(
@@ -4700,6 +5046,129 @@ mod terminal_design_repair_tests {
         assert_eq!(
             store.load_terminal_receipt(target.issue).unwrap().unwrap(),
             receipt
+        );
+    }
+
+    fn recordless_fixture() -> (tempfile::TempDir, Store, IssueRecord) {
+        let (temp, store, mut authority, _target, _receipt, _) = terminal_validation_fixture();
+        let authority_cards = store.load_cards(authority.issue).expect("authority cards");
+        authority
+            .claim
+            .as_mut()
+            .expect("authority claim")
+            .protected_paths
+            .extend([".csdlc/issues/5718/".into(), ".csdlc/issues/5711/".into()]);
+        hydrate_projections(&mut authority, &authority_cards).expect("authority projections");
+        authority.digest = record_digest(&authority).expect("authority digest");
+        store
+            .commit(authority.issue, &authority, &authority_cards, false)
+            .expect("authority commit");
+        (temp, store, authority)
+    }
+
+    fn recordless_request(
+        authority: &IssueRecord,
+        issue: u64,
+        closure_kind: RecordlessClosureKind,
+        fail_after_stage: Option<&str>,
+    ) -> RecordlessTerminalRecoveryRequest {
+        let merged = closure_kind == RecordlessClosureKind::Merged;
+        RecordlessTerminalRecoveryRequest {
+            authority_issue: authority.issue,
+            expected_authority_generation: authority.generation,
+            expected_authority_digest: authority.digest.clone(),
+            authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+            actor: "codex:test".into(),
+            issue: crate::github::GithubIssuePacket {
+                schema: "csdlc.github_issue.v1".into(),
+                repository: authority.repository.clone(),
+                number: issue,
+                title: format!("Recordless issue {issue}"),
+                body: "closed historical issue".into(),
+                state: "closed".into(),
+                labels: vec!["version:v0.91.8".into()],
+                assignees: Vec::new(),
+                milestone: None,
+                marker_present: false,
+            },
+            closure_kind,
+            pull_request: merged.then_some(5720),
+            observed_head_sha: merged.then(|| "92fde26a2ca073e204459fce1bb5e88d7c895528".into()),
+            observed_merge_sha: merged.then(|| "4d68d4b1f4f70c15223ebdf71d59c9010e5e3d4c".into()),
+            related_issue: (!merged).then_some(5702),
+            reason: "Retain exact observed closure without reconstructing lifecycle history."
+                .into(),
+            validation: ValidationResult {
+                command: if merged {
+                    vec!["git".into(), "merge-base".into(), "--is-ancestor".into()]
+                } else {
+                    vec!["csdlc-github-issue".into(), "run".into()]
+                },
+                purpose: "Validate exact terminal evidence.".into(),
+                outcome: if merged {
+                    crate::cards::EvidenceOutcome::Passed
+                } else {
+                    crate::cards::EvidenceOutcome::SkippedNonGoal
+                },
+                evidence_ref: format!("issue-{issue}:typed-terminal-observation"),
+            },
+            fail_after_stage: fail_after_stage.map(str::to_owned),
+        }
+    }
+
+    #[test]
+    fn recordless_merged_recovery_creates_receipt_without_lifecycle_claims() {
+        let (_temp, store, authority) = recordless_fixture();
+        let recovered = store
+            .recover_recordless_terminal(recordless_request(
+                &authority,
+                5718,
+                RecordlessClosureKind::Merged,
+                None,
+            ))
+            .expect("recordless recovery");
+        assert_eq!(recovered.phase, LifecyclePhase::ClosedOut);
+        assert!(
+            recovered.claim.is_none()
+                && recovered.review.is_none()
+                && recovered.publication.is_none()
+                && recovered.readiness.is_none()
+        );
+        assert_eq!(recovered.transitions.len(), 1);
+        assert_eq!(recovered.audit[0].operation, "recover_recordless_terminal");
+        assert_eq!(
+            recovered.terminal.as_ref().unwrap().pull_request,
+            Some(5720)
+        );
+        assert_eq!(
+            store.load_terminal_receipt(5718).unwrap().unwrap().record,
+            recovered
+        );
+    }
+
+    #[test]
+    fn recordless_duplicate_recovery_recovers_after_projection_interruption() {
+        let (_temp, store, authority) = recordless_fixture();
+        let error = store
+            .recover_recordless_terminal(recordless_request(
+                &authority,
+                5711,
+                RecordlessClosureKind::Duplicate,
+                Some("after_projection"),
+            ))
+            .expect_err("interrupted");
+        assert_eq!(error.code, ErrorCode::InterruptedTransaction);
+        store
+            .recover_with_terminal_lock(5711)
+            .expect("recover transaction");
+        let recovered = store.load_record(5711).expect("projection");
+        assert_eq!(
+            store.load_terminal_receipt(5711).unwrap().unwrap().record,
+            recovered
+        );
+        assert_eq!(
+            recovered.terminal.as_ref().unwrap().disposition,
+            crate::readiness::TerminalDisposition::ClosedNoPr
         );
     }
 

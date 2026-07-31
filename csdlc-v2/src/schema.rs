@@ -11,9 +11,10 @@ use crate::merge::{MergeRequest, MergeResult};
 use crate::migration::{ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison};
 use crate::model::IssueRecord;
 use crate::model::{
-    ReconcileTerminalRequest, TerminalDesignRepairRequest, TerminalDispositionRepairRequest,
-    TerminalPlanStepRepairRequest, TerminalReceipt, TerminalReceiptTransportRequest,
-    TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest,
+    ReconcileTerminalRequest, RecordlessTerminalRecoveryRequest, TerminalDesignRepairRequest,
+    TerminalDispositionRepairRequest, TerminalPlanStepRepairRequest, TerminalReceipt,
+    TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
+    TerminalSorValidationRepairRequest,
 };
 use crate::publication::{
     MergedPublicationReconciliationRequest, PublicationIntent, PublicationRequest,
@@ -56,6 +57,7 @@ pub fn public_schema_bundle() -> Value {
         "terminal_sor_validation_repair_request": schemars::schema_for!(TerminalSorValidationRepairRequest),
         "terminal_disposition_repair_request": schemars::schema_for!(TerminalDispositionRepairRequest),
         "terminal_receipt_transport_request": schemars::schema_for!(TerminalReceiptTransportRequest),
+        "recordless_terminal_recovery_request": schemars::schema_for!(RecordlessTerminalRecoveryRequest),
         "doctor_report": schemars::schema_for!(DoctorReport),
         "github_action_request": schemars::schema_for!(GithubActionRequest),
         "github_action_result": schemars::schema_for!(GithubActionResult),

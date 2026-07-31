@@ -54,9 +54,10 @@ pub use migration::{
 pub use model::{
     Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase, MigrationEvidence,
     NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest,
-    ReviewAssignment, ReviewEvidence, ReviewFindingEvidence, TerminalDesignRepairRequest,
-    TerminalDispositionRepairRequest, TerminalEvidence, TerminalPlanStepRepairRequest,
-    TerminalReceipt, TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
+    RecordlessClosureKind, RecordlessTerminalRecoveryRequest, ReviewAssignment, ReviewEvidence,
+    ReviewFindingEvidence, TerminalDesignRepairRequest, TerminalDispositionRepairRequest,
+    TerminalEvidence, TerminalPlanStepRepairRequest, TerminalReceipt,
+    TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
     TerminalSorValidationRepairRequest,
 };
 pub use operator::{
