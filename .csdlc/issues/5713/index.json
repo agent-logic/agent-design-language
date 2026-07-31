@@ -1,0 +1,122 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5713,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "f9a2970ba450cc073abac0f5085576fbd8b03f703611c96fce7b68c3001a4f87",
+  "phase": "implemented",
+  "generation": 1,
+  "digest": "cc2b1c958ce07eb49ab23e9fc469030e37792ac93c70325afe4f483826f4a4da",
+  "claim": {
+    "id": "claim-5713-runtime-v3-rcgen-local-tls",
+    "owner": "codex:issue-5713-runtime-v3-rcgen-local-tls",
+    "generation": 1,
+    "acquired_unix_seconds": 1785539879,
+    "expires_unix_seconds": 1786144679,
+    "heartbeat_unix_seconds": 1785539879,
+    "branch": "codex/5713-runtime-v3-rcgen-local-tls",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5713",
+      ".csdlc/issues/5713",
+      ".csdlc/locks/5713.lock",
+      ".csdlc/prepared/issues/5713",
+      "adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs",
+      "adl-runtime/src/local_tls.rs",
+      "adl-runtime/tests/local_tls.rs",
+      "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md"
+    ],
+    "purpose": "Implement stable rcgen local-development TLS bootstrap for Runtime v3 without AWS CA, wrappers, or TLS weakening"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5713/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5713/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:issue-5713",
+      "revision": "d626e42ed3b513388440e66f1786d5249d021bea11a547050c3d152dd10f310d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "551483d5412f566008bc649fc522b830d83ad1add73004813ece7a7e590e43e4",
+      "rendered_digest": "84c6c53f8b73aaf6790c8e233483861d30dc6e51688396ee0e9452c73c569e99",
+      "ast_digest": "ea168e0c17ff9820ba024bb9dff74be483d9479379acd6d75ab42066f695ea71"
+    },
+    "stp": {
+      "values_digest": "22cb321cc8dabf190c8dcbc35acf045c07d4353bc0819ae1ae476bcfdb3c0aa6",
+      "rendered_digest": "f118146e95a8ad3b0b77a0976fb3a93718c506041613aa418f7b603e12d0b8f9",
+      "ast_digest": "a8364bb56c15894e1c1138b59f568fed849911ad8ccda4283277103558d6474f"
+    },
+    "spp": {
+      "values_digest": "bd941d497e5dea2486fd494a9df78d0207a5c629d0ab528a93c115a48c7f8458",
+      "rendered_digest": "6013ee8928b09e781d20be9e56ba9678494e195f909c57f63b5db33de9428fbb",
+      "ast_digest": "06a63bfb34e190704934b88c6673bac363ca9405e86a173c52118ba8528a2053"
+    },
+    "vpp": {
+      "values_digest": "ba5d909288d9d9df5c2c2d5e6c11437fb660caeae4c8796b2ab60fbe7fede218",
+      "rendered_digest": "01865b9abdc9a65607573c1f823383b53304bde6d005542a78277809bb805be3",
+      "ast_digest": "c8a5ebf2980c125be95206f098d4702f7989c42e708dc652b11db10db58785b8"
+    },
+    "srp": {
+      "values_digest": "e1a6b4eae0ffd6adca096ea04ab7a599481a60c24f07f2d2a6f84efd8629023e",
+      "rendered_digest": "a58826088bd45fa5e230ad413f7075a88844ebdd2d0a8c6e850f7c81b6e75e25",
+      "ast_digest": "d91e7e99661d4c24f02f31ae86809d503670cf9b73de378660152424ca6aa6f3"
+    },
+    "sor": {
+      "values_digest": "d0c4dea2edfc00450b52374bd174fab033d1018ff35dd4aa07e1d1d01f66190e",
+      "rendered_digest": "2e75b2276bbbfaa3e3197e61af2cda0cddabdec5999830cd50b9139338c3d40c",
+      "ast_digest": "305463846fd24f684e1d9c46153cab8bc2c3e147c017e08c8492fbb9a0cc6d7f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5713-runtime-v3-rcgen-local-tls",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5713-runtime-v3-rcgen-local-tls",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-5713-runtime-v3-rcgen-local-tls",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5713-runtime-v3-rcgen-local-tls",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:issue-5713-runtime-v3-rcgen-local-tls",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-5713-runtime-v3-rcgen-local-tls",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
