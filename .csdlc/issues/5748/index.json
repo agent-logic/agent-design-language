@@ -1,0 +1,104 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5748,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "04e4f42e09069c382007730541a4dc2230169f72327342f2888612a2cdb669c3",
+  "claim": {
+    "id": "claim-5748-terminal-recovery",
+    "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+    "generation": 0,
+    "acquired_unix_seconds": 1785539141,
+    "expires_unix_seconds": 1786143941,
+    "heartbeat_unix_seconds": 1785539141,
+    "branch": "codex/5748-terminal-recovery",
+    "worktree": ".worktrees/adl-wp-5748",
+    "protected_paths": [
+      ".csdlc/issues/5748",
+      ".csdlc/locks/5748.lock",
+      ".csdlc/prepared/issues/5748",
+      ".csdlc/evidence/5748"
+    ],
+    "purpose": "Coordinate receipt-backed terminal recovery for the remaining closed v0.91.8 issue inventory without touching product code or #5746"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5748/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5748/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:issue-5748-body",
+      "revision": "ae02c8459bdeb5ddf0045ea4552a685db827ecbb99b189c96190a2abb2bb0c1e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "e50c1b899a0855067be37b318a282a35b45ba3403cb33b785cfeab0aa187d914",
+      "rendered_digest": "45b518d3fd743da08e47f6368211b376725c05b4f87b6324eef904857326005b",
+      "ast_digest": "f72f1dbae45b5ae207b7f4fd0efac02f5e79c1339a80fd79febc98feec955f35"
+    },
+    "stp": {
+      "values_digest": "800d7f538890c4c4a1a9a1e685523d6d3e045e6f70cc83bf52a22c19a79b9efd",
+      "rendered_digest": "5a8822a8c7b60a5065afcd89d1402d36d705dcb5b42ecd109f518d27e0fc5e62",
+      "ast_digest": "1109b3410dd50617d7241c3755faf54737ac8453a998b23fd32c4af3ddc5966e"
+    },
+    "spp": {
+      "values_digest": "ce6996946d1d5651af773f223221278d5a7cd85509d87d54b141e3c91cd5e134",
+      "rendered_digest": "5a087afbbf817f0a01d58bddaf33c05df7a0c0e426efe5703f0c5c39540080c7",
+      "ast_digest": "20bc08d08e8c65133034fe5b97a921a7fcae3e8e2ea7d699bb9ad80926675e83"
+    },
+    "vpp": {
+      "values_digest": "e6f162995a60cc42a43525923f9fcc56179fd50d1f694d39480c45f464fc458e",
+      "rendered_digest": "2ec9cad2c2fa650f0523c63a6f0b4a84f4ff7cd76fdc905d19a50caf5e2a4b4e",
+      "ast_digest": "c09a33230a0c4276745a0a3f1e1d4a278a74cbf5eb9a1bc1b9da62abfced6d05"
+    },
+    "srp": {
+      "values_digest": "69cf130e671ff2107cab24c936563111d2b7c018d3efc1094cb99b7b61c387aa",
+      "rendered_digest": "281a0127cda1e0cf6ddfd6d224c9f4eaa89cfabc033a215c3687ee16c711c5e6",
+      "ast_digest": "a80d4038f11d4d74ec0a7f5a892ab1f3b2d50d2d68c2de1f4ff65bef8a2e696a"
+    },
+    "sor": {
+      "values_digest": "7ace0d208d399409654f2e6006a51d3d0f613c14b0a5a1e539b936b6cf187bc5",
+      "rendered_digest": "2f007cd9c5aa51cbb2213e6d0fbfc0106ef8e6c6b6617d7b14cc8952f7551124",
+      "ast_digest": "05c1f2f0a04c7315976d6b825b8f73ef5d0205ec37951dcac0b794e273eef033"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}

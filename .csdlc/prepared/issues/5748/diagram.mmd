@@ -1,0 +1,11 @@
+flowchart TD
+  I["Closed v0.91.8 issue"] --> R["Issue-local typed receipt recovery"]
+  R --> C{"Valid terminal receipt?"}
+  C -- "no" --> B["Typed blocker or repair route"]
+  C -- "yes" --> A["#5748 dedicated authority worktree"]
+  A --> M["reconcile-terminal materialization"]
+  M --> P["Tracked record and six cards equal receipt"]
+  P --> H["Retained design and diagram hygiene"]
+  H --> D["csdlc-doctor pass"]
+  D --> V["Validated terminal projection"]
+

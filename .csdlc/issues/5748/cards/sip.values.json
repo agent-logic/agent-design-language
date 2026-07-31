@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5748,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][closeout] Recover remaining closed-issue terminal truth",
+    "slug": "remaining-closed-issue-terminal-recovery",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Recover truthful typed terminal state for every closed v0.91.8 issue excluded from the clean #5746 projection wave.",
+      "required_outcome": "Every inventoried issue has remote disposition, retained receipt, tracked closed_out projection, released claim, and retained artifacts in exact agreement.",
+      "declared_scope": [
+        "typed receipt recovery in issue-local worktrees",
+        "receipt-backed terminal projection materialization in the dedicated #5748 worktree",
+        "special disposition and retained-artifact repairs explicitly named by issue #5748",
+        "issue-local evidence under .csdlc/evidence/5748"
+      ],
+      "authority_boundary": [
+        "Issue-local worktrees own receipt creation and repair; #5748 materializes only validated retained authority.",
+        "Generated cards, index records, and terminal receipts change only through typed C-SDLC v2 operations.",
+        "Do not touch #5746 or write tracked changes on main."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "never write tracked changes on main",
+        "never touch #5746",
+        "use typed C-SDLC v2 only",
+        "preserve dirty worktrees",
+        "no AWS or raw GitHub commands"
+      ]
+    }
+  }
+}
