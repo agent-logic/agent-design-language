@@ -36,8 +36,8 @@ docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md
     "summary": "The retained convergence packet does not bind its proof revision to the assigned review surface or a fail-closed metadata-only tail.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
     "route": null
   },
   {
@@ -46,8 +46,8 @@ docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md
     "summary": "The claimed live full-duplex WSS proof uses a local test and HTTPS metadata instead of a real live WSS exchange.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
     "route": null
   },
   {
@@ -56,8 +56,8 @@ docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md
     "summary": "The retained matrix lane accepts stale or substituted packet evidence after substantive changes.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
     "route": null
   }
 ]
@@ -68,12 +68,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Broad Rust suites and binary rebuilds were intentionally not repeated because the focused exact proof reused the unchanged stable binaries.
+- The Unity portion remains deliberately bounded to accepted editor, Play Mode, and presentation proof; it does not claim player-build, Runtime, or cloud authority.
+- Broad Rust suites were not rebuilt or rerun because the corrected proof used unchanged stable binaries and focused exact checks.
 
 ## Review Result
 
-Revision: Some("git-blake3:318a4c4b522d0d43d19ff42ea603cd13011a2846:e6a5c5f82776a64056001f3897205805b2c0d238d8b83aa85a54a730c9548d05")
+Revision: Some("git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18")
 
 Reviewer: Some("subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8")
 
-Result: changes_required
+Result: pass

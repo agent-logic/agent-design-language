@@ -3,13 +3,13 @@
   "issue": 5354,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c9e538886b9fe939fe6a89f44b9ef31a4d75733f7a7e60cdbb4bf47dd806bfc9",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "b0ad949b44e301b2eabd78f966380a6f0b374f7bc51b4c2e7fe30eb87642d936",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "4ae78fb1e8e935eec6401b0aa5cf95a4d055ccd53a30fc76e62eedd5756e705d",
   "claim": {
     "id": "claim-5354-v0918-wp15-reacquired",
     "owner": "codex:5354-preparation-owner",
-    "generation": 6,
+    "generation": 8,
     "acquired_unix_seconds": 1785465403,
     "expires_unix_seconds": 1786070203,
     "heartbeat_unix_seconds": 1785465403,
@@ -39,7 +39,56 @@
       "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8",
+    "scope": [
+      ".csdlc/evidence/5354",
+      ".csdlc/issues/5354",
+      ".csdlc/prepared/issues/5354",
+      "adl-v2/Cargo.lock",
+      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
+    ],
+    "reviewed_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
+    "findings": [
+      {
+        "id": "F-5354-1",
+        "severity": "p1",
+        "summary": "The retained convergence packet does not bind its proof revision to the assigned review surface or a fail-closed metadata-only tail.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
+        "route": null
+      },
+      {
+        "id": "F-5354-2",
+        "severity": "p1",
+        "summary": "The claimed live full-duplex WSS proof uses a local test and HTTPS metadata instead of a real live WSS exchange.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
+        "route": null
+      },
+      {
+        "id": "F-5354-3",
+        "severity": "p2",
+        "summary": "The retained matrix lane accepts stale or substituted packet evidence after substantive changes.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The Unity portion remains deliberately bounded to accepted editor, Play Mode, and presentation proof; it does not claim player-build, Runtime, or cloud authority.",
+      "Broad Rust suites were not rebuilt or rerun because the corrected proof used unchanged stable binaries and focused exact checks."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -54,32 +103,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "277123bc10b6ce7fe168a39f31d46777410ee11410fa72733a02551c82ef026c",
+      "values_digest": "296bf2627148368f38e2415623effff3ef065fa95dbef2af81210ba44520d575",
       "rendered_digest": "e842eaeba6122151cdb5edb96814a78b32509238169446a82c02c9eb66877981",
       "ast_digest": "39ef15d3feddac90905427c8f05b3d16770ca9035a47aaab9e96b188ce1413bf"
     },
     "stp": {
-      "values_digest": "893aa1af89e836d0fe21e24e047f037b658fcbecb40a00e97cb3f605f982010b",
+      "values_digest": "cb1d632fc1384edcbf26a636ee36ddd10dbe5d65029d92b7c875af61c0d976c0",
       "rendered_digest": "e2c760b22e8865f50e73be1a6755467798d3d319998ce754b8e7f799cd361ea7",
       "ast_digest": "0757b0e68ce2cb5a6d202b6a293c0e29dd3fb95b47c56dc0fbd5f73ffc7147f6"
     },
     "spp": {
-      "values_digest": "f9b8735ebef2b75defda50efacd091f117b39a3ea259d53d4841be4edb97a7cd",
+      "values_digest": "697ca2c815c2e7bb7c5df132f677ac6ebb433780e01f0cf4f63bf1caa54d2e34",
       "rendered_digest": "c19b1cc097ff6a7b9eec5b3920ba26d6edf91c1f7f2fac1847aaacf2543eadf6",
       "ast_digest": "04c77660758778e8a55c0765242b6ccd276bbc7369f5f1faaeb57fb26fa79dca"
     },
     "vpp": {
-      "values_digest": "2581ca54d7ad0e490d3a0bd6f7e09c829744b0d7ec8690b15883b261afa5596f",
+      "values_digest": "81e53fbe97eaea8c2174c53497438c9ece7fc0db789dd3d5521b2de0d7e33b8b",
       "rendered_digest": "ca4edd91fdd36f334682b18d5b579242dcc4f2310a862bdcb47704beb634bd51",
       "ast_digest": "6bc62a0e927ff2440d9b154aec39e32b49c915138ecbd6e606b1d9c14931677e"
     },
     "srp": {
-      "values_digest": "cb893feb6a7a71c07c4bc357654ba55a86f4fc09d42ad3880f85521515a507de",
-      "rendered_digest": "b9e4a307e9d5240eb57ec7fbdc15d9169b97b5c4e2d3386f00e8665c1b81e50e",
-      "ast_digest": "8ca68e5154dfdcc76e3daa75c8756292c386de19d1e31854b65ccb1b990158db"
+      "values_digest": "a2bb935b85aeb10da1aaa893455717cfb396a51bb08abbd19c24c001f6327396",
+      "rendered_digest": "aa018db2139aba2177f380fa42ce985db74771009867fb0947c3c7c22f84b603",
+      "ast_digest": "3992ceaafb747d6884929735128b0d8e68df97166afe9fd15a70f69e511bf5b4"
     },
     "sor": {
-      "values_digest": "3f48524906e7ac50dfffa8f775cddb420cffeeee2e5eb6b36166f444dab87ee9",
+      "values_digest": "840ddb19b9c211233fb30a68e7bd90e04905f9ceb8bb34a13372f7973fc89bf3",
       "rendered_digest": "df201509c8a320941b0780d17c936bc07ecb94a7f4e4755a04f8f4581d618d42",
       "ast_digest": "4b5b8df1a47f1fb84611e13938e4157b293e649ba54bf42d53d5a19b3cf12245"
     }
@@ -105,6 +154,13 @@
       "to": "implemented",
       "actor": "codex:5354-wp15-owner",
       "reason": "The bounded implementation and complete exact integrated convergence lane pass all WP-15 acceptance criteria required before final review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5354-wp15-owner",
+      "reason": "The assigned corrected-head review passed with zero blockers and all three prior findings fixed."
     }
   ],
   "audit": [
@@ -254,6 +310,20 @@
       "actor": "codex:5354-wp15-owner",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 7,
+      "actor": "subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 8,
+      "actor": "codex:5354-wp15-owner",
+      "reason": "The assigned corrected-head review passed with zero blockers and all three prior findings fixed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

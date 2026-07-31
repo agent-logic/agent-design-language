@@ -1,0 +1,13 @@
+{
+  "issue": 5354,
+  "card": "srp",
+  "expected_generation": 7,
+  "expected_digest": "1e6a8e2a89f83903581648d77ee230d68028f66598869f56101c74d47383c5b7",
+  "claim_id": "claim-5354-v0918-wp15-reacquired",
+  "actor": "codex:5354-wp15-owner",
+  "reason": "The assigned corrected-head review passed with zero blockers and all three prior findings fixed.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  }
+}
