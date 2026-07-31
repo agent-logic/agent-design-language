@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: complete
+Status: pre_phase
 
 ## Summary
 
@@ -108,17 +108,17 @@ Implement and prove fail-closed Unity ILPP diagnosis plus a successful staged Ob
 
 ## Integration
 
-merged
+pr_open
 
 ## Publication
 
-Publication: closed
+Publication: ready
 
-Merge: merged
+Merge: not_merged
 
 ## Closeout
 
-complete
+not_started
 
 ## Follow Ups
 
