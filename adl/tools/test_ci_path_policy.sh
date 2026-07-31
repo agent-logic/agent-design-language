@@ -266,6 +266,32 @@ assert profile["status"] == "ready_to_run"
 assert [item["lane_id"] for item in profile["run"]] == ["docs_diff_check"]
 PY
 
+  git checkout -q -b podcast-static-demo "$base_sha"
+  mkdir -p demos/podcast/studio demos/_preview/podcast
+  printf '<!doctype html><title>Podcast</title>\n' > demos/podcast/index.html
+  printf '<rss version="2.0"></rss>\n' > demos/podcast/feed.xml
+  printf '<!doctype html><title>Podcast Studio</title>\n' > demos/podcast/studio/podcast-studio.html
+  printf '<!doctype html><title>Podcast Preview</title>\n' > demos/_preview/podcast/index.html
+  git add demos/podcast/index.html demos/podcast/feed.xml demos/podcast/studio/podcast-studio.html demos/_preview/podcast/index.html
+  git commit -q -m podcast-static-demo
+  podcast_static_demo_head="$(git rev-parse HEAD)"
+
+  podcast_static_demo_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$podcast_static_demo_head" --ref "refs/pull/1/merge")"
+  assert_has "$podcast_static_demo_output" "rust_required=false"
+  assert_has "$podcast_static_demo_output" "coverage_required=false"
+  assert_has "$podcast_static_demo_output" "full_coverage_required=false"
+  assert_has "$podcast_static_demo_output" "demo_smoke_required=true"
+  assert_has "$podcast_static_demo_output" "ci_contracts_required=true"
+  assert_has "$podcast_static_demo_output" "coverage_lane=skip"
+  assert_has "$podcast_static_demo_output" "coverage_authority=not_required"
+  assert_has "$podcast_static_demo_output" "coverage_execution_state=skipped_by_path_policy"
+  assert_has "$podcast_static_demo_output" "reason=podcast_static_demo_surface_requires_diff_hygiene_and_demo_smoke"
+  assert_has "$podcast_static_demo_output" "validation_profile_selected=podcast_static_demo_surface_profile"
+  assert_has "$podcast_static_demo_output" "validation_profile_status=ready_to_run"
+  assert_has "$podcast_static_demo_output" "validation_profile_escalation_required=false"
+  assert_has "$podcast_static_demo_output" "validation_profile_run_lanes=podcast_static_demo_surface"
+  assert_has "$podcast_static_demo_output" "validation_profile_primary_reason=podcast_static_demo_surface_requires_diff_hygiene_and_demo_smoke"
+
   git checkout -q -b csdlc-metadata-only "$base_sha"
   mkdir -p .csdlc/issues/1
   printf '{"phase":"bound"}\n' > .csdlc/issues/1/index.json

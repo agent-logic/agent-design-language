@@ -741,6 +741,36 @@ assert set(lane["matched_paths"]) == {
 }
 PY
 
+podcast_static_demo="$TMP/podcast-static-demo.txt"
+cat >"$podcast_static_demo" <<'EOF'
+A	demos/podcast/index.html
+A	demos/podcast/feed.xml
+A	demos/podcast/studio/podcast-studio.html
+A	demos/_preview/podcast/index.html
+EOF
+bash "$SCRIPT" --changed-files "$podcast_static_demo" --json >"$TMP/podcast-static-demo.json"
+python3 - <<'PY' "$TMP/podcast-static-demo.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_lane_plan.v1"
+assert profile["aggregate_status"] == "selected"
+assert profile["pr_publication_sufficient"] is True
+assert set(profile["lanes"].keys()) == {"podcast_static_demo_surface"}
+lane = profile["lanes"]["podcast_static_demo_surface"]
+assert lane["status"] == "selected"
+assert lane["proof_role"] == "demo_contract"
+assert lane["owner"] == "site"
+assert lane["run_command"] == "git diff --check"
+assert set(lane["matched_paths"]) == {
+    "demos/podcast/index.html",
+    "demos/podcast/feed.xml",
+    "demos/podcast/studio/podcast-studio.html",
+    "demos/_preview/podcast/index.html",
+}
+PY
+
 unity_observatory="$TMP/unity-observatory.txt"
 cat >"$unity_observatory" <<'EOF'
 M	adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh

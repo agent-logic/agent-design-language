@@ -65,6 +65,34 @@ assert recorded["status"] == "ready_to_run"
 assert recorded == stdout_profile
 PY
 
+podcast_static_demo="$TMP/podcast-static-demo.txt"
+cat >"$podcast_static_demo" <<'EOF'
+A	demos/podcast/index.html
+A	demos/podcast/feed.xml
+A	demos/podcast/studio/podcast-studio.html
+A	demos/_preview/podcast/index.html
+EOF
+bash "$SCRIPT" --changed-files "$podcast_static_demo" --json >"$TMP/podcast-static-demo.json"
+python3 - <<'PY' "$TMP/podcast-static-demo.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_profile.v1"
+assert profile["selected_profile"] == "podcast_static_demo_surface_profile"
+assert profile["status"] == "ready_to_run"
+assert profile["pr_publication_sufficient"] is True
+assert [item["lane_id"] for item in profile["run"]] == ["podcast_static_demo_surface"]
+surface = profile["behavior_surfaces"][0]
+assert surface["id"] == "demo_contract_podcast_static_demo_surface"
+assert surface["owner"] == "site"
+assert surface["proof_role"] == "demo_contract"
+assert surface["resource_class"] == "tiny"
+assert profile["escalation"]["required"] is False
+assert profile["escalation"]["reasons"] == []
+assert profile["diagnostics"] == []
+PY
+
 docs_run_log_dir="$TMP/build-action-logs"
 bash "$SCRIPT" \
   --changed-files "$docs_only" \

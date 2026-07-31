@@ -470,6 +470,27 @@
       "reason": "v0917_unity_observatory_integrated_rollup_requires_retained_proof_chain_check"
     },
     {
+      "id": "podcast_static_demo_surface",
+      "lane_class": "docs",
+      "default_surface": "docs",
+      "owner": "site",
+      "proof_role": "demo_contract",
+      "requirement_ids": [
+        "podcast_static_demo_surface"
+      ],
+      "path_selectors": [
+        "demos/podcast/**",
+        "demos/_preview/podcast/**"
+      ],
+      "path_hints": [
+        "demos/podcast/",
+        "demos/_preview/podcast/"
+      ],
+      "command": "git diff --check",
+      "run_command": "git diff --check",
+      "reason": "podcast_static_demo_surface_requires_diff_hygiene_and_demo_smoke"
+    },
+    {
       "id": "html_observatory_v0917_runtime_surface",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
