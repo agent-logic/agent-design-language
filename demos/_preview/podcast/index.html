@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
 <title>Synthetic Minds Podcast</title>
-<script src="./studio/support.js"></script>
+<script src="../../podcast/studio/support.js"></script>
 </head>
 <body>
 <x-dc>
@@ -12,7 +13,7 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="./studio/image-slot.js"></script>
+<script src="../../podcast/studio/image-slot.js"></script>
 <style>
   body { margin:0; background:oklch(98.5% 0.004 250); font-family:'Plus Jakarta Sans',sans-serif; }
   * { box-sizing:border-box; }
@@ -25,7 +26,7 @@
   <!-- NAV -->
   <header style="position:sticky; top:18px; z-index:50; max-width:1240px; margin:18px auto 0; display:flex; align-items:center; justify-content:space-between; padding:14px 28px; background:#fff; border-radius:999px; box-shadow:0 10px 30px -12px rgba(30,40,80,0.15);">
     <div style="display:flex; align-items:center; gap:10px;">
-      <img src="./studio/uploads/agent-logic-logo.svg" alt="Agent Logic" style="height:56px; width:auto; max-width:230px; display:block; flex-shrink:0;">
+      <img src="../../podcast/studio/uploads/agent-logic-logo.svg" alt="Agent Logic" style="height:56px; width:auto; max-width:230px; display:block; flex-shrink:0;">
       <span style="font-weight:500; font-size:18px; letter-spacing:-0.01em; color:oklch(18% 0.01 260);">Synthetic <span style="color:oklch(55% 0.2 265); font-weight:600;">Minds</span> Podcast</span>
     </div>
     <nav style="display:flex; align-items:center; gap:32px;">
@@ -331,7 +332,7 @@
     <h2 style="font-size:32px; font-weight:800; letter-spacing:-0.02em; margin:0 0 16px; color:oklch(15% 0.01 260);">Never miss an episode</h2>
     <p style="color:oklch(45% 0.01 260); font-size:15px; margin:0 0 32px;">Planning for weekly Friday conversations, straight from the machines.</p>
     <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
-      <a href="feed.xml" style="display:inline-block; background:oklch(18% 0.01 260); color:#fff; padding:15px 30px; border-radius:999px; font-weight:700; font-size:14px; text-decoration:none;">Subscribe on your favorite app</a>
+      <a href="../../podcast/feed.xml" style="display:inline-block; background:oklch(18% 0.01 260); color:#fff; padding:15px 30px; border-radius:999px; font-weight:700; font-size:14px; text-decoration:none;">Subscribe on your favorite app</a>
       <a href="mailto:podcast@agent-logic.ai" style="display:inline-block; border:1px solid oklch(86% 0.02 265); background:#fff; color:oklch(18% 0.01 260); padding:15px 30px; border-radius:999px; font-weight:700; font-size:14px; text-decoration:none;">Contact the studio</a>
     </div>
   </section>
@@ -339,7 +340,7 @@
   <!-- FOOTER -->
   <footer style="padding:36px 48px; border-top:1px solid oklch(92% 0.01 260); display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; color:oklch(55% 0.01 260); font-size:13px;">
     <div style="display:flex; align-items:center; gap:10px;">
-      <img src="./studio/uploads/agent-logic-logo.svg" alt="Agent Logic" style="height:34px; width:auto; max-width:170px; display:block;">
+      <img src="../../podcast/studio/uploads/agent-logic-logo.svg" alt="Agent Logic" style="height:34px; width:auto; max-width:170px; display:block;">
       <span style="font-weight:500; color:oklch(25% 0.01 260);">Synthetic <span style="color:oklch(55% 0.2 265); font-weight:600;">Minds</span> Podcast</span>
     </div>
     <div style="line-height:1.6;">
@@ -399,7 +400,7 @@ class Component extends DCLogic {
       guests: "Launch wiring check",
       date: "Local smoke",
       length: "00:08",
-      audioSrc: "audio/meet-the-ai-coworkers.wav"
+      audioSrc: "../../podcast/audio/meet-the-ai-coworkers.wav"
     };
     return {
       platforms: ["RSS", "Apple Podcasts after approval", "Spotify after approval", "YouTube Music after approval"],

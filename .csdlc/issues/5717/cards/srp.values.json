@@ -7,25 +7,23 @@
     "title": "[v0.91.8][podcast][ui] Update podcast studio copy from integrated design",
     "slug": "v0-91-8-podcast-ui-update-podcast-studio-copy-from-integrated-design",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 13
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5715\n.csdlc/issues/5717\n.csdlc/prepared/issues/5717\n.csdlc/evidence/5717\ndemos/podcast/studio-reference/REFERENCE_DIGESTS.txt\ndemos/podcast/studio-reference/podcast-studio.html\ndemos/podcast/studio-reference/uploads/agent-logic-logo.svg\ndemos/podcast/studio/REFERENCE_DIGESTS.txt\ndemos/podcast/studio/podcast-studio.html\ndemos/podcast/studio/reference.sha256\ndemos/podcast/studio/uploads/agent-logic-logo.svg",
-      "review_revision": "git-blake3:64b747a9cd9601e2c6444930c38a5dc32f99397b:fe8ae0a0e65d286ccbee0e218380af44e4c43aae0caaeca0f374967c2e05f730",
-      "reviewer": "gemini-3.1-pro-preview",
+      "review_scope": ".csdlc/issues/5717\n.csdlc/prepared/issues/5717\ndemos/_preview/podcast/index.html\ndemos/podcast/LAUNCH_READINESS.md\ndemos/podcast/episodes/meet-the-ai-coworkers/index.html\ndemos/podcast/feed.xml\ndemos/podcast/index.html",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the studio page satisfy each operator-requested copy/logo/layout fix?",
         "Are fake historical episode numbers removed in favor of proposed launch topics starting at 1?",
         "Do the studio route, assets, audio artifact, and RSS feed still validate?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The generated page intentionally uses relative feed and audio links; deployment must preserve the current demos/podcast/studio parent-child layout where ../feed.xml and ../audio/meet-the-ai-coworkers.wav resolve."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

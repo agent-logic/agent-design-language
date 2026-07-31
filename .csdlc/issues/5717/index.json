@@ -3,13 +3,13 @@
   "issue": 5717,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "076248de115adaa0f9c9eff8cbbd8ff162b2d01f5bdb2d6a9d316c57f9ea4b83",
-  "phase": "published",
-  "generation": 4,
-  "digest": "f418929d52d00c12e48f21f4602b5d085e644a3810d5652c4f70903d93daacf7",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "f81b170daa674b2355a3f039702c7154be18c5493a4b7e0bfbcb3c619fef31ea",
   "claim": {
     "id": "claim-5717-podcast-studio-copy",
     "owner": "codex:5717-execution",
-    "generation": 4,
+    "generation": 13,
     "acquired_unix_seconds": 1785361490,
     "expires_unix_seconds": 1785966290,
     "heartbeat_unix_seconds": 1785361490,
@@ -20,6 +20,11 @@
       ".csdlc/issues/5717",
       ".csdlc/locks/5717.lock",
       ".csdlc/prepared/issues/5717",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html",
       "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
       "demos/podcast/studio-reference/podcast-studio.html",
       "demos/podcast/studio-reference/uploads/agent-logic-logo.png",
@@ -33,57 +38,21 @@
     "purpose": "Update the integrated podcast studio page copy and logo for launch readiness while preserving the #5715 route, assets, audio, and RSS wiring"
   },
   "review_assignment": {
-    "reviewer": "gemini-3.1-pro-preview",
+    "reviewer": "codex-subagent:019fb611-66ff-7df3-98cc-958fa9f7f647",
     "assigned_by": "codex:5717-execution",
-    "revision": "git-blake3:64b747a9cd9601e2c6444930c38a5dc32f99397b:fe8ae0a0e65d286ccbee0e218380af44e4c43aae0caaeca0f374967c2e05f730",
+    "revision": "git-blake3:f7c13481a5783dc5ee81b26dd761686a1b53be75:14ba0929895cdd70bac3132a023cc5134be7aa9f2e26276f4c9a47eb1196dc79",
     "scope": [
-      ".csdlc/issues/5715",
       ".csdlc/issues/5717",
       ".csdlc/prepared/issues/5717",
-      ".csdlc/evidence/5717",
-      "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
-      "demos/podcast/studio-reference/podcast-studio.html",
-      "demos/podcast/studio-reference/uploads/agent-logic-logo.svg",
-      "demos/podcast/studio/REFERENCE_DIGESTS.txt",
-      "demos/podcast/studio/podcast-studio.html",
-      "demos/podcast/studio/reference.sha256",
-      "demos/podcast/studio/uploads/agent-logic-logo.svg"
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html"
     ]
   },
-  "review": {
-    "reviewer": "gemini-3.1-pro-preview",
-    "scope": [
-      ".csdlc/issues/5715",
-      ".csdlc/issues/5717",
-      ".csdlc/prepared/issues/5717",
-      ".csdlc/evidence/5717",
-      "demos/podcast/studio-reference/REFERENCE_DIGESTS.txt",
-      "demos/podcast/studio-reference/podcast-studio.html",
-      "demos/podcast/studio-reference/uploads/agent-logic-logo.svg",
-      "demos/podcast/studio/REFERENCE_DIGESTS.txt",
-      "demos/podcast/studio/podcast-studio.html",
-      "demos/podcast/studio/reference.sha256",
-      "demos/podcast/studio/uploads/agent-logic-logo.svg"
-    ],
-    "reviewed_revision": "git-blake3:64b747a9cd9601e2c6444930c38a5dc32f99397b:fe8ae0a0e65d286ccbee0e218380af44e4c43aae0caaeca0f374967c2e05f730",
-    "findings": [],
-    "residual_risks": [
-      "The generated page intentionally uses relative feed and audio links; deployment must preserve the current demos/podcast/studio parent-child layout where ../feed.xml and ../audio/meet-the-ai-coworkers.wav resolve."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5717,
-    "pull_request": 5720,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5720",
-    "base": "codex/5715-podcast-studio-design-integration",
-    "head": "codex/5717-podcast-studio-copy",
-    "revision": "git-blake3:a93ed685633760d4424dd7524cd715cf33cfcaea:51a17e1214455d0d913b58090d3d101ba5b5902b1544272c4bf8cdfbbfefcf27",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -97,34 +66,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3eefaefd0435f365e868e47fba6c670a51b8a18726c436933d8c94d77285045d",
+      "values_digest": "fef18e6dc58c58891f54caa8d0a718413ef4c96d94d84ff6852e604934aa4e04",
       "rendered_digest": "72b19c7db1294878ef02538e3c2c1afcd75c4962eed345a546782b4c4a01703c",
       "ast_digest": "44990155f81bd4fe0b63937ab141c8169a0b74a8c485f0f1ad1c67f06d9502dd"
     },
     "stp": {
-      "values_digest": "950c4d2494a21f514cfe1763a56bb598902545d5b0d472f59f58c2a3898b35db",
+      "values_digest": "9e595457e3314d605781ab7bc9edbcb9e0bcb6ff11b42402815dcee7ee063772",
       "rendered_digest": "79384f1b1112b72739525c66c07f15aaf6b41ff8d1d4d9692428171882b8141f",
       "ast_digest": "60a985e4b0af0ce1214f640fc699395f397face6fedd1ff9270f742992f7331a"
     },
     "spp": {
-      "values_digest": "fa6d7df1e29be2118d51bca11cf6252f64a4254881f8a49cc5200c7d6d09513d",
-      "rendered_digest": "28e613669030c5a2a9d4fd1fc5916d05013a7fede79a43e16c7475bd158e4ecc",
-      "ast_digest": "b7be51bebcc797093527fbf73e64ad8e991c4edd984f4c5a85eeda7d81be4302"
+      "values_digest": "d1458c6b6895c0dba239dc7a640bf2aebb33399c5a7be62afe5dd09bc07a35a0",
+      "rendered_digest": "d3b4f7483ba6b1141a655013189e5d14ae73794d4cabd676351ba3e292b9c1af",
+      "ast_digest": "a1410f989e1feab41cd381de6aa45590c9d044cec08b55dc55effad879befb2e"
     },
     "vpp": {
-      "values_digest": "b5065d5ff2014e9acbcfe61e8579c9d394338b59820b6fa58b6fd689140d2497",
+      "values_digest": "a2ad337694e3bce6c4a67b9e2c4b355eb1ad90806a04fb84ed85b97a098b7c65",
       "rendered_digest": "d4b179d6ddfe7e069e109aac976bf47c9b190fa9ae5d17e5ab31011b5df07990",
       "ast_digest": "beb988a8127e2b82f642f57dae1be11765034e5e7375d161f975b12b60f8dc9d"
     },
     "srp": {
-      "values_digest": "8999aa0d2a5f7725dd1ddff18bce5b2de5d82105b8a9394c729bccea504d2d6f",
-      "rendered_digest": "8944b93152774ff192af790b0835ad6a5bddc708cbdbc3278bfbb0d1beceb1ac",
-      "ast_digest": "0216cde15c45c454e5ea92ff77f96cfd0e0168f4596044f2f223e8da6b8ef24f"
+      "values_digest": "82683f001d32d7213f02eac8a69e7a2cffe8f36b0d15fec1481d073679929d3d",
+      "rendered_digest": "d8254a6de80feed89563a4c42b0f28113a1edb7120029d7d6ec0a275b5e14e3f",
+      "ast_digest": "43c95aabb5c23da8d6aabfa403bc7089354881587540433033b1fad166c51c2f"
     },
     "sor": {
-      "values_digest": "8574b86ce15b765c6a85736564394b03edeac7a09a2b127c2006e7e86f56cfad",
-      "rendered_digest": "1a79b4c1a50ed333d5024e7b8b747cd9940a5be1a75b4c597bebe6d60f0177c8",
-      "ast_digest": "a0965426bfb33077bb9250f7bd6b27e26932093afbef709c6ca1606655f0e318"
+      "values_digest": "45c12cd2c688115c22d8751b2829c97bd11cedfea16c7a06ee67927db4cd5392",
+      "rendered_digest": "5fa9c9327a117da56d8ef1b66a69b3d3af689d2126a2fba39dfba987ca389693",
+      "ast_digest": "a30d9256f2c9bf79bc1b6b949a58bccdf98ec164ea4ccbbc0dbd97e0ab9a8b1b"
     }
   },
   "transitions": [
@@ -162,6 +131,13 @@
       "to": "published",
       "actor": "codex:5717-execution",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5717-execution",
+      "reason": "Recover stale review/publication truth after the operator approved additional launch-prep gates beyond the already published podcast studio copy PR."
     }
   ],
   "audit": [
@@ -227,6 +203,83 @@
       "actor": "codex:5717-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:5717-execution",
+      "reason": "Recover stale review/publication truth after the operator approved additional launch-prep gates beyond the already published podcast studio copy PR.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 5,
+      "actor": "codex:5717-execution",
+      "reason": "Extend #5717 from studio-copy polish into the operator-approved podcast launch-prep gates for hidden preview, production /podcast/ entrypoint, RSS/feed metadata, first episode page naming, and launch readiness truth.",
+      "operation": "{\"add_protected_paths\":[\"demos/_preview/podcast/index.html\",\"demos/podcast/LAUNCH_READINESS.md\",\"demos/podcast/episodes/meet-the-ai-coworkers/index.html\",\"demos/podcast/feed.xml\",\"demos/podcast/index.html\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 6,
+      "actor": "codex:5717-execution",
+      "reason": "Record the operator-approved launch-prep execution truth before exact-head review and PR refresh.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Prepared the Synthetic Minds Podcast surface for launch testing: promoted the polished studio design to the production `/podcast/` entrypoint, added an unlisted `/_preview/podcast/` route with noindex/nofollow, updated RSS metadata and owner/contact truth, aligned the first episode page naming, and added a launch-readiness packet covering gates 1-8 while preserving human review as post-PR.\",\"changes\":[\".csdlc/issues/5717\",\".csdlc/prepared/issues/5717\",\"demos/_preview/podcast/index.html\",\"demos/podcast/LAUNCH_READINESS.md\",\"demos/podcast/episodes/meet-the-ai-coworkers/index.html\",\"demos/podcast/feed.xml\",\"demos/podcast/index.html\",\"demos/podcast/studio/podcast-studio.html\",\"demos/podcast/studio/uploads/agent-logic-logo.svg\"],\"artifacts\":[\"demos/podcast/LAUNCH_READINESS.md\",\"http://127.0.0.1:8916/podcast/\",\"http://127.0.0.1:8916/_preview/podcast/\",\"http://127.0.0.1:8916/podcast/feed.xml\",\"http://127.0.0.1:8916/podcast/audio/meet-the-ai-coworkers.wav\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 7,
+      "actor": "codex:5717-execution",
+      "reason": "Record focused structural launch validation for the widened podcast launch-prep scope.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\"- <<'PY' ... podcast launch structural validation ... PY\"],\"purpose\":\"Validate required `/podcast/` and `/_preview/podcast/` source files, hidden-route noindex truth, contact link, RSS owner/title/enclosure metadata, enclosure byte length, and local HTML href/src references.\",\"outcome\":\"passed\",\"evidence_ref\":\"commentary: podcast launch structural validation PASS\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:5717-execution",
+      "reason": "Record local deploy-shape HTTP smoke validation for `/podcast/` and hidden preview.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"zsh\",\"-c\",\"for url in http://127.0.0.1:8916/podcast/ http://127.0.0.1:8916/_preview/podcast/ http://127.0.0.1:8916/podcast/feed.xml http://127.0.0.1:8916/podcast/audio/meet-the-ai-coworkers.wav; do curl -s -o /dev/null -w \\\"$url %{http_code} %{content_type} %{size_download}\\\\n\\\" \\\"$url\\\"; done\"],\"purpose\":\"Smoke-test the hosted route shape from a local server rooted at `demos/`: production page, hidden preview, RSS feed, and audio enclosure all return 200 with expected content types and byte counts.\",\"outcome\":\"passed\",\"evidence_ref\":\"commentary: /podcast 200 text/html 29237; /_preview/podcast 200 text/html 29361; /podcast/feed.xml 200 application/xml 1881; audio WAV 200 audio/x-wav 417644\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:5717-execution",
+      "reason": "Record diff hygiene validation before exact-head review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify launch-prep edits and typed lifecycle projections have no whitespace errors.\",\"outcome\":\"passed\",\"evidence_ref\":\"command output: no output, exit 0\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:5717-execution",
+      "reason": "Mark launch-prep page/feed/copy edits complete after implementing the widened operator-approved scope.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:5717-execution",
+      "reason": "Mark served podcast entrypoint and route-output updates complete after promoting the studio page to `/podcast/` and adding hidden preview.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:5717-execution",
+      "reason": "Mark focused studio/audio/RSS validation complete after structural, HTTP, browser, and diff hygiene checks passed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:5717-execution",
+      "reason": "Record focused validation after fixing bounded pre-PR review findings.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\"- <<'PY' ... podcast launch structural validation with review-fix assertions ... PY\"],\"purpose\":\"Revalidate the podcast launch-prep packet after pre-PR review fixes: Friday planned cadence, human guest invitation, directory availability as after-approval truth, smoke sample separated from proposed episodes, RSS trailer metadata, route files, feed enclosure length, contact button, and local asset references.\",\"outcome\":\"passed\",\"evidence_ref\":\"commentary: podcast launch structural validation PASS; HTTP deploy-shape smoke returned 200 for /podcast/, /_preview/podcast/, feed.xml, and WAV audio; git diff --check PASS\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:5717-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
