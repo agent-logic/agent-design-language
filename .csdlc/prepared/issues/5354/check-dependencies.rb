@@ -39,12 +39,28 @@ begin
   fail_gate("WP-14A ledger schema rejected") unless ledger["schema"] == "adl.wp14a.platform_acceptance_ledger.v1"
   fail_gate("WP-14A ledger does not pass") unless ledger["issue"] == ISSUE && ledger["status"] == "pass"
 
+  issue_json, issue_status = Open3.capture2e(
+    "gh", "issue", "view", ISSUE.to_s,
+    "--repo", "danielbaustin/agent-design-language",
+    "--json", "number,state,closed,closedAt,url"
+  )
+  fail_gate("live GitHub issue ##{ISSUE} lookup failed: #{issue_json.strip}") unless issue_status.success?
+  issue = JSON.parse(issue_json)
+  fail_gate("live GitHub issue ##{ISSUE} is not closed") unless
+    issue["number"] == ISSUE &&
+    issue["state"] == "CLOSED" &&
+    issue["closed"] == true &&
+    issue["closedAt"].to_s.match?(/\A\d{4}-\d{2}-\d{2}T/)
+
   puts JSON.generate(
     status: "pass",
     issue: 5354,
     dependency: ISSUE,
     dependency_merge_sha: MERGE_SHA,
     dependency_pr: 5726,
+    dependency_issue_state: issue["state"],
+    dependency_closed_at: issue["closedAt"],
+    dependency_url: issue["url"],
     revision: head,
     closeout_gate: "not_required"
   )
