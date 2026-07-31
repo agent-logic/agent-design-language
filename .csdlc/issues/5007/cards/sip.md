@@ -21,7 +21,7 @@ The existing preparation worktree contains a clean, committed, pushed, reviewed 
 ## Scope
 
 - Preparation only in `/Volumes/FastWork/adl-wp-5007` on `codex/5007-v0918-wp14-preparation`.
-- Integrate `origin/main` exact SHA 51bc5ae51b57c19dbab693af1c5a45142995f4e5 into the preparation branch.
+- Integrate `origin/main` exact SHA d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e into the preparation branch.
 - Complete the six issue-specific cards plus reviewed design/diagram for the later Memory Palace ADR acceptance execution.
 - Name exact dependencies, intended paths, COTS boundary, LoC/time budgets, PVF lanes, rollback, and no-deferral boundaries.
 - Retain one bounded GPT-5.5 preparation review and fix preparation-only findings.

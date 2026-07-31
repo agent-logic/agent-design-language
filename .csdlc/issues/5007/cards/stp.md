@@ -20,11 +20,11 @@ Preparation only for #5007: prepare reviewed, issue-specific C-SDLC v2 cards/des
 - Reviewed preparation design `.csdlc/prepared/issues/5007/design.md` and Mermaid diagram `.csdlc/prepared/issues/5007/diagram.mmd`.
 - Bounded preparation review `.csdlc/evidence/5007/preparation/gpt-5.5-preparation-review.md` with actionable fixes reflected in the packet.
 - Focused preparation validation evidence under `.csdlc/evidence/5007/preparation/`.
-- Clean commit and push on `codex/5007-v0918-wp14-preparation` with `origin/main` 51bc5ae51b57c19dbab693af1c5a45142995f4e5 integrated.
+- Clean commit and push on `codex/5007-v0918-wp14-preparation` with `origin/main` d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e integrated.
 
 ## Acceptance
 
-1. AC1: `origin/main` is integrated at exact SHA 51bc5ae51b57c19dbab693af1c5a45142995f4e5 on branch codex/5007-v0918-wp14-preparation in `/Volumes/FastWork/adl-wp-5007`.
+1. AC1: `origin/main` is integrated at exact SHA d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e on branch codex/5007-v0918-wp14-preparation in `/Volumes/FastWork/adl-wp-5007`.
 2. AC2: All six #5007 cards are issue-specific and name the preparation-only boundary, actual #4760 execution gate, exact dependencies, COTS limits, intended paths, LoC/time budgets, PVF lanes, rollback, and no-deferral policy.
 3. AC3: Reviewed design and Mermaid diagram describe the Memory Palace ADR acceptance flow without drafting or accepting the ADR.
 4. AC4: A bounded GPT-5.5 preparation review is retained, all actionable preparation findings are fixed, and review truth does not claim ADR execution readiness.
@@ -38,7 +38,7 @@ Preparation only for #5007: prepare reviewed, issue-specific C-SDLC v2 cards/des
 - #4771 long-running context continuity proof: CLOSED, proof must be consumed directly during execution.
 - ADR 0051 deferred Chronosense and Memory Palace disposition.
 - WP-21 parent #5362 and v0.91.8 issue-wave routing for #5007.
-- `origin/main` exact SHA 51bc5ae51b57c19dbab693af1c5a45142995f4e5.
+- `origin/main` exact SHA d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e.
 
 ## Inputs
 

@@ -1,14 +1,14 @@
 # #5007 Memory Palace Proof To Claim Table
 
-Source proof is PR #5740 for #4760 at head
-`94156d55d0a1f4bfda7ce32ac136437520325906`. GitHub reported the PR as
-non-draft, with merge state blocked and review pending at observation time.
-This table therefore records ready proof evidence without claiming merge,
-closure, or `main` availability.
+Source proof is PR #5740 for #4760 at final head
+`9719252262913351144a20adf0affb7ed4b5480d`, merged through
+`d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e`. GitHub reports #4760 closed after
+that merge. This table therefore records final merged proof evidence while
+keeping #5007 limited to ADR acceptance and evidence mapping.
 
 | #5007 ADR claim | #4760 evidence | Accepted boundary |
 | --- | --- | --- |
-| Memory Palace has an implementation, not only planning text. | `adl/src/memory_palace.rs`; #4760 SOR lists the implementation and ready publication. | Ready PR proof, not merged source. |
+| Memory Palace has an implementation, not only planning text. | `adl/src/memory_palace.rs`; #4760 SOR lists the implementation and ready publication; PR #5740 merged at final head `9719252262913351144a20adf0affb7ed4b5480d`. | Merged #4760 proof, not new #5007 runtime work. |
 | Memory Palace emits deterministic handoff packets. | `context_packet_bytes`; `memory_palace_packet_is_deterministic_after_canonical_ordering`; `memory_palace_fixture_builds_deterministic_obs_mem_handoff`. | Deterministic for the MVP input schema and canonical ordering. |
 | Memory Palace consumes ObsMem-shaped records. | `MemoryPalaceInput.records: Vec<MemoryRecord>` and citation validation against `MemoryCitation`. | ObsMem remains the underlying record/citation substrate. |
 | Chronosense continuity and temporal anchors are consumed. | `MemoryTemporalAnchor`, `required_continuity_id`, stale/future temporal rejection, continuity mismatch rejection. | Memory Palace validates and carries anchors; it does not own time. |

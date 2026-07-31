@@ -18,7 +18,7 @@ docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md
 
 ## Prompts
 
-- Does the packet keep #5007 execution explicitly blocked on actual completed #4760 Memory Palace implementation proof?
+- Does the packet consume actual completed #4760 Memory Palace implementation proof without widening #5007 beyond ADR acceptance?
 - Are exact dependencies, intended paths, COTS, LoC/time budgets, PVF lanes, rollback, and no-deferral boundaries present and issue-local?
 - Do the design and diagram describe the future accepted ADR flow without drafting or accepting the ADR?
 - Are stale claim reconciliation and typed closeout receipts treated as execution-time lifecycle truth rather than preparation blockers?
@@ -34,7 +34,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- #4760 proof is surfaced by ready PR #5740 at head 94156d55d0a1f4bfda7ce32ac136437520325906 and remains unmerged/unclosed; ADR 0058 preserves that boundary and should be refreshed if #5740 changes before merge.
+- #4760 proof is surfaced by merged PR #5740 at final head 9719252262913351144a20adf0affb7ed4b5480d with merge d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e; ADR 0058 preserves the bounded #4760 proof scope.
 - #5007 review covers the ADR decision packet, ADR index, and v0.91.8 ADR plan updates; runtime proof remains #4760 scope and was not rerun for this docs/decision PR.
 
 ## Review Result

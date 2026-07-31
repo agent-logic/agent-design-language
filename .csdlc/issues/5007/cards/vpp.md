@@ -91,7 +91,7 @@ Diagram: .csdlc/prepared/issues/5007/diagram.mmd
     "argv": [
       "rg",
       "-n",
-      "#4760|51bc5ae51b57c19dbab693af1c5a45142995f4e5|0058-memory-palace|gpt-5.5|no-deferral|COTS|PVF",
+      "#4760|9719252262913351144a20adf0affb7ed4b5480d|d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e|0058-memory-palace|gpt-5.5|no-deferral|COTS|PVF",
       ".csdlc/issues/5007",
       ".csdlc/prepared/issues/5007"
     ],
@@ -114,7 +114,7 @@ Tokens: 2000
 
 - `git diff --check -- .csdlc/issues/5007 .csdlc/prepared/issues/5007 .csdlc/evidence/5007/preparation`
 - `cargo run --manifest-path csdlc-v2/Cargo.toml --bin csdlc-doctor -- --repo . --issue 5007`
-- `rg -n #4760|51bc5ae51b57c19dbab693af1c5a45142995f4e5|0058-memory-palace|gpt-5.5|no-deferral|COTS|PVF .csdlc/issues/5007 .csdlc/prepared/issues/5007`
+- `rg -n #4760|9719252262913351144a20adf0affb7ed4b5480d|d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e|0058-memory-palace|gpt-5.5|no-deferral|COTS|PVF .csdlc/issues/5007 .csdlc/prepared/issues/5007`
 
 ## Failure Semantics
 

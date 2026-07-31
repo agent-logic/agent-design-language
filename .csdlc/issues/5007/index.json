@@ -24,7 +24,7 @@
       "docs/adr/README.md",
       "docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md"
     ],
-    "purpose": "Execution of #5007 Memory Palace ADR decision outcome using real #4760 proof surfaced by ready PR #5740; no merge or closeout."
+    "purpose": "Execution of #5007 Memory Palace ADR decision outcome using real #4760 proof merged by PR #5740; no #5007 closeout."
   },
   "review_assignment": null,
   "review": {
@@ -37,7 +37,7 @@
     "reviewed_revision": "git-blake3:a343a68176eac5ae15811c398e468748450acd72:e916963e3d8e29dba0cdb5a8cc6f1e502061fe2254f8c0ccf5f3ce050ae310a6",
     "findings": [],
     "residual_risks": [
-      "#4760 proof is surfaced by ready PR #5740 at head 94156d55d0a1f4bfda7ce32ac136437520325906 and remains unmerged/unclosed; ADR 0058 preserves that boundary and should be refreshed if #5740 changes before merge.",
+      "#4760 proof is surfaced by merged PR #5740 at final head 9719252262913351144a20adf0affb7ed4b5480d with merge d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e; ADR 0058 preserves the bounded #4760 proof scope.",
       "#5007 review covers the ADR decision packet, ADR index, and v0.91.8 ADR plan updates; runtime proof remains #4760 scope and was not rerun for this docs/decision PR."
     ],
     "completed": true,

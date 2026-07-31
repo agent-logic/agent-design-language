@@ -7,14 +7,16 @@
 - Related PRs: #5740
 - Related ADRs: ADR 0007, ADR 0010, ADR 0011, ADR 0013, ADR 0051
 - Source evidence:
-  - PR #5740, ready/non-draft Memory Palace proof head `94156d55d0a1f4bfda7ce32ac136437520325906`
-  - #4760 SOR at PR #5740 head: `.csdlc/issues/4760/cards/sor.md`
-  - #4760 review at PR #5740 head: `.csdlc/issues/4760/cards/srp.md`
-  - #4760 focused proof at PR #5740 head: `.csdlc/evidence/4760/memory-palace-focused-runtime.log`
-  - #4760 diff hygiene at PR #5740 head: `.csdlc/evidence/4760/diff-hygiene.log`
-  - #4760 implementation at PR #5740 head: `adl/src/memory_palace.rs`
-  - #4760 runtime consumer hook at PR #5740 head: `adl/src/long_lived_agent.rs`
-  - #4760 tests and fixture at PR #5740 head: `adl/tests/memory_palace_tests.rs` and `adl/tests/fixtures/memory_palace/long_running_context.json`
+  - PR #5740, merged Memory Palace proof head `9719252262913351144a20adf0affb7ed4b5480d`
+    with merge commit `d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e`
+  - GitHub issue #4760 observed closed after PR #5740 merged
+  - #4760 SOR at merged PR #5740 head: `.csdlc/issues/4760/cards/sor.md`
+  - #4760 review at merged PR #5740 head: `.csdlc/issues/4760/cards/srp.md`
+  - #4760 focused proof at merged PR #5740 head: `.csdlc/evidence/4760/memory-palace-focused-runtime.log`
+  - #4760 diff hygiene at merged PR #5740 head: `.csdlc/evidence/4760/diff-hygiene.log`
+  - #4760 implementation at merged PR #5740 head: `adl/src/memory_palace.rs`
+  - #4760 runtime consumer hook at merged PR #5740 head: `adl/src/long_lived_agent.rs`
+  - #4760 tests and fixture at merged PR #5740 head: `adl/tests/memory_palace_tests.rs` and `adl/tests/fixtures/memory_palace/long_running_context.json`
   - `docs/adr/0051-chronosense-and-memory-palace-adr-disposition.md`
 
 ## Context
@@ -25,11 +27,11 @@ needed a concrete Memory Palace handoff path, continuity semantics, storage and
 retrieval boundaries, negative behavior, and long-lived-agent runtime
 consumption.
 
-PR #5740 supplies that proof surface for #4760 at head
-`94156d55d0a1f4bfda7ce32ac136437520325906`. The PR is ready/non-draft, and the
-#4760 SOR records `Publication: ready` and `Merge: not_merged`. This ADR
-therefore accepts the architecture direction from the ready proof surface while
-not claiming #5740 has merged or #4760 has closed.
+PR #5740 supplied that proof surface for #4760 at final head
+`9719252262913351144a20adf0affb7ed4b5480d` and merged through
+`d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e`, closing #4760. This ADR therefore
+accepts the architecture direction from the final merged #4760 proof surface
+while keeping #5007 limited to the ADR decision and evidence-mapping outcome.
 
 ## Decision
 
@@ -67,7 +69,7 @@ and retains it in `cycle_manifest.artifacts`.
 
 | Claim | Evidence | Decision boundary |
 | --- | --- | --- |
-| Memory Palace has a concrete implementation surface. | PR #5740 head `94156d55d0a1f4bfda7ce32ac136437520325906`, `adl/src/memory_palace.rs`, #4760 SOR. | Accepted as a ready PR proof surface; not claimed as merged to `main`. |
+| Memory Palace has a concrete implementation surface. | PR #5740 final head `9719252262913351144a20adf0affb7ed4b5480d`, merge `d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e`, `adl/src/memory_palace.rs`, #4760 SOR. | Accepted as the merged #4760 proof surface; #5007 adds no runtime implementation. |
 | Packets are deterministic and replay-stable. | `memory_palace_packet_is_deterministic_after_canonical_ordering`, `memory_palace_fixture_builds_deterministic_obs_mem_handoff`, and `context_packet_bytes` proof in #4760 focused runtime log. | Deterministic packet generation is accepted for the bounded MVP input schema. |
 | Memory Palace consumes ObsMem-shaped records rather than replacing ObsMem. | `MemoryPalaceInput.records: Vec<MemoryRecord>`, citation validation, and fixture-driven tests. | ObsMem remains the record/citation substrate. |
 | Chronosense-compatible continuity and temporal boundaries are enforced. | `MemoryTemporalAnchor` validation, `required_continuity_id`, stale/future temporal rejection, and focused negative tests. | Memory Palace consumes temporal anchors; it does not become the time authority. |
@@ -79,15 +81,15 @@ The issue-local expanded table is retained at
 
 ## Consequences
 
-- ADR 0051's deferred Memory Palace obligation is satisfied by ready #4760 proof
+- ADR 0051's deferred Memory Palace obligation is satisfied by merged #4760 proof
   rather than by planning intent.
 - v0.92 handoff planning may refer to Memory Palace as the accepted bounded
-  context-handoff architecture once it also preserves the #5740 merge boundary.
+  context-handoff architecture while preserving the bounded #4760 proof scope.
 - Future Memory Palace work should extend the packet, topology, retrieval, or
   runtime-consumer contract through new evidence-backed issues rather than
   silently widening this ADR.
-- If #5740 changes before merge, #5007 review/publish truth must be refreshed
-  before relying on the changed proof.
+- Future changes after the #5740 merge require a new issue or ADR amendment
+  rather than retroactive scope expansion in #5007.
 
 ## Alternatives Considered
 
@@ -112,14 +114,15 @@ does not own clocks, temporal indexing, or distributed time truth.
 Local #5007 validation should prove documentation hygiene, source-reference
 grounding, and lifecycle truth. Runtime proof remains #4760's proof surface:
 `git diff --check` passed, and
-`.csdlc/prepared/issues/4760/validate_memory_palace.sh` passed at PR #5740 head,
-including five Memory Palace contract tests and two integration tests.
+`.csdlc/prepared/issues/4760/validate_memory_palace.sh` passed at PR #5740 final
+head, including five Memory Palace contract tests and two integration tests.
 
 ## Non-Claims
 
-- This ADR does not claim PR #5740 is merged.
-- This ADR does not claim #4760 is closed.
-- This ADR does not claim Memory Palace is present on `main` before #5740 lands.
+- This ADR does not add new runtime code beyond the merged #4760 implementation.
+- This ADR does not perform or claim typed C-SDLC closeout for #5007.
+- This ADR does not claim broad v0.92 readiness, release approval, or a universal
+  runtime memory migration.
 - This ADR does not claim long-running context is solved beyond the bounded MVP
   handoff packet and long-lived-agent consumer path proven by #4760.
 - This ADR does not authorize new runtime code, providers, AWS, databases, or
