@@ -4,8 +4,8 @@
     "template_version": "1.0.0",
     "issue": 4762,
     "repository": "danielbaustin/agent-design-language",
-    "title": "[v0.91.8][WP-14][birth-witnesses] Prepare #4762 birth witnesses and receipt package",
-    "slug": "v0918-wp14-birth-witnesses-receipt-prep-4762",
+    "title": "[v0.91.8][WP-21][birth-witnesses] Prepare #4762 birth witnesses and receipt package",
+    "slug": "v0918-wp21-birth-witnesses-receipt-prep-4762",
     "version": "v0.91.8",
     "generation": 0
   },
@@ -13,60 +13,101 @@
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
-      "summary": "Seed typed v2 preparation artifacts and leave witness/receipt execution to a later bound session.",
+      "plan_revision": 2,
+      "summary": "Prepare #4762 for later execution of an auditable birth witness register and receipt package while preserving the non-implementation boundary for this branch.",
       "steps": [
         {
           "id": "S1",
-          "action": "Inspect existing #4762 task context and preserve the birth-witnesses boundary.",
+          "action": "Integrate current origin/main into /Volumes/FastWork/adl-wp-4762 on codex/4762-v0918-wp14-preparation.",
           "acceptance_ids": [
-            "AC-2"
+            "AC1"
           ],
           "status": "completed"
         },
         {
           "id": "S2",
-          "action": "Generate minimal typed v2 cards, design, and diagram.",
+          "action": "Refresh SIP/STP/SPP/VPP/SRP/SOR so each card is issue-specific, preparation-only, and aligned with current WP-21 routing.",
           "acceptance_ids": [
-            "AC-1",
-            "AC-2"
+            "AC1",
+            "AC5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
-          "action": "Run focused csdlc-doctor and report prep-only handoff.",
+          "action": "Author source-grounded design and Mermaid diagram for the later witness/receipt package.",
           "acceptance_ids": [
-            "AC-3"
+            "AC2",
+            "AC3"
           ],
-          "status": "pending"
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Record exact dependencies, intended issue-local paths, COTS stance, LoC/time/token budgets, PVF lanes, rollback criteria, and no-deferral criteria.",
+          "acceptance_ids": [
+            "AC3",
+            "AC4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S5",
+          "action": "Run bounded preparation review and apply preparation-scope fixes.",
+          "acceptance_ids": [
+            "AC6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S6",
+          "action": "Run preparation validation and record expected claim_not_live doctor blocker without reacquiring the claim.",
+          "acceptance_ids": [
+            "AC7"
+          ],
+          "status": "completed"
         }
       ],
-      "affected_areas": [],
+      "affected_areas": [
+        ".csdlc/issues/4762/cards/",
+        ".csdlc/prepared/issues/4762/",
+        ".csdlc/evidence/4762/preparation-validation/",
+        ".csdlc/evidence/4762/gpt-5.5-review/"
+      ],
       "invariants": [
-        "Preparation does not implement or publish #4762.",
-        "Witness and receipt truth must be auditable.",
-        "Birthday readiness remains proof-bound."
+        "Preparation does not implement, publish, merge, or close #4762.",
+        "The #4762 closure condition remains implementation plus integrated proof, not planning text.",
+        "The birth witness register and receipt package must be auditable and redaction-safe when later executed.",
+        "Missing birth evidence fails closed; it is not deferred as success.",
+        "The expired claim is not reacquired during preparation."
       ],
       "risks": [
-        "Witness inputs may not be complete when execution starts.",
-        "Legacy issue version labels may differ from the v0.91.8 preparation wave."
+        "Later execution may lack current identity, continuity, memory-grounding, capability, or reviewer evidence inputs.",
+        "The historical branch name says WP14 while current routing is WP-21; the preparation artifacts must keep that correction visible.",
+        "csdlc-doctor will continue to block on claim_not_live until execution-time claim acquisition occurs.",
+        "A model/provider review may be unavailable; if so, the evidence must record the provider refusal instead of fabricating a review."
       ],
       "execution_estimates": {
-        "elapsed_seconds": 7200,
-        "total_tokens": 40000,
+        "elapsed_seconds": 10800,
+        "total_tokens": 60000,
         "validation_seconds": 1200
       },
       "stop_conditions": [
-        "A live claim collision appears.",
-        "The focused doctor fails on v2 state integrity.",
-        "The task requires implementation or GitHub mutation."
+        "Later execution requires production code, scripts, schema validators, new dependencies, cloud services, or runtime changes before SPP/VPP are revised.",
+        "Any artifact claims birthday readiness, legal personhood, production citizenship, public launch readiness, or v0.93 governance completion.",
+        "The preparation review reports an actionable preparation-scope blocker that cannot be fixed in cards/design/evidence.",
+        "Local validation finds a blocker other than the expected expired-claim gate."
       ],
-      "replan_triggers": [],
+      "replan_triggers": [
+        "Later execution needs Rust, TypeScript, shell scripts, schema validators, provider calls, runtime integration, or cloud work.",
+        "WP-21 routing or v0.92 handoff source docs change after this preparation branch.",
+        "The intended witness/receipt artifact paths conflict with another issue or review packet.",
+        "Execution-time claim acquisition reports a live conflicting protected path."
+      ],
       "design_ref": ".csdlc/prepared/issues/4762/design.md",
-      "design_digest": "446028e1ad05a64a2f18d5fd768d39c563c62338f98f1c37c66365a71e464294",
+      "design_digest": "b5f8c25ab8d85349758fd810aaf8336e6fcd82a066a4fa2eebd9140e01c88c7b",
       "diagram_ref": ".csdlc/prepared/issues/4762/diagram.mmd",
-      "diagram_digest": "47fb2949faaf149c4aac48549b977b8c9d384fbf9d4c8cdeeb1c3948d4807859"
+      "diagram_digest": "fdf2d0b5c0e906788f5579d14b1ebbdb76c7ab1645da78803aacf6f2df076923"
     }
   }
 }

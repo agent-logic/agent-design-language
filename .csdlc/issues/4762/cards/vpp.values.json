@@ -4,8 +4,8 @@
     "template_version": "1.0.0",
     "issue": 4762,
     "repository": "danielbaustin/agent-design-language",
-    "title": "[v0.91.8][WP-14][birth-witnesses] Prepare #4762 birth witnesses and receipt package",
-    "slug": "v0918-wp14-birth-witnesses-receipt-prep-4762",
+    "title": "[v0.91.8][WP-21][birth-witnesses] Prepare #4762 birth witnesses and receipt package",
+    "slug": "v0918-wp21-birth-witnesses-receipt-prep-4762",
     "version": "v0.91.8",
     "generation": 0
   },
@@ -13,15 +13,88 @@
   "content": {
     "card_kind": "vpp",
     "values": {
-      "summary": "Execute the smallest proving validation DAG.",
+      "summary": "Run only preparation validation for #4762: diff hygiene, six-card surface integrity, bounded preparation review, and typed doctor with the expected expired-claim blocker recorded as execution-time work.",
       "lanes": [
         {
-          "lane": "prep-doctor",
-          "proof_role": "Focused v2 state integrity check only.",
+          "lane": "prep-diff-hygiene",
+          "proof_role": "Confirm #4762 issue-local preparation artifacts have no whitespace/conflict-marker issues.",
           "acceptance_ids": [
-            "AC-1",
-            "AC-2",
-            "AC-3"
+            "AC7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check",
+            "--",
+            ".csdlc/issues/4762",
+            ".csdlc/prepared/issues/4762",
+            ".csdlc/evidence/4762"
+          ],
+          "parallel_group": "prep-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "prep-card-surface",
+          "proof_role": "Confirm all six rendered cards and values files exist for #4762.",
+          "acceptance_ids": [
+            "AC1",
+            "AC4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 500,
+          "argv": [
+            "test",
+            "-f",
+            ".csdlc/issues/4762/cards/sip.md",
+            "-a",
+            "-f",
+            ".csdlc/issues/4762/cards/stp.md",
+            "-a",
+            "-f",
+            ".csdlc/issues/4762/cards/spp.md",
+            "-a",
+            "-f",
+            ".csdlc/issues/4762/cards/vpp.md",
+            "-a",
+            "-f",
+            ".csdlc/issues/4762/cards/srp.md",
+            "-a",
+            "-f",
+            ".csdlc/issues/4762/cards/sor.md",
+            "-a",
+            "-f",
+            ".csdlc/issues/4762/cards/sip.values.json",
+            "-a",
+            "-f",
+            ".csdlc/issues/4762/cards/stp.values.json",
+            "-a",
+            "-f",
+            ".csdlc/issues/4762/cards/spp.values.json",
+            "-a",
+            "-f",
+            ".csdlc/issues/4762/cards/vpp.values.json",
+            "-a",
+            "-f",
+            ".csdlc/issues/4762/cards/srp.values.json",
+            "-a",
+            "-f",
+            ".csdlc/issues/4762/cards/sor.values.json"
+          ],
+          "parallel_group": "prep-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "prep-doctor",
+          "proof_role": "Run typed doctor and record only the expected claim_not_live gate as deferred to execution-time acquisition.",
+          "acceptance_ids": [
+            "AC5",
+            "AC7"
           ],
           "deterministic": true,
           "resource_profile": "small",
@@ -29,20 +102,43 @@
           "budget_tokens": 1000,
           "argv": [
             "csdlc-doctor",
+            "--repo",
+            "/Volumes/FastWork/adl-wp-4762",
             "--issue",
             "4762"
           ],
-          "parallel_group": "prep",
+          "parallel_group": "prep-local",
+          "defer_reason": "Expected preparation-only blocker: existing claim is expired and must be acquired by the later execution session."
+        },
+        {
+          "lane": "prep-gpt-5.5-review",
+          "proof_role": "Bounded preparation review over cards, design, diagram, paths, budgets, PVF lanes, and non-claims.",
+          "acceptance_ids": [
+            "AC6"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 1200,
+          "budget_tokens": 6000,
+          "argv": [
+            "openai",
+            "responses.create",
+            "--model",
+            "gpt-5.5",
+            "--bounded-preparation-review",
+            "#4762"
+          ],
+          "parallel_group": "review",
           "defer_reason": null
         }
       ],
       "planned_validation_seconds": 1200,
-      "planned_validation_tokens": 10000,
-      "failure_policy": "Fail closed and report the exact v2 doctor or init error; do not repair outside the prep boundary.",
+      "planned_validation_tokens": 8000,
+      "failure_policy": "Fail closed on diff hygiene, missing card/value files, review-identified preparation blockers, or any doctor finding other than the expected claim_not_live. Do not reacquire the claim in preparation. Do not convert unavailable provider review into a fake pass.",
       "design_ref": ".csdlc/prepared/issues/4762/design.md",
-      "design_digest": "446028e1ad05a64a2f18d5fd768d39c563c62338f98f1c37c66365a71e464294",
+      "design_digest": "b5f8c25ab8d85349758fd810aaf8336e6fcd82a066a4fa2eebd9140e01c88c7b",
       "diagram_ref": ".csdlc/prepared/issues/4762/diagram.mmd",
-      "diagram_digest": "47fb2949faaf149c4aac48549b977b8c9d384fbf9d4c8cdeeb1c3948d4807859"
+      "diagram_digest": "fdf2d0b5c0e906788f5579d14b1ebbdb76c7ab1645da78803aacf6f2df076923"
     }
   }
 }
