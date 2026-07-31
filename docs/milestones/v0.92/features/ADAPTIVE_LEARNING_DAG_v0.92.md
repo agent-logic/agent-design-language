@@ -12,7 +12,7 @@
 
 ## Purpose
 
-Queue the full adaptive-learning work that follows the `v0.91.7` Runtime v2
+Queue the full adaptive-learning work that follows the historical `v0.91.7`
 reasoning-graph and loop-runtime tranche without creating GitHub issues yet.
 
 This feature turns the post-`#5104` loop-runtime boundary into the next
@@ -46,9 +46,10 @@ runtime evidence.
 
 After `#5104` is merged and consumed by v0.92 WP-01, the loop-status section
 for the upstream loop/runtime document should be updated only if the merged
-code and tests support these claims:
+code and tests still satisfy current Runtime v3 contracts for these claims:
 
-- Runtime v2 implements bounded loop execution over reasoning graphs.
+- Current Runtime v3 authority accepts bounded loop execution over reasoning
+  graphs.
 - Loop definitions bind to reasoning graphs and runtime state.
 - The runtime validates referenced graph nodes and edges.
 - Continuous loops are structurally valid before execution.
@@ -56,8 +57,8 @@ code and tests support these claims:
 - Loop execution emits deterministic replay events.
 - Resumed execution checks prior-state prefix continuity.
 - Forged, substituted, or discontinuous replay histories are rejected.
-- The operator surface exposes the proof through
-  `adl runtime-v2 loop-runtime`.
+- The operator surface exposes the current loop-runtime proof through the
+  Runtime v3 authority path.
 
 If any of those claims are missing or partial, WP-01 must record the gap rather
 than upgrading this feature to implementation truth.
@@ -115,7 +116,8 @@ Out of scope for v0.92 unless WP-01 explicitly promotes it with evidence:
 - `docs/milestones/v0.92/SPRINT_v0.92.md`
 - `docs/milestones/v0.92/DEMO_MATRIX_v0.92.md`
 - `docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md`
-- Runtime v2 reasoning-graph and loop-runtime code consumed from `#5104`
+- historical reasoning-graph and loop-runtime input consumed from `#5104` only
+  after current Runtime v3 requalification
 - Future v0.94 reasoning/provenance graph and signed/queryable trace work
 
 ## Validation
@@ -123,8 +125,8 @@ Out of scope for v0.92 unless WP-01 explicitly promotes it with evidence:
 WP-01 should validate this queue by checking:
 
 - the merged loop-runtime command and tests exist;
-- Runtime v2 loop proofs include negative cases for forged or discontinuous
-  replay histories;
+- current Runtime v3 loop proofs include negative cases for forged or
+  discontinuous replay histories;
 - the adaptive-learning work remains a v0.92 queue until implementation WPs
   exist;
 - no v0.92 birthday claim depends on unproved graph mutation.
