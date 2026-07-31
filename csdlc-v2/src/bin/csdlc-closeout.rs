@@ -10,8 +10,9 @@ use csdlc_v2::{
     classify_readiness, closeout_issue, reconcile_terminal_observation_head, record_readiness,
     CheckConclusion, CheckObservation, CheckRequirement, ConflictState, PostPublicationFinding,
     ReadinessRequest, RemoteReviewState, Store, TerminalDesignRepairRequest, TerminalDisposition,
-    TerminalObservation, TerminalPlanStepRepairRequest, TerminalReceipt,
-    TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest,
+    TerminalDispositionRepairRequest, TerminalObservation, TerminalPlanStepRepairRequest,
+    TerminalReceipt, TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
+    TerminalSorValidationRepairRequest,
 };
 use fs2::FileExt;
 use octocrab::models::pulls::{MergeableState, ReviewState};
@@ -62,6 +63,14 @@ enum Command {
         request: PathBuf,
     },
     RepairSorValidation {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    RepairDisposition {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    TransportReceipt {
         #[arg(long)]
         request: PathBuf,
     },
@@ -153,6 +162,15 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         Command::RepairSorValidation { request } => json(store.repair_terminal_sor_validation(
             read::<TerminalSorValidationRepairRequest>(request)?,
         )?),
+        Command::RepairDisposition { request } => json(
+            store
+                .repair_terminal_disposition(read::<TerminalDispositionRepairRequest>(request)?)?,
+        ),
+        Command::TransportReceipt { request } => json(store.transport_terminal_receipt(read::<
+            TerminalReceiptTransportRequest,
+        >(
+            request,
+        )?)?),
         Command::PreparePrune { issue } => {
             let record = store.load_record(*issue)?;
             if record.phase != csdlc_v2::LifecyclePhase::ClosedOut {

@@ -55,8 +55,9 @@ pub use model::{
     Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase, MigrationEvidence,
     NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest,
     ReviewAssignment, ReviewEvidence, ReviewFindingEvidence, TerminalDesignRepairRequest,
-    TerminalEvidence, TerminalPlanStepRepairRequest, TerminalReceipt,
-    TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest,
+    TerminalDispositionRepairRequest, TerminalEvidence, TerminalPlanStepRepairRequest,
+    TerminalReceipt, TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
+    TerminalSorValidationRepairRequest,
 };
 pub use operator::{
     build_and_install_binaries, install_binaries, resolve_operator_generation, verify_coexistence,
