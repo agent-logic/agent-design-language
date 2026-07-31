@@ -180,11 +180,11 @@ Implemented #4763 first-birthday docs and external launch surfaces as claim-boun
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

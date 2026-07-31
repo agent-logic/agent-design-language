@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-21][birthday-docs] Prepare first-birthday docs and external launch surfaces",
     "slug": "v0918-wp21-birthday-docs-launch-surfaces-prep-4763",
     "version": "v0.91.8",
-    "generation": 10
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
@@ -173,8 +173,8 @@
           "evidence_ref": "Typed transition failed closed with reconciliation_required: terminal authority for issue 5332 has different identity."
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": [

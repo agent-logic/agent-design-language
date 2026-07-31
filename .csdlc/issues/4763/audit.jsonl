@@ -11,3 +11,4 @@
 {"sequence":11,"generation":8,"actor":"codex:019fb9df-375d-7a73-a465-14e5da33a8d9","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":12,"generation":9,"actor":"codex:issue-4763-pr-5734-integration","reason":"Current origin/main integration and merged #4762 dependency evidence changed the reviewed substantive head; recover for one exact post-integration review before updating PR #5734.","operation":"recover_review"}
 {"sequence":13,"generation":10,"actor":"codex:repo-code-review-4763-post-integration","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":14,"generation":11,"actor":"codex:issue-4763-pr-5734-integration","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
