@@ -2,7 +2,7 @@
   "schema": "adl.v0918.wp15.convergence_proof.v1",
   "issue": 5354,
   "status": "pass",
-  "revision": "4a17b71c53a7baee09d93e793c539ad28f220253",
+  "revision": "379302441959e0fa73ab5a998d0dfc5e2196fb85",
   "predecessor": {
     "issue": 5384,
     "pull_request": 5726,
@@ -39,14 +39,14 @@
       "action": "submit",
       "work_kind": "agent_runtime",
       "work_id": "wp15-adl-plan-3a3c3de635969994",
-      "command_id": "wp15-4a17b71c53a7-20260731185715",
-      "correlation_id": "e7dd45250863b767e45a872eac9cea11",
+      "command_id": "wp15-379302441959-20260731190135",
+      "correlation_id": "1383f632b9ddb26511cc1aa2e8c2201c",
       "principal": "wp15-proof",
       "signing_key_id": "wp15-proof",
-      "unsigned_command_sha256": "30579ede1a9b8669639ded2aeae2eb0e653eddbc51102fba842a706811682fb0",
+      "unsigned_command_sha256": "284edf053ad9d67ff82364f53e309e1cd532f1282cb2c73eba6b383f60fcc735",
       "payload_sha256": "1dff296c34ba17c254f7eb64d23be46804eeb91e963519d9a173560c41908a70",
       "plan_output_sha256": "3a3c3de63596999456ee435ac50ad4d1b97490cfbc784efc55f3594820e7ed03",
-      "response_sha256": "1fe1b8f4299668a259a1f21e66c3572413b37062a261ac4f22e67a57181c34cf",
+      "response_sha256": "50704cf9f219922749342d4de9f89920a6099c2ba2536debe8a55953117b675b",
       "outcome": "submitted",
       "accepted_sequence": 1,
       "result_hash": "0a2550f7d19a96256081fc399912beed2cc842c0170f5206bfe13fdae23d20b9"
@@ -63,10 +63,10 @@
   },
   "csdlc_v2": {
     "selected_generation": "v2",
-    "phase": "published",
-    "generation": 10,
+    "phase": "reviewed",
+    "generation": 13,
     "claim_id": "claim-5354-v0918-wp15-reacquired",
-    "doctor_status": "block",
+    "doctor_status": "pass",
     "closeout_blocks_execution": false
   },
   "unity": {
@@ -133,10 +133,10 @@
   ],
   "proof_freeze": {
     "schema": "adl.v0918.wp15.proof_freeze.v1",
-    "packet_fingerprint_sha256": "b0766935ccfebb5c29036cca733f6f85b2fff7c57bed76ba54cc9fd6eb3fcb4e",
+    "packet_fingerprint_sha256": "02cc5ac9832440905e75e6db3d06e40af4fc511b8845ba1cefba3cae13e8ec6b",
     "frozen_paths_sha256": {
-      ".csdlc/issues/5354/index.json": "d7b24565aef6d0ad17d392b64f1d6417edf424905c5e3a41404636612338742e",
-      ".csdlc/issues/5354/audit.jsonl": "c47d69557c072b0cbefd27ccc8b5b4183759fd924a382f526a151113a9f4343a",
+      ".csdlc/issues/5354/index.json": "94014ff14c6ef0361b831a0df560f24fcec43c7f3be7b67b0f21f3c6b7389ee2",
+      ".csdlc/issues/5354/audit.jsonl": "aef2e64625b4dc7386b8a8603258250d8a1eeefa6c105713ab8c722d886adb09",
       ".csdlc/prepared/issues/5354/run-validation-lane.rb": "7be353ea9b2bf23726ac3b5645320ae882187e5d03ec629c97f4b8b92d3729fc",
       ".csdlc/prepared/issues/5354/check-dependencies.rb": "9480f7da49ca6e46de3cf80034f7663aaec19189114c5d8ff68cafbdf36da520",
       "adl-v2/Cargo.lock": "991bb6238ee07b8adf87cf3d41c57860777dfd25ed18d9fdc5f64fb792bee0b8",
@@ -146,8 +146,8 @@
     "result_hashes": {
       "plan_output_sha256": "3a3c3de63596999456ee435ac50ad4d1b97490cfbc784efc55f3594820e7ed03",
       "run_output_sha256": "f02858857dd6f73382ba2ea151edb17b4dd19fcbc4ec35fd88712e2f2408e599",
-      "live_control_response_sha256": "1fe1b8f4299668a259a1f21e66c3572413b37062a261ac4f22e67a57181c34cf",
-      "unsigned_command_sha256": "30579ede1a9b8669639ded2aeae2eb0e653eddbc51102fba842a706811682fb0"
+      "live_control_response_sha256": "50704cf9f219922749342d4de9f89920a6099c2ba2536debe8a55953117b675b",
+      "unsigned_command_sha256": "284edf053ad9d67ff82364f53e309e1cd532f1282cb2c73eba6b383f60fcc735"
     }
   }
 }
