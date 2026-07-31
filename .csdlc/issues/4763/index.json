@@ -3,13 +3,13 @@
   "issue": 4763,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "de570b0095a75b8aa7114f780283cfb652a4b99c9d315de2e0301efc58a83323",
-  "phase": "reviewed",
-  "generation": 8,
-  "digest": "242f88c19767477f71735d2e734167bae13dc356b4c56936139d2636879d9bb2",
+  "phase": "implemented",
+  "generation": 9,
+  "digest": "f59f7784a3480ca568d6bf02bcbd3d3891faf1b68f4239ddfe687d75907893db",
   "claim": {
     "id": "prep-4763-v0918-wp14-refresh-20260731",
     "owner": "codex:019f9ad4-4763-preparation-refresh",
-    "generation": 8,
+    "generation": 9,
     "acquired_unix_seconds": 1785525825,
     "expires_unix_seconds": 1786130625,
     "heartbeat_unix_seconds": 1785525825,
@@ -23,39 +23,7 @@
     "purpose": "Preparation-only refresh for #4763 first-birthday docs and external launch surfaces; no implementation, PR, publication, merge, or closeout."
   },
   "review_assignment": null,
-  "review": {
-    "reviewer": "gpt-5.5:bounded-implementation-review",
-    "scope": [
-      "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
-      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
-      "docs/milestones/v0.92/README.md",
-      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
-      "docs/milestones/v0.92/external_launch",
-      "docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md",
-      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
-      "docs/milestones/v0.92/features/README.md"
-    ],
-    "reviewed_revision": "git-blake3:5c9cc95afd69a74f95ffb268d1649947d4003b01:cbd0c65944db49fc41354d57341a626886845c0623500f60e2a85996acb1893b",
-    "findings": [
-      {
-        "id": "IMPL-1",
-        "severity": "p2",
-        "summary": "The typed issue phase is implemented, but historical planning cards and SOR follow-ups still contain preparation-era wording. Publication must not leave readers without current implementation truth.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:5c9cc95afd69a74f95ffb268d1649947d4003b01:cbd0c65944db49fc41354d57341a626886845c0623500f60e2a85996acb1893b",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "#4762 remains open, so the only truthful publication mode is a draft/stacked PR and pending-proof launch posture.",
-      "Typed claim-purpose transition remains blocked by unrelated #5332 terminal-authority reconciliation; SOR records the blocker, and csdlc-doctor/finalize passed under the existing live claim.",
-      "Some preparation-era card text remains as historical planning context because the implemented phase only permits bounded SOR/SRP truth updates."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -70,32 +38,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e620c1b595ed85edc0e45aa47c5820bffd3f61b7af61ad45faf36c008215f8b6",
+      "values_digest": "313ce1d9945ae69e10a2138791b35ec94fa51af81d2af5b213e41b3a9bc85fcc",
       "rendered_digest": "e2a837852a0cf17b65963d19fe34d7b2a6feae92bd583a035be2e97a33247881",
       "ast_digest": "589adbf9bce5296abecb6aecf382caf6c78fb490172791708636dc965330a598"
     },
     "stp": {
-      "values_digest": "627078dc2cbcd4a243ac7a5dd3319c6eb3ea0e69106f741a27450f3836889884",
+      "values_digest": "8f57b8d7afc0fa389fa6878c22a2b25cc132b63edfafa9f7233a1a8cb8f7eca1",
       "rendered_digest": "8c326aba5b35dd9eab725412b98fbb8bb3534cc276b16d1005dba2aaa26f78eb",
       "ast_digest": "c1e5bc20ae673cd2054701b9ee6e5f9882f16cefdc4ba35f60bd405df9122bec"
     },
     "spp": {
-      "values_digest": "3c2af24031a09b845eb3411ddd531e2b8e8746e2feeee5cfa40c3b60a5701f3a",
+      "values_digest": "2e51e5aeff7828b70d198b56cf652cd1a9636802da852ab34cdd77ff17ff4b16",
       "rendered_digest": "cbeb8d9d74a33c69a9537307d689db43f787dd54a0025a95c6e7e282e9d943ba",
       "ast_digest": "6c7909e9ab81d3d1dfba7a787ce793f5ba68da1591b26823300704ee3c42ad14"
     },
     "vpp": {
-      "values_digest": "d1e1a61552b807709f61e0a2430ae70579048ecb1aba7ffdeaeddacbbc9eb311",
+      "values_digest": "0a9712d004fc846c7731c86e85c34e08b3a4580ce3bce6c85006126a3ed3b649",
       "rendered_digest": "fad5e0e9ca739655592a7a4ffbd3885f1daa506ed5305abf782735b1b664540d",
       "ast_digest": "4709fdb235a000daf6fd128431b9a2fe2766a67ddb4b1944f33e6c80f2641ada"
     },
     "srp": {
-      "values_digest": "926c8fffada4a24ee1c690acc0cf699e55a1a76b2768637d8c8313b3e338fff7",
-      "rendered_digest": "35657cf74f157ac02f5597cd06eff7ee3a61cbf3196ee2ede570ebf62def746f",
-      "ast_digest": "0c50c6b80f63d41fd5a55d8c0c8da4a4d6e0bd3e96b1b0f7bc1049f013d64898"
+      "values_digest": "fbd47a968c98d58295dd4b415a2fd9abdeceb7669a65f3cd09dab50684d04d82",
+      "rendered_digest": "f7cd93aabdac1a69cc7ee18534ea03c063054ac0bfbb0cc89d59371005128570",
+      "ast_digest": "08d3d53b9ae01e2763a8a8c5253cc03943eecd12f14e740b33a32b37d8d825b6"
     },
     "sor": {
-      "values_digest": "0ab8dce7c834460c11bb51caf6a5a1121e1553682769387a8bddad68acdb2965",
+      "values_digest": "db7f760c9aa10c0919ed62a706e5795b2fda713a5d165cc4132d15931a52fa8b",
       "rendered_digest": "7f2072973bde8729fbdd4550f80521c6e2aaaec1034a7eb1f76d1c8af1cea546",
       "ast_digest": "456f8e7f6a7a4223e7795063da24f6765099673f25f90f3fb73d1531a355cb74"
     }
@@ -128,6 +96,13 @@
       "to": "reviewed",
       "actor": "codex:019fb9df-375d-7a73-a465-14e5da33a8d9",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-4763-pr-5734-integration",
+      "reason": "Current origin/main integration and merged #4762 dependency evidence changed the reviewed substantive head; recover for one exact post-integration review before updating PR #5734."
     }
   ],
   "audit": [
@@ -207,6 +182,13 @@
       "actor": "codex:019fb9df-375d-7a73-a465-14e5da33a8d9",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:issue-4763-pr-5734-integration",
+      "reason": "Current origin/main integration and merged #4762 dependency evidence changed the reviewed substantive head; recover for one exact post-integration review before updating PR #5734.",
+      "operation": "recover_review"
     }
   ]
 }
