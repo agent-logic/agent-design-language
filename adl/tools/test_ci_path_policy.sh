@@ -51,17 +51,20 @@ assert_file_order() {
 assert_current_coverage_workflow_contract() {
   local workflow="$ROOT_DIR/.github/workflows/ci.yaml"
   assert_file_has "$workflow" 'Determine PR fast coverage filters'
-  assert_file_has "$workflow" "if: github.event_name == 'pull_request' && steps.path-policy.outputs.coverage_required == 'true'"
+  assert_file_has "$workflow" "adl_coverage_workspace_fast_hosted:"
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.coverage_required == 'true' && needs.adl_path_policy.outputs.full_coverage_required != 'true'"
+  assert_file_has "$workflow" "if: github.event_name == 'pull_request' && !contains(github.event.pull_request.head.ref, 'csdlc-v2')"
   assert_file_has "$workflow" '--print-risk-nextest-expression > adl/coverage-impact-filter-expression.txt'
   assert_file_has "$workflow" 'filter_expression<<ADL_COVERAGE_EXPR'
   assert_file_has "$workflow" 'PR fast coverage summary (json)'
   # runtime-bounded-pr-fast-coverage-policy-change
-  assert_file_has "$workflow" "if: github.event_name == 'pull_request' && steps.path-policy.outputs.coverage_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.coverage-impact.outputs.needs_fast_summary == 'true'"
+  assert_file_has "$workflow" "if: github.event_name == 'pull_request' && steps.coverage-impact.outputs.needs_fast_summary == 'true'"
   assert_file_has "$workflow" 'bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"'
   assert_file_has "$workflow" 'PR coverage-impact preflight'
   assert_file_has "$workflow" 'args+=(--summary coverage-artifacts/workspace/adl/target/coverage-impact-summary.json)'
   assert_file_has "$workflow" 'args+=(--require-summary-for-risk)'
-  assert_file_has "$workflow" "if: steps.path-policy.outputs.full_coverage_required == 'true' || steps.coverage-impact.outputs.needs_fast_summary == 'true'"
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.full_coverage_required == 'true'"
+  assert_file_has "$workflow" "if: steps.path-policy.outputs.full_coverage_required == 'true'"
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh install-lld'
   assert_file_has "$workflow" 'bash adl/tools/setup_required_coverage_toolchain.sh configure "$GITHUB_ENV"'
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh verify'
@@ -70,11 +73,14 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" 'Coverage not required by path policy'
   assert_file_has "$workflow" "if: steps.path-policy.outputs.coverage_required != 'true'"
   assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-runtime-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
-  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-profraw-shard-${{ matrix.shard }}" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-aggregate-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
   assert_file_has "$workflow" 'Upload runtime coverage evidence'
   assert_file_has "$workflow" 'Upload workspace coverage evidence'
   assert_file_has "$workflow" 'name: adl-coverage-runtime-${{ github.run_id }}-${{ github.run_attempt }}'
   assert_file_has "$workflow" 'name: adl-coverage-workspace-${{ github.run_id }}-${{ github.run_attempt }}'
+  assert_file_has "$workflow" 'name: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}'
+  assert_file_has "$workflow" 'pattern: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-*'
   assert_file_has "$workflow" 'Coverage execution state: ${{ steps.path-policy.outputs.coverage_execution_state }}'
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh stats'
   assert_file_has "$workflow" "steps.coverage-toolchain.outputs.ready == 'true'"
@@ -195,9 +201,32 @@ name: nightly-coverage-ratchet
 on:
   workflow_dispatch:
 EOF
+  mkdir -p 'docs/日本語 folder'
+  printf 'portable UTF-8 path\n' > 'docs/日本語 folder/readme file.md'
   git add .
   git commit -q -m baseline
   base_sha="$(git rev-parse HEAD)"
+
+  printf 'invalid on Windows\n' > 'docs/windows:illegal.md'
+  git add 'docs/windows:illegal.md'
+  git commit -q -m windows-illegal-path
+  if "$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref "refs/pull/1/merge" >"$tmp_dir/windows-illegal.out" 2>"$tmp_dir/windows-illegal.err"; then
+    echo "expected path policy to reject a Windows-illegal tracked path" >&2
+    exit 1
+  fi
+  assert_file_has "$tmp_dir/windows-illegal.err" 'docs/windows:illegal.md'
+  git reset -q --hard "$base_sha"
+
+  newline_illegal_path=$'docs/portable\nwindows:illegal.md'
+  printf 'invalid suffix after newline\n' > "$newline_illegal_path"
+  git add "$newline_illegal_path"
+  git commit -q -m windows-illegal-path-after-newline
+  if "$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref "refs/pull/1/merge" >"$tmp_dir/windows-newline-illegal.out" 2>"$tmp_dir/windows-newline-illegal.err"; then
+    echo "expected path policy to reject a Windows-illegal component after an embedded newline" >&2
+    exit 1
+  fi
+  assert_file_has "$tmp_dir/windows-newline-illegal.err" 'windows:illegal.md'
+  git reset -q --hard "$base_sha"
 
   printf '\nmore docs\n' >> docs/readme.md
   git add docs/readme.md
@@ -933,6 +962,35 @@ EOF
   assert_has "$policy_surface_plus_demo_output" "coverage_lane=skip"
   assert_has "$policy_surface_plus_demo_output" "coverage_authority=not_required"
   assert_has "$policy_surface_plus_demo_output" "reason=coverage_policy_surface_tooling_change_runs_contract_validation"
+
+  git checkout -q -b podcast-launch-static-surface "$base_sha"
+  mkdir -p .csdlc/issues/5715 adl/tools demos/podcast/studio-reference demos/podcast/studio
+  printf '{"phase":"published"}\n' > .csdlc/issues/5715/index.json
+  printf '#!/usr/bin/env python3\nprint("generate podcast launch packet")\n' > adl/tools/generate_podcast_launch_packet.py
+  printf '#!/usr/bin/env python3\nprint("validate podcast launch packet")\n' > adl/tools/validate_podcast_launch_packet.py
+  printf '<!doctype html><title>Podcast</title>\n' > demos/podcast/index.html
+  printf '<!doctype html><title>Podcast Studio Reference</title>\n' > demos/podcast/studio-reference/podcast-studio.html
+  printf '<!doctype html><title>Podcast Studio</title>\n' > demos/podcast/studio/podcast-studio.html
+  printf 'sha256  podcast-studio.html\n' > demos/podcast/studio/reference.sha256
+  git add .csdlc/issues/5715/index.json adl/tools/generate_podcast_launch_packet.py adl/tools/validate_podcast_launch_packet.py demos/podcast/index.html demos/podcast/studio-reference/podcast-studio.html demos/podcast/studio/podcast-studio.html demos/podcast/studio/reference.sha256
+  git commit -q -m podcast-launch-static-surface
+  podcast_launch_static_head="$(git rev-parse HEAD)"
+
+  podcast_launch_static_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$podcast_launch_static_head" --ref "refs/pull/5716/merge")"
+  assert_has "$podcast_launch_static_output" "rust_required=false"
+  assert_has "$podcast_launch_static_output" "coverage_required=false"
+  assert_has "$podcast_launch_static_output" "full_coverage_required=false"
+  assert_has "$podcast_launch_static_output" "demo_smoke_required=true"
+  assert_has "$podcast_launch_static_output" "ci_contracts_required=true"
+  assert_has "$podcast_launch_static_output" "ci_path_policy_contracts_required=false"
+  assert_has "$podcast_launch_static_output" "coverage_lane=skip"
+  assert_has "$podcast_launch_static_output" "coverage_authority=not_required"
+  assert_has "$podcast_launch_static_output" "coverage_execution_state=skipped_by_path_policy"
+  assert_has "$podcast_launch_static_output" "validation_profile_status=ready_to_run"
+  assert_has "$podcast_launch_static_output" "validation_profile_escalation_required=false"
+  assert_has "$podcast_launch_static_output" "validation_profile_run_lanes=docs_diff_check,podcast_launch_packet"
+  assert_has "$podcast_launch_static_output" "validation_profile_primary_reason=docs_only_surface_requires_diff_hygiene"
+  assert_has "$podcast_launch_static_output" "reason=podcast_launch_surface_requires_audio_rss_and_studio_packet_validation"
 
   git checkout -q -b pvf-runner-policy-surface "$base_sha"
   mkdir -p adl/tools

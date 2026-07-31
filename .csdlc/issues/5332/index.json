@@ -1,0 +1,328 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5332,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "8ee9091ce142a919549ed8c48a16a744272dd8463de1041c3cfccc5d0dc1a76d",
+  "phase": "published",
+  "generation": 16,
+  "digest": "031cc022bc6ab24a6029c6760f7d2d2a96a6757cafb831b35763f2f4f481c3bf",
+  "claim": {
+    "id": "claim-5332-v0918-wp15-unity-ilpp-exec-prep",
+    "owner": "codex:issue-5332-execution-preparation",
+    "generation": 16,
+    "acquired_unix_seconds": 1784835366,
+    "expires_unix_seconds": 1785440166,
+    "heartbeat_unix_seconds": 1784835366,
+    "branch": "codex/5332-v0918-wp15-unity-ilpp-exec-prep",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5332",
+      ".csdlc/issues/5332",
+      ".csdlc/locks/5332.lock",
+      ".csdlc/prepared/issues/5332",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/lib/unity_observatory_batch_classifiers.sh",
+      "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
+      "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "docs/tooling/unity_ilpp_getdomainname_diagnosis.md"
+    ],
+    "purpose": "Prepare #5332 for bounded v0.91.8 WP-15 Unity ILPP GetDomainName loop diagnosis and regression execution"
+  },
+  "review_assignment": {
+    "reviewer": "codex-subagent:019f9573-ce90-7512-81f1-f56ff3ceeb1f",
+    "assigned_by": "codex:019f24c9-f798-7ad2-9a9c-886b434eb62c",
+    "revision": "git-blake3:ff789a110aaf9072ff66a300ff87a831ec7034c5:2c196c74114b554628bbca6a35543e14709b95005be25f36b32e14a81b078449",
+    "scope": [
+      ".csdlc/evidence/5332",
+      ".csdlc/issues/5332",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/lib/unity_observatory_batch_classifiers.sh",
+      "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
+      "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "docs/tooling/unity_ilpp_getdomainname_diagnosis.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:019f9573-ce90-7512-81f1-f56ff3ceeb1f",
+    "scope": [
+      ".csdlc/evidence/5332",
+      ".csdlc/issues/5332",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/lib/unity_observatory_batch_classifiers.sh",
+      "adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh",
+      "adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh",
+      "docs/tooling/unity_ilpp_getdomainname_diagnosis.md"
+    ],
+    "reviewed_revision": "git-blake3:ff789a110aaf9072ff66a300ff87a831ec7034c5:2c196c74114b554628bbca6a35543e14709b95005be25f36b32e14a81b078449",
+    "findings": [],
+    "residual_risks": [
+      "Restricted execution lanes that deny getdomainname remain unsuitable for live Unity batch proof and now fail closed before staging.",
+      "The successful staged shell and flagship validator proves scene composition and contract validity, not investor-ready runtime-shell layout or complete demo polish."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5332,
+    "pull_request": 5656,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5656",
+    "base": "main",
+    "head": "codex/5332-v0918-wp15-unity-ilpp-exec-prep",
+    "revision": "git-blake3:eefb02467c548a6cd61c5b2a0f0f40b6e11c6656:77da5e6f1f009e3762669d0ebe5725f9ad23b807952efa2d5c1db8bd335d95ae",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5332/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5332/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:v0918-wp15-unity-specialist-recheck",
+      "revision": "85859fde33a4a012111fadaae832d4d62a1ead894e213ecef7acad86708f8e79"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "8fb823987cbbd949d2b74d15d192ac733a1e7deabeab92195f06680be1cdf679",
+      "rendered_digest": "8f31fb0ca25e7bd75c334fa2bc43dc3e7927111f10ff48d41cb0a87516b45bdc",
+      "ast_digest": "b2b564fdb4eb26f2538c0bd33c83c1a9634b5d358746ea16b7f62f8a6d147188"
+    },
+    "stp": {
+      "values_digest": "bcb36c1d190d374644a6db7168b2e0bb65ad00457c71ddf950503fb5c370f701",
+      "rendered_digest": "a24d878594ee062f7396f2d97dcc98edc222d0c728d37633d4f76d219beea13a",
+      "ast_digest": "2394df5d9d77dce7f60bc8ffe658c1b819c42691fc50cbe5e3f4e9708c3022cf"
+    },
+    "spp": {
+      "values_digest": "8888959ad483a0dbae91026a373cce1741256b28a6c402a2844d629ccf75f6dc",
+      "rendered_digest": "e74415d8178ce860e5fc9afb3e2f781b85e612ada97dd0409d9ea09acefad3ec",
+      "ast_digest": "1dfd2f4b6b2b37a33b729ad82d81c4a912ad688948ca83112285a5955b02e892"
+    },
+    "vpp": {
+      "values_digest": "8fa67188b67bfb02dc2b985f48a47c15830e08cbe52a40a704a5b35aea523e45",
+      "rendered_digest": "fb1b7b549e626368f2e1f387050d68266a882d894e89653005c02330ab839a1f",
+      "ast_digest": "825bdfee86f3406b48dd8850e354f9fd2be2e7b04c8e3d983287ff9880b929e1"
+    },
+    "srp": {
+      "values_digest": "b9f86bd818bd68ba1df255ca86a59fd04ed2e64f67323ec1b6784fb7d1847d5a",
+      "rendered_digest": "18253f26a5a09bca3e67f4b04e66c3bf23b4a47710c1ed69cc65836d78825bec",
+      "ast_digest": "faa5accd2ce1a6606843bbf4589175767b7847c7cd1dea2dd01b296762b77fee"
+    },
+    "sor": {
+      "values_digest": "5c612bf7598942d7c2411d44f6a7472cbe23d7f351b4c0220217e7d80fdef759",
+      "rendered_digest": "52c422b68335661c92fba773c4d17cb0e9805cbc15c0b373f96ca236abaa4535",
+      "ast_digest": "5b5dcb769b847b8939d3a2a68a89ae1775cd4436eaeb3090537bb62f7f881d52"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5332-execution-preparation",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5332-execution-preparation",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-5332-unity-ilpp-execution",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f24c9-f798-7ad2-9a9c-886b434eb62c",
+      "reason": "Advance the exact reviewed Unity ILPP implementation with no actionable review findings."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f24c9-f798-7ad2-9a9c-886b434eb62c",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5332-execution-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:issue-5332-execution-preparation",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "operator:v0918-wp15-unity-specialist-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:issue-5332-execution-preparation",
+      "reason": "Reserve focused validation selector registration required by specialist readiness review",
+      "operation": "{\"add_protected_paths\":[\"adl/config/validation_lane_selector.v0.91.6.json\",\"adl/tools/test_select_validation_lanes.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:issue-5332-execution-preparation",
+      "reason": "Apply specialist review finding for focused validation selector registration",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: the complete connectivity, gRPC or type-initialization, and GetDomainName -1 signature family is reproducible in one approved staged proof or retained fixture derived from exact evidence\",\"AC-2: repeated complete signatures without semantic progress classify as ilpp_retry_loop without waiting for an arbitrary total runtime ceiling\",\"AC-3: import, compile, validator, or terminal progress resets the non-progress classifier and preserves successful batch behavior\",\"AC-4: readonly-database text remains a separate classifier and is not fatal after verified staged import progress\",\"AC-5: the controlled matrix distinguishes wrapper staging, mutable HOME TMP XDG isolation, host or domain identity, and Unity version with one variable changed per cell\",\"AC-6: each matrix cell retains Unity version, canonical staged project, non-secret environment shape, semantic progress markers, signature count, terminal classification, and log reference\",\"AC-7: the minimal root-cause fix is applied only after the matrix isolates its owner; otherwise the exact current blocker and owner are recorded\",\"AC-8: focused no-Unity tests cover incomplete signature, complete repeating loop, progress reset, readonly progression, and normal ILPP start\",\"AC-9: one safe staged regression reaches the existing Observatory validator success marker or records a precise post-ILPP blocker without claiming full demo readiness\",\"AC-10: the final diff excludes #4739 MCP internals, #4741 general liveness and mode selection, Unity scene code, runtime semantics, asset work, and rendering polish\",\"AC-11: validation selector registration maps the classifier, wrapper, focused unit, and diagnosis paths to one focused Unity ILPP lane and its selector test passes\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Extract a focused progress-aware ILPP signature classifier and deterministic fixture harness\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-8\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Use #4741 safe staging to reproduce the loop and retain exact non-secret baseline evidence\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-6\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Run the smallest one-variable environment matrix needed to isolate wrapper, mutable state, host or domain identity, or Unity version\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Apply the minimal isolated root-cause fix or record the exact irreducible blocker and owner\",\"acceptance_ids\":[\"AC-7\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Register all issue-owned paths in the validation selector and prove focused lane selection\",\"acceptance_ids\":[\"AC-10\",\"AC-11\"],\"status\":\"pending\"},{\"id\":\"S6\",\"action\":\"Run focused fixtures and one safe normal-start regression, then record bounded review and WP-15 outcome truth\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"unity-ilpp-classifier-unit\",\"proof_role\":\"Prove complete-signature classification, semantic progress reset, readonly progression, and normal-start behavior without Unity\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":5000,\"argv\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh\"],\"parallel_group\":\"unity-ilpp-static\",\"defer_reason\":null},{\"lane\":\"unity-ilpp-selector-registration\",\"proof_role\":\"Prove the validation selector chooses the focused Unity ILPP lane for every issue-owned implementation, wrapper, unit, and diagnosis path\",\"acceptance_ids\":[\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"parallel_group\":\"unity-ilpp-static\",\"defer_reason\":null},{\"lane\":\"unity-ilpp-staged-reproduction\",\"proof_role\":\"Reproduce or clear the ILPP loop in one #4741-approved staged batch mode\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-6\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\"],\"parallel_group\":\"unity-ilpp-live\",\"defer_reason\":\"Run only after #4741 provides exact safe staged-project ownership and the deterministic classifier and selector lanes pass.\"},{\"lane\":\"unity-ilpp-diagnostic-matrix\",\"proof_role\":\"Retain one-variable environment comparisons that isolate the ILPP failure owner\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\"],\"parallel_group\":\"unity-ilpp-live\",\"defer_reason\":\"Execute only the cells still required after the baseline reproduction; do not run redundant Unity comparisons.\"},{\"lane\":\"unity-ilpp-diff-hygiene\",\"proof_role\":\"Prove bounded text and shell hygiene\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"unity-ilpp-static\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:issue-5332-execution-preparation",
+      "reason": "Reserve a dedicated one-variable diagnostic matrix runner required by specialist recheck",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:issue-5332-execution-preparation",
+      "reason": "Give the one-variable diagnostic matrix an explicit repository-owned runner",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"unity-ilpp-classifier-unit\",\"proof_role\":\"Prove complete-signature classification, semantic progress reset, readonly progression, and normal-start behavior without Unity\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":5000,\"argv\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh\"],\"parallel_group\":\"unity-ilpp-static\",\"defer_reason\":null},{\"lane\":\"unity-ilpp-selector-registration\",\"proof_role\":\"Prove the validation selector chooses the focused Unity ILPP lane for every issue-owned implementation, wrapper, unit, matrix-runner, and diagnosis path\",\"acceptance_ids\":[\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\"],\"parallel_group\":\"unity-ilpp-static\",\"defer_reason\":null},{\"lane\":\"unity-ilpp-staged-reproduction\",\"proof_role\":\"Reproduce or clear the ILPP loop in one #4741-approved staged batch mode\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-6\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh\"],\"parallel_group\":\"unity-ilpp-live\",\"defer_reason\":\"Run only after #4741 provides exact safe staged-project ownership and the deterministic classifier and selector lanes pass.\"},{\"lane\":\"unity-ilpp-diagnostic-matrix\",\"proof_role\":\"Run explicit one-variable environment cells and retain comparisons that isolate the ILPP failure owner\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh\"],\"parallel_group\":\"unity-ilpp-live\",\"defer_reason\":\"Run after the baseline reproduction identifies which declared cells remain necessary; the runner changes one declared variable per cell and skips redundant comparisons.\"},{\"lane\":\"unity-ilpp-diff-hygiene\",\"proof_role\":\"Prove bounded text and shell hygiene\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"unity-ilpp-static\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "operator:v0918-wp15-unity-specialist-recheck",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
+      "actor": "codex:issue-5332-unity-ilpp-execution",
+      "reason": "Reserve the focused matrix behavior regression test added to resolve pre-PR review findings",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:issue-5332-unity-ilpp-execution",
+      "reason": "Align matrix and validation-selector acceptance wording with the reviewed first-match selector and fail-closed preflight behavior",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: the complete connectivity, gRPC or type-initialization, and GetDomainName -1 signature family is reproducible in one approved staged proof or retained fixture derived from exact evidence\",\"AC-2: repeated complete signatures without semantic progress classify as ilpp_retry_loop without waiting for an arbitrary total runtime ceiling\",\"AC-3: import, compile, validator, or terminal progress resets the non-progress classifier and preserves successful batch behavior\",\"AC-4: readonly-database text remains a separate classifier and is not fatal after verified staged import progress\",\"AC-5: the controlled matrix declares isolated, host-HOME, and system-temp cells with one named variable group changed per comparison, records host capability before staging, and permits an approved-host isolated proof\",\"AC-6: each matrix cell retains Unity version, source project, staged-project state as an actual path or not_created, non-secret environment shape, semantic progress markers, signature counts, terminal classification, and issue-local log references\",\"AC-7: the minimal root-cause fix is applied only after the matrix isolates its owner; otherwise the exact current blocker and owner are recorded\",\"AC-8: focused no-Unity tests cover incomplete signature, complete repeating loop, progress reset, readonly progression, normal ILPP start, default and single-cell matrix selection, evidence fields, path confinement, and status aggregation\",\"AC-9: one safe staged regression reaches the existing Observatory validator success marker or records a precise post-ILPP blocker without claiming full demo readiness\",\"AC-10: the final diff excludes #4739 MCP internals, #4741 general liveness and mode selection, Unity scene code, runtime semantics, asset work, and rendering polish\",\"AC-11: validation selector registration preserves the existing Unity liveness and contract lane, maps the new classifier, matrix runner, matrix test, and diagnosis paths to a focused Unity ILPP lane whose command reruns wrapper and unit proof, and its selector test passes\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:issue-5332-unity-ilpp-execution",
+      "reason": "Record completed classifier implementation and fixture proof",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:issue-5332-unity-ilpp-execution",
+      "reason": "Record completed safe staged reproduction and retained baseline evidence",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:issue-5332-unity-ilpp-execution",
+      "reason": "Record completed controlled environment matrix and evidence capture",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:issue-5332-unity-ilpp-execution",
+      "reason": "Record completed host-capability root-cause fix and fail-closed classification",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:issue-5332-unity-ilpp-execution",
+      "reason": "Record completed validation selector registration and focused lane proof",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:issue-5332-unity-ilpp-execution",
+      "reason": "Record completed focused regression, staged Unity success, and review evidence",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S6\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:issue-5332-unity-ilpp-execution",
+      "reason": "Record implemented ILPP diagnosis, focused proof, and successful staged Unity Observatory validation without widening demo-readiness claims",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Diagnosed the Unity 6000.5.1f1 ILPP loop as restricted-lane getdomainname denial, added fail-closed host-capability and progress-aware classification, proved the controlled matrix and selector surfaces, reconstructed the licensed-asset Observatory project on FastWork, and completed a fresh staged shell-plus-flagship validator run.\",\"changes\":[\"Added a progress-aware ILPP classifier that requires the complete retry, gRPC, CookieContainer, and GetDomainName signature after the latest semantic progress marker\",\"Added a production-safe host-identity preflight and durable wrapper result contract while preserving existing Unity editor liveness and Observatory contract behavior\",\"Added a canonical-path-confined three-cell diagnostic matrix with exact per-cell evidence and deterministic regression coverage\",\"Registered the new issue-owned diagnostic paths without replacing the existing #4741 liveness lane\",\"Reconstructed the operator-provisioned licensed-asset project on FastWork without committing or redistributing third-party assets\",\"Captured stable owner-binary, missing csdlc-merge installation, and GitHub integration 403 tooling defects on #5332 because the connected writer could not create a separate issue\"],\"artifacts\":[\"docs/tooling/unity_ilpp_getdomainname_diagnosis.md\",\"adl/tools/lib/unity_observatory_batch_classifiers.sh\",\"adl/tools/run_v0918_unity_ilpp_diagnostic_matrix.sh\",\"adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh\",\".adl/runs/unity-5332-assets/staged-wrapper-result.txt\",\".adl/runs/unity-5332-assets/staged-wrapper-full.log\",\"/Volumes/FastWork/adl-unity-observatory/operator-provisioned-5332/unity-observatory\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:issue-5332-unity-ilpp-execution",
+      "reason": "Reserve the focused finalization evidence directory for deterministic tests and retained staged Unity proof checks",
+      "operation": "{\"add_protected_paths\":[\".csdlc/evidence/5332\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:issue-5332-unity-ilpp-execution",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:019f24c9-f798-7ad2-9a9c-886b434eb62c",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex-subagent:019f9573-ce90-7512-81f1-f56ff3ceeb1f",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:019f24c9-f798-7ad2-9a9c-886b434eb62c",
+      "reason": "Advance the exact reviewed Unity ILPP implementation with no actionable review findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex:019f24c9-f798-7ad2-9a9c-886b434eb62c",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
