@@ -1,9 +1,13 @@
 flowchart TD
-  I5352["#5352 WP-14 handoff"] --> Gate["Live merge + ancestry gate"]
-  D5384["#5384 WP-14A umbrella"] --> Gate
-  D5358["#5358 C-SDLC v2 acceptance"] --> Gate
-  D5361["#5361 Runtime v3 acceptance"] --> Gate
-  Gate --> Ledger["Exact-revision v0.92 handoff ledger"]
+  Source["origin/main 51bc5ae51b57c19dbab693af1c5a45142995f4e5"] --> Prep["#5352 WP-21 preparation packet"]
+  Prep --> Gate["Future execution gate: live close + merge ancestry"]
+  D5384["#5384 WP-14A PR #5726 merge 72fbf30c"] --> Gate
+  D5358["#5358 C-SDLC v2 PR #5606 merge fc75f4fc"] --> Gate
+  D5361["#5361 Runtime v3 PR #5650 merge f7258b07"] --> Gate
+  Gate --> Ledger["Future exact-revision v0.92 handoff ledger"]
+  Ledger --> Paths["docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md"]
   Ledger --> Consumers["WP-21/WP-22 and v0.92 consumers"]
-  Receipts["Closeout receipts"] -. "audit only; non-blocking" .-> Ledger
+  Receipts["Closeout receipts and claim requests"] -. "audit only; non-blocking" .-> Gate
+  Rollback["WP-14A rollback window and deletion_authorized=false"] --> Ledger
   Ledger -. "non-claim" .-> Birthday["No birthday or Adaptive Learning implementation"]
+  Review["Bounded preparation review/fixes"] --> Prep

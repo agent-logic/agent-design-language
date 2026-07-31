@@ -1,0 +1,11 @@
+issue 5352 preparation packet OK
+json: cards, prepared requests, and index parsed successfully
+ruby: .csdlc/prepared/issues/5352/validate_preparation.rb syntax OK
+git-diff-check: pass
+main-integration: origin/main 51bc5ae51b57c19dbab693af1c5a45142995f4e5 is ancestral to HEAD
+dependency-ancestry-current-main:
+- #5384 accepted merge 72fbf30c74a5193ea41f042c76c5986a48e59d6c is ancestral to 51bc5ae51b57c19dbab693af1c5a45142995f4e5
+- #5358 accepted merge fc75f4fc697262f89f99461679a406be0b4b3775 is ancestral to 51bc5ae51b57c19dbab693af1c5a45142995f4e5
+- #5361 accepted merge f7258b07e9da414bfee518f0c89a76071bc03ee8 is ancestral to 51bc5ae51b57c19dbab693af1c5a45142995f4e5
+budget: preparation markdown/ruby/diagram packet is 242 lines, below 350-line preparation budget
+claim-boundary: active claim remains null; reacquire request preserved as deferred execution-time template only

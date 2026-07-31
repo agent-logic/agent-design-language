@@ -19,6 +19,6 @@
       ".csdlc/evidence/5352",
       "docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md"
     ],
-    "purpose": "Prepare issue #5352 for later WP-14 exact-revision handoff execution without implementation"
+    "purpose": "Historical preparation-only bind request for issue #5352 WP-21 exact-revision v0.92 handoff; not execution authority and not active during this preparation refresh"
   }
 }

@@ -4,8 +4,8 @@
     "template_version": "1.0.0",
     "issue": 5352,
     "repository": "danielbaustin/agent-design-language",
-    "title": "[v0.91.8][WP-14][handoff] Finalize exact-revision v0.92 consumption handoff",
-    "slug": "v0918-wp14-v092-consumption-handoff",
+    "title": "[v0.91.8][WP-21][handoff] Finalize exact-revision v0.92 consumption handoff",
+    "slug": "v0918-wp21-v092-consumption-handoff",
     "version": "v0.91.8",
     "generation": 0
   },
@@ -13,16 +13,18 @@
   "content": {
     "card_kind": "vpp",
     "values": {
-      "summary": "Execute the smallest proving validation DAG.",
+      "summary": "Execute the smallest proving preparation validation DAG now; reserve execution-time lanes for the future handoff ledger.",
       "lanes": [
         {
-          "lane": "wp14-handoff-prep",
+          "lane": "wp21-handoff-prep",
           "proof_role": "Validate issue-local preparation packet shape and dependency-gate language without implementation",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
-            "AC-4"
+            "AC-4",
+            "AC-5",
+            "AC-6"
           ],
           "deterministic": true,
           "resource_profile": "small",
@@ -32,17 +34,76 @@
             "ruby",
             ".csdlc/prepared/issues/5352/validate_preparation.rb"
           ],
-          "parallel_group": "wp14-preparation",
+          "parallel_group": "wp21-preparation",
           "defer_reason": null
+        },
+        {
+          "lane": "dependency-ancestry",
+          "proof_role": "Execution-time proof that #5384, #5358, and #5361 are live-closed and their accepted merges are ancestral to current origin/main",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "git",
+            "merge-base",
+            "--is-ancestor",
+            "<accepted-merge>",
+            "origin/main"
+          ],
+          "parallel_group": "future-execution",
+          "defer_reason": "Deferred because this session is preparation only; execution-time origin/main must be re-read."
+        },
+        {
+          "lane": "handoff-ledger-docs",
+          "proof_role": "Execution-time docs/link/schema validation for the future exact-revision handoff ledger",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 1800,
+          "budget_tokens": 12000,
+          "argv": [
+            "future",
+            "focused-docs-validation"
+          ],
+          "parallel_group": "future-execution",
+          "defer_reason": "Deferred until the handoff ledger exists during execution."
+        },
+        {
+          "lane": "pre-pr-review",
+          "proof_role": "Bounded gpt-5.5/external review of the future handoff artifact before PR publication",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-6"
+          ],
+          "deterministic": false,
+          "resource_profile": "review",
+          "budget_seconds": 1800,
+          "budget_tokens": 12000,
+          "argv": [
+            "future",
+            "bounded-gpt-5.5-review"
+          ],
+          "parallel_group": "future-review",
+          "defer_reason": "Deferred until execution produces the handoff ledger; preparation review is recorded separately."
         }
       ],
-      "planned_validation_seconds": 1200,
-      "planned_validation_tokens": 10000,
-      "failure_policy": "Fail closed on missing six-card packet, missing design or diagram, implementation-state advancement, live dependency ambiguity, or receipt-gated execution language.",
+      "planned_validation_seconds": 1800,
+      "planned_validation_tokens": 12000,
+      "failure_policy": "Fail closed on missing six-card packet, missing design/diagram/review artifacts, implementation-state advancement, active-claim requirement during preparation, live dependency ambiguity, receipt-gated execution language, missing exact revisions, missing rollback truth, or any v0.92 birthday/Adaptive Learning implementation claim.",
       "design_ref": ".csdlc/prepared/issues/5352/design.md",
-      "design_digest": "2a5d7686733d7b8d77c0dfd437f17216e3a900c7dd9e01db3cf1be8d8fb9723e",
+      "design_digest": "af365531793d1cd3580017d467c2411dee21710b611baaf90034f5b513795570",
       "diagram_ref": ".csdlc/prepared/issues/5352/diagram.mmd",
-      "diagram_digest": "6b4e05cd0ff006a75623c4406ad4655a413ef756af56d0734b01503d4e1ef924"
+      "diagram_digest": "3f84cac3043146e0572c82b70c7ca49809181d9d9b1ccccb10bb4e3a5c7b62a0"
     }
   }
 }

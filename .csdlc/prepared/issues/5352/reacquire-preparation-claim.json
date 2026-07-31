@@ -1,0 +1,26 @@
+{
+  "issue": 5352,
+  "expected_generation": 0,
+  "expected_digest": "a5a444e016f42936d74a7853bb7354b9788d1684af18a27ca7dcf64a5137a7c2",
+  "now_unix_seconds": 1785520973,
+  "actor": "codex:issue-5352-future-execution",
+  "reason": "Preserved but not run during preparation. Execution-time claim acquisition must be re-authored or revalidated against the then-current digest before implementation starts.",
+  "replacement": {
+    "id": "claim-5352-v0918-preparation",
+    "owner": "codex:issue-5352-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1785520973,
+    "expires_unix_seconds": 1786125773,
+    "heartbeat_unix_seconds": 1785520973,
+    "branch": "codex/5352-v0918-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5352",
+      ".csdlc/locks/5352.lock",
+      ".csdlc/prepared/issues/5352",
+      ".csdlc/evidence/5352",
+      "docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md"
+    ],
+    "purpose": "Deferred execution-time claim template for issue #5352 WP-21 exact-revision handoff; not active during preparation and not a substitute for live dependency or ancestry checks."
+  }
+}

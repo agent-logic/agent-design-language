@@ -3,7 +3,7 @@
     "schema": "csdlc.pvf.manifest.v1",
     "lanes": [
       {
-        "id": "wp14-handoff-prep",
+        "id": "wp21-handoff-prep",
         "proof_role": "preparation-packet-shape",
         "purpose": "Validate #5352 preparation packet shape and dependency-gate language without implementation",
         "determinism": "deterministic",
@@ -11,7 +11,7 @@
         "credentials": [],
         "network": "denied",
         "dependencies": [],
-        "parallel_group": "wp14-preparation",
+        "parallel_group": "wp21-preparation",
         "release_gate": "required",
         "execution": "local",
         "timeout_seconds": 30,
@@ -21,7 +21,7 @@
       }
     ]
   },
-  "selection": {"requested_lanes": ["wp14-handoff-prep"], "allow_network": false, "available_credentials": []},
+  "selection": {"requested_lanes": ["wp21-handoff-prep"], "allow_network": false, "available_credentials": []},
   "budget": {"max_parallel": 1, "cpu_units": 1, "memory_mib": 128, "tokens": 500},
   "root": "/Volumes/FastWork/adl-wp-5352",
   "evidence_dir": "/Volumes/FastWork/adl-wp-5352/.csdlc/evidence/5352/preparation",
