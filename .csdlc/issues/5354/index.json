@@ -5,7 +5,7 @@
   "initialization_digest": "c9e538886b9fe939fe6a89f44b9ef31a4d75733f7a7e60cdbb4bf47dd806bfc9",
   "phase": "implemented",
   "generation": 6,
-  "digest": "3b9d24f97fabd05684f18bed534e8c054745b1dabe7e0bfe5d2d51e1878ee6e0",
+  "digest": "f99628640888e481eff98882e8c9d516b3ca7bf27ffda7601104b127bd4b40bd",
   "claim": {
     "id": "claim-5354-v0918-wp15-reacquired",
     "owner": "codex:5354-preparation-owner",
@@ -29,7 +29,7 @@
   "review_assignment": {
     "reviewer": "subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8",
     "assigned_by": "codex:5354-wp15-owner",
-    "revision": "git-blake3:318a4c4b522d0d43d19ff42ea603cd13011a2846:e6a5c5f82776a64056001f3897205805b2c0d238d8b83aa85a54a730c9548d05",
+    "revision": "git-blake3:04e9272b27acc08281e9dda04651f3243d34af15:a2833c3c56be75e84011c678e2470e1a027aeb6b2e5d95e4d938a95e59797c18",
     "scope": [
       ".csdlc/evidence/5354",
       ".csdlc/issues/5354",
@@ -39,55 +39,7 @@
       "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
     ]
   },
-  "review": {
-    "reviewer": "subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8",
-    "scope": [
-      ".csdlc/evidence/5354",
-      ".csdlc/issues/5354",
-      ".csdlc/prepared/issues/5354",
-      "adl-v2/Cargo.lock",
-      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
-      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
-    ],
-    "reviewed_revision": "git-blake3:318a4c4b522d0d43d19ff42ea603cd13011a2846:e6a5c5f82776a64056001f3897205805b2c0d238d8b83aa85a54a730c9548d05",
-    "findings": [
-      {
-        "id": "F-5354-1",
-        "severity": "p1",
-        "summary": "The retained convergence packet does not bind its proof revision to the assigned review surface or a fail-closed metadata-only tail.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-5354-2",
-        "severity": "p1",
-        "summary": "The claimed live full-duplex WSS proof uses a local test and HTTPS metadata instead of a real live WSS exchange.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-5354-3",
-        "severity": "p2",
-        "summary": "The retained matrix lane accepts stale or substituted packet evidence after substantive changes.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Broad Rust suites and binary rebuilds were intentionally not repeated because the focused exact proof reused the unchanged stable binaries."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -288,6 +240,13 @@
       "actor": "subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8",
       "reason": "atomically record assigned review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 6,
+      "actor": "codex:5354-wp15-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

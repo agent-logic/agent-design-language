@@ -1,0 +1,8 @@
+{
+  "issue": 5354,
+  "expected_generation": 6,
+  "expected_digest": "3b9d24f97fabd05684f18bed534e8c054745b1dabe7e0bfe5d2d51e1878ee6e0",
+  "claim_id": "claim-5354-v0918-wp15-reacquired",
+  "actor": "codex:5354-wp15-owner",
+  "reason": "The three exact-review findings are fixed by a real live WSS exchange and fail-closed proof-revision validation; recover to implemented for the same reviewer's corrected-head pass."
+}
