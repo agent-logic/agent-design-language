@@ -9,13 +9,16 @@ use std::{
 
 use adl_runtime_kernel::{
     channel, load_control_tls, serve_control_listener, serve_control_listener_until,
-    serve_control_listener_until_ready, write_observability_event, write_payload, ClockAuthority,
-    ComponentId, ComponentRegistry, ContinuityHead, ControlAction, ControlAuthority,
-    ControlCapability, ControlError, ControlExit, ControlObservabilityEvent, ControlOutcome,
-    ControlService, DiskWeather, Kernel, KernelExit, LifecycleControl, ObservabilityDegradation,
-    ObservabilityHealth, Observation, ResourceState, RuntimeEvent, RuntimeRecorder,
-    RuntimeTlsInitConfig, ShutdownDecision, SignedControlCommand, TrustedControlKey, WeatherConfig,
-    WeatherHealthReport, WeatherSample,
+    serve_control_listener_until_ready, write_observability_event, write_payload, AdapterKind,
+    AdapterPolicy, AuthorityMode, CanonicalIngress, CheckpointingControl, ClockAuthority,
+    ComponentId, ComponentRegistry, ContinuityHead, ControlAction, ControlApiPolicy,
+    ControlAuthority, ControlCapability, ControlError, ControlExit, ControlObservabilityEvent,
+    ControlOutcome, ControlService, DiskWeather, DomainWork, ExecutorError, Kernel, KernelExit,
+    LifecycleControl, LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation,
+    ObservabilityHealth, Observation, OperationExecutor, OperationRequest, OperationalAdapter,
+    OperationalFactory, ResourceState, RuntimeEvent, RuntimeRecorder, RuntimeTlsInitConfig,
+    ShutdownDecision, SignedControlCommand, TrustedControlKey, WeatherConfig, WeatherHealthReport,
+    WeatherSample, DOMAIN_WORK_SCHEMA,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -33,6 +36,16 @@ use tokio_rustls::{
 };
 
 const TEST_BIND_HOST: &str = "127.0.0.1";
+
+fn test_api_policy() -> ControlApiPolicy {
+    ControlApiPolicy::new(
+        Duration::from_secs(2),
+        Duration::from_secs(5),
+        Duration::from_millis(20),
+        64 * 1024,
+    )
+    .unwrap()
+}
 
 async fn test_https() -> (axum_server::tls_rustls::RustlsConfig, TlsConnector) {
     let CertifiedKey { cert, signing_key } =
@@ -82,6 +95,65 @@ struct BlockingLifecycle {
     release: Arc<Notify>,
 }
 
+struct EchoExecutor;
+
+struct DelayedExecutor {
+    started: Arc<Notify>,
+    release: Arc<Notify>,
+}
+
+#[async_trait]
+impl OperationExecutor for EchoExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        Ok(request.payload.clone())
+    }
+}
+
+#[async_trait]
+impl OperationExecutor for DelayedExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        self.started.notify_one();
+        self.release.notified().await;
+        Ok(request.payload.clone())
+    }
+}
+
+fn test_ingress(
+    capacity: usize,
+    recorder: RuntimeRecorder,
+) -> (CanonicalIngress, OperationalFactory) {
+    test_ingress_with(capacity, recorder, Arc::new(EchoExecutor))
+}
+
+fn test_ingress_with(
+    capacity: usize,
+    recorder: RuntimeRecorder,
+    executor: Arc<dyn OperationExecutor>,
+) -> (CanonicalIngress, OperationalFactory) {
+    let adapter = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Agent,
+            AdapterPolicy {
+                capacity,
+                max_in_flight: capacity,
+                shutdown_grace_millis: 1_000,
+                max_attempts: 1,
+                idempotency_entries: 16,
+                authority: AuthorityMode::Internal,
+            },
+            executor,
+        )
+        .unwrap(),
+    );
+    let factory = OperationalFactory::new(adapter, vec![]);
+    let ingress = CanonicalIngress::new(
+        capacity,
+        recorder,
+        BTreeMap::from([("parity-a".to_owned(), factory.clone())]),
+    );
+    (ingress, factory)
+}
+
 #[async_trait]
 impl LifecycleControl for BlockingLifecycle {
     async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
@@ -126,6 +198,264 @@ fn signed(key: &SigningKey, id: &str, action: ControlAction) -> SignedControlCom
         key,
     )
     .unwrap()
+}
+
+#[tokio::test]
+async fn signed_ingress_checkpoints_replays_and_is_observatory_visible() {
+    let root = tempfile::tempdir().unwrap();
+    let key = SigningKey::from_bytes(&[37; 32]);
+    let recorder = RuntimeRecorder::new(32);
+    let (ingress, operation) = test_ingress(2, recorder.clone());
+    let mut registry = ComponentRegistry::new();
+    registry.register(operation);
+    registry.register(ingress.clone());
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    let service = Arc::new(
+        ControlService::new(
+            "instance-1",
+            recorder.clone(),
+            handle.control(),
+            authority(&key, [ControlCapability::Execute]),
+            8,
+        )
+        .with_canonical_ingress(ingress.clone()),
+    );
+    let work = DomainWork {
+        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+        work_id: "work-1".to_owned(),
+        kind: "parity-a".to_owned(),
+        payload: b"deterministic".to_vec(),
+    };
+    let first = service
+        .execute(signed(
+            &key,
+            "submit-1",
+            ControlAction::Submit { work: work.clone() },
+        ))
+        .await
+        .unwrap();
+    let ControlOutcome::Submitted {
+        work_result: first_result,
+    } = first.outcome
+    else {
+        panic!("submit outcome")
+    };
+    assert_eq!(first_result.accepted_sequence, 1);
+    assert_eq!(
+        service.observatory_feed().ingress.completed["work-1"],
+        first_result
+    );
+    let invalid = DomainWork {
+        schema: "adl.runtime.domain_work.v999".to_owned(),
+        ..work.clone()
+    };
+    assert_eq!(
+        service
+            .execute(signed(
+                &key,
+                "submit-invalid",
+                ControlAction::Submit { work: invalid },
+            ))
+            .await
+            .unwrap_err(),
+        ControlError::InvalidBounds
+    );
+    let oversized = DomainWork {
+        work_id: "oversized-work".to_owned(),
+        payload: vec![0; 1_048_577],
+        ..work.clone()
+    };
+    assert_eq!(
+        service
+            .execute(signed(
+                &key,
+                "submit-oversized",
+                ControlAction::Submit { work: oversized },
+            ))
+            .await
+            .unwrap_err(),
+        ControlError::InvalidBounds
+    );
+
+    let identity = LiveKernelSnapshot::new(
+        blake3::hash(b"topology").to_hex().to_string(),
+        blake3::hash(b"config").to_hex().to_string(),
+        BTreeMap::new(),
+    );
+    let mut continuity = LiveContinuity::new(root.path(), "live", &[41; 32], identity.clone(), 0)
+        .with_canonical_ingress(ingress);
+    continuity
+        .checkpoint(&recorder, Duration::from_secs(1))
+        .await
+        .unwrap();
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+
+    let restored_recorder = RuntimeRecorder::new(32);
+    let (restored_ingress, restored_operation) = test_ingress(2, restored_recorder.clone());
+    let mut restored = LiveContinuity::new(root.path(), "live", &[41; 32], identity, 1)
+        .with_canonical_ingress(restored_ingress.clone());
+    assert_eq!(
+        restored.restore_latest(&restored_recorder).await.unwrap(),
+        Some(1)
+    );
+    let mut registry = ComponentRegistry::new();
+    registry.register(restored_operation);
+    registry.register(restored_ingress.clone());
+    let handle = Kernel::new(registry.validate().unwrap(), restored_recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    let service = Arc::new(
+        ControlService::new(
+            "instance-1",
+            restored_recorder,
+            handle.control(),
+            authority(&key, [ControlCapability::Execute]),
+            8,
+        )
+        .with_canonical_ingress(restored_ingress),
+    );
+    let replay = service
+        .execute(signed(
+            &key,
+            "submit-2",
+            ControlAction::Submit { work: work.clone() },
+        ))
+        .await
+        .unwrap();
+    let ControlOutcome::Submitted {
+        work_result: replay_result,
+    } = replay.outcome
+    else {
+        panic!("submit outcome")
+    };
+    assert_eq!(replay_result, first_result);
+    let next = service
+        .execute(signed(
+            &key,
+            "submit-3",
+            ControlAction::Submit {
+                work: DomainWork {
+                    work_id: "work-2".to_owned(),
+                    ..work
+                },
+            },
+        ))
+        .await
+        .unwrap();
+    let ControlOutcome::Submitted {
+        work_result: next_result,
+    } = next.outcome
+    else {
+        panic!("submit outcome")
+    };
+    assert_eq!(next_result.accepted_sequence, 2);
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+}
+
+#[tokio::test]
+async fn terminal_serialization_drains_accepted_work_into_checkpoint() {
+    let root = tempfile::tempdir().unwrap();
+    let key = SigningKey::from_bytes(&[38; 32]);
+    let recorder = RuntimeRecorder::new(32);
+    let started = Arc::new(Notify::new());
+    let release = Arc::new(Notify::new());
+    let (ingress, operation) = test_ingress_with(
+        2,
+        recorder.clone(),
+        Arc::new(DelayedExecutor {
+            started: started.clone(),
+            release: release.clone(),
+        }),
+    );
+    let mut registry = ComponentRegistry::new();
+    registry.register(operation);
+    registry.register(ingress.clone());
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    let service = Arc::new(
+        ControlService::new(
+            "instance-1",
+            recorder,
+            handle.control(),
+            authority(&key, [ControlCapability::Read, ControlCapability::Execute]),
+            8,
+        )
+        .with_canonical_ingress(ingress.clone()),
+    );
+    let accepted = {
+        let service = service.clone();
+        let submit_key = key.clone();
+        tokio::spawn(async move {
+            service
+                .execute(signed(
+                    &submit_key,
+                    "accepted-before-terminal",
+                    ControlAction::Submit {
+                        work: DomainWork {
+                            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                            work_id: "accepted-before-terminal".to_owned(),
+                            kind: "parity-a".to_owned(),
+                            payload: b"delayed-terminal-work".to_vec(),
+                        },
+                    },
+                ))
+                .await
+        })
+    };
+    started.notified().await;
+    let identity = LiveKernelSnapshot::new(
+        blake3::hash(b"terminal-topology").to_hex().to_string(),
+        blake3::hash(b"terminal-config").to_hex().to_string(),
+        BTreeMap::new(),
+    );
+    let mut continuity = LiveContinuity::new(root.path(), "live", &[42; 32], identity, 0)
+        .with_canonical_ingress(ingress);
+    let terminal = service.serialize_terminal_checkpoint(&mut continuity, Duration::from_secs(1));
+    tokio::pin!(terminal);
+    assert!(
+        tokio::time::timeout(Duration::from_millis(10), terminal.as_mut())
+            .await
+            .is_err()
+    );
+    assert!(!root.path().join("generation-1").exists());
+    assert_eq!(
+        service
+            .execute(signed(&key, "late-terminal-read", ControlAction::Snapshot))
+            .await
+            .unwrap_err(),
+        ControlError::AdmissionClosed
+    );
+    release.notify_one();
+    let response = accepted.await.unwrap().unwrap();
+    let ControlOutcome::Submitted { work_result } = response.outcome else {
+        panic!("submit outcome")
+    };
+    assert_eq!(work_result.accepted_sequence, 1);
+    terminal.await.unwrap();
+    let checkpoint: serde_json::Value = serde_json::from_slice(
+        &tokio::fs::read(root.path().join("generation-1/0000-live_kernel.bin"))
+            .await
+            .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(checkpoint["ingress"]["accepted_through"], 1);
+    assert!(checkpoint["ingress"]["completed"]["accepted-before-terminal"].is_object());
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
 }
 
 #[tokio::test]
@@ -221,6 +551,22 @@ async fn forged_and_unauthorized_commands_never_reach_lifecycle_authority() {
         ControlError::StaleRuntimeInstance
     );
     assert_eq!(calls.load(Ordering::SeqCst), 0);
+    let submit = signed(
+        &key,
+        "submit-without-capability",
+        ControlAction::Submit {
+            work: DomainWork {
+                schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                work_id: "unauthorized-work".to_owned(),
+                kind: "parity-a".to_owned(),
+                payload: vec![1],
+            },
+        },
+    );
+    assert_eq!(
+        service.execute(submit).await.unwrap_err(),
+        ControlError::Unauthorized
+    );
 }
 
 #[tokio::test]
@@ -236,7 +582,10 @@ async fn pressure_admission_gate_refuses_new_commands_until_reopened() {
         4,
     ));
 
-    assert!(service.pause_admission_if_idle());
+    service
+        .close_admission_and_drain(Duration::from_secs(1))
+        .await
+        .unwrap();
     assert_eq!(
         service
             .execute(signed(&key, "read-paused", ControlAction::Snapshot))
@@ -244,11 +593,56 @@ async fn pressure_admission_gate_refuses_new_commands_until_reopened() {
             .unwrap_err(),
         ControlError::AdmissionClosed
     );
-    service.reopen_admission();
+    assert!(service.reopen_admission_if_no_terminal());
     service
         .execute(signed(&key, "read-open", ControlAction::Snapshot))
         .await
         .unwrap();
+}
+
+#[tokio::test]
+async fn pressure_cannot_reopen_after_signed_shutdown_is_enqueued() {
+    let key = SigningKey::from_bytes(&[32; 32]);
+    let (lifecycle, mut requests) = CheckpointingControl::channel(1);
+    let service = Arc::new(ControlService::new(
+        "instance-1",
+        RuntimeRecorder::new(4),
+        lifecycle,
+        authority(&key, [ControlCapability::Read, ControlCapability::Stop]),
+        4,
+    ));
+    let shutdown = {
+        let service = service.clone();
+        let shutdown_key = key.clone();
+        tokio::spawn(async move {
+            service
+                .execute(signed(
+                    &shutdown_key,
+                    "signed-terminal-race",
+                    ControlAction::Shutdown { grace_millis: 50 },
+                ))
+                .await
+        })
+    };
+    let request = tokio::time::timeout(Duration::from_secs(1), requests.recv())
+        .await
+        .unwrap()
+        .unwrap();
+    assert!(!service.reopen_admission_if_no_terminal());
+    assert_eq!(
+        service
+            .execute(signed(&key, "read-terminal-race", ControlAction::Snapshot))
+            .await
+            .unwrap_err(),
+        ControlError::AdmissionClosed
+    );
+    request.respond(Err(()));
+    assert_eq!(
+        shutdown.await.unwrap().unwrap().outcome,
+        ControlOutcome::Shutdown {
+            exit: ControlExit::Failed
+        }
+    );
 }
 
 #[tokio::test]
@@ -334,14 +728,20 @@ async fn cancelled_client_does_not_cancel_execution_or_exceed_idempotency_bound(
         tokio::spawn(async move { service.execute(command).await })
     };
     started.notified().await;
-    assert!(!service.pause_admission_if_idle());
+    assert_eq!(
+        service
+            .execute(signed(&key, "read-closed", ControlAction::Snapshot))
+            .await
+            .unwrap_err(),
+        ControlError::AdmissionClosed
+    );
     request.abort();
     assert_eq!(
         service
             .execute(signed(&key, "read-capacity", ControlAction::Snapshot))
             .await
             .unwrap_err(),
-        ControlError::IdempotencyCapacity
+        ControlError::AdmissionClosed
     );
     release.notify_one();
     let response = loop {
@@ -382,6 +782,7 @@ async fn axum_adapter_serves_signed_control_payloads() {
         service,
         listener,
         tls,
+        test_api_policy(),
         ready_sender,
         std::future::pending(),
     ));
@@ -408,7 +809,7 @@ async fn axum_adapter_serves_signed_control_payloads() {
 }
 
 #[tokio::test]
-async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() {
+async fn observatory_https_reads_are_public_and_report_weather_freshness() {
     let key = SigningKey::from_bytes(&[12; 32]);
     let recorder = RuntimeRecorder::new(8);
     recorder.set_topology_generation(11);
@@ -428,7 +829,7 @@ async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() 
         integrity: "snapshot-hash".to_owned(),
     });
     recorder.promote_observability();
-    let service = Arc::new(ControlService::new(
+    let service = Arc::new(ControlService::new_with_observatory_config(
         "instance-1",
         recorder,
         FakeLifecycle {
@@ -436,6 +837,7 @@ async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() 
         },
         authority(&key, [ControlCapability::Read]),
         4,
+        ["https://localhost:8765".to_owned()],
     ));
     let weather_config = WeatherConfig {
         disk_stop_free_bytes: 256,
@@ -506,7 +908,96 @@ async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() 
         .unwrap();
     let address = listener.local_addr().unwrap();
     let (tls, client) = test_https().await;
-    let server = tokio::spawn(serve_control_listener(service.clone(), listener, tls));
+    let server = tokio::spawn(serve_control_listener(
+        service.clone(),
+        listener,
+        tls,
+        test_api_policy(),
+    ));
+    let runtime_openapi = https_request(
+        &client,
+        address,
+        b"GET /v1/openapi.json HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(runtime_openapi.starts_with("HTTP/1.1 200 OK"));
+    assert!(runtime_openapi.contains("content-type: application/json"));
+    assert!(runtime_openapi.contains("\"title\": \"ADL Runtime v3 Core API\""));
+    assert!(runtime_openapi.contains("\"/v1/acip/ws\""));
+
+    let observatory_openapi = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory/openapi.json HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(observatory_openapi.starts_with("HTTP/1.1 200 OK"));
+    assert!(observatory_openapi.contains("content-type: application/json"));
+    assert!(observatory_openapi.contains("\"title\": \"ADL Observatory API\""));
+    assert!(observatory_openapi.contains("\"/v1/observatory/ws\""));
+
+    let swagger_docs = https_request(
+        &client,
+        address,
+        b"GET /v1/docs/ HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(swagger_docs.starts_with("HTTP/1.1 200 OK"));
+    assert!(swagger_docs.contains("content-type: text/html"));
+    assert!(swagger_docs.contains("Swagger UI"));
+    let swagger_initializer = https_request(
+        &client,
+        address,
+        b"GET /v1/docs/swagger-initializer.js HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(swagger_initializer.starts_with("HTTP/1.1 200 OK"));
+    assert!(swagger_initializer.contains("javascript"));
+    assert!(swagger_initializer.contains("/v1/openapi.json"));
+    assert!(swagger_initializer.contains("/v1/observatory/openapi.json"));
+    let observatory_swagger_docs = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory/docs/ HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(observatory_swagger_docs.starts_with("HTTP/1.1 200 OK"));
+    assert!(observatory_swagger_docs.contains("content-type: text/html"));
+    let observatory_swagger_initializer = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory/docs/swagger-initializer.js HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(observatory_swagger_initializer.starts_with("HTTP/1.1 200 OK"));
+    assert!(observatory_swagger_initializer.contains("/v1/observatory/openapi.json"));
+    assert!(!observatory_swagger_initializer.contains("/v1/openapi.json"));
+
+    let health = https_request(
+        &client,
+        address,
+        b"GET /v1/health HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(health.starts_with("HTTP/1.1 200 OK"));
+    assert!(health.contains(adl_runtime_kernel::RUNTIME_SNAPSHOT_SCHEMA));
+
+    let metrics = https_request(
+        &client,
+        address,
+        b"GET /v1/metrics HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(metrics.starts_with("HTTP/1.1 200 OK"));
+
+    let acip_unauthorized = https_request(
+        &client,
+        address,
+        b"GET /v1/acip/ws HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(acip_unauthorized.starts_with("HTTP/1.1 400 Bad Request"));
+
     let preflight = https_request(
         &client,
         address,
@@ -518,14 +1009,14 @@ async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() 
     assert!(preflight.contains("access-control-allow-methods: GET"));
     assert!(preflight.contains("access-control-allow-headers: Authorization"));
     assert!(preflight.contains("cache-control: no-store"));
-    let unauthorized = https_request(
+    let public_response = https_request(
         &client,
         address,
         b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: https://localhost:8765\r\nConnection: close\r\n\r\n",
     )
     .await;
-    assert!(unauthorized.starts_with("HTTP/1.1 401 Unauthorized"));
-    assert!(unauthorized.contains("cache-control: no-store"));
+    assert!(public_response.starts_with("HTTP/1.1 200 OK"));
+    assert!(public_response.contains("cache-control: no-store"));
     let response = https_request(
         &client,
         address,
@@ -539,8 +1030,9 @@ async fn observatory_https_feed_requires_bearer_and_reports_weather_freshness() 
     assert!(response.contains(adl_runtime_kernel::OBSERVATORY_FEED_SCHEMA));
     assert!(response.contains("\"runtime_selection\":\"runtime_v3_explicit_opt_in\""));
     assert!(response.contains("\"signed_commands_required_for_mutation\":true"));
-    assert!(response.contains("\"bearer_token_required_for_read\":true"));
-    assert!(response.contains("\"browser_mutation_authority\":false"));
+    assert!(response.contains("\"bearer_token_required_for_read\":false"));
+    assert!(response.contains("\"login_required_for_mutation\":true"));
+    assert!(response.contains("\"browser_mutation_authority\":true"));
     assert!(response.contains(&format!("\"port\":{}", address.port())));
     assert!(response.contains("\"event\":\"state:Running\""));
     assert!(response.contains("\"event\":\"clock_authority_updated\""));
@@ -624,7 +1116,12 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
         .unwrap();
     let address = listener.local_addr().unwrap();
     let (tls, client) = test_https().await;
-    let server = tokio::spawn(serve_control_listener(service, listener, tls));
+    let server = tokio::spawn(serve_control_listener(
+        service,
+        listener,
+        tls,
+        test_api_policy(),
+    ));
 
     let response = https_request(
         &client,
@@ -642,7 +1139,7 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
         b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: https://other.example.test\r\nAuthorization: Bearer test-observatory-token-0000000002\r\nConnection: close\r\n\r\n",
     )
     .await;
-    assert!(response.starts_with("HTTP/1.1 200 OK"));
+    assert!(response.starts_with("HTTP/1.1 403 Forbidden"));
     assert!(!response.contains("access-control-allow-origin"));
 
     server.abort();
@@ -674,6 +1171,7 @@ async fn graceful_api_shutdown_drains_an_active_control_response() {
         service,
         listener,
         tls,
+        test_api_policy(),
         shutdown.clone().cancelled_owned(),
     ));
     let body = serde_json::to_vec(&signed(
@@ -745,6 +1243,7 @@ async fn tls_shutdown_is_bounded_with_a_stalled_active_response() {
         service,
         listener,
         tls,
+        test_api_policy(),
         shutdown.clone().cancelled_owned(),
     ));
     let body = serde_json::to_vec(&signed(
@@ -796,15 +1295,19 @@ fn runtime_identity_and_shutdown_bounds_are_owned_by_standard_crates() {
 #[test]
 fn ready_event_reports_the_bound_ephemeral_port() {
     let address = std::net::SocketAddr::from(([127, 0, 0, 1], 43_123));
-    let event = adl_runtime_kernel::control_ready_event("instance-1", address);
+    let event = adl_runtime_kernel::control_ready_event(
+        "instance-1",
+        address,
+        "https://runtime.example.test:43123",
+    );
     assert!(event.contains("event=control_ready"));
     assert!(event.contains("port=43123"));
     assert!(!event.contains("port=20997"));
+    assert!(event.contains("public_base_url=https://runtime.example.test:43123"));
 }
 
 #[test]
 fn payload_and_human_observability_use_separate_redacted_channels() {
-    assert_eq!(adl_runtime_kernel::DEFAULT_CONTROL_API_PORT, 20_997);
     let response = adl_runtime_kernel::ControlResponse {
         schema: adl_runtime_kernel::CONTROL_RESPONSE_SCHEMA.to_owned(),
         command_id: "read-1".to_owned(),

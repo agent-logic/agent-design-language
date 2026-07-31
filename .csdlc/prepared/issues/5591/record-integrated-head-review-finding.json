@@ -1,0 +1,44 @@
+{
+  "issue": 5591,
+  "expected_generation": 11,
+  "expected_digest": "e889677f329a9babda6bc4472c2bb9e48fa3fc03011c1e4bcd0c75f19ea16713",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "subagent:/root/review_5591_exact_head",
+  "evidence": {
+    "reviewer": "subagent:/root/review_5591_exact_head",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/src/weather.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "infra/horust/adl-runtime-kernel.toml",
+      ".csdlc/issues/5591/cards/sor.values.json",
+      ".csdlc/issues/5591/cards/vpp.values.json"
+    ],
+    "reviewed_revision": "git-blake3:be9daf2ea3677e688d33a96b11497c0f46f02a79:64ebeb8ba1a776f9bc999569e6f72f658b7fe2a937f4abb64a7054f0e11c058c",
+    "findings": [
+      {
+        "id": "budget-authority-misstated",
+        "severity": "p1",
+        "summary": "Current SOR and budget report incorrectly frame the generic 20,000-line hard ceiling as publication authority instead of recording the pinned 12,209 baseline and an explicit reviewed +474 exception.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

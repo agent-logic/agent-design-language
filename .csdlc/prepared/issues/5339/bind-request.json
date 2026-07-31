@@ -1,0 +1,23 @@
+{
+  "issue": 5339,
+  "base_branch": "main",
+  "branch": "codex/5339-v0918-wp04-language-core",
+  "worktree": ".worktrees/adl-wp-5339",
+  "claim": {
+    "id": "claim-5339-v0918-wp04-preparation",
+    "owner": "codex:5339-preparation",
+    "generation": 1,
+    "acquired_unix_seconds": 1784615902,
+    "expires_unix_seconds": 1785220702,
+    "heartbeat_unix_seconds": 1784615902,
+    "branch": "codex/5339-v0918-wp04-language-core",
+    "worktree": ".worktrees/adl-wp-5339",
+    "protected_paths": [
+      ".csdlc/issues/5339",
+      ".csdlc/prepared/issues/5339",
+      ".csdlc/evidence/5339",
+      "adl-v2/crates/adl-language"
+    ],
+    "purpose": "Prepare the complete #5339 clean-room language-core contract one dependency wave ahead; implementation remains prohibited until #5337 is merged and typed closed_out"
+  }
+}

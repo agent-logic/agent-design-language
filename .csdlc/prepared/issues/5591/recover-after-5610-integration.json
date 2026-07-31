@@ -1,0 +1,8 @@
+{
+  "issue": 5591,
+  "expected_generation": 20,
+  "expected_digest": "a339116166d4d823721f8846c5adc9aa703ee0e02d87cc79a8a04af662eae3d7",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+  "reason": "Merged #5610 coverage normalization changed the exact publication revision; recover review truth for one final integrated validation and exact-head rereview while preserving the guardian correction."
+}

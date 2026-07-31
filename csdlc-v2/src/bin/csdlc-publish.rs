@@ -102,10 +102,15 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         .map(|pr| normalize(&intent, pr))
         .transpose()?;
     if let Some(value) = &before {
-        if !value.body.contains(&format!("#{}", intent.issue)) || !value.draft {
+        if !csdlc_v2::publication::body_has_github_closing_keyword(
+            &value.body,
+            intent.issue,
+            &intent.repository,
+        ) || value.draft != intent.draft
+        {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
-                "existing PR is not this issue's draft",
+                "existing PR does not match this issue's governed publication mode",
             ));
         }
     }
