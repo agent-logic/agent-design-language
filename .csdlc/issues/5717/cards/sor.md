@@ -103,11 +103,11 @@ Prepared the Synthetic Minds Podcast surface for launch testing: promoted the po
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
