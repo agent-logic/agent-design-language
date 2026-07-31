@@ -2,7 +2,7 @@
   "schema": "adl.v0918.wp15.convergence_proof.v1",
   "issue": 5354,
   "status": "pass",
-  "revision": "826856c1fe08bcc22ab97778f962abb6e9a1000d",
+  "revision": "cfd4884183a09ae5b5aa96197b3042f169351c8d",
   "predecessor": {
     "issue": 5384,
     "pull_request": 5726,
@@ -11,6 +11,12 @@
   },
   "adl_v2": {
     "fixture": "adl-characterization/corpus/v1/fixtures/mock-run.adl.yaml",
+    "binary": "external-fastwork-target/debug/adl-v2",
+    "binary_location_policy": "rebuilt under ADL_WP15_TARGET_DIR outside the repository; retained proof uses executable digest, not host path",
+    "binary_sha256": "91fa14358d7c9d2106fa65219e952b55db40ce677cb1909d96bcde3f25cdf066",
+    "source_identity_sha256": "bf63d869276968ad9a50019a2370fb5acc94b3cb15ecd63bbd6f79e328d0f549",
+    "lockfile_sha256": "991bb6238ee07b8adf87cf3d41c57860777dfd25ed18d9fdc5f64fb792bee0b8",
+    "locked_build_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "plan_contract": "adl.execution-plan.v1",
     "source_digest": "0843fa8fdc608c07c61a5cb83238a735a10cc634779266fd3e505011b8785229",
     "plan_output_sha256": "3a3c3de63596999456ee435ac50ad4d1b97490cfbc784efc55f3594820e7ed03",
@@ -28,22 +34,39 @@
       "client_message": "unauthenticated_write_probe",
       "server_response": "write_authentication_required"
     },
+    "live_canonical_submit": {
+      "endpoint": "/v1/control",
+      "action": "submit",
+      "work_kind": "agent_runtime",
+      "work_id": "wp15-adl-plan-3a3c3de635969994",
+      "command_id": "wp15-cfd4884183a0-20260731185141",
+      "correlation_id": "b365b197e5abd3e7071fe114bcdf5b7b",
+      "principal": "wp15-proof",
+      "signing_key_id": "wp15-proof",
+      "unsigned_command_sha256": "e61f35bab8e345c0015f22668e641a114e1a22bbdd1db5f9d3b6ad95abec398e",
+      "payload_sha256": "1dff296c34ba17c254f7eb64d23be46804eeb91e963519d9a173560c41908a70",
+      "plan_output_sha256": "3a3c3de63596999456ee435ac50ad4d1b97490cfbc784efc55f3594820e7ed03",
+      "response_sha256": "bf7a7d6af23696a4838cca6de33382682c5a94ced1e649fdf935a966805304b4",
+      "outcome": "submitted",
+      "accepted_sequence": 1,
+      "result_hash": "0a2550f7d19a96256081fc399912beed2cc842c0170f5206bfe13fdae23d20b9"
+    },
     "live_schema": "adl.runtime_v3.observatory_feed.v2",
-    "runtime_instance_id": "831c080ba9a245c99142c5622b5b2ec7",
+    "runtime_instance_id": "1b4ca167fd794e988541690eff843ecd",
     "lifecycle": "running",
     "components_running": 27,
     "observability_ready": true,
     "websocket_full_duplex": true,
     "public_reads": true,
     "login_required_for_mutation": true,
-    "continuity_generation": 1
+    "continuity_generation": null
   },
   "csdlc_v2": {
     "selected_generation": "v2",
-    "phase": "implemented",
-    "generation": 6,
+    "phase": "published",
+    "generation": 10,
     "claim_id": "claim-5354-v0918-wp15-reacquired",
-    "doctor_status": "pass",
+    "doctor_status": "block",
     "closeout_blocks_execution": false
   },
   "unity": {
@@ -80,7 +103,7 @@
       "disposition": "proven"
     },
     {
-      "claim": "ADL v2 dispatch reaches Runtime v3 canonical ingress",
+      "claim": "ADL v2 compiled plan work is submitted to live Runtime v3 canonical ingress and accepted by agent_runtime",
       "disposition": "proven"
     },
     {
@@ -107,5 +130,24 @@
       "claim": "WP-15 independently proves every v0.91.8 release feature",
       "disposition": "explicit_non_claim"
     }
-  ]
+  ],
+  "proof_freeze": {
+    "schema": "adl.v0918.wp15.proof_freeze.v1",
+    "packet_fingerprint_sha256": "20d46bf78d72e1b8b88e93e42c037151c7a8bc372118240460780d78c8c545ee",
+    "frozen_paths_sha256": {
+      ".csdlc/issues/5354/index.json": "d7b24565aef6d0ad17d392b64f1d6417edf424905c5e3a41404636612338742e",
+      ".csdlc/issues/5354/audit.jsonl": "c47d69557c072b0cbefd27ccc8b5b4183759fd924a382f526a151113a9f4343a",
+      ".csdlc/prepared/issues/5354/run-validation-lane.rb": "a5d6c773f0d5c8e17f20c087e10bc2dcf578f160eb43868295b3c130c855f9dc",
+      ".csdlc/prepared/issues/5354/check-dependencies.rb": "9480f7da49ca6e46de3cf80034f7663aaec19189114c5d8ff68cafbdf36da520",
+      "adl-v2/Cargo.lock": "991bb6238ee07b8adf87cf3d41c57860777dfd25ed18d9fdc5f64fb792bee0b8",
+      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md": "3fd22adfc82734137925f9e83fec6681189f234867def37742ac4bd0fc411a31",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md": "68163e22cde2a34d80caf165adebc4f2042a675f5701e6d09d6511d54088b187"
+    },
+    "result_hashes": {
+      "plan_output_sha256": "3a3c3de63596999456ee435ac50ad4d1b97490cfbc784efc55f3594820e7ed03",
+      "run_output_sha256": "f02858857dd6f73382ba2ea151edb17b4dd19fcbc4ec35fd88712e2f2408e599",
+      "live_control_response_sha256": "bf7a7d6af23696a4838cca6de33382682c5a94ced1e649fdf935a966805304b4",
+      "unsigned_command_sha256": "e61f35bab8e345c0015f22668e641a114e1a22bbdd1db5f9d3b6ad95abec398e"
+    }
+  }
 }
