@@ -16,14 +16,14 @@ Render and validate six current-registry cards; freeze exact WP-14A terminal gat
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Complete six cards, design, diagram, exact preparation-only claim, COTS, budgets, PVF, executable gates, bounded reviews and fixes, typed bind/doctor, commit, and push",
+    "action": "Complete six cards, design, diagram, bounded claim, COTS, budgets, PVF, typed bind and doctor, commit, and push.",
     "acceptance_ids": [
       "AC-1",
       "AC-5",
@@ -31,11 +31,11 @@ Revision 1
       "AC-7",
       "AC-8"
     ],
-    "status": "in_progress"
+    "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Wait read-only until #5384 is merged, typed closed_out, claim-free, retained-receipt-backed, and ancestral",
+    "action": "Verify #5384 is GitHub merged and closed and its exact merge SHA is ancestral; do not wait for typed closeout.",
     "acceptance_ids": [
       "AC-1"
     ],
@@ -43,7 +43,7 @@ Revision 1
   },
   {
     "id": "S3",
-    "action": "Amend the typed claim to exact reviewed demo/evidence paths, run the fresh-consumer three-product scenario, and retain deterministic redaction-safe evidence",
+    "action": "Run the fresh-consumer three-product scenario and retain deterministic redaction-safe evidence at the amended exact paths.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -55,7 +55,7 @@ Revision 1
   },
   {
     "id": "S4",
-    "action": "Update the claim-boundary and demo/proof matrices, run complete validation and exact review, publish through typed v2, shepherd green CI, serialize authorized merge, run post-merge proof, and close out",
+    "action": "Update the claim-boundary and demo/proof matrices, run complete validation and one exact review, publish through typed v2, and shepherd current-head CI; post-merge closeout runs asynchronously.",
     "acceptance_ids": [
       "AC-4",
       "AC-5",
