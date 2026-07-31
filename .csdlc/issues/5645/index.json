@@ -3,33 +3,166 @@
   "issue": 5645,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66e6fe21fe3d3c791f480aa47526bc8fa658836c3434693467b04c80c03c40dd",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "5dbbe59ea65a6e2a3a1e0d342175f056a41bc6fa71d2a3b7998340b3cda588de",
-  "claim": {
-    "id": "claim-5645-csdlc-merge-command",
-    "owner": "codex:5645-execution",
-    "generation": 4,
-    "acquired_unix_seconds": 1784784477,
-    "expires_unix_seconds": 1785389277,
-    "heartbeat_unix_seconds": 1784784477,
-    "branch": "codex/csdlc-merge-command-impl",
-    "worktree": ".",
-    "protected_paths": [
+  "phase": "closed_out",
+  "generation": 13,
+  "digest": "ed2eb38fd0cd90e2af1a6c692b110f6a398632ece2d98ffeae6ac98f9b388aad",
+  "claim": null,
+  "review_assignment": {
+    "reviewer": "subagent:review-5632",
+    "assigned_by": "codex:5645-execution",
+    "revision": "git-blake3:dd1972aa2c544a3f8ad51dde2e7611fcc0c5fc26:eb9f2645132e816e0aa8d051667cf87826d3b15dbe215881fcfbe3e0def27125",
+    "scope": [
+      "csdlc-v2/src/merge.rs",
+      "csdlc-v2/src/bin/csdlc-merge.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/Cargo.toml"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:review-5632",
+    "scope": [
+      "csdlc-v2/src/merge.rs",
+      "csdlc-v2/src/bin/csdlc-merge.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/Cargo.toml"
+    ],
+    "reviewed_revision": "git-blake3:dd1972aa2c544a3f8ad51dde2e7611fcc0c5fc26:eb9f2645132e816e0aa8d051667cf87826d3b15dbe215881fcfbe3e0def27125",
+    "findings": [],
+    "residual_risks": [
+      "Canonical gate matrix and mocked Octocrab request tests remain future hardening; the exact-head merge gate and focused contract proofs are present."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5645,
+    "pull_request": 5646,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5646",
+    "base": "main",
+    "head": "codex/csdlc-merge-command-impl",
+    "revision": "git-blake3:dd1972aa2c544a3f8ad51dde2e7611fcc0c5fc26:eb9f2645132e816e0aa8d051667cf87826d3b15dbe215881fcfbe3e0def27125",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": {
+    "pull_request": 5646,
+    "head_sha": "dd1972aa2c544a3f8ad51dde2e7611fcc0c5fc26",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129462046"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129118660"
+      },
+      {
+        "name": "adl-coverage-hosted",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129099445"
+      },
+      {
+        "name": "adl-coverage-runtime-hosted",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129099559"
+      },
+      {
+        "name": "adl-coverage-workspace-hosted",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129099668"
+      },
+      {
+        "name": "adl-demo-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129099598"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129077787"
+      },
+      {
+        "name": "adl-runtime-v3-fast",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129099842"
+      },
+      {
+        "name": "adl-rust-fmt-clippy",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129099784"
+      },
+      {
+        "name": "adl-rust-tests",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129099535"
+      },
+      {
+        "name": "adl-slow-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129099783"
+      },
+      {
+        "name": "adl-spot-ci-and-coverage",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129099614"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129099217"
+      },
+      {
+        "name": "adl-v2-standalone",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129099596"
+      },
+      {
+        "name": "csdlc-v2-standalone",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29983110644/job/89129099214"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5646,
+    "disposition": "merged",
+    "observed_sha": "dd1972aa2c544a3f8ad51dde2e7611fcc0c5fc26",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5645.json",
+    "released_branch": "codex/csdlc-merge-command-impl",
+    "released_worktree": ".",
+    "released_protected_paths": [
       "csdlc-v2/src",
       "csdlc-v2/tests",
       ".csdlc/prepared/issues/5645"
-    ],
-    "purpose": "Implement the bounded typed csdlc-merge command"
+    ]
   },
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
-  "readiness": null,
-  "terminal": null,
   "migration": null,
-  "design_path": ".csdlc/prepared/issues/5645/design.md",
-  "diagram_path": ".csdlc/prepared/issues/5645/diagram.mmd",
+  "design_path": ".csdlc/issues/5645/retained/design.md",
+  "diagram_path": ".csdlc/issues/5645/retained/diagram.mmd",
   "design_review": {
     "approved": {
       "reviewer": "operator:issue-5645",
@@ -38,34 +171,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c59239e4d980ce54ae4bd8de7f38ca3fba1f8b0e595eda94a41ed41a1ef7422e",
+      "values_digest": "c03c02cb03993790b805f55b7c530631bffefe6e377e6d31f705fb0c1aa37c18",
       "rendered_digest": "d85d7df4f2fde6f462301f95a360011596f956c203f927d3a6c28b7f65147feb",
       "ast_digest": "b10e09172cb5a0027a92869ea259bd3799090c23d271280cecbaead78577a247"
     },
     "stp": {
-      "values_digest": "cb17976ad97ee00475820cff7d20f5922e26eeea24bc58b59cb2ec3ca50d0faa",
+      "values_digest": "ccf5b8a7818d81efbc77fd7ab1cd38bf5feaf9abca8ea358057b6d70ef0903f3",
       "rendered_digest": "fe2c62865054498119b5017f0861cb2176c795c7af89e9b053f5f5e1d2bde30a",
       "ast_digest": "04255eed0b50be5b6e006e0128af0eccb66fafea548545420e28a7a931bc6302"
     },
     "spp": {
-      "values_digest": "f11b6ef240c85072168ace0f1d7de7ad7d3270e9d0fdd2b3ccf947efc84d403b",
-      "rendered_digest": "65fc503ed32bde77f321f34b82bfe0bdd9706428bd9518012df9714188bf2270",
-      "ast_digest": "88bf3a990aa1d57b0f2c5a2fdb8400661f0546515de403660fe074a63138a17e"
+      "values_digest": "97f8ff376968f0f3e1eaf9994dead97a5cf7f6fcba8e89eb7f4dce6eba373783",
+      "rendered_digest": "b29b375283d33f13521743f13a65bc1f3496cd9dd2a2be59b4cd0a3a346566a4",
+      "ast_digest": "8649dfb00807f2f79fef1a85f9074e9f52367a952a65b871a3333713658c54dd"
     },
     "vpp": {
-      "values_digest": "9f355e30e241bc800f82412b1309547954582e2cc56597224dbf5285ce4f1022",
-      "rendered_digest": "32f5066f6964823231672e6de9b82892b0c639d78ef0ced036bf97697e942187",
-      "ast_digest": "87285c9e37c7a04b9916649032c86396302b6f2b605268a945ebc5880e44f00b"
+      "values_digest": "62f30ebbf0498649941d0471c1fb684a81290d921235ec432714bec60ace7304",
+      "rendered_digest": "14ef89f09ca7305e0f667041980328e93a482d492423ad7d03a72219b7098f11",
+      "ast_digest": "6e032e03a9de481345685e395ed8a87593861d19f31a5a97613801cad4810154"
     },
     "srp": {
-      "values_digest": "e3c318fe20f13daab5ba132145fc2c94b6ab7ac4a2b5c96c0c8c7e5f8397edad",
-      "rendered_digest": "c64b90eada2d73ebc3eb027ad74987dc3c6204c04cdf545e8856d96d2e9b2028",
-      "ast_digest": "82c1f27b60c10e87722b2438555473c5bb22aeb81ecf2c64826a500527291ca1"
+      "values_digest": "faa14d1e407af041111dca20ebbf5acdabf9151b57b897cbb256867731b2e4ec",
+      "rendered_digest": "f93d68d49098e0900f081037cd5050bd31f4405a66020e8acfcfcc44e4f844e6",
+      "ast_digest": "d6046151da11aef466d4ca0ff152b2b648ec3679fe3e3c2a89ad1e236e7bf0d1"
     },
     "sor": {
-      "values_digest": "66275265577e73f55ad6d03bcaf0cb9ae2de619c6916223599e11633a5207add",
-      "rendered_digest": "3b995fad5d791546a4dd0f8c29e9ed0be4eab550a58ef727f6167e999f96f9fe",
-      "ast_digest": "f91ceb183baaa2d8ca966c4f7102266a4a85ded83a0bae1721e77d10ac85f292"
+      "values_digest": "1501fcd7c41c5680f338ba757425c3aecf6056f20b1fcdb02a756e6a1d94a203",
+      "rendered_digest": "cb5a1efac265a04e571f5b912ca90ca6386b8af342b93dd2725d6a5319c3056f",
+      "ast_digest": "2a74284e3632877d0466544d48b7eeff3a7769d9aa656c083568747bbcf22ef6"
     }
   },
   "transitions": [
@@ -89,6 +222,41 @@
       "to": "implemented",
       "actor": "codex:5645-execution",
       "reason": "Begin bounded implementation of the typed csdlc-merge command in the bound worktree."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5645-execution",
+      "reason": "Exact-head subagent review completed with no actionable findings after token-source consistency repair."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5645-execution",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:5645-execution",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:5645-execution",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:5645-execution",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -133,6 +301,76 @@
       "actor": "codex:5645-execution",
       "reason": "Focused merge contract tests, merge idempotence proof, and all csdlc-v2 merge-filtered tests passed.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"merge\"],\"purpose\":\"Prove typed merge request/result schemas, exact-head drift rejection, required-check gating, and successful green gate classification.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5645/merge-command.log\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:5645-execution",
+      "reason": "Focused merge contract tests, merge idempotence proof, explicit token-source precedence, and all csdlc-v2 merge-filtered tests passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"merge\"],\"purpose\":\"Prove typed merge request/result schemas, exact-head drift rejection, required-check gating, and successful green gate classification.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5645/merge-command.log\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:5645-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "subagent:review-5632",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:5645-execution",
+      "reason": "Exact-head subagent review completed with no actionable findings after token-source consistency repair.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:5645-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:5645-execution",
+      "reason": "record exact existing PR ready-for-review after remote success",
+      "operation": "record_ready_publication"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:5645-execution",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:5645-execution",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:5645-execution",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:5645-terminal-reconcile",
+      "reason": "Materialize retained terminal closeout authority from shared receipt into the tracked projection on current main.",
+      "operation": "reconcile_terminal"
     }
   ]
 }

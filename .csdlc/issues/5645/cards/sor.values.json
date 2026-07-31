@@ -7,9 +7,9 @@
     "title": "Add typed fail-closed csdlc-merge command",
     "slug": "typed-csdlc-merge-command",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 13
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -49,12 +49,24 @@
           "purpose": "Prove typed merge request/result schemas, exact-head drift rejection, required-check gating, and successful green gate classification.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/5645/merge-command.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "merge"
+          ],
+          "purpose": "Prove typed merge request/result schemas, exact-head drift rejection, required-check gating, and successful green gate classification.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5645/merge-command.log"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
