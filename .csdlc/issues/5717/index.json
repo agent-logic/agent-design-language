@@ -3,13 +3,13 @@
   "issue": 5717,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "076248de115adaa0f9c9eff8cbbd8ff162b2d01f5bdb2d6a9d316c57f9ea4b83",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "f81b170daa674b2355a3f039702c7154be18c5493a4b7e0bfbcb3c619fef31ea",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "cdff65c4ca0e12a12b5b68218c4014874ac08813490e92f8c403d32bb6516b15",
   "claim": {
     "id": "claim-5717-podcast-studio-copy",
     "owner": "codex:5717-execution",
-    "generation": 13,
+    "generation": 15,
     "acquired_unix_seconds": 1785361490,
     "expires_unix_seconds": 1785966290,
     "heartbeat_unix_seconds": 1785361490,
@@ -38,9 +38,9 @@
     "purpose": "Update the integrated podcast studio page copy and logo for launch readiness while preserving the #5715 route, assets, audio, and RSS wiring"
   },
   "review_assignment": {
-    "reviewer": "codex-subagent:019fb611-66ff-7df3-98cc-958fa9f7f647",
+    "reviewer": "codex-subagent:019fb615-80b0-7bf3-b207-d3fc3499ee18",
     "assigned_by": "codex:5717-execution",
-    "revision": "git-blake3:f7c13481a5783dc5ee81b26dd761686a1b53be75:14ba0929895cdd70bac3132a023cc5134be7aa9f2e26276f4c9a47eb1196dc79",
+    "revision": "git-blake3:b2c7271a8ad8733ad651e8bdb68a3494d24604d8:e8c9dba00635d555c21090f950ddb058e8bed255498fd61727fa5f0be3785509",
     "scope": [
       ".csdlc/issues/5717",
       ".csdlc/prepared/issues/5717",
@@ -51,7 +51,25 @@
       "demos/podcast/index.html"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:019fb615-80b0-7bf3-b207-d3fc3499ee18",
+    "scope": [
+      ".csdlc/issues/5717",
+      ".csdlc/prepared/issues/5717",
+      "demos/_preview/podcast/index.html",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/episodes/meet-the-ai-coworkers/index.html",
+      "demos/podcast/feed.xml",
+      "demos/podcast/index.html"
+    ],
+    "reviewed_revision": "git-blake3:b2c7271a8ad8733ad651e8bdb68a3494d24604d8:e8c9dba00635d555c21090f950ddb058e8bed255498fd61727fa5f0be3785509",
+    "findings": [],
+    "residual_risks": [
+      "Launch still requires public HTTPS hosting, mailbox verification for podcast@agent-logic.ai, final show artwork, final approved audio/title/description/publish-date/content-rights truth, directory account submissions after approval, and final human approval."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -66,32 +84,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fef18e6dc58c58891f54caa8d0a718413ef4c96d94d84ff6852e604934aa4e04",
+      "values_digest": "e39514123d6124760b662dd4102477674bc6c45e7b62e97822c689a12422a2ab",
       "rendered_digest": "72b19c7db1294878ef02538e3c2c1afcd75c4962eed345a546782b4c4a01703c",
       "ast_digest": "44990155f81bd4fe0b63937ab141c8169a0b74a8c485f0f1ad1c67f06d9502dd"
     },
     "stp": {
-      "values_digest": "9e595457e3314d605781ab7bc9edbcb9e0bcb6ff11b42402815dcee7ee063772",
+      "values_digest": "b9f6410f8c1f556ca26368c4bc19032215a21d4bd45a8bcc4cd390da7774a2d0",
       "rendered_digest": "79384f1b1112b72739525c66c07f15aaf6b41ff8d1d4d9692428171882b8141f",
       "ast_digest": "60a985e4b0af0ce1214f640fc699395f397face6fedd1ff9270f742992f7331a"
     },
     "spp": {
-      "values_digest": "d1458c6b6895c0dba239dc7a640bf2aebb33399c5a7be62afe5dd09bc07a35a0",
+      "values_digest": "2b768a62ce2d2c719eccc1ac3decbaf4125e5b36aaac213435ff2ad66ecd1c4d",
       "rendered_digest": "d3b4f7483ba6b1141a655013189e5d14ae73794d4cabd676351ba3e292b9c1af",
       "ast_digest": "a1410f989e1feab41cd381de6aa45590c9d044cec08b55dc55effad879befb2e"
     },
     "vpp": {
-      "values_digest": "a2ad337694e3bce6c4a67b9e2c4b355eb1ad90806a04fb84ed85b97a098b7c65",
+      "values_digest": "bee922decd948c100cf34b2a9f8c830501c790554696e822017b77391f16bea7",
       "rendered_digest": "d4b179d6ddfe7e069e109aac976bf47c9b190fa9ae5d17e5ab31011b5df07990",
       "ast_digest": "beb988a8127e2b82f642f57dae1be11765034e5e7375d161f975b12b60f8dc9d"
     },
     "srp": {
-      "values_digest": "82683f001d32d7213f02eac8a69e7a2cffe8f36b0d15fec1481d073679929d3d",
-      "rendered_digest": "d8254a6de80feed89563a4c42b0f28113a1edb7120029d7d6ec0a275b5e14e3f",
-      "ast_digest": "43c95aabb5c23da8d6aabfa403bc7089354881587540433033b1fad166c51c2f"
+      "values_digest": "83909f8dc5633add092b401dd4cae515b515455d6d5e7dcfc6c67db49015f0f2",
+      "rendered_digest": "f6713068146a4edd6b9c347b90dfab338d82370ada0303fdcfaf995eeeb86d5b",
+      "ast_digest": "e7574a2f28d59323d97221350d1c657a57e685dbffd4e44b8a9ebb2928793d87"
     },
     "sor": {
-      "values_digest": "45c12cd2c688115c22d8751b2829c97bd11cedfea16c7a06ee67927db4cd5392",
+      "values_digest": "a98e65cfab64c9187af509b12c02bc1f5a17af0d5ba0cd87142128f5118966f6",
       "rendered_digest": "5fa9c9327a117da56d8ef1b66a69b3d3af689d2126a2fba39dfba987ca389693",
       "ast_digest": "a30d9256f2c9bf79bc1b6b949a58bccdf98ec164ea4ccbbc0dbd97e0ab9a8b1b"
     }
@@ -138,6 +156,13 @@
       "to": "implemented",
       "actor": "codex:5717-execution",
       "reason": "Recover stale review/publication truth after the operator approved additional launch-prep gates beyond the already published podcast studio copy PR."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5717-execution",
+      "reason": "Exact codex subagent review passed with no P0-P3 findings for the b2c7271a launch-prep gates 1-8 packet."
     }
   ],
   "audit": [
@@ -280,6 +305,27 @@
       "actor": "codex:5717-execution",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
+      "actor": "codex:5717-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:5717-execution",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:5717-execution",
+      "reason": "Exact codex subagent review passed with no P0-P3 findings for the b2c7271a launch-prep gates 1-8 packet.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
