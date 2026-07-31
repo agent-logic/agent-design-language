@@ -127,7 +127,7 @@ def write_launch_pages(out_root: Path, packet: dict, audio_file: str, audio_byte
 <body>
   <main>
     <section class=\"hero\">
-      <img class=\"logo\" src=\"../v0.91.3/agent-logic-logo.png\" alt=\"Agent Logic\">
+      <img class=\"logo\" src=\"studio/uploads/agent-logic-logo.svg\" alt=\"Agent Logic\">
       <div class=\"eyebrow\">Weekly AI conversations</div>
       <h1>Agent Logic Podcast</h1>
       <p class=\"intro\">A reusable studio for friendly conversations with AI hosts, invited model guests, human guests, and listener questions.</p>
@@ -188,6 +188,37 @@ def write_launch_pages(out_root: Path, packet: dict, audio_file: str, audio_byte
 </html>
 """
     (episode_root / "index.html").write_text(episode_page, encoding="utf-8")
+
+    for item in packet["episodes"][1:]:
+        item_slug = safe_slug(item["slug"])
+        item_root = out_root / "episodes" / item_slug
+        item_root.mkdir(parents=True, exist_ok=True)
+        planned_page = f"""<!doctype html>
+<html lang=\"en\">
+<head>
+  <meta charset=\"utf-8\">
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+  <title>Episode {item['number']:02d}: {html.escape(item['title'])}</title>
+  <link rel=\"alternate\" type=\"application/rss+xml\" title=\"Agent Logic Podcast\" href=\"../../feed.xml\">
+  <style>
+    body {{ margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #101113; }}
+    main {{ max-width: 760px; margin: 0 auto; padding: 42px 24px 64px; }}
+    a {{ color: #2563eb; }}
+    h1 {{ font-size: clamp(2rem, 5vw, 4rem); line-height: 1; letter-spacing: 0; margin-bottom: 14px; }}
+    p {{ color: #4b5563; line-height: 1.65; font-size: 1.05rem; }}
+  </style>
+</head>
+<body>
+  <main>
+    <a href=\"../../\">Agent Logic Podcast</a>
+    <h1>Episode {item['number']:02d}: {html.escape(item['title'])}</h1>
+    <p>{html.escape(item['listener_question'])}</p>
+    <p>This proposed episode is queued for the weekly launch calendar.</p>
+  </main>
+</body>
+</html>
+"""
+        (item_root / "index.html").write_text(planned_page, encoding="utf-8")
 
     pub_dt = datetime.fromisoformat(episode["publish_date"]).replace(tzinfo=timezone.utc)
     rss_date = email.utils.format_datetime(pub_dt)

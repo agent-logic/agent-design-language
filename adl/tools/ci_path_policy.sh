@@ -44,10 +44,17 @@ assert_windows_portable_tracked_paths() {
       fi
       [[ -z "$remainder" ]] && break
     done
-  done < <(git ls-files -z)
+  done < <(
+    if [ "$event_name" = "pull_request" ] && [ -n "${base_sha:-}" ] && [ -n "${head_sha:-}" ]; then
+      git diff --name-only -z --diff-filter=ACMR "$base_sha...$head_sha" 2>/dev/null || \
+        git diff --name-only -z --diff-filter=ACMR "$base_sha" "$head_sha" 2>/dev/null || true
+    else
+      git ls-files -z
+    fi
+  )
 
   if [[ ${#invalid[@]} -gt 0 ]]; then
-    printf 'ci_path_policy: tracked paths are not portable to Windows:\n' >&2
+    printf 'ci_path_policy: paths are not portable to Windows:\n' >&2
     printf '  %s\n' "${invalid[@]}" >&2
     return 2
   fi
@@ -688,6 +695,9 @@ changed_files_include_demo_smoke_surface() {
   while IFS= read -r path; do
     [ -n "$path" ] || continue
     case "$path" in
+      demos/podcast/*|demos/_preview/podcast/*)
+        continue
+        ;;
       demos/*|adl/tools/demo_*|adl/tools/test_demo_*)
         return 0
         ;;
@@ -1360,17 +1370,49 @@ apply_validation_manager_routing() {
         reason="bounded_rust_dependency_cache_warmup_policy_change_runs_python_and_path_policy_checks"
       else
         ci_contracts_required=true
+        if changed_files_include_demo_smoke_surface; then
+          demo_smoke_required=true
+        fi
         reason="${validation_profile_primary_reason:-ci_policy_surface_requires_path_policy_contract_checks}"
       fi
       return 0
       ;;
     ready_to_run:*ci_path_policy_contracts*:false)
       ci_contracts_required=true
+      if changed_files_include_demo_smoke_surface; then
+        demo_smoke_required=true
+      fi
       reason="${validation_profile_primary_reason:-ci_policy_surface_requires_path_policy_contract_checks}"
       return 0
       ;;
     ready_to_run:docs_diff_check:false)
       reason="${validation_profile_primary_reason:-docs_only_surface_requires_diff_hygiene}"
+      return 0
+      ;;
+    ready_to_run:podcast_static_demo_surface:false|\
+    ready_to_run:docs_diff_check,podcast_static_demo_surface:false|\
+    ready_to_run:podcast_static_demo_surface,docs_diff_check:false)
+      ci_contracts_required=true
+      demo_smoke_required=false
+      reason="podcast_static_demo_surface_requires_diff_hygiene"
+      return 0
+      ;;
+    ready_to_run:podcast_launch_packet,podcast_static_demo_surface:false|\
+    ready_to_run:podcast_static_demo_surface,podcast_launch_packet:false|\
+    ready_to_run:docs_diff_check,podcast_launch_packet,podcast_static_demo_surface:false|\
+    ready_to_run:docs_diff_check,podcast_static_demo_surface,podcast_launch_packet:false|\
+    ready_to_run:podcast_launch_packet,docs_diff_check,podcast_static_demo_surface:false|\
+    ready_to_run:podcast_launch_packet,podcast_static_demo_surface,docs_diff_check:false|\
+    ready_to_run:podcast_static_demo_surface,docs_diff_check,podcast_launch_packet:false|\
+    ready_to_run:podcast_static_demo_surface,podcast_launch_packet,docs_diff_check:false)
+      ci_contracts_required=true
+      demo_smoke_required=false
+      coverage_required=false
+      full_coverage_required=false
+      coverage_lane="skip"
+      coverage_authority="not_required"
+      coverage_execution_state="skipped_by_path_policy"
+      reason="podcast_launch_surface_requires_audio_rss_and_studio_packet_validation"
       return 0
       ;;
     ready_to_run:sprint_conductor_contracts:false|\
@@ -1382,7 +1424,7 @@ apply_validation_manager_routing() {
     ready_to_run:docs_diff_check,podcast_launch_packet:false|\
     ready_to_run:podcast_launch_packet,docs_diff_check:false)
       ci_contracts_required=true
-      demo_smoke_required=true
+      demo_smoke_required=false
       coverage_required=false
       full_coverage_required=false
       coverage_lane="skip"
@@ -1587,6 +1629,9 @@ EOF
               continue
             fi
             mark_pr_fast_rust_validation
+            ;;
+          demos/podcast/*|demos/_preview/podcast/*)
+            ci_contracts_required=true
             ;;
           demos/*|adl/tools/demo_*|adl/tools/test_demo_*)
             ci_contracts_required=true
