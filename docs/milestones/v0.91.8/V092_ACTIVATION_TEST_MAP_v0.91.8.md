@@ -14,8 +14,8 @@ These rows do not block WP-14A itself.
 | Lifecycle governance | #5358 | C-SDLC v2 typed lifecycle proof |
 | Capability envelope | #4761 | Evidence-backed capability envelope |
 | Memory Palace | #4760, #5007 | Acceptance boundary, handoff evidence, and ADR acceptance |
-| Birth witnesses/receipt | #4762 | Auditable receipt package |
-| Public launch docs | #4758, #4763 | Claim-bounded launch docs |
+| Birth witnesses/receipt | #4762 | Auditable receipt package with accepted actual retained proof before any birthday claim |
+| Public launch docs | #4758, #4763 | Claim-bounded launch docs plus tracked external launch copy, reviewer FAQ, publication gate, and forbidden-claim checklist; final public-ready claim remains blocked until #4762 accepted proof is cited |
 | Adaptive Learning DAG | #5107 | Queued prerequisites and non-claims |
 | Distributed workcell | #5497, #5501 | One reviewed live workcell and bounded context/output-contract proof |
 | Canonical feature preservation | #5594, #5362, #5355 | Every relevant canonical feature-list row has an owner and terminal disposition; absent Runtime v3 implementation is a blocker before Runtime v2 deletion |
@@ -26,3 +26,9 @@ non-claim.
 
 Current consumption truth: #5408 is closed/remediated via PR #5419, but #4906
 remains retained blocked-with-evidence unless separately dispositioned.
+
+#4763 implementation note: the first-birthday external launch documentation
+surface is tracked under `docs/milestones/v0.92/external_launch/` and is
+consumed by the v0.92 launch packet and bridge ledger. Because #4762 remained
+open at the 2026-07-31 dependency check, this map must still treat final
+witness/receipt-backed birthday launch proof as pending.

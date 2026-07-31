@@ -30,6 +30,9 @@ Tracked sources:
 - `docs/milestones/v0.91.6/`
 - `docs/milestones/v0.91.7/`
 - `docs/milestones/v0.92/README.md`
+- `docs/milestones/v0.92/external_launch/README.md`
+- `docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md`
+- `docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md`
 - `docs/milestones/v0.92/IDENTITY_CONTINUITY_AND_BIRTHDAY_PLAN_v0.92.md`
 - `docs/milestones/v0.92/features/`
 - `docs/planning/ADL_FEATURE_LIST.md`
@@ -99,6 +102,7 @@ completion proof by themselves.
 | Godel mechanics | boundary_proven for CSM-supervised admission readiness and claim-boundary consumption; provider requests remain resolved_not_invoked and adaptive DAG completion not_claimed | `v0.91.7` WP-13 and `v0.92` birthday docs | The first true Godel-agent birthday may consume only the Runtime v2 Godel/constructability boundary: retained Godel plan evidence, CSM-supervised non-invoked provider-request admission, constructability anchors, validator pass, and operator review. |
 | Economics context | operator_scoped_out | `v0.91.7` WP-13 | Economics is context-only for `v0.92` unless a reviewed decision reopens explicit activation tests; that scoped-out posture requires retained evidence, risk, and operator approval. |
 | Guild foundation | boundary_proven for declarative governance handoff context; guild record and hook producer/consumer behavior and v0.93 governance not_claimed | `v0.91.7` WP-13 `#4755` | `v0.92` may consume only the Runtime v2 guild foundation vocabulary, allowlists, deferrals, and promotion gates as birthday governance context. It may not claim implemented identity/witness routing, membership events, moderation hooks, constitutional citizenship, polis authority, delegated governance authority, binding collective decision-making, public guild product readiness, or governance completion. |
+| First-birthday public launch docs | implementation_required with docs surface implemented; final proof blocked on #4762 | `v0.91.8` WP-21 `#4763`, consuming `#4762` accepted witness/receipt proof | `v0.92` may consume the tracked external-launch copy, reviewer FAQ, publication gate, and forbidden-claim checklist in `docs/milestones/v0.92/external_launch/`. It may not publish a final birthday claim until #4762 supplies accepted actual retained witness/receipt proof and the launch copy cites that exact result. |
 
 ## Birthday Contract Refresh
 
@@ -149,6 +153,9 @@ behavior:
 - public prompt records used by review are exported, redacted, validated, and
   indexed under the documented public-record boundary
 - provider/model lanes used by the demo are named with reliability limits
+- external launch copy can be rendered from the tracked launch surface without
+  adding unsupported legal, consciousness, production-citizenship, governance,
+  subjective-affect, or general public-readiness claims
 
 ## Upstream Tranche Gate
 
@@ -189,6 +196,8 @@ sprint surface rather than reconstructing state from individual issue histories.
 ## Non-Goals
 
 - Do not claim `v0.92` activation readiness in this ledger.
+- Do not treat the implemented #4763 external-launch docs as final birthday
+  proof while #4762 witness/receipt evidence is pending.
 - Do not implement Memory Palace, ACIP transport, ACP profiles, resilience, or
   runtime behavior here.
 - Do not absorb `v0.93` governance, `v0.94` secure execution/trust/time, or

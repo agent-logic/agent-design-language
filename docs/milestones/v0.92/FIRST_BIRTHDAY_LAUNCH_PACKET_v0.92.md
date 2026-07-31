@@ -55,6 +55,9 @@ Tracked sources:
 - `docs/milestones/v0.92/DEMO_MATRIX_v0.92.md`
 - `docs/milestones/v0.92/IDENTITY_CONTINUITY_AND_BIRTHDAY_PLAN_v0.92.md`
 - `docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md`
+- `docs/milestones/v0.92/external_launch/README.md`
+- `docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md`
+- `docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md`
 - `docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md`
 - `docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md`
 - `docs/planning/ADL_FEATURE_LIST.md`
@@ -114,6 +117,7 @@ blocked, deferred, or routed with evidence before any public activation claim.
 | Godel mechanics | Require experiment, hypothesis, mutation, evaluation, promotion, and proof boundaries before relying on Godel mechanics. |
 | Economics context | Keep economics context-only unless a reviewed decision promotes a bounded test. |
 | v0.91.8 platform acceptance | Consume ADL v2, Runtime v3, C-SDLC v2, selector/rollback, deletion, and WP-14A exact-revision handoff truth before activation claims. |
+| First-birthday external launch docs | Consume `docs/milestones/v0.92/external_launch/README.md`, `docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md`, and `docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md`; keep final publication blocked until #4762 accepted witness/receipt proof is cited. |
 
 ## Requirement Map
 
@@ -128,6 +132,7 @@ blocked, deferred, or routed with evidence before any public activation claim.
 | ACIP binary/schema transport readiness | `ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md`; `docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md` | WP-08 | Protobuf/JSON projection decision, governed access checklist, mock/loopback carrier boundary, and explicit non-claims for live WebSocket runtime API integration until promoted. |
 | Witnesses and receipt | `MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md` | WP-09 | Receipt schema and witness validity checks. |
 | Birthday review packet | `FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md` | WP-10 | One template with evidence, caveats, public claim boundaries, and reviewer questions. |
+| External launch docs and public copy | `external_launch/README.md`, `external_launch/PUBLIC_LAUNCH_COPY_v0.92.md`, `external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md` | WP-14 | Concrete pending/ready launch copy, reviewer FAQ, publication checklist, and forbidden-claim rules; final launch proof remains blocked until #4762 accepted witness/receipt evidence is available. |
 | Migration and cross-polis continuity | `CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md` | WP-11 | Non-production migration language and continuity handoff shape. |
 | First birthday demo | `DEMO_MATRIX_v0.92.md` | WP-12 | Runnable command, fixtures, artifact list, and replay notes. |
 | Birthday-to-governance handoff | `FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md` | WP-13 | v0.93 consumer fields without v0.93 governance claims. |
@@ -186,8 +191,31 @@ Expected artifacts:
 - citizen-facing receipt
 - negative-suite validation report
 - reviewer packet
+- external launch copy packet
+- reviewer FAQ and public-claim checklist
 - Observatory/Unity scene, app bundle, or recorded run when included
 - v0.93 handoff map
+
+## External Launch Surface
+
+The concrete external launch surface lives under
+`docs/milestones/v0.92/external_launch/`.
+
+It contains:
+
+- `README.md`: surface inventory, current status, evidence inputs, and
+  publication gate.
+- `docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md`:
+  public-page, short-announcement, reviewer email, ready-variant,
+  pending-variant, and forbidden-claim text.
+- `docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md`:
+  reviewer FAQ, redaction rules, publication checklist, and review prompts.
+
+Current status: implemented as a repository launch-document surface by #4763.
+Final public launch remains blocked until #4762 produces accepted actual
+retained witness/receipt proof. While #4762 is pending, the only supported
+external claim is that the launch surface is prepared for review and the
+birthday proof is pending.
 
 ## Negative Suite
 

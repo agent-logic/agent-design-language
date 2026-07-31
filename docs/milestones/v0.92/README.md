@@ -207,6 +207,8 @@ The likely `v0.92` tranche is:
 - Feature plans: [features/README.md](features/README.md)
 - Activation bridge ledger:
   [V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md](V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md)
+- External first-birthday launch surface:
+  [external_launch/README.md](external_launch/README.md)
 - Memory Palace context topology:
   [MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md](features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md)
 - First-birthday launch packet:

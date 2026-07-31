@@ -45,7 +45,9 @@ scope, validation, risks, and future-work boundary.
 The package covers birthday, identity/continuity, memory/capability/witnesses,
 ACP/cognitive profiles, ACIP binary/schema-catalog transport readiness,
 cross-polis continuity planning, and the first-birthday demo/governance
-handoff.
+handoff. The tracked external-launch surface under
+`../external_launch/` supplies public copy, reviewer FAQ, and publication-gate
+language for the first-birthday docs without authorizing final publication.
 
 ## Design
 
@@ -72,6 +74,7 @@ The package must not claim implementation completion before v0.92 work lands.
 - [../WP_ISSUE_WAVE_v0.92.yaml](../WP_ISSUE_WAVE_v0.92.yaml)
 - `#3377`
 - [../../v0.91.5/V092_ACTIVATION_TEST_MAP_v0.91.5.md](../../v0.91.5/V092_ACTIVATION_TEST_MAP_v0.91.5.md)
+- [../external_launch/README.md](../external_launch/README.md)
 
 ## Validation
 
@@ -122,6 +125,9 @@ visible as launch-readiness sources.
 | WP-08 | [ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md](ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md) |
 | WP-11 | [CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md](CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md) |
 | WP-12, WP-13, WP-14 | [FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md](FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md) |
+
+WP-14 also consumes the external-launch package:
+[../external_launch/README.md](../external_launch/README.md).
 
 Review, quality, docs, remediation, next-milestone planning, and ceremony WPs
 are release/process work rather than standalone product features.
