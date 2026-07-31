@@ -14,6 +14,31 @@ reviewed platform truth.
 - Demo and public-claim boundaries.
 - Explicit non-claims and blockers.
 
+## Implemented Activation Bridge
+
+WP-21 issue `#4759` implements the activation bridge at
+`docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md`. The bridge
+consumes the WP-14A platform acceptance ledger
+`docs/milestones/v0.91.8/review/V0918_WP14A_PLATFORM_ACCEPTANCE_5384.md`,
+including accepted baseline `11151e0beab02b1667f6505b7f8992bfd47d2f8f` and
+the accepted C-SDLC v2, Runtime v3, ADL v2 soak/rollback, and reversible
+default-switch merge revisions recorded there.
+
+This handoff therefore exposes one concrete v0.91.8 consumption path for
+v0.92 activation planning:
+
+1. accepted platform revisions from WP-14A `#5384`
+2. activation-surface dispositions in
+   `V092_ACTIVATION_TEST_MAP_v0.91.8.md`
+3. v0.92 bridge consumption in
+   `docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md`
+4. downstream birth-witness and receipt packaging in #4762
+
+The bridge does not claim v0.92 birthday readiness, public launch readiness,
+Memory Palace runtime completion, Unity demo proof, or unresolved Runtime v3
+Parity-B/C/D proof. Missing proof remains a named blocker or non-claim on the
+activation map.
+
 ## Review Routing
 
 The release tail must preserve `WP-21 -> WP-21A -> WP-22` ordering before

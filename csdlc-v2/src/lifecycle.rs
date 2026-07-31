@@ -168,14 +168,19 @@ fn terminally_released(store: &Store, local: &crate::IssueRecord) -> Result<bool
     Ok(true)
 }
 
-fn issue_records_across_worktrees(store: &Store) -> Result<Vec<(Store, crate::IssueRecord)>> {
-    let mut roots = std::collections::BTreeSet::new();
-    roots.insert(store.root().canonicalize()?);
-    for (_, root) in git::worktrees(store.root())? {
-        roots.insert(PathBuf::from(root).canonicalize()?);
+fn active_issue_records_across_worktrees(
+    store: &Store,
+) -> Result<Vec<(Store, crate::IssueRecord)>> {
+    let mut roots = std::collections::BTreeMap::new();
+    for (branch, root) in git::worktrees(store.root())? {
+        roots.insert(PathBuf::from(root).canonicalize()?, branch);
+    }
+    let current_root = store.root().canonicalize()?;
+    if let std::collections::btree_map::Entry::Vacant(entry) = roots.entry(current_root) {
+        entry.insert(git::current_branch(store.root())?);
     }
     let mut records = Vec::new();
-    for root in roots {
+    for (root, branch) in roots {
         let scoped = Store::new(root);
         let issues = scoped.root().join(".csdlc/issues");
         if !issues.exists() {
@@ -190,31 +195,41 @@ fn issue_records_across_worktrees(store: &Store) -> Result<Vec<(Store, crate::Is
             else {
                 continue;
             };
-            records.push((scoped.clone(), scoped.load_record(issue)?));
+            let record = scoped.load_record(issue)?;
+            let Some(claim) = record.claim.as_ref() else {
+                continue;
+            };
+            if claim.branch != branch || !claim_worktree_matches_root(&scoped, claim)? {
+                continue;
+            }
+            records.push((scoped.clone(), record));
         }
     }
     Ok(records)
 }
 
+fn claim_worktree_matches_root(store: &Store, claim: &Claim) -> Result<bool> {
+    if claim.worktree == "." {
+        return Ok(true);
+    }
+    let common_dir = PathBuf::from(
+        git::run(
+            store.root(),
+            &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+        )?
+        .stdout,
+    );
+    Ok(common_dir
+        .parent()
+        .map(|primary| primary.join(&claim.worktree))
+        .and_then(|expected| expected.canonicalize().ok())
+        .zip(store.root().canonicalize().ok())
+        .is_some_and(|(expected, current)| expected == current))
+}
+
 fn claim_matches_active_checkout(store: &Store, claim: &Claim) -> Result<bool> {
-    let worktree_matches = if claim.worktree == "." {
-        store.root().is_dir()
-    } else {
-        let common_dir = PathBuf::from(
-            git::run(
-                store.root(),
-                &["rev-parse", "--path-format=absolute", "--git-common-dir"],
-            )?
-            .stdout,
-        );
-        common_dir
-            .parent()
-            .map(|primary| primary.join(&claim.worktree))
-            .and_then(|expected| expected.canonicalize().ok())
-            .zip(store.root().canonicalize().ok())
-            .is_some_and(|(expected, current)| expected == current)
-    };
-    Ok(git::current_branch(store.root())? == claim.branch && worktree_matches)
+    Ok(git::current_branch(store.root())? == claim.branch
+        && claim_worktree_matches_root(store, claim)?)
 }
 
 fn copy_dir_recursive(source: &Path, destination: &Path) -> Result<()> {
@@ -425,12 +440,9 @@ pub(crate) fn initialize_issue(
         }
     }
     let _binding_lock = store.binding_lock()?;
-    for (other_store, other) in issue_records_across_worktrees(store)? {
+    for (other_store, other) in active_issue_records_across_worktrees(store)? {
         if other.issue != request.issue {
-            if terminally_released(&other_store, &other)? {
-                continue;
-            }
-            if let Some(claim) = other.claim {
+            if let Some(claim) = other.claim.as_ref() {
                 if let Some((reserved, requested)) = claim.protected_paths.iter().find_map(|a| {
                     request
                         .claim
@@ -439,6 +451,9 @@ pub(crate) fn initialize_issue(
                         .find(|b| overlaps(a, b))
                         .map(|b| (a, b))
                 }) {
+                    if terminally_released(&other_store, &other)? {
+                        continue;
+                    }
                     return Err(V2Error::new(
                         ErrorCode::ClaimCollision,
                         format!(
@@ -621,7 +636,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             ));
         }
     }
-    for (other_store, other) in issue_records_across_worktrees(store)? {
+    for (other_store, other) in active_issue_records_across_worktrees(store)? {
         if !issue_local && other_store.root() == wanted_compare {
             // Existing-target identity and side-state reconciliation below owns
             // this worktree. Preserve its more specific fail-closed result
@@ -629,10 +644,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             continue;
         }
         if other.issue != request.issue {
-            if terminally_released(&other_store, &other)? {
-                continue;
-            }
-            if let Some(claim) = other.claim {
+            if let Some(claim) = other.claim.as_ref() {
                 if let Some((reserved, requested)) = claim.protected_paths.iter().find_map(|a| {
                     request
                         .claim
@@ -641,6 +653,9 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                         .find(|b| overlaps(a, b))
                         .map(|b| (a, b))
                 }) {
+                    if terminally_released(&other_store, &other)? {
+                        continue;
+                    }
                     return Err(V2Error::new(
                         ErrorCode::ClaimCollision,
                         format!(
@@ -864,14 +879,11 @@ pub fn amend_claim_scope(store: &Store, request: AmendClaimScopeRequest) -> Resu
         .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
         .validate(&request.claim_id, request.now_unix_seconds)?;
 
-    for (other_store, other) in issue_records_across_worktrees(store)? {
+    for (other_store, other) in active_issue_records_across_worktrees(store)? {
         if other.issue == request.issue {
             continue;
         }
-        if terminally_released(&other_store, &other)? {
-            continue;
-        }
-        if let Some(claim) = other.claim {
+        if let Some(claim) = other.claim.as_ref() {
             if let Some((reserved, candidate)) = claim.protected_paths.iter().find_map(|reserved| {
                 request
                     .add_protected_paths
@@ -879,6 +891,9 @@ pub fn amend_claim_scope(store: &Store, request: AmendClaimScopeRequest) -> Resu
                     .find(|candidate| overlaps(reserved, candidate))
                     .map(|candidate| (reserved, candidate))
             }) {
+                if terminally_released(&other_store, &other)? {
+                    continue;
+                }
                 return Err(V2Error::new(
                     ErrorCode::ClaimCollision,
                     format!(
@@ -972,11 +987,11 @@ pub fn transition_active_claim(
         ));
     }
 
-    for (other_store, other) in issue_records_across_worktrees(store)? {
-        if other.issue == request.issue || terminally_released(&other_store, &other)? {
+    for (other_store, other) in active_issue_records_across_worktrees(store)? {
+        if other.issue == request.issue {
             continue;
         }
-        if let Some(other_claim) = other.claim {
+        if let Some(other_claim) = other.claim.as_ref() {
             if let Some((reserved, candidate)) =
                 other_claim.protected_paths.iter().find_map(|reserved| {
                     request
@@ -986,6 +1001,9 @@ pub fn transition_active_claim(
                         .map(|candidate| (reserved, candidate))
                 })
             {
+                if terminally_released(&other_store, &other)? {
+                    continue;
+                }
                 return Err(V2Error::new(
                     ErrorCode::ClaimCollision,
                     format!(
@@ -1084,11 +1102,11 @@ pub fn recover_claim(store: &Store, request: RecoverClaimRequest) -> Result<Clai
             "replacement claim generation is stale",
         ));
     }
-    for (other_store, other) in issue_records_across_worktrees(store)? {
-        if other.issue == request.issue || terminally_released(&other_store, &other)? {
+    for (other_store, other) in active_issue_records_across_worktrees(store)? {
+        if other.issue == request.issue {
             continue;
         }
-        let Some(other_claim) = other.claim else {
+        let Some(other_claim) = other.claim.as_ref() else {
             continue;
         };
         if other_claim
@@ -1107,6 +1125,9 @@ pub fn recover_claim(store: &Store, request: RecoverClaimRequest) -> Result<Clai
                     .map(|candidate| (reserved, candidate))
             })
         {
+            if terminally_released(&other_store, &other)? {
+                continue;
+            }
             return Err(V2Error::new(
                 ErrorCode::ClaimCollision,
                 format!(
@@ -1202,11 +1223,11 @@ pub fn reacquire_claim(
         ));
     }
 
-    for (other_store, other) in issue_records_across_worktrees(store)? {
-        if other.issue == request.issue || terminally_released(&other_store, &other)? {
+    for (other_store, other) in active_issue_records_across_worktrees(store)? {
+        if other.issue == request.issue {
             continue;
         }
-        let Some(other_claim) = other.claim else {
+        let Some(other_claim) = other.claim.as_ref() else {
             continue;
         };
         if other_claim
@@ -1225,6 +1246,9 @@ pub fn reacquire_claim(
                     .map(|candidate| (reserved, candidate))
             })
         {
+            if terminally_released(&other_store, &other)? {
+                continue;
+            }
             return Err(V2Error::new(
                 ErrorCode::ClaimCollision,
                 format!(
@@ -1258,7 +1282,7 @@ pub fn reacquire_claim(
         .to_string(),
     });
     record.digest = crate::store::record_digest(&record)?;
-    store.replace_record(request.issue, &expected_digest, &record)?;
+    record = store.replace_authority_record(request.issue, &expected_digest, &record)?;
     Ok(ReacquireClaimResult {
         schema: "csdlc.reacquire_claim_result.v1".into(),
         issue: request.issue,

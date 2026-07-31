@@ -5,29 +5,8 @@
   "initialization_digest": "9de995c461a3d35ca39f7101cac6fe4c389d72db4f3f3ea5283d6e690b53b6b2",
   "phase": "reviewed",
   "generation": 4,
-  "digest": "d9012b1d2378b8e60ee0c52a4e0589d1e755a87f10d8855623a19349159c8267",
-  "claim": {
-    "id": "claim-5715-podcast-studio-design-integration",
-    "owner": "codex:5715-execution",
-    "generation": 4,
-    "acquired_unix_seconds": 1785360552,
-    "expires_unix_seconds": 1785965352,
-    "heartbeat_unix_seconds": 1785360552,
-    "branch": "codex/5715-podcast-studio-design-integration",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/issues/5715",
-      ".csdlc/locks/5715.lock",
-      ".csdlc/prepared/issues/5715",
-      "demos/podcast",
-      "adl/tools/generate_podcast_launch_packet.py",
-      "adl/tools/validate_podcast_launch_packet.py",
-      "adl/tools/demo_v0918_podcast_launch.sh",
-      "adl/tools/test_podcast_launch_packet.sh",
-      "docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json"
-    ],
-    "purpose": "Integrate the operator-provided podcast studio page design into the current podcast route while preserving exact exported text/images, audio, and RSS"
-  },
+  "digest": "b1095b8129929a996a0a534ea1a2fc23b660c330c93a7ed61e2c7ed0ecf89b28",
+  "claim": null,
   "review_assignment": null,
   "review": {
     "reviewer": "Pasteur/read-only-exact-head-plus-local-clean-gate",
@@ -162,6 +141,13 @@
       "actor": "codex:5715-execution",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:5717-execution",
+      "reason": "Issue #5715 is reviewed/published on PR #5716 at head 0751a74a211ac7f0041f981437c3eb96486ad850 and no further #5715 implementation edits are planned; release only its broad demos/podcast active claim so follow-up #5717 can bind the finished studio copy surface without writing on main or bypassing typed collision checks.",
+      "operation": "{\"claim_id\":\"claim-5715-podcast-studio-design-integration\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:continue-5717-after-5715-reviewed-published\",\"previous_owner\":\"codex:5715-execution\"}"
     }
   ]
 }
