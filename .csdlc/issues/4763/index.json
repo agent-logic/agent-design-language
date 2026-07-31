@@ -4,15 +4,15 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "de570b0095a75b8aa7114f780283cfb652a4b99c9d315de2e0301efc58a83323",
   "phase": "initialized",
-  "generation": 0,
-  "digest": "b6b9dc79956c8c37b6b05eeeee33629a9fe5e5a52fad3d3853a2ed325000ca51",
+  "generation": 2,
+  "digest": "afab71a6587cd6b61a6a8d501ec81cfe94d2531e09b574763d7ecbaa772ab869",
   "claim": {
-    "id": "prep-4763-v0918-wp14",
-    "owner": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
-    "generation": 0,
-    "acquired_unix_seconds": 1784755804,
-    "expires_unix_seconds": 1785360604,
-    "heartbeat_unix_seconds": 1784755804,
+    "id": "prep-4763-v0918-wp14-refresh-20260731",
+    "owner": "codex:019f9ad4-4763-preparation-refresh",
+    "generation": 2,
+    "acquired_unix_seconds": 1785525825,
+    "expires_unix_seconds": 1786130625,
+    "heartbeat_unix_seconds": 1785525825,
     "branch": "codex/4763-v0918-wp14-preparation",
     "worktree": ".",
     "protected_paths": [
@@ -20,7 +20,7 @@
       ".csdlc/locks/4763.lock",
       ".csdlc/prepared/issues/4763"
     ],
-    "purpose": "Preparation only for later execution of the WP-14 first-birthday docs and non-claims; no implementation, PR, review, merge, or closeout."
+    "purpose": "Preparation-only refresh for #4763 first-birthday docs and external launch surfaces; no implementation, PR, publication, merge, or closeout."
   },
   "review_assignment": null,
   "review": null,
@@ -32,40 +32,40 @@
   "diagram_path": ".csdlc/prepared/issues/4763/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
-      "revision": "e51328796a6ea0996de9efa39c48e17dceb3ee479d7b6aabbc5041a769e261ce"
+      "reviewer": "gpt-5.5:bounded-preparation-review",
+      "revision": "c9648979f52a6c7faec83bfae3c719b6c042c22ba362d593c5fc325d1c0b4168"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "94e4157693e9c61fd0a12a0d44f85cebec7ccfe5de5a73599fd30cd0f0f8802a",
-      "rendered_digest": "e27f8cb3868b520ab8e3991799e3bd18cfc87d5dee923066f8407710cb46eded",
-      "ast_digest": "91db6c56411d5cc2a5125ca686197a24bcfedd2040a6a07e499931dd659c1c64"
+      "values_digest": "f4ad0b0d07cf54ecfef4f0d33b2698fd3e637a135dcfd90ae3d69a29466d559d",
+      "rendered_digest": "e2a837852a0cf17b65963d19fe34d7b2a6feae92bd583a035be2e97a33247881",
+      "ast_digest": "589adbf9bce5296abecb6aecf382caf6c78fb490172791708636dc965330a598"
     },
     "stp": {
-      "values_digest": "f39f0a190ac1a5bd3377527a1246c07b89b3ecdfce1df7e104612e11085a4249",
-      "rendered_digest": "1e13198372f9fecab7e34eda30feedccbdb8c99309e15d7f953e518bfc804868",
-      "ast_digest": "458a83fef888dd7efc5c75b5874dd438dcec05ec54e5fef6f585a8247ca350da"
+      "values_digest": "e504eb438c9e7cfec59a13cabd8d522b2a6f80d9c0fb05d8e70595752e6702f0",
+      "rendered_digest": "8c326aba5b35dd9eab725412b98fbb8bb3534cc276b16d1005dba2aaa26f78eb",
+      "ast_digest": "c1e5bc20ae673cd2054701b9ee6e5f9882f16cefdc4ba35f60bd405df9122bec"
     },
     "spp": {
-      "values_digest": "94b7b00977e29abbf438cee50348d946014fec7c480d30c3c354e5699d6370b4",
-      "rendered_digest": "5315f7e4910fde1223bbac98fe10b8d0827e05570504051cae684db5ebbe3c27",
-      "ast_digest": "2cf9fb74d45dd47dac296eab440fa96f9fd4440b422028ee2638a189f758b118"
+      "values_digest": "d9f9942e80ee8095a79c78d4600cc2d65b03e8259a70bdffc5e800aa56a4b1cd",
+      "rendered_digest": "cbeb8d9d74a33c69a9537307d689db43f787dd54a0025a95c6e7e282e9d943ba",
+      "ast_digest": "6c7909e9ab81d3d1dfba7a787ce793f5ba68da1591b26823300704ee3c42ad14"
     },
     "vpp": {
-      "values_digest": "4b1f5b279b9addf309d4f370232d2ccd3cfe45de6d8232774b8f8c6c38783f39",
-      "rendered_digest": "658bf34b604f5d33ca9d0430df0d80a79e39ae91eaac2986e951cfdf83791353",
-      "ast_digest": "6e99334f30ddf443cc5f53b7c4eae152c83f6e373c3a4b81bee37a15d36e6e65"
+      "values_digest": "9d20aae0661d9bc063f31507769399062ad36c45ac4b54896de8fce32dfcc9eb",
+      "rendered_digest": "fad5e0e9ca739655592a7a4ffbd3885f1daa506ed5305abf782735b1b664540d",
+      "ast_digest": "4709fdb235a000daf6fd128431b9a2fe2766a67ddb4b1944f33e6c80f2641ada"
     },
     "srp": {
-      "values_digest": "d1e574c813c8a9d8ff5a06cdbbe0ba902676087620d767367b3b6f987d8f4886",
-      "rendered_digest": "0ceb65340f96379573a4f29b9ea0c2b710a8bc29c8f43dde9fb6b2b79dee6fb9",
-      "ast_digest": "cd56bb6bdf7a352c6c5ddf4f4b1dc84dc548d255fec32da6451160074a2043da"
+      "values_digest": "2f7a96f600e6d5e856f838ad36b1f27b06496f9f2cc7637c19f6c04dcbb26b84",
+      "rendered_digest": "217821852d1b3c50a636826b8b8c4fc1b19e4fd1356e768b0d72b0a5cf1568ee",
+      "ast_digest": "2883b2cc03f2302e373d0858d2893b64922c24b9f1cf2b110dac2ecc453efd22"
     },
     "sor": {
-      "values_digest": "a64c9133f9d36118b10ba36cf523045d7fc790b2206a4afc8981a95bce20f827",
-      "rendered_digest": "b46acfb43b1d7c038a8fd58ddd3d780ebc7cf3062b35fee978dbff7956e9f659",
-      "ast_digest": "87cac3cb0f0965c8d55913214e9ec1379dd20d130618f47ec9e763c40255b3c4"
+      "values_digest": "601609976aa9dea594fb1c926b1bf5006b3554d1c5a567fae498f8fd86d730c7",
+      "rendered_digest": "ed55aa1070bc1284f14244f1eb5f76b99f4a3cfb133d22a5fc1e990816c0d358",
+      "ast_digest": "d555b79325a2bc28b7d99aa51aeda8112da872ceb8ce3851d6a9060d74c65da1"
     }
   },
   "transitions": [],
@@ -76,6 +76,34 @@
       "actor": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f9ad4-4763-preparation-refresh",
+      "reason": "typed #4763 claim reacquisition was attempted before card edits and blocked by unrelated #5332 terminal-authority reconciliation",
+      "operation": "{\"error\":\"reconciliation_required: terminal authority for issue 5332 has different identity\",\"operation\":\"reacquire_claim_attempt_blocked\",\"request\":\".csdlc/prepared/issues/4763/reacquire-claim-20260731.json\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f9ad4-4763-preparation-refresh",
+      "reason": "refresh issue-specific preparation cards, design, diagram, dependency gates, budgets, PVF lanes, rollback/no-deferral criteria, and bounded preparation review fixes",
+      "operation": "{\"closeout\":false,\"implementation\":false,\"merge\":false,\"operation\":\"manual_issue_local_preparation_refresh\",\"pr\":false,\"publication\":false,\"scope\":\"preparation_only\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:019f9ad4-4763-preparation-refresh",
+      "reason": "typed #4763 claim reacquisition was attempted before card edits and blocked by unrelated #5332 terminal-authority reconciliation",
+      "operation": "{\"error\":\"reconciliation_required: terminal authority for issue 5332 has different identity\",\"operation\":\"reacquire_claim_attempt_blocked\",\"request\":\".csdlc/prepared/issues/4763/reacquire-claim-20260731.json\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:019f9ad4-4763-preparation-refresh",
+      "reason": "refresh issue-specific preparation cards, design, diagram, dependency gates, budgets, PVF lanes, rollback/no-deferral criteria, and bounded preparation review fixes",
+      "operation": "{\"closeout\":false,\"implementation\":false,\"merge\":false,\"operation\":\"manual_issue_local_preparation_refresh\",\"pr\":false,\"publication\":false,\"scope\":\"preparation_only\"}"
     }
   ]
 }

@@ -12,78 +12,113 @@ Status: ready
 
 ## Summary
 
-Seed typed v2 preparation artifacts and leave birthday-doc execution to a later bound session.
+Issue #4763 is prepared as a later documentation/external-launch execution packet. The plan is intentionally non-executing and gates future work on #4762 actual retained implementation proof, not on lifecycle bookkeeping.
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Inspect existing #4763 task context and preserve the birthday-docs boundary.",
+    "action": "Integrate current origin/main into /Volumes/FastWork/adl-wp-4763 on codex/4763-v0918-wp14-preparation and record the exact source baseline.",
     "acceptance_ids": [
-      "AC-2"
+      "AC-1"
     ],
     "status": "completed"
   },
   {
     "id": "S2",
-    "action": "Generate minimal typed v2 cards, design, and diagram.",
+    "action": "Refresh all six cards with issue-specific preparation scope, non-goals, dependencies, and acceptance coverage.",
     "acceptance_ids": [
       "AC-1",
-      "AC-2"
+      "AC-3",
+      "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
-    "action": "Run focused csdlc-doctor and report prep-only handoff.",
+    "action": "Write design and diagram for first-birthday docs and external launch surfaces without implementing or publishing those surfaces.",
     "acceptance_ids": [
-      "AC-3"
+      "AC-2",
+      "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
+  },
+  {
+    "id": "S4",
+    "action": "Define exact issue-local paths, intended future implementation paths, COTS posture, LoC/time budgets, and PVF lanes.",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "completed"
+  },
+  {
+    "id": "S5",
+    "action": "Record rollback and no-deferral criteria, including fail-closed behavior for missing #4762 implementation proof and unsupported public claims.",
+    "acceptance_ids": [
+      "AC-7"
+    ],
+    "status": "completed"
+  },
+  {
+    "id": "S6",
+    "action": "Run a bounded gpt-5.5 preparation review, apply preparation-scope fixes, and record remaining lifecycle blocker truthfully.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-8"
+    ],
+    "status": "completed"
   }
 ]
 
 ## Invariants
 
-- Preparation does not implement or publish #4763.
-- External non-claims remain explicit.
-- Birthday docs must not outrun retained evidence.
+- Preparation does not equal implementation, publication, PR readiness, merge readiness, or closeout.
+- #4762 actual retained implementation proof is required for later #4763 execution; #4762 lifecycle claim/receipt/closeout state alone is not enough.
+- External launch surfaces must remain claim-bounded until docs and dependencies are proven.
+- No COTS addition is authorized by this plan.
+- All future execution changes must stay within the intended paths unless the issue is explicitly re-planned.
 
 ## Risks
 
-- Public-facing wording can overclaim if execution lacks evidence.
-- Legacy issue version labels may differ from the v0.91.8 preparation wave.
+- Typed C-SDLC reacquire is currently blocked by unrelated #5332 terminal-authority reconciliation.
+- #4762 may remain preparation-only or unproven when #4763 implementation is attempted.
+- Birthday/launch copy can overclaim legal status, personhood, consciousness, autonomy, or public-readiness if redaction gates are skipped.
+- External launch surfaces may widen into publication mechanics without explicit authorization.
 
 ## Estimates
 
 {
-  "elapsed_seconds": 7200,
-  "total_tokens": 40000,
-  "validation_seconds": 1200
+  "elapsed_seconds": 14400,
+  "total_tokens": 60000,
+  "validation_seconds": 2400
 }
 
 ## Design
 
 .csdlc/prepared/issues/4763/design.md
 
-Digest: e51328796a6ea0996de9efa39c48e17dceb3ee479d7b6aabbc5041a769e261ce
+Digest: c9648979f52a6c7faec83bfae3c719b6c042c22ba362d593c5fc325d1c0b4168
 
 ## Diagram
 
 .csdlc/prepared/issues/4763/diagram.mmd
 
-Digest: d56694512dce221c0f0b5ca31e5d3fc20b141f9f134a057a674d1830ac07fc6f
+Digest: 4f58a1b1a195df027c15e9c0bc39d4833df6891272123895d8bfc8f1c0dabde3
 
 ## Stop Conditions
 
-- A live claim collision appears.
-- The focused doctor fails on v2 state integrity.
-- The task requires implementation or GitHub mutation.
+- Stop before implementation if #4762 retained implementation proof is absent or insufficient.
+- Stop if typed claim reacquisition or doctor remains blocked after unrelated #5332 reconciliation is still unresolved.
+- Stop if requested changes touch paths outside the issue-local prep packet or intended future docs paths.
+- Stop if public claims cannot be tied to retained evidence.
+- Stop if a new COTS dependency appears necessary.
 
 ## Handoff
 

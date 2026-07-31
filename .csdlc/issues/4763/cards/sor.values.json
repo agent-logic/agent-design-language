@@ -4,24 +4,115 @@
     "template_version": "1.0.0",
     "issue": 4763,
     "repository": "danielbaustin/agent-design-language",
-    "title": "[v0.91.8][WP-14][birthday-docs] Prepare #4763 first-birthday docs and external non-claims",
-    "slug": "v0918-wp14-birthday-docs-nonclaims-prep-4763",
+    "title": "[v0.91.8][WP-21][birthday-docs] Prepare first-birthday docs and external launch surfaces",
+    "slug": "v0918-wp21-birthday-docs-launch-surfaces-prep-4763",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 2
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
-      "integration_state": "not_started",
+      "summary": "Preparation packet completed for #4763 after origin/main integration. No documentation implementation, external publication, PR, merge, or closeout was performed.",
+      "actual_changes": [
+        "Integrated current origin/main into the requested worktree and branch before preparation refresh.",
+        "Completed #4763 SIP, STP, SPP, VPP, SRP, and SOR cards with issue-specific preparation scope.",
+        "Completed #4763 preparation design, Mermaid diagram, reacquire request, and bounded preparation-review artifact.",
+        "Recorded typed reacquire obstruction from unrelated #5332 terminal-authority reconciliation as a blocker for lifecycle-clean future execution."
+      ],
+      "artifacts": [
+        ".csdlc/issues/4763/cards/sip.md",
+        ".csdlc/issues/4763/cards/stp.md",
+        ".csdlc/issues/4763/cards/spp.md",
+        ".csdlc/issues/4763/cards/vpp.md",
+        ".csdlc/issues/4763/cards/srp.md",
+        ".csdlc/issues/4763/cards/sor.md",
+        ".csdlc/prepared/issues/4763/design.md",
+        ".csdlc/prepared/issues/4763/diagram.mmd",
+        ".csdlc/prepared/issues/4763/preparation-review.md",
+        ".csdlc/prepared/issues/4763/reacquire-claim-20260731.json"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "fetch",
+            "origin",
+            "main",
+            "codex/4763-v0918-wp14-preparation"
+          ],
+          "purpose": "Refresh origin/main and remote branch before integration.",
+          "outcome": "passed",
+          "evidence_ref": "origin/main 51bc5ae51b57c19dbab693af1c5a45142995f4e5 observed before merge."
+        },
+        {
+          "command": [
+            "git",
+            "merge",
+            "origin/main",
+            "--no-edit"
+          ],
+          "purpose": "Integrate current origin/main in the requested worktree.",
+          "outcome": "passed",
+          "evidence_ref": "Merge commit 90d1e00a2731ca7c70520a608438da15b4ab5aa0."
+        },
+        {
+          "command": [
+            "cargo",
+            "run",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--bin",
+            "csdlc-bind",
+            "--",
+            "--root",
+            ".",
+            "--reacquire-request",
+            ".csdlc/prepared/issues/4763/reacquire-claim-20260731.json"
+          ],
+          "purpose": "Typed #4763 claim reacquisition before card editing.",
+          "outcome": "blocked",
+          "evidence_ref": "Blocked by unrelated #5332 terminal-authority reconciliation: terminal authority for issue 5332 has different identity."
+        },
+        {
+          "command": [
+            "cargo",
+            "run",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--bin",
+            "csdlc-doctor",
+            "--",
+            "--repo",
+            ".",
+            "--issue",
+            "4763"
+          ],
+          "purpose": "Preparation packet C-SDLC v2 doctor consistency after issue-local refresh.",
+          "outcome": "passed",
+          "evidence_ref": "Run after temporary helper removal; final command output retained in session transcript."
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Preparation diff whitespace/path hygiene.",
+          "outcome": "passed",
+          "evidence_ref": "Run after temporary helper removal; final command output retained in session transcript."
+        }
+      ],
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
-      "follow_ups": []
+      "follow_ups": [
+        "Before #4763 execution, resolve unrelated #5332 lifecycle reconciliation enough for typed #4763 reacquire/doctor to pass.",
+        "Before #4763 execution, verify #4762 retained implementation proof for birth witnesses and receipt package; do not accept #4762 claim, receipt bookkeeping, merge, or closeout as a proof substitute.",
+        "During later implementation, constrain changes to intended docs paths unless the SPP is re-opened and re-approved.",
+        "Before any public launch surface, run redaction/no-overclaim review for legal status, personhood, consciousness, autonomy, and public readiness claims."
+      ]
     }
   }
 }
