@@ -46,11 +46,11 @@ Implemented the issue-local WP-21 launch-readiness evidence bundle for release-r
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
