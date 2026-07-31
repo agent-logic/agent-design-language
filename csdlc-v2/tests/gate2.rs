@@ -1584,6 +1584,44 @@ fn active_nonoverlap_does_not_consult_stale_terminal_identity() {
         .expect("non-overlapping active claim does not consult unrelated terminal identity");
 }
 
+#[test]
+fn reacquire_rejects_direct_rendered_card_drift() {
+    let (temp, store, record) = fixture();
+    git(temp.path(), &["branch", "-m", "issue-42"]);
+    csdlc_v2::revoke_active_claim(
+        &store,
+        csdlc_v2::RevokeActiveClaimRequest {
+            issue: 42,
+            repository: "example/repo".into(),
+            expected_claim_id: "claim-1".into(),
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            now_unix_seconds: 2,
+            actor: "operator".into(),
+            operator_authority: "operator-authorized:test".into(),
+            reason: "prepare direct drift regression".into(),
+        },
+    )
+    .expect("release");
+    let dormant = store.load_record(42).expect("dormant");
+    fs::write(store.issue_dir(42).join("cards/sip.md"), "# direct drift\n")
+        .expect("write direct drift");
+    let error = csdlc_v2::reacquire_claim(
+        &store,
+        ReacquireClaimRequest {
+            issue: 42,
+            expected_generation: dormant.generation,
+            expected_digest: dormant.digest,
+            now_unix_seconds: 10,
+            actor: "next-owner".into(),
+            reason: "direct drift must fail closed".into(),
+            replacement: reacquired_claim(dormant.generation),
+        },
+    )
+    .expect_err("direct rendered-card drift");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+}
+
 fn fixture_with_unrelated_stale_terminal_identity() -> (TempDir, Store) {
     fixture_with_stale_terminal_identity("inactive-issue-43", "src")
 }
