@@ -38,6 +38,29 @@ pub struct RecoverClaimRequest {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct ReacquireClaimRequest {
+    pub issue: u64,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub now_unix_seconds: u64,
+    pub actor: String,
+    pub reason: String,
+    pub replacement: Claim,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct ReacquireClaimResult {
+    pub schema: String,
+    pub issue: u64,
+    pub claim: Claim,
+    pub previous_claim_id: Option<String>,
+    pub previous_owner: Option<String>,
+    pub phase: crate::LifecyclePhase,
+    pub generation: u64,
+    pub digest: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct ReleaseClosedClaimRequest {
     pub issue: u64,
     pub repository: String,
@@ -143,6 +166,55 @@ fn terminally_released(store: &Store, local: &crate::IssueRecord) -> Result<bool
         ));
     }
     Ok(true)
+}
+
+fn issue_records_across_worktrees(store: &Store) -> Result<Vec<(Store, crate::IssueRecord)>> {
+    let mut roots = std::collections::BTreeSet::new();
+    roots.insert(store.root().canonicalize()?);
+    for (_, root) in git::worktrees(store.root())? {
+        roots.insert(PathBuf::from(root).canonicalize()?);
+    }
+    let mut records = Vec::new();
+    for root in roots {
+        let scoped = Store::new(root);
+        let issues = scoped.root().join(".csdlc/issues");
+        if !issues.exists() {
+            continue;
+        }
+        for entry in fs::read_dir(issues)? {
+            let entry = entry?;
+            let Some(issue) = entry
+                .file_name()
+                .to_str()
+                .and_then(|name| name.parse().ok())
+            else {
+                continue;
+            };
+            records.push((scoped.clone(), scoped.load_record(issue)?));
+        }
+    }
+    Ok(records)
+}
+
+fn claim_matches_active_checkout(store: &Store, claim: &Claim) -> Result<bool> {
+    let worktree_matches = if claim.worktree == "." {
+        store.root().is_dir()
+    } else {
+        let common_dir = PathBuf::from(
+            git::run(
+                store.root(),
+                &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+            )?
+            .stdout,
+        );
+        common_dir
+            .parent()
+            .map(|primary| primary.join(&claim.worktree))
+            .and_then(|expected| expected.canonicalize().ok())
+            .zip(store.root().canonicalize().ok())
+            .is_some_and(|(expected, current)| expected == current)
+    };
+    Ok(git::current_branch(store.root())? == claim.branch && worktree_matches)
 }
 
 fn copy_dir_recursive(source: &Path, destination: &Path) -> Result<()> {
@@ -353,37 +425,27 @@ pub(crate) fn initialize_issue(
         }
     }
     let _binding_lock = store.binding_lock()?;
-    let issues = store.root().join(".csdlc/issues");
-    if issues.exists() {
-        for entry in fs::read_dir(&issues)? {
-            let path = entry?.path().join("index.json");
-            if !path.exists() {
+    for (other_store, other) in issue_records_across_worktrees(store)? {
+        if other.issue != request.issue {
+            if terminally_released(&other_store, &other)? {
                 continue;
             }
-            let other: crate::IssueRecord = serde_json::from_slice(&fs::read(path)?)?;
-            if other.issue != request.issue {
-                if terminally_released(store, &other)? {
-                    continue;
-                }
-                if let Some(claim) = other.claim {
-                    if let Some((reserved, requested)) =
-                        claim.protected_paths.iter().find_map(|a| {
-                            request
-                                .claim
-                                .protected_paths
-                                .iter()
-                                .find(|b| overlaps(a, b))
-                                .map(|b| (a, b))
-                        })
-                    {
-                        return Err(V2Error::new(
-                            ErrorCode::ClaimCollision,
-                            format!(
-                                "protected path '{}' overlaps requested '{}' from issue {} in phase {:?}",
-                                reserved, requested, other.issue, other.phase
-                            ),
-                        ));
-                    }
+            if let Some(claim) = other.claim {
+                if let Some((reserved, requested)) = claim.protected_paths.iter().find_map(|a| {
+                    request
+                        .claim
+                        .protected_paths
+                        .iter()
+                        .find(|b| overlaps(a, b))
+                        .map(|b| (a, b))
+                }) {
+                    return Err(V2Error::new(
+                        ErrorCode::ClaimCollision,
+                        format!(
+                            "protected path '{}' overlaps requested '{}' from issue {} in phase {:?}",
+                            reserved, requested, other.issue, other.phase
+                        ),
+                    ));
                 }
             }
         }
@@ -559,37 +621,33 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             ));
         }
     }
-    let issues = store.root().join(".csdlc/issues");
-    if issues.exists() {
-        for entry in fs::read_dir(issues)? {
-            let path = entry?.path().join("index.json");
-            if !path.exists() {
+    for (other_store, other) in issue_records_across_worktrees(store)? {
+        if !issue_local && other_store.root() == wanted_compare {
+            // Existing-target identity and side-state reconciliation below owns
+            // this worktree. Preserve its more specific fail-closed result
+            // before applying repository-wide claim collision checks.
+            continue;
+        }
+        if other.issue != request.issue {
+            if terminally_released(&other_store, &other)? {
                 continue;
             }
-            let other: crate::IssueRecord = serde_json::from_slice(&fs::read(path)?)?;
-            if other.issue != request.issue {
-                if terminally_released(store, &other)? {
-                    continue;
-                }
-                if let Some(claim) = other.claim {
-                    if let Some((reserved, requested)) =
-                        claim.protected_paths.iter().find_map(|a| {
-                            request
-                                .claim
-                                .protected_paths
-                                .iter()
-                                .find(|b| overlaps(a, b))
-                                .map(|b| (a, b))
-                        })
-                    {
-                        return Err(V2Error::new(
-                            ErrorCode::ClaimCollision,
-                            format!(
-                                "protected path '{}' overlaps requested '{}' from issue {} in phase {:?}",
-                                reserved, requested, other.issue, other.phase
-                            ),
-                        ));
-                    }
+            if let Some(claim) = other.claim {
+                if let Some((reserved, requested)) = claim.protected_paths.iter().find_map(|a| {
+                    request
+                        .claim
+                        .protected_paths
+                        .iter()
+                        .find(|b| overlaps(a, b))
+                        .map(|b| (a, b))
+                }) {
+                    return Err(V2Error::new(
+                        ErrorCode::ClaimCollision,
+                        format!(
+                            "protected path '{}' overlaps requested '{}' from issue {} in phase {:?}",
+                            reserved, requested, other.issue, other.phase
+                        ),
+                    ));
                 }
             }
         }
@@ -806,38 +864,28 @@ pub fn amend_claim_scope(store: &Store, request: AmendClaimScopeRequest) -> Resu
         .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
         .validate(&request.claim_id, request.now_unix_seconds)?;
 
-    let issues = store.root().join(".csdlc/issues");
-    if issues.exists() {
-        for entry in fs::read_dir(issues)? {
-            let path = entry?.path().join("index.json");
-            if !path.exists() {
-                continue;
-            }
-            let other: crate::IssueRecord = serde_json::from_slice(&fs::read(path)?)?;
-            if other.issue == request.issue {
-                continue;
-            }
-            if terminally_released(store, &other)? {
-                continue;
-            }
-            if let Some(claim) = other.claim {
-                if let Some((reserved, candidate)) =
-                    claim.protected_paths.iter().find_map(|reserved| {
-                        request
-                            .add_protected_paths
-                            .iter()
-                            .find(|candidate| overlaps(reserved, candidate))
-                            .map(|candidate| (reserved, candidate))
-                    })
-                {
-                    return Err(V2Error::new(
-                        ErrorCode::ClaimCollision,
-                        format!(
-                            "protected path '{}' overlaps requested '{}' from issue {} in phase {:?}",
-                            reserved, candidate, other.issue, other.phase
-                        ),
-                    ));
-                }
+    for (other_store, other) in issue_records_across_worktrees(store)? {
+        if other.issue == request.issue {
+            continue;
+        }
+        if terminally_released(&other_store, &other)? {
+            continue;
+        }
+        if let Some(claim) = other.claim {
+            if let Some((reserved, candidate)) = claim.protected_paths.iter().find_map(|reserved| {
+                request
+                    .add_protected_paths
+                    .iter()
+                    .find(|candidate| overlaps(reserved, candidate))
+                    .map(|candidate| (reserved, candidate))
+            }) {
+                return Err(V2Error::new(
+                    ErrorCode::ClaimCollision,
+                    format!(
+                        "protected path '{}' overlaps requested '{}' from issue {} in phase {:?}",
+                        reserved, candidate, other.issue, other.phase
+                    ),
+                ));
             }
         }
     }
@@ -924,35 +972,27 @@ pub fn transition_active_claim(
         ));
     }
 
-    let issues = store.root().join(".csdlc/issues");
-    if issues.exists() {
-        for entry in fs::read_dir(issues)? {
-            let path = entry?.path().join("index.json");
-            if !path.exists() {
-                continue;
-            }
-            let other: crate::IssueRecord = serde_json::from_slice(&fs::read(path)?)?;
-            if other.issue == request.issue || terminally_released(store, &other)? {
-                continue;
-            }
-            if let Some(other_claim) = other.claim {
-                if let Some((reserved, candidate)) =
-                    other_claim.protected_paths.iter().find_map(|reserved| {
-                        request
-                            .add_protected_paths
-                            .iter()
-                            .find(|candidate| overlaps(reserved, candidate))
-                            .map(|candidate| (reserved, candidate))
-                    })
-                {
-                    return Err(V2Error::new(
-                        ErrorCode::ClaimCollision,
-                        format!(
-                            "protected path '{}' overlaps requested '{}' from issue {} in phase {:?}",
-                            reserved, candidate, other.issue, other.phase
-                        ),
-                    ));
-                }
+    for (other_store, other) in issue_records_across_worktrees(store)? {
+        if other.issue == request.issue || terminally_released(&other_store, &other)? {
+            continue;
+        }
+        if let Some(other_claim) = other.claim {
+            if let Some((reserved, candidate)) =
+                other_claim.protected_paths.iter().find_map(|reserved| {
+                    request
+                        .add_protected_paths
+                        .iter()
+                        .find(|candidate| overlaps(reserved, candidate))
+                        .map(|candidate| (reserved, candidate))
+                })
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ClaimCollision,
+                    format!(
+                        "protected path '{}' overlaps requested '{}' from issue {} in phase {:?}",
+                        reserved, candidate, other.issue, other.phase
+                    ),
+                ));
             }
         }
     }
@@ -987,6 +1027,30 @@ pub fn transition_active_claim(
 }
 
 pub fn recover_claim(store: &Store, request: RecoverClaimRequest) -> Result<ClaimRecovery> {
+    if request.issue == 0
+        || request.recovery_actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+        || request.replacement.id.trim().is_empty()
+        || request.replacement.owner.trim().is_empty()
+        || request.replacement.purpose.trim().is_empty()
+        || request.replacement.branch == "main"
+        || request.replacement.protected_paths.is_empty()
+        || request
+            .replacement
+            .protected_paths
+            .iter()
+            .any(|path| !clean_relative(path))
+        || (request.replacement.worktree != "." && !clean_relative(&request.replacement.worktree))
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "recovery requires complete actor, reason, binding, purpose, and protected paths",
+        ));
+    }
+    request
+        .replacement
+        .validate(&request.replacement.id, request.now_unix_seconds)?;
+    let _binding_lock = store.binding_lock()?;
     let mut record = store.load_record(request.issue)?;
     let expected_digest = record.digest.clone();
     let current = record
@@ -1002,10 +1066,10 @@ pub fn recover_claim(store: &Store, request: RecoverClaimRequest) -> Result<Clai
             "stale recovery compare-and-swap or expiry check failed",
         ));
     }
-    if request.reason.trim().is_empty() || request.recovery_actor.trim().is_empty() {
+    if !claim_matches_active_checkout(store, &request.replacement)? {
         return Err(V2Error::new(
-            ErrorCode::InvalidInput,
-            "recovery actor and reason required",
+            ErrorCode::UnsafeCheckout,
+            "replacement claim does not match the active branch/worktree",
         ));
     }
     let evidence = ClaimRecovery {
@@ -1014,14 +1078,43 @@ pub fn recover_claim(store: &Store, request: RecoverClaimRequest) -> Result<Clai
         recovery_actor: request.recovery_actor.clone(),
         reason: request.reason.clone(),
     };
-    request
-        .replacement
-        .validate(&request.replacement.id, request.now_unix_seconds)?;
     if request.replacement.generation != record.generation {
         return Err(V2Error::new(
             ErrorCode::StaleGeneration,
             "replacement claim generation is stale",
         ));
+    }
+    for (other_store, other) in issue_records_across_worktrees(store)? {
+        if other.issue == request.issue || terminally_released(&other_store, &other)? {
+            continue;
+        }
+        let Some(other_claim) = other.claim else {
+            continue;
+        };
+        if other_claim
+            .validate(&other_claim.id, request.now_unix_seconds)
+            .is_err()
+        {
+            continue;
+        }
+        if let Some((reserved, candidate)) =
+            other_claim.protected_paths.iter().find_map(|reserved| {
+                request
+                    .replacement
+                    .protected_paths
+                    .iter()
+                    .find(|candidate| overlaps(reserved, candidate))
+                    .map(|candidate| (reserved, candidate))
+            })
+        {
+            return Err(V2Error::new(
+                ErrorCode::ClaimCollision,
+                format!(
+                    "protected path '{}' overlaps requested '{}' from live issue {}",
+                    reserved, candidate, other.issue
+                ),
+            ));
+        }
     }
     record.claim = Some(request.replacement);
     record.audit.push(AuditEvent {
@@ -1034,6 +1127,148 @@ pub fn recover_claim(store: &Store, request: RecoverClaimRequest) -> Result<Clai
     record.digest = crate::store::record_digest(&record)?;
     store.replace_record(request.issue, &expected_digest, &record)?;
     Ok(evidence)
+}
+
+pub fn reacquire_claim(
+    store: &Store,
+    request: ReacquireClaimRequest,
+) -> Result<ReacquireClaimResult> {
+    if request.issue == 0
+        || request.expected_digest.trim().is_empty()
+        || request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+        || request.replacement.id.trim().is_empty()
+        || request.replacement.owner.trim().is_empty()
+        || request.replacement.purpose.trim().is_empty()
+        || request.replacement.branch == "main"
+        || request.replacement.protected_paths.is_empty()
+        || request
+            .replacement
+            .protected_paths
+            .iter()
+            .any(|path| !clean_relative(path))
+        || (request.replacement.worktree != "." && !clean_relative(&request.replacement.worktree))
+        || request.replacement.heartbeat_unix_seconds < request.replacement.acquired_unix_seconds
+        || request.replacement.expires_unix_seconds <= request.replacement.heartbeat_unix_seconds
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "reacquire requires complete actor, reason, binding, lease, purpose, and protected paths",
+        ));
+    }
+    request
+        .replacement
+        .validate(&request.replacement.id, request.now_unix_seconds)?;
+    let _binding_lock = store.binding_lock()?;
+    let mut record = store.load_record(request.issue)?;
+    if record.generation != request.expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "claim reacquisition generation is stale",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "claim reacquisition digest is stale",
+        ));
+    }
+    if matches!(
+        record.phase,
+        crate::LifecyclePhase::Merged | crate::LifecyclePhase::ClosedOut
+    ) {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "terminal issue cannot reacquire a writer claim",
+        ));
+    }
+    if request.replacement.generation != record.generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "replacement claim generation is stale",
+        ));
+    }
+    if !claim_matches_active_checkout(store, &request.replacement)? {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "replacement claim does not match the active branch/worktree",
+        ));
+    }
+    let previous = record.claim.as_ref();
+    if previous.is_some_and(|claim| request.now_unix_seconds < claim.expires_unix_seconds) {
+        return Err(V2Error::new(
+            ErrorCode::ClaimCollision,
+            "live claim must be released before reacquisition",
+        ));
+    }
+
+    for (other_store, other) in issue_records_across_worktrees(store)? {
+        if other.issue == request.issue || terminally_released(&other_store, &other)? {
+            continue;
+        }
+        let Some(other_claim) = other.claim else {
+            continue;
+        };
+        if other_claim
+            .validate(&other_claim.id, request.now_unix_seconds)
+            .is_err()
+        {
+            continue;
+        }
+        if let Some((reserved, candidate)) =
+            other_claim.protected_paths.iter().find_map(|reserved| {
+                request
+                    .replacement
+                    .protected_paths
+                    .iter()
+                    .find(|candidate| overlaps(reserved, candidate))
+                    .map(|candidate| (reserved, candidate))
+            })
+        {
+            return Err(V2Error::new(
+                ErrorCode::ClaimCollision,
+                format!(
+                    "protected path '{}' overlaps requested '{}' from live issue {}",
+                    reserved, candidate, other.issue
+                ),
+            ));
+        }
+    }
+
+    let expected_digest = record.digest.clone();
+    let previous_claim_id = previous.map(|claim| claim.id.clone());
+    let previous_owner = previous.map(|claim| claim.owner.clone());
+    record.claim = Some(request.replacement.clone());
+    record.audit.push(AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: request.actor,
+        reason: request.reason,
+        operation: serde_json::json!({
+            "operation": "reacquire_claim",
+            "previous_claim_id": previous_claim_id,
+            "previous_owner": previous_owner,
+            "claim_id": request.replacement.id,
+            "owner": request.replacement.owner,
+            "branch": request.replacement.branch,
+            "worktree": request.replacement.worktree,
+            "protected_paths": request.replacement.protected_paths,
+            "purpose": request.replacement.purpose,
+        })
+        .to_string(),
+    });
+    record.digest = crate::store::record_digest(&record)?;
+    store.replace_record(request.issue, &expected_digest, &record)?;
+    Ok(ReacquireClaimResult {
+        schema: "csdlc.reacquire_claim_result.v1".into(),
+        issue: request.issue,
+        claim: request.replacement,
+        previous_claim_id,
+        previous_owner,
+        phase: record.phase,
+        generation: record.generation,
+        digest: record.digest,
+    })
 }
 
 pub fn release_closed_claim(
