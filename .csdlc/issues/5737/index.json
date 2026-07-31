@@ -3,13 +3,13 @@
   "issue": 5737,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8389c08811378222f293ccc0d9046c6ca438c358e387a9db2258defe952f0fd5",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "de1bca6a7b40290eb16731bc52a0aa010962e401f00ea83a5414d3da1176cc53",
+  "phase": "reviewed",
+  "generation": 6,
+  "digest": "c91bcf59bb24e2ebbb732bf11910cc4fef931f7159067030e6d48a7ddb25a8f1",
   "claim": {
     "id": "claim-5737-csdlc-authority-recovery",
     "owner": "codex:5737-execution",
-    "generation": 4,
+    "generation": 6,
     "acquired_unix_seconds": 1785532834,
     "expires_unix_seconds": 1786137634,
     "heartbeat_unix_seconds": 1785532834,
@@ -27,8 +27,33 @@
     ],
     "purpose": "Repair C-SDLC v2 claim authority recovery around unrelated terminal drift, stale inactive projections, and stale dormant design inputs."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex:gpt-5.5-claim-authority-review",
+    "assigned_by": "codex:5737-execution",
+    "revision": "git-blake3:4079e840d35a287eefbc637718cc6c1dafa4af77:65c11bb45e0642a62bce15abd24f4eb99769ae107ea9359cd9bb2792cdf19182",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/evidence/5737"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:gpt-5.5-claim-authority-review",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/evidence/5737"
+    ],
+    "reviewed_revision": "git-blake3:4079e840d35a287eefbc637718cc6c1dafa4af77:65c11bb45e0642a62bce15abd24f4eb99769ae107ea9359cd9bb2792cdf19182",
+    "findings": [],
+    "residual_risks": [
+      "Only claims matching a registered active checkout have collision authority; stale tracked projections remain retained evidence but no longer reserve paths."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -43,32 +68,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "36a6f48504d5c49d5322ee5c1e409caecc2e25dffe8d5dc5538b49e346861e67",
+      "values_digest": "2b8735c5407c5e381a6c286e70493eb928c1759e33f6e3ddb137cb4e7e85b48c",
       "rendered_digest": "1e6109b6a0691d18a348c552bc76c0b71ffb34bc9d07d47aa59577fd96c805d4",
       "ast_digest": "89bc5b6c3a8c65de169b9514f44d96e0051c5be3ff294e9b9cac89f0f71b3847"
     },
     "stp": {
-      "values_digest": "3bd4538df453ce2389c36b27a05f835a33e73ec8093bda130d00b76537f6e106",
+      "values_digest": "b4b710bc6d6afbafa9b5d34aac678818fbc3f45d43f1a09b069141ce9c6218af",
       "rendered_digest": "3e675683d5950627268ae73f4b1bd46c6673497e36dac186c80ce8a8a20ad65d",
       "ast_digest": "4d5ace43e52d7731963d5412ac1065ecb316db7ace71472429734ed9acba31bd"
     },
     "spp": {
-      "values_digest": "e6b7868da24424d5a70e3407ef2a286419c9b168f0903e28c78aab1863971263",
+      "values_digest": "f514db6af5325a8f79a8522088181fc02c1a8cf2dd5409caebaa930ca03a67f2",
       "rendered_digest": "6aeb12b6706325f3d15d6a10add9e3dd1459d65a8f22ff29559ef7ef7488feb1",
       "ast_digest": "0cc5e8a1c5fe3afd4ddbe33673d66bec0704557cde46d918cc0cf4a33a97d8d5"
     },
     "vpp": {
-      "values_digest": "49bb8f1d3446c6961d465fddf4724dcb17da897ff611dbaadf4da2af466c6e15",
+      "values_digest": "b3c0c60ba6bd42b5584603f03e96fba26a875b52b745fc6285518aa50ad46bc6",
       "rendered_digest": "5a9b15f9dc7da6335ecbeebefe24d1c15ef42d21df1c35b751fd192f4754a7b0",
       "ast_digest": "cd9e9544b4be82605a123385fd13ef45b04f986df6791aa57276d362c46f5a88"
     },
     "srp": {
-      "values_digest": "9560d2ab3ccc330229c77609a04eeae8ba5a82897c42ea93b388e89ee75376a7",
-      "rendered_digest": "12a822f62d9a273911a7c8994e68727cf2bf8d2aecfe39491333e7f897cf48e4",
-      "ast_digest": "1f132041534cd8d860938937841abd38c6ad7070419b885b56bd11c63b90050e"
+      "values_digest": "6ecbb1ac88a368245a79c41bf4fd82cfcd5625ce23eb71c936e7cadf41e7b7b1",
+      "rendered_digest": "d1cf674846ff2c05e2562344a86ea6ba8b21cf790cb86af2e5e1b614e8f84e74",
+      "ast_digest": "dd5280b235bc1090638d568c86385d42711f8a84e7ab10cfb7a37e7f30d6eb52"
     },
     "sor": {
-      "values_digest": "aa173fa2b5f8f291b0f11da40ae31bc3cbee513cc66773140e9bfebcfaac7192",
+      "values_digest": "444b4a581ed411bafbd7cb776165f8a6393afc00bd9fba2d4bb9e27782d15062",
       "rendered_digest": "51b001405c41192b7b256ae96f9dace7eca4382df6fb5088e1b964681562a4c0",
       "ast_digest": "a993b28f3414b95ea39aa51292ab6be4e3046f2471aa597a9fb8ef46da79caa4"
     }
@@ -94,6 +119,13 @@
       "to": "implemented",
       "actor": "codex:5737-execution",
       "reason": "Implementation and focused validation are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5737-execution",
+      "reason": "The assigned exact-head review is complete with no safety blockers."
     }
   ],
   "audit": [
@@ -138,6 +170,27 @@
       "actor": "codex:5737-execution",
       "reason": "Implementation and focused validation are complete.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:5737-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:5737-execution",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:5737-execution",
+      "reason": "The assigned exact-head review is complete with no safety blockers.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
