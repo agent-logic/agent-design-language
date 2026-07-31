@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -53,22 +53,34 @@ Added typed csdlc-merge request/result contracts, canonical merge_ready and exac
     "purpose": "Prove typed merge request/result schemas, exact-head drift rejection, required-check gating, and successful green gate classification.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5645/merge-command.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "merge"
+    ],
+    "purpose": "Prove typed merge request/result schemas, exact-head drift rejection, required-check gating, and successful green gate classification.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5645/merge-command.log"
   }
 ]
 
 ## Integration
 
-not_started
+merged
 
 ## Publication
 
-Publication: not_published
+Publication: closed
 
-Merge: not_merged
+Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 
