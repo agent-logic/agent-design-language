@@ -47,6 +47,11 @@ ACP/cognitive profiles, Adaptive Learning DAG planning, ACIP
 binary/schema-catalog transport readiness, cross-polis continuity planning, and
 the first-birthday demo/governance handoff.
 
+The tracked external-launch surface under `../external_launch/` supplies
+claim-bounded public copy, reviewer FAQ, and publication-gate language for
+WP-14 without asserting that the birthday event or publication approval is
+complete.
+
 ## Design
 
 Feature docs should stay evidence-bound, template-valid, and linked from the
@@ -70,6 +75,7 @@ The package must not claim implementation completion before v0.92 work lands.
 - [../README.md](../README.md)
 - [../WBS_v0.92.md](../WBS_v0.92.md)
 - [../WP_ISSUE_WAVE_v0.92.yaml](../WP_ISSUE_WAVE_v0.92.yaml)
+- [../external_launch/README.md](../external_launch/README.md)
 - `#3377`
 - [../../v0.91.5/V092_ACTIVATION_TEST_MAP_v0.91.5.md](../../v0.91.5/V092_ACTIVATION_TEST_MAP_v0.91.5.md)
 

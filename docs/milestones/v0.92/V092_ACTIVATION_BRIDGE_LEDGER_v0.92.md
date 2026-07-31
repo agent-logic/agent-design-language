@@ -83,7 +83,7 @@ dispositions this ledger may consume:
 | ADL v2 soak/rollback | Accepted merge `d4825d4be9ed14ed6060dd33cbdafe5eaa5efcd2` for #5344 | Soak and rollback input only; deletion remains outside this bridge. |
 | ADL v2 reversible default | Accepted merge `e1b6a34e4763a79d1c40c641e64c0c061a0aa96c` for #5343 | Selector/default input only; rollback window and branding truth remain bounded by WP-14A. |
 | WP-21 activation rows | `docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md` | Each row must retain `accepted_platform_input`, `handoff_owned`, `blocked_with_evidence`, or `deferred_non_claim` truth before use. |
-| Birth-witness successor | #4762 | #4762 consumes this bridge but must produce its own auditable receipt package and proof. |
+| Birth-witness successor | #4762 merged through PR #5744 at `021be8e33b486d9b66886ff299c20607ed8a071a` | Consume the retained package at `docs/milestones/v0.91.8/review/v092_handoff_4762/` as witness/receipt proof. The package preserves `birth_event_status: not_claimed`; it does not establish the birthday event or publication approval. |
 
 ## Consumption States
 
@@ -127,6 +127,7 @@ completion proof by themselves.
 | Godel mechanics | boundary_proven for CSM-supervised admission readiness and claim-boundary consumption; provider requests remain resolved_not_invoked and adaptive DAG completion not_claimed | `v0.91.7` WP-13 and `v0.92` birthday docs | The first true Godel-agent birthday may consume only the Runtime v2 Godel/constructability boundary: retained Godel plan evidence, CSM-supervised non-invoked provider-request admission, constructability anchors, validator pass, and operator review. |
 | Economics context | operator_scoped_out | `v0.91.7` WP-13 | Economics is context-only for `v0.92` unless a reviewed decision reopens explicit activation tests; that scoped-out posture requires retained evidence, risk, and operator approval. |
 | Guild foundation | boundary_proven for declarative governance handoff context; guild record and hook producer/consumer behavior and v0.93 governance not_claimed | `v0.91.7` WP-13 `#4755` | `v0.92` may consume only the Runtime v2 guild foundation vocabulary, allowlists, deferrals, and promotion gates as birthday governance context. It may not claim implemented identity/witness routing, membership events, moderation hooks, constitutional citizenship, polis authority, delegated governance authority, binding collective decision-making, public guild product readiness, or governance completion. |
+| First-birthday public launch docs | implementation_required with the documentation surface implemented and #4762 proof input merged | `v0.92` WP-14 `#4763` | `v0.92` may consume the tracked external-launch copy, reviewer FAQ, publication gate, forbidden-claim checklist, and merged #4762 retained witness/receipt package. Final birthday and publication claims still require v0.92 packet validation, current exact-head review, exact evidence citation, and operator authorization for the target channel. |
 
 ## Birthday Contract Refresh
 
