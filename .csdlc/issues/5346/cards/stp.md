@@ -39,11 +39,15 @@ Prepare a complete reviewed WP-13 #5346 execution contract only; do not delete o
 
 ## Dependencies
 
-- #5344 WP-12 soak/rollback merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
-- #5343 WP-12 reviewed selector switch merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
+- #5344 WP-12 soak and rollback merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
+- #5343 WP-12 reviewed selector switch merged, typed closed_out, claim released, retained merged receipt present, rollback-window gate satisfied, and merge SHA ancestral
 - #5358 current C-SDLC v2 acceptance merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
 - #5361 current Runtime v3 acceptance merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
-- #5347 peer deletion eligibility manifest available at an exact reviewed revision and proven disjoint; #5347 is not absorbed by #5346 and deletion merges remain serialized
+- #5347 peer external-band deletion eligibility manifest available at an exact reviewed revision and proven disjoint; #5347 is not absorbed by #5346 and deletion merges remain serialized
+- WP-14A #5384 integrated platform acceptance merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
+- WP-15 #5354 demo convergence merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
+- WP-16 #5351 integrated platform quality gate merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
+- WP-17 #5360 documentation and release truth alignment merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
 
 ## Inputs
 

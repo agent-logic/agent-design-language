@@ -25,10 +25,14 @@ execution revision:
    their observed merge SHAs are ancestors of the execution revision.
 2. Current C-SDLC v2 acceptance #5358 and Runtime v3 acceptance #5361 satisfy
    the same merge, closeout, receipt, claim-release, and ancestry predicates.
-3. The reviewed #5346 and #5347 eligibility manifests have no equal,
+3. WP-14A #5384, WP-15 #5354, WP-16 #5351, and WP-17 #5360 satisfy the same
+   GitHub merged, typed `closed_out`, claim-free, retained terminal receipt,
+   and ancestry predicates. WP-13 deletion is therefore intentionally prepared
+   now but cannot execute while #5351 or #5360 remain open or unprojected.
+4. The reviewed #5346 and #5347 eligibility manifests have no equal,
    ancestor, descendant, symlink-target, generated-owner, or Cargo-workspace
    ownership overlap.
-4. The #5343 rollback window has expired or an exact reviewed deletion
+5. The #5343 rollback window has expired or an exact reviewed deletion
    approval explicitly authorizes acceleration without weakening rollback.
 
 The current #5358 receipt is an input, not permission to bypass the other
@@ -47,6 +51,8 @@ It must bind to one Git revision and contain, for every incumbent path:
 - rollback-window and selector evidence;
 - retention owner and justification for every retained path;
 - classification evidence for generated, test, fixture, build, and docs paths;
+- explicit `protected_path` status and `claim_addition_required` truth so the
+  preparation claim never doubles as product deletion authority;
 - manifest digest and the exact `csdlc-eligibility` result.
 
 The denominator is the sum of baseline LoC for rows classified as replaced and
@@ -70,7 +76,8 @@ typed claim only after the terminal dependency and disjointness gates pass.
 
 1. Recompute and verify the pinned baseline and both manifests read-only.
 2. Run `csdlc-eligibility`; require an exact approved result and all terminal
-   dependency predicates.
+   dependency predicates, including #5347, WP-14A #5384, WP-15 #5354, WP-16
+   #5351, and WP-17 #5360.
 3. Amend the typed claim to the exact eligible #5346 paths only.
 4. Delete exactly those paths with Git, without broad globbing or filesystem
    traversal.

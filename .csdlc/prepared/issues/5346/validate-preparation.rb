@@ -11,7 +11,7 @@ ISSUE_DIR = ROOT.join(".csdlc/issues/5346")
 INDEX = ISSUE_DIR.join("index.json")
 PREP = ROOT.join(".csdlc/prepared/issues/5346")
 REQUIRED = %w[sip stp spp vpp srp sor].freeze
-PREP_FILES = %w[design.md diagram.mmd bootstrap-request.json check-dependencies.rb validate-preparation.rb run-validation-lane.rb].freeze
+PREP_FILES = %w[design.md diagram.mmd bootstrap-request.json check-dependencies.rb validate-preparation.rb run-validation-lane.rb reacquire-preparation-claim-20260731.json].freeze
 PROHIBITED_PRODUCT_PREFIXES = %w[adl/src adl-v2 adl-runtime adl-runtime-kernel].freeze
 
 def assert(condition, message)
@@ -33,11 +33,12 @@ def installed_binary(name)
 end
 
 index = JSON.parse(INDEX.read)
-assert(%w[initialized bound].include?(index.fetch("phase")), "unexpected phase")
+assert(index.fetch("phase") == "bound", "unexpected phase")
 assert(index.fetch("issue") == 5346 && index.fetch("repository") == "danielbaustin/agent-design-language", "wrong issue identity")
 claim = index.fetch("claim")
-assert(claim.fetch("id") == "claim-5346-v0918-wp13-deletion-preparation", "wrong claim")
-assert(claim.fetch("purpose").include?("no source path may be claimed or deleted"), "claim is not preparation-only")
+assert(claim.fetch("id") == "claim-5346-v0918-wp13-deletion-preparation-current", "wrong claim")
+assert(claim.fetch("branch") == "codex/5346-v0918-wp13-final-adl-deletion" && claim.fetch("worktree") == ".", "claim is not bound to this checkout")
+assert(claim.fetch("purpose").include?("preparation only") && claim.fetch("purpose").include?("no source path may be claimed or deleted"), "claim is not preparation-only")
 
 PREP_FILES.each { |name| assert(PREP.join(name).file?, "missing preparation artifact #{name}") }
 assert(index.fetch("design_path") == ".csdlc/prepared/issues/5346/design.md", "wrong design path")
@@ -67,9 +68,13 @@ assert(initial.fetch("acceptance_criteria").length == 10, "acceptance criteria c
 assert(initial.fetch("validation_lanes").map { |item| item["lane"] } == expected_lanes, "bootstrap/VPP lane drift")
 assert(initial.fetch("invariants").include?("Runtime v2 is categorically outside #5346 ownership and may not be edited or deleted by this issue"), "Runtime v2 prohibition is not categorical")
 assert(initial.fetch("non_goals").any? { |item| item.include?("Runtime v2") }, "Runtime v2 non-goal missing")
+assert(initial.fetch("dependencies").any? { |item| item.include?("#5347") }, "#5347 dependency missing")
+%w[#5384 #5354 #5351 #5360].each do |term|
+  assert(initial.fetch("dependencies").any? { |item| item.include?(term) }, "release-tail dependency missing #{term}")
+end
 
 text = [PREP.join("design.md").read, PREP.join("diagram.mmd").read, *REQUIRED.map { |name| ISSUE_DIR.join("cards/#{name}.md").read }].join("\n")
-%w[#5344 #5343 #5358 #5361 #5347 csdlc-eligibility closed_out receipt ancestry disjoint 80 90].each do |term|
+%w[#5344 #5343 #5358 #5361 #5347 #5384 #5354 #5351 #5360 WP-14A WP-15 WP-16 WP-17 csdlc-eligibility closed_out receipt ancestry disjoint 80 90].each do |term|
   assert(text.include?(term), "missing preparation term #{term}")
 end
 %w[Cargo symlink generated rollback retained owner COTS PVF 800 1200 3600].each do |term|

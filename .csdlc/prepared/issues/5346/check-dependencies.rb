@@ -7,7 +7,16 @@ require "open3"
 require "pathname"
 
 ROOT = Pathname.new(__dir__).join("../../../..").expand_path
-DEPENDENCIES = [5344, 5343, 5358, 5361].freeze
+TERMINAL_DEPENDENCIES = {
+  5344 => "WP-12 soak and rollback",
+  5343 => "WP-12 reviewed selector switch",
+  5358 => "current C-SDLC v2 acceptance",
+  5361 => "current Runtime v3 acceptance",
+  5384 => "WP-14A integrated platform acceptance",
+  5354 => "WP-15 demo convergence",
+  5351 => "WP-16 integrated platform quality gate",
+  5360 => "WP-17 documentation and release truth alignment"
+}.freeze
 MANIFESTS = {
   5346 => ROOT.join("docs/milestones/v0.91.8/evidence/wp13/5346-deletion-eligibility.v1.json"),
   5347 => ROOT.join("docs/milestones/v0.91.8/evidence/wp13/5347-deletion-eligibility.v1.json")
@@ -47,21 +56,21 @@ common_dir = ROOT.join(common_dir) unless common_dir.absolute?
 head = capture_git("rev-parse", "HEAD")
 
 dependency_evidence = {}
-DEPENDENCIES.each do |issue|
+TERMINAL_DEPENDENCIES.each do |issue, label|
   record_path = ROOT.join(".csdlc/issues/#{issue}/index.json")
-  record = load_json(record_path, "typed projection for ##{issue}")
-  fail_gate("##{issue} is not typed closed_out") unless record["phase"] == "closed_out"
-  fail_gate("##{issue} still has an active claim") unless record["claim"].nil?
-  terminal = record.fetch("terminal") { fail_gate("##{issue} projection has no terminal evidence") }
-  fail_gate("##{issue} is not merged") unless terminal["disposition"] == "merged" && terminal["observed_state"] == "merged"
+  record = load_json(record_path, "typed projection for ##{issue} #{label}")
+  fail_gate("##{issue} #{label} is not typed closed_out") unless record["phase"] == "closed_out"
+  fail_gate("##{issue} #{label} still has an active claim") unless record["claim"].nil?
+  terminal = record.fetch("terminal") { fail_gate("##{issue} #{label} projection has no terminal evidence") }
+  fail_gate("##{issue} #{label} is not merged") unless terminal["disposition"] == "merged" && terminal["observed_state"] == "merged"
   sha = terminal["observed_sha"]
-  fail_gate("##{issue} projection has invalid merged SHA") unless sha&.match?(HEX40)
+  fail_gate("##{issue} #{label} projection has invalid merged SHA") unless sha&.match?(HEX40)
   _out, status = Open3.capture2e("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", sha, "origin/main")
-  fail_gate("##{issue} merged SHA is not ancestral to current origin/main") unless status.success?
+  fail_gate("##{issue} #{label} merged SHA is not ancestral to current origin/main") unless status.success?
 
   path = common_dir.join("csdlc-v2/closeout/#{issue}.json")
   audit_receipt = path.file? ? { "path" => path.relative_path_from(common_dir).to_s, "sha256" => Digest::SHA256.file(path).hexdigest } : nil
-  dependency_evidence[issue.to_s] = { "sha" => sha, "audit_receipt" => audit_receipt }
+  dependency_evidence[issue.to_s] = { "label" => label, "sha" => sha, "audit_receipt" => audit_receipt }
 end
 
 def validate_manifest(issue, path, head, _dependency_evidence)
@@ -140,4 +149,4 @@ left.product(right).each do |a, b|
   end
 end
 
-puts JSON.generate(status: "pass", issue: 5346, revision: head, dependencies: DEPENDENCIES, dependency_evidence: dependency_evidence, disjoint: true)
+puts JSON.generate(status: "pass", issue: 5346, revision: head, dependencies: TERMINAL_DEPENDENCIES.keys, peer_manifest_dependency: 5347, dependency_evidence: dependency_evidence, disjoint: true)
