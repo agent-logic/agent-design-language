@@ -12,7 +12,14 @@ Status: draft
 
 ## Scope
 
-
+docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md
+docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md
+docs/milestones/v0.92/README.md
+docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md
+docs/milestones/v0.92/external_launch
+docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md
+docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md
+docs/milestones/v0.92/features/README.md
 
 ## Prompts
 
@@ -23,7 +30,18 @@ Status: draft
 
 ## Findings
 
-[]
+[
+  {
+    "id": "POSTINT-1",
+    "severity": "p3",
+    "summary": "Ready-variant wording retained an overlong sentence and pre-merge acceptance language after #4762 merged.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:073c79736380b4cb676c4b6c4af749b0aff99a50:e32a336dbd73e9078e72a1a52dc80625f720aede67a14880cdb4dfe92bff5497",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -31,12 +49,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Merged #4762 proof is a retained witness and receipt input with birth_event_status not_claimed; it does not prove that the v0.92 birthday event occurred.
+- Final external publication still requires v0.92 packet validation, exact evidence citation, and explicit operator authorization for the target channel.
+- This docs-focused review did not execute a birthday runtime or publish external content.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:073c79736380b4cb676c4b6c4af749b0aff99a50:e32a336dbd73e9078e72a1a52dc80625f720aede67a14880cdb4dfe92bff5497")
 
-Reviewer: None
+Reviewer: Some("codex:repo-code-review-4763-post-integration")
 
-Result: pre_review
+Result: pass

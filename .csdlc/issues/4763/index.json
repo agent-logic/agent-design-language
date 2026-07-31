@@ -3,13 +3,13 @@
   "issue": 4763,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "de570b0095a75b8aa7114f780283cfb652a4b99c9d315de2e0301efc58a83323",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "f59f7784a3480ca568d6bf02bcbd3d3891faf1b68f4239ddfe687d75907893db",
+  "phase": "reviewed",
+  "generation": 10,
+  "digest": "e2bdba49c4f6daa67a78be491ea4c479856484e5457482d5f12911713aaa73b1",
   "claim": {
     "id": "prep-4763-v0918-wp14-refresh-20260731",
     "owner": "codex:019f9ad4-4763-preparation-refresh",
-    "generation": 9,
+    "generation": 10,
     "acquired_unix_seconds": 1785525825,
     "expires_unix_seconds": 1786130625,
     "heartbeat_unix_seconds": 1785525825,
@@ -23,7 +23,39 @@
     "purpose": "Preparation-only refresh for #4763 first-birthday docs and external launch surfaces; no implementation, PR, publication, merge, or closeout."
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "codex:repo-code-review-4763-post-integration",
+    "scope": [
+      "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
+      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
+      "docs/milestones/v0.92/README.md",
+      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+      "docs/milestones/v0.92/external_launch",
+      "docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md",
+      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
+      "docs/milestones/v0.92/features/README.md"
+    ],
+    "reviewed_revision": "git-blake3:073c79736380b4cb676c4b6c4af749b0aff99a50:e32a336dbd73e9078e72a1a52dc80625f720aede67a14880cdb4dfe92bff5497",
+    "findings": [
+      {
+        "id": "POSTINT-1",
+        "severity": "p3",
+        "summary": "Ready-variant wording retained an overlong sentence and pre-merge acceptance language after #4762 merged.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:073c79736380b4cb676c4b6c4af749b0aff99a50:e32a336dbd73e9078e72a1a52dc80625f720aede67a14880cdb4dfe92bff5497",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Merged #4762 proof is a retained witness and receipt input with birth_event_status not_claimed; it does not prove that the v0.92 birthday event occurred.",
+      "Final external publication still requires v0.92 packet validation, exact evidence citation, and explicit operator authorization for the target channel.",
+      "This docs-focused review did not execute a birthday runtime or publish external content."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -38,32 +70,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "313ce1d9945ae69e10a2138791b35ec94fa51af81d2af5b213e41b3a9bc85fcc",
+      "values_digest": "597c63341895734abda2efd279864510359c9b9093f36c30a8667d34f6ab2871",
       "rendered_digest": "e2a837852a0cf17b65963d19fe34d7b2a6feae92bd583a035be2e97a33247881",
       "ast_digest": "589adbf9bce5296abecb6aecf382caf6c78fb490172791708636dc965330a598"
     },
     "stp": {
-      "values_digest": "8f57b8d7afc0fa389fa6878c22a2b25cc132b63edfafa9f7233a1a8cb8f7eca1",
+      "values_digest": "f18d7de90bb00e31e3824447025b2f3cc1be81f7bf9ced3a102001a78a5b03b8",
       "rendered_digest": "8c326aba5b35dd9eab725412b98fbb8bb3534cc276b16d1005dba2aaa26f78eb",
       "ast_digest": "c1e5bc20ae673cd2054701b9ee6e5f9882f16cefdc4ba35f60bd405df9122bec"
     },
     "spp": {
-      "values_digest": "2e51e5aeff7828b70d198b56cf652cd1a9636802da852ab34cdd77ff17ff4b16",
+      "values_digest": "21d36cf77bd69a46d14662f01ff97bc0cd5028beea290e697a096ffb04947da3",
       "rendered_digest": "cbeb8d9d74a33c69a9537307d689db43f787dd54a0025a95c6e7e282e9d943ba",
       "ast_digest": "6c7909e9ab81d3d1dfba7a787ce793f5ba68da1591b26823300704ee3c42ad14"
     },
     "vpp": {
-      "values_digest": "0a9712d004fc846c7731c86e85c34e08b3a4580ce3bce6c85006126a3ed3b649",
+      "values_digest": "f940ce0ac8a5df469118463aea4c3baf0d3a368533ebf3924c3da0eec11b9c2a",
       "rendered_digest": "fad5e0e9ca739655592a7a4ffbd3885f1daa506ed5305abf782735b1b664540d",
       "ast_digest": "4709fdb235a000daf6fd128431b9a2fe2766a67ddb4b1944f33e6c80f2641ada"
     },
     "srp": {
-      "values_digest": "fbd47a968c98d58295dd4b415a2fd9abdeceb7669a65f3cd09dab50684d04d82",
-      "rendered_digest": "f7cd93aabdac1a69cc7ee18534ea03c063054ac0bfbb0cc89d59371005128570",
-      "ast_digest": "08d3d53b9ae01e2763a8a8c5253cc03943eecd12f14e740b33a32b37d8d825b6"
+      "values_digest": "6810b7ea35094558c5a6b55bb2eec7f19cd1da17daa85e8210242bdd27c6ab42",
+      "rendered_digest": "64b4f0f76825c8f8bd9eb3ed76f1d7b52a750485fb7a3e7560687f4f0324469b",
+      "ast_digest": "190026bafc20dcf7086a9c078aeb2fc6f7329e010a9dc3b3f975625a9baf8148"
     },
     "sor": {
-      "values_digest": "db7f760c9aa10c0919ed62a706e5795b2fda713a5d165cc4132d15931a52fa8b",
+      "values_digest": "6773f03b8ee563651ef6e0c47a4150dbb4ffb72602615e470597bd5291004cb9",
       "rendered_digest": "7f2072973bde8729fbdd4550f80521c6e2aaaec1034a7eb1f76d1c8af1cea546",
       "ast_digest": "456f8e7f6a7a4223e7795063da24f6765099673f25f90f3fb73d1531a355cb74"
     }
@@ -103,6 +135,13 @@
       "to": "implemented",
       "actor": "codex:issue-4763-pr-5734-integration",
       "reason": "Current origin/main integration and merged #4762 dependency evidence changed the reviewed substantive head; recover for one exact post-integration review before updating PR #5734."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:repo-code-review-4763-post-integration",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -189,6 +228,13 @@
       "actor": "codex:issue-4763-pr-5734-integration",
       "reason": "Current origin/main integration and merged #4762 dependency evidence changed the reviewed substantive head; recover for one exact post-integration review before updating PR #5734.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:repo-code-review-4763-post-integration",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
