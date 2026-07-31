@@ -5,7 +5,7 @@
   "initialization_digest": "c9e538886b9fe939fe6a89f44b9ef31a4d75733f7a7e60cdbb4bf47dd806bfc9",
   "phase": "implemented",
   "generation": 6,
-  "digest": "f99628640888e481eff98882e8c9d516b3ca7bf27ffda7601104b127bd4b40bd",
+  "digest": "b0ad949b44e301b2eabd78f966380a6f0b374f7bc51b4c2e7fe30eb87642d936",
   "claim": {
     "id": "claim-5354-v0918-wp15-reacquired",
     "owner": "codex:5354-preparation-owner",
@@ -29,7 +29,7 @@
   "review_assignment": {
     "reviewer": "subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8",
     "assigned_by": "codex:5354-wp15-owner",
-    "revision": "git-blake3:04e9272b27acc08281e9dda04651f3243d34af15:a2833c3c56be75e84011c678e2470e1a027aeb6b2e5d95e4d938a95e59797c18",
+    "revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
     "scope": [
       ".csdlc/evidence/5354",
       ".csdlc/issues/5354",
@@ -243,6 +243,13 @@
     },
     {
       "sequence": 20,
+      "generation": 6,
+      "actor": "codex:5354-wp15-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
       "generation": 6,
       "actor": "codex:5354-wp15-owner",
       "reason": "assign bounded exact-revision review",
