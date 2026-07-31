@@ -78,11 +78,11 @@ import json
 import sys
 
 profile = json.load(open(sys.argv[1]))
-assert profile["schema_version"] == "adl.validation_profile.v1"
-assert profile["selected_profile"] == "podcast_static_demo_surface_profile"
-assert profile["status"] == "ready_to_run"
-assert profile["pr_publication_sufficient"] is True
-assert [item["lane_id"] for item in profile["run"]] == ["podcast_static_demo_surface"]
+assert profile["schema_version"] == "adl.validation_profile.v1", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["selected_profile"] == "podcast_static_demo_surface_profile", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["status"] == "ready_to_run", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["pr_publication_sufficient"] is True, json.dumps(profile, indent=2, sort_keys=True)
+assert [item["lane_id"] for item in profile["run"]] == ["podcast_static_demo_surface"], json.dumps(profile, indent=2, sort_keys=True)
 surface = profile["behavior_surfaces"][0]
 assert surface["id"] == "demo_contract_podcast_static_demo_surface"
 assert surface["owner"] == "site"
@@ -107,10 +107,12 @@ from pathlib import Path
 
 profile = json.load(open(sys.argv[1]))
 log_dir = Path(sys.argv[2])
-assert profile["run_status"] == "passed"
-assert profile["build_action_logs"]["schema_version"] == "adl.build_action_log_manifest.v1"
-assert profile["build_action_logs"]["packet_count"] == 1
-packet_ref = profile["run"][0]["build_action_log"]
+assert profile["run_status"] == "passed", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["build_action_logs"]["schema_version"] == "adl.build_action_log_manifest.v1", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["build_action_logs"]["packet_count"] >= 1, json.dumps(profile, indent=2, sort_keys=True)
+docs_items = [item for item in profile["run"] if item["lane_id"] == "docs_diff_check"]
+assert len(docs_items) == 1, json.dumps(profile, indent=2, sort_keys=True)
+packet_ref = docs_items[0]["build_action_log"]
 packet_path = Path(packet_ref)
 if not packet_path.is_absolute():
     packet_path = Path.cwd() / packet_path

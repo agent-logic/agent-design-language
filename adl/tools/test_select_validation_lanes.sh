@@ -420,8 +420,9 @@ import json
 import sys
 
 plan = json.load(open(sys.argv[1]))
-assert plan["run_status"] == "passed"
-assert plan["lanes"]["docs_diff_check"]["run_status"] == "passed"
+assert plan["run_status"] == "passed", json.dumps(plan, indent=2, sort_keys=True)
+assert "docs_diff_check" in plan["lanes"], json.dumps(plan, indent=2, sort_keys=True)
+assert plan["lanes"]["docs_diff_check"]["run_status"] == "passed", json.dumps(plan, indent=2, sort_keys=True)
 PY
 
 invalid_manifest="$TMP/invalid-manifest.json"
@@ -754,15 +755,15 @@ import json
 import sys
 
 profile = json.load(open(sys.argv[1]))
-assert profile["schema_version"] == "adl.validation_lane_plan.v1"
-assert profile["aggregate_status"] == "selected"
-assert profile["pr_publication_sufficient"] is True
-assert set(profile["lanes"].keys()) == {"podcast_static_demo_surface"}
+assert profile["schema_version"] == "adl.validation_lane_plan.v1", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["aggregate_status"] == "selected", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["pr_publication_sufficient"] is True, json.dumps(profile, indent=2, sort_keys=True)
+assert set(profile["lanes"].keys()) == {"podcast_static_demo_surface"}, json.dumps(profile, indent=2, sort_keys=True)
 lane = profile["lanes"]["podcast_static_demo_surface"]
-assert lane["status"] == "selected"
-assert lane["proof_role"] == "demo_contract"
-assert lane["owner"] == "site"
-assert lane["run_command"] == "git diff --check"
+assert lane["status"] == "selected", json.dumps(profile, indent=2, sort_keys=True)
+assert lane["proof_role"] == "demo_contract", json.dumps(profile, indent=2, sort_keys=True)
+assert lane["owner"] == "site", json.dumps(profile, indent=2, sort_keys=True)
+assert lane["run_command"] == "git diff --check", json.dumps(profile, indent=2, sort_keys=True)
 assert set(lane["matched_paths"]) == {
     "demos/podcast/index.html",
     "demos/podcast/feed.xml",
