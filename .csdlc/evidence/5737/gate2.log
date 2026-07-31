@@ -59,4 +59,3 @@ test issue_5337_preparation_converts_to_complete_implementation_truth_with_typed
 test inactive_stale_projection_with_stale_terminal_identity_does_not_block_authority ... ok
 
 test result: ok. 55 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 15.02s
-
