@@ -2,7 +2,7 @@
   "schema": "adl.v0918.wp15.convergence_proof.v1",
   "issue": 5354,
   "status": "pass",
-  "revision": "72fbf30c74a5193ea41f042c76c5986a48e59d6c",
+  "revision": "051946a9ab7cb6f9fbc29a9d80a2c86c0071a3fb",
   "predecessor": {
     "issue": 5384,
     "pull_request": 5726,
