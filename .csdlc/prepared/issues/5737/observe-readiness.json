@@ -1,0 +1,19 @@
+{
+  "issue": 5737,
+  "expected_generation": 7,
+  "expected_digest": "7bda61f088ccdccd873ab2e77f3bc2ff1f2fc238b7b83f4c95419d7c625d908f",
+  "claim_id": "claim-5737-csdlc-authority-recovery",
+  "actor": "codex:5737-execution",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5745,
+  "required_checks": [
+    "adl-path-policy",
+    "csdlc-v2-standalone",
+    "adl-tooling-contracts",
+    "adl-ci",
+    "adl-coverage-hosted",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}

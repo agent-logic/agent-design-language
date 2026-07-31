@@ -1,0 +1,24 @@
+{
+  "schema": "csdlc.merge_request.v1",
+  "issue": 5737,
+  "expected_generation": 8,
+  "expected_digest": "0530cabd5a7946bd133b443d2f45bac041c9f66dcce3d7316f8fe09b5198c894",
+  "claim_id": "claim-5737-csdlc-authority-recovery",
+  "actor": "codex:5737-execution",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5745,
+  "base": "main",
+  "head": "codex/5737-csdlc-authority-recovery",
+  "expected_head_sha": "86c2d7ae8f25cc890d6e8d892b3539a663d902f6",
+  "merge_method": "squash",
+  "required_checks": [
+    "adl-path-policy",
+    "csdlc-v2-standalone",
+    "adl-tooling-contracts",
+    "adl-ci",
+    "adl-coverage-hosted",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}

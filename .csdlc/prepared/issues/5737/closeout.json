@@ -1,0 +1,12 @@
+{
+  "issue": 5737,
+  "expected_generation": 8,
+  "expected_digest": "0530cabd5a7946bd133b443d2f45bac041c9f66dcce3d7316f8fe09b5198c894",
+  "claim_id": "claim-5737-csdlc-authority-recovery",
+  "actor": "codex:5737-execution",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5745,
+  "disposition": "merged",
+  "approved_no_pr_reason": null,
+  "token_file": "/Users/daniel/keys/github.token"
+}
