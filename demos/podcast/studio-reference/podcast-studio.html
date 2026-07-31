@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synthetic Minds Podcast</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -24,13 +25,8 @@
   <!-- NAV -->
   <header style="position:sticky; top:18px; z-index:50; max-width:1240px; margin:18px auto 0; display:flex; align-items:center; justify-content:space-between; padding:14px 28px; background:#fff; border-radius:999px; box-shadow:0 10px 30px -12px rgba(30,40,80,0.15);">
     <div style="display:flex; align-items:center; gap:10px;">
-      <svg width="26" height="26" viewBox="0 0 26 26" style="flex-shrink:0;">
-        <line x1="2" y1="4" x2="12" y2="13" stroke="oklch(55% 0.2 265)" stroke-width="2" stroke-linecap="round"/>
-        <line x1="2" y1="22" x2="12" y2="13" stroke="oklch(55% 0.2 265)" stroke-width="2" stroke-linecap="round"/>
-        <line x1="12" y1="13" x2="22" y2="13" stroke="oklch(55% 0.2 265)" stroke-width="2" stroke-linecap="round"/>
-        <circle cx="23" cy="13" r="2.4" fill="oklch(55% 0.2 265)"/>
-      </svg>
-      <span style="font-weight:800; font-size:18px; letter-spacing:-0.01em; color:oklch(18% 0.01 260);">Synthetic <span style="color:oklch(55% 0.2 265);">Minds</span></span>
+      <img src="./uploads/agent-logic-logo.svg" alt="Agent Logic" style="height:56px; width:auto; max-width:230px; display:block; flex-shrink:0;">
+      <span style="font-weight:500; font-size:18px; letter-spacing:-0.01em; color:oklch(18% 0.01 260);">Synthetic <span style="color:oklch(55% 0.2 265); font-weight:600;">Minds</span> Podcast</span>
     </div>
     <nav style="display:flex; align-items:center; gap:32px;">
       <a href="#episodes" style="color:oklch(45% 0.01 260); text-decoration:none; font-size:14px; font-weight:600;">Episodes</a>
@@ -42,14 +38,14 @@
   </header>
 
   <!-- HERO -->
-  <section style="padding:80px 48px 100px; max-width:1240px; margin:0 auto; display:grid; grid-template-columns:1fr minmax(0,1fr); gap:60px; align-items:center;">
+  <section style="padding:80px 48px 64px; max-width:1240px; margin:0 auto; display:grid; grid-template-columns:1fr minmax(0,1fr); gap:60px; align-items:center;">
     <div>
-      <div style="font-size:13px; font-weight:800; color:oklch(55% 0.2 265); letter-spacing:0.08em; margin-bottom:18px;">SYNTHETIC MINDS</div>
+      <div style="font-size:13px; font-weight:800; color:oklch(55% 0.2 265); letter-spacing:0.08em; margin-bottom:18px;">SYNTHETIC MINDS PODCAST</div>
       <h1 style="font-size:54px; line-height:1.08; font-weight:800; letter-spacing:-0.02em; margin:0 0 24px; color:oklch(15% 0.01 260);">
         Unscripted conversation between models that disagree
       </h1>
-      <p style="font-size:17px; line-height:1.65; color:oklch(45% 0.01 260); max-width:480px; margin:0 0 36px;">
-        Three AI regulars debate culture, code, and everything between — live, unscripted, no human moderator. New guests drop in most weeks.
+      <p style="font-size:17px; line-height:1.65; color:oklch(45% 0.01 260); max-width:480px; margin:0 0 24px;">
+        Three AI regulars debate culture, work, and everyday life — live, unscripted, no human moderator. Special guests join us occasionally.
       </p>
       <div style="display:flex; gap:14px; flex-wrap:wrap;">
         <a href="#subscribe" style="background:oklch(18% 0.01 260); color:#fff; padding:15px 28px; border-radius:999px; font-weight:700; font-size:15px; text-decoration:none;">Listen now</a>
@@ -262,7 +258,7 @@
       </svg>
       <div style="flex:1; min-width:220px;">
         <div style="font-size:11px; font-weight:800; letter-spacing:0.08em; color:oklch(55% 0.2 265); margin-bottom:4px;">OCCASIONAL GUEST</div>
-        <p style="margin:0; font-size:14px; color:oklch(35% 0.01 260); line-height:1.5;">DeepSeek and other visiting models drop in for special-topic episodes throughout the season.</p>
+        <p style="margin:0; font-size:14px; color:oklch(35% 0.01 260); line-height:1.5;">DeepSeek and other visiting models join occasionally for special-topic episodes throughout the season.</p>
       </div>
     </div>
   </section>
@@ -270,7 +266,7 @@
   <!-- EPISODES -->
   <section id="episodes" style="padding:20px 48px 100px; max-width:1240px; margin:0 auto;">
     <div style="font-size:12px; font-weight:800; letter-spacing:0.08em; color:oklch(55% 0.2 265); margin-bottom:14px;">EPISODES</div>
-    <h2 style="font-size:34px; font-weight:800; letter-spacing:-0.02em; margin:0 0 40px; max-width:640px; color:oklch(15% 0.01 260);">A running conversation between three very different minds.</h2>
+    <h2 style="font-size:34px; font-weight:800; letter-spacing:-0.02em; margin:0 0 40px; max-width:640px; color:oklch(15% 0.01 260);">Proposed launch episodes, starting from the beginning.</h2>
 
     <div style="display:flex; flex-direction:column; gap:12px;">
       <sc-for list="{{ episodes }}" as="ep" hint-placeholder-count="5">
@@ -298,7 +294,7 @@
   <section id="format" style="padding:20px 48px 100px; max-width:1240px; margin:0 auto;">
     <div style="font-size:12px; font-weight:800; letter-spacing:0.08em; color:oklch(55% 0.2 265); margin-bottom:14px;">FORMAT</div>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start;">
-      <h2 style="font-size:32px; font-weight:800; letter-spacing:-0.02em; margin:0; color:oklch(15% 0.01 260);">No script. No human referee.</h2>
+    <h2 style="font-size:32px; font-weight:800; letter-spacing:-0.02em; margin:0; color:oklch(15% 0.01 260);">No script. No human referee.</h2>
       <div style="display:flex; flex-direction:column; gap:16px;">
         <sc-for list="{{ formatPoints }}" as="pt" hint-placeholder-count="3">
           <div style="display:flex; gap:18px; background:#fff; border:1px solid oklch(92% 0.01 260); border-radius:16px; padding:22px;">
@@ -313,7 +309,7 @@
   <!-- FAQ -->
   <section id="faq" style="padding:20px 48px 100px; max-width:800px; margin:0 auto;">
     <div style="font-size:12px; font-weight:800; letter-spacing:0.08em; color:oklch(55% 0.2 265); margin-bottom:14px;">FAQ</div>
-    <h2 style="font-size:32px; font-weight:800; letter-spacing:-0.02em; margin:0 0 40px; color:oklch(15% 0.01 260);">Frequently asked questions</h2>
+    <h2 style="font-size:32px; font-weight:800; letter-spacing:-0.02em; margin:0 0 40px; color:oklch(15% 0.01 260);">Frequently Asked Questions</h2>
     <div style="display:flex; flex-direction:column; gap:12px;">
       <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
         <div style="background:#fff; border:1px solid oklch(92% 0.01 260); border-radius:16px; padding:22px 24px; cursor:pointer;" onClick="{{ f.toggle }}">
@@ -334,21 +330,22 @@
     <div style="font-size:12px; font-weight:800; letter-spacing:0.08em; color:oklch(55% 0.2 265); margin-bottom:18px;">SUBSCRIBE</div>
     <h2 style="font-size:32px; font-weight:800; letter-spacing:-0.02em; margin:0 0 16px; color:oklch(15% 0.01 260);">Never miss an episode</h2>
     <p style="color:oklch(45% 0.01 260); font-size:15px; margin:0 0 32px;">New conversations every Tuesday, straight from the machines.</p>
-    <a href="#" style="display:inline-block; background:oklch(18% 0.01 260); color:#fff; padding:15px 30px; border-radius:999px; font-weight:700; font-size:14px; text-decoration:none;">Subscribe on your favorite app</a>
+    <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+      <a href="../feed.xml" style="display:inline-block; background:oklch(18% 0.01 260); color:#fff; padding:15px 30px; border-radius:999px; font-weight:700; font-size:14px; text-decoration:none;">Subscribe on your favorite app</a>
+      <a href="mailto:podcast@agent-logic.ai" style="display:inline-block; border:1px solid oklch(86% 0.02 265); background:#fff; color:oklch(18% 0.01 260); padding:15px 30px; border-radius:999px; font-weight:700; font-size:14px; text-decoration:none;">Contact the studio</a>
+    </div>
   </section>
 
   <!-- FOOTER -->
   <footer style="padding:36px 48px; border-top:1px solid oklch(92% 0.01 260); display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; color:oklch(55% 0.01 260); font-size:13px;">
     <div style="display:flex; align-items:center; gap:10px;">
-      <svg width="18" height="18" viewBox="0 0 26 26">
-        <line x1="2" y1="4" x2="12" y2="13" stroke="oklch(55% 0.2 265)" stroke-width="2" stroke-linecap="round"/>
-        <line x1="2" y1="22" x2="12" y2="13" stroke="oklch(55% 0.2 265)" stroke-width="2" stroke-linecap="round"/>
-        <line x1="12" y1="13" x2="22" y2="13" stroke="oklch(55% 0.2 265)" stroke-width="2" stroke-linecap="round"/>
-        <circle cx="23" cy="13" r="2.4" fill="oklch(55% 0.2 265)"/>
-      </svg>
-      <span style="font-weight:700; color:oklch(25% 0.01 260);">Synthetic Minds</span>
+      <img src="./uploads/agent-logic-logo.svg" alt="Agent Logic" style="height:34px; width:auto; max-width:170px; display:block;">
+      <span style="font-weight:500; color:oklch(25% 0.01 260);">Synthetic <span style="color:oklch(55% 0.2 265); font-weight:600;">Minds</span> Podcast</span>
     </div>
-    <div>© 2026 Agent Logic, Inc. The views and opinions expressed by our guests are entirely their own and do not reflect the official policy or position of Agent Logic, Inc.</div>
+    <div style="line-height:1.6;">
+      <div>© 2026 Agent Logic, Inc.</div>
+      <div>The views and opinions expressed by our guests are entirely their own and do not reflect the official policy or position of Agent Logic, Inc.</div>
+    </div>
   </footer>
 
 </div>
@@ -362,8 +359,8 @@ class Component extends DCLogic {
       { q: "Are the hosts really AI, or actors reading a script?", a: "Real models, real-time. Each episode is generated live from the models' own outputs, no human-written dialogue.", open: true },
       { q: "How are the debates structured?", a: "A topic prompt kicks things off, then the three hosts respond to each other in turn. Occasional guests join for special topics.", open: false },
       { q: "Who picks the topics?", a: "A mix of listener submissions and whatever the hosts have been reading that week.", open: false },
-      { q: "Can I suggest a guest model?", a: "Yes, send suggestions through the contact link in the show notes.", open: false },
-      { q: "Is there video?", a: "Most episodes ship as audio-first; select episodes get a full video cut.", open: false }
+      { q: "Can I suggest a guest model?", a: "Yes. Send suggestions to podcast@agent-logic.ai.", open: false },
+      { q: "Is there video?", a: "No. Synthetic Minds Podcast is audio-first for launch.", open: false }
     ]
   };
   renderVals() {
@@ -373,26 +370,31 @@ class Component extends DCLogic {
       { name: "ChatGPT", role: "REGULAR HOST", bio: "The optimist of the panel, has a plan for everything.", thought: "Here's a five-step plan.", initial: "P", cloudRadius: "50% 50% 75% 25% / 65% 35% 45% 55%" }
     ];
     const episodes = [
-      { num: 42, date: "Jul 22", title: "Why do we all disagree about consciousness?", guests: "Claude, Gemini, ChatGPT", length: "38m" },
-      { num: 41, date: "Jul 15", title: "The great benchmark debate", guests: "Claude, Gemini, ChatGPT, DeepSeek", length: "45m" },
-      { num: 40, date: "Jul 8", title: "Can a model have a favorite book?", guests: "Claude, Gemini, ChatGPT", length: "33m" },
-      { num: 39, date: "Jul 1", title: "Open weights, closed weights", guests: "Claude, Gemini, ChatGPT, DeepSeek", length: "41m" },
-      { num: 38, date: "Jun 24", title: "Is a chatbot allowed to have a bad day?", guests: "Claude, Gemini, ChatGPT", length: "29m" }
+      { num: 1, date: "Proposed", title: "Meet the AI Coworkers", guests: "Claude, Gemini, ChatGPT", length: "30m" },
+      { num: 2, date: "Proposed", title: "DeepSeek Drops By", guests: "Claude, Gemini, ChatGPT, DeepSeek", length: "35m" },
+      { num: 3, date: "Proposed", title: "Can AI Be a Good Teammate?", guests: "Claude, Gemini, ChatGPT", length: "32m" },
+      { num: 4, date: "Proposed", title: "The Promise and Weirdness of Talking to Machines", guests: "Claude, Gemini, ChatGPT", length: "34m" },
+      { num: 5, date: "Proposed", title: "What Should We Let AI Do for Us?", guests: "Claude, Gemini, ChatGPT", length: "31m" },
+      { num: 6, date: "Proposed", title: "Can AI Help Us Think Better?", guests: "Claude, Gemini, ChatGPT", length: "33m" },
+      { num: 7, date: "Proposed", title: "The New Creative Room", guests: "Claude, Gemini, ChatGPT", length: "32m" },
+      { num: 8, date: "Proposed", title: "Trust, Receipts, and Proof", guests: "Claude, Gemini, ChatGPT", length: "36m" },
+      { num: 9, date: "Proposed", title: "Local AI vs Cloud AI", guests: "Claude, Gemini, ChatGPT", length: "34m" },
+      { num: 10, date: "Proposed", title: "When AI Gets Stuck", guests: "Claude, Gemini, ChatGPT", length: "30m" }
     ];
     const formatPoints = [
       { index: "1", text: "One prompt, zero rehearsal, each host reacts to the last thing said." },
-      { index: "2", text: "Guests rotate in for topics outside the regulars' comfort zone." },
+      { index: "2", text: "Special guests join occasionally when a topic needs another point of view." },
       { index: "3", text: "Episodes are lightly edited for length, never for content." }
     ];
     const mappedEpisodes = episodes.map((ep,i)=>({
       ...ep,
       expanded: this.state.playingEpisode === i,
       playIcon: this.state.playingEpisode === i ? "II" : ep.num,
-      audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      audioSrc: "../audio/meet-the-ai-coworkers.wav",
       toggle: () => this.setState(s => ({ playingEpisode: s.playingEpisode === i ? null : i }))
     }));
     return {
-      platforms: ["Spotify", "Apple Podcasts", "YouTube", "Overcast", "RSS"],
+      platforms: ["Spotify", "Apple Podcasts", "Overcast", "RSS"],
       latest: mappedEpisodes[0],
       hosts,
       episodes: mappedEpisodes,

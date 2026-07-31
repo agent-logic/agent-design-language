@@ -117,7 +117,7 @@ blocked, deferred, or routed with evidence before any public activation claim.
 | Godel mechanics | Require experiment, hypothesis, mutation, evaluation, promotion, and proof boundaries before relying on Godel mechanics. |
 | Economics context | Keep economics context-only unless a reviewed decision promotes a bounded test. |
 | v0.91.8 platform acceptance | Consume ADL v2, Runtime v3, C-SDLC v2, selector/rollback, deletion, and WP-14A exact-revision handoff truth before activation claims. |
-| First-birthday external launch docs | Consume `docs/milestones/v0.92/external_launch/README.md`, `docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md`, and `docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md`; keep final publication blocked until #4762 accepted witness/receipt proof is cited. |
+| First-birthday external launch docs | Consume `docs/milestones/v0.92/external_launch/README.md`, `docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md`, and `docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md`; cite the merged #4762 retained witness/receipt package before any final birthday or publication claim. |
 
 ## Requirement Map
 
@@ -130,9 +130,9 @@ blocked, deferred, or routed with evidence before any public activation claim.
 | Capability envelope | `WBS_v0.92.md`, `DEMO_MATRIX_v0.92.md` | WP-06 | Provider/model/tool/skill/authority/limit field set. |
 | ACP/cognitive profile | `ACP_COGNITIVE_PROFILES_v0.92.md` | WP-07 | Update rules, privacy boundary, and non-reputation checks. |
 | ACIP binary/schema transport readiness | `ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md`; `docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md` | WP-08 | Protobuf/JSON projection decision, governed access checklist, mock/loopback carrier boundary, and explicit non-claims for live WebSocket runtime API integration until promoted. |
-| Witnesses and receipt | `MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md` | WP-09 | Receipt schema and witness validity checks. |
+| Witnesses and receipt | `MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md`; v0.91.8 #4762 handoff package at `docs/milestones/v0.91.8/review/v092_handoff_4762/` | WP-09 | Receipt schema, witness validity checks, retained negative-case dispositions, and explicit `birth_event_status: not_claimed` boundary before the final birth event. |
 | Birthday review packet | `FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md` | WP-10 | One template with evidence, caveats, public claim boundaries, and reviewer questions. |
-| External launch docs and public copy | `external_launch/README.md`, `external_launch/PUBLIC_LAUNCH_COPY_v0.92.md`, `external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md` | WP-14 | Concrete pending/ready launch copy, reviewer FAQ, publication checklist, and forbidden-claim rules; final launch proof remains blocked until #4762 accepted witness/receipt evidence is available. |
+| External launch docs and public copy | `external_launch/README.md`, `external_launch/PUBLIC_LAUNCH_COPY_v0.92.md`, `external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md` | WP-14 | Concrete pending/ready launch copy, reviewer FAQ, publication checklist, and forbidden-claim rules; final launch proof must cite the merged #4762 retained witness/receipt evidence and still pass v0.92 validation and operator publication approval. |
 | Migration and cross-polis continuity | `CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md` | WP-11 | Non-production migration language and continuity handoff shape. |
 | First birthday demo | `DEMO_MATRIX_v0.92.md` | WP-12 | Runnable command, fixtures, artifact list, and replay notes. |
 | Birthday-to-governance handoff | `FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md` | WP-13 | v0.93 consumer fields without v0.93 governance claims. |
@@ -189,6 +189,7 @@ Expected artifacts:
 - ACIP schema/projection proof packet, if communication evidence is included
 - witness records
 - citizen-facing receipt
+- #4762 retained witness/receipt handoff package
 - negative-suite validation report
 - reviewer packet
 - external launch copy packet
@@ -212,10 +213,12 @@ It contains:
   reviewer FAQ, redaction rules, publication checklist, and review prompts.
 
 Current status: implemented as a repository launch-document surface by #4763.
-Final public launch remains blocked until #4762 produces accepted actual
-retained witness/receipt proof. While #4762 is pending, the only supported
-external claim is that the launch surface is prepared for review and the
-birthday proof is pending.
+#4762 merged its retained witness/receipt package through PR #5744 at
+`021be8e33b486d9b66886ff299c20607ed8a071a`. Final public launch still requires
+the v0.92 birthday packet to consume and cite that proof, current exact-head
+review truth, and explicit operator publication approval. The supported claim
+remains that the launch surface is prepared for review; the birthday event is
+not claimed by this package.
 
 ## Negative Suite
 

@@ -12,9 +12,10 @@
 ### Has the first birthday happened?
 
 No. This surface implements the launch documentation and external review copy.
-The birthday claim remains pending until `#4762` supplies accepted witness and
-receipt proof and the v0.92 birthday packet consumes that proof at an exact
-result.
+`#4762` supplied retained witness and receipt proof through PR #5744 at
+`021be8e33b486d9b66886ff299c20607ed8a071a`. The birthday claim remains pending
+until the v0.92 birthday packet consumes that proof at an exact result, passes
+validation, and receives operator publication approval.
 
 ### What did this issue implement?
 
@@ -31,22 +32,25 @@ surface fails closed.
 
 ### What does `#4762` need to provide?
 
-`#4762` must provide the auditable witness and receipt package. The accepted
-result must be a retained implementation/proof artifact, not only a planning
-card, lifecycle transition, PR publication, merge, or closeout receipt.
+`#4762` provides the auditable witness and receipt package at
+`docs/milestones/v0.91.8/review/v092_handoff_4762/`, merged through PR #5744.
+That retained implementation/proof artifact is the consumable input; the PR,
+merge, or lifecycle state alone is not a substitute for its contents.
 
 ### Can this copy be used externally now?
 
-Only as a pending-status review surface. It can say that the launch docs are
-prepared and that the birthday proof is pending. It cannot say the birthday is
-complete or public-ready.
+Only as a validation-gated review surface unless the operator authorizes a
+target publication channel. It can say that the launch docs are prepared and
+the upstream proof package is merged. It cannot say the birthday is complete
+or public-ready before the remaining gates pass.
 
 ### What should reviewers inspect first?
 
 Reviewers should inspect:
 
 - whether the launch copy separates prepared documentation from birthday proof;
-- whether the `#4762` dependency is visible and non-substitutable;
+- whether the merged `#4762` dependency and retained package are visible and
+  non-substitutable;
 - whether negative cases reject startup, wake, restore, snapshot, copied state,
   fixture admission, simulation, and missing evidence;
 - whether public copy avoids forbidden claims;
@@ -80,8 +84,8 @@ Before any publication, answer each item with evidence:
 
 ## Review Prompts
 
-1. Does the public copy claim only prepared launch-surface status while `#4762`
-   proof is pending?
+1. Does the public copy claim only prepared launch-surface status while v0.92
+   validation and operator publication approval remain pending?
 2. Does the ready variant require an exact accepted witness/receipt artifact?
 3. Are all not-a-birthday cases rejected in plain language?
 4. Are philosophical, legal, governance, and production-readiness claims kept
@@ -92,4 +96,4 @@ Before any publication, answer each item with evidence:
 ## Publication Decision
 
 Until every checklist item passes, the decision is `do_not_publish_final_claim`.
-The allowed interim decision is `share_pending_review_surface`.
+The allowed interim decision is `share_validation_gated_review_surface`.

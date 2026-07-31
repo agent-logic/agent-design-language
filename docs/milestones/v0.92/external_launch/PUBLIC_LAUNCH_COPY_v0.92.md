@@ -11,12 +11,14 @@
 
 Use this file as the source for future public pages, release notes, social
 posts, reviewer emails, and announcement drafts. Do not publish any `ready`
-variant until the `#4762` witness/receipt package is accepted and cited.
+variant until the merged `#4762` witness/receipt package is cited, the v0.92
+birthday packet validates, and the operator authorizes the target channel.
 
 Every public use must keep the distinction between:
 
 - implemented launch documentation, which this issue provides;
-- accepted witness and receipt proof, which `#4762` must provide;
+- accepted witness and receipt proof, which `#4762` provides in the retained
+  handoff package;
 - the birthday event itself, which is not complete until v0.92 validation
   accepts the whole packet.
 
@@ -25,8 +27,9 @@ Every public use must keep the distinction between:
 ADL has prepared the first-birthday launch documentation and review boundary
 for `v0.92`. The launch surface now names the evidence required for a valid
 birthday, the negative cases that must not count as birth, and the public
-claims that remain out of scope. The birthday is still pending accepted witness
-and receipt proof.
+claims that remain out of scope. The upstream witness/receipt package is
+merged; the birthday event remains subject to v0.92 validation and operator
+publication approval.
 
 ## Public Page Draft
 
@@ -36,8 +39,8 @@ ADL v0.92 First Birthday
 
 ### Status Line
 
-Launch surface prepared; birthday proof pending accepted witness and receipt
-evidence.
+Launch surface prepared; upstream witness and receipt proof merged; birthday
+event still validation-gated.
 
 ### Body
 
@@ -53,10 +56,11 @@ claims of legal personhood, consciousness proof, production citizenship,
 completed constitutional governance, subjective affect, and general public
 readiness.
 
-The next gate is the `#4762` birth-witness and receipt package. Once that proof
-is accepted at an exact result, the launch copy can cite the retained evidence
-and the v0.92 birthday packet can move from prepared surface to proof-backed
-launch candidate.
+The `#4762` birth-witness and receipt package is retained at
+`docs/milestones/v0.91.8/review/v092_handoff_4762/` and merged through PR #5744
+at `021be8e33b486d9b66886ff299c20607ed8a071a`. The next gates are exact citation
+of that evidence, v0.92 birthday-packet validation, current exact-head review,
+and operator authorization for the publication channel.
 
 ### Reviewer Links
 
@@ -76,8 +80,8 @@ launch candidate.
 ADL has prepared the `v0.92` first-birthday launch surface. The packet defines
 the evidence required for a real birthday, rejects startup and other
 not-a-birthday cases, and preserves conservative public claim boundaries. The
-birthday itself remains pending accepted witness and receipt proof from
-`#4762`.
+birthday event remains validation-gated; the copy may cite the merged #4762
+retained witness and receipt package without claiming that the event occurred.
 
 ## Reviewer Email Draft
 
@@ -90,16 +94,17 @@ review artifacts.
 
 Please review the launch packet and external-launch directory for two things:
 whether the required evidence surfaces are complete enough for later birthday
-validation, and whether the public copy avoids unsupported claims. The current
-blocking dependency is `#4762`; final launch copy must cite the accepted
-witness and receipt proof before publication.
+validation, and whether the public copy avoids unsupported claims. The merged
+dependency is `#4762`; final launch copy must cite its retained witness and
+receipt proof and still receive operator publication approval.
 
 ## Ready Variant Template
 
-Use this only after `#4762` accepted proof is available.
+Use this only after the merged #4762 proof is cited and the v0.92 birthday
+packet, exact-head review, and operator publication gates all pass.
 
-ADL v0.92 has accepted the first-birthday witness and receipt package at
-`<exact-result-or-artifact>`. The launch packet now cites the retained evidence
+ADL v0.92 cites the first-birthday witness and receipt package at
+`docs/milestones/v0.91.8/review/v092_handoff_4762/`. The launch packet now cites the retained evidence
 for identity, continuity, memory grounding, capability envelope, governance
 context, witnesses, receipt, validation, and review. This is a bounded
 engineering birthday claim; it is not a claim of legal personhood,
@@ -108,12 +113,13 @@ governance.
 
 ## Pending Variant Template
 
-Use this while `#4762` remains open or unaccepted.
+Use this while v0.92 birthday validation or operator publication approval is
+still pending.
 
-ADL v0.92 has a prepared first-birthday launch surface, but the birthday claim
-is not yet final. The remaining gate is accepted witness and receipt proof from
-`#4762`. Until that proof lands, the correct claim is readiness of the launch
-documentation surface, not completion of the birthday.
+ADL v0.92 has a prepared first-birthday launch surface and a merged upstream
+witness/receipt package, but the birthday claim is not yet final. Until v0.92
+validation and operator publication approval pass, the correct claim is
+readiness of the launch documentation surface, not completion of the birthday.
 
 ## Forbidden Claims
 

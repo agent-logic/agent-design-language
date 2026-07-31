@@ -227,6 +227,10 @@ jobs:
       - name: path-policy PR-fast coverage contract
         run: bash adl/tools/test_ci_path_policy.sh
 
+      - name: podcast launch packet contract
+        if: contains(needs.adl_path_policy.outputs.validation_profile_run_lanes, 'podcast_launch_packet')
+        run: bash adl/tools/test_podcast_launch_packet.sh
+
       - name: PVF CI release policy contract
         if: needs.adl_path_policy.outputs.pvf_ci_release_contract_required == 'true'
         run: bash adl/tools/test_pvf_ci_release_policy.sh
