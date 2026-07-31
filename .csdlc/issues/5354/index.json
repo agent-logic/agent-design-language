@@ -5,7 +5,7 @@
   "initialization_digest": "c9e538886b9fe939fe6a89f44b9ef31a4d75733f7a7e60cdbb4bf47dd806bfc9",
   "phase": "implemented",
   "generation": 5,
-  "digest": "105a539939035da67a5b998b7507ceab1a2e6c7ce213ddccff966f2d03946815",
+  "digest": "bc60856d1478cacc2b381b4952e28759b96c80be9efdfbaf2e7e6680a35a47d9",
   "claim": {
     "id": "claim-5354-v0918-wp15-reacquired",
     "owner": "codex:5354-preparation-owner",
@@ -26,7 +26,19 @@
     ],
     "purpose": "Implement and validate the bounded WP-15 integrated convergence packet and its two milestone claim matrices."
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8",
+    "assigned_by": "codex:5354-wp15-owner",
+    "revision": "git-blake3:318a4c4b522d0d43d19ff42ea603cd13011a2846:e6a5c5f82776a64056001f3897205805b2c0d238d8b83aa85a54a730c9548d05",
+    "scope": [
+      ".csdlc/evidence/5354",
+      ".csdlc/issues/5354",
+      ".csdlc/prepared/issues/5354",
+      "adl-v2/Cargo.lock",
+      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -62,9 +74,9 @@
       "ast_digest": "6bc62a0e927ff2440d9b154aec39e32b49c915138ecbd6e606b1d9c14931677e"
     },
     "srp": {
-      "values_digest": "bfca22251d51c6d940f928ae5713e443db6bd9c06ea0f64b9cf104812e607250",
-      "rendered_digest": "831b956fbfb268349d216750192b877051c3f85579eb02ca4b458fbce7ded8c4",
-      "ast_digest": "11b29892d082ad3f5c05d2abce2772308fd56feb2e57753d3c0b9e1c06d42008"
+      "values_digest": "730693e73ae5be849f9989ca6b8397ed19f06d13e53a0f186544af62a63ade58",
+      "rendered_digest": "c3f47e686e9e3eaa0e6036e75b5f9d96751cd060f53edf0889d1aad927f44f68",
+      "ast_digest": "b815be503e3155773fc18e2d644374216b9477b25264ee6ecaab530804c0c142"
     },
     "sor": {
       "values_digest": "059c58878602937500c5eec40bf117b5adf79693319497d57c734be4743e7e3a",
@@ -214,6 +226,13 @@
       "actor": "codex:5354-wp15-owner",
       "reason": "The bounded implementation and complete exact integrated convergence lane pass all WP-15 acceptance criteria required before final review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 5,
+      "actor": "codex:5354-wp15-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

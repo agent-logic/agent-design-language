@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5354\n.csdlc/locks/5354.lock\n.csdlc/prepared/issues/5354\n.csdlc/evidence/5354",
+      "review_scope": ".csdlc/evidence/5354\n.csdlc/issues/5354\n.csdlc/prepared/issues/5354\nadl-v2/Cargo.lock\ndocs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md\ndocs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

@@ -12,10 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/5354
-.csdlc/locks/5354.lock
-.csdlc/prepared/issues/5354
 .csdlc/evidence/5354
+.csdlc/issues/5354
+.csdlc/prepared/issues/5354
+adl-v2/Cargo.lock
+docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md
+docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md
 
 ## Prompts
 
