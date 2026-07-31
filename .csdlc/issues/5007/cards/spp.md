@@ -12,78 +12,92 @@ Status: ready
 
 ## Summary
 
-Seed typed v2 preparation artifacts and leave ADR acceptance to a later proof-gated execution session.
+Prepare #5007 as a proof-gated ADR acceptance handoff: current main integrated, all six cards and design/diagram completed, one bounded GPT-5.5 preparation review retained, and execution left blocked on actual #4760 Memory Palace proof.
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Inspect existing #5007 task context and preserve the ADR proof gate.",
+    "action": "Integrate current origin/main 51bc5ae51b57c19dbab693af1c5a45142995f4e5 into the existing #5007 preparation branch and verify the worktree path/branch.",
     "acceptance_ids": [
-      "AC-2"
+      "AC-1"
     ],
     "status": "completed"
   },
   {
     "id": "S2",
-    "action": "Generate minimal typed v2 cards, design, and diagram.",
+    "action": "Repair all six cards, design, and diagram to the issue-specific proof-gated ADR acceptance plan with exact dependencies, intended paths, COTS, budgets, PVF lanes, rollback, and no-deferral boundaries.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-2"
+      "AC-2",
+      "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
-    "action": "Run focused csdlc-doctor and report prep-only handoff.",
+    "action": "Run one bounded GPT-5.5 preparation review over the preparation packet and fix actionable preparation findings.",
     "acceptance_ids": [
-      "AC-3"
+      "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
+  },
+  {
+    "id": "S4",
+    "action": "Run focused preparation validation and record stale claim/closeout reconciliation as an execution-time gate, not a preparation blocker.",
+    "acceptance_ids": [
+      "AC-5"
+    ],
+    "status": "completed"
   }
 ]
 
 ## Invariants
 
-- Preparation does not implement or publish #5007.
-- ADR acceptance remains blocked until #4760 complete proof exists.
-- Every eventual ADR claim must map to retained proof.
+- Preparation never writes the accepted ADR candidate or claims Memory Palace architecture acceptance.
+- Every later ADR claim must map to retained implementation proof from #4760 plus relevant Chronosense/ObsMem/runtime evidence.
+- Stale claim reconciliation and typed closeout receipts remain execution-time lifecycle work, not preparation blockers.
+- No `/private/tmp` use; all build/scratch/validation output stays in the worktree or `/Volumes/FastWork`.
+- Future execution must recheck `origin/main`, claim ownership, and dependency proof at its exact head.
 
 ## Risks
 
-- #4760 or related proof dependencies may still be incomplete when execution starts.
-- Legacy issue version labels may differ from the v0.91.8 preparation wave.
+- #4760 may remain open or may close without proof strong enough for ADR acceptance.
+- Closed dependency issues #4765/#4768/#4771 may not by themselves prove the exact Memory Palace boundary #5007 needs.
+- ADR numbering may advance before execution; if so, the intended candidate path must be renumbered before drafting.
+- The current preparation claim is stale; execution must acquire a fresh typed claim before mutation.
 
 ## Estimates
 
 {
-  "elapsed_seconds": 7200,
-  "total_tokens": 40000,
-  "validation_seconds": 1200
+  "elapsed_seconds": 2700,
+  "total_tokens": 18000,
+  "validation_seconds": 900
 }
 
 ## Design
 
 .csdlc/prepared/issues/5007/design.md
 
-Digest: 40f57f95bf151bf2e7820542a678a7d6bc8485091e71b674758921c9b4feb710
+Digest: 34b16fad35bd3cc21d9f3274b4e38297c0539e42714d840615fb8f78861dd398
 
 ## Diagram
 
 .csdlc/prepared/issues/5007/diagram.mmd
 
-Digest: 92d473fdcd212812af73e6d47d1b007f53a2bb8b5d8b42dbcc64b5bc7a1011f8
+Digest: df6dd8d0462e234ce4bc5e358a9ae19a0f7e9c0c35bba5ad20bf718e2d8ac8e7
 
 ## Stop Conditions
 
-- A live claim collision appears.
-- The focused doctor fails on v2 state integrity.
-- The task requires implementation or GitHub mutation.
+- #4760 lacks actual completed implementation proof when execution is requested.
+- Execution would require drafting the ADR during this preparation-only pass.
+- Any command attempts to write on `main` or under `/private/tmp`.
+- Future execution cannot acquire a fresh non-stale issue claim.
+- A review finding shows the preparation packet overclaims proof or hides a deferral.
 
 ## Handoff
 
