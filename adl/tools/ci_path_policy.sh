@@ -695,6 +695,9 @@ changed_files_include_demo_smoke_surface() {
   while IFS= read -r path; do
     [ -n "$path" ] || continue
     case "$path" in
+      demos/podcast/*|demos/_preview/podcast/*)
+        continue
+        ;;
       demos/*|adl/tools/demo_*|adl/tools/test_demo_*)
         return 0
         ;;
