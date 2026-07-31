@@ -12,11 +12,11 @@ Status: ready
 
 ## Goal
 
-Prepare a later execution lane for the v0.92 activation map that consumes accepted deployed-product evidence.
+Implement the v0.91.8 WP-21 activation bridge that maps v0.92 activation inputs to accepted platform evidence, named WP-21 owners, explicit blockers, or non-claims.
 
 ## Required Outcome
 
-An execution-ready preparation packet for the future integrated activation map, with live dependency gates and non-claim boundaries recorded.
+A reviewed, validated activation bridge in the v0.91.8 pre-v0.92 path, consumed by the v0.92 bridge ledger and handed to #4762 without claiming v0.92 implementation or birthday readiness.
 
 ## Scope
 
@@ -41,6 +41,7 @@ An execution-ready preparation packet for the future integrated activation map, 
 
 - use typed C-SDLC v2 only
 - work only in /Volumes/FastWork/adl-wp-4759 on codex/4759-v0918-preparation
-- commit and push only the clean preparation branch
-- do not publish a PR or mutate GitHub
-- do not advance to implementation during preparation
+- stay within the #4759 protected activation bridge and lifecycle paths
+- do not start v0.92 implementation or sibling WP-21 work
+- publish a ready PR with Closes #4759 after focused validation and exact-head review
+- do not merge or close out

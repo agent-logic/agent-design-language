@@ -8,6 +8,14 @@ This document refreshes the `v0.92` activation and first-birthday planning
 surface after the pre-`v0.92` implementation/proof path was created. It is not activation
 evidence, release evidence, or a claim that `v0.92` is ready to execute.
 
+v0.91.8 WP-21 issue `#4759` now supplies the activation bridge consumed by this
+ledger:
+`docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md`.
+That bridge consumes the WP-14A platform acceptance ledger at
+`docs/milestones/v0.91.8/review/V0918_WP14A_PLATFORM_ACCEPTANCE_5384.md`
+and routes every activation input to accepted evidence, a named WP-21 owner, an
+explicit blocker, or a non-claim.
+
 Current verdict: `v0.92` activation remains blocked until the `v0.91.6` and
 `v0.91.7` readiness, implementation, and integrated-proof tranches produce
 reviewed evidence, decision records, or explicit evidence-backed blockers for
@@ -27,6 +35,10 @@ Tracked sources:
 - `docs/milestones/v0.91.5/PRE_V092_BRIDGE_FEATURE_DOC_LEDGER_v0.91.5.md`
 - `docs/milestones/v0.91.5/V092_ACTIVATION_TEST_MAP_v0.91.5.md`
 - `docs/milestones/v0.91.5/features/V092_ACTIVATION_READINESS_v0.91.5.md`
+- `docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md`
+- `docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md`
+- `docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md`
+- `docs/milestones/v0.91.8/review/V0918_WP14A_PLATFORM_ACCEPTANCE_5384.md`
 - `docs/milestones/v0.91.6/`
 - `docs/milestones/v0.91.7/`
 - `docs/milestones/v0.92/README.md`
@@ -57,6 +69,21 @@ Those issues are closed retained inputs, not still-open activation blockers.
 What remains blocking for `v0.92` is any surface that still lacks reviewed
 runtime/product evidence or an explicit evidence-backed blocker with operator
 approval.
+
+## v0.91.8 Activation Bridge Consumption
+
+The v0.91.8 activation bridge supplies the exact platform baseline and the row
+dispositions this ledger may consume:
+
+| Input | Evidence consumed by v0.92 | Consumption boundary |
+| --- | --- | --- |
+| Accepted platform baseline | WP-14A baseline `11151e0beab02b1667f6505b7f8992bfd47d2f8f` in `docs/milestones/v0.91.8/review/V0918_WP14A_PLATFORM_ACCEPTANCE_5384.md` | Baseline acceptance only; no v0.92 birthday readiness claim. |
+| C-SDLC v2 lifecycle | Accepted merge `fc75f4fc697262f89f99461679a406be0b4b3775` for #5358 | Lifecycle governance input only; downstream issues still need their own typed records. |
+| Runtime v3 platform | Accepted merge `f7258b07e9da414bfee518f0c89a76071bc03ee8` for #5361 | Runtime platform input only; unresolved Parity-B/C/D rows remain owner-gated where named. |
+| ADL v2 soak/rollback | Accepted merge `d4825d4be9ed14ed6060dd33cbdafe5eaa5efcd2` for #5344 | Soak and rollback input only; deletion remains outside this bridge. |
+| ADL v2 reversible default | Accepted merge `e1b6a34e4763a79d1c40c641e64c0c061a0aa96c` for #5343 | Selector/default input only; rollback window and branding truth remain bounded by WP-14A. |
+| WP-21 activation rows | `docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md` | Each row must retain `accepted_platform_input`, `handoff_owned`, `blocked_with_evidence`, or `deferred_non_claim` truth before use. |
+| Birth-witness successor | #4762 | #4762 consumes this bridge but must produce its own auditable receipt package and proof. |
 
 ## Consumption States
 

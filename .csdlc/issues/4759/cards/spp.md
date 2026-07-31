@@ -12,52 +12,51 @@ Status: ready
 
 ## Summary
 
-Prepare the issue-local packet now; later execution re-checks #5384 live merge and ancestry, then implements and validates the integrated activation map.
+Implement and publish the #4759 WP-21 activation bridge after live #5384 closure, using the accepted WP-14A platform ledger as exact evidence and preserving v0.92 non-claims.
 
 ## Plan
 
-Revision 1
+Revision 4
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Generate issue-local C-SDLC v2 cards, design, and diagram",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4"
-    ],
-    "status": "pending"
-  },
-  {
-    "id": "S2",
-    "action": "Re-check live #5384 merge plus ancestry before future implementation",
+    "action": "Confirm live #5384 closure and consume the accepted WP-14A platform ledger as the execution evidence basis",
     "acceptance_ids": [
       "AC-1",
       "AC-2"
     ],
-    "status": "pending"
+    "status": "completed"
+  },
+  {
+    "id": "S2",
+    "action": "Implement the v0.91.8 activation bridge inside the protected activation map and handoff docs",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "completed"
   },
   {
     "id": "S3",
-    "action": "Implement the integrated activation map only after #5384 releases execution",
+    "action": "Update lifecycle cards with execution truth through typed C-SDLC v2 requests",
     "acceptance_ids": [
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
-    "action": "Run focused validation and exact pre-PR review during later execution",
+    "action": "Run focused docs/card validation, obtain exact-head pre-PR review, publish a ready PR, and stop before merge or closeout",
     "acceptance_ids": [
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 
@@ -96,10 +95,11 @@ Digest: 24b8889f9279611c5cd348227adf8345db93f9cb8138ee4e016b194d99a4d5c7
 
 ## Stop Conditions
 
-- #5384 remains open without an operator-approved evidence blocker
-- #5384 merge is absent from current origin/main ancestry
-- accepted deployed-product evidence cannot be mapped exactly
-- scope pressure asks preparation to implement activation now
+- focused docs/card validation fails
+- exact-head pre-PR review finds actionable issues that are not fixed
+- publication would use stale review or ambiguous PR metadata
+- scope pressure asks #4759 to implement v0.92 runtime, birthday, Memory Palace, Unity, or sibling WP-21 work
+- operator asks to merge or close out before this no-merge handoff is complete
 
 ## Handoff
 
