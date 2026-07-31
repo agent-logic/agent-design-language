@@ -7,7 +7,7 @@
         "proof_role": "preparation-packet-shape",
         "purpose": "Validate #4759 preparation packet shape and dependency-gate language without implementation",
         "determinism": "deterministic",
-        "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 500},
+        "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 1000},
         "credentials": [],
         "network": "denied",
         "dependencies": [],
@@ -22,7 +22,7 @@
     ]
   },
   "selection": {"requested_lanes": ["wp14-activation-prep"], "allow_network": false, "available_credentials": []},
-  "budget": {"max_parallel": 1, "cpu_units": 1, "memory_mib": 128, "tokens": 500},
+  "budget": {"max_parallel": 1, "cpu_units": 1, "memory_mib": 128, "tokens": 1000},
   "root": "/Volumes/FastWork/adl-wp-4759",
   "evidence_dir": "/Volumes/FastWork/adl-wp-4759/.csdlc/evidence/4759/preparation",
   "cancellation_file": null
