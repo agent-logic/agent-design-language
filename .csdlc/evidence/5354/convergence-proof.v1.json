@@ -2,7 +2,7 @@
   "schema": "adl.v0918.wp15.convergence_proof.v1",
   "issue": 5354,
   "status": "pass",
-  "revision": "cfd4884183a09ae5b5aa96197b3042f169351c8d",
+  "revision": "4a17b71c53a7baee09d93e793c539ad28f220253",
   "predecessor": {
     "issue": 5384,
     "pull_request": 5726,
@@ -39,14 +39,14 @@
       "action": "submit",
       "work_kind": "agent_runtime",
       "work_id": "wp15-adl-plan-3a3c3de635969994",
-      "command_id": "wp15-cfd4884183a0-20260731185141",
-      "correlation_id": "b365b197e5abd3e7071fe114bcdf5b7b",
+      "command_id": "wp15-4a17b71c53a7-20260731185715",
+      "correlation_id": "e7dd45250863b767e45a872eac9cea11",
       "principal": "wp15-proof",
       "signing_key_id": "wp15-proof",
-      "unsigned_command_sha256": "e61f35bab8e345c0015f22668e641a114e1a22bbdd1db5f9d3b6ad95abec398e",
+      "unsigned_command_sha256": "30579ede1a9b8669639ded2aeae2eb0e653eddbc51102fba842a706811682fb0",
       "payload_sha256": "1dff296c34ba17c254f7eb64d23be46804eeb91e963519d9a173560c41908a70",
       "plan_output_sha256": "3a3c3de63596999456ee435ac50ad4d1b97490cfbc784efc55f3594820e7ed03",
-      "response_sha256": "bf7a7d6af23696a4838cca6de33382682c5a94ced1e649fdf935a966805304b4",
+      "response_sha256": "1fe1b8f4299668a259a1f21e66c3572413b37062a261ac4f22e67a57181c34cf",
       "outcome": "submitted",
       "accepted_sequence": 1,
       "result_hash": "0a2550f7d19a96256081fc399912beed2cc842c0170f5206bfe13fdae23d20b9"
@@ -133,11 +133,11 @@
   ],
   "proof_freeze": {
     "schema": "adl.v0918.wp15.proof_freeze.v1",
-    "packet_fingerprint_sha256": "20d46bf78d72e1b8b88e93e42c037151c7a8bc372118240460780d78c8c545ee",
+    "packet_fingerprint_sha256": "b0766935ccfebb5c29036cca733f6f85b2fff7c57bed76ba54cc9fd6eb3fcb4e",
     "frozen_paths_sha256": {
       ".csdlc/issues/5354/index.json": "d7b24565aef6d0ad17d392b64f1d6417edf424905c5e3a41404636612338742e",
       ".csdlc/issues/5354/audit.jsonl": "c47d69557c072b0cbefd27ccc8b5b4183759fd924a382f526a151113a9f4343a",
-      ".csdlc/prepared/issues/5354/run-validation-lane.rb": "a5d6c773f0d5c8e17f20c087e10bc2dcf578f160eb43868295b3c130c855f9dc",
+      ".csdlc/prepared/issues/5354/run-validation-lane.rb": "7be353ea9b2bf23726ac3b5645320ae882187e5d03ec629c97f4b8b92d3729fc",
       ".csdlc/prepared/issues/5354/check-dependencies.rb": "9480f7da49ca6e46de3cf80034f7663aaec19189114c5d8ff68cafbdf36da520",
       "adl-v2/Cargo.lock": "991bb6238ee07b8adf87cf3d41c57860777dfd25ed18d9fdc5f64fb792bee0b8",
       "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md": "3fd22adfc82734137925f9e83fec6681189f234867def37742ac4bd0fc411a31",
@@ -146,8 +146,8 @@
     "result_hashes": {
       "plan_output_sha256": "3a3c3de63596999456ee435ac50ad4d1b97490cfbc784efc55f3594820e7ed03",
       "run_output_sha256": "f02858857dd6f73382ba2ea151edb17b4dd19fcbc4ec35fd88712e2f2408e599",
-      "live_control_response_sha256": "bf7a7d6af23696a4838cca6de33382682c5a94ced1e649fdf935a966805304b4",
-      "unsigned_command_sha256": "e61f35bab8e345c0015f22668e641a114e1a22bbdd1db5f9d3b6ad95abec398e"
+      "live_control_response_sha256": "1fe1b8f4299668a259a1f21e66c3572413b37062a261ac4f22e67a57181c34cf",
+      "unsigned_command_sha256": "30579ede1a9b8669639ded2aeae2eb0e653eddbc51102fba842a706811682fb0"
     }
   }
 }
