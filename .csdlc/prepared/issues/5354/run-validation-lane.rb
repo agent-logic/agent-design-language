@@ -395,9 +395,7 @@ def prove_matrices
   fail_lane("convergence packet revision is not ancestral to HEAD") unless status.success?
   post_proof_paths = git("diff", "--name-only", "#{proof_revision}..HEAD").lines.map(&:strip).reject(&:empty?)
   disallowed = post_proof_paths.reject do |path|
-    POST_PROOF_METADATA_PREFIXES.any? do |allowed|
-      allowed.end_with?("/") ? path.start_with?(allowed) : path == allowed
-    end
+    POST_PROOF_METADATA_PREFIXES.any? { |allowed| path == allowed || path.start_with?(allowed) }
   end
   fail_lane("convergence packet is stale after substantive changes: #{disallowed.join(', ')}") unless disallowed.empty?
   live_wss = packet.dig("runtime_v3", "live_wss")
