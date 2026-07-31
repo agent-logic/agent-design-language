@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented #4763 first-birthday docs and external launch surfaces as claim-bounded repository documentation; final birthday/public-launch proof remains gated on #4762 accepted witness and receipt evidence.
+Implemented #4763 first-birthday docs and external launch surfaces as claim-bounded repository documentation, with exact validation evidence retained; final birthday/public-launch proof remains gated on #4762 accepted witness and receipt evidence.
 
 ## Artifacts
 
@@ -46,6 +46,9 @@ Implemented #4763 first-birthday docs and external launch surfaces as claim-boun
 - Added docs/milestones/v0.92/external_launch as the concrete launch-document surface with public-copy drafts, reviewer FAQ, publication gates, forbidden-claim rules, and #4762 dependency status.
 - Wired the launch surface into the v0.92 launch packet, milestone README, feature index, birthday feature docs, and activation bridge ledger.
 - Preserved a pending-proof posture because GitHub issue #4762 remains open and no accepted witness/receipt artifact is available.
+- Bounded implementation review found preparation-era lifecycle wording still present in historical planning cards after the typed phase advanced to implemented.
+- The current phase permits SOR/SRP truth updates, so this SOR entry records the implementation-era correction without hand-editing locked planning cards.
+- Typed claim-purpose transition was attempted and failed closed on unrelated #5332 terminal-authority reconciliation; #4763 finalize, doctor, and docs validation still passed under the existing live claim.
 
 ## Validation
 
@@ -160,6 +163,18 @@ Implemented #4763 first-birthday docs and external launch surfaces as claim-boun
     "purpose": "Run csdlc-doctor for issue #4763 from the issue worktree.",
     "outcome": "passed",
     "evidence_ref": "typed-doctor.log"
+  },
+  {
+    "command": [
+      "./csdlc-v2/target/debug/csdlc-bind",
+      "--root",
+      ".",
+      "--transition-request",
+      "/Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/4763.json"
+    ],
+    "purpose": "Transition the active #4763 claim purpose/scope from preparation-only to implementation/publication after binding.",
+    "outcome": "blocked",
+    "evidence_ref": "Typed transition failed closed with reconciliation_required: terminal authority for issue 5332 has different identity."
   }
 ]
 
