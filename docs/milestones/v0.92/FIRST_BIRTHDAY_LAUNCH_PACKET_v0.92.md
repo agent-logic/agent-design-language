@@ -126,7 +126,7 @@ blocked, deferred, or routed with evidence before any public activation claim.
 | Capability envelope | `WBS_v0.92.md`, `DEMO_MATRIX_v0.92.md` | WP-06 | Provider/model/tool/skill/authority/limit field set. |
 | ACP/cognitive profile | `ACP_COGNITIVE_PROFILES_v0.92.md` | WP-07 | Update rules, privacy boundary, and non-reputation checks. |
 | ACIP binary/schema transport readiness | `ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md`; `docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md` | WP-08 | Protobuf/JSON projection decision, governed access checklist, mock/loopback carrier boundary, and explicit non-claims for live WebSocket runtime API integration until promoted. |
-| Witnesses and receipt | `MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md` | WP-09 | Receipt schema and witness validity checks. |
+| Witnesses and receipt | `MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md`; v0.91.8 #4762 handoff package at `docs/milestones/v0.91.8/review/v092_handoff_4762/` | WP-09 | Receipt schema, witness validity checks, retained negative-case dispositions, and explicit `birth_event_status: not_claimed` boundary before the final birth event. |
 | Birthday review packet | `FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md` | WP-10 | One template with evidence, caveats, public claim boundaries, and reviewer questions. |
 | Migration and cross-polis continuity | `CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md` | WP-11 | Non-production migration language and continuity handoff shape. |
 | First birthday demo | `DEMO_MATRIX_v0.92.md` | WP-12 | Runnable command, fixtures, artifact list, and replay notes. |
@@ -184,6 +184,7 @@ Expected artifacts:
 - ACIP schema/projection proof packet, if communication evidence is included
 - witness records
 - citizen-facing receipt
+- #4762 retained witness/receipt handoff package
 - negative-suite validation report
 - reviewer packet
 - Observatory/Unity scene, app bundle, or recorded run when included

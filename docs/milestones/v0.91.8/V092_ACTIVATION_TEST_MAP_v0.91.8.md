@@ -38,7 +38,7 @@ one of these dispositions:
 | Lifecycle governance | #5358 | `accepted_platform_input`: WP-14A ledger accepts C-SDLC v2 merge `fc75f4fc697262f89f99461679a406be0b4b3775`; downstream lifecycle claims still require issue-local typed records. |
 | Capability envelope | #4761 | `handoff_owned`: #4761 owns the evidence-backed capability envelope and must consume this bridge plus the accepted platform ledger before v0.92 use. |
 | Memory Palace | #4760, #5007 | `handoff_owned`: #4760/#5007 own the Memory Palace acceptance boundary, handoff evidence, and ADR acceptance; this bridge does not implement runtime Memory Palace behavior. |
-| Birth witnesses/receipt | #4762 | `handoff_owned`: #4762 is the direct downstream consumer for auditable birth-witness and receipt packaging and must cite this #4759 bridge after merge. |
+| Birth witnesses/receipt | #4762 | `handoff_owned`: #4762 is the direct downstream consumer for auditable birth-witness and receipt packaging, must cite this #4759 bridge after merge, and supplies the retained package at `docs/milestones/v0.91.8/review/v092_handoff_4762/`. |
 | Public launch docs | #4758, #4763 | `handoff_owned`: #4758/#4763 own claim-bounded launch and first-birthday docs; this bridge only supplies activation evidence routing. |
 | Adaptive Learning DAG | #5107 | `blocked_with_evidence`: #5107 remains queued downstream; bounded loop/runtime evidence does not prove learning-driven graph mutation until #5107 records it. |
 | Distributed workcell | #5497, #5501 | `handoff_owned`: consume one reviewed live workcell and bounded context/output-contract proof before relying on distributed execution behavior. |
