@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-14][capability-envelope] Prepare #4761 v0.92 capability envelope",
     "slug": "v0918-wp14-capability-envelope-prep-4761",
     "version": "v0.91.8",
-    "generation": 9
+    "generation": 16
   },
   "status": "ready",
   "content": {
@@ -22,7 +22,7 @@
           "acceptance_ids": [
             "AC-1"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -31,7 +31,7 @@
             "AC-1",
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -39,7 +39,7 @@
           "acceptance_ids": [
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -47,7 +47,7 @@
           "acceptance_ids": [
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -55,7 +55,7 @@
           "acceptance_ids": [
             "AC-3"
           ],
-          "status": "pending"
+          "status": "in_progress"
         }
       ],
       "affected_areas": [],
