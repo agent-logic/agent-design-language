@@ -24,3 +24,6 @@
 {"sequence":24,"generation":16,"actor":"codex:5717-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":25,"generation":17,"actor":"codex:5717-execution","reason":"record exact existing PR ready-for-review after remote success","operation":"record_ready_publication"}
 {"sequence":26,"generation":18,"actor":"codex:5717-execution","reason":"Recover #5717 from stale published review after PR #5720 exact-head review found in-scope validation and review-scope blockers.","operation":"recover_review"}
+{"sequence":27,"generation":18,"actor":"codex:5717-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":28,"generation":19,"actor":"codex:5717-execution","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
+{"sequence":29,"generation":20,"actor":"codex:5717-execution","reason":"Exact codex subagent review passed with no P0-P3 findings for PR #5720 head b61738969 after checked-in podcast route validation and Windows deleted-path guard fixes.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
