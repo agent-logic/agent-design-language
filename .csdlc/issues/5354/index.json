@@ -3,13 +3,13 @@
   "issue": 5354,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c9e538886b9fe939fe6a89f44b9ef31a4d75733f7a7e60cdbb4bf47dd806bfc9",
-  "phase": "published",
-  "generation": 10,
-  "digest": "e87225bb62c1f32b4d177afa4abf71c132e499222f02b8388952dff919ba892b",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "b4991d4babb3962cd990fafbb9ef4ce51b6f88d8ac56bbfebe88eb508ab7af0e",
   "claim": {
     "id": "claim-5354-v0918-wp15-reacquired",
     "owner": "codex:5354-preparation-owner",
-    "generation": 10,
+    "generation": 13,
     "acquired_unix_seconds": 1785465403,
     "expires_unix_seconds": 1786070203,
     "heartbeat_unix_seconds": 1785465403,
@@ -27,9 +27,9 @@
     "purpose": "Implement and validate the bounded WP-15 integrated convergence packet and its two milestone claim matrices."
   },
   "review_assignment": {
-    "reviewer": "subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8",
+    "reviewer": "codex:gpt-5.5-exact-head-review",
     "assigned_by": "codex:5354-wp15-owner",
-    "revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
+    "revision": "git-blake3:bb537e75ad2360b8ac379feb7edcc3dcf83b9aae:c30b7f383b724c3cec1f49a49f61350ce6927e3984bbadf146f266a67edb9ec1",
     "scope": [
       ".csdlc/evidence/5354",
       ".csdlc/issues/5354",
@@ -40,7 +40,7 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8",
+    "reviewer": "codex:gpt-5.5-exact-head-review",
     "scope": [
       ".csdlc/evidence/5354",
       ".csdlc/issues/5354",
@@ -49,57 +49,26 @@
       "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
       "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
     ],
-    "reviewed_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
+    "reviewed_revision": "git-blake3:bb537e75ad2360b8ac379feb7edcc3dcf83b9aae:c30b7f383b724c3cec1f49a49f61350ce6927e3984bbadf146f266a67edb9ec1",
     "findings": [
       {
-        "id": "F-5354-1",
-        "severity": "p1",
-        "summary": "The retained convergence packet does not bind its proof revision to the assigned review surface or a fail-closed metadata-only tail.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
-        "route": null
-      },
-      {
-        "id": "F-5354-2",
-        "severity": "p1",
-        "summary": "The claimed live full-duplex WSS proof uses a local test and HTTPS metadata instead of a real live WSS exchange.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
-        "route": null
-      },
-      {
-        "id": "F-5354-3",
+        "id": "F-5354-4",
         "severity": "p2",
-        "summary": "The retained matrix lane accepts stale or substituted packet evidence after substantive changes.",
+        "summary": "The WSS proof treated ADL_RUNTIME_V3_CA_CERT as an exact peer leaf certificate instead of a CA bundle, so valid CA-signed Runtime v3 deployments could pass curl and fail the Ruby WSS proof.",
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
+        "fix_revision": "git-blake3:bb537e75ad2360b8ac379feb7edcc3dcf83b9aae:c30b7f383b724c3cec1f49a49f61350ce6927e3984bbadf146f266a67edb9ec1",
         "route": null
       }
     ],
     "residual_risks": [
-      "The Unity portion remains deliberately bounded to accepted editor, Play Mode, and presentation proof; it does not claim player-build, Runtime, or cloud authority.",
-      "Broad Rust suites were not rebuilt or rerun because the corrected proof used unchanged stable binaries and focused exact checks."
+      "The convergence proof remains scoped to the local live Runtime v3 instance and accepted Unity evidence; it does not claim player-build, Runtime v2, cloud deployment, or whole-release completion."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5354,
-    "pull_request": 5731,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5731",
-    "base": "main",
-    "head": "codex/5354-v0918-wp15-ready",
-    "revision": "git-blake3:f3c7627ee99be4e013ec690a05d35dc40d683df1:ab63eb4beb975e04913d7c7a38ef44982a90c11fe98d081a753b628f06400b11",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -113,34 +82,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d4f4da673ea48b4f341a80cae5894c323bf9976546bcc952ab278c45feea9793",
+      "values_digest": "80d112bdffabefd8f4c9fb7ce74858c325c0577d05bf508f0302dfd28d365b73",
       "rendered_digest": "e842eaeba6122151cdb5edb96814a78b32509238169446a82c02c9eb66877981",
       "ast_digest": "39ef15d3feddac90905427c8f05b3d16770ca9035a47aaab9e96b188ce1413bf"
     },
     "stp": {
-      "values_digest": "a4fcf571ab1e64e58a416f153027eb3690d2adb66e4567640e8241c5872f217e",
+      "values_digest": "7a9994bd80a7b05a47f2f0a46af6fe188d588e60497d5e6c501d4b9f91367d21",
       "rendered_digest": "e2c760b22e8865f50e73be1a6755467798d3d319998ce754b8e7f799cd361ea7",
       "ast_digest": "0757b0e68ce2cb5a6d202b6a293c0e29dd3fb95b47c56dc0fbd5f73ffc7147f6"
     },
     "spp": {
-      "values_digest": "d33c8691591225d07af620a098cc6700a01cec37e55cfa471929f8594c61d502",
+      "values_digest": "0abdc5e390a232795b15a0e72e44515794be7447b720bf4967b38cc27a79bdd7",
       "rendered_digest": "c19b1cc097ff6a7b9eec5b3920ba26d6edf91c1f7f2fac1847aaacf2543eadf6",
       "ast_digest": "04c77660758778e8a55c0765242b6ccd276bbc7369f5f1faaeb57fb26fa79dca"
     },
     "vpp": {
-      "values_digest": "75577ed2323a021e3680b1fada373a6546a0f3342bd651fc30c088602be09ad4",
+      "values_digest": "22a099aff030551cf8c7275aa6ccbc01e3cc45417e691169ac6837208e66672c",
       "rendered_digest": "ca4edd91fdd36f334682b18d5b579242dcc4f2310a862bdcb47704beb634bd51",
       "ast_digest": "6bc62a0e927ff2440d9b154aec39e32b49c915138ecbd6e606b1d9c14931677e"
     },
     "srp": {
-      "values_digest": "310704ce66b8f1270c7af5465a728eb08cdb461c51a92486af09949fa40549de",
-      "rendered_digest": "aa018db2139aba2177f380fa42ce985db74771009867fb0947c3c7c22f84b603",
-      "ast_digest": "3992ceaafb747d6884929735128b0d8e68df97166afe9fd15a70f69e511bf5b4"
+      "values_digest": "8e125c78a539321cd773b0e8a431c505d617633f45af8f79ab9dac4864734cd2",
+      "rendered_digest": "309e088c8bdc298ec3768b7547d3b3901de2447c39a337f8922a0932c08a93d2",
+      "ast_digest": "c8be98f7741df219bdbbac949474ece876ac7620b75ecac4123042c87acd82f5"
     },
     "sor": {
-      "values_digest": "6f74883c991d75aa6aa8c29174950c0fa1ae1ef49bbe52856ad37473ee0dd7f8",
-      "rendered_digest": "2037f021033174d1cc98b02b4554a27ac6aa727572f7704c8b10f02f5ca132e4",
-      "ast_digest": "5fad63c0c89514c75872fa7a02990406cb5965cf2a378cb4b31e95d22c604fad"
+      "values_digest": "0cf559054d67049e0beeffd34c46a6e5865b122a9f0f8949a2d9c07584f7dcea",
+      "rendered_digest": "5bedd6f638c1d94d6c6086c0ce4d7941d5dd630dcf902492c374ea60783767f8",
+      "ast_digest": "b9c74bfc88bc71b3a3a7081b2d450861714f3c4594a4ff8deff26e80feca5612"
     }
   },
   "transitions": [
@@ -178,6 +147,20 @@
       "to": "published",
       "actor": "codex:5354-wp15-owner",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5354-wp15-owner",
+      "reason": "The exact-head review repair introduced a WSS CA-bundle verification fix and refreshed live proof; recover to implemented so corrected review truth can be recorded."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5354-wp15-owner",
+      "reason": "The exact-head gpt-5.5 rereview finding is fixed, typed review evidence is recorded, and focused live convergence validation remains passing."
     }
   ],
   "audit": [
@@ -355,6 +338,34 @@
       "actor": "codex:5354-wp15-owner",
       "reason": "record exact existing PR ready-for-review after remote success",
       "operation": "record_ready_publication"
+    },
+    {
+      "sequence": 26,
+      "generation": 11,
+      "actor": "codex:5354-wp15-owner",
+      "reason": "The exact-head review repair introduced a WSS CA-bundle verification fix and refreshed live proof; recover to implemented so corrected review truth can be recorded.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 11,
+      "actor": "codex:5354-wp15-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 12,
+      "actor": "codex:gpt-5.5-exact-head-review",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 13,
+      "actor": "codex:5354-wp15-owner",
+      "reason": "The exact-head gpt-5.5 rereview finding is fixed, typed review evidence is recorded, and focused live convergence validation remains passing.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -31,33 +31,13 @@ docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md
 
 [
   {
-    "id": "F-5354-1",
-    "severity": "p1",
-    "summary": "The retained convergence packet does not bind its proof revision to the assigned review surface or a fail-closed metadata-only tail.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
-    "route": null
-  },
-  {
-    "id": "F-5354-2",
-    "severity": "p1",
-    "summary": "The claimed live full-duplex WSS proof uses a local test and HTTPS metadata instead of a real live WSS exchange.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
-    "route": null
-  },
-  {
-    "id": "F-5354-3",
+    "id": "F-5354-4",
     "severity": "p2",
-    "summary": "The retained matrix lane accepts stale or substituted packet evidence after substantive changes.",
+    "summary": "The WSS proof treated ADL_RUNTIME_V3_CA_CERT as an exact peer leaf certificate instead of a CA bundle, so valid CA-signed Runtime v3 deployments could pass curl and fail the Ruby WSS proof.",
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18",
+    "fix_revision": "git-blake3:bb537e75ad2360b8ac379feb7edcc3dcf83b9aae:c30b7f383b724c3cec1f49a49f61350ce6927e3984bbadf146f266a67edb9ec1",
     "route": null
   }
 ]
@@ -68,13 +48,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The Unity portion remains deliberately bounded to accepted editor, Play Mode, and presentation proof; it does not claim player-build, Runtime, or cloud authority.
-- Broad Rust suites were not rebuilt or rerun because the corrected proof used unchanged stable binaries and focused exact checks.
+- The convergence proof remains scoped to the local live Runtime v3 instance and accepted Unity evidence; it does not claim player-build, Runtime v2, cloud deployment, or whole-release completion.
 
 ## Review Result
 
-Revision: Some("git-blake3:f97d2476c5fa24c077aabcacb0a476d2ef5055a5:548616024f65b60641990a0f133c7e4f69012a257e8382b07f4265ace115eb18")
+Revision: Some("git-blake3:bb537e75ad2360b8ac379feb7edcc3dcf83b9aae:c30b7f383b724c3cec1f49a49f61350ce6927e3984bbadf146f266a67edb9ec1")
 
-Reviewer: Some("subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8")
+Reviewer: Some("codex:gpt-5.5-exact-head-review")
 
 Result: pass

@@ -1,9 +1,9 @@
 {
   "issue": 5354,
-  "expected_generation": 6,
-  "expected_digest": "f99628640888e481eff98882e8c9d516b3ca7bf27ffda7601104b127bd4b40bd",
+  "expected_generation": 11,
+  "expected_digest": "0914d65d5aafa60e535b2fa3ca925ee4a4d1a16d324ca1f3942fff3fc16d7ce8",
   "claim_id": "claim-5354-v0918-wp15-reacquired",
-  "reviewer": "subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8",
+  "reviewer": "codex:gpt-5.5-exact-head-review",
   "assigned_by": "codex:5354-wp15-owner",
   "scope": [
     ".csdlc/evidence/5354",

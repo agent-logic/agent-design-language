@@ -47,11 +47,11 @@ Implemented a compact real convergence runner and retained packet spanning ADL v
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
