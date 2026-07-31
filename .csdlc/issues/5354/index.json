@@ -3,13 +3,13 @@
   "issue": 5354,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c9e538886b9fe939fe6a89f44b9ef31a4d75733f7a7e60cdbb4bf47dd806bfc9",
-  "phase": "reviewed",
-  "generation": 8,
-  "digest": "4ae78fb1e8e935eec6401b0aa5cf95a4d055ccd53a30fc76e62eedd5756e705d",
+  "phase": "published",
+  "generation": 10,
+  "digest": "e87225bb62c1f32b4d177afa4abf71c132e499222f02b8388952dff919ba892b",
   "claim": {
     "id": "claim-5354-v0918-wp15-reacquired",
     "owner": "codex:5354-preparation-owner",
-    "generation": 8,
+    "generation": 10,
     "acquired_unix_seconds": 1785465403,
     "expires_unix_seconds": 1786070203,
     "heartbeat_unix_seconds": 1785465403,
@@ -89,7 +89,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5354,
+    "pull_request": 5731,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5731",
+    "base": "main",
+    "head": "codex/5354-v0918-wp15-ready",
+    "revision": "git-blake3:f3c7627ee99be4e013ec690a05d35dc40d683df1:ab63eb4beb975e04913d7c7a38ef44982a90c11fe98d081a753b628f06400b11",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -103,34 +113,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "296bf2627148368f38e2415623effff3ef065fa95dbef2af81210ba44520d575",
+      "values_digest": "d4f4da673ea48b4f341a80cae5894c323bf9976546bcc952ab278c45feea9793",
       "rendered_digest": "e842eaeba6122151cdb5edb96814a78b32509238169446a82c02c9eb66877981",
       "ast_digest": "39ef15d3feddac90905427c8f05b3d16770ca9035a47aaab9e96b188ce1413bf"
     },
     "stp": {
-      "values_digest": "cb1d632fc1384edcbf26a636ee36ddd10dbe5d65029d92b7c875af61c0d976c0",
+      "values_digest": "a4fcf571ab1e64e58a416f153027eb3690d2adb66e4567640e8241c5872f217e",
       "rendered_digest": "e2c760b22e8865f50e73be1a6755467798d3d319998ce754b8e7f799cd361ea7",
       "ast_digest": "0757b0e68ce2cb5a6d202b6a293c0e29dd3fb95b47c56dc0fbd5f73ffc7147f6"
     },
     "spp": {
-      "values_digest": "697ca2c815c2e7bb7c5df132f677ac6ebb433780e01f0cf4f63bf1caa54d2e34",
+      "values_digest": "d33c8691591225d07af620a098cc6700a01cec37e55cfa471929f8594c61d502",
       "rendered_digest": "c19b1cc097ff6a7b9eec5b3920ba26d6edf91c1f7f2fac1847aaacf2543eadf6",
       "ast_digest": "04c77660758778e8a55c0765242b6ccd276bbc7369f5f1faaeb57fb26fa79dca"
     },
     "vpp": {
-      "values_digest": "81e53fbe97eaea8c2174c53497438c9ece7fc0db789dd3d5521b2de0d7e33b8b",
+      "values_digest": "75577ed2323a021e3680b1fada373a6546a0f3342bd651fc30c088602be09ad4",
       "rendered_digest": "ca4edd91fdd36f334682b18d5b579242dcc4f2310a862bdcb47704beb634bd51",
       "ast_digest": "6bc62a0e927ff2440d9b154aec39e32b49c915138ecbd6e606b1d9c14931677e"
     },
     "srp": {
-      "values_digest": "a2bb935b85aeb10da1aaa893455717cfb396a51bb08abbd19c24c001f6327396",
+      "values_digest": "310704ce66b8f1270c7af5465a728eb08cdb461c51a92486af09949fa40549de",
       "rendered_digest": "aa018db2139aba2177f380fa42ce985db74771009867fb0947c3c7c22f84b603",
       "ast_digest": "3992ceaafb747d6884929735128b0d8e68df97166afe9fd15a70f69e511bf5b4"
     },
     "sor": {
-      "values_digest": "840ddb19b9c211233fb30a68e7bd90e04905f9ceb8bb34a13372f7973fc89bf3",
-      "rendered_digest": "df201509c8a320941b0780d17c936bc07ecb94a7f4e4755a04f8f4581d618d42",
-      "ast_digest": "4b5b8df1a47f1fb84611e13938e4157b293e649ba54bf42d53d5a19b3cf12245"
+      "values_digest": "6f74883c991d75aa6aa8c29174950c0fa1ae1ef49bbe52856ad37473ee0dd7f8",
+      "rendered_digest": "2037f021033174d1cc98b02b4554a27ac6aa727572f7704c8b10f02f5ca132e4",
+      "ast_digest": "5fad63c0c89514c75872fa7a02990406cb5965cf2a378cb4b31e95d22c604fad"
     }
   },
   "transitions": [
@@ -161,6 +171,13 @@
       "to": "reviewed",
       "actor": "codex:5354-wp15-owner",
       "reason": "The assigned corrected-head review passed with zero blockers and all three prior findings fixed."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5354-wp15-owner",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -324,6 +341,20 @@
       "actor": "codex:5354-wp15-owner",
       "reason": "The assigned corrected-head review passed with zero blockers and all three prior findings fixed.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 9,
+      "actor": "codex:5354-wp15-owner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 25,
+      "generation": 10,
+      "actor": "codex:5354-wp15-owner",
+      "reason": "record exact existing PR ready-for-review after remote success",
+      "operation": "record_ready_publication"
     }
   ]
 }
