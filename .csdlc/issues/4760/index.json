@@ -3,13 +3,13 @@
   "issue": 4760,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "5122de3f552f7d3e67507008600e4a269906e2987e6e22a18e536921df718948",
-  "phase": "implemented",
-  "generation": 2,
-  "digest": "dad3f9c693508dd7df51e2c1a50421767a2608833f0774a6499d41b9dac63a60",
+  "phase": "reviewed",
+  "generation": 3,
+  "digest": "330a70bbe042bc052317381891188e4f6603d536bda094d11a1975fdfc8d133a",
   "claim": {
     "id": "claim-4760-memory-palace-20260731",
     "owner": "codex:019fb9d5-3cc6-7a91-8c08-2d1454a91198",
-    "generation": 2,
+    "generation": 3,
     "acquired_unix_seconds": 1785529687,
     "expires_unix_seconds": 1785616087,
     "heartbeat_unix_seconds": 1785529687,
@@ -29,7 +29,24 @@
     "purpose": "Implement and prove the real Memory Palace context handoff for issue #4760, including long-lived-agent runtime consumption and retained exact-head evidence."
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "codex:exact-head-reviewer-4760",
+    "scope": [
+      "adl/src/memory_palace.rs",
+      "adl/src/lib.rs",
+      "adl/src/long_lived_agent.rs",
+      "adl/tests/memory_palace_tests.rs",
+      "adl/tests/fixtures/memory_palace/long_running_context.json"
+    ],
+    "reviewed_revision": "git-blake3:80a098937899ff4602d0c91d46ac61cff9453486:628d6c613ad1fd065e76e02aa17283ff76c3bf4ecf21f522267bbfbf90514daf",
+    "findings": [],
+    "residual_risks": [
+      "cargo test --locked remains unavailable because the branch's checked-in adl/Cargo.lock is stale for the current manifest graph; focused validation used the issue-local offline wrapper that refuses pre-existing lock dirtiness and restores transient lock refresh.",
+      "Review was bounded to the #4760 Memory Palace implementation, fixture, long-lived-agent consumer hook, and issue-local lifecycle evidence; broader long-lived-agent runtime behavior was not exhaustively revalidated."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -44,32 +61,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b37e2aa2d53355fb7669afd36a10789c2cda30435d38c2c7471c03e02bd033da",
+      "values_digest": "6f958a83d9df50efbbdafd1fb23d634dc078b0ecadf65e8c0b650c4e027559a6",
       "rendered_digest": "7542064494a7e863fd694ee2d1d5e3924d8a781ac74590f415135d15d9bd5356",
       "ast_digest": "887d3b54d44cf60ad95b588f06939cec2c6c5b273e2d966630cc33fbb747d69c"
     },
     "stp": {
-      "values_digest": "3f0fd636326d5fd66f8f918c26791763d76cec83889152394355987cf7958d6a",
+      "values_digest": "f31560546890daf5b66bef3724413d5acad16fd24d8d34f401665ebebfd52345",
       "rendered_digest": "1fcef2d74880df2a0f0b640a78334dd2e319fa45cea6fec14bf54ea93d128cd4",
       "ast_digest": "db6668ff7774043b40bd845e42d08010dc645619ae6825c28d326e2eee3b0a69"
     },
     "spp": {
-      "values_digest": "712617fbf1b25dd2ef76681ae61002ade667e9bc9a18aab053d833e41193819f",
+      "values_digest": "16a0398b5382f79f01d4b8a93e9c2aa72d5f7b98fc5d4132f2173f344dcfb9b4",
       "rendered_digest": "8fbb9b616370b24fc0bd7efc473efbcd00c1b604c41f56e9fe1ec6766415542c",
       "ast_digest": "64c36f0fe21a90c891994e85f1ea705f15a3fffa5c26e58641ed877a69eafca9"
     },
     "vpp": {
-      "values_digest": "639ce60714c48c9786220a4af772e3dd81da75d5c2ce37cadcf2b2175b6688b7",
+      "values_digest": "952de3f34684dacc8969dfa7f1ddb46619457da73ca69c0c2b4d01b37ab90dbd",
       "rendered_digest": "88ad3e947fea7b2754a84ef6a6bae269b9972d2c1b2df8bf75e69b793a621828",
       "ast_digest": "c768300d59b85202de4c075bbb323a408b6bb2441468cf14b1111416e159a173"
     },
     "srp": {
-      "values_digest": "da1868383f7de1248e966710127b95ba2a75ca5a94073de28e5880dcf33ccfb0",
-      "rendered_digest": "f87053bc06c94cf55be06b97e9699f2d4bf2f37fe61f3f323a61dc0d7fdba099",
-      "ast_digest": "b7d0d33be92a7cbe4842d42b9a673d404626d6a33fb07e03e694885b27a32a6c"
+      "values_digest": "6ba3a3881c03fed063798fa41f07f2aa27927c004514b46f90dd151c6e3fac4d",
+      "rendered_digest": "64a5c329bbc4f52e9f0060ec60f5f27ecdaadf8a8c2fd6fea3c9ad6bf9b66253",
+      "ast_digest": "0bfb16ef7a663d39b6a69db66ee6b620d6c04062b2e0273188e2ba557e2e32ac"
     },
     "sor": {
-      "values_digest": "dcc74e36f69eee0f3817eeaafeba9d5aca49548a37ceebb10f216fdf0e06c6d1",
+      "values_digest": "f44c9fc39cafa593a8e7b5ee4f86cffcc1acb0b8b6d0a6ba076196d4186ebfba",
       "rendered_digest": "839d2131af851aa143f589f1c5ae9bef58f9a815b4bcd41ea004d44ac389fb58",
       "ast_digest": "50257dc90baf98db1e16d2fd1e64165952862df1dfb00cbe95b447cfff3edf49"
     }
@@ -95,6 +112,13 @@
       "to": "implemented",
       "actor": "codex:019fba08-f584-7493-aaf9-d507520e7b5f",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:exact-head-reviewer-4760",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -132,6 +156,13 @@
       "actor": "codex:019fba08-f584-7493-aaf9-d507520e7b5f",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:exact-head-reviewer-4760",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
