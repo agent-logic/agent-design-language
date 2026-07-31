@@ -48,7 +48,7 @@ requirements once implementation exists.
 | D2 | Not-a-birthday negative suite | Startup, wake, snapshot, admission, and copied state are not birth. | Negative fixtures and validation report. | Planned candidate |
 | D3 | Continuity across bounded cycles | Identity persists across multiple bounded cycles with evidence. | Cycle artifacts, continuity record, witness links. | Planned candidate |
 | D4 | Memory grounding proof | Birth references witnessed memory artifacts without exposing raw private memory. | Memory-grounding fixture and redacted packet. | Planned candidate |
-| D5 | Capability envelope proof | The birth record declares provider, model, tool, skill, authority, and limit context. | Capability envelope and validation report. | Planned candidate |
+| D5 | Capability envelope proof | The birth record declares provider, model, tool, skill, authority, and limit context. | #4761 capability envelope and fail-closed validation report. | Pre-v0.92 envelope input available; demo still planned |
 | D6 | ACP / cognitive profile proof | Birth packet includes a bounded profile record grounded in evidence. | ACP/profile fixture, update rationale, redacted reviewer packet, and validation report. | Planned candidate |
 | D7 | ACIP binary schema and WebSocket carrier proof | Binary ACIP remains inspectable through public schemas while message contents remain governed. | ACIP `.proto`, schema catalog fixture, JSON projection report, denied-access case, mock WebSocket trace packet. | Planned candidate |
 | D8 | Birthday-to-governance handoff | v0.93 governance can consume v0.92 identity evidence without redefining birth. | Handoff packet mapping identity evidence to future governance. | Planned candidate |
@@ -126,10 +126,14 @@ claims.
 
 Expected proof:
 
-- provider and model capability context
-- tool and skill authority context
-- declared limits
-- validation report
+- `.csdlc/evidence/4761/capability-envelope/envelope.v1.json`
+- `.csdlc/evidence/4761/capability-envelope/inputs.v1.json`
+- `.csdlc/evidence/4761/capability-envelope/non-claims.v1.md`
+- `.csdlc/evidence/4761/capability-envelope/validation.v1.log`
+
+The D5 demo remains a planned candidate until later v0.92 birthday work emits a
+birth record that consumes the #4761 envelope and rejects missing-envelope or
+missing-limit fixtures.
 
 ### D6) ACP / Cognitive Profile Proof
 
