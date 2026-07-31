@@ -62,11 +62,11 @@ Claim scans now consider only claims matching active checkouts, defer terminal r
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
