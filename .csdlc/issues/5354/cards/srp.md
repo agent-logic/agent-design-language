@@ -29,7 +29,38 @@ docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5354-1",
+    "severity": "p1",
+    "summary": "The retained convergence packet does not bind its proof revision to the assigned review surface or a fail-closed metadata-only tail.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "F-5354-2",
+    "severity": "p1",
+    "summary": "The claimed live full-duplex WSS proof uses a local test and HTTPS metadata instead of a real live WSS exchange.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "F-5354-3",
+    "severity": "p2",
+    "summary": "The retained matrix lane accepts stale or substituted packet evidence after substantive changes.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -37,12 +68,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Broad Rust suites and binary rebuilds were intentionally not repeated because the focused exact proof reused the unchanged stable binaries.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:318a4c4b522d0d43d19ff42ea603cd13011a2846:e6a5c5f82776a64056001f3897205805b2c0d238d8b83aa85a54a730c9548d05")
 
-Reviewer: None
+Reviewer: Some("subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8")
 
-Result: pre_review
+Result: changes_required

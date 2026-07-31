@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c9e538886b9fe939fe6a89f44b9ef31a4d75733f7a7e60cdbb4bf47dd806bfc9",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "bc60856d1478cacc2b381b4952e28759b96c80be9efdfbaf2e7e6680a35a47d9",
+  "generation": 6,
+  "digest": "3b9d24f97fabd05684f18bed534e8c054745b1dabe7e0bfe5d2d51e1878ee6e0",
   "claim": {
     "id": "claim-5354-v0918-wp15-reacquired",
     "owner": "codex:5354-preparation-owner",
-    "generation": 5,
+    "generation": 6,
     "acquired_unix_seconds": 1785465403,
     "expires_unix_seconds": 1786070203,
     "heartbeat_unix_seconds": 1785465403,
@@ -39,7 +39,55 @@
       "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8",
+    "scope": [
+      ".csdlc/evidence/5354",
+      ".csdlc/issues/5354",
+      ".csdlc/prepared/issues/5354",
+      "adl-v2/Cargo.lock",
+      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
+    ],
+    "reviewed_revision": "git-blake3:318a4c4b522d0d43d19ff42ea603cd13011a2846:e6a5c5f82776a64056001f3897205805b2c0d238d8b83aa85a54a730c9548d05",
+    "findings": [
+      {
+        "id": "F-5354-1",
+        "severity": "p1",
+        "summary": "The retained convergence packet does not bind its proof revision to the assigned review surface or a fail-closed metadata-only tail.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5354-2",
+        "severity": "p1",
+        "summary": "The claimed live full-duplex WSS proof uses a local test and HTTPS metadata instead of a real live WSS exchange.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5354-3",
+        "severity": "p2",
+        "summary": "The retained matrix lane accepts stale or substituted packet evidence after substantive changes.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Broad Rust suites and binary rebuilds were intentionally not repeated because the focused exact proof reused the unchanged stable binaries."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -54,32 +102,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "019cff52f420edbe649f8fd677550208035f0ecf9fa850c881cf8a392ff189f4",
+      "values_digest": "277123bc10b6ce7fe168a39f31d46777410ee11410fa72733a02551c82ef026c",
       "rendered_digest": "e842eaeba6122151cdb5edb96814a78b32509238169446a82c02c9eb66877981",
       "ast_digest": "39ef15d3feddac90905427c8f05b3d16770ca9035a47aaab9e96b188ce1413bf"
     },
     "stp": {
-      "values_digest": "cace53aa4e20e2e11f494e15ccca83f57cdc720b128c208a6baafbd4b9980d58",
+      "values_digest": "893aa1af89e836d0fe21e24e047f037b658fcbecb40a00e97cb3f605f982010b",
       "rendered_digest": "e2c760b22e8865f50e73be1a6755467798d3d319998ce754b8e7f799cd361ea7",
       "ast_digest": "0757b0e68ce2cb5a6d202b6a293c0e29dd3fb95b47c56dc0fbd5f73ffc7147f6"
     },
     "spp": {
-      "values_digest": "9cecda321f8afafc3e69041f537167b8de0fd8af05ad513dc017b0abf7966b1f",
+      "values_digest": "f9b8735ebef2b75defda50efacd091f117b39a3ea259d53d4841be4edb97a7cd",
       "rendered_digest": "c19b1cc097ff6a7b9eec5b3920ba26d6edf91c1f7f2fac1847aaacf2543eadf6",
       "ast_digest": "04c77660758778e8a55c0765242b6ccd276bbc7369f5f1faaeb57fb26fa79dca"
     },
     "vpp": {
-      "values_digest": "f6786bd9fa02bfb17a3c73112b56f37201dd234f3fb7a304d9816a8b93847535",
+      "values_digest": "2581ca54d7ad0e490d3a0bd6f7e09c829744b0d7ec8690b15883b261afa5596f",
       "rendered_digest": "ca4edd91fdd36f334682b18d5b579242dcc4f2310a862bdcb47704beb634bd51",
       "ast_digest": "6bc62a0e927ff2440d9b154aec39e32b49c915138ecbd6e606b1d9c14931677e"
     },
     "srp": {
-      "values_digest": "730693e73ae5be849f9989ca6b8397ed19f06d13e53a0f186544af62a63ade58",
-      "rendered_digest": "c3f47e686e9e3eaa0e6036e75b5f9d96751cd060f53edf0889d1aad927f44f68",
-      "ast_digest": "b815be503e3155773fc18e2d644374216b9477b25264ee6ecaab530804c0c142"
+      "values_digest": "cb893feb6a7a71c07c4bc357654ba55a86f4fc09d42ad3880f85521515a507de",
+      "rendered_digest": "b9e4a307e9d5240eb57ec7fbdc15d9169b97b5c4e2d3386f00e8665c1b81e50e",
+      "ast_digest": "8ca68e5154dfdcc76e3daa75c8756292c386de19d1e31854b65ccb1b990158db"
     },
     "sor": {
-      "values_digest": "059c58878602937500c5eec40bf117b5adf79693319497d57c734be4743e7e3a",
+      "values_digest": "3f48524906e7ac50dfffa8f775cddb420cffeeee2e5eb6b36166f444dab87ee9",
       "rendered_digest": "df201509c8a320941b0780d17c936bc07ecb94a7f4e4755a04f8f4581d618d42",
       "ast_digest": "4b5b8df1a47f1fb84611e13938e4157b293e649ba54bf42d53d5a19b3cf12245"
     }
@@ -233,6 +281,13 @@
       "actor": "codex:5354-wp15-owner",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 6,
+      "actor": "subagent:019fb93e-1084-7ab0-b3a3-c8b618d045c8",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }
