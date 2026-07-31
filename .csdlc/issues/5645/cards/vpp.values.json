@@ -7,7 +7,7 @@
     "title": "Add typed fail-closed csdlc-merge command",
     "slug": "typed-csdlc-merge-command",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -42,9 +42,9 @@
       "planned_validation_seconds": 1200,
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed and report a typed error.",
-      "design_ref": ".csdlc/prepared/issues/5645/design.md",
+      "design_ref": ".csdlc/issues/5645/retained/design.md",
       "design_digest": "50bd7dfe835d21649f690eac40bb0b23f34c01249e36fcd3f6243aaf112fd3a3",
-      "diagram_ref": ".csdlc/prepared/issues/5645/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5645/retained/diagram.mmd",
       "diagram_digest": "2ecc58425db1ab78512fbced65a0a3cb65a45a8e04830d721f02e8fec0645a93"
     }
   }
