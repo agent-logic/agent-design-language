@@ -8,14 +8,13 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
 docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md
 docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md
-docs/milestones/v0.91.8/review/wp15_demo_matrix_5733/RECONCILIATION_LEDGER_v1.md
-adl/tools/validate_v0918_demo_matrix.py
+docs/milestones/v0.91.8/review/wp15_demo_matrix_5733
 
 ## Prompts
 
@@ -34,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The matrix consumes owner proof and does not rerun demos or implementation paths; downstream public launch, release-tail, and v0.92 activation gates remain owned by their open issues.
+- The validator move keeps #5733 in docs/review scope and does not add runtime or tooling behavior; local path-policy proof and GitHub CI confirm broad Rust, coverage, demo, and tooling lanes are skipped for the corrected head.
 
 ## Review Result
 
-Revision: Some("git-blake3:58e44a84a61c436c06290c6a8d983a4603d0edca:36ab3aa467263d8a9eef7b262e754164ca1ced825547a3222d058ef22c219698")
+Revision: Some("git-blake3:6c943ed2fa215883ef73c504d3a0fe70571a3f1e:073044a9d63cc2e5614e827a8f983e50c75f5abef560476371b869085a1dea6c")
 
-Reviewer: Some("subagent:Tesla:019fba53-992b-7722-9fd0-bc90a039799a")
+Reviewer: Some("subagent:Leibniz:019fba63-7f7d-7f02-a8cb-d2c694b22e6e")
 
 Result: pass

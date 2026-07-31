@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "3164de19aa73e2b392aff34c090596e5ecb394e75067229a7898d36d8047b6fc",
   "phase": "published",
-  "generation": 7,
-  "digest": "454140855290f9972b544922234161eb2a8a125d199f1946263e52ee502ecbfd",
+  "generation": 11,
+  "digest": "7a2cf63973ba697b533330789de1b457200f033081a54cc78bb834ec29b23ca2",
   "claim": {
     "id": "claim-5733-demo-matrix-proof-coverage",
     "owner": "codex:5733-execution",
-    "generation": 7,
+    "generation": 11,
     "acquired_unix_seconds": 1785536500,
     "expires_unix_seconds": 1786141300,
     "heartbeat_unix_seconds": 1785536500,
@@ -29,28 +29,26 @@
     "purpose": "Reconcile v0.91.8 demo matrix and feature-proof coverage with current issue/proof truth without rerunning owned demos."
   },
   "review_assignment": {
-    "reviewer": "subagent:Tesla:019fba53-992b-7722-9fd0-bc90a039799a",
+    "reviewer": "subagent:Leibniz:019fba63-7f7d-7f02-a8cb-d2c694b22e6e",
     "assigned_by": "codex:5733-execution",
-    "revision": "git-blake3:58e44a84a61c436c06290c6a8d983a4603d0edca:36ab3aa467263d8a9eef7b262e754164ca1ced825547a3222d058ef22c219698",
+    "revision": "git-blake3:6c943ed2fa215883ef73c504d3a0fe70571a3f1e:073044a9d63cc2e5614e827a8f983e50c75f5abef560476371b869085a1dea6c",
     "scope": [
       "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
       "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
-      "docs/milestones/v0.91.8/review/wp15_demo_matrix_5733/RECONCILIATION_LEDGER_v1.md",
-      "adl/tools/validate_v0918_demo_matrix.py"
+      "docs/milestones/v0.91.8/review/wp15_demo_matrix_5733"
     ]
   },
   "review": {
-    "reviewer": "subagent:Tesla:019fba53-992b-7722-9fd0-bc90a039799a",
+    "reviewer": "subagent:Leibniz:019fba63-7f7d-7f02-a8cb-d2c694b22e6e",
     "scope": [
       "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
       "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
-      "docs/milestones/v0.91.8/review/wp15_demo_matrix_5733/RECONCILIATION_LEDGER_v1.md",
-      "adl/tools/validate_v0918_demo_matrix.py"
+      "docs/milestones/v0.91.8/review/wp15_demo_matrix_5733"
     ],
-    "reviewed_revision": "git-blake3:58e44a84a61c436c06290c6a8d983a4603d0edca:36ab3aa467263d8a9eef7b262e754164ca1ced825547a3222d058ef22c219698",
+    "reviewed_revision": "git-blake3:6c943ed2fa215883ef73c504d3a0fe70571a3f1e:073044a9d63cc2e5614e827a8f983e50c75f5abef560476371b869085a1dea6c",
     "findings": [],
     "residual_risks": [
-      "The matrix consumes owner proof and does not rerun demos or implementation paths; downstream public launch, release-tail, and v0.92 activation gates remain owned by their open issues."
+      "The validator move keeps #5733 in docs/review scope and does not add runtime or tooling behavior; local path-policy proof and GitHub CI confirm broad Rust, coverage, demo, and tooling lanes are skipped for the corrected head."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -62,7 +60,7 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5747",
     "base": "main",
     "head": "codex/5733-demo-matrix-proof-coverage",
-    "revision": "git-blake3:704dac306cad95cbaf51b12b1feb03fd2db925e1:81d7ab6399434598f1c600224cf9a73edbbff0e85c4caab7a00963f5e0f81942",
+    "revision": "git-blake3:6c943ed2fa215883ef73c504d3a0fe70571a3f1e:073044a9d63cc2e5614e827a8f983e50c75f5abef560476371b869085a1dea6c",
     "draft": false,
     "observed_state": "open"
   },
@@ -79,32 +77,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c16009619e3ba0cbe1ff74b3d4b5ee7ab8e281da1e7fc98e9d9bdbe60e0542e5",
+      "values_digest": "86b7397d722263c333fe2bf679a56f7eb1a2a9f9e2a5a38e091ba70f96cb9208",
       "rendered_digest": "82f06819984e0c30f378e374427e4606493502375e4a02094df0d945215bf170",
       "ast_digest": "587ab82b2b0b68393e3275328dedd8c1c3afcbb625c9e3ef35f2a60745bccf13"
     },
     "stp": {
-      "values_digest": "ff49bd17009cd6e581e968398b784c9e328805b2c9e1d1e4fc8e3fd91a8aa9b9",
+      "values_digest": "c45cdba92e2877b66d6da95668da32ea38634968150c1030c77d3aa51f239815",
       "rendered_digest": "eab4c5eb45ebc3dfd7e5eadebbc1904a8ea2dc5f1d7d09359774ef64fa49dd4a",
       "ast_digest": "871f4e895ceaa28fdf6a1a3e71d5abcccab7121df0c38c66b70783d5e5e16209"
     },
     "spp": {
-      "values_digest": "c5dd0beb2888bf5dd9fb349e1a0b8f5a35cd2dd77f7d98f375bb0c6200aa54c3",
+      "values_digest": "9991453e103f1e6fc6f2acb173560e7d9707316203955f56f15e06014705b12a",
       "rendered_digest": "ffaa8bdae16c63ca0b37cfa4e3252dc5a21dee3f4a37ef581b5550db68500828",
       "ast_digest": "8640b7924cacfe1607cfd475f44cfd088f0aa94e6ebaebc37dd6829ec114a11d"
     },
     "vpp": {
-      "values_digest": "4243149fb4bdd5885df4330b0cc6bffb22521642485d73cf0cc0c0392d02bea9",
+      "values_digest": "f06a21a4abb149da731c33c867f86173fd42121ee7296576a0a3305cd1e1a508",
       "rendered_digest": "76ea28a8b7c812896781483612c2065bcd2e73cd2fa9d3abadcd8b0ec5df47b1",
       "ast_digest": "a190b7092823dc3a7beb578c724e263d4ba390f7149856932d1d86c1dcb5fdef"
     },
     "srp": {
-      "values_digest": "d134fe4c2aae76f6df1b3a70b764e86a91a9bf1a6d2b8f13a19d0ce395f1abdf",
-      "rendered_digest": "aacfacd0f811f5b310afd755d77df7796e8af588005c51a96c01a72381c2396d",
-      "ast_digest": "0561cc505fc3aa5b0d01db41caf1b2ea2c220fbc58fad707ca0b263986ab70bf"
+      "values_digest": "ee92297c66cb64f7b5be7373b33cd5d17b3f637209666244ab46cf850706b33f",
+      "rendered_digest": "aad9c3c11ad1726901837cf80abb2017a17d6913c0e9c2478de4e04f43920cd3",
+      "ast_digest": "86651e57adb51e79804e8d2a2e009b7d22898345580fe0dffd9639ac433ad2a6"
     },
     "sor": {
-      "values_digest": "128534a4f00ae645181cdb90928a37f46e19ce8b6c719c3f58eca406467424c9",
+      "values_digest": "863dcfe5ba9fbd9fb8ac9d563be604e5e0d1ec55f44d030dc0e8beb4fa070742",
       "rendered_digest": "a857eb1bb1d4b278618951610caf508caaa4ad3d9f1e783b21a0645d953a40d4",
       "ast_digest": "1ac15bc02b16d89b9df5d770e38cc36077ed8c7eb43b380222f5e55067c4ecdd"
     }
@@ -140,6 +138,27 @@
     },
     {
       "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5733-execution",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5733-execution",
+      "reason": "Recover stale review/publication after moving the #5733 validator into the docs review packet so the PR remains docs-only and skips broad coverage."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5733-execution",
+      "reason": "The bounded exact-head review confirmed the docs-local validator move keeps #5733 docs-only with no findings."
+    },
+    {
+      "sequence": 8,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:5733-execution",
@@ -213,6 +232,41 @@
     {
       "sequence": 10,
       "generation": 7,
+      "actor": "codex:5733-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:5733-execution",
+      "reason": "Recover stale review/publication after moving the #5733 validator into the docs review packet so the PR remains docs-only and skips broad coverage.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:5733-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:5733-execution",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:5733-execution",
+      "reason": "The bounded exact-head review confirmed the docs-local validator move keeps #5733 docs-only with no findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
       "actor": "codex:5733-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
