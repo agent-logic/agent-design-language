@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-21][birth-witnesses] Prepare #4762 birth witnesses and receipt package",
     "slug": "v0918-wp21-birth-witnesses-receipt-prep-4762",
     "version": "v0.91.8",
-    "generation": 10
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -57,6 +57,32 @@
           "purpose": "Confirm touched lifecycle, evidence, package, and handoff docs have no diff hygiene failures.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/4762/implementation-validation/diff-hygiene.log"
+        },
+        {
+          "command": [
+            "rg",
+            "birth_event_status|first true Godel-agent birthday has happened|not a birthday occurrence|not_claimed|legal personhood|production citizenship|completed constitutional governance|v0.93 governance completion",
+            ".csdlc/prepared/issues/4762",
+            "docs/milestones/v0.91.8/review/v092_handoff_4762",
+            "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md",
+            "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
+            "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md"
+          ],
+          "purpose": "Retain searchable evidence that #4762 preserves not_claimed and forbidden-claim boundaries after integrating current origin/main.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/4762/implementation-validation/claim-boundary-scan.log"
+        },
+        {
+          "command": [
+            "/Volumes/FastWork/adl-wp-5737/csdlc-v2/target/debug/csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "4762"
+          ],
+          "purpose": "Confirm repaired typed C-SDLC v2 lifecycle surface is coherent after current origin/main integration.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/4762/implementation-validation/csdlc-doctor-bound.json"
         }
       ],
       "integration_state": "worktree_only",

@@ -3,13 +3,13 @@
   "issue": 4762,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "a5fe0b1e9eec7136904a3d1d13c8f0df266a9db06f660c4b1d17db3909a15828",
-  "phase": "bound",
-  "generation": 10,
-  "digest": "cea89fb0a26e47e29c53ba113e7784fa8f9b5fd5d2d74fb3eab4e691864ba0db",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "dcd8f2216697d44c3cccf00ea62cd539a23525e79496698196130bea78cea534",
   "claim": {
     "id": "claim-4762-birth-witness-receipt-execution",
     "owner": "codex:019fb9d5-3bcb-7123-bbbd-5bf33c1cb4d2",
-    "generation": 10,
+    "generation": 13,
     "acquired_unix_seconds": 1785529361,
     "expires_unix_seconds": 1786134161,
     "heartbeat_unix_seconds": 1785529361,
@@ -43,34 +43,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f03abee483dceb04a30dd79fedef6aea0aaa0e0644046aaf294cd7e2f75a2aef",
+      "values_digest": "f8967f7b4625a6d65b084834ea51efd3a27ed0188625ed571918d75363389082",
       "rendered_digest": "3855d82bd73b9f1e12cb3b12c210f6dc94228c0725e2849724582bd813410927",
       "ast_digest": "f67d41548d1902bd5c6c5895fbbae0cfcfbc5bd019a475465dda3636a9c32db6"
     },
     "stp": {
-      "values_digest": "1f171ac8aa43693f2a91154851af88a9c0f3715b69dd5f636ed8f2c0571c2f02",
+      "values_digest": "56c3c1ddf0877b6bb4dc701f873adf3a53c1a6fd18b1f93e912d6ddea53fcdd8",
       "rendered_digest": "9f86e2b2c55eab338589f5eba77c42b140ddcd919f9e32bed41ec3b77bf45ee4",
       "ast_digest": "a74ef0ca730f345373ed04e747980b5ead9b005c82ad5f4c5796153a87423132"
     },
     "spp": {
-      "values_digest": "f6d73464a98fade9b397c1f015d095dfa15a7c46f56dd0b3bfc65915c1a0b989",
+      "values_digest": "74d56c7e9a8142d8ebf842d49fc832bbdeec673a6093999607125916c2432345",
       "rendered_digest": "db1fcb75eaf8c86d65875b3565b9cae6270b75b07d89d21f90585e11cbcb8a0e",
       "ast_digest": "5e352d763e93d8f98e72586ef765a7f69051e081c3c809aec93400f691146a65"
     },
     "vpp": {
-      "values_digest": "574161cd2734f938f3fcbcba67c7571dff6fc752601eb32cb44260376ed153c2",
+      "values_digest": "6041e84364cc96353642e2210a47dc778c6f1728dedebe2733797482a3591b6c",
       "rendered_digest": "688e5354e95a8310494bcec892d04e783a26f54c7cfeac20eb5a79a97286acce",
       "ast_digest": "ec04bc237cf2fcac2c31348bcca85709e8d4c35e3454f10b70c0875dd800d1a8"
     },
     "srp": {
-      "values_digest": "1b282a59177a8724c073e28833b5a5cb08623c3c83db3630c239d417b87b3d7a",
+      "values_digest": "7f29c029c0a3d4d31f401b8de999fefeb5f63a2f2de7798597ad2abf6fc142d8",
       "rendered_digest": "b6e209921fe957fd599c4ceb8bf15b71371939d820fe81c4e40356188354e112",
       "ast_digest": "00492ddc06182314c0df13fdc03f51fc1258c43d946a456bd8701121a75f411f"
     },
     "sor": {
-      "values_digest": "fd251a31009fa33a13bcc5823bc806d457300a21424397ab77f7d1e42ca57fb6",
-      "rendered_digest": "8731270f9f31bad81715e494902b9eaf026b61708a53a5111485c0d7db32bb02",
-      "ast_digest": "429ef8953dd8d5077db85af2793b9b755e2ca5492616faa2239491110d3f0ee0"
+      "values_digest": "9586eb29b76d900faf328b95a74957dbdd672b4dce1f8ac79ccd6029b05507cb",
+      "rendered_digest": "be9c4d3e3842a5e127d0023cc993bb78d19fe8d53211be9860da60f21a7023ed",
+      "ast_digest": "81c9f7bfff14275ec09a83df7d3e9dfcfdd32b469628b7be4199236a10238bde"
     }
   },
   "transitions": [
@@ -87,6 +87,13 @@
       "to": "bound",
       "actor": "codex",
       "reason": "Bind #4762 execution to the already-claimed /Volumes/FastWork/adl-wp-4762 worktree on codex/4762-v0918-wp14-preparation."
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "The #4762 birth-witness and receipt handoff package is implemented and focused post-merge validation passed."
     }
   ],
   "audit": [
@@ -173,6 +180,27 @@
       "actor": "codex",
       "reason": "Record focused #4762 diff hygiene pass.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"--\",\".csdlc/issues/4762\",\".csdlc/prepared/issues/4762\",\".csdlc/evidence/4762\",\"docs/milestones/v0.91.8\",\"docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md\"],\"purpose\":\"Confirm touched lifecycle, evidence, package, and handoff docs have no diff hygiene failures.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/4762/implementation-validation/diff-hygiene.log\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "Record post-merge #4762 claim-boundary scan.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"rg\",\"birth_event_status|first true Godel-agent birthday has happened|not a birthday occurrence|not_claimed|legal personhood|production citizenship|completed constitutional governance|v0.93 governance completion\",\".csdlc/prepared/issues/4762\",\"docs/milestones/v0.91.8/review/v092_handoff_4762\",\"docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md\",\"docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md\",\"docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md\"],\"purpose\":\"Retain searchable evidence that #4762 preserves not_claimed and forbidden-claim boundaries after integrating current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/4762/implementation-validation/claim-boundary-scan.log\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "Record post-merge #4762 typed doctor pass.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/Volumes/FastWork/adl-wp-5737/csdlc-v2/target/debug/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"4762\"],\"purpose\":\"Confirm repaired typed C-SDLC v2 lifecycle surface is coherent after current origin/main integration.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/4762/implementation-validation/csdlc-doctor-bound.json\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "The #4762 birth-witness and receipt handoff package is implemented and focused post-merge validation passed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
