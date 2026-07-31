@@ -1,0 +1,5 @@
+docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md:21:record. ADR 0058 consumes its Memory Palace obligation using the ready #4760
+docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md:23:that is not a claim that #5740 has merged or #4760 has closed.
+docs/adr/README.md:15:ADR 0052 through ADR 0058 record the architecture decisions accepted by the
+docs/adr/README.md:73:- `0058-memory-palace-context-handoff-architecture.md`
+docs/adr/README.md:77:- `0051-chronosense-and-memory-palace-adr-disposition.md` consumed by ADR 0058

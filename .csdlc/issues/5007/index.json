@@ -3,24 +3,28 @@
   "issue": 5007,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c789bbcb9f19495094fd9501a0b61a1c79f53d38af4e5b93f463f3d0408a773e",
-  "phase": "initialized",
-  "generation": 2,
-  "digest": "8919a502d5ac1e650eed864c66f37af7fe8ac333e8d74ae76bb8d39cddbeaa40",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "9453600b9bc830e41103ec44671086269fc768522ae7341db608cefecd8d9f70",
   "claim": {
-    "id": "prep-5007-v0918-wp14",
-    "owner": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
-    "generation": 2,
-    "acquired_unix_seconds": 1784755804,
-    "expires_unix_seconds": 1785360604,
-    "heartbeat_unix_seconds": 1784755804,
+    "id": "exec-5007-memory-palace-adr-20260731",
+    "owner": "codex:5007-execution-2026-07-31",
+    "generation": 3,
+    "acquired_unix_seconds": 1785533790,
+    "expires_unix_seconds": 1786138590,
+    "heartbeat_unix_seconds": 1785533790,
     "branch": "codex/5007-v0918-wp14-preparation",
     "worktree": ".",
     "protected_paths": [
       ".csdlc/issues/5007",
       ".csdlc/locks/5007.lock",
-      ".csdlc/prepared/issues/5007"
+      ".csdlc/prepared/issues/5007",
+      ".csdlc/evidence/5007",
+      "docs/adr/0058-memory-palace-context-handoff-architecture.md",
+      "docs/adr/README.md",
+      "docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md"
     ],
-    "purpose": "Stale preparation claim retained as historical initialization truth only; future execution must acquire a fresh typed claim before mutation."
+    "purpose": "Execution of #5007 Memory Palace ADR decision outcome using real #4760 proof surfaced by ready PR #5740; no merge or closeout."
   },
   "review_assignment": null,
   "review": null,
@@ -38,37 +42,59 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "552c87cbb6f26fa81f5f1421eec6d4458aba070da02ca279fc6c45b86d62e8ff",
+      "values_digest": "435be91867cf5e1352fa8f978518812c9579f9f1453e2d556fb2014efe324895",
       "rendered_digest": "b7aa70bbfb4d82a27ae651fc541f1bb212d10ee70b59f1dabcfda940c4521dd2",
       "ast_digest": "3a96b10330cb5ee77ba7c0b3cabb09ede911477f275c09b339246d36a986b989"
     },
     "stp": {
-      "values_digest": "17031fef716c3dc3c51fe5e0761f486cfa7792acf6a1f34af53c51eeba8cc2ec",
+      "values_digest": "c1851d5fe609921abe35972b2457f03b1bec89b787c195022b1fb53d84a1fdc9",
       "rendered_digest": "8ec075f0bebf17954e43b5d791df37f90ebe6d1a0d2a9527b7953c92e82650dd",
       "ast_digest": "f1bc415ad8ac03d786affb699812bebbc371b75f7453b5b4adf9b3db87db0c62"
     },
     "spp": {
-      "values_digest": "078e1a6b955dac305606b1c31adfb61d18c07d3bd30ad84265b87edea4784ab6",
+      "values_digest": "fca19f1b472864e020904eabd56edffd7dc6f3d04622ce30ccbe5ac9d6cb51c8",
       "rendered_digest": "45177806428d365ff69947fe42e8917a85af783ae30b9ddfcc0c98a2c86fdf37",
       "ast_digest": "c12b0602ff7d058e73e64440683e0a06f75129339e70179b257b8da4b48daa3d"
     },
     "vpp": {
-      "values_digest": "9f4a9d4749a341669befb4a55aa50fed396d1dcfd859503442639dc10fb0803f",
+      "values_digest": "b2d9769f92a47fb498810ca1ad50a9481c97675336284b721670839c16b1f1e5",
       "rendered_digest": "17952b21ee01486f9d4b8b47ed251e31e1f001f1c389bc6fb62318e364845c8e",
       "ast_digest": "fed7c29710382db155a29d25c448b256ae7d95d2a40377da6f9efbfcc2c357f8"
     },
     "srp": {
-      "values_digest": "124a3f77c58230c8231f216a0f65fabce17bc736b1d9ed01ee4b712ee2f6b322",
+      "values_digest": "3bb16f22b15ef1b46424b4de1bb8bdd66f15d784d2bac7fd503f680957f6d388",
       "rendered_digest": "ca9f8765efd122fddf5270235c4d6316a32cbfb126612c525e5f12f1424c96f4",
       "ast_digest": "233bd15f24dafe0cbeb3b22eb06b582fb9c317030bd5396bf831400ccf882c2a"
     },
     "sor": {
-      "values_digest": "29b7dd19ad8e3d8375e1c64398c0fb016687758da99898e459309d8018c36d6b",
-      "rendered_digest": "02769233af7eccdaa437123a26247d55e861a9a8670279ce793f4f4ffe4b9608",
-      "ast_digest": "5c6682ffe04fc399dd98e70312d05f5cf35c10beed1928b2cafbd66763685fc9"
+      "values_digest": "b448711d04fe9037e83c4f6318752f68b116a63cde08868025faad0421857c00",
+      "rendered_digest": "64d89f17d5dde42043ff44271eea4285017e1774e0755436012445e18195b734",
+      "ast_digest": "f9788e81886d07c7639191a327bc1d71e5947bfc710ba32c1d9dd5c84a3a7342"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5007-execution-2026-07-31",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5007-execution-2026-07-31",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5007-execution-2026-07-31",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -90,6 +116,27 @@
       "actor": "codex:prep5007-rehydrate",
       "reason": "complete issue-specific preparation packet without stale-claim reacquisition",
       "operation": "manual_preparation_projection_rehydrate"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:5007-execution-2026-07-31",
+      "reason": "Activate #5007 in-place for Memory Palace ADR execution after #4760 proof handoff via ready PR #5740.",
+      "operation": "{\"branch\":\"codex/5007-v0918-wp14-preparation\",\"claim_id\":\"exec-5007-memory-palace-adr-20260731\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5007-execution-2026-07-31\",\"previous_claim_id\":\"prep-5007-v0918-wp14\",\"previous_owner\":\"codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11\",\"protected_paths\":[\".csdlc/issues/5007\",\".csdlc/locks/5007.lock\",\".csdlc/prepared/issues/5007\",\".csdlc/evidence/5007\",\"docs/adr/0058-memory-palace-context-handoff-architecture.md\",\"docs/adr/README.md\",\"docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md\"],\"purpose\":\"Execution of #5007 Memory Palace ADR decision outcome using real #4760 proof surfaced by ready PR #5740; no merge or closeout.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:5007-execution-2026-07-31",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:5007-execution-2026-07-31",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
