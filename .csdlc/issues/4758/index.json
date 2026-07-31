@@ -4,9 +4,25 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "de5ee30d1ad0d0178709db033b64c147dcf35243e84a3380c4537a42d1a72f87",
   "phase": "bound",
-  "generation": 0,
-  "digest": "699559d04d53bd83469d0513f6ac667226f62a673059a2fca8d79019f863305a",
-  "claim": null,
+  "generation": 1,
+  "digest": "2196997512241d050a10899e1467f0b7c1f5f9b284aa1f1cefc867a3e0c4807b",
+  "claim": {
+    "id": "claim-4758-v092-launch-readiness-execution",
+    "owner": "codex:issue-4758-execution",
+    "generation": 1,
+    "acquired_unix_seconds": 1785530311,
+    "expires_unix_seconds": 1786135111,
+    "heartbeat_unix_seconds": 1785530311,
+    "branch": "codex/4758-v0918-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/4758",
+      ".csdlc/issues/4758",
+      ".csdlc/locks/4758.lock",
+      ".csdlc/prepared/issues/4758"
+    ],
+    "purpose": "Implement and validate #4758 launch-readiness handoff evidence for v0.92 release review consumption"
+  },
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -17,38 +33,38 @@
   "diagram_path": ".csdlc/prepared/issues/4758/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator:wp14-preparation",
-      "revision": "ebec7448f32670789573cb970673830a64bcec23923b74ade5ba30d28a88e700"
+      "reviewer": "codex:wp21-conductor",
+      "revision": "2252ee719ad92b63a38a898f81bbcfa3975a17fd826af0ddcc2663a261b7752d"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "696df51b0b975cb581fbcad619ae2f07ee86ae1da9e7032bb94519b0c7fd8223",
+      "values_digest": "8f5a0c8898f237a995f3ce8c9e182a481d4fee41bd399489bfd22724944b9a98",
       "rendered_digest": "2e60667359875253e0d4be86d4bc6c1ec70d6dee0d4f15ea462efd09b4302519",
       "ast_digest": "ae2ee20f4a0af370c4682e6467b6a014aa1bf5f98e929d537e3fd94a3887d047"
     },
     "stp": {
-      "values_digest": "5c4775e299d69023eed43cd70535f216ac89e0a22fad7992f824131bd40be0cb",
+      "values_digest": "15feab108655b17cdcbba4c9eae0de7995c5b25a1607a7e912774c32bb8d8205",
       "rendered_digest": "7fae0a3d2942b8439a7e03ecc2e72e89f878b307b24c1568832758421349100e",
       "ast_digest": "c4c5c01d8db0a5211dddfe53fca126e8679e3832ee72b8d7a728ca418f978248"
     },
     "spp": {
-      "values_digest": "68f0b94094b5dec7b7da109ca5fbcc9adde87e82b2d0438068ead22e9542c309",
-      "rendered_digest": "8bc2de1ad45fb392281beef4f79ffdc4f4cf35d4ebc46e1524915eb415af4375",
-      "ast_digest": "d497d74e852157f03b07de76bc1e06e3d8394a3c91755c6f819a41a365d14f28"
+      "values_digest": "46c759831c440b261f9e92e063b63dbc2c0e9a755f3a9ec03161c7a42fd482e7",
+      "rendered_digest": "0324101e2bfebd62703fb3b77d4fe84cac18e369a618025ef8ec2440e2b8a434",
+      "ast_digest": "4e7723ce99582ecee426f46fe4327d9ecb035d654a00f947114b58cb51e4db8d"
     },
     "vpp": {
-      "values_digest": "03085cf8c88d62f3f282edb4562482ec31a7c4f4d9df64b0c7c646542cfb95cd",
+      "values_digest": "cf978cc9c741f44d691dd63b535e88e69d54ae1569bd2b4cb8ab7de2443424a0",
       "rendered_digest": "2bf4c80f8931f0e7a84ec096a111fee6676fd86f78be673bd62b90ca3ae50621",
       "ast_digest": "b2eebb998e38b8d8bda7d4d9780ba53b5bb12c283036b04a0f955790fce9f802"
     },
     "srp": {
-      "values_digest": "8b5a6c9a8216648c17d8970434f5a7350bc182fb17360eb055c3d5d051dba504",
+      "values_digest": "3eda85035bf3f5a99d5774d444f6161534e0e8f0906ede9aa7fcedb1f76384fa",
       "rendered_digest": "0e67a29cd01dbabdcf61a835975029f5f9bcf82fba7dd138fbde1490172bffac",
       "ast_digest": "cd6a74f1ae6c1e1dc5195d9c9a6c8cd302732509bb9051e4c6425605b4d6400b"
     },
     "sor": {
-      "values_digest": "8abd4119f73f2a33b73385fa7dfadd83bbe04e45f7f06b1cbc34b94b82ae5199",
+      "values_digest": "32aa906cf3a4b1e25f693f6be3ae2eda571b35236ff8c675a37d480a79bfd452",
       "rendered_digest": "de36756093b01d797a41b5129144441bcc8c46db16009ac099b628e35436f88e",
       "ast_digest": "d9a434516321e30b87ede7a048ca4423f817ee60f1fb55d5633eae36df96c8e2"
     }
@@ -90,6 +106,20 @@
       "actor": "codex:claim-hygiene",
       "reason": "Release preparation-only ownership until issue execution actually starts",
       "operation": "{\"claim_id\":\"claim-4758-v0918-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:preparation-does-not-own-execution-paths\",\"previous_owner\":\"codex:issue-4758-preparation\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 0,
+      "actor": "codex:issue-4758-execution",
+      "reason": "Acquire live typed issue-local claim for #4758 launch-readiness execution",
+      "operation": "{\"branch\":\"codex/4758-v0918-preparation\",\"claim_id\":\"claim-4758-v092-launch-readiness-execution\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:issue-4758-execution\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/4758\",\".csdlc/issues/4758\",\".csdlc/locks/4758.lock\",\".csdlc/prepared/issues/4758\"],\"purpose\":\"Implement and validate #4758 launch-readiness handoff evidence for v0.92 release review consumption\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 1,
+      "actor": "codex:wp21-conductor",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }
