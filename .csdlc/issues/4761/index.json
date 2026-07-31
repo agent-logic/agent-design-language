@@ -3,24 +3,27 @@
   "issue": 4761,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "36807e223cd3ec8843cd05ba70c0fcb97781b607454c3b9886199b0050236dca",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "e82d693a4832702b87e1d266f09c8c30299a793a665d986d914a1ff7d3a49464",
+  "phase": "implemented",
+  "generation": 9,
+  "digest": "90512d03df8e1418d90a6b196b2e5ae81e0eb43977428b5ca9e76addfd267d88",
   "claim": {
-    "id": "prep-4761-v0918-wp14",
-    "owner": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
-    "generation": 0,
-    "acquired_unix_seconds": 1784755804,
-    "expires_unix_seconds": 1785360604,
-    "heartbeat_unix_seconds": 1784755804,
+    "id": "claim-4761-v0918-wp14-capability-envelope-execution",
+    "owner": "codex:gpt-5.5-execution-4761",
+    "generation": 9,
+    "acquired_unix_seconds": 1785529995,
+    "expires_unix_seconds": 1786134795,
+    "heartbeat_unix_seconds": 1785529995,
     "branch": "codex/4761-v0918-wp14-preparation",
     "worktree": ".",
     "protected_paths": [
       ".csdlc/issues/4761",
-      ".csdlc/locks/4761.lock",
-      ".csdlc/prepared/issues/4761"
+      ".csdlc/prepared/issues/4761",
+      ".csdlc/evidence/4761/capability-envelope",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
+      "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+      "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
     ],
-    "purpose": "Preparation only for later execution of the WP-14 v0.92 capability envelope; no implementation, PR, review, merge, or closeout."
+    "purpose": "Execute #4761 to a reviewed, validated, published capability-envelope PR without merging."
   },
   "review_assignment": null,
   "review": null,
@@ -38,37 +41,59 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ce3e424edf49ca67b72c8fef29d8afe24b38cea1fec14d74cf0ae6bd0b2d5e2e",
+      "values_digest": "dfd2af70555ca294c9dba78932433f99bc2b77b4a42aa8cc7bc7b223c01def69",
       "rendered_digest": "7b1bed25c6ade86405512c426890c0b956583335c304d0007d4cac79aa03e017",
       "ast_digest": "7a6b54d290072c86a59545ec152d1fc5a76bfeda248c64f384caf33b383e8c48"
     },
     "stp": {
-      "values_digest": "62a7887ebbf843ed46ee79a44b3f41fa89a1cb11a4aabb40cf0f152e394bed39",
+      "values_digest": "c5f17b6324b018e18bd1486ff73dd7573f3dafdd844c5f88bcb5e2c9cc9694fd",
       "rendered_digest": "006d1d6a57e20f7f6edf72af1d1c851391c52683d8f49586ffaae4e12df448ca",
       "ast_digest": "7d0f800eb18a6225b15b6517f7738fc3bac592e4c4f5db41075d15d580456d5b"
     },
     "spp": {
-      "values_digest": "6ff12cb82d0b44f9aa3803a650291570773d46520633824ae9772187655093d5",
-      "rendered_digest": "e2584a9b8ff8d45e2a3300e95b95448b77b72bf631b4a1aea60a47a038e126d0",
-      "ast_digest": "f2a4484ea20d9abf03f11bdb94f1bcae7b57aa4de4f0ea13dc82c63d92168d3a"
+      "values_digest": "452a24ee99d50645417df763c3ee80437260e6ef357e33c475701c2c49f00a7f",
+      "rendered_digest": "4f62eee0365531fe31439d0528719baf5f118e46e78626e77bab856340a5fa51",
+      "ast_digest": "875fa229240cc1caca3e6299c56d4707df4dbe626bd903f2d5d3e96ce3c89d2c"
     },
     "vpp": {
-      "values_digest": "27422d8765470a9c30d15ed5d7e6c70c7694b5f69fa366db8aacca3be09bb913",
-      "rendered_digest": "2f9cbef9d86bb09e4759eb888ee374ad1036d166879a2be0fc766cf542dbc673",
-      "ast_digest": "841ba78f180b29b4a4a6ea1a6180fa75495708a66bd2c1fc24e9e180d8f40047"
+      "values_digest": "467a8e370b4fdb8b555762c0c0c59a8c7bab5e2ae2f513ff2723f0d9e1a92542",
+      "rendered_digest": "585bd61f202fe6b97aab525ec0b5877734eb8fc405fcc3c618dbc5cd3e88345f",
+      "ast_digest": "0d36c9829b8dcec2c3c0017640972fbd257997220296cbcae7b8d4a469dd8876"
     },
     "srp": {
-      "values_digest": "7ea731523a0da952ae9e02e33ac13142738b4ce02cc327098d33ae1b4e8e54d6",
+      "values_digest": "935e57962eeeeee9e856cd7efa8ac49a2f232eeb11418d9952ae9f28fd3e4947",
       "rendered_digest": "3927c80fb701abbabe4bf06484a983f83eb7560d79067c42ac6512b54cb9bcf7",
       "ast_digest": "103c7bc8b6f9228068f008216e325517ae1e000e78db97045d4e107b8e9ca6b6"
     },
     "sor": {
-      "values_digest": "1ade1a5b52e4a95e94958511c97bc3d5f21d22ae10fffa32bfe60309e6e84186",
-      "rendered_digest": "97df2a3a1985e4939de47d25aab8664ffcd8aa0c8c94b4550ece9af6f74ddaf6",
-      "ast_digest": "c393868546cfab4c9e4866d6630b88334e2cb3a10596f575804144562e258c80"
+      "values_digest": "1ff3c95cda9fb9e677086c1c646b34eebd0a882735a48c601eaad5ec69b66b6c",
+      "rendered_digest": "5429816fa453da317036f0b0d9c7ffb6cb0f6fe96628faa3ab60a95b476dd789",
+      "ast_digest": "25bf36424100c8b3a311a71df20efea077e09b27b557bccfae3d060ff7b8e550"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "Capability-envelope artifacts, consumer integration, and focused validation are recorded."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -76,6 +101,83 @@
       "actor": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "Reacquire expired preparation claim for operator-authorized end-to-end #4761 capability-envelope execution in the existing /Volumes/FastWork worktree.",
+      "operation": "{\"branch\":\"codex/4761-v0918-wp14-preparation\",\"claim_id\":\"claim-4761-v0918-wp14-capability-envelope-execution\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:gpt-5.5-execution-4761\",\"previous_claim_id\":\"prep-4761-v0918-wp14\",\"previous_owner\":\"codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11\",\"protected_paths\":[\".csdlc/issues/4761\",\".csdlc/prepared/issues/4761\",\".csdlc/evidence/4761/capability-envelope\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\",\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\"],\"purpose\":\"Execute #4761 to a reviewed, validated, published capability-envelope PR without merging.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "Replace prep-only SPP with the operator-authorized capability-envelope execution plan.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Bind the live #4761 claim in-place on codex/4761-v0918-wp14-preparation and preserve protected paths.\",\"acceptance_ids\":[\"AC-1\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Publish the capability-envelope artifact packet naming provider, model, tool, skill, authority, and limit context plus explicit non-claims.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Wire the envelope into the v0.91.8 pre-v0.92 and v0.92 consumer surfaces without claiming birthday/runtime completion.\",\"acceptance_ids\":[\"AC-2\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run the fail-closed capability-envelope validator and repository diff hygiene checks.\",\"acceptance_ids\":[\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Record exact-head review and publish a ready PR with Closes #4761, without merge or closeout.\",\"acceptance_ids\":[\"AC-3\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "Replace prep-doctor validation with the focused capability-envelope proof lanes used for implementation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"capability-envelope-validator\",\"proof_role\":\"Fail-closed validation of the #4761 capability envelope, retained source inventory, consumer surfaces, digest integrity, and explicit non-claims.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/evidence/4761/capability-envelope/validate_capability_envelope.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene errors in the capability-envelope artifacts, lifecycle records, and consumer docs.\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "Update SPP summary from preparation handoff to active capability-envelope execution.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Implement and publish the #4761 pre-v0.92 capability envelope as a retained evidence packet consumed by v0.91.8/v0.92 planning surfaces, with explicit non-claims and fail-closed validation.\",\"operation\":\"replan\",\"previous_value\":\"Seed typed v2 preparation artifacts and leave envelope execution to a later bound session.\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "Update SPP invariants for execution truth.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Capability claims must map to retained evidence in the #4761 source inventory.\",\"Unsupported claims remain explicit non-claims or blockers.\",\"The envelope is a pre-v0.92 consumed input and does not claim birthday execution, Memory Palace completion, governance completion, or production authority.\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "Update SPP stop conditions for execution and publication.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"A live claim collision appears.\",\"The capability-envelope validator or diff hygiene check fails.\",\"Review finds an actionable in-scope issue that is not fixed.\",\"Publication cannot create a ready PR against main with Closes #4761.\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "Record #4761 capability-envelope implementation artifacts and integrated consumer surfaces.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the #4761 pre-v0.92 capability envelope as a retained evidence packet with source inventory, explicit unsupported-claim register, fail-closed validator, and v0.91.8/v0.92 consumer pointers.\",\"changes\":[\".csdlc/evidence/4761/capability-envelope/envelope.v1.json\",\".csdlc/evidence/4761/capability-envelope/inputs.v1.json\",\".csdlc/evidence/4761/capability-envelope/non-claims.v1.md\",\".csdlc/evidence/4761/capability-envelope/validate_capability_envelope.rb\",\".csdlc/evidence/4761/capability-envelope/validation.v1.log\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\",\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\"],\"artifacts\":[\".csdlc/evidence/4761/capability-envelope/envelope.v1.json\",\".csdlc/evidence/4761/capability-envelope/inputs.v1.json\",\".csdlc/evidence/4761/capability-envelope/non-claims.v1.md\",\".csdlc/evidence/4761/capability-envelope/validation.v1.log\",\".csdlc/evidence/4761/capability-envelope/proof-logs/capability-envelope-validator.log\",\".csdlc/evidence/4761/capability-envelope/proof-logs/diff-hygiene.log\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "Record passing capability-envelope validator proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/evidence/4761/capability-envelope/validate_capability_envelope.rb\"],\"purpose\":\"Validate the #4761 capability envelope, retained source inventory, v0.91.8/v0.92 consumer surfaces, digest integrity, and explicit unsupported-claim register.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/4761/capability-envelope/proof-logs/capability-envelope-validator.log\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "Record passing diff hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the #4761 capability-envelope artifacts, lifecycle records, and consumer documents.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/4761/capability-envelope/proof-logs/diff-hygiene.log\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:gpt-5.5-execution-4761",
+      "reason": "Capability-envelope artifacts, consumer integration, and focused validation are recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }

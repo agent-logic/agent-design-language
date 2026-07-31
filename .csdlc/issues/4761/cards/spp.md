@@ -12,26 +12,26 @@ Status: ready
 
 ## Summary
 
-Seed typed v2 preparation artifacts and leave envelope execution to a later bound session.
+Implement and publish the #4761 pre-v0.92 capability envelope as a retained evidence packet consumed by v0.91.8/v0.92 planning surfaces, with explicit non-claims and fail-closed validation.
 
 ## Plan
 
-Revision 1
+Revision 5
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Inspect existing #4761 task context and preserve the capability-envelope boundary.",
+    "action": "Bind the live #4761 claim in-place on codex/4761-v0918-wp14-preparation and preserve protected paths.",
     "acceptance_ids": [
-      "AC-2"
+      "AC-1"
     ],
-    "status": "completed"
+    "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Generate minimal typed v2 cards, design, and diagram.",
+    "action": "Publish the capability-envelope artifact packet naming provider, model, tool, skill, authority, and limit context plus explicit non-claims.",
     "acceptance_ids": [
       "AC-1",
       "AC-2"
@@ -40,7 +40,23 @@ Revision 1
   },
   {
     "id": "S3",
-    "action": "Run focused csdlc-doctor and report prep-only handoff.",
+    "action": "Wire the envelope into the v0.91.8 pre-v0.92 and v0.92 consumer surfaces without claiming birthday/runtime completion.",
+    "acceptance_ids": [
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Run the fail-closed capability-envelope validator and repository diff hygiene checks.",
+    "acceptance_ids": [
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Record exact-head review and publish a ready PR with Closes #4761, without merge or closeout.",
     "acceptance_ids": [
       "AC-3"
     ],
@@ -50,9 +66,9 @@ Revision 1
 
 ## Invariants
 
-- Preparation does not implement or publish #4761.
-- Capability claims must map to retained evidence.
+- Capability claims must map to retained evidence in the #4761 source inventory.
 - Unsupported claims remain explicit non-claims or blockers.
+- The envelope is a pre-v0.92 consumed input and does not claim birthday execution, Memory Palace completion, governance completion, or production authority.
 
 ## Risks
 
@@ -82,8 +98,9 @@ Digest: 885a543a3007b04c2af3b0f3d119a2555dd1d51493553ecf690085ac7a85675b
 ## Stop Conditions
 
 - A live claim collision appears.
-- The focused doctor fails on v2 state integrity.
-- The task requires implementation or GitHub mutation.
+- The capability-envelope validator or diff hygiene check fails.
+- Review finds an actionable in-scope issue that is not fixed.
+- Publication cannot create a ready PR against main with Closes #4761.
 
 ## Handoff
 

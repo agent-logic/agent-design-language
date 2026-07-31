@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/4761/diagram.mmd
 
 [
   {
-    "lane": "prep-doctor",
-    "proof_role": "Focused v2 state integrity check only.",
+    "lane": "capability-envelope-validator",
+    "proof_role": "Fail-closed validation of the #4761 capability envelope, retained source inventory, consumer surfaces, digest integrity, and explicit non-claims.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -34,13 +34,30 @@ Diagram: .csdlc/prepared/issues/4761/diagram.mmd
     "deterministic": true,
     "resource_profile": "small",
     "budget_seconds": 120,
-    "budget_tokens": 1000,
+    "budget_tokens": 3000,
     "argv": [
-      "csdlc-doctor",
-      "--issue",
-      "4761"
+      "ruby",
+      ".csdlc/evidence/4761/capability-envelope/validate_capability_envelope.rb"
     ],
-    "parallel_group": "prep",
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "diff-hygiene",
+    "proof_role": "Reject whitespace and patch hygiene errors in the capability-envelope artifacts, lifecycle records, and consumer docs.",
+    "acceptance_ids": [
+      "AC-3"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 500,
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "parallel_group": "local",
     "defer_reason": null
   }
 ]
@@ -57,7 +74,8 @@ Tokens: 10000
 
 ## Commands
 
-- `csdlc-doctor --issue 4761`
+- `ruby .csdlc/evidence/4761/capability-envelope/validate_capability_envelope.rb`
+- `git diff --check`
 
 ## Failure Semantics
 
