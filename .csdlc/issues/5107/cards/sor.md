@@ -41,11 +41,11 @@ Recorded the #5107 Adaptive Learning DAG planning queue and v0.92 handoff bounda
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
