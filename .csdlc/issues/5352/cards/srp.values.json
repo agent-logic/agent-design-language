@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-21][handoff] Finalize exact-revision v0.92 consumption handoff",
     "slug": "v0918-wp21-v092-consumption-handoff",
     "version": "v0.91.8",
-    "generation": 2
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review only #5352 exact-revision handoff, issue-local lifecycle records, focused validators, evidence, and publication boundaries.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/5352\n.csdlc/evidence/5352\n.csdlc/prepared/issues/5352\ndocs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md",
+      "review_revision": "git-blake3:b1ec4f120fa1fd7091525631813b2066bdb5d788:b29f2dbde281900eeb0a786b90c36d550adc3ff2b361dd3b8528f0ffe247196c",
+      "reviewer": "Wegener",
       "review_prompts": [
         "Are all issue/PR/head/merge claims row-bound and ancestral to the exact baseline?",
         "Are lifecycle cards and retained validation current and truthful?",
@@ -23,8 +23,11 @@
         "Is the PR diff limited to the handoff and issue-local lifecycle evidence?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The required sprint-wide WP-21 review remains a separate pre-merge gate and is not claimed by this issue-local exact-head review.",
+        "Any origin/main movement before merge requires explicit ancestry refresh and current-head review truth."
+      ],
+      "review_result": "pass"
     }
   }
 }
