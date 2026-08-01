@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.merged_publication_reconciliation_request.v1",
+  "publication": {
+    "schema": "csdlc.publication_request.v1",
+    "issue": 5678,
+    "expected_generation": 6,
+    "expected_digest": "547b60a4a4bedd62aeb527f3b06d8e3456472eaabcb8785a96438fbd3762edca",
+    "claim_id": "claim-5678-terminal-closeout",
+    "actor": "codex:issue-5678-terminal-closeout",
+    "repository": "danielbaustin/agent-design-language",
+    "remote": "origin",
+    "base": "main",
+    "head": "codex/5678-opus-review-runbook",
+    "title": "[v0.91.8][provider][docs] Keep Opus review runbook aligned with adapter CLI (#5678)",
+    "body": "Closes #5678\n\nUpdates the Opus review runbook to use the current structured JSON adapter request and --request/--out/--log CLI. Adds a focused drift test that validates the request contract against the compiled adapter help output.\n\nValidation: bash adl/tools/test_opus_review_runbook.sh; git diff --check; exact-head subagent review completed with no actionable findings.",
+    "draft": false,
+    "token_file": "/Users/daniel/keys/github.token"
+  },
+  "pull_request": 5685
+}

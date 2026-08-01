@@ -1,0 +1,11 @@
+{
+  "issue": 5678,
+  "repository": "danielbaustin/agent-design-language",
+  "expected_claim_id": "claim-5678-terminal-closeout",
+  "expected_generation": 4,
+  "expected_digest": "96e7654eb65f35b18712320578a0c61155e12ffd199890e588a4b6a6d06b8b89",
+  "now_unix_seconds": 1785565998,
+  "actor": "codex:issue-5678-terminal-closeout",
+  "operator_authority": "operator-instruction:issue-5678-closeout",
+  "reason": "Release the temporary closeout claim because typed readiness and merged-publication reconciliation failed closed on stale exact-head review truth."
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5678,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5678-opus-review-runbook",
+  "title": "[v0.91.8][provider][docs] Keep Opus review runbook aligned with adapter CLI (#5678)",
+  "body": "Closes #5678\n\nUpdates the Opus review runbook to use the current structured JSON adapter request and --request/--out/--log CLI. Adds a focused drift test that validates the request contract against the compiled adapter help output.\n\nValidation: bash adl/tools/test_opus_review_runbook.sh; git diff --check; exact-head subagent review completed with no actionable findings.",
+  "draft": false,
+  "revision": "git-blake3:90165c6ee1f4bed18820731efd7326dbab4a6669:9b8933e76f117fbc20c8113a1917315f555287427dd8754621e2c16d91128f9d",
+  "commit_sha": "90165c6ee1f4bed18820731efd7326dbab4a6669"
+}

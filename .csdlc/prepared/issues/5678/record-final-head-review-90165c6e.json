@@ -1,0 +1,28 @@
+{
+  "issue": 5678,
+  "expected_generation": 5,
+  "expected_digest": "7d06fa7db83993265fb2214e8e4a29ccea08665b25884335dcd50d980eb17604",
+  "claim_id": "claim-5678-terminal-closeout",
+  "actor": "codex:issue-5678-terminal-closeout",
+  "evidence": {
+    "reviewer": "codex:final-head-review-5678",
+    "scope": [
+      "docs/tooling/OPUS_REVIEW_RUNBOOK.md",
+      "adl/tools/test_opus_review_runbook.sh"
+    ],
+    "reviewed_revision": "git-blake3:90165c6ee1f4bed18820731efd7326dbab4a6669:9b8933e76f117fbc20c8113a1917315f555287427dd8754621e2c16d91128f9d",
+    "findings": [],
+    "residual_risks": [
+      "The ignored operator-local .adl/docs/TBD mirror remains outside the tracked canonical runbook and is not updated or claimed by this issue closeout."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "final merged head changed no issue-5678 product-scope files after the stale published revision; fresh exact-head review was still performed and recorded.",
+      "from_revision": "git-blake3:17c5f711caaca2273068317377c67e03d00919a4:14d3a88d5fc05b3a355813e4a598eab23f18bc70340fe2c9bed04071168943f8",
+      "to_revision": "git-blake3:90165c6ee1f4bed18820731efd7326dbab4a6669:9b8933e76f117fbc20c8113a1917315f555287427dd8754621e2c16d91128f9d",
+      "from_commit": "17c5f711caaca2273068317377c67e03d00919a4",
+      "to_commit": "90165c6ee1f4bed18820731efd7326dbab4a6669",
+      "changed_paths": []
+    }
+  }
+}

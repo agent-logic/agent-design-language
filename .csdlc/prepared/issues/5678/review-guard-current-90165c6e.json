@@ -1,0 +1,7 @@
+{
+  "evidence": null,
+  "scope": [
+    "docs/tooling/OPUS_REVIEW_RUNBOOK.md",
+    "adl/tools/test_opus_review_runbook.sh"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "issue": 5678,
+  "repository": "danielbaustin/agent-design-language",
+  "expected_claim_id": "claim-5678-opus-review-runbook",
+  "expected_generation": 4,
+  "expected_digest": "682eadbeaea35bb98f1ced33ac18937d9e2b9ac1fcf5e77bbfda05cb8dfc0015",
+  "now_unix_seconds": 1785546991,
+  "actor": "subagent:/root/closeout_missing_records",
+  "operator_authority": "operator-authorized:5748",
+  "reason": "Revoke the five-day-stale #5678 execution claim after confirming the owning Codex task is archived, no matching live session-ledger entry exists, no live agent owns it, and the registered issue worktree has had no lifecycle activity since 2026-07-26; terminal closeout remains blocked by independent exact-head findings."
+}

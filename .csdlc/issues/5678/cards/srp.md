@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -31,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The ignored operator-local .adl/docs/TBD mirror remains outside the tracked canonical runbook and must be refreshed separately when an operator needs that local convenience path.
+- The ignored operator-local .adl/docs/TBD mirror remains outside the tracked canonical runbook and is not updated or claimed by this issue closeout.
 
 ## Review Result
 
-Revision: Some("git-blake3:df6c1ba075d262917aa71cea2f40ecfe71abced1:150c1020942ff8c3fe690eebbcf51f95dc7e6a65db7dcdc19f86fef79ddcd3b1")
+Revision: Some("git-blake3:90165c6ee1f4bed18820731efd7326dbab4a6669:9b8933e76f117fbc20c8113a1917315f555287427dd8754621e2c16d91128f9d")
 
-Reviewer: Some("codex-subagent:review-5678-runbook")
+Reviewer: Some("codex:final-head-review-5678")
 
 Result: pass

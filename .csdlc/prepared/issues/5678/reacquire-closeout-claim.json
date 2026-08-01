@@ -1,0 +1,24 @@
+{
+  "issue": 5678,
+  "expected_generation": 4,
+  "expected_digest": "b301b8d15016c210c04330c20328f5707075a2261d236180fd40097fd7a2fc9d",
+  "now_unix_seconds": 1785566215,
+  "actor": "codex:issue-5678-terminal-closeout",
+  "reason": "Reacquire a supported typed v2 closeout claim after operator-confirmed merged PR #5685 and dormant claim release.",
+  "replacement": {
+    "id": "claim-5678-terminal-closeout",
+    "owner": "codex:issue-5678-terminal-closeout",
+    "generation": 4,
+    "acquired_unix_seconds": 1785566215,
+    "expires_unix_seconds": 1785573415,
+    "heartbeat_unix_seconds": 1785566215,
+    "branch": "codex/5678-opus-review-runbook",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5678",
+      ".csdlc/prepared/issues/5678",
+      ".csdlc/publication/5678.intent.json"
+    ],
+    "purpose": "Record readiness and terminal closeout for merged issue #5678 without pruning."
+  }
+}

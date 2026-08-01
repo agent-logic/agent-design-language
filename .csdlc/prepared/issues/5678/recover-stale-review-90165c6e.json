@@ -1,0 +1,8 @@
+{
+  "issue": 5678,
+  "expected_generation": 4,
+  "expected_digest": "3d78d86e4e3a448bff1cffd8c4524a1adf27fc76fe979d1e36d10e8baa51b747",
+  "claim_id": "claim-5678-terminal-closeout",
+  "actor": "codex:issue-5678-terminal-closeout",
+  "reason": "Recover stale review/publication truth before recording a bounded fresh exact-head review for merged PR #5685 at 90165c6ee1f4bed18820731efd7326dbab4a6669."
+}
