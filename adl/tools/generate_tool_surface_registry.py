@@ -26,8 +26,6 @@ PRIMARY_BINARIES = {
 }
 
 SUPPORTED_SHIMS = {
-    "validate_structured_prompt.sh": "Compatibility shim over the direct structured-prompt validator binary.",
-    "lint_prompt_spec.sh": "Compatibility shim over the direct prompt-spec lint binary.",
 }
 
 REMOVE_CANDIDATES = {
@@ -39,7 +37,6 @@ PRIMARY_TOOL_SCRIPTS = {
     "run_owner_validation_lane.sh": "Primary focused owner-lane runner for bounded validation.",
     "run_pr_fast_test_lane.sh": "Primary focused PR-fast local test runner.",
     "check_coverage_impact.sh": "Primary local coverage-impact gate for risky changed files.",
-    "check_issue_metadata_parity.sh": "Primary metadata parity guard for issue records.",
 }
 
 HISTORICAL_EVIDENCE = [
@@ -105,10 +102,10 @@ CORE_WORKFLOW_COMMANDS = [
         "Canonical in-flight PR blocker routing surface once a PR has been published.",
     ),
     (
-        "adl-csdlc tooling prompt-template ...",
+        "csdlc-edit apply --request <edit-request.json>",
         "core workflow command",
         "primary",
-        "Primary direct prompt-template workflow surface after the small-binary split.",
+        "Typed prompt-card values edit surface after final v1 sunset.",
     ),
     (
         "adl-validate-structured-prompt --type <kind> --phase <phase> --input <card>",
@@ -160,7 +157,7 @@ def classify_tool_script(path: Path) -> tuple[str, str]:
 def classify_skill_dir(path: Path) -> tuple[str, str]:
     name = path.name
     if name in {
-        "workflow-conductor",
+        "csdlc-doctor",
         "pr-init",
         "pr-ready",
         "pr-run",

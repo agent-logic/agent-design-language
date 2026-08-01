@@ -102,7 +102,7 @@ These rules are mandatory for ADL issue work.
    - Before issue work, check root `git status --short --branch` and
      `git worktree list --porcelain`. If the primary checkout is on a feature
      branch or has tracked changes, stop and route the recovery through
-     `workflow-conductor` / repo-native `pr run` or `pr doctor` evidence when
+     typed v2 `csdlc-doctor` / `csdlc-bind` evidence when
      available. Use only the narrowest manual fallback needed to preserve work
      into an issue worktree and restore the primary checkout to clean `main`.
    - See `docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md` for
