@@ -54,10 +54,6 @@ path = "src/bin/demo_adl_gws_native_drive_sync.rs"
 name = "adl-gws-context-mirror"
 path = "src/bin/demo_adl_gws_context_mirror.rs"
 
-[[bin]]
-name = "run_wp12_acip_websocket_transport_proof"
-path = "src/bin/run_wp12_acip_websocket_transport_proof.rs"
-
 [features]
 # Heavy runtime_v2 proof-materialization and CLI proof-smoke tests stay out of
 # ordinary `cargo test` but remain covered by authoritative `--all-features`
