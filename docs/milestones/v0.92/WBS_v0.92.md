@@ -16,17 +16,20 @@ Candidate allocation only. v0.92 has no opened GitHub issue wave yet.
 
 The candidate WP sequence below should be consumed by the v0.92 WP-01 planning
 pass. WP-01 should verify prerequisite truth, reconcile `v0.91.5`
-release-tail closeout, the `v0.91.6` readiness tranche, the `v0.91.7` implementation/proof tranche, the AEE
-completion tranche, and `#3377`, then seed the
-actual GitHub issue wave and full C-SDLC card set.
+release-tail closeout, the `v0.91.6` readiness tranche, the `v0.91.7`
+implementation/proof tranche, merged `v0.91.8` WP-16 quality-gate evidence at
+`2e9d2dd7c4260dcf6ec6af954b0eea97554212df`, WP-17 documentation alignment, the
+AEE completion tranche, and `#3377`, then seed the actual GitHub issue wave and
+full C-SDLC card set.
 
 ## How To Use
 
 Use this WBS as WP-01 seed input, not as proof that v0.92 issues are already
 open. WP-01 should reconcile the sequence with `v0.91.5` release-tail
-closeout, the `v0.91.6` readiness tranche, the `v0.91.7` implementation/proof tranche, the AEE completion
-tranche, and `#3377`, then generate the
-real issue wave and all five C-SDLC cards for each opened issue.
+closeout, the `v0.91.6` readiness tranche, the `v0.91.7`
+implementation/proof tranche, merged `v0.91.8` WP-16 evidence, WP-17
+documentation alignment, the AEE completion tranche, and `#3377`, then generate
+the real issue wave and all six C-SDLC cards for each opened issue.
 
 ## WBS Summary
 
@@ -38,7 +41,7 @@ milestones.
 
 | WP | Work Package | Description | Primary deliverable | Dependencies |
 | --- | --- | --- | --- | --- |
-| WP-01 | Design pass and issue-wave readiness | Promote reviewed v0.92 planning docs, consume `v0.91.5` release-tail closeout, the `v0.91.6` readiness tranche, the `v0.91.7` implementation/proof tranche, the AEE completion tranche, and `#3377`, seed issue wave, and prepare cards. | Opened issue wave and full SIP/STP/SPP/SRP/SOR cards, including AEE proof ownership if required. | `v0.91.5` release-tail closeout, activation-test map, `v0.91.6` readiness outputs, `v0.91.7` implementation/proof outputs, AEE completion tranche, and `#3377` readiness packet. |
+| WP-01 | Design pass and issue-wave readiness | Promote reviewed v0.92 planning docs, consume `v0.91.5` release-tail closeout, the `v0.91.6` readiness tranche, the `v0.91.7` implementation/proof tranche, merged `v0.91.8` WP-16 quality-gate evidence, WP-17 documentation alignment, the AEE completion tranche, and `#3377`, seed issue wave, and prepare cards. | Opened issue wave and full SIP/STP/SPP/VPP/SRP/SOR cards, including AEE proof ownership if required. | `v0.91.5` release-tail closeout, activation-test map, `v0.91.6` readiness outputs, `v0.91.7` implementation/proof outputs, `v0.91.8` WP-16 quality-gate evidence, WP-17 documentation alignment, AEE completion tranche, and `#3377` readiness packet. |
 | WP-02 | Birthday contract and negative cases | Define what counts as birth and what does not. | Feature contract, negative fixtures, and validation rules. | WP-01. |
 | WP-03 | Stable name and identity architecture | Define identity root, stable name, aliases, provenance, and continuity head. | Identity record contract and fixtures. | WP-02 and prior citizen-state lineage. |
 | WP-04 | Continuity across bounded cycles | Prove identity survives multiple bounded cycles with evidence. | Continuity record, cycle fixtures, validation. | WP-03. |
@@ -95,7 +98,12 @@ Before opening v0.92 issues, WP-01 must:
 
 - reconcile the candidate sequence with `v0.91.5` release-tail closeout, the
   activation-test map, the `v0.91.6` readiness tranche, the `v0.91.7`
-  implementation/proof tranche, and `#3377`
+  implementation/proof tranche, merged `v0.91.8` WP-16 quality-gate evidence,
+  WP-17 documentation alignment, and `#3377`
+- consume `docs/milestones/v0.91.8/evidence/wp16/ISSUE_OUTCOME_AUDIT.md`,
+  `docs/milestones/v0.91.8/evidence/wp16/QUALITY_GATE.md`, and
+  `docs/milestones/v0.91.8/evidence/wp16/issue-outcome-audit.v1.json`
+  without treating them as final `v0.91.8` release approval
 - reconcile the AEE completion tranche from v0.91.5 and either seed concrete
   AEE proof work or record why existing v0.92 WPs cover it
 - requalify the post-`#5104` loop-runtime merge evidence against current
