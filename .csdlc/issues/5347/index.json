@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4379da53c4006fc48b7aa0358cdc5518623fd15b918ae42ea519c372e95f784f",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "2256bb0951473dd5492f0132c17c52c8bca44deafb23f86659853ecc6a413911",
+  "generation": 16,
+  "digest": "ffd933119571c399ee874a916769acb623cd9aaa44f07482eedaeddbf37c910a",
   "claim": {
     "id": "claim-5347-external-band-deletion",
     "owner": "codex:5347-execution-owner",
-    "generation": 14,
+    "generation": 16,
     "acquired_unix_seconds": 1785548138,
     "expires_unix_seconds": 1785555338,
     "heartbeat_unix_seconds": 1785548138,
@@ -41,6 +41,29 @@
       "adl/src/bin/run_v0916_runtime_failure_injection.rs",
       "adl/src/bin/run_v0917_integrated_resilience_failure_injection.rs",
       "adl/src/bin/run_wp12_acip_websocket_transport_proof.rs",
+      "adl/src/capability_aptitude_testing.rs",
+      "adl/src/demo/v086_review_surface.rs",
+      "adl/src/dspark_speculative_decoding_evaluation.rs",
+      "adl/src/speculative_decoding_prototype.rs",
+      "adl/tests/demo_tests.rs",
+      "adl/tests/local_gemma_model_evaluation_demo_tests.rs",
+      "adl/tests/model_proposal_benchmark_demo_tests.rs",
+      "adl/tests/uts_acc_multi_model_benchmark_demo_tests.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/demo_v086_candidate_selection.sh",
+      "adl/tools/demo_v086_fast_slow.sh",
+      "adl/tools/demo_v086_freedom_gate.sh",
+      "adl/tools/demo_v086_review_surface.sh",
+      "adl/tools/demo_v0912_speculative_decoding_showcase.sh",
+      "adl/tools/run_pr_fast_test_lane.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_run_pr_fast_test_lane.sh",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_v086_demo_review_surface.sh",
+      "adl/tools/test_v0916_unity_observatory_soak_integration.sh",
+      "adl/tools/test_wp17a_demo_follow_ons.sh",
+      "adl/tools/uts_benchmark_runner.py",
+      "adl/tools/validate_v0917_soak2_4682_status.sh",
       "docs/milestones/v0.91.8/evidence/wp13-external-bands"
     ],
     "purpose": "Execute #5347 WP-13 external-owned obsolete demo/proof band deletion with no Cargo.lock churn, no retained-binary mutation, no WP-16 dependency, and #5346 reserved as the later final-core deletion lane; publish ready PR with Closes #5347 and no typed closeout."
@@ -61,34 +84,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d761b5ee4f9308f59a2e76aca9de550df965a8a049c8f867d9ee9edf8b7fee47",
+      "values_digest": "aed854a8cdd1759392dea7273d18083029f5e70332ec81e1cd14cbbaf913de7a",
       "rendered_digest": "bba94b0c6938b04c5b24dd5345f10c5fdd0eb660e10f0049938065122dcac62f",
       "ast_digest": "f16fa9ea475ff8c4879e5fc6cc35ecaf34abc03d0552c6682d73c320ea81ad86"
     },
     "stp": {
-      "values_digest": "277c5620ca4a9e0614c14a9bcfb2144ae10d53fe0ec2f8b6a35561638b124842",
+      "values_digest": "928e6b41ce9b6b19d9bcd00894e2311965a1a85ef56038ca99c15f8c7ea943ac",
       "rendered_digest": "6d26768de5f223ab4f20f7b1a14e0aaaf51821861467749d81a1d5d1f325be6f",
       "ast_digest": "81d561765553b1943ebdc009fd67a17664a409a8898d095cde706a56fd288c4a"
     },
     "spp": {
-      "values_digest": "1578a608e6c8c3af647162af6945ea69759d2d6ef379b5e9e3a7dd05ad2901c3",
+      "values_digest": "e86573d1fc01a04d0e8cd8b7c0ea3992a737eb76cb8b34ac1588cd866acb6b8a",
       "rendered_digest": "7eea12e4df203d02356c3a2a4e256364bc673002a88a24c11788b623b4a796ba",
       "ast_digest": "2a1ad680231eb8b779fc0dc987ddea4619d3dbedee49666aad3b5e2337d79256"
     },
     "vpp": {
-      "values_digest": "f8854e461ce6ba30efea7e23bf249c2a29abdc619d89af025795d0a83905aa3e",
+      "values_digest": "a64e75df37aead0e6d657643701dd6faebbacc5f0ca01565d0438217a95480b2",
       "rendered_digest": "6d6e38b8569279f0f137698419c32ddf9aeaadb457286b2c7e00d328d5902e8c",
       "ast_digest": "37d957d672df501b34d54395a49bef3c05c8ba46e2563ab54d79376066e6c01b"
     },
     "srp": {
-      "values_digest": "1fb42dda535a9a1f1b050ce34c96f904ac24b4b909168a53635eff01e4b7d2ce",
+      "values_digest": "487e6b5441901de96ce29a4c010d3d2f5f22299cc9d9c188b8f333bbed42f0c2",
       "rendered_digest": "c8e597630b464ddd8d3a5eea9a0118ddd500115dec18913b4549418bf339785f",
       "ast_digest": "56d4f4b12afd863aec827968e941ff566059f98eb3e7e62e6326d41f6869a76e"
     },
     "sor": {
-      "values_digest": "1588d6225b51df0f7b9b6b4b7c964c515450568d3b0de8d46b2a487005fdaf08",
-      "rendered_digest": "a330e119b1f02a9c809bd27a9fa679f4e29cc6d7bdee29be11cb7d08b04c0d61",
-      "ast_digest": "aaf92a95dc143477b3c9defdaa556d92d898b0057ba1d502b8a8674e3a859e50"
+      "values_digest": "8b9f6c2099657d1f2ec970e89a4c5cbc3c80de22ee0a872a1ead68b341d5b652",
+      "rendered_digest": "e2a93a84989d3b44690170c23695db480c235fc95a95987be363bff7079c6ed0",
+      "ast_digest": "118f64941a89ad28f357f59449759fda4ad2c0f2b82a95d71cebcdebc8dae230"
     }
   },
   "transitions": [
@@ -275,6 +298,41 @@
       "actor": "codex:5347-execution-owner",
       "reason": "Record cleaned focused execution validation after removing stale Cargo.lock validation ownership from the issue-local helper.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5347/run-validation-lane.rb\",\"execution\"],\"purpose\":\"Final cleaned proof that #5347 deletes only manifest-listed obsolete external demo/proof binaries, preserves retained current binaries, has no Cargo.lock diff, does not depend on WP-16 or #5346 terminal closeout, remains disjoint from #5346 reserved core deletion paths, and removes 1476 net lines.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5347/execution-validation/external-band-deletion-cleaned.log\"}}"
+    },
+    {
+      "sequence": 24,
+      "generation": 14,
+      "actor": "codex:5347-replacement-sole-writer",
+      "reason": "Direct GPT-5.5 pre-PR review found surviving tests and shell tooling that still reference #5347-deleted obsolete external demo/proof binaries; amend scope narrowly to remove or repair those stale references and strengthen recurrence validation.",
+      "operation": "{\"add_protected_paths\":[\"adl/tests/demo_tests.rs\",\"adl/tests/local_gemma_model_evaluation_demo_tests.rs\",\"adl/tests/model_proposal_benchmark_demo_tests.rs\",\"adl/tests/uts_acc_multi_model_benchmark_demo_tests.rs\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/demo_v086_candidate_selection.sh\",\"adl/tools/demo_v086_fast_slow.sh\",\"adl/tools/demo_v086_freedom_gate.sh\",\"adl/tools/demo_v086_review_surface.sh\",\"adl/tools/demo_v0912_speculative_decoding_showcase.sh\",\"adl/tools/run_pr_fast_test_lane.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"adl/tools/test_run_pr_fast_test_lane.sh\",\"adl/tools/test_v086_demo_review_surface.sh\",\"adl/tools/test_wp17a_demo_follow_ons.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 25,
+      "generation": 14,
+      "actor": "codex:5347-replacement-sole-writer",
+      "reason": "After the first #5347 review-finding repair, the live-reference scan found additional retained source, test, and tool files that still name deleted obsolete external demo/proof binaries; amend scope to remove non-colliding live references while preserving #5346-owned pr_cmd_inline paths.",
+      "operation": "{\"add_protected_paths\":[\"adl/src/demo/v086_review_surface.rs\",\"adl/src/speculative_decoding_prototype.rs\",\"adl/tools/test_select_validation_lanes.sh\",\"adl/tools/test_v0916_unity_observatory_soak_integration.sh\",\"adl/tools/uts_benchmark_runner.py\",\"adl/tools/validate_v0917_soak2_4682_status.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 14,
+      "actor": "codex:5347-replacement-sole-writer",
+      "reason": "The #5347 live-reference sweep found retained library modules that still publish validation commands for deleted external demo binaries. Amend scope narrowly to rewrite those commands to retained library/test contracts.",
+      "operation": "{\"add_protected_paths\":[\"adl/src/capability_aptitude_testing.rs\",\"adl/src/dspark_speculative_decoding_evaluation.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 15,
+      "actor": "codex:5347-replacement-sole-writer",
+      "reason": "Record focused validation for direct GPT-5.5 review-finding fixes before exact-head rereview.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5347/run-validation-lane.rb\",\"execution\"],\"purpose\":\"Prove #5347 review-finding fixes removed obsolete Rust test references, repaired shell/tool stale references, strengthened the recurrence guard, preserved #5346 disjointness, and compiled surviving integration tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5347/execution-validation/review-finding-fix-validation.json\"}}"
+    },
+    {
+      "sequence": 28,
+      "generation": 16,
+      "actor": "codex:5347-replacement-sole-writer",
+      "reason": "Record final lock-preserving focused validation for direct GPT-5.5 review-finding fixes before exact-head rereview.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5347/run-validation-lane.rb\",\"execution\"],\"purpose\":\"Prove #5347 review-finding fixes removed obsolete Rust test references, repaired shell/tool stale references, strengthened the recurrence guard, preserved #5346 disjointness, and compiled surviving integration tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5347/execution-validation/review-finding-fix-validation.json\"}}"
     }
   ]
 }

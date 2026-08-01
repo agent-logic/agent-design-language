@@ -458,8 +458,6 @@ pub fn build_capability_aptitude_artifact_bundle() -> CapabilityAptitudeArtifact
         validation_commands: vec![
             "cargo test --manifest-path adl/Cargo.toml capability_aptitude_testing -- --nocapture"
                 .to_string(),
-            "cargo test --manifest-path adl/Cargo.toml demo_v0911_capability_aptitude_testing -- --nocapture"
-                .to_string(),
             "git diff --check".to_string(),
         ],
         evaluator: "adl.wp09.fixture_harness".to_string(),

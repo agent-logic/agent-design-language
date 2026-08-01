@@ -94,6 +94,26 @@ Deleted obsolete externally-owned standalone demo/proof entrypoints from the inc
     "purpose": "Final cleaned proof that #5347 deletes only manifest-listed obsolete external demo/proof binaries, preserves retained current binaries, has no Cargo.lock diff, does not depend on WP-16 or #5346 terminal closeout, remains disjoint from #5346 reserved core deletion paths, and removes 1476 net lines.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5347/execution-validation/external-band-deletion-cleaned.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5347/run-validation-lane.rb",
+      "execution"
+    ],
+    "purpose": "Prove #5347 review-finding fixes removed obsolete Rust test references, repaired shell/tool stale references, strengthened the recurrence guard, preserved #5346 disjointness, and compiled surviving integration tests.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5347/execution-validation/review-finding-fix-validation.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5347/run-validation-lane.rb",
+      "execution"
+    ],
+    "purpose": "Prove #5347 review-finding fixes removed obsolete Rust test references, repaired shell/tool stale references, strengthened the recurrence guard, preserved #5346 disjointness, and compiled surviving integration tests.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5347/execution-validation/review-finding-fix-validation.json"
   }
 ]
 

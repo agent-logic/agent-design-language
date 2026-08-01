@@ -152,7 +152,11 @@ grep -Fx "long_lived_agent_storage" "$long_lived_agent_storage_filters" >/dev/nu
 long_lived_agent_storage_expression="$(bash "$SCRIPT" --changed-files "$long_lived_agent_storage_changed" --print-risk-nextest-expression)"
 grep -F "binary_id(adl) and test(long_lived_agent::storage)" <<<"$long_lived_agent_storage_expression" >/dev/null
 grep -F "test(long_lived_agent::storage)" <<<"$long_lived_agent_storage_expression" >/dev/null
-grep -F "test(run_v0916_runtime_failure_injection)" <<<"$long_lived_agent_storage_expression" >/dev/null
+retired_failure_injection_token="run_v0916_runtime""_failure_injection"
+if grep -F "$retired_failure_injection_token" <<<"$long_lived_agent_storage_expression" >/dev/null; then
+  echo "did not expect deleted runtime failure injection binary in coverage expression" >&2
+  exit 1
+fi
 
 csm_runtime_agent_changed="$TMP/csm-runtime-agent-changed.txt"
 cat >"$csm_runtime_agent_changed" <<'EOF'

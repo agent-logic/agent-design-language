@@ -460,8 +460,6 @@ pub fn run_speculative_decoding_prototype_report() -> SpeculativeDecodingPrototy
         ],
         validation_commands: vec![
             "cargo test --manifest-path adl/Cargo.toml speculative_decoding_prototype -- --nocapture".to_string(),
-            "cargo test --manifest-path adl/Cargo.toml demo_v0912_speculative_decoding_prototype -- --nocapture".to_string(),
-            "cargo run --manifest-path adl/Cargo.toml --bin demo_v0912_speculative_decoding_prototype".to_string(),
             "git diff --check".to_string(),
         ],
         non_claims: vec![
