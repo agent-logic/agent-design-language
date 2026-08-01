@@ -120,6 +120,8 @@ run_csdlc_lane() {
     bash adl/tools/test_editor_action.sh
   run_command "C-SDLC active command reference scan" \
     bash adl/tools/test_generate_active_command_reference_scan.sh
+  run_command "C-SDLC typed workflow-metric backfill" \
+    python3 adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py
   run_command "C-SDLC retired prompt-wrapper contracts" \
     bash adl/tools/test_card_prompt.sh
   run_command "C-SDLC retired prompt-lint wrapper contract" \
