@@ -562,14 +562,14 @@ to make the handoff reviewable:
 - first ACIP/A2A/security decisions
 - feature-doc production issue-wave setup
 
-It does not pretend to complete every required pre-v0.92 surface. Anything not
-integrated and proven in v0.91.6 must be completed in v0.91.7 or block v0.92
-with evidence and operator approval.
+It did not complete every required pre-v0.92 surface. Later v0.91.7 and v0.91.8
+work either integrated the remaining outcomes or retained explicit evidence and
+non-claim truth for the serial release tail.
 
 ### v0.91.7 - Required Pre-v0.92 Implementation And Proof Tranche
 
-`v0.91.7` is now in the closeout tail of the last pre-v0.92
-implementation/proof tranche:
+`v0.91.7` is retained as the historical implementation/proof tranche that
+v0.91.8 reviews and aligns before v0.92 consumption:
 
 - Curiosity Engine / Discovery Substrate
 - Constructability Gate
