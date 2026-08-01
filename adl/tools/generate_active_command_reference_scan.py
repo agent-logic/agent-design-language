@@ -75,7 +75,28 @@ SKIP_PATH_SUBSTRINGS = (
 EXCLUDED_REL_PATHS = {
     "adl/tools/generate_active_command_reference_scan.py",
     "adl/tools/test_generate_active_command_reference_scan.sh",
+    # These wrappers are executable fail-closed tombstones. Their only legacy
+    # strings are prohibition/migration text, not runnable workflow routes.
+    "adl/tools/codex_pr.sh",
+    "adl/tools/codexw.sh",
     "docs/milestones/v0.91.5/ACTIVE_COMMAND_REFERENCE_SCAN_3735.md",
+}
+
+HISTORICAL_EXACT_PATHS = {
+    # Immutable migration/review evidence and explicitly retired command docs.
+    "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
+    "docs/tooling/ADL_OCTOCRAB_MIGRATION_REVIEW.md",
+    "docs/tooling/BUILD_ACTION_LOGS.md",
+    "docs/tooling/ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md",
+    "docs/tooling/PR_INVENTORY_COMMAND.md",
+    "docs/tooling/WP_ISSUE_WAVE_GENERATION.md",
+    "docs/tooling/active-card-lifecycle-migration-readiness-v0.91.2.md",
+    "docs/tooling/csdlc-prompt-editor/editor_model.js",
+    "docs/tooling/prompt-spec.md",
+    "docs/tooling/review-surface-format.md",
+    "docs/tooling/reviewer-provenance.md",
+    "docs/tooling/reviewer-surface.md",
+    "docs/tooling/structured-prompt-contracts.md",
 }
 
 
@@ -136,7 +157,7 @@ COMMAND_FAMILIES = (
         label="retired `codex_pr.sh` / `codexw.sh` wrappers",
         preferred_owner="adl/tools/pr.sh ...",
         required_action="migrate if active; preserve if historical; route if unknown",
-        pattern=r"(?<![\w/-])(?:adl/tools/)?codex_pr\.sh\b|(?<![\w/-])(?:adl/tools/)?codexw\.sh\b",
+        pattern=r"(?<![\w/-])(?:adl/tools/)?codex_pr\.sh\s+\S+|(?<![\w/-])(?:adl/tools/)?codexw\.sh\s+\S+",
     ),
     CommandFamily(
         key="unapproved_helper_binaries",
@@ -186,6 +207,8 @@ def iter_paths() -> list[Path]:
 
 
 def classify_path(rel: str) -> str:
+    if rel in HISTORICAL_EXACT_PATHS:
+        return "historical"
     if rel.startswith(HISTORICAL_PATH_PREFIXES):
         return "historical"
     if rel.startswith(ACTIVE_PATH_PREFIXES):
