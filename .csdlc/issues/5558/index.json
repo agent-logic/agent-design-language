@@ -3,13 +3,13 @@
   "issue": 5558,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "106cd2fdf429deb02f0986dc1b2c12021d04d0b3327339f08988c7696a58074e",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "cfa451e394f42abb06e7809542d20ee145b3becdd7bc4043f431035ab694fb5e",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
-    "generation": 6,
+    "generation": 8,
     "acquired_unix_seconds": 1785570394,
     "expires_unix_seconds": 1785656794,
     "heartbeat_unix_seconds": 1785570394,
@@ -20,6 +20,7 @@
       ".csdlc/issues/5558",
       ".csdlc/locks/5558.lock",
       ".csdlc/prepared/issues/5558",
+      ".github/workflows/v0871_milestone_closeout_gate.yaml",
       "AGENTS.md",
       "CONTRIBUTING.md",
       "adl/config/validation_lane_selector.v0.91.6.json",
@@ -36,6 +37,7 @@
       "adl/tools/batched_checks.sh",
       "adl/tools/card_prompt.sh",
       "adl/tools/check_issue_metadata_parity.sh",
+      "adl/tools/check_milestone_closed_issue_sor_truth.sh",
       "adl/tools/ci_path_policy.sh",
       "adl/tools/closeout_completed_issue_wave.sh",
       "adl/tools/demo_codex_ollama_operational_skills.sh",
@@ -55,9 +57,11 @@
       "adl/tools/demo_v090_architecture_document_generation.sh",
       "adl/tools/demo_v090_codebuddy_review_showcase.sh",
       "adl/tools/editor_action.sh",
+      "adl/tools/fix_git_main_sync_preserve_local_adl.sh",
       "adl/tools/generate_active_command_reference_scan.py",
       "adl/tools/generate_tool_surface_registry.py",
       "adl/tools/lint_prompt_spec.sh",
+      "adl/tools/release_ceremony.sh",
       "adl/tools/review_card_surface.sh",
       "adl/tools/run_owner_validation_lane.sh",
       "adl/tools/skills",
@@ -65,9 +69,12 @@
       "adl/tools/test_adl_runtime_compatibility.sh",
       "adl/tools/test_card_editor_repair_examples.sh",
       "adl/tools/test_card_prompt.sh",
+      "adl/tools/test_check_issue_metadata_parity.sh",
+      "adl/tools/test_check_milestone_closed_issue_sor_truth.sh",
       "adl/tools/test_ci_path_policy.sh",
       "adl/tools/test_cli_owner_command_guidance.sh",
       "adl/tools/test_cli_wrapper_migration_contract.sh",
+      "adl/tools/test_closeout_completed_issue_wave.sh",
       "adl/tools/test_completed_output_validation.sh",
       "adl/tools/test_csdlc_prompt_editor.sh",
       "adl/tools/test_demo_codex_ollama_semantic_fallback.sh",
@@ -75,6 +82,7 @@
       "adl/tools/test_demo_v0871_operator_surface.sh",
       "adl/tools/test_editor_action.sh",
       "adl/tools/test_five_command_editor_truth.sh",
+      "adl/tools/test_fix_git_main_sync_preserves_local_adl_cards.sh",
       "adl/tools/test_generate_active_command_reference_scan.sh",
       "adl/tools/test_install_adl_operational_skills.sh",
       "adl/tools/test_install_adl_pr_cycle_skill.sh",
@@ -82,6 +90,7 @@
       "adl/tools/test_issue_lifecycle_shepherd_contract.sh",
       "adl/tools/test_issue_splitter_skill_contracts.sh",
       "adl/tools/test_prompt_spec_lint.sh",
+      "adl/tools/test_release_ceremony.sh",
       "adl/tools/test_review_card_surface.sh",
       "adl/tools/test_structured_prompt_validation.sh",
       "adl/tools/test_validate_structured_prompt_parallel.sh",
@@ -93,6 +102,7 @@
       "adl/tools/worktree_prune.sh",
       "csdlc-v2/tests/gate10a.rs",
       "docs/default_workflow.md",
+      "docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md",
       "docs/onboarding.md",
       "docs/planning/ACCOUNT_SWITCH_HANDOFF_2026-05-22.md",
       "docs/planning/C_SDLC_PROMPT_TEMPLATE_EDITOR_TRANSITION_PLAN.md",
@@ -113,15 +123,28 @@
     "purpose": "Correct issue 5558 by removing remaining live sunset v1 lifecycle guidance and proving final typed v2 authority."
   },
   "review_assignment": {
-    "reviewer": "codex:root-independent-rereview",
+    "reviewer": "codex:root-independent-final-review",
     "assigned_by": "codex:5558-corrective",
-    "revision": "git-blake3:7ca9f939a8b3a7641b54559db50b167743bf4177:6dc3037c6694e0108e9c4ca38e6b0d1f45502f78cb91a4c33c154da8f7e58078",
+    "revision": "git-blake3:f84e27db610f512da2f9175c55c4bc4970e4bb79:27a0bd8cbbe347d18abb2da9fee752b7fe92b84f7fdc6766ea7d0c4be2d52cc4",
     "scope": [
-      "Exact commit 7ca9f939a8b3a7641b54559db50b167743bf4177",
-      "All issue 5558 implementation, first-review fixes, tests, docs, and lifecycle records"
+      "Exact commit f84e27db610f512da2f9175c55c4bc4970e4bb79",
+      "All issue 5558 implementation, review fixes, deletion-integrity tests, typed release-gate proof, docs, and lifecycle records"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex:root-independent-final-review",
+    "scope": [
+      "Exact commit f84e27db610f512da2f9175c55c4bc4970e4bb79",
+      "All issue 5558 implementation, review fixes, deletion-integrity tests, typed release-gate proof, docs, and lifecycle records"
+    ],
+    "reviewed_revision": "git-blake3:f84e27db610f512da2f9175c55c4bc4970e4bb79:27a0bd8cbbe347d18abb2da9fee752b7fe92b84f7fdc6766ea7d0c4be2d52cc4",
+    "findings": [],
+    "residual_risks": [
+      "GitHub CI remains the integration proof after publication; local owner-lane and focused behavioral validation passed at the reviewed revision."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -136,32 +159,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0743b2739ce35c87938fe25dc6680c407a169c97ff3da3d357fff2e37f2c6740",
+      "values_digest": "cebbaafde642c37595a2cfb84c17302289fbf46021c3c81fb32f5da7aad95449",
       "rendered_digest": "3ef258b1c4bb480ab05a5f1842a67fb807068d557612286211389017f956a73d",
       "ast_digest": "a173adcf99a8c6fc2eee501e4e055b5613e48eaae750d3859ba753b2051b2716"
     },
     "stp": {
-      "values_digest": "75042b4167838e6d6a72ac6e2483dd93f6439ca05c0221140e7aee4bca4030ee",
+      "values_digest": "5af8e7ea23d0f7fccfe79a7844b1ac28b0462ca23237cdbca8c29a8712376bb5",
       "rendered_digest": "4e813a7bd81e883366df3deeeb1f62e371dbd81f622aec8f105e5233b842d9df",
       "ast_digest": "ed08ed5118621e4e7978292eb31a6fb1817be62f49cf08a737b4dc9ba94d9b1f"
     },
     "spp": {
-      "values_digest": "5b4f2fd334bbf1c68b2ad1a419ec2a510ab92285e6713138add3a951fca96ac1",
+      "values_digest": "d9ceddcc07e9e98c2ae8b370f348a25113e714edbd00979e522729ae07218c4a",
       "rendered_digest": "25879d34e3cf553eddde351a8fcadefd055898a9d0280a8e10ebc5e998410ee8",
       "ast_digest": "1453d42addf77769af338269da74b0501f8c17bd84d7d493b518c66395fa38ca"
     },
     "vpp": {
-      "values_digest": "3980ca5a188d080f4594c73bc145681a53f706058948287936b4669dd00278be",
+      "values_digest": "c9d1cab420a0d9bb9311e5aca7a9d82dcba156e8bcd5dc7cbd527177f111095b",
       "rendered_digest": "05e67389a9dd9511f18c9fd7089eaba5dc2df4f40979d42e159403da83ef7537",
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "9deb028124b7f3bde03905bb5722fc3abdec5423c7710d17566aee61f48cdef0",
-      "rendered_digest": "74fea29daf5ed7d54614d2a171e0ba6cb5440a8c1dd4a8df9af54fde48ead705",
-      "ast_digest": "188122e11b8142439328c1e964a21bebd20bcf2a251e967da45acb21da6e010a"
+      "values_digest": "8fb6d15454dddb31dcf160964015b77ba9c3b9fcdf0ebb5f5672bb5c4a1ea97c",
+      "rendered_digest": "cfdf481aa3ab1c9b28abe757a73212836fdeafbf2583855af6768533c6ebb602",
+      "ast_digest": "503d58ef1e1ff17293cf7414d791e1756b93aa305f366efd9d80596c12022799"
     },
     "sor": {
-      "values_digest": "9a94ac84f06cd71785fe10d94f289671cfcc56b0f9553a6d75bd3ceaae45a5f6",
+      "values_digest": "c598ec8877dbaa151084d0a9b51431a83fb156fda346540e303db83b4fdf7e1f",
       "rendered_digest": "226eee2542e8b6432d795794e2acecabd62da14c8e231bf745e39f12be9c0a8c",
       "ast_digest": "0e22bd6d4f17741ae8de438cb6c8fc93790e85e10b1bafbae56709f4ac0624ed"
     }
@@ -187,6 +210,13 @@
       "to": "implemented",
       "actor": "codex:5558-corrective",
       "reason": "advance completed implementation to exact-head review"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5558-corrective",
+      "reason": "Advance the independently approved exact-head corrective implementation with no actionable review findings."
     }
   ],
   "audit": [
@@ -329,6 +359,48 @@
       "actor": "codex:5558-corrective",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 6,
+      "actor": "codex:5558-corrective",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 6,
+      "actor": "codex:5558-corrective",
+      "reason": "Cover the final deletion-integrity fixes, typed release gate, main-sync handoff, regression tests, workflow removal, and regenerated registry changed to resolve the exact-head review blockers.",
+      "operation": "{\"add_protected_paths\":[\".github/workflows/v0871_milestone_closeout_gate.yaml\",\"adl/tools/check_milestone_closed_issue_sor_truth.sh\",\"adl/tools/fix_git_main_sync_preserve_local_adl.sh\",\"adl/tools/release_ceremony.sh\",\"adl/tools/test_check_issue_metadata_parity.sh\",\"adl/tools/test_check_milestone_closed_issue_sor_truth.sh\",\"adl/tools/test_closeout_completed_issue_wave.sh\",\"adl/tools/test_fix_git_main_sync_preserves_local_adl_cards.sh\",\"docs/milestones/v0.91.5/TOOL_SURFACE_REGISTRY_3734.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 6,
+      "actor": "codex:5558-corrective",
+      "reason": "Cover behavioral fixtures proving the typed release closeout gate fails closed for non-terminal, missing, failed, and malformed doctor results.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/test_release_ceremony.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 6,
+      "actor": "codex:5558-corrective",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 7,
+      "actor": "codex:root-independent-final-review",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 8,
+      "actor": "codex:5558-corrective",
+      "reason": "Advance the independently approved exact-head corrective implementation with no actionable review findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
