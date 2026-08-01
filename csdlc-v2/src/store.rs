@@ -3434,6 +3434,18 @@ fn authorize_card_operation(
             CardKind::Spp,
             SemanticOperation::UpdatePlanStep { .. },
         ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Spp,
+            SemanticOperation::ReplacePlanSteps { .. },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Spp,
+            SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::Invariants
+                    | crate::cards::PlanningCollectionField::StopConditions,
+                ..
+            },
+        ) | (
             LifecyclePhase::Bound | LifecyclePhase::Implemented,
             CardKind::Vpp,
             SemanticOperation::ReplaceValidationLanes { .. },
@@ -3497,6 +3509,78 @@ fn authorize_card_operation(
             ErrorCode::InvalidTransition,
             format!("{card} mutation is not allowed during {phase}"),
         ))
+    }
+}
+
+#[cfg(test)]
+mod edit_authorization_tests {
+    use super::*;
+
+    fn replacement_steps() -> Vec<crate::cards::PlanStep> {
+        vec![crate::cards::PlanStep {
+            id: "review-fix".into(),
+            action: "correct bounded review finding".into(),
+            acceptance_ids: vec!["AC-1".into()],
+            status: StepStatus::Pending,
+        }]
+    }
+
+    #[test]
+    fn implemented_spp_review_remediation_authorizes_only_bounded_replacements() {
+        for operation in [
+            SemanticOperation::ReplacePlanSteps {
+                steps: replacement_steps(),
+            },
+            SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::Invariants,
+                values: vec!["invariant".into()],
+            },
+            SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::StopConditions,
+                values: vec!["stop".into()],
+            },
+        ] {
+            authorize_card_operation(LifecyclePhase::Implemented, CardKind::Spp, &operation)
+                .expect("implemented bounded SPP remediation");
+        }
+
+        let error = authorize_card_operation(
+            LifecyclePhase::Implemented,
+            CardKind::Spp,
+            &SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::Risks,
+                values: vec!["risk".into()],
+            },
+        )
+        .expect_err("unbounded SPP collection remains rejected");
+        assert_eq!(error.code, ErrorCode::InvalidTransition);
+    }
+
+    #[test]
+    fn post_review_spp_replacements_remain_rejected() {
+        for phase in [
+            LifecyclePhase::Reviewed,
+            LifecyclePhase::Published,
+            LifecyclePhase::MergeReady,
+        ] {
+            for operation in [
+                SemanticOperation::ReplacePlanSteps {
+                    steps: replacement_steps(),
+                },
+                SemanticOperation::ReplacePlanningCollection {
+                    field: crate::cards::PlanningCollectionField::Invariants,
+                    values: vec!["late invariant".into()],
+                },
+                SemanticOperation::ReplacePlanningCollection {
+                    field: crate::cards::PlanningCollectionField::StopConditions,
+                    values: vec!["late stop".into()],
+                },
+            ] {
+                let error = authorize_card_operation(phase, CardKind::Spp, &operation)
+                    .expect_err("late SPP replacement remains rejected");
+                assert_eq!(error.code, ErrorCode::InvalidTransition);
+            }
+        }
     }
 }
 
