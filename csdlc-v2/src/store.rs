@@ -7244,7 +7244,12 @@ mod terminal_design_repair_tests {
                     heartbeat_unix_seconds: 1,
                     branch: "test-authority".into(),
                     worktree: ".".into(),
-                    protected_paths: vec![format!(".csdlc/issues/{TARGET_ISSUE}")],
+                    protected_paths: vec![
+                        format!(".csdlc/issues/{TARGET_ISSUE}/"),
+                        format!("csdlc-v2/closeout/{TARGET_ISSUE}.json"),
+                        source_target.design_path.clone(),
+                        source_target.diagram_path.clone(),
+                    ],
                     purpose: "repair terminal SOR validation fixture".into(),
                 },
                 initial: basic_initial_input("test repair authority"),
