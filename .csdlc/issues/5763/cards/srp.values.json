@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5763,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][docs][quality] Reconcile canonical feature crosswalk digest after WP-14 decomposition",
+    "slug": "feature-crosswalk-digest",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "docs/milestones/v0.91.8/feature_preservation_crosswalk_5594.v1.json\n.csdlc/prepared/issues/5763\n.csdlc/issues/5763\n.csdlc/evidence/5763",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the branch update only stale digest metadata and issue-local #5763 records?",
+        "Does validate_feature_crosswalk.rb still enforce the same digest and row-parity guard?",
+        "Do structured planning, links, YAML parse, and diff hygiene pass?",
+        "Does the PR body close #5763 without claiming unrelated docs work?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

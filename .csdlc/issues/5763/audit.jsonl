@@ -1,0 +1,4 @@
+{"sequence":1,"generation":0,"actor":"codex:issue-5763-feature-crosswalk-digest","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":0,"actor":"codex:issue-5763-feature-crosswalk-digest","reason":"bind branch/worktree and activate claim","operation":"bind"}
+{"sequence":3,"generation":0,"actor":"codex:issue-5763-feature-crosswalk-digest","reason":"Include the second stale digest value, the validate_feature_crosswalk.rb expected_digest constant, without weakening the guard or widening docs scope.","operation":"{\"add_protected_paths\":[\".csdlc/prepared/issues/5594/validate_feature_crosswalk.rb\"],\"operation\":\"amend_claim_scope\"}"}
+{"sequence":4,"generation":1,"actor":"codex:issue-5763-feature-crosswalk-digest","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}

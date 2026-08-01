@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5762,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][tests] Make terminal repair fixtures independent of live issue claims",
+    "slug": "terminal-sor-validation-fixtures",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/store.rs test fixture repair and #5762 issue-local lifecycle/evidence",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify the terminal SOR validation repair tests synthesize deterministic authority rather than depending on #5613 active-claim truth.",
+        "Verify production terminal SOR validation repair semantics are unchanged.",
+        "Verify focused/full tests and strict Clippy evidence match the requested scope."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
