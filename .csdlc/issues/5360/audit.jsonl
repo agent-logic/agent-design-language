@@ -18,3 +18,4 @@
 {"sequence":18,"generation":13,"actor":"codex:5360-preparation-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":19,"generation":14,"actor":"subagent:godel-019fbd06","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":20,"generation":15,"actor":"codex:5360-execution","reason":"The bounded exact-revision review passed with zero blockers after all documentation truth findings were fixed.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":21,"generation":16,"actor":"codex:5360-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

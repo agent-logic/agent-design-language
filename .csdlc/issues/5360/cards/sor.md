@@ -52,11 +52,11 @@ Aligned 27 exact documentation paths to the merged WP-16 quality gate and issue-
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
