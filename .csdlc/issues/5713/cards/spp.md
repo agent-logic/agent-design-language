@@ -28,7 +28,7 @@ Revision 1
       "AC-1",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -38,7 +38,7 @@ Revision 1
       "AC-7",
       "AC-9"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -51,7 +51,7 @@ Revision 1
       "AC-5",
       "AC-9"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -60,7 +60,7 @@ Revision 1
       "AC-8",
       "AC-10"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S5",
@@ -68,7 +68,7 @@ Revision 1
     "acceptance_ids": [
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S6",
@@ -76,7 +76,7 @@ Revision 1
     "acceptance_ids": [
       "AC-10"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
@@ -106,13 +106,13 @@ Revision 1
 
 ## Design
 
-.csdlc/prepared/issues/5713/design.md
+.csdlc/issues/5713/retained/design.md
 
 Digest: d626e42ed3b513388440e66f1786d5249d021bea11a547050c3d152dd10f310d
 
 ## Diagram
 
-.csdlc/prepared/issues/5713/diagram.mmd
+.csdlc/issues/5713/retained/diagram.mmd
 
 Digest: d7b04cc84f7bd1c53dbdbcc6e45b74368527a228dd07d227ffac9f8eff7fcc0a
 
