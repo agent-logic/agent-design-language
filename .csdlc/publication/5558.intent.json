@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5558,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5558-v1-route-corrective",
+  "title": "[v0.91.8][WP-20][csdlc-v2] Finish sunset v1 route removal",
+  "body": "Closes #5558\n\n## Summary\n- Removes the remaining sunset v1 lifecycle wrappers, live callers, obsolete workflow, and active guidance.\n- Routes release closeout verification through typed `csdlc-doctor` and removes unsafe implicit closeout from main synchronization.\n- Adds repository-wide active-route scanning and deletion-integrity/typed release-gate regressions.\n\n## Validation\n- `bash adl/tools/run_owner_validation_lane.sh csdlc`: PASS.\n- Focused scanner, retired-helper, main-sync, and release-ceremony behavioral tests: PASS.\n- `csdlc-doctor --repo . --issue 5558`: PASS in reviewed phase.\n\n## Review\n- Independent exact-head review APPROVED commit `f84e27db610f512da2f9175c55c4bc4970e4bb79` with no actionable findings.\n- Commit `27ce203a1` contains only typed review/lifecycle projection updates over the reviewed implementation.",
+  "draft": false,
+  "revision": "git-blake3:27ce203a1adb095e2113ccb15c7c41d0d4baada8:e393639a215abf058c3966ad0924c45359877717b2ed281e92a1ecd3c639332c",
+  "commit_sha": "27ce203a1adb095e2113ccb15c7c41d0d4baada8"
+}

@@ -3,13 +3,13 @@
   "issue": 5558,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
-  "phase": "reviewed",
-  "generation": 8,
-  "digest": "cfa451e394f42abb06e7809542d20ee145b3becdd7bc4043f431035ab694fb5e",
+  "phase": "published",
+  "generation": 9,
+  "digest": "847ea77cd75b88c8d73819fc0c7d164e9ddcd3cbe4a56cc3dec7b1e4b4d5fcb3",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
-    "generation": 8,
+    "generation": 9,
     "acquired_unix_seconds": 1785570394,
     "expires_unix_seconds": 1785656794,
     "heartbeat_unix_seconds": 1785570394,
@@ -145,7 +145,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5558,
+    "pull_request": 5769,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5769",
+    "base": "main",
+    "head": "codex/5558-v1-route-corrective",
+    "revision": "git-blake3:27ce203a1adb095e2113ccb15c7c41d0d4baada8:e393639a215abf058c3966ad0924c45359877717b2ed281e92a1ecd3c639332c",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -159,34 +169,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cebbaafde642c37595a2cfb84c17302289fbf46021c3c81fb32f5da7aad95449",
+      "values_digest": "c1e2d7d0ab4521a0178dde82b8ecd9ad7ae530f35dbecf93df7a3888235788a8",
       "rendered_digest": "3ef258b1c4bb480ab05a5f1842a67fb807068d557612286211389017f956a73d",
       "ast_digest": "a173adcf99a8c6fc2eee501e4e055b5613e48eaae750d3859ba753b2051b2716"
     },
     "stp": {
-      "values_digest": "5af8e7ea23d0f7fccfe79a7844b1ac28b0462ca23237cdbca8c29a8712376bb5",
+      "values_digest": "00debefb8e7051970ad356bc6b4ffca98d68abedfce9312e8f8be683352254c1",
       "rendered_digest": "4e813a7bd81e883366df3deeeb1f62e371dbd81f622aec8f105e5233b842d9df",
       "ast_digest": "ed08ed5118621e4e7978292eb31a6fb1817be62f49cf08a737b4dc9ba94d9b1f"
     },
     "spp": {
-      "values_digest": "d9ceddcc07e9e98c2ae8b370f348a25113e714edbd00979e522729ae07218c4a",
+      "values_digest": "9208d4ee30f1bba90739c53f5d8f3b18c6b604fc3fd7ccbf7e9e36786989af6b",
       "rendered_digest": "25879d34e3cf553eddde351a8fcadefd055898a9d0280a8e10ebc5e998410ee8",
       "ast_digest": "1453d42addf77769af338269da74b0501f8c17bd84d7d493b518c66395fa38ca"
     },
     "vpp": {
-      "values_digest": "c9d1cab420a0d9bb9311e5aca7a9d82dcba156e8bcd5dc7cbd527177f111095b",
+      "values_digest": "b072105281cb894b1f5aaa4582f1063878dcbaee6ef862b05e0eeb6d3ecae07e",
       "rendered_digest": "05e67389a9dd9511f18c9fd7089eaba5dc2df4f40979d42e159403da83ef7537",
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "8fb6d15454dddb31dcf160964015b77ba9c3b9fcdf0ebb5f5672bb5c4a1ea97c",
+      "values_digest": "5c6f5e3ab6e07aa2c2ba73d0bab71280fa8334e7a00b8ac9b77515cb1a864a35",
       "rendered_digest": "cfdf481aa3ab1c9b28abe757a73212836fdeafbf2583855af6768533c6ebb602",
       "ast_digest": "503d58ef1e1ff17293cf7414d791e1756b93aa305f366efd9d80596c12022799"
     },
     "sor": {
-      "values_digest": "c598ec8877dbaa151084d0a9b51431a83fb156fda346540e303db83b4fdf7e1f",
-      "rendered_digest": "226eee2542e8b6432d795794e2acecabd62da14c8e231bf745e39f12be9c0a8c",
-      "ast_digest": "0e22bd6d4f17741ae8de438cb6c8fc93790e85e10b1bafbae56709f4ac0624ed"
+      "values_digest": "59065f85e4b212a4fbf2d8e1a9d2dba73575b0f14c30f659b3d33b7372be6849",
+      "rendered_digest": "5ea29e0e27f4ab51b030abc8c197724eb4eac3e4785234b6d42fa4bdd3ded261",
+      "ast_digest": "2f7a6662c65ee3133ce081e8f5b0f5476d6068948b8507c08d9157790901a5e1"
     }
   },
   "transitions": [
@@ -217,6 +227,13 @@
       "to": "reviewed",
       "actor": "codex:5558-corrective",
       "reason": "Advance the independently approved exact-head corrective implementation with no actionable review findings."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5558-corrective",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -401,6 +418,13 @@
       "actor": "codex:5558-corrective",
       "reason": "Advance the independently approved exact-head corrective implementation with no actionable review findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 9,
+      "actor": "codex:5558-corrective",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

@@ -59,11 +59,11 @@ Resolved all exact-head review findings without widening beyond issue 5558.
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

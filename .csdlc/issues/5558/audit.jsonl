@@ -24,3 +24,4 @@
 {"sequence":24,"generation":6,"actor":"codex:5558-corrective","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":25,"generation":7,"actor":"codex:root-independent-final-review","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":26,"generation":8,"actor":"codex:5558-corrective","reason":"Advance the independently approved exact-head corrective implementation with no actionable review findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":27,"generation":9,"actor":"codex:5558-corrective","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
