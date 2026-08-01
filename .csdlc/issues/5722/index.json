@@ -5,7 +5,7 @@
   "initialization_digest": "e9514f192747112be2638f9e8dd48ab1a1c34b702294fb0cde278ab971217063",
   "phase": "closed_out",
   "generation": 1,
-  "digest": "24dfbbfdb5524f2be6f3e25c8c3f46a05ace1321080e0d4669323ede3b4365f4",
+  "digest": "7d14fa9beb1ad828318bb2b6956c7911c7a1f5ebb110dc0aec3475188fd18cf0",
   "claim": null,
   "review_assignment": null,
   "review": null,
@@ -66,9 +66,58 @@
     {
       "sequence": 1,
       "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5722-receipt-repair",
+      "reason": "Normalize malformed recordless terminal receipt to the existing lifecycle transition invariant."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5722-receipt-repair",
+      "reason": "Normalize malformed recordless terminal receipt to the existing lifecycle transition invariant."
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5722-receipt-repair",
+      "reason": "Normalize malformed recordless terminal receipt to the existing lifecycle transition invariant."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5722-receipt-repair",
+      "reason": "Normalize malformed recordless terminal receipt to the existing lifecycle transition invariant."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5722-receipt-repair",
+      "reason": "Normalize malformed recordless terminal receipt to the existing lifecycle transition invariant."
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:5722-receipt-repair",
+      "reason": "Normalize malformed recordless terminal receipt to the existing lifecycle transition invariant."
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:5722-receipt-repair",
+      "reason": "Normalize malformed recordless terminal receipt to the existing lifecycle transition invariant."
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
       "to": "closed_out",
-      "actor": "codex:5748-terminal-recovery",
-      "reason": "Retain exact observed closure after corrective PR #5760 merged with explicit #5722 closing linkage and green required runtime validation; do not reconstruct missing historical lifecycle state."
+      "actor": "codex:5722-receipt-repair",
+      "reason": "Normalize malformed recordless terminal receipt to the existing lifecycle transition invariant."
     }
   ],
   "audit": [
