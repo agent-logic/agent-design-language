@@ -93,8 +93,8 @@ execution:
   allow_subagents: true
   workflow_role: "conductor"
   preferred_commands:
-    - "python3 adl/tools/skills/workflow-conductor/scripts/route_workflow.py --input <validated-json>"
-    - "python3 adl/tools/skills/workflow-conductor/scripts/select_next_skill.py"
+    - "csdlc-install resolve --repo <repo> --issue <issue>"
+    - "use the resolved typed csdlc-* binary for the selected lifecycle operation"
     - "adl/tools/open_artifact.sh"
   preferred_path: "inspect_state_then_route_and_optionally_dispatch_one_bounded_downstream_skill"
   invocation_guidance: "prefer_validated_structured_input_over_freeform_prose"

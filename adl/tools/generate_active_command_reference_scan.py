@@ -85,6 +85,7 @@ EXCLUDED_REL_PATHS = {
     "adl/tools/test_cli_owner_command_guidance.sh",
     "adl/tools/test_cli_wrapper_migration_contract.sh",
     "adl/tools/test_install_adl_pr_cycle_skill.sh",
+    "adl/tools/test_install_adl_operational_skills.sh",
     "adl/tools/test_workflow_conductor_skill_contracts.sh",
     # Generated UI model; its tracked template source is validated separately.
     "docs/tooling/csdlc-prompt-editor/editor_model.js",
@@ -425,7 +426,6 @@ def main() -> int:
         non_csdlc_families = {
             "legacy `adl tooling ...` helper/review commands",
             "legacy umbrella runtime forms",
-            "sunset workflow-conductor route",
             "unapproved helper binaries",
         }
         blocking = [

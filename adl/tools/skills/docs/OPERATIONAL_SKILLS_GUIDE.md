@@ -647,7 +647,8 @@ observed_state:
 - it should route into `pr-*` or editor skills rather than reimplementing them
 - it is the best place to apply the execution-policy ideas for required skills, card editors, and subagents
 - it should return explicit `continue`, `ask_operator`, or `stop` handoff intent rather than leaving escalation implicit
-- the preferred route/dispatch entrypoint is `python3 adl/tools/skills/workflow-conductor/scripts/route_workflow.py --input <validated-json>`
+- the legacy executable route is retired for C-SDLC work; resolve the installed
+  generation and invoke the matching typed v2 binary directly
 
 `ready` and `preflight` are compatibility aliases that may still exist in repo
 surfaces, but doctor JSON is the canonical structured automation surface.
