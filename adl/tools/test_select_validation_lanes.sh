@@ -112,22 +112,93 @@ bash "$SCRIPT" --changed-files "$shared_rust" >"$TMP/shared.out"
 assert_has "$TMP/shared.out" "aggregate_status=escalated"
 assert_has "$TMP/shared.out" "rust_pr_fast status=escalated"
 
-metric_backfill_tool="$TMP/metric-backfill-tool.txt"
-printf 'M\tadl/tools/build_v0916_workflow_metric_backfill_inventory.py\n' >"$metric_backfill_tool"
-bash "$SCRIPT" --changed-files "$metric_backfill_tool" >"$TMP/metric-backfill-tool.out"
-assert_has "$TMP/metric-backfill-tool.out" "aggregate_status=selected"
-assert_has "$TMP/metric-backfill-tool.out" "csdlc_owner_lane status=selected"
-assert_not_has "$TMP/metric-backfill-tool.out" "unmapped_change_surface"
+csdlc_owner_paths=(
+  "adl/tools/install_owner_binaries.sh"
+  "adl/tools/build_v0917_execution_outlier_analysis.py"
+  "adl/tools/build_v0916_workflow_metric_backfill_inventory.py"
+  "adl/tools/validation_inventory.py"
+  "adl/tools/validation_inventory.sh"
+  "adl/tools/run_owner_validation_lane.sh"
+  "adl/tools/test_owner_validation_lane.sh"
+  "adl/tools/test_readiness_prep_metrics_non_terminal.sh"
+  "adl/tools/test_validation_inventory.sh"
+)
+for index in "${!csdlc_owner_paths[@]}"; do
+  path="${csdlc_owner_paths[$index]}"
+  changed_file="$TMP/csdlc-owner-$index.txt"
+  output_file="$TMP/csdlc-owner-$index.out"
+  printf 'M\t%s\n' "$path" >"$changed_file"
+  bash "$SCRIPT" --changed-files "$changed_file" >"$output_file"
+  assert_has "$output_file" "aggregate_status=selected"
+  assert_has "$output_file" "csdlc_owner_lane status=selected"
+  assert_not_has "$output_file" "unmapped_change_surface"
+done
 
-validation_inventory_tool="$TMP/validation-inventory-tool.txt"
-cat >"$validation_inventory_tool" <<'EOF'
-M	adl/tools/validation_inventory.py
-M	adl/tools/test_validation_inventory.sh
-EOF
-bash "$SCRIPT" --changed-files "$validation_inventory_tool" >"$TMP/validation-inventory-tool.out"
-assert_has "$TMP/validation-inventory-tool.out" "aggregate_status=selected"
-assert_has "$TMP/validation-inventory-tool.out" "csdlc_owner_lane status=selected"
-assert_not_has "$TMP/validation-inventory-tool.out" "unmapped_change_surface"
+python3 - "$ROOT" <<'PY'
+import importlib.util
+import json
+from pathlib import Path
+import sys
+
+root = Path(sys.argv[1])
+selector = json.loads(
+    (root / "adl/config/validation_lane_selector.v0.91.6.json").read_text()
+)
+lane = next(lane for lane in selector["lanes"] if lane["id"] == "csdlc_owner_lane")
+selected_paths = [path for path in lane["path_selectors"] if "*" not in path]
+expected_paths = [
+    "adl/tools/install_owner_binaries.sh",
+    "adl/tools/build_v0917_execution_outlier_analysis.py",
+    "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
+    "adl/tools/validation_inventory.py",
+    "adl/tools/validation_inventory.sh",
+    "adl/tools/run_owner_validation_lane.sh",
+    "adl/tools/test_owner_validation_lane.sh",
+    "adl/tools/test_readiness_prep_metrics_non_terminal.sh",
+    "adl/tools/test_validation_inventory.sh",
+]
+if selected_paths != expected_paths:
+    raise SystemExit(
+        "csdlc_owner_lane exact active selectors drifted:\n"
+        f"expected={expected_paths!r}\nactual={selected_paths!r}"
+    )
+
+scanner_path = root / "adl/tools/generate_active_command_reference_scan.py"
+spec = importlib.util.spec_from_file_location("active_command_reference_scan", scanner_path)
+scanner = importlib.util.module_from_spec(spec)
+sys.modules[spec.name] = scanner
+spec.loader.exec_module(scanner)
+
+historical = sorted(set(selected_paths) & scanner.HISTORICAL_EXACT_PATHS)
+if historical:
+    raise SystemExit(
+        "active csdlc_owner_lane selectors are scanner historical exemptions: "
+        + ", ".join(historical)
+    )
+
+excluded = sorted(set(selected_paths) & scanner.EXCLUDED_REL_PATHS)
+if excluded:
+    raise SystemExit(
+        "active csdlc_owner_lane selectors are scanner exclusions: "
+        + ", ".join(excluded)
+    )
+
+for path in selected_paths:
+    absolute = root / path
+    if not absolute.is_file():
+        raise SystemExit(f"active csdlc_owner_lane selector is missing: {path}")
+    if scanner.classify_path(path) != "active":
+        raise SystemExit(f"active selector is not scanner-active: {path}")
+    rows, _ = scanner.build_rows(paths=[absolute], root=root)
+    blocking = [row for row in rows if row[3] in {"active", "unknown"}]
+    if blocking:
+        details = "; ".join(
+            f"{row[0]} at {row[1]}:{row[2]}: {row[6]}" for row in blocking
+        )
+        raise SystemExit(f"active selector contains runnable sunset route: {details}")
+
+print("PASS csdlc_owner_lane active selector/scanner consistency")
+PY
 
 remote_validation_tool="$TMP/remote-validation-tool.txt"
 printf 'M\tadl/tools/run_nessus_remote_validation.sh\n' >"$remote_validation_tool"
