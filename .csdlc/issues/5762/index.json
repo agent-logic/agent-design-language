@@ -1,0 +1,106 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5762,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "b0163f8dcda50dfb601d5200558056a562b9343f92f1f994c2ddf2b8ff49d298",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "4897cc9cf6f1269c6a3ff8e19dedd9766ea442b0d013e2fc0b1a764988732146",
+  "claim": {
+    "id": "codex-5762-terminal-sor-validation-fixtures",
+    "owner": "codex",
+    "generation": 0,
+    "acquired_unix_seconds": 1785574293,
+    "expires_unix_seconds": 1785660693,
+    "heartbeat_unix_seconds": 1785574293,
+    "branch": "codex/5762-terminal-sor-validation-fixtures",
+    "worktree": ".",
+    "protected_paths": [
+      "csdlc-v2/src/store.rs",
+      ".csdlc/designs/5762",
+      ".csdlc/evidence/5762",
+      ".csdlc/issues/5762",
+      ".csdlc/prepared/issues/5762",
+      ".csdlc/requests/5762"
+    ],
+    "purpose": "Fix terminal SOR validation repair tests to use deterministic temporary authority"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/designs/5762/design.md",
+  "diagram_path": ".csdlc/designs/5762/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator",
+      "revision": "ac6d85e2f2ec631133731b7d4f07d0066fc83d19f6b89a7f041cefe20ac3e246"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "010eb374f67775348e6ad18e57b02e79159ded9b5f929a85679a1517c6f84fa7",
+      "rendered_digest": "097e446c15b25d89f1790d68a1922c6483c575a4a4938f51cf3caee6f980bd5d",
+      "ast_digest": "a88663cf02b1cbe14be1bde2a15f5533467562faffa5f715490465f16676928c"
+    },
+    "stp": {
+      "values_digest": "904fadb8a8a62399fdf3a675f5130426e7f1e5e677fdbd52dc008fda69a2595d",
+      "rendered_digest": "24093e67736f914405eb2892bf53b88c3257ea5d46e4f91f4d051cc6aac2481e",
+      "ast_digest": "efb2c57cfa82f64c20402ac76d98cafd8fb6da3b724d748bb350c95864b8c3cd"
+    },
+    "spp": {
+      "values_digest": "81bf9f5fc2914aecded1e614a61f011bc1a777f01087e0e1f4c1dac03499461f",
+      "rendered_digest": "71ba0d0ad9ec1aeefc48b13bf89b792d7769b4eb2930b62962e923a63a57c2e2",
+      "ast_digest": "ff845c69cb28cb3ab6254e571a918d1613fd2cdd2700f4ac8d33c2c2f0905f34"
+    },
+    "vpp": {
+      "values_digest": "85d7ca7e1629788d113f31c321db4c6951c24a21c55ec1363494af5073e567d1",
+      "rendered_digest": "2dd98b76879f8b4d19ffeaecbdf0693955202e510d4c67afcb67dab69428550c",
+      "ast_digest": "6e8ce994b9fe4c2863033c05376326dced63d50496b1ebd7fea78d500fdc1f67"
+    },
+    "srp": {
+      "values_digest": "799c4daf81faaa0a9ddba2b8b6019d9f05031d935041759859d4276ab0c85131",
+      "rendered_digest": "ce0494a0edc08e8f4775ef058cd6141ac6a37342a16ab87319461abbcc500e87",
+      "ast_digest": "76b497006503d703af59590d4cd12f659e173bee7633352897d8ed8a01913adb"
+    },
+    "sor": {
+      "values_digest": "a0ef1536f5c56717b54f935f2333b9bed5950ca4d0ecef08df8d16168339d4a8",
+      "rendered_digest": "9df237c5ca3fb93ac4753cbc7e7753537dfdbda48013c0efe6c01c6bd1073d26",
+      "ast_digest": "2addd86a1da5e1d092a0a9e834f5bb2009e0baa1a206815971affdaf1c32c40c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}

@@ -3902,6 +3902,51 @@ mod terminal_design_repair_tests {
         }
     }
 
+    fn basic_initial_input(title: &str) -> InitialCardInput {
+        InitialCardInput {
+            title: title.into(),
+            slug: title.replace(' ', "-"),
+            version: "v0.91.8".into(),
+            goal: "test".into(),
+            required_outcome: "test".into(),
+            declared_scope: vec!["test".into()],
+            authority_boundary: vec!["test".into()],
+            operator_constraints: vec!["none".into()],
+            task_boundary: "test".into(),
+            deliverables: vec!["test".into()],
+            acceptance_criteria: vec!["AC-1: test".into()],
+            dependencies: vec!["none".into()],
+            repo_inputs: vec!["test".into()],
+            non_goals: vec!["test".into()],
+            plan_summary: "test".into(),
+            steps: vec![crate::cards::PlanStep {
+                id: "S1".into(),
+                action: "test".into(),
+                acceptance_ids: vec!["AC-1".into()],
+                status: StepStatus::Pending,
+            }],
+            invariants: vec!["test".into()],
+            risks: vec!["test".into()],
+            planning_profile: crate::cards::PlanningProfile::Small,
+            stop_conditions: vec!["test".into()],
+            validation_lanes: vec![crate::cards::ValidationLane {
+                lane: "test".into(),
+                proof_role: "test".into(),
+                acceptance_ids: vec!["AC-1".into()],
+                deterministic: true,
+                resource_profile: crate::cards::ResourceProfile::Small,
+                budget_seconds: 1,
+                budget_tokens: 1,
+                argv: vec!["test".into()],
+                parallel_group: "test".into(),
+                defer_reason: None,
+            }],
+            failure_policy: "test".into(),
+            review_prompts: vec!["test".into()],
+            review_scope: "test".into(),
+        }
+    }
+
     fn terminal_validation_fixture() -> (
         tempfile::TempDir,
         Store,
@@ -3910,6 +3955,9 @@ mod terminal_design_repair_tests {
         TerminalReceipt,
         ValidationResult,
     ) {
+        const AUTHORITY_ISSUE: u64 = 9_762;
+        const TARGET_ISSUE: u64 = 5358;
+
         let source_root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("..");
         let source_store = Store::new(&source_root);
         let temp = tempfile::tempdir().expect("temp root");
@@ -3919,36 +3967,68 @@ mod terminal_design_repair_tests {
             .status()
             .expect("git init");
         assert!(status.success());
-        for issue in [5358, 5613] {
-            copy_tree(
-                &source_store.issue_dir(issue),
-                &temp.path().join(".csdlc/issues").join(issue.to_string()),
-            );
-            let record = source_store.load_record(issue).expect("source record");
-            for path in [&record.design_path, &record.diagram_path] {
-                let destination = temp.path().join(path);
-                fs::create_dir_all(destination.parent().expect("authored parent"))
-                    .expect("create authored parent");
-                fs::copy(source_root.join(path), destination).expect("copy authored file");
-            }
+        copy_tree(
+            &source_store.issue_dir(TARGET_ISSUE),
+            &temp
+                .path()
+                .join(".csdlc/issues")
+                .join(TARGET_ISSUE.to_string()),
+        );
+        let source_target = source_store
+            .load_record(TARGET_ISSUE)
+            .expect("source target");
+        for path in [&source_target.design_path, &source_target.diagram_path] {
+            let destination = temp.path().join(path);
+            fs::create_dir_all(destination.parent().expect("authored parent"))
+                .expect("create authored parent");
+            fs::copy(source_root.join(path), destination).expect("copy authored file");
         }
 
         let store = Store::new(temp.path());
-        let mut authority = store.load_record(5613).expect("authority");
-        authority
-            .claim
-            .as_mut()
-            .expect("authority claim")
-            .expires_unix_seconds = u64::MAX;
-        let authority_cards = store.load_cards(5613).expect("authority cards");
-        hydrate_projections(&mut authority, &authority_cards).expect("authority projections");
-        authority.digest = record_digest(&authority).expect("authority digest");
-        store
-            .commit(5613, &authority, &authority_cards, false)
-            .expect("authority commit");
+        let authority_design = ".csdlc/prepared/issues/9762/design.md";
+        let authority_diagram = ".csdlc/prepared/issues/9762/diagram.mmd";
+        fs::create_dir_all(
+            temp.path()
+                .join(authority_design)
+                .parent()
+                .expect("authority design parent"),
+        )
+        .expect("create authority authored parent");
+        fs::write(temp.path().join(authority_design), "# Test Repair Authority\n")
+            .expect("write authority design");
+        fs::write(
+            temp.path().join(authority_diagram),
+            "flowchart LR\n  A-->B\n",
+        )
+        .expect("write authority diagram");
+        let authority = bootstrap_issue(
+            &store,
+            BootstrapRequest {
+                issue: AUTHORITY_ISSUE,
+                repository: "danielbaustin/agent-design-language".into(),
+                design_path: authority_design.into(),
+                diagram_path: authority_diagram.into(),
+                design_reviewer: "test".into(),
+                design_approved: true,
+                claim: Claim {
+                    id: "test-terminal-sor-validation-repair".into(),
+                    owner: "test".into(),
+                    generation: 0,
+                    acquired_unix_seconds: 1,
+                    expires_unix_seconds: u64::MAX,
+                    heartbeat_unix_seconds: 1,
+                    branch: "test-authority".into(),
+                    worktree: ".".into(),
+                    protected_paths: vec![format!(".csdlc/issues/{TARGET_ISSUE}")],
+                    purpose: "repair terminal SOR validation fixture".into(),
+                },
+                initial: basic_initial_input("test repair authority"),
+            },
+        )
+        .expect("bootstrap synthetic authority");
 
-        let target = store.load_record(5358).expect("target");
-        let cards = store.load_cards(5358).expect("target cards");
+        let target = store.load_record(TARGET_ISSUE).expect("target");
+        let cards = store.load_cards(TARGET_ISSUE).expect("target cards");
         let mut authored_artifacts = BTreeMap::new();
         for path in [&target.design_path, &target.diagram_path] {
             authored_artifacts.insert(
@@ -4123,48 +4203,7 @@ mod terminal_design_repair_tests {
             "design",
             "docs/diagram.mmd",
             "diagram",
-            InitialCardInput {
-                title: "test".into(),
-                slug: "test".into(),
-                version: "v0.91.7".into(),
-                goal: "test".into(),
-                required_outcome: "test".into(),
-                declared_scope: vec!["test".into()],
-                authority_boundary: vec!["test".into()],
-                operator_constraints: vec!["none".into()],
-                task_boundary: "test".into(),
-                deliverables: vec!["test".into()],
-                acceptance_criteria: vec!["test".into()],
-                dependencies: vec!["test".into()],
-                repo_inputs: vec!["test".into()],
-                non_goals: vec!["test".into()],
-                plan_summary: "test".into(),
-                steps: vec![crate::cards::PlanStep {
-                    id: "S1".into(),
-                    action: "test".into(),
-                    acceptance_ids: vec!["AC-1".into()],
-                    status: StepStatus::Pending,
-                }],
-                invariants: vec!["test".into()],
-                risks: vec!["test".into()],
-                planning_profile: crate::cards::PlanningProfile::Small,
-                stop_conditions: vec!["test".into()],
-                validation_lanes: vec![crate::cards::ValidationLane {
-                    lane: "test".into(),
-                    proof_role: "test".into(),
-                    acceptance_ids: vec!["AC-1".into()],
-                    deterministic: true,
-                    resource_profile: crate::cards::ResourceProfile::Small,
-                    budget_seconds: 1,
-                    budget_tokens: 1,
-                    argv: vec!["test".into()],
-                    parallel_group: "test".into(),
-                    defer_reason: None,
-                }],
-                failure_policy: "test".into(),
-                review_prompts: vec!["test".into()],
-                review_scope: "test".into(),
-            },
+            basic_initial_input("test"),
         )
         .expect("cards");
         let CardContent::Sor(sor) = &mut cards.get_mut(&CardKind::Sor).unwrap().content else {
