@@ -1,0 +1,7 @@
+{
+  "schema": "adl.html_observatory.runtime_v3_config.v1",
+  "observatory_endpoint": "/v1/observatory",
+  "readiness_endpoint": "/v1/ready",
+  "observatory_websocket_endpoint": "/v1/observatory/ws",
+  "observatory_docs_endpoint": "/v1/observatory/docs/"
+}

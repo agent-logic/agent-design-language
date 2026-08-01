@@ -1,3 +1,5 @@
+#[path = "support/runtime_init.rs"]
+mod runtime_init;
 #[allow(dead_code)]
 #[path = "../src/observability.rs"]
 mod runtime_observability;
@@ -545,7 +547,7 @@ fn shell_installer_routes_native_windows_to_powershell_installer() {
 
 fn vector_config(root: PathBuf, otlp_endpoint: Option<String>) -> RuntimeVectorConfig {
     RuntimeVectorConfig {
-        vector_binary: repo_root().join(".adl/bin/vector"),
+        vector_binary: runtime_init::repo_vector_binary(),
         runtime_instance_id: "runtime-test-instance".to_owned(),
         guardian_id: "guardian-test".to_owned(),
         process_id: std::process::id(),

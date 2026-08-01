@@ -29,9 +29,9 @@ use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
 use crate::{
     decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest, DomainResult,
-    DomainWork, IngressError, KernelControl, KernelExit, LiveContinuity, ObservabilityHealth,
-    RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport,
-    ACIP_WEBSOCKET_SCHEMA,
+    DomainWork, IngressError, KernelControl, KernelExit, LifecycleState, LiveContinuity,
+    ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
+    WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -44,6 +44,7 @@ pub const OBSERVATORY_API_DOCS_PATH: &str = "/v1/observatory/docs/";
 pub const RUNTIME_OPENAPI_PATH: &str = "/v1/openapi.json";
 pub const OBSERVATORY_OPENAPI_PATH: &str = "/v1/observatory/openapi.json";
 pub const RUNTIME_HEALTH_PATH: &str = "/v1/health";
+pub const RUNTIME_READY_PATH: &str = "/v1/ready";
 pub const RUNTIME_METRICS_PATH: &str = "/v1/metrics";
 pub const ACIP_WS_PATH: &str = "/v1/acip/ws";
 pub const OBSERVATORY_WS_PATH: &str = "/v1/observatory/ws";
@@ -723,6 +724,31 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         }
     }
 
+    pub fn readiness_report(&self) -> RuntimeReadinessReport {
+        let feed = self.observatory_feed();
+        let weather_freshness = feed.weather_freshness.clone();
+        let weather_stale = weather_freshness
+            .as_ref()
+            .map_or(true, |freshness| freshness.stale);
+        let mut degraded_reasons = Vec::new();
+        if !feed.health.observability_ready {
+            degraded_reasons.push("observability_not_ready".to_owned());
+        }
+        if weather_stale {
+            degraded_reasons.push("weather_stale".to_owned());
+        }
+        RuntimeReadinessReport {
+            schema: RUNTIME_READINESS_SCHEMA.to_owned(),
+            ready: degraded_reasons.is_empty(),
+            lifecycle: feed.health.snapshot.lifecycle,
+            observability_ready: feed.health.observability_ready,
+            runtime_instance_id: feed.runtime_instance_id,
+            runtime_process_id: feed.runtime_process_id,
+            weather_freshness,
+            degraded_reasons,
+        }
+    }
+
     pub async fn execute(
         self: &Arc<Self>,
         command: SignedControlCommand,
@@ -903,6 +929,20 @@ pub struct ObservatoryHealthFeed {
     pub observability_ready: bool,
 }
 
+pub const RUNTIME_READINESS_SCHEMA: &str = "adl.runtime_v3.readiness.v1";
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct RuntimeReadinessReport {
+    pub schema: String,
+    pub ready: bool,
+    pub lifecycle: LifecycleState,
+    pub observability_ready: bool,
+    pub runtime_instance_id: String,
+    pub runtime_process_id: u32,
+    pub weather_freshness: Option<ObservatoryWeatherFreshness>,
+    pub degraded_reasons: Vec<String>,
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct ObservatoryContinuityFeed {
     pub checkpoint: Option<crate::ContinuityHead>,
@@ -1053,6 +1093,10 @@ where
     );
     let router = Router::new()
         .route(RUNTIME_HEALTH_PATH, get(runtime_health_handler::<C>))
+        .route(
+            RUNTIME_READY_PATH,
+            get(runtime_ready_handler::<C>).options(observatory_preflight_handler::<C>),
+        )
         .route(RUNTIME_METRICS_PATH, get(runtime_metrics_handler::<C>))
         .route(ACIP_WS_PATH, get(acip_ws_handler::<C>))
         .route(RUNTIME_OPENAPI_PATH, get(runtime_openapi_handler))
@@ -1116,6 +1160,23 @@ async fn runtime_health_handler<C: LifecycleControl + 'static>(
     State(service): State<Arc<ControlService<C>>>,
 ) -> Response {
     Json(service.observatory_feed().health).into_response()
+}
+
+async fn runtime_ready_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    headers: HeaderMap,
+) -> Response {
+    let allowed_origin = allowed_origin(&service, &headers);
+    if headers.contains_key(header::ORIGIN) && allowed_origin.is_none() {
+        return StatusCode::FORBIDDEN.into_response();
+    }
+    let report = service.readiness_report();
+    let status = if report.ready {
+        StatusCode::OK
+    } else {
+        StatusCode::SERVICE_UNAVAILABLE
+    };
+    observatory_json(status, report, allowed_origin)
 }
 
 async fn runtime_metrics_handler<C: LifecycleControl + 'static>(

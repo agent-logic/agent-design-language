@@ -1,0 +1,316 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5764,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "c87577fb18bcffa9a7ab3626e0ddde7132084f1c88dbeb1c648d842460499d85",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "e8cee54f47c6c59bcd316851601025ac805895b0d53e521c26c4dcb603df3ed1",
+  "claim": {
+    "id": "claim-5764-runtime-observatory-readiness",
+    "owner": "codex:5764-runtime-observatory-readiness",
+    "generation": 15,
+    "acquired_unix_seconds": 1785574230,
+    "expires_unix_seconds": 1785660630,
+    "heartbeat_unix_seconds": 1785574230,
+    "branch": "codex/5764-runtime-observatory-readiness",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5764",
+      ".csdlc/issues/5764",
+      ".csdlc/locks/5764.lock",
+      ".csdlc/prepared/issues/5764",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observability.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "demos/html-observatory/README.md",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/runtime-v3.config.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/api/runtime-v3/v1/runtime.openapi.json"
+    ],
+    "purpose": "Fix Runtime v3 Observatory overnight readiness probes and weather freshness truth"
+  },
+  "review_assignment": {
+    "reviewer": "subagent:Noether:019fbcb1-4f74-7792-b498-586a755a408d",
+    "assigned_by": "codex:5764-runtime-observatory-readiness",
+    "revision": "git-blake3:8ff57ad7e89e8bc826f90baed73bc20e1f1a4318:d01e8b787a46e220193020e02e324de40d987b09e11649fb00ed7982db1bcd6c",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observability.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "demos/html-observatory/README.md",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/runtime-v3.config.json",
+      "docs/api/runtime-v3/v1/openapi.json",
+      ".csdlc/issues/5764",
+      ".csdlc/prepared/issues/5764"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:Noether:019fbcb1-4f74-7792-b498-586a755a408d",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observability.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "demos/html-observatory/README.md",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/runtime-v3.config.json",
+      "docs/api/runtime-v3/v1/openapi.json",
+      ".csdlc/issues/5764",
+      ".csdlc/prepared/issues/5764"
+    ],
+    "reviewed_revision": "git-blake3:8ff57ad7e89e8bc826f90baed73bc20e1f1a4318:d01e8b787a46e220193020e02e324de40d987b09e11649fb00ed7982db1bcd6c",
+    "findings": [],
+    "residual_risks": [
+      "Live overnight runtime process was already running from an earlier branch and was not restarted on this branch.",
+      "Hosted PR checks remain pending until publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5764/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5764/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator",
+      "revision": "44ed87fe9c967bce4ade59f66480c6a5724f2ef40f1900628446b128a5ef4584"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "38ccf1f225590e9bf313d7a8f1b28d58fd27f7634a9777d24368e6dbe5256cf5",
+      "rendered_digest": "ebc9326d1aba09c1cd55320e0a9310826197bda3517d17ed9c0599d83d8982ee",
+      "ast_digest": "d20982b1cd63aa422b6b0ff9b9128d4af75753b654ab4b43960a6d2dfc30e741"
+    },
+    "stp": {
+      "values_digest": "ee85be9d82ffe9c9d949225de1cbbdb6bef854d21d62d355e948fb57b30c4bc0",
+      "rendered_digest": "12c2a85ff84c4950f80b65c3cf4caf62e49a6fb798714c8d862f66f929f8e432",
+      "ast_digest": "2ceaee61ff985688af3f3456ebb90682f980dec257e58f32b6c485494175aaca"
+    },
+    "spp": {
+      "values_digest": "f9b7014d5d1c5ae92601fea07be51242bf3179c3201b933666a9e3c919a9a616",
+      "rendered_digest": "c39dc32f79a7f8378b3077799a472627417593a0e9162cdd601aa7f07eb6fdb9",
+      "ast_digest": "e6f67dd6990d66fe8d7d190f26f02d0760117fb423ed93f7bf9dbae83cfe858b"
+    },
+    "vpp": {
+      "values_digest": "35df7fd7970553e98514933bf24a079ecc740ac639e8ccb81d4d74c3617f180c",
+      "rendered_digest": "661338346d5d7bc578b78ae70deed268337e8d7c43316165b46f581fb867409f",
+      "ast_digest": "34c69f8bf170bf1b486aa48e9d2a402851aba23284cbd44030289e92aea506d0"
+    },
+    "srp": {
+      "values_digest": "ba6ab47254469bcd6f73b4e09e5dde4b4c5820062224026f5958ef1d8e69040a",
+      "rendered_digest": "cfae4483fc7f266312b581495ed2af1c6d8f5cba3fe9f39371acdc8ddcb151c6",
+      "ast_digest": "98b0f100105aa771886c8239d4b775772d7961f67387fbecba3449b383cbdb0f"
+    },
+    "sor": {
+      "values_digest": "b2eb5e867894fc1a7dd3fcb560c1326c7e336eec43f12a4f2625f9da1c40e353",
+      "rendered_digest": "3aafb85880bb5e415719143bd4337c50d9c46f45a67eefdae5ad0e66f05b5a3e",
+      "ast_digest": "16634f75c9145be0b39956d57bf7327fc60bb2dbba01e52c510079fed2906cfb"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Dedicated FastWork worktree and branch match the initialized claim; advance into a ready lifecycle state before implementation binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Advance #5764 after implementation, pre-PR review fixes, and full Runtime v3 validation passed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Advance #5764 after exact-head subagent review returned CLEAN and review evidence was recorded."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Dedicated FastWork worktree and branch match the initialized claim; advance into a ready lifecycle state before implementation binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Add the actual Runtime v3 OpenAPI file and OpenAPI route contract test before implementing the readiness endpoint repair.",
+      "operation": "{\"add_protected_paths\":[\"docs/api/runtime-v3/v1/openapi.json\",\"adl-runtime-kernel/tests/openapi_contract.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 1,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Add Runtime v3 soak test init helper before fixing worktree-safe Vector binary resolution exposed by the broad runtime test pass.",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/tests/support/runtime_init.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 1,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Add observability test harness vector resolver repair discovered by full runtime-kernel validation.",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/tests/observability.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 1,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Add Observatory browser Runtime v3 readiness consumption after pre-PR review found README/app mismatch.",
+      "operation": "{\"add_protected_paths\":[\"demos/html-observatory/app.js\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 2,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record Runtime v3 and Observatory readiness implementation plus focused/full validation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented a versioned Runtime v3 readiness endpoint and wired the Observatory browser to consume readiness truth while keeping runtime tests worktree-safe through the configured stable Vector binary path.\",\"changes\":[\"Added /v1/ready to Runtime v3 control routes with adl.runtime_v3.readiness.v1 responses and 503 degraded readiness for stale or missing weather freshness.\",\"Updated Runtime v3 OpenAPI and route-inventory tests so /v1/ready is documented, public-read, and route-bound.\",\"Updated Observatory docs and browser adapter so Runtime v3 mode fetches /v1/ready and renders ready/degraded state from degraded_reasons instead of deriving readiness only from the observatory snapshot.\",\"Centralized Runtime v3 test Vector binary resolution through the runtime init test helper so generated init TOML and direct observability tests use the configured stable repo-installed binary, with ADL_RUNTIME_TEST_VECTOR_BINARY override.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"adl-runtime-kernel/tests/observability.rs\",\"demos/html-observatory/README.md\",\"demos/html-observatory/app.js\",\"docs/api/runtime-v3/v1/openapi.json\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 3,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record focused and full Runtime v3 validation after pre-PR review fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test control readiness\",\"env CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test control observatory_https_reads_are_public_and_report_weather_freshness\",\"env CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract\",\"env CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test observability\",\"env CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml\",\"env CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check\",\"node --check demos/html-observatory/app.js\",\"python3 -m json.tool docs/api/runtime-v3/v1/openapi.json\",\"git diff --check\"],\"purpose\":\"Prove Runtime v3 /v1/ready semantics, fail-closed missing/stale weather readiness, OpenAPI/route inventory truth, Observatory browser readiness consumption, stable Vector binary test configuration, full runtime-kernel behavior, formatting, JSON, JavaScript syntax, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork terminal output: focused readiness, HTTPS readiness, openapi_contract, observability, and full adl-runtime-kernel passed; full runtime-kernel reported 306 passed and 1 explicit ignored live parity test; rustfmt check, node --check, json.tool, and git diff --check passed\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 4,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Advance #5764 after implementation, pre-PR review fixes, and full Runtime v3 validation passed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 5,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record exact-head review fix for Runtime v3 Observatory WebSocket readiness state.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Fixed the Runtime v3 Observatory WebSocket path so stream snapshots do not overwrite /v1/ready truth with synthetic degraded readiness.\",\"changes\":[\"Cache Runtime v3 readiness after polling and reuse it when rendering Observatory WebSocket frames.\",\"Fetch /v1/ready when directly opening the secure WebSocket stream so auto-connect has readiness truth.\",\"Fallback WebSocket frames without a readiness payload now derive only observability readiness instead of claiming weather-degraded readiness.\"],\"artifacts\":[\"demos/html-observatory/app.js\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 6,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record focused validation for the Runtime v3 Observatory WebSocket readiness review fix.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"node --check demos/html-observatory/app.js\",\"env CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check\",\"git diff --check\"],\"purpose\":\"Prove the browser readiness-stream repair parses and preserves formatting/diff hygiene without changing Rust surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork terminal output: node --check demos/html-observatory/app.js passed; cargo fmt --check passed; git diff --check passed\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 7,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record exact-head review fix for browser CORS access to Runtime v3 readiness.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Made /v1/ready browser-consumable from the configured Observatory origin.\",\"changes\":[\"Route /v1/ready through the Observatory CORS/preflight policy.\",\"Reject unauthorized Origin headers for /v1/ready instead of returning an unreadable cross-origin response.\",\"Add CORS regression coverage proving /v1/ready exposes Access-Control-Allow-Origin to the configured Observatory origin.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/control.rs\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record focused and full validation for the Runtime v3 readiness CORS review fix.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test control observatory_cors_allows_only_configured_origins_and_reports_canonical_port\",\"env CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml\",\"env CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check\",\"node --check demos/html-observatory/app.js\",\"python3 -m json.tool docs/api/runtime-v3/v1/openapi.json\",\"git diff --check\"],\"purpose\":\"Prove /v1/ready CORS access for the Observatory origin, complete Runtime v3 behavior, formatting, browser syntax, OpenAPI JSON, and diff hygiene after the final review fix.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork terminal output: readiness CORS regression passed; full adl-runtime-kernel passed with 306 passed and 1 explicit ignored live parity test; rustfmt check, node --check, json.tool, and git diff --check passed\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record exact-head review fix for direct Runtime v3 WSS readiness ordering.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Fixed direct Runtime v3 secure-stream connect ordering so the browser caches /v1/ready before rendering Observatory WebSocket frames.\",\"changes\":[\"Make connectLive asynchronous and await Runtime v3 readiness before opening the WSS connection.\",\"Preserve degraded or pending readiness cache before the first stream frame can render.\"],\"artifacts\":[\"demos/html-observatory/app.js\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record focused validation for direct Runtime v3 WSS readiness ordering fix.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"node --check demos/html-observatory/app.js\",\"git diff --check\"],\"purpose\":\"Prove the direct secure-stream readiness ordering repair parses and preserves diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork terminal output: node --check demos/html-observatory/app.js passed; git diff --check passed\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Protect the operator-editable HTML Observatory Runtime v3 endpoint configuration file requested after readiness wiring.",
+      "operation": "{\"add_protected_paths\":[\"demos/html-observatory/runtime-v3.config.json\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record the operator-requested Runtime v3 Observatory endpoint config file and focused validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"node --check demos/html-observatory/app.js\",\"python3 -m json.tool demos/html-observatory/runtime-v3.config.json >/dev/null\",\"git diff --check\"],\"purpose\":\"Prove the HTML Observatory loads Runtime v3 browser endpoint paths from a JSON config file with parseable JavaScript, valid JSON, and clean diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork terminal output: node --check demos/html-observatory/app.js passed; python3 -m json.tool demos/html-observatory/runtime-v3.config.json passed; git diff --check passed\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record exact-head review fixes for Runtime v3 readiness preflight route documentation and Observatory config artifact truth.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Fixed exact-head review findings for Runtime v3 readiness preflight documentation and Observatory endpoint config artifact truth.\",\"changes\":[\"Documented OPTIONS /v1/ready in the Runtime v3 OpenAPI contract.\",\"Updated the OpenAPI route inventory test to require both GET and OPTIONS for /v1/ready.\",\"Recorded demos/html-observatory/runtime-v3.config.json as a durable execution artifact.\"],\"artifacts\":[\"docs/api/runtime-v3/v1/openapi.json\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"demos/html-observatory/runtime-v3.config.json\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record focused validation for exact-head review fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract openapi_paths_match_current_runtime_v3_axum_route_inventory\",\"python3 -m json.tool docs/api/runtime-v3/v1/openapi.json >/dev/null\",\"node --check demos/html-observatory/app.js\",\"git diff --check origin/main...HEAD\"],\"purpose\":\"Prove the Runtime v3 /v1/ready preflight route is documented in the OpenAPI inventory, OpenAPI JSON remains parseable, Observatory JavaScript remains parseable, and the exact diff has no whitespace errors.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork terminal output: openapi route inventory regression passed; python3 json.tool, node --check, and git diff --check passed\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Advance #5764 after exact-head subagent review returned CLEAN and review evidence was recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    }
+  ]
+}
