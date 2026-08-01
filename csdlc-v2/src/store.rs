@@ -2108,6 +2108,9 @@ impl Store {
                 )
             })?;
             let target_store = Store::new(root);
+            if !target_store.issue_dir(request.target_issue).exists() {
+                continue;
+            }
             let observed = target_store
                 .load_record(request.target_issue)
                 .map_err(|error| {
@@ -8285,6 +8288,17 @@ mod terminal_design_repair_tests {
             .status()
             .expect("add active target worktree")
             .success());
+        let absent_target_root = temp.path().join("absent-target");
+        assert!(std::process::Command::new("git")
+            .args(["worktree", "add", "-q", "-b", "absent-target"])
+            .arg(&absent_target_root)
+            .arg("HEAD")
+            .current_dir(temp.path())
+            .status()
+            .expect("add unrelated worktree")
+            .success());
+        fs::remove_dir_all(Store::new(&absent_target_root).issue_dir(target.issue))
+            .expect("remove target projection from unrelated worktree");
         let active_target_store = Store::new(&active_target_root);
         let mut active_target = active_target_store
             .load_record(target.issue)
