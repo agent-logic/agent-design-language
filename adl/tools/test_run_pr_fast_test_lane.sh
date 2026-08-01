@@ -335,13 +335,6 @@ assert_has "$direct_tooling_binaries_output" "reason=bounded_rust_surface_runs_f
 assert_has "$direct_tooling_binaries_output" "filter_tokens=tooling_cmd"
 assert_has "$direct_tooling_binaries_output" "filter_expression=test(tooling_cmd)"
 
-csdlc_prompt_editor_child="$TMP/csdlc_prompt_editor_child.txt"
-printf 'M\tadl/src/csdlc_prompt_editor/values.rs\n' >"$csdlc_prompt_editor_child"
-csdlc_prompt_editor_child_output="$(bash "$SCRIPT" --changed-files "$csdlc_prompt_editor_child" --print-plan)"
-assert_has "$csdlc_prompt_editor_child_output" "mode=focused"
-assert_has "$csdlc_prompt_editor_child_output" "filter_tokens=csdlc_prompt_editor"
-assert_has "$csdlc_prompt_editor_child_output" "filter_expression=test(csdlc_prompt_editor)"
-
 run_artifacts_runtime="$TMP/run_artifacts_runtime.txt"
 printf 'M\tadl/src/cli/run_artifacts/runtime/trace_validation.rs\n' >"$run_artifacts_runtime"
 run_artifacts_runtime_output="$(bash "$SCRIPT" --changed-files "$run_artifacts_runtime" --print-plan)"

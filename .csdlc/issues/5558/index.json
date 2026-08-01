@@ -3,13 +3,13 @@
   "issue": 5558,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
-  "phase": "published",
-  "generation": 29,
-  "digest": "110866f43d8a88c408ac264e520dae9b1b27501248d7835bbbcce20165d35581",
+  "phase": "implemented",
+  "generation": 32,
+  "digest": "38bf7fa4899856f1fcc61dfdd4dbf2d072fc2e233e3648b483e7d22a92b98af1",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
-    "generation": 29,
+    "generation": 32,
     "acquired_unix_seconds": 1785570394,
     "expires_unix_seconds": 1785656794,
     "heartbeat_unix_seconds": 1785570394,
@@ -68,6 +68,7 @@
       "adl/tools/release_ceremony.sh",
       "adl/tools/review_card_surface.sh",
       "adl/tools/run_owner_validation_lane.sh",
+      "adl/tools/run_pr_fast_test_lane.sh",
       "adl/tools/skills",
       "adl/tools/test_adl_review_compatibility.sh",
       "adl/tools/test_adl_runtime_compatibility.sh",
@@ -98,6 +99,7 @@
       "adl/tools/test_prompt_spec_lint.sh",
       "adl/tools/test_release_ceremony.sh",
       "adl/tools/test_review_card_surface.sh",
+      "adl/tools/test_run_pr_fast_test_lane.sh",
       "adl/tools/test_select_validation_lanes.sh",
       "adl/tools/test_structured_prompt_validation.sh",
       "adl/tools/test_validate_structured_prompt_parallel.sh",
@@ -132,46 +134,9 @@
     ],
     "purpose": "Correct issue 5558 by removing remaining live sunset v1 lifecycle guidance and proving final typed v2 authority."
   },
-  "review_assignment": {
-    "reviewer": "subagent:019fbf2d-07af-7ee0-a7e1-ca480b4a5d0a",
-    "assigned_by": "codex:5558-corrective",
-    "revision": "git-blake3:85e506c4613502753b895bcace4fe535289138ee:e04e8dc30470f367dfb2288ae0660ef419ec5cf412b6bbaf72775d8141902ed4",
-    "scope": [
-      "adl/src/csdlc_prompt_editor",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/test_check_coverage_impact.sh",
-      "adl/tools/test_csdlc_prompt_editor.sh",
-      ".csdlc/issues/5558"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019fbf2d-07af-7ee0-a7e1-ca480b4a5d0a",
-    "scope": [
-      "adl/src/csdlc_prompt_editor",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/test_check_coverage_impact.sh",
-      "adl/tools/test_csdlc_prompt_editor.sh",
-      ".csdlc/issues/5558"
-    ],
-    "reviewed_revision": "git-blake3:85e506c4613502753b895bcace4fe535289138ee:e04e8dc30470f367dfb2288ae0660ef419ec5cf412b6bbaf72775d8141902ed4",
-    "findings": [],
-    "residual_risks": [
-      "GitHub CI must confirm that deleted orphan source is absent from the changed-source coverage gate on the refreshed PR head."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5558,
-    "pull_request": 5769,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5769",
-    "base": "main",
-    "head": "codex/5558-v1-route-corrective",
-    "revision": "git-blake3:02dfd1a4a7d4882788b096c23654f5c3b37bda55:537729e479ecc1b8ba43a22818f0b2ce44904a1eb7f3dc580c7289bf4270a950",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -185,34 +150,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "422dd7751f1a5bddf76adbb674c8d73431e3c33efca0afbd3a708154fa4470d4",
+      "values_digest": "abdb8cc58792eb2f0b03e66b8e6e6b97f41d17a17258777b251acf4b87cdbf01",
       "rendered_digest": "3ef258b1c4bb480ab05a5f1842a67fb807068d557612286211389017f956a73d",
       "ast_digest": "a173adcf99a8c6fc2eee501e4e055b5613e48eaae750d3859ba753b2051b2716"
     },
     "stp": {
-      "values_digest": "9864d9e8113c3b2e5a9dc2b21c208b316373446a274dae1968636d5555cd53db",
+      "values_digest": "bbc4149b9333408c1896401c323dd32cce34a4ddee81a24a8a1c482066558d9a",
       "rendered_digest": "4e813a7bd81e883366df3deeeb1f62e371dbd81f622aec8f105e5233b842d9df",
       "ast_digest": "ed08ed5118621e4e7978292eb31a6fb1817be62f49cf08a737b4dc9ba94d9b1f"
     },
     "spp": {
-      "values_digest": "fea629b615695b1b3b12c9c11a2ea7fb2622079c81f6f206bd4fb37275c83420",
+      "values_digest": "dede0c67990e50866a806d7dd080de1ff12d0c17b83dd3da94c3eece62a06b7c",
       "rendered_digest": "25879d34e3cf553eddde351a8fcadefd055898a9d0280a8e10ebc5e998410ee8",
       "ast_digest": "1453d42addf77769af338269da74b0501f8c17bd84d7d493b518c66395fa38ca"
     },
     "vpp": {
-      "values_digest": "534097d961cf1f3a5876bc448615dfef0e69d412ff9947003d30be6848cefbb9",
+      "values_digest": "844a691d4c84acd21bccfd347692d206374e6989b97c5f1203dbc97bd7a4bdc3",
       "rendered_digest": "05e67389a9dd9511f18c9fd7089eaba5dc2df4f40979d42e159403da83ef7537",
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "0dab910bc6da3d3f7eb9aad2168cfe27b31fa2e5e3a1c8951f2b8886ec410240",
-      "rendered_digest": "4c715afb3029a70fe47832e836a037205438d74f3be3fdabdfda525b3d926a65",
-      "ast_digest": "82e6d6e894521dd66814b110a5b6840fdb6b76e9456137d883e39b5f80b11db5"
+      "values_digest": "406cb8df16d6d22549bf6a63c4c0b3525c4fc8b9ef69a491e6b3fdd209e852ed",
+      "rendered_digest": "146d4c911a6c44e6d998506b42fca60ea559e6a000d9c0606134cc288af73282",
+      "ast_digest": "9163d610ba45c2cc14ad20fb3af5f123985b79a9d6e78dc494b8881eb315fbe8"
     },
     "sor": {
-      "values_digest": "01d59217ecce3c708c6a4cf04d32f87390c5bb6812ef77b601b40432d9fc6aef",
-      "rendered_digest": "f294d7809e14a410a6baba1a801e0911fdd45a336f9b02f0b9e9ee86dbeac396",
-      "ast_digest": "570835cdc9a94c7cf53a58f96bffb9a4a2c071cdde43f2fdd018d5e8913663e3"
+      "values_digest": "8b709273533fa81f2f1f692177c08468bdcd0fe0e592ec812bbd4aafba6a2c83",
+      "rendered_digest": "f12505645a867e68904febfb366d8181a05c1e9d06373b8d714357ce287e5b6b",
+      "ast_digest": "eabd46bd2b40ddc83c5afca918c39d0f19e1065a26015ffadde2e0e5af9aeddf"
     }
   },
   "transitions": [
@@ -334,6 +299,13 @@
       "to": "published",
       "actor": "codex:5558-corrective",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 18,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5558-corrective",
+      "reason": "Independent review found the PR-fast selector still routes the retired prompt-editor child directory to a zero-match test filter; recover publication truth for the bounded final retirement fix."
     }
   ],
   "audit": [
@@ -728,6 +700,34 @@
       "actor": "codex:5558-corrective",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 57,
+      "generation": 30,
+      "actor": "codex:5558-corrective",
+      "reason": "Independent review found the PR-fast selector still routes the retired prompt-editor child directory to a zero-match test filter; recover publication truth for the bounded final retirement fix.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 30,
+      "actor": "codex:5558-corrective",
+      "reason": "independent review identified the stale PR-fast child-module routing and its fixture as part of the orphan prompt-editor retirement",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/run_pr_fast_test_lane.sh\",\"adl/tools/test_run_pr_fast_test_lane.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 59,
+      "generation": 31,
+      "actor": "codex:5558-corrective",
+      "reason": "Record the final PR-fast retirement correction identified by independent review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed the retired prompt-editor child-module glob from PR-fast Rust routing and deleted its zero-match regression fixture.\",\"changes\":[\"Kept only the historical parent-file sentinel in PR-fast mapping.\",\"Removed the synthetic child-module fixture that asserted routing to a test filter with no remaining tests.\"],\"artifacts\":[\"adl/tools/run_pr_fast_test_lane.sh\",\"adl/tools/test_run_pr_fast_test_lane.sh\"]}"
+    },
+    {
+      "sequence": 60,
+      "generation": 32,
+      "actor": "codex:5558-corrective",
+      "reason": "Record focused proof for the final PR-fast prompt-editor retirement correction.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash adl/tools/test_run_pr_fast_test_lane.sh\",\"bash adl/tools/test_csdlc_prompt_editor.sh\",\"git diff --check\",\"rg absence check for retired child routing\"],\"purpose\":\"Prove PR-fast routing remains valid, typed csdlc-edit remains authoritative, the patch is clean, and no retired prompt-editor child routing survives.\",\"outcome\":\"passed\",\"evidence_ref\":\"local focused proof on the #5558 issue worktree: both suites PASS; diff check PASS; retired child glob and fixture absent\"}}"
     }
   ]
 }

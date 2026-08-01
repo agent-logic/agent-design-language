@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Removed the final 2,000 lines of orphaned adl/src/csdlc_prompt_editor child modules after Gate 10D2 had already deleted their parent module, and removed the now-invalid child-module coverage mapping.
+Removed the retired prompt-editor child-module glob from PR-fast Rust routing and deleted its zero-match regression fixture.
 
 ## Artifacts
 
@@ -25,6 +25,8 @@ Removed the final 2,000 lines of orphaned adl/src/csdlc_prompt_editor child modu
 - adl/tools/check_coverage_impact.sh
 - adl/tools/test_check_coverage_impact.sh
 - adl/tools/test_csdlc_prompt_editor.sh
+- adl/tools/run_pr_fast_test_lane.sh
+- adl/tools/test_run_pr_fast_test_lane.sh
 
 ## Execution
 
@@ -38,6 +40,8 @@ Removed the final 2,000 lines of orphaned adl/src/csdlc_prompt_editor child modu
 - Deleted orphaned enums.rs, structure.rs, and values.rs modules that were not reachable from any Cargo target.
 - Restored the coverage-impact selector to the forbidden historical parent module only, avoiding a fake coverage route for uncompiled child files.
 - Preserved the typed csdlc-edit prompt-editor retirement contract and active prompt-template schema proof.
+- Kept only the historical parent-file sentinel in PR-fast mapping.
+- Removed the synthetic child-module fixture that asserted routing to a test filter with no remaining tests.
 
 ## Validation
 
@@ -99,16 +103,27 @@ Removed the final 2,000 lines of orphaned adl/src/csdlc_prompt_editor child modu
     "purpose": "Prove the coverage and fast-lane routing contracts remain green, typed csdlc-edit remains the prompt-editor authority, the patch is clean, and the three deleted orphan modules are absent from the coverage-impact ACMR source set.",
     "outcome": "passed",
     "evidence_ref": "local bounded proof on the #5558 issue worktree: all three focused suites PASS; orphan directory absent; 2,000 dead Rust LoC deleted; no csdlc_prompt_editor Rust file remains in the ACMR coverage-impact set"
+  },
+  {
+    "command": [
+      "bash adl/tools/test_run_pr_fast_test_lane.sh",
+      "bash adl/tools/test_csdlc_prompt_editor.sh",
+      "git diff --check",
+      "rg absence check for retired child routing"
+    ],
+    "purpose": "Prove PR-fast routing remains valid, typed csdlc-edit remains authoritative, the patch is clean, and no retired prompt-editor child routing survives.",
+    "outcome": "passed",
+    "evidence_ref": "local focused proof on the #5558 issue worktree: both suites PASS; diff check PASS; retired child glob and fixture absent"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
