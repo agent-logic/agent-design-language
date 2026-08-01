@@ -12,6 +12,7 @@ installer="$repo_root/.adl/bin/csdlc-v2/csdlc-install"
 inventory="$repo_root/csdlc-v2/operator/coexistence.json"
 register="$repo_root/.csdlc/prepared/issues/5748/fail-closed-exceptions.md"
 universe="$repo_root/.csdlc/evidence/5748/v0918-closed-issue-universe.json"
+remote_audit="$repo_root/.csdlc/evidence/5748/v0918-remote-terminal-audit.json"
 
 fail() {
   printf 'v0.91.8 terminal inventory FAIL: %s\n' "$1" >&2
@@ -88,64 +89,26 @@ if [[ "${1:-}" == "--self-test-path-guards" ]]; then
   exit 0
 fi
 
-terminal_issues=(
-  4739 4741 4758 4759 4760 4761 4762 4763 5007 5107 5332 5335 5336 5337 5338
-  5339 5340 5341 5342 5343 5344 5345 5346 5347 5349 5350 5352 5354 5358 5361
-  5384 5438 5470 5497 5498 5499 5500 5501 5502 5526 5527 5540 5541
-  5548 5563 5566 5569 5572 5587 5589 5590 5591 5592 5594 5597 5600
-  5602 5605 5610 5613 5615 5624 5627 5632 5645 5648 5653 5657 5658 5662
-  5663 5664 5665 5666 5670 5671 5675 5678 5679 5683 5686 5687 5691 5695 5697
-  5698 5701 5702 5708 5710 5711 5713 5715 5717 5718 5719 5722 5727 5728
-  5733 5735 5737 5746
-)
-exception_issues=(5558)
+terminal_issues=()
 not_planned_terminal_issues=(5335)
-claim_free_exception_issues=()
-dormant_exception_issues=()
 
-array_contains() {
-  local target="$1"
-  shift
-  local candidate
-  for candidate in "$@"; do
-    [[ "$candidate" == "$target" ]] && return 0
-  done
-  return 1
-}
-
-exception_projection() {
-  case "$1" in
-    *) return 1 ;;
-  esac
-}
-
-terminal_count="${#terminal_issues[@]}"
-exception_count="${#exception_issues[@]}"
-not_planned_terminal_count="${#not_planned_terminal_issues[@]}"
-closed_count="$((terminal_count + exception_count))"
-completed_count="$((closed_count - not_planned_terminal_count))"
-if ((${#claim_free_exception_issues[@]})); then
-  for issue in "${claim_free_exception_issues[@]}"; do
-    array_contains "$issue" "${exception_issues[@]}" ||
-      fail "exception-only issue #$issue is absent from the exception partition"
-  done
-fi
-if ((${#dormant_exception_issues[@]})); then
-  for issue in "${dormant_exception_issues[@]}"; do
-    array_contains "$issue" "${exception_issues[@]}" ||
-      fail "exception-only issue #$issue is absent from the exception partition"
-  done
-fi
 require_file "$repo_root" "$register"
 require_file "$repo_root" "$universe"
+require_file "$repo_root" "$remote_audit"
 require_file "$repo_root" "$installer"
 require_file "$repo_root" "$doctor"
 require_file "$repo_root" "$inventory"
+while IFS= read -r issue; do
+  [[ -n "$issue" ]] && terminal_issues+=("$issue")
+done < <(jq -r '.issues[].number' "$universe" | sort -n)
+terminal_count="${#terminal_issues[@]}"
+not_planned_terminal_count="${#not_planned_terminal_issues[@]}"
+closed_count="$terminal_count"
 "$installer" verify --repo "$repo_root" --bin-dir .adl/bin/csdlc-v2 \
   --inventory "$inventory" >/dev/null || fail "owner-binary provenance is stale"
 
 declared_completed="$(
-  printf '%s\n' "${terminal_issues[@]}" "${exception_issues[@]}" |
+  printf '%s\n' "${terminal_issues[@]}" |
     grep -vxF -f <(printf '%s\n' "${not_planned_terminal_issues[@]}") |
     sort -n | tr '\n' ' '
 )"
@@ -155,24 +118,42 @@ observed_completed="$(
 )"
 require_eq "$observed_completed" "$declared_completed" \
   "retained live completed-issue universe differs from the declared partition"
-require_eq "$(printf '%s\n' "${terminal_issues[@]}" "${exception_issues[@]}" | sort -nu | wc -l | tr -d ' ')" \
+require_eq "$(printf '%s\n' "${terminal_issues[@]}" | sort -nu | wc -l | tr -d ' ')" \
   "$closed_count" "declared closed-issue partition contains duplicates"
 require_eq "$(jq -r '[.issues[] | select(.state == "CLOSED" and .state_reason == "NOT_PLANNED") | .number] | sort | @csv' "$universe")" \
   "$(IFS=,; printf '%s' "${not_planned_terminal_issues[*]}")" "retained terminal NOT_PLANNED issue universe mismatch"
 jq -e --argjson closed_count "$closed_count" '.schema == "adl.v0918.closed_issue_universe.v1" and
   .repository == "danielbaustin/agent-design-language" and
   .label == "version:v0.91.8" and .state == "closed" and
+  (.observed_at | type == "string" and length > 0) and
+  .source == "github issue list read-only observation" and
   (.issues | length) == $closed_count and
   ([.issues[].number] | length) == ([.issues[].number] | unique | length)' \
   "$universe" >/dev/null || fail "retained closed-issue universe metadata is invalid"
-declared_register_issues="$(
-  printf '%s\n' "${exception_issues[@]}" | sort -n | tr '\n' ' '
-)"
+require_eq "$(jq -S '[.issues[].number]' "$remote_audit")" \
+  "$(jq -S '[.issues[].number]' "$universe")" \
+  "remote terminal audit issue universe differs from retained closed universe"
+jq -e --argjson closed_count "$closed_count" \
+  '.schema == "adl.v0918.remote_terminal_audit.v1" and
+   .repository == "danielbaustin/agent-design-language" and
+   .label == "version:v0.91.8" and
+   (.observed_at | type == "string" and length > 0) and
+   .source == "GitHub closed issues and merged PRs joined to retained typed terminal projections" and
+   (.issues | length) == $closed_count and
+   all(.issues[];
+     .state == "CLOSED" and
+     .terminal.phase == "closed_out" and
+     .terminal.claim_free == true and
+     .checks.projection_terminal == true and
+     .checks.remote_disposition_valid == true and
+     .checks.observed_head_matches == true and
+     .checks.no_pr_consistent == true)' \
+  "$remote_audit" >/dev/null || fail "remote terminal disposition audit is invalid"
 observed_register_issues="$(
   sed -n 's/^## #\([0-9][0-9]*\) —.*/\1/p' "$register" | sort -n | tr '\n' ' '
 )"
-require_eq "$observed_register_issues" "$declared_register_issues" \
-  "exception register headings differ from the declared exception partition"
+require_eq "$observed_register_issues" "" \
+  "final exception register must not retain an unresolved issue heading"
 
 for issue in "${terminal_issues[@]}"; do
   index="$repo_root/.csdlc/issues/$issue/index.json"
@@ -206,59 +187,8 @@ for issue in "${terminal_issues[@]}"; do
   done
 done
 
-for issue in "${exception_issues[@]}"; do
-  require_absent "$common_dir" "$common_dir/csdlc-v2/closeout/$issue.json"
-  rg -q "^## #$issue —" "$register" || \
-    fail "exception #$issue is missing from the register"
-done
-
-if ((${#claim_free_exception_issues[@]})); then
-  for issue in "${claim_free_exception_issues[@]}"; do
-    index="$repo_root/.csdlc/issues/$issue/index.json"
-    IFS=$'\t' read -r expected_phase expected_generation expected_digest \
-      <<<"$(exception_projection "$issue")"
-    require_file "$repo_root" "$index"
-    require_eq "$(jq -r '.claim == null' "$index")" true \
-      "exception #$issue retained an active claim"
-    require_eq "$(jq -r '.digest' "$index")" "$expected_digest" \
-      "exception #$issue digest mismatch"
-    require_eq "$(jq -r '.phase' "$index")" "$expected_phase" \
-      "exception #$issue phase mismatch"
-    require_eq "$(jq -r '.generation' "$index")" "$expected_generation" \
-      "exception #$issue generation mismatch"
-    rg -q "\`$expected_digest\`" "$register" || \
-      fail "exception #$issue digest is missing from the register"
-  done
-fi
-
-if ((${#dormant_exception_issues[@]})); then
-  for issue in "${dormant_exception_issues[@]}"; do
-    tail -n 1 "$repo_root/.csdlc/issues/$issue/audit.jsonl" | jq -e \
-      '(.operation | if type == "string" then fromjson else . end |
-        .operation) == "revoke_active_claim"' >/dev/null || \
-      fail "exception #$issue audit does not end in typed claim revocation"
-    doctor_report=""
-    if doctor_report="$("$doctor" --repo "$repo_root" --issue "$issue" 2>&1)"; then
-      printf 'exception #%s unexpectedly passed doctor\n' "$issue" >&2
-      exit 1
-    fi
-    printf '%s\n' "$doctor_report" | jq -e \
-      '.status == "block" and .ready == false and
-       (.findings | length) == 1 and .findings[0].code == "claim_dormant"' \
-      >/dev/null || fail "exception #$issue doctor state mismatch"
-  done
-fi
-
-# These two issues have no local lifecycle projection. Their absence is part
-# of the fail-closed evidence and must remain explicit.
-for issue in 5558 5722; do
-  if array_contains "$issue" "${exception_issues[@]}"; then
-    require_absent "$repo_root" "$repo_root/.csdlc/issues/$issue"
-  fi
-done
-
 require_eq "$(git status --porcelain -- .csdlc/locks .csdlc/requests)" "" \
   "generated lock or request state dirties the publication worktree"
 
-printf 'v0.91.8 terminal inventory PASS: %s terminal (%s closed NOT_PLANNED), %s fail-closed exceptions\n' \
-  "$terminal_count" "$not_planned_terminal_count" "$exception_count"
+printf 'v0.91.8 terminal inventory PASS: %s terminal (%s closed NOT_PLANNED), zero fail-closed exceptions\n' \
+  "$terminal_count" "$not_planned_terminal_count"

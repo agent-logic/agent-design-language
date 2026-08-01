@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5748/diagram.mmd
 [
   {
     "lane": "terminal-inventory-and-full-receipt-integrity",
-    "proof_role": "Verify exact-head owner-binary provenance, the retained live 90/10/1 universe, canonical terminal projections, full retained receipts, authored artifacts, and pinned fail-closed exception identity.",
+    "proof_role": "Verify exact-head owner-binary provenance, the complete retained live closed v0.91.8 universe, claim-free receipt-backed terminal projections, remote merged-PR and observed-head parity, zero unresolved exceptions, and the explicit per-issue closeout/prune result report.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
