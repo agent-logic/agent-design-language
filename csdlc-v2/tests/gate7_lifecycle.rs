@@ -4917,6 +4917,41 @@ fn run_complete_lifecycle_with_validation_history(
     assert_eq!(doctor.phase, Some(LifecyclePhase::ClosedOut));
     assert!(doctor.findings.is_empty());
 
+    let stale_same_request = temp.path().join("stale-same-request");
+    copy_dir_all(&store.issue_dir(issue), &stale_same_request);
+    let newer_receipt = store
+        .reconcile_terminal(csdlc_v2::ReconcileTerminalRequest {
+            issue,
+            expected_initialization_digest: receipt.initialization_digest.clone(),
+            expected_branch: "issue-7".into(),
+            expected_worktree: temp.path().to_string_lossy().into_owned(),
+            actor: "receipt-advance".into(),
+            reason: "advance retained receipt".into(),
+            follow_ups: vec!["#5411 follow-up".into()],
+        })
+        .unwrap();
+    fs::remove_dir_all(store.issue_dir(issue)).unwrap();
+    copy_dir_all(&stale_same_request, &store.issue_dir(issue));
+    let converged_same_request = store
+        .reconcile_terminal(csdlc_v2::ReconcileTerminalRequest {
+            issue,
+            expected_initialization_digest: receipt.initialization_digest.clone(),
+            expected_branch: "issue-7".into(),
+            expected_worktree: temp.path().to_string_lossy().into_owned(),
+            actor: "closeout-retainer".into(),
+            reason: "materialize shared terminal authority".into(),
+            follow_ups: vec!["#5411 follow-up".into()],
+        })
+        .unwrap();
+    assert_eq!(
+        converged_same_request.generation,
+        newer_receipt.generation + 1
+    );
+    assert_eq!(
+        &converged_same_request.audit[..newer_receipt.audit.len()],
+        newer_receipt.audit.as_slice()
+    );
+
     let baseline_projection = temp.path().join("baseline-terminal-projection");
     copy_dir_all(&store.issue_dir(issue), &baseline_projection);
     let baseline_receipt = fs::read(store.terminal_receipt_path(issue).unwrap()).unwrap();

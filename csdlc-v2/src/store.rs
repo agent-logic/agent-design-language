@@ -3649,6 +3649,7 @@ impl Store {
             Ok(checked.digest == record_digest(&checked)? && checked.digest == local.digest)
         })()?;
         if local.phase == LifecyclePhase::ClosedOut
+            && local == receipt.record
             && local.terminal == receipt.record.terminal
             && local.publication.as_ref().is_some_and(|publication| {
                 !publication.draft && publication.observed_state == "merged"
@@ -3682,6 +3683,7 @@ impl Store {
         let prefer_local = local_integrity
             && local.phase == LifecyclePhase::ClosedOut
             && local.claim.is_none()
+            && local.generation >= receipt.record.generation
             && local.terminal == receipt.record.terminal
             && local_cards_match_receipt_semantics;
         let (mut projection, mut cards) = if prefer_local {
