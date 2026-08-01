@@ -38,3 +38,11 @@ closed-out projection plus retained receipt atomically. Never use
 
 `prune` requires closed-out canonical state and revalidates the same retained
 receipt before removing the issue worktree.
+
+`reconcile-corrupt-terminal-receipt --request <request.json>` is the narrow
+same-worktree aggregate recovery path for a corrupt tracked target that already
+has a newer retained closed-out receipt. It requires an exact aggregate
+authority claim, exact corrupt projection digest, exact receipt digest and
+initialization identity, and journals the complete corrupt projection before
+replacement. Do not use it to bypass a live target checkout or as a substitute
+for ordinary `reconcile-terminal`.

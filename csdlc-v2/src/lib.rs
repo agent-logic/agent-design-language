@@ -53,7 +53,8 @@ pub use migration::{
     ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison,
 };
 pub use model::{
-    Claim, ClaimRecovery, CorruptHistoricalMergedRecoveryRequest, DesignReview,
+    Claim, ClaimRecovery, CorruptHistoricalMergedRecoveryRequest,
+    CorruptTerminalReceiptReconciliationRequest, DesignReview,
     HistoricalMergedReconciliationRequest, IssueRecord, LifecyclePhase, MigrationEvidence,
     NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest,
     RecordlessClosureKind, RecordlessTerminalRecoveryRequest, ReviewAssignment, ReviewEvidence,

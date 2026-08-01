@@ -9,12 +9,13 @@ use csdlc_v2::error::{ErrorCode, V2Error};
 use csdlc_v2::{
     classify_readiness, closeout_issue, execute_github_action, reconcile_terminal_observation_head,
     record_readiness, CheckConclusion, CheckObservation, CheckRequirement, ConflictState,
-    CorruptHistoricalMergedRecoveryRequest, GithubAction, GithubActionRequest,
-    HistoricalMergedReconciliationRequest, PostPublicationFinding, ReadinessRequest,
-    RecordlessTerminalRecoveryRequest, RemoteReviewState, Store, TerminalDesignRepairRequest,
-    TerminalDisposition, TerminalDispositionRepairRequest, TerminalObservation,
-    TerminalPlanStepRepairRequest, TerminalReceipt, TerminalReceiptTransportRequest,
-    TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest,
+    CorruptHistoricalMergedRecoveryRequest, CorruptTerminalReceiptReconciliationRequest,
+    GithubAction, GithubActionRequest, HistoricalMergedReconciliationRequest,
+    PostPublicationFinding, ReadinessRequest, RecordlessTerminalRecoveryRequest, RemoteReviewState,
+    Store, TerminalDesignRepairRequest, TerminalDisposition, TerminalDispositionRepairRequest,
+    TerminalObservation, TerminalPlanStepRepairRequest, TerminalReceipt,
+    TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
+    TerminalSorValidationRepairRequest,
 };
 use fs2::FileExt;
 use octocrab::models::pulls::{MergeableState, ReviewState};
@@ -73,6 +74,10 @@ enum Command {
         request: PathBuf,
     },
     TransportReceipt {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    ReconcileCorruptTerminalReceipt {
         #[arg(long)]
         request: PathBuf,
     },
@@ -201,6 +206,11 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         >(
             request,
         )?)?),
+        Command::ReconcileCorruptTerminalReceipt { request } => {
+            json(store.reconcile_corrupt_terminal_receipt(read::<
+                CorruptTerminalReceiptReconciliationRequest,
+            >(request)?)?)
+        }
         Command::RecoverRecordless { request } => {
             let mut request = read::<RecordlessTerminalRecoveryRequest>(request)?;
             refresh_recordless_observations(&mut request).await?;

@@ -11,8 +11,8 @@ use crate::merge::{MergeRequest, MergeResult};
 use crate::migration::{ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison};
 use crate::model::IssueRecord;
 use crate::model::{
-    CorruptHistoricalMergedRecoveryRequest, ReconcileTerminalRequest,
-    RecordlessTerminalRecoveryRequest, TerminalDesignRepairRequest,
+    CorruptHistoricalMergedRecoveryRequest, CorruptTerminalReceiptReconciliationRequest,
+    ReconcileTerminalRequest, RecordlessTerminalRecoveryRequest, TerminalDesignRepairRequest,
     TerminalDispositionRepairRequest, TerminalPlanStepRepairRequest, TerminalReceipt,
     TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
     TerminalSorValidationRepairRequest,
@@ -60,6 +60,7 @@ pub fn public_schema_bundle() -> Value {
         "terminal_receipt_transport_request": schemars::schema_for!(TerminalReceiptTransportRequest),
         "recordless_terminal_recovery_request": schemars::schema_for!(RecordlessTerminalRecoveryRequest),
         "corrupt_historical_merged_recovery_request": schemars::schema_for!(CorruptHistoricalMergedRecoveryRequest),
+        "corrupt_terminal_receipt_reconciliation_request": schemars::schema_for!(CorruptTerminalReceiptReconciliationRequest),
         "doctor_report": schemars::schema_for!(DoctorReport),
         "github_action_request": schemars::schema_for!(GithubActionRequest),
         "github_action_result": schemars::schema_for!(GithubActionResult),

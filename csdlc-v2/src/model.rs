@@ -282,6 +282,23 @@ pub struct TerminalReceiptTransportRequest {
     pub fail_after_stage: Option<String>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct CorruptTerminalReceiptReconciliationRequest {
+    pub authority_issue: u64,
+    pub target_issue: u64,
+    pub expected_authority_generation: u64,
+    pub expected_authority_digest: String,
+    pub authority_claim_id: String,
+    pub expected_corrupt_projection_digest: String,
+    pub expected_initialization_digest: String,
+    pub expected_receipt_digest: String,
+    pub actor: String,
+    pub reason: String,
+    #[serde(default)]
+    pub fail_after_stage: Option<String>,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum RecordlessClosureKind {
