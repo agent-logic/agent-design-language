@@ -5,3 +5,4 @@
 {"sequence":5,"generation":2,"actor":"codex:5713-review-remediation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":6,"generation":3,"actor":"subagent:gpt-5.5-sartre","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":7,"generation":4,"actor":"codex:5713-review-remediation","reason":"Exact-head GPT-5.5 review completed with zero findings after all remediation.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":8,"generation":5,"actor":"codex:5713-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

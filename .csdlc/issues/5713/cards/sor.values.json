@@ -7,7 +7,7 @@
     "title": "[v0.91.8][runtime-v3][tls] Add stable rcgen local TLS bootstrap",
     "slug": "runtime-v3-rcgen-local-tls",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
@@ -74,8 +74,8 @@
           "evidence_ref": "runtime-v3-local-tls-format-diff.log"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
