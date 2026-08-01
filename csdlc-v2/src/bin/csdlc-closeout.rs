@@ -247,7 +247,38 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
                 .audit
                 .iter()
                 .rev()
-                .find(|event| event.operation == "record_terminal")
+                .find(|event| {
+                    if event.generation != record.generation {
+                        return false;
+                    }
+                    if event.operation == "record_terminal" {
+                        return true;
+                    }
+                    serde_json::from_str::<serde_json::Value>(&event.operation)
+                        .ok()
+                        .is_some_and(|operation| {
+                            operation.get("operation").and_then(|value| value.as_str())
+                                == Some("reconcile_historical_merged")
+                                && operation.get("released_target_claim").is_some_and(|claim| {
+                                    claim
+                                        .get("id")
+                                        .and_then(|value| value.as_str())
+                                        .is_some_and(|value| !value.is_empty())
+                                        && claim
+                                            .get("owner")
+                                            .and_then(|value| value.as_str())
+                                            .is_some_and(|value| !value.is_empty())
+                                        && claim
+                                            .get("generation")
+                                            .and_then(|value| value.as_u64())
+                                            .is_some_and(|value| value < event.generation)
+                                        && claim
+                                            .get("protected_paths_digest")
+                                            .and_then(|value| value.as_str())
+                                            .is_some_and(|value| !value.is_empty())
+                                })
+                        })
+                })
                 .ok_or_else(|| {
                     V2Error::new(ErrorCode::CorruptRecord, "claim release audit missing")
                 })?;
