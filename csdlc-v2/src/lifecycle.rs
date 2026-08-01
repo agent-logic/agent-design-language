@@ -213,6 +213,18 @@ fn terminal_projection_overlap_is_released(
     candidate: &str,
     now_unix_seconds: u64,
 ) -> Result<bool> {
+    let issue_path = format!(".csdlc/issues/{}", local.issue);
+    let exact_issue_projection = reserved.trim_end_matches('/') == issue_path
+        && candidate.trim_end_matches('/') == issue_path;
+    if exact_issue_projection
+        && store.has_claim_free_retained_terminal_authority(
+            local.issue,
+            &local.repository,
+            &local.initialization_digest,
+        )?
+    {
+        return Ok(true);
+    }
     let Some(claim) = local.claim.as_ref() else {
         return Ok(false);
     };

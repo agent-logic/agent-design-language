@@ -1586,7 +1586,7 @@ fn active_nonoverlap_does_not_consult_stale_terminal_identity() {
 }
 
 #[test]
-fn amend_scope_accepts_only_expired_exact_receipt_backed_terminal_projection_overlap() {
+fn amend_scope_accepts_only_exact_receipt_backed_terminal_projection_overlap() {
     let temp = tempfile::tempdir().expect("tempdir");
     git(temp.path(), &["init", "-b", "main"]);
     git(
@@ -1812,9 +1812,28 @@ fn amend_scope_accepts_only_expired_exact_receipt_backed_terminal_projection_ove
         reason: "cover terminal projection only".into(),
         add_protected_paths: vec![".csdlc/issues/43".into()],
     };
-    let live = amend_claim_scope(&store, exact_projection(&aggregate, live_observation))
-        .expect_err("live sibling claim must collide");
-    assert_eq!(live.code, ErrorCode::ClaimCollision);
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            divergent.to_str().expect("divergent path"),
+        ],
+    );
+    amend_claim_scope(&store, exact_projection(&aggregate, live_observation))
+        .expect("exact retained terminal authority supersedes stale sibling projection claim");
+    aggregate = store.load_record(42).expect("amended aggregate");
+
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            divergent.to_str().expect("divergent path"),
+            "divergent-43",
+        ],
+    );
 
     let divergent_identity = amend_claim_scope(&store, exact_projection(&aggregate, lease_expiry))
         .expect_err("divergent sibling identity must collide");
