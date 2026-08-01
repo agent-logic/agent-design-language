@@ -3,13 +3,13 @@
   "issue": 5351,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "185d0c17ef9ef231ae848b0ae2a3f027956bca5a1690d71ae37915a465534bd6",
-  "phase": "reviewed",
-  "generation": 20,
-  "digest": "93e833022dc12b45daaeb1ae1a4ff7906161ffd0d46fa923acf14e01c8580c18",
+  "phase": "published",
+  "generation": 21,
+  "digest": "03f285ccc5ee831190fc625f03e5b2f7481195c6f66c03be0123741d70094b65",
   "claim": {
     "id": "claim-5351-v0918-wp16-quality-gate-preparation",
     "owner": "codex:5351-preparation-owner",
-    "generation": 20,
+    "generation": 21,
     "acquired_unix_seconds": 1785543668,
     "expires_unix_seconds": 1786148468,
     "heartbeat_unix_seconds": 1785543668,
@@ -51,7 +51,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5351,
+    "pull_request": 5775,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5775",
+    "base": "main",
+    "head": "codex/5351-v0918-preparation",
+    "revision": "git-blake3:4e023950c26e7d48c9df305856c3c6f6d6640a9b:9124318f4f837051e4d12e898fd0645da08aedea633c6fcf53c0b1ca8ee711e0",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -65,34 +75,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "19f3e525cca57648325977f829bc07950b92ffeeb7ad8a886b9d52a8143724de",
+      "values_digest": "5114ce790952e848a79790738977ebad0d7a00d4a5783bc9d13351c765afa077",
       "rendered_digest": "9cb3a1c1f6abafcb1042ddda1590bf20a5d36b60cd65246de671eb12028befba",
       "ast_digest": "483e75c80aea317493e45d37d8d40f3ed9b103768cc0a86299ba00ec169a3fea"
     },
     "stp": {
-      "values_digest": "8cae665fcba3716bade46a841b280421d8802d412cd58fb103cbc272f7aab3d9",
+      "values_digest": "49ec94ca5d796ffb1ec1151450a0a5681ee7a456f7aaa67c37cb265924e8a12e",
       "rendered_digest": "d6dea1bf95085907bc802ad119b0d15f913e8c24f8a7b699ac9a2370b17f7e4b",
       "ast_digest": "3e4fe821e3ff93f207f83b079c7889c9fe970402530044cc6730a8fdfc55b3e8"
     },
     "spp": {
-      "values_digest": "94905ff59793be195f18b853f0fa6b4cd8e7d039a8e4f0136d4bb2177037f661",
+      "values_digest": "1268d25e4851b55d4fac30b17ecc9daa9a4643140a21bef0846fb77e8b0f6d1a",
       "rendered_digest": "1bc6672c4d28cccda96c0047c00f09558d2adcb7ff652b4cc206cfb4245d0e5e",
       "ast_digest": "6dc1988f52848b9dac1a5920c27dcf22b3f697464fd5e8618dd155f62dfef81c"
     },
     "vpp": {
-      "values_digest": "5315f049157ffac9f4e77a4c6cb979eb38cad9be49d35c66d7c2fa96e5dc3d8c",
+      "values_digest": "93b4779f7f557c62e745390d8f1c865a22b677c52ae07010d850a9cf22695af4",
       "rendered_digest": "7154421ca308f11c5ed2dd2dc65c877f7c99ceaaacd9de2acad35a6df362926e",
       "ast_digest": "bf16d1c3e1f5b00d28a226bce0818c5a41f4b3216ee3d914b44b630fd32791a6"
     },
     "srp": {
-      "values_digest": "8391f0af3156adf1fd159d64edd32abdcd0af0ebb37bd93681a41184f32d5c58",
+      "values_digest": "36ec06b75a47f2c0fcd428e9344d1c186b7329285ef83911521ce5d09365b257",
       "rendered_digest": "31be125e12129992e2dc88a84a1e700b741d35b7a7b87d579dbe9d6f61338076",
       "ast_digest": "9676cf5bc44c3ad8411252c7ab41941a4091415f1a4161c37f196e31435c532a"
     },
     "sor": {
-      "values_digest": "f0f7575a134500e3f37bc8ed817d2511d351f52f4d5009277abcd61eb2600ae8",
-      "rendered_digest": "3ca0a1387d954e2997f494325454ab8728a6e1e4678430d160b59db7f698c492",
-      "ast_digest": "a97dc50125e7bed7d73f1e7b04000b62b1f521a0257fc84561fcdeab2cbeb4dd"
+      "values_digest": "7d5597133def5fe86edd617f94263054b965ab8fc1407aa70422c12ddfe3a2c6",
+      "rendered_digest": "7efc4464c309f79661ad24ae253ca8f3968d8d7f4b7e5f41572881880d56f89f",
+      "ast_digest": "324738c7e067c280576624065983983b3d3d8530ca92dc3ea24b251bb5ab35cd"
     }
   },
   "transitions": [
@@ -123,6 +133,13 @@
       "to": "reviewed",
       "actor": "codex:5351-execution",
       "reason": "The assigned exact-revision WP-16 review is complete with no actionable findings."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5351-execution",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -321,6 +338,13 @@
       "actor": "codex:5351-execution",
       "reason": "The assigned exact-revision WP-16 review is complete with no actionable findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "codex:5351-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
