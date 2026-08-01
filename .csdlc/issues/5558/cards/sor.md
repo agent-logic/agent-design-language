@@ -67,16 +67,29 @@ Resolved all exact-head review findings without widening beyond issue 5558.
     "purpose": "Prove active metrics and validation-inventory tooling selects the C-SDLC owner lane while sunset v1 routes remain removed.",
     "outcome": "passed",
     "evidence_ref": "local: selector contract PASS; Gate 10A 16/16; complete C-SDLC owner lane PASS"
+  },
+  {
+    "command": [
+      "bash adl/tools/test_ci_path_policy.sh",
+      "bash adl/tools/test_select_validation_lanes.sh",
+      "bash adl/tools/test_validation_manager.sh",
+      "bash adl/tools/run_owner_validation_lane.sh csdlc",
+      "bash adl/tools/run_owner_validation_lane.sh runtime",
+      "git diff --check"
+    ],
+    "purpose": "Prove that typed C-SDLC v2 fixtures, path-policy routing, exact active owner selectors, the complete C-SDLC owner lane, active CSM Runtime v3 ownership, and diff hygiene all pass on the corrected content.",
+    "outcome": "passed",
+    "evidence_ref": "local exact-content proof: CI path policy PASS; selector PASS; validation manager PASS; C-SDLC owner lane PASS; Runtime owner lane PASS; diff check PASS"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

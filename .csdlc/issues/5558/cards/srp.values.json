@@ -7,24 +7,22 @@
     "title": "Remove sunset pr.sh guidance from owner lane",
     "slug": "remove-sunset-pr-sh-guidance",
     "version": "v0.91.8",
-    "generation": 14
+    "generation": 16
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact substantive commit 3650af23467d85609d2fcc2a00b45ecdc3270bf7\nComplete issue 5558 diff including typed metric backfill migration, selector consistency proof, and owner-lane coverage",
-      "review_revision": "git-blake3:3650af23467d85609d2fcc2a00b45ecdc3270bf7:84c094e75e153f9fc093c40fc75d91bb84023d8b984f25bc43fc6de06cb631e4",
-      "reviewer": "codex:root-independent-typed-backfill-review",
+      "review_scope": "Exact substantive commit 9025bf7a859bf434ad2c03e585c389654533d883\nFinal CI remediation: typed validation-manager and path-policy fixtures, exact owner-selector parity, active CSM Runtime v3 ownership, and complete issue 5558 diff",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does any changed active surface still expose an executable sunset v1 lifecycle route?",
         "Does the owner lane run the real Gate 10A final-authority test?"
       ],
       "findings": [],
-      "residual_risk": [
-        "GitHub CI must rerun on the refreshed publication head; focused selector, scanner, typed packet, metric backfill, and complete owner-lane proofs passed locally."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

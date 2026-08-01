@@ -12,8 +12,8 @@ Status: draft
 
 ## Scope
 
-Exact substantive commit 3650af23467d85609d2fcc2a00b45ecdc3270bf7
-Complete issue 5558 diff including typed metric backfill migration, selector consistency proof, and owner-lane coverage
+Exact substantive commit 9025bf7a859bf434ad2c03e585c389654533d883
+Final CI remediation: typed validation-manager and path-policy fixtures, exact owner-selector parity, active CSM Runtime v3 ownership, and complete issue 5558 diff
 
 ## Prompts
 
@@ -30,12 +30,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- GitHub CI must rerun on the refreshed publication head; focused selector, scanner, typed packet, metric backfill, and complete owner-lane proofs passed locally.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:3650af23467d85609d2fcc2a00b45ecdc3270bf7:84c094e75e153f9fc093c40fc75d91bb84023d8b984f25bc43fc6de06cb631e4")
+Revision: None
 
-Reviewer: Some("codex:root-independent-typed-backfill-review")
+Reviewer: None
 
-Result: pass
+Result: pre_review
