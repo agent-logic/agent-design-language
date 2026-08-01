@@ -119,15 +119,16 @@ contracts it depends on.
 
 ## Current Repo Status
 
-Current roadmap planning truth, last verified 2026-07-18:
+Current roadmap planning truth, last verified 2026-08-01:
 - the feature-doc production wave is tracked as issue `#3779` with child
   issues `#3778`, `#3780`, `#3781`, and `#3782`
 - `v0.91.6` is the completed first pre-v0.92 readiness tranche
-- `v0.91.7` is the active closeout tail: WP-01 through WP-17 are closed,
-  including #4644 through merged PR #5539; WP-18, WP-19, WP-20, WP-21A, and WP-23
-  remain open, and closed WP-21/WP-22 are retained planning/review evidence
-- `v0.91.8` is the required reviewed platform-acceptance bridge; `v0.92`
-  consumes its exact-revision handoff rather than v0.91.7 prose directly
+- `v0.91.7` is retained implementation and proof history, not the active
+  closeout tail
+- `v0.91.8` is the active reviewed platform-acceptance bridge: WP-16 merged at
+  `2e9d2dd7c` with its integrated quality gate passing, WP-17 documentation
+  alignment is active, and WP-18 through WP-23 remain serial release-tail work
+- `v0.92` consumes the exact v0.91.8 handoff rather than v0.91.7 prose directly
 - `v0.92` remains the first true identity, continuity, and birthday milestone
 - `v0.95` remains MVP convergence and packaging, not first implementation of
   major cognitive or product systems
@@ -508,7 +509,7 @@ practical long-lived runtime supervision:
 The truthful v0.90 story is implemented baseline, with Runtime v2 consuming
 those surfaces rather than replacing them.
 
-## Current Planning Focus: v0.91.7 Through v0.91.8 Before v0.92
+## Current Planning Focus: Finish v0.91.8 Before v0.92
 
 `v0.91.4` is no longer the active planning center in this feature list. Its
 role is the completed Cognitive SDLC default-operation hardening band that the
@@ -518,9 +519,9 @@ The current planning focus is the pre-v0.92 implementation/proof path through
 the required reviewed v0.91.8 bridge:
 
 - consume the completed `v0.91.6` readiness tranche truthfully
-- finish `v0.91.7` as the required implementation and integrated-proof tranche
-- pass v0.91.7 outputs through the reviewed v0.91.8 exact-revision handoff
-  before v0.92 consumes them
+- retain `v0.91.7` as historical implementation and proof input
+- finish the serial `v0.91.8` WP-17 through WP-23 review, remediation,
+  handoff, and release tail before v0.92 consumes the exact result
 - keep v0.92 as the first true identity/continuity/birthday milestone
 - keep v0.95 as convergence and packaging, not first implementation of major
   cognitive systems

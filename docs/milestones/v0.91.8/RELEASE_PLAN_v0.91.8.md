@@ -22,12 +22,18 @@ handoff/review, and release ceremony work.
    audited issues, 0 unacceptable outcomes, 0 release blockers, and focused,
    integrated, and complete lanes passing.
 10. WP-17 documentation and release-truth alignment.
-11. WP-18 internal review, formal milestone review, remediation, and preflight.
-12. WP-21 exact-revision handoff and release ceremony closeout.
+11. WP-18 internal milestone review.
+12. WP-19 independent external review.
+13. WP-20 remediation and release preflight.
+14. WP-21 exact-revision v0.92 handoff ledger.
+15. WP-21A next-milestone closeout plan.
+16. WP-22 next-milestone planning review.
+17. WP-23 release ceremony and lifecycle closeout.
 
 The release-tail review sequence must preserve WP-17 documentation alignment,
-WP-18 internal review, formal review/remediation, WP-21 next-milestone handoff,
-WP-21A handoff/review alignment, WP-22 review, and release ceremony. Current
+WP-18 internal review, WP-19 external review, WP-20 remediation/preflight,
+WP-21 next-milestone handoff, WP-21A closeout planning, WP-22 planning review,
+and WP-23 release ceremony. Current
 v0.91.7 WP-21A `#5489` is historical preparation evidence and does not execute
 v0.91.8 work.
 

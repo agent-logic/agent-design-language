@@ -15,11 +15,18 @@
 | WP-10A | WP-09 provider/adapter freeze; #5499 -> #5498 -> (#5500 and #5502) -> #5501 -> #5497 | Complete or useful durable result per WP-16 audit. |
 | WP-11 | WP-03, WP-10, and completed WP-10A live proof | Complete; included in WP-16 issue outcome audit. |
 | WP-12 | WP-11 | Complete; retained platform lifecycle proof is a WP-16 gate input. |
-| WP-13 | WP-14A through WP-17 complete; deletion manifests proven disjoint; run immediately before #5356 | Complete; retained post-deletion validation is a WP-16 gate input. |
+| WP-13 | Operator-authorized early execution after the required platform/deletion inputs; the original wave position immediately before WP-18 is historical sequencing | Complete; retained post-deletion validation is a WP-16 gate input. |
 | WP-14A | #5358, #5361, #5344, and #5343 accepted at exact revisions | Complete/useful durable result per WP-16 audit and quality gate. |
 | WP-15 | WP-14A accepted revisions | Complete/useful durable result per WP-16 audit and quality gate. |
 | WP-16 | WP-15 convergence proof | Passed at `2e9d2dd7c`; see `evidence/wp16/QUALITY_GATE.md`. |
-| WP-17-WP-23 | WP-16 quality gate | Release-tail work remains open; do not claim release readiness. |
+| WP-17 | WP-16 quality gate | Active documentation and release-truth alignment. |
+| WP-18 | WP-17 merge | Pending internal milestone review. |
+| WP-19 | WP-18 merge | Pending independent external review. |
+| WP-20 | WP-19 merge | Pending remediation and release preflight. |
+| WP-21 | WP-20 merge | Pending exact-revision v0.92 handoff ledger. |
+| WP-21A | WP-21 merge | Pending next-milestone closeout plan. |
+| WP-22 | WP-21A merge | Pending next-milestone planning review. |
+| WP-23 | WP-22 merge | Pending release ceremony and lifecycle closeout. |
 
 ## Historical Card-Factory Wave
 
@@ -30,6 +37,6 @@ gate pass evidence.
 
 ## Remaining Readiness Rule
 
-WP-17 through WP-23 must still refresh live issue and PR truth before each
-release-tail action. WP-16 does not approve release, v0.92 activation, or
-ceremony by itself.
+WP-17 through WP-23 remain serial and must refresh live issue and PR truth
+before each release-tail action. WP-16 does not approve release, v0.92
+activation, or ceremony by itself.
