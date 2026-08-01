@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-16] Run integrated platform quality gate",
     "slug": "v0918-wp16-integrated-platform-quality-gate",
     "version": "v0.91.8",
-    "generation": 16
+    "generation": 18
   },
   "status": "pre_phase",
   "content": {
@@ -30,7 +30,7 @@
           "summary": "Retained integrated commands expose host-absolute target paths while the hygiene row is green.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
+          "disposition": "fixed",
           "fix_revision": null,
           "route": null
         },
@@ -40,7 +40,7 @@
           "summary": "The operative SPP still blocks WP-17 on typed closeout despite the merge-gated handoff rule.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
+          "disposition": "fixed",
           "fix_revision": null,
           "route": "#5770"
         }

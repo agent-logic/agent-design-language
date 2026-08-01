@@ -34,7 +34,7 @@ docs/milestones/v0.91.8/evidence/wp16
     "summary": "Retained integrated commands expose host-absolute target paths while the hygiene row is green.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   },
@@ -44,7 +44,7 @@ docs/milestones/v0.91.8/evidence/wp16
     "summary": "The operative SPP still blocks WP-17 on typed closeout despite the merge-gated handoff rule.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": "#5770"
   }

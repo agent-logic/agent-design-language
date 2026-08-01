@@ -1,7 +1,7 @@
 # WP-16 Execution Plan
 
 Issue: #5351
-Branch/worktree: `codex/5351-v0918-preparation` at `/Volumes/FastWork/adl-wp-5351`
+Branch/worktree: `codex/5351-v0918-preparation` in its bound issue worktree
 Scope: execute the integrated quality gate without changing product code.
 
 ## Current Truth

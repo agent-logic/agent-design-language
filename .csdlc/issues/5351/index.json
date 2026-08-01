@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "185d0c17ef9ef231ae848b0ae2a3f027956bca5a1690d71ae37915a465534bd6",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "84d5f7aa4d15875b26ef16513428bc58b4492ca16898fbf55499686fb8acc4ba",
+  "generation": 18,
+  "digest": "ec698650400dc9bc1a5a7bd2607f98ab5421ad826a81f9bec06b1b2a707c0d51",
   "claim": {
     "id": "claim-5351-v0918-wp16-quality-gate-preparation",
     "owner": "codex:5351-preparation-owner",
-    "generation": 16,
+    "generation": 18,
     "acquired_unix_seconds": 1785543668,
     "expires_unix_seconds": 1786148468,
     "heartbeat_unix_seconds": 1785543668,
@@ -27,7 +27,7 @@
   "review_assignment": {
     "reviewer": "subagent:Darwin:019fbcd1-dee8-7682-8f2b-9f9261587524",
     "assigned_by": "codex:5351-execution",
-    "revision": "git-blake3:2e10007ed3f6eaf75317fe1b50aa7865263c8cfb:68bf372590a309ca3ba64da7dadcf290f5141851ef9b8431ce98a040b20ec073",
+    "revision": "git-blake3:70994a7ee838dbafe56d93d6a3409de165b01b57:b2cc93b5d4ca269fafeda7888fc81ea016ca134de22f2b8f6b0bb173cf3605e4",
     "scope": [
       ".csdlc/prepared/issues/5351",
       ".csdlc/evidence/5351",
@@ -50,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "69be99361d41b9f2e69939eae2388eb572ea3b660f8e5ec06117cc4680f9ea4b",
+      "values_digest": "037f9065ee65065eaf3540e5064effa873fb1564b019ef9451fed58ccd8c35a0",
       "rendered_digest": "9cb3a1c1f6abafcb1042ddda1590bf20a5d36b60cd65246de671eb12028befba",
       "ast_digest": "483e75c80aea317493e45d37d8d40f3ed9b103768cc0a86299ba00ec169a3fea"
     },
     "stp": {
-      "values_digest": "d770b93879904489442fa5e4ec725e42d4633a994e91e0fbc904ffc7bf9bfcf7",
+      "values_digest": "a414ecfea7f4607cfe4ac13853c32fbd046a42f70333319b4f5b936a04bf833d",
       "rendered_digest": "d6dea1bf95085907bc802ad119b0d15f913e8c24f8a7b699ac9a2370b17f7e4b",
       "ast_digest": "3e4fe821e3ff93f207f83b079c7889c9fe970402530044cc6730a8fdfc55b3e8"
     },
     "spp": {
-      "values_digest": "ed0cce9e3cd19b28469db0c4e8f9c57883f8d23b685e8f6211f023fe284b774e",
+      "values_digest": "82c8f7a9e3a7ca10fbc7359122e5947bf76ba7d7652cb865d2d3c8f884121569",
       "rendered_digest": "1bc6672c4d28cccda96c0047c00f09558d2adcb7ff652b4cc206cfb4245d0e5e",
       "ast_digest": "6dc1988f52848b9dac1a5920c27dcf22b3f697464fd5e8618dd155f62dfef81c"
     },
     "vpp": {
-      "values_digest": "3868b5ec1cece469b7b8953fba22bc9c46f8d4183dd91bf236655ee5f6225681",
+      "values_digest": "28226ea82b206a26f23093f8602805f2ef69d6c4dbd8e299ec37e219af797d87",
       "rendered_digest": "7154421ca308f11c5ed2dd2dc65c877f7c99ceaaacd9de2acad35a6df362926e",
       "ast_digest": "bf16d1c3e1f5b00d28a226bce0818c5a41f4b3216ee3d914b44b630fd32791a6"
     },
     "srp": {
-      "values_digest": "2c266d4aec4712f5df873e85fb2ba0e820e134d614646d0c4a036009cd63db5f",
-      "rendered_digest": "6fa8b7c0739c5e160274386772887984b1221b67f80c113b32a2b27f30133341",
-      "ast_digest": "6a46e8f21dbdd9ee6dac300ffb93db99e1d0ff2c87fdf2812f097435526c1ea6"
+      "values_digest": "f7e25ca9d334cd07025b9344f6bda5da2f5f9d21a891208fa1c6bb463930b219",
+      "rendered_digest": "e96ad91038d1e34a1bc42d063fe6253e69de369d466aef92bb78d67244cab97a",
+      "ast_digest": "41ae258d7bbb7053c9261204caee3d103c8a87610a343e871b8aa4f023052543"
     },
     "sor": {
-      "values_digest": "467cc01ff29900dcd8bfc9a97da96b67e758d54a5697dcdc12c94cb275fd6376",
+      "values_digest": "26057c8d6d1cf21a48c37ded8e84acfe6211bd6bc689b89704390e6d0d097446",
       "rendered_digest": "3ca0a1387d954e2997f494325454ab8728a6e1e4678430d160b59db7f698c492",
       "ast_digest": "a97dc50125e7bed7d73f1e7b04000b62b1f521a0257fc84561fcdeab2cbeb4dd"
     }
@@ -257,6 +257,27 @@
       "actor": "codex:5351-final-review-remediation",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex:5351-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:5351-execution",
+      "reason": "Retained logs and evidence now pass diff and host-path hygiene checks.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"F-5351-1\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:5351-execution",
+      "reason": "SIP, STP, SPP, design, and gap-analysis handoff truth now release WP-17 on merge plus passing exact-head proof while closeout remains asynchronous.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"F-5351-2\",\"disposition\":\"fixed\"}"
     }
   ]
 }
