@@ -3,13 +3,13 @@
   "issue": 5346,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "d391333554b11b0dae9033fb57979c1abf35567ca36a3bc2e29fc1802987f01b",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "b5ba0755066115604324a62704e6c377e4992ce00da22613e1169f769f1cdd54",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "1d9db4e404b7e826ee2b623f52df58634b8d083cab831bbfe93308f469fe8453",
   "claim": {
     "id": "claim-5346-v0918-wp13-deletion-preparation-current",
     "owner": "codex:5346-wp13-execution-owner",
-    "generation": 8,
+    "generation": 9,
     "acquired_unix_seconds": 1785548770,
     "expires_unix_seconds": 1786153570,
     "heartbeat_unix_seconds": 1785548770,
@@ -28,7 +28,25 @@
     "purpose": "Execute #5346 WP-13 final ADL CLI deletion under current operator sequence: upstream #5344/#5343/#5358/#5361/#5384 terminal, #5354/#5352 GitHub merged and closed, #5347 disjoint peer manifest, serialized merge ordering, and no primary-main writes. Delete only exact reviewed #5346 manifest rows; do not touch #5347 external-band paths, Runtime v2, or unrelated lockfiles."
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "reviewer:gpt-5.5-direct",
+    "scope": [
+      ".csdlc/evidence/5346",
+      ".csdlc/issues/5346",
+      ".csdlc/prepared/issues/5346",
+      "adl/src/cli/tests/pr_cmd_inline",
+      "adl/src/cli/tooling_cmd",
+      "docs/milestones/v0.91.8/evidence/wp13/5346-deletion-eligibility.v1.json",
+      "docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json"
+    ],
+    "reviewed_revision": "git-blake3:4df33add8bb3c1fb44a63f7db7fdbbcc8173acdd:410b091449ef78cca6ce2e105e21d9e7cbd92db13e1569eb9996d23f61a6e815",
+    "findings": [],
+    "residual_risks": [
+      "Issue #5347 remains open and must merge before #5346; this serialized merge-order gate does not block publication or CI."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -43,32 +61,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8e841dbb2d2501713e5d31f6fe6e63fc8eefa0dd3a3a22ef3c53d7dc458b99d9",
+      "values_digest": "c32aaf16f81cad6de98ec9452c61367363769c5fd02b63a73dce57fee2a9200b",
       "rendered_digest": "968e8022aa69522a40e0b4015c80ea9c0e5b7476594e4376f591451444a87134",
       "ast_digest": "291dc8e45933eef134a357751c07ede5a3b27617e508cc331acdaa65fc44d728"
     },
     "stp": {
-      "values_digest": "700cd7dc2f7672f04ced076db1fb175be98bfa6ef485dbbcb411948384966ee0",
+      "values_digest": "7c78f934a508d859694d064e9c4bd773c488d731d6bf1ee2f676086a64fd250e",
       "rendered_digest": "281ecf07a1478933bafb984ba072850a8cd6284273a7b7e435602f20aff921bd",
       "ast_digest": "d015d5d6cbb0f75b7a11afbf032ad9426f48d290449c552e82287dd5864fcfc4"
     },
     "spp": {
-      "values_digest": "8cfa6ce6c2d28797d6e04dd0d37eee128c54090fe21d6d6fa33b0a9acdb273df",
+      "values_digest": "6a50d964d3e69516faa9d855ad9f2f0f20a7447a89b6d0a13e8415d3e489abd0",
       "rendered_digest": "42f73da89cbb05c764299f0bad90c4cd0bc9f6d9566d7e4559aa64e3730ac0cc",
       "ast_digest": "f399194d76c84c09179eb4bd6336f08d2089353c0322f5a8fc3065ce4b044031"
     },
     "vpp": {
-      "values_digest": "cc0285b4b63b11095f9001e4b74580b3446f8458d75eb5eef4059bb2f5c40e4a",
+      "values_digest": "526f18ddaa0e4a5763cd62181487faac18e5f59263ade838d5e68cf7ccd61583",
       "rendered_digest": "e0c886eb4fb651849d4772cd4b08e951e457ce4df239ac62ecad89dd89e0a187",
       "ast_digest": "318c5e2f0d567c01af2582134d08c4926438a9983daffdd890fdd572ca00f6f3"
     },
     "srp": {
-      "values_digest": "8b8110856a4d5169c4ab8a548c2e96e08937db1c64cbaa95a067dde1673fb3d3",
-      "rendered_digest": "2d098e932e05ccd2d62eb51db377136bbc8087b2f1390c8e23df33e60b46b0d5",
-      "ast_digest": "5395e9c543378320d990afad8968d3f33105e089c709f1c222f31d48dde7904d"
+      "values_digest": "db8ff826782cc45aa5e4f34b95375cdad89c488672093bd4f51981a4b07809f9",
+      "rendered_digest": "cc0ad420a1a969a22dcbf5b563e6d6058482881bfc2a84524ace3da20ededc5d",
+      "ast_digest": "90f81856e517d000a6de1d66f21c2da9b5410edf4b4f1f2be9056a072b278bc9"
     },
     "sor": {
-      "values_digest": "9bc99e92801097b67963f7d73d9bf5e97253131c0d7e62007e1fee91d13d32ac",
+      "values_digest": "1dfada3e83736cba8eae8ea9e1a3d28b7b2833820a9066a4b7ce90b7b4c75b04",
       "rendered_digest": "c4f46c6ffe938d429058f4d7d2aa52211f23e98426003f1783d38d13aac91ea9",
       "ast_digest": "cf8498e1c93df541c8c59260340e6333f1d2828bbfc222c30b8477bc0b427397"
     }
@@ -94,6 +112,13 @@
       "to": "implemented",
       "actor": "codex:5346-wp13-execution-owner",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "reviewer:gpt-5.5-direct",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -215,6 +240,13 @@
       "actor": "codex:5346-wp13-execution-owner",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 18,
+      "generation": 9,
+      "actor": "reviewer:gpt-5.5-direct",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

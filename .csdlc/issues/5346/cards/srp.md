@@ -12,10 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/5346
-.csdlc/locks/5346.lock
-.csdlc/prepared/issues/5346
 .csdlc/evidence/5346
+.csdlc/issues/5346
+.csdlc/prepared/issues/5346
+adl/src/cli/tests/pr_cmd_inline
+adl/src/cli/tooling_cmd
 docs/milestones/v0.91.8/evidence/wp13/5346-deletion-eligibility.v1.json
 docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json
 
@@ -37,12 +38,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Issue #5347 remains open and must merge before #5346; this serialized merge-order gate does not block publication or CI.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:4df33add8bb3c1fb44a63f7db7fdbbcc8173acdd:410b091449ef78cca6ce2e105e21d9e7cbd92db13e1569eb9996d23f61a6e815")
 
-Reviewer: None
+Reviewer: Some("reviewer:gpt-5.5-direct")
 
-Result: pre_review
+Result: pass
