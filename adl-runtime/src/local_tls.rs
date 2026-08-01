@@ -1,3 +1,5 @@
+#[cfg(test)]
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::{
     collections::BTreeSet,
     fs::{self, File, OpenOptions},
@@ -22,6 +24,8 @@ const LOCAL_CERTIFICATE_VALIDITY_DAYS: i64 = 397;
 const GENERATION_MANIFEST_SCHEMA: &str = "adl.runtime_v3.local_tls_generation.v1";
 const CURRENT_GENERATION_MANIFEST: &str = "current-generation.json";
 const GENERATIONS_DIR: &str = "generations";
+#[cfg(test)]
+static FORCE_POST_SWAP_MANIFEST_SYNC_FAILURE: AtomicBool = AtomicBool::new(false);
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -676,13 +680,24 @@ fn commit_current_manifest(
             "commit local TLS generation manifest failed: {error}"
         ))
     })?;
-    sync_directory(&paths.tls_root).map_err(|error| LocalTlsError::Io(error.to_string()))
+    let _ = sync_current_manifest_after_swap(paths);
+    Ok(())
 }
 
 fn strip_tls_root(root: &Path, path: &Path) -> Result<PathBuf, LocalTlsError> {
     path.strip_prefix(root)
         .map(Path::to_path_buf)
         .map_err(|_| LocalTlsError::Policy("local TLS generation escaped tls_root".to_owned()))
+}
+
+fn sync_current_manifest_after_swap(paths: &LocalTlsPaths) -> Result<(), LocalTlsError> {
+    #[cfg(test)]
+    if FORCE_POST_SWAP_MANIFEST_SYNC_FAILURE.swap(false, Ordering::SeqCst) {
+        return Err(LocalTlsError::Io(
+            "forced post-swap manifest directory sync failure".to_owned(),
+        ));
+    }
+    sync_directory(&paths.tls_root).map_err(|error| LocalTlsError::Io(error.to_string()))
 }
 
 fn local_paths(config: &RuntimeTlsBootstrapConfig) -> Result<LocalTlsPaths, LocalTlsError> {
@@ -830,7 +845,138 @@ fn enforce_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
     Ok(())
 }
 
-#[cfg(not(unix))]
+#[cfg(windows)]
+fn enforce_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
+    use std::{ffi::c_void, os::windows::ffi::OsStrExt, ptr};
+    use windows_sys::Win32::{
+        Foundation::{CloseHandle, LocalFree, ERROR_INSUFFICIENT_BUFFER, ERROR_SUCCESS, HANDLE},
+        Security::{
+            Authorization::{
+                SetEntriesInAclW, SetNamedSecurityInfoW, EXPLICIT_ACCESS_W, SET_ACCESS,
+                SE_FILE_OBJECT, TRUSTEE_IS_SID, TRUSTEE_IS_USER, TRUSTEE_W,
+            },
+            GetTokenInformation, TokenUser, DACL_SECURITY_INFORMATION, NO_INHERITANCE,
+            PROTECTED_DACL_SECURITY_INFORMATION, TOKEN_QUERY, TOKEN_USER,
+        },
+        System::Threading::{GetCurrentProcess, OpenProcessToken},
+    };
+
+    let metadata = fs::metadata(path).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    if !metadata.is_file() {
+        return Err(LocalTlsError::Policy(
+            "local TLS private key must be a regular file".to_owned(),
+        ));
+    }
+
+    struct Handle(HANDLE);
+    impl Drop for Handle {
+        fn drop(&mut self) {
+            if !self.0.is_null() {
+                unsafe {
+                    CloseHandle(self.0);
+                }
+            }
+        }
+    }
+
+    struct LocalAlloc(*mut c_void);
+    impl Drop for LocalAlloc {
+        fn drop(&mut self) {
+            if !self.0.is_null() {
+                unsafe {
+                    LocalFree(self.0);
+                }
+            }
+        }
+    }
+
+    unsafe {
+        let mut raw_token: HANDLE = ptr::null_mut();
+        if OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &mut raw_token) == 0 {
+            return Err(LocalTlsError::Io(format!(
+                "open current process token failed: {}",
+                std::io::Error::last_os_error()
+            )));
+        }
+        let token = Handle(raw_token);
+
+        let mut token_user_len = 0u32;
+        let first =
+            GetTokenInformation(token.0, TokenUser, ptr::null_mut(), 0, &mut token_user_len);
+        if first != 0
+            || std::io::Error::last_os_error().raw_os_error()
+                != Some(ERROR_INSUFFICIENT_BUFFER as i32)
+        {
+            return Err(LocalTlsError::Io(format!(
+                "size current process token user failed: {}",
+                std::io::Error::last_os_error()
+            )));
+        }
+        let mut token_user_bytes = vec![0u8; token_user_len as usize];
+        if GetTokenInformation(
+            token.0,
+            TokenUser,
+            token_user_bytes.as_mut_ptr().cast(),
+            token_user_len,
+            &mut token_user_len,
+        ) == 0
+        {
+            return Err(LocalTlsError::Io(format!(
+                "read current process token user failed: {}",
+                std::io::Error::last_os_error()
+            )));
+        }
+        let token_user = &*(token_user_bytes.as_ptr() as *const TOKEN_USER);
+
+        let trustee = TRUSTEE_W {
+            pMultipleTrustee: ptr::null_mut(),
+            MultipleTrusteeOperation: 0,
+            TrusteeForm: TRUSTEE_IS_SID,
+            TrusteeType: TRUSTEE_IS_USER,
+            ptstrName: token_user.User.Sid.cast(),
+        };
+        let access = EXPLICIT_ACCESS_W {
+            grfAccessPermissions: windows_sys::Win32::Foundation::GENERIC_ALL,
+            grfAccessMode: SET_ACCESS,
+            grfInheritance: NO_INHERITANCE,
+            Trustee: trustee,
+        };
+        let mut acl = ptr::null_mut();
+        let acl_status = SetEntriesInAclW(1, &access, ptr::null(), &mut acl);
+        if acl_status != ERROR_SUCCESS {
+            return Err(LocalTlsError::Io(format!(
+                "build restrictive private key ACL failed: {}",
+                std::io::Error::from_raw_os_error(acl_status as i32)
+            )));
+        }
+        let _acl = LocalAlloc(acl.cast());
+
+        let mut wide_path = path
+            .as_os_str()
+            .encode_wide()
+            .chain(Some(0))
+            .collect::<Vec<_>>();
+        let security_status = SetNamedSecurityInfoW(
+            wide_path.as_mut_ptr(),
+            SE_FILE_OBJECT,
+            DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION,
+            ptr::null_mut(),
+            ptr::null_mut(),
+            acl,
+            ptr::null_mut(),
+        );
+        if security_status != ERROR_SUCCESS {
+            return Err(LocalTlsError::Io(format!(
+                "apply restrictive private key ACL failed: {}",
+                std::io::Error::from_raw_os_error(security_status as i32)
+            )));
+        }
+    }
+
+    Ok(())
+}
+
+#[cfg(not(any(unix, windows)))]
 fn enforce_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
     let metadata = fs::metadata(path).map_err(|error| LocalTlsError::Io(error.to_string()))?;
     if !metadata.is_file() {
@@ -920,4 +1066,182 @@ impl Drop for LocalBootstrapGuard {
 fn in_process_locks() -> &'static Mutex<BTreeSet<PathBuf>> {
     static LOCKS: OnceLock<Mutex<BTreeSet<PathBuf>>> = OnceLock::new();
     LOCKS.get_or_init(|| Mutex::new(BTreeSet::new()))
+}
+
+#[cfg(test)]
+mod manifest_commit_tests {
+    use super::*;
+    use std::net::{IpAddr, Ipv4Addr};
+
+    fn local_config(root: PathBuf) -> RuntimeTlsBootstrapConfig {
+        RuntimeTlsBootstrapConfig {
+            schema: LOCAL_TLS_BOOTSTRAP_SCHEMA.to_owned(),
+            mode: RuntimeTlsBootstrapMode::LocalSelfSigned,
+            state_root: Some(root),
+            tls_dir: Some(PathBuf::from("runtime-tls")),
+            certificate_chain_path: PathBuf::from("runtime-local-chain.pem"),
+            public_certificate_path: Some(PathBuf::from("runtime-local-public.pem")),
+            private_key_path: PathBuf::from("runtime-local-key.pem"),
+            dns_names: vec!["localhost".to_owned()],
+            ip_addresses: vec![IpAddr::V4(Ipv4Addr::LOCALHOST)],
+            replace: false,
+        }
+    }
+
+    #[tokio::test]
+    async fn post_swap_manifest_sync_failure_does_not_report_failed_bootstrap() {
+        let temp = tempfile::tempdir().unwrap();
+        let mut config = local_config(temp.path().to_path_buf());
+        let first = bootstrap_runtime_tls(&config).await.unwrap();
+        config.replace = true;
+        FORCE_POST_SWAP_MANIFEST_SYNC_FAILURE.store(true, Ordering::SeqCst);
+
+        let second = bootstrap_runtime_tls(&config)
+            .await
+            .expect("post-swap sync is not returned as a failed identity commit");
+
+        assert_ne!(first.certificate_sha256, second.certificate_sha256);
+        let after = bootstrap_runtime_tls(&local_config(temp.path().to_path_buf()))
+            .await
+            .unwrap();
+        assert_eq!(second.certificate_sha256, after.certificate_sha256);
+    }
+}
+
+#[cfg(all(test, windows))]
+mod windows_acl_tests {
+    use super::*;
+    use std::{
+        ffi::c_void,
+        net::{IpAddr, Ipv4Addr},
+        os::windows::ffi::OsStrExt,
+        ptr,
+    };
+    use windows_sys::Win32::{
+        Foundation::{CloseHandle, LocalFree, ERROR_INSUFFICIENT_BUFFER, ERROR_SUCCESS, HANDLE},
+        Security::{
+            Authorization::{
+                GetExplicitEntriesFromAclW, GetNamedSecurityInfoW, SE_FILE_OBJECT, TRUSTEE_IS_SID,
+            },
+            EqualSid, GetSecurityDescriptorControl, GetTokenInformation, TokenUser,
+            DACL_SECURITY_INFORMATION, SE_DACL_PROTECTED, TOKEN_QUERY, TOKEN_USER,
+        },
+        System::Threading::{GetCurrentProcess, OpenProcessToken},
+    };
+
+    fn local_config(root: PathBuf) -> RuntimeTlsBootstrapConfig {
+        RuntimeTlsBootstrapConfig {
+            schema: LOCAL_TLS_BOOTSTRAP_SCHEMA.to_owned(),
+            mode: RuntimeTlsBootstrapMode::LocalSelfSigned,
+            state_root: Some(root),
+            tls_dir: Some(PathBuf::from("runtime-tls")),
+            certificate_chain_path: PathBuf::from("runtime-local-chain.pem"),
+            public_certificate_path: Some(PathBuf::from("runtime-local-public.pem")),
+            private_key_path: PathBuf::from("runtime-local-key.pem"),
+            dns_names: vec!["localhost".to_owned()],
+            ip_addresses: vec![IpAddr::V4(Ipv4Addr::LOCALHOST)],
+            replace: false,
+        }
+    }
+
+    #[tokio::test]
+    async fn windows_private_key_acl_is_protected_current_user_only() {
+        let temp = tempfile::tempdir().unwrap();
+        let outcome = bootstrap_runtime_tls(&local_config(temp.path().to_path_buf()))
+            .await
+            .unwrap();
+        assert_windows_private_key_acl(&outcome.private_key_path);
+    }
+
+    fn assert_windows_private_key_acl(path: &Path) {
+        struct Handle(HANDLE);
+        impl Drop for Handle {
+            fn drop(&mut self) {
+                if !self.0.is_null() {
+                    unsafe {
+                        CloseHandle(self.0);
+                    }
+                }
+            }
+        }
+        struct LocalAlloc(*mut c_void);
+        impl Drop for LocalAlloc {
+            fn drop(&mut self) {
+                if !self.0.is_null() {
+                    unsafe {
+                        LocalFree(self.0);
+                    }
+                }
+            }
+        }
+
+        unsafe {
+            let mut raw_token: HANDLE = ptr::null_mut();
+            assert_ne!(
+                OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &mut raw_token),
+                0
+            );
+            let token = Handle(raw_token);
+            let mut token_user_len = 0u32;
+            let first =
+                GetTokenInformation(token.0, TokenUser, ptr::null_mut(), 0, &mut token_user_len);
+            assert_eq!(first, 0);
+            assert_eq!(
+                std::io::Error::last_os_error().raw_os_error(),
+                Some(ERROR_INSUFFICIENT_BUFFER as i32)
+            );
+            let mut token_user_bytes = vec![0u8; token_user_len as usize];
+            assert_ne!(
+                GetTokenInformation(
+                    token.0,
+                    TokenUser,
+                    token_user_bytes.as_mut_ptr().cast(),
+                    token_user_len,
+                    &mut token_user_len,
+                ),
+                0
+            );
+            let token_user = &*(token_user_bytes.as_ptr() as *const TOKEN_USER);
+
+            let mut wide_path = path
+                .as_os_str()
+                .encode_wide()
+                .chain(Some(0))
+                .collect::<Vec<_>>();
+            let mut dacl = ptr::null_mut();
+            let mut descriptor = ptr::null_mut();
+            let status = GetNamedSecurityInfoW(
+                wide_path.as_mut_ptr(),
+                SE_FILE_OBJECT,
+                DACL_SECURITY_INFORMATION,
+                ptr::null_mut(),
+                ptr::null_mut(),
+                &mut dacl,
+                ptr::null_mut(),
+                &mut descriptor,
+            );
+            assert_eq!(status, ERROR_SUCCESS);
+            let _descriptor = LocalAlloc(descriptor.cast());
+            let mut control = 0u16;
+            let mut revision = 0u32;
+            assert_ne!(
+                GetSecurityDescriptorControl(descriptor, &mut control, &mut revision),
+                0
+            );
+            assert_ne!(control & SE_DACL_PROTECTED, 0);
+
+            let mut count = 0u32;
+            let mut entries = ptr::null_mut();
+            let entries_status = GetExplicitEntriesFromAclW(dacl, &mut count, &mut entries);
+            assert_eq!(entries_status, ERROR_SUCCESS);
+            let _entries = LocalAlloc(entries.cast());
+            assert_eq!(count, 1);
+            let entry = *entries;
+            assert_eq!(entry.Trustee.TrusteeForm, TRUSTEE_IS_SID);
+            assert_ne!(
+                EqualSid(entry.Trustee.ptstrName.cast(), token_user.User.Sid),
+                0
+            );
+        }
+    }
 }
