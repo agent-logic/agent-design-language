@@ -26,10 +26,36 @@ paths may be added to the typed claim only after a reviewed manifest is frozen,
 all dependency gates pass, and a disjointness check proves zero overlap with
 #5346. A directory prefix is never sufficient deletion authority.
 
+## Current Preparation Truth
+
+This branch is refreshed against `origin/main` at
+`5f166d03303fef23afaad865992f5fbe14d4efc5`. It remains preparation-only:
+the active claim protects only #5347 lifecycle/evidence paths and contains no
+product path, manifest deletion row, publication, merge, or closeout authority.
+
+The current owner/evidence map is
+`docs/milestones/v0.91.8/evidence/wp13-external-bands/current-truth-ledger.json`.
+That ledger is a preparation input, not the deletion manifest. It names the
+external bands, accepted owners, exact typed phases, observed replacement SHAs,
+evidence digests, retained-file authority rules, and row-level blockers that a
+future manifest must consume. Rows depending on nonterminal typed projections
+remain blocked even when GitHub says the linked issue is closed.
+
 ## Dependency Gate
 
-Execution remains fail-closed until all of the following are true at the exact
-candidate revision:
+Execution is not ready. The current live issue and typed-state observations are:
+
+- #5343 selector switch, #5344 soak/rollback, #5358 C-SDLC v2 acceptance, and
+  #5361 Runtime v3 acceptance are typed `closed_out`, claim-free, and merged.
+- #5346 is still open, has no typed #5346 record or final-core manifest in this
+  worktree, and its live issue body still depends on #5347.
+- #5347 is typed `bound` and preparation-only; product-path claim expansion is
+  intentionally absent.
+- #5354 and #5675 are closed on GitHub but are not typed `closed_out` in this
+  worktree, so rows that depend on those terminal projections stay blocked.
+
+Deletion execution remains fail-closed until all of the following are true at
+the exact candidate revision:
 
 1. #5346 is GitHub merged and typed `closed_out`, its claim is released, its
    retained terminal receipt is valid and ancestral, and its reviewed deletion
@@ -46,6 +72,33 @@ has directed #5347 to wait for terminal #5346. That cycle is a preparation-time
 dependency cycle and stop condition. It must be reconciled through the authoritative issue graph
 before either deletion issue executes; this packet does not silently choose a
 weaker gate or rewrite live issue truth.
+
+## External Band Evidence
+
+The preparation ledger currently covers these external bands:
+
+- Runtime v3 adapter: #5341/#5361 are terminal; #5354 consumer projection is a
+  blocker until typed terminal truth exists or the manifest row does not depend
+  on that consumer.
+- Runtime v3 kernel, continuity, and canonical ingress: #5361/#5591 are
+  terminal owner evidence.
+- Reasoning graphs, loops, adaptive learning, affect control, and governed
+  cognition: #5592 is terminal Runtime v3 parity evidence; #5107 is terminal
+  downstream queue evidence and is not full v0.92 adaptive-learning proof.
+- Governed operations, identity, provider state, and continuity: #5589 is
+  terminal owner evidence.
+- Secure Runtime access, guardian, Observatory, rollback, and telemetry: #5590
+  is terminal owner evidence.
+- Provider and governed-tool adapters: #5349/#5671 are terminal; rows relying
+  on #5675 are blocked until typed terminal projection exists.
+- Unity Observatory tooling and demo proof: #4739/#4741/#5332/#5683 are
+  terminal; rows relying on #5354 integration consumption are blocked until
+  typed terminal projection exists.
+- Distributed C-SDLC workcell: #5501/#5498/#5500/#5502 are terminal; rows
+  relying on nonterminal child #5499 are blocked.
+- Shadow parity and proof tooling: #5350/#5358/#5361/#5737 are terminal owner
+  evidence, but C-SDLC v2 lifecycle authority itself must not be deleted by
+  #5347.
 
 ## Manifest Contract
 

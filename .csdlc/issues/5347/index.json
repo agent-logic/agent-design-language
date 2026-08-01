@@ -4,9 +4,26 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4379da53c4006fc48b7aa0358cdc5518623fd15b918ae42ea519c372e95f784f",
   "phase": "bound",
-  "generation": 1,
-  "digest": "ddde0898b2b6ba29b966f3d24681b70fa19647bff6b0369d52c0e9f247605362",
-  "claim": null,
+  "generation": 7,
+  "digest": "3207f7f410cb177ce5dff032cea15451fb930a88c6d6bef58fa90552d3b739c2",
+  "claim": {
+    "id": "claim-5347-current-preparation-refresh",
+    "owner": "codex:5347-preparation-refresh",
+    "generation": 7,
+    "acquired_unix_seconds": 1785542068,
+    "expires_unix_seconds": 1785549268,
+    "heartbeat_unix_seconds": 1785542068,
+    "branch": "codex/5347-v0918-wp13-external-band-deletion",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5347",
+      ".csdlc/locks/5347.lock",
+      ".csdlc/prepared/issues/5347",
+      ".csdlc/evidence/5347",
+      "docs/milestones/v0.91.8/evidence/wp13-external-bands"
+    ],
+    "purpose": "Refresh #5347 WP-13 external-band deletion preparation only at current origin/main truth; no product path, deletion, PR, publication, push, merge, or closeout authority"
+  },
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -17,40 +34,40 @@
   "diagram_path": ".csdlc/prepared/issues/5347/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "subagent:gpt-5.3-codex-spark-bounded-review",
-      "revision": "47d6ecf36eebe48654aab29e403bac103b3a01e32244491ecb3bd39245c8aad7"
+      "reviewer": "codex:5347-preparation-refresh",
+      "revision": "e732e2bb0f1985ad83414d52815872240e99e19f540529275be3f4d69745627f"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "aa676f35320c371281eee6d983409589fd42c2a234ac89ca5cfd68b270f890c8",
-      "rendered_digest": "9e73ad0bdbbfea120d9162c977de7c7263aaec87dac0550760f76d75259fa7f7",
-      "ast_digest": "5262b6553fb4fd034e38e50e05622657f6463121dd64c711092439c657945636"
+      "values_digest": "052c4734536c4336f4245c75b8250c5ab3c9dc7ec1db37fc5d1bb60bb909c6da",
+      "rendered_digest": "46123efb70e33f9d90fb0167ec1bad3cc2e2a84ae563704789c5816a8a388a31",
+      "ast_digest": "6040b0e401d553ddaadbcf2fb7d3c0f6b47dec3e40cec1c30a2d2fa16e9a8449"
     },
     "stp": {
-      "values_digest": "7c88a4009327408d901f1b04279c09bc8a22ffbcd62556fe0dbc228183447a91",
-      "rendered_digest": "f1e111b0ed24a230f48d3a7260e0b22936093d2d679bab2ba179d03665d5e724",
-      "ast_digest": "a2a171d4116deb4cc6ffba0a86d48a821f2a04fbe77554af9ee941ce3781d544"
+      "values_digest": "005cd1db37db689b0faaa6b4bf2a3fbca0bdd3c7826067d0647ddbddbd9812cd",
+      "rendered_digest": "6d26768de5f223ab4f20f7b1a14e0aaaf51821861467749d81a1d5d1f325be6f",
+      "ast_digest": "81d561765553b1943ebdc009fd67a17664a409a8898d095cde706a56fd288c4a"
     },
     "spp": {
-      "values_digest": "40e0f0ba61269c4283ca6aee516cbe1302d3704c7a2c264e85fbe5bc8f7ae6d8",
-      "rendered_digest": "f6b0388f91dea18cef27f7063bc860523ce6c6b931104e56ce9542763c857730",
-      "ast_digest": "efa4e9a9a13fd710686cef64862561adf949666dbde5c4a2afa1583d155f9f5f"
+      "values_digest": "88edcfdfd4e6a5905a13c6ca197d7e27e35cc00386f1075f6011d9b7003bbd06",
+      "rendered_digest": "1cc9309e66d34f2ea9ca6fbefb7c891203679653f00863df1e5b9ed6339238f1",
+      "ast_digest": "e4a5ab4c0dccb20a458bef9711c71367133b28cff7ae33d9db14b8c02e1d6677"
     },
     "vpp": {
-      "values_digest": "c96ccfdf1b9014d79e5fb4f04e6c77cf219daa752b1015c00b99baf82f1d02ef",
-      "rendered_digest": "c576a1f02770ec91a9246641040f72159f783c514641c2dc2221ee163ebc3dd4",
-      "ast_digest": "3097609279b1a90402b210565fc00efd392d12568569c756b0fd36c5bf3160cc"
+      "values_digest": "96ed00a6105867506ca5fbdfcb36c805bf56f37cd751edf384f334584ed1761d",
+      "rendered_digest": "6d6e38b8569279f0f137698419c32ddf9aeaadb457286b2c7e00d328d5902e8c",
+      "ast_digest": "37d957d672df501b34d54395a49bef3c05c8ba46e2563ab54d79376066e6c01b"
     },
     "srp": {
-      "values_digest": "bb5f1f49de04a91c501f8181491e21200fa7f2cd60fdd162d0fa1fe2944c6a4b",
+      "values_digest": "c4c58c07efc1776ec4d8aa80d82d7cb85324c6747d005b8284bc29de1c3f8b77",
       "rendered_digest": "c8e597630b464ddd8d3a5eea9a0118ddd500115dec18913b4549418bf339785f",
       "ast_digest": "56d4f4b12afd863aec827968e941ff566059f98eb3e7e62e6326d41f6869a76e"
     },
     "sor": {
-      "values_digest": "3cbc9addad22b842f84eb5fd2e7ad2529489fff364e41e268e0ea2c711756794",
-      "rendered_digest": "5a46fdbe89e547359b08a57eefcceded166cc7508f3713d7ab4494b397b514a5",
-      "ast_digest": "ef2bde73611140248a6b4cb2391bb6e11995b74fc604786ce16055708e072351"
+      "values_digest": "742b5f34a0223a5581a868f6846df580988a25db9bb42ef1a5d0385044706684",
+      "rendered_digest": "e4d077fad29a84287310511323746508a2f1f4e140aa5d794ce0411f649e658f",
+      "ast_digest": "357c16d3e0742aaf6389b5abed8cdbaeea3ce1248716e7429fa04bc330a8536c"
     }
   },
   "transitions": [
@@ -104,6 +121,55 @@
       "actor": "codex:claim-hygiene",
       "reason": "Release deferred WP-13 preparation ownership until execution actually starts",
       "operation": "{\"claim_id\":\"claim-5347-release-only\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:preparation-does-not-own-execution-paths\",\"previous_owner\":\"codex:claim-hygiene\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 1,
+      "actor": "codex:5347-preparation-refresh",
+      "reason": "Continue operator-requested #5347 preparation after current origin/main integration while preserving deletion and publication stop boundaries",
+      "operation": "{\"branch\":\"codex/5347-v0918-wp13-external-band-deletion\",\"claim_id\":\"claim-5347-current-preparation-refresh\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5347-preparation-refresh\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5347\",\".csdlc/locks/5347.lock\",\".csdlc/prepared/issues/5347\",\".csdlc/evidence/5347\",\"docs/milestones/v0.91.8/evidence/wp13-external-bands\"],\"purpose\":\"Refresh #5347 WP-13 external-band deletion preparation only at current origin/main truth; no product path, deletion, PR, publication, push, merge, or closeout authority\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 2,
+      "actor": "codex:5347-preparation-refresh",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 3,
+      "actor": "codex:5347-preparation-refresh",
+      "reason": "Refresh #5347 preparation plan to current origin/main truth without deletion or publication authority.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: Deletion execution is not ready until #5346 is GitHub merged, typed closed_out with claim released, backed by a valid retained merged receipt, ancestral to the candidate revision, has an exact reviewed final-core deletion manifest, and the live #5346/#5347 dependency cycle is authoritatively reconciled\",\"AC-2: Current closed inputs #5343, #5344, #5358, and #5361 remain typed closed_out, claim-free, receipt-backed, and ancestral; any drift blocks execution admission\",\"AC-3: The current-truth ledger names every external band with accepted owner, typed phase, exact replacement revision where terminal, exact evidence refs, manifest-admission status, retained-file authority, rollback rule, and no-deferral boundary\",\"AC-4: A future canonically ordered immutable deletion manifest binds each candidate to normalized repo-relative path, baseline object identity, measured lines, capability, authority-rooted reachability, accepted replacement owner, exact revision, terminal receipt, proof references, disposition, and manifest digest\",\"AC-5: The #5347 manifest has zero canonical path overlap with the exact reviewed #5346 language/compiler/engine/CLI manifest; ambiguous, mixed-owner, nonterminal, or consumer-dependent rows fail closed as blocked\",\"AC-6: Every delete_external row has accepted replacement behavior and negative proof; every retained row names owner, consumer, rationale, proof role, and sunset condition; missing, stale, metadata-only, GitHub-only, fixture-only, or nonterminal evidence blocks deletion\",\"AC-7: Product paths are added only by typed claim amendment after manifest freeze, disjointness proof, dependency proof, and review; deletion touches exactly tracked manifest files and rejects traversal, symlink escape, duplicates, submodules, generated output, and untracked files\",\"AC-8: Focused owner tests, characterization/parity, security/determinism negatives, selector rollback, current CI, consumer reachability, rollback proof, budget accounting, and post-deletion validation pass at exact revisions with deterministic redacted repo-relative evidence and no deferred acceptance\",\"AC-9: Runtime v2, ADL v2, Runtime v3, C-SDLC v2, #5346 core paths, selector/cutover state, and historical non-executable evidence remain outside #5347 mutation authority\",\"AC-10: The later implementation reuses Git, typed C-SDLC v2, existing characterization/parity tools, and standard JSON parsing; manifest/gate code stays within 500 nonblank lines, tests/fixtures within 800 lines and fewer than 50 tests, retained evidence within 1,200 lines, focused gates within 120/300 seconds, complete proof within 3,600 seconds, and net source change is negative with separate accounting\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Refresh preparation-only cards, design, current-truth ledger, validators, protected paths, COTS, budgets, PVF, rollback, and no-deferral rules on the local #5347 branch without product deletion, PR, publication, push, merge, or closeout\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-9\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Maintain a read-only dependency watch and reject execution until #5346 terminal closeout, exact #5346 manifest, terminal projection blockers, receipt ancestry, and issue-graph reconciliation all pass\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Freeze and review exact #5346 and #5347 manifests, prove canonical disjointness, then amend the typed claim with only exact eligible product paths\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Delete only exact delete_external rows and run every owner, parity, security, rollback, CI, reachability, budget, and evidence-integrity proof without deferral\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"After authorized deletion execution only, obtain exact review, publish through typed v2, serialize merge after #5346, run post-merge proof, close out, retain receipt, and release claims\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Prove six cards, design/diagram, current-truth ledger, exact scope, cycle and terminal gates, disjoint manifest boundary, protected paths, COTS, budgets, PVF, rollback, and no-deferral truth\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5347/validate-preparation.rb\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"dependency-terminal-gate\",\"proof_role\":\"Fail closed unless #5346 and every acceptance/cutover dependency are merged, typed closed_out, receipt-backed, claim-free, ancestral, and the cycle is reconciled\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5347/check-dependencies.rb\"],\"parallel_group\":\"execution-gate\",\"defer_reason\":\"Run at execution admission; expected to fail until #5346 terminal closeout, exact #5346 manifest, and graph reconciliation exist\"},{\"lane\":\"manifest-disjointness\",\"proof_role\":\"Validate canonical paths, owner/replacement rows, retained rationales, exact receipts, zero #5346 overlap, digest binding, and exact typed product-path claim coverage\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5347/run-validation-lane.rb\",\"manifest-disjointness\"],\"parallel_group\":\"eligibility\",\"defer_reason\":\"Mandatory after exact manifests exist and before any deletion or product-path claim amendment\"},{\"lane\":\"owner-and-consumer-proof\",\"proof_role\":\"Run focused accepted-owner tests, characterization/parity, security/determinism negatives, selector rollback, and authoritative consumer reachability proof\",\"acceptance_ids\":[\"AC-6\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":6000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5347/run-validation-lane.rb\",\"owner-and-consumer-proof\"],\"parallel_group\":\"proof\",\"defer_reason\":\"Mandatory at exact deletion revision after dependency and manifest gates pass\"},{\"lane\":\"deletion-budgets-and-evidence\",\"proof_role\":\"Enforce net-negative source change, separate line accounting, COTS closure, LoC/test/time limits, manifest digest, deterministic evidence, redaction, repo-relative paths, and no-deferral\",\"acceptance_ids\":[\"AC-4\",\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5347/run-validation-lane.rb\",\"deletion-budgets-and-evidence\"],\"parallel_group\":\"evidence\",\"defer_reason\":\"Mandatory at exact deletion revision before publication\"},{\"lane\":\"post-deletion-exact\",\"proof_role\":\"Re-run dependency ancestry, manifest disjointness, owner/consumer tests, parity, security, rollback, CI, reachability, budgets, evidence integrity, and revision identity after serialized merge\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":3600,\"budget_tokens\":12000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5347/run-validation-lane.rb\",\"post-deletion-exact\"],\"parallel_group\":\"post-merge\",\"defer_reason\":\"Execute only after authorized serialized merge and typed merged-state reconciliation; mandatory before closeout\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
+      "actor": "codex:5347-preparation-refresh",
+      "reason": "Align #5347 preparation constraints with the no-push, no-publication, no-deletion operator boundary.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Use typed C-SDLC v2 binaries and semantic card operations only; rendered Markdown remains generated projection state\",\"Keep the primary checkout clean on main and all tracked #5347 work in the dedicated FastWork worktree\",\"Preparation only: do not delete code, implement product changes, open a PR, publish, push, merge, close out, use AWS/raw gh for mutation, edit Runtime v2, or touch root main\",\"Do not execute deletion until #5346 is terminal closed_out with exact reviewed final-core manifest, all closed dependency inputs remain receipt-backed and ancestral, and the #5346/#5347 dependency cycle is authoritatively reconciled\",\"Treat nonterminal local typed projections such as #5354 or #5675 as manifest-row blockers even when GitHub issue state is closed\",\"Freeze canonical manifests and prove zero path overlap before typed claim expansion or deletion\",\"Use /Volumes/FastWork for generated validation and build output; do not use /private/tmp\",\"Run bounded preparation validation and finish with a clean local branch; no PR, publication, push, merge, closeout, or product-path claim belongs to this preparation pass\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:5347-preparation-refresh",
+      "reason": "Remove stale push/publication wording from #5347 preparation summary.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Refresh and validate the #5347 preparation-only packet on the local FastWork branch: current-truth ledger, external-band owner evidence, retained-file authority, deletion-manifest contract, protected paths, dependency gates, focused validation lanes, rollback/no-deferral boundaries, and explicit non-overlap with #5346. Stop with no product deletion, product-path claim, PR, publication, push, merge, or closeout.\",\"operation\":\"replan\",\"previous_value\":\"Render and validate all six cards; freeze manifest schema, exact dependency and cycle gate, owner/reachability proof, disjointness boundary, protected paths, COTS, budgets, PVF, rollback, and no-deferral rules; obtain bounded preparation review and fix findings; commit and push preparation only; remain read-only until every terminal gate and issue-graph predicate passes.\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:5347-preparation-refresh",
+      "reason": "Record current #5347 preparation-only validation without advancing to deletion execution.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"--request\",\".csdlc/prepared/issues/5347/validation-request.json\"],\"purpose\":\"Prove #5347 preparation contract, future lane contract, diff hygiene, and fail-closed blocked execution admission with product_changes=0\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5347/preparation-validation/{preparation-contract.log,future-lane-contract.log,blocked-execution-admission.log,diff-hygiene.log}\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:5347-preparation-refresh",
+      "reason": "Mark the current preparation-only refresh complete after focused typed validation passed; leave all execution, deletion, publication, push, merge, and closeout steps pending.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
     }
   ]
 }

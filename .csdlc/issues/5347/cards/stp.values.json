@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-13][deletion] Delete externally owned incumbent ADL bands",
     "slug": "v0918-wp13-external-band-deletion",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 7
   },
   "status": "ready",
   "content": {
@@ -25,14 +25,16 @@
         "COTS decision, LoC/test/time budgets, PVF lanes, rollback contract, and bounded review"
       ],
       "acceptance_criteria": [
-        "AC-1: Execution starts only when #5346, #5344, #5343, #5358, and #5361 are GitHub merged, typed closed_out with claims released, backed by valid retained merged receipts, ancestral to the candidate revision, and the #5346/#5347 dependency cycle is authoritatively reconciled",
-        "AC-2: A canonically ordered immutable manifest binds each candidate to normalized repo-relative path, baseline object identity, measured lines, capability, authority-rooted reachability, accepted replacement owner, exact revision, terminal receipt, proof references, disposition, and manifest digest",
-        "AC-3: The #5347 manifest has zero canonical path overlap with the exact reviewed #5346 language/compiler/engine/CLI manifest; ambiguous or mixed-owner files fail closed as blocked and no directory prefix grants authority",
-        "AC-4: Every delete_external row has accepted replacement behavior and negative proof; every retained row names owner, consumer, rationale, proof role, and sunset condition; missing or stale evidence blocks deletion",
-        "AC-5: Product paths are added only by typed claim amendment after manifest freeze, disjointness proof, dependency proof, and review; deletion touches exactly tracked manifest files and rejects traversal, symlink escape, duplicates, submodules, generated output, and untracked files",
-        "AC-6: Focused owner tests, characterization/parity, security/determinism negatives, selector rollback, current CI, consumer reachability, and post-deletion validation pass at exact revisions with deterministic redacted repo-relative evidence and no deferred acceptance",
-        "AC-7: Runtime v2, ADL v2, Runtime v3, C-SDLC v2, #5346 core paths, selector/cutover state, and historical non-executable evidence remain outside #5347 mutation authority",
-        "AC-8: The later implementation reuses Git, typed C-SDLC v2, existing characterization/parity tools, and standard JSON parsing; manifest/gate code stays within 500 nonblank lines, tests/fixtures within 800 lines and fewer than 50 tests, retained evidence within 1,200 lines, focused gates within 120/300 seconds, complete proof within 3,600 seconds, and net source change is negative with separate accounting"
+        "AC-1: Deletion execution is not ready until #5346 is GitHub merged, typed closed_out with claim released, backed by a valid retained merged receipt, ancestral to the candidate revision, has an exact reviewed final-core deletion manifest, and the live #5346/#5347 dependency cycle is authoritatively reconciled",
+        "AC-2: Current closed inputs #5343, #5344, #5358, and #5361 remain typed closed_out, claim-free, receipt-backed, and ancestral; any drift blocks execution admission",
+        "AC-3: The current-truth ledger names every external band with accepted owner, typed phase, exact replacement revision where terminal, exact evidence refs, manifest-admission status, retained-file authority, rollback rule, and no-deferral boundary",
+        "AC-4: A future canonically ordered immutable deletion manifest binds each candidate to normalized repo-relative path, baseline object identity, measured lines, capability, authority-rooted reachability, accepted replacement owner, exact revision, terminal receipt, proof references, disposition, and manifest digest",
+        "AC-5: The #5347 manifest has zero canonical path overlap with the exact reviewed #5346 language/compiler/engine/CLI manifest; ambiguous, mixed-owner, nonterminal, or consumer-dependent rows fail closed as blocked",
+        "AC-6: Every delete_external row has accepted replacement behavior and negative proof; every retained row names owner, consumer, rationale, proof role, and sunset condition; missing, stale, metadata-only, GitHub-only, fixture-only, or nonterminal evidence blocks deletion",
+        "AC-7: Product paths are added only by typed claim amendment after manifest freeze, disjointness proof, dependency proof, and review; deletion touches exactly tracked manifest files and rejects traversal, symlink escape, duplicates, submodules, generated output, and untracked files",
+        "AC-8: Focused owner tests, characterization/parity, security/determinism negatives, selector rollback, current CI, consumer reachability, rollback proof, budget accounting, and post-deletion validation pass at exact revisions with deterministic redacted repo-relative evidence and no deferred acceptance",
+        "AC-9: Runtime v2, ADL v2, Runtime v3, C-SDLC v2, #5346 core paths, selector/cutover state, and historical non-executable evidence remain outside #5347 mutation authority",
+        "AC-10: The later implementation reuses Git, typed C-SDLC v2, existing characterization/parity tools, and standard JSON parsing; manifest/gate code stays within 500 nonblank lines, tests/fixtures within 800 lines and fewer than 50 tests, retained evidence within 1,200 lines, focused gates within 120/300 seconds, complete proof within 3,600 seconds, and net source change is negative with separate accounting"
       ],
       "dependencies": [
         "#5346 final-core deletion eligibility merged and typed closed_out with released claim, valid retained merged receipt, ancestral merge SHA, and reviewed exact deletion manifest",

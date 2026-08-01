@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-13][deletion] Delete externally owned incumbent ADL bands",
     "slug": "v0918-wp13-external-band-deletion",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 7
   },
   "status": "ready",
   "content": {
@@ -31,14 +31,14 @@
       ],
       "initial_assumptions": [],
       "operator_constraints": [
-        "Use installed typed C-SDLC v2 binaries and semantic card operations only",
+        "Use typed C-SDLC v2 binaries and semantic card operations only; rendered Markdown remains generated projection state",
         "Keep the primary checkout clean on main and all tracked #5347 work in the dedicated FastWork worktree",
-        "Preparation only: do not delete code, implement product changes, open a PR, publish, merge, use AWS/raw gh, edit Runtime v2, or touch root main",
-        "Do not execute until #5346, #5344, #5343, #5358, and #5361 are merged, typed closed_out, claim-free, receipt-backed, and ancestral",
-        "Treat the current #5346/#5347 dependency cycle as a stop condition until authoritative issue-graph reconciliation",
+        "Preparation only: do not delete code, implement product changes, open a PR, publish, push, merge, close out, use AWS/raw gh for mutation, edit Runtime v2, or touch root main",
+        "Do not execute deletion until #5346 is terminal closed_out with exact reviewed final-core manifest, all closed dependency inputs remain receipt-backed and ancestral, and the #5346/#5347 dependency cycle is authoritatively reconciled",
+        "Treat nonterminal local typed projections such as #5354 or #5675 as manifest-row blockers even when GitHub issue state is closed",
         "Freeze canonical manifests and prove zero path overlap before typed claim expansion or deletion",
-        "Use /Volumes/FastWork for generated validation and build output",
-        "Run bounded preparation review, fix every actionable finding, commit and push, and stop"
+        "Use /Volumes/FastWork for generated validation and build output; do not use /private/tmp",
+        "Run bounded preparation validation and finish with a clean local branch; no PR, publication, push, merge, closeout, or product-path claim belongs to this preparation pass"
       ]
     }
   }

@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-13][deletion] Delete externally owned incumbent ADL bands",
     "slug": "v0918-wp13-external-band-deletion",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
@@ -16,7 +16,20 @@
       "summary": "Pre-execution output record.",
       "actual_changes": [],
       "artifacts": [],
-      "actual_validation": [],
+      "actual_validation": [
+        {
+          "command": [
+            "csdlc-validate",
+            "--root",
+            ".",
+            "--request",
+            ".csdlc/prepared/issues/5347/validation-request.json"
+          ],
+          "purpose": "Prove #5347 preparation contract, future lane contract, diff hygiene, and fail-closed blocked execution admission with product_changes=0",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5347/preparation-validation/{preparation-contract.log,future-lane-contract.log,blocked-execution-admission.log,diff-hygiene.log}"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",

@@ -12,30 +12,34 @@ Status: ready
 
 ## Summary
 
-Render and validate all six cards; freeze manifest schema, exact dependency and cycle gate, owner/reachability proof, disjointness boundary, protected paths, COTS, budgets, PVF, rollback, and no-deferral rules; obtain bounded preparation review and fix findings; commit and push preparation only; remain read-only until every terminal gate and issue-graph predicate passes.
+Refresh and validate the #5347 preparation-only packet on the local FastWork branch: current-truth ledger, external-band owner evidence, retained-file authority, deletion-manifest contract, protected paths, dependency gates, focused validation lanes, rollback/no-deferral boundaries, and explicit non-overlap with #5346. Stop with no product deletion, product-path claim, PR, publication, push, merge, or closeout.
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Complete all six typed cards, design, diagram, preparation executables, protected paths, COTS, budgets, PVF, bounded review/fixes, commit, and push without product work",
+    "action": "Refresh preparation-only cards, design, current-truth ledger, validators, protected paths, COTS, budgets, PVF, rollback, and no-deferral rules on the local #5347 branch without product deletion, PR, publication, push, merge, or closeout",
     "acceptance_ids": [
       "AC-1",
-      "AC-7",
-      "AC-8"
+      "AC-2",
+      "AC-3",
+      "AC-9",
+      "AC-10"
     ],
-    "status": "in_progress"
+    "status": "completed"
   },
   {
     "id": "S2",
-    "action": "Maintain a read-only dependency watch and reject execution until all terminal receipts, ancestry checks, and the #5346/#5347 cycle reconciliation pass",
+    "action": "Maintain a read-only dependency watch and reject execution until #5346 terminal closeout, exact #5346 manifest, terminal projection blockers, receipt ancestry, and issue-graph reconciliation all pass",
     "acceptance_ids": [
-      "AC-1"
+      "AC-1",
+      "AC-2",
+      "AC-5"
     ],
     "status": "pending"
   },
@@ -43,10 +47,10 @@ Revision 1
     "id": "S3",
     "action": "Freeze and review exact #5346 and #5347 manifests, prove canonical disjointness, then amend the typed claim with only exact eligible product paths",
     "acceptance_ids": [
-      "AC-2",
-      "AC-3",
       "AC-4",
-      "AC-5"
+      "AC-5",
+      "AC-6",
+      "AC-7"
     ],
     "status": "pending"
   },
@@ -54,26 +58,26 @@ Revision 1
     "id": "S4",
     "action": "Delete only exact delete_external rows and run every owner, parity, security, rollback, CI, reachability, budget, and evidence-integrity proof without deferral",
     "acceptance_ids": [
-      "AC-4",
-      "AC-5",
       "AC-6",
       "AC-7",
-      "AC-8"
+      "AC-8",
+      "AC-9",
+      "AC-10"
     ],
     "status": "pending"
   },
   {
     "id": "S5",
-    "action": "Obtain exact review, publish through typed v2, serialize merge after #5346, run post-merge proof, close out, retain receipt, and release claims",
+    "action": "After authorized deletion execution only, obtain exact review, publish through typed v2, serialize merge after #5346, run post-merge proof, close out, retain receipt, and release claims",
     "acceptance_ids": [
       "AC-1",
-      "AC-2",
-      "AC-3",
       "AC-4",
       "AC-5",
       "AC-6",
       "AC-7",
-      "AC-8"
+      "AC-8",
+      "AC-9",
+      "AC-10"
     ],
     "status": "pending"
   }
@@ -114,7 +118,7 @@ Revision 1
 
 .csdlc/prepared/issues/5347/design.md
 
-Digest: 47d6ecf36eebe48654aab29e403bac103b3a01e32244491ecb3bd39245c8aad7
+Digest: e732e2bb0f1985ad83414d52815872240e99e19f540529275be3f4d69745627f
 
 ## Diagram
 

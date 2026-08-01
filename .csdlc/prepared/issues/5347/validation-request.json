@@ -22,7 +22,7 @@
       {
         "id": "future-lane-contract",
         "proof_role": "future_execution_lane_completeness",
-        "purpose": "Verify every dependency, manifest, owner, budget, and post-deletion lane is present, mandatory, and covers AC-1 through AC-8.",
+        "purpose": "Verify every dependency, manifest, owner, budget, and post-deletion lane is present, mandatory, and covers AC-1 through AC-10.",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 1000},
         "credentials": [],

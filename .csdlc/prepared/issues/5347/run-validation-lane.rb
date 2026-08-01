@@ -262,11 +262,10 @@ when "deletion-budgets-and-evidence"
   fail!("evidence accounting mismatch") unless report.fetch("evidence_nonblank_lines") == evidence_lines
   fail!("evidence budget exceeded") unless evidence_lines <= 1200
 when "validate-contracts"
-  request = load_json(File.join(__dir__, "bootstrap-request.json"))
-  lanes = request.fetch("initial").fetch("validation_lanes")
+  lanes = load_json(File.join(ROOT, ".csdlc/issues/5347/cards/vpp.values.json")).dig("content", "values", "lanes")
   expected = %w[preparation-contract dependency-terminal-gate manifest-disjointness owner-and-consumer-proof deletion-budgets-and-evidence post-deletion-exact]
   fail!("future lane set incomplete") unless lanes.map { |entry| entry.fetch("lane") }.sort == expected.sort
-  fail!("acceptance coverage incomplete") unless lanes.flat_map { |entry| entry.fetch("acceptance_ids") }.uniq.sort == (1..8).map { |id| "AC-#{id}" }
+  fail!("acceptance coverage incomplete") unless lanes.flat_map { |entry| entry.fetch("acceptance_ids") }.uniq.sort == (1..10).map { |id| "AC-#{id}" }.sort
   lanes.reject { |entry| entry["lane"] == "preparation-contract" }.each do |entry|
     fail!("#{entry['lane']} is not deterministic") unless entry["deterministic"] == true
     fail!("#{entry['lane']} has no executable timeout") unless entry["budget_seconds"].is_a?(Integer) && entry["budget_seconds"].positive?

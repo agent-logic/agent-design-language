@@ -25,12 +25,14 @@ Diagram: .csdlc/prepared/issues/5347/diagram.mmd
 [
   {
     "lane": "preparation-contract",
-    "proof_role": "Prove six cards, design/diagram, exact scope, cycle and terminal gates, disjoint manifest boundary, protected paths, COTS, budgets, PVF, rollback, and no-deferral truth",
+    "proof_role": "Prove six cards, design/diagram, current-truth ledger, exact scope, cycle and terminal gates, disjoint manifest boundary, protected paths, COTS, budgets, PVF, rollback, and no-deferral truth",
     "acceptance_ids": [
       "AC-1",
+      "AC-2",
       "AC-3",
-      "AC-7",
-      "AC-8"
+      "AC-5",
+      "AC-9",
+      "AC-10"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -47,7 +49,8 @@ Diagram: .csdlc/prepared/issues/5347/diagram.mmd
     "lane": "dependency-terminal-gate",
     "proof_role": "Fail closed unless #5346 and every acceptance/cutover dependency are merged, typed closed_out, receipt-backed, claim-free, ancestral, and the cycle is reconciled",
     "acceptance_ids": [
-      "AC-1"
+      "AC-1",
+      "AC-2"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -58,16 +61,16 @@ Diagram: .csdlc/prepared/issues/5347/diagram.mmd
       ".csdlc/prepared/issues/5347/check-dependencies.rb"
     ],
     "parallel_group": "execution-gate",
-    "defer_reason": "Run at execution admission; expected to fail until all terminal gates and graph reconciliation exist"
+    "defer_reason": "Run at execution admission; expected to fail until #5346 terminal closeout, exact #5346 manifest, and graph reconciliation exist"
   },
   {
     "lane": "manifest-disjointness",
     "proof_role": "Validate canonical paths, owner/replacement rows, retained rationales, exact receipts, zero #5346 overlap, digest binding, and exact typed product-path claim coverage",
     "acceptance_ids": [
-      "AC-2",
-      "AC-3",
       "AC-4",
-      "AC-5"
+      "AC-5",
+      "AC-6",
+      "AC-7"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -85,9 +88,9 @@ Diagram: .csdlc/prepared/issues/5347/diagram.mmd
     "lane": "owner-and-consumer-proof",
     "proof_role": "Run focused accepted-owner tests, characterization/parity, security/determinism negatives, selector rollback, and authoritative consumer reachability proof",
     "acceptance_ids": [
-      "AC-4",
       "AC-6",
-      "AC-7"
+      "AC-8",
+      "AC-9"
     ],
     "deterministic": true,
     "resource_profile": "medium",
@@ -105,9 +108,9 @@ Diagram: .csdlc/prepared/issues/5347/diagram.mmd
     "lane": "deletion-budgets-and-evidence",
     "proof_role": "Enforce net-negative source change, separate line accounting, COTS closure, LoC/test/time limits, manifest digest, deterministic evidence, redaction, repo-relative paths, and no-deferral",
     "acceptance_ids": [
-      "AC-2",
-      "AC-6",
-      "AC-8"
+      "AC-4",
+      "AC-8",
+      "AC-10"
     ],
     "deterministic": true,
     "resource_profile": "medium",
@@ -127,12 +130,13 @@ Diagram: .csdlc/prepared/issues/5347/diagram.mmd
     "acceptance_ids": [
       "AC-1",
       "AC-2",
-      "AC-3",
       "AC-4",
       "AC-5",
       "AC-6",
       "AC-7",
-      "AC-8"
+      "AC-8",
+      "AC-9",
+      "AC-10"
     ],
     "deterministic": true,
     "resource_profile": "large",

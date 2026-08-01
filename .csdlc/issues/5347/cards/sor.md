@@ -24,7 +24,20 @@ Pre-execution output record.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "csdlc-validate",
+      "--root",
+      ".",
+      "--request",
+      ".csdlc/prepared/issues/5347/validation-request.json"
+    ],
+    "purpose": "Prove #5347 preparation contract, future lane contract, diff hygiene, and fail-closed blocked execution admission with product_changes=0",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5347/preparation-validation/{preparation-contract.log,future-lane-contract.log,blocked-execution-admission.log,diff-hygiene.log}"
+  }
+]
 
 ## Integration
 
