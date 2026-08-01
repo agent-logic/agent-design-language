@@ -32,3 +32,4 @@
 {"sequence":32,"generation":11,"actor":"codex:5558-corrective","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":33,"generation":12,"actor":"codex:root-independent-typed-backfill-review","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":34,"generation":13,"actor":"codex:5558-corrective","reason":"Advance the independently approved typed backfill and selector correction with no actionable findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":35,"generation":14,"actor":"codex:5558-corrective","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

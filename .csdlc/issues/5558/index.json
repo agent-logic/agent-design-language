@@ -3,13 +3,13 @@
   "issue": 5558,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
-  "phase": "reviewed",
-  "generation": 13,
-  "digest": "e412459b8d74f0f3a4a65de840312a6d1356ed8f4b109b6045c9fb4f00e7b3a0",
+  "phase": "published",
+  "generation": 14,
+  "digest": "3ac3f5f16d46f42dade03d1a2f52b1695a5711fda0e972ead15d5c15836dae9b",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
-    "generation": 13,
+    "generation": 14,
     "acquired_unix_seconds": 1785570394,
     "expires_unix_seconds": 1785656794,
     "heartbeat_unix_seconds": 1785570394,
@@ -151,7 +151,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5558,
+    "pull_request": 5769,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5769",
+    "base": "main",
+    "head": "codex/5558-v1-route-corrective",
+    "revision": "git-blake3:e3de84f9b2ea9683b2e6b60b1a22877537fdca7f:3a1042170718634d7d41c0dada0a7f47f0ab7459a259f95e05ec07f1aa59efd4",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -165,34 +175,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "415b48c550d0386340c6109e2dc8fc384c9eb345921fd28433807aec413da086",
+      "values_digest": "288538f5c2a9a45696a629fd55638e41272b9b884f8f7169f0ade069b2dd1abb",
       "rendered_digest": "3ef258b1c4bb480ab05a5f1842a67fb807068d557612286211389017f956a73d",
       "ast_digest": "a173adcf99a8c6fc2eee501e4e055b5613e48eaae750d3859ba753b2051b2716"
     },
     "stp": {
-      "values_digest": "1d51ddd85a88ff89cdef813128d343601d2ef3e442897b949ad1f6267dd8efa2",
+      "values_digest": "9ddc8d9a0e52445552fab69e13f9ccd96acbf24565be4232d903355d1b259eef",
       "rendered_digest": "4e813a7bd81e883366df3deeeb1f62e371dbd81f622aec8f105e5233b842d9df",
       "ast_digest": "ed08ed5118621e4e7978292eb31a6fb1817be62f49cf08a737b4dc9ba94d9b1f"
     },
     "spp": {
-      "values_digest": "daddfcd344cb6c6634e7aa63804fb18e2d5083ccd62f5fa1e8cbf6b625c4c5c8",
+      "values_digest": "649ab3a8ba1fb6bef0e5517a7d51c52ef8b50bc5f05f2e4658a4e3eabc539da5",
       "rendered_digest": "25879d34e3cf553eddde351a8fcadefd055898a9d0280a8e10ebc5e998410ee8",
       "ast_digest": "1453d42addf77769af338269da74b0501f8c17bd84d7d493b518c66395fa38ca"
     },
     "vpp": {
-      "values_digest": "259e711e2d14fc3b6aa17c9b4e256053f694389d155a5d01e1395e6eaed9eecc",
+      "values_digest": "61681ae61bc6b253b9cf49b018bd36c8c3cca468810a8d28a45eaf3926727e34",
       "rendered_digest": "05e67389a9dd9511f18c9fd7089eaba5dc2df4f40979d42e159403da83ef7537",
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "da9ff0e3f5cb5e1f223a8bcbb6be79632dbd30cfc7fb273c69a6c8c37d193631",
+      "values_digest": "a566fcfbcaeca66123cc21cb78732cd9d8ae0e08f46f89f08f94d822adf1ead6",
       "rendered_digest": "f4fc510a4933cdd44dbcdebcb18cbcaf28f49e1c236e5ebc67f8faae454ee364",
       "ast_digest": "05c3b8d7d03b196a6242ccc8ccdc600792814ee2c0b5b8087f40bb7dc97a9eca"
     },
     "sor": {
-      "values_digest": "060df5244a22403e6f615ffe4c31297b607f0140b7a1799fdb0582b8ccf2cc5e",
-      "rendered_digest": "62074f781297af0c693b9104291cc8d90600d563b447b3c5d6f44326ddc7ba97",
-      "ast_digest": "257083066c8b1e5f1bf55da2251c304318bd7c525eab757fcaca67245909951d"
+      "values_digest": "b0046e29fa1f18f2ceac777260b9155725a61d9fc4c001043e560bc31e8a1f80",
+      "rendered_digest": "e2f50177cea02c101fe0641a319f77f2b1d3eb9226490c8f73b91b064d8c2b61",
+      "ast_digest": "35f448a2d691521710dd104d3cd89fdeb8a15d0b21a261c75fc5b1ae7e4c49b7"
     }
   },
   "transitions": [
@@ -244,6 +254,13 @@
       "to": "reviewed",
       "actor": "codex:5558-corrective",
       "reason": "Advance the independently approved typed backfill and selector correction with no actionable findings."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5558-corrective",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -484,6 +501,13 @@
       "actor": "codex:5558-corrective",
       "reason": "Advance the independently approved typed backfill and selector correction with no actionable findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 35,
+      "generation": 14,
+      "actor": "codex:5558-corrective",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
