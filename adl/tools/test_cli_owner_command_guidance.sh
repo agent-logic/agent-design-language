@@ -6,6 +6,7 @@ cd "$repo_root"
 
 required_surfaces=(
   "AGENTS.md"
+  "CONTRIBUTING.md"
   "docs/default_workflow.md"
   "adl/tools/codex_pr.sh"
   "adl/tools/codexw.sh"
@@ -14,6 +15,7 @@ required_surfaces=(
   "adl/src/cli/mod.rs"
   "adl/tools/editor_action.sh"
   "adl/tools/demo_five_command_editing.sh"
+  "adl/tools/demo_v0871_operator_surface.sh"
   "adl/tools/README.md"
   "docs/tooling/editor/command_adapter.md"
   "docs/tooling/editor/current_skill_wiring_demo.md"
@@ -28,12 +30,14 @@ required_surfaces=(
 
 forbidden_guidance_surfaces=(
   "AGENTS.md"
+  "CONTRIBUTING.md"
   "docs/default_workflow.md"
   "adl/tools/codex_pr.sh"
   "adl/tools/codexw.sh"
   "adl/src/cli/mod.rs"
   "adl/tools/editor_action.sh"
   "adl/tools/demo_five_command_editing.sh"
+  "adl/tools/demo_v0871_operator_surface.sh"
   "adl/tools/README.md"
   "docs/tooling/editor/command_adapter.md"
   "docs/tooling/editor/current_skill_wiring_demo.md"
@@ -55,7 +59,22 @@ forbidden_patterns=(
   "adl pr run"
   "adl/tools/pr.sh start"
   "editor_action.sh start"
+  "adl pr create"
+  "adl pr init"
+  "adl pr doctor"
+  "adl pr finish"
+  "adl pr closeout"
+  "adl tooling "
+  "adl-csdlc tooling "
 )
+
+# Discover every tracked CLI implementation file instead of relying on a
+# hand-maintained subset. This keeps new help/diagnostic modules inside the
+# final-authority guard automatically.
+while IFS= read -r surface; do
+  forbidden_guidance_surfaces+=("$surface")
+  required_surfaces+=("$surface")
+done < <(git ls-files 'adl/src/cli/*.rs' 'adl/src/cli/**/*.rs')
 
 for pattern in "${forbidden_patterns[@]}"; do
   if rg -n --fixed-strings "$pattern" "${forbidden_guidance_surfaces[@]}"; then

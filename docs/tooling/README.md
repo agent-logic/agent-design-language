@@ -115,17 +115,17 @@ Important repo-local tooling surfaces include:
 - `csdlc-bind` — typed execution-context binder
 - `csdlc-validate`, `csdlc-review`, and `csdlc-publish` — typed finalization,
   exact-revision review, and publication path
-- `adl tooling lint-prompt-spec` — Prompt Spec lint and validation
-- `adl tooling card-prompt` — deterministic prompt generation from cards
-- `adl tooling validate-structured-prompt` — structured prompt contract validation
+- `adl-lint-prompt-spec` — direct Prompt Spec lint and validation binary
+- `adl-prompt-template` — direct prompt-card editor and renderer binary
+- `adl-validate-structured-prompt` — direct structured prompt contract validator
 - `bash adl/tools/run_aws_codefriend_build_lane.sh` — manual GitHub Actions plus AWS CodeBuild lane wrapper for CodeFriend build orchestration; see [AWS CodeFriend Build Lane](AWS_CODEFRIEND_BUILD_LANE.md)
-- `adl tooling ci-log-archive summarize` — summarize extracted CI logs and optionally upload raw logs plus the generated manifest to private S3 evidence storage; see [CI Log Archive To S3](CI_LOG_ARCHIVE_S3.md)
+- CI log archival is not exposed through the removed tooling multiplexer; see
+  [CI Log Archive To S3](CI_LOG_ARCHIVE_S3.md) for historical context.
 - `adl/tools/validation_manager.py --run` — emit durable `adl.build_action_log.v1` packets for local validation actions; see [Build Action Logs](BUILD_ACTION_LOGS.md)
 - `csdlc-validate` — current typed C-SDLC v2 lifecycle/card validation; see [structured prompt validation boundary](structured-prompt-validator-binary-resolution.md)
-- `adl tooling generate-wp-issue-wave` — deterministic WBS/sprint-to-issue-wave planning generator
-- `adl tooling verify-review-output-provenance` — provenance verification for review-output artifacts
-- `adl tooling review-card-surface` — bounded deterministic review helper
-- `adl tooling review-runtime-surface` — deterministic validator for the `v0.87.1` runtime review package
+- current direct owner binaries and typed skills own planning, provenance, and
+  review validation; the removed `adl tooling` multiplexer is not an
+  operational route.
 - `bash adl/tools/demo_v0871_operator_surface.sh` — canonical `v0.87.1` operator-surface demo for runtime bring-up and proof-surface inspection
 - `bash adl/tools/demo_v0871_review_surface.sh` — canonical `v0.87.1` reviewer walkthrough package across operator and runtime-state proof roots
 - `bash adl/tools/run_validation_manager_nessus_lane.sh` — validation-manager
@@ -179,7 +179,8 @@ For `v0.87.1`, the bounded runtime reviewer contract is:
 - one canonical reviewer guide at `artifacts/v0871/review_surface/README.md`
 - one stable package ordering rooted in D6 operator proof and D7 runtime-state proof
 
-Use `adl tooling review-runtime-surface --review-root artifacts/v0871/review_surface` to validate that review package deterministically.
+The historical review package requires a current direct validator before it can
+be advertised as an executable proof route.
 
 ## Notes
 

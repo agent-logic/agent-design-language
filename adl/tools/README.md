@@ -19,7 +19,9 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 - `archive_run_artifacts.sh`: dry-run/apply helper that inventories local run roots, copies unique run artifacts into `.adl/trace-archive/milestones/<milestone>/runs/`, and can move archived active `.adl/runs` entries into `.adl/trace-archive/source-roots/`.
 - `release_ceremony.sh`: canonical release-tail preflight and ceremony wrapper for milestone tag and GitHub Release execution, safe by default and only mutating release state when explicit flags are passed.
 - `demo_v089_quality_gate.sh`: canonical `v0.89` D11 quality-gate walkthrough that aggregates the bounded local gate and proof-package checks into one reviewer-facing manifest.
-- `adl tooling ...`: Rust-owned tooling surface for prompt/card/review validation helpers, with legacy wrapper scripts preserved at the historical `adl/tools/*` paths.
+- direct owner binaries such as `adl-prompt-template`,
+  `adl-validate-structured-prompt`, and `adl-lint-prompt-spec` own supported
+  prompt/card validation helpers.
 - `burst_worktree.sh`, `burst_continue.sh`: burst lane/worktree helpers.
 - `batched_checks.sh`, `preflight_review.sh`: quality/preflight checks, including the repo-code-review skill contract guard.
 - `check_issue_metadata_parity.sh`: canonical metadata parity audit for GitHub issue title/labels plus local `.adl` body/STP metadata identity.
@@ -134,11 +136,9 @@ cd ./adl/ && bash tools/enforce_coverage_gates.sh coverage-summary.json
 # report large Rust source and test modules without failing the build
 ./adl/tools/report_large_rust_modules.sh
 
-# generate deterministic execution prompt from an input card
-adl-csdlc tooling card-prompt --issue <issue_num> --out /tmp/prompt.txt
-
-# fresh checkout fallback when adl-csdlc is not yet on PATH
-cargo run --manifest-path adl/Cargo.toml --bin adl-csdlc -- tooling card-prompt --issue <issue_num> --out /tmp/prompt.txt
+# edit or validate prompt cards with the direct owner binaries
+.adl/bin/adl-prompt-template --help
+.adl/bin/adl-validate-structured-prompt --help
 
 # finalize, review, and publish through typed requests
 .adl/bin/csdlc-v2/csdlc-validate --root <worktree> finalize --request <finalize-request.json>

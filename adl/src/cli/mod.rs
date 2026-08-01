@@ -377,7 +377,7 @@ Usage:\n\
   adl-review --help\n\
   adl-review --version\n\n\
 Notes:\n\
-  adl tooling code-review and related review commands remain available as compatibility shims during migration.\n\
+  Legacy review/tooling multiplexers are removed; use the current direct owner binaries.\n\
   C-SDLC issue work resolves through csdlc-install and the independent typed v2 binaries; runtime workflow YAML belongs to adl-runtime run <adl.yaml>."
 }
 
@@ -466,12 +466,11 @@ pub(crate) fn csdlc_usage_for(binary_name: &str) -> String {
     format!(
         "{title}\n\n\
 Usage:\n\
-  {binary_name} tooling <card-prompt|csdlc-prompt-editor|generate-wp-issue-wave|lint-prompt-spec|prompt-template|srp-sor-update|validate-structured-prompt|...> ...\n\
   {binary_name} --help\n\
   {binary_name} --version\n\n\
 Notes:\n\
   The v1 lifecycle surface is removed. Resolve the final generation with csdlc-install and use the independent typed v2 binaries.\n\
-  This compatibility binary retains tooling-only commands. Runtime workflow YAML belongs to adl-runtime run <adl.yaml>."
+  This compatibility binary has no operational lifecycle or tooling commands. Runtime workflow YAML belongs to adl-runtime run <adl.yaml>."
     )
 }
 
@@ -511,12 +510,14 @@ fn dispatch_csdlc_args_for(binary_name: &'static str, args: &[String]) -> Result
         Some("pr") | Some("issue") => Err(anyhow::anyhow!(
             "{binary_name} v1 lifecycle commands were removed; use the independent C-SDLC v2 binaries"
         )),
-        Some("tooling") => real_tooling(&args[1..]),
+        Some("tooling") => Err(anyhow::anyhow!(
+            "{binary_name} tooling was removed; use the current direct owner binaries"
+        )),
         Some("run") => Err(anyhow::anyhow!(
             "{binary_name} does not run ADL workflow YAML. Use adl-runtime run <adl.yaml> for runtime workflows; resolve C-SDLC issue execution through csdlc-install and the typed v2 binaries."
         )),
         Some(other) => Err(anyhow::anyhow!(
-            "unknown {binary_name} command '{other}'. Expected pr, issue, tooling, help, or --version."
+            "unknown {binary_name} command '{other}'. Expected help or --version."
         )),
         None => Err(anyhow::anyhow!(
             "{binary_name} requires a command. Run `{binary_name} --help` for usage."
