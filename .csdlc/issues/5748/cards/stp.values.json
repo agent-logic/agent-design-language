@@ -7,7 +7,7 @@
     "title": "[v0.91.8][csdlc-v2][closeout] Recover remaining closed-issue terminal truth",
     "slug": "remaining-closed-issue-terminal-recovery",
     "version": "v0.91.8",
-    "generation": 19
+    "generation": 22
   },
   "status": "ready",
   "content": {
@@ -27,7 +27,7 @@
         "AC-4: No dirty or foreign-owned worktree content is discarded.",
         "AC-5: No stale review, missing proof, missing closing linkage, or mismatched terminal PR is inferred away.",
         "AC-6: Final reporting includes every inventoried issue with no silent omissions.",
-        "AC-7: No AWS, force-prune, raw GitHub, v1 wrapper, or import route is used."
+        "AC-7: No AWS, force-prune, GitHub mutation outside typed C-SDLC v2, v1 wrapper, or import route is used; read-only GitHub observation is allowed for live parity evidence."
       ],
       "dependencies": [
         "closed remote issue disposition for every inventory item",

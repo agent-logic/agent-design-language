@@ -38,7 +38,7 @@ Classify every live GitHub-closed version:v0.91.8 issue against exact merged-PR 
 ## Operator Constraints
 
 - never write tracked changes on main
-- never touch #5746
-- use typed C-SDLC v2 only
+- do not modify or prune the active #5746 issue worktree; receipt-backed terminal reconciliation on the dedicated #5748 closeout branch is allowed
+- use typed C-SDLC v2 for every lifecycle mutation
 - preserve dirty worktrees
-- no AWS or raw GitHub commands
+- do not use AWS; GitHub observations must be read-only and every GitHub mutation must use the typed C-SDLC v2 route

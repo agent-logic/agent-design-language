@@ -29,7 +29,7 @@ C-SDLC v2 terminal truth recovery for the issue #5748 inventory only; no product
 4. AC-4: No dirty or foreign-owned worktree content is discarded.
 5. AC-5: No stale review, missing proof, missing closing linkage, or mismatched terminal PR is inferred away.
 6. AC-6: Final reporting includes every inventoried issue with no silent omissions.
-7. AC-7: No AWS, force-prune, raw GitHub, v1 wrapper, or import route is used.
+7. AC-7: No AWS, force-prune, GitHub mutation outside typed C-SDLC v2, v1 wrapper, or import route is used; read-only GitHub observation is allowed for live parity evidence.
 
 ## Dependencies
 

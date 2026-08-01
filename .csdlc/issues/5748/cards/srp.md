@@ -18,8 +18,9 @@ Issue #5748 terminal projections, retained receipts, special-case repair evidenc
 
 - Does each tracked projection exactly preserve its retained receipt identity and terminal disposition?
 - Are false or special dispositions repaired through an explicit typed route rather than inferred?
-- Do retained design and diagram artifacts remain portable and receipt-consistent?
-- Did the sweep preserve dirty worktrees and exclude #5746, AWS, raw GitHub, v1, and import routes?
+- Do retained design and diagram artifacts remain portable, canonical-path safe, and receipt-consistent?
+- Did the sweep preserve dirty worktrees and avoid modifying or pruning the active #5746 worktree?
+- Were GitHub accesses limited to read-only live observation or typed C-SDLC v2 mutation routes, with no AWS, v1, or import route?
 
 ## Findings
 

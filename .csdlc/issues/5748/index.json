@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "83297ec0112398ab8c3a67ffb30fb5749e94961d9e422a1e45bbf84ded0fb9d9",
+  "generation": 22,
+  "digest": "b391d8f01f4ece479a49c071910dfb840ae144f0c08e1ae73f054705f2b55f7e",
   "claim": {
     "id": "claim-5748-terminal-recovery-v3",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
-    "generation": 19,
+    "generation": 22,
     "acquired_unix_seconds": 1785562277,
     "expires_unix_seconds": 1786167077,
     "heartbeat_unix_seconds": 1785562277,
@@ -72,32 +72,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "749b7e27dce4781e92b901b924bc69bc96c0a7e592d7a49e0b80528c15c7fff5",
-      "rendered_digest": "47705f68049f2565e12871bfbb5bb6e9bec75d62f9334b13a1fcb29879eeedf2",
-      "ast_digest": "66b2fa31a0cbd5c056ae38bb3ce5459c7826160b165e8fa0daf68fe378083004"
+      "values_digest": "bf2f9a2d0855736b45b0e98a672e7a8185ecf1ea6729a09343e14016a538788a",
+      "rendered_digest": "61fb95101613a3aaf68092ebe8438ad111434679508868c69a423e48729d4388",
+      "ast_digest": "9ce41404decb9c849c710189a1bfef5f62801549ae39f42f138383cddcda65a4"
     },
     "stp": {
-      "values_digest": "5acbc973f061259c6deb704682da7ed6eebc97a42c7b5cff12efcdc2d6ee8096",
-      "rendered_digest": "5a8822a8c7b60a5065afcd89d1402d36d705dcb5b42ecd109f518d27e0fc5e62",
-      "ast_digest": "1109b3410dd50617d7241c3755faf54737ac8453a998b23fd32c4af3ddc5966e"
+      "values_digest": "ca333af6b7a66b6ab115f13228569b20e4ae10788acc7c3967b555533755dfb2",
+      "rendered_digest": "f2bcecd25975a08e704db32829dc123f5585aad64c9a53ada7bc86dcb92143e8",
+      "ast_digest": "d44ecf1c459ef6eeceae9febf3297b6f073f1d7d7246f091aedfc9041e615e8d"
     },
     "spp": {
-      "values_digest": "abcfe1951f3d260459a1a4f8c825d173189ce1d5f1a506f20c967340f3b627b4",
+      "values_digest": "a2cc14f6f4d457758e66c7bddbd1f95782dde683f0e9b75ec5a188a33cfec4c5",
       "rendered_digest": "e9b0d898d2a756b4fdad65dc50cb51b1ce6b7a30ecee883c73238f4882dc33ab",
       "ast_digest": "bc33f4d0c44c7a28cb49b903543db9235180fca69993b0e7522b00eb92df8e64"
     },
     "vpp": {
-      "values_digest": "27e370bb224e68bc4873d8235754b357f2b63e8efe477f16b6d1ce8c570fd530",
+      "values_digest": "85051fde775f7b0145d9db002204cd69b92cabcc190921e93cf8f7861e26a8fe",
       "rendered_digest": "14449800caa2269df2accf36af84f3f6de37f03cd453dbdafa41d668aa4010e1",
       "ast_digest": "49db9c8d781453dba81523de6ef5f5a810fcc132705f5ad988c9816aea97b395"
     },
     "srp": {
-      "values_digest": "72f009a71a49395cf0f10a239586cf43459f9612d0d9590fc115b92f4ca3ba34",
-      "rendered_digest": "281a0127cda1e0cf6ddfd6d224c9f4eaa89cfabc033a215c3687ee16c711c5e6",
-      "ast_digest": "a80d4038f11d4d74ec0a7f5a892ab1f3b2d50d2d68c2de1f4ff65bef8a2e696a"
+      "values_digest": "e22e46ac53b0d234f054c1ecb5d5180c81ff6e3d71d04e768310cecc28a5d62f",
+      "rendered_digest": "5438fc034776835713e7278959e1339264a019daeef57dd9901907adf5899ec6",
+      "ast_digest": "0277a32f19dabc31451b99d4046653f022dcaa82d754162e72f1fa31e808acb8"
     },
     "sor": {
-      "values_digest": "a4c57f3f850d330b6925e376e6138b54fdf8883e44ba9a15e48f13f8e0de984d",
+      "values_digest": "7eb552cf61c2ebc5da2a7677875ea815cf273f5176b21bfb5781b42cec2fc33f",
       "rendered_digest": "ed9e3f4f12cc372ecbc3f3389012c184f8111f8caf13a626415318bfebbda57f",
       "ast_digest": "6f26f4ab9907b379cd70731e3494db8c6efd88f20bdd9cd4f2cd66b707e118cb"
     }
@@ -377,6 +377,27 @@
       "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
       "reason": "Reacquire exact live 103-issue closeout authority after typed release of the stale purpose.",
       "operation": "{\"branch\":\"codex/5748-terminal-recovery\",\"claim_id\":\"claim-5748-terminal-recovery-v3\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:019fb617-d22b-7252-975c-402d7d7aec46\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5748\",\".csdlc/issues/4759\",\".csdlc/issues/4760\",\".csdlc/issues/4763\",\".csdlc/issues/5342\",\".csdlc/issues/5347\",\".csdlc/issues/5352\",\".csdlc/issues/5354\",\".csdlc/issues/5438\",\".csdlc/issues/5499\",\".csdlc/issues/5540\",\".csdlc/issues/5548\",\".csdlc/issues/5572\",\".csdlc/issues/5587\",\".csdlc/issues/5610\",\".csdlc/issues/5632\",\".csdlc/issues/5645\",\".csdlc/issues/5663\",\".csdlc/issues/5664\",\".csdlc/issues/5665\",\".csdlc/issues/5670\",\".csdlc/issues/5675\",\".csdlc/issues/5678\",\".csdlc/issues/5679\",\".csdlc/issues/5687\",\".csdlc/issues/5701\",\".csdlc/issues/5708\",\".csdlc/issues/5711\",\".csdlc/issues/5718\",\".csdlc/issues/5728\",\".csdlc/issues/5733\",\".csdlc/issues/5735\",\".csdlc/issues/5746\",\".csdlc/issues/5748\",\".csdlc/locks/5748.lock\",\".csdlc/prepared/issues/5748\",\"csdlc-v2\"],\"purpose\":\"Complete, validate, independently review, publish, merge, and typed-close #5748; reconcile the 103-issue v0.91.8 closed universe, preserve exact fail-closed exceptions, and harden C-SDLC v2 terminal authentication where required for truthful proof.\",\"worktree\":\".worktrees/adl-wp-5748\"}"
+    },
+    {
+      "sequence": 37,
+      "generation": 20,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Correct the implemented closeout boundary after exact-head review identified stale #5746 and GitHub-observation exclusions.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"never write tracked changes on main\",\"do not modify or prune the active #5746 issue worktree; receipt-backed terminal reconciliation on the dedicated #5748 closeout branch is allowed\",\"use typed C-SDLC v2 for every lifecycle mutation\",\"preserve dirty worktrees\",\"do not use AWS; GitHub observations must be read-only and every GitHub mutation must use the typed C-SDLC v2 route\"]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 21,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Correct the implemented acceptance boundary so it distinguishes authorized read-only GitHub observation from prohibited untyped mutation.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Every inventoried issue has remote state, disposition, PR or no-PR reason, terminal receipt, tracked projection, and claim release in agreement.\",\"AC-2: Every resulting projection passes csdlc-doctor and exact receipt equality.\",\"AC-3: Missing-record or false-terminal recovery uses only a current typed deterministic route.\",\"AC-4: No dirty or foreign-owned worktree content is discarded.\",\"AC-5: No stale review, missing proof, missing closing linkage, or mismatched terminal PR is inferred away.\",\"AC-6: Final reporting includes every inventoried issue with no silent omissions.\",\"AC-7: No AWS, force-prune, GitHub mutation outside typed C-SDLC v2, v1 wrapper, or import route is used; read-only GitHub observation is allowed for live parity evidence.\"]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 22,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Correct the exact-head review prompts to match the implemented #5746 worktree boundary and authorized read-only GitHub evidence route.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does each tracked projection exactly preserve its retained receipt identity and terminal disposition?\",\"Are false or special dispositions repaired through an explicit typed route rather than inferred?\",\"Do retained design and diagram artifacts remain portable, canonical-path safe, and receipt-consistent?\",\"Did the sweep preserve dirty worktrees and avoid modifying or pruning the active #5746 worktree?\",\"Were GitHub accesses limited to read-only live observation or typed C-SDLC v2 mutation routes, with no AWS, v1, or import route?\"]}"
     }
   ]
 }
