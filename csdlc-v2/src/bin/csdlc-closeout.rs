@@ -7,10 +7,11 @@ use std::process::Command as ProcessCommand;
 use clap::{Parser, Subcommand};
 use csdlc_v2::error::{ErrorCode, V2Error};
 use csdlc_v2::{
-    classify_readiness, closeout_issue, reconcile_terminal_observation_head, record_readiness,
-    CheckConclusion, CheckObservation, CheckRequirement, ConflictState, PostPublicationFinding,
-    ReadinessRequest, RecordlessTerminalRecoveryRequest, RemoteReviewState, Store,
-    TerminalDesignRepairRequest, TerminalDisposition, TerminalDispositionRepairRequest,
+    classify_readiness, closeout_issue, execute_github_action, reconcile_terminal_observation_head,
+    record_readiness, CheckConclusion, CheckObservation, CheckRequirement, ConflictState,
+    GithubAction, GithubActionRequest, HistoricalMergedReconciliationRequest,
+    PostPublicationFinding, ReadinessRequest, RecordlessTerminalRecoveryRequest, RemoteReviewState,
+    Store, TerminalDesignRepairRequest, TerminalDisposition, TerminalDispositionRepairRequest,
     TerminalObservation, TerminalPlanStepRepairRequest, TerminalReceipt,
     TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
     TerminalSorValidationRepairRequest,
@@ -76,6 +77,10 @@ enum Command {
         request: PathBuf,
     },
     RecoverRecordless {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    ReconcileHistoricalMerged {
         #[arg(long)]
         request: PathBuf,
     },
@@ -167,19 +172,37 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         Command::RepairSorValidation { request } => json(store.repair_terminal_sor_validation(
             read::<TerminalSorValidationRepairRequest>(request)?,
         )?),
-        Command::RepairDisposition { request } => json(
-            store
-                .repair_terminal_disposition(read::<TerminalDispositionRepairRequest>(request)?)?,
-        ),
+        Command::RepairDisposition { request } => {
+            let mut request = read::<TerminalDispositionRepairRequest>(request)?;
+            let pr = request
+                .merged_evidence
+                .pr_state
+                .as_ref()
+                .map(|value| value.pull_request)
+                .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "PR identity missing"))?;
+            request.merged_evidence = observe_pr(
+                request.merged_evidence.repository.clone(),
+                pr,
+                request.target_issue,
+            )
+            .await?;
+            json(store.repair_terminal_disposition(request)?)
+        }
         Command::TransportReceipt { request } => json(store.transport_terminal_receipt(read::<
             TerminalReceiptTransportRequest,
         >(
             request,
         )?)?),
-        Command::RecoverRecordless { request } => json(
-            store
-                .recover_recordless_terminal(read::<RecordlessTerminalRecoveryRequest>(request)?)?,
-        ),
+        Command::RecoverRecordless { request } => {
+            let mut request = read::<RecordlessTerminalRecoveryRequest>(request)?;
+            refresh_recordless_observations(&mut request).await?;
+            json(store.recover_recordless_terminal(request)?)
+        }
+        Command::ReconcileHistoricalMerged { request } => {
+            let mut request = read::<HistoricalMergedReconciliationRequest>(request)?;
+            refresh_historical_observations(&mut request).await?;
+            json(store.reconcile_historical_merged(request)?)
+        }
         Command::PreparePrune { issue } => {
             let record = store.load_record(*issue)?;
             if record.phase != csdlc_v2::LifecyclePhase::ClosedOut {
@@ -227,6 +250,98 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         Command::ClassifyClosed { issue } => classify_closed_issue(&store, *issue),
         Command::RetainReceipt { issue } => json(store.retain_terminal_receipt(*issue)?),
     }
+}
+
+async fn observe_issue(
+    repository: String,
+    issue: u64,
+) -> csdlc_v2::Result<csdlc_v2::GithubActionResult> {
+    execute_github_action(&GithubActionRequest {
+        repository,
+        action: GithubAction::IssueRead,
+        operation_key: Some(format!("csdlc-closeout:issue:{issue}")),
+        token_file: None,
+        issue: Some(issue),
+        pull_request: None,
+        title: None,
+        body: None,
+        labels: Vec::new(),
+        assignees: Vec::new(),
+        milestone: None,
+        state: None,
+        comment_body: None,
+        required_checks: Vec::new(),
+        require_review: false,
+        linked_issue: None,
+    })
+    .await
+}
+
+async fn observe_pr(
+    repository: String,
+    pull_request: u64,
+    issue: u64,
+) -> csdlc_v2::Result<csdlc_v2::GithubActionResult> {
+    execute_github_action(&GithubActionRequest {
+        repository,
+        action: GithubAction::PrState,
+        operation_key: Some(format!("csdlc-closeout:pr:{pull_request}:issue:{issue}")),
+        token_file: None,
+        issue: None,
+        pull_request: Some(pull_request),
+        title: None,
+        body: None,
+        labels: Vec::new(),
+        assignees: Vec::new(),
+        milestone: None,
+        state: None,
+        comment_body: None,
+        required_checks: Vec::new(),
+        require_review: false,
+        linked_issue: Some(issue),
+    })
+    .await
+}
+
+async fn refresh_recordless_observations(
+    request: &mut RecordlessTerminalRecoveryRequest,
+) -> csdlc_v2::Result<()> {
+    let repository = request.issue.repository.clone();
+    let issue = request.issue.number;
+    request.issue_evidence = observe_issue(repository.clone(), issue).await?;
+    request.issue = request.issue_evidence.issue.clone().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "remote issue packet missing",
+        )
+    })?;
+    if let Some(evidence) = request.merged_evidence.as_ref() {
+        let pr = evidence
+            .pr_state
+            .as_ref()
+            .map(|value| value.pull_request)
+            .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "PR identity missing"))?;
+        request.merged_evidence = Some(observe_pr(repository.clone(), pr, issue).await?);
+    }
+    if let Some(related) = request.related_issue {
+        request.related_issue_evidence = Some(observe_issue(repository, related).await?);
+    }
+    Ok(())
+}
+
+async fn refresh_historical_observations(
+    request: &mut HistoricalMergedReconciliationRequest,
+) -> csdlc_v2::Result<()> {
+    let repository = request.issue_evidence.repository.clone();
+    let pr = request
+        .merged_evidence
+        .pr_state
+        .as_ref()
+        .map(|value| value.pull_request)
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "PR identity missing"))?;
+    request.issue_evidence = observe_issue(repository.clone(), request.target_issue).await?;
+    request.merged_evidence = observe_pr(repository, pr, request.target_issue).await?;
+    Ok(())
 }
 
 async fn observe_readiness(

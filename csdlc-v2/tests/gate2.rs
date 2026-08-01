@@ -387,7 +387,7 @@ fn bootstrap_rejects_one_path_for_both_authored_artifact_roles() {
 #[test]
 fn bind_creates_and_idempotently_reuses_typed_worktree() {
     let (temp, store, record) = fixture();
-    git(temp.path(), &["init", "-b", "main"]);
+    git(temp.path(), &["init", "-b", "issue-43-terminal"]);
     git(
         temp.path(),
         &["config", "user.email", "test@example.invalid"],
@@ -1582,6 +1582,267 @@ fn active_nonoverlap_does_not_consult_stale_terminal_identity() {
     let (_temp, store) = fixture_with_stale_terminal_identity("main", "terminal-only");
     initialize_issue(&store, request())
         .expect("non-overlapping active claim does not consult unrelated terminal identity");
+}
+
+#[test]
+fn amend_scope_accepts_only_expired_exact_receipt_backed_terminal_projection_overlap() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    git(temp.path(), &["init", "-b", "main"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    fs::create_dir_all(temp.path().join("docs")).expect("docs");
+    fs::write(temp.path().join("docs/design.md"), "# Reviewed design\n").expect("design");
+    fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n  A --> B\n",
+    )
+    .expect("diagram");
+    let store = Store::new(temp.path());
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .expect("clock")
+        .as_secs();
+    let live_observation = now + 60;
+    let lease_expiry = now + 3_600;
+    let mut stale_request = request();
+    stale_request.issue = 43;
+    stale_request.claim.id = "claim-43-stale".into();
+    stale_request.claim.branch = "issue-43-terminal".into();
+    stale_request.claim.worktree = ".".into();
+    stale_request.claim.acquired_unix_seconds = now.saturating_sub(1);
+    stale_request.claim.heartbeat_unix_seconds = now.saturating_sub(1);
+    stale_request.claim.expires_unix_seconds = lease_expiry;
+    stale_request.claim.protected_paths = vec![".csdlc/issues/43".into(), "docs/design.md".into()];
+    stale_request.initial.goal = "Pre-terminal projection for one terminal identity.".into();
+    let mut terminal_source = initialize_issue(&store, stale_request).expect("terminal source");
+    for phase in [
+        csdlc_v2::LifecyclePhase::Ready,
+        csdlc_v2::LifecyclePhase::Bound,
+    ] {
+        terminal_source = edit_issue(
+            &store,
+            edit_for(
+                43,
+                "claim-43-stale",
+                &terminal_source,
+                CardKind::Sip,
+                SemanticOperation::AdvancePhase { phase },
+            ),
+        )
+        .expect("advance terminal source");
+    }
+    terminal_source = edit_issue(
+        &store,
+        edit_for(
+            43,
+            "claim-43-stale",
+            &terminal_source,
+            CardKind::Sor,
+            SemanticOperation::RecordExecution {
+                summary: "terminal source complete".into(),
+                changes: vec!["terminal source".into()],
+                artifacts: vec!["terminal-source.json".into()],
+            },
+        ),
+    )
+    .expect("record execution");
+    terminal_source = edit_issue(
+        &store,
+        edit_for(
+            43,
+            "claim-43-stale",
+            &terminal_source,
+            CardKind::Sip,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Implemented,
+            },
+        ),
+    )
+    .expect("advance implemented");
+    terminal_source = edit_issue(
+        &store,
+        edit_for(
+            43,
+            "claim-43-stale",
+            &terminal_source,
+            CardKind::Sor,
+            SemanticOperation::RecordValidation {
+                result: csdlc_v2::cards::ValidationResult {
+                    command: vec!["cargo".into(), "test".into()],
+                    purpose: "terminal projection authority proof".into(),
+                    outcome: csdlc_v2::cards::EvidenceOutcome::Passed,
+                    evidence_ref: "evidence/terminal-projection-authority.json".into(),
+                },
+            },
+        ),
+    )
+    .expect("record validation");
+    terminal_source = edit_issue(
+        &store,
+        edit_for(
+            43,
+            "claim-43-stale",
+            &terminal_source,
+            CardKind::Srp,
+            SemanticOperation::RecordReview {
+                reviewer: "independent-reviewer".into(),
+                revision: "terminal-source-revision".into(),
+                result: csdlc_v2::cards::ReviewResult::Pass,
+                residual_risk: vec![],
+            },
+        ),
+    )
+    .expect("record review");
+    terminal_source = edit_issue(
+        &store,
+        edit_for(
+            43,
+            "claim-43-stale",
+            &terminal_source,
+            CardKind::Sip,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Reviewed,
+            },
+        ),
+    )
+    .expect("advance reviewed");
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "stale issue projection"]);
+    let stale_commit = csdlc_v2::git::run(temp.path(), &["rev-parse", "HEAD"])
+        .expect("stale commit")
+        .stdout;
+
+    closeout_issue(
+        &store,
+        TerminalObservation {
+            schema: "csdlc.terminal_observation.v1".into(),
+            issue: 43,
+            expected_generation: terminal_source.generation,
+            expected_digest: terminal_source.digest,
+            claim_id: "claim-43-stale".into(),
+            actor: "closer".into(),
+            pull_request: None,
+            disposition: TerminalDisposition::ClosedNoPr,
+            observed_sha: None,
+            observed_state: "closed_no_pr".into(),
+            approved_no_pr_reason: Some("operator-approved terminal fixture".into()),
+            receipt_path: "csdlc-v2/closeout/43.json".into(),
+        },
+    )
+    .expect("close terminal source");
+    store.retain_terminal_receipt(43).expect("retain receipt");
+    git(temp.path(), &["branch", "-m", "terminal-aggregate"]);
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "terminal authority"]);
+    let divergent = temp.path().join("divergent-sibling");
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "divergent-43",
+            divergent.to_str().expect("divergent path"),
+            "HEAD",
+        ],
+    );
+    let divergent_store = Store::new(&divergent);
+    fs::remove_dir_all(divergent_store.issue_dir(43)).expect("remove terminal projection");
+    let mut divergent_request = request();
+    divergent_request.issue = 43;
+    divergent_request.claim.id = "claim-43-divergent".into();
+    divergent_request.claim.branch = "divergent-43".into();
+    divergent_request.claim.worktree = ".".into();
+    divergent_request.claim.acquired_unix_seconds = now.saturating_sub(1);
+    divergent_request.claim.heartbeat_unix_seconds = now.saturating_sub(1);
+    divergent_request.claim.expires_unix_seconds = lease_expiry;
+    divergent_request.claim.protected_paths = vec![".csdlc/issues/43".into()];
+    divergent_request.initial.goal = "Divergent issue identity must not be waived.".into();
+    initialize_issue(&divergent_store, divergent_request).expect("divergent issue identity");
+    git(&divergent, &["add", "."]);
+    git(&divergent, &["commit", "-m", "divergent issue identity"]);
+
+    let mut aggregate_request = request();
+    aggregate_request.claim.branch = "terminal-aggregate".into();
+    aggregate_request.claim.worktree = ".".into();
+    aggregate_request.claim.protected_paths = vec!["aggregate".into()];
+    let mut aggregate = initialize_issue(&store, aggregate_request).expect("aggregate issue");
+    for phase in [
+        csdlc_v2::LifecyclePhase::Ready,
+        csdlc_v2::LifecyclePhase::Bound,
+    ] {
+        aggregate = edit_issue(
+            &store,
+            edit_for(
+                42,
+                "claim-1",
+                &aggregate,
+                CardKind::Sip,
+                SemanticOperation::AdvancePhase { phase },
+            ),
+        )
+        .expect("advance aggregate");
+    }
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "terminal aggregate"]);
+    let sibling = temp.path().join("stale-sibling");
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "issue-43-terminal",
+            sibling.to_str().expect("sibling path"),
+            &stale_commit,
+        ],
+    );
+
+    let exact_projection = |record: &csdlc_v2::IssueRecord, now| AmendClaimScopeRequest {
+        issue: 42,
+        claim_id: "claim-1".into(),
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        now_unix_seconds: now,
+        actor: "aggregate-test".into(),
+        reason: "cover terminal projection only".into(),
+        add_protected_paths: vec![".csdlc/issues/43".into()],
+    };
+    let live = amend_claim_scope(&store, exact_projection(&aggregate, live_observation))
+        .expect_err("live sibling claim must collide");
+    assert_eq!(live.code, ErrorCode::ClaimCollision);
+
+    let divergent_identity = amend_claim_scope(&store, exact_projection(&aggregate, lease_expiry))
+        .expect_err("divergent sibling identity must collide");
+    assert_eq!(divergent_identity.code, ErrorCode::ClaimCollision);
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            divergent.to_str().expect("divergent path"),
+        ],
+    );
+
+    amend_claim_scope(&store, exact_projection(&aggregate, lease_expiry))
+        .expect("expired exact terminal projection overlap");
+    let current = store.load_record(42).expect("amended aggregate");
+    let product_overlap = amend_claim_scope(
+        &store,
+        AmendClaimScopeRequest {
+            add_protected_paths: vec!["docs/design.md".into()],
+            expected_generation: current.generation,
+            expected_digest: current.digest.clone(),
+            now_unix_seconds: lease_expiry,
+            ..exact_projection(&current, lease_expiry)
+        },
+    )
+    .expect_err("terminal receipt cannot waive product-path collision");
+    assert_eq!(product_overlap.code, ErrorCode::ClaimCollision);
 }
 
 #[test]

@@ -16,9 +16,9 @@ use crate::cards::{
 };
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
-    AuditEvent, CardProjection, Claim, DesignReview, IssueRecord, LifecyclePhase,
-    PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest, RecordlessClosureKind,
-    RecordlessTerminalRecoveryRequest, ReviewAssignment, ReviewEvidence,
+    AuditEvent, CardProjection, Claim, DesignReview, HistoricalMergedReconciliationRequest,
+    IssueRecord, LifecyclePhase, PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest,
+    RecordlessClosureKind, RecordlessTerminalRecoveryRequest, ReviewAssignment, ReviewEvidence,
     TerminalDesignRepairRequest, TerminalDispositionRepairRequest, TerminalEvidence,
     TerminalPlanStepRepairRequest, TerminalReceipt, TerminalReceiptTransportRequest,
     TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest, TransitionEvent,
@@ -379,11 +379,33 @@ impl Store {
                 "terminal design repair requires a closed-out target without a claim",
             ));
         }
-        authority
-            .claim
-            .as_ref()
-            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "repair authority claim missing"))?
-            .validate(&request.authority_claim_id, now_seconds()?)?;
+        let authority_claim = authority.claim.as_ref().ok_or_else(|| {
+            V2Error::new(ErrorCode::MissingClaim, "repair authority claim missing")
+        })?;
+        authority_claim.validate(&request.authority_claim_id, now_seconds()?)?;
+        if !claim_covers_issue(authority_claim, request.target_issue) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "terminal design repair authority does not cover target issue",
+            ));
+        }
+        let target_issue_root = PathBuf::from(format!(".csdlc/issues/{}", request.target_issue));
+        for path in [&target.design_path, &target.diagram_path] {
+            if Path::new(path).starts_with(&target_issue_root) {
+                continue;
+            }
+            if !authority_claim.protected_paths.iter().any(|protected| {
+                Path::new(path) == Path::new(protected)
+                    || Path::new(path).starts_with(Path::new(protected))
+            }) {
+                return Err(V2Error::new(
+                    ErrorCode::InvalidInput,
+                    format!(
+                        "terminal design repair authority does not cover external artifact {path}"
+                    ),
+                ));
+            }
+        }
         let receipt_path = self.terminal_receipt_path(request.target_issue)?;
         let original_receipt_bytes = fs::read(&receipt_path)?;
         let original_receipt: TerminalReceipt = serde_json::from_slice(&original_receipt_bytes)?;
@@ -1369,6 +1391,30 @@ impl Store {
         Ok(Some(receipt))
     }
 
+    pub(crate) fn has_claim_free_terminal_authority(
+        &self,
+        issue: u64,
+        repository: &str,
+        initialization_digest: &str,
+    ) -> Result<bool> {
+        let local = self.load_record(issue)?;
+        if local.phase != LifecyclePhase::ClosedOut
+            || local.claim.is_some()
+            || local.repository != repository
+            || local.initialization_digest != initialization_digest
+        {
+            return Ok(false);
+        }
+        let Some(receipt) = self.load_terminal_receipt(issue)? else {
+            return Ok(false);
+        };
+        if receipt.record != local {
+            return Ok(false);
+        }
+        self.verify_materialized_terminal_receipt(&receipt)?;
+        Ok(true)
+    }
+
     fn verify_materialized_terminal_receipt(&self, receipt: &TerminalReceipt) -> Result<()> {
         let local = self.load_record(receipt.issue)?;
         let cards = self.load_cards(receipt.issue)?;
@@ -1458,6 +1504,29 @@ impl Store {
                 ErrorCode::InvalidInput,
                 "receipt transport authority does not cover target issue",
             ));
+        }
+        let target_issue_root = PathBuf::from(format!(".csdlc/issues/{issue}"));
+        for (path, expected) in &request.receipt.authored_artifacts {
+            if Path::new(path).starts_with(&target_issue_root) {
+                continue;
+            }
+            let covered = claim.protected_paths.iter().any(|protected| {
+                Path::new(path) == Path::new(protected)
+                    || Path::new(path).starts_with(Path::new(protected))
+            });
+            if !covered {
+                return Err(V2Error::new(
+                    ErrorCode::InvalidInput,
+                    format!("receipt transport authority does not cover external artifact {path}"),
+                ));
+            }
+            let absolute = self.root.join(path);
+            if absolute.is_file() && fs::read(&absolute)? != expected.as_bytes() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    format!("receipt transport refuses pre-existing external artifact byte drift at {path}"),
+                ));
+            }
         }
         let receipt_path = self.terminal_receipt_path(issue)?;
         let projection_exists = self.issue_dir(issue).exists();
@@ -1600,6 +1669,7 @@ impl Store {
             || request.issue.state != "closed"
             || request.issue.repository.trim().is_empty()
             || request.issue_evidence.schema != "csdlc.github_action_result.v1"
+            || !request.issue_evidence.is_producer_verified()
             || request.issue_evidence.action != crate::github::GithubAction::IssueRead
             || !request.issue_evidence.reconciled
             || request.issue_evidence.repository != request.issue.repository
@@ -1630,6 +1700,7 @@ impl Store {
                         request.issue.repository, pr.pull_request
                     );
                     if evidence.schema != "csdlc.github_action_result.v1"
+                        || !evidence.is_producer_verified()
                         || evidence.action != crate::github::GithubAction::PrState
                         || !evidence.reconciled
                         || evidence.repository != request.issue.repository
@@ -1637,6 +1708,7 @@ impl Store {
                         || pr.repository != request.issue.repository
                         || pr.pull_request == 0
                         || pr.linked_issue != Some(issue)
+                        || pr.linkage_source.as_deref() != Some("github_closing_issues_references")
                         || pr.draft
                         || !pr.merged
                         || pr.base_ref.as_deref() != Some("main")
@@ -1675,6 +1747,7 @@ impl Store {
                             .as_ref()
                             .is_none_or(|evidence| {
                                 evidence.schema != "csdlc.github_action_result.v1"
+                                    || !evidence.is_producer_verified()
                                     || evidence.action != crate::github::GithubAction::IssueRead
                                     || !evidence.reconciled
                                     || evidence.repository != request.issue.repository
@@ -1977,6 +2050,397 @@ impl Store {
         Ok(record)
     }
 
+    pub fn reconcile_historical_merged(
+        &self,
+        request: HistoricalMergedReconciliationRequest,
+    ) -> Result<IssueRecord> {
+        validate_result(&request.validation)?;
+        let issue = request.target_issue;
+        let observed_issue = request.issue_evidence.issue.as_ref();
+        let pr =
+            request.merged_evidence.pr_state.as_ref().ok_or_else(|| {
+                V2Error::new(ErrorCode::InvalidInput, "historical PR packet missing")
+            })?;
+        let canonical_url = format!(
+            "https://github.com/{}/pull/{}",
+            pr.repository, pr.pull_request
+        );
+        if request.authority_issue == issue
+            || request.actor.trim().is_empty()
+            || request.operator_authority.trim().is_empty()
+            || request.reason.trim().is_empty()
+            || request.reviewed_commit.len() != 40
+            || !request
+                .reviewed_commit
+                .bytes()
+                .all(|byte| byte.is_ascii_hexdigit())
+            || !request.review.completed
+            || request.review.findings.iter().any(|finding| {
+                finding.actionable
+                    && finding.in_scope
+                    && finding.disposition == crate::cards::FindingDisposition::Open
+            })
+            || request.validation.outcome != crate::cards::EvidenceOutcome::Passed
+            || request.issue_evidence.schema != "csdlc.github_action_result.v1"
+            || !request.issue_evidence.is_producer_verified()
+            || request.issue_evidence.action != crate::github::GithubAction::IssueRead
+            || !request.issue_evidence.reconciled
+            || observed_issue.is_none_or(|observed| {
+                observed.schema != "csdlc.github_issue.v1"
+                    || observed.number != issue
+                    || observed.repository != pr.repository
+                    || observed.state != "closed"
+            })
+            || request.merged_evidence.schema != "csdlc.github_action_result.v1"
+            || !request.merged_evidence.is_producer_verified()
+            || request.merged_evidence.action != crate::github::GithubAction::PrState
+            || !request.merged_evidence.reconciled
+            || request.merged_evidence.repository != pr.repository
+            || pr.schema != "csdlc.github_pr_state.v1"
+            || pr.pull_request == 0
+            || pr.linked_issue != Some(issue)
+            || pr.linkage_source.as_deref() != Some("github_closing_issues_references")
+            || pr.repository != request.issue_evidence.repository
+            || pr.base_ref.as_deref() != Some("main")
+            || pr.head_ref.as_deref().is_none_or(str::is_empty)
+            || pr.url.as_deref() != Some(canonical_url.as_str())
+            || pr.draft
+            || !pr.merged
+            || !valid_git_sha(&pr.head_sha)
+            || !pr.merge_commit_sha.as_deref().is_some_and(valid_git_sha)
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "historical merge reconciliation requires closed linked issue, exact merged PR, current review, validation, and explicit operator authority",
+            ));
+        }
+        // A historical PR body without a closing keyword is accepted only in
+        // this recovery-only path: linked_issue, a reconciled closed issue, and
+        // explicit operator authority above are all mandatory. Normal publish
+        // validation remains unchanged.
+        let body_has_closing_keyword = pr.body.as_deref().is_some_and(|body| {
+            let lower = body.to_ascii_lowercase();
+            ["closes", "closed", "fixes", "fixed", "resolves", "resolved"]
+                .iter()
+                .any(|keyword| lower.contains(&format!("{keyword} #{issue}")))
+        });
+        let (changed_paths, metadata_direction) = if request.reviewed_commit == pr.head_sha {
+            (Vec::new(), "exact_head")
+        } else if let Ok(paths) = crate::git::metadata_only_changed_paths(
+            &self.root,
+            &pr.head_sha,
+            &request.reviewed_commit,
+        ) {
+            (paths, "merged_head_to_reviewed_commit")
+        } else {
+            let paths = crate::git::metadata_only_changed_paths(
+                &self.root,
+                &request.reviewed_commit,
+                &pr.head_sha,
+            )
+            .map_err(|_| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "historical PR head is not a verified forward lifecycle-metadata revision",
+                )
+            })?;
+            (paths, "reviewed_commit_to_merged_head")
+        };
+
+        let _terminal_repair_lock = self.terminal_repair_lock()?;
+        let (first, second) = if request.authority_issue < issue {
+            (request.authority_issue, issue)
+        } else {
+            (issue, request.authority_issue)
+        };
+        let _first_lock = self.lock(first)?;
+        let _second_lock = self.lock(second)?;
+        self.recover_with_terminal_lock(request.authority_issue)?;
+        self.recover_with_terminal_lock(issue)?;
+        let authority = self.load_record(request.authority_issue)?;
+        if authority.generation != request.expected_authority_generation
+            || authority.digest != request.expected_authority_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "historical recovery authority is stale",
+            ));
+        }
+        let authority_claim = authority.claim.as_ref().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::MissingClaim,
+                "historical recovery authority claim missing",
+            )
+        })?;
+        authority_claim.validate(&request.authority_claim_id, now_seconds()?)?;
+        if !claim_covers_issue(authority_claim, issue) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "historical recovery authority does not cover target issue",
+            ));
+        }
+        let original = self.load_record(issue)?;
+        let review_commit = request
+            .review
+            .reviewed_revision
+            .strip_prefix("git-blake3:")
+            .and_then(|value| value.split(':').next());
+        if original.generation != request.expected_target_generation
+            || original.digest != request.expected_target_digest
+            || original.initialization_digest != request.expected_initialization_digest
+            || original.repository != pr.repository
+            || matches!(
+                original.phase,
+                LifecyclePhase::Merged | LifecyclePhase::ClosedOut
+            )
+            || !matches!(
+                original.phase,
+                LifecyclePhase::Implemented
+                    | LifecyclePhase::Reviewed
+                    | LifecyclePhase::Published
+                    | LifecyclePhase::MergeReady
+            )
+            || review_commit != Some(request.reviewed_commit.as_str())
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "historical target identity, state, or compare-and-swap is stale",
+            ));
+        }
+        let mut cards = self.load_cards(issue)?;
+        verify_cards(self, &original, &cards)?;
+        let authored_artifacts = [original.design_path.clone(), original.diagram_path.clone()]
+            .into_iter()
+            .map(|path| Ok((path.clone(), fs::read_to_string(self.root.join(path))?)))
+            .collect::<Result<BTreeMap<_, _>>>()?;
+        let original_projection = Some(TerminalProjectionSnapshot {
+            record: original.clone(),
+            cards: cards.clone(),
+            authored_artifacts: authored_artifacts.clone(),
+        });
+
+        let srp = match &mut cards.get_mut(&CardKind::Srp).expect("SRP").content {
+            CardContent::Srp(values) => values,
+            _ => unreachable!(),
+        };
+        srp.reviewer = Some(request.review.reviewer.clone());
+        srp.review_scope = request.review.scope.join("\n");
+        srp.review_revision = Some(request.review.reviewed_revision.clone());
+        srp.review_result = crate::cards::ReviewResult::Pass;
+        srp.residual_risk = request.review.residual_risks.clone();
+        srp.findings = request
+            .review
+            .findings
+            .iter()
+            .map(|finding| crate::cards::ReviewFinding {
+                id: finding.id.clone(),
+                severity: finding.severity,
+                summary: finding.summary.clone(),
+                actionable: finding.actionable,
+                in_scope: finding.in_scope,
+                disposition: finding.disposition,
+                fix_revision: finding.fix_revision.clone(),
+                route: finding.route.clone(),
+            })
+            .collect();
+        let sor_values = cards.get_mut(&CardKind::Sor).expect("SOR");
+        sor_values.status = crate::cards::CardStatus::Complete;
+        let CardContent::Sor(sor) = &mut sor_values.content else {
+            unreachable!()
+        };
+        if !sor.actual_validation.contains(&request.validation) {
+            sor.actual_validation.push(request.validation.clone());
+        }
+        sor.integration_state = crate::cards::IntegrationState::Merged;
+        sor.publication_state = crate::cards::PublicationState::Closed;
+        sor.merge_state = crate::cards::MergeState::Merged;
+        sor.closeout_state = crate::cards::CloseoutState::Complete;
+
+        let checks = pr
+            .checks
+            .iter()
+            .map(|check| crate::readiness::CheckObservation {
+                name: check.name.clone(),
+                requirement: if check.required {
+                    crate::readiness::CheckRequirement::Required
+                } else {
+                    crate::readiness::CheckRequirement::Optional
+                },
+                conclusion: match check.conclusion.as_str() {
+                    "success" => crate::readiness::CheckConclusion::Success,
+                    "failure" => crate::readiness::CheckConclusion::Failure,
+                    "cancelled" => crate::readiness::CheckConclusion::Cancelled,
+                    "skipped" => crate::readiness::CheckConclusion::Skipped,
+                    "neutral" => crate::readiness::CheckConclusion::Neutral,
+                    "pending" => crate::readiness::CheckConclusion::Pending,
+                    _ => crate::readiness::CheckConclusion::Unknown,
+                },
+                details_url: check.details_url.clone(),
+            })
+            .collect::<Vec<_>>();
+        if pr.required_check_names.iter().any(|name| {
+            !checks.iter().any(|check| {
+                check.name == *name
+                    && check.requirement == crate::readiness::CheckRequirement::Required
+                    && check.conclusion == crate::readiness::CheckConclusion::Success
+            })
+        }) {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "historical required checks are not exact successful observations",
+            ));
+        }
+        let review_state = match pr.review_decision.as_str() {
+            "approved" => crate::readiness::RemoteReviewState::Approved,
+            "changes_requested" => crate::readiness::RemoteReviewState::ChangesRequested,
+            "pending" => crate::readiness::RemoteReviewState::Pending,
+            _ => crate::readiness::RemoteReviewState::Unknown,
+        };
+        let publication = PublicationEvidence {
+            repository: pr.repository.clone(),
+            issue,
+            pull_request: pr.pull_request,
+            url: canonical_url,
+            base: "main".into(),
+            head: pr.head_ref.clone().expect("validated head ref"),
+            revision: crate::git::clean_commit_revision(&pr.head_sha),
+            draft: false,
+            observed_state: "merged".into(),
+        };
+        let readiness = ReadinessEvidence {
+            pull_request: pr.pull_request,
+            head_sha: pr.head_sha.clone(),
+            checks,
+            review_state,
+            conflict_state: crate::readiness::ConflictState::Clean,
+            post_publication_findings: Vec::new(),
+            ready: true,
+            blockers: Vec::new(),
+        };
+        let released = original.claim.clone();
+        let terminal = TerminalEvidence {
+            pull_request: Some(pr.pull_request),
+            disposition: crate::readiness::TerminalDisposition::Merged,
+            observed_sha: Some(pr.head_sha.clone()),
+            observed_state: "merged".into(),
+            receipt_path: format!("csdlc-v2/closeout/{issue}.json"),
+            released_branch: released
+                .as_ref()
+                .map(|claim| claim.branch.clone())
+                .unwrap_or_default(),
+            released_worktree: released
+                .as_ref()
+                .map(|claim| claim.worktree.clone())
+                .unwrap_or_default(),
+            released_protected_paths: released
+                .map(|claim| claim.protected_paths)
+                .unwrap_or_default(),
+        };
+        let mut target = original.clone();
+        target.generation += 1;
+        target.claim = None;
+        target.review = Some(request.review);
+        target.publication = Some(publication);
+        target.readiness = Some(readiness);
+        target.terminal = Some(terminal);
+        for next in [
+            LifecyclePhase::Reviewed,
+            LifecyclePhase::Published,
+            LifecyclePhase::MergeReady,
+            LifecyclePhase::Merged,
+            LifecyclePhase::ClosedOut,
+        ] {
+            if target.phase == next {
+                continue;
+            }
+            if target.phase.allows(next) {
+                let from = target.phase;
+                target.phase = next;
+                target.transitions.push(TransitionEvent {
+                    sequence: target.transitions.len() as u64 + 1,
+                    from,
+                    to: next,
+                    actor: request.actor.clone(),
+                    reason: "reconcile exact historical merged lifecycle evidence".into(),
+                });
+            }
+        }
+        if target.phase != LifecyclePhase::ClosedOut {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "historical merge reconciliation cannot construct a valid forward lifecycle",
+            ));
+        }
+        target.audit.push(AuditEvent {
+            sequence: target.audit.len() as u64 + 1,
+            generation: target.generation,
+            actor: request.actor,
+            reason: request.reason,
+            operation: serde_json::json!({
+                "operation": "reconcile_historical_merged",
+                "operator_authority": request.operator_authority,
+                "reviewed_commit": request.reviewed_commit,
+                "merged_head": pr.head_sha,
+                "merge_commit": pr.merge_commit_sha,
+                "metadata_only_paths": changed_paths,
+                "metadata_direction": metadata_direction,
+                "historical_closing_keyword_present": body_has_closing_keyword,
+                "linkage_source": "typed_linked_issue_and_closed_issue_evidence",
+            })
+            .to_string(),
+        });
+        for values in cards.values_mut() {
+            values.identity.generation = target.generation;
+        }
+        hydrate_projections(&mut target, &cards)?;
+        target.digest = record_digest(&target)?;
+        let mut receipt = TerminalReceipt {
+            schema: "csdlc.terminal_receipt.v1".into(),
+            issue,
+            repository: target.repository.clone(),
+            initialization_digest: target.initialization_digest.clone(),
+            receipt_ref: format!("csdlc-v2/closeout/{issue}.json"),
+            authored_artifacts,
+            record: target.clone(),
+            cards: cards.clone(),
+            digest: String::new(),
+        };
+        receipt.digest = terminal_receipt_digest(&receipt)?;
+        validate_terminal_receipt(&receipt)?;
+        let receipt_path = self.terminal_receipt_path(issue)?;
+        let original_receipt = fs::read(&receipt_path).ok();
+        let journal = TerminalTransactionJournal {
+            schema: "csdlc.terminal_transaction.v1".into(),
+            origin_worktree: String::new(),
+            origin_git_common_dir: String::new(),
+            issue,
+            stage: "prepared_historical_merged_reconciliation".into(),
+            original_record_digest: Some(original.digest),
+            target_record_digest: target.digest.clone(),
+            original_receipt,
+            original_projection,
+            original_artifacts: BTreeMap::new(),
+            target_receipt: serde_json::to_vec_pretty(&receipt)?,
+        };
+        self.write_terminal_transaction_journal(&journal)?;
+        if request.fail_after_stage.as_deref() == Some("after_journal") {
+            return Err(V2Error::new(
+                ErrorCode::InterruptedTransaction,
+                "injected historical reconciliation failure",
+            ));
+        }
+        self.commit(issue, &target, &cards, false)?;
+        if request.fail_after_stage.as_deref() == Some("after_projection") {
+            return Err(V2Error::new(
+                ErrorCode::InterruptedTransaction,
+                "injected historical reconciliation failure",
+            ));
+        }
+        self.replace_receipt_bytes(&receipt_path, Some(&journal.target_receipt))?;
+        self.remove_terminal_transaction_journal(issue)?;
+        Ok(target)
+    }
+
     pub fn repair_terminal_disposition(
         &self,
         request: TerminalDispositionRepairRequest,
@@ -2002,6 +2466,7 @@ impl Store {
             pr.repository, pr.pull_request
         );
         if evidence.schema != "csdlc.github_action_result.v1"
+            || !evidence.is_producer_verified()
             || evidence.action != crate::github::GithubAction::PrState
             || !evidence.reconciled
             || evidence.repository != pr.repository
@@ -4905,6 +5370,27 @@ fn valid_mermaid_diagram(diagram: &str) -> bool {
 mod terminal_design_repair_tests {
     use super::*;
 
+    fn trusted_github(
+        result: crate::github::GithubActionResult,
+    ) -> crate::github::GithubActionResult {
+        result.seal_for_test().expect("seal GitHub fixture")
+    }
+
+    #[test]
+    fn claim_free_terminal_projection_is_backed_by_exact_materialized_receipt() {
+        let (_temp, store, _authority, target, _receipt, _validation) =
+            terminal_validation_fixture();
+        assert_eq!(target.phase, LifecyclePhase::ClosedOut);
+        assert!(target.claim.is_none());
+        assert!(store
+            .has_claim_free_terminal_authority(
+                target.issue,
+                &target.repository,
+                &target.initialization_digest,
+            )
+            .expect("verify terminal authority"));
+    }
+
     fn copy_tree(source: &Path, destination: &Path) {
         fs::create_dir_all(destination).expect("create fixture directory");
         for entry in fs::read_dir(source).expect("read fixture directory") {
@@ -4951,11 +5437,33 @@ mod terminal_design_repair_tests {
 
         let store = Store::new(temp.path());
         let mut authority = store.load_record(5613).expect("authority");
+        authority.claim.get_or_insert_with(|| Claim {
+            id: "terminal-validation-authority".into(),
+            owner: "test".into(),
+            generation: authority.generation,
+            acquired_unix_seconds: 1,
+            expires_unix_seconds: u64::MAX,
+            heartbeat_unix_seconds: 1,
+            branch: "terminal-validation-test".into(),
+            worktree: ".".into(),
+            protected_paths: vec![
+                ".csdlc/issues/5358/".into(),
+                "csdlc-v2/closeout/5358.json".into(),
+            ],
+            purpose: "test terminal recovery authority".into(),
+        });
         authority
             .claim
             .as_mut()
             .expect("authority claim")
             .expires_unix_seconds = u64::MAX;
+        let target_for_scope = store.load_record(5358).expect("target scope");
+        let authority_claim = authority.claim.as_mut().expect("authority claim");
+        for path in [target_for_scope.design_path, target_for_scope.diagram_path] {
+            if !authority_claim.protected_paths.contains(&path) {
+                authority_claim.protected_paths.push(path);
+            }
+        }
         let authority_cards = store.load_cards(5613).expect("authority cards");
         hydrate_projections(&mut authority, &authority_cards).expect("authority projections");
         authority.digest = record_digest(&authority).expect("authority digest");
@@ -5084,7 +5592,7 @@ mod terminal_design_repair_tests {
             expected_target_digest: target.digest.clone(),
             expected_receipt_digest: receipt.digest.clone(),
             expected_terminal: expected,
-            merged_evidence: crate::github::GithubActionResult {
+            merged_evidence: trusted_github(crate::github::GithubActionResult {
                 schema: "csdlc.github_action_result.v1".into(),
                 repository: target.repository.clone(),
                 action: crate::github::GithubAction::PrState,
@@ -5096,6 +5604,7 @@ mod terminal_design_repair_tests {
                     repository: target.repository.clone(),
                     pull_request: 5634,
                     linked_issue: Some(target.issue),
+                    linkage_source: Some("github_closing_issues_references".into()),
                     draft: false,
                     merge_state: "unknown".into(),
                     review_decision: "approved".into(),
@@ -5106,6 +5615,7 @@ mod terminal_design_repair_tests {
                         "https://github.com/{}/pull/5634",
                         target.repository
                     )),
+                    body: Some(format!("Closes #{}", target.issue)),
                     merged: true,
                     merge_commit_sha: Some("4d68d4b1f4f70c15223ebdf71d59c9010e5e3d4c".into()),
                     checks: Vec::new(),
@@ -5113,7 +5623,8 @@ mod terminal_design_repair_tests {
                     classification: "merged".into(),
                 }),
                 reconciled: true,
-            },
+                producer_digest: None,
+            }),
             actor: "codex:test".into(),
             correction_note:
                 "Historical no-PR classification is superseded by exact merged PR evidence.".into(),
@@ -5144,6 +5655,48 @@ mod terminal_design_repair_tests {
             })
             .expect_err("missing authority digest must fail closed");
         assert_eq!(error.code.to_string(), "invalid_input");
+    }
+
+    #[test]
+    fn terminal_design_repair_rejects_uncovered_external_artifacts() {
+        let (_temp, store, mut authority, target, receipt, _) = terminal_validation_fixture();
+        let authority_cards = store.load_cards(authority.issue).unwrap();
+        let target_root = format!(".csdlc/issues/{}/", target.issue);
+        authority
+            .claim
+            .as_mut()
+            .unwrap()
+            .protected_paths
+            .retain(|path| path.starts_with(&target_root) || path.contains("closeout"));
+        hydrate_projections(&mut authority, &authority_cards).unwrap();
+        authority.digest = record_digest(&authority).unwrap();
+        store
+            .commit(authority.issue, &authority, &authority_cards, false)
+            .unwrap();
+        let error = store
+            .repair_terminal_design(TerminalDesignRepairRequest {
+                authority_issue: authority.issue,
+                target_issue: target.issue,
+                expected_authority_generation: authority.generation,
+                expected_authority_digest: authority.digest,
+                expected_target_generation: target.generation,
+                expected_target_digest: target.digest,
+                expected_receipt_digest: receipt.digest,
+                authority_claim_id: authority.claim.unwrap().id,
+                actor: "codex:test".into(),
+                reviewer: "reviewer".into(),
+                source_design_path: target.design_path.clone(),
+                source_diagram_path: target.diagram_path.clone(),
+                expected_design_digest: digest(
+                    &fs::read(store.root.join(&target.design_path)).unwrap(),
+                ),
+                expected_diagram_digest: digest(
+                    &fs::read(store.root.join(&target.diagram_path)).unwrap(),
+                ),
+                fail_after_stage: None,
+            })
+            .expect_err("external authored paths require explicit claim coverage");
+        assert_eq!(error.code, ErrorCode::InvalidInput);
     }
 
     #[test]
@@ -5726,6 +6279,27 @@ mod terminal_design_repair_tests {
         assert_eq!(error.code, ErrorCode::InvalidInput);
     }
 
+    #[test]
+    fn terminal_receipt_transport_refuses_covered_external_artifact_byte_drift() {
+        let (_temp, store, authority, target, receipt, _) = terminal_validation_fixture();
+        fs::remove_dir_all(store.issue_dir(target.issue)).expect("remove projection");
+        fs::remove_file(store.terminal_receipt_path(target.issue).unwrap())
+            .expect("remove receipt");
+        fs::write(store.root.join(&receipt.record.design_path), "local bytes").unwrap();
+        let error = store
+            .transport_terminal_receipt(TerminalReceiptTransportRequest {
+                authority_issue: authority.issue,
+                expected_authority_generation: authority.generation,
+                expected_authority_digest: authority.digest.clone(),
+                authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+                actor: "codex:test".into(),
+                receipt,
+                fail_after_stage: None,
+            })
+            .expect_err("external byte drift must not be overwritten");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
     fn write_nonterminal_transport_projection(
         store: &Store,
         receipt: &TerminalReceipt,
@@ -5917,7 +6491,7 @@ mod terminal_design_repair_tests {
             milestone: None,
             marker_present: false,
         };
-        let issue_evidence = crate::github::GithubActionResult {
+        let issue_evidence = trusted_github(crate::github::GithubActionResult {
             schema: "csdlc.github_action_result.v1".into(),
             repository: authority.repository.clone(),
             action: crate::github::GithubAction::IssueRead,
@@ -5926,7 +6500,8 @@ mod terminal_design_repair_tests {
             comment_id: None,
             pr_state: None,
             reconciled: true,
-        };
+            producer_digest: None,
+        });
         let related_issue_evidence = (!merged).then(|| {
             let packet = crate::github::GithubIssuePacket {
                 number: 5702,
@@ -5935,7 +6510,7 @@ mod terminal_design_repair_tests {
                 state: "open".into(),
                 ..issue_packet.clone()
             };
-            crate::github::GithubActionResult {
+            trusted_github(crate::github::GithubActionResult {
                 schema: "csdlc.github_action_result.v1".into(),
                 repository: authority.repository.clone(),
                 action: crate::github::GithubAction::IssueRead,
@@ -5944,37 +6519,43 @@ mod terminal_design_repair_tests {
                 comment_id: None,
                 pr_state: None,
                 reconciled: true,
-            }
+                producer_digest: None,
+            })
         });
-        let merged_evidence = merged.then(|| crate::github::GithubActionResult {
-            schema: "csdlc.github_action_result.v1".into(),
-            repository: authority.repository.clone(),
-            action: crate::github::GithubAction::PrState,
-            operation_key: Some(format!("test:pr:5720:issue:{issue}")),
-            issue: None,
-            comment_id: None,
-            pr_state: Some(crate::github::PrStatePacket {
-                schema: "csdlc.github_pr_state.v1".into(),
+        let merged_evidence = merged.then(|| {
+            trusted_github(crate::github::GithubActionResult {
+                schema: "csdlc.github_action_result.v1".into(),
                 repository: authority.repository.clone(),
-                pull_request: 5720,
-                linked_issue: Some(issue),
-                draft: false,
-                merge_state: "unknown".into(),
-                review_decision: "approved".into(),
-                base_ref: Some("main".into()),
-                head_ref: Some(format!("codex/{issue}-recordless-source")),
-                head_sha: "92fde26a2ca073e204459fce1bb5e88d7c895528".into(),
-                url: Some(format!(
-                    "https://github.com/{}/pull/5720",
-                    authority.repository
-                )),
-                merged: true,
-                merge_commit_sha: Some("4d68d4b1f4f70c15223ebdf71d59c9010e5e3d4c".into()),
-                checks: Vec::new(),
-                required_check_names: Vec::new(),
-                classification: "merged".into(),
-            }),
-            reconciled: true,
+                action: crate::github::GithubAction::PrState,
+                operation_key: Some(format!("test:pr:5720:issue:{issue}")),
+                issue: None,
+                comment_id: None,
+                pr_state: Some(crate::github::PrStatePacket {
+                    schema: "csdlc.github_pr_state.v1".into(),
+                    repository: authority.repository.clone(),
+                    pull_request: 5720,
+                    linked_issue: Some(issue),
+                    linkage_source: Some("github_closing_issues_references".into()),
+                    draft: false,
+                    merge_state: "unknown".into(),
+                    review_decision: "approved".into(),
+                    base_ref: Some("main".into()),
+                    head_ref: Some(format!("codex/{issue}-recordless-source")),
+                    head_sha: "92fde26a2ca073e204459fce1bb5e88d7c895528".into(),
+                    url: Some(format!(
+                        "https://github.com/{}/pull/5720",
+                        authority.repository
+                    )),
+                    body: Some(format!("Closes #{issue}")),
+                    merged: true,
+                    merge_commit_sha: Some("4d68d4b1f4f70c15223ebdf71d59c9010e5e3d4c".into()),
+                    checks: Vec::new(),
+                    required_check_names: Vec::new(),
+                    classification: "merged".into(),
+                }),
+                reconciled: true,
+                producer_digest: None,
+            })
         });
         RecordlessTerminalRecoveryRequest {
             authority_issue: authority.issue,
@@ -6093,6 +6674,189 @@ mod terminal_design_repair_tests {
             .expect("request object")
             .insert("pull_request".into(), serde_json::json!(5720));
         assert!(serde_json::from_value::<RecordlessTerminalRecoveryRequest>(value).is_err());
+    }
+
+    #[test]
+    fn recordless_recovery_rejects_hand_constructed_serialized_evidence() {
+        let (_temp, store, authority) = recordless_fixture();
+        let trusted = recordless_request(&authority, 5718, RecordlessClosureKind::Merged, None);
+        let mut mutated = trusted.clone();
+        mutated
+            .merged_evidence
+            .as_mut()
+            .and_then(|evidence| evidence.pr_state.as_mut())
+            .expect("merged PR state")
+            .head_sha = "0".repeat(40);
+        assert!(!mutated
+            .merged_evidence
+            .as_ref()
+            .unwrap()
+            .is_producer_verified());
+        assert_eq!(
+            store
+                .recover_recordless_terminal(mutated)
+                .expect_err("mutated producer result is not producer-bound")
+                .code,
+            ErrorCode::InvalidInput
+        );
+        let forged: RecordlessTerminalRecoveryRequest =
+            serde_json::from_value(serde_json::to_value(&trusted).unwrap()).unwrap();
+        assert!(!forged.issue_evidence.is_producer_verified());
+        assert!(!forged
+            .merged_evidence
+            .as_ref()
+            .unwrap()
+            .is_producer_verified());
+        assert_eq!(
+            store
+                .recover_recordless_terminal(forged)
+                .expect_err("serialized evidence is not producer-bound")
+                .code,
+            ErrorCode::InvalidInput
+        );
+    }
+
+    #[test]
+    fn historical_merged_reconciliation_rolls_back_corrupt_interrupted_projection() {
+        let (temp, store, authority, mut target, _receipt, validation) =
+            terminal_validation_fixture();
+        let mut cards = store.load_cards(target.issue).unwrap();
+        let published = target
+            .transitions
+            .iter()
+            .position(|event| event.to == LifecyclePhase::Published)
+            .unwrap();
+        target.transitions.truncate(published + 1);
+        target.phase = LifecyclePhase::Published;
+        target.readiness = None;
+        target.terminal = None;
+        target.claim = None;
+        let CardContent::Sor(sor) = &mut cards.get_mut(&CardKind::Sor).unwrap().content else {
+            unreachable!()
+        };
+        sor.integration_state = crate::cards::IntegrationState::PrOpen;
+        sor.publication_state = crate::cards::PublicationState::Ready;
+        sor.merge_state = crate::cards::MergeState::NotMerged;
+        sor.closeout_state = crate::cards::CloseoutState::NotStarted;
+        hydrate_projections(&mut target, &cards).unwrap();
+        target.digest = record_digest(&target).unwrap();
+        store.commit(target.issue, &target, &cards, false).unwrap();
+        fs::remove_file(store.terminal_receipt_path(target.issue).unwrap()).unwrap();
+        std::process::Command::new("git")
+            .args(["config", "user.email", "test@example.invalid"])
+            .current_dir(temp.path())
+            .status()
+            .unwrap();
+        std::process::Command::new("git")
+            .args(["config", "user.name", "C-SDLC Test"])
+            .current_dir(temp.path())
+            .status()
+            .unwrap();
+        std::process::Command::new("git")
+            .args(["add", "."])
+            .current_dir(temp.path())
+            .status()
+            .unwrap();
+        std::process::Command::new("git")
+            .args(["commit", "-m", "historical source"])
+            .current_dir(temp.path())
+            .status()
+            .unwrap();
+        let reviewed_commit = crate::git::run(temp.path(), &["rev-parse", "HEAD"])
+            .unwrap()
+            .stdout;
+        let mut review = target.review.clone().unwrap();
+        review.reviewed_revision = format!("git-blake3:{reviewed_commit}:review");
+        let issue_packet = crate::github::GithubIssuePacket {
+            schema: "csdlc.github_issue.v1".into(),
+            repository: target.repository.clone(),
+            number: target.issue,
+            title: "historical target".into(),
+            body: "closed".into(),
+            state: "closed".into(),
+            labels: vec![],
+            assignees: vec![],
+            milestone: None,
+            marker_present: false,
+        };
+        let issue_evidence = trusted_github(crate::github::GithubActionResult {
+            schema: "csdlc.github_action_result.v1".into(),
+            repository: target.repository.clone(),
+            action: crate::github::GithubAction::IssueRead,
+            operation_key: None,
+            issue: Some(issue_packet),
+            comment_id: None,
+            pr_state: None,
+            reconciled: true,
+            producer_digest: None,
+        });
+        let merged_evidence = trusted_github(crate::github::GithubActionResult {
+            schema: "csdlc.github_action_result.v1".into(),
+            repository: target.repository.clone(),
+            action: crate::github::GithubAction::PrState,
+            operation_key: None,
+            issue: None,
+            comment_id: None,
+            pr_state: Some(crate::github::PrStatePacket {
+                schema: "csdlc.github_pr_state.v1".into(),
+                repository: target.repository.clone(),
+                pull_request: 5638,
+                linked_issue: Some(target.issue),
+                linkage_source: Some("github_closing_issues_references".into()),
+                draft: false,
+                merge_state: "unknown".into(),
+                review_decision: "approved".into(),
+                base_ref: Some("main".into()),
+                head_ref: Some("codex/historical".into()),
+                head_sha: reviewed_commit.clone(),
+                url: Some(format!(
+                    "https://github.com/{}/pull/5638",
+                    target.repository
+                )),
+                body: Some(format!("Closes #{}", target.issue)),
+                merged: true,
+                merge_commit_sha: Some("4d68d4b1f4f70c15223ebdf71d59c9010e5e3d4c".into()),
+                checks: vec![],
+                required_check_names: vec![],
+                classification: "merged".into(),
+            }),
+            reconciled: true,
+            producer_digest: None,
+        });
+        let request = HistoricalMergedReconciliationRequest {
+            authority_issue: authority.issue,
+            expected_authority_generation: authority.generation,
+            expected_authority_digest: authority.digest.clone(),
+            authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+            target_issue: target.issue,
+            expected_target_generation: target.generation,
+            expected_target_digest: target.digest.clone(),
+            expected_initialization_digest: target.initialization_digest.clone(),
+            reviewed_commit,
+            review,
+            issue_evidence,
+            merged_evidence,
+            actor: "codex:test".into(),
+            operator_authority: "test authority".into(),
+            reason: "historical recovery rollback proof".into(),
+            validation,
+            fail_after_stage: Some("after_projection".into()),
+        };
+        assert_eq!(
+            store
+                .reconcile_historical_merged(request)
+                .expect_err("injected interruption")
+                .code,
+            ErrorCode::InterruptedTransaction
+        );
+        fs::write(
+            store.issue_dir(target.issue).join("cards/sip.values.json"),
+            b"{corrupt",
+        )
+        .unwrap();
+        store.recover_with_terminal_lock(target.issue).unwrap();
+        assert_eq!(store.load_record(target.issue).unwrap(), target);
+        assert!(store.load_terminal_receipt(target.issue).unwrap().is_none());
     }
 
     #[test]

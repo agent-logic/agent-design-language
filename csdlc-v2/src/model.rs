@@ -310,6 +310,29 @@ pub struct RecordlessTerminalRecoveryRequest {
     pub fail_after_stage: Option<String>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct HistoricalMergedReconciliationRequest {
+    pub authority_issue: u64,
+    pub expected_authority_generation: u64,
+    pub expected_authority_digest: String,
+    pub authority_claim_id: String,
+    pub target_issue: u64,
+    pub expected_target_generation: u64,
+    pub expected_target_digest: String,
+    pub expected_initialization_digest: String,
+    pub reviewed_commit: String,
+    pub review: ReviewEvidence,
+    pub issue_evidence: crate::github::GithubActionResult,
+    pub merged_evidence: crate::github::GithubActionResult,
+    pub actor: String,
+    pub operator_authority: String,
+    pub reason: String,
+    pub validation: ValidationResult,
+    #[serde(default)]
+    pub fail_after_stage: Option<String>,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct MigrationEvidence {
     pub schema: String,

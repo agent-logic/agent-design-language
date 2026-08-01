@@ -6,14 +6,15 @@ use csdlc_v2::{
     assign_review, bind_issue, closeout_issue, edit_issue, prepare_publication,
     prepare_ready_publication, prepare_ready_reconciliation, reconcile_terminal_observation_head,
     record_merged_publication, record_publication, record_readiness, record_ready_publication,
-    record_review, validate_ready_reconciliation_state, validate_ready_remote, BindRequest,
-    BootstrapRequest, CardKind, Claim, ConflictState, EditRequest, ErrorCode, InitialCardInput,
-    LifecyclePhase, PlanningProfile, PublicationIntent, PublicationRequest, ReadinessRequest,
+    record_review, rehome_claim_authority, revoke_active_claim,
+    validate_ready_reconciliation_state, validate_ready_remote, BindRequest, BootstrapRequest,
+    CardKind, Claim, ConflictState, EditRequest, ErrorCode, InitialCardInput, LifecyclePhase,
+    PlanningProfile, PublicationIntent, PublicationRequest, ReadinessRequest,
     ReadyPublicationReconciliationRequest, ReadyPublicationRequest, ReconcileTerminalRequest,
-    RemotePullRequest, RemoteReviewState, ReviewAssignmentRequest, ReviewEvidence,
-    ReviewRecordRequest, SemanticOperation, Store, TerminalDesignRepairRequest,
-    TerminalDisposition, TerminalObservation, TerminalPlanStepRepairRequest,
-    TerminalSorArtifactRepairRequest,
+    RehomeClaimAuthorityRequest, RemotePullRequest, RemoteReviewState, ReviewAssignmentRequest,
+    ReviewEvidence, ReviewRecordRequest, RevokeActiveClaimRequest, SemanticOperation, Store,
+    TerminalDesignRepairRequest, TerminalDisposition, TerminalObservation,
+    TerminalPlanStepRepairRequest, TerminalSorArtifactRepairRequest,
 };
 use std::collections::BTreeMap;
 use std::fs;
@@ -2841,7 +2842,11 @@ fn terminal_design_repair_after_journal_interruption_preserves_recoverable_journ
                 heartbeat_unix_seconds: 1,
                 branch: "issue-7".into(),
                 worktree: temp.path().to_string_lossy().into_owned(),
-                protected_paths: vec!["authority".into()],
+                protected_paths: vec![
+                    format!(".csdlc/issues/{issue}"),
+                    "docs/design.md".into(),
+                    "docs/diagram.mmd".into(),
+                ],
                 purpose: "terminal repair authority".into(),
             },
             initial: InitialCardInput {
@@ -3001,10 +3006,15 @@ fn terminal_design_repair_after_journal_interruption_preserves_recoverable_journ
     let interrupted = store
         .repair_terminal_design(repair_request.clone())
         .unwrap_err();
-    assert!(matches!(
+    assert!(
+        matches!(
+            interrupted.code,
+            csdlc_v2::ErrorCode::InterruptedTransaction
+        ),
+        "unexpected repair error {:?}: {}",
         interrupted.code,
-        csdlc_v2::ErrorCode::InterruptedTransaction
-    ));
+        interrupted.message
+    );
     let journal = temp
         .path()
         .join(".git/csdlc-v2/terminal-transactions")
@@ -3393,6 +3403,120 @@ fn terminal_reconcile_materializes_missing_projection_from_retained_receipt() {
             .digest,
         reconciled.digest
     );
+}
+
+#[test]
+fn rehome_authority_requires_exact_source_and_fails_on_unreadable_detached_sibling() {
+    let issue = 5499;
+    let (temp, store, source, _) = fixture_with_validation_history_publication_and_worktree(
+        issue,
+        "Authority rehome fixture",
+        "authority-rehome",
+        vec![],
+        false,
+        true,
+    );
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "source authority"]);
+    let source_commit = csdlc_v2::git::run(temp.path(), &["rev-parse", "HEAD"])
+        .unwrap()
+        .stdout;
+    let local = revoke_active_claim(
+        &store,
+        RevokeActiveClaimRequest {
+            issue,
+            repository: source.repository.clone(),
+            expected_claim_id: source.claim.as_ref().unwrap().id.clone(),
+            expected_generation: source.generation,
+            expected_digest: source.digest.clone(),
+            now_unix_seconds: 10,
+            actor: "operator".into(),
+            operator_authority: "test authority".into(),
+            reason: "prepare exact authority rehome".into(),
+        },
+    )
+    .unwrap();
+    let ledger = temp.path().join(".adl/session-ledger/ledger.json");
+    fs::create_dir_all(ledger.parent().unwrap()).unwrap();
+    fs::write(
+        &ledger,
+        r#"{"schema":"adl.session_ledger.v1","updated_at":"2026-07-31T00:00:00Z","claims":[]}"#,
+    )
+    .unwrap();
+    let request = RehomeClaimAuthorityRequest {
+        issue,
+        expected_generation: local.generation,
+        expected_digest: local.digest.clone(),
+        expected_initialization_digest: source.initialization_digest.clone(),
+        source_commit: source_commit.clone(),
+        expected_source_generation: source.generation,
+        expected_source_digest: source.digest.clone(),
+        now_unix_seconds: 20,
+        current_session_id: "session:test".into(),
+        session_ledger_path: ledger.to_string_lossy().into_owned(),
+        actor: "operator".into(),
+        operator_authority: "test authority".into(),
+        reason: "rehome exact source authority".into(),
+        replacement: Claim {
+            id: "claim-rehomed".into(),
+            owner: "session:test".into(),
+            generation: local.generation,
+            acquired_unix_seconds: 20,
+            expires_unix_seconds: 200,
+            heartbeat_unix_seconds: 20,
+            branch: "issue-7".into(),
+            worktree: ".".into(),
+            protected_paths: vec!["src".into()],
+            purpose: "terminal recovery".into(),
+        },
+    };
+    let mut wrong_source = request.clone();
+    wrong_source.expected_source_digest = "0".repeat(64);
+    assert_eq!(
+        rehome_claim_authority(&store, wrong_source)
+            .expect_err("older or substituted source digest")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+
+    let sibling = temp.path().join("detached-sibling");
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            "--detach",
+            sibling.to_str().unwrap(),
+            &source_commit,
+        ],
+    );
+    let unavailable_sibling = temp.path().join("unavailable-detached-sibling");
+    fs::rename(&sibling, &unavailable_sibling).unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("unavailable registered worktree")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    fs::rename(&unavailable_sibling, &sibling).unwrap();
+    fs::write(
+        sibling.join(format!(".csdlc/issues/{issue}/index.json")),
+        "{corrupt",
+    )
+    .unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("unreadable detached sibling")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    git(
+        temp.path(),
+        &["worktree", "remove", "--force", sibling.to_str().unwrap()],
+    );
+    let result = rehome_claim_authority(&store, request).expect("exact rehome");
+    assert_eq!(result.source_commit, source_commit);
+    assert_eq!(result.claim.id, "claim-rehomed");
 }
 
 #[test]

@@ -40,13 +40,21 @@ pub fn worktrees(root: &Path) -> Result<Vec<(String, String)>> {
     let text = run(root, &["worktree", "list", "--porcelain"])?.stdout;
     let mut result = Vec::new();
     let mut path = None;
+    let mut branch = None;
     for line in text.lines().chain(std::iter::once("")) {
         if let Some(value) = line.strip_prefix("worktree ") {
             path = Some(value.to_owned());
         }
-        if let (Some(branch), Some(path)) = (line.strip_prefix("branch refs/heads/"), path.as_ref())
-        {
-            result.push((branch.to_owned(), path.clone()));
+        if let Some(value) = line.strip_prefix("branch refs/heads/") {
+            branch = Some(value.to_owned());
+        }
+        if line == "detached" {
+            branch = Some(String::new());
+        }
+        if line.is_empty() {
+            if let Some(path) = path.take() {
+                result.push((branch.take().unwrap_or_default(), path));
+            }
         }
     }
     Ok(result)

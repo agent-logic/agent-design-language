@@ -245,6 +245,7 @@ mod tests {
             repository: "owner/repo".into(),
             pull_request: 12,
             linked_issue: Some(7),
+            linkage_source: Some("github_closing_issues_references".into()),
             draft: false,
             merge_state: "clean".into(),
             review_decision: "approved".into(),
@@ -252,6 +253,7 @@ mod tests {
             head_ref: Some("codex/7".into()),
             head_sha: "abc123".into(),
             url: Some("https://github.com/owner/repo/pull/12".into()),
+            body: Some("Closes #7".into()),
             merged: false,
             merge_commit_sha: None,
             checks: vec![PrCheck {

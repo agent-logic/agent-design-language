@@ -32,6 +32,8 @@ pub struct PrStatePacket {
     pub repository: String,
     pub pull_request: u64,
     pub linked_issue: Option<u64>,
+    #[serde(default)]
+    pub linkage_source: Option<String>,
     pub draft: bool,
     pub merge_state: String,
     pub review_decision: String,
@@ -41,6 +43,8 @@ pub struct PrStatePacket {
     pub head_sha: String,
     #[serde(default)]
     pub url: Option<String>,
+    #[serde(default)]
+    pub body: Option<String>,
     #[serde(default)]
     pub merged: bool,
     #[serde(default)]
@@ -126,6 +130,42 @@ pub struct GithubActionResult {
     pub comment_id: Option<u64>,
     pub pr_state: Option<PrStatePacket>,
     pub reconciled: bool,
+    #[serde(skip)]
+    #[schemars(skip)]
+    pub(crate) producer_digest: Option<String>,
+}
+
+impl GithubActionResult {
+    pub fn is_producer_verified(&self) -> bool {
+        self.producer_digest
+            .as_deref()
+            .zip(self.content_digest().ok().as_deref())
+            .is_some_and(|(sealed, current)| sealed == current)
+    }
+
+    fn content_digest(&self) -> crate::Result<String> {
+        let bytes = serde_json::to_vec(&(
+            &self.schema,
+            &self.repository,
+            &self.action,
+            &self.operation_key,
+            &self.issue,
+            &self.comment_id,
+            &self.pr_state,
+            self.reconciled,
+        ))?;
+        Ok(blake3::hash(&bytes).to_hex().to_string())
+    }
+
+    fn seal_producer(mut self) -> crate::Result<Self> {
+        self.producer_digest = Some(self.content_digest()?);
+        Ok(self)
+    }
+
+    #[cfg(test)]
+    pub(crate) fn seal_for_test(self) -> crate::Result<Self> {
+        self.seal_producer()
+    }
 }
 
 pub async fn execute_github_action(
@@ -135,7 +175,7 @@ pub async fn execute_github_action(
     if matches!(request.action, GithubAction::PrState) {
         let pr_request = PrStateRequest::try_from(request)?;
         let pr_state = collect_pr_state(&pr_request).await?;
-        return Ok(GithubActionResult {
+        return GithubActionResult {
             schema: "csdlc.github_action_result.v1".into(),
             repository: request.repository.clone(),
             action: request.action.clone(),
@@ -144,7 +184,9 @@ pub async fn execute_github_action(
             comment_id: None,
             pr_state: Some(pr_state),
             reconciled: true,
-        });
+            producer_digest: None,
+        }
+        .seal_producer();
     }
 
     let (owner, repo) = split_repository(&request.repository)?;
@@ -200,7 +242,7 @@ pub async fn execute_github_action(
                     "comment marker readback is ambiguous",
                 ));
             }
-            return Ok(GithubActionResult {
+            return GithubActionResult {
                 schema: "csdlc.github_action_result.v1".into(),
                 repository: request.repository.clone(),
                 action: request.action.clone(),
@@ -212,7 +254,9 @@ pub async fn execute_github_action(
                 comment_id: Some(comment_id),
                 pr_state: None,
                 reconciled: true,
-            });
+                producer_digest: None,
+            }
+            .seal_producer();
         }
         GithubAction::IssueClose => {
             let number = required_issue(request)?;
@@ -236,7 +280,7 @@ pub async fn execute_github_action(
         }
         GithubAction::PrState => unreachable!("handled above"),
     };
-    Ok(GithubActionResult {
+    GithubActionResult {
         schema: "csdlc.github_action_result.v1".into(),
         repository: request.repository.clone(),
         action: request.action.clone(),
@@ -245,7 +289,9 @@ pub async fn execute_github_action(
         comment_id: None,
         pr_state: None,
         reconciled: true,
-    })
+        producer_digest: None,
+    }
+    .seal_producer()
 }
 
 fn validate_request(request: &GithubActionRequest) -> crate::Result<()> {
@@ -793,6 +839,47 @@ pub fn classify_pr_state(packet: &PrStatePacket, require_review: bool) -> &'stat
     "ready"
 }
 
+fn remotely_linked_issue(
+    response: &Value,
+    repository: &str,
+    expected: Option<u64>,
+) -> crate::Result<Option<u64>> {
+    let nodes = response
+        .pointer("/data/repository/pullRequest/closingIssuesReferences/nodes")
+        .and_then(Value::as_array)
+        .ok_or_else(|| {
+            crate::V2Error::new(
+                crate::ErrorCode::ReconciliationRequired,
+                "GitHub closing-issue relation is absent",
+            )
+        })?;
+    let mut issues = nodes
+        .iter()
+        .filter(|node| {
+            node.pointer("/repository/nameWithOwner")
+                .and_then(Value::as_str)
+                == Some(repository)
+        })
+        .filter_map(|node| node.get("number").and_then(Value::as_u64))
+        .collect::<BTreeSet<_>>();
+    if let Some(expected) = expected {
+        if !issues.remove(&expected) {
+            return Err(crate::V2Error::new(
+                crate::ErrorCode::ReconciliationRequired,
+                "caller-linked issue is not a remote GitHub closing relation",
+            ));
+        }
+        return Ok(Some(expected));
+    }
+    if issues.len() > 1 {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "PR closes multiple issues; linked issue must be selected explicitly",
+        ));
+    }
+    Ok(issues.into_iter().next())
+}
+
 pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrStatePacket> {
     let (owner, repo) = request.repository.split_once('/').ok_or_else(|| {
         crate::V2Error::new(
@@ -810,6 +897,14 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
         .get(request.pull_request)
         .await
         .map_err(remote)?;
+    let linkage: Value = crab
+        .graphql(&json!({
+            "query": "query ClosingIssues($owner: String!, $repo: String!, $number: Int!) { repository(owner: $owner, name: $repo) { pullRequest(number: $number) { closingIssuesReferences(first: 100) { nodes { number repository { nameWithOwner } } } } } }",
+            "variables": {"owner": owner, "repo": repo, "number": request.pull_request}
+        }))
+        .await
+        .map_err(remote)?;
+    let linked_issue = remotely_linked_issue(&linkage, &request.repository, request.linked_issue)?;
     let head = pr.head.as_ref().ok_or_else(|| {
         crate::V2Error::new(
             crate::ErrorCode::ReconciliationRequired,
@@ -900,7 +995,8 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
         schema: "csdlc.github_pr_state.v1".into(),
         repository: request.repository.clone(),
         pull_request: request.pull_request,
-        linked_issue: request.linked_issue,
+        linked_issue,
+        linkage_source: linked_issue.map(|_| "github_closing_issues_references".into()),
         draft: pr.draft.unwrap_or(false),
         merge_state: merge_state.into(),
         review_decision: review_decision.into(),
@@ -908,6 +1004,7 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
         head_ref: Some(head.ref_field.clone()),
         head_sha: head.sha.clone(),
         url: pr.html_url.map(|url| url.to_string()),
+        body: pr.body.clone(),
         merged: pr.merged_at.is_some(),
         merge_commit_sha: pr.merge_commit_sha.clone(),
         checks,
@@ -977,6 +1074,7 @@ mod tests {
             repository: "o/r".into(),
             pull_request: 1,
             linked_issue: Some(2),
+            linkage_source: Some("github_closing_issues_references".into()),
             draft: false,
             merge_state: "clean".into(),
             review_decision: "approved".into(),
@@ -984,6 +1082,7 @@ mod tests {
             head_ref: Some("codex/2".into()),
             head_sha: "abc".into(),
             url: Some("https://github.com/o/r/pull/1".into()),
+            body: Some("Closes #2".into()),
             merged: false,
             merge_commit_sha: None,
             checks: vec![PrCheck {
@@ -1011,6 +1110,20 @@ mod tests {
         assert!(run_is_newer(Some(20), 30, None, 20));
         assert!(!run_is_newer(Some(10), 30, Some(20), 20));
         assert!(!run_is_newer(None, 10, Some(20), 20));
+    }
+
+    #[test]
+    fn producer_accepts_only_remote_closing_issue_linkage() {
+        let response = json!({"data":{"repository":{"pullRequest":{"closingIssuesReferences":{"nodes":[
+            {"number": 7, "repository":{"nameWithOwner":"o/r"}},
+            {"number": 9, "repository":{"nameWithOwner":"other/r"}}
+        ]}}}}});
+        assert_eq!(
+            remotely_linked_issue(&response, "o/r", Some(7)).unwrap(),
+            Some(7)
+        );
+        let error = remotely_linked_issue(&response, "o/r", Some(8)).unwrap_err();
+        assert_eq!(error.code, crate::ErrorCode::ReconciliationRequired);
     }
 
     #[test]
