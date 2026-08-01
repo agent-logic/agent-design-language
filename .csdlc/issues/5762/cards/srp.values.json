@@ -7,15 +7,15 @@
     "title": "[v0.91.8][csdlc-v2][tests] Make terminal repair fixtures independent of live issue claims",
     "slug": "terminal-sor-validation-fixtures",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/store.rs test fixture repair and #5762 issue-local lifecycle/evidence",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/store.rs test-only changes at 4a44e4a6b6feb64cfe566cb97e04aa0d888c57f5\n.csdlc/evidence/5762 validation evidence",
+      "review_revision": "git-blake3:4a44e4a6b6feb64cfe566cb97e04aa0d888c57f5:dbc11d76a892efb57be4c6cc53b368f03e5bbe03490a44736b5a1b00440d3325",
+      "reviewer": "codex:issue-5748-peer",
       "review_prompts": [
         "Verify the terminal SOR validation repair tests synthesize deterministic authority rather than depending on #5613 active-claim truth.",
         "Verify production terminal SOR validation repair semantics are unchanged.",
@@ -23,7 +23,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

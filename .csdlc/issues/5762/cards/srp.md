@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-csdlc-v2/src/store.rs test fixture repair and #5762 issue-local lifecycle/evidence
+csdlc-v2/src/store.rs test-only changes at 4a44e4a6b6feb64cfe566cb97e04aa0d888c57f5
+.csdlc/evidence/5762 validation evidence
 
 ## Prompts
 
@@ -34,8 +35,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:4a44e4a6b6feb64cfe566cb97e04aa0d888c57f5:dbc11d76a892efb57be4c6cc53b368f03e5bbe03490a44736b5a1b00440d3325")
 
-Reviewer: None
+Reviewer: Some("codex:issue-5748-peer")
 
-Result: pre_review
+Result: pass

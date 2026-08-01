@@ -1,0 +1,223 @@
+
+running 4 tests
+test store::terminal_design_repair_tests::terminal_sor_validation_repair_enforces_portable_replacements ... ok
+test store::terminal_design_repair_tests::terminal_sor_validation_repair_rejects_stale_receipt_without_mutation ... ok
+test store::terminal_design_repair_tests::terminal_sor_validation_repair_rolls_back_projection_and_receipt ... ok
+test store::terminal_design_repair_tests::terminal_sor_validation_repair_updates_projection_and_receipt_atomically ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 39 filtered out; finished in 3.63s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 55 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 17 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 14 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 37 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+
+running 1 test
+test public_contract_exposes_terminal_sor_validation_repair_request ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 46 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+   Compiling csdlc-v2 v0.1.0 (csdlc-v2)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.35s
+     Running unittests src/lib.rs (csdlc-v2/target/debug/deps/csdlc_v2-3028b368a82ca2aa)
+     Running unittests src/bin/csdlc-bind.rs (csdlc-v2/target/debug/deps/csdlc_bind-369dcf9a9ca7a4db)
+     Running unittests src/bin/csdlc-closeout.rs (csdlc-v2/target/debug/deps/csdlc_closeout-3b6484ab12970d4b)
+     Running unittests src/bin/csdlc-cutover.rs (csdlc-v2/target/debug/deps/csdlc_cutover-b20227ae9a0e5176)
+     Running unittests src/bin/csdlc-doctor.rs (csdlc-v2/target/debug/deps/csdlc_doctor-f2c743e3d86b0230)
+     Running unittests src/bin/csdlc-edit.rs (csdlc-v2/target/debug/deps/csdlc_edit-a7b24687c1689f11)
+     Running unittests src/bin/csdlc-eligibility.rs (csdlc-v2/target/debug/deps/csdlc_eligibility-e9adbe81b20ded5d)
+     Running unittests src/bin/csdlc-github.rs (csdlc-v2/target/debug/deps/csdlc_github-b021c211591bdf01)
+     Running unittests src/bin/csdlc-github-issue.rs (csdlc-v2/target/debug/deps/csdlc_github_issue-7c53cfd60bf68c7e)
+     Running unittests src/bin/csdlc-github-pr.rs (csdlc-v2/target/debug/deps/csdlc_github_pr-8e8c94c20187f5f4)
+     Running unittests src/bin/csdlc-init.rs (csdlc-v2/target/debug/deps/csdlc_init-a06019839292275a)
+     Running unittests src/bin/csdlc-install.rs (csdlc-v2/target/debug/deps/csdlc_install-3a5ede200c6e6539)
+     Running unittests src/bin/csdlc-merge.rs (csdlc-v2/target/debug/deps/csdlc_merge-9cae2a78d93b531f)
+     Running unittests src/bin/csdlc-pr-state.rs (csdlc-v2/target/debug/deps/csdlc_pr_state-9bd7911b8cc3b600)
+     Running unittests src/bin/csdlc-proof.rs (csdlc-v2/target/debug/deps/csdlc_proof-b86091e67e845117)
+     Running unittests src/bin/csdlc-publish.rs (csdlc-v2/target/debug/deps/csdlc_publish-15273017e2db8f19)
+     Running unittests src/bin/csdlc-review.rs (csdlc-v2/target/debug/deps/csdlc_review-a6fc995e6f39146b)
+     Running unittests src/bin/csdlc-schedule.rs (csdlc-v2/target/debug/deps/csdlc_schedule-bcd6238165ebeb3a)
+     Running unittests src/bin/csdlc-shadow.rs (csdlc-v2/target/debug/deps/csdlc_shadow-6cd91cd763b4d0f8)
+     Running unittests src/bin/csdlc-shepherd.rs (csdlc-v2/target/debug/deps/csdlc_shepherd-5a757ecad6be190b)
+     Running unittests src/bin/csdlc-soak.rs (csdlc-v2/target/debug/deps/csdlc_soak-20e10e0f2adda03b)
+     Running unittests src/bin/csdlc-validate.rs (csdlc-v2/target/debug/deps/csdlc_validate-3e2b9f32c15e0caf)
+     Running tests/card_identity.rs (csdlc-v2/target/debug/deps/card_identity-ff1f5cac9b9dc278)
+     Running tests/gate10a.rs (csdlc-v2/target/debug/deps/gate10a-3a95fc8121190903)
+     Running tests/gate10b.rs (csdlc-v2/target/debug/deps/gate10b-60c455e5a94fe534)
+     Running tests/gate2.rs (csdlc-v2/target/debug/deps/gate2-550afb95d95b4ff9)
+     Running tests/gate4.rs (csdlc-v2/target/debug/deps/gate4-fd0c47cc64cf8d09)
+     Running tests/gate5.rs (csdlc-v2/target/debug/deps/gate5-e19ee02bda4d32bc)
+     Running tests/gate6.rs (csdlc-v2/target/debug/deps/gate6-c623ef46a0fe7284)
+     Running tests/gate7.rs (csdlc-v2/target/debug/deps/gate7-99099cac0da91dcd)
+     Running tests/gate7_lifecycle.rs (csdlc-v2/target/debug/deps/gate7_lifecycle-9953beabd1e12fed)
+     Running tests/gate7_terminal_design_repair_5487.rs (csdlc-v2/target/debug/deps/gate7_terminal_design_repair_5487-2e84cc343dbe60cf)
+     Running tests/gate7_terminal_sor_validation_repair_5613.rs (csdlc-v2/target/debug/deps/gate7_terminal_sor_validation_repair_5613-f256181e959dc258)
+     Running tests/gate8.rs (csdlc-v2/target/debug/deps/gate8-3de972f60758c4d3)
+     Running tests/gate9.rs (csdlc-v2/target/debug/deps/gate9-8e3139454d97910f)
+     Running tests/gate_github_actions.rs (csdlc-v2/target/debug/deps/gate_github_actions-b37124d284133d6c)

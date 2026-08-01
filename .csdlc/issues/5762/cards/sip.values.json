@@ -7,7 +7,7 @@
     "title": "[v0.91.8][csdlc-v2][tests] Make terminal repair fixtures independent of live issue claims",
     "slug": "terminal-sor-validation-fixtures",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 6
   },
   "status": "ready",
   "content": {
