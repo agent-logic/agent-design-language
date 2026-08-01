@@ -176,6 +176,8 @@ async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
     );
     assert_eq!(issue.assignees, vec!["codex-reviewer".to_string()]);
     assert!(issue.marker_present);
+    assert_eq!(issue.created_at.as_deref(), Some("2026-01-01T00:00:00Z"));
+    assert_eq!(issue.closed_at, None);
 
     let mut close = base_request(GithubAction::IssueClose);
     close.token_file = Some(env.token_file());
@@ -644,6 +646,8 @@ fn open_issue_number(
         "title": title,
         "body": body,
         "state": "open",
+        "created_at": "2026-01-01T00:00:00Z",
+        "closed_at": null,
         "labels": labels.into_iter().map(|name| json!({"name": name})).collect::<Vec<_>>(),
         "assignees": assignees.into_iter().map(|login| json!({"login": login})).collect::<Vec<_>>(),
         "milestone": milestone.map(|number| json!({"number": number}))

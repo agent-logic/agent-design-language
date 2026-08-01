@@ -95,7 +95,6 @@ EXCLUDED_REL_PATHS = {
 HISTORICAL_EXACT_PATHS = {
     # Immutable migration/review evidence. Current contracts under
     # docs/tooling remain active even when they describe retired commands.
-    "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
     "docs/tooling/ADL_OCTOCRAB_MIGRATION_REVIEW.md",
     "docs/tooling/BUILD_ACTION_LOGS.md",
     "docs/tooling/PROMPT_TEMPLATE_VALUES_RENDERER_PLAN_v0.91.5.md",
