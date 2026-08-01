@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "5832b1b7277eb113d101e78eca6f8ecc36e854f1509ae2228d7adbeab5b0f736",
+  "generation": 19,
+  "digest": "573809969463e1574062873863b988fda3fc159c6ab7da6f0f1f0d3ca43ea054",
   "claim": {
     "id": "claim-5748-terminal-recovery-v2",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
-    "generation": 17,
+    "generation": 19,
     "acquired_unix_seconds": 1785559840,
     "expires_unix_seconds": 1786164640,
     "heartbeat_unix_seconds": 1785559840,
@@ -71,34 +71,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1c7069b1c5ec274fe8f443a49bfae309ae669655b0e581e4baebbb859cfccec7",
+      "values_digest": "749b7e27dce4781e92b901b924bc69bc96c0a7e592d7a49e0b80528c15c7fff5",
       "rendered_digest": "47705f68049f2565e12871bfbb5bb6e9bec75d62f9334b13a1fcb29879eeedf2",
       "ast_digest": "66b2fa31a0cbd5c056ae38bb3ce5459c7826160b165e8fa0daf68fe378083004"
     },
     "stp": {
-      "values_digest": "18c813f0c8c20587df39aa98f9d2303fde367e8a878bfc3d1794003598d0fef0",
+      "values_digest": "5acbc973f061259c6deb704682da7ed6eebc97a42c7b5cff12efcdc2d6ee8096",
       "rendered_digest": "5a8822a8c7b60a5065afcd89d1402d36d705dcb5b42ecd109f518d27e0fc5e62",
       "ast_digest": "1109b3410dd50617d7241c3755faf54737ac8453a998b23fd32c4af3ddc5966e"
     },
     "spp": {
-      "values_digest": "861b1f5e5fece1bd24df696187ccb15968d0eca34db68548c414bc8e0edcc9c2",
+      "values_digest": "abcfe1951f3d260459a1a4f8c825d173189ce1d5f1a506f20c967340f3b627b4",
       "rendered_digest": "e9b0d898d2a756b4fdad65dc50cb51b1ce6b7a30ecee883c73238f4882dc33ab",
       "ast_digest": "bc33f4d0c44c7a28cb49b903543db9235180fca69993b0e7522b00eb92df8e64"
     },
     "vpp": {
-      "values_digest": "a67ea6897e62113790c8331d67ae15b4fda815cbecdf0a70d9e74463933ed0ee",
+      "values_digest": "27e370bb224e68bc4873d8235754b357f2b63e8efe477f16b6d1ce8c570fd530",
       "rendered_digest": "14449800caa2269df2accf36af84f3f6de37f03cd453dbdafa41d668aa4010e1",
       "ast_digest": "49db9c8d781453dba81523de6ef5f5a810fcc132705f5ad988c9816aea97b395"
     },
     "srp": {
-      "values_digest": "8400c2fc4f90ba087b16bed6b1d0e8ba35825a800450749f5782512bea3c9c7e",
+      "values_digest": "72f009a71a49395cf0f10a239586cf43459f9612d0d9590fc115b92f4ca3ba34",
       "rendered_digest": "281a0127cda1e0cf6ddfd6d224c9f4eaa89cfabc033a215c3687ee16c711c5e6",
       "ast_digest": "a80d4038f11d4d74ec0a7f5a892ab1f3b2d50d2d68c2de1f4ff65bef8a2e696a"
     },
     "sor": {
-      "values_digest": "3178c2fe7a937db90ad3c3cdc1eac9ca8873a29f161ea2f92051aaa8628aa5d6",
-      "rendered_digest": "05364279a11af912d098f19633650c42804d5957b875244ccbbc7659e81a2f16",
-      "ast_digest": "c731ec60159e0b82eb24745909533179bb1a8f485f84cbffa5ed96372473bfc1"
+      "values_digest": "a4c57f3f850d330b6925e376e6138b54fdf8883e44ba9a15e48f13f8e0de984d",
+      "rendered_digest": "ed9e3f4f12cc372ecbc3f3389012c184f8111f8caf13a626415318bfebbda57f",
+      "ast_digest": "6f26f4ab9907b379cd70731e3494db8c6efd88f20bdd9cd4f2cd66b707e118cb"
     }
   },
   "transitions": [
@@ -348,6 +348,20 @@
       "actor": "codex:5748-terminal-recovery",
       "reason": "Align the operative plan with the C-SDLC v2 terminal-authentication surface discovered and repaired during independent review.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc closed-issue projections, retained receipts, evidence, and #5748 validation artifacts\",\"csdlc-v2 terminal receipt loading, doctor classification, canonical path enforcement, and lifecycle regression tests\"]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 18,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Record the final live 103-issue execution result and terminal-authentication hardening before exact-head review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Completed the exhaustive live v0.91.8 closed-issue audit: 91 issues now have authenticated receipt-backed terminal projections, 11 cases remain exact typed fail-closed exceptions, and #5335 is the sole noneligible exclusion in the retained 103-issue universe.\",\"changes\":[\"Bound terminal record, card, and receipt identities to the requested issue namespace and added cross-issue substitution regressions.\",\"Rejected absolute, traversing, leaf-symlink, and ancestor-symlink terminal paths before parsing any governed projection or authored artifact.\",\"Classified missing or corrupt closed-out authority through the terminal-specific reconciliation route instead of generic readiness repair.\",\"Reconciled newly merged #5347 into a claim-free receipt-backed terminal projection on the dedicated closeout branch.\",\"Recorded #5346 as an exact fail-closed exception after its typed SPP correction was rejected in merge_ready without mutation.\"],\"artifacts\":[\".csdlc/issues/5347\",\".csdlc/evidence/5748/exact-head-validation-f9398dae3.md\"]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 19,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Record the final live-universe, terminal-authority, owner-binary, source-identity, and diff-hygiene proof before exact-head review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\"],\"purpose\":\"Authenticate exact-head owner binaries and terminal paths, prove live parity for all 103 closed v0.91.8 issues, validate 91 full receipts and 11 pinned fail-closed exceptions, and bind the unchanged fully tested C-SDLC v2 source to the final audit head.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/exact-head-validation-f9398dae3.md\"}}"
     }
   ]
 }

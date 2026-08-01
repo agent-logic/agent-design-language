@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Completed the exhaustive v0.91.8 closed-issue audit: 90 issues now have authenticated receipt-backed terminal projections, ten irrecoverable cases remain exact fail-closed exceptions, and #5335 is the sole noneligible exclusion in the retained 101-issue universe.
+Completed the exhaustive live v0.91.8 closed-issue audit: 91 issues now have authenticated receipt-backed terminal projections, 11 cases remain exact typed fail-closed exceptions, and #5335 is the sole noneligible exclusion in the retained 103-issue universe.
 
 ## Artifacts
 
@@ -28,6 +28,8 @@ Completed the exhaustive v0.91.8 closed-issue audit: 90 issues now have authenti
 - csdlc-v2/src/doctor.rs
 - csdlc-v2/src/store.rs
 - csdlc-v2/tests/gate7_lifecycle.rs
+- .csdlc/issues/5347
+- .csdlc/evidence/5748/exact-head-validation-f9398dae3.md
 
 ## Execution
 
@@ -41,6 +43,11 @@ Completed the exhaustive v0.91.8 closed-issue audit: 90 issues now have authenti
 - Hardened csdlc-doctor so closed_out health authenticates the full retained terminal receipt, materialized record and cards, and authored artifacts.
 - Hardened the aggregate validator against final, parent-component, and dangling symlinks and pinned the full live 101-issue partition plus exception identities.
 - Added deterministic regressions for receipt tampering, authored-artifact drift, and symlinked terminal receipts.
+- Bound terminal record, card, and receipt identities to the requested issue namespace and added cross-issue substitution regressions.
+- Rejected absolute, traversing, leaf-symlink, and ancestor-symlink terminal paths before parsing any governed projection or authored artifact.
+- Classified missing or corrupt closed-out authority through the terminal-specific reconciliation route instead of generic readiness repair.
+- Reconciled newly merged #5347 into a claim-free receipt-backed terminal projection on the dedicated closeout branch.
+- Recorded #5346 as an exact fail-closed exception after its typed SPP correction was rejected in merge_ready without mutation.
 
 ## Validation
 
@@ -167,6 +174,15 @@ Completed the exhaustive v0.91.8 closed-issue audit: 90 issues now have authenti
     "purpose": "Reject all C-SDLC v2 warnings across every target after terminal-authority hardening.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/5748/validate-final-inventory.sh"
+    ],
+    "purpose": "Authenticate exact-head owner binaries and terminal paths, prove live parity for all 103 closed v0.91.8 issues, validate 91 full receipts and 11 pinned fail-closed exceptions, and bind the unchanged fully tested C-SDLC v2 source to the final audit head.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-f9398dae3.md"
   }
 ]
 
