@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/5352\n.csdlc/evidence/5352\n.csdlc/prepared/issues/5352\nadl/src/csm_runtime_api.rs\ndocs/milestones/v0.91.8/handoff",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

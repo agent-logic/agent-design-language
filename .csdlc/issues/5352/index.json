@@ -5,7 +5,7 @@
   "initialization_digest": "0b1b443e0ef68c9229695e3260f7340ef3b40df59112c8adb75d065cd81caf9a",
   "phase": "implemented",
   "generation": 7,
-  "digest": "44a0fceba694cdb808eabe07e9af93bcf08e3c79ccdbb4812faaf34163dc3b22",
+  "digest": "cd1a463dc12cd5cb9514169f62abdd65a69c4d3272e09f0bdab609cc1a3e8a21",
   "claim": {
     "id": "claim-5352-v0918-final-handoff",
     "owner": "codex:wp21-final-handoff",
@@ -25,7 +25,18 @@
     ],
     "purpose": "Finalize, validate, review, publish, and integrate the WP-21 exact-revision v0.92 consumption handoff"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "Wegener",
+    "assigned_by": "codex:wp21-final-handoff",
+    "revision": "git-blake3:226c8e2a411dbf03378012f0eb5e4d3c14a4b801:791a34139581809797997d21683aca6c5d16cb7cfcafeb908846d3ef74aa31b2",
+    "scope": [
+      ".csdlc/issues/5352",
+      ".csdlc/evidence/5352",
+      ".csdlc/prepared/issues/5352",
+      "adl/src/csm_runtime_api.rs",
+      "docs/milestones/v0.91.8/handoff"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -61,9 +72,9 @@
       "ast_digest": "76ac742a01efadd6c9a85a76900c29dad1e391c753ede29fd61df858c97ceb79"
     },
     "srp": {
-      "values_digest": "2ba3935fd1da972087a7bf723332d8cc1f9bb734cbedf1af0c5ae81ec901085f",
-      "rendered_digest": "8d382bdfe213d55c52636fadfd8bbf36e6f31cfd90708a29e4939a4aa4232ea6",
-      "ast_digest": "952c0ba51c2f48ecebfedb516c692cc956735cbae6744f2918c47f090e7432d0"
+      "values_digest": "2fcabc88fdc54c2a0752ef2fe1dc89fc323afb72d4c031e94dc8a1e979eee0d8",
+      "rendered_digest": "0ba434d368f066edd9b5d4e7185a14ef27bdce6a43d82b672d5c671def097b0f",
+      "ast_digest": "6538e131a0312f6205bf925b696efe17a54ae06c764ccaa69456e40507321ab9"
     },
     "sor": {
       "values_digest": "1162fb2a381518a01923c7f5ab2ae5c5cf8ff5b2dcd6b10e58ad2a462f0b843f",
@@ -192,6 +203,13 @@
       "actor": "codex:wp21-final-handoff",
       "reason": "Record focused proof for the sprint review's canonical ACIP route remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--offline\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_api::tests::runtime_api_surfaces_acip_carrier_component_and_routes\",\"--\",\"--exact\"],\"purpose\":\"Prove the canonical /v1/acip/ws route and explicit /acip/ws compatibility alias agree with the Runtime v3 ACIP carrier contract.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5352/acip-route-tests.log\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:wp21-final-handoff",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

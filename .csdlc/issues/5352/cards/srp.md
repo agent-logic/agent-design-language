@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/5352
+.csdlc/evidence/5352
+.csdlc/prepared/issues/5352
+adl/src/csm_runtime_api.rs
+docs/milestones/v0.91.8/handoff
 
 ## Prompts
 
