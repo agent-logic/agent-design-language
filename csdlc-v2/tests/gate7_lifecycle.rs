@@ -517,7 +517,7 @@ fn bind_idempotent_reuse_rejects_target_with_different_issue_identity() {
 
     let error = bind_issue(&store, bind_request(issue, claim)).unwrap_err();
 
-    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
 }
 
 #[test]
@@ -4121,10 +4121,7 @@ fn terminal_reconcile_rejects_misplaced_receipt_for_missing_projection() {
         })
         .unwrap_err();
 
-    assert!(matches!(
-        error.code,
-        csdlc_v2::ErrorCode::ReconciliationRequired
-    ));
+    assert!(matches!(error.code, csdlc_v2::ErrorCode::CorruptRecord));
     assert!(!store.issue_dir(target_issue).exists());
 }
 
@@ -4398,7 +4395,7 @@ fn terminal_receipt_transport_materializes_newer_shared_receipt_over_terminal_cl
                 .transport_terminal_receipt(request())
                 .unwrap_err()
                 .code,
-            ErrorCode::ReconciliationRequired
+            ErrorCode::UnsafeCheckout
         );
         assert!(fs::symlink_metadata(&design)
             .unwrap()
@@ -4474,7 +4471,7 @@ fn terminal_receipt_transport_materializes_newer_shared_receipt_over_terminal_cl
                     .transport_terminal_receipt(request())
                     .unwrap_err()
                     .code,
-                ErrorCode::ReconciliationRequired
+                ErrorCode::UnsafeCheckout
             );
             assert!(fs::symlink_metadata(&path)
                 .unwrap()

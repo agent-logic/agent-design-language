@@ -1470,26 +1470,18 @@ impl Store {
     }
 
     fn verify_materialized_terminal_receipt(&self, receipt: &TerminalReceipt) -> Result<()> {
-        let local = self.load_record(receipt.issue)?;
-        let cards = self.load_cards(receipt.issue)?;
-        if local != receipt.record || cards != receipt.cards {
-            return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "materialized terminal projection differs from retained receipt",
-            ));
-        }
-        if verify_cards(self, &local, &cards).is_err() {
-            return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "materialized terminal card values or rendered Markdown differ from retained receipt",
-            ));
-        }
-        verify_canonical_projection_bytes(self, &local, &cards).map_err(|_| {
-            V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "materialized terminal projection is not canonical regular-file state",
-            )
-        })?;
+        verify_canonical_projection_bytes(self, &receipt.record, &receipt.cards).map_err(
+            |error| {
+                if error.code == ErrorCode::UnsafeCheckout {
+                    error
+                } else {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "materialized terminal projection is not canonical regular-file state",
+                    )
+                }
+            },
+        )?;
         for (path, expected) in &receipt.authored_artifacts {
             let actual =
                 read_regular_terminal_artifact(&self.root, Path::new(path))?.ok_or_else(|| {
@@ -1504,6 +1496,20 @@ impl Store {
                     "materialized terminal authored artifact differs from retained receipt",
                 ));
             }
+        }
+        let local = self.load_record(receipt.issue)?;
+        let cards = self.load_cards(receipt.issue)?;
+        if local != receipt.record || cards != receipt.cards {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "materialized terminal projection differs from retained receipt",
+            ));
+        }
+        if verify_cards(self, &local, &cards).is_err() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "materialized terminal card values or rendered Markdown differ from retained receipt",
+            ));
         }
         Ok(())
     }
@@ -6650,7 +6656,7 @@ mod terminal_design_repair_tests {
                 fail_after_stage: None,
             })
             .expect_err("idempotent issue-local symlink must fail closed");
-        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+        assert_eq!(error.code, ErrorCode::UnsafeCheckout);
         assert_eq!(transport_projection_bytes(&store, target.issue), before);
         assert_eq!(fs::read(receipt_path).unwrap(), receipt_bytes);
         assert!(fs::symlink_metadata(design_file)
@@ -7115,7 +7121,7 @@ mod terminal_design_repair_tests {
                 fail_after_stage: None,
             })
             .expect_err("local authored-artifact symlink must fail closed");
-        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+        assert_eq!(error.code, ErrorCode::UnsafeCheckout);
         assert_eq!(transport_projection_bytes(&store, target.issue), before);
         assert!(fs::symlink_metadata(store.root.join(local_design_path))
             .unwrap()

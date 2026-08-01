@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "cc4ee1d415857e96d51ca7fc0dfa7097f4763dce0bdb5a4a5c91d6eaca0b7e0f",
+  "generation": 17,
+  "digest": "5832b1b7277eb113d101e78eca6f8ecc36e854f1509ae2228d7adbeab5b0f736",
   "claim": {
     "id": "claim-5748-terminal-recovery-v2",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
-    "generation": 16,
+    "generation": 17,
     "acquired_unix_seconds": 1785559840,
     "expires_unix_seconds": 1786164640,
     "heartbeat_unix_seconds": 1785559840,
@@ -71,32 +71,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b1820af8fa15cff9da020edecbe4c8c60dc599bc9eeedfe0fd81c3824272c746",
+      "values_digest": "1c7069b1c5ec274fe8f443a49bfae309ae669655b0e581e4baebbb859cfccec7",
       "rendered_digest": "47705f68049f2565e12871bfbb5bb6e9bec75d62f9334b13a1fcb29879eeedf2",
       "ast_digest": "66b2fa31a0cbd5c056ae38bb3ce5459c7826160b165e8fa0daf68fe378083004"
     },
     "stp": {
-      "values_digest": "d9766af6970528f5076e67b4d31d9c3528a544c1e42effda98babeec0e927b3e",
+      "values_digest": "18c813f0c8c20587df39aa98f9d2303fde367e8a878bfc3d1794003598d0fef0",
       "rendered_digest": "5a8822a8c7b60a5065afcd89d1402d36d705dcb5b42ecd109f518d27e0fc5e62",
       "ast_digest": "1109b3410dd50617d7241c3755faf54737ac8453a998b23fd32c4af3ddc5966e"
     },
     "spp": {
-      "values_digest": "a49cf656183dfabc9aaea3d174ad64fced84896b43003bdf8503dffe77374b15",
-      "rendered_digest": "f2ffea9a7dba453df8a5bbf0dc28bb3c4323e0d2a2eb1590bb3004568701586b",
-      "ast_digest": "b0e9e313ce95d9445f5d349941b473e1eb69d0dc957fb5ca800a312d97024256"
+      "values_digest": "861b1f5e5fece1bd24df696187ccb15968d0eca34db68548c414bc8e0edcc9c2",
+      "rendered_digest": "e9b0d898d2a756b4fdad65dc50cb51b1ce6b7a30ecee883c73238f4882dc33ab",
+      "ast_digest": "bc33f4d0c44c7a28cb49b903543db9235180fca69993b0e7522b00eb92df8e64"
     },
     "vpp": {
-      "values_digest": "33c863d876314023de4ebcdc68920393d64ecf0cd4d8171e91e769d7672b10b2",
+      "values_digest": "a67ea6897e62113790c8331d67ae15b4fda815cbecdf0a70d9e74463933ed0ee",
       "rendered_digest": "14449800caa2269df2accf36af84f3f6de37f03cd453dbdafa41d668aa4010e1",
       "ast_digest": "49db9c8d781453dba81523de6ef5f5a810fcc132705f5ad988c9816aea97b395"
     },
     "srp": {
-      "values_digest": "990a91c04e8a993a357e36cd1ba8d9b17887d1acc98f3c3a855dd8e5077454f1",
+      "values_digest": "8400c2fc4f90ba087b16bed6b1d0e8ba35825a800450749f5782512bea3c9c7e",
       "rendered_digest": "281a0127cda1e0cf6ddfd6d224c9f4eaa89cfabc033a215c3687ee16c711c5e6",
       "ast_digest": "a80d4038f11d4d74ec0a7f5a892ab1f3b2d50d2d68c2de1f4ff65bef8a2e696a"
     },
     "sor": {
-      "values_digest": "1cb733c51dd4d95f82494fb0ab668e3e3193715dc028b7f3eaa2a69c0e3d4e9a",
+      "values_digest": "3178c2fe7a937db90ad3c3cdc1eac9ca8873a29f161ea2f92051aaa8628aa5d6",
       "rendered_digest": "05364279a11af912d098f19633650c42804d5957b875244ccbbc7659e81a2f16",
       "ast_digest": "c731ec60159e0b82eb24745909533179bb1a8f485f84cbffa5ed96372473bfc1"
     }
@@ -341,6 +341,13 @@
       "actor": "codex:5748-terminal-recovery",
       "reason": "Reacquire exact authority with the independently reviewed implementation and closeout purpose after typed operator revocation of the stale preparation-era purpose.",
       "operation": "{\"branch\":\"codex/5748-terminal-recovery\",\"claim_id\":\"claim-5748-terminal-recovery-v2\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:019fb617-d22b-7252-975c-402d7d7aec46\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5748\",\".csdlc/issues/4759\",\".csdlc/issues/4760\",\".csdlc/issues/4763\",\".csdlc/issues/5342\",\".csdlc/issues/5352\",\".csdlc/issues/5354\",\".csdlc/issues/5438\",\".csdlc/issues/5499\",\".csdlc/issues/5540\",\".csdlc/issues/5548\",\".csdlc/issues/5572\",\".csdlc/issues/5587\",\".csdlc/issues/5610\",\".csdlc/issues/5632\",\".csdlc/issues/5645\",\".csdlc/issues/5663\",\".csdlc/issues/5664\",\".csdlc/issues/5665\",\".csdlc/issues/5670\",\".csdlc/issues/5675\",\".csdlc/issues/5678\",\".csdlc/issues/5679\",\".csdlc/issues/5687\",\".csdlc/issues/5701\",\".csdlc/issues/5708\",\".csdlc/issues/5711\",\".csdlc/issues/5718\",\".csdlc/issues/5728\",\".csdlc/issues/5733\",\".csdlc/issues/5735\",\".csdlc/issues/5746\",\".csdlc/issues/5748\",\".csdlc/locks/5748.lock\",\".csdlc/prepared/issues/5748\",\"csdlc-v2\"],\"purpose\":\"Complete, validate, independently review, publish, merge, and typed-close #5748; reconcile the 101-issue v0.91.8 closed universe, preserve exact fail-closed exceptions, and harden C-SDLC v2 terminal authentication where required for truthful proof.\",\"worktree\":\".worktrees/adl-wp-5748\"}"
+    },
+    {
+      "sequence": 32,
+      "generation": 17,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Align the operative plan with the C-SDLC v2 terminal-authentication surface discovered and repaired during independent review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc closed-issue projections, retained receipts, evidence, and #5748 validation artifacts\",\"csdlc-v2 terminal receipt loading, doctor classification, canonical path enforcement, and lifecycle regression tests\"]}"
     }
   ]
 }

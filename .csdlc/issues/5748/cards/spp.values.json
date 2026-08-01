@@ -7,13 +7,13 @@
     "title": "[v0.91.8][csdlc-v2][closeout] Recover remaining closed-issue terminal truth",
     "slug": "remaining-closed-issue-terminal-recovery",
     "version": "v0.91.8",
-    "generation": 16
+    "generation": 17
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Exhaustively classify the live closed v0.91.8 issue set; recover, transport, or reconcile terminal authority only through typed C-SDLC v2; materialize the origin/main terminal delta on the dedicated #5748 branch; and retain exact-head fail-closed exceptions whenever implementation or evidence does not justify a receipt.",
       "steps": [
         {
@@ -52,7 +52,10 @@
           "status": "completed"
         }
       ],
-      "affected_areas": [],
+      "affected_areas": [
+        ".csdlc closed-issue projections, retained receipts, evidence, and #5748 validation artifacts",
+        "csdlc-v2 terminal receipt loading, doctor classification, canonical path enforcement, and lifecycle regression tests"
+      ],
       "invariants": [
         "retained receipt identity is the terminal authority",
         "tracked projections remain claim-free and closed_out after reconciliation",
