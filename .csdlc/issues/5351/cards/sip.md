@@ -30,7 +30,7 @@ After #5354 is terminal, a reviewed exact-revision packet records every required
 - Preparation protects only #5351 issue-local lifecycle and evidence paths
 - WP-15 #5354 owns demo convergence and must be terminal before #5351 execution
 - Each product owner retains repair authority; #5351 observes and routes failures but does not absorb unrelated fixes
-- WP-17 #5360 remains blocked until #5351 is merged and typed closed_out
+- WP-17 #5360 is released when #5351 merges with passing exact-head integrated proof; typed closeout is asynchronous and nonblocking
 - Future non-issue-local paths require a typed reviewed collision-free claim amendment after #5354 terminal
 
 ## Assumptions

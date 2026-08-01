@@ -34,7 +34,7 @@ Prepare six current-registry cards, reviewed design and diagram, exact issue-loc
 5. AC-5: Every command, result, duration, artifact, revision, review, and blocker is deterministic where applicable, repository-relative, digest-bound, redaction-safe, and stale-detectable
 6. AC-6: Blockers route to the owning issue before WP-17 begins; #5351 does not silently absorb unrelated remediation
 7. AC-7: No dependency is added; issue-local orchestration and fixtures stay within 1500 nonblank lines, modules below 500 lines, fewer than 150 focused assertions, and 120/600/1800/2280-second lane budgets unless an exact reviewed variance is recorded
-8. AC-8: All applicable focused, integrated, complete, exact-review, CI, authorized serialized merge, post-merge, and typed closeout proof completes without deferral before WP-17 is released
+8. AC-8: All applicable focused, integrated, complete, exact-review, CI, authorized serialized merge, and post-merge identity proof completes without deferral before WP-17 is released; typed closeout follows asynchronously and does not block WP-17
 
 ## Dependencies
 

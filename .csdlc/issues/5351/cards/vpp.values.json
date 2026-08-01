@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-16] Run integrated platform quality gate",
     "slug": "v0918-wp16-integrated-platform-quality-gate",
     "version": "v0.91.8",
-    "generation": 13
+    "generation": 16
   },
   "status": "ready",
   "content": {
@@ -151,7 +151,7 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed without execution, public claim, publication, merge, WP-17 release, or closeout on incomplete #5354 terminal truth, claim collision, stale or non-ancestral product identity, Runtime v2 use, failed or missing required proof, hidden blocker, secret or host-bound output, hard-coded address, new dependency, budget breach, deferred validation, stale review, red CI, or absent post-merge proof.",
       "design_ref": ".csdlc/prepared/issues/5351/design.md",
-      "design_digest": "b6d4acb96c2d737200aae199d11910240ab50360c8e0456279a66cc175e0ff01",
+      "design_digest": "6098b44c1e0f49a955926cfbed1d5f4bd0211573900d4feded1fafcec982909a",
       "diagram_ref": ".csdlc/prepared/issues/5351/diagram.mmd",
       "diagram_digest": "29b73587302168c789aee6c9cfdc2e4ed08491028385d7bfc2244c212cc53225"
     }

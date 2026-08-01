@@ -135,5 +135,5 @@ out-of-scope result stops the gate and routes a blocker to its owning issue.
 publication, rollback is deletion of issue-local generated evidence. After an
 authorized merge, rollback follows the accepted platform rollback contract and
 requires a new reviewed issue; #5351 never rewrites terminal evidence. WP-17
-#5360 is released only after #5351 has merged, completed post-merge exact proof,
-and reached typed closeout.
+#5360 is released after #5351 has merged with passing exact-head integrated
+proof. Typed closeout follows asynchronously and does not block WP-17.

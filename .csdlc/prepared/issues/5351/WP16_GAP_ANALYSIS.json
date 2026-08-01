@@ -109,13 +109,13 @@
       "severity": "P2",
       "title": "WP-17 handoff predicate is not yet satisfied",
       "expected": "Blockers route before WP-17 documentation alignment begins.",
-      "observed": "WP-17 #5360 depends on WP-16 in the wave, but #5351 is not merged, has no post-merge exact proof, and has no typed closeout.",
+      "observed": "WP-17 #5360 depends on WP-16 in the wave, but #5351 is not merged and does not yet have passing exact-head integrated proof on its mergeable publication revision.",
       "evidence": [
         "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
         ".csdlc/issues/5351/index.json"
       ],
       "uncertainty": "None for handoff being unavailable; downstream timing remains operator-owned.",
-      "recommended_follow_up": "Retain #5360 as blocked until #5351 has merged, post-merge proof, and typed closeout.",
+      "recommended_follow_up": "Retain #5360 as blocked until #5351 has merged with passing exact-head integrated proof; perform typed closeout asynchronously.",
       "source_artifact": "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
       "bucket": "routed_work"
     }
@@ -150,7 +150,7 @@
     "Repair or clarify #5354 receipt ancestry semantics so the gate can validate the actual PR #5731 merge commit rather than a non-ancestral PR head.",
     "Re-run #5351 preparation validation after #5354 terminal truth is current.",
     "Only then amend #5351 with exact reviewed quality-gate paths and run focused, integrated, complete, and post-merge lanes.",
-    "Keep WP-17 #5360 blocked until #5351 is merged and typed closed_out."
+    "Keep WP-17 #5360 blocked until #5351 is merged with passing exact-head integrated proof; do not block the handoff on asynchronous typed closeout."
   ],
   "artifact_routing": {
     "markdown": ".csdlc/prepared/issues/5351/WP16_GAP_ANALYSIS.md",

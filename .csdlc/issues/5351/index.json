@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "185d0c17ef9ef231ae848b0ae2a3f027956bca5a1690d71ae37915a465534bd6",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "b7a6f79fdfd9b493ebebd14f8731f78129542195b2059fd73adeab5bebd1dc3e",
+  "generation": 16,
+  "digest": "84d5f7aa4d15875b26ef16513428bc58b4492ca16898fbf55499686fb8acc4ba",
   "claim": {
     "id": "claim-5351-v0918-wp16-quality-gate-preparation",
     "owner": "codex:5351-preparation-owner",
-    "generation": 13,
+    "generation": 16,
     "acquired_unix_seconds": 1785543668,
     "expires_unix_seconds": 1786148468,
     "heartbeat_unix_seconds": 1785543668,
@@ -44,38 +44,38 @@
   "diagram_path": ".csdlc/prepared/issues/5351/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5351-final-plan-refresh",
-      "revision": "b6d4acb96c2d737200aae199d11910240ab50360c8e0456279a66cc175e0ff01"
+      "reviewer": "codex:5351-final-review-remediation",
+      "revision": "6098b44c1e0f49a955926cfbed1d5f4bd0211573900d4feded1fafcec982909a"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "1c6b055beb79d8c7ad1e81e170b98e6c119e824d725690b2c9143ef68e7e2d6e",
-      "rendered_digest": "cd486b0ef1c9028d5bae231ed78d5f04d09f5a26f97e5b1be916da76f0b07648",
-      "ast_digest": "ec0ecc9deeaf93d925f734b00517171ced15f0af10030478079a24aa0edf9f2c"
+      "values_digest": "69be99361d41b9f2e69939eae2388eb572ea3b660f8e5ec06117cc4680f9ea4b",
+      "rendered_digest": "9cb3a1c1f6abafcb1042ddda1590bf20a5d36b60cd65246de671eb12028befba",
+      "ast_digest": "483e75c80aea317493e45d37d8d40f3ed9b103768cc0a86299ba00ec169a3fea"
     },
     "stp": {
-      "values_digest": "6d2a0bc0725c6f3dd2b2432520961269f87ef810d1087b7b75a8679e90724d0f",
-      "rendered_digest": "26ab7a958999a675d0ae9b59e12a8fdc4afb55dae89d735e9afa173a8f5bb8b8",
-      "ast_digest": "148c31feceb93b642a2ac7e2dda7b255a01577211d9ea8da8b552e328d61379c"
+      "values_digest": "d770b93879904489442fa5e4ec725e42d4633a994e91e0fbc904ffc7bf9bfcf7",
+      "rendered_digest": "d6dea1bf95085907bc802ad119b0d15f913e8c24f8a7b699ac9a2370b17f7e4b",
+      "ast_digest": "3e4fe821e3ff93f207f83b079c7889c9fe970402530044cc6730a8fdfc55b3e8"
     },
     "spp": {
-      "values_digest": "63d21d8c41a96d68ccd68823b164342a34c1a89f091f1ce7a544cbc8d15cc054",
-      "rendered_digest": "6175bdba2b9e22eb3445a06256b7d0de8eda4ee32e61ab3179c3a241508f2fc8",
-      "ast_digest": "f3b65d6bb17ccb484236b2983433ab9da4afcba7db337a0cc5ae5abe43d0d4ba"
+      "values_digest": "ed0cce9e3cd19b28469db0c4e8f9c57883f8d23b685e8f6211f023fe284b774e",
+      "rendered_digest": "1bc6672c4d28cccda96c0047c00f09558d2adcb7ff652b4cc206cfb4245d0e5e",
+      "ast_digest": "6dc1988f52848b9dac1a5920c27dcf22b3f697464fd5e8618dd155f62dfef81c"
     },
     "vpp": {
-      "values_digest": "d0010463dc49db540978ab9edf6a38db1538be44cc5d40de0b74d2a1c9235c52",
+      "values_digest": "3868b5ec1cece469b7b8953fba22bc9c46f8d4183dd91bf236655ee5f6225681",
       "rendered_digest": "7154421ca308f11c5ed2dd2dc65c877f7c99ceaaacd9de2acad35a6df362926e",
       "ast_digest": "bf16d1c3e1f5b00d28a226bce0818c5a41f4b3216ee3d914b44b630fd32791a6"
     },
     "srp": {
-      "values_digest": "c170dbf04fc39eb34409cc2833bbb78ba6bbc431a3123b14a1e0317e2bb4106f",
+      "values_digest": "2c266d4aec4712f5df873e85fb2ba0e820e134d614646d0c4a036009cd63db5f",
       "rendered_digest": "6fa8b7c0739c5e160274386772887984b1221b67f80c113b32a2b27f30133341",
       "ast_digest": "6a46e8f21dbdd9ee6dac300ffb93db99e1d0ff2c87fdf2812f097435526c1ea6"
     },
     "sor": {
-      "values_digest": "c969333973f96053f575098ee29a434e8c5944765ece3e54ab13ab8b43ed2e36",
+      "values_digest": "467cc01ff29900dcd8bfc9a97da96b67e758d54a5697dcdc12c94cb275fd6376",
       "rendered_digest": "3ca0a1387d954e2997f494325454ab8728a6e1e4678430d160b59db7f698c492",
       "ast_digest": "a97dc50125e7bed7d73f1e7b04000b62b1f521a0257fc84561fcdeab2cbeb4dd"
     }
@@ -236,6 +236,27 @@
       "actor": "codex:5351-execution",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:5351-execution",
+      "reason": "Align SIP authority with merge-gated WP-17 release and asynchronous closeout.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Preparation protects only #5351 issue-local lifecycle and evidence paths\",\"WP-15 #5354 owns demo convergence and must be terminal before #5351 execution\",\"Each product owner retains repair authority; #5351 observes and routes failures but does not absorb unrelated fixes\",\"WP-17 #5360 is released when #5351 merges with passing exact-head integrated proof; typed closeout is asynchronous and nonblocking\",\"Future non-issue-local paths require a typed reviewed collision-free claim amendment after #5354 terminal\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:5351-execution",
+      "reason": "Align AC-8 with merge-gated WP-17 release and asynchronous closeout.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: No quality-gate execution starts until #5354 is merged, typed closed_out, claim-free, backed by a retained merged terminal receipt, and its observed merge SHA is ancestral to the exact #5351 execution revision\",\"AC-2: The future packet binds exact accepted revisions and retained proof for product contracts, platform deployment, rollback, deletion, demo convergence, docs and release-blocker truth\",\"AC-3: Required rows use pass, fail, blocked, not_applicable, or explicit_non_claim; only pass satisfies a required gate and no failure is hidden as prose or deferred evidence\",\"AC-4: The integrated gate uses accepted ADL v2, Runtime v3, and C-SDLC v2 interfaces without Runtime v2 or duplicate product infrastructure\",\"AC-5: Every command, result, duration, artifact, revision, review, and blocker is deterministic where applicable, repository-relative, digest-bound, redaction-safe, and stale-detectable\",\"AC-6: Blockers route to the owning issue before WP-17 begins; #5351 does not silently absorb unrelated remediation\",\"AC-7: No dependency is added; issue-local orchestration and fixtures stay within 1500 nonblank lines, modules below 500 lines, fewer than 150 focused assertions, and 120/600/1800/2280-second lane budgets unless an exact reviewed variance is recorded\",\"AC-8: All applicable focused, integrated, complete, exact-review, CI, authorized serialized merge, and post-merge identity proof completes without deferral before WP-17 is released; typed closeout follows asynchronously and does not block WP-17\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:5351-final-review-remediation",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

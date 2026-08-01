@@ -142,14 +142,15 @@ executed, which is correct for this preparation-only turn.
 - Gap type: `scope_ambiguity`
 - Bucket: `routed_work`
 - Expected: blockers route before WP-17 documentation alignment begins.
-- Observed: WP-17 #5360 depends on WP-16 in the wave, but #5351 is not merged,
-  has no post-merge exact proof, and has no typed closeout.
+- Observed: WP-17 #5360 depends on WP-16 in the wave, but #5351 is not merged
+  and does not yet have passing exact-head integrated proof on its mergeable
+  publication revision.
 - Evidence: `docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml`,
   `.csdlc/issues/5351/index.json`.
 - Uncertainty: none for handoff being unavailable; downstream timing remains
   operator-owned.
-- Recommended follow-up: retain #5360 as blocked until #5351 has merged,
-  post-merge proof, and typed closeout.
+- Recommended follow-up: retain #5360 as blocked until #5351 has merged with
+  passing exact-head integrated proof; perform typed closeout asynchronously.
 
 ## Gap Buckets
 
@@ -182,7 +183,8 @@ the retained observed SHA is non-ancestral in this squash-merge topology.
 3. Re-run #5351 preparation validation after #5354 terminal truth is current.
 4. Only then amend #5351 with exact reviewed quality-gate paths and run focused,
    integrated, complete, and post-merge lanes.
-5. Keep WP-17 #5360 blocked until #5351 is merged and typed closed_out.
+5. Keep WP-17 #5360 blocked until #5351 is merged with passing exact-head
+   integrated proof; do not block the handoff on asynchronous typed closeout.
 
 ## Artifact Routing
 
