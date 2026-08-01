@@ -11,7 +11,7 @@ require "yaml"
 ROOT = Pathname.new(__dir__).join("../../../..").expand_path
 EVIDENCE = ROOT.join(".csdlc/evidence/5351")
 LANES = %w[focused-quality integrated-platform complete post-merge-exact].freeze
-TARGET_ROOT = ENV.fetch("ADL_WP16_TARGET_ROOT", "/Volumes/FastWork/adl-wp-5351/wp16-target")
+TARGET_ROOT = ENV.fetch("ADL_WP16_TARGET_ROOT", "wp16-target")
 
 lane = ARGV.fetch(0) { abort("usage: run-validation-lane.rb LANE") }
 abort("unknown validation lane: #{lane}") unless LANES.include?(lane)

@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "185d0c17ef9ef231ae848b0ae2a3f027956bca5a1690d71ae37915a465534bd6",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "b0d6c7f2a11c5a8cac779f9fcd06833f61115be095e56654fb312375bdbf7dcd",
+  "generation": 10,
+  "digest": "604205b16842cc20dfafaeac6c983a8d40fc33bcd6aadf2ff2bc14ddf80a7bb9",
   "claim": {
     "id": "claim-5351-v0918-wp16-quality-gate-preparation",
     "owner": "codex:5351-preparation-owner",
-    "generation": 9,
+    "generation": 10,
     "acquired_unix_seconds": 1785543668,
     "expires_unix_seconds": 1786148468,
     "heartbeat_unix_seconds": 1785543668,
@@ -24,8 +24,54 @@
     ],
     "purpose": "Execute #5351 WP-16 integrated platform quality gate, retain issue-by-issue outcome truth and focused/integrated exact-revision evidence, route genuine blockers, and publish a reviewed issue-local quality packet; no product implementation changes."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:Averroes:019fbcaf-db1d-71d1-9ef0-d452c69dd1be",
+    "assigned_by": "codex:5351-execution",
+    "revision": "git-blake3:515dabd34a6bc71ff8725c270b7583c5831679c5:92986133f1045c42b5ac3f3a7881d8e1bd903db6b93d68d70de648581b8758b2",
+    "scope": [
+      ".csdlc/prepared/issues/5351",
+      ".csdlc/evidence/5351",
+      ".csdlc/issues/5351",
+      "docs/milestones/v0.91.8/evidence/wp16"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:Averroes:019fbcaf-db1d-71d1-9ef0-d452c69dd1be",
+    "scope": [
+      ".csdlc/prepared/issues/5351",
+      ".csdlc/evidence/5351",
+      ".csdlc/issues/5351",
+      "docs/milestones/v0.91.8/evidence/wp16"
+    ],
+    "reviewed_revision": "git-blake3:515dabd34a6bc71ff8725c270b7583c5831679c5:92986133f1045c42b5ac3f3a7881d8e1bd903db6b93d68d70de648581b8758b2",
+    "findings": [
+      {
+        "id": "F-5351-1",
+        "severity": "p1",
+        "summary": "Retained integrated commands expose host-absolute target paths while the hygiene row is green.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5351-2",
+        "severity": "p1",
+        "summary": "The operative SPP still blocks WP-17 on typed closeout despite the merge-gated handoff rule.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "#5770"
+      }
+    ],
+    "residual_risks": [
+      "The review did not rerun mutation-producing validation lanes."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -40,32 +86,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "44314c887e14f1d54eb9a30c8af0f49782d193392ede9c764fedb70fdf248604",
+      "values_digest": "8cf7dafc91120788e0fa4acf2612584dbe1bd4e7634a05f4facdc5d7c5fbe353",
       "rendered_digest": "cd486b0ef1c9028d5bae231ed78d5f04d09f5a26f97e5b1be916da76f0b07648",
       "ast_digest": "ec0ecc9deeaf93d925f734b00517171ced15f0af10030478079a24aa0edf9f2c"
     },
     "stp": {
-      "values_digest": "584f8a37c2d310845f0cb3b21c08e8a89bdcd36edf2e7501860f730b86cb731f",
+      "values_digest": "d7ee2306053af05498e7cf34986f1487144adc4b2f25e6e887d1b0bb32708e49",
       "rendered_digest": "26ab7a958999a675d0ae9b59e12a8fdc4afb55dae89d735e9afa173a8f5bb8b8",
       "ast_digest": "148c31feceb93b642a2ac7e2dda7b255a01577211d9ea8da8b552e328d61379c"
     },
     "spp": {
-      "values_digest": "8bc407a597c661bf229b0bb85119ebc0bf326320716bfecb1f93ba7c7773f74d",
+      "values_digest": "24097ae7bd1ec347d235c07ab84c15df89b0fcb2a8f3fbb6d1b061bd3622926b",
       "rendered_digest": "f2a4c641939ffd83513b53b43f2aa5f437c143ad47c5c4d6795c661a58e93fb8",
       "ast_digest": "cd640d007e237410caaf1f1bf8474b9cc0eb8f2a8bd271194584ce67c26d393e"
     },
     "vpp": {
-      "values_digest": "3b52f31f35069b8dff4ed4cac76131c7876978ce52cdd532fde0d29f1e813f63",
+      "values_digest": "e50eee1e2956466bbeba059d342ecfefc8b88832b4b243f5c60f9b7141460834",
       "rendered_digest": "7154421ca308f11c5ed2dd2dc65c877f7c99ceaaacd9de2acad35a6df362926e",
       "ast_digest": "bf16d1c3e1f5b00d28a226bce0818c5a41f4b3216ee3d914b44b630fd32791a6"
     },
     "srp": {
-      "values_digest": "681c6d93708668b07603a913662cc062205c859976487da47804003b7c5c77fe",
-      "rendered_digest": "ee40b370608546998035f8609ebb375449366f60e593a30a087e2745bf4321bf",
-      "ast_digest": "2ac31a0a2b8cc667639662cba9593e956b5cd75b9972acfe2ac5ba54eec86ea9"
+      "values_digest": "0901a7c968062fda66601ad9df395dbcbf3c9ff5c5436c81953b49d6809d1dfb",
+      "rendered_digest": "6fa8b7c0739c5e160274386772887984b1221b67f80c113b32a2b27f30133341",
+      "ast_digest": "6a46e8f21dbdd9ee6dac300ffb93db99e1d0ff2c87fdf2812f097435526c1ea6"
     },
     "sor": {
-      "values_digest": "f8750c91f269973936949f98a8df12f4272ebf25a37a83d18a71993e08808ded",
+      "values_digest": "662140bda65281b1f8fbf94739813bfdd52852265851a487742ad500e7703208",
       "rendered_digest": "3ca0a1387d954e2997f494325454ab8728a6e1e4678430d160b59db7f698c492",
       "ast_digest": "a97dc50125e7bed7d73f1e7b04000b62b1f521a0257fc84561fcdeab2cbeb4dd"
     }
@@ -184,6 +230,20 @@
       "actor": "codex:5351-execution",
       "reason": "The exact-revision WP-16 focused and integrated quality gate is complete and passing.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:5351-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:5351-execution",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }

@@ -12,10 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/5351
-.csdlc/locks/5351.lock
 .csdlc/prepared/issues/5351
 .csdlc/evidence/5351
+.csdlc/issues/5351
+docs/milestones/v0.91.8/evidence/wp16
 
 ## Prompts
 
@@ -27,7 +27,28 @@ Status: pre_phase
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5351-1",
+    "severity": "p1",
+    "summary": "Retained integrated commands expose host-absolute target paths while the hygiene row is green.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "F-5351-2",
+    "severity": "p1",
+    "summary": "The operative SPP still blocks WP-17 on typed closeout despite the merge-gated handoff rule.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": "#5770"
+  }
+]
 
 ## Dispositions
 
@@ -35,12 +56,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The review did not rerun mutation-producing validation lanes.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:515dabd34a6bc71ff8725c270b7583c5831679c5:92986133f1045c42b5ac3f3a7881d8e1bd903db6b93d68d70de648581b8758b2")
 
-Reviewer: None
+Reviewer: Some("subagent:Averroes:019fbcaf-db1d-71d1-9ef0-d452c69dd1be")
 
-Result: pre_review
+Result: changes_required
