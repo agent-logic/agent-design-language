@@ -3446,6 +3446,17 @@ fn authorize_card_operation(
                 ..
             },
         ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Sip,
+            SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::AuthorityBoundary,
+                ..
+            },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria { .. },
+        ) | (
             LifecyclePhase::Bound | LifecyclePhase::Implemented,
             CardKind::Vpp,
             SemanticOperation::ReplaceValidationLanes { .. },

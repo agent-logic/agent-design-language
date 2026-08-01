@@ -3208,6 +3208,86 @@ fn implemented_spp_review_remediation_rejects_unbounded_collections() {
 }
 
 #[test]
+fn implemented_review_remediation_allows_guarded_sip_authority_and_stp_acceptance() {
+    let (_temp, store, mut record) = implemented_fixture();
+
+    record = edit_issue(
+        &store,
+        edit_for(
+            42,
+            "claim-1",
+            &record,
+            CardKind::Sip,
+            SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::AuthorityBoundary,
+                values: vec!["release the successor after merge".into()],
+            },
+        ),
+    )
+    .expect("implemented SIP authority correction");
+    record = edit_issue(
+        &store,
+        edit_for(
+            42,
+            "claim-1",
+            &record,
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria {
+                values: vec![
+                    "merge releases the successor".into(),
+                    "closeout remains asynchronous".into(),
+                ],
+            },
+        ),
+    )
+    .expect("implemented STP acceptance correction");
+
+    let cards = store.load_cards(42).expect("corrected cards");
+    let csdlc_v2::cards::CardContent::Sip(sip) = &cards[&CardKind::Sip].content else {
+        panic!("SIP");
+    };
+    assert_eq!(
+        sip.authority_boundary,
+        vec!["release the successor after merge"]
+    );
+    let csdlc_v2::cards::CardContent::Stp(stp) = &cards[&CardKind::Stp].content else {
+        panic!("STP");
+    };
+    assert_eq!(
+        stp.acceptance_criteria,
+        vec![
+            "merge releases the successor",
+            "closeout remains asynchronous"
+        ]
+    );
+    assert_eq!(record.phase, LifecyclePhase::Implemented);
+    assert_eq!(
+        record.claim.as_ref().expect("claim").generation,
+        record.generation
+    );
+}
+
+#[test]
+fn implemented_sip_review_remediation_rejects_non_authority_collections() {
+    let (_temp, store, record) = implemented_fixture();
+    let error = edit_issue(
+        &store,
+        edit_for(
+            42,
+            "claim-1",
+            &record,
+            CardKind::Sip,
+            SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::DeclaredScope,
+                values: vec!["scope widening remains forbidden".into()],
+            },
+        ),
+    )
+    .expect_err("implemented SIP scope replacement remains rejected");
+    assert_eq!(error.code, ErrorCode::InvalidTransition);
+}
+
+#[test]
 fn direct_markdown_drift_is_corruption() {
     let (_temp, store, _record) = fixture();
     fs::write(
