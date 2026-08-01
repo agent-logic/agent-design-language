@@ -248,12 +248,16 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
                 .iter()
                 .rev()
                 .find(|event| {
-                    if event.generation != record.generation {
-                        return false;
-                    }
                     if event.operation == "record_terminal" {
                         return true;
                     }
+                    if event.generation != record.generation {
+                        return false;
+                    }
+                    let released_paths_digest = csdlc_v2::cards::digest(
+                        &serde_json::to_vec(&terminal.released_protected_paths)
+                            .expect("terminal released paths serialize"),
+                    );
                     serde_json::from_str::<serde_json::Value>(&event.operation)
                         .ok()
                         .is_some_and(|operation| {
@@ -271,11 +275,12 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
                                         && claim
                                             .get("generation")
                                             .and_then(|value| value.as_u64())
-                                            .is_some_and(|value| value < event.generation)
+                                            .and_then(|value| value.checked_add(1))
+                                            == Some(event.generation)
                                         && claim
                                             .get("protected_paths_digest")
                                             .and_then(|value| value.as_str())
-                                            .is_some_and(|value| !value.is_empty())
+                                            == Some(released_paths_digest.as_str())
                                 })
                         })
                 })
