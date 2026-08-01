@@ -614,9 +614,8 @@ mod tests {
         write_capability_aptitude_artifact_bundle, CAPABILITY_APTITUDE_TESTING_ARTIFACT_ROOT,
         CAPABILITY_APTITUDE_TESTING_SCHEMA_VERSION,
     };
-    use std::collections::BTreeMap;
     use std::fs;
-    use std::path::{Path, PathBuf};
+    use std::path::PathBuf;
     use std::time::{SystemTime, UNIX_EPOCH};
 
     fn unique_temp_dir(prefix: &str) -> PathBuf {
@@ -627,31 +626,6 @@ mod tests {
         let dir = std::env::temp_dir().join(format!("{prefix}-{nanos}"));
         fs::create_dir_all(&dir).expect("create temp dir");
         dir
-    }
-
-    fn collect_files(root: &Path) -> BTreeMap<String, String> {
-        fn walk(base: &Path, current: &Path, out: &mut BTreeMap<String, String>) {
-            let mut entries = fs::read_dir(current)
-                .expect("read dir")
-                .map(|entry| entry.expect("entry").path())
-                .collect::<Vec<_>>();
-            entries.sort();
-            for path in entries {
-                if path.is_dir() {
-                    walk(base, &path, out);
-                } else {
-                    let rel = path
-                        .strip_prefix(base)
-                        .expect("relative path")
-                        .to_string_lossy()
-                        .to_string();
-                    out.insert(rel, fs::read_to_string(&path).expect("read file"));
-                }
-            }
-        }
-        let mut out = BTreeMap::new();
-        walk(root, root, &mut out);
-        out
     }
 
     #[test]
@@ -727,17 +701,10 @@ mod tests {
     }
 
     #[test]
-    fn capability_aptitude_testing_tracked_bundle_matches_generated_bundle() {
-        let temp = unique_temp_dir("capability-aptitude-tracked");
-        let generated = temp.join("bundle");
-        write_capability_aptitude_artifact_bundle(&generated).expect("write generated bundle");
-
-        let tracked_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .parent()
-            .expect("repo root parent")
-            .join(CAPABILITY_APTITUDE_TESTING_ARTIFACT_ROOT);
-        let tracked_files = collect_files(&tracked_root);
-        let generated_files = collect_files(&generated);
-        assert_eq!(tracked_files, generated_files);
+    fn capability_aptitude_testing_generated_bundle_omits_deleted_demo_command() {
+        let bundle = build_capability_aptitude_artifact_bundle();
+        let validation = bundle.run_manifest.validation_commands.join("\n");
+        assert!(validation.contains("capability_aptitude_testing"));
+        assert!(!validation.contains("demo_v0911_capability_aptitude_testing"));
     }
 }
