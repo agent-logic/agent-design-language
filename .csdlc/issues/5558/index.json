@@ -3,13 +3,13 @@
   "issue": 5558,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "4fa1db745c9b00f3b2151190df4cc4e82d989037c25ca1f52e242cbf773f9aab",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "4bc768e4ed10396c215dd1176233224518b1ebbf5046b15a166f476a7f09d038",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
-    "generation": 16,
+    "generation": 18,
     "acquired_unix_seconds": 1785570394,
     "expires_unix_seconds": 1785656794,
     "heartbeat_unix_seconds": 1785570394,
@@ -138,7 +138,20 @@
       "Final CI remediation: typed validation-manager and path-policy fixtures, exact owner-selector parity, active CSM Runtime v3 ownership, and complete issue 5558 diff"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/issue_5748",
+    "scope": [
+      "Exact substantive commit 9025bf7a859bf434ad2c03e585c389654533d883",
+      "Final CI remediation: typed validation-manager and path-policy fixtures, exact owner-selector parity, active CSM Runtime v3 ownership, and complete issue 5558 diff"
+    ],
+    "reviewed_revision": "git-blake3:9025bf7a859bf434ad2c03e585c389654533d883:962b26b58e3b861865179624f178a9ee84f23c05a303f261a335d8395a31fa66",
+    "findings": [],
+    "residual_risks": [
+      "GitHub CI must rerun on the refreshed publication head; focused selector/scanner consistency, validation-manager, path-policy, C-SDLC owner-lane, Runtime owner-lane, and diff-hygiene proofs passed locally."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -153,32 +166,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c54078567aa2d64d29ee86e16e8aafe18b42651b4712764d83708e493f21e18e",
+      "values_digest": "3b7cf6da4bed31970388ec6f6c868b12bd545c539d3aace23dac5e38583ce0ef",
       "rendered_digest": "3ef258b1c4bb480ab05a5f1842a67fb807068d557612286211389017f956a73d",
       "ast_digest": "a173adcf99a8c6fc2eee501e4e055b5613e48eaae750d3859ba753b2051b2716"
     },
     "stp": {
-      "values_digest": "2c86bd7892cb93ec2dcb5d2f40120f8d3f1ce9dd1f6e1398e0c4449dfad11743",
+      "values_digest": "0bd4746b5337ac90d2f7f9d6e95fa3dca28f55b2dcf7bd1a4fb0073ee76501b9",
       "rendered_digest": "4e813a7bd81e883366df3deeeb1f62e371dbd81f622aec8f105e5233b842d9df",
       "ast_digest": "ed08ed5118621e4e7978292eb31a6fb1817be62f49cf08a737b4dc9ba94d9b1f"
     },
     "spp": {
-      "values_digest": "ac26d890230901be752c06ed5c349e849e041da4d40a710daf855a3871cc9b8a",
+      "values_digest": "faf13f8af3f6334dcb3065c9520f3bf3111a25c9c12a98b5e91a641230643fd7",
       "rendered_digest": "25879d34e3cf553eddde351a8fcadefd055898a9d0280a8e10ebc5e998410ee8",
       "ast_digest": "1453d42addf77769af338269da74b0501f8c17bd84d7d493b518c66395fa38ca"
     },
     "vpp": {
-      "values_digest": "068e757106a18c7392df13a969d0f0606740afed40869634d7515b15df62ce72",
+      "values_digest": "c482635256dca810aa38192c1c4ad88c416852e5d605e1feb4dd26965bcef64b",
       "rendered_digest": "05e67389a9dd9511f18c9fd7089eaba5dc2df4f40979d42e159403da83ef7537",
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "c73f195aa70270a3cb229db2843f39df07032cdaaa63c7b429b61c0ec335ecd2",
-      "rendered_digest": "291089bd83232caba60f70112fc17ede7d090ea57845d2ac2410f2b80c502028",
-      "ast_digest": "0d0290e74dbfaa5f6a151d1416d7d83ee50d672d07a1263da8a43bd24dd7eb91"
+      "values_digest": "1b3e6d375b177f49ad9e12f017cb9a3a9adbb8b717a53bc94768f7d9099bf9fd",
+      "rendered_digest": "c4a2b8fc23f86c712eeced16c4de37bde1f1d3f7d297497534b4bf7c59e0f21c",
+      "ast_digest": "6dd243c2f1ad80242f610bd09c0c0dfb07a59555e81cafb5d5839b9e8a231987"
     },
     "sor": {
-      "values_digest": "9ab54005515c105b5b27c4f491c29e9e70669fed41f4cab8b5b6f548d4fc6c26",
+      "values_digest": "4cb332ef346107ec0723345d89019a471b5ac0871719b61fe46be9b50cee8fb1",
       "rendered_digest": "578f18096d6e06a2dfaae8806704444d1a75218d315e4e0ee5da24d2a9160c1a",
       "ast_digest": "b622d9b23604d9f5f184b8e06849b5d314aad5803a645fcd61a34c79fe7b3d2d"
     }
@@ -246,6 +259,13 @@
       "to": "implemented",
       "actor": "codex:5558-corrective",
       "reason": "Final-head CI exposed obsolete validation-manager and path-policy fixtures plus incomplete active CSM runtime owner routing; recover stale review and publication truth after the bounded typed-v2 fixture corrections."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5558-corrective",
+      "reason": "Advance the independently approved final CI remediation with no actionable findings."
     }
   ],
   "audit": [
@@ -521,6 +541,20 @@
       "actor": "codex:5558-corrective",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 17,
+      "actor": "subagent:/root/issue_5748",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 18,
+      "actor": "codex:5558-corrective",
+      "reason": "Advance the independently approved final CI remediation with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

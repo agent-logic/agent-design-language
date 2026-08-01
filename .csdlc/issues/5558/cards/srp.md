@@ -30,12 +30,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- GitHub CI must rerun on the refreshed publication head; focused selector/scanner consistency, validation-manager, path-policy, C-SDLC owner-lane, Runtime owner-lane, and diff-hygiene proofs passed locally.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9025bf7a859bf434ad2c03e585c389654533d883:962b26b58e3b861865179624f178a9ee84f23c05a303f261a335d8395a31fa66")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/issue_5748")
 
-Result: pre_review
+Result: pass

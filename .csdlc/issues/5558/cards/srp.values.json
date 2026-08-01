@@ -7,22 +7,24 @@
     "title": "Remove sunset pr.sh guidance from owner lane",
     "slug": "remove-sunset-pr-sh-guidance",
     "version": "v0.91.8",
-    "generation": 16
+    "generation": 18
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "Exact substantive commit 9025bf7a859bf434ad2c03e585c389654533d883\nFinal CI remediation: typed validation-manager and path-policy fixtures, exact owner-selector parity, active CSM Runtime v3 ownership, and complete issue 5558 diff",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:9025bf7a859bf434ad2c03e585c389654533d883:962b26b58e3b861865179624f178a9ee84f23c05a303f261a335d8395a31fa66",
+      "reviewer": "subagent:/root/issue_5748",
       "review_prompts": [
         "Does any changed active surface still expose an executable sunset v1 lifecycle route?",
         "Does the owner lane run the real Gate 10A final-authority test?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "GitHub CI must rerun on the refreshed publication head; focused selector/scanner consistency, validation-manager, path-policy, C-SDLC owner-lane, Runtime owner-lane, and diff-hygiene proofs passed locally."
+      ],
+      "review_result": "pass"
     }
   }
 }
