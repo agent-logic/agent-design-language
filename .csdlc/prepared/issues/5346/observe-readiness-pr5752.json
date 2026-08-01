@@ -1,0 +1,15 @@
+{
+  "issue": 5346,
+  "expected_generation": 11,
+  "expected_digest": "1740006751d658670cc7facdee03d806b09ba5d4f210913d87a3d85b2661374e",
+  "claim_id": "claim-5346-v0918-wp13-deletion-preparation-current",
+  "actor": "codex:5346-wp13-execution-owner",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5752,
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}

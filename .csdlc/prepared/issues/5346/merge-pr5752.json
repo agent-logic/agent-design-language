@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.merge_request.v1",
+  "issue": 5346,
+  "expected_generation": 12,
+  "expected_digest": "1341748ec10bbf4434a2892d72a28ec9a931a8f74c3b0bbf2a0ee24815a587bc",
+  "claim_id": "claim-5346-v0918-wp13-deletion-preparation-current",
+  "actor": "codex:5346-wp13-execution-owner",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5752,
+  "base": "main",
+  "head": "codex/5346-v0918-wp13-final-adl-deletion",
+  "expected_head_sha": "7b1ef84bc8a4966c0c454ae4d87fd973537a856d",
+  "merge_method": "squash",
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}

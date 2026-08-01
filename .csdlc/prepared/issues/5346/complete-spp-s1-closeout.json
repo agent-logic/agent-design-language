@@ -1,0 +1,15 @@
+{
+  "issue": 5346,
+  "card": "spp",
+  "expected_generation": 12,
+  "expected_digest": "1341748ec10bbf4434a2892d72a28ec9a931a8f74c3b0bbf2a0ee24815a587bc",
+  "claim_id": "claim-5346-v0918-wp13-deletion-preparation-current",
+  "actor": "codex:5346-wp13-execution-owner",
+  "reason": "Record completed dependency, claim, and serialized merge-order recovery before terminal closeout.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S1",
+    "status": "completed"
+  },
+  "fail_after_backup": false
+}
