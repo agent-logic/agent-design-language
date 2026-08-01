@@ -8,14 +8,14 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
      Running tests/compatibility_adapter.rs (wp16-target/adl-v2/debug/deps/compatibility_adapter-2ebf85088008b74b)
 
 running 8 tests
-test approved_input_is_lossless ... ok
+test array_payload_is_rejected ... ok
 test unknown_provider_is_rejected ... ok
-test scalar_payload_is_rejected ... ok
-test empty_object_is_lossless ... ok
-test unknown_version_is_rejected ... ok
 test explicit_none_model_is_preserved ... ok
 test null_payload_is_rejected ... ok
-test array_payload_is_rejected ... ok
+test approved_input_is_lossless ... ok
+test empty_object_is_lossless ... ok
+test scalar_payload_is_rejected ... ok
+test unknown_version_is_rejected ... ok
 
 test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -23,16 +23,16 @@ test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 running 11 tests
 test verifier_denial_prevents_invocation ... ok
-test scope_mismatch_is_denied ... ok
 test subject_mismatch_is_denied ... ok
-test digest_changes_with_request ... ok
+test digest_is_stable ... ok
 test resource_mismatch_is_denied ... ok
 test expired_authorization_is_denied ... ok
-test action_mismatch_is_denied ... ok
-test digest_is_stable ... ok
-test matching_authorization_invokes_once ... ok
 test completion_preserves_attempt ... ok
+test digest_changes_with_request ... ok
+test action_mismatch_is_denied ... ok
+test matching_authorization_invokes_once ... ok
 test request_mismatch_is_denied ... ok
+test scope_mismatch_is_denied ... ok
 
 test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -40,21 +40,21 @@ test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fin
 
 running 8 tests
 test provider_script_rejects_exhaustion ... ok
-test script_reports_exhausted_after_consumption ... ok
-test provider_script_returns_bound_identity ... ok
-test tool_script_rejects_wrong_input ... ok
 test tool_script_returns_bound_identity ... ok
 test provider_script_rejects_wrong_request ... ok
-test identical_scripts_are_deterministic ... ok
+test script_reports_exhausted_after_consumption ... ok
+test provider_script_returns_bound_identity ... ok
 test provider_script_preserves_failure ... ok
+test identical_scripts_are_deterministic ... ok
+test tool_script_rejects_wrong_input ... ok
 
 test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
      Running tests/negative_authority.rs (wp16-target/adl-v2/debug/deps/negative_authority-a69853ecbfb96fd5)
 
 running 4 tests
-test provider_aliases_are_not_inferred ... ok
 test production_sources_contain_no_shell_or_aws_authority ... ok
+test provider_aliases_are_not_inferred ... ok
 test mock_does_not_accept_unscripted_provider_work ... ok
 test url_alone_does_not_create_http_authority ... ok
 
@@ -64,9 +64,9 @@ test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 running 4 tests
 test authorization_is_not_locally_mintable_as_verified ... ok
-test bearer_secret_debug_is_redacted ... ok
 test compatibility_errors_contain_no_payload ... ok
 test errors_contain_no_request_or_secret_fields ... ok
+test bearer_secret_debug_is_redacted ... ok
 
 test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
@@ -79,9 +79,9 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
      Running tests/cli.rs (wp16-target/adl-v2/debug/deps/cli-a0d8d1cd3279b73c)
 
 running 5 tests
-test malformed_input_fails_with_stderr_only ... ok
 test schema_is_machine_readable ... ok
 test selector_rejects_stale_cas_and_unsupported_schema ... ok
+test malformed_input_fails_with_stderr_only ... ok
 test sign_and_verify_delegate_to_records_contract ... ok
 test selector_select_inspect_and_rollback_are_transactional ... ok
 
@@ -105,9 +105,9 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 running 8 tests
 test clean_process_worker ... ok
 test equivalent_invalid_representations_have_identical_diagnostic_bytes ... ok
+test declared_input_port_order_is_preserved ... ok
 test sequential_and_state_edges_are_both_explicit ... ok
 test concurrent_workflow_only_orders_explicit_state_dependencies ... ok
-test declared_input_port_order_is_preserved ... ok
 test json_and_yaml_key_permutations_compile_identically ... ok
 test clean_process_plan_and_diagnostic_replay_is_byte_identical ... ok
 test repeated_compilation_is_byte_identical ... ok
@@ -117,8 +117,8 @@ test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
      Running tests/limits_and_diagnostics.rs (wp16-target/adl-v2/debug/deps/limits_and_diagnostics-d0880682a40ae3ed)
 
 running 5 tests
-test node_limit_fails_closed_with_stable_diagnostic ... ok
 test input_value_limit_is_aggregate_across_run_and_steps ... ok
+test node_limit_fails_closed_with_stable_diagnostic ... ok
 test missing_effective_agent_fails_closed ... ok
 test invalid_language_diagnostics_are_sorted_and_preserved ... ok
 test edge_limit_is_enforced_during_construction ... ok
@@ -153,7 +153,7 @@ test checkpoint_byte_limit_accepts_exact_minimum_and_rejects_one_less ... ok
 test ready_in_flight_and_attempt_limits_cover_below_at_and_above_edges ... ok
 test request_envelope_limit_is_admission_bound ... ok
 
-test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
 
      Running tests/compiler_fixture_mapping.rs (wp16-target/adl-v2/debug/deps/compiler_fixture_mapping-1c50cc6de6e47ead)
 
@@ -163,16 +163,16 @@ test actual_compiler_plans_preserve_edges_ports_provenance_and_state_dataflow ..
 test repeated_state_materialization_is_bounded_before_clone_expansion ... ok
 test landed_fixture_inventory_has_one_reviewed_engine_classification ... ok
 
-test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
 
      Running tests/failure_resume.rs (wp16-target/adl-v2/debug/deps/failure_resume-2707d522eaca6e22)
 
 running 9 tests
 test duplicate_completion_is_idempotent_but_changed_replay_is_protocol_error ... ok
-test cancellation_emits_once_and_same_turn_terminal_completion_wins ... ok
 test retry_delay_and_attempt_exhaustion_are_monotonic ... ok
-test output_limit_accepts_below_and_at_then_rejects_above_atomically ... ok
+test cancellation_emits_once_and_same_turn_terminal_completion_wins ... ok
 test completion_permutations_produce_identical_snapshots_and_events ... ok
+test output_limit_accepts_below_and_at_then_rejects_above_atomically ... ok
 test checkpoint_rejects_in_flight_noncanonical_truncated_and_changed_contracts ... ok
 test quiescent_resume_matches_uninterrupted_retry_execution ... ok
 test resume_binds_contiguous_attempts_completion_digests_and_terminal_output ... ok
@@ -208,7 +208,7 @@ test compiler_and_runtime_cases_are_explicitly_outside_wp04 ... ok
 test characterization_ordering_contract_is_preserved ... ok
 test applicable_characterization_cases_map_to_language_outcomes ... ok
 
-test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
      Running tests/language.rs (wp16-target/adl-v2/debug/deps/language-8431c955c2b6588b)
 
@@ -221,7 +221,7 @@ test rejects_bad_version_references_and_cycles ... ok
 test rejects_malformed_identities_on_every_identity_surface ... ok
 test generated_schema_matches_parser_contract ... ok
 
-test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
 
      Running unittests examples/generate_schema.rs (wp16-target/adl-v2/debug/examples/generate_schema-f4796e19b449c358)
 
@@ -243,23 +243,23 @@ test explicit_bounds_fail_closed ... ok
 test canonical_bytes_are_deterministic_and_order_independent_for_maps ... ok
 test canonical_payload_has_stable_domain_and_golden_vector ... ok
 test trust_policy_rejects_unknown_wrong_profile_kind_time_window_and_revocation ... ok
-test replay_guard_conformance_and_trust_policy_digest_are_deterministic ... ok
 test trust_policy_rejects_correct_id_with_wrong_verifying_key ... ok
+test replay_guard_conformance_and_trust_policy_digest_are_deterministic ... ok
+test every_declared_limit_has_a_negative_proof ... ok
 test all_record_contracts_validate_and_schema_is_versioned ... ok
 test sign_encode_decode_verify_round_trip_and_replay_fails ... ok
-test every_declared_limit_has_a_negative_proof ... ok
 test checked_schema_matches_structural_decoder_and_declares_semantic_stage ... ok
 
-test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
 
      Running tests/tamper_channel.rs (wp16-target/adl-v2/debug/deps/tamper_channel-b5bb0d1a9667734e)
 
 running 5 tests
 test duplicate_unknown_truncated_extended_utf8_float_and_oversize_fail ... ok
-test valid_shape_digest_and_signature_corruption_reach_crypto_checks ... ok
 test sequence_rollback_and_tuple_collision_fail ... ok
-test every_signed_field_class_rejects_tampering ... ok
+test valid_shape_digest_and_signature_corruption_reach_crypto_checks ... ok
 test metadata_contract_optional_fields_and_every_variant_are_bound ... ok
+test every_signed_field_class_rejects_tampering ... ok
 
 test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
 
@@ -278,23 +278,23 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
      Running tests/adapter.rs (wp16-target/adl-v2/debug/deps/adapter-76b73546d60642e6)
 
 running 19 tests
+test mapping_rejects_provider_drift ... ok
 test mapping_rejects_invalid_request_identity ... ok
 test mapping_rejects_cancel_for_unknown_node ... ok
-test mapping_rejects_plan_digest_mismatch ... ok
-test mapping_rejects_provider_drift ... ok
-test mapping_rejects_effect_digest_mismatch ... ok
 test mapping_rejects_subject_mismatch ... ok
-test mapping_rejects_tampered_signature ... ok
-test mapping_accepts_verified_provider_dispatch ... ok
+test mapping_rejects_plan_digest_mismatch ... ok
+test mapping_rejects_effect_digest_mismatch ... ok
 test runtime_conflict_remains_a_protocol_failure ... ok
 test runtime_execution_failure_remains_permanent ... ok
 test runtime_saturation_remains_a_retryable_saturation_failure ... ok
-test mapping_accepts_allowlisted_tool ... ok
 test mapping_rejects_unknown_plan_contract ... ok
+test mapping_rejects_unallowlisted_tool ... ok
+test mapping_rejects_tampered_signature ... ok
+test mapping_accepts_verified_provider_dispatch ... ok
+test mapping_accepts_allowlisted_tool ... ok
+test canonical_ingress_preserves_closed_failure ... ok
 test mapping_rejects_replay ... ok
 test mapping_is_byte_deterministic ... ok
-test canonical_ingress_preserves_closed_failure ... ok
-test mapping_rejects_unallowlisted_tool ... ok
 test canonical_ingress_preserves_unsupported_failure ... ok
 test canonical_ingress_maps_success_and_result_record ... ok
 
@@ -309,19 +309,19 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
      Running tests/conductor.rs (wp16-target/adl-v2/debug/deps/conductor-7e52fb9075d284c6)
 
 running 11 tests
-test rejects_dependency_cycles ... ok
 test rejects_missing_cards_claims_and_stale_claims ... ok
+test rejects_unknown_or_malformed_validation_lanes ... ok
 test rejects_absolute_parent_and_dot_paths ... ok
 test rejects_unresolved_dependencies ... ok
-test rejects_unknown_or_malformed_validation_lanes ... ok
-test rejects_write_paths_outside_the_active_claim ... ok
 test rejects_wip_overflow_and_ambiguous_claim_authority ... ok
-test correlation_changes_with_seed_or_content ... ok
+test rejects_write_paths_outside_the_active_claim ... ok
+test rejects_dependency_cycles ... ok
 test rejects_exact_and_segment_prefix_path_collisions ... ok
 test emits_canonical_parallel_and_serial_waves ... ok
+test correlation_changes_with_seed_or_content ... ok
 test ordering_and_identity_are_deterministic ... ok
 
-test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
      Running unittests src/lib.rs (wp16-target/adl-v2/debug/deps/adl_workcell_convergence-9785228fc25168b5)
 
@@ -332,22 +332,22 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
      Running tests/convergence.rs (wp16-target/adl-v2/debug/deps/convergence-bbcc68b44956d508)
 
 running 14 tests
-test rejects_conflicting_duplicate_output_identity ... ok
-test rejects_non_repository_local_task_blocker_evidence_refs_before_decision ... ok
-test blocks_hidden_mutation_authority ... ok
-test rejects_secret_bearing_changed_assumptions_before_decision ... ok
 test rejects_path_traversal_before_decision ... ok
-test blocks_out_of_scope_artifacts ... ok
-test emits_replan_for_changed_assumptions_without_silent_scope_expansion ... ok
+test rejects_non_repository_local_task_blocker_evidence_refs_before_decision ... ok
+test rejects_secret_bearing_changed_assumptions_before_decision ... ok
+test rejects_non_repository_local_evidence_refs_before_decision ... ok
+test rejects_conflicting_duplicate_output_identity ... ok
 test blocks_assignment_and_output_that_are_stale_relative_to_envelope_head ... ok
+test blocks_out_of_scope_artifacts ... ok
+test blocks_hidden_mutation_authority ... ok
 test blocks_overlapping_active_claims ... ok
 test blocks_unexplained_non_success_outputs_instead_of_integrating_with_remaining_work ... ok
-test rejects_non_repository_local_evidence_refs_before_decision ... ok
+test blocks_missing_and_unreviewed_outputs_but_keeps_partial_success_projection ... ok
+test emits_replan_for_changed_assumptions_without_silent_scope_expansion ... ok
 test keeps_declared_partial_outputs_visible_with_residual_blockers ... ok
 test integrates_successful_outputs_in_conductor_order_with_stable_identity ... ok
-test blocks_missing_and_unreviewed_outputs_but_keeps_partial_success_projection ... ok
 
-test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
      Running unittests src/lib.rs (wp16-target/adl-v2/debug/deps/adl_workcell_task_adapter-3917c2884abbb495)
 
@@ -359,20 +359,20 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 running 15 tests
 test context_digest_and_secret_markers_fail_before_dispatch ... ok
-test observe_and_escalate_enforce_operation_authority ... ok
-test evidence_and_idempotency_maps_are_bounded ... ok
-test cancel_uses_final_observation_as_authority ... ok
-test identical_retry_dispatches_once ... ok
-test conflicting_idempotency_key_fails_closed ... ok
-test observed_terminal_task_is_cached_without_duplicate_top_level_task ... ok
 test write_path_must_be_claim_contained_and_normalized ... ok
-test evidence_references_reject_secrets_urls_and_oversize_values ... ok
-test terminal_observation_blocks_later_message_and_handoff ... ok
+test observe_and_escalate_enforce_operation_authority ... ok
 test stale_or_denied_authority_never_reaches_transport ... ok
 test create_returns_sanitized_deterministic_receipt ... ok
+test cancel_uses_final_observation_as_authority ... ok
+test evidence_and_idempotency_maps_are_bounded ... ok
+test conflicting_idempotency_key_fails_closed ... ok
+test identical_retry_dispatches_once ... ok
+test observed_terminal_task_is_cached_without_duplicate_top_level_task ... ok
 test repeated_cancel_replays_terminal_receipt_without_transport ... ok
+test terminal_observation_blocks_later_message_and_handoff ... ok
+test evidence_references_reject_secrets_urls_and_oversize_values ... ok
 test timeout_is_cached_as_indeterminate_without_redispatch ... ok
 test cancel_serializes_with_message_for_the_same_task ... ok
 
-test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
 
