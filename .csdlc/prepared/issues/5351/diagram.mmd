@@ -1,14 +1,16 @@
 flowchart TD
-    A["WP-15 #5354 merged and typed closed_out"] --> B{"Receipt, claim release, and ancestry valid?"}
-    B -- "No" --> X["Fail closed: no execution"]
-    B -- "Yes" --> C["Resolve exact accepted platform revisions"]
-    C --> D["Focused product and contract gates"]
-    D --> E["Integrated ADL v2 + Runtime v3 + C-SDLC v2 gate"]
-    E --> F["Deployment, rollback, deletion, demo, and docs gates"]
-    F --> G{"Every required row passes?"}
-    G -- "No" --> H["Retain blocker and route to owning issue"]
-    G -- "Yes" --> I["Exact-revision review"]
-    I --> J["Typed publication and green CI"]
-    J --> K["Authorized serial merge"]
-    K --> L["Post-merge exact proof and typed closeout"]
-    L --> M["Release WP-17 documentation alignment"]
+    A["WP-14A #5384 typed closed_out ledger"] --> B["WP-15 #5354 GitHub merged truth"]
+    B --> C["WP-15 demo-matrix reconciliation #5747"]
+    C --> D{"Typed #5354 closed_out, claim-free, receipted, ancestral?"}
+    D -- "No" --> X["Prepared only: retain blocker, no quality execution"]
+    D -- "Yes" --> E["Resolve exact accepted platform revisions"]
+    E --> F["Focused product, deployment, rollback, deletion, demo, docs gates"]
+    F --> G["Integrated ADL v2 + Runtime v3 + C-SDLC v2 gate"]
+    G --> H["Exact revision matrix, budgets, COTS, redaction, blockers"]
+    H --> I{"Every required row passes?"}
+    I -- "No" --> J["Retain blocker and route to owning issue"]
+    I -- "Yes" --> K["Exact-revision review"]
+    K --> L["Typed publication and green CI"]
+    L --> M["Authorized serial merge"]
+    M --> N["Post-merge exact proof and typed closeout"]
+    N --> O["Release WP-17 documentation alignment"]

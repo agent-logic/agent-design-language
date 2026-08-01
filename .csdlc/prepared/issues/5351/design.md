@@ -3,15 +3,17 @@
 ## Status
 
 Preparation-only design for v0.91.8 WP-16. It grants no authority to run the
-quality gate, edit product code, publish, or merge while WP-15 #5354 is
-nonterminal.
+quality gate, edit product code, publish, open a PR, or merge while the typed
+#5354 closeout blocker remains. A preparation-only branch push is allowed by
+the operator boundary after validation.
 
 ## Objective
 
 Produce one exact-revision quality-gate packet that evaluates the integrated
-ADL v2, Runtime v3, and C-SDLC v2 platform after the reviewed WP-15 demo has
-converged. The packet must expose every failed or unavailable gate as a blocker;
-it must never turn a failure into a documentation disposition.
+ADL v2, Runtime v3, and C-SDLC v2 platform after reviewed WP-14A acceptance and
+WP-15 demo convergence are consumable as exact merged truth. The packet must
+expose every failed or unavailable gate as a blocker; it must never turn a
+failure into a documentation disposition.
 
 ## Authority Boundary
 
@@ -23,8 +25,35 @@ Preparation owns only:
 - `.csdlc/evidence/5351`
 
 No product, runtime, deployment, demo, milestone-document, CI-policy, or release
-path is claimed during preparation. Any future path amendment must be typed,
-reviewed, collision-free, and occur only after the #5354 dependency gate opens.
+path is claimed during preparation. The written execution plan is
+`.csdlc/prepared/issues/5351/WP16_EXECUTION_PLAN.md`; the bounded gap analysis
+is `.csdlc/prepared/issues/5351/WP16_GAP_ANALYSIS.md`. Any future path
+amendment must be typed, reviewed, collision-free, and occur only after the
+#5354 dependency gate opens.
+
+## Current Dependency Truth
+
+WP-14A #5384 is closed out in typed C-SDLC v2 at generation 16. It accepts the
+integrated platform baseline from PR #5726 with accepted platform input merges:
+C-SDLC v2 `fc75f4fc697262f89f99461679a406be0b4b3775`, Runtime v3
+`f7258b07e9da414bfee518f0c89a76071bc03ee8`, ADL v2 soak and rollback
+`d4825d4be9ed14ed6060dd33cbdafe5eaa5efcd2`, and ADL v2 reversible default
+`e1b6a34e4763a79d1c40c641e64c0c061a0aa96c`. Its retained platform acceptance
+ledger is `.csdlc/evidence/5384/platform-acceptance-ledger.v1.json`.
+
+WP-15 #5354 has current GitHub merged truth but incomplete local typed terminal
+truth. PR #5731 merged at `97427f324c87d97cb1b36c7804c50bf80c9389d8` and
+retains `.csdlc/evidence/5354/convergence-proof.v1.json`. The later demo-matrix
+reconciliation PR #5747 merged at `ab4e9e2217c152df47b1754b66b01febb4a59549`
+and retains `docs/milestones/v0.91.8/review/wp15_demo_matrix_5733/RECONCILIATION_LEDGER_v1.md`.
+The retained `csdlc-v2/closeout/5354.json` receipt exists and records
+`closed_out` at generation 23 with no claim, but `.csdlc/issues/5354/index.json`
+in this checkout still reports `phase: reviewed` at generation 13 with active
+claim `claim-5354-v0918-wp15-reacquired`. The receipt also records observed SHA
+`e8c63268429b0162671e7f1bfae5f560171d7099`, the PR head, which is not
+ancestral to this squash-merged head; PR #5731's merge commit is
+`97427f324c87d97cb1b36c7804c50bf80c9389d8`. Those reconciliation and ancestry
+semantics are the remaining execution blocker.
 
 ## Dependency Gate
 
@@ -38,14 +67,16 @@ Execution is admitted only when all of the following are true for #5354:
 6. The observed merge SHA is an ancestor of the exact #5351 execution revision.
 
 The gate fails closed on absent, stale, malformed, contradictory, or
-non-ancestral evidence. WP-14A is consumed transitively through #5354 and is not
-reopened or re-evaluated by #5351.
+non-ancestral evidence. WP-14A is consumed through the #5384 retained platform
+ledger and through the #5354 convergence packet; #5351 does not reopen or
+re-evaluate WP-14A acceptance.
 
 ## Quality Packet
 
 The future packet will bind exact revisions and retained evidence for:
 
 - product contracts and characterization;
+- stable deployment and accepted revision identities;
 - deterministic compiler and portable engine behavior;
 - signing, trust, provider, and governed-tool boundaries;
 - Runtime v3 ingress, continuity, supervision, observability, and rollback;
@@ -53,7 +84,8 @@ The future packet will bind exact revisions and retained evidence for:
 - distributed workcell acceptance;
 - deployment, demo convergence, and public claim boundaries;
 - deletion eligibility and post-deletion proof;
-- docs, YAML, links, feature-proof, and release-blocker truth.
+- demo rows and documentation checks;
+- exact revision matrix and release-blocker truth.
 
 Each row has one of: `pass`, `fail`, `blocked`, `not_applicable`, or
 `explicit_non_claim`. Only `pass` satisfies a required gate. `blocked` and
@@ -80,7 +112,8 @@ engine, signer, telemetry system, deployment manager, or evidence database.
 Any variance requires an exact-revision review and explicit recorded
 disposition; the 2,280-second ceiling is not automatic authorization. The six
 lane ceilings total exactly the `large` profile's 7,200-second automatic
-validation budget.
+validation budget. COTS remains zero-new-dependency: use existing repository
+tools, Ruby standard library, Git, and installed typed C-SDLC v2 binaries only.
 
 ## PVF
 
@@ -101,4 +134,6 @@ out-of-scope result stops the gate and routes a blocker to its owning issue.
 #5351 does not repair unrelated products inside the quality-gate change. Before
 publication, rollback is deletion of issue-local generated evidence. After an
 authorized merge, rollback follows the accepted platform rollback contract and
-requires a new reviewed issue; #5351 never rewrites terminal evidence.
+requires a new reviewed issue; #5351 never rewrites terminal evidence. WP-17
+#5360 is released only after #5351 has merged, completed post-merge exact proof,
+and reached typed closeout.

@@ -5,7 +5,7 @@
       {
         "id": "preparation-contract",
         "proof_role": "six_card_design_scope_dependency_quality_gate_and_budget_integrity",
-        "purpose": "Verify six current-registry cards, reviewed design and diagram, exact WP-15 terminal gate, bounded preparation authority, protected paths, zero-new-dependency COTS posture, budgets, PVF, and zero product changes.",
+        "purpose": "Verify six current-registry cards, reviewed design and diagram, written WP-16 execution plan, bounded gap analysis, exact WP-15 terminal gate, bounded preparation authority, protected paths, zero-new-dependency COTS posture, budgets, PVF, and zero product changes.",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 3000},
         "credentials": [],

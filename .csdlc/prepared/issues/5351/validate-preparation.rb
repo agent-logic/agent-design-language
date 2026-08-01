@@ -14,7 +14,8 @@ REQUIRED_CARDS = %w[sip stp spp vpp srp sor].freeze
 PREP_FILES = %w[
   design.md diagram.mmd bootstrap-request.json bind-request.json
   check-dependencies.rb validate-preparation.rb run-validation-lane.rb
-  validation-request.json preparation-review.md
+  validation-request.json preparation-review.md WP16_EXECUTION_PLAN.md
+  WP16_GAP_ANALYSIS.md WP16_GAP_ANALYSIS.json
 ].freeze
 EXPECTED_PATHS = [
   ".csdlc/issues/5351",
@@ -50,6 +51,7 @@ assert(claim.fetch("id") == "claim-5351-v0918-wp16-quality-gate-preparation", "w
 assert(claim.fetch("protected_paths") == EXPECTED_PATHS, "claim is not exact preparation-only scope")
 assert(claim.fetch("purpose").include?("#5354"), "claim purpose omits WP-15 gate")
 assert(claim.fetch("worktree") == ".", "claim must bind the current worktree")
+assert(claim.fetch("purpose").include?("no execution"), "claim purpose must remain preparation-only")
 
 assert(git("branch", "--show-current") == "codex/5351-v0918-preparation", "wrong branch")
 assert(git("branch", "--show-current") != "main", "preparation cannot run on main")
@@ -83,8 +85,9 @@ bootstrap = JSON.parse(PREP.join("bootstrap-request.json").read)
 initial = bootstrap.fetch("initial")
 assert(bootstrap["design_approved"] == true, "design review was not approved")
 assert(initial.fetch("acceptance_criteria").length == 8, "acceptance criteria count mismatch")
-assert(initial.fetch("dependencies") == ["WP-15 #5354 merged, typed closed_out, claim-free, retained-receipt-backed, and ancestral to the exact #5351 execution revision"], "dependency drift")
+assert(initial.fetch("dependencies") == ["WP-14A #5384 typed closed_out platform acceptance ledger is retained and ancestral", "WP-15 #5354 GitHub merge truth is present, but execution remains blocked until typed closed_out, claim-free, retained-receipt-backed, and ancestral to the exact #5351 execution revision", "WP-15 demo-matrix reconciliation #5747 is merged and must be consumed in the exact revision matrix"], "dependency drift")
 assert(initial.fetch("operator_constraints").any? { |item| item.include?("current-registry") }, "current-registry rule missing")
+assert(initial.fetch("operator_constraints").any? { |item| item.include?("Push only a clean preparation head") }, "clean preparation push rule missing")
 assert(initial.fetch("non_goals").any? { |item| item.include?("Runtime v2") }, "Runtime v2 non-goal missing")
 assert(initial.fetch("authority_boundary").any? { |item| item.include?("only #5351") }, "preparation authority boundary missing")
 
@@ -142,10 +145,41 @@ end
 assert(lanes.first["defer_reason"].nil?, "preparation lane cannot be deferred")
 assert(lanes.drop(1).all? { |entry| !entry["defer_reason"].to_s.empty? }, "future lane lacks truthful preparation deferral")
 
-text = [PREP.join("design.md").read, PREP.join("diagram.mmd").read, *REQUIRED_CARDS.map { |name| ISSUE_DIR.join("cards/#{name}.md").read }].join("\n")
+plan = PREP.join("WP16_EXECUTION_PLAN.md").read
+assert(plan.include?("97427f324c87d97cb1b36c7804c50bf80c9389d8"), "plan omits #5354 merge")
+assert(plan.include?("ab4e9e2217c152df47b1754b66b01febb4a59549"), "plan omits #5747 merge")
+assert(plan.include?("claim-5354-v0918-wp15-reacquired"), "plan omits remaining typed #5354 blocker")
+assert(plan.include?("WP-17 #5360"), "plan omits WP-17 handoff")
+%w[Source\ Evidence Admission\ Gate Changed\ Surfaces Focused\ Validation Review\ And\ PR Rollback\ And\ Handoff Non-Goals].each do |heading|
+  assert(plan.include?("## #{heading.tr('\\', '')}"), "plan missing #{heading}")
+end
 [
-  "#5354", "closed_out", "receipt", "ancestry", "COTS", "PVF",
-  "Runtime v2", "1500", "150", "2280"
+  ".csdlc/evidence/5384/platform-acceptance-ledger.v1.json",
+  ".csdlc/evidence/5354/convergence-proof.v1.json",
+  "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+  "Closes #5351"
+].each do |term|
+  assert(plan.include?(term), "plan missing source or PR term #{term}")
+end
+
+gap_md = PREP.join("WP16_GAP_ANALYSIS.md").read
+gap_json = JSON.parse(PREP.join("WP16_GAP_ANALYSIS.json").read)
+assert(gap_json.fetch("schema") == "adl.gap_analysis_report.v1", "gap analysis schema mismatch")
+assert(gap_json.fetch("status") == "fail", "gap analysis must fail execution readiness")
+assert(gap_json.fetch("findings").map { |finding| finding.fetch("id") } == %w[GA-5351-001 GA-5351-005 GA-5351-002 GA-5351-003 GA-5351-004], "gap finding inventory mismatch")
+assert(gap_json.dig("gap_buckets", "release_blockers") == %w[GA-5351-001 GA-5351-002 GA-5351-005], "gap release blockers mismatch")
+assert(gap_json.fetch("missing_evidence").include?("current #5354 typed record matching retained csdlc-v2/closeout/5354.json"), "gap analysis omits #5354 receipt reconciliation blocker")
+assert(gap_json.fetch("missing_evidence").include?("#5354 retained receipt with an ancestral observed merge SHA"), "gap analysis omits #5354 ancestry blocker")
+assert(gap_json.dig("stop_boundary", "created_prs") == false, "gap analysis cannot create PRs")
+assert(gap_json.dig("stop_boundary", "approved_release") == false, "gap analysis cannot approve release")
+%w[Expected\ Baseline Observed\ Evidence Findings Gap\ Buckets Missing\ Evidence Recommended\ Follow-up Stop\ Boundary].each do |heading|
+  assert(gap_md.include?("## #{heading.tr('\\', '')}"), "gap markdown missing #{heading}")
+end
+
+text = [PREP.join("design.md").read, PREP.join("diagram.mmd").read, plan, gap_md, *REQUIRED_CARDS.map { |name| ISSUE_DIR.join("cards/#{name}.md").read }].join("\n")
+[
+  "#5354", "#5384", "#5747", "closed_out", "receipt", "ancestry", "COTS", "PVF",
+  "Runtime v2", "1500", "150", "2280", "clean preparation", "GA-5351-001", "GA-5351-005"
 ].each do |term|
   assert(text.downcase.include?(term.downcase), "missing contract term #{term}")
 end

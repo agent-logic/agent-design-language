@@ -20,14 +20,14 @@
       ".csdlc/prepared/issues/5351",
       ".csdlc/evidence/5351"
     ],
-    "purpose": "Prepare and review #5351 WP-16 integrated platform quality-gate contracts only; no execution or product work until WP-15 #5354 is merged, typed closed_out, receipt-backed, claim-free, and ancestral"
+    "purpose": "Prepare and review #5351 WP-16 integrated platform quality-gate contracts only; no execution or product work until WP-15 #5354 is typed closed_out, receipt-backed, claim-free, and ancestral"
   },
   "initial": {
     "title": "[v0.91.8][WP-16] Run integrated platform quality gate",
     "slug": "v0918-wp16-integrated-platform-quality-gate",
     "version": "v0.91.8",
     "goal": "Run one exact-revision integrated platform quality gate after WP-15 and retain a truthful packet covering product contracts, deployment, rollback, deletion, demos, documentation, and release blockers.",
-    "required_outcome": "After #5354 is terminal, a reviewed exact-revision packet records every required v0.91.8 platform gate without hiding failures, and releases WP-17 only when all required rows pass.",
+    "required_outcome": "After #5384, #5354, and #5747 are consumable as exact typed and merged truth, a reviewed exact-revision packet records every required v0.91.8 platform gate without hiding failures, and releases WP-17 only when all required rows pass.",
     "declared_scope": [
       "issue-local typed lifecycle, preparation, validation, review, and evidence records",
       "future quality-gate orchestration over existing accepted product and repository tools",
@@ -36,7 +36,9 @@
     ],
     "authority_boundary": [
       "Preparation protects only #5351 issue-local lifecycle and evidence paths",
-      "WP-15 #5354 owns demo convergence and must be terminal before #5351 execution",
+      "WP-14A #5384 owns accepted platform deployment truth and is consumed through its retained typed closed_out ledger",
+      "WP-15 #5354 owns demo convergence; GitHub merge truth exists, but typed closed_out and retained receipt are required before #5351 execution",
+      "WP-15 reconciliation #5747 is consumed as demo-matrix exact merged truth",
       "Each product owner retains repair authority; #5351 observes and routes failures but does not absorb unrelated fixes",
       "WP-17 #5360 remains blocked until #5351 is merged and typed closed_out",
       "Future non-issue-local paths require a typed reviewed collision-free claim amendment after #5354 terminal"
@@ -45,10 +47,11 @@
       "Use installed typed C-SDLC v2 binaries and current-registry six-card semantic operations only",
       "Keep root main untouched; all tracked preparation stays in the dedicated #5351 issue worktree",
       "Preparation only: no quality execution, product or milestone-document edit, PR, publication, merge, Runtime v2, AWS, raw gh, credentials, paid services, or hidden network authority",
-      "Do not execute until #5354 is merged, typed closed_out, receipt-backed, claim-free, and its merge SHA is ancestral to the exact execution revision",
+      "Push only a clean preparation head; do not open a PR or publish WP-16",
+      "Do not execute until #5354 is typed closed_out, receipt-backed, claim-free, and its merge SHA plus #5747 merge SHA are ancestral to the exact execution revision",
       "Use the operator-approved external build root for generated output and retain only repository-relative evidence references",
       "Use existing repository tools and COTS; add no dependency or duplicate runtime, workflow, signing, telemetry, deployment, or evidence systems",
-      "Run bounded preparation review, fix every actionable finding, typed bind and doctor, commit and push, then stop"
+      "Run bounded preparation review, fix every actionable finding, typed bind and doctor, then stop locally"
     ],
     "task_boundary": "Prepare six current-registry cards, reviewed design and diagram, exact issue-local ownership, COTS, budgets, PVF, and the fail-closed #5354 gate; do not execute the quality gate.",
     "deliverables": [
@@ -59,10 +62,11 @@
       "zero-new-dependency COTS posture and bounded quality-packet architecture",
       "LoC, module, assertion, and time budgets with PVF classification",
       "bounded preparation review with all findings fixed",
+      "clear written execution plan at .csdlc/prepared/issues/5351/WP16_EXECUTION_PLAN.md",
       "future exact-revision integrated quality-gate packet and blocker register"
     ],
     "acceptance_criteria": [
-      "AC-1: No quality-gate execution starts until #5354 is merged, typed closed_out, claim-free, backed by a retained merged terminal receipt, and its observed merge SHA is ancestral to the exact #5351 execution revision",
+      "AC-1: No quality-gate execution starts until #5384 remains typed closed_out, #5354 is typed closed_out, claim-free, backed by a retained merged terminal receipt, and the #5354 and #5747 observed merge SHAs are ancestral to the exact #5351 execution revision",
       "AC-2: The future packet binds exact accepted revisions and retained proof for product contracts, platform deployment, rollback, deletion, demo convergence, docs and release-blocker truth",
       "AC-3: Required rows use pass, fail, blocked, not_applicable, or explicit_non_claim; only pass satisfies a required gate and no failure is hidden as prose or deferred evidence",
       "AC-4: The integrated gate uses accepted ADL v2, Runtime v3, and C-SDLC v2 interfaces without Runtime v2 or duplicate product infrastructure",
@@ -72,11 +76,13 @@
       "AC-8: All applicable focused, integrated, complete, exact-review, CI, authorized serialized merge, post-merge, and typed closeout proof completes without deferral before WP-17 is released"
     ],
     "dependencies": [
-      "WP-15 #5354 merged, typed closed_out, claim-free, retained-receipt-backed, and ancestral to the exact #5351 execution revision"
+      "WP-14A #5384 typed closed_out platform acceptance ledger is retained and ancestral",
+      "WP-15 #5354 GitHub merge truth is present, but execution remains blocked until typed closed_out, claim-free, retained-receipt-backed, and ancestral to the exact #5351 execution revision",
+      "WP-15 demo-matrix reconciliation #5747 is merged and must be consumed in the exact revision matrix"
     ],
     "repo_inputs": [
       "AGENTS.md",
-      "GitHub issues #5351 and #5354",
+      "GitHub issues #5351, #5354, #5384, and PRs #5731/#5747",
       "docs/templates/prompts/current.json",
       "csdlc-v2/operator/generation-selector.json",
       "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
@@ -85,7 +91,10 @@
       "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
       "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
       "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
-      "future retained #5354 terminal receipt and merged demo-convergence evidence"
+      ".csdlc/evidence/5384/platform-acceptance-ledger.v1.json",
+      ".csdlc/evidence/5354/convergence-proof.v1.json",
+      "docs/milestones/v0.91.8/review/wp15_demo_matrix_5733/RECONCILIATION_LEDGER_v1.md",
+      "future retained #5354 terminal receipt"
     ],
     "non_goals": [
       "WP-15 demo implementation or WP-17 documentation alignment",
@@ -94,16 +103,16 @@
       "Runtime v2 use or edits, AWS, provider credentials, paid services, raw gh, hidden network authority, hard-coded addresses, or private transcript retention",
       "quality execution, PR, publication, merge, or closeout during preparation"
     ],
-    "plan_summary": "Render and validate six current-registry cards; freeze exact #5354 terminal gating, issue-local ownership, integrated packet semantics, blocker routing, zero-new-dependency COTS posture, budgets and PVF; obtain bounded review and fix findings; typed bind and doctor; commit and push preparation only.",
+    "plan_summary": "Render and validate six current-registry cards; refresh the issue-local WP-16 execution plan against current #5384, #5354, and #5747 merged truth; freeze exact typed terminal gating, issue-local ownership, integrated packet semantics, blocker routing, zero-new-dependency COTS posture, budgets and PVF; obtain bounded review and fix findings; typed bind and doctor; stop after a clean pushed preparation head without quality execution.",
     "steps": [
-      {"id":"S1","action":"Complete six cards, design, diagram, exact preparation-only claim, COTS, budgets, PVF, executable gates, bounded review/fixes, typed bind/doctor, commit, and push","acceptance_ids":["AC-1","AC-3","AC-6","AC-7","AC-8"],"status":"in_progress"},
-      {"id":"S2","action":"Wait fail-closed until #5354 is merged, typed closed_out, claim-free, retained-receipt-backed, and ancestral","acceptance_ids":["AC-1"],"status":"pending"},
+      {"id":"S1","action":"Complete six cards, design, diagram, written WP-16 execution plan, gap analysis, exact preparation-only claim, COTS, budgets, PVF, executable gates, bounded review/fixes, typed bind/doctor, and push a clean preparation head","acceptance_ids":["AC-1","AC-3","AC-6","AC-7","AC-8"],"status":"in_progress"},
+      {"id":"S2","action":"Wait fail-closed until #5354 is typed closed_out, claim-free, retained-receipt-backed, and ancestral while consuming #5384 and #5747 exact merged truth","acceptance_ids":["AC-1"],"status":"pending"},
       {"id":"S3","action":"Amend exact reviewed paths and run focused and integrated platform quality gates, retaining exact evidence and routing every blocker","acceptance_ids":["AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],"status":"pending"},
       {"id":"S4","action":"Run complete exact review, typed publication, green CI, authorized serialized merge, post-merge proof, typed closeout, and release WP-17","acceptance_ids":["AC-2","AC-3","AC-5","AC-6","AC-7","AC-8"],"status":"pending"}
     ],
     "invariants": [
       "preparation owns only four exact #5351 issue-local lifecycle and evidence paths",
-      "no execution or broader claim begins before the complete #5354 terminal gate",
+      "no execution or broader claim begins before the complete #5354 typed terminal gate and #5747 ancestry check",
       "only pass satisfies a required quality row; missing, blocked, failed, or deferred proof cannot be promoted",
       "the gate composes existing tools and never becomes another product or lifecycle authority",
       "Runtime v2, credentials, host-absolute retained paths, hard-coded addresses, and secret-bearing output are forbidden",
@@ -111,7 +120,7 @@
     ],
     "risks": [
       "a green component test could be mistaken for integrated platform proof",
-      "accepted revisions could drift between #5354 closeout and #5351 execution",
+      "accepted revisions could drift between #5384/#5354/#5747 consumption and #5351 execution",
       "a failed gate could be softened into documentation wording or a deferred item",
       "quality orchestration could duplicate product behavior or expand into a second test framework",
       "retained evidence could leak host paths, credentials, addresses, or stale identity",
@@ -119,7 +128,8 @@
     ],
     "planning_profile": "large",
     "stop_conditions": [
-      "#5354 lacks actual merge, typed closed_out, claim release, retained merged receipt, or ancestry",
+      "#5354 lacks typed closed_out, claim release, retained merged receipt, or ancestry, even though GitHub merge truth exists",
+      "#5747 reconciliation merge is absent or non-ancestral",
       "accepted platform revisions or stable interfaces cannot be resolved exactly",
       "any required result is failed, missing, stale, deferred, secret-bearing, host-bound, or unsupported",
       "execution requires Runtime v2, AWS, credentials, paid services, hidden network authority, hard-coded addresses, or out-of-claim writes",
@@ -128,13 +138,13 @@
     ],
     "validation_lanes": [
       {"lane":"preparation-contract","proof_role":"Prove current-registry six cards, reviewed design/diagram, issue-local scope, COTS, budgets, PVF, clean diff, no product change, and typed doctor truth","acceptance_ids":["AC-3","AC-6","AC-7"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":3000,"argv":["ruby",".csdlc/prepared/issues/5351/validate-preparation.rb"],"parallel_group":"preparation","defer_reason":null},
-      {"lane":"wp15-terminal-gate","proof_role":"Fail closed until #5354 is merged, typed closed_out, claim-free, retained-receipt-backed, and ancestral","acceptance_ids":["AC-1"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":2000,"argv":["ruby",".csdlc/prepared/issues/5351/check-dependencies.rb"],"parallel_group":"execution-gate","defer_reason":"Mandatory before execution; expected to fail while WP-15 remains nonterminal"},
-      {"lane":"focused-quality","proof_role":"Run exact focused product, contract, trust, rollback, deletion, demo, and documentation checks before integration","acceptance_ids":["AC-2","AC-3","AC-5","AC-6","AC-7"],"deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":6000,"argv":["ruby",".csdlc/prepared/issues/5351/run-validation-lane.rb","focused-quality"],"parallel_group":"quality","defer_reason":"Mandatory after #5354 terminal admission; forbidden during preparation"},
+      {"lane":"wp15-terminal-gate","proof_role":"Fail closed until #5384 is consumable, #5354 is typed closed_out, claim-free, retained-receipt-backed, and #5747 is ancestral","acceptance_ids":["AC-1"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":2000,"argv":["ruby",".csdlc/prepared/issues/5351/check-dependencies.rb"],"parallel_group":"execution-gate","defer_reason":"Mandatory before execution; expected to fail while WP-15 lacks typed terminal closeout"},
+      {"lane":"focused-quality","proof_role":"Run exact focused product, contract, trust, stable deployment, rollback, deletion, demo, and documentation checks before integration","acceptance_ids":["AC-2","AC-3","AC-5","AC-6","AC-7"],"deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":6000,"argv":["ruby",".csdlc/prepared/issues/5351/run-validation-lane.rb","focused-quality"],"parallel_group":"quality","defer_reason":"Mandatory after #5354 terminal admission and #5747 ancestry; forbidden during preparation"},
       {"lane":"integrated-platform","proof_role":"Run the accepted ADL v2, Runtime v3, and C-SDLC v2 integrated platform quality gate and retain exact blocker truth","acceptance_ids":["AC-2","AC-3","AC-4","AC-5","AC-6","AC-7"],"deterministic":true,"resource_profile":"large","budget_seconds":1800,"budget_tokens":10000,"argv":["ruby",".csdlc/prepared/issues/5351/run-validation-lane.rb","integrated-platform"],"parallel_group":"quality","defer_reason":"Mandatory after focused gates and exact protected-path amendment; forbidden during preparation"},
       {"lane":"complete","proof_role":"Run complete dependency, identity, focused, integrated, redaction, budget, blocker, and exact-review proof before publication","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8"],"deterministic":true,"resource_profile":"large","budget_seconds":2280,"budget_tokens":12000,"argv":["ruby",".csdlc/prepared/issues/5351/run-validation-lane.rb","complete"],"parallel_group":"pre-publication","defer_reason":"Mandatory at the exact implementation revision before publication"},
       {"lane":"post-merge-exact","proof_role":"Re-run dependency ancestry, platform identities, integrated gates, blocker truth, redaction, CI, and WP-17 release predicate after authorized merge","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8"],"deterministic":true,"resource_profile":"large","budget_seconds":2280,"budget_tokens":12000,"argv":["ruby",".csdlc/prepared/issues/5351/run-validation-lane.rb","post-merge-exact"],"parallel_group":"post-merge","defer_reason":"Mandatory after authorized serialized merge and before typed closeout"}
     ],
-    "failure_policy": "Fail closed without execution, public claim, publication, merge, WP-17 release, or closeout on incomplete #5354 terminal truth, claim collision, stale or non-ancestral product identity, Runtime v2 use, failed or missing required proof, hidden blocker, secret or host-bound output, hard-coded address, new dependency, budget breach, deferred validation, stale review, red CI, or absent post-merge proof.",
+    "failure_policy": "Fail closed without execution, public claim, publication, merge, WP-17 release, or closeout on incomplete #5354 typed terminal truth, absent #5747 ancestry, claim collision, stale or non-ancestral product identity, Runtime v2 use, failed or missing required proof, hidden blocker, secret or host-bound output, hard-coded address, new dependency, budget breach, deferred validation, stale review, red CI, or absent post-merge proof.",
     "review_prompts": [
       "Can a component test, fixture, screenshot, prose row, or prior-milestone artifact be mistaken for the required exact integrated quality proof?",
       "Is #5354 merge/completion, typed closed_out, claim release, retained receipt, and ancestry gating exact and impossible to bypass?",

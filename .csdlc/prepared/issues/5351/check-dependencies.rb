@@ -9,6 +9,13 @@ require "pathname"
 ROOT = Pathname.new(__dir__).join("../../../..").expand_path
 DEPENDENCY = 5354
 RECEIPT_REF = "csdlc-v2/closeout/5354.json"
+WP14A_LEDGER = ".csdlc/evidence/5384/platform-acceptance-ledger.v1.json"
+WP15_PACKET = ".csdlc/evidence/5354/convergence-proof.v1.json"
+WP15_RECONCILIATION = "docs/milestones/v0.91.8/review/wp15_demo_matrix_5733/RECONCILIATION_LEDGER_v1.md"
+WP15_REQUIRED_MERGES = %w[
+  97427f324c87d97cb1b36c7804c50bf80c9389d8
+  ab4e9e2217c152df47b1754b66b01febb4a59549
+].freeze
 HEX40 = /\A[0-9a-f]{40}\z/
 
 def fail_gate(message)
@@ -31,6 +38,15 @@ def installed_binary(name)
 end
 
 begin
+  [WP14A_LEDGER, WP15_PACKET, WP15_RECONCILIATION].each do |path|
+    fail_gate("missing required retained dependency evidence #{path}") unless ROOT.join(path).file?
+  end
+  head = git("rev-parse", "HEAD")
+  WP15_REQUIRED_MERGES.each do |sha|
+    _out, ancestry = Open3.capture2e("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", sha, head)
+    fail_gate("required WP-15 merge #{sha} is not ancestral to #{head}") unless ancestry.success?
+  end
+
   common = Pathname.new(git("rev-parse", "--git-common-dir"))
   common = ROOT.join(common) unless common.absolute?
   receipt_path = common.join(RECEIPT_REF)
@@ -63,7 +79,6 @@ begin
   sha = terminal["observed_sha"]
   fail_gate("##{DEPENDENCY} merged SHA is invalid") unless sha&.match?(HEX40)
 
-  head = git("rev-parse", "HEAD")
   _out, ancestry = Open3.capture2e("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", sha, head)
   fail_gate("##{DEPENDENCY} merged SHA #{sha} is not ancestral to #{head}") unless ancestry.success?
 
@@ -72,6 +87,7 @@ begin
     issue: 5351,
     dependency: DEPENDENCY,
     dependency_sha: sha,
+    wp15_required_merges: WP15_REQUIRED_MERGES,
     receipt_sha256: Digest::SHA256.file(receipt_path).hexdigest,
     revision: head
   )
