@@ -228,7 +228,8 @@ PY
   local issue report phase
   for issue in $issues; do
     report="$(run_csdlc_doctor "$issue")" || fail "csdlc-doctor rejected issue $issue"
-    phase="$(python3 -c 'import json,sys; print(json.load(sys.stdin).get("phase") or "")' <<<"$report")"
+    phase="$(python3 -c 'import json,sys; print(json.load(sys.stdin).get("phase") or "")' <<<"$report")" \
+      || fail "csdlc-doctor returned malformed JSON for issue $issue"
     [[ "$phase" == "closed_out" ]] || fail "issue $issue is not closed_out (phase: ${phase:-unknown})"
   done
 }

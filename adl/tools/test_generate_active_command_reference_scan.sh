@@ -16,13 +16,13 @@ if python3 adl/tools/generate_active_command_reference_scan.py --check --fixture
   echo "active fixture unexpectedly passed" >&2
   exit 1
 fi
-cat >"$tmpdir/AGENTS.md" <<'EOF'
-Do not use pr.sh; invoke workflow-conductor for the next issue.
-EOF
-if python3 adl/tools/generate_active_command_reference_scan.py --check --fixture-root "$tmpdir" >/dev/null 2>&1; then
-  echo "mixed prohibition/active fixture unexpectedly passed" >&2
-  exit 1
-fi
+for separator in ';' '.' ',' '—'; do
+  printf 'Do not use pr.sh%s invoke workflow-conductor for the next issue.\n' "$separator" >"$tmpdir/AGENTS.md"
+  if python3 adl/tools/generate_active_command_reference_scan.py --check --fixture-root "$tmpdir" >/dev/null 2>&1; then
+    echo "mixed prohibition/active fixture unexpectedly passed for separator: $separator" >&2
+    exit 1
+  fi
+done
 cat >"$tmpdir/AGENTS.md" <<'EOF'
 The workflow-conductor route is retired and must not be used.
 [[ ! -e "$ROOT/adl/tools/review_card_surface.sh" ]]

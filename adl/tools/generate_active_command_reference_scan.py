@@ -239,19 +239,33 @@ def load_text(path: Path) -> str | None:
         return None
 
 
-def evidence_pointer(text: str, index: int) -> tuple[int, str]:
+def evidence_pointer(text: str, index: int) -> tuple[int, str, int]:
     line = text.count("\n", 0, index) + 1
     line_start = text.rfind("\n", 0, index) + 1
     line_end = text.find("\n", index)
     if line_end == -1:
         line_end = len(text)
-    excerpt = text[line_start:line_end].strip()
-    return line, excerpt
+    raw_excerpt = text[line_start:line_end]
+    leading_space = len(raw_excerpt) - len(raw_excerpt.lstrip())
+    excerpt = raw_excerpt.strip()
+    match_offset = index - line_start - leading_space
+    return line, excerpt, match_offset
 
 
-def is_prohibition_reference(excerpt: str) -> bool:
-    lowered = excerpt.lower()
-    return ";" not in excerpt and any(
+def is_prohibition_reference(excerpt: str, match_offset: int = 0) -> bool:
+    clause_breaks = [
+        match.start()
+        for match in re.finditer(
+            r"[;—]|,(?=\s*(?:invoke|run|route|execute|call|use)\b)|[.!?](?=\s|$)",
+            excerpt,
+            re.IGNORECASE,
+        )
+    ]
+    clause_start = max((position for position in clause_breaks if position < match_offset), default=-1) + 1
+    clause_ends = [position for position in clause_breaks if position >= match_offset]
+    clause_end = min(clause_ends, default=len(excerpt))
+    lowered = excerpt[clause_start:clause_end].lower()
+    return any(
         marker in lowered
         for marker in (
             "historical v1",
@@ -286,12 +300,15 @@ def run_regression_fixtures() -> None:
     }
     for name, fixture in fixtures.items():
         assert any(re.search(family.pattern, fixture) for family in COMMAND_FAMILIES), name
-    assert is_prohibition_reference(
-        "workflow-conductor and pr.sh are historical v1 routes and must not be used"
-    )
-    assert not is_prohibition_reference(
-        "Do not use pr.sh; invoke workflow-conductor for the next issue."
-    )
+    prohibited = "workflow-conductor and pr.sh are historical v1 routes and must not be used"
+    assert is_prohibition_reference(prohibited, prohibited.index("workflow-conductor"))
+    for mixed in (
+        "Do not use pr.sh; invoke workflow-conductor for the next issue.",
+        "Do not use pr.sh. Invoke workflow-conductor for the next issue.",
+        "Do not use pr.sh, invoke workflow-conductor for the next issue.",
+        "Do not use pr.sh — invoke workflow-conductor for the next issue.",
+    ):
+        assert not is_prohibition_reference(mixed, mixed.index("workflow-conductor"))
     assert is_absence_assertion(
         '[[ ! -e "$ROOT/adl/tools/review_card_surface.sh" ]]'
     )
@@ -314,9 +331,10 @@ def build_rows(
         path_class = classify_path(rel)
         for family in COMMAND_FAMILIES:
             for match in re.finditer(family.pattern, text):
-                line, excerpt = evidence_pointer(text, match.start())
+                line, excerpt, match_offset = evidence_pointer(text, match.start())
                 if path_class == "active" and (
-                    is_prohibition_reference(excerpt) or is_absence_assertion(excerpt)
+                    is_prohibition_reference(excerpt, match_offset)
+                    or is_absence_assertion(excerpt)
                 ):
                     continue
                 dedupe_key = (family.key, rel, line)
