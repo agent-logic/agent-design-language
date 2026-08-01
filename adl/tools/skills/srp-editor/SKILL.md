@@ -93,7 +93,7 @@ This skill must not:
 ## Handoff
 
 Typical callers are:
-- `workflow-conductor` when doctor or card evidence reports an incomplete SRP
+- `csdlc-doctor` followed by `srp-editor` when card evidence reports an incomplete SRP
 - `sprint-conductor` during sprint-wide structured prompt preflight
 - `pr-run` or human review after bounded subagent review results are available
 - `pr-finish` when final review truth blocks publication

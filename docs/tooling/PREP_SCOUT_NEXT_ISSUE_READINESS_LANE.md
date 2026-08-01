@@ -35,7 +35,7 @@ Do not use the lane when:
 
 The prep scout may use:
 
-- `workflow-conductor` for routing truth
+- `csdlc-doctor` for routing truth
 - typed `csdlc-github-issue` reads
 - typed `csdlc-doctor --repo <repo> --issue <issue>`
 - root-checkout inspection commands while the root checkout remains clean on
@@ -79,7 +79,7 @@ normal execution path.
 
 1. Confirm the current issue is in a wait-capable state.
 2. Confirm `git status --short --branch` is clean on root `main`.
-3. Use `workflow-conductor` to route the current issue and preserve the waiting
+3. Use `csdlc-doctor` to route the current issue and preserve the waiting
    lane truth separately from the prep lane.
 4. Inspect candidate issues with repo-native issue commands.
 5. Check for collision evidence in the shared session ledger and existing

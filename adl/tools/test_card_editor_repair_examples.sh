@@ -9,10 +9,15 @@ if [[ -e adl/tools/validate_structured_prompt.sh ]]; then
   exit 1
 fi
 
-cargo run --quiet --locked --manifest-path csdlc-v2/Cargo.toml --bin csdlc-edit -- --help >/dev/null
-cargo run --quiet --locked --manifest-path csdlc-v2/Cargo.toml --bin csdlc-validate -- --help >/dev/null
+# This fixture performs sixteen real csdlc-edit CLI requests against an
+# issue-bound record, then checks cross-card validation and clean doctor truth.
+cargo test --quiet --locked --manifest-path csdlc-v2/Cargo.toml --test gate2 \
+  issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_edits -- --exact
 
-rg -q 'csdlc-edit' csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md
-rg -q 'csdlc-validate' csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md
+# Representative invalid repairs (empty fields, wrong owners, stale CAS,
+# missing claims, and incomplete acceptance mappings) must leave record and
+# cards byte-for-byte unchanged.
+cargo test --quiet --locked --manifest-path csdlc-v2/Cargo.toml --test gate2 \
+  planning_replacements_reject_invalid_requests_without_mutation -- --exact
 
-echo "PASS: card repair is owned by typed csdlc-edit plus csdlc-validate"
+echo "PASS: typed card repair accepts coherent edits and rejects invalid repairs atomically"

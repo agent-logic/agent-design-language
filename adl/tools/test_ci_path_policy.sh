@@ -685,7 +685,7 @@ EOF
   assert_has "$rust_dependency_cache_warmup_output" "validation_profile_run_lanes=docs_diff_check,rust_dependency_cache_warmup_contracts"
 
   git checkout -q -b rust-dependency-cache-warmup-policy-change "$base_sha"
-  mkdir -p adl/config adl/tools/skills/docs adl/tools/skills/pr-run adl/tools/skills/workflow-conductor docs/tooling
+  mkdir -p adl/config adl/tools/skills/docs adl/tools/skills/pr-run docs/tooling
   printf '{\"schema_version\":\"adl.validation_lane_selector.v1\",\"surface_defaults\":{},\"lanes\":[],\"special_surfaces\":{},\"manager_guardrails\":{\"docs_only_forbidden_lane_ids\":[\"rust_pr_fast\"],\"pr_fast\":{\"max_rust_surface_count\":4,\"max_filter_token_count\":4,\"max_family_token_count\":3,\"blocked_modes\":[\"full\",\"contract_only\"]}},\"release_gate_hints\":[],\"rust_path_hints\":[]}\n' > adl/config/validation_lane_selector.v0.91.6.json
   printf '#!/usr/bin/env bash\nprintf policy\\n' > adl/tools/ci_path_policy.sh
   printf '#!/usr/bin/env bash\nprintf policy-test\\n' > adl/tools/test_ci_path_policy.sh
@@ -694,13 +694,11 @@ EOF
   printf '# AGENTS warmup guidance\n' > AGENTS.md
   printf '# CI warmup guidance\n' > adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md
   printf '# pr-run warmup guidance\n' > adl/tools/skills/pr-run/SKILL.md
-  printf '# workflow-conductor warmup guidance\n' > adl/tools/skills/workflow-conductor/SKILL.md
   printf '# Hardlinked Rust dependency cache\n' > docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
   git add AGENTS.md \
     adl/config/validation_lane_selector.v0.91.6.json \
     adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md \
     adl/tools/skills/pr-run/SKILL.md \
-    adl/tools/skills/workflow-conductor/SKILL.md \
     adl/tools/ci_path_policy.sh \
     adl/tools/test_ci_path_policy.sh \
     adl/tools/warm_rust_dependency_cache.py \
@@ -724,7 +722,7 @@ EOF
   assert_has "$rust_dependency_cache_policy_output" "reason=ci_policy_surface_requires_path_policy_contract_checks"
   assert_has "$rust_dependency_cache_policy_output" "validation_profile_status=ready_to_run"
   assert_has "$rust_dependency_cache_policy_output" "validation_profile_escalation_required=false"
-  assert_has "$rust_dependency_cache_policy_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts,workflow_conductor_contracts"
+  assert_has "$rust_dependency_cache_policy_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts,typed_v2_lifecycle_contracts"
 
   git checkout -q -b rust-dependency-cache-warmup-mixed-policy-change "$base_sha"
   mkdir -p adl/config adl/tools docs/tooling
@@ -753,7 +751,7 @@ EOF
   assert_has "$rust_dependency_cache_mixed_policy_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts"
 
   git checkout -q -b rust-dependency-cache-warmup-unrelated-guidance-change "$base_sha"
-  mkdir -p adl/config adl/tools/skills/docs adl/tools/skills/pr-run adl/tools/skills/workflow-conductor docs/tooling
+  mkdir -p adl/config adl/tools/skills/docs adl/tools/skills/pr-run docs/tooling
   printf '{\"schema_version\":\"adl.validation_lane_selector.v1\",\"surface_defaults\":{},\"lanes\":[],\"special_surfaces\":{},\"manager_guardrails\":{\"docs_only_forbidden_lane_ids\":[\"rust_pr_fast\"],\"pr_fast\":{\"max_rust_surface_count\":4,\"max_filter_token_count\":4,\"max_family_token_count\":3,\"blocked_modes\":[\"full\",\"contract_only\"]}},\"release_gate_hints\":[],\"rust_path_hints\":[]}\n' > adl/config/validation_lane_selector.v0.91.6.json
   printf '#!/usr/bin/env bash\nprintf policy\\n' > adl/tools/ci_path_policy.sh
   printf '#!/usr/bin/env bash\nprintf policy-test\\n' > adl/tools/test_ci_path_policy.sh
@@ -762,13 +760,11 @@ EOF
   printf '# unrelated AGENTS guidance\n' > AGENTS.md
   printf '# unrelated CI guidance\n' > adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md
   printf '# unrelated pr-run guidance\n' > adl/tools/skills/pr-run/SKILL.md
-  printf '# unrelated workflow guidance\n' > adl/tools/skills/workflow-conductor/SKILL.md
   printf '# Hardlinked Rust dependency cache\n' > docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
   git add AGENTS.md \
     adl/config/validation_lane_selector.v0.91.6.json \
     adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md \
     adl/tools/skills/pr-run/SKILL.md \
-    adl/tools/skills/workflow-conductor/SKILL.md \
     adl/tools/ci_path_policy.sh \
     adl/tools/test_ci_path_policy.sh \
     adl/tools/warm_rust_dependency_cache.py \
@@ -782,7 +778,7 @@ EOF
   assert_has "$rust_dependency_cache_unrelated_guidance_output" "reason=ci_policy_surface_requires_path_policy_contract_checks"
   assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_status=ready_to_run"
   assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_escalation_required=false"
-  assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts,workflow_conductor_contracts"
+  assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts,typed_v2_lifecycle_contracts"
 
   git checkout -q -b classifier-followup "$base_sha"
   mkdir -p adl/tools/skills/sprint-conductor/scripts adl/config adl/tools

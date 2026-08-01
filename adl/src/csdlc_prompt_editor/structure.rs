@@ -679,7 +679,7 @@ const COMMON_RENDERED_VALUE_LINE_PREFIXES: &[&str] = &[
     "`Verified ",
     "    `",
     "    ``",
-    "- `bash adl/tools/validate_structured_prompt.sh",
+    "- `csdlc-validate",
     "Source issue-prompt slug:",
     "Required outcome type:",
     "Demo required:",

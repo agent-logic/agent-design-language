@@ -65,13 +65,13 @@ The tracked skill set is:
 - `stp-editor`
 - `test-generator`
 - `use-case-writer`
-- `workflow-conductor`
+- typed v2 lifecycle binaries
 
 ## Workflow Shape
 
 The normal workflow is:
 
-0. `workflow-conductor` when the operator wants one bounded front door that chooses the next skill and resumes from current state
+0. `csdlc-doctor` to determine current state before selecting the typed lifecycle binary
 1. `pr-init`
 2. qualitative card review
 3. `pr-ready`
@@ -123,7 +123,7 @@ delegates to the owner binary.
 `medium-article-writer` is a bounded helper skill for turning one concrete article brief into a reviewer-friendly Medium packet without publishing.
 `arxiv-paper-writer` is a bounded helper skill for turning one concrete scholarly source packet into a reviewer-friendly arXiv-style manuscript packet without submitting, publishing, or inventing citations.
 `diagram-author` is a bounded helper skill for turning one source packet, issue, code slice, or doc surface into a reviewable diagram-as-code packet with explicit backend selection, optional SVG/PNG rendering, and truth boundaries.
-`workflow-conductor` is an orchestration front door rather than a lifecycle phase.
+Typed v2 lifecycle binaries own orchestration phases directly.
 `sprint-conductor` is a sprint orchestrator that sequences one local current
 issue while coordinating broader sprint intent through a declared Sprint
 Execution Packet, then finishes with sprint review and closeout. SEP can record
@@ -142,7 +142,7 @@ proves explicit nested-goal support.
 `issue-splitter` is a bounded issue-scope helper for deciding whether one issue should stay intact, split now, defer splitting, or stop for operator review.
 `issue-watcher` is a bounded wait-window helper for watching one issue, PR, branch, or dependency gate and routing blockers without mutating state.
 The issue-lifecycle shepherd contract defines the shared ownership model above
-`workflow-conductor`, `pr-run`, `pr-finish`, `issue-watcher`, `pr-janitor`,
+typed v2 doctor/bind/review/publish, `issue-watcher`, `pr-janitor`,
 and `pr-closeout` so healthy waiting states and merged-needs-closeout states do
 not disappear into session memory.
 `pr-stack-manager` is a bounded stack-topology helper for ancestry, base alignment, and dependency-order analysis.
@@ -381,7 +381,7 @@ It must stop before mutating issue, PR, branch, card, or implementation state.
 
 The current automation model is:
 
-- `workflow-conductor` may inspect current issue/workflow state and route to the next correct lifecycle or editor skill without reimplementing that skill
+- `csdlc-doctor` inspects current issue state before the matching typed lifecycle or editor operation runs
 - `pr-init` creates or initializes the issue and root bundle
 - qualitative card review happens separately
 - `pr-ready` is the readiness phase
@@ -556,11 +556,11 @@ Canonical blocker names:
 - `mismatched_publication_surface`
 - `rebind_to_issue_worktree_required`
 
-## `workflow-conductor`
+## Typed v2 lifecycle routing
 
 ### Purpose
 
-`workflow-conductor` is the lightweight front door for the operational skill family.
+`csdlc-install resolve` plus `csdlc-doctor` are the typed front door for lifecycle routing.
 
 It:
 
@@ -574,7 +574,7 @@ It:
 
 ### When To Use It
 
-Use `workflow-conductor` when:
+Use typed v2 lifecycle routing when:
 
 - the next correct ADL skill is not obvious from the current state
 - the issue may need to resume from partially completed early steps
@@ -608,21 +608,21 @@ routing modes may use any one concrete target identifier from the list above.
 Structured schema:
 
 - `adl/tools/skills/docs/WORKFLOW_CONDUCTOR_SKILL_INPUT_SCHEMA.md`
-- schema id: `workflow_conductor.v1`
+- schema id: typed csdlc-doctor output
 
 ### Example Invocation
 
 ```yaml
-Use $workflow-conductor at <repo-root>/adl/tools/skills/workflow-conductor/SKILL.md with this validated input:
+Run `csdlc-doctor --repo <repo> --issue <issue>` before selecting a typed lifecycle operation.
 
-skill_input_schema: workflow_conductor.v1
+skill_input_schema: csdlc_doctor.v2
 mode: route_issue
 repo_root: <repo-root>
 target:
   issue_number: 1647
-  slug: add-lightweight-workflow-conductor-skill
+  slug: add-lightweight-lifecycle-routing-skill
   version: v0.88
-  source_prompt_path: .adl/v0.88/bodies/issue-1647-add-lightweight-workflow-conductor-skill.md
+  source_prompt_path: .adl/v0.88/bodies/issue-1647-add-lightweight-lifecycle-routing-skill.md
 policy:
   skills_required: true
   card_editor_skills_required: true
@@ -643,7 +643,7 @@ observed_state:
 
 ### Caller Notes
 
-- `workflow-conductor` is deliberately thin
+- typed v2 lifecycle routing is deliberately explicit
 - it should route into `pr-*` or editor skills rather than reimplementing them
 - it is the best place to apply the execution-policy ideas for required skills, card editors, and subagents
 - it should return explicit `continue`, `ask_operator`, or `stop` handoff intent rather than leaving escalation implicit
@@ -1414,7 +1414,7 @@ policy:
 
 - after `pr-janitor` confirms the PR has merged and there are no remaining
   blocker states
-- when workflow-conductor reports `merged_needs_closeout` and routes directly to
+- when typed doctor reports `merged_needs_closeout` and routes directly to
   `pr-closeout`
 - after an intentionally closed PR where the issue still needs final truthful
   local cleanup
@@ -1628,7 +1628,7 @@ python3 adl/tools/skills/issue-folding/scripts/classify_issue_folding.py --task-
 
 ### Typical Handoff
 
-Use `workflow-conductor` for still-actionable issues, `pr-closeout` for
+Use normal issue execution for still-actionable issues, `pr-closeout` for
 evidence-backed foldable outcomes, and operator review when disposition signals
 conflict.
 
@@ -1670,7 +1670,7 @@ python3 adl/tools/skills/issue-splitter/scripts/plan_issue_split.py --task-bundl
 
 ### Typical Handoff
 
-Use `workflow-conductor` when the issue should stay intact,
+Use normal issue execution when the issue should stay intact,
 `finding-to-issue-planner` or approved issue-creation flow for split-now or
 defer outcomes, and operator review when the packet contains conflicting split
 signals.
@@ -2882,7 +2882,7 @@ surfaces:
 | `stp-editor` | `STP_EDITOR_SKILL_INPUT_SCHEMA.md` | card-editor shared contract | STP normalization only |
 | `test-generator` | `TEST_GENERATOR_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | focused test generation only |
 | `use-case-writer` | `USE_CASE_WRITER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | use-case packet only |
-| `workflow-conductor` | `WORKFLOW_CONDUCTOR_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | route or dispatch one bounded subtask |
+| typed v2 lifecycle | `csdlc-doctor` output | typed request contracts | route one bounded lifecycle operation |
 
 The card-editor skills share the contract coverage in
 `adl/tools/test_card_editor_skill_contracts.sh`; they do not each need a

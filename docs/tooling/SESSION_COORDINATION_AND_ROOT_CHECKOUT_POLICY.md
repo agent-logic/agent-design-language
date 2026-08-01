@@ -16,7 +16,7 @@ This document clarifies the existing workflow rules in:
 - `docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md`
 - `docs/onboarding.md`
 - `adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md`
-- the `workflow-conductor` and `pr-run` skill contracts
+- the typed v2 doctor/bind contracts
 
 If this document conflicts with `AGENTS.md`, `AGENTS.md` wins until both files
 are updated together.
@@ -252,7 +252,7 @@ workflow.
 
 This policy does not:
 
-- replace `workflow-conductor`
+- replace typed v2 lifecycle routing
 - replace issue cards or closeout truth
 - permit tracked work on `main`
 - make chat memory authoritative

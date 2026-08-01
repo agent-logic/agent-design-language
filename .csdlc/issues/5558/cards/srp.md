@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Scope
 
-Exact commit 7eee16a408225fcefe8f31a15cae1d7e136d9e60
+Exact commit afbaae5efe60eb47768feee84b8e315889f66720
 All issue 5558 implementation, first-review fixes, tests, docs, and lifecycle records
 
 ## Prompts

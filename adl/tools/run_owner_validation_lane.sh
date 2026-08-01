@@ -130,6 +130,20 @@ run_csdlc_lane() {
     bash adl/tools/test_structured_prompt_validation.sh
   run_command "C-SDLC card-editor repair typed authority" \
     bash adl/tools/test_card_editor_repair_examples.sh
+  run_command "C-SDLC installed skill retirement contracts" \
+    bash adl/tools/test_install_adl_pr_cycle_skill.sh
+  run_command "C-SDLC operational skill installation" \
+    bash adl/tools/test_install_adl_operational_skills.sh
+  run_command "C-SDLC issue-folding typed handoff" \
+    bash adl/tools/test_issue_folding_skill_contracts.sh
+  run_command "C-SDLC issue-splitter typed handoff" \
+    bash adl/tools/test_issue_splitter_skill_contracts.sh
+  run_command "C-SDLC lifecycle shepherd contract" \
+    bash adl/tools/test_issue_lifecycle_shepherd_contract.sh
+  run_command "C-SDLC retired prompt-editor surface" \
+    bash adl/tools/test_csdlc_prompt_editor.sh
+  run_command "C-SDLC retired review-card surface" \
+    bash adl/tools/test_review_card_surface.sh
   run_command "C-SDLC prompt-template structure schemas" \
     python3 adl/tools/test_prompt_template_structure_schemas.py
   run_command "C-SDLC control-plane observability contract" \

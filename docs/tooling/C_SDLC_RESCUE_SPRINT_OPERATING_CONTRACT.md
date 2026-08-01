@@ -178,7 +178,7 @@ not run.
 This contract does not:
 
 - authorize tracked work on `main`;
-- replace `workflow-conductor`, issue cards, or PR closeout;
+- replace typed v2 lifecycle routing, issue cards, or PR closeout;
 - turn watcher or prep-scout roles into implementers;
 - claim the scheduler is autonomous;
 - claim every old skill document is already perfect;

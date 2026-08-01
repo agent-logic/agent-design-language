@@ -26,8 +26,6 @@ PRIMARY_BINARIES = {
 }
 
 SUPPORTED_SHIMS = {
-    "validate_structured_prompt.sh": "Compatibility shim over the direct structured-prompt validator binary.",
-    "lint_prompt_spec.sh": "Compatibility shim over the direct prompt-spec lint binary.",
 }
 
 REMOVE_CANDIDATES = {
@@ -160,7 +158,7 @@ def classify_tool_script(path: Path) -> tuple[str, str]:
 def classify_skill_dir(path: Path) -> tuple[str, str]:
     name = path.name
     if name in {
-        "workflow-conductor",
+        "csdlc-doctor",
         "pr-init",
         "pr-ready",
         "pr-run",

@@ -1274,8 +1274,7 @@ is_bounded_rust_dependency_cache_warmup_policy_change() {
         ;;
       AGENTS.md|\
       adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md|\
-      adl/tools/skills/pr-run/SKILL.md|\
-      adl/tools/skills/workflow-conductor/SKILL.md)
+      adl/tools/skills/pr-run/SKILL.md)
         is_warmup_guidance_patch "$path" || return 1
         saw_warmup_surface=true
         ;;

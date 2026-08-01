@@ -22,7 +22,7 @@ OUTPUT_PATH = (
 ACTIVE_PATH_PREFIXES = (
     "AGENTS.md",
     "CONTRIBUTING.md",
-    "adl/src/cli/",
+    "adl/src/",
     "docs/tooling/",
     "docs/templates/",
     "adl/tools/skills/",
@@ -54,7 +54,7 @@ UNKNOWN_PATH_PREFIXES = (
 INCLUDE_ROOTS = (
     REPO_ROOT / "AGENTS.md",
     REPO_ROOT / "CONTRIBUTING.md",
-    REPO_ROOT / "adl" / "src" / "cli",
+    REPO_ROOT / "adl" / "src",
     REPO_ROOT / "docs" / "tooling",
     REPO_ROOT / "docs" / "templates",
     REPO_ROOT / "adl" / "tools" / "skills",
@@ -83,8 +83,7 @@ EXCLUDED_REL_PATHS = {
     # test_* files remain scanned and can still fail this gate.
     "adl/tools/test_batched_checks_no_codexpr_usage_banner.sh",
     "adl/tools/test_cli_owner_command_guidance.sh",
-    "adl/tools/test_install_adl_pr_cycle_skill.sh",
-    "adl/tools/test_install_adl_operational_skills.sh",
+    "adl/tools/test_cli_wrapper_migration_contract.sh",
     # Generated UI model; its tracked template source is validated separately.
     "docs/tooling/csdlc-prompt-editor/editor_model.js",
     "docs/milestones/v0.91.5/ACTIVE_COMMAND_REFERENCE_SCAN_3735.md",
@@ -146,14 +145,14 @@ COMMAND_FAMILIES = (
         label="deleted prompt/review shell wrapper",
         preferred_owner="stable direct owner binary or typed csdlc-edit/csdlc-validate",
         required_action="forbid if active or unknown; preserve only if historical",
-        pattern=r"(?<![\w/-])(?:bash\s+[\"']?(?:\$ROOT_DIR/)?(?:\./)?adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh|(?:\./)?adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh\s+--|[A-Z_]+=[\"'][^\n\"']*adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh)",
+        pattern=r"(?<![\w/-])(?:bash\s+[\"']?(?:\$ROOT_DIR/)?(?:\./)?adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh|[\"']?\$[A-Z_]+/adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh|(?:\./)?adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh\s+--|[A-Z_]+=[\"'][^\n\"']*adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh)",
     ),
     CommandFamily(
         key="sunset_workflow_conductor",
         label="sunset workflow-conductor route",
         preferred_owner="csdlc-install resolve + typed csdlc-* binary",
         required_action="forbid if active or unknown; preserve only if historical",
-        pattern=r"(?<![\w/-])(?:python3\s+[^\n]*route_workflow\.py|(?:route(?:d)?\s+(?:through|to)|use|invoke)\s+`?workflow-conductor\b|workflow-conductor\s+(?:start|run|doctor|ready|finish|closeout|issue|shepherd|janitor)\b)",
+        pattern=r"(?:workflow-conductor|workflow_conductor|route_workflow\.py)\b",
     ),
     CommandFamily(
         key="legacy_codex_pr",
@@ -172,8 +171,8 @@ COMMAND_FAMILIES = (
 )
 
 
-def repo_rel(path: Path) -> str:
-    return path.relative_to(REPO_ROOT).as_posix()
+def repo_rel(path: Path, root: Path = REPO_ROOT) -> str:
+    return path.relative_to(root).as_posix()
 
 
 def should_skip(path: Path) -> bool:
@@ -203,6 +202,9 @@ def iter_paths() -> list[Path]:
 def classify_path(rel: str) -> str:
     if rel in HISTORICAL_EXACT_PATHS:
         return "historical"
+    # These are legacy-full rendered template directories. The independently
+    # compiled compact-native v2 identity is governed by native-card-shape.json,
+    # not by these filesystem template paths.
     if rel.startswith(
         (
             "docs/templates/prompts/1.0.0/",
@@ -229,23 +231,80 @@ def load_text(path: Path) -> str | None:
 
 def evidence_pointer(text: str, index: int) -> tuple[int, str]:
     line = text.count("\n", 0, index) + 1
-    excerpt = text[index : index + 120].splitlines()[0].strip()
+    line_start = text.rfind("\n", 0, index) + 1
+    line_end = text.find("\n", index)
+    if line_end == -1:
+        line_end = len(text)
+    excerpt = text[line_start:line_end].strip()
     return line, excerpt
 
 
-def build_rows() -> tuple[list[tuple[str, str, int, str, str, str, str]], Counter]:
+def is_prohibition_reference(excerpt: str) -> bool:
+    lowered = excerpt.lower()
+    return any(
+        marker in lowered
+        for marker in (
+            "historical v1",
+            "retired",
+            "sunset",
+            "removed",
+            "must not use",
+            "do not use",
+            "do not invoke",
+            "forbidden",
+        )
+    )
+
+
+def is_absence_assertion(excerpt: str) -> bool:
+    return bool(
+        re.fullmatch(
+            r"\[\[\s+!\s+-[ef]\s+[^;|&]+\s+\]\](?:\s+\|\|\s+\{)?",
+            excerpt,
+        )
+    )
+
+
+def run_regression_fixtures() -> None:
+    fixtures = {
+        "variable-bound wrapper": 'VALIDATOR="$ROOT/adl/tools/validate_structured_prompt.sh"',
+        "bare owner value": "owner_skill: workflow-conductor | pr-ready | none",
+        "nonadjacent routing": "Route the selected issue after readiness through `workflow-conductor`.",
+        "sunset prompt route": "adl-csdlc tooling prompt-template render --kind sip",
+        "quoted root execution": '"$ROOT/adl/tools/review_card_surface.sh" --input card.md',
+    }
+    for name, fixture in fixtures.items():
+        assert any(re.search(family.pattern, fixture) for family in COMMAND_FAMILIES), name
+    assert is_prohibition_reference(
+        "workflow-conductor and pr.sh are historical v1 routes and must not be used"
+    )
+    assert is_absence_assertion(
+        '[[ ! -e "$ROOT/adl/tools/review_card_surface.sh" ]]'
+    )
+    assert not is_absence_assertion(
+        '[[ ! -e "$ROOT/adl/tools/review_card_surface.sh" ]] || workflow-conductor run'
+    )
+
+
+def build_rows(
+    paths: list[Path] | None = None, root: Path = REPO_ROOT
+) -> tuple[list[tuple[str, str, int, str, str, str, str]], Counter]:
     rows: list[tuple[str, str, int, str, str, str, str]] = []
     counts: Counter = Counter()
     seen: set[tuple[str, str, int]] = set()
-    for path in iter_paths():
+    for path in paths if paths is not None else iter_paths():
         text = load_text(path)
         if text is None:
             continue
-        rel = repo_rel(path)
+        rel = repo_rel(path, root)
         path_class = classify_path(rel)
         for family in COMMAND_FAMILIES:
             for match in re.finditer(family.pattern, text):
                 line, excerpt = evidence_pointer(text, match.start())
+                if path_class == "active" and (
+                    is_prohibition_reference(excerpt) or is_absence_assertion(excerpt)
+                ):
+                    continue
                 dedupe_key = (family.key, rel, line)
                 if dedupe_key in seen:
                     continue
@@ -395,9 +454,21 @@ def render(rows: list[tuple[str, str, int, str, str, str, str]], counts: Counter
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--self-test", action="store_true")
+    parser.add_argument("--fixture-root", type=Path)
     args = parser.parse_args()
 
-    rows, counts = build_rows()
+    if args.self_test:
+        run_regression_fixtures()
+        print("active command reference scan regression fixtures: ok")
+        return 0
+
+    if args.fixture_root:
+        fixture_root = args.fixture_root.resolve()
+        fixture_paths = sorted(path for path in fixture_root.rglob("*") if path.is_file())
+        rows, counts = build_rows(fixture_paths, fixture_root)
+    else:
+        rows, counts = build_rows()
     rendered = render(rows, counts)
 
     if args.check:

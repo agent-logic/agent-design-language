@@ -141,13 +141,13 @@
       "reason": "prompt_template_or_editor_surface_requires_template_contract_checks"
     },
     {
-      "id": "workflow_conductor_contracts",
+      "id": "typed_v2_lifecycle_contracts",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
       "owner": "csdlc",
-      "proof_role": "workflow_conductor_contract",
+      "proof_role": "typed_v2_lifecycle_contract",
       "requirement_ids": [
-        "workflow_conductor_contracts"
+        "typed_v2_lifecycle_contracts"
       ],
       "path_selectors": [
         "csdlc-v2/operator/skills/**",
@@ -159,7 +159,7 @@
       ],
       "command": "cargo test --manifest-path csdlc-v2/Cargo.toml --no-run",
       "run_command": "cargo test --manifest-path csdlc-v2/Cargo.toml",
-      "reason": "workflow_conductor_surface_requires_conductor_contract_checks"
+      "reason": "typed_v2_lifecycle_surface_requires_contract_checks"
     },
     {
       "id": "pvf_contracts",

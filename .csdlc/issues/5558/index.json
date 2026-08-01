@@ -5,7 +5,7 @@
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
   "phase": "implemented",
   "generation": 6,
-  "digest": "dbc78c0fd25881f1b822140549d427e600c4d881cc1d64486b63e4fabc9944b8",
+  "digest": "e7bcab3ec9ce2201ffe92becc43e083a068152fc488d902cdb45ada7e12256bc",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
@@ -73,9 +73,9 @@
   "review_assignment": {
     "reviewer": "codex:root-independent-rereview",
     "assigned_by": "codex:5558-corrective",
-    "revision": "git-blake3:7eee16a408225fcefe8f31a15cae1d7e136d9e60:7a09840602226a8423c35047f0c6ffccd5f311f4e4aef2ec25e5b208c52b8392",
+    "revision": "git-blake3:afbaae5efe60eb47768feee84b8e315889f66720:736833dd2909a3c5d66d0296500807eee1f0ab659bb4af42f1d6c311e03ac383",
     "scope": [
-      "Exact commit 7eee16a408225fcefe8f31a15cae1d7e136d9e60",
+      "Exact commit afbaae5efe60eb47768feee84b8e315889f66720",
       "All issue 5558 implementation, first-review fixes, tests, docs, and lifecycle records"
     ]
   },
@@ -114,9 +114,9 @@
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "ac1ceeea201926cc98e7989693d93b85a80cf6f0de0eb5164fcfeb3ad812edf8",
-      "rendered_digest": "a7f9ee857717ff5f17a91a0bf5dcaf5163ed5ac4dda4ae53e2446a20251e84ff",
-      "ast_digest": "fa9118abc856fc5375f48c194844dcbe396855fdfe6c0ded40151077aa05f935"
+      "values_digest": "19330cfb67d13c34905f94165428dbdc5a68706d308e7f19093aecdf95f84f0a",
+      "rendered_digest": "820086af18c8c22546bfea22a8688f3441428092d9a8961ac0525e637ba5332e",
+      "ast_digest": "ae67a2c19ec16ec81ba7cff9ab15dcd824f0da9e9c30cd0d5246db23234f5ac9"
     },
     "sor": {
       "values_digest": "9a94ac84f06cd71785fe10d94f289671cfcc56b0f9553a6d75bd3ceaae45a5f6",
@@ -255,6 +255,13 @@
     },
     {
       "sequence": 16,
+      "generation": 6,
+      "actor": "codex:5558-corrective",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
       "generation": 6,
       "actor": "codex:5558-corrective",
       "reason": "assign bounded exact-revision review",
