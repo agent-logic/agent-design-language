@@ -3,13 +3,13 @@
   "issue": 5558,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
-  "phase": "implemented",
-  "generation": 26,
-  "digest": "c65b29a3ea82c68d6ed0f1c3eb42ae9c87f5b74fdbe2ba975a195e12573dfac1",
+  "phase": "reviewed",
+  "generation": 28,
+  "digest": "46e83a06d7010e286a98e20fa3ca824dd80b81d69c9486b652eee14a585fcb6c",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
-    "generation": 26,
+    "generation": 28,
     "acquired_unix_seconds": 1785570394,
     "expires_unix_seconds": 1785656794,
     "heartbeat_unix_seconds": 1785570394,
@@ -132,8 +132,35 @@
     ],
     "purpose": "Correct issue 5558 by removing remaining live sunset v1 lifecycle guidance and proving final typed v2 authority."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fbf2d-07af-7ee0-a7e1-ca480b4a5d0a",
+    "assigned_by": "codex:5558-corrective",
+    "revision": "git-blake3:85e506c4613502753b895bcace4fe535289138ee:e04e8dc30470f367dfb2288ae0660ef419ec5cf412b6bbaf72775d8141902ed4",
+    "scope": [
+      "adl/src/csdlc_prompt_editor",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_csdlc_prompt_editor.sh",
+      ".csdlc/issues/5558"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fbf2d-07af-7ee0-a7e1-ca480b4a5d0a",
+    "scope": [
+      "adl/src/csdlc_prompt_editor",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_csdlc_prompt_editor.sh",
+      ".csdlc/issues/5558"
+    ],
+    "reviewed_revision": "git-blake3:85e506c4613502753b895bcace4fe535289138ee:e04e8dc30470f367dfb2288ae0660ef419ec5cf412b6bbaf72775d8141902ed4",
+    "findings": [],
+    "residual_risks": [
+      "GitHub CI must confirm that deleted orphan source is absent from the changed-source coverage gate on the refreshed PR head."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -148,32 +175,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2128d889431aa2ed92ddae0bd66d4a8e71697d9c0a27b560b4e243d4a236e48c",
+      "values_digest": "6c141db5ead332db24fc637c4834b7172dc9ddca01b9f64d9c5b4f8050597cdc",
       "rendered_digest": "3ef258b1c4bb480ab05a5f1842a67fb807068d557612286211389017f956a73d",
       "ast_digest": "a173adcf99a8c6fc2eee501e4e055b5613e48eaae750d3859ba753b2051b2716"
     },
     "stp": {
-      "values_digest": "4deda4a4513303cc7c128333428613b51cb7ad2dfc0ed7140fb50e51c50d91c6",
+      "values_digest": "2cb6924ee9091a07ae80256a1af27a8cce22fc297b0d88526418793829d256e3",
       "rendered_digest": "4e813a7bd81e883366df3deeeb1f62e371dbd81f622aec8f105e5233b842d9df",
       "ast_digest": "ed08ed5118621e4e7978292eb31a6fb1817be62f49cf08a737b4dc9ba94d9b1f"
     },
     "spp": {
-      "values_digest": "3d0034a0006808e32aec7471a1ebd09be54feab1d7d5e451c0d24fbec82b9aa5",
+      "values_digest": "55816cf5a6ef13016ae52069cd62bf79c4b150fa09f862c1a9ea98c5462e0e53",
       "rendered_digest": "25879d34e3cf553eddde351a8fcadefd055898a9d0280a8e10ebc5e998410ee8",
       "ast_digest": "1453d42addf77769af338269da74b0501f8c17bd84d7d493b518c66395fa38ca"
     },
     "vpp": {
-      "values_digest": "521b442e882b3a6c84e164ef6234075cf51e9a037c7af78ab4ffe0f826219a01",
+      "values_digest": "1c3100361ad9aca8fede566daa15898d518d8d60f7dfd71ccdff71a1685dc340",
       "rendered_digest": "05e67389a9dd9511f18c9fd7089eaba5dc2df4f40979d42e159403da83ef7537",
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "7c17a97df3a302c2f6687e72a4ff86871f1fa8d0f92dcf66867d8225a1d64893",
-      "rendered_digest": "146d4c911a6c44e6d998506b42fca60ea559e6a000d9c0606134cc288af73282",
-      "ast_digest": "9163d610ba45c2cc14ad20fb3af5f123985b79a9d6e78dc494b8881eb315fbe8"
+      "values_digest": "c3f77f86deba2bc30f51d94b89c915d9436a4f4ece9ee3d7c6dcfc522a491ee0",
+      "rendered_digest": "4c715afb3029a70fe47832e836a037205438d74f3be3fdabdfda525b3d926a65",
+      "ast_digest": "82e6d6e894521dd66814b110a5b6840fdb6b76e9456137d883e39b5f80b11db5"
     },
     "sor": {
-      "values_digest": "207a66aa5a614696ec2bcbf8ebfc04de9ce8204dd71d2154e2288e34ea03f32d",
+      "values_digest": "2e6e4ba244ff473b6a80059b0ab28b213ff86565a995c1f27e15d9758fa7a81a",
       "rendered_digest": "504af74d78ca71576c4153797fd432171e258e1d7e7c1e7940aa4bfad747ca71",
       "ast_digest": "345967714332d88b45a80c6679ef590954f0d85f08bc49b41e1cf899136187b5"
     }
@@ -283,6 +310,13 @@
       "to": "implemented",
       "actor": "codex:5558-corrective",
       "reason": "Hosted coverage proved the remaining csdlc_prompt_editor child modules are orphaned sunset-v1 source after Gate 10D2 deleted their parent module; recover review and publication truth for bounded dead-code removal."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5558-corrective",
+      "reason": "Advance the exact reviewed orphaned prompt-editor deletion with no actionable findings."
     }
   ],
   "audit": [
@@ -649,6 +683,27 @@
       "actor": "codex:5558-corrective",
       "reason": "Record focused proof that the orphaned sunset-v1 prompt-editor deletion is complete and removes the hosted coverage blocker.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash adl/tools/test_check_coverage_impact.sh\",\"bash adl/tools/test_run_pr_fast_test_lane.sh\",\"bash adl/tools/test_csdlc_prompt_editor.sh\",\"git diff --check\",\"git diff --name-status --diff-filter=ACMR origin/main --\"],\"purpose\":\"Prove the coverage and fast-lane routing contracts remain green, typed csdlc-edit remains the prompt-editor authority, the patch is clean, and the three deleted orphan modules are absent from the coverage-impact ACMR source set.\",\"outcome\":\"passed\",\"evidence_ref\":\"local bounded proof on the #5558 issue worktree: all three focused suites PASS; orphan directory absent; 2,000 dead Rust LoC deleted; no csdlc_prompt_editor Rust file remains in the ACMR coverage-impact set\"}}"
+    },
+    {
+      "sequence": 53,
+      "generation": 26,
+      "actor": "codex:5558-corrective",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 27,
+      "actor": "subagent:019fbf2d-07af-7ee0-a7e1-ca480b4a5d0a",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 28,
+      "actor": "codex:5558-corrective",
+      "reason": "Advance the exact reviewed orphaned prompt-editor deletion with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
