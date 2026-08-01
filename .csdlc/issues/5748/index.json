@@ -5,14 +5,14 @@
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
   "phase": "implemented",
   "generation": 19,
-  "digest": "573809969463e1574062873863b988fda3fc159c6ab7da6f0f1f0d3ca43ea054",
+  "digest": "83297ec0112398ab8c3a67ffb30fb5749e94961d9e422a1e45bbf84ded0fb9d9",
   "claim": {
-    "id": "claim-5748-terminal-recovery-v2",
+    "id": "claim-5748-terminal-recovery-v3",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
     "generation": 19,
-    "acquired_unix_seconds": 1785559840,
-    "expires_unix_seconds": 1786164640,
-    "heartbeat_unix_seconds": 1785559840,
+    "acquired_unix_seconds": 1785562277,
+    "expires_unix_seconds": 1786167077,
+    "heartbeat_unix_seconds": 1785562277,
     "branch": "codex/5748-terminal-recovery",
     "worktree": ".worktrees/adl-wp-5748",
     "protected_paths": [
@@ -21,6 +21,7 @@
       ".csdlc/issues/4760",
       ".csdlc/issues/4763",
       ".csdlc/issues/5342",
+      ".csdlc/issues/5347",
       ".csdlc/issues/5352",
       ".csdlc/issues/5354",
       ".csdlc/issues/5438",
@@ -53,7 +54,7 @@
       ".csdlc/prepared/issues/5748",
       "csdlc-v2"
     ],
-    "purpose": "Complete, validate, independently review, publish, merge, and typed-close #5748; reconcile the 101-issue v0.91.8 closed universe, preserve exact fail-closed exceptions, and harden C-SDLC v2 terminal authentication where required for truthful proof."
+    "purpose": "Complete, validate, independently review, publish, merge, and typed-close #5748; reconcile the 103-issue v0.91.8 closed universe, preserve exact fail-closed exceptions, and harden C-SDLC v2 terminal authentication where required for truthful proof."
   },
   "review_assignment": null,
   "review": null,
@@ -362,6 +363,20 @@
       "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
       "reason": "Record the final live-universe, terminal-authority, owner-binary, source-identity, and diff-hygiene proof before exact-head review.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\"],\"purpose\":\"Authenticate exact-head owner binaries and terminal paths, prove live parity for all 103 closed v0.91.8 issues, validate 91 full receipts and 11 pinned fail-closed exceptions, and bind the unchanged fully tested C-SDLC v2 source to the final audit head.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/exact-head-validation-f9398dae3.md\"}}"
+    },
+    {
+      "sequence": 35,
+      "generation": 19,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Release the stale 101-issue claim purpose before reacquiring exact 103-issue closeout authority.",
+      "operation": "{\"claim_id\":\"claim-5748-terminal-recovery-v2\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:complete-v0918-closeout\",\"previous_owner\":\"codex:019fb617-d22b-7252-975c-402d7d7aec46\"}"
+    },
+    {
+      "sequence": 36,
+      "generation": 19,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Reacquire exact live 103-issue closeout authority after typed release of the stale purpose.",
+      "operation": "{\"branch\":\"codex/5748-terminal-recovery\",\"claim_id\":\"claim-5748-terminal-recovery-v3\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:019fb617-d22b-7252-975c-402d7d7aec46\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5748\",\".csdlc/issues/4759\",\".csdlc/issues/4760\",\".csdlc/issues/4763\",\".csdlc/issues/5342\",\".csdlc/issues/5347\",\".csdlc/issues/5352\",\".csdlc/issues/5354\",\".csdlc/issues/5438\",\".csdlc/issues/5499\",\".csdlc/issues/5540\",\".csdlc/issues/5548\",\".csdlc/issues/5572\",\".csdlc/issues/5587\",\".csdlc/issues/5610\",\".csdlc/issues/5632\",\".csdlc/issues/5645\",\".csdlc/issues/5663\",\".csdlc/issues/5664\",\".csdlc/issues/5665\",\".csdlc/issues/5670\",\".csdlc/issues/5675\",\".csdlc/issues/5678\",\".csdlc/issues/5679\",\".csdlc/issues/5687\",\".csdlc/issues/5701\",\".csdlc/issues/5708\",\".csdlc/issues/5711\",\".csdlc/issues/5718\",\".csdlc/issues/5728\",\".csdlc/issues/5733\",\".csdlc/issues/5735\",\".csdlc/issues/5746\",\".csdlc/issues/5748\",\".csdlc/locks/5748.lock\",\".csdlc/prepared/issues/5748\",\"csdlc-v2\"],\"purpose\":\"Complete, validate, independently review, publish, merge, and typed-close #5748; reconcile the 103-issue v0.91.8 closed universe, preserve exact fail-closed exceptions, and harden C-SDLC v2 terminal authentication where required for truthful proof.\",\"worktree\":\".worktrees/adl-wp-5748\"}"
     }
   ]
 }
