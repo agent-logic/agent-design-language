@@ -5,13 +5,11 @@ usage() {
   cat <<'EOF'
 Usage:
   adl/tools/workflow_guardrails.sh main-write [--repo <path>]
-  adl/tools/workflow_guardrails.sh closeout-watch --version <version> [--repo <owner/name>] [--root <repo-root>] [--report <path>]
   adl/tools/workflow_guardrails.sh safe-report-command (--command <text> | --file <path>)
   adl/tools/workflow_guardrails.sh card-drift --issue <number> [--root <repo-root>]
 
 Workflow guardrails for Sprint 3 / WP-16:
 - fail closed on dirty tracked writes from main/master
-- surface pending closeout-wave candidates
 - reject unsafe shell command shapes for Markdown report generation
 - delegate card-drift checks to typed `csdlc-doctor`
 EOF
@@ -62,44 +60,6 @@ cmd_main_write() {
   echo "BLOCKED main-write branch=$branch clean=false" >&2
   echo "$tracked_status" >&2
   die "tracked changes on $branch would make workflow execution unsafe; move the changes into a bound issue worktree or clear them first"
-}
-
-cmd_closeout_watch() {
-  local version=""
-  local repo_slug=""
-  local repo_root=""
-  local report=""
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-      --version) version="${2:-}"; shift 2 ;;
-      --repo) repo_slug="${2:-}"; shift 2 ;;
-      --root) repo_root="${2:-}"; shift 2 ;;
-      --report) report="${2:-}"; shift 2 ;;
-      -h|--help) usage; exit 0 ;;
-      *) die "closeout-watch: unknown arg: $1" ;;
-    esac
-  done
-  [[ -n "$version" ]] || die "closeout-watch: missing --version"
-  repo_root="$(repo_root_from "${repo_root:-$default_repo_root}")"
-  if [[ -z "$report" ]]; then
-    report="${repo_root}/.adl/reports/closeout/closeout-watch-${version}.md"
-  fi
-
-  local cmd=(bash "${repo_root}/adl/tools/closeout_completed_issue_wave.sh" --version "$version" --report "$report" --report-only)
-  if [[ -n "$repo_slug" ]]; then
-    cmd+=(--repo "$repo_slug")
-  fi
-  (cd "$repo_root" && "${cmd[@]}")
-
-  local candidate_count
-  candidate_count="$(awk '/^candidate_issues:/ {print $2; exit}' "$report")"
-  candidate_count="${candidate_count:-0}"
-  if [[ "$candidate_count" != "0" ]]; then
-    echo "BLOCKED closeout-watch version=$version candidates=$candidate_count report=$report" >&2
-    die "closed/completed issues still require local closeout; run the closeout wave before treating the sprint as clean"
-  fi
-
-  echo "PASS closeout-watch version=$version candidates=0 report=$report"
 }
 
 cmd_safe_report_command() {
@@ -201,7 +161,6 @@ shift || true
 
 case "$subcommand" in
   main-write) cmd_main_write "$@" ;;
-  closeout-watch) cmd_closeout_watch "$@" ;;
   safe-report-command) cmd_safe_report_command "$@" ;;
   card-drift) cmd_card_drift "$@" ;;
   *) die "unknown subcommand: $subcommand" ;;

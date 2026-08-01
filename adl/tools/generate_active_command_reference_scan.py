@@ -79,24 +79,27 @@ EXCLUDED_REL_PATHS = {
     # strings are prohibition/migration text, not runnable workflow routes.
     "adl/tools/codex_pr.sh",
     "adl/tools/codexw.sh",
+    # Negative-contract tests intentionally quote forbidden forms. Other
+    # test_* files remain scanned and can still fail this gate.
+    "adl/tools/test_batched_checks_no_codexpr_usage_banner.sh",
+    "adl/tools/test_cli_owner_command_guidance.sh",
+    "adl/tools/test_cli_wrapper_migration_contract.sh",
+    "adl/tools/test_install_adl_pr_cycle_skill.sh",
+    "adl/tools/test_workflow_conductor_skill_contracts.sh",
+    # Generated UI model; its tracked template source is validated separately.
+    "docs/tooling/csdlc-prompt-editor/editor_model.js",
     "docs/milestones/v0.91.5/ACTIVE_COMMAND_REFERENCE_SCAN_3735.md",
 }
 
 HISTORICAL_EXACT_PATHS = {
-    # Immutable migration/review evidence and explicitly retired command docs.
+    # Immutable migration/review evidence. Current contracts under
+    # docs/tooling remain active even when they describe retired commands.
     "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
     "docs/tooling/ADL_OCTOCRAB_MIGRATION_REVIEW.md",
     "docs/tooling/BUILD_ACTION_LOGS.md",
-    "docs/tooling/ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md",
-    "docs/tooling/PR_INVENTORY_COMMAND.md",
-    "docs/tooling/WP_ISSUE_WAVE_GENERATION.md",
+    "docs/tooling/PROMPT_TEMPLATE_VALUES_RENDERER_PLAN_v0.91.5.md",
     "docs/tooling/active-card-lifecycle-migration-readiness-v0.91.2.md",
-    "docs/tooling/csdlc-prompt-editor/editor_model.js",
-    "docs/tooling/prompt-spec.md",
-    "docs/tooling/review-surface-format.md",
-    "docs/tooling/reviewer-provenance.md",
-    "docs/tooling/reviewer-surface.md",
-    "docs/tooling/structured-prompt-contracts.md",
+    "docs/tooling/examples/workflow-state/good_output_record.md",
 }
 
 
@@ -137,6 +140,20 @@ COMMAND_FAMILIES = (
         preferred_owner="adl-csdlc tooling prompt-template ...",
         required_action="migrate if active; preserve if historical; route if unknown",
         pattern=r"(?<![\w/-])adl tooling prompt-template\b",
+    ),
+    CommandFamily(
+        key="deleted_prompt_wrappers",
+        label="deleted prompt/review shell wrapper",
+        preferred_owner="stable direct owner binary or typed csdlc-edit/csdlc-validate",
+        required_action="forbid if active or unknown; preserve only if historical",
+        pattern=r"(?<![\w/-])(?:bash\s+[\"']?(?:\$ROOT_DIR/)?(?:\./)?adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh|(?:\./)?adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh\s+--)",
+    ),
+    CommandFamily(
+        key="sunset_workflow_conductor",
+        label="sunset workflow-conductor route",
+        preferred_owner="csdlc-install resolve + typed csdlc-* binary",
+        required_action="forbid if active or unknown; preserve only if historical",
+        pattern=r"(?<![\w/-])(?:python3\s+[^\n]*route_workflow\.py|workflow-conductor\s+(?:start|run|doctor|ready|finish|closeout|issue|shepherd|janitor)\b)",
     ),
     CommandFamily(
         key="legacy_review_tooling",
@@ -184,8 +201,6 @@ def should_skip(path: Path) -> bool:
     rel = repo_rel(path)
     if rel in EXCLUDED_REL_PATHS:
         return True
-    if rel.startswith("adl/tools/test_"):
-        return True
     return any(token in f"/{rel}" for token in SKIP_PATH_SUBSTRINGS)
 
 
@@ -208,6 +223,14 @@ def iter_paths() -> list[Path]:
 
 def classify_path(rel: str) -> str:
     if rel in HISTORICAL_EXACT_PATHS:
+        return "historical"
+    if rel.startswith(
+        (
+            "docs/templates/prompts/1.0.0/",
+            "docs/templates/prompts/1.0.1/",
+            "docs/templates/prompts/1.0.2/",
+        )
+    ):
         return "historical"
     if rel.startswith(HISTORICAL_PATH_PREFIXES):
         return "historical"
@@ -400,7 +423,9 @@ def main() -> int:
 
     if args.check:
         non_csdlc_families = {
+            "legacy `adl tooling ...` helper/review commands",
             "legacy umbrella runtime forms",
+            "sunset workflow-conductor route",
             "unapproved helper binaries",
         }
         blocking = [
@@ -410,7 +435,7 @@ def main() -> int:
         ]
         if blocking:
             details = "\n".join(
-                f"{row[1]}:{row[2]}: {row[0]}" for row in blocking[:50]
+                f"{row[1]}:{row[2]}: {row[0]}" for row in blocking[:200]
             )
             raise SystemExit(
                 f"active command reference scan found {len(blocking)} blocking legacy references:\n{details}"

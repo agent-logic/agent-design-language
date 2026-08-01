@@ -709,7 +709,7 @@ Completed-looking output card with stale status.
 - Result: PASS
 ## Validation
 - Validation commands and their purpose:
-  - `bash adl/tools/validate_structured_prompt.sh --type sor --phase completed --input docs/tooling/examples/workflow-state/bad_output_record.md`
+  - `.adl/bin/adl-validate-structured-prompt --type sor --phase completed --input docs/tooling/examples/workflow-state/bad_output_record.md`
 - Results:
   - fail expected
 ## Verification Summary

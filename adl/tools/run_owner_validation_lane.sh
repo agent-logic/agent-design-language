@@ -120,6 +120,12 @@ run_csdlc_lane() {
     bash adl/tools/test_editor_action.sh
   run_command "C-SDLC active command reference scan" \
     bash adl/tools/test_generate_active_command_reference_scan.sh
+  run_command "C-SDLC retired prompt-wrapper contracts" \
+    bash adl/tools/test_card_prompt.sh
+  run_command "C-SDLC retired prompt-lint wrapper contract" \
+    bash adl/tools/test_prompt_spec_lint.sh
+  run_command "C-SDLC workflow guardrails" \
+    bash adl/tools/test_workflow_guardrails.sh
   run_command "C-SDLC prompt-template structure schemas" \
     python3 adl/tools/test_prompt_template_structure_schemas.py
   run_command "C-SDLC control-plane observability contract" \

@@ -5,7 +5,7 @@
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
   "phase": "implemented",
   "generation": 6,
-  "digest": "3a041ae8ee99df4a3517689781ff9f968406f847bccac9242ed1ff9c7c440351",
+  "digest": "ec7af23464d8afb284a4d17574a6eaae5d0673036ac2593cb50742513acff580",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
@@ -25,8 +25,10 @@
       "adl/src/cli/mod.rs",
       "adl/src/cli/tests/open_usage.rs",
       "adl/src/cli/usage.rs",
+      "adl/src/runtime_v2/cognitive_being_flagship_demo.rs",
       "adl/tools/README.md",
       "adl/tools/check_issue_metadata_parity.sh",
+      "adl/tools/demo_codex_ollama_operational_skills.sh",
       "adl/tools/demo_five_command_editing.sh",
       "adl/tools/demo_five_command_run.sh",
       "adl/tools/demo_v0871_multi_agent_discussion.sh",
@@ -46,11 +48,16 @@
       "adl/tools/skills",
       "adl/tools/test_adl_review_compatibility.sh",
       "adl/tools/test_adl_runtime_compatibility.sh",
+      "adl/tools/test_card_prompt.sh",
       "adl/tools/test_cli_owner_command_guidance.sh",
+      "adl/tools/test_demo_codex_ollama_semantic_fallback.sh",
       "adl/tools/test_demo_five_command_editing.sh",
       "adl/tools/test_demo_v0871_operator_surface.sh",
       "adl/tools/test_editor_action.sh",
       "adl/tools/test_generate_active_command_reference_scan.sh",
+      "adl/tools/test_prompt_spec_lint.sh",
+      "adl/tools/test_structured_prompt_validation.sh",
+      "adl/tools/test_workflow_guardrails.sh",
       "docs/tooling",
       "docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md",
       "docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md",
@@ -66,9 +73,9 @@
   "review_assignment": {
     "reviewer": "codex:root-independent-rereview",
     "assigned_by": "codex:5558-corrective",
-    "revision": "git-blake3:0f43035f2b0c348775f7e56f7563ffe33c97ef0a:f7242c64ac48447ddb9686f1bf924090fa3d040aaac3f0aeaf592c2b0523978d",
+    "revision": "git-blake3:23d0e8ec46536fa4a071e4ff9625c5a42cf7802b:c2311318524809e2e0d3cdd86bec4553905db69e090bd0861acd356aa0dbb263",
     "scope": [
-      "Exact commit 0f43035f2b0c348775f7e56f7563ffe33c97ef0a",
+      "Exact commit 23d0e8ec46536fa4a071e4ff9625c5a42cf7802b",
       "All issue 5558 implementation, first-review fixes, tests, docs, and lifecycle records"
     ]
   },
@@ -107,9 +114,9 @@
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "83e4b4553873b0812edc55b97a1e52e869513fdfb53193c75691b35a49a6b813",
-      "rendered_digest": "943dceb85f737c6c0658c3823ae4d7c90ce42056b01a7cc9602093a003ecfbae",
-      "ast_digest": "7f101219a85bbbb0abaa547a9e364bbfd743e9b5f08250a7420ba77759e49b6e"
+      "values_digest": "c9879fe26c742f01c92e40d7ee27dffb5793d501de11496cfdf8cf50ccb2bb26",
+      "rendered_digest": "925ceb10dee0f30e8e7a943b63e448d5942fa5fef403dec08145cdd004887761",
+      "ast_digest": "2d39ccced0f9da5b280ffd69592441f06c2cf6fdf4eab0e5b21af6c4a16398ad"
     },
     "sor": {
       "values_digest": "9a94ac84f06cd71785fe10d94f289671cfcc56b0f9553a6d75bd3ceaae45a5f6",
@@ -217,6 +224,34 @@
       "actor": "codex:5558-corrective",
       "reason": "exact rereview requires eliminating all dynamically found active v1 guidance and executable demo routes",
       "operation": "{\"add_protected_paths\":[\"adl/tools/skills\",\"docs/tooling\",\"adl/tools/demo_five_command_run.sh\",\"adl/tools/demo_v087_control_plane.sh\",\"adl/tools/demo_v087_trace_truth.sh\",\"adl/tools/demo_v0871_multi_agent_discussion.sh\",\"adl/tools/demo_v0871_real_multi_agent_discussion.sh\",\"adl/tools/demo_v0871_runtime_state.sh\",\"adl/tools/demo_v088_real_multi_agent_discussion.sh\",\"adl/tools/demo_v089_quality_gate.sh\",\"adl/tools/demo_v0891_quality_gate.sh\",\"adl/tools/demo_v0901_quality_gate.sh\",\"adl/tools/generate_active_command_reference_scan.py\",\"adl/tools/test_generate_active_command_reference_scan.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 6,
+      "actor": "codex:5558-corrective",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 6,
+      "actor": "codex:5558-corrective",
+      "reason": "final exact-head review exposed additional guard coverage and workflow-guardrail gaps",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/test_workflow_guardrails.sh\",\"adl/tools/test_card_prompt.sh\",\"adl/tools/test_prompt_spec_lint.sh\",\"adl/tools/demo_codex_ollama_operational_skills.sh\",\"adl/src/runtime_v2/cognitive_being_flagship_demo.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 6,
+      "actor": "codex:5558-corrective",
+      "reason": "final exact-head review exposed additional guard coverage and workflow-guardrail gaps",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/test_workflow_guardrails.sh\",\"adl/tools/test_card_prompt.sh\",\"adl/tools/test_prompt_spec_lint.sh\",\"adl/tools/demo_codex_ollama_operational_skills.sh\",\"adl/tools/test_demo_codex_ollama_semantic_fallback.sh\",\"adl/src/runtime_v2/cognitive_being_flagship_demo.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 6,
+      "actor": "codex:5558-corrective",
+      "reason": "final exact-head review exposed additional guard coverage and workflow-guardrail gaps",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/test_workflow_guardrails.sh\",\"adl/tools/test_card_prompt.sh\",\"adl/tools/test_prompt_spec_lint.sh\",\"adl/tools/demo_codex_ollama_operational_skills.sh\",\"adl/tools/test_demo_codex_ollama_semantic_fallback.sh\",\"adl/tools/test_structured_prompt_validation.sh\",\"adl/src/runtime_v2/cognitive_being_flagship_demo.rs\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
