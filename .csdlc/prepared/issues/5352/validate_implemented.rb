@@ -9,6 +9,7 @@ required = %w[sip stp spp vpp srp sor].map { |card| File.join(issue_root, "cards
 required += [
   File.join(issue_root, "index.json"),
   File.join(root, "docs", "milestones", "v0.91.8", "handoff", "issue-5352-v092-consumption-handoff.md"),
+  File.join(root, "docs", "milestones", "v0.91.8", "handoff", "WP21_SPRINT_REVIEW_5352.md"),
   File.join(__dir__, "design.md"),
   File.join(__dir__, "diagram.mmd"),
   File.join(__dir__, "validate_handoff.rb"),
@@ -29,6 +30,7 @@ expected_paths = [
   ".csdlc/issues/5352",
   ".csdlc/locks/5352.lock",
   ".csdlc/prepared/issues/5352",
+  "adl/src/csm_runtime_api.rs",
   "docs/milestones/v0.91.8/handoff"
 ]
 abort("wrong protected paths") unless claim["protected_paths"] == expected_paths

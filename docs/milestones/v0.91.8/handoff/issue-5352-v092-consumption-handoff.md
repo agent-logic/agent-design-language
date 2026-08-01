@@ -47,6 +47,11 @@ ancestors of the integrated baseline. Their artifacts preserve their own
 non-claims; this handoff does not turn planning, witness packaging, or launch
 copy into an observed birthday event.
 
+The child merge order differed from the planning order: these eight changes
+landed before the final #5558 sunset-guidance repair. This handoff consumes the
+later #5558 merge as an exact ancestral predecessor; it does not rewrite the
+earlier merge sequence or claim that the planned ordering was followed.
+
 ## WP-20 Predecessor Gate
 
 | Dependency | Live state | Exact revision truth | Effect on #5352 |
@@ -102,6 +107,8 @@ separate.
 | Launch documentation may be mistaken for an observed event | Retain `birth_event_status: not_claimed` and explicit publication gates |
 | Adaptive Learning planning may be mistaken for runtime behavior | Keep #5107 as queue/planning truth only |
 | Runtime operational proof may be read as background availability | Retain the background guardian non-claim from the Runtime v3 proof summary |
+| Some merged child C-SDLC projections have not completed asynchronous terminal reconciliation | Treat GitHub merge/closure as integration truth, retain the lifecycle debt in the sprint review, and do not block independent work on closeout |
+| #4762 retained proof used a machine-local validation binary | Retain this as historical provenance debt; do not use that path as portable proof for v0.92 execution |
 
 ## Explicit Non-Claims
 
@@ -112,6 +119,8 @@ separate.
   credentialed remote-provider execution is claimed.
 - No Unity proof is added or altered by #5352.
 - No C-SDLC closeout is requested or recorded by this handoff.
+- Typed closeout is asynchronous after GitHub closure and must not block
+  independent implementation or release work.
 - Closed child issues and retained receipts do not substitute for exact merge
   ancestry at the publication revision.
 
@@ -129,4 +138,7 @@ separate.
    that exact revision; fix all actionable findings and refresh proof if the
    revision changes.
 8. Publish a ready PR to `main` with `Closes #5352`, shepherd required CI to
-   green, merge, and observe issue closure. Do not run closeout.
+   green, merge, and observe issue closure. Route typed closeout asynchronously.
+9. Complete the findings-first sprint review recorded in
+   `WP21_SPRINT_REVIEW_5352.md`; fix all current blockers before merge while
+   preserving historical child evidence and explicit non-claims.

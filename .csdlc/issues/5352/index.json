@@ -3,13 +3,13 @@
   "issue": 5352,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0b1b443e0ef68c9229695e3260f7340ef3b40df59112c8adb75d065cd81caf9a",
-  "phase": "published",
-  "generation": 5,
-  "digest": "21a1d8abb5c4aea71244680406fec890066c721302815e2a828577a0b4885e4e",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "44a0fceba694cdb808eabe07e9af93bcf08e3c79ccdbb4812faaf34163dc3b22",
   "claim": {
     "id": "claim-5352-v0918-final-handoff",
     "owner": "codex:wp21-final-handoff",
-    "generation": 5,
+    "generation": 7,
     "acquired_unix_seconds": 1785543526,
     "expires_unix_seconds": 1786148326,
     "heartbeat_unix_seconds": 1785543526,
@@ -20,49 +20,14 @@
       ".csdlc/issues/5352",
       ".csdlc/locks/5352.lock",
       ".csdlc/prepared/issues/5352",
+      "adl/src/csm_runtime_api.rs",
       "docs/milestones/v0.91.8/handoff"
     ],
     "purpose": "Finalize, validate, review, publish, and integrate the WP-21 exact-revision v0.92 consumption handoff"
   },
-  "review_assignment": {
-    "reviewer": "Wegener",
-    "assigned_by": "codex:wp21-final-handoff",
-    "revision": "git-blake3:b1ec4f120fa1fd7091525631813b2066bdb5d788:b29f2dbde281900eeb0a786b90c36d550adc3ff2b361dd3b8528f0ffe247196c",
-    "scope": [
-      ".csdlc/issues/5352",
-      ".csdlc/evidence/5352",
-      ".csdlc/prepared/issues/5352",
-      "docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md"
-    ]
-  },
-  "review": {
-    "reviewer": "Wegener",
-    "scope": [
-      ".csdlc/issues/5352",
-      ".csdlc/evidence/5352",
-      ".csdlc/prepared/issues/5352",
-      "docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md"
-    ],
-    "reviewed_revision": "git-blake3:b1ec4f120fa1fd7091525631813b2066bdb5d788:b29f2dbde281900eeb0a786b90c36d550adc3ff2b361dd3b8528f0ffe247196c",
-    "findings": [],
-    "residual_risks": [
-      "The required sprint-wide WP-21 review remains a separate pre-merge gate and is not claimed by this issue-local exact-head review.",
-      "Any origin/main movement before merge requires explicit ancestry refresh and current-head review truth."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5352,
-    "pull_request": 5751,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5751",
-    "base": "main",
-    "head": "codex/5352-v0918-final-handoff",
-    "revision": "git-blake3:88edbfa7d06cd63bc96fc88e6ff28421972146c0:50c55f0c0baab15de19cc8ca977ac48f2f6db98836221e38632451498e5fc4a5",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -76,34 +41,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d8f496009cb2a34d5e1bcdb5b0e153e117d75ea4171f1ba3eb7a6d1e0a8c0475",
+      "values_digest": "3a5c852daf741f28199c8906b967ebd75a4bd328c379a866be1ccfb1c599e216",
       "rendered_digest": "da0857c34330916535e0d2e0b6e6e5141fcc3a99744dacceff36b5f36cf66b14",
       "ast_digest": "000dd5efbe071cb9735c35c906e3e0f2f914632abce4ade963152e8a1e54395f"
     },
     "stp": {
-      "values_digest": "6b6af32d7cc7bdc633fd3bef8e00d4666ae04e23db0d041d6c68e4dc673b5d8b",
+      "values_digest": "bd7f4de5bc1b53f62520ad204e9987c49cc6dfcaaf6e1b11da1d5984fd9fa8e6",
       "rendered_digest": "eecfee175e430006c55681541ddc2b7f56b50899b3426816de28ee22a762d314",
       "ast_digest": "a349cc9f1f98892d2e68ad155ff795a80c79fd0b954c821313ff4d29a0bf5875"
     },
     "spp": {
-      "values_digest": "c95c9d5a7bfd2b4978a4df9631ff145a97d7ee5106adfe7b4bb2500bbf9b4268",
+      "values_digest": "e0a9fd8c59ae0d8698f49aa601a56959f4498d183ef95f201e32b0926c262218",
       "rendered_digest": "69746498e638699d0ac624ca6791b7e1fca0105269046196677f6a1b2b56ad47",
       "ast_digest": "0dacb1211c58529a33eb0dfaa8afffd27155acb7aaf69e8ed123b577b73fd3fd"
     },
     "vpp": {
-      "values_digest": "f66c9470ed5f55ada823cdab1d328f94cd0202573e374c0375850e9fe870e638",
+      "values_digest": "46cd0d3fd44cbbcd1f647db1dbc59fbae65c55cccf359fe618f0e71baeaaad5f",
       "rendered_digest": "360791bdf09d0341533ee7fc446f73cf5e42a09c00935875014033c3d498b66b",
       "ast_digest": "76ac742a01efadd6c9a85a76900c29dad1e391c753ede29fd61df858c97ceb79"
     },
     "srp": {
-      "values_digest": "6b4cd7e1fa6736bc97e9d1336515ca677dc7b6319fd7130eabaa949fcf7b0eb1",
-      "rendered_digest": "f60e72558c2628fb640d7093dead070d397109966d95124ccf44485c066c6f11",
-      "ast_digest": "edc69d0b4eeb9c681ba9033e659e824a02b00b5475855a0eb016f3e815b017a8"
+      "values_digest": "2ba3935fd1da972087a7bf723332d8cc1f9bb734cbedf1af0c5ae81ec901085f",
+      "rendered_digest": "8d382bdfe213d55c52636fadfd8bbf36e6f31cfd90708a29e4939a4aa4232ea6",
+      "ast_digest": "952c0ba51c2f48ecebfedb516c692cc956735cbae6744f2918c47f090e7432d0"
     },
     "sor": {
-      "values_digest": "a7c685eea8b259d1130282aa0c16927dbcfb0f2a8bf35aef0a684293b8f6569e",
-      "rendered_digest": "e3099b023423878f789386729a6d97876165561e5e71c8814600f097b5642255",
-      "ast_digest": "66940ec6b8ec95aedf1d2e9e4234d6c5cb2deb5de92c54446c545b0a36ff9f9f"
+      "values_digest": "1162fb2a381518a01923c7f5ab2ae5c5cf8ff5b2dcd6b10e58ad2a462f0b843f",
+      "rendered_digest": "ee4cbf595da2ec87a67ba084ffa54e084ef1802f2067d3c525f71bc3ea9b8c75",
+      "ast_digest": "804663b278d557afa9156dcae9e70ebc9d31769a33716d5dac4cfd1acb3718c1"
     }
   },
   "transitions": [
@@ -141,6 +106,13 @@
       "to": "published",
       "actor": "codex:wp21-final-handoff",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:wp21-final-handoff",
+      "reason": "Recover published review truth to remediate the required full WP-21 sprint review findings before merge."
     }
   ],
   "audit": [
@@ -199,6 +171,27 @@
       "actor": "codex:wp21-final-handoff",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:wp21-final-handoff",
+      "reason": "Recover published review truth to remediate the required full WP-21 sprint review findings before merge.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:wp21-final-handoff",
+      "reason": "Repair the sprint review's ACIP canonical-route mismatch without widening into unrelated runtime work.",
+      "operation": "{\"add_protected_paths\":[\"adl/src/csm_runtime_api.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:wp21-final-handoff",
+      "reason": "Record focused proof for the sprint review's canonical ACIP route remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--offline\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_api::tests::runtime_api_surfaces_acip_carrier_component_and_routes\",\"--\",\"--exact\"],\"purpose\":\"Prove the canonical /v1/acip/ws route and explicit /acip/ws compatibility alias agree with the Runtime v3 ACIP carrier contract.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5352/acip-route-tests.log\"}}"
     }
   ]
 }

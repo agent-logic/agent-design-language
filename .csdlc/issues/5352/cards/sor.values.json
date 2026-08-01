@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-21][handoff] Finalize exact-revision v0.92 consumption handoff",
     "slug": "v0918-wp21-v092-consumption-handoff",
     "version": "v0.91.8",
-    "generation": 5
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
@@ -66,10 +66,25 @@
           "purpose": "Reject stale preparation baselines, claims, paths, or lifecycle wording",
           "outcome": "passed",
           "evidence_ref": "implemented-packet.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--offline",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "csm_runtime_api::tests::runtime_api_surfaces_acip_carrier_component_and_routes",
+            "--",
+            "--exact"
+          ],
+          "purpose": "Prove the canonical /v1/acip/ws route and explicit /acip/ws compatibility alias agree with the Runtime v3 ACIP carrier contract.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5352/acip-route-tests.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

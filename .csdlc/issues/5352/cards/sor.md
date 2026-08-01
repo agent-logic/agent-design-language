@@ -70,16 +70,31 @@ Finalized the truthful WP-21 exact-revision v0.92 consumption handoff on current
     "purpose": "Reject stale preparation baselines, claims, paths, or lifecycle wording",
     "outcome": "passed",
     "evidence_ref": "implemented-packet.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--offline",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "csm_runtime_api::tests::runtime_api_surfaces_acip_carrier_component_and_routes",
+      "--",
+      "--exact"
+    ],
+    "purpose": "Prove the canonical /v1/acip/ws route and explicit /acip/ws compatibility alias agree with the Runtime v3 ACIP carrier contract.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5352/acip-route-tests.log"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
