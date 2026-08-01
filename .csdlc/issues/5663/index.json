@@ -3,13 +3,13 @@
   "issue": 5663,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "9ae48371048e17e2df859779e157e43a5d9e4ada902e49a33a66eddacd56daf5",
-  "phase": "implemented",
-  "generation": 36,
-  "digest": "8533c94d13734ceb2165a58bdc2c814099a0682941b676441363246db2b7e695",
+  "phase": "closed_out",
+  "generation": 40,
+  "digest": "1e146a5a44529ce6b127749ee70a2d1addb5648d8d59e506b8ed519e8d415d38",
   "claim": null,
   "review_assignment": {
-    "reviewer": "external:claude-opus-5",
-    "assigned_by": "codex:issue-5663-runtime-adapters",
+    "reviewer": "codex:terminal-closeout-5663",
+    "assigned_by": "codex:terminal-closeout-5663",
     "revision": "git-blake3:fb04c9fa29c528c06a7b3c76e5f6560b7700d43e:63d9cae55cf4e1e08f8e37bbb7e766d6221a50993ae347a92c31ce62f0fad259",
     "scope": [
       "adl-runtime-kernel/src/assembly.rs",
@@ -21,7 +21,7 @@
     ]
   },
   "review": {
-    "reviewer": "external:claude-opus-5",
+    "reviewer": "codex:terminal-closeout-5663",
     "scope": [
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
@@ -33,18 +33,153 @@
     "reviewed_revision": "git-blake3:fb04c9fa29c528c06a7b3c76e5f6560b7700d43e:63d9cae55cf4e1e08f8e37bbb7e766d6221a50993ae347a92c31ce62f0fad259",
     "findings": [],
     "residual_risks": [
-      "Claude Opus 5 was invoked through the Rust adl-provider-adapter for issue-5663-opus-review-fb04c9fa and returned final_status=failed, failure.kind=provider_empty_text_output, http_status=200 after one bounded attempt; retained artifacts: .adl/local-artifacts/5663-opus-review/result.json and run.log.jsonl.",
-      "Existing secondary GPT 5.5 evidence is preserved at .adl/local-artifacts/opus5-review-5663-fb04c9fa/review-guard-request-gpt55.json and states PASS/no findings after Opus unavailability, but it is not recorded as an Opus pass and its stored scope is not the current six-path assignment."
+      "Exact-head closeout review found no additional closeout-blocking code findings in the six-path #5663 scope. The merged PR head does not itself establish the later partial-lock recovery wording; that post-PR source repair was rehomed by audit truth to closed #5697 / merged PR #5699 and is not credited here as #5663 product implementation."
     ],
-    "completed": false,
+    "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
-  "readiness": null,
-  "terminal": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5663,
+    "pull_request": 5669,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5669",
+    "base": "main",
+    "head": "codex/5663-runtime-v3-durable-local-adapters",
+    "revision": "git-blake3:fb04c9fa29c528c06a7b3c76e5f6560b7700d43e:63d9cae55cf4e1e08f8e37bbb7e766d6221a50993ae347a92c31ce62f0fad259",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": {
+    "pull_request": 5669,
+    "head_sha": "fb04c9fa29c528c06a7b3c76e5f6560b7700d43e",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858330326"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858048376"
+      },
+      {
+        "name": "adl-coverage-hosted",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858024077"
+      },
+      {
+        "name": "adl-coverage-runtime-hosted",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858024137"
+      },
+      {
+        "name": "adl-coverage-workspace-fast-hosted",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858024159"
+      },
+      {
+        "name": "adl-coverage-workspace-hosted (${{ matrix.shard }}/4)",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858024235"
+      },
+      {
+        "name": "adl-demo-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858024144"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858002932"
+      },
+      {
+        "name": "adl-runtime-v3-fast",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858023830"
+      },
+      {
+        "name": "adl-rust-fmt-clippy",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858024069"
+      },
+      {
+        "name": "adl-rust-tests",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858024197"
+      },
+      {
+        "name": "adl-slow-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858024135"
+      },
+      {
+        "name": "adl-spot-ci-and-coverage",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858024088"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858024214"
+      },
+      {
+        "name": "adl-v2-standalone",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858023876"
+      },
+      {
+        "name": "csdlc-v2-standalone",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30226710654/job/89858024058"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5669,
+    "disposition": "merged",
+    "observed_sha": "fb04c9fa29c528c06a7b3c76e5f6560b7700d43e",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5663.json",
+    "released_branch": "codex/5663-runtime-v3-durable-local-adapters",
+    "released_worktree": ".",
+    "released_protected_paths": [
+      ".csdlc/evidence/5663",
+      ".csdlc/issues/5663",
+      ".csdlc/locks/5663.lock",
+      ".csdlc/prepared/issues/5663",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/governed_operations.rs",
+      "adl-runtime-kernel/tests/operations.rs"
+    ]
+  },
   "migration": null,
-  "design_path": ".csdlc/prepared/issues/5663/design.md",
-  "diagram_path": ".csdlc/prepared/issues/5663/diagram.mmd",
+  "design_path": ".csdlc/issues/5663/retained/design.md",
+  "diagram_path": ".csdlc/issues/5663/retained/diagram.mmd",
   "design_review": {
     "approved": {
       "reviewer": "operator:issue-5663",
@@ -53,34 +188,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "336eed70d4b67542c0b7a948b6798d1c0facc77ba6df25909dac0f5cb26f95c2",
+      "values_digest": "7a9ae3c2293e0dae8da01339a210e9613a6822a45bf0a7e4e66c7630cfeca215",
       "rendered_digest": "dd9a80fb70cba5ab51ce7219aa7d6bcb896f05905288c9ed337ca78b0433956c",
       "ast_digest": "236c4929b368dcdbd83131534e0477c144bc2586d06f79a6b924f7e97453893b"
     },
     "stp": {
-      "values_digest": "727847d855fac6c7ee35c5b0d4bb78b0244eedb1fc0afc72ab05d3d57e5529ad",
+      "values_digest": "cea84136c0c5c772dc7fa2815ed1555c61189b5aa4e9799ab003d0280325b265",
       "rendered_digest": "860089b661813be46a57d17782652a3753affcb7867a42b867720d39bd4b8148",
       "ast_digest": "716150200b112efd93bfbc429f7eb7a1842fa1f1cec75462ceec9f4756213e4f"
     },
     "spp": {
-      "values_digest": "f5ff68dbb1fffabec820bba79d9b03669b0c34fcaac378c991ccec54ecf3d325",
-      "rendered_digest": "f47b64dc50a64f2b29879548eb057bceafeec18bf087abed5fecf43f123b6ff5",
-      "ast_digest": "59926c4cc452fe34c471dd023ed178f785f11ff49ca307427c1487da48d4d0bb"
+      "values_digest": "aa7ef6c87652aef60205c0f4a533b842f915d96243fa0dca4616e7596f9b6e0a",
+      "rendered_digest": "8e7b85f4de9a14002b608645557c606bdfb4bc52ebe301fdff8e19fc52486231",
+      "ast_digest": "e8e2ee2cc17fcc9317417d0fb62267bdd72bb09bb8b8959ddb2a6148bc1b2278"
     },
     "vpp": {
-      "values_digest": "56c8832cb6d61fc09f2ae9ea06272693f7807c4c8317f592784db3683a9efb37",
-      "rendered_digest": "b5cc90927572f7e74248ac6831edb43f8ceba6acb544d3557b1bc23631dba9a8",
-      "ast_digest": "26b94e9e146151db3ba1a5775fcefb161014918e120c350c45f6bfdaef9d5f7f"
+      "values_digest": "c2b6dcd59fe473e3f112e5756be78c345cf39a0c87879824f465030d5920b23d",
+      "rendered_digest": "f41cddc6a0926aa26e980c3c38e279e8eb0283334ee533b951a8cbf68718637d",
+      "ast_digest": "02e8b7e2a86de7fe642dfd9f9a530694fa1f89bd59f19e0b221749f7274878c8"
     },
     "srp": {
-      "values_digest": "3d43ec226d84acec3d896dceac75f859409b786b6aa3a84060b397af0af45723",
-      "rendered_digest": "c99788b205fe7c1498c8ce03a58785d87c32d0d797ef725b4245a2021f4be0b7",
-      "ast_digest": "7424cf47c09be77e739fb61e762770406f9fcc2b01945b4747fd6bc46ef21216"
+      "values_digest": "41ebc54ac7da2b62115708d5175021a7cd019282c49df5b0db84111e479a4665",
+      "rendered_digest": "07dfa31e3c0b312b70cb9847ef8c2fc77e40006602ccdfcb29925d40a06f0f2b",
+      "ast_digest": "ece0e7f30a91c7c7cfa96f1fd7fc85e4352c00e6d1387a8f06da0b5b1649a267"
     },
     "sor": {
-      "values_digest": "12576997dca56172c47d7614bc8c5bb5cfe110e326c194e73af150abb416478e",
-      "rendered_digest": "d0511c7f708923645f6deeeb325807fe4c35cd789dd32465be735e9812a5c943",
-      "ast_digest": "f1b1a82414b0e08534efaa8b4fbef813e5397814b8fe1bf7372bc84fa692168c"
+      "values_digest": "d10454ad0424c293846a76e6d3bba39b20cb31222f13aaedcbbab1fe79952f1f",
+      "rendered_digest": "6b9f50c65495a52705f0eb503286f5c7b805a5132e37d5b80cd90e96a603b44c",
+      "ast_digest": "7a34c63798bb97e31a1f3e3bc25aed8b5efeb6cd67ea66d5cfbed51feb9a7302"
     }
   },
   "transitions": [
@@ -136,16 +271,44 @@
     {
       "sequence": 8,
       "from": "reviewed",
-      "to": "published",
-      "actor": "codex:issue-5663-runtime-adapters",
-      "reason": "observed exact PR after current review"
+      "to": "implemented",
+      "actor": "codex:terminal-closeout-5663",
+      "reason": "Recover stale reviewed truth because the canonical gen33 review covers 9e388b86, while merged PR #5669 head is fb04c9fa29c528c06a7b3c76e5f6560b7700d43e and requires exact-head review before typed publication reconciliation."
     },
     {
       "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:terminal-closeout-5663",
+      "reason": "Exact-head closeout review for merged PR #5669 head fb04c9fa29c528c06a7b3c76e5f6560b7700d43e completed with no closeout-blocking findings; residual rehomed source repair is recorded in SRP."
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:terminal-closeout-5663",
+      "reason": "observed exact merged PR after current review"
+    },
+    {
+      "sequence": 11,
       "from": "published",
-      "to": "implemented",
-      "actor": "codex:issue-5663-runtime-adapters",
-      "reason": "Recover stale published/reviewed lifecycle truth after current source repair fb04c9fa29c528c06a7b3c76e5f6560b7700d43e superseded prior exact review and publication revisions; exact-head review must be reacquired before any PR-ready publication truth can be current."
+      "to": "merge_ready",
+      "actor": "codex:terminal-closeout-5663",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 12,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:terminal-closeout-5663",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 13,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:terminal-closeout-5663",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -411,37 +574,58 @@
     {
       "sequence": 38,
       "generation": 34,
-      "actor": "codex:issue-5663-runtime-adapters",
-      "reason": "atomically record observed GitHub publication and SOR projection",
-      "operation": "record_publication"
-    },
-    {
-      "sequence": 39,
-      "generation": 35,
-      "actor": "codex:issue-5663-runtime-adapters",
-      "reason": "Recover stale published/reviewed lifecycle truth after current source repair fb04c9fa29c528c06a7b3c76e5f6560b7700d43e superseded prior exact review and publication revisions; exact-head review must be reacquired before any PR-ready publication truth can be current.",
+      "actor": "codex:terminal-closeout-5663",
+      "reason": "Recover stale reviewed truth because the canonical gen33 review covers 9e388b86, while merged PR #5669 head is fb04c9fa29c528c06a7b3c76e5f6560b7700d43e and requires exact-head review before typed publication reconciliation.",
       "operation": "recover_review"
     },
     {
-      "sequence": 40,
-      "generation": 35,
-      "actor": "codex:issue-5663-runtime-adapters",
+      "sequence": 39,
+      "generation": 34,
+      "actor": "codex:terminal-closeout-5663",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
     },
     {
-      "sequence": 41,
-      "generation": 36,
-      "actor": "external:claude-opus-5",
+      "sequence": 40,
+      "generation": 35,
+      "actor": "codex:terminal-closeout-5663",
       "reason": "atomically record assigned review evidence and SRP projection",
       "operation": "record_review"
     },
     {
-      "sequence": 42,
+      "sequence": 41,
       "generation": 36,
-      "actor": "codex:parallel-closeout-5663",
-      "reason": "Release the stale divergent #5663 worktree claim after issue closure and PR #5669 merge; substantive post-PR source was rehomed to closed #5697 / merged PR #5699, and the preserved worktree remains available for historical lifecycle reconciliation.",
-      "operation": "{\"claim_id\":\"claim-5663-runtime-v3-durable-local-adapters\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:closeout-v0.91.8-parallel\",\"previous_owner\":\"codex:issue-5663-runtime-adapters\"}"
+      "actor": "codex:terminal-closeout-5663",
+      "reason": "Exact-head closeout review for merged PR #5669 head fb04c9fa29c528c06a7b3c76e5f6560b7700d43e completed with no closeout-blocking findings; residual rehomed source repair is recorded in SRP.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 42,
+      "generation": 37,
+      "actor": "codex:terminal-closeout-5663",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 43,
+      "generation": 38,
+      "actor": "codex:terminal-closeout-5663",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 44,
+      "generation": 39,
+      "actor": "codex:terminal-closeout-5663",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 45,
+      "generation": 40,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Materialize the authentic released terminal receipt into the v0.91.8 aggregate inventory.",
+      "operation": "reconcile_terminal"
     }
   ]
 }

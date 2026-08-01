@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: draft
+Status: complete
 
 ## Scope
 
@@ -37,13 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Claude Opus 5 was invoked through the Rust adl-provider-adapter for issue-5663-opus-review-fb04c9fa and returned final_status=failed, failure.kind=provider_empty_text_output, http_status=200 after one bounded attempt; retained artifacts: .adl/local-artifacts/5663-opus-review/result.json and run.log.jsonl.
-- Existing secondary GPT 5.5 evidence is preserved at .adl/local-artifacts/opus5-review-5663-fb04c9fa/review-guard-request-gpt55.json and states PASS/no findings after Opus unavailability, but it is not recorded as an Opus pass and its stored scope is not the current six-path assignment.
+- Exact-head closeout review found no additional closeout-blocking code findings in the six-path #5663 scope. The merged PR head does not itself establish the later partial-lock recovery wording; that post-PR source repair was rehomed by audit truth to closed #5697 / merged PR #5699 and is not credited here as #5663 product implementation.
 
 ## Review Result
 
 Revision: Some("git-blake3:fb04c9fa29c528c06a7b3c76e5f6560b7700d43e:63d9cae55cf4e1e08f8e37bbb7e766d6221a50993ae347a92c31ce62f0fad259")
 
-Reviewer: Some("external:claude-opus-5")
+Reviewer: Some("codex:terminal-closeout-5663")
 
-Result: changes_required
+Result: pass

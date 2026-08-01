@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -39,13 +39,13 @@ Executed WP-13 #5346 by deleting the exact reviewed legacy ADL CLI tooling surfa
 [
   {
     "command": [
-      "/usr/bin/ruby",
+      "ruby",
       ".csdlc/prepared/issues/5346/run-validation-lane.rb",
-      "complete-post-deletion"
+      "post-merge-exact"
     ],
-    "purpose": "Validate deletion manifest, post-deletion packet, exact e9035ceff diff accounting, and offline compile without absorbing Cargo.lock drift.",
+    "purpose": "Validate the exact reviewed #5346 head after serialized #5347 integration, including manifest identity, dependency ancestry, reduction accounting, and offline compilation.",
     "outcome": "passed",
-    "evidence_ref": "complete-post-deletion.log"
+    "evidence_ref": ".csdlc/evidence/5346/post-merge-exact.log"
   },
   {
     "command": [
@@ -71,17 +71,17 @@ Executed WP-13 #5346 by deleting the exact reviewed legacy ADL CLI tooling surfa
 
 ## Integration
 
-pr_open
+merged
 
 ## Publication
 
-Publication: ready
+Publication: closed
 
-Merge: not_merged
+Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 

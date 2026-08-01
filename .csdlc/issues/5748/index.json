@@ -5,22 +5,25 @@
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
   "phase": "implemented",
   "generation": 25,
-  "digest": "d51832a712c7b3d4e51427fa729fed2f178eddd589a169f7b8f97503f38d31b6",
+  "digest": "be436f2de2a85b54bfb14e1c82e2630119f100cccbc7c35c8769d1b5a6df1e38",
   "claim": {
-    "id": "claim-5748-terminal-recovery-v3",
+    "id": "claim-5748-terminal-recovery-v4",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
     "generation": 25,
-    "acquired_unix_seconds": 1785562277,
-    "expires_unix_seconds": 1786167077,
-    "heartbeat_unix_seconds": 1785562277,
+    "acquired_unix_seconds": 1785565661,
+    "expires_unix_seconds": 1786170461,
+    "heartbeat_unix_seconds": 1785565661,
     "branch": "codex/5748-terminal-recovery",
     "worktree": ".worktrees/adl-wp-5748",
     "protected_paths": [
+      ".csdlc/evidence/5346",
       ".csdlc/evidence/5748",
       ".csdlc/issues/4759",
       ".csdlc/issues/4760",
       ".csdlc/issues/4763",
+      ".csdlc/issues/5007",
       ".csdlc/issues/5342",
+      ".csdlc/issues/5346",
       ".csdlc/issues/5347",
       ".csdlc/issues/5352",
       ".csdlc/issues/5354",
@@ -33,17 +36,17 @@
       ".csdlc/issues/5610",
       ".csdlc/issues/5632",
       ".csdlc/issues/5645",
+      ".csdlc/issues/5657",
       ".csdlc/issues/5663",
-      ".csdlc/issues/5664",
       ".csdlc/issues/5665",
       ".csdlc/issues/5670",
-      ".csdlc/issues/5675",
       ".csdlc/issues/5678",
       ".csdlc/issues/5679",
       ".csdlc/issues/5687",
       ".csdlc/issues/5701",
       ".csdlc/issues/5708",
       ".csdlc/issues/5711",
+      ".csdlc/issues/5713",
       ".csdlc/issues/5718",
       ".csdlc/issues/5728",
       ".csdlc/issues/5733",
@@ -51,10 +54,16 @@
       ".csdlc/issues/5746",
       ".csdlc/issues/5748",
       ".csdlc/locks/5748.lock",
+      ".csdlc/prepared/issues/5007",
+      ".csdlc/prepared/issues/5346",
+      ".csdlc/prepared/issues/5663",
+      ".csdlc/prepared/issues/5678",
+      ".csdlc/prepared/issues/5733",
       ".csdlc/prepared/issues/5748",
-      "csdlc-v2"
+      "csdlc-v2",
+      "docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json"
     ],
-    "purpose": "Complete, validate, independently review, publish, merge, and typed-close #5748; reconcile the 103-issue v0.91.8 closed universe, preserve exact fail-closed exceptions, and harden C-SDLC v2 terminal authentication where required for truthful proof."
+    "purpose": "Complete, validate, independently review, publish, merge, and typed-close #5748; reconcile the 104-issue v0.91.8 closed universe, preserve exact fail-closed exceptions, and harden C-SDLC v2 terminal authentication where required for truthful proof."
   },
   "review_assignment": null,
   "review": null,
@@ -419,6 +428,55 @@
       "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
       "reason": "Remove the remaining broad #5746 prohibition while preserving the exact no-worktree-mutation boundary.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Issue-local worktrees own receipt creation and repair; #5748 materializes only validated retained authority.\",\"Generated cards, index records, and terminal receipts change only through typed C-SDLC v2 operations.\",\"Do not modify or prune the active #5746 worktree, and never write tracked changes on main; receipt-backed #5746 projection reconciliation is permitted only on the dedicated #5748 closeout branch.\"]}"
+    },
+    {
+      "sequence": 43,
+      "generation": 25,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Authorize aggregate materialization of newly merged #5713 from its typed retained terminal receipt.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5713\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 25,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Release the stale 103-issue claim purpose before reacquiring exact 104-issue closeout authority.",
+      "operation": "{\"claim_id\":\"claim-5748-terminal-recovery-v3\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:complete-v0918-closeout\",\"previous_owner\":\"codex:019fb617-d22b-7252-975c-402d7d7aec46\"}"
+    },
+    {
+      "sequence": 45,
+      "generation": 25,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Reacquire exact live 104-issue closeout authority after typed release of the stale purpose.",
+      "operation": "{\"branch\":\"codex/5748-terminal-recovery\",\"claim_id\":\"claim-5748-terminal-recovery-v4\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:019fb617-d22b-7252-975c-402d7d7aec46\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5748\",\".csdlc/issues/4759\",\".csdlc/issues/4760\",\".csdlc/issues/4763\",\".csdlc/issues/5342\",\".csdlc/issues/5347\",\".csdlc/issues/5352\",\".csdlc/issues/5354\",\".csdlc/issues/5438\",\".csdlc/issues/5499\",\".csdlc/issues/5540\",\".csdlc/issues/5548\",\".csdlc/issues/5572\",\".csdlc/issues/5587\",\".csdlc/issues/5610\",\".csdlc/issues/5632\",\".csdlc/issues/5645\",\".csdlc/issues/5665\",\".csdlc/issues/5670\",\".csdlc/issues/5679\",\".csdlc/issues/5687\",\".csdlc/issues/5708\",\".csdlc/issues/5711\",\".csdlc/issues/5713\",\".csdlc/issues/5718\",\".csdlc/issues/5728\",\".csdlc/issues/5735\",\".csdlc/issues/5746\",\".csdlc/issues/5748\",\".csdlc/locks/5748.lock\",\".csdlc/prepared/issues/5748\",\"csdlc-v2\"],\"purpose\":\"Complete, validate, independently review, publish, merge, and typed-close #5748; reconcile the 104-issue v0.91.8 closed universe, preserve exact fail-closed exceptions, and harden C-SDLC v2 terminal authentication where required for truthful proof.\",\"worktree\":\".worktrees/adl-wp-5748\"}"
+    },
+    {
+      "sequence": 46,
+      "generation": 25,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Add the released #5346 terminal projection and exact post-merge proof surfaces to the authenticated #5748 aggregate closeout scope.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5346\",\".csdlc/evidence/5346\",\".csdlc/prepared/issues/5346\",\"docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 47,
+      "generation": 25,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Authorize terminal materialization of five released receipt-backed v0.91.8 projections within the #5748 aggregate closeout; keep #5657 held while its authentic claim remains active.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5007\",\".csdlc/issues/5663\",\".csdlc/issues/5678\",\".csdlc/issues/5701\",\".csdlc/issues/5733\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 48,
+      "generation": 25,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Authorize terminal materialization of five released receipt-backed v0.91.8 projections within the #5748 aggregate closeout; keep #5657 held while its authentic claim remains active.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5007\",\".csdlc/issues/5663\",\".csdlc/issues/5678\",\".csdlc/issues/5701\",\".csdlc/issues/5733\",\".csdlc/prepared/issues/5007\",\".csdlc/prepared/issues/5663\",\".csdlc/prepared/issues/5678\",\".csdlc/prepared/issues/5733\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 49,
+      "generation": 25,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Authorize terminal materialization of released receipt-backed v0.91.8 projections within the #5748 aggregate closeout, including #5657 after its authentic source claim released.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5007\",\".csdlc/issues/5657\",\".csdlc/issues/5663\",\".csdlc/issues/5678\",\".csdlc/issues/5701\",\".csdlc/issues/5733\",\".csdlc/prepared/issues/5007\",\".csdlc/prepared/issues/5663\",\".csdlc/prepared/issues/5678\",\".csdlc/prepared/issues/5733\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

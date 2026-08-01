@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-13][deletion] Delete final replaced ADL language compiler engine and CLI",
     "slug": "v0918-wp13-final-adl-deletion",
     "version": "v0.91.8",
-    "generation": 10
+    "generation": 20
   },
   "status": "ready",
   "content": {
@@ -25,7 +25,7 @@
             "AC-8",
             "AC-10"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -37,7 +37,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -48,7 +48,7 @@
             "AC-6",
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -58,7 +58,7 @@
             "AC-9",
             "AC-10"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -68,7 +68,7 @@
             "AC-8",
             "AC-10"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [],
@@ -109,9 +109,9 @@
         "Any required validation would be deferred, skipped, host-bound, secret-bearing, stale, or replaced by metadata"
       ],
       "replan_triggers": [],
-      "design_ref": ".csdlc/prepared/issues/5346/design.md",
+      "design_ref": ".csdlc/issues/5346/retained/design.md",
       "design_digest": "6e14bf35883a4240d2772360e5ae156ae839dfa6bc31027639008b4abf7026de",
-      "diagram_ref": ".csdlc/prepared/issues/5346/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5346/retained/diagram.mmd",
       "diagram_digest": "a925534121f5fb01d22f6c079ad452250ded1ab04cade79b2e80487c4c48527c"
     }
   }

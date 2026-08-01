@@ -12,7 +12,6 @@ installer="$repo_root/.adl/bin/csdlc-v2/csdlc-install"
 inventory="$repo_root/csdlc-v2/operator/coexistence.json"
 register="$repo_root/.csdlc/prepared/issues/5748/fail-closed-exceptions.md"
 universe="$repo_root/.csdlc/evidence/5748/v0918-closed-issue-universe.json"
-exception_5346="$repo_root/.csdlc/evidence/5748/exceptions/5346.json"
 
 fail() {
   printf 'v0.91.8 terminal inventory FAIL: %s\n' "$1" >&2
@@ -46,16 +45,6 @@ require_absent() {
 
 require_eq() {
   [[ "$1" == "$2" ]] || fail "$3 (expected $2, observed $1)"
-}
-
-sha256_file() {
-  if command -v sha256sum >/dev/null 2>&1; then
-    sha256sum "$1" | awk '{print $1}'
-  elif command -v shasum >/dev/null 2>&1; then
-    shasum -a 256 "$1" | awk '{print $1}'
-  else
-    fail "no SHA-256 command is available"
-  fi
 }
 
 path_guard_self_test() {
@@ -101,32 +90,46 @@ fi
 
 terminal_issues=(
   4739 4741 4758 4759 4760 4761 4762 4763 5107 5332 5336 5337 5338
-  5339 5340 5341 5342 5343 5344 5345 5347 5349 5350 5352 5354 5358 5361
+  5339 5340 5341 5342 5343 5344 5345 5346 5347 5349 5350 5352 5354 5358 5361
   5384 5438 5470 5497 5498 5499 5500 5501 5502 5526 5527 5540 5541
   5548 5563 5566 5569 5572 5587 5589 5590 5591 5592 5594 5597 5600
-  5602 5605 5610 5613 5615 5624 5627 5632 5645 5648 5653 5658 5662
-  5665 5666 5670 5671 5679 5683 5686 5687 5691 5695 5697 5698 5702
-  5708 5710 5711 5715 5717 5718 5719 5727 5728 5735 5737 5746
+  5602 5605 5610 5613 5615 5624 5627 5632 5645 5648 5653 5657 5658 5662
+  5663 5665 5666 5670 5671 5678 5679 5683 5686 5687 5691 5695 5697
+  5698 5701 5702 5708 5710 5711 5713 5715 5717 5718 5719 5722 5727 5728
+  5733 5735 5737 5746
 )
-exception_issues=(5007 5346 5558 5657 5663 5664 5675 5678 5701 5722 5733)
-claim_free_exception_issues=(5657 5663 5664 5675 5678 5701 5733)
-dormant_exception_issues=(5663 5664 5675 5678 5701 5733)
+exception_issues=(5007 5558 5664 5675)
+noneligible_issues=(5335)
+claim_free_exception_issues=(5664 5675)
+dormant_exception_issues=(5664 5675)
+
+array_contains() {
+  local target="$1"
+  shift
+  local candidate
+  for candidate in "$@"; do
+    [[ "$candidate" == "$target" ]] && return 0
+  done
+  return 1
+}
 
 exception_projection() {
   case "$1" in
-    5657) printf '%s\t%s\t%s\n' implemented 2 84d1ee502e3122b21be2d31b5a6a04cc80c6976baa2a4055d27f8bd7a76fccc5 ;;
-    5663) printf '%s\t%s\t%s\n' implemented 36 8533c94d13734ceb2165a58bdc2c814099a0682941b676441363246db2b7e695 ;;
     5664) printf '%s\t%s\t%s\n' published 5 8c254685618757825b8b738c551e5a54b41894f896f0ddb24214e9f935a537f8 ;;
     5675) printf '%s\t%s\t%s\n' reviewed 13 cc151e358e674d07613646d4fc1f6ed71a3613a2f145b9065a73bc0103770818 ;;
-    5678) printf '%s\t%s\t%s\n' published 4 66d1f6fe51ebe463115ecc7bfc01d48413c55c53fc3dd3392575341fae49fb6b ;;
-    5701) printf '%s\t%s\t%s\n' published 34 b8d64d8b742426c08a40574c971a9db3c01a4b4fcae741a1ff0555c8f98f0afb ;;
-    5733) printf '%s\t%s\t%s\n' published 11 d2f03338be22e4e2e5542a3cd07434b1cad143ce9515944139e65378d6930aea ;;
     *) return 1 ;;
   esac
 }
 
-require_eq "${#terminal_issues[@]}" 91 "terminal issue count mismatch"
-require_eq "${#exception_issues[@]}" 11 "exception issue count mismatch"
+terminal_count="${#terminal_issues[@]}"
+exception_count="${#exception_issues[@]}"
+noneligible_count="${#noneligible_issues[@]}"
+completed_count="$((terminal_count + exception_count))"
+closed_count="$((completed_count + noneligible_count))"
+for issue in "${claim_free_exception_issues[@]}" "${dormant_exception_issues[@]}"; do
+  array_contains "$issue" "${exception_issues[@]}" ||
+    fail "exception-only issue #$issue is absent from the exception partition"
+done
 require_file "$repo_root" "$register"
 require_file "$repo_root" "$universe"
 require_file "$repo_root" "$installer"
@@ -145,15 +148,23 @@ observed_completed="$(
 require_eq "$observed_completed" "$declared_completed" \
   "retained live completed-issue universe differs from the declared partition"
 require_eq "$(printf '%s\n' "${terminal_issues[@]}" "${exception_issues[@]}" | sort -nu | wc -l | tr -d ' ')" \
-  102 "declared completed-issue partition contains duplicates"
+  "$completed_count" "declared completed-issue partition contains duplicates"
 require_eq "$(jq -r '[.issues[] | select(.state == "CLOSED" and .state_reason == "NOT_PLANNED") | .number] | sort | @csv' "$universe")" \
-  5335 "retained noneligible issue universe mismatch"
-jq -e '.schema == "adl.v0918.closed_issue_universe.v1" and
+  "$(IFS=,; printf '%s' "${noneligible_issues[*]}")" "retained noneligible issue universe mismatch"
+jq -e --argjson closed_count "$closed_count" '.schema == "adl.v0918.closed_issue_universe.v1" and
   .repository == "danielbaustin/agent-design-language" and
   .label == "version:v0.91.8" and .state == "closed" and
-  (.issues | length) == 103 and
+  (.issues | length) == $closed_count and
   ([.issues[].number] | length) == ([.issues[].number] | unique | length)' \
   "$universe" >/dev/null || fail "retained closed-issue universe metadata is invalid"
+declared_register_issues="$(
+  printf '%s\n' "${exception_issues[@]}" "${noneligible_issues[@]}" | sort -n | tr '\n' ' '
+)"
+observed_register_issues="$(
+  sed -n 's/^## #\([0-9][0-9]*\) —.*/\1/p' "$register" | sort -n | tr '\n' ' '
+)"
+require_eq "$observed_register_issues" "$declared_register_issues" \
+  "exception register headings differ from the declared exception and noneligible partition"
 
 for issue in "${terminal_issues[@]}"; do
   index="$repo_root/.csdlc/issues/$issue/index.json"
@@ -188,7 +199,18 @@ for issue in "${terminal_issues[@]}"; do
 done
 
 for issue in "${exception_issues[@]}"; do
-  require_absent "$common_dir" "$common_dir/csdlc-v2/closeout/$issue.json"
+  if [[ "$issue" == 5007 ]]; then
+    require_file "$common_dir" "$common_dir/csdlc-v2/closeout/5007.json"
+    jq -e '.issue == 5007 and .record.issue == 5007 and
+      .record.phase == "closed_out" and .record.claim == null and
+      .record.generation == 6 and
+      .record.digest == "fd4abaf3f7b219c72c685e4968928a01364bd749a4580ba39930ccf4a1a5a98a" and
+      .digest == "83a9539680ed730193da404790e6b42ff7b0ee3dc1865c3e831094973d5d380b"' \
+      "$common_dir/csdlc-v2/closeout/5007.json" >/dev/null || \
+      fail "exception #5007 terminal receipt mismatch"
+  else
+    require_absent "$common_dir" "$common_dir/csdlc-v2/closeout/$issue.json"
+  fi
   rg -q "^## #$issue —" "$register" || \
     fail "exception #$issue is missing from the register"
 done
@@ -210,18 +232,6 @@ for issue in "${claim_free_exception_issues[@]}"; do
     fail "exception #$issue digest is missing from the register"
 done
 
-tail -n 1 "$repo_root/.csdlc/issues/5657/audit.jsonl" | jq -e \
-  '(.operation | if type == "string" then fromjson else . end |
-    .operation) == "release_closed_claim"' >/dev/null || \
-  fail "exception #5657 audit does not end in typed claim release"
-doctor_report="$("$doctor" --repo "$repo_root" --issue 5657)" || \
-  fail "exception #5657 doctor did not return its expected inspectable state"
-printf '%s\n' "$doctor_report" | jq -e \
-  '.status == "pass" and .phase == "implemented" and .generation == 2 and
-   .ready == false and (.findings | length) == 0 and
-   .next_operation == "inspect_phase"' >/dev/null || \
-  fail "exception #5657 doctor state mismatch"
-
 for issue in "${dormant_exception_issues[@]}"; do
   tail -n 1 "$repo_root/.csdlc/issues/$issue/audit.jsonl" | jq -e \
     '(.operation | if type == "string" then fromjson else . end |
@@ -238,159 +248,58 @@ for issue in "${dormant_exception_issues[@]}"; do
     >/dev/null || fail "exception #$issue doctor state mismatch"
 done
 
-# #5007 is intentionally preserved as the exact corrupt projection: its
-# claimed digest and still-active claim are evidence for why typed closeout
-# fails closed. Do not normalize this record by hand.
-corrupt_index="$repo_root/.csdlc/issues/5007/index.json"
-require_file "$repo_root" "$corrupt_index"
-require_eq "$(git rev-parse HEAD:.csdlc/issues/5007)" \
-  773eb443b05aac396c0d17705374edd4f754cfdf \
-  "exception #5007 committed projection tree mismatch"
-git diff --quiet HEAD -- .csdlc/issues/5007 || \
-  fail "exception #5007 working projection differs from its pinned commit"
-require_eq "$(git ls-files --others --exclude-standard -- .csdlc/issues/5007)" "" \
-  "exception #5007 contains untracked projection files"
-while IFS= read -r path; do
-  require_file "$repo_root" "$repo_root/$path"
-done < <(git ls-files .csdlc/issues/5007)
-require_eq "$(jq -r '.phase' "$corrupt_index")" published \
-  "exception #5007 phase mismatch"
-require_eq "$(jq -r '.generation' "$corrupt_index")" 5 \
-  "exception #5007 generation mismatch"
-require_eq "$(jq -r '.digest' "$corrupt_index")" \
-  12194eb860c30b87b2e8929d2fe0726fbe7006d0c901454b581ee82fa693f6ed \
-  "exception #5007 claimed digest mismatch"
-require_eq "$(jq -r '.claim.id' "$corrupt_index")" \
-  exec-5007-memory-palace-adr-20260731 "exception #5007 claim id mismatch"
-require_eq "$(jq -r '.claim.owner' "$corrupt_index")" \
-  codex:5007-execution-2026-07-31 "exception #5007 claim owner mismatch"
-require_eq "$(jq -r '.claim.branch' "$corrupt_index")" \
-  codex/5007-v0918-wp14-preparation "exception #5007 claim branch mismatch"
-require_eq "$(jq -r '.claim.worktree' "$corrupt_index")" . \
-  "exception #5007 claim worktree mismatch"
-require_eq "$(jq -r '.claim.expires_unix_seconds' "$corrupt_index")" 1786138590 \
-  "exception #5007 claim expiry mismatch"
-if corrupt_report="$("$doctor" --repo "$repo_root" --issue 5007 2>&1)"; then
-  printf 'exception #5007 unexpectedly passed doctor\n' >&2
-  exit 1
+if array_contains 5007 "${exception_issues[@]}"; then
+  # #5007 is intentionally preserved as the exact corrupt projection while it
+  # remains an exception. Moving it into terminal_issues switches authority to
+  # the generic receipt-backed terminal checks above.
+  corrupt_index="$repo_root/.csdlc/issues/5007/index.json"
+  require_file "$repo_root" "$corrupt_index"
+  require_eq "$(git rev-parse HEAD:.csdlc/issues/5007)" \
+    773eb443b05aac396c0d17705374edd4f754cfdf \
+    "exception #5007 committed projection tree mismatch"
+  git diff --quiet HEAD -- .csdlc/issues/5007 || \
+    fail "exception #5007 working projection differs from its pinned commit"
+  require_eq "$(git ls-files --others --exclude-standard -- .csdlc/issues/5007)" "" \
+    "exception #5007 contains untracked projection files"
+  while IFS= read -r path; do
+    require_file "$repo_root" "$repo_root/$path"
+  done < <(git ls-files .csdlc/issues/5007)
+  require_eq "$(jq -r '.phase' "$corrupt_index")" published \
+    "exception #5007 phase mismatch"
+  require_eq "$(jq -r '.generation' "$corrupt_index")" 5 \
+    "exception #5007 generation mismatch"
+  require_eq "$(jq -r '.digest' "$corrupt_index")" \
+    12194eb860c30b87b2e8929d2fe0726fbe7006d0c901454b581ee82fa693f6ed \
+    "exception #5007 claimed digest mismatch"
+  require_eq "$(jq -r '.claim.id' "$corrupt_index")" \
+    exec-5007-memory-palace-adr-20260731 "exception #5007 claim id mismatch"
+  require_eq "$(jq -r '.claim.owner' "$corrupt_index")" \
+    codex:5007-execution-2026-07-31 "exception #5007 claim owner mismatch"
+  require_eq "$(jq -r '.claim.branch' "$corrupt_index")" \
+    codex/5007-v0918-wp14-preparation "exception #5007 claim branch mismatch"
+  require_eq "$(jq -r '.claim.worktree' "$corrupt_index")" . \
+    "exception #5007 claim worktree mismatch"
+  require_eq "$(jq -r '.claim.expires_unix_seconds' "$corrupt_index")" 1786138590 \
+    "exception #5007 claim expiry mismatch"
+  if corrupt_report="$("$doctor" --repo "$repo_root" --issue 5007 2>&1)"; then
+    printf 'exception #5007 unexpectedly passed doctor\n' >&2
+    exit 1
+  fi
+  printf '%s\n' "$corrupt_report" | jq -e \
+    '.status == "corrupt" and .ready == false and
+     (.findings | length) == 1 and
+     .findings[0].code == "corrupt_record" and
+     .findings[0].message == "index digest mismatch"' >/dev/null || \
+    fail "exception #5007 doctor state mismatch"
 fi
-printf '%s\n' "$corrupt_report" | jq -e \
-  '.status == "corrupt" and .ready == false and
-   (.findings | length) == 1 and
-   .findings[0].code == "corrupt_record" and
-   .findings[0].message == "index digest mismatch"' >/dev/null || \
-  fail "exception #5007 doctor state mismatch"
 
 # These two issues have no local lifecycle projection. Their absence is part
-# of the fail-closed evidence and must remain explicit. #5346 instead retains
-# and authenticates the exact stale published projection integrated on main.
-require_absent "$repo_root" "$repo_root/.csdlc/issues/5558"
-require_absent "$repo_root" "$repo_root/.csdlc/issues/5722"
-
-require_file "$repo_root" "$exception_5346"
-jq -e '
-  .schema == "adl.csdlc.fail_closed_exception.v1" and
-  .issue == 5346 and
-  .source_branch == "codex/5346-v0918-wp13-final-adl-deletion" and
-  .source_revision == "7b1ef84bc8a4966c0c454ae4d87fd973537a856d" and
-  .github.issue_state == "CLOSED" and
-  .github.issue_state_reason == "COMPLETED" and
-  .github.pull_request == 5752 and
-  .github.pull_request_state == "MERGED" and
-  .github.head_sha == "7b1ef84bc8a4966c0c454ae4d87fd973537a856d" and
-  .github.merge_commit == "ccca46abceb117150efbc3b69248fba611d90fff" and
-  .committed_projection.source_revision == "ccca46abceb117150efbc3b69248fba611d90fff" and
-  .committed_projection.phase == "published" and
-  .committed_projection.generation == 10 and
-  .committed_projection.digest == "228c102958a98a4a0910559f2c58a55edd32ecf5f7077387775e7f8c6fcafcae" and
-  .committed_projection.terminal == null and
-  .committed_projection.claim.id == "claim-5346-v0918-wp13-deletion-preparation-current" and
-  .committed_projection.claim.owner == "codex:5346-wp13-execution-owner" and
-  .committed_projection.claim.generation == 10 and
-  .committed_projection.claim.branch == "codex/5346-v0918-wp13-final-adl-deletion" and
-  .committed_projection.claim.worktree == "." and
-  .committed_projection.claim.expires_unix_seconds == 1786153570 and
-  .committed_projection.plan_steps == [
-    {"id":"S1","status":"pending"},
-    {"id":"S2","status":"pending"},
-    {"id":"S3","status":"pending"},
-    {"id":"S4","status":"pending"},
-    {"id":"S5","status":"pending"}
-  ] and
-  .committed_projection.sor == {
-    "integration_state":"pr_open",
-    "publication_state":"ready",
-    "merge_state":"not_merged",
-    "closeout_state":"not_started"
-  } and
-  .committed_projection.doctor == {
-    "status":"block",
-    "finding_code":"review_publication_dead_end",
-    "next_operation":"recover_review"
-  } and
-  .committed_projection.sha256.index_json == "7833e2706c9c24a0e97426be6b8e012c3fbee36772db248a1c6f24f66514135c" and
-  .committed_projection.sha256.spp_values_json == "60103474ec465ec43f4c9a04bc362fbfd56f3d12fb3d184ecd874361c2b7d1e6" and
-  .committed_projection.sha256.sor_values_json == "cfdde36f9815f7efdd00b9cbdf15e4c7e6e3d93e3860684d980d698ca8c14633" and
-  .source_worktree_projection.phase == "merge_ready" and
-  .source_worktree_projection.generation == 12 and
-  .source_worktree_projection.digest == "1341748ec10bbf4434a2892d72a28ec9a931a8f74c3b0bbf2a0ee24815a587bc" and
-  .source_worktree_projection.terminal == null and
-  .source_worktree_projection.claim.id == "claim-5346-v0918-wp13-deletion-preparation-current" and
-  .source_worktree_projection.claim.owner == "codex:5346-wp13-execution-owner" and
-  .source_worktree_projection.claim.generation == 12 and
-  .source_worktree_projection.claim.branch == "codex/5346-v0918-wp13-final-adl-deletion" and
-  .source_worktree_projection.claim.worktree == "." and
-  .source_worktree_projection.claim.expires_unix_seconds == 1786153570 and
-  .source_worktree_projection.plan_steps == [
-    {"id":"S1","status":"pending"},
-    {"id":"S2","status":"pending"},
-    {"id":"S3","status":"pending"},
-    {"id":"S4","status":"pending"},
-    {"id":"S5","status":"pending"}
-  ] and
-  .source_worktree_projection.sor == {
-    "integration_state":"pr_open",
-    "publication_state":"ready",
-    "merge_state":"not_merged",
-    "closeout_state":"not_started"
-  } and
-  .source_worktree_projection.sha256.index_json == "bae610dca110c369f4b9ed1a6c6d4d65736409385f23ba46e12076ef0669bd6f" and
-  .source_worktree_projection.sha256.spp_values_json == "b05d7b09fc74c73805dd251ca3e74f9ee06ebac6979d9a4b3ea1a4462a8f872e" and
-  .source_worktree_projection.sha256.sor_values_json == "675ce61b12053a94219d88497d4ae858d89ee77db2468498c15187cdb9a0cbda" and
-  .typed_repair_attempt.operation == "update_plan_step" and
-  .typed_repair_attempt.card == "spp" and
-  .typed_repair_attempt.step_id == "S1" and
-  .typed_repair_attempt.requested_status == "completed" and
-  .typed_repair_attempt.error_code == "invalid_transition" and
-  .typed_repair_attempt.error_message == "spp mutation is not allowed during merge_ready" and
-  .typed_repair_attempt.before_generation == 12 and
-  .typed_repair_attempt.after_generation == 12 and
-  .typed_repair_attempt.before_digest == .source_worktree_projection.digest and
-  .typed_repair_attempt.after_digest == .source_worktree_projection.digest and
-  .disposition == "fail_closed_no_terminal_receipt"
-' "$exception_5346" >/dev/null || fail "exception #5346 retained evidence mismatch"
-rg -q '1341748ec10bbf4434a2892d72a28ec9a931a8f74c3b0bbf2a0ee24815a587bc' \
-  "$register" || fail "exception #5346 digest is missing from the register"
-require_file "$repo_root" "$repo_root/.csdlc/issues/5346/index.json"
-require_eq "$(sha256_file "$repo_root/.csdlc/issues/5346/index.json")" \
-  7833e2706c9c24a0e97426be6b8e012c3fbee36772db248a1c6f24f66514135c \
-  "exception #5346 committed index bytes mismatch"
-require_eq "$(sha256_file "$repo_root/.csdlc/issues/5346/cards/spp.values.json")" \
-  60103474ec465ec43f4c9a04bc362fbfd56f3d12fb3d184ecd874361c2b7d1e6 \
-  "exception #5346 committed SPP bytes mismatch"
-require_eq "$(sha256_file "$repo_root/.csdlc/issues/5346/cards/sor.values.json")" \
-  cfdde36f9815f7efdd00b9cbdf15e4c7e6e3d93e3860684d980d698ca8c14633 \
-  "exception #5346 committed SOR bytes mismatch"
-exception_5346_doctor=""
-if exception_5346_doctor="$("$doctor" --repo "$repo_root" --issue 5346 2>&1)"; then
-  fail "exception #5346 unexpectedly passed doctor"
-fi
-printf '%s\n' "$exception_5346_doctor" | jq -e '
-  .status == "block" and .phase == "published" and .generation == 10 and
-  .ready == false and (.findings | length) == 1 and
-  .findings[0].code == "review_publication_dead_end" and
-  .next_operation == "recover_review"
-' >/dev/null || fail "exception #5346 doctor state mismatch"
+# of the fail-closed evidence and must remain explicit.
+for issue in 5558 5722; do
+  if array_contains "$issue" "${exception_issues[@]}"; then
+    require_absent "$repo_root" "$repo_root/.csdlc/issues/$issue"
+  fi
+done
 
 require_absent "$common_dir" "$common_dir/csdlc-v2/closeout/5335.json"
 rg -q '^## #5335 — outside the merged-PR eligibility boundary$' "$register" || \
@@ -399,4 +308,5 @@ rg -q '^## #5335 — outside the merged-PR eligibility boundary$' "$register" ||
 require_eq "$(git status --porcelain -- .csdlc/locks .csdlc/requests)" "" \
   "generated lock or request state dirties the publication worktree"
 
-printf 'v0.91.8 terminal inventory PASS: 91 terminal, 11 fail-closed exceptions, 1 noneligible exclusion\n'
+printf 'v0.91.8 terminal inventory PASS: %s terminal, %s fail-closed exceptions, %s noneligible exclusion\n' \
+  "$terminal_count" "$exception_count" "$noneligible_count"

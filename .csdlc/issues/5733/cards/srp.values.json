@@ -7,9 +7,9 @@
     "title": "[v0.91.8][WP-15][demo-matrix] Reconcile demo matrix and feature-proof coverage",
     "slug": "v0918-demo-matrix-proof-coverage",
     "version": "v0.91.8",
-    "generation": 11
+    "generation": 15
   },
-  "status": "draft",
+  "status": "complete",
   "content": {
     "card_kind": "srp",
     "values": {

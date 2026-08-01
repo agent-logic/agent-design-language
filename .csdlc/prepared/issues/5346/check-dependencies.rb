@@ -283,8 +283,14 @@ fail_gate("cannot verify live GitHub state for #5347: #{issue_5347_json.strip}")
 issue_5347_state = JSON.parse(issue_5347_json)
 disjointness = prove_pairwise_disjoint(surfaces.fetch(5346), external_5347)
 
-claim = load_json(ROOT.join(".csdlc/issues/5346/index.json"), "#5346 typed projection").fetch("claim")
-protected_paths = claim.fetch("protected_paths")
+projection = load_json(ROOT.join(".csdlc/issues/5346/index.json"), "#5346 typed projection")
+protected_paths = if projection["phase"] == "closed_out"
+                    terminal = projection.fetch("terminal") { fail_gate("#5346 closed-out projection has no terminal evidence") }
+                    terminal.fetch("released_protected_paths") { fail_gate("#5346 terminal evidence has no released protected paths") }
+                  else
+                    claim = projection.fetch("claim") { fail_gate("#5346 non-terminal projection has no active claim") }
+                    claim.fetch("protected_paths") { fail_gate("#5346 active claim has no protected paths") }
+                  end
 delete_paths = surfaces.fetch(5346).map { |row| row.fetch("path") }
 delete_paths.each do |path|
   covered = protected_paths.any? { |protected| path == protected || path.start_with?("#{protected}/") }
