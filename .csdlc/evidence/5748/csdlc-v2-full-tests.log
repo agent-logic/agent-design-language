@@ -449,18 +449,18 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 
 running 8 tests
-Initialized empty Git repository in /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/.tmp3iQhFS/.git/
-Initialized empty Git repository in /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/.tmperKmWs/.git/
-Initialized empty Git repository in /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/.tmp43Z2GK/.git/
-Initialized empty Git repository in /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/.tmp2Iuwuw/.git/
-Initialized empty Git repository in /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/.tmpCLdCCZ/.git/
-Initialized empty Git repository in /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/.tmpt7QZPc/nested-output/.git/
-Initialized empty Git repository in /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/.tmp65yMrK/.git/
-Initialized empty Git repository in /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/.tmpcAKHEU/.git/
+Initialized empty Git repository in <test-temp>/.git/
+Initialized empty Git repository in <test-temp>/.git/
+Initialized empty Git repository in <test-temp>/.git/
+Initialized empty Git repository in <test-temp>/.git/
+Initialized empty Git repository in <test-temp>/.git/
+Initialized empty Git repository in <test-temp>/nested-output/.git/
+Initialized empty Git repository in <test-temp>/.git/
+Initialized empty Git repository in <test-temp>/.git/
 test duplicate_heading_fails_with_report_before_canonical_output_exists ... ok
 test public_schemas_include_import_parity_and_sunset_contracts ... ok
-Initialized empty Git repository in /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/.tmpTZVw8K/.git/
-Initialized empty Git repository in /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/.tmp89HsgO/.git/
+Initialized empty Git repository in <test-temp>/.git/
+Initialized empty Git repository in <test-temp>/.git/
 test overlapping_or_traversing_roots_fail_without_legacy_mutation ... ok
 test unrepresentable_markdown_and_missing_design_return_no_write_reports ... ok
 test one_way_ast_import_retains_every_authored_section_and_generates_view ... ok
@@ -537,7 +537,7 @@ test src/lifecycle.rs - lifecycle::initialize_native_json (line 591) - compile f
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s
 
-   Compiling csdlc-v2 v0.1.0 (/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5748/csdlc-v2)
+   Compiling csdlc-v2 v0.1.0 (<repo>/csdlc-v2)
     Finished `test` profile [unoptimized + debuginfo] target(s) in 7.78s
      Running unittests src/lib.rs (csdlc-v2/target/debug/deps/csdlc_v2-5681e0f571dc274f)
 Preparing worktree (new branch 'reviewed-source')
