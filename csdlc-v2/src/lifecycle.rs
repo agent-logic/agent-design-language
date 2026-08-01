@@ -67,6 +67,8 @@ pub struct RehomeClaimAuthorityRequest {
     pub expected_generation: u64,
     pub expected_digest: String,
     pub expected_initialization_digest: String,
+    pub source_worktree: String,
+    pub source_branch: String,
     pub source_commit: String,
     pub expected_source_generation: u64,
     pub expected_source_digest: String,
@@ -1418,6 +1420,8 @@ pub fn rehome_claim_authority(
         || request.expected_digest.trim().is_empty()
         || request.expected_initialization_digest.trim().is_empty()
         || request.expected_source_digest.trim().is_empty()
+        || request.source_worktree.trim().is_empty()
+        || request.source_branch.trim().is_empty()
         || request.source_commit.len() != 40
         || !request
             .source_commit
@@ -1437,7 +1441,7 @@ pub fn rehome_claim_authority(
     request
         .replacement
         .validate(&request.replacement.id, request.now_unix_seconds)?;
-    if request.replacement.generation != request.expected_generation
+    if request.replacement.generation != request.expected_source_generation
         || request.replacement.branch == "main"
         || request.replacement.owner.trim().is_empty()
         || request.replacement.purpose.trim().is_empty()
@@ -1494,26 +1498,122 @@ pub fn rehome_claim_authority(
         ));
     }
 
-    let commit_path = format!(
-        "{}:.csdlc/issues/{}/index.json",
-        request.source_commit, request.issue
-    );
-    let source_bytes = git::run(store.root(), &["show", &commit_path])?.stdout;
-    let source: crate::IssueRecord = serde_json::from_str(&source_bytes)?;
-    if source.issue != record.issue
-        || source.repository != record.repository
-        || source.initialization_digest != record.initialization_digest
-        || source.generation != request.expected_source_generation
-        || source.digest != request.expected_source_digest
-        || crate::store::record_digest(&source)? != source.digest
+    let current_root = store.root().canonicalize()?;
+    let requested_source_root = PathBuf::from(&request.source_worktree)
+        .canonicalize()
+        .map_err(|error| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!("authority source worktree is unavailable: {error}"),
+            )
+        })?;
+    let registered_source = git::worktrees(store.root())?
+        .into_iter()
+        .any(|(branch, root)| {
+            branch == request.source_branch
+                && PathBuf::from(root)
+                    .canonicalize()
+                    .is_ok_and(|candidate| candidate == requested_source_root)
+        });
+    if !registered_source || requested_source_root == current_root {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "authority source must be an exact distinct registered branch/worktree",
+        ));
+    }
+    let source_store = Store::new(requested_source_root.clone());
+    if git::current_branch(source_store.root())? != request.source_branch
+        || git::run(source_store.root(), &["rev-parse", "HEAD"])?.stdout != request.source_commit
     {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
-            "source commit does not contain the canonical issue initialization identity",
+            "authority source branch or commit changed",
         ));
     }
+    let source = source_store.load_record(request.issue)?;
+    let source_cards = source_store.load_cards(request.issue)?;
+    crate::store::verify_cards(&source_store, &source, &source_cards)?;
+    source_store.verify_canonical_authority_projection(&source, &source_cards)?;
+    let source_review = source
+        .review
+        .clone()
+        .filter(|review| review.completed)
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "source worktree does not contain completed review evidence",
+            )
+        })?;
+    let current_source_revision =
+        git::substantive_revision(source_store.root(), &source_review.scope)?;
+    let reviewed_commit = source_review
+        .reviewed_revision
+        .strip_prefix("git-blake3:")
+        .and_then(|revision| revision.split(':').next());
+    let source_sor_is_prepublication =
+        source_cards.get(&crate::CardKind::Sor).is_some_and(|card| {
+            matches!(
+                &card.content,
+                crate::cards::CardContent::Sor(sor)
+                    if matches!(
+                        sor.integration_state,
+                        crate::cards::IntegrationState::NotStarted
+                            | crate::cards::IntegrationState::WorktreeOnly
+                    )
+                        && sor.publication_state == crate::cards::PublicationState::NotPublished
+                        && sor.merge_state == crate::cards::MergeState::NotMerged
+                        && sor.closeout_state == crate::cards::CloseoutState::NotStarted
+            )
+        });
+    let source_mismatch = if source.issue != record.issue {
+        Some("issue")
+    } else if source.repository != record.repository {
+        Some("repository")
+    } else if source.initialization_digest != record.initialization_digest {
+        Some("initialization")
+    } else if source.generation != request.expected_source_generation {
+        Some("generation")
+    } else if source.digest != request.expected_source_digest {
+        Some("digest")
+    } else if crate::store::record_digest(&source)? != source.digest {
+        Some("self digest")
+    } else if source.claim.is_some() {
+        Some("claim")
+    } else if source.phase != crate::LifecyclePhase::Reviewed {
+        Some("phase")
+    } else if source.publication.is_some() {
+        Some("publication evidence")
+    } else if source.readiness.is_some() {
+        Some("readiness evidence")
+    } else if source.terminal.is_some() {
+        Some("terminal evidence")
+    } else if !source_sor_is_prepublication {
+        Some("SOR pre-publication state")
+    } else if current_source_revision != source_review.reviewed_revision {
+        Some("review revision")
+    } else if reviewed_commit != Some(request.source_commit.as_str()) {
+        Some("reviewed commit")
+    } else {
+        None
+    };
+    if let Some(mismatch) = source_mismatch {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!("source worktree is not the exact claim-free reviewed authority: {mismatch}"),
+        ));
+    }
+    let source_fingerprint = authority_projection_fingerprint(&source_store, &source)?;
+    for path in [&source.design_path, &source.diagram_path] {
+        if read_regular_authority_file(&source_store.root().join(path))?
+            != read_regular_authority_file(&store.root().join(path))?
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "source authored artifacts differ from the aggregate checkout",
+            ));
+        }
+    }
 
-    let current_root = store.root().canonicalize()?;
     let mut preserved_bindings = Vec::new();
     for (branch, root) in git::worktrees(store.root())? {
         let root_path = PathBuf::from(&root);
@@ -1546,19 +1646,19 @@ pub fn rehome_claim_authority(
                 format!("unreadable sibling authority at {root}: {}", error.message),
             )
         })?;
-        if other.initialization_digest != record.initialization_digest
+        if other.initialization_digest != source.initialization_digest
             || other.repository != record.repository
-            || other.generation > record.generation
-            || (other.generation == record.generation
-                && other.digest != record.digest
-                && other_root != current_root)
+            || other.generation > source.generation
+            || (other.generation == source.generation
+                && other.digest != source.digest
+                && other_root != requested_source_root)
         {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 format!("newer or conflicting authority exists at {root}"),
             ));
         }
-        if other_root != current_root {
+        if other_root != current_root && other_root != requested_source_root {
             if other
                 .claim
                 .as_ref()
@@ -1602,7 +1702,23 @@ pub fn rehome_claim_authority(
         }
     }
 
+    // Ordinary typed writers take this issue lock. Keep it through target
+    // materialization, source revalidation, and any rollback so no writer can
+    // advance the staged authority between those steps.
+    let _target_lock = store.authority_projection_lock(request.issue)?;
+    if git::substantive_content_digest(store.root(), &source_review.scope)?
+        != git::substantive_content_digest(source_store.root(), &source_review.scope)?
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "aggregate checkout review scope differs from the reviewed source; use atomic historical materialization instead",
+        ));
+    }
     let previous = record.claim.clone();
+    let original = record.clone();
+    let original_cards = store.load_cards(request.issue)?;
+    crate::store::verify_cards(store, &original, &original_cards)?;
+    record = source;
     record.claim = Some(request.replacement.clone());
     record.audit.push(AuditEvent {
         sequence: record.audit.len() as u64 + 1,
@@ -1613,6 +1729,10 @@ pub fn rehome_claim_authority(
             "operation": "rehome_claim_authority",
             "operator_authority": request.operator_authority,
             "source_commit": request.source_commit,
+            "source_worktree": request.source_worktree,
+            "source_branch": request.source_branch,
+            "source_generation": request.expected_source_generation,
+            "source_digest": request.expected_source_digest,
             "initialization_digest": request.expected_initialization_digest,
             "previous_claim": previous,
             "preserved_bindings": preserved_bindings,
@@ -1622,7 +1742,64 @@ pub fn rehome_claim_authority(
         .to_string(),
     });
     record.digest = crate::store::record_digest(&record)?;
-    record = store.replace_authority_record(request.issue, &request.expected_digest, &record)?;
+    record = store.replace_authority_projection_locked(
+        request.issue,
+        &request.expected_digest,
+        &record,
+        &source_cards,
+    )?;
+    let source_unchanged = (|| -> Result<bool> {
+        let still_registered = git::worktrees(store.root())?
+            .into_iter()
+            .any(|(branch, root)| {
+                branch == request.source_branch
+                    && PathBuf::from(root)
+                        .canonicalize()
+                        .is_ok_and(|candidate| candidate == requested_source_root)
+            });
+        if !still_registered
+            || git::current_branch(source_store.root())? != request.source_branch
+            || git::run(source_store.root(), &["rev-parse", "HEAD"])?.stdout
+                != request.source_commit
+            || git::substantive_revision(source_store.root(), &source_review.scope)?
+                != source_review.reviewed_revision
+        {
+            return Ok(false);
+        }
+        let after = source_store.load_record(request.issue)?;
+        let artifacts_equal = [&after.design_path, &after.diagram_path]
+            .into_iter()
+            .try_fold(true, |equal, path| {
+                Ok::<_, V2Error>(
+                    equal
+                        && read_regular_authority_file(&source_store.root().join(path))?
+                            == read_regular_authority_file(&store.root().join(path))?,
+                )
+            })?;
+        Ok(artifacts_equal
+            && authority_projection_fingerprint(&source_store, &after)? == source_fingerprint)
+    })();
+    if !matches!(source_unchanged, Ok(true)) {
+        store.replace_authority_projection_locked(
+            request.issue,
+            &record.digest,
+            &original,
+            &original_cards,
+        )?;
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            match source_unchanged {
+                Ok(false) => "source authority identity changed during materialization; target rolled back".into(),
+                Err(error) => format!(
+                    "source authority became unreadable during materialization; target rolled back: {}",
+                    error.message
+                ),
+                Ok(true) => unreachable!(),
+            },
+        ));
+    }
+    let committed_cards = store.load_cards(request.issue)?;
+    crate::store::verify_cards(store, &record, &committed_cards)?;
     Ok(RehomeClaimAuthorityResult {
         schema: "csdlc.rehome_claim_authority_result.v1".into(),
         issue: request.issue,
@@ -1633,6 +1810,49 @@ pub fn rehome_claim_authority(
         generation: record.generation,
         digest: record.digest,
     })
+}
+
+fn authority_projection_fingerprint(store: &Store, record: &crate::IssueRecord) -> Result<String> {
+    let issue_root = format!(".csdlc/issues/{}", record.issue);
+    let mut paths = vec![
+        record.design_path.clone(),
+        record.diagram_path.clone(),
+        format!("{issue_root}/index.json"),
+        format!("{issue_root}/audit.jsonl"),
+    ];
+    for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        paths.push(format!("{issue_root}/cards/{card}.values.json"));
+        paths.push(format!("{issue_root}/cards/{card}.md"));
+    }
+    let mut hasher = blake3::Hasher::new();
+    for relative in paths {
+        let path = if Path::new(&relative).is_absolute() {
+            PathBuf::from(&relative)
+        } else {
+            store.root().join(&relative)
+        };
+        let metadata = fs::symlink_metadata(&path)?;
+        if metadata.file_type().is_symlink() || !metadata.is_file() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "authority projection contains a non-regular file",
+            ));
+        }
+        hasher.update(relative.as_bytes());
+        hasher.update(&fs::read(path)?);
+    }
+    Ok(hasher.finalize().to_hex().to_string())
+}
+
+fn read_regular_authority_file(path: &Path) -> Result<Vec<u8>> {
+    let metadata = fs::symlink_metadata(path)?;
+    if metadata.file_type().is_symlink() || !metadata.is_file() {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!("authority file is not regular: {}", path.display()),
+        ));
+    }
+    Ok(fs::read(path)?)
 }
 
 pub fn release_closed_claim(

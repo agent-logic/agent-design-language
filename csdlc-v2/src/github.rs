@@ -845,7 +845,10 @@ fn remotely_linked_issue(
     expected: Option<u64>,
 ) -> crate::Result<Option<u64>> {
     let nodes = response
-        .pointer("/data/repository/pullRequest/closingIssuesReferences/nodes")
+        // Octocrab's `graphql::<Value>` returns the decoded `data` payload,
+        // while direct/raw fixtures may retain the outer `data` envelope.
+        .pointer("/repository/pullRequest/closingIssuesReferences/nodes")
+        .or_else(|| response.pointer("/data/repository/pullRequest/closingIssuesReferences/nodes"))
         .and_then(Value::as_array)
         .ok_or_else(|| {
             crate::V2Error::new(
@@ -1124,6 +1127,11 @@ mod tests {
         );
         let error = remotely_linked_issue(&response, "o/r", Some(8)).unwrap_err();
         assert_eq!(error.code, crate::ErrorCode::ReconciliationRequired);
+        let decoded_data = response.get("data").unwrap();
+        assert_eq!(
+            remotely_linked_issue(decoded_data, "o/r", Some(7)).unwrap(),
+            Some(7)
+        );
     }
 
     #[test]

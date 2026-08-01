@@ -4,17 +4,17 @@ use csdlc_v2::cards::{
 };
 use csdlc_v2::{
     assign_review, bind_issue, closeout_issue, edit_issue, prepare_publication,
-    prepare_ready_publication, prepare_ready_reconciliation, reconcile_terminal_observation_head,
-    record_merged_publication, record_publication, record_readiness, record_ready_publication,
-    record_review, rehome_claim_authority, revoke_active_claim,
-    validate_ready_reconciliation_state, validate_ready_remote, BindRequest, BootstrapRequest,
-    CardKind, Claim, ConflictState, EditRequest, ErrorCode, InitialCardInput, LifecyclePhase,
-    PlanningProfile, PublicationIntent, PublicationRequest, ReadinessRequest,
-    ReadyPublicationReconciliationRequest, ReadyPublicationRequest, ReconcileTerminalRequest,
-    RehomeClaimAuthorityRequest, RemotePullRequest, RemoteReviewState, ReviewAssignmentRequest,
-    ReviewEvidence, ReviewRecordRequest, RevokeActiveClaimRequest, SemanticOperation, Store,
-    TerminalDesignRepairRequest, TerminalDisposition, TerminalObservation,
-    TerminalPlanStepRepairRequest, TerminalSorArtifactRepairRequest,
+    prepare_ready_publication, prepare_ready_reconciliation, reacquire_claim,
+    reconcile_terminal_observation_head, record_merged_publication, record_publication,
+    record_readiness, record_ready_publication, record_review, rehome_claim_authority,
+    revoke_active_claim, validate_ready_reconciliation_state, validate_ready_remote, BindRequest,
+    BootstrapRequest, CardKind, Claim, ConflictState, EditRequest, ErrorCode, InitialCardInput,
+    LifecyclePhase, PlanningProfile, PublicationIntent, PublicationRequest, ReacquireClaimRequest,
+    ReadinessRequest, ReadyPublicationReconciliationRequest, ReadyPublicationRequest,
+    ReconcileTerminalRequest, RehomeClaimAuthorityRequest, RemotePullRequest, RemoteReviewState,
+    ReviewAssignmentRequest, ReviewEvidence, ReviewRecordRequest, RevokeActiveClaimRequest,
+    SemanticOperation, Store, TerminalDesignRepairRequest, TerminalDisposition,
+    TerminalObservation, TerminalPlanStepRepairRequest, TerminalSorArtifactRepairRequest,
 };
 use std::collections::BTreeMap;
 use std::fs;
@@ -25,7 +25,7 @@ use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 use std::sync::mpsc;
 use std::sync::{Arc, Mutex};
 use std::thread;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 fn install_native_authority(root: &std::path::Path) {
     let registry = root.join("docs/templates/prompts/current.json");
@@ -968,6 +968,26 @@ fn fixture_with_validation_history_publication_and_worktree(
     publish: bool,
     issue_local_worktree: bool,
 ) -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
+    fixture_through_review(
+        issue,
+        title,
+        scenario,
+        validation_history,
+        publish,
+        issue_local_worktree,
+        true,
+    )
+}
+
+fn fixture_through_review(
+    issue: u64,
+    title: &str,
+    scenario: &str,
+    validation_history: Vec<ValidationResult>,
+    publish: bool,
+    issue_local_worktree: bool,
+    complete_review: bool,
+) -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
     let temp = tempfile::tempdir().unwrap();
     std::fs::create_dir_all(temp.path().join("docs")).unwrap();
     std::fs::write(temp.path().join("docs/design.md"), "# design\n").unwrap();
@@ -1101,6 +1121,9 @@ fn fixture_with_validation_history_publication_and_worktree(
             phase: LifecyclePhase::Implemented,
         },
     );
+    if !complete_review {
+        return (temp, store, record, sha);
+    }
     let assigned = assign_review(
         &store,
         ReviewAssignmentRequest {
@@ -3408,31 +3431,94 @@ fn terminal_reconcile_materializes_missing_projection_from_retained_receipt() {
 #[test]
 fn rehome_authority_requires_exact_source_and_fails_on_unreadable_detached_sibling() {
     let issue = 5499;
-    let (temp, store, source, _) = fixture_with_validation_history_publication_and_worktree(
+    let (temp, store, target, _) = fixture_through_review(
         issue,
         "Authority rehome fixture",
         "authority-rehome",
         vec![],
         false,
         true,
+        false,
     );
+    fs::create_dir_all(temp.path().join("src")).unwrap();
+    fs::write(temp.path().join("src/lib.rs"), "pub fn reviewed() {}\n").unwrap();
     git(temp.path(), &["add", "."]);
-    git(temp.path(), &["commit", "-m", "source authority"]);
+    git(temp.path(), &["commit", "-m", "implemented authority"]);
     let source_commit = csdlc_v2::git::run(temp.path(), &["rev-parse", "HEAD"])
         .unwrap()
         .stdout;
+    let source_worktree = temp.path().join("reviewed-source");
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "source-authority",
+            source_worktree.to_str().unwrap(),
+            &source_commit,
+        ],
+    );
+    let source_store = Store::new(&source_worktree);
+    let assigned = assign_review(
+        &source_store,
+        ReviewAssignmentRequest {
+            issue,
+            expected_generation: target.generation,
+            expected_digest: target.digest.clone(),
+            claim_id: "claim".into(),
+            reviewer: "reviewer".into(),
+            assigned_by: "agent".into(),
+            scope: vec!["src".into()],
+        },
+    )
+    .unwrap();
+    let revision = assigned
+        .review_assignment
+        .as_ref()
+        .unwrap()
+        .revision
+        .clone();
+    let reviewed = record_review(
+        &source_store,
+        ReviewRecordRequest {
+            issue,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            claim_id: "claim".into(),
+            actor: "reviewer".into(),
+            evidence: ReviewEvidence {
+                reviewer: "reviewer".into(),
+                scope: vec!["src".into()],
+                reviewed_revision: revision,
+                findings: vec![],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .unwrap();
+    let reviewed = edit(
+        &source_store,
+        &reviewed,
+        CardKind::Sip,
+        SemanticOperation::AdvancePhase {
+            phase: LifecyclePhase::Reviewed,
+        },
+    );
     let local = revoke_active_claim(
         &store,
         RevokeActiveClaimRequest {
             issue,
-            repository: source.repository.clone(),
-            expected_claim_id: source.claim.as_ref().unwrap().id.clone(),
-            expected_generation: source.generation,
-            expected_digest: source.digest.clone(),
+            repository: target.repository.clone(),
+            expected_claim_id: target.claim.as_ref().unwrap().id.clone(),
+            expected_generation: target.generation,
+            expected_digest: target.digest.clone(),
             now_unix_seconds: 10,
             actor: "operator".into(),
             operator_authority: "test authority".into(),
-            reason: "prepare exact authority rehome".into(),
+            reason: "release older aggregate authority".into(),
         },
     )
     .unwrap();
@@ -3443,14 +3529,16 @@ fn rehome_authority_requires_exact_source_and_fails_on_unreadable_detached_sibli
         r#"{"schema":"adl.session_ledger.v1","updated_at":"2026-07-31T00:00:00Z","claims":[]}"#,
     )
     .unwrap();
-    let request = RehomeClaimAuthorityRequest {
+    let mut request = RehomeClaimAuthorityRequest {
         issue,
         expected_generation: local.generation,
         expected_digest: local.digest.clone(),
-        expected_initialization_digest: source.initialization_digest.clone(),
+        expected_initialization_digest: target.initialization_digest.clone(),
+        source_worktree: source_worktree.to_string_lossy().into_owned(),
+        source_branch: "source-authority".into(),
         source_commit: source_commit.clone(),
-        expected_source_generation: source.generation,
-        expected_source_digest: source.digest.clone(),
+        expected_source_generation: reviewed.generation,
+        expected_source_digest: reviewed.digest.clone(),
         now_unix_seconds: 20,
         current_session_id: "session:test".into(),
         session_ledger_path: ledger.to_string_lossy().into_owned(),
@@ -3460,7 +3548,7 @@ fn rehome_authority_requires_exact_source_and_fails_on_unreadable_detached_sibli
         replacement: Claim {
             id: "claim-rehomed".into(),
             owner: "session:test".into(),
-            generation: local.generation,
+            generation: reviewed.generation,
             acquired_unix_seconds: 20,
             expires_unix_seconds: 200,
             heartbeat_unix_seconds: 20,
@@ -3470,6 +3558,189 @@ fn rehome_authority_requires_exact_source_and_fails_on_unreadable_detached_sibli
             purpose: "terminal recovery".into(),
         },
     };
+    assert!(reviewed.generation > local.generation);
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("live source claim")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    let reviewed_source_projection = projection_bytes(source_store.issue_dir(issue));
+    let publication_request = PublicationRequest {
+        schema: "csdlc.publication_request.v1".into(),
+        issue,
+        expected_generation: reviewed.generation,
+        expected_digest: reviewed.digest.clone(),
+        claim_id: "claim".into(),
+        actor: "publisher".into(),
+        repository: "example/repo".into(),
+        base: "main".into(),
+        head: "source-authority".into(),
+        title: "Published source must not import".into(),
+        body: "Closes #5499".into(),
+        draft: true,
+        remote: "origin".into(),
+        token_file: None,
+    };
+    let intent = prepare_publication(&source_store, &publication_request).unwrap();
+    record_publication(
+        &source_store,
+        &publication_request,
+        &intent,
+        RemotePullRequest {
+            number: issue,
+            url: "https://example.invalid/5499".into(),
+            repository: "example/repo".into(),
+            base: "main".into(),
+            head: "source-authority".into(),
+            title: "Published source must not import".into(),
+            body: "Closes #5499".into(),
+            draft: true,
+            state: "open".into(),
+            head_sha: source_commit.clone(),
+        },
+    )
+    .unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("publication and integration truth cannot import")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    restore_projection_bytes(source_store.issue_dir(issue), &reviewed_source_projection);
+    let source = revoke_active_claim(
+        &source_store,
+        RevokeActiveClaimRequest {
+            issue,
+            repository: reviewed.repository.clone(),
+            expected_claim_id: reviewed.claim.as_ref().unwrap().id.clone(),
+            expected_generation: reviewed.generation,
+            expected_digest: reviewed.digest.clone(),
+            now_unix_seconds: 10,
+            actor: "operator".into(),
+            operator_authority: "test authority".into(),
+            reason: "release reviewed source authority".into(),
+        },
+    )
+    .unwrap();
+    request.expected_source_digest = source.digest;
+    let mut wrong_branch = request.clone();
+    wrong_branch.source_branch = "wrong-source-branch".into();
+    assert_eq!(
+        rehome_claim_authority(&store, wrong_branch)
+            .expect_err("source branch must match the registered worktree")
+            .code,
+        ErrorCode::UnsafeCheckout
+    );
+    let mut wrong_worktree = request.clone();
+    wrong_worktree.source_worktree = temp.path().to_string_lossy().into_owned();
+    assert_eq!(
+        rehome_claim_authority(&store, wrong_worktree)
+            .expect_err("source must be a distinct exact worktree")
+            .code,
+        ErrorCode::UnsafeCheckout
+    );
+    let mut wrong_head = request.clone();
+    wrong_head.source_commit = "0".repeat(40);
+    assert_eq!(
+        rehome_claim_authority(&store, wrong_head)
+            .expect_err("source HEAD must match")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    let source_reviewed_file = source_worktree.join("src/lib.rs");
+    let reviewed_source_bytes = fs::read(&source_reviewed_file).unwrap();
+    fs::write(&source_reviewed_file, "pub fn stale_review() {}\n").unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("source review must remain exact")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    fs::write(&source_reviewed_file, reviewed_source_bytes).unwrap();
+    let target_reviewed_file = temp.path().join("src/lib.rs");
+    let reviewed_target_bytes = fs::read(&target_reviewed_file).unwrap();
+    let target_before_divergence = projection_bytes(store.issue_dir(issue));
+    fs::write(&target_reviewed_file, "pub fn divergent_carrier() {}\n").unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("divergent aggregate review scope cannot become Reviewed")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    assert_eq!(
+        projection_bytes(store.issue_dir(issue)),
+        target_before_divergence
+    );
+    fs::write(&target_reviewed_file, reviewed_target_bytes).unwrap();
+    git(&source_worktree, &["rm", "--cached", "src/lib.rs"]);
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("tracked and untracked scope entries are not equivalent")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    git(&source_worktree, &["add", "src/lib.rs"]);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        let mut permissions = fs::metadata(&target_reviewed_file).unwrap().permissions();
+        let original_mode = permissions.mode();
+        permissions.set_mode(original_mode ^ 0o111);
+        fs::set_permissions(&target_reviewed_file, permissions).unwrap();
+        assert_eq!(
+            rehome_claim_authority(&store, request.clone())
+                .expect_err("executable mode is substantive")
+                .code,
+            ErrorCode::ReconciliationRequired
+        );
+        let mut restored = fs::metadata(&target_reviewed_file).unwrap().permissions();
+        restored.set_mode(original_mode);
+        fs::set_permissions(&target_reviewed_file, restored).unwrap();
+
+        use std::os::unix::fs::symlink;
+        let target_design = temp.path().join("docs/design.md");
+        let target_design_backup = temp.path().join("docs/design.backup.md");
+        let before_symlink = projection_bytes(store.issue_dir(issue));
+        fs::rename(&target_design, &target_design_backup).unwrap();
+        symlink(&target_design_backup, &target_design).unwrap();
+        assert_eq!(
+            rehome_claim_authority(&store, request.clone())
+                .expect_err("target authored artifact symlink")
+                .code,
+            ErrorCode::UnsafeCheckout
+        );
+        assert_eq!(projection_bytes(store.issue_dir(issue)), before_symlink);
+        fs::remove_file(&target_design).unwrap();
+        fs::rename(target_design_backup, target_design).unwrap();
+    }
+    let source_audit = source_worktree.join(format!(".csdlc/issues/{issue}/audit.jsonl"));
+    let canonical_source_audit = fs::read(&source_audit).unwrap();
+    let mut corrupt_source_audit = canonical_source_audit.clone();
+    corrupt_source_audit.extend_from_slice(b"{}\n");
+    fs::write(&source_audit, corrupt_source_audit).unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("source audit projection must be canonical")
+            .code,
+        ErrorCode::CorruptRecord
+    );
+    fs::write(&source_audit, &canonical_source_audit).unwrap();
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+        let source_audit_backup = source_audit.with_extension("jsonl-backup");
+        fs::rename(&source_audit, &source_audit_backup).unwrap();
+        symlink(&source_audit_backup, &source_audit).unwrap();
+        assert_eq!(
+            rehome_claim_authority(&store, request.clone())
+                .expect_err("source audit symlink")
+                .code,
+            ErrorCode::UnsafeCheckout
+        );
+        fs::remove_file(&source_audit).unwrap();
+        fs::rename(source_audit_backup, &source_audit).unwrap();
+    }
     let mut wrong_source = request.clone();
     wrong_source.expected_source_digest = "0".repeat(64);
     assert_eq!(
@@ -3478,14 +3749,29 @@ fn rehome_authority_requires_exact_source_and_fails_on_unreadable_detached_sibli
             .code,
         ErrorCode::ReconciliationRequired
     );
+    let target_index = store.issue_dir(issue).join("index.json");
+    let canonical_target_index = fs::read(&target_index).unwrap();
+    let mut noncanonical_target_index = canonical_target_index.clone();
+    noncanonical_target_index.push(b'\n');
+    fs::write(&target_index, noncanonical_target_index).unwrap();
+    let noncanonical_error = rehome_claim_authority(&store, request.clone())
+        .expect_err("noncanonical target bytes cannot promise exact rollback");
+    assert_eq!(
+        noncanonical_error.code,
+        ErrorCode::CorruptRecord,
+        "{}",
+        noncanonical_error.message
+    );
+    fs::write(&target_index, canonical_target_index).unwrap();
 
-    let sibling = temp.path().join("detached-sibling");
+    let sibling = temp.path().join("older-detached-sibling");
     git(
         temp.path(),
         &[
             "worktree",
             "add",
-            "--detach",
+            "-b",
+            "divergent-authority",
             sibling.to_str().unwrap(),
             &source_commit,
         ],
@@ -3499,6 +3785,42 @@ fn rehome_authority_requires_exact_source_and_fails_on_unreadable_detached_sibli
         ErrorCode::ReconciliationRequired
     );
     fs::rename(&unavailable_sibling, &sibling).unwrap();
+    restore_projection_bytes(
+        sibling.join(format!(".csdlc/issues/{issue}")),
+        &projection_bytes(source_store.issue_dir(issue)),
+    );
+    let sibling_store = Store::new(&sibling);
+    let sibling_record = sibling_store.load_record(issue).unwrap();
+    reacquire_claim(
+        &sibling_store,
+        ReacquireClaimRequest {
+            issue,
+            expected_generation: sibling_record.generation,
+            expected_digest: sibling_record.digest.clone(),
+            now_unix_seconds: 20,
+            actor: "divergent-writer".into(),
+            reason: "create valid same-generation divergent authority".into(),
+            replacement: Claim {
+                id: "divergent-claim".into(),
+                owner: "divergent-writer".into(),
+                generation: sibling_record.generation,
+                acquired_unix_seconds: 20,
+                expires_unix_seconds: 200,
+                heartbeat_unix_seconds: 20,
+                branch: "divergent-authority".into(),
+                worktree: ".".into(),
+                protected_paths: vec!["src".into()],
+                purpose: "prove divergent authority rejection".into(),
+            },
+        },
+    )
+    .unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("same-generation divergent authority")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
     fs::write(
         sibling.join(format!(".csdlc/issues/{issue}/index.json")),
         "{corrupt",
@@ -3514,9 +3836,106 @@ fn rehome_authority_requires_exact_source_and_fails_on_unreadable_detached_sibli
         temp.path(),
         &["worktree", "remove", "--force", sibling.to_str().unwrap()],
     );
+
+    let target_projection = projection_bytes(store.issue_dir(issue));
+    let source_audit_bytes = fs::read(&source_audit).unwrap();
+    let expected_target_digest = local.digest.clone();
+    let writer_target_digest = expected_target_digest.clone();
+    let writer_target_index = target_index.clone();
+    let writer_root = temp.path().to_path_buf();
+    let (writer_started_tx, writer_started_rx) = mpsc::channel();
+    let writer = thread::spawn(move || {
+        let deadline = Instant::now() + Duration::from_secs(5);
+        while Instant::now() < deadline {
+            if let Some(record) = fs::read(&writer_target_index)
+                .ok()
+                .and_then(|bytes| serde_json::from_slice::<csdlc_v2::IssueRecord>(&bytes).ok())
+                .filter(|record| record.digest != writer_target_digest)
+            {
+                writer_started_tx.send(()).unwrap();
+                return edit_issue(
+                    &Store::new(writer_root),
+                    EditRequest {
+                        issue,
+                        card: CardKind::Sor,
+                        expected_generation: record.generation,
+                        expected_digest: record.digest,
+                        claim_id: "claim-rehomed".into(),
+                        actor: "concurrent-writer".into(),
+                        reason: "must wait for rehome commit decision".into(),
+                        operation: SemanticOperation::RecordExecution {
+                            summary: "must not survive rollback".into(),
+                            changes: vec!["none".into()],
+                            artifacts: vec!["none".into()],
+                        },
+                        fail_after_backup: false,
+                    },
+                );
+            }
+            thread::yield_now();
+        }
+        panic!("writer did not observe staged authority")
+    });
+    let drift_audit = source_audit.clone();
+    let drift = thread::spawn(move || {
+        writer_started_rx
+            .recv_timeout(Duration::from_secs(5))
+            .expect("writer observed staged authority");
+        thread::sleep(Duration::from_millis(25));
+        let mut bytes = fs::read(&drift_audit).unwrap();
+        bytes.push(b'\n');
+        fs::write(&drift_audit, bytes).unwrap();
+        true
+    });
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("source drift must roll back the target")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    assert!(
+        drift.join().unwrap(),
+        "drift mutator observed materialization"
+    );
+    assert!(matches!(
+        writer
+            .join()
+            .unwrap()
+            .expect_err("writer request became stale")
+            .code,
+        ErrorCode::StaleGeneration | ErrorCode::StaleDigest
+    ));
+    assert_eq!(projection_bytes(store.issue_dir(issue)), target_projection);
+    fs::write(&source_audit, source_audit_bytes).unwrap();
+
     let result = rehome_claim_authority(&store, request).expect("exact rehome");
     assert_eq!(result.source_commit, source_commit);
     assert_eq!(result.claim.id, "claim-rehomed");
+    assert_eq!(result.generation, reviewed.generation);
+    assert_eq!(
+        store.load_record(issue).unwrap().phase,
+        LifecyclePhase::Reviewed
+    );
+}
+
+fn projection_bytes(issue_dir: PathBuf) -> BTreeMap<String, Vec<u8>> {
+    let mut projection = BTreeMap::new();
+    for name in ["index.json", "audit.jsonl"] {
+        projection.insert(name.into(), fs::read(issue_dir.join(name)).unwrap());
+    }
+    for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        for suffix in ["values.json", "md"] {
+            let name = format!("cards/{card}.{suffix}");
+            projection.insert(name.clone(), fs::read(issue_dir.join(name)).unwrap());
+        }
+    }
+    projection
+}
+
+fn restore_projection_bytes(issue_dir: PathBuf, projection: &BTreeMap<String, Vec<u8>>) {
+    for (name, bytes) in projection {
+        fs::write(issue_dir.join(name), bytes).unwrap();
+    }
 }
 
 #[test]

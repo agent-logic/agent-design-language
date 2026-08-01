@@ -174,6 +174,10 @@ impl Store {
         Ok(file)
     }
 
+    pub(crate) fn authority_projection_lock(&self, issue: u64) -> Result<File> {
+        self.lock(issue)
+    }
+
     pub(crate) fn binding_lock(&self) -> Result<File> {
         let common = crate::git::run(
             &self.root,
@@ -2148,6 +2152,7 @@ impl Store {
         };
 
         let _terminal_repair_lock = self.terminal_repair_lock()?;
+        let _binding_lock = self.binding_lock()?;
         let (first, second) = if request.authority_issue < issue {
             (request.authority_issue, issue)
         } else {
@@ -2207,15 +2212,145 @@ impl Store {
                 "historical target identity, state, or compare-and-swap is stale",
             ));
         }
-        let mut cards = self.load_cards(issue)?;
-        verify_cards(self, &original, &cards)?;
+        let target_cards = self.load_cards(issue)?;
+        verify_cards(self, &original, &target_cards)?;
+        let rehome_operation = original
+            .audit
+            .last()
+            .and_then(|event| serde_json::from_str::<serde_json::Value>(&event.operation).ok())
+            .filter(|operation| {
+                operation.get("operation").and_then(|value| value.as_str())
+                    == Some("rehome_claim_authority")
+            });
+        let mut rehome_source_lock = None;
+        let mut cards = if let Some(operation) = rehome_operation {
+            let source_worktree = operation
+                .get("source_worktree")
+                .and_then(|value| value.as_str())
+                .ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "rehome source worktree evidence is absent",
+                    )
+                })?;
+            let source_branch = operation
+                .get("source_branch")
+                .and_then(|value| value.as_str())
+                .ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "rehome source branch evidence is absent",
+                    )
+                })?;
+            let source_digest = operation
+                .get("source_digest")
+                .and_then(|value| value.as_str())
+                .ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "rehome source digest evidence is absent",
+                    )
+                })?;
+            let source_generation = operation
+                .get("source_generation")
+                .and_then(|value| value.as_u64())
+                .ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "rehome source generation evidence is absent",
+                    )
+                })?;
+            let source_commit = operation
+                .get("source_commit")
+                .and_then(|value| value.as_str())
+                .ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "rehome source commit evidence is absent",
+                    )
+                })?;
+            let source_root = PathBuf::from(source_worktree)
+                .canonicalize()
+                .map_err(|error| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        format!("rehome source worktree is unavailable: {error}"),
+                    )
+                })?;
+            let source_registered =
+                crate::git::worktrees(&self.root)?
+                    .into_iter()
+                    .any(|(branch, root)| {
+                        branch == source_branch
+                            && PathBuf::from(root)
+                                .canonicalize()
+                                .is_ok_and(|candidate| candidate == source_root)
+                    });
+            let source_store = Store::new(source_root);
+            rehome_source_lock = Some(source_store.lock(issue)?);
+            if !source_registered
+                || crate::git::current_branch(source_store.root())? != source_branch
+                || crate::git::run(source_store.root(), &["rev-parse", "HEAD"])?.stdout
+                    != source_commit
+                || source_commit != request.reviewed_commit
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "rehome source branch, worktree, or reviewed commit changed",
+                ));
+            }
+            let source = source_store.load_record(issue)?;
+            let source_cards = source_store.load_cards(issue)?;
+            verify_cards(&source_store, &source, &source_cards)?;
+            verify_canonical_projection_bytes(&source_store, &source, &source_cards)?;
+            if source.repository != original.repository
+                || source.initialization_digest != original.initialization_digest
+                || source.generation != source_generation
+                || source.digest != source_digest
+                || source.claim.is_some()
+                || source.phase != LifecyclePhase::Reviewed
+                || source.review.as_ref() != Some(&request.review)
+                || original.review.as_ref() != Some(&request.review)
+                || crate::git::substantive_revision(source_store.root(), &request.review.scope)?
+                    != request.review.reviewed_revision
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "rehome lineage no longer resolves to the exact reviewed source authority",
+                ));
+            }
+            for path in [&source.design_path, &source.diagram_path] {
+                if read_regular_projection(&source_store.root().join(path))?
+                    != read_regular_projection(&self.root.join(path))?
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "rehome source authored artifacts differ from the carrier checkout",
+                    ));
+                }
+            }
+            source_cards
+        } else {
+            if !crate::git::substantive_scope_matches_commit(
+                &self.root,
+                &request.reviewed_commit,
+                &request.review.scope,
+            )? {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "historical target checkout differs from the reviewed substantive scope",
+                ));
+            }
+            target_cards.clone()
+        };
+        let _rehome_source_lock = rehome_source_lock;
         let authored_artifacts = [original.design_path.clone(), original.diagram_path.clone()]
             .into_iter()
             .map(|path| Ok((path.clone(), fs::read_to_string(self.root.join(path))?)))
             .collect::<Result<BTreeMap<_, _>>>()?;
         let original_projection = Some(TerminalProjectionSnapshot {
             record: original.clone(),
-            cards: cards.clone(),
+            cards: target_cards.clone(),
             authored_artifacts: authored_artifacts.clone(),
         });
 
@@ -3243,6 +3378,50 @@ impl Store {
         repaired.digest = record_digest(&repaired)?;
         self.commit(issue, &repaired, &cards, false)?;
         Ok(repaired)
+    }
+
+    pub(crate) fn replace_authority_projection_locked(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        record: &IssueRecord,
+        cards: &BTreeMap<CardKind, CardValues>,
+    ) -> Result<IssueRecord> {
+        self.recover_if_needed(issue)?;
+        let current = self.load_record(issue)?;
+        if current.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "projection changed before compare-and-swap authority materialization",
+            ));
+        }
+        let current_cards = self.load_cards(issue)?;
+        verify_cards(self, &current, &current_cards)?;
+        verify_canonical_projection_bytes(self, &current, &current_cards)?;
+        let mut materialized = record.clone();
+        hydrate_projections(&mut materialized, cards)?;
+        materialized.digest = record_digest(&materialized)?;
+        self.commit(issue, &materialized, cards, false)?;
+        if let Err(error) = verify_cards(self, &materialized, cards) {
+            self.commit(issue, &current, &current_cards, false)?;
+            verify_cards(self, &current, &current_cards)?;
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!(
+                    "authority projection failed post-commit verification and was rolled back: {}",
+                    error.message
+                ),
+            ));
+        }
+        Ok(materialized)
+    }
+
+    pub(crate) fn verify_canonical_authority_projection(
+        &self,
+        record: &IssueRecord,
+        cards: &BTreeMap<CardKind, CardValues>,
+    ) -> Result<()> {
+        verify_canonical_projection_bytes(self, record, cards)
     }
 
     pub(crate) fn commit_migration(
@@ -5099,6 +5278,62 @@ fn validate_terminal_receipt(receipt: &TerminalReceipt) -> Result<()> {
     Ok(())
 }
 
+fn verify_canonical_projection_bytes(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+) -> Result<()> {
+    let issue_dir = store.issue_dir(record.issue);
+    let mut index = serde_json::to_vec_pretty(record)?;
+    index.push(b'\n');
+    if read_regular_projection(&issue_dir.join("index.json"))? != index {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "authority target index projection is not canonical",
+        ));
+    }
+    let mut audit = Vec::new();
+    for event in &record.audit {
+        serde_json::to_writer(&mut audit, event)?;
+        audit.push(b'\n');
+    }
+    if read_regular_projection(&issue_dir.join("audit.jsonl"))? != audit {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "authority target audit projection is not canonical",
+        ));
+    }
+    for (kind, values) in cards {
+        let mut encoded = serde_json::to_vec_pretty(values)?;
+        encoded.push(b'\n');
+        let rendered = render(values)?;
+        if read_regular_projection(&issue_dir.join(format!("cards/{kind}.values.json")))? != encoded
+            || read_regular_projection(&issue_dir.join(format!("cards/{kind}.md")))?
+                != rendered.markdown.as_bytes()
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "authority target card projection is not canonical",
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn read_regular_projection(path: &Path) -> Result<Vec<u8>> {
+    let metadata = fs::symlink_metadata(path)?;
+    if metadata.file_type().is_symlink() || !metadata.is_file() {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!(
+                "authority projection is not a regular file: {}",
+                path.display()
+            ),
+        ));
+    }
+    Ok(fs::read(path)?)
+}
+
 fn write_complete(
     path: &Path,
     record: &IssueRecord,
@@ -6823,7 +7058,7 @@ mod terminal_design_repair_tests {
             reconciled: true,
             producer_digest: None,
         });
-        let request = HistoricalMergedReconciliationRequest {
+        let mut request = HistoricalMergedReconciliationRequest {
             authority_issue: authority.issue,
             expected_authority_generation: authority.generation,
             expected_authority_digest: authority.digest.clone(),
@@ -6844,7 +7079,7 @@ mod terminal_design_repair_tests {
         };
         assert_eq!(
             store
-                .reconcile_historical_merged(request)
+                .reconcile_historical_merged(request.clone())
                 .expect_err("injected interruption")
                 .code,
             ErrorCode::InterruptedTransaction
@@ -6857,6 +7092,143 @@ mod terminal_design_repair_tests {
         store.recover_with_terminal_lock(target.issue).unwrap();
         assert_eq!(store.load_record(target.issue).unwrap(), target);
         assert!(store.load_terminal_receipt(target.issue).unwrap().is_none());
+
+        let source_root = temp.path().join("reviewed-source");
+        std::process::Command::new("git")
+            .args([
+                "worktree",
+                "add",
+                "-b",
+                "reviewed-source",
+                source_root.to_str().unwrap(),
+                &request.reviewed_commit,
+            ])
+            .current_dir(temp.path())
+            .status()
+            .unwrap()
+            .success()
+            .then_some(())
+            .expect("source worktree");
+        let source_store = Store::new(&source_root);
+        let mut source = source_store.load_record(target.issue).unwrap();
+        let mut source_cards = source_store.load_cards(target.issue).unwrap();
+        request.review.reviewed_revision =
+            crate::git::substantive_revision(source_store.root(), &request.review.scope).unwrap();
+        source.phase = LifecyclePhase::Reviewed;
+        source.claim = None;
+        source.publication = None;
+        source.readiness = None;
+        source.terminal = None;
+        source.review = Some(request.review.clone());
+        while source
+            .transitions
+            .last()
+            .is_some_and(|transition| transition.to != LifecyclePhase::Reviewed)
+        {
+            source.transitions.pop();
+        }
+        let CardContent::Srp(srp) = &mut source_cards.get_mut(&CardKind::Srp).expect("SRP").content
+        else {
+            unreachable!()
+        };
+        srp.reviewer = Some(request.review.reviewer.clone());
+        srp.review_scope = request.review.scope.join("\n");
+        srp.review_revision = Some(request.review.reviewed_revision.clone());
+        srp.review_result = crate::cards::ReviewResult::Pass;
+        let CardContent::Sor(sor) = &mut source_cards.get_mut(&CardKind::Sor).expect("SOR").content
+        else {
+            unreachable!()
+        };
+        sor.integration_state = crate::cards::IntegrationState::WorktreeOnly;
+        sor.publication_state = crate::cards::PublicationState::NotPublished;
+        sor.merge_state = crate::cards::MergeState::NotMerged;
+        sor.closeout_state = crate::cards::CloseoutState::NotStarted;
+        hydrate_projections(&mut source, &source_cards).unwrap();
+        source.digest = record_digest(&source).unwrap();
+        source_store
+            .commit(target.issue, &source, &source_cards, false)
+            .unwrap();
+
+        let mut rehomed = source.clone();
+        rehomed.claim = Some(Claim {
+            id: "historical-rehome".into(),
+            owner: "recovery-session".into(),
+            generation: source.generation,
+            acquired_unix_seconds: 1,
+            expires_unix_seconds: u64::MAX,
+            heartbeat_unix_seconds: 1,
+            branch: "issue-7".into(),
+            worktree: ".".into(),
+            protected_paths: vec![format!(".csdlc/issues/{}", target.issue)],
+            purpose: "historical finalize".into(),
+        });
+        rehomed.audit.push(AuditEvent {
+            sequence: rehomed.audit.len() as u64 + 1,
+            generation: rehomed.generation,
+            actor: "recovery-session".into(),
+            reason: "test exact rehome lineage".into(),
+            operation: serde_json::json!({
+                "operation": "rehome_claim_authority",
+                "source_worktree": source_root.to_string_lossy(),
+                "source_branch": "reviewed-source",
+                "source_commit": request.reviewed_commit,
+                "source_generation": source.generation,
+                "source_digest": source.digest,
+            })
+            .to_string(),
+        });
+        hydrate_projections(&mut rehomed, &source_cards).unwrap();
+        rehomed.digest = record_digest(&rehomed).unwrap();
+        store
+            .commit(target.issue, &rehomed, &source_cards, false)
+            .unwrap();
+
+        request.expected_target_generation = rehomed.generation;
+        request.expected_target_digest = rehomed.digest.clone();
+        request.fail_after_stage = Some("after_projection".into());
+        let interrupted = store
+            .reconcile_historical_merged(request.clone())
+            .expect_err("rehomed finalize interruption");
+        assert_eq!(
+            interrupted.code,
+            ErrorCode::InterruptedTransaction,
+            "{}",
+            interrupted.message
+        );
+        fs::write(
+            store.issue_dir(target.issue).join("cards/sip.values.json"),
+            b"{corrupt",
+        )
+        .unwrap();
+        store.recover_with_terminal_lock(target.issue).unwrap();
+        assert_eq!(store.load_record(target.issue).unwrap(), rehomed);
+        assert!(store.load_terminal_receipt(target.issue).unwrap().is_none());
+
+        let source_audit = source_store.issue_dir(target.issue).join("audit.jsonl");
+        let source_audit_bytes = fs::read(&source_audit).unwrap();
+        fs::write(&source_audit, b"{}\n").unwrap();
+        request.fail_after_stage = None;
+        assert_eq!(
+            store
+                .reconcile_historical_merged(request.clone())
+                .expect_err("source audit drift")
+                .code,
+            ErrorCode::CorruptRecord
+        );
+        fs::write(&source_audit, source_audit_bytes).unwrap();
+        let closed = store
+            .reconcile_historical_merged(request)
+            .expect("exact rehomed finalize");
+        assert_eq!(closed.phase, LifecyclePhase::ClosedOut);
+        assert!(closed.claim.is_none());
+        assert_eq!(
+            store
+                .load_terminal_receipt(target.issue)
+                .unwrap()
+                .unwrap()
+                .record,
+            closed
+        );
     }
 
     #[test]
