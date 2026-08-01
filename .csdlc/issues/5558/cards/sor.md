@@ -54,16 +54,29 @@ Resolved all exact-head review findings without widening beyond issue 5558.
     "purpose": "Re-prove final typed v2 authority after all independent review fixes.",
     "outcome": "passed",
     "evidence_ref": "local: post-review Gate 10A 15/15 and full owner lane PASS"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_select_validation_lanes.sh",
+      "&&",
+      "bash",
+      "adl/tools/run_owner_validation_lane.sh",
+      "csdlc"
+    ],
+    "purpose": "Prove active metrics and validation-inventory tooling selects the C-SDLC owner lane while sunset v1 routes remain removed.",
+    "outcome": "passed",
+    "evidence_ref": "local: selector contract PASS; Gate 10A 16/16; complete C-SDLC owner lane PASS"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

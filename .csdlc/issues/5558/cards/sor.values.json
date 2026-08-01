@@ -7,7 +7,7 @@
     "title": "Remove sunset pr.sh guidance from owner lane",
     "slug": "remove-sunset-pr-sh-guidance",
     "version": "v0.91.8",
-    "generation": 9
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
@@ -50,10 +50,23 @@
           "purpose": "Re-prove final typed v2 authority after all independent review fixes.",
           "outcome": "passed",
           "evidence_ref": "local: post-review Gate 10A 15/15 and full owner lane PASS"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_select_validation_lanes.sh",
+            "&&",
+            "bash",
+            "adl/tools/run_owner_validation_lane.sh",
+            "csdlc"
+          ],
+          "purpose": "Prove active metrics and validation-inventory tooling selects the C-SDLC owner lane while sunset v1 routes remain removed.",
+          "outcome": "passed",
+          "evidence_ref": "local: selector contract PASS; Gate 10A 16/16; complete C-SDLC owner lane PASS"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

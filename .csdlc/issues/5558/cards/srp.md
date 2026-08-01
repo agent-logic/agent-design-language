@@ -8,12 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact commit f84e27db610f512da2f9175c55c4bc4970e4bb79
-All issue 5558 implementation, review fixes, deletion-integrity tests, typed release-gate proof, docs, and lifecycle records
+
 
 ## Prompts
 
@@ -30,12 +29,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- GitHub CI remains the integration proof after publication; local owner-lane and focused behavioral validation passed at the reviewed revision.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:f84e27db610f512da2f9175c55c4bc4970e4bb79:27a0bd8cbbe347d18abb2da9fee752b7fe92b84f7fdc6766ea7d0c4be2d52cc4")
+Revision: None
 
-Reviewer: Some("codex:root-independent-final-review")
+Reviewer: None
 
-Result: pass
+Result: pre_review

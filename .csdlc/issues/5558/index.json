@@ -3,13 +3,13 @@
   "issue": 5558,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
-  "phase": "published",
-  "generation": 9,
-  "digest": "847ea77cd75b88c8d73819fc0c7d164e9ddcd3cbe4a56cc3dec7b1e4b4d5fcb3",
+  "phase": "implemented",
+  "generation": 11,
+  "digest": "ef16d120d47bbf840d4b584f9d51c292f1ef036c743efb0efd822ca3bbdc89c1",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
-    "generation": 9,
+    "generation": 11,
     "acquired_unix_seconds": 1785570394,
     "expires_unix_seconds": 1785656794,
     "heartbeat_unix_seconds": 1785570394,
@@ -122,40 +122,9 @@
     ],
     "purpose": "Correct issue 5558 by removing remaining live sunset v1 lifecycle guidance and proving final typed v2 authority."
   },
-  "review_assignment": {
-    "reviewer": "codex:root-independent-final-review",
-    "assigned_by": "codex:5558-corrective",
-    "revision": "git-blake3:f84e27db610f512da2f9175c55c4bc4970e4bb79:27a0bd8cbbe347d18abb2da9fee752b7fe92b84f7fdc6766ea7d0c4be2d52cc4",
-    "scope": [
-      "Exact commit f84e27db610f512da2f9175c55c4bc4970e4bb79",
-      "All issue 5558 implementation, review fixes, deletion-integrity tests, typed release-gate proof, docs, and lifecycle records"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:root-independent-final-review",
-    "scope": [
-      "Exact commit f84e27db610f512da2f9175c55c4bc4970e4bb79",
-      "All issue 5558 implementation, review fixes, deletion-integrity tests, typed release-gate proof, docs, and lifecycle records"
-    ],
-    "reviewed_revision": "git-blake3:f84e27db610f512da2f9175c55c4bc4970e4bb79:27a0bd8cbbe347d18abb2da9fee752b7fe92b84f7fdc6766ea7d0c4be2d52cc4",
-    "findings": [],
-    "residual_risks": [
-      "GitHub CI remains the integration proof after publication; local owner-lane and focused behavioral validation passed at the reviewed revision."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5558,
-    "pull_request": 5769,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5769",
-    "base": "main",
-    "head": "codex/5558-v1-route-corrective",
-    "revision": "git-blake3:27ce203a1adb095e2113ccb15c7c41d0d4baada8:e393639a215abf058c3966ad0924c45359877717b2ed281e92a1ecd3c639332c",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -169,34 +138,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c1e2d7d0ab4521a0178dde82b8ecd9ad7ae530f35dbecf93df7a3888235788a8",
+      "values_digest": "024ee7e0cab42aec4dc03d3268ade038993ad19d0037146c8a34df4e48c5405f",
       "rendered_digest": "3ef258b1c4bb480ab05a5f1842a67fb807068d557612286211389017f956a73d",
       "ast_digest": "a173adcf99a8c6fc2eee501e4e055b5613e48eaae750d3859ba753b2051b2716"
     },
     "stp": {
-      "values_digest": "00debefb8e7051970ad356bc6b4ffca98d68abedfce9312e8f8be683352254c1",
+      "values_digest": "1613c1538f81330687cedba3f272a527875a6e503cf3b8890e6bd18907483822",
       "rendered_digest": "4e813a7bd81e883366df3deeeb1f62e371dbd81f622aec8f105e5233b842d9df",
       "ast_digest": "ed08ed5118621e4e7978292eb31a6fb1817be62f49cf08a737b4dc9ba94d9b1f"
     },
     "spp": {
-      "values_digest": "9208d4ee30f1bba90739c53f5d8f3b18c6b604fc3fd7ccbf7e9e36786989af6b",
+      "values_digest": "93cbc0fe1bbc2dd70d5ad6389ba0a6d9ba0fb49bf621ecd2acd21408198b9636",
       "rendered_digest": "25879d34e3cf553eddde351a8fcadefd055898a9d0280a8e10ebc5e998410ee8",
       "ast_digest": "1453d42addf77769af338269da74b0501f8c17bd84d7d493b518c66395fa38ca"
     },
     "vpp": {
-      "values_digest": "b072105281cb894b1f5aaa4582f1063878dcbaee6ef862b05e0eeb6d3ecae07e",
+      "values_digest": "24b221c093dcfb4787562d2baad5c360785bc493429dc489960ce9830c69f0d6",
       "rendered_digest": "05e67389a9dd9511f18c9fd7089eaba5dc2df4f40979d42e159403da83ef7537",
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "5c6f5e3ab6e07aa2c2ba73d0bab71280fa8334e7a00b8ac9b77515cb1a864a35",
-      "rendered_digest": "cfdf481aa3ab1c9b28abe757a73212836fdeafbf2583855af6768533c6ebb602",
-      "ast_digest": "503d58ef1e1ff17293cf7414d791e1756b93aa305f366efd9d80596c12022799"
+      "values_digest": "c226d8355afde2fa5ffb761f1cbcba694df1236f1b4480859b5982777982f667",
+      "rendered_digest": "146d4c911a6c44e6d998506b42fca60ea559e6a000d9c0606134cc288af73282",
+      "ast_digest": "9163d610ba45c2cc14ad20fb3af5f123985b79a9d6e78dc494b8881eb315fbe8"
     },
     "sor": {
-      "values_digest": "59065f85e4b212a4fbf2d8e1a9d2dba73575b0f14c30f659b3d33b7372be6849",
-      "rendered_digest": "5ea29e0e27f4ab51b030abc8c197724eb4eac3e4785234b6d42fa4bdd3ded261",
-      "ast_digest": "2f7a6662c65ee3133ce081e8f5b0f5476d6068948b8507c08d9157790901a5e1"
+      "values_digest": "79f3365c7e8b5f526710da2706f6bc57223c81c1791021f7eb7c9c0081a327b6",
+      "rendered_digest": "62074f781297af0c693b9104291cc8d90600d563b447b3c5d6f44326ddc7ba97",
+      "ast_digest": "257083066c8b1e5f1bf55da2251c304318bd7c525eab757fcaca67245909951d"
     }
   },
   "transitions": [
@@ -234,6 +203,13 @@
       "to": "published",
       "actor": "codex:5558-corrective",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5558-corrective",
+      "reason": "CI exposed that active non-v1 workflow-metrics and validation-inventory tools lost C-SDLC owner-lane selection; recover stale review and publication truth after restoring those bounded active selectors."
     }
   ],
   "audit": [
@@ -425,6 +401,20 @@
       "actor": "codex:5558-corrective",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 28,
+      "generation": 10,
+      "actor": "codex:5558-corrective",
+      "reason": "CI exposed that active non-v1 workflow-metrics and validation-inventory tools lost C-SDLC owner-lane selection; recover stale review and publication truth after restoring those bounded active selectors.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 11,
+      "actor": "codex:5558-corrective",
+      "reason": "Record focused selector and complete owner-lane proof after restoring active non-v1 tooling ownership.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_select_validation_lanes.sh\",\"&&\",\"bash\",\"adl/tools/run_owner_validation_lane.sh\",\"csdlc\"],\"purpose\":\"Prove active metrics and validation-inventory tooling selects the C-SDLC owner lane while sunset v1 routes remain removed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local: selector contract PASS; Gate 10A 16/16; complete C-SDLC owner lane PASS\"}}"
     }
   ]
 }
