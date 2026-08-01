@@ -144,6 +144,12 @@ run_csdlc_lane() {
     bash adl/tools/test_csdlc_prompt_editor.sh
   run_command "C-SDLC retired review-card surface" \
     bash adl/tools/test_review_card_surface.sh
+  run_command "C-SDLC retired closeout-wave helper" \
+    bash adl/tools/test_closeout_completed_issue_wave.sh
+  run_command "C-SDLC retired milestone SOR helper" \
+    bash adl/tools/test_check_milestone_closed_issue_sor_truth.sh
+  run_command "C-SDLC typed issue metadata parity" \
+    bash adl/tools/test_check_issue_metadata_parity.sh
   run_command "C-SDLC prompt-template structure schemas" \
     python3 adl/tools/test_prompt_template_structure_schemas.py
   run_command "C-SDLC control-plane observability contract" \

@@ -109,12 +109,9 @@ The first-class issue-lifecycle shepherd contract above those phases lives at:
 
 - `docs/tooling/ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md`
 
-The owner repo-native command surface for that contract is:
+The typed v2 command surface for that contract is:
 
-- `adl-pr-shepherd <issue> [--json]`
-
-`pr.sh shepherd <issue> [--json]` remains a thin compatibility wrapper that
-delegates to the owner binary.
+- `csdlc-shepherd --input <shepherd-input.json>`
 
 `repo-code-review` is cross-cutting rather than phase-specific.
 `test-generator` is a bounded helper skill for focused tests for a concrete issue, diff, file, or worktree.
@@ -180,21 +177,17 @@ The five card editor skills are helper skills:
 - `sip-editor` for truthful `sip.md` cleanup
 - `sor-editor` for truthful `sor.md` cleanup
 
-For new or fully re-rendered prompt cards, prefer the Rust-owned values
-renderer and structure-schema validator before editing Markdown directly:
+For new or fully re-rendered prompt cards, use typed semantic requests rather
+than editing rendered Markdown directly:
 
 ```bash
-csdlc tooling prompt-template validate-values --kind <kind> --values <kind>.values.yaml
-csdlc tooling prompt-template render --kind <kind> --values <kind>.values.yaml --out <kind>.md
-csdlc tooling prompt-template validate-structure --kind <kind> --input <kind>.md
-csdlc tooling prompt-template validate-schemas
-python3 adl/tools/test_prompt_template_structure_schemas.py
+.adl/bin/csdlc-v2/csdlc-edit --repo <worktree> apply --request <edit-request.json>
+.adl/bin/csdlc-v2/csdlc-validate --root <worktree> finalize --request <finalize-request.json>
 ```
 
-If `csdlc` is not already on `PATH`, use the repo-owned binary at
-`adl/target/debug/csdlc` when present. Rebuild it only when working on the
-binary surface itself or when no trusted repo binary exists. `adl-csdlc`
-remains a compatibility alias, not the preferred new command spelling.
+Resolve the active generation with `.adl/bin/csdlc-v2/csdlc-install resolve`
+before selecting an owner binary. Install only into `.adl/bin/csdlc-v2/`;
+Cargo target directories are build caches, not operational authority.
 
 For docs-only, milestone-truth, or workflow-doc issues, prefer the
 `docs-bounded` fast path described later in this guide instead of reflexively
@@ -334,10 +327,9 @@ Pair it with:
 - `csdlc-doctor --repo <repo> --issue <issue>` for structural execution
   readiness and drift diagnosis
 
-Do not treat `pr.sh issue ...` as a substitute for lifecycle truth. It is the
-live GitHub inspection surface, while `doctor`, the editor skills, and the
-rest of the lifecycle still own readiness, card truth, PR publication, janitor
-work, and closeout.
+Typed GitHub observation does not replace lifecycle truth. `csdlc-doctor`, the
+editor skills, and the remaining typed lifecycle binaries still own readiness,
+card truth, PR publication, janitor work, and closeout.
 
 ### `issue-watcher`
 
@@ -1423,16 +1415,11 @@ policy:
 
 ### Merged-Issue Hygiene
 
-For milestone-level visibility, use:
-
-```bash
-bash adl/tools/closeout_completed_issue_wave.sh --version <milestone> --report-only --report <path>
-```
-
-This produces a local report of closed/completed issues whose local closeout may
-still be pending. Use it as the merged-needs-closeout visibility surface before
-or during release tail work, then run the same helper without `--report-only`
-to apply bounded closeout catch-up when appropriate.
+Close out each settled issue through one explicit typed `csdlc-closeout`
+request. Milestone or main-sync helpers must not infer terminal observations,
+reuse another issue's authority, or batch lifecycle mutations through shell.
+Use `csdlc-doctor` for issue-local diagnosis and retain the typed terminal
+receipt before considering the issue closed out.
 
 ### Caller Notes
 

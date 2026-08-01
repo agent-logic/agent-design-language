@@ -6,7 +6,7 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 
 ## What Is Here
 
-- `pr.sh`: canonical issue init/ready/run/finish workflow helper.
+- `.adl/bin/csdlc-v2/`: installed typed C-SDLC v2 owner binaries for issue lifecycle work.
 - `demo_v0871_operator_surface.sh`: canonical `v0.87.1` operator-surface proof wrapper for runtime bring-up and artifact inspection.
 - `demo_v0871_runtime_state.sh`: canonical `v0.87.1` runtime-state proof wrapper for paused-vs-completed persistence inspection.
 - `demo_v0871_suite.sh`: canonical `v0.87.1` WP-13 demo-suite entrypoint for the implemented provider, operator, runtime-state, review-surface, and multi-agent proof surfaces.
@@ -19,15 +19,10 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 - `archive_run_artifacts.sh`: dry-run/apply helper that inventories local run roots, copies unique run artifacts into `.adl/trace-archive/milestones/<milestone>/runs/`, and can move archived active `.adl/runs` entries into `.adl/trace-archive/source-roots/`.
 - `release_ceremony.sh`: canonical release-tail preflight and ceremony wrapper for milestone tag and GitHub Release execution, safe by default and only mutating release state when explicit flags are passed.
 - `demo_v089_quality_gate.sh`: canonical `v0.89` D11 quality-gate walkthrough that aggregates the bounded local gate and proof-package checks into one reviewer-facing manifest.
-- direct owner binaries such as `adl-prompt-template`,
-  `adl-validate-structured-prompt`, and `adl-lint-prompt-spec` own supported
-  prompt/card validation helpers.
+- `csdlc-edit` and `csdlc-validate` own typed card edits and validation.
 - `burst_worktree.sh`, `burst_continue.sh`: burst lane/worktree helpers.
 - `batched_checks.sh`, `preflight_review.sh`: quality/preflight checks, including the repo-code-review skill contract guard.
-- `check_issue_metadata_parity.sh`: canonical metadata parity audit for GitHub issue title/labels plus local `.adl` body/STP metadata identity.
 - `check_repo_quality_staleness.py`: focused reviewer-facing docs and tracked-junk audit for the current milestone package and root repo status surfaces.
-- `closeout_completed_issue_wave.sh`: bounded local catch-up helper that runs `pr closeout` across closed/completed issue bundles for a milestone version so local-only `.adl` truth can converge after merge or main sync; `--dry-run` or `--report-only` emits the merged-needs-closeout candidate set without mutation.
-- `check_milestone_closed_issue_sor_truth.sh`: milestone closed-issue bundle truth gate for local-only `.adl` task bundles; verifies canonical `stp.md`, `sip.md`, and final `sor.md` truth for closed/completed issues.
 - `enforce_coverage_gates.sh`: deterministic coverage threshold enforcement (workspace + per-file).
 - `clean_coverage_artifacts.sh`: removes local generated coverage summaries and loose LLVM profile shards after coverage/report runs.
 - `report_large_rust_modules.sh`: non-blocking Rust source-and-test module size report for maintainability review.
@@ -121,9 +116,6 @@ bash adl/tools/demo_v0871_suite.sh
 # build the bounded v0.89 D11 quality-gate walkthrough package
 bash adl/tools/demo_v089_quality_gate.sh
 
-# audit GitHub/local issue metadata parity for one milestone package
-./adl/tools/check_issue_metadata_parity.sh --version v0.88
-
 # audit root + milestone reviewer-facing docs for current-milestone staleness
 python3 ./adl/tools/check_repo_quality_staleness.py --milestone v0.91.6
 
@@ -136,9 +128,9 @@ cd ./adl/ && bash tools/enforce_coverage_gates.sh coverage-summary.json
 # report large Rust source and test modules without failing the build
 ./adl/tools/report_large_rust_modules.sh
 
-# edit or validate prompt cards with the direct owner binaries
-.adl/bin/adl-prompt-template --help
-.adl/bin/adl-validate-structured-prompt --help
+# edit and validate prompt cards through typed requests
+.adl/bin/csdlc-v2/csdlc-edit --repo <worktree> apply --request <edit-request.json>
+.adl/bin/csdlc-v2/csdlc-validate --root <worktree> finalize --request <finalize-request.json>
 
 # finalize, review, and publish through typed requests
 .adl/bin/csdlc-v2/csdlc-validate --root <worktree> finalize --request <finalize-request.json>

@@ -82,8 +82,11 @@ EXCLUDED_REL_PATHS = {
     # Negative-contract tests intentionally quote forbidden forms. Other
     # test_* files remain scanned and can still fail this gate.
     "adl/tools/test_batched_checks_no_codexpr_usage_banner.sh",
+    "adl/tools/test_check_issue_metadata_parity.sh",
+    "adl/tools/test_check_milestone_closed_issue_sor_truth.sh",
     "adl/tools/test_cli_owner_command_guidance.sh",
     "adl/tools/test_cli_wrapper_migration_contract.sh",
+    "adl/tools/test_closeout_completed_issue_wave.sh",
     # Generated UI model; its tracked template source is validated separately.
     "docs/tooling/csdlc-prompt-editor/editor_model.js",
     "docs/milestones/v0.91.5/ACTIVE_COMMAND_REFERENCE_SCAN_3735.md",
@@ -155,9 +158,16 @@ COMMAND_FAMILIES = (
         pattern=r"(?:workflow-conductor|workflow_conductor|route_workflow\.py)\b",
     ),
     CommandFamily(
+        key="retired_closeout_helpers",
+        label="retired closeout/milestone helper",
+        preferred_owner="csdlc-doctor + csdlc-closeout typed requests",
+        required_action="forbid if active or unknown; preserve only if historical",
+        pattern=r"(?<!test_)(?:closeout_completed_issue_wave|check_milestone_closed_issue_sor_truth|check_issue_metadata_parity)\.sh\b",
+    ),
+    CommandFamily(
         key="legacy_codex_pr",
         label="retired `codex_pr.sh` / `codexw.sh` wrappers",
-        preferred_owner="adl/tools/pr.sh ...",
+        preferred_owner="csdlc-install resolve + typed csdlc-* binary",
         required_action="migrate if active; preserve if historical; route if unknown",
         pattern=r"(?<![\w/-])(?:adl/tools/)?codex_pr\.sh\s+\S+|(?<![\w/-])(?:adl/tools/)?codexw\.sh\s+\S+",
     ),
@@ -241,7 +251,7 @@ def evidence_pointer(text: str, index: int) -> tuple[int, str]:
 
 def is_prohibition_reference(excerpt: str) -> bool:
     lowered = excerpt.lower()
-    return any(
+    return ";" not in excerpt and any(
         marker in lowered
         for marker in (
             "historical v1",
@@ -272,11 +282,15 @@ def run_regression_fixtures() -> None:
         "nonadjacent routing": "Route the selected issue after readiness through `workflow-conductor`.",
         "sunset prompt route": "adl-csdlc tooling prompt-template render --kind sip",
         "quoted root execution": '"$ROOT/adl/tools/review_card_surface.sh" --input card.md',
+        "retired closeout helper": "bash adl/tools/closeout_completed_issue_wave.sh --version v0.91.7",
     }
     for name, fixture in fixtures.items():
         assert any(re.search(family.pattern, fixture) for family in COMMAND_FAMILIES), name
     assert is_prohibition_reference(
         "workflow-conductor and pr.sh are historical v1 routes and must not be used"
+    )
+    assert not is_prohibition_reference(
+        "Do not use pr.sh; invoke workflow-conductor for the next issue."
     )
     assert is_absence_assertion(
         '[[ ! -e "$ROOT/adl/tools/review_card_surface.sh" ]]'

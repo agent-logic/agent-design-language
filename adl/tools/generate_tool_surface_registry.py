@@ -37,7 +37,6 @@ PRIMARY_TOOL_SCRIPTS = {
     "run_owner_validation_lane.sh": "Primary focused owner-lane runner for bounded validation.",
     "run_pr_fast_test_lane.sh": "Primary focused PR-fast local test runner.",
     "check_coverage_impact.sh": "Primary local coverage-impact gate for risky changed files.",
-    "check_issue_metadata_parity.sh": "Primary metadata parity guard for issue records.",
 }
 
 HISTORICAL_EVIDENCE = [

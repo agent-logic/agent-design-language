@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact commit afbaae5efe60eb47768feee84b8e315889f66720\nAll issue 5558 implementation, first-review fixes, tests, docs, and lifecycle records",
+      "review_scope": "Exact commit 7ca9f939a8b3a7641b54559db50b167743bf4177\nAll issue 5558 implementation, first-review fixes, tests, docs, and lifecycle records",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
