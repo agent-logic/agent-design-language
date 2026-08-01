@@ -26,25 +26,6 @@ the final exhaustive closeout audit.
   through typed v2 after review; mTLS and request-bound remediation require a
   new exact-head review.
 
-## #5675 — provider-global billing misclassification
-
-- GitHub issue state: closed; PR #5676 merged from exact source head
-  `3eddf1ead3e4237b4fed3f68f08bff9ca38f851e`; provider-adapter tests pass
-  43/43 and exact-SHA hosted checks are green.
-- P2: common non-2xx response handling classifies the bare substring `1008` as
-  MiniMax insufficient balance for every hosted provider. An unrelated OpenAI,
-  Anthropic, DeepSeek, or other response containing those digits can therefore
-  become non-retryable `ProviderBillingBlocked`, suppressing valid retries and
-  corrupting telemetry.
-- MiniMax already has provider-specific structured handling for code 1008 in
-  successful HTTP envelopes; non-2xx handling must likewise be provider-aware
-  or parse a scoped MiniMax envelope, with a negative cross-provider test.
-- The bounded terminal-closeout claim was released through typed v2 exact CAS
-  after review; current claim authority is null with digest
-  `cc151e358e674d07613646d4fc1f6ed71a3613a2f145b9065a73bc0103770818`.
-- Disposition: no terminal receipt until the global classifier is corrected
-  and reviewed at a new exact head.
-
 ## #5558 — live v1 guidance and incomplete authority guard
 
 - GitHub issue state: closed; PR #5749 merged from exact source head

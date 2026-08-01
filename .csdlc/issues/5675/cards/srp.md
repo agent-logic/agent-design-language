@@ -8,13 +8,12 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: draft
+Status: complete
 
 ## Scope
 
 adl/src/provider_adapter.rs
 adl/src/provider/profiles.rs
-.csdlc/evidence/5675/exact-head-provider-adapter-pvf.md
 
 ## Prompts
 
@@ -32,12 +31,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Live Kimi and MiniMax success remains unproven because the available provider accounts lacked sufficient balance; deterministic adapter reachability and typed billing-failure handling are proven.
+- PR #5759 is the governed corrective evidence for the MiniMax billing-classification scope repair that also closes #5675.
+- The fresh review scope is limited to the original #5675 provider adapter/profile surface at the exact PR #5759 head.
 
 ## Review Result
 
-Revision: Some("git-blake3:3eddf1ead3e4237b4fed3f68f08bff9ca38f851e:172854ff78af5d17fde9c36d79428de660b218acf175b7cefa34b274f9fbd474")
+Revision: Some("git-blake3:92fed26e1ff2031a57d80a014fbef77542da55d8:ec2eef569becd5f45193c2450055559f61aff9585114fd2aaeb989728357f85b")
 
-Reviewer: Some("subagent:/root/review_5727")
+Reviewer: Some("codex:5675-5759-corrective-review")
 
 Result: pass

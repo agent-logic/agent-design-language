@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -41,36 +41,22 @@ Implemented typed Kimi/Moonshot and MiniMax hosted routes with bounded budgets, 
     "purpose": "Focused adapter routing, budget, envelope, and redaction proof",
     "outcome": "passed",
     "evidence_ref": ".adl/provider-adapter-focused-tests.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "adl/Cargo.toml",
-      "provider_adapter::tests",
-      "--lib"
-    ],
-    "purpose": "Fresh exact-head provider adapter routing, credential, budget, envelope, retry, and redaction proof",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5675/exact-head-provider-adapter-pvf.md"
   }
 ]
 
 ## Integration
 
-worktree_only
+merged
 
 ## Publication
 
-Publication: not_published
+Publication: closed
 
-Merge: not_merged
+Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 

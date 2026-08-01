@@ -7,9 +7,9 @@
     "title": "[v0.91.8][provider] Route Kimi and MiniMax through adl-provider-adapter",
     "slug": "provider-adapter-kimi-minimax-routes",
     "version": "v0.91.8",
-    "generation": 13
+    "generation": 21
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -37,26 +37,12 @@
           "purpose": "Focused adapter routing, budget, envelope, and redaction proof",
           "outcome": "passed",
           "evidence_ref": ".adl/provider-adapter-focused-tests.log"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--locked",
-            "--manifest-path",
-            "adl/Cargo.toml",
-            "provider_adapter::tests",
-            "--lib"
-          ],
-          "purpose": "Fresh exact-head provider adapter routing, credential, budget, envelope, retry, and redaction proof",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/5675/exact-head-provider-adapter-pvf.md"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
