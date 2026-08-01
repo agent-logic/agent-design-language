@@ -2099,42 +2099,42 @@ impl Store {
                 )
             })?;
         let corrupt_record: IssueRecord = serde_json::from_slice(corrupt_index)?;
-        if let Some(target_claim) = corrupt_record.claim.as_ref() {
-            let now = now_seconds()?;
-            if now < target_claim.expires_unix_seconds {
-                target_claim.validate(&target_claim.id, now)?;
-                for (branch, root) in crate::git::worktrees(&self.root)? {
-                    if branch != target_claim.branch {
-                        continue;
-                    }
-                    let root = PathBuf::from(root).canonicalize().map_err(|error| {
-                        V2Error::new(
-                            ErrorCode::UnsafeCheckout,
-                            format!("registered target checkout is unavailable: {error}"),
-                        )
-                    })?;
-                    let target_store = Store::new(root);
-                    let observed = target_store.load_record(request.target_issue).map_err(
-                        |error| {
-                            V2Error::new(
-                                ErrorCode::UnsafeCheckout,
-                                format!(
-                                    "registered target checkout cannot authenticate its claim: {}",
-                                    error.message
-                                ),
-                            )
-                        },
-                    )?;
-                    if observed.repository == corrupt_record.repository
-                        && observed.initialization_digest == corrupt_record.initialization_digest
-                        && observed.claim.as_ref() == Some(target_claim)
-                        && claim_worktree_matches_store(&target_store, target_claim)?
-                    {
-                        return Err(V2Error::new(
-                            ErrorCode::UnsafeCheckout,
-                            "corrupt terminal reconciliation refuses an authentic unexpired target checkout",
-                        ));
-                    }
+        let now = now_seconds()?;
+        for (branch, root) in crate::git::worktrees(&self.root)? {
+            let root = PathBuf::from(root).canonicalize().map_err(|error| {
+                V2Error::new(
+                    ErrorCode::UnsafeCheckout,
+                    format!("registered target checkout is unavailable: {error}"),
+                )
+            })?;
+            let target_store = Store::new(root);
+            let observed = target_store
+                .load_record(request.target_issue)
+                .map_err(|error| {
+                    V2Error::new(
+                        ErrorCode::UnsafeCheckout,
+                        format!(
+                            "registered target checkout cannot authenticate its claim: {}",
+                            error.message
+                        ),
+                    )
+                })?;
+            let Some(observed_claim) = observed.claim.as_ref() else {
+                continue;
+            };
+            if observed.repository == corrupt_record.repository
+                && observed.initialization_digest == corrupt_record.initialization_digest
+                && now < observed_claim.expires_unix_seconds
+            {
+                observed_claim.validate(&observed_claim.id, now)?;
+                if branch == observed_claim.branch
+                    && crate::git::current_branch(target_store.root())? == observed_claim.branch
+                    && claim_worktree_matches_store(&target_store, observed_claim)?
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::UnsafeCheckout,
+                        "corrupt terminal reconciliation refuses an authentic unexpired target checkout",
+                    ));
                 }
             }
         }
@@ -8318,7 +8318,23 @@ mod terminal_design_repair_tests {
 
         let newer = write_newer_terminal_receipt_only(&store, &receipt);
         let index_path = store.issue_dir(target.issue).join("index.json");
-        let mut corrupt_index = serde_json::to_value(&active_target).unwrap();
+        let mut stale_target = target.clone();
+        stale_target.claim = Some(Claim {
+            id: "stale-corrupt-claim".into(),
+            owner: "superseded-target-session".into(),
+            generation: stale_target.generation,
+            acquired_unix_seconds: 1,
+            expires_unix_seconds: u64::MAX,
+            heartbeat_unix_seconds: 1,
+            branch: "obsolete-target".into(),
+            worktree: "obsolete-target".into(),
+            protected_paths: vec![format!(".csdlc/issues/{}", target.issue)],
+            purpose: "corrupt aggregate snapshot with superseded claim".into(),
+        });
+        hydrate_projections(&mut stale_target, &active_target_cards)
+            .expect("stale target projections");
+        stale_target.digest = record_digest(&stale_target).expect("stale target digest");
+        let mut corrupt_index = serde_json::to_value(&stale_target).unwrap();
         corrupt_index["digest"] = serde_json::Value::String("f".repeat(64));
         let mut corrupt_index_bytes = serde_json::to_vec_pretty(&corrupt_index).unwrap();
         corrupt_index_bytes.push(b'\n');
