@@ -1,0 +1,20 @@
+{
+  "schema": "adl.wp13.external_band_deletion_accounting.v1",
+  "issue": 5347,
+  "deleted_file_count": 20,
+  "removed_lines": 1472,
+  "cargo_toml_removed_lines": 4,
+  "net_removed_lines": 1476,
+  "execution_dependencies": [
+    5343,
+    5344,
+    5358,
+    5361
+  ],
+  "retained_current_binaries": [
+    "adl/src/bin/demo_adl_gws_context_mirror.rs",
+    "adl/src/bin/demo_adl_gws_native_drive_sync.rs",
+    "adl/src/bin/run_wp08_acip_sns_live_proof.rs"
+  ],
+  "residual_validation_note": "adl/Cargo.lock is stale on current main for adl/Cargo.toml and is not changed by this issue because deleting one bin target does not change dependency resolution."
+}

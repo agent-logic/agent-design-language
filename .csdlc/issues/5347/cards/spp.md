@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Refresh and validate the #5347 preparation-only packet on the local FastWork branch: current-truth ledger, external-band owner evidence, retained-file authority, deletion-manifest contract, protected paths, dependency gates, focused validation lanes, rollback/no-deferral boundaries, and explicit non-overlap with #5346. Stop with no product deletion, product-path claim, PR, publication, push, merge, or closeout.
+Execute #5347 now as the WP-13 external-band deletion lane after WP-21 completion: integrate current origin/main in the dedicated worktree, delete only obsolete externally-owned demo/proof bands named in the #5347 manifest, remove matching Cargo bin declarations, prove no overlap with #5346 reserved final-core language/compiler/engine/CLI deletion scope, run focused validation, obtain exactly one bounded GPT-5.5 pre-PR review and fix findings, then publish a ready PR with Closes #5347. WP-16 #5351 and #5346 terminal closeout are not execution prerequisites; #5346 remains the later serialized core deletion lane.
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 

@@ -42,9 +42,9 @@ After every terminal acceptance and cutover gate, #5346 deletion eligibility, an
 
 - Use typed C-SDLC v2 binaries and semantic card operations only; rendered Markdown remains generated projection state
 - Keep the primary checkout clean on main and all tracked #5347 work in the dedicated FastWork worktree
-- Preparation only: do not delete code, implement product changes, open a PR, publish, push, merge, close out, use AWS/raw gh for mutation, edit Runtime v2, or touch root main
-- Do not execute deletion until #5346 is terminal closed_out with exact reviewed final-core manifest, all closed dependency inputs remain receipt-backed and ancestral, and the #5346/#5347 dependency cycle is authoritatively reconciled
-- Treat nonterminal local typed projections such as #5354 or #5675 as manifest-row blockers even when GitHub issue state is closed
-- Freeze canonical manifests and prove zero path overlap before typed claim expansion or deletion
+- Execution authority is WP-21 complete -> WP-13 now -> WP-16 afterward; do not require WP-16 #5351 terminal state before #5347 execution
+- Do not require #5346 terminal closeout before #5347 execution; #5347 deletes only external-owned obsolete demo/proof bands and preserves #5346 as the later serialized final-core deletion lane
+- Coordinate the exact #5347 deletion manifest with #5346 by proving zero overlap against #5346 reserved core language/compiler/engine/CLI paths and retaining the safe merge order #5347 before #5346
+- Do not touch Runtime v2, Runtime v3, C-SDLC v2, ADL v2 language/compiler/engine/CLI core, selector/cutover state, or historical non-executable evidence
 - Use /Volumes/FastWork for generated validation and build output; do not use /private/tmp
-- Run bounded preparation validation and finish with a clean local branch; no PR, publication, push, merge, closeout, or product-path claim belongs to this preparation pass
+- Run focused proving validation, obtain exactly one bounded pre-PR GPT-5.5 review, fix actionable findings, and publish a ready PR whose body includes Closes #5347; do not perform typed closeout in this session
