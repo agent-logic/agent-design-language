@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-15] Converge integrated ADL Runtime and C-SDLC demos",
     "slug": "v0918-wp15-integrated-demo-convergence",
     "version": "v0.91.8",
-    "generation": 13
+    "generation": 23
   },
   "status": "ready",
   "content": {
@@ -149,9 +149,9 @@
       "planned_validation_seconds": 7200,
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed without implementation, public claim, publication, merge, or closeout on incomplete #5384 terminal truth, claim collision, stale or non-ancestral product identity, Runtime v2 use, missing integrated/negative evidence, secret or host-bound output, hard-coded addresses, unsupported claim wording, matrix drift, new dependency, budget breach, deferred proof, stale review, red CI, or absent post-merge validation.",
-      "design_ref": ".csdlc/prepared/issues/5354/design.md",
+      "design_ref": ".csdlc/issues/5354/retained/design.md",
       "design_digest": "42ddc15eee066ce47c0d7e6942593e2777421326e169c91fbc58910dcd078e48",
-      "diagram_ref": ".csdlc/prepared/issues/5354/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5354/retained/diagram.mmd",
       "diagram_digest": "79ce2c8c9fdd76d5dd946f8b0b30620834f584d684e0e1560472e37ca61c43d1"
     }
   }

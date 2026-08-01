@@ -3,29 +3,10 @@
   "issue": 5354,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c9e538886b9fe939fe6a89f44b9ef31a4d75733f7a7e60cdbb4bf47dd806bfc9",
-  "phase": "reviewed",
-  "generation": 13,
-  "digest": "b4991d4babb3962cd990fafbb9ef4ce51b6f88d8ac56bbfebe88eb508ab7af0e",
-  "claim": {
-    "id": "claim-5354-v0918-wp15-reacquired",
-    "owner": "codex:5354-preparation-owner",
-    "generation": 13,
-    "acquired_unix_seconds": 1785465403,
-    "expires_unix_seconds": 1786070203,
-    "heartbeat_unix_seconds": 1785465403,
-    "branch": "codex/5354-v0918-wp15-ready",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/evidence/5354",
-      ".csdlc/issues/5354",
-      ".csdlc/locks/5354.lock",
-      ".csdlc/prepared/issues/5354",
-      "adl-v2/Cargo.lock",
-      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
-      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
-    ],
-    "purpose": "Implement and validate the bounded WP-15 integrated convergence packet and its two milestone claim matrices."
-  },
+  "phase": "closed_out",
+  "generation": 23,
+  "digest": "7226871982fb89d025c5f93d4869e981957d185dc1afb45a70510d0b35c49c59",
+  "claim": null,
   "review_assignment": {
     "reviewer": "codex:gpt-5.5-exact-head-review",
     "assigned_by": "codex:5354-wp15-owner",
@@ -68,12 +49,68 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
-  "readiness": null,
-  "terminal": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5354,
+    "pull_request": 5731,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5731",
+    "base": "main",
+    "head": "codex/5354-v0918-wp15-ready",
+    "revision": "git-blake3:e8c63268429b0162671e7f1bfae5f560171d7099:87860ffbac9a27785db52aa6fd8c274ef73d8b6991c07e1dc6cc2cd0a950e34d",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": {
+    "pull_request": 5731,
+    "head_sha": "e8c63268429b0162671e7f1bfae5f560171d7099",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30657586547/job/91247139826"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30657586547/job/91246301774"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/30657586547/job/91245727416"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5731,
+    "disposition": "merged",
+    "observed_sha": "e8c63268429b0162671e7f1bfae5f560171d7099",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5354.json",
+    "released_branch": "codex/5354-v0918-wp15-ready",
+    "released_worktree": ".",
+    "released_protected_paths": [
+      ".csdlc/evidence/5354",
+      ".csdlc/issues/5354",
+      ".csdlc/locks/5354.lock",
+      ".csdlc/prepared/issues/5354",
+      ".csdlc/publication/5354.intent.json",
+      "adl-v2/Cargo.lock",
+      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md"
+    ]
+  },
   "migration": null,
-  "design_path": ".csdlc/prepared/issues/5354/design.md",
-  "diagram_path": ".csdlc/prepared/issues/5354/diagram.mmd",
+  "design_path": ".csdlc/issues/5354/retained/design.md",
+  "diagram_path": ".csdlc/issues/5354/retained/diagram.mmd",
   "design_review": {
     "approved": {
       "reviewer": "subagent:codex-cli-5354-design-rereview",
@@ -82,34 +119,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "80d112bdffabefd8f4c9fb7ce74858c325c0577d05bf508f0302dfd28d365b73",
+      "values_digest": "2cf9e00e8ce29fb3ce55fbb11ec9fb3c7fd7197e77ad7b0dbd3cb7735123719f",
       "rendered_digest": "e842eaeba6122151cdb5edb96814a78b32509238169446a82c02c9eb66877981",
       "ast_digest": "39ef15d3feddac90905427c8f05b3d16770ca9035a47aaab9e96b188ce1413bf"
     },
     "stp": {
-      "values_digest": "7a9994bd80a7b05a47f2f0a46af6fe188d588e60497d5e6c501d4b9f91367d21",
+      "values_digest": "564f56796734ea04e1fd7a7bf88aab23b620426e54d8086d24559435bde379f4",
       "rendered_digest": "e2c760b22e8865f50e73be1a6755467798d3d319998ce754b8e7f799cd361ea7",
       "ast_digest": "0757b0e68ce2cb5a6d202b6a293c0e29dd3fb95b47c56dc0fbd5f73ffc7147f6"
     },
     "spp": {
-      "values_digest": "0abdc5e390a232795b15a0e72e44515794be7447b720bf4967b38cc27a79bdd7",
-      "rendered_digest": "c19b1cc097ff6a7b9eec5b3920ba26d6edf91c1f7f2fac1847aaacf2543eadf6",
-      "ast_digest": "04c77660758778e8a55c0765242b6ccd276bbc7369f5f1faaeb57fb26fa79dca"
+      "values_digest": "cff47ab8f42ed999601fd06009bc67f2747749bb8c2293834d779bd5f57cff13",
+      "rendered_digest": "91376bdb9d9b6454c232beb2a91ef83432d6f8106a86ea93fd512b442c7173ce",
+      "ast_digest": "4802958f2ef88db8b14eb91e8ec6dc06a1ba01648a62bd16caea4a515e429610"
     },
     "vpp": {
-      "values_digest": "22a099aff030551cf8c7275aa6ccbc01e3cc45417e691169ac6837208e66672c",
-      "rendered_digest": "ca4edd91fdd36f334682b18d5b579242dcc4f2310a862bdcb47704beb634bd51",
-      "ast_digest": "6bc62a0e927ff2440d9b154aec39e32b49c915138ecbd6e606b1d9c14931677e"
+      "values_digest": "f234bb2e2fb7d4ca443654de91babd3a1f0d7c5c57094c134120dd8a77c5bfd2",
+      "rendered_digest": "a73bbaec5c62cd058253a5f8badbbeb607663f9e81de2e9207498eed1ffaf913",
+      "ast_digest": "afeb5a919fd53de1b369e9c02371414eda8a900327ae51ec9a92eed99bcd583f"
     },
     "srp": {
-      "values_digest": "8e125c78a539321cd773b0e8a431c505d617633f45af8f79ab9dac4864734cd2",
-      "rendered_digest": "309e088c8bdc298ec3768b7547d3b3901de2447c39a337f8922a0932c08a93d2",
-      "ast_digest": "c8be98f7741df219bdbbac949474ece876ac7620b75ecac4123042c87acd82f5"
+      "values_digest": "15e5e2487ae0b8011d244ec8b48cdb31b3693aba3eb505f4e928f19cb003c11f",
+      "rendered_digest": "03cd89eee56eeca6b0b249e8eba0f4edbf6988879c262f1f46a1c82ad1fbdd34",
+      "ast_digest": "4ce3f197a77d223b7560fa2053c80cde35e0b8bd626399b8e6945955618da39e"
     },
     "sor": {
-      "values_digest": "0cf559054d67049e0beeffd34c46a6e5865b122a9f0f8949a2d9c07584f7dcea",
-      "rendered_digest": "5bedd6f638c1d94d6c6086c0ce4d7941d5dd630dcf902492c374ea60783767f8",
-      "ast_digest": "b9c74bfc88bc71b3a3a7081b2d450861714f3c4594a4ff8deff26e80feca5612"
+      "values_digest": "01c45b7bbff51dcd375dac036c66a9e3210a31ec0e8d35768681bfdf37abd9b3",
+      "rendered_digest": "beb95efdb4bb134cee9413d5d8c4584fcd51481886575788f18e9886e23ac756",
+      "ast_digest": "b223deab9358bf00cd593b3d259fd9b214953e15467bb82dfceb5447c8cedad0"
     }
   },
   "transitions": [
@@ -161,6 +198,34 @@
       "to": "reviewed",
       "actor": "codex:5354-wp15-owner",
       "reason": "The exact-head gpt-5.5 rereview finding is fixed, typed review evidence is recorded, and focused live convergence validation remains passing."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:wp15-conductor",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:wp15-conductor",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 10,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 11,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -366,6 +431,118 @@
       "actor": "codex:5354-wp15-owner",
       "reason": "The exact-head gpt-5.5 rereview finding is fixed, typed review evidence is recorded, and focused live convergence validation remains passing.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 30,
+      "generation": 14,
+      "actor": "codex:wp15-conductor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 31,
+      "generation": 15,
+      "actor": "codex:wp15-conductor",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 32,
+      "generation": 15,
+      "actor": "codex:wp21-conductor",
+      "reason": "GitHub issue #5354 and PR #5731 are closed and merged; release the stale claim so #4761 can own its exact WP-21 proof paths while typed closeout proceeds asynchronously.",
+      "operation": "{\"claim_id\":\"claim-5354-v0918-wp15-reacquired\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:merged-closeout-never-blocks-independent-work\",\"previous_owner\":\"codex:5354-preparation-owner\"}"
+    },
+    {
+      "sequence": 33,
+      "generation": 15,
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "Reacquire the clean exact merged-PR authority worktree for operator-assigned #5748 post-merge PVF, publication reconciliation, readiness observation, and terminal closeout.",
+      "operation": "{\"branch\":\"codex/5354-v0918-wp15-ready\",\"claim_id\":\"claim-5354-5748-terminal-closeout\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5748-terminal-closeout\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5354\",\".csdlc/issues/5354\",\".csdlc/locks/5354.lock\",\".csdlc/prepared/issues/5354\",\".csdlc/publication/5354.intent.json\"],\"purpose\":\"Run exact post-merge PVF and complete truthful merged terminal closeout for #5354 under #5748\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 34,
+      "generation": 16,
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "Record the operator-required post-merge exact validation result truthfully before stopping at the missing configured Runtime v3 endpoint gate.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5354/run-validation-lane.rb\",\"post-merge-exact\"],\"purpose\":\"Re-prove the exact merged WP-15 integrated ADL v2, Runtime v3, C-SDLC v2, Unity evidence, claim-boundary, and matrix convergence surface before terminal closeout.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/prepared/issues/5354/record-post-merge-exact-failure-5748.json: command exited 1 because ADL_RUNTIME_V3_BASE_URL was not configured\"}}"
+    },
+    {
+      "sequence": 35,
+      "generation": 16,
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "Typed claim amendment is phase-prohibited and closed-issue release compare-and-swap failed; revoke the coarse claim so this same owner can immediately reacquire the exact post-merge proof scope.",
+      "operation": "{\"claim_id\":\"claim-5354-5748-terminal-closeout\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:complete-5354-terminal-closeout\",\"previous_owner\":\"codex:5748-terminal-closeout\"}"
+    },
+    {
+      "sequence": 36,
+      "generation": 16,
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "Restore the original coarse terminal-closeout claim after exact-scope reacquisition correctly failed on the live #5733 planning-document collision.",
+      "operation": "{\"branch\":\"codex/5354-v0918-wp15-ready\",\"claim_id\":\"claim-5354-5748-terminal-closeout\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5748-terminal-closeout\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5354\",\".csdlc/issues/5354\",\".csdlc/locks/5354.lock\",\".csdlc/prepared/issues/5354\",\".csdlc/publication/5354.intent.json\"],\"purpose\":\"Run exact post-merge PVF and complete truthful merged terminal closeout for #5354 under #5748\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 37,
+      "generation": 16,
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "Now that terminal #5733 released the overlapping matrix path, revoke the coarse #5354 claim so this same owner can reacquire the exact post-merge proof scope.",
+      "operation": "{\"claim_id\":\"claim-5354-5748-terminal-closeout\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:complete-5354-terminal-closeout\",\"previous_owner\":\"codex:5748-terminal-closeout\"}"
+    },
+    {
+      "sequence": 38,
+      "generation": 16,
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "Reacquire the merged-PR authority worktree with the exact convergence files after terminal #5733 released the overlapping matrix claim.",
+      "operation": "{\"branch\":\"codex/5354-v0918-wp15-ready\",\"claim_id\":\"claim-5354-5748-post-merge-exact\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5748-terminal-closeout\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5354\",\".csdlc/issues/5354\",\".csdlc/locks/5354.lock\",\".csdlc/prepared/issues/5354\",\".csdlc/publication/5354.intent.json\",\"adl-v2/Cargo.lock\",\"docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\"],\"purpose\":\"Run exact post-merge PVF and complete truthful merged terminal closeout for #5354 under #5748\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 39,
+      "generation": 17,
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "Record the passing exact post-merge convergence proof at merged PR #5731 head after terminal #5733 released the overlapping matrix path.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5354/run-validation-lane.rb\",\"post-merge-exact\"],\"purpose\":\"Re-prove the exact merged WP-15 integrated ADL v2, Runtime v3, C-SDLC v2, Unity evidence, claim-boundary, and matrix convergence surface before terminal closeout.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5354/convergence-proof.v1.json\"}}"
+    },
+    {
+      "sequence": 40,
+      "generation": 18,
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 41,
+      "generation": 19,
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "Classify the retained environment-unconfigured invocation as a non-goal attempt after the separately retained exact local Runtime v3 proof passed at the merged head; preserve both records without treating missing setup as a product failure.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5354/run-validation-lane.rb\",\"post-merge-exact\"],\"purpose\":\"Re-prove the exact merged WP-15 integrated ADL v2, Runtime v3, C-SDLC v2, Unity evidence, claim-boundary, and matrix convergence surface before terminal closeout.\",\"outcome\":\"skipped_non_goal\",\"evidence_ref\":\".csdlc/prepared/issues/5354/record-post-merge-exact-failure-5748.json: command exited 1 because ADL_RUNTIME_V3_BASE_URL was not configured\"}}"
+    },
+    {
+      "sequence": 42,
+      "generation": 20,
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 43,
+      "generation": 21,
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 44,
+      "generation": 22,
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "Materialize the retained terminal receipt after merged PR #5731, passing exact post-merge Runtime v3 convergence proof, and closed issue #5354.",
+      "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 45,
+      "generation": 23,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Materialize the valid #5354 terminal receipt after exact local non-AWS post-merge proof.",
+      "operation": "reconcile_terminal"
     }
   ]
 }
