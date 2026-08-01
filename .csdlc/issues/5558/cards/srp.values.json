@@ -7,24 +7,22 @@
     "title": "Remove sunset pr.sh guidance from owner lane",
     "slug": "remove-sunset-pr-sh-guidance",
     "version": "v0.91.8",
-    "generation": 23
+    "generation": 26
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/tools/check_coverage_impact.sh\nadl/tools/test_check_coverage_impact.sh\n.csdlc/issues/5558",
-      "review_revision": "git-blake3:0c2f87c381fd9731414edd6cf959388ead3bc7aa:021f36e4f24a1e449649951cd09be5b27ae9acc6b72a4abb0a29957ef1e4858a",
-      "reviewer": "subagent:019fbf2d-07af-7ee0-a7e1-ca480b4a5d0a",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does any changed active surface still expose an executable sunset v1 lifecycle route?",
         "Does the owner lane run the real Gate 10A final-authority test?"
       ],
       "findings": [],
-      "residual_risk": [
-        "GitHub CI must confirm the corrected explicit coverage-impact mapping on the refreshed PR head."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

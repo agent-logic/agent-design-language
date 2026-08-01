@@ -558,10 +558,7 @@ grep -Fx "structured_prompt" "$mixed_fast_lane_filters" >/dev/null
 grep -Fx "markdown" "$mixed_fast_lane_filters" >/dev/null
 
 csdlc_prompt_editor_changed="$TMP/csdlc-prompt-editor-changed.txt"
-cat >"$csdlc_prompt_editor_changed" <<'EOF'
-M	adl/src/csdlc_prompt_editor.rs
-M	adl/src/csdlc_prompt_editor/structure.rs
-EOF
+printf 'M\tadl/src/csdlc_prompt_editor.rs\n' >"$csdlc_prompt_editor_changed"
 csdlc_prompt_editor_filters="$TMP/csdlc-prompt-editor-filters.txt"
 bash "$SCRIPT" --changed-files "$csdlc_prompt_editor_changed" --print-risk-filters >"$csdlc_prompt_editor_filters"
 grep -Fx "csdlc_prompt_editor" "$csdlc_prompt_editor_filters" >/dev/null

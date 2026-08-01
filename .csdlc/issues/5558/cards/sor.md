@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Resolved all exact-head review findings without widening beyond issue 5558.
+Removed the final 2,000 lines of orphaned adl/src/csdlc_prompt_editor child modules after Gate 10D2 had already deleted their parent module, and removed the now-invalid child-module coverage mapping.
 
 ## Artifacts
 
@@ -21,6 +21,10 @@ Resolved all exact-head review findings without widening beyond issue 5558.
 - CONTRIBUTING.md
 - adl/tools/demo_v0871_operator_surface.sh
 - adl/tools/test_cli_owner_command_guidance.sh
+- adl/src/csdlc_prompt_editor
+- adl/tools/check_coverage_impact.sh
+- adl/tools/test_check_coverage_impact.sh
+- adl/tools/test_csdlc_prompt_editor.sh
 
 ## Execution
 
@@ -31,6 +35,9 @@ Resolved all exact-head review findings without widening beyond issue 5558.
 - Moved the v0.87.1 operator demo to adl-runtime and proved it end to end
 - Stopped advertising removed tooling multiplexers
 - Expanded the guard to discover all tracked CLI modules
+- Deleted orphaned enums.rs, structure.rs, and values.rs modules that were not reachable from any Cargo target.
+- Restored the coverage-impact selector to the forbidden historical parent module only, avoiding a fake coverage route for uncompiled child files.
+- Preserved the typed csdlc-edit prompt-editor retirement contract and active prompt-template schema proof.
 
 ## Validation
 
@@ -80,16 +87,28 @@ Resolved all exact-head review findings without widening beyond issue 5558.
     "purpose": "Prove that typed C-SDLC v2 fixtures, path-policy routing, exact active owner selectors, the complete C-SDLC owner lane, active CSM Runtime v3 ownership, and diff hygiene all pass on the corrected content.",
     "outcome": "passed",
     "evidence_ref": "local exact-content proof: CI path policy PASS; selector PASS; validation manager PASS; C-SDLC owner lane PASS; Runtime owner lane PASS; diff check PASS"
+  },
+  {
+    "command": [
+      "bash adl/tools/test_check_coverage_impact.sh",
+      "bash adl/tools/test_run_pr_fast_test_lane.sh",
+      "bash adl/tools/test_csdlc_prompt_editor.sh",
+      "git diff --check",
+      "git diff --name-status --diff-filter=ACMR origin/main --"
+    ],
+    "purpose": "Prove the coverage and fast-lane routing contracts remain green, typed csdlc-edit remains the prompt-editor authority, the patch is clean, and the three deleted orphan modules are absent from the coverage-impact ACMR source set.",
+    "outcome": "passed",
+    "evidence_ref": "local bounded proof on the #5558 issue worktree: all three focused suites PASS; orphan directory absent; 2,000 dead Rust LoC deleted; no csdlc_prompt_editor Rust file remains in the ACMR coverage-impact set"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
