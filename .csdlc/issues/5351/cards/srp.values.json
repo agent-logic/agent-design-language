@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-16] Run integrated platform quality gate",
     "slug": "v0918-wp16-integrated-platform-quality-gate",
     "version": "v0.91.8",
-    "generation": 18
+    "generation": 19
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/prepared/issues/5351\n.csdlc/evidence/5351\n.csdlc/issues/5351\ndocs/milestones/v0.91.8/evidence/wp16",
-      "review_revision": "git-blake3:515dabd34a6bc71ff8725c270b7583c5831679c5:92986133f1045c42b5ac3f3a7881d8e1bd903db6b93d68d70de648581b8758b2",
-      "reviewer": "subagent:Averroes:019fbcaf-db1d-71d1-9ef0-d452c69dd1be",
+      "review_revision": "git-blake3:73e9aefe7c53dfad621e112480ee08e6816fd577:36a9fd064b8b8649ccd61a51b6e54da4538242f8c6ac135d1ec05e33a763764e",
+      "reviewer": "subagent:Darwin:019fbcd1-dee8-7682-8f2b-9f9261587524",
       "review_prompts": [
         "Can a component test, fixture, screenshot, prose row, or prior-milestone artifact be mistaken for the required exact integrated quality proof?",
         "Is #5354 merge/completion, typed closed_out, claim release, retained receipt, and ancestry gating exact and impossible to bypass?",
@@ -23,32 +23,11 @@
         "Does the gate compose accepted tools without duplicating product behavior or gaining repair, deployment, review, publication, merge, or closeout authority?",
         "Are COTS, protected paths, budgets, PVF, evidence identity, redaction, blocker routing, exact review, CI, serialized merge, post-merge proof, and WP-17 release contracts complete?"
       ],
-      "findings": [
-        {
-          "id": "F-5351-1",
-          "severity": "p1",
-          "summary": "Retained integrated commands expose host-absolute target paths while the hygiene row is green.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "F-5351-2",
-          "severity": "p1",
-          "summary": "The operative SPP still blocks WP-17 on typed closeout despite the merge-gated handoff rule.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": null,
-          "route": "#5770"
-        }
-      ],
+      "findings": [],
       "residual_risk": [
-        "The review did not rerun mutation-producing validation lanes."
+        "Typed closeout follows asynchronously after merge and does not block WP-17 activation."
       ],
-      "review_result": "changes_required"
+      "review_result": "pass"
     }
   }
 }

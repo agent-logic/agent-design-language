@@ -23,3 +23,5 @@
 {"sequence":23,"generation":16,"actor":"codex:5351-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":24,"generation":17,"actor":"codex:5351-execution","reason":"Retained logs and evidence now pass diff and host-path hygiene checks.","operation":"{\"operation\":\"dispose_finding\",\"finding_id\":\"F-5351-1\",\"disposition\":\"fixed\"}"}
 {"sequence":25,"generation":18,"actor":"codex:5351-execution","reason":"SIP, STP, SPP, design, and gap-analysis handoff truth now release WP-17 on merge plus passing exact-head proof while closeout remains asynchronous.","operation":"{\"operation\":\"dispose_finding\",\"finding_id\":\"F-5351-2\",\"disposition\":\"fixed\"}"}
+{"sequence":26,"generation":18,"actor":"codex:5351-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":27,"generation":19,"actor":"codex:5351-execution","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}

@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "185d0c17ef9ef231ae848b0ae2a3f027956bca5a1690d71ae37915a465534bd6",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "ec698650400dc9bc1a5a7bd2607f98ab5421ad826a81f9bec06b1b2a707c0d51",
+  "generation": 19,
+  "digest": "50c596ee70a1bf3c6f0e0d41475f3837361bea94b03d4bce05a69885b906d6e0",
   "claim": {
     "id": "claim-5351-v0918-wp16-quality-gate-preparation",
     "owner": "codex:5351-preparation-owner",
-    "generation": 18,
+    "generation": 19,
     "acquired_unix_seconds": 1785543668,
     "expires_unix_seconds": 1786148468,
     "heartbeat_unix_seconds": 1785543668,
@@ -27,7 +27,7 @@
   "review_assignment": {
     "reviewer": "subagent:Darwin:019fbcd1-dee8-7682-8f2b-9f9261587524",
     "assigned_by": "codex:5351-execution",
-    "revision": "git-blake3:70994a7ee838dbafe56d93d6a3409de165b01b57:b2cc93b5d4ca269fafeda7888fc81ea016ca134de22f2b8f6b0bb173cf3605e4",
+    "revision": "git-blake3:73e9aefe7c53dfad621e112480ee08e6816fd577:36a9fd064b8b8649ccd61a51b6e54da4538242f8c6ac135d1ec05e33a763764e",
     "scope": [
       ".csdlc/prepared/issues/5351",
       ".csdlc/evidence/5351",
@@ -35,7 +35,22 @@
       "docs/milestones/v0.91.8/evidence/wp16"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:Darwin:019fbcd1-dee8-7682-8f2b-9f9261587524",
+    "scope": [
+      ".csdlc/prepared/issues/5351",
+      ".csdlc/evidence/5351",
+      ".csdlc/issues/5351",
+      "docs/milestones/v0.91.8/evidence/wp16"
+    ],
+    "reviewed_revision": "git-blake3:73e9aefe7c53dfad621e112480ee08e6816fd577:36a9fd064b8b8649ccd61a51b6e54da4538242f8c6ac135d1ec05e33a763764e",
+    "findings": [],
+    "residual_risks": [
+      "Typed closeout follows asynchronously after merge and does not block WP-17 activation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -50,32 +65,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "037f9065ee65065eaf3540e5064effa873fb1564b019ef9451fed58ccd8c35a0",
+      "values_digest": "81908f89eee6ed6fb01b2753297e6f5a38d784b6797c23e61b8a8e38ed99d92c",
       "rendered_digest": "9cb3a1c1f6abafcb1042ddda1590bf20a5d36b60cd65246de671eb12028befba",
       "ast_digest": "483e75c80aea317493e45d37d8d40f3ed9b103768cc0a86299ba00ec169a3fea"
     },
     "stp": {
-      "values_digest": "a414ecfea7f4607cfe4ac13853c32fbd046a42f70333319b4f5b936a04bf833d",
+      "values_digest": "3ff378cc7aaf4ac5929ad0e69a934f6649534b6c9be698f1094e88715c81d5b7",
       "rendered_digest": "d6dea1bf95085907bc802ad119b0d15f913e8c24f8a7b699ac9a2370b17f7e4b",
       "ast_digest": "3e4fe821e3ff93f207f83b079c7889c9fe970402530044cc6730a8fdfc55b3e8"
     },
     "spp": {
-      "values_digest": "82c8f7a9e3a7ca10fbc7359122e5947bf76ba7d7652cb865d2d3c8f884121569",
+      "values_digest": "1471729f67c4ad7614e4922f14de25d18640da54a693ff145163382d50a0e392",
       "rendered_digest": "1bc6672c4d28cccda96c0047c00f09558d2adcb7ff652b4cc206cfb4245d0e5e",
       "ast_digest": "6dc1988f52848b9dac1a5920c27dcf22b3f697464fd5e8618dd155f62dfef81c"
     },
     "vpp": {
-      "values_digest": "28226ea82b206a26f23093f8602805f2ef69d6c4dbd8e299ec37e219af797d87",
+      "values_digest": "baadd0b372953409da07856e4af98e5d0f53397b91d4b4b420a94d6406d5adfb",
       "rendered_digest": "7154421ca308f11c5ed2dd2dc65c877f7c99ceaaacd9de2acad35a6df362926e",
       "ast_digest": "bf16d1c3e1f5b00d28a226bce0818c5a41f4b3216ee3d914b44b630fd32791a6"
     },
     "srp": {
-      "values_digest": "f7e25ca9d334cd07025b9344f6bda5da2f5f9d21a891208fa1c6bb463930b219",
-      "rendered_digest": "e96ad91038d1e34a1bc42d063fe6253e69de369d466aef92bb78d67244cab97a",
-      "ast_digest": "41ae258d7bbb7053c9261204caee3d103c8a87610a343e871b8aa4f023052543"
+      "values_digest": "82542a009ed83753f5c9c5a855913c9e3112e5a65bb9972195744e9e1d45d49e",
+      "rendered_digest": "31be125e12129992e2dc88a84a1e700b741d35b7a7b87d579dbe9d6f61338076",
+      "ast_digest": "9676cf5bc44c3ad8411252c7ab41941a4091415f1a4161c37f196e31435c532a"
     },
     "sor": {
-      "values_digest": "26057c8d6d1cf21a48c37ded8e84acfe6211bd6bc689b89704390e6d0d097446",
+      "values_digest": "3a30e0acea3be32e0474bce56505b9f49288654733e0430d2a3cd75c7c47efb3",
       "rendered_digest": "3ca0a1387d954e2997f494325454ab8728a6e1e4678430d160b59db7f698c492",
       "ast_digest": "a97dc50125e7bed7d73f1e7b04000b62b1f521a0257fc84561fcdeab2cbeb4dd"
     }
@@ -278,6 +293,20 @@
       "actor": "codex:5351-execution",
       "reason": "SIP, STP, SPP, design, and gap-analysis handoff truth now release WP-17 on merge plus passing exact-head proof while closeout remains asynchronous.",
       "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"F-5351-2\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:5351-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:5351-execution",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }
