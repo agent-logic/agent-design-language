@@ -3,13 +3,13 @@
   "issue": 5558,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
-  "phase": "reviewed",
-  "generation": 34,
-  "digest": "c8d8922807bf9c889950322ac7565755397ab85a3807d12463456ac78d28548d",
+  "phase": "published",
+  "generation": 35,
+  "digest": "7681e2ab089a941aea4baabc2126ef67aafc8f2d137b688f3f83d53712612cbc",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
-    "generation": 34,
+    "generation": 35,
     "acquired_unix_seconds": 1785570394,
     "expires_unix_seconds": 1785656794,
     "heartbeat_unix_seconds": 1785570394,
@@ -157,7 +157,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5558,
+    "pull_request": 5769,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5769",
+    "base": "main",
+    "head": "codex/5558-v1-route-corrective",
+    "revision": "git-blake3:058d7eb97414bb7ad06d10afab2adaac2cc8ab74:9888d3ab0f4d6789c3b5485d6986141957a1e09780df69f708e156f2f358bd51",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -171,34 +181,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "36f9f306c4d49ad96318aa61aebfcc0fc3415867a562bc058b56de86b2d71713",
+      "values_digest": "fb005e82860df71ab39a0d5f98775ff37d0d1ffceb4b797ab06aa9527684d134",
       "rendered_digest": "3ef258b1c4bb480ab05a5f1842a67fb807068d557612286211389017f956a73d",
       "ast_digest": "a173adcf99a8c6fc2eee501e4e055b5613e48eaae750d3859ba753b2051b2716"
     },
     "stp": {
-      "values_digest": "753a3340b1eb6d50629a07628016511d879a93631d524b2b434d00ff5e2fd338",
+      "values_digest": "83950235125de64d439fb143f3439c96dea4886edc2fde9f722ba5f7b5997bbc",
       "rendered_digest": "4e813a7bd81e883366df3deeeb1f62e371dbd81f622aec8f105e5233b842d9df",
       "ast_digest": "ed08ed5118621e4e7978292eb31a6fb1817be62f49cf08a737b4dc9ba94d9b1f"
     },
     "spp": {
-      "values_digest": "77e6e766543d850ac87208c4ab210bbd99a19ef2c1ef1cf2c3c111131fdeb66f",
+      "values_digest": "def74d3cd0c308dfc1d7b622de96d2577155bf19743862c0564e2241c474cf35",
       "rendered_digest": "25879d34e3cf553eddde351a8fcadefd055898a9d0280a8e10ebc5e998410ee8",
       "ast_digest": "1453d42addf77769af338269da74b0501f8c17bd84d7d493b518c66395fa38ca"
     },
     "vpp": {
-      "values_digest": "97c344efd46edcea51406badf039478227c08928db88cb0987e55a8dfa79eeea",
+      "values_digest": "6715c9646935118f229805a5abf1908474355b6aa2398bf42cc03479c1109375",
       "rendered_digest": "05e67389a9dd9511f18c9fd7089eaba5dc2df4f40979d42e159403da83ef7537",
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "c11a378b2476fb4f4508f75ebef794b897a87c8c77d14af9f56f2e29534e3cda",
+      "values_digest": "e59dd0a7e108ac6aa8960db088944ff2819f693ac6010caa357755b8e5937ee1",
       "rendered_digest": "efffd052e272452711d19e85e50e58512b924a0a2d86f8a7417da2552bb065a3",
       "ast_digest": "e32f7b82de4c2ca0c84e954569ff01e14eafe0b717dda00ab57964f13a283955"
     },
     "sor": {
-      "values_digest": "c5f2d5649ba3a84d205cebc77e1458c033acf20405677a61dad9915b7e21ccbe",
-      "rendered_digest": "f12505645a867e68904febfb366d8181a05c1e9d06373b8d714357ce287e5b6b",
-      "ast_digest": "eabd46bd2b40ddc83c5afca918c39d0f19e1065a26015ffadde2e0e5af9aeddf"
+      "values_digest": "fe46c5c8375b2df668cd49dc45eb796ebfb9b114a1fcb107d179a1868d58760b",
+      "rendered_digest": "8f0b1f0cf27e1346f93cdb03e17e4e1e5dfe3cee08ab42a9377be3184eb7d4f7",
+      "ast_digest": "e7c709b3152e92077d8e812da449a65b673936b2ad4ffece756d8e4079ffdfd6"
     }
   },
   "transitions": [
@@ -334,6 +344,13 @@
       "to": "reviewed",
       "actor": "codex:5558-corrective",
       "reason": "Advance the independently approved final prompt-editor PR-fast retirement correction with no actionable findings."
+    },
+    {
+      "sequence": 20,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5558-corrective",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -777,6 +794,13 @@
       "actor": "codex:5558-corrective",
       "reason": "Advance the independently approved final prompt-editor PR-fast retirement correction with no actionable findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 64,
+      "generation": 35,
+      "actor": "codex:5558-corrective",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

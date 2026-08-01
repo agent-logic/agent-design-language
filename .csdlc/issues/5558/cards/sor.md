@@ -119,11 +119,11 @@ Removed the retired prompt-editor child-module glob from PR-fast Rust routing an
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
