@@ -152,7 +152,19 @@ grep -Fx "long_lived_agent_storage" "$long_lived_agent_storage_filters" >/dev/nu
 long_lived_agent_storage_expression="$(bash "$SCRIPT" --changed-files "$long_lived_agent_storage_changed" --print-risk-nextest-expression)"
 grep -F "binary_id(adl) and test(long_lived_agent::storage)" <<<"$long_lived_agent_storage_expression" >/dev/null
 grep -F "test(long_lived_agent::storage)" <<<"$long_lived_agent_storage_expression" >/dev/null
-grep -F "test(run_v0916_runtime_failure_injection)" <<<"$long_lived_agent_storage_expression" >/dev/null
+retired_failure_injection_token="run_v0916_runtime""_failure_injection"
+if grep -F "$retired_failure_injection_token" <<<"$long_lived_agent_storage_expression" >/dev/null; then
+  echo "did not expect deleted runtime failure injection binary in coverage expression" >&2
+  exit 1
+fi
+
+v086_review_surface_changed="$TMP/v086-review-surface-changed.txt"
+printf 'M\tadl/src/demo/v086_review_surface.rs\n' >"$v086_review_surface_changed"
+v086_review_surface_filters="$TMP/v086-review-surface-filters.txt"
+bash "$SCRIPT" --changed-files "$v086_review_surface_changed" --print-risk-filters >"$v086_review_surface_filters"
+grep -Fx "v086_review_surface" "$v086_review_surface_filters" >/dev/null
+v086_review_surface_expression="$(bash "$SCRIPT" --changed-files "$v086_review_surface_changed" --print-risk-nextest-expression)"
+grep -F "binary_id(adl) and test(/^demo::tests::v086_review_surface_demo_marks_retired_external_entries$/)" <<<"$v086_review_surface_expression" >/dev/null
 
 csm_runtime_agent_changed="$TMP/csm-runtime-agent-changed.txt"
 cat >"$csm_runtime_agent_changed" <<'EOF'

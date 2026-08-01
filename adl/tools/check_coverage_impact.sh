@@ -353,6 +353,9 @@ candidate_filter_for_path() {
     adl/src/chronosense.rs|adl/src/chronosense/*.rs)
       printf 'chronosense'
       ;;
+    adl/src/demo/v086_review_surface.rs)
+      printf 'v086_review_surface'
+      ;;
     adl/src/cli/run_artifacts/runtime/*.rs)
       printf 'run_state'
       ;;
@@ -423,7 +426,7 @@ nextest_expression_for_filter() {
       printf '(binary_id(adl) and (test(/^csm_runtime_api::/) or test(/^csm_networking::/) or test(/^csm_backpressure::/) or test(/^csm_cav::/) or test(/^csm_constructability_gate::/) or test(/^csm_freedom_gate::/) or test(/^csm_godel_snapshot::/) or test(/^csm_shepherd_agent::/) or test(/^long_lived_agent::/) or test(/^cli::csm_service_cmd::/) or test(/^cli::csm_cmd::tests::/)) or binary_id(adl::cli_smoke) and test(/^agent::csm_/)) and not test(governed_notice_retains_spool_and_cursor_for_ambiguous_timeout)'
       ;;
     long_lived_agent_storage)
-      printf '(binary_id(adl) and test(long_lived_agent::storage)) or (binary_id(adl::bin/run_v0916_runtime_failure_injection) and test(run_v0916_runtime_failure_injection))'
+      printf 'binary_id(adl) and test(long_lived_agent::storage)'
       ;;
     runtime_v2_csm_shutdown_dag)
       printf 'test(runtime_v2_csm_shutdown_dag) or (binary_id(adl::cli_smoke) and test(csm_governed_shutdown_retains_continuity_and_publish_failures_without_false_success))'
@@ -439,6 +442,9 @@ nextest_expression_for_filter() {
       ;;
     runtime_v3_auth)
       printf 'test(/^runtime_api_auth::tests::/)'
+      ;;
+    v086_review_surface)
+      printf 'binary_id(adl) and test(/^demo::tests::v086_review_surface_demo_marks_retired_external_entries$/)'
       ;;
     finish)
       printf 'binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::tests::finish::arg_render::/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::finish_support::tests::/)'
