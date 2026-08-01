@@ -2,7 +2,7 @@ use std::{
     collections::{BTreeMap, BTreeSet},
     fs::File,
     io::Write,
-    net::{SocketAddr, ToSocketAddrs},
+    net::{IpAddr, Ipv4Addr, SocketAddr, ToSocketAddrs},
     path::{Path, PathBuf},
     process::{ExitCode, Stdio},
     sync::Arc,
@@ -10,10 +10,14 @@ use std::{
 };
 
 use adl_runtime::guardian::{GuardianOutcome, GuardianTerminalState};
+use adl_runtime::local_tls::{
+    bootstrap_runtime_tls, RuntimeTlsBootstrapConfig, RuntimeTlsBootstrapMode,
+    LOCAL_TLS_BOOTSTRAP_SCHEMA,
+};
 use adl_runtime_kernel::verify_live_continuity_lineage;
+use base64::Engine;
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use fs2::FileExt;
-use rcgen::{date_time_ymd, BasicConstraints, CertificateParams, CertifiedIssuer, IsCa, KeyPair};
 use sha2::{Digest, Sha256};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::process::{Child, ChildStderr, ChildStdout, Command};
@@ -81,7 +85,9 @@ async fn main() -> ExitCode {
         &args.vector,
         args.suite,
         &args.revision,
-    ) {
+    )
+    .await
+    {
         Ok(fixture) => fixture,
         Err(error) => {
             eprintln!("failed preparing production Runtime v3 launch: {error}");
@@ -215,7 +221,7 @@ impl Drop for QualificationLock {
 }
 
 impl ProductionFixture {
-    fn create(
+    async fn create(
         state_root: &Path,
         init_template: &Path,
         kernel: &Path,
@@ -281,37 +287,32 @@ impl ProductionFixture {
                 .map_err(|error| format!("could not create {}: {error}", path.display()))?;
         }
 
-        let mut ca_params = CertificateParams::new(["adl-runtime-v3-wp12-ca".to_owned()])
-            .map_err(|error| error.to_string())?;
-        ca_params.is_ca = IsCa::Ca(BasicConstraints::Constrained(0));
-        ca_params.not_before = date_time_ymd(2026, 1, 1);
-        ca_params.not_after = date_time_ymd(2036, 1, 1);
-        let ca_key = KeyPair::generate().map_err(|error| error.to_string())?;
-        let ca =
-            CertifiedIssuer::self_signed(ca_params, ca_key).map_err(|error| error.to_string())?;
-        let leaf_key = KeyPair::generate().map_err(|error| error.to_string())?;
-        let mut leaf_params = CertificateParams::new([
-            "localhost".to_owned(),
-            "127.0.0.1".to_owned(),
-            "::1".to_owned(),
-        ])
+        let certificate_name =
+            toml_file_name(&init_document, &["api", "tls", "certificate_chain_path"])?;
+        let private_key_name = toml_file_name(&init_document, &["api", "tls", "private_key_path"])?;
+        let public_certificate_name = "runtime-local-public.pem";
+        let tls_outcome = bootstrap_runtime_tls(&RuntimeTlsBootstrapConfig {
+            schema: LOCAL_TLS_BOOTSTRAP_SCHEMA.to_owned(),
+            mode: RuntimeTlsBootstrapMode::LocalSelfSigned,
+            state_root: Some(state_root.clone()),
+            tls_dir: Some(PathBuf::from(toml_string(
+                &init_document,
+                &["paths", "tls_dir"],
+            )?)),
+            certificate_chain_path: PathBuf::from(&certificate_name),
+            public_certificate_path: Some(PathBuf::from(public_certificate_name)),
+            private_key_path: PathBuf::from(&private_key_name),
+            dns_names: vec!["localhost".to_owned()],
+            ip_addresses: vec![IpAddr::V4(Ipv4Addr::LOCALHOST)],
+            replace: false,
+        })
+        .await
         .map_err(|error| error.to_string())?;
-        leaf_params.not_before = date_time_ymd(2026, 1, 1);
-        leaf_params.not_after = date_time_ymd(2036, 1, 1);
-        let leaf = leaf_params
-            .signed_by(&leaf_key, &ca)
-            .map_err(|error| error.to_string())?;
-        let certificate = tls_root.join(toml_file_name(
-            &init_document,
-            &["api", "tls", "certificate_chain_path"],
-        )?);
-        let private_key = tls_root.join(toml_file_name(
-            &init_document,
-            &["api", "tls", "private_key_path"],
-        )?);
-        std::fs::write(&certificate, leaf.pem()).map_err(|error| error.to_string())?;
-        write_secret(&private_key, leaf_key.serialize_pem().as_bytes())
-            .map_err(|error| error.to_string())?;
+        let certificate = tls_outcome.certificate_chain_path;
+        let public_certificate = tls_outcome
+            .public_certificate_path
+            .ok_or_else(|| "local TLS bootstrap did not return a public certificate".to_owned())?;
+        let private_key = tls_outcome.private_key_path;
 
         let control_key = SigningKey::from_bytes(&[17_u8; 32]);
         let operation_key = SigningKey::from_bytes(&[29_u8; 32]);
@@ -402,7 +403,7 @@ impl ProductionFixture {
 
         let mut roots = RootCertStore::empty();
         roots
-            .add(CertificateDer::from(ca.der().to_vec()))
+            .add(CertificateDer::from(read_pem_der(&public_certificate)?))
             .map_err(|error| error.to_string())?;
         let client_config = ClientConfig::builder()
             .with_root_certificates(roots)
@@ -2151,6 +2152,32 @@ fn write_secret(path: &Path, bytes: &[u8]) -> std::io::Result<()> {
     file.sync_all()
 }
 
+fn read_pem_der(path: &Path) -> Result<Vec<u8>, String> {
+    let text = std::fs::read_to_string(path)
+        .map_err(|error| format!("could not read PEM {}: {error}", path.display()))?;
+    let mut in_certificate = false;
+    let mut body = String::new();
+    for line in text.lines() {
+        match line.trim() {
+            "-----BEGIN CERTIFICATE-----" => {
+                in_certificate = true;
+                body.clear();
+            }
+            "-----END CERTIFICATE-----" if in_certificate => {
+                return base64::engine::general_purpose::STANDARD
+                    .decode(body.as_bytes())
+                    .map_err(|error| format!("could not decode PEM {}: {error}", path.display()));
+            }
+            _ if in_certificate => body.push_str(line.trim()),
+            _ => {}
+        }
+    }
+    Err(format!(
+        "PEM {} did not contain a certificate block",
+        path.display()
+    ))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2202,6 +2229,51 @@ mod tests {
             parsed.get("path").and_then(toml::Value::as_str),
             original.to_str()
         );
+    }
+
+    #[tokio::test]
+    async fn init_fixture_uses_stable_local_tls_bootstrap() {
+        let current_dir = std::env::current_dir().expect("current directory");
+        let directory = tempfile::tempdir_in(current_dir).expect("repo-local temporary directory");
+        let executable = std::env::current_exe().expect("current executable");
+        let init_template = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("..")
+            .join("infra")
+            .join("runtime-v3")
+            .join("runtime-init.toml");
+
+        let fixture = ProductionFixture::create(
+            directory.path(),
+            &init_template,
+            &executable,
+            &executable,
+            Suite::Preflight,
+            "0123456789abcdef0123456789abcdef01234567",
+        )
+        .await
+        .expect("fixture should bootstrap local TLS through the shared path");
+
+        let init = std::fs::read_to_string(&fixture.init).expect("runtime init");
+        let parsed = toml::from_str::<toml::Value>(&init).expect("runtime init toml");
+        let certificate = PathBuf::from(
+            parsed["api"]["tls"]["certificate_chain_path"]
+                .as_str()
+                .expect("certificate path"),
+        );
+        let private_key = PathBuf::from(
+            parsed["api"]["tls"]["private_key_path"]
+                .as_str()
+                .expect("private key path"),
+        );
+        assert!(certificate.exists());
+        assert!(private_key.exists());
+        let manifest_path = certificate
+            .parent()
+            .and_then(Path::parent)
+            .and_then(Path::parent)
+            .expect("generation certificate path")
+            .join("current-generation.json");
+        assert!(manifest_path.exists());
     }
 
     fn arguments(mode: &[&str]) -> Vec<String> {
