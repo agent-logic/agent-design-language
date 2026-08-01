@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Fixed the GitHub runtime-v3 fast clippy failure without changing Runtime v3 readiness semantics.
+Moved the integrated Observatory proof contract to validate Runtime v3 endpoint truth from the checked-in config file.
 
 ## Artifacts
 
@@ -32,6 +32,9 @@ Fixed the GitHub runtime-v3 fast clippy failure without changing Runtime v3 read
 - adl-runtime-kernel/tests/openapi_contract.rs
 - demos/html-observatory/runtime-v3.config.json
 - adl-runtime-kernel/src/control.rs
+- adl/tools/validate_v0917_html_observatory.py
+- adl/tools/test_v0917_html_observatory_integrated_proof.sh
+- demos/html-observatory/runtime-v3.config.json
 
 ## Execution
 
@@ -52,6 +55,9 @@ Fixed the GitHub runtime-v3 fast clippy failure without changing Runtime v3 read
 - Recorded demos/html-observatory/runtime-v3.config.json as a durable execution artifact.
 - Replaced Option::map_or(true, |freshness| freshness.stale) with Option::is_none_or(|freshness| freshness.stale) in ControlService::readiness_report.
 - Preserved the fail-closed readiness behavior where missing weather freshness is treated as weather_stale.
+- Added /v1/ready mock data to the HTML Observatory validator so the Runtime v3 WebSocket connection path exercises readiness before stream setup.
+- Updated the validator to accept demos/html-observatory/runtime-v3.config.json and assert /v1/observatory, /v1/ready, and /v1/observatory/ws there instead of requiring a deleted hard-coded JavaScript constant.
+- Updated the integrated proof shell wrapper to include and pass the Runtime v3 config file to the validator.
 
 ## Validation
 
@@ -135,16 +141,29 @@ Fixed the GitHub runtime-v3 fast clippy failure without changing Runtime v3 read
     "purpose": "Prove the CI clippy failure is fixed while preserving Runtime v3 readiness behavior and adjacent browser/diff hygiene.",
     "outcome": "passed",
     "evidence_ref": "local FastWork terminal output: clippy passed; readiness tests passed with 2 passed; node --check passed; git diff --check origin/main...HEAD passed"
+  },
+  {
+    "command": [
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+      "node --check demos/html-observatory/app.js",
+      "python3 -m json.tool demos/html-observatory/runtime-v3.config.json",
+      "python3 -m py_compile adl/tools/validate_v0917_html_observatory.py",
+      "git diff --check origin/main...HEAD",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings"
+    ],
+    "purpose": "Prove the hosted HTML Observatory integrated proof validates the config-owned Runtime v3 readiness and observatory endpoints, while preserving JavaScript syntax, config JSON validity, Python validator syntax, diff hygiene, and the runtime clippy lane.",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork terminal output: integrated proof passed; node --check passed; json.tool passed; py_compile passed; git diff --check origin/main...HEAD passed; cargo clippy passed"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 

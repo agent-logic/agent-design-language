@@ -3,13 +3,13 @@
   "issue": 5764,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c87577fb18bcffa9a7ab3626e0ddde7132084f1c88dbeb1c648d842460499d85",
-  "phase": "published",
-  "generation": 25,
-  "digest": "7d8aa18c38cd9576bcab1e6420b746d11f330491e16739b1d03fd10b4eeecd54",
+  "phase": "implemented",
+  "generation": 28,
+  "digest": "8954dd59f159ed413080a97d36c1773e6f3a1d52653bbdfba2fe9201c14565c5",
   "claim": {
     "id": "claim-5764-runtime-observatory-readiness",
     "owner": "codex:5764-runtime-observatory-readiness",
-    "generation": 25,
+    "generation": 28,
     "acquired_unix_seconds": 1785574230,
     "expires_unix_seconds": 1785660630,
     "heartbeat_unix_seconds": 1785574230,
@@ -25,6 +25,8 @@
       "adl-runtime-kernel/tests/observability.rs",
       "adl-runtime-kernel/tests/openapi_contract.rs",
       "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+      "adl/tools/validate_v0917_html_observatory.py",
       "demos/html-observatory/README.md",
       "demos/html-observatory/app.js",
       "demos/html-observatory/runtime-v3.config.json",
@@ -34,57 +36,9 @@
     ],
     "purpose": "Fix Runtime v3 Observatory overnight readiness probes and weather freshness truth"
   },
-  "review_assignment": {
-    "reviewer": "subagent:Dalton:019fbcca-69c5-7aa2-812b-edf89c266f86",
-    "assigned_by": "codex:5764-runtime-observatory-readiness",
-    "revision": "git-blake3:d5c646572536ef6c266b4c2866e6163f37deea95:84a1bf5c53749ccd1369db63e320ebc07a596f4c72b28f4da769f223a41a8c27",
-    "scope": [
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/observability.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime-kernel/tests/support/runtime_init.rs",
-      "demos/html-observatory/README.md",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/runtime-v3.config.json",
-      "docs/api/runtime-v3/v1/openapi.json",
-      ".csdlc/issues/5764"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:Dalton:019fbcca-69c5-7aa2-812b-edf89c266f86",
-    "scope": [
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/observability.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime-kernel/tests/support/runtime_init.rs",
-      "demos/html-observatory/README.md",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/runtime-v3.config.json",
-      "docs/api/runtime-v3/v1/openapi.json",
-      ".csdlc/issues/5764"
-    ],
-    "reviewed_revision": "git-blake3:d5c646572536ef6c266b4c2866e6163f37deea95:84a1bf5c53749ccd1369db63e320ebc07a596f4c72b28f4da769f223a41a8c27",
-    "findings": [],
-    "residual_risks": [
-      "Dalton performed read-only exact-head source review and did not rerun validation tests.",
-      "Hosted PR checks must rerun on the republished head after the CI clippy fix is pushed."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5764,
-    "pull_request": 5771,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5771",
-    "base": "main",
-    "head": "codex/5764-runtime-observatory-readiness",
-    "revision": "git-blake3:01ba131bdde4f71dc6624310268b544001a263ec:c95e952571958fb76cf630d0d58f202b4a823884ad4f63d56020ee7aec85d87a",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -98,34 +52,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6c8ae8dad2ea7160185b541dc2f978dc10058b63e9983675f52d2667e58a0ad4",
+      "values_digest": "2548196bcc36a3fb9d8025b4424c7aebabcb5fbeee207c3035d9cac519731886",
       "rendered_digest": "ebc9326d1aba09c1cd55320e0a9310826197bda3517d17ed9c0599d83d8982ee",
       "ast_digest": "d20982b1cd63aa422b6b0ff9b9128d4af75753b654ab4b43960a6d2dfc30e741"
     },
     "stp": {
-      "values_digest": "771947f9d08434857b3499674decd1c537a682eeaf8e6fb867186d705d01eeae",
+      "values_digest": "b992443921481510dd88d335fac9dcdcfdad0e32dd553208d3114f41edd1ee09",
       "rendered_digest": "12c2a85ff84c4950f80b65c3cf4caf62e49a6fb798714c8d862f66f929f8e432",
       "ast_digest": "2ceaee61ff985688af3f3456ebb90682f980dec257e58f32b6c485494175aaca"
     },
     "spp": {
-      "values_digest": "491a111b61a46c0a79a1e5e5e306e39670e38256a044ad1c7087641cebae2e92",
+      "values_digest": "7ac45b6e917b1c9870ac4acaa7191b9f4c81648e52b8213f7639d82797d19d63",
       "rendered_digest": "c39dc32f79a7f8378b3077799a472627417593a0e9162cdd601aa7f07eb6fdb9",
       "ast_digest": "e6f67dd6990d66fe8d7d190f26f02d0760117fb423ed93f7bf9dbae83cfe858b"
     },
     "vpp": {
-      "values_digest": "24b00d653e03b2e43e3b81efcc7910b4da275b257769757ba0ec5af00eb2b0fe",
+      "values_digest": "17c1403b65c0573149a46a9d59d7a3433f2c2698597041cc34d840b05673ac3c",
       "rendered_digest": "661338346d5d7bc578b78ae70deed268337e8d7c43316165b46f581fb867409f",
       "ast_digest": "34c69f8bf170bf1b486aa48e9d2a402851aba23284cbd44030289e92aea506d0"
     },
     "srp": {
-      "values_digest": "06a3891045e1c2aa85e3f43ff986b4509fa1c71fb1458cf73f9f6531781ecff1",
-      "rendered_digest": "2c94be2f9154e647e622b14aa9238b625ac13df74e3260411f2eefa3fd681618",
-      "ast_digest": "d96b2efd3797cb3304b8a4f5cab9deaa56f76c622dc84b76c913dfa24865c78b"
+      "values_digest": "a3a533c7b138cd5d00e0b687ece3dcbe08bcf1d1012024e2090a62e13e7329d0",
+      "rendered_digest": "6a39cb34fac4c224b5a960d58e069a132a910c092179b11633046b84b4208d55",
+      "ast_digest": "13f8aff7e21f5ecafec7a564e45d0670f6e925f15164d958465ec6cd42f7e808"
     },
     "sor": {
-      "values_digest": "d47be1ab4c79173af0b7714b3fb4c5b74a4819c8d754b235530e2bbda18d2436",
-      "rendered_digest": "4cbac194815c302471344eaa35ecbb28b2280d2df2fa68e3d99d66c099711e48",
-      "ast_digest": "d6f520b918a59093b009536e825f669c1375cde3c493b492c565f25c997255c0"
+      "values_digest": "2152fb529fa0c7d9533e6ee26e962bad774604539650762f3c55e53fbcc7b796",
+      "rendered_digest": "720c612b1daa58749555aa2c43d803c5f2d0b2911dd9c84f491304c26c76b6ad",
+      "ast_digest": "5c134ce25ddd504999381c700b1a0a8ca4e469abb5cacebe855d78d5a3b426f1"
     }
   },
   "transitions": [
@@ -198,6 +152,13 @@
       "to": "published",
       "actor": "codex:5764-runtime-observatory-readiness",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Recover publication state after hosted Runtime v3 proof exposed a validator fixture missing the new /v1/ready endpoint."
     }
   ],
   "audit": [
@@ -445,6 +406,41 @@
       "actor": "codex:5764-runtime-observatory-readiness",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 36,
+      "generation": 26,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Recover publication state after hosted Runtime v3 proof exposed a validator fixture missing the new /v1/ready endpoint.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 26,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Add the HTML Observatory integrated proof validator fixture after hosted CI exposed that it must model the new Runtime v3 /v1/ready endpoint.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/validate_v0917_html_observatory.py\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 38,
+      "generation": 26,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Hosted Runtime v3 proof contract now validates the config-owned readiness and observatory endpoints, so the integrated proof shell wrapper is an in-scope test artifact for issue #5764.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 39,
+      "generation": 27,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record the hosted Runtime v3 proof repair after CI exposed a stale hard-coded endpoint contract.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Moved the integrated Observatory proof contract to validate Runtime v3 endpoint truth from the checked-in config file.\",\"changes\":[\"Added /v1/ready mock data to the HTML Observatory validator so the Runtime v3 WebSocket connection path exercises readiness before stream setup.\",\"Updated the validator to accept demos/html-observatory/runtime-v3.config.json and assert /v1/observatory, /v1/ready, and /v1/observatory/ws there instead of requiring a deleted hard-coded JavaScript constant.\",\"Updated the integrated proof shell wrapper to include and pass the Runtime v3 config file to the validator.\"],\"artifacts\":[\"adl/tools/validate_v0917_html_observatory.py\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\",\"demos/html-observatory/runtime-v3.config.json\"]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 28,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record focused validation for the hosted Runtime v3 proof repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target bash adl/tools/test_v0917_html_observatory_integrated_proof.sh\",\"node --check demos/html-observatory/app.js\",\"python3 -m json.tool demos/html-observatory/runtime-v3.config.json\",\"python3 -m py_compile adl/tools/validate_v0917_html_observatory.py\",\"git diff --check origin/main...HEAD\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings\"],\"purpose\":\"Prove the hosted HTML Observatory integrated proof validates the config-owned Runtime v3 readiness and observatory endpoints, while preserving JavaScript syntax, config JSON validity, Python validator syntax, diff hygiene, and the runtime clippy lane.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork terminal output: integrated proof passed; node --check passed; json.tool passed; py_compile passed; git diff --check origin/main...HEAD passed; cargo clippy passed\"}}"
     }
   ]
 }
