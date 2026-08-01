@@ -3,13 +3,13 @@
   "issue": 5346,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "d391333554b11b0dae9033fb57979c1abf35567ca36a3bc2e29fc1802987f01b",
-  "phase": "bound",
-  "generation": 7,
-  "digest": "e2ffaa72976bd2d27a157ebb5f68afeb9d480876b65d00d03ff08f12f0d84da5",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "b5ba0755066115604324a62704e6c377e4992ce00da22613e1169f769f1cdd54",
   "claim": {
     "id": "claim-5346-v0918-wp13-deletion-preparation-current",
     "owner": "codex:5346-wp13-execution-owner",
-    "generation": 7,
+    "generation": 8,
     "acquired_unix_seconds": 1785548770,
     "expires_unix_seconds": 1786153570,
     "heartbeat_unix_seconds": 1785548770,
@@ -43,34 +43,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6100b4e82ca7f7ec3b824db6fdddd6b0f974e4e56413f2e35eec79cdd7824923",
+      "values_digest": "8e841dbb2d2501713e5d31f6fe6e63fc8eefa0dd3a3a22ef3c53d7dc458b99d9",
       "rendered_digest": "968e8022aa69522a40e0b4015c80ea9c0e5b7476594e4376f591451444a87134",
       "ast_digest": "291dc8e45933eef134a357751c07ede5a3b27617e508cc331acdaa65fc44d728"
     },
     "stp": {
-      "values_digest": "8fe099ea8df20a45290baa9047999d98e20a0e91a8f4f8b340926e9a40a11836",
+      "values_digest": "700cd7dc2f7672f04ced076db1fb175be98bfa6ef485dbbcb411948384966ee0",
       "rendered_digest": "281ecf07a1478933bafb984ba072850a8cd6284273a7b7e435602f20aff921bd",
       "ast_digest": "d015d5d6cbb0f75b7a11afbf032ad9426f48d290449c552e82287dd5864fcfc4"
     },
     "spp": {
-      "values_digest": "e06d12ecf368552d686394d49f1ebe2c5de2fa068457f22b3a40491305354179",
+      "values_digest": "8cfa6ce6c2d28797d6e04dd0d37eee128c54090fe21d6d6fa33b0a9acdb273df",
       "rendered_digest": "42f73da89cbb05c764299f0bad90c4cd0bc9f6d9566d7e4559aa64e3730ac0cc",
       "ast_digest": "f399194d76c84c09179eb4bd6336f08d2089353c0322f5a8fc3065ce4b044031"
     },
     "vpp": {
-      "values_digest": "dc6ded58dadb3a7236db62ea984ab2987ad2c1b032e7cfbab84d83aadb27c53e",
+      "values_digest": "cc0285b4b63b11095f9001e4b74580b3446f8458d75eb5eef4059bb2f5c40e4a",
       "rendered_digest": "e0c886eb4fb651849d4772cd4b08e951e457ce4df239ac62ecad89dd89e0a187",
       "ast_digest": "318c5e2f0d567c01af2582134d08c4926438a9983daffdd890fdd572ca00f6f3"
     },
     "srp": {
-      "values_digest": "566114a3ee6fb049330914bca436d5d356f8b40453b8cb94cc253c9be6e25b0d",
+      "values_digest": "8b8110856a4d5169c4ab8a548c2e96e08937db1c64cbaa95a067dde1673fb3d3",
       "rendered_digest": "2d098e932e05ccd2d62eb51db377136bbc8087b2f1390c8e23df33e60b46b0d5",
       "ast_digest": "5395e9c543378320d990afad8968d3f33105e089c709f1c222f31d48dde7904d"
     },
     "sor": {
-      "values_digest": "8b72513bde8fc1a59c95d17adf07954b3036671766807933b8643804492fec0c",
-      "rendered_digest": "f22ab2b8fe07b6b56a58738155da7f1afe5c944b97a5aa0862ab59f9add336fc",
-      "ast_digest": "9d0da2cd6ab6a79fe7b1c1e6c7a93bb7c6768ae68fa40688230259dcebc936db"
+      "values_digest": "9bc99e92801097b67963f7d73d9bf5e97253131c0d7e62007e1fee91d13d32ac",
+      "rendered_digest": "c4f46c6ffe938d429058f4d7d2aa52211f23e98426003f1783d38d13aac91ea9",
+      "ast_digest": "cf8498e1c93df541c8c59260340e6333f1d2828bbfc222c30b8477bc0b427397"
     }
   },
   "transitions": [
@@ -87,6 +87,13 @@
       "to": "bound",
       "actor": "codex:5346-preparation-owner",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5346-wp13-execution-owner",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -201,6 +208,13 @@
       "actor": "codex:5346-wp13-execution-owner",
       "reason": "Reacquire a clean #5346 execution claim after removing the unrelated adl/Cargo.lock over-claim.",
       "operation": "{\"branch\":\"codex/5346-v0918-wp13-final-adl-deletion\",\"claim_id\":\"claim-5346-v0918-wp13-deletion-preparation-current\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5346-wp13-execution-owner\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5346\",\".csdlc/issues/5346\",\".csdlc/locks/5346.lock\",\".csdlc/prepared/issues/5346\",\"adl/src/cli/tests/pr_cmd_inline\",\"adl/src/cli/tooling_cmd\",\"docs/milestones/v0.91.8/evidence/wp13/5346-deletion-eligibility.v1.json\",\"docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json\"],\"purpose\":\"Execute #5346 WP-13 final ADL CLI deletion under current operator sequence: upstream #5344/#5343/#5358/#5361/#5384 terminal, #5354/#5352 GitHub merged and closed, #5347 disjoint peer manifest, serialized merge ordering, and no primary-main writes. Delete only exact reviewed #5346 manifest rows; do not touch #5347 external-band paths, Runtime v2, or unrelated lockfiles.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 8,
+      "actor": "codex:5346-wp13-execution-owner",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

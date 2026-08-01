@@ -27,6 +27,8 @@ MERGED_CLOSED_DEPENDENCIES = {
 MANIFESTS = {
   5346 => ROOT.join("docs/milestones/v0.91.8/evidence/wp13/5346-deletion-eligibility.v1.json")
 }.freeze
+EXTERNAL_5347_MANIFEST = ROOT.join(".csdlc/evidence/5346/5347-external-band-deletion-manifest.json")
+EXTERNAL_5347_SOURCE = Pathname.new("/Volumes/FastWork/adl-wp-5347/docs/milestones/v0.91.8/evidence/wp13-external-bands/external-band-deletion-manifest.json")
 HEX40 = /\A[0-9a-f]{40}\z/
 HEX64 = /\A[0-9a-f]{64}\z/
 
@@ -51,10 +53,21 @@ def relative_path(value, label)
 end
 
 def load_json(path, label)
-  fail_gate("missing #{label}: #{path.relative_path_from(ROOT)}") unless path.file?
+  display = path.absolute? && !path.to_s.start_with?(ROOT.to_s) ? path.to_s : path.relative_path_from(ROOT).to_s
+  fail_gate("missing #{label}: #{display}") unless path.file?
   JSON.parse(path.read)
 rescue JSON::ParserError => e
   fail_gate("invalid #{label}: #{e.message}")
+end
+
+def git_tree_identity(revision, path_value, expected_oid, label)
+  tree = capture_git("ls-tree", revision, "--", path_value)
+  fail_gate("#{label} missing from baseline tree: #{path_value}") if tree.empty?
+  _mode, kind, oid_and_path = tree.split(" ", 3)
+  oid, tree_path = oid_and_path.split("\t", 2)
+  fail_gate("#{label} tree identity path mismatch: #{path_value}") unless tree_path == path_value
+  fail_gate("#{label} tree object mismatch for #{path_value}") unless oid == expected_oid
+  { "kind" => kind, "object" => oid }
 end
 
 def merged_ancestor_sha(terminal, label)
@@ -73,6 +86,74 @@ def merged_ancestor_sha(terminal, label)
   _out, merge_status = Open3.capture2e("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", merge_sha, "HEAD")
   fail_gate("#{label} merge commit is not ancestral to the execution revision") unless merge_status.success?
   [merge_sha, "merge_commit"]
+end
+
+def validate_external_5347_manifest(path)
+  manifest = load_json(path, "#5347 external deletion manifest")
+  fail_gate("#5347 external manifest schema mismatch") unless manifest["schema"] == "adl.wp13.external_band_deletion_manifest.v1"
+  fail_gate("#5347 external manifest issue mismatch") unless manifest["issue"] == 5347
+  fail_gate("#5347 external manifest repository mismatch") unless manifest["repository"] == "danielbaustin/agent-design-language"
+  baseline = manifest["baseline_revision"]
+  fail_gate("#5347 external manifest baseline is invalid") unless baseline&.match?(HEX40)
+  fail_gate("#5347 merge order must serialize #5347 before #5346") unless manifest["merge_order"] == [5347, 5346]
+  rows = manifest.fetch("deleted_files") { fail_gate("#5347 external manifest has no deleted_files") }
+  fail_gate("#5347 external manifest deleted_files must be non-empty") unless rows.is_a?(Array) && !rows.empty?
+  seen = {}
+  rows.map do |row|
+    path_value = relative_path(row["path"], "#5347 external path")
+    fail_gate("#5347 duplicate external path #{path_value}") if seen[path_value]
+    seen[path_value] = true
+    fail_gate("#5347 external path must stay in adl/src/bin: #{path_value}") unless path_value.start_with?("adl/src/bin/")
+    fail_gate("#5347 external disposition mismatch for #{path_value}") unless row["disposition"] == "delete_external"
+    fail_gate("#5347 external path must be a regular file, not symlink/generated: #{path_value}") unless row["file_kind"] == "regular_file" && row["generated"] == false
+    oid = row["baseline_object"]
+    fail_gate("#5347 external baseline object is invalid for #{path_value}") unless oid&.match?(HEX40)
+    identity = git_tree_identity(baseline, path_value, oid, "#5347 external manifest")
+    fail_gate("#5347 external path is not a blob: #{path_value}") unless identity["kind"] == "blob"
+    fail_gate("#5347 measured_lines invalid for #{path_value}") unless row["measured_lines"].is_a?(Integer) && row["measured_lines"].positive?
+    fail_gate("#5347 replacement proof missing for #{path_value}") if row["replacement_owner"].to_s.empty? || row["replacement_proof"].to_s.empty?
+    {
+      "path" => path_value,
+      "symlink_target" => nil,
+      "cargo_memberships" => path_value.start_with?("adl/src/bin/") ? ["adl/Cargo.toml:auto-bin:#{File.basename(path_value, ".rs")}"] : [],
+      "prefix" => "adl/src/bin"
+    }
+  end
+rescue KeyError => e
+  fail_gate("invalid #5347 external manifest: #{e.message}")
+end
+
+def prove_pairwise_disjoint(primary_rows, external_rows)
+  primary_paths = primary_rows.map { |row| row.fetch("path") }
+  external_paths = external_rows.map { |row| row.fetch("path") }
+  path_overlap = primary_paths & external_paths
+  fail_gate("#5346/#5347 exact path overlap: #{path_overlap.join(', ')}") unless path_overlap.empty?
+
+  prefix_overlap = primary_paths.product(external_paths).select do |left, right|
+    left.start_with?("#{right}/") || right.start_with?("#{left}/")
+  end
+  fail_gate("#5346/#5347 prefix overlap: #{prefix_overlap.inspect}") unless prefix_overlap.empty?
+
+  primary_symlinks = primary_rows.map { |row| row["symlink_target"] }.compact
+  external_symlinks = external_rows.map { |row| row["symlink_target"] }.compact
+  symlink_overlap = primary_symlinks.product(external_paths).select { |target, path| target == path || target.start_with?("#{path}/") } +
+                    external_symlinks.product(primary_paths).select { |target, path| target == path || target.start_with?("#{path}/") }
+  fail_gate("#5346/#5347 symlink target overlap: #{symlink_overlap.inspect}") unless symlink_overlap.empty?
+
+  primary_cargo = primary_rows.flat_map { |row| Array(row["cargo_memberships"]) }
+  external_cargo = external_rows.flat_map { |row| Array(row["cargo_memberships"]) }
+  cargo_overlap = primary_cargo & external_cargo
+  fail_gate("#5346/#5347 Cargo membership overlap: #{cargo_overlap.join(', ')}") unless cargo_overlap.empty?
+
+  {
+    "exact_path_overlap" => 0,
+    "prefix_overlap" => 0,
+    "symlink_target_overlap" => 0,
+    "cargo_membership_overlap" => 0,
+    "primary_paths" => primary_paths.length,
+    "external_paths" => external_paths.length,
+    "external_manifest" => EXTERNAL_5347_MANIFEST.relative_path_from(ROOT).to_s
+  }
 end
 
 common_dir = Pathname.new(capture_git("rev-parse", "--git-common-dir"))
@@ -130,6 +211,9 @@ def validate_manifest(issue, path, _head, _dependency_evidence)
   end
   _out, status = Open3.capture2e("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", manifest["baseline_revision"], "HEAD")
   fail_gate("##{issue} baseline revision is not ancestral to current HEAD") unless status.success?
+  _out, execution_status = Open3.capture2e("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", manifest["execution_revision"], "HEAD")
+  fail_gate("##{issue} execution revision is not ancestral to current HEAD") unless execution_status.success?
+  fail_gate("##{issue} reviewed revision must remain null before fresh rereview") unless manifest["reviewed_revision"].nil? || manifest["reviewed_revision"].match?(HEX40)
   review = manifest["review"]
   if review
     fail_gate("##{issue} manifest review is not a pass") unless review["result"] == "pass" && !review["reviewer"].to_s.empty?
@@ -181,6 +265,23 @@ rescue KeyError => e
 end
 
 surfaces = MANIFESTS.to_h { |issue, path| [issue, validate_manifest(issue, path, head, dependency_evidence)] }
+if EXTERNAL_5347_SOURCE.file?
+  copied = Digest::SHA256.file(EXTERNAL_5347_MANIFEST).hexdigest
+  source = Digest::SHA256.file(EXTERNAL_5347_SOURCE).hexdigest
+  fail_gate("#5347 external manifest copy differs from source") unless copied == source
+end
+external_5347 = validate_external_5347_manifest(EXTERNAL_5347_MANIFEST)
+issue_5347_json, issue_5347_status = Open3.capture2e(
+  "gh",
+  "issue",
+  "view",
+  "5347",
+  "--json",
+  "state,stateReason"
+)
+fail_gate("cannot verify live GitHub state for #5347: #{issue_5347_json.strip}") unless issue_5347_status.success?
+issue_5347_state = JSON.parse(issue_5347_json)
+disjointness = prove_pairwise_disjoint(surfaces.fetch(5346), external_5347)
 
 claim = load_json(ROOT.join(".csdlc/issues/5346/index.json"), "#5346 typed projection").fetch("claim")
 protected_paths = claim.fetch("protected_paths")
@@ -197,6 +298,12 @@ puts JSON.generate(
   typed_terminal_dependencies: TERMINAL_DEPENDENCIES.keys,
   merged_closed_dependencies: MERGED_CLOSED_DEPENDENCIES.keys,
   dependency_evidence: dependency_evidence,
-  peer_disjointness: "proved by typed v2 claim collision scan for exact protected paths",
-  disjoint: true
+  external_5347: {
+    issue_state: issue_5347_state["state"],
+    state_reason: issue_5347_state["stateReason"],
+    merge_order: [5347, 5346],
+    merge_required_before_5346_merge: issue_5347_state["state"] != "CLOSED"
+  },
+  peer_disjointness: disjointness,
+  disjoint: disjointness.values_at("exact_path_overlap", "prefix_overlap", "symlink_target_overlap", "cargo_membership_overlap").all?(&:zero?)
 )

@@ -2,10 +2,11 @@
   "schema": "adl.wp13.deletion_eligibility.v1",
   "issue": 5346,
   "baseline_revision": "208fd23c15aa39915f581fe2db491071cb902e4d",
-  "execution_revision": "208fd23c15aa39915f581fe2db491071cb902e4d",
+  "execution_revision": "e9035ceffac9ea79f914371c33081f07861a2a2c",
   "reviewed_revision": null,
   "eligibility_request": ".csdlc/evidence/5346/eligibility-request.json",
   "eligibility_decision": ".csdlc/evidence/5346/eligibility-decision.json",
+  "external_manifest_input": ".csdlc/evidence/5346/5347-external-band-deletion-manifest.json",
   "rollback": {
     "window_complete": true,
     "evidence_refs": [

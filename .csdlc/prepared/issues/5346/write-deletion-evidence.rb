@@ -20,6 +20,12 @@ def run_git(*args)
   out
 end
 
+def load_json(path)
+  return nil unless path.file?
+
+  JSON.parse(path.read)
+end
+
 def physical_loc(revision, path)
   run_git("show", "#{revision}:#{path}").lines.count
 end
@@ -34,9 +40,26 @@ def ls_tree_rows(revision, prefix)
   end
 end
 
-baseline = run_git("rev-parse", "HEAD").strip
-rows = PREFIXES.flat_map { |prefix| ls_tree_rows(baseline, prefix) }
+existing_manifest = load_json(MANIFEST)
+head = run_git("rev-parse", "HEAD").strip
+candidate_rows = PREFIXES.flat_map { |prefix| ls_tree_rows(head, prefix) }
+baseline = if candidate_rows.empty? && existing_manifest
+             existing_manifest.fetch("baseline_revision")
+           else
+             head
+           end
+rows = candidate_rows.empty? ? PREFIXES.flat_map { |prefix| ls_tree_rows(baseline, prefix) } : candidate_rows
 raise "no #5346 deletion rows found" if rows.empty?
+deletion_revision = run_git("log", "--format=%H", "--diff-filter=D", "-n", "1", "HEAD", "--", *PREFIXES).lines.first&.strip
+deletion_revision = head if deletion_revision.nil? || deletion_revision.empty?
+numstat = run_git("show", "--numstat", "--format=", deletion_revision)
+additions = 0
+deletions = 0
+numstat.lines.each do |line|
+  added, deleted, = line.split("\t", 3)
+  additions += added.to_i if added&.match?(/\A\d+\z/)
+  deletions += deleted.to_i if deleted&.match?(/\A\d+\z/)
+end
 
 paths = rows.sort_by(&:last).map do |mode, _kind, oid, path|
   {
@@ -79,6 +102,7 @@ decision = {
   "eligible" => true,
   "deletion_executed" => true,
   "baseline_revision" => baseline,
+  "execution_revision" => deletion_revision,
   "manifest" => MANIFEST.relative_path_from(ROOT).to_s,
   "deleted_paths" => paths.length,
   "deleted_physical_loc" => deleted_loc
@@ -91,10 +115,11 @@ manifest = {
   "schema" => "adl.wp13.deletion_eligibility.v1",
   "issue" => 5346,
   "baseline_revision" => baseline,
-  "execution_revision" => baseline,
+  "execution_revision" => deletion_revision,
   "reviewed_revision" => nil,
   "eligibility_request" => request_path.relative_path_from(ROOT).to_s,
   "eligibility_decision" => decision_path.relative_path_from(ROOT).to_s,
+  "external_manifest_input" => ".csdlc/evidence/5346/5347-external-band-deletion-manifest.json",
   "rollback" => {
     "window_complete" => true,
     "evidence_refs" => [
@@ -118,6 +143,12 @@ post = {
     "retained" => 0,
     "new" => 0,
     "pinned_denominator" => deleted_loc
+  },
+  "git_diff_accounting" => {
+    "commit" => deletion_revision,
+    "additions" => additions,
+    "deletions" => deletions,
+    "net" => additions - deletions
   },
   "reviewed_80_to_89_exception" => false
 }
