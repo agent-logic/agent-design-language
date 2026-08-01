@@ -1,16 +1,26 @@
 # Runtime v3 local TLS validation
 
-Product correction: `ee49528e2`
+Product correction: `8976cc442` plus corrective review-finding repair commit.
 
 ## Focused Rust proof
 
-- Atomic multi-file rollback unit regression: 1 passed.
-- `adl-runtime/tests/local_tls.rs`: 10 passed.
-- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --all-targets -- -D warnings`: passed.
+- `adl-runtime/tests/local_tls.rs`: 13 passed.
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5713/target --bin adl-runtime-lifecycle-soak init_fixture_uses_stable_local_tls_bootstrap`: 1 passed.
+- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5713/target --test local_tls --bin adl-runtime-lifecycle-soak -- -D warnings`: passed.
 - `cargo fmt --manifest-path adl-runtime/Cargo.toml -- --check`: passed.
 - `git diff --check`: passed.
 
 All Cargo output used `/Volumes/FastWork/adl-wp-5713/target`.
+
+Focused regressions prove:
+
+- lifecycle soak prepares TLS through the shared stable local bootstrap path;
+- certificate, public certificate, and private key are committed as one generation directory selected by one current-generation manifest;
+- failed replacement preserves the last valid current-generation manifest;
+- stale persistent lock files do not block reacquisition because the real writer exclusion is an OS advisory file lock;
+- configured DNS/IP SAN drift fails closed on reuse;
+- explicit replacement after SAN drift installs a matching reusable identity;
+- the generated certificate is accepted by rustls for localhost and the private key remains restrictive.
 
 ## Native macOS proof
 
@@ -35,4 +45,4 @@ No certificate bytes, private-key bytes, or credential values are retained in th
 
 ## Remaining platform proof
 
-Native Linux and native Windows inspection use the same Rust implementation and configuration schema. Their results are not claimed in this local macOS artifact and remain required before final publication.
+Native Linux and native Windows inspection are not claimed in this local macOS artifact. The retained proof is portable source-level and focused Rust behavior proof only; final native-platform acceptance remains outside this pre-PR evidence.

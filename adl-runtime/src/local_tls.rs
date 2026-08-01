@@ -1,21 +1,27 @@
 use std::{
     collections::BTreeSet,
-    fs::{self, OpenOptions},
+    fs::{self, File, OpenOptions},
     io::Write,
     net::IpAddr,
     path::{Component, Path, PathBuf},
     sync::{Mutex, OnceLock},
 };
 
+use ::time::{Duration, OffsetDateTime};
+use base64::Engine;
+use fs2::FileExt;
 use rcgen::{CertificateParams, ExtendedKeyUsagePurpose, KeyPair};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
-use time::{Duration, OffsetDateTime};
+use x509_parser::{extensions::GeneralName, parse_x509_certificate};
 
 pub const LOCAL_TLS_BOOTSTRAP_SCHEMA: &str = "adl.runtime_v3.local_tls_bootstrap.v1";
 pub const LOCAL_TLS_BOOTSTRAP_OUTCOME_SCHEMA: &str =
     "adl.runtime_v3.local_tls_bootstrap.outcome.v1";
 const LOCAL_CERTIFICATE_VALIDITY_DAYS: i64 = 397;
+const GENERATION_MANIFEST_SCHEMA: &str = "adl.runtime_v3.local_tls_generation.v1";
+const CURRENT_GENERATION_MANIFEST: &str = "current-generation.json";
+const GENERATIONS_DIR: &str = "generations";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -137,6 +143,7 @@ pub struct RuntimeTlsBootstrapOutcome {
     pub mode: RuntimeTlsBootstrapMode,
     pub certificate_chain_path: PathBuf,
     pub public_certificate_path: Option<PathBuf>,
+    pub private_key_path: PathBuf,
     pub certificate_sha256: Option<String>,
     pub reused_existing_identity: bool,
     pub replaced_existing_identity: bool,
@@ -208,10 +215,49 @@ impl std::error::Error for LocalTlsError {}
 
 struct LocalTlsPaths {
     tls_root: PathBuf,
+    generations_root: PathBuf,
+    current_manifest: PathBuf,
+    certificate_chain_name: PathBuf,
+    public_certificate_name: PathBuf,
+    private_key_name: PathBuf,
+    lock_file: PathBuf,
+}
+
+#[derive(Clone, Debug)]
+struct CommittedTlsGeneration {
+    generation_id: String,
     certificate_chain: PathBuf,
     public_certificate: PathBuf,
     private_key: PathBuf,
-    lock_dir: PathBuf,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct GenerationManifest {
+    schema: String,
+    generation_id: String,
+    certificate_chain_path: PathBuf,
+    public_certificate_path: PathBuf,
+    private_key_path: PathBuf,
+    certificate_sha256: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+struct ConfiguredSans {
+    dns_names: BTreeSet<String>,
+    ip_addresses: BTreeSet<IpAddr>,
+}
+
+impl ConfiguredSans {
+    fn from_config(config: &RuntimeTlsBootstrapConfig) -> Self {
+        Self {
+            dns_names: config
+                .dns_names
+                .iter()
+                .map(|name| name.to_ascii_lowercase())
+                .collect(),
+            ip_addresses: config.ip_addresses.iter().copied().collect(),
+        }
+    }
 }
 
 pub struct GeneratedTlsMaterial {
@@ -241,6 +287,7 @@ where
                 mode: config.mode,
                 certificate_chain_path: config.certificate_chain_path.clone(),
                 public_certificate_path: config.public_certificate_path.clone(),
+                private_key_path: config.private_key_path.clone(),
                 certificate_sha256: sha256_file(&config.certificate_chain_path).ok(),
                 reused_existing_identity: true,
                 replaced_existing_identity: false,
@@ -251,40 +298,40 @@ where
             let paths = local_paths(config)?;
             fs::create_dir_all(&paths.tls_root)
                 .map_err(|error| LocalTlsError::Io(error.to_string()))?;
-            let _guard = LocalBootstrapGuard::acquire(&paths.lock_dir)?;
-            let cert_exists = paths.certificate_chain.exists();
-            let key_exists = paths.private_key.exists();
-            if cert_exists != key_exists {
-                return Err(LocalTlsError::Policy(
-                    "local TLS certificate and key must be created or replaced together".to_owned(),
-                ));
-            }
-            if cert_exists && !config.replace {
-                validate_rustls_pair(&paths.certificate_chain, &paths.private_key).await?;
-                enforce_private_key_permissions(&paths.private_key)?;
+            fs::create_dir_all(&paths.generations_root)
+                .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+            let _guard = LocalBootstrapGuard::acquire(&paths.lock_file)?;
+            let current = read_current_generation(&paths)?;
+            if let Some(current) = current.as_ref() {
+                validate_rustls_pair(&current.certificate_chain, &current.private_key).await?;
+                let sans_result = verify_certificate_sans(&current.certificate_chain, config);
+                if !config.replace {
+                    sans_result?;
+                }
+                enforce_private_key_permissions(&current.private_key)?;
                 ensure_public_certificate_copy(
-                    &paths.certificate_chain,
-                    &paths.public_certificate,
+                    &current.certificate_chain,
+                    &current.public_certificate,
                 )?;
-                return Ok(local_outcome(
-                    config.mode,
-                    &paths,
-                    true,
-                    false,
-                    RuntimeTlsBootstrapEvent::LocalCertificateReused,
-                ));
-            }
-            if cert_exists {
-                validate_rustls_pair(&paths.certificate_chain, &paths.private_key).await?;
+                if !config.replace {
+                    return Ok(local_outcome(
+                        config.mode,
+                        current,
+                        true,
+                        false,
+                        RuntimeTlsBootstrapEvent::LocalCertificateReused,
+                    ));
+                }
             }
             let material = generator(config)?;
-            write_candidate(&paths, &material).await?;
+            verify_generated_certificate_sans(material.certificate_pem.as_bytes(), config)?;
+            let generation = commit_generation(&paths, &material).await?;
             Ok(local_outcome(
                 config.mode,
-                &paths,
+                &generation,
                 false,
-                cert_exists,
-                if cert_exists {
+                current.is_some(),
+                if current.is_some() {
                     RuntimeTlsBootstrapEvent::LocalCertificateReplaced
                 } else {
                     RuntimeTlsBootstrapEvent::LocalCertificateCreated
@@ -296,7 +343,7 @@ where
 
 fn local_outcome(
     mode: RuntimeTlsBootstrapMode,
-    paths: &LocalTlsPaths,
+    generation: &CommittedTlsGeneration,
     reused: bool,
     replaced: bool,
     event: RuntimeTlsBootstrapEvent,
@@ -304,9 +351,10 @@ fn local_outcome(
     RuntimeTlsBootstrapOutcome {
         schema: LOCAL_TLS_BOOTSTRAP_OUTCOME_SCHEMA.to_owned(),
         mode,
-        certificate_chain_path: paths.certificate_chain.clone(),
-        public_certificate_path: Some(paths.public_certificate.clone()),
-        certificate_sha256: sha256_file(&paths.certificate_chain).ok(),
+        certificate_chain_path: generation.certificate_chain.clone(),
+        public_certificate_path: Some(generation.public_certificate.clone()),
+        private_key_path: generation.private_key.clone(),
+        certificate_sha256: sha256_file(&generation.certificate_chain).ok(),
         reused_existing_identity: reused,
         replaced_existing_identity: replaced,
         event,
@@ -334,17 +382,22 @@ fn generate_local_material(
     })
 }
 
-async fn write_candidate(
+async fn commit_generation(
     paths: &LocalTlsPaths,
     material: &GeneratedTlsMaterial,
-) -> Result<(), LocalTlsError> {
-    let nonce = format!("{}.{}", std::process::id(), unique_suffix());
-    let cert_tmp = paths.tls_root.join(format!("certificate.{nonce}.tmp"));
-    let public_tmp = paths
-        .tls_root
-        .join(format!("public-certificate.{nonce}.tmp"));
-    let key_tmp = paths.tls_root.join(format!("private-key.{nonce}.tmp"));
-    let candidates = [&cert_tmp, &public_tmp, &key_tmp];
+) -> Result<CommittedTlsGeneration, LocalTlsError> {
+    let generation_id = format!("generation-{}-{}", std::process::id(), unique_suffix());
+    let temp_generation = paths.generations_root.join(format!(".{generation_id}.tmp"));
+    let final_generation = paths.generations_root.join(&generation_id);
+    if final_generation.exists() {
+        return Err(LocalTlsError::Policy(
+            "local TLS generation id collision".to_owned(),
+        ));
+    }
+    fs::create_dir_all(&temp_generation).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    let cert_tmp = temp_generation.join(&paths.certificate_chain_name);
+    let public_tmp = temp_generation.join(&paths.public_certificate_name);
+    let key_tmp = temp_generation.join(&paths.private_key_name);
     let write_result = (|| {
         write_file(
             &cert_tmp,
@@ -363,26 +416,43 @@ async fn write_candidate(
         )
     })();
     if let Err(error) = write_result {
-        remove_files(&candidates);
+        remove_directory(&temp_generation);
         return Err(error);
     }
     if let Err(error) = enforce_private_key_permissions(&key_tmp) {
-        remove_files(&candidates);
+        remove_directory(&temp_generation);
         return Err(error);
     }
     if let Err(error) = validate_rustls_pair(&cert_tmp, &key_tmp).await {
-        remove_files(&candidates);
+        remove_directory(&temp_generation);
         return Err(error);
     }
-    commit_candidate_files(
+    sync_generation_directories(&temp_generation, &[&cert_tmp, &public_tmp, &key_tmp])?;
+    fs::rename(&temp_generation, &final_generation)
+        .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    sync_directory(&paths.generations_root)
+        .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    let generation = committed_generation_from_manifest_paths(
         &paths.tls_root,
-        vec![
-            CandidateFile::new(cert_tmp, paths.certificate_chain.clone(), &nonce),
-            CandidateFile::new(public_tmp, paths.public_certificate.clone(), &nonce),
-            CandidateFile::new(key_tmp, paths.private_key.clone(), &nonce),
-        ],
+        generation_id,
+        PathBuf::from(GENERATIONS_DIR)
+            .join(final_generation.file_name().ok_or_else(|| {
+                LocalTlsError::Policy("local TLS generation path lost its file name".to_owned())
+            })?)
+            .join(&paths.certificate_chain_name),
+        PathBuf::from(GENERATIONS_DIR)
+            .join(final_generation.file_name().ok_or_else(|| {
+                LocalTlsError::Policy("local TLS generation path lost its file name".to_owned())
+            })?)
+            .join(&paths.public_certificate_name),
+        PathBuf::from(GENERATIONS_DIR)
+            .join(final_generation.file_name().ok_or_else(|| {
+                LocalTlsError::Policy("local TLS generation path lost its file name".to_owned())
+            })?)
+            .join(&paths.private_key_name),
     )?;
-    Ok(())
+    commit_current_manifest(paths, &generation)?;
+    Ok(generation)
 }
 
 fn ensure_public_certificate_copy(source: &Path, target: &Path) -> Result<(), LocalTlsError> {
@@ -398,10 +468,13 @@ fn ensure_public_certificate_copy(source: &Path, target: &Path) -> Result<(), Lo
     let nonce = format!("{}.{}", std::process::id(), unique_suffix());
     let candidate = parent.join(format!("public-certificate.{nonce}.tmp"));
     write_file(&candidate, &bytes, FileMode::Public)?;
-    commit_candidate_files(
-        parent,
-        vec![CandidateFile::new(candidate, target.to_path_buf(), &nonce)],
-    )
+    replace_file_atomically(&candidate, target).map_err(|error| {
+        let _ = fs::remove_file(&candidate);
+        LocalTlsError::Io(format!(
+            "repair local TLS public certificate copy failed: {error}"
+        ))
+    })?;
+    sync_directory(parent).map_err(|error| LocalTlsError::Io(error.to_string()))
 }
 
 async fn validate_rustls_pair(certificate: &Path, private_key: &Path) -> Result<(), LocalTlsError> {
@@ -409,6 +482,207 @@ async fn validate_rustls_pair(certificate: &Path, private_key: &Path) -> Result<
         .await
         .map(|_| ())
         .map_err(|error| LocalTlsError::Rustls(error.to_string()))
+}
+
+fn verify_certificate_sans(
+    certificate: &Path,
+    config: &RuntimeTlsBootstrapConfig,
+) -> Result<(), LocalTlsError> {
+    let bytes = fs::read(certificate).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    verify_generated_certificate_sans(&bytes, config)
+}
+
+fn verify_generated_certificate_sans(
+    certificate_pem: &[u8],
+    config: &RuntimeTlsBootstrapConfig,
+) -> Result<(), LocalTlsError> {
+    let expected = ConfiguredSans::from_config(config);
+    let observed = certificate_sans(certificate_pem)?;
+    if observed != expected {
+        return Err(LocalTlsError::Policy(
+            "local TLS certificate SANs do not match configured DNS/IP SANs; rerun with replace=true to intentionally replace the local identity"
+                .to_owned(),
+        ));
+    }
+    Ok(())
+}
+
+fn certificate_sans(certificate_pem: &[u8]) -> Result<ConfiguredSans, LocalTlsError> {
+    let der = first_pem_certificate_der(certificate_pem)?;
+    let (_, certificate) = parse_x509_certificate(&der).map_err(|error| {
+        LocalTlsError::Policy(format!("could not parse local TLS certificate: {error}"))
+    })?;
+    let extension = certificate
+        .subject_alternative_name()
+        .map_err(|error| {
+            LocalTlsError::Policy(format!("could not parse local TLS SAN extension: {error}"))
+        })?
+        .ok_or_else(|| {
+            LocalTlsError::Policy("local TLS certificate is missing subjectAltName".to_owned())
+        })?;
+    let mut dns_names = BTreeSet::new();
+    let mut ip_addresses = BTreeSet::new();
+    for name in &extension.value.general_names {
+        match name {
+            GeneralName::DNSName(name) => {
+                dns_names.insert(name.to_ascii_lowercase());
+            }
+            GeneralName::IPAddress(bytes) => match bytes {
+                [a, b, c, d] => {
+                    ip_addresses.insert(IpAddr::from([*a, *b, *c, *d]));
+                }
+                [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p] => {
+                    ip_addresses.insert(IpAddr::from([
+                        *a, *b, *c, *d, *e, *f, *g, *h, *i, *j, *k, *l, *m, *n, *o, *p,
+                    ]));
+                }
+                _ => {
+                    return Err(LocalTlsError::Policy(
+                        "local TLS certificate contains malformed IP SAN".to_owned(),
+                    ));
+                }
+            },
+            _ => {}
+        }
+    }
+    Ok(ConfiguredSans {
+        dns_names,
+        ip_addresses,
+    })
+}
+
+fn first_pem_certificate_der(certificate_pem: &[u8]) -> Result<Vec<u8>, LocalTlsError> {
+    let text = std::str::from_utf8(certificate_pem)
+        .map_err(|error| LocalTlsError::Policy(format!("certificate PEM is not UTF-8: {error}")))?;
+    let mut in_certificate = false;
+    let mut body = String::new();
+    for line in text.lines() {
+        match line.trim() {
+            "-----BEGIN CERTIFICATE-----" => {
+                in_certificate = true;
+                body.clear();
+            }
+            "-----END CERTIFICATE-----" if in_certificate => {
+                return base64::engine::general_purpose::STANDARD
+                    .decode(body.as_bytes())
+                    .map_err(|error| {
+                        LocalTlsError::Policy(format!(
+                            "certificate PEM is not valid base64: {error}"
+                        ))
+                    });
+            }
+            _ if in_certificate => body.push_str(line.trim()),
+            _ => {}
+        }
+    }
+    Err(LocalTlsError::Policy(
+        "certificate PEM does not contain a certificate block".to_owned(),
+    ))
+}
+
+fn read_current_generation(
+    paths: &LocalTlsPaths,
+) -> Result<Option<CommittedTlsGeneration>, LocalTlsError> {
+    if !paths.current_manifest.exists() {
+        return Ok(None);
+    }
+    let bytes =
+        fs::read(&paths.current_manifest).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    let manifest: GenerationManifest =
+        serde_json::from_slice(&bytes).map_err(|error| LocalTlsError::Policy(error.to_string()))?;
+    if manifest.schema != GENERATION_MANIFEST_SCHEMA {
+        return Err(LocalTlsError::Policy(
+            "local TLS generation manifest has unsupported schema".to_owned(),
+        ));
+    }
+    for (field, path) in [
+        ("certificate_chain_path", &manifest.certificate_chain_path),
+        ("public_certificate_path", &manifest.public_certificate_path),
+        ("private_key_path", &manifest.private_key_path),
+    ] {
+        validate_relative_child(field, path)?;
+    }
+    let generation = committed_generation_from_manifest_paths(
+        &paths.tls_root,
+        manifest.generation_id,
+        manifest.certificate_chain_path,
+        manifest.public_certificate_path,
+        manifest.private_key_path,
+    )?;
+    for path in [
+        &generation.certificate_chain,
+        &generation.public_certificate,
+        &generation.private_key,
+    ] {
+        if !path.is_file() {
+            return Err(LocalTlsError::Policy(format!(
+                "local TLS current generation is incomplete: {} is missing",
+                path.display()
+            )));
+        }
+    }
+    let observed_sha = sha256_file(&generation.certificate_chain)?;
+    let manifest_sha = serde_json::from_slice::<GenerationManifest>(&bytes)
+        .map_err(|error| LocalTlsError::Policy(error.to_string()))?
+        .certificate_sha256;
+    if observed_sha != manifest_sha {
+        return Err(LocalTlsError::Policy(
+            "local TLS current generation certificate digest does not match manifest".to_owned(),
+        ));
+    }
+    Ok(Some(generation))
+}
+
+fn committed_generation_from_manifest_paths(
+    tls_root: &Path,
+    generation_id: String,
+    certificate_chain_path: PathBuf,
+    public_certificate_path: PathBuf,
+    private_key_path: PathBuf,
+) -> Result<CommittedTlsGeneration, LocalTlsError> {
+    Ok(CommittedTlsGeneration {
+        generation_id,
+        certificate_chain: tls_root.join(certificate_chain_path),
+        public_certificate: tls_root.join(public_certificate_path),
+        private_key: tls_root.join(private_key_path),
+    })
+}
+
+fn commit_current_manifest(
+    paths: &LocalTlsPaths,
+    generation: &CommittedTlsGeneration,
+) -> Result<(), LocalTlsError> {
+    let manifest = GenerationManifest {
+        schema: GENERATION_MANIFEST_SCHEMA.to_owned(),
+        generation_id: generation.generation_id.clone(),
+        certificate_chain_path: strip_tls_root(&paths.tls_root, &generation.certificate_chain)?,
+        public_certificate_path: strip_tls_root(&paths.tls_root, &generation.public_certificate)?,
+        private_key_path: strip_tls_root(&paths.tls_root, &generation.private_key)?,
+        certificate_sha256: sha256_file(&generation.certificate_chain)?,
+    };
+    let temporary = paths
+        .tls_root
+        .join(format!("current-generation.{}.json.tmp", unique_suffix()));
+    write_file(
+        &temporary,
+        serde_json::to_vec_pretty(&manifest)
+            .map_err(|error| LocalTlsError::Io(error.to_string()))?
+            .as_slice(),
+        FileMode::Public,
+    )?;
+    replace_file_atomically(&temporary, &paths.current_manifest).map_err(|error| {
+        let _ = fs::remove_file(&temporary);
+        LocalTlsError::Io(format!(
+            "commit local TLS generation manifest failed: {error}"
+        ))
+    })?;
+    sync_directory(&paths.tls_root).map_err(|error| LocalTlsError::Io(error.to_string()))
+}
+
+fn strip_tls_root(root: &Path, path: &Path) -> Result<PathBuf, LocalTlsError> {
+    path.strip_prefix(root)
+        .map(Path::to_path_buf)
+        .map_err(|_| LocalTlsError::Policy("local TLS generation escaped tls_root".to_owned()))
 }
 
 fn local_paths(config: &RuntimeTlsBootstrapConfig) -> Result<LocalTlsPaths, LocalTlsError> {
@@ -426,10 +700,12 @@ fn local_paths(config: &RuntimeTlsBootstrapConfig) -> Result<LocalTlsPaths, Loca
         .ok_or_else(|| LocalTlsError::Policy("public_certificate_path is required".to_owned()))?;
     let tls_root = state_root.join(tls_dir);
     Ok(LocalTlsPaths {
-        lock_dir: tls_root.join(".bootstrap.lock"),
-        certificate_chain: tls_root.join(&config.certificate_chain_path),
-        public_certificate: tls_root.join(public_certificate),
-        private_key: tls_root.join(&config.private_key_path),
+        lock_file: tls_root.join(".bootstrap.lock"),
+        generations_root: tls_root.join(GENERATIONS_DIR),
+        current_manifest: tls_root.join(CURRENT_GENERATION_MANIFEST),
+        certificate_chain_name: config.certificate_chain_path.clone(),
+        public_certificate_name: public_certificate.clone(),
+        private_key_name: config.private_key_path.clone(),
         tls_root,
     })
 }
@@ -480,123 +756,49 @@ fn write_file(path: &Path, bytes: &[u8], mode: FileMode) -> Result<(), LocalTlsE
     Ok(())
 }
 
-struct CandidateFile {
-    candidate: PathBuf,
-    target: PathBuf,
-    backup: PathBuf,
-    original_backed_up: bool,
-    installed: bool,
+fn sync_generation_directories(generation: &Path, files: &[&Path]) -> Result<(), LocalTlsError> {
+    for file in files {
+        let opened = File::open(file).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+        opened
+            .sync_all()
+            .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    }
+    sync_directory(generation).map_err(|error| LocalTlsError::Io(error.to_string()))
 }
 
-impl CandidateFile {
-    fn new(candidate: PathBuf, target: PathBuf, nonce: &str) -> Self {
-        let backup = target.with_extension(format!("backup.{nonce}"));
-        Self {
-            candidate,
-            target,
-            backup,
-            original_backed_up: false,
-            installed: false,
-        }
-    }
+fn remove_directory(path: &Path) {
+    let _ = fs::remove_dir_all(path);
 }
 
-fn commit_candidate_files(
-    parent: &Path,
-    mut files: Vec<CandidateFile>,
-) -> Result<(), LocalTlsError> {
-    for index in 0..files.len() {
-        if !files[index].target.exists() {
-            continue;
-        }
-        if let Err(error) = fs::rename(&files[index].target, &files[index].backup) {
-            let rollback = rollback_candidate_files(&mut files);
-            return Err(transaction_error(
-                "back up existing TLS material",
-                error,
-                rollback,
-            ));
-        }
-        files[index].original_backed_up = true;
-    }
-
-    for index in 0..files.len() {
-        if let Err(error) = fs::rename(&files[index].candidate, &files[index].target) {
-            let rollback = rollback_candidate_files(&mut files);
-            return Err(transaction_error(
-                "install candidate TLS material",
-                error,
-                rollback,
-            ));
-        }
-        files[index].installed = true;
-    }
-
-    if let Err(error) = sync_directory(parent) {
-        let rollback = rollback_candidate_files(&mut files);
-        return Err(transaction_error(
-            "sync installed TLS material",
-            error,
-            rollback,
-        ));
-    }
-
-    for file in &files {
-        if file.original_backed_up {
-            let _ = fs::remove_file(&file.backup);
-        }
-    }
-    let _ = sync_directory(parent);
-    Ok(())
+#[cfg(unix)]
+fn replace_file_atomically(candidate: &Path, target: &Path) -> Result<(), std::io::Error> {
+    fs::rename(candidate, target)
 }
 
-fn rollback_candidate_files(files: &mut [CandidateFile]) -> Result<(), String> {
-    let mut failures = Vec::new();
-    for file in files.iter_mut().rev() {
-        if file.installed && file.target.exists() {
-            if let Err(error) = fs::remove_file(&file.target) {
-                failures.push(format!("remove {}: {error}", file.target.display()));
-            }
-            file.installed = false;
-        }
-        if file.original_backed_up && file.backup.exists() {
-            if let Err(error) = fs::rename(&file.backup, &file.target) {
-                failures.push(format!(
-                    "restore {} from {}: {error}",
-                    file.target.display(),
-                    file.backup.display()
-                ));
-            } else {
-                file.original_backed_up = false;
-            }
-        }
-        if file.candidate.exists() {
-            let _ = fs::remove_file(&file.candidate);
-        }
+#[cfg(windows)]
+fn replace_file_atomically(candidate: &Path, target: &Path) -> Result<(), std::io::Error> {
+    use std::os::windows::ffi::OsStrExt;
+    use windows_sys::Win32::Storage::FileSystem::{
+        MoveFileExW, MOVEFILE_REPLACE_EXISTING, MOVEFILE_WRITE_THROUGH,
+    };
+
+    fn wide(path: &Path) -> Vec<u16> {
+        path.as_os_str().encode_wide().chain(Some(0)).collect()
     }
-    if failures.is_empty() {
-        Ok(())
+
+    let candidate = wide(candidate);
+    let target = wide(target);
+    let moved = unsafe {
+        MoveFileExW(
+            candidate.as_ptr(),
+            target.as_ptr(),
+            MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH,
+        )
+    };
+    if moved == 0 {
+        Err(std::io::Error::last_os_error())
     } else {
-        Err(failures.join("; "))
-    }
-}
-
-fn transaction_error(
-    operation: &str,
-    error: std::io::Error,
-    rollback: Result<(), String>,
-) -> LocalTlsError {
-    match rollback {
-        Ok(()) => LocalTlsError::Io(format!("{operation} failed and was rolled back: {error}")),
-        Err(rollback_error) => LocalTlsError::Io(format!(
-            "{operation} failed: {error}; rollback also failed: {rollback_error}"
-        )),
-    }
-}
-
-fn remove_files(paths: &[&PathBuf]) {
-    for path in paths {
-        let _ = fs::remove_file(path);
+        Ok(())
     }
 }
 
@@ -654,6 +856,7 @@ fn unique_suffix() -> String {
 
 struct LocalBootstrapGuard {
     path: PathBuf,
+    file: File,
 }
 
 impl LocalBootstrapGuard {
@@ -668,25 +871,46 @@ impl LocalBootstrapGuard {
                 return Err(LocalTlsError::LockBusy);
             }
         }
-        if let Err(error) = fs::create_dir(path) {
-            let mut active = locks
-                .lock()
-                .map_err(|_| LocalTlsError::Policy("local TLS lock poisoned".to_owned()))?;
-            active.remove(&canonical_key);
-            if error.kind() == std::io::ErrorKind::AlreadyExists {
-                return Err(LocalTlsError::LockBusy);
+        match Self::acquire_inner(path, canonical_key.clone()) {
+            Ok(guard) => Ok(guard),
+            Err(error) => {
+                let mut active = locks
+                    .lock()
+                    .map_err(|_| LocalTlsError::Policy("local TLS lock poisoned".to_owned()))?;
+                active.remove(&canonical_key);
+                Err(error)
             }
-            return Err(LocalTlsError::Io(error.to_string()));
         }
+    }
+
+    fn acquire_inner(path: &Path, canonical_key: PathBuf) -> Result<Self, LocalTlsError> {
+        if let Some(parent) = path.parent() {
+            fs::create_dir_all(parent).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+        }
+        let file = OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .read(true)
+            .write(true)
+            .open(path)
+            .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+        file.try_lock_exclusive().map_err(|error| {
+            if error.kind() == std::io::ErrorKind::WouldBlock {
+                LocalTlsError::LockBusy
+            } else {
+                LocalTlsError::Io(error.to_string())
+            }
+        })?;
         Ok(Self {
             path: canonical_key,
+            file,
         })
     }
 }
 
 impl Drop for LocalBootstrapGuard {
     fn drop(&mut self) {
-        let _ = fs::remove_dir(&self.path);
+        let _ = self.file.unlock();
         if let Ok(mut active) = in_process_locks().lock() {
             active.remove(&self.path);
         }
@@ -696,40 +920,4 @@ impl Drop for LocalBootstrapGuard {
 fn in_process_locks() -> &'static Mutex<BTreeSet<PathBuf>> {
     static LOCKS: OnceLock<Mutex<BTreeSet<PathBuf>>> = OnceLock::new();
     LOCKS.get_or_init(|| Mutex::new(BTreeSet::new()))
-}
-
-#[cfg(test)]
-mod transaction_tests {
-    use super::{commit_candidate_files, CandidateFile};
-    use std::fs;
-
-    #[test]
-    fn candidate_install_failure_restores_every_previous_target() {
-        let root = tempfile::tempdir().unwrap();
-        let first_target = root.path().join("first.pem");
-        let second_target = root.path().join("second.pem");
-        let third_target = root.path().join("third.pem");
-        let first_candidate = root.path().join("first.tmp");
-        let missing_candidate = root.path().join("missing.tmp");
-        let third_candidate = root.path().join("third.tmp");
-        fs::write(&first_target, b"old-first").unwrap();
-        fs::write(&second_target, b"old-second").unwrap();
-        fs::write(&third_target, b"old-third").unwrap();
-        fs::write(&first_candidate, b"new-first").unwrap();
-        fs::write(&third_candidate, b"new-third").unwrap();
-
-        let result = commit_candidate_files(
-            root.path(),
-            vec![
-                CandidateFile::new(first_candidate, first_target.clone(), "rollback"),
-                CandidateFile::new(missing_candidate, second_target.clone(), "rollback"),
-                CandidateFile::new(third_candidate, third_target.clone(), "rollback"),
-            ],
-        );
-
-        assert!(result.is_err());
-        assert_eq!(fs::read(first_target).unwrap(), b"old-first");
-        assert_eq!(fs::read(second_target).unwrap(), b"old-second");
-        assert_eq!(fs::read(third_target).unwrap(), b"old-third");
-    }
 }

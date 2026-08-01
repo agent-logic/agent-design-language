@@ -41,18 +41,31 @@ async fn first_bootstrap_persists_rustls_accepted_material_with_restrictive_key(
     );
     assert!(!outcome.reused_existing_identity);
     assert!(outcome.certificate_chain_path.exists());
-    assert!(outcome.public_certificate_path.unwrap().exists());
-    assert!(config
-        .state_root
-        .unwrap()
-        .join("runtime-tls/runtime-local-key.pem")
-        .exists());
-    assert_runtime_tls_accepts_localhost(&outcome.certificate_chain_path, &key_path(temp.path()))
-        .await;
+    assert!(outcome.public_certificate_path.as_ref().unwrap().exists());
+    assert!(outcome.private_key_path.exists());
+    assert_eq!(
+        outcome.certificate_chain_path.parent(),
+        outcome.private_key_path.parent()
+    );
+    assert_eq!(
+        outcome.public_certificate_path.as_ref().unwrap().parent(),
+        outcome.private_key_path.parent()
+    );
+    assert_current_generation_points_to(
+        temp.path(),
+        &outcome.certificate_chain_path,
+        outcome.public_certificate_path.as_ref().unwrap(),
+        &outcome.private_key_path,
+    );
+    assert_runtime_tls_accepts_localhost(
+        &outcome.certificate_chain_path,
+        &outcome.private_key_path,
+    )
+    .await;
     #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt;
-        let mode = fs::metadata(key_path(temp.path()))
+        let mode = fs::metadata(&outcome.private_key_path)
             .unwrap()
             .permissions()
             .mode()
@@ -76,6 +89,48 @@ async fn restart_reuses_same_certificate_identity() {
 }
 
 #[tokio::test]
+async fn restart_rejects_existing_identity_when_configured_sans_change() {
+    let temp = tempfile::tempdir().unwrap();
+    let original = local_config(temp.path().to_path_buf());
+    let first = bootstrap_runtime_tls(&original).await.unwrap();
+    let mut changed = local_config(temp.path().to_path_buf());
+    changed.dns_names.push("runtime.local".to_owned());
+
+    let drift = bootstrap_runtime_tls(&changed)
+        .await
+        .expect_err("changed SAN config must not silently reuse the old identity");
+
+    assert!(drift.to_string().contains("SANs do not match"));
+    let after = bootstrap_runtime_tls(&original).await.unwrap();
+    assert_eq!(first.certificate_sha256, after.certificate_sha256);
+}
+
+#[tokio::test]
+async fn explicit_replace_after_san_change_installs_matching_identity() {
+    let temp = tempfile::tempdir().unwrap();
+    let first = bootstrap_runtime_tls(&local_config(temp.path().to_path_buf()))
+        .await
+        .unwrap();
+    let mut changed = local_config(temp.path().to_path_buf());
+    changed.dns_names.push("runtime.local".to_owned());
+    changed.replace = true;
+
+    let replaced = bootstrap_runtime_tls(&changed).await.unwrap();
+    assert_eq!(
+        replaced.event,
+        RuntimeTlsBootstrapEvent::LocalCertificateReplaced
+    );
+    assert_ne!(first.certificate_sha256, replaced.certificate_sha256);
+    changed.replace = false;
+    let reused = bootstrap_runtime_tls(&changed).await.unwrap();
+    assert_eq!(
+        reused.event,
+        RuntimeTlsBootstrapEvent::LocalCertificateReused
+    );
+    assert_eq!(replaced.certificate_sha256, reused.certificate_sha256);
+}
+
+#[tokio::test]
 async fn restart_repairs_stale_public_copy() {
     let temp = tempfile::tempdir().unwrap();
     let config = local_config(temp.path().to_path_buf());
@@ -95,6 +150,24 @@ async fn restart_repairs_stale_public_copy() {
     );
 }
 
+#[tokio::test]
+async fn stale_lock_file_does_not_block_os_advisory_lock_reacquire() {
+    let temp = tempfile::tempdir().unwrap();
+    let lock = temp.path().join("runtime-tls/.bootstrap.lock");
+    fs::create_dir_all(lock.parent().unwrap()).unwrap();
+    fs::write(&lock, b"stale but unlocked").unwrap();
+
+    let outcome = bootstrap_runtime_tls(&local_config(temp.path().to_path_buf()))
+        .await
+        .unwrap();
+
+    assert_eq!(
+        outcome.event,
+        RuntimeTlsBootstrapEvent::LocalCertificateCreated
+    );
+    assert!(lock.exists());
+}
+
 #[cfg(unix)]
 #[tokio::test]
 async fn restart_repairs_private_key_permission_drift() {
@@ -102,8 +175,8 @@ async fn restart_repairs_private_key_permission_drift() {
 
     let temp = tempfile::tempdir().unwrap();
     let config = local_config(temp.path().to_path_buf());
-    bootstrap_runtime_tls(&config).await.unwrap();
-    let key = key_path(temp.path());
+    let first = bootstrap_runtime_tls(&config).await.unwrap();
+    let key = first.private_key_path;
     fs::set_permissions(&key, fs::Permissions::from_mode(0o644)).unwrap();
 
     let outcome = bootstrap_runtime_tls(&config).await.unwrap();
@@ -123,8 +196,11 @@ async fn configured_sans_are_validated_by_rustls() {
     let temp = tempfile::tempdir().unwrap();
     let config = local_config(temp.path().to_path_buf());
     let outcome = bootstrap_runtime_tls(&config).await.unwrap();
-    assert_runtime_tls_accepts_localhost(&outcome.certificate_chain_path, &key_path(temp.path()))
-        .await;
+    assert_runtime_tls_accepts_localhost(
+        &outcome.certificate_chain_path,
+        &outcome.private_key_path,
+    )
+    .await;
 }
 
 #[tokio::test]
@@ -171,6 +247,7 @@ async fn failed_replacement_preserves_last_valid_certificate() {
     let temp = tempfile::tempdir().unwrap();
     let mut config = local_config(temp.path().to_path_buf());
     let first = bootstrap_runtime_tls(&config).await.unwrap();
+    let first_manifest = fs::read(temp.path().join("runtime-tls/current-generation.json")).unwrap();
     config.replace = true;
     let failed = bootstrap_runtime_tls_with_generator(&config, |_| {
         Err::<GeneratedTlsMaterial, LocalTlsError>(LocalTlsError::Generate(
@@ -183,6 +260,10 @@ async fn failed_replacement_preserves_last_valid_certificate() {
         .await
         .unwrap();
     assert_eq!(first.certificate_sha256, after.certificate_sha256);
+    assert_eq!(
+        first_manifest,
+        fs::read(temp.path().join("runtime-tls/current-generation.json")).unwrap()
+    );
 }
 
 #[tokio::test]
@@ -191,10 +272,7 @@ async fn managed_external_mode_preserves_existing_material() {
     let local = local_config(temp.path().join("local"));
     let created = bootstrap_runtime_tls(&local).await.unwrap();
     let cert_before = fs::read(&created.certificate_chain_path).unwrap();
-    let key = local
-        .state_root
-        .unwrap()
-        .join("runtime-tls/runtime-local-key.pem");
+    let key = created.private_key_path.clone();
     let key_before = fs::read(&key).unwrap();
     let external = RuntimeTlsBootstrapConfig {
         schema: LOCAL_TLS_BOOTSTRAP_SCHEMA.to_owned(),
@@ -228,8 +306,35 @@ async fn production_defaults_fail_closed_without_explicit_mode() {
     assert!(RuntimeTlsBootstrapConfig::from_toml_str(&text).is_err());
 }
 
-fn key_path(root: &std::path::Path) -> PathBuf {
-    root.join("runtime-tls/runtime-local-key.pem")
+fn assert_current_generation_points_to(
+    root: &std::path::Path,
+    chain: &std::path::Path,
+    public: &std::path::Path,
+    key: &std::path::Path,
+) {
+    let manifest_path = root.join("runtime-tls/current-generation.json");
+    let manifest: serde_json::Value =
+        serde_json::from_slice(&fs::read(manifest_path).unwrap()).unwrap();
+    let generation = manifest["generation_id"].as_str().unwrap();
+    let generation_root = root.join("runtime-tls/generations").join(generation);
+    assert_eq!(chain.parent().unwrap(), generation_root);
+    assert_eq!(public.parent().unwrap(), generation_root);
+    assert_eq!(key.parent().unwrap(), generation_root);
+    assert_eq!(
+        root.join("runtime-tls")
+            .join(manifest["certificate_chain_path"].as_str().unwrap()),
+        chain
+    );
+    assert_eq!(
+        root.join("runtime-tls")
+            .join(manifest["public_certificate_path"].as_str().unwrap()),
+        public
+    );
+    assert_eq!(
+        root.join("runtime-tls")
+            .join(manifest["private_key_path"].as_str().unwrap()),
+        key
+    );
 }
 
 async fn assert_runtime_tls_accepts_localhost(
