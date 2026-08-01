@@ -71,11 +71,11 @@ Executed WP-13 #5346 by deleting the exact reviewed legacy ADL CLI tooling surfa
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
