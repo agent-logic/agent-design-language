@@ -127,29 +127,6 @@ fn local_tls_error_kind(error: &LocalTlsError) -> &'static str {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn failure_payload_is_machine_readable_json() {
-        let json = failure_json(
-            "bootstrap",
-            75,
-            "policy",
-            "local TLS rejected test",
-            Some(&PathBuf::from("config.toml")),
-        )
-        .unwrap();
-        let parsed: serde_json::Value = serde_json::from_str(&json).unwrap();
-        assert_eq!(parsed["schema"], FAILURE_SCHEMA);
-        assert_eq!(parsed["stage"], "bootstrap");
-        assert_eq!(parsed["exit_code"], 75);
-        assert_eq!(parsed["error_kind"], "policy");
-        assert_eq!(parsed["config_path"], "config.toml");
-    }
-}
-
 struct Args {
     config: PathBuf,
 }
@@ -178,5 +155,28 @@ impl Args {
         Ok(Self {
             config: config.ok_or_else(|| "--config is required".to_owned())?,
         })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn failure_payload_is_machine_readable_json() {
+        let json = failure_json(
+            "bootstrap",
+            75,
+            "policy",
+            "local TLS rejected test",
+            Some(&PathBuf::from("config.toml")),
+        )
+        .unwrap();
+        let parsed: serde_json::Value = serde_json::from_str(&json).unwrap();
+        assert_eq!(parsed["schema"], FAILURE_SCHEMA);
+        assert_eq!(parsed["stage"], "bootstrap");
+        assert_eq!(parsed["exit_code"], 75);
+        assert_eq!(parsed["error_kind"], "policy");
+        assert_eq!(parsed["config_path"], "config.toml");
     }
 }
