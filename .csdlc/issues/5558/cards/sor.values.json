@@ -7,7 +7,7 @@
     "title": "Remove sunset pr.sh guidance from owner lane",
     "slug": "remove-sunset-pr-sh-guidance",
     "version": "v0.91.8",
-    "generation": 28
+    "generation": 29
   },
   "status": "pre_phase",
   "content": {
@@ -97,8 +97,8 @@
           "evidence_ref": "local bounded proof on the #5558 issue worktree: all three focused suites PASS; orphan directory absent; 2,000 dead Rust LoC deleted; no csdlc_prompt_editor Rust file remains in the ACMR coverage-impact set"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

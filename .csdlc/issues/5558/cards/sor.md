@@ -104,11 +104,11 @@ Removed the final 2,000 lines of orphaned adl/src/csdlc_prompt_editor child modu
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
