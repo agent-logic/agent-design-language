@@ -765,6 +765,14 @@ fn write_file(path: &Path, bytes: &[u8], mode: FileMode) -> Result<(), LocalTlsE
     let mut file = options
         .open(path)
         .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    #[cfg(windows)]
+    if matches!(mode, FileMode::Private) {
+        if let Err(error) = enforce_private_key_permissions(path) {
+            drop(file);
+            let _ = fs::remove_file(path);
+            return Err(error);
+        }
+    }
     file.write_all(bytes)
         .and_then(|()| file.sync_all())
         .map_err(|error| LocalTlsError::Io(error.to_string()))?;
