@@ -729,7 +729,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let weather_freshness = feed.weather_freshness.clone();
         let weather_stale = weather_freshness
             .as_ref()
-            .map_or(true, |freshness| freshness.stale);
+            .is_none_or(|freshness| freshness.stale);
         let mut degraded_reasons = Vec::new();
         if !feed.health.observability_ready {
             degraded_reasons.push("observability_not_ready".to_owned());
