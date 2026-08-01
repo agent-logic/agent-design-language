@@ -7,6 +7,10 @@
 - Review lane: formal milestone third-party review
 - Initial preparation: closed v0.91.7 WP-21A / `#5489`
 - Current readiness reconciliation: v0.91.8 WP-01 / `#5594`
+- Integrated quality gate: v0.91.8 WP-16 / `#5351`, merged at
+  `2e9d2dd7c4260dcf6ec6af954b0eea97554212df`
+- Current documentation alignment: v0.91.8 WP-17 / `#5360`
+- Internal review: v0.91.8 WP-18, not complete
 - Release-tail revalidation owner: v0.91.8 WP-21A / `#5355`
 - Packet status: `prepared_not_sent`
 - Review performed: false
@@ -22,7 +26,7 @@ GitHub truth:
 | Gate | Required state before send |
 | --- | --- |
 | Exact target revision | Fill `Repository`, `PR`, `base`, `head`, and exact commit SHA in the Target Revision section. If any source changes after that SHA, fail closed and refresh this handoff. |
-| Predecessor gates | WP-17 documentation alignment and WP-18 internal review must be complete/current, or carry explicit operator-approved blocker disposition. WP-19 / `#5357` is the formal external-review owner and should be open or in progress when this packet is sent. WP-20 through WP-23 remain downstream and must not be treated as prerequisites unless later live truth says otherwise. |
+| Predecessor gates | WP-16 quality-gate evidence must remain ancestral to the target revision. WP-17 documentation alignment and WP-18 internal review must be complete/current, or carry explicit operator-approved blocker disposition. WP-19 / `#5357` is the formal external-review owner and should be open or in progress when this packet is sent. WP-20 through WP-23 remain downstream and must not be treated as prerequisites unless later live truth says otherwise. |
 | Source packet | Every path in the Source And Evidence Manifest must exist at the target revision. |
 | Implementation and proof packet | For send-time review, landed WP-02 through WP-16 implementation, tests, deployment/observatory/runtime/C-SDLC/ADL surfaces, and proof packets must be enumerated in the Implementation And Proof Manifest below from closed issue evidence. Fail closed if owner surfaces or proof packets are missing. |
 | Live issue truth | Issue and PR state must match [../WP_ISSUE_WAVE_v0.91.8.yaml](../WP_ISSUE_WAVE_v0.91.8.yaml) and [../WP_EXECUTION_READINESS_v0.91.8.md](../WP_EXECUTION_READINESS_v0.91.8.md). |
@@ -101,8 +105,11 @@ stale and the handoff must be refreshed before send.
 
 This handoff gives an external reviewer a bounded packet for `v0.91.8`, the
 bridge prerequisite for `v0.92`. The reviewer should evaluate whether ADL has
-prepared a credible, evidence-bound plan to accept ADL v2, Runtime v3, and
-C-SDLC v2 at exact revisions before `v0.92` consumes the platform.
+prepared a credible, evidence-bound packet to accept ADL v2, Runtime v3, and
+C-SDLC v2 at exact revisions before `v0.92` consumes the platform. The latest
+integrated quality source is WP-16 at
+`2e9d2dd7c4260dcf6ec6af954b0eea97554212df`; WP-17 is aligning the documents to
+that merged evidence.
 
 This is not a release handoff and not a review result. It prepares the formal
 third-party review surface only.
@@ -160,6 +167,8 @@ Do not review as completed implementation:
 
 - v0.91.8 product code that has not landed at the target revision;
 - v0.92 birthday implementation;
+- WP-18 internal review, formal milestone review, remediation, or release
+  ceremony work unless those exact packets are present at the target revision;
 - deployment or release ceremony actions;
 - external shadow-review outputs not synthesized into tracked issue records;
 - hidden `.adl/local-artifacts` material unless explicitly copied into a
@@ -223,10 +232,13 @@ Do not review as completed implementation:
 
 ### Implementation And Proof Manifest
 
-This section is intentionally fail-closed at preparation time. The formal
-send-time packet must be populated from closed WP-02 through WP-16 issue
-evidence at the exact target revision. Do not send the review with a docs-only
-packet.
+This section is anchored by merged WP-16 evidence at
+`2e9d2dd7c4260dcf6ec6af954b0eea97554212df`. WP-16 records 67 audited issues, 34
+working-code outcomes, 21 useful durable results, 12 partial or ambiguous
+release-tail/umbrella/lifecycle-drift items, 0 unacceptable outcomes, and 0
+release blockers. The formal send-time packet must still refresh this manifest
+from closed issue evidence at the exact target revision. Do not send the review
+with a docs-only packet.
 
 Before send, enumerate landed paths and proof packets for each applicable
 owner surface:
@@ -242,6 +254,12 @@ owner surface:
 If a row cannot be populated with landed code/test/proof evidence, return
 `blocked` or `deferred` and record the missing owner surface instead of asking
 the reviewer to infer completion from planning docs.
+
+### WP-16 Quality-Gate Evidence
+
+- [../evidence/wp16/ISSUE_OUTCOME_AUDIT.md](../evidence/wp16/ISSUE_OUTCOME_AUDIT.md)
+- [../evidence/wp16/QUALITY_GATE.md](../evidence/wp16/QUALITY_GATE.md)
+- [../evidence/wp16/issue-outcome-audit.v1.json](../evidence/wp16/issue-outcome-audit.v1.json)
 
 ## Live Issue, PR, And Validation Truth
 
@@ -330,6 +348,7 @@ This handoff does not claim:
 
 - third-party review has run;
 - v0.91.8 implementation, release, or deployment is complete;
+- WP-18 internal review is complete;
 - v0.92 birthday readiness is achieved;
 - per-issue external shadow reviews equal formal milestone review;
 - #4906 is resolved;

@@ -2,9 +2,10 @@
 
 ## Decision
 
-Prepare an evidence-driven documentation alignment pass that begins only after
-WP-16 issue #5351 is merged, typed `closed_out`, claim-free, backed by its
-retained terminal receipt, and ancestral to the exact #5360 execution revision.
+Execute an evidence-driven documentation alignment pass after WP-16 issue
+#5351 merged as `2e9d2dd7c4260dcf6ec6af954b0eea97554212df` with passing
+exact-head integrated proof and became ancestral to the #5360 execution
+revision. Typed predecessor closeout is asynchronous and nonblocking.
 The implementation will reconcile existing source-of-truth documents; it will
 not create another release database, runtime, deployment system, or planning
 authority.
@@ -28,31 +29,18 @@ The preparation baseline is exact revision
 committed and uncommitted paths relative to that revision, so a clean worktree
 cannot hide an out-of-scope preparation commit.
 
-## Future Implementation Paths
+## Implementation Paths
 
-The proposed implementation path set is closed and exact:
+The gpt-5.5 documentation audit narrowed the active implementation set to the
+exact collision-free paths in the typed claim. This includes repository
+entrypoints, current v0.91.8 status and feature surfaces, the formal-review
+handoff, and the two v0.92 bridge documents that require current input truth.
 
-- `README.md`
-- `docs/planning/ADL_FEATURE_LIST.md`
-- `docs/milestones/v0.91.8/WBS_v0.91.8.md`
-- `docs/milestones/v0.91.8/SPRINT_v0.91.8.md`
-- `docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md`
-- `docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md`
-- `docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md`
-- `docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml`
-- `docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md`
-- `docs/milestones/v0.91.8/RELEASE_NOTES_v0.91.8.md`
-- `docs/milestones/v0.91.8/BASELINE_AND_OWNERSHIP_v0.91.8.md`
-- `docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md`
-- `docs/milestones/v0.91.8/FEATURE_PRESERVATION_CROSSWALK_v0.91.8.md`
-- `docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md`
-- `docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md`
-- `docs/milestones/v0.91.8/features/PLATFORM_ACCEPTANCE_AND_DEPLOYMENT_v0.91.8.md`
-- `docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md`
-
-Any additional path requires typed claim amendment and bounded re-review before
-editing. Generated C-SDLC records and issue-local evidence remain separately
-owned by the four preparation paths.
+Two audited paths remain intentionally outside #5360: WP-18 #5356 owns
+`docs/milestones/v0.91.8/review/README.md`, and #5765 owns
+`docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml`. Their owners must consume the
+WP-17 result without overlapping this issue. Any other additional path requires
+a fresh collision check and typed claim amendment before editing.
 
 ## Source And Claim Model
 
@@ -69,17 +57,10 @@ where deployment and acceptance evidence converges.
 
 ## Dependency Gate
 
-`check-dependencies.rb` fails closed unless all predicates hold:
-
-1. the retained shared-Git receipt `csdlc-v2/closeout/5351.json` exists;
-2. the current #5351 typed record exactly matches that receipt;
-3. #5351 is `closed_out` and claim-free;
-4. typed doctor reports a clean terminal record;
-5. terminal disposition and observed state are both `merged` with a PR and SHA;
-6. the observed merge SHA is ancestral to the exact #5360 execution revision.
-
-Preparation is permitted while this gate fails. Documentation edits, review for
-publication, publication, merge, closeout, and release of WP-18 are forbidden.
+`check-dependencies.rb` fails closed unless the exact WP-16 merge commit is
+ancestral to the #5360 execution revision and the retained WP-16 quality gate
+reports `pass`. Typed closeout remains independent audit work and cannot block
+WP-17 execution. WP-18 remains blocked only until #5360 merges.
 
 ## COTS And Architecture
 
@@ -107,8 +88,8 @@ formats must use existing structured parsers or owner tools during execution.
 
 `preparation-contract` proves current-registry six-card integrity, reviewed
 design and diagram, exact preparation scope, COTS, budgets, clean diff, zero
-product changes, and typed doctor truth. `wp16-terminal-gate` is deterministic,
-local, network-denied admission proof and is expected to fail during preparation.
+product changes, and typed doctor truth. `wp16-terminal-gate` is a deterministic,
+local, network-denied merge-and-quality ancestry proof.
 `focused-doc-alignment`, `complete`, and `post-merge-exact` are required release
 gates but remain unavailable until their declared lifecycle points.
 
@@ -125,12 +106,13 @@ The bounded preparation review checks bypasses, unsupported claims, path
 collisions, product-owner ambiguity, COTS duplication, budget gaps, PVF mapping,
 and zero-product-change truth. Every actionable finding is fixed before typed
 design approval and bind. Future implementation requires exact-revision review,
-green required checks, authorized serialized merge, post-merge proof, and typed
-closeout before WP-18 may begin.
+green required checks, authorized merge, and post-merge proof. The #5360 merge
+releases WP-18 immediately; typed closeout follows asynchronously.
 
 ## Stop Conditions
 
-Stop without implementation or publication if #5351 is not fully terminal, any
+Stop without implementation or publication if the exact #5351 merge and quality
+proof are not ancestral, any
 source claim lacks exact evidence, a protected path collides, a required shared
 path falls outside the reviewed set, a change would alter product behavior, a
 new dependency is required, Runtime v2/AWS/raw `gh`/credentials are requested,

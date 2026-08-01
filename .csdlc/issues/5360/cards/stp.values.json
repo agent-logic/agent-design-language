@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-17] Align documentation and release truth before formal review",
     "slug": "v0918-wp17-documentation-release-truth-alignment",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 10
   },
   "status": "ready",
   "content": {
@@ -17,25 +17,25 @@
       "deliverables": [
         "all six current-registry issue-specific typed cards",
         "reviewed documentation alignment design and Mermaid diagram",
-        "exact preparation-only protected paths and exact future documentation path manifest",
-        "executable #5351 merge, typed closeout, receipt, claim-release, and ancestry gate",
+        "exact collision-free documentation claim and audited update inventory",
+        "executable #5351 merge, quality-pass, and ancestry gate",
         "zero-new-dependency COTS posture, documentation claim taxonomy, and owner-boundary model",
         "LoC, module, assertion, time, token, and PVF budgets",
-        "bounded preparation review with all actionable findings fixed",
-        "future exact-revision alignment packet, blocker register, post-merge proof, and WP-18 release predicate"
+        "one bounded exact-revision pre-PR review with every actionable finding fixed",
+        "exact-revision alignment packet, blocker register, post-merge proof, and merge-gated WP-18 release"
       ],
       "acceptance_criteria": [
-        "AC-1: No shared-document or product edit starts until #5351 is merged, typed closed_out, claim-free, backed by a retained merged terminal receipt, and its observed merge SHA is ancestral to the exact #5360 execution revision",
-        "AC-2: Every future changed material claim names its source path, prior and resulting classification, exact evidence reference, owning product, and disposition",
+        "AC-1: Shared-document edits begin only after #5351 is merged with passing exact-head integrated proof and its merge SHA is ancestral to the exact #5360 execution revision; typed predecessor closeout is asynchronous",
+        "AC-2: Every changed material claim names its source path, prior and resulting classification, exact evidence reference, owning product, and disposition",
         "AC-3: Proven, planned, blocked, deferred, superseded, and explicit_non_claim remain distinct; only exact retained evidence supports proven and no unsupported statement is promoted",
         "AC-4: README, feature, WBS, sprint, checklist, handoff, issue-wave, deployment, release, proof-coverage, and ownership surfaces agree without erasing separate ADL v2, Runtime v3, and C-SDLC v2 authority",
         "AC-5: Structured YAML and JSON are processed with structured parsers or owner tools; Markdown changes preserve local structure, links, repository-relative evidence, redaction, and exact revision identity",
-        "AC-6: Preparation adds no dependency and changes zero product/shared-document files; future documentation delta stays within 2500 changed lines and preparation stays within 1500 nonblank lines, 500 per module, and fewer than 150 focused assertions unless exactly reviewed",
-        "AC-7: Every required focused, complete, exact-review, CI, authorized serialized merge, post-merge, typed-closeout, and WP-18 release gate passes without hidden deferral",
+        "AC-6: No dependency is added; documentation delta stays within 2500 changed lines and issue-local orchestration stays within 1500 nonblank lines, 500 per module, and fewer than 150 focused assertions unless exactly reviewed",
+        "AC-7: Every required focused, complete, exact-review, CI, authorized merge, and post-merge identity gate passes without hidden deferral; #5360 merge releases WP-18 while typed closeout follows asynchronously",
         "AC-8: Product defects, missing proof, path collisions, budget variance, and unsupported claims route to their owning issue and never become documentation-only green truth"
       ],
       "dependencies": [
-        "WP-16 #5351 merged, typed closed_out, claim-free, retained-receipt-backed, and ancestral to the exact #5360 execution revision"
+        "WP-16 #5351 merged as 2e9d2dd7c4260dcf6ec6af954b0eea97554212df with required checks green and is ancestral to the exact #5360 execution revision; typed closeout proceeds asynchronously"
       ],
       "repo_inputs": [
         "AGENTS.md",

@@ -4,24 +4,51 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c644edc3992ebad636bd12a7abfc00f880251e4cc54513ea00c3de803c347dac",
   "phase": "bound",
-  "generation": 1,
-  "digest": "a83e5757f8888b9c052d0575b05ce87ad59ab816a979f5a0dd98dac78bde08ca",
+  "generation": 10,
+  "digest": "7962f512c20116f7f48f3226ea78c3a8c6c243f7b8c484742652eb562448c679",
   "claim": {
     "id": "claim-5360-v0918-wp17-documentation-preparation",
     "owner": "codex:5360-preparation-owner",
-    "generation": 1,
+    "generation": 10,
     "acquired_unix_seconds": 1785543202,
     "expires_unix_seconds": 1786148002,
     "heartbeat_unix_seconds": 1785543202,
     "branch": "codex/5360-v0918-preparation",
     "worktree": ".",
     "protected_paths": [
+      ".csdlc/evidence/5360",
       ".csdlc/issues/5360",
       ".csdlc/locks/5360.lock",
       ".csdlc/prepared/issues/5360",
-      ".csdlc/evidence/5360"
+      "CHANGELOG.md",
+      "README.md",
+      "REVIEW.md",
+      "docs/README.md",
+      "docs/architecture/adr/README.md",
+      "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md",
+      "docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md",
+      "docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+      "docs/milestones/v0.91.8/README.md",
+      "docs/milestones/v0.91.8/RELEASE_NOTES_v0.91.8.md",
+      "docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/RUNTIME_V3_FUNCTIONAL_PARITY_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/ADL_V2_CORE_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/CSDLC_V2_ACCEPTANCE_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/DELETION_AND_CUTOVER_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/PLATFORM_ACCEPTANCE_AND_DEPLOYMENT_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/README.md",
+      "docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/RUNTIME_V3_FUNCTIONAL_PARITY_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.92/README.md",
+      "docs/milestones/v0.92/WBS_v0.92.md",
+      "docs/planning/ADL_FEATURE_LIST.md"
     ],
-    "purpose": "Prepare and review #5360 WP-17 documentation and release-truth alignment contracts only; no shared-document or product work until WP-16 #5351 is merged, typed closed_out, receipt-backed, claim-free, and ancestral"
+    "purpose": "Execute #5360 WP-17 documentation and release-truth alignment after merged WP-16; typed predecessor closeout is asynchronous and nonblocking."
   },
   "review_assignment": null,
   "review": null,
@@ -33,38 +60,38 @@
   "diagram_path": ".csdlc/prepared/issues/5360/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "subagent:5360-preparation-review",
-      "revision": "bdfce9b6454323e72a3f62c2e00065e53897dc06b564ba8dce426337163040fb"
+      "reviewer": "subagent:Kuhn:019fbcf1-1ae3-7f70-9c5f-69f40c290322",
+      "revision": "d2495d07cbf8f23d14ccff0bfa891ebb34bc56cb5e06973fb7ea516c98ebbd7f"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "babeda117f943c54da0db201ad97f2b4881babcbf7951ace4f932d508665d2cb",
-      "rendered_digest": "b8e0434cdd615ea17a6f6d04c21434882d938e4b1d0e216074aa4caaa99d3675",
-      "ast_digest": "d258855ecb4abedfd0c3023f443cfdd129eadcc809af3f38f521a6b3da8a7043"
+      "values_digest": "b4a3ee9a6e10f0aefb67cf0341e03e977d17ad093fafce8c66222c81c3da1511",
+      "rendered_digest": "d38b03775bf400a76bd67f1f96bcd771906d1d739607d7bea717b0031cff7b19",
+      "ast_digest": "ad7a7ab41c53d8615647f52c0eafd1152329ccd495ea791b9c62e6e9f5b9ae02"
     },
     "stp": {
-      "values_digest": "7097398b4c6bf417d82fadaa1b8cf4de71b9c171c8efe4a6232de240a07b0d10",
-      "rendered_digest": "03a3ad3189f81a28acf5b33f9180ff5ec520e0e94bd3932dcca8cf6370b0af42",
-      "ast_digest": "6b32d0a7b65b67f60d8f32c0e4dccb29f274dc5c27d611488462063996003b07"
+      "values_digest": "7133d85e925901ff6b29b8e78ba62bf382a885043ad08e320b6c17408bad4c10",
+      "rendered_digest": "b2a70374204accc818da5e9f498e9017562221c30340fca3e1088c463cfb6e0a",
+      "ast_digest": "52297efe7c41fe0b3d9a1e9df6cc9571b8445c2df671b9f18e94781908cd86db"
     },
     "spp": {
-      "values_digest": "a8828ca67397ae16f61d43a60993068cec7f35676910eed3973ab80890ac37ef",
-      "rendered_digest": "904110fe2df701ae7649b67064f0dcc045cb873946136f73b03f3d7e9082e0ab",
-      "ast_digest": "4507c195224df993daf4d9b0632ee2bfa88bcc684e7e4ec471bf5f5093556019"
+      "values_digest": "fd1cc8025239a1ea296078fc900661ae2f9af06a3d48e121d8b593ebc4a87679",
+      "rendered_digest": "df3b3432e50f1e229b0e64b60a4844e81b5cdeaa0ed74b4fc5f8022ce77390a0",
+      "ast_digest": "dc2697013b47469ea1cad90880e87c7c8e46da17586fae7ead6b9b76c5f7661d"
     },
     "vpp": {
-      "values_digest": "8a4a4f8f73f489550780c254f591a80aae822ac261d7b6cf143e9ef964f1e69f",
+      "values_digest": "1ebe0e4180519982c1b9b86a1a5a61b9338a5379f401bc6ce28f6fefe1065a5e",
       "rendered_digest": "daefc56b6eee0fcefc764945031894c67d507b91fd5e9aca7dd5a77aaee1a04e",
       "ast_digest": "45d4ee5dc9ddb0a8755b91e865916b7ca88458da179a08ac77b3c438a33b3007"
     },
     "srp": {
-      "values_digest": "36e78fed85716a8a9cf2e7a29cede0f717d1033465149e83431a625825b154cd",
+      "values_digest": "15f175423263a4a9587b8a6f3fa3bebe88dca6a87caf33caf6c95cd0571b2601",
       "rendered_digest": "2e4281326fb6e4ef546e68c83e3dd7d112b4a80a490be19f66b08b11151ae786",
       "ast_digest": "b0b9ba4b62c87b31a3eb9b6eeb10626f6f91db694c534a48e902dbca5a042902"
     },
     "sor": {
-      "values_digest": "726491e7ec25e0ee5d799fff165c110db7f900c5f6948a637a084603950c29d2",
+      "values_digest": "3dd1ce125635ecab51745a8c042cde7f6f5972c4bea628fbd8fea43c190a66c0",
       "rendered_digest": "89212a1fc001304f24a2290b132d12d0df1553c346c9e62eb4d2aceaac55334c",
       "ast_digest": "f318400cad9d7f7cb11ece88404ab19683ba234ec65895fb5cacb336d8bc70c3"
     }
@@ -113,6 +140,76 @@
       "actor": "codex:5360-preparation-owner",
       "reason": "reacquire expired preparation-only claim for later WP-17 execution readiness without executing content updates",
       "operation": "{\"branch\":\"codex/5360-v0918-preparation\",\"claim_id\":\"claim-5360-v0918-wp17-documentation-preparation\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5360-preparation-owner\",\"previous_claim_id\":\"claim-5360-v0918-wp17-documentation-preparation\",\"previous_owner\":\"codex:5360-preparation-owner\",\"protected_paths\":[\".csdlc/issues/5360\",\".csdlc/locks/5360.lock\",\".csdlc/prepared/issues/5360\",\".csdlc/evidence/5360\"],\"purpose\":\"Prepare and review #5360 WP-17 documentation and release-truth alignment contracts only; no shared-document or product work until WP-16 #5351 is merged, typed closed_out, receipt-backed, claim-free, and ancestral\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 1,
+      "actor": "codex:5360-execution",
+      "reason": "WP-16 PR #5775 merged as 2e9d2dd7c4260dcf6ec6af954b0eea97554212df with required checks green; activate the exact audited documentation update set without waiting on typed closeout.",
+      "operation": "{\"add_protected_paths\":[\"README.md\",\"REVIEW.md\",\"CHANGELOG.md\",\"docs/README.md\",\"docs/planning/ADL_FEATURE_LIST.md\",\"docs/architecture/adr/README.md\",\"docs/milestones/v0.91.8/README.md\",\"docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md\",\"docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md\",\"docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md\",\"docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md\",\"docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md\",\"docs/milestones/v0.91.8/RUNTIME_V3_FUNCTIONAL_PARITY_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/RELEASE_NOTES_v0.91.8.md\",\"docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md\",\"docs/milestones/v0.91.8/features/README.md\",\"docs/milestones/v0.91.8/features/ADL_V2_CORE_v0.91.8.md\",\"docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md\",\"docs/milestones/v0.91.8/features/RUNTIME_V3_FUNCTIONAL_PARITY_v0.91.8.md\",\"docs/milestones/v0.91.8/features/CSDLC_V2_ACCEPTANCE_v0.91.8.md\",\"docs/milestones/v0.91.8/features/PLATFORM_ACCEPTANCE_AND_DEPLOYMENT_v0.91.8.md\",\"docs/milestones/v0.91.8/features/DELETION_AND_CUTOVER_v0.91.8.md\",\"docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md\",\"docs/milestones/v0.92/README.md\",\"docs/milestones/v0.92/WBS_v0.92.md\"],\"expected_owner\":\"codex:5360-preparation-owner\",\"expected_purpose\":\"Prepare and review #5360 WP-17 documentation and release-truth alignment contracts only; no shared-document or product work until WP-16 #5351 is merged, typed closed_out, receipt-backed, claim-free, and ancestral\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare and review #5360 WP-17 documentation and release-truth alignment contracts only; no shared-document or product work until WP-16 #5351 is merged, typed closed_out, receipt-backed, claim-free, and ancestral\",\"purpose\":\"Execute #5360 WP-17 documentation and release-truth alignment after merged WP-16; typed predecessor closeout is asynchronous and nonblocking.\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:5360-execution",
+      "reason": "Release WP-17 on the verified WP-16 merge while keeping predecessor closeout asynchronous.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"#5360 owns only its issue-local lifecycle, evidence, and exact audited documentation paths\",\"WP-16 #5351 merged with passing exact-head integrated proof and releases #5360 execution\",\"ADL v2, Runtime v3, and C-SDLC v2 retain separate product ownership; #5360 reconciles documentation but cannot manufacture product proof\",\"WP-18 #5356 begins after #5360 merges; typed closeout is asynchronous and nonblocking\",\"Any additional shared-document path requires a fresh collision check and typed claim amendment before editing\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:5360-execution",
+      "reason": "Record the satisfied WP-16 merge dependency without making asynchronous closeout an execution gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"WP-16 #5351 merged as 2e9d2dd7c4260dcf6ec6af954b0eea97554212df with required checks green and is ancestral to the exact #5360 execution revision; typed closeout proceeds asynchronously\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:5360-execution",
+      "reason": "Align WP-17 acceptance with merge-gated predecessor and successor handoff truth.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Shared-document edits begin only after #5351 is merged with passing exact-head integrated proof and its merge SHA is ancestral to the exact #5360 execution revision; typed predecessor closeout is asynchronous\",\"AC-2: Every changed material claim names its source path, prior and resulting classification, exact evidence reference, owning product, and disposition\",\"AC-3: Proven, planned, blocked, deferred, superseded, and explicit_non_claim remain distinct; only exact retained evidence supports proven and no unsupported statement is promoted\",\"AC-4: README, feature, WBS, sprint, checklist, handoff, issue-wave, deployment, release, proof-coverage, and ownership surfaces agree without erasing separate ADL v2, Runtime v3, and C-SDLC v2 authority\",\"AC-5: Structured YAML and JSON are processed with structured parsers or owner tools; Markdown changes preserve local structure, links, repository-relative evidence, redaction, and exact revision identity\",\"AC-6: No dependency is added; documentation delta stays within 2500 changed lines and issue-local orchestration stays within 1500 nonblank lines, 500 per module, and fewer than 150 focused assertions unless exactly reviewed\",\"AC-7: Every required focused, complete, exact-review, CI, authorized merge, and post-merge identity gate passes without hidden deferral; #5360 merge releases WP-18 while typed closeout follows asynchronously\",\"AC-8: Product defects, missing proof, path collisions, budget variance, and unsupported claims route to their owning issue and never become documentation-only green truth\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:5360-execution",
+      "reason": "Remove obsolete closeout serialization while preserving exact documentation truth.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"#5360 owns only its issue-local lifecycle, evidence, and exact collision-free documentation paths\",\"WP-16 merge plus passing exact-head proof releases WP-17; predecessor closeout is asynchronous\",\"unsupported, stale, missing, deferred, or contradictory evidence cannot become a proven release claim\",\"documentation reconciliation preserves separate product ownership and never becomes runtime, deployment, review, publication, merge, or closeout authority\",\"Runtime v2, credentials, host-absolute retained paths, hard-coded addresses, product changes, and new dependencies are forbidden\",\"#5360 merge releases WP-18 immediately; typed closeout is asynchronous bookkeeping and nonblocking\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:5360-execution",
+      "reason": "Align stop conditions with merge-gated WP-17 execution and WP-18 handoff.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"#5351 merge or passing exact-head integrated proof cannot be verified as ancestral\",\"a required statement lacks exact evidence or has contradictory owner truth\",\"a documentation path is unreviewed, colliding, generated, or outside typed claim scope\",\"implementation would change product behavior or require Runtime v2, AWS, credentials, paid services, hidden network authority, hard-coded addresses, or private context\",\"a new dependency, duplicate authority, unsupported parser, budget breach, failed or deferred gate, or stale review appears\",\"WP-18 would begin before #5360 merges\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "subagent:Kuhn:019fbcf1-1ae3-7f70-9c5f-69f40c290322",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:5360-execution",
+      "reason": "Remove host-specific preparation constraints and record the active merge-gated execution boundary.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Use installed typed C-SDLC v2 binaries and the current registry native six-card projection only\",\"Keep root main untouched; all tracked work stays in the dedicated bound #5360 worktree\",\"Edit only the exact collision-free documentation paths in the active claim; do not change product code, Runtime v2, AWS, credentials, paid services, or hidden network authority\",\"WP-16 merge 2e9d2dd7c4260dcf6ec6af954b0eea97554212df and passing quality evidence are ancestral; typed predecessor closeout is asynchronous\",\"Use structured parsers and existing owner tools for structured formats; retain repository-relative evidence references only\",\"Use existing repository tools and COTS; add no dependency or duplicate runtime, workflow, release, deployment, telemetry, signing, or evidence system\",\"Run focused validation, one bounded exact-revision review, fix findings, publish with Closes #5360, merge on green checks, and release WP-18 immediately\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:5360-execution",
+      "reason": "Replace obsolete terminal-receipt deliverables with the exact merge-and-quality execution gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"all six current-registry issue-specific typed cards\",\"reviewed documentation alignment design and Mermaid diagram\",\"exact collision-free documentation claim and audited update inventory\",\"executable #5351 merge, quality-pass, and ancestry gate\",\"zero-new-dependency COTS posture, documentation claim taxonomy, and owner-boundary model\",\"LoC, module, assertion, time, token, and PVF budgets\",\"one bounded exact-revision pre-PR review with every actionable finding fixed\",\"exact-revision alignment packet, blocker register, post-merge proof, and merge-gated WP-18 release\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:5360-execution",
+      "reason": "Replace preparation-era closeout waits with the active WP-17 execution and merge-gated WP-18 handoff.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Verify the WP-16 merge and quality proof, activate the exact collision-free documentation claim, and align typed gates\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Audit and reconcile the exact claimed documentation paths against current merged evidence while preserving product ownership and non-claims\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Run focused and complete documentation validation and retain exact repository-relative evidence\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run one bounded exact-revision review, fix findings, publish with Closes #5360, shepherd green CI, merge, verify identity, and release WP-18 immediately; closeout remains asynchronous\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"}]}"
     }
   ]
 }
