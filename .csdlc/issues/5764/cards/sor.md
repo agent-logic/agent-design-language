@@ -159,11 +159,11 @@ Moved the integrated Observatory proof contract to validate Runtime v3 endpoint 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

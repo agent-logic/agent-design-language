@@ -3,13 +3,13 @@
   "issue": 5764,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c87577fb18bcffa9a7ab3626e0ddde7132084f1c88dbeb1c648d842460499d85",
-  "phase": "reviewed",
-  "generation": 30,
-  "digest": "f2417e67dd7b7b689eaff8de05262ee05b5c7b08f7c5765a929ecbd5e05e7d61",
+  "phase": "published",
+  "generation": 31,
+  "digest": "7cbee09596f0a3b35c16943f4576986f28a6d11395e802add1b39b742f46b1e4",
   "claim": {
     "id": "claim-5764-runtime-observatory-readiness",
     "owner": "codex:5764-runtime-observatory-readiness",
-    "generation": 30,
+    "generation": 31,
     "acquired_unix_seconds": 1785574230,
     "expires_unix_seconds": 1785660630,
     "heartbeat_unix_seconds": 1785574230,
@@ -64,7 +64,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5764,
+    "pull_request": 5771,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5771",
+    "base": "main",
+    "head": "codex/5764-runtime-observatory-readiness",
+    "revision": "git-blake3:c1d8fd2aa8340c54d32de2f2cdcd319706b286f7:edf1efa3797d0173732cac5d8a00bb54d12e9fda012fd57c35a00a544d44f097",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -78,34 +88,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a8731f77e961ced86442f3a9379ead1ca5a1b8383cf1f1c46fd496e1f753dbd1",
+      "values_digest": "4aff86faa7800fcada1ff2caed20e5c0b74890916437b8936f0248f8972effad",
       "rendered_digest": "ebc9326d1aba09c1cd55320e0a9310826197bda3517d17ed9c0599d83d8982ee",
       "ast_digest": "d20982b1cd63aa422b6b0ff9b9128d4af75753b654ab4b43960a6d2dfc30e741"
     },
     "stp": {
-      "values_digest": "f8d1986fd5673e693a2eec0e4bb7856759286fa6807873d6698d900916f02e74",
+      "values_digest": "d1ae1acdf8f305aea56b55f741c1020c7d6328164dde4bf3e43b8b14fc07b1ba",
       "rendered_digest": "12c2a85ff84c4950f80b65c3cf4caf62e49a6fb798714c8d862f66f929f8e432",
       "ast_digest": "2ceaee61ff985688af3f3456ebb90682f980dec257e58f32b6c485494175aaca"
     },
     "spp": {
-      "values_digest": "d4f4dfa346878d184d32f2eda2977bb4293a3d469f9e72132f351a52a9d4c730",
+      "values_digest": "7a2e87ff119d39fa43de87079586b3abc187d0f5002b1352419248353d9c8db9",
       "rendered_digest": "c39dc32f79a7f8378b3077799a472627417593a0e9162cdd601aa7f07eb6fdb9",
       "ast_digest": "e6f67dd6990d66fe8d7d190f26f02d0760117fb423ed93f7bf9dbae83cfe858b"
     },
     "vpp": {
-      "values_digest": "c78ab94b2ddf96836d7e450aff669e4f1c061e48ac7a5abdbec57a138e7a8628",
+      "values_digest": "805219cb99050c178ccbfbeda90cb66f25ff95c849914512d974f7fdaaafc746",
       "rendered_digest": "661338346d5d7bc578b78ae70deed268337e8d7c43316165b46f581fb867409f",
       "ast_digest": "34c69f8bf170bf1b486aa48e9d2a402851aba23284cbd44030289e92aea506d0"
     },
     "srp": {
-      "values_digest": "7f5ca90ad0a876f9e65679d1f74e70712300020e0c2e6a7b757eb205ed0da2fc",
+      "values_digest": "837b772a17b53c1b452ff5c9b0c2b69949d5a2e39d6146803baa8b2aee695a73",
       "rendered_digest": "a02b628db65dec66852f8b754f443fe7427703d990914aed49c2a300580646f3",
       "ast_digest": "ae90da77c57efe44ec863e480ada6f6bb0934e391842622db99de2bcb40c738a"
     },
     "sor": {
-      "values_digest": "993fd629bf541e8a94defd0d4970166bd177efe24f406288188aa557f4976bc1",
-      "rendered_digest": "720c612b1daa58749555aa2c43d803c5f2d0b2911dd9c84f491304c26c76b6ad",
-      "ast_digest": "5c134ce25ddd504999381c700b1a0a8ca4e469abb5cacebe855d78d5a3b426f1"
+      "values_digest": "60e0995512850a276c6fe8869f6cdc453d830191574a40402053b13ba321bbb9",
+      "rendered_digest": "93a7997e80695bca89c8a846b59385d2492711aec01562aaa4402930dec66f48",
+      "ast_digest": "11d180a586c74e146e5f3308cd01b68f85fd239783df693cb5717c7d4b75ce7a"
     }
   },
   "transitions": [
@@ -192,6 +202,13 @@
       "to": "reviewed",
       "actor": "codex:5764-runtime-observatory-readiness",
       "reason": "Advance #5764 after exact-head Erdos review confirmed the hosted Runtime v3 proof config validation repair is clean."
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -495,6 +512,13 @@
       "actor": "codex:5764-runtime-observatory-readiness",
       "reason": "Advance #5764 after exact-head Erdos review confirmed the hosted Runtime v3 proof config validation repair is clean.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 31,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

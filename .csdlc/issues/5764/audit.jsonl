@@ -41,3 +41,4 @@
 {"sequence":41,"generation":28,"actor":"codex:5764-runtime-observatory-readiness","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":42,"generation":29,"actor":"codex:5764-runtime-observatory-readiness","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":43,"generation":30,"actor":"codex:5764-runtime-observatory-readiness","reason":"Advance #5764 after exact-head Erdos review confirmed the hosted Runtime v3 proof config validation repair is clean.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":44,"generation":31,"actor":"codex:5764-runtime-observatory-readiness","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
