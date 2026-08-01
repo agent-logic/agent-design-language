@@ -208,6 +208,7 @@ fn overlaps(left: &str, right: &str) -> bool {
 
 fn terminal_projection_overlap_is_released(
     store: &Store,
+    observed_store: &Store,
     local: &crate::IssueRecord,
     reserved: &str,
     candidate: &str,
@@ -216,18 +217,17 @@ fn terminal_projection_overlap_is_released(
     let issue_path = format!(".csdlc/issues/{}", local.issue);
     let exact_issue_projection = reserved.trim_end_matches('/') == issue_path
         && candidate.trim_end_matches('/') == issue_path;
-    if exact_issue_projection
-        && store.has_claim_free_retained_terminal_authority(
-            local.issue,
-            &local.repository,
-            &local.initialization_digest,
-        )?
-    {
-        return Ok(true);
-    }
     let Some(claim) = local.claim.as_ref() else {
         return Ok(false);
     };
+    if claim.expires_unix_seconds > now_unix_seconds
+        && claim_matches_active_checkout(observed_store, claim)?
+    {
+        return Ok(false);
+    }
+    if exact_issue_projection && store.has_claim_free_retained_terminal_authority(local)? {
+        return Ok(true);
+    }
     if !exact_expired_terminal_projection_overlap(
         local.issue,
         claim.expires_unix_seconds,
@@ -530,7 +530,7 @@ pub(crate) fn initialize_issue(
     }
     let _binding_lock = store.binding_lock()?;
     let now_unix_seconds = unix_now()?;
-    for (_other_store, other) in active_issue_records_across_worktrees(store)? {
+    for (other_store, other) in active_issue_records_across_worktrees(store)? {
         if other.issue != request.issue {
             if let Some(claim) = other.claim.as_ref() {
                 if let Some((reserved, requested)) = claim.protected_paths.iter().find_map(|a| {
@@ -543,6 +543,7 @@ pub(crate) fn initialize_issue(
                 }) {
                     if terminal_projection_overlap_is_released(
                         store,
+                        &other_store,
                         &other,
                         reserved,
                         requested,
@@ -752,6 +753,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                 }) {
                     if terminal_projection_overlap_is_released(
                         store,
+                        &other_store,
                         &other,
                         reserved,
                         requested,
@@ -984,7 +986,7 @@ pub fn amend_claim_scope(store: &Store, request: AmendClaimScopeRequest) -> Resu
         .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
         .validate(&request.claim_id, request.now_unix_seconds)?;
 
-    for (_other_store, other) in active_issue_records_across_worktrees(store)? {
+    for (other_store, other) in active_issue_records_across_worktrees(store)? {
         if other.issue == request.issue {
             continue;
         }
@@ -998,6 +1000,7 @@ pub fn amend_claim_scope(store: &Store, request: AmendClaimScopeRequest) -> Resu
             }) {
                 if terminal_projection_overlap_is_released(
                     store,
+                    &other_store,
                     &other,
                     reserved,
                     candidate,
@@ -1098,7 +1101,7 @@ pub fn transition_active_claim(
         ));
     }
 
-    for (_other_store, other) in active_issue_records_across_worktrees(store)? {
+    for (other_store, other) in active_issue_records_across_worktrees(store)? {
         if other.issue == request.issue {
             continue;
         }
@@ -1114,6 +1117,7 @@ pub fn transition_active_claim(
             {
                 if terminal_projection_overlap_is_released(
                     store,
+                    &other_store,
                     &other,
                     reserved,
                     candidate,
@@ -1219,7 +1223,7 @@ pub fn recover_claim(store: &Store, request: RecoverClaimRequest) -> Result<Clai
             "replacement claim generation is stale",
         ));
     }
-    for (_other_store, other) in active_issue_records_across_worktrees(store)? {
+    for (other_store, other) in active_issue_records_across_worktrees(store)? {
         if other.issue == request.issue {
             continue;
         }
@@ -1244,6 +1248,7 @@ pub fn recover_claim(store: &Store, request: RecoverClaimRequest) -> Result<Clai
         {
             if terminal_projection_overlap_is_released(
                 store,
+                &other_store,
                 &other,
                 reserved,
                 candidate,
@@ -1346,7 +1351,7 @@ pub fn reacquire_claim(
         ));
     }
 
-    for (_other_store, other) in active_issue_records_across_worktrees(store)? {
+    for (other_store, other) in active_issue_records_across_worktrees(store)? {
         if other.issue == request.issue {
             continue;
         }
@@ -1371,6 +1376,7 @@ pub fn reacquire_claim(
         {
             if terminal_projection_overlap_is_released(
                 store,
+                &other_store,
                 &other,
                 reserved,
                 candidate,

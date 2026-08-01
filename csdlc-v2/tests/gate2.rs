@@ -1821,8 +1821,12 @@ fn amend_scope_accepts_only_exact_receipt_backed_terminal_projection_overlap() {
             divergent.to_str().expect("divergent path"),
         ],
     );
+    let live = amend_claim_scope(&store, exact_projection(&aggregate, live_observation))
+        .expect_err("an authentic unexpired active-checkout claim must collide");
+    assert_eq!(live.code, ErrorCode::ClaimCollision);
+    git(&sibling, &["branch", "-m", "copied-terminal-43"]);
     amend_claim_scope(&store, exact_projection(&aggregate, live_observation))
-        .expect("exact retained terminal authority supersedes stale sibling projection claim");
+        .expect("exact newer terminal receipt may supersede an inactive copied projection claim");
     aggregate = store.load_record(42).expect("amended aggregate");
 
     git(
@@ -1848,13 +1852,22 @@ fn amend_scope_accepts_only_exact_receipt_backed_terminal_projection_overlap() {
         ],
     );
 
+    git(&sibling, &["branch", "-m", "issue-43-terminal"]);
     amend_claim_scope(&store, exact_projection(&aggregate, lease_expiry))
-        .expect("expired exact terminal projection overlap");
+        .expect("newer exact terminal receipt releases the matching expired projection claim");
     let current = store.load_record(42).expect("amended aggregate");
+    let mut product_owner = request();
+    product_owner.issue = 44;
+    product_owner.claim.id = "claim-44-product".into();
+    product_owner.claim.branch = "terminal-aggregate".into();
+    product_owner.claim.worktree = ".".into();
+    product_owner.claim.protected_paths = vec!["docs/product".into()];
+    product_owner.initial.goal = "Unrelated product ownership remains exclusive.".into();
+    initialize_issue(&store, product_owner).expect("product owner");
     let product_overlap = amend_claim_scope(
         &store,
         AmendClaimScopeRequest {
-            add_protected_paths: vec!["docs/design.md".into()],
+            add_protected_paths: vec!["docs/product".into()],
             expected_generation: current.generation,
             expected_digest: current.digest.clone(),
             now_unix_seconds: lease_expiry,

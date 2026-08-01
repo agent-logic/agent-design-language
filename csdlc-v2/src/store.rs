@@ -1668,28 +1668,40 @@ impl Store {
 
     pub(crate) fn has_claim_free_retained_terminal_authority(
         &self,
-        issue: u64,
-        repository: &str,
-        initialization_digest: &str,
+        observed: &IssueRecord,
     ) -> Result<bool> {
-        let local = self.load_record(issue)?;
+        let Some(observed_claim) = observed.claim.as_ref() else {
+            return Ok(false);
+        };
+        let local = self.load_record(observed.issue)?;
         if local.claim.is_some()
-            || local.repository != repository
-            || local.initialization_digest != initialization_digest
+            || local.repository != observed.repository
+            || local.initialization_digest != observed.initialization_digest
         {
             return Ok(false);
         }
-        let Some(receipt) = self.load_terminal_receipt(issue)? else {
+        let Some(receipt) = self.load_terminal_receipt(observed.issue)? else {
             return Ok(false);
         };
-        Ok(receipt.issue == issue
-            && receipt.repository == repository
-            && receipt.initialization_digest == initialization_digest
-            && receipt.record.issue == issue
-            && receipt.record.repository == repository
-            && receipt.record.initialization_digest == initialization_digest
+        let Some(terminal) = receipt.record.terminal.as_ref() else {
+            return Ok(false);
+        };
+        let mut released_paths = terminal.released_protected_paths.clone();
+        let mut observed_paths = observed_claim.protected_paths.clone();
+        released_paths.sort();
+        observed_paths.sort();
+        Ok(receipt.issue == observed.issue
+            && receipt.repository == observed.repository
+            && receipt.initialization_digest == observed.initialization_digest
+            && receipt.record.issue == observed.issue
+            && receipt.record.repository == observed.repository
+            && receipt.record.initialization_digest == observed.initialization_digest
             && receipt.record.phase == LifecyclePhase::ClosedOut
-            && receipt.record.claim.is_none())
+            && receipt.record.claim.is_none()
+            && receipt.record.generation > observed.generation
+            && terminal.released_branch == observed_claim.branch
+            && terminal.released_worktree == observed_claim.worktree
+            && released_paths == observed_paths)
     }
 
     fn verify_materialized_terminal_receipt(&self, receipt: &TerminalReceipt) -> Result<()> {
@@ -6690,6 +6702,41 @@ mod terminal_design_repair_tests {
                 &target.initialization_digest,
             )
             .expect("verify terminal authority"));
+    }
+
+    #[test]
+    fn retained_terminal_authority_rejects_equal_generation_and_path_mismatch() {
+        let (_temp, store, _authority, target, receipt, _validation) =
+            terminal_validation_fixture();
+        let terminal = receipt.record.terminal.as_ref().expect("terminal receipt");
+        let mut observed = target.clone();
+        observed.claim = Some(Claim {
+            id: "stale-projection".into(),
+            owner: "stale-owner".into(),
+            generation: receipt.record.generation,
+            acquired_unix_seconds: 1,
+            expires_unix_seconds: 2,
+            heartbeat_unix_seconds: 1,
+            branch: terminal.released_branch.clone(),
+            worktree: terminal.released_worktree.clone(),
+            protected_paths: terminal.released_protected_paths.clone(),
+            purpose: "stale projection fixture".into(),
+        });
+        observed.generation = receipt.record.generation;
+        assert!(!store
+            .has_claim_free_retained_terminal_authority(&observed)
+            .expect("equal-generation receipt check"));
+
+        observed.generation = receipt.record.generation.saturating_sub(1);
+        observed
+            .claim
+            .as_mut()
+            .expect("observed claim")
+            .protected_paths
+            .push("docs/unreleased".into());
+        assert!(!store
+            .has_claim_free_retained_terminal_authority(&observed)
+            .expect("released-path mismatch check"));
     }
 
     #[test]
