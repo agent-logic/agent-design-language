@@ -111,9 +111,10 @@ These docs describe worktree governance, large-module tracking, and related main
 
 Important repo-local tooling surfaces include:
 
-- `adl/tools/pr.sh doctor` / `adl pr doctor` — canonical PR readiness and drift diagnostics
-- `adl/tools/pr.sh run` / `adl pr run` — canonical execution-context binder
-- `adl/tools/pr.sh finish` / `adl pr finish` — canonical publication / PR open-update path
+- `csdlc-doctor` — typed PR readiness and drift diagnostics
+- `csdlc-bind` — typed execution-context binder
+- `csdlc-validate`, `csdlc-review`, and `csdlc-publish` — typed finalization,
+  exact-revision review, and publication path
 - `adl tooling lint-prompt-spec` — Prompt Spec lint and validation
 - `adl tooling card-prompt` — deterministic prompt generation from cards
 - `adl tooling validate-structured-prompt` — structured prompt contract validation
@@ -148,13 +149,12 @@ Important repo-local tooling surfaces include:
 - `bash adl/tools/run_build_platform_benchmark.sh` — shared Wuji, Nessus, AWS
   Spot, and CodeBuild timing workload; see
   [Build Platform Benchmarks](BUILD_PLATFORM_BENCHMARKS.md)
-- `adl/tools/*.sh` wrappers remain available as compatibility entrypoints over the Rust-owned commands
+- lifecycle authority is the independent binary set under `.adl/bin/csdlc-v2/`
 - `adl/tools/report_large_rust_modules.sh` — non-blocking Rust source-and-test module size report; by default it scans both `adl/src` and `adl/tests`, and current snapshots should live under `.adl/reports/manual/` instead of tracked repo docs
 - `adl/tools/sync_task_bundle_prompts.sh` — refresh canonical local task-bundle prompt layout from compatibility paths
 
-Deprecated compatibility aliases such as `pr ready`, `pr preflight`, and
-`pr start` may still appear in older tests or docs, but they are not the
-preferred public control-plane surface.
+Historical evidence may mention removed v1 aliases, but active tests and docs
+must not expose them as executable control-plane routes.
 
 ## Current Status
 
@@ -165,7 +165,7 @@ preferred public control-plane surface.
 ## Runtime Operator Surface
 
 For `v0.87.1`, the bounded runtime operator contract is:
-- one canonical runtime invocation path via `bash adl/tools/pr.sh run <adl-file> ...`
+- one canonical runtime invocation path via `adl-runtime run <adl-file> ...`
 - one canonical runtime-root marker at `runtime_environment.json`
 - one canonical per-run inspection set rooted at `run_summary.json`, `run_status.json`, and `logs/trace_v1.json`
 

@@ -1,0 +1,157 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5558,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "ef8ab1dd3c3a076695e21ed62d27a268c10674885e69c0ec0434c9961480b87a",
+  "claim": {
+    "id": "claim-5558-corrective-1785570394",
+    "owner": "codex:5558-corrective",
+    "generation": 4,
+    "acquired_unix_seconds": 1785570394,
+    "expires_unix_seconds": 1785656794,
+    "heartbeat_unix_seconds": 1785570394,
+    "branch": "codex/5558-v1-route-corrective",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5558",
+      ".csdlc/locks/5558.lock",
+      ".csdlc/prepared/issues/5558",
+      ".csdlc/evidence/5558",
+      "adl/src/cli/mod.rs",
+      "adl/tools/editor_action.sh",
+      "adl/tools/test_editor_action.sh",
+      "adl/tools/test_cli_owner_command_guidance.sh",
+      "adl/tools/test_adl_runtime_compatibility.sh",
+      "adl/tools/test_adl_review_compatibility.sh",
+      "adl/tools/demo_five_command_editing.sh",
+      "adl/tools/test_demo_five_command_editing.sh",
+      "adl/tools/run_owner_validation_lane.sh",
+      "adl/tools/README.md",
+      "docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md",
+      "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+      "docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md",
+      "docs/tooling/README.md",
+      "docs/tooling/issue-prompts/issue-prompt-template.md",
+      "docs/tooling/worktree_governance.md",
+      "docs/tooling/editor/command_adapter.md",
+      "docs/tooling/editor/five_command_demo.md"
+    ],
+    "purpose": "Correct issue 5558 by removing remaining live sunset v1 lifecycle guidance and proving final typed v2 authority."
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/issues/5558/retained/design.md",
+  "diagram_path": ".csdlc/issues/5558/retained/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5558-corrective",
+      "revision": "d896cf8aacc8812eca00458a27a92efde8712761eaba7a53ada619cc6dadfe24"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b9d02e292d5f146636dabeb2fc67167e37d01f99348dae476d667cc15d418218",
+      "rendered_digest": "3ef258b1c4bb480ab05a5f1842a67fb807068d557612286211389017f956a73d",
+      "ast_digest": "a173adcf99a8c6fc2eee501e4e055b5613e48eaae750d3859ba753b2051b2716"
+    },
+    "stp": {
+      "values_digest": "864f2574bc1aea2033043a9c7729d8567c7902e36ad922911ace0a82ecf8dc80",
+      "rendered_digest": "4e813a7bd81e883366df3deeeb1f62e371dbd81f622aec8f105e5233b842d9df",
+      "ast_digest": "ed08ed5118621e4e7978292eb31a6fb1817be62f49cf08a737b4dc9ba94d9b1f"
+    },
+    "spp": {
+      "values_digest": "c3f1e831cbfa58d4d63077ccbe9c525d714f8bff54e3778ade8cd95c0dae4633",
+      "rendered_digest": "25879d34e3cf553eddde351a8fcadefd055898a9d0280a8e10ebc5e998410ee8",
+      "ast_digest": "1453d42addf77769af338269da74b0501f8c17bd84d7d493b518c66395fa38ca"
+    },
+    "vpp": {
+      "values_digest": "39895608a5bedcc5d6b34bee6ff13b4bd3f161c3b6c1c3338396f0fa37644181",
+      "rendered_digest": "05e67389a9dd9511f18c9fd7089eaba5dc2df4f40979d42e159403da83ef7537",
+      "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
+    },
+    "srp": {
+      "values_digest": "a8db7a2199bf9d4cf5c577de071a404ee70b2f0ccb4d49d6d5e9e3d51c9d0f63",
+      "rendered_digest": "3064ab82d922ff0f359cef4b43ce8bd2a0bc22daba9d0e979b0aa23d0271d105",
+      "ast_digest": "23b9ebb43b323a6c66672f9ecac801e79ccbf5312ca02285eadeb843b61fc37f"
+    },
+    "sor": {
+      "values_digest": "4ee785977a1c9d6c5ff4db33f207b4e0545fecfe72560f83c2b7a78828141dc7",
+      "rendered_digest": "363effbc2d3bd849b1af062e75a7a73c87cb1b9a385411eeb5b1163aa4c0f35b",
+      "ast_digest": "93c030224c785465ab6722620ad2f514905aa6bcd571913ca239ec799fc92d11"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5558-corrective",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5558-corrective",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5558-corrective",
+      "reason": "advance completed implementation to exact-head review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5558-corrective",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:5558-corrective",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5558-corrective",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:5558-corrective",
+      "reason": "record completed corrective implementation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed remaining live v1 lifecycle routes and guidance and added real Gate 10A proof to the C-SDLC owner lane.\",\"changes\":[\"Removed editor start execution path and retired the obsolete five-command demo fail-closed\",\"Updated active CLI, tests, and operational docs to typed v2 authority\",\"Expanded guidance guard coverage and added Gate 10A to the owner lane\"],\"artifacts\":[\"adl/tools/run_owner_validation_lane.sh\",\"adl/tools/test_cli_owner_command_guidance.sh\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:5558-corrective",
+      "reason": "record full C-SDLC owner-lane validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/run_owner_validation_lane.sh\",\"csdlc\"],\"purpose\":\"Prove final C-SDLC v2 authority, active guidance, editor adapter, prompt schemas, reference scan, and observability.\",\"outcome\":\"passed\",\"evidence_ref\":\"local: Gate 10A 15/15 and full owner lane PASS\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5558-corrective",
+      "reason": "advance completed implementation to exact-head review",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

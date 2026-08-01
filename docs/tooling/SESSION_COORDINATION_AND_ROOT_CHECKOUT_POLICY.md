@@ -70,9 +70,9 @@ Prep-scout exception:
 - if a candidate would require mutation before it can be called ready and there
   is no proven prep-only repo-native bind surface, stop as `needs_operator` and
   record the tooling gap instead of improvising a manual fallback
-- if the candidate issue is promoted into execution, leave prep-scout mode and
-  use the normal session claim plus `adl/tools/pr.sh run <issue>` path before
-  any tracked edits occur
+- if the candidate issue is promoted into execution, leave prep-scout mode,
+  resolve `v2` with `csdlc-install`, and use the typed `csdlc-bind` request
+  before any tracked edits occur
 
 ## Required Startup Check
 
@@ -90,9 +90,9 @@ Expected root state:
 ```
 
 If the primary checkout is not on `main`, has tracked changes, or is occupied by
-an issue branch, stop before implementation. Route the recovery through
-`workflow-conductor` and repo-native `pr run` or `pr doctor` evidence when the
-issue/worktree can be identified. Use only the narrowest manual fallback needed
+an issue branch, stop before implementation. Route the recovery through typed
+`csdlc-doctor` and `csdlc-bind` evidence when the issue/worktree can be
+identified. Use only the narrowest manual fallback needed
 to preserve work in an issue worktree, restore the primary checkout to clean
 `main`, and record what moved where.
 

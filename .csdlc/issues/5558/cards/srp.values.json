@@ -1,0 +1,28 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5558,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "Remove sunset pr.sh guidance from owner lane",
+    "slug": "remove-sunset-pr-sh-guidance",
+    "version": "v0.91.8",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "All changed implementation, tests, operational docs, and generated lifecycle records for issue 5558.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does any changed active surface still expose an executable sunset v1 lifecycle route?",
+        "Does the owner lane run the real Gate 10A final-authority test?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

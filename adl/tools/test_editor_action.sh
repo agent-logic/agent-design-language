@@ -42,15 +42,7 @@ out="$(bash adl/tools/editor_action.sh contract --format json)"
 [[ "$out" == *"\"run\""* ]] || fail "contract json should include singular run in the language contract"
 pass "contract json exposes the supported adapter surface"
 
-out="$(bash adl/tools/editor_action.sh start --issue 938 --branch codex/938-v085-editor-control-plane-adapter --dry-run)"
-[[ "$out" == "./adl/tools/pr.sh start 938 --slug v085-editor-control-plane-adapter" ]] || fail "legacy dry-run should derive the slug from the branch"
-pass "legacy start dry-run remains compatible"
-
-if bash adl/tools/editor_action.sh start --issue 938 --branch codex/939-v085-editor-review-flow-integration --dry-run >/dev/null 2>&1; then
-  fail "mismatched issue and branch should fail"
+if bash adl/tools/editor_action.sh start --issue 938 --branch codex/938-v085-editor-control-plane-adapter --dry-run >/dev/null 2>&1; then
+  fail "sunset start action should fail closed"
 fi
-pass "mismatched issue and branch are rejected"
-
-out="$(bash adl/tools/editor_action.sh start --issue 938 --branch codex/938-v085-editor-control-plane-adapter --slug v085-editor-control-plane-adapter --dry-run)"
-[[ "$out" == "./adl/tools/pr.sh start 938 --slug v085-editor-control-plane-adapter" ]] || fail "legacy explicit slug should still produce the same command"
-pass "legacy explicit slug stays consistent"
+pass "sunset start action is unavailable"

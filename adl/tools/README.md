@@ -73,14 +73,15 @@ python3 adl/tools/validate_multi_agent_transcript.py artifacts/v0871/multi_agent
 # run the current v0.87.1 milestone demo-suite proof package
 bash adl/tools/demo_v0871_suite.sh
 
-# bootstrap the local root task bundle for an existing issue
-bash ./adl/tools/pr.sh init <issue_num> --slug <slug>
+# resolve the sole active C-SDLC generation
+.adl/bin/csdlc-v2/csdlc-install resolve --repo . --issue <issue_num>
 
-# inspect readiness and workflow drift through the canonical doctor surface
-bash ./adl/tools/pr.sh doctor <issue_num> --slug <slug> --mode full --json
+# initialize and inspect readiness through typed request contracts
+.adl/bin/csdlc-v2/csdlc-init --root <worktree> --request <bootstrap-request.json>
+.adl/bin/csdlc-v2/csdlc-doctor --root <worktree> --request <doctor-request.json>
 
 # bind execution context at the last responsible moment
-bash ./adl/tools/pr.sh run <issue_num> --slug <slug>
+.adl/bin/csdlc-v2/csdlc-bind --root <worktree> --request <bind-request.json>
 
 # inspect worktree status/fate across managed, stale, orphan, and Codex-ephemeral namespaces
 ./adl/tools/worktree_doctor.sh
@@ -139,8 +140,10 @@ adl-csdlc tooling card-prompt --issue <issue_num> --out /tmp/prompt.txt
 # fresh checkout fallback when adl-csdlc is not yet on PATH
 cargo run --manifest-path adl/Cargo.toml --bin adl-csdlc -- tooling card-prompt --issue <issue_num> --out /tmp/prompt.txt
 
-# finish issue and open/update PR
-bash ./adl/tools/pr.sh finish <issue_num> --title "<title>" --paths "<paths>"
+# finalize, review, and publish through typed requests
+.adl/bin/csdlc-v2/csdlc-validate --root <worktree> finalize --request <finalize-request.json>
+.adl/bin/csdlc-v2/csdlc-review record --request <review-request.json>
+.adl/bin/csdlc-v2/csdlc-publish publish --request <publication-request.json>
 ```
 
 ## Compatibility / Maintenance Surfaces
@@ -148,11 +151,7 @@ bash ./adl/tools/pr.sh finish <issue_num> --title "<title>" --paths "<paths>"
 The repo still carries a few compatibility and maintenance entrypoints, but they
 are not the preferred public workflow:
 
-- `pr ready` and `pr preflight` remain deprecated aliases over `pr doctor`
-- `pr start` remains a narrow compatibility alias over the same Rust-backed
-  execution-context binding path as `pr run`
-- `pr card`, `pr output`, `pr cards`, `pr open`, and `pr status` remain
-  maintenance-oriented helpers rather than the taught workflow surface
+- v1 lifecycle aliases are removed and must not be used for issue work
 - `codex_pr.sh` and `codexw.sh` are retired fail-closed wrappers kept only to
   print migration guidance; do not use them for new work
 
@@ -161,8 +160,7 @@ are not the preferred public workflow:
 - Root project entrypoint: `../../README.md`
 - Runtime/CLI usage: `../README.md`
 - Operational skills guide: `skills/docs/OPERATIONAL_SKILLS_GUIDE.md`
-  - includes concrete usage patterns for `pr-init`, `pr-ready`, `pr-run`,
-    `pr-janitor`, `pr-finish`, `pr-closeout`, and the helper card editors
+  - includes concrete typed v2 lifecycle and helper card-editor usage patterns
   - includes the full skill documentation matrix, install/resync guidance, and
     deployed-copy verification recipe for `$CODEX_HOME/skills`
   - when touching `stp.md`, `sip.md`, or `sor.md`, use the matching editor

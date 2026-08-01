@@ -79,11 +79,6 @@ That means:
 | `csdlc-publish publish` | yes | no | copy-only prepared handoff |
 | `csdlc-shepherd` | yes | no | out of browser scope |
 | `csdlc-closeout` | yes | no | asynchronous closeout scope |
-| `pr start` | legacy alias | no | deprecated compatibility only |
-
-## Legacy Compatibility
-
-`adl/tools/editor_action.sh start` remains available for older deterministic editor demos that still validate the v0.85 compatibility path. It is not the taught current workflow.
 
 ## Proof Surface
 
@@ -93,5 +88,8 @@ The contract is backed by:
 - `adl/tools/test_editor_action.sh`
 - `docs/tooling/editor/demo.md`
 - `docs/tooling/editor/current_skill_wiring_demo.md`
+
+The former v0.85 `start` compatibility action is retired and fails closed; it
+is not part of the adapter contract.
 
 The adapter surface should only be widened in a follow-on issue with matching docs, validation, and proof updates.

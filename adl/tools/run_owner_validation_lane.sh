@@ -110,6 +110,8 @@ build_owner_bins() {
 }
 
 run_csdlc_lane() {
+  run_command "C-SDLC Gate 10A final-authority proof" \
+    cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate10a
   run_command "C-SDLC owner command guidance" \
     bash adl/tools/test_cli_owner_command_guidance.sh
   run_command "C-SDLC wrapper migration contract" \
