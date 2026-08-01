@@ -21,3 +21,4 @@
 {"sequence":21,"generation":13,"actor":"codex:5764-runtime-observatory-readiness","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":22,"generation":14,"actor":"codex:5764-runtime-observatory-readiness","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":23,"generation":15,"actor":"codex:5764-runtime-observatory-readiness","reason":"Advance #5764 after exact-head subagent review returned CLEAN and review evidence was recorded.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":24,"generation":16,"actor":"codex:5764-runtime-observatory-readiness","reason":"Recover reviewed publication state after committing typed review metadata-only lifecycle projections.","operation":"recover_review"}

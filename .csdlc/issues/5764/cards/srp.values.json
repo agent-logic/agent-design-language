@@ -7,25 +7,22 @@
     "title": "[v0.91.8][runtime-v3][observatory] Repair overnight readiness probes and weather freshness truth",
     "slug": "runtime-observatory-readiness",
     "version": "v0.91.8",
-    "generation": 15
+    "generation": 16
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/observability.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\ndemos/html-observatory/README.md\ndemos/html-observatory/app.js\ndemos/html-observatory/runtime-v3.config.json\ndocs/api/runtime-v3/v1/openapi.json\n.csdlc/issues/5764\n.csdlc/prepared/issues/5764",
-      "review_revision": "git-blake3:8ff57ad7e89e8bc826f90baed73bc20e1f1a4318:d01e8b787a46e220193020e02e324de40d987b09e11649fb00ed7982db1bcd6c",
-      "reviewer": "subagent:Noether:019fbcb1-4f74-7792-b498-586a755a408d",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Review whether the chosen readiness semantics are truthful and do not overclaim liveness.",
         "Review whether the watcher/docs use only canonical versioned endpoints and preserve runtime mutation authority boundaries."
       ],
       "findings": [],
-      "residual_risk": [
-        "Live overnight runtime process was already running from an earlier branch and was not restarted on this branch.",
-        "Hosted PR checks remain pending until publication."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

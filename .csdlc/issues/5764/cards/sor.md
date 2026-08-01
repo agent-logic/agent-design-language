@@ -126,7 +126,7 @@ Fixed exact-head review findings for Runtime v3 readiness preflight documentatio
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
