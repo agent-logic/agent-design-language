@@ -2,16 +2,15 @@
 
 Issue: #5351
 Branch/worktree: `codex/5351-v0918-preparation` at `/Volumes/FastWork/adl-wp-5351`
-Scope: preparation only; do not run the integrated quality gate from this packet.
-Push only a clean preparation head; do not open a PR or publish WP-16.
+Scope: execute the integrated quality gate without changing product code.
 
 ## Current Truth
 
 - WP-14A #5384 is typed `closed_out` at generation 16 and accepted the integrated platform through PR #5726. The retained ledger is `.csdlc/evidence/5384/platform-acceptance-ledger.v1.json`.
 - WP-15 #5354 has GitHub merged truth through PR #5731 at `97427f324c87d97cb1b36c7804c50bf80c9389d8` and retained convergence proof at `.csdlc/evidence/5354/convergence-proof.v1.json`.
 - WP-15 demo-matrix reconciliation landed through PR #5747 at `ab4e9e2217c152df47b1754b66b01febb4a59549`; consume `docs/milestones/v0.91.8/review/wp15_demo_matrix_5733/RECONCILIATION_LEDGER_v1.md`.
-- The remaining blocker is local typed #5354 terminal truth: retained receipt `csdlc-v2/closeout/5354.json` exists and records `closed_out`, but `.csdlc/issues/5354/index.json` still reports `phase: reviewed` with active claim `claim-5354-v0918-wp15-reacquired`.
-- A second #5354 gate blocker remains: the retained receipt records observed SHA `e8c63268429b0162671e7f1bfae5f560171d7099`, which is the PR head and is not ancestral to this squash-merged head; PR #5731's merge commit is `97427f324c87d97cb1b36c7804c50bf80c9389d8`.
+- #5354 has a retained terminal receipt recording `closed_out`, no claim, PR #5731, and exact PR head `e8c63268429b0162671e7f1bfae5f560171d7099`.
+- Squash-merge ancestry is proven with PR #5731 merge commit `97427f324c87d97cb1b36c7804c50bf80c9389d8`; the receipt's observed SHA remains the exact PR head identity.
 
 ## Source Evidence
 
@@ -28,9 +27,9 @@ Run no quality lane until all predicates pass:
 1. GitHub #5354 is closed by a merged PR.
 2. Typed #5354 is `closed_out`.
 3. #5354 has no active claim.
-4. Retained receipt `csdlc-v2/closeout/5354.json` exists and matches the current typed record.
-5. The receipt records merged disposition, PR identity, and an observed merge SHA with squash-merge semantics, not only the PR head.
-6. The observed #5354 merge SHA and PR #5747 merge are ancestors of the exact #5351 execution head.
+4. Retained receipt `csdlc-v2/closeout/5354.json` exists and validates terminal truth.
+5. The receipt records merged disposition, PR identity, and exact PR-head identity.
+6. PR #5731's squash merge and PR #5747's merge are ancestors of the exact #5351 execution head.
 7. The #5384 platform acceptance ledger remains digest-stable and ancestral.
 
 ## Changed Surfaces
@@ -67,8 +66,8 @@ Required row states are `pass`, `fail`, `blocked`, `not_applicable`, and
 1. `wp15-terminal-gate`: run `.csdlc/prepared/issues/5351/check-dependencies.rb`.
 2. `focused-quality`: verify product contracts, stable deployment identities, rollback, deletion eligibility inputs, demos, docs, revision matrix, budgets, COTS, and redaction.
 3. `integrated-platform`: run the accepted ADL v2, Runtime v3, and C-SDLC v2 integrated checks at the exact execution head.
-4. `complete`: rerun dependency identity, focused and integrated checks, blocker routing, exact review, and publication readiness.
-5. `post-merge-exact`: after authorized serialized merge, rerun ancestry, platform identities, integrated checks, blocker truth, CI, and WP-17 release predicate.
+4. `complete`: consume same-revision focused and integrated packets, then record blocker routing, exact review, and publication readiness without repeating the expensive suites.
+5. `post-merge-exact`: after authorized serialized merge, rerun only the proof required by changed merge identity, then record blocker truth, CI, and the WP-17 release predicate.
 
 ## Focused Validation
 
@@ -107,14 +106,15 @@ must not open that PR.
 Before publication, rollback means deleting issue-local generated #5351 evidence
 and restoring the prepared packet. After an authorized merge, rollback follows
 the #5384/#5343 rollback contract and requires a reviewed follow-up issue.
-Handoff to WP-17 #5360 is allowed only after #5351 has a merged PR, passing
-post-merge exact proof, typed closeout, and no required quality row outside
-`pass` or justified `not_applicable`.
+Handoff to WP-17 #5360 is allowed immediately after #5351 has a merged PR,
+passing exact-head integrated proof, and no required quality row outside `pass`
+or justified `not_applicable`. Typed closeout follows asynchronously and does
+not block WP-17.
 
 ## Non-Goals
 
-- Do not execute WP-16 from this preparation packet.
 - Do not edit product code, deployment configuration, demo matrices, milestone docs, or release docs during preparation.
 - Do not use Runtime v2, AWS, provider credentials, paid services, hidden network authority, raw GitHub fallbacks, or hard-coded addresses.
 - Do not turn failed, missing, stale, or unsupported evidence into a green documentation note.
-- Do not begin WP-17 #5360 before #5351 has merged, post-merge exact proof, and typed closeout.
+- Do not begin WP-17 #5360 before #5351 has merged with passing exact-head
+  integrated proof. Typed closeout is explicitly not a WP-17 admission gate.

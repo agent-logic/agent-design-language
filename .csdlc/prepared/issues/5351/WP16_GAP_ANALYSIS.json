@@ -1,7 +1,16 @@
 {
   "schema": "adl.gap_analysis_report.v1",
   "run_id": "5351-wp16-preparation-gap-analysis",
-  "status": "fail",
+  "status": "resolved",
+  "resolution": {
+    "terminal_projection_repair_pr": 5761,
+    "terminal_projection_merge": "57d115741f32b945217ee3cb14188b41ebde9b3f",
+    "dependency_gate_semantics": "receipt exact PR head plus ancestral squash-merge commit",
+    "superseded_by": [
+      ".csdlc/evidence/5351/focused-quality.json",
+      ".csdlc/evidence/5351/integrated-platform.json"
+    ]
+  },
   "scope": {
     "mode": "compare_issue_to_implementation",
     "issue": 5351,

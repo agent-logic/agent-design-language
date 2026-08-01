@@ -7,14 +7,14 @@
     "title": "[v0.91.8][WP-16] Run integrated platform quality gate",
     "slug": "v0918-wp16-integrated-platform-quality-gate",
     "version": "v0.91.8",
-    "generation": 3
+    "generation": 4
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
-      "summary": "Render and validate six current-registry cards; freeze exact #5354 terminal gating, issue-local ownership, integrated packet semantics, blocker routing, zero-new-dependency COTS posture, budgets and PVF; obtain bounded review and fix findings; typed bind and doctor; commit and push preparation only.",
+      "plan_revision": 2,
+      "summary": "Execute WP-16 #5351 now: audit every v0.91.8 wave issue for working code or a useful durable result; run focused docs, dependency, rollback, deletion, demo, and hygiene checks; run locked all-target ADL v2, Runtime v3, and C-SDLC v2 suites using the shared stable Vector binary; route genuine defects to bounded owner issues; integrate their fixes; retain one exact-revision quality packet; obtain one GPT-5.5 pre-PR review; publish a ready PR with Closes #5351. Later release-tail work and asynchronous typed closeout do not block this execution lane.",
       "steps": [
         {
           "id": "S1",

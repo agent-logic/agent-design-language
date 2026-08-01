@@ -4,24 +4,25 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "185d0c17ef9ef231ae848b0ae2a3f027956bca5a1690d71ae37915a465534bd6",
   "phase": "bound",
-  "generation": 3,
-  "digest": "595a3c431f5c120db436b91003e831b9273fe1d8654b9b5609f0a3981e18180e",
+  "generation": 4,
+  "digest": "df590d9fb00669149f4dc84ea0b20680195d4ebe773579d35f8c8502efb29ddd",
   "claim": {
     "id": "claim-5351-v0918-wp16-quality-gate-preparation",
     "owner": "codex:5351-preparation-owner",
-    "generation": 3,
+    "generation": 4,
     "acquired_unix_seconds": 1785543668,
     "expires_unix_seconds": 1786148468,
     "heartbeat_unix_seconds": 1785543668,
     "branch": "codex/5351-v0918-preparation",
     "worktree": ".",
     "protected_paths": [
+      ".csdlc/evidence/5351",
       ".csdlc/issues/5351",
       ".csdlc/locks/5351.lock",
       ".csdlc/prepared/issues/5351",
-      ".csdlc/evidence/5351"
+      "docs/milestones/v0.91.8/evidence/wp16"
     ],
-    "purpose": "Prepare and review #5351 WP-16 integrated platform quality-gate contracts only; no execution or product work until WP-15 #5354 is typed closed_out, receipt-backed, claim-free, and ancestral"
+    "purpose": "Execute #5351 WP-16 integrated platform quality gate, retain issue-by-issue outcome truth and focused/integrated exact-revision evidence, route genuine blockers, and publish a reviewed issue-local quality packet; no product implementation changes."
   },
   "review_assignment": null,
   "review": null,
@@ -39,32 +40,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3ea5f88a8b7b44e4d1be9f4c8a30a3a6459ff929dc4c64ade12a916a6e9eb2c4",
+      "values_digest": "19f9b0c113e72f0ef74b035a8670b7e2fa97ee84e8025c11c5d17eb79572a79b",
       "rendered_digest": "cd486b0ef1c9028d5bae231ed78d5f04d09f5a26f97e5b1be916da76f0b07648",
       "ast_digest": "ec0ecc9deeaf93d925f734b00517171ced15f0af10030478079a24aa0edf9f2c"
     },
     "stp": {
-      "values_digest": "4bcc7f53d9a6db2376b3d581c523eba7d587052fa125d5ee6aabdbaa79a0aaa0",
+      "values_digest": "3f9317b733bdc4899b60b1aebcc068246258ae32b5296daaa2a38f4726ab9597",
       "rendered_digest": "26ab7a958999a675d0ae9b59e12a8fdc4afb55dae89d735e9afa173a8f5bb8b8",
       "ast_digest": "148c31feceb93b642a2ac7e2dda7b255a01577211d9ea8da8b552e328d61379c"
     },
     "spp": {
-      "values_digest": "1c506ed897b4d59e43a78f0dd34383819928b7c4fb54aaf9983f09e9aa3c7cd3",
-      "rendered_digest": "535502ed0fe2d2ebb8932dee619e0a5796338e8d7af5855748f0f9ba79990821",
-      "ast_digest": "5aa98e110cec1d90b23e1d5f7a4aabddf20c293816017d2821f5455dced2a83f"
+      "values_digest": "a3c9102d3a7e6d7b787b36ca09cd78f4d536f8b316c405cf900f518eed8edfbb",
+      "rendered_digest": "f2a4c641939ffd83513b53b43f2aa5f437c143ad47c5c4d6795c661a58e93fb8",
+      "ast_digest": "cd640d007e237410caaf1f1bf8474b9cc0eb8f2a8bd271194584ce67c26d393e"
     },
     "vpp": {
-      "values_digest": "a1e576d9974353d2925badda5c394d31de9f20e3e4b56daa7106367cbe7baf92",
+      "values_digest": "cc5eb2cd03ec5731e522d9e2ae976ec3ae38eb2401ccaac9f4aa1c93e0d7cbc1",
       "rendered_digest": "7154421ca308f11c5ed2dd2dc65c877f7c99ceaaacd9de2acad35a6df362926e",
       "ast_digest": "bf16d1c3e1f5b00d28a226bce0818c5a41f4b3216ee3d914b44b630fd32791a6"
     },
     "srp": {
-      "values_digest": "caeb5daad013f1656c406e6da92d01e20da019df6611af373acfebf9c9e520ae",
+      "values_digest": "658f4f90fc19270b785b729ad81e2bc120c1bdf880998c25a4aedc7aa7d252cb",
       "rendered_digest": "ee40b370608546998035f8609ebb375449366f60e593a30a087e2745bf4321bf",
       "ast_digest": "2ac31a0a2b8cc667639662cba9593e956b5cd75b9972acfe2ac5ba54eec86ea9"
     },
     "sor": {
-      "values_digest": "2978941c9b67d77d5d3b29d57ec4ea4e433f79d0be3d867701f2536c8033a5d0",
+      "values_digest": "92500fff6780e52e0f331d493175148dff2ca73bcab657d34f7f54d87926114f",
       "rendered_digest": "b4407b9c9c9340bc5f0a1fc1c1d33b4a2c2cc6f3159433d9dfabe78ba04ccfb3",
       "ast_digest": "a388b8ce794e7d4c1cddf39bc39a65f355c5115dc1980ab5f9fc29bb4b56c5b8"
     }
@@ -127,6 +128,20 @@
       "actor": "codex:5351-final-plan-refresh",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:5351-wp16-execution-owner",
+      "reason": "WP-15 is merged, closed_out, receipt-backed, claim-free, and ancestral; execute the operator-authorized WP-16 integrated quality gate without widening beyond issue-local quality evidence.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.8/evidence/wp16\"],\"expected_owner\":\"codex:5351-preparation-owner\",\"expected_purpose\":\"Prepare and review #5351 WP-16 integrated platform quality-gate contracts only; no execution or product work until WP-15 #5354 is typed closed_out, receipt-backed, claim-free, and ancestral\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare and review #5351 WP-16 integrated platform quality-gate contracts only; no execution or product work until WP-15 #5354 is typed closed_out, receipt-backed, claim-free, and ancestral\",\"purpose\":\"Execute #5351 WP-16 integrated platform quality gate, retain issue-by-issue outcome truth and focused/integrated exact-revision evidence, route genuine blockers, and publish a reviewed issue-local quality packet; no product implementation changes.\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:5351-wp16-execution-owner",
+      "reason": "Record the operator-authorized WP-16 execution sequence after WP-15 terminal reconciliation and before final exact-revision validation.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Execute WP-16 #5351 now: audit every v0.91.8 wave issue for working code or a useful durable result; run focused docs, dependency, rollback, deletion, demo, and hygiene checks; run locked all-target ADL v2, Runtime v3, and C-SDLC v2 suites using the shared stable Vector binary; route genuine defects to bounded owner issues; integrate their fixes; retain one exact-revision quality packet; obtain one GPT-5.5 pre-PR review; publish a ready PR with Closes #5351. Later release-tail work and asynchronous typed closeout do not block this execution lane.\",\"operation\":\"replan\",\"previous_value\":\"Render and validate six current-registry cards; freeze exact #5354 terminal gating, issue-local ownership, integrated packet semantics, blocker routing, zero-new-dependency COTS posture, budgets and PVF; obtain bounded review and fix findings; typed bind and doctor; commit and push preparation only.\"}"
     }
   ]
 }

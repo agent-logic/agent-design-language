@@ -2,7 +2,12 @@
 
 ## Gap Analysis Summary
 
-Status: `fail` for WP-16 execution readiness; bounded preparation may continue.
+Status: `resolved`; retained as the pre-execution gap analysis.
+
+Resolution: PR #5761 reconciled #5354's tracked terminal projection to the
+retained `closed_out` receipt, and the WP-16 dependency gate now distinguishes
+the exact PR head from its ancestral squash-merge commit. The focused and
+integrated WP-16 lanes supersede the historical findings below.
 
 The #5351 expected WP-16 outcome is not currently executable because the
 dependency chain is only partially terminal in local typed C-SDLC truth. WP-14A
