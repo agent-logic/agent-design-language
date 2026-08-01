@@ -16,7 +16,7 @@ Recover truthful typed terminal state for every closed v0.91.8 issue excluded fr
 
 ## Required Outcome
 
-Every inventoried issue has remote disposition, retained receipt, tracked closed_out projection, released claim, and retained artifacts in exact agreement.
+Classify every live GitHub-closed version:v0.91.8 issue against exact merged-PR and C-SDLC v2 evidence; materialize receipt-backed closed_out projections for every issue whose evidence permits terminal truth, and preserve an explicit fail-closed exception instead of inventing a receipt for any issue with unresolved exact-head implementation, review, authority, or eligibility blockers.
 
 ## Scope
 

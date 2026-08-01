@@ -12,3 +12,4 @@
 {"sequence":12,"generation":8,"actor":"codex:5671-execution","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
 {"sequence":13,"generation":9,"actor":"codex:5671-execution","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
 {"sequence":14,"generation":10,"actor":"codex:v0918-terminal-reconcile-wave","reason":"Materialize retained terminal authority for the complete v0.91.8 closed-issue closeout audit.","operation":"reconcile_terminal"}
+{"sequence":15,"generation":11,"actor":"codex:5748-terminal-recovery","reason":"Materialize the authoritative terminal receipt into the dedicated v0.91.8 closeout branch during the exhaustive live-inventory sweep.","operation":"reconcile_terminal"}

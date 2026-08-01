@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-21][birthday-docs] Prepare first-birthday docs and external launch surfaces",
     "slug": "v0918-wp21-birthday-docs-launch-surfaces-prep-4763",
     "version": "v0.91.8",
-    "generation": 11
+    "generation": 20
   },
   "status": "ready",
   "content": {
@@ -111,9 +111,9 @@
         "WP-21 parent #5362 changes the activation handoff contract.",
         "Typed C-SDLC v2 changes the issue-card or claim-recovery route."
       ],
-      "design_ref": ".csdlc/prepared/issues/4763/design.md",
+      "design_ref": ".csdlc/issues/4763/retained/design.md",
       "design_digest": "c9648979f52a6c7faec83bfae3c719b6c042c22ba362d593c5fc325d1c0b4168",
-      "diagram_ref": ".csdlc/prepared/issues/4763/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/4763/retained/diagram.mmd",
       "diagram_digest": "4f58a1b1a195df027c15e9c0bc39d4833df6891272123895d8bfc8f1c0dabde3"
     }
   }

@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -175,22 +175,81 @@ Implemented #4763 first-birthday docs and external launch surfaces as claim-boun
     "purpose": "Transition the active #4763 claim purpose/scope from preparation-only to implementation/publication after binding.",
     "outcome": "blocked",
     "evidence_ref": "Typed transition failed closed with reconciliation_required: terminal authority for issue 5332 has different identity."
+  },
+  {
+    "command": [
+      "cargo",
+      "run",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--bin",
+      "csdlc-bind",
+      "--",
+      "--root",
+      ".",
+      "--reacquire-request",
+      ".csdlc/prepared/issues/4763/reacquire-claim-20260731.json"
+    ],
+    "purpose": "Typed #4763 claim reacquisition before card editing.",
+    "outcome": "passed",
+    "evidence_ref": "Exact command completed successfully at PR #5734 head 313268e09b8d9906f61b0e12ac05cce4deea1e3c after operator-authorized:5748 stale-owner revoke; canonical claim is claim-4763-5748-post-merge-closeout."
+  },
+  {
+    "command": [
+      "cargo",
+      "run",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--bin",
+      "csdlc-bind",
+      "--",
+      "--root",
+      ".",
+      "--reacquire-request",
+      ".csdlc/prepared/issues/4763/reacquire-claim-20260731.json"
+    ],
+    "purpose": "Typed #4763 claim reacquisition before card editing.",
+    "outcome": "skipped_non_goal",
+    "evidence_ref": "Blocked by unrelated #5332 terminal-authority reconciliation: terminal authority for issue 5332 has different identity."
+  },
+  {
+    "command": [
+      "jq",
+      "-e",
+      ".phase == \"published\" and .claim.id == \"claim-4763-5748-post-merge-closeout\" and (.claim.purpose | contains(\"complete truthful typed closeout\"))",
+      ".csdlc/issues/4763/index.json"
+    ],
+    "purpose": "Prove the current #4763 claim purpose and lifecycle state authorize merged-PR reconciliation and typed closeout.",
+    "outcome": "passed",
+    "evidence_ref": "Exact command returned true at merged PR #5734 head 313268e09b8d9906f61b0e12ac05cce4deea1e3c."
+  },
+  {
+    "command": [
+      "./csdlc-v2/target/debug/csdlc-bind",
+      "--root",
+      ".",
+      "--transition-request",
+      "/Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/4763.json"
+    ],
+    "purpose": "Transition the active #4763 claim purpose/scope from preparation-only to implementation/publication after binding.",
+    "outcome": "skipped_non_goal",
+    "evidence_ref": "Typed transition failed closed with reconciliation_required: terminal authority for issue 5332 has different identity."
   }
 ]
 
 ## Integration
 
-pr_open
+merged
 
 ## Publication
 
-Publication: ready
+Publication: closed
 
-Merge: not_merged
+Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 

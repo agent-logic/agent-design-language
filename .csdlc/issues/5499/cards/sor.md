@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -36,22 +36,31 @@ Implemented a pure deterministic ADL v2 conductor that validates typed lifecycle
     "purpose": "Prove the pure conductor contract and all #5499 acceptance criteria offline",
     "outcome": "passed",
     "evidence_ref": "local:5499-fastwork-10-tests-strict-clippy-601-impl-loc-218-test-loc-under-5s"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/5499/validate-conductor.sh"
+    ],
+    "purpose": "Prove the pure conductor contract and all #5499 acceptance criteria offline.",
+    "outcome": "passed",
+    "evidence_ref": "local:5499-fastwork-10-tests-strict-clippy-601-impl-loc-218-test-loc-under-5s"
   }
 ]
 
 ## Integration
 
-pr_open
+merged
 
 ## Publication
 
-Publication: ready
+Publication: closed
 
-Merge: not_merged
+Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 

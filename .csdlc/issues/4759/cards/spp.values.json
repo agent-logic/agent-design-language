@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-14][activation] Implement v0.92 activation map from accepted deployed products",
     "slug": "v0918-wp14-activation-map",
     "version": "v0.91.8",
-    "generation": 12
+    "generation": 19
   },
   "status": "ready",
   "content": {
@@ -79,9 +79,9 @@
         "operator asks to merge or close out before this no-merge handoff is complete"
       ],
       "replan_triggers": [],
-      "design_ref": ".csdlc/prepared/issues/4759/design.md",
+      "design_ref": ".csdlc/issues/4759/retained/design.md",
       "design_digest": "0301800d9f120cd84ac46ae920c0e1102779abf79d4869117b0ab0daaad8ffca",
-      "diagram_ref": ".csdlc/prepared/issues/4759/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/4759/retained/diagram.mmd",
       "diagram_digest": "24b8889f9279611c5cd348227adf8345db93f9cb8138ee4e016b194d99a4d5c7"
     }
   }

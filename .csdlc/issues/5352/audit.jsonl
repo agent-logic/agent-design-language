@@ -12,3 +12,7 @@
 {"sequence":12,"generation":7,"actor":"codex:wp21-final-handoff","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":8,"actor":"codex:wp21-final-handoff","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":14,"generation":9,"actor":"codex:wp21-final-handoff","reason":"The full findings-first WP-21 sprint review passed exact revision 226c8e2a4 with zero P1, P2, or P3 findings after all current blockers were remediated.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":15,"generation":10,"actor":"codex:wp21-final-handoff","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":16,"generation":11,"actor":"codex:wp21-final-handoff","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":17,"generation":12,"actor":"subagent:/root/closeout_missing_records","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":18,"generation":13,"actor":"subagent:/root/closeout_missing_records","reason":"Materialize the receipt-backed #5352 terminal projection in the #5748 aggregate closeout worktree","operation":"reconcile_terminal"}

@@ -6,3 +6,4 @@
 {"sequence":6,"generation":3,"actor":"codex:wp10a-umbrella-closeout","reason":"The assigned bounded review passed at the exact umbrella packet revision with zero findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":7,"generation":4,"actor":"codex:wp10a-umbrella-closeout","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
 {"sequence":8,"generation":5,"actor":"codex:v0918-terminal-reconcile-wave","reason":"Materialize retained terminal authority for the complete v0.91.8 closed-issue closeout audit.","operation":"reconcile_terminal"}
+{"sequence":9,"generation":6,"actor":"codex:5748-terminal-recovery","reason":"Materialize the authoritative terminal receipt into the dedicated v0.91.8 closeout branch during the exhaustive live-inventory sweep.","operation":"reconcile_terminal"}

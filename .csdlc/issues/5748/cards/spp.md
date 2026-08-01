@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Collect issue-local terminal receipts, repair special cases through typed authority, materialize exact receipt-backed projections in a dedicated worktree, and prove terminal and artifact consistency.
+Exhaustively classify the live closed v0.91.8 issue set; recover, transport, or reconcile terminal authority only through typed C-SDLC v2; materialize the origin/main terminal delta on the dedicated #5748 branch; and retain exact-head fail-closed exceptions whenever implementation or evidence does not justify a receipt.
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -30,7 +30,7 @@ Revision 1
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -42,7 +42,7 @@ Revision 1
       "AC-5",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -54,7 +54,7 @@ Revision 1
       "AC-6",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 

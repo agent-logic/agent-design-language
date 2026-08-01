@@ -3,13 +3,13 @@
   "issue": 5748,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
-  "phase": "bound",
-  "generation": 0,
-  "digest": "451e7c9a35edc51cc78f69ec40f6c4a733d2e8c01e77c7c436cdc7a71196a012",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "3affeb7475c971722c3ddf0990e6820162e86ec9ab7fa58ff596f1e93a95ecc7",
   "claim": {
     "id": "claim-5748-terminal-recovery",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
-    "generation": 0,
+    "generation": 6,
     "acquired_unix_seconds": 1785539141,
     "expires_unix_seconds": 1786143941,
     "heartbeat_unix_seconds": 1785539141,
@@ -17,12 +17,28 @@
     "worktree": ".worktrees/adl-wp-5748",
     "protected_paths": [
       ".csdlc/evidence/5748",
+      ".csdlc/issues/4759",
       ".csdlc/issues/4760",
+      ".csdlc/issues/4763",
+      ".csdlc/issues/5342",
+      ".csdlc/issues/5352",
+      ".csdlc/issues/5354",
+      ".csdlc/issues/5438",
+      ".csdlc/issues/5499",
+      ".csdlc/issues/5540",
       ".csdlc/issues/5548",
+      ".csdlc/issues/5572",
+      ".csdlc/issues/5587",
+      ".csdlc/issues/5610",
       ".csdlc/issues/5632",
+      ".csdlc/issues/5645",
       ".csdlc/issues/5665",
       ".csdlc/issues/5670",
+      ".csdlc/issues/5679",
+      ".csdlc/issues/5687",
       ".csdlc/issues/5708",
+      ".csdlc/issues/5711",
+      ".csdlc/issues/5718",
       ".csdlc/issues/5728",
       ".csdlc/issues/5735",
       ".csdlc/issues/5746",
@@ -48,34 +64,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e50c1b899a0855067be37b318a282a35b45ba3403cb33b785cfeab0aa187d914",
-      "rendered_digest": "45b518d3fd743da08e47f6368211b376725c05b4f87b6324eef904857326005b",
-      "ast_digest": "f72f1dbae45b5ae207b7f4fd0efac02f5e79c1339a80fd79febc98feec955f35"
+      "values_digest": "f861f2bd106cf45375e55cd6cb2afde97803342641c8b33782637a65a767e771",
+      "rendered_digest": "47705f68049f2565e12871bfbb5bb6e9bec75d62f9334b13a1fcb29879eeedf2",
+      "ast_digest": "66b2fa31a0cbd5c056ae38bb3ce5459c7826160b165e8fa0daf68fe378083004"
     },
     "stp": {
-      "values_digest": "800d7f538890c4c4a1a9a1e685523d6d3e045e6f70cc83bf52a22c19a79b9efd",
+      "values_digest": "0f742fd43302126e2d3303911e194f05e9e25a8c7c0e543385c66525b8d2de80",
       "rendered_digest": "5a8822a8c7b60a5065afcd89d1402d36d705dcb5b42ecd109f518d27e0fc5e62",
       "ast_digest": "1109b3410dd50617d7241c3755faf54737ac8453a998b23fd32c4af3ddc5966e"
     },
     "spp": {
-      "values_digest": "ce6996946d1d5651af773f223221278d5a7cd85509d87d54b141e3c91cd5e134",
-      "rendered_digest": "5a087afbbf817f0a01d58bddaf33c05df7a0c0e426efe5703f0c5c39540080c7",
-      "ast_digest": "20bc08d08e8c65133034fe5b97a921a7fcae3e8e2ea7d699bb9ad80926675e83"
+      "values_digest": "dc517697456508e54d45cd92356a90ef9a365c64aeee2adda8dd713d58de5e64",
+      "rendered_digest": "92c6c8ca6bc4f31e2aa78f6864314219c201d63a189b3a9878120ae7d0b5e923",
+      "ast_digest": "342c2759a4c50d630a467c5827cacc18e5eda7acc762a2b8e3a6e5cf50453c36"
     },
     "vpp": {
-      "values_digest": "e6f162995a60cc42a43525923f9fcc56179fd50d1f694d39480c45f464fc458e",
+      "values_digest": "20e3b3979b11504b854f29ea7add3ebbb481d51cabb05d4c058be756146f81ed",
       "rendered_digest": "2ec9cad2c2fa650f0523c63a6f0b4a84f4ff7cd76fdc905d19a50caf5e2a4b4e",
       "ast_digest": "c09a33230a0c4276745a0a3f1e1d4a278a74cbf5eb9a1bc1b9da62abfced6d05"
     },
     "srp": {
-      "values_digest": "69cf130e671ff2107cab24c936563111d2b7c018d3efc1094cb99b7b61c387aa",
+      "values_digest": "fdb624d5f5f66b4e3118c5d8050d8886d3b9eae5a0ee65ec9bee845824ca5c0b",
       "rendered_digest": "281a0127cda1e0cf6ddfd6d224c9f4eaa89cfabc033a215c3687ee16c711c5e6",
       "ast_digest": "a80d4038f11d4d74ec0a7f5a892ab1f3b2d50d2d68c2de1f4ff65bef8a2e696a"
     },
     "sor": {
-      "values_digest": "7ace0d208d399409654f2e6006a51d3d0f613c14b0a5a1e539b936b6cf187bc5",
-      "rendered_digest": "2f007cd9c5aa51cbb2213e6d0fbfc0106ef8e6c6b6617d7b14cc8952f7551124",
-      "ast_digest": "05c1f2f0a04c7315976d6b825b8f73ef5d0205ec37951dcac0b794e273eef033"
+      "values_digest": "01d199ae86d1c34245f2b604b178610483ebab60faf321481e148cae1545c943",
+      "rendered_digest": "6eed44e7612370487a59ce5bd90f35d4fcf7da103f60e7a97a2016b70c771023",
+      "ast_digest": "fcbcc3939decf85e87918d93f21a04b038219541e0fc5ca83339e6415ebcb225"
     }
   },
   "transitions": [
@@ -92,6 +108,13 @@
       "to": "bound",
       "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -136,6 +159,83 @@
       "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
       "reason": "Authorize aggregate materialization for the valid #5746 and #5708 terminal receipts delivered by the coordinated closeout lanes.",
       "operation": "{\"add_protected_paths\":[\".csdlc/issues/5708\",\".csdlc/issues/5746\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 0,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Extend the aggregate claim to the typed receipt-transport and recordless-recovery targets in the remaining v0.91.8 exception wave.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5438\",\".csdlc/issues/5540\",\".csdlc/issues/5610\",\".csdlc/issues/5679\",\".csdlc/issues/5687\",\".csdlc/issues/5711\",\".csdlc/issues/5718\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 0,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Extend aggregate authority to #5572 after exact issue-local evidence identified merged PR #5574 as its closing implementation route.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5572\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 0,
+      "actor": "subagent:/root/closeout_missing_records",
+      "reason": "Protect the newly closed #5352 terminal projection for the #5748 aggregate closeout commit",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5352\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 0,
+      "actor": "subagent:/root/closeout_missing_records",
+      "reason": "Protect only the origin/main-missing or non-terminal projections that #5748 makes closed_out, including pending #5499 historical recovery",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/4759\",\".csdlc/issues/4763\",\".csdlc/issues/5342\",\".csdlc/issues/5354\",\".csdlc/issues/5499\",\".csdlc/issues/5587\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 1,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Execution discovered exact-head implementation blockers that must remain fail closed under the operator-authorized exhaustive closeout and exception-reporting boundary.",
+      "operation": "{\"field\":\"required_outcome\",\"new_value\":\"Classify every live GitHub-closed version:v0.91.8 issue against exact merged-PR and C-SDLC v2 evidence; materialize receipt-backed closed_out projections for every issue whose evidence permits terminal truth, and preserve an explicit fail-closed exception instead of inventing a receipt for any issue with unresolved exact-head implementation, review, authority, or eligibility blockers.\",\"operation\":\"replan\",\"previous_value\":\"Every inventoried issue has remote disposition, retained receipt, tracked closed_out projection, released claim, and retained artifacts in exact agreement.\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 2,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Align the operative bound plan with the exhaustive live inventory and the evidence-backed exception boundary discovered during execution.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Exhaustively classify the live closed v0.91.8 issue set; recover, transport, or reconcile terminal authority only through typed C-SDLC v2; materialize the origin/main terminal delta on the dedicated #5748 branch; and retain exact-head fail-closed exceptions whenever implementation or evidence does not justify a receipt.\",\"operation\":\"replan\",\"previous_value\":\"Collect issue-local terminal receipts, repair special cases through typed authority, materialize exact receipt-backed projections in a dedicated worktree, and prove terminal and artifact consistency.\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 3,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Completed the exhaustive live remote disposition, projection, worktree ownership, receipt, and exception inventory.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 4,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Completed typed receipt recovery, transport, historical reconciliation, and exact fail-closed disposition for every classified issue.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 5,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Materialized the origin/main terminal projection delta, retained exact receipts and artifacts, and completed doctor, review, rollback, and diff-hygiene proof for the typed recovery tooling.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 5,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Authorize exact receipt-backed materialization of the newer generation-14 #5645 terminal authority discovered by the exhaustive v0.91.8 parity audit.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5645\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 6,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

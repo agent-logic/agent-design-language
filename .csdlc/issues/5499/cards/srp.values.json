@@ -7,14 +7,14 @@
     "title": "[v0.91.8][WP-10A][multi-agent] Implement issue-graph-to-live-task conductor",
     "slug": "v0-91-8-wp-10a-issue-graph-live-task-conductor",
     "version": "v0.91.8",
-    "generation": 17
+    "generation": 21
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-v2/crates/adl-workcell-conductor\n.csdlc/issues/5499\n.csdlc/prepared/issues/5499",
-      "review_revision": "git-blake3:3830eedb32fac3034e07022ed643cb8588bc9360:57c23716de491338b6fb7938d40e52eb32ee86686be141f93e0aed0609c62b73",
+      "review_scope": "adl-v2/crates/adl-workcell-conductor\nadl-v2/Cargo.toml\nadl-v2/Cargo.lock\n.csdlc/issues/5499\n.csdlc/prepared/issues/5499",
+      "review_revision": "git-blake3:326ec6b2ec1cc2ba66c5c3e875dd997d31ee4620:5fe9858263b244ccce64c17667d56f06f5f92ca6535b1e240e3a618dd6b59de8",
       "reviewer": "subagent:019f8bf0-a08b-7c92-ac2f-ca70c074bde7",
       "review_prompts": [
         "Does the component remain a pure deterministic planner rather than a scheduler or lifecycle store?",
@@ -26,7 +26,7 @@
       ],
       "findings": [],
       "residual_risk": [
-        "Hosted PR checks and downstream #5498 integration remain pending."
+        "PR #5638 already merged at d8f02c5b77099552c376436acd695f2bf8922de6; this record reconciles the bounded CI topology review continuation."
       ],
       "review_result": "pass"
     }
