@@ -18,7 +18,7 @@ docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md
 
 ## Prompts
 
-- Does the packet consume actual completed #4760 Memory Palace implementation proof without widening #5007 beyond ADR acceptance?
+- Does the packet keep #5007 execution explicitly blocked on actual completed #4760 Memory Palace implementation proof?
 - Are exact dependencies, intended paths, COTS, LoC/time budgets, PVF lanes, rollback, and no-deferral boundaries present and issue-local?
 - Do the design and diagram describe the future accepted ADR flow without drafting or accepting the ADR?
 - Are stale claim reconciliation and typed closeout receipts treated as execution-time lifecycle truth rather than preparation blockers?
@@ -26,7 +26,18 @@ docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5007-REREVIEW-1",
+    "severity": "p2",
+    "summary": "The refreshed SOR referenced the exact-head rereview artifact before that artifact was retained.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:426d0a53fb2b7b0be571b236ca5d0a248b32e1f8:40938df9ad6bd5e66b3a9b24f939bc7614e90aff5e86084b47696a4207d6c67f",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -39,8 +50,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:a343a68176eac5ae15811c398e468748450acd72:e916963e3d8e29dba0cdb5a8cc6f1e502061fe2254f8c0ccf5f3ce050ae310a6")
+Revision: Some("git-blake3:426d0a53fb2b7b0be571b236ca5d0a248b32e1f8:40938df9ad6bd5e66b3a9b24f939bc7614e90aff5e86084b47696a4207d6c67f")
 
-Reviewer: Some("codex:exact-head-reviewer-5007")
+Reviewer: Some("openai:gpt-5.5-via-codex-review")
 
 Result: pass

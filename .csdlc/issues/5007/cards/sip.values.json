@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-21][ADR] Prepare #5007 Memory Palace ADR acceptance",
     "slug": "v0918-wp14-memory-palace-adr-acceptance-prep-5007",
     "version": "v0.91.8",
-    "generation": 5
+    "generation": 7
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "required_outcome": "The existing preparation worktree contains a clean, committed, pushed, reviewed preparation packet that a later execution session can use after #4760 proof exists; no ADR drafting, implementation, PR, publication, merge, or closeout is claimed by preparation.",
       "declared_scope": [
         "Preparation only in `/Volumes/FastWork/adl-wp-5007` on `codex/5007-v0918-wp14-preparation`.",
-        "Integrate `origin/main` exact SHA d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e into the preparation branch.",
+        "Integrate `origin/main` exact SHA 51bc5ae51b57c19dbab693af1c5a45142995f4e5 into the preparation branch.",
         "Complete the six issue-specific cards plus reviewed design/diagram for the later Memory Palace ADR acceptance execution.",
         "Name exact dependencies, intended paths, COTS boundary, LoC/time budgets, PVF lanes, rollback, and no-deferral boundaries.",
         "Retain one bounded GPT-5.5 preparation review and fix preparation-only findings."

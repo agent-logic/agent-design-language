@@ -23,7 +23,7 @@ Revision 3
 [
   {
     "id": "S1",
-    "action": "Integrate current origin/main d3dbfb31ba4bd53f4166ee5e09da2a8b9f89968e into the existing #5007 preparation branch and verify the worktree path/branch.",
+    "action": "Integrate current origin/main 51bc5ae51b57c19dbab693af1c5a45142995f4e5 into the existing #5007 preparation branch and verify the worktree path/branch.",
     "acceptance_ids": [
       "AC-1"
     ],

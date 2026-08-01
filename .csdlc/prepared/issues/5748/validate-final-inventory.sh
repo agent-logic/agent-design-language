@@ -89,7 +89,7 @@ if [[ "${1:-}" == "--self-test-path-guards" ]]; then
 fi
 
 terminal_issues=(
-  4739 4741 4758 4759 4760 4761 4762 4763 5107 5332 5335 5336 5337 5338
+  4739 4741 4758 4759 4760 4761 4762 4763 5007 5107 5332 5335 5336 5337 5338
   5339 5340 5341 5342 5343 5344 5345 5346 5347 5349 5350 5352 5354 5358 5361
   5384 5438 5470 5497 5498 5499 5500 5501 5502 5526 5527 5540 5541
   5548 5563 5566 5569 5572 5587 5589 5590 5591 5592 5594 5597 5600
@@ -98,7 +98,7 @@ terminal_issues=(
   5698 5701 5702 5708 5710 5711 5713 5715 5717 5718 5719 5722 5727 5728
   5733 5735 5737 5746
 )
-exception_issues=(5007 5558 5664 5675)
+exception_issues=(5558 5664 5675)
 not_planned_terminal_issues=(5335)
 claim_free_exception_issues=(5664 5675)
 dormant_exception_issues=(5664 5675)
@@ -201,18 +201,7 @@ for issue in "${terminal_issues[@]}"; do
 done
 
 for issue in "${exception_issues[@]}"; do
-  if [[ "$issue" == 5007 ]]; then
-    require_file "$common_dir" "$common_dir/csdlc-v2/closeout/5007.json"
-    jq -e '.issue == 5007 and .record.issue == 5007 and
-      .record.phase == "closed_out" and .record.claim == null and
-      .record.generation == 6 and
-      .record.digest == "fd4abaf3f7b219c72c685e4968928a01364bd749a4580ba39930ccf4a1a5a98a" and
-      .digest == "83a9539680ed730193da404790e6b42ff7b0ee3dc1865c3e831094973d5d380b"' \
-      "$common_dir/csdlc-v2/closeout/5007.json" >/dev/null || \
-      fail "exception #5007 terminal receipt mismatch"
-  else
-    require_absent "$common_dir" "$common_dir/csdlc-v2/closeout/$issue.json"
-  fi
+  require_absent "$common_dir" "$common_dir/csdlc-v2/closeout/$issue.json"
   rg -q "^## #$issue —" "$register" || \
     fail "exception #$issue is missing from the register"
 done
@@ -249,51 +238,6 @@ for issue in "${dormant_exception_issues[@]}"; do
      (.findings | length) == 1 and .findings[0].code == "claim_dormant"' \
     >/dev/null || fail "exception #$issue doctor state mismatch"
 done
-
-if array_contains 5007 "${exception_issues[@]}"; then
-  # #5007 is intentionally preserved as the exact corrupt projection while it
-  # remains an exception. Moving it into terminal_issues switches authority to
-  # the generic receipt-backed terminal checks above.
-  corrupt_index="$repo_root/.csdlc/issues/5007/index.json"
-  require_file "$repo_root" "$corrupt_index"
-  require_eq "$(git rev-parse HEAD:.csdlc/issues/5007)" \
-    773eb443b05aac396c0d17705374edd4f754cfdf \
-    "exception #5007 committed projection tree mismatch"
-  git diff --quiet HEAD -- .csdlc/issues/5007 || \
-    fail "exception #5007 working projection differs from its pinned commit"
-  require_eq "$(git ls-files --others --exclude-standard -- .csdlc/issues/5007)" "" \
-    "exception #5007 contains untracked projection files"
-  while IFS= read -r path; do
-    require_file "$repo_root" "$repo_root/$path"
-  done < <(git ls-files .csdlc/issues/5007)
-  require_eq "$(jq -r '.phase' "$corrupt_index")" published \
-    "exception #5007 phase mismatch"
-  require_eq "$(jq -r '.generation' "$corrupt_index")" 5 \
-    "exception #5007 generation mismatch"
-  require_eq "$(jq -r '.digest' "$corrupt_index")" \
-    12194eb860c30b87b2e8929d2fe0726fbe7006d0c901454b581ee82fa693f6ed \
-    "exception #5007 claimed digest mismatch"
-  require_eq "$(jq -r '.claim.id' "$corrupt_index")" \
-    exec-5007-memory-palace-adr-20260731 "exception #5007 claim id mismatch"
-  require_eq "$(jq -r '.claim.owner' "$corrupt_index")" \
-    codex:5007-execution-2026-07-31 "exception #5007 claim owner mismatch"
-  require_eq "$(jq -r '.claim.branch' "$corrupt_index")" \
-    codex/5007-v0918-wp14-preparation "exception #5007 claim branch mismatch"
-  require_eq "$(jq -r '.claim.worktree' "$corrupt_index")" . \
-    "exception #5007 claim worktree mismatch"
-  require_eq "$(jq -r '.claim.expires_unix_seconds' "$corrupt_index")" 1786138590 \
-    "exception #5007 claim expiry mismatch"
-  if corrupt_report="$("$doctor" --repo "$repo_root" --issue 5007 2>&1)"; then
-    printf 'exception #5007 unexpectedly passed doctor\n' >&2
-    exit 1
-  fi
-  printf '%s\n' "$corrupt_report" | jq -e \
-    '.status == "corrupt" and .ready == false and
-     (.findings | length) == 1 and
-     .findings[0].code == "corrupt_record" and
-     .findings[0].message == "index digest mismatch"' >/dev/null || \
-    fail "exception #5007 doctor state mismatch"
-fi
 
 # These two issues have no local lifecycle projection. Their absence is part
 # of the fail-closed evidence and must remain explicit.

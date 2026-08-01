@@ -4,23 +4,6 @@ This register records issues that cannot receive a terminal receipt without
 inventing or bypassing C-SDLC v2 authority. Entries remain provisional until
 the final exhaustive closeout audit.
 
-## #5007 — corrupt nonterminal projection
-
-- GitHub issue state: closed; PR #5743 merged from exact source head
-  `426d0a53fb2b7b0be571b236ca5d0a248b32e1f8` with required checks passing.
-- The published generation-5 record claims digest
-  `12194eb860c30b87b2e8929d2fe0726fbe7006d0c901454b581ee82fa693f6ed`.
-- Commit `72b96618f7cede755d90b2c7fdda7d4fcb74de49` subsequently changed governed
-  claim, review, card-value, and rendered-card content without advancing the
-  generation or digest. The exact PR head retains that mismatch.
-- The source issue has since completed typed closeout and retained an authentic
-  generation-6 terminal receipt, but the aggregate checkout still contains the
-  older corrupt generation-5 projection. `csdlc-doctor` therefore continues to
-  fail closed with `corrupt_record: index digest mismatch`.
-- Disposition: preserve the authentic receipt and corrupt aggregate projection
-  separately until a typed cross-worktree recovery can replace the projection;
-  manual redigesting or card restoration is prohibited.
-
 ## #5664 — protocol-adapter acceptance blockers
 
 - GitHub issue state: closed; PR #5680 merged from exact source head
