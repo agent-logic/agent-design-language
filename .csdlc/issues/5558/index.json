@@ -5,7 +5,7 @@
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
   "phase": "implemented",
   "generation": 6,
-  "digest": "e5bdfd62b493c3db121d8add1aca3b3b95fc05224532089b898a8268ede72564",
+  "digest": "3a041ae8ee99df4a3517689781ff9f968406f847bccac9242ed1ff9c7c440351",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
@@ -28,16 +28,30 @@
       "adl/tools/README.md",
       "adl/tools/check_issue_metadata_parity.sh",
       "adl/tools/demo_five_command_editing.sh",
+      "adl/tools/demo_five_command_run.sh",
+      "adl/tools/demo_v0871_multi_agent_discussion.sh",
       "adl/tools/demo_v0871_operator_surface.sh",
+      "adl/tools/demo_v0871_real_multi_agent_discussion.sh",
+      "adl/tools/demo_v0871_runtime_state.sh",
+      "adl/tools/demo_v087_control_plane.sh",
+      "adl/tools/demo_v087_trace_truth.sh",
+      "adl/tools/demo_v088_real_multi_agent_discussion.sh",
+      "adl/tools/demo_v0891_quality_gate.sh",
+      "adl/tools/demo_v089_quality_gate.sh",
+      "adl/tools/demo_v0901_quality_gate.sh",
       "adl/tools/editor_action.sh",
+      "adl/tools/generate_active_command_reference_scan.py",
       "adl/tools/generate_tool_surface_registry.py",
       "adl/tools/run_owner_validation_lane.sh",
+      "adl/tools/skills",
       "adl/tools/test_adl_review_compatibility.sh",
       "adl/tools/test_adl_runtime_compatibility.sh",
       "adl/tools/test_cli_owner_command_guidance.sh",
       "adl/tools/test_demo_five_command_editing.sh",
       "adl/tools/test_demo_v0871_operator_surface.sh",
       "adl/tools/test_editor_action.sh",
+      "adl/tools/test_generate_active_command_reference_scan.sh",
+      "docs/tooling",
       "docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md",
       "docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md",
       "docs/tooling/README.md",
@@ -49,7 +63,15 @@
     ],
     "purpose": "Correct issue 5558 by removing remaining live sunset v1 lifecycle guidance and proving final typed v2 authority."
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:root-independent-rereview",
+    "assigned_by": "codex:5558-corrective",
+    "revision": "git-blake3:0f43035f2b0c348775f7e56f7563ffe33c97ef0a:f7242c64ac48447ddb9686f1bf924090fa3d040aaac3f0aeaf592c2b0523978d",
+    "scope": [
+      "Exact commit 0f43035f2b0c348775f7e56f7563ffe33c97ef0a",
+      "All issue 5558 implementation, first-review fixes, tests, docs, and lifecycle records"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -85,9 +107,9 @@
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "871223e8ded45b79eb555acc0e8c37766151c7c716443637f1b321bc640c941b",
-      "rendered_digest": "3064ab82d922ff0f359cef4b43ce8bd2a0bc22daba9d0e979b0aa23d0271d105",
-      "ast_digest": "23b9ebb43b323a6c66672f9ecac801e79ccbf5312ca02285eadeb843b61fc37f"
+      "values_digest": "83e4b4553873b0812edc55b97a1e52e869513fdfb53193c75691b35a49a6b813",
+      "rendered_digest": "943dceb85f737c6c0658c3823ae4d7c90ce42056b01a7cc9602093a003ecfbae",
+      "ast_digest": "7f101219a85bbbb0abaa547a9e364bbfd743e9b5f08250a7420ba77759e49b6e"
     },
     "sor": {
       "values_digest": "9a94ac84f06cd71785fe10d94f289671cfcc56b0f9553a6d75bd3ceaae45a5f6",
@@ -181,6 +203,20 @@
       "actor": "codex:5558-corrective",
       "reason": "record post-review full owner-lane validation",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/run_owner_validation_lane.sh\",\"csdlc\"],\"purpose\":\"Re-prove final typed v2 authority after all independent review fixes.\",\"outcome\":\"passed\",\"evidence_ref\":\"local: post-review Gate 10A 15/15 and full owner lane PASS\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:5558-corrective",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:5558-corrective",
+      "reason": "exact rereview requires eliminating all dynamically found active v1 guidance and executable demo routes",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/skills\",\"docs/tooling\",\"adl/tools/demo_five_command_run.sh\",\"adl/tools/demo_v087_control_plane.sh\",\"adl/tools/demo_v087_trace_truth.sh\",\"adl/tools/demo_v0871_multi_agent_discussion.sh\",\"adl/tools/demo_v0871_real_multi_agent_discussion.sh\",\"adl/tools/demo_v0871_runtime_state.sh\",\"adl/tools/demo_v088_real_multi_agent_discussion.sh\",\"adl/tools/demo_v089_quality_gate.sh\",\"adl/tools/demo_v0891_quality_gate.sh\",\"adl/tools/demo_v0901_quality_gate.sh\",\"adl/tools/generate_active_command_reference_scan.py\",\"adl/tools/test_generate_active_command_reference_scan.sh\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

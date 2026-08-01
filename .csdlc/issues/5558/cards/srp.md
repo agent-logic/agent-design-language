@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-All changed implementation, tests, operational docs, and generated lifecycle records for issue 5558.
+Exact commit 0f43035f2b0c348775f7e56f7563ffe33c97ef0a
+All issue 5558 implementation, first-review fixes, tests, docs, and lifecycle records
 
 ## Prompts
 

@@ -34,46 +34,32 @@ SKILL_FILES = {
 
 BUILTIN_DISPATCH_COMMANDS = {
     "pr-init": [
-        "bash",
-        "adl/tools/pr.sh",
-        "init",
-        "{issue_number}",
-        "--slug",
-        "{slug}",
-        "--version",
-        "{version}",
+        ".adl/bin/csdlc-v2/csdlc-init",
+        "--root",
+        "{worktree_path}",
+        "--request",
+        "<bootstrap-request.json>",
     ],
     "pr-ready": [
-        "bash",
-        "adl/tools/pr.sh",
-        "doctor",
+        ".adl/bin/csdlc-v2/csdlc-doctor",
+        "--repo",
+        ".",
+        "--issue",
         "{issue_number}",
-        "--slug",
-        "{slug}",
-        "--version",
-        "{version}",
-        "--mode",
-        "full",
-        "--json",
     ],
     "pr-run": [
-        "bash",
-        "adl/tools/pr.sh",
-        "run",
-        "{issue_number}",
-        "--slug",
-        "{slug}",
-        "--version",
-        "{version}",
+        ".adl/bin/csdlc-v2/csdlc-bind",
+        "--root",
+        "{worktree_path}",
+        "--request",
+        "<bind-request.json>",
     ],
     "pr-closeout": [
-        "bash",
-        "adl/tools/pr.sh",
-        "closeout",
-        "{issue_number}",
-        "--version",
-        "{version}",
-        "--no-fetch-issue",
+        ".adl/bin/csdlc-v2/csdlc-closeout",
+        "--root",
+        "{worktree_path}",
+        "--request",
+        "<closeout-request.json>",
     ],
 }
 
@@ -253,17 +239,11 @@ def frontmatter_value(text: str, key: str):
 
 def doctor_snapshot(repo_root: Path, issue_number: int, slug: str, version: str):
     command = [
-        "bash",
-        "adl/tools/pr.sh",
-        "doctor",
+        ".adl/bin/csdlc-v2/csdlc-doctor",
+        "--repo",
+        ".",
+        "--issue",
         str(issue_number),
-        "--slug",
-        slug,
-        "--version",
-        version,
-        "--mode",
-        "full",
-        "--json",
     ]
     result = run_command(command, repo_root)
     if result.returncode != 0:
@@ -293,17 +273,9 @@ def classify_doctor_state(doctor):
 
 
 def repo_native_issue_list(repo_root: Path):
-    result = run_command(
-        ["bash", "adl/tools/pr.sh", "issue", "list", "--state", "all", "--limit", "200", "--json"],
-        repo_root,
-    )
-    if result.returncode != 0 or not result.stdout.strip():
-        return []
-    try:
-        issues = parse_json_from_mixed_output(result.stdout)
-    except (ValueError, json.JSONDecodeError):
-        return []
-    return issues if isinstance(issues, list) else []
+    # The sunset conductor does not synthesize typed GitHub request files.
+    # Current issue discovery belongs to csdlc-github-issue and its operator skill.
+    return []
 
 
 def child_issue_wave_state(repo_root: Path, parent_issue_number: int):

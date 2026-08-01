@@ -312,12 +312,7 @@ fallback.
 Preferred commands:
 
 ```bash
-bash adl/tools/pr.sh issue view <issue-number-or-url> --json
-bash adl/tools/pr.sh issue list --state open|closed|all --limit <n> --json
-bash adl/tools/pr.sh issue search --query "<text>" --state open|closed|all --json
-bash adl/tools/pr.sh issue create --title "<title>" --body-file <path> --label track:roadmap --json
-bash adl/tools/pr.sh issue comment <issue-number-or-url> --body-file <path> --json
-bash adl/tools/pr.sh issue edit <issue-number-or-url> --title "<title>" --body-file <path> --label area:tools --json
+csdlc-github-issue run --request <issue-read-or-mutation-request.json>
 ```
 
 Use typed issue mutation commands for covered issue setup and repair paths.
@@ -336,10 +331,8 @@ Use this surface when:
 
 Pair it with:
 
-- `bash adl/tools/pr.sh doctor <issue> --mode ready --json` for structural
-  execution readiness
-- `bash adl/tools/pr.sh doctor <issue> --mode full --json` for milestone-wave
-  preflight plus readiness
+- `csdlc-doctor --repo <repo> --issue <issue>` for structural execution
+  readiness and drift diagnosis
 
 Do not treat `pr.sh issue ...` as a substitute for lifecycle truth. It is the
 live GitHub inspection surface, while `doctor`, the editor skills, and the
@@ -899,8 +892,8 @@ Structured schema:
 
 ### Preferred Commands
 
-- `adl/tools/pr.sh create`
-- `adl/tools/pr.sh init`
+- `csdlc-github-issue run --request <issue-create-request.json>`
+- `csdlc-init --root <worktree> --request <bootstrap-request.json>`
 
 For `create_and_bootstrap`, the expected machine-safe path is:
 
@@ -1028,9 +1021,7 @@ Structured schema:
 
 Preferred diagnostic order:
 
-- `adl/tools/pr.sh doctor --json`
-- `adl/tools/pr.sh ready`
-- `adl/tools/pr.sh preflight`
+- `csdlc-doctor --repo <repo> --issue <issue>`
 
 Use direct inspection only when the repo-native doctor/readiness surfaces are
 unavailable or unusable.
@@ -1140,10 +1131,8 @@ Structured schema:
 
 Preferred execution order:
 
-- `adl/tools/pr.sh doctor --json`
+- `csdlc-doctor --repo <repo> --issue <issue>`
 - `csdlc-bind --root <worktree> --request <bind-request.json>`
-- `adl/tools/pr.sh ready`
-- `adl/tools/pr.sh preflight`
 
 ### Output And Stop Boundary
 
@@ -1218,7 +1207,7 @@ Use `pr-janitor` when:
 - the user wants help with conflicts or review blockers
 - the task is monitoring or narrow blocker remediation
 
-Use `bash adl/tools/pr.sh janitor <issue-or-pr> --json` when a session needs
+Use typed `csdlc-shepherd` and `csdlc-pr-state` requests when a session needs
 the repo-native command surface to classify the PR tail before handing off to
 the `pr-janitor` skill. The command is a compatibility wrapper over the
 shepherd classifier and preserves the no-`gh` transport path.

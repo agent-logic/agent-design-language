@@ -43,7 +43,7 @@ Lifecycle entrypoints:
 ```bash
 .adl/bin/csdlc-v2/csdlc-install resolve --repo . --issue <issue>
 .adl/bin/csdlc-v2/csdlc-init --root <worktree> --request <bootstrap-request.json>
-.adl/bin/csdlc-v2/csdlc-doctor --root <worktree> --request <doctor-request.json>
+.adl/bin/csdlc-v2/csdlc-doctor --repo <repo> --issue <issue>
 .adl/bin/csdlc-v2/csdlc-bind --root <worktree> --request <bind-request.json>
 ```
 

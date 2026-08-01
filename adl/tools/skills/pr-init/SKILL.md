@@ -248,9 +248,9 @@ Recommended multi-issue pattern:
 
 ## Preferred Commands
 
-Prefer repo-native control-plane commands such as:
-- `adl/tools/pr.sh create`
-- `adl/tools/pr.sh init`
+Use `csdlc-init --root <worktree> --request <bootstrap-request.json>` for typed
+issue initialization; use `csdlc-github-issue run --request <request.json>`
+when GitHub issue creation is explicitly required.
 
 For caller payload shape, prefer the canonical tracked template:
 - `<repo-root>/docs/templates/PR_INIT_INVOCATION_TEMPLATE.md`

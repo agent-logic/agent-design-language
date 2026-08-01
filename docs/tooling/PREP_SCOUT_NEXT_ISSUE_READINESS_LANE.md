@@ -37,7 +37,7 @@ The prep scout may use:
 
 - `workflow-conductor` for routing truth
 - typed `csdlc-github-issue` reads
-- typed `csdlc-doctor --root <worktree> --request <doctor-request.json>`
+- typed `csdlc-doctor --repo <repo> --issue <issue>`
 - root-checkout inspection commands while the root checkout remains clean on
   `main`
 - issue/task-bundle reads for the candidate issue

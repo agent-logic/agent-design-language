@@ -141,7 +141,7 @@ When conductor routing depends on doctor/readiness/PR state:
 The conductor helper must not call the GitHub CLI directly for tracker or PR
 state inference. Its supported repo-native read surfaces are:
 - issue/tracker discovery through
-  `bash adl/tools/pr.sh issue list --state all --limit 200 --json`
+  typed `csdlc-github-issue run --request <issue-list-request.json>`
 - PR state discovery through `adl pr validation <pr-number> --json`
 
 Those commands may emit human `adl_event` observability alongside structured

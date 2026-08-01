@@ -7,13 +7,13 @@ Usage:
   adl/tools/workflow_guardrails.sh main-write [--repo <path>]
   adl/tools/workflow_guardrails.sh closeout-watch --version <version> [--repo <owner/name>] [--root <repo-root>] [--report <path>]
   adl/tools/workflow_guardrails.sh safe-report-command (--command <text> | --file <path>)
-  adl/tools/workflow_guardrails.sh card-drift --issue <number> --version <version> [--slug <slug>] [--root <repo-root>] [--mode <full|ready|preflight>] [--json]
+  adl/tools/workflow_guardrails.sh card-drift --issue <number> [--root <repo-root>]
 
 Workflow guardrails for Sprint 3 / WP-16:
 - fail closed on dirty tracked writes from main/master
 - surface pending closeout-wave candidates
 - reject unsafe shell command shapes for Markdown report generation
-- delegate card-drift checks to `pr doctor`
+- delegate card-drift checks to typed `csdlc-doctor`
 EOF
 }
 
@@ -172,35 +172,24 @@ has_unsafe_command_substitution() {
 
 cmd_card_drift() {
   local issue=""
-  local version=""
-  local slug=""
   local repo_root=""
-  local mode="full"
-  local emit_json="0"
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --issue) issue="${2:-}"; shift 2 ;;
-      --version) version="${2:-}"; shift 2 ;;
-      --slug) slug="${2:-}"; shift 2 ;;
       --root) repo_root="${2:-}"; shift 2 ;;
-      --mode) mode="${2:-}"; shift 2 ;;
-      --json) emit_json="1"; shift ;;
       -h|--help) usage; exit 0 ;;
       *) die "card-drift: unknown arg: $1" ;;
     esac
   done
   [[ -n "$issue" ]] || die "card-drift: missing --issue"
-  [[ -n "$version" ]] || die "card-drift: missing --version"
   repo_root="$(repo_root_from "${repo_root:-$default_repo_root}")"
 
-  local cmd=(bash "${repo_root}/adl/tools/pr.sh" doctor "$issue" --version "$version" --mode "$mode")
-  if [[ -n "$slug" ]]; then
-    cmd+=(--slug "$slug")
-  fi
-  if [[ "$emit_json" == "1" ]]; then
-    cmd+=(--json)
-  fi
-  (cd "$repo_root" && "${cmd[@]}")
+  local install="${repo_root}/.adl/bin/csdlc-v2/csdlc-install"
+  local doctor="${repo_root}/.adl/bin/csdlc-v2/csdlc-doctor"
+  [[ -x "$install" ]] || die "card-drift: missing installed typed selector: $install"
+  [[ -x "$doctor" ]] || die "card-drift: missing installed typed doctor: $doctor"
+  "$install" resolve --repo "$repo_root" --issue "$issue" >/dev/null
+  "$doctor" --repo "$repo_root" --issue "$issue"
 }
 
 subcommand="${1:-}"

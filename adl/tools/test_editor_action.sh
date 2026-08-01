@@ -18,7 +18,7 @@ out="$(bash adl/tools/editor_action.sh prepare --phase run --issue 2053 --slug b
 pass "prepare emits current csdlc-bind command"
 
 out="$(bash adl/tools/editor_action.sh prepare --phase doctor-ready --issue 2053 --slug backlog-tools-refresh-web-task-editor-current-skills --version v0.90)"
-[[ "$out" == ".adl/bin/csdlc-v2/csdlc-doctor --root <worktree> --request <doctor-request.json>" ]] || fail "prepare should emit the ready csdlc-doctor command"
+[[ "$out" == ".adl/bin/csdlc-v2/csdlc-doctor --repo <repo> --issue 2053" ]] || fail "prepare should emit the ready csdlc-doctor command"
 pass "prepare emits ready csdlc-doctor command"
 
 out="$(bash adl/tools/editor_action.sh prepare --phase finish --issue 2053 --slug backlog-tools-refresh-web-task-editor-current-skills --version v0.90 --title "[v0.90][tools] Refresh editor" --paths "docs/tooling/editor/README.md")"

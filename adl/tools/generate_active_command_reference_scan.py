@@ -21,6 +21,9 @@ OUTPUT_PATH = (
 
 ACTIVE_PATH_PREFIXES = (
     "AGENTS.md",
+    "CONTRIBUTING.md",
+    "adl/src/cli/",
+    "docs/tooling/",
     "docs/templates/",
     "adl/tools/skills/",
     "adl/tools/",
@@ -30,6 +33,8 @@ ACTIVE_PATH_PREFIXES = (
 )
 
 HISTORICAL_PATH_PREFIXES = (
+    "docs/milestones/",
+    "docs/planning/PR_CONTROL_PLANE_DECRUFT_COMPATIBILITY_CUT_PLAN.md",
     "docs/milestones/v0.91.5/review/",
     "docs/milestones/v0.91.5/release/",
     "docs/milestones/v0.91.4/",
@@ -48,6 +53,9 @@ UNKNOWN_PATH_PREFIXES = (
 
 INCLUDE_ROOTS = (
     REPO_ROOT / "AGENTS.md",
+    REPO_ROOT / "CONTRIBUTING.md",
+    REPO_ROOT / "adl" / "src" / "cli",
+    REPO_ROOT / "docs" / "tooling",
     REPO_ROOT / "docs" / "templates",
     REPO_ROOT / "adl" / "tools" / "skills",
     REPO_ROOT / "docs" / "planning",
@@ -81,6 +89,13 @@ class CommandFamily:
 
 
 COMMAND_FAMILIES = (
+    CommandFamily(
+        key="sunset_pr_sh",
+        label="sunset `adl/tools/pr.sh` wrapper",
+        preferred_owner="csdlc-install resolve + typed csdlc-* binaries",
+        required_action="forbid if active or unknown; preserve only if historical",
+        pattern=r"(?<![\w/-])(?:bash\s+)?(?:\./)?adl/tools/pr\.sh\s+(?:create|init|start|run|doctor|ready|preflight|finish|closeout|issue|shepherd|janitor|pr-inventory|project-doctor)\b|(?<![\w/-])bash\s+\"?\$ROOT_DIR/adl/tools/pr\.sh\"?\s+(?:create|init|start|run|doctor|ready|preflight|finish|closeout|issue|shepherd|janitor|pr-inventory|project-doctor)\b",
+    ),
     CommandFamily(
         key="direct_adl_pr",
         label="direct `adl pr ...` issue-mode commands",
@@ -147,6 +162,8 @@ def repo_rel(path: Path) -> str:
 def should_skip(path: Path) -> bool:
     rel = repo_rel(path)
     if rel in EXCLUDED_REL_PATHS:
+        return True
+    if rel.startswith("adl/tools/test_"):
         return True
     return any(token in f"/{rel}" for token in SKIP_PATH_SUBSTRINGS)
 
@@ -359,9 +376,22 @@ def main() -> int:
     rendered = render(rows, counts)
 
     if args.check:
-        current = OUTPUT_PATH.read_text()
-        if current != rendered:
-            raise SystemExit("active command reference scan is stale; rerun generator")
+        non_csdlc_families = {
+            "legacy umbrella runtime forms",
+            "unapproved helper binaries",
+        }
+        blocking = [
+            row
+            for row in rows
+            if row[3] in {"active", "unknown"} and row[0] not in non_csdlc_families
+        ]
+        if blocking:
+            details = "\n".join(
+                f"{row[1]}:{row[2]}: {row[0]}" for row in blocking[:50]
+            )
+            raise SystemExit(
+                f"active command reference scan found {len(blocking)} blocking legacy references:\n{details}"
+            )
         return 0
 
     OUTPUT_PATH.write_text(rendered)

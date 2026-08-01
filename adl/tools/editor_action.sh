@@ -130,7 +130,7 @@ emit_prepare_command() {
       printf '.adl/bin/csdlc-v2/csdlc-init --root <worktree> --request <bootstrap-request.json>\n'
       ;;
     doctor-ready)
-      printf '.adl/bin/csdlc-v2/csdlc-doctor --root <worktree> --request <doctor-request.json>\n'
+      printf '.adl/bin/csdlc-v2/csdlc-doctor --repo <repo> --issue %s\n' "$issue"
       ;;
     run)
       printf '.adl/bin/csdlc-v2/csdlc-bind --root <worktree> --request <bind-request.json>\n'

@@ -28,7 +28,7 @@ The supported adapter surface is intentionally copy-only:
 - canonical C-SDLC v2 control-plane mapping:
   - `csdlc-install resolve`
   - `csdlc-init --root <worktree> --request <bootstrap-request.json>`
-  - `csdlc-doctor --root <worktree> --request <doctor-request.json>`
+  - `csdlc-doctor --repo <repo> --issue <issue>`
   - `csdlc-bind --root <worktree> --request <bind-request.json>`
   - `csdlc-validate --root <worktree> finalize --request <finalize-request.json>`
   - `csdlc-review record --request <review-request.json>`

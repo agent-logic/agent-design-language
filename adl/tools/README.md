@@ -80,7 +80,7 @@ bash adl/tools/demo_v0871_suite.sh
 
 # initialize and inspect readiness through typed request contracts
 .adl/bin/csdlc-v2/csdlc-init --root <worktree> --request <bootstrap-request.json>
-.adl/bin/csdlc-v2/csdlc-doctor --root <worktree> --request <doctor-request.json>
+.adl/bin/csdlc-v2/csdlc-doctor --repo <repo> --issue <issue_num>
 
 # bind execution context at the last responsible moment
 .adl/bin/csdlc-v2/csdlc-bind --root <worktree> --request <bind-request.json>
