@@ -1,0 +1,128 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5763,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "aadd979418b3e57f2825290e8085ba4f9f5d1adc57f4b0c2edf0ad007e67cba3",
+  "phase": "implemented",
+  "generation": 1,
+  "digest": "7ced7e9e8f330139a0e305d4db30d2f4348508d5636253a947d27ee974c17e33",
+  "claim": {
+    "id": "claim-5763-feature-crosswalk-digest",
+    "owner": "codex:issue-5763-feature-crosswalk-digest",
+    "generation": 1,
+    "acquired_unix_seconds": 1785574293,
+    "expires_unix_seconds": 1786179093,
+    "heartbeat_unix_seconds": 1785574293,
+    "branch": "codex/5763-feature-crosswalk-digest",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5763",
+      ".csdlc/issues/5763",
+      ".csdlc/locks/5763.lock",
+      ".csdlc/prepared/issues/5594/validate_feature_crosswalk.rb",
+      ".csdlc/prepared/issues/5763",
+      ".csdlc/publication/5763.intent.json",
+      "docs/milestones/v0.91.8/feature_preservation_crosswalk_5594.v1.json"
+    ],
+    "purpose": "Reconcile the canonical v0.91.8 feature-list crosswalk source-row digest after reviewed WP-14 decomposition drift"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5763/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5763/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:issue-5763",
+      "revision": "a15bb8517379c5226e034356eacee4ad228b50d23e1e297a1334bd8ca97d81b5"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6ded180c517a845ee7bb84698bb26ecb13af19847a89ebadaff6293e87359c12",
+      "rendered_digest": "246401e7239a1b7f1ac62474decf5e3e70fa663e55b4570c35d7e8f77577a980",
+      "ast_digest": "2fdbf5a0c25dd69840e19fdb201c77968d2dfa2ef7f4a85f3dc0fd74a962ef51"
+    },
+    "stp": {
+      "values_digest": "676ef6572daf60e2349a959d3a41b35f2c9e74babf79d5188ca46db9c6d9c878",
+      "rendered_digest": "f67618a3dad07a183b466f635847845e6e223fecb78d07362d8d5383ee07d976",
+      "ast_digest": "3be01667386fa803db4fccea9b310e3ecabf6366c856efa71f703c888ab3d203"
+    },
+    "spp": {
+      "values_digest": "d6dcfb09f5a12e850f68972b74240ef736c3707b37092ff0ad53963e633cab87",
+      "rendered_digest": "4e0c8c08127c483204b7bd7e4eb99d7d4f8d0c28bcf83af67629074fbf454f65",
+      "ast_digest": "31faaf183f7210d13319218bb8076ffd1a40c116b947ce90a6860724c9f162cf"
+    },
+    "vpp": {
+      "values_digest": "dbf7983b45e945ee2828730d19bfc5920be7085d13dd27e7b57802df4bd87561",
+      "rendered_digest": "e2c80c02b59192bf7e55941fb3b6da321467159ae24aef4109a004cf779794a4",
+      "ast_digest": "7d332b937f55f54baf5c1264d1db240c4f7f2fc6b5db79a1742cb83803269802"
+    },
+    "srp": {
+      "values_digest": "81678e59b0f55e1d1c33d640fb568f908d9c2816d98eec3cead2c04d0b82b98d",
+      "rendered_digest": "5a564befbd1f90fab794dad56501df91aa0ccb9222f6989de6f070b6190e9ad4",
+      "ast_digest": "b2fe6c5b49f4040dcbd3e472fbabd823c4c99b443c66ea8b23bf4fcdca233314"
+    },
+    "sor": {
+      "values_digest": "3e8f61cf66de98067a95ad6cb548861ff54cd6bddc801cfc993c65cad2181a52",
+      "rendered_digest": "4a519f8a2fa32a210c24d189463507fca24034660fc1a994360b8df5adc6201e",
+      "ast_digest": "6d7bbe9e175ccc15cee2f1b6259c807e7c3bcf24e94e8181f0a89ad773479cfe"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5763-feature-crosswalk-digest",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5763-feature-crosswalk-digest",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-5763-feature-crosswalk-digest",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5763-feature-crosswalk-digest",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:issue-5763-feature-crosswalk-digest",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:issue-5763-feature-crosswalk-digest",
+      "reason": "Include the second stale digest value, the validate_feature_crosswalk.rb expected_digest constant, without weakening the guard or widening docs scope.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/prepared/issues/5594/validate_feature_crosswalk.rb\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:issue-5763-feature-crosswalk-digest",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

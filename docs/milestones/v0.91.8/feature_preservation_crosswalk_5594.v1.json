@@ -2,7 +2,7 @@
   "schema": "adl.v0918.feature_preservation_crosswalk.v1",
   "source": "docs/planning/ADL_FEATURE_LIST.md",
   "source_row_count": 122,
-  "source_row_digest": "89a94d430a99cae0b529f5447587af41bda9903cecf1e3ebbdc25542d733ed9e",
+  "source_row_digest": "3bedd1b2f668c1fec899583c723c1514368a400034aeb9131bc2e4e23deb1b53",
   "entries": [
     {
       "row": 1,
@@ -795,7 +795,7 @@
       "feature": "CSM Observatory visibility and operator-report surfaces",
       "canonical_status": "Implemented baseline; Runtime v3 live cutover unproven",
       "canonical_evidence": "visibility packet, static console, operator report, CLI bundle, command packet design, v0.90.2 operator report integration, v0.90.3 redacted projections, multimode UI architecture, inhabited flagship demo, `docs/milestones/v0.91.5/features/DEMO_AND_UNITY_OBSERVATORY_READINESS_v0.91.5.md`, and `docs/milestones/v0.91.6/features/OBSERVATORY_UNITY_CONSUMPTION_CLASSIFICATION_v0.91.6.md`",
-      "canonical_next_target": "v0.91.8 #5590 must prove authenticated HTML Observatory consumption through configuration-driven Runtime v3 access; #4739/#4741/#5332 remain WP-14A Unity dispositions",
+      "canonical_next_target": "v0.91.8 #5590 must prove authenticated HTML Observatory consumption through configuration-driven Runtime v3 access; WP-15 #5354 owns Unity proof issues #4739/#4741/#5332 independently of WP-14A",
       "classification": "secure_access_observatory",
       "owner_issues": [
         5590

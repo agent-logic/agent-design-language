@@ -152,7 +152,19 @@ grep -Fx "long_lived_agent_storage" "$long_lived_agent_storage_filters" >/dev/nu
 long_lived_agent_storage_expression="$(bash "$SCRIPT" --changed-files "$long_lived_agent_storage_changed" --print-risk-nextest-expression)"
 grep -F "binary_id(adl) and test(long_lived_agent::storage)" <<<"$long_lived_agent_storage_expression" >/dev/null
 grep -F "test(long_lived_agent::storage)" <<<"$long_lived_agent_storage_expression" >/dev/null
-grep -F "test(run_v0916_runtime_failure_injection)" <<<"$long_lived_agent_storage_expression" >/dev/null
+retired_failure_injection_token="run_v0916_runtime""_failure_injection"
+if grep -F "$retired_failure_injection_token" <<<"$long_lived_agent_storage_expression" >/dev/null; then
+  echo "did not expect deleted runtime failure injection binary in coverage expression" >&2
+  exit 1
+fi
+
+v086_review_surface_changed="$TMP/v086-review-surface-changed.txt"
+printf 'M\tadl/src/demo/v086_review_surface.rs\n' >"$v086_review_surface_changed"
+v086_review_surface_filters="$TMP/v086-review-surface-filters.txt"
+bash "$SCRIPT" --changed-files "$v086_review_surface_changed" --print-risk-filters >"$v086_review_surface_filters"
+grep -Fx "v086_review_surface" "$v086_review_surface_filters" >/dev/null
+v086_review_surface_expression="$(bash "$SCRIPT" --changed-files "$v086_review_surface_changed" --print-risk-nextest-expression)"
+grep -F "binary_id(adl) and test(/^demo::tests::v086_review_surface_demo_marks_retired_external_entries$/)" <<<"$v086_review_surface_expression" >/dev/null
 
 csm_runtime_agent_changed="$TMP/csm-runtime-agent-changed.txt"
 cat >"$csm_runtime_agent_changed" <<'EOF'
@@ -315,10 +327,28 @@ runtime_v3_surfaces_changed="$TMP/runtime-v3-surfaces-changed.txt"
 cat >"$runtime_v3_surfaces_changed" <<'EOF'
 M	adl/src/cli/runtime_v3_cmd.rs
 M	adl-runtime/src/guardian.rs
+A	adl-runtime/src/bin/adl-runtime-guardian.rs
 EOF
 runtime_v3_expression="$(bash "$SCRIPT" --changed-files "$runtime_v3_surfaces_changed" --print-risk-nextest-expression)"
 grep -F "binary_id(adl::bin/adl) and test(/^cli::runtime_v3_cmd::tests::/)" <<<"$runtime_v3_expression" >/dev/null
 grep -F "test(/^guardian::tests::/)" <<<"$runtime_v3_expression" >/dev/null
+grep -F "binary_id(adl-runtime::guardian_cli) and test(/^guardian_cli_/)" <<<"$runtime_v3_expression" >/dev/null
+runtime_v3_filters="$TMP/runtime-v3-filters.txt"
+bash "$SCRIPT" --changed-files "$runtime_v3_surfaces_changed" --print-risk-filters >"$runtime_v3_filters"
+[ "$(grep -Fxc runtime_v3_guardian "$runtime_v3_filters")" -eq 1 ]
+runtime_v3_guardian_changed="$TMP/runtime-v3-guardian-changed.txt"
+cat >"$runtime_v3_guardian_changed" <<'EOF'
+M	adl-runtime/src/guardian.rs
+A	adl-runtime/src/bin/adl-runtime-guardian.rs
+EOF
+runtime_v3_guardian_expression="$(bash "$SCRIPT" --changed-files "$runtime_v3_guardian_changed" --print-risk-nextest-expression)"
+runtime_v3_inventory="$TMP/runtime-v3-inventory.txt"
+cargo nextest list --manifest-path "$ROOT/adl-runtime/Cargo.toml" \
+  -E "$runtime_v3_guardian_expression" >"$runtime_v3_inventory"
+grep -Fx "adl-runtime::guardian_cli guardian_cli_reports_successful_portable_child_as_json" \
+  "$runtime_v3_inventory" >/dev/null
+grep -Fx "adl-runtime::guardian_cli guardian_cli_rejects_incomplete_unknown_and_invalid_numeric_arguments" \
+  "$runtime_v3_inventory" >/dev/null
 if grep -Fq "binary_id(adl-runtime)" <<<"$runtime_v3_expression"; then
   echo "Runtime v3 guardian mapping must remain parseable in the adl workspace" >&2
   exit 1
@@ -395,8 +425,24 @@ bash "$SCRIPT" --changed-files "$native_gws_demo_bins_changed" --print-risk-filt
 grep -Fx "demo_adl_gws_context_mirror" "$native_gws_demo_bins_filters" >/dev/null
 grep -Fx "demo_adl_gws_native_drive_sync" "$native_gws_demo_bins_filters" >/dev/null
 native_gws_demo_bins_expression="$(bash "$SCRIPT" --changed-files "$native_gws_demo_bins_changed" --print-risk-nextest-expression)"
-grep -F "binary_id(adl::bin/demo-adl-gws-context-mirror) and test(/^tests::/)" <<<"$native_gws_demo_bins_expression" >/dev/null
+grep -F "binary_id(adl::bin/adl-gws-context-mirror) and test(/^tests::/)" <<<"$native_gws_demo_bins_expression" >/dev/null
 grep -F "binary_id(adl::bin/demo-adl-gws-native-drive-sync) and test(/^tests::/)" <<<"$native_gws_demo_bins_expression" >/dev/null
+
+native_gws_library_surfaces_changed="$TMP/native-gws-library-surfaces-changed.txt"
+cat >"$native_gws_library_surfaces_changed" <<'EOF'
+M	adl/src/adl_gws_context_mirror.rs
+M	adl/src/adl_gws_drive_sync.rs
+M	adl/src/adl_gws_native.rs
+EOF
+native_gws_library_surfaces_filters="$TMP/native-gws-library-surfaces-filters.txt"
+bash "$SCRIPT" --changed-files "$native_gws_library_surfaces_changed" --print-risk-filters >"$native_gws_library_surfaces_filters"
+grep -Fx "adl_gws_context_mirror" "$native_gws_library_surfaces_filters" >/dev/null
+grep -Fx "adl_gws_drive_sync" "$native_gws_library_surfaces_filters" >/dev/null
+grep -Fx "adl_gws_native" "$native_gws_library_surfaces_filters" >/dev/null
+native_gws_library_surfaces_expression="$(bash "$SCRIPT" --changed-files "$native_gws_library_surfaces_changed" --print-risk-nextest-expression)"
+grep -F "test(adl_gws_context_mirror)" <<<"$native_gws_library_surfaces_expression" >/dev/null
+grep -F "test(adl_gws_drive_sync)" <<<"$native_gws_library_surfaces_expression" >/dev/null
+grep -F "test(adl_gws_native)" <<<"$native_gws_library_surfaces_expression" >/dev/null
 
 aws_remote_validation_bin_changed="$TMP/aws-remote-validation-bin-changed.txt"
 printf 'M\tadl/src/bin/adl_aws_remote_validation.rs\n' >"$aws_remote_validation_bin_changed"
@@ -416,6 +462,21 @@ bash "$SCRIPT" --changed-files "$live_runtime_boundary_changed" --print-risk-fil
 [ ! -s "$live_runtime_boundary_filters" ]
 bash "$SCRIPT" --changed-files "$live_runtime_boundary_changed" --require-summary-for-risk >/tmp/coverage-impact-live-runtime-boundary.out
 grep -F "Coverage-impact preflight passed: no risky changed Rust source files require local summary evidence." /tmp/coverage-impact-live-runtime-boundary.out >/dev/null
+
+runtime_qualification_harness_changed="$TMP/runtime-qualification-harness-changed.txt"
+printf 'A\tadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\n' >"$runtime_qualification_harness_changed"
+runtime_qualification_harness_filters="$TMP/runtime-qualification-harness-filters.txt"
+bash "$SCRIPT" --changed-files "$runtime_qualification_harness_changed" --print-risk-filters >"$runtime_qualification_harness_filters"
+[ ! -s "$runtime_qualification_harness_filters" ]
+runtime_qualification_harness_summary="$TMP/runtime-qualification-harness-summary.json"
+make_summary "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs" 1 100 "$runtime_qualification_harness_summary"
+bash "$SCRIPT" \
+  --changed-files "$runtime_qualification_harness_changed" \
+  --summary "$runtime_qualification_harness_summary" \
+  --threshold 80 \
+  >/tmp/coverage-impact-runtime-qualification-harness.out
+grep -F "Coverage-impact preflight passed for changed Rust source files" \
+  /tmp/coverage-impact-runtime-qualification-harness.out >/dev/null
 
 gws_live_changed="$TMP/gws-live-changed.txt"
 cat >"$gws_live_changed" <<'EOF'

@@ -11,21 +11,46 @@ use serde::{Deserialize, Serialize};
 
 use crate::cards::{
     apply, digest, initial_cards, render, terminal_validation_passed, validate_cross_card,
-    validate_identity_version, CardContent, CardKind, CardValues, InitialCardInput,
-    SemanticOperation, StepStatus,
+    validate_identity_version, validate_result, CardContent, CardKind, CardValues,
+    InitialCardInput, SemanticOperation, StepStatus, ValidationResult,
 };
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
     AuditEvent, CardProjection, Claim, DesignReview, IssueRecord, LifecyclePhase,
     PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest, ReviewAssignment,
     ReviewEvidence, TerminalDesignRepairRequest, TerminalEvidence, TerminalPlanStepRepairRequest,
-    TerminalReceipt, TerminalSorArtifactRepairRequest, TransitionEvent,
+    TerminalReceipt, TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest,
+    TransitionEvent,
 };
 use crate::review::evaluate_publication_review_in_repo;
 
 #[derive(Debug, Clone)]
 pub struct Store {
     root: PathBuf,
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct ImplementationCommit {
+    pub issue: u64,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub claim_id: String,
+    pub actor: String,
+    pub summary: String,
+    pub changes: Vec<String>,
+    pub artifacts: Vec<String>,
+    pub validation: Vec<ValidationResult>,
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct ReviewCommit {
+    pub issue: u64,
+    pub expected_digest: String,
+    pub actor: String,
+    pub claim_id: String,
+    pub evidence: ReviewEvidence,
+    pub result: crate::cards::ReviewResult,
+    pub advance_reviewed: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -120,7 +145,12 @@ impl Store {
     }
 
     pub(crate) fn binding_lock(&self) -> Result<File> {
-        let dir = self.root.join(".csdlc/locks");
+        let common = crate::git::run(
+            &self.root,
+            &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+        )?
+        .stdout;
+        let dir = PathBuf::from(common).join("csdlc-v2");
         fs::create_dir_all(&dir)?;
         let file = OpenOptions::new()
             .create(true)
@@ -665,7 +695,7 @@ impl Store {
         self.recover_with_terminal_lock(request.authority_issue)?;
         self.recover_with_terminal_lock(request.target_issue)?;
         let authority = self.load_record(request.authority_issue)?;
-        let mut target = self.load_record(request.target_issue)?;
+        let target = self.load_record(request.target_issue)?;
         if authority.generation != request.expected_authority_generation
             || authority.digest != request.expected_authority_digest
         {
@@ -744,6 +774,146 @@ impl Store {
         let mut cards = original_cards.clone();
         replace_terminal_sor_artifact(&mut cards, &request.stale_ref, &request.retained_ref)?;
 
+        self.commit_terminal_card_repair(
+            target,
+            cards,
+            original_cards,
+            original_receipt,
+            original_receipt_bytes,
+            receipt_path,
+            &request.actor,
+            format!(
+                "typed terminal SOR artifact repair authorized by issue {}",
+                request.authority_issue
+            ),
+            format!(
+                "repair_terminal_sor_artifact:{}->{}",
+                request.stale_ref, request.retained_ref
+            ),
+            "terminal_sor_artifact_repair",
+            request.fail_after_stage.as_deref(),
+        )
+    }
+
+    pub fn repair_terminal_sor_validation(
+        &self,
+        request: TerminalSorValidationRepairRequest,
+    ) -> Result<IssueRecord> {
+        if request.authority_issue == request.target_issue
+            || request.actor.trim().is_empty()
+            || request.expected_authority_digest.trim().is_empty()
+            || request.expected_target_digest.trim().is_empty()
+            || request.expected_receipt_digest.trim().is_empty()
+            || request.expected_result == request.replacement_result
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "terminal SOR validation repair identity or authority is incomplete",
+            ));
+        }
+        validate_result(&request.replacement_result)?;
+        validate_portable_validation_result(&request.replacement_result)?;
+
+        let _terminal_repair_lock = self.terminal_repair_lock()?;
+        let (first, second) = if request.authority_issue < request.target_issue {
+            (request.authority_issue, request.target_issue)
+        } else {
+            (request.target_issue, request.authority_issue)
+        };
+        let _first_lock = self.lock(first)?;
+        let _second_lock = self.lock(second)?;
+        self.recover_with_terminal_lock(request.authority_issue)?;
+        self.recover_with_terminal_lock(request.target_issue)?;
+        let authority = self.load_record(request.authority_issue)?;
+        let target = self.load_record(request.target_issue)?;
+        if authority.generation != request.expected_authority_generation
+            || authority.digest != request.expected_authority_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "repair authority record is stale",
+            ));
+        }
+        if target.generation != request.expected_target_generation
+            || target.digest != request.expected_target_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "repair target record is stale",
+            ));
+        }
+        if target.phase != LifecyclePhase::ClosedOut || target.claim.is_some() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "terminal SOR validation repair requires a closed-out target without a claim",
+            ));
+        }
+        let authority_claim = authority.claim.as_ref().ok_or_else(|| {
+            V2Error::new(ErrorCode::MissingClaim, "repair authority claim missing")
+        })?;
+        authority_claim.validate(&request.authority_claim_id, now_seconds()?)?;
+        if !claim_covers_issue(authority_claim, request.target_issue) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "repair authority claim does not cover the target issue",
+            ));
+        }
+
+        let receipt_path = self.terminal_receipt_path(request.target_issue)?;
+        let original_receipt_bytes = fs::read(&receipt_path)?;
+        let original_receipt: TerminalReceipt = serde_json::from_slice(&original_receipt_bytes)?;
+        validate_terminal_receipt(&original_receipt)?;
+        if original_receipt.digest != request.expected_receipt_digest
+            || original_receipt.record.digest != target.digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "terminal receipt is stale",
+            ));
+        }
+
+        let original_cards = self.load_cards(request.target_issue)?;
+        verify_cards(self, &target, &original_cards)?;
+        let mut cards = original_cards.clone();
+        replace_terminal_sor_validation(
+            &mut cards,
+            &request.expected_result,
+            &request.replacement_result,
+        )?;
+
+        self.commit_terminal_card_repair(
+            target,
+            cards,
+            original_cards,
+            original_receipt,
+            original_receipt_bytes,
+            receipt_path,
+            &request.actor,
+            format!(
+                "typed terminal SOR validation repair authorized by issue {}",
+                request.authority_issue
+            ),
+            "repair_terminal_sor_validation".into(),
+            "terminal_sor_validation_repair",
+            request.fail_after_stage.as_deref(),
+        )
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn commit_terminal_card_repair(
+        &self,
+        mut target: IssueRecord,
+        mut cards: BTreeMap<CardKind, CardValues>,
+        original_cards: BTreeMap<CardKind, CardValues>,
+        original_receipt: TerminalReceipt,
+        original_receipt_bytes: Vec<u8>,
+        receipt_path: PathBuf,
+        actor: &str,
+        reason: String,
+        operation: String,
+        stage_suffix: &str,
+        fail_after_stage: Option<&str>,
+    ) -> Result<IssueRecord> {
         let original_target = target.clone();
         target.generation += 1;
         for values in cards.values_mut() {
@@ -752,15 +922,9 @@ impl Store {
         target.audit.push(AuditEvent {
             sequence: target.audit.len() as u64 + 1,
             generation: target.generation,
-            actor: request.actor.clone(),
-            reason: format!(
-                "typed terminal SOR artifact repair authorized by issue {}",
-                request.authority_issue
-            ),
-            operation: format!(
-                "repair_terminal_sor_artifact:{}->{}",
-                request.stale_ref, request.retained_ref
-            ),
+            actor: actor.into(),
+            reason,
+            operation,
         });
         hydrate_projections(&mut target, &cards)?;
         target.digest = record_digest(&target)?;
@@ -771,33 +935,32 @@ impl Store {
         repaired_receipt.digest.clear();
         repaired_receipt.digest = terminal_receipt_digest(&repaired_receipt)?;
         validate_terminal_receipt(&repaired_receipt)?;
-        let target_receipt = serde_json::to_vec_pretty(&repaired_receipt)?;
         let mut journal = TerminalTransactionJournal {
             schema: "csdlc.terminal_transaction.v1".into(),
-            issue: request.target_issue,
-            stage: "prepared_terminal_sor_artifact_repair".into(),
-            original_record_digest: original_receipt.record.digest.clone(),
+            issue: target.issue,
+            stage: format!("prepared_{stage_suffix}"),
+            original_record_digest: original_receipt.record.digest,
             target_record_digest: target.digest.clone(),
             original_receipt: Some(original_receipt_bytes.clone()),
-            target_receipt,
+            target_receipt: serde_json::to_vec_pretty(&repaired_receipt)?,
         };
         self.write_terminal_transaction_journal(&journal)?;
-        if request.fail_after_stage.as_deref() == Some("after_journal") {
-            self.remove_terminal_transaction_journal(request.target_issue)?;
+        if fail_after_stage == Some("after_journal") {
+            self.remove_terminal_transaction_journal(target.issue)?;
             return Err(V2Error::new(
                 ErrorCode::InterruptedTransaction,
                 "injected repair failure",
             ));
         }
-        if let Err(error) = self.commit(request.target_issue, &target, &cards, false) {
-            let _ = self.remove_terminal_transaction_journal(request.target_issue);
+        if let Err(error) = self.commit(target.issue, &target, &cards, false) {
+            let _ = self.remove_terminal_transaction_journal(target.issue);
             return Err(error);
         }
-        journal.stage = "projection_committed_terminal_sor_artifact_repair".into();
+        journal.stage = format!("projection_committed_{stage_suffix}");
         self.write_terminal_transaction_journal(&journal)?;
-        if request.fail_after_stage.as_deref() == Some("after_projection") {
+        if fail_after_stage == Some("after_projection") {
             self.rollback_terminal_repair(
-                request.target_issue,
+                target.issue,
                 &original_target,
                 &original_cards,
                 &receipt_path,
@@ -811,7 +974,7 @@ impl Store {
         if let Err(error) = self.replace_receipt_bytes(&receipt_path, Some(&journal.target_receipt))
         {
             self.rollback_terminal_repair(
-                request.target_issue,
+                target.issue,
                 &original_target,
                 &original_cards,
                 &receipt_path,
@@ -819,9 +982,9 @@ impl Store {
             )?;
             return Err(error);
         }
-        journal.stage = "receipt_committed_terminal_sor_artifact_repair".into();
+        journal.stage = format!("receipt_committed_{stage_suffix}");
         self.write_terminal_transaction_journal(&journal)?;
-        self.remove_terminal_transaction_journal(request.target_issue)?;
+        self.remove_terminal_transaction_journal(target.issue)?;
         Ok(target)
     }
 
@@ -1223,7 +1386,7 @@ impl Store {
         };
         let local_cards = match self.load_cards(request.issue) {
             Ok(cards) => Some(cards),
-            Err(error) if !issue_dir.exists() => None,
+            Err(_) if !issue_dir.exists() => None,
             Err(error) => return Err(error),
         };
         let local_integrity = (|| -> Result<bool> {
@@ -1588,6 +1751,32 @@ impl Store {
         let cards = self.load_cards(issue)?;
         verify_cards(self, &current, &cards)?;
         self.commit(issue, record, &cards, false)
+    }
+
+    pub(crate) fn replace_authority_record(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        record: &IssueRecord,
+    ) -> Result<IssueRecord> {
+        let _lock = self.lock(issue)?;
+        self.recover_if_needed(issue)?;
+        let current = self.load_record(issue)?;
+        if current.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "record changed before compare-and-swap authority commit",
+            ));
+        }
+        let cards = self.load_cards(issue)?;
+        // Authority recovery accepts projection drift only when the typed card
+        // values, identities, generations, and rendered Markdown agree.
+        verify_authority_card_inputs(self, &current, &cards)?;
+        let mut repaired = record.clone();
+        hydrate_projections(&mut repaired, &cards)?;
+        repaired.digest = record_digest(&repaired)?;
+        self.commit(issue, &repaired, &cards, false)?;
+        Ok(repaired)
     }
 
     pub(crate) fn commit_migration(
@@ -2099,15 +2288,156 @@ impl Store {
         Ok(record)
     }
 
-    pub(crate) fn commit_review(
+    pub(crate) fn commit_implementation(
         &self,
-        issue: u64,
-        expected_digest: &str,
-        actor: String,
-        claim_id: &str,
-        evidence: ReviewEvidence,
-        result: crate::cards::ReviewResult,
+        commit: ImplementationCommit,
+        staged_evidence: &Path,
+        evidence_dir: &Path,
     ) -> Result<IssueRecord> {
+        let issue = commit.issue;
+        let _lock = self.lock(issue)?;
+        self.recover_if_needed(issue)?;
+        let mut record = self.load_record(issue)?;
+        if record.generation != commit.expected_generation
+            || record.digest != commit.expected_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "implementation finalization changed before commit",
+            ));
+        }
+        record
+            .claim
+            .as_ref()
+            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
+            .validate(&commit.claim_id, now_seconds()?)?;
+        if record.phase != LifecyclePhase::Bound || commit.validation.is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "implementation finalization requires bound phase and validation evidence",
+            ));
+        }
+        for result in &commit.validation {
+            validate_result(result)?;
+        }
+        if !terminal_validation_passed(&commit.validation) {
+            return Err(V2Error::new(
+                ErrorCode::ValidationFailed,
+                "implementation finalization requires passing validation evidence",
+            ));
+        }
+        let mut cards = self.load_cards(issue)?;
+        verify_cards(self, &record, &cards)?;
+        let sor = match &mut cards.get_mut(&CardKind::Sor).expect("SOR").content {
+            CardContent::Sor(values) => values,
+            _ => unreachable!("SOR"),
+        };
+        sor.summary = commit.summary;
+        sor.actual_changes.extend(commit.changes);
+        sor.artifacts.extend(commit.artifacts);
+        sor.actual_validation.extend(commit.validation);
+        record.advance(
+            LifecyclePhase::Implemented,
+            commit.actor.clone(),
+            "execution and passing validation finalized atomically".into(),
+        )?;
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        if let Some(claim) = record.claim.as_mut() {
+            claim.generation = record.generation;
+        }
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor: commit.actor,
+            reason: "atomically record execution, validation, and implemented phase".into(),
+            operation: "finalize_implementation".into(),
+        });
+        validate_updated_cards(self, &record, &cards)?;
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        let staged_metadata = fs::symlink_metadata(staged_evidence).map_err(|_| {
+            V2Error::new(
+                ErrorCode::InvalidInput,
+                "staged finalize evidence is missing",
+            )
+        })?;
+        if staged_metadata.file_type().is_symlink() || !staged_metadata.is_dir() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "staged finalize evidence must be a real directory",
+            ));
+        }
+        let evidence_parent = evidence_dir.parent().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidInput, "evidence directory has no parent")
+        })?;
+        let backup = evidence_parent.join(format!(
+            ".csdlc-finalize-backup-{issue}-{}",
+            std::process::id()
+        ));
+        if backup.exists() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "stale finalize evidence backup requires reconciliation",
+            ));
+        }
+        let had_evidence = evidence_dir.exists();
+        if had_evidence {
+            fs::rename(evidence_dir, &backup)?;
+        }
+        if let Err(error) = fs::rename(staged_evidence, evidence_dir) {
+            if had_evidence && fs::rename(&backup, evidence_dir).is_err() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "failed to restore evidence after finalize publication error",
+                ));
+            }
+            return Err(error.into());
+        }
+        if fs::symlink_metadata(evidence_dir)
+            .map(|metadata| metadata.file_type().is_symlink() || !metadata.is_dir())
+            .unwrap_or(true)
+        {
+            let _ = fs::remove_file(evidence_dir);
+            if had_evidence && fs::rename(&backup, evidence_dir).is_err() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "failed to restore evidence after unsafe finalize publication",
+                ));
+            }
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "published finalize evidence must be a real directory",
+            ));
+        }
+        if let Err(error) = self.commit(issue, &record, &cards, false) {
+            let remove_result = fs::remove_dir_all(evidence_dir);
+            let restore_result = if had_evidence {
+                fs::rename(&backup, evidence_dir)
+            } else {
+                Ok(())
+            };
+            if remove_result.is_err() || restore_result.is_err() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    format!(
+                        "state commit failed and evidence rollback requires reconciliation: {}",
+                        error.message
+                    ),
+                ));
+            }
+            return Err(error);
+        }
+        if had_evidence {
+            fs::remove_dir_all(&backup)?;
+        }
+        Ok(record)
+    }
+
+    pub(crate) fn commit_review(&self, commit: ReviewCommit) -> Result<IssueRecord> {
+        let issue = commit.issue;
         let _lock = self.lock(issue)?;
         self.recover_if_needed(issue)?;
         let mut record = self.load_record(issue)?;
@@ -2115,8 +2445,8 @@ impl Store {
             .claim
             .as_ref()
             .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
-            .validate(claim_id, now_seconds()?)?;
-        if record.digest != expected_digest {
+            .validate(&commit.claim_id, now_seconds()?)?;
+        if record.digest != commit.expected_digest {
             return Err(V2Error::new(
                 ErrorCode::StaleDigest,
                 "review record changed before commit",
@@ -2128,12 +2458,13 @@ impl Store {
             CardContent::Srp(values) => values,
             _ => unreachable!("SRP"),
         };
-        srp.reviewer = Some(evidence.reviewer.clone());
-        srp.review_scope = evidence.scope.join("\n");
-        srp.review_revision = Some(evidence.reviewed_revision.clone());
-        srp.review_result = result;
-        srp.residual_risk = evidence.residual_risks.clone();
-        srp.findings = evidence
+        srp.reviewer = Some(commit.evidence.reviewer.clone());
+        srp.review_scope = commit.evidence.scope.join("\n");
+        srp.review_revision = Some(commit.evidence.reviewed_revision.clone());
+        srp.review_result = commit.result;
+        srp.residual_risk = commit.evidence.residual_risks.clone();
+        srp.findings = commit
+            .evidence
             .findings
             .iter()
             .map(|finding| crate::cards::ReviewFinding {
@@ -2154,12 +2485,24 @@ impl Store {
         if let Some(claim) = record.claim.as_mut() {
             claim.generation = record.generation;
         }
-        record.review = Some(evidence);
+        record.review = Some(commit.evidence);
+        if commit.advance_reviewed && commit.result == crate::cards::ReviewResult::Pass {
+            record.advance(
+                LifecyclePhase::Reviewed,
+                commit.actor.clone(),
+                "exact scoped review passed".into(),
+            )?;
+        }
         record.audit.push(AuditEvent {
             sequence: record.audit.len() as u64 + 1,
             generation: record.generation,
-            actor,
-            reason: "atomically record review evidence and SRP projection".into(),
+            actor: commit.actor,
+            reason: if commit.advance_reviewed {
+                "atomically record exact review evidence and reviewed phase"
+            } else {
+                "atomically record assigned review evidence and SRP projection"
+            }
+            .into(),
             operation: "record_review".into(),
         });
         hydrate_projections(&mut record, &cards)?;
@@ -2746,6 +3089,33 @@ fn verify_card_projections(
     record: &IssueRecord,
     cards: &BTreeMap<CardKind, CardValues>,
 ) -> Result<()> {
+    verify_authority_card_inputs(store, record, cards)?;
+    for (kind, values) in cards {
+        let rendered = render(values)?;
+        let projection = record.cards.get(kind).ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("missing {kind} projection"),
+            )
+        })?;
+        if projection.values_digest != rendered.values_digest
+            || projection.rendered_digest != rendered.rendered_digest
+            || projection.ast_digest != rendered.ast_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!("{kind} digest drift"),
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn verify_authority_card_inputs(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+) -> Result<()> {
     verify_record(record)?;
     for (kind, values) in cards {
         if values.kind() != *kind
@@ -2759,26 +3129,16 @@ fn verify_card_projections(
             ));
         }
         let rendered = render(values)?;
-        let projection = record.cards.get(kind).ok_or_else(|| {
-            V2Error::new(
-                ErrorCode::CorruptRecord,
-                format!("missing {kind} projection"),
-            )
-        })?;
         let tracked = fs::read(
             store
                 .issue_dir(record.issue)
                 .join("cards")
                 .join(format!("{kind}.md")),
         )?;
-        if projection.values_digest != rendered.values_digest
-            || projection.rendered_digest != rendered.rendered_digest
-            || projection.ast_digest != rendered.ast_digest
-            || digest(&tracked) != rendered.rendered_digest
-        {
+        if digest(&tracked) != rendered.rendered_digest {
             return Err(V2Error::new(
                 ErrorCode::CorruptRecord,
-                format!("{kind} digest drift"),
+                format!("{kind} rendered Markdown drift"),
             ));
         }
     }
@@ -2824,19 +3184,6 @@ pub(crate) fn verify_record(record: &IssueRecord) -> Result<()> {
                 "claim invariant failed",
             ));
         }
-    } else if !record.audit.last().is_some_and(|event| {
-        serde_json::from_str::<serde_json::Value>(&event.operation)
-            .ok()
-            .and_then(|value| {
-                value
-                    .get("operation")
-                    .and_then(|v| v.as_str())
-                    .map(str::to_owned)
-            })
-            .as_deref()
-            == Some("release_closed_claim")
-    }) {
-        return Err(V2Error::new(ErrorCode::CorruptRecord, "claim missing"));
     }
     if let DesignReview::Approved { reviewer, revision } = &record.design_review {
         if reviewer.trim().is_empty() || revision.trim().is_empty() {
@@ -2963,8 +3310,8 @@ fn validate_phase_guard(
     let validation_passed = terminal_validation_passed(&sor.actual_validation);
     if next == LifecyclePhase::Published
         && (!review_current
-            || record.review_assignment.as_ref().is_none_or(|assignment| {
-                crate::git::substantive_revision(store.root(), &assignment.scope).map_or(
+            || record.review.as_ref().is_none_or(|review| {
+                crate::git::substantive_revision(store.root(), &review.scope).map_or(
                     true,
                     |current| {
                         !evaluate_publication_review_in_repo(
@@ -2988,8 +3335,8 @@ fn validate_phase_guard(
     }
     if next == LifecyclePhase::MergeReady
         && (!review_current
-            || record.review_assignment.as_ref().is_none_or(|assignment| {
-                crate::git::substantive_revision(store.root(), &assignment.scope).map_or(
+            || record.review.as_ref().is_none_or(|review| {
+                crate::git::substantive_revision(store.root(), &review.scope).map_or(
                     true,
                     |current| {
                         !evaluate_publication_review_in_repo(
@@ -3087,6 +3434,29 @@ fn authorize_card_operation(
             CardKind::Spp,
             SemanticOperation::UpdatePlanStep { .. },
         ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Spp,
+            SemanticOperation::ReplacePlanSteps { .. },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Spp,
+            SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::Invariants
+                    | crate::cards::PlanningCollectionField::StopConditions,
+                ..
+            },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Sip,
+            SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::AuthorityBoundary,
+                ..
+            },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria { .. },
+        ) | (
             LifecyclePhase::Bound | LifecyclePhase::Implemented,
             CardKind::Vpp,
             SemanticOperation::ReplaceValidationLanes { .. },
@@ -3150,6 +3520,78 @@ fn authorize_card_operation(
             ErrorCode::InvalidTransition,
             format!("{card} mutation is not allowed during {phase}"),
         ))
+    }
+}
+
+#[cfg(test)]
+mod edit_authorization_tests {
+    use super::*;
+
+    fn replacement_steps() -> Vec<crate::cards::PlanStep> {
+        vec![crate::cards::PlanStep {
+            id: "review-fix".into(),
+            action: "correct bounded review finding".into(),
+            acceptance_ids: vec!["AC-1".into()],
+            status: StepStatus::Pending,
+        }]
+    }
+
+    #[test]
+    fn implemented_spp_review_remediation_authorizes_only_bounded_replacements() {
+        for operation in [
+            SemanticOperation::ReplacePlanSteps {
+                steps: replacement_steps(),
+            },
+            SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::Invariants,
+                values: vec!["invariant".into()],
+            },
+            SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::StopConditions,
+                values: vec!["stop".into()],
+            },
+        ] {
+            authorize_card_operation(LifecyclePhase::Implemented, CardKind::Spp, &operation)
+                .expect("implemented bounded SPP remediation");
+        }
+
+        let error = authorize_card_operation(
+            LifecyclePhase::Implemented,
+            CardKind::Spp,
+            &SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::Risks,
+                values: vec!["risk".into()],
+            },
+        )
+        .expect_err("unbounded SPP collection remains rejected");
+        assert_eq!(error.code, ErrorCode::InvalidTransition);
+    }
+
+    #[test]
+    fn post_review_spp_replacements_remain_rejected() {
+        for phase in [
+            LifecyclePhase::Reviewed,
+            LifecyclePhase::Published,
+            LifecyclePhase::MergeReady,
+        ] {
+            for operation in [
+                SemanticOperation::ReplacePlanSteps {
+                    steps: replacement_steps(),
+                },
+                SemanticOperation::ReplacePlanningCollection {
+                    field: crate::cards::PlanningCollectionField::Invariants,
+                    values: vec!["late invariant".into()],
+                },
+                SemanticOperation::ReplacePlanningCollection {
+                    field: crate::cards::PlanningCollectionField::StopConditions,
+                    values: vec!["late stop".into()],
+                },
+            ] {
+                let error = authorize_card_operation(phase, CardKind::Spp, &operation)
+                    .expect_err("late SPP replacement remains rejected");
+                assert_eq!(error.code, ErrorCode::InvalidTransition);
+            }
+        }
     }
 }
 
@@ -3385,6 +3827,128 @@ fn replace_terminal_sor_artifact(
     Ok(())
 }
 
+fn replace_terminal_sor_validation(
+    cards: &mut BTreeMap<CardKind, CardValues>,
+    expected: &ValidationResult,
+    replacement: &ValidationResult,
+) -> Result<()> {
+    let sor = match &mut cards.get_mut(&CardKind::Sor).expect("SOR").content {
+        CardContent::Sor(values) => values,
+        _ => unreachable!("SOR card content"),
+    };
+    let matches: Vec<_> = sor
+        .actual_validation
+        .iter_mut()
+        .filter(|result| *result == expected)
+        .collect();
+    if matches.len() != 1 {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "terminal SOR validation repair requires exactly one expected result",
+        ));
+    }
+    *matches.into_iter().next().expect("one match") = replacement.clone();
+    Ok(())
+}
+
+fn validate_portable_validation_result(result: &ValidationResult) -> Result<()> {
+    if result
+        .command
+        .iter()
+        .any(|part| contains_machine_local_path(part, true))
+        || contains_machine_local_path(&result.evidence_ref, false)
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "terminal SOR validation replacement contains a machine-local path",
+        ));
+    }
+    Ok(())
+}
+
+fn contains_machine_local_path(value: &str, shell_context: bool) -> bool {
+    if value.to_ascii_lowercase().contains("file://")
+        || contains_shell_expansion(value)
+        || (shell_context && value.contains('`'))
+        || contains_backtick_path_expansion(value)
+        || contains_windows_environment_expansion(value)
+    {
+        return true;
+    }
+    value.split_whitespace().any(|word| {
+        if word.starts_with("http://") || word.starts_with("https://") {
+            return false;
+        }
+        word.split(['=', '[', '(', '{', ',', ';', '>', '<', '|', '&'])
+            .any(|segment| {
+                let candidate = segment.trim_matches(|character: char| {
+                    matches!(character, '\'' | '"' | ')' | ']' | '}')
+                });
+                candidate.starts_with('/')
+                    || candidate.starts_with("~/")
+                    || candidate.starts_with("~\\")
+                    || candidate.starts_with("\\\\")
+                    || candidate.starts_with("//")
+                    || is_windows_absolute_path(candidate)
+            })
+    })
+}
+
+fn contains_shell_expansion(value: &str) -> bool {
+    value.char_indices().any(|(index, character)| {
+        if character != '$' {
+            return false;
+        }
+        let suffix = &value[index + character.len_utf8()..];
+        if suffix.starts_with(['(', '{']) {
+            return true;
+        }
+        let boundary = value[..index].chars().next_back().is_none_or(|previous| {
+            previous.is_whitespace() || matches!(previous, '=' | '\'' | '"')
+        });
+        boundary
+            && suffix
+                .chars()
+                .next()
+                .is_some_and(|next| next.is_ascii_alphabetic() || next == '_')
+    })
+}
+
+fn contains_backtick_path_expansion(value: &str) -> bool {
+    let Some(start) = value.find('`') else {
+        return false;
+    };
+    let Some(end) = value[start + 1..].find('`') else {
+        return false;
+    };
+    value[start + end + 2..].starts_with(['/', '\\'])
+}
+
+fn contains_windows_environment_expansion(value: &str) -> bool {
+    let bytes = value.as_bytes();
+    bytes.iter().enumerate().any(|(start, byte)| {
+        if *byte != b'%' {
+            return false;
+        }
+        let name = &bytes[start + 1..];
+        let Some(end) = name.iter().position(|candidate| *candidate == b'%') else {
+            return false;
+        };
+        end > 0
+            && name[..end]
+                .iter()
+                .all(|candidate| candidate.is_ascii_alphanumeric() || *candidate == b'_')
+    })
+}
+
+fn is_windows_absolute_path(value: &str) -> bool {
+    let bytes = value.as_bytes();
+    bytes.len() >= 3
+        && bytes[0].is_ascii_alphabetic()
+        && bytes[1] == b':'
+        && matches!(bytes[2], b'/' | b'\\')
+}
+
 fn claim_covers_issue(claim: &Claim, issue: u64) -> bool {
     let target = format!(".csdlc/issues/{issue}");
     claim
@@ -3419,6 +3983,207 @@ fn valid_mermaid_diagram(diagram: &str) -> bool {
 #[cfg(test)]
 mod terminal_design_repair_tests {
     use super::*;
+
+    fn copy_tree(source: &Path, destination: &Path) {
+        fs::create_dir_all(destination).expect("create fixture directory");
+        for entry in fs::read_dir(source).expect("read fixture directory") {
+            let entry = entry.expect("fixture entry");
+            let target = destination.join(entry.file_name());
+            if entry.file_type().expect("fixture type").is_dir() {
+                copy_tree(&entry.path(), &target);
+            } else {
+                fs::copy(entry.path(), target).expect("copy fixture file");
+            }
+        }
+    }
+
+    fn basic_initial_input(title: &str) -> InitialCardInput {
+        InitialCardInput {
+            title: title.into(),
+            slug: title.replace(' ', "-"),
+            version: "v0.91.8".into(),
+            goal: "test".into(),
+            required_outcome: "test".into(),
+            declared_scope: vec!["test".into()],
+            authority_boundary: vec!["test".into()],
+            operator_constraints: vec!["none".into()],
+            task_boundary: "test".into(),
+            deliverables: vec!["test".into()],
+            acceptance_criteria: vec!["AC-1: test".into()],
+            dependencies: vec!["none".into()],
+            repo_inputs: vec!["test".into()],
+            non_goals: vec!["test".into()],
+            plan_summary: "test".into(),
+            steps: vec![crate::cards::PlanStep {
+                id: "S1".into(),
+                action: "test".into(),
+                acceptance_ids: vec!["AC-1".into()],
+                status: StepStatus::Pending,
+            }],
+            invariants: vec!["test".into()],
+            risks: vec!["test".into()],
+            planning_profile: crate::cards::PlanningProfile::Small,
+            stop_conditions: vec!["test".into()],
+            validation_lanes: vec![crate::cards::ValidationLane {
+                lane: "test".into(),
+                proof_role: "test".into(),
+                acceptance_ids: vec!["AC-1".into()],
+                deterministic: true,
+                resource_profile: crate::cards::ResourceProfile::Small,
+                budget_seconds: 1,
+                budget_tokens: 1,
+                argv: vec!["test".into()],
+                parallel_group: "test".into(),
+                defer_reason: None,
+            }],
+            failure_policy: "test".into(),
+            review_prompts: vec!["test".into()],
+            review_scope: "test".into(),
+        }
+    }
+
+    fn terminal_validation_fixture() -> (
+        tempfile::TempDir,
+        Store,
+        IssueRecord,
+        IssueRecord,
+        TerminalReceipt,
+        ValidationResult,
+    ) {
+        const AUTHORITY_ISSUE: u64 = 9_762;
+        const TARGET_ISSUE: u64 = 5358;
+
+        let source_root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("..");
+        let source_store = Store::new(&source_root);
+        let temp = tempfile::tempdir().expect("temp root");
+        let status = std::process::Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(temp.path())
+            .status()
+            .expect("git init");
+        assert!(status.success());
+        copy_tree(
+            &source_store.issue_dir(TARGET_ISSUE),
+            &temp
+                .path()
+                .join(".csdlc/issues")
+                .join(TARGET_ISSUE.to_string()),
+        );
+        let source_target = source_store
+            .load_record(TARGET_ISSUE)
+            .expect("source target");
+        for path in [&source_target.design_path, &source_target.diagram_path] {
+            let destination = temp.path().join(path);
+            fs::create_dir_all(destination.parent().expect("authored parent"))
+                .expect("create authored parent");
+            fs::copy(source_root.join(path), destination).expect("copy authored file");
+        }
+
+        let store = Store::new(temp.path());
+        let authority_design = ".csdlc/prepared/issues/9762/design.md";
+        let authority_diagram = ".csdlc/prepared/issues/9762/diagram.mmd";
+        fs::create_dir_all(
+            temp.path()
+                .join(authority_design)
+                .parent()
+                .expect("authority design parent"),
+        )
+        .expect("create authority authored parent");
+        fs::write(
+            temp.path().join(authority_design),
+            "# Test Repair Authority\n",
+        )
+        .expect("write authority design");
+        fs::write(
+            temp.path().join(authority_diagram),
+            "flowchart LR\n  A-->B\n",
+        )
+        .expect("write authority diagram");
+        let authority = bootstrap_issue(
+            &store,
+            BootstrapRequest {
+                issue: AUTHORITY_ISSUE,
+                repository: "danielbaustin/agent-design-language".into(),
+                design_path: authority_design.into(),
+                diagram_path: authority_diagram.into(),
+                design_reviewer: "test".into(),
+                design_approved: true,
+                claim: Claim {
+                    id: "test-terminal-sor-validation-repair".into(),
+                    owner: "test".into(),
+                    generation: 0,
+                    acquired_unix_seconds: 1,
+                    expires_unix_seconds: u64::MAX,
+                    heartbeat_unix_seconds: 1,
+                    branch: "test-authority".into(),
+                    worktree: ".".into(),
+                    protected_paths: vec![format!(".csdlc/issues/{TARGET_ISSUE}")],
+                    purpose: "repair terminal SOR validation fixture".into(),
+                },
+                initial: basic_initial_input("test repair authority"),
+            },
+        )
+        .expect("bootstrap synthetic authority");
+
+        let target = store.load_record(TARGET_ISSUE).expect("target");
+        let cards = store.load_cards(TARGET_ISSUE).expect("target cards");
+        let mut authored_artifacts = BTreeMap::new();
+        for path in [&target.design_path, &target.diagram_path] {
+            authored_artifacts.insert(
+                path.clone(),
+                fs::read_to_string(temp.path().join(path)).expect("authored contents"),
+            );
+        }
+        let mut receipt = TerminalReceipt {
+            schema: "csdlc.terminal_receipt.v1".into(),
+            issue: target.issue,
+            repository: target.repository.clone(),
+            initialization_digest: target.initialization_digest.clone(),
+            receipt_ref: format!("csdlc-v2/closeout/{}.json", target.issue),
+            authored_artifacts,
+            record: target.clone(),
+            cards: cards.clone(),
+            digest: String::new(),
+        };
+        receipt.digest = terminal_receipt_digest(&receipt).expect("receipt digest");
+        validate_terminal_receipt(&receipt).expect("valid receipt");
+        let receipt_path = store
+            .terminal_receipt_path(target.issue)
+            .expect("receipt path");
+        fs::create_dir_all(receipt_path.parent().expect("receipt parent"))
+            .expect("create receipt parent");
+        write_json(&receipt_path, &receipt).expect("write receipt");
+        let CardContent::Sor(sor) = &cards[&CardKind::Sor].content else {
+            panic!("SOR");
+        };
+        let expected = sor.actual_validation.first().expect("validation").clone();
+        (temp, store, authority, target, receipt, expected)
+    }
+
+    fn validation_repair_request(
+        authority: &IssueRecord,
+        target: &IssueRecord,
+        receipt: &TerminalReceipt,
+        expected: ValidationResult,
+        fail_after_stage: Option<&str>,
+    ) -> TerminalSorValidationRepairRequest {
+        let mut replacement = expected.clone();
+        replacement.evidence_ref = "issue-5358:portable-terminal-proof".into();
+        TerminalSorValidationRepairRequest {
+            authority_issue: authority.issue,
+            target_issue: target.issue,
+            expected_authority_generation: authority.generation,
+            expected_authority_digest: authority.digest.clone(),
+            expected_target_generation: target.generation,
+            expected_target_digest: target.digest.clone(),
+            expected_receipt_digest: receipt.digest.clone(),
+            authority_claim_id: authority.claim.as_ref().expect("claim").id.clone(),
+            actor: "codex:test".into(),
+            expected_result: expected,
+            replacement_result: replacement,
+            fail_after_stage: fail_after_stage.map(str::to_owned),
+        }
+    }
 
     #[test]
     fn terminal_design_repair_rejects_incomplete_authority_before_io() {
@@ -3536,48 +4301,7 @@ mod terminal_design_repair_tests {
             "design",
             "docs/diagram.mmd",
             "diagram",
-            InitialCardInput {
-                title: "test".into(),
-                slug: "test".into(),
-                version: "v0.91.7".into(),
-                goal: "test".into(),
-                required_outcome: "test".into(),
-                declared_scope: vec!["test".into()],
-                authority_boundary: vec!["test".into()],
-                operator_constraints: vec!["none".into()],
-                task_boundary: "test".into(),
-                deliverables: vec!["test".into()],
-                acceptance_criteria: vec!["test".into()],
-                dependencies: vec!["test".into()],
-                repo_inputs: vec!["test".into()],
-                non_goals: vec!["test".into()],
-                plan_summary: "test".into(),
-                steps: vec![crate::cards::PlanStep {
-                    id: "S1".into(),
-                    action: "test".into(),
-                    acceptance_ids: vec!["AC-1".into()],
-                    status: StepStatus::Pending,
-                }],
-                invariants: vec!["test".into()],
-                risks: vec!["test".into()],
-                planning_profile: crate::cards::PlanningProfile::Small,
-                stop_conditions: vec!["test".into()],
-                validation_lanes: vec![crate::cards::ValidationLane {
-                    lane: "test".into(),
-                    proof_role: "test".into(),
-                    acceptance_ids: vec!["AC-1".into()],
-                    deterministic: true,
-                    resource_profile: crate::cards::ResourceProfile::Small,
-                    budget_seconds: 1,
-                    budget_tokens: 1,
-                    argv: vec!["test".into()],
-                    parallel_group: "test".into(),
-                    defer_reason: None,
-                }],
-                failure_policy: "test".into(),
-                review_prompts: vec!["test".into()],
-                review_scope: "test".into(),
-            },
+            basic_initial_input("test"),
         )
         .expect("cards");
         let CardContent::Sor(sor) = &mut cards.get_mut(&CardKind::Sor).unwrap().content else {
@@ -3590,5 +4314,166 @@ mod terminal_design_repair_tests {
         };
         assert_eq!(sor.artifacts, vec!["retained"]);
         assert!(replace_terminal_sor_artifact(&mut cards, "old", "retained").is_err());
+    }
+
+    #[test]
+    fn terminal_sor_validation_repair_updates_projection_and_receipt_atomically() {
+        let (_temp, store, authority, target, receipt, expected) = terminal_validation_fixture();
+        let request =
+            validation_repair_request(&authority, &target, &receipt, expected.clone(), None);
+        let replacement = request.replacement_result.clone();
+        let repaired = store
+            .repair_terminal_sor_validation(request)
+            .expect("terminal validation repair");
+        assert_eq!(repaired.phase, LifecyclePhase::ClosedOut);
+        assert!(repaired.claim.is_none());
+        assert_eq!(repaired.generation, target.generation + 1);
+        let cards = store.load_cards(target.issue).expect("repaired cards");
+        let CardContent::Sor(sor) = &cards[&CardKind::Sor].content else {
+            panic!("SOR");
+        };
+        assert!(!sor.actual_validation.contains(&expected));
+        assert_eq!(
+            sor.actual_validation
+                .iter()
+                .filter(|result| *result == &replacement)
+                .count(),
+            1
+        );
+        let repaired_receipt = store
+            .load_terminal_receipt(target.issue)
+            .expect("receipt load")
+            .expect("receipt");
+        assert_eq!(repaired_receipt.record.digest, repaired.digest);
+        assert_eq!(repaired_receipt.cards, cards);
+    }
+
+    #[test]
+    fn terminal_sor_validation_repair_rejects_stale_receipt_without_mutation() {
+        let (_temp, store, authority, target, receipt, expected) = terminal_validation_fixture();
+        let index_path = store.issue_dir(target.issue).join("index.json");
+        let receipt_path = store
+            .terminal_receipt_path(target.issue)
+            .expect("receipt path");
+        let original_index = fs::read(&index_path).expect("index bytes");
+        let original_receipt = fs::read(&receipt_path).expect("receipt bytes");
+        let mut request = validation_repair_request(&authority, &target, &receipt, expected, None);
+        request.expected_receipt_digest = "stale".into();
+        let error = store
+            .repair_terminal_sor_validation(request)
+            .expect_err("stale receipt must fail");
+        assert_eq!(error.code.to_string(), "stale_digest");
+        assert_eq!(fs::read(index_path).expect("index bytes"), original_index);
+        assert_eq!(
+            fs::read(receipt_path).expect("receipt bytes"),
+            original_receipt
+        );
+    }
+
+    #[test]
+    fn terminal_sor_validation_repair_rolls_back_projection_and_receipt() {
+        let (_temp, store, authority, target, receipt, expected) = terminal_validation_fixture();
+        let index_path = store.issue_dir(target.issue).join("index.json");
+        let receipt_path = store
+            .terminal_receipt_path(target.issue)
+            .expect("receipt path");
+        let original_index = fs::read(&index_path).expect("index bytes");
+        let original_receipt = fs::read(&receipt_path).expect("receipt bytes");
+        let request = validation_repair_request(
+            &authority,
+            &target,
+            &receipt,
+            expected,
+            Some("after_projection"),
+        );
+        let error = store
+            .repair_terminal_sor_validation(request)
+            .expect_err("injected failure must roll back");
+        assert_eq!(error.code.to_string(), "interrupted_transaction");
+        assert_eq!(fs::read(index_path).expect("index bytes"), original_index);
+        assert_eq!(
+            fs::read(receipt_path).expect("receipt bytes"),
+            original_receipt
+        );
+    }
+
+    #[test]
+    fn terminal_sor_validation_repair_enforces_portable_replacements() {
+        for machine_local in [
+            "/tmp/build",
+            "--target-dir=/home/alice/build",
+            "cd /mnt/worker/checkout",
+            r"C:\Users\alice\checkout",
+            r"--out=Z:\build\target",
+            r"\\server\share\checkout",
+            "~/checkout",
+            "CARGO_TARGET_DIR=$HOME/build",
+            "CARGO_TARGET_DIR=${HOME}/build",
+            "sh -c 'cd ${HOME}/checkout'",
+            "$(pwd)/target",
+            "`pwd`/target",
+            "file:///home/alice/proof.json",
+            r"%USERPROFILE%\checkout",
+        ] {
+            let result = ValidationResult {
+                command: vec!["proof".into(), machine_local.into()],
+                purpose: "proof".into(),
+                outcome: crate::cards::EvidenceOutcome::Passed,
+                evidence_ref: "evidence/portable.json".into(),
+            };
+            let error = validate_portable_validation_result(&result).expect_err(machine_local);
+            assert_eq!(error.code.to_string(), "invalid_input");
+        }
+
+        for machine_local in [
+            "proof\u{a0}/home/alice/out",
+            "proof=[/home/alice/out]",
+            "echo proof >/tmp/result",
+            "tool 2>/home/alice/log",
+            "cmd|/opt/local/tool",
+            r"type NUL >C:\Users\alice\proof",
+            r"proof&\\server\share\result",
+        ] {
+            let result = ValidationResult {
+                command: vec!["proof".into()],
+                purpose: "proof".into(),
+                outcome: crate::cards::EvidenceOutcome::Passed,
+                evidence_ref: machine_local.into(),
+            };
+            validate_portable_validation_result(&result).expect_err(machine_local);
+        }
+
+        for portable in [
+            "evidence/portable.json",
+            "evidence/report$final.json",
+            "--target-dir=target/coverage",
+            "https://example.invalid/proof",
+            "https://example.invalid/proof?$select=id",
+            "retained terminal receipt",
+        ] {
+            let result = ValidationResult {
+                command: vec!["proof".into(), portable.into()],
+                purpose: "proof".into(),
+                outcome: crate::cards::EvidenceOutcome::Passed,
+                evidence_ref: portable.into(),
+            };
+            validate_portable_validation_result(&result).expect(portable);
+        }
+
+        let symbolic_result = ValidationResult {
+            command: vec!["proof".into()],
+            purpose: "proof".into(),
+            outcome: crate::cards::EvidenceOutcome::Passed,
+            evidence_ref: "reviewed `proof command`".into(),
+        };
+        validate_portable_validation_result(&symbolic_result).expect("stable symbolic evidence");
+
+        let result = ValidationResult {
+            command: vec!["proof".into()],
+            purpose: "proof".into(),
+            outcome: crate::cards::EvidenceOutcome::Passed,
+            evidence_ref: "/home/runner/evidence.json".into(),
+        };
+        validate_portable_validation_result(&result).expect_err("machine-local evidence reference");
     }
 }

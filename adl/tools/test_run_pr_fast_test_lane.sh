@@ -298,7 +298,6 @@ assert_not_has "$csdlc_binary_taxonomy_output" "pr_cmd"
 
 scheduler_cli_wave="$TMP/scheduler_cli_wave.txt"
 cat >"$scheduler_cli_wave" <<'EOF'
-M	adl/src/bin/run_v0916_integrated_runtime_soak.rs
 M	adl/src/cli/mod.rs
 M	adl/src/cli/scheduler_cmd.rs
 M	adl/src/cli/tests.rs
@@ -308,8 +307,8 @@ EOF
 scheduler_cli_wave_output="$(bash "$SCRIPT" --changed-files "$scheduler_cli_wave" --print-plan)"
 assert_has "$scheduler_cli_wave_output" "mode=focused"
 assert_has "$scheduler_cli_wave_output" "reason=bounded_rust_surface_runs_focused_nextest"
-assert_has "$scheduler_cli_wave_output" "filter_tokens=run_v0916_integrated_runtime_soak,scheduler_cli"
-assert_has "$scheduler_cli_wave_output" "filter_expression=binary_id(adl::bin/run_v0916_integrated_runtime_soak) and test(/^tests::/) or test(/^cli::scheduler_cmd::tests::/) or test(/^cli::tests::runtime_dispatch_exposes_help_and_version_without_csdlc_dispatch$/) or test(/^cli::tests::open_usage::usage_mentions_v0_4_and_legacy_examples$/)"
+assert_has "$scheduler_cli_wave_output" "filter_tokens=scheduler_cli"
+assert_has "$scheduler_cli_wave_output" "filter_expression=test(/^cli::scheduler_cmd::tests::/) or test(/^cli::tests::runtime_dispatch_exposes_help_and_version_without_csdlc_dispatch$/) or test(/^cli::tests::open_usage::usage_mentions_v0_4_and_legacy_examples$/)"
 
 tokio_bootstrap_wave="$TMP/tokio_bootstrap_wave.txt"
 cat >"$tokio_bootstrap_wave" <<'EOF'
@@ -398,7 +397,7 @@ native_gws_demo_bins_output="$(bash "$SCRIPT" --changed-files "$native_gws_demo_
 assert_has "$native_gws_demo_bins_output" "mode=focused"
 assert_has "$native_gws_demo_bins_output" "reason=bounded_rust_surface_runs_focused_nextest"
 assert_has "$native_gws_demo_bins_output" "filter_tokens=demo_adl_gws_context_mirror,demo_adl_gws_native_drive_sync"
-assert_has "$native_gws_demo_bins_output" "filter_expression=binary_id(adl::bin/demo-adl-gws-context-mirror) and test(/^tests::/) or binary_id(adl::bin/demo-adl-gws-native-drive-sync) and test(/^tests::/)"
+assert_has "$native_gws_demo_bins_output" "filter_expression=binary_id(adl::bin/adl-gws-context-mirror) and test(/^tests::/) or binary_id(adl::bin/demo-adl-gws-native-drive-sync) and test(/^tests::/)"
 
 slow_proof_inventory="$TMP/slow_proof_inventory.txt"
 cat >"$slow_proof_inventory" <<'EOF'
