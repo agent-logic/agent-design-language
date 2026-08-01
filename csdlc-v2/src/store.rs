@@ -2599,7 +2599,8 @@ impl Store {
                             == authority_store_ref.root.canonicalize().ok()
                 })
                 || crate::git::current_branch(authority_store_ref.root())?
-                    != authority_claim.branch)
+                    != authority_claim.branch
+                || !claim_worktree_matches_store(authority_store_ref, authority_claim)?)
         {
             return Err(V2Error::new(
                 ErrorCode::UnsafeCheckout,
@@ -2677,9 +2678,7 @@ impl Store {
                 if registered_target_roots.as_slice() != [target_root.clone()]
                     || crate::git::current_branch(&self.root)? != corrupt_claim.branch
                     || crate::git::run(&self.root, &["rev-parse", "HEAD"])?.stdout != pr.head_sha
-                    || (corrupt_claim.worktree != "."
-                        && PathBuf::from(&corrupt_claim.worktree).canonicalize().ok()
-                            != Some(target_root))
+                    || !claim_worktree_matches_store(self, corrupt_claim)?
                 {
                     return Err(V2Error::new(
                         ErrorCode::UnsafeCheckout,
@@ -6588,6 +6587,25 @@ fn claim_covers_issue(claim: &Claim, issue: u64) -> bool {
         .any(|path| path.trim_end_matches('/') == target)
 }
 
+fn claim_worktree_matches_store(store: &Store, claim: &Claim) -> Result<bool> {
+    if claim.worktree == "." {
+        return Ok(true);
+    }
+    let common_dir = PathBuf::from(
+        crate::git::run(
+            store.root(),
+            &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+        )?
+        .stdout,
+    );
+    Ok(common_dir
+        .parent()
+        .map(|primary| primary.join(&claim.worktree))
+        .and_then(|expected| expected.canonicalize().ok())
+        .zip(store.root().canonicalize().ok())
+        .is_some_and(|(expected, current)| expected == current))
+}
+
 fn valid_git_sha(value: &str) -> bool {
     matches!(value.len(), 40 | 64) && value.bytes().all(|byte| byte.is_ascii_hexdigit())
 }
@@ -9004,7 +9022,7 @@ mod terminal_design_repair_tests {
         let aggregate_cards = aggregate_store.load_cards(authority.issue).unwrap();
         let aggregate_claim = aggregate_authority.claim.as_mut().unwrap();
         aggregate_claim.branch = "aggregate-authority".into();
-        aggregate_claim.worktree = ".".into();
+        aggregate_claim.worktree = "aggregate-authority".into();
         aggregate_claim.protected_paths.push("csdlc-v2".into());
         aggregate_claim
             .protected_paths
@@ -9013,6 +9031,14 @@ mod terminal_design_repair_tests {
         aggregate_claim.protected_paths.dedup();
         hydrate_projections(&mut aggregate_authority, &aggregate_cards).unwrap();
         aggregate_authority.digest = record_digest(&aggregate_authority).unwrap();
+        assert!(claim_worktree_matches_store(
+            &aggregate_store,
+            aggregate_authority.claim.as_ref().unwrap()
+        )
+        .unwrap());
+        let mut mismatched_worktree = aggregate_authority.claim.clone().unwrap();
+        mismatched_worktree.worktree = "different-worktree".into();
+        assert!(!claim_worktree_matches_store(&aggregate_store, &mismatched_worktree).unwrap());
         aggregate_store
             .commit(
                 aggregate_authority.issue,
