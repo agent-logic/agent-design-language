@@ -28,3 +28,4 @@
 {"sequence":28,"generation":19,"actor":"codex:adl-post-merge-closeout","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
 {"sequence":29,"generation":20,"actor":"codex:v0918-terminal-reconcile-wave","reason":"Materialize retained terminal authority for the complete v0.91.8 closed-issue closeout audit.","operation":"reconcile_terminal"}
 {"sequence":30,"generation":21,"actor":"codex:019fb617-d22b-7252-975c-402d7d7aec46","reason":"Materialize the valid merged #5665 terminal receipt and receipt-authored retained design and diagram in the dedicated #5748 authority projection.","operation":"reconcile_terminal"}
+{"sequence":31,"generation":22,"actor":"codex:019fb617-d22b-7252-975c-402d7d7aec46","reason":"typed terminal design repair authorized by issue 5748","operation":"repair_terminal_design"}

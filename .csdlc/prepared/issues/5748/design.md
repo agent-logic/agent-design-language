@@ -43,4 +43,3 @@ artifacts in agreement.
 - No product implementation, AWS, raw GitHub commands, force-prune, or manual
   generated-card/index/receipt edits.
 - Never write tracked changes on `main` and never touch #5746's worktree.
-

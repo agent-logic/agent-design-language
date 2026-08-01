@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "189f55df87cf559fd27a662e23c235ee98ca1dcaa46109a05abf98c030a43f61",
   "phase": "closed_out",
-  "generation": 18,
-  "digest": "86cbd6701fd016b6c05b45b5fc59ebdec2731e8c12174cbde2d7480cc175a012",
+  "generation": 19,
+  "digest": "ceb87d420cfe9ec2327e31bb727ba5721ab3cc301a110641771911826a9b0365",
   "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019f9c5d-654d-7af1-ab7a-f205c27ca0b2",
@@ -206,38 +206,38 @@
   "diagram_path": ".csdlc/issues/5670/retained/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator:5670",
-      "revision": "630eb9e612ad8fda5b6d0b49cef712e11dba30bb48e37150bd616076cacd86b4"
+      "reviewer": "codex:5748-terminal-artifact-hygiene",
+      "revision": "764bab4003984fb00686e5406ca95b56ee787d28cfa247daca83a01675c8fed3"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "0bdc458f6e515853d2f25b61f8b104878a7be40204a3dcf04936019f2bb177ef",
+      "values_digest": "15145c816fd293784536aea9349b4b50ee737089e799cf95d3f1be02144d22aa",
       "rendered_digest": "e743359b1c5769dc49b8fd90ee237badb385ea5feb1852c92b435b6560f38494",
       "ast_digest": "086f752886cf8bb183377d8cbd45a67fd68c38fd8ea967e621b233042bb32c66"
     },
     "stp": {
-      "values_digest": "95061f06faca1e533d6af91c3fd72c614d090b2c406c16f2e1423e418aadc09f",
+      "values_digest": "8f368c5807806e430e559dba5974e8d2062f4cf18a5ea972632e795869a0eb7a",
       "rendered_digest": "905185bfdd5bfa459b6e8c24b85f6a5e551c5cf8432167e2d034b353c76f62b2",
       "ast_digest": "6d17d7a0d8b6c3fd95ed88409df0bf41ec2f7b8f4c3a47b20cca9e7dae3fbf49"
     },
     "spp": {
-      "values_digest": "c25d6d2b33c6cc2d085c9f8cc3839ef910f78629dfbc5e6ee715c77bd87f1f4a",
-      "rendered_digest": "bb1c510f94cd03de75d6ef93e34e5c840a42e3617f0286c04bfc1edb38b2904f",
-      "ast_digest": "cef7021a8ae48695e52b1448f9398d60289d0312889f43cefaff244b7e4876c0"
+      "values_digest": "dcb64c22e7b582891cecabf0b748eeb9e9e9bed519b8157d01ae1e2c5d344670",
+      "rendered_digest": "2c00505d44f208eac9071606836e56a16a294a856a28153e35046dbd19e28656",
+      "ast_digest": "117e19aba33cdad798ee9c684f880c170bdcc29fe5be3d31c6cb0d59cc68110d"
     },
     "vpp": {
-      "values_digest": "6ad8298b0e5a53b63ee78431522f4c8e3463fc5b6ac25511bf2cf0f669caeebf",
+      "values_digest": "ff7f9c89a49039acf7385001a8b819e1233bc750e7c5aee2b686721ae876c82b",
       "rendered_digest": "af2763851597b1c2989ac4f64dd53694572a2770355aecf37107dd841747437e",
       "ast_digest": "a853f97da53b03bc871dde42f9ebd4699a6748437be2064e456e7c66a43aac9d"
     },
     "srp": {
-      "values_digest": "c152778aa2faf55f7575cf3377bf2dd64412965f74266f8ef71791c8c8f0df30",
+      "values_digest": "df4ba840d62969b947d686d014e383eba3de58cd9a44ccd065ec7e2ac3ce72ed",
       "rendered_digest": "e56ddac7a67ae70d05d013f811c91a26db4daebc98b67ca15a95bcc0817d3388",
       "ast_digest": "d2ba0e2c6f97b015f19c8bd448272c3bf8ac01dbb05469362535ff301e1da0b6"
     },
     "sor": {
-      "values_digest": "a68a6dfb691076dad21e2aaac540c0031de4f2b55ad40d14f5f84efb8446de94",
+      "values_digest": "10645ce51538baa787f0788d2e05d305f65375ec9987bf52a44f00f122be540b",
       "rendered_digest": "003a1b5c14b0025f86e0bef1952877d83b03ec7d68eae6742abb95745501c44f",
       "ast_digest": "2a6f04f9f35a41f65122207d620ac0e1b54efca7d2fc045ab748612926ebea0e"
     }
@@ -447,6 +447,13 @@
       "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
       "reason": "Materialize the valid merged #5670 terminal receipt and receipt-authored retained design and diagram in the dedicated #5748 authority projection.",
       "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "typed terminal design repair authorized by issue 5748",
+      "operation": "repair_terminal_design"
     }
   ]
 }

@@ -68,4 +68,3 @@ output and include:
 
 Broader hosted validation is deferred to the PR checks and must stay truthful in
 SOR.
-

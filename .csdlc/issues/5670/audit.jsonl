@@ -19,3 +19,4 @@
 {"sequence":19,"generation":16,"actor":"codex:v0918-closeout-sweep","reason":"Materialize retained terminal receipt after operator fast-forwarded main; closeout receipt already exists and root projection still showed published.","operation":"reconcile_terminal"}
 {"sequence":20,"generation":17,"actor":"codex:v0918-terminal-reconcile-wave","reason":"Materialize retained terminal authority for the complete v0.91.8 closed-issue closeout audit.","operation":"reconcile_terminal"}
 {"sequence":21,"generation":18,"actor":"codex:019fb617-d22b-7252-975c-402d7d7aec46","reason":"Materialize the valid merged #5670 terminal receipt and receipt-authored retained design and diagram in the dedicated #5748 authority projection.","operation":"reconcile_terminal"}
+{"sequence":22,"generation":19,"actor":"codex:019fb617-d22b-7252-975c-402d7d7aec46","reason":"typed terminal design repair authorized by issue 5748","operation":"repair_terminal_design"}
