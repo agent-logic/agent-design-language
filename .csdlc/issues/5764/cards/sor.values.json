@@ -7,7 +7,7 @@
     "title": "[v0.91.8][runtime-v3][observatory] Repair overnight readiness probes and weather freshness truth",
     "slug": "runtime-observatory-readiness",
     "version": "v0.91.8",
-    "generation": 18
+    "generation": 19
   },
   "status": "pre_phase",
   "content": {
@@ -119,8 +119,8 @@
           "evidence_ref": "local FastWork terminal output: openapi route inventory regression passed; python3 json.tool, node --check, and git diff --check passed"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "draft",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
