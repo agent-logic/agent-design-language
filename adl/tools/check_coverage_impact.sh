@@ -353,6 +353,9 @@ candidate_filter_for_path() {
     adl/src/chronosense.rs|adl/src/chronosense/*.rs)
       printf 'chronosense'
       ;;
+    adl/src/demo/v086_review_surface.rs)
+      printf 'v086_review_surface'
+      ;;
     adl/src/cli/run_artifacts/runtime/*.rs)
       printf 'run_state'
       ;;
@@ -439,6 +442,9 @@ nextest_expression_for_filter() {
       ;;
     runtime_v3_auth)
       printf 'test(/^runtime_api_auth::tests::/)'
+      ;;
+    v086_review_surface)
+      printf 'binary_id(adl) and test(/^demo::tests::v086_review_surface_demo_marks_retired_external_entries$/)'
       ;;
     finish)
       printf 'binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::tests::finish::arg_render::/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::finish_support::tests::/)'

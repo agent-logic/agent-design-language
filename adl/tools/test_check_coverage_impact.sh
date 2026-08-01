@@ -158,6 +158,14 @@ if grep -F "$retired_failure_injection_token" <<<"$long_lived_agent_storage_expr
   exit 1
 fi
 
+v086_review_surface_changed="$TMP/v086-review-surface-changed.txt"
+printf 'M\tadl/src/demo/v086_review_surface.rs\n' >"$v086_review_surface_changed"
+v086_review_surface_filters="$TMP/v086-review-surface-filters.txt"
+bash "$SCRIPT" --changed-files "$v086_review_surface_changed" --print-risk-filters >"$v086_review_surface_filters"
+grep -Fx "v086_review_surface" "$v086_review_surface_filters" >/dev/null
+v086_review_surface_expression="$(bash "$SCRIPT" --changed-files "$v086_review_surface_changed" --print-risk-nextest-expression)"
+grep -F "binary_id(adl) and test(/^demo::tests::v086_review_surface_demo_marks_retired_external_entries$/)" <<<"$v086_review_surface_expression" >/dev/null
+
 csm_runtime_agent_changed="$TMP/csm-runtime-agent-changed.txt"
 cat >"$csm_runtime_agent_changed" <<'EOF'
 M	adl/src/cli/csm_cmd.rs
