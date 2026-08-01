@@ -140,11 +140,11 @@ Fixed the GitHub runtime-v3 fast clippy failure without changing Runtime v3 read
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

@@ -3,13 +3,13 @@
   "issue": 5764,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c87577fb18bcffa9a7ab3626e0ddde7132084f1c88dbeb1c648d842460499d85",
-  "phase": "reviewed",
-  "generation": 24,
-  "digest": "bf62148e77b3b26279e660e82b631d1b73bd42fe3284acbd94a7ee5c8d1229b8",
+  "phase": "published",
+  "generation": 25,
+  "digest": "7d8aa18c38cd9576bcab1e6420b746d11f330491e16739b1d03fd10b4eeecd54",
   "claim": {
     "id": "claim-5764-runtime-observatory-readiness",
     "owner": "codex:5764-runtime-observatory-readiness",
-    "generation": 24,
+    "generation": 25,
     "acquired_unix_seconds": 1785574230,
     "expires_unix_seconds": 1785660630,
     "heartbeat_unix_seconds": 1785574230,
@@ -74,7 +74,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5764,
+    "pull_request": 5771,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5771",
+    "base": "main",
+    "head": "codex/5764-runtime-observatory-readiness",
+    "revision": "git-blake3:01ba131bdde4f71dc6624310268b544001a263ec:c95e952571958fb76cf630d0d58f202b4a823884ad4f63d56020ee7aec85d87a",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -88,34 +98,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d4ea6dc5924119a2baa4268ee5248b6b730dbc44764d072815524e185c408c3c",
+      "values_digest": "6c8ae8dad2ea7160185b541dc2f978dc10058b63e9983675f52d2667e58a0ad4",
       "rendered_digest": "ebc9326d1aba09c1cd55320e0a9310826197bda3517d17ed9c0599d83d8982ee",
       "ast_digest": "d20982b1cd63aa422b6b0ff9b9128d4af75753b654ab4b43960a6d2dfc30e741"
     },
     "stp": {
-      "values_digest": "e10dbd158f26acd3d079b4de0517714f11388fd2bbfedd155029d1f73b047b33",
+      "values_digest": "771947f9d08434857b3499674decd1c537a682eeaf8e6fb867186d705d01eeae",
       "rendered_digest": "12c2a85ff84c4950f80b65c3cf4caf62e49a6fb798714c8d862f66f929f8e432",
       "ast_digest": "2ceaee61ff985688af3f3456ebb90682f980dec257e58f32b6c485494175aaca"
     },
     "spp": {
-      "values_digest": "17d78d0750e26fe3eb9e8502eb927dc17c38b6fb8a338c265a57011b3e8d3c70",
+      "values_digest": "491a111b61a46c0a79a1e5e5e306e39670e38256a044ad1c7087641cebae2e92",
       "rendered_digest": "c39dc32f79a7f8378b3077799a472627417593a0e9162cdd601aa7f07eb6fdb9",
       "ast_digest": "e6f67dd6990d66fe8d7d190f26f02d0760117fb423ed93f7bf9dbae83cfe858b"
     },
     "vpp": {
-      "values_digest": "2434554e13619feb93580ee04a83effde937a96058c254faee7e1b3900fb0e00",
+      "values_digest": "24b00d653e03b2e43e3b81efcc7910b4da275b257769757ba0ec5af00eb2b0fe",
       "rendered_digest": "661338346d5d7bc578b78ae70deed268337e8d7c43316165b46f581fb867409f",
       "ast_digest": "34c69f8bf170bf1b486aa48e9d2a402851aba23284cbd44030289e92aea506d0"
     },
     "srp": {
-      "values_digest": "415791750c6554d009ea402ebdced0490843b211d5099779b4230f580f4ccfb2",
+      "values_digest": "06a3891045e1c2aa85e3f43ff986b4509fa1c71fb1458cf73f9f6531781ecff1",
       "rendered_digest": "2c94be2f9154e647e622b14aa9238b625ac13df74e3260411f2eefa3fd681618",
       "ast_digest": "d96b2efd3797cb3304b8a4f5cab9deaa56f76c622dc84b76c913dfa24865c78b"
     },
     "sor": {
-      "values_digest": "fb71db6bef395c316e94fbee6da1d666a99c629b8c62178d56967812a21b54b3",
-      "rendered_digest": "abe0134a541a02e3ad19eaac3bdb4ac53056134502591c6eb59c46655e65c9be",
-      "ast_digest": "b9c30baeb2019a28f550b48d10fd6d606acf34e77dda19129be5d1a152f9c224"
+      "values_digest": "d47be1ab4c79173af0b7714b3fb4c5b74a4819c8d754b235530e2bbda18d2436",
+      "rendered_digest": "4cbac194815c302471344eaa35ecbb28b2280d2df2fa68e3d99d66c099711e48",
+      "ast_digest": "d6f520b918a59093b009536e825f669c1375cde3c493b492c565f25c997255c0"
     }
   },
   "transitions": [
@@ -181,6 +191,13 @@
       "to": "reviewed",
       "actor": "codex:5764-runtime-observatory-readiness",
       "reason": "Advance #5764 after exact-head Dalton review confirmed the CI clippy fix is clean."
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -421,6 +438,13 @@
       "actor": "codex:5764-runtime-observatory-readiness",
       "reason": "Advance #5764 after exact-head Dalton review confirmed the CI clippy fix is clean.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 35,
+      "generation": 25,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

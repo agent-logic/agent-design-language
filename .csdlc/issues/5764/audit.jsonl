@@ -32,3 +32,4 @@
 {"sequence":32,"generation":22,"actor":"codex:5764-runtime-observatory-readiness","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":33,"generation":23,"actor":"codex:5764-runtime-observatory-readiness","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":34,"generation":24,"actor":"codex:5764-runtime-observatory-readiness","reason":"Advance #5764 after exact-head Dalton review confirmed the CI clippy fix is clean.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":35,"generation":25,"actor":"codex:5764-runtime-observatory-readiness","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
