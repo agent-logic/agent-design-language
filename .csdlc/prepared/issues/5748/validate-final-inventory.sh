@@ -271,9 +271,9 @@ printf '%s\n' "$corrupt_report" | jq -e \
    .findings[0].message == "index digest mismatch"' >/dev/null || \
   fail "exception #5007 doctor state mismatch"
 
-# These three issues have no local lifecycle projection. Their absence is part
-# of the fail-closed evidence and must remain explicit.
-require_absent "$repo_root" "$repo_root/.csdlc/issues/5346"
+# These two issues have no local lifecycle projection. Their absence is part
+# of the fail-closed evidence and must remain explicit. #5346 instead retains
+# and authenticates the exact stale published projection integrated on main.
 require_absent "$repo_root" "$repo_root/.csdlc/issues/5558"
 require_absent "$repo_root" "$repo_root/.csdlc/issues/5722"
 
@@ -289,32 +289,64 @@ jq -e '
   .github.pull_request_state == "MERGED" and
   .github.head_sha == "7b1ef84bc8a4966c0c454ae4d87fd973537a856d" and
   .github.merge_commit == "ccca46abceb117150efbc3b69248fba611d90fff" and
-  .projection.phase == "merge_ready" and
-  .projection.generation == 12 and
-  .projection.digest == "1341748ec10bbf4434a2892d72a28ec9a931a8f74c3b0bbf2a0ee24815a587bc" and
-  .projection.terminal == null and
-  .projection.claim.id == "claim-5346-v0918-wp13-deletion-preparation-current" and
-  .projection.claim.owner == "codex:5346-wp13-execution-owner" and
-  .projection.claim.generation == 12 and
-  .projection.claim.branch == "codex/5346-v0918-wp13-final-adl-deletion" and
-  .projection.claim.worktree == "." and
-  .projection.claim.expires_unix_seconds == 1786153570 and
-  .projection.plan_steps == [
+  .committed_projection.source_revision == "ccca46abceb117150efbc3b69248fba611d90fff" and
+  .committed_projection.phase == "published" and
+  .committed_projection.generation == 10 and
+  .committed_projection.digest == "228c102958a98a4a0910559f2c58a55edd32ecf5f7077387775e7f8c6fcafcae" and
+  .committed_projection.terminal == null and
+  .committed_projection.claim.id == "claim-5346-v0918-wp13-deletion-preparation-current" and
+  .committed_projection.claim.owner == "codex:5346-wp13-execution-owner" and
+  .committed_projection.claim.generation == 10 and
+  .committed_projection.claim.branch == "codex/5346-v0918-wp13-final-adl-deletion" and
+  .committed_projection.claim.worktree == "." and
+  .committed_projection.claim.expires_unix_seconds == 1786153570 and
+  .committed_projection.plan_steps == [
     {"id":"S1","status":"pending"},
     {"id":"S2","status":"pending"},
     {"id":"S3","status":"pending"},
     {"id":"S4","status":"pending"},
     {"id":"S5","status":"pending"}
   ] and
-  .projection.sor == {
+  .committed_projection.sor == {
     "integration_state":"pr_open",
     "publication_state":"ready",
     "merge_state":"not_merged",
     "closeout_state":"not_started"
   } and
-  .projection.sha256.index_json == "bae610dca110c369f4b9ed1a6c6d4d65736409385f23ba46e12076ef0669bd6f" and
-  .projection.sha256.spp_values_json == "b05d7b09fc74c73805dd251ca3e74f9ee06ebac6979d9a4b3ea1a4462a8f872e" and
-  .projection.sha256.sor_values_json == "675ce61b12053a94219d88497d4ae858d89ee77db2468498c15187cdb9a0cbda" and
+  .committed_projection.doctor == {
+    "status":"block",
+    "finding_code":"review_publication_dead_end",
+    "next_operation":"recover_review"
+  } and
+  .committed_projection.sha256.index_json == "7833e2706c9c24a0e97426be6b8e012c3fbee36772db248a1c6f24f66514135c" and
+  .committed_projection.sha256.spp_values_json == "60103474ec465ec43f4c9a04bc362fbfd56f3d12fb3d184ecd874361c2b7d1e6" and
+  .committed_projection.sha256.sor_values_json == "cfdde36f9815f7efdd00b9cbdf15e4c7e6e3d93e3860684d980d698ca8c14633" and
+  .source_worktree_projection.phase == "merge_ready" and
+  .source_worktree_projection.generation == 12 and
+  .source_worktree_projection.digest == "1341748ec10bbf4434a2892d72a28ec9a931a8f74c3b0bbf2a0ee24815a587bc" and
+  .source_worktree_projection.terminal == null and
+  .source_worktree_projection.claim.id == "claim-5346-v0918-wp13-deletion-preparation-current" and
+  .source_worktree_projection.claim.owner == "codex:5346-wp13-execution-owner" and
+  .source_worktree_projection.claim.generation == 12 and
+  .source_worktree_projection.claim.branch == "codex/5346-v0918-wp13-final-adl-deletion" and
+  .source_worktree_projection.claim.worktree == "." and
+  .source_worktree_projection.claim.expires_unix_seconds == 1786153570 and
+  .source_worktree_projection.plan_steps == [
+    {"id":"S1","status":"pending"},
+    {"id":"S2","status":"pending"},
+    {"id":"S3","status":"pending"},
+    {"id":"S4","status":"pending"},
+    {"id":"S5","status":"pending"}
+  ] and
+  .source_worktree_projection.sor == {
+    "integration_state":"pr_open",
+    "publication_state":"ready",
+    "merge_state":"not_merged",
+    "closeout_state":"not_started"
+  } and
+  .source_worktree_projection.sha256.index_json == "bae610dca110c369f4b9ed1a6c6d4d65736409385f23ba46e12076ef0669bd6f" and
+  .source_worktree_projection.sha256.spp_values_json == "b05d7b09fc74c73805dd251ca3e74f9ee06ebac6979d9a4b3ea1a4462a8f872e" and
+  .source_worktree_projection.sha256.sor_values_json == "675ce61b12053a94219d88497d4ae858d89ee77db2468498c15187cdb9a0cbda" and
   .typed_repair_attempt.operation == "update_plan_step" and
   .typed_repair_attempt.card == "spp" and
   .typed_repair_attempt.step_id == "S1" and
@@ -323,12 +355,32 @@ jq -e '
   .typed_repair_attempt.error_message == "spp mutation is not allowed during merge_ready" and
   .typed_repair_attempt.before_generation == 12 and
   .typed_repair_attempt.after_generation == 12 and
-  .typed_repair_attempt.before_digest == .projection.digest and
-  .typed_repair_attempt.after_digest == .projection.digest and
+  .typed_repair_attempt.before_digest == .source_worktree_projection.digest and
+  .typed_repair_attempt.after_digest == .source_worktree_projection.digest and
   .disposition == "fail_closed_no_terminal_receipt"
 ' "$exception_5346" >/dev/null || fail "exception #5346 retained evidence mismatch"
 rg -q '1341748ec10bbf4434a2892d72a28ec9a931a8f74c3b0bbf2a0ee24815a587bc' \
   "$register" || fail "exception #5346 digest is missing from the register"
+require_file "$repo_root" "$repo_root/.csdlc/issues/5346/index.json"
+require_eq "$(shasum -a 256 "$repo_root/.csdlc/issues/5346/index.json" | awk '{print $1}')" \
+  7833e2706c9c24a0e97426be6b8e012c3fbee36772db248a1c6f24f66514135c \
+  "exception #5346 committed index bytes mismatch"
+require_eq "$(shasum -a 256 "$repo_root/.csdlc/issues/5346/cards/spp.values.json" | awk '{print $1}')" \
+  60103474ec465ec43f4c9a04bc362fbfd56f3d12fb3d184ecd874361c2b7d1e6 \
+  "exception #5346 committed SPP bytes mismatch"
+require_eq "$(shasum -a 256 "$repo_root/.csdlc/issues/5346/cards/sor.values.json" | awk '{print $1}')" \
+  cfdde36f9815f7efdd00b9cbdf15e4c7e6e3d93e3860684d980d698ca8c14633 \
+  "exception #5346 committed SOR bytes mismatch"
+exception_5346_doctor=""
+if exception_5346_doctor="$("$doctor" --repo "$repo_root" --issue 5346 2>&1)"; then
+  fail "exception #5346 unexpectedly passed doctor"
+fi
+printf '%s\n' "$exception_5346_doctor" | jq -e '
+  .status == "block" and .phase == "published" and .generation == 10 and
+  .ready == false and (.findings | length) == 1 and
+  .findings[0].code == "review_publication_dead_end" and
+  .next_operation == "recover_review"
+' >/dev/null || fail "exception #5346 doctor state mismatch"
 
 require_absent "$common_dir" "$common_dir/csdlc-v2/closeout/5335.json"
 rg -q '^## #5335 — outside the merged-PR eligibility boundary$' "$register" || \

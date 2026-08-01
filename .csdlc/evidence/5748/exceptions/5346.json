@@ -12,7 +12,45 @@
     "head_sha": "7b1ef84bc8a4966c0c454ae4d87fd973537a856d",
     "merge_commit": "ccca46abceb117150efbc3b69248fba611d90fff"
   },
-  "projection": {
+  "committed_projection": {
+    "source_revision": "ccca46abceb117150efbc3b69248fba611d90fff",
+    "phase": "published",
+    "generation": 10,
+    "digest": "228c102958a98a4a0910559f2c58a55edd32ecf5f7077387775e7f8c6fcafcae",
+    "terminal": null,
+    "claim": {
+      "id": "claim-5346-v0918-wp13-deletion-preparation-current",
+      "owner": "codex:5346-wp13-execution-owner",
+      "generation": 10,
+      "branch": "codex/5346-v0918-wp13-final-adl-deletion",
+      "worktree": ".",
+      "expires_unix_seconds": 1786153570
+    },
+    "plan_steps": [
+      { "id": "S1", "status": "pending" },
+      { "id": "S2", "status": "pending" },
+      { "id": "S3", "status": "pending" },
+      { "id": "S4", "status": "pending" },
+      { "id": "S5", "status": "pending" }
+    ],
+    "sor": {
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started"
+    },
+    "doctor": {
+      "status": "block",
+      "finding_code": "review_publication_dead_end",
+      "next_operation": "recover_review"
+    },
+    "sha256": {
+      "index_json": "7833e2706c9c24a0e97426be6b8e012c3fbee36772db248a1c6f24f66514135c",
+      "spp_values_json": "60103474ec465ec43f4c9a04bc362fbfd56f3d12fb3d184ecd874361c2b7d1e6",
+      "sor_values_json": "cfdde36f9815f7efdd00b9cbdf15e4c7e6e3d93e3860684d980d698ca8c14633"
+    }
+  },
+  "source_worktree_projection": {
     "phase": "merge_ready",
     "generation": 12,
     "digest": "1341748ec10bbf4434a2892d72a28ec9a931a8f74c3b0bbf2a0ee24815a587bc",
