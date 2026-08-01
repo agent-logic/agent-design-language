@@ -12,11 +12,54 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/5347
-.csdlc/locks/5347.lock
-.csdlc/prepared/issues/5347
-.csdlc/evidence/5347
-docs/milestones/v0.91.8/evidence/wp13-external-bands
+adl/Cargo.toml
+adl/src/bin/demo_v086_candidate_selection.rs
+adl/src/bin/demo_v086_fast_slow.rs
+adl/src/bin/demo_v086_freedom_gate.rs
+adl/src/bin/demo_v086_review_surface.rs
+adl/src/bin/demo_v0905_local_gemma_model_evaluation.rs
+adl/src/bin/demo_v0905_model_proposal_benchmark.rs
+adl/src/bin/demo_v0911_capability_aptitude_testing.rs
+adl/src/bin/demo_v0912_gws_live_capability_execution_surface.rs
+adl/src/bin/demo_v0912_gws_live_content_card_roundtrip.rs
+adl/src/bin/demo_v0912_gws_live_safety_package.rs
+adl/src/bin/demo_v0912_provider_native_tool_call_comparison.rs
+adl/src/bin/demo_v0912_rust_native_gws_adapter_boundary.rs
+adl/src/bin/demo_v0912_speculative_decoding_prototype.rs
+adl/src/bin/demo_v0912_uts_acc_multi_model_benchmark.rs
+adl/src/bin/demo_v0917_dspark_speculative_decoding_evaluation.rs
+adl/src/bin/run_v0916_acip_aee_memory_integration.rs
+adl/src/bin/run_v0916_integrated_runtime_soak.rs
+adl/src/bin/run_v0916_runtime_failure_injection.rs
+adl/src/bin/run_v0917_integrated_resilience_failure_injection.rs
+adl/src/bin/run_wp12_acip_websocket_transport_proof.rs
+adl/src/capability_aptitude_testing.rs
+adl/src/demo/v086_review_surface.rs
+adl/src/dspark_speculative_decoding_evaluation.rs
+adl/src/speculative_decoding_prototype.rs
+adl/tests/demo_tests.rs
+adl/tests/local_gemma_model_evaluation_demo_tests.rs
+adl/tests/model_proposal_benchmark_demo_tests.rs
+adl/tests/uts_acc_multi_model_benchmark_demo_tests.rs
+adl/tools/check_coverage_impact.sh
+adl/tools/demo_v086_candidate_selection.sh
+adl/tools/demo_v086_fast_slow.sh
+adl/tools/demo_v086_freedom_gate.sh
+adl/tools/demo_v086_review_surface.sh
+adl/tools/demo_v0912_speculative_decoding_showcase.sh
+adl/tools/run_pr_fast_test_lane.sh
+adl/tools/test_check_coverage_impact.sh
+adl/tools/test_run_pr_fast_test_lane.sh
+adl/tools/test_select_validation_lanes.sh
+adl/tools/test_v086_demo_review_surface.sh
+adl/tools/test_v0916_unity_observatory_soak_integration.sh
+adl/tools/test_wp17a_demo_follow_ons.sh
+adl/tools/uts_benchmark_runner.py
+adl/tools/validate_v0917_soak2_4682_status.sh
+docs/milestones/v0.91.8/evidence/wp13-external-bands/current-truth-ledger.json
+docs/milestones/v0.91.8/evidence/wp13-external-bands/deletion-accounting.json
+docs/milestones/v0.91.8/evidence/wp13-external-bands/external-band-deletion-manifest.json
+docs/milestones/v0.91.8/evidence/wp13-external-bands/wp13-deletion-coordination.json
 
 ## Prompts
 
@@ -41,8 +84,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:8a417057279565d8c7aad038e73f3a7bd2de2b9b:1aebf4b841431b43812c13828432d5c3f32f54453bb80b1bdb9575dc1bc255f7")
 
-Reviewer: None
+Reviewer: Some("subagent:gpt-5.5-direct-rereview")
 
-Result: pre_review
+Result: pass

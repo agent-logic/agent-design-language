@@ -3,13 +3,13 @@
   "issue": 5347,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4379da53c4006fc48b7aa0358cdc5518623fd15b918ae42ea519c372e95f784f",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "ffd933119571c399ee874a916769acb623cd9aaa44f07482eedaeddbf37c910a",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "4eada00bdd9b541feb9a25ed2eea3a67231f9dd1e71b73e1a12d5280976ff5b5",
   "claim": {
     "id": "claim-5347-external-band-deletion",
     "owner": "codex:5347-execution-owner",
-    "generation": 16,
+    "generation": 18,
     "acquired_unix_seconds": 1785548138,
     "expires_unix_seconds": 1785555338,
     "heartbeat_unix_seconds": 1785548138,
@@ -68,8 +68,119 @@
     ],
     "purpose": "Execute #5347 WP-13 external-owned obsolete demo/proof band deletion with no Cargo.lock churn, no retained-binary mutation, no WP-16 dependency, and #5346 reserved as the later final-core deletion lane; publish ready PR with Closes #5347 and no typed closeout."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:gpt-5.5-direct-rereview",
+    "assigned_by": "codex:5347-publication-owner",
+    "revision": "git-blake3:8a417057279565d8c7aad038e73f3a7bd2de2b9b:1aebf4b841431b43812c13828432d5c3f32f54453bb80b1bdb9575dc1bc255f7",
+    "scope": [
+      "adl/Cargo.toml",
+      "adl/src/bin/demo_v086_candidate_selection.rs",
+      "adl/src/bin/demo_v086_fast_slow.rs",
+      "adl/src/bin/demo_v086_freedom_gate.rs",
+      "adl/src/bin/demo_v086_review_surface.rs",
+      "adl/src/bin/demo_v0905_local_gemma_model_evaluation.rs",
+      "adl/src/bin/demo_v0905_model_proposal_benchmark.rs",
+      "adl/src/bin/demo_v0911_capability_aptitude_testing.rs",
+      "adl/src/bin/demo_v0912_gws_live_capability_execution_surface.rs",
+      "adl/src/bin/demo_v0912_gws_live_content_card_roundtrip.rs",
+      "adl/src/bin/demo_v0912_gws_live_safety_package.rs",
+      "adl/src/bin/demo_v0912_provider_native_tool_call_comparison.rs",
+      "adl/src/bin/demo_v0912_rust_native_gws_adapter_boundary.rs",
+      "adl/src/bin/demo_v0912_speculative_decoding_prototype.rs",
+      "adl/src/bin/demo_v0912_uts_acc_multi_model_benchmark.rs",
+      "adl/src/bin/demo_v0917_dspark_speculative_decoding_evaluation.rs",
+      "adl/src/bin/run_v0916_acip_aee_memory_integration.rs",
+      "adl/src/bin/run_v0916_integrated_runtime_soak.rs",
+      "adl/src/bin/run_v0916_runtime_failure_injection.rs",
+      "adl/src/bin/run_v0917_integrated_resilience_failure_injection.rs",
+      "adl/src/bin/run_wp12_acip_websocket_transport_proof.rs",
+      "adl/src/capability_aptitude_testing.rs",
+      "adl/src/demo/v086_review_surface.rs",
+      "adl/src/dspark_speculative_decoding_evaluation.rs",
+      "adl/src/speculative_decoding_prototype.rs",
+      "adl/tests/demo_tests.rs",
+      "adl/tests/local_gemma_model_evaluation_demo_tests.rs",
+      "adl/tests/model_proposal_benchmark_demo_tests.rs",
+      "adl/tests/uts_acc_multi_model_benchmark_demo_tests.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/demo_v086_candidate_selection.sh",
+      "adl/tools/demo_v086_fast_slow.sh",
+      "adl/tools/demo_v086_freedom_gate.sh",
+      "adl/tools/demo_v086_review_surface.sh",
+      "adl/tools/demo_v0912_speculative_decoding_showcase.sh",
+      "adl/tools/run_pr_fast_test_lane.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_run_pr_fast_test_lane.sh",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_v086_demo_review_surface.sh",
+      "adl/tools/test_v0916_unity_observatory_soak_integration.sh",
+      "adl/tools/test_wp17a_demo_follow_ons.sh",
+      "adl/tools/uts_benchmark_runner.py",
+      "adl/tools/validate_v0917_soak2_4682_status.sh",
+      "docs/milestones/v0.91.8/evidence/wp13-external-bands/current-truth-ledger.json",
+      "docs/milestones/v0.91.8/evidence/wp13-external-bands/deletion-accounting.json",
+      "docs/milestones/v0.91.8/evidence/wp13-external-bands/external-band-deletion-manifest.json",
+      "docs/milestones/v0.91.8/evidence/wp13-external-bands/wp13-deletion-coordination.json"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:gpt-5.5-direct-rereview",
+    "scope": [
+      "adl/Cargo.toml",
+      "adl/src/bin/demo_v086_candidate_selection.rs",
+      "adl/src/bin/demo_v086_fast_slow.rs",
+      "adl/src/bin/demo_v086_freedom_gate.rs",
+      "adl/src/bin/demo_v086_review_surface.rs",
+      "adl/src/bin/demo_v0905_local_gemma_model_evaluation.rs",
+      "adl/src/bin/demo_v0905_model_proposal_benchmark.rs",
+      "adl/src/bin/demo_v0911_capability_aptitude_testing.rs",
+      "adl/src/bin/demo_v0912_gws_live_capability_execution_surface.rs",
+      "adl/src/bin/demo_v0912_gws_live_content_card_roundtrip.rs",
+      "adl/src/bin/demo_v0912_gws_live_safety_package.rs",
+      "adl/src/bin/demo_v0912_provider_native_tool_call_comparison.rs",
+      "adl/src/bin/demo_v0912_rust_native_gws_adapter_boundary.rs",
+      "adl/src/bin/demo_v0912_speculative_decoding_prototype.rs",
+      "adl/src/bin/demo_v0912_uts_acc_multi_model_benchmark.rs",
+      "adl/src/bin/demo_v0917_dspark_speculative_decoding_evaluation.rs",
+      "adl/src/bin/run_v0916_acip_aee_memory_integration.rs",
+      "adl/src/bin/run_v0916_integrated_runtime_soak.rs",
+      "adl/src/bin/run_v0916_runtime_failure_injection.rs",
+      "adl/src/bin/run_v0917_integrated_resilience_failure_injection.rs",
+      "adl/src/bin/run_wp12_acip_websocket_transport_proof.rs",
+      "adl/src/capability_aptitude_testing.rs",
+      "adl/src/demo/v086_review_surface.rs",
+      "adl/src/dspark_speculative_decoding_evaluation.rs",
+      "adl/src/speculative_decoding_prototype.rs",
+      "adl/tests/demo_tests.rs",
+      "adl/tests/local_gemma_model_evaluation_demo_tests.rs",
+      "adl/tests/model_proposal_benchmark_demo_tests.rs",
+      "adl/tests/uts_acc_multi_model_benchmark_demo_tests.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/demo_v086_candidate_selection.sh",
+      "adl/tools/demo_v086_fast_slow.sh",
+      "adl/tools/demo_v086_freedom_gate.sh",
+      "adl/tools/demo_v086_review_surface.sh",
+      "adl/tools/demo_v0912_speculative_decoding_showcase.sh",
+      "adl/tools/run_pr_fast_test_lane.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_run_pr_fast_test_lane.sh",
+      "adl/tools/test_select_validation_lanes.sh",
+      "adl/tools/test_v086_demo_review_surface.sh",
+      "adl/tools/test_v0916_unity_observatory_soak_integration.sh",
+      "adl/tools/test_wp17a_demo_follow_ons.sh",
+      "adl/tools/uts_benchmark_runner.py",
+      "adl/tools/validate_v0917_soak2_4682_status.sh",
+      "docs/milestones/v0.91.8/evidence/wp13-external-bands/current-truth-ledger.json",
+      "docs/milestones/v0.91.8/evidence/wp13-external-bands/deletion-accounting.json",
+      "docs/milestones/v0.91.8/evidence/wp13-external-bands/external-band-deletion-manifest.json",
+      "docs/milestones/v0.91.8/evidence/wp13-external-bands/wp13-deletion-coordination.json"
+    ],
+    "reviewed_revision": "git-blake3:8a417057279565d8c7aad038e73f3a7bd2de2b9b:1aebf4b841431b43812c13828432d5c3f32f54453bb80b1bdb9575dc1bc255f7",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -84,32 +195,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "aed854a8cdd1759392dea7273d18083029f5e70332ec81e1cd14cbbaf913de7a",
+      "values_digest": "f9ce3328c8dcc7031b0453e8facb58a0b81600fb95db85c292e0a12eb2f13fb7",
       "rendered_digest": "bba94b0c6938b04c5b24dd5345f10c5fdd0eb660e10f0049938065122dcac62f",
       "ast_digest": "f16fa9ea475ff8c4879e5fc6cc35ecaf34abc03d0552c6682d73c320ea81ad86"
     },
     "stp": {
-      "values_digest": "928e6b41ce9b6b19d9bcd00894e2311965a1a85ef56038ca99c15f8c7ea943ac",
+      "values_digest": "d1ab51f4b1b9a6ceddb0a3d615e99c62db24cffb1372a806941f8ad337798291",
       "rendered_digest": "6d26768de5f223ab4f20f7b1a14e0aaaf51821861467749d81a1d5d1f325be6f",
       "ast_digest": "81d561765553b1943ebdc009fd67a17664a409a8898d095cde706a56fd288c4a"
     },
     "spp": {
-      "values_digest": "e86573d1fc01a04d0e8cd8b7c0ea3992a737eb76cb8b34ac1588cd866acb6b8a",
+      "values_digest": "4b78c33bb6e8a5bd7eb299bafb2db517e1cba18fa8ed3f11580d27ba8ac2cc1c",
       "rendered_digest": "7eea12e4df203d02356c3a2a4e256364bc673002a88a24c11788b623b4a796ba",
       "ast_digest": "2a1ad680231eb8b779fc0dc987ddea4619d3dbedee49666aad3b5e2337d79256"
     },
     "vpp": {
-      "values_digest": "a64e75df37aead0e6d657643701dd6faebbacc5f0ca01565d0438217a95480b2",
+      "values_digest": "75f9b236f4d7087e857198d787ac36a3072a25929831799e5f34115d9a6dcc4a",
       "rendered_digest": "6d6e38b8569279f0f137698419c32ddf9aeaadb457286b2c7e00d328d5902e8c",
       "ast_digest": "37d957d672df501b34d54395a49bef3c05c8ba46e2563ab54d79376066e6c01b"
     },
     "srp": {
-      "values_digest": "487e6b5441901de96ce29a4c010d3d2f5f22299cc9d9c188b8f333bbed42f0c2",
-      "rendered_digest": "c8e597630b464ddd8d3a5eea9a0118ddd500115dec18913b4549418bf339785f",
-      "ast_digest": "56d4f4b12afd863aec827968e941ff566059f98eb3e7e62e6326d41f6869a76e"
+      "values_digest": "2c92cab9d26f006e53674b6b7fe57c9655a284b283b82e984290093c7a97cd95",
+      "rendered_digest": "9c81e6015463e211a2f27f832704842e40d46ec6178f56d38b3a112fbc669fad",
+      "ast_digest": "f0de33d512eb92d407f6292351a05e14e10efd5aea09e876f7de4c84b010d9a0"
     },
     "sor": {
-      "values_digest": "8b9f6c2099657d1f2ec970e89a4c5cbc3c80de22ee0a872a1ead68b341d5b652",
+      "values_digest": "5e4edecfe805fad65a6dd1ddcbb7dba7c335b046ccf55c9142a05d36ec957392",
       "rendered_digest": "e2a93a84989d3b44690170c23695db480c235fc95a95987be363bff7079c6ed0",
       "ast_digest": "118f64941a89ad28f357f59449759fda4ad2c0f2b82a95d71cebcdebc8dae230"
     }
@@ -135,6 +246,13 @@
       "to": "implemented",
       "actor": "codex:5347-execution-owner",
       "reason": "The scoped #5347 external-band deletion is implemented and focused validation is recorded; ready for the single bounded pre-PR review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5347-publication-owner",
+      "reason": "Direct GPT-5.5 exact-head rereview passed with zero blockers at 8a417057279565d8c7aad038e73f3a7bd2de2b9b."
     }
   ],
   "audit": [
@@ -333,6 +451,27 @@
       "actor": "codex:5347-replacement-sole-writer",
       "reason": "Record final lock-preserving focused validation for direct GPT-5.5 review-finding fixes before exact-head rereview.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5347/run-validation-lane.rb\",\"execution\"],\"purpose\":\"Prove #5347 review-finding fixes removed obsolete Rust test references, repaired shell/tool stale references, strengthened the recurrence guard, preserved #5346 disjointness, and compiled surviving integration tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5347/execution-validation/review-finding-fix-validation.json\"}}"
+    },
+    {
+      "sequence": 29,
+      "generation": 16,
+      "actor": "codex:5347-publication-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 17,
+      "actor": "codex:5347-publication-owner",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 18,
+      "actor": "codex:5347-publication-owner",
+      "reason": "Direct GPT-5.5 exact-head rereview passed with zero blockers at 8a417057279565d8c7aad038e73f3a7bd2de2b9b.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
