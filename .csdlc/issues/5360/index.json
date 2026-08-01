@@ -5,14 +5,14 @@
   "initialization_digest": "c644edc3992ebad636bd12a7abfc00f880251e4cc54513ea00c3de803c347dac",
   "phase": "bound",
   "generation": 1,
-  "digest": "c292a04f4010e3ff2f5d65ac351f1744a41f5b2d55d6f94a4c09b1b3fe00d03f",
+  "digest": "a83e5757f8888b9c052d0575b05ce87ad59ab816a979f5a0dd98dac78bde08ca",
   "claim": {
     "id": "claim-5360-v0918-wp17-documentation-preparation",
     "owner": "codex:5360-preparation-owner",
     "generation": 1,
-    "acquired_unix_seconds": 1784667701,
-    "expires_unix_seconds": 1785272501,
-    "heartbeat_unix_seconds": 1784667701,
+    "acquired_unix_seconds": 1785543202,
+    "expires_unix_seconds": 1786148002,
+    "heartbeat_unix_seconds": 1785543202,
     "branch": "codex/5360-v0918-preparation",
     "worktree": ".",
     "protected_paths": [
@@ -106,6 +106,13 @@
       "actor": "codex:5360-preparation-owner",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:5360-preparation-owner",
+      "reason": "reacquire expired preparation-only claim for later WP-17 execution readiness without executing content updates",
+      "operation": "{\"branch\":\"codex/5360-v0918-preparation\",\"claim_id\":\"claim-5360-v0918-wp17-documentation-preparation\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5360-preparation-owner\",\"previous_claim_id\":\"claim-5360-v0918-wp17-documentation-preparation\",\"previous_owner\":\"codex:5360-preparation-owner\",\"protected_paths\":[\".csdlc/issues/5360\",\".csdlc/locks/5360.lock\",\".csdlc/prepared/issues/5360\",\".csdlc/evidence/5360\"],\"purpose\":\"Prepare and review #5360 WP-17 documentation and release-truth alignment contracts only; no shared-document or product work until WP-16 #5351 is merged, typed closed_out, receipt-backed, claim-free, and ancestral\",\"worktree\":\".\"}"
     }
   ]
 }
