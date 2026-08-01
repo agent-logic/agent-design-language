@@ -1666,6 +1666,32 @@ impl Store {
         Ok(true)
     }
 
+    pub(crate) fn has_claim_free_retained_terminal_authority(
+        &self,
+        issue: u64,
+        repository: &str,
+        initialization_digest: &str,
+    ) -> Result<bool> {
+        let local = self.load_record(issue)?;
+        if local.claim.is_some()
+            || local.repository != repository
+            || local.initialization_digest != initialization_digest
+        {
+            return Ok(false);
+        }
+        let Some(receipt) = self.load_terminal_receipt(issue)? else {
+            return Ok(false);
+        };
+        Ok(receipt.issue == issue
+            && receipt.repository == repository
+            && receipt.initialization_digest == initialization_digest
+            && receipt.record.issue == issue
+            && receipt.record.repository == repository
+            && receipt.record.initialization_digest == initialization_digest
+            && receipt.record.phase == LifecyclePhase::ClosedOut
+            && receipt.record.claim.is_none())
+    }
+
     fn verify_materialized_terminal_receipt(&self, receipt: &TerminalReceipt) -> Result<()> {
         verify_canonical_projection_bytes(self, &receipt.record, &receipt.cards).map_err(
             |error| {
@@ -2513,7 +2539,15 @@ impl Store {
                 .iter()
                 .any(|keyword| lower.contains(&format!("{keyword} #{issue}")))
         });
-        let (changed_paths, metadata_direction) = if request.reviewed_commit == pr.head_sha {
+        let (changed_paths, metadata_direction) = if corrupt_source.is_some() {
+            // Corrupt historical recovery can run after unrelated work has
+            // landed between the recorded review and the merged PR head. The
+            // target checkout is authenticated against `pr.head_sha` below,
+            // and the declared review scope is independently required to
+            // remain byte-identical to `reviewed_commit`. Do not require the
+            // repository-wide intervening delta to be lifecycle metadata.
+            (Vec::new(), "reviewed_scope_exact_at_merged_head")
+        } else if request.reviewed_commit == pr.head_sha {
             (Vec::new(), "exact_head")
         } else if let Ok(paths) = crate::git::metadata_only_changed_paths(
             &self.root,
