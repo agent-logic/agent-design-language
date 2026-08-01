@@ -197,7 +197,17 @@ impl Store {
     }
 
     pub fn load_record(&self, issue: u64) -> Result<IssueRecord> {
-        read_json(&self.issue_dir(issue).join("index.json"))
+        let record: IssueRecord = read_json(&self.issue_dir(issue).join("index.json"))?;
+        if record.issue != issue {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!(
+                    "issue projection namespace mismatch: requested {issue}, embedded {}",
+                    record.issue
+                ),
+            ));
+        }
+        Ok(record)
     }
 
     pub fn load_cards(&self, issue: u64) -> Result<BTreeMap<CardKind, CardValues>> {
@@ -1387,12 +1397,22 @@ impl Store {
 
     pub fn load_terminal_receipt(&self, issue: u64) -> Result<Option<TerminalReceipt>> {
         let path = self.terminal_receipt_path(issue)?;
-        let metadata = match fs::symlink_metadata(&path) {
-            Ok(metadata) => metadata,
-            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
-            Err(error) => return Err(error.into()),
+        let common = path.ancestors().nth(3).ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::InvalidInput,
+                "terminal receipt path has no Git-common root",
+            )
+        })?;
+        let relative = path.strip_prefix(common).map_err(|_| {
+            V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "terminal receipt path escapes its Git-common root",
+            )
+        })?;
+        let Some(metadata) = canonical_path_metadata_beneath(common, relative)? else {
+            return Ok(None);
         };
-        if metadata.file_type().is_symlink() || !metadata.is_file() {
+        if !metadata.is_file() {
             return Err(V2Error::new(
                 ErrorCode::UnsafeCheckout,
                 format!(
@@ -1403,6 +1423,15 @@ impl Store {
         }
         let receipt: TerminalReceipt = read_json(&path)?;
         validate_terminal_receipt(&receipt)?;
+        if receipt.issue != issue {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                format!(
+                    "terminal receipt namespace mismatch: requested {issue}, embedded {}",
+                    receipt.issue
+                ),
+            ));
+        }
         Ok(Some(receipt))
     }
 
@@ -1463,7 +1492,7 @@ impl Store {
         })?;
         for (path, expected) in &receipt.authored_artifacts {
             let actual =
-                read_regular_terminal_artifact(&self.root.join(path))?.ok_or_else(|| {
+                read_regular_terminal_artifact(&self.root, Path::new(path))?.ok_or_else(|| {
                     V2Error::new(
                         ErrorCode::ReconciliationRequired,
                         "materialized terminal authored artifact is absent",
@@ -1552,8 +1581,7 @@ impl Store {
                     format!("receipt transport authority does not cover external artifact {path}"),
                 ));
             }
-            let absolute = self.root.join(path);
-            if let Some(actual) = read_regular_terminal_artifact(&absolute)? {
+            if let Some(actual) = read_regular_terminal_artifact(&self.root, Path::new(path))? {
                 if actual != expected.as_bytes() {
                     return Err(V2Error::new(
                         ErrorCode::ReconciliationRequired,
@@ -1607,13 +1635,13 @@ impl Store {
                                 "transport rollback artifacts must be repository-relative",
                             ));
                         }
-                        let bytes = read_regular_terminal_artifact(&self.root.join(&path))?
+                        let bytes = read_regular_terminal_artifact(&self.root, Path::new(&path))?
                             .ok_or_else(|| {
-                                V2Error::new(
-                                    ErrorCode::ReconciliationRequired,
-                                    "transport rollback artifact is absent",
-                                )
-                            })?;
+                            V2Error::new(
+                                ErrorCode::ReconciliationRequired,
+                                "transport rollback artifact is absent",
+                            )
+                        })?;
                         let contents = String::from_utf8(bytes).map_err(|_| {
                             V2Error::new(
                                 ErrorCode::ReconciliationRequired,
@@ -1664,13 +1692,13 @@ impl Store {
                                 "transport rollback artifacts must be repository-relative",
                             ));
                         }
-                        let bytes = read_regular_terminal_artifact(&self.root.join(&path))?
+                        let bytes = read_regular_terminal_artifact(&self.root, Path::new(&path))?
                             .ok_or_else(|| {
-                                V2Error::new(
-                                    ErrorCode::ReconciliationRequired,
-                                    "transport rollback artifact is absent",
-                                )
-                            })?;
+                            V2Error::new(
+                                ErrorCode::ReconciliationRequired,
+                                "transport rollback artifact is absent",
+                            )
+                        })?;
                         let contents = String::from_utf8(bytes).map_err(|_| {
                             V2Error::new(
                                 ErrorCode::ReconciliationRequired,
@@ -1697,8 +1725,7 @@ impl Store {
             .authored_artifacts
             .keys()
             .map(|path| {
-                let absolute = self.root.join(path);
-                let bytes = read_regular_terminal_artifact(&absolute)?;
+                let bytes = read_regular_terminal_artifact(&self.root, Path::new(path))?;
                 Ok((path.clone(), bytes))
             })
             .collect::<Result<BTreeMap<_, _>>>()?;
@@ -2403,8 +2430,8 @@ impl Store {
                 ));
             }
             for path in [&source.design_path, &source.diagram_path] {
-                if read_regular_projection(&source_store.root().join(path))?
-                    != read_regular_projection(&self.root.join(path))?
+                if read_regular_projection(source_store.root(), Path::new(path))?
+                    != read_regular_projection(&self.root, Path::new(path))?
                 {
                     return Err(V2Error::new(
                         ErrorCode::ReconciliationRequired,
@@ -5173,6 +5200,13 @@ fn authorize_card_operation(
             CardKind::Spp,
             SemanticOperation::UpdatePlanStep { .. },
         ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Spp,
+            SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::AffectedAreas,
+                ..
+            },
+        ) | (
             LifecyclePhase::Bound | LifecyclePhase::Implemented,
             CardKind::Vpp,
             SemanticOperation::ReplaceValidationLanes { .. },
@@ -5305,6 +5339,18 @@ fn validate_terminal_receipt(receipt: &TerminalReceipt) -> Result<()> {
             "terminal receipt identity, phase, or digest is invalid",
         ));
     }
+    if !crate::pvf::clean_relative(Path::new(&receipt.record.design_path))
+        || !crate::pvf::clean_relative(Path::new(&receipt.record.diagram_path))
+        || receipt
+            .authored_artifacts
+            .keys()
+            .any(|path| !crate::pvf::clean_relative(Path::new(path)))
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "terminal receipt authored paths must be clean repository-relative paths",
+        ));
+    }
     verify_record(&receipt.record)?;
     let design = receipt
         .authored_artifacts
@@ -5366,10 +5412,10 @@ fn verify_canonical_projection_bytes(
     record: &IssueRecord,
     cards: &BTreeMap<CardKind, CardValues>,
 ) -> Result<()> {
-    let issue_dir = store.issue_dir(record.issue);
+    let issue_dir = PathBuf::from(".csdlc/issues").join(record.issue.to_string());
     let mut index = serde_json::to_vec_pretty(record)?;
     index.push(b'\n');
-    if read_regular_projection(&issue_dir.join("index.json"))? != index {
+    if read_regular_projection(&store.root, &issue_dir.join("index.json"))? != index {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
             "authority target index projection is not canonical",
@@ -5380,7 +5426,7 @@ fn verify_canonical_projection_bytes(
         serde_json::to_writer(&mut audit, event)?;
         audit.push(b'\n');
     }
-    if read_regular_projection(&issue_dir.join("audit.jsonl"))? != audit {
+    if read_regular_projection(&store.root, &issue_dir.join("audit.jsonl"))? != audit {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
             "authority target audit projection is not canonical",
@@ -5390,8 +5436,11 @@ fn verify_canonical_projection_bytes(
         let mut encoded = serde_json::to_vec_pretty(values)?;
         encoded.push(b'\n');
         let rendered = render(values)?;
-        if read_regular_projection(&issue_dir.join(format!("cards/{kind}.values.json")))? != encoded
-            || read_regular_projection(&issue_dir.join(format!("cards/{kind}.md")))?
+        if read_regular_projection(
+            &store.root,
+            &issue_dir.join(format!("cards/{kind}.values.json")),
+        )? != encoded
+            || read_regular_projection(&store.root, &issue_dir.join(format!("cards/{kind}.md")))?
                 != rendered.markdown.as_bytes()
         {
             return Err(V2Error::new(
@@ -5403,9 +5452,15 @@ fn verify_canonical_projection_bytes(
     Ok(())
 }
 
-fn read_regular_projection(path: &Path) -> Result<Vec<u8>> {
-    let metadata = fs::symlink_metadata(path)?;
-    if metadata.file_type().is_symlink() || !metadata.is_file() {
+fn read_regular_projection(root: &Path, relative: &Path) -> Result<Vec<u8>> {
+    let path = root.join(relative);
+    let metadata = canonical_path_metadata_beneath(root, relative)?.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!("authority projection is absent: {}", path.display()),
+        )
+    })?;
+    if !metadata.is_file() {
         return Err(V2Error::new(
             ErrorCode::UnsafeCheckout,
             format!(
@@ -5417,13 +5472,18 @@ fn read_regular_projection(path: &Path) -> Result<Vec<u8>> {
     Ok(fs::read(path)?)
 }
 
-fn read_regular_terminal_artifact(path: &Path) -> Result<Option<Vec<u8>>> {
-    let metadata = match fs::symlink_metadata(path) {
-        Ok(metadata) => metadata,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
-        Err(error) => return Err(error.into()),
+fn read_regular_terminal_artifact(root: &Path, relative: &Path) -> Result<Option<Vec<u8>>> {
+    if !crate::pvf::clean_relative(relative) {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "terminal authored artifact path must be clean and repository-relative",
+        ));
+    }
+    let path = root.join(relative);
+    let Some(metadata) = canonical_path_metadata_beneath(root, relative)? else {
+        return Ok(None);
     };
-    if !metadata.file_type().is_file() {
+    if !metadata.is_file() {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
             format!(
@@ -5433,6 +5493,50 @@ fn read_regular_terminal_artifact(path: &Path) -> Result<Option<Vec<u8>>> {
         ));
     }
     Ok(Some(fs::read(path)?))
+}
+
+fn canonical_path_metadata_beneath(root: &Path, relative: &Path) -> Result<Option<fs::Metadata>> {
+    if !crate::pvf::clean_relative(relative) {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!(
+                "canonical path is not clean and root-relative: {}",
+                relative.display()
+            ),
+        ));
+    }
+    let mut current = root.to_path_buf();
+    let components: Vec<_> = relative.components().collect();
+    for (index, component) in components.iter().enumerate() {
+        match component {
+            std::path::Component::Normal(part) => current.push(part),
+            _ => unreachable!("clean_relative accepted a non-normal component"),
+        }
+        let metadata = match fs::symlink_metadata(&current) {
+            Ok(metadata) => metadata,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+            Err(error) => return Err(error.into()),
+        };
+        if metadata.file_type().is_symlink() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                format!("canonical path contains a symlink: {}", current.display()),
+            ));
+        }
+        if index + 1 < components.len() && !metadata.is_dir() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                format!(
+                    "canonical path ancestor is not a directory: {}",
+                    current.display()
+                ),
+            ));
+        }
+        if index + 1 == components.len() {
+            return Ok(Some(metadata));
+        }
+    }
+    Ok(None)
 }
 
 fn write_complete(
@@ -5725,6 +5829,44 @@ mod terminal_design_repair_tests {
                 &target.initialization_digest,
             )
             .expect("verify terminal authority"));
+    }
+
+    #[test]
+    fn terminal_receipt_rejects_noncanonical_authored_paths() {
+        let (_temp, _store, _authority, _target, receipt, _validation) =
+            terminal_validation_fixture();
+        for replacement in ["../escape.md", "/absolute/escape.md", "./escape.md"] {
+            let mut candidate = receipt.clone();
+            let previous = candidate.record.design_path.clone();
+            let contents = candidate
+                .authored_artifacts
+                .remove(&previous)
+                .expect("design artifact");
+            candidate.record.design_path = replacement.into();
+            for kind in [CardKind::Spp, CardKind::Vpp] {
+                match &mut candidate.cards.get_mut(&kind).expect("design card").content {
+                    CardContent::Spp(values) => values.design_ref = replacement.into(),
+                    CardContent::Vpp(values) => values.design_ref = replacement.into(),
+                    _ => unreachable!("design card"),
+                }
+            }
+            hydrate_projections(&mut candidate.record, &candidate.cards)
+                .expect("receipt projections");
+            candidate.record.digest =
+                record_digest(&candidate.record).expect("receipt record digest");
+            candidate
+                .authored_artifacts
+                .insert(replacement.into(), contents);
+            candidate.digest.clear();
+            candidate.digest = terminal_receipt_digest(&candidate).expect("receipt digest");
+
+            let error = validate_terminal_receipt(&candidate)
+                .expect_err("noncanonical authored path must fail");
+            assert_eq!(error.code, ErrorCode::CorruptRecord);
+            assert!(error
+                .message
+                .contains("authored paths must be clean repository-relative paths"));
+        }
     }
 
     fn copy_tree(source: &Path, destination: &Path) {

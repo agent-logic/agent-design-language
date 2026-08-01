@@ -151,6 +151,12 @@ for issue in "${terminal_issues[@]}"; do
   require_file "$common_dir" "$receipt"
   require_eq "$(jq -r '.phase' "$index")" closed_out \
     "terminal issue #$issue phase mismatch"
+  require_eq "$(jq -r '.issue' "$index")" "$issue" \
+    "terminal issue #$issue projection namespace mismatch"
+  jq -e --argjson issue "$issue" \
+    '.issue == $issue and .record.issue == $issue and
+     .receipt_ref == ("csdlc-v2/closeout/" + ($issue | tostring) + ".json")' \
+    "$receipt" >/dev/null || fail "terminal issue #$issue receipt namespace mismatch"
   require_eq "$(jq -r '.claim == null' "$index")" true \
     "terminal issue #$issue retained an active claim"
   "$doctor" --repo "$repo_root" --issue "$issue" >/dev/null || \
@@ -164,6 +170,9 @@ for issue in "${terminal_issues[@]}"; do
       '. == $receipt[0].cards[$card]' \
       "$repo_root/.csdlc/issues/$issue/cards/$card.values.json" >/dev/null || \
       fail "terminal issue #$issue $card values differ from receipt"
+    require_eq "$(jq -r '.identity.issue' \
+      "$repo_root/.csdlc/issues/$issue/cards/$card.values.json")" "$issue" \
+      "terminal issue #$issue $card namespace mismatch"
   done
 done
 
@@ -269,5 +278,8 @@ require_absent "$repo_root" "$repo_root/.csdlc/issues/5722"
 require_absent "$common_dir" "$common_dir/csdlc-v2/closeout/5335.json"
 rg -q '^## #5335 — outside the merged-PR eligibility boundary$' "$register" || \
   fail "noneligible exclusion #5335 is missing from the register"
+
+require_eq "$(git status --porcelain -- .csdlc/locks .csdlc/requests)" "" \
+  "generated lock or request state dirties the publication worktree"
 
 printf 'v0.91.8 terminal inventory PASS: 90 terminal, 10 fail-closed exceptions, 1 noneligible exclusion\n'

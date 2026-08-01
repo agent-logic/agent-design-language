@@ -1,5 +1,6 @@
 use std::fs;
 
+use csdlc_v2::cards::CardContent;
 use csdlc_v2::doctor::DoctorStatus;
 use csdlc_v2::{
     amend_claim_scope, closeout_issue, diagnose, edit_issue, AmendClaimScopeRequest,
@@ -3184,7 +3185,7 @@ fn planning_replacements_reject_invalid_requests_without_mutation() {
 }
 
 #[test]
-fn planning_replacements_are_bound_only_and_cannot_smuggle_progress() {
+fn planning_replacements_are_phase_bounded_and_cannot_smuggle_progress() {
     let (_temp, initialized_store, initialized) = fixture();
     for (card, operation) in [
         (
@@ -3267,6 +3268,23 @@ fn planning_replacements_are_bound_only_and_cannot_smuggle_progress() {
         SemanticOperation::AdvancePhase {
             phase: csdlc_v2::LifecyclePhase::Implemented,
         },
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Spp,
+        SemanticOperation::ReplacePlanningCollection {
+            field: PlanningCollectionField::AffectedAreas,
+            values: vec!["implementation-discovered surface".into()],
+        },
+    );
+    let cards = store.load_cards(42).expect("cards");
+    let CardContent::Spp(spp) = &cards[&CardKind::Spp].content else {
+        panic!("SPP")
+    };
+    assert_eq!(
+        spp.affected_areas,
+        vec!["implementation-discovered surface"]
     );
     let error = edit_issue(
         &store,

@@ -3246,22 +3246,78 @@ fn no_pr_closeout_produces_doctor_valid_terminal_state() {
     let receipt = store.load_terminal_receipt(issue).unwrap().unwrap();
     let design_path = temp.path().join(&closed.design_path);
     let expected_design = receipt.authored_artifacts[&closed.design_path].clone();
+    fs::remove_file(&design_path).unwrap();
+    let doctor = csdlc_v2::diagnose(&store, issue);
+    assert!(matches!(
+        doctor.status,
+        csdlc_v2::doctor::DoctorStatus::Corrupt
+    ));
+    assert_eq!(doctor.findings[0].code, "terminal_authority_corrupt");
+    assert_eq!(
+        doctor.next_operation.as_deref(),
+        Some("reconcile_terminal_authority")
+    );
+    fs::write(&design_path, &expected_design).unwrap();
+
     fs::write(&design_path, "# tampered terminal design\n").unwrap();
     let doctor = csdlc_v2::diagnose(&store, issue);
     assert!(matches!(
         doctor.status,
         csdlc_v2::doctor::DoctorStatus::Corrupt
     ));
-    assert!(
-        doctor.findings[0]
-            .message
-            .contains("design/diagram references are stale"),
-        "{doctor:?}"
-    );
+    assert_eq!(doctor.findings[0].code, "terminal_authority_corrupt");
+    assert!(doctor.findings[0].message.contains("materialized terminal"));
     fs::write(&design_path, expected_design).unwrap();
 
     let receipt_path = store.terminal_receipt_path(issue).unwrap();
     let original_receipt = fs::read(&receipt_path).unwrap();
+    let foreign_receipt_path = store.terminal_receipt_path(issue + 1).unwrap();
+    fs::copy(&receipt_path, &foreign_receipt_path).unwrap();
+    let error = store
+        .load_terminal_receipt(issue + 1)
+        .expect_err("cross-issue receipt substitution must fail");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+    assert!(error
+        .message
+        .contains("terminal receipt namespace mismatch"));
+
+    let foreign_issue_dir = store.issue_dir(issue + 1);
+    fs::create_dir_all(&foreign_issue_dir).unwrap();
+    fs::copy(
+        store.issue_dir(issue).join("index.json"),
+        foreign_issue_dir.join("index.json"),
+    )
+    .unwrap();
+    let doctor = csdlc_v2::diagnose(&store, issue + 1);
+    assert!(matches!(
+        doctor.status,
+        csdlc_v2::doctor::DoctorStatus::Corrupt
+    ));
+    assert!(doctor.findings[0]
+        .message
+        .contains("issue projection namespace mismatch"));
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+
+        let authored_parent = design_path.parent().unwrap();
+        let authored_backup = authored_parent.with_extension("canonical-dir");
+        fs::rename(authored_parent, &authored_backup).unwrap();
+        symlink(&authored_backup, authored_parent).unwrap();
+        let doctor = csdlc_v2::diagnose(&store, issue);
+        assert!(matches!(
+            doctor.status,
+            csdlc_v2::doctor::DoctorStatus::Corrupt
+        ));
+        assert_eq!(doctor.findings[0].code, "terminal_authority_corrupt");
+        assert!(doctor.findings[0]
+            .message
+            .contains("canonical path contains a symlink"));
+        fs::remove_file(authored_parent).unwrap();
+        fs::rename(&authored_backup, authored_parent).unwrap();
+    }
+
     let mut tampered: serde_json::Value = serde_json::from_slice(&original_receipt).unwrap();
     tampered["digest"] = "tampered-receipt-digest".into();
     fs::write(&receipt_path, serde_json::to_vec_pretty(&tampered).unwrap()).unwrap();
@@ -3287,9 +3343,10 @@ fn no_pr_closeout_produces_doctor_valid_terminal_state() {
             doctor.status,
             csdlc_v2::doctor::DoctorStatus::Corrupt
         ));
+        assert_eq!(doctor.findings[0].code, "terminal_authority_corrupt");
         assert!(doctor.findings[0]
             .message
-            .contains("terminal receipt is not a canonical regular file"));
+            .contains("canonical path contains a symlink"));
     }
 }
 
