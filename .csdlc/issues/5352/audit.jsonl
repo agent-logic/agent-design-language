@@ -5,3 +5,4 @@
 {"sequence":5,"generation":2,"actor":"codex:wp21-final-handoff","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":6,"generation":3,"actor":"codex:wp21-final-handoff","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":7,"generation":4,"actor":"codex:wp21-final-handoff","reason":"The exact reviewed head b1ec4f120 passed with zero blockers after all actionable findings were fixed; the sprint-wide review remains an explicit pre-merge gate.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":8,"generation":5,"actor":"codex:wp21-final-handoff","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

@@ -3,13 +3,13 @@
   "issue": 5352,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0b1b443e0ef68c9229695e3260f7340ef3b40df59112c8adb75d065cd81caf9a",
-  "phase": "reviewed",
-  "generation": 4,
-  "digest": "e51e9b85b9722feb645d3184525c2e8815ca6fbcf2fbc28d60df0c73076b5da3",
+  "phase": "published",
+  "generation": 5,
+  "digest": "21a1d8abb5c4aea71244680406fec890066c721302815e2a828577a0b4885e4e",
   "claim": {
     "id": "claim-5352-v0918-final-handoff",
     "owner": "codex:wp21-final-handoff",
-    "generation": 4,
+    "generation": 5,
     "acquired_unix_seconds": 1785543526,
     "expires_unix_seconds": 1786148326,
     "heartbeat_unix_seconds": 1785543526,
@@ -52,7 +52,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5352,
+    "pull_request": 5751,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5751",
+    "base": "main",
+    "head": "codex/5352-v0918-final-handoff",
+    "revision": "git-blake3:88edbfa7d06cd63bc96fc88e6ff28421972146c0:50c55f0c0baab15de19cc8ca977ac48f2f6db98836221e38632451498e5fc4a5",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -66,34 +76,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "98c4e24d32e7e55609ecd3b13f18e61759b855dd0787f26e66a1cb2e2b798145",
+      "values_digest": "d8f496009cb2a34d5e1bcdb5b0e153e117d75ea4171f1ba3eb7a6d1e0a8c0475",
       "rendered_digest": "da0857c34330916535e0d2e0b6e6e5141fcc3a99744dacceff36b5f36cf66b14",
       "ast_digest": "000dd5efbe071cb9735c35c906e3e0f2f914632abce4ade963152e8a1e54395f"
     },
     "stp": {
-      "values_digest": "b058c44735ebaf53948855c590107963f36597ff9783c55e1d9c845bd09066ac",
+      "values_digest": "6b6af32d7cc7bdc633fd3bef8e00d4666ae04e23db0d041d6c68e4dc673b5d8b",
       "rendered_digest": "eecfee175e430006c55681541ddc2b7f56b50899b3426816de28ee22a762d314",
       "ast_digest": "a349cc9f1f98892d2e68ad155ff795a80c79fd0b954c821313ff4d29a0bf5875"
     },
     "spp": {
-      "values_digest": "49894d9713f56ec6b464b0c3a7220f20c6170db3a6f07fa0cf85919cf23e9e60",
+      "values_digest": "c95c9d5a7bfd2b4978a4df9631ff145a97d7ee5106adfe7b4bb2500bbf9b4268",
       "rendered_digest": "69746498e638699d0ac624ca6791b7e1fca0105269046196677f6a1b2b56ad47",
       "ast_digest": "0dacb1211c58529a33eb0dfaa8afffd27155acb7aaf69e8ed123b577b73fd3fd"
     },
     "vpp": {
-      "values_digest": "5c9abbe6cd0bffe9dfc59ba8c12b9fb71a393407ba0444f11480a3c81eb1b830",
+      "values_digest": "f66c9470ed5f55ada823cdab1d328f94cd0202573e374c0375850e9fe870e638",
       "rendered_digest": "360791bdf09d0341533ee7fc446f73cf5e42a09c00935875014033c3d498b66b",
       "ast_digest": "76ac742a01efadd6c9a85a76900c29dad1e391c753ede29fd61df858c97ceb79"
     },
     "srp": {
-      "values_digest": "8c74ade45b455c48a1d1cd1db08f48d2518433800f3e9b28d719316b11a749d7",
+      "values_digest": "6b4cd7e1fa6736bc97e9d1336515ca677dc7b6319fd7130eabaa949fcf7b0eb1",
       "rendered_digest": "f60e72558c2628fb640d7093dead070d397109966d95124ccf44485c066c6f11",
       "ast_digest": "edc69d0b4eeb9c681ba9033e659e824a02b00b5475855a0eb016f3e815b017a8"
     },
     "sor": {
-      "values_digest": "fe25399c5f6e3d9e88f326b95c6e41039e50492c610e2aa7ec4a2f3590cb31d8",
-      "rendered_digest": "d87513edd4f024e52b1955b41a2fa11f5f0039102f7f0e997302dc58138883f6",
-      "ast_digest": "cbb8a4fbd9322b4510f080088a4aa9a60da1d10da573c1d9eee7f9e97799090a"
+      "values_digest": "a7c685eea8b259d1130282aa0c16927dbcfb0f2a8bf35aef0a684293b8f6569e",
+      "rendered_digest": "e3099b023423878f789386729a6d97876165561e5e71c8814600f097b5642255",
+      "ast_digest": "66940ec6b8ec95aedf1d2e9e4234d6c5cb2deb5de92c54446c545b0a36ff9f9f"
     }
   },
   "transitions": [
@@ -124,6 +134,13 @@
       "to": "reviewed",
       "actor": "codex:wp21-final-handoff",
       "reason": "The exact reviewed head b1ec4f120 passed with zero blockers after all actionable findings were fixed; the sprint-wide review remains an explicit pre-merge gate."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:wp21-final-handoff",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -175,6 +192,13 @@
       "actor": "codex:wp21-final-handoff",
       "reason": "The exact reviewed head b1ec4f120 passed with zero blockers after all actionable findings were fixed; the sprint-wide review remains an explicit pre-merge gate.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:wp21-final-handoff",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

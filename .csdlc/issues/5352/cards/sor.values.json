@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-21][handoff] Finalize exact-revision v0.92 consumption handoff",
     "slug": "v0918-wp21-v092-consumption-handoff",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
@@ -68,8 +68,8 @@
           "evidence_ref": "implemented-packet.log"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

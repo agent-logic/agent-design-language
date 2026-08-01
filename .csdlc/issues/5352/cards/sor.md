@@ -75,11 +75,11 @@ Finalized the truthful WP-21 exact-revision v0.92 consumption handoff on current
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
