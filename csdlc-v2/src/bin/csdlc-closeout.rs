@@ -9,12 +9,12 @@ use csdlc_v2::error::{ErrorCode, V2Error};
 use csdlc_v2::{
     classify_readiness, closeout_issue, execute_github_action, reconcile_terminal_observation_head,
     record_readiness, CheckConclusion, CheckObservation, CheckRequirement, ConflictState,
-    GithubAction, GithubActionRequest, HistoricalMergedReconciliationRequest,
-    PostPublicationFinding, ReadinessRequest, RecordlessTerminalRecoveryRequest, RemoteReviewState,
-    Store, TerminalDesignRepairRequest, TerminalDisposition, TerminalDispositionRepairRequest,
-    TerminalObservation, TerminalPlanStepRepairRequest, TerminalReceipt,
-    TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
-    TerminalSorValidationRepairRequest,
+    CorruptHistoricalMergedRecoveryRequest, GithubAction, GithubActionRequest,
+    HistoricalMergedReconciliationRequest, PostPublicationFinding, ReadinessRequest,
+    RecordlessTerminalRecoveryRequest, RemoteReviewState, Store, TerminalDesignRepairRequest,
+    TerminalDisposition, TerminalDispositionRepairRequest, TerminalObservation,
+    TerminalPlanStepRepairRequest, TerminalReceipt, TerminalReceiptTransportRequest,
+    TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest,
 };
 use fs2::FileExt;
 use octocrab::models::pulls::{MergeableState, ReviewState};
@@ -83,6 +83,14 @@ enum Command {
     ReconcileHistoricalMerged {
         #[arg(long)]
         request: PathBuf,
+    },
+    RecoverCorruptHistoricalMerged {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    DigestProjection {
+        #[arg(long)]
+        issue: u64,
     },
     ValidatePrune {
         #[arg(long)]
@@ -203,6 +211,16 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
             refresh_historical_observations(&mut request).await?;
             json(store.reconcile_historical_merged(request)?)
         }
+        Command::RecoverCorruptHistoricalMerged { request } => {
+            let mut request = read::<CorruptHistoricalMergedRecoveryRequest>(request)?;
+            refresh_corrupt_historical_observations(&mut request).await?;
+            json(store.recover_corrupt_historical_merged(request)?)
+        }
+        Command::DigestProjection { issue } => Ok(serde_json::json!({
+            "schema": "csdlc.corrupt_projection_digest.v1",
+            "issue": issue,
+            "digest": store.corrupt_projection_digest(*issue)?,
+        })),
         Command::PreparePrune { issue } => {
             let record = store.load_record(*issue)?;
             if record.phase != csdlc_v2::LifecyclePhase::ClosedOut {
@@ -341,6 +359,42 @@ async fn refresh_historical_observations(
         .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "PR identity missing"))?;
     request.issue_evidence = observe_issue(repository.clone(), request.target_issue).await?;
     request.merged_evidence = observe_pr(repository, pr, request.target_issue).await?;
+    Ok(())
+}
+
+async fn refresh_corrupt_historical_observations(
+    request: &mut CorruptHistoricalMergedRecoveryRequest,
+) -> csdlc_v2::Result<()> {
+    let repository = request.issue_evidence.repository.clone();
+    let pr = request
+        .merged_evidence
+        .pr_state
+        .as_ref()
+        .map(|value| value.pull_request)
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "PR identity missing"))?;
+    request.issue_evidence = observe_issue(repository.clone(), request.target_issue).await?;
+    request.merged_evidence = execute_github_action(&GithubActionRequest {
+        repository,
+        action: GithubAction::PrState,
+        operation_key: Some(format!(
+            "csdlc-closeout:corrupt-historical-pr:{pr}:issue:{}",
+            request.target_issue
+        )),
+        token_file: None,
+        issue: None,
+        pull_request: Some(pr),
+        title: None,
+        body: None,
+        labels: Vec::new(),
+        assignees: Vec::new(),
+        milestone: None,
+        state: None,
+        comment_body: None,
+        required_checks: request.required_checks.clone(),
+        require_review: request.require_review,
+        linked_issue: Some(request.target_issue),
+    })
+    .await?;
     Ok(())
 }
 

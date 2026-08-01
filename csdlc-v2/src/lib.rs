@@ -53,12 +53,13 @@ pub use migration::{
     ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison,
 };
 pub use model::{
-    Claim, ClaimRecovery, DesignReview, HistoricalMergedReconciliationRequest, IssueRecord,
-    LifecyclePhase, MigrationEvidence, NonSubstantiveProof, PublicationEvidence, ReadinessEvidence,
-    ReconcileTerminalRequest, RecordlessClosureKind, RecordlessTerminalRecoveryRequest,
-    ReviewAssignment, ReviewEvidence, ReviewFindingEvidence, TerminalDesignRepairRequest,
-    TerminalDispositionRepairRequest, TerminalEvidence, TerminalPlanStepRepairRequest,
-    TerminalReceipt, TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
+    Claim, ClaimRecovery, CorruptHistoricalMergedRecoveryRequest, DesignReview,
+    HistoricalMergedReconciliationRequest, IssueRecord, LifecyclePhase, MigrationEvidence,
+    NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest,
+    RecordlessClosureKind, RecordlessTerminalRecoveryRequest, ReviewAssignment, ReviewEvidence,
+    ReviewFindingEvidence, TerminalDesignRepairRequest, TerminalDispositionRepairRequest,
+    TerminalEvidence, TerminalPlanStepRepairRequest, TerminalReceipt,
+    TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
     TerminalSorValidationRepairRequest,
 };
 pub use operator::{

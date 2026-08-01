@@ -2,6 +2,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, File, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
+use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use fs2::FileExt;
@@ -16,9 +17,10 @@ use crate::cards::{
 };
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
-    AuditEvent, CardProjection, Claim, DesignReview, HistoricalMergedReconciliationRequest,
-    IssueRecord, LifecyclePhase, PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest,
-    RecordlessClosureKind, RecordlessTerminalRecoveryRequest, ReviewAssignment, ReviewEvidence,
+    AuditEvent, CardProjection, Claim, CorruptHistoricalMergedRecoveryRequest, DesignReview,
+    HistoricalMergedReconciliationRequest, IssueRecord, LifecyclePhase, PublicationEvidence,
+    ReadinessEvidence, ReconcileTerminalRequest, RecordlessClosureKind,
+    RecordlessTerminalRecoveryRequest, ReviewAssignment, ReviewEvidence,
     TerminalDesignRepairRequest, TerminalDispositionRepairRequest, TerminalEvidence,
     TerminalPlanStepRepairRequest, TerminalReceipt, TerminalReceiptTransportRequest,
     TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest, TransitionEvent,
@@ -44,6 +46,21 @@ pub(crate) struct ImplementationCommit {
 }
 
 #[derive(Debug, Clone)]
+struct CorruptHistoricalSource {
+    commit: String,
+    expected_projection_digest: String,
+    required_checks: Vec<String>,
+    require_review: bool,
+    expected_target_claim: Claim,
+}
+
+struct HistoricalSourceSnapshot {
+    record: IssueRecord,
+    cards: BTreeMap<CardKind, CardValues>,
+    authored_artifacts: BTreeMap<String, String>,
+}
+
+#[derive(Debug, Clone)]
 pub(crate) struct ReviewCommit {
     pub issue: u64,
     pub expected_digest: String,
@@ -64,6 +81,8 @@ struct TerminalTransactionJournal {
     #[serde(default)]
     origin_git_common_dir: String,
     original_record_digest: Option<String>,
+    #[serde(default)]
+    original_projection_digest: Option<String>,
     target_record_digest: String,
     original_receipt: Option<Vec<u8>>,
     #[serde(default)]
@@ -236,6 +255,115 @@ impl Store {
         Ok(cards)
     }
 
+    pub fn corrupt_projection_digest(&self, issue: u64) -> Result<String> {
+        Ok(projection_snapshot_digest(
+            &self.snapshot_issue_projection_bytes(issue)?,
+        ))
+    }
+
+    fn snapshot_issue_projection_bytes(
+        &self,
+        issue: u64,
+    ) -> Result<BTreeMap<String, Option<Vec<u8>>>> {
+        let relative = PathBuf::from(".csdlc/issues").join(issue.to_string());
+        let mut snapshot = BTreeMap::new();
+        snapshot_regular_tree(&self.root, &relative, &mut snapshot)?;
+        Ok(snapshot)
+    }
+
+    fn load_historical_source(&self, issue: u64, commit: &str) -> Result<HistoricalSourceSnapshot> {
+        let issue_dir = format!(".csdlc/issues/{issue}");
+        let index = git_blob(&self.root, commit, &format!("{issue_dir}/index.json"))?;
+        let record: IssueRecord = serde_json::from_slice(&index)?;
+        if record.issue != issue {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "historical source issue namespace mismatch",
+            ));
+        }
+        verify_record(&record)?;
+        let mut expected_index = serde_json::to_vec_pretty(&record)?;
+        expected_index.push(b'\n');
+        if index != expected_index {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "historical source index is not canonical",
+            ));
+        }
+        let mut expected_audit = Vec::new();
+        for event in &record.audit {
+            serde_json::to_writer(&mut expected_audit, event)?;
+            expected_audit.push(b'\n');
+        }
+        if git_blob(&self.root, commit, &format!("{issue_dir}/audit.jsonl"))? != expected_audit {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "historical source audit is not canonical",
+            ));
+        }
+        let mut cards = BTreeMap::new();
+        for kind in enum_iterator() {
+            let values_path = format!("{issue_dir}/cards/{kind}.values.json");
+            let values_bytes = git_blob(&self.root, commit, &values_path)?;
+            let values: CardValues = serde_json::from_slice(&values_bytes)?;
+            let mut expected_values = serde_json::to_vec_pretty(&values)?;
+            expected_values.push(b'\n');
+            let rendered = render(&values)?;
+            let projection = record.cards.get(&kind).ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    format!("missing {kind} projection"),
+                )
+            })?;
+            if values.kind() != kind
+                || values.identity.issue != issue
+                || values.identity.repository != record.repository
+                || values.identity.generation != record.generation
+                || values_bytes != expected_values
+                || git_blob(&self.root, commit, &format!("{issue_dir}/cards/{kind}.md"))?
+                    != rendered.markdown.as_bytes()
+                || projection.values_digest != rendered.values_digest
+                || projection.rendered_digest != rendered.rendered_digest
+                || projection.ast_digest != rendered.ast_digest
+            {
+                return Err(V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    format!("historical source {kind} projection is invalid"),
+                ));
+            }
+            cards.insert(kind, values);
+        }
+        let mut authored_artifacts = BTreeMap::new();
+        for path in [&record.design_path, &record.diagram_path] {
+            if !crate::pvf::clean_relative(Path::new(path)) {
+                return Err(V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "historical authored artifact path is unsafe",
+                ));
+            }
+            let bytes = git_blob(&self.root, commit, path)?;
+            let contents = String::from_utf8(bytes).map_err(|_| {
+                V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "historical authored artifact is not UTF-8",
+                )
+            })?;
+            authored_artifacts.insert(path.clone(), contents);
+        }
+        validate_cross_card(
+            &cards,
+            &record.design_path,
+            &digest(authored_artifacts[&record.design_path].as_bytes()),
+            &record.diagram_path,
+            &digest(authored_artifacts[&record.diagram_path].as_bytes()),
+        )?;
+        Ok(HistoricalSourceSnapshot {
+            record,
+            cards,
+            authored_artifacts,
+        })
+    }
+
     pub fn repair_identity(&self, request: RepairIdentityRequest) -> Result<IssueRecord> {
         if request.authority_issue == request.target_issue {
             return Err(V2Error::new(
@@ -281,12 +409,17 @@ impl Store {
                 "target issue digest is stale",
             ));
         }
+        let authority_cards = self.load_cards(request.authority_issue)?;
+        verify_cards(self, &authority, &authority_cards)?;
+        verify_canonical_projection_bytes(self, &authority, &authority_cards)?;
+        let mut target_cards = self.load_cards(request.target_issue)?;
+        verify_cards(self, &target, &target_cards)?;
+        verify_canonical_projection_bytes(self, &target, &target_cards)?;
         authority
             .claim
             .as_ref()
             .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "repair authority claim missing"))?
             .validate(&request.claim_id, now_seconds()?)?;
-        let mut target_cards = self.load_cards(request.target_issue)?;
         let original_target = target.clone();
         let original_target_cards = target_cards.clone();
         let receipt_path = self.terminal_receipt_path(request.target_issue)?;
@@ -566,6 +699,7 @@ impl Store {
             issue: request.target_issue,
             stage: "prepared_terminal_design_repair".into(),
             original_record_digest: Some(original_receipt.record.digest.clone()),
+            original_projection_digest: None,
             target_record_digest: target.digest.clone(),
             original_receipt: Some(original_receipt_bytes),
             original_projection: None,
@@ -720,6 +854,7 @@ impl Store {
             issue: request.target_issue,
             stage: "prepared_terminal_plan_repair".into(),
             original_record_digest: Some(original_receipt.record.digest.clone()),
+            original_projection_digest: None,
             target_record_digest: target.digest.clone(),
             original_receipt: Some(original_receipt_bytes.clone()),
             original_projection: None,
@@ -1054,6 +1189,7 @@ impl Store {
             issue: target.issue,
             stage: format!("prepared_{stage_suffix}"),
             original_record_digest: Some(original_receipt.record.digest),
+            original_projection_digest: None,
             target_record_digest: target.digest.clone(),
             original_receipt: Some(original_receipt_bytes.clone()),
             original_projection: None,
@@ -1152,20 +1288,18 @@ impl Store {
         journal.origin_worktree = origin_worktree;
         journal.origin_git_common_dir = origin_git_common_dir;
         let path = self.terminal_transaction_path(journal.issue)?;
-        let parent = path
-            .parent()
-            .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "transaction has no parent"))?;
-        fs::create_dir_all(parent)?;
-        let temporary = path.with_extension("json.tmp");
-        write_json(&temporary, &journal)?;
-        fs::rename(temporary, &path)?;
-        sync_dir(parent)?;
-        Ok(())
+        let (common, relative) = self.git_common_relative(&path)?;
+        let mut bytes = serde_json::to_vec_pretty(&journal)?;
+        bytes.push(b'\n');
+        replace_regular_terminal_artifact(&common, &relative, &bytes, "json.transaction-tmp")
     }
 
     fn remove_terminal_transaction_journal(&self, issue: u64) -> Result<()> {
         let path = self.terminal_transaction_path(issue)?;
-        if path.exists() {
+        let (common, relative) = self.git_common_relative(&path)?;
+        require_canonical_parent_beneath(&common, &relative)?;
+        if canonical_path_metadata_beneath(&common, &relative)?.is_some() {
+            require_regular_or_absent_beneath(&common, &relative)?;
             fs::remove_file(&path)?;
             sync_dir(path.parent().expect("transaction parent"))?;
         }
@@ -1319,8 +1453,16 @@ impl Store {
 
     fn recover_terminal_transaction(&self, issue: u64) -> Result<()> {
         let path = self.terminal_transaction_path(issue)?;
-        if !path.is_file() {
+        let (common, relative) = self.git_common_relative(&path)?;
+        require_canonical_parent_beneath(&common, &relative)?;
+        let Some(metadata) = canonical_path_metadata_beneath(&common, &relative)? else {
             return Ok(());
+        };
+        if !metadata.is_file() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "terminal transaction journal is not a canonical regular file",
+            ));
         }
         let journal: TerminalTransactionJournal = read_json(&path)?;
         if journal.schema != "csdlc.terminal_transaction.v1" || journal.issue != issue {
@@ -1348,12 +1490,24 @@ impl Store {
             ));
         }
         let current = self.load_record(issue);
+        let current_projection_digest = journal
+            .original_projection_digest
+            .as_ref()
+            .map(|_| {
+                self.snapshot_issue_projection_bytes(issue)
+                    .map(|snapshot| projection_snapshot_digest(&snapshot))
+            })
+            .transpose()?;
         if current
             .as_ref()
             .is_ok_and(|record| record.digest == journal.target_record_digest)
             && self.verify_materialized_terminal_receipt(&target).is_ok()
         {
             self.replace_receipt_bytes(&receipt_path, Some(&journal.target_receipt))?;
+        } else if current_projection_digest.as_ref() == journal.original_projection_digest.as_ref()
+            && journal.original_projection_digest.is_some()
+        {
+            self.restore_terminal_transaction_original(&journal, &receipt_path)?;
         } else if current.as_ref().is_ok_and(|record| {
             record.digest != journal.target_record_digest
                 && journal.original_record_digest.as_deref() != Some(record.digest.as_str())
@@ -1785,6 +1939,7 @@ impl Store {
             issue,
             stage: "prepared_terminal_receipt_transport".into(),
             original_record_digest,
+            original_projection_digest: None,
             target_record_digest: request.receipt.record.digest.clone(),
             original_receipt,
             original_projection,
@@ -2181,6 +2336,7 @@ impl Store {
             issue,
             stage: "prepared_recordless_terminal_recovery".into(),
             original_record_digest: None,
+            original_projection_digest: None,
             target_record_digest: record.digest.clone(),
             original_receipt: None,
             original_projection: None,
@@ -2216,6 +2372,49 @@ impl Store {
         &self,
         request: HistoricalMergedReconciliationRequest,
     ) -> Result<IssueRecord> {
+        self.reconcile_historical_merged_inner(request, None)
+    }
+
+    pub fn recover_corrupt_historical_merged(
+        &self,
+        request: CorruptHistoricalMergedRecoveryRequest,
+    ) -> Result<IssueRecord> {
+        let source = CorruptHistoricalSource {
+            commit: request.source_commit,
+            expected_projection_digest: request.expected_corrupt_projection_digest,
+            required_checks: request.required_checks,
+            require_review: request.require_review,
+            expected_target_claim: request.expected_target_claim,
+        };
+        self.reconcile_historical_merged_inner(
+            HistoricalMergedReconciliationRequest {
+                authority_issue: request.authority_issue,
+                expected_authority_generation: request.expected_authority_generation,
+                expected_authority_digest: request.expected_authority_digest,
+                authority_claim_id: request.authority_claim_id,
+                target_issue: request.target_issue,
+                expected_target_generation: request.expected_source_generation,
+                expected_target_digest: request.expected_source_digest,
+                expected_initialization_digest: request.expected_initialization_digest,
+                reviewed_commit: request.reviewed_commit,
+                review: request.review,
+                issue_evidence: request.issue_evidence,
+                merged_evidence: request.merged_evidence,
+                actor: request.actor,
+                operator_authority: request.operator_authority,
+                reason: request.reason,
+                validation: request.validation,
+                fail_after_stage: request.fail_after_stage,
+            },
+            Some(source),
+        )
+    }
+
+    fn reconcile_historical_merged_inner(
+        &self,
+        request: HistoricalMergedReconciliationRequest,
+        corrupt_source: Option<CorruptHistoricalSource>,
+    ) -> Result<IssueRecord> {
         validate_result(&request.validation)?;
         let issue = request.target_issue;
         let observed_issue = request.issue_evidence.issue.as_ref();
@@ -2236,6 +2435,16 @@ impl Store {
                 .reviewed_commit
                 .bytes()
                 .all(|byte| byte.is_ascii_hexdigit())
+            || corrupt_source.as_ref().is_some_and(|source| {
+                source.commit.len() != 40
+                    || !source.commit.bytes().all(|byte| byte.is_ascii_hexdigit())
+                    || source.expected_projection_digest.trim().is_empty()
+                    || source.required_checks.is_empty()
+                    || source
+                        .required_checks
+                        .iter()
+                        .any(|name| name.trim().is_empty())
+            })
             || !request.review.completed
             || request.review.findings.iter().any(|finding| {
                 finding.actionable
@@ -2275,6 +2484,22 @@ impl Store {
                 ErrorCode::InvalidInput,
                 "historical merge reconciliation requires closed linked issue, exact merged PR, current review, validation, and explicit operator authority",
             ));
+        }
+        if let Some(source) = &corrupt_source {
+            if pr.required_check_names != source.required_checks
+                || (source.require_review && pr.review_decision != "approved")
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "corrupt historical recovery requires explicit exact CI and repository-required review observations",
+                ));
+            }
+            if !git_is_ancestor(&self.root, &source.commit, &pr.head_sha)? {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "corrupt historical source is not an ancestor of the merged PR head",
+                ));
+            }
         }
         // A historical PR body without a closing keyword is accepted only in
         // this recovery-only path: linked_issue, a reconciled closed issue, and
@@ -2336,13 +2561,100 @@ impl Store {
             )
         })?;
         authority_claim.validate(&request.authority_claim_id, now_seconds()?)?;
-        if !claim_covers_issue(authority_claim, issue) {
+        let aggregate_recovery_authority = authority_claim
+            .protected_paths
+            .iter()
+            .any(|path| path.trim_end_matches('/') == "csdlc-v2")
+            && claim_covers_issue(authority_claim, request.authority_issue);
+        if corrupt_source.is_some() && !aggregate_recovery_authority {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "corrupt historical recovery authority does not own its C-SDLC recovery surface",
+            ));
+        }
+        if corrupt_source.is_none() && !claim_covers_issue(authority_claim, issue) {
             return Err(V2Error::new(
                 ErrorCode::InvalidInput,
                 "historical recovery authority does not cover target issue",
             ));
         }
-        let original = self.load_record(issue)?;
+        let (original, target_cards, source_authored_artifacts, corrupt_projection_snapshot) =
+            if let Some(source) = &corrupt_source {
+                let snapshot = self.snapshot_issue_projection_bytes(issue)?;
+                if projection_snapshot_digest(&snapshot) != source.expected_projection_digest {
+                    return Err(V2Error::new(
+                        ErrorCode::StaleDigest,
+                        "corrupt historical target projection changed",
+                    ));
+                }
+                let corrupt_index_bytes = snapshot
+                    .get(&format!(".csdlc/issues/{issue}/index.json"))
+                    .and_then(Option::as_deref)
+                    .ok_or_else(|| {
+                        V2Error::new(
+                            ErrorCode::CorruptRecord,
+                            "corrupt historical target index is absent",
+                        )
+                    })?;
+                let corrupt_record: IssueRecord = serde_json::from_slice(corrupt_index_bytes)?;
+                let corrupt_claim = corrupt_record.claim.as_ref().ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::MissingClaim,
+                        "corrupt historical target claim is absent",
+                    )
+                })?;
+                if corrupt_record.issue != issue
+                    || corrupt_record.repository != pr.repository
+                    || corrupt_record.initialization_digest
+                        != request.expected_initialization_digest
+                    || corrupt_claim != &source.expected_target_claim
+                    || corrupt_claim.generation != corrupt_record.generation
+                    || !claim_covers_issue(corrupt_claim, issue)
+                    || !request.review.scope.iter().all(|reviewed| {
+                        corrupt_claim
+                            .protected_paths
+                            .iter()
+                            .any(|claimed| claimed.trim_end_matches('/') == reviewed)
+                    })
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::InvalidClaim,
+                        "corrupt historical target claim does not match exact active authority",
+                    ));
+                }
+                corrupt_claim.validate(&source.expected_target_claim.id, now_seconds()?)?;
+                let source_snapshot = self.load_historical_source(issue, &source.commit)?;
+                let mut snapshot = snapshot;
+                for (path, contents) in &source_snapshot.authored_artifacts {
+                    let relative = Path::new(path);
+                    let current = read_regular_terminal_artifact(&self.root, relative)?
+                        .ok_or_else(|| {
+                            V2Error::new(
+                                ErrorCode::ReconciliationRequired,
+                                "corrupt recovery authored artifact is absent",
+                            )
+                        })?;
+                    if current != contents.as_bytes() {
+                        return Err(V2Error::new(
+                            ErrorCode::ReconciliationRequired,
+                            "corrupt recovery authored artifact differs from the pinned source",
+                        ));
+                    }
+                    snapshot.insert(path.clone(), Some(current));
+                }
+                (
+                    source_snapshot.record,
+                    source_snapshot.cards,
+                    Some(source_snapshot.authored_artifacts),
+                    snapshot,
+                )
+            } else {
+                let original = self.load_record(issue)?;
+                let target_cards = self.load_cards(issue)?;
+                verify_cards(self, &original, &target_cards)?;
+                verify_canonical_projection_bytes(self, &original, &target_cards)?;
+                (original, target_cards, None, BTreeMap::new())
+            };
         let review_commit = request
             .review
             .reviewed_revision
@@ -2370,8 +2682,6 @@ impl Store {
                 "historical target identity, state, or compare-and-swap is stale",
             ));
         }
-        let target_cards = self.load_cards(issue)?;
-        verify_cards(self, &original, &target_cards)?;
         let rehome_operation = original
             .audit
             .last()
@@ -2381,7 +2691,25 @@ impl Store {
                     == Some("rehome_claim_authority")
             });
         let mut rehome_source_lock = None;
-        let mut cards = if let Some(operation) = rehome_operation {
+        let mut cards = if corrupt_source.is_some() {
+            if rehome_operation.is_some() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "corrupt historical source cannot be a rehome carrier",
+                ));
+            }
+            if !crate::git::substantive_scope_matches_commit(
+                &self.root,
+                &request.reviewed_commit,
+                &request.review.scope,
+            )? {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "historical target checkout differs from the reviewed substantive scope",
+                ));
+            }
+            target_cards.clone()
+        } else if let Some(operation) = rehome_operation {
             let source_worktree = operation
                 .get("source_worktree")
                 .and_then(|value| value.as_str())
@@ -2502,30 +2830,36 @@ impl Store {
             target_cards.clone()
         };
         let _rehome_source_lock = rehome_source_lock;
-        let authored_artifacts = [original.design_path.clone(), original.diagram_path.clone()]
-            .into_iter()
-            .map(|path| {
-                let bytes = read_regular_terminal_artifact(&self.root, Path::new(&path))?
-                    .ok_or_else(|| {
+        let authored_artifacts = if let Some(authored) = source_authored_artifacts {
+            authored
+        } else {
+            [original.design_path.clone(), original.diagram_path.clone()]
+                .into_iter()
+                .map(|path| {
+                    let bytes = read_regular_terminal_artifact(&self.root, Path::new(&path))?
+                        .ok_or_else(|| {
+                            V2Error::new(
+                                ErrorCode::ReconciliationRequired,
+                                "historical authored artifact is absent",
+                            )
+                        })?;
+                    let contents = String::from_utf8(bytes).map_err(|_| {
                         V2Error::new(
-                            ErrorCode::ReconciliationRequired,
-                            "historical authored artifact is absent",
+                            ErrorCode::CorruptRecord,
+                            "historical authored artifact is not UTF-8",
                         )
                     })?;
-                let contents = String::from_utf8(bytes).map_err(|_| {
-                    V2Error::new(
-                        ErrorCode::CorruptRecord,
-                        "historical authored artifact is not UTF-8",
-                    )
-                })?;
-                Ok((path, contents))
-            })
-            .collect::<Result<BTreeMap<_, _>>>()?;
-        let original_projection = Some(TerminalProjectionSnapshot {
-            record: original.clone(),
-            cards: target_cards.clone(),
-            authored_artifacts: authored_artifacts.clone(),
-        });
+                    Ok((path, contents))
+                })
+                .collect::<Result<BTreeMap<_, _>>>()?
+        };
+        let original_projection = corrupt_source
+            .is_none()
+            .then(|| TerminalProjectionSnapshot {
+                record: original.clone(),
+                cards: target_cards.clone(),
+                authored_artifacts: authored_artifacts.clone(),
+            });
 
         let srp = match &mut cards.get_mut(&CardKind::Srp).expect("SRP").content {
             CardContent::Srp(values) => values,
@@ -2625,7 +2959,10 @@ impl Store {
             ready: true,
             blockers: Vec::new(),
         };
-        let released = original.claim.clone();
+        let released = corrupt_source
+            .as_ref()
+            .map(|source| source.expected_target_claim.clone())
+            .or_else(|| original.claim.clone());
         let terminal = TerminalEvidence {
             pull_request: Some(pr.pull_request),
             disposition: crate::readiness::TerminalDisposition::Merged,
@@ -2694,6 +3031,12 @@ impl Store {
                 "metadata_direction": metadata_direction,
                 "historical_closing_keyword_present": body_has_closing_keyword,
                 "linkage_source": "typed_linked_issue_and_closed_issue_evidence",
+                "released_target_claim": corrupt_source.as_ref().map(|source| serde_json::json!({
+                    "id": source.expected_target_claim.id,
+                    "owner": source.expected_target_claim.owner,
+                    "generation": source.expected_target_claim.generation,
+                    "protected_paths_digest": digest(&serde_json::to_vec(&source.expected_target_claim.protected_paths).expect("claim paths serialize")),
+                })),
             })
             .to_string(),
         });
@@ -2716,18 +3059,21 @@ impl Store {
         receipt.digest = terminal_receipt_digest(&receipt)?;
         validate_terminal_receipt(&receipt)?;
         let receipt_path = self.terminal_receipt_path(issue)?;
-        let original_receipt = fs::read(&receipt_path).ok();
+        let original_receipt = self.read_terminal_receipt_snapshot(&receipt_path)?;
         let journal = TerminalTransactionJournal {
             schema: "csdlc.terminal_transaction.v1".into(),
             origin_worktree: String::new(),
             origin_git_common_dir: String::new(),
             issue,
             stage: "prepared_historical_merged_reconciliation".into(),
-            original_record_digest: Some(original.digest),
+            original_record_digest: corrupt_source.is_none().then_some(original.digest),
+            original_projection_digest: corrupt_source
+                .as_ref()
+                .map(|source| source.expected_projection_digest.clone()),
             target_record_digest: target.digest.clone(),
             original_receipt,
             original_projection,
-            original_artifacts: BTreeMap::new(),
+            original_artifacts: corrupt_projection_snapshot,
             target_receipt: serde_json::to_vec_pretty(&receipt)?,
         };
         self.write_terminal_transaction_journal(&journal)?;
@@ -2737,7 +3083,17 @@ impl Store {
                 "injected historical reconciliation failure",
             ));
         }
-        self.commit(issue, &target, &cards, false)?;
+        if corrupt_source.is_some() {
+            self.commit_with_authored(
+                issue,
+                &target,
+                &cards,
+                false,
+                Some(&receipt.authored_artifacts),
+            )?;
+        } else {
+            self.commit(issue, &target, &cards, false)?;
+        }
         if request.fail_after_stage.as_deref() == Some("after_projection") {
             return Err(V2Error::new(
                 ErrorCode::InterruptedTransaction,
@@ -2921,6 +3277,7 @@ impl Store {
             issue: request.target_issue,
             stage: "prepared_terminal_disposition_repair".into(),
             original_record_digest: Some(original_record_digest),
+            original_projection_digest: None,
             target_record_digest: target.digest.clone(),
             original_receipt: Some(original_bytes),
             original_projection: None,
@@ -3368,6 +3725,7 @@ impl Store {
             issue: request.issue,
             stage: "prepared".into(),
             original_record_digest: Some(local.digest.clone()),
+            original_projection_digest: None,
             target_record_digest: projection.digest.clone(),
             original_receipt: Some(original_receipt),
             original_projection: None,
@@ -5364,6 +5722,7 @@ fn authorize_card_operation(
             LifecyclePhase::Implemented,
             CardKind::Sor,
             SemanticOperation::RecordExecution { .. }
+                | SemanticOperation::ReplaceExecution { .. }
                 | SemanticOperation::RecordValidation { .. }
                 | SemanticOperation::AppendReference { .. },
         ) | (
@@ -5594,6 +5953,106 @@ fn issue_projection_paths(issue: u64) -> Vec<PathBuf> {
         paths.push(issue_dir.join(format!("cards/{kind}.md")));
     }
     paths
+}
+
+fn projection_snapshot_digest(snapshot: &BTreeMap<String, Option<Vec<u8>>>) -> String {
+    let mut hasher = blake3::Hasher::new();
+    for (path, bytes) in snapshot {
+        hasher.update(path.as_bytes());
+        hasher.update(&[0]);
+        match bytes {
+            Some(bytes) => {
+                hasher.update(&[1]);
+                hasher.update(&(bytes.len() as u64).to_le_bytes());
+                hasher.update(bytes);
+            }
+            None => {
+                hasher.update(&[0]);
+            }
+        }
+    }
+    hasher.finalize().to_hex().to_string()
+}
+
+fn snapshot_regular_tree(
+    root: &Path,
+    relative: &Path,
+    snapshot: &mut BTreeMap<String, Option<Vec<u8>>>,
+) -> Result<()> {
+    let metadata = canonical_path_metadata_beneath(root, relative)?.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "corrupt recovery issue projection is absent",
+        )
+    })?;
+    if metadata.is_file() {
+        snapshot.insert(
+            relative.to_string_lossy().into_owned(),
+            Some(fs::read(root.join(relative))?),
+        );
+        return Ok(());
+    }
+    if !metadata.is_dir() {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!(
+                "corrupt recovery tree contains a non-regular entry: {}",
+                root.join(relative).display()
+            ),
+        ));
+    }
+    let mut children = fs::read_dir(root.join(relative))?
+        .map(|entry| entry.map(|entry| entry.file_name()))
+        .collect::<std::io::Result<Vec<_>>>()?;
+    children.sort();
+    for child in children {
+        snapshot_regular_tree(root, &relative.join(child), snapshot)?;
+    }
+    Ok(())
+}
+
+fn git_blob(root: &Path, commit: &str, path: &str) -> Result<Vec<u8>> {
+    if commit.len() != 40
+        || !commit.bytes().all(|byte| byte.is_ascii_hexdigit())
+        || !crate::pvf::clean_relative(Path::new(path))
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "historical source commit or path is invalid",
+        ));
+    }
+    let object = format!("{commit}:{path}");
+    let output = Command::new("git")
+        .current_dir(root)
+        .args(["show", "--no-ext-diff", &object])
+        .output()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !output.status.success() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!(
+                "historical source blob is unavailable: {}",
+                String::from_utf8_lossy(&output.stderr).trim()
+            ),
+        ));
+    }
+    Ok(output.stdout)
+}
+
+fn git_is_ancestor(root: &Path, ancestor: &str, descendant: &str) -> Result<bool> {
+    let status = Command::new("git")
+        .current_dir(root)
+        .args(["merge-base", "--is-ancestor", ancestor, descendant])
+        .status()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    match status.code() {
+        Some(0) => Ok(true),
+        Some(1) => Ok(false),
+        _ => Err(V2Error::new(
+            ErrorCode::GitFailure,
+            "git merge-base failed while validating historical source ancestry",
+        )),
+    }
 }
 
 fn require_canonical_issue_projection_components(root: &Path, issue: u64) -> Result<()> {
@@ -8447,7 +8906,7 @@ mod terminal_design_repair_tests {
         );
         fs::write(&source_audit, source_audit_bytes).unwrap();
         let closed = store
-            .reconcile_historical_merged(request)
+            .reconcile_historical_merged(request.clone())
             .expect("exact rehomed finalize");
         assert_eq!(closed.phase, LifecyclePhase::ClosedOut);
         assert!(closed.claim.is_none());
@@ -8459,6 +8918,255 @@ mod terminal_design_repair_tests {
                 .record,
             closed
         );
+
+        fs::remove_file(store.terminal_receipt_path(target.issue).unwrap()).unwrap();
+        let mut aggregate_authority = store.load_record(authority.issue).unwrap();
+        let aggregate_cards = store.load_cards(authority.issue).unwrap();
+        let aggregate_claim = aggregate_authority.claim.as_mut().unwrap();
+        aggregate_claim.protected_paths.push("csdlc-v2".into());
+        aggregate_claim
+            .protected_paths
+            .push(format!(".csdlc/issues/{}", aggregate_authority.issue));
+        aggregate_claim.protected_paths.sort();
+        aggregate_claim.protected_paths.dedup();
+        hydrate_projections(&mut aggregate_authority, &aggregate_cards).unwrap();
+        aggregate_authority.digest = record_digest(&aggregate_authority).unwrap();
+        store
+            .commit(
+                aggregate_authority.issue,
+                &aggregate_authority,
+                &aggregate_cards,
+                false,
+            )
+            .unwrap();
+        let index_path = store.issue_dir(target.issue).join("index.json");
+        let mut corrupt_index: serde_json::Value =
+            serde_json::from_slice(&fs::read(&index_path).unwrap()).unwrap();
+        let target_claim = Claim {
+            id: "corrupt-target-claim".into(),
+            owner: "target-session".into(),
+            generation: corrupt_index["generation"].as_u64().unwrap(),
+            acquired_unix_seconds: 1,
+            expires_unix_seconds: u64::MAX,
+            heartbeat_unix_seconds: 1,
+            branch: "issue-7".into(),
+            worktree: ".".into(),
+            protected_paths: request
+                .review
+                .scope
+                .iter()
+                .cloned()
+                .chain(std::iter::once(format!(".csdlc/issues/{}", target.issue)))
+                .collect(),
+            purpose: "exact corrupt target authority".into(),
+        };
+        corrupt_index["claim"] = serde_json::to_value(&target_claim).unwrap();
+        corrupt_index["digest"] = serde_json::Value::String("f".repeat(64));
+        let mut corrupt_bytes = serde_json::to_vec_pretty(&corrupt_index).unwrap();
+        corrupt_bytes.push(b'\n');
+        fs::write(&index_path, &corrupt_bytes).unwrap();
+        let unexpected_path = store
+            .issue_dir(target.issue)
+            .join("unexpected-evidence.bin");
+        fs::write(&unexpected_path, b"preserve unexpected evidence").unwrap();
+        let corrupt_digest = store.corrupt_projection_digest(target.issue).unwrap();
+        let mut corrupt_merged_evidence = request.merged_evidence.clone();
+        let corrupt_pr = corrupt_merged_evidence.pr_state.as_mut().unwrap();
+        corrupt_pr.required_check_names = vec!["ci".into()];
+        corrupt_pr.checks = vec![crate::github::PrCheck {
+            name: "ci".into(),
+            required: true,
+            conclusion: "success".into(),
+            details_url: Some("https://example.invalid/check/ci".into()),
+        }];
+        corrupt_merged_evidence = trusted_github(corrupt_merged_evidence);
+        let corrupt_request = CorruptHistoricalMergedRecoveryRequest {
+            authority_issue: request.authority_issue,
+            expected_authority_generation: aggregate_authority.generation,
+            expected_authority_digest: aggregate_authority.digest,
+            authority_claim_id: aggregate_authority.claim.unwrap().id,
+            target_issue: request.target_issue,
+            source_commit: request.reviewed_commit.clone(),
+            expected_source_generation: target.generation,
+            expected_source_digest: target.digest.clone(),
+            expected_initialization_digest: target.initialization_digest.clone(),
+            expected_corrupt_projection_digest: corrupt_digest,
+            expected_target_claim: target_claim,
+            required_checks: vec!["ci".into()],
+            require_review: true,
+            reviewed_commit: request.reviewed_commit,
+            review: request.review,
+            issue_evidence: request.issue_evidence,
+            merged_evidence: corrupt_merged_evidence,
+            actor: "codex:test".into(),
+            operator_authority: "test corrupt historical recovery authority".into(),
+            reason: "prove exact corrupt projection recovery".into(),
+            validation: request.validation,
+            fail_after_stage: Some("after_journal".into()),
+        };
+        let mut forged_claim = corrupt_request.clone();
+        forged_claim.expected_target_claim.owner = "forged-owner".into();
+        assert_eq!(
+            store
+                .recover_corrupt_historical_merged(forged_claim)
+                .expect_err("forged target claim must fail closed")
+                .code,
+            ErrorCode::InvalidClaim
+        );
+        let authored_path = temp.path().join(&target.design_path);
+        let authored_bytes = fs::read(&authored_path).unwrap();
+        fs::write(&authored_path, b"drifted authored artifact").unwrap();
+        assert_eq!(
+            store
+                .recover_corrupt_historical_merged(corrupt_request.clone())
+                .expect_err("authored artifact drift must fail closed")
+                .code,
+            ErrorCode::ReconciliationRequired
+        );
+        fs::write(&authored_path, authored_bytes).unwrap();
+        let sip_path = store.issue_dir(target.issue).join("cards/sip.md");
+        let sip_bytes = fs::read(&sip_path).unwrap();
+        let mut drifted_sip = sip_bytes.clone();
+        drifted_sip.extend_from_slice(b"\ndrift\n");
+        fs::write(&sip_path, drifted_sip).unwrap();
+        assert_eq!(
+            store
+                .recover_corrupt_historical_merged(corrupt_request.clone())
+                .expect_err("corrupt projection CAS must cover rendered cards")
+                .code,
+            ErrorCode::StaleDigest
+        );
+        fs::write(&sip_path, sip_bytes).unwrap();
+        assert_eq!(
+            store
+                .recover_corrupt_historical_merged(corrupt_request.clone())
+                .expect_err("injected pre-projection corrupt recovery interruption")
+                .code,
+            ErrorCode::InterruptedTransaction
+        );
+        store.recover_with_terminal_lock(target.issue).unwrap();
+        assert_eq!(fs::read(&index_path).unwrap(), corrupt_bytes);
+        assert_eq!(
+            fs::read(&unexpected_path).unwrap(),
+            b"preserve unexpected evidence"
+        );
+        assert!(store.load_terminal_receipt(target.issue).unwrap().is_none());
+        let mut after_projection = corrupt_request.clone();
+        after_projection.fail_after_stage = Some("after_projection".into());
+        assert_eq!(
+            store
+                .recover_corrupt_historical_merged(after_projection)
+                .expect_err("injected corrupt recovery interruption")
+                .code,
+            ErrorCode::InterruptedTransaction
+        );
+        fs::write(
+            store.issue_dir(target.issue).join("cards/sip.values.json"),
+            b"{interrupted",
+        )
+        .unwrap();
+        store.recover_with_terminal_lock(target.issue).unwrap();
+        assert_eq!(fs::read(&index_path).unwrap(), corrupt_bytes);
+        assert!(store.load_terminal_receipt(target.issue).unwrap().is_none());
+        let mut retry = corrupt_request;
+        retry.fail_after_stage = None;
+        let recovered = store
+            .recover_corrupt_historical_merged(retry)
+            .expect("recover exact corrupt historical projection");
+        assert_eq!(recovered.phase, LifecyclePhase::ClosedOut);
+        assert!(store.load_terminal_receipt(target.issue).unwrap().is_some());
+    }
+
+    #[test]
+    fn identity_repair_cannot_bless_a_corrupt_projection() {
+        let (_temp, store, authority, target, _receipt, _validation) =
+            terminal_validation_fixture();
+        let index_path = store.issue_dir(target.issue).join("index.json");
+        let mut corrupt: IssueRecord =
+            serde_json::from_slice(&fs::read(&index_path).unwrap()).unwrap();
+        corrupt.digest = "f".repeat(64);
+        let mut bytes = serde_json::to_vec_pretty(&corrupt).unwrap();
+        bytes.push(b'\n');
+        fs::write(index_path, bytes).unwrap();
+        let error = store
+            .repair_identity(RepairIdentityRequest {
+                authority_issue: authority.issue,
+                target_issue: target.issue,
+                expected_authority_generation: authority.generation,
+                expected_authority_digest: authority.digest,
+                expected_target_generation: corrupt.generation,
+                expected_target_digest: corrupt.digest,
+                claim_id: authority.claim.unwrap().id,
+                actor: "codex:test".into(),
+                operation: SemanticOperation::UpdateIdentityVersion {
+                    version: "v0.91.8".into(),
+                },
+            })
+            .expect_err("identity repair must reject corrupt target authority");
+        assert_eq!(error.code, ErrorCode::CorruptRecord);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn terminal_transaction_journal_rejects_parent_leaf_and_temp_symlinks() {
+        use std::os::unix::fs::symlink;
+
+        let (_temp, store, _authority, target, receipt, _validation) =
+            terminal_validation_fixture();
+        let path = store.terminal_transaction_path(target.issue).unwrap();
+        let parent = path.parent().unwrap();
+        fs::create_dir_all(parent).unwrap();
+        let outside = tempfile::tempdir().unwrap();
+        let outside_file = outside.path().join("outside");
+        fs::write(&outside_file, b"outside").unwrap();
+        let journal = TerminalTransactionJournal {
+            schema: "csdlc.terminal_transaction.v1".into(),
+            origin_worktree: String::new(),
+            origin_git_common_dir: String::new(),
+            issue: target.issue,
+            stage: "symlink-proof".into(),
+            original_record_digest: Some(target.digest.clone()),
+            original_projection_digest: None,
+            target_record_digest: target.digest,
+            original_receipt: None,
+            original_projection: None,
+            original_artifacts: BTreeMap::new(),
+            target_receipt: serde_json::to_vec_pretty(&receipt).unwrap(),
+        };
+
+        symlink(&outside_file, &path).unwrap();
+        assert_eq!(
+            store
+                .write_terminal_transaction_journal(&journal)
+                .unwrap_err()
+                .code,
+            ErrorCode::UnsafeCheckout
+        );
+        fs::remove_file(&path).unwrap();
+
+        let temporary = path.with_extension("json.transaction-tmp");
+        symlink(&outside_file, &temporary).unwrap();
+        assert_eq!(
+            store
+                .write_terminal_transaction_journal(&journal)
+                .unwrap_err()
+                .code,
+            ErrorCode::UnsafeCheckout
+        );
+        fs::remove_file(&temporary).unwrap();
+
+        let backup = parent.with_extension("journal-parent-backup");
+        fs::rename(parent, &backup).unwrap();
+        symlink(&backup, parent).unwrap();
+        assert_eq!(
+            store
+                .write_terminal_transaction_journal(&journal)
+                .unwrap_err()
+                .code,
+            ErrorCode::UnsafeCheckout
+        );
+        fs::remove_file(parent).unwrap();
+        fs::rename(backup, parent).unwrap();
     }
 
     #[test]

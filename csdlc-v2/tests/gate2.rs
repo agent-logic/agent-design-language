@@ -3363,6 +3363,91 @@ fn planning_replacements_are_phase_bounded_and_allow_narrow_implemented_correcti
 }
 
 #[test]
+fn execution_replacement_is_sor_only_and_implemented_only() {
+    let (_temp, store, mut record) = bind_fixture();
+    let too_early = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sor,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "replacement requires observed implementation".into(),
+            operation: SemanticOperation::ReplaceExecution {
+                summary: "not yet implemented".into(),
+                changes: vec![],
+                artifacts: vec![],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("bound execution replacement must fail");
+    assert_eq!(too_early.code, ErrorCode::InvalidTransition);
+
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sor,
+        SemanticOperation::RecordExecution {
+            summary: "interim execution".into(),
+            changes: vec!["stale change".into()],
+            artifacts: vec!["stale-artifact.json".into()],
+        },
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sip,
+        SemanticOperation::AdvancePhase {
+            phase: csdlc_v2::LifecyclePhase::Implemented,
+        },
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sor,
+        SemanticOperation::ReplaceExecution {
+            summary: "final truthful execution".into(),
+            changes: vec!["final change".into()],
+            artifacts: vec!["final-evidence.json".into()],
+        },
+    );
+
+    let cards = store.load_cards(42).expect("cards");
+    let CardContent::Sor(sor) = &cards[&CardKind::Sor].content else {
+        panic!("SOR")
+    };
+    assert_eq!(sor.summary, "final truthful execution");
+    assert_eq!(sor.actual_changes, vec!["final change"]);
+    assert_eq!(sor.artifacts, vec!["final-evidence.json"]);
+    assert_eq!(record.phase, csdlc_v2::LifecyclePhase::Implemented);
+
+    let invalid = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sor,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "cannot erase execution truth".into(),
+            operation: SemanticOperation::ReplaceExecution {
+                summary: "".into(),
+                changes: vec![],
+                artifacts: vec![],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("replacement cannot erase execution truth");
+    assert_eq!(invalid.code, ErrorCode::CardInvalid);
+    assert_eq!(store.load_record(42).expect("unchanged record"), record);
+}
+
+#[test]
 fn direct_markdown_drift_is_corruption() {
     let (_temp, store, _record) = fixture();
     fs::write(

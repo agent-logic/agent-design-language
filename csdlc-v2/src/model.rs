@@ -333,6 +333,34 @@ pub struct HistoricalMergedReconciliationRequest {
     pub fail_after_stage: Option<String>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct CorruptHistoricalMergedRecoveryRequest {
+    pub authority_issue: u64,
+    pub expected_authority_generation: u64,
+    pub expected_authority_digest: String,
+    pub authority_claim_id: String,
+    pub target_issue: u64,
+    pub source_commit: String,
+    pub expected_source_generation: u64,
+    pub expected_source_digest: String,
+    pub expected_initialization_digest: String,
+    pub expected_corrupt_projection_digest: String,
+    pub expected_target_claim: Claim,
+    pub required_checks: Vec<String>,
+    pub require_review: bool,
+    pub reviewed_commit: String,
+    pub review: ReviewEvidence,
+    pub issue_evidence: crate::github::GithubActionResult,
+    pub merged_evidence: crate::github::GithubActionResult,
+    pub actor: String,
+    pub operator_authority: String,
+    pub reason: String,
+    pub validation: ValidationResult,
+    #[serde(default)]
+    pub fail_after_stage: Option<String>,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct MigrationEvidence {
     pub schema: String,

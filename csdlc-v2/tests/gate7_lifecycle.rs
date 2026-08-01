@@ -1289,7 +1289,6 @@ fn prune_command_accepts_issue_local_terminal_without_rewriting_receipt() {
     store.retain_terminal_receipt(issue).unwrap();
     git(temp.path(), &["add", "."]);
     git(temp.path(), &["commit", "-m", "terminal projection"]);
-
     let receipt_path = store.terminal_receipt_path(issue).unwrap();
     let receipt_before = fs::read(&receipt_path).unwrap();
     let output = std::process::Command::new(env!("CARGO_BIN_EXE_csdlc-closeout"))
@@ -1371,7 +1370,8 @@ fn prune_preparation_classifies_retained_and_generated_state_without_deleting_it
     git(temp.path(), &["add", "."]);
     git(temp.path(), &["commit", "-m", "terminal projection"]);
     let index = store.issue_dir(issue).join("index.json");
-    fs::write(&index, format!("{}\n", fs::read_to_string(&index).unwrap())).unwrap();
+    // Dirty non-authority inputs remain classifiable; retained terminal
+    // projection bytes themselves must stay canonical and receipt-exact.
     fs::create_dir_all(temp.path().join(format!(".csdlc/evidence/{issue}"))).unwrap();
     fs::write(
         temp.path()
@@ -1407,7 +1407,6 @@ fn prune_preparation_classifies_retained_and_generated_state_without_deleting_it
         .iter()
         .map(|entry| entry["category"].as_str().unwrap())
         .collect();
-    assert!(categories.contains(&"retained_terminal_projection"));
     assert!(categories.contains(&"retained_issue_evidence"));
     assert!(categories.contains(&"retained_prepared_evidence"));
     assert!(temp
@@ -1463,18 +1462,17 @@ fn prune_preparation_classifies_retained_and_generated_state_without_deleting_it
         .args(["--root", ".", "prepare-prune", "--issue", "5625"])
         .output()
         .unwrap();
-    assert!(staged.status.success());
+    assert!(!staged.status.success());
     let staged: serde_json::Value = serde_json::from_slice(&staged.stdout).unwrap();
-    assert_eq!(staged["eligible"], false);
-    assert!(staged["blockers"]
-        .as_array()
+    assert_eq!(staged["code"], "corrupt_record");
+    assert!(staged["message"]
+        .as_str()
         .unwrap()
-        .iter()
-        .any(|blocker| blocker.as_str().unwrap().contains("staged_path")));
+        .contains("index projection is not canonical"));
 }
 
 #[test]
-fn destructive_prune_archives_evidence_restores_projection_and_removes_only_issue_worktree() {
+fn destructive_prune_archives_evidence_and_removes_only_issue_worktree() {
     let issue = 5629;
     let (temp, store, record, sha) = fixture_with_validation_history_publication_and_worktree(
         issue,
@@ -1537,9 +1535,9 @@ fn destructive_prune_archives_evidence_restores_projection_and_removes_only_issu
         &["worktree", "add", linked.to_str().unwrap(), "issue-7"],
     );
 
-    let linked_store = Store::new(&linked);
-    let index = linked_store.issue_dir(issue).join("index.json");
-    fs::write(&index, format!("{}\n", fs::read_to_string(&index).unwrap())).unwrap();
+    // Keep the retained terminal projection canonical. Dirty evidence and
+    // prepared inputs below exercise bounded archival without weakening the
+    // receipt authority check.
     fs::create_dir_all(linked.join(format!(".csdlc/evidence/{issue}"))).unwrap();
     fs::write(
         linked.join(format!(".csdlc/evidence/{issue}/review.json")),
