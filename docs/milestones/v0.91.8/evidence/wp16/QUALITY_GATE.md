@@ -4,13 +4,13 @@ Owner: #5351 (WP-16)
 
 ## Current Decision
 
-Status: `pending_exact_validation`
+Status: `pass`
 
 The two defects found by the preliminary integrated run are resolved on the
 current execution branch: #5762 removed mutable live-claim dependence from
 C-SDLC v2 terminal-repair tests, and #5763 reconciled the canonical feature
-crosswalk digest. Final exact-revision validation is running before this status
-can become `pass`.
+crosswalk digest. Focused, integrated, and complete lanes pass at exact
+execution revision `8bf41a1a3bfa8432ba16cd570f8a064c0b9be5dc`.
 
 ## Gate Matrix
 
@@ -23,8 +23,8 @@ can become `pass`.
 | Deletion | pass | `docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json` |
 | ADL v2 locked all-target suite | pass | `.csdlc/evidence/5351/adl-v2-all-targets.log` |
 | Runtime v3 locked all-target suite | pass | `.csdlc/evidence/5351/runtime-v3-all-targets.log` |
-| C-SDLC v2 locked all-target suite | pending exact rerun | #5762 merged; `.csdlc/evidence/5351/csdlc-v2-all-targets.log` |
-| Feature crosswalk | pending exact rerun | #5763 merged; `.csdlc/evidence/5351/feature-crosswalk.log` |
+| C-SDLC v2 locked all-target suite | pass | #5762 merged; `.csdlc/evidence/5351/csdlc-v2-all-targets.log` |
+| Feature crosswalk | pass | #5763 merged; `.csdlc/evidence/5351/feature-crosswalk.log` |
 | Structured planning | pass | `.csdlc/evidence/5351/structured-planning.log` |
 | Local milestone links | pass | `.csdlc/evidence/5351/milestone-links.log` |
 | Diff hygiene | pass | `.csdlc/evidence/5351/diff-hygiene.log` |
