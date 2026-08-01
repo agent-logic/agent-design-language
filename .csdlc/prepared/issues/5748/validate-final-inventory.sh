@@ -89,7 +89,7 @@ if [[ "${1:-}" == "--self-test-path-guards" ]]; then
 fi
 
 terminal_issues=(
-  4739 4741 4758 4759 4760 4761 4762 4763 5107 5332 5336 5337 5338
+  4739 4741 4758 4759 4760 4761 4762 4763 5107 5332 5335 5336 5337 5338
   5339 5340 5341 5342 5343 5344 5345 5346 5347 5349 5350 5352 5354 5358 5361
   5384 5438 5470 5497 5498 5499 5500 5501 5502 5526 5527 5540 5541
   5548 5563 5566 5569 5572 5587 5589 5590 5591 5592 5594 5597 5600
@@ -99,7 +99,7 @@ terminal_issues=(
   5733 5735 5737 5746
 )
 exception_issues=(5007 5558 5664 5675)
-noneligible_issues=(5335)
+not_planned_terminal_issues=(5335)
 claim_free_exception_issues=(5664 5675)
 dormant_exception_issues=(5664 5675)
 
@@ -123,9 +123,9 @@ exception_projection() {
 
 terminal_count="${#terminal_issues[@]}"
 exception_count="${#exception_issues[@]}"
-noneligible_count="${#noneligible_issues[@]}"
-completed_count="$((terminal_count + exception_count))"
-closed_count="$((completed_count + noneligible_count))"
+not_planned_terminal_count="${#not_planned_terminal_issues[@]}"
+closed_count="$((terminal_count + exception_count))"
+completed_count="$((closed_count - not_planned_terminal_count))"
 for issue in "${claim_free_exception_issues[@]}" "${dormant_exception_issues[@]}"; do
   array_contains "$issue" "${exception_issues[@]}" ||
     fail "exception-only issue #$issue is absent from the exception partition"
@@ -139,7 +139,9 @@ require_file "$repo_root" "$inventory"
   --inventory "$inventory" >/dev/null || fail "owner-binary provenance is stale"
 
 declared_completed="$(
-  printf '%s\n' "${terminal_issues[@]}" "${exception_issues[@]}" | sort -n | tr '\n' ' '
+  printf '%s\n' "${terminal_issues[@]}" "${exception_issues[@]}" |
+    grep -vxF -f <(printf '%s\n' "${not_planned_terminal_issues[@]}") |
+    sort -n | tr '\n' ' '
 )"
 observed_completed="$(
   jq -r '.issues[] | select(.state == "CLOSED" and .state_reason == "COMPLETED") |
@@ -148,9 +150,9 @@ observed_completed="$(
 require_eq "$observed_completed" "$declared_completed" \
   "retained live completed-issue universe differs from the declared partition"
 require_eq "$(printf '%s\n' "${terminal_issues[@]}" "${exception_issues[@]}" | sort -nu | wc -l | tr -d ' ')" \
-  "$completed_count" "declared completed-issue partition contains duplicates"
+  "$closed_count" "declared closed-issue partition contains duplicates"
 require_eq "$(jq -r '[.issues[] | select(.state == "CLOSED" and .state_reason == "NOT_PLANNED") | .number] | sort | @csv' "$universe")" \
-  "$(IFS=,; printf '%s' "${noneligible_issues[*]}")" "retained noneligible issue universe mismatch"
+  "$(IFS=,; printf '%s' "${not_planned_terminal_issues[*]}")" "retained terminal NOT_PLANNED issue universe mismatch"
 jq -e --argjson closed_count "$closed_count" '.schema == "adl.v0918.closed_issue_universe.v1" and
   .repository == "danielbaustin/agent-design-language" and
   .label == "version:v0.91.8" and .state == "closed" and
@@ -158,13 +160,13 @@ jq -e --argjson closed_count "$closed_count" '.schema == "adl.v0918.closed_issue
   ([.issues[].number] | length) == ([.issues[].number] | unique | length)' \
   "$universe" >/dev/null || fail "retained closed-issue universe metadata is invalid"
 declared_register_issues="$(
-  printf '%s\n' "${exception_issues[@]}" "${noneligible_issues[@]}" | sort -n | tr '\n' ' '
+  printf '%s\n' "${exception_issues[@]}" | sort -n | tr '\n' ' '
 )"
 observed_register_issues="$(
   sed -n 's/^## #\([0-9][0-9]*\) —.*/\1/p' "$register" | sort -n | tr '\n' ' '
 )"
 require_eq "$observed_register_issues" "$declared_register_issues" \
-  "exception register headings differ from the declared exception and noneligible partition"
+  "exception register headings differ from the declared exception partition"
 
 for issue in "${terminal_issues[@]}"; do
   index="$repo_root/.csdlc/issues/$issue/index.json"
@@ -301,12 +303,8 @@ for issue in 5558 5722; do
   fi
 done
 
-require_absent "$common_dir" "$common_dir/csdlc-v2/closeout/5335.json"
-rg -q '^## #5335 — outside the merged-PR eligibility boundary$' "$register" || \
-  fail "noneligible exclusion #5335 is missing from the register"
-
 require_eq "$(git status --porcelain -- .csdlc/locks .csdlc/requests)" "" \
   "generated lock or request state dirties the publication worktree"
 
-printf 'v0.91.8 terminal inventory PASS: %s terminal, %s fail-closed exceptions, %s noneligible exclusion\n' \
-  "$terminal_count" "$exception_count" "$noneligible_count"
+printf 'v0.91.8 terminal inventory PASS: %s terminal (%s closed NOT_PLANNED), %s fail-closed exceptions\n' \
+  "$terminal_count" "$not_planned_terminal_count" "$exception_count"

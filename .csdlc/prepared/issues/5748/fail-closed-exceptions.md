@@ -4,15 +4,6 @@ This register records issues that cannot receive a terminal receipt without
 inventing or bypassing C-SDLC v2 authority. Entries remain provisional until
 the final exhaustive closeout audit.
 
-## #5335 — outside the merged-PR eligibility boundary
-
-- GitHub issue state: closed, `NOT_PLANNED`.
-- PR #5380: intentionally closed unmerged; its body says it is superseded and
-  intentionally contains no closing keyword.
-- No merged PR links #5335.
-- Disposition: excluded from the current closed-and-merged objective. Do not
-  synthesize merged terminal truth.
-
 ## #5007 — corrupt nonterminal projection
 
 - GitHub issue state: closed; PR #5743 merged from exact source head

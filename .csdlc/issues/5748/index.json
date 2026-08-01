@@ -5,7 +5,7 @@
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
   "phase": "implemented",
   "generation": 25,
-  "digest": "be436f2de2a85b54bfb14e1c82e2630119f100cccbc7c35c8769d1b5a6df1e38",
+  "digest": "1290a4af6589883129ad8d4267408a1d050c0a030d7392c1c07d947d623f9d2b",
   "claim": {
     "id": "claim-5748-terminal-recovery-v4",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
@@ -16,12 +16,15 @@
     "branch": "codex/5748-terminal-recovery",
     "worktree": ".worktrees/adl-wp-5748",
     "protected_paths": [
+      ".csdlc/evidence/5335",
       ".csdlc/evidence/5346",
+      ".csdlc/evidence/5722",
       ".csdlc/evidence/5748",
       ".csdlc/issues/4759",
       ".csdlc/issues/4760",
       ".csdlc/issues/4763",
       ".csdlc/issues/5007",
+      ".csdlc/issues/5335",
       ".csdlc/issues/5342",
       ".csdlc/issues/5346",
       ".csdlc/issues/5347",
@@ -48,6 +51,7 @@
       ".csdlc/issues/5711",
       ".csdlc/issues/5713",
       ".csdlc/issues/5718",
+      ".csdlc/issues/5722",
       ".csdlc/issues/5728",
       ".csdlc/issues/5733",
       ".csdlc/issues/5735",
@@ -55,9 +59,11 @@
       ".csdlc/issues/5748",
       ".csdlc/locks/5748.lock",
       ".csdlc/prepared/issues/5007",
+      ".csdlc/prepared/issues/5335",
       ".csdlc/prepared/issues/5346",
       ".csdlc/prepared/issues/5663",
       ".csdlc/prepared/issues/5678",
+      ".csdlc/prepared/issues/5722",
       ".csdlc/prepared/issues/5733",
       ".csdlc/prepared/issues/5748",
       "csdlc-v2",
@@ -477,6 +483,20 @@
       "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
       "reason": "Authorize terminal materialization of released receipt-backed v0.91.8 projections within the #5748 aggregate closeout, including #5657 after its authentic source claim released.",
       "operation": "{\"add_protected_paths\":[\".csdlc/issues/5007\",\".csdlc/issues/5657\",\".csdlc/issues/5663\",\".csdlc/issues/5678\",\".csdlc/issues/5701\",\".csdlc/issues/5733\",\".csdlc/prepared/issues/5007\",\".csdlc/prepared/issues/5663\",\".csdlc/prepared/issues/5678\",\".csdlc/prepared/issues/5733\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 50,
+      "generation": 25,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Authorize typed recordless terminal recovery of closed issue #5722 after corrective PR #5760 merged green with exact closing linkage.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5722\",\".csdlc/evidence/5722\",\".csdlc/prepared/issues/5722\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 51,
+      "generation": 25,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Authorize typed recordless supersession recovery for closed historical planning issue #5335 so every closed v0.91.8 issue has terminal state.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5335\",\".csdlc/evidence/5335\",\".csdlc/prepared/issues/5335\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
