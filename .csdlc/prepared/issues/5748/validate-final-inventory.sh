@@ -121,7 +121,7 @@ require_file "$repo_root" "$universe"
 require_file "$repo_root" "$installer"
 require_file "$repo_root" "$doctor"
 require_file "$repo_root" "$inventory"
-"$installer" verify --repo "$repo_root" --bin-dir "$repo_root/.adl/bin/csdlc-v2" \
+"$installer" verify --repo "$repo_root" --bin-dir .adl/bin/csdlc-v2 \
   --inventory "$inventory" >/dev/null || fail "owner-binary provenance is stale"
 
 declared_completed="$(
