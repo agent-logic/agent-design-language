@@ -1,12 +1,12 @@
 # Runtime v3 local TLS validation
 
-Product correction: `8976cc442` plus corrective review-finding repair commit.
+Product correction: `d38b73bcf` (including the earlier local TLS repair commits).
 
 ## Focused Rust proof
 
 - `adl-runtime/tests/local_tls.rs`: 13 passed.
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5713/target --bin adl-runtime-lifecycle-soak init_fixture_uses_stable_local_tls_bootstrap`: 1 passed.
-- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5713/target --test local_tls --bin adl-runtime-lifecycle-soak -- -D warnings`: passed.
+- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --target-dir /Volumes/FastWork/adl-wp-5713/target --all-targets -- -D warnings`: passed.
 - `cargo fmt --manifest-path adl-runtime/Cargo.toml -- --check`: passed.
 - `git diff --check`: passed.
 
@@ -21,6 +21,7 @@ Focused regressions prove:
 - configured DNS/IP SAN drift fails closed on reuse;
 - explicit replacement after SAN drift installs a matching reusable identity;
 - the generated certificate is accepted by rustls for localhost and the private key remains restrictive.
+- on native Windows, the protected current-user-only DACL is applied to the empty key file before private-key bytes are written.
 
 ## Native macOS proof
 
@@ -45,4 +46,4 @@ No certificate bytes, private-key bytes, or credential values are retained in th
 
 ## Remaining platform proof
 
-Native Linux and native Windows inspection are not claimed in this local macOS artifact. The retained proof is portable source-level and focused Rust behavior proof only; final native-platform acceptance remains outside this pre-PR evidence.
+Native Windows execution on `nessus.local` is not claimed in this local macOS artifact because the host did not resolve during the pre-PR run. The same Rust implementation and configuration schema include a native-Windows protected-DACL test. Native Windows execution remains an explicit pre-merge integration residual. Native Linux branch CI run `30683633058` is the authoritative integration lane for exact corrected head `8dd06e57e`; its result is not credited here while the run remains active.

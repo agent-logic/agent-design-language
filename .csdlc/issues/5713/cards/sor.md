@@ -12,16 +12,26 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a repo-native Runtime v3 local TLS bootstrap command using rcgen, explicit managed_external/local_self_signed configuration, durable state-root-scoped certificate reuse, explicit replacement, rustls validation, and local trust documentation.
+Implemented stable state-root-scoped rcgen local TLS identity reuse, generation-manifest replacement, SAN validation, crash-releasing advisory locking, structured bootstrap failures, lifecycle-soak integration, and restrictive private-key handling on Unix and native Windows.
 
 ## Artifacts
 
 - .csdlc/evidence/5713/local-tls-validation.md
+- .csdlc/evidence/5713/local-tls-validation.md
+- .csdlc/evidence/5713/runtime-v3-local-tls-focused.log
 
 ## Execution
 
 - adl-runtime/src/lib.rs
 - adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs
+- adl-runtime/src/local_tls.rs
+- adl-runtime/tests/local_tls.rs
+- docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md
+- adl-runtime/Cargo.toml
+- adl-runtime/Cargo.lock
+- adl-runtime/src/lib.rs
+- adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs
+- adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
 - adl-runtime/src/local_tls.rs
 - adl-runtime/tests/local_tls.rs
 - docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md

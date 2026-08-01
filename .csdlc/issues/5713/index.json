@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f9a2970ba450cc073abac0f5085576fbd8b03f703611c96fce7b68c3001a4f87",
   "phase": "implemented",
-  "generation": 1,
-  "digest": "cc2b1c958ce07eb49ab23e9fc469030e37792ac93c70325afe4f483826f4a4da",
+  "generation": 2,
+  "digest": "e6d4f16e5e8859564d8a0975e9be00c2d5d45705d16409caca229751994ffb71",
   "claim": {
     "id": "claim-5713-runtime-v3-rcgen-local-tls",
     "owner": "codex:issue-5713-runtime-v3-rcgen-local-tls",
-    "generation": 1,
+    "generation": 2,
     "acquired_unix_seconds": 1785539879,
     "expires_unix_seconds": 1786144679,
     "heartbeat_unix_seconds": 1785539879,
@@ -43,34 +43,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "551483d5412f566008bc649fc522b830d83ad1add73004813ece7a7e590e43e4",
+      "values_digest": "ac57ae4902156eabc84ebe49723170dd3aeafb32bbcd6d9bea2767abe93e6414",
       "rendered_digest": "84c6c53f8b73aaf6790c8e233483861d30dc6e51688396ee0e9452c73c569e99",
       "ast_digest": "ea168e0c17ff9820ba024bb9dff74be483d9479379acd6d75ab42066f695ea71"
     },
     "stp": {
-      "values_digest": "22cb321cc8dabf190c8dcbc35acf045c07d4353bc0819ae1ae476bcfdb3c0aa6",
+      "values_digest": "dd6ceebd65e28a4eb9f55ce816be9e9cf5459f9feeb9ea867310d1371e335222",
       "rendered_digest": "f118146e95a8ad3b0b77a0976fb3a93718c506041613aa418f7b603e12d0b8f9",
       "ast_digest": "a8364bb56c15894e1c1138b59f568fed849911ad8ccda4283277103558d6474f"
     },
     "spp": {
-      "values_digest": "bd941d497e5dea2486fd494a9df78d0207a5c629d0ab528a93c115a48c7f8458",
+      "values_digest": "14221ccca0d4bf4117978be3f08e4829df34a5c3a3d9ad8efd802d4a91f8399d",
       "rendered_digest": "6013ee8928b09e781d20be9e56ba9678494e195f909c57f63b5db33de9428fbb",
       "ast_digest": "06a63bfb34e190704934b88c6673bac363ca9405e86a173c52118ba8528a2053"
     },
     "vpp": {
-      "values_digest": "ba5d909288d9d9df5c2c2d5e6c11437fb660caeae4c8796b2ab60fbe7fede218",
+      "values_digest": "9c71b72102cf37f65d8a8397c930959d396f8e1ba39c561e83905dcf39aed247",
       "rendered_digest": "01865b9abdc9a65607573c1f823383b53304bde6d005542a78277809bb805be3",
       "ast_digest": "c8a5ebf2980c125be95206f098d4702f7989c42e708dc652b11db10db58785b8"
     },
     "srp": {
-      "values_digest": "e1a6b4eae0ffd6adca096ea04ab7a599481a60c24f07f2d2a6f84efd8629023e",
+      "values_digest": "281fe1624a917a3dfb1c0fc4f63cc7e32ea48817f0f0de54103c7549c005c9a2",
       "rendered_digest": "a58826088bd45fa5e230ad413f7075a88844ebdd2d0a8c6e850f7c81b6e75e25",
       "ast_digest": "d91e7e99661d4c24f02f31ae86809d503670cf9b73de378660152424ca6aa6f3"
     },
     "sor": {
-      "values_digest": "d0c4dea2edfc00450b52374bd174fab033d1018ff35dd4aa07e1d1d01f66190e",
-      "rendered_digest": "2e75b2276bbbfaa3e3197e61af2cda0cddabdec5999830cd50b9139338c3d40c",
-      "ast_digest": "305463846fd24f684e1d9c46153cab8bc2c3e147c017e08c8492fbb9a0cc6d7f"
+      "values_digest": "34d3c84320cf1a245be719c369ec53b652cf644a7094ce26611c6c04529c6990",
+      "rendered_digest": "7ebdc1465528516f365cd5a76b00c4f3008dbe0f3ab0edad825e3b309ca459ec",
+      "ast_digest": "22cd78a37882127728a1962cbd28936a1e47a67b23e36c603d8f7ea421154e0b"
     }
   },
   "transitions": [
@@ -117,6 +117,13 @@
       "actor": "codex:issue-5713-runtime-v3-rcgen-local-tls",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:5713-review-remediation",
+      "reason": "Refresh exact implementation truth after the bounded TLS review fixes.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented stable state-root-scoped rcgen local TLS identity reuse, generation-manifest replacement, SAN validation, crash-releasing advisory locking, structured bootstrap failures, lifecycle-soak integration, and restrictive private-key handling on Unix and native Windows.\",\"changes\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/lib.rs\",\"adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs\",\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl-runtime/src/local_tls.rs\",\"adl-runtime/tests/local_tls.rs\",\"docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md\"],\"artifacts\":[\".csdlc/evidence/5713/local-tls-validation.md\",\".csdlc/evidence/5713/runtime-v3-local-tls-focused.log\"]}"
     }
   ]
 }
