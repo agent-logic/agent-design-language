@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c87577fb18bcffa9a7ab3626e0ddde7132084f1c88dbeb1c648d842460499d85",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "f913e8b40a859f030e1f122b35d0f1c901506214adc77ecc77e1bb4628a65ab8",
+  "generation": 17,
+  "digest": "5918a7f75fdd6b1e35399f8f674bf394f86ce25f7971d238bb913b94b216dc8f",
   "claim": {
     "id": "claim-5764-runtime-observatory-readiness",
     "owner": "codex:5764-runtime-observatory-readiness",
-    "generation": 16,
+    "generation": 17,
     "acquired_unix_seconds": 1785574230,
     "expires_unix_seconds": 1785660630,
     "heartbeat_unix_seconds": 1785574230,
@@ -34,8 +34,46 @@
     ],
     "purpose": "Fix Runtime v3 Observatory overnight readiness probes and weather freshness truth"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:Pasteur:019fbcbe-50e1-7521-bb48-111823b9e321",
+    "assigned_by": "codex:5764-runtime-observatory-readiness",
+    "revision": "git-blake3:8864ad6f408ee8c3d64e9ebad4144274fe3f28e4:6924bb34f1986d41d133e9718efa9f3456cf485fcf11932eb668325bf4964764",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observability.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "demos/html-observatory/README.md",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/runtime-v3.config.json",
+      "docs/api/runtime-v3/v1/openapi.json",
+      ".csdlc/issues/5764"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:Pasteur:019fbcbe-50e1-7521-bb48-111823b9e321",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observability.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "demos/html-observatory/README.md",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/runtime-v3.config.json",
+      "docs/api/runtime-v3/v1/openapi.json",
+      ".csdlc/issues/5764"
+    ],
+    "reviewed_revision": "git-blake3:8864ad6f408ee8c3d64e9ebad4144274fe3f28e4:6924bb34f1986d41d133e9718efa9f3456cf485fcf11932eb668325bf4964764",
+    "findings": [],
+    "residual_risks": [
+      "Pasteur performed read-only diff review and did not rerun validation tests.",
+      "Hosted PR checks remain pending until publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -50,32 +88,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ce93336d603af992a82961d3bcf375e295a49231da1a99aaaf5333c963bd8091",
+      "values_digest": "16d4593d2dae36e007fc58bd30a04a8394a05f93e72be3867a223766130ea3db",
       "rendered_digest": "ebc9326d1aba09c1cd55320e0a9310826197bda3517d17ed9c0599d83d8982ee",
       "ast_digest": "d20982b1cd63aa422b6b0ff9b9128d4af75753b654ab4b43960a6d2dfc30e741"
     },
     "stp": {
-      "values_digest": "5e57afd789e8113a1cc76b7cd8fdc709ba6dd7c0a5a69ce8f5869071dcc3dd79",
+      "values_digest": "03bd4deb187862a14579c147aa05dba1b72b5b53925fb1ad32825c8bcfffc7d5",
       "rendered_digest": "12c2a85ff84c4950f80b65c3cf4caf62e49a6fb798714c8d862f66f929f8e432",
       "ast_digest": "2ceaee61ff985688af3f3456ebb90682f980dec257e58f32b6c485494175aaca"
     },
     "spp": {
-      "values_digest": "2ec3abd304101c8340e0527c6eea9c4582aa3a13a2a4968badcb69feae1a8456",
+      "values_digest": "35f9ef97e84c0dbfc0ccd4b7006e18df2935c163d7e12fd835eb31ca0da98ad1",
       "rendered_digest": "c39dc32f79a7f8378b3077799a472627417593a0e9162cdd601aa7f07eb6fdb9",
       "ast_digest": "e6f67dd6990d66fe8d7d190f26f02d0760117fb423ed93f7bf9dbae83cfe858b"
     },
     "vpp": {
-      "values_digest": "d4e9924bd49cf899c387cb54e149e43165306b655ff6f2b0683fc9c5a721c2c7",
+      "values_digest": "1759afbc5993860506dbcddffd57a01139191ffbf1154fcda820d21491bb85c9",
       "rendered_digest": "661338346d5d7bc578b78ae70deed268337e8d7c43316165b46f581fb867409f",
       "ast_digest": "34c69f8bf170bf1b486aa48e9d2a402851aba23284cbd44030289e92aea506d0"
     },
     "srp": {
-      "values_digest": "53ff06f5501ed94a8858b83e2dd5b1ca5d6d7e075b16c632beed980018b8e2e2",
-      "rendered_digest": "6a39cb34fac4c224b5a960d58e069a132a910c092179b11633046b84b4208d55",
-      "ast_digest": "13f8aff7e21f5ecafec7a564e45d0670f6e925f15164d958465ec6cd42f7e808"
+      "values_digest": "9907a4ad0b0b687602b6fadce979d14adfd208c920327c75a927bf8a94dfd627",
+      "rendered_digest": "c1f44a5fcc69ddcb095be656174a2ca62e7d0b1b63bb974dc585211068887ce7",
+      "ast_digest": "df9c613135811d44c07ac45d9758e31673019554ac483004a848a14bee8ae342"
     },
     "sor": {
-      "values_digest": "d9eb82c2f9b1257711e03fb8152cf9d203dcd0cbf389ecdffe3edd24dbdae01e",
+      "values_digest": "b4b50f99316492d90d6f78b763eb54025833b101c6a3b3fa09625e922babf8a0",
       "rendered_digest": "a126d66e813dff7633f0b43be798b921304093d1f3d1d14a5658197d72685e48",
       "ast_digest": "3593c32fe017406947693304e6df2649677ee7ce72519da8affc3bc7ee7a5b45"
     }
@@ -285,6 +323,20 @@
       "actor": "codex:5764-runtime-observatory-readiness",
       "reason": "Recover reviewed publication state after committing typed review metadata-only lifecycle projections.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 16,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 17,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }

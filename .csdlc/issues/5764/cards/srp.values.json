@@ -7,22 +7,25 @@
     "title": "[v0.91.8][runtime-v3][observatory] Repair overnight readiness probes and weather freshness truth",
     "slug": "runtime-observatory-readiness",
     "version": "v0.91.8",
-    "generation": 16
+    "generation": 17
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/observability.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\ndemos/html-observatory/README.md\ndemos/html-observatory/app.js\ndemos/html-observatory/runtime-v3.config.json\ndocs/api/runtime-v3/v1/openapi.json\n.csdlc/issues/5764",
+      "review_revision": "git-blake3:8864ad6f408ee8c3d64e9ebad4144274fe3f28e4:6924bb34f1986d41d133e9718efa9f3456cf485fcf11932eb668325bf4964764",
+      "reviewer": "subagent:Pasteur:019fbcbe-50e1-7521-bb48-111823b9e321",
       "review_prompts": [
         "Review whether the chosen readiness semantics are truthful and do not overclaim liveness.",
         "Review whether the watcher/docs use only canonical versioned endpoints and preserve runtime mutation authority boundaries."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Pasteur performed read-only diff review and did not rerun validation tests.",
+        "Hosted PR checks remain pending until publication."
+      ],
+      "review_result": "pass"
     }
   }
 }
