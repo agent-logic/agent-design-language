@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "ac125c41cf67f4bbd9e0e1b7949c28289e248575fc9ab9bc158a375d8661e336",
+  "generation": 16,
+  "digest": "831786052a2f1e753ff89b4030133fd14cd4d9c96043f0df1c0fcdd3088984ae",
   "claim": {
     "id": "claim-5748-terminal-recovery",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
-    "generation": 9,
+    "generation": 16,
     "acquired_unix_seconds": 1785539141,
     "expires_unix_seconds": 1786143941,
     "heartbeat_unix_seconds": 1785539141,
@@ -70,34 +70,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "77843df82e7daa2d6fba8ce0d90cf49afe9b5af419bc3738f7023084159378b1",
+      "values_digest": "b1820af8fa15cff9da020edecbe4c8c60dc599bc9eeedfe0fd81c3824272c746",
       "rendered_digest": "47705f68049f2565e12871bfbb5bb6e9bec75d62f9334b13a1fcb29879eeedf2",
       "ast_digest": "66b2fa31a0cbd5c056ae38bb3ce5459c7826160b165e8fa0daf68fe378083004"
     },
     "stp": {
-      "values_digest": "3b615012388323c61cc47d7d5313673929cb108dfe51605bc201ca83794cba03",
+      "values_digest": "d9766af6970528f5076e67b4d31d9c3528a544c1e42effda98babeec0e927b3e",
       "rendered_digest": "5a8822a8c7b60a5065afcd89d1402d36d705dcb5b42ecd109f518d27e0fc5e62",
       "ast_digest": "1109b3410dd50617d7241c3755faf54737ac8453a998b23fd32c4af3ddc5966e"
     },
     "spp": {
-      "values_digest": "d68d6bcd3d8319af441c3a7e39b31b947143e6188282b3d57d880a1fd1652762",
+      "values_digest": "a49cf656183dfabc9aaea3d174ad64fced84896b43003bdf8503dffe77374b15",
       "rendered_digest": "f2ffea9a7dba453df8a5bbf0dc28bb3c4323e0d2a2eb1590bb3004568701586b",
       "ast_digest": "b0e9e313ce95d9445f5d349941b473e1eb69d0dc957fb5ca800a312d97024256"
     },
     "vpp": {
-      "values_digest": "2cf61ae484ddc2a969875138153e3cf28d28776c8bb3eeddceaea7ab532d8835",
+      "values_digest": "33c863d876314023de4ebcdc68920393d64ecf0cd4d8171e91e769d7672b10b2",
       "rendered_digest": "14449800caa2269df2accf36af84f3f6de37f03cd453dbdafa41d668aa4010e1",
       "ast_digest": "49db9c8d781453dba81523de6ef5f5a810fcc132705f5ad988c9816aea97b395"
     },
     "srp": {
-      "values_digest": "a8bfbc4ddd3e7d4b22bb1be3964e0805fa2cb890d914e5af5941f83759455331",
+      "values_digest": "990a91c04e8a993a357e36cd1ba8d9b17887d1acc98f3c3a855dd8e5077454f1",
       "rendered_digest": "281a0127cda1e0cf6ddfd6d224c9f4eaa89cfabc033a215c3687ee16c711c5e6",
       "ast_digest": "a80d4038f11d4d74ec0a7f5a892ab1f3b2d50d2d68c2de1f4ff65bef8a2e696a"
     },
     "sor": {
-      "values_digest": "b34a691b935340994ce78b71d1620e847ad7ad4d216f7d7662de55eb7b51bd6c",
-      "rendered_digest": "6eed44e7612370487a59ce5bd90f35d4fcf7da103f60e7a97a2016b70c771023",
-      "ast_digest": "fcbcc3939decf85e87918d93f21a04b038219541e0fc5ca83339e6415ebcb225"
+      "values_digest": "1cb733c51dd4d95f82494fb0ab668e3e3193715dc028b7f3eaa2a69c0e3d4e9a",
+      "rendered_digest": "05364279a11af912d098f19633650c42804d5957b875244ccbbc7659e81a2f16",
+      "ast_digest": "c731ec60159e0b82eb24745909533179bb1a8f485f84cbffa5ed96372473bfc1"
     }
   },
   "transitions": [
@@ -270,6 +270,55 @@
       "actor": "codex:5748-terminal-recovery",
       "reason": "Replace the stale one-command validation plan with the exact owner-binary, full-receipt, live-universe, path-guard, Rust regression, and aggregate diff proof required by independent review.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"terminal-inventory-and-full-receipt-integrity\",\"proof_role\":\"Verify exact-head owner-binary provenance, the retained live 90/10/1 universe, canonical terminal projections, full retained receipts, authored artifacts, and pinned fail-closed exception identity.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":9000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\"],\"parallel_group\":\"local-inventory\",\"defer_reason\":null},{\"lane\":\"inventory-path-guard-regression\",\"proof_role\":\"Prove final, parent-component, and dangling symlinks fail closed in the aggregate validator.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\",\"--self-test-path-guards\"],\"parallel_group\":\"local-fast\",\"defer_reason\":null},{\"lane\":\"terminal-receipt-doctor-regression\",\"proof_role\":\"Prove doctor rejects tampered receipt digests, authored-artifact drift, and symlinked receipts.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate7_lifecycle\",\"no_pr_closeout_produces_doctor_valid_terminal_state\"],\"parallel_group\":\"local-fast\",\"defer_reason\":null},{\"lane\":\"aggregate-diff-hygiene\",\"proof_role\":\"Reject whitespace errors across the complete origin/main aggregate change.\",\"acceptance_ids\":[\"AC-4\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main..HEAD\"],\"parallel_group\":\"local-fast\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 10,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Record the exact terminal inventory outcome and the independent-review hardening completed before final review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Completed the exhaustive v0.91.8 closed-issue audit: 90 issues now have authenticated receipt-backed terminal projections, ten irrecoverable cases remain exact fail-closed exceptions, and #5335 is the sole noneligible exclusion in the retained 101-issue universe.\",\"changes\":[\"Materialized and retained 90 canonical closed_out projections whose record, six cards, receipt identity and digest, and authored design artifacts agree.\",\"Preserved ten exact typed fail-closed exceptions without manufacturing receipts or terminal authority.\",\"Hardened csdlc-doctor so closed_out health authenticates the full retained terminal receipt, materialized record and cards, and authored artifacts.\",\"Hardened the aggregate validator against final, parent-component, and dangling symlinks and pinned the full live 101-issue partition plus exception identities.\",\"Added deterministic regressions for receipt tampering, authored-artifact drift, and symlinked terminal receipts.\"],\"artifacts\":[\".csdlc/evidence/5748/v0918-closed-issue-universe.json\",\".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md\",\".csdlc/prepared/issues/5748/fail-closed-exceptions.md\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\",\"csdlc-v2/src/doctor.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate7_lifecycle.rs\"]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 11,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Record the exact-head terminal inventory and owner-binary proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\"],\"purpose\":\"Authenticate exact-head owner binaries, the retained live 101-issue universe, all 90 full terminal receipts and authored artifacts, and all ten pinned fail-closed exceptions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md\"}}"
+    },
+    {
+      "sequence": 24,
+      "generation": 12,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Record the inventory path-guard regression proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\",\"--self-test-path-guards\"],\"purpose\":\"Prove final-file, parent-component, and dangling symlinks fail closed in the aggregate inventory validator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 13,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Record the focused terminal-receipt doctor regression proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate7_lifecycle\",\"no_pr_closeout_produces_doctor_valid_terminal_state\",\"--\",\"--exact\"],\"purpose\":\"Prove doctor rejects receipt-digest tampering, authored-artifact drift, and symlinked terminal receipts while accepting canonical terminal authority.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md\"}}"
+    },
+    {
+      "sequence": 26,
+      "generation": 14,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Record aggregate diff-hygiene proof at the exact validated revision.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main..HEAD\"],\"purpose\":\"Reject whitespace and patch-integrity defects across the complete aggregate closeout change.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md\"}}"
+    },
+    {
+      "sequence": 27,
+      "generation": 15,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Record the complete exact-head C-SDLC v2 regression suite.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--quiet\"],\"purpose\":\"Run every C-SDLC v2 library, binary, integration, lifecycle, GitHub, and doc-test target after terminal-authority hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md\"}}"
+    },
+    {
+      "sequence": 28,
+      "generation": 16,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Record strict exact-head Clippy proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject all C-SDLC v2 warnings across every target after terminal-authority hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md\"}}"
     }
   ]
 }

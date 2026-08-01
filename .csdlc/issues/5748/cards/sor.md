@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Completed the exhaustive v0.91.8 closed-issue terminal audit, materialized every evidence-supported terminal projection, preserved exact fail-closed exceptions, and hardened typed historical recovery without reviving sunset tooling.
+Completed the exhaustive v0.91.8 closed-issue audit: 90 issues now have authenticated receipt-backed terminal projections, ten irrecoverable cases remain exact fail-closed exceptions, and #5335 is the sole noneligible exclusion in the retained 101-issue universe.
 
 ## Artifacts
 
@@ -21,6 +21,13 @@ Completed the exhaustive v0.91.8 closed-issue terminal audit, materialized every
 - .csdlc/issues
 - .csdlc/prepared/issues/5748/fail-closed-exceptions.md
 - .csdlc/prepared/issues/5748/validate-final-inventory.sh
+- .csdlc/evidence/5748/v0918-closed-issue-universe.json
+- .csdlc/evidence/5748/exact-head-validation-25fdcdafa.md
+- .csdlc/prepared/issues/5748/fail-closed-exceptions.md
+- .csdlc/prepared/issues/5748/validate-final-inventory.sh
+- csdlc-v2/src/doctor.rs
+- csdlc-v2/src/store.rs
+- csdlc-v2/tests/gate7_lifecycle.rs
 
 ## Execution
 
@@ -29,6 +36,11 @@ Completed the exhaustive v0.91.8 closed-issue terminal audit, materialized every
 - Added deterministic receipt transport, recordless recovery, cross-worktree authority rehome, historical merged reconciliation, rollback, remote-linkage, and canonical-artifact guards to C-SDLC v2.
 - Recorded ten exact-head fail-closed implementation exceptions and one noneligible closed/no-merged-PR exclusion instead of inventing terminal receipts.
 - Added a portable local validator proving the final 90 terminal, 10 exception, and one exclusion classification.
+- Materialized and retained 90 canonical closed_out projections whose record, six cards, receipt identity and digest, and authored design artifacts agree.
+- Preserved ten exact typed fail-closed exceptions without manufacturing receipts or terminal authority.
+- Hardened csdlc-doctor so closed_out health authenticates the full retained terminal receipt, materialized record and cards, and authored artifacts.
+- Hardened the aggregate validator against final, parent-component, and dangling symlinks and pinned the full live 101-issue partition plus exception identities.
+- Added deterministic regressions for receipt tampering, authored-artifact drift, and symlinked terminal receipts.
 
 ## Validation
 
@@ -79,6 +91,82 @@ Completed the exhaustive v0.91.8 closed-issue terminal audit, materialized every
     "purpose": "Validate all 90 terminal projections and receipts with doctor and ensure every fail-closed exception is explicitly registered without a receipt.",
     "outcome": "passed",
     "evidence_ref": "v0918-final-terminal-inventory.log"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/5748/validate-final-inventory.sh"
+    ],
+    "purpose": "Authenticate exact-head owner binaries, the retained live 101-issue universe, all 90 full terminal receipts and authored artifacts, and all ten pinned fail-closed exceptions.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/5748/validate-final-inventory.sh",
+      "--self-test-path-guards"
+    ],
+    "purpose": "Prove final-file, parent-component, and dangling symlinks fail closed in the aggregate inventory validator.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate7_lifecycle",
+      "no_pr_closeout_produces_doctor_valid_terminal_state",
+      "--",
+      "--exact"
+    ],
+    "purpose": "Prove doctor rejects receipt-digest tampering, authored-artifact drift, and symlinked terminal receipts while accepting canonical terminal authority.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main..HEAD"
+    ],
+    "purpose": "Reject whitespace and patch-integrity defects across the complete aggregate closeout change.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--quiet"
+    ],
+    "purpose": "Run every C-SDLC v2 library, binary, integration, lifecycle, GitHub, and doc-test target after terminal-authority hardening.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject all C-SDLC v2 warnings across every target after terminal-authority hardening.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md"
   }
 ]
 
