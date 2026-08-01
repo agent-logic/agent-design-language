@@ -3,13 +3,13 @@
   "issue": 5558,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
-  "phase": "implemented",
-  "generation": 32,
-  "digest": "38bf7fa4899856f1fcc61dfdd4dbf2d072fc2e233e3648b483e7d22a92b98af1",
+  "phase": "reviewed",
+  "generation": 34,
+  "digest": "c8d8922807bf9c889950322ac7565755397ab85a3807d12463456ac78d28548d",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
-    "generation": 32,
+    "generation": 34,
     "acquired_unix_seconds": 1785570394,
     "expires_unix_seconds": 1785656794,
     "heartbeat_unix_seconds": 1785570394,
@@ -134,8 +134,29 @@
     ],
     "purpose": "Correct issue 5558 by removing remaining live sunset v1 lifecycle guidance and proving final typed v2 authority."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:review_5558_orphan_fix",
+    "assigned_by": "codex:5558-corrective",
+    "revision": "git-blake3:4c77a1968bf71d310ccf37c6b340ec00eeb69da6:e648a7a553e99f621726d495f44adfd708bd619778b545bb74bc872171a20b36",
+    "scope": [
+      "Exact substantive commit 4c77a1968bf71d310ccf37c6b340ec00eeb69da6",
+      "Final prompt-editor PR-fast route retirement and complete issue 5558 corrective diff"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:review_5558_orphan_fix",
+    "scope": [
+      "Exact substantive commit 4c77a1968bf71d310ccf37c6b340ec00eeb69da6",
+      "Final prompt-editor PR-fast route retirement and complete issue 5558 corrective diff"
+    ],
+    "reviewed_revision": "git-blake3:4c77a1968bf71d310ccf37c6b340ec00eeb69da6:e648a7a553e99f621726d495f44adfd708bd619778b545bb74bc872171a20b36",
+    "findings": [],
+    "residual_risks": [
+      "GitHub CI must confirm the refreshed exact head across required repository gates."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -150,32 +171,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "abdb8cc58792eb2f0b03e66b8e6e6b97f41d17a17258777b251acf4b87cdbf01",
+      "values_digest": "36f9f306c4d49ad96318aa61aebfcc0fc3415867a562bc058b56de86b2d71713",
       "rendered_digest": "3ef258b1c4bb480ab05a5f1842a67fb807068d557612286211389017f956a73d",
       "ast_digest": "a173adcf99a8c6fc2eee501e4e055b5613e48eaae750d3859ba753b2051b2716"
     },
     "stp": {
-      "values_digest": "bbc4149b9333408c1896401c323dd32cce34a4ddee81a24a8a1c482066558d9a",
+      "values_digest": "753a3340b1eb6d50629a07628016511d879a93631d524b2b434d00ff5e2fd338",
       "rendered_digest": "4e813a7bd81e883366df3deeeb1f62e371dbd81f622aec8f105e5233b842d9df",
       "ast_digest": "ed08ed5118621e4e7978292eb31a6fb1817be62f49cf08a737b4dc9ba94d9b1f"
     },
     "spp": {
-      "values_digest": "dede0c67990e50866a806d7dd080de1ff12d0c17b83dd3da94c3eece62a06b7c",
+      "values_digest": "77e6e766543d850ac87208c4ab210bbd99a19ef2c1ef1cf2c3c111131fdeb66f",
       "rendered_digest": "25879d34e3cf553eddde351a8fcadefd055898a9d0280a8e10ebc5e998410ee8",
       "ast_digest": "1453d42addf77769af338269da74b0501f8c17bd84d7d493b518c66395fa38ca"
     },
     "vpp": {
-      "values_digest": "844a691d4c84acd21bccfd347692d206374e6989b97c5f1203dbc97bd7a4bdc3",
+      "values_digest": "97c344efd46edcea51406badf039478227c08928db88cb0987e55a8dfa79eeea",
       "rendered_digest": "05e67389a9dd9511f18c9fd7089eaba5dc2df4f40979d42e159403da83ef7537",
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "406cb8df16d6d22549bf6a63c4c0b3525c4fc8b9ef69a491e6b3fdd209e852ed",
-      "rendered_digest": "146d4c911a6c44e6d998506b42fca60ea559e6a000d9c0606134cc288af73282",
-      "ast_digest": "9163d610ba45c2cc14ad20fb3af5f123985b79a9d6e78dc494b8881eb315fbe8"
+      "values_digest": "c11a378b2476fb4f4508f75ebef794b897a87c8c77d14af9f56f2e29534e3cda",
+      "rendered_digest": "efffd052e272452711d19e85e50e58512b924a0a2d86f8a7417da2552bb065a3",
+      "ast_digest": "e32f7b82de4c2ca0c84e954569ff01e14eafe0b717dda00ab57964f13a283955"
     },
     "sor": {
-      "values_digest": "8b709273533fa81f2f1f692177c08468bdcd0fe0e592ec812bbd4aafba6a2c83",
+      "values_digest": "c5f2d5649ba3a84d205cebc77e1458c033acf20405677a61dad9915b7e21ccbe",
       "rendered_digest": "f12505645a867e68904febfb366d8181a05c1e9d06373b8d714357ce287e5b6b",
       "ast_digest": "eabd46bd2b40ddc83c5afca918c39d0f19e1065a26015ffadde2e0e5af9aeddf"
     }
@@ -306,6 +327,13 @@
       "to": "implemented",
       "actor": "codex:5558-corrective",
       "reason": "Independent review found the PR-fast selector still routes the retired prompt-editor child directory to a zero-match test filter; recover publication truth for the bounded final retirement fix."
+    },
+    {
+      "sequence": 19,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5558-corrective",
+      "reason": "Advance the independently approved final prompt-editor PR-fast retirement correction with no actionable findings."
     }
   ],
   "audit": [
@@ -728,6 +756,27 @@
       "actor": "codex:5558-corrective",
       "reason": "Record focused proof for the final PR-fast prompt-editor retirement correction.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash adl/tools/test_run_pr_fast_test_lane.sh\",\"bash adl/tools/test_csdlc_prompt_editor.sh\",\"git diff --check\",\"rg absence check for retired child routing\"],\"purpose\":\"Prove PR-fast routing remains valid, typed csdlc-edit remains authoritative, the patch is clean, and no retired prompt-editor child routing survives.\",\"outcome\":\"passed\",\"evidence_ref\":\"local focused proof on the #5558 issue worktree: both suites PASS; diff check PASS; retired child glob and fixture absent\"}}"
+    },
+    {
+      "sequence": 61,
+      "generation": 32,
+      "actor": "codex:5558-corrective",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 33,
+      "actor": "subagent:review_5558_orphan_fix",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 34,
+      "actor": "codex:5558-corrective",
+      "reason": "Advance the independently approved final prompt-editor PR-fast retirement correction with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

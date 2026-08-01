@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+Exact substantive commit 4c77a1968bf71d310ccf37c6b340ec00eeb69da6
+Final prompt-editor PR-fast route retirement and complete issue 5558 corrective diff
 
 ## Prompts
 
@@ -29,12 +30,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- GitHub CI must confirm the refreshed exact head across required repository gates.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:4c77a1968bf71d310ccf37c6b340ec00eeb69da6:e648a7a553e99f621726d495f44adfd708bd619778b545bb74bc872171a20b36")
 
-Reviewer: None
+Reviewer: Some("subagent:review_5558_orphan_fix")
 
-Result: pre_review
+Result: pass
