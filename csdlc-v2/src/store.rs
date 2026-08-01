@@ -1387,12 +1387,33 @@ impl Store {
 
     pub fn load_terminal_receipt(&self, issue: u64) -> Result<Option<TerminalReceipt>> {
         let path = self.terminal_receipt_path(issue)?;
-        if !path.is_file() {
-            return Ok(None);
+        let metadata = match fs::symlink_metadata(&path) {
+            Ok(metadata) => metadata,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+            Err(error) => return Err(error.into()),
+        };
+        if metadata.file_type().is_symlink() || !metadata.is_file() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                format!(
+                    "terminal receipt is not a canonical regular file: {}",
+                    path.display()
+                ),
+            ));
         }
         let receipt: TerminalReceipt = read_json(&path)?;
         validate_terminal_receipt(&receipt)?;
         Ok(Some(receipt))
+    }
+
+    pub fn verify_terminal_authority(&self, issue: u64) -> Result<()> {
+        let receipt = self.load_terminal_receipt(issue)?.ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "terminal receipt is absent",
+            )
+        })?;
+        self.verify_materialized_terminal_receipt(&receipt)
     }
 
     pub(crate) fn has_claim_free_terminal_authority(

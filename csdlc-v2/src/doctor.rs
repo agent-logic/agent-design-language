@@ -152,6 +152,13 @@ pub fn diagnose(store: &Store, issue: u64) -> DoctorReport {
         report.findings.push(finding(error));
         return report;
     }
+    if record.phase == LifecyclePhase::ClosedOut {
+        if let Err(error) = store.verify_terminal_authority(issue) {
+            report.status = DoctorStatus::Corrupt;
+            report.findings.push(finding(error));
+            return report;
+        }
+    }
     let diagram = fs::read_to_string(store.root().join(&record.diagram_path)).unwrap_or_default();
     let first = diagram
         .lines()

@@ -3238,9 +3238,59 @@ fn no_pr_closeout_produces_doctor_valid_terminal_state() {
 
     assert_eq!(closed.phase, LifecyclePhase::ClosedOut);
     assert!(closed.claim.is_none());
+    store.retain_terminal_receipt(issue).unwrap();
     let doctor = csdlc_v2::diagnose(&Store::new(temp.path()), issue);
     assert_eq!(doctor.phase, Some(LifecyclePhase::ClosedOut));
-    assert!(doctor.findings.is_empty());
+    assert!(doctor.findings.is_empty(), "{doctor:?}");
+
+    let receipt = store.load_terminal_receipt(issue).unwrap().unwrap();
+    let design_path = temp.path().join(&closed.design_path);
+    let expected_design = receipt.authored_artifacts[&closed.design_path].clone();
+    fs::write(&design_path, "# tampered terminal design\n").unwrap();
+    let doctor = csdlc_v2::diagnose(&store, issue);
+    assert!(matches!(
+        doctor.status,
+        csdlc_v2::doctor::DoctorStatus::Corrupt
+    ));
+    assert!(
+        doctor.findings[0]
+            .message
+            .contains("design/diagram references are stale"),
+        "{doctor:?}"
+    );
+    fs::write(&design_path, expected_design).unwrap();
+
+    let receipt_path = store.terminal_receipt_path(issue).unwrap();
+    let original_receipt = fs::read(&receipt_path).unwrap();
+    let mut tampered: serde_json::Value = serde_json::from_slice(&original_receipt).unwrap();
+    tampered["digest"] = "tampered-receipt-digest".into();
+    fs::write(&receipt_path, serde_json::to_vec_pretty(&tampered).unwrap()).unwrap();
+    let doctor = csdlc_v2::diagnose(&store, issue);
+    assert!(matches!(
+        doctor.status,
+        csdlc_v2::doctor::DoctorStatus::Corrupt
+    ));
+    assert!(doctor.findings[0]
+        .message
+        .contains("terminal receipt identity, phase, or digest is invalid"));
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+
+        let target = receipt_path.with_extension("canonical.json");
+        fs::write(&target, original_receipt).unwrap();
+        fs::remove_file(&receipt_path).unwrap();
+        symlink(&target, &receipt_path).unwrap();
+        let doctor = csdlc_v2::diagnose(&store, issue);
+        assert!(matches!(
+            doctor.status,
+            csdlc_v2::doctor::DoctorStatus::Corrupt
+        ));
+        assert!(doctor.findings[0]
+            .message
+            .contains("terminal receipt is not a canonical regular file"));
+    }
 }
 
 #[test]

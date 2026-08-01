@@ -1,0 +1,616 @@
+{
+  "schema": "adl.v0918.closed_issue_universe.v1",
+  "repository": "danielbaustin/agent-design-language",
+  "label": "version:v0.91.8",
+  "state": "closed",
+  "observed_at": "2026-08-01T04:20:57Z",
+  "source": "github issue list read-only observation",
+  "issues": [
+    {
+      "closed_at": "2026-07-24T20:41:41Z",
+      "number": 4739,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-24T17:45:03Z",
+      "number": 4741,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T21:42:46Z",
+      "number": 4758,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T21:42:35Z",
+      "number": 4759,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T22:45:58Z",
+      "number": 4760,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T21:43:44Z",
+      "number": 4761,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T21:53:33Z",
+      "number": 4762,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T22:08:19Z",
+      "number": 4763,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T22:59:58Z",
+      "number": 5007,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T21:49:26Z",
+      "number": 5107,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-24T19:26:14Z",
+      "number": 5332,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-15T18:33:41Z",
+      "number": 5335,
+      "state": "CLOSED",
+      "state_reason": "NOT_PLANNED"
+    },
+    {
+      "closed_at": "2026-07-21T06:26:28Z",
+      "number": 5336,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-21T19:01:58Z",
+      "number": 5337,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-21T20:57:43Z",
+      "number": 5338,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-21T19:54:44Z",
+      "number": 5339,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-21T23:30:24Z",
+      "number": 5340,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-22T20:22:26Z",
+      "number": 5341,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-22T18:14:54Z",
+      "number": 5342,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-29T09:19:46Z",
+      "number": 5343,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-29T08:38:47Z",
+      "number": 5344,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-23T06:39:47Z",
+      "number": 5345,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-22T20:37:38Z",
+      "number": 5349,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-23T08:20:26Z",
+      "number": 5350,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-08-01T01:19:57Z",
+      "number": 5352,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T20:23:51Z",
+      "number": 5354,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-21T04:06:53Z",
+      "number": 5358,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-23T15:31:20Z",
+      "number": 5361,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-30T22:26:14Z",
+      "number": 5384,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-18T05:54:43Z",
+      "number": 5438,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-18T07:31:53Z",
+      "number": 5470,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-23T05:31:02Z",
+      "number": 5497,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-22T23:48:32Z",
+      "number": 5498,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-22T23:02:46Z",
+      "number": 5499,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-23T04:24:14Z",
+      "number": 5500,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-23T05:06:27Z",
+      "number": 5501,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-23T00:34:00Z",
+      "number": 5502,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-23T05:16:44Z",
+      "number": 5526,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-19T00:25:49Z",
+      "number": 5527,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-19T01:20:14Z",
+      "number": 5540,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-19T02:27:06Z",
+      "number": 5541,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T22:41:36Z",
+      "number": 5548,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T23:48:49Z",
+      "number": 5558,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-19T01:38:50Z",
+      "number": 5563,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-19T01:57:09Z",
+      "number": 5566,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-19T02:45:52Z",
+      "number": 5569,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-19T20:09:20Z",
+      "number": 5572,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-22T15:09:01Z",
+      "number": 5587,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-22T13:53:39Z",
+      "number": 5589,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-22T14:39:40Z",
+      "number": 5590,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-21T19:30:53Z",
+      "number": 5591,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-21T20:57:05Z",
+      "number": 5592,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-20T17:43:44Z",
+      "number": 5594,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-20T19:40:14Z",
+      "number": 5597,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-20T21:55:08Z",
+      "number": 5600,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-20T22:14:22Z",
+      "number": 5602,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-22T19:45:40Z",
+      "number": 5605,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-21T18:03:45Z",
+      "number": 5610,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-21T21:15:14Z",
+      "number": 5613,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-22T13:48:36Z",
+      "number": 5615,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-22T17:19:56Z",
+      "number": 5624,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-22T17:42:31Z",
+      "number": 5627,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-22T20:04:59Z",
+      "number": 5632,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-23T05:52:34Z",
+      "number": 5645,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-24T18:04:54Z",
+      "number": 5648,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-24T20:17:42Z",
+      "number": 5653,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-27T01:46:37Z",
+      "number": 5657,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-26T04:47:31Z",
+      "number": 5658,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-27T00:12:31Z",
+      "number": 5662,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-27T01:38:27Z",
+      "number": 5663,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-27T01:38:29Z",
+      "number": 5664,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-25T16:48:59Z",
+      "number": 5665,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-25T17:26:01Z",
+      "number": 5666,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-26T03:23:52Z",
+      "number": 5670,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-26T03:45:35Z",
+      "number": 5671,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-27T01:39:26Z",
+      "number": 5675,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-27T01:18:57Z",
+      "number": 5678,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-27T00:48:02Z",
+      "number": 5679,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-27T05:03:48Z",
+      "number": 5683,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-27T02:31:59Z",
+      "number": 5686,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-27T02:16:19Z",
+      "number": 5687,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-27T17:18:52Z",
+      "number": 5691,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-27T18:48:47Z",
+      "number": 5695,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-27T18:36:46Z",
+      "number": 5697,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-29T18:31:43Z",
+      "number": 5698,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-29T22:56:08Z",
+      "number": 5701,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-29T17:38:37Z",
+      "number": 5702,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-29T19:15:10Z",
+      "number": 5708,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-29T19:10:50Z",
+      "number": 5710,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-29T20:35:01Z",
+      "number": 5711,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-29T22:29:04Z",
+      "number": 5715,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T20:13:15Z",
+      "number": 5717,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-29T22:56:08Z",
+      "number": 5718,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-29T22:55:21Z",
+      "number": 5719,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-30T01:24:24Z",
+      "number": 5722,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T17:24:54Z",
+      "number": 5727,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T17:52:50Z",
+      "number": 5728,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T23:06:13Z",
+      "number": 5733,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T21:16:45Z",
+      "number": 5735,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T22:09:18Z",
+      "number": 5737,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-07-31T23:24:15Z",
+      "number": 5746,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    }
+  ]
+}

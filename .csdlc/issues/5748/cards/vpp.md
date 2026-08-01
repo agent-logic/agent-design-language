@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/5748/diagram.mmd
 
 [
   {
-    "lane": "terminal-doctor-and-receipt-parity",
-    "proof_role": "Prove closed_out claim-free projections and exact retained receipt equality",
+    "lane": "terminal-inventory-and-full-receipt-integrity",
+    "proof_role": "Verify exact-head owner-binary provenance, the retained live 90/10/1 universe, canonical terminal projections, full retained receipts, authored artifacts, and pinned fail-closed exception identity.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -37,14 +37,79 @@ Diagram: .csdlc/prepared/issues/5748/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 600,
-    "budget_tokens": 6000,
+    "budget_seconds": 900,
+    "budget_tokens": 9000,
+    "argv": [
+      "bash",
+      ".csdlc/prepared/issues/5748/validate-final-inventory.sh"
+    ],
+    "parallel_group": "local-inventory",
+    "defer_reason": null
+  },
+  {
+    "lane": "inventory-path-guard-regression",
+    "proof_role": "Prove final, parent-component, and dangling symlinks fail closed in the aggregate validator.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 1000,
+    "argv": [
+      "bash",
+      ".csdlc/prepared/issues/5748/validate-final-inventory.sh",
+      "--self-test-path-guards"
+    ],
+    "parallel_group": "local-fast",
+    "defer_reason": null
+  },
+  {
+    "lane": "terminal-receipt-doctor-regression",
+    "proof_role": "Prove doctor rejects tampered receipt digests, authored-artifact drift, and symlinked receipts.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 4000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate7_lifecycle",
+      "no_pr_closeout_produces_doctor_valid_terminal_state"
+    ],
+    "parallel_group": "local-fast",
+    "defer_reason": null
+  },
+  {
+    "lane": "aggregate-diff-hygiene",
+    "proof_role": "Reject whitespace errors across the complete origin/main aggregate change.",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 1000,
     "argv": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "origin/main..HEAD"
     ],
-    "parallel_group": "local",
+    "parallel_group": "local-fast",
     "defer_reason": null
   }
 ]
@@ -61,7 +126,10 @@ Tokens: 50000
 
 ## Commands
 
-- `git diff --check`
+- `bash .csdlc/prepared/issues/5748/validate-final-inventory.sh`
+- `bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --self-test-path-guards`
+- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle no_pr_closeout_produces_doctor_valid_terminal_state`
+- `git diff --check origin/main..HEAD`
 
 ## Failure Semantics
 

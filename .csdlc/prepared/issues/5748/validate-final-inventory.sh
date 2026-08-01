@@ -8,24 +8,85 @@ if [[ "$common_dir" != /* ]]; then
 fi
 
 doctor="$repo_root/.adl/bin/csdlc-v2/csdlc-doctor"
+installer="$repo_root/.adl/bin/csdlc-v2/csdlc-install"
+inventory="$repo_root/csdlc-v2/operator/coexistence.json"
 register="$repo_root/.csdlc/prepared/issues/5748/fail-closed-exceptions.md"
+universe="$repo_root/.csdlc/evidence/5748/v0918-closed-issue-universe.json"
 
 fail() {
   printf 'v0.91.8 terminal inventory FAIL: %s\n' "$1" >&2
   exit 1
 }
 
+require_no_symlink_components() {
+  local root="$1"
+  local path="$2"
+  local current="$path"
+  case "$path" in
+    "$root"|"$root"/*) ;;
+    *) fail "governed path escapes its declared root: $path" ;;
+  esac
+  while [[ "$current" != "$root" ]]; do
+    [[ ! -L "$current" ]] || fail "governed path contains a symlink: $current"
+    current="${current%/*}"
+  done
+  [[ ! -L "$root" ]] || fail "governed root is a symlink: $root"
+}
+
 require_file() {
-  [[ -f "$1" ]] || fail "missing regular file: $1"
+  require_no_symlink_components "$1" "$2"
+  [[ -f "$2" && ! -L "$2" ]] || fail "missing canonical regular file: $2"
 }
 
 require_absent() {
-  [[ ! -e "$1" ]] || fail "unexpected path exists: $1"
+  require_no_symlink_components "$1" "$2"
+  [[ ! -e "$2" && ! -L "$2" ]] || fail "unexpected path exists: $2"
 }
 
 require_eq() {
   [[ "$1" == "$2" ]] || fail "$3 (expected $2, observed $1)"
 }
+
+path_guard_self_test() {
+  local scratch="$repo_root/.csdlc/evidence/5748/.validator-path-guard-self-test"
+  local target="$scratch/real/target"
+  local file_link="$scratch/file-link"
+  local dir_link="$scratch/dir-link"
+  local dangling="$scratch/dangling"
+  path_guard_cleanup() {
+    unlink "$file_link" 2>/dev/null || true
+    unlink "$dir_link" 2>/dev/null || true
+    unlink "$dangling" 2>/dev/null || true
+    unlink "$target" 2>/dev/null || true
+    rmdir "$scratch/real" 2>/dev/null || true
+    rmdir "$scratch" 2>/dev/null || true
+  }
+  trap path_guard_cleanup EXIT
+  require_absent "$repo_root" "$scratch"
+  mkdir -p "$scratch/real"
+  printf 'canonical\n' >"$target"
+  ln -s "$target" "$file_link"
+  ln -s "$scratch/real" "$dir_link"
+  ln -s "$scratch/missing" "$dangling"
+  require_file "$repo_root" "$target"
+  if (require_file "$repo_root" "$file_link") 2>/dev/null; then
+    fail "path guard accepted a final file symlink"
+  fi
+  if (require_file "$repo_root" "$dir_link/target") 2>/dev/null; then
+    fail "path guard accepted a symlinked parent component"
+  fi
+  if (require_absent "$repo_root" "$dangling") 2>/dev/null; then
+    fail "path guard treated a dangling symlink as absent"
+  fi
+  path_guard_cleanup
+  trap - EXIT
+  printf 'v0.91.8 inventory path-guard self-test PASS\n'
+}
+
+if [[ "${1:-}" == "--self-test-path-guards" ]]; then
+  path_guard_self_test
+  exit 0
+fi
 
 terminal_issues=(
   4739 4741 4758 4759 4760 4761 4762 4763 5107 5332 5336 5337 5338
@@ -55,13 +116,39 @@ exception_projection() {
 
 require_eq "${#terminal_issues[@]}" 90 "terminal issue count mismatch"
 require_eq "${#exception_issues[@]}" 10 "exception issue count mismatch"
-require_file "$register"
+require_file "$repo_root" "$register"
+require_file "$repo_root" "$universe"
+require_file "$repo_root" "$installer"
+require_file "$repo_root" "$doctor"
+require_file "$repo_root" "$inventory"
+"$installer" verify --repo "$repo_root" --bin-dir "$repo_root/.adl/bin/csdlc-v2" \
+  --inventory "$inventory" >/dev/null || fail "owner-binary provenance is stale"
+
+declared_completed="$(
+  printf '%s\n' "${terminal_issues[@]}" "${exception_issues[@]}" | sort -n | tr '\n' ' '
+)"
+observed_completed="$(
+  jq -r '.issues[] | select(.state == "CLOSED" and .state_reason == "COMPLETED") |
+    .number' "$universe" | sort -n | tr '\n' ' '
+)"
+require_eq "$observed_completed" "$declared_completed" \
+  "retained live completed-issue universe differs from the declared partition"
+require_eq "$(printf '%s\n' "${terminal_issues[@]}" "${exception_issues[@]}" | sort -nu | wc -l | tr -d ' ')" \
+  100 "declared completed-issue partition contains duplicates"
+require_eq "$(jq -r '[.issues[] | select(.state == "CLOSED" and .state_reason == "NOT_PLANNED") | .number] | sort | @csv' "$universe")" \
+  5335 "retained noneligible issue universe mismatch"
+jq -e '.schema == "adl.v0918.closed_issue_universe.v1" and
+  .repository == "danielbaustin/agent-design-language" and
+  .label == "version:v0.91.8" and .state == "closed" and
+  (.issues | length) == 101 and
+  ([.issues[].number] | length) == ([.issues[].number] | unique | length)' \
+  "$universe" >/dev/null || fail "retained closed-issue universe metadata is invalid"
 
 for issue in "${terminal_issues[@]}"; do
   index="$repo_root/.csdlc/issues/$issue/index.json"
   receipt="$common_dir/csdlc-v2/closeout/$issue.json"
-  require_file "$index"
-  require_file "$receipt"
+  require_file "$repo_root" "$index"
+  require_file "$common_dir" "$receipt"
   require_eq "$(jq -r '.phase' "$index")" closed_out \
     "terminal issue #$issue phase mismatch"
   require_eq "$(jq -r '.claim == null' "$index")" true \
@@ -71,6 +158,8 @@ for issue in "${terminal_issues[@]}"; do
   jq -e --slurpfile receipt "$receipt" '. == $receipt[0].record' "$index" \
     >/dev/null || fail "terminal issue #$issue index differs from receipt"
   for card in sip stp spp vpp srp sor; do
+    require_file "$repo_root" \
+      "$repo_root/.csdlc/issues/$issue/cards/$card.values.json"
     jq -e --arg card "$card" --slurpfile receipt "$receipt" \
       '. == $receipt[0].cards[$card]' \
       "$repo_root/.csdlc/issues/$issue/cards/$card.values.json" >/dev/null || \
@@ -79,7 +168,7 @@ for issue in "${terminal_issues[@]}"; do
 done
 
 for issue in "${exception_issues[@]}"; do
-  require_absent "$common_dir/csdlc-v2/closeout/$issue.json"
+  require_absent "$common_dir" "$common_dir/csdlc-v2/closeout/$issue.json"
   rg -q "^## #$issue —" "$register" || \
     fail "exception #$issue is missing from the register"
 done
@@ -88,7 +177,7 @@ for issue in "${claim_free_exception_issues[@]}"; do
   index="$repo_root/.csdlc/issues/$issue/index.json"
   IFS=$'\t' read -r expected_phase expected_generation expected_digest \
     <<<"$(exception_projection "$issue")"
-  require_file "$index"
+  require_file "$repo_root" "$index"
   require_eq "$(jq -r '.claim == null' "$index")" true \
     "exception #$issue retained an active claim"
   require_eq "$(jq -r '.digest' "$index")" "$expected_digest" \
@@ -133,7 +222,17 @@ done
 # claimed digest and still-active claim are evidence for why typed closeout
 # fails closed. Do not normalize this record by hand.
 corrupt_index="$repo_root/.csdlc/issues/5007/index.json"
-require_file "$corrupt_index"
+require_file "$repo_root" "$corrupt_index"
+require_eq "$(git rev-parse HEAD:.csdlc/issues/5007)" \
+  773eb443b05aac396c0d17705374edd4f754cfdf \
+  "exception #5007 committed projection tree mismatch"
+git diff --quiet HEAD -- .csdlc/issues/5007 || \
+  fail "exception #5007 working projection differs from its pinned commit"
+require_eq "$(git ls-files --others --exclude-standard -- .csdlc/issues/5007)" "" \
+  "exception #5007 contains untracked projection files"
+while IFS= read -r path; do
+  require_file "$repo_root" "$repo_root/$path"
+done < <(git ls-files .csdlc/issues/5007)
 require_eq "$(jq -r '.phase' "$corrupt_index")" published \
   "exception #5007 phase mismatch"
 require_eq "$(jq -r '.generation' "$corrupt_index")" 5 \
@@ -157,15 +256,17 @@ if corrupt_report="$("$doctor" --repo "$repo_root" --issue 5007 2>&1)"; then
 fi
 printf '%s\n' "$corrupt_report" | jq -e \
   '.status == "corrupt" and .ready == false and
-   any(.findings[]; .code == "corrupt_record")' >/dev/null || \
+   (.findings | length) == 1 and
+   .findings[0].code == "corrupt_record" and
+   .findings[0].message == "index digest mismatch"' >/dev/null || \
   fail "exception #5007 doctor state mismatch"
 
 # These two issues have no local lifecycle projection. Their absence is part
 # of the fail-closed evidence and must remain explicit.
-require_absent "$repo_root/.csdlc/issues/5558"
-require_absent "$repo_root/.csdlc/issues/5722"
+require_absent "$repo_root" "$repo_root/.csdlc/issues/5558"
+require_absent "$repo_root" "$repo_root/.csdlc/issues/5722"
 
-require_absent "$common_dir/csdlc-v2/closeout/5335.json"
+require_absent "$common_dir" "$common_dir/csdlc-v2/closeout/5335.json"
 rg -q '^## #5335 — outside the merged-PR eligibility boundary$' "$register" || \
   fail "noneligible exclusion #5335 is missing from the register"
 
