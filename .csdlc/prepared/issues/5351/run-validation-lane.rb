@@ -19,7 +19,8 @@ FileUtils.mkdir_p(EVIDENCE)
 
 def run!(name, argv, log: nil)
   output, status = Open3.capture2e({ "CARGO_TERM_COLOR" => "never" }, *argv, chdir: ROOT.to_s)
-  ROOT.join(log).write(output) if log
+  retained_output = output.gsub(ROOT.to_s, ".")
+  ROOT.join(log).write(retained_output) if log
   abort("#{name} failed; see #{log || 'stderr'}") unless status.success?
   { "name" => name, "status" => "pass", "command" => argv, "evidence" => log }
 end
