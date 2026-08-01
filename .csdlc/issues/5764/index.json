@@ -3,13 +3,13 @@
   "issue": 5764,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c87577fb18bcffa9a7ab3626e0ddde7132084f1c88dbeb1c648d842460499d85",
-  "phase": "implemented",
-  "generation": 28,
-  "digest": "8954dd59f159ed413080a97d36c1773e6f3a1d52653bbdfba2fe9201c14565c5",
+  "phase": "reviewed",
+  "generation": 30,
+  "digest": "f2417e67dd7b7b689eaff8de05262ee05b5c7b08f7c5765a929ecbd5e05e7d61",
   "claim": {
     "id": "claim-5764-runtime-observatory-readiness",
     "owner": "codex:5764-runtime-observatory-readiness",
-    "generation": 28,
+    "generation": 30,
     "acquired_unix_seconds": 1785574230,
     "expires_unix_seconds": 1785660630,
     "heartbeat_unix_seconds": 1785574230,
@@ -36,8 +36,34 @@
     ],
     "purpose": "Fix Runtime v3 Observatory overnight readiness probes and weather freshness truth"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:Erdos:019fbcdb-9849-74d3-b881-1305a1443442",
+    "assigned_by": "codex:5764-runtime-observatory-readiness",
+    "revision": "git-blake3:1aeef88d20818c1097f67e7852cdab84b74d32e0:829cbbad8e2cf8b77a127b103d86785c45c3b8748a388cbefba8a7f856a64826",
+    "scope": [
+      "adl/tools/validate_v0917_html_observatory.py",
+      "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+      "demos/html-observatory/runtime-v3.config.json",
+      ".csdlc/issues/5764"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:Erdos:019fbcdb-9849-74d3-b881-1305a1443442",
+    "scope": [
+      "adl/tools/validate_v0917_html_observatory.py",
+      "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+      "demos/html-observatory/runtime-v3.config.json",
+      ".csdlc/issues/5764"
+    ],
+    "reviewed_revision": "git-blake3:1aeef88d20818c1097f67e7852cdab84b74d32e0:829cbbad8e2cf8b77a127b103d86785c45c3b8748a388cbefba8a7f856a64826",
+    "findings": [],
+    "residual_risks": [
+      "Erdos performed read-only exact-head source and lifecycle review; the implementation owner separately ran the shell proof wrapper because it writes local evidence and starts local TLS listeners.",
+      "Hosted PR checks must rerun on the republished head after the validator/proof repair is pushed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -52,32 +78,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2548196bcc36a3fb9d8025b4424c7aebabcb5fbeee207c3035d9cac519731886",
+      "values_digest": "a8731f77e961ced86442f3a9379ead1ca5a1b8383cf1f1c46fd496e1f753dbd1",
       "rendered_digest": "ebc9326d1aba09c1cd55320e0a9310826197bda3517d17ed9c0599d83d8982ee",
       "ast_digest": "d20982b1cd63aa422b6b0ff9b9128d4af75753b654ab4b43960a6d2dfc30e741"
     },
     "stp": {
-      "values_digest": "b992443921481510dd88d335fac9dcdcfdad0e32dd553208d3114f41edd1ee09",
+      "values_digest": "f8d1986fd5673e693a2eec0e4bb7856759286fa6807873d6698d900916f02e74",
       "rendered_digest": "12c2a85ff84c4950f80b65c3cf4caf62e49a6fb798714c8d862f66f929f8e432",
       "ast_digest": "2ceaee61ff985688af3f3456ebb90682f980dec257e58f32b6c485494175aaca"
     },
     "spp": {
-      "values_digest": "7ac45b6e917b1c9870ac4acaa7191b9f4c81648e52b8213f7639d82797d19d63",
+      "values_digest": "d4f4dfa346878d184d32f2eda2977bb4293a3d469f9e72132f351a52a9d4c730",
       "rendered_digest": "c39dc32f79a7f8378b3077799a472627417593a0e9162cdd601aa7f07eb6fdb9",
       "ast_digest": "e6f67dd6990d66fe8d7d190f26f02d0760117fb423ed93f7bf9dbae83cfe858b"
     },
     "vpp": {
-      "values_digest": "17c1403b65c0573149a46a9d59d7a3433f2c2698597041cc34d840b05673ac3c",
+      "values_digest": "c78ab94b2ddf96836d7e450aff669e4f1c061e48ac7a5abdbec57a138e7a8628",
       "rendered_digest": "661338346d5d7bc578b78ae70deed268337e8d7c43316165b46f581fb867409f",
       "ast_digest": "34c69f8bf170bf1b486aa48e9d2a402851aba23284cbd44030289e92aea506d0"
     },
     "srp": {
-      "values_digest": "a3a533c7b138cd5d00e0b687ece3dcbe08bcf1d1012024e2090a62e13e7329d0",
-      "rendered_digest": "6a39cb34fac4c224b5a960d58e069a132a910c092179b11633046b84b4208d55",
-      "ast_digest": "13f8aff7e21f5ecafec7a564e45d0670f6e925f15164d958465ec6cd42f7e808"
+      "values_digest": "7f5ca90ad0a876f9e65679d1f74e70712300020e0c2e6a7b757eb205ed0da2fc",
+      "rendered_digest": "a02b628db65dec66852f8b754f443fe7427703d990914aed49c2a300580646f3",
+      "ast_digest": "ae90da77c57efe44ec863e480ada6f6bb0934e391842622db99de2bcb40c738a"
     },
     "sor": {
-      "values_digest": "2152fb529fa0c7d9533e6ee26e962bad774604539650762f3c55e53fbcc7b796",
+      "values_digest": "993fd629bf541e8a94defd0d4970166bd177efe24f406288188aa557f4976bc1",
       "rendered_digest": "720c612b1daa58749555aa2c43d803c5f2d0b2911dd9c84f491304c26c76b6ad",
       "ast_digest": "5c134ce25ddd504999381c700b1a0a8ca4e469abb5cacebe855d78d5a3b426f1"
     }
@@ -159,6 +185,13 @@
       "to": "implemented",
       "actor": "codex:5764-runtime-observatory-readiness",
       "reason": "Recover publication state after hosted Runtime v3 proof exposed a validator fixture missing the new /v1/ready endpoint."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Advance #5764 after exact-head Erdos review confirmed the hosted Runtime v3 proof config validation repair is clean."
     }
   ],
   "audit": [
@@ -441,6 +474,27 @@
       "actor": "codex:5764-runtime-observatory-readiness",
       "reason": "Record focused validation for the hosted Runtime v3 proof repair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target bash adl/tools/test_v0917_html_observatory_integrated_proof.sh\",\"node --check demos/html-observatory/app.js\",\"python3 -m json.tool demos/html-observatory/runtime-v3.config.json\",\"python3 -m py_compile adl/tools/validate_v0917_html_observatory.py\",\"git diff --check origin/main...HEAD\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings\"],\"purpose\":\"Prove the hosted HTML Observatory integrated proof validates the config-owned Runtime v3 readiness and observatory endpoints, while preserving JavaScript syntax, config JSON validity, Python validator syntax, diff hygiene, and the runtime clippy lane.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork terminal output: integrated proof passed; node --check passed; json.tool passed; py_compile passed; git diff --check origin/main...HEAD passed; cargo clippy passed\"}}"
+    },
+    {
+      "sequence": 41,
+      "generation": 28,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 29,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 30,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Advance #5764 after exact-head Erdos review confirmed the hosted Runtime v3 proof config validation repair is clean.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
