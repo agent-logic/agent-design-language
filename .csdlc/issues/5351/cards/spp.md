@@ -16,14 +16,14 @@ Execute WP-16 #5351 now: audit every v0.91.8 wave issue for working code or a us
 
 ## Plan
 
-Revision 2
+Revision 5
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Complete six cards, design, diagram, exact preparation-only claim, COTS, budgets, PVF, executable gates, bounded review/fixes, typed bind/doctor, commit, and push",
+    "action": "Complete six cards, design, diagram, exact issue-local claim, COTS, budgets, PVF, executable gates, bounded review/fixes, typed bind, and doctor",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
@@ -31,11 +31,11 @@ Revision 2
       "AC-7",
       "AC-8"
     ],
-    "status": "in_progress"
+    "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Wait fail-closed until #5354 is merged, typed closed_out, claim-free, retained-receipt-backed, and ancestral",
+    "action": "Verify #5354 is merged, typed closed_out, claim-free, retained-receipt-backed, and ancestral",
     "acceptance_ids": [
       "AC-1"
     ],
@@ -43,7 +43,7 @@ Revision 2
   },
   {
     "id": "S3",
-    "action": "Amend exact reviewed paths and run focused and integrated platform quality gates, retaining exact evidence and routing every blocker",
+    "action": "Run focused and integrated platform quality gates, retain exact evidence, route genuine blockers, merge their fixes, and rerun on the combined exact revision",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -56,7 +56,7 @@ Revision 2
   },
   {
     "id": "S4",
-    "action": "Run complete exact review, typed publication, green CI, authorized serialized merge, post-merge proof, typed closeout, and release WP-17",
+    "action": "Fix exact-review findings, publish through typed v2, shepherd green CI, merge, verify the integrated identity, and release WP-17 immediately; perform typed closeout asynchronously",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -71,12 +71,13 @@ Revision 2
 
 ## Invariants
 
-- preparation owns only four exact #5351 issue-local lifecycle and evidence paths
-- no execution or broader claim begins before the complete #5354 terminal gate
+- #5351 owns only its issue-local lifecycle, prepared, evidence, and WP-16 quality-report paths
 - only pass satisfies a required quality row; missing, blocked, failed, or deferred proof cannot be promoted
 - the gate composes existing tools and never becomes another product or lifecycle authority
 - Runtime v2, credentials, host-absolute retained paths, hard-coded addresses, and secret-bearing output are forbidden
-- all applicable validation, review, CI, merge, post-merge, and closeout gates complete without deferral
+- focused and integrated packets remain pinned to one exact execution revision
+- WP-17 is released immediately after #5351 merges with passing exact-head integrated proof
+- typed closeout is asynchronous bookkeeping and never blocks WP-17
 
 ## Risks
 
@@ -109,12 +110,12 @@ Digest: 29b73587302168c789aee6c9cfdc2e4ed08491028385d7bfc2244c212cc53225
 
 ## Stop Conditions
 
-- #5354 lacks actual merge, typed closed_out, claim release, retained merged receipt, or ancestry
 - accepted platform revisions or stable interfaces cannot be resolved exactly
 - any required result is failed, missing, stale, deferred, secret-bearing, host-bound, or unsupported
 - execution requires Runtime v2, AWS, credentials, paid services, hidden network authority, hard-coded addresses, or out-of-claim writes
-- the quality harness duplicates product/COTS behavior, adds a dependency, exceeds budget without exact review, or collides with another claim
-- WP-17 would begin before #5351 merged typed closeout
+- the quality harness duplicates product or COTS behavior, adds a dependency, exceeds budget without exact review, or collides with another active claim
+- exact-revision review has an unresolved actionable finding
+- WP-17 would begin before #5351 merges with passing exact-head integrated proof
 
 ## Handoff
 

@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "185d0c17ef9ef231ae848b0ae2a3f027956bca5a1690d71ae37915a465534bd6",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "604205b16842cc20dfafaeac6c983a8d40fc33bcd6aadf2ff2bc14ddf80a7bb9",
+  "generation": 13,
+  "digest": "d4287f9d2c545fa6c183a11cd0d2932ab6f383fc8bb3b557465219df527ea698",
   "claim": {
     "id": "claim-5351-v0918-wp16-quality-gate-preparation",
     "owner": "codex:5351-preparation-owner",
-    "generation": 10,
+    "generation": 13,
     "acquired_unix_seconds": 1785543668,
     "expires_unix_seconds": 1786148468,
     "heartbeat_unix_seconds": 1785543668,
@@ -86,32 +86,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8cf7dafc91120788e0fa4acf2612584dbe1bd4e7634a05f4facdc5d7c5fbe353",
+      "values_digest": "1c6b055beb79d8c7ad1e81e170b98e6c119e824d725690b2c9143ef68e7e2d6e",
       "rendered_digest": "cd486b0ef1c9028d5bae231ed78d5f04d09f5a26f97e5b1be916da76f0b07648",
       "ast_digest": "ec0ecc9deeaf93d925f734b00517171ced15f0af10030478079a24aa0edf9f2c"
     },
     "stp": {
-      "values_digest": "d7ee2306053af05498e7cf34986f1487144adc4b2f25e6e887d1b0bb32708e49",
+      "values_digest": "6d2a0bc0725c6f3dd2b2432520961269f87ef810d1087b7b75a8679e90724d0f",
       "rendered_digest": "26ab7a958999a675d0ae9b59e12a8fdc4afb55dae89d735e9afa173a8f5bb8b8",
       "ast_digest": "148c31feceb93b642a2ac7e2dda7b255a01577211d9ea8da8b552e328d61379c"
     },
     "spp": {
-      "values_digest": "24097ae7bd1ec347d235c07ab84c15df89b0fcb2a8f3fbb6d1b061bd3622926b",
-      "rendered_digest": "f2a4c641939ffd83513b53b43f2aa5f437c143ad47c5c4d6795c661a58e93fb8",
-      "ast_digest": "cd640d007e237410caaf1f1bf8474b9cc0eb8f2a8bd271194584ce67c26d393e"
+      "values_digest": "63d21d8c41a96d68ccd68823b164342a34c1a89f091f1ce7a544cbc8d15cc054",
+      "rendered_digest": "6175bdba2b9e22eb3445a06256b7d0de8eda4ee32e61ab3179c3a241508f2fc8",
+      "ast_digest": "f3b65d6bb17ccb484236b2983433ab9da4afcba7db337a0cc5ae5abe43d0d4ba"
     },
     "vpp": {
-      "values_digest": "e50eee1e2956466bbeba059d342ecfefc8b88832b4b243f5c60f9b7141460834",
+      "values_digest": "d0010463dc49db540978ab9edf6a38db1538be44cc5d40de0b74d2a1c9235c52",
       "rendered_digest": "7154421ca308f11c5ed2dd2dc65c877f7c99ceaaacd9de2acad35a6df362926e",
       "ast_digest": "bf16d1c3e1f5b00d28a226bce0818c5a41f4b3216ee3d914b44b630fd32791a6"
     },
     "srp": {
-      "values_digest": "0901a7c968062fda66601ad9df395dbcbf3c9ff5c5436c81953b49d6809d1dfb",
+      "values_digest": "c170dbf04fc39eb34409cc2833bbb78ba6bbc431a3123b14a1e0317e2bb4106f",
       "rendered_digest": "6fa8b7c0739c5e160274386772887984b1221b67f80c113b32a2b27f30133341",
       "ast_digest": "6a46e8f21dbdd9ee6dac300ffb93db99e1d0ff2c87fdf2812f097435526c1ea6"
     },
     "sor": {
-      "values_digest": "662140bda65281b1f8fbf94739813bfdd52852265851a487742ad500e7703208",
+      "values_digest": "c969333973f96053f575098ee29a434e8c5944765ece3e54ab13ab8b43ed2e36",
       "rendered_digest": "3ca0a1387d954e2997f494325454ab8728a6e1e4678430d160b59db7f698c492",
       "ast_digest": "a97dc50125e7bed7d73f1e7b04000b62b1f521a0257fc84561fcdeab2cbeb4dd"
     }
@@ -244,6 +244,27 @@
       "actor": "codex:5351-execution",
       "reason": "atomically record assigned review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:5351-execution",
+      "reason": "Align the operative handoff sequence with merge-gated WP-17 release and asynchronous closeout.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Complete six cards, design, diagram, exact issue-local claim, COTS, budgets, PVF, executable gates, bounded review/fixes, typed bind, and doctor\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Verify #5354 is merged, typed closed_out, claim-free, retained-receipt-backed, and ancestral\",\"acceptance_ids\":[\"AC-1\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Run focused and integrated platform quality gates, retain exact evidence, route genuine blockers, merge their fixes, and rerun on the combined exact revision\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Fix exact-review findings, publish through typed v2, shepherd green CI, merge, verify the integrated identity, and release WP-17 immediately; perform typed closeout asynchronously\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:5351-execution",
+      "reason": "Remove the stale closeout gate while retaining exact quality and evidence invariants.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"#5351 owns only its issue-local lifecycle, prepared, evidence, and WP-16 quality-report paths\",\"only pass satisfies a required quality row; missing, blocked, failed, or deferred proof cannot be promoted\",\"the gate composes existing tools and never becomes another product or lifecycle authority\",\"Runtime v2, credentials, host-absolute retained paths, hard-coded addresses, and secret-bearing output are forbidden\",\"focused and integrated packets remain pinned to one exact execution revision\",\"WP-17 is released immediately after #5351 merges with passing exact-head integrated proof\",\"typed closeout is asynchronous bookkeeping and never blocks WP-17\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:5351-execution",
+      "reason": "Align stop conditions with merge-gated WP-17 release and asynchronous closeout.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"accepted platform revisions or stable interfaces cannot be resolved exactly\",\"any required result is failed, missing, stale, deferred, secret-bearing, host-bound, or unsupported\",\"execution requires Runtime v2, AWS, credentials, paid services, hidden network authority, hard-coded addresses, or out-of-claim writes\",\"the quality harness duplicates product or COTS behavior, adds a dependency, exceeds budget without exact review, or collides with another active claim\",\"exact-revision review has an unresolved actionable finding\",\"WP-17 would begin before #5351 merges with passing exact-head integrated proof\"]}"
     }
   ]
 }
