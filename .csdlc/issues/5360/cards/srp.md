@@ -12,10 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/5360
-.csdlc/locks/5360.lock
-.csdlc/prepared/issues/5360
-.csdlc/evidence/5360
+CHANGELOG.md
+README.md
+REVIEW.md
+docs
 
 ## Prompts
 
@@ -35,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The WP-18 review README and v0.92 issue-wave YAML remain delegated to their existing owners and were intentionally excluded from this issue.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c1cd0a309c33279dc21c7338668f0e0a836675d5:380c18d6ddba37ddf5101e34fd438f463db047b3d234b3fc656e0335d86d8e50")
 
-Reviewer: None
+Reviewer: Some("subagent:godel-019fbd06")
 
-Result: pre_review
+Result: pass
