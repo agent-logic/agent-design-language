@@ -20,6 +20,7 @@ Completed exhaustive typed C-SDLC v2 terminal reconciliation for all 114 GitHub-
 - .csdlc/evidence/5748/v0918-closed-issue-universe.json
 - .csdlc/evidence/5748/v0918-remote-terminal-audit.json
 - .csdlc/evidence/5748/v0918-closeout-prune-results.json
+- .csdlc/evidence/5748/exact-head-validation-5eb2fd0a8.md
 - .csdlc/prepared/issues/5748/generate-final-audits.sh
 - .csdlc/prepared/issues/5748/validate-final-inventory.sh
 - csdlc-v2/src
@@ -36,6 +37,7 @@ Completed exhaustive typed C-SDLC v2 terminal reconciliation for all 114 GitHub-
 - Refreshed the authoritative live universe and generated typed remote-disposition evidence for 108 unique pull requests.
 - Generated explicit per-issue closeout and non-destructive validate-prune results without deleting any worktree.
 - Strengthened the aggregate validator and closeout operator skill to require complete record/card/receipt equality and zero unresolved exceptions.
+- Merged current main and corrected the synthetic terminal-repair fixture authority required by the combined terminal transport and SOR validation test surface.
 
 ## Validation
 
@@ -47,19 +49,19 @@ Completed exhaustive typed C-SDLC v2 terminal reconciliation for all 114 GitHub-
     ],
     "purpose": "Prove all 114 closed v0.91.8 issues are claim-free, receipt-backed, doctor-valid, remote-disposition consistent, and represented in explicit non-destructive prune results with zero exceptions.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5748/v0918-closed-issue-universe.json; .csdlc/evidence/5748/v0918-remote-terminal-audit.json; .csdlc/evidence/5748/v0918-closeout-prune-results.json"
+    "evidence_ref": ".csdlc/evidence/5748/v0918-closed-issue-universe.json; .csdlc/evidence/5748/v0918-remote-terminal-audit.json; .csdlc/evidence/5748/v0918-closeout-prune-results.json; exact-head result recorded in .csdlc/evidence/5748/exact-head-validation-5eb2fd0a8.md"
   },
   {
     "command": [
-      "bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --self-test-path-guards",
-      "cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle no_pr_closeout_produces_doctor_valid_terminal_state -- --exact",
-      "cargo test --locked --manifest-path csdlc-v2/Cargo.toml",
+      "cargo test --locked --manifest-path csdlc-v2/Cargo.toml --quiet",
       "cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- --deny warnings",
-      "git diff --check"
+      "cargo fmt --manifest-path csdlc-v2/Cargo.toml -- --check",
+      "git diff --check",
+      "bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --self-test-path-guards"
     ],
-    "purpose": "Prove symlink-safe governed paths, focused retained-receipt integrity, every current C-SDLC v2 target and doc test, warning-free source, and clean aggregate patch bytes.",
+    "purpose": "Prove the current-main-integrated exact source head across the complete C-SDLC v2 test surface, warning-free source, formatting and patch hygiene, and symlink-safe governed paths.",
     "outcome": "passed",
-    "evidence_ref": "local working-tree proof at source e52d8e270 with external target /Volumes/FastWork/adl-5748/csdlc-v2-install-target; all declared lanes PASS"
+    "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-5eb2fd0a8.md at source 5eb2fd0a801431285c7f84002722a6ffe4a17c70"
   }
 ]
 

@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
   "phase": "implemented",
-  "generation": 31,
-  "digest": "e70c86e656c8338ab7e73b9695e18dd7f1587efb71a9ced5bacc41d88feed2a3",
+  "generation": 32,
+  "digest": "96a2cb18484624a6644f47adb6fa623cba1191fef05a7cfb0d61bca7855efb3b",
   "claim": {
     "id": "claim-5748-terminal-recovery-without-csdlc-v2",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
-    "generation": 31,
+    "generation": 32,
     "acquired_unix_seconds": 1785574293,
     "expires_unix_seconds": 1786179093,
     "heartbeat_unix_seconds": 1785574293,
@@ -101,34 +101,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a9643229ff6151f153f90beba35021623145d96938c21337c98d3896f13a52df",
+      "values_digest": "47b780f0735054d7f4933bc992d6df0ea720700c0ad4b64b362022084bf1370f",
       "rendered_digest": "7131808bad6d02afd6d10f86d509e21cefd1e218e278c84126aa0928aff48277",
       "ast_digest": "e7fa00329133cf3d6a6490545302ca22acb2dd4dc2790b235e4f780f1cda0858"
     },
     "stp": {
-      "values_digest": "b305a06a69c6b6655bae1a39a0ad85b5a4e5f705d6d9123a3d7d3bbc1ffb9cfd",
+      "values_digest": "0221f0ec84c71f4597c9d42fdd960d09f3c5bd461eb517da05ce40e704bf38e1",
       "rendered_digest": "f2bcecd25975a08e704db32829dc123f5585aad64c9a53ada7bc86dcb92143e8",
       "ast_digest": "d44ecf1c459ef6eeceae9febf3297b6f073f1d7d7246f091aedfc9041e615e8d"
     },
     "spp": {
-      "values_digest": "f43751943f03a6941f3f3b57d14d7ba2f8331514378c4783190d0519f8f880a2",
+      "values_digest": "e713e1a3ff15e0f3772c7f68cd28893e3a3f29b43f503f57f12223df31aff47b",
       "rendered_digest": "e9b0d898d2a756b4fdad65dc50cb51b1ce6b7a30ecee883c73238f4882dc33ab",
       "ast_digest": "bc33f4d0c44c7a28cb49b903543db9235180fca69993b0e7522b00eb92df8e64"
     },
     "vpp": {
-      "values_digest": "59257e1b0f58c63024fb64197a334db50860f512fd32d9fc92eed9677a3fb04f",
+      "values_digest": "2a48b06b882adf8629716f93ab40de4ce19e651447a4d324279a1b7bed1a63fd",
       "rendered_digest": "3e1bf39edd27df0c6f9f242c7b0281484b23ba6d4830baa7a19835768cd074fd",
       "ast_digest": "598d74187c5473bb9847382c5feb13bc09ce957751b5412279096e40626dd4e9"
     },
     "srp": {
-      "values_digest": "feda24134b51872b463e92fd08c215fd85ee4d6877776f8c3fb710a0fdadda33",
+      "values_digest": "50aa4c932c5d409af89cb264ac287554a00844e4511478c298a978d3b8dad378",
       "rendered_digest": "5438fc034776835713e7278959e1339264a019daeef57dd9901907adf5899ec6",
       "ast_digest": "0277a32f19dabc31451b99d4046653f022dcaa82d754162e72f1fa31e808acb8"
     },
     "sor": {
-      "values_digest": "9a684577d6972b49c06bf8a8889ab0ce6316d8508c4800d887a76ac67f5f2083",
-      "rendered_digest": "86861d0dc4b7f630eb0957ce21bc998e30be2eef261cdc41c5ffb51f600aee0e",
-      "ast_digest": "b11cf5fe11fc6ba7ce5c0a8e4a2efc563b90ae3d8e7f98ff6f608d6f2fdab476"
+      "values_digest": "f497e3f475c61df16e1daa054cad469ae2bc3304c2c223b5b8cd650e8f166a0c",
+      "rendered_digest": "9e13d0974deb288f5e1dec685020d2b154b48d2754d595c10b21a2bb96dcb003",
+      "ast_digest": "0a3e521e93da06f1a10980dedc44071c4fd0614131ab2a2c594aa9a1b0a30a37"
     }
   },
   "transitions": [
@@ -637,6 +637,13 @@
       "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
       "reason": "Atomically replace obsolete partial-audit counts, exceptions, artifacts, and validation with final exhaustive execution truth.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed exhaustive typed C-SDLC v2 terminal reconciliation for all 114 GitHub-closed v0.91.8 issues with retained receipts, released claims, live PR parity, explicit prune classifications, and zero fail-closed exceptions.\",\"changes\":[\"Materialized claim-free, receipt-backed closed_out projections for the complete 114-issue live v0.91.8 closed universe.\",\"Implemented typed receipt transport, recordless recovery, corrupt-receipt reconciliation, historical merged reconciliation, and cross-worktree authority controls.\",\"Hardened lifecycle storage, doctor, Git/GitHub observation, merge, and closeout paths against namespace drift, stale authority, unsafe paths, symlinks, and partial-write recovery failures.\",\"Added deterministic regressions covering terminal recovery, receipt integrity, projection identity, review lineage, remote linkage, rollback, and prune safety.\",\"Materialized the final #5558 terminal projection after PR #5769 merged and its claim was released.\",\"Refreshed the authoritative live universe and generated typed remote-disposition evidence for 108 unique pull requests.\",\"Generated explicit per-issue closeout and non-destructive validate-prune results without deleting any worktree.\",\"Strengthened the aggregate validator and closeout operator skill to require complete record/card/receipt equality and zero unresolved exceptions.\"],\"artifacts\":[\".csdlc/issues\",\".csdlc/evidence/5748/v0918-closed-issue-universe.json\",\".csdlc/evidence/5748/v0918-remote-terminal-audit.json\",\".csdlc/evidence/5748/v0918-closeout-prune-results.json\",\".csdlc/prepared/issues/5748/generate-final-audits.sh\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\",\"csdlc-v2/src\",\"csdlc-v2/tests\",\"csdlc-v2/operator/skills/csdlc-v2-closeout/SKILL.md\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\"],\"purpose\":\"Prove all 114 closed v0.91.8 issues are claim-free, receipt-backed, doctor-valid, remote-disposition consistent, and represented in explicit non-destructive prune results with zero exceptions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/v0918-closed-issue-universe.json; .csdlc/evidence/5748/v0918-remote-terminal-audit.json; .csdlc/evidence/5748/v0918-closeout-prune-results.json\"},{\"command\":[\"bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --self-test-path-guards\",\"cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle no_pr_closeout_produces_doctor_valid_terminal_state -- --exact\",\"cargo test --locked --manifest-path csdlc-v2/Cargo.toml\",\"cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- --deny warnings\",\"git diff --check\"],\"purpose\":\"Prove symlink-safe governed paths, focused retained-receipt integrity, every current C-SDLC v2 target and doc test, warning-free source, and clean aggregate patch bytes.\",\"outcome\":\"passed\",\"evidence_ref\":\"local working-tree proof at source e52d8e270 with external target /Volumes/FastWork/adl-5748/csdlc-v2-install-target; all declared lanes PASS\"}]}"
+    },
+    {
+      "sequence": 70,
+      "generation": 32,
+      "actor": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
+      "reason": "refresh implementation truth after current-main integration and exact-head validation",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed exhaustive typed C-SDLC v2 terminal reconciliation for all 114 GitHub-closed v0.91.8 issues with retained receipts, released claims, live PR parity, explicit prune classifications, and zero fail-closed exceptions.\",\"changes\":[\"Materialized claim-free, receipt-backed closed_out projections for the complete 114-issue live v0.91.8 closed universe.\",\"Implemented typed receipt transport, recordless recovery, corrupt-receipt reconciliation, historical merged reconciliation, and cross-worktree authority controls.\",\"Hardened lifecycle storage, doctor, Git/GitHub observation, merge, and closeout paths against namespace drift, stale authority, unsafe paths, symlinks, and partial-write recovery failures.\",\"Added deterministic regressions covering terminal recovery, receipt integrity, projection identity, review lineage, remote linkage, rollback, and prune safety.\",\"Materialized the final #5558 terminal projection after PR #5769 merged and its claim was released.\",\"Refreshed the authoritative live universe and generated typed remote-disposition evidence for 108 unique pull requests.\",\"Generated explicit per-issue closeout and non-destructive validate-prune results without deleting any worktree.\",\"Strengthened the aggregate validator and closeout operator skill to require complete record/card/receipt equality and zero unresolved exceptions.\",\"Merged current main and corrected the synthetic terminal-repair fixture authority required by the combined terminal transport and SOR validation test surface.\"],\"artifacts\":[\".csdlc/issues\",\".csdlc/evidence/5748/v0918-closed-issue-universe.json\",\".csdlc/evidence/5748/v0918-remote-terminal-audit.json\",\".csdlc/evidence/5748/v0918-closeout-prune-results.json\",\".csdlc/evidence/5748/exact-head-validation-5eb2fd0a8.md\",\".csdlc/prepared/issues/5748/generate-final-audits.sh\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\",\"csdlc-v2/src\",\"csdlc-v2/tests\",\"csdlc-v2/operator/skills/csdlc-v2-closeout/SKILL.md\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\"],\"purpose\":\"Prove all 114 closed v0.91.8 issues are claim-free, receipt-backed, doctor-valid, remote-disposition consistent, and represented in explicit non-destructive prune results with zero exceptions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/v0918-closed-issue-universe.json; .csdlc/evidence/5748/v0918-remote-terminal-audit.json; .csdlc/evidence/5748/v0918-closeout-prune-results.json; exact-head result recorded in .csdlc/evidence/5748/exact-head-validation-5eb2fd0a8.md\"},{\"command\":[\"cargo test --locked --manifest-path csdlc-v2/Cargo.toml --quiet\",\"cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- --deny warnings\",\"cargo fmt --manifest-path csdlc-v2/Cargo.toml -- --check\",\"git diff --check\",\"bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --self-test-path-guards\"],\"purpose\":\"Prove the current-main-integrated exact source head across the complete C-SDLC v2 test surface, warning-free source, formatting and patch hygiene, and symlink-safe governed paths.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/exact-head-validation-5eb2fd0a8.md at source 5eb2fd0a801431285c7f84002722a6ffe4a17c70\"}]}"
     }
   ]
 }
