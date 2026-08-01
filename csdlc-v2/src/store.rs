@@ -1176,39 +1176,59 @@ impl Store {
     }
 
     fn replace_receipt_bytes(&self, path: &Path, bytes: Option<&[u8]>) -> Result<()> {
+        let common = PathBuf::from(
+            crate::git::run(
+                &self.root,
+                &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+            )?
+            .stdout,
+        );
+        let relative = path.strip_prefix(&common).map_err(|_| {
+            V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "terminal receipt path escapes its Git-common root",
+            )
+        })?;
         let parent = path
             .parent()
             .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "receipt has no parent"))?;
+        require_canonical_parent_beneath(&common, relative)?;
         fs::create_dir_all(parent)?;
+        require_canonical_parent_beneath(&common, relative)?;
+        require_regular_or_absent_beneath(&common, relative)?;
+        let lock_relative = relative.with_file_name("receipts.lock");
+        require_canonical_parent_beneath(&common, &lock_relative)?;
+        require_regular_or_absent_beneath(&common, &lock_relative)?;
         let lock = OpenOptions::new()
             .create(true)
             .truncate(false)
             .read(true)
             .write(true)
-            .open(parent.join("receipts.lock"))?;
+            .open(common.join(&lock_relative))?;
         lock.lock_exclusive()?;
+        require_canonical_parent_beneath(&common, relative)?;
+        require_regular_or_absent_beneath(&common, relative)?;
+        require_regular_or_absent_beneath(&common, &lock_relative)?;
         for suffix in [
             "json.reconcile-tmp",
             "json.recovery-tmp",
             "json.repair-tmp",
             "json.restore-tmp",
         ] {
-            let temporary = path.with_extension(suffix);
-            if temporary.exists() {
-                fs::remove_file(temporary)?;
+            let temporary_relative = relative.with_extension(suffix);
+            if canonical_path_metadata_beneath(&common, &temporary_relative)?.is_some() {
+                require_regular_or_absent_beneath(&common, &temporary_relative)?;
+                fs::remove_file(common.join(&temporary_relative))?;
             }
         }
         match bytes {
             Some(bytes) => {
-                let temporary = path.with_extension("json.recovery-tmp");
-                let mut file = File::create(&temporary)?;
-                file.write_all(bytes)?;
-                file.sync_all()?;
-                fs::rename(temporary, path)?;
-                sync_dir(parent)?;
+                replace_regular_terminal_artifact(&common, relative, bytes, "json.recovery-tmp")?;
             }
-            None if path.exists() => {
-                fs::remove_file(path)?;
+            None if canonical_path_metadata_beneath(&common, relative)?.is_some() => {
+                require_canonical_parent_beneath(&common, relative)?;
+                require_regular_or_absent_beneath(&common, relative)?;
+                fs::remove_file(common.join(relative))?;
                 sync_dir(parent)?;
             }
             None => {}
@@ -2930,7 +2950,9 @@ impl Store {
     pub fn retain_terminal_receipt(&self, issue: u64) -> Result<TerminalReceipt> {
         let _terminal_repair_lock = self.terminal_repair_lock()?;
         let _lock = self.lock(issue)?;
+        require_canonical_issue_projection_components(&self.root, issue)?;
         self.recover_with_terminal_lock(issue)?;
+        require_canonical_issue_projection_files(&self.root, issue)?;
         let mut record = self.load_record(issue)?;
         let mut cards = self.load_cards(issue)?;
         let receipt_ref = format!("csdlc-v2/closeout/{issue}.json");
@@ -5285,7 +5307,11 @@ fn authorize_card_operation(
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Sip,
-            SemanticOperation::ReplaceOperatorConstraints { .. },
+            SemanticOperation::ReplaceOperatorConstraints { .. }
+                | SemanticOperation::ReplacePlanningCollection {
+                    field: crate::cards::PlanningCollectionField::AuthorityBoundary,
+                    ..
+                },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Stp,
@@ -5537,6 +5563,57 @@ fn verify_canonical_projection_bytes(
             return Err(V2Error::new(
                 ErrorCode::CorruptRecord,
                 "authority target card projection is not canonical",
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn issue_projection_paths(issue: u64) -> Vec<PathBuf> {
+    let issue_dir = PathBuf::from(".csdlc/issues").join(issue.to_string());
+    let mut paths = vec![issue_dir.join("index.json"), issue_dir.join("audit.jsonl")];
+    for kind in enum_iterator() {
+        paths.push(issue_dir.join(format!("cards/{kind}.values.json")));
+        paths.push(issue_dir.join(format!("cards/{kind}.md")));
+    }
+    paths
+}
+
+fn require_canonical_issue_projection_components(root: &Path, issue: u64) -> Result<()> {
+    for relative in issue_projection_paths(issue) {
+        if let Some(metadata) = canonical_path_metadata_beneath(root, &relative)? {
+            if !metadata.is_file() {
+                return Err(V2Error::new(
+                    ErrorCode::UnsafeCheckout,
+                    format!(
+                        "terminal authority projection is not a regular file: {}",
+                        root.join(relative).display()
+                    ),
+                ));
+            }
+        }
+    }
+    Ok(())
+}
+
+fn require_canonical_issue_projection_files(root: &Path, issue: u64) -> Result<()> {
+    for relative in issue_projection_paths(issue) {
+        let metadata = canonical_path_metadata_beneath(root, &relative)?.ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!(
+                    "terminal authority projection is absent: {}",
+                    root.join(&relative).display()
+                ),
+            )
+        })?;
+        if !metadata.is_file() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                format!(
+                    "terminal authority projection is not a regular file: {}",
+                    root.join(relative).display()
+                ),
             ));
         }
     }
@@ -6231,6 +6308,110 @@ mod terminal_design_repair_tests {
                 .expect_err("symlinked authored authority must fail closed");
             assert_eq!(error.code, ErrorCode::UnsafeCheckout);
             assert!(store.load_terminal_receipt(target.issue).unwrap().is_none());
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn first_terminal_receipt_retention_rejects_projection_symlink_components() {
+        use std::os::unix::fs::symlink;
+
+        for symlink_parent in [false, true] {
+            let (_temp, store, _authority, target, _receipt, _) = terminal_validation_fixture();
+            let receipt_path = store
+                .terminal_receipt_path(target.issue)
+                .expect("receipt path");
+            fs::remove_file(&receipt_path).expect("remove retained receipt");
+            let cards = store.issue_dir(target.issue).join("cards");
+            if symlink_parent {
+                let backup = store.issue_dir(target.issue).join("cards.retain-backup");
+                fs::rename(&cards, &backup).expect("move projection parent");
+                symlink(&backup, &cards).expect("symlink projection parent");
+            } else {
+                let projection = cards.join("spp.values.json");
+                let backup = cards.join("spp.values.retain-backup.json");
+                fs::rename(&projection, &backup).expect("move projection leaf");
+                symlink(&backup, &projection).expect("symlink projection leaf");
+            }
+
+            let error = store
+                .retain_terminal_receipt(target.issue)
+                .expect_err("symlinked projection authority must fail closed");
+            assert_eq!(error.code, ErrorCode::UnsafeCheckout);
+            assert!(!receipt_path.exists());
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn terminal_recovery_rejects_receipt_parent_symlink_after_durable_boundaries() {
+        use std::os::unix::fs::symlink;
+
+        for projection_committed in [false, true] {
+            let (_temp, store, authority, target, receipt, _) = terminal_validation_fixture();
+            let request = TerminalDesignRepairRequest {
+                authority_issue: authority.issue,
+                target_issue: target.issue,
+                expected_authority_generation: authority.generation,
+                expected_authority_digest: authority.digest.clone(),
+                expected_target_generation: target.generation,
+                expected_target_digest: target.digest.clone(),
+                expected_receipt_digest: receipt.digest.clone(),
+                authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+                actor: "codex:test".into(),
+                reviewer: "reviewer".into(),
+                source_design_path: target.design_path.clone(),
+                source_diagram_path: target.diagram_path.clone(),
+                expected_design_digest: digest(
+                    &fs::read(store.root.join(&target.design_path)).unwrap(),
+                ),
+                expected_diagram_digest: digest(
+                    &fs::read(store.root.join(&target.diagram_path)).unwrap(),
+                ),
+                fail_after_stage: Some("after_journal".into()),
+            };
+            let error = store
+                .repair_terminal_design(request)
+                .expect_err("injected durable interruption");
+            assert_eq!(error.code, ErrorCode::InterruptedTransaction);
+
+            let journal_path = store
+                .terminal_transaction_path(target.issue)
+                .expect("journal path");
+            let mut journal: TerminalTransactionJournal =
+                read_json(&journal_path).expect("journal");
+            if projection_committed {
+                let target_receipt: TerminalReceipt =
+                    serde_json::from_slice(&journal.target_receipt).expect("target receipt");
+                store
+                    .commit(
+                        target.issue,
+                        &target_receipt.record,
+                        &target_receipt.cards,
+                        false,
+                    )
+                    .expect("simulate committed projection");
+                journal.stage = "projection_committed_terminal_design_repair".into();
+                store
+                    .write_terminal_transaction_journal(&journal)
+                    .expect("advance journal stage");
+            }
+
+            let receipt_path = store
+                .terminal_receipt_path(target.issue)
+                .expect("receipt path");
+            let closeout = receipt_path.parent().expect("closeout parent");
+            let backup = closeout.with_extension("recovery-backup");
+            fs::rename(closeout, &backup).expect("move receipt parent");
+            let outside = tempfile::tempdir().expect("outside target");
+            symlink(outside.path(), closeout).expect("inject receipt parent symlink");
+
+            let recovery_error = store
+                .recover_with_terminal_lock(target.issue)
+                .expect_err("recovery must reject receipt parent symlink");
+            assert_eq!(recovery_error.code, ErrorCode::UnsafeCheckout);
+            assert_eq!(fs::read_dir(outside.path()).unwrap().count(), 0);
+            assert!(journal_path.exists());
         }
     }
 

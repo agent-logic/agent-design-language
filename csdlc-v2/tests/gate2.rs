@@ -3319,6 +3319,23 @@ fn planning_replacements_are_phase_bounded_and_allow_narrow_implemented_correcti
         sip.operator_constraints,
         vec!["corrected implementation boundary"]
     );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sip,
+        SemanticOperation::ReplacePlanningCollection {
+            field: PlanningCollectionField::AuthorityBoundary,
+            values: vec!["corrected implementation authority".into()],
+        },
+    );
+    let corrected_cards = store.load_cards(42).expect("authority corrected cards");
+    let CardContent::Sip(sip) = &corrected_cards[&CardKind::Sip].content else {
+        panic!("SIP")
+    };
+    assert_eq!(
+        sip.authority_boundary,
+        vec!["corrected implementation authority"]
+    );
     let CardContent::Srp(srp) = &corrected_cards[&CardKind::Srp].content else {
         panic!("SRP")
     };

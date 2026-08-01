@@ -48,6 +48,16 @@ require_eq() {
   [[ "$1" == "$2" ]] || fail "$3 (expected $2, observed $1)"
 }
 
+sha256_file() {
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$1" | awk '{print $1}'
+  elif command -v shasum >/dev/null 2>&1; then
+    shasum -a 256 "$1" | awk '{print $1}'
+  else
+    fail "no SHA-256 command is available"
+  fi
+}
+
 path_guard_self_test() {
   local scratch="$repo_root/.csdlc/evidence/5748/.validator-path-guard-self-test"
   local target="$scratch/real/target"
@@ -362,13 +372,13 @@ jq -e '
 rg -q '1341748ec10bbf4434a2892d72a28ec9a931a8f74c3b0bbf2a0ee24815a587bc' \
   "$register" || fail "exception #5346 digest is missing from the register"
 require_file "$repo_root" "$repo_root/.csdlc/issues/5346/index.json"
-require_eq "$(shasum -a 256 "$repo_root/.csdlc/issues/5346/index.json" | awk '{print $1}')" \
+require_eq "$(sha256_file "$repo_root/.csdlc/issues/5346/index.json")" \
   7833e2706c9c24a0e97426be6b8e012c3fbee36772db248a1c6f24f66514135c \
   "exception #5346 committed index bytes mismatch"
-require_eq "$(shasum -a 256 "$repo_root/.csdlc/issues/5346/cards/spp.values.json" | awk '{print $1}')" \
+require_eq "$(sha256_file "$repo_root/.csdlc/issues/5346/cards/spp.values.json")" \
   60103474ec465ec43f4c9a04bc362fbfd56f3d12fb3d184ecd874361c2b7d1e6 \
   "exception #5346 committed SPP bytes mismatch"
-require_eq "$(shasum -a 256 "$repo_root/.csdlc/issues/5346/cards/sor.values.json" | awk '{print $1}')" \
+require_eq "$(sha256_file "$repo_root/.csdlc/issues/5346/cards/sor.values.json")" \
   cfdde36f9815f7efdd00b9cbdf15e4c7e6e3d93e3860684d980d698ca8c14633 \
   "exception #5346 committed SOR bytes mismatch"
 exception_5346_doctor=""
