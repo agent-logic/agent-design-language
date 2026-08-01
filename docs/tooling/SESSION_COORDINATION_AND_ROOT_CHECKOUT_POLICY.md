@@ -222,10 +222,10 @@ When another session appears to own an issue or worktree:
 1. Do not start duplicate implementation work.
 2. Inspect the issue, PR, branch, and worktree state.
 3. If the state is healthy, leave it alone or watch it.
-4. If the state is stale or broken, record the evidence and route through
-   `workflow-conductor`, `pr-janitor`, or `pr-closeout` as appropriate.
-5. If root is occupied by that work, route through `workflow-conductor` and
-   repo-native worktree evidence first. Use manual preservation only as a
+4. If the state is stale or broken, record the evidence and use the typed
+   doctor, shepherd, or closeout binary as appropriate.
+5. If root is occupied by that work, use typed v2 doctor/bind evidence first.
+   Use manual preservation only as a
    bounded fallback to move the work into an issue worktree before restoring
    root to clean `main`.
 

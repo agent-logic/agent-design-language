@@ -92,7 +92,7 @@ Closeout-wait prep lane:
 - while one issue is in `pr_waiting`, `janitor_active`, or
   `merged_needs_closeout`, a separate prep-scout lane may inspect and classify
   the next issue from clean root `main`
-- this is a preparation-only lane routed through `workflow-conductor`, not a
+- this is a preparation-only lane using typed v2 readiness inspection, not a
   second execution lane
 - the lane may use repo-native issue inspection and readiness commands, but it
   must stop before `pr run`, implementation binding, or PR publication
@@ -421,8 +421,8 @@ Runtime v2 coding starts. The tracked milestone policy note is:
 
 Default policy:
 
-- use `workflow-conductor` as the bounded router when the operator asks for the
-  conductor or when current state needs phase selection
+- resolve the installed generation and use the typed binary for the selected
+  lifecycle phase
 - use the named lifecycle skill for the selected phase rather than ad hoc git
   or PR surgery
 - keep the primary checkout on clean `main`; tracked implementation and repair
@@ -544,8 +544,8 @@ The ADL workflow uses one primary checkout and issue-scoped worktrees.
 Before a session starts or resumes tracked issue work, it should check
 `git status --short --branch` and `git worktree list --porcelain` from the
 primary checkout. If root is on a feature branch or has tracked changes, route
-that as `unsafe_root_checkout_execution`: use `workflow-conductor` and
-repo-native worktree evidence when available, use only the narrowest manual
+that as `unsafe_root_checkout_execution`: use typed v2 doctor/bind evidence
+when available, use only the narrowest manual
 fallback needed to preserve work in an issue worktree, restore the primary
 checkout to clean `main`, and leave a short broadcast note in the relevant
 issue, PR, sprint packet, or closeout record. The durable policy is

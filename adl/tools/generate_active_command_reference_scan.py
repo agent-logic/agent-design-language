@@ -83,10 +83,8 @@ EXCLUDED_REL_PATHS = {
     # test_* files remain scanned and can still fail this gate.
     "adl/tools/test_batched_checks_no_codexpr_usage_banner.sh",
     "adl/tools/test_cli_owner_command_guidance.sh",
-    "adl/tools/test_cli_wrapper_migration_contract.sh",
     "adl/tools/test_install_adl_pr_cycle_skill.sh",
     "adl/tools/test_install_adl_operational_skills.sh",
-    "adl/tools/test_workflow_conductor_skill_contracts.sh",
     # Generated UI model; its tracked template source is validated separately.
     "docs/tooling/csdlc-prompt-editor/editor_model.js",
     "docs/milestones/v0.91.5/ACTIVE_COMMAND_REFERENCE_SCAN_3735.md",
@@ -99,6 +97,7 @@ HISTORICAL_EXACT_PATHS = {
     "docs/tooling/ADL_OCTOCRAB_MIGRATION_REVIEW.md",
     "docs/tooling/BUILD_ACTION_LOGS.md",
     "docs/tooling/PROMPT_TEMPLATE_VALUES_RENDERER_PLAN_v0.91.5.md",
+    "docs/tooling/PROMPT_CARD_VALUES_IMPORT_ROUND_TRIP_v0.91.5.md",
     "docs/tooling/active-card-lifecycle-migration-readiness-v0.91.2.md",
     "docs/tooling/examples/workflow-state/good_output_record.md",
 }
@@ -137,38 +136,24 @@ COMMAND_FAMILIES = (
     ),
     CommandFamily(
         key="legacy_prompt_template",
-        label="`adl tooling prompt-template ...`",
-        preferred_owner="adl-csdlc tooling prompt-template ...",
-        required_action="migrate if active; preserve if historical; route if unknown",
-        pattern=r"(?<![\w/-])adl tooling prompt-template\b",
+        label="sunset tooling prompt-template route",
+        preferred_owner="csdlc-edit + csdlc-validate typed requests",
+        required_action="forbid if active or unknown; preserve only if historical",
+        pattern=r"(?<![\w/-])(?:adl|adl-csdlc) tooling prompt-template\b",
     ),
     CommandFamily(
         key="deleted_prompt_wrappers",
         label="deleted prompt/review shell wrapper",
         preferred_owner="stable direct owner binary or typed csdlc-edit/csdlc-validate",
         required_action="forbid if active or unknown; preserve only if historical",
-        pattern=r"(?<![\w/-])(?:bash\s+[\"']?(?:\$ROOT_DIR/)?(?:\./)?adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh|(?:\./)?adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh\s+--)",
+        pattern=r"(?<![\w/-])(?:bash\s+[\"']?(?:\$ROOT_DIR/)?(?:\./)?adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh|(?:\./)?adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh\s+--|[A-Z_]+=[\"'][^\n\"']*adl/tools/(?:prompt_template|validate_structured_prompt|card_prompt|lint_prompt_spec|review_card_surface)\.sh)",
     ),
     CommandFamily(
         key="sunset_workflow_conductor",
         label="sunset workflow-conductor route",
         preferred_owner="csdlc-install resolve + typed csdlc-* binary",
         required_action="forbid if active or unknown; preserve only if historical",
-        pattern=r"(?<![\w/-])(?:python3\s+[^\n]*route_workflow\.py|workflow-conductor\s+(?:start|run|doctor|ready|finish|closeout|issue|shepherd|janitor)\b)",
-    ),
-    CommandFamily(
-        key="legacy_review_tooling",
-        label="legacy `adl tooling ...` helper/review commands",
-        preferred_owner="adl-review ...",
-        required_action="migrate if active; preserve if historical; route if unknown",
-        pattern=r"(?<![\w/-])adl tooling (?:code-review|review-card-surface|review-runtime-surface|verify-review-output-provenance|verify-repo-review-contract|validate-structured-prompt|lint-prompt-spec|card-prompt|public-prompt-packet|markdown-ast-edit|github-release|csdlc-prompt-editor|generate-wp-issue-wave)\b",
-    ),
-    CommandFamily(
-        key="legacy_runtime_umbrella",
-        label="legacy umbrella runtime forms",
-        preferred_owner="adl-runtime ...",
-        required_action="migrate if active; preserve if historical; route if unknown",
-        pattern=r"(?<![\w/-])adl (?:demo|provider|agent|instrument|learn|artifact|runtime-v2|godel|identity|keygen|sign|verify)\b",
+        pattern=r"(?<![\w/-])(?:python3\s+[^\n]*route_workflow\.py|(?:route(?:d)?\s+(?:through|to)|use|invoke)\s+`?workflow-conductor\b|workflow-conductor\s+(?:start|run|doctor|ready|finish|closeout|issue|shepherd|janitor)\b)",
     ),
     CommandFamily(
         key="legacy_codex_pr",
@@ -176,13 +161,6 @@ COMMAND_FAMILIES = (
         preferred_owner="adl/tools/pr.sh ...",
         required_action="migrate if active; preserve if historical; route if unknown",
         pattern=r"(?<![\w/-])(?:adl/tools/)?codex_pr\.sh\s+\S+|(?<![\w/-])(?:adl/tools/)?codexw\.sh\s+\S+",
-    ),
-    CommandFamily(
-        key="unapproved_helper_binaries",
-        label="unapproved helper binaries",
-        preferred_owner="adl-runtime ...",
-        required_action="forbid if active; preserve if historical; route if unknown",
-        pattern=r"(?<![\w/-])adl-(?:crypto|godel|identity)\b|(?<![\w/-])adl (?:godel|identity)\b",
     ),
     CommandFamily(
         key="csdlc_issue_run",
@@ -423,15 +401,10 @@ def main() -> int:
     rendered = render(rows, counts)
 
     if args.check:
-        non_csdlc_families = {
-            "legacy `adl tooling ...` helper/review commands",
-            "legacy umbrella runtime forms",
-            "unapproved helper binaries",
-        }
         blocking = [
             row
             for row in rows
-            if row[3] in {"active", "unknown"} and row[0] not in non_csdlc_families
+            if row[3] in {"active", "unknown"}
         ]
         if blocking:
             details = "\n".join(

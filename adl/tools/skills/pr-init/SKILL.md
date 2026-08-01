@@ -175,10 +175,10 @@ card kind, bootstrap or regeneration paths should prefer:
 1. resolve `docs/templates/prompts/current.json`;
 2. fill values YAML with locked fields under `system` and editable fields under
    `values`;
-3. render Markdown through `adl-csdlc tooling prompt-template render` or `render-all`;
-4. validate rendered shape with `validate-structure`;
-5. validate schema artifacts with `validate-schemas` when template structure is
-   touched.
+3. apply the typed values request with `csdlc-edit`;
+4. validate rendered shape with `csdlc-validate`;
+5. validate schema artifacts through the focused prompt-schema owner lane when
+   template structure is touched.
 
 Do not hand-roll card Markdown from memory. If the generated card needs
 issue-local lifecycle truth repair after bootstrap, hand off to the matching

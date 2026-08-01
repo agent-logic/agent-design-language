@@ -105,10 +105,10 @@ CORE_WORKFLOW_COMMANDS = [
         "Canonical in-flight PR blocker routing surface once a PR has been published.",
     ),
     (
-        "adl-csdlc tooling prompt-template ...",
+        "csdlc-edit apply --request <edit-request.json>",
         "core workflow command",
         "primary",
-        "Primary direct prompt-template workflow surface after the small-binary split.",
+        "Typed prompt-card values edit surface after final v1 sunset.",
     ),
     (
         "adl-validate-structured-prompt --type <kind> --phase <phase> --input <card>",

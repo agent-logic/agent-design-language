@@ -5,7 +5,7 @@
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
   "phase": "implemented",
   "generation": 6,
-  "digest": "ec7af23464d8afb284a4d17574a6eaae5d0673036ac2593cb50742513acff580",
+  "digest": "dbc78c0fd25881f1b822140549d427e600c4d881cc1d64486b63e4fabc9944b8",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
@@ -73,9 +73,9 @@
   "review_assignment": {
     "reviewer": "codex:root-independent-rereview",
     "assigned_by": "codex:5558-corrective",
-    "revision": "git-blake3:23d0e8ec46536fa4a071e4ff9625c5a42cf7802b:c2311318524809e2e0d3cdd86bec4553905db69e090bd0861acd356aa0dbb263",
+    "revision": "git-blake3:7eee16a408225fcefe8f31a15cae1d7e136d9e60:7a09840602226a8423c35047f0c6ffccd5f311f4e4aef2ec25e5b208c52b8392",
     "scope": [
-      "Exact commit 23d0e8ec46536fa4a071e4ff9625c5a42cf7802b",
+      "Exact commit 7eee16a408225fcefe8f31a15cae1d7e136d9e60",
       "All issue 5558 implementation, first-review fixes, tests, docs, and lifecycle records"
     ]
   },
@@ -114,9 +114,9 @@
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "c9879fe26c742f01c92e40d7ee27dffb5793d501de11496cfdf8cf50ccb2bb26",
-      "rendered_digest": "925ceb10dee0f30e8e7a943b63e448d5942fa5fef403dec08145cdd004887761",
-      "ast_digest": "2d39ccced0f9da5b280ffd69592441f06c2cf6fdf4eab0e5b21af6c4a16398ad"
+      "values_digest": "ac1ceeea201926cc98e7989693d93b85a80cf6f0de0eb5164fcfeb3ad812edf8",
+      "rendered_digest": "a7f9ee857717ff5f17a91a0bf5dcaf5163ed5ac4dda4ae53e2446a20251e84ff",
+      "ast_digest": "fa9118abc856fc5375f48c194844dcbe396855fdfe6c0ded40151077aa05f935"
     },
     "sor": {
       "values_digest": "9a94ac84f06cd71785fe10d94f289671cfcc56b0f9553a6d75bd3ceaae45a5f6",
@@ -252,6 +252,13 @@
       "actor": "codex:5558-corrective",
       "reason": "final exact-head review exposed additional guard coverage and workflow-guardrail gaps",
       "operation": "{\"add_protected_paths\":[\"adl/tools/test_workflow_guardrails.sh\",\"adl/tools/test_card_prompt.sh\",\"adl/tools/test_prompt_spec_lint.sh\",\"adl/tools/demo_codex_ollama_operational_skills.sh\",\"adl/tools/test_demo_codex_ollama_semantic_fallback.sh\",\"adl/tools/test_structured_prompt_validation.sh\",\"adl/src/runtime_v2/cognitive_being_flagship_demo.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 6,
+      "actor": "codex:5558-corrective",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

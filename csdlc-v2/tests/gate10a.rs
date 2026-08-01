@@ -84,6 +84,18 @@ fn current_guidance_guard_rejects_exact_former_wrapper_command() {
     assert!(!current_guidance_is_v2_only(former, &[]));
 }
 
+#[test]
+fn repo_wide_active_command_scan_enforces_final_authority() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
+    let status = Command::new("python3")
+        .arg("adl/tools/generate_active_command_reference_scan.py")
+        .arg("--check")
+        .current_dir(repo)
+        .status()
+        .expect("run active command reference scan");
+    assert!(status.success(), "repo-wide active command scan failed");
+}
+
 fn current_guidance_is_v2_only(text: &str, allowed_v1_references: &[&str]) -> bool {
     let mut normalized = text.to_ascii_lowercase().replace("./", "");
     for allowed in allowed_v1_references {

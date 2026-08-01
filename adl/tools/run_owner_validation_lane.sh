@@ -126,6 +126,10 @@ run_csdlc_lane() {
     bash adl/tools/test_prompt_spec_lint.sh
   run_command "C-SDLC workflow guardrails" \
     bash adl/tools/test_workflow_guardrails.sh
+  run_command "C-SDLC structured-prompt typed authority" \
+    bash adl/tools/test_structured_prompt_validation.sh
+  run_command "C-SDLC card-editor repair typed authority" \
+    bash adl/tools/test_card_editor_repair_examples.sh
   run_command "C-SDLC prompt-template structure schemas" \
     python3 adl/tools/test_prompt_template_structure_schemas.py
   run_command "C-SDLC control-plane observability contract" \
