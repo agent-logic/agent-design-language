@@ -1,6 +1,6 @@
 # WP-17 Documentation Alignment
 
-Issue: `#5360`  
+Issue: `#5360`
 WP-16 merge: `2e9d2dd7c4260dcf6ec6af954b0eea97554212df`
 
 WP-17 reconciles 27 exact documentation paths to the retained WP-16 quality

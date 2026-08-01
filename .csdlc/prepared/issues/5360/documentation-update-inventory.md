@@ -1,8 +1,8 @@
 # WP-17 Documentation Update Inventory
 
-Issue: `#5360`  
+Issue: `#5360`
 Purpose: define the complete, bounded documentation surface that WP-17 must
-reconcile before formal review.  
+reconcile before formal review.
 Status: preparation inventory only; this file does not authorize edits to the
 shared documentation paths below.
 
