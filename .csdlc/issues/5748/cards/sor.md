@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Completed the exhaustive live v0.91.8 closed-issue audit: 91 issues now have authenticated receipt-backed terminal projections, 11 cases remain exact typed fail-closed exceptions, and #5335 is the sole noneligible exclusion in the retained 103-issue universe.
+Completed the exhaustive live v0.91.8 closed-issue audit on current origin/main: 91 issues have authenticated receipt-backed terminal projections, 11 cases remain exact typed fail-closed exceptions, and #5335 is the sole noneligible exclusion in the retained 103-issue universe.
 
 ## Artifacts
 
@@ -30,6 +30,8 @@ Completed the exhaustive live v0.91.8 closed-issue audit: 91 issues now have aut
 - csdlc-v2/tests/gate7_lifecycle.rs
 - .csdlc/issues/5347
 - .csdlc/evidence/5748/exact-head-validation-f9398dae3.md
+- .csdlc/evidence/5748/exceptions/5346.json
+- .csdlc/evidence/5748/exact-head-validation-6ac9e60dd.md
 
 ## Execution
 
@@ -48,6 +50,10 @@ Completed the exhaustive live v0.91.8 closed-issue audit: 91 issues now have aut
 - Classified missing or corrupt closed-out authority through the terminal-specific reconciliation route instead of generic readiness repair.
 - Reconciled newly merged #5347 into a claim-free receipt-backed terminal projection on the dedicated closeout branch.
 - Recorded #5346 as an exact fail-closed exception after its typed SPP correction was rejected in merge_ready without mutation.
+- Hardened first receipt retention and durable terminal recovery against receipt, authored-artifact, temporary-file, and ancestor symlink paths before any governed read or write.
+- Bound #5346 fail-closed truth to a machine-readable packet, exact committed projection/card hashes, expected doctor result, and the typed no-mutation repair failure.
+- Rebased the dedicated closeout branch onto current origin/main and preserved the newer receipt-backed #5347 terminal authority during conflict resolution.
+- Corrected stale SIP, STP, and SRP boundaries through narrow typed implemented-phase operations so #5746 worktree protection and read-only GitHub observation are stated truthfully.
 
 ## Validation
 
@@ -183,6 +189,15 @@ Completed the exhaustive live v0.91.8 closed-issue audit: 91 issues now have aut
     "purpose": "Authenticate exact-head owner binaries and terminal paths, prove live parity for all 103 closed v0.91.8 issues, validate 91 full receipts and 11 pinned fail-closed exceptions, and bind the unchanged fully tested C-SDLC v2 source to the final audit head.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-f9398dae3.md"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/5748/validate-final-inventory.sh"
+    ],
+    "purpose": "Authenticate current-main ancestry, exact owner binaries, live 103-issue parity, 91 terminal receipts, 11 pinned fail-closed exceptions including #5346, complete Rust validation, strict lint, and symlink-safe retention/recovery regressions.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-6ac9e60dd.md"
   }
 ]
 
