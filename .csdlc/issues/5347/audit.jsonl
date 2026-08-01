@@ -29,3 +29,4 @@
 {"sequence":29,"generation":16,"actor":"codex:5347-publication-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":30,"generation":17,"actor":"codex:5347-publication-owner","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":31,"generation":18,"actor":"codex:5347-publication-owner","reason":"Direct GPT-5.5 exact-head rereview passed with zero blockers at 8a417057279565d8c7aad038e73f3a7bd2de2b9b.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":32,"generation":19,"actor":"codex:5347-publication-owner","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

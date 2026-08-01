@@ -3,13 +3,13 @@
   "issue": 5347,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4379da53c4006fc48b7aa0358cdc5518623fd15b918ae42ea519c372e95f784f",
-  "phase": "reviewed",
-  "generation": 18,
-  "digest": "4eada00bdd9b541feb9a25ed2eea3a67231f9dd1e71b73e1a12d5280976ff5b5",
+  "phase": "published",
+  "generation": 19,
+  "digest": "4a33fbff320d71af0ce03540a9f013996518e9d86fd2d6807dc327739a35184a",
   "claim": {
     "id": "claim-5347-external-band-deletion",
     "owner": "codex:5347-execution-owner",
-    "generation": 18,
+    "generation": 19,
     "acquired_unix_seconds": 1785548138,
     "expires_unix_seconds": 1785555338,
     "heartbeat_unix_seconds": 1785548138,
@@ -181,7 +181,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5347,
+    "pull_request": 5753,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5753",
+    "base": "main",
+    "head": "codex/5347-v0918-wp13-external-band-deletion",
+    "revision": "git-blake3:f49a646710ef116e3e2f7524835457e2993ef0ac:1d87f75615d84a4622c51a2320b3da3cfdfbb6eb708dbdd737976dfec571717f",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -195,34 +205,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f9ce3328c8dcc7031b0453e8facb58a0b81600fb95db85c292e0a12eb2f13fb7",
+      "values_digest": "f31143445671ee12ca08b6b648293627f4a2d4c494aedb742d923e3d8ea1b201",
       "rendered_digest": "bba94b0c6938b04c5b24dd5345f10c5fdd0eb660e10f0049938065122dcac62f",
       "ast_digest": "f16fa9ea475ff8c4879e5fc6cc35ecaf34abc03d0552c6682d73c320ea81ad86"
     },
     "stp": {
-      "values_digest": "d1ab51f4b1b9a6ceddb0a3d615e99c62db24cffb1372a806941f8ad337798291",
+      "values_digest": "6fe7216bf0c7c2d0b5f9710be3c8a5fad37baed3cee5a6169188f3ddb66822ec",
       "rendered_digest": "6d26768de5f223ab4f20f7b1a14e0aaaf51821861467749d81a1d5d1f325be6f",
       "ast_digest": "81d561765553b1943ebdc009fd67a17664a409a8898d095cde706a56fd288c4a"
     },
     "spp": {
-      "values_digest": "4b78c33bb6e8a5bd7eb299bafb2db517e1cba18fa8ed3f11580d27ba8ac2cc1c",
+      "values_digest": "b4532f186fe286a58bc789164e0f520921e38af6317160d947f5de3c559e65e3",
       "rendered_digest": "7eea12e4df203d02356c3a2a4e256364bc673002a88a24c11788b623b4a796ba",
       "ast_digest": "2a1ad680231eb8b779fc0dc987ddea4619d3dbedee49666aad3b5e2337d79256"
     },
     "vpp": {
-      "values_digest": "75f9b236f4d7087e857198d787ac36a3072a25929831799e5f34115d9a6dcc4a",
+      "values_digest": "c1da877a57bc9ca24c6585509a5826884052908c5c77bfe2241d232cffe229e3",
       "rendered_digest": "6d6e38b8569279f0f137698419c32ddf9aeaadb457286b2c7e00d328d5902e8c",
       "ast_digest": "37d957d672df501b34d54395a49bef3c05c8ba46e2563ab54d79376066e6c01b"
     },
     "srp": {
-      "values_digest": "2c92cab9d26f006e53674b6b7fe57c9655a284b283b82e984290093c7a97cd95",
+      "values_digest": "ed63c77f8a9ed55d4ac5f8b8f8bd3bff004321451b0217092194f22b9258e260",
       "rendered_digest": "9c81e6015463e211a2f27f832704842e40d46ec6178f56d38b3a112fbc669fad",
       "ast_digest": "f0de33d512eb92d407f6292351a05e14e10efd5aea09e876f7de4c84b010d9a0"
     },
     "sor": {
-      "values_digest": "5e4edecfe805fad65a6dd1ddcbb7dba7c335b046ccf55c9142a05d36ec957392",
-      "rendered_digest": "e2a93a84989d3b44690170c23695db480c235fc95a95987be363bff7079c6ed0",
-      "ast_digest": "118f64941a89ad28f357f59449759fda4ad2c0f2b82a95d71cebcdebc8dae230"
+      "values_digest": "67c17b954d4ae718309bb66e5abbd0bd357c5a6b7ea2c4535211f391cec3fdcd",
+      "rendered_digest": "ce7f38d2c3bffae201caa8683192527667753e23f2dc73f6f815bb06461b547b",
+      "ast_digest": "a056f81150c9b0c26d7a77901df75479eff6093f6f67bd66180d9a60c68a2a9e"
     }
   },
   "transitions": [
@@ -253,6 +263,13 @@
       "to": "reviewed",
       "actor": "codex:5347-publication-owner",
       "reason": "Direct GPT-5.5 exact-head rereview passed with zero blockers at 8a417057279565d8c7aad038e73f3a7bd2de2b9b."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5347-publication-owner",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -472,6 +489,13 @@
       "actor": "codex:5347-publication-owner",
       "reason": "Direct GPT-5.5 exact-head rereview passed with zero blockers at 8a417057279565d8c7aad038e73f3a7bd2de2b9b.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 32,
+      "generation": 19,
+      "actor": "codex:5347-publication-owner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

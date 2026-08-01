@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5347,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5347-v0918-wp13-external-band-deletion",
+  "title": "[v0.91.8][WP-13] Delete obsolete external ADL demo bands (#5347)",
+  "body": "Closes #5347\n\n## Summary\n- Deletes obsolete externally-owned standalone ADL demo/proof entrypoints from the incumbent bin surface.\n- Removes the retired WP-12 Cargo bin declaration while preserving current operational binaries and Runtime v2/v3/C-SDLC/ADL v2 core boundaries.\n- Keeps #5346 as the later serialized final-core deletion lane and proves zero overlap with its reserved language/compiler/engine/CLI scope.\n- Records exact #5347 deletion manifests, coordination evidence, and net-negative line accounting.\n\n## Validation\n- `ruby .csdlc/prepared/issues/5347/run-validation-lane.rb execution` passed after the review-finding fixes.\n- `csdlc-doctor --repo . --issue 5347` passed at reviewed generation 18 with zero findings.\n- `git diff --check` passed.\n\n## Review\n- Direct GPT-5.5 exact-head rereview passed with zero blockers at `8a417057279565d8c7aad038e73f3a7bd2de2b9b`.\n- Typed reviewed revision: `git-blake3:8a417057279565d8c7aad038e73f3a7bd2de2b9b:1aebf4b841431b43812c13828432d5c3f32f54453bb80b1bdb9575dc1bc255f7`.\n\n## Boundary\n- No broad retest was rerun for publication; the focused lane and review were already green.\n- No root-main edits, `/private/tmp`, closeout, or #5346 merge work are included.",
+  "draft": false,
+  "revision": "git-blake3:f49a646710ef116e3e2f7524835457e2993ef0ac:1d87f75615d84a4622c51a2320b3da3cfdfbb6eb708dbdd737976dfec571717f",
+  "commit_sha": "f49a646710ef116e3e2f7524835457e2993ef0ac"
+}
