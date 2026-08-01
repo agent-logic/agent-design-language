@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
   "phase": "implemented",
-  "generation": 24,
-  "digest": "9219359898e171f9bb335c804f7c5385a10f9b6434ea2817857709ea304c8c98",
+  "generation": 25,
+  "digest": "d51832a712c7b3d4e51427fa729fed2f178eddd589a169f7b8f97503f38d31b6",
   "claim": {
     "id": "claim-5748-terminal-recovery-v3",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
-    "generation": 24,
+    "generation": 25,
     "acquired_unix_seconds": 1785562277,
     "expires_unix_seconds": 1786167077,
     "heartbeat_unix_seconds": 1785562277,
@@ -72,32 +72,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8150c5f666f80f05dd65d070e9d95363d5de53a24ef97666a972b3a57e35349a",
-      "rendered_digest": "61fb95101613a3aaf68092ebe8438ad111434679508868c69a423e48729d4388",
-      "ast_digest": "9ce41404decb9c849c710189a1bfef5f62801549ae39f42f138383cddcda65a4"
+      "values_digest": "9dca7bce4c1c19ce5dfbb96d292a865649fabc6dad0a2f33109dae9d656c23a5",
+      "rendered_digest": "7131808bad6d02afd6d10f86d509e21cefd1e218e278c84126aa0928aff48277",
+      "ast_digest": "e7fa00329133cf3d6a6490545302ca22acb2dd4dc2790b235e4f780f1cda0858"
     },
     "stp": {
-      "values_digest": "f08713443f98f6360fe99c16821ae8a8e59ce23ab44dcde7b2b2f9466137f0b6",
+      "values_digest": "9e9fe90b7345116f62095791c3a8c8fc56bcbc5b76a7cbdb5e5c00028b80b2e8",
       "rendered_digest": "f2bcecd25975a08e704db32829dc123f5585aad64c9a53ada7bc86dcb92143e8",
       "ast_digest": "d44ecf1c459ef6eeceae9febf3297b6f073f1d7d7246f091aedfc9041e615e8d"
     },
     "spp": {
-      "values_digest": "5888170db2b4e8210cfd405e2912cb808c2627389c157bda3a681111522a38aa",
+      "values_digest": "46c2ff179d82fbf40701237ad605bc458b34836225a57cd8852a5b11908cb3f8",
       "rendered_digest": "e9b0d898d2a756b4fdad65dc50cb51b1ce6b7a30ecee883c73238f4882dc33ab",
       "ast_digest": "bc33f4d0c44c7a28cb49b903543db9235180fca69993b0e7522b00eb92df8e64"
     },
     "vpp": {
-      "values_digest": "ba5695f78f2e8c1dc7db3707ae959711d7f287125efed817c367eea822f1ff0d",
+      "values_digest": "1731cc8ebc9ec14b25a174007993c19580989c95d82e59eecb1c38c51e57229b",
       "rendered_digest": "14449800caa2269df2accf36af84f3f6de37f03cd453dbdafa41d668aa4010e1",
       "ast_digest": "49db9c8d781453dba81523de6ef5f5a810fcc132705f5ad988c9816aea97b395"
     },
     "srp": {
-      "values_digest": "e589beca059000de686fa713a1070e90c7745ca7cfd511eb17b147080074f8de",
+      "values_digest": "f30e1461c89cdb8a3b9a09d517840aca64b798b4b3e10d90239b9bf519780727",
       "rendered_digest": "5438fc034776835713e7278959e1339264a019daeef57dd9901907adf5899ec6",
       "ast_digest": "0277a32f19dabc31451b99d4046653f022dcaa82d754162e72f1fa31e808acb8"
     },
     "sor": {
-      "values_digest": "07b9d6578ae810e20e0f9812c5791cd3ffbe03c0bfabc832ae3d5f4d1c57ca7a",
+      "values_digest": "c85b3bcaad621365032af303bba868a75e35c4b9c1fc868b94b118dc612f4fcb",
       "rendered_digest": "be11c7f26ade6cdb3a27ac7cc731bb0556c6f6a6494f5bd489ffe75cf3b64e33",
       "ast_digest": "f333d9e9ae6aca8c1ef60733e67c0622d5a9a03f4b31b7a831757dfe0a1d3f86"
     }
@@ -412,6 +412,13 @@
       "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
       "reason": "Record the complete post-remediation validation packet before the mandatory clean rereview.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\"],\"purpose\":\"Authenticate current-main ancestry, exact owner binaries, live 103-issue parity, 91 terminal receipts, 11 pinned fail-closed exceptions including #5346, complete Rust validation, strict lint, and symlink-safe retention/recovery regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/exact-head-validation-6ac9e60dd.md\"}}"
+    },
+    {
+      "sequence": 42,
+      "generation": 25,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Remove the remaining broad #5746 prohibition while preserving the exact no-worktree-mutation boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Issue-local worktrees own receipt creation and repair; #5748 materializes only validated retained authority.\",\"Generated cards, index records, and terminal receipts change only through typed C-SDLC v2 operations.\",\"Do not modify or prune the active #5746 worktree, and never write tracked changes on main; receipt-backed #5746 projection reconciliation is permitted only on the dedicated #5748 closeout branch.\"]}"
     }
   ]
 }

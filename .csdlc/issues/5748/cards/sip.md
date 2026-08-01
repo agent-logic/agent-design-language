@@ -29,7 +29,7 @@ Classify every live GitHub-closed version:v0.91.8 issue against exact merged-PR 
 
 - Issue-local worktrees own receipt creation and repair; #5748 materializes only validated retained authority.
 - Generated cards, index records, and terminal receipts change only through typed C-SDLC v2 operations.
-- Do not touch #5746 or write tracked changes on main.
+- Do not modify or prune the active #5746 worktree, and never write tracked changes on main; receipt-backed #5746 projection reconciliation is permitted only on the dedicated #5748 closeout branch.
 
 ## Assumptions
 
