@@ -3,13 +3,13 @@
   "issue": 5558,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "df7510e3fef0f44771d508cbdc73f0e40bc1aa47f581fda99a0ebcbcf6834eaf",
-  "phase": "reviewed",
-  "generation": 18,
-  "digest": "4bc768e4ed10396c215dd1176233224518b1ebbf5046b15a166f476a7f09d038",
+  "phase": "published",
+  "generation": 19,
+  "digest": "8d33a48f539db7d817c41c3ae710f2a75190c20a5881eaede6c7a3fb06da62b0",
   "claim": {
     "id": "claim-5558-corrective-1785570394",
     "owner": "codex:5558-corrective",
-    "generation": 18,
+    "generation": 19,
     "acquired_unix_seconds": 1785570394,
     "expires_unix_seconds": 1785656794,
     "heartbeat_unix_seconds": 1785570394,
@@ -152,7 +152,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5558,
+    "pull_request": 5769,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5769",
+    "base": "main",
+    "head": "codex/5558-v1-route-corrective",
+    "revision": "git-blake3:67dd4181d9f49589ceb3a9a98c20bce83ee4f4f2:fd49f4f1d0f1ef73ed528ed4a0826b31e8ce1cbcfde0704783dd7edb81217f05",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -166,34 +176,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3b7cf6da4bed31970388ec6f6c868b12bd545c539d3aace23dac5e38583ce0ef",
+      "values_digest": "7ba0a75a7b8579939b91952d7361ff402f60e10cd9228899770aed60f8897775",
       "rendered_digest": "3ef258b1c4bb480ab05a5f1842a67fb807068d557612286211389017f956a73d",
       "ast_digest": "a173adcf99a8c6fc2eee501e4e055b5613e48eaae750d3859ba753b2051b2716"
     },
     "stp": {
-      "values_digest": "0bd4746b5337ac90d2f7f9d6e95fa3dca28f55b2dcf7bd1a4fb0073ee76501b9",
+      "values_digest": "d383670fa73445ed109455a99b53321ef1fbc66053d7e687eb284118cab48aa5",
       "rendered_digest": "4e813a7bd81e883366df3deeeb1f62e371dbd81f622aec8f105e5233b842d9df",
       "ast_digest": "ed08ed5118621e4e7978292eb31a6fb1817be62f49cf08a737b4dc9ba94d9b1f"
     },
     "spp": {
-      "values_digest": "faf13f8af3f6334dcb3065c9520f3bf3111a25c9c12a98b5e91a641230643fd7",
+      "values_digest": "eb22bbcdbad6dae8c4c372cac437f203300028c3fa929e367dda125f1820ed6d",
       "rendered_digest": "25879d34e3cf553eddde351a8fcadefd055898a9d0280a8e10ebc5e998410ee8",
       "ast_digest": "1453d42addf77769af338269da74b0501f8c17bd84d7d493b518c66395fa38ca"
     },
     "vpp": {
-      "values_digest": "c482635256dca810aa38192c1c4ad88c416852e5d605e1feb4dd26965bcef64b",
+      "values_digest": "412778376aec1279f8b63f5a5dd2d92df686b5e58e321668dc0b343112e64061",
       "rendered_digest": "05e67389a9dd9511f18c9fd7089eaba5dc2df4f40979d42e159403da83ef7537",
       "ast_digest": "e3591d129dc3ca20c46caed3a7688e0fb9499f25d85bff64e34929b1aa375b8e"
     },
     "srp": {
-      "values_digest": "1b3e6d375b177f49ad9e12f017cb9a3a9adbb8b717a53bc94768f7d9099bf9fd",
+      "values_digest": "831658e0aed1218381539e1a57096004bb066f620c55cd2b7dcf7f1257ff59a4",
       "rendered_digest": "c4a2b8fc23f86c712eeced16c4de37bde1f1d3f7d297497534b4bf7c59e0f21c",
       "ast_digest": "6dd243c2f1ad80242f610bd09c0c0dfb07a59555e81cafb5d5839b9e8a231987"
     },
     "sor": {
-      "values_digest": "4cb332ef346107ec0723345d89019a471b5ac0871719b61fe46be9b50cee8fb1",
-      "rendered_digest": "578f18096d6e06a2dfaae8806704444d1a75218d315e4e0ee5da24d2a9160c1a",
-      "ast_digest": "b622d9b23604d9f5f184b8e06849b5d314aad5803a645fcd61a34c79fe7b3d2d"
+      "values_digest": "82f4e2791c184b9499c8b98571a790168019b935dd150e4c14661b56a904747c",
+      "rendered_digest": "d457431ddb4406ae155d4e92ff7cd8ea33facbbc90ccc76b125df989e400afb9",
+      "ast_digest": "03e7e0cfae2a9b0b3fa33600b9b4344f0d243d0719cd83b51c94524e776a633a"
     }
   },
   "transitions": [
@@ -266,6 +276,13 @@
       "to": "reviewed",
       "actor": "codex:5558-corrective",
       "reason": "Advance the independently approved final CI remediation with no actionable findings."
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5558-corrective",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -555,6 +572,13 @@
       "actor": "codex:5558-corrective",
       "reason": "Advance the independently approved final CI remediation with no actionable findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 42,
+      "generation": 19,
+      "actor": "codex:5558-corrective",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

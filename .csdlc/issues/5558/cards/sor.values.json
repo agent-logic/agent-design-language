@@ -7,7 +7,7 @@
     "title": "Remove sunset pr.sh guidance from owner lane",
     "slug": "remove-sunset-pr-sh-guidance",
     "version": "v0.91.8",
-    "generation": 18
+    "generation": 19
   },
   "status": "pre_phase",
   "content": {
@@ -78,8 +78,8 @@
           "evidence_ref": "local exact-content proof: CI path policy PASS; selector PASS; validation manager PASS; C-SDLC owner lane PASS; Runtime owner lane PASS; diff check PASS"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

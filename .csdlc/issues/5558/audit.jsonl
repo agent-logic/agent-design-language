@@ -39,3 +39,4 @@
 {"sequence":39,"generation":16,"actor":"codex:5558-corrective","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":40,"generation":17,"actor":"subagent:/root/issue_5748","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":41,"generation":18,"actor":"codex:5558-corrective","reason":"Advance the independently approved final CI remediation with no actionable findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":42,"generation":19,"actor":"codex:5558-corrective","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
