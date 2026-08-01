@@ -5,7 +5,7 @@
   "initialization_digest": "185d0c17ef9ef231ae848b0ae2a3f027956bca5a1690d71ae37915a465534bd6",
   "phase": "implemented",
   "generation": 13,
-  "digest": "d4287f9d2c545fa6c183a11cd0d2932ab6f383fc8bb3b557465219df527ea698",
+  "digest": "b7a6f79fdfd9b493ebebd14f8731f78129542195b2059fd73adeab5bebd1dc3e",
   "claim": {
     "id": "claim-5351-v0918-wp16-quality-gate-preparation",
     "owner": "codex:5351-preparation-owner",
@@ -25,9 +25,9 @@
     "purpose": "Execute #5351 WP-16 integrated platform quality gate, retain issue-by-issue outcome truth and focused/integrated exact-revision evidence, route genuine blockers, and publish a reviewed issue-local quality packet; no product implementation changes."
   },
   "review_assignment": {
-    "reviewer": "subagent:Averroes:019fbcaf-db1d-71d1-9ef0-d452c69dd1be",
+    "reviewer": "subagent:Darwin:019fbcd1-dee8-7682-8f2b-9f9261587524",
     "assigned_by": "codex:5351-execution",
-    "revision": "git-blake3:515dabd34a6bc71ff8725c270b7583c5831679c5:92986133f1045c42b5ac3f3a7881d8e1bd903db6b93d68d70de648581b8758b2",
+    "revision": "git-blake3:2e10007ed3f6eaf75317fe1b50aa7865263c8cfb:68bf372590a309ca3ba64da7dadcf290f5141851ef9b8431ce98a040b20ec073",
     "scope": [
       ".csdlc/prepared/issues/5351",
       ".csdlc/evidence/5351",
@@ -35,43 +35,7 @@
       "docs/milestones/v0.91.8/evidence/wp16"
     ]
   },
-  "review": {
-    "reviewer": "subagent:Averroes:019fbcaf-db1d-71d1-9ef0-d452c69dd1be",
-    "scope": [
-      ".csdlc/prepared/issues/5351",
-      ".csdlc/evidence/5351",
-      ".csdlc/issues/5351",
-      "docs/milestones/v0.91.8/evidence/wp16"
-    ],
-    "reviewed_revision": "git-blake3:515dabd34a6bc71ff8725c270b7583c5831679c5:92986133f1045c42b5ac3f3a7881d8e1bd903db6b93d68d70de648581b8758b2",
-    "findings": [
-      {
-        "id": "F-5351-1",
-        "severity": "p1",
-        "summary": "Retained integrated commands expose host-absolute target paths while the hygiene row is green.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-5351-2",
-        "severity": "p1",
-        "summary": "The operative SPP still blocks WP-17 on typed closeout despite the merge-gated handoff rule.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": "#5770"
-      }
-    ],
-    "residual_risks": [
-      "The review did not rerun mutation-producing validation lanes."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -265,6 +229,13 @@
       "actor": "codex:5351-execution",
       "reason": "Align stop conditions with merge-gated WP-17 release and asynchronous closeout.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"accepted platform revisions or stable interfaces cannot be resolved exactly\",\"any required result is failed, missing, stale, deferred, secret-bearing, host-bound, or unsupported\",\"execution requires Runtime v2, AWS, credentials, paid services, hidden network authority, hard-coded addresses, or out-of-claim writes\",\"the quality harness duplicates product or COTS behavior, adds a dependency, exceeds budget without exact review, or collides with another active claim\",\"exact-revision review has an unresolved actionable finding\",\"WP-17 would begin before #5351 merges with passing exact-head integrated proof\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:5351-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

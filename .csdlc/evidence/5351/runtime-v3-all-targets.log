@@ -454,4 +454,3 @@ test trusted_time_refuses_degraded_state_and_advances_monotonically ... ok
 test timeout_remains_degraded ... ok
 
 test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
-

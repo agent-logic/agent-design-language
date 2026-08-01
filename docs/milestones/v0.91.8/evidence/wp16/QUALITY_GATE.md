@@ -10,7 +10,7 @@ The two defects found by the preliminary integrated run are resolved on the
 current execution branch: #5762 removed mutable live-claim dependence from
 C-SDLC v2 terminal-repair tests, and #5763 reconciled the canonical feature
 crosswalk digest. Focused, integrated, and complete lanes pass at exact
-execution revision `8bf41a1a3bfa8432ba16cd570f8a064c0b9be5dc`.
+execution revision `a02b9cb31c7d79f09175ef57f9557f37b2067c22`.
 
 ## Gate Matrix
 
