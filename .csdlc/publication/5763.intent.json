@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5763,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5763-feature-crosswalk-digest",
+  "title": "[v0.91.8][docs][quality] Reconcile canonical feature crosswalk digest",
+  "body": "## Summary\n- recompute the guarded digest for the current 122-row canonical feature list\n- update the matching retained crosswalk source digest\n- preserve every existing row, schema, owner, disposition, and parity guard\n\n## Validation\n- feature crosswalk validator: pass, 122 rows\n- structured planning: pass\n- local links: pass\n- YAML/JSON parse: pass\n- git diff --check: pass\n- exact GPT-5.5 review at 9dce9c69c: 0 findings\n\nCloses #5763",
+  "draft": false,
+  "revision": "git-blake3:9dce9c69c32fc8870f2e3c9b9ab6f8dd1dab38ff:e5b40353924268f542573c31f42d3fe19e151fc61c4db69120ba084d5c313556",
+  "commit_sha": "9dce9c69c32fc8870f2e3c9b9ab6f8dd1dab38ff"
+}

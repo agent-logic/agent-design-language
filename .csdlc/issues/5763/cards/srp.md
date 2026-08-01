@@ -12,10 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-docs/milestones/v0.91.8/feature_preservation_crosswalk_5594.v1.json
-.csdlc/prepared/issues/5763
-.csdlc/issues/5763
-.csdlc/evidence/5763
+Exact branch commit 9dce9c69c32fc8870f2e3c9b9ab6f8dd1dab38ff
+Tree-identical squash merge 76a605966 on origin/main
+Feature crosswalk digest, retained validator, issue-local lifecycle and validation artifacts
 
 ## Prompts
 
@@ -34,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- GitHub squash merge 76a605966 has the exact reviewed tree but a different commit identity from branch head 9dce9c69c; required hosted checks passed on the reviewed PR head.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9dce9c69c32fc8870f2e3c9b9ab6f8dd1dab38ff:e5b40353924268f542573c31f42d3fe19e151fc61c4db69120ba084d5c313556")
 
-Reviewer: None
+Reviewer: Some("codex:5763-post-merge-independent-review")
 
-Result: pre_review
+Result: pass
