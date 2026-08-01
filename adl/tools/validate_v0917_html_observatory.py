@@ -32,6 +32,7 @@ CSM_HEALTH_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4
 CSM_READY_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/ready.json"
 CSM_METRICS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/metrics.json"
 CSM_EVENTS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/events.json"
+RUNTIME_V3_CONFIG_REF = "./runtime-v3.config.json"
 RUNTIME_V3_OBSERVATORY_ENDPOINT = "https://localhost:20997/v1/observatory"
 
 
@@ -175,13 +176,26 @@ def run_js_view_model(
             {{ sequence: 1, monotonic_millis: 5, component: "runtime_api", event: "components_ready", correlation_id: null }}
           ]
         }});
+        const runtimeV3Readiness = JSON.stringify({{
+          schema: "adl.runtime_v3.readiness.v1",
+          ready: true,
+          degraded_reasons: [],
+          observability_ready: true,
+          weather_freshness: {{
+            observed_at_unix_millis: 1789000000,
+            age_millis: 250,
+            stale_after_millis: 2000,
+            stale: false
+          }}
+        }});
         const livePayloads = new Map([
           ["http://localhost:49210/status", retainedFiles.get(retainedRefs.statusRef)],
           ["http://localhost:49210/health", retainedFiles.get(retainedRefs.healthRef)],
           ["http://localhost:49210/ready", retainedFiles.get(retainedRefs.readyRef)],
           ["http://localhost:49210/metrics", retainedFiles.get(retainedRefs.metricsRef)],
           ["http://localhost:49210/events", retainedFiles.get(retainedRefs.eventsRef)],
-          ["https://localhost:20997/v1/observatory", runtimeV3Feed]
+          ["https://localhost:20997/v1/observatory", runtimeV3Feed],
+          ["https://localhost:20997/v1/ready", runtimeV3Readiness]
         ]);
         const textWrites = [];
         const datasetWrites = [];
@@ -454,7 +468,7 @@ def run_js_view_model(
         mockLocation.search = "?runtime=v3&runtimeApiBase=https://localhost:20997";
         elements.get("dashboard-live-api-base").value = "https://localhost:20997";
         elements.get("operator-write-token").value = "operator-write-token-5757";
-        elements.get("dashboard-connect-live").onclick();
+        await elements.get("dashboard-connect-live").onclick();
         const socket = MockWebSocket.instances[MockWebSocket.instances.length - 1];
         socket.emit("open");
         elements.get("operator-login").onclick();
@@ -633,6 +647,7 @@ def main() -> int:
     parser.add_argument("--csm-ready", type=Path, required=True)
     parser.add_argument("--csm-metrics", type=Path, required=True)
     parser.add_argument("--csm-events", type=Path, required=True)
+    parser.add_argument("--runtime-v3-config", type=Path, required=True)
     args = parser.parse_args()
 
     html = args.html.read_text(encoding="utf-8")
@@ -646,6 +661,7 @@ def main() -> int:
     cloudwatch_events = read_json(args.cloudwatch_events)
     acip_sns = read_json(args.acip_sns)
     sns_resource = read_json(args.sns_resource)
+    runtime_v3_config = read_json(args.runtime_v3_config)
     smoke = run_js_view_model(
         args.js,
         args.packet,
@@ -783,7 +799,15 @@ def main() -> int:
     assert_contains("JS events endpoint check", js, "checkEventsEndpoint")
     assert_contains("JS runtime snapshot polling", js, "fetchRuntimeSnapshot")
     assert_contains("JS Runtime v3 observatory feed polling", js, "fetchRuntimeV3ObservatorySnapshot")
-    assert_contains("JS Runtime v3 observatory endpoint", js, 'RUNTIME_V3_OBSERVATORY_ENDPOINT = "/v1/observatory"')
+    assert_contains("JS Runtime v3 config fallback", js, f'root?.dataset.runtimeV3ConfigRef || "{RUNTIME_V3_CONFIG_REF}"')
+    if runtime_v3_config.get("schema") != "adl.html_observatory.runtime_v3_config.v1":
+      fail("Runtime v3 Observatory config schema mismatch")
+    if runtime_v3_config.get("observatory_endpoint") != "/v1/observatory":
+      fail("Runtime v3 Observatory config must declare /v1/observatory")
+    if runtime_v3_config.get("readiness_endpoint") != "/v1/ready":
+      fail("Runtime v3 Observatory config must declare /v1/ready")
+    if runtime_v3_config.get("observatory_websocket_endpoint") != "/v1/observatory/ws":
+      fail("Runtime v3 Observatory config must declare /v1/observatory/ws")
     assert_contains("JS Runtime v3 observatory schema", js, 'RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2"')
     assert_contains("JS trusted Runtime v3 origin normalizer", js, "normalizeTrustedRuntimeV3ApiBase")
     assert_contains("JS trusted Runtime v3 localhost port", js, 'parsed.port !== "20997"')

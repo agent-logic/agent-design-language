@@ -7,6 +7,7 @@ HTML="${DEMO_DIR}/index.html"
 CSS="${DEMO_DIR}/styles.css"
 JS="${DEMO_DIR}/app.js"
 README="${DEMO_DIR}/README.md"
+RUNTIME_V3_CONFIG="${DEMO_DIR}/runtime-v3.config.json"
 PACKET="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/visibility_packet.json"
 REPORT="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/operator_report.md"
 CSM_SERVICE="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/csm_service_4903/service/service_manifest.json"
@@ -84,7 +85,7 @@ prove_shared_localhost_certificate() {
     "${static_fingerprint}" "${runtime_fingerprint}" >"${proof_root}/fingerprints.log"
 }
 
-for path in "${HTML}" "${CSS}" "${JS}" "${README}" "${PACKET}" "${REPORT}" "${CSM_SERVICE}" "${CSM_API}" "${CLOUDWATCH}" "${CLOUDWATCH_EVENTS}" "${ACIP_SNS}" "${SNS_RESOURCE}" "${CSM_STATUS}" "${CSM_HEALTH}" "${CSM_READY}" "${CSM_METRICS}" "${CSM_EVENTS}"; do
+for path in "${HTML}" "${CSS}" "${JS}" "${README}" "${RUNTIME_V3_CONFIG}" "${PACKET}" "${REPORT}" "${CSM_SERVICE}" "${CSM_API}" "${CLOUDWATCH}" "${CLOUDWATCH_EVENTS}" "${ACIP_SNS}" "${SNS_RESOURCE}" "${CSM_STATUS}" "${CSM_HEALTH}" "${CSM_READY}" "${CSM_METRICS}" "${CSM_EVENTS}"; do
   [[ -f "${path}" ]] || {
     echo "missing HTML Observatory artifact: ${path}" >&2
     exit 1
@@ -118,7 +119,8 @@ python3 "${ROOT_DIR}/adl/tools/validate_v0917_html_observatory.py" \
   --csm-health "${CSM_HEALTH}" \
   --csm-ready "${CSM_READY}" \
   --csm-metrics "${CSM_METRICS}" \
-  --csm-events "${CSM_EVENTS}" >/dev/null
+  --csm-events "${CSM_EVENTS}" \
+  --runtime-v3-config "${RUNTIME_V3_CONFIG}" >/dev/null
 prove_shared_localhost_certificate
 python3 -m json.tool "${PACKET}" >/dev/null
 cargo test \

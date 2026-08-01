@@ -80,6 +80,10 @@ fn observatory_wss_documents_real_bidirectional_frame_boundary() {
         serde_json::json!([])
     );
     assert_eq!(
+        runtime["paths"]["/v1/ready"]["get"]["security"],
+        serde_json::json!([])
+    );
+    assert_eq!(
         runtime["paths"]["/v1/metrics"]["get"]["security"],
         serde_json::json!([])
     );
@@ -224,7 +228,7 @@ fn real_kernel_control_routes() -> BTreeSet<(String, String)> {
     let mut routes = BTreeSet::new();
     for route in literal_routes_from_control_rs() {
         match route.as_str() {
-            "/v1/observatory" => {
+            "/v1/observatory" | "/v1/ready" => {
                 routes.insert(("get".to_owned(), route.clone()));
                 routes.insert(("options".to_owned(), route));
             }
@@ -251,6 +255,7 @@ fn literal_routes_from_control_rs() -> BTreeSet<String> {
     let mut routes = BTreeSet::new();
     for expected in [
         "/v1/health",
+        "/v1/ready",
         "/v1/metrics",
         "/v1/acip/ws",
         "/v1/observatory",
@@ -273,6 +278,7 @@ fn literal_routes_from_control_rs() -> BTreeSet<String> {
     routes.insert("/v1/observatory/ws".to_owned());
     for (constant, route) in [
         ("RUNTIME_OPENAPI_PATH", "/v1/openapi.json"),
+        ("RUNTIME_READY_PATH", "/v1/ready"),
         ("OBSERVATORY_OPENAPI_PATH", "/v1/observatory/openapi.json"),
         ("API_DOCS_PATH", "/v1/docs/"),
     ] {

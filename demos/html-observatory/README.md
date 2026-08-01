@@ -106,8 +106,30 @@ Runtime v3 browser/API access is HTTPS-only. Before launch, provision a
 localhost certificate and private key at the `[api.tls]` paths in the init file;
 the repository does not retain private keys. Set a 32-to-256-character
 operator-local write token for the runtime process in
-`ADL_RUNTIME_OBSERVATORY_TOKEN`. Health, metrics, Observatory snapshots, and
-the Observatory WSS feed are public read surfaces and require no token.
+`ADL_RUNTIME_OBSERVATORY_TOKEN`. Runtime v3 health, readiness, metrics,
+Observatory snapshots, and the Observatory WSS feed are public read surfaces
+and require no token.
+
+Runtime v3 uses versioned operator probes:
+
+```text
+GET https://localhost:20997/v1/health
+GET https://localhost:20997/v1/ready
+GET https://localhost:20997/v1/metrics
+GET https://localhost:20997/v1/observatory
+```
+
+The HTML Observatory reads its Runtime v3 browser endpoints from
+`demos/html-observatory/runtime-v3.config.json`. Keep that file on the same
+static host as `index.html`; if it cannot be loaded, the browser falls back to
+the versioned defaults listed above.
+
+Do not use unversioned `/health` or `/ready` paths for Runtime v3 overnight
+monitoring. `/v1/ready` is the watcher-ready signal: it returns `200` with
+`ready: true` only when the runtime is observability-ready and weather
+freshness is not stale; it returns `503` with `degraded_reasons` such as
+`weather_stale` when the runtime is reachable but should not be reported as
+fully ready.
 
 Operator login is required only before the browser sends a signed control
 command or ACIP work. To enable writes for the current browser tab, set the same
@@ -157,12 +179,13 @@ https://localhost:8765/demos/html-observatory/?runtime=v3&runtimeApiBase=https:/
 ```
 
 The Runtime v3 browser path consumes the public runtime-owned read feed at
-`/v1/observatory` and the public read stream at `/v1/observatory/ws`. The
-Operator Channel can log in for writes on that socket and submit a complete
-pre-signed `adl.runtime.control_command.v1` envelope. The browser never creates
-or stores the signing key; Runtime v3 verifies the signature, principal,
-capability, runtime identity, and command policy before execution. Logging out
-reconnects the public read stream without write authority.
+`/v1/observatory`, the watcher readiness surface at `/v1/ready`, and the public
+read stream at `/v1/observatory/ws`. The Operator Channel can log in for writes
+on that socket and submit a complete pre-signed `adl.runtime.control_command.v1`
+envelope. The browser never creates or stores the signing key; Runtime v3
+verifies the signature, principal, capability, runtime identity, and command
+policy before execution. Logging out reconnects the public read stream without
+write authority.
 
 The browser-served dashboard only receives CORS permission when its origin is
 listed in `[observatory].allowed_origins`. If the Runtime v3 API is reachable by
