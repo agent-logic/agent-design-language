@@ -21,10 +21,11 @@ evidence is not treated as proof of failure.
 
 - **P1:** WP-16 #5351 remains in progress until its focused and integrated
   exact-revision packets are green and reviewed.
-- **P1:** The integrated run found two genuine cross-cutting defects: C-SDLC
-  terminal-repair tests depend on a mutable issue claim (#5762), and the
-  feature crosswalk digest was not refreshed with its synchronized source row
-  (#5763). Both are routed as bounded owner fixes.
+- **Resolved:** The preliminary integrated run found two genuine cross-cutting
+  defects. #5762 removed mutable live-claim dependence from C-SDLC terminal
+  repair tests, and #5763 refreshed the feature crosswalk digest with its
+  synchronized source row. Both fixes are merged and ancestral to WP-16's
+  exact validation revision.
 - **P2:** Release-tail parents #5348, #5355, #5356, #5357, #5359, #5360,
   #5362, #5363, and umbrella #5595 remain open. They are later work, not proof
   that their completed predecessor issues produced no useful result.
@@ -83,6 +84,7 @@ because evidence is incomplete.
 ## Decision
 
 Every completed predecessor issue produced working code or a useful durable
-result, except #5548 and #5587 whose bounded evidence remains ambiguous. WP-16
-may continue, but it cannot pass until its exact integrated lanes are green and
-the two newly routed defects are merged into its execution head.
+result, except #5548 and #5587 whose bounded evidence remains ambiguous. Those
+ambiguities are recorded without being converted into false failures. The two
+cross-cutting defects discovered by WP-16 are merged into the execution head;
+the quality gate now depends only on exact integrated validation and review.
