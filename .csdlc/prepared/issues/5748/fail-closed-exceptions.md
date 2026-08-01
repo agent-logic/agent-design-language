@@ -4,28 +4,6 @@ This register records issues that cannot receive a terminal receipt without
 inventing or bypassing C-SDLC v2 authority. Entries remain provisional until
 the final exhaustive closeout audit.
 
-## #5664 — protocol-adapter acceptance blockers
-
-- GitHub issue state: closed; PR #5680 merged from exact source head
-  `16e6594dae2f76e41ebf432c9ea477523e685247`; focused protocol tests pass
-  11/11 and exact-SHA hosted checks are green.
-- P1: the issue requires Rustls/mTLS for networked transports, but production
-  configuration and black-box tests use `with_no_client_auth()`. No client
-  certificate/key configuration exists, so the implementation proves only
-  one-way TLS plus message authentication.
-- P2: outbound protocol payloads and serialized frames have no byte limit.
-  Framing hex-encodes and clones the full payload before an arbitrary-size
-  socket write, despite the bounded-adapter acceptance posture.
-- The final merge-resolution delta introduced no separate integration
-  regression; the builder remains intentionally exported but not cut over in
-  production assembly.
-- The bounded terminal-closeout claim was released through typed v2 at
-  generation 5; current claim authority is null with digest
-  `8c254685618757825b8b738c551e5a54b41894f896f0ddb24214e9f935a537f8`.
-- Disposition: no terminal receipt. The bounded closeout claim was released
-  through typed v2 after review; mTLS and request-bound remediation require a
-  new exact-head review.
-
 ## #5558 — live v1 guidance and incomplete authority guard
 
 - GitHub issue state: closed; PR #5749 merged from exact source head

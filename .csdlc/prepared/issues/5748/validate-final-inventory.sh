@@ -94,14 +94,14 @@ terminal_issues=(
   5384 5438 5470 5497 5498 5499 5500 5501 5502 5526 5527 5540 5541
   5548 5563 5566 5569 5572 5587 5589 5590 5591 5592 5594 5597 5600
   5602 5605 5610 5613 5615 5624 5627 5632 5645 5648 5653 5657 5658 5662
-  5663 5665 5666 5670 5671 5675 5678 5679 5683 5686 5687 5691 5695 5697
+  5663 5664 5665 5666 5670 5671 5675 5678 5679 5683 5686 5687 5691 5695 5697
   5698 5701 5702 5708 5710 5711 5713 5715 5717 5718 5719 5722 5727 5728
   5733 5735 5737 5746
 )
-exception_issues=(5558 5664)
+exception_issues=(5558)
 not_planned_terminal_issues=(5335)
-claim_free_exception_issues=(5664)
-dormant_exception_issues=(5664)
+claim_free_exception_issues=()
+dormant_exception_issues=()
 
 array_contains() {
   local target="$1"
@@ -115,7 +115,6 @@ array_contains() {
 
 exception_projection() {
   case "$1" in
-    5664) printf '%s\t%s\t%s\n' published 5 8c254685618757825b8b738c551e5a54b41894f896f0ddb24214e9f935a537f8 ;;
     *) return 1 ;;
   esac
 }
@@ -125,10 +124,18 @@ exception_count="${#exception_issues[@]}"
 not_planned_terminal_count="${#not_planned_terminal_issues[@]}"
 closed_count="$((terminal_count + exception_count))"
 completed_count="$((closed_count - not_planned_terminal_count))"
-for issue in "${claim_free_exception_issues[@]}" "${dormant_exception_issues[@]}"; do
-  array_contains "$issue" "${exception_issues[@]}" ||
-    fail "exception-only issue #$issue is absent from the exception partition"
-done
+if ((${#claim_free_exception_issues[@]})); then
+  for issue in "${claim_free_exception_issues[@]}"; do
+    array_contains "$issue" "${exception_issues[@]}" ||
+      fail "exception-only issue #$issue is absent from the exception partition"
+  done
+fi
+if ((${#dormant_exception_issues[@]})); then
+  for issue in "${dormant_exception_issues[@]}"; do
+    array_contains "$issue" "${exception_issues[@]}" ||
+      fail "exception-only issue #$issue is absent from the exception partition"
+  done
+fi
 require_file "$repo_root" "$register"
 require_file "$repo_root" "$universe"
 require_file "$repo_root" "$installer"
@@ -205,38 +212,42 @@ for issue in "${exception_issues[@]}"; do
     fail "exception #$issue is missing from the register"
 done
 
-for issue in "${claim_free_exception_issues[@]}"; do
-  index="$repo_root/.csdlc/issues/$issue/index.json"
-  IFS=$'\t' read -r expected_phase expected_generation expected_digest \
-    <<<"$(exception_projection "$issue")"
-  require_file "$repo_root" "$index"
-  require_eq "$(jq -r '.claim == null' "$index")" true \
-    "exception #$issue retained an active claim"
-  require_eq "$(jq -r '.digest' "$index")" "$expected_digest" \
-    "exception #$issue digest mismatch"
-  require_eq "$(jq -r '.phase' "$index")" "$expected_phase" \
-    "exception #$issue phase mismatch"
-  require_eq "$(jq -r '.generation' "$index")" "$expected_generation" \
-    "exception #$issue generation mismatch"
-  rg -q "\`$expected_digest\`" "$register" || \
-    fail "exception #$issue digest is missing from the register"
-done
+if ((${#claim_free_exception_issues[@]})); then
+  for issue in "${claim_free_exception_issues[@]}"; do
+    index="$repo_root/.csdlc/issues/$issue/index.json"
+    IFS=$'\t' read -r expected_phase expected_generation expected_digest \
+      <<<"$(exception_projection "$issue")"
+    require_file "$repo_root" "$index"
+    require_eq "$(jq -r '.claim == null' "$index")" true \
+      "exception #$issue retained an active claim"
+    require_eq "$(jq -r '.digest' "$index")" "$expected_digest" \
+      "exception #$issue digest mismatch"
+    require_eq "$(jq -r '.phase' "$index")" "$expected_phase" \
+      "exception #$issue phase mismatch"
+    require_eq "$(jq -r '.generation' "$index")" "$expected_generation" \
+      "exception #$issue generation mismatch"
+    rg -q "\`$expected_digest\`" "$register" || \
+      fail "exception #$issue digest is missing from the register"
+  done
+fi
 
-for issue in "${dormant_exception_issues[@]}"; do
-  tail -n 1 "$repo_root/.csdlc/issues/$issue/audit.jsonl" | jq -e \
-    '(.operation | if type == "string" then fromjson else . end |
-      .operation) == "revoke_active_claim"' >/dev/null || \
-    fail "exception #$issue audit does not end in typed claim revocation"
-  doctor_report=""
-  if doctor_report="$("$doctor" --repo "$repo_root" --issue "$issue" 2>&1)"; then
-    printf 'exception #%s unexpectedly passed doctor\n' "$issue" >&2
-    exit 1
-  fi
-  printf '%s\n' "$doctor_report" | jq -e \
-    '.status == "block" and .ready == false and
-     (.findings | length) == 1 and .findings[0].code == "claim_dormant"' \
-    >/dev/null || fail "exception #$issue doctor state mismatch"
-done
+if ((${#dormant_exception_issues[@]})); then
+  for issue in "${dormant_exception_issues[@]}"; do
+    tail -n 1 "$repo_root/.csdlc/issues/$issue/audit.jsonl" | jq -e \
+      '(.operation | if type == "string" then fromjson else . end |
+        .operation) == "revoke_active_claim"' >/dev/null || \
+      fail "exception #$issue audit does not end in typed claim revocation"
+    doctor_report=""
+    if doctor_report="$("$doctor" --repo "$repo_root" --issue "$issue" 2>&1)"; then
+      printf 'exception #%s unexpectedly passed doctor\n' "$issue" >&2
+      exit 1
+    fi
+    printf '%s\n' "$doctor_report" | jq -e \
+      '.status == "block" and .ready == false and
+       (.findings | length) == 1 and .findings[0].code == "claim_dormant"' \
+      >/dev/null || fail "exception #$issue doctor state mismatch"
+  done
+fi
 
 # These two issues have no local lifecycle projection. Their absence is part
 # of the fail-closed evidence and must remain explicit.
