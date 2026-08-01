@@ -291,6 +291,7 @@ pub enum RecordlessClosureKind {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
 pub struct RecordlessTerminalRecoveryRequest {
     pub authority_issue: u64,
     pub expected_authority_generation: u64,
@@ -300,9 +301,7 @@ pub struct RecordlessTerminalRecoveryRequest {
     pub issue: crate::github::GithubIssuePacket,
     pub issue_evidence: crate::github::GithubActionResult,
     pub closure_kind: RecordlessClosureKind,
-    pub pull_request: Option<u64>,
-    pub observed_head_sha: Option<String>,
-    pub observed_merge_sha: Option<String>,
+    pub merged_evidence: Option<crate::github::GithubActionResult>,
     pub related_issue: Option<u64>,
     pub related_issue_evidence: Option<crate::github::GithubActionResult>,
     pub reason: String,
