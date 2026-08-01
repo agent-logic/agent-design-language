@@ -8,3 +8,10 @@
 {"sequence":8,"generation":5,"actor":"codex:5713-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":9,"generation":6,"actor":"codex:5748-terminal-recovery","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness_reconcile_metadata_only_published_revision"}
 {"sequence":10,"generation":7,"actor":"codex:5748-terminal-recovery","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":11,"generation":8,"actor":"codex:5748-terminal-recovery","reason":"Materialize newly merged #5713 from its typed retained terminal receipt in the exhaustive v0.91.8 closeout branch.","operation":"reconcile_terminal"}
+{"sequence":12,"generation":9,"actor":"codex:5748-terminal-recovery","reason":"typed terminal plan repair authorized by issue 5748","operation":"repair_terminal_plan_step:S1"}
+{"sequence":13,"generation":10,"actor":"codex:5748-terminal-recovery","reason":"typed terminal plan repair authorized by issue 5748","operation":"repair_terminal_plan_step:S2"}
+{"sequence":14,"generation":11,"actor":"codex:5748-terminal-recovery","reason":"typed terminal plan repair authorized by issue 5748","operation":"repair_terminal_plan_step:S3"}
+{"sequence":15,"generation":12,"actor":"codex:5748-terminal-recovery","reason":"typed terminal plan repair authorized by issue 5748","operation":"repair_terminal_plan_step:S4"}
+{"sequence":16,"generation":13,"actor":"codex:5748-terminal-recovery","reason":"typed terminal plan repair authorized by issue 5748","operation":"repair_terminal_plan_step:S5"}
+{"sequence":17,"generation":14,"actor":"codex:5748-terminal-recovery","reason":"typed terminal plan repair authorized by issue 5748","operation":"repair_terminal_plan_step:S6"}
