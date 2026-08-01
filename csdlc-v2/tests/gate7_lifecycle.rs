@@ -14,7 +14,8 @@ use csdlc_v2::{
     ReconcileTerminalRequest, RehomeClaimAuthorityRequest, RemotePullRequest, RemoteReviewState,
     ReviewAssignmentRequest, ReviewEvidence, ReviewRecordRequest, RevokeActiveClaimRequest,
     SemanticOperation, Store, TerminalDesignRepairRequest, TerminalDisposition,
-    TerminalObservation, TerminalPlanStepRepairRequest, TerminalSorArtifactRepairRequest,
+    TerminalObservation, TerminalPlanStepRepairRequest, TerminalReceiptTransportRequest,
+    TerminalSorArtifactRepairRequest,
 };
 use std::collections::BTreeMap;
 use std::fs;
@@ -4154,6 +4155,237 @@ fn terminal_plan_repair_authority(
         },
     )
     .unwrap()
+}
+
+#[test]
+fn terminal_receipt_transport_materializes_newer_shared_receipt_over_terminal_clone() {
+    let target_issue = 89;
+    let (source_temp, source_store, _, original_receipt) =
+        retained_receipt_fixture(target_issue, "terminal-clone-forward-transport");
+    let original_record = source_store.load_record(target_issue).unwrap();
+    let original_projection = tempfile::tempdir().unwrap();
+    copy_dir_all(
+        &source_store.issue_dir(target_issue),
+        &original_projection.path().join("issue"),
+    );
+
+    let source_authority = terminal_plan_repair_authority(
+        &source_store,
+        90,
+        source_temp.path(),
+        vec![format!(".csdlc/issues/{target_issue}")],
+    );
+    let repaired = source_store
+        .repair_terminal_plan_step(TerminalPlanStepRepairRequest {
+            authority_issue: source_authority.issue,
+            target_issue,
+            expected_authority_generation: source_authority.generation,
+            expected_authority_digest: source_authority.digest.clone(),
+            expected_target_generation: original_record.generation,
+            expected_target_digest: original_record.digest.clone(),
+            expected_receipt_digest: original_receipt.digest,
+            authority_claim_id: format!("authority-{}", source_authority.issue),
+            actor: "source-repairer".into(),
+            step_id: "one".into(),
+            fail_after_stage: None,
+        })
+        .unwrap();
+    let newer_receipt = source_store
+        .load_terminal_receipt(target_issue)
+        .unwrap()
+        .unwrap();
+    assert_eq!(newer_receipt.record, repaired);
+
+    revoke_active_claim(
+        &source_store,
+        RevokeActiveClaimRequest {
+            issue: source_authority.issue,
+            repository: source_authority.repository.clone(),
+            expected_claim_id: source_authority.claim.as_ref().unwrap().id.clone(),
+            expected_generation: source_authority.generation,
+            expected_digest: source_authority.digest.clone(),
+            now_unix_seconds: 10,
+            actor: "operator".into(),
+            operator_authority: "test authority".into(),
+            reason: "release source repair authority before target transport".into(),
+        },
+    )
+    .unwrap();
+
+    let target_temp = tempfile::tempdir().unwrap();
+    let target_path = target_temp.path().to_string_lossy().into_owned();
+    git(
+        source_temp.path(),
+        &["worktree", "add", "-b", "transport-target", &target_path],
+    );
+    let target_store = Store::new(target_temp.path());
+    let target_authority = terminal_plan_repair_authority(
+        &target_store,
+        91,
+        target_temp.path(),
+        vec![
+            format!(".csdlc/issues/{target_issue}"),
+            "docs/design.md".into(),
+            "docs/diagram.mmd".into(),
+        ],
+    );
+    copy_dir_all(
+        &original_projection.path().join("issue"),
+        &target_store.issue_dir(target_issue),
+    );
+    assert_eq!(
+        target_store.load_record(target_issue).unwrap(),
+        original_record
+    );
+    let common_dir = PathBuf::from(git_output(
+        target_temp.path(),
+        &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+    ));
+    let journal = common_dir
+        .join("csdlc-v2/terminal-transactions")
+        .join(format!("{target_issue}.json"));
+    let retained_receipt_path = common_dir
+        .join("csdlc-v2/closeout")
+        .join(format!("{target_issue}.json"));
+    let retained_receipt_bytes = fs::read(&retained_receipt_path).unwrap();
+    let request = || TerminalReceiptTransportRequest {
+        authority_issue: target_authority.issue,
+        expected_authority_generation: target_authority.generation,
+        expected_authority_digest: target_authority.digest.clone(),
+        authority_claim_id: format!("authority-{}", target_authority.issue),
+        actor: "target-transporter".into(),
+        receipt: newer_receipt.clone(),
+        fail_after_stage: None,
+    };
+
+    for relative in ["index.json", "audit.jsonl"] {
+        let path = target_store.issue_dir(target_issue).join(relative);
+        let canonical = fs::read(&path).unwrap();
+        let mut noncanonical = canonical.clone();
+        noncanonical.push(b'\n');
+        fs::write(&path, &noncanonical).unwrap();
+        let before = projection_bytes(target_store.issue_dir(target_issue));
+        assert!(target_store.transport_terminal_receipt(request()).is_err());
+        assert_eq!(
+            projection_bytes(target_store.issue_dir(target_issue)),
+            before
+        );
+        assert_eq!(
+            fs::read(&retained_receipt_path).unwrap(),
+            retained_receipt_bytes
+        );
+        assert!(!journal.exists());
+        fs::write(path, canonical).unwrap();
+    }
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+        let design = target_temp.path().join("docs/design.md");
+        let backup = target_temp.path().join("docs/design.transport-backup.md");
+        let before = projection_bytes(target_store.issue_dir(target_issue));
+        fs::rename(&design, &backup).unwrap();
+        symlink(&backup, &design).unwrap();
+        assert_eq!(
+            target_store
+                .transport_terminal_receipt(request())
+                .unwrap_err()
+                .code,
+            ErrorCode::ReconciliationRequired
+        );
+        assert!(fs::symlink_metadata(&design)
+            .unwrap()
+            .file_type()
+            .is_symlink());
+        assert_eq!(
+            projection_bytes(target_store.issue_dir(target_issue)),
+            before
+        );
+        assert_eq!(
+            fs::read(&retained_receipt_path).unwrap(),
+            retained_receipt_bytes
+        );
+        assert!(!journal.exists());
+        fs::remove_file(&design).unwrap();
+        fs::rename(backup, design).unwrap();
+    }
+
+    let transported = target_store.transport_terminal_receipt(request()).unwrap();
+    assert_eq!(transported, repaired);
+    assert_eq!(target_store.load_record(target_issue).unwrap(), repaired);
+    assert_eq!(
+        target_store.retain_terminal_receipt(target_issue).unwrap(),
+        newer_receipt
+    );
+
+    let idempotent_receipt_bytes = fs::read(&retained_receipt_path).unwrap();
+    for relative in ["index.json", "audit.jsonl"] {
+        let path = target_store.issue_dir(target_issue).join(relative);
+        let canonical = fs::read(&path).unwrap();
+        let mut noncanonical = canonical.clone();
+        noncanonical.push(b'\n');
+        fs::write(&path, &noncanonical).unwrap();
+        let before = projection_bytes(target_store.issue_dir(target_issue));
+        assert_eq!(
+            target_store
+                .transport_terminal_receipt(request())
+                .unwrap_err()
+                .code,
+            ErrorCode::ReconciliationRequired
+        );
+        assert_eq!(
+            projection_bytes(target_store.issue_dir(target_issue)),
+            before
+        );
+        assert_eq!(
+            fs::read(&retained_receipt_path).unwrap(),
+            idempotent_receipt_bytes
+        );
+        assert!(!journal.exists());
+        fs::write(path, canonical).unwrap();
+    }
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+
+        for (path, backup) in [
+            (
+                target_store.issue_dir(target_issue).join("cards/spp.md"),
+                target_temp.path().join("idempotent-spp-backup.md"),
+            ),
+            (
+                target_temp.path().join("docs/design.md"),
+                target_temp.path().join("idempotent-design-backup.md"),
+            ),
+        ] {
+            fs::rename(&path, &backup).unwrap();
+            symlink(&backup, &path).unwrap();
+            let before = projection_bytes(target_store.issue_dir(target_issue));
+            assert_eq!(
+                target_store
+                    .transport_terminal_receipt(request())
+                    .unwrap_err()
+                    .code,
+                ErrorCode::ReconciliationRequired
+            );
+            assert!(fs::symlink_metadata(&path)
+                .unwrap()
+                .file_type()
+                .is_symlink());
+            assert_eq!(
+                projection_bytes(target_store.issue_dir(target_issue)),
+                before
+            );
+            assert_eq!(
+                fs::read(&retained_receipt_path).unwrap(),
+                idempotent_receipt_bytes
+            );
+            assert!(!journal.exists());
+            fs::remove_file(&path).unwrap();
+            fs::rename(backup, path).unwrap();
+        }
+    }
 }
 
 #[test]

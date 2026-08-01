@@ -1434,13 +1434,20 @@ impl Store {
                 "materialized terminal card values or rendered Markdown differ from retained receipt",
             ));
         }
+        verify_canonical_projection_bytes(self, &local, &cards).map_err(|_| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "materialized terminal projection is not canonical regular-file state",
+            )
+        })?;
         for (path, expected) in &receipt.authored_artifacts {
-            let actual = fs::read(self.root.join(path)).map_err(|_| {
-                V2Error::new(
-                    ErrorCode::ReconciliationRequired,
-                    "materialized terminal authored artifact is absent",
-                )
-            })?;
+            let actual =
+                read_regular_terminal_artifact(&self.root.join(path))?.ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "materialized terminal authored artifact is absent",
+                    )
+                })?;
             if actual != expected.as_bytes() {
                 return Err(V2Error::new(
                     ErrorCode::ReconciliationRequired,
@@ -1525,23 +1532,26 @@ impl Store {
                 ));
             }
             let absolute = self.root.join(path);
-            if absolute.is_file() && fs::read(&absolute)? != expected.as_bytes() {
-                return Err(V2Error::new(
-                    ErrorCode::ReconciliationRequired,
-                    format!("receipt transport refuses pre-existing external artifact byte drift at {path}"),
-                ));
+            if let Some(actual) = read_regular_terminal_artifact(&absolute)? {
+                if actual != expected.as_bytes() {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        format!("receipt transport refuses pre-existing external artifact byte drift at {path}"),
+                    ));
+                }
             }
         }
         let receipt_path = self.terminal_receipt_path(issue)?;
         let projection_exists = self.issue_dir(issue).exists();
         let receipt_exists = receipt_path.exists();
-        let (original_record_digest, original_projection) = match (
+        let (original_record_digest, original_receipt, original_projection) = match (
             projection_exists,
             receipt_exists,
         ) {
-            (false, false) => (None, None),
+            (false, false) => (None, None, None),
             (true, true) => {
                 let local = self.load_record(issue)?;
+                let local_cards = self.load_cards(issue)?;
                 let retained = self.load_terminal_receipt(issue)?.ok_or_else(|| {
                     V2Error::new(
                         ErrorCode::ReconciliationRequired,
@@ -1552,10 +1562,56 @@ impl Store {
                     self.verify_materialized_terminal_receipt(&retained)?;
                     return Ok(local);
                 }
-                return Err(V2Error::new(
-                    ErrorCode::ReconciliationRequired,
-                    "transport target conflicts with existing terminal authority",
-                ));
+                verify_cards(self, &local, &local_cards)?;
+                verify_canonical_projection_bytes(self, &local, &local_cards)?;
+                if retained != request.receipt
+                    || local.phase != LifecyclePhase::ClosedOut
+                    || local.claim.is_some()
+                    || local.repository != request.receipt.repository
+                    || local.initialization_digest != request.receipt.initialization_digest
+                    || local.terminal != request.receipt.record.terminal
+                    || request.receipt.record.generation <= local.generation
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "transport target conflicts with existing terminal authority",
+                    ));
+                }
+                let authored_artifacts = [local.design_path.clone(), local.diagram_path.clone()]
+                    .into_iter()
+                    .map(|path| {
+                        if !crate::pvf::clean_relative(Path::new(&path)) {
+                            return Err(V2Error::new(
+                                ErrorCode::InvalidInput,
+                                "transport rollback artifacts must be repository-relative",
+                            ));
+                        }
+                        let bytes = read_regular_terminal_artifact(&self.root.join(&path))?
+                            .ok_or_else(|| {
+                                V2Error::new(
+                                    ErrorCode::ReconciliationRequired,
+                                    "transport rollback artifact is absent",
+                                )
+                            })?;
+                        let contents = String::from_utf8(bytes).map_err(|_| {
+                            V2Error::new(
+                                ErrorCode::ReconciliationRequired,
+                                "transport rollback artifact is not UTF-8",
+                            )
+                        })?;
+                        Ok((path, contents))
+                    })
+                    .collect::<Result<BTreeMap<_, _>>>()?;
+                let digest = local.digest.clone();
+                (
+                    Some(digest),
+                    Some(fs::read(&receipt_path)?),
+                    Some(TerminalProjectionSnapshot {
+                        record: local,
+                        cards: local_cards,
+                        authored_artifacts,
+                    }),
+                )
             }
             (false, true) => {
                 return Err(V2Error::new(
@@ -1567,6 +1623,7 @@ impl Store {
                 let local = self.load_record(issue)?;
                 let local_cards = self.load_cards(issue)?;
                 verify_cards(self, &local, &local_cards)?;
+                verify_canonical_projection_bytes(self, &local, &local_cards)?;
                 if local.phase == LifecyclePhase::ClosedOut
                     || local.repository != request.receipt.repository
                     || local.initialization_digest != request.receipt.initialization_digest
@@ -1586,12 +1643,26 @@ impl Store {
                                 "transport rollback artifacts must be repository-relative",
                             ));
                         }
-                        Ok((path.clone(), fs::read_to_string(self.root.join(path))?))
+                        let bytes = read_regular_terminal_artifact(&self.root.join(&path))?
+                            .ok_or_else(|| {
+                                V2Error::new(
+                                    ErrorCode::ReconciliationRequired,
+                                    "transport rollback artifact is absent",
+                                )
+                            })?;
+                        let contents = String::from_utf8(bytes).map_err(|_| {
+                            V2Error::new(
+                                ErrorCode::ReconciliationRequired,
+                                "transport rollback artifact is not UTF-8",
+                            )
+                        })?;
+                        Ok((path, contents))
                     })
                     .collect::<Result<BTreeMap<_, _>>>()?;
                 let digest = local.digest.clone();
                 (
                     Some(digest),
+                    None,
                     Some(TerminalProjectionSnapshot {
                         record: local,
                         cards: local_cards,
@@ -1606,16 +1677,7 @@ impl Store {
             .keys()
             .map(|path| {
                 let absolute = self.root.join(path);
-                let bytes = if absolute.is_file() {
-                    Some(fs::read(&absolute)?)
-                } else if absolute.exists() {
-                    return Err(V2Error::new(
-                        ErrorCode::ReconciliationRequired,
-                        "transport target authored path is not a regular file",
-                    ));
-                } else {
-                    None
-                };
+                let bytes = read_regular_terminal_artifact(&absolute)?;
                 Ok((path.clone(), bytes))
             })
             .collect::<Result<BTreeMap<_, _>>>()?;
@@ -1628,7 +1690,7 @@ impl Store {
             stage: "prepared_terminal_receipt_transport".into(),
             original_record_digest,
             target_record_digest: request.receipt.record.digest.clone(),
-            original_receipt: None,
+            original_receipt,
             original_projection,
             original_artifacts,
             target_receipt,
@@ -5334,6 +5396,24 @@ fn read_regular_projection(path: &Path) -> Result<Vec<u8>> {
     Ok(fs::read(path)?)
 }
 
+fn read_regular_terminal_artifact(path: &Path) -> Result<Option<Vec<u8>>> {
+    let metadata = match fs::symlink_metadata(path) {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(error) => return Err(error.into()),
+    };
+    if !metadata.file_type().is_file() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!(
+                "transport target authored path is not a regular file: {}",
+                path.display()
+            ),
+        ));
+    }
+    Ok(Some(fs::read(path)?))
+}
+
 fn write_complete(
     path: &Path,
     record: &IssueRecord,
@@ -6334,6 +6414,232 @@ mod terminal_design_repair_tests {
         );
     }
 
+    #[cfg(unix)]
+    #[test]
+    fn terminal_receipt_transport_idempotency_rejects_issue_local_artifact_symlink() {
+        use std::os::unix::fs::symlink;
+
+        let (_temp, store, authority, target, mut receipt, _) = terminal_validation_fixture();
+        let old_design_path = receipt.record.design_path.clone();
+        let old_diagram_path = receipt.record.diagram_path.clone();
+        let design = receipt
+            .authored_artifacts
+            .remove(&old_design_path)
+            .expect("design artifact");
+        let diagram = receipt
+            .authored_artifacts
+            .remove(&old_diagram_path)
+            .expect("diagram artifact");
+        let design_path = format!(".csdlc/issues/{}/retained/design.md", target.issue);
+        let diagram_path = format!(".csdlc/issues/{}/retained/diagram.mmd", target.issue);
+        receipt.record.design_path = design_path.clone();
+        receipt.record.diagram_path = diagram_path.clone();
+        for kind in [CardKind::Spp, CardKind::Vpp] {
+            match &mut receipt.cards.get_mut(&kind).expect("design card").content {
+                CardContent::Spp(values) => {
+                    values.design_ref = design_path.clone();
+                    values.diagram_ref = diagram_path.clone();
+                }
+                CardContent::Vpp(values) => {
+                    values.design_ref = design_path.clone();
+                    values.diagram_ref = diagram_path.clone();
+                }
+                _ => unreachable!("design card"),
+            }
+        }
+        hydrate_projections(&mut receipt.record, &receipt.cards).expect("receipt projections");
+        receipt.record.digest = record_digest(&receipt.record).expect("receipt record digest");
+        receipt.authored_artifacts =
+            BTreeMap::from([(design_path.clone(), design), (diagram_path, diagram)]);
+        receipt.digest.clear();
+        receipt.digest = terminal_receipt_digest(&receipt).expect("receipt digest");
+        validate_terminal_receipt(&receipt).expect("issue-local receipt");
+        store
+            .commit_with_authored(
+                target.issue,
+                &receipt.record,
+                &receipt.cards,
+                false,
+                Some(&receipt.authored_artifacts),
+            )
+            .expect("materialize issue-local projection");
+        write_json(
+            &store.terminal_receipt_path(target.issue).unwrap(),
+            &receipt,
+        )
+        .expect("write issue-local receipt");
+
+        let design_file = store.root.join(&design_path);
+        let backup = store.root.join("issue-local-design-backup.md");
+        fs::rename(&design_file, &backup).expect("move issue-local design");
+        symlink(&backup, &design_file).expect("symlink issue-local design");
+        let before = transport_projection_bytes(&store, target.issue);
+        let receipt_path = store.terminal_receipt_path(target.issue).unwrap();
+        let receipt_bytes = fs::read(&receipt_path).expect("receipt bytes");
+        let error = store
+            .transport_terminal_receipt(TerminalReceiptTransportRequest {
+                authority_issue: authority.issue,
+                expected_authority_generation: authority.generation,
+                expected_authority_digest: authority.digest.clone(),
+                authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+                actor: "codex:test".into(),
+                receipt,
+                fail_after_stage: None,
+            })
+            .expect_err("idempotent issue-local symlink must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+        assert_eq!(transport_projection_bytes(&store, target.issue), before);
+        assert_eq!(fs::read(receipt_path).unwrap(), receipt_bytes);
+        assert!(fs::symlink_metadata(design_file)
+            .unwrap()
+            .file_type()
+            .is_symlink());
+        assert!(!store
+            .terminal_transaction_path(target.issue)
+            .unwrap()
+            .exists());
+    }
+
+    fn write_newer_terminal_receipt_only(
+        store: &Store,
+        receipt: &TerminalReceipt,
+    ) -> TerminalReceipt {
+        let mut newer = receipt.clone();
+        newer.record.generation += 1;
+        for card in newer.cards.values_mut() {
+            card.identity.generation = newer.record.generation;
+        }
+        newer.record.audit.push(AuditEvent {
+            sequence: newer.record.audit.len() as u64 + 1,
+            generation: newer.record.generation,
+            actor: "csdlc-closeout".into(),
+            reason: "normalize terminal receipt metadata in the source clone".into(),
+            operation: "normalize_terminal_receipt_ref".into(),
+        });
+        hydrate_projections(&mut newer.record, &newer.cards).expect("newer projections");
+        newer.record.digest = record_digest(&newer.record).expect("newer record digest");
+        newer.digest.clear();
+        newer.digest = terminal_receipt_digest(&newer).expect("newer receipt digest");
+        validate_terminal_receipt(&newer).expect("newer receipt");
+        write_json(&store.terminal_receipt_path(newer.issue).unwrap(), &newer)
+            .expect("write newer receipt only");
+        newer
+    }
+
+    #[test]
+    fn terminal_receipt_transport_materializes_strictly_newer_terminal_receipt() {
+        let (_temp, store, authority, target, receipt, _) = terminal_validation_fixture();
+        let local = store
+            .load_record(target.issue)
+            .expect("older terminal projection");
+        let newer = write_newer_terminal_receipt_only(&store, &receipt);
+        let request = TerminalReceiptTransportRequest {
+            authority_issue: authority.issue,
+            expected_authority_generation: authority.generation,
+            expected_authority_digest: authority.digest.clone(),
+            authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+            actor: "codex:test".into(),
+            receipt: newer.clone(),
+            fail_after_stage: None,
+        };
+        let transported = store
+            .transport_terminal_receipt(request.clone())
+            .expect("forward terminal transport");
+        assert!(local.generation < transported.generation);
+        assert_eq!(transported, newer.record);
+        store
+            .verify_materialized_terminal_receipt(&newer)
+            .expect("newer terminal authority materialized");
+        assert_eq!(
+            store
+                .transport_terminal_receipt(request)
+                .expect("idempotent newer terminal transport"),
+            transported
+        );
+    }
+
+    #[test]
+    fn terminal_receipt_transport_rolls_back_newer_terminal_interruption() {
+        let (_temp, store, authority, target, receipt, _) = terminal_validation_fixture();
+        let local = store
+            .load_record(target.issue)
+            .expect("older terminal projection");
+        let local_cards = store
+            .load_cards(target.issue)
+            .expect("older terminal cards");
+        let newer = write_newer_terminal_receipt_only(&store, &receipt);
+        let error = store
+            .transport_terminal_receipt(TerminalReceiptTransportRequest {
+                authority_issue: authority.issue,
+                expected_authority_generation: authority.generation,
+                expected_authority_digest: authority.digest.clone(),
+                authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+                actor: "codex:test".into(),
+                receipt: newer.clone(),
+                fail_after_stage: Some("after_projection".into()),
+            })
+            .expect_err("interrupted");
+        assert_eq!(error.code, ErrorCode::InterruptedTransaction);
+        fs::write(
+            store.issue_dir(target.issue).join("cards/spp.md"),
+            "corrupt replacement\n",
+        )
+        .expect("corrupt replacement card");
+        store
+            .recover_with_terminal_lock(target.issue)
+            .expect("rollback interrupted replacement");
+        assert_eq!(store.load_record(target.issue).unwrap(), local);
+        assert_eq!(store.load_cards(target.issue).unwrap(), local_cards);
+        assert_eq!(
+            store.load_terminal_receipt(target.issue).unwrap().unwrap(),
+            newer
+        );
+    }
+
+    #[test]
+    fn terminal_receipt_transport_rejects_terminal_downgrade_or_identity_change() {
+        for change_terminal in [false, true] {
+            let (_temp, store, authority, target, receipt, _) = terminal_validation_fixture();
+            let local = store
+                .load_record(target.issue)
+                .expect("older terminal projection");
+            let newer = write_newer_terminal_receipt_only(&store, &receipt);
+            let mut candidate = if change_terminal {
+                newer.clone()
+            } else {
+                receipt.clone()
+            };
+            if change_terminal {
+                candidate.record.terminal.as_mut().unwrap().observed_sha =
+                    Some("different-terminal-sha".into());
+                candidate.record.digest =
+                    record_digest(&candidate.record).expect("changed terminal digest");
+                candidate.digest.clear();
+                candidate.digest =
+                    terminal_receipt_digest(&candidate).expect("changed receipt digest");
+                validate_terminal_receipt(&candidate).expect("changed receipt");
+                write_json(
+                    &store.terminal_receipt_path(target.issue).unwrap(),
+                    &candidate,
+                )
+                .expect("write changed retained receipt");
+            }
+            let error = store
+                .transport_terminal_receipt(TerminalReceiptTransportRequest {
+                    authority_issue: authority.issue,
+                    expected_authority_generation: authority.generation,
+                    expected_authority_digest: authority.digest.clone(),
+                    authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+                    actor: "codex:test".into(),
+                    receipt: candidate,
+                    fail_after_stage: None,
+                })
+                .expect_err("downgrade or terminal identity change must fail");
+            assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+            assert_eq!(store.load_record(target.issue).unwrap(), local);
+        }
+    }
+
     #[test]
     fn terminal_receipt_transport_recovers_after_projection_interruption() {
         let (_temp, store, authority, target, receipt, _) = terminal_validation_fixture();
@@ -6568,6 +6874,95 @@ mod terminal_design_repair_tests {
             .commit(local.issue, &local, &cards, false)
             .expect("write nonterminal projection");
         local
+    }
+
+    fn transport_projection_bytes(store: &Store, issue: u64) -> BTreeMap<String, Vec<u8>> {
+        let issue_dir = store.issue_dir(issue);
+        let mut projection = BTreeMap::new();
+        for name in ["index.json", "audit.jsonl"] {
+            projection.insert(name.into(), fs::read(issue_dir.join(name)).unwrap());
+        }
+        for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+            for suffix in ["values.json", "md"] {
+                let name = format!("cards/{card}.{suffix}");
+                projection.insert(name.clone(), fs::read(issue_dir.join(name)).unwrap());
+            }
+        }
+        projection
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn terminal_receipt_transport_rejects_older_local_artifact_symlink_without_mutation() {
+        use std::os::unix::fs::symlink;
+
+        let (_temp, store, authority, target, receipt, _) = terminal_validation_fixture();
+        fs::remove_file(store.terminal_receipt_path(target.issue).unwrap())
+            .expect("remove receipt");
+        write_nonterminal_transport_projection(
+            &store,
+            &receipt,
+            receipt.record.generation - 1,
+            None,
+        );
+
+        let local_design_path = format!("docs/issue-{}-local-design.md", target.issue);
+        let local_design_target = format!("docs/issue-{}-local-design-target.md", target.issue);
+        let mut local = store.load_record(target.issue).expect("local record");
+        let mut local_cards = store.load_cards(target.issue).expect("local cards");
+        local.design_path = local_design_path.clone();
+        match &mut local_cards.get_mut(&CardKind::Spp).expect("SPP").content {
+            CardContent::Spp(values) => values.design_ref = local_design_path.clone(),
+            _ => unreachable!("SPP card"),
+        }
+        match &mut local_cards.get_mut(&CardKind::Vpp).expect("VPP").content {
+            CardContent::Vpp(values) => values.design_ref = local_design_path.clone(),
+            _ => unreachable!("VPP card"),
+        }
+        hydrate_projections(&mut local, &local_cards).expect("local projections");
+        local.digest = record_digest(&local).expect("local digest");
+        store
+            .commit(target.issue, &local, &local_cards, false)
+            .expect("write alternate local projection");
+
+        fs::create_dir_all(store.root.join("docs")).expect("create docs directory");
+        fs::write(
+            store.root.join(&local_design_target),
+            receipt
+                .authored_artifacts
+                .get(&receipt.record.design_path)
+                .expect("receipt design"),
+        )
+        .expect("write symlink target");
+        symlink(
+            store.root.join(&local_design_target),
+            store.root.join(&local_design_path),
+        )
+        .expect("create local design symlink");
+
+        let before = transport_projection_bytes(&store, target.issue);
+        let error = store
+            .transport_terminal_receipt(TerminalReceiptTransportRequest {
+                authority_issue: authority.issue,
+                expected_authority_generation: authority.generation,
+                expected_authority_digest: authority.digest.clone(),
+                authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+                actor: "codex:test".into(),
+                receipt,
+                fail_after_stage: None,
+            })
+            .expect_err("local authored-artifact symlink must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+        assert_eq!(transport_projection_bytes(&store, target.issue), before);
+        assert!(fs::symlink_metadata(store.root.join(local_design_path))
+            .unwrap()
+            .file_type()
+            .is_symlink());
+        assert!(!store
+            .terminal_transaction_path(target.issue)
+            .unwrap()
+            .exists());
+        assert!(store.load_terminal_receipt(target.issue).unwrap().is_none());
     }
 
     #[test]
