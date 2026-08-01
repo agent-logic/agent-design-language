@@ -337,6 +337,7 @@ pub struct HistoricalMergedReconciliationRequest {
 #[serde(deny_unknown_fields)]
 pub struct CorruptHistoricalMergedRecoveryRequest {
     pub authority_issue: u64,
+    pub authority_worktree: String,
     pub expected_authority_generation: u64,
     pub expected_authority_digest: String,
     pub authority_claim_id: String,

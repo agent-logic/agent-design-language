@@ -3379,6 +3379,7 @@ fn execution_replacement_is_sor_only_and_implemented_only() {
                 summary: "not yet implemented".into(),
                 changes: vec![],
                 artifacts: vec![],
+                validation: vec![],
             },
             fail_after_backup: false,
         },
@@ -3412,6 +3413,12 @@ fn execution_replacement_is_sor_only_and_implemented_only() {
             summary: "final truthful execution".into(),
             changes: vec!["final change".into()],
             artifacts: vec!["final-evidence.json".into()],
+            validation: vec![csdlc_v2::cards::ValidationResult {
+                command: vec!["cargo".into(), "test".into()],
+                purpose: "focused exact proof".into(),
+                outcome: csdlc_v2::cards::EvidenceOutcome::Passed,
+                evidence_ref: "final-evidence.json".into(),
+            }],
         },
     );
 
@@ -3422,6 +3429,8 @@ fn execution_replacement_is_sor_only_and_implemented_only() {
     assert_eq!(sor.summary, "final truthful execution");
     assert_eq!(sor.actual_changes, vec!["final change"]);
     assert_eq!(sor.artifacts, vec!["final-evidence.json"]);
+    assert_eq!(sor.actual_validation.len(), 1);
+    assert_eq!(sor.actual_validation[0].purpose, "focused exact proof");
     assert_eq!(record.phase, csdlc_v2::LifecyclePhase::Implemented);
 
     let invalid = edit_issue(
@@ -3438,6 +3447,7 @@ fn execution_replacement_is_sor_only_and_implemented_only() {
                 summary: "".into(),
                 changes: vec![],
                 artifacts: vec![],
+                validation: vec![],
             },
             fail_after_backup: false,
         },

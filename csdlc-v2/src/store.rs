@@ -47,6 +47,7 @@ pub(crate) struct ImplementationCommit {
 
 #[derive(Debug, Clone)]
 struct CorruptHistoricalSource {
+    authority_worktree: String,
     commit: String,
     expected_projection_digest: String,
     required_checks: Vec<String>,
@@ -2380,6 +2381,7 @@ impl Store {
         request: CorruptHistoricalMergedRecoveryRequest,
     ) -> Result<IssueRecord> {
         let source = CorruptHistoricalSource {
+            authority_worktree: request.authority_worktree,
             commit: request.source_commit,
             expected_projection_digest: request.expected_corrupt_projection_digest,
             required_checks: request.required_checks,
@@ -2536,16 +2538,43 @@ impl Store {
 
         let _terminal_repair_lock = self.terminal_repair_lock()?;
         let _binding_lock = self.binding_lock()?;
-        let (first, second) = if request.authority_issue < issue {
-            (request.authority_issue, issue)
+        let authority_store = corrupt_source
+            .as_ref()
+            .map(|source| {
+                let root = PathBuf::from(&source.authority_worktree)
+                    .canonicalize()
+                    .map_err(|error| {
+                        V2Error::new(
+                            ErrorCode::UnsafeCheckout,
+                            format!("corrupt recovery authority worktree is unavailable: {error}"),
+                        )
+                    })?;
+                if root == self.root.canonicalize()? {
+                    return Err(V2Error::new(
+                        ErrorCode::UnsafeCheckout,
+                        "corrupt recovery requires distinct authority and target worktrees",
+                    ));
+                }
+                Ok(Store::new(root))
+            })
+            .transpose()?;
+        let authority_store_ref = authority_store.as_ref().unwrap_or(self);
+        let (_first_lock, _second_lock) = if corrupt_source.is_some() {
+            (
+                authority_store_ref.lock(request.authority_issue)?,
+                self.lock(issue)?,
+            )
         } else {
-            (issue, request.authority_issue)
+            let (first, second) = if request.authority_issue < issue {
+                (request.authority_issue, issue)
+            } else {
+                (issue, request.authority_issue)
+            };
+            (self.lock(first)?, self.lock(second)?)
         };
-        let _first_lock = self.lock(first)?;
-        let _second_lock = self.lock(second)?;
-        self.recover_with_terminal_lock(request.authority_issue)?;
+        authority_store_ref.recover_with_terminal_lock(request.authority_issue)?;
         self.recover_with_terminal_lock(issue)?;
-        let authority = self.load_record(request.authority_issue)?;
+        let authority = authority_store_ref.load_record(request.authority_issue)?;
         if authority.generation != request.expected_authority_generation
             || authority.digest != request.expected_authority_digest
         {
@@ -2561,6 +2590,22 @@ impl Store {
             )
         })?;
         authority_claim.validate(&request.authority_claim_id, now_seconds()?)?;
+        if corrupt_source.is_some()
+            && (!crate::git::worktrees(&self.root)?
+                .into_iter()
+                .any(|(branch, root)| {
+                    branch == authority_claim.branch
+                        && PathBuf::from(root).canonicalize().ok()
+                            == authority_store_ref.root.canonicalize().ok()
+                })
+                || crate::git::current_branch(authority_store_ref.root())?
+                    != authority_claim.branch)
+        {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "corrupt recovery authority claim does not match its active checkout",
+            ));
+        }
         let aggregate_recovery_authority = authority_claim
             .protected_paths
             .iter()
@@ -2623,6 +2668,24 @@ impl Store {
                     ));
                 }
                 corrupt_claim.validate(&source.expected_target_claim.id, now_seconds()?)?;
+                let target_root = self.root.canonicalize()?;
+                let registered_target_roots = crate::git::worktrees(&self.root)?
+                    .into_iter()
+                    .filter(|(branch, _)| branch == &corrupt_claim.branch)
+                    .filter_map(|(_, root)| PathBuf::from(root).canonicalize().ok())
+                    .collect::<Vec<_>>();
+                if registered_target_roots.as_slice() != [target_root.clone()]
+                    || crate::git::current_branch(&self.root)? != corrupt_claim.branch
+                    || crate::git::run(&self.root, &["rev-parse", "HEAD"])?.stdout != pr.head_sha
+                    || (corrupt_claim.worktree != "."
+                        && PathBuf::from(&corrupt_claim.worktree).canonicalize().ok()
+                            != Some(target_root))
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::UnsafeCheckout,
+                        "corrupt historical target claim does not match its unique active checkout",
+                    ));
+                }
                 let source_snapshot = self.load_historical_source(issue, &source.commit)?;
                 let mut snapshot = snapshot;
                 for (path, contents) in &source_snapshot.authored_artifacts {
@@ -8920,9 +8983,28 @@ mod terminal_design_repair_tests {
         );
 
         fs::remove_file(store.terminal_receipt_path(target.issue).unwrap()).unwrap();
-        let mut aggregate_authority = store.load_record(authority.issue).unwrap();
-        let aggregate_cards = store.load_cards(authority.issue).unwrap();
+        let aggregate_root = temp.path().join("aggregate-authority");
+        std::process::Command::new("git")
+            .args([
+                "worktree",
+                "add",
+                "-b",
+                "aggregate-authority",
+                aggregate_root.to_str().unwrap(),
+                "HEAD",
+            ])
+            .current_dir(temp.path())
+            .status()
+            .unwrap()
+            .success()
+            .then_some(())
+            .expect("aggregate authority worktree");
+        let aggregate_store = Store::new(&aggregate_root);
+        let mut aggregate_authority = aggregate_store.load_record(authority.issue).unwrap();
+        let aggregate_cards = aggregate_store.load_cards(authority.issue).unwrap();
         let aggregate_claim = aggregate_authority.claim.as_mut().unwrap();
+        aggregate_claim.branch = "aggregate-authority".into();
+        aggregate_claim.worktree = ".".into();
         aggregate_claim.protected_paths.push("csdlc-v2".into());
         aggregate_claim
             .protected_paths
@@ -8931,7 +9013,7 @@ mod terminal_design_repair_tests {
         aggregate_claim.protected_paths.dedup();
         hydrate_projections(&mut aggregate_authority, &aggregate_cards).unwrap();
         aggregate_authority.digest = record_digest(&aggregate_authority).unwrap();
-        store
+        aggregate_store
             .commit(
                 aggregate_authority.issue,
                 &aggregate_authority,
@@ -8949,7 +9031,7 @@ mod terminal_design_repair_tests {
             acquired_unix_seconds: 1,
             expires_unix_seconds: u64::MAX,
             heartbeat_unix_seconds: 1,
-            branch: "issue-7".into(),
+            branch: "main".into(),
             worktree: ".".into(),
             protected_paths: request
                 .review
@@ -8982,6 +9064,7 @@ mod terminal_design_repair_tests {
         corrupt_merged_evidence = trusted_github(corrupt_merged_evidence);
         let corrupt_request = CorruptHistoricalMergedRecoveryRequest {
             authority_issue: request.authority_issue,
+            authority_worktree: aggregate_root.to_string_lossy().into_owned(),
             expected_authority_generation: aggregate_authority.generation,
             expected_authority_digest: aggregate_authority.digest,
             authority_claim_id: aggregate_authority.claim.unwrap().id,

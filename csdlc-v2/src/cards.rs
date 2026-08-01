@@ -601,6 +601,7 @@ pub enum SemanticOperation {
         summary: String,
         changes: Vec<String>,
         artifacts: Vec<String>,
+        validation: Vec<ValidationResult>,
     },
     RecordCloseout {
         integration_state: IntegrationState,
@@ -1041,6 +1042,7 @@ pub fn apply(
             summary,
             changes,
             artifacts,
+            validation,
         } => {
             if summary.trim().is_empty() {
                 return Err(V2Error::new(
@@ -1050,11 +1052,21 @@ pub fn apply(
             }
             validate_replacement(changes, "execution changes")?;
             validate_replacement(artifacts, "execution artifacts")?;
+            if validation.is_empty() {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "execution validation cannot be empty",
+                ));
+            }
+            for result in validation {
+                validate_result(result)?;
+            }
             match &mut values.content {
                 CardContent::Sor(v) => {
                     v.summary = summary.clone();
                     v.actual_changes = changes.clone();
                     v.artifacts = artifacts.clone();
+                    v.actual_validation = validation.clone();
                     Ok(None)
                 }
                 _ => ownership(values.kind(), "replace_execution"),
