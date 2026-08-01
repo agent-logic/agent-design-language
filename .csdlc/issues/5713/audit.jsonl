@@ -6,3 +6,5 @@
 {"sequence":6,"generation":3,"actor":"subagent:gpt-5.5-sartre","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":7,"generation":4,"actor":"codex:5713-review-remediation","reason":"Exact-head GPT-5.5 review completed with zero findings after all remediation.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":8,"generation":5,"actor":"codex:5713-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":9,"generation":6,"actor":"codex:5748-terminal-recovery","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness_reconcile_metadata_only_published_revision"}
+{"sequence":10,"generation":7,"actor":"codex:5748-terminal-recovery","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
