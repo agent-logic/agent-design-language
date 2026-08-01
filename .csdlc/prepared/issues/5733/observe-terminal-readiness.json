@@ -1,0 +1,15 @@
+{
+  "issue": 5733,
+  "expected_generation": 11,
+  "expected_digest": "b4ee7ae0de1833a071f4c4ac6b970d9144457788250535817da05d074bf9d588",
+  "claim_id": "claim-5733-terminal-closeout",
+  "actor": "codex:5733-terminal-closeout",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5747,
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage-hosted"
+  ],
+  "require_review": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}
