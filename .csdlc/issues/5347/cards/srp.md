@@ -8,10 +8,14 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
+.csdlc/evidence/5347
+.csdlc/issues/5347
+.csdlc/locks/5347.lock
+.csdlc/prepared/issues/5347
 adl/Cargo.toml
 adl/src/bin/demo_v086_candidate_selection.rs
 adl/src/bin/demo_v086_fast_slow.rs
@@ -56,10 +60,7 @@ adl/tools/test_v0916_unity_observatory_soak_integration.sh
 adl/tools/test_wp17a_demo_follow_ons.sh
 adl/tools/uts_benchmark_runner.py
 adl/tools/validate_v0917_soak2_4682_status.sh
-docs/milestones/v0.91.8/evidence/wp13-external-bands/current-truth-ledger.json
-docs/milestones/v0.91.8/evidence/wp13-external-bands/deletion-accounting.json
-docs/milestones/v0.91.8/evidence/wp13-external-bands/external-band-deletion-manifest.json
-docs/milestones/v0.91.8/evidence/wp13-external-bands/wp13-deletion-coordination.json
+docs/milestones/v0.91.8/evidence/wp13-external-bands
 
 ## Prompts
 
@@ -84,8 +85,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:8a417057279565d8c7aad038e73f3a7bd2de2b9b:1aebf4b841431b43812c13828432d5c3f32f54453bb80b1bdb9575dc1bc255f7")
+Revision: Some("git-blake3:4570c10bc79bca0a59841ff85cf97f4028579ff0:e33da934c5d27ad8c2971e5cb74cdf1d1e31bc5d881220baf1f209f238b76c00")
 
-Reviewer: Some("subagent:gpt-5.5-direct-rereview")
+Reviewer: Some("subagent:gpt-5.5-exact-head-review")
 
 Result: pass

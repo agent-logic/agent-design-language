@@ -4,15 +4,15 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4379da53c4006fc48b7aa0358cdc5518623fd15b918ae42ea519c372e95f784f",
   "phase": "published",
-  "generation": 19,
-  "digest": "4a33fbff320d71af0ce03540a9f013996518e9d86fd2d6807dc327739a35184a",
+  "generation": 22,
+  "digest": "9e968b4433e9e528285c744d7e14d3e7255f8d9f85c78c8b7c322dfe18304c1e",
   "claim": {
     "id": "claim-5347-external-band-deletion",
     "owner": "codex:5347-execution-owner",
-    "generation": 19,
-    "acquired_unix_seconds": 1785548138,
-    "expires_unix_seconds": 1785555338,
-    "heartbeat_unix_seconds": 1785548138,
+    "generation": 22,
+    "acquired_unix_seconds": 1785558591,
+    "expires_unix_seconds": 1785565791,
+    "heartbeat_unix_seconds": 1785558591,
     "branch": "codex/5347-v0918-wp13-external-band-deletion",
     "worktree": ".",
     "protected_paths": [
@@ -68,64 +68,14 @@
     ],
     "purpose": "Execute #5347 WP-13 external-owned obsolete demo/proof band deletion with no Cargo.lock churn, no retained-binary mutation, no WP-16 dependency, and #5346 reserved as the later final-core deletion lane; publish ready PR with Closes #5347 and no typed closeout."
   },
-  "review_assignment": {
-    "reviewer": "subagent:gpt-5.5-direct-rereview",
-    "assigned_by": "codex:5347-publication-owner",
-    "revision": "git-blake3:8a417057279565d8c7aad038e73f3a7bd2de2b9b:1aebf4b841431b43812c13828432d5c3f32f54453bb80b1bdb9575dc1bc255f7",
-    "scope": [
-      "adl/Cargo.toml",
-      "adl/src/bin/demo_v086_candidate_selection.rs",
-      "adl/src/bin/demo_v086_fast_slow.rs",
-      "adl/src/bin/demo_v086_freedom_gate.rs",
-      "adl/src/bin/demo_v086_review_surface.rs",
-      "adl/src/bin/demo_v0905_local_gemma_model_evaluation.rs",
-      "adl/src/bin/demo_v0905_model_proposal_benchmark.rs",
-      "adl/src/bin/demo_v0911_capability_aptitude_testing.rs",
-      "adl/src/bin/demo_v0912_gws_live_capability_execution_surface.rs",
-      "adl/src/bin/demo_v0912_gws_live_content_card_roundtrip.rs",
-      "adl/src/bin/demo_v0912_gws_live_safety_package.rs",
-      "adl/src/bin/demo_v0912_provider_native_tool_call_comparison.rs",
-      "adl/src/bin/demo_v0912_rust_native_gws_adapter_boundary.rs",
-      "adl/src/bin/demo_v0912_speculative_decoding_prototype.rs",
-      "adl/src/bin/demo_v0912_uts_acc_multi_model_benchmark.rs",
-      "adl/src/bin/demo_v0917_dspark_speculative_decoding_evaluation.rs",
-      "adl/src/bin/run_v0916_acip_aee_memory_integration.rs",
-      "adl/src/bin/run_v0916_integrated_runtime_soak.rs",
-      "adl/src/bin/run_v0916_runtime_failure_injection.rs",
-      "adl/src/bin/run_v0917_integrated_resilience_failure_injection.rs",
-      "adl/src/bin/run_wp12_acip_websocket_transport_proof.rs",
-      "adl/src/capability_aptitude_testing.rs",
-      "adl/src/demo/v086_review_surface.rs",
-      "adl/src/dspark_speculative_decoding_evaluation.rs",
-      "adl/src/speculative_decoding_prototype.rs",
-      "adl/tests/demo_tests.rs",
-      "adl/tests/local_gemma_model_evaluation_demo_tests.rs",
-      "adl/tests/model_proposal_benchmark_demo_tests.rs",
-      "adl/tests/uts_acc_multi_model_benchmark_demo_tests.rs",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/demo_v086_candidate_selection.sh",
-      "adl/tools/demo_v086_fast_slow.sh",
-      "adl/tools/demo_v086_freedom_gate.sh",
-      "adl/tools/demo_v086_review_surface.sh",
-      "adl/tools/demo_v0912_speculative_decoding_showcase.sh",
-      "adl/tools/run_pr_fast_test_lane.sh",
-      "adl/tools/test_check_coverage_impact.sh",
-      "adl/tools/test_run_pr_fast_test_lane.sh",
-      "adl/tools/test_select_validation_lanes.sh",
-      "adl/tools/test_v086_demo_review_surface.sh",
-      "adl/tools/test_v0916_unity_observatory_soak_integration.sh",
-      "adl/tools/test_wp17a_demo_follow_ons.sh",
-      "adl/tools/uts_benchmark_runner.py",
-      "adl/tools/validate_v0917_soak2_4682_status.sh",
-      "docs/milestones/v0.91.8/evidence/wp13-external-bands/current-truth-ledger.json",
-      "docs/milestones/v0.91.8/evidence/wp13-external-bands/deletion-accounting.json",
-      "docs/milestones/v0.91.8/evidence/wp13-external-bands/external-band-deletion-manifest.json",
-      "docs/milestones/v0.91.8/evidence/wp13-external-bands/wp13-deletion-coordination.json"
-    ]
-  },
+  "review_assignment": null,
   "review": {
-    "reviewer": "subagent:gpt-5.5-direct-rereview",
+    "reviewer": "subagent:gpt-5.5-exact-head-review",
     "scope": [
+      ".csdlc/evidence/5347",
+      ".csdlc/issues/5347",
+      ".csdlc/locks/5347.lock",
+      ".csdlc/prepared/issues/5347",
       "adl/Cargo.toml",
       "adl/src/bin/demo_v086_candidate_selection.rs",
       "adl/src/bin/demo_v086_fast_slow.rs",
@@ -170,12 +120,9 @@
       "adl/tools/test_wp17a_demo_follow_ons.sh",
       "adl/tools/uts_benchmark_runner.py",
       "adl/tools/validate_v0917_soak2_4682_status.sh",
-      "docs/milestones/v0.91.8/evidence/wp13-external-bands/current-truth-ledger.json",
-      "docs/milestones/v0.91.8/evidence/wp13-external-bands/deletion-accounting.json",
-      "docs/milestones/v0.91.8/evidence/wp13-external-bands/external-band-deletion-manifest.json",
-      "docs/milestones/v0.91.8/evidence/wp13-external-bands/wp13-deletion-coordination.json"
+      "docs/milestones/v0.91.8/evidence/wp13-external-bands"
     ],
-    "reviewed_revision": "git-blake3:8a417057279565d8c7aad038e73f3a7bd2de2b9b:1aebf4b841431b43812c13828432d5c3f32f54453bb80b1bdb9575dc1bc255f7",
+    "reviewed_revision": "git-blake3:4570c10bc79bca0a59841ff85cf97f4028579ff0:e33da934c5d27ad8c2971e5cb74cdf1d1e31bc5d881220baf1f209f238b76c00",
     "findings": [],
     "residual_risks": [],
     "completed": true,
@@ -188,7 +135,7 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5753",
     "base": "main",
     "head": "codex/5347-v0918-wp13-external-band-deletion",
-    "revision": "git-blake3:f49a646710ef116e3e2f7524835457e2993ef0ac:1d87f75615d84a4622c51a2320b3da3cfdfbb6eb708dbdd737976dfec571717f",
+    "revision": "git-blake3:4570c10bc79bca0a59841ff85cf97f4028579ff0:e33da934c5d27ad8c2971e5cb74cdf1d1e31bc5d881220baf1f209f238b76c00",
     "draft": false,
     "observed_state": "open"
   },
@@ -205,32 +152,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f31143445671ee12ca08b6b648293627f4a2d4c494aedb742d923e3d8ea1b201",
+      "values_digest": "602606cca0266264a7fb138717ffaeeca07d0d6339080ae4858a58428908b2fe",
       "rendered_digest": "bba94b0c6938b04c5b24dd5345f10c5fdd0eb660e10f0049938065122dcac62f",
       "ast_digest": "f16fa9ea475ff8c4879e5fc6cc35ecaf34abc03d0552c6682d73c320ea81ad86"
     },
     "stp": {
-      "values_digest": "6fe7216bf0c7c2d0b5f9710be3c8a5fad37baed3cee5a6169188f3ddb66822ec",
+      "values_digest": "e9d1b78928fe8d1e0359d880788d1c67e1b3038b4aea95f94267a6a31ac7226f",
       "rendered_digest": "6d26768de5f223ab4f20f7b1a14e0aaaf51821861467749d81a1d5d1f325be6f",
       "ast_digest": "81d561765553b1943ebdc009fd67a17664a409a8898d095cde706a56fd288c4a"
     },
     "spp": {
-      "values_digest": "b4532f186fe286a58bc789164e0f520921e38af6317160d947f5de3c559e65e3",
+      "values_digest": "cf948e2dfd45bc274585bb9570747a6786c9111a7cd89d2fc7471fe292ef84d9",
       "rendered_digest": "7eea12e4df203d02356c3a2a4e256364bc673002a88a24c11788b623b4a796ba",
       "ast_digest": "2a1ad680231eb8b779fc0dc987ddea4619d3dbedee49666aad3b5e2337d79256"
     },
     "vpp": {
-      "values_digest": "c1da877a57bc9ca24c6585509a5826884052908c5c77bfe2241d232cffe229e3",
+      "values_digest": "974f611c46bec0e3ed550144db82c3120b764e333e84b7bf08121e295bdc9b2e",
       "rendered_digest": "6d6e38b8569279f0f137698419c32ddf9aeaadb457286b2c7e00d328d5902e8c",
       "ast_digest": "37d957d672df501b34d54395a49bef3c05c8ba46e2563ab54d79376066e6c01b"
     },
     "srp": {
-      "values_digest": "ed63c77f8a9ed55d4ac5f8b8f8bd3bff004321451b0217092194f22b9258e260",
-      "rendered_digest": "9c81e6015463e211a2f27f832704842e40d46ec6178f56d38b3a112fbc669fad",
-      "ast_digest": "f0de33d512eb92d407f6292351a05e14e10efd5aea09e876f7de4c84b010d9a0"
+      "values_digest": "e3ee294132f2aff1f7ec4e83d9ea84aabcfe7cac1113c52d5ef25fd921bed13d",
+      "rendered_digest": "5bccaf11a659c991c0e77e4f790e13ea768be092151b6e4f7b70d39c93f7bf84",
+      "ast_digest": "882f82f416539014f48219741cbbc3ebff2f654e714f9a43b1cf06b6726f01cd"
     },
     "sor": {
-      "values_digest": "67c17b954d4ae718309bb66e5abbd0bd357c5a6b7ea2c4535211f391cec3fdcd",
+      "values_digest": "aea5985ee3b2936c104bf42b795486f97535eaf564cb5a2f3f1f5afbb96d067d",
       "rendered_digest": "ce7f38d2c3bffae201caa8683192527667753e23f2dc73f6f815bb06461b547b",
       "ast_digest": "a056f81150c9b0c26d7a77901df75479eff6093f6f67bd66180d9a60c68a2a9e"
     }
@@ -269,6 +216,27 @@
       "from": "reviewed",
       "to": "published",
       "actor": "codex:5347-publication-owner",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5347-execution-owner",
+      "reason": "Recover stale review/publication truth after substantive CI parity fixes advanced PR #5753 to exact head 4570c10bc79bca0a59841ff85cf97f4028579ff0."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5347-execution-owner",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5347-execution-owner",
       "reason": "observed exact PR after current review"
     }
   ],
@@ -494,6 +462,34 @@
       "sequence": 32,
       "generation": 19,
       "actor": "codex:5347-publication-owner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 19,
+      "actor": "codex:5347-execution-owner",
+      "reason": "Reacquire #5347 authority after exact-head CI parity fixes changed PR head to 4570c10bc79bca0a59841ff85cf97f4028579ff0 and before typed review recovery.",
+      "operation": "{\"branch\":\"codex/5347-v0918-wp13-external-band-deletion\",\"claim_id\":\"claim-5347-external-band-deletion\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5347-execution-owner\",\"previous_claim_id\":\"claim-5347-external-band-deletion\",\"previous_owner\":\"codex:5347-execution-owner\",\"protected_paths\":[\".csdlc/evidence/5347\",\".csdlc/issues/5347\",\".csdlc/locks/5347.lock\",\".csdlc/prepared/issues/5347\",\"adl/Cargo.toml\",\"adl/src/bin/demo_v086_candidate_selection.rs\",\"adl/src/bin/demo_v086_fast_slow.rs\",\"adl/src/bin/demo_v086_freedom_gate.rs\",\"adl/src/bin/demo_v086_review_surface.rs\",\"adl/src/bin/demo_v0905_local_gemma_model_evaluation.rs\",\"adl/src/bin/demo_v0905_model_proposal_benchmark.rs\",\"adl/src/bin/demo_v0911_capability_aptitude_testing.rs\",\"adl/src/bin/demo_v0912_gws_live_capability_execution_surface.rs\",\"adl/src/bin/demo_v0912_gws_live_content_card_roundtrip.rs\",\"adl/src/bin/demo_v0912_gws_live_safety_package.rs\",\"adl/src/bin/demo_v0912_provider_native_tool_call_comparison.rs\",\"adl/src/bin/demo_v0912_rust_native_gws_adapter_boundary.rs\",\"adl/src/bin/demo_v0912_speculative_decoding_prototype.rs\",\"adl/src/bin/demo_v0912_uts_acc_multi_model_benchmark.rs\",\"adl/src/bin/demo_v0917_dspark_speculative_decoding_evaluation.rs\",\"adl/src/bin/run_v0916_acip_aee_memory_integration.rs\",\"adl/src/bin/run_v0916_integrated_runtime_soak.rs\",\"adl/src/bin/run_v0916_runtime_failure_injection.rs\",\"adl/src/bin/run_v0917_integrated_resilience_failure_injection.rs\",\"adl/src/bin/run_wp12_acip_websocket_transport_proof.rs\",\"adl/src/capability_aptitude_testing.rs\",\"adl/src/demo/v086_review_surface.rs\",\"adl/src/dspark_speculative_decoding_evaluation.rs\",\"adl/src/speculative_decoding_prototype.rs\",\"adl/tests/demo_tests.rs\",\"adl/tests/local_gemma_model_evaluation_demo_tests.rs\",\"adl/tests/model_proposal_benchmark_demo_tests.rs\",\"adl/tests/uts_acc_multi_model_benchmark_demo_tests.rs\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/demo_v086_candidate_selection.sh\",\"adl/tools/demo_v086_fast_slow.sh\",\"adl/tools/demo_v086_freedom_gate.sh\",\"adl/tools/demo_v086_review_surface.sh\",\"adl/tools/demo_v0912_speculative_decoding_showcase.sh\",\"adl/tools/run_pr_fast_test_lane.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"adl/tools/test_run_pr_fast_test_lane.sh\",\"adl/tools/test_select_validation_lanes.sh\",\"adl/tools/test_v086_demo_review_surface.sh\",\"adl/tools/test_v0916_unity_observatory_soak_integration.sh\",\"adl/tools/test_wp17a_demo_follow_ons.sh\",\"adl/tools/uts_benchmark_runner.py\",\"adl/tools/validate_v0917_soak2_4682_status.sh\",\"docs/milestones/v0.91.8/evidence/wp13-external-bands\"],\"purpose\":\"Execute #5347 WP-13 external-owned obsolete demo/proof band deletion with no Cargo.lock churn, no retained-binary mutation, no WP-16 dependency, and #5346 reserved as the later final-core deletion lane; publish ready PR with Closes #5347 and no typed closeout.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 34,
+      "generation": 20,
+      "actor": "codex:5347-execution-owner",
+      "reason": "Recover stale review/publication truth after substantive CI parity fixes advanced PR #5753 to exact head 4570c10bc79bca0a59841ff85cf97f4028579ff0.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 21,
+      "actor": "codex:5347-execution-owner",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 22,
+      "actor": "codex:5347-execution-owner",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
     }
