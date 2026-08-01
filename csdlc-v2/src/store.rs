@@ -2099,6 +2099,45 @@ impl Store {
                 )
             })?;
         let corrupt_record: IssueRecord = serde_json::from_slice(corrupt_index)?;
+        if let Some(target_claim) = corrupt_record.claim.as_ref() {
+            let now = now_seconds()?;
+            if now < target_claim.expires_unix_seconds {
+                target_claim.validate(&target_claim.id, now)?;
+                for (branch, root) in crate::git::worktrees(&self.root)? {
+                    if branch != target_claim.branch {
+                        continue;
+                    }
+                    let root = PathBuf::from(root).canonicalize().map_err(|error| {
+                        V2Error::new(
+                            ErrorCode::UnsafeCheckout,
+                            format!("registered target checkout is unavailable: {error}"),
+                        )
+                    })?;
+                    let target_store = Store::new(root);
+                    let observed = target_store.load_record(request.target_issue).map_err(
+                        |error| {
+                            V2Error::new(
+                                ErrorCode::UnsafeCheckout,
+                                format!(
+                                    "registered target checkout cannot authenticate its claim: {}",
+                                    error.message
+                                ),
+                            )
+                        },
+                    )?;
+                    if observed.repository == corrupt_record.repository
+                        && observed.initialization_digest == corrupt_record.initialization_digest
+                        && observed.claim.as_ref() == Some(target_claim)
+                        && claim_worktree_matches_store(&target_store, target_claim)?
+                    {
+                        return Err(V2Error::new(
+                            ErrorCode::UnsafeCheckout,
+                            "corrupt terminal reconciliation refuses an authentic unexpired target checkout",
+                        ));
+                    }
+                }
+            }
+        }
 
         let receipt_path = self.terminal_receipt_path(request.target_issue)?;
         let original_receipt = self.read_terminal_receipt_snapshot(&receipt_path)?;
@@ -8199,7 +8238,7 @@ mod terminal_design_repair_tests {
 
     #[test]
     fn corrupt_terminal_receipt_reconciliation_is_authorized_cas_guarded_and_recoverable() {
-        let (_temp, store, mut authority, target, receipt, _) = terminal_validation_fixture();
+        let (temp, store, mut authority, target, receipt, _) = terminal_validation_fixture();
         let authority_cards = store.load_cards(authority.issue).expect("authority cards");
         let authority_claim = authority.claim.as_mut().expect("authority claim");
         authority_claim.branch = crate::git::current_branch(store.root()).expect("fixture branch");
@@ -8216,10 +8255,70 @@ mod terminal_design_repair_tests {
             .commit(authority.issue, &authority, &authority_cards, false)
             .expect("authority commit");
 
+        assert!(std::process::Command::new("git")
+            .args(["add", "."])
+            .current_dir(temp.path())
+            .status()
+            .expect("stage aggregate fixture")
+            .success());
+        assert!(std::process::Command::new("git")
+            .args([
+                "-c",
+                "user.name=csdlc-test",
+                "-c",
+                "user.email=csdlc-test@example.invalid",
+                "commit",
+                "-q",
+                "-m",
+                "aggregate fixture",
+            ])
+            .current_dir(temp.path())
+            .status()
+            .expect("commit aggregate fixture")
+            .success());
+        let active_target_root = temp.path().join("active-target");
+        assert!(std::process::Command::new("git")
+            .args(["worktree", "add", "-q", "-b", "active-target"])
+            .arg(&active_target_root)
+            .arg("HEAD")
+            .current_dir(temp.path())
+            .status()
+            .expect("add active target worktree")
+            .success());
+        let active_target_store = Store::new(&active_target_root);
+        let mut active_target = active_target_store
+            .load_record(target.issue)
+            .expect("active target record");
+        let active_target_cards = active_target_store
+            .load_cards(target.issue)
+            .expect("active target cards");
+        active_target.claim = Some(Claim {
+            id: "active-target-claim".into(),
+            owner: "target-session".into(),
+            generation: active_target.generation,
+            acquired_unix_seconds: 1,
+            expires_unix_seconds: u64::MAX,
+            heartbeat_unix_seconds: 1,
+            branch: "active-target".into(),
+            worktree: "active-target".into(),
+            protected_paths: vec![format!(".csdlc/issues/{}", target.issue)],
+            purpose: "prove aggregate recovery refuses a live target checkout".into(),
+        });
+        hydrate_projections(&mut active_target, &active_target_cards)
+            .expect("active target projections");
+        active_target.digest = record_digest(&active_target).expect("active target digest");
+        active_target_store
+            .commit(
+                active_target.issue,
+                &active_target,
+                &active_target_cards,
+                false,
+            )
+            .expect("active target commit");
+
         let newer = write_newer_terminal_receipt_only(&store, &receipt);
         let index_path = store.issue_dir(target.issue).join("index.json");
-        let mut corrupt_index: serde_json::Value =
-            serde_json::from_slice(&fs::read(&index_path).unwrap()).unwrap();
+        let mut corrupt_index = serde_json::to_value(&active_target).unwrap();
         corrupt_index["digest"] = serde_json::Value::String("f".repeat(64));
         let mut corrupt_index_bytes = serde_json::to_vec_pretty(&corrupt_index).unwrap();
         corrupt_index_bytes.push(b'\n');
@@ -8243,6 +8342,21 @@ mod terminal_design_repair_tests {
             reason: "recover exact corrupt aggregate terminal projection".into(),
             fail_after_stage: None,
         };
+
+        assert_eq!(
+            store
+                .reconcile_corrupt_terminal_receipt(request.clone())
+                .expect_err("authentic active target checkout must fail closed")
+                .code,
+            ErrorCode::UnsafeCheckout
+        );
+        assert!(std::process::Command::new("git")
+            .args(["worktree", "remove", "--force"])
+            .arg(&active_target_root)
+            .current_dir(temp.path())
+            .status()
+            .expect("remove active target worktree")
+            .success());
 
         let mut forged_claim = request.clone();
         forged_claim.authority_claim_id = "forged".into();
