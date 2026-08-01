@@ -1,0 +1,126 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5352,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "0b1b443e0ef68c9229695e3260f7340ef3b40df59112c8adb75d065cd81caf9a",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "f293338f1445dc6595e9686575704eee2659a810ffa56f84e981046561b35322",
+  "claim": {
+    "id": "claim-5352-v0918-final-handoff",
+    "owner": "codex:wp21-final-handoff",
+    "generation": 2,
+    "acquired_unix_seconds": 1785543526,
+    "expires_unix_seconds": 1786148326,
+    "heartbeat_unix_seconds": 1785543526,
+    "branch": "codex/5352-v0918-final-handoff",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5352",
+      ".csdlc/issues/5352",
+      ".csdlc/locks/5352.lock",
+      ".csdlc/prepared/issues/5352",
+      "docs/milestones/v0.91.8/handoff"
+    ],
+    "purpose": "Finalize, validate, review, publish, and integrate the WP-21 exact-revision v0.92 consumption handoff"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5352/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5352/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:wp21-final-handoff",
+      "revision": "979d5962c723a24d585de30d4a05ffa704378445110598e9dfe22357deb58844"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ee2c3f9991eef9c70662a3faa68ab66e7608d8993b42a9eb587807033083fe88",
+      "rendered_digest": "da0857c34330916535e0d2e0b6e6e5141fcc3a99744dacceff36b5f36cf66b14",
+      "ast_digest": "000dd5efbe071cb9735c35c906e3e0f2f914632abce4ade963152e8a1e54395f"
+    },
+    "stp": {
+      "values_digest": "18919d252ca89861e6b51095fe84963bc2d119093de74b777daf4cb479b0420f",
+      "rendered_digest": "eecfee175e430006c55681541ddc2b7f56b50899b3426816de28ee22a762d314",
+      "ast_digest": "a349cc9f1f98892d2e68ad155ff795a80c79fd0b954c821313ff4d29a0bf5875"
+    },
+    "spp": {
+      "values_digest": "0bd7aa0ae1b8def09fdfe059dd01941d6c93c0797ea62da9c16944568f534a5c",
+      "rendered_digest": "69746498e638699d0ac624ca6791b7e1fca0105269046196677f6a1b2b56ad47",
+      "ast_digest": "0dacb1211c58529a33eb0dfaa8afffd27155acb7aaf69e8ed123b577b73fd3fd"
+    },
+    "vpp": {
+      "values_digest": "f14ed635292394497eea8e1f40aa7833925736270db8051450bf2686f1351ff3",
+      "rendered_digest": "360791bdf09d0341533ee7fc446f73cf5e42a09c00935875014033c3d498b66b",
+      "ast_digest": "76ac742a01efadd6c9a85a76900c29dad1e391c753ede29fd61df858c97ceb79"
+    },
+    "srp": {
+      "values_digest": "75bf8777e7c0c6e54eabc2230974c4b734e2f988ddd31e997064354fd7d97902",
+      "rendered_digest": "1f1d9495e4fb402773a279e6f8fda6b5f129dfb5536d5e772feba3348dcef82f",
+      "ast_digest": "40534691830ebebca21f7f188c335249f19e621067e5ba491e5baa478022f514"
+    },
+    "sor": {
+      "values_digest": "0fab4d449d9b80f058b81fe408079631c92f39c513876101fcc69ae2b98febeb",
+      "rendered_digest": "d87513edd4f024e52b1955b41a2fa11f5f0039102f7f0e997302dc58138883f6",
+      "ast_digest": "cbb8a4fbd9322b4510f080088a4aa9a60da1d10da573c1d9eee7f9e97799090a"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:wp21-final-handoff",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:wp21-final-handoff",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:wp21-final-handoff",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:wp21-final-handoff",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:wp21-final-handoff",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:wp21-final-handoff",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:wp21-final-handoff",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5352,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-21][handoff] Finalize exact-revision v0.92 consumption handoff",
+    "slug": "v0918-wp21-v092-consumption-handoff",
+    "version": "v0.91.8",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review only #5352 exact-revision handoff, issue-local lifecycle records, focused validators, evidence, and publication boundaries.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are all issue/PR/head/merge claims row-bound and ancestral to the exact baseline?",
+        "Are lifecycle cards and retained validation current and truthful?",
+        "Do non-claims prevent planning and launch artifacts from becoming implementation claims?",
+        "Is the PR diff limited to the handoff and issue-local lifecycle evidence?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
