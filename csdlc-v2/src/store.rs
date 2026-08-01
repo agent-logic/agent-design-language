@@ -59,10 +59,23 @@ struct TerminalTransactionJournal {
     schema: String,
     issue: u64,
     stage: String,
+    #[serde(default)]
+    origin_worktree: String,
+    #[serde(default)]
+    origin_git_common_dir: String,
     original_record_digest: Option<String>,
     target_record_digest: String,
     original_receipt: Option<Vec<u8>>,
+    #[serde(default)]
+    original_projection: Option<TerminalProjectionSnapshot>,
     target_receipt: Vec<u8>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct TerminalProjectionSnapshot {
+    record: IssueRecord,
+    cards: BTreeMap<CardKind, CardValues>,
+    authored_artifacts: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
@@ -112,6 +125,20 @@ impl Store {
         Ok(PathBuf::from(common)
             .join("csdlc-v2/terminal-transactions")
             .join(format!("{issue}.json")))
+    }
+
+    fn terminal_transaction_origin(&self) -> Result<(String, String)> {
+        let worktree = self.root.canonicalize()?.to_string_lossy().into_owned();
+        let common = crate::git::run(
+            &self.root,
+            &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+        )?
+        .stdout;
+        let common = PathBuf::from(common)
+            .canonicalize()?
+            .to_string_lossy()
+            .into_owned();
+        Ok((worktree, common))
     }
 
     fn terminal_repair_lock(&self) -> Result<File> {
@@ -458,11 +485,14 @@ impl Store {
         let target_receipt = serde_json::to_vec_pretty(&repaired_receipt)?;
         let mut journal = TerminalTransactionJournal {
             schema: "csdlc.terminal_transaction.v1".into(),
+            origin_worktree: String::new(),
+            origin_git_common_dir: String::new(),
             issue: request.target_issue,
             stage: "prepared_terminal_design_repair".into(),
             original_record_digest: Some(original_receipt.record.digest.clone()),
             target_record_digest: target.digest.clone(),
             original_receipt: Some(original_receipt_bytes),
+            original_projection: None,
             target_receipt,
         };
         self.write_terminal_transaction_journal(&journal)?;
@@ -608,11 +638,14 @@ impl Store {
         let target_receipt = serde_json::to_vec_pretty(&repaired_receipt)?;
         let mut journal = TerminalTransactionJournal {
             schema: "csdlc.terminal_transaction.v1".into(),
+            origin_worktree: String::new(),
+            origin_git_common_dir: String::new(),
             issue: request.target_issue,
             stage: "prepared_terminal_plan_repair".into(),
             original_record_digest: Some(original_receipt.record.digest.clone()),
             target_record_digest: target.digest.clone(),
             original_receipt: Some(original_receipt_bytes.clone()),
+            original_projection: None,
             target_receipt,
         };
         self.write_terminal_transaction_journal(&journal)?;
@@ -938,11 +971,14 @@ impl Store {
         validate_terminal_receipt(&repaired_receipt)?;
         let mut journal = TerminalTransactionJournal {
             schema: "csdlc.terminal_transaction.v1".into(),
+            origin_worktree: String::new(),
+            origin_git_common_dir: String::new(),
             issue: target.issue,
             stage: format!("prepared_{stage_suffix}"),
             original_record_digest: Some(original_receipt.record.digest),
             target_record_digest: target.digest.clone(),
             original_receipt: Some(original_receipt_bytes.clone()),
+            original_projection: None,
             target_receipt: serde_json::to_vec_pretty(&repaired_receipt)?,
         };
         self.write_terminal_transaction_journal(&journal)?;
@@ -1049,13 +1085,17 @@ impl Store {
         &self,
         journal: &TerminalTransactionJournal,
     ) -> Result<()> {
+        let mut journal = journal.clone();
+        let (origin_worktree, origin_git_common_dir) = self.terminal_transaction_origin()?;
+        journal.origin_worktree = origin_worktree;
+        journal.origin_git_common_dir = origin_git_common_dir;
         let path = self.terminal_transaction_path(journal.issue)?;
         let parent = path
             .parent()
             .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "transaction has no parent"))?;
         fs::create_dir_all(parent)?;
         let temporary = path.with_extension("json.tmp");
-        write_json(&temporary, journal)?;
+        write_json(&temporary, &journal)?;
         fs::rename(temporary, &path)?;
         sync_dir(parent)?;
         Ok(())
@@ -1121,6 +1161,15 @@ impl Store {
             return Err(V2Error::new(
                 ErrorCode::CorruptRecord,
                 "terminal transaction journal identity is invalid",
+            ));
+        }
+        let (origin_worktree, origin_git_common_dir) = self.terminal_transaction_origin()?;
+        if journal.origin_worktree != origin_worktree
+            || journal.origin_git_common_dir != origin_git_common_dir
+        {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "terminal transaction recovery must run in its originating worktree",
             ));
         }
         let current = self.load_record(issue);
@@ -1222,6 +1271,38 @@ impl Store {
         Ok(Some(receipt))
     }
 
+    fn verify_materialized_terminal_receipt(&self, receipt: &TerminalReceipt) -> Result<()> {
+        let local = self.load_record(receipt.issue)?;
+        let cards = self.load_cards(receipt.issue)?;
+        if local != receipt.record || cards != receipt.cards {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "materialized terminal projection differs from retained receipt",
+            ));
+        }
+        if verify_cards(self, &local, &cards).is_err() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "materialized terminal card values or rendered Markdown differ from retained receipt",
+            ));
+        }
+        for (path, expected) in &receipt.authored_artifacts {
+            let actual = fs::read(self.root.join(path)).map_err(|_| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "materialized terminal authored artifact is absent",
+                )
+            })?;
+            if actual != expected.as_bytes() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "materialized terminal authored artifact differs from retained receipt",
+                ));
+            }
+        }
+        Ok(())
+    }
+
     pub fn transport_terminal_receipt(
         &self,
         request: TerminalReceiptTransportRequest,
@@ -1233,15 +1314,15 @@ impl Store {
                 "receipt transport identity is incomplete",
             ));
         }
-        validate_terminal_receipt(&request.receipt)?;
         for path in request.receipt.authored_artifacts.keys() {
             if !crate::pvf::clean_relative(Path::new(path)) {
                 return Err(V2Error::new(
                     ErrorCode::InvalidInput,
-                    "transported receipt paths must be repository-relative",
+                    "transported receipt authored paths must be repository-relative",
                 ));
             }
         }
+        validate_terminal_receipt(&request.receipt)?;
         let _terminal_repair_lock = self.terminal_repair_lock()?;
         let (first, second) = if request.authority_issue < issue {
             (request.authority_issue, issue)
@@ -1281,30 +1362,84 @@ impl Store {
             ));
         }
         let receipt_path = self.terminal_receipt_path(issue)?;
-        if self.issue_dir(issue).exists() || receipt_path.exists() {
-            let local = self.load_record(issue)?;
-            let retained = self.load_terminal_receipt(issue)?.ok_or_else(|| {
-                V2Error::new(
+        let projection_exists = self.issue_dir(issue).exists();
+        let receipt_exists = receipt_path.exists();
+        let (original_record_digest, original_projection) = match (
+            projection_exists,
+            receipt_exists,
+        ) {
+            (false, false) => (None, None),
+            (true, true) => {
+                let local = self.load_record(issue)?;
+                let retained = self.load_terminal_receipt(issue)?.ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "transport target is partially materialized",
+                    )
+                })?;
+                if local == request.receipt.record && retained.digest == request.receipt.digest {
+                    self.verify_materialized_terminal_receipt(&retained)?;
+                    return Ok(local);
+                }
+                return Err(V2Error::new(
                     ErrorCode::ReconciliationRequired,
-                    "transport target is partially materialized",
-                )
-            })?;
-            if local == request.receipt.record && retained.digest == request.receipt.digest {
-                return Ok(local);
+                    "transport target conflicts with existing terminal authority",
+                ));
             }
-            return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "transport target conflicts with existing authority",
-            ));
-        }
+            (false, true) => {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "transport target has a receipt without its projection",
+                ));
+            }
+            (true, false) => {
+                let local = self.load_record(issue)?;
+                let local_cards = self.load_cards(issue)?;
+                verify_cards(self, &local, &local_cards)?;
+                if local.phase == LifecyclePhase::ClosedOut
+                    || local.repository != request.receipt.repository
+                    || local.initialization_digest != request.receipt.initialization_digest
+                    || request.receipt.record.generation <= local.generation
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "transport replacement requires a strictly newer same-identity terminal receipt over a nonterminal projection",
+                    ));
+                }
+                let authored_artifacts = [local.design_path.clone(), local.diagram_path.clone()]
+                    .into_iter()
+                    .map(|path| {
+                        if !crate::pvf::clean_relative(Path::new(&path)) {
+                            return Err(V2Error::new(
+                                ErrorCode::InvalidInput,
+                                "transport rollback artifacts must be repository-relative",
+                            ));
+                        }
+                        Ok((path.clone(), fs::read_to_string(self.root.join(path))?))
+                    })
+                    .collect::<Result<BTreeMap<_, _>>>()?;
+                let digest = local.digest.clone();
+                (
+                    Some(digest),
+                    Some(TerminalProjectionSnapshot {
+                        record: local,
+                        cards: local_cards,
+                        authored_artifacts,
+                    }),
+                )
+            }
+        };
         let target_receipt = serde_json::to_vec_pretty(&request.receipt)?;
         let journal = TerminalTransactionJournal {
             schema: "csdlc.terminal_transaction.v1".into(),
+            origin_worktree: String::new(),
+            origin_git_common_dir: String::new(),
             issue,
             stage: "prepared_terminal_receipt_transport".into(),
-            original_record_digest: None,
+            original_record_digest,
             target_record_digest: request.receipt.record.digest.clone(),
             original_receipt: None,
+            original_projection,
             target_receipt,
         };
         self.write_terminal_transaction_journal(&journal)?;
@@ -1338,6 +1473,7 @@ impl Store {
     ) -> Result<IssueRecord> {
         validate_result(&request.validation)?;
         let issue = request.issue.number;
+        let issue_observed = request.issue_evidence.issue.as_ref();
         if issue == 0
             || issue == request.authority_issue
             || request.actor.trim().is_empty()
@@ -1345,6 +1481,11 @@ impl Store {
             || request.issue.schema != "csdlc.github_issue.v1"
             || request.issue.state != "closed"
             || request.issue.repository.trim().is_empty()
+            || request.issue_evidence.schema != "csdlc.github_action_result.v1"
+            || request.issue_evidence.action != crate::github::GithubAction::IssueRead
+            || !request.issue_evidence.reconciled
+            || request.issue_evidence.repository != request.issue.repository
+            || issue_observed != Some(&request.issue)
         {
             return Err(V2Error::new(
                 ErrorCode::InvalidInput,
@@ -1368,6 +1509,7 @@ impl Store {
                         .trim()
                         .is_empty()
                     || request.related_issue.is_some()
+                    || request.related_issue_evidence.is_some()
                     || !request
                         .observed_head_sha
                         .as_deref()
@@ -1390,11 +1532,34 @@ impl Store {
                 )
             }
             RecordlessClosureKind::Duplicate | RecordlessClosureKind::Superseded => {
+                let related = request
+                    .related_issue_evidence
+                    .as_ref()
+                    .and_then(|evidence| evidence.issue.as_ref());
                 if request.pull_request.is_some()
                     || request.observed_head_sha.is_some()
                     || request.observed_merge_sha.is_some()
                     || request.related_issue.is_none()
                     || request.related_issue == Some(issue)
+                    || request.validation.outcome != crate::cards::EvidenceOutcome::Passed
+                    || request
+                        .related_issue_evidence
+                        .as_ref()
+                        .is_none_or(|evidence| {
+                            evidence.schema != "csdlc.github_action_result.v1"
+                                || evidence.action != crate::github::GithubAction::IssueRead
+                                || !evidence.reconciled
+                                || evidence.repository != request.issue.repository
+                        })
+                    || related.is_none_or(|packet| {
+                        packet.schema != "csdlc.github_issue.v1"
+                            || packet.repository != request.issue.repository
+                            || Some(packet.number) != request.related_issue
+                            || !matches!(packet.state.as_str(), "open" | "closed")
+                    })
+                    || !request
+                        .reason
+                        .contains(&format!("#{}", request.related_issue.unwrap_or_default()))
                 {
                     return Err(V2Error::new(
                         ErrorCode::InvalidInput,
@@ -1447,12 +1612,6 @@ impl Store {
             ));
         }
         let receipt_path = self.terminal_receipt_path(issue)?;
-        if self.issue_dir(issue).exists() || receipt_path.exists() {
-            return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "recordless recovery requires absent projection and receipt",
-            ));
-        }
 
         let closure_ref = match request.closure_kind {
             RecordlessClosureKind::Merged => format!(
@@ -1573,7 +1732,9 @@ impl Store {
             released_worktree: String::new(),
             released_protected_paths: Vec::new(),
         };
-        let initialization_digest = digest(&serde_json::to_vec(&request)?);
+        let mut semantic_request = request.clone();
+        semantic_request.fail_after_stage = None;
+        let initialization_digest = digest(&serde_json::to_vec(&semantic_request)?);
         let transition = TransitionEvent {
             sequence: 1,
             from: LifecyclePhase::Initialized,
@@ -1629,13 +1790,41 @@ impl Store {
         };
         receipt.digest = terminal_receipt_digest(&receipt)?;
         validate_terminal_receipt(&receipt)?;
+        match (self.issue_dir(issue).exists(), receipt_path.exists()) {
+            (true, true) => {
+                let retained = self.load_terminal_receipt(issue)?.ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "recordless replay receipt is absent",
+                    )
+                })?;
+                if retained != receipt {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "recordless recovery conflicts with existing terminal authority",
+                    ));
+                }
+                self.verify_materialized_terminal_receipt(&retained)?;
+                return Ok(retained.record);
+            }
+            (false, false) => {}
+            _ => {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "recordless recovery target is partially materialized",
+                ));
+            }
+        }
         let journal = TerminalTransactionJournal {
             schema: "csdlc.terminal_transaction.v1".into(),
+            origin_worktree: String::new(),
+            origin_git_common_dir: String::new(),
             issue,
             stage: "prepared_recordless_terminal_recovery".into(),
             original_record_digest: None,
             target_record_digest: record.digest.clone(),
             original_receipt: None,
+            original_projection: None,
             target_receipt: serde_json::to_vec_pretty(&receipt)?,
         };
         self.write_terminal_transaction_journal(&journal)?;
@@ -1676,38 +1865,57 @@ impl Store {
                 "terminal disposition repair identity is incomplete",
             ));
         }
-        if request.replacement_terminal.disposition != crate::readiness::TerminalDisposition::Merged
-            || request.replacement_terminal.pull_request
-                != Some(request.replacement_publication.pull_request)
-            || request.replacement_terminal.observed_state != "merged"
-            || request
-                .replacement_terminal
-                .observed_sha
-                .as_deref()
-                .map(crate::git::clean_commit_revision)
-                != Some(request.replacement_publication.revision.clone())
-            || request.replacement_publication.issue != request.target_issue
-            || request.replacement_publication.draft
-            || request.replacement_publication.observed_state != "merged"
+        let evidence = &request.merged_evidence;
+        let pr = evidence.pr_state.as_ref().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::InvalidInput,
+                "merged PR evidence packet is absent",
+            )
+        })?;
+        let canonical_url = format!(
+            "https://github.com/{}/pull/{}",
+            pr.repository, pr.pull_request
+        );
+        if evidence.schema != "csdlc.github_action_result.v1"
+            || evidence.action != crate::github::GithubAction::PrState
+            || !evidence.reconciled
+            || evidence.repository != pr.repository
+            || pr.schema != "csdlc.github_pr_state.v1"
+            || pr.linked_issue != Some(request.target_issue)
+            || !pr.merged
+            || pr.draft
+            || pr.base_ref.as_deref() != Some("main")
+            || pr.head_ref.as_deref().unwrap_or_default().trim().is_empty()
+            || pr.url.as_deref() != Some(canonical_url.as_str())
+            || !valid_git_sha(&pr.head_sha)
+            || !pr.merge_commit_sha.as_deref().is_some_and(valid_git_sha)
         {
             return Err(V2Error::new(
                 ErrorCode::InvalidInput,
-                "replacement merged evidence is inconsistent",
+                "terminal disposition repair requires canonical provenance-bound merged PR evidence",
             ));
         }
-        if request.replacement_terminal.receipt_path != request.expected_terminal.receipt_path
-            || request.replacement_terminal.released_branch
-                != request.expected_terminal.released_branch
-            || request.replacement_terminal.released_worktree
-                != request.expected_terminal.released_worktree
-            || request.replacement_terminal.released_protected_paths
-                != request.expected_terminal.released_protected_paths
-        {
-            return Err(V2Error::new(
-                ErrorCode::InvalidInput,
-                "terminal disposition repair cannot rewrite released claim topology",
-            ));
-        }
+        let replacement_terminal = TerminalEvidence {
+            pull_request: Some(pr.pull_request),
+            disposition: crate::readiness::TerminalDisposition::Merged,
+            observed_sha: Some(pr.head_sha.clone()),
+            observed_state: "merged".into(),
+            receipt_path: request.expected_terminal.receipt_path.clone(),
+            released_branch: request.expected_terminal.released_branch.clone(),
+            released_worktree: request.expected_terminal.released_worktree.clone(),
+            released_protected_paths: request.expected_terminal.released_protected_paths.clone(),
+        };
+        let replacement_publication = PublicationEvidence {
+            repository: pr.repository.clone(),
+            issue: request.target_issue,
+            pull_request: pr.pull_request,
+            url: canonical_url,
+            base: "main".into(),
+            head: pr.head_ref.clone().expect("validated head ref"),
+            revision: crate::git::clean_commit_revision(&pr.head_sha),
+            draft: false,
+            observed_state: "merged".into(),
+        };
         let _terminal_repair_lock = self.terminal_repair_lock()?;
         let (first, second) = if request.authority_issue < request.target_issue {
             (request.authority_issue, request.target_issue)
@@ -1720,7 +1928,7 @@ impl Store {
         self.recover_with_terminal_lock(request.target_issue)?;
         let authority = self.load_record(request.authority_issue)?;
         let mut target = self.load_record(request.target_issue)?;
-        if request.replacement_publication.repository != target.repository {
+        if replacement_publication.repository != target.repository {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "replacement publication repository differs from target",
@@ -1773,8 +1981,8 @@ impl Store {
         let original_record_digest = original.record.digest.clone();
         let mut cards = self.load_cards(request.target_issue)?;
         verify_cards(self, &target, &cards)?;
-        target.terminal = Some(request.replacement_terminal.clone());
-        target.publication = Some(request.replacement_publication.clone());
+        target.terminal = Some(replacement_terminal);
+        target.publication = Some(replacement_publication);
         target.generation += 1;
         if let Some(review) = target.review.as_mut() {
             if !review.residual_risks.contains(&request.correction_note) {
@@ -1810,11 +2018,14 @@ impl Store {
         validate_terminal_receipt(&repaired)?;
         let journal = TerminalTransactionJournal {
             schema: "csdlc.terminal_transaction.v1".into(),
+            origin_worktree: String::new(),
+            origin_git_common_dir: String::new(),
             issue: request.target_issue,
             stage: "prepared_terminal_disposition_repair".into(),
             original_record_digest: Some(original_record_digest),
             target_record_digest: target.digest.clone(),
             original_receipt: Some(original_bytes),
+            original_projection: None,
             target_receipt: serde_json::to_vec_pretty(&repaired)?,
         };
         self.write_terminal_transaction_journal(&journal)?;
@@ -2200,11 +2411,14 @@ impl Store {
         let target_receipt = serde_json::to_vec_pretty(&receipt)?;
         let mut journal = TerminalTransactionJournal {
             schema: "csdlc.terminal_transaction.v1".into(),
+            origin_worktree: String::new(),
+            origin_git_common_dir: String::new(),
             issue: request.issue,
             stage: "prepared".into(),
             original_record_digest: Some(local.digest.clone()),
             target_record_digest: projection.digest.clone(),
             original_receipt: Some(original_receipt),
+            original_projection: None,
             target_receipt,
         };
         Self::maybe_interrupt_terminal_transaction(request.issue, "before_journal")?;
@@ -4695,11 +4909,6 @@ mod terminal_design_repair_tests {
         fail_after_stage: Option<&str>,
     ) -> TerminalDispositionRepairRequest {
         let sha = "92fde26a2ca073e204459fce1bb5e88d7c895528";
-        let mut replacement = expected.clone();
-        replacement.pull_request = Some(5634);
-        replacement.disposition = crate::readiness::TerminalDisposition::Merged;
-        replacement.observed_sha = Some(sha.into());
-        replacement.observed_state = "merged".into();
         TerminalDispositionRepairRequest {
             authority_issue: authority.issue,
             target_issue: target.issue,
@@ -4710,17 +4919,35 @@ mod terminal_design_repair_tests {
             expected_target_digest: target.digest.clone(),
             expected_receipt_digest: receipt.digest.clone(),
             expected_terminal: expected,
-            replacement_terminal: replacement,
-            replacement_publication: PublicationEvidence {
+            merged_evidence: crate::github::GithubActionResult {
+                schema: "csdlc.github_action_result.v1".into(),
                 repository: target.repository.clone(),
-                issue: target.issue,
-                pull_request: 5634,
-                url: "https://github.com/example/repo/pull/5634".into(),
-                base: "main".into(),
-                head: "codex/5632-adl-pr-cycle-v2".into(),
-                revision: crate::git::clean_commit_revision(sha),
-                draft: false,
-                observed_state: "merged".into(),
+                action: crate::github::GithubAction::PrState,
+                operation_key: Some("test:merged-observation".into()),
+                issue: None,
+                comment_id: None,
+                pr_state: Some(crate::github::PrStatePacket {
+                    schema: "csdlc.github_pr_state.v1".into(),
+                    repository: target.repository.clone(),
+                    pull_request: 5634,
+                    linked_issue: Some(target.issue),
+                    draft: false,
+                    merge_state: "unknown".into(),
+                    review_decision: "approved".into(),
+                    base_ref: Some("main".into()),
+                    head_ref: Some("codex/5632-adl-pr-cycle-v2".into()),
+                    head_sha: sha.into(),
+                    url: Some(format!(
+                        "https://github.com/{}/pull/5634",
+                        target.repository
+                    )),
+                    merged: true,
+                    merge_commit_sha: Some("4d68d4b1f4f70c15223ebdf71d59c9010e5e3d4c".into()),
+                    checks: Vec::new(),
+                    required_check_names: Vec::new(),
+                    classification: "merged".into(),
+                }),
+                reconciled: true,
             },
             actor: "codex:test".into(),
             correction_note:
@@ -4992,6 +5219,61 @@ mod terminal_design_repair_tests {
     }
 
     #[test]
+    fn terminal_transaction_journal_refuses_recovery_from_sibling_worktree() {
+        let (temp, store, authority, target, receipt, expected) = disposition_fixture();
+        assert!(std::process::Command::new("git")
+            .args(["add", "."])
+            .current_dir(temp.path())
+            .status()
+            .expect("stage fixture")
+            .success());
+        assert!(std::process::Command::new("git")
+            .args([
+                "-c",
+                "user.name=csdlc-test",
+                "-c",
+                "user.email=csdlc-test@example.invalid",
+                "commit",
+                "-q",
+                "-m",
+                "fixture",
+            ])
+            .current_dir(temp.path())
+            .status()
+            .expect("commit fixture")
+            .success());
+        let error = store
+            .repair_terminal_disposition(disposition_request(
+                &authority,
+                &target,
+                &receipt,
+                expected,
+                Some("after_journal"),
+            ))
+            .expect_err("interrupted");
+        assert_eq!(error.code, ErrorCode::InterruptedTransaction);
+
+        let foreign_parent = tempfile::tempdir().expect("foreign parent");
+        let foreign = foreign_parent.path().join("worktree");
+        assert!(std::process::Command::new("git")
+            .args(["worktree", "add", "-q", "-b", "terminal-foreign"])
+            .arg(&foreign)
+            .arg("HEAD")
+            .current_dir(temp.path())
+            .status()
+            .expect("add sibling worktree")
+            .success());
+        let foreign_store = Store::new(&foreign);
+        let error = foreign_store
+            .recover_with_terminal_lock(target.issue)
+            .expect_err("foreign recovery must fail");
+        assert_eq!(error.code, ErrorCode::UnsafeCheckout);
+        store
+            .recover_with_terminal_lock(target.issue)
+            .expect("origin recovery");
+    }
+
+    #[test]
     fn terminal_disposition_repair_follows_typed_reconcile_for_stale_implemented_projection() {
         let (temp, store, authority, target, receipt, expected) = disposition_fixture();
         let cards = store.load_cards(target.issue).expect("terminal cards");
@@ -5117,6 +5399,229 @@ mod terminal_design_repair_tests {
         );
     }
 
+    #[test]
+    fn terminal_receipt_transport_idempotency_detects_card_and_artifact_drift() {
+        let (_temp, store, authority, target, receipt, _) = terminal_validation_fixture();
+        fs::remove_dir_all(store.issue_dir(target.issue)).expect("remove projection");
+        fs::remove_file(store.terminal_receipt_path(target.issue).unwrap())
+            .expect("remove receipt");
+        let request = TerminalReceiptTransportRequest {
+            authority_issue: authority.issue,
+            expected_authority_generation: authority.generation,
+            expected_authority_digest: authority.digest.clone(),
+            authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+            actor: "codex:test".into(),
+            receipt: receipt.clone(),
+            fail_after_stage: None,
+        };
+        store
+            .transport_terminal_receipt(request.clone())
+            .expect("transport");
+        fs::write(
+            store.issue_dir(target.issue).join("cards/spp.md"),
+            "corrupt\n",
+        )
+        .expect("corrupt card");
+        assert_eq!(
+            store
+                .transport_terminal_receipt(request.clone())
+                .expect_err("card drift")
+                .code,
+            ErrorCode::ReconciliationRequired
+        );
+        let rendered = render(&receipt.cards[&CardKind::Spp]).expect("render SPP");
+        fs::write(
+            store.issue_dir(target.issue).join("cards/spp.md"),
+            rendered.markdown,
+        )
+        .expect("restore card");
+        fs::remove_file(store.root.join(&receipt.record.design_path)).expect("remove artifact");
+        assert_eq!(
+            store
+                .transport_terminal_receipt(request)
+                .expect_err("artifact drift")
+                .code,
+            ErrorCode::ReconciliationRequired
+        );
+    }
+
+    #[test]
+    fn terminal_receipt_transport_rejects_external_authored_artifact() {
+        let (_temp, store, authority, target, mut receipt, _) = terminal_validation_fixture();
+        fs::remove_dir_all(store.issue_dir(target.issue)).expect("remove projection");
+        fs::remove_file(store.terminal_receipt_path(target.issue).unwrap())
+            .expect("remove receipt");
+        let content = receipt
+            .authored_artifacts
+            .remove(&receipt.record.design_path)
+            .expect("design");
+        receipt
+            .authored_artifacts
+            .insert("/tmp/external-design.md".into(), content);
+        let error = store
+            .transport_terminal_receipt(TerminalReceiptTransportRequest {
+                authority_issue: authority.issue,
+                expected_authority_generation: authority.generation,
+                expected_authority_digest: authority.digest.clone(),
+                authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+                actor: "codex:test".into(),
+                receipt,
+                fail_after_stage: None,
+            })
+            .expect_err("external artifact");
+        assert_eq!(error.code, ErrorCode::InvalidInput);
+    }
+
+    fn write_nonterminal_transport_projection(
+        store: &Store,
+        receipt: &TerminalReceipt,
+        generation: u64,
+        initialization_digest: Option<&str>,
+    ) -> IssueRecord {
+        let mut local = receipt.record.clone();
+        let reviewed = local
+            .transitions
+            .iter()
+            .position(|event| event.to == LifecyclePhase::Reviewed)
+            .expect("reviewed transition");
+        local.transitions.truncate(reviewed + 1);
+        local.phase = LifecyclePhase::Reviewed;
+        local.generation = generation;
+        local.claim = None;
+        local.publication = None;
+        local.readiness = None;
+        local.terminal = None;
+        if let Some(value) = initialization_digest {
+            local.initialization_digest = value.into();
+        }
+        local.audit.retain(|event| event.generation <= generation);
+        let mut cards = receipt.cards.clone();
+        for card in cards.values_mut() {
+            card.identity.generation = generation;
+        }
+        hydrate_projections(&mut local, &cards).expect("local projections");
+        local.digest = record_digest(&local).expect("local digest");
+        store
+            .commit(local.issue, &local, &cards, false)
+            .expect("write nonterminal projection");
+        local
+    }
+
+    #[test]
+    fn terminal_receipt_transport_replaces_strictly_older_same_identity_projection() {
+        let (_temp, store, authority, target, receipt, _) = terminal_validation_fixture();
+        fs::remove_file(store.terminal_receipt_path(target.issue).unwrap())
+            .expect("remove receipt");
+        let local = write_nonterminal_transport_projection(
+            &store,
+            &receipt,
+            receipt.record.generation - 1,
+            None,
+        );
+        let transported = store
+            .transport_terminal_receipt(TerminalReceiptTransportRequest {
+                authority_issue: authority.issue,
+                expected_authority_generation: authority.generation,
+                expected_authority_digest: authority.digest.clone(),
+                authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+                actor: "codex:test".into(),
+                receipt: receipt.clone(),
+                fail_after_stage: None,
+            })
+            .expect("forward transport");
+        assert!(local.generation < transported.generation);
+        assert_eq!(transported, receipt.record);
+        assert_eq!(
+            store.load_terminal_receipt(target.issue).unwrap().unwrap(),
+            receipt
+        );
+    }
+
+    #[test]
+    fn terminal_receipt_transport_preserves_original_projection_and_recovers_interruption() {
+        let (_temp, store, authority, target, receipt, _) = terminal_validation_fixture();
+        fs::remove_file(store.terminal_receipt_path(target.issue).unwrap())
+            .expect("remove receipt");
+        let local = write_nonterminal_transport_projection(
+            &store,
+            &receipt,
+            receipt.record.generation - 1,
+            None,
+        );
+        let error = store
+            .transport_terminal_receipt(TerminalReceiptTransportRequest {
+                authority_issue: authority.issue,
+                expected_authority_generation: authority.generation,
+                expected_authority_digest: authority.digest.clone(),
+                authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+                actor: "codex:test".into(),
+                receipt: receipt.clone(),
+                fail_after_stage: Some("after_projection".into()),
+            })
+            .expect_err("interrupted");
+        assert_eq!(error.code, ErrorCode::InterruptedTransaction);
+        let journal: TerminalTransactionJournal = read_json(
+            &store
+                .terminal_transaction_path(target.issue)
+                .expect("transaction path"),
+        )
+        .expect("transaction journal");
+        assert_eq!(
+            journal.original_record_digest.as_deref(),
+            Some(local.digest.as_str())
+        );
+        assert_eq!(
+            journal
+                .original_projection
+                .as_ref()
+                .expect("snapshot")
+                .record,
+            local
+        );
+        store
+            .recover_with_terminal_lock(target.issue)
+            .expect("recover transaction");
+        assert_eq!(
+            store.load_terminal_receipt(target.issue).unwrap().unwrap(),
+            receipt
+        );
+    }
+
+    #[test]
+    fn terminal_receipt_transport_rejects_identity_drift_and_generation_downgrade() {
+        for (initialization_digest, generation) in [
+            (Some("different-initialization"), None),
+            (None, Some(0_u64)),
+        ] {
+            let (_temp, store, authority, target, receipt, _) = terminal_validation_fixture();
+            fs::remove_file(store.terminal_receipt_path(target.issue).unwrap())
+                .expect("remove receipt");
+            let local_generation = generation
+                .map(|offset| receipt.record.generation + offset)
+                .unwrap_or(receipt.record.generation - 1);
+            let local = write_nonterminal_transport_projection(
+                &store,
+                &receipt,
+                local_generation,
+                initialization_digest,
+            );
+            let error = store
+                .transport_terminal_receipt(TerminalReceiptTransportRequest {
+                    authority_issue: authority.issue,
+                    expected_authority_generation: authority.generation,
+                    expected_authority_digest: authority.digest.clone(),
+                    authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+                    actor: "codex:test".into(),
+                    receipt: receipt.clone(),
+                    fail_after_stage: None,
+                })
+                .expect_err("identity drift or downgrade must fail");
+            assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+            assert_eq!(store.load_record(target.issue).unwrap(), local);
+            assert!(store.load_terminal_receipt(target.issue).unwrap().is_none());
+        }
+    }
+
     fn recordless_fixture() -> (tempfile::TempDir, Store, IssueRecord) {
         let (temp, store, mut authority, _target, _receipt, _) = terminal_validation_fixture();
         let authority_cards = store.load_cards(authority.issue).expect("authority cards");
@@ -5141,31 +5646,62 @@ mod terminal_design_repair_tests {
         fail_after_stage: Option<&str>,
     ) -> RecordlessTerminalRecoveryRequest {
         let merged = closure_kind == RecordlessClosureKind::Merged;
+        let issue_packet = crate::github::GithubIssuePacket {
+            schema: "csdlc.github_issue.v1".into(),
+            repository: authority.repository.clone(),
+            number: issue,
+            title: format!("Recordless issue {issue}"),
+            body: "closed historical issue".into(),
+            state: "closed".into(),
+            labels: vec!["version:v0.91.8".into()],
+            assignees: Vec::new(),
+            milestone: None,
+            marker_present: false,
+        };
+        let issue_evidence = crate::github::GithubActionResult {
+            schema: "csdlc.github_action_result.v1".into(),
+            repository: authority.repository.clone(),
+            action: crate::github::GithubAction::IssueRead,
+            operation_key: Some(format!("test:issue:{issue}")),
+            issue: Some(issue_packet.clone()),
+            comment_id: None,
+            pr_state: None,
+            reconciled: true,
+        };
+        let related_issue_evidence = (!merged).then(|| {
+            let packet = crate::github::GithubIssuePacket {
+                number: 5702,
+                title: "Related issue".into(),
+                body: "related authority".into(),
+                state: "open".into(),
+                ..issue_packet.clone()
+            };
+            crate::github::GithubActionResult {
+                schema: "csdlc.github_action_result.v1".into(),
+                repository: authority.repository.clone(),
+                action: crate::github::GithubAction::IssueRead,
+                operation_key: Some("test:issue:5702".into()),
+                issue: Some(packet),
+                comment_id: None,
+                pr_state: None,
+                reconciled: true,
+            }
+        });
         RecordlessTerminalRecoveryRequest {
             authority_issue: authority.issue,
             expected_authority_generation: authority.generation,
             expected_authority_digest: authority.digest.clone(),
             authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
             actor: "codex:test".into(),
-            issue: crate::github::GithubIssuePacket {
-                schema: "csdlc.github_issue.v1".into(),
-                repository: authority.repository.clone(),
-                number: issue,
-                title: format!("Recordless issue {issue}"),
-                body: "closed historical issue".into(),
-                state: "closed".into(),
-                labels: vec!["version:v0.91.8".into()],
-                assignees: Vec::new(),
-                milestone: None,
-                marker_present: false,
-            },
+            issue: issue_packet,
+            issue_evidence,
             closure_kind,
             pull_request: merged.then_some(5720),
             observed_head_sha: merged.then(|| "92fde26a2ca073e204459fce1bb5e88d7c895528".into()),
             observed_merge_sha: merged.then(|| "4d68d4b1f4f70c15223ebdf71d59c9010e5e3d4c".into()),
             related_issue: (!merged).then_some(5702),
-            reason: "Retain exact observed closure without reconstructing lifecycle history."
-                .into(),
+            related_issue_evidence,
+            reason: if merged { "Retain exact observed closure without reconstructing lifecycle history." } else { "Retain exact observed closure related to #5702 without reconstructing lifecycle history." }.into(),
             validation: ValidationResult {
                 command: if merged {
                     vec!["git".into(), "merge-base".into(), "--is-ancestor".into()]
@@ -5173,11 +5709,7 @@ mod terminal_design_repair_tests {
                     vec!["csdlc-github-issue".into(), "run".into()]
                 },
                 purpose: "Validate exact terminal evidence.".into(),
-                outcome: if merged {
-                    crate::cards::EvidenceOutcome::Passed
-                } else {
-                    crate::cards::EvidenceOutcome::SkippedNonGoal
-                },
+                outcome: crate::cards::EvidenceOutcome::Passed,
                 evidence_ref: format!("issue-{issue}:typed-terminal-observation"),
             },
             fail_after_stage: fail_after_stage.map(str::to_owned),
@@ -5215,6 +5747,28 @@ mod terminal_design_repair_tests {
     }
 
     #[test]
+    fn recordless_terminal_recovery_is_idempotent_and_rejects_conflict() {
+        let (_temp, store, authority) = recordless_fixture();
+        let request = recordless_request(&authority, 5718, RecordlessClosureKind::Merged, None);
+        let first = store
+            .recover_recordless_terminal(request.clone())
+            .expect("first recovery");
+        let replay = store
+            .recover_recordless_terminal(request.clone())
+            .expect("exact replay");
+        assert_eq!(replay, first);
+        let mut conflict = request;
+        conflict.reason.push_str(" conflicting assertion");
+        assert_eq!(
+            store
+                .recover_recordless_terminal(conflict)
+                .expect_err("conflict")
+                .code,
+            ErrorCode::ReconciliationRequired
+        );
+    }
+
+    #[test]
     fn recordless_duplicate_recovery_recovers_after_projection_interruption() {
         let (_temp, store, authority) = recordless_fixture();
         let error = store
@@ -5237,6 +5791,34 @@ mod terminal_design_repair_tests {
         assert_eq!(
             recovered.terminal.as_ref().unwrap().disposition,
             crate::readiness::TerminalDisposition::ClosedNoPr
+        );
+    }
+
+    #[test]
+    fn recordless_duplicate_requires_passed_related_issue_provenance() {
+        let (_temp, store, authority) = recordless_fixture();
+        let mut request =
+            recordless_request(&authority, 5711, RecordlessClosureKind::Duplicate, None);
+        request.validation.outcome = crate::cards::EvidenceOutcome::SkippedNonGoal;
+        assert_eq!(
+            store
+                .recover_recordless_terminal(request.clone())
+                .expect_err("passing evidence")
+                .code,
+            ErrorCode::InvalidInput
+        );
+        request.validation.outcome = crate::cards::EvidenceOutcome::Passed;
+        request
+            .related_issue_evidence
+            .as_mut()
+            .expect("related evidence")
+            .reconciled = false;
+        assert_eq!(
+            store
+                .recover_recordless_terminal(request)
+                .expect_err("provenance")
+                .code,
+            ErrorCode::InvalidInput
         );
     }
 

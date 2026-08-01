@@ -263,8 +263,7 @@ pub struct TerminalDispositionRepairRequest {
     pub expected_target_digest: String,
     pub expected_receipt_digest: String,
     pub expected_terminal: TerminalEvidence,
-    pub replacement_terminal: TerminalEvidence,
-    pub replacement_publication: PublicationEvidence,
+    pub merged_evidence: crate::github::GithubActionResult,
     pub actor: String,
     pub correction_note: String,
     #[serde(default)]
@@ -299,11 +298,13 @@ pub struct RecordlessTerminalRecoveryRequest {
     pub authority_claim_id: String,
     pub actor: String,
     pub issue: crate::github::GithubIssuePacket,
+    pub issue_evidence: crate::github::GithubActionResult,
     pub closure_kind: RecordlessClosureKind,
     pub pull_request: Option<u64>,
     pub observed_head_sha: Option<String>,
     pub observed_merge_sha: Option<String>,
     pub related_issue: Option<u64>,
+    pub related_issue_evidence: Option<crate::github::GithubActionResult>,
     pub reason: String,
     pub validation: ValidationResult,
     #[serde(default)]

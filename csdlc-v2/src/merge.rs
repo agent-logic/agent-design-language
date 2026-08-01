@@ -249,7 +249,11 @@ mod tests {
             merge_state: "clean".into(),
             review_decision: "approved".into(),
             base_ref: Some("main".into()),
+            head_ref: Some("codex/7".into()),
             head_sha: "abc123".into(),
+            url: Some("https://github.com/owner/repo/pull/12".into()),
+            merged: false,
+            merge_commit_sha: None,
             checks: vec![PrCheck {
                 name: "ci".into(),
                 required: true,

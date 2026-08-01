@@ -18,7 +18,7 @@ pub struct PrStateRequest {
     pub linked_issue: Option<u64>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct PrCheck {
     pub name: String,
     pub required: bool,
@@ -26,7 +26,7 @@ pub struct PrCheck {
     pub details_url: Option<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct PrStatePacket {
     pub schema: String,
     pub repository: String,
@@ -36,13 +36,21 @@ pub struct PrStatePacket {
     pub merge_state: String,
     pub review_decision: String,
     pub base_ref: Option<String>,
+    #[serde(default)]
+    pub head_ref: Option<String>,
     pub head_sha: String,
+    #[serde(default)]
+    pub url: Option<String>,
+    #[serde(default)]
+    pub merged: bool,
+    #[serde(default)]
+    pub merge_commit_sha: Option<String>,
     pub checks: Vec<PrCheck>,
     pub required_check_names: Vec<String>,
     pub classification: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum GithubAction {
     IssueCreate,
@@ -94,7 +102,7 @@ impl TryFrom<&GithubActionRequest> for PrStateRequest {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct GithubIssuePacket {
     pub schema: String,
     pub repository: String,
@@ -108,7 +116,7 @@ pub struct GithubIssuePacket {
     pub marker_present: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct GithubActionResult {
     pub schema: String,
     pub repository: String,
@@ -897,7 +905,11 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
         merge_state: merge_state.into(),
         review_decision: review_decision.into(),
         base_ref: pr.base.as_ref().map(|b| b.ref_field.clone()),
+        head_ref: Some(head.ref_field.clone()),
         head_sha: head.sha.clone(),
+        url: pr.html_url.map(|url| url.to_string()),
+        merged: pr.merged_at.is_some(),
+        merge_commit_sha: pr.merge_commit_sha.clone(),
         checks,
         required_check_names: request.required_checks.clone(),
         classification: String::new(),
@@ -969,7 +981,11 @@ mod tests {
             merge_state: "clean".into(),
             review_decision: "approved".into(),
             base_ref: Some("main".into()),
+            head_ref: Some("codex/2".into()),
             head_sha: "abc".into(),
+            url: Some("https://github.com/o/r/pull/1".into()),
+            merged: false,
+            merge_commit_sha: None,
             checks: vec![PrCheck {
                 name: "ci".into(),
                 required: true,
