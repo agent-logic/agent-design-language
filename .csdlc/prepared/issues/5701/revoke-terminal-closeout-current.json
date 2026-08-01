@@ -1,0 +1,11 @@
+{
+  "issue": 5701,
+  "repository": "danielbaustin/agent-design-language",
+  "expected_claim_id": "claim-5701-terminal-closeout-019fbbff",
+  "expected_generation": 34,
+  "expected_digest": "0dfbd4dabfbf48d9c5afb2c7d4facff44f4cde60aca363d4c146f3977ed22bb4",
+  "now_unix_seconds": 1785566128,
+  "actor": "codex:019fbbff-9fb2-72f2-8b81-2f03f6ae2e1e",
+  "operator_authority": "operator-authorized:5701-closeout-blocker-claim-release",
+  "reason": "Release the temporary #5701 terminal-closeout claim after typed readiness and review guards failed closed on stale publication and stale review evidence for merged PR #5705 head db41b249277a91140d4fd67bfc5bf898f4565774."
+}

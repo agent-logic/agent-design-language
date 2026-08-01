@@ -1,0 +1,8 @@
+{
+  "issue": 5701,
+  "expected_generation": 34,
+  "expected_digest": "bd8ec0664893bc274c9b5e4930b16d98f54b605c7994756bf12b9ace2ff20fc3",
+  "claim_id": "claim-5701-terminal-closeout-019fbbff-3",
+  "actor": "codex:019fbbff-9fb2-72f2-8b81-2f03f6ae2e1e",
+  "reason": "Recover stale published review and publication truth so #5701 can receive a bounded fresh findings-first lifecycle review of exact merged head db41b249277a91140d4fd67bfc5bf898f4565774 before merged-publication reconciliation and terminal closeout."
+}

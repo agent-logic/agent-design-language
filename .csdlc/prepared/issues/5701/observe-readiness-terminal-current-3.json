@@ -1,0 +1,12 @@
+{
+  "issue": 5701,
+  "expected_generation": 37,
+  "expected_digest": "c25fbd4c1acc6ab63770e28515cd11915397df444b44a62540a3ad791970dc58",
+  "claim_id": "claim-5701-terminal-closeout-019fbbff-3",
+  "actor": "codex:019fbbff-9fb2-72f2-8b81-2f03f6ae2e1e",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5705,
+  "required_checks": [],
+  "require_review": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}

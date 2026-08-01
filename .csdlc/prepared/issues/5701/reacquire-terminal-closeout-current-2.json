@@ -1,0 +1,25 @@
+{
+  "issue": 5701,
+  "expected_generation": 34,
+  "expected_digest": "c87a39d39277bc6be0780a919bd0d8449c2e52c39b326fd242d239248879940e",
+  "now_unix_seconds": 1785566330,
+  "actor": "codex:019fbbff-9fb2-72f2-8b81-2f03f6ae2e1e",
+  "reason": "Reacquire #5701 solely for typed terminal closeout after #5748 v4 claim removed the prior .csdlc/issues/5701 overlap.",
+  "replacement": {
+    "id": "claim-5701-terminal-closeout-019fbbff-2",
+    "owner": "codex:019fbbff-9fb2-72f2-8b81-2f03f6ae2e1e",
+    "generation": 34,
+    "acquired_unix_seconds": 1785566330,
+    "expires_unix_seconds": 1786171130,
+    "heartbeat_unix_seconds": 1785566330,
+    "branch": "codex/5701-terminal-closeout",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5701",
+      ".csdlc/issues/5701",
+      ".csdlc/locks/5701.lock",
+      ".csdlc/prepared/issues/5701"
+    ],
+    "purpose": "Perform typed post-merge readiness observation, terminal closeout, and tracked terminal projection for GitHub-closed #5701 / merged PR #5705 without product-code changes or pruning."
+  }
+}

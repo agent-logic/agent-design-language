@@ -1,0 +1,9 @@
+{
+  "issue": 5701,
+  "expected_initialization_digest": "59c6cd2d6e66f553641c5f276d2c1359029dba48b2f90a73191b22148d1a6261",
+  "expected_branch": "codex/5701-terminal-closeout",
+  "expected_worktree": "/Volumes/FastWork/adl-wp-5701-closeout",
+  "actor": "codex:019fbbff-9fb2-72f2-8b81-2f03f6ae2e1e",
+  "reason": "Reconcile #5701 terminal projection after typed closeout retained the merged PR receipt for exact head db41b249277a91140d4fd67bfc5bf898f4565774.",
+  "follow_ups": []
+}
