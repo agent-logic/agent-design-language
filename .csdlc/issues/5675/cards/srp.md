@@ -14,6 +14,7 @@ Status: draft
 
 adl/src/provider_adapter.rs
 adl/src/provider/profiles.rs
+.csdlc/evidence/5675/exact-head-provider-adapter-pvf.md
 
 ## Prompts
 
@@ -31,13 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Live Kimi and MiniMax completion success remains unproven because both approved accounts reported insufficient balance; adapter reachability and typed billing failure paths are proven.
-- Only lifecycle metadata, evidence, generated cards, design/diagram artifacts, and the Opus runbook changed after the source review.
+- Live Kimi and MiniMax success remains unproven because the available provider accounts lacked sufficient balance; deterministic adapter reachability and typed billing-failure handling are proven.
 
 ## Review Result
 
-Revision: Some("git-blake3:6ac376f0d72d60d8ae2fc7de0cea21bc3c1d0eb6:d2274443f705299f244e1ef85031f52b6a96a872e0815e0777b430f729204d02")
+Revision: Some("git-blake3:3eddf1ead3e4237b4fed3f68f08bff9ca38f851e:172854ff78af5d17fde9c36d79428de660b218acf175b7cefa34b274f9fbd474")
 
-Reviewer: Some("codex:5675-opus-review")
+Reviewer: Some("subagent:/root/review_5727")
 
 Result: pass

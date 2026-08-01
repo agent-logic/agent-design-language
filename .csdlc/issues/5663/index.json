@@ -3,14 +3,14 @@
   "issue": 5663,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "9ae48371048e17e2df859779e157e43a5d9e4ada902e49a33a66eddacd56daf5",
-  "phase": "reviewed",
-  "generation": 33,
-  "digest": "a2c28390f662cecbc723cff59d10daa8b5da41baa350591bb68f579db86f679d",
+  "phase": "implemented",
+  "generation": 36,
+  "digest": "8533c94d13734ceb2165a58bdc2c814099a0682941b676441363246db2b7e695",
   "claim": null,
   "review_assignment": {
-    "reviewer": "external:consolidated-opus-5",
+    "reviewer": "external:claude-opus-5",
     "assigned_by": "codex:issue-5663-runtime-adapters",
-    "revision": "git-blake3:9e388b86b2c731381f7a195185652db87db3746d:98a12f92d966aca16fdc5d21ffec6ad7b578ceb3995c7d109cd5703bc5108f4b",
+    "revision": "git-blake3:fb04c9fa29c528c06a7b3c76e5f6560b7700d43e:63d9cae55cf4e1e08f8e37bbb7e766d6221a50993ae347a92c31ce62f0fad259",
     "scope": [
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
@@ -21,7 +21,7 @@
     ]
   },
   "review": {
-    "reviewer": "external:consolidated-opus-5",
+    "reviewer": "external:claude-opus-5",
     "scope": [
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
@@ -30,10 +30,13 @@
       "adl-runtime-kernel/tests/assembly.rs",
       "adl-runtime-kernel/tests/operations.rs"
     ],
-    "reviewed_revision": "git-blake3:9e388b86b2c731381f7a195185652db87db3746d:98a12f92d966aca16fdc5d21ffec6ad7b578ceb3995c7d109cd5703bc5108f4b",
+    "reviewed_revision": "git-blake3:fb04c9fa29c528c06a7b3c76e5f6560b7700d43e:63d9cae55cf4e1e08f8e37bbb7e766d6221a50993ae347a92c31ce62f0fad259",
     "findings": [],
-    "residual_risks": [],
-    "completed": true,
+    "residual_risks": [
+      "Claude Opus 5 was invoked through the Rust adl-provider-adapter for issue-5663-opus-review-fb04c9fa and returned final_status=failed, failure.kind=provider_empty_text_output, http_status=200 after one bounded attempt; retained artifacts: .adl/local-artifacts/5663-opus-review/result.json and run.log.jsonl.",
+      "Existing secondary GPT 5.5 evidence is preserved at .adl/local-artifacts/opus5-review-5663-fb04c9fa/review-guard-request-gpt55.json and states PASS/no findings after Opus unavailability, but it is not recorded as an Opus pass and its stored scope is not the current six-path assignment."
+    ],
+    "completed": false,
     "non_substantive_proof": null
   },
   "publication": null,
@@ -50,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "647b41a98103beb340408eb4b47debe0d7a76e991a76a099f6d6182c8d9cfdeb",
+      "values_digest": "336eed70d4b67542c0b7a948b6798d1c0facc77ba6df25909dac0f5cb26f95c2",
       "rendered_digest": "dd9a80fb70cba5ab51ce7219aa7d6bcb896f05905288c9ed337ca78b0433956c",
       "ast_digest": "236c4929b368dcdbd83131534e0477c144bc2586d06f79a6b924f7e97453893b"
     },
     "stp": {
-      "values_digest": "54b872358385b6842375529b1894d126adf7b244a644841de13feaa25948f21a",
+      "values_digest": "727847d855fac6c7ee35c5b0d4bb78b0244eedb1fc0afc72ab05d3d57e5529ad",
       "rendered_digest": "860089b661813be46a57d17782652a3753affcb7867a42b867720d39bd4b8148",
       "ast_digest": "716150200b112efd93bfbc429f7eb7a1842fa1f1cec75462ceec9f4756213e4f"
     },
     "spp": {
-      "values_digest": "5fb86a1daad19fff4bf4399d9e888e36453cfabe841cba53b452e09d4ab4df13",
+      "values_digest": "f5ff68dbb1fffabec820bba79d9b03669b0c34fcaac378c991ccec54ecf3d325",
       "rendered_digest": "f47b64dc50a64f2b29879548eb057bceafeec18bf087abed5fecf43f123b6ff5",
       "ast_digest": "59926c4cc452fe34c471dd023ed178f785f11ff49ca307427c1487da48d4d0bb"
     },
     "vpp": {
-      "values_digest": "ee7f79419258a74323a6cc653222e7ce33aaef11b9c636973f5a1102259530eb",
+      "values_digest": "56c8832cb6d61fc09f2ae9ea06272693f7807c4c8317f592784db3683a9efb37",
       "rendered_digest": "b5cc90927572f7e74248ac6831edb43f8ceba6acb544d3557b1bc23631dba9a8",
       "ast_digest": "26b94e9e146151db3ba1a5775fcefb161014918e120c350c45f6bfdaef9d5f7f"
     },
     "srp": {
-      "values_digest": "aed6f1b735ad3c3b8a23c7a1ca541148aaa965e3b6766389909d9437f1b02e34",
-      "rendered_digest": "c78429b4b37a4826d149fb15aec19724c4db8548c0ea92db07b3ba1feadf5d11",
-      "ast_digest": "bb33101a1f31a3522b861053826665ebf00eb64025dbaa059126d83ca0eaf6db"
+      "values_digest": "3d43ec226d84acec3d896dceac75f859409b786b6aa3a84060b397af0af45723",
+      "rendered_digest": "c99788b205fe7c1498c8ce03a58785d87c32d0d797ef725b4245a2021f4be0b7",
+      "ast_digest": "7424cf47c09be77e739fb61e762770406f9fcc2b01945b4747fd6bc46ef21216"
     },
     "sor": {
-      "values_digest": "b4bbe391080f9969a2bc4f3b5e438d5748f08261d993e5d0525bccfcd09c008d",
+      "values_digest": "12576997dca56172c47d7614bc8c5bb5cfe110e326c194e73af150abb416478e",
       "rendered_digest": "d0511c7f708923645f6deeeb325807fe4c35cd789dd32465be735e9812a5c943",
       "ast_digest": "f1b1a82414b0e08534efaa8b4fbef813e5397814b8fe1bf7372bc84fa692168c"
     }
@@ -129,6 +132,20 @@
       "to": "reviewed",
       "actor": "codex:issue-5663-runtime-adapters",
       "reason": "Consolidated external exact-head review passed with zero findings."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-5663-runtime-adapters",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-5663-runtime-adapters",
+      "reason": "Recover stale published/reviewed lifecycle truth after current source repair fb04c9fa29c528c06a7b3c76e5f6560b7700d43e superseded prior exact review and publication revisions; exact-head review must be reacquired before any PR-ready publication truth can be current."
     }
   ],
   "audit": [
@@ -393,10 +410,38 @@
     },
     {
       "sequence": 38,
-      "generation": 33,
-      "actor": "codex:issue-5697-chronosense-trusted-time",
-      "reason": "GitHub confirms PR #5669 is MERGED at 2026-07-27T01:06:03Z with merge commit 735b2131004f7d299836ce98d226fe3c2ec8593c, and issue #5663 is CLOSED at 2026-07-27T01:38:27Z; release only #5663's stale active typed source claim so follow-up #5697 can bind without fabricating closeout, rewriting review/publication history, or creating a receipt.",
-      "operation": "{\"claim_id\":\"claim-5663-runtime-v3-durable-local-adapters\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:5697-follow-up-after-5663-merged-closed\",\"previous_owner\":\"codex:issue-5663-runtime-adapters\"}"
+      "generation": 34,
+      "actor": "codex:issue-5663-runtime-adapters",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 39,
+      "generation": 35,
+      "actor": "codex:issue-5663-runtime-adapters",
+      "reason": "Recover stale published/reviewed lifecycle truth after current source repair fb04c9fa29c528c06a7b3c76e5f6560b7700d43e superseded prior exact review and publication revisions; exact-head review must be reacquired before any PR-ready publication truth can be current.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 35,
+      "actor": "codex:issue-5663-runtime-adapters",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 36,
+      "actor": "external:claude-opus-5",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 36,
+      "actor": "codex:parallel-closeout-5663",
+      "reason": "Release the stale divergent #5663 worktree claim after issue closure and PR #5669 merge; substantive post-PR source was rehomed to closed #5697 / merged PR #5699, and the preserved worktree remains available for historical lifecycle reconciliation.",
+      "operation": "{\"claim_id\":\"claim-5663-runtime-v3-durable-local-adapters\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:closeout-v0.91.8-parallel\",\"previous_owner\":\"codex:issue-5663-runtime-adapters\"}"
     }
   ]
 }

@@ -3,54 +3,27 @@
   "issue": 5675,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c600ad81a92f3c87eb5098faa2237f85713be1650bf3c1d713c0206a4ef263b9",
-  "phase": "published",
-  "generation": 10,
-  "digest": "3f6eab8112890d2b20571145e94f1aaf894d50fd3c76753b2aae4e82d21d5346",
-  "claim": {
-    "id": "claim-5675-provider-adapter-routes",
-    "owner": "codex:5675-execution",
-    "generation": 10,
-    "acquired_unix_seconds": 1785107892,
-    "expires_unix_seconds": 1785712692,
-    "heartbeat_unix_seconds": 1785107892,
-    "branch": "codex/5675-provider-adapter-routes-publish",
-    "worktree": ".worktrees/adl-wp-5675",
-    "protected_paths": [
-      ".csdlc/issues/5675",
-      ".csdlc/locks/5675.lock",
-      ".csdlc/prepared/issues/5675",
-      "adl/src/provider_adapter.rs",
-      "adl/src/provider/profiles.rs"
-    ],
-    "purpose": "Implement and validate Kimi and MiniMax hosted provider adapter routes"
-  },
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "cc151e358e674d07613646d4fc1f6ed71a3613a2f145b9065a73bc0103770818",
+  "claim": null,
   "review_assignment": null,
   "review": {
-    "reviewer": "codex:5675-opus-review",
+    "reviewer": "subagent:/root/review_5727",
     "scope": [
       "adl/src/provider_adapter.rs",
-      "adl/src/provider/profiles.rs"
+      "adl/src/provider/profiles.rs",
+      ".csdlc/evidence/5675/exact-head-provider-adapter-pvf.md"
     ],
-    "reviewed_revision": "git-blake3:6ac376f0d72d60d8ae2fc7de0cea21bc3c1d0eb6:d2274443f705299f244e1ef85031f52b6a96a872e0815e0777b430f729204d02",
+    "reviewed_revision": "git-blake3:3eddf1ead3e4237b4fed3f68f08bff9ca38f851e:172854ff78af5d17fde9c36d79428de660b218acf175b7cefa34b274f9fbd474",
     "findings": [],
     "residual_risks": [
-      "Live Kimi and MiniMax completion success remains unproven because both approved accounts reported insufficient balance; adapter reachability and typed billing failure paths are proven.",
-      "Only lifecycle metadata, evidence, generated cards, design/diagram artifacts, and the Opus runbook changed after the source review."
+      "Live Kimi and MiniMax success remains unproven because the available provider accounts lacked sufficient balance; deterministic adapter reachability and typed billing-failure handling are proven."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5675,
-    "pull_request": 5676,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5676",
-    "base": "main",
-    "head": "codex/5675-provider-adapter-routes-publish",
-    "revision": "git-blake3:427f9627e59c7550998bede09156ae665b92a98d:abad8047b2fb0ab8d8b2376304d5c7eb756450b13b91d0cf68ff117de0ee2979",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -64,34 +37,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "823c03413e9b3cf483d6040e80c2c1a54b97581a778aaa3967f47719790538b7",
+      "values_digest": "08c198af84946e79ea17bcabb6a67e3789e6f4c7a4ff0473584d8706835b1c23",
       "rendered_digest": "2dc56e72c830eeb26afa62a9aabea5c3cb9cbf81b6eb0d6187be628e4bf8ef39",
       "ast_digest": "fa7619680715cdb8942ef43186a5af1d6d843567ee56dfb71aafbce1f79567d5"
     },
     "stp": {
-      "values_digest": "1db009a167199239c35bfa70baf4b5332d4b27f60f1b1dd26fcec8fe7c0b417d",
+      "values_digest": "785feea7c8d98cbc2fcf38196ba1d7344a6cc3086ab6fc69ae87f4d26453cf00",
       "rendered_digest": "da91288730d18893c5e48dfa033e63c91e686996426f678d466ac51cf3ce6851",
       "ast_digest": "ebeb2107e5c5a6401657727ddf62783563f6cb4e4a683e681aac4b67b60d80d4"
     },
     "spp": {
-      "values_digest": "4dd93e6aa581253f35a086a8ca20f6a3a9967ec7b732561e7dc3986d27351814",
+      "values_digest": "41b657b668e1c2943301b23388e2da4c067b9f2148d558521ed8ea2eb9770a7a",
       "rendered_digest": "ba7997482a91ff85139903280c6217fb382cbb93f2dd78d5c9f8e388283fa2f4",
       "ast_digest": "40081f37abee8861add7a4da099fb6ac64e90b1f94265afbf627b796d8b45fad"
     },
     "vpp": {
-      "values_digest": "f8870e28ea10809df41cdf1a401e2f7a7b4d79d5ae1467b73fb43d810ebb1c6b",
+      "values_digest": "ba24761a71ac9bd234ced5ed2be671ec53b08f236e847b4616c45298116ef222",
       "rendered_digest": "71c431972dcae6c443ae563e8d5ca293b6fbdede90a9569a2b1cbde79a3ec297",
       "ast_digest": "b804553b02659f056d635308a1ea495cac3afa9e7f42fafa8149b81ab8479ffb"
     },
     "srp": {
-      "values_digest": "0072d76c98eb94ad0485aca9c4f70ea682a2298ab9c42f6fcbc9ff67febc0534",
-      "rendered_digest": "e311b2fcffd4460c9d77d4ef3f7871616b9b253a381c48b0deabf1d16091a8f3",
-      "ast_digest": "e363a4cb429a93b92f34ce0b7083450845e312e3b2d77ac623dfd7d9a6609998"
+      "values_digest": "07dbf4bbc2e6d811cecef7c60eb7c579a9539212a85d417f7ff1fc8b78febd19",
+      "rendered_digest": "34836bfd9e0456a86c3084e6305b522b560d4b0b00f6eb16de1d18f712180b96",
+      "ast_digest": "4bd6206030e5c1e0627472ecce65c07dd511ca2a34b0a385fc186158f8784939"
     },
     "sor": {
-      "values_digest": "4a74a50025d72530b816ab6779de6dba381a9b6d0b5d8b5654f16d70edcc1ad0",
-      "rendered_digest": "8cedd7a03883af17082c1fd256f786d24cb3f684ae6693e495b7167cb27e7c41",
-      "ast_digest": "8e79cd8fb2e698fdb2d7fea7cd7ea487ec08064e6ef3c6daa289941d02ec23fd"
+      "values_digest": "3271865e23d2c85d8496f47471c3d9eff5e6684ccb5753bdf8e14f9162e867fb",
+      "rendered_digest": "ff58130e8742031086b2482a28f5d76401f876a01dc024a70ab2eac290303389",
+      "ast_digest": "8e0e55e95680b852f6c93ca6342d452981e1abb62a4f91aee974e4321101b775"
     }
   },
   "transitions": [
@@ -157,6 +130,20 @@
       "to": "published",
       "actor": "codex:5675-execution",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "implemented",
+      "actor": "subagent:/root/review_5727",
+      "reason": "Recover published state so terminal closeout can record fresh exact-head PVF and independent review for merged PR head 3eddf1ead3e4237b4fed3f68f08bff9ca38f851e."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_5727",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -250,6 +237,48 @@
       "actor": "codex:5675-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "subagent:/root/review_5727",
+      "reason": "Revoke the five-day-stale execution claim after confirming no current local session occupancy, solely to complete the operator-directed v0.91.8 terminal closeout for merged PR #5676.",
+      "operation": "{\"claim_id\":\"claim-5675-provider-adapter-routes\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:5748\",\"previous_owner\":\"codex:5675-execution\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "subagent:/root/review_5727",
+      "reason": "Reacquire exact #5675 authority solely for fresh exact-head proof, review, merged-publication reconciliation, readiness observation, and terminal closeout of PR #5676.",
+      "operation": "{\"branch\":\"codex/5675-provider-adapter-routes-publish\",\"claim_id\":\"claim-5675-terminal-closeout-20260731\",\"operation\":\"reacquire_claim\",\"owner\":\"subagent:/root/review_5727\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5675\",\".csdlc/locks/5675.lock\",\".csdlc/prepared/issues/5675\",\".csdlc/evidence/5675\",\".csdlc/publication/5675.intent.json\",\"adl/src/provider_adapter.rs\",\"adl/src/provider/profiles.rs\"],\"purpose\":\"Terminal-only closeout of merged PR #5676 for #5675, preserving exact reviewed source scope and provider-account residual risks without product changes.\",\"worktree\":\".worktrees/adl-wp-5675\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "subagent:/root/review_5727",
+      "reason": "Recover published state so terminal closeout can record fresh exact-head PVF and independent review for merged PR head 3eddf1ead3e4237b4fed3f68f08bff9ca38f851e.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "subagent:/root/review_5727",
+      "reason": "Record fresh exact-head deterministic provider-adapter PVF at merged PR head 3eddf1ead3e4237b4fed3f68f08bff9ca38f851e.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"provider_adapter::tests\",\"--lib\"],\"purpose\":\"Fresh exact-head provider adapter routing, credential, budget, envelope, retry, and redaction proof\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5675/exact-head-provider-adapter-pvf.md\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "subagent:/root/review_5727",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "subagent:/root/review_5727",
+      "reason": "Release the terminal-closeout claim because independent exact-head review found provider-global MiniMax billing-code misclassification, making terminal closeout unsafe until remediation and fresh review.",
+      "operation": "{\"claim_id\":\"claim-5675-terminal-closeout-20260731\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:5748\",\"previous_owner\":\"subagent:/root/review_5727\"}"
     }
   ]
 }

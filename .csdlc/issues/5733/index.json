@@ -5,29 +5,8 @@
   "initialization_digest": "3164de19aa73e2b392aff34c090596e5ecb394e75067229a7898d36d8047b6fc",
   "phase": "published",
   "generation": 11,
-  "digest": "7a2cf63973ba697b533330789de1b457200f033081a54cc78bb834ec29b23ca2",
-  "claim": {
-    "id": "claim-5733-demo-matrix-proof-coverage",
-    "owner": "codex:5733-execution",
-    "generation": 11,
-    "acquired_unix_seconds": 1785536500,
-    "expires_unix_seconds": 1786141300,
-    "heartbeat_unix_seconds": 1785536500,
-    "branch": "codex/5733-demo-matrix-proof-coverage",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/issues/5733",
-      ".csdlc/locks/5733.lock",
-      ".csdlc/prepared/issues/5733",
-      ".csdlc/evidence/5733",
-      ".csdlc/publication/5733.intent.json",
-      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
-      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
-      "docs/milestones/v0.91.8/review/wp15_demo_matrix_5733",
-      "adl/tools/validate_v0918_demo_matrix.py"
-    ],
-    "purpose": "Reconcile v0.91.8 demo matrix and feature-proof coverage with current issue/proof truth without rerunning owned demos."
-  },
+  "digest": "d2f03338be22e4e2e5542a3cd07434b1cad143ce9515944139e65378d6930aea",
+  "claim": null,
   "review_assignment": {
     "reviewer": "subagent:Leibniz:019fba63-7f7d-7f02-a8cb-d2c694b22e6e",
     "assigned_by": "codex:5733-execution",
@@ -270,6 +249,13 @@
       "actor": "codex:5733-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:5748-terminal-closeout",
+      "reason": "Issue #5733 is closed, PR #5747 is merged green at its exact head, the checkout is clean, no live agent owns it, and the normal typed closed-issue release compare-and-swap failed; revoke only the stale claim so #5354 can acquire its exact declared proof paths.",
+      "operation": "{\"claim_id\":\"claim-5733-demo-matrix-proof-coverage\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-authorized:release-merged-5733-for-5354-closeout\",\"previous_owner\":\"codex:5733-execution\"}"
     }
   ]
 }

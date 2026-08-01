@@ -37,12 +37,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Claude Opus 5 was invoked through the Rust adl-provider-adapter for issue-5663-opus-review-fb04c9fa and returned final_status=failed, failure.kind=provider_empty_text_output, http_status=200 after one bounded attempt; retained artifacts: .adl/local-artifacts/5663-opus-review/result.json and run.log.jsonl.
+- Existing secondary GPT 5.5 evidence is preserved at .adl/local-artifacts/opus5-review-5663-fb04c9fa/review-guard-request-gpt55.json and states PASS/no findings after Opus unavailability, but it is not recorded as an Opus pass and its stored scope is not the current six-path assignment.
 
 ## Review Result
 
-Revision: Some("git-blake3:9e388b86b2c731381f7a195185652db87db3746d:98a12f92d966aca16fdc5d21ffec6ad7b578ceb3995c7d109cd5703bc5108f4b")
+Revision: Some("git-blake3:fb04c9fa29c528c06a7b3c76e5f6560b7700d43e:63d9cae55cf4e1e08f8e37bbb7e766d6221a50993ae347a92c31ce62f0fad259")
 
-Reviewer: Some("external:consolidated-opus-5")
+Reviewer: Some("external:claude-opus-5")
 
-Result: pass
+Result: changes_required

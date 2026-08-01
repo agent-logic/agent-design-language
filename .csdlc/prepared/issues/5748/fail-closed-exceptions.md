@@ -38,6 +38,9 @@ the final exhaustive closeout audit.
 - Passing exact-source evidence: control 21/21, Observatory WSS 6/6, OpenAPI
   contracts 6/6, `runtime_api_wss` 2/2, parity 31 passed / 1 explicitly ignored,
   and the HTML Observatory integrated proof.
+- The bounded terminal-closeout claim was released through typed v2 at
+  generation 34; current claim authority is null with digest
+  `b8d64d8b742426c08a40574c971a9db3c01a4b4fcae741a1ff0555c8f98f0afb`.
 - Disposition: no terminal receipt. The bounded closeout claim was released
   after review; remediation and a new exact-head review are required.
 
@@ -118,6 +121,9 @@ the final exhaustive closeout audit.
 - The final merge-resolution delta introduced no separate integration
   regression; the builder remains intentionally exported but not cut over in
   production assembly.
+- The bounded terminal-closeout claim was released through typed v2 at
+  generation 5; current claim authority is null with digest
+  `8c254685618757825b8b738c551e5a54b41894f896f0ddb24214e9f935a537f8`.
 - Disposition: no terminal receipt. The bounded closeout claim was released
   through typed v2 after review; mTLS and request-bound remediation require a
   new exact-head review.
@@ -138,6 +144,9 @@ the final exhaustive closeout audit.
   three prepared files, while the recorded bare-command evidence is empty.
 - The post-review commit range is mechanically metadata-only, but its metadata
   contents preserve the blockers above.
+- The stale execution claim was released through typed v2 exact CAS at
+  generation 11; current claim authority is null with digest
+  `d2f03338be22e4e2e5542a3cd07434b1cad143ce9515944139e65378d6930aea`.
 - Disposition: no terminal receipt until the matrices, typed validation truth,
   and diff-hygiene evidence are corrected and reviewed at a new exact head.
 
@@ -195,6 +204,9 @@ the final exhaustive closeout audit.
   so the green proof encodes rather than mitigates the false-readiness defect.
 - Later merged work in #5663, #5664, and #5687 replaced or strengthened parts
   of this behavior, but cannot retroactively make immutable PR #5659 clean.
+- The stale historical claim was released through typed v2 at generation 2;
+  current claim authority is null with digest
+  `84d1ee502e3122b21be2d31b5a6a04cc80c6976baa2a4055d27f8bd7a76fccc5`.
 - Disposition: no terminal receipt from the historical head. Any supersession
   record must preserve the exact-head finding and cite later remediation
   truthfully rather than claim the original acceptance criteria passed.

@@ -10,6 +10,23 @@ fi
 doctor="$repo_root/.adl/bin/csdlc-v2/csdlc-doctor"
 register="$repo_root/.csdlc/prepared/issues/5748/fail-closed-exceptions.md"
 
+fail() {
+  printf 'v0.91.8 terminal inventory FAIL: %s\n' "$1" >&2
+  exit 1
+}
+
+require_file() {
+  [[ -f "$1" ]] || fail "missing regular file: $1"
+}
+
+require_absent() {
+  [[ ! -e "$1" ]] || fail "unexpected path exists: $1"
+}
+
+require_eq() {
+  [[ "$1" == "$2" ]] || fail "$3 (expected $2, observed $1)"
+}
+
 terminal_issues=(
   4739 4741 4758 4759 4760 4761 4762 4763 5107 5332 5336 5337 5338
   5339 5340 5341 5342 5343 5344 5345 5349 5350 5352 5354 5358 5361
@@ -20,33 +37,136 @@ terminal_issues=(
   5708 5710 5711 5715 5717 5718 5719 5727 5728 5735 5737 5746
 )
 exception_issues=(5007 5558 5657 5663 5664 5675 5678 5701 5722 5733)
+claim_free_exception_issues=(5657 5663 5664 5675 5678 5701 5733)
+dormant_exception_issues=(5663 5664 5675 5678 5701 5733)
 
-[[ ${#terminal_issues[@]} -eq 90 ]]
-[[ ${#exception_issues[@]} -eq 10 ]]
-[[ -f "$register" ]]
+exception_projection() {
+  case "$1" in
+    5657) printf '%s\t%s\t%s\n' implemented 2 84d1ee502e3122b21be2d31b5a6a04cc80c6976baa2a4055d27f8bd7a76fccc5 ;;
+    5663) printf '%s\t%s\t%s\n' implemented 36 8533c94d13734ceb2165a58bdc2c814099a0682941b676441363246db2b7e695 ;;
+    5664) printf '%s\t%s\t%s\n' published 5 8c254685618757825b8b738c551e5a54b41894f896f0ddb24214e9f935a537f8 ;;
+    5675) printf '%s\t%s\t%s\n' reviewed 13 cc151e358e674d07613646d4fc1f6ed71a3613a2f145b9065a73bc0103770818 ;;
+    5678) printf '%s\t%s\t%s\n' published 4 66d1f6fe51ebe463115ecc7bfc01d48413c55c53fc3dd3392575341fae49fb6b ;;
+    5701) printf '%s\t%s\t%s\n' published 34 b8d64d8b742426c08a40574c971a9db3c01a4b4fcae741a1ff0555c8f98f0afb ;;
+    5733) printf '%s\t%s\t%s\n' published 11 d2f03338be22e4e2e5542a3cd07434b1cad143ce9515944139e65378d6930aea ;;
+    *) return 1 ;;
+  esac
+}
+
+require_eq "${#terminal_issues[@]}" 90 "terminal issue count mismatch"
+require_eq "${#exception_issues[@]}" 10 "exception issue count mismatch"
+require_file "$register"
 
 for issue in "${terminal_issues[@]}"; do
   index="$repo_root/.csdlc/issues/$issue/index.json"
   receipt="$common_dir/csdlc-v2/closeout/$issue.json"
-  [[ -f "$index" ]]
-  [[ -f "$receipt" ]]
-  [[ "$(jq -r '.phase' "$index")" == "closed_out" ]]
-  [[ "$(jq -r '.claim == null' "$index")" == "true" ]]
-  "$doctor" --repo "$repo_root" --issue "$issue" >/dev/null
-  jq -e --slurpfile receipt "$receipt" '. == $receipt[0].record' "$index" >/dev/null
+  require_file "$index"
+  require_file "$receipt"
+  require_eq "$(jq -r '.phase' "$index")" closed_out \
+    "terminal issue #$issue phase mismatch"
+  require_eq "$(jq -r '.claim == null' "$index")" true \
+    "terminal issue #$issue retained an active claim"
+  "$doctor" --repo "$repo_root" --issue "$issue" >/dev/null || \
+    fail "terminal issue #$issue failed doctor"
+  jq -e --slurpfile receipt "$receipt" '. == $receipt[0].record' "$index" \
+    >/dev/null || fail "terminal issue #$issue index differs from receipt"
   for card in sip stp spp vpp srp sor; do
     jq -e --arg card "$card" --slurpfile receipt "$receipt" \
       '. == $receipt[0].cards[$card]' \
-      "$repo_root/.csdlc/issues/$issue/cards/$card.values.json" >/dev/null
+      "$repo_root/.csdlc/issues/$issue/cards/$card.values.json" >/dev/null || \
+      fail "terminal issue #$issue $card values differ from receipt"
   done
 done
 
 for issue in "${exception_issues[@]}"; do
-  [[ ! -f "$common_dir/csdlc-v2/closeout/$issue.json" ]]
-  rg -q "^## #$issue —" "$register"
+  require_absent "$common_dir/csdlc-v2/closeout/$issue.json"
+  rg -q "^## #$issue —" "$register" || \
+    fail "exception #$issue is missing from the register"
 done
 
-[[ ! -f "$common_dir/csdlc-v2/closeout/5335.json" ]]
-rg -q '^## #5335 — outside the merged-PR eligibility boundary$' "$register"
+for issue in "${claim_free_exception_issues[@]}"; do
+  index="$repo_root/.csdlc/issues/$issue/index.json"
+  IFS=$'\t' read -r expected_phase expected_generation expected_digest \
+    <<<"$(exception_projection "$issue")"
+  require_file "$index"
+  require_eq "$(jq -r '.claim == null' "$index")" true \
+    "exception #$issue retained an active claim"
+  require_eq "$(jq -r '.digest' "$index")" "$expected_digest" \
+    "exception #$issue digest mismatch"
+  require_eq "$(jq -r '.phase' "$index")" "$expected_phase" \
+    "exception #$issue phase mismatch"
+  require_eq "$(jq -r '.generation' "$index")" "$expected_generation" \
+    "exception #$issue generation mismatch"
+  rg -q "\`$expected_digest\`" "$register" || \
+    fail "exception #$issue digest is missing from the register"
+done
+
+tail -n 1 "$repo_root/.csdlc/issues/5657/audit.jsonl" | jq -e \
+  '(.operation | if type == "string" then fromjson else . end |
+    .operation) == "release_closed_claim"' >/dev/null || \
+  fail "exception #5657 audit does not end in typed claim release"
+doctor_report="$("$doctor" --repo "$repo_root" --issue 5657)" || \
+  fail "exception #5657 doctor did not return its expected inspectable state"
+printf '%s\n' "$doctor_report" | jq -e \
+  '.status == "pass" and .phase == "implemented" and .generation == 2 and
+   .ready == false and (.findings | length) == 0 and
+   .next_operation == "inspect_phase"' >/dev/null || \
+  fail "exception #5657 doctor state mismatch"
+
+for issue in "${dormant_exception_issues[@]}"; do
+  tail -n 1 "$repo_root/.csdlc/issues/$issue/audit.jsonl" | jq -e \
+    '(.operation | if type == "string" then fromjson else . end |
+      .operation) == "revoke_active_claim"' >/dev/null || \
+    fail "exception #$issue audit does not end in typed claim revocation"
+  doctor_report=""
+  if doctor_report="$("$doctor" --repo "$repo_root" --issue "$issue" 2>&1)"; then
+    printf 'exception #%s unexpectedly passed doctor\n' "$issue" >&2
+    exit 1
+  fi
+  printf '%s\n' "$doctor_report" | jq -e \
+    '.status == "block" and .ready == false and
+     (.findings | length) == 1 and .findings[0].code == "claim_dormant"' \
+    >/dev/null || fail "exception #$issue doctor state mismatch"
+done
+
+# #5007 is intentionally preserved as the exact corrupt projection: its
+# claimed digest and still-active claim are evidence for why typed closeout
+# fails closed. Do not normalize this record by hand.
+corrupt_index="$repo_root/.csdlc/issues/5007/index.json"
+require_file "$corrupt_index"
+require_eq "$(jq -r '.phase' "$corrupt_index")" published \
+  "exception #5007 phase mismatch"
+require_eq "$(jq -r '.generation' "$corrupt_index")" 5 \
+  "exception #5007 generation mismatch"
+require_eq "$(jq -r '.digest' "$corrupt_index")" \
+  12194eb860c30b87b2e8929d2fe0726fbe7006d0c901454b581ee82fa693f6ed \
+  "exception #5007 claimed digest mismatch"
+require_eq "$(jq -r '.claim.id' "$corrupt_index")" \
+  exec-5007-memory-palace-adr-20260731 "exception #5007 claim id mismatch"
+require_eq "$(jq -r '.claim.owner' "$corrupt_index")" \
+  codex:5007-execution-2026-07-31 "exception #5007 claim owner mismatch"
+require_eq "$(jq -r '.claim.branch' "$corrupt_index")" \
+  codex/5007-v0918-wp14-preparation "exception #5007 claim branch mismatch"
+require_eq "$(jq -r '.claim.worktree' "$corrupt_index")" . \
+  "exception #5007 claim worktree mismatch"
+require_eq "$(jq -r '.claim.expires_unix_seconds' "$corrupt_index")" 1786138590 \
+  "exception #5007 claim expiry mismatch"
+if corrupt_report="$("$doctor" --repo "$repo_root" --issue 5007 2>&1)"; then
+  printf 'exception #5007 unexpectedly passed doctor\n' >&2
+  exit 1
+fi
+printf '%s\n' "$corrupt_report" | jq -e \
+  '.status == "corrupt" and .ready == false and
+   any(.findings[]; .code == "corrupt_record")' >/dev/null || \
+  fail "exception #5007 doctor state mismatch"
+
+# These two issues have no local lifecycle projection. Their absence is part
+# of the fail-closed evidence and must remain explicit.
+require_absent "$repo_root/.csdlc/issues/5558"
+require_absent "$repo_root/.csdlc/issues/5722"
+
+require_absent "$common_dir/csdlc-v2/closeout/5335.json"
+rg -q '^## #5335 — outside the merged-PR eligibility boundary$' "$register" || \
+  fail "noneligible exclusion #5335 is missing from the register"
 
 printf 'v0.91.8 terminal inventory PASS: 90 terminal, 10 fail-closed exceptions, 1 noneligible exclusion\n'
