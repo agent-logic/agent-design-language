@@ -3,13 +3,13 @@
   "issue": 5352,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0b1b443e0ef68c9229695e3260f7340ef3b40df59112c8adb75d065cd81caf9a",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "cd1a463dc12cd5cb9514169f62abdd65a69c4d3272e09f0bdab609cc1a3e8a21",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "08fab4e3953d472637e8ac14b998a7492dd7c2ad7e54d188101b0559214ee803",
   "claim": {
     "id": "claim-5352-v0918-final-handoff",
     "owner": "codex:wp21-final-handoff",
-    "generation": 7,
+    "generation": 9,
     "acquired_unix_seconds": 1785543526,
     "expires_unix_seconds": 1786148326,
     "heartbeat_unix_seconds": 1785543526,
@@ -37,7 +37,24 @@
       "docs/milestones/v0.91.8/handoff"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "Wegener",
+    "scope": [
+      ".csdlc/issues/5352",
+      ".csdlc/evidence/5352",
+      ".csdlc/prepared/issues/5352",
+      "adl/src/csm_runtime_api.rs",
+      "docs/milestones/v0.91.8/handoff"
+    ],
+    "reviewed_revision": "git-blake3:226c8e2a411dbf03378012f0eb5e4d3c14a4b801:791a34139581809797997d21683aca6c5d16cb7cfcafeb908846d3ef74aa31b2",
+    "findings": [],
+    "residual_risks": [
+      "PR #5751 remains on an older head until this exact reviewed revision and its typed review metadata are pushed.",
+      "Any origin/main movement before merge requires an explicit ancestry refresh and current-head review truth."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -52,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3a5c852daf741f28199c8906b967ebd75a4bd328c379a866be1ccfb1c599e216",
+      "values_digest": "0dc47163fde9f2df22e636c52413df09fcd95350b349c77d6341dc8292820f29",
       "rendered_digest": "da0857c34330916535e0d2e0b6e6e5141fcc3a99744dacceff36b5f36cf66b14",
       "ast_digest": "000dd5efbe071cb9735c35c906e3e0f2f914632abce4ade963152e8a1e54395f"
     },
     "stp": {
-      "values_digest": "bd7f4de5bc1b53f62520ad204e9987c49cc6dfcaaf6e1b11da1d5984fd9fa8e6",
+      "values_digest": "34b5220148c98614a68d2ad957590fd2f4d9058a1e51548eecf165fc6034f7f0",
       "rendered_digest": "eecfee175e430006c55681541ddc2b7f56b50899b3426816de28ee22a762d314",
       "ast_digest": "a349cc9f1f98892d2e68ad155ff795a80c79fd0b954c821313ff4d29a0bf5875"
     },
     "spp": {
-      "values_digest": "e0a9fd8c59ae0d8698f49aa601a56959f4498d183ef95f201e32b0926c262218",
+      "values_digest": "4741495f1bf09ce9f66c23639afba5060618621cb654eae00f7c4e574d51d5a8",
       "rendered_digest": "69746498e638699d0ac624ca6791b7e1fca0105269046196677f6a1b2b56ad47",
       "ast_digest": "0dacb1211c58529a33eb0dfaa8afffd27155acb7aaf69e8ed123b577b73fd3fd"
     },
     "vpp": {
-      "values_digest": "46cd0d3fd44cbbcd1f647db1dbc59fbae65c55cccf359fe618f0e71baeaaad5f",
+      "values_digest": "fbaa221d3d4605915d6a25073ee6282bccbc313d262b15a9de1b32ecf7bbe555",
       "rendered_digest": "360791bdf09d0341533ee7fc446f73cf5e42a09c00935875014033c3d498b66b",
       "ast_digest": "76ac742a01efadd6c9a85a76900c29dad1e391c753ede29fd61df858c97ceb79"
     },
     "srp": {
-      "values_digest": "2fcabc88fdc54c2a0752ef2fe1dc89fc323afb72d4c031e94dc8a1e979eee0d8",
-      "rendered_digest": "0ba434d368f066edd9b5d4e7185a14ef27bdce6a43d82b672d5c671def097b0f",
-      "ast_digest": "6538e131a0312f6205bf925b696efe17a54ae06c764ccaa69456e40507321ab9"
+      "values_digest": "4a9d443bfa48bda7ca7a4e5f15a4479e87667871f6be7259b7c714fb205e6a95",
+      "rendered_digest": "4b2942cf8ea86c87939edb25c064ee67263d89de049eadfc798efd2da1f4a001",
+      "ast_digest": "0f8aec09a15962de68779aa32619a37c46d21e6b0313c2c1abc4ad07d197d9d8"
     },
     "sor": {
-      "values_digest": "1162fb2a381518a01923c7f5ab2ae5c5cf8ff5b2dcd6b10e58ad2a462f0b843f",
+      "values_digest": "6c01a1bd45265e605d606077ee5e05e233f784747be102aebf22c992a2877c50",
       "rendered_digest": "ee4cbf595da2ec87a67ba084ffa54e084ef1802f2067d3c525f71bc3ea9b8c75",
       "ast_digest": "804663b278d557afa9156dcae9e70ebc9d31769a33716d5dac4cfd1acb3718c1"
     }
@@ -124,6 +141,13 @@
       "to": "implemented",
       "actor": "codex:wp21-final-handoff",
       "reason": "Recover published review truth to remediate the required full WP-21 sprint review findings before merge."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:wp21-final-handoff",
+      "reason": "The full findings-first WP-21 sprint review passed exact revision 226c8e2a4 with zero P1, P2, or P3 findings after all current blockers were remediated."
     }
   ],
   "audit": [
@@ -210,6 +234,20 @@
       "actor": "codex:wp21-final-handoff",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:wp21-final-handoff",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:wp21-final-handoff",
+      "reason": "The full findings-first WP-21 sprint review passed exact revision 226c8e2a4 with zero P1, P2, or P3 findings after all current blockers were remediated.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

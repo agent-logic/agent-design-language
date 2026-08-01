@@ -35,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- PR #5751 remains on an older head until this exact reviewed revision and its typed review metadata are pushed.
+- Any origin/main movement before merge requires an explicit ancestry refresh and current-head review truth.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:226c8e2a411dbf03378012f0eb5e4d3c14a4b801:791a34139581809797997d21683aca6c5d16cb7cfcafeb908846d3ef74aa31b2")
 
-Reviewer: None
+Reviewer: Some("Wegener")
 
-Result: pre_review
+Result: pass
