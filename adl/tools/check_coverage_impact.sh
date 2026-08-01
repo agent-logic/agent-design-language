@@ -284,7 +284,7 @@ candidate_filter_for_path() {
     adl-runtime/src/runtime_api_auth.rs)
       printf 'runtime_v3_auth'
       ;;
-    adl/src/csdlc_prompt_editor.rs)
+    adl/src/csdlc_prompt_editor.rs|adl/src/csdlc_prompt_editor/*.rs)
       printf 'csdlc_prompt_editor'
       ;;
     adl/src/obsmem_adapter.rs)

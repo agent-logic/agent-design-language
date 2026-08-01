@@ -85,11 +85,11 @@ Resolved all exact-head review findings without widening beyond issue 5558.
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
