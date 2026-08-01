@@ -623,10 +623,28 @@
       "number": 5746,
       "state": "CLOSED",
       "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-08-01T07:34:06Z",
+      "number": 5755,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-08-01T07:41:24Z",
+      "number": 5756,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-08-01T07:41:52Z",
+      "number": 5757,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
     }
   ],
   "label": "version:v0.91.8",
-  "observed_at": "2026-08-01T06:18:54Z",
+  "observed_at": "2026-08-01T09:03:33Z",
   "repository": "danielbaustin/agent-design-language",
   "schema": "adl.v0918.closed_issue_universe.v1",
   "source": "github issue list read-only observation",
