@@ -7,9 +7,9 @@
     "title": "[v0.91.8][WP-15] Converge integrated ADL Runtime and C-SDLC demos",
     "slug": "v0918-wp15-integrated-demo-convergence",
     "version": "v0.91.8",
-    "generation": 13
+    "generation": 23
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -38,12 +38,42 @@
           "purpose": "Prove the WP-14A merge gate, ADL v2 compile and execution, Runtime v3 canonical ingress and live TLS/WSS state, installed C-SDLC v2, accepted Unity evidence, bounded claim matrices, negative cases, redaction, identity, and diff hygiene",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/5354/convergence-proof.v1.json"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5354/run-validation-lane.rb",
+            "post-merge-exact"
+          ],
+          "purpose": "Re-prove the exact merged WP-15 integrated ADL v2, Runtime v3, C-SDLC v2, Unity evidence, claim-boundary, and matrix convergence surface before terminal closeout.",
+          "outcome": "blocked",
+          "evidence_ref": ".csdlc/prepared/issues/5354/record-post-merge-exact-failure-5748.json: command exited 1 because ADL_RUNTIME_V3_BASE_URL was not configured"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5354/run-validation-lane.rb",
+            "post-merge-exact"
+          ],
+          "purpose": "Re-prove the exact merged WP-15 integrated ADL v2, Runtime v3, C-SDLC v2, Unity evidence, claim-boundary, and matrix convergence surface before terminal closeout.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5354/convergence-proof.v1.json"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5354/run-validation-lane.rb",
+            "post-merge-exact"
+          ],
+          "purpose": "Re-prove the exact merged WP-15 integrated ADL v2, Runtime v3, C-SDLC v2, Unity evidence, claim-boundary, and matrix convergence surface before terminal closeout.",
+          "outcome": "skipped_non_goal",
+          "evidence_ref": ".csdlc/prepared/issues/5354/record-post-merge-exact-failure-5748.json: command exited 1 because ADL_RUNTIME_V3_BASE_URL was not configured"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

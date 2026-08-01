@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -42,22 +42,52 @@ Implemented a compact real convergence runner and retained packet spanning ADL v
     "purpose": "Prove the WP-14A merge gate, ADL v2 compile and execution, Runtime v3 canonical ingress and live TLS/WSS state, installed C-SDLC v2, accepted Unity evidence, bounded claim matrices, negative cases, redaction, identity, and diff hygiene",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5354/convergence-proof.v1.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5354/run-validation-lane.rb",
+      "post-merge-exact"
+    ],
+    "purpose": "Re-prove the exact merged WP-15 integrated ADL v2, Runtime v3, C-SDLC v2, Unity evidence, claim-boundary, and matrix convergence surface before terminal closeout.",
+    "outcome": "blocked",
+    "evidence_ref": ".csdlc/prepared/issues/5354/record-post-merge-exact-failure-5748.json: command exited 1 because ADL_RUNTIME_V3_BASE_URL was not configured"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5354/run-validation-lane.rb",
+      "post-merge-exact"
+    ],
+    "purpose": "Re-prove the exact merged WP-15 integrated ADL v2, Runtime v3, C-SDLC v2, Unity evidence, claim-boundary, and matrix convergence surface before terminal closeout.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5354/convergence-proof.v1.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5354/run-validation-lane.rb",
+      "post-merge-exact"
+    ],
+    "purpose": "Re-prove the exact merged WP-15 integrated ADL v2, Runtime v3, C-SDLC v2, Unity evidence, claim-boundary, and matrix convergence surface before terminal closeout.",
+    "outcome": "skipped_non_goal",
+    "evidence_ref": ".csdlc/prepared/issues/5354/record-post-merge-exact-failure-5748.json: command exited 1 because ADL_RUNTIME_V3_BASE_URL was not configured"
   }
 ]
 
 ## Integration
 
-worktree_only
+merged
 
 ## Publication
 
-Publication: not_published
+Publication: closed
 
-Merge: not_merged
+Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 
