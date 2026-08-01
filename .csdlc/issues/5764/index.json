@@ -3,13 +3,13 @@
   "issue": 5764,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c87577fb18bcffa9a7ab3626e0ddde7132084f1c88dbeb1c648d842460499d85",
-  "phase": "published",
-  "generation": 19,
-  "digest": "6af763e10febdda69da894b0aab30043bf3e3ae228f2b86ee4a5501ac1628b77",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "bf62148e77b3b26279e660e82b631d1b73bd42fe3284acbd94a7ee5c8d1229b8",
   "claim": {
     "id": "claim-5764-runtime-observatory-readiness",
     "owner": "codex:5764-runtime-observatory-readiness",
-    "generation": 19,
+    "generation": 24,
     "acquired_unix_seconds": 1785574230,
     "expires_unix_seconds": 1785660630,
     "heartbeat_unix_seconds": 1785574230,
@@ -35,9 +35,9 @@
     "purpose": "Fix Runtime v3 Observatory overnight readiness probes and weather freshness truth"
   },
   "review_assignment": {
-    "reviewer": "subagent:Pasteur:019fbcbe-50e1-7521-bb48-111823b9e321",
+    "reviewer": "subagent:Dalton:019fbcca-69c5-7aa2-812b-edf89c266f86",
     "assigned_by": "codex:5764-runtime-observatory-readiness",
-    "revision": "git-blake3:8864ad6f408ee8c3d64e9ebad4144274fe3f28e4:6924bb34f1986d41d133e9718efa9f3456cf485fcf11932eb668325bf4964764",
+    "revision": "git-blake3:d5c646572536ef6c266b4c2866e6163f37deea95:84a1bf5c53749ccd1369db63e320ebc07a596f4c72b28f4da769f223a41a8c27",
     "scope": [
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/tests/control.rs",
@@ -52,7 +52,7 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:Pasteur:019fbcbe-50e1-7521-bb48-111823b9e321",
+    "reviewer": "subagent:Dalton:019fbcca-69c5-7aa2-812b-edf89c266f86",
     "scope": [
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/tests/control.rs",
@@ -65,26 +65,16 @@
       "docs/api/runtime-v3/v1/openapi.json",
       ".csdlc/issues/5764"
     ],
-    "reviewed_revision": "git-blake3:8864ad6f408ee8c3d64e9ebad4144274fe3f28e4:6924bb34f1986d41d133e9718efa9f3456cf485fcf11932eb668325bf4964764",
+    "reviewed_revision": "git-blake3:d5c646572536ef6c266b4c2866e6163f37deea95:84a1bf5c53749ccd1369db63e320ebc07a596f4c72b28f4da769f223a41a8c27",
     "findings": [],
     "residual_risks": [
-      "Pasteur performed read-only diff review and did not rerun validation tests.",
-      "Hosted PR checks remain pending until publication."
+      "Dalton performed read-only exact-head source review and did not rerun validation tests.",
+      "Hosted PR checks must rerun on the republished head after the CI clippy fix is pushed."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5764,
-    "pull_request": 5771,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5771",
-    "base": "main",
-    "head": "codex/5764-runtime-observatory-readiness",
-    "revision": "git-blake3:20500bb391ad0e2cbc9cd899b88bbdfc2a6bb6f8:4471405c1598678e22bbdfd4b78eecef83931d8c7eba1ae99840a7ec83b08948",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -98,34 +88,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e9d7f424a62f806bc80f335cef9f85636426cc870d2f84539df0168cb95381c6",
+      "values_digest": "d4ea6dc5924119a2baa4268ee5248b6b730dbc44764d072815524e185c408c3c",
       "rendered_digest": "ebc9326d1aba09c1cd55320e0a9310826197bda3517d17ed9c0599d83d8982ee",
       "ast_digest": "d20982b1cd63aa422b6b0ff9b9128d4af75753b654ab4b43960a6d2dfc30e741"
     },
     "stp": {
-      "values_digest": "4a1278964724fe46ee10fdad659ecf812a5ef691925f7a1ce06cbe8e0c79057f",
+      "values_digest": "e10dbd158f26acd3d079b4de0517714f11388fd2bbfedd155029d1f73b047b33",
       "rendered_digest": "12c2a85ff84c4950f80b65c3cf4caf62e49a6fb798714c8d862f66f929f8e432",
       "ast_digest": "2ceaee61ff985688af3f3456ebb90682f980dec257e58f32b6c485494175aaca"
     },
     "spp": {
-      "values_digest": "4d2254e7522597f0f9e63536ad78afc496f0e70934f6a85be49ece9638228cfa",
+      "values_digest": "17d78d0750e26fe3eb9e8502eb927dc17c38b6fb8a338c265a57011b3e8d3c70",
       "rendered_digest": "c39dc32f79a7f8378b3077799a472627417593a0e9162cdd601aa7f07eb6fdb9",
       "ast_digest": "e6f67dd6990d66fe8d7d190f26f02d0760117fb423ed93f7bf9dbae83cfe858b"
     },
     "vpp": {
-      "values_digest": "af35863e143dbaf9c57ffc6a5655dae25caffed539303a4b77ceda83be8a6fb8",
+      "values_digest": "2434554e13619feb93580ee04a83effde937a96058c254faee7e1b3900fb0e00",
       "rendered_digest": "661338346d5d7bc578b78ae70deed268337e8d7c43316165b46f581fb867409f",
       "ast_digest": "34c69f8bf170bf1b486aa48e9d2a402851aba23284cbd44030289e92aea506d0"
     },
     "srp": {
-      "values_digest": "002d3ed3a0e71b4c43437e6547c03775b1d46c2493c4e23ca0276f86f9ab1a9c",
-      "rendered_digest": "c1f44a5fcc69ddcb095be656174a2ca62e7d0b1b63bb974dc585211068887ce7",
-      "ast_digest": "df9c613135811d44c07ac45d9758e31673019554ac483004a848a14bee8ae342"
+      "values_digest": "415791750c6554d009ea402ebdced0490843b211d5099779b4230f580f4ccfb2",
+      "rendered_digest": "2c94be2f9154e647e622b14aa9238b625ac13df74e3260411f2eefa3fd681618",
+      "ast_digest": "d96b2efd3797cb3304b8a4f5cab9deaa56f76c622dc84b76c913dfa24865c78b"
     },
     "sor": {
-      "values_digest": "f93294fdd684767e951c6ebc8c0b6928c74af9431afc1b77f0ec38e052abe2b4",
-      "rendered_digest": "187eff3dac615610c5dacd6e304ec1962804b3c284401b6e517fdcec5f4dfa13",
-      "ast_digest": "9161a2de567cfaf66224a96154245ec2fabb3ffbd4a33b721a88ccc6f0a3daf1"
+      "values_digest": "fb71db6bef395c316e94fbee6da1d666a99c629b8c62178d56967812a21b54b3",
+      "rendered_digest": "abe0134a541a02e3ad19eaac3bdb4ac53056134502591c6eb59c46655e65c9be",
+      "ast_digest": "b9c30baeb2019a28f550b48d10fd6d606acf34e77dda19129be5d1a152f9c224"
     }
   },
   "transitions": [
@@ -177,6 +167,20 @@
       "to": "published",
       "actor": "codex:5764-runtime-observatory-readiness",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Recover publication state after a narrow CI clippy source fix so exact-head review and publication can be refreshed truthfully."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Advance #5764 after exact-head Dalton review confirmed the CI clippy fix is clean."
     }
   ],
   "audit": [
@@ -375,6 +379,48 @@
       "actor": "codex:5764-runtime-observatory-readiness",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Recover publication state after a narrow CI clippy source fix so exact-head review and publication can be refreshed truthfully.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 21,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record the narrow CI clippy remediation after recovering stale publication state.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Fixed the GitHub runtime-v3 fast clippy failure without changing Runtime v3 readiness semantics.\",\"changes\":[\"Replaced Option::map_or(true, |freshness| freshness.stale) with Option::is_none_or(|freshness| freshness.stale) in ControlService::readiness_report.\",\"Preserved the fail-closed readiness behavior where missing weather freshness is treated as weather_stale.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\"]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 22,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Record focused validation for the CI clippy remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test control readiness\",\"node --check demos/html-observatory/app.js\",\"git diff --check origin/main...HEAD\"],\"purpose\":\"Prove the CI clippy failure is fixed while preserving Runtime v3 readiness behavior and adjacent browser/diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork terminal output: clippy passed; readiness tests passed with 2 passed; node --check passed; git diff --check origin/main...HEAD passed\"}}"
+    },
+    {
+      "sequence": 32,
+      "generation": 22,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 23,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 24,
+      "actor": "codex:5764-runtime-observatory-readiness",
+      "reason": "Advance #5764 after exact-head Dalton review confirmed the CI clippy fix is clean.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

@@ -38,13 +38,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Pasteur performed read-only diff review and did not rerun validation tests.
-- Hosted PR checks remain pending until publication.
+- Dalton performed read-only exact-head source review and did not rerun validation tests.
+- Hosted PR checks must rerun on the republished head after the CI clippy fix is pushed.
 
 ## Review Result
 
-Revision: Some("git-blake3:8864ad6f408ee8c3d64e9ebad4144274fe3f28e4:6924bb34f1986d41d133e9718efa9f3456cf485fcf11932eb668325bf4964764")
+Revision: Some("git-blake3:d5c646572536ef6c266b4c2866e6163f37deea95:84a1bf5c53749ccd1369db63e320ebc07a596f4c72b28f4da769f223a41a8c27")
 
-Reviewer: Some("subagent:Pasteur:019fbcbe-50e1-7521-bb48-111823b9e321")
+Reviewer: Some("subagent:Dalton:019fbcca-69c5-7aa2-812b-edf89c266f86")
 
 Result: pass

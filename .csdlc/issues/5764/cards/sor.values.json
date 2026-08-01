@@ -7,13 +7,13 @@
     "title": "[v0.91.8][runtime-v3][observatory] Repair overnight readiness probes and weather freshness truth",
     "slug": "runtime-observatory-readiness",
     "version": "v0.91.8",
-    "generation": 19
+    "generation": 24
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Fixed exact-head review findings for Runtime v3 readiness preflight documentation and Observatory endpoint config artifact truth.",
+      "summary": "Fixed the GitHub runtime-v3 fast clippy failure without changing Runtime v3 readiness semantics.",
       "actual_changes": [
         "Added /v1/ready to Runtime v3 control routes with adl.runtime_v3.readiness.v1 responses and 503 degraded readiness for stale or missing weather freshness.",
         "Updated Runtime v3 OpenAPI and route-inventory tests so /v1/ready is documented, public-read, and route-bound.",
@@ -29,7 +29,9 @@
         "Preserve degraded or pending readiness cache before the first stream frame can render.",
         "Documented OPTIONS /v1/ready in the Runtime v3 OpenAPI contract.",
         "Updated the OpenAPI route inventory test to require both GET and OPTIONS for /v1/ready.",
-        "Recorded demos/html-observatory/runtime-v3.config.json as a durable execution artifact."
+        "Recorded demos/html-observatory/runtime-v3.config.json as a durable execution artifact.",
+        "Replaced Option::map_or(true, |freshness| freshness.stale) with Option::is_none_or(|freshness| freshness.stale) in ControlService::readiness_report.",
+        "Preserved the fail-closed readiness behavior where missing weather freshness is treated as weather_stale."
       ],
       "artifacts": [
         "adl-runtime-kernel/src/control.rs",
@@ -46,7 +48,8 @@
         "demos/html-observatory/app.js",
         "docs/api/runtime-v3/v1/openapi.json",
         "adl-runtime-kernel/tests/openapi_contract.rs",
-        "demos/html-observatory/runtime-v3.config.json"
+        "demos/html-observatory/runtime-v3.config.json",
+        "adl-runtime-kernel/src/control.rs"
       ],
       "actual_validation": [
         {
@@ -117,10 +120,21 @@
           "purpose": "Prove the Runtime v3 /v1/ready preflight route is documented in the OpenAPI inventory, OpenAPI JSON remains parseable, Observatory JavaScript remains parseable, and the exact diff has no whitespace errors.",
           "outcome": "passed",
           "evidence_ref": "local FastWork terminal output: openapi route inventory regression passed; python3 json.tool, node --check, and git diff --check passed"
+        },
+        {
+          "command": [
+            "CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
+            "CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test control readiness",
+            "node --check demos/html-observatory/app.js",
+            "git diff --check origin/main...HEAD"
+          ],
+          "purpose": "Prove the CI clippy failure is fixed while preserving Runtime v3 readiness behavior and adjacent browser/diff hygiene.",
+          "outcome": "passed",
+          "evidence_ref": "local FastWork terminal output: clippy passed; readiness tests passed with 2 passed; node --check passed; git diff --check origin/main...HEAD passed"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "draft",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

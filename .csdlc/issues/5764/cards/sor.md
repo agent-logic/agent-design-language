@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Fixed exact-head review findings for Runtime v3 readiness preflight documentation and Observatory endpoint config artifact truth.
+Fixed the GitHub runtime-v3 fast clippy failure without changing Runtime v3 readiness semantics.
 
 ## Artifacts
 
@@ -31,6 +31,7 @@ Fixed exact-head review findings for Runtime v3 readiness preflight documentatio
 - docs/api/runtime-v3/v1/openapi.json
 - adl-runtime-kernel/tests/openapi_contract.rs
 - demos/html-observatory/runtime-v3.config.json
+- adl-runtime-kernel/src/control.rs
 
 ## Execution
 
@@ -49,6 +50,8 @@ Fixed exact-head review findings for Runtime v3 readiness preflight documentatio
 - Documented OPTIONS /v1/ready in the Runtime v3 OpenAPI contract.
 - Updated the OpenAPI route inventory test to require both GET and OPTIONS for /v1/ready.
 - Recorded demos/html-observatory/runtime-v3.config.json as a durable execution artifact.
+- Replaced Option::map_or(true, |freshness| freshness.stale) with Option::is_none_or(|freshness| freshness.stale) in ControlService::readiness_report.
+- Preserved the fail-closed readiness behavior where missing weather freshness is treated as weather_stale.
 
 ## Validation
 
@@ -121,16 +124,27 @@ Fixed exact-head review findings for Runtime v3 readiness preflight documentatio
     "purpose": "Prove the Runtime v3 /v1/ready preflight route is documented in the OpenAPI inventory, OpenAPI JSON remains parseable, Observatory JavaScript remains parseable, and the exact diff has no whitespace errors.",
     "outcome": "passed",
     "evidence_ref": "local FastWork terminal output: openapi route inventory regression passed; python3 json.tool, node --check, and git diff --check passed"
+  },
+  {
+    "command": [
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5764-target cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test control readiness",
+      "node --check demos/html-observatory/app.js",
+      "git diff --check origin/main...HEAD"
+    ],
+    "purpose": "Prove the CI clippy failure is fixed while preserving Runtime v3 readiness behavior and adjacent browser/diff hygiene.",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork terminal output: clippy passed; readiness tests passed with 2 passed; node --check passed; git diff --check origin/main...HEAD passed"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 
