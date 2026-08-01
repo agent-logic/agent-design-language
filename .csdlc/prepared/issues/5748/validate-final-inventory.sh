@@ -13,6 +13,7 @@ inventory="$repo_root/csdlc-v2/operator/coexistence.json"
 register="$repo_root/.csdlc/prepared/issues/5748/fail-closed-exceptions.md"
 universe="$repo_root/.csdlc/evidence/5748/v0918-closed-issue-universe.json"
 remote_audit="$repo_root/.csdlc/evidence/5748/v0918-remote-terminal-audit.json"
+closeout_prune_results="$repo_root/.csdlc/evidence/5748/v0918-closeout-prune-results.json"
 
 fail() {
   printf 'v0.91.8 terminal inventory FAIL: %s\n' "$1" >&2
@@ -95,6 +96,7 @@ not_planned_terminal_issues=(5335)
 require_file "$repo_root" "$register"
 require_file "$repo_root" "$universe"
 require_file "$repo_root" "$remote_audit"
+require_file "$repo_root" "$closeout_prune_results"
 require_file "$repo_root" "$installer"
 require_file "$repo_root" "$doctor"
 require_file "$repo_root" "$inventory"
@@ -149,6 +151,33 @@ jq -e --argjson closed_count "$closed_count" \
      .checks.observed_head_matches == true and
      .checks.no_pr_consistent == true)' \
   "$remote_audit" >/dev/null || fail "remote terminal disposition audit is invalid"
+require_eq "$(jq -S '[.issues[].number]' "$closeout_prune_results")" \
+  "$(jq -S '[.issues[].number]' "$universe")" \
+  "closeout/prune report issue universe differs from retained closed universe"
+jq -e --argjson closed_count "$closed_count" \
+  '.schema == "adl.v0918.closeout_prune_results.v1" and
+   .repository == "danielbaustin/agent-design-language" and
+   .label == "version:v0.91.8" and
+   (.observed_at | type == "string" and length > 0) and
+   .source == "typed C-SDLC v2 closeout verification and validate-prune observation" and
+   (.issues | length) == $closed_count and
+   all(.issues[];
+     .closeout.phase == "closed_out" and
+     .closeout.claim_free == true and
+     .closeout.doctor_pass == true and
+     .closeout.receipt_equal == true and
+     .closeout.cards_equal == true and
+     (.prune.status == "eligible" or
+      .prune.status == "blocked" or
+      .prune.status == "not_registered") and
+     .prune.pruned == false and
+     (if .prune.status == "eligible" then
+        .prune.eligible == true
+      else
+        .prune.eligible == false and
+        (.prune.reason | type == "string" and length > 0)
+      end))' \
+  "$closeout_prune_results" >/dev/null || fail "closeout/prune result report is invalid"
 observed_register_issues="$(
   sed -n 's/^## #\([0-9][0-9]*\) —.*/\1/p' "$register" | sort -n | tr '\n' ' '
 )"

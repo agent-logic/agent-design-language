@@ -68,7 +68,7 @@ Diagram: .csdlc/prepared/issues/5748/diagram.mmd
   },
   {
     "lane": "terminal-receipt-doctor-regression",
-    "proof_role": "Prove doctor rejects tampered receipt digests, authored-artifact drift, and symlinked receipts.",
+    "proof_role": "Prove doctor rejects tampered receipt digests, authored-artifact drift, and symlinked receipts while accepting canonical terminal authority.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -86,9 +86,61 @@ Diagram: .csdlc/prepared/issues/5748/diagram.mmd
       "csdlc-v2/Cargo.toml",
       "--test",
       "gate7_lifecycle",
-      "no_pr_closeout_produces_doctor_valid_terminal_state"
+      "no_pr_closeout_produces_doctor_valid_terminal_state",
+      "--",
+      "--exact"
     ],
     "parallel_group": "local-fast",
+    "defer_reason": null
+  },
+  {
+    "lane": "csdlc-v2-current-full-suite",
+    "proof_role": "Run every current C-SDLC v2 library, binary, integration, lifecycle, GitHub, and doc-test target at the final source revision.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-5",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 2400,
+    "budget_tokens": 16000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml"
+    ],
+    "parallel_group": "current-source-rust",
+    "defer_reason": null
+  },
+  {
+    "lane": "csdlc-v2-current-strict-clippy",
+    "proof_role": "Reject warnings across every current C-SDLC v2 target at the final source revision.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-5",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 1200,
+    "budget_tokens": 8000,
+    "argv": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "parallel_group": "current-source-rust",
     "defer_reason": null
   },
   {
@@ -128,7 +180,9 @@ Tokens: 50000
 
 - `bash .csdlc/prepared/issues/5748/validate-final-inventory.sh`
 - `bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --self-test-path-guards`
-- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle no_pr_closeout_produces_doctor_valid_terminal_state`
+- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle no_pr_closeout_produces_doctor_valid_terminal_state -- --exact`
+- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml`
+- `cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings`
 - `git diff --check origin/main..HEAD`
 
 ## Failure Semantics

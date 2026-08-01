@@ -7,193 +7,55 @@
     "title": "[v0.91.8][csdlc-v2][closeout] Recover remaining closed-issue terminal truth",
     "slug": "remaining-closed-issue-terminal-recovery",
     "version": "v0.91.8",
-    "generation": 26
+    "generation": 31
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Completed the exhaustive live v0.91.8 closed-issue audit on current origin/main: 91 issues have authenticated receipt-backed terminal projections, 11 cases remain exact typed fail-closed exceptions, and #5335 is the sole noneligible exclusion in the retained 103-issue universe.",
+      "summary": "Completed exhaustive typed C-SDLC v2 terminal reconciliation for all 114 GitHub-closed v0.91.8 issues with retained receipts, released claims, live PR parity, explicit prune classifications, and zero fail-closed exceptions.",
       "actual_changes": [
-        "Materialized the origin/main terminal delta for 75 receipt-backed issue projections, including newly closed issue #5352 and the newer retained #5645 authority.",
-        "Recovered #5499 from its newer claim-free reviewed authority through typed, source-bound historical reconciliation and retained its terminal receipt.",
-        "Added deterministic receipt transport, recordless recovery, cross-worktree authority rehome, historical merged reconciliation, rollback, remote-linkage, and canonical-artifact guards to C-SDLC v2.",
-        "Recorded ten exact-head fail-closed implementation exceptions and one noneligible closed/no-merged-PR exclusion instead of inventing terminal receipts.",
-        "Added a portable local validator proving the final 90 terminal, 10 exception, and one exclusion classification.",
-        "Materialized and retained 90 canonical closed_out projections whose record, six cards, receipt identity and digest, and authored design artifacts agree.",
-        "Preserved ten exact typed fail-closed exceptions without manufacturing receipts or terminal authority.",
-        "Hardened csdlc-doctor so closed_out health authenticates the full retained terminal receipt, materialized record and cards, and authored artifacts.",
-        "Hardened the aggregate validator against final, parent-component, and dangling symlinks and pinned the full live 101-issue partition plus exception identities.",
-        "Added deterministic regressions for receipt tampering, authored-artifact drift, and symlinked terminal receipts.",
-        "Bound terminal record, card, and receipt identities to the requested issue namespace and added cross-issue substitution regressions.",
-        "Rejected absolute, traversing, leaf-symlink, and ancestor-symlink terminal paths before parsing any governed projection or authored artifact.",
-        "Classified missing or corrupt closed-out authority through the terminal-specific reconciliation route instead of generic readiness repair.",
-        "Reconciled newly merged #5347 into a claim-free receipt-backed terminal projection on the dedicated closeout branch.",
-        "Recorded #5346 as an exact fail-closed exception after its typed SPP correction was rejected in merge_ready without mutation.",
-        "Hardened first receipt retention and durable terminal recovery against receipt, authored-artifact, temporary-file, and ancestor symlink paths before any governed read or write.",
-        "Bound #5346 fail-closed truth to a machine-readable packet, exact committed projection/card hashes, expected doctor result, and the typed no-mutation repair failure.",
-        "Rebased the dedicated closeout branch onto current origin/main and preserved the newer receipt-backed #5347 terminal authority during conflict resolution.",
-        "Corrected stale SIP, STP, and SRP boundaries through narrow typed implemented-phase operations so #5746 worktree protection and read-only GitHub observation are stated truthfully."
+        "Materialized claim-free, receipt-backed closed_out projections for the complete 114-issue live v0.91.8 closed universe.",
+        "Implemented typed receipt transport, recordless recovery, corrupt-receipt reconciliation, historical merged reconciliation, and cross-worktree authority controls.",
+        "Hardened lifecycle storage, doctor, Git/GitHub observation, merge, and closeout paths against namespace drift, stale authority, unsafe paths, symlinks, and partial-write recovery failures.",
+        "Added deterministic regressions covering terminal recovery, receipt integrity, projection identity, review lineage, remote linkage, rollback, and prune safety.",
+        "Materialized the final #5558 terminal projection after PR #5769 merged and its claim was released.",
+        "Refreshed the authoritative live universe and generated typed remote-disposition evidence for 108 unique pull requests.",
+        "Generated explicit per-issue closeout and non-destructive validate-prune results without deleting any worktree.",
+        "Strengthened the aggregate validator and closeout operator skill to require complete record/card/receipt equality and zero unresolved exceptions."
       ],
       "artifacts": [
+        ".csdlc/issues",
+        ".csdlc/evidence/5748/v0918-closed-issue-universe.json",
+        ".csdlc/evidence/5748/v0918-remote-terminal-audit.json",
+        ".csdlc/evidence/5748/v0918-closeout-prune-results.json",
+        ".csdlc/prepared/issues/5748/generate-final-audits.sh",
+        ".csdlc/prepared/issues/5748/validate-final-inventory.sh",
         "csdlc-v2/src",
         "csdlc-v2/tests",
-        ".csdlc/issues",
-        ".csdlc/prepared/issues/5748/fail-closed-exceptions.md",
-        ".csdlc/prepared/issues/5748/validate-final-inventory.sh",
-        ".csdlc/evidence/5748/v0918-closed-issue-universe.json",
-        ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md",
-        ".csdlc/prepared/issues/5748/fail-closed-exceptions.md",
-        ".csdlc/prepared/issues/5748/validate-final-inventory.sh",
-        "csdlc-v2/src/doctor.rs",
-        "csdlc-v2/src/store.rs",
-        "csdlc-v2/tests/gate7_lifecycle.rs",
-        ".csdlc/issues/5347",
-        ".csdlc/evidence/5748/exact-head-validation-f9398dae3.md",
-        ".csdlc/evidence/5748/exceptions/5346.json",
-        ".csdlc/evidence/5748/exact-head-validation-6ac9e60dd.md"
+        "csdlc-v2/operator/skills/csdlc-v2-closeout/SKILL.md"
       ],
       "actual_validation": [
         {
           "command": [
-            "git",
-            "diff",
-            "--check"
-          ],
-          "purpose": "Reject whitespace errors in the aggregate closeout worktree before review.",
-          "outcome": "passed",
-          "evidence_ref": "aggregate-diff-hygiene.log"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--locked",
-            "--manifest-path",
-            "csdlc-v2/Cargo.toml"
-          ],
-          "purpose": "Run all locked C-SDLC v2 package, integration, and doc tests after the historical recovery hardening.",
-          "outcome": "passed",
-          "evidence_ref": "csdlc-v2-full-tests.log"
-        },
-        {
-          "command": [
-            "cargo",
-            "clippy",
-            "--locked",
-            "--manifest-path",
-            "csdlc-v2/Cargo.toml",
-            "--all-targets",
-            "--",
-            "-D",
-            "warnings"
-          ],
-          "purpose": "Run strict all-target Clippy against the final typed recovery implementation.",
-          "outcome": "passed",
-          "evidence_ref": "csdlc-v2-strict-clippy.log"
-        },
-        {
-          "command": [
             "bash",
             ".csdlc/prepared/issues/5748/validate-final-inventory.sh"
           ],
-          "purpose": "Validate all 90 terminal projections and receipts with doctor and ensure every fail-closed exception is explicitly registered without a receipt.",
+          "purpose": "Prove all 114 closed v0.91.8 issues are claim-free, receipt-backed, doctor-valid, remote-disposition consistent, and represented in explicit non-destructive prune results with zero exceptions.",
           "outcome": "passed",
-          "evidence_ref": "v0918-final-terminal-inventory.log"
+          "evidence_ref": ".csdlc/evidence/5748/v0918-closed-issue-universe.json; .csdlc/evidence/5748/v0918-remote-terminal-audit.json; .csdlc/evidence/5748/v0918-closeout-prune-results.json"
         },
         {
           "command": [
-            "bash",
-            ".csdlc/prepared/issues/5748/validate-final-inventory.sh"
+            "bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --self-test-path-guards",
+            "cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle no_pr_closeout_produces_doctor_valid_terminal_state -- --exact",
+            "cargo test --locked --manifest-path csdlc-v2/Cargo.toml",
+            "cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- --deny warnings",
+            "git diff --check"
           ],
-          "purpose": "Authenticate exact-head owner binaries, the retained live 101-issue universe, all 90 full terminal receipts and authored artifacts, and all ten pinned fail-closed exceptions.",
+          "purpose": "Prove symlink-safe governed paths, focused retained-receipt integrity, every current C-SDLC v2 target and doc test, warning-free source, and clean aggregate patch bytes.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md"
-        },
-        {
-          "command": [
-            "bash",
-            ".csdlc/prepared/issues/5748/validate-final-inventory.sh",
-            "--self-test-path-guards"
-          ],
-          "purpose": "Prove final-file, parent-component, and dangling symlinks fail closed in the aggregate inventory validator.",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--locked",
-            "--manifest-path",
-            "csdlc-v2/Cargo.toml",
-            "--test",
-            "gate7_lifecycle",
-            "no_pr_closeout_produces_doctor_valid_terminal_state",
-            "--",
-            "--exact"
-          ],
-          "purpose": "Prove doctor rejects receipt-digest tampering, authored-artifact drift, and symlinked terminal receipts while accepting canonical terminal authority.",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md"
-        },
-        {
-          "command": [
-            "git",
-            "diff",
-            "--check",
-            "origin/main..HEAD"
-          ],
-          "purpose": "Reject whitespace and patch-integrity defects across the complete aggregate closeout change.",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--locked",
-            "--manifest-path",
-            "csdlc-v2/Cargo.toml",
-            "--quiet"
-          ],
-          "purpose": "Run every C-SDLC v2 library, binary, integration, lifecycle, GitHub, and doc-test target after terminal-authority hardening.",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md"
-        },
-        {
-          "command": [
-            "cargo",
-            "clippy",
-            "--locked",
-            "--manifest-path",
-            "csdlc-v2/Cargo.toml",
-            "--all-targets",
-            "--",
-            "-D",
-            "warnings"
-          ],
-          "purpose": "Reject all C-SDLC v2 warnings across every target after terminal-authority hardening.",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-25fdcdafa.md"
-        },
-        {
-          "command": [
-            "bash",
-            ".csdlc/prepared/issues/5748/validate-final-inventory.sh"
-          ],
-          "purpose": "Authenticate exact-head owner binaries and terminal paths, prove live parity for all 103 closed v0.91.8 issues, validate 91 full receipts and 11 pinned fail-closed exceptions, and bind the unchanged fully tested C-SDLC v2 source to the final audit head.",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-f9398dae3.md"
-        },
-        {
-          "command": [
-            "bash",
-            ".csdlc/prepared/issues/5748/validate-final-inventory.sh"
-          ],
-          "purpose": "Authenticate current-main ancestry, exact owner binaries, live 103-issue parity, 91 terminal receipts, 11 pinned fail-closed exceptions including #5346, complete Rust validation, strict lint, and symlink-safe retention/recovery regressions.",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/5748/exact-head-validation-6ac9e60dd.md"
+          "evidence_ref": "local working-tree proof at source e52d8e270 with external target /Volumes/FastWork/adl-5748/csdlc-v2-install-target; all declared lanes PASS"
         }
       ],
       "integration_state": "not_started",

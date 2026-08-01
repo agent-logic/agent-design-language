@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
   "phase": "implemented",
-  "generation": 26,
-  "digest": "5495aa4060e0497ef64ceab7335b68b16a582d5b7b14ce7e14ede72a07fc82f6",
+  "generation": 31,
+  "digest": "e70c86e656c8338ab7e73b9695e18dd7f1587efb71a9ced5bacc41d88feed2a3",
   "claim": {
     "id": "claim-5748-terminal-recovery-without-csdlc-v2",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
-    "generation": 26,
+    "generation": 31,
     "acquired_unix_seconds": 1785574293,
     "expires_unix_seconds": 1786179093,
     "heartbeat_unix_seconds": 1785574293,
@@ -36,6 +36,7 @@
       ".csdlc/issues/5499",
       ".csdlc/issues/5540",
       ".csdlc/issues/5548",
+      ".csdlc/issues/5558",
       ".csdlc/issues/5572",
       ".csdlc/issues/5587",
       ".csdlc/issues/5610",
@@ -100,34 +101,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f05cfeb3c7212c374a2dcd3e9349b41143c0a378e3f82c73265bf7ffb020f8ba",
+      "values_digest": "a9643229ff6151f153f90beba35021623145d96938c21337c98d3896f13a52df",
       "rendered_digest": "7131808bad6d02afd6d10f86d509e21cefd1e218e278c84126aa0928aff48277",
       "ast_digest": "e7fa00329133cf3d6a6490545302ca22acb2dd4dc2790b235e4f780f1cda0858"
     },
     "stp": {
-      "values_digest": "0f81df1e560fde75052a4c2ff2e741100362651e79d38c1480dbe67b03619708",
+      "values_digest": "b305a06a69c6b6655bae1a39a0ad85b5a4e5f705d6d9123a3d7d3bbc1ffb9cfd",
       "rendered_digest": "f2bcecd25975a08e704db32829dc123f5585aad64c9a53ada7bc86dcb92143e8",
       "ast_digest": "d44ecf1c459ef6eeceae9febf3297b6f073f1d7d7246f091aedfc9041e615e8d"
     },
     "spp": {
-      "values_digest": "df2053fda88a937fb633a4b78ba5b6151089fbe92e920e447f272f6b70919616",
+      "values_digest": "f43751943f03a6941f3f3b57d14d7ba2f8331514378c4783190d0519f8f880a2",
       "rendered_digest": "e9b0d898d2a756b4fdad65dc50cb51b1ce6b7a30ecee883c73238f4882dc33ab",
       "ast_digest": "bc33f4d0c44c7a28cb49b903543db9235180fca69993b0e7522b00eb92df8e64"
     },
     "vpp": {
-      "values_digest": "1f18fd568164e07db4ed4709172fd05cf20743839d7198223d8f3b665fdc8e57",
-      "rendered_digest": "6e4560e7742a9599734911783e25e96f875f0c883cbe1abfb10239bb49763369",
-      "ast_digest": "8a206ffca1fcdba2a286af25bd1d0df34329439e730276e6c0e3e2c0c03a4904"
+      "values_digest": "59257e1b0f58c63024fb64197a334db50860f512fd32d9fc92eed9677a3fb04f",
+      "rendered_digest": "3e1bf39edd27df0c6f9f242c7b0281484b23ba6d4830baa7a19835768cd074fd",
+      "ast_digest": "598d74187c5473bb9847382c5feb13bc09ce957751b5412279096e40626dd4e9"
     },
     "srp": {
-      "values_digest": "325cbd4088a33d7f8d202cc0229858101fb40567ca65984cb2c89c068484d3c1",
+      "values_digest": "feda24134b51872b463e92fd08c215fd85ee4d6877776f8c3fb710a0fdadda33",
       "rendered_digest": "5438fc034776835713e7278959e1339264a019daeef57dd9901907adf5899ec6",
       "ast_digest": "0277a32f19dabc31451b99d4046653f022dcaa82d754162e72f1fa31e808acb8"
     },
     "sor": {
-      "values_digest": "b2ba3345f5074fa250092d904ad2e55b934215e49ff958414548cc741464c1e4",
-      "rendered_digest": "be11c7f26ade6cdb3a27ac7cc731bb0556c6f6a6494f5bd489ffe75cf3b64e33",
-      "ast_digest": "f333d9e9ae6aca8c1ef60733e67c0622d5a9a03f4b31b7a831757dfe0a1d3f86"
+      "values_digest": "9a684577d6972b49c06bf8a8889ab0ce6316d8508c4800d887a76ac67f5f2083",
+      "rendered_digest": "86861d0dc4b7f630eb0957ce21bc998e30be2eef261cdc41c5ffb51f600aee0e",
+      "ast_digest": "b11cf5fe11fc6ba7ce5c0a8e4a2efc563b90ae3d8e7f98ff6f608d6f2fdab476"
     }
   },
   "transitions": [
@@ -594,6 +595,48 @@
       "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
       "reason": "Replace the obsolete 90/10/1 proof partition with the final complete live-universe, remote-disposition, receipt-integrity, and per-issue prune-report validation surface.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"terminal-inventory-and-full-receipt-integrity\",\"proof_role\":\"Verify exact-head owner-binary provenance, the complete retained live closed v0.91.8 universe, claim-free receipt-backed terminal projections, remote merged-PR and observed-head parity, zero unresolved exceptions, and the explicit per-issue closeout/prune result report.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":9000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\"],\"parallel_group\":\"local-inventory\",\"defer_reason\":null},{\"lane\":\"inventory-path-guard-regression\",\"proof_role\":\"Prove final, parent-component, and dangling symlinks fail closed in the aggregate validator.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\",\"--self-test-path-guards\"],\"parallel_group\":\"local-fast\",\"defer_reason\":null},{\"lane\":\"terminal-receipt-doctor-regression\",\"proof_role\":\"Prove doctor rejects tampered receipt digests, authored-artifact drift, and symlinked receipts.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate7_lifecycle\",\"no_pr_closeout_produces_doctor_valid_terminal_state\"],\"parallel_group\":\"local-fast\",\"defer_reason\":null},{\"lane\":\"aggregate-diff-hygiene\",\"proof_role\":\"Reject whitespace errors across the complete origin/main aggregate change.\",\"acceptance_ids\":[\"AC-4\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main..HEAD\"],\"parallel_group\":\"local-fast\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 64,
+      "generation": 27,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Require final current-source full-suite and strict-lint proof in addition to the exhaustive terminal inventory, remote parity, prune report, path guards, and focused receipt regression.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"terminal-inventory-and-full-receipt-integrity\",\"proof_role\":\"Verify exact-head owner-binary provenance, the complete retained live closed v0.91.8 universe, claim-free receipt-backed terminal projections, remote merged-PR and observed-head parity, zero unresolved exceptions, and the explicit per-issue closeout/prune result report.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":9000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\"],\"parallel_group\":\"local-inventory\",\"defer_reason\":null},{\"lane\":\"inventory-path-guard-regression\",\"proof_role\":\"Prove final, parent-component, and dangling symlinks fail closed in the aggregate validator.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\",\"--self-test-path-guards\"],\"parallel_group\":\"local-fast\",\"defer_reason\":null},{\"lane\":\"terminal-receipt-doctor-regression\",\"proof_role\":\"Prove doctor rejects tampered receipt digests, authored-artifact drift, and symlinked receipts while accepting canonical terminal authority.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate7_lifecycle\",\"no_pr_closeout_produces_doctor_valid_terminal_state\",\"--\",\"--exact\"],\"parallel_group\":\"local-fast\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-current-full-suite\",\"proof_role\":\"Run every current C-SDLC v2 library, binary, integration, lifecycle, GitHub, and doc-test target at the final source revision.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":2400,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"current-source-rust\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-current-strict-clippy\",\"proof_role\":\"Reject warnings across every current C-SDLC v2 target at the final source revision.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"current-source-rust\",\"defer_reason\":null},{\"lane\":\"aggregate-diff-hygiene\",\"proof_role\":\"Reject whitespace errors across the complete origin/main aggregate change.\",\"acceptance_ids\":[\"AC-4\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main..HEAD\"],\"parallel_group\":\"local-fast\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 65,
+      "generation": 27,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Authorize materialization of the released and receipt-backed #5558 terminal projection in the dedicated #5748 aggregate closeout worktree.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5558\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 66,
+      "generation": 28,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Replace stale partial-audit SOR truth with the completed exhaustive v0.91.8 terminal recovery outcome.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Completed exhaustive typed C-SDLC v2 terminal reconciliation for all 114 GitHub-closed v0.91.8 issues with retained receipts, released claims, live PR parity, and zero fail-closed exceptions.\",\"changes\":[\"Materialized the final #5558 receipt-backed terminal projection after PR #5769 merged and its claim was released.\",\"Refreshed the authoritative live 114-issue closed universe and generated typed remote-disposition evidence for 108 unique pull requests.\",\"Generated explicit per-issue closeout and non-destructive validate-prune results for the complete universe.\",\"Strengthened the aggregate validator to require exact universe parity, remote merged/head parity, full record/card/receipt equality, and zero unresolved exceptions.\",\"Added a deterministic parallel audit generator that never prunes or manufactures terminal authority.\"],\"artifacts\":[\".csdlc/issues/5558\",\".csdlc/evidence/5748/v0918-closed-issue-universe.json\",\".csdlc/evidence/5748/v0918-remote-terminal-audit.json\",\".csdlc/evidence/5748/v0918-closeout-prune-results.json\",\".csdlc/prepared/issues/5748/generate-final-audits.sh\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\"]}"
+    },
+    {
+      "sequence": 67,
+      "generation": 29,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Record exhaustive current live-universe terminal validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\"],\"purpose\":\"Prove all 114 closed v0.91.8 issues are claim-free, receipt-backed, doctor-valid, remote-disposition consistent, and represented in explicit non-destructive prune results with zero exceptions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/v0918-closed-issue-universe.json; .csdlc/evidence/5748/v0918-remote-terminal-audit.json; .csdlc/evidence/5748/v0918-closeout-prune-results.json\"}}"
+    },
+    {
+      "sequence": 68,
+      "generation": 30,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Record final path-safety, terminal regression, complete suite, strict lint, and diff-hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --self-test-path-guards\",\"cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle no_pr_closeout_produces_doctor_valid_terminal_state -- --exact\",\"cargo test --locked --manifest-path csdlc-v2/Cargo.toml\",\"cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- --deny warnings\",\"git diff --check\"],\"purpose\":\"Prove symlink-safe governed paths, focused retained-receipt integrity, every current C-SDLC v2 target and doc test, warning-free source, and clean aggregate patch bytes.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact working-tree proof at committed source e52d8e270 with external target /Volumes/FastWork/adl-5748/csdlc-v2-install-target; path guard PASS; focused 1/1; full suite PASS; strict Clippy PASS; diff check PASS\"}}"
+    },
+    {
+      "sequence": 69,
+      "generation": 31,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Atomically replace obsolete partial-audit counts, exceptions, artifacts, and validation with final exhaustive execution truth.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed exhaustive typed C-SDLC v2 terminal reconciliation for all 114 GitHub-closed v0.91.8 issues with retained receipts, released claims, live PR parity, explicit prune classifications, and zero fail-closed exceptions.\",\"changes\":[\"Materialized claim-free, receipt-backed closed_out projections for the complete 114-issue live v0.91.8 closed universe.\",\"Implemented typed receipt transport, recordless recovery, corrupt-receipt reconciliation, historical merged reconciliation, and cross-worktree authority controls.\",\"Hardened lifecycle storage, doctor, Git/GitHub observation, merge, and closeout paths against namespace drift, stale authority, unsafe paths, symlinks, and partial-write recovery failures.\",\"Added deterministic regressions covering terminal recovery, receipt integrity, projection identity, review lineage, remote linkage, rollback, and prune safety.\",\"Materialized the final #5558 terminal projection after PR #5769 merged and its claim was released.\",\"Refreshed the authoritative live universe and generated typed remote-disposition evidence for 108 unique pull requests.\",\"Generated explicit per-issue closeout and non-destructive validate-prune results without deleting any worktree.\",\"Strengthened the aggregate validator and closeout operator skill to require complete record/card/receipt equality and zero unresolved exceptions.\"],\"artifacts\":[\".csdlc/issues\",\".csdlc/evidence/5748/v0918-closed-issue-universe.json\",\".csdlc/evidence/5748/v0918-remote-terminal-audit.json\",\".csdlc/evidence/5748/v0918-closeout-prune-results.json\",\".csdlc/prepared/issues/5748/generate-final-audits.sh\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\",\"csdlc-v2/src\",\"csdlc-v2/tests\",\"csdlc-v2/operator/skills/csdlc-v2-closeout/SKILL.md\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/5748/validate-final-inventory.sh\"],\"purpose\":\"Prove all 114 closed v0.91.8 issues are claim-free, receipt-backed, doctor-valid, remote-disposition consistent, and represented in explicit non-destructive prune results with zero exceptions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5748/v0918-closed-issue-universe.json; .csdlc/evidence/5748/v0918-remote-terminal-audit.json; .csdlc/evidence/5748/v0918-closeout-prune-results.json\"},{\"command\":[\"bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --self-test-path-guards\",\"cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle no_pr_closeout_produces_doctor_valid_terminal_state -- --exact\",\"cargo test --locked --manifest-path csdlc-v2/Cargo.toml\",\"cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- --deny warnings\",\"git diff --check\"],\"purpose\":\"Prove symlink-safe governed paths, focused retained-receipt integrity, every current C-SDLC v2 target and doc test, warning-free source, and clean aggregate patch bytes.\",\"outcome\":\"passed\",\"evidence_ref\":\"local working-tree proof at source e52d8e270 with external target /Volumes/FastWork/adl-5748/csdlc-v2-install-target; all declared lanes PASS\"}]}"
     }
   ]
 }
