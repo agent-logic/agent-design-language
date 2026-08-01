@@ -1,0 +1,17 @@
+{
+  "schema": "adl.wp13.post_deletion_validation.v1",
+  "issue": 5346,
+  "status": "pass",
+  "deferred": [
+
+  ],
+  "serialized_after_5347": false,
+  "post_merge_revision": null,
+  "loc_accounting": {
+    "deleted": 46358,
+    "retained": 0,
+    "new": 0,
+    "pinned_denominator": 46358
+  },
+  "reviewed_80_to_89_exception": false
+}

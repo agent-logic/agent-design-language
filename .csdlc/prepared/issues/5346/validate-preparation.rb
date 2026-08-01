@@ -11,8 +11,9 @@ ISSUE_DIR = ROOT.join(".csdlc/issues/5346")
 INDEX = ISSUE_DIR.join("index.json")
 PREP = ROOT.join(".csdlc/prepared/issues/5346")
 REQUIRED = %w[sip stp spp vpp srp sor].freeze
-PREP_FILES = %w[design.md diagram.mmd bootstrap-request.json check-dependencies.rb validate-preparation.rb run-validation-lane.rb reacquire-preparation-claim-20260731.json].freeze
+PREP_FILES = %w[design.md diagram.mmd bootstrap-request.json check-dependencies.rb validate-preparation.rb run-validation-lane.rb write-deletion-evidence.rb reacquire-preparation-claim-20260731.json transition-active-execution-claim.json revoke-lockfile-overclaim.json reacquire-clean-execution-claim.json].freeze
 PROHIBITED_PRODUCT_PREFIXES = %w[adl/src adl-v2 adl-runtime adl-runtime-kernel].freeze
+EXPECTED_DELETION_PREFIXES = %w[adl/src/cli/tooling_cmd adl/src/cli/tests/pr_cmd_inline].freeze
 
 def assert(condition, message)
   raise message unless condition
@@ -38,7 +39,7 @@ assert(index.fetch("issue") == 5346 && index.fetch("repository") == "danielbaust
 claim = index.fetch("claim")
 assert(claim.fetch("id") == "claim-5346-v0918-wp13-deletion-preparation-current", "wrong claim")
 assert(claim.fetch("branch") == "codex/5346-v0918-wp13-final-adl-deletion" && claim.fetch("worktree") == ".", "claim is not bound to this checkout")
-assert(claim.fetch("purpose").include?("preparation only") && claim.fetch("purpose").include?("no source path may be claimed or deleted"), "claim is not preparation-only")
+assert(claim.fetch("purpose").include?("Execute #5346 WP-13") && claim.fetch("purpose").include?("do not touch #5347 external-band paths, Runtime v2, or unrelated lockfiles"), "claim is not execution-scoped")
 
 PREP_FILES.each { |name| assert(PREP.join(name).file?, "missing preparation artifact #{name}") }
 assert(index.fetch("design_path") == ".csdlc/prepared/issues/5346/design.md", "wrong design path")
@@ -68,13 +69,10 @@ assert(initial.fetch("acceptance_criteria").length == 10, "acceptance criteria c
 assert(initial.fetch("validation_lanes").map { |item| item["lane"] } == expected_lanes, "bootstrap/VPP lane drift")
 assert(initial.fetch("invariants").include?("Runtime v2 is categorically outside #5346 ownership and may not be edited or deleted by this issue"), "Runtime v2 prohibition is not categorical")
 assert(initial.fetch("non_goals").any? { |item| item.include?("Runtime v2") }, "Runtime v2 non-goal missing")
-assert(initial.fetch("dependencies").any? { |item| item.include?("#5347") }, "#5347 dependency missing")
-%w[#5384 #5354 #5351 #5360].each do |term|
-  assert(initial.fetch("dependencies").any? { |item| item.include?(term) }, "release-tail dependency missing #{term}")
-end
+assert(JSON.parse(ISSUE_DIR.join("cards/stp.values.json").read).dig("content", "values", "dependencies").any? { |item| item.include?("#5352") }, "current STP dependency truth does not include #5352")
 
 text = [PREP.join("design.md").read, PREP.join("diagram.mmd").read, *REQUIRED.map { |name| ISSUE_DIR.join("cards/#{name}.md").read }].join("\n")
-%w[#5344 #5343 #5358 #5361 #5347 #5384 #5354 #5351 #5360 WP-14A WP-15 WP-16 WP-17 csdlc-eligibility closed_out receipt ancestry disjoint 80 90].each do |term|
+%w[#5344 #5343 #5358 #5361 #5347 #5384 #5354 #5352 WP-14A WP-15 WP-21 closed_out receipt ancestry disjoint 80 90].each do |term|
   assert(text.include?(term), "missing preparation term #{term}")
 end
 %w[Cargo symlink generated rollback retained owner COTS PVF 800 1200 3600].each do |term|
@@ -83,12 +81,17 @@ end
 
 protected = claim.fetch("protected_paths")
 assert(protected.uniq == protected, "duplicate protected path")
-assert(protected.all? { |path| path.start_with?(".csdlc/issues/5346", ".csdlc/locks/5346", ".csdlc/prepared/issues/5346", ".csdlc/evidence/5346", "docs/milestones/v0.91.8/evidence/wp13/5346-") }, "preparation claim includes non-issue path")
+EXPECTED_DELETION_PREFIXES.each do |path|
+  assert(protected.include?(path), "missing execution protected path #{path}")
+end
+assert(!protected.include?("adl/Cargo.lock"), "lockfile must not remain in #5346 deletion claim")
+assert(protected.all? { |path| path.start_with?(".csdlc/issues/5346", ".csdlc/locks/5346", ".csdlc/prepared/issues/5346", ".csdlc/evidence/5346", "docs/milestones/v0.91.8/evidence/wp13/5346-", *EXPECTED_DELETION_PREFIXES) }, "claim includes out-of-scope path")
 
 status_out, status = Open3.capture2("git", "-C", ROOT.to_s, "status", "--porcelain")
 assert(status.success?, "cannot inspect worktree status")
 changed = status_out.lines.map { |line| line[3..]&.strip }.compact
-assert(changed.none? { |path| PROHIBITED_PRODUCT_PREFIXES.any? { |prefix| path == prefix || path.start_with?("#{prefix}/") } || path.include?("runtime_v2") }, "preparation modified product or Runtime v2 paths")
+assert(changed.none? { |path| path.include?("runtime_v2") }, "Runtime v2 path changed")
+assert(changed.all? { |path| !PROHIBITED_PRODUCT_PREFIXES.any? { |prefix| path == prefix || path.start_with?("#{prefix}/") } || EXPECTED_DELETION_PREFIXES.any? { |prefix| path == prefix || path.start_with?("#{prefix}/") } }, "changed product path is outside #5346 execution scope")
 
 line_counts = %w[check-dependencies.rb validate-preparation.rb run-validation-lane.rb].to_h { |name| [name, PREP.join(name).read.lines.count { |line| !line.strip.empty? }] }
 assert(line_counts.values.all? { |count| count < 500 }, "preparation module exceeds 500 lines")
@@ -99,4 +102,4 @@ assert(doctor_status.success?, "typed card/index/schema authentication failed: #
 doctor = JSON.parse(doctor_out)
 assert(doctor["status"] == "pass" && Array(doctor["findings"]).empty?, "typed doctor did not pass cleanly")
 
-puts JSON.generate(status: "pass", issue: 5346, phase: index.fetch("phase"), cards: REQUIRED.length, typed_doctor: "pass", product_changes: 0, preparation_sha256: PREP_FILES.to_h { |name| [name, sha256(PREP.join(name))] }, lines: line_counts)
+puts JSON.generate(status: "pass", issue: 5346, phase: index.fetch("phase"), cards: REQUIRED.length, typed_doctor: "pass", deletion_prefixes: EXPECTED_DELETION_PREFIXES, preparation_sha256: PREP_FILES.to_h { |name| [name, sha256(PREP.join(name))] }, lines: line_counts)

@@ -4,26 +4,28 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "d391333554b11b0dae9033fb57979c1abf35567ca36a3bc2e29fc1802987f01b",
   "phase": "bound",
-  "generation": 2,
-  "digest": "78796e0c9f1bae297220f031f4433d3e2ec4b8b2b4e7e2952d086fdd1307e9b2",
+  "generation": 7,
+  "digest": "e2ffaa72976bd2d27a157ebb5f68afeb9d480876b65d00d03ff08f12f0d84da5",
   "claim": {
     "id": "claim-5346-v0918-wp13-deletion-preparation-current",
-    "owner": "codex:5346-preparation-refresh",
-    "generation": 2,
-    "acquired_unix_seconds": 1785542063,
-    "expires_unix_seconds": 1786146863,
-    "heartbeat_unix_seconds": 1785542063,
+    "owner": "codex:5346-wp13-execution-owner",
+    "generation": 7,
+    "acquired_unix_seconds": 1785548770,
+    "expires_unix_seconds": 1786153570,
+    "heartbeat_unix_seconds": 1785548770,
     "branch": "codex/5346-v0918-wp13-final-adl-deletion",
     "worktree": ".",
     "protected_paths": [
+      ".csdlc/evidence/5346",
       ".csdlc/issues/5346",
       ".csdlc/locks/5346.lock",
       ".csdlc/prepared/issues/5346",
-      ".csdlc/evidence/5346",
+      "adl/src/cli/tests/pr_cmd_inline",
+      "adl/src/cli/tooling_cmd",
       "docs/milestones/v0.91.8/evidence/wp13/5346-deletion-eligibility.v1.json",
       "docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json"
     ],
-    "purpose": "Refresh #5346 WP-13 preparation only; no source path may be claimed or deleted until #5347, WP-14A #5384, WP-15 #5354, WP-16 #5351, WP-17 #5360, #5344, #5343, #5358, and #5361 gates are terminal, receipt-backed, claim-free, ancestral where applicable, rollback-valid, and disjoint."
+    "purpose": "Execute #5346 WP-13 final ADL CLI deletion under current operator sequence: upstream #5344/#5343/#5358/#5361/#5384 terminal, #5354/#5352 GitHub merged and closed, #5347 disjoint peer manifest, serialized merge ordering, and no primary-main writes. Delete only exact reviewed #5346 manifest rows; do not touch #5347 external-band paths, Runtime v2, or unrelated lockfiles."
   },
   "review_assignment": null,
   "review": null,
@@ -41,32 +43,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b5b3d63198c43eaedd69aaed1ba5d82d490b949235a12fc40f503c0e330d3cc1",
+      "values_digest": "6100b4e82ca7f7ec3b824db6fdddd6b0f974e4e56413f2e35eec79cdd7824923",
       "rendered_digest": "968e8022aa69522a40e0b4015c80ea9c0e5b7476594e4376f591451444a87134",
       "ast_digest": "291dc8e45933eef134a357751c07ede5a3b27617e508cc331acdaa65fc44d728"
     },
     "stp": {
-      "values_digest": "8a8ca4083d495cc958c523928a21c73a0534844a21510501b612c1f2cf5f04b1",
-      "rendered_digest": "54286568d6bb68d2a6311075781500415a81f77ca581d61c0a8fd8687b64d5d8",
-      "ast_digest": "fd324e40dc5d9f5daa135c188fb8fe35262ebed207fa2911a5dedec3b8f5467f"
+      "values_digest": "8fe099ea8df20a45290baa9047999d98e20a0e91a8f4f8b340926e9a40a11836",
+      "rendered_digest": "281ecf07a1478933bafb984ba072850a8cd6284273a7b7e435602f20aff921bd",
+      "ast_digest": "d015d5d6cbb0f75b7a11afbf032ad9426f48d290449c552e82287dd5864fcfc4"
     },
     "spp": {
-      "values_digest": "548db229f992f0061a9854c2cffe4d78068b8b2baac216a5122ec1c39a016029",
-      "rendered_digest": "a69c26ce47a5fb688634579d1ee307b64b8c9b419d6f21e1e882db6f2990b814",
-      "ast_digest": "85b7569c8eac054f49d80a87fcb8075aa93b31215372ecfc6f019dcd21a6f437"
+      "values_digest": "e06d12ecf368552d686394d49f1ebe2c5de2fa068457f22b3a40491305354179",
+      "rendered_digest": "42f73da89cbb05c764299f0bad90c4cd0bc9f6d9566d7e4559aa64e3730ac0cc",
+      "ast_digest": "f399194d76c84c09179eb4bd6336f08d2089353c0322f5a8fc3065ce4b044031"
     },
     "vpp": {
-      "values_digest": "9087bd1eed82099c7a63af7d0e5b6137fb3031ae612bda94429d8d561be0f79d",
+      "values_digest": "dc6ded58dadb3a7236db62ea984ab2987ad2c1b032e7cfbab84d83aadb27c53e",
       "rendered_digest": "e0c886eb4fb651849d4772cd4b08e951e457ce4df239ac62ecad89dd89e0a187",
       "ast_digest": "318c5e2f0d567c01af2582134d08c4926438a9983daffdd890fdd572ca00f6f3"
     },
     "srp": {
-      "values_digest": "6aff823fd003d0ed0afd234b18e8ff380aef92ca0a450c08ca391b8bf9a15c36",
+      "values_digest": "566114a3ee6fb049330914bca436d5d356f8b40453b8cb94cc253c9be6e25b0d",
       "rendered_digest": "2d098e932e05ccd2d62eb51db377136bbc8087b2f1390c8e23df33e60b46b0d5",
       "ast_digest": "5395e9c543378320d990afad8968d3f33105e089c709f1c222f31d48dde7904d"
     },
     "sor": {
-      "values_digest": "381b4d5656143645ebda4ef6f52be6719bcf680c30a53b28d1d1f4ad4fff0c39",
+      "values_digest": "8b72513bde8fc1a59c95d17adf07954b3036671766807933b8643804492fec0c",
       "rendered_digest": "f22ab2b8fe07b6b56a58738155da7f1afe5c944b97a5aa0862ab59f9add336fc",
       "ast_digest": "9d0da2cd6ab6a79fe7b1c1e6c7a93bb7c6768ae68fa40688230259dcebc936db"
     }
@@ -136,6 +138,69 @@
       "actor": "codex:5346-preparation-refresh",
       "reason": "Refresh #5346 preparation dependencies to the current WP-13 execution gate including #5347 and WP-14A through WP-17 without deletion.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5344 WP-12 soak and rollback merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral\",\"#5343 WP-12 reviewed selector switch merged, typed closed_out, claim released, retained merged receipt present, rollback-window gate satisfied, and merge SHA ancestral\",\"#5358 current C-SDLC v2 acceptance merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral\",\"#5361 current Runtime v3 acceptance merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral\",\"#5347 peer external-band deletion eligibility manifest available at an exact reviewed revision and proven disjoint; #5347 is not absorbed by #5346 and deletion merges remain serialized\",\"WP-14A #5384 integrated platform acceptance merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral\",\"WP-15 #5354 demo convergence merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral\",\"WP-16 #5351 integrated platform quality gate merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral\",\"WP-17 #5360 documentation and release truth alignment merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 3,
+      "actor": "codex:5346-wp13-execution-owner",
+      "reason": "Repair stale WP-13 dependency truth: WP-16 #5351 and WP-17 #5360 are downstream release-tail work, while WP-21 #5352 is now an upstream completed gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5344 WP-12 soak and rollback merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral\",\"#5343 WP-12 reviewed selector switch merged, typed closed_out, claim released, retained merged receipt present, rollback-window gate satisfied, and merge SHA ancestral\",\"#5358 current C-SDLC v2 acceptance merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral\",\"#5361 current Runtime v3 acceptance merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral\",\"WP-14A #5384 integrated platform acceptance merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral\",\"WP-15 #5354 convergence GitHub closed/completed via merged PR #5731 at merge commit 97427f324c87d97cb1b36c7804c50bf80c9389d8, with that merge SHA ancestral to current origin/main; typed closeout may proceed asynchronously and must not block #5346\",\"WP-21 #5352 v0.92 consumption handoff GitHub closed/completed via merged PR #5751 at merge commit 64632f8812dcf4a861902b97b981a72291d81beb, with that merge SHA ancestral to current origin/main; typed closeout may proceed asynchronously and must not block #5346\",\"#5347 peer external-band deletion manifest remains disjoint from #5346; #5347 is not absorbed by #5346 and deletion merges remain serialized\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
+      "actor": "codex:5346-wp13-execution-owner",
+      "reason": "Move #5346 from stale preparation-only gating into the operator-authorized WP-13 execution sequence while keeping #5347 disjoint and downstream WP-16/WP-17 nonblocking.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Execute WP-13 #5346 now under the corrected sequence: WP-21 is complete, #5351 WP-16 and #5360 WP-17 are downstream and nonblocking, #5347 remains a disjoint peer deletion lane with serialized merge ordering, and current origin/main is integrated only in the issue worktree. Repair the issue-local dependency and manifest checks, claim only exact #5346 deletion paths, delete only reviewed manifest rows, run focused proving validation, obtain one bounded GPT-5.5 pre-PR review, fix all findings, and publish a ready PR with Closes #5346. Typed closeout is explicitly asynchronous and must not block this implementation lane.\",\"operation\":\"replan\",\"previous_value\":\"Render and validate six cards; freeze exact terminal dependency and disjoint-manifest gates, eligibility schema, ownership, COTS, budgets, PVF, no-deferral, review, and serialized integration rules; obtain bounded preparation review and fix findings; commit and push preparation only; remain fail-closed until every dependency is terminal and ancestral; then execute only the exact reviewed manifest through the full typed lifecycle.\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:5346-wp13-execution-owner",
+      "reason": "Replace stale preparation-only steps with the current WP-13 execution path.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Repair #5346 dependency and claim truth through supported typed v2 operations: remove downstream WP-16/#5351 and WP-17/#5360 prerequisites, accept completed #5354/#5352 GitHub merge/closure as nonblocking upstream truth, and keep #5347 as a disjoint peer lane with serialized merge ordering\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-8\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Create exact #5346 deletion eligibility evidence and amend the active claim only to the reviewed #5346 product paths, excluding #5347 external bands and Runtime v2\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Delete only the exact #5346 manifest rows and record deleted, retained, and newly added LoC separately against the pinned denominator\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused proving validation, typed doctor, diff hygiene, and one bounded GPT-5.5 pre-PR review; fix every actionable finding before publication\",\"acceptance_ids\":[\"AC-7\",\"AC-9\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Publish a ready PR through typed v2 with Closes #5346, verify actual PR base/head, and shepherd required CI to merge readiness without doing typed closeout in this session\",\"acceptance_ids\":[\"AC-7\",\"AC-8\",\"AC-10\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:5346-wp13-execution-owner",
+      "reason": "Replace stale stop conditions with current upstream and peer-disjointness checks.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Any #5344/#5343/#5358/#5361/#5384 terminal receipt, claim release, merge state, or ancestry predicate is absent or contradictory\",\"The #5354 or #5352 GitHub closed/completed merge truth or merge-commit ancestry predicate is absent or contradictory\",\"The #5346 and #5347 manifests overlap or any #5346 path lacks exactly one disposition and owner\",\"The reviewed #5346 manifest does not match the exact execution revision\",\"The rollback window or selector cutover evidence is incomplete\",\"The denominator cannot be reproduced or deleted/retained/new LoC would be mixed\",\"A retained path lacks an owner/justification or replacement proof is absent for a removed path\",\"A product path cannot be claimed without collision, requires broad/glob deletion, or belongs to #5347 external bands or Runtime v2\",\"Any required validation would be deferred, skipped, host-bound, secret-bearing, stale, or replaced by metadata\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:5346-wp13-execution-owner",
+      "reason": "Replace stale preparation-only invariants with current execution invariants.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Primary main remains untouched; all #5346 tracked work happens in /Volumes/FastWork/adl-wp-5346\",\"#5351 WP-16 and #5360 WP-17 are downstream release-tail work and never block #5346 execution or publication\",\"#5354 and #5352 GitHub issue closure on merged PRs is sufficient upstream truth; typed closeout may proceed asynchronously and must not block #5346\",\"#5346 and #5347 manifests remain disjoint and every path has exactly one owner/disposition\",\"Only exact reviewed #5346 manifest rows may be deleted; broad glob deletion is forbidden\",\"Deleted, retained, and new LoC remain separate; below 80 percent deletion is never completion\",\"Every retained path has a named owner and justification\",\"Runtime v2 is categorically outside #5346 ownership and may not be edited or deleted by this issue\",\"Deletion merges and post-merge validation are serialized\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 7,
+      "actor": "codex:5346-wp13-execution-owner",
+      "reason": "Operator-authorized WP-13 execution: remove stale WP-16/WP-17 prerequisites and protect the exact orphaned legacy CLI deletion surfaces while preserving #5347 disjointness.",
+      "operation": "{\"add_protected_paths\":[\"adl/src/cli/tooling_cmd\",\"adl/src/cli/tests/pr_cmd_inline\"],\"expected_owner\":\"codex:5346-preparation-refresh\",\"expected_purpose\":\"Refresh #5346 WP-13 preparation only; no source path may be claimed or deleted until #5347, WP-14A #5384, WP-15 #5354, WP-16 #5351, WP-17 #5360, #5344, #5343, #5358, and #5361 gates are terminal, receipt-backed, claim-free, ancestral where applicable, rollback-valid, and disjoint.\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Refresh #5346 WP-13 preparation only; no source path may be claimed or deleted until #5347, WP-14A #5384, WP-15 #5354, WP-16 #5351, WP-17 #5360, #5344, #5343, #5358, and #5361 gates are terminal, receipt-backed, claim-free, ancestral where applicable, rollback-valid, and disjoint.\",\"purpose\":\"Execute #5346 WP-13 final ADL CLI deletion under current operator sequence: upstream #5344/#5343/#5358/#5361/#5384 terminal, #5354/#5352 GitHub merged and closed, #5347 disjoint peer manifest, serialized merge ordering, and no primary-main writes. Delete only exact reviewed #5346 manifest rows; do not touch #5347 external-band paths or Runtime v2.\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 7,
+      "actor": "codex:5346-wp13-execution-owner",
+      "reason": "Permit only the package lockfile refresh required by the #5346 compile proof after current-main integration; no dependency or source scope expansion.",
+      "operation": "{\"add_protected_paths\":[\"adl/Cargo.lock\"],\"expected_owner\":\"codex:5346-preparation-refresh\",\"expected_purpose\":\"Execute #5346 WP-13 final ADL CLI deletion under current operator sequence: upstream #5344/#5343/#5358/#5361/#5384 terminal, #5354/#5352 GitHub merged and closed, #5347 disjoint peer manifest, serialized merge ordering, and no primary-main writes. Delete only exact reviewed #5346 manifest rows; do not touch #5347 external-band paths or Runtime v2.\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Execute #5346 WP-13 final ADL CLI deletion under current operator sequence: upstream #5344/#5343/#5358/#5361/#5384 terminal, #5354/#5352 GitHub merged and closed, #5347 disjoint peer manifest, serialized merge ordering, and no primary-main writes. Delete only exact reviewed #5346 manifest rows; do not touch #5347 external-band paths or Runtime v2.\",\"purpose\":\"Execute #5346 WP-13 final ADL CLI deletion under current operator sequence: upstream #5344/#5343/#5358/#5361/#5384 terminal, #5354/#5352 GitHub merged and closed, #5347 disjoint peer manifest, serialized merge ordering, no primary-main writes, and a bounded adl/Cargo.lock refresh only if required for locked validation. Delete only exact reviewed #5346 manifest rows; do not touch #5347 external-band paths or Runtime v2.\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 7,
+      "actor": "codex:5346-wp13-execution-owner",
+      "reason": "Revoke the live claim after a validation probe added adl/Cargo.lock; the deletion did not truthfully change dependency resolution, so the replacement claim must exclude the lockfile.",
+      "operation": "{\"claim_id\":\"claim-5346-v0918-wp13-deletion-preparation-current\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator correction: do not absorb unrelated stale lock regeneration into #5346\",\"previous_owner\":\"codex:5346-preparation-refresh\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 7,
+      "actor": "codex:5346-wp13-execution-owner",
+      "reason": "Reacquire a clean #5346 execution claim after removing the unrelated adl/Cargo.lock over-claim.",
+      "operation": "{\"branch\":\"codex/5346-v0918-wp13-final-adl-deletion\",\"claim_id\":\"claim-5346-v0918-wp13-deletion-preparation-current\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5346-wp13-execution-owner\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5346\",\".csdlc/issues/5346\",\".csdlc/locks/5346.lock\",\".csdlc/prepared/issues/5346\",\"adl/src/cli/tests/pr_cmd_inline\",\"adl/src/cli/tooling_cmd\",\"docs/milestones/v0.91.8/evidence/wp13/5346-deletion-eligibility.v1.json\",\"docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json\"],\"purpose\":\"Execute #5346 WP-13 final ADL CLI deletion under current operator sequence: upstream #5344/#5343/#5358/#5361/#5384 terminal, #5354/#5352 GitHub merged and closed, #5347 disjoint peer manifest, serialized merge ordering, and no primary-main writes. Delete only exact reviewed #5346 manifest rows; do not touch #5347 external-band paths, Runtime v2, or unrelated lockfiles.\",\"worktree\":\".\"}"
     }
   ]
 }

@@ -43,11 +43,10 @@ Prepare a complete reviewed WP-13 #5346 execution contract only; do not delete o
 - #5343 WP-12 reviewed selector switch merged, typed closed_out, claim released, retained merged receipt present, rollback-window gate satisfied, and merge SHA ancestral
 - #5358 current C-SDLC v2 acceptance merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
 - #5361 current Runtime v3 acceptance merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
-- #5347 peer external-band deletion eligibility manifest available at an exact reviewed revision and proven disjoint; #5347 is not absorbed by #5346 and deletion merges remain serialized
 - WP-14A #5384 integrated platform acceptance merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
-- WP-15 #5354 demo convergence merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
-- WP-16 #5351 integrated platform quality gate merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
-- WP-17 #5360 documentation and release truth alignment merged, typed closed_out, claim released, retained merged receipt present, and merge SHA ancestral
+- WP-15 #5354 convergence GitHub closed/completed via merged PR #5731 at merge commit 97427f324c87d97cb1b36c7804c50bf80c9389d8, with that merge SHA ancestral to current origin/main; typed closeout may proceed asynchronously and must not block #5346
+- WP-21 #5352 v0.92 consumption handoff GitHub closed/completed via merged PR #5751 at merge commit 64632f8812dcf4a861902b97b981a72291d81beb, with that merge SHA ancestral to current origin/main; typed closeout may proceed asynchronously and must not block #5346
+- #5347 peer external-band deletion manifest remains disjoint from #5346; #5347 is not absorbed by #5346 and deletion merges remain serialized
 
 ## Inputs
 

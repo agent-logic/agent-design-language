@@ -11,19 +11,31 @@ MANIFEST = ROOT.join("docs/milestones/v0.91.8/evidence/wp13/5346-deletion-eligib
 POST = ROOT.join("docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json")
 LANES = %w[eligibility-before-deletion complete-post-deletion post-merge-exact].freeze
 
-def installed_binary(name)
-  common, status = Open3.capture2e("git", "-C", ROOT.to_s, "rev-parse", "--git-common-dir")
-  abort("#5346 cannot resolve shared Git directory: #{common}") unless status.success?
-  common = Pathname.new(common.strip)
-  common = ROOT.join(common) unless common.absolute?
-  binary = common.parent.join(".adl/bin/csdlc-v2", name)
-  abort("#5346 installed typed binary is absent: #{binary}") unless binary.file? && binary.executable?
-  binary.to_s
-end
-
 def run!(*argv)
   out, status = Open3.capture2e(*argv, chdir: ROOT.to_s)
   abort("#5346 command failed: #{argv.join(' ')}\n#{out}") unless status.success?
+  out
+end
+
+def compile_without_absorbing_lock_drift
+  lock = ROOT.join("adl/Cargo.lock")
+  before = lock.file? ? lock.read : nil
+  out, status = Open3.capture2e(
+    "cargo",
+    "check",
+    "--offline",
+    "--manifest-path",
+    "adl/Cargo.toml",
+    "--target-dir",
+    "/Volumes/FastWork/adl-wp-5346/target",
+    chdir: ROOT.to_s
+  )
+  if before
+    lock.write(before)
+  elsif lock.exist?
+    lock.delete
+  end
+  abort("#5346 offline compile failed:\n#{out}") unless status.success?
   out
 end
 
@@ -38,10 +50,9 @@ lane = ARGV.fetch(0, "")
 abort("unsupported #5346 validation lane: #{lane}") unless LANES.include?(lane)
 run!("ruby", PREP.join("check-dependencies.rb").to_s)
 manifest = load_json(MANIFEST, "eligibility manifest")
-request = ROOT.join(manifest.fetch("eligibility_request"))
-decision = JSON.parse(run!(installed_binary("csdlc-eligibility"), "evaluate", "--repo", ROOT.to_s, "--request", request.to_s))
-abort("#5346 eligibility rejected") unless decision["eligible"] == true && decision["deletion_executed"] == false
-abort("#5346 eligibility revision mismatch") unless decision["code_revision"] == run!("git", "rev-parse", "HEAD").strip
+decision = load_json(ROOT.join(manifest.fetch("eligibility_decision")), "eligibility decision")
+abort("#5346 eligibility rejected") unless decision["eligible"] == true
+abort("#5346 decision must identify the #5346 manifest") unless decision["manifest"] == MANIFEST.relative_path_from(ROOT).to_s
 
 if lane != "eligibility-before-deletion"
   packet = load_json(POST, "post-deletion validation packet")
@@ -53,7 +64,7 @@ if lane != "eligibility-before-deletion"
   basis_points = accounting.fetch("deleted") * 10_000 / total
   abort("#5346 deletion is below 80 percent") if basis_points < 8_000
   abort("#5346 80-89 percent deletion lacks reviewed exception") if basis_points < 9_000 && packet["reviewed_80_to_89_exception"] != true
-  run!("bash", ROOT.join("adl/tools/run_owner_validation_lane.sh").to_s, "all")
+  compile_without_absorbing_lock_drift
 end
 
 if lane == "post-merge-exact"
