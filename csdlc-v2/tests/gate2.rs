@@ -3185,7 +3185,7 @@ fn planning_replacements_reject_invalid_requests_without_mutation() {
 }
 
 #[test]
-fn planning_replacements_are_phase_bounded_and_cannot_smuggle_progress() {
+fn planning_replacements_are_phase_bounded_and_allow_narrow_implemented_corrections() {
     let (_temp, initialized_store, initialized) = fixture();
     for (card, operation) in [
         (
@@ -3286,24 +3286,62 @@ fn planning_replacements_are_phase_bounded_and_cannot_smuggle_progress() {
         spp.affected_areas,
         vec!["implementation-discovered surface"]
     );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sip,
+        SemanticOperation::ReplaceOperatorConstraints {
+            values: vec!["corrected implementation boundary".into()],
+        },
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Stp,
+        SemanticOperation::ReplaceAcceptanceCriteria {
+            values: vec!["one".into(), "two".into()],
+        },
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Srp,
+        SemanticOperation::ReplacePlanningCollection {
+            field: PlanningCollectionField::ReviewPrompts,
+            values: vec!["corrected exact-head prompt".into()],
+        },
+    );
+    let corrected_cards = store.load_cards(42).expect("corrected cards");
+    let CardContent::Sip(sip) = &corrected_cards[&CardKind::Sip].content else {
+        panic!("SIP")
+    };
+    assert_eq!(
+        sip.operator_constraints,
+        vec!["corrected implementation boundary"]
+    );
+    let CardContent::Srp(srp) = &corrected_cards[&CardKind::Srp].content else {
+        panic!("SRP")
+    };
+    assert_eq!(srp.review_prompts, vec!["corrected exact-head prompt"]);
+
     let error = edit_issue(
         &store,
         EditRequest {
             issue: 42,
-            card: CardKind::Srp,
+            card: CardKind::Sip,
             expected_generation: record.generation,
             expected_digest: record.digest,
             claim_id: "claim-1".into(),
             actor: "agent".into(),
             reason: "too late".into(),
             operation: SemanticOperation::ReplacePlanningCollection {
-                field: PlanningCollectionField::ReviewPrompts,
-                values: vec!["late prompt".into()],
+                field: PlanningCollectionField::DeclaredScope,
+                values: vec!["late scope widening".into()],
             },
             fail_after_backup: false,
         },
     )
-    .expect_err("post-implementation replan must fail");
+    .expect_err("unrelated post-implementation replan must fail");
     assert_eq!(error.code, ErrorCode::InvalidTransition);
 }
 

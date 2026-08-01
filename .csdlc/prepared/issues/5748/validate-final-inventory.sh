@@ -12,6 +12,7 @@ installer="$repo_root/.adl/bin/csdlc-v2/csdlc-install"
 inventory="$repo_root/csdlc-v2/operator/coexistence.json"
 register="$repo_root/.csdlc/prepared/issues/5748/fail-closed-exceptions.md"
 universe="$repo_root/.csdlc/evidence/5748/v0918-closed-issue-universe.json"
+exception_5346="$repo_root/.csdlc/evidence/5748/exceptions/5346.json"
 
 fail() {
   printf 'v0.91.8 terminal inventory FAIL: %s\n' "$1" >&2
@@ -275,6 +276,59 @@ printf '%s\n' "$corrupt_report" | jq -e \
 require_absent "$repo_root" "$repo_root/.csdlc/issues/5346"
 require_absent "$repo_root" "$repo_root/.csdlc/issues/5558"
 require_absent "$repo_root" "$repo_root/.csdlc/issues/5722"
+
+require_file "$repo_root" "$exception_5346"
+jq -e '
+  .schema == "adl.csdlc.fail_closed_exception.v1" and
+  .issue == 5346 and
+  .source_branch == "codex/5346-v0918-wp13-final-adl-deletion" and
+  .source_revision == "7b1ef84bc8a4966c0c454ae4d87fd973537a856d" and
+  .github.issue_state == "CLOSED" and
+  .github.issue_state_reason == "COMPLETED" and
+  .github.pull_request == 5752 and
+  .github.pull_request_state == "MERGED" and
+  .github.head_sha == "7b1ef84bc8a4966c0c454ae4d87fd973537a856d" and
+  .github.merge_commit == "ccca46abceb117150efbc3b69248fba611d90fff" and
+  .projection.phase == "merge_ready" and
+  .projection.generation == 12 and
+  .projection.digest == "1341748ec10bbf4434a2892d72a28ec9a931a8f74c3b0bbf2a0ee24815a587bc" and
+  .projection.terminal == null and
+  .projection.claim.id == "claim-5346-v0918-wp13-deletion-preparation-current" and
+  .projection.claim.owner == "codex:5346-wp13-execution-owner" and
+  .projection.claim.generation == 12 and
+  .projection.claim.branch == "codex/5346-v0918-wp13-final-adl-deletion" and
+  .projection.claim.worktree == "." and
+  .projection.claim.expires_unix_seconds == 1786153570 and
+  .projection.plan_steps == [
+    {"id":"S1","status":"pending"},
+    {"id":"S2","status":"pending"},
+    {"id":"S3","status":"pending"},
+    {"id":"S4","status":"pending"},
+    {"id":"S5","status":"pending"}
+  ] and
+  .projection.sor == {
+    "integration_state":"pr_open",
+    "publication_state":"ready",
+    "merge_state":"not_merged",
+    "closeout_state":"not_started"
+  } and
+  .projection.sha256.index_json == "bae610dca110c369f4b9ed1a6c6d4d65736409385f23ba46e12076ef0669bd6f" and
+  .projection.sha256.spp_values_json == "b05d7b09fc74c73805dd251ca3e74f9ee06ebac6979d9a4b3ea1a4462a8f872e" and
+  .projection.sha256.sor_values_json == "675ce61b12053a94219d88497d4ae858d89ee77db2468498c15187cdb9a0cbda" and
+  .typed_repair_attempt.operation == "update_plan_step" and
+  .typed_repair_attempt.card == "spp" and
+  .typed_repair_attempt.step_id == "S1" and
+  .typed_repair_attempt.requested_status == "completed" and
+  .typed_repair_attempt.error_code == "invalid_transition" and
+  .typed_repair_attempt.error_message == "spp mutation is not allowed during merge_ready" and
+  .typed_repair_attempt.before_generation == 12 and
+  .typed_repair_attempt.after_generation == 12 and
+  .typed_repair_attempt.before_digest == .projection.digest and
+  .typed_repair_attempt.after_digest == .projection.digest and
+  .disposition == "fail_closed_no_terminal_receipt"
+' "$exception_5346" >/dev/null || fail "exception #5346 retained evidence mismatch"
+rg -q '1341748ec10bbf4434a2892d72a28ec9a931a8f74c3b0bbf2a0ee24815a587bc' \
+  "$register" || fail "exception #5346 digest is missing from the register"
 
 require_absent "$common_dir" "$common_dir/csdlc-v2/closeout/5335.json"
 rg -q '^## #5335 — outside the merged-PR eligibility boundary$' "$register" || \

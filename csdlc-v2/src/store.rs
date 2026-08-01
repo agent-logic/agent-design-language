@@ -289,8 +289,21 @@ impl Store {
                 "identity repair did not update all cards",
             ));
         }
-        let target_design_digest = digest(&fs::read(self.root.join(&target.design_path))?);
-        let target_diagram_digest = digest(&fs::read(self.root.join(&target.diagram_path))?);
+        let target_design_digest = digest(
+            &read_regular_terminal_artifact(&self.root, Path::new(&target.design_path))?
+                .ok_or_else(|| {
+                    V2Error::new(ErrorCode::ReconciliationRequired, "target design is absent")
+                })?,
+        );
+        let target_diagram_digest = digest(
+            &read_regular_terminal_artifact(&self.root, Path::new(&target.diagram_path))?
+                .ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "target diagram is absent",
+                    )
+                })?,
+        );
         validate_cross_card(
             &target_cards,
             &target.design_path,
@@ -432,8 +445,19 @@ impl Store {
                 "terminal receipt is stale",
             ));
         }
-        let design = fs::read(self.root.join(&request.source_design_path))?;
-        let diagram = fs::read(self.root.join(&request.source_diagram_path))?;
+        let design =
+            read_regular_terminal_artifact(&self.root, Path::new(&request.source_design_path))?
+                .ok_or_else(|| {
+                    V2Error::new(ErrorCode::ReconciliationRequired, "repair design is absent")
+                })?;
+        let diagram =
+            read_regular_terminal_artifact(&self.root, Path::new(&request.source_diagram_path))?
+                .ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "repair diagram is absent",
+                    )
+                })?;
         let design_digest = digest(&design);
         let diagram_digest = digest(&diagram);
         if design_digest != request.expected_design_digest
@@ -1203,33 +1227,32 @@ impl Store {
                     "terminal transaction artifact snapshot path is unsafe",
                 ));
             }
+            let relative = Path::new(relative);
             let path = self.root.join(relative);
             match original {
                 Some(bytes) => {
-                    let parent = path.parent().ok_or_else(|| {
-                        V2Error::new(ErrorCode::CorruptRecord, "artifact snapshot has no parent")
-                    })?;
-                    fs::create_dir_all(parent)?;
-                    let temporary = path.with_extension("terminal-restore-tmp");
-                    let mut file = File::create(&temporary)?;
-                    file.write_all(bytes)?;
-                    file.sync_all()?;
-                    fs::rename(temporary, &path)?;
-                    sync_dir(parent)?;
+                    replace_regular_terminal_artifact(
+                        &self.root,
+                        relative,
+                        bytes,
+                        "terminal-restore-tmp",
+                    )?;
                 }
-                None if path.is_file() => {
-                    fs::remove_file(&path)?;
-                    if let Some(parent) = path.parent() {
-                        sync_dir(parent)?;
+                None => match canonical_path_metadata_beneath(&self.root, relative)? {
+                    Some(metadata) if metadata.is_file() => {
+                        fs::remove_file(&path)?;
+                        if let Some(parent) = path.parent() {
+                            sync_dir(parent)?;
+                        }
                     }
-                }
-                None if path.exists() => {
-                    return Err(V2Error::new(
-                        ErrorCode::ReconciliationRequired,
-                        "terminal rollback cannot remove a non-file authored path",
-                    ));
-                }
-                None => {}
+                    Some(_) => {
+                        return Err(V2Error::new(
+                            ErrorCode::ReconciliationRequired,
+                            "terminal rollback cannot remove a non-file authored path",
+                        ));
+                    }
+                    None => {}
+                },
             }
         }
         Ok(())
@@ -2462,7 +2485,22 @@ impl Store {
         let _rehome_source_lock = rehome_source_lock;
         let authored_artifacts = [original.design_path.clone(), original.diagram_path.clone()]
             .into_iter()
-            .map(|path| Ok((path.clone(), fs::read_to_string(self.root.join(path))?)))
+            .map(|path| {
+                let bytes = read_regular_terminal_artifact(&self.root, Path::new(&path))?
+                    .ok_or_else(|| {
+                        V2Error::new(
+                            ErrorCode::ReconciliationRequired,
+                            "historical authored artifact is absent",
+                        )
+                    })?;
+                let contents = String::from_utf8(bytes).map_err(|_| {
+                    V2Error::new(
+                        ErrorCode::CorruptRecord,
+                        "historical authored artifact is not UTF-8",
+                    )
+                })?;
+                Ok((path, contents))
+            })
             .collect::<Result<BTreeMap<_, _>>>()?;
         let original_projection = Some(TerminalProjectionSnapshot {
             record: original.clone(),
@@ -2897,8 +2935,20 @@ impl Store {
         let mut cards = self.load_cards(issue)?;
         let receipt_ref = format!("csdlc-v2/closeout/{issue}.json");
         let path = self.terminal_receipt_path(issue)?;
+        let common = PathBuf::from(
+            crate::git::run(
+                &self.root,
+                &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+            )?
+            .stdout,
+        );
+        let receipt_relative = PathBuf::from(&receipt_ref);
+        require_canonical_parent_beneath(&common, &receipt_relative)?;
         let parent = path.parent().expect("receipt parent");
         fs::create_dir_all(parent)?;
+        require_canonical_parent_beneath(&common, &receipt_relative)?;
+        let lock_relative = PathBuf::from("csdlc-v2/closeout/receipts.lock");
+        require_regular_or_absent_beneath(&common, &lock_relative)?;
         let receipt_lock = OpenOptions::new()
             .create(true)
             .truncate(false)
@@ -2906,9 +2956,7 @@ impl Store {
             .write(true)
             .open(parent.join("receipts.lock"))?;
         receipt_lock.lock_exclusive()?;
-        if path.is_file() {
-            let existing: TerminalReceipt = read_json(&path)?;
-            validate_terminal_receipt(&existing)?;
+        if let Some(existing) = self.load_terminal_receipt(issue)? {
             let terminal_matches = record.terminal.as_ref().is_some_and(|local| {
                 existing.record.terminal.as_ref().is_some_and(|retained| {
                     local.pull_request == retained.pull_request
@@ -2934,6 +2982,25 @@ impl Store {
             }
             return Ok(existing);
         }
+        let authored_artifacts = [record.design_path.clone(), record.diagram_path.clone()]
+            .into_iter()
+            .map(|path| {
+                let bytes = read_regular_terminal_artifact(&self.root, Path::new(&path))?
+                    .ok_or_else(|| {
+                        V2Error::new(
+                            ErrorCode::ReconciliationRequired,
+                            "terminal authored artifact is absent",
+                        )
+                    })?;
+                let contents = String::from_utf8(bytes).map_err(|_| {
+                    V2Error::new(
+                        ErrorCode::CorruptRecord,
+                        "terminal authored artifact is not UTF-8",
+                    )
+                })?;
+                Ok((path, contents))
+            })
+            .collect::<Result<BTreeMap<_, _>>>()?;
         verify_cards(self, &record, &cards)?;
         let terminal = record.terminal.as_mut().ok_or_else(|| {
             V2Error::new(ErrorCode::InvalidTransition, "terminal evidence missing")
@@ -2955,13 +3022,6 @@ impl Store {
             record.digest = record_digest(&record)?;
             self.commit(issue, &record, &cards, false)?;
         }
-        let authored_artifacts = [record.design_path.clone(), record.diagram_path.clone()]
-            .into_iter()
-            .map(|path| {
-                let contents = fs::read_to_string(self.root.join(&path))?;
-                Ok((path, contents))
-            })
-            .collect::<Result<BTreeMap<_, _>>>()?;
         let mut receipt = TerminalReceipt {
             schema: "csdlc.terminal_receipt.v1".into(),
             issue,
@@ -2975,11 +3035,22 @@ impl Store {
         };
         receipt.digest = terminal_receipt_digest(&receipt)?;
         validate_terminal_receipt(&receipt)?;
-        let temporary = parent.join(format!(".{issue}.tmp"));
-        write_json(&temporary, &receipt)?;
-        fs::rename(temporary, &path)?;
-        sync_dir(parent)?;
-        Ok(receipt)
+        let mut encoded = serde_json::to_vec_pretty(&receipt)?;
+        encoded.push(b'\n');
+        replace_regular_terminal_artifact(&common, &receipt_relative, &encoded, "json.retain-tmp")?;
+        let retained = self.load_terminal_receipt(issue)?.ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "newly retained terminal receipt is absent",
+            )
+        })?;
+        if retained != receipt {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "newly retained terminal receipt differs from committed authority",
+            ));
+        }
+        Ok(retained)
     }
 
     pub fn reconcile_terminal(&self, request: ReconcileTerminalRequest) -> Result<IssueRecord> {
@@ -3431,16 +3502,15 @@ impl Store {
                 if destination.strip_prefix(&current).is_ok() {
                     continue;
                 }
-                let parent = destination.parent().ok_or_else(|| {
+                destination.parent().ok_or_else(|| {
                     V2Error::new(ErrorCode::InvalidInput, "authored override has no parent")
                 })?;
-                fs::create_dir_all(parent)?;
-                let temporary = destination.with_extension("authored-commit-tmp");
-                let mut file = File::create(&temporary)?;
-                file.write_all(contents.as_bytes())?;
-                file.sync_all()?;
-                fs::rename(temporary, &destination)?;
-                sync_dir(parent)?;
+                replace_regular_terminal_artifact(
+                    &self.root,
+                    Path::new(authored_path),
+                    contents.as_bytes(),
+                    "authored-commit-tmp",
+                )?;
             }
         }
         if backup.exists() {
@@ -5213,6 +5283,21 @@ fn authorize_card_operation(
                 ..
             },
         ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Sip,
+            SemanticOperation::ReplaceOperatorConstraints { .. },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria { .. },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Srp,
+            SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::ReviewPrompts,
+                ..
+            },
+        ) | (
             LifecyclePhase::Bound | LifecyclePhase::Implemented,
             CardKind::Vpp,
             SemanticOperation::ReplaceValidationLanes { .. },
@@ -5511,6 +5596,16 @@ fn canonical_path_metadata_beneath(root: &Path, relative: &Path) -> Result<Optio
             ),
         ));
     }
+    let root_metadata = fs::symlink_metadata(root)?;
+    if root_metadata.file_type().is_symlink() || !root_metadata.is_dir() {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!(
+                "canonical root is not a regular directory: {}",
+                root.display()
+            ),
+        ));
+    }
     let mut current = root.to_path_buf();
     let components: Vec<_> = relative.components().collect();
     for (index, component) in components.iter().enumerate() {
@@ -5543,6 +5638,98 @@ fn canonical_path_metadata_beneath(root: &Path, relative: &Path) -> Result<Optio
         }
     }
     Ok(None)
+}
+
+fn require_canonical_parent_beneath(root: &Path, relative: &Path) -> Result<()> {
+    if !crate::pvf::clean_relative(relative) {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!(
+                "terminal write path is not clean and root-relative: {}",
+                relative.display()
+            ),
+        ));
+    }
+    let parent = relative.parent().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "terminal write path has no parent",
+        )
+    })?;
+    if parent.as_os_str().is_empty() {
+        let metadata = fs::symlink_metadata(root)?;
+        if metadata.file_type().is_symlink() || !metadata.is_dir() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                format!("terminal write root is unsafe: {}", root.display()),
+            ));
+        }
+        return Ok(());
+    }
+    if let Some(metadata) = canonical_path_metadata_beneath(root, parent)? {
+        if !metadata.is_dir() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                format!(
+                    "terminal write parent is not a directory: {}",
+                    root.join(parent).display()
+                ),
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn require_regular_or_absent_beneath(root: &Path, relative: &Path) -> Result<()> {
+    if let Some(metadata) = canonical_path_metadata_beneath(root, relative)? {
+        if !metadata.is_file() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                format!(
+                    "terminal write target is not a regular file: {}",
+                    root.join(relative).display()
+                ),
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn replace_regular_terminal_artifact(
+    root: &Path,
+    relative: &Path,
+    bytes: &[u8],
+    temporary_extension: &str,
+) -> Result<()> {
+    require_canonical_parent_beneath(root, relative)?;
+    let destination = root.join(relative);
+    let parent = destination.parent().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "terminal write target has no parent",
+        )
+    })?;
+    fs::create_dir_all(parent)?;
+    require_canonical_parent_beneath(root, relative)?;
+    require_regular_or_absent_beneath(root, relative)?;
+
+    let temporary_relative = relative.with_extension(temporary_extension);
+    require_canonical_parent_beneath(root, &temporary_relative)?;
+    if canonical_path_metadata_beneath(root, &temporary_relative)?.is_some() {
+        require_regular_or_absent_beneath(root, &temporary_relative)?;
+        fs::remove_file(root.join(&temporary_relative))?;
+    }
+    let temporary = root.join(&temporary_relative);
+    let mut file = File::create(&temporary)?;
+    file.write_all(bytes)?;
+    file.sync_all()?;
+
+    require_canonical_parent_beneath(root, relative)?;
+    require_regular_or_absent_beneath(root, relative)?;
+    require_regular_or_absent_beneath(root, &temporary_relative)?;
+    fs::rename(&temporary, &destination)?;
+    sync_dir(parent)?;
+    Ok(())
 }
 
 fn write_complete(
@@ -5988,6 +6175,138 @@ mod terminal_design_repair_tests {
         };
         let expected = sor.actual_validation.first().expect("validation").clone();
         (temp, store, authority, target, receipt, expected)
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn first_terminal_receipt_retention_rejects_receipt_symlink_components() {
+        use std::os::unix::fs::symlink;
+
+        for symlink_parent in [false, true] {
+            let (_temp, store, _authority, target, _receipt, _) = terminal_validation_fixture();
+            let receipt_path = store
+                .terminal_receipt_path(target.issue)
+                .expect("receipt path");
+            if symlink_parent {
+                let closeout = receipt_path.parent().expect("closeout directory");
+                let backup = closeout.with_extension("retain-parent-backup");
+                fs::rename(closeout, &backup).expect("move receipt parent");
+                symlink(&backup, closeout).expect("symlink receipt parent");
+            } else {
+                let backup = receipt_path.with_extension("json.retain-leaf-backup");
+                fs::rename(&receipt_path, &backup).expect("move receipt");
+                symlink(&backup, &receipt_path).expect("symlink receipt");
+            }
+
+            let error = store
+                .retain_terminal_receipt(target.issue)
+                .expect_err("symlinked receipt authority must fail closed");
+            assert_eq!(error.code, ErrorCode::UnsafeCheckout);
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn first_terminal_receipt_retention_rejects_authored_symlink_components() {
+        use std::os::unix::fs::symlink;
+
+        for symlink_parent in [false, true] {
+            let (_temp, store, _authority, target, _receipt, _) = terminal_validation_fixture();
+            fs::remove_file(store.terminal_receipt_path(target.issue).unwrap())
+                .expect("remove retained receipt");
+            let design = store.root.join(&target.design_path);
+            if symlink_parent {
+                let parent = design.parent().expect("design parent");
+                let backup = store.root.join("retain-authored-parent-backup");
+                fs::rename(parent, &backup).expect("move authored parent");
+                symlink(&backup, parent).expect("symlink authored parent");
+            } else {
+                let backup = design.with_extension("md.retain-leaf-backup");
+                fs::rename(&design, &backup).expect("move authored file");
+                symlink(&backup, &design).expect("symlink authored file");
+            }
+
+            let error = store
+                .retain_terminal_receipt(target.issue)
+                .expect_err("symlinked authored authority must fail closed");
+            assert_eq!(error.code, ErrorCode::UnsafeCheckout);
+            assert!(store.load_terminal_receipt(target.issue).unwrap().is_none());
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn terminal_recovery_rejects_authored_parent_symlink_after_durable_boundaries() {
+        use std::os::unix::fs::symlink;
+
+        for projection_committed in [false, true] {
+            let (_temp, store, authority, target, receipt, _) = terminal_validation_fixture();
+            let request = TerminalDesignRepairRequest {
+                authority_issue: authority.issue,
+                target_issue: target.issue,
+                expected_authority_generation: authority.generation,
+                expected_authority_digest: authority.digest.clone(),
+                expected_target_generation: target.generation,
+                expected_target_digest: target.digest.clone(),
+                expected_receipt_digest: receipt.digest.clone(),
+                authority_claim_id: authority.claim.as_ref().unwrap().id.clone(),
+                actor: "codex:test".into(),
+                reviewer: "reviewer".into(),
+                source_design_path: target.design_path.clone(),
+                source_diagram_path: target.diagram_path.clone(),
+                expected_design_digest: digest(
+                    &fs::read(store.root.join(&target.design_path)).unwrap(),
+                ),
+                expected_diagram_digest: digest(
+                    &fs::read(store.root.join(&target.diagram_path)).unwrap(),
+                ),
+                fail_after_stage: Some("after_journal".into()),
+            };
+            let error = store
+                .repair_terminal_design(request)
+                .expect_err("injected durable interruption");
+            assert_eq!(error.code, ErrorCode::InterruptedTransaction);
+
+            let journal_path = store
+                .terminal_transaction_path(target.issue)
+                .expect("journal path");
+            let mut journal: TerminalTransactionJournal =
+                read_json(&journal_path).expect("journal");
+            if projection_committed {
+                let target_receipt: TerminalReceipt =
+                    serde_json::from_slice(&journal.target_receipt).expect("target receipt");
+                store
+                    .commit(
+                        target.issue,
+                        &target_receipt.record,
+                        &target_receipt.cards,
+                        false,
+                    )
+                    .expect("simulate committed projection");
+                journal.stage = "projection_committed_terminal_design_repair".into();
+                store
+                    .write_terminal_transaction_journal(&journal)
+                    .expect("advance journal stage");
+            }
+
+            let design_parent = store
+                .root
+                .join(&target.design_path)
+                .parent()
+                .expect("design parent")
+                .to_path_buf();
+            let authored_backup = store.root.join("recovery-authored-backup");
+            fs::rename(&design_parent, &authored_backup).expect("move authored parent");
+            let outside = tempfile::tempdir().expect("outside target");
+            symlink(outside.path(), &design_parent).expect("inject authored parent symlink");
+
+            let recovery_error = store
+                .recover_with_terminal_lock(target.issue)
+                .expect_err("recovery must reject post-journal symlink");
+            assert_eq!(recovery_error.code, ErrorCode::UnsafeCheckout);
+            assert_eq!(fs::read_dir(outside.path()).unwrap().count(), 0);
+            assert!(journal_path.exists());
+        }
     }
 
     fn validation_repair_request(
