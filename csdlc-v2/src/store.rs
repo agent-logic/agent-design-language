@@ -3994,8 +3994,11 @@ mod terminal_design_repair_tests {
                 .expect("authority design parent"),
         )
         .expect("create authority authored parent");
-        fs::write(temp.path().join(authority_design), "# Test Repair Authority\n")
-            .expect("write authority design");
+        fs::write(
+            temp.path().join(authority_design),
+            "# Test Repair Authority\n",
+        )
+        .expect("write authority design");
         fs::write(
             temp.path().join(authority_diagram),
             "flowchart LR\n  A-->B\n",
