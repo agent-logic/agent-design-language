@@ -3,7 +3,7 @@
   "repository": "danielbaustin/agent-design-language",
   "label": "version:v0.91.8",
   "state": "closed",
-  "observed_at": "2026-08-01T04:20:57Z",
+  "observed_at": "2026-08-01T05:23:38Z",
   "source": "github issue list read-only observation",
   "issues": [
     {
@@ -135,6 +135,18 @@
     {
       "closed_at": "2026-07-23T06:39:47Z",
       "number": 5345,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-08-01T04:49:58Z",
+      "number": 5346,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED"
+    },
+    {
+      "closed_at": "2026-08-01T04:47:32Z",
+      "number": 5347,
       "state": "CLOSED",
       "state_reason": "COMPLETED"
     },

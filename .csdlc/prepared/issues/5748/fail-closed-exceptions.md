@@ -13,6 +13,26 @@ the final exhaustive closeout audit.
 - Disposition: excluded from the current closed-and-merged objective. Do not
   synthesize merged terminal truth.
 
+## #5346 — stale plan truth cannot be repaired in its current phase
+
+- GitHub issue state: closed; PR #5752 merged from exact source head
+  `7b1ef84bc8a4966c0c454ae4d87fd973537a856d`, merge commit
+  `ccca46abceb117150efbc3b69248fba611d90fff`, with required checks passing.
+- The live issue worktree remains at typed `merge_ready` generation 12, digest
+  `1341748ec10bbf4434a2892d72a28ec9a931a8f74c3b0bbf2a0ee24815a587bc`,
+  under active claim `claim-5346-v0918-wp13-deletion-preparation-current`.
+- All five SPP execution steps remain `pending`, and the SOR still records
+  pre-merge integration truth. Terminalizing that projection would preserve a
+  false execution narrative despite the merged GitHub result.
+- The first typed corrective `update_plan_step` request failed without mutation
+  with `invalid_transition: spp mutation is not allowed during merge_ready`.
+  No later SOR edit or closeout was attempted after that fail-closed guard.
+- The dedicated closeout branch intentionally has no synthesized #5346
+  projection or retained receipt.
+- Disposition: no terminal receipt. A typed, phase-safe repair route must first
+  reconcile the stale SPP and SOR truth; manual card edits or direct closeout
+  are prohibited.
+
 ## #5701 — exact-head review blockers
 
 - GitHub issue state: closed.

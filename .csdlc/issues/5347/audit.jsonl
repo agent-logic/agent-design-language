@@ -34,3 +34,7 @@
 {"sequence":34,"generation":20,"actor":"codex:5347-execution-owner","reason":"Recover stale review/publication truth after substantive CI parity fixes advanced PR #5753 to exact head 4570c10bc79bca0a59841ff85cf97f4028579ff0.","operation":"recover_review"}
 {"sequence":35,"generation":21,"actor":"codex:5347-execution-owner","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":36,"generation":22,"actor":"codex:5347-execution-owner","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":37,"generation":23,"actor":"codex:5347-execution-owner","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":38,"generation":24,"actor":"codex:5347-execution-owner","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":39,"generation":25,"actor":"codex:5347-execution-owner","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":40,"generation":26,"actor":"codex:5748-terminal-recovery","reason":"Materialize retained terminal authority for newly closed v0.91.8 issue #5347 on the dedicated closeout branch.","operation":"reconcile_terminal"}

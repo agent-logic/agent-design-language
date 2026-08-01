@@ -90,14 +90,14 @@ fi
 
 terminal_issues=(
   4739 4741 4758 4759 4760 4761 4762 4763 5107 5332 5336 5337 5338
-  5339 5340 5341 5342 5343 5344 5345 5349 5350 5352 5354 5358 5361
+  5339 5340 5341 5342 5343 5344 5345 5347 5349 5350 5352 5354 5358 5361
   5384 5438 5470 5497 5498 5499 5500 5501 5502 5526 5527 5540 5541
   5548 5563 5566 5569 5572 5587 5589 5590 5591 5592 5594 5597 5600
   5602 5605 5610 5613 5615 5624 5627 5632 5645 5648 5653 5658 5662
   5665 5666 5670 5671 5679 5683 5686 5687 5691 5695 5697 5698 5702
   5708 5710 5711 5715 5717 5718 5719 5727 5728 5735 5737 5746
 )
-exception_issues=(5007 5558 5657 5663 5664 5675 5678 5701 5722 5733)
+exception_issues=(5007 5346 5558 5657 5663 5664 5675 5678 5701 5722 5733)
 claim_free_exception_issues=(5657 5663 5664 5675 5678 5701 5733)
 dormant_exception_issues=(5663 5664 5675 5678 5701 5733)
 
@@ -114,8 +114,8 @@ exception_projection() {
   esac
 }
 
-require_eq "${#terminal_issues[@]}" 90 "terminal issue count mismatch"
-require_eq "${#exception_issues[@]}" 10 "exception issue count mismatch"
+require_eq "${#terminal_issues[@]}" 91 "terminal issue count mismatch"
+require_eq "${#exception_issues[@]}" 11 "exception issue count mismatch"
 require_file "$repo_root" "$register"
 require_file "$repo_root" "$universe"
 require_file "$repo_root" "$installer"
@@ -134,13 +134,13 @@ observed_completed="$(
 require_eq "$observed_completed" "$declared_completed" \
   "retained live completed-issue universe differs from the declared partition"
 require_eq "$(printf '%s\n' "${terminal_issues[@]}" "${exception_issues[@]}" | sort -nu | wc -l | tr -d ' ')" \
-  100 "declared completed-issue partition contains duplicates"
+  102 "declared completed-issue partition contains duplicates"
 require_eq "$(jq -r '[.issues[] | select(.state == "CLOSED" and .state_reason == "NOT_PLANNED") | .number] | sort | @csv' "$universe")" \
   5335 "retained noneligible issue universe mismatch"
 jq -e '.schema == "adl.v0918.closed_issue_universe.v1" and
   .repository == "danielbaustin/agent-design-language" and
   .label == "version:v0.91.8" and .state == "closed" and
-  (.issues | length) == 101 and
+  (.issues | length) == 103 and
   ([.issues[].number] | length) == ([.issues[].number] | unique | length)' \
   "$universe" >/dev/null || fail "retained closed-issue universe metadata is invalid"
 
@@ -270,8 +270,9 @@ printf '%s\n' "$corrupt_report" | jq -e \
    .findings[0].message == "index digest mismatch"' >/dev/null || \
   fail "exception #5007 doctor state mismatch"
 
-# These two issues have no local lifecycle projection. Their absence is part
+# These three issues have no local lifecycle projection. Their absence is part
 # of the fail-closed evidence and must remain explicit.
+require_absent "$repo_root" "$repo_root/.csdlc/issues/5346"
 require_absent "$repo_root" "$repo_root/.csdlc/issues/5558"
 require_absent "$repo_root" "$repo_root/.csdlc/issues/5722"
 
@@ -282,4 +283,4 @@ rg -q '^## #5335 — outside the merged-PR eligibility boundary$' "$register" ||
 require_eq "$(git status --porcelain -- .csdlc/locks .csdlc/requests)" "" \
   "generated lock or request state dirties the publication worktree"
 
-printf 'v0.91.8 terminal inventory PASS: 90 terminal, 10 fail-closed exceptions, 1 noneligible exclusion\n'
+printf 'v0.91.8 terminal inventory PASS: 91 terminal, 11 fail-closed exceptions, 1 noneligible exclusion\n'
