@@ -45,3 +45,4 @@
 {"sequence":45,"generation":20,"actor":"codex:5558-corrective","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":46,"generation":21,"actor":"subagent:019fbf2d-07af-7ee0-a7e1-ca480b4a5d0a","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":47,"generation":22,"actor":"codex:5558-corrective","reason":"Advance the exact reviewed coverage-impact repair with no actionable findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":48,"generation":23,"actor":"codex:5558-corrective","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
