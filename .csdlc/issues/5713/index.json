@@ -3,13 +3,13 @@
   "issue": 5713,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f9a2970ba450cc073abac0f5085576fbd8b03f703611c96fce7b68c3001a4f87",
-  "phase": "implemented",
-  "generation": 2,
-  "digest": "e6d4f16e5e8859564d8a0975e9be00c2d5d45705d16409caca229751994ffb71",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "bc1c5030c4aaf20078d99202781aa271ebc1aded57fd7536e4a210324af14f2d",
   "claim": {
     "id": "claim-5713-runtime-v3-rcgen-local-tls",
     "owner": "codex:issue-5713-runtime-v3-rcgen-local-tls",
-    "generation": 2,
+    "generation": 4,
     "acquired_unix_seconds": 1785539879,
     "expires_unix_seconds": 1786144679,
     "heartbeat_unix_seconds": 1785539879,
@@ -27,8 +27,45 @@
     ],
     "purpose": "Implement stable rcgen local-development TLS bootstrap for Runtime v3 without AWS CA, wrappers, or TLS weakening"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:gpt-5.5-sartre",
+    "assigned_by": "codex:5713-review-remediation",
+    "revision": "git-blake3:00a261cb0c47ddcd6a2d42107f9ada74f3a62aea:f5bb750c78039327541f54205418d4db74c07a6b6fa2aab7d6c7f0e954741c66",
+    "scope": [
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/local_tls.rs",
+      "adl-runtime/tests/local_tls.rs",
+      "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md",
+      ".csdlc/evidence/5713",
+      ".csdlc/issues/5713"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:gpt-5.5-sartre",
+    "scope": [
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/local_tls.rs",
+      "adl-runtime/tests/local_tls.rs",
+      "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md",
+      ".csdlc/evidence/5713",
+      ".csdlc/issues/5713"
+    ],
+    "reviewed_revision": "git-blake3:00a261cb0c47ddcd6a2d42107f9ada74f3a62aea:f5bb750c78039327541f54205418d4db74c07a6b6fa2aab7d6c7f0e954741c66",
+    "findings": [],
+    "residual_risks": [
+      "Native Windows execution remains a pre-merge integration residual because nessus.local did not resolve during pre-PR validation; the protected current-user-only DACL behavior is implemented and covered by a native-Windows-gated Rust test."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -43,32 +80,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ac57ae4902156eabc84ebe49723170dd3aeafb32bbcd6d9bea2767abe93e6414",
+      "values_digest": "53a6a516c4308daaab2447e1f36160067878ee44f3750cdb4bfa0627846c7405",
       "rendered_digest": "84c6c53f8b73aaf6790c8e233483861d30dc6e51688396ee0e9452c73c569e99",
       "ast_digest": "ea168e0c17ff9820ba024bb9dff74be483d9479379acd6d75ab42066f695ea71"
     },
     "stp": {
-      "values_digest": "dd6ceebd65e28a4eb9f55ce816be9e9cf5459f9feeb9ea867310d1371e335222",
+      "values_digest": "ac0a0b6d07ed485615b1205a362d7ca9e7b5eaca897a1996affc629393d2ec81",
       "rendered_digest": "f118146e95a8ad3b0b77a0976fb3a93718c506041613aa418f7b603e12d0b8f9",
       "ast_digest": "a8364bb56c15894e1c1138b59f568fed849911ad8ccda4283277103558d6474f"
     },
     "spp": {
-      "values_digest": "14221ccca0d4bf4117978be3f08e4829df34a5c3a3d9ad8efd802d4a91f8399d",
+      "values_digest": "1c3a5f1f322a2da263131258ff6addd1dd9ac17973d31a6429bd2bd6194265dc",
       "rendered_digest": "6013ee8928b09e781d20be9e56ba9678494e195f909c57f63b5db33de9428fbb",
       "ast_digest": "06a63bfb34e190704934b88c6673bac363ca9405e86a173c52118ba8528a2053"
     },
     "vpp": {
-      "values_digest": "9c71b72102cf37f65d8a8397c930959d396f8e1ba39c561e83905dcf39aed247",
+      "values_digest": "23a8000f7d15891cc94ada554bfcdb020af7a14c1597d886c339431bf89c79b1",
       "rendered_digest": "01865b9abdc9a65607573c1f823383b53304bde6d005542a78277809bb805be3",
       "ast_digest": "c8a5ebf2980c125be95206f098d4702f7989c42e708dc652b11db10db58785b8"
     },
     "srp": {
-      "values_digest": "281fe1624a917a3dfb1c0fc4f63cc7e32ea48817f0f0de54103c7549c005c9a2",
-      "rendered_digest": "a58826088bd45fa5e230ad413f7075a88844ebdd2d0a8c6e850f7c81b6e75e25",
-      "ast_digest": "d91e7e99661d4c24f02f31ae86809d503670cf9b73de378660152424ca6aa6f3"
+      "values_digest": "ec5a6730e8108cd49d8d6b8ebd3f246562744705369ae2c54d11b0d7010eeda7",
+      "rendered_digest": "7ffde7d6daf990a406a5c89f7e41d41533ca1b4136c24fe1ba2b607906f6176f",
+      "ast_digest": "894cf02d77e3407f0fc775cbd7fd6cff259551ba58785fc583b7050dcc01a829"
     },
     "sor": {
-      "values_digest": "34d3c84320cf1a245be719c369ec53b652cf644a7094ce26611c6c04529c6990",
+      "values_digest": "4476f985a3889b682a8958285d7229fd6f58740c5a3d4b4a77bf12e86d34b3fd",
       "rendered_digest": "7ebdc1465528516f365cd5a76b00c4f3008dbe0f3ab0edad825e3b309ca459ec",
       "ast_digest": "22cd78a37882127728a1962cbd28936a1e47a67b23e36c603d8f7ea421154e0b"
     }
@@ -94,6 +131,13 @@
       "to": "implemented",
       "actor": "codex:issue-5713-runtime-v3-rcgen-local-tls",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5713-review-remediation",
+      "reason": "Exact-head GPT-5.5 review completed with zero findings after all remediation."
     }
   ],
   "audit": [
@@ -124,6 +168,27 @@
       "actor": "codex:5713-review-remediation",
       "reason": "Refresh exact implementation truth after the bounded TLS review fixes.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented stable state-root-scoped rcgen local TLS identity reuse, generation-manifest replacement, SAN validation, crash-releasing advisory locking, structured bootstrap failures, lifecycle-soak integration, and restrictive private-key handling on Unix and native Windows.\",\"changes\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/lib.rs\",\"adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs\",\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl-runtime/src/local_tls.rs\",\"adl-runtime/tests/local_tls.rs\",\"docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md\"],\"artifacts\":[\".csdlc/evidence/5713/local-tls-validation.md\",\".csdlc/evidence/5713/runtime-v3-local-tls-focused.log\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:5713-review-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "subagent:gpt-5.5-sartre",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:5713-review-remediation",
+      "reason": "Exact-head GPT-5.5 review completed with zero findings after all remediation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

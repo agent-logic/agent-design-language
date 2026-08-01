@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
+adl-runtime/Cargo.toml
+adl-runtime/Cargo.lock
+adl-runtime/src/lib.rs
 adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs
+adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
 adl-runtime/src/local_tls.rs
 adl-runtime/tests/local_tls.rs
 docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md
@@ -37,12 +41,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Native Windows execution remains a pre-merge integration residual because nessus.local did not resolve during pre-PR validation; the protected current-user-only DACL behavior is implemented and covered by a native-Windows-gated Rust test.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:00a261cb0c47ddcd6a2d42107f9ada74f3a62aea:f5bb750c78039327541f54205418d4db74c07a6b6fa2aab7d6c7f0e954741c66")
 
-Reviewer: None
+Reviewer: Some("subagent:gpt-5.5-sartre")
 
-Result: pre_review
+Result: pass
