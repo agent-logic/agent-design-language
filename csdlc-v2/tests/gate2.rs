@@ -4,8 +4,9 @@ use csdlc_v2::cards::CardContent;
 use csdlc_v2::doctor::DoctorStatus;
 use csdlc_v2::{
     amend_claim_scope, closeout_issue, diagnose, edit_issue, AmendClaimScopeRequest,
-    BootstrapRequest, CardKind, Claim, EditRequest, ErrorCode, PlanningCollectionField,
-    ReacquireClaimRequest, SemanticOperation, Store, TerminalDisposition, TerminalObservation,
+    BootstrapRequest, CardKind, Claim, EditRequest, ErrorCode, LifecyclePhase,
+    PlanningCollectionField, ReacquireClaimRequest, SemanticOperation, Store, TerminalDisposition,
+    TerminalObservation,
 };
 use tempfile::TempDir;
 
@@ -258,6 +259,56 @@ fn cli_edit_current(
         String::from_utf8_lossy(&output.stderr)
     );
     store.load_record(record.issue).expect("CLI-updated record")
+}
+
+fn implemented_fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
+    let (temp, store, mut record) = bind_fixture();
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sor,
+        SemanticOperation::RecordExecution {
+            summary: "implemented".into(),
+            changes: vec!["csdlc-v2".into()],
+            artifacts: vec!["focused tests".into()],
+        },
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sip,
+        SemanticOperation::AdvancePhase {
+            phase: LifecyclePhase::Implemented,
+        },
+    );
+    assert_eq!(record.phase, LifecyclePhase::Implemented);
+    (temp, store, record)
+}
+
+fn spp_replacement_request(
+    record: &csdlc_v2::IssueRecord,
+    operation: SemanticOperation,
+) -> EditRequest {
+    EditRequest {
+        issue: 42,
+        card: CardKind::Spp,
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        claim_id: "claim-1".into(),
+        actor: "agent".into(),
+        reason: "bounded implemented review remediation".into(),
+        operation,
+        fail_after_backup: false,
+    }
+}
+
+fn replacement_steps() -> Vec<csdlc_v2::cards::PlanStep> {
+    vec![csdlc_v2::cards::PlanStep {
+        id: "correct-review-finding".into(),
+        action: "correct the SPP contradiction found during exact review".into(),
+        acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
+        status: csdlc_v2::cards::StepStatus::Pending,
+    }]
 }
 
 #[test]
@@ -3391,6 +3442,206 @@ fn planning_replacements_are_phase_bounded_and_allow_narrow_implemented_correcti
         },
     )
     .expect_err("unrelated post-implementation replan must fail");
+    assert_eq!(error.code, ErrorCode::InvalidTransition);
+}
+
+#[test]
+fn implemented_spp_review_remediation_allows_guarded_plan_and_stop_condition_corrections() {
+    let (_temp, store, mut record) = implemented_fixture();
+
+    record = edit_issue(
+        &store,
+        spp_replacement_request(
+            &record,
+            SemanticOperation::ReplacePlanSteps {
+                steps: replacement_steps(),
+            },
+        ),
+    )
+    .expect("implemented plan-step correction");
+    let cards = store.load_cards(42).expect("plan-step cards");
+    let CardContent::Spp(spp) = &cards[&CardKind::Spp].content else {
+        panic!("SPP");
+    };
+    assert_eq!(spp.steps, replacement_steps());
+    assert!(record
+        .audit
+        .last()
+        .expect("audit")
+        .operation
+        .contains("replace_plan_steps"));
+
+    record = edit_issue(
+        &store,
+        spp_replacement_request(
+            &record,
+            SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::Invariants,
+                values: vec!["review-remediated invariant".into()],
+            },
+        ),
+    )
+    .expect("implemented invariant correction");
+    record = edit_issue(
+        &store,
+        spp_replacement_request(
+            &record,
+            SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::StopConditions,
+                values: vec!["review-remediated stop condition".into()],
+            },
+        ),
+    )
+    .expect("implemented stop-condition correction");
+
+    let cards = store.load_cards(42).expect("corrected cards");
+    let CardContent::Spp(spp) = &cards[&CardKind::Spp].content else {
+        panic!("SPP");
+    };
+    assert_eq!(spp.invariants, vec!["review-remediated invariant"]);
+    assert_eq!(
+        spp.stop_conditions,
+        vec!["review-remediated stop condition"]
+    );
+    assert_eq!(record.phase, LifecyclePhase::Implemented);
+    assert_eq!(
+        record.claim.as_ref().expect("claim").generation,
+        record.generation
+    );
+}
+
+#[test]
+fn implemented_spp_replacements_remain_generation_digest_and_claim_guarded() {
+    let (_temp, store, record) = implemented_fixture();
+    let before_record = store.load_record(42).expect("record snapshot");
+    let before_cards = store.load_cards(42).expect("card snapshot");
+
+    let mut stale_generation = spp_replacement_request(
+        &record,
+        SemanticOperation::ReplacePlanSteps {
+            steps: replacement_steps(),
+        },
+    );
+    stale_generation.expected_generation += 1;
+    let error = edit_issue(&store, stale_generation).expect_err("stale generation");
+    assert_eq!(error.code, ErrorCode::StaleGeneration);
+
+    let mut stale_digest = spp_replacement_request(
+        &record,
+        SemanticOperation::ReplacePlanningCollection {
+            field: PlanningCollectionField::Invariants,
+            values: vec!["guarded".into()],
+        },
+    );
+    stale_digest.expected_digest = "stale".into();
+    let error = edit_issue(&store, stale_digest).expect_err("stale digest");
+    assert_eq!(error.code, ErrorCode::StaleDigest);
+
+    let mut stale_claim = spp_replacement_request(
+        &record,
+        SemanticOperation::ReplacePlanningCollection {
+            field: PlanningCollectionField::StopConditions,
+            values: vec!["guarded".into()],
+        },
+    );
+    stale_claim.claim_id = "not-the-claim".into();
+    let error = edit_issue(&store, stale_claim).expect_err("stale claim");
+    assert_eq!(error.code, ErrorCode::MissingClaim);
+
+    assert_eq!(store.load_record(42).expect("record"), before_record);
+    assert_eq!(store.load_cards(42).expect("cards"), before_cards);
+}
+
+#[test]
+fn implemented_spp_review_remediation_rejects_unbounded_collections() {
+    let (_temp, store, record) = implemented_fixture();
+    let error = edit_issue(
+        &store,
+        spp_replacement_request(
+            &record,
+            SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::Risks,
+                values: vec!["not bounded review remediation".into()],
+            },
+        ),
+    )
+    .expect_err("implemented risks replacement remains rejected");
+    assert_eq!(error.code, ErrorCode::InvalidTransition);
+}
+
+#[test]
+fn implemented_review_remediation_allows_guarded_sip_authority_and_stp_acceptance() {
+    let (_temp, store, mut record) = implemented_fixture();
+
+    record = edit_issue(
+        &store,
+        edit_for(
+            42,
+            "claim-1",
+            &record,
+            CardKind::Sip,
+            SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::AuthorityBoundary,
+                values: vec!["release the successor after merge".into()],
+            },
+        ),
+    )
+    .expect("implemented SIP authority correction");
+    record = edit_issue(
+        &store,
+        edit_for(
+            42,
+            "claim-1",
+            &record,
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria {
+                values: vec![
+                    "merge releases the successor".into(),
+                    "closeout remains asynchronous".into(),
+                ],
+            },
+        ),
+    )
+    .expect("implemented STP acceptance correction");
+
+    let cards = store.load_cards(42).expect("corrected cards");
+    let CardContent::Sip(sip) = &cards[&CardKind::Sip].content else {
+        panic!("SIP");
+    };
+    assert_eq!(
+        sip.authority_boundary,
+        vec!["release the successor after merge"]
+    );
+    let CardContent::Stp(stp) = &cards[&CardKind::Stp].content else {
+        panic!("STP");
+    };
+    assert_eq!(
+        stp.acceptance_criteria,
+        vec![
+            "merge releases the successor",
+            "closeout remains asynchronous"
+        ]
+    );
+    assert_eq!(record.phase, LifecyclePhase::Implemented);
+}
+
+#[test]
+fn implemented_sip_review_remediation_rejects_non_authority_collections() {
+    let (_temp, store, record) = implemented_fixture();
+    let error = edit_issue(
+        &store,
+        edit_for(
+            42,
+            "claim-1",
+            &record,
+            CardKind::Sip,
+            SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::DeclaredScope,
+                values: vec!["scope widening remains forbidden".into()],
+            },
+        ),
+    )
+    .expect_err("implemented SIP scope replacement remains rejected");
     assert_eq!(error.code, ErrorCode::InvalidTransition);
 }
 

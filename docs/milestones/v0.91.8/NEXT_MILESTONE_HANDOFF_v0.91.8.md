@@ -1,7 +1,15 @@
 # v0.91.8 to v0.92 Handoff
 
 `v0.92` remains the birthday milestone. `v0.91.8` may only hand off exact
-reviewed platform truth.
+reviewed platform truth, and it must preserve the boundary that the birthday
+itself has not happened in `v0.91.8`.
+
+Current source truth for this handoff is the merged WP-16 quality-gate evidence
+at `2e9d2dd7c4260dcf6ec6af954b0eea97554212df`. That evidence records 67
+audited v0.91.8 issues, 34 working-code outcomes, 21 useful durable results, 12
+partial or ambiguous release-tail/umbrella/lifecycle-drift items, 0 unacceptable
+outcomes, and 0 release blockers. WP-17 `#5360` is now the active documentation
+alignment step consuming that evidence.
 
 ## Required Handoff Contents
 
@@ -41,12 +49,17 @@ activation map.
 
 ## Review Routing
 
-The release tail must preserve `WP-21 -> WP-21A -> WP-22` ordering before
-`v0.92` consumes this handoff. WP-21 owns the exact handoff, Memory Palace,
-launch/identity, capability, Adaptive Learning, feature-list, and planning truth;
-future v0.91.8 WP-21A `#5355` prepares the next-milestone handoff/review
-alignment, and WP-22 reviews that packet before release ceremony work. Current
-v0.91.7 WP-21A `#5489` is only preparing this documentation package.
+The release tail must preserve documentation alignment, internal review, formal
+review, remediation, next-milestone planning/review, and release ceremony
+ordering before `v0.92` consumes this handoff. WP-16 is merged as the integrated
+quality gate; WP-17 `#5360` aligns the canonical docs to that gate; WP-18
+internal review and the later formal milestone review remain future work. WP-21
+owns the exact v0.92 handoff and must consume the WP-16 evidence and any WP-17
+updates rather than relying on older planning-only text.
+
+Future v0.91.8 WP-21A `#5355` prepares next-milestone handoff/review alignment,
+and WP-22 reviews that packet before release ceremony work. Current v0.91.7
+WP-21A `#5489` is historical preparation evidence only.
 
 Current blocker and non-claim truth must be consumed explicitly: `#5408` is
 closed/remediated via PR #5419, while #4906 remains retained
@@ -56,4 +69,6 @@ blocked-with-evidence unless separately dispositioned.
 
 This handoff must not claim identity, consciousness, birthday readiness,
 production-provider readiness, or public launch readiness unless corresponding
-issues have closed with evidence and review.
+issues have closed with evidence and review. It also must not claim final
+`v0.91.8` release approval, completed WP-18/formal review, or completed v0.92
+activation.

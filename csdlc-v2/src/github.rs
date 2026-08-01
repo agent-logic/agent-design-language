@@ -114,6 +114,8 @@ pub struct GithubIssuePacket {
     pub title: String,
     pub body: String,
     pub state: String,
+    pub created_at: Option<String>,
+    pub closed_at: Option<String>,
     pub labels: Vec<String>,
     pub assignees: Vec<String>,
     pub milestone: Option<u64>,
@@ -564,6 +566,14 @@ fn normalize_issue(
             .and_then(Value::as_str)
             .unwrap_or("unknown")
             .to_owned(),
+        created_at: value
+            .get("created_at")
+            .and_then(Value::as_str)
+            .map(str::to_owned),
+        closed_at: value
+            .get("closed_at")
+            .and_then(Value::as_str)
+            .map(str::to_owned),
         labels: value
             .get("labels")
             .and_then(Value::as_array)

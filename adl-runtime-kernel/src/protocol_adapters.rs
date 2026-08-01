@@ -19,7 +19,10 @@ use tokio::{
 };
 use tokio_rustls::{
     client::TlsStream,
-    rustls::{pki_types::CertificateDer, pki_types::ServerName, ClientConfig, RootCertStore},
+    rustls::{
+        pki_types::{CertificateDer, PrivateKeyDer, PrivatePkcs8KeyDer, ServerName},
+        ClientConfig, RootCertStore,
+    },
     TlsConnector,
 };
 use tokio_util::sync::CancellationToken;
@@ -84,6 +87,68 @@ pub enum ProtocolSecurity {
         config: Arc<ClientConfig>,
         server_name: String,
     },
+    #[non_exhaustive]
+    RustlsMutualTlsClient {
+        config: Arc<ClientConfig>,
+        server_name: String,
+        client_identity: ProtocolClientIdentity,
+        proof: ProtocolMutualTlsProof,
+    },
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ProtocolClientIdentity {
+    certificate_der_sha256: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ProtocolMutualTlsProof {
+    certificate_der_sha256: String,
+}
+
+impl ProtocolSecurity {
+    pub fn rustls_mutual_tls_client_from_der(
+        roots: RootCertStore,
+        client_cert_der: Vec<u8>,
+        client_key_der: Vec<u8>,
+        server_name: impl Into<String>,
+    ) -> Result<Self, ProtocolBuildError> {
+        let client_identity = ProtocolClientIdentity::from_certificate_der(&client_cert_der)?;
+        let proof = ProtocolMutualTlsProof {
+            certificate_der_sha256: client_identity.certificate_der_sha256.clone(),
+        };
+        let client_cert = CertificateDer::from(client_cert_der);
+        let client_key = PrivateKeyDer::Pkcs8(PrivatePkcs8KeyDer::from(client_key_der));
+        Ok(Self::RustlsMutualTlsClient {
+            config: Arc::new(
+                ClientConfig::builder()
+                    .with_root_certificates(roots)
+                    .with_client_auth_cert(vec![client_cert], client_key)
+                    .map_err(|error| config("CLIENT_CERT_DER_FILE/CLIENT_KEY_DER_FILE", error))?,
+            ),
+            server_name: server_name.into(),
+            client_identity,
+            proof,
+        })
+    }
+}
+
+impl ProtocolClientIdentity {
+    pub fn from_certificate_der(certificate_der: &[u8]) -> Result<Self, ProtocolBuildError> {
+        if certificate_der.is_empty() {
+            return Err(config(
+                "CLIENT_CERT_DER_FILE",
+                "expected non-empty client certificate DER",
+            ));
+        }
+        Ok(Self {
+            certificate_der_sha256: blake3::hash(certificate_der).to_hex().to_string(),
+        })
+    }
+
+    pub fn certificate_der_sha256(&self) -> &str {
+        &self.certificate_der_sha256
+    }
 }
 
 #[derive(Clone)]
@@ -358,6 +423,32 @@ impl ProtocolAdapter {
         if endpoint.timeout.is_zero() {
             return Err(config("TIMEOUT_MILLIS", "expected non-zero timeout"));
         }
+        match &endpoint.security {
+            #[cfg(debug_assertions)]
+            ProtocolSecurity::PlainForLocalTest => {}
+            ProtocolSecurity::RustlsClient { .. } => {
+                return Err(config(
+                    "SECURITY",
+                    "rustls protocol transport requires client certificate authentication",
+                ));
+            }
+            ProtocolSecurity::RustlsMutualTlsClient {
+                client_identity, ..
+            } => {
+                if client_identity.certificate_der_sha256().trim().is_empty() {
+                    return Err(config(
+                        "CLIENT_CERT_DER_FILE",
+                        "expected bound client certificate identity",
+                    ));
+                }
+                if !endpoint.security.has_verified_mutual_tls_identity() {
+                    return Err(config(
+                        "CLIENT_CERT_DER_FILE",
+                        "expected verified client certificate authentication proof",
+                    ));
+                }
+            }
+        }
         #[cfg(debug_assertions)]
         if matches!(endpoint.security, ProtocolSecurity::PlainForLocalTest)
             && (!cfg!(debug_assertions) || !endpoint.address.ip().is_loopback())
@@ -505,9 +596,13 @@ impl ProtocolAdapter {
         match &self.endpoint.security {
             #[cfg(debug_assertions)]
             ProtocolSecurity::PlainForLocalTest => Ok(ProtocolStream::Plain(stream)),
-            ProtocolSecurity::RustlsClient {
+            ProtocolSecurity::RustlsClient { .. } => {
+                Err(fatal("rustls client authentication is required"))
+            }
+            ProtocolSecurity::RustlsMutualTlsClient {
                 config,
                 server_name,
+                ..
             } => TlsConnector::from(config.clone())
                 .connect(
                     ServerName::try_from(server_name.clone())
@@ -914,22 +1009,23 @@ fn endpoint_from_env(
         .map_err(|error| config("ENDPOINT", error))?;
     let secret = ProtocolSecret::from_key_file(required_var(prefix, "SECRET_FILE")?)?;
     let mut roots = RootCertStore::empty();
-    roots
-        .add(CertificateDer::from(
-            fs::read(required_var(prefix, "CA_DER_FILE")?)
-                .map_err(|error| config("CA_DER_FILE", error))?,
-        ))
+    let ca_der = fs::read(required_var(prefix, "CA_DER_FILE")?)
         .map_err(|error| config("CA_DER_FILE", error))?;
+    roots
+        .add(CertificateDer::from(ca_der))
+        .map_err(|error| config("CA_DER_FILE", error))?;
+    let client_cert_der = fs::read(required_var(prefix, "CLIENT_CERT_DER_FILE")?)
+        .map_err(|error| config("CLIENT_CERT_DER_FILE", error))?;
+    let client_key_der = fs::read(required_var(prefix, "CLIENT_KEY_DER_FILE")?)
+        .map_err(|error| config("CLIENT_KEY_DER_FILE", error))?;
     Ok(ProtocolEndpoint {
         address,
-        security: ProtocolSecurity::RustlsClient {
-            config: Arc::new(
-                ClientConfig::builder()
-                    .with_root_certificates(roots)
-                    .with_no_client_auth(),
-            ),
-            server_name: required_var(prefix, "SERVER_NAME")?,
-        },
+        security: ProtocolSecurity::rustls_mutual_tls_client_from_der(
+            roots,
+            client_cert_der,
+            client_key_der,
+            required_var(prefix, "SERVER_NAME")?,
+        )?,
         timeout: Duration::from_millis(optional_u64(prefix, "TIMEOUT_MILLIS", 5_000)?),
         frame_freshness: Duration::from_millis(optional_u64(prefix, "FRESHNESS_MILLIS", 5_000)?),
         secret,
@@ -996,6 +1092,22 @@ fn constant_time_eq(left: &[u8], right: &[u8]) -> bool {
                 difference | (left ^ right)
             })
             == 0
+}
+
+impl ProtocolSecurity {
+    fn has_verified_mutual_tls_identity(&self) -> bool {
+        match self {
+            ProtocolSecurity::RustlsMutualTlsClient {
+                client_identity,
+                proof,
+                ..
+            } => {
+                !proof.certificate_der_sha256.trim().is_empty()
+                    && proof.certificate_der_sha256 == client_identity.certificate_der_sha256
+            }
+            _ => false,
+        }
+    }
 }
 
 fn retryable(message: impl Into<String>) -> ExecutorError {
@@ -1077,6 +1189,43 @@ mod tests {
         assert!(error
             .message
             .contains("not provided by the protocol adapter builder"));
+    }
+
+    #[test]
+    fn rustls_mutual_tls_client_requires_verified_identity_proof() {
+        let secret = ProtocolSecret::from_key([3; 32]);
+        let address: SocketAddr = "127.0.0.1:1".parse().unwrap();
+        let config = ClientConfig::builder()
+            .with_root_certificates(RootCertStore::empty())
+            .with_no_client_auth();
+        let endpoint = ProtocolEndpoint {
+            address,
+            security: ProtocolSecurity::RustlsMutualTlsClient {
+                config: Arc::new(config),
+                server_name: "localhost".to_owned(),
+                client_identity: ProtocolClientIdentity {
+                    certificate_der_sha256: "forged-client-identity".to_owned(),
+                },
+                proof: ProtocolMutualTlsProof {
+                    certificate_der_sha256: "different-client-identity".to_owned(),
+                },
+            },
+            timeout: Duration::from_millis(1),
+            frame_freshness: Duration::from_millis(1),
+            secret,
+            capabilities: BTreeSet::from([AdapterKind::CloudBridge.service_name().to_owned()]),
+        };
+        let error = match ProtocolAdapter::new(
+            AdapterKind::CloudBridge,
+            endpoint,
+            CancellationToken::new(),
+        ) {
+            Ok(_) => panic!("forged mutual TLS identity proof was accepted"),
+            Err(error) => error,
+        };
+        assert!(error
+            .to_string()
+            .contains("verified client certificate authentication proof"));
     }
 
     #[test]

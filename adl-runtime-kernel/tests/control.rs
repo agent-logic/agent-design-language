@@ -673,6 +673,28 @@ async fn duplicate_shutdown_executes_once_and_conflicting_reuse_fails() {
 }
 
 #[tokio::test]
+async fn readiness_fails_closed_before_first_weather_sample() {
+    let key = SigningKey::from_bytes(&[31; 32]);
+    let service = ControlService::new(
+        "instance-weather-missing",
+        RuntimeRecorder::new(4),
+        FakeLifecycle {
+            calls: Arc::new(AtomicUsize::new(0)),
+        },
+        authority(&key, [ControlCapability::Read]),
+        4,
+    );
+
+    let report = service.readiness_report();
+
+    assert!(!report.ready);
+    assert!(report
+        .degraded_reasons
+        .contains(&"weather_stale".to_owned()));
+    assert!(report.weather_freshness.is_none());
+}
+
+#[tokio::test]
 async fn idempotency_refresh_preserves_the_recent_completed_response() {
     let key = SigningKey::from_bytes(&[10; 32]);
     let recorder = RuntimeRecorder::new(8);
@@ -805,6 +827,49 @@ async fn axum_adapter_serves_signed_control_payloads() {
     .await;
     assert!(response.starts_with("HTTP/1.1 400 Bad Request"));
     assert!(response.contains("adl.runtime.control_error.v1"));
+    server.abort();
+}
+
+#[tokio::test]
+async fn control_route_rejects_oversized_request_body_before_command_parse() {
+    let key = SigningKey::from_bytes(&[17; 32]);
+    let calls = Arc::new(AtomicUsize::new(0));
+    let service = Arc::new(ControlService::new(
+        "instance-1",
+        RuntimeRecorder::new(4),
+        FakeLifecycle {
+            calls: calls.clone(),
+        },
+        authority(&key, [ControlCapability::Read]),
+        4,
+    ));
+    let listener = tokio::net::TcpListener::bind((TEST_BIND_HOST, 0))
+        .await
+        .unwrap();
+    let address = listener.local_addr().unwrap();
+    let (tls, client) = test_https().await;
+    let (ready_sender, ready_receiver) = tokio::sync::oneshot::channel();
+    let server = tokio::spawn(serve_control_listener_until_ready(
+        service,
+        listener,
+        tls,
+        test_api_policy(),
+        ready_sender,
+        std::future::pending(),
+    ));
+    assert_eq!(ready_receiver.await.unwrap(), address);
+
+    let body = vec![b' '; adl_runtime_kernel::CONTROL_MAX_BODY_BYTES + 1];
+    let mut request = format!(
+        "POST /v1/control HTTP/1.1\r\nHost: localhost\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
+        body.len(),
+    )
+    .into_bytes();
+    request.extend_from_slice(&body);
+    let response = https_request(&client, address, &request).await;
+
+    assert!(response.starts_with("HTTP/1.1 413 Payload Too Large"));
+    assert_eq!(calls.load(Ordering::SeqCst), 0);
     server.abort();
 }
 
@@ -982,6 +1047,18 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
     assert!(health.starts_with("HTTP/1.1 200 OK"));
     assert!(health.contains(adl_runtime_kernel::RUNTIME_SNAPSHOT_SCHEMA));
 
+    let ready = https_request(
+        &client,
+        address,
+        b"GET /v1/ready HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(ready.starts_with("HTTP/1.1 200 OK"));
+    assert!(ready.contains(adl_runtime_kernel::RUNTIME_READINESS_SCHEMA));
+    assert!(ready.contains("\"ready\":true"));
+    assert!(ready.contains("\"degraded_reasons\":[]"));
+    assert!(ready.contains("\"stale\":false"));
+
     let metrics = https_request(
         &client,
         address,
@@ -1052,6 +1129,17 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
     .await;
     assert!(stale.starts_with("HTTP/1.1 200 OK"));
     assert!(stale.contains("\"stale\":true"));
+
+    let stale_ready = https_request(
+        &client,
+        address,
+        b"GET /v1/ready HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(stale_ready.starts_with("HTTP/1.1 503 Service Unavailable"));
+    assert!(stale_ready.contains("\"ready\":false"));
+    assert!(stale_ready.contains("\"weather_stale\""));
+    assert!(stale_ready.contains("\"stale\":true"));
     server.abort();
 }
 
@@ -1132,6 +1220,16 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
     assert!(response.starts_with("HTTP/1.1 200 OK"));
     assert!(response.contains("access-control-allow-origin: https://observatory.example.test"));
     assert!(response.contains(&format!("\"port\":{}", address.port())));
+
+    let response = https_request(
+        &client,
+        address,
+        b"GET /v1/ready HTTP/1.1\r\nHost: localhost\r\nOrigin: https://observatory.example.test\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(response.starts_with("HTTP/1.1 503 Service Unavailable"));
+    assert!(response.contains("access-control-allow-origin: https://observatory.example.test"));
+    assert!(response.contains("\"weather_stale\""));
 
     let response = https_request(
         &client,

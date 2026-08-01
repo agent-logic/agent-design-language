@@ -59,6 +59,56 @@
         }
       }
     },
+    "/v1/ready": {
+      "get": {
+        "operationId": "readRuntimeReadiness",
+        "tags": [
+          "status"
+        ],
+        "summary": "Read Runtime v3 readiness",
+        "description": "Returns bounded readiness truth for operator and watcher probes. A stale weather sample is reported as degraded readiness instead of being hidden behind a green top-line health result.",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Runtime v3 is ready.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuntimeReadinessReport"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Runtime v3 is reachable but degraded or not ready.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuntimeReadinessReport"
+                }
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "operationId": "runtimeReadinessCorsPreflight",
+        "tags": [
+          "status"
+        ],
+        "summary": "Preflight Runtime v3 readiness reads from the HTML Observatory",
+        "description": "Returns CORS preflight headers for configured Observatory origins before browser reads of /v1/ready.",
+        "security": [],
+        "responses": {
+          "204": {
+            "description": "Origin and requested method are allowed for the readiness probe."
+          },
+          "403": {
+            "description": "Origin is not present in configured observatory.allowed_origins."
+          }
+        }
+      }
+    },
     "/v1/metrics": {
       "get": {
         "operationId": "readRuntimeMetrics",
@@ -1080,6 +1130,59 @@
         "properties": {
           "snapshot": { "$ref": "#/components/schemas/RuntimeSnapshot" },
           "observability_ready": { "type": "boolean" }
+        }
+      },
+      "ObservatoryWeatherFreshness": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "observed_at_unix_millis",
+          "age_millis",
+          "stale_after_millis",
+          "stale"
+        ],
+        "properties": {
+          "observed_at_unix_millis": { "type": "integer", "minimum": 0 },
+          "age_millis": { "type": "integer", "minimum": 0 },
+          "stale_after_millis": { "type": "integer", "minimum": 0 },
+          "stale": { "type": "boolean" }
+        }
+      },
+      "RuntimeReadinessReport": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "ready",
+          "lifecycle",
+          "observability_ready",
+          "runtime_instance_id",
+          "runtime_process_id",
+          "weather_freshness",
+          "degraded_reasons"
+        ],
+        "properties": {
+          "schema": { "const": "adl.runtime_v3.readiness.v1" },
+          "ready": { "type": "boolean" },
+          "lifecycle": { "type": "string" },
+          "observability_ready": { "type": "boolean" },
+          "runtime_instance_id": { "type": "string" },
+          "runtime_process_id": { "type": "integer", "minimum": 0 },
+          "weather_freshness": {
+            "oneOf": [
+              { "$ref": "#/components/schemas/ObservatoryWeatherFreshness" },
+              { "type": "null" }
+            ]
+          },
+          "degraded_reasons": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "observability_not_ready",
+                "weather_stale"
+              ]
+            }
+          }
         }
       },
       "ControlError": {

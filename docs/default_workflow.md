@@ -14,5 +14,10 @@ binaries and operator skills under `csdlc-v2/`:
    `csdlc-merge`.
 7. `csdlc-closeout` records integration and terminal evidence.
 
+Cross-session ownership and waiting-state semantics remain documented in
+`docs/tooling/ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md`.
+Use `issue-watcher` for healthy waiting states and through `pr-janitor` only when
+an actionable PR-tail blocker appears.
+
 The former workflow is preserved only as historical evidence in
 `docs/legacy/DEFAULT_WORKFLOW_V1.md`. It is not an operational route.

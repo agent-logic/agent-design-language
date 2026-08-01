@@ -140,7 +140,7 @@ pub fn build_capability_aptitude_artifact_bundle() -> CapabilityAptitudeArtifact
             "focused_tests".to_string(),
         ],
         skill_scaffolding: vec![
-            "workflow-conductor".to_string(),
+            "typed-v2-lifecycle".to_string(),
             "sprint-conductor".to_string(),
             "review-subagent-policy".to_string(),
         ],

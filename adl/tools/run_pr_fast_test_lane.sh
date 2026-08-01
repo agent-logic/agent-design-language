@@ -318,7 +318,7 @@ filter_token_for_path() {
       printf 'runtime_v2_cmd'
       return 0
       ;;
-    adl/src/csdlc_prompt_editor.rs|adl/src/csdlc_prompt_editor/*.rs)
+    adl/src/csdlc_prompt_editor.rs)
       printf 'csdlc_prompt_editor'
       return 0
       ;;

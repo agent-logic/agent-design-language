@@ -14,11 +14,16 @@
 Current status: forward planning for the later `v0.92` birthday milestone,
 after the planned `v0.91.6` readiness tranche, `v0.91.7`
 implementation/proof tranche, and the new `v0.91.8` platform-acceptance bridge.
+The `v0.91.8` WP-16 quality gate has now merged at
+`2e9d2dd7c4260dcf6ec6af954b0eea97554212df`; v0.92 must consume that exact
+evidence after WP-17 documentation alignment and the remaining v0.91.8 review
+tail are complete.
 
 - Planning: candidate package refreshed during `v0.91.4` issue `#3434` and
   pre-v0.92 dependency added during `#3506`
 - Execution: not started
-- Validation: docs-readiness validation only
+- Validation: candidate-docs readiness plus upstream v0.91.8 WP-16 quality-gate
+  evidence as a prerequisite input; no v0.92 implementation validation yet
 - Release readiness: not applicable until `v0.92` executes
 
 v0.92 is not yet an active implementation milestone. It now has a candidate
@@ -27,8 +32,10 @@ must not be opened until `v0.92` begins. Its boundary was rechecked during the
 `v0.91.4` docs-preparation pass so it stays about identity and birth rather
 than absorbing economics, governed tools, or constitutional citizenship
 prematurely. It now depends on `v0.91.5` release-tail closeout plus the
-`v0.91.6` readiness tranche, `v0.91.7` implementation/proof tranche, and
-reviewed `v0.91.8` exact-revision platform handoff before opening.
+`v0.91.6` readiness tranche, `v0.91.7` implementation/proof tranche, merged
+`v0.91.8` WP-16 exact-revision quality-gate evidence, WP-17 documentation
+alignment, and the later reviewed `v0.91.8` exact-revision platform handoff
+before opening.
 
 ## Purpose
 
@@ -42,10 +49,11 @@ The first-birthday readiness source issue is
 That issue owns the launch packet and go/no-go readiness plan; this milestone
 package owns the canonical `docs/milestones/v0.92/` planning surface. Issue
 `#3377` remains the first-birthday readiness source issue, but `v0.92` WP-01
-must consume the full pre-`v0.92` readiness/proof sequence: `v0.91.5` release-tail
-truth, `v0.91.5` activation-test outputs, and the `v0.91.6` / `v0.91.7`
-readiness/proof tranches plus `v0.91.8` platform acceptance before opening the
-final issue wave.
+must consume the full pre-`v0.92` readiness/proof sequence: `v0.91.5`
+release-tail truth, `v0.91.5` activation-test outputs, the `v0.91.6` /
+`v0.91.7` readiness/proof tranches, merged `v0.91.8` WP-16 quality-gate
+evidence, WP-17 documentation alignment, and later platform handoff/review
+truth before opening the final issue wave.
 
 ## Milestone Role
 
@@ -123,8 +131,9 @@ v0.92 depends on:
   operator-scoped-out with evidence and approval, or blocked with evidence
   before birthday activation claims can execute
 - v0.91.8 platform acceptance for exact ADL v2, Runtime v3, C-SDLC v2,
-  selector/rollback, deletion, WP-14A child disposition, and v0.92 handoff
-  truth before birthday implementation opens
+  selector/rollback, deletion, WP-14A child disposition, WP-16 quality-gate
+  evidence, WP-17 documentation alignment, and v0.92 handoff truth before
+  birthday implementation opens
 
 ## Parallel Python Reduction Tranche
 
@@ -155,7 +164,7 @@ The likely `v0.92` tranche is:
 - [Runtime v2 And Birthday Boundary Roadmap](../../planning/ROADMAP_RUNTIME_V2_AND_BIRTHDAY_BOUNDARY.md):
   roadmap boundary for birthday semantics.
 - [V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md](V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md):
-  activation bridge-consumption ledger for `#3780`.
+  activation bridge-consumption ledger for the v0.92 opening package.
 
 ## Scope Summary
 
@@ -250,8 +259,9 @@ Later WP planning should preserve the standard milestone rhythm:
 - WP-01: promote reviewed milestone docs and issue wave
 - WP-01 must consume the candidate issue wave, `v0.91.5` release-tail
   closeout, the activation-test map, the `v0.91.6` readiness tranche, the
-  `v0.91.7` implementation/proof tranche, and `#3377` readiness packet
-  rather than reconstructing the birthday plan from chat.
+  `v0.91.7` implementation/proof tranche, the merged `v0.91.8` WP-16
+  quality-gate evidence, WP-17 documentation alignment, and `#3377` readiness
+  packet rather than reconstructing the birthday plan from chat.
 - feature WPs: implement identity, continuity, memory grounding, capability,
   ACP/cognitive profile, Adaptive Learning DAG queue/proof planning, ACIP
   binary transport-readiness, witness, receipt, and birthday-record surfaces

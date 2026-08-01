@@ -685,7 +685,7 @@ EOF
   assert_has "$rust_dependency_cache_warmup_output" "validation_profile_run_lanes=docs_diff_check,rust_dependency_cache_warmup_contracts"
 
   git checkout -q -b rust-dependency-cache-warmup-policy-change "$base_sha"
-  mkdir -p adl/config adl/tools/skills/docs adl/tools/skills/pr-run adl/tools/skills/workflow-conductor docs/tooling
+  mkdir -p adl/config adl/tools/skills/docs adl/tools/skills/pr-run docs/tooling
   printf '{\"schema_version\":\"adl.validation_lane_selector.v1\",\"surface_defaults\":{},\"lanes\":[],\"special_surfaces\":{},\"manager_guardrails\":{\"docs_only_forbidden_lane_ids\":[\"rust_pr_fast\"],\"pr_fast\":{\"max_rust_surface_count\":4,\"max_filter_token_count\":4,\"max_family_token_count\":3,\"blocked_modes\":[\"full\",\"contract_only\"]}},\"release_gate_hints\":[],\"rust_path_hints\":[]}\n' > adl/config/validation_lane_selector.v0.91.6.json
   printf '#!/usr/bin/env bash\nprintf policy\\n' > adl/tools/ci_path_policy.sh
   printf '#!/usr/bin/env bash\nprintf policy-test\\n' > adl/tools/test_ci_path_policy.sh
@@ -694,13 +694,11 @@ EOF
   printf '# AGENTS warmup guidance\n' > AGENTS.md
   printf '# CI warmup guidance\n' > adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md
   printf '# pr-run warmup guidance\n' > adl/tools/skills/pr-run/SKILL.md
-  printf '# workflow-conductor warmup guidance\n' > adl/tools/skills/workflow-conductor/SKILL.md
   printf '# Hardlinked Rust dependency cache\n' > docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
   git add AGENTS.md \
     adl/config/validation_lane_selector.v0.91.6.json \
     adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md \
     adl/tools/skills/pr-run/SKILL.md \
-    adl/tools/skills/workflow-conductor/SKILL.md \
     adl/tools/ci_path_policy.sh \
     adl/tools/test_ci_path_policy.sh \
     adl/tools/warm_rust_dependency_cache.py \
@@ -716,15 +714,15 @@ EOF
   assert_has "$rust_dependency_cache_policy_output" "demo_smoke_required=false"
   assert_has "$rust_dependency_cache_policy_output" "v0913_proof_required=false"
   assert_has "$rust_dependency_cache_policy_output" "release_version_only=false"
-  assert_has "$rust_dependency_cache_policy_output" "ci_contracts_required=true"
+  assert_has "$rust_dependency_cache_policy_output" "ci_contracts_required=false"
   assert_has "$rust_dependency_cache_policy_output" "validation_profile_contract_lanes_selected=true"
   assert_has "$rust_dependency_cache_policy_output" "fail_closed=false"
   assert_has "$rust_dependency_cache_policy_output" "coverage_lane=skip"
   assert_has "$rust_dependency_cache_policy_output" "coverage_authority=not_required"
-  assert_has "$rust_dependency_cache_policy_output" "reason=ci_policy_surface_requires_path_policy_contract_checks"
+  assert_has "$rust_dependency_cache_policy_output" "reason=bounded_rust_dependency_cache_warmup_policy_change_runs_python_and_path_policy_checks"
   assert_has "$rust_dependency_cache_policy_output" "validation_profile_status=ready_to_run"
   assert_has "$rust_dependency_cache_policy_output" "validation_profile_escalation_required=false"
-  assert_has "$rust_dependency_cache_policy_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts,workflow_conductor_contracts"
+  assert_has "$rust_dependency_cache_policy_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts"
 
   git checkout -q -b rust-dependency-cache-warmup-mixed-policy-change "$base_sha"
   mkdir -p adl/config adl/tools docs/tooling
@@ -753,7 +751,7 @@ EOF
   assert_has "$rust_dependency_cache_mixed_policy_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts"
 
   git checkout -q -b rust-dependency-cache-warmup-unrelated-guidance-change "$base_sha"
-  mkdir -p adl/config adl/tools/skills/docs adl/tools/skills/pr-run adl/tools/skills/workflow-conductor docs/tooling
+  mkdir -p adl/config adl/tools/skills/docs adl/tools/skills/pr-run docs/tooling
   printf '{\"schema_version\":\"adl.validation_lane_selector.v1\",\"surface_defaults\":{},\"lanes\":[],\"special_surfaces\":{},\"manager_guardrails\":{\"docs_only_forbidden_lane_ids\":[\"rust_pr_fast\"],\"pr_fast\":{\"max_rust_surface_count\":4,\"max_filter_token_count\":4,\"max_family_token_count\":3,\"blocked_modes\":[\"full\",\"contract_only\"]}},\"release_gate_hints\":[],\"rust_path_hints\":[]}\n' > adl/config/validation_lane_selector.v0.91.6.json
   printf '#!/usr/bin/env bash\nprintf policy\\n' > adl/tools/ci_path_policy.sh
   printf '#!/usr/bin/env bash\nprintf policy-test\\n' > adl/tools/test_ci_path_policy.sh
@@ -762,13 +760,11 @@ EOF
   printf '# unrelated AGENTS guidance\n' > AGENTS.md
   printf '# unrelated CI guidance\n' > adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md
   printf '# unrelated pr-run guidance\n' > adl/tools/skills/pr-run/SKILL.md
-  printf '# unrelated workflow guidance\n' > adl/tools/skills/workflow-conductor/SKILL.md
   printf '# Hardlinked Rust dependency cache\n' > docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
   git add AGENTS.md \
     adl/config/validation_lane_selector.v0.91.6.json \
     adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md \
     adl/tools/skills/pr-run/SKILL.md \
-    adl/tools/skills/workflow-conductor/SKILL.md \
     adl/tools/ci_path_policy.sh \
     adl/tools/test_ci_path_policy.sh \
     adl/tools/warm_rust_dependency_cache.py \
@@ -782,7 +778,7 @@ EOF
   assert_has "$rust_dependency_cache_unrelated_guidance_output" "reason=ci_policy_surface_requires_path_policy_contract_checks"
   assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_status=ready_to_run"
   assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_escalation_required=false"
-  assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts,workflow_conductor_contracts"
+  assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts"
 
   git checkout -q -b classifier-followup "$base_sha"
   mkdir -p adl/tools/skills/sprint-conductor/scripts adl/config adl/tools
@@ -847,108 +843,101 @@ EOF
   assert_has "$new_runtime_file_output" "validation_profile_primary_reason=bounded_rust_surface_runs_focused_nextest"
   assert_has "$new_runtime_file_output" "validation_profile_escalation_lanes="
 
-  git checkout -q -b finish-control-plane "$base_sha"
-  mkdir -p adl/src/cli/pr_cmd adl/src/cli/tests/pr_cmd_inline/finish docs/milestones/v0.90/milestone_compression
-  printf 'pub fn finish_support() -> bool { true }\n' > adl/src/cli/pr_cmd/finish_support.rs
-  printf 'use super::*;\n#[test]\nfn finish_path_is_stable() {}\n' > adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs
-  printf '# workflow\n' > docs/default_workflow.md
-  git add adl/src/cli/pr_cmd/finish_support.rs adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs docs/default_workflow.md
-  git commit -q -m finish-control-plane
-  finish_control_plane_head="$(git rev-parse HEAD)"
+  git checkout -q -b typed-publication-control-plane "$base_sha"
+  mkdir -p csdlc-v2/src/bin
+  printf 'fn publish_request_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-publish.rs
+  printf 'fn closeout_request_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-closeout.rs
+  git add csdlc-v2/src/bin/csdlc-publish.rs csdlc-v2/src/bin/csdlc-closeout.rs
+  git commit -q -m typed-publication-control-plane
+  typed_publication_control_plane_head="$(git rev-parse HEAD)"
 
-  finish_control_plane_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$finish_control_plane_head")"
-  assert_has "$finish_control_plane_output" "rust_required=true"
-  assert_has "$finish_control_plane_output" "coverage_required=false"
-  assert_has "$finish_control_plane_output" "full_coverage_required=false"
-  assert_has "$finish_control_plane_output" "demo_smoke_required=false"
-  assert_has "$finish_control_plane_output" "v0913_proof_required=false"
-  assert_has "$finish_control_plane_output" "release_version_only=false"
-  assert_has "$finish_control_plane_output" "ci_contracts_required=true"
-  assert_has "$finish_control_plane_output" "reason=publication_control_plane_change_runs_focused_rust_validation"
+  typed_publication_control_plane_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$typed_publication_control_plane_head")"
+  assert_has "$typed_publication_control_plane_output" "rust_required=false"
+  assert_has "$typed_publication_control_plane_output" "coverage_required=false"
+  assert_has "$typed_publication_control_plane_output" "full_coverage_required=false"
+  assert_has "$typed_publication_control_plane_output" "demo_smoke_required=false"
+  assert_has "$typed_publication_control_plane_output" "v0913_proof_required=false"
+  assert_has "$typed_publication_control_plane_output" "release_version_only=false"
+  assert_has "$typed_publication_control_plane_output" "ci_contracts_required=true"
+  assert_has "$typed_publication_control_plane_output" "csdlc_v2_standalone_required=true"
+  assert_has "$typed_publication_control_plane_output" "reason=standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
 
-  git checkout -q -b finish-control-plane-plus-runtime-escalation "$base_sha"
-  mkdir -p adl/src/bin adl/src/cli/tests/pr_cmd_inline/finish adl/src/runtime_v2
+  git checkout -q -b typed-closeout-plus-runtime-escalation "$base_sha"
+  mkdir -p adl/src/bin adl/src/runtime_v2 csdlc-v2/src/bin
   printf 'pub fn runtime_compat() -> bool { true }\n' > adl/src/bin/adl_runtime.rs
   printf 'pub fn csm_bin() -> bool { true }\n' > adl/src/bin/csm.rs
   printf 'pub fn csm_runtime() -> bool { true }\n' > adl/src/csm_runtime.rs
   printf 'pub fn csm_daemon() -> bool { true }\n' > adl/src/csm_daemon.rs
   printf 'pub fn runtime_v2() -> bool { true }\n' > adl/src/runtime_v2.rs
   printf 'pub fn observability() -> bool { true }\n' > adl/src/observability.rs
-  printf 'use super::*;\n#[test]\nfn finish_path_is_stable() {}\n' > adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs
+  printf 'fn closeout_request_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-closeout.rs
   git add adl/src/bin/adl_runtime.rs \
     adl/src/bin/csm.rs \
     adl/src/csm_runtime.rs \
     adl/src/csm_daemon.rs \
     adl/src/runtime_v2.rs \
     adl/src/observability.rs \
-    adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs
-  git commit -q -m finish-control-plane-plus-runtime-escalation
-  finish_control_plane_plus_runtime_head="$(git rev-parse HEAD)"
+    csdlc-v2/src/bin/csdlc-closeout.rs
+  git commit -q -m typed-closeout-plus-runtime-escalation
+  typed_closeout_plus_runtime_head="$(git rev-parse HEAD)"
 
-  finish_control_plane_plus_runtime_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$finish_control_plane_plus_runtime_head" --ref "refs/pull/1/merge")"
-  assert_has "$finish_control_plane_plus_runtime_output" "rust_required=true"
-  assert_has "$finish_control_plane_plus_runtime_output" "coverage_required=true"
-  assert_has "$finish_control_plane_plus_runtime_output" "full_coverage_required=true"
-  assert_has "$finish_control_plane_plus_runtime_output" "demo_smoke_required=true"
-  assert_has "$finish_control_plane_plus_runtime_output" "ci_contracts_required=true"
-  assert_has "$finish_control_plane_plus_runtime_output" "fail_closed=true"
-  assert_has "$finish_control_plane_plus_runtime_output" "coverage_lane=authoritative_full"
-  assert_has "$finish_control_plane_plus_runtime_output" "coverage_authority=fail_closed"
-  assert_has "$finish_control_plane_plus_runtime_output" "coverage_execution_state=fail_closed_authoritative_full_required"
-  assert_has "$finish_control_plane_plus_runtime_output" "reason=validation_manager_escalation_requires_authoritative_full_coverage"
-  assert_has "$finish_control_plane_plus_runtime_output" "validation_profile_status=escalation_required"
-  assert_has "$finish_control_plane_plus_runtime_output" "validation_profile_escalation_required=true"
-  assert_has "$finish_control_plane_plus_runtime_output" "validation_profile_escalation_lanes=rust_pr_fast"
+  typed_closeout_plus_runtime_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$typed_closeout_plus_runtime_head" --ref "refs/pull/1/merge")"
+  assert_has "$typed_closeout_plus_runtime_output" "rust_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "coverage_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "full_coverage_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "demo_smoke_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "ci_contracts_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "csdlc_v2_standalone_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "fail_closed=true"
+  assert_has "$typed_closeout_plus_runtime_output" "coverage_lane=authoritative_full"
+  assert_has "$typed_closeout_plus_runtime_output" "coverage_authority=fail_closed"
+  assert_has "$typed_closeout_plus_runtime_output" "coverage_execution_state=fail_closed_authoritative_full_required"
+  assert_has "$typed_closeout_plus_runtime_output" "reason=validation_manager_escalation_requires_authoritative_full_coverage"
+  assert_has "$typed_closeout_plus_runtime_output" "validation_profile_status=escalation_required"
+  assert_has "$typed_closeout_plus_runtime_output" "validation_profile_escalation_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "validation_profile_escalation_lanes=rust_pr_fast"
 
-  git checkout -q -b csdlc-owner-pr-fast-escalation "$base_sha"
-  mkdir -p adl/src/cli/pr_cmd/doctor \
-    adl/src/cli/pr_cmd/lifecycle \
-    adl/src/cli/tests/pr_cmd_inline/finish \
-    adl/src/cli/tooling_cmd/tests \
+  git checkout -q -b typed-csdlc-owner-focused "$base_sha"
+  mkdir -p csdlc-v2/src/bin csdlc-v2/tests \
     docs/milestones/v0.91.7/review/pr_finish_release_gate_disposition \
     docs/templates/prompts/1.0.3
-  printf 'pub fn lifecycle_srp_status() -> bool { true }\n' > adl/src/cli/pr_cmd/doctor/card_lifecycle.rs
-  printf 'use super::*;\n#[test]\nfn srp_status_accepts_terminal_review_failure() {}\n' > adl/src/cli/pr_cmd/doctor/tests.rs
-  printf 'pub fn srp_review_results_text() -> bool { true }\n' > adl/src/cli/pr_cmd/lifecycle/reconciliation.rs
-  printf 'use super::*;\n#[test]\nfn reconciliation_accepts_terminal_review_failure() {}\n' > adl/src/cli/pr_cmd/lifecycle/tests.rs
-  printf 'use super::*;\n#[test]\nfn finish_path_records_terminal_review_failure() {}\n' > adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs
-  printf 'pub fn srp_sor_update() -> bool { true }\n' > adl/src/cli/tooling_cmd/srp_sor_update.rs
-  printf 'pub fn structured_prompt() -> bool { true }\n' > adl/src/cli/tooling_cmd/structured_prompt.rs
-  printf 'use super::*;\n#[test]\nfn structured_prompt_accepts_terminal_review_failure() {}\n' > adl/src/cli/tooling_cmd/tests/structured_prompt.rs
-  printf 'use super::*;\n#[test]\nfn tooling_dispatch_accepts_terminal_review_failure() {}\n' > adl/src/cli/tooling_cmd/tests/tooling_dispatch.rs
-  printf 'pub fn prompt_editor() -> bool { true }\n' > adl/src/csdlc_prompt_editor.rs
+  printf 'fn doctor_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-doctor.rs
+  printf 'fn closeout_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-closeout.rs
+  printf 'fn edit_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-edit.rs
+  printf 'fn validate_is_typed() {}\n' > csdlc-v2/src/bin/csdlc-validate.rs
+  printf 'pub fn semantic_edit() {}\n' > csdlc-v2/src/edit.rs
+  printf 'pub fn markdown_ast() {}\n' > csdlc-v2/src/markdown.rs
+  printf '#[test]\nfn terminal_review_status_is_typed() {}\n' > csdlc-v2/tests/gate7_lifecycle.rs
   printf 'status: reviewed\n' > docs/milestones/v0.91.7/review/pr_finish_release_gate_disposition/ISSUE_4999_TERMINAL_REVIEW_STATUS_BROAD_OWNER_LANE_DISPOSITION.yaml
   printf '# SRP\n\nreview_results: review_failed\n' > docs/templates/prompts/1.0.3/srp.md
-  git add adl/src/cli/pr_cmd/doctor/card_lifecycle.rs \
-    adl/src/cli/pr_cmd/doctor/tests.rs \
-    adl/src/cli/pr_cmd/lifecycle/reconciliation.rs \
-    adl/src/cli/pr_cmd/lifecycle/tests.rs \
-    adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs \
-    adl/src/cli/tooling_cmd/srp_sor_update.rs \
-    adl/src/cli/tooling_cmd/structured_prompt.rs \
-    adl/src/cli/tooling_cmd/tests/structured_prompt.rs \
-    adl/src/cli/tooling_cmd/tests/tooling_dispatch.rs \
-    adl/src/csdlc_prompt_editor.rs \
+  git add csdlc-v2/src/bin/csdlc-doctor.rs \
+    csdlc-v2/src/bin/csdlc-closeout.rs \
+    csdlc-v2/src/bin/csdlc-edit.rs \
+    csdlc-v2/src/bin/csdlc-validate.rs \
+    csdlc-v2/src/edit.rs \
+    csdlc-v2/src/markdown.rs \
+    csdlc-v2/tests/gate7_lifecycle.rs \
     docs/milestones/v0.91.7/review/pr_finish_release_gate_disposition/ISSUE_4999_TERMINAL_REVIEW_STATUS_BROAD_OWNER_LANE_DISPOSITION.yaml \
     docs/templates/prompts/1.0.3/srp.md
-  git commit -q -m csdlc-owner-pr-fast-escalation
-  csdlc_owner_pr_fast_head="$(git rev-parse HEAD)"
+  git commit -q -m typed-csdlc-owner-focused
+  typed_csdlc_owner_head="$(git rev-parse HEAD)"
 
-  csdlc_owner_pr_fast_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$csdlc_owner_pr_fast_head" --ref "refs/pull/1/merge")"
-  assert_has "$csdlc_owner_pr_fast_output" "rust_required=true"
-  assert_has "$csdlc_owner_pr_fast_output" "coverage_required=false"
-  assert_has "$csdlc_owner_pr_fast_output" "full_coverage_required=false"
-  assert_has "$csdlc_owner_pr_fast_output" "demo_smoke_required=false"
-  assert_has "$csdlc_owner_pr_fast_output" "ci_contracts_required=true"
-  assert_has "$csdlc_owner_pr_fast_output" "validation_profile_contract_lanes_selected=true"
-  assert_has "$csdlc_owner_pr_fast_output" "fail_closed=false"
-  assert_has "$csdlc_owner_pr_fast_output" "coverage_lane=deferred_pr_fast"
-  assert_has "$csdlc_owner_pr_fast_output" "coverage_authority=focused_nextest_pr_fast"
-  assert_has "$csdlc_owner_pr_fast_output" "reason=validation_manager_csdlc_owner_pr_fast_escalation_runs_focused_validation"
-  assert_has "$csdlc_owner_pr_fast_output" "validation_profile_status=escalation_required"
-  assert_has "$csdlc_owner_pr_fast_output" "validation_profile_escalation_required=true"
-  assert_has "$csdlc_owner_pr_fast_output" "validation_profile_run_lanes=csdlc_owner_lane,docs_diff_check,prompt_template_contracts"
-  assert_has "$csdlc_owner_pr_fast_output" "validation_profile_escalation_lanes=rust_pr_fast"
+  typed_csdlc_owner_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$typed_csdlc_owner_head" --ref "refs/pull/1/merge")"
+  assert_has "$typed_csdlc_owner_output" "rust_required=false"
+  assert_has "$typed_csdlc_owner_output" "coverage_required=false"
+  assert_has "$typed_csdlc_owner_output" "full_coverage_required=false"
+  assert_has "$typed_csdlc_owner_output" "demo_smoke_required=false"
+  assert_has "$typed_csdlc_owner_output" "ci_contracts_required=true"
+  assert_has "$typed_csdlc_owner_output" "validation_profile_contract_lanes_selected=true"
+  assert_has "$typed_csdlc_owner_output" "csdlc_v2_standalone_required=true"
+  assert_has "$typed_csdlc_owner_output" "fail_closed=false"
+  assert_has "$typed_csdlc_owner_output" "coverage_lane=skip"
+  assert_has "$typed_csdlc_owner_output" "coverage_authority=not_required"
+  assert_has "$typed_csdlc_owner_output" "reason=standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
+  assert_has "$typed_csdlc_owner_output" "validation_profile_status=ready_to_run"
+  assert_has "$typed_csdlc_owner_output" "validation_profile_escalation_required=false"
+  assert_has "$typed_csdlc_owner_output" "validation_profile_run_lanes=csdlc_v2_standalone,docs_diff_check,prompt_template_contracts"
+  assert_has "$typed_csdlc_owner_output" "validation_profile_escalation_lanes="
 
   git checkout -q -b policy-surface-change "$base_sha"
   mkdir -p adl/tools
@@ -1190,14 +1179,11 @@ coverage.write_text(
     "    adl/src/runtime_v2/private_state_observatory.rs)\n"
     "      printf 'private_state_observatory'\n"
     "      ;;\n"
-    "    adl/src/csdlc_prompt_editor.rs)\n"
-    "      printf 'csdlc_prompt_editor'\n"
-    "      ;;\n"
     "  esac\n"
     "}\n"
 )
 Path("adl/tools/test_check_coverage_impact.sh").write_text(
-    "#!/usr/bin/env bash\n# private_state_observatory\n# csdlc_prompt_editor\n"
+    "#!/usr/bin/env bash\n# private_state_observatory\n"
 )
 PY
   git add .github/workflows/ci.yaml \
@@ -1742,19 +1728,20 @@ PY
   assert_has "$aws_remote_validation_bounded_pr_fast_output" "reason=bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation"
 
   git checkout -q -b wp08-cloudfront-policy-mixed-focused "$base_sha"
-  mkdir -p adl/config adl/src/cli/pr_cmd adl/src/cli/pr_cmd_cards adl/src/cli/tests/pr_cmd_inline/finish adl/tools docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915 docs/tooling
+  mkdir -p adl/config adl/src/cli adl/tools csdlc-v2/src/bin csdlc-v2/tests docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915 docs/tooling
   printf '# validation selector cloudfront policy fixture\n' > adl/config/validation_lane_selector.v0.91.6.json
   cat > adl/src/cli/csm_cmd.rs <<'EOF'
 pub fn csm_cloudfront_status() -> bool { true }
 EOF
-  cat > adl/src/cli/pr_cmd/finish_support.rs <<'EOF'
-pub fn finish_support_fixture() -> bool { true }
+  cat > csdlc-v2/src/bin/csdlc-closeout.rs <<'EOF'
+fn closeout_request_fixture() {}
 EOF
-  cat > adl/src/cli/pr_cmd_cards/cards.rs <<'EOF'
-pub fn finish_card_fixture() -> bool { true }
+  cat > csdlc-v2/src/cards.rs <<'EOF'
+pub fn terminal_card_fixture() {}
 EOF
-  cat > adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs <<'EOF'
-pub fn finish_arg_render_fixture() -> bool { true }
+  cat > csdlc-v2/tests/gate7_lifecycle.rs <<'EOF'
+#[test]
+fn closeout_request_fixture_is_typed() {}
 EOF
   cat > adl/src/csm_cloud_control.rs <<'EOF'
 pub fn cloudfront_control_fixture() -> bool { true }
@@ -1820,9 +1807,9 @@ workflow.write_text(text)
 PY
   git add .github/workflows/ci.yaml adl/config/validation_lane_selector.v0.91.6.json \
     adl/src/cli/csm_cmd.rs \
-    adl/src/cli/pr_cmd/finish_support.rs \
-    adl/src/cli/pr_cmd_cards/cards.rs \
-    adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs \
+    csdlc-v2/src/bin/csdlc-closeout.rs \
+    csdlc-v2/src/cards.rs \
+    csdlc-v2/tests/gate7_lifecycle.rs \
     adl/src/csm_cloud_control.rs adl/src/lib.rs \
     adl/tools/ci_path_policy.sh \
     adl/tools/run_wp08_cloudfront_control_proof.sh \
@@ -1839,16 +1826,16 @@ PY
 
   wp08_cloudfront_policy_mixed_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$wp08_cloudfront_policy_mixed_head" --ref "refs/pull/1/merge")"
   assert_has "$wp08_cloudfront_policy_mixed_output" "rust_required=true"
-  assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_required=false"
-  assert_has "$wp08_cloudfront_policy_mixed_output" "full_coverage_required=false"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_required=true"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "full_coverage_required=true"
   assert_has "$wp08_cloudfront_policy_mixed_output" "demo_smoke_required=true"
   assert_has "$wp08_cloudfront_policy_mixed_output" "ci_contracts_required=true"
-  assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_lane=deferred_pr_fast"
-  assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_authority=focused_nextest_pr_fast"
-  assert_has "$wp08_cloudfront_policy_mixed_output" "reason=ci_policy_surface_requires_path_policy_contract_checks"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_lane=authoritative_full"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_authority=pr_policy_surface_runtime_mixed"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "reason=coverage_policy_surface_change_with_runtime_surface_runs_full_coverage"
   assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_selected=release_gate_required_6_lane_profile"
   assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_status=escalation_required"
-  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_run_lanes=ci_path_policy_contracts,csdlc_owner_lane,docs_diff_check,rust_pr_fast,wp08_cloudfront_control_proof"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_run_lanes=ci_path_policy_contracts,csdlc_v2_standalone,docs_diff_check,rust_pr_fast,wp08_cloudfront_control_proof"
   assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_escalation_lanes=release_gate_review"
 
   git checkout -q -b feature-branch-before-main-advances "$base_sha"

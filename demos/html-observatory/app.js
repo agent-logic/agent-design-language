@@ -76,10 +76,46 @@ let retainedPollTimer = null;
 const OBSERVATORY_VERSION = "Runtime v3";
 const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
 const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
-const RUNTIME_V3_OBSERVATORY_ENDPOINT = "/v1/observatory";
-const RUNTIME_V3_OBSERVATORY_WS_ENDPOINT = "/v1/observatory/ws";
+const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
+  observatory_endpoint: "/v1/observatory",
+  readiness_endpoint: "/v1/ready",
+  observatory_websocket_endpoint: "/v1/observatory/ws",
+  observatory_docs_endpoint: "/v1/observatory/docs/"
+});
 const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2";
 const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_auth.v1";
+let runtimeV3Config = { ...RUNTIME_V3_DEFAULT_CONFIG };
+
+function normalizeRuntimeV3Endpoint(value, fallback) {
+  const endpoint = String(value || "").trim();
+  return endpoint.startsWith("/") && !endpoint.startsWith("//") ? endpoint : fallback;
+}
+
+function applyRuntimeV3Config(config = {}) {
+  runtimeV3Config = {
+    observatory_endpoint: normalizeRuntimeV3Endpoint(
+      config.observatory_endpoint,
+      RUNTIME_V3_DEFAULT_CONFIG.observatory_endpoint
+    ),
+    readiness_endpoint: normalizeRuntimeV3Endpoint(
+      config.readiness_endpoint,
+      RUNTIME_V3_DEFAULT_CONFIG.readiness_endpoint
+    ),
+    observatory_websocket_endpoint: normalizeRuntimeV3Endpoint(
+      config.observatory_websocket_endpoint,
+      RUNTIME_V3_DEFAULT_CONFIG.observatory_websocket_endpoint
+    ),
+    observatory_docs_endpoint: normalizeRuntimeV3Endpoint(
+      config.observatory_docs_endpoint,
+      RUNTIME_V3_DEFAULT_CONFIG.observatory_docs_endpoint
+    )
+  };
+  return runtimeV3Config;
+}
+
+function getRuntimeV3Config() {
+  return { ...runtimeV3Config };
+}
 
 const AWS_LINKAGES = [
   {
@@ -543,7 +579,7 @@ function getQueryApiBase() {
   const candidate = params.get("runtimeApiBase") || params.get("csmApiBase") || params.get("apiBase") || "";
   const normalized = normalizeApiBase(candidate);
   if (requestedRuntimeSelection() === "v3") {
-    return isRuntimeV3ApiBase(normalized) ? normalized : "";
+    return isRuntimeV3ApiBase(normalized) ? normalizeTrustedRuntimeV3ApiBase(normalized) : "";
   }
   return isLoopbackApiBase(normalized) ? normalized : "";
 }
@@ -555,10 +591,29 @@ function requestedRuntimeSelection() {
 
 function isRuntimeV3ApiBase(value) {
   try {
-    return new URL(normalizeApiBase(value)).protocol === "https:";
+    normalizeTrustedRuntimeV3ApiBase(value);
+    return true;
   } catch (_error) {
     return false;
   }
+}
+
+function normalizeTrustedRuntimeV3ApiBase(value) {
+  const base = normalizeApiBase(value);
+  const parsed = new URL(base);
+  if (
+    parsed.protocol !== "https:" ||
+    parsed.hostname !== "localhost" ||
+    parsed.username ||
+    parsed.password ||
+    parsed.pathname !== "/" ||
+    parsed.search ||
+    parsed.hash ||
+    parsed.port !== "20997"
+  ) {
+    throw new Error("Runtime v3 selection requires the trusted HTTPS localhost:20997 API base.");
+  }
+  return parsed.origin;
 }
 
 function shouldAutoConnectLive() {
@@ -625,25 +680,37 @@ async function fetchRuntimeSnapshot(apiBase) {
 }
 
 async function fetchRuntimeV3ObservatorySnapshot(apiBase) {
-  const base = normalizeApiBase(apiBase);
-  if (!isRuntimeV3ApiBase(base)) {
-    throw new Error("Runtime v3 selection requires a configured HTTPS runtime API base.");
+  const base = normalizeTrustedRuntimeV3ApiBase(apiBase);
+  const config = getRuntimeV3Config();
+  const [observatoryResponse, readiness] = await Promise.all([
+    fetch(`${base}${config.observatory_endpoint}`, { method: "GET" }),
+    fetchRuntimeV3Readiness(base)
+  ]);
+  if (!observatoryResponse.ok) {
+    throw new Error(`${config.observatory_endpoint} returned ${observatoryResponse.status}`);
   }
-  const response = await fetch(`${base}${RUNTIME_V3_OBSERVATORY_ENDPOINT}`, { method: "GET" });
-  if (!response.ok) {
-    throw new Error(`${RUNTIME_V3_OBSERVATORY_ENDPOINT} returned ${response.status}`);
-  }
-  const feed = await response.json();
-  return runtimeV3SnapshotFromFeed(feed);
+  const feed = await observatoryResponse.json();
+  return runtimeV3SnapshotFromFeed(feed, readiness);
 }
 
-function runtimeV3SnapshotFromFeed(feed) {
+async function fetchRuntimeV3Readiness(base) {
+  const endpoint = getRuntimeV3Config().readiness_endpoint;
+  const response = await fetch(`${base}${endpoint}`, { method: "GET" });
+  if (![200, 503].includes(response.status)) {
+    throw new Error(`${endpoint} returned ${response.status}`);
+  }
+  return response.json();
+}
+
+function runtimeV3SnapshotFromFeed(feed, readiness = null) {
   if (feed.schema !== RUNTIME_V3_OBSERVATORY_SCHEMA) {
     throw new Error(`Unsupported Runtime v3 Observatory schema: ${feed.schema || "missing"}`);
   }
   const snapshot = feed.health?.snapshot || {};
   const weather = feed.weather || {};
   const weatherFreshness = feed.weather_freshness || {};
+  const hasReadiness = typeof readiness?.ready === "boolean";
+  const degradedReasons = asArray(readiness?.degraded_reasons);
   const events = asArray(feed.events);
   return {
     mode: "live",
@@ -668,8 +735,12 @@ function runtimeV3SnapshotFromFeed(feed) {
       queues: snapshot.queues || {}
     },
     ready: {
-      status: snapshot.observability_ready ? "ready" : "pending",
-      blocking_reasons: snapshot.observability_ready ? [] : ["observability_not_ready"]
+      schema: readiness?.schema,
+      status: hasReadiness ? (readiness.ready ? "ready" : "degraded") : (snapshot.observability_ready ? "ready" : "pending"),
+      ready: hasReadiness ? readiness.ready === true : snapshot.observability_ready === true,
+      state: hasReadiness ? (readiness.ready ? "ready" : "degraded") : (snapshot.observability_ready ? "ready" : "pending"),
+      blocking_reasons: hasReadiness ? degradedReasons : (snapshot.observability_ready ? [] : ["observability_not_ready"]),
+      weather_freshness: readiness?.weather_freshness || weatherFreshness
     },
     metrics: {
       gauges: {
@@ -706,11 +777,8 @@ function connectRuntimeV3ObservatoryWebSocket(
   onClose = onError,
   onControlFrame = () => {}
 ) {
-  const base = normalizeApiBase(apiBase);
-  if (!isRuntimeV3ApiBase(base)) {
-    throw new Error("Runtime v3 selection requires a configured HTTPS runtime API base.");
-  }
-  const endpoint = new URL(`${base}${RUNTIME_V3_OBSERVATORY_WS_ENDPOINT}`);
+  const base = normalizeTrustedRuntimeV3ApiBase(apiBase);
+  const endpoint = new URL(`${base}${getRuntimeV3Config().observatory_websocket_endpoint}`);
   endpoint.protocol = "wss:";
   const socket = new WebSocket(endpoint.toString());
   socket.addEventListener("open", () => {
@@ -1422,6 +1490,12 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   let liveSocket = null;
   let liveStoppedByOperator = false;
   let liveRequestGeneration = 0;
+  let runtimeV3Readiness = null;
+  const nextLiveGeneration = () => {
+    liveRequestGeneration += 1;
+    return liveRequestGeneration;
+  };
+  const isCurrentLiveGeneration = (generation) => generation === liveRequestGeneration;
   const refs = {
     statusRef: document.querySelector(".observatory")?.dataset.csmStatusRef || "",
     healthRef: document.querySelector(".observatory")?.dataset.csmHealthRef || "",
@@ -1493,9 +1567,12 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     setRuntimeTestStatus("retained fallback", error instanceof Error ? error.message : "Retained runtime mirror is available; live loopback is not connected.");
   };
 
-  const refreshRetained = async (extraErrors = {}) => {
+  const refreshRetained = async (extraErrors = {}, requestGeneration = nextLiveGeneration()) => {
     try {
       const snapshot = await fetchRetainedRuntimeSnapshot(refs);
+      if (!isCurrentLiveGeneration(requestGeneration)) {
+        return;
+      }
       const mergedSnapshot = {
         ...snapshot,
         errors: {
@@ -1509,23 +1586,29 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       setText("live-status", status);
       setRuntimeTestStatus(status, lastLiveError ? `Live loopback not proved: ${lastLiveError}` : "Using retained publishable CSM API artifacts until a loopback runtime is connected.");
     } catch (error) {
+      if (!isCurrentLiveGeneration(requestGeneration)) {
+        return;
+      }
       renderMinimalFallback(error);
     }
   };
 
-  const renderLiveError = async (error) => {
+  const renderLiveError = async (error, requestGeneration) => {
+    if (!isCurrentLiveGeneration(requestGeneration)) {
+      return;
+    }
     lastLiveError = error instanceof Error ? error.message : "unknown live polling error";
     await refreshRetained({
       live: lastLiveError
-    });
+    }, requestGeneration);
   };
 
   const refreshLive = async () => {
-    const requestGeneration = liveRequestGeneration;
+    const requestGeneration = nextLiveGeneration();
     const base = readApiBase();
     if (!base) {
       runtimeBaseActive = false;
-      await refreshRetained();
+      await refreshRetained({}, requestGeneration);
       return;
     }
     runtimeBaseActive = true;
@@ -1537,8 +1620,11 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     setRuntimeTestStatus("polling loopback", `Checking ${base}/status, /health, /ready, /metrics, and /events.`);
     try {
       const snapshot = await fetchRuntimeSnapshot(base);
-      if (liveStoppedByOperator || requestGeneration !== liveRequestGeneration) {
+      if (liveStoppedByOperator || !isCurrentLiveGeneration(requestGeneration)) {
         return;
+      }
+      if (snapshot.runtimeSelection === "runtime_v3_explicit_opt_in") {
+        runtimeV3Readiness = snapshot.ready || null;
       }
       const endpointKeys = ["status", "health", "ready", "metrics", "events"];
       const successfulEndpoints = endpointKeys.filter((key) => snapshot[key]);
@@ -1552,16 +1638,16 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       const runtimeKind = snapshot.runtimeSelection === "runtime_v3_explicit_opt_in" ? "Runtime v3 observatory feed" : "loopback CSM server";
       setRuntimeTestStatus(status, Object.keys(snapshot.errors || {}).length ? "Runtime reached, but one or more endpoints failed." : `Runtime API endpoints responded from the ${runtimeKind}.`);
     } catch (error) {
-      if (liveStoppedByOperator || requestGeneration !== liveRequestGeneration) {
+      if (liveStoppedByOperator || !isCurrentLiveGeneration(requestGeneration)) {
         return;
       }
-      await renderLiveError(error);
+      await renderLiveError(error, requestGeneration);
     }
   };
 
   const stopPolling = () => {
     liveStoppedByOperator = true;
-    liveRequestGeneration += 1;
+    nextLiveGeneration();
     setLiveConnectionState("stopped");
     if (liveSocket) {
       liveSocket.close(1000, "operator_stop");
@@ -1576,15 +1662,17 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       retainedPollTimer = null;
     }
     lastLiveError = null;
+    runtimeV3Readiness = null;
     runtimeBaseActive = false;
     setText("live-status", "polling stopped");
     setText("statusbar-websocket", "stopped");
     setRuntimeTestStatus("polling stopped", "Live polling is stopped; retained mirror remains available.");
   };
 
-  const connectLive = () => {
+  const connectLive = async () => {
     stopPolling();
     liveStoppedByOperator = false;
+    const requestGeneration = nextLiveGeneration();
     setLiveConnectionState("connecting");
     if (requestedRuntimeSelection() === "v3") {
       runtimeBaseActive = true;
@@ -1592,43 +1680,64 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       setText("statusbar-websocket", "connecting");
       try {
         const base = readApiBase();
-        const socketEndpoint = new URL(`${base}${RUNTIME_V3_OBSERVATORY_WS_ENDPOINT}`);
+        const socketEndpoint = new URL(`${base}${getRuntimeV3Config().observatory_websocket_endpoint}`);
         socketEndpoint.protocol = "wss:";
         setRuntimeTestStatus("connecting secure stream", `Opening ${socketEndpoint}.`);
+        try {
+          const readiness = await fetchRuntimeV3Readiness(normalizeTrustedRuntimeV3ApiBase(base));
+          runtimeV3Readiness = {
+            schema: readiness?.schema,
+            status: readiness?.ready ? "ready" : "degraded",
+            ready: readiness?.ready === true,
+            state: readiness?.ready ? "ready" : "degraded",
+            blocking_reasons: asArray(readiness?.degraded_reasons),
+            weather_freshness: readiness?.weather_freshness
+          };
+        } catch (error) {
+          runtimeV3Readiness = {
+            status: "pending",
+            ready: false,
+            state: "pending",
+            blocking_reasons: [error instanceof Error ? error.message : "readiness_unavailable"]
+          };
+        }
         let socket;
         socket = connectRuntimeV3ObservatoryWebSocket(
           base,
           (snapshot) => {
-            if (liveStoppedByOperator || liveSocket !== socket) {
+            if (liveStoppedByOperator || liveSocket !== socket || !isCurrentLiveGeneration(requestGeneration)) {
               return;
             }
             lastLiveError = null;
-            renderPanopticon(snapshot, packet);
+            const streamSnapshot = runtimeV3Readiness
+              ? { ...snapshot, ready: runtimeV3Readiness }
+              : snapshot;
+            renderPanopticon(streamSnapshot, packet);
             setText("live-status", "live secure stream");
             setText("statusbar-websocket", "connected");
             setLiveConnectionState("connected");
             setRuntimeTestStatus("live secure stream", "Runtime v3 public WebSocket feed is active; operator login is required only for writes.");
           },
           (error) => {
-            if (liveStoppedByOperator || liveSocket !== socket) {
+            if (liveStoppedByOperator || liveSocket !== socket || !isCurrentLiveGeneration(requestGeneration)) {
               return;
             }
             setText("statusbar-websocket", "disconnected");
-            renderLiveError(error);
+            renderLiveError(error, requestGeneration);
           },
           (error) => {
-            if (liveStoppedByOperator) {
+            if (liveStoppedByOperator || !isCurrentLiveGeneration(requestGeneration)) {
               return;
             }
             if (liveSocket === socket) {
               liveSocket = null;
               setText("statusbar-websocket", "disconnected");
               setWriteAccess(false, "public read", "The live connection closed. Public monitoring can reconnect without login.");
-              renderLiveError(error);
+              renderLiveError(error, requestGeneration);
             }
           },
           (frame) => {
-            if (liveStoppedByOperator || liveSocket !== socket) {
+            if (liveStoppedByOperator || liveSocket !== socket || !isCurrentLiveGeneration(requestGeneration)) {
               return;
             }
             renderControlFrame(frame);
@@ -1636,8 +1745,11 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         );
         liveSocket = socket;
       } catch (error) {
+        if (!isCurrentLiveGeneration(requestGeneration)) {
+          return;
+        }
         setText("statusbar-websocket", "disconnected");
-        renderLiveError(error);
+        renderLiveError(error, requestGeneration);
       }
       return;
     }
@@ -1750,6 +1862,15 @@ async function loadJson(ref) {
   return JSON.parse(text);
 }
 
+async function loadRuntimeV3Config(root) {
+  const configRef = root?.dataset.runtimeV3ConfigRef || "./runtime-v3.config.json";
+  try {
+    return applyRuntimeV3Config(await loadJson(configRef));
+  } catch (_error) {
+    return applyRuntimeV3Config(RUNTIME_V3_DEFAULT_CONFIG);
+  }
+}
+
 async function bootObservatory() {
   const root = document.querySelector(".observatory");
   const packetRef = root?.dataset.packetRef || "";
@@ -1762,10 +1883,11 @@ async function bootObservatory() {
   const snsResourceRef = root?.dataset.snsResourceRef || "";
   setHref("packet-link", packetRef);
   setHref("report-link", reportRef);
+  const runtimeConfig = await loadRuntimeV3Config(root);
   const runtimeApiBase = getQueryApiBase();
   if (requestedRuntimeSelection() === "v3" && runtimeApiBase) {
-    setHref("packet-link", `${runtimeApiBase}${RUNTIME_V3_OBSERVATORY_ENDPOINT}`);
-    setHref("report-link", `${runtimeApiBase}/v1/observatory/docs/`);
+    setHref("packet-link", `${runtimeApiBase}${runtimeConfig.observatory_endpoint}`);
+    setHref("report-link", `${runtimeApiBase}${runtimeConfig.observatory_docs_endpoint}`);
   }
 
   try {
@@ -1813,7 +1935,10 @@ globalThis.AdlHtmlObservatory = {
   authenticateRuntimeV3ObservatorySocket,
   fetchRetainedRuntimeSnapshot,
   requestedRuntimeSelection,
+  getRuntimeV3Config,
+  applyRuntimeV3Config,
   isRuntimeV3ApiBase,
+  normalizeTrustedRuntimeV3ApiBase,
   buildRuntimeAgentRows,
   buildViewModel,
   buildIntegrationViewModel,

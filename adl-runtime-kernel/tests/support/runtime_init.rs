@@ -66,10 +66,7 @@ pub fn write_with_certificate_for_state(
     .unwrap();
     std::fs::write(&continuity_signing_key, hex::encode([23_u8; 32])).unwrap();
     std::fs::write(&observatory_token, "guardian-observatory-token-00000001").unwrap();
-    let vector = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .parent()
-        .unwrap()
-        .join(".adl/bin/vector");
+    let vector = repo_vector_binary();
     let kernel = std::env::current_exe().unwrap();
     let init = directory.join("runtime-init.toml");
     std::fs::write(
@@ -199,4 +196,32 @@ pub fn toml_path(path: &Path) -> String {
     let value = path.to_string_lossy();
     assert!(!value.contains(['\n', '\r']));
     value.replace('\\', "\\\\").replace('"', "\\\"")
+}
+
+pub fn repo_vector_binary() -> PathBuf {
+    if let Ok(path) = std::env::var("ADL_RUNTIME_TEST_VECTOR_BINARY") {
+        return PathBuf::from(path);
+    }
+    let repo_root = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
+    let worktree_vector = repo_root.join(".adl/bin/vector");
+    if worktree_vector.is_file() {
+        return worktree_vector;
+    }
+    let output = std::process::Command::new("git")
+        .current_dir(repo_root)
+        .args(["rev-parse", "--path-format=absolute", "--git-common-dir"])
+        .output();
+    if let Ok(output) = output {
+        if output.status.success() {
+            let git_common = String::from_utf8(output.stdout).unwrap();
+            let primary_vector = PathBuf::from(git_common.trim())
+                .parent()
+                .unwrap()
+                .join(".adl/bin/vector");
+            if primary_vector.is_file() {
+                return primary_vector;
+            }
+        }
+    }
+    worktree_vector
 }

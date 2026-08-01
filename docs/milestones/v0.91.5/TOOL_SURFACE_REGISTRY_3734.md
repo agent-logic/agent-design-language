@@ -2,7 +2,7 @@
 
 Issue: #3734
 Parent sprint: #3732
-Captured: 2026-07-31
+Captured: 2026-08-01
 Status: generated_live_registry
 
 ## Summary
@@ -30,9 +30,9 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 
 ## Classification Counts
 
-- `primary`: 29
-- `supported shim`: 7
-- `internal helper`: 608
+- `primary`: 27
+- `supported shim`: 6
+- `internal helper`: 595
 - `historical evidence`: 4
 - `archive candidate`: 0
 - `remove candidate`: 2
@@ -60,7 +60,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `csdlc-review record --request <review-request.json>` | core workflow command | primary | Record exact-head review truth before publication. |
 | `csdlc-publish publish --request <publication-request.json>` | core workflow command | primary | Publish one ready PR only after review and validation gates pass. |
 | `pr-janitor skill / janitor workflow` | core workflow command | primary | Canonical in-flight PR blocker routing surface once a PR has been published. |
-| `adl-csdlc tooling prompt-template ...` | core workflow command | primary | Primary direct prompt-template workflow surface after the small-binary split. |
+| `csdlc-edit apply --request <edit-request.json>` | core workflow command | primary | Typed prompt-card values edit surface after final v1 sunset. |
 | `adl-validate-structured-prompt --type <kind> --phase <phase> --input <card>` | core workflow command | primary | Primary direct structured-prompt validator surface after the small-binary split. |
 | `adl-lint-prompt-spec --input <file>` | core workflow command | primary | Primary direct prompt-spec lint surface after the small-binary split. |
 
@@ -70,6 +70,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | --- | --- | --- | --- |
 | `adl/tools/BURST_FINAL_SUMMARY_TEMPLATE.md` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/README.md` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
+| `adl/tools/__pycache__` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/adl_provider_adapter.rs` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/adl_provider_adapter_with_budget.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/archive_run_artifacts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
@@ -86,13 +87,10 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/build_v0917_execution_outlier_analysis.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
 | `adl/tools/burst_continue.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/burst_worktree.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/card_prompt.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/check_compression_finish_profiles.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/check_coverage_impact.sh` | tool surface | primary | Primary local coverage-impact gate for risky changed files. |
 | `adl/tools/check_csdlc_prompt_editor_browser.js` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/check_issue_goal_terminal_state.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
-| `adl/tools/check_issue_metadata_parity.sh` | tool surface | primary | Primary metadata parity guard for issue records. |
-| `adl/tools/check_milestone_closed_issue_sor_truth.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/check_no_new_legacy_swarm_refs.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/check_no_tracked_adl_issue_record_residue.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/check_release_notes_commands.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
@@ -101,7 +99,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/check_v090_milestone_state.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/ci_path_policy.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/clean_coverage_artifacts.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/closeout_completed_issue_wave.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/codex_pr.sh` | tool surface | remove candidate | Retired fail-closed wrapper kept only for migration guidance until final deletion. |
 | `adl/tools/codexw.sh` | tool surface | remove candidate | Retired fail-closed wrapper kept only for migration guidance until final deletion. |
 | `adl/tools/compute_ccc_v0.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
@@ -124,11 +121,7 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_reasoning_graph_affect.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_smoke_v07_story.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_steering_queue_checkpoint.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v086_candidate_selection.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v086_control_path.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v086_fast_slow.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v086_freedom_gate.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v086_review_surface.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_docs_review.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_integrated_runtime.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0871_lifecycle.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -191,7 +184,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/demo_v0911_multiagent_podcast_audio.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0911_multiagent_podcast_pilot.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0912_quality_gate.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
-| `adl/tools/demo_v0912_speculative_decoding_showcase.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0912_workflow_guardrails_showcase.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0913_first_proof_demo.py` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
 | `adl/tools/demo_v0913_five_minute_sprint_console.sh` | tool surface | internal helper | Demo/proof helper rather than a primary workflow entrypoint. |
@@ -225,7 +217,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/install_vector_component.ps1` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/install_vector_component.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/lib` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
-| `adl/tools/lint_prompt_spec.sh` | tool surface | supported shim | Compatibility shim over the direct prompt-spec lint binary. |
 | `adl/tools/local_model_capabilities.v1.json` | tool surface | internal helper | Visible tool surface retained for bounded support work. |
 | `adl/tools/mcp` | tool surface | internal helper | Directory containing bounded helper assets, scripts, or proof inputs. |
 | `adl/tools/merge_coverage_summaries.py` | tool surface | internal helper | Python helper or generator used by a bounded tooling surface. |
@@ -261,7 +252,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/report_module_navigability.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/report_runtime_v3_loc.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/resolve_ci_backend.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
-| `adl/tools/review_card_surface.sh` | tool surface | internal helper | Shell helper retained for bounded workflow support. |
 | `adl/tools/run_adl_v2_standalone.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_anrm_gemma_shepherd_trials.py` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
 | `adl/tools/run_authoritative_coverage_lane.sh` | tool surface | internal helper | Bounded validation/generation helper used by primary workflow entrypoints. |
@@ -428,7 +418,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_finding_to_issue_planner_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_first_proof_demo_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_first_proof_readiness_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_five_command_editor_truth.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_five_command_regression_suite.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_five_minute_html_game_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_five_minute_sprint_console_packet.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -533,7 +522,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_use_case_writer_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_uts_benchmark_entrypoint_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_uts_benchmark_runner_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v086_demo_review_surface.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0904_contract_market_fixture_set.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0904_contract_market_runner.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0904_contract_market_summary.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -549,18 +537,15 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/test_v0916_unity_observatory_contract.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_v0916_unity_observatory_soak_integration.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0916_unity_observatory_unity65_smoke.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0917_html_observatory_integrated_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0917_unity_observatory_integrated_proof.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_v0918_unity_ilpp_diagnostic_matrix.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_validate_multi_agent_workcell_state.sh` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_validate_structured_prompt_parallel.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_validate_wp12_ssm_readiness_4657.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_validation_inventory.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_validation_manager.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_warm_rust_dependency_cache.py` | tool surface | internal helper | Focused regression or contract test helper. |
-| `adl/tools/test_workflow_conductor_skill_contracts.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_workflow_guardrails.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_worktree_doctor.sh` | tool surface | internal helper | Focused regression or contract test helper. |
 | `adl/tools/test_worktree_prune.sh` | tool surface | internal helper | Focused regression or contract test helper. |
@@ -701,7 +686,6 @@ python3 adl/tools/generate_tool_surface_registry.py --check
 | `adl/tools/skills/stp-editor` | skill | supported shim | Lifecycle editor skill used to normalize durable card truth. |
 | `adl/tools/skills/test-generator` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
 | `adl/tools/skills/use-case-writer` | skill | internal helper | Specialized skill available for bounded tasks but not part of the primary issue workflow spine. |
-| `adl/tools/skills/workflow-conductor` | skill | primary | Primary skill in the governed issue/sprint lifecycle. |
 
 ## Historical Evidence Artifacts
 
