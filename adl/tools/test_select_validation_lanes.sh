@@ -116,6 +116,7 @@ csdlc_owner_paths=(
   "adl/tools/install_owner_binaries.sh"
   "adl/tools/build_v0917_execution_outlier_analysis.py"
   "adl/tools/build_v0916_workflow_metric_backfill_inventory.py"
+  "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py"
   "adl/tools/validation_inventory.py"
   "adl/tools/validation_inventory.sh"
   "adl/tools/run_owner_validation_lane.sh"
@@ -150,6 +151,7 @@ expected_paths = [
     "adl/tools/install_owner_binaries.sh",
     "adl/tools/build_v0917_execution_outlier_analysis.py",
     "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
+    "adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py",
     "adl/tools/validation_inventory.py",
     "adl/tools/validation_inventory.sh",
     "adl/tools/run_owner_validation_lane.sh",
