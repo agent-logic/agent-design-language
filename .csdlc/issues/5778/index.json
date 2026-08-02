@@ -3,13 +3,13 @@
   "issue": 5778,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
-  "phase": "reviewed",
-  "generation": 6,
-  "digest": "9195b96bdd10485c255e8fe0831761587f193a579110573a5ec9545f87b218ac",
+  "phase": "published",
+  "generation": 7,
+  "digest": "3dc7a310fca5610487ee4cf8a34ab362ca8a8c1a396f36c2b7060dd4fad74909",
   "claim": {
     "id": "claim-5778-derived-terminal-finish",
     "owner": "codex:5778-implementation",
-    "generation": 6,
+    "generation": 7,
     "acquired_unix_seconds": 1785696508,
     "expires_unix_seconds": 1786301308,
     "heartbeat_unix_seconds": 1785696508,
@@ -65,7 +65,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5778,
+    "pull_request": 5782,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5782",
+    "base": "main",
+    "head": "codex/5778-derived-terminal-finish",
+    "revision": "git-blake3:13d1376b0f03cb6bb3a426e915ce467091d691b3:0394259638bb6dc16e7be4ee73b12cf385d725fed4e34fdc4839d3692ebbf716",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -79,34 +89,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bb48ea55089f7e22bdf6d7d8ddf492cfae4a57fd4e956bdbe311a08466a53f2f",
+      "values_digest": "592387a84fd9196eea77eab4418b9093d90a184567c031849b0252d8d859a353",
       "rendered_digest": "5a2fd63675d213bfb70982b39dba3505049fe021928752eb021ecfecee82cc70",
       "ast_digest": "c18ad70c57b8cee4527033ee4d4a12574a61a1883160f2c0324c1017f357e9bc"
     },
     "stp": {
-      "values_digest": "6d008f345322f8bb77a79d5321e2e7a7e27330034980e6e938ec334d77b40e02",
+      "values_digest": "37ab67c4a6280d9cfe2788e332dfb36368bd1098f23d39534bdf62b3ef028040",
       "rendered_digest": "d16a8c831462ed4f9aff432c69e09fa9d502ef69be8bb66aeb07f248ee02bbc2",
       "ast_digest": "04b7d14ec104707dba9c2ad8ac9c74fe32c107416e2306c527cc33a2464fa559"
     },
     "spp": {
-      "values_digest": "41f89e9aad69b186e7b62fba6604fe666b6e02442ffce2fbc049100ed65a8f22",
+      "values_digest": "96fcfdd211d56b4f0c7dd93e7047260f73b8f9d012f9db701385af7e24f3cfbe",
       "rendered_digest": "d80f518797020d25a44f2c16c35c4be04f78dcd894740ce88f77509ce9b72b83",
       "ast_digest": "0f676c5c5184cb9fd9ae6fd7ce3276acf8cef36aec84f9cf66d52834b47f17e6"
     },
     "vpp": {
-      "values_digest": "be9d4d64afe17b45686e7454606393431dcf65bf6668d0efeafbf81188079bb3",
+      "values_digest": "ddc4498eb99df663fe9b56d7a4155f6d5a73f624acf1c04d76cb4047c343062b",
       "rendered_digest": "1df40bc9a4fdb8d03d63ab3a44549a75418fa765c94f8e643ef4b1832195f2dc",
       "ast_digest": "bb0bb64488d056fa40bd61d2248ea22586513a0a6c084ddc5a9db5e738586f85"
     },
     "srp": {
-      "values_digest": "826a4635251a3002eaec7d3cd108394214e34da9db2a9ece77c0c7258901c07a",
+      "values_digest": "2ead01ddda35d6e070325afbc3e339c0ab68fadc797e36e38e60bdc3eb43ebb1",
       "rendered_digest": "ecabcb0f5ee0cf66960f153c7e1365af6cace5b134aece29870da479c1117d6f",
       "ast_digest": "606a315bc021028c464657c613550397e2e2d1d0d6debbcc8fc7df93fb252977"
     },
     "sor": {
-      "values_digest": "0c1b04fbcf5a6632fa205f83de559dc39e771e472d7d596b673428b0141aa45c",
-      "rendered_digest": "a6decd147e0150aeef073c49cc12813ec923c40a27946b156a886d11f80a6b93",
-      "ast_digest": "33fc5b64ab03fd9a57c294108debce82678327cb4fc07800372b5324725fa2ee"
+      "values_digest": "322b9ff3cb3de51e136d7608a604be0ad3d95ad6702fedb31702610237fc61bc",
+      "rendered_digest": "f08e1dc48ed6b45b6a3c06c206b3791ce9d2b01dbc3fd5317bc1a8c50cc021e3",
+      "ast_digest": "284705daa226db15bb2864251e8adaa929cd41607a959a3c51ba89b2dc80319a"
     }
   },
   "transitions": [
@@ -137,6 +147,13 @@
       "to": "reviewed",
       "actor": "codex:5778-implementation",
       "reason": "Independent exact-head review passed after the sole live repository configuration blocker was provisioned."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5778-implementation",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -209,6 +226,13 @@
       "actor": "codex:5778-implementation",
       "reason": "Independent exact-head review passed after the sole live repository configuration blocker was provisioned.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:5778-implementation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

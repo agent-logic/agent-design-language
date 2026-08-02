@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5778,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5778-derived-terminal-finish",
+  "title": "fix(csdlc): replace closeout churn with idempotent finish",
+  "body": "## Summary\n\n- add one typed `csdlc-finish` command that merges only from exact green reviewed GitHub state\n- derive terminal truth from live post-merge or approved no-PR GitHub state without a second tracked closeout PR\n- serialize finish with canonical issue authority and retain only minimal rebuildable terminal cache evidence\n- preserve exact-head decisive review state across later comment-only events\n- retain legacy closeout only for bounded migration and repair\n\n## Validation\n\n- 168 focused C-SDLC v2 tests passed\n- strict all-target clippy passed\n- independent exact-head review passed with no remaining blockers\n- live `closeout:no-pr-approved` repository label provisioned\n\nCloses #5778",
+  "draft": false,
+  "revision": "git-blake3:13d1376b0f03cb6bb3a426e915ce467091d691b3:0394259638bb6dc16e7be4ee73b12cf385d725fed4e34fdc4839d3692ebbf716",
+  "commit_sha": "13d1376b0f03cb6bb3a426e915ce467091d691b3"
+}
