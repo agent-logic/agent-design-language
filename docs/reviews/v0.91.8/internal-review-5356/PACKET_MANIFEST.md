@@ -1,6 +1,6 @@
 # Packet Manifest
 
-Target revision: `9cfc5f3f0d5d8027264e60e82eeec1b664daf9b6`
+Packet origin revision: `9cfc5f3f0d5d8027264e60e82eeec1b664daf9b6`
 
 ## Canonical Milestone Inputs
 

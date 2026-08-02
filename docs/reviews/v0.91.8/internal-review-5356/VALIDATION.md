@@ -1,6 +1,6 @@
 # Validation
 
-Target revision before packet edits: `9cfc5f3f0d5d8027264e60e82eeec1b664daf9b6`
+Packet origin revision before repair edits: `9cfc5f3f0d5d8027264e60e82eeec1b664daf9b6`
 
 | Command | Result | Notes |
 | --- | --- | --- |
@@ -10,9 +10,10 @@ Target revision before packet edits: `9cfc5f3f0d5d8027264e60e82eeec1b664daf9b6`
 | `python3 docs/milestones/v0.91.8/review/wp15_demo_matrix_5733/validate_v0918_demo_matrix.py` | pass | Demo matrix validator reports `v0918_demo_matrix: PASS`. |
 | `rg -n "Active release-tail issue: WP-17|WP-17 \`#5360\` owns the present|WP-17 #5360 now|WP-17 is aligning|Active documentation and release-truth|Pending internal milestone review" docs/milestones/v0.91.8 -S` | pass | No stale current-truth matches after repair. |
 | `git diff --check` | pass | No whitespace errors. |
-| `csdlc-doctor --repo . --issue 5356` | pass | Phase `bound`, no findings. |
+| `csdlc-doctor --repo . --issue 5356` | pass | Phase `implemented`, no findings after typed finalize. |
 | `ruby .csdlc/prepared/issues/5356/run-validation-lane.rb code` | pass | Runs `cargo test --locked -p adl-runtime runtime_api_contract_advertises_only_served_routes`; 1 focused Runtime API test passed. |
 | `ruby .csdlc/prepared/issues/5356/run-validation-lane.rb docs` | pass | No stale current-truth matches after repair. |
 | `ruby .csdlc/prepared/issues/5356/run-validation-lane.rb evidence` | pass | Preparation/review packet validator passed with six cards and six specialist lanes. |
 
-Final validation must be rerun after subagent review and any remaining edits.
+Final exact-head validation was rerun after retained findings were fixed; typed
+review/publication state records the accepted revision for merge readiness.

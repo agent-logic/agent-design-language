@@ -1,6 +1,6 @@
 # Live State
 
-Captured for target revision:
+Initially captured for packet-origin revision:
 `9cfc5f3f0d5d8027264e60e82eeec1b664daf9b6`.
 
 ## Release-Tail Gate
