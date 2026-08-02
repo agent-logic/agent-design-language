@@ -49,11 +49,11 @@ Executed the v0.91.8 WP-18 internal milestone review, retained the review packet
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
