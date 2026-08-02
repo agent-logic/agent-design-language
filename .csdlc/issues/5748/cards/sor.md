@@ -74,11 +74,11 @@ Completed exhaustive typed C-SDLC v2 terminal reconciliation for all 114 live Gi
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

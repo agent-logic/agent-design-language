@@ -3,13 +3,13 @@
   "issue": 5748,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
-  "phase": "published",
-  "generation": 36,
-  "digest": "6f9efb25570a88b0368bcc00b1a6f48546bea7af8c2cef1f4d100b26c206244c",
+  "phase": "implemented",
+  "generation": 37,
+  "digest": "53e613a683df3abe8d905bf18c97efc08447c46cf79ba1bd14a8aee704b16023",
   "claim": {
     "id": "claim-5748-terminal-recovery-without-csdlc-v2",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
-    "generation": 36,
+    "generation": 37,
     "acquired_unix_seconds": 1785574293,
     "expires_unix_seconds": 1786179093,
     "heartbeat_unix_seconds": 1785574293,
@@ -86,36 +86,8 @@
     "purpose": "Complete, validate, independently review, publish, merge, and typed-close #5748; reconcile the 104-issue v0.91.8 closed universe while leaving csdlc-v2/src/store.rs to targeted issue #5762."
   },
   "review_assignment": null,
-  "review": {
-    "reviewer": "subagent:/root/review_5748_exact_head",
-    "scope": [
-      "csdlc-v2",
-      ".csdlc/issues",
-      ".csdlc/evidence/5748",
-      ".csdlc/prepared/issues/5748",
-      "docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json"
-    ],
-    "reviewed_revision": "git-blake3:bce72abad2b71f142ea93111c719ff49f1e2a2c9:e9ed9d4d6cbfebe818d9ce9aee5fb462b4cd45f0e5b8939b2d5a39a2800436aa",
-    "findings": [],
-    "residual_risks": [
-      "The exact bce72abad review relies on the recorded full Rust proof at f6d0cbab2 and executable-script proof at 05209b1a0; the intervening commits change only generated evidence and typed issue metadata.",
-      "Worktree cleanup remains non-destructive classification only; dirty or topology-ineligible worktrees were preserved and were not pruned.",
-      "The final v0.91.8 census must be refreshed after #5748 itself closes because the reviewed 114-issue universe truthfully excludes this currently open aggregate issue."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5748,
-    "pull_request": 5777,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5777",
-    "base": "main",
-    "head": "codex/5748-terminal-recovery",
-    "revision": "git-blake3:a108122398f7456609521435f35692af7d6e807f:b6580b328afa53dcd4b939255bcc0b794a6555c02174e5a83610a302f46d971c",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -129,34 +101,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0b057de92c6f9bd14b17f7d74f2a205351dbc9e39c0e0ffed1cb7b6dfe954a84",
+      "values_digest": "3000cb75968854f9a25ab1ea73a6bc8a36b73cd3f4f8b2c92bac18caf734fb55",
       "rendered_digest": "7131808bad6d02afd6d10f86d509e21cefd1e218e278c84126aa0928aff48277",
       "ast_digest": "e7fa00329133cf3d6a6490545302ca22acb2dd4dc2790b235e4f780f1cda0858"
     },
     "stp": {
-      "values_digest": "b03a576300723f91364863250c9cc20c8cd79e92c1b8bdbd547ca04d8e96ef46",
+      "values_digest": "2a2ae9cdbb24bf55a0aea98842d2302ca3ef79f9fb6ae4c601c2e0a7556bda49",
       "rendered_digest": "f2bcecd25975a08e704db32829dc123f5585aad64c9a53ada7bc86dcb92143e8",
       "ast_digest": "d44ecf1c459ef6eeceae9febf3297b6f073f1d7d7246f091aedfc9041e615e8d"
     },
     "spp": {
-      "values_digest": "e9802d1ddf4e77db0e7e82b947d6eabdaa76092202ec52c3c82cae3de580a6c3",
+      "values_digest": "baf3031c56726f79fe24308800d6b19ca6c310cc6a38c6010d86daf622cb9b25",
       "rendered_digest": "e9b0d898d2a756b4fdad65dc50cb51b1ce6b7a30ecee883c73238f4882dc33ab",
       "ast_digest": "bc33f4d0c44c7a28cb49b903543db9235180fca69993b0e7522b00eb92df8e64"
     },
     "vpp": {
-      "values_digest": "c270d4eec6724b35a5bcfa53bef2f8911e26e0c2847b9b43c06b69635dde673d",
+      "values_digest": "b2f94e75f1729dacdbd47314ab0e1866d46a5b83466fdac8a3e741af5fd3d6f5",
       "rendered_digest": "3e1bf39edd27df0c6f9f242c7b0281484b23ba6d4830baa7a19835768cd074fd",
       "ast_digest": "598d74187c5473bb9847382c5feb13bc09ce957751b5412279096e40626dd4e9"
     },
     "srp": {
-      "values_digest": "95c48aa10c5fc19623db3d6c5a54eb745865d9f8098b137434aabb52ce19db41",
-      "rendered_digest": "4e81f222bf24395773dc3eba68de1e465af91436c0cb38c087f417344d0fce73",
-      "ast_digest": "df6c398f0a6a557855cfdc6f58665ae3736fb8ef9f53cc0851844ce5f531ae22"
+      "values_digest": "dc2aab3583e00f81971b331401f1f04ebe8441d35faf928a2495df50d9cd67d2",
+      "rendered_digest": "62c39c15b202f769d4aad8558fdd27f401362a568ec12b1779a8e6abc5295ae5",
+      "ast_digest": "cd7c8c0286cfa8e0df9433237cfa807c327b696a391a6d172b0e22c08eb887fe"
     },
     "sor": {
-      "values_digest": "6cbb5d580ab2ee82f605160f7cb024538186dc6d60b39734631c9b3eb228c7f2",
-      "rendered_digest": "8fd1d409cc4cb6193a9c9da3bf1ad4e82d468ddeb5c56ed7894d6033d9ad7e59",
-      "ast_digest": "07bf75aeb89b37f064419de671a79d7c5c990baa0312edfdcbed3e6c70a5cfe8"
+      "values_digest": "656bf5c5e8b1883eb54aa67879b6964f0e785c004b2beb39e85b453982662c4a",
+      "rendered_digest": "ea297f2a4fccb2d23512dd3eac79f3a8a26863eaaea9c6be4824e1f6a94cdf04",
+      "ast_digest": "c2cb954a7fe60b4a6e63450f3f74263e04954385e7ac61e98dcb5c363adbb82f"
     }
   },
   "transitions": [
@@ -194,6 +166,13 @@
       "to": "published",
       "actor": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Recover the published record after the exact-head CI fixture repair at d991d620a1b7316f6ad817f5a16b9126bbf4b7f0 so current independent review and publication evidence can be recorded."
     }
   ],
   "audit": [
@@ -714,6 +693,13 @@
       "actor": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 75,
+      "generation": 37,
+      "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
+      "reason": "Recover the published record after the exact-head CI fixture repair at d991d620a1b7316f6ad817f5a16b9126bbf4b7f0 so current independent review and publication evidence can be recorded.",
+      "operation": "recover_review"
     }
   ]
 }
