@@ -3,13 +3,13 @@
   "issue": 5778,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
-  "phase": "reviewed",
-  "generation": 24,
-  "digest": "5f1c6cb80a8cab2ebc019084615cb5b58255b1d388e6a38c011593f24f4f10ca",
+  "phase": "published",
+  "generation": 25,
+  "digest": "c74b2be6a72532f8e7996aff808057bf3c627ad7a3d1c130cfbffc630eeb9665",
   "claim": {
     "id": "claim-5778-derived-terminal-finish",
     "owner": "codex:5778-implementation",
-    "generation": 24,
+    "generation": 25,
     "acquired_unix_seconds": 1785696508,
     "expires_unix_seconds": 1786301308,
     "heartbeat_unix_seconds": 1785696508,
@@ -66,7 +66,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5778,
+    "pull_request": 5782,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5782",
+    "base": "main",
+    "head": "codex/5778-derived-terminal-finish",
+    "revision": "git-blake3:62b64fe9c26b9582d8d29a21716c74af62523ec8:9b7411cc23ae9bf5f84d44feb5b2d5b03e0982b23546f8470264408fdfacd9a9",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -80,34 +90,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5f235ea7b1ba549eae9e82e18acbba60a7a4568c264f7c4d86db0da63048c1cd",
+      "values_digest": "2632c750b7ff31bc3bcc95d11bdb17d5fb66d4603c6d5da75724c8737ff390b6",
       "rendered_digest": "5a2fd63675d213bfb70982b39dba3505049fe021928752eb021ecfecee82cc70",
       "ast_digest": "c18ad70c57b8cee4527033ee4d4a12574a61a1883160f2c0324c1017f357e9bc"
     },
     "stp": {
-      "values_digest": "b3497e130c8bbc354d66e3adaa467578000411187500fb8aa77bd492a82f56a9",
+      "values_digest": "b71ca18499d98a97210b5827f99ad70fa000f436eda66c3177a68f2b102433c0",
       "rendered_digest": "d16a8c831462ed4f9aff432c69e09fa9d502ef69be8bb66aeb07f248ee02bbc2",
       "ast_digest": "04b7d14ec104707dba9c2ad8ac9c74fe32c107416e2306c527cc33a2464fa559"
     },
     "spp": {
-      "values_digest": "4c731c51e3e2a699d73bff9f10358017f3a138d10c19e768de9a7b3a50bfa331",
+      "values_digest": "b58c43e6774f341af345fe2aff1ba7f74d9352fbf9f493e15ded7be27e0cdce6",
       "rendered_digest": "d80f518797020d25a44f2c16c35c4be04f78dcd894740ce88f77509ce9b72b83",
       "ast_digest": "0f676c5c5184cb9fd9ae6fd7ce3276acf8cef36aec84f9cf66d52834b47f17e6"
     },
     "vpp": {
-      "values_digest": "59659d1d351ef78f512cf0e5cb419ad09177eca55b876133eb5286ea00368da6",
+      "values_digest": "a01c45bc95a0dab41331cf2e94f2125f6ce84e352d060aada1a8ee04616daf91",
       "rendered_digest": "1df40bc9a4fdb8d03d63ab3a44549a75418fa765c94f8e643ef4b1832195f2dc",
       "ast_digest": "bb0bb64488d056fa40bd61d2248ea22586513a0a6c084ddc5a9db5e738586f85"
     },
     "srp": {
-      "values_digest": "3fa18d9f2cb690792fa0990b89c6f9dffb11ab1a0f715a23e9e95d7f0b7b8691",
+      "values_digest": "48a4a2c9f93ea2d4e68d4b2941405943525c0ccdf6ec43c912d1f0dd8b9b6b26",
       "rendered_digest": "2ef62b2786adb1751cc9afa21fbeb239e5dae89fd3de4d0dc09bb873c1080116",
       "ast_digest": "290c0c431af5bc9c4ff369b373383a3790443a78a6a92ae6c7b19cef1d5473e1"
     },
     "sor": {
-      "values_digest": "da40e789af3830798e01a206cdce8341c4e5b35d9db7205522ec69651fb55544",
-      "rendered_digest": "154ed3fec776244c57a2bbddd3625a83abd1cc399f63394ddf7a70bf37d7aa1e",
-      "ast_digest": "01929a6ea857edf94566d0413daf302e9a89febd79a9ced1993cb05e59a49e02"
+      "values_digest": "c238d4d46d6beb8c9cfd458dc919651138ae191b7fe646f03552e48eb735e3c0",
+      "rendered_digest": "678a55f55c5ed9ce582411eebb18192565362ace8fa0d930a9a943229a67203d",
+      "ast_digest": "31996839845e87a73ea3484d6651b13afe8e482a0070366004e7348897c135c1"
     }
   },
   "transitions": [
@@ -201,6 +211,13 @@
       "to": "reviewed",
       "actor": "codex:5778-implementation",
       "reason": "Independent exact-head review passed after all #5785 finish-authority and publication-lineage blockers were repaired."
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5778-implementation",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -434,6 +451,13 @@
       "actor": "codex:5778-implementation",
       "reason": "Independent exact-head review passed after all #5785 finish-authority and publication-lineage blockers were repaired.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
+      "actor": "codex:5778-implementation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
