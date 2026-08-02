@@ -2,7 +2,7 @@
 
 Owner issue: `#5356`
 Packet: [../../../../reviews/v0.91.8/internal-review-5356/README.md](../../../../reviews/v0.91.8/internal-review-5356/README.md)
-Status: `findings_fixed_pending_final_review`
+Status: `findings_fixed_pending_typed_review_publication`
 
 The v0.91.8 WP-18 internal review packet is retained under
 `docs/reviews/v0.91.8/internal-review-5356/`.
@@ -18,5 +18,5 @@ Current result:
 - Release approval: not claimed.
 - WP-19 external review: not started by this packet.
 
-Publication remains blocked until final exact-head review and typed C-SDLC
-review/publication complete.
+The exact-head review findings are fixed. Typed C-SDLC review and publication
+remain to be recorded before PR merge or release approval.

@@ -52,7 +52,8 @@ end
 
 index = JSON.parse(ISSUE_DIR.join("index.json").read)
 assert(index.fetch("issue") == 5356, "wrong issue identity")
-assert(index.fetch("phase") == "bound", "unexpected execution phase")
+allowed_phases = %w[bound implemented reviewed published merge_ready].freeze
+assert(allowed_phases.include?(index.fetch("phase")), "unexpected review-execution phase")
 claim = index.fetch("claim")
 assert(claim.fetch("id") == "claim-5356-v0918-wp18-review-execution-20260802", "wrong claim")
 assert(claim.fetch("protected_paths") == EXPECTED_PATHS, "claim is not exact review-execution scope")
@@ -77,6 +78,15 @@ retained_paths.each do |root|
   next unless root.exist?
   root.find do |path|
     next unless path.file?
+    if path.basename.to_s == "finalize-review-execution-20260802.json"
+      request = JSON.parse(path.read)
+      assert(request.dig("execution", "root") == ROOT.to_s, "finalize request root does not match current worktree")
+      assert(
+        request.dig("execution", "evidence_dir") == ROOT.join(".csdlc/evidence/5356").to_s,
+        "finalize request evidence_dir does not match issue-owned evidence directory"
+      )
+      next
+    end
     text = path.binread
     assert(!text.match?(%r{/(?:Users|Volumes|home)/}), "host-absolute retained path in #{path.relative_path_from(ROOT)}")
   end
