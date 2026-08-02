@@ -47,11 +47,7 @@ pub const CSM_RUNTIME_API_DEFAULT_PORT: u16 = 20_997;
 const WSS_AUTH_REFRESH: Duration = Duration::from_millis(25);
 const MAX_WSS_FRAME_BYTES: usize = 64 * 1024;
 
-pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 3] = [
-    "/v1/health",
-    "/v1/metrics",
-    "/v1/acip/ws",
-];
+pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 3] = ["/v1/health", "/v1/metrics", "/v1/acip/ws"];
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
 #[serde(rename_all = "snake_case")]

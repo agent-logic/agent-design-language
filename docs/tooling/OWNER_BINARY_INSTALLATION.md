@@ -35,11 +35,14 @@ Current C-SDLC v2 GitHub owner binaries include:
 - `csdlc-github-pr`
 - `csdlc-pr-state`
 - `csdlc-merge`
+- `csdlc-finish`
 
 `csdlc-github` remains a compatibility facade. New issue actions should route
 through `csdlc-github-issue`; PR observation should route through
 `csdlc-github-pr` or the dedicated `csdlc-pr-state` observer. `csdlc-merge`
-remains the exact-head merge authority and must stay installed.
+remains the bounded exact-head merge primitive. `csdlc-finish` is the normal
+operator route: it recognizes an already-terminal issue or invokes that same
+merge gate, then retains only a rebuildable derived terminal cache.
 
 Cargo `target/` directories remain build/cache output only. They may be deleted
 or pruned without taking the operational command surface with them. C-SDLC v2

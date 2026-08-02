@@ -209,7 +209,7 @@ impl Store {
         Ok(file)
     }
 
-    pub(crate) fn authority_projection_lock(&self, issue: u64) -> Result<File> {
+    pub fn authority_projection_lock(&self, issue: u64) -> Result<File> {
         self.lock(issue)
     }
 
@@ -7797,6 +7797,7 @@ mod terminal_design_repair_tests {
                     pull_request: 5634,
                     linked_issue: Some(target.issue),
                     linkage_source: Some("github_closing_issues_references".into()),
+                    state: "closed".into(),
                     draft: false,
                     merge_state: "unknown".into(),
                     review_decision: "approved".into(),
@@ -9250,6 +9251,7 @@ mod terminal_design_repair_tests {
                     pull_request: 5720,
                     linked_issue: Some(issue),
                     linkage_source: Some("github_closing_issues_references".into()),
+                    state: "closed".into(),
                     draft: false,
                     merge_state: "unknown".into(),
                     review_decision: "approved".into(),
@@ -9519,6 +9521,7 @@ mod terminal_design_repair_tests {
                 pull_request: 5638,
                 linked_issue: Some(target.issue),
                 linkage_source: Some("github_closing_issues_references".into()),
+                state: "closed".into(),
                 draft: false,
                 merge_state: "unknown".into(),
                 review_decision: "approved".into(),

@@ -2,6 +2,7 @@ use csdlc_v2::cards::{
     digest, CardContent, EvidenceOutcome, IntegrationState, MergeState, PlanStep, ResourceProfile,
     StepStatus, ValidationLane, ValidationResult,
 };
+use csdlc_v2::lifecycle::rehome_claim_authority_with_test_observer;
 use csdlc_v2::{
     assign_review, bind_issue, closeout_issue, edit_issue, prepare_publication,
     prepare_ready_publication, prepare_ready_reconciliation, reacquire_claim,
@@ -3983,26 +3984,18 @@ fn rehome_authority_requires_exact_source_and_fails_on_unreadable_detached_sibli
         panic!("writer did not observe staged authority")
     });
     let drift_audit = source_audit.clone();
-    let drift = thread::spawn(move || {
-        writer_started_rx
-            .recv_timeout(Duration::from_secs(5))
-            .expect("writer observed staged authority");
-        thread::sleep(Duration::from_millis(25));
-        let mut bytes = fs::read(&drift_audit).unwrap();
-        bytes.push(b'\n');
-        fs::write(&drift_audit, bytes).unwrap();
-        true
-    });
-    assert_eq!(
-        rehome_claim_authority(&store, request.clone())
-            .expect_err("source drift must roll back the target")
-            .code,
-        ErrorCode::ReconciliationRequired
-    );
-    assert!(
-        drift.join().unwrap(),
-        "drift mutator observed materialization"
-    );
+    let drift_error =
+        rehome_claim_authority_with_test_observer(&store, request.clone(), move || {
+            writer_started_rx
+                .recv_timeout(Duration::from_secs(5))
+                .expect("writer observed staged authority");
+            let mut bytes = fs::read(&drift_audit).unwrap();
+            bytes.push(b'\n');
+            fs::write(&drift_audit, bytes).unwrap();
+            Ok(())
+        })
+        .expect_err("source drift must roll back the target");
+    assert_eq!(drift_error.code, ErrorCode::ReconciliationRequired);
     assert!(matches!(
         writer
             .join()

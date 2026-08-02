@@ -1,6 +1,9 @@
 use serde_json::{json, Value};
 
 use crate::doctor::DoctorReport;
+use crate::finish::{
+    DerivedTerminalEnvelope, FinishRequest, FinishResult, IssueTerminalObservation,
+};
 use crate::github::{GithubActionRequest, GithubActionResult, GithubIssuePacket, PrStatePacket};
 use crate::lifecycle::{
     AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest, ReacquireClaimRequest,
@@ -87,6 +90,10 @@ pub fn public_schema_bundle() -> Value {
         "terminal_observation": schemars::schema_for!(TerminalObservation),
         "merge_request": schemars::schema_for!(MergeRequest),
         "merge_result": schemars::schema_for!(MergeResult),
+        "finish_request": schemars::schema_for!(FinishRequest),
+        "finish_result": schemars::schema_for!(FinishResult),
+        "derived_terminal_envelope": schemars::schema_for!(DerivedTerminalEnvelope),
+        "issue_terminal_observation": schemars::schema_for!(IssueTerminalObservation),
         "legacy_import_request": schemars::schema_for!(LegacyImportRequest),
         "legacy_import_report": schemars::schema_for!(ImportReport),
         "normalized_outcome": schemars::schema_for!(NormalizedOutcome),

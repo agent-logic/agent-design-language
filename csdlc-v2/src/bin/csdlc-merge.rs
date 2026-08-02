@@ -6,10 +6,10 @@ use clap::Parser;
 use csdlc_v2::github::{collect_pr_state, PrStateRequest};
 use csdlc_v2::github_token;
 use csdlc_v2::merge::{
-    build_result, validate_canonical, validate_remote, MergeMethod, MergeRequest, MergeResult,
+    build_result, execute_remote_merge, validate_canonical, validate_remote, MergeRequest,
+    MergeResult,
 };
 use csdlc_v2::{ErrorCode, Store, V2Error};
-use octocrab::params::pulls::MergeMethod as OctoMergeMethod;
 
 #[derive(Parser)]
 #[command(about = "Perform one fail-closed exact-head C-SDLC v2 GitHub merge")]
@@ -52,68 +52,8 @@ async fn run(cli: Cli) -> csdlc_v2::Result<MergeResult> {
     })
     .await?;
     validate_remote(&state, &request)?;
-    let (owner, repo) = request
-        .repository
-        .split_once('/')
-        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "repository must be owner/name"))?;
-    let client = octocrab::Octocrab::builder()
-        .personal_token(token)
-        .build()
-        .map_err(|error| {
-            V2Error::new(
-                ErrorCode::RemoteFailure,
-                format!("GitHub client setup failed: {error}"),
-            )
-        })?;
-    let pr = client
-        .pulls(owner, repo)
-        .get(request.pull_request)
-        .await
-        .map_err(remote)?;
-    if pr.head.as_ref().map(|head| head.sha.as_str()) != Some(request.expected_head_sha.as_str()) {
-        return Err(V2Error::new(
-            ErrorCode::ReconciliationRequired,
-            "PR head changed before merge",
-        ));
-    }
-    if pr.merged == Some(true) {
-        let merge_sha = pr.merge_commit_sha.clone().ok_or_else(|| {
-            V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "already-merged PR has no merge SHA",
-            )
-        })?;
-        return Ok(build_result(&request, merge_sha, true));
-    }
-    let response = client
-        .pulls(owner, repo)
-        .merge(request.pull_request)
-        .sha(&request.expected_head_sha)
-        .method(octocrab_method(request.merge_method))
-        .send()
-        .await
-        .map_err(remote)?;
-    if !response.merged {
-        return Err(V2Error::new(
-            ErrorCode::ReconciliationRequired,
-            "GitHub did not merge the pull request",
-        ));
-    }
-    let merge_sha = response.sha.ok_or_else(|| {
-        V2Error::new(
-            ErrorCode::ReconciliationRequired,
-            "GitHub merge response omitted merge SHA",
-        )
-    })?;
-    Ok(build_result(&request, merge_sha, false))
-}
-
-fn octocrab_method(method: MergeMethod) -> OctoMergeMethod {
-    match method {
-        MergeMethod::Merge => OctoMergeMethod::Merge,
-        MergeMethod::Squash => OctoMergeMethod::Squash,
-        MergeMethod::Rebase => OctoMergeMethod::Rebase,
-    }
+    let (merge_sha, already_merged) = execute_remote_merge(&request, token).await?;
+    Ok(build_result(&request, merge_sha, already_merged))
 }
 
 fn now_unix_seconds() -> csdlc_v2::Result<u64> {
@@ -126,11 +66,4 @@ fn now_unix_seconds() -> csdlc_v2::Result<u64> {
                 format!("clock is before Unix epoch: {error}"),
             )
         })
-}
-
-fn remote(error: octocrab::Error) -> V2Error {
-    V2Error::new(
-        ErrorCode::RemoteFailure,
-        format!("GitHub merge failed: {error}"),
-    )
 }

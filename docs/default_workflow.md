@@ -10,9 +10,15 @@ binaries and operator skills under `csdlc-v2/`:
 4. Implement in that worktree, then run the focused Rust/PVF validation lane.
 5. `csdlc-review` records current review truth before `csdlc-publish`.
 6. GitHub issue operations use `csdlc-github-issue`; PR observation uses
-   `csdlc-github-pr` or `csdlc-pr-state`; exact-head merge remains
-   `csdlc-merge`.
-7. `csdlc-closeout` records integration and terminal evidence.
+   `csdlc-github-pr` or `csdlc-pr-state`.
+7. `csdlc-finish` validates the exact reviewed green head, merges it when
+   needed, and derives terminal authority from live GitHub state. It is
+   idempotent and never creates a second closeout PR or rewrites tracked cards
+   after merge.
+
+`csdlc-closeout` is retained only for legacy terminal-record migration and
+repair. Safe worktree cleanup is a separate operation and is never a side
+effect of finish.
 
 Cross-session ownership and waiting-state semantics remain documented in
 `docs/tooling/ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md`.

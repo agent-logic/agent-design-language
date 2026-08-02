@@ -34,6 +34,8 @@ pub struct PrStatePacket {
     pub linked_issue: Option<u64>,
     #[serde(default)]
     pub linkage_source: Option<String>,
+    #[serde(default = "unknown_pr_state")]
+    pub state: String,
     pub draft: bool,
     pub merge_state: String,
     pub review_decision: String,
@@ -52,6 +54,10 @@ pub struct PrStatePacket {
     pub checks: Vec<PrCheck>,
     pub required_check_names: Vec<String>,
     pub classification: String,
+}
+
+fn unknown_pr_state() -> String {
+    "unknown".into()
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -990,19 +996,27 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
         )
         .await
         .map_err(remote)?;
-    let review_decision = if reviews
-        .iter()
-        .any(|r| r.state == Some(ReviewState::ChangesRequested))
-    {
-        "changes_requested"
-    } else if reviews
-        .iter()
-        .any(|r| r.state == Some(ReviewState::Approved))
-    {
-        "approved"
-    } else {
-        "pending"
-    };
+    let review_decision = exact_head_review_decision(
+        reviews.iter().map(|review| {
+            (
+                review
+                    .user
+                    .as_ref()
+                    .map(|user| user.login.as_str())
+                    .unwrap_or_default(),
+                review.commit_id.as_deref(),
+                review.state,
+                (
+                    review
+                        .submitted_at
+                        .map(|submitted| submitted.timestamp_millis())
+                        .unwrap_or_default(),
+                    review.id.0,
+                ),
+            )
+        }),
+        &head.sha,
+    );
     let merge_state = normalize_mergeable_state(pr.mergeable_state);
     let mut packet = PrStatePacket {
         schema: "csdlc.github_pr_state.v1".into(),
@@ -1010,6 +1024,12 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
         pull_request: request.pull_request,
         linked_issue,
         linkage_source: linked_issue.map(|_| "github_closing_issues_references".into()),
+        state: match pr.state {
+            Some(octocrab::models::IssueState::Open) => "open",
+            Some(octocrab::models::IssueState::Closed) => "closed",
+            _ => "unknown",
+        }
+        .into(),
         draft: pr.draft.unwrap_or(false),
         merge_state: merge_state.into(),
         review_decision: review_decision.into(),
@@ -1026,6 +1046,48 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
     };
     packet.classification = classify_pr_state(&packet, request.require_review).into();
     Ok(packet)
+}
+
+fn exact_head_review_decision<'a>(
+    reviews: impl IntoIterator<Item = (&'a str, Option<&'a str>, Option<ReviewState>, (i64, u64))>,
+    head_sha: &str,
+) -> &'static str {
+    let mut latest = BTreeMap::<String, ((i64, u64), Option<ReviewState>)>::new();
+    for (reviewer, commit_id, state, order) in reviews {
+        if commit_id != Some(head_sha)
+            || !matches!(
+                state,
+                Some(
+                    ReviewState::Approved | ReviewState::ChangesRequested | ReviewState::Dismissed
+                )
+            )
+        {
+            continue;
+        }
+        let key = if reviewer.is_empty() {
+            format!("anonymous-review-{}", order.1)
+        } else {
+            reviewer.into()
+        };
+        if latest
+            .get(&key)
+            .is_none_or(|(current_order, _)| order > *current_order)
+        {
+            latest.insert(key, (order, state));
+        }
+    }
+    let states = latest
+        .values()
+        .filter_map(|(_, state)| *state)
+        .filter(|state| *state != ReviewState::Dismissed)
+        .collect::<Vec<_>>();
+    if states.contains(&ReviewState::ChangesRequested) {
+        "changes_requested"
+    } else if states.contains(&ReviewState::Approved) {
+        "approved"
+    } else {
+        "pending"
+    }
 }
 
 pub(crate) fn normalize_mergeable_state(state: Option<MergeableState>) -> &'static str {
@@ -1088,6 +1150,7 @@ mod tests {
             pull_request: 1,
             linked_issue: Some(2),
             linkage_source: Some("github_closing_issues_references".into()),
+            state: "open".into(),
             draft: false,
             merge_state: "clean".into(),
             review_decision: "approved".into(),
@@ -1107,6 +1170,106 @@ mod tests {
             required_check_names: vec!["ci".into()],
             classification: String::new(),
         }
+    }
+
+    #[test]
+    fn review_decision_ignores_approval_from_a_superseded_head() {
+        let decision = exact_head_review_decision(
+            [
+                ("reviewer", Some("old"), Some(ReviewState::Approved), (1, 1)),
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::Commented),
+                    (2, 2),
+                ),
+            ],
+            "current",
+        );
+        assert_eq!(decision, "pending");
+    }
+
+    #[test]
+    fn exact_head_changes_requested_wins_over_exact_head_approval() {
+        let decision = exact_head_review_decision(
+            [
+                ("a", Some("current"), Some(ReviewState::Approved), (1, 1)),
+                (
+                    "b",
+                    Some("current"),
+                    Some(ReviewState::ChangesRequested),
+                    (2, 2),
+                ),
+            ],
+            "current",
+        );
+        assert_eq!(decision, "changes_requested");
+    }
+
+    #[test]
+    fn later_approval_supersedes_same_reviewer_changes_request() {
+        let decision = exact_head_review_decision(
+            [
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::ChangesRequested),
+                    (1, 1),
+                ),
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::Approved),
+                    (2, 2),
+                ),
+            ],
+            "current",
+        );
+        assert_eq!(decision, "approved");
+    }
+
+    #[test]
+    fn later_comment_does_not_revoke_same_reviewer_approval() {
+        let decision = exact_head_review_decision(
+            [
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::Approved),
+                    (1, 1),
+                ),
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::Commented),
+                    (2, 2),
+                ),
+            ],
+            "current",
+        );
+        assert_eq!(decision, "approved");
+    }
+
+    #[test]
+    fn later_comment_does_not_revoke_same_reviewer_changes_request() {
+        let decision = exact_head_review_decision(
+            [
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::ChangesRequested),
+                    (1, 1),
+                ),
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::Commented),
+                    (2, 2),
+                ),
+            ],
+            "current",
+        );
+        assert_eq!(decision, "changes_requested");
     }
     #[test]
     fn classifies_common_tail_states() {
