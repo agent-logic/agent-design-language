@@ -216,3 +216,32 @@ fn mutable_terminal_cache_is_replaceable_by_a_fresher_live_observation() {
         later
     );
 }
+
+#[test]
+fn finish_uses_the_canonical_issue_authority_lock() {
+    use fs2::FileExt;
+
+    let temp = tempfile::tempdir().expect("tempdir");
+    assert!(Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(temp.path())
+        .status()
+        .expect("git init")
+        .success());
+    std::fs::create_dir_all(temp.path().join(".csdlc/locks")).expect("lock dir");
+    let store = csdlc_v2::Store::new(temp.path());
+    let authority = store
+        .authority_projection_lock(5778)
+        .expect("canonical authority lock");
+    let contender = std::fs::OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(temp.path().join(".csdlc/locks/5778.lock"))
+        .expect("contender");
+    assert!(contender.try_lock_exclusive().is_err());
+    FileExt::unlock(&authority).expect("canonical authority unlock");
+    drop(authority);
+    contender
+        .try_lock_exclusive()
+        .expect("canonical lock released");
+}

@@ -12,24 +12,23 @@ Status: pre_phase
 
 ## Summary
 
-Added a reviewed, idempotent C-SDLC v2 finish path with canonical no-PR approval, mandatory post-merge re-observation, exact-record cache binding, and serialized execution.
+Completed the idempotent C-SDLC v2 finish path with canonical issue-state serialization and exact-head decisive-review reduction.
 
 ## Artifacts
 
-- csdlc-v2/src/finish.rs
 - csdlc-v2/src/bin/csdlc-finish.rs
+- csdlc-v2/src/finish.rs
+- csdlc-v2/src/github.rs
+- csdlc-v2/src/store.rs
 - csdlc-v2/tests/gate_finish.rs
-- csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md
 - .csdlc/evidence/5778/post-finalize-remediation.md
 
 ## Execution
 
-- Added typed csdlc-finish request, result, derived-terminal envelope, and operator route.
-- Reused the exact-head merge primitive and reduced GitHub reviews to each reviewer's latest state on the current head.
-- Required the fixed closeout:no-pr-approved GitHub label for no-PR terminal authority.
-- Re-observed GitHub issue and PR state after merge instead of synthesizing terminal state.
-- Bound cached terminal authority to exact canonical generation/digest; immutable merges persist while mutable closures expire and can refresh.
-- Serialized the full finish operation and cache replacement under symlink-safe Git-common locks.
+- Held the canonical per-issue lifecycle authority lock across record validation, GitHub reads, merge, post-merge re-observation, and terminal cache retention.
+- Removed the separate finish-only lock that could not serialize against lifecycle record mutation.
+- Reduced exact-head GitHub review state using only decisive approval, change-request, and dismissal events so later comment-only reviews cannot erase authority.
+- Added focused regression tests for canonical lock contention and comment-after-decisive-review behavior.
 
 ## Validation
 
@@ -53,7 +52,7 @@ Added a reviewed, idempotent C-SDLC v2 finish path with canonical no-PR approval
       "--test",
       "gate_github_actions"
     ],
-    "purpose": "Prove review remediation, terminal derivation, cache safety, lifecycle compatibility, installation, and GitHub behavior on the exact current worktree.",
+    "purpose": "Prove finish serialization, review reduction, derived terminal behavior, lifecycle compatibility, installation, and GitHub behavior on the exact current worktree.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5778/post-finalize-remediation.md"
   },
@@ -69,7 +68,7 @@ Added a reviewed, idempotent C-SDLC v2 finish path with canonical no-PR approval
       "-D",
       "warnings"
     ],
-    "purpose": "Prove warning-free C-SDLC v2 code across all targets after review remediation.",
+    "purpose": "Prove warning-free C-SDLC v2 code across all targets after final review remediation.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5778/post-finalize-remediation.md"
   }

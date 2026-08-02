@@ -209,7 +209,7 @@ impl Store {
         Ok(file)
     }
 
-    pub(crate) fn authority_projection_lock(&self, issue: u64) -> Result<File> {
+    pub fn authority_projection_lock(&self, issue: u64) -> Result<File> {
         self.lock(issue)
     }
 

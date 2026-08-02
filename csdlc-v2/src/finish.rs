@@ -496,35 +496,6 @@ pub fn retain_cached_terminal(root: &Path, envelope: &DerivedTerminalEnvelope) -
     Ok(path)
 }
 
-pub fn lock_finish_operation(root: &Path, issue: u64) -> Result<File> {
-    if issue == 0 {
-        return Err(V2Error::new(
-            ErrorCode::InvalidInput,
-            "finish lock requires a nonzero issue",
-        ));
-    }
-    let parent = validate_cache_parent(root, true)?;
-    let lock_path = parent.join(format!(".{issue}.finish.lock"));
-    if fs::symlink_metadata(&lock_path)
-        .is_ok_and(|metadata| metadata.file_type().is_symlink() || !metadata.file_type().is_file())
-    {
-        return Err(V2Error::new(
-            ErrorCode::UnsafeCheckout,
-            "finish operation lock is not a regular file",
-        ));
-    }
-    let mut options = OpenOptions::new();
-    options.create(true).truncate(false).read(true).write(true);
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::OpenOptionsExt;
-        options.custom_flags(libc::O_NOFOLLOW);
-    }
-    let lock = options.open(lock_path)?;
-    lock.lock_exclusive()?;
-    Ok(lock)
-}
-
 fn validate_cache_parent(root: &Path, create: bool) -> Result<PathBuf> {
     let common = PathBuf::from(
         crate::git::run(

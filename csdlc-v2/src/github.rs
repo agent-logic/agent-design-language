@@ -1054,7 +1054,14 @@ fn exact_head_review_decision<'a>(
 ) -> &'static str {
     let mut latest = BTreeMap::<String, ((i64, u64), Option<ReviewState>)>::new();
     for (reviewer, commit_id, state, order) in reviews {
-        if commit_id != Some(head_sha) {
+        if commit_id != Some(head_sha)
+            || !matches!(
+                state,
+                Some(
+                    ReviewState::Approved | ReviewState::ChangesRequested | ReviewState::Dismissed
+                )
+            )
+        {
             continue;
         }
         let key = if reviewer.is_empty() {
@@ -1219,6 +1226,50 @@ mod tests {
             "current",
         );
         assert_eq!(decision, "approved");
+    }
+
+    #[test]
+    fn later_comment_does_not_revoke_same_reviewer_approval() {
+        let decision = exact_head_review_decision(
+            [
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::Approved),
+                    (1, 1),
+                ),
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::Commented),
+                    (2, 2),
+                ),
+            ],
+            "current",
+        );
+        assert_eq!(decision, "approved");
+    }
+
+    #[test]
+    fn later_comment_does_not_revoke_same_reviewer_changes_request() {
+        let decision = exact_head_review_decision(
+            [
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::ChangesRequested),
+                    (1, 1),
+                ),
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::Commented),
+                    (2, 2),
+                ),
+            ],
+            "current",
+        );
+        assert_eq!(decision, "changes_requested");
     }
     #[test]
     fn classifies_common_tail_states() {

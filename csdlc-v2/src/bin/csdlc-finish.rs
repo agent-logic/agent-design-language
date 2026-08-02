@@ -4,8 +4,8 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 use clap::Parser;
 use csdlc_v2::finish::{
-    as_merge_request, derive_terminal, lock_finish_operation, retain_cached_terminal,
-    validate_canonical_identity, FinishRequest, FinishResult, IssueTerminalObservation,
+    as_merge_request, derive_terminal, retain_cached_terminal, validate_canonical_identity,
+    FinishRequest, FinishResult, IssueTerminalObservation,
 };
 use csdlc_v2::github::{
     collect_pr_state, execute_github_action, GithubAction, GithubActionRequest, PrStateRequest,
@@ -41,7 +41,7 @@ async fn main() {
 async fn run(cli: Cli) -> csdlc_v2::Result<FinishResult> {
     let request: FinishRequest = serde_json::from_slice(&fs::read(cli.request)?)?;
     let store = Store::new(&cli.root);
-    let _finish_lock = lock_finish_operation(store.root(), request.issue)?;
+    let _authority_lock = store.authority_projection_lock(request.issue)?;
     let record = store.load_record(request.issue)?;
     validate_canonical_identity(&record, &request)?;
     let issue = read_issue(&request).await?;
