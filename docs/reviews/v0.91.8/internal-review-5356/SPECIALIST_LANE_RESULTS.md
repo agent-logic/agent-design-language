@@ -5,7 +5,7 @@ Packet origin revision: `9cfc5f3f0d5d8027264e60e82eeec1b664daf9b6`
 | Lane | Result | Notes |
 | --- | --- | --- |
 | Issue graph and lifecycle truth | finding fixed | `IR-5356-001` repaired the WP-17 squash-merge gate. Live wave shows WP-01 through WP-17 closed, WP-18 active, WP-19 through WP-23 open. |
-| ADL core code and architecture | findings fixed | Bounded read-only review returned `IR-5356-003` plus `IR-5356-004`; both were fixed and verified by the final exact-head review recorded through typed C-SDLC review evidence. |
+| ADL core code and architecture | findings fixed | Bounded read-only review returned `IR-5356-003` plus `IR-5356-004`; both were fixed and verified by final exact-head review for typed C-SDLC review evidence. |
 | Runtime v3 and deployment path | finding fixed | `IR-5356-004` narrowed Runtime API advertised endpoints to served routes and added focused proof. |
 | C-SDLC v2 tooling and lifecycle | findings fixed | Dependency gate and typed claim scope were repaired through v2 lifecycle operations; `IR-5356-003` replaced the failing specialist-lane stub with a structured dispatcher. |
 | Provider, adapter, and platform acceptance | no local blocker found | Review did not invoke providers or paid external services. |
