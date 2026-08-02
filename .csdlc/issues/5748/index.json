@@ -3,13 +3,13 @@
   "issue": 5748,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f66d253e338790e9c4ed3fba089c93060fdb673d7356670fe849e5e0714b4974",
-  "phase": "implemented",
-  "generation": 37,
-  "digest": "53e613a683df3abe8d905bf18c97efc08447c46cf79ba1bd14a8aee704b16023",
+  "phase": "reviewed",
+  "generation": 38,
+  "digest": "ae0263448e6aaac561f9a6efd7ae1364203af8d0564565e10c29654167b1cea9",
   "claim": {
     "id": "claim-5748-terminal-recovery-without-csdlc-v2",
     "owner": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
-    "generation": 37,
+    "generation": 38,
     "acquired_unix_seconds": 1785574293,
     "expires_unix_seconds": 1786179093,
     "heartbeat_unix_seconds": 1785574293,
@@ -86,7 +86,21 @@
     "purpose": "Complete, validate, independently review, publish, merge, and typed-close #5748; reconcile the 104-issue v0.91.8 closed universe while leaving csdlc-v2/src/store.rs to targeted issue #5762."
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/review_5748_recovered_head",
+    "scope": [
+      "csdlc-v2",
+      ".csdlc/issues",
+      ".csdlc/evidence/5748",
+      ".csdlc/prepared/issues/5748",
+      "docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json"
+    ],
+    "reviewed_revision": "git-blake3:cd10882d8a00064612d33b89318e0791b24950c5:c9fa2970032c3b3fa4f7f79770b94a2bdc5a1833148e887683d1d3c1e57573af",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -101,32 +115,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3000cb75968854f9a25ab1ea73a6bc8a36b73cd3f4f8b2c92bac18caf734fb55",
+      "values_digest": "68dade670215f8589081cfc9b9c30000486c25327ece326b26d5dd380a1a32f3",
       "rendered_digest": "7131808bad6d02afd6d10f86d509e21cefd1e218e278c84126aa0928aff48277",
       "ast_digest": "e7fa00329133cf3d6a6490545302ca22acb2dd4dc2790b235e4f780f1cda0858"
     },
     "stp": {
-      "values_digest": "2a2ae9cdbb24bf55a0aea98842d2302ca3ef79f9fb6ae4c601c2e0a7556bda49",
+      "values_digest": "203e06b095e91f77e07ccb9cede2ed8da4d50a68051be50a21de25bbb8aa763e",
       "rendered_digest": "f2bcecd25975a08e704db32829dc123f5585aad64c9a53ada7bc86dcb92143e8",
       "ast_digest": "d44ecf1c459ef6eeceae9febf3297b6f073f1d7d7246f091aedfc9041e615e8d"
     },
     "spp": {
-      "values_digest": "baf3031c56726f79fe24308800d6b19ca6c310cc6a38c6010d86daf622cb9b25",
+      "values_digest": "94d19b469566dfa34dd18d72ca81d4ab702ea3b10e9d9950b110634a698efde1",
       "rendered_digest": "e9b0d898d2a756b4fdad65dc50cb51b1ce6b7a30ecee883c73238f4882dc33ab",
       "ast_digest": "bc33f4d0c44c7a28cb49b903543db9235180fca69993b0e7522b00eb92df8e64"
     },
     "vpp": {
-      "values_digest": "b2f94e75f1729dacdbd47314ab0e1866d46a5b83466fdac8a3e741af5fd3d6f5",
+      "values_digest": "f73e7d7c720685e1e077c2d72b7a4f9b370c6efab3b6e849380106d2a673ca54",
       "rendered_digest": "3e1bf39edd27df0c6f9f242c7b0281484b23ba6d4830baa7a19835768cd074fd",
       "ast_digest": "598d74187c5473bb9847382c5feb13bc09ce957751b5412279096e40626dd4e9"
     },
     "srp": {
-      "values_digest": "dc2aab3583e00f81971b331401f1f04ebe8441d35faf928a2495df50d9cd67d2",
-      "rendered_digest": "62c39c15b202f769d4aad8558fdd27f401362a568ec12b1779a8e6abc5295ae5",
-      "ast_digest": "cd7c8c0286cfa8e0df9433237cfa807c327b696a391a6d172b0e22c08eb887fe"
+      "values_digest": "aa7c2cb136155eab2ed397a567f4af2d3cc38343cb96e9bb6540e692cb9ef649",
+      "rendered_digest": "bfb030c7c0f57caf07e872e614bbdf151f342d6c01f2124e48b59b9907a4055a",
+      "ast_digest": "d695ded79aa20efeb15cd5014c17b9d5a2df9fcf312bd2497ac140817ca50c35"
     },
     "sor": {
-      "values_digest": "656bf5c5e8b1883eb54aa67879b6964f0e785c004b2beb39e85b453982662c4a",
+      "values_digest": "dc3e120541a612225a821af7777e1856e0353465629c931afc4e7bf902b73e7f",
       "rendered_digest": "ea297f2a4fccb2d23512dd3eac79f3a8a26863eaaea9c6be4824e1f6a94cdf04",
       "ast_digest": "c2cb954a7fe60b4a6e63450f3f74263e04954385e7ac61e98dcb5c363adbb82f"
     }
@@ -173,6 +187,13 @@
       "to": "implemented",
       "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
       "reason": "Recover the published record after the exact-head CI fixture repair at d991d620a1b7316f6ad817f5a16b9126bbf4b7f0 so current independent review and publication evidence can be recorded."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -700,6 +721,13 @@
       "actor": "codex:019fb617-d22b-7252-975c-402d7d7aec46",
       "reason": "Recover the published record after the exact-head CI fixture repair at d991d620a1b7316f6ad817f5a16b9126bbf4b7f0 so current independent review and publication evidence can be recorded.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 76,
+      "generation": 38,
+      "actor": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

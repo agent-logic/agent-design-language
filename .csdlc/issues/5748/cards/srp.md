@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2
+.csdlc/issues
+.csdlc/evidence/5748
+.csdlc/prepared/issues/5748
+docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json
 
 ## Prompts
 
@@ -36,8 +40,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:cd10882d8a00064612d33b89318e0791b24950c5:c9fa2970032c3b3fa4f7f79770b94a2bdc5a1833148e887683d1d3c1e57573af")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_5748_recovered_head")
 
-Result: pre_review
+Result: pass
