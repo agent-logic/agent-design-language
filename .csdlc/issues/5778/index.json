@@ -3,13 +3,13 @@
   "issue": 5778,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
-  "phase": "bound",
-  "generation": 0,
-  "digest": "459e50edf097b53c35fa10aa4cfc1fcb8d5d5c5ad51d8af05152618459ed1543",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "11ef148c905df2990d4d3dbbe7702843d8c3bc45fe9972f5600b6af4888295a0",
   "claim": {
     "id": "claim-5778-derived-terminal-finish",
     "owner": "codex:5778-implementation",
-    "generation": 0,
+    "generation": 2,
     "acquired_unix_seconds": 1785696508,
     "expires_unix_seconds": 1786301308,
     "heartbeat_unix_seconds": 1785696508,
@@ -30,13 +30,15 @@
       "csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md",
       "csdlc-v2/src/bin/csdlc-finish.rs",
       "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/github.rs",
       "csdlc-v2/src/lib.rs",
       "csdlc-v2/src/lifecycle.rs",
       "csdlc-v2/src/model.rs",
       "csdlc-v2/src/schema.rs",
       "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate_finish.rs",
       "csdlc-v2/tests/gate7_lifecycle.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      "csdlc-v2/tests/gate_github_actions.rs",
       "docs/default_workflow.md",
       "docs/tooling/OWNER_BINARY_INSTALLATION.md"
     ],
@@ -58,34 +60,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "00bffc20eb06914c1cb95417d2ed29791ce90082fd4d71c1860278d07655f961",
+      "values_digest": "667c52290ac894dc353b894f7042c5cdb2e4f30e702706beb122c73affa9084b",
       "rendered_digest": "5a2fd63675d213bfb70982b39dba3505049fe021928752eb021ecfecee82cc70",
       "ast_digest": "c18ad70c57b8cee4527033ee4d4a12574a61a1883160f2c0324c1017f357e9bc"
     },
     "stp": {
-      "values_digest": "7733e2ac73e4bb52196bd734bdfe18849f6afb929ddea35d8003ff178a2a37d9",
+      "values_digest": "efcc9cae190c8bbc875cac80ae08dfa6494b7fe6ef46e7886be4b5e65d194224",
       "rendered_digest": "d16a8c831462ed4f9aff432c69e09fa9d502ef69be8bb66aeb07f248ee02bbc2",
       "ast_digest": "04b7d14ec104707dba9c2ad8ac9c74fe32c107416e2306c527cc33a2464fa559"
     },
     "spp": {
-      "values_digest": "11713e3952f005b2173e9473e031501028be8c32658f9cddc0ebdc5d7706b96c",
+      "values_digest": "c4938d03d70ba3c00ae8a934b0e90a657e8707d93b7079ced81b575fa3a19089",
       "rendered_digest": "d80f518797020d25a44f2c16c35c4be04f78dcd894740ce88f77509ce9b72b83",
       "ast_digest": "0f676c5c5184cb9fd9ae6fd7ce3276acf8cef36aec84f9cf66d52834b47f17e6"
     },
     "vpp": {
-      "values_digest": "35dfb7db68d4c3b10dd9cf898d4824abbf648bb50770841aa579027f7e3209de",
+      "values_digest": "34dfa15672e76bc8b8c86e958575949390b17ebe82672a24954e138d19cdf826",
       "rendered_digest": "1df40bc9a4fdb8d03d63ab3a44549a75418fa765c94f8e643ef4b1832195f2dc",
       "ast_digest": "bb0bb64488d056fa40bd61d2248ea22586513a0a6c084ddc5a9db5e738586f85"
     },
     "srp": {
-      "values_digest": "01ba73d642c641ffffe4c7879bae3036a3c34a68dce5c82dd8b6afc5cdd4dc0e",
+      "values_digest": "a8eb3db36eb0413e1aed8737bae2d9dcf1f207bf172d4d372784c1dbbdc501ef",
       "rendered_digest": "9acab9d55b5b2cb2bd2acd38a469ba724853d23fe2a0b7aa24d6f2b22688941b",
       "ast_digest": "eed2647840d3e7556468f21c7a5c1c4cf243d0f40f603e6901e4e10e00b96c51"
     },
     "sor": {
-      "values_digest": "50d26408c13d6deeba4d8b7e980e181924d7f9e616d1b233e95c6c8b5a7b35f7",
-      "rendered_digest": "6a5fb0886429af7e5bb01c58bed4a3625b672511f1aa35ad32e63d5786f75eb1",
-      "ast_digest": "614f047f9bbca4801d157a18c825e41dd697abc2736f32724a1e5d0818041afb"
+      "values_digest": "0558556067bf07a7bbafbcad42e935107574a78617741d6fdb8e9c2279e26851",
+      "rendered_digest": "e4340350318a7d1e914da5839119df60845a9db11d27bddb1c017bc534ac937c",
+      "ast_digest": "56bce795e8d13517e799e27cfb73651c10212284dd522d08b318ae41fe3b76df"
     }
   },
   "transitions": [
@@ -102,6 +104,13 @@
       "to": "bound",
       "actor": "codex:5778-implementation",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5778-implementation",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -118,6 +127,27 @@
       "actor": "codex:5778-implementation",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:5778-implementation",
+      "reason": "Include exact-head GitHub review normalization and its focused integration tests in the bounded finish implementation.",
+      "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate_github_actions.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:5778-implementation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:5778-implementation",
+      "reason": "Replace implementation truth with the exact post-remediation validation result before review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Added one idempotent C-SDLC v2 finish command that preserves exact-head gates, derives terminal authority from live GitHub state, and eliminates tracked post-merge closeout writes.\",\"changes\":[\"Added typed csdlc-finish request, result, derived-terminal envelope, and operator route.\",\"Reused the exact-head merge primitive and restricted review approval to the current PR head.\",\"Added a minimal serialized and symlink-safe Git-common terminal cache that logically releases stale claims without becoming canonical lifecycle state.\",\"Kept legacy csdlc-closeout available only for migration and repair while changing the default workflow to finish.\"],\"artifacts\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/tests/gate_finish.rs\",\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\".csdlc/evidence/5778/post-finalize-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--lib\",\"--test\",\"gate_finish\",\"--test\",\"gate7_lifecycle\",\"--test\",\"gate10a\",\"--test\",\"gate10b\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Prove exact-head review normalization, terminal derivation, concurrency, stale-claim release, legacy lifecycle compatibility, installation, and GitHub action behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free C-SDLC v2 code across all targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"}]}"
     }
   ]
 }

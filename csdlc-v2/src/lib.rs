@@ -5,6 +5,7 @@ pub mod cutover;
 pub mod doctor;
 pub mod eligibility;
 pub mod error;
+pub mod finish;
 pub mod git;
 pub mod github;
 pub mod github_token;
@@ -34,6 +35,7 @@ pub use eligibility::{
     DeletionEligibilityRequest, DeletionEntry, DeletionManifest, DeletionReason, EntryDisposition,
 };
 pub use error::{ErrorCode, Result, V2Error};
+pub use finish::{DerivedTerminalEnvelope, FinishDisposition, FinishRequest, FinishResult};
 pub use git::shared_request_path;
 pub use github::{
     append_marker, execute_github_action, marker_line, GithubAction, GithubActionRequest,

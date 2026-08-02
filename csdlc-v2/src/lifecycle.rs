@@ -214,6 +214,14 @@ fn terminal_projection_overlap_is_released(
     candidate: &str,
     now_unix_seconds: u64,
 ) -> Result<bool> {
+    if crate::finish::load_cached_terminal(store.root(), local.issue)?
+        .as_ref()
+        .is_some_and(|terminal| {
+            crate::finish::envelope_matches_record(terminal, local).unwrap_or(false)
+        })
+    {
+        return Ok(true);
+    }
     let issue_path = format!(".csdlc/issues/{}", local.issue);
     let exact_issue_projection = reserved.trim_end_matches('/') == issue_path
         && candidate.trim_end_matches('/') == issue_path;
@@ -2042,7 +2050,13 @@ fn unix_now() -> Result<u64> {
 
 #[cfg(test)]
 mod terminal_projection_authority_tests {
-    use super::exact_expired_terminal_projection_overlap;
+    use super::{
+        exact_expired_terminal_projection_overlap, terminal_projection_overlap_is_released,
+    };
+    use crate::finish::{derive_terminal, retain_cached_terminal, FinishRequest};
+    use crate::{Claim, DesignReview, IssueRecord, LifecyclePhase, MergeMethod, Store};
+    use std::collections::BTreeMap;
+    use std::process::Command;
 
     #[test]
     fn aggregate_overlap_exception_is_exact_expired_and_projection_only() {
@@ -2074,5 +2088,82 @@ mod terminal_projection_authority_tests {
             ".csdlc/issues",
             10,
         ));
+    }
+
+    #[test]
+    fn derived_terminal_authority_logically_releases_every_stale_claim_path() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        assert!(Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(temp.path())
+            .status()
+            .expect("git init")
+            .success());
+        let record = IssueRecord {
+            schema: "csdlc.issue.v2".into(),
+            issue: 5778,
+            repository: "owner/repo".into(),
+            initialization_digest: "initialization".into(),
+            phase: LifecyclePhase::Reviewed,
+            generation: 4,
+            digest: "digest".into(),
+            claim: Some(Claim {
+                id: "claim".into(),
+                owner: "finished-session".into(),
+                generation: 4,
+                acquired_unix_seconds: 1,
+                expires_unix_seconds: 10_000,
+                heartbeat_unix_seconds: 1,
+                branch: "codex/5778".into(),
+                worktree: ".".into(),
+                protected_paths: vec!["csdlc-v2".into()],
+                purpose: "implementation".into(),
+            }),
+            review_assignment: None,
+            review: None,
+            publication: None,
+            readiness: None,
+            terminal: None,
+            migration: None,
+            design_path: "design.md".into(),
+            diagram_path: "diagram.mmd".into(),
+            design_review: DesignReview::Pending,
+            cards: BTreeMap::new(),
+            transitions: Vec::new(),
+            audit: Vec::new(),
+        };
+        let request = FinishRequest {
+            schema: "csdlc.finish_request.v1".into(),
+            issue: 5778,
+            expected_generation: 4,
+            expected_digest: "digest".into(),
+            claim_id: "claim".into(),
+            actor: "finished-session".into(),
+            repository: "owner/repo".into(),
+            pull_request: None,
+            base: None,
+            head: None,
+            expected_head_sha: None,
+            merge_method: MergeMethod::Squash,
+            required_checks: Vec::new(),
+            require_review: false,
+            approved_no_pr_reason: Some("approved closure".into()),
+            token_file: None,
+        };
+        let envelope = derive_terminal(&record, &request, "closed", None)
+            .expect("derive")
+            .expect("terminal");
+        retain_cached_terminal(temp.path(), &envelope).expect("retain");
+        let store = Store::new(temp.path());
+
+        assert!(terminal_projection_overlap_is_released(
+            &store,
+            &store,
+            &record,
+            "csdlc-v2",
+            "csdlc-v2/src/lib.rs",
+            2,
+        )
+        .expect("released"));
     }
 }

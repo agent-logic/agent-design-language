@@ -6,6 +6,7 @@ use crate::error::{ErrorCode, Result, V2Error};
 use crate::git::clean_commit_revision;
 use crate::github::PrStatePacket;
 use crate::model::{IssueRecord, LifecyclePhase};
+use octocrab::params::pulls::MergeMethod as OctoMergeMethod;
 
 #[derive(
     Debug,
@@ -214,6 +215,73 @@ pub fn validate_remote(packet: &PrStatePacket, request: &MergeRequest) -> Result
     Ok(())
 }
 
+pub async fn execute_remote_merge(request: &MergeRequest, token: String) -> Result<(String, bool)> {
+    let (owner, repo) = request
+        .repository
+        .split_once('/')
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "repository must be owner/name"))?;
+    let client = octocrab::Octocrab::builder()
+        .personal_token(token)
+        .build()
+        .map_err(remote)?;
+    let pr = client
+        .pulls(owner, repo)
+        .get(request.pull_request)
+        .await
+        .map_err(remote)?;
+    if pr.head.as_ref().map(|head| head.sha.as_str()) != Some(request.expected_head_sha.as_str()) {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "PR head changed before merge",
+        ));
+    }
+    if pr.merged == Some(true) || pr.merged_at.is_some() {
+        let merge_sha = pr.merge_commit_sha.clone().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "already-merged PR has no merge SHA",
+            )
+        })?;
+        return Ok((merge_sha, true));
+    }
+    let response = client
+        .pulls(owner, repo)
+        .merge(request.pull_request)
+        .sha(&request.expected_head_sha)
+        .method(octocrab_method(request.merge_method))
+        .send()
+        .await
+        .map_err(remote)?;
+    if !response.merged {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "GitHub did not merge the pull request",
+        ));
+    }
+    let merge_sha = response.sha.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "GitHub merge response omitted merge SHA",
+        )
+    })?;
+    Ok((merge_sha, false))
+}
+
+fn octocrab_method(method: MergeMethod) -> OctoMergeMethod {
+    match method {
+        MergeMethod::Merge => OctoMergeMethod::Merge,
+        MergeMethod::Squash => OctoMergeMethod::Squash,
+        MergeMethod::Rebase => OctoMergeMethod::Rebase,
+    }
+}
+
+fn remote(error: octocrab::Error) -> V2Error {
+    V2Error::new(
+        ErrorCode::RemoteFailure,
+        format!("GitHub merge failed: {error}"),
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -246,6 +314,7 @@ mod tests {
             pull_request: 12,
             linked_issue: Some(7),
             linkage_source: Some("github_closing_issues_references".into()),
+            state: "open".into(),
             draft: false,
             merge_state: "clean".into(),
             review_decision: "approved".into(),
