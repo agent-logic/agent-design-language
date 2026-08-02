@@ -11,7 +11,7 @@ surfaces, and publication-safety boundaries needed before WP-19 formal external
 review.
 
 Current exact-head review after the finalize checkpoint confirmed the retained
-findings are fixed. The accepted publication revision is recorded by typed
+findings are fixed. The accepted publication revision will be recorded by typed
 C-SDLC review and publication state, not by this self-referential packet header.
 
 The review found four in-scope issues and fixed them inside `#5356`:

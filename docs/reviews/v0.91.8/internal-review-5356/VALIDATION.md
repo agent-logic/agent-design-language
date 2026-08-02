@@ -16,4 +16,4 @@ Packet origin revision before repair edits: `9cfc5f3f0d5d8027264e60e82eeec1b664d
 | `ruby .csdlc/prepared/issues/5356/run-validation-lane.rb evidence` | pass | Preparation/review packet validator passed with six cards and six specialist lanes. |
 
 Final exact-head validation was rerun after retained findings were fixed; typed
-review/publication state records the accepted revision for merge readiness.
+review/publication state will record the accepted revision for merge readiness.
