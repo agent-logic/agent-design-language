@@ -5,33 +5,8 @@
   "initialization_digest": "618ba16c12e2d0dbd97423264edc8d3549285dffa958884cab7a2bbf4d8beeaf",
   "phase": "merge_ready",
   "generation": 22,
-  "digest": "6b39b062a8653dcb37726eaea5d4f88383988bcbdf9e3c1d88546156c651e978",
-  "claim": {
-    "id": "claim-5655-csdlc-github-actions",
-    "owner": "codex:issue-5655-slot-1",
-    "generation": 22,
-    "acquired_unix_seconds": 1784920947,
-    "expires_unix_seconds": 1785525747,
-    "heartbeat_unix_seconds": 1784920947,
-    "branch": "codex/5655-csdlc-github-actions",
-    "worktree": ".worktrees/adl-wp-5655",
-    "protected_paths": [
-      ".csdlc/evidence/5655",
-      ".csdlc/issues/5648",
-      ".csdlc/issues/5655",
-      ".csdlc/locks/5655.lock",
-      ".csdlc/prepared/issues/5655",
-      "csdlc-v2/Cargo.toml",
-      "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
-      "csdlc-v2/src/bin/csdlc-github.rs",
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/src/github_token.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/tests/gate_github_actions.rs"
-    ],
-    "purpose": "Implement one Rust-only, idempotent GitHub action surface for C-SDLC v2"
-  },
+  "digest": "2cb5f39f312414543ee4cde64ec149b5cfbc5602d47dd3318addfe32184ee61d",
+  "claim": null,
   "review_assignment": null,
   "review": {
     "reviewer": "Boole",
@@ -485,6 +460,20 @@
       "actor": "codex:issue-5655-slot-1",
       "reason": "record normalized remote readiness without replacing pre-publication review",
       "operation": "record_readiness_reconcile_metadata_only_published_revision"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "codex:5778-bootstrap",
+      "reason": "Recover the expired claim from GitHub-closed #5655 so the approved closeout simplification can bind without stale terminal authority blocking shared C-SDLC files.",
+      "operation": "{\"previous_owner\":\"codex:issue-5655-slot-1\",\"observed_expiry_unix_seconds\":1785525747,\"recovery_actor\":\"codex:5778-bootstrap\",\"reason\":\"Recover the expired claim from GitHub-closed #5655 so the approved closeout simplification can bind without stale terminal authority blocking shared C-SDLC files.\"}"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:5778-bootstrap",
+      "reason": "Release the recovered stale claim so closed #5655 cannot block the #5778 derived-terminal implementation.",
+      "operation": "{\"claim_id\":\"claim-5655-release-for-5778\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-approved closeout redesign and GitHub-closed issue #5655\",\"previous_owner\":\"codex:5778-bootstrap\"}"
     }
   ]
 }

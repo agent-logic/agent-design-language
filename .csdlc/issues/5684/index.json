@@ -5,53 +5,8 @@
   "initialization_digest": "75c9cff2d2d9255cea839a5fbc388b881ac96d87f1b17509562024d338d6d3a6",
   "phase": "published",
   "generation": 38,
-  "digest": "989e92102dfe8d0056c3054f5477a95b2eda64c3a96e4abf9c6ef050aed97f71",
-  "claim": {
-    "id": "claim-5684-csdlc-github-split",
-    "owner": "codex",
-    "generation": 38,
-    "acquired_unix_seconds": 1785115334,
-    "expires_unix_seconds": 1785201734,
-    "heartbeat_unix_seconds": 1785115334,
-    "branch": "codex/5684-csdlc-github-tool-split",
-    "worktree": "/Volumes/FastWork/adl-csdlc-install-manifest",
-    "protected_paths": [
-      ".csdlc/evidence/5684",
-      ".csdlc/issues/5684",
-      "adl-resilience",
-      "adl-runtime/Cargo.lock",
-      "adl-runtime/Cargo.toml",
-      "adl-runtime/src/guardian.rs",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/src/supervision.rs",
-      "csdlc-v2/AGENTS.md",
-      "csdlc-v2/Cargo.lock",
-      "csdlc-v2/Cargo.toml",
-      "csdlc-v2/operator/coexistence.json",
-      "csdlc-v2/operator/skills.json",
-      "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
-      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
-      "csdlc-v2/src/bin/csdlc-github-issue.rs",
-      "csdlc-v2/src/bin/csdlc-github-pr.rs",
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/src/operator.rs",
-      "csdlc-v2/tests/gate10a.rs",
-      "csdlc-v2/tests/gate_github_actions.rs",
-      "docs/default_workflow.md",
-      "docs/templates/prompts/1.0.3/schemas/sip.structure.json",
-      "docs/templates/prompts/1.0.3/schemas/sor.structure.json",
-      "docs/templates/prompts/1.0.3/schemas/spp.structure.json",
-      "docs/templates/prompts/1.0.3/schemas/srp.structure.json",
-      "docs/templates/prompts/1.0.3/schemas/stp.structure.json",
-      "docs/templates/prompts/1.0.3/schemas/vpp.structure.json",
-      "docs/templates/prompts/1.0.3/sor.md",
-      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
-      "docs/tooling/OWNER_BINARY_INSTALLATION.md",
-      "docs/tooling/README.md",
-      "docs/tooling/structured-prompt-validator-binary-resolution.md"
-    ],
-    "purpose": "Execute #5684 C-SDLC GitHub owner-binary split"
-  },
+  "digest": "94f437cc704139b6c64a52519a0f3d5c207ed7ade0e0b706457c3a5824ed51b8",
+  "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019fa184-d21b-7590-a9c3-4827a36638ce",
     "assigned_by": "codex:5684-execution",
@@ -700,6 +655,20 @@
       "actor": "codex:5684-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 45,
+      "generation": 38,
+      "actor": "codex:5778-bootstrap",
+      "reason": "Recover the expired claim from GitHub-closed #5684 so the approved closeout simplification can bind without stale terminal authority blocking shared C-SDLC files.",
+      "operation": "{\"previous_owner\":\"codex\",\"observed_expiry_unix_seconds\":1785201734,\"recovery_actor\":\"codex:5778-bootstrap\",\"reason\":\"Recover the expired claim from GitHub-closed #5684 so the approved closeout simplification can bind without stale terminal authority blocking shared C-SDLC files.\"}"
+    },
+    {
+      "sequence": 46,
+      "generation": 38,
+      "actor": "codex:5778-bootstrap",
+      "reason": "Release the recovered stale claim so closed #5684 cannot block the #5778 derived-terminal implementation.",
+      "operation": "{\"claim_id\":\"claim-5684-release-for-5778\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator-approved closeout redesign and GitHub-closed issue #5684\",\"previous_owner\":\"codex:5778-bootstrap\"}"
     }
   ]
 }

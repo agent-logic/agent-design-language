@@ -1,0 +1,123 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5778,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "459e50edf097b53c35fa10aa4cfc1fcb8d5d5c5ad51d8af05152618459ed1543",
+  "claim": {
+    "id": "claim-5778-derived-terminal-finish",
+    "owner": "codex:5778-implementation",
+    "generation": 0,
+    "acquired_unix_seconds": 1785696508,
+    "expires_unix_seconds": 1786301308,
+    "heartbeat_unix_seconds": 1785696508,
+    "branch": "codex/5778-derived-terminal-finish",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5778",
+      ".csdlc/issues/5655",
+      ".csdlc/issues/5684",
+      ".csdlc/issues/5778",
+      ".csdlc/locks/5778.lock",
+      ".csdlc/prepared/issues/5778",
+      ".csdlc/publication/5778.intent.json",
+      "csdlc-v2/Cargo.lock",
+      "csdlc-v2/Cargo.toml",
+      "csdlc-v2/operator/coexistence.json",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs",
+      "docs/default_workflow.md",
+      "docs/tooling/OWNER_BINARY_INSTALLATION.md"
+    ],
+    "purpose": "Implement #5778 derived terminal truth and one idempotent finish command without a second closeout PR."
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5778/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5778/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-approved Gemini-assisted closeout redesign",
+      "revision": "6d7f225ea3b7b4406de1107c022687fc6ea299ab6616e7f18073fc71a2cae771"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "00bffc20eb06914c1cb95417d2ed29791ce90082fd4d71c1860278d07655f961",
+      "rendered_digest": "5a2fd63675d213bfb70982b39dba3505049fe021928752eb021ecfecee82cc70",
+      "ast_digest": "c18ad70c57b8cee4527033ee4d4a12574a61a1883160f2c0324c1017f357e9bc"
+    },
+    "stp": {
+      "values_digest": "7733e2ac73e4bb52196bd734bdfe18849f6afb929ddea35d8003ff178a2a37d9",
+      "rendered_digest": "d16a8c831462ed4f9aff432c69e09fa9d502ef69be8bb66aeb07f248ee02bbc2",
+      "ast_digest": "04b7d14ec104707dba9c2ad8ac9c74fe32c107416e2306c527cc33a2464fa559"
+    },
+    "spp": {
+      "values_digest": "11713e3952f005b2173e9473e031501028be8c32658f9cddc0ebdc5d7706b96c",
+      "rendered_digest": "d80f518797020d25a44f2c16c35c4be04f78dcd894740ce88f77509ce9b72b83",
+      "ast_digest": "0f676c5c5184cb9fd9ae6fd7ce3276acf8cef36aec84f9cf66d52834b47f17e6"
+    },
+    "vpp": {
+      "values_digest": "35dfb7db68d4c3b10dd9cf898d4824abbf648bb50770841aa579027f7e3209de",
+      "rendered_digest": "1df40bc9a4fdb8d03d63ab3a44549a75418fa765c94f8e643ef4b1832195f2dc",
+      "ast_digest": "bb0bb64488d056fa40bd61d2248ea22586513a0a6c084ddc5a9db5e738586f85"
+    },
+    "srp": {
+      "values_digest": "01ba73d642c641ffffe4c7879bae3036a3c34a68dce5c82dd8b6afc5cdd4dc0e",
+      "rendered_digest": "9acab9d55b5b2cb2bd2acd38a469ba724853d23fe2a0b7aa24d6f2b22688941b",
+      "ast_digest": "eed2647840d3e7556468f21c7a5c1c4cf243d0f40f603e6901e4e10e00b96c51"
+    },
+    "sor": {
+      "values_digest": "50d26408c13d6deeba4d8b7e980e181924d7f9e616d1b233e95c6c8b5a7b35f7",
+      "rendered_digest": "6a5fb0886429af7e5bb01c58bed4a3625b672511f1aa35ad32e63d5786f75eb1",
+      "ast_digest": "614f047f9bbca4801d157a18c825e41dd697abc2736f32724a1e5d0818041afb"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5778-implementation",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5778-implementation",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5778-implementation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:5778-implementation",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}
