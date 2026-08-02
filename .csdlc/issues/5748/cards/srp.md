@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Issue #5748 terminal projections, retained receipts, special-case repair evidence, and validation report.
+csdlc-v2
+.csdlc/issues
+.csdlc/evidence/5748
+.csdlc/prepared/issues/5748
+docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json
 
 ## Prompts
 
@@ -32,12 +36,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The exact bce72abad review relies on the recorded full Rust proof at f6d0cbab2 and executable-script proof at 05209b1a0; the intervening commits change only generated evidence and typed issue metadata.
+- Worktree cleanup remains non-destructive classification only; dirty or topology-ineligible worktrees were preserved and were not pruned.
+- The final v0.91.8 census must be refreshed after #5748 itself closes because the reviewed 114-issue universe truthfully excludes this currently open aggregate issue.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:bce72abad2b71f142ea93111c719ff49f1e2a2c9:e9ed9d4d6cbfebe818d9ce9aee5fb462b4cd45f0e5b8939b2d5a39a2800436aa")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_5748_exact_head")
 
-Result: pre_review
+Result: pass

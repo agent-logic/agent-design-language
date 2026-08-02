@@ -7,15 +7,15 @@
     "title": "[v0.91.8][csdlc-v2][closeout] Recover remaining closed-issue terminal truth",
     "slug": "remaining-closed-issue-terminal-recovery",
     "version": "v0.91.8",
-    "generation": 34
+    "generation": 35
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #5748 terminal projections, retained receipts, special-case repair evidence, and validation report.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2\n.csdlc/issues\n.csdlc/evidence/5748\n.csdlc/prepared/issues/5748\ndocs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json",
+      "review_revision": "git-blake3:bce72abad2b71f142ea93111c719ff49f1e2a2c9:e9ed9d4d6cbfebe818d9ce9aee5fb462b4cd45f0e5b8939b2d5a39a2800436aa",
+      "reviewer": "subagent:/root/review_5748_exact_head",
       "review_prompts": [
         "Does each tracked projection exactly preserve its retained receipt identity and terminal disposition?",
         "Are false or special dispositions repaired through an explicit typed route rather than inferred?",
@@ -24,8 +24,12 @@
         "Were GitHub accesses limited to read-only live observation or typed C-SDLC v2 mutation routes, with no AWS, v1, or import route?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The exact bce72abad review relies on the recorded full Rust proof at f6d0cbab2 and executable-script proof at 05209b1a0; the intervening commits change only generated evidence and typed issue metadata.",
+        "Worktree cleanup remains non-destructive classification only; dirty or topology-ineligible worktrees were preserved and were not pruned.",
+        "The final v0.91.8 census must be refreshed after #5748 itself closes because the reviewed 114-issue universe truthfully excludes this currently open aggregate issue."
+      ],
+      "review_result": "pass"
     }
   }
 }
