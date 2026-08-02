@@ -5,7 +5,7 @@
   "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
   "phase": "implemented",
   "generation": 22,
-  "digest": "837ff82e83dc871c4c4554f2cb6b9e819e1426fed0fabba63d917fb61fd94e08",
+  "digest": "c659a5357ad8ca72e143114750cb7b9837aea94e4ae17d1f9d27bd41ead4e3ce",
   "claim": {
     "id": "claim-5778-derived-terminal-finish",
     "owner": "codex:5778-implementation",
@@ -48,7 +48,7 @@
   "review_assignment": {
     "reviewer": "codex-subagent:review_5778_exact_head",
     "assigned_by": "codex:5778-implementation",
-    "revision": "git-blake3:297cf444924b0d3e60b23b731d506ada9d24407c:50f295f7d69deff73ef3ed285c898bf245fd61f54009d6224cd74e49c8e6a81c",
+    "revision": "git-blake3:a13bac366e2e9fe228b13ae058543ca3c3cd61fe:f74554d056eb0dcf1de41c5b3b64ac58b912b6bcee9254f2a97a3159da195dfd",
     "scope": [
       "."
     ]
@@ -394,6 +394,13 @@
       "actor": "codex:5778-implementation",
       "reason": "Record the complete #5785 repair after resolving every fail-closed blocker from independent exact-head review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the idempotent C-SDLC v2 finish path, retained the current-main formatter repair, made the rehome-authority proof deterministic for #5784, and repaired #5785 so a normally published record can finish through metadata-only publication head drift without weakening live remote gates.\",\"changes\":[\"Held the canonical per-issue lifecycle authority lock across record validation, GitHub reads, merge, post-merge re-observation, and terminal cache retention.\",\"Derived minimal terminal authority from exact live GitHub state and logically released stale claims without tracked post-merge closeout commits.\",\"Reduced exact-head GitHub review state using only decisive review events so later comment-only reviews cannot erase authority.\",\"Applied current stable rustfmt to the Runtime API endpoint inventory defect tracked by #5783.\",\"Replaced the scheduling race with an explicitly injected test observer that completes source mutation before revalidation resumes while the concurrent typed writer remains lock-blocked; the operational entrypoint supplies only a no-op observer.\",\"Replaced the legacy MergeReady-only finish authority check with finish-native canonical identity and a non-expired owned claim bound to the canonical generation, branch, and worktree while retaining exact live remote checks and review gates.\",\"Required the local checkout to be clean at the exact requested head, strictly validated clean-revision envelopes, and accepted publication metadata advancement only for .csdlc-only descendants whose review evidence exactly matches the publication commit and whose reviewed scope remains unchanged; all drift fails closed.\"],\"artifacts\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate_finish.rs\",\"csdlc-v2/tests/gate7_lifecycle.rs\",\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\"adl-runtime/src/runtime_api.rs\",\".csdlc/evidence/5778/post-finalize-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"+stable\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate_finish\"],\"purpose\":\"Prove Published finish authority and clean metadata-only publication lineage while rejecting dirty or wrong heads, malformed revisions, changed review scope, substantive drift, and stale claim generations.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--lib\",\"--test\",\"gate_finish\",\"--test\",\"gate7_lifecycle\",\"--test\",\"gate10a\",\"--test\",\"gate10b\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Prove finish serialization, exact-head review reduction, derived terminal behavior, lifecycle compatibility, installation, and GitHub behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"+stable\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate9\"],\"purpose\":\"Re-run the complete Gate 9 soak surface containing the exact CI failure after installing deterministic injected post-materialization ordering.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free C-SDLC v2 production and test targets after the deterministic observer repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"+stable\",\"fmt\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Prove the Runtime API formatter repair on the current-main merge tree.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"}]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 22,
+      "actor": "codex:5778-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
