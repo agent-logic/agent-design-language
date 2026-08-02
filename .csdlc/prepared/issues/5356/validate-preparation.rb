@@ -10,10 +10,14 @@ ISSUE_DIR = ROOT.join(".csdlc/issues/5356")
 PREP = ROOT.join(".csdlc/prepared/issues/5356")
 CARDS = %w[sip stp spp vpp srp sor].freeze
 EXPECTED_PATHS = [
+  ".csdlc/evidence/5356",
   ".csdlc/issues/5356",
   ".csdlc/locks/5356.lock",
   ".csdlc/prepared/issues/5356",
-  ".csdlc/evidence/5356"
+  "docs/milestones/v0.91.8/review/README.md",
+  "docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_5356.md",
+  "docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_PLAN_5356.md",
+  "docs/reviews/v0.91.8/internal-review-5356"
 ].freeze
 REQUIRED_PREP = %w[
   bootstrap-request.json check-dependencies.rb design.md diagram.mmd
@@ -41,11 +45,11 @@ end
 
 index = JSON.parse(ISSUE_DIR.join("index.json").read)
 assert(index.fetch("issue") == 5356, "wrong issue identity")
-assert(%w[initialized bound].include?(index.fetch("phase")), "unexpected preparation phase")
+assert(index.fetch("phase") == "bound", "unexpected execution phase")
 claim = index.fetch("claim")
-assert(claim.fetch("id") == "claim-5356-v0918-wp18-preparation", "wrong claim")
-assert(claim.fetch("protected_paths") == EXPECTED_PATHS, "claim is not exact four-path preparation scope")
-assert(claim.fetch("purpose").include?("#5360"), "claim purpose omits WP-17 gate")
+assert(claim.fetch("id") == "claim-5356-v0918-wp18-review-execution-20260802", "wrong claim")
+assert(claim.fetch("protected_paths") == EXPECTED_PATHS, "claim is not exact review-execution scope")
+assert(claim.fetch("purpose").include?("Execute WP-18 #5356 internal milestone review"), "claim purpose omits WP-18 execution")
 
 branch = `git -C #{ROOT} branch --show-current`.strip
 common = Pathname.new(`git -C #{ROOT} rev-parse --git-common-dir`.strip)

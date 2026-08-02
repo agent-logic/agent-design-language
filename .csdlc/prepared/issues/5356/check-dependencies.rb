@@ -22,6 +22,32 @@ def git(*args)
   out.strip
 end
 
+def git_success?(*args)
+  _out, status = Open3.capture2e("git", "-C", ROOT.to_s, *args)
+  status.success?
+end
+
+def tree_for(commit)
+  git("show", "--no-patch", "--format=%T", commit)
+end
+
+def ancestral_equivalent_for(pr_number, observed_sha, head)
+  return observed_sha if git_success?("merge-base", "--is-ancestor", observed_sha, head)
+
+  observed_tree = tree_for(observed_sha)
+  candidates = git(
+    "log",
+    "--first-parent",
+    "--format=%H",
+    "--grep=(##{pr_number})",
+    "#{observed_sha}..#{head}"
+  ).lines.map(&:strip).reject(&:empty?)
+  candidates.find do |candidate|
+    git_success?("merge-base", "--is-ancestor", candidate, head) &&
+      tree_for(candidate) == observed_tree
+  end
+end
+
 def installed_binary(name)
   common = Pathname.new(git("rev-parse", "--git-common-dir"))
   common = ROOT.join(common) unless common.absolute?
@@ -51,13 +77,16 @@ begin
 
   terminal = record.fetch("terminal")
   fail_gate("WP-17 terminal disposition is not merged") unless terminal["disposition"] == "merged" && terminal["observed_state"] == "merged"
+  pr_number = terminal["pull_request"]
+  fail_gate("WP-17 terminal PR is missing") unless pr_number.is_a?(Integer)
   sha = terminal["observed_sha"]
   fail_gate("WP-17 merged SHA is invalid") unless sha&.match?(HEX40)
-  _out, ancestry = Open3.capture2e("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", sha, git("rev-parse", "HEAD"))
-  fail_gate("WP-17 merged SHA is not ancestral") unless ancestry.success?
+  head = git("rev-parse", "HEAD")
+  landed_sha = ancestral_equivalent_for(pr_number, sha, head)
+  fail_gate("WP-17 merged SHA is not ancestral or tree-equivalent to an ancestral PR merge commit") unless landed_sha
 
   puts JSON.generate(status: "pass", issue: 5356, dependency: DEPENDENCY, dependency_sha: sha,
-                     receipt_sha256: Digest::SHA256.file(receipt_path).hexdigest, revision: git("rev-parse", "HEAD"))
+                     landed_sha: landed_sha, receipt_sha256: Digest::SHA256.file(receipt_path).hexdigest, revision: head)
 rescue JSON::ParserError, KeyError => e
   fail_gate("invalid retained receipt: #{e.message}")
 end
