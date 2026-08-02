@@ -25,3 +25,16 @@ re-observes PR and issue state after merge, binds cache authority to the exact
 canonical record, bounds mutable terminal freshness, serializes the full finish
 attempt under the canonical issue authority lock, and reduces review state to
 each reviewer's latest decisive exact-head review.
+
+PR run `30764840449` exposed a separate timing race in the pre-existing
+rehome-authority soak proof, now tracked by #5784. The test waited 25 ms after
+staged authority became observable, allowing a fast runner to finish the rehome
+before the intended concurrent source mutation. The arbitrary delay was
+removed so mutation begins immediately after the writer observes staged
+authority.
+
+- The exact failing Gate 9 test passed repeatedly after the repair.
+- `cargo +stable test --manifest-path csdlc-v2/Cargo.toml --locked --test gate9`
+  passed: 48 tests, 0 failed.
+- Before the repair, the complete C-SDLC v2 suite passed locally, confirming
+  the CI failure was timing-dependent rather than a finish behavior failure.

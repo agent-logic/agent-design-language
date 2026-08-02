@@ -3987,7 +3987,9 @@ fn rehome_authority_requires_exact_source_and_fails_on_unreadable_detached_sibli
         writer_started_rx
             .recv_timeout(Duration::from_secs(5))
             .expect("writer observed staged authority");
-        thread::sleep(Duration::from_millis(25));
+        // Mutate as soon as the staged authority is observable. An arbitrary
+        // delay lets a fast rehome complete before the intended concurrent
+        // source drift, turning this proof into a runner-speed race.
         let mut bytes = fs::read(&drift_audit).unwrap();
         bytes.push(b'\n');
         fs::write(&drift_audit, bytes).unwrap();
