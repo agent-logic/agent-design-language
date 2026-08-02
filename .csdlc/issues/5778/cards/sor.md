@@ -109,11 +109,11 @@ Completed the idempotent C-SDLC v2 finish path, retained the current-main format
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

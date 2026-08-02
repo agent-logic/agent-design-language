@@ -3,13 +3,13 @@
   "issue": 5778,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
-  "phase": "reviewed",
-  "generation": 18,
-  "digest": "f16e61c5df24599140f521e1378ed5beb6f03c0ba71ecb3521bb6daf564abfdc",
+  "phase": "published",
+  "generation": 19,
+  "digest": "ab2f070ae0d8efd16e6a1a3bad80653b086f64c847830ba9b31651fc5930b60b",
   "claim": {
     "id": "claim-5778-derived-terminal-finish",
     "owner": "codex:5778-implementation",
-    "generation": 18,
+    "generation": 19,
     "acquired_unix_seconds": 1785696508,
     "expires_unix_seconds": 1786301308,
     "heartbeat_unix_seconds": 1785696508,
@@ -66,7 +66,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5778,
+    "pull_request": 5782,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5782",
+    "base": "main",
+    "head": "codex/5778-derived-terminal-finish",
+    "revision": "git-blake3:f3602154302c429aa7db0a0a1a4000ec8667a5a5:7424ae1abfcea41177921257c5190790f26d4b304aaa3feaaab4dd9bdf8cc2c3",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -80,34 +90,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bb239ce527ea5b9b8973e32f1bb77ab5746622bb1605a1e047f24e7529ca08a2",
+      "values_digest": "eced8eecae0d45c791f27f807ff00a1bac4348fc295e43608f323b5c381b401b",
       "rendered_digest": "5a2fd63675d213bfb70982b39dba3505049fe021928752eb021ecfecee82cc70",
       "ast_digest": "c18ad70c57b8cee4527033ee4d4a12574a61a1883160f2c0324c1017f357e9bc"
     },
     "stp": {
-      "values_digest": "67c140c07daf0eab807d9edea95866bc49a1baf241b5175c2c4e57fee53a1161",
+      "values_digest": "895b727c38d76dc75461a85555a83003013a989dd9e91a8f2fa390d5567d7c3e",
       "rendered_digest": "d16a8c831462ed4f9aff432c69e09fa9d502ef69be8bb66aeb07f248ee02bbc2",
       "ast_digest": "04b7d14ec104707dba9c2ad8ac9c74fe32c107416e2306c527cc33a2464fa559"
     },
     "spp": {
-      "values_digest": "58630b2885865fc52e51750d16b0303400e5f8b632dc66b28a35241bf849940f",
+      "values_digest": "4b2bf2f888c8fb1542360b944abe935f97306fc367cdf293f4428edd8c9e4460",
       "rendered_digest": "d80f518797020d25a44f2c16c35c4be04f78dcd894740ce88f77509ce9b72b83",
       "ast_digest": "0f676c5c5184cb9fd9ae6fd7ce3276acf8cef36aec84f9cf66d52834b47f17e6"
     },
     "vpp": {
-      "values_digest": "d7f69b2954a00835cf32e5f0b5c647c825e67688602d1d457a5458bd9a53e1f1",
+      "values_digest": "e08c0c3d85019ae13b7a569214a28f81e56519839a04426a9844d611867383d4",
       "rendered_digest": "1df40bc9a4fdb8d03d63ab3a44549a75418fa765c94f8e643ef4b1832195f2dc",
       "ast_digest": "bb0bb64488d056fa40bd61d2248ea22586513a0a6c084ddc5a9db5e738586f85"
     },
     "srp": {
-      "values_digest": "e3b22e13529ce2d1e0020d8e1f30b1f6b4a82cd7298aa06c9bba0a87c1ee8d5e",
+      "values_digest": "3f3e410bd71d532e10f3f2fd6f7915a181776016d639a81db0a7a4f18040130c",
       "rendered_digest": "7094698fe7b6737e4d5ed1758695b3e8283a7bd023c40e54625866fad7a3cc56",
       "ast_digest": "d44a5b6936b936993dd0b0f5fc5aaea064dd65fb984326316765a7eec95d20ff"
     },
     "sor": {
-      "values_digest": "7d6817bbd7a581d65c83519acbd9752ddd010fa0d2728980d17d87a3154a795b",
-      "rendered_digest": "65de22359cdf72ed83900bb2966403675218a1808e56946e5ae65dd91d3675a2",
-      "ast_digest": "86926eb773c1e79bd73a4847b755a3ba9d31e35d859d202c75247d3b021d16bd"
+      "values_digest": "2d330ccaeca06ef53f43443fc9249d76f570c63f910c1bbd83e1d3b0e1240eb5",
+      "rendered_digest": "0e61bca900f2d9c0697ada52139d6ffcd092899c8b8d5c6022de24ee5c772d41",
+      "ast_digest": "d27647b866dde034b70f9b2c3cab0dec861ba16a962fa4cd0e9627d7e431ed58"
     }
   },
   "transitions": [
@@ -180,6 +190,13 @@
       "to": "reviewed",
       "actor": "codex:5778-implementation",
       "reason": "Independent exact-head re-review passed after deterministic #5784 synchronization and removal of the environment-controlled production barrier."
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5778-implementation",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -357,6 +374,13 @@
       "actor": "codex:5778-implementation",
       "reason": "Independent exact-head re-review passed after deterministic #5784 synchronization and removal of the environment-controlled production barrier.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:5778-implementation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

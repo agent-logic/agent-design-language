@@ -23,3 +23,4 @@
 {"sequence":23,"generation":16,"actor":"codex:5778-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":24,"generation":17,"actor":"codex-subagent:review_5778_exact_head","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":25,"generation":18,"actor":"codex:5778-implementation","reason":"Independent exact-head re-review passed after deterministic #5784 synchronization and removal of the environment-controlled production barrier.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":26,"generation":19,"actor":"codex:5778-implementation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

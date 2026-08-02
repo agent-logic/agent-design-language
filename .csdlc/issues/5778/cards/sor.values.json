@@ -7,7 +7,7 @@
     "title": "Derive terminal truth and finish in one idempotent command",
     "slug": "derived-terminal-finish",
     "version": "v0.91.8",
-    "generation": 18
+    "generation": 19
   },
   "status": "pre_phase",
   "content": {
@@ -102,8 +102,8 @@
           "evidence_ref": ".csdlc/evidence/5778/post-finalize-remediation.md"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
