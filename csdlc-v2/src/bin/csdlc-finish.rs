@@ -5,13 +5,14 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use clap::Parser;
 use csdlc_v2::finish::{
     as_merge_request, derive_terminal, retain_cached_terminal, validate_canonical_identity,
-    FinishRequest, FinishResult, IssueTerminalObservation,
+    validate_finish_merge_authority, validate_publication_head_in_repo, FinishRequest,
+    FinishResult, IssueTerminalObservation,
 };
 use csdlc_v2::github::{
     collect_pr_state, execute_github_action, GithubAction, GithubActionRequest, PrStateRequest,
 };
 use csdlc_v2::github_token;
-use csdlc_v2::merge::{execute_remote_merge, validate_canonical, validate_remote};
+use csdlc_v2::merge::{execute_remote_merge, validate_remote};
 use csdlc_v2::{ErrorCode, Store, V2Error};
 
 #[derive(Parser)]
@@ -44,6 +45,7 @@ async fn run(cli: Cli) -> csdlc_v2::Result<FinishResult> {
     let _authority_lock = store.authority_projection_lock(request.issue)?;
     let record = store.load_record(request.issue)?;
     validate_canonical_identity(&record, &request)?;
+    validate_publication_head_in_repo(store.root(), &record, &request)?;
     let issue = read_issue(&request).await?;
     let observation = issue_observation(issue, now_unix_seconds()?);
     let packet = match request.pull_request {
@@ -77,7 +79,7 @@ async fn run(cli: Cli) -> csdlc_v2::Result<FinishResult> {
         )
     })?;
     let merge_request = as_merge_request(&request)?;
-    validate_canonical(&record, &merge_request, now_unix_seconds()?)?;
+    validate_finish_merge_authority(&record, &request, now_unix_seconds()?)?;
     validate_remote(state, &merge_request)?;
 
     let token = github_token::resolve(request.token_file.as_deref())?;

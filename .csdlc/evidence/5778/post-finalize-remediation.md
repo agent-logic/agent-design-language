@@ -4,8 +4,8 @@ Validated the exact current worktree after binding finish to the canonical
 per-issue authority lock and preserving decisive exact-head review state across
 later comment-only reviews.
 
-- `cargo test --manifest-path csdlc-v2/Cargo.toml --locked --lib --test gate_finish --test gate7_lifecycle --test gate10a --test gate10b --test gate_github_actions`
-  passed: 168 tests, 0 failed after the independent-review remediation.
+- `cargo +stable test --manifest-path csdlc-v2/Cargo.toml --locked --lib --test gate_finish --test gate7_lifecycle --test gate10a --test gate10b --test gate_github_actions`
+  passed: 170 tests, 0 failed after the #5785 remediation.
 - `cargo clippy --manifest-path csdlc-v2/Cargo.toml --locked --all-targets -- -D warnings`
   passed with no warnings.
 
@@ -43,3 +43,18 @@ no environment switch, caller-selected path write, or hidden wait behavior.
   passed after the deterministic observer repair.
 - Before the repair, the complete C-SDLC v2 suite passed locally, confirming
   the CI failure was timing-dependent rather than a finish behavior failure.
+
+The first real finish preflight then exposed #5785: the finish binary accepted
+Published records at its request boundary but delegated merge authority to the
+legacy MergeReady-only validator, and it required publication evidence to name
+the later publication-metadata commit itself. The finish path now validates its
+own active owned claim, preserves all live remote head/check/review gates, and
+accepts a clean forward head only when every intervening path is under
+`.csdlc/`, the reviewed commit is an ancestor, and the declared review scope is
+identical to the reviewed commit. Any substantive forward drift fails closed.
+
+- `cargo +stable test --manifest-path csdlc-v2/Cargo.toml --locked --test gate_finish`
+  passed: 10 tests, 0 failed, including positive metadata-only lineage and
+  negative substantive-drift coverage.
+- `cargo +stable clippy --manifest-path csdlc-v2/Cargo.toml --locked --all-targets -- -D warnings`
+  passed after the #5785 repair.

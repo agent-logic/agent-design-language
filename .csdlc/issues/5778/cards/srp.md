@@ -12,7 +12,7 @@ Status: draft
 
 ## Scope
 
-.
+
 
 ## Prompts
 
@@ -31,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The repaired exact head still requires GitHub Actions integration proof before merge.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:a27886d23681b61261c4e7abb08ddb57be52760c:060fd05f4bc410a42c20ddc8d78b67339cd301a7ea991e59bac363bf64503a9e")
+Revision: None
 
-Reviewer: Some("codex-subagent:review_5778_exact_head")
+Reviewer: None
 
-Result: pass
+Result: pre_review

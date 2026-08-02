@@ -3,13 +3,13 @@
   "issue": 5778,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
-  "phase": "published",
-  "generation": 19,
-  "digest": "ab2f070ae0d8efd16e6a1a3bad80653b086f64c847830ba9b31651fc5930b60b",
+  "phase": "implemented",
+  "generation": 21,
+  "digest": "8a19ec28349820d9a492ebd4144fc44e59f0de312ae83dbacf6c7c53a876d2c4",
   "claim": {
     "id": "claim-5778-derived-terminal-finish",
     "owner": "codex:5778-implementation",
-    "generation": 19,
+    "generation": 21,
     "acquired_unix_seconds": 1785696508,
     "expires_unix_seconds": 1786301308,
     "heartbeat_unix_seconds": 1785696508,
@@ -45,38 +45,9 @@
     ],
     "purpose": "Implement #5778 derived terminal truth and one idempotent finish command without a second closeout PR."
   },
-  "review_assignment": {
-    "reviewer": "codex-subagent:review_5778_exact_head",
-    "assigned_by": "codex:5778-implementation",
-    "revision": "git-blake3:a27886d23681b61261c4e7abb08ddb57be52760c:060fd05f4bc410a42c20ddc8d78b67339cd301a7ea991e59bac363bf64503a9e",
-    "scope": [
-      "."
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:review_5778_exact_head",
-    "scope": [
-      "."
-    ],
-    "reviewed_revision": "git-blake3:a27886d23681b61261c4e7abb08ddb57be52760c:060fd05f4bc410a42c20ddc8d78b67339cd301a7ea991e59bac363bf64503a9e",
-    "findings": [],
-    "residual_risks": [
-      "The repaired exact head still requires GitHub Actions integration proof before merge."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5778,
-    "pull_request": 5782,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5782",
-    "base": "main",
-    "head": "codex/5778-derived-terminal-finish",
-    "revision": "git-blake3:f3602154302c429aa7db0a0a1a4000ec8667a5a5:7424ae1abfcea41177921257c5190790f26d4b304aaa3feaaab4dd9bdf8cc2c3",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -90,34 +61,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eced8eecae0d45c791f27f807ff00a1bac4348fc295e43608f323b5c381b401b",
+      "values_digest": "44bce92b23eef294d11016e7ccecd293b73cf65abf465af584e7a0ca8688e338",
       "rendered_digest": "5a2fd63675d213bfb70982b39dba3505049fe021928752eb021ecfecee82cc70",
       "ast_digest": "c18ad70c57b8cee4527033ee4d4a12574a61a1883160f2c0324c1017f357e9bc"
     },
     "stp": {
-      "values_digest": "895b727c38d76dc75461a85555a83003013a989dd9e91a8f2fa390d5567d7c3e",
+      "values_digest": "786ecd676c2d3c4ffb173543ed51aad1525cf1b8bac76c2489f53e52d3192bcb",
       "rendered_digest": "d16a8c831462ed4f9aff432c69e09fa9d502ef69be8bb66aeb07f248ee02bbc2",
       "ast_digest": "04b7d14ec104707dba9c2ad8ac9c74fe32c107416e2306c527cc33a2464fa559"
     },
     "spp": {
-      "values_digest": "4b2bf2f888c8fb1542360b944abe935f97306fc367cdf293f4428edd8c9e4460",
+      "values_digest": "7a3228c407daaaded5e5efa257fa8b12324d040ad2a580a7086c2a4a8bfbe34e",
       "rendered_digest": "d80f518797020d25a44f2c16c35c4be04f78dcd894740ce88f77509ce9b72b83",
       "ast_digest": "0f676c5c5184cb9fd9ae6fd7ce3276acf8cef36aec84f9cf66d52834b47f17e6"
     },
     "vpp": {
-      "values_digest": "e08c0c3d85019ae13b7a569214a28f81e56519839a04426a9844d611867383d4",
+      "values_digest": "135194c0a65472661e60db51be98770ca75d9f1b042797d2e528d93bbdfdb2b5",
       "rendered_digest": "1df40bc9a4fdb8d03d63ab3a44549a75418fa765c94f8e643ef4b1832195f2dc",
       "ast_digest": "bb0bb64488d056fa40bd61d2248ea22586513a0a6c084ddc5a9db5e738586f85"
     },
     "srp": {
-      "values_digest": "3f3e410bd71d532e10f3f2fd6f7915a181776016d639a81db0a7a4f18040130c",
-      "rendered_digest": "7094698fe7b6737e4d5ed1758695b3e8283a7bd023c40e54625866fad7a3cc56",
-      "ast_digest": "d44a5b6936b936993dd0b0f5fc5aaea064dd65fb984326316765a7eec95d20ff"
+      "values_digest": "5a6923830afc4e21dcf7d5391b214d77f6cfbcd0f074d4a4f203de048ac02479",
+      "rendered_digest": "c1e2262549fb0577197f0f9f581a2c2ab8ee001204950d99a53b6d0ae482aeba",
+      "ast_digest": "c3b3a74c448e1bd11a38324244bf202a9ffde9d71c194f8b1b7365916bc10170"
     },
     "sor": {
-      "values_digest": "2d330ccaeca06ef53f43443fc9249d76f570c63f910c1bbd83e1d3b0e1240eb5",
-      "rendered_digest": "0e61bca900f2d9c0697ada52139d6ffcd092899c8b8d5c6022de24ee5c772d41",
-      "ast_digest": "d27647b866dde034b70f9b2c3cab0dec861ba16a962fa4cd0e9627d7e431ed58"
+      "values_digest": "c381d965f94a5a4d1558cd24553dee5f792f10fa50f89ca9e25affa7a97c2044",
+      "rendered_digest": "8239298ecea73adf52000991935a6712484629a8cfbf92eae18718375a8b5fde",
+      "ast_digest": "664e14b03ceffb68ebe685fe0b659c920991659c42dc295dc14bc8dd73f133df"
     }
   },
   "transitions": [
@@ -197,6 +168,13 @@
       "to": "published",
       "actor": "codex:5778-implementation",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5778-implementation",
+      "reason": "Recover exact review and publication truth to repair the independently tracked #5785 end-to-end finish authority gap exposed by the first real invocation."
     }
   ],
   "audit": [
@@ -381,6 +359,20 @@
       "actor": "codex:5778-implementation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:5778-implementation",
+      "reason": "Recover exact review and publication truth to repair the independently tracked #5785 end-to-end finish authority gap exposed by the first real invocation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:5778-implementation",
+      "reason": "Record the #5785 finish-authority and publication-lineage repair discovered by the first real finish preflight.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the idempotent C-SDLC v2 finish path, retained the current-main formatter repair, made the rehome-authority proof deterministic for #5784, and repaired #5785 so a normally published record can finish through metadata-only publication head drift without weakening live remote gates.\",\"changes\":[\"Held the canonical per-issue lifecycle authority lock across record validation, GitHub reads, merge, post-merge re-observation, and terminal cache retention.\",\"Derived minimal terminal authority from exact live GitHub state and logically released stale claims without tracked post-merge closeout commits.\",\"Reduced exact-head GitHub review state using only decisive review events so later comment-only reviews cannot erase authority.\",\"Applied current stable rustfmt to the Runtime API endpoint inventory defect tracked by #5783.\",\"Replaced the scheduling race with an explicitly injected test observer that completes source mutation before revalidation resumes while the concurrent typed writer remains lock-blocked; the operational entrypoint supplies only a no-op observer.\",\"Replaced the legacy MergeReady-only finish authority check with finish-native canonical identity and active-owned-claim validation while retaining exact live remote checks and review gates.\",\"Accepted publication metadata head advancement only for clean .csdlc-only descendants whose reviewed scope still matches the reviewed ancestor; substantive drift fails closed.\"],\"artifacts\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate_finish.rs\",\"csdlc-v2/tests/gate7_lifecycle.rs\",\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\"adl-runtime/src/runtime_api.rs\",\".csdlc/evidence/5778/post-finalize-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"+stable\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate_finish\"],\"purpose\":\"Prove Published finish authority and clean metadata-only publication lineage while rejecting substantive forward drift.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--lib\",\"--test\",\"gate_finish\",\"--test\",\"gate7_lifecycle\",\"--test\",\"gate10a\",\"--test\",\"gate10b\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Prove finish serialization, exact-head review reduction, derived terminal behavior, lifecycle compatibility, installation, and GitHub behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"+stable\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate9\"],\"purpose\":\"Re-run the complete Gate 9 soak surface containing the exact CI failure after installing deterministic injected post-materialization ordering.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free C-SDLC v2 production and test targets after the deterministic observer repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"+stable\",\"fmt\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Prove the Runtime API formatter repair on the current-main merge tree.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"}]}"
     }
   ]
 }

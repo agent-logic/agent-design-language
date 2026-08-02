@@ -3,11 +3,11 @@ use std::process::Command;
 
 use csdlc_v2::finish::{
     derive_terminal, envelope_matches_record, envelope_releases_claim, load_cached_terminal,
-    retain_cached_terminal,
+    retain_cached_terminal, validate_finish_merge_authority, validate_publication_head_in_repo,
 };
 use csdlc_v2::{
-    DesignReview, FinishDisposition, FinishRequest, IssueRecord, IssueTerminalObservation,
-    LifecyclePhase, MergeMethod, PublicationEvidence,
+    Claim, DesignReview, FinishDisposition, FinishRequest, IssueRecord, IssueTerminalObservation,
+    LifecyclePhase, MergeMethod, PublicationEvidence, ReviewEvidence,
 };
 
 fn record(phase: LifecyclePhase, publication: Option<PublicationEvidence>) -> IssueRecord {
@@ -244,4 +244,110 @@ fn finish_uses_the_canonical_issue_authority_lock() {
     contender
         .try_lock_exclusive()
         .expect("canonical lock released");
+}
+
+#[test]
+fn published_finish_accepts_owned_claim_without_legacy_merge_ready_state() {
+    let mut record = record(
+        LifecyclePhase::Published,
+        Some(PublicationEvidence {
+            repository: "owner/repo".into(),
+            issue: 5778,
+            pull_request: 9,
+            url: "https://example.test/pull/9".into(),
+            base: "main".into(),
+            head: "codex/5778".into(),
+            revision: csdlc_v2::git::clean_commit_revision("abc"),
+            draft: false,
+            observed_state: "open".into(),
+        }),
+    );
+    record.claim = Some(Claim {
+        id: "claim".into(),
+        owner: "operator".into(),
+        generation: record.generation,
+        acquired_unix_seconds: 1,
+        expires_unix_seconds: 200,
+        heartbeat_unix_seconds: 1,
+        branch: "codex/5778".into(),
+        worktree: ".".into(),
+        protected_paths: vec!["csdlc-v2".into()],
+        purpose: "finish".into(),
+    });
+    let mut request = no_pr_request();
+    request.pull_request = Some(9);
+    request.base = Some("main".into());
+    request.head = Some("codex/5778".into());
+    request.expected_head_sha = Some("abc".into());
+    request.approved_no_pr_reason = None;
+    request.claim_id = "claim".into();
+    assert!(validate_finish_merge_authority(&record, &request, 100).is_ok());
+}
+
+#[test]
+fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let git = |args: &[&str]| {
+        let output = Command::new("git")
+            .args(args)
+            .current_dir(temp.path())
+            .output()
+            .expect("git");
+        assert!(output.status.success(), "git {:?}", args);
+        String::from_utf8(output.stdout).unwrap().trim().to_owned()
+    };
+    git(&["init", "-q"]);
+    git(&["config", "user.email", "test@example.test"]);
+    git(&["config", "user.name", "Test"]);
+    std::fs::create_dir_all(temp.path().join("src")).unwrap();
+    std::fs::write(temp.path().join("src/lib.rs"), "pub fn stable() {}\n").unwrap();
+    git(&["add", "src/lib.rs"]);
+    git(&["commit", "-qm", "source"]);
+    let published = git(&["rev-parse", "HEAD"]);
+    let reviewed = csdlc_v2::git::substantive_revision(temp.path(), &["src".into()]).unwrap();
+    std::fs::create_dir_all(temp.path().join(".csdlc/issues/5778")).unwrap();
+    std::fs::write(temp.path().join(".csdlc/issues/5778/index.json"), "{}\n").unwrap();
+    git(&["add", ".csdlc/issues/5778/index.json"]);
+    git(&["commit", "-qm", "publication metadata"]);
+    let current = git(&["rev-parse", "HEAD"]);
+
+    let mut record = record(
+        LifecyclePhase::Published,
+        Some(PublicationEvidence {
+            repository: "owner/repo".into(),
+            issue: 5778,
+            pull_request: 9,
+            url: "https://example.test/pull/9".into(),
+            base: "main".into(),
+            head: "codex/5778".into(),
+            revision: csdlc_v2::git::clean_commit_revision(&published),
+            draft: false,
+            observed_state: "open".into(),
+        }),
+    );
+    record.review = Some(ReviewEvidence {
+        reviewer: "reviewer".into(),
+        scope: vec!["src".into()],
+        reviewed_revision: reviewed,
+        findings: vec![],
+        residual_risks: vec![],
+        completed: true,
+        non_substantive_proof: None,
+    });
+    let mut request = no_pr_request();
+    request.pull_request = Some(9);
+    request.base = Some("main".into());
+    request.head = Some("codex/5778".into());
+    request.expected_head_sha = Some(current);
+    request.approved_no_pr_reason = None;
+    validate_publication_head_in_repo(temp.path(), &record, &request)
+        .expect("metadata-only forward head");
+
+    std::fs::write(temp.path().join("src/lib.rs"), "pub fn changed() {}\n").unwrap();
+    git(&["add", "src/lib.rs"]);
+    git(&["commit", "-qm", "substantive drift"]);
+    request.expected_head_sha = Some(git(&["rev-parse", "HEAD"]));
+    let error = validate_publication_head_in_repo(temp.path(), &record, &request)
+        .expect_err("substantive forward head must fail closed");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
 }

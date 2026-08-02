@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Completed the idempotent C-SDLC v2 finish path, retained the current-main formatter repair, and made the rehome-authority concurrent-drift proof deterministic through an explicitly injected post-materialization test observer tracked by #5784.
+Completed the idempotent C-SDLC v2 finish path, retained the current-main formatter repair, made the rehome-authority proof deterministic for #5784, and repaired #5785 so a normally published record can finish through metadata-only publication head drift without weakening live remote gates.
 
 ## Artifacts
 
@@ -34,10 +34,27 @@ Completed the idempotent C-SDLC v2 finish path, retained the current-main format
 - Reduced exact-head GitHub review state using only decisive review events so later comment-only reviews cannot erase authority.
 - Applied current stable rustfmt to the Runtime API endpoint inventory defect tracked by #5783.
 - Replaced the scheduling race with an explicitly injected test observer that completes source mutation before revalidation resumes while the concurrent typed writer remains lock-blocked; the operational entrypoint supplies only a no-op observer.
+- Replaced the legacy MergeReady-only finish authority check with finish-native canonical identity and active-owned-claim validation while retaining exact live remote checks and review gates.
+- Accepted publication metadata head advancement only for clean .csdlc-only descendants whose reviewed scope still matches the reviewed ancestor; substantive drift fails closed.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "+stable",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--locked",
+      "--test",
+      "gate_finish"
+    ],
+    "purpose": "Prove Published finish authority and clean metadata-only publication lineage while rejecting substantive forward drift.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5778/post-finalize-remediation.md"
+  },
   {
     "command": [
       "cargo",
@@ -109,11 +126,11 @@ Completed the idempotent C-SDLC v2 finish path, retained the current-main format
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

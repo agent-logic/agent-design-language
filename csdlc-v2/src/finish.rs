@@ -7,7 +7,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use crate::error::{ErrorCode, Result, V2Error};
-use crate::git::clean_commit_revision;
+use crate::git::{self, clean_commit_revision};
 use crate::github::PrStatePacket;
 use crate::merge::{MergeMethod, MergeRequest};
 use crate::model::{IssueRecord, LifecyclePhase};
@@ -160,14 +160,133 @@ pub fn validate_canonical_identity(record: &IssueRecord, request: &FinishRequest
             || publication.pull_request != number
             || publication.base != request.base.as_deref().unwrap_or_default()
             || publication.head != request.head.as_deref().unwrap_or_default()
-            || publication.revision
-                != clean_commit_revision(request.expected_head_sha.as_deref().unwrap_or_default())
         {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "canonical publication does not match the exact finish request",
             ));
         }
+    }
+    Ok(())
+}
+
+pub fn validate_publication_head_in_repo(
+    root: &Path,
+    record: &IssueRecord,
+    request: &FinishRequest,
+) -> Result<()> {
+    validate_canonical_identity(record, request)?;
+    let Some(expected_head) = request.expected_head_sha.as_deref() else {
+        return Ok(());
+    };
+    let publication = record.publication.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "publication evidence is missing",
+        )
+    })?;
+    if publication.revision == clean_commit_revision(expected_head) {
+        return Ok(());
+    }
+    let published_head = publication
+        .revision
+        .strip_prefix("git-blake3:")
+        .and_then(|value| value.split_once(':'))
+        .map(|(commit, _)| commit)
+        .filter(|commit| commit.len() == 40)
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "publication revision cannot prove forward metadata lineage",
+            )
+        })?;
+    if git::run(root, &["rev-parse", "HEAD"])?.stdout != expected_head
+        || !git::run(root, &["status", "--porcelain"])?
+            .stdout
+            .is_empty()
+        || git::run(
+            root,
+            &["merge-base", "--is-ancestor", published_head, expected_head],
+        )
+        .is_err()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "finish head is not a clean forward descendant of publication",
+        ));
+    }
+    let changed = git::run(
+        root,
+        &["diff", "--name-only", published_head, expected_head],
+    )?;
+    if changed
+        .stdout
+        .lines()
+        .any(|path| !path.starts_with(".csdlc/"))
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "forward publication drift contains non-C-SDLC changes",
+        ));
+    }
+    let review = record
+        .review
+        .as_ref()
+        .filter(|review| review.completed)
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "metadata-only publication drift requires completed review evidence",
+            )
+        })?;
+    let (reviewed_commit, _) = parse_git_revision(&review.reviewed_revision).ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "review revision cannot prove substantive identity",
+        )
+    })?;
+    if !git::substantive_scope_matches_commit(root, reviewed_commit, &review.scope)?
+        || git::run(
+            root,
+            &[
+                "merge-base",
+                "--is-ancestor",
+                reviewed_commit,
+                expected_head,
+            ],
+        )
+        .is_err()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "substantive revision changed after publication",
+        ));
+    }
+    Ok(())
+}
+
+fn parse_git_revision(value: &str) -> Option<(&str, &str)> {
+    value
+        .strip_prefix("git-blake3:")
+        .and_then(|value| value.split_once(':'))
+}
+
+pub fn validate_finish_merge_authority(
+    record: &IssueRecord,
+    request: &FinishRequest,
+    now_unix_seconds: u64,
+) -> Result<()> {
+    validate_canonical_identity(record, request)?;
+    let claim = record
+        .claim
+        .as_ref()
+        .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "finish claim is missing"))?;
+    claim.validate(&request.claim_id, now_unix_seconds)?;
+    if claim.owner != request.actor {
+        return Err(V2Error::new(
+            ErrorCode::InvalidClaim,
+            "finish actor does not own the active claim",
+        ));
     }
     Ok(())
 }
