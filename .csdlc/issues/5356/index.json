@@ -3,13 +3,13 @@
   "issue": 5356,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "985f2d88dea5a9f7164345b6b28a387b044da7df10b101cc5fdcf659a3794886",
-  "phase": "implemented",
-  "generation": 2,
-  "digest": "e280b626e5fc28999d79be518bbb6a2cd0515f61312b1c02fb488b545722bc8f",
+  "phase": "reviewed",
+  "generation": 3,
+  "digest": "a396d6721bf4550265b025978b5f6261a413ee4123d82e4de66db68a0dd0cdd1",
   "claim": {
     "id": "claim-5356-v0918-wp18-review-execution-20260802",
     "owner": "codex:current-session-wp18-review",
-    "generation": 2,
+    "generation": 3,
     "acquired_unix_seconds": 1785696556,
     "expires_unix_seconds": 1785782956,
     "heartbeat_unix_seconds": 1785696556,
@@ -35,7 +35,69 @@
     "purpose": "Execute WP-18 #5356 internal milestone review for v0.91.8, retain the exact-revision review packet and findings register, then resolve in-scope findings through typed claim amendments before publication."
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:Chandrasekhar:019fc3f8-e848-79b2-9873-5386381a8ee5",
+    "scope": [
+      ".csdlc/evidence/5356",
+      ".csdlc/issues/5356",
+      ".csdlc/prepared/issues/5356",
+      "adl-runtime/src/runtime_api.rs",
+      "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+      "docs/milestones/v0.91.8/README.md",
+      "docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
+      "docs/milestones/v0.91.8/review/README.md",
+      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_5356.md",
+      "docs/reviews/v0.91.8/internal-review-5356"
+    ],
+    "reviewed_revision": "git-blake3:9d5c0b5f73243cf332df41236164d822c0c7c264:77800cd46764ab76eeb2ebf3a99b3fc7524f6e9d2f9160391ae115f24479a920",
+    "findings": [
+      {
+        "id": "IR-5356-001",
+        "severity": "p1",
+        "summary": "#5360 squash-merge terminal truth was not accepted by the WP-18 dependency gate.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9d5c0b5f73243cf332df41236164d822c0c7c264:77800cd46764ab76eeb2ebf3a99b3fc7524f6e9d2f9160391ae115f24479a920",
+        "route": null
+      },
+      {
+        "id": "IR-5356-002",
+        "severity": "p2",
+        "summary": "Current release-tail docs still presented WP-17 as active after terminal closure.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9d5c0b5f73243cf332df41236164d822c0c7c264:77800cd46764ab76eeb2ebf3a99b3fc7524f6e9d2f9160391ae115f24479a920",
+        "route": null
+      },
+      {
+        "id": "IR-5356-003",
+        "severity": "p1",
+        "summary": "The mandatory WP-18 validation lane still hard-failed as an unimplemented stub.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9d5c0b5f73243cf332df41236164d822c0c7c264:77800cd46764ab76eeb2ebf3a99b3fc7524f6e9d2f9160391ae115f24479a920",
+        "route": null
+      },
+      {
+        "id": "IR-5356-004",
+        "severity": "p2",
+        "summary": "Runtime API contract metadata advertised routes that were not served.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9d5c0b5f73243cf332df41236164d822c0c7c264:77800cd46764ab76eeb2ebf3a99b3fc7524f6e9d2f9160391ae115f24479a920",
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -50,32 +112,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5c4bfaf144334573f6351dc93ccd61060910f7688172d8eb834f38d802b32d28",
+      "values_digest": "7cc33d8244a9b915706401a87fe3caa6acb412da64e1085e2432bb4683870f9b",
       "rendered_digest": "6c28ea55257d351844001997851940cd4a3be4e482ebcb9f93313a5480eeb17e",
       "ast_digest": "3d10f2d5a80f4e4425df35b4295597f5019fc3e046e61c786488ba45580506e5"
     },
     "stp": {
-      "values_digest": "2badcd46e9e1fe18fc7170b08132cfbd5104589d9df0adbf23968d9c3639e52f",
+      "values_digest": "24b60d81167d612ceb0087f041bb80cafeff7e3bfbd55d9bf3b4fc06e474b8bf",
       "rendered_digest": "db7fcbce3c6f231d444dfc31580409ac6aeac20f6fed2126e7cd1970063da996",
       "ast_digest": "0110c4c27ff5251ef6fe556b020e03990af9d9c7d5fa2f9b821e13d94b0b84db"
     },
     "spp": {
-      "values_digest": "5460ff9f361535a44f850e2b84377fb03d98044b6fcf7c50d765f69f269c17ba",
+      "values_digest": "eff1c5579eb17c23e4510140efea23dd8139f722f68bfe111c1bdb5945bd898c",
       "rendered_digest": "6505062889afdd74b54bf6c4a4ff6bc2cac718eeda0a4d5c9442cf4e942c2d34",
       "ast_digest": "ef2ec245699390d0699676f3effddad259748f054c6409335926e8c3e2186bd9"
     },
     "vpp": {
-      "values_digest": "e9f2f33f4c5af776ef4c7c66c47ed86722014074d3c6d57d7588d22631a9292f",
+      "values_digest": "280db3ff0c442a4821c6a9b0665b1326cbd4d8cc32b0e35b08d9eb872ecbe6b9",
       "rendered_digest": "b7e71038a79896ef91d5c8df32bf8192ddbfa30c98703c0a9cf4f85bf330f92c",
       "ast_digest": "21e3f71c8a20ac2e555732a46e165e5db300b5d5a97655d6868c082cae4e175a"
     },
     "srp": {
-      "values_digest": "6f00f25ed1a7b9e0a466a7f4c5ce0ad8a2f5fe0a1db4b20dba4c4ec354c7a4aa",
-      "rendered_digest": "3b6bcd865ce9748a0e9ffc5b91ffd2b0a4d8fc2a8e39de5ebb168e525bc5723b",
-      "ast_digest": "e0c861815e4eed1fb19bb464bb626b3fdbdefc45937fb3853488a55c05fb986a"
+      "values_digest": "817314726e4655a08a4a44ab521eb44aae935e411e1c85a6b37ce0466c0e93df",
+      "rendered_digest": "441b13aa1a5956f7810c299a33cc1a9ddcf920f9d0a338c9f584a47f907142e4",
+      "ast_digest": "dcf7302a0ff455b765eeb691e72db7008e2e7d098ca41d83f6b20563cad33eeb"
     },
     "sor": {
-      "values_digest": "3e3e030e91de614269a9cee12e2f784cc0ffd5257a4bf4c9499383b877b34f53",
+      "values_digest": "7aaa2bbf9ae441e14dbdf4a014c927392dc630ff8d6d645268867879ebd70eb1",
       "rendered_digest": "ef0f7e2eb3e13a8d980f32b01a5cd5ecbcc912ce5da70cefda1b4bf4d63f4e9a",
       "ast_digest": "ad29478bd903ab68b13270c30e01cb4a26aabfcd9cb97777f80643dfe281f109"
     }
@@ -101,6 +163,13 @@
       "to": "implemented",
       "actor": "codex:current-session-wp18-review",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:current-session-wp18-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -166,6 +235,13 @@
       "actor": "codex:current-session-wp18-review",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 3,
+      "actor": "codex:current-session-wp18-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
