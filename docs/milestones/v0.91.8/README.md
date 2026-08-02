@@ -5,7 +5,7 @@
 - Milestone: `v0.91.8`
 - Version: `v0.91.8`
 - Status: active release tail; WP-16 quality gate passed at `2e9d2dd7c`
-- Active release-tail issue: WP-17 `#5360`
+- Active release-tail issue: WP-18 `#5356`
 - Milestone sprint umbrella: `#5595`
 - Historical planning sources: `#5335` and `#5383`
 - Restored source issue: `#4641` remains `v0.91.7` WP-14
@@ -40,16 +40,18 @@ audit. That quality gate is not release approval by itself.
   `#5361`, and `#5384` own bounded multi-agent, Runtime v3, and integrated
   acceptance child sets without duplicating implementation ownership.
 - WP-14A accepts only the platform revisions. Unity proof is owned by WP-15,
-  C-SDLC tooling remediation by WP-20, and the exact-revision handoff,
-  Memory Palace, launch/identity, and Adaptive Learning inputs by WP-21.
+  WP-18 owns the current internal review, C-SDLC tooling remediation is owned
+  by WP-20, and the exact-revision handoff, Memory Palace, launch/identity, and
+  Adaptive Learning inputs are owned by WP-21.
 
 ## Status
 
 The milestone is not release-approved. WP-16 passed the integrated quality gate
 at `2e9d2dd7c`, with 67 audited issue outcomes, 0 unacceptable outcomes, and
-passing ADL v2, Runtime v3, and C-SDLC v2 validation lanes. Remaining
-release-tail work must still align documentation truth, complete milestone
-review/remediation, finalize v0.92 handoff truth, and run ceremony/closeout.
+passing ADL v2, Runtime v3, and C-SDLC v2 validation lanes. WP-17 `#5360`
+closed the documentation-alignment gate. Remaining release-tail work must still
+complete milestone review/remediation, finalize v0.92 handoff truth, and run
+ceremony/closeout.
 
 Every work package must exit as one of:
 
@@ -95,10 +97,11 @@ Every work package must exit as one of:
 
 ## Documentation Responsibility
 
-WP-17 `#5360` owns the present documentation truth alignment against WP-16
-merged evidence. Closed v0.91.7 WP-21A `#5489` is historical preparation
-evidence. Later v0.91.8 release-tail documentation/review gates revalidate the
-canonical packet and fail closed if any surface named in
+WP-17 `#5360` closed the documentation truth alignment against WP-16 merged
+evidence. WP-18 `#5356` owns the current internal-review revalidation. Closed
+v0.91.7 WP-21A `#5489` is historical preparation evidence. Later v0.91.8
+release-tail documentation/review gates revalidate the canonical packet and
+fail closed if any surface named in
 [CANONICAL_DOC_INVENTORY_v0.91.8.md](CANONICAL_DOC_INVENTORY_v0.91.8.md) is
 missing, contradictory, stale against live issue truth, or presents planned
 work as proven.
