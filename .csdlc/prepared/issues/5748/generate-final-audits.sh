@@ -24,12 +24,35 @@ fail() {
   exit 1
 }
 
-for required in "$universe" "$pr_state" "$doctor" "$closeout" "$token_file"; do
+for required in "$pr_state" "$doctor" "$closeout" "$token_file"; do
   [[ -f "$required" ]] || fail "missing required input: $required"
 done
 mkdir -p "$request_root" "$packet_root"
 : >"$remote_rows"
 : >"$prune_rows"
+
+live_issue_packet="$run_root/live-closed-issues.json"
+gh issue list --repo danielbaustin/agent-design-language \
+  --state closed --label version:v0.91.8 --limit 1000 \
+  --json number,state,closedAt,stateReason,title,url,closedByPullRequestsReferences \
+  >"$live_issue_packet" || fail "live GitHub closed-issue observation failed"
+observed_universe_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+jq --arg observed_at "$observed_universe_at" '
+  {schema:"adl.v0918.closed_issue_universe.v1",
+   repository:"danielbaustin/agent-design-language",
+   label:"version:v0.91.8",state:"closed",observed_at:$observed_at,
+   source:"github issue list read-only observation",
+   issues:(sort_by(.number) | map({
+     number,
+     state,
+     state_reason:.stateReason,
+     closed_at:.closedAt,
+     title,
+     url,
+     closing_pull_requests:(.closedByPullRequestsReferences |
+       map({number,url}) | sort_by(.number))
+   }))}' "$live_issue_packet" >"$universe.tmp"
+mv "$universe.tmp" "$universe"
 
 while IFS= read -r issue; do
   index="$repo_root/.csdlc/issues/$issue/index.json"

@@ -90,14 +90,16 @@ verify_live_universe() {
   local observed
   observed="$(gh issue list --repo danielbaustin/agent-design-language \
     --state closed --label version:v0.91.8 --limit 1000 \
-    --json number,state,closedAt,stateReason,title,url)" ||
+    --json number,state,closedAt,stateReason,title,url,closedByPullRequestsReferences)" ||
     fail "live GitHub closed-issue observation failed"
   local observed_shape retained_shape
   observed_shape="$(jq -S 'sort_by(.number) | map({
-    number, state, state_reason:.stateReason, closed_at:.closedAt, title, url
+    number, state, state_reason:.stateReason, closed_at:.closedAt, title, url,
+    closing_pull_requests:(.closedByPullRequestsReferences |
+      map({number,url}) | sort_by(.number))
   })' <<<"$observed")"
   retained_shape="$(jq -S '.issues | sort_by(.number) | map({
-    number, state, state_reason, closed_at, title, url
+    number, state, state_reason, closed_at, title, url, closing_pull_requests
   })' "$universe")"
   require_eq "$observed_shape" "$retained_shape" \
     "live GitHub closed-issue universe differs from the retained audit universe"

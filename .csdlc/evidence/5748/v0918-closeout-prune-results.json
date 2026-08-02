@@ -2,7 +2,7 @@
   "schema": "adl.v0918.closeout_prune_results.v1",
   "repository": "danielbaustin/agent-design-language",
   "label": "version:v0.91.8",
-  "observed_at": "2026-08-01T23:19:19Z",
+  "observed_at": "2026-08-02T00:18:09Z",
   "source": "typed C-SDLC v2 closeout verification and validate-prune observation",
   "issues": [
     {

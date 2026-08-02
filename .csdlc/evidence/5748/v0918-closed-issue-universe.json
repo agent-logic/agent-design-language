@@ -3,7 +3,7 @@
   "repository": "danielbaustin/agent-design-language",
   "label": "version:v0.91.8",
   "state": "closed",
-  "observed_at": "2026-08-01T23:18:05Z",
+  "observed_at": "2026-08-02T00:17:08Z",
   "source": "github issue list read-only observation",
   "issues": [
     {
@@ -302,7 +302,12 @@
       "closed_at": "2026-07-23T06:39:47Z",
       "title": "[v0.91.8][WP-10] Implement thin ADL CLI and authoritative selector",
       "url": "https://github.com/danielbaustin/agent-design-language/issues/5345",
-      "closing_pull_requests": []
+      "closing_pull_requests": [
+        {
+          "number": 5637,
+          "url": "https://github.com/danielbaustin/agent-design-language/pull/5637"
+        }
+      ]
     },
     {
       "number": 5346,
@@ -831,6 +836,10 @@
         {
           "number": 5603,
           "url": "https://github.com/danielbaustin/agent-design-language/pull/5603"
+        },
+        {
+          "number": 5604,
+          "url": "https://github.com/danielbaustin/agent-design-language/pull/5604"
         }
       ]
     },
@@ -1097,7 +1106,12 @@
       "closed_at": "2026-07-26T03:45:35Z",
       "title": "[v0.91.8][provider] Add Anthropic Claude Opus 5 provider profile",
       "url": "https://github.com/danielbaustin/agent-design-language/issues/5671",
-      "closing_pull_requests": []
+      "closing_pull_requests": [
+        {
+          "number": 5673,
+          "url": "https://github.com/danielbaustin/agent-design-language/pull/5673"
+        }
+      ]
     },
     {
       "number": 5675,
@@ -1134,7 +1148,12 @@
       "closed_at": "2026-07-27T00:48:02Z",
       "title": "[v0.91.8][tools][csdlc-v2] Fix stable owner-binary install manifest",
       "url": "https://github.com/danielbaustin/agent-design-language/issues/5679",
-      "closing_pull_requests": []
+      "closing_pull_requests": [
+        {
+          "number": 5682,
+          "url": "https://github.com/danielbaustin/agent-design-language/pull/5682"
+        }
+      ]
     },
     {
       "number": 5683,
@@ -1185,7 +1204,12 @@
       "closed_at": "2026-07-27T17:18:52Z",
       "title": "[v0.91.8][runtime-v3][observability] Integrate tracing with Vector durable master logging",
       "url": "https://github.com/danielbaustin/agent-design-language/issues/5691",
-      "closing_pull_requests": []
+      "closing_pull_requests": [
+        {
+          "number": 5694,
+          "url": "https://github.com/danielbaustin/agent-design-language/pull/5694"
+        }
+      ]
     },
     {
       "number": 5695,

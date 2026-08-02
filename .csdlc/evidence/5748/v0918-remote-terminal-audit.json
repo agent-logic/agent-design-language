@@ -2,7 +2,7 @@
   "schema": "adl.v0918.remote_terminal_audit.v1",
   "repository": "danielbaustin/agent-design-language",
   "label": "version:v0.91.8",
-  "observed_at": "2026-08-01T23:19:19Z",
+  "observed_at": "2026-08-02T00:18:09Z",
   "source": "GitHub closed issues and merged PRs joined to retained typed terminal projections",
   "issues": [
     {
@@ -24,6 +24,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5661,
+        "linked_issue": 4739,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5661",
         "head_ref": "codex/4739-v0918-wp15-unity-mcp-alignment-prep",
         "head_sha": "7411c86b899ae209448b3c4374959e2cb4b84c5c",
@@ -33,6 +34,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -56,6 +58,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5651,
+        "linked_issue": 4741,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5651",
         "head_ref": "codex/4741-v0918-wp15-unity-editor-liveness-prep",
         "head_sha": "34831bab95f87ab6e2beb729130499850a051a4f",
@@ -65,6 +68,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -88,6 +92,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5739,
+        "linked_issue": 4758,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5739",
         "head_ref": "codex/4758-v0918-preparation",
         "head_sha": "c9b5c625ccfb17b1a75fd3a1a93f4810baf4a3e2",
@@ -97,6 +102,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -120,6 +126,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5738,
+        "linked_issue": 4759,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5738",
         "head_ref": "codex/4759-v0918-preparation",
         "head_sha": "32957a21a3fc3fc8a8efb3c3c6ad198db9b0ddd7",
@@ -129,6 +136,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -152,6 +160,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5740,
+        "linked_issue": 4760,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5740",
         "head_ref": "codex/4760-v0918-wp14-preparation",
         "head_sha": "9719252262913351144a20adf0affb7ed4b5480d",
@@ -161,6 +170,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -184,6 +194,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5741,
+        "linked_issue": 4761,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5741",
         "head_ref": "codex/4761-v0918-wp14-preparation",
         "head_sha": "8c3ef0336570238d26eab0fd49a9a2ff9c1a0c09",
@@ -193,6 +204,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -216,6 +228,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5744,
+        "linked_issue": 4762,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5744",
         "head_ref": "codex/4762-v0918-wp14-preparation",
         "head_sha": "d736baca1c82c6ca9b770678ff2c04ce44458fc9",
@@ -225,6 +238,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -248,6 +262,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5734,
+        "linked_issue": 4763,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5734",
         "head_ref": "codex/4763-v0918-wp14-preparation",
         "head_sha": "313268e09b8d9906f61b0e12ac05cce4deea1e3c",
@@ -257,6 +272,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -280,6 +296,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5743,
+        "linked_issue": 5007,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5743",
         "head_ref": "codex/5007-v0918-wp14-preparation",
         "head_sha": "426d0a53fb2b7b0be571b236ca5d0a248b32e1f8",
@@ -289,6 +306,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -312,6 +330,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5742,
+        "linked_issue": 5107,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5742",
         "head_ref": "codex/5107-v092-adaptive-learning-dag-queue",
         "head_sha": "8bf36c9d214a54212e7c483fb29872e9be9e92b3",
@@ -321,6 +340,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -344,6 +364,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5656,
+        "linked_issue": 5332,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5656",
         "head_ref": "codex/5332-v0918-wp15-unity-ilpp-exec-prep",
         "head_sha": "0176aead8a012b0b74fa12443f7833bc71f00ca6",
@@ -353,6 +374,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -377,6 +399,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -400,6 +423,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5599,
+        "linked_issue": 5336,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5599",
         "head_ref": "codex/5336-v0918-runtime-parity-plan",
         "head_sha": "cf506e3f0ce8e9d6eb3deabf66c586fb9d0b4bdc",
@@ -409,6 +433,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -432,6 +457,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5607,
+        "linked_issue": 5337,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5607",
         "head_ref": "codex/5337-v0918-wp03-preparation",
         "head_sha": "73665c0571d417dedf689f3afeb009df7cbeea1f",
@@ -441,6 +467,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -464,6 +491,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5617,
+        "linked_issue": 5338,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5617",
         "head_ref": "codex/5338-v0918-wp05-deterministic-compiler",
         "head_sha": "2c0cdd4522e6d7a062595706249894be3e16b2b3",
@@ -473,6 +501,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -496,6 +525,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5612,
+        "linked_issue": 5339,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5612",
         "head_ref": "codex/5339-v0918-wp04-language-core",
         "head_sha": "ba604e5f0ee16af901a4d8d7cb801c323500828d",
@@ -505,6 +535,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -528,6 +559,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5623,
+        "linked_issue": 5340,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5623",
         "head_ref": "codex/5340-v0918-wp06-portable-engine",
         "head_sha": "f38f662acb3988ef0704a54da055b14812c898d9",
@@ -537,6 +569,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -560,6 +593,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5635,
+        "linked_issue": 5341,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5635",
         "head_ref": "codex/5341-v0918-runtime-v3-adapter",
         "head_sha": "c2c381cdd1393d1074e06f786320e81ac66a305f",
@@ -569,6 +603,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -592,6 +627,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5628,
+        "linked_issue": 5342,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5628",
         "head_ref": "codex/5342-v0918-wp07-records-signing",
         "head_sha": "5f48b0854cd36f64bef38ed0d09a09d84fa2e158",
@@ -601,6 +637,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -624,6 +661,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5704,
+        "linked_issue": 5343,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5704",
         "head_ref": "codex/5343-v0918-wp12-reversible-default-switch",
         "head_sha": "e4bbc988cad682cbb2ff8d24085e1a99bccec1ce",
@@ -633,6 +671,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -656,6 +695,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5703,
+        "linked_issue": 5344,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5703",
         "head_ref": "codex/5344-v0918-wp12-soak-rollback",
         "head_sha": "141dfa20ccc3753060687259ad933397331df9c7",
@@ -665,6 +705,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -688,6 +729,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5637,
+        "linked_issue": 5345,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5637",
         "head_ref": "codex/5345-v0918-wp10-thin-cli-selector",
         "head_sha": "4b4e36570f91483c4f263588f1f59970c2d125b4",
@@ -697,6 +739,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -720,6 +763,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5752,
+        "linked_issue": 5346,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5752",
         "head_ref": "codex/5346-v0918-wp13-final-adl-deletion",
         "head_sha": "7b1ef84bc8a4966c0c454ae4d87fd973537a856d",
@@ -729,6 +773,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -752,6 +797,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5753,
+        "linked_issue": 5347,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5753",
         "head_ref": "codex/5347-v0918-wp13-external-band-deletion",
         "head_sha": "9f144003669ef859e280c3de5cd8abac24a855b5",
@@ -761,6 +807,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -784,6 +831,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5636,
+        "linked_issue": 5349,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5636",
         "head_ref": "codex/5349-v0918-wp09-provider-tool-adapters",
         "head_sha": "a9c974a84093cf13990d9cbe0b5827d7445bc3ce",
@@ -793,6 +841,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -816,6 +865,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5649,
+        "linked_issue": 5350,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5649",
         "head_ref": "codex/5350-v0918-wp11-shadow-parity",
         "head_sha": "e392ddb66f01722fb2b40ac0bc9eeae3d56c67b5",
@@ -825,6 +875,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -848,6 +899,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5775,
+        "linked_issue": 5351,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5775",
         "head_ref": "codex/5351-v0918-preparation",
         "head_sha": "50f74e83c758f6442dc0d42f3344996e847660a5",
@@ -857,6 +909,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -880,6 +933,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5751,
+        "linked_issue": 5352,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5751",
         "head_ref": "codex/5352-v0918-final-handoff",
         "head_sha": "6105fc7377aede7d1d2d98ee03d6a9cfdb975048",
@@ -889,6 +943,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -912,6 +967,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5731,
+        "linked_issue": 5354,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5731",
         "head_ref": "codex/5354-v0918-wp15-ready",
         "head_sha": "e8c63268429b0162671e7f1bfae5f560171d7099",
@@ -921,6 +977,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -944,6 +1001,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5606,
+        "linked_issue": 5358,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5606",
         "head_ref": "codex/5358-v0918-csdlc-v2-acceptance-prep",
         "head_sha": "e048230245b1ad101c8056678123a2747faa4b60",
@@ -953,6 +1011,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -976,6 +1035,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5776,
+        "linked_issue": 5360,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5776",
         "head_ref": "codex/5360-v0918-preparation",
         "head_sha": "3d4321e832a8931b5611cf59dbb566462e564836",
@@ -985,6 +1045,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1008,6 +1069,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5650,
+        "linked_issue": 5361,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5650",
         "head_ref": "codex/5361-v0918-runtime-v3-acceptance-readiness",
         "head_sha": "f7fc71421f4bcf70039b910c9b88b538bb111400",
@@ -1017,6 +1079,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1040,6 +1103,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5726,
+        "linked_issue": 5384,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5726",
         "head_ref": "codex/5384-v0918-wp14a-preparation-bound",
         "head_sha": "c35c0a896d3a5ef5c9289886dbef232639dc9e98",
@@ -1049,6 +1113,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1072,6 +1137,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5462,
+        "linked_issue": 5438,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5462",
         "head_ref": "codex/5438-terminal-sor-reconcile",
         "head_sha": "3782e33787bf6674daf9f17144745dfe1562a888",
@@ -1081,6 +1147,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1104,6 +1171,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5486,
+        "linked_issue": 5470,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5486",
         "head_ref": "codex/5470-terminal-durability",
         "head_sha": "e5fe0766c79b4ed27f6615b2668c64039c31c023",
@@ -1113,6 +1181,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1137,6 +1206,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1160,6 +1230,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5639,
+        "linked_issue": 5498,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5639",
         "head_ref": "codex/5498-v0918-wp10a-task-context-adapter",
         "head_sha": "96359ed5bc008c63632e76a72eb1f2f77bfd9dd1",
@@ -1169,6 +1240,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1192,6 +1264,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5638,
+        "linked_issue": 5499,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5638",
         "head_ref": "codex/5499-v0918-wp10a-conductor",
         "head_sha": "26a08cf896693c03fdf8dcc503e734bad56e61dc",
@@ -1201,6 +1274,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1224,6 +1298,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5640,
+        "linked_issue": 5500,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5640",
         "head_ref": "codex/5500-v0918-wp10a-dashboard",
         "head_sha": "a24992cfaecfb6adaa2f82ea1b780dd7d1cc6803",
@@ -1233,6 +1308,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1256,6 +1332,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5643,
+        "linked_issue": 5501,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5643",
         "head_ref": "codex/5501-v0918-preparation",
         "head_sha": "9ff6a0a2f808a2f6207ad8de245c60f646706912",
@@ -1265,6 +1342,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1288,6 +1366,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5641,
+        "linked_issue": 5502,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5641",
         "head_ref": "codex/5502-v0918-preparation",
         "head_sha": "3b900210cd30ee381c860a624499d1e4d8aea0d8",
@@ -1297,6 +1376,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1320,6 +1400,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5642,
+        "linked_issue": 5526,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5642",
         "head_ref": "codex/5526-v0918-provider-expansion",
         "head_sha": "ad1466d02a1f0a00d9f15b51c730c3c5b451f994",
@@ -1329,6 +1410,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1352,6 +1434,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5550,
+        "linked_issue": 5527,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5550",
         "head_ref": "codex/5527-terminal-sor-artifact-repair",
         "head_sha": "c696e2787103a3d0c919661a0fd13c92c9acb26b",
@@ -1361,6 +1444,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1384,6 +1468,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5560,
+        "linked_issue": 5540,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5560",
         "head_ref": "codex/5455-stale-owner-provenance",
         "head_sha": "4dcee7813d078ece7e31010465ef1530b102712b",
@@ -1393,6 +1478,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1416,6 +1502,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5568,
+        "linked_issue": 5541,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5568",
         "head_ref": "codex/5541-gate10d2-authority-docs",
         "head_sha": "8e206363ee75f5517862a03d8cc5dc07efa4128a",
@@ -1425,6 +1512,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1449,6 +1537,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1472,6 +1561,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5769,
+        "linked_issue": 5558,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5769",
         "head_ref": "codex/5558-v1-route-corrective",
         "head_sha": "6136a1c73f3d1584f6609a19123844345b797fca",
@@ -1481,6 +1571,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1504,6 +1595,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5565,
+        "linked_issue": 5563,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5565",
         "head_ref": "codex/5563-initialized-design-recovery",
         "head_sha": "41db01bd38534bd4b3c95139773ecfa9c2d6e1f9",
@@ -1513,6 +1605,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1536,6 +1629,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5567,
+        "linked_issue": 5566,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5567",
         "head_ref": "codex/5566-existing-worktree-bind",
         "head_sha": "5f40f6cceac6c44518818bf06ad3ee190c8b83a9",
@@ -1545,6 +1639,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1568,6 +1663,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5570,
+        "linked_issue": 5569,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5570",
         "head_ref": "codex/5547-closeout-audit",
         "head_sha": "3106dcdde0d3f89bcacb2d1c2dee954a48127881",
@@ -1577,6 +1673,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1600,6 +1697,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5574,
+        "linked_issue": 5572,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5574",
         "head_ref": "codex/4645-v0917-internal-review",
         "head_sha": "bc19a880c9f13d2cae37a0be2e7484993f92f5b1",
@@ -1609,6 +1707,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1632,6 +1731,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5626,
+        "linked_issue": 5587,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5626",
         "head_ref": "codex/5587-google-drive-context-mirror",
         "head_sha": "67acb4415e0e2ef1bade7328d19ecd26702788c8",
@@ -1641,6 +1741,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1664,6 +1765,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5620,
+        "linked_issue": 5589,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5620",
         "head_ref": "codex/5589-runtime-v3-parity-c",
         "head_sha": "0f22baf5d4b2fdef485164aa4c83002fdb520a3e",
@@ -1673,6 +1775,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1696,6 +1799,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5621,
+        "linked_issue": 5590,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5621",
         "head_ref": "codex/5590-runtime-v3-parity-d",
         "head_sha": "a79ab1b395b7331e4b6288d19effdb5fc392e39a",
@@ -1705,6 +1809,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1728,6 +1833,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5608,
+        "linked_issue": 5591,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5608",
         "head_ref": "codex/5591-runtime-v3-parity-a-preparation",
         "head_sha": "59b61985c9964e56d83272efa7035f12be462fd7",
@@ -1737,6 +1843,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1760,6 +1867,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5618,
+        "linked_issue": 5592,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5618",
         "head_ref": "codex/5592-runtime-v3-parity-b",
         "head_sha": "dbd461697755c048f9b9bbb7eb1a3ca66b0c3e56",
@@ -1769,6 +1877,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1792,6 +1901,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5596,
+        "linked_issue": 5594,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5596",
         "head_ref": "codex/5594-v0918-wp01-readiness",
         "head_sha": "086eebf9811c96f073e21306741c652f05939ee0",
@@ -1801,6 +1911,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1824,6 +1935,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5598,
+        "linked_issue": 5597,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5598",
         "head_ref": "codex/5597-generation-aware-preparation-safe",
         "head_sha": "dce4f1f5cf795ff90c8a47c5a8b5d29f74adade6",
@@ -1833,6 +1945,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1856,6 +1969,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5601,
+        "linked_issue": 5600,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5601",
         "head_ref": "codex/5600-complete-typed-replanning",
         "head_sha": "ea6e59494895fcbb43b406d0b322e12a04616167",
@@ -1865,6 +1979,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1888,6 +2003,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5604,
+        "linked_issue": 5602,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5604",
         "head_ref": "codex/5602-hosted-coverage-no-report",
         "head_sha": "6c6b512286cca4833fd19e35b9377b3994d76b5b",
@@ -1897,6 +2013,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1920,6 +2037,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5633,
+        "linked_issue": 5605,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5633",
         "head_ref": "codex/5605-v0-91-8-podcast-revive-ai-agent-podcast-weekly-cadence",
         "head_sha": "62ec268dd361ff48bf0c4a16e78607a9ff37036d",
@@ -1929,6 +2047,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1952,6 +2071,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5611,
+        "linked_issue": 5610,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5611",
         "head_ref": "codex/5610-coverage-path-normalization",
         "head_sha": "ceea12f37a23c3d8b897c3fdae64a3d25102ec82",
@@ -1961,6 +2081,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -1984,6 +2105,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5619,
+        "linked_issue": 5613,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5619",
         "head_ref": "codex/5613-terminal-projection-repair",
         "head_sha": "cd5c9dfeb2c073b71a9add1139afd0f729bee4a6",
@@ -1993,6 +2115,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2016,6 +2139,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5622,
+        "linked_issue": 5615,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5622",
         "head_ref": "codex/5615-csdlc-ci-fastwork-routing",
         "head_sha": "7fd0cd063c40e7a0dc181e1546f1963a4c4cfbef",
@@ -2025,6 +2149,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2048,6 +2173,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5625,
+        "linked_issue": 5624,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5625",
         "head_ref": "codex/5624-csdlc-prune-topology",
         "head_sha": "4fe3e1ea5eab93c1842fa05106d62b3fa0b7a986",
@@ -2057,6 +2183,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2080,6 +2207,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5629,
+        "linked_issue": 5627,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5629",
         "head_ref": "codex/5627-csdlc-four-command-lifecycle",
         "head_sha": "063fcc5dc05e3e4da284def0d32994817b9f7f6a",
@@ -2089,6 +2217,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2112,6 +2241,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5634,
+        "linked_issue": 5632,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5634",
         "head_ref": "codex/5632-adl-pr-cycle-v2",
         "head_sha": "92fde26a2ca073e204459fce1bb5e88d7c895528",
@@ -2121,6 +2251,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2144,6 +2275,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5646,
+        "linked_issue": 5645,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5646",
         "head_ref": "codex/csdlc-merge-command-impl",
         "head_sha": "dd1972aa2c544a3f8ad51dde2e7611fcc0c5fc26",
@@ -2153,6 +2285,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2176,6 +2309,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5652,
+        "linked_issue": 5648,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5652",
         "head_ref": "codex/5648-operator-active-claim-revoke",
         "head_sha": "17f1d91781611e8f0d2ed740a58cbfcbd81a05d0",
@@ -2185,6 +2319,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2208,6 +2343,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5654,
+        "linked_issue": 5653,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5654",
         "head_ref": "codex/5653-readme-refresh",
         "head_sha": "5594107c5537035f969b5d7527562ed7d52c6239",
@@ -2217,6 +2353,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2240,6 +2377,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5659,
+        "linked_issue": 5657,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5659",
         "head_ref": "codex/5657-runtime-v3-launch-recovery",
         "head_sha": "faf0c62c231e4db1ad7a582cc5a7a57b085a310b",
@@ -2249,6 +2387,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2272,6 +2411,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5674,
+        "linked_issue": 5658,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5674",
         "head_ref": "codex/5658-bound-worktree-lifecycle",
         "head_sha": "cb7674a5346110fb3ab65166a56683a4b1926ea2",
@@ -2281,6 +2421,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2304,6 +2445,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5677,
+        "linked_issue": 5662,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5677",
         "head_ref": "codex/5662-v0918-unity-observatory-polish",
         "head_sha": "ac3278e8b0a7e98783ca6d6e1333358e84f3c01a",
@@ -2313,6 +2455,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2336,6 +2479,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5669,
+        "linked_issue": 5663,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5669",
         "head_ref": "codex/5663-runtime-v3-durable-local-adapters",
         "head_sha": "fb04c9fa29c528c06a7b3c76e5f6560b7700d43e",
@@ -2345,6 +2489,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2368,6 +2513,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5680,
+        "linked_issue": 5664,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5680",
         "head_ref": "codex/5664-runtime-v3-protocol-adapters",
         "head_sha": "16e6594dae2f76e41ebf432c9ea477523e685247",
@@ -2377,6 +2523,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2400,6 +2547,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5667,
+        "linked_issue": 5665,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5667",
         "head_ref": "codex/5665-runtime-v3-wss-feature-proofs",
         "head_sha": "741071a9e5c721bad613b63bc899d9825fa84641",
@@ -2409,6 +2557,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2432,6 +2581,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5668,
+        "linked_issue": 5666,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5668",
         "head_ref": "codex/5666-throughput-fast-lane",
         "head_sha": "15dc921db1f594c1ff8f2ccf35b6bef851ac64c7",
@@ -2441,6 +2591,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2464,6 +2615,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5672,
+        "linked_issue": 5670,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5672",
         "head_ref": "codex/5670-coverage-shard-fanout",
         "head_sha": "26f6f00b95d0eca61db7ce12e0759c948ca9be3a",
@@ -2473,6 +2625,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2496,6 +2649,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5673,
+        "linked_issue": 5671,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5673",
         "head_ref": "codex/5671-anthropic-opus-5",
         "head_sha": "828ab4876818888c067b8ecefcda3ac6330a71fc",
@@ -2505,6 +2659,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2528,6 +2683,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5759,
+        "linked_issue": 5675,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5759",
         "head_ref": "codex/5756-minimax-billing-classification",
         "head_sha": "92fed26e1ff2031a57d80a014fbef77542da55d8",
@@ -2537,6 +2693,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2560,6 +2717,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5685,
+        "linked_issue": 5678,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5685",
         "head_ref": "codex/5678-opus-review-runbook",
         "head_sha": "90165c6ee1f4bed18820731efd7326dbab4a6669",
@@ -2569,6 +2727,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2592,6 +2751,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5682,
+        "linked_issue": 5679,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5682",
         "head_ref": "codex/csdlc-install-manifest-fix",
         "head_sha": "165473130facaf7c78868ff57c86a0e20597a973",
@@ -2601,6 +2761,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2624,6 +2785,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5693,
+        "linked_issue": 5683,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5693",
         "head_ref": "codex/5683-v0918-unity-observatory-visual-remediation",
         "head_sha": "cc19f5a187e73cf6110958b05bd347b6855bf92f",
@@ -2633,6 +2795,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2656,6 +2819,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5690,
+        "linked_issue": 5686,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5690",
         "head_ref": "codex/5686-publish-5662-terminal-projection",
         "head_sha": "be419727aa76472c189263c5e69d92df5cd2c488",
@@ -2665,6 +2829,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2688,6 +2853,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5689,
+        "linked_issue": 5687,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5689",
         "head_ref": "codex/5687-runtime-launch-remediation",
         "head_sha": "5ec42edceafc9e49a2712e7f31398f93cd77c9c9",
@@ -2697,6 +2863,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2720,6 +2887,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5694,
+        "linked_issue": 5691,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5694",
         "head_ref": "codex/5691-runtime-v3-vector-otel",
         "head_sha": "639cbffe8dfada254031edf350049e33724447e1",
@@ -2729,6 +2897,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2752,6 +2921,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5700,
+        "linked_issue": 5695,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5700",
         "head_ref": "codex/5695-pr-state-mergeability",
         "head_sha": "fad9aaa4e7c706d734848e95c53743e294f7dc22",
@@ -2761,6 +2931,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2784,6 +2955,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5699,
+        "linked_issue": 5697,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5699",
         "head_ref": "codex/5697-chronosense-trusted-time",
         "head_sha": "93dc2793cdca052abd58a7e5aaffd6a5f5b1dca1",
@@ -2793,6 +2965,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2816,6 +2989,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5707,
+        "linked_issue": 5698,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5707",
         "head_ref": "codex/5698-runtime-v3-redb-state",
         "head_sha": "23fd17288b4b3383ed4a2cf9288fc7499244b338",
@@ -2825,6 +2999,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2848,6 +3023,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5705,
+        "linked_issue": 5701,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5705",
         "head_ref": "codex/5701-runtime-v3-openapi-contracts",
         "head_sha": "db41b249277a91140d4fd67bfc5bf898f4565774",
@@ -2857,6 +3033,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2880,6 +3057,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5706,
+        "linked_issue": 5702,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5706",
         "head_ref": "codex/5702-podcast-launch-plan",
         "head_sha": "52b0096b4af7e143f024826b7e313da1cdf10ff2",
@@ -2889,6 +3067,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2912,6 +3091,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5709,
+        "linked_issue": 5708,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5709",
         "head_ref": "codex/5708-podcast-studio-magicui",
         "head_sha": "af5bdea3770f6a42d729f9e32cff4a62433e191e",
@@ -2921,6 +3101,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2944,6 +3125,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5712,
+        "linked_issue": 5710,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5712",
         "head_ref": "codex/5710-csdlc-v2-closeout-safe-prune-recovery",
         "head_sha": "f040c21b6b1583c3709427781f5913c633bf7c62",
@@ -2953,6 +3135,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -2976,6 +3159,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5714,
+        "linked_issue": 5711,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5714",
         "head_ref": "codex/5711-podcast-audio-rss",
         "head_sha": "854b7829e89c0e6bd8eada8d28cd62ecbf057648",
@@ -2985,6 +3169,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3008,6 +3193,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5754,
+        "linked_issue": 5713,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5754",
         "head_ref": "codex/5713-runtime-v3-rcgen-local-tls",
         "head_sha": "e56a5f1115d432407c4b89ef2e51040da26cf3fd",
@@ -3017,6 +3203,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3040,6 +3227,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5716,
+        "linked_issue": 5715,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5716",
         "head_ref": "codex/5715-podcast-studio-design-integration",
         "head_sha": "0751a74a211ac7f0041f981437c3eb96486ad850",
@@ -3049,6 +3237,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3072,6 +3261,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5720,
+        "linked_issue": 5717,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5720",
         "head_ref": "codex/5717-podcast-studio-copy",
         "head_sha": "feed452c05edbaf86a0b043a65359b40e63d6c8d",
@@ -3081,6 +3271,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3104,6 +3295,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5705,
+        "linked_issue": 5718,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5705",
         "head_ref": "codex/5701-runtime-v3-openapi-contracts",
         "head_sha": "db41b249277a91140d4fd67bfc5bf898f4565774",
@@ -3113,6 +3305,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3136,6 +3329,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5721,
+        "linked_issue": 5719,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5721",
         "head_ref": "codex/5719-ci-coverage-page-policy",
         "head_sha": "e37fca96d6e023e53e0af317bfead9654aba8e12",
@@ -3145,6 +3339,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3168,6 +3363,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5760,
+        "linked_issue": 5722,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5760",
         "head_ref": "codex/5757-observatory-corrective",
         "head_sha": "7ef7462392278cb4e3e6d50a3d187a3ceff1126b",
@@ -3177,6 +3373,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3200,6 +3397,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5730,
+        "linked_issue": 5727,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5730",
         "head_ref": "codex/5727-csdlc-claim-reacquire",
         "head_sha": "693667d5e13e3b0ead95c935c796e696f629c104",
@@ -3209,6 +3407,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3232,6 +3431,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5729,
+        "linked_issue": 5728,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5729",
         "head_ref": "codex/5728-v0918-adr-set",
         "head_sha": "f62e36f1a70cae3adee71c715a3f5456df08f917",
@@ -3241,6 +3441,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3264,6 +3465,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5747,
+        "linked_issue": 5733,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5747",
         "head_ref": "codex/5733-demo-matrix-proof-coverage",
         "head_sha": "7593093c4d5ebf4b339e31aca1ce5ade1a049141",
@@ -3273,6 +3475,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3296,6 +3499,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5736,
+        "linked_issue": 5735,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5736",
         "head_ref": "codex/5735-medium-article-list-reconcile",
         "head_sha": "305269157b0c1a7d18e8f6948e67f5bd1c17ec89",
@@ -3305,6 +3509,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3328,6 +3533,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5745,
+        "linked_issue": 5737,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5745",
         "head_ref": "codex/5737-csdlc-authority-recovery",
         "head_sha": "86c2d7ae8f25cc890d6e8d892b3539a663d902f6",
@@ -3337,6 +3543,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3360,6 +3567,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5750,
+        "linked_issue": 5746,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5750",
         "head_ref": "codex/5746-v0918-terminal-reconcile-wave",
         "head_sha": "697527ddb37a06738ce47a3a3cbd9d07d22ac724",
@@ -3369,6 +3577,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3392,6 +3601,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5758,
+        "linked_issue": 5755,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5758",
         "head_ref": "codex/5755-runtime-protocol-security",
         "head_sha": "9dcca3fb3fd8e1fbbc766f62207eb2e0c7af43d9",
@@ -3401,6 +3611,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3424,6 +3635,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5759,
+        "linked_issue": 5756,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5759",
         "head_ref": "codex/5756-minimax-billing-classification",
         "head_sha": "92fed26e1ff2031a57d80a014fbef77542da55d8",
@@ -3433,6 +3645,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3456,6 +3669,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5760,
+        "linked_issue": 5757,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5760",
         "head_ref": "codex/5757-observatory-corrective",
         "head_sha": "7ef7462392278cb4e3e6d50a3d187a3ceff1126b",
@@ -3465,6 +3679,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3488,6 +3703,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5768,
+        "linked_issue": 5762,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5768",
         "head_ref": "codex/5762-terminal-sor-validation-fixtures",
         "head_sha": "4a44e4a6b6feb64cfe566cb97e04aa0d888c57f5",
@@ -3497,6 +3713,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3520,6 +3737,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5767,
+        "linked_issue": 5763,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5767",
         "head_ref": "codex/5763-feature-crosswalk-digest",
         "head_sha": "9dce9c69c32fc8870f2e3c9b9ab6f8dd1dab38ff",
@@ -3529,6 +3747,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3552,6 +3771,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5771,
+        "linked_issue": 5764,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5771",
         "head_ref": "codex/5764-runtime-observatory-readiness",
         "head_sha": "863846c47c3404c6e4513d8ae2eb3dbcd6278817",
@@ -3561,6 +3781,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3584,6 +3805,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5772,
+        "linked_issue": 5770,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5772",
         "head_ref": "codex/5770-implemented-spp-review-remediation",
         "head_sha": "ecfe785f8d387777276ebb0b1c6ae4fac62091ee",
@@ -3593,6 +3815,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
@@ -3616,6 +3839,7 @@
       "remote": {
         "schema": "csdlc.github_pr_state.v1",
         "pull_request": 5774,
+        "linked_issue": 5773,
         "url": "https://github.com/danielbaustin/agent-design-language/pull/5774",
         "head_ref": "codex/5773-implemented-sip-stp-review-remediation",
         "head_sha": "009ad82b5845efa4bb4f968d468b388576fc34b5",
@@ -3625,6 +3849,7 @@
       "checks": {
         "projection_terminal": true,
         "remote_disposition_valid": true,
+        "linked_issue_matches": true,
         "observed_head_matches": true,
         "no_pr_consistent": true
       }
