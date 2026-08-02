@@ -9808,7 +9808,7 @@ mod terminal_design_repair_tests {
             acquired_unix_seconds: 1,
             expires_unix_seconds: u64::MAX,
             heartbeat_unix_seconds: 1,
-            branch: "main".into(),
+            branch: crate::git::current_branch(store.root()).unwrap(),
             worktree: ".".into(),
             protected_paths: request
                 .review
