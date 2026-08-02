@@ -12,14 +12,12 @@ The WP-18 internal review can proceed after four in-scope repairs:
    embedded router.
 
 No release approval is claimed. No external milestone review is claimed. The
-packet is ready for final exact-head review and typed C-SDLC review recording
-before publication.
+final exact-head review has confirmed the retained findings are fixed; typed
+C-SDLC review recording and publication remain before merge.
 
 ## Publication Boundary
 
 The PR for `#5356` must include `Closes #5356`. Merge is blocked until:
 
-- final exact-head review confirms all four findings are fixed;
-- focused validation is rerun at the final exact head;
 - typed `csdlc-review` records exact-head review truth;
 - typed publication succeeds and required checks pass.

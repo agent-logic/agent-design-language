@@ -3,12 +3,16 @@
 Owner issue: `#5356`
 Target revision: `9cfc5f3f0d5d8027264e60e82eeec1b664daf9b6`
 Base: `origin/main` at `9ce235d70`
-Status: `findings_fixed_pending_final_review`
+Status: `findings_fixed_pending_typed_review_publication`
 
 This packet records the v0.91.8 WP-18 internal milestone review. It covers the
 release-tail entrypoints, live issue wave, typed C-SDLC state, retained proof
 surfaces, and publication-safety boundaries needed before WP-19 formal external
 review.
+
+Current exact-head review after the finalize checkpoint confirmed the retained
+findings are fixed. Typed C-SDLC review recording and publication remain before
+merge or release approval.
 
 The review found four in-scope issues and fixed them inside `#5356`:
 
