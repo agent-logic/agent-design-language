@@ -5,7 +5,7 @@
   "initialization_digest": "985f2d88dea5a9f7164345b6b28a387b044da7df10b101cc5fdcf659a3794886",
   "phase": "bound",
   "generation": 1,
-  "digest": "10930cf112214429c62ed87fdf4fe2097e417c8b5fdeaa99c9294284d3adca9b",
+  "digest": "3b19d01f76d5d28161692546555c76c5c7ae20c3b890c450f48e76990c98582d",
   "claim": {
     "id": "claim-5356-v0918-wp18-review-execution-20260802",
     "owner": "codex:current-session-wp18-review",
@@ -20,7 +20,14 @@
       ".csdlc/issues/5356",
       ".csdlc/locks/5356.lock",
       ".csdlc/prepared/issues/5356",
+      "adl-runtime/src/runtime_api.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+      "docs/milestones/v0.91.8/README.md",
+      "docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
       "docs/milestones/v0.91.8/review/README.md",
+      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
       "docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_5356.md",
       "docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_PLAN_5356.md",
       "docs/reviews/v0.91.8/internal-review-5356"
@@ -131,6 +138,20 @@
       "actor": "codex:current-session-wp18-review",
       "reason": "WP-17 #5360 is live-closed with retained typed closeout receipt; begin WP-18 internal review execution and retained findings packet.",
       "operation": "{\"add_protected_paths\":[\"docs/reviews/v0.91.8/internal-review-5356\",\"docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_5356.md\"],\"expected_owner\":\"codex:current-session-wp18-review\",\"expected_purpose\":\"Prepare the WP-18 #5356 internal review plan only; do not execute the internal review until WP-17 #5360 is merged, typed closed_out, receipt-backed, claim-free, and ancestral\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare the WP-18 #5356 internal review plan only; do not execute the internal review until WP-17 #5360 is merged, typed closed_out, receipt-backed, claim-free, and ancestral\",\"purpose\":\"Execute WP-18 #5356 internal milestone review for v0.91.8, retain the exact-revision review packet and findings register, then resolve in-scope findings through typed claim amendments before publication.\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 1,
+      "actor": "codex:current-session-wp18-review",
+      "reason": "Resolve WP-18 internal-review current-truth findings in v0.91.8 release-tail entrypoint docs.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.8/README.md\",\"docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md\",\"docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md\",\"docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 1,
+      "actor": "codex:current-session-wp18-review",
+      "reason": "Resolve WP-18 internal-review Runtime API advertised-endpoint finding.",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime/src/runtime_api.rs\",\"adl-runtime/tests/runtime_api_wss.rs\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

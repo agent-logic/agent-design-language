@@ -14,7 +14,14 @@ EXPECTED_PATHS = [
   ".csdlc/issues/5356",
   ".csdlc/locks/5356.lock",
   ".csdlc/prepared/issues/5356",
+  "adl-runtime/src/runtime_api.rs",
+  "adl-runtime/tests/runtime_api_wss.rs",
+  "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+  "docs/milestones/v0.91.8/README.md",
+  "docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md",
+  "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
   "docs/milestones/v0.91.8/review/README.md",
+  "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
   "docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_5356.md",
   "docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_PLAN_5356.md",
   "docs/reviews/v0.91.8/internal-review-5356"
@@ -113,7 +120,15 @@ assert(vpp.fetch("lanes").first["defer_reason"].nil?, "preparation lane cannot b
 status_out, status = Open3.capture2("git", "-C", ROOT.to_s, "status", "--porcelain")
 assert(status.success?, "cannot inspect worktree")
 changed = status_out.lines.map { |line| line[3..]&.strip }.compact
-assert(changed.all? { |path| EXPECTED_PATHS.any? { |prefix| path == prefix || path.start_with?("#{prefix}/") } }, "out-of-scope preparation change")
+out_of_scope = changed.reject do |path|
+  normalized = path.delete_suffix("/")
+  EXPECTED_PATHS.any? do |prefix|
+    normalized == prefix ||
+      normalized.start_with?("#{prefix}/") ||
+      prefix.start_with?("#{normalized}/")
+  end
+end
+assert(out_of_scope.empty?, "out-of-scope preparation change: #{out_of_scope.join(', ')}")
 
 authored = REQUIRED_PREP + %w[design-review.md preparation-review-first-pass.md preparation-review-final.md]
 counts = authored.select { |name| PREP.join(name).file? }.to_h do |name|
