@@ -3,13 +3,13 @@
   "issue": 5778,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "58209ae2f8f438611ccfe4f7b0942f6049a0476a0dd6c538e596135a3a93e3a4",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "df39d011b993bc02b39e45fe80a17777331fa296c4d3b1a4ac0ee222ae11ef55",
   "claim": {
     "id": "claim-5778-derived-terminal-finish",
     "owner": "codex:5778-implementation",
-    "generation": 9,
+    "generation": 11,
     "acquired_unix_seconds": 1785696508,
     "expires_unix_seconds": 1786301308,
     "heartbeat_unix_seconds": 1785696508,
@@ -45,8 +45,27 @@
     ],
     "purpose": "Implement #5778 derived terminal truth and one idempotent finish command without a second closeout PR."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:review_5778_exact_head",
+    "assigned_by": "codex:5778-implementation",
+    "revision": "git-blake3:3ae883d2582c807df85086588b50097b2d33c0e0:75147b3249b7d8d074010dcb7e59d7e04407ee60f3f8b053941ba2cfc54470ef",
+    "scope": [
+      "."
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:review_5778_exact_head",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:3ae883d2582c807df85086588b50097b2d33c0e0:75147b3249b7d8d074010dcb7e59d7e04407ee60f3f8b053941ba2cfc54470ef",
+    "findings": [],
+    "residual_risks": [
+      "The refreshed review revalidated the current-main diff, formatter gate, and focused Runtime API contract; it relied on the prior 168-test C-SDLC proof because the C-SDLC source is byte-unchanged."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -61,32 +80,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cb94f1551b0ed1430992fa268979e2fbf365d1b6c2542c3d954eed3f78b0c761",
+      "values_digest": "8a578460525adbb5cd913b428997a4e808ae0175564fd2e0eb166e1a5a287cee",
       "rendered_digest": "5a2fd63675d213bfb70982b39dba3505049fe021928752eb021ecfecee82cc70",
       "ast_digest": "c18ad70c57b8cee4527033ee4d4a12574a61a1883160f2c0324c1017f357e9bc"
     },
     "stp": {
-      "values_digest": "49e6dd2a6a3b252878f0d0af33158c0dbfd431f7b142d65ce490647297235eb9",
+      "values_digest": "374a5a89cb9505ab6dfec6c8e6f4d5966802832ada53187a57dd7d31220587fb",
       "rendered_digest": "d16a8c831462ed4f9aff432c69e09fa9d502ef69be8bb66aeb07f248ee02bbc2",
       "ast_digest": "04b7d14ec104707dba9c2ad8ac9c74fe32c107416e2306c527cc33a2464fa559"
     },
     "spp": {
-      "values_digest": "555a1df3859c36ee9676d93e77305c1568000cdd4b305f533dbd0180fd78923f",
+      "values_digest": "ead78bf3b944fcf95e1283fbb791adb6be4a6e744379cca8e851dc560ee5b662",
       "rendered_digest": "d80f518797020d25a44f2c16c35c4be04f78dcd894740ce88f77509ce9b72b83",
       "ast_digest": "0f676c5c5184cb9fd9ae6fd7ce3276acf8cef36aec84f9cf66d52834b47f17e6"
     },
     "vpp": {
-      "values_digest": "27c1ccb4da8479dfbdd980568670320d27cf37ffb2c77142546871085a75d7b3",
+      "values_digest": "21ee8218b4bd4ea5dfad8dbf923ec1e4c4263a1fb44696575c472854c17ebe11",
       "rendered_digest": "1df40bc9a4fdb8d03d63ab3a44549a75418fa765c94f8e643ef4b1832195f2dc",
       "ast_digest": "bb0bb64488d056fa40bd61d2248ea22586513a0a6c084ddc5a9db5e738586f85"
     },
     "srp": {
-      "values_digest": "1ac1e18de862af8dbe79ce640d619785cb0a053ad233cf84db8d158e0451ead4",
-      "rendered_digest": "c1e2262549fb0577197f0f9f581a2c2ab8ee001204950d99a53b6d0ae482aeba",
-      "ast_digest": "c3b3a74c448e1bd11a38324244bf202a9ffde9d71c194f8b1b7365916bc10170"
+      "values_digest": "40fe4c8a75c67786304bd47e5e7c5c06c8a3c88147548a17d2a2c21b4ab0247e",
+      "rendered_digest": "6ca604682423e4053485ef4c96f2adca678b5b3dbf0e8061f75385add1aeacc3",
+      "ast_digest": "312f8b8be90f9585ea493fda6c8d37e8fb531e86c0010c1eb0ed2130114f315a"
     },
     "sor": {
-      "values_digest": "ca6986a2871438de0fee60a6a6363f7f2b0ccd00060f3f2876c2a9494fffe6bf",
+      "values_digest": "e3ac7cdbd28b9db55a9d862938f6710f0773a125d8e51c03f1422799f830236b",
       "rendered_digest": "27c53264959f1a0cb83913ae94663cc299f29191baca20f67eb82b7bb125be33",
       "ast_digest": "50eac5c84cd15880b9b711702b40e9edc6900fd55f5cb3a955beb301bff42f22"
     }
@@ -133,6 +152,13 @@
       "to": "implemented",
       "actor": "codex:5778-implementation",
       "reason": "Recover to implemented after current main introduced #5783, a reproducible formatter failure in the PR merge tree."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5778-implementation",
+      "reason": "Independent exact-head review passed after current-main alignment and the separately tracked #5783 formatter repair."
     }
   ],
   "audit": [
@@ -233,6 +259,27 @@
       "actor": "codex:5778-implementation",
       "reason": "Record the exact current-main formatter remediation tracked by #5783 after typed post-publication review recovery.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Preserved the reviewed finish implementation and repaired the current-main Runtime API formatting regression tracked by #5783.\",\"changes\":[\"Merged current main so local validation matches GitHub's pull-request merge tree.\",\"Applied current stable rustfmt to the Runtime API endpoint inventory introduced by #5781.\",\"Retained the #5778 finish implementation unchanged while routing the separate defect through #5783.\"],\"artifacts\":[\"adl-runtime/src/runtime_api.rs\",\".csdlc/evidence/5778/post-finalize-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"+stable\",\"fmt\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reproduce and prove the repository formatter gate on the exact current-main merge tree from the adl workspace.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"../adl-runtime/Cargo.toml\",\"runtime_api_contract_advertises_only_served_routes\",\"--locked\"],\"purpose\":\"Confirm the formatted endpoint inventory retains the Runtime API contract introduced by #5781.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:5778-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex-subagent:review_5778_exact_head",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:5778-implementation",
+      "reason": "Independent exact-head review passed after current-main alignment and the separately tracked #5783 formatter repair.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

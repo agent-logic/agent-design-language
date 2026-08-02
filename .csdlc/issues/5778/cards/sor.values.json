@@ -7,7 +7,7 @@
     "title": "Derive terminal truth and finish in one idempotent command",
     "slug": "derived-terminal-finish",
     "version": "v0.91.8",
-    "generation": 9
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
