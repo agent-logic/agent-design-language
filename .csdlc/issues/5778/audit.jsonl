@@ -15,3 +15,4 @@
 {"sequence":15,"generation":9,"actor":"codex:5778-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":16,"generation":10,"actor":"codex-subagent:review_5778_exact_head","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":17,"generation":11,"actor":"codex:5778-implementation","reason":"Independent exact-head review passed after current-main alignment and the separately tracked #5783 formatter repair.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":18,"generation":12,"actor":"codex:5778-implementation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

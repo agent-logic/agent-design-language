@@ -3,13 +3,13 @@
   "issue": 5778,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
-  "phase": "reviewed",
-  "generation": 11,
-  "digest": "df39d011b993bc02b39e45fe80a17777331fa296c4d3b1a4ac0ee222ae11ef55",
+  "phase": "published",
+  "generation": 12,
+  "digest": "adaa82a4a263038244a3c10546d89c34d33a3960e75a0fcccef307fe4d337bc2",
   "claim": {
     "id": "claim-5778-derived-terminal-finish",
     "owner": "codex:5778-implementation",
-    "generation": 11,
+    "generation": 12,
     "acquired_unix_seconds": 1785696508,
     "expires_unix_seconds": 1786301308,
     "heartbeat_unix_seconds": 1785696508,
@@ -66,7 +66,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5778,
+    "pull_request": 5782,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5782",
+    "base": "main",
+    "head": "codex/5778-derived-terminal-finish",
+    "revision": "git-blake3:cf4332e943c8b8a7f4eb9cfb776cf8d0cf1b62b1:7d4c21002902be85a77b8eeb30ed64607270135350e5a5daea1b8d12bc0489f9",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -80,34 +90,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8a578460525adbb5cd913b428997a4e808ae0175564fd2e0eb166e1a5a287cee",
+      "values_digest": "c9c0d75a440f57f2b8606129adaf06ae32282cf0737041471af00019aaff7ae2",
       "rendered_digest": "5a2fd63675d213bfb70982b39dba3505049fe021928752eb021ecfecee82cc70",
       "ast_digest": "c18ad70c57b8cee4527033ee4d4a12574a61a1883160f2c0324c1017f357e9bc"
     },
     "stp": {
-      "values_digest": "374a5a89cb9505ab6dfec6c8e6f4d5966802832ada53187a57dd7d31220587fb",
+      "values_digest": "aa120a1e28294ef611e1b37b203113f9cc4d4497c07d8e0f51e8d83076d2be7a",
       "rendered_digest": "d16a8c831462ed4f9aff432c69e09fa9d502ef69be8bb66aeb07f248ee02bbc2",
       "ast_digest": "04b7d14ec104707dba9c2ad8ac9c74fe32c107416e2306c527cc33a2464fa559"
     },
     "spp": {
-      "values_digest": "ead78bf3b944fcf95e1283fbb791adb6be4a6e744379cca8e851dc560ee5b662",
+      "values_digest": "a72a3b99a99f60110a314dc798850a092a02601c9304498c029043e00097cc2a",
       "rendered_digest": "d80f518797020d25a44f2c16c35c4be04f78dcd894740ce88f77509ce9b72b83",
       "ast_digest": "0f676c5c5184cb9fd9ae6fd7ce3276acf8cef36aec84f9cf66d52834b47f17e6"
     },
     "vpp": {
-      "values_digest": "21ee8218b4bd4ea5dfad8dbf923ec1e4c4263a1fb44696575c472854c17ebe11",
+      "values_digest": "183ba4a17174f0dcb923ca11d14b3ad0d320df77e92b4431f7804440534456fc",
       "rendered_digest": "1df40bc9a4fdb8d03d63ab3a44549a75418fa765c94f8e643ef4b1832195f2dc",
       "ast_digest": "bb0bb64488d056fa40bd61d2248ea22586513a0a6c084ddc5a9db5e738586f85"
     },
     "srp": {
-      "values_digest": "40fe4c8a75c67786304bd47e5e7c5c06c8a3c88147548a17d2a2c21b4ab0247e",
+      "values_digest": "c3497c511ba226d6d166e120161f9a7be748b7bf57935ed08c22068eb22aae0a",
       "rendered_digest": "6ca604682423e4053485ef4c96f2adca678b5b3dbf0e8061f75385add1aeacc3",
       "ast_digest": "312f8b8be90f9585ea493fda6c8d37e8fb531e86c0010c1eb0ed2130114f315a"
     },
     "sor": {
-      "values_digest": "e3ac7cdbd28b9db55a9d862938f6710f0773a125d8e51c03f1422799f830236b",
-      "rendered_digest": "27c53264959f1a0cb83913ae94663cc299f29191baca20f67eb82b7bb125be33",
-      "ast_digest": "50eac5c84cd15880b9b711702b40e9edc6900fd55f5cb3a955beb301bff42f22"
+      "values_digest": "a6979079475ce0ee813c3d44077080e375d58774b6b2d548f7bb869d8479a2c9",
+      "rendered_digest": "a828f58923e9987a794b0e706f38760548d15450402e660d8587ad5945020236",
+      "ast_digest": "1e273d0a8c06e3611a00b8158d7fe5317a3842d6c2b93630a64c37ca6774e8e6"
     }
   },
   "transitions": [
@@ -159,6 +169,13 @@
       "to": "reviewed",
       "actor": "codex:5778-implementation",
       "reason": "Independent exact-head review passed after current-main alignment and the separately tracked #5783 formatter repair."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5778-implementation",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -280,6 +297,13 @@
       "actor": "codex:5778-implementation",
       "reason": "Independent exact-head review passed after current-main alignment and the separately tracked #5783 formatter repair.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:5778-implementation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

@@ -58,11 +58,11 @@ Preserved the reviewed finish implementation and repaired the current-main Runti
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

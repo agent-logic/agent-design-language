@@ -5,8 +5,8 @@
   "base": "main",
   "head": "codex/5778-derived-terminal-finish",
   "title": "fix(csdlc): replace closeout churn with idempotent finish",
-  "body": "## Summary\n\n- add one typed `csdlc-finish` command that merges only from exact green reviewed GitHub state\n- derive terminal truth from live post-merge or approved no-PR GitHub state without a second tracked closeout PR\n- serialize finish with canonical issue authority and retain only minimal rebuildable terminal cache evidence\n- preserve exact-head decisive review state across later comment-only events\n- retain legacy closeout only for bounded migration and repair\n\n## Validation\n\n- 168 focused C-SDLC v2 tests passed\n- strict all-target clippy passed\n- independent exact-head review passed with no remaining blockers\n- live `closeout:no-pr-approved` repository label provisioned\n\nCloses #5778",
+  "body": "## Summary\n\n- add one typed `csdlc-finish` command that merges only from exact green reviewed GitHub state\n- derive terminal truth from live post-merge or approved no-PR GitHub state without a second tracked closeout PR\n- serialize finish with canonical issue authority and retain only minimal rebuildable terminal cache evidence\n- preserve exact-head decisive review state across later comment-only events\n- repair the current-main stable-rustfmt regression introduced by #5781 and tracked by #5783\n- retain legacy closeout only for bounded migration and repair\n\n## Validation\n\n- 168 focused C-SDLC v2 tests passed\n- strict all-target C-SDLC clippy passed\n- current-main stable Rust formatting passed\n- focused Runtime API contract test passed\n- refreshed independent exact-head review passed with no blockers\n- live `closeout:no-pr-approved` repository label provisioned\n\nCloses #5778\nCloses #5783",
   "draft": false,
-  "revision": "git-blake3:13d1376b0f03cb6bb3a426e915ce467091d691b3:0394259638bb6dc16e7be4ee73b12cf385d725fed4e34fdc4839d3692ebbf716",
-  "commit_sha": "13d1376b0f03cb6bb3a426e915ce467091d691b3"
+  "revision": "git-blake3:cf4332e943c8b8a7f4eb9cfb776cf8d0cf1b62b1:7d4c21002902be85a77b8eeb30ed64607270135350e5a5daea1b8d12bc0489f9",
+  "commit_sha": "cf4332e943c8b8a7f4eb9cfb776cf8d0cf1b62b1"
 }
