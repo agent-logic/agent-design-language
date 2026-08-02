@@ -3,13 +3,13 @@
   "issue": 5778,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "40e5f8fa7c9fe856dcb326074a8ec8096a52837f519133cfc3c2240df1f3a585",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "f16e61c5df24599140f521e1378ed5beb6f03c0ba71ecb3521bb6daf564abfdc",
   "claim": {
     "id": "claim-5778-derived-terminal-finish",
     "owner": "codex:5778-implementation",
-    "generation": 16,
+    "generation": 18,
     "acquired_unix_seconds": 1785696508,
     "expires_unix_seconds": 1786301308,
     "heartbeat_unix_seconds": 1785696508,
@@ -45,8 +45,27 @@
     ],
     "purpose": "Implement #5778 derived terminal truth and one idempotent finish command without a second closeout PR."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:review_5778_exact_head",
+    "assigned_by": "codex:5778-implementation",
+    "revision": "git-blake3:a27886d23681b61261c4e7abb08ddb57be52760c:060fd05f4bc410a42c20ddc8d78b67339cd301a7ea991e59bac363bf64503a9e",
+    "scope": [
+      "."
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:review_5778_exact_head",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:a27886d23681b61261c4e7abb08ddb57be52760c:060fd05f4bc410a42c20ddc8d78b67339cd301a7ea991e59bac363bf64503a9e",
+    "findings": [],
+    "residual_risks": [
+      "The repaired exact head still requires GitHub Actions integration proof before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -61,32 +80,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "45c857f2fbaa7f39a2c50a0d8c79d1fa01dbbf0b9de408d6d576269afac2a03d",
+      "values_digest": "bb239ce527ea5b9b8973e32f1bb77ab5746622bb1605a1e047f24e7529ca08a2",
       "rendered_digest": "5a2fd63675d213bfb70982b39dba3505049fe021928752eb021ecfecee82cc70",
       "ast_digest": "c18ad70c57b8cee4527033ee4d4a12574a61a1883160f2c0324c1017f357e9bc"
     },
     "stp": {
-      "values_digest": "38facf47d7f1f60470a56c6851c9468cd4bec85b82d14eb5b8344b272e46aa17",
+      "values_digest": "67c140c07daf0eab807d9edea95866bc49a1baf241b5175c2c4e57fee53a1161",
       "rendered_digest": "d16a8c831462ed4f9aff432c69e09fa9d502ef69be8bb66aeb07f248ee02bbc2",
       "ast_digest": "04b7d14ec104707dba9c2ad8ac9c74fe32c107416e2306c527cc33a2464fa559"
     },
     "spp": {
-      "values_digest": "65bbef479637a82be25d71552830b00c469a9b30631c61ab6c0d47893808c7f0",
+      "values_digest": "58630b2885865fc52e51750d16b0303400e5f8b632dc66b28a35241bf849940f",
       "rendered_digest": "d80f518797020d25a44f2c16c35c4be04f78dcd894740ce88f77509ce9b72b83",
       "ast_digest": "0f676c5c5184cb9fd9ae6fd7ce3276acf8cef36aec84f9cf66d52834b47f17e6"
     },
     "vpp": {
-      "values_digest": "c3319b1017aa5d0b50f6df389002177996e4f3717b617d7728e08f19648a6221",
+      "values_digest": "d7f69b2954a00835cf32e5f0b5c647c825e67688602d1d457a5458bd9a53e1f1",
       "rendered_digest": "1df40bc9a4fdb8d03d63ab3a44549a75418fa765c94f8e643ef4b1832195f2dc",
       "ast_digest": "bb0bb64488d056fa40bd61d2248ea22586513a0a6c084ddc5a9db5e738586f85"
     },
     "srp": {
-      "values_digest": "719eeb2775dba32549f07c2cf551308fb62787c04ea1a0bec5c7ea4a9591789c",
-      "rendered_digest": "c1e2262549fb0577197f0f9f581a2c2ab8ee001204950d99a53b6d0ae482aeba",
-      "ast_digest": "c3b3a74c448e1bd11a38324244bf202a9ffde9d71c194f8b1b7365916bc10170"
+      "values_digest": "e3b22e13529ce2d1e0020d8e1f30b1f6b4a82cd7298aa06c9bba0a87c1ee8d5e",
+      "rendered_digest": "7094698fe7b6737e4d5ed1758695b3e8283a7bd023c40e54625866fad7a3cc56",
+      "ast_digest": "d44a5b6936b936993dd0b0f5fc5aaea064dd65fb984326316765a7eec95d20ff"
     },
     "sor": {
-      "values_digest": "7a2dfef36c496000187ccb26c3c0f9a32d6c97682e09e5262ec5047f4665d267",
+      "values_digest": "7d6817bbd7a581d65c83519acbd9752ddd010fa0d2728980d17d87a3154a795b",
       "rendered_digest": "65de22359cdf72ed83900bb2966403675218a1808e56946e5ae65dd91d3675a2",
       "ast_digest": "86926eb773c1e79bd73a4847b755a3ba9d31e35d859d202c75247d3b021d16bd"
     }
@@ -154,6 +173,13 @@
       "to": "implemented",
       "actor": "codex:5778-implementation",
       "reason": "Recover exact review and publication truth to repair the independently tracked #5784 CI timing race exposed by PR #5782."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5778-implementation",
+      "reason": "Independent exact-head re-review passed after deterministic #5784 synchronization and removal of the environment-controlled production barrier."
     }
   ],
   "audit": [
@@ -310,6 +336,27 @@
       "actor": "codex:5778-implementation",
       "reason": "Replace the environment-controlled barrier with an explicitly injected deterministic observer that leaves the operational path side-effect free.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the idempotent C-SDLC v2 finish path, retained the current-main formatter repair, and made the rehome-authority concurrent-drift proof deterministic through an explicitly injected post-materialization test observer tracked by #5784.\",\"changes\":[\"Held the canonical per-issue lifecycle authority lock across record validation, GitHub reads, merge, post-merge re-observation, and terminal cache retention.\",\"Derived minimal terminal authority from exact live GitHub state and logically released stale claims without tracked post-merge closeout commits.\",\"Reduced exact-head GitHub review state using only decisive review events so later comment-only reviews cannot erase authority.\",\"Applied current stable rustfmt to the Runtime API endpoint inventory defect tracked by #5783.\",\"Replaced the scheduling race with an explicitly injected test observer that completes source mutation before revalidation resumes while the concurrent typed writer remains lock-blocked; the operational entrypoint supplies only a no-op observer.\"],\"artifacts\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate_finish.rs\",\"csdlc-v2/tests/gate7_lifecycle.rs\",\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\"adl-runtime/src/runtime_api.rs\",\".csdlc/evidence/5778/post-finalize-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--lib\",\"--test\",\"gate_finish\",\"--test\",\"gate7_lifecycle\",\"--test\",\"gate10a\",\"--test\",\"gate10b\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Prove finish serialization, exact-head review reduction, derived terminal behavior, lifecycle compatibility, installation, and GitHub behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"+stable\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--test\",\"gate9\"],\"purpose\":\"Re-run the complete Gate 9 soak surface containing the exact CI failure after installing deterministic injected post-materialization ordering.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free C-SDLC v2 production and test targets after the deterministic observer repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"+stable\",\"fmt\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Prove the Runtime API formatter repair on the current-main merge tree.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex:5778-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex-subagent:review_5778_exact_head",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:5778-implementation",
+      "reason": "Independent exact-head re-review passed after deterministic #5784 synchronization and removal of the environment-controlled production barrier.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
