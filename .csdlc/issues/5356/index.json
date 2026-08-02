@@ -3,13 +3,13 @@
   "issue": 5356,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "985f2d88dea5a9f7164345b6b28a387b044da7df10b101cc5fdcf659a3794886",
-  "phase": "bound",
-  "generation": 1,
-  "digest": "3b19d01f76d5d28161692546555c76c5c7ae20c3b890c450f48e76990c98582d",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "e280b626e5fc28999d79be518bbb6a2cd0515f61312b1c02fb488b545722bc8f",
   "claim": {
     "id": "claim-5356-v0918-wp18-review-execution-20260802",
     "owner": "codex:current-session-wp18-review",
-    "generation": 1,
+    "generation": 2,
     "acquired_unix_seconds": 1785696556,
     "expires_unix_seconds": 1785782956,
     "heartbeat_unix_seconds": 1785696556,
@@ -50,34 +50,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8ad9557f57561338f784c913fc7f5065c2ccb1135645c83e7ed2cb9581fe3818",
+      "values_digest": "5c4bfaf144334573f6351dc93ccd61060910f7688172d8eb834f38d802b32d28",
       "rendered_digest": "6c28ea55257d351844001997851940cd4a3be4e482ebcb9f93313a5480eeb17e",
       "ast_digest": "3d10f2d5a80f4e4425df35b4295597f5019fc3e046e61c786488ba45580506e5"
     },
     "stp": {
-      "values_digest": "3d988e32e6d780ee6ed0463fda8aeb0bb703c2d48d0875e12c2da165270eab63",
+      "values_digest": "2badcd46e9e1fe18fc7170b08132cfbd5104589d9df0adbf23968d9c3639e52f",
       "rendered_digest": "db7fcbce3c6f231d444dfc31580409ac6aeac20f6fed2126e7cd1970063da996",
       "ast_digest": "0110c4c27ff5251ef6fe556b020e03990af9d9c7d5fa2f9b821e13d94b0b84db"
     },
     "spp": {
-      "values_digest": "69f0cb724831ac3ec00a57a40e522a69c09f106e48ff6d6e84b52a7cb4e8a350",
+      "values_digest": "5460ff9f361535a44f850e2b84377fb03d98044b6fcf7c50d765f69f269c17ba",
       "rendered_digest": "6505062889afdd74b54bf6c4a4ff6bc2cac718eeda0a4d5c9442cf4e942c2d34",
       "ast_digest": "ef2ec245699390d0699676f3effddad259748f054c6409335926e8c3e2186bd9"
     },
     "vpp": {
-      "values_digest": "47f8feaf602dd216c5c7f28b6893c7548597f7d29d648310620054c263c6f3be",
+      "values_digest": "e9f2f33f4c5af776ef4c7c66c47ed86722014074d3c6d57d7588d22631a9292f",
       "rendered_digest": "b7e71038a79896ef91d5c8df32bf8192ddbfa30c98703c0a9cf4f85bf330f92c",
       "ast_digest": "21e3f71c8a20ac2e555732a46e165e5db300b5d5a97655d6868c082cae4e175a"
     },
     "srp": {
-      "values_digest": "bb3c6e98010ed923eb77d7117b2536bf036583bccae555edaccc5700bbc593ed",
+      "values_digest": "6f00f25ed1a7b9e0a466a7f4c5ce0ad8a2f5fe0a1db4b20dba4c4ec354c7a4aa",
       "rendered_digest": "3b6bcd865ce9748a0e9ffc5b91ffd2b0a4d8fc2a8e39de5ebb168e525bc5723b",
       "ast_digest": "e0c861815e4eed1fb19bb464bb626b3fdbdefc45937fb3853488a55c05fb986a"
     },
     "sor": {
-      "values_digest": "86bf770e53ece812be050844435ad1959d7610a6b0d4372450d641d5c444ccb8",
-      "rendered_digest": "0dac083e8e61fcd3f90bc6794d9c42010905c7bf6913f8712e2e5480f4a914e7",
-      "ast_digest": "53b4a32441754c6d869d0e026a76a6d9692e7be387f125a29729bf16732c70a2"
+      "values_digest": "3e3e030e91de614269a9cee12e2f784cc0ffd5257a4bf4c9499383b877b34f53",
+      "rendered_digest": "ef0f7e2eb3e13a8d980f32b01a5cd5ecbcc912ce5da70cefda1b4bf4d63f4e9a",
+      "ast_digest": "ad29478bd903ab68b13270c30e01cb4a26aabfcd9cb97777f80643dfe281f109"
     }
   },
   "transitions": [
@@ -94,6 +94,13 @@
       "to": "bound",
       "actor": "codex:5356-preparation-owner",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:current-session-wp18-review",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -152,6 +159,13 @@
       "actor": "codex:current-session-wp18-review",
       "reason": "Resolve WP-18 internal-review Runtime API advertised-endpoint finding.",
       "operation": "{\"add_protected_paths\":[\"adl-runtime/src/runtime_api.rs\",\"adl-runtime/tests/runtime_api_wss.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 2,
+      "actor": "codex:current-session-wp18-review",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
