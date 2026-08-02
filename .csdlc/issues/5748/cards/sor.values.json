@@ -7,9 +7,9 @@
     "title": "[v0.91.8][csdlc-v2][closeout] Recover remaining closed-issue terminal truth",
     "slug": "remaining-closed-issue-terminal-recovery",
     "version": "v0.91.8",
-    "generation": 39
+    "generation": 42
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -67,10 +67,10 @@
           "evidence_ref": ".csdlc/evidence/5748/source-validation-f6d0cbab2.md at Rust source f6d0cbab2981c1464dd0e99a9ebcc733630f6ae9"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

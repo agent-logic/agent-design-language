@@ -2,7 +2,7 @@
   "schema": "adl.v0918.remote_terminal_audit.v1",
   "repository": "danielbaustin/agent-design-language",
   "label": "version:v0.91.8",
-  "observed_at": "2026-08-02T00:30:25Z",
+  "observed_at": "2026-08-02T01:32:19Z",
   "source": "GitHub closed issues and merged PRs joined to retained typed terminal projections",
   "issues": [
     {
@@ -3573,6 +3573,40 @@
         "head_sha": "697527ddb37a06738ce47a3a3cbd9d07d22ac724",
         "merged": true,
         "merge_commit_sha": "039014b1d396d97e6cb2670d44611ebeef03c671"
+      },
+      "checks": {
+        "projection_terminal": true,
+        "remote_disposition_valid": true,
+        "linked_issue_matches": true,
+        "observed_head_matches": true,
+        "no_pr_consistent": true
+      }
+    },
+    {
+      "number": 5748,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED",
+      "closed_at": "2026-08-02T01:18:42Z",
+      "title": "[v0.91.8][csdlc-v2][closeout] Recover remaining closed-issue terminal truth",
+      "url": "https://github.com/danielbaustin/agent-design-language/issues/5748",
+      "terminal": {
+        "phase": "closed_out",
+        "claim_free": true,
+        "disposition": "merged",
+        "pull_request": 5777,
+        "observed_sha": "17786c51fc6983783b95e55467fabd34dbef9b1c",
+        "observed_state": "merged",
+        "receipt_path": "csdlc-v2/closeout/5748.json"
+      },
+      "remote": {
+        "schema": "csdlc.github_pr_state.v1",
+        "pull_request": 5777,
+        "linked_issue": 5748,
+        "url": "https://github.com/danielbaustin/agent-design-language/pull/5777",
+        "head_ref": "codex/5748-terminal-recovery",
+        "head_sha": "17786c51fc6983783b95e55467fabd34dbef9b1c",
+        "merged": true,
+        "merge_commit_sha": "9ce235d7001ee57b45266396c3c73d7c73fd32fd"
       },
       "checks": {
         "projection_terminal": true,

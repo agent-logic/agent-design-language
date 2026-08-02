@@ -3,7 +3,7 @@
   "repository": "danielbaustin/agent-design-language",
   "label": "version:v0.91.8",
   "state": "closed",
-  "observed_at": "2026-08-02T00:29:24Z",
+  "observed_at": "2026-08-02T01:31:15Z",
   "source": "github issue list read-only observation",
   "issues": [
     {
@@ -1492,6 +1492,20 @@
         {
           "number": 5750,
           "url": "https://github.com/danielbaustin/agent-design-language/pull/5750"
+        }
+      ]
+    },
+    {
+      "number": 5748,
+      "state": "CLOSED",
+      "state_reason": "COMPLETED",
+      "closed_at": "2026-08-02T01:18:42Z",
+      "title": "[v0.91.8][csdlc-v2][closeout] Recover remaining closed-issue terminal truth",
+      "url": "https://github.com/danielbaustin/agent-design-language/issues/5748",
+      "closing_pull_requests": [
+        {
+          "number": 5777,
+          "url": "https://github.com/danielbaustin/agent-design-language/pull/5777"
         }
       ]
     },
