@@ -47,24 +47,10 @@ pub const CSM_RUNTIME_API_DEFAULT_PORT: u16 = 20_997;
 const WSS_AUTH_REFRESH: Duration = Duration::from_millis(25);
 const MAX_WSS_FRAME_BYTES: usize = 64 * 1024;
 
-pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 17] = [
-    "/v1/status",
+pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 3] = [
     "/v1/health",
-    "/v1/ready",
     "/v1/metrics",
-    "/v1/events",
-    "/v1/chronosense",
-    "/v1/weather",
-    "/v1/shepherd",
-    "/v1/cav",
-    "/v1/curiosity",
-    "/v1/acip",
     "/v1/acip/ws",
-    "/v1/freedom-gate",
-    "/v1/reasoning",
-    "/v1/api-gateway-bridge",
-    "/v1/constructability",
-    "/v1/persistence",
 ];
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
@@ -435,19 +421,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn runtime_api_contract_keeps_canonical_routes() {
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/status"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/chronosense"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/weather"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/shepherd"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/cav"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/curiosity"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/acip"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/acip/ws"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/freedom-gate"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/reasoning"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/api-gateway-bridge"));
-        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/constructability"));
+    fn runtime_api_contract_advertises_only_served_routes() {
+        assert_eq!(
+            CSM_RUNTIME_API_ENDPOINTS,
+            ["/v1/health", "/v1/metrics", "/v1/acip/ws"]
+        );
+        assert!(!CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/status"));
+        assert!(!CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/chronosense"));
         assert_eq!(
             CSM_RUNTIME_API_STATUS_SCHEMA,
             "adl.csm.runtime_api.status.v1"

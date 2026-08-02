@@ -19,8 +19,8 @@
 | WP-14A | #5358, #5361, #5344, and #5343 accepted at exact revisions | Complete/useful durable result per WP-16 audit and quality gate. |
 | WP-15 | WP-14A accepted revisions | Complete/useful durable result per WP-16 audit and quality gate. |
 | WP-16 | WP-15 convergence proof | Passed at `2e9d2dd7c`; see `evidence/wp16/QUALITY_GATE.md`. |
-| WP-17 | WP-16 quality gate | Active documentation and release-truth alignment. |
-| WP-18 | WP-17 merge | Pending internal milestone review. |
+| WP-17 | WP-16 quality gate | Closed documentation and release-truth alignment. |
+| WP-18 | WP-17 merge | Active internal milestone review. |
 | WP-19 | WP-18 merge | Pending independent external review. |
 | WP-20 | WP-19 merge | Pending remediation and release preflight. |
 | WP-21 | WP-20 merge | Pending exact-revision v0.92 handoff ledger. |
@@ -37,6 +37,6 @@ gate pass evidence.
 
 ## Remaining Readiness Rule
 
-WP-17 through WP-23 remain serial and must refresh live issue and PR truth
+WP-18 through WP-23 remain serial and must refresh live issue and PR truth
 before each release-tail action. WP-16 does not approve release, v0.92
 activation, or ceremony by itself.

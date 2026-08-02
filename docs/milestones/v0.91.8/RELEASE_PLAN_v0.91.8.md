@@ -4,9 +4,9 @@
 
 `v0.91.8` is not released by this documentation package. WP-16 merged at
 `2e9d2dd7c4260dcf6ec6af954b0eea97554212df` and records an integrated platform
-quality-gate pass, but final release still requires WP-17 documentation
-alignment, WP-18 internal review, formal review, remediation, next-milestone
-handoff/review, and release ceremony work.
+quality-gate pass. WP-17 documentation alignment is closed, but final release
+still requires WP-18 internal review, formal review, remediation,
+next-milestone handoff/review, and release ceremony work.
 
 ## Gates
 
@@ -30,8 +30,8 @@ handoff/review, and release ceremony work.
 16. WP-22 next-milestone planning review.
 17. WP-23 release ceremony and lifecycle closeout.
 
-The release-tail review sequence must preserve WP-17 documentation alignment,
-WP-18 internal review, WP-19 external review, WP-20 remediation/preflight,
+The release-tail review sequence must preserve closed WP-17 documentation
+alignment, WP-18 internal review, WP-19 external review, WP-20 remediation/preflight,
 WP-21 next-milestone handoff, WP-21A closeout planning, WP-22 planning review,
 and WP-23 release ceremony. Current
 v0.91.7 WP-21A `#5489` is historical preparation evidence and does not execute

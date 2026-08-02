@@ -9,8 +9,8 @@
 - Current readiness reconciliation: v0.91.8 WP-01 / `#5594`
 - Integrated quality gate: v0.91.8 WP-16 / `#5351`, merged at
   `2e9d2dd7c4260dcf6ec6af954b0eea97554212df`
-- Current documentation alignment: v0.91.8 WP-17 / `#5360`
-- Internal review: v0.91.8 WP-18, not complete
+- Documentation alignment: v0.91.8 WP-17 / `#5360`, closed
+- Internal review: v0.91.8 WP-18 / `#5356`, active and not complete
 - Release-tail revalidation owner: v0.91.8 WP-21A / `#5355`
 - Packet status: `prepared_not_sent`
 - Review performed: false
@@ -108,8 +108,9 @@ bridge prerequisite for `v0.92`. The reviewer should evaluate whether ADL has
 prepared a credible, evidence-bound packet to accept ADL v2, Runtime v3, and
 C-SDLC v2 at exact revisions before `v0.92` consumes the platform. The latest
 integrated quality source is WP-16 at
-`2e9d2dd7c4260dcf6ec6af954b0eea97554212df`; WP-17 is aligning the documents to
-that merged evidence.
+`2e9d2dd7c4260dcf6ec6af954b0eea97554212df`; WP-17 closed the documentation
+alignment to that merged evidence, and WP-18 is the active internal-review
+owner before WP-19 formal external review.
 
 This is not a release handoff and not a review result. It prepares the formal
 third-party review surface only.
