@@ -1,5 +1,7 @@
 use std::fs;
 use std::path::{Component, Path, PathBuf};
+use std::thread;
+use std::time::{Duration, Instant};
 
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -91,6 +93,43 @@ pub struct RehomeClaimAuthorityResult {
     pub claim: Claim,
     pub generation: u64,
     pub digest: String,
+}
+
+fn wait_at_rehome_materialization_test_barrier(issue: u64) -> Result<()> {
+    let issue_matches = std::env::var("CSDLC_V2_TEST_REHOME_BARRIER_ISSUE")
+        .ok()
+        .is_some_and(|value| value == issue.to_string());
+    if !issue_matches {
+        return Ok(());
+    }
+    let ready = std::env::var_os("CSDLC_V2_TEST_REHOME_BARRIER_READY")
+        .map(PathBuf::from)
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::InvalidInput,
+                "rehome test barrier ready path is required",
+            )
+        })?;
+    let proceed = std::env::var_os("CSDLC_V2_TEST_REHOME_BARRIER_PROCEED")
+        .map(PathBuf::from)
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::InvalidInput,
+                "rehome test barrier proceed path is required",
+            )
+        })?;
+    fs::write(&ready, b"materialized\n")?;
+    let deadline = Instant::now() + Duration::from_secs(5);
+    while !proceed.is_file() {
+        if Instant::now() >= deadline {
+            return Err(V2Error::new(
+                ErrorCode::InterruptedTransaction,
+                "timed out waiting at rehome test barrier",
+            ));
+        }
+        thread::sleep(Duration::from_millis(1));
+    }
+    Ok(())
 }
 
 #[derive(Debug, Deserialize)]
@@ -1782,6 +1821,7 @@ pub fn rehome_claim_authority(
         &source_cards,
     )?;
     let source_unchanged = (|| -> Result<bool> {
+        wait_at_rehome_materialization_test_barrier(request.issue)?;
         let still_registered = git::worktrees(store.root())?
             .into_iter()
             .any(|(branch, root)| {

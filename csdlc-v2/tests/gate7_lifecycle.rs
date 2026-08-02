@@ -3949,6 +3949,11 @@ fn rehome_authority_requires_exact_source_and_fails_on_unreadable_detached_sibli
     let writer_target_digest = expected_target_digest.clone();
     let writer_target_index = target_index.clone();
     let writer_root = temp.path().to_path_buf();
+    let barrier_ready = temp.path().join("rehome-materialized.ready");
+    let barrier_proceed = temp.path().join("rehome-materialized.proceed");
+    std::env::set_var("CSDLC_V2_TEST_REHOME_BARRIER_ISSUE", issue.to_string());
+    std::env::set_var("CSDLC_V2_TEST_REHOME_BARRIER_READY", &barrier_ready);
+    std::env::set_var("CSDLC_V2_TEST_REHOME_BARRIER_PROCEED", &barrier_proceed);
     let (writer_started_tx, writer_started_rx) = mpsc::channel();
     let writer = thread::spawn(move || {
         let deadline = Instant::now() + Duration::from_secs(5);
@@ -3983,24 +3988,32 @@ fn rehome_authority_requires_exact_source_and_fails_on_unreadable_detached_sibli
         panic!("writer did not observe staged authority")
     });
     let drift_audit = source_audit.clone();
+    let drift_barrier_ready = barrier_ready.clone();
+    let drift_barrier_proceed = barrier_proceed.clone();
     let drift = thread::spawn(move || {
         writer_started_rx
             .recv_timeout(Duration::from_secs(5))
             .expect("writer observed staged authority");
-        // Mutate as soon as the staged authority is observable. An arbitrary
-        // delay lets a fast rehome complete before the intended concurrent
-        // source drift, turning this proof into a runner-speed race.
+        let deadline = Instant::now() + Duration::from_secs(5);
+        while !drift_barrier_ready.is_file() {
+            assert!(
+                Instant::now() < deadline,
+                "rehome did not reach the deterministic post-materialization barrier"
+            );
+            thread::sleep(Duration::from_millis(1));
+        }
         let mut bytes = fs::read(&drift_audit).unwrap();
         bytes.push(b'\n');
         fs::write(&drift_audit, bytes).unwrap();
+        fs::write(drift_barrier_proceed, b"source drift complete\n").unwrap();
         true
     });
-    assert_eq!(
-        rehome_claim_authority(&store, request.clone())
-            .expect_err("source drift must roll back the target")
-            .code,
-        ErrorCode::ReconciliationRequired
-    );
+    let drift_error = rehome_claim_authority(&store, request.clone())
+        .expect_err("source drift must roll back the target");
+    std::env::remove_var("CSDLC_V2_TEST_REHOME_BARRIER_ISSUE");
+    std::env::remove_var("CSDLC_V2_TEST_REHOME_BARRIER_READY");
+    std::env::remove_var("CSDLC_V2_TEST_REHOME_BARRIER_PROCEED");
+    assert_eq!(drift_error.code, ErrorCode::ReconciliationRequired);
     assert!(
         drift.join().unwrap(),
         "drift mutator observed materialization"

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Completed the idempotent C-SDLC v2 finish path, retained the current-main formatter repair, and removed the blocking arbitrary-delay race from the rehome-authority soak proof tracked by #5784.
+Completed the idempotent C-SDLC v2 finish path, retained the current-main formatter repair, and made the rehome-authority concurrent-drift proof deterministic through a bounded post-materialization test barrier tracked by #5784.
 
 ## Artifacts
 
@@ -20,6 +20,7 @@ Completed the idempotent C-SDLC v2 finish path, retained the current-main format
 - csdlc-v2/src/bin/csdlc-finish.rs
 - csdlc-v2/src/github.rs
 - csdlc-v2/src/store.rs
+- csdlc-v2/src/lifecycle.rs
 - csdlc-v2/tests/gate_finish.rs
 - csdlc-v2/tests/gate7_lifecycle.rs
 - csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md
@@ -32,7 +33,7 @@ Completed the idempotent C-SDLC v2 finish path, retained the current-main format
 - Derived minimal terminal authority from exact live GitHub state and logically released stale claims without tracked post-merge closeout commits.
 - Reduced exact-head GitHub review state using only decisive review events so later comment-only reviews cannot erase authority.
 - Applied current stable rustfmt to the Runtime API endpoint inventory defect tracked by #5783.
-- Removed the 25 ms delay that allowed the rehome-authority concurrent-drift proof to race a fast CI runner; source mutation now begins immediately after staged authority is observed.
+- Replaced the 25 ms scheduling race with a bounded test-only post-materialization barrier that requires source mutation to complete before revalidation resumes while the concurrent typed writer remains lock-blocked.
 
 ## Validation
 
@@ -71,7 +72,7 @@ Completed the idempotent C-SDLC v2 finish path, retained the current-main format
       "--test",
       "gate9"
     ],
-    "purpose": "Re-run the complete Gate 9 soak surface containing the exact CI failure after removing the arbitrary timing delay.",
+    "purpose": "Re-run the complete Gate 9 soak surface containing the exact CI failure after installing deterministic post-materialization ordering.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5778/post-finalize-remediation.md"
   },
@@ -87,7 +88,7 @@ Completed the idempotent C-SDLC v2 finish path, retained the current-main format
       "-D",
       "warnings"
     ],
-    "purpose": "Prove warning-free C-SDLC v2 production and test targets before the comment-only timing repair.",
+    "purpose": "Prove warning-free C-SDLC v2 production and test targets after the deterministic barrier repair.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5778/post-finalize-remediation.md"
   },
