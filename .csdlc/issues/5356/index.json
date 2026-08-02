@@ -5,14 +5,14 @@
   "initialization_digest": "985f2d88dea5a9f7164345b6b28a387b044da7df10b101cc5fdcf659a3794886",
   "phase": "bound",
   "generation": 1,
-  "digest": "473ddc88f2b592d84c91217ce4409f8a5be2afe57e0951758daf34a27aec1b08",
+  "digest": "10930cf112214429c62ed87fdf4fe2097e417c8b5fdeaa99c9294284d3adca9b",
   "claim": {
-    "id": "claim-5356-v0918-wp18-internal-review-plan",
-    "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
+    "id": "claim-5356-v0918-wp18-review-execution-20260802",
+    "owner": "codex:current-session-wp18-review",
     "generation": 1,
-    "acquired_unix_seconds": 1785347250,
-    "expires_unix_seconds": 1785433650,
-    "heartbeat_unix_seconds": 1785347250,
+    "acquired_unix_seconds": 1785696556,
+    "expires_unix_seconds": 1785782956,
+    "heartbeat_unix_seconds": 1785696556,
     "branch": "codex/5356-v0918-preparation",
     "worktree": ".",
     "protected_paths": [
@@ -21,9 +21,11 @@
       ".csdlc/locks/5356.lock",
       ".csdlc/prepared/issues/5356",
       "docs/milestones/v0.91.8/review/README.md",
-      "docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_PLAN_5356.md"
+      "docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_5356.md",
+      "docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_PLAN_5356.md",
+      "docs/reviews/v0.91.8/internal-review-5356"
     ],
-    "purpose": "Prepare the WP-18 #5356 internal review plan only; do not execute the internal review until WP-17 #5360 is merged, typed closed_out, receipt-backed, claim-free, and ancestral"
+    "purpose": "Execute WP-18 #5356 internal milestone review for v0.91.8, retain the exact-revision review packet and findings register, then resolve in-scope findings through typed claim amendments before publication."
   },
   "review_assignment": null,
   "review": null,
@@ -115,6 +117,20 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Recover expired preparation claim and bind the bounded WP-18 internal review plan document scope",
       "operation": "{\"previous_owner\":\"codex:5356-preparation-owner\",\"observed_expiry_unix_seconds\":1785273786,\"recovery_actor\":\"codex:019f3d65-2216-7832-804a-26339473b27d\",\"reason\":\"Recover expired preparation claim and bind the bounded WP-18 internal review plan document scope\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 1,
+      "actor": "codex:current-session-wp18-review",
+      "reason": "Operator authorized WP-18 review execution; recover expired preparation claim before typed transition.",
+      "operation": "{\"previous_owner\":\"codex:019f3d65-2216-7832-804a-26339473b27d\",\"observed_expiry_unix_seconds\":1785433650,\"recovery_actor\":\"codex:current-session-wp18-review\",\"reason\":\"Operator authorized WP-18 review execution; recover expired preparation claim before typed transition.\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 1,
+      "actor": "codex:current-session-wp18-review",
+      "reason": "WP-17 #5360 is live-closed with retained typed closeout receipt; begin WP-18 internal review execution and retained findings packet.",
+      "operation": "{\"add_protected_paths\":[\"docs/reviews/v0.91.8/internal-review-5356\",\"docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_5356.md\"],\"expected_owner\":\"codex:current-session-wp18-review\",\"expected_purpose\":\"Prepare the WP-18 #5356 internal review plan only; do not execute the internal review until WP-17 #5360 is merged, typed closed_out, receipt-backed, claim-free, and ancestral\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare the WP-18 #5356 internal review plan only; do not execute the internal review until WP-17 #5360 is merged, typed closed_out, receipt-backed, claim-free, and ancestral\",\"purpose\":\"Execute WP-18 #5356 internal milestone review for v0.91.8, retain the exact-revision review packet and findings register, then resolve in-scope findings through typed claim amendments before publication.\"}"
     }
   ]
 }
