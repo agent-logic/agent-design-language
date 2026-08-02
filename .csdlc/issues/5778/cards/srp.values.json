@@ -7,15 +7,15 @@
     "title": "Derive terminal truth and finish in one idempotent command",
     "slug": "derived-terminal-finish",
     "version": "v0.91.8",
-    "generation": 7
+    "generation": 9
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".",
-      "review_revision": "git-blake3:b408fcf242d16d0337f7e53953188ab456e367c0:fc7571b043c39893d4f8fd21140c46063dc7bd31da41b9f5d7dee345df209888",
-      "reviewer": "codex-subagent:review_5778_exact_head",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does finish preserve exact reviewed-head, required-check, publication identity, and expected-SHA merge guarantees?",
         "Can any interruption or concurrent call create conflicting terminal results or require a second PR?",
@@ -23,10 +23,8 @@
         "Are legacy records readable without becoming competing current authority?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Independent review did not repeat a live merge, interruption, or reopen exercise; exact-head focused tests and the implementation session's 168-test strict-clippy proof passed."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -11,6 +11,15 @@ later comment-only reviews.
 
 No network credentials or AWS resources were used.
 
+After PR publication, current `main` advanced through #5781 and exposed a
+stable-rustfmt failure in the synthetic merge tree. The separately tracked
+#5783 repair was folded into this already-open integration path after typed
+review recovery and claim-scope amendment:
+
+- `cd adl && cargo +stable fmt --all -- --check` passed on the exact merged tree.
+- `cargo test --manifest-path ../adl-runtime/Cargo.toml runtime_api_contract_advertises_only_served_routes --locked`
+  passed: 1 focused test, 0 failed.
+
 The remediation requires a fixed GitHub approval label for no-PR closure,
 re-observes PR and issue state after merge, binds cache authority to the exact
 canonical record, bounds mutable terminal freshness, serializes the full finish

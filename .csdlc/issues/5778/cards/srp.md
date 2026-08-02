@@ -8,11 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.
+
 
 ## Prompts
 
@@ -31,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Independent review did not repeat a live merge, interruption, or reopen exercise; exact-head focused tests and the implementation session's 168-test strict-clippy proof passed.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:b408fcf242d16d0337f7e53953188ab456e367c0:fc7571b043c39893d4f8fd21140c46063dc7bd31da41b9f5d7dee345df209888")
+Revision: None
 
-Reviewer: Some("codex-subagent:review_5778_exact_head")
+Reviewer: None
 
-Result: pass
+Result: pre_review

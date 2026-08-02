@@ -3,13 +3,13 @@
   "issue": 5778,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
-  "phase": "published",
-  "generation": 7,
-  "digest": "3dc7a310fca5610487ee4cf8a34ab362ca8a8c1a396f36c2b7060dd4fad74909",
+  "phase": "implemented",
+  "generation": 9,
+  "digest": "58209ae2f8f438611ccfe4f7b0942f6049a0476a0dd6c538e596135a3a93e3a4",
   "claim": {
     "id": "claim-5778-derived-terminal-finish",
     "owner": "codex:5778-implementation",
-    "generation": 7,
+    "generation": 9,
     "acquired_unix_seconds": 1785696508,
     "expires_unix_seconds": 1786301308,
     "heartbeat_unix_seconds": 1785696508,
@@ -23,6 +23,7 @@
       ".csdlc/locks/5778.lock",
       ".csdlc/prepared/issues/5778",
       ".csdlc/publication/5778.intent.json",
+      "adl-runtime/src/runtime_api.rs",
       "csdlc-v2/Cargo.lock",
       "csdlc-v2/Cargo.toml",
       "csdlc-v2/operator/coexistence.json",
@@ -44,38 +45,9 @@
     ],
     "purpose": "Implement #5778 derived terminal truth and one idempotent finish command without a second closeout PR."
   },
-  "review_assignment": {
-    "reviewer": "codex-subagent:review_5778_exact_head",
-    "assigned_by": "codex:5778-implementation",
-    "revision": "git-blake3:b408fcf242d16d0337f7e53953188ab456e367c0:fc7571b043c39893d4f8fd21140c46063dc7bd31da41b9f5d7dee345df209888",
-    "scope": [
-      "."
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:review_5778_exact_head",
-    "scope": [
-      "."
-    ],
-    "reviewed_revision": "git-blake3:b408fcf242d16d0337f7e53953188ab456e367c0:fc7571b043c39893d4f8fd21140c46063dc7bd31da41b9f5d7dee345df209888",
-    "findings": [],
-    "residual_risks": [
-      "Independent review did not repeat a live merge, interruption, or reopen exercise; exact-head focused tests and the implementation session's 168-test strict-clippy proof passed."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5778,
-    "pull_request": 5782,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5782",
-    "base": "main",
-    "head": "codex/5778-derived-terminal-finish",
-    "revision": "git-blake3:13d1376b0f03cb6bb3a426e915ce467091d691b3:0394259638bb6dc16e7be4ee73b12cf385d725fed4e34fdc4839d3692ebbf716",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -89,34 +61,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "592387a84fd9196eea77eab4418b9093d90a184567c031849b0252d8d859a353",
+      "values_digest": "cb94f1551b0ed1430992fa268979e2fbf365d1b6c2542c3d954eed3f78b0c761",
       "rendered_digest": "5a2fd63675d213bfb70982b39dba3505049fe021928752eb021ecfecee82cc70",
       "ast_digest": "c18ad70c57b8cee4527033ee4d4a12574a61a1883160f2c0324c1017f357e9bc"
     },
     "stp": {
-      "values_digest": "37ab67c4a6280d9cfe2788e332dfb36368bd1098f23d39534bdf62b3ef028040",
+      "values_digest": "49e6dd2a6a3b252878f0d0af33158c0dbfd431f7b142d65ce490647297235eb9",
       "rendered_digest": "d16a8c831462ed4f9aff432c69e09fa9d502ef69be8bb66aeb07f248ee02bbc2",
       "ast_digest": "04b7d14ec104707dba9c2ad8ac9c74fe32c107416e2306c527cc33a2464fa559"
     },
     "spp": {
-      "values_digest": "96fcfdd211d56b4f0c7dd93e7047260f73b8f9d012f9db701385af7e24f3cfbe",
+      "values_digest": "555a1df3859c36ee9676d93e77305c1568000cdd4b305f533dbd0180fd78923f",
       "rendered_digest": "d80f518797020d25a44f2c16c35c4be04f78dcd894740ce88f77509ce9b72b83",
       "ast_digest": "0f676c5c5184cb9fd9ae6fd7ce3276acf8cef36aec84f9cf66d52834b47f17e6"
     },
     "vpp": {
-      "values_digest": "ddc4498eb99df663fe9b56d7a4155f6d5a73f624acf1c04d76cb4047c343062b",
+      "values_digest": "27c1ccb4da8479dfbdd980568670320d27cf37ffb2c77142546871085a75d7b3",
       "rendered_digest": "1df40bc9a4fdb8d03d63ab3a44549a75418fa765c94f8e643ef4b1832195f2dc",
       "ast_digest": "bb0bb64488d056fa40bd61d2248ea22586513a0a6c084ddc5a9db5e738586f85"
     },
     "srp": {
-      "values_digest": "2ead01ddda35d6e070325afbc3e339c0ab68fadc797e36e38e60bdc3eb43ebb1",
-      "rendered_digest": "ecabcb0f5ee0cf66960f153c7e1365af6cace5b134aece29870da479c1117d6f",
-      "ast_digest": "606a315bc021028c464657c613550397e2e2d1d0d6debbcc8fc7df93fb252977"
+      "values_digest": "1ac1e18de862af8dbe79ce640d619785cb0a053ad233cf84db8d158e0451ead4",
+      "rendered_digest": "c1e2262549fb0577197f0f9f581a2c2ab8ee001204950d99a53b6d0ae482aeba",
+      "ast_digest": "c3b3a74c448e1bd11a38324244bf202a9ffde9d71c194f8b1b7365916bc10170"
     },
     "sor": {
-      "values_digest": "322b9ff3cb3de51e136d7608a604be0ad3d95ad6702fedb31702610237fc61bc",
-      "rendered_digest": "f08e1dc48ed6b45b6a3c06c206b3791ce9d2b01dbc3fd5317bc1a8c50cc021e3",
-      "ast_digest": "284705daa226db15bb2864251e8adaa929cd41607a959a3c51ba89b2dc80319a"
+      "values_digest": "ca6986a2871438de0fee60a6a6363f7f2b0ccd00060f3f2876c2a9494fffe6bf",
+      "rendered_digest": "27c53264959f1a0cb83913ae94663cc299f29191baca20f67eb82b7bb125be33",
+      "ast_digest": "50eac5c84cd15880b9b711702b40e9edc6900fd55f5cb3a955beb301bff42f22"
     }
   },
   "transitions": [
@@ -154,6 +126,13 @@
       "to": "published",
       "actor": "codex:5778-implementation",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5778-implementation",
+      "reason": "Recover to implemented after current main introduced #5783, a reproducible formatter failure in the PR merge tree."
     }
   ],
   "audit": [
@@ -233,6 +212,27 @@
       "actor": "codex:5778-implementation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:5778-implementation",
+      "reason": "Recover to implemented after current main introduced #5783, a reproducible formatter failure in the PR merge tree.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:5778-implementation",
+      "reason": "Include the separately tracked #5783 one-line formatting repair required to make #5778's current-main merge tree pass CI.",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime/src/runtime_api.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:5778-implementation",
+      "reason": "Record the exact current-main formatter remediation tracked by #5783 after typed post-publication review recovery.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Preserved the reviewed finish implementation and repaired the current-main Runtime API formatting regression tracked by #5783.\",\"changes\":[\"Merged current main so local validation matches GitHub's pull-request merge tree.\",\"Applied current stable rustfmt to the Runtime API endpoint inventory introduced by #5781.\",\"Retained the #5778 finish implementation unchanged while routing the separate defect through #5783.\"],\"artifacts\":[\"adl-runtime/src/runtime_api.rs\",\".csdlc/evidence/5778/post-finalize-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"+stable\",\"fmt\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reproduce and prove the repository formatter gate on the exact current-main merge tree from the adl workspace.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"../adl-runtime/Cargo.toml\",\"runtime_api_contract_advertises_only_served_routes\",\"--locked\"],\"purpose\":\"Confirm the formatted endpoint inventory retains the Runtime API contract introduced by #5781.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"}]}"
     }
   ]
 }

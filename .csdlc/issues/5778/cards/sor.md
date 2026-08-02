@@ -12,23 +12,18 @@ Status: pre_phase
 
 ## Summary
 
-Completed the idempotent C-SDLC v2 finish path with canonical issue-state serialization and exact-head decisive-review reduction.
+Preserved the reviewed finish implementation and repaired the current-main Runtime API formatting regression tracked by #5783.
 
 ## Artifacts
 
-- csdlc-v2/src/bin/csdlc-finish.rs
-- csdlc-v2/src/finish.rs
-- csdlc-v2/src/github.rs
-- csdlc-v2/src/store.rs
-- csdlc-v2/tests/gate_finish.rs
+- adl-runtime/src/runtime_api.rs
 - .csdlc/evidence/5778/post-finalize-remediation.md
 
 ## Execution
 
-- Held the canonical per-issue lifecycle authority lock across record validation, GitHub reads, merge, post-merge re-observation, and terminal cache retention.
-- Removed the separate finish-only lock that could not serialize against lifecycle record mutation.
-- Reduced exact-head GitHub review state using only decisive approval, change-request, and dismissal events so later comment-only reviews cannot erase authority.
-- Added focused regression tests for canonical lock contention and comment-after-decisive-review behavior.
+- Merged current main so local validation matches GitHub's pull-request merge tree.
+- Applied current stable rustfmt to the Runtime API endpoint inventory introduced by #5781.
+- Retained the #5778 finish implementation unchanged while routing the separate defect through #5783.
 
 ## Validation
 
@@ -36,39 +31,26 @@ Completed the idempotent C-SDLC v2 finish path with canonical issue-state serial
   {
     "command": [
       "cargo",
-      "test",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--locked",
-      "--lib",
-      "--test",
-      "gate_finish",
-      "--test",
-      "gate7_lifecycle",
-      "--test",
-      "gate10a",
-      "--test",
-      "gate10b",
-      "--test",
-      "gate_github_actions"
+      "+stable",
+      "fmt",
+      "--all",
+      "--",
+      "--check"
     ],
-    "purpose": "Prove finish serialization, review reduction, derived terminal behavior, lifecycle compatibility, installation, and GitHub behavior on the exact current worktree.",
+    "purpose": "Reproduce and prove the repository formatter gate on the exact current-main merge tree from the adl workspace.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5778/post-finalize-remediation.md"
   },
   {
     "command": [
       "cargo",
-      "clippy",
+      "test",
       "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--locked",
-      "--all-targets",
-      "--",
-      "-D",
-      "warnings"
+      "../adl-runtime/Cargo.toml",
+      "runtime_api_contract_advertises_only_served_routes",
+      "--locked"
     ],
-    "purpose": "Prove warning-free C-SDLC v2 code across all targets after final review remediation.",
+    "purpose": "Confirm the formatted endpoint inventory retains the Runtime API contract introduced by #5781.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5778/post-finalize-remediation.md"
   }
@@ -76,11 +58,11 @@ Completed the idempotent C-SDLC v2 finish path with canonical issue-state serial
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
