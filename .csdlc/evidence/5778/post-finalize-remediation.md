@@ -53,8 +53,17 @@ accepts a clean forward head only when every intervening path is under
 `.csdlc/`, the reviewed commit is an ancestor, and the declared review scope is
 identical to the reviewed commit. Any substantive forward drift fails closed.
 
+Independent exact-head review found four additional fail-closed gaps before
+publication. The repaired validator now requires the local checkout to be at
+the exact requested head and clean in both exact and forward-lineage cases,
+strictly verifies clean-revision digest envelopes, compares current review
+evidence byte-for-byte with the record retained at the publication commit, and
+binds the active claim to the canonical generation, branch, and worktree.
+
 - `cargo +stable test --manifest-path csdlc-v2/Cargo.toml --locked --test gate_finish`
-  passed: 10 tests, 0 failed, including positive metadata-only lineage and
-  negative substantive-drift coverage.
+  passed: 10 tests, 0 failed, including positive metadata-only lineage plus
+  negative dirty exact-head, wrong local head, malformed publication revision,
+  changed review scope, malformed review revision, substantive drift, and stale
+  claim-generation coverage.
 - `cargo +stable clippy --manifest-path csdlc-v2/Cargo.toml --locked --all-targets -- -D warnings`
   passed after the #5785 repair.

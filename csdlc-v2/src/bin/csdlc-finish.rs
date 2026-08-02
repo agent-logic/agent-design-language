@@ -79,7 +79,7 @@ async fn run(cli: Cli) -> csdlc_v2::Result<FinishResult> {
         )
     })?;
     let merge_request = as_merge_request(&request)?;
-    validate_finish_merge_authority(&record, &request, now_unix_seconds()?)?;
+    validate_finish_merge_authority(store.root(), &record, &request, now_unix_seconds()?)?;
     validate_remote(state, &merge_request)?;
 
     let token = github_token::resolve(request.token_file.as_deref())?;

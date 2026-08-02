@@ -34,8 +34,8 @@ Completed the idempotent C-SDLC v2 finish path, retained the current-main format
 - Reduced exact-head GitHub review state using only decisive review events so later comment-only reviews cannot erase authority.
 - Applied current stable rustfmt to the Runtime API endpoint inventory defect tracked by #5783.
 - Replaced the scheduling race with an explicitly injected test observer that completes source mutation before revalidation resumes while the concurrent typed writer remains lock-blocked; the operational entrypoint supplies only a no-op observer.
-- Replaced the legacy MergeReady-only finish authority check with finish-native canonical identity and active-owned-claim validation while retaining exact live remote checks and review gates.
-- Accepted publication metadata head advancement only for clean .csdlc-only descendants whose reviewed scope still matches the reviewed ancestor; substantive drift fails closed.
+- Replaced the legacy MergeReady-only finish authority check with finish-native canonical identity and a non-expired owned claim bound to the canonical generation, branch, and worktree while retaining exact live remote checks and review gates.
+- Required the local checkout to be clean at the exact requested head, strictly validated clean-revision envelopes, and accepted publication metadata advancement only for .csdlc-only descendants whose review evidence exactly matches the publication commit and whose reviewed scope remains unchanged; all drift fails closed.
 
 ## Validation
 
@@ -51,7 +51,7 @@ Completed the idempotent C-SDLC v2 finish path, retained the current-main format
       "--test",
       "gate_finish"
     ],
-    "purpose": "Prove Published finish authority and clean metadata-only publication lineage while rejecting substantive forward drift.",
+    "purpose": "Prove Published finish authority and clean metadata-only publication lineage while rejecting dirty or wrong heads, malformed revisions, changed review scope, substantive drift, and stale claim generations.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5778/post-finalize-remediation.md"
   },

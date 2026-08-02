@@ -248,6 +248,13 @@ fn finish_uses_the_canonical_issue_authority_lock() {
 
 #[test]
 fn published_finish_accepts_owned_claim_without_legacy_merge_ready_state() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    assert!(Command::new("git")
+        .args(["init", "-q", "-b", "codex/5778"])
+        .current_dir(temp.path())
+        .status()
+        .expect("git init")
+        .success());
     let mut record = record(
         LifecyclePhase::Published,
         Some(PublicationEvidence {
@@ -281,7 +288,12 @@ fn published_finish_accepts_owned_claim_without_legacy_merge_ready_state() {
     request.expected_head_sha = Some("abc".into());
     request.approved_no_pr_reason = None;
     request.claim_id = "claim".into();
-    assert!(validate_finish_merge_authority(&record, &request, 100).is_ok());
+    assert!(validate_finish_merge_authority(temp.path(), &record, &request, 100).is_ok());
+
+    record.claim.as_mut().unwrap().generation -= 1;
+    let error = validate_finish_merge_authority(temp.path(), &record, &request, 100)
+        .expect_err("stale claim generation");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidClaim);
 }
 
 #[test]
@@ -296,36 +308,19 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
         assert!(output.status.success(), "git {:?}", args);
         String::from_utf8(output.stdout).unwrap().trim().to_owned()
     };
-    git(&["init", "-q"]);
+    git(&["init", "-q", "-b", "codex/5778"]);
     git(&["config", "user.email", "test@example.test"]);
     git(&["config", "user.name", "Test"]);
     std::fs::create_dir_all(temp.path().join("src")).unwrap();
     std::fs::write(temp.path().join("src/lib.rs"), "pub fn stable() {}\n").unwrap();
     git(&["add", "src/lib.rs"]);
     git(&["commit", "-qm", "source"]);
-    let published = git(&["rev-parse", "HEAD"]);
+    let source = git(&["rev-parse", "HEAD"]);
     let reviewed = csdlc_v2::git::substantive_revision(temp.path(), &["src".into()]).unwrap();
-    std::fs::create_dir_all(temp.path().join(".csdlc/issues/5778")).unwrap();
-    std::fs::write(temp.path().join(".csdlc/issues/5778/index.json"), "{}\n").unwrap();
-    git(&["add", ".csdlc/issues/5778/index.json"]);
-    git(&["commit", "-qm", "publication metadata"]);
-    let current = git(&["rev-parse", "HEAD"]);
+    assert_eq!(reviewed, csdlc_v2::git::clean_commit_revision(&source));
 
-    let mut record = record(
-        LifecyclePhase::Published,
-        Some(PublicationEvidence {
-            repository: "owner/repo".into(),
-            issue: 5778,
-            pull_request: 9,
-            url: "https://example.test/pull/9".into(),
-            base: "main".into(),
-            head: "codex/5778".into(),
-            revision: csdlc_v2::git::clean_commit_revision(&published),
-            draft: false,
-            observed_state: "open".into(),
-        }),
-    );
-    record.review = Some(ReviewEvidence {
+    let mut historical = record(LifecyclePhase::Reviewed, None);
+    historical.review = Some(ReviewEvidence {
         reviewer: "reviewer".into(),
         scope: vec!["src".into()],
         reviewed_revision: reviewed,
@@ -334,14 +329,81 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
         completed: true,
         non_substantive_proof: None,
     });
+    std::fs::create_dir_all(temp.path().join(".csdlc/issues/5778")).unwrap();
+    std::fs::write(
+        temp.path().join(".csdlc/issues/5778/index.json"),
+        serde_json::to_vec_pretty(&historical).unwrap(),
+    )
+    .unwrap();
+    git(&["add", ".csdlc/issues/5778/index.json"]);
+    git(&["commit", "-qm", "review metadata"]);
+    let published = git(&["rev-parse", "HEAD"]);
+
+    let mut record = historical;
+    record.phase = LifecyclePhase::Published;
+    record.publication = Some(PublicationEvidence {
+        repository: "owner/repo".into(),
+        issue: 5778,
+        pull_request: 9,
+        url: "https://example.test/pull/9".into(),
+        base: "main".into(),
+        head: "codex/5778".into(),
+        revision: csdlc_v2::git::clean_commit_revision(&published),
+        draft: false,
+        observed_state: "open".into(),
+    });
+    std::fs::write(
+        temp.path().join(".csdlc/issues/5778/index.json"),
+        serde_json::to_vec_pretty(&record).unwrap(),
+    )
+    .unwrap();
+    git(&["add", ".csdlc/issues/5778/index.json"]);
+    git(&["commit", "-qm", "publication metadata"]);
+    let current = git(&["rev-parse", "HEAD"]);
+
     let mut request = no_pr_request();
     request.pull_request = Some(9);
     request.base = Some("main".into());
     request.head = Some("codex/5778".into());
-    request.expected_head_sha = Some(current);
+    request.expected_head_sha = Some(current.clone());
     request.approved_no_pr_reason = None;
     validate_publication_head_in_repo(temp.path(), &record, &request)
         .expect("metadata-only forward head");
+
+    let mut exact = record.clone();
+    exact.publication.as_mut().unwrap().revision = csdlc_v2::git::clean_commit_revision(&current);
+    std::fs::write(temp.path().join("src/lib.rs"), "dirty\n").unwrap();
+    assert!(validate_publication_head_in_repo(temp.path(), &exact, &request).is_err());
+    git(&["checkout", "--", "src/lib.rs"]);
+
+    let mut wrong_local_request = request.clone();
+    wrong_local_request.expected_head_sha = Some(published.clone());
+    assert!(validate_publication_head_in_repo(temp.path(), &record, &wrong_local_request).is_err());
+
+    let mut malformed_publication = record.clone();
+    malformed_publication.publication.as_mut().unwrap().revision =
+        format!("git-blake3:{published}:garbage");
+    assert!(
+        validate_publication_head_in_repo(temp.path(), &malformed_publication, &request).is_err()
+    );
+
+    let mut changed_scope = record.clone();
+    changed_scope.review.as_mut().unwrap().scope = vec!["src/lib.rs".into()];
+    assert!(validate_publication_head_in_repo(temp.path(), &changed_scope, &request).is_err());
+
+    let mut malformed_review = record.clone();
+    let reviewed_commit = malformed_review
+        .review
+        .as_ref()
+        .unwrap()
+        .reviewed_revision
+        .split(':')
+        .nth(1)
+        .unwrap()
+        .to_owned();
+    malformed_review.review.as_mut().unwrap().reviewed_revision =
+        format!("git-blake3:{reviewed_commit}:garbage");
+    assert!(validate_publication_head_in_repo(temp.path(), &malformed_review, &request).is_err());
 
     std::fs::write(temp.path().join("src/lib.rs"), "pub fn changed() {}\n").unwrap();
     git(&["add", "src/lib.rs"]);
