@@ -346,6 +346,16 @@ async fn observe_pr(
     pull_request: u64,
     issue: u64,
 ) -> csdlc_v2::Result<csdlc_v2::GithubActionResult> {
+    observe_pr_with_policy(repository, pull_request, issue, Vec::new(), false).await
+}
+
+async fn observe_pr_with_policy(
+    repository: String,
+    pull_request: u64,
+    issue: u64,
+    required_checks: Vec<String>,
+    require_review: bool,
+) -> csdlc_v2::Result<csdlc_v2::GithubActionResult> {
     execute_github_action(&GithubActionRequest {
         repository,
         action: GithubAction::PrState,
@@ -360,8 +370,8 @@ async fn observe_pr(
         milestone: None,
         state: None,
         comment_body: None,
-        required_checks: Vec::new(),
-        require_review: false,
+        required_checks,
+        require_review,
         linked_issue: Some(issue),
     })
     .await
@@ -404,7 +414,14 @@ async fn refresh_historical_observations(
         .map(|value| value.pull_request)
         .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "PR identity missing"))?;
     request.issue_evidence = observe_issue(repository.clone(), request.target_issue).await?;
-    request.merged_evidence = observe_pr(repository, pr, request.target_issue).await?;
+    request.merged_evidence = observe_pr_with_policy(
+        repository,
+        pr,
+        request.target_issue,
+        request.required_checks.clone(),
+        request.require_review,
+    )
+    .await?;
     Ok(())
 }
 

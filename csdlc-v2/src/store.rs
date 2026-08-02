@@ -2677,7 +2677,7 @@ impl Store {
             authority_worktree: request.authority_worktree,
             commit: request.source_commit,
             expected_projection_digest: request.expected_corrupt_projection_digest,
-            required_checks: request.required_checks,
+            required_checks: request.required_checks.clone(),
             require_review: request.require_review,
             expected_target_claim: request.expected_target_claim,
         };
@@ -2691,6 +2691,8 @@ impl Store {
                 expected_target_generation: request.expected_source_generation,
                 expected_target_digest: request.expected_source_digest,
                 expected_initialization_digest: request.expected_initialization_digest,
+                required_checks: request.required_checks.clone(),
+                require_review: request.require_review,
                 reviewed_commit: request.reviewed_commit,
                 review: request.review,
                 issue_evidence: request.issue_evidence,
@@ -2730,6 +2732,17 @@ impl Store {
                 .reviewed_commit
                 .bytes()
                 .all(|byte| byte.is_ascii_hexdigit())
+            || request.required_checks.is_empty()
+            || request
+                .required_checks
+                .iter()
+                .any(|name| name.trim().is_empty())
+            || request
+                .required_checks
+                .iter()
+                .collect::<BTreeSet<_>>()
+                .len()
+                != request.required_checks.len()
             || corrupt_source.as_ref().is_some_and(|source| {
                 source.commit.len() != 40
                     || !source.commit.bytes().all(|byte| byte.is_ascii_hexdigit())
@@ -2778,6 +2791,14 @@ impl Store {
             return Err(V2Error::new(
                 ErrorCode::InvalidInput,
                 "historical merge reconciliation requires closed linked issue, exact merged PR, current review, validation, and explicit operator authority",
+            ));
+        }
+        if pr.required_check_names != request.required_checks
+            || (request.require_review && pr.review_decision != "approved")
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "historical recovery requires explicit exact CI and repository-required review observations",
             ));
         }
         if let Some(source) = &corrupt_source {
@@ -9511,8 +9532,13 @@ mod terminal_design_repair_tests {
                 body: Some(format!("Closes #{}", target.issue)),
                 merged: true,
                 merge_commit_sha: Some("4d68d4b1f4f70c15223ebdf71d59c9010e5e3d4c".into()),
-                checks: vec![],
-                required_check_names: vec![],
+                checks: vec![crate::github::PrCheck {
+                    name: "ci".into(),
+                    required: true,
+                    conclusion: "success".into(),
+                    details_url: Some("https://example.invalid/checks/ci".into()),
+                }],
+                required_check_names: vec!["ci".into()],
                 classification: "merged".into(),
             }),
             reconciled: true,
@@ -9527,6 +9553,8 @@ mod terminal_design_repair_tests {
             expected_target_generation: target.generation,
             expected_target_digest: target.digest.clone(),
             expected_initialization_digest: target.initialization_digest.clone(),
+            required_checks: vec!["ci".into()],
+            require_review: true,
             reviewed_commit,
             review,
             issue_evidence,
@@ -9537,6 +9565,39 @@ mod terminal_design_repair_tests {
             validation,
             fail_after_stage: Some("after_projection".into()),
         };
+        let mut failed_check = request.clone();
+        failed_check
+            .merged_evidence
+            .pr_state
+            .as_mut()
+            .unwrap()
+            .checks[0]
+            .conclusion = "failure".into();
+        failed_check.merged_evidence.producer_digest = None;
+        failed_check.merged_evidence = trusted_github(failed_check.merged_evidence);
+        assert_eq!(
+            store
+                .reconcile_historical_merged(failed_check)
+                .expect_err("failed required check must fail closed")
+                .code,
+            ErrorCode::ReconciliationRequired
+        );
+        let mut missing_review = request.clone();
+        missing_review
+            .merged_evidence
+            .pr_state
+            .as_mut()
+            .unwrap()
+            .review_decision = "pending".into();
+        missing_review.merged_evidence.producer_digest = None;
+        missing_review.merged_evidence = trusted_github(missing_review.merged_evidence);
+        assert_eq!(
+            store
+                .reconcile_historical_merged(missing_review)
+                .expect_err("required remote review must fail closed")
+                .code,
+            ErrorCode::ReconciliationRequired
+        );
         assert_eq!(
             store
                 .reconcile_historical_merged(request.clone())

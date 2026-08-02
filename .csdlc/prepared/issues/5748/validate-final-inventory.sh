@@ -85,8 +85,33 @@ path_guard_self_test() {
   printf 'v0.91.8 inventory path-guard self-test PASS\n'
 }
 
+verify_live_universe() {
+  command -v gh >/dev/null 2>&1 || fail "gh is required for live universe verification"
+  local observed
+  observed="$(gh issue list --repo danielbaustin/agent-design-language \
+    --state closed --label version:v0.91.8 --limit 1000 \
+    --json number,state,closedAt,stateReason,title,url)" ||
+    fail "live GitHub closed-issue observation failed"
+  local observed_shape retained_shape
+  observed_shape="$(jq -S 'sort_by(.number) | map({
+    number, state, state_reason:.stateReason, closed_at:.closedAt, title, url
+  })' <<<"$observed")"
+  retained_shape="$(jq -S '.issues | sort_by(.number) | map({
+    number, state, state_reason, closed_at, title, url
+  })' "$universe")"
+  require_eq "$observed_shape" "$retained_shape" \
+    "live GitHub closed-issue universe differs from the retained audit universe"
+  printf 'v0.91.8 live terminal universe PASS: %s closed issues match retained evidence\n' \
+    "$(jq 'length' <<<"$observed")"
+}
+
 if [[ "${1:-}" == "--self-test-path-guards" ]]; then
   path_guard_self_test
+  exit 0
+fi
+if [[ "${1:-}" == "--verify-live" ]]; then
+  require_file "$repo_root" "$universe"
+  verify_live_universe
   exit 0
 fi
 
@@ -148,6 +173,7 @@ jq -e --argjson closed_count "$closed_count" \
      .terminal.claim_free == true and
      .checks.projection_terminal == true and
      .checks.remote_disposition_valid == true and
+     .checks.linked_issue_matches == true and
      .checks.observed_head_matches == true and
      .checks.no_pr_consistent == true)' \
   "$remote_audit" >/dev/null || fail "remote terminal disposition audit is invalid"

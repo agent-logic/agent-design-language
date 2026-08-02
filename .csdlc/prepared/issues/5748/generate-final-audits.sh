@@ -36,23 +36,15 @@ while IFS= read -r issue; do
   [[ -f "$index" ]] || fail "missing terminal projection for issue #$issue"
   pr="$(jq -r '.terminal.pull_request // empty' "$index")"
   [[ -n "$pr" ]] || continue
-  linked_issue="$({
-    jq -r --argjson pr "$pr" \
-      '.issues[] | select(any(.closing_pull_requests[]?; .number == $pr)) | .number' \
-      "$universe" | head -1
-  } || true)"
-  if [[ -n "$linked_issue" ]]; then
-    jq -n --argjson pr "$pr" --argjson linked_issue "$linked_issue" \
-      --arg token_file "$token_file" \
-      '{repository:"danielbaustin/agent-design-language",pull_request:$pr,
-        required_checks:[],require_review:false,token_file:$token_file,
-        linked_issue:$linked_issue}' >"$request_root/$pr.json"
-  else
-    jq -n --argjson pr "$pr" --arg token_file "$token_file" \
-      '{repository:"danielbaustin/agent-design-language",pull_request:$pr,
-        required_checks:[],require_review:false,token_file:$token_file,
-        linked_issue:null}' >"$request_root/$pr.json"
-  fi
+  jq -e --argjson issue "$issue" --argjson pr "$pr" '
+    .issues[] | select(.number == $issue) |
+    any(.closing_pull_requests[]?; .number == $pr)' "$universe" >/dev/null ||
+    fail "terminal PR #$pr is not a closing PR for issue #$issue"
+  jq -n --argjson pr "$pr" --argjson linked_issue "$issue" \
+    --arg token_file "$token_file" \
+    '{repository:"danielbaustin/agent-design-language",pull_request:$pr,
+      required_checks:[],require_review:false,token_file:$token_file,
+      linked_issue:$linked_issue}' >"$request_root/$issue-$pr.json"
 done < <(jq -r '.issues[].number' "$universe")
 
 export packet_root pr_state
@@ -77,7 +69,7 @@ while IFS= read -r issue; do
   [[ -f "$receipt" ]] || fail "missing retained receipt for issue #$issue"
   pr="$(jq -r '.terminal.pull_request // empty' "$index")"
   if [[ -n "$pr" ]]; then
-    packet="$packet_root/$pr.json"
+    packet="$packet_root/$issue-$pr.json"
     [[ -s "$packet" ]] || fail "missing typed remote PR packet for issue #$issue PR #$pr"
     jq -n --argjson issue "$issue" --slurpfile universe "$universe" \
       --slurpfile index "$index" --slurpfile packet "$packet" '
@@ -102,6 +94,7 @@ while IFS= read -r issue; do
         remote:{
           schema:$pr.schema,
           pull_request:$pr.pull_request,
+          linked_issue:$pr.linked_issue,
           url:$pr.url,
           head_ref:$pr.head_ref,
           head_sha:$pr.head_sha,
@@ -113,6 +106,7 @@ while IFS= read -r issue; do
           remote_disposition_valid:
             (if $record.terminal.disposition == "merged" then $pr.merged == true
              else $pr.merged == false end),
+          linked_issue_matches:($pr.linked_issue == $issue),
           observed_head_matches:($record.terminal.observed_sha == $pr.head_sha),
           no_pr_consistent:true
         }
@@ -144,6 +138,7 @@ while IFS= read -r issue; do
           remote_disposition_valid:
             ($record.terminal.disposition == "closed_no_pr" and
              $record.terminal.observed_state == "closed_no_pr"),
+          linked_issue_matches:true,
           observed_head_matches:($record.terminal.observed_sha == null),
           no_pr_consistent:
             ($record.terminal.pull_request == null and
@@ -223,6 +218,7 @@ jq -s --arg observed_at "$observed_at" '
    source:"typed C-SDLC v2 closeout verification and validate-prune observation",
    issues:sort_by(.number)}' "$prune_rows" >"$prune_audit"
 
-printf 'v0.91.8 final audits generated: %s issues, %s typed PR packets\n' \
+printf 'v0.91.8 final audits generated: %s issues, %s typed issue/PR packets (%s unique PRs)\n' \
   "$(jq '.issues | length' "$remote_audit")" \
-  "$(find "$packet_root" -type f -name '*.json' | wc -l | tr -d ' ')"
+  "$(find "$packet_root" -type f -name '*.json' | wc -l | tr -d ' ')" \
+  "$(jq '[.issues[].terminal.pull_request | select(. != null)] | unique | length' "$remote_audit")"

@@ -338,6 +338,8 @@ pub struct HistoricalMergedReconciliationRequest {
     pub expected_target_generation: u64,
     pub expected_target_digest: String,
     pub expected_initialization_digest: String,
+    pub required_checks: Vec<String>,
+    pub require_review: bool,
     pub reviewed_commit: String,
     pub review: ReviewEvidence,
     pub issue_evidence: crate::github::GithubActionResult,
