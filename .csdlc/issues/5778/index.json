@@ -3,13 +3,13 @@
   "issue": 5778,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "c659a5357ad8ca72e143114750cb7b9837aea94e4ae17d1f9d27bd41ead4e3ce",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "5f1c6cb80a8cab2ebc019084615cb5b58255b1d388e6a38c011593f24f4f10ca",
   "claim": {
     "id": "claim-5778-derived-terminal-finish",
     "owner": "codex:5778-implementation",
-    "generation": 22,
+    "generation": 24,
     "acquired_unix_seconds": 1785696508,
     "expires_unix_seconds": 1786301308,
     "heartbeat_unix_seconds": 1785696508,
@@ -53,7 +53,19 @@
       "."
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:review_5778_exact_head",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:a13bac366e2e9fe228b13ae058543ca3c3cd61fe:f74554d056eb0dcf1de41c5b3b64ac58b912b6bcee9254f2a97a3159da195dfd",
+    "findings": [],
+    "residual_risks": [
+      "The repaired exact head still requires GitHub Actions integration proof before merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -68,32 +80,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "26b5fa72c1b174bdee8cb422ec6f34a2d0ae1539ffc728763b888b4effb6e01c",
+      "values_digest": "5f235ea7b1ba549eae9e82e18acbba60a7a4568c264f7c4d86db0da63048c1cd",
       "rendered_digest": "5a2fd63675d213bfb70982b39dba3505049fe021928752eb021ecfecee82cc70",
       "ast_digest": "c18ad70c57b8cee4527033ee4d4a12574a61a1883160f2c0324c1017f357e9bc"
     },
     "stp": {
-      "values_digest": "dfeb86951c337d91f53d70d26a61a8c33a6d03898a03ec368d3c06e003899566",
+      "values_digest": "b3497e130c8bbc354d66e3adaa467578000411187500fb8aa77bd492a82f56a9",
       "rendered_digest": "d16a8c831462ed4f9aff432c69e09fa9d502ef69be8bb66aeb07f248ee02bbc2",
       "ast_digest": "04b7d14ec104707dba9c2ad8ac9c74fe32c107416e2306c527cc33a2464fa559"
     },
     "spp": {
-      "values_digest": "389d405061e2a2d504463149a44a499040ed3598530334868b4b5a3c770d0539",
+      "values_digest": "4c731c51e3e2a699d73bff9f10358017f3a138d10c19e768de9a7b3a50bfa331",
       "rendered_digest": "d80f518797020d25a44f2c16c35c4be04f78dcd894740ce88f77509ce9b72b83",
       "ast_digest": "0f676c5c5184cb9fd9ae6fd7ce3276acf8cef36aec84f9cf66d52834b47f17e6"
     },
     "vpp": {
-      "values_digest": "51322ceaae8ac0de0ad2195ea75fc9d45fd08082b69486d2eac2f96ef35b2c3b",
+      "values_digest": "59659d1d351ef78f512cf0e5cb419ad09177eca55b876133eb5286ea00368da6",
       "rendered_digest": "1df40bc9a4fdb8d03d63ab3a44549a75418fa765c94f8e643ef4b1832195f2dc",
       "ast_digest": "bb0bb64488d056fa40bd61d2248ea22586513a0a6c084ddc5a9db5e738586f85"
     },
     "srp": {
-      "values_digest": "fd107a51c6aa50f53365b706614b9f39731b5be5278b6dae86f251693369235c",
-      "rendered_digest": "cef5f06477aa1f7bec5368adb26c601cd73b752f4d39b75d03deaae39f58babe",
-      "ast_digest": "c048e6e660c6e5a205310c9ab384649856d809a4adc6026acf2e6ef5ff90c91b"
+      "values_digest": "3fa18d9f2cb690792fa0990b89c6f9dffb11ab1a0f715a23e9e95d7f0b7b8691",
+      "rendered_digest": "2ef62b2786adb1751cc9afa21fbeb239e5dae89fd3de4d0dc09bb873c1080116",
+      "ast_digest": "290c0c431af5bc9c4ff369b373383a3790443a78a6a92ae6c7b19cef1d5473e1"
     },
     "sor": {
-      "values_digest": "0b2aa7c84584184f98e214b94c843f48627326fac66a8e42d8db1b8bd98aea06",
+      "values_digest": "da40e789af3830798e01a206cdce8341c4e5b35d9db7205522ec69651fb55544",
       "rendered_digest": "154ed3fec776244c57a2bbddd3625a83abd1cc399f63394ddf7a70bf37d7aa1e",
       "ast_digest": "01929a6ea857edf94566d0413daf302e9a89febd79a9ced1993cb05e59a49e02"
     }
@@ -182,6 +194,13 @@
       "to": "implemented",
       "actor": "codex:5778-implementation",
       "reason": "Recover exact review and publication truth to repair the independently tracked #5785 end-to-end finish authority gap exposed by the first real invocation."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5778-implementation",
+      "reason": "Independent exact-head review passed after all #5785 finish-authority and publication-lineage blockers were repaired."
     }
   ],
   "audit": [
@@ -401,6 +420,20 @@
       "actor": "codex:5778-implementation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex-subagent:review_5778_exact_head",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "codex:5778-implementation",
+      "reason": "Independent exact-head review passed after all #5785 finish-authority and publication-lineage blockers were repaired.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

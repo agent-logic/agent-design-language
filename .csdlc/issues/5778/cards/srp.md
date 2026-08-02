@@ -31,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The repaired exact head still requires GitHub Actions integration proof before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:a13bac366e2e9fe228b13ae058543ca3c3cd61fe:f74554d056eb0dcf1de41c5b3b64ac58b912b6bcee9254f2a97a3159da195dfd")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:review_5778_exact_head")
 
-Result: pre_review
+Result: pass
