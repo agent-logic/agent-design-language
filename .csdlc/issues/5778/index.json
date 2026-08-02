@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
   "phase": "implemented",
-  "generation": 2,
-  "digest": "11ef148c905df2990d4d3dbbe7702843d8c3bc45fe9972f5600b6af4888295a0",
+  "generation": 3,
+  "digest": "81e7f09cc167f3fa23e7555209f15fe04cb296f8cbe3d6fbf6c681331a1ec9ea",
   "claim": {
     "id": "claim-5778-derived-terminal-finish",
     "owner": "codex:5778-implementation",
-    "generation": 2,
+    "generation": 3,
     "acquired_unix_seconds": 1785696508,
     "expires_unix_seconds": 1786301308,
     "heartbeat_unix_seconds": 1785696508,
@@ -60,34 +60,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "667c52290ac894dc353b894f7042c5cdb2e4f30e702706beb122c73affa9084b",
+      "values_digest": "19c25b04d49bb128f0c5acc8c4b45383ff7017d8cfa3dcf471aafb24b021746b",
       "rendered_digest": "5a2fd63675d213bfb70982b39dba3505049fe021928752eb021ecfecee82cc70",
       "ast_digest": "c18ad70c57b8cee4527033ee4d4a12574a61a1883160f2c0324c1017f357e9bc"
     },
     "stp": {
-      "values_digest": "efcc9cae190c8bbc875cac80ae08dfa6494b7fe6ef46e7886be4b5e65d194224",
+      "values_digest": "703603c57893493bc985f9c84f72f654905eb3a3c9b8b79e96b8aa85e8f011bb",
       "rendered_digest": "d16a8c831462ed4f9aff432c69e09fa9d502ef69be8bb66aeb07f248ee02bbc2",
       "ast_digest": "04b7d14ec104707dba9c2ad8ac9c74fe32c107416e2306c527cc33a2464fa559"
     },
     "spp": {
-      "values_digest": "c4938d03d70ba3c00ae8a934b0e90a657e8707d93b7079ced81b575fa3a19089",
+      "values_digest": "f3eeb5142d8b1336d89c5b05c6e2ea56c8491088740422a05ae5e80a9edd9a19",
       "rendered_digest": "d80f518797020d25a44f2c16c35c4be04f78dcd894740ce88f77509ce9b72b83",
       "ast_digest": "0f676c5c5184cb9fd9ae6fd7ce3276acf8cef36aec84f9cf66d52834b47f17e6"
     },
     "vpp": {
-      "values_digest": "34dfa15672e76bc8b8c86e958575949390b17ebe82672a24954e138d19cdf826",
+      "values_digest": "426514a1ae61a2a1eece5aad431bebdd8a85cee7b9c30fd1f978b6349b48176f",
       "rendered_digest": "1df40bc9a4fdb8d03d63ab3a44549a75418fa765c94f8e643ef4b1832195f2dc",
       "ast_digest": "bb0bb64488d056fa40bd61d2248ea22586513a0a6c084ddc5a9db5e738586f85"
     },
     "srp": {
-      "values_digest": "a8eb3db36eb0413e1aed8737bae2d9dcf1f207bf172d4d372784c1dbbdc501ef",
+      "values_digest": "1cf965d2321473d9c16e31618d8fc2c3a2b9a5c9d49ae16cf59ace1b4fd58281",
       "rendered_digest": "9acab9d55b5b2cb2bd2acd38a469ba724853d23fe2a0b7aa24d6f2b22688941b",
       "ast_digest": "eed2647840d3e7556468f21c7a5c1c4cf243d0f40f603e6901e4e10e00b96c51"
     },
     "sor": {
-      "values_digest": "0558556067bf07a7bbafbcad42e935107574a78617741d6fdb8e9c2279e26851",
-      "rendered_digest": "e4340350318a7d1e914da5839119df60845a9db11d27bddb1c017bc534ac937c",
-      "ast_digest": "56bce795e8d13517e799e27cfb73651c10212284dd522d08b318ae41fe3b76df"
+      "values_digest": "600304b2d5f1214d9094980455c775aefd1ecfdebaa9b7bb126a23b5de13bee3",
+      "rendered_digest": "982251ec2628b2212dc6d09e4effb8d1223c1fdbe222f989d7213ce899e3070e",
+      "ast_digest": "46467f9be39602a5ad10d3a193966dd2ca4f48203a76709db425f943502d2881"
     }
   },
   "transitions": [
@@ -148,6 +148,13 @@
       "actor": "codex:5778-implementation",
       "reason": "Replace implementation truth with the exact post-remediation validation result before review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Added one idempotent C-SDLC v2 finish command that preserves exact-head gates, derives terminal authority from live GitHub state, and eliminates tracked post-merge closeout writes.\",\"changes\":[\"Added typed csdlc-finish request, result, derived-terminal envelope, and operator route.\",\"Reused the exact-head merge primitive and restricted review approval to the current PR head.\",\"Added a minimal serialized and symlink-safe Git-common terminal cache that logically releases stale claims without becoming canonical lifecycle state.\",\"Kept legacy csdlc-closeout available only for migration and repair while changing the default workflow to finish.\"],\"artifacts\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/tests/gate_finish.rs\",\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\".csdlc/evidence/5778/post-finalize-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--lib\",\"--test\",\"gate_finish\",\"--test\",\"gate7_lifecycle\",\"--test\",\"gate10a\",\"--test\",\"gate10b\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Prove exact-head review normalization, terminal derivation, concurrency, stale-claim release, legacy lifecycle compatibility, installation, and GitHub action behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free C-SDLC v2 code across all targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:5778-implementation",
+      "reason": "Record exact validation after fixing all four independent-review blockers and the serialization gap.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Added a reviewed, idempotent C-SDLC v2 finish path with canonical no-PR approval, mandatory post-merge re-observation, exact-record cache binding, and serialized execution.\",\"changes\":[\"Added typed csdlc-finish request, result, derived-terminal envelope, and operator route.\",\"Reused the exact-head merge primitive and reduced GitHub reviews to each reviewer's latest state on the current head.\",\"Required the fixed closeout:no-pr-approved GitHub label for no-PR terminal authority.\",\"Re-observed GitHub issue and PR state after merge instead of synthesizing terminal state.\",\"Bound cached terminal authority to exact canonical generation/digest; immutable merges persist while mutable closures expire and can refresh.\",\"Serialized the full finish operation and cache replacement under symlink-safe Git-common locks.\"],\"artifacts\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/tests/gate_finish.rs\",\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\".csdlc/evidence/5778/post-finalize-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--lib\",\"--test\",\"gate_finish\",\"--test\",\"gate7_lifecycle\",\"--test\",\"gate10a\",\"--test\",\"gate10b\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Prove review remediation, terminal derivation, cache safety, lifecycle compatibility, installation, and GitHub behavior on the exact current worktree.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--locked\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free C-SDLC v2 code across all targets after review remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5778/post-finalize-remediation.md\"}]}"
     }
   ]
 }

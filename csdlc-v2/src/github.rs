@@ -997,9 +997,24 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
         .await
         .map_err(remote)?;
     let review_decision = exact_head_review_decision(
-        reviews
-            .iter()
-            .map(|review| (review.commit_id.as_deref(), review.state)),
+        reviews.iter().map(|review| {
+            (
+                review
+                    .user
+                    .as_ref()
+                    .map(|user| user.login.as_str())
+                    .unwrap_or_default(),
+                review.commit_id.as_deref(),
+                review.state,
+                (
+                    review
+                        .submitted_at
+                        .map(|submitted| submitted.timestamp_millis())
+                        .unwrap_or_default(),
+                    review.id.0,
+                ),
+            )
+        }),
         &head.sha,
     );
     let merge_state = normalize_mergeable_state(pr.mergeable_state);
@@ -1034,12 +1049,30 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
 }
 
 fn exact_head_review_decision<'a>(
-    reviews: impl IntoIterator<Item = (Option<&'a str>, Option<ReviewState>)>,
+    reviews: impl IntoIterator<Item = (&'a str, Option<&'a str>, Option<ReviewState>, (i64, u64))>,
     head_sha: &str,
 ) -> &'static str {
-    let states = reviews
-        .into_iter()
-        .filter_map(|(commit_id, state)| (commit_id == Some(head_sha)).then_some(state).flatten())
+    let mut latest = BTreeMap::<String, ((i64, u64), Option<ReviewState>)>::new();
+    for (reviewer, commit_id, state, order) in reviews {
+        if commit_id != Some(head_sha) {
+            continue;
+        }
+        let key = if reviewer.is_empty() {
+            format!("anonymous-review-{}", order.1)
+        } else {
+            reviewer.into()
+        };
+        if latest
+            .get(&key)
+            .is_none_or(|(current_order, _)| order > *current_order)
+        {
+            latest.insert(key, (order, state));
+        }
+    }
+    let states = latest
+        .values()
+        .filter_map(|(_, state)| *state)
+        .filter(|state| *state != ReviewState::Dismissed)
         .collect::<Vec<_>>();
     if states.contains(&ReviewState::ChangesRequested) {
         "changes_requested"
@@ -1136,8 +1169,13 @@ mod tests {
     fn review_decision_ignores_approval_from_a_superseded_head() {
         let decision = exact_head_review_decision(
             [
-                (Some("old"), Some(ReviewState::Approved)),
-                (Some("current"), Some(ReviewState::Commented)),
+                ("reviewer", Some("old"), Some(ReviewState::Approved), (1, 1)),
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::Commented),
+                    (2, 2),
+                ),
             ],
             "current",
         );
@@ -1148,12 +1186,39 @@ mod tests {
     fn exact_head_changes_requested_wins_over_exact_head_approval() {
         let decision = exact_head_review_decision(
             [
-                (Some("current"), Some(ReviewState::Approved)),
-                (Some("current"), Some(ReviewState::ChangesRequested)),
+                ("a", Some("current"), Some(ReviewState::Approved), (1, 1)),
+                (
+                    "b",
+                    Some("current"),
+                    Some(ReviewState::ChangesRequested),
+                    (2, 2),
+                ),
             ],
             "current",
         );
         assert_eq!(decision, "changes_requested");
+    }
+
+    #[test]
+    fn later_approval_supersedes_same_reviewer_changes_request() {
+        let decision = exact_head_review_decision(
+            [
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::ChangesRequested),
+                    (1, 1),
+                ),
+                (
+                    "reviewer",
+                    Some("current"),
+                    Some(ReviewState::Approved),
+                    (2, 2),
+                ),
+            ],
+            "current",
+        );
+        assert_eq!(decision, "approved");
     }
     #[test]
     fn classifies_common_tail_states() {

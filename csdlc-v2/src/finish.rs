@@ -12,6 +12,9 @@ use crate::github::PrStatePacket;
 use crate::merge::{MergeMethod, MergeRequest};
 use crate::model::{IssueRecord, LifecyclePhase};
 
+pub const NO_PR_APPROVAL_LABEL: &str = "closeout:no-pr-approved";
+const MUTABLE_TERMINAL_FRESHNESS_SECONDS: u64 = 300;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum FinishDisposition {
@@ -48,6 +51,8 @@ pub struct DerivedTerminalEnvelope {
     pub issue: u64,
     pub repository: String,
     pub initialization_digest: String,
+    pub canonical_generation: u64,
+    pub canonical_digest: String,
     pub pull_request: Option<u64>,
     pub disposition: FinishDisposition,
     pub head_sha: Option<String>,
@@ -55,9 +60,19 @@ pub struct DerivedTerminalEnvelope {
     pub issue_state: String,
     pub pr_state: Option<String>,
     pub approved_reason: Option<String>,
+    pub observed_unix_seconds: u64,
+    pub mutable_fresh_until_unix_seconds: Option<u64>,
     pub claim_logically_released: bool,
     pub source: String,
     pub digest: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct IssueTerminalObservation {
+    pub state: String,
+    #[serde(default)]
+    pub labels: Vec<String>,
+    pub observed_unix_seconds: u64,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -182,7 +197,7 @@ pub fn as_merge_request(request: &FinishRequest) -> Result<MergeRequest> {
 pub fn derive_terminal(
     record: &IssueRecord,
     request: &FinishRequest,
-    issue_state: &str,
+    issue: &IssueTerminalObservation,
     packet: Option<&PrStatePacket>,
 ) -> Result<Option<DerivedTerminalEnvelope>> {
     validate_canonical_identity(record, request)?;
@@ -203,7 +218,7 @@ pub fn derive_terminal(
                     Some(merge_sha),
                     Some(packet.state.clone()),
                 )
-            } else if packet.state == "closed" && issue_state == "closed" {
+            } else if packet.state == "closed" && issue.state == "closed" {
                 (
                     FinishDisposition::ClosedUnmerged,
                     Some(packet.pull_request),
@@ -215,7 +230,20 @@ pub fn derive_terminal(
                 return Ok(None);
             }
         }
-        None if issue_state == "closed" => (FinishDisposition::ClosedNoPr, None, None, None, None),
+        None if issue.state == "closed"
+            && issue
+                .labels
+                .iter()
+                .any(|label| label == NO_PR_APPROVAL_LABEL) =>
+        {
+            (FinishDisposition::ClosedNoPr, None, None, None, None)
+        }
+        None if issue.state == "closed" => {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!("no-PR closure requires GitHub label {NO_PR_APPROVAL_LABEL}"),
+            ));
+        }
         None => return Ok(None),
     };
     let mut envelope = DerivedTerminalEnvelope {
@@ -223,6 +251,8 @@ pub fn derive_terminal(
         issue: record.issue,
         repository: record.repository.clone(),
         initialization_digest: record.initialization_digest.clone(),
+        canonical_generation: record.generation,
+        canonical_digest: record.digest.clone(),
         pull_request,
         disposition,
         head_sha,
@@ -230,10 +260,16 @@ pub fn derive_terminal(
         issue_state: if disposition == FinishDisposition::Merged {
             "closed_by_merged_pr".into()
         } else {
-            issue_state.into()
+            issue.state.clone()
         },
         pr_state,
         approved_reason: request.approved_no_pr_reason.clone(),
+        observed_unix_seconds: issue.observed_unix_seconds,
+        mutable_fresh_until_unix_seconds: (disposition != FinishDisposition::Merged).then(|| {
+            issue
+                .observed_unix_seconds
+                .saturating_add(MUTABLE_TERMINAL_FRESHNESS_SECONDS)
+        }),
         claim_logically_released: true,
         source: "live_github".into(),
         digest: String::new(),
@@ -263,6 +299,8 @@ pub fn validate_envelope(envelope: &DerivedTerminalEnvelope) -> Result<()> {
         || envelope.issue == 0
         || envelope.repository.split_once('/').is_none()
         || envelope.initialization_digest.trim().is_empty()
+        || envelope.canonical_digest.trim().is_empty()
+        || envelope.observed_unix_seconds == 0
         || !envelope.claim_logically_released
         || envelope.source != "live_github"
         || envelope.digest != envelope_digest(envelope)?
@@ -270,6 +308,18 @@ pub fn validate_envelope(envelope: &DerivedTerminalEnvelope) -> Result<()> {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
             "derived terminal envelope is invalid",
+        ));
+    }
+    if (envelope.disposition == FinishDisposition::Merged
+        && envelope.mutable_fresh_until_unix_seconds.is_some())
+        || (envelope.disposition != FinishDisposition::Merged
+            && envelope
+                .mutable_fresh_until_unix_seconds
+                .is_none_or(|until| until < envelope.observed_unix_seconds))
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "derived terminal freshness contract is invalid",
         ));
     }
     if envelope.disposition == FinishDisposition::Merged
@@ -303,7 +353,33 @@ pub fn envelope_matches_record(
     validate_envelope(envelope)?;
     Ok(envelope.issue == record.issue
         && envelope.repository == record.repository
-        && envelope.initialization_digest == record.initialization_digest)
+        && envelope.initialization_digest == record.initialization_digest
+        && envelope.canonical_generation == record.generation
+        && envelope.canonical_digest == record.digest
+        && match envelope.pull_request {
+            Some(pull_request) => record.publication.as_ref().is_some_and(|publication| {
+                publication.pull_request == pull_request
+                    && envelope
+                        .head_sha
+                        .as_deref()
+                        .is_some_and(|head| publication.revision == clean_commit_revision(head))
+            }),
+            None => true,
+        })
+}
+
+pub fn envelope_releases_claim(
+    envelope: &DerivedTerminalEnvelope,
+    record: &IssueRecord,
+    now_unix_seconds: u64,
+) -> Result<bool> {
+    if !envelope_matches_record(envelope, record)? {
+        return Ok(false);
+    }
+    Ok(envelope.disposition == FinishDisposition::Merged
+        || envelope
+            .mutable_fresh_until_unix_seconds
+            .is_some_and(|until| now_unix_seconds <= until))
 }
 
 pub fn terminal_cache_path(root: &Path, issue: u64) -> Result<PathBuf> {
@@ -345,7 +421,7 @@ pub fn retain_cached_terminal(root: &Path, envelope: &DerivedTerminalEnvelope) -
     validate_envelope(envelope)?;
     let path = terminal_cache_path(root, envelope.issue)?;
     let parent = validate_cache_parent(root, true)?;
-    let lock_path = parent.join(format!(".{}.lock", envelope.issue));
+    let lock_path = parent.join(format!(".{}.cache.lock", envelope.issue));
     if fs::symlink_metadata(&lock_path)
         .is_ok_and(|metadata| metadata.file_type().is_symlink() || !metadata.file_type().is_file())
     {
@@ -368,16 +444,34 @@ pub fn retain_cached_terminal(root: &Path, envelope: &DerivedTerminalEnvelope) -
     let lock = lock_options.open(&lock_path)?;
     lock.lock_exclusive()?;
     if path.exists() {
+        let metadata = fs::symlink_metadata(&path)?;
+        if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "derived terminal cache is not a regular file",
+            ));
+        }
         let existing: DerivedTerminalEnvelope = serde_json::from_slice(&fs::read(&path)?)?;
         validate_envelope(&existing)?;
         if existing == *envelope {
             FileExt::unlock(&lock)?;
             return Ok(path);
         }
-        return Err(V2Error::new(
-            ErrorCode::ReconciliationRequired,
-            "derived terminal cache conflicts with a retained terminal observation",
-        ));
+        if existing.issue != envelope.issue
+            || existing.repository != envelope.repository
+            || existing.initialization_digest != envelope.initialization_digest
+            || existing.canonical_generation != envelope.canonical_generation
+            || existing.canonical_digest != envelope.canonical_digest
+            || (existing.disposition == FinishDisposition::Merged
+                && envelope.disposition != FinishDisposition::Merged)
+            || (existing.disposition == FinishDisposition::Merged
+                && existing.merge_sha != envelope.merge_sha)
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "derived terminal cache conflicts with retained immutable authority",
+            ));
+        }
     }
     let nonce = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
@@ -400,6 +494,35 @@ pub fn retain_cached_terminal(root: &Path, envelope: &DerivedTerminalEnvelope) -
     File::open(parent)?.sync_all()?;
     FileExt::unlock(&lock)?;
     Ok(path)
+}
+
+pub fn lock_finish_operation(root: &Path, issue: u64) -> Result<File> {
+    if issue == 0 {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "finish lock requires a nonzero issue",
+        ));
+    }
+    let parent = validate_cache_parent(root, true)?;
+    let lock_path = parent.join(format!(".{issue}.finish.lock"));
+    if fs::symlink_metadata(&lock_path)
+        .is_ok_and(|metadata| metadata.file_type().is_symlink() || !metadata.file_type().is_file())
+    {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "finish operation lock is not a regular file",
+        ));
+    }
+    let mut options = OpenOptions::new();
+    options.create(true).truncate(false).read(true).write(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        options.custom_flags(libc::O_NOFOLLOW);
+    }
+    let lock = options.open(lock_path)?;
+    lock.lock_exclusive()?;
+    Ok(lock)
 }
 
 fn validate_cache_parent(root: &Path, create: bool) -> Result<PathBuf> {
@@ -555,9 +678,17 @@ mod tests {
         }
     }
 
+    fn issue(state: &str) -> IssueTerminalObservation {
+        IssueTerminalObservation {
+            state: state.into(),
+            labels: Vec::new(),
+            observed_unix_seconds: 100,
+        }
+    }
+
     #[test]
     fn merged_pr_derives_terminal_without_mutating_record() {
-        let terminal = derive_terminal(&record(), &request(), "closed", Some(&packet()))
+        let terminal = derive_terminal(&record(), &request(), &issue("closed"), Some(&packet()))
             .expect("derive")
             .expect("terminal");
         assert_eq!(terminal.disposition, FinishDisposition::Merged);
@@ -571,7 +702,7 @@ mod tests {
         packet.merged = false;
         packet.merge_commit_sha = None;
         assert!(
-            derive_terminal(&record(), &request(), "open", Some(&packet))
+            derive_terminal(&record(), &request(), &issue("open"), Some(&packet))
                 .unwrap()
                 .is_none()
         );

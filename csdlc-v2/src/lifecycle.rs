@@ -214,12 +214,14 @@ fn terminal_projection_overlap_is_released(
     candidate: &str,
     now_unix_seconds: u64,
 ) -> Result<bool> {
-    if crate::finish::load_cached_terminal(store.root(), local.issue)?
-        .as_ref()
-        .is_some_and(|terminal| {
-            crate::finish::envelope_matches_record(terminal, local).unwrap_or(false)
-        })
-    {
+    let cached_terminal = crate::finish::load_cached_terminal(store.root(), local.issue)?;
+    let immutable_terminal = if let Some(terminal) = &cached_terminal {
+        terminal.disposition == crate::finish::FinishDisposition::Merged
+            && crate::finish::envelope_releases_claim(terminal, local, now_unix_seconds)?
+    } else {
+        false
+    };
+    if immutable_terminal {
         return Ok(true);
     }
     let issue_path = format!(".csdlc/issues/{}", local.issue);
@@ -232,6 +234,11 @@ fn terminal_projection_overlap_is_released(
         && claim_matches_active_checkout(observed_store, claim)?
     {
         return Ok(false);
+    }
+    if let Some(terminal) = &cached_terminal {
+        if crate::finish::envelope_releases_claim(terminal, local, now_unix_seconds)? {
+            return Ok(true);
+        }
     }
     if exact_issue_projection && store.has_claim_free_retained_terminal_authority(local)? {
         return Ok(true);
@@ -2150,7 +2157,12 @@ mod terminal_projection_authority_tests {
             approved_no_pr_reason: Some("approved closure".into()),
             token_file: None,
         };
-        let envelope = derive_terminal(&record, &request, "closed", None)
+        let issue = crate::finish::IssueTerminalObservation {
+            state: "closed".into(),
+            labels: vec![crate::finish::NO_PR_APPROVAL_LABEL.into()],
+            observed_unix_seconds: 2,
+        };
+        let envelope = derive_terminal(&record, &request, &issue, None)
             .expect("derive")
             .expect("terminal");
         retain_cached_terminal(temp.path(), &envelope).expect("retain");

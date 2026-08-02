@@ -35,7 +35,10 @@ pub use eligibility::{
     DeletionEligibilityRequest, DeletionEntry, DeletionManifest, DeletionReason, EntryDisposition,
 };
 pub use error::{ErrorCode, Result, V2Error};
-pub use finish::{DerivedTerminalEnvelope, FinishDisposition, FinishRequest, FinishResult};
+pub use finish::{
+    DerivedTerminalEnvelope, FinishDisposition, FinishRequest, FinishResult,
+    IssueTerminalObservation,
+};
 pub use git::shared_request_path;
 pub use github::{
     append_marker, execute_github_action, marker_line, GithubAction, GithubActionRequest,

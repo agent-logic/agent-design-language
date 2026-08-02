@@ -10,8 +10,9 @@ one typed finish request with `--root` and `--request`.
 
 The command validates canonical pre-merge evidence and live GitHub identity. An
 open PR is merged only at the declared SHA after its required checks and exact-
-head review pass. A merged, closed-unmerged, or explicitly approved closed-no-PR
-issue is recognized idempotently.
+head review pass. A merged or closed-unmerged PR is recognized from re-observed
+GitHub state. A no-PR closure additionally requires the fixed
+`closeout:no-pr-approved` GitHub label.
 
 The result is a minimal derived terminal envelope retained beneath the Git
 common directory. It is a rebuildable cache, not a new lifecycle record. The

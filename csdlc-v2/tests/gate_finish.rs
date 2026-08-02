@@ -2,11 +2,12 @@ use std::collections::BTreeMap;
 use std::process::Command;
 
 use csdlc_v2::finish::{
-    derive_terminal, envelope_matches_record, load_cached_terminal, retain_cached_terminal,
+    derive_terminal, envelope_matches_record, envelope_releases_claim, load_cached_terminal,
+    retain_cached_terminal,
 };
 use csdlc_v2::{
-    DesignReview, FinishDisposition, FinishRequest, IssueRecord, LifecyclePhase, MergeMethod,
-    PublicationEvidence,
+    DesignReview, FinishDisposition, FinishRequest, IssueRecord, IssueTerminalObservation,
+    LifecyclePhase, MergeMethod, PublicationEvidence,
 };
 
 fn record(phase: LifecyclePhase, publication: Option<PublicationEvidence>) -> IssueRecord {
@@ -58,10 +59,21 @@ fn no_pr_request() -> FinishRequest {
     }
 }
 
+fn issue(state: &str, approved: bool) -> IssueTerminalObservation {
+    IssueTerminalObservation {
+        state: state.into(),
+        labels: approved
+            .then(|| csdlc_v2::finish::NO_PR_APPROVAL_LABEL.into())
+            .into_iter()
+            .collect(),
+        observed_unix_seconds: 100,
+    }
+}
+
 #[test]
 fn closed_no_pr_terminal_cache_is_minimal_rebuildable_and_idempotent() {
     let record = record(LifecyclePhase::Reviewed, None);
-    let envelope = derive_terminal(&record, &no_pr_request(), "closed", None)
+    let envelope = derive_terminal(&record, &no_pr_request(), &issue("closed", true), None)
         .expect("derive")
         .expect("terminal");
     assert_eq!(envelope.disposition, FinishDisposition::ClosedNoPr);
@@ -92,9 +104,32 @@ fn closed_no_pr_terminal_cache_is_minimal_rebuildable_and_idempotent() {
 #[test]
 fn open_issue_without_pr_is_not_terminal() {
     let record = record(LifecyclePhase::Reviewed, None);
-    assert!(derive_terminal(&record, &no_pr_request(), "open", None)
+    assert!(
+        derive_terminal(&record, &no_pr_request(), &issue("open", false), None)
+            .expect("derive")
+            .is_none()
+    );
+}
+
+#[test]
+fn closed_no_pr_requires_canonical_github_approval_label() {
+    let record = record(LifecyclePhase::Reviewed, None);
+    let error = derive_terminal(&record, &no_pr_request(), &issue("closed", false), None)
+        .expect_err("missing approval label");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+}
+
+#[test]
+fn mutable_terminal_cache_expires_and_is_bound_to_exact_record() {
+    let record = record(LifecyclePhase::Reviewed, None);
+    let envelope = derive_terminal(&record, &no_pr_request(), &issue("closed", true), None)
         .expect("derive")
-        .is_none());
+        .expect("terminal");
+    assert!(envelope_releases_claim(&envelope, &record, 400).expect("fresh"));
+    assert!(!envelope_releases_claim(&envelope, &record, 401).expect("expired"));
+    let mut changed = record.clone();
+    changed.generation += 1;
+    assert!(!envelope_releases_claim(&envelope, &changed, 100).expect("record drift"));
 }
 
 #[cfg(unix)]
@@ -103,7 +138,7 @@ fn terminal_cache_rejects_symlinked_git_common_parent() {
     use std::os::unix::fs::symlink;
 
     let record = record(LifecyclePhase::Reviewed, None);
-    let envelope = derive_terminal(&record, &no_pr_request(), "closed", None)
+    let envelope = derive_terminal(&record, &no_pr_request(), &issue("closed", true), None)
         .expect("derive")
         .expect("terminal");
     let temp = tempfile::tempdir().expect("tempdir");
@@ -123,7 +158,7 @@ fn terminal_cache_rejects_symlinked_git_common_parent() {
 #[test]
 fn concurrent_identical_finish_retention_converges() {
     let record = record(LifecyclePhase::Reviewed, None);
-    let envelope = derive_terminal(&record, &no_pr_request(), "closed", None)
+    let envelope = derive_terminal(&record, &no_pr_request(), &issue("closed", true), None)
         .expect("derive")
         .expect("terminal");
     let temp = tempfile::tempdir().expect("tempdir");
@@ -152,4 +187,32 @@ fn concurrent_identical_finish_retention_converges() {
         .map(|worker| worker.join().expect("worker").expect("retain"))
         .collect::<Vec<_>>();
     assert_eq!(retained[0], retained[1]);
+}
+
+#[test]
+fn mutable_terminal_cache_is_replaceable_by_a_fresher_live_observation() {
+    let record = record(LifecyclePhase::Reviewed, None);
+    let first = derive_terminal(&record, &no_pr_request(), &issue("closed", true), None)
+        .expect("derive")
+        .expect("terminal");
+    let mut later_issue = issue("closed", true);
+    later_issue.observed_unix_seconds = 200;
+    let later = derive_terminal(&record, &no_pr_request(), &later_issue, None)
+        .expect("derive later")
+        .expect("terminal later");
+    let temp = tempfile::tempdir().expect("tempdir");
+    assert!(Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(temp.path())
+        .status()
+        .expect("git init")
+        .success());
+    retain_cached_terminal(temp.path(), &first).expect("retain first");
+    retain_cached_terminal(temp.path(), &later).expect("replace mutable cache");
+    assert_eq!(
+        load_cached_terminal(temp.path(), 5778)
+            .expect("load")
+            .expect("terminal"),
+        later
+    );
 }
