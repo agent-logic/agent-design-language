@@ -8,11 +8,12 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: draft
+Status: complete
 
 ## Scope
 
 demos/html-observatory
+adl/tools/validate_v0917_html_observatory.py
 adl-runtime-kernel/tests/parity.rs
 adl-runtime/tests/runtime_api_wss.rs
 adl/config/validation_lane_selector.v0.91.6.json
@@ -49,8 +50,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:7801b941d0f00a89c8e8ebe4bc70eb93a73a8359:1d726d40a3ece4218b082358250bced33bde150f73d220bea8af825fc5975f35")
+Revision: Some("git-blake3:db41b249277a91140d4fd67bfc5bf898f4565774:17d3919116b2dcfd1fba8bb4152b670f3b2155c0a3fbbed2bc189c7d9808a9c0")
 
-Reviewer: Some("subagent:019fafe9-2cac-77d2-8aa9-fcbd0157746d")
+Reviewer: Some("codex:019fbbff-9fb2-72f2-8b81-2f03f6ae2e1e")
 
 Result: pass

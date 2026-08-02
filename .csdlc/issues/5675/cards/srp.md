@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: draft
+Status: complete
 
 ## Scope
 
@@ -31,13 +31,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Live Kimi and MiniMax completion success remains unproven because both approved accounts reported insufficient balance; adapter reachability and typed billing failure paths are proven.
-- Only lifecycle metadata, evidence, generated cards, design/diagram artifacts, and the Opus runbook changed after the source review.
+- PR #5759 is the governed corrective evidence for the MiniMax billing-classification scope repair that also closes #5675.
+- The fresh review scope is limited to the original #5675 provider adapter/profile surface at the exact PR #5759 head.
 
 ## Review Result
 
-Revision: Some("git-blake3:6ac376f0d72d60d8ae2fc7de0cea21bc3c1d0eb6:d2274443f705299f244e1ef85031f52b6a96a872e0815e0777b430f729204d02")
+Revision: Some("git-blake3:92fed26e1ff2031a57d80a014fbef77542da55d8:ec2eef569becd5f45193c2450055559f61aff9585114fd2aaeb989728357f85b")
 
-Reviewer: Some("codex:5675-opus-review")
+Reviewer: Some("codex:5675-5759-corrective-review")
 
 Result: pass

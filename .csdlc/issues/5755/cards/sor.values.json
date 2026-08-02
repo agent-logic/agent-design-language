@@ -7,9 +7,9 @@
     "title": "[v0.91.8][runtime-v3][protocols] Resolve #5664 terminal closeout security blockers",
     "slug": "runtime-v3-protocol-security-closeout-blockers",
     "version": "v0.91.8",
-    "generation": 15
+    "generation": 18
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -136,10 +136,10 @@
           "evidence_ref": "local terminal output: cargo fmt --check passed; git diff --check produced no output"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

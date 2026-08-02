@@ -7,7 +7,7 @@
     "title": "[v0.91.8][runtime-v3][launch] Simplify and harden local Runtime v3 launch path",
     "slug": "v0-91-8-runtime-v3-launch-recovery",
     "version": "v0.91.8",
-    "generation": 2
+    "generation": 12
   },
   "status": "ready",
   "content": {
@@ -44,9 +44,9 @@
       "planned_validation_seconds": 3600,
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed before readiness on missing real adapters, invalid config, TLS failure, secret leakage, route mismatch, unauthenticated WebSocket, lifecycle leak, test failure, or stale evidence.",
-      "design_ref": ".csdlc/prepared/issues/5657/design.md",
+      "design_ref": ".csdlc/issues/5657/retained/design.md",
       "design_digest": "9822d093a85df8714dbf1f074a01275dbcaf6382c09ac427561e02b4b5161d52",
-      "diagram_ref": ".csdlc/prepared/issues/5657/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5657/retained/diagram.mmd",
       "diagram_digest": "8acb6d2ea2e0cb00a3bdd58514f1dd3be99215325c2b90a4a4d991437b41c59c"
     }
   }

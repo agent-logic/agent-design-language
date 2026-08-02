@@ -5,3 +5,9 @@
 {"sequence":5,"generation":2,"actor":"codex:019fba08-f584-7493-aaf9-d507520e7b5f","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":6,"generation":3,"actor":"codex:exact-head-reviewer-4760","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":7,"generation":4,"actor":"codex:019fba08-f584-7493-aaf9-d507520e7b5f","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":8,"generation":5,"actor":"subagent:/root/review_5727","reason":"Recover exact review truth at the final merged PR #5740 head after a disjoint post-review commit changed a non-reviewed CSM runtime API path.","operation":"recover_review"}
+{"sequence":9,"generation":6,"actor":"subagent:/root/review_5727","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":10,"generation":7,"actor":"subagent:/root/review_5727","reason":"atomically record observed merged GitHub publication and SOR projection","operation":"record_merged_publication"}
+{"sequence":11,"generation":8,"actor":"subagent:/root/review_5727","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":12,"generation":9,"actor":"subagent:/root/review_5727","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":13,"generation":10,"actor":"codex:019fb617-d22b-7252-975c-402d7d7aec46","reason":"Materialize the valid merged #4760 PR #5740 terminal receipt in the dedicated #5748 authority projection.","operation":"reconcile_terminal"}

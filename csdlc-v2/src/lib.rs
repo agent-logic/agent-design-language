@@ -41,9 +41,10 @@ pub use github::{
 };
 pub use lifecycle::{
     amend_claim_scope, bind_issue, heartbeat_claim, initialize_native_json, reacquire_claim,
-    recover_claim, release_closed_claim, revoke_active_claim, transition_active_claim,
-    AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest, ReacquireClaimRequest,
-    ReacquireClaimResult, RecoverClaimRequest, ReleaseClosedClaimRequest, RevokeActiveClaimRequest,
+    recover_claim, rehome_claim_authority, release_closed_claim, revoke_active_claim,
+    transition_active_claim, AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest,
+    ReacquireClaimRequest, ReacquireClaimResult, RecoverClaimRequest, RehomeClaimAuthorityRequest,
+    RehomeClaimAuthorityResult, ReleaseClosedClaimRequest, RevokeActiveClaimRequest,
     RevokeActiveClaimResult, TransitionActiveClaimRequest,
 };
 pub use merge::{MergeMethod, MergeRequest, MergeResult};
@@ -52,11 +53,15 @@ pub use migration::{
     ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison,
 };
 pub use model::{
-    Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase, MigrationEvidence,
+    Claim, ClaimRecovery, CorruptHistoricalMergedRecoveryRequest,
+    CorruptTerminalReceiptReconciliationRequest, DesignReview,
+    HistoricalMergedReconciliationRequest, IssueRecord, LifecyclePhase, MigrationEvidence,
     NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest,
-    ReviewAssignment, ReviewEvidence, ReviewFindingEvidence, TerminalDesignRepairRequest,
+    RecordlessClosureKind, RecordlessTerminalRecoveryRequest, ReviewAssignment, ReviewEvidence,
+    ReviewFindingEvidence, TerminalDesignRepairRequest, TerminalDispositionRepairRequest,
     TerminalEvidence, TerminalPlanStepRepairRequest, TerminalReceipt,
-    TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest,
+    TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
+    TerminalSorValidationRepairRequest,
 };
 pub use operator::{
     build_and_install_binaries, install_binaries, resolve_operator_generation, verify_coexistence,

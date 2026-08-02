@@ -51,3 +51,4 @@
 {"sequence":51,"generation":42,"actor":"codex:adl-post-merge-closeout","reason":"materialize retained terminal closeout receipt after post-merge sweep","operation":"reconcile_terminal"}
 {"sequence":52,"generation":43,"actor":"adl-post-merge-closeout","reason":"post-merge terminal reconciliation sweep","operation":"reconcile_terminal"}
 {"sequence":53,"generation":44,"actor":"codex:v0918-terminal-reconcile-wave","reason":"Materialize retained terminal authority for the complete v0.91.8 closed-issue closeout audit.","operation":"reconcile_terminal"}
+{"sequence":54,"generation":45,"actor":"codex:5748-terminal-recovery","reason":"Materialize the authoritative terminal receipt into the dedicated v0.91.8 closeout branch during the exhaustive live-inventory sweep.","operation":"reconcile_terminal"}

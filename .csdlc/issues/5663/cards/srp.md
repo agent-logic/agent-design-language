@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: draft
+Status: complete
 
 ## Scope
 
@@ -37,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Exact-head closeout review found no additional closeout-blocking code findings in the six-path #5663 scope. The merged PR head does not itself establish the later partial-lock recovery wording; that post-PR source repair was rehomed by audit truth to closed #5697 / merged PR #5699 and is not credited here as #5663 product implementation.
 
 ## Review Result
 
-Revision: Some("git-blake3:9e388b86b2c731381f7a195185652db87db3746d:98a12f92d966aca16fdc5d21ffec6ad7b578ceb3995c7d109cd5703bc5108f4b")
+Revision: Some("git-blake3:fb04c9fa29c528c06a7b3c76e5f6560b7700d43e:63d9cae55cf4e1e08f8e37bbb7e766d6221a50993ae347a92c31ce62f0fad259")
 
-Reviewer: Some("external:consolidated-opus-5")
+Reviewer: Some("codex:terminal-closeout-5663")
 
 Result: pass

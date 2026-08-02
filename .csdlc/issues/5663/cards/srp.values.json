@@ -7,15 +7,15 @@
     "title": "[v0.91.8][runtime-v3][adapters] Implement durable local Runtime v3 adapters",
     "slug": "runtime-v3-durable-local-adapters",
     "version": "v0.91.8",
-    "generation": 33
+    "generation": 40
   },
-  "status": "draft",
+  "status": "complete",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/governed_operations.rs\nadl-runtime-kernel/src/operations.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/operations.rs",
-      "review_revision": "git-blake3:9e388b86b2c731381f7a195185652db87db3746d:98a12f92d966aca16fdc5d21ffec6ad7b578ceb3995c7d109cd5703bc5108f4b",
-      "reviewer": "external:consolidated-opus-5",
+      "review_revision": "git-blake3:fb04c9fa29c528c06a7b3c76e5f6560b7700d43e:63d9cae55cf4e1e08f8e37bbb7e766d6221a50993ae347a92c31ce62f0fad259",
+      "reviewer": "codex:terminal-closeout-5663",
       "review_prompts": [
         "Can any of the six local adapters still earn production success with only a generic receipt?",
         "Are timeout, cancellation, saturation, duplicate, restart, shutdown, checkpoint restore, and lifelog redaction behaviors real and tested?",
@@ -24,7 +24,9 @@
         "Do focused tests and strict Clippy prove the owned surface without relying on fixture-only credit?"
       ],
       "findings": [],
-      "residual_risk": [],
+      "residual_risk": [
+        "Exact-head closeout review found no additional closeout-blocking code findings in the six-path #5663 scope. The merged PR head does not itself establish the later partial-lock recovery wording; that post-PR source repair was rehomed by audit truth to closed #5697 / merged PR #5699 and is not credited here as #5663 product implementation."
+      ],
       "review_result": "pass"
     }
   }

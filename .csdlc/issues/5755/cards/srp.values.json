@@ -7,9 +7,9 @@
     "title": "[v0.91.8][runtime-v3][protocols] Resolve #5664 terminal closeout security blockers",
     "slug": "runtime-v3-protocol-security-closeout-blockers",
     "version": "v0.91.8",
-    "generation": 15
+    "generation": 18
   },
-  "status": "draft",
+  "status": "complete",
   "content": {
     "card_kind": "srp",
     "values": {

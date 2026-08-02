@@ -7,7 +7,7 @@
     "title": "[v0.91.8][observatory][security] Fix trusted-origin, rerender race, and shared-certificate proof",
     "slug": "observatory-corrective-security-race-tls",
     "version": "v0.91.8",
-    "generation": 5
+    "generation": 11
   },
   "status": "ready",
   "content": {
@@ -83,9 +83,9 @@
         "Focused proof failure that cannot be fixed within #5757 scope"
       ],
       "replan_triggers": [],
-      "design_ref": ".csdlc/evidence/5757/DESIGN.md",
+      "design_ref": ".csdlc/issues/5757/retained/design.md",
       "design_digest": "401af5cfb67e2a7352a888f7ea92651d0e6ccc48c6145a9e592a69ad97548c1f",
-      "diagram_ref": ".csdlc/evidence/5757/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5757/retained/diagram.mmd",
       "diagram_digest": "54881b043b9cfd0b58dc407cb2dcbc612a6838f60317b32f800034304ebf37c1"
     }
   }

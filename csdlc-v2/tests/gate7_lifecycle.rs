@@ -4,15 +4,17 @@ use csdlc_v2::cards::{
 };
 use csdlc_v2::{
     assign_review, bind_issue, closeout_issue, edit_issue, prepare_publication,
-    prepare_ready_publication, prepare_ready_reconciliation, reconcile_terminal_observation_head,
-    record_merged_publication, record_publication, record_readiness, record_ready_publication,
-    record_review, validate_ready_reconciliation_state, validate_ready_remote, BindRequest,
+    prepare_ready_publication, prepare_ready_reconciliation, reacquire_claim,
+    reconcile_terminal_observation_head, record_merged_publication, record_publication,
+    record_readiness, record_ready_publication, record_review, rehome_claim_authority,
+    revoke_active_claim, validate_ready_reconciliation_state, validate_ready_remote, BindRequest,
     BootstrapRequest, CardKind, Claim, ConflictState, EditRequest, ErrorCode, InitialCardInput,
-    LifecyclePhase, PlanningProfile, PublicationIntent, PublicationRequest, ReadinessRequest,
-    ReadyPublicationReconciliationRequest, ReadyPublicationRequest, ReconcileTerminalRequest,
-    RemotePullRequest, RemoteReviewState, ReviewAssignmentRequest, ReviewEvidence,
-    ReviewRecordRequest, SemanticOperation, Store, TerminalDesignRepairRequest,
-    TerminalDisposition, TerminalObservation, TerminalPlanStepRepairRequest,
+    LifecyclePhase, PlanningProfile, PublicationIntent, PublicationRequest, ReacquireClaimRequest,
+    ReadinessRequest, ReadyPublicationReconciliationRequest, ReadyPublicationRequest,
+    ReconcileTerminalRequest, RehomeClaimAuthorityRequest, RemotePullRequest, RemoteReviewState,
+    ReviewAssignmentRequest, ReviewEvidence, ReviewRecordRequest, RevokeActiveClaimRequest,
+    SemanticOperation, Store, TerminalDesignRepairRequest, TerminalDisposition,
+    TerminalObservation, TerminalPlanStepRepairRequest, TerminalReceiptTransportRequest,
     TerminalSorArtifactRepairRequest,
 };
 use std::collections::BTreeMap;
@@ -24,7 +26,7 @@ use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 use std::sync::mpsc;
 use std::sync::{Arc, Mutex};
 use std::thread;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 fn install_native_authority(root: &std::path::Path) {
     let registry = root.join("docs/templates/prompts/current.json");
@@ -515,7 +517,7 @@ fn bind_idempotent_reuse_rejects_target_with_different_issue_identity() {
 
     let error = bind_issue(&store, bind_request(issue, claim)).unwrap_err();
 
-    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
 }
 
 #[test]
@@ -967,6 +969,26 @@ fn fixture_with_validation_history_publication_and_worktree(
     publish: bool,
     issue_local_worktree: bool,
 ) -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
+    fixture_through_review(
+        issue,
+        title,
+        scenario,
+        validation_history,
+        publish,
+        issue_local_worktree,
+        true,
+    )
+}
+
+fn fixture_through_review(
+    issue: u64,
+    title: &str,
+    scenario: &str,
+    validation_history: Vec<ValidationResult>,
+    publish: bool,
+    issue_local_worktree: bool,
+    complete_review: bool,
+) -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
     let temp = tempfile::tempdir().unwrap();
     std::fs::create_dir_all(temp.path().join("docs")).unwrap();
     std::fs::write(temp.path().join("docs/design.md"), "# design\n").unwrap();
@@ -1100,6 +1122,9 @@ fn fixture_with_validation_history_publication_and_worktree(
             phase: LifecyclePhase::Implemented,
         },
     );
+    if !complete_review {
+        return (temp, store, record, sha);
+    }
     let assigned = assign_review(
         &store,
         ReviewAssignmentRequest {
@@ -1264,7 +1289,6 @@ fn prune_command_accepts_issue_local_terminal_without_rewriting_receipt() {
     store.retain_terminal_receipt(issue).unwrap();
     git(temp.path(), &["add", "."]);
     git(temp.path(), &["commit", "-m", "terminal projection"]);
-
     let receipt_path = store.terminal_receipt_path(issue).unwrap();
     let receipt_before = fs::read(&receipt_path).unwrap();
     let output = std::process::Command::new(env!("CARGO_BIN_EXE_csdlc-closeout"))
@@ -1346,7 +1370,8 @@ fn prune_preparation_classifies_retained_and_generated_state_without_deleting_it
     git(temp.path(), &["add", "."]);
     git(temp.path(), &["commit", "-m", "terminal projection"]);
     let index = store.issue_dir(issue).join("index.json");
-    fs::write(&index, format!("{}\n", fs::read_to_string(&index).unwrap())).unwrap();
+    // Dirty non-authority inputs remain classifiable; retained terminal
+    // projection bytes themselves must stay canonical and receipt-exact.
     fs::create_dir_all(temp.path().join(format!(".csdlc/evidence/{issue}"))).unwrap();
     fs::write(
         temp.path()
@@ -1382,7 +1407,6 @@ fn prune_preparation_classifies_retained_and_generated_state_without_deleting_it
         .iter()
         .map(|entry| entry["category"].as_str().unwrap())
         .collect();
-    assert!(categories.contains(&"retained_terminal_projection"));
     assert!(categories.contains(&"retained_issue_evidence"));
     assert!(categories.contains(&"retained_prepared_evidence"));
     assert!(temp
@@ -1438,18 +1462,17 @@ fn prune_preparation_classifies_retained_and_generated_state_without_deleting_it
         .args(["--root", ".", "prepare-prune", "--issue", "5625"])
         .output()
         .unwrap();
-    assert!(staged.status.success());
+    assert!(!staged.status.success());
     let staged: serde_json::Value = serde_json::from_slice(&staged.stdout).unwrap();
-    assert_eq!(staged["eligible"], false);
-    assert!(staged["blockers"]
-        .as_array()
+    assert_eq!(staged["code"], "corrupt_record");
+    assert!(staged["message"]
+        .as_str()
         .unwrap()
-        .iter()
-        .any(|blocker| blocker.as_str().unwrap().contains("staged_path")));
+        .contains("index projection is not canonical"));
 }
 
 #[test]
-fn destructive_prune_archives_evidence_restores_projection_and_removes_only_issue_worktree() {
+fn destructive_prune_archives_evidence_and_removes_only_issue_worktree() {
     let issue = 5629;
     let (temp, store, record, sha) = fixture_with_validation_history_publication_and_worktree(
         issue,
@@ -1512,9 +1535,9 @@ fn destructive_prune_archives_evidence_restores_projection_and_removes_only_issu
         &["worktree", "add", linked.to_str().unwrap(), "issue-7"],
     );
 
-    let linked_store = Store::new(&linked);
-    let index = linked_store.issue_dir(issue).join("index.json");
-    fs::write(&index, format!("{}\n", fs::read_to_string(&index).unwrap())).unwrap();
+    // Keep the retained terminal projection canonical. Dirty evidence and
+    // prepared inputs below exercise bounded archival without weakening the
+    // receipt authority check.
     fs::create_dir_all(linked.join(format!(".csdlc/evidence/{issue}"))).unwrap();
     fs::write(
         linked.join(format!(".csdlc/evidence/{issue}/review.json")),
@@ -2841,7 +2864,11 @@ fn terminal_design_repair_after_journal_interruption_preserves_recoverable_journ
                 heartbeat_unix_seconds: 1,
                 branch: "issue-7".into(),
                 worktree: temp.path().to_string_lossy().into_owned(),
-                protected_paths: vec!["authority".into()],
+                protected_paths: vec![
+                    format!(".csdlc/issues/{issue}"),
+                    "docs/design.md".into(),
+                    "docs/diagram.mmd".into(),
+                ],
                 purpose: "terminal repair authority".into(),
             },
             initial: InitialCardInput {
@@ -3001,10 +3028,15 @@ fn terminal_design_repair_after_journal_interruption_preserves_recoverable_journ
     let interrupted = store
         .repair_terminal_design(repair_request.clone())
         .unwrap_err();
-    assert!(matches!(
+    assert!(
+        matches!(
+            interrupted.code,
+            csdlc_v2::ErrorCode::InterruptedTransaction
+        ),
+        "unexpected repair error {:?}: {}",
         interrupted.code,
-        csdlc_v2::ErrorCode::InterruptedTransaction
-    ));
+        interrupted.message
+    );
     let journal = temp
         .path()
         .join(".git/csdlc-v2/terminal-transactions")
@@ -3204,9 +3236,116 @@ fn no_pr_closeout_produces_doctor_valid_terminal_state() {
 
     assert_eq!(closed.phase, LifecyclePhase::ClosedOut);
     assert!(closed.claim.is_none());
+    store.retain_terminal_receipt(issue).unwrap();
     let doctor = csdlc_v2::diagnose(&Store::new(temp.path()), issue);
     assert_eq!(doctor.phase, Some(LifecyclePhase::ClosedOut));
-    assert!(doctor.findings.is_empty());
+    assert!(doctor.findings.is_empty(), "{doctor:?}");
+
+    let receipt = store.load_terminal_receipt(issue).unwrap().unwrap();
+    let design_path = temp.path().join(&closed.design_path);
+    let expected_design = receipt.authored_artifacts[&closed.design_path].clone();
+    fs::remove_file(&design_path).unwrap();
+    let doctor = csdlc_v2::diagnose(&store, issue);
+    assert!(matches!(
+        doctor.status,
+        csdlc_v2::doctor::DoctorStatus::Corrupt
+    ));
+    assert_eq!(doctor.findings[0].code, "terminal_authority_corrupt");
+    assert_eq!(
+        doctor.next_operation.as_deref(),
+        Some("reconcile_terminal_authority")
+    );
+    fs::write(&design_path, &expected_design).unwrap();
+
+    fs::write(&design_path, "# tampered terminal design\n").unwrap();
+    let doctor = csdlc_v2::diagnose(&store, issue);
+    assert!(matches!(
+        doctor.status,
+        csdlc_v2::doctor::DoctorStatus::Corrupt
+    ));
+    assert_eq!(doctor.findings[0].code, "terminal_authority_corrupt");
+    assert!(doctor.findings[0].message.contains("materialized terminal"));
+    fs::write(&design_path, expected_design).unwrap();
+
+    let receipt_path = store.terminal_receipt_path(issue).unwrap();
+    let original_receipt = fs::read(&receipt_path).unwrap();
+    let foreign_receipt_path = store.terminal_receipt_path(issue + 1).unwrap();
+    fs::copy(&receipt_path, &foreign_receipt_path).unwrap();
+    let error = store
+        .load_terminal_receipt(issue + 1)
+        .expect_err("cross-issue receipt substitution must fail");
+    assert_eq!(error.code, ErrorCode::CorruptRecord);
+    assert!(error
+        .message
+        .contains("terminal receipt namespace mismatch"));
+
+    let foreign_issue_dir = store.issue_dir(issue + 1);
+    fs::create_dir_all(&foreign_issue_dir).unwrap();
+    fs::copy(
+        store.issue_dir(issue).join("index.json"),
+        foreign_issue_dir.join("index.json"),
+    )
+    .unwrap();
+    let doctor = csdlc_v2::diagnose(&store, issue + 1);
+    assert!(matches!(
+        doctor.status,
+        csdlc_v2::doctor::DoctorStatus::Corrupt
+    ));
+    assert!(doctor.findings[0]
+        .message
+        .contains("issue projection namespace mismatch"));
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+
+        let authored_parent = design_path.parent().unwrap();
+        let authored_backup = authored_parent.with_extension("canonical-dir");
+        fs::rename(authored_parent, &authored_backup).unwrap();
+        symlink(&authored_backup, authored_parent).unwrap();
+        let doctor = csdlc_v2::diagnose(&store, issue);
+        assert!(matches!(
+            doctor.status,
+            csdlc_v2::doctor::DoctorStatus::Corrupt
+        ));
+        assert_eq!(doctor.findings[0].code, "terminal_authority_corrupt");
+        assert!(doctor.findings[0]
+            .message
+            .contains("canonical path contains a symlink"));
+        fs::remove_file(authored_parent).unwrap();
+        fs::rename(&authored_backup, authored_parent).unwrap();
+    }
+
+    let mut tampered: serde_json::Value = serde_json::from_slice(&original_receipt).unwrap();
+    tampered["digest"] = "tampered-receipt-digest".into();
+    fs::write(&receipt_path, serde_json::to_vec_pretty(&tampered).unwrap()).unwrap();
+    let doctor = csdlc_v2::diagnose(&store, issue);
+    assert!(matches!(
+        doctor.status,
+        csdlc_v2::doctor::DoctorStatus::Corrupt
+    ));
+    assert!(doctor.findings[0]
+        .message
+        .contains("terminal receipt identity, phase, or digest is invalid"));
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+
+        let target = receipt_path.with_extension("canonical.json");
+        fs::write(&target, original_receipt).unwrap();
+        fs::remove_file(&receipt_path).unwrap();
+        symlink(&target, &receipt_path).unwrap();
+        let doctor = csdlc_v2::diagnose(&store, issue);
+        assert!(matches!(
+            doctor.status,
+            csdlc_v2::doctor::DoctorStatus::Corrupt
+        ));
+        assert_eq!(doctor.findings[0].code, "terminal_authority_corrupt");
+        assert!(doctor.findings[0]
+            .message
+            .contains("canonical path contains a symlink"));
+    }
 }
 
 #[test]
@@ -3396,6 +3535,516 @@ fn terminal_reconcile_materializes_missing_projection_from_retained_receipt() {
 }
 
 #[test]
+fn rehome_authority_requires_exact_source_and_fails_on_unreadable_detached_sibling() {
+    let issue = 5499;
+    let (temp, store, target, _) = fixture_through_review(
+        issue,
+        "Authority rehome fixture",
+        "authority-rehome",
+        vec![],
+        false,
+        true,
+        false,
+    );
+    fs::create_dir_all(temp.path().join("src")).unwrap();
+    fs::write(temp.path().join("src/lib.rs"), "pub fn reviewed() {}\n").unwrap();
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "implemented authority"]);
+    let source_commit = csdlc_v2::git::run(temp.path(), &["rev-parse", "HEAD"])
+        .unwrap()
+        .stdout;
+    let source_worktree = temp.path().join("reviewed-source");
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "source-authority",
+            source_worktree.to_str().unwrap(),
+            &source_commit,
+        ],
+    );
+    let source_store = Store::new(&source_worktree);
+    let assigned = assign_review(
+        &source_store,
+        ReviewAssignmentRequest {
+            issue,
+            expected_generation: target.generation,
+            expected_digest: target.digest.clone(),
+            claim_id: "claim".into(),
+            reviewer: "reviewer".into(),
+            assigned_by: "agent".into(),
+            scope: vec!["src".into()],
+        },
+    )
+    .unwrap();
+    let revision = assigned
+        .review_assignment
+        .as_ref()
+        .unwrap()
+        .revision
+        .clone();
+    let reviewed = record_review(
+        &source_store,
+        ReviewRecordRequest {
+            issue,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            claim_id: "claim".into(),
+            actor: "reviewer".into(),
+            evidence: ReviewEvidence {
+                reviewer: "reviewer".into(),
+                scope: vec!["src".into()],
+                reviewed_revision: revision,
+                findings: vec![],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .unwrap();
+    let reviewed = edit(
+        &source_store,
+        &reviewed,
+        CardKind::Sip,
+        SemanticOperation::AdvancePhase {
+            phase: LifecyclePhase::Reviewed,
+        },
+    );
+    let local = revoke_active_claim(
+        &store,
+        RevokeActiveClaimRequest {
+            issue,
+            repository: target.repository.clone(),
+            expected_claim_id: target.claim.as_ref().unwrap().id.clone(),
+            expected_generation: target.generation,
+            expected_digest: target.digest.clone(),
+            now_unix_seconds: 10,
+            actor: "operator".into(),
+            operator_authority: "test authority".into(),
+            reason: "release older aggregate authority".into(),
+        },
+    )
+    .unwrap();
+    let ledger = temp.path().join(".adl/session-ledger/ledger.json");
+    fs::create_dir_all(ledger.parent().unwrap()).unwrap();
+    fs::write(
+        &ledger,
+        r#"{"schema":"adl.session_ledger.v1","updated_at":"2026-07-31T00:00:00Z","claims":[]}"#,
+    )
+    .unwrap();
+    let mut request = RehomeClaimAuthorityRequest {
+        issue,
+        expected_generation: local.generation,
+        expected_digest: local.digest.clone(),
+        expected_initialization_digest: target.initialization_digest.clone(),
+        source_worktree: source_worktree.to_string_lossy().into_owned(),
+        source_branch: "source-authority".into(),
+        source_commit: source_commit.clone(),
+        expected_source_generation: reviewed.generation,
+        expected_source_digest: reviewed.digest.clone(),
+        now_unix_seconds: 20,
+        current_session_id: "session:test".into(),
+        session_ledger_path: ledger.to_string_lossy().into_owned(),
+        actor: "operator".into(),
+        operator_authority: "test authority".into(),
+        reason: "rehome exact source authority".into(),
+        replacement: Claim {
+            id: "claim-rehomed".into(),
+            owner: "session:test".into(),
+            generation: reviewed.generation,
+            acquired_unix_seconds: 20,
+            expires_unix_seconds: 200,
+            heartbeat_unix_seconds: 20,
+            branch: "issue-7".into(),
+            worktree: ".".into(),
+            protected_paths: vec!["src".into()],
+            purpose: "terminal recovery".into(),
+        },
+    };
+    assert!(reviewed.generation > local.generation);
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("live source claim")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    let reviewed_source_projection = projection_bytes(source_store.issue_dir(issue));
+    let publication_request = PublicationRequest {
+        schema: "csdlc.publication_request.v1".into(),
+        issue,
+        expected_generation: reviewed.generation,
+        expected_digest: reviewed.digest.clone(),
+        claim_id: "claim".into(),
+        actor: "publisher".into(),
+        repository: "example/repo".into(),
+        base: "main".into(),
+        head: "source-authority".into(),
+        title: "Published source must not import".into(),
+        body: "Closes #5499".into(),
+        draft: true,
+        remote: "origin".into(),
+        token_file: None,
+    };
+    let intent = prepare_publication(&source_store, &publication_request).unwrap();
+    record_publication(
+        &source_store,
+        &publication_request,
+        &intent,
+        RemotePullRequest {
+            number: issue,
+            url: "https://example.invalid/5499".into(),
+            repository: "example/repo".into(),
+            base: "main".into(),
+            head: "source-authority".into(),
+            title: "Published source must not import".into(),
+            body: "Closes #5499".into(),
+            draft: true,
+            state: "open".into(),
+            head_sha: source_commit.clone(),
+        },
+    )
+    .unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("publication and integration truth cannot import")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    restore_projection_bytes(source_store.issue_dir(issue), &reviewed_source_projection);
+    let source = revoke_active_claim(
+        &source_store,
+        RevokeActiveClaimRequest {
+            issue,
+            repository: reviewed.repository.clone(),
+            expected_claim_id: reviewed.claim.as_ref().unwrap().id.clone(),
+            expected_generation: reviewed.generation,
+            expected_digest: reviewed.digest.clone(),
+            now_unix_seconds: 10,
+            actor: "operator".into(),
+            operator_authority: "test authority".into(),
+            reason: "release reviewed source authority".into(),
+        },
+    )
+    .unwrap();
+    request.expected_source_digest = source.digest;
+    let mut wrong_branch = request.clone();
+    wrong_branch.source_branch = "wrong-source-branch".into();
+    assert_eq!(
+        rehome_claim_authority(&store, wrong_branch)
+            .expect_err("source branch must match the registered worktree")
+            .code,
+        ErrorCode::UnsafeCheckout
+    );
+    let mut wrong_worktree = request.clone();
+    wrong_worktree.source_worktree = temp.path().to_string_lossy().into_owned();
+    assert_eq!(
+        rehome_claim_authority(&store, wrong_worktree)
+            .expect_err("source must be a distinct exact worktree")
+            .code,
+        ErrorCode::UnsafeCheckout
+    );
+    let mut wrong_head = request.clone();
+    wrong_head.source_commit = "0".repeat(40);
+    assert_eq!(
+        rehome_claim_authority(&store, wrong_head)
+            .expect_err("source HEAD must match")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    let source_reviewed_file = source_worktree.join("src/lib.rs");
+    let reviewed_source_bytes = fs::read(&source_reviewed_file).unwrap();
+    fs::write(&source_reviewed_file, "pub fn stale_review() {}\n").unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("source review must remain exact")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    fs::write(&source_reviewed_file, reviewed_source_bytes).unwrap();
+    let target_reviewed_file = temp.path().join("src/lib.rs");
+    let reviewed_target_bytes = fs::read(&target_reviewed_file).unwrap();
+    let target_before_divergence = projection_bytes(store.issue_dir(issue));
+    fs::write(&target_reviewed_file, "pub fn divergent_carrier() {}\n").unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("divergent aggregate review scope cannot become Reviewed")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    assert_eq!(
+        projection_bytes(store.issue_dir(issue)),
+        target_before_divergence
+    );
+    fs::write(&target_reviewed_file, reviewed_target_bytes).unwrap();
+    git(&source_worktree, &["rm", "--cached", "src/lib.rs"]);
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("tracked and untracked scope entries are not equivalent")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    git(&source_worktree, &["add", "src/lib.rs"]);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        let mut permissions = fs::metadata(&target_reviewed_file).unwrap().permissions();
+        let original_mode = permissions.mode();
+        permissions.set_mode(original_mode ^ 0o111);
+        fs::set_permissions(&target_reviewed_file, permissions).unwrap();
+        assert_eq!(
+            rehome_claim_authority(&store, request.clone())
+                .expect_err("executable mode is substantive")
+                .code,
+            ErrorCode::ReconciliationRequired
+        );
+        let mut restored = fs::metadata(&target_reviewed_file).unwrap().permissions();
+        restored.set_mode(original_mode);
+        fs::set_permissions(&target_reviewed_file, restored).unwrap();
+
+        use std::os::unix::fs::symlink;
+        let target_design = temp.path().join("docs/design.md");
+        let target_design_backup = temp.path().join("docs/design.backup.md");
+        let before_symlink = projection_bytes(store.issue_dir(issue));
+        fs::rename(&target_design, &target_design_backup).unwrap();
+        symlink(&target_design_backup, &target_design).unwrap();
+        assert_eq!(
+            rehome_claim_authority(&store, request.clone())
+                .expect_err("target authored artifact symlink")
+                .code,
+            ErrorCode::UnsafeCheckout
+        );
+        assert_eq!(projection_bytes(store.issue_dir(issue)), before_symlink);
+        fs::remove_file(&target_design).unwrap();
+        fs::rename(target_design_backup, target_design).unwrap();
+    }
+    let source_audit = source_worktree.join(format!(".csdlc/issues/{issue}/audit.jsonl"));
+    let canonical_source_audit = fs::read(&source_audit).unwrap();
+    let mut corrupt_source_audit = canonical_source_audit.clone();
+    corrupt_source_audit.extend_from_slice(b"{}\n");
+    fs::write(&source_audit, corrupt_source_audit).unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("source audit projection must be canonical")
+            .code,
+        ErrorCode::CorruptRecord
+    );
+    fs::write(&source_audit, &canonical_source_audit).unwrap();
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+        let source_audit_backup = source_audit.with_extension("jsonl-backup");
+        fs::rename(&source_audit, &source_audit_backup).unwrap();
+        symlink(&source_audit_backup, &source_audit).unwrap();
+        assert_eq!(
+            rehome_claim_authority(&store, request.clone())
+                .expect_err("source audit symlink")
+                .code,
+            ErrorCode::UnsafeCheckout
+        );
+        fs::remove_file(&source_audit).unwrap();
+        fs::rename(source_audit_backup, &source_audit).unwrap();
+    }
+    let mut wrong_source = request.clone();
+    wrong_source.expected_source_digest = "0".repeat(64);
+    assert_eq!(
+        rehome_claim_authority(&store, wrong_source)
+            .expect_err("older or substituted source digest")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    let target_index = store.issue_dir(issue).join("index.json");
+    let canonical_target_index = fs::read(&target_index).unwrap();
+    let mut noncanonical_target_index = canonical_target_index.clone();
+    noncanonical_target_index.push(b'\n');
+    fs::write(&target_index, noncanonical_target_index).unwrap();
+    let noncanonical_error = rehome_claim_authority(&store, request.clone())
+        .expect_err("noncanonical target bytes cannot promise exact rollback");
+    assert_eq!(
+        noncanonical_error.code,
+        ErrorCode::CorruptRecord,
+        "{}",
+        noncanonical_error.message
+    );
+    fs::write(&target_index, canonical_target_index).unwrap();
+
+    let sibling = temp.path().join("older-detached-sibling");
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "divergent-authority",
+            sibling.to_str().unwrap(),
+            &source_commit,
+        ],
+    );
+    let unavailable_sibling = temp.path().join("unavailable-detached-sibling");
+    fs::rename(&sibling, &unavailable_sibling).unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("unavailable registered worktree")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    fs::rename(&unavailable_sibling, &sibling).unwrap();
+    restore_projection_bytes(
+        sibling.join(format!(".csdlc/issues/{issue}")),
+        &projection_bytes(source_store.issue_dir(issue)),
+    );
+    let sibling_store = Store::new(&sibling);
+    let sibling_record = sibling_store.load_record(issue).unwrap();
+    reacquire_claim(
+        &sibling_store,
+        ReacquireClaimRequest {
+            issue,
+            expected_generation: sibling_record.generation,
+            expected_digest: sibling_record.digest.clone(),
+            now_unix_seconds: 20,
+            actor: "divergent-writer".into(),
+            reason: "create valid same-generation divergent authority".into(),
+            replacement: Claim {
+                id: "divergent-claim".into(),
+                owner: "divergent-writer".into(),
+                generation: sibling_record.generation,
+                acquired_unix_seconds: 20,
+                expires_unix_seconds: 200,
+                heartbeat_unix_seconds: 20,
+                branch: "divergent-authority".into(),
+                worktree: ".".into(),
+                protected_paths: vec!["src".into()],
+                purpose: "prove divergent authority rejection".into(),
+            },
+        },
+    )
+    .unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("same-generation divergent authority")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    fs::write(
+        sibling.join(format!(".csdlc/issues/{issue}/index.json")),
+        "{corrupt",
+    )
+    .unwrap();
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("unreadable detached sibling")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    git(
+        temp.path(),
+        &["worktree", "remove", "--force", sibling.to_str().unwrap()],
+    );
+
+    let target_projection = projection_bytes(store.issue_dir(issue));
+    let source_audit_bytes = fs::read(&source_audit).unwrap();
+    let expected_target_digest = local.digest.clone();
+    let writer_target_digest = expected_target_digest.clone();
+    let writer_target_index = target_index.clone();
+    let writer_root = temp.path().to_path_buf();
+    let (writer_started_tx, writer_started_rx) = mpsc::channel();
+    let writer = thread::spawn(move || {
+        let deadline = Instant::now() + Duration::from_secs(5);
+        while Instant::now() < deadline {
+            if let Some(record) = fs::read(&writer_target_index)
+                .ok()
+                .and_then(|bytes| serde_json::from_slice::<csdlc_v2::IssueRecord>(&bytes).ok())
+                .filter(|record| record.digest != writer_target_digest)
+            {
+                writer_started_tx.send(()).unwrap();
+                return edit_issue(
+                    &Store::new(writer_root),
+                    EditRequest {
+                        issue,
+                        card: CardKind::Sor,
+                        expected_generation: record.generation,
+                        expected_digest: record.digest,
+                        claim_id: "claim-rehomed".into(),
+                        actor: "concurrent-writer".into(),
+                        reason: "must wait for rehome commit decision".into(),
+                        operation: SemanticOperation::RecordExecution {
+                            summary: "must not survive rollback".into(),
+                            changes: vec!["none".into()],
+                            artifacts: vec!["none".into()],
+                        },
+                        fail_after_backup: false,
+                    },
+                );
+            }
+            thread::yield_now();
+        }
+        panic!("writer did not observe staged authority")
+    });
+    let drift_audit = source_audit.clone();
+    let drift = thread::spawn(move || {
+        writer_started_rx
+            .recv_timeout(Duration::from_secs(5))
+            .expect("writer observed staged authority");
+        thread::sleep(Duration::from_millis(25));
+        let mut bytes = fs::read(&drift_audit).unwrap();
+        bytes.push(b'\n');
+        fs::write(&drift_audit, bytes).unwrap();
+        true
+    });
+    assert_eq!(
+        rehome_claim_authority(&store, request.clone())
+            .expect_err("source drift must roll back the target")
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    assert!(
+        drift.join().unwrap(),
+        "drift mutator observed materialization"
+    );
+    assert!(matches!(
+        writer
+            .join()
+            .unwrap()
+            .expect_err("writer request became stale")
+            .code,
+        ErrorCode::StaleGeneration | ErrorCode::StaleDigest
+    ));
+    assert_eq!(projection_bytes(store.issue_dir(issue)), target_projection);
+    fs::write(&source_audit, source_audit_bytes).unwrap();
+
+    let result = rehome_claim_authority(&store, request).expect("exact rehome");
+    assert_eq!(result.source_commit, source_commit);
+    assert_eq!(result.claim.id, "claim-rehomed");
+    assert_eq!(result.generation, reviewed.generation);
+    assert_eq!(
+        store.load_record(issue).unwrap().phase,
+        LifecyclePhase::Reviewed
+    );
+}
+
+fn projection_bytes(issue_dir: PathBuf) -> BTreeMap<String, Vec<u8>> {
+    let mut projection = BTreeMap::new();
+    for name in ["index.json", "audit.jsonl"] {
+        projection.insert(name.into(), fs::read(issue_dir.join(name)).unwrap());
+    }
+    for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        for suffix in ["values.json", "md"] {
+            let name = format!("cards/{card}.{suffix}");
+            projection.insert(name.clone(), fs::read(issue_dir.join(name)).unwrap());
+        }
+    }
+    projection
+}
+
+fn restore_projection_bytes(issue_dir: PathBuf, projection: &BTreeMap<String, Vec<u8>>) {
+    for (name, bytes) in projection {
+        fs::write(issue_dir.join(name), bytes).unwrap();
+    }
+}
+
+#[test]
 fn terminal_reconcile_rejects_partial_projection_loss() {
     let (temp, store, issue, receipt) =
         retained_receipt_fixture(76, "partial-projection-reconcile");
@@ -3470,10 +4119,7 @@ fn terminal_reconcile_rejects_misplaced_receipt_for_missing_projection() {
         })
         .unwrap_err();
 
-    assert!(matches!(
-        error.code,
-        csdlc_v2::ErrorCode::ReconciliationRequired
-    ));
+    assert!(matches!(error.code, csdlc_v2::ErrorCode::CorruptRecord));
     assert!(!store.issue_dir(target_issue).exists());
 }
 
@@ -3611,6 +4257,237 @@ fn terminal_plan_repair_authority(
         },
     )
     .unwrap()
+}
+
+#[test]
+fn terminal_receipt_transport_materializes_newer_shared_receipt_over_terminal_clone() {
+    let target_issue = 89;
+    let (source_temp, source_store, _, original_receipt) =
+        retained_receipt_fixture(target_issue, "terminal-clone-forward-transport");
+    let original_record = source_store.load_record(target_issue).unwrap();
+    let original_projection = tempfile::tempdir().unwrap();
+    copy_dir_all(
+        &source_store.issue_dir(target_issue),
+        &original_projection.path().join("issue"),
+    );
+
+    let source_authority = terminal_plan_repair_authority(
+        &source_store,
+        90,
+        source_temp.path(),
+        vec![format!(".csdlc/issues/{target_issue}")],
+    );
+    let repaired = source_store
+        .repair_terminal_plan_step(TerminalPlanStepRepairRequest {
+            authority_issue: source_authority.issue,
+            target_issue,
+            expected_authority_generation: source_authority.generation,
+            expected_authority_digest: source_authority.digest.clone(),
+            expected_target_generation: original_record.generation,
+            expected_target_digest: original_record.digest.clone(),
+            expected_receipt_digest: original_receipt.digest,
+            authority_claim_id: format!("authority-{}", source_authority.issue),
+            actor: "source-repairer".into(),
+            step_id: "one".into(),
+            fail_after_stage: None,
+        })
+        .unwrap();
+    let newer_receipt = source_store
+        .load_terminal_receipt(target_issue)
+        .unwrap()
+        .unwrap();
+    assert_eq!(newer_receipt.record, repaired);
+
+    revoke_active_claim(
+        &source_store,
+        RevokeActiveClaimRequest {
+            issue: source_authority.issue,
+            repository: source_authority.repository.clone(),
+            expected_claim_id: source_authority.claim.as_ref().unwrap().id.clone(),
+            expected_generation: source_authority.generation,
+            expected_digest: source_authority.digest.clone(),
+            now_unix_seconds: 10,
+            actor: "operator".into(),
+            operator_authority: "test authority".into(),
+            reason: "release source repair authority before target transport".into(),
+        },
+    )
+    .unwrap();
+
+    let target_temp = tempfile::tempdir().unwrap();
+    let target_path = target_temp.path().to_string_lossy().into_owned();
+    git(
+        source_temp.path(),
+        &["worktree", "add", "-b", "transport-target", &target_path],
+    );
+    let target_store = Store::new(target_temp.path());
+    let target_authority = terminal_plan_repair_authority(
+        &target_store,
+        91,
+        target_temp.path(),
+        vec![
+            format!(".csdlc/issues/{target_issue}"),
+            "docs/design.md".into(),
+            "docs/diagram.mmd".into(),
+        ],
+    );
+    copy_dir_all(
+        &original_projection.path().join("issue"),
+        &target_store.issue_dir(target_issue),
+    );
+    assert_eq!(
+        target_store.load_record(target_issue).unwrap(),
+        original_record
+    );
+    let common_dir = PathBuf::from(git_output(
+        target_temp.path(),
+        &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+    ));
+    let journal = common_dir
+        .join("csdlc-v2/terminal-transactions")
+        .join(format!("{target_issue}.json"));
+    let retained_receipt_path = common_dir
+        .join("csdlc-v2/closeout")
+        .join(format!("{target_issue}.json"));
+    let retained_receipt_bytes = fs::read(&retained_receipt_path).unwrap();
+    let request = || TerminalReceiptTransportRequest {
+        authority_issue: target_authority.issue,
+        expected_authority_generation: target_authority.generation,
+        expected_authority_digest: target_authority.digest.clone(),
+        authority_claim_id: format!("authority-{}", target_authority.issue),
+        actor: "target-transporter".into(),
+        receipt: newer_receipt.clone(),
+        fail_after_stage: None,
+    };
+
+    for relative in ["index.json", "audit.jsonl"] {
+        let path = target_store.issue_dir(target_issue).join(relative);
+        let canonical = fs::read(&path).unwrap();
+        let mut noncanonical = canonical.clone();
+        noncanonical.push(b'\n');
+        fs::write(&path, &noncanonical).unwrap();
+        let before = projection_bytes(target_store.issue_dir(target_issue));
+        assert!(target_store.transport_terminal_receipt(request()).is_err());
+        assert_eq!(
+            projection_bytes(target_store.issue_dir(target_issue)),
+            before
+        );
+        assert_eq!(
+            fs::read(&retained_receipt_path).unwrap(),
+            retained_receipt_bytes
+        );
+        assert!(!journal.exists());
+        fs::write(path, canonical).unwrap();
+    }
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+        let design = target_temp.path().join("docs/design.md");
+        let backup = target_temp.path().join("docs/design.transport-backup.md");
+        let before = projection_bytes(target_store.issue_dir(target_issue));
+        fs::rename(&design, &backup).unwrap();
+        symlink(&backup, &design).unwrap();
+        assert_eq!(
+            target_store
+                .transport_terminal_receipt(request())
+                .unwrap_err()
+                .code,
+            ErrorCode::UnsafeCheckout
+        );
+        assert!(fs::symlink_metadata(&design)
+            .unwrap()
+            .file_type()
+            .is_symlink());
+        assert_eq!(
+            projection_bytes(target_store.issue_dir(target_issue)),
+            before
+        );
+        assert_eq!(
+            fs::read(&retained_receipt_path).unwrap(),
+            retained_receipt_bytes
+        );
+        assert!(!journal.exists());
+        fs::remove_file(&design).unwrap();
+        fs::rename(backup, design).unwrap();
+    }
+
+    let transported = target_store.transport_terminal_receipt(request()).unwrap();
+    assert_eq!(transported, repaired);
+    assert_eq!(target_store.load_record(target_issue).unwrap(), repaired);
+    assert_eq!(
+        target_store.retain_terminal_receipt(target_issue).unwrap(),
+        newer_receipt
+    );
+
+    let idempotent_receipt_bytes = fs::read(&retained_receipt_path).unwrap();
+    for relative in ["index.json", "audit.jsonl"] {
+        let path = target_store.issue_dir(target_issue).join(relative);
+        let canonical = fs::read(&path).unwrap();
+        let mut noncanonical = canonical.clone();
+        noncanonical.push(b'\n');
+        fs::write(&path, &noncanonical).unwrap();
+        let before = projection_bytes(target_store.issue_dir(target_issue));
+        assert_eq!(
+            target_store
+                .transport_terminal_receipt(request())
+                .unwrap_err()
+                .code,
+            ErrorCode::ReconciliationRequired
+        );
+        assert_eq!(
+            projection_bytes(target_store.issue_dir(target_issue)),
+            before
+        );
+        assert_eq!(
+            fs::read(&retained_receipt_path).unwrap(),
+            idempotent_receipt_bytes
+        );
+        assert!(!journal.exists());
+        fs::write(path, canonical).unwrap();
+    }
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+
+        for (path, backup) in [
+            (
+                target_store.issue_dir(target_issue).join("cards/spp.md"),
+                target_temp.path().join("idempotent-spp-backup.md"),
+            ),
+            (
+                target_temp.path().join("docs/design.md"),
+                target_temp.path().join("idempotent-design-backup.md"),
+            ),
+        ] {
+            fs::rename(&path, &backup).unwrap();
+            symlink(&backup, &path).unwrap();
+            let before = projection_bytes(target_store.issue_dir(target_issue));
+            assert_eq!(
+                target_store
+                    .transport_terminal_receipt(request())
+                    .unwrap_err()
+                    .code,
+                ErrorCode::UnsafeCheckout
+            );
+            assert!(fs::symlink_metadata(&path)
+                .unwrap()
+                .file_type()
+                .is_symlink());
+            assert_eq!(
+                projection_bytes(target_store.issue_dir(target_issue)),
+                before
+            );
+            assert_eq!(
+                fs::read(&retained_receipt_path).unwrap(),
+                idempotent_receipt_bytes
+            );
+            assert!(!journal.exists());
+            fs::remove_file(&path).unwrap();
+            fs::rename(backup, path).unwrap();
+        }
+    }
 }
 
 #[test]
@@ -4039,6 +4916,41 @@ fn run_complete_lifecycle_with_validation_history(
     let doctor = csdlc_v2::diagnose(&store, issue);
     assert_eq!(doctor.phase, Some(LifecyclePhase::ClosedOut));
     assert!(doctor.findings.is_empty());
+
+    let stale_same_request = temp.path().join("stale-same-request");
+    copy_dir_all(&store.issue_dir(issue), &stale_same_request);
+    let newer_receipt = store
+        .reconcile_terminal(csdlc_v2::ReconcileTerminalRequest {
+            issue,
+            expected_initialization_digest: receipt.initialization_digest.clone(),
+            expected_branch: "issue-7".into(),
+            expected_worktree: temp.path().to_string_lossy().into_owned(),
+            actor: "receipt-advance".into(),
+            reason: "advance retained receipt".into(),
+            follow_ups: vec!["#5411 follow-up".into()],
+        })
+        .unwrap();
+    fs::remove_dir_all(store.issue_dir(issue)).unwrap();
+    copy_dir_all(&stale_same_request, &store.issue_dir(issue));
+    let converged_same_request = store
+        .reconcile_terminal(csdlc_v2::ReconcileTerminalRequest {
+            issue,
+            expected_initialization_digest: receipt.initialization_digest.clone(),
+            expected_branch: "issue-7".into(),
+            expected_worktree: temp.path().to_string_lossy().into_owned(),
+            actor: "closeout-retainer".into(),
+            reason: "materialize shared terminal authority".into(),
+            follow_ups: vec!["#5411 follow-up".into()],
+        })
+        .unwrap();
+    assert_eq!(
+        converged_same_request.generation,
+        newer_receipt.generation + 1
+    );
+    assert_eq!(
+        &converged_same_request.audit[..newer_receipt.audit.len()],
+        newer_receipt.audit.as_slice()
+    );
 
     let baseline_projection = temp.path().join("baseline-terminal-projection");
     copy_dir_all(&store.issue_dir(issue), &baseline_projection);

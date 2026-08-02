@@ -7,7 +7,7 @@
     "title": "[v0.91.8][runtime-v3][providers] Scope MiniMax billing classification to MiniMax responses",
     "slug": "minimax-billing-classification",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 10
   },
   "status": "ready",
   "content": {
@@ -87,9 +87,9 @@
         "publication fails closed on stale review or remote drift"
       ],
       "replan_triggers": [],
-      "design_ref": ".csdlc/designs/5756/design.md",
+      "design_ref": ".csdlc/issues/5756/retained/design.md",
       "design_digest": "04dd4283135d39f64ebee68fb19ace701493ed28cd054a78f6ed644ba3512572",
-      "diagram_ref": ".csdlc/designs/5756/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5756/retained/diagram.mmd",
       "diagram_digest": "2acda9f282313d94ba9cb5617b7ba1d2189b4ca19767d3596146563aa349f6ad"
     }
   }

@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-13][deletion] Delete externally owned incumbent ADL bands",
     "slug": "v0918-wp13-external-band-deletion",
     "version": "v0.91.8",
-    "generation": 22
+    "generation": 26
   },
   "status": "ready",
   "content": {
@@ -115,9 +115,9 @@
         "A LoC, test, dependency, duration, evidence, or net-negative budget fails without exact reviewed variance"
       ],
       "replan_triggers": [],
-      "design_ref": ".csdlc/prepared/issues/5347/design.md",
+      "design_ref": ".csdlc/issues/5347/retained/design.md",
       "design_digest": "e732e2bb0f1985ad83414d52815872240e99e19f540529275be3f4d69745627f",
-      "diagram_ref": ".csdlc/prepared/issues/5347/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5347/retained/diagram.mmd",
       "diagram_digest": "d550ff159858d31a2499c34ac10cd8bfb30dfbe3d6c9dd83ed8d42551480ceb3"
     }
   }

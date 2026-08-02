@@ -16,9 +16,9 @@ Validation remains preparation-bounded. Immediate lanes prove packet hygiene and
 
 ## Lane Inputs
 
-Design: .csdlc/prepared/issues/4763/design.md
+Design: .csdlc/issues/4763/retained/design.md
 
-Diagram: .csdlc/prepared/issues/4763/diagram.mmd
+Diagram: .csdlc/issues/4763/retained/diagram.mmd
 
 ## Selected Lanes
 

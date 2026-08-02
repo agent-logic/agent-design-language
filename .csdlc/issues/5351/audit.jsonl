@@ -27,3 +27,6 @@
 {"sequence":27,"generation":19,"actor":"codex:5351-execution","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":28,"generation":20,"actor":"codex:5351-execution","reason":"The assigned exact-revision WP-16 review is complete with no actionable findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":29,"generation":21,"actor":"codex:5351-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":30,"generation":22,"actor":"codex:5351-post-merge-closeout","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness_reconcile_metadata_only_published_revision"}
+{"sequence":31,"generation":23,"actor":"codex:5351-post-merge-closeout","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":32,"generation":24,"actor":"codex:019fb617-d22b-7252-975c-402d7d7aec46","reason":"Materialize the retained #5351 terminal receipt in the dedicated v0.91.8 aggregate closeout projection.","operation":"reconcile_terminal"}

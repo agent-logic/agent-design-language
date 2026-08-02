@@ -62,3 +62,7 @@
 {"sequence":62,"generation":33,"actor":"subagent:review_5558_orphan_fix","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":63,"generation":34,"actor":"codex:5558-corrective","reason":"Advance the independently approved final prompt-editor PR-fast retirement correction with no actionable findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":64,"generation":35,"actor":"codex:5558-corrective","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":65,"generation":36,"actor":"codex:5558-corrective","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":66,"generation":37,"actor":"codex:5558-corrective","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":67,"generation":38,"actor":"codex:5558-corrective","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":68,"generation":39,"actor":"codex:019fb617-d22b-7252-975c-402d7d7aec46","reason":"Materialize the retained #5558 terminal receipt in the dedicated v0.91.8 aggregate closeout projection.","operation":"reconcile_terminal"}

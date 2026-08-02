@@ -61,6 +61,62 @@ pub struct ReacquireClaimResult {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct RehomeClaimAuthorityRequest {
+    pub issue: u64,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub expected_initialization_digest: String,
+    pub source_worktree: String,
+    pub source_branch: String,
+    pub source_commit: String,
+    pub expected_source_generation: u64,
+    pub expected_source_digest: String,
+    pub now_unix_seconds: u64,
+    pub current_session_id: String,
+    pub session_ledger_path: String,
+    pub actor: String,
+    pub operator_authority: String,
+    pub reason: String,
+    pub replacement: Claim,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct RehomeClaimAuthorityResult {
+    pub schema: String,
+    pub issue: u64,
+    pub source_commit: String,
+    pub initialization_digest: String,
+    pub preserved_bindings: Vec<String>,
+    pub claim: Claim,
+    pub generation: u64,
+    pub digest: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct SessionLedgerView {
+    schema: String,
+    #[serde(default)]
+    claims: Vec<SessionClaimView>,
+}
+
+#[derive(Debug, Deserialize)]
+struct SessionClaimView {
+    session_id: String,
+    mode: String,
+    expires_at: String,
+    #[serde(default)]
+    released_at: Option<String>,
+    #[serde(default)]
+    github: SessionGithubView,
+}
+
+#[derive(Debug, Default, Deserialize)]
+struct SessionGithubView {
+    issue: Option<u64>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct ReleaseClosedClaimRequest {
     pub issue: u64,
     pub repository: String,
@@ -150,22 +206,55 @@ fn overlaps(left: &str, right: &str) -> bool {
     left == right || left.starts_with(right) || right.starts_with(left)
 }
 
-fn terminally_released(store: &Store, local: &crate::IssueRecord) -> Result<bool> {
-    let Some(receipt) = store.load_terminal_receipt(local.issue)? else {
+fn terminal_projection_overlap_is_released(
+    store: &Store,
+    observed_store: &Store,
+    local: &crate::IssueRecord,
+    reserved: &str,
+    candidate: &str,
+    now_unix_seconds: u64,
+) -> Result<bool> {
+    let issue_path = format!(".csdlc/issues/{}", local.issue);
+    let exact_issue_projection = reserved.trim_end_matches('/') == issue_path
+        && candidate.trim_end_matches('/') == issue_path;
+    let Some(claim) = local.claim.as_ref() else {
         return Ok(false);
     };
-    if receipt.repository != local.repository
-        || receipt.initialization_digest != local.initialization_digest
+    if claim.expires_unix_seconds > now_unix_seconds
+        && claim_matches_active_checkout(observed_store, claim)?
     {
-        return Err(V2Error::new(
-            ErrorCode::ReconciliationRequired,
-            format!(
-                "terminal authority for issue {} has different identity",
-                local.issue
-            ),
-        ));
+        return Ok(false);
     }
-    Ok(true)
+    if exact_issue_projection && store.has_claim_free_retained_terminal_authority(local)? {
+        return Ok(true);
+    }
+    if !exact_expired_terminal_projection_overlap(
+        local.issue,
+        claim.expires_unix_seconds,
+        reserved,
+        candidate,
+        now_unix_seconds,
+    ) {
+        return Ok(false);
+    }
+    store.has_claim_free_terminal_authority(
+        local.issue,
+        &local.repository,
+        &local.initialization_digest,
+    )
+}
+
+fn exact_expired_terminal_projection_overlap(
+    issue: u64,
+    expires_unix_seconds: u64,
+    reserved: &str,
+    candidate: &str,
+    now_unix_seconds: u64,
+) -> bool {
+    let issue_path = format!(".csdlc/issues/{issue}");
+    expires_unix_seconds <= now_unix_seconds
+        && reserved.trim_end_matches('/') == issue_path
+        && candidate.trim_end_matches('/') == issue_path
 }
 
 fn active_issue_records_across_worktrees(
@@ -440,6 +529,7 @@ pub(crate) fn initialize_issue(
         }
     }
     let _binding_lock = store.binding_lock()?;
+    let now_unix_seconds = unix_now()?;
     for (other_store, other) in active_issue_records_across_worktrees(store)? {
         if other.issue != request.issue {
             if let Some(claim) = other.claim.as_ref() {
@@ -451,7 +541,14 @@ pub(crate) fn initialize_issue(
                         .find(|b| overlaps(a, b))
                         .map(|b| (a, b))
                 }) {
-                    if terminally_released(&other_store, &other)? {
+                    if terminal_projection_overlap_is_released(
+                        store,
+                        &other_store,
+                        &other,
+                        reserved,
+                        requested,
+                        now_unix_seconds,
+                    )? {
                         continue;
                     }
                     return Err(V2Error::new(
@@ -636,6 +733,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             ));
         }
     }
+    let now_unix_seconds = unix_now()?;
     for (other_store, other) in active_issue_records_across_worktrees(store)? {
         if !issue_local && other_store.root() == wanted_compare {
             // Existing-target identity and side-state reconciliation below owns
@@ -653,7 +751,14 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                         .find(|b| overlaps(a, b))
                         .map(|b| (a, b))
                 }) {
-                    if terminally_released(&other_store, &other)? {
+                    if terminal_projection_overlap_is_released(
+                        store,
+                        &other_store,
+                        &other,
+                        reserved,
+                        requested,
+                        now_unix_seconds,
+                    )? {
                         continue;
                     }
                     return Err(V2Error::new(
@@ -667,7 +772,9 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             }
         }
     }
-    request.claim.validate(&request.claim.id, unix_now()?)?;
+    request
+        .claim
+        .validate(&request.claim.id, now_unix_seconds)?;
     let created = !issue_local && !wanted.exists();
     if !issue_local && !created {
         let target = Store::new(wanted.clone());
@@ -891,7 +998,14 @@ pub fn amend_claim_scope(store: &Store, request: AmendClaimScopeRequest) -> Resu
                     .find(|candidate| overlaps(reserved, candidate))
                     .map(|candidate| (reserved, candidate))
             }) {
-                if terminally_released(&other_store, &other)? {
+                if terminal_projection_overlap_is_released(
+                    store,
+                    &other_store,
+                    &other,
+                    reserved,
+                    candidate,
+                    request.now_unix_seconds,
+                )? {
                     continue;
                 }
                 return Err(V2Error::new(
@@ -1001,7 +1115,14 @@ pub fn transition_active_claim(
                         .map(|candidate| (reserved, candidate))
                 })
             {
-                if terminally_released(&other_store, &other)? {
+                if terminal_projection_overlap_is_released(
+                    store,
+                    &other_store,
+                    &other,
+                    reserved,
+                    candidate,
+                    request.now_unix_seconds,
+                )? {
                     continue;
                 }
                 return Err(V2Error::new(
@@ -1125,7 +1246,14 @@ pub fn recover_claim(store: &Store, request: RecoverClaimRequest) -> Result<Clai
                     .map(|candidate| (reserved, candidate))
             })
         {
-            if terminally_released(&other_store, &other)? {
+            if terminal_projection_overlap_is_released(
+                store,
+                &other_store,
+                &other,
+                reserved,
+                candidate,
+                request.now_unix_seconds,
+            )? {
                 continue;
             }
             return Err(V2Error::new(
@@ -1246,7 +1374,14 @@ pub fn reacquire_claim(
                     .map(|candidate| (reserved, candidate))
             })
         {
-            if terminally_released(&other_store, &other)? {
+            if terminal_projection_overlap_is_released(
+                store,
+                &other_store,
+                &other,
+                reserved,
+                candidate,
+                request.now_unix_seconds,
+            )? {
                 continue;
             }
             return Err(V2Error::new(
@@ -1293,6 +1428,449 @@ pub fn reacquire_claim(
         generation: record.generation,
         digest: record.digest,
     })
+}
+
+pub fn rehome_claim_authority(
+    store: &Store,
+    request: RehomeClaimAuthorityRequest,
+) -> Result<RehomeClaimAuthorityResult> {
+    if request.issue == 0
+        || request.expected_digest.trim().is_empty()
+        || request.expected_initialization_digest.trim().is_empty()
+        || request.expected_source_digest.trim().is_empty()
+        || request.source_worktree.trim().is_empty()
+        || request.source_branch.trim().is_empty()
+        || request.source_commit.len() != 40
+        || !request
+            .source_commit
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit())
+        || request.current_session_id.trim().is_empty()
+        || request.session_ledger_path.trim().is_empty()
+        || request.actor.trim().is_empty()
+        || request.operator_authority.trim().is_empty()
+        || request.reason.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "authority rehome requires exact source, ledger, actor, and operator authority",
+        ));
+    }
+    request
+        .replacement
+        .validate(&request.replacement.id, request.now_unix_seconds)?;
+    if request.replacement.generation != request.expected_source_generation
+        || request.replacement.branch == "main"
+        || request.replacement.owner.trim().is_empty()
+        || request.replacement.purpose.trim().is_empty()
+        || request.replacement.protected_paths.is_empty()
+        || request
+            .replacement
+            .protected_paths
+            .iter()
+            .any(|path| !clean_relative(path))
+        || (request.replacement.worktree != "." && !clean_relative(&request.replacement.worktree))
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "authority rehome replacement claim is incomplete",
+        ));
+    }
+
+    // This lock lives below the Git common directory and is shared by every
+    // registered checkout. It serializes the scan and authority replacement.
+    let _binding_lock = store.binding_lock()?;
+    let mut record = store.load_record(request.issue)?;
+    if record.generation != request.expected_generation
+        || record.digest != request.expected_digest
+        || record.initialization_digest != request.expected_initialization_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "authority rehome target identity or compare-and-swap is stale",
+        ));
+    }
+    if matches!(
+        record.phase,
+        crate::LifecyclePhase::Merged | crate::LifecyclePhase::ClosedOut
+    ) {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "terminal issue cannot rehome writer authority",
+        ));
+    }
+    if record
+        .claim
+        .as_ref()
+        .is_some_and(|claim| request.now_unix_seconds < claim.expires_unix_seconds)
+    {
+        return Err(V2Error::new(
+            ErrorCode::ClaimCollision,
+            "live canonical claim must be explicitly released before authority rehome",
+        ));
+    }
+    if !claim_matches_active_checkout(store, &request.replacement)? {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "authority rehome replacement does not match the active checkout",
+        ));
+    }
+
+    let current_root = store.root().canonicalize()?;
+    let requested_source_root = PathBuf::from(&request.source_worktree)
+        .canonicalize()
+        .map_err(|error| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!("authority source worktree is unavailable: {error}"),
+            )
+        })?;
+    let registered_source = git::worktrees(store.root())?
+        .into_iter()
+        .any(|(branch, root)| {
+            branch == request.source_branch
+                && PathBuf::from(root)
+                    .canonicalize()
+                    .is_ok_and(|candidate| candidate == requested_source_root)
+        });
+    if !registered_source || requested_source_root == current_root {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "authority source must be an exact distinct registered branch/worktree",
+        ));
+    }
+    let source_store = Store::new(requested_source_root.clone());
+    if git::current_branch(source_store.root())? != request.source_branch
+        || git::run(source_store.root(), &["rev-parse", "HEAD"])?.stdout != request.source_commit
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authority source branch or commit changed",
+        ));
+    }
+    let source = source_store.load_record(request.issue)?;
+    let source_cards = source_store.load_cards(request.issue)?;
+    crate::store::verify_cards(&source_store, &source, &source_cards)?;
+    source_store.verify_canonical_authority_projection(&source, &source_cards)?;
+    let source_review = source
+        .review
+        .clone()
+        .filter(|review| review.completed)
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "source worktree does not contain completed review evidence",
+            )
+        })?;
+    let current_source_revision =
+        git::substantive_revision(source_store.root(), &source_review.scope)?;
+    let reviewed_commit = source_review
+        .reviewed_revision
+        .strip_prefix("git-blake3:")
+        .and_then(|revision| revision.split(':').next());
+    let source_sor_is_prepublication =
+        source_cards.get(&crate::CardKind::Sor).is_some_and(|card| {
+            matches!(
+                &card.content,
+                crate::cards::CardContent::Sor(sor)
+                    if matches!(
+                        sor.integration_state,
+                        crate::cards::IntegrationState::NotStarted
+                            | crate::cards::IntegrationState::WorktreeOnly
+                    )
+                        && sor.publication_state == crate::cards::PublicationState::NotPublished
+                        && sor.merge_state == crate::cards::MergeState::NotMerged
+                        && sor.closeout_state == crate::cards::CloseoutState::NotStarted
+            )
+        });
+    let source_mismatch = if source.issue != record.issue {
+        Some("issue")
+    } else if source.repository != record.repository {
+        Some("repository")
+    } else if source.initialization_digest != record.initialization_digest {
+        Some("initialization")
+    } else if source.generation != request.expected_source_generation {
+        Some("generation")
+    } else if source.digest != request.expected_source_digest {
+        Some("digest")
+    } else if crate::store::record_digest(&source)? != source.digest {
+        Some("self digest")
+    } else if source.claim.is_some() {
+        Some("claim")
+    } else if source.phase != crate::LifecyclePhase::Reviewed {
+        Some("phase")
+    } else if source.publication.is_some() {
+        Some("publication evidence")
+    } else if source.readiness.is_some() {
+        Some("readiness evidence")
+    } else if source.terminal.is_some() {
+        Some("terminal evidence")
+    } else if !source_sor_is_prepublication {
+        Some("SOR pre-publication state")
+    } else if current_source_revision != source_review.reviewed_revision {
+        Some("review revision")
+    } else if reviewed_commit != Some(request.source_commit.as_str()) {
+        Some("reviewed commit")
+    } else {
+        None
+    };
+    if let Some(mismatch) = source_mismatch {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!("source worktree is not the exact claim-free reviewed authority: {mismatch}"),
+        ));
+    }
+    let source_fingerprint = authority_projection_fingerprint(&source_store, &source)?;
+    for path in [&source.design_path, &source.diagram_path] {
+        if read_regular_authority_file(&source_store.root().join(path))?
+            != read_regular_authority_file(&store.root().join(path))?
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "source authored artifacts differ from the aggregate checkout",
+            ));
+        }
+    }
+
+    let mut preserved_bindings = Vec::new();
+    for (branch, root) in git::worktrees(store.root())? {
+        let root_path = PathBuf::from(&root);
+        let other_root = root_path.canonicalize().map_err(|error| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!("registered worktree is unavailable at {root}: {error}"),
+            )
+        })?;
+        let scoped = Store::new(root_path);
+        match fs::metadata(scoped.issue_dir(request.issue)) {
+            Ok(metadata) if !metadata.is_dir() => {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    format!("sibling issue authority is not a directory at {root}"),
+                ))
+            }
+            Ok(_) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
+            Err(error) => {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    format!("sibling issue authority is unavailable at {root}: {error}"),
+                ))
+            }
+        }
+        let other = scoped.load_record(request.issue).map_err(|error| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!("unreadable sibling authority at {root}: {}", error.message),
+            )
+        })?;
+        if other.initialization_digest != source.initialization_digest
+            || other.repository != record.repository
+            || other.generation > source.generation
+            || (other.generation == source.generation
+                && other.digest != source.digest
+                && other_root != requested_source_root)
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!("newer or conflicting authority exists at {root}"),
+            ));
+        }
+        if other_root != current_root && other_root != requested_source_root {
+            if other
+                .claim
+                .as_ref()
+                .is_some_and(|claim| request.now_unix_seconds < claim.expires_unix_seconds)
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ClaimCollision,
+                    format!("live issue owner remains in registered worktree {root}"),
+                ));
+            }
+            preserved_bindings.push(format!("branch={branch};worktree={root}"));
+        }
+    }
+    preserved_bindings.sort();
+
+    let ledger_path = PathBuf::from(&request.session_ledger_path);
+    let ledger: SessionLedgerView = serde_json::from_slice(&fs::read(&ledger_path)?)?;
+    if ledger.schema != "adl.session_ledger.v1" {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "authority rehome session ledger schema is unsupported",
+        ));
+    }
+    for claim in ledger.claims.iter().filter(|claim| {
+        claim.github.issue == Some(request.issue)
+            && claim.released_at.is_none()
+            && claim.mode == "active"
+    }) {
+        let expires = time::OffsetDateTime::parse(
+            &claim.expires_at,
+            &time::format_description::well_known::Rfc3339,
+        )
+        .map_err(|error| V2Error::new(ErrorCode::InvalidInput, error.to_string()))?;
+        if expires.unix_timestamp() > request.now_unix_seconds as i64
+            && claim.session_id != request.current_session_id
+        {
+            return Err(V2Error::new(
+                ErrorCode::ClaimCollision,
+                "another live session-ledger owner blocks authority rehome",
+            ));
+        }
+    }
+
+    // Ordinary typed writers take this issue lock. Keep it through target
+    // materialization, source revalidation, and any rollback so no writer can
+    // advance the staged authority between those steps.
+    let _target_lock = store.authority_projection_lock(request.issue)?;
+    if git::substantive_content_digest(store.root(), &source_review.scope)?
+        != git::substantive_content_digest(source_store.root(), &source_review.scope)?
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "aggregate checkout review scope differs from the reviewed source; use atomic historical materialization instead",
+        ));
+    }
+    let previous = record.claim.clone();
+    let original = record.clone();
+    let original_cards = store.load_cards(request.issue)?;
+    crate::store::verify_cards(store, &original, &original_cards)?;
+    record = source;
+    record.claim = Some(request.replacement.clone());
+    record.audit.push(AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: request.actor,
+        reason: request.reason,
+        operation: serde_json::json!({
+            "operation": "rehome_claim_authority",
+            "operator_authority": request.operator_authority,
+            "source_commit": request.source_commit,
+            "source_worktree": request.source_worktree,
+            "source_branch": request.source_branch,
+            "source_generation": request.expected_source_generation,
+            "source_digest": request.expected_source_digest,
+            "initialization_digest": request.expected_initialization_digest,
+            "previous_claim": previous,
+            "preserved_bindings": preserved_bindings,
+            "session_ledger": request.session_ledger_path,
+            "current_session_id": request.current_session_id,
+        })
+        .to_string(),
+    });
+    record.digest = crate::store::record_digest(&record)?;
+    record = store.replace_authority_projection_locked(
+        request.issue,
+        &request.expected_digest,
+        &record,
+        &source_cards,
+    )?;
+    let source_unchanged = (|| -> Result<bool> {
+        let still_registered = git::worktrees(store.root())?
+            .into_iter()
+            .any(|(branch, root)| {
+                branch == request.source_branch
+                    && PathBuf::from(root)
+                        .canonicalize()
+                        .is_ok_and(|candidate| candidate == requested_source_root)
+            });
+        if !still_registered
+            || git::current_branch(source_store.root())? != request.source_branch
+            || git::run(source_store.root(), &["rev-parse", "HEAD"])?.stdout
+                != request.source_commit
+            || git::substantive_revision(source_store.root(), &source_review.scope)?
+                != source_review.reviewed_revision
+        {
+            return Ok(false);
+        }
+        let after = source_store.load_record(request.issue)?;
+        let artifacts_equal = [&after.design_path, &after.diagram_path]
+            .into_iter()
+            .try_fold(true, |equal, path| {
+                Ok::<_, V2Error>(
+                    equal
+                        && read_regular_authority_file(&source_store.root().join(path))?
+                            == read_regular_authority_file(&store.root().join(path))?,
+                )
+            })?;
+        Ok(artifacts_equal
+            && authority_projection_fingerprint(&source_store, &after)? == source_fingerprint)
+    })();
+    if !matches!(source_unchanged, Ok(true)) {
+        store.replace_authority_projection_locked(
+            request.issue,
+            &record.digest,
+            &original,
+            &original_cards,
+        )?;
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            match source_unchanged {
+                Ok(false) => "source authority identity changed during materialization; target rolled back".into(),
+                Err(error) => format!(
+                    "source authority became unreadable during materialization; target rolled back: {}",
+                    error.message
+                ),
+                Ok(true) => unreachable!(),
+            },
+        ));
+    }
+    let committed_cards = store.load_cards(request.issue)?;
+    crate::store::verify_cards(store, &record, &committed_cards)?;
+    Ok(RehomeClaimAuthorityResult {
+        schema: "csdlc.rehome_claim_authority_result.v1".into(),
+        issue: request.issue,
+        source_commit: request.source_commit,
+        initialization_digest: record.initialization_digest.clone(),
+        preserved_bindings,
+        claim: request.replacement,
+        generation: record.generation,
+        digest: record.digest,
+    })
+}
+
+fn authority_projection_fingerprint(store: &Store, record: &crate::IssueRecord) -> Result<String> {
+    let issue_root = format!(".csdlc/issues/{}", record.issue);
+    let mut paths = vec![
+        record.design_path.clone(),
+        record.diagram_path.clone(),
+        format!("{issue_root}/index.json"),
+        format!("{issue_root}/audit.jsonl"),
+    ];
+    for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        paths.push(format!("{issue_root}/cards/{card}.values.json"));
+        paths.push(format!("{issue_root}/cards/{card}.md"));
+    }
+    let mut hasher = blake3::Hasher::new();
+    for relative in paths {
+        let path = if Path::new(&relative).is_absolute() {
+            PathBuf::from(&relative)
+        } else {
+            store.root().join(&relative)
+        };
+        let metadata = fs::symlink_metadata(&path)?;
+        if metadata.file_type().is_symlink() || !metadata.is_file() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "authority projection contains a non-regular file",
+            ));
+        }
+        hasher.update(relative.as_bytes());
+        hasher.update(&fs::read(path)?);
+    }
+    Ok(hasher.finalize().to_hex().to_string())
+}
+
+fn read_regular_authority_file(path: &Path) -> Result<Vec<u8>> {
+    let metadata = fs::symlink_metadata(path)?;
+    if metadata.file_type().is_symlink() || !metadata.is_file() {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!("authority file is not regular: {}", path.display()),
+        ));
+    }
+    Ok(fs::read(path)?)
 }
 
 pub fn release_closed_claim(
@@ -1460,4 +2038,41 @@ fn unix_now() -> Result<u64> {
         .duration_since(std::time::UNIX_EPOCH)
         .map_err(|e| V2Error::new(ErrorCode::InvalidInput, e.to_string()))?
         .as_secs())
+}
+
+#[cfg(test)]
+mod terminal_projection_authority_tests {
+    use super::exact_expired_terminal_projection_overlap;
+
+    #[test]
+    fn aggregate_overlap_exception_is_exact_expired_and_projection_only() {
+        assert!(exact_expired_terminal_projection_overlap(
+            5384,
+            10,
+            ".csdlc/issues/5384",
+            ".csdlc/issues/5384/",
+            10,
+        ));
+        assert!(!exact_expired_terminal_projection_overlap(
+            5384,
+            11,
+            ".csdlc/issues/5384",
+            ".csdlc/issues/5384",
+            10,
+        ));
+        assert!(!exact_expired_terminal_projection_overlap(
+            5384,
+            10,
+            "docs/milestones/v0.91.8",
+            "docs/milestones/v0.91.8",
+            10,
+        ));
+        assert!(!exact_expired_terminal_projection_overlap(
+            5384,
+            10,
+            ".csdlc/issues/5384",
+            ".csdlc/issues",
+            10,
+        ));
+    }
 }

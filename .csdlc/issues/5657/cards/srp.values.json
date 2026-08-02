@@ -7,15 +7,15 @@
     "title": "[v0.91.8][runtime-v3][launch] Simplify and harden local Runtime v3 launch path",
     "slug": "v0-91-8-runtime-v3-launch-recovery",
     "version": "v0.91.8",
-    "generation": 2
+    "generation": 12
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review the exact Runtime v3 serve path, configuration, adapter readiness, continuity identity, Axum Observatory routes, WebSocket exchange, Guardian lifecycle, and focused proof.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".",
+      "review_revision": "git-blake3:faf0c62c231e4db1ad7a582cc5a7a57b085a310b:7b054e4eaa0c16d98c2d7f8a3487b187cf4729033513bfdba10e827607f81f68",
+      "reviewer": "codex-closeout-review",
       "review_prompts": [
         "Are all required production adapters real rather than degraded placeholders?",
         "Is Guardian the only launch owner?",
@@ -25,8 +25,10 @@
         "Are slow or fixture lanes excluded from launch credit?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Closeout lane records exact PR #5659 head review for lifecycle reconciliation only; no new product implementation is claimed."
+      ],
+      "review_result": "pass"
     }
   }
 }

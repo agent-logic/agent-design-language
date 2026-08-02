@@ -43,3 +43,6 @@
 {"sequence":43,"generation":30,"actor":"codex:5764-runtime-observatory-readiness","reason":"Advance #5764 after exact-head Erdos review confirmed the hosted Runtime v3 proof config validation repair is clean.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":44,"generation":31,"actor":"codex:5764-runtime-observatory-readiness","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":45,"generation":32,"actor":"codex:5764-runtime-observatory-readiness","reason":"record exact existing PR ready-for-review after remote success","operation":"record_ready_publication"}
+{"sequence":46,"generation":33,"actor":"codex:5764-runtime-observatory-readiness","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness_reconcile_metadata_only_published_revision"}
+{"sequence":47,"generation":34,"actor":"codex:5764-runtime-observatory-readiness","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":48,"generation":35,"actor":"codex:019fb617-d22b-7252-975c-402d7d7aec46","reason":"Materialize the retained #5764 terminal receipt in the dedicated v0.91.8 aggregate closeout projection.","operation":"reconcile_terminal"}

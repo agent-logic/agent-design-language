@@ -7,7 +7,7 @@
     "title": "[v0.91.8][csdlc-v2][closeout] Materialize retained terminal projections",
     "slug": "v0918-retained-terminal-projections",
     "version": "v0.91.8",
-    "generation": 12
+    "generation": 16
   },
   "status": "ready",
   "content": {
@@ -97,9 +97,9 @@
       "planned_validation_seconds": 3600,
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on receipt drift, invalid terminal evidence, missing PVF/review truth, dirty foreign ownership, non-portable retained artifacts, unrelated paths, or actionable review findings.",
-      "design_ref": ".csdlc/prepared/issues/5746/design.md",
+      "design_ref": ".csdlc/issues/5746/retained/design.md",
       "design_digest": "8d95791fbb571dac98ff3b1cf368407de2cc53c3d103b7a82f5f4d73d4834f36",
-      "diagram_ref": ".csdlc/prepared/issues/5746/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5746/retained/diagram.mmd",
       "diagram_digest": "b88938a6e13d755d9e75154fbc82b5459c03af20c731127fcf7e50d71e174445"
     }
   }

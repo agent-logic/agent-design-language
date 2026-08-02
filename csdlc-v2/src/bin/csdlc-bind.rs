@@ -1,9 +1,10 @@
 use clap::Parser;
 use csdlc_v2::{
     amend_claim_scope, bind_issue, heartbeat_claim, reacquire_claim, recover_claim,
-    release_closed_claim, revoke_active_claim, transition_active_claim, AmendClaimScopeRequest,
-    BindRequest, HeartbeatRequest, ReacquireClaimRequest, RecoverClaimRequest,
-    ReleaseClosedClaimRequest, RevokeActiveClaimRequest, Store, TransitionActiveClaimRequest,
+    rehome_claim_authority, release_closed_claim, revoke_active_claim, transition_active_claim,
+    AmendClaimScopeRequest, BindRequest, HeartbeatRequest, ReacquireClaimRequest,
+    RecoverClaimRequest, RehomeClaimAuthorityRequest, ReleaseClosedClaimRequest,
+    RevokeActiveClaimRequest, Store, TransitionActiveClaimRequest,
 };
 use std::{fs, path::PathBuf};
 
@@ -13,25 +14,38 @@ struct Cli {
     root: PathBuf,
     #[arg(long)]
     request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "recover_request", "reacquire_request", "amend_request", "transition_request", "release_request"])]
+    #[arg(long, conflicts_with_all = ["request", "recover_request", "reacquire_request", "rehome_request", "amend_request", "transition_request", "release_request"])]
     heartbeat_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "reacquire_request", "amend_request", "transition_request", "release_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "reacquire_request", "rehome_request", "amend_request", "transition_request", "release_request"])]
     recover_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "amend_request", "transition_request", "release_request", "revoke_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "rehome_request", "amend_request", "transition_request", "release_request", "revoke_request"])]
     reacquire_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "reacquire_request", "transition_request", "release_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "reacquire_request", "amend_request", "transition_request", "release_request", "revoke_request"])]
+    rehome_request: Option<PathBuf>,
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "reacquire_request", "rehome_request", "transition_request", "release_request"])]
     amend_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "reacquire_request", "amend_request", "release_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "reacquire_request", "rehome_request", "amend_request", "release_request"])]
     transition_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "reacquire_request", "amend_request", "transition_request", "revoke_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "reacquire_request", "rehome_request", "amend_request", "transition_request", "revoke_request"])]
     release_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "reacquire_request", "amend_request", "transition_request", "release_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "reacquire_request", "rehome_request", "amend_request", "transition_request", "release_request"])]
     revoke_request: Option<PathBuf>,
 }
 
 fn main() {
     let cli = Cli::parse();
-    let result = if let Some(path) = cli.reacquire_request {
+    let result = if let Some(path) = cli.rehome_request {
+        fs::read(path)
+            .map_err(csdlc_v2::V2Error::from)
+            .and_then(|bytes| {
+                serde_json::from_slice::<RehomeClaimAuthorityRequest>(&bytes)
+                    .map_err(csdlc_v2::V2Error::from)
+            })
+            .and_then(|request| {
+                rehome_claim_authority(&Store::new(cli.root.clone()), request)
+                    .map(|value| serde_json::to_value(value).expect("JSON"))
+            })
+    } else if let Some(path) = cli.reacquire_request {
         fs::read(path)
             .map_err(csdlc_v2::V2Error::from)
             .and_then(|bytes| {
@@ -103,7 +117,7 @@ fn main() {
         let path = cli.request.ok_or_else(|| {
             csdlc_v2::V2Error::new(
                 csdlc_v2::ErrorCode::InvalidInput,
-                "one of --request, --heartbeat-request, --recover-request, --reacquire-request, --amend-request, --transition-request, --release-request, or --revoke-request is required",
+                "one of --request, --heartbeat-request, --recover-request, --reacquire-request, --rehome-request, --amend-request, --transition-request, --release-request, or --revoke-request is required",
             )
         });
         path.and_then(|path| fs::read(path).map_err(csdlc_v2::V2Error::from))

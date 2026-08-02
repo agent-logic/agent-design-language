@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: complete
 
 ## Scope
 
@@ -32,13 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- cargo test --locked remains unavailable because the branch's checked-in adl/Cargo.lock is stale for the current manifest graph; focused validation used the issue-local offline wrapper that refuses pre-existing lock dirtiness and restores transient lock refresh.
-- Review was bounded to the #4760 Memory Palace implementation, fixture, long-lived-agent consumer hook, and issue-local lifecycle evidence; broader long-lived-agent runtime behavior was not exhaustively revalidated.
+- The final merged-head delta after the prior Memory Palace review is disjoint from this scope and changes only adl/src/csm_runtime_api.rs; the existing focused Memory Palace validation and prior scope review remain the execution proof.
 
 ## Review Result
 
-Revision: Some("git-blake3:80a098937899ff4602d0c91d46ac61cff9453486:628d6c613ad1fd065e76e02aa17283ff76c3bf4ecf21f522267bbfbf90514daf")
+Revision: Some("git-blake3:9719252262913351144a20adf0affb7ed4b5480d:0e9a3cc5bcd6025584c2714a370314d9681ae6bdc98439fb7fb5205a7801cf7b")
 
-Reviewer: Some("codex:exact-head-reviewer-4760")
+Reviewer: Some("subagent:/root/review_5727")
 
 Result: pass

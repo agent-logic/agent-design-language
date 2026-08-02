@@ -7,9 +7,9 @@
     "title": "[v0.91.8][runtime-v3][observatory] Repair overnight readiness probes and weather freshness truth",
     "slug": "runtime-observatory-readiness",
     "version": "v0.91.8",
-    "generation": 32
+    "generation": 35
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -152,10 +152,10 @@
           "evidence_ref": "local FastWork terminal output: integrated proof passed; node --check passed; json.tool passed; py_compile passed; git diff --check origin/main...HEAD passed; cargo clippy passed"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

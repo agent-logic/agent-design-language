@@ -12,3 +12,4 @@
 {"sequence":12,"generation":9,"actor":"codex:issue-5686-terminal-projection","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
 {"sequence":13,"generation":10,"actor":"codex:v0918-closeout-sweep","reason":"Materialize retained terminal receipt after operator fast-forwarded main; closeout receipt already exists and root projection still showed published.","operation":"reconcile_terminal"}
 {"sequence":14,"generation":11,"actor":"codex:v0918-terminal-reconcile-wave","reason":"Materialize retained terminal authority for the complete v0.91.8 closed-issue closeout audit.","operation":"reconcile_terminal"}
+{"sequence":15,"generation":12,"actor":"codex:5748-terminal-recovery","reason":"Materialize the authoritative terminal receipt into the dedicated v0.91.8 closeout branch during the exhaustive live-inventory sweep.","operation":"reconcile_terminal"}

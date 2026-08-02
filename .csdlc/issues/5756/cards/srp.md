@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: complete
 
 ## Scope
 
@@ -34,7 +34,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:55580056a83ff422cdb6f075e02f4a63fe4d460a:a607e7a620bf1ac17c8ce188b7bddd3e597b632eaa2cee493d565756268097e7")
+Revision: Some("git-blake3:92fed26e1ff2031a57d80a014fbef77542da55d8:ec2eef569becd5f45193c2450055559f61aff9585114fd2aaeb989728357f85b")
 
 Reviewer: Some("codex-bounded-review")
 

@@ -7,9 +7,9 @@
     "title": "[v0.91.8][runtime-v3][observatory] Repair overnight readiness probes and weather freshness truth",
     "slug": "runtime-observatory-readiness",
     "version": "v0.91.8",
-    "generation": 32
+    "generation": 35
   },
-  "status": "draft",
+  "status": "complete",
   "content": {
     "card_kind": "srp",
     "values": {

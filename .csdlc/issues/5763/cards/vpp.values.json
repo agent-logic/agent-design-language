@@ -7,7 +7,7 @@
     "title": "[v0.91.8][docs][quality] Reconcile canonical feature crosswalk digest after WP-14 decomposition",
     "slug": "feature-crosswalk-digest",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 7
   },
   "status": "ready",
   "content": {
@@ -139,9 +139,9 @@
       "planned_validation_seconds": 1200,
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on stale digest evidence, validator weakening, row-count drift, protected-path collision, unrelated docs changes, failed focused validation, or actionable review findings.",
-      "design_ref": ".csdlc/prepared/issues/5763/design.md",
+      "design_ref": ".csdlc/issues/5763/retained/design.md",
       "design_digest": "a15bb8517379c5226e034356eacee4ad228b50d23e1e297a1334bd8ca97d81b5",
-      "diagram_ref": ".csdlc/prepared/issues/5763/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5763/retained/diagram.mmd",
       "diagram_digest": "1c26d05d624ee41b1a49c559738e437abece7f47303fd61d5174f6d4715e2efd"
     }
   }

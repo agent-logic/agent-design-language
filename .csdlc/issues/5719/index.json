@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "3311f6460b0988706cb978ea2fcf7da322d7af3273fc5c96c2813a6f7a4fc271",
   "phase": "closed_out",
-  "generation": 7,
-  "digest": "f5958d508c89ab2251400711865eb44c6bf70052159faf2208fd645ee98b1e81",
+  "generation": 8,
+  "digest": "6a4102c7666a69c10a1cc04783cf133cf92215a828d7e611143fdefd6d4205f5",
   "claim": null,
   "review_assignment": {
     "reviewer": "Heisenberg",
@@ -187,32 +187,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "16c4d7de696283ae75fe67b031829f9c2056c1c300d4b453c9e81681a8b831a7",
+      "values_digest": "21c909810ecfe6527588c63e914dd8dd12dc546a2eed41eac8d86aa7480e6e72",
       "rendered_digest": "5edc703d78bb5d850b627fa794f4eb45e023a7c3cf86f62a04ec9b1e6fbebef0",
       "ast_digest": "9798d8fc4365de347cba719ad458e1c5d6f62b23ba9451554a151dc6a99fd129"
     },
     "stp": {
-      "values_digest": "fa65a95bd2175b78749622ceb6caa6cd30bee0e3c542f65665b709cbf695d337",
+      "values_digest": "64d96ff561005f47a2379bf8bb531bd61eea8a8d60f2440ce789a995c0f5b7a1",
       "rendered_digest": "3a46127e74167c14f3cf932b65fd169a5f087f132c4f5c0473968f0c7003044c",
       "ast_digest": "36f64615fce3a1933d837007862c8eee9304620c5b01fbe632a35271b7624868"
     },
     "spp": {
-      "values_digest": "c4a20c2fa702ec86fcc84b5c397dc5d533e9dac3fb8c00c4153f01bc3e34b26a",
+      "values_digest": "6c57b17e9741fbacdfdc9ef01fee6ad2c74c6b0a82b69ac2c4dbd816ae7fcf32",
       "rendered_digest": "1cae8b24db4df34b7d914fc0901c2029dc205806b1e41e1d39ec26dd867f5c54",
       "ast_digest": "8d5da4000854284b4d2f5ea497cdab1023452676aa33c0944e2461c91d9e8ef9"
     },
     "vpp": {
-      "values_digest": "4ee32558a0cff703fffaeaeb72a834c7e09102698e504ff9c6c3554ef3517ce7",
+      "values_digest": "28d72a80dfa51373436c0acdfe115a2a7c5077939efa3180eaae7c9b637d5059",
       "rendered_digest": "6f085e2490b448558e02d68b146a66b94a51dffec734d91e3e211e1779cb20de",
       "ast_digest": "a8ebf5e4bbb230be7171508d98ace0c6d3d3c8e70d3f3dd32aabf8b27d76d98a"
     },
     "srp": {
-      "values_digest": "539bd40fdddd2c2a04bb97163226cf16b51296c22bd62d6accd640b670886729",
+      "values_digest": "6862172948cb65621875674ba743690a24b52c8f33a0a1cfa187bb7014878c59",
       "rendered_digest": "bbbbc44baeb15036628f26e442ba10da1d96f49039db00aa77e807c4c06c1254",
       "ast_digest": "7a74613d539884e54af07bd661578412c4b1fab69823de88709433f6c7f113e5"
     },
     "sor": {
-      "values_digest": "47b3739c312d6bacddea3ebbeb10bd8f68a39b474e85c02d0a64b39d65e9278d",
+      "values_digest": "df3bad76715285f9e50eb5eefe680b63538551fe3515731cd426e82e1fdcdb2f",
       "rendered_digest": "36859ecc4c05c072480df596a94121948b03ed21263c54fbd833778bf2a47acc",
       "ast_digest": "aac98f6ffbd0a68fdddc0cb42e8830385c5fcfd2cff121bb3aaad30d354b3f12"
     }
@@ -351,6 +351,13 @@
       "generation": 7,
       "actor": "codex:v0918-terminal-reconcile-wave",
       "reason": "Materialize retained terminal authority for the complete v0.91.8 closed-issue closeout audit.",
+      "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Materialize the authoritative terminal receipt into the dedicated v0.91.8 closeout branch during the exhaustive live-inventory sweep.",
       "operation": "reconcile_terminal"
     }
   ]

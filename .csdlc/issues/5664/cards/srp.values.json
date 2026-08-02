@@ -7,15 +7,15 @@
     "title": "[v0.91.8][runtime-v3][protocols] Implement real Provider, ACIP, A2A, and Cloud Bridge adapters",
     "slug": "v0-91-8-runtime-v3-protocol-adapters",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 12
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/Cargo.toml\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/protocol_adapters.rs\nadl-runtime-kernel/tests/protocol_adapters.rs",
-      "review_revision": "git-blake3:aa78843cd00ceb3ffa860d18dfad15637a3613ac:6f6a0273508c547db4c4e4c89354ca06f947a37f691f99e6ef9e5ec1155048ce",
-      "reviewer": "codex-exact-head-review:019fa105-57ba-7463-9fe5-c837cc5eeef5",
+      "review_scope": ".",
+      "review_revision": "git-blake3:16e6594dae2f76e41ebf432c9ea477523e685247:1f523588da7bda807b7e6789ec508118eaf7fa08edbad5af11f1fa707f197b3f",
+      "reviewer": "Einstein",
       "review_prompts": [
         "Do Provider, ACIP, A2A, and Cloud Bridge each perform a real authenticated transport exchange rather than returning receipts?",
         "Are retry, timeout, cancellation, replay rejection, and shutdown bounded and tested?",
@@ -25,7 +25,8 @@
       ],
       "findings": [],
       "residual_risk": [
-        "Production serve wiring remains outside this disjoint adapter-slice publication and is not claimed complete."
+        "Production serve wiring remains outside this disjoint adapter-slice publication and is not claimed complete.",
+        "#5664 terminal closeout relies on #5755/#5758 as the merged remediation for the prior mTLS and /v1/control body-bound blockers."
       ],
       "review_result": "pass"
     }

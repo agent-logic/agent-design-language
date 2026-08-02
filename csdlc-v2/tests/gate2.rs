@@ -1,5 +1,6 @@
 use std::fs;
 
+use csdlc_v2::cards::CardContent;
 use csdlc_v2::doctor::DoctorStatus;
 use csdlc_v2::{
     amend_claim_scope, closeout_issue, diagnose, edit_issue, AmendClaimScopeRequest,
@@ -438,7 +439,7 @@ fn bootstrap_rejects_one_path_for_both_authored_artifact_roles() {
 #[test]
 fn bind_creates_and_idempotently_reuses_typed_worktree() {
     let (temp, store, record) = fixture();
-    git(temp.path(), &["init", "-b", "main"]);
+    git(temp.path(), &["init", "-b", "issue-43-terminal"]);
     git(
         temp.path(),
         &["config", "user.email", "test@example.invalid"],
@@ -1633,6 +1634,299 @@ fn active_nonoverlap_does_not_consult_stale_terminal_identity() {
     let (_temp, store) = fixture_with_stale_terminal_identity("main", "terminal-only");
     initialize_issue(&store, request())
         .expect("non-overlapping active claim does not consult unrelated terminal identity");
+}
+
+#[test]
+fn amend_scope_accepts_only_exact_receipt_backed_terminal_projection_overlap() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    git(temp.path(), &["init", "-b", "main"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    fs::create_dir_all(temp.path().join("docs")).expect("docs");
+    fs::write(temp.path().join("docs/design.md"), "# Reviewed design\n").expect("design");
+    fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n  A --> B\n",
+    )
+    .expect("diagram");
+    let store = Store::new(temp.path());
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .expect("clock")
+        .as_secs();
+    let live_observation = now + 60;
+    let lease_expiry = now + 3_600;
+    let mut stale_request = request();
+    stale_request.issue = 43;
+    stale_request.claim.id = "claim-43-stale".into();
+    stale_request.claim.branch = "issue-43-terminal".into();
+    stale_request.claim.worktree = ".".into();
+    stale_request.claim.acquired_unix_seconds = now.saturating_sub(1);
+    stale_request.claim.heartbeat_unix_seconds = now.saturating_sub(1);
+    stale_request.claim.expires_unix_seconds = lease_expiry;
+    stale_request.claim.protected_paths = vec![".csdlc/issues/43".into(), "docs/design.md".into()];
+    stale_request.initial.goal = "Pre-terminal projection for one terminal identity.".into();
+    let mut terminal_source = initialize_issue(&store, stale_request).expect("terminal source");
+    for phase in [
+        csdlc_v2::LifecyclePhase::Ready,
+        csdlc_v2::LifecyclePhase::Bound,
+    ] {
+        terminal_source = edit_issue(
+            &store,
+            edit_for(
+                43,
+                "claim-43-stale",
+                &terminal_source,
+                CardKind::Sip,
+                SemanticOperation::AdvancePhase { phase },
+            ),
+        )
+        .expect("advance terminal source");
+    }
+    terminal_source = edit_issue(
+        &store,
+        edit_for(
+            43,
+            "claim-43-stale",
+            &terminal_source,
+            CardKind::Sor,
+            SemanticOperation::RecordExecution {
+                summary: "terminal source complete".into(),
+                changes: vec!["terminal source".into()],
+                artifacts: vec!["terminal-source.json".into()],
+            },
+        ),
+    )
+    .expect("record execution");
+    terminal_source = edit_issue(
+        &store,
+        edit_for(
+            43,
+            "claim-43-stale",
+            &terminal_source,
+            CardKind::Sip,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Implemented,
+            },
+        ),
+    )
+    .expect("advance implemented");
+    terminal_source = edit_issue(
+        &store,
+        edit_for(
+            43,
+            "claim-43-stale",
+            &terminal_source,
+            CardKind::Sor,
+            SemanticOperation::RecordValidation {
+                result: csdlc_v2::cards::ValidationResult {
+                    command: vec!["cargo".into(), "test".into()],
+                    purpose: "terminal projection authority proof".into(),
+                    outcome: csdlc_v2::cards::EvidenceOutcome::Passed,
+                    evidence_ref: "evidence/terminal-projection-authority.json".into(),
+                },
+            },
+        ),
+    )
+    .expect("record validation");
+    terminal_source = edit_issue(
+        &store,
+        edit_for(
+            43,
+            "claim-43-stale",
+            &terminal_source,
+            CardKind::Srp,
+            SemanticOperation::RecordReview {
+                reviewer: "independent-reviewer".into(),
+                revision: "terminal-source-revision".into(),
+                result: csdlc_v2::cards::ReviewResult::Pass,
+                residual_risk: vec![],
+            },
+        ),
+    )
+    .expect("record review");
+    terminal_source = edit_issue(
+        &store,
+        edit_for(
+            43,
+            "claim-43-stale",
+            &terminal_source,
+            CardKind::Sip,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Reviewed,
+            },
+        ),
+    )
+    .expect("advance reviewed");
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "stale issue projection"]);
+    let stale_commit = csdlc_v2::git::run(temp.path(), &["rev-parse", "HEAD"])
+        .expect("stale commit")
+        .stdout;
+
+    closeout_issue(
+        &store,
+        TerminalObservation {
+            schema: "csdlc.terminal_observation.v1".into(),
+            issue: 43,
+            expected_generation: terminal_source.generation,
+            expected_digest: terminal_source.digest,
+            claim_id: "claim-43-stale".into(),
+            actor: "closer".into(),
+            pull_request: None,
+            disposition: TerminalDisposition::ClosedNoPr,
+            observed_sha: None,
+            observed_state: "closed_no_pr".into(),
+            approved_no_pr_reason: Some("operator-approved terminal fixture".into()),
+            receipt_path: "csdlc-v2/closeout/43.json".into(),
+        },
+    )
+    .expect("close terminal source");
+    store.retain_terminal_receipt(43).expect("retain receipt");
+    git(temp.path(), &["branch", "-m", "terminal-aggregate"]);
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "terminal authority"]);
+    let divergent = temp.path().join("divergent-sibling");
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "divergent-43",
+            divergent.to_str().expect("divergent path"),
+            "HEAD",
+        ],
+    );
+    let divergent_store = Store::new(&divergent);
+    fs::remove_dir_all(divergent_store.issue_dir(43)).expect("remove terminal projection");
+    let mut divergent_request = request();
+    divergent_request.issue = 43;
+    divergent_request.claim.id = "claim-43-divergent".into();
+    divergent_request.claim.branch = "divergent-43".into();
+    divergent_request.claim.worktree = ".".into();
+    divergent_request.claim.acquired_unix_seconds = now.saturating_sub(1);
+    divergent_request.claim.heartbeat_unix_seconds = now.saturating_sub(1);
+    divergent_request.claim.expires_unix_seconds = lease_expiry;
+    divergent_request.claim.protected_paths = vec![".csdlc/issues/43".into()];
+    divergent_request.initial.goal = "Divergent issue identity must not be waived.".into();
+    initialize_issue(&divergent_store, divergent_request).expect("divergent issue identity");
+    git(&divergent, &["add", "."]);
+    git(&divergent, &["commit", "-m", "divergent issue identity"]);
+
+    let mut aggregate_request = request();
+    aggregate_request.claim.branch = "terminal-aggregate".into();
+    aggregate_request.claim.worktree = ".".into();
+    aggregate_request.claim.protected_paths = vec!["aggregate".into()];
+    let mut aggregate = initialize_issue(&store, aggregate_request).expect("aggregate issue");
+    for phase in [
+        csdlc_v2::LifecyclePhase::Ready,
+        csdlc_v2::LifecyclePhase::Bound,
+    ] {
+        aggregate = edit_issue(
+            &store,
+            edit_for(
+                42,
+                "claim-1",
+                &aggregate,
+                CardKind::Sip,
+                SemanticOperation::AdvancePhase { phase },
+            ),
+        )
+        .expect("advance aggregate");
+    }
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "terminal aggregate"]);
+    let sibling = temp.path().join("stale-sibling");
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "issue-43-terminal",
+            sibling.to_str().expect("sibling path"),
+            &stale_commit,
+        ],
+    );
+
+    let exact_projection = |record: &csdlc_v2::IssueRecord, now| AmendClaimScopeRequest {
+        issue: 42,
+        claim_id: "claim-1".into(),
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        now_unix_seconds: now,
+        actor: "aggregate-test".into(),
+        reason: "cover terminal projection only".into(),
+        add_protected_paths: vec![".csdlc/issues/43".into()],
+    };
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            divergent.to_str().expect("divergent path"),
+        ],
+    );
+    let live = amend_claim_scope(&store, exact_projection(&aggregate, live_observation))
+        .expect_err("an authentic unexpired active-checkout claim must collide");
+    assert_eq!(live.code, ErrorCode::ClaimCollision);
+    git(&sibling, &["branch", "-m", "copied-terminal-43"]);
+    amend_claim_scope(&store, exact_projection(&aggregate, live_observation))
+        .expect("exact newer terminal receipt may supersede an inactive copied projection claim");
+    aggregate = store.load_record(42).expect("amended aggregate");
+
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            divergent.to_str().expect("divergent path"),
+            "divergent-43",
+        ],
+    );
+
+    let divergent_identity = amend_claim_scope(&store, exact_projection(&aggregate, lease_expiry))
+        .expect_err("divergent sibling identity must collide");
+    assert_eq!(divergent_identity.code, ErrorCode::ClaimCollision);
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            divergent.to_str().expect("divergent path"),
+        ],
+    );
+
+    git(&sibling, &["branch", "-m", "issue-43-terminal"]);
+    amend_claim_scope(&store, exact_projection(&aggregate, lease_expiry))
+        .expect("newer exact terminal receipt releases the matching expired projection claim");
+    let current = store.load_record(42).expect("amended aggregate");
+    let mut product_owner = request();
+    product_owner.issue = 44;
+    product_owner.claim.id = "claim-44-product".into();
+    product_owner.claim.branch = "terminal-aggregate".into();
+    product_owner.claim.worktree = ".".into();
+    product_owner.claim.protected_paths = vec!["docs/product".into()];
+    product_owner.initial.goal = "Unrelated product ownership remains exclusive.".into();
+    initialize_issue(&store, product_owner).expect("product owner");
+    let product_overlap = amend_claim_scope(
+        &store,
+        AmendClaimScopeRequest {
+            add_protected_paths: vec!["docs/product".into()],
+            expected_generation: current.generation,
+            expected_digest: current.digest.clone(),
+            now_unix_seconds: lease_expiry,
+            ..exact_projection(&current, lease_expiry)
+        },
+    )
+    .expect_err("terminal receipt cannot waive product-path collision");
+    assert_eq!(product_overlap.code, ErrorCode::ClaimCollision);
 }
 
 #[test]
@@ -2974,7 +3268,7 @@ fn planning_replacements_reject_invalid_requests_without_mutation() {
 }
 
 #[test]
-fn planning_replacements_are_bound_only_and_cannot_smuggle_progress() {
+fn planning_replacements_are_phase_bounded_and_allow_narrow_implemented_corrections() {
     let (_temp, initialized_store, initialized) = fixture();
     for (card, operation) in [
         (
@@ -3058,24 +3352,96 @@ fn planning_replacements_are_bound_only_and_cannot_smuggle_progress() {
             phase: csdlc_v2::LifecyclePhase::Implemented,
         },
     );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Spp,
+        SemanticOperation::ReplacePlanningCollection {
+            field: PlanningCollectionField::AffectedAreas,
+            values: vec!["implementation-discovered surface".into()],
+        },
+    );
+    let cards = store.load_cards(42).expect("cards");
+    let CardContent::Spp(spp) = &cards[&CardKind::Spp].content else {
+        panic!("SPP")
+    };
+    assert_eq!(
+        spp.affected_areas,
+        vec!["implementation-discovered surface"]
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sip,
+        SemanticOperation::ReplaceOperatorConstraints {
+            values: vec!["corrected implementation boundary".into()],
+        },
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Stp,
+        SemanticOperation::ReplaceAcceptanceCriteria {
+            values: vec!["one".into(), "two".into()],
+        },
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Srp,
+        SemanticOperation::ReplacePlanningCollection {
+            field: PlanningCollectionField::ReviewPrompts,
+            values: vec!["corrected exact-head prompt".into()],
+        },
+    );
+    let corrected_cards = store.load_cards(42).expect("corrected cards");
+    let CardContent::Sip(sip) = &corrected_cards[&CardKind::Sip].content else {
+        panic!("SIP")
+    };
+    assert_eq!(
+        sip.operator_constraints,
+        vec!["corrected implementation boundary"]
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sip,
+        SemanticOperation::ReplacePlanningCollection {
+            field: PlanningCollectionField::AuthorityBoundary,
+            values: vec!["corrected implementation authority".into()],
+        },
+    );
+    let corrected_cards = store.load_cards(42).expect("authority corrected cards");
+    let CardContent::Sip(sip) = &corrected_cards[&CardKind::Sip].content else {
+        panic!("SIP")
+    };
+    assert_eq!(
+        sip.authority_boundary,
+        vec!["corrected implementation authority"]
+    );
+    let CardContent::Srp(srp) = &corrected_cards[&CardKind::Srp].content else {
+        panic!("SRP")
+    };
+    assert_eq!(srp.review_prompts, vec!["corrected exact-head prompt"]);
+
     let error = edit_issue(
         &store,
         EditRequest {
             issue: 42,
-            card: CardKind::Srp,
+            card: CardKind::Sip,
             expected_generation: record.generation,
             expected_digest: record.digest,
             claim_id: "claim-1".into(),
             actor: "agent".into(),
             reason: "too late".into(),
             operation: SemanticOperation::ReplacePlanningCollection {
-                field: PlanningCollectionField::ReviewPrompts,
-                values: vec!["late prompt".into()],
+                field: PlanningCollectionField::DeclaredScope,
+                values: vec!["late scope widening".into()],
             },
             fail_after_backup: false,
         },
     )
-    .expect_err("post-implementation replan must fail");
+    .expect_err("unrelated post-implementation replan must fail");
     assert_eq!(error.code, ErrorCode::InvalidTransition);
 }
 
@@ -3094,7 +3460,7 @@ fn implemented_spp_review_remediation_allows_guarded_plan_and_stop_condition_cor
     )
     .expect("implemented plan-step correction");
     let cards = store.load_cards(42).expect("plan-step cards");
-    let csdlc_v2::cards::CardContent::Spp(spp) = &cards[&CardKind::Spp].content else {
+    let CardContent::Spp(spp) = &cards[&CardKind::Spp].content else {
         panic!("SPP");
     };
     assert_eq!(spp.steps, replacement_steps());
@@ -3129,7 +3495,7 @@ fn implemented_spp_review_remediation_allows_guarded_plan_and_stop_condition_cor
     .expect("implemented stop-condition correction");
 
     let cards = store.load_cards(42).expect("corrected cards");
-    let csdlc_v2::cards::CardContent::Spp(spp) = &cards[&CardKind::Spp].content else {
+    let CardContent::Spp(spp) = &cards[&CardKind::Spp].content else {
         panic!("SPP");
     };
     assert_eq!(spp.invariants, vec!["review-remediated invariant"]);
@@ -3142,10 +3508,6 @@ fn implemented_spp_review_remediation_allows_guarded_plan_and_stop_condition_cor
         record.claim.as_ref().expect("claim").generation,
         record.generation
     );
-    assert!(record
-        .audit
-        .iter()
-        .any(|event| event.operation.contains("replace_planning_collection")));
 }
 
 #[test]
@@ -3243,14 +3605,14 @@ fn implemented_review_remediation_allows_guarded_sip_authority_and_stp_acceptanc
     .expect("implemented STP acceptance correction");
 
     let cards = store.load_cards(42).expect("corrected cards");
-    let csdlc_v2::cards::CardContent::Sip(sip) = &cards[&CardKind::Sip].content else {
+    let CardContent::Sip(sip) = &cards[&CardKind::Sip].content else {
         panic!("SIP");
     };
     assert_eq!(
         sip.authority_boundary,
         vec!["release the successor after merge"]
     );
-    let csdlc_v2::cards::CardContent::Stp(stp) = &cards[&CardKind::Stp].content else {
+    let CardContent::Stp(stp) = &cards[&CardKind::Stp].content else {
         panic!("STP");
     };
     assert_eq!(
@@ -3261,10 +3623,6 @@ fn implemented_review_remediation_allows_guarded_sip_authority_and_stp_acceptanc
         ]
     );
     assert_eq!(record.phase, LifecyclePhase::Implemented);
-    assert_eq!(
-        record.claim.as_ref().expect("claim").generation,
-        record.generation
-    );
 }
 
 #[test]
@@ -3285,6 +3643,101 @@ fn implemented_sip_review_remediation_rejects_non_authority_collections() {
     )
     .expect_err("implemented SIP scope replacement remains rejected");
     assert_eq!(error.code, ErrorCode::InvalidTransition);
+}
+
+#[test]
+fn execution_replacement_is_sor_only_and_implemented_only() {
+    let (_temp, store, mut record) = bind_fixture();
+    let too_early = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sor,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "replacement requires observed implementation".into(),
+            operation: SemanticOperation::ReplaceExecution {
+                summary: "not yet implemented".into(),
+                changes: vec![],
+                artifacts: vec![],
+                validation: vec![],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("bound execution replacement must fail");
+    assert_eq!(too_early.code, ErrorCode::InvalidTransition);
+
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sor,
+        SemanticOperation::RecordExecution {
+            summary: "interim execution".into(),
+            changes: vec!["stale change".into()],
+            artifacts: vec!["stale-artifact.json".into()],
+        },
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sip,
+        SemanticOperation::AdvancePhase {
+            phase: csdlc_v2::LifecyclePhase::Implemented,
+        },
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sor,
+        SemanticOperation::ReplaceExecution {
+            summary: "final truthful execution".into(),
+            changes: vec!["final change".into()],
+            artifacts: vec!["final-evidence.json".into()],
+            validation: vec![csdlc_v2::cards::ValidationResult {
+                command: vec!["cargo".into(), "test".into()],
+                purpose: "focused exact proof".into(),
+                outcome: csdlc_v2::cards::EvidenceOutcome::Passed,
+                evidence_ref: "final-evidence.json".into(),
+            }],
+        },
+    );
+
+    let cards = store.load_cards(42).expect("cards");
+    let CardContent::Sor(sor) = &cards[&CardKind::Sor].content else {
+        panic!("SOR")
+    };
+    assert_eq!(sor.summary, "final truthful execution");
+    assert_eq!(sor.actual_changes, vec!["final change"]);
+    assert_eq!(sor.artifacts, vec!["final-evidence.json"]);
+    assert_eq!(sor.actual_validation.len(), 1);
+    assert_eq!(sor.actual_validation[0].purpose, "focused exact proof");
+    assert_eq!(record.phase, csdlc_v2::LifecyclePhase::Implemented);
+
+    let invalid = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sor,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "cannot erase execution truth".into(),
+            operation: SemanticOperation::ReplaceExecution {
+                summary: "".into(),
+                changes: vec![],
+                artifacts: vec![],
+                validation: vec![],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("replacement cannot erase execution truth");
+    assert_eq!(invalid.code, ErrorCode::CardInvalid);
+    assert_eq!(store.load_record(42).expect("unchanged record"), record);
 }
 
 #[test]

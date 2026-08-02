@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-17] Align documentation and release truth before formal review",
     "slug": "v0918-wp17-documentation-release-truth-alignment",
     "version": "v0.91.8",
-    "generation": 16
+    "generation": 19
   },
   "status": "ready",
   "content": {
@@ -129,9 +129,9 @@
       "planned_validation_seconds": 7200,
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed without shared-document or product edits, public claim, publication, merge, WP-18 release, or closeout on incomplete #5351 terminal truth, claim collision, stale or contradictory identity, unsupported release claim, Runtime v2 use, failed or missing required proof, hidden blocker, secret or host-bound output, hard-coded address, new dependency, budget breach, deferred validation, stale review, red CI, or absent post-merge proof.",
-      "design_ref": ".csdlc/prepared/issues/5360/design.md",
+      "design_ref": ".csdlc/issues/5360/retained/design.md",
       "design_digest": "d2495d07cbf8f23d14ccff0bfa891ebb34bc56cb5e06973fb7ea516c98ebbd7f",
-      "diagram_ref": ".csdlc/prepared/issues/5360/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5360/retained/diagram.mmd",
       "diagram_digest": "ce79d52632c7d3b0810a147f51e7d4b225781acf8e0b62a066665d07c9ab6e2b"
     }
   }

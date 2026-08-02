@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-13][deletion] Delete externally owned incumbent ADL bands",
     "slug": "v0918-wp13-external-band-deletion",
     "version": "v0.91.8",
-    "generation": 22
+    "generation": 26
   },
   "status": "ready",
   "content": {
@@ -146,9 +146,9 @@
       "planned_validation_seconds": 21600,
       "planned_validation_tokens": 100000,
       "failure_policy": "Fail closed without product-path claim, deletion, publication, merge, or closeout on an unresolved #5346/#5347 cycle, incomplete terminal dependency, stale or missing receipt, non-ancestral revision, manifest overlap or drift, unknown ownership/reachability, missing replacement proof, escaping or untracked path, claim collision, Runtime v2 or replacement-owner edit, authoritative consumer reference, test/parity/security/rollback/CI failure, nondeterministic or secret-bearing evidence, budget violation, deferred acceptance, or absent post-merge proof.",
-      "design_ref": ".csdlc/prepared/issues/5347/design.md",
+      "design_ref": ".csdlc/issues/5347/retained/design.md",
       "design_digest": "e732e2bb0f1985ad83414d52815872240e99e19f540529275be3f4d69745627f",
-      "diagram_ref": ".csdlc/prepared/issues/5347/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5347/retained/diagram.mmd",
       "diagram_digest": "d550ff159858d31a2499c34ac10cd8bfb30dfbe3d6c9dd83ed8d42551480ceb3"
     }
   }

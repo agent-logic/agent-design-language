@@ -7,11 +7,15 @@ use std::process::Command as ProcessCommand;
 use clap::{Parser, Subcommand};
 use csdlc_v2::error::{ErrorCode, V2Error};
 use csdlc_v2::{
-    classify_readiness, closeout_issue, reconcile_terminal_observation_head, record_readiness,
-    CheckConclusion, CheckObservation, CheckRequirement, ConflictState, PostPublicationFinding,
-    ReadinessRequest, RemoteReviewState, Store, TerminalDesignRepairRequest, TerminalDisposition,
+    classify_readiness, closeout_issue, execute_github_action, reconcile_terminal_observation_head,
+    record_readiness, CheckConclusion, CheckObservation, CheckRequirement, ConflictState,
+    CorruptHistoricalMergedRecoveryRequest, CorruptTerminalReceiptReconciliationRequest,
+    GithubAction, GithubActionRequest, HistoricalMergedReconciliationRequest,
+    PostPublicationFinding, ReadinessRequest, RecordlessTerminalRecoveryRequest, RemoteReviewState,
+    Store, TerminalDesignRepairRequest, TerminalDisposition, TerminalDispositionRepairRequest,
     TerminalObservation, TerminalPlanStepRepairRequest, TerminalReceipt,
-    TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest,
+    TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
+    TerminalSorValidationRepairRequest,
 };
 use fs2::FileExt;
 use octocrab::models::pulls::{MergeableState, ReviewState};
@@ -64,6 +68,34 @@ enum Command {
     RepairSorValidation {
         #[arg(long)]
         request: PathBuf,
+    },
+    RepairDisposition {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    TransportReceipt {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    ReconcileCorruptTerminalReceipt {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    RecoverRecordless {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    ReconcileHistoricalMerged {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    RecoverCorruptHistoricalMerged {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    DigestProjection {
+        #[arg(long)]
+        issue: u64,
     },
     ValidatePrune {
         #[arg(long)]
@@ -153,6 +185,52 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         Command::RepairSorValidation { request } => json(store.repair_terminal_sor_validation(
             read::<TerminalSorValidationRepairRequest>(request)?,
         )?),
+        Command::RepairDisposition { request } => {
+            let mut request = read::<TerminalDispositionRepairRequest>(request)?;
+            let pr = request
+                .merged_evidence
+                .pr_state
+                .as_ref()
+                .map(|value| value.pull_request)
+                .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "PR identity missing"))?;
+            request.merged_evidence = observe_pr(
+                request.merged_evidence.repository.clone(),
+                pr,
+                request.target_issue,
+            )
+            .await?;
+            json(store.repair_terminal_disposition(request)?)
+        }
+        Command::TransportReceipt { request } => json(store.transport_terminal_receipt(read::<
+            TerminalReceiptTransportRequest,
+        >(
+            request,
+        )?)?),
+        Command::ReconcileCorruptTerminalReceipt { request } => {
+            json(store.reconcile_corrupt_terminal_receipt(read::<
+                CorruptTerminalReceiptReconciliationRequest,
+            >(request)?)?)
+        }
+        Command::RecoverRecordless { request } => {
+            let mut request = read::<RecordlessTerminalRecoveryRequest>(request)?;
+            refresh_recordless_observations(&mut request).await?;
+            json(store.recover_recordless_terminal(request)?)
+        }
+        Command::ReconcileHistoricalMerged { request } => {
+            let mut request = read::<HistoricalMergedReconciliationRequest>(request)?;
+            refresh_historical_observations(&mut request).await?;
+            json(store.reconcile_historical_merged(request)?)
+        }
+        Command::RecoverCorruptHistoricalMerged { request } => {
+            let mut request = read::<CorruptHistoricalMergedRecoveryRequest>(request)?;
+            refresh_corrupt_historical_observations(&mut request).await?;
+            json(store.recover_corrupt_historical_merged(request)?)
+        }
+        Command::DigestProjection { issue } => Ok(serde_json::json!({
+            "schema": "csdlc.corrupt_projection_digest.v1",
+            "issue": issue,
+            "digest": store.corrupt_projection_digest(*issue)?,
+        })),
         Command::PreparePrune { issue } => {
             let record = store.load_record(*issue)?;
             if record.phase != csdlc_v2::LifecyclePhase::ClosedOut {
@@ -179,7 +257,43 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
                 .audit
                 .iter()
                 .rev()
-                .find(|event| event.operation == "record_terminal")
+                .find(|event| {
+                    if event.operation == "record_terminal" {
+                        return true;
+                    }
+                    if event.generation != record.generation {
+                        return false;
+                    }
+                    let released_paths_digest = csdlc_v2::cards::digest(
+                        &serde_json::to_vec(&terminal.released_protected_paths)
+                            .expect("terminal released paths serialize"),
+                    );
+                    serde_json::from_str::<serde_json::Value>(&event.operation)
+                        .ok()
+                        .is_some_and(|operation| {
+                            operation.get("operation").and_then(|value| value.as_str())
+                                == Some("reconcile_historical_merged")
+                                && operation.get("released_target_claim").is_some_and(|claim| {
+                                    claim
+                                        .get("id")
+                                        .and_then(|value| value.as_str())
+                                        .is_some_and(|value| !value.is_empty())
+                                        && claim
+                                            .get("owner")
+                                            .and_then(|value| value.as_str())
+                                            .is_some_and(|value| !value.is_empty())
+                                        && claim
+                                            .get("generation")
+                                            .and_then(|value| value.as_u64())
+                                            .and_then(|value| value.checked_add(1))
+                                            == Some(event.generation)
+                                        && claim
+                                            .get("protected_paths_digest")
+                                            .and_then(|value| value.as_str())
+                                            == Some(released_paths_digest.as_str())
+                                })
+                        })
+                })
                 .ok_or_else(|| {
                     V2Error::new(ErrorCode::CorruptRecord, "claim release audit missing")
                 })?;
@@ -200,6 +314,151 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         Command::ClassifyClosed { issue } => classify_closed_issue(&store, *issue),
         Command::RetainReceipt { issue } => json(store.retain_terminal_receipt(*issue)?),
     }
+}
+
+async fn observe_issue(
+    repository: String,
+    issue: u64,
+) -> csdlc_v2::Result<csdlc_v2::GithubActionResult> {
+    execute_github_action(&GithubActionRequest {
+        repository,
+        action: GithubAction::IssueRead,
+        operation_key: Some(format!("csdlc-closeout:issue:{issue}")),
+        token_file: None,
+        issue: Some(issue),
+        pull_request: None,
+        title: None,
+        body: None,
+        labels: Vec::new(),
+        assignees: Vec::new(),
+        milestone: None,
+        state: None,
+        comment_body: None,
+        required_checks: Vec::new(),
+        require_review: false,
+        linked_issue: None,
+    })
+    .await
+}
+
+async fn observe_pr(
+    repository: String,
+    pull_request: u64,
+    issue: u64,
+) -> csdlc_v2::Result<csdlc_v2::GithubActionResult> {
+    observe_pr_with_policy(repository, pull_request, issue, Vec::new(), false).await
+}
+
+async fn observe_pr_with_policy(
+    repository: String,
+    pull_request: u64,
+    issue: u64,
+    required_checks: Vec<String>,
+    require_review: bool,
+) -> csdlc_v2::Result<csdlc_v2::GithubActionResult> {
+    execute_github_action(&GithubActionRequest {
+        repository,
+        action: GithubAction::PrState,
+        operation_key: Some(format!("csdlc-closeout:pr:{pull_request}:issue:{issue}")),
+        token_file: None,
+        issue: None,
+        pull_request: Some(pull_request),
+        title: None,
+        body: None,
+        labels: Vec::new(),
+        assignees: Vec::new(),
+        milestone: None,
+        state: None,
+        comment_body: None,
+        required_checks,
+        require_review,
+        linked_issue: Some(issue),
+    })
+    .await
+}
+
+async fn refresh_recordless_observations(
+    request: &mut RecordlessTerminalRecoveryRequest,
+) -> csdlc_v2::Result<()> {
+    let repository = request.issue.repository.clone();
+    let issue = request.issue.number;
+    request.issue_evidence = observe_issue(repository.clone(), issue).await?;
+    request.issue = request.issue_evidence.issue.clone().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "remote issue packet missing",
+        )
+    })?;
+    if let Some(evidence) = request.merged_evidence.as_ref() {
+        let pr = evidence
+            .pr_state
+            .as_ref()
+            .map(|value| value.pull_request)
+            .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "PR identity missing"))?;
+        request.merged_evidence = Some(observe_pr(repository.clone(), pr, issue).await?);
+    }
+    if let Some(related) = request.related_issue {
+        request.related_issue_evidence = Some(observe_issue(repository, related).await?);
+    }
+    Ok(())
+}
+
+async fn refresh_historical_observations(
+    request: &mut HistoricalMergedReconciliationRequest,
+) -> csdlc_v2::Result<()> {
+    let repository = request.issue_evidence.repository.clone();
+    let pr = request
+        .merged_evidence
+        .pr_state
+        .as_ref()
+        .map(|value| value.pull_request)
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "PR identity missing"))?;
+    request.issue_evidence = observe_issue(repository.clone(), request.target_issue).await?;
+    request.merged_evidence = observe_pr_with_policy(
+        repository,
+        pr,
+        request.target_issue,
+        request.required_checks.clone(),
+        request.require_review,
+    )
+    .await?;
+    Ok(())
+}
+
+async fn refresh_corrupt_historical_observations(
+    request: &mut CorruptHistoricalMergedRecoveryRequest,
+) -> csdlc_v2::Result<()> {
+    let repository = request.issue_evidence.repository.clone();
+    let pr = request
+        .merged_evidence
+        .pr_state
+        .as_ref()
+        .map(|value| value.pull_request)
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "PR identity missing"))?;
+    request.issue_evidence = observe_issue(repository.clone(), request.target_issue).await?;
+    request.merged_evidence = execute_github_action(&GithubActionRequest {
+        repository,
+        action: GithubAction::PrState,
+        operation_key: Some(format!(
+            "csdlc-closeout:corrupt-historical-pr:{pr}:issue:{}",
+            request.target_issue
+        )),
+        token_file: None,
+        issue: None,
+        pull_request: Some(pr),
+        title: None,
+        body: None,
+        labels: Vec::new(),
+        assignees: Vec::new(),
+        milestone: None,
+        state: None,
+        comment_body: None,
+        required_checks: request.required_checks.clone(),
+        require_review: request.require_review,
+        linked_issue: Some(request.target_issue),
+    })
+    .await?;
+    Ok(())
 }
 
 async fn observe_readiness(

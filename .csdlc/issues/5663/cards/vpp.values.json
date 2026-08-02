@@ -7,7 +7,7 @@
     "title": "[v0.91.8][runtime-v3][adapters] Implement durable local Runtime v3 adapters",
     "slug": "runtime-v3-durable-local-adapters",
     "version": "v0.91.8",
-    "generation": 33
+    "generation": 40
   },
   "status": "ready",
   "content": {
@@ -150,9 +150,9 @@
       "planned_validation_seconds": 3600,
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on claim collision, stale generation, missing dependency ancestry, skipped proof, degraded/receipt-only production behavior, external transport scope creep, or non-negative LoC delta.",
-      "design_ref": ".csdlc/prepared/issues/5663/design.md",
+      "design_ref": ".csdlc/issues/5663/retained/design.md",
       "design_digest": "8dbec1cb6e092383069f56bab7993e0472ae3f5c9085e5d6ecba7db4aee12efc",
-      "diagram_ref": ".csdlc/prepared/issues/5663/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5663/retained/diagram.mmd",
       "diagram_digest": "0a25cd071002b9a9c002719ecb9bc4a82e9cce0c93cd51b102b4680324ce1e9a"
     }
   }

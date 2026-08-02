@@ -7,7 +7,7 @@
     "title": "[v0.91.8][runtime-v3][api] Define the complete versioned Runtime and Observatory OpenAPI contracts",
     "slug": "runtime-v3-openapi-contracts",
     "version": "v0.91.8",
-    "generation": 34
+    "generation": 41
   },
   "status": "ready",
   "content": {
@@ -97,9 +97,9 @@
         "Any actionable exact-head review finding"
       ],
       "replan_triggers": [],
-      "design_ref": ".csdlc/prepared/issues/5701/design.md",
+      "design_ref": ".csdlc/issues/5701/retained/design.md",
       "design_digest": "fb04df48e1a0399f026569c6ac15130b21c809ead6d8a14219a78bc10b617aae",
-      "diagram_ref": ".csdlc/prepared/issues/5701/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5701/retained/diagram.mmd",
       "diagram_digest": "8ed34fc3e0aa3c159f2852beca09507e076f2f114ebb93da81d5526ffed02ae8"
     }
   }
