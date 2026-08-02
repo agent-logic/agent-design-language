@@ -1,4 +1,4 @@
-# Source validation: `f6d0cbab2981c1464dd0e99a9ebcc733630f6ae9`
+# Rust source validation: `f6d0cbab2981c1464dd0e99a9ebcc733630f6ae9`
 
 This source revision remediates all four actionable findings from the first
 exact-head review of `b60c76369964a22aba0c188c4bf95d2338b87dc9`.
@@ -32,7 +32,7 @@ GitHub then reported each projected PR as a closing relation for its issue.
 For #5602, both the original PR #5603 and corrective terminal PR #5604 remain
 visible in GitHub's closing references.
 
-## Passed proof
+## Passed Rust proof
 
 - `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --quiet`
   - all test binaries passed with zero failures.
@@ -40,20 +40,14 @@ visible in GitHub's closing references.
   - passed with zero warnings.
 - `cargo fmt --manifest-path csdlc-v2/Cargo.toml -- --check`
   - passed.
-- `bash -n .csdlc/prepared/issues/5748/generate-final-audits.sh`
-  - passed.
-- `bash -n .csdlc/prepared/issues/5748/validate-final-inventory.sh`
-  - passed.
-- `bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --verify-live`
-  - `v0.91.8 live terminal universe PASS: 114 closed issues match retained evidence`.
-- `CSDLC_V2_AUDIT_PARALLELISM=8 bash .csdlc/prepared/issues/5748/generate-final-audits.sh`
-  - generated 114 issues, 111 typed issue/PR packets, and 108 unique PRs.
-- `bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --self-test-path-guards`
-  - passed.
-- `bash .csdlc/prepared/issues/5748/validate-final-inventory.sh`
-  - `v0.91.8 terminal inventory PASS: 114 terminal (1 closed NOT_PLANNED), zero fail-closed exceptions`.
 - `git diff --check`
   - passed.
+
+The executable audit scripts changed in the following evidence-only commit.
+Their exact-source syntax, generation, live-parity, path-guard, and terminal
+inventory proof is recorded separately in
+`.csdlc/evidence/5748/executable-audit-validation-05209b1a0.md`; this document
+does not claim those later script revisions were executed at `f6d0cbab2`.
 
 `CARGO_TARGET_DIR=/Volumes/FastWork/adl-5748/csdlc-v2-install-target` was used
 only as a same-host build cache/output location and is not validation evidence.

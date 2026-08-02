@@ -2,7 +2,7 @@
   "schema": "adl.v0918.remote_terminal_audit.v1",
   "repository": "danielbaustin/agent-design-language",
   "label": "version:v0.91.8",
-  "observed_at": "2026-08-02T00:18:09Z",
+  "observed_at": "2026-08-02T00:30:25Z",
   "source": "GitHub closed issues and merged PRs joined to retained typed terminal projections",
   "issues": [
     {

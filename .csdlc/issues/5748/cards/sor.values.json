@@ -7,7 +7,7 @@
     "title": "[v0.91.8][csdlc-v2][closeout] Recover remaining closed-issue terminal truth",
     "slug": "remaining-closed-issue-terminal-recovery",
     "version": "v0.91.8",
-    "generation": 33
+    "generation": 34
   },
   "status": "pre_phase",
   "content": {
@@ -34,6 +34,7 @@
         ".csdlc/evidence/5748/v0918-remote-terminal-audit.json",
         ".csdlc/evidence/5748/v0918-closeout-prune-results.json",
         ".csdlc/evidence/5748/source-validation-f6d0cbab2.md",
+        ".csdlc/evidence/5748/executable-audit-validation-05209b1a0.md",
         ".csdlc/prepared/issues/5748/generate-final-audits.sh",
         ".csdlc/prepared/issues/5748/validate-final-inventory.sh",
         "csdlc-v2/src",
@@ -43,27 +44,27 @@
       "actual_validation": [
         {
           "command": [
-            "bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --verify-live",
+            "bash -n .csdlc/prepared/issues/5748/generate-final-audits.sh",
+            "bash -n .csdlc/prepared/issues/5748/validate-final-inventory.sh",
             "CSDLC_V2_AUDIT_PARALLELISM=8 bash .csdlc/prepared/issues/5748/generate-final-audits.sh",
+            "bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --verify-live",
             "bash .csdlc/prepared/issues/5748/validate-final-inventory.sh --self-test-path-guards",
             "bash .csdlc/prepared/issues/5748/validate-final-inventory.sh"
           ],
-          "purpose": "Prove the retained universe equals live GitHub closure and closing-PR relations, every projected PR packet authenticates its audited issue, all 114 records remain receipt-equal and doctor-valid, and zero exceptions remain.",
+          "purpose": "Prove the exact committed audit scripts refresh the complete live GitHub universe, authenticate issue-to-PR linkage, enforce path guards, and leave all 114 closed issues terminal with zero exceptions.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/5748/v0918-closed-issue-universe.json; .csdlc/evidence/5748/v0918-remote-terminal-audit.json; .csdlc/evidence/5748/v0918-closeout-prune-results.json; .csdlc/evidence/5748/source-validation-f6d0cbab2.md"
+          "evidence_ref": ".csdlc/evidence/5748/executable-audit-validation-05209b1a0.md at executable source 05209b1a080b8c9a0ebffe6e409e6e03bc59b857"
         },
         {
           "command": [
             "cargo test --locked --manifest-path csdlc-v2/Cargo.toml --quiet",
             "cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- --deny warnings",
             "cargo fmt --manifest-path csdlc-v2/Cargo.toml -- --check",
-            "bash -n .csdlc/prepared/issues/5748/generate-final-audits.sh",
-            "bash -n .csdlc/prepared/issues/5748/validate-final-inventory.sh",
             "git diff --check"
           ],
-          "purpose": "Prove the review-remediated source across the complete C-SDLC v2 test surface, strict lint, formatting, shell syntax, and patch hygiene.",
+          "purpose": "Prove the review-remediated Rust source across the complete C-SDLC v2 test surface, strict lint, formatting, and patch hygiene.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/5748/source-validation-f6d0cbab2.md at source f6d0cbab2981c1464dd0e99a9ebcc733630f6ae9"
+          "evidence_ref": ".csdlc/evidence/5748/source-validation-f6d0cbab2.md at Rust source f6d0cbab2981c1464dd0e99a9ebcc733630f6ae9"
         }
       ],
       "integration_state": "not_started",
