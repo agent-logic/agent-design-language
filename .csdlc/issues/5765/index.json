@@ -3,13 +3,13 @@
   "issue": 5765,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "410016ef8a98a2326644e76a7d9d0be535280964fbb5295f4fd91ce9d1ebbecb",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "9818eabb8c406328f5ccff2f50a2d9fec5b28c9caa0083725f2b657fc44be9f3",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "8d0d116cade3f78a747afcec584f704d231cfd9758d8ea3398dc8ac170df8157",
   "claim": {
     "id": "claim-5765-v092-account-migration-scheduling",
     "owner": "codex:5765",
-    "generation": 8,
+    "generation": 9,
     "acquired_unix_seconds": 1785784093,
     "expires_unix_seconds": 1786388893,
     "heartbeat_unix_seconds": 1785784093,
@@ -61,32 +61,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "45b6021fab64fe8aa1cfd639c40606a355e875a0fc002de17d3e956b980766a5",
+      "values_digest": "55ff19899783cba6d66cecbd1946d5108e5e1170210dfc43aced9f1790af13fc",
       "rendered_digest": "c76ee3a3d9228344b6dccd9a73f8076ccda5ef79adef9c720da3d500201b42e3",
       "ast_digest": "adc4f1ced2c44ba26d4778a6418f8b83ea5b04890e21cb3d58a05daf6d48dc4a"
     },
     "stp": {
-      "values_digest": "2f7a24a107fe124301f453671dc6e1f3500ff60eeced24443ce6af4c92209e86",
+      "values_digest": "08090ed2ecbd1c17e4afbee92dea473cdb181a9cbbd7216e5d921b2f59de9b8b",
       "rendered_digest": "b97672a24eb3557763eb5654ee093a0f4e95dcff5df359e5a20437841c54a525",
       "ast_digest": "eb3edfc5756a260c44d3a4b7ada43c4c090c184bead265a1e545537e3c5309ea"
     },
     "spp": {
-      "values_digest": "fb75adf4edc75006175a4acd0368c74001974c651411025fac2d9f24f1f6d772",
+      "values_digest": "e44ad26c54598771c763252525b558f850716f2b3758e25578d8d32fed3ebbed",
       "rendered_digest": "62093e54ef732a005959acaad1b552e7fc21bb46c8320c20953db229f41068e9",
       "ast_digest": "7a089c5915b9d76a32a1408feac8efcfb8ff20e46c5067a94a31cf27f8b5f5d8"
     },
     "vpp": {
-      "values_digest": "77d51b508dd898f48aa62c8031d08344cc3ef9fcc9f3b33490d0dbbe57d77c05",
+      "values_digest": "e30173e7d91be1dae173750176f6feb7aa9d8640e6e0def9d7738c1ed584b3aa",
       "rendered_digest": "60f37f58427dbb731cbff12b9525613453f05b680b0c8dd22de8b1d5175e27dd",
       "ast_digest": "4e184f8ca6528cce203ea8d587289899ccac5435bf1b6de114bb798b17374c1b"
     },
     "srp": {
-      "values_digest": "078506849a9f059e00ef286d969b45e026e42a1eb8bbd3ddab785a170f9caeaf",
+      "values_digest": "77a4f07473be36b20eaafcde5ad2a5dc13b53bc91fba2903ddcd68e91e45b433",
       "rendered_digest": "65c76a15e58ae68d6561a2ef9d308aac02989c9bb2270b9f813845ceeb861532",
       "ast_digest": "89683b6a4008aebab52ed29c700a39e6e00a71a5cb2a215f08be8fefc7a7001a"
     },
     "sor": {
-      "values_digest": "aaf687ffbd28abfd3443f4f9000716416db70ddf672f799cf0d4d715b35c6d3c",
+      "values_digest": "3f3a72c1834dcf46b0fda41b4f55af884a04203c508380c26f0dd9bc123819b4",
       "rendered_digest": "5d2a9996de259d76e95d002db942e69aab3d8532e6e0d4cbea7f1e4207286964",
       "ast_digest": "5d65fc3cd91b94d91462e9449da5c7aef670dd774ef10b9a30ae0f3be781ef62"
     }
@@ -112,6 +112,13 @@
       "to": "implemented",
       "actor": "codex:5765",
       "reason": "The bounded planning-reference edit is implemented; advance to exact validation and review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5765",
+      "reason": "Advance #5765 after exact-head subagent review passed and review evidence was recorded."
     }
   ],
   "audit": [
@@ -191,6 +198,13 @@
       "actor": "subagent:review-5765b",
       "reason": "atomically record assigned review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:5765",
+      "reason": "Advance #5765 after exact-head subagent review passed and review evidence was recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
