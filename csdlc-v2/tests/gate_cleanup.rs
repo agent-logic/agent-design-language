@@ -92,6 +92,8 @@ fn repository() -> Repository {
             worktree.to_str().expect("UTF-8 path"),
         ],
     );
+    let primary = fs::canonicalize(primary).expect("canonical primary");
+    let worktree = fs::canonicalize(worktree).expect("canonical worktree");
     Repository {
         _temp: temp,
         primary,
@@ -238,6 +240,46 @@ fn symlinked_expected_path_is_rejected_without_removal() {
     assert!(repo.worktree.exists());
 }
 
+#[cfg(unix)]
+#[test]
+fn symlinked_projection_and_lock_ancestors_are_rejected_without_escape() {
+    use std::os::unix::fs::symlink;
+
+    let repo = repository();
+    let outside = repo
+        .primary
+        .parent()
+        .expect("parent")
+        .join("outside-projection");
+    fs::create_dir_all(&outside).expect("outside");
+    let issues = repo.worktree.join(".csdlc/issues");
+    fs::rename(&issues, outside.join("issues")).expect("move issues");
+    symlink(outside.join("issues"), &issues).expect("symlink issues");
+    let result = execute_cleanup(&repo.primary, &request(&repo, CleanupOperation::Remove))
+        .expect("projection ancestor");
+    assert_eq!(result.status, CleanupStatus::CleanupSkippedDrift);
+    assert!(repo.worktree.exists());
+
+    let lock_repo = repository();
+    let external_lock = lock_repo
+        .primary
+        .parent()
+        .expect("parent")
+        .join("external-lock");
+    fs::create_dir_all(&external_lock).expect("external lock");
+    symlink(&external_lock, lock_repo.primary.join(".git/csdlc-v2")).expect("symlink lock parent");
+    let error = execute_cleanup(
+        &lock_repo.primary,
+        &request(&lock_repo, CleanupOperation::Classify),
+    )
+    .expect_err("lock ancestor");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::UnsafeCheckout);
+    assert!(fs::read_dir(external_lock)
+        .expect("external lock directory")
+        .next()
+        .is_none());
+}
+
 #[test]
 fn removing_a_legacy_receipt_cannot_change_derived_terminal_truth() {
     let temp = tempfile::tempdir().expect("tempdir");
@@ -305,4 +347,43 @@ fn tracked_v0918_terminal_census_is_compatible_and_read_only() {
     assert_eq!(report.observed_count, 114);
     assert_eq!(report.compatible_count, 114);
     assert_eq!(fs::read(&audit).expect("audit after"), before);
+}
+
+#[test]
+fn terminal_census_rejects_truncation_wrong_identity_and_set_drift() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("repository root");
+    let source = root.join(".csdlc/evidence/5748");
+    for mutation in ["truncate", "repository", "set"] {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let audit_path = temp.path().join("v0918-remote-terminal-audit.json");
+        let universe_path = temp.path().join("v0918-closed-issue-universe.json");
+        fs::copy(
+            source.join("v0918-closed-issue-universe.json"),
+            &universe_path,
+        )
+        .expect("copy universe");
+        let mut audit: serde_json::Value = serde_json::from_slice(
+            &fs::read(source.join("v0918-remote-terminal-audit.json")).expect("audit"),
+        )
+        .expect("audit JSON");
+        match mutation {
+            "truncate" => {
+                audit["issues"].as_array_mut().expect("issues").pop();
+            }
+            "repository" => audit["repository"] = serde_json::json!("wrong/repository"),
+            "set" => audit["issues"][0]["number"] = serde_json::json!(999_999),
+            _ => unreachable!(),
+        }
+        fs::write(
+            &audit_path,
+            serde_json::to_vec_pretty(&audit).expect("JSON"),
+        )
+        .expect("write audit");
+        assert!(
+            validate_terminal_census(root, &audit_path).is_err(),
+            "mutation {mutation} must fail closed"
+        );
+    }
 }

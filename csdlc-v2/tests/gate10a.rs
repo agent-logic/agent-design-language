@@ -9,9 +9,9 @@ use std::path::Path;
 use std::process::Command;
 
 #[test]
-fn ten_skills_are_typed_and_bind_the_generation_selector() {
+fn eleven_skills_are_typed_and_bind_the_generation_selector() {
     let manifest = SkillManifest::load().unwrap();
-    assert_eq!(manifest.skills.len(), 10);
+    assert_eq!(manifest.skills.len(), 11);
     assert_eq!(
         manifest.generation_selector,
         "csdlc-v2/operator/generation-selector.json"
@@ -20,6 +20,10 @@ fn ten_skills_are_typed_and_bind_the_generation_selector() {
         .skills
         .iter()
         .all(|r| r.binary.starts_with("csdlc-") && !r.binary.contains("python")));
+    assert!(manifest
+        .skills
+        .iter()
+        .any(|route| route.name == "csdlc-v2-clean" && route.binary == "csdlc-clean"));
 }
 
 #[test]
@@ -549,7 +553,7 @@ fn operator_guidance_is_bound_to_manifest_and_coexistence_contract() {
     let selector: csdlc_v2::GenerationSelector =
         serde_json::from_slice(&fs::read(root.join("operator/generation-selector.json")).unwrap())
             .unwrap();
-    assert_eq!(manifest.skills.len(), 10);
+    assert_eq!(manifest.skills.len(), 11);
     assert_eq!(
         resolve_operator_generation(&root.join(".."), 5294, None).unwrap(),
         selector.default_generation
@@ -558,7 +562,7 @@ fn operator_guidance_is_bound_to_manifest_and_coexistence_contract() {
     for text in [&root_agents, &nested_agents] {
         assert!(text.contains("v1"));
         assert!(text.contains("csdlc-install"));
-        assert!(text.contains("ten"));
+        assert!(text.contains("eleven"));
     }
 }
 

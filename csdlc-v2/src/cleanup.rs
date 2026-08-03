@@ -94,7 +94,23 @@ pub struct TerminalCensusReport {
 
 #[derive(Debug, Deserialize)]
 struct AuditPacket {
+    schema: String,
+    repository: String,
+    label: String,
     issues: Vec<AuditIssue>,
+}
+
+#[derive(Debug, Deserialize)]
+struct UniversePacket {
+    schema: String,
+    repository: String,
+    label: String,
+    issues: Vec<UniverseIssue>,
+}
+
+#[derive(Debug, Deserialize)]
+struct UniverseIssue {
+    number: u64,
 }
 
 #[derive(Debug, Deserialize)]
@@ -126,13 +142,13 @@ pub fn cleanup_schema_bundle() -> Value {
 
 pub fn execute_cleanup(root: &Path, request: &CleanupRequest) -> Result<CleanupResult> {
     validate_cleanup_request(request)?;
-    let common = PathBuf::from(
+    let common = canonical_real_directory(&PathBuf::from(
         git::run(
             root,
             &["rev-parse", "--path-format=absolute", "--git-common-dir"],
         )?
         .stdout,
-    );
+    ))?;
     let _lock = cleanup_lock(&common, request.issue)?;
     let worktrees = git::worktrees(root)?;
     let expected_path = PathBuf::from(&request.expected_worktree);
@@ -142,34 +158,14 @@ pub fn execute_cleanup(root: &Path, request: &CleanupRequest) -> Result<CleanupR
             "expected_worktree must be an absolute path",
         ));
     }
-    if fs::symlink_metadata(&expected_path).is_ok_and(|metadata| metadata.file_type().is_symlink())
-    {
-        return Ok(cleanup_result(
-            request,
-            CleanupStatus::CleanupSkippedDrift,
-            Vec::new(),
-            vec!["the requested worktree path is a symlink".into()],
-        ));
-    }
-    let normalized_expected = expected_path
-        .canonicalize()
-        .unwrap_or_else(|_| expected_path.clone());
-    let expected = normalized_expected.to_string_lossy().into_owned();
-    let normalized_worktrees = worktrees
+    let expected = expected_path.to_string_lossy().into_owned();
+    let exact = worktrees
         .iter()
-        .map(|(branch, path)| {
-            let path = PathBuf::from(path);
-            let normalized = path.canonicalize().unwrap_or(path);
-            (branch, normalized.to_string_lossy().into_owned())
-        })
-        .collect::<Vec<_>>();
-    let exact = normalized_worktrees
-        .iter()
-        .find(|(branch, path)| branch.as_str() == request.expected_branch && path == &expected);
+        .find(|(branch, path)| branch == &request.expected_branch && path == &expected);
     if exact.is_none() {
-        let drift = normalized_worktrees
+        let drift = worktrees
             .iter()
-            .any(|(branch, path)| branch.as_str() == request.expected_branch || path == &expected);
+            .any(|(branch, path)| branch == &request.expected_branch || path == &expected);
         return Ok(cleanup_result(
             request,
             if drift {
@@ -200,7 +196,7 @@ pub fn execute_cleanup(root: &Path, request: &CleanupRequest) -> Result<CleanupR
         }
         Err(error) => return Err(error.into()),
     };
-    if !metadata.is_dir() {
+    if metadata.file_type().is_symlink() || !metadata.is_dir() {
         return Ok(cleanup_result(
             request,
             CleanupStatus::CleanupSkippedDrift,
@@ -209,6 +205,16 @@ pub fn execute_cleanup(root: &Path, request: &CleanupRequest) -> Result<CleanupR
         ));
     }
     let canonical_expected = fs::canonicalize(&expected_path)?;
+    if canonical_expected != expected_path {
+        return Ok(cleanup_result(
+            request,
+            CleanupStatus::CleanupSkippedDrift,
+            Vec::new(),
+            vec![
+                "the registered worktree path contains a symlink or non-canonical component".into(),
+            ],
+        ));
+    }
     let primary = fs::canonicalize(primary_worktree_root(&common)?)?;
     if canonical_expected == primary {
         return Ok(cleanup_result(
@@ -302,6 +308,7 @@ pub fn build_legacy_terminal_index(
     let store = Store::new(root);
     let mut issues = Vec::with_capacity(unique.len());
     for issue in unique {
+        validate_projection_layout(root, issue)?;
         let record = store.load_record(issue)?;
         let cards = store.load_cards(issue)?;
         let receipt = store.load_terminal_receipt(issue)?;
@@ -353,7 +360,47 @@ pub fn build_legacy_terminal_index(
 }
 
 pub fn validate_terminal_census(root: &Path, audit_path: &Path) -> Result<TerminalCensusReport> {
+    require_real_file(audit_path, "terminal audit packet")?;
     let audit: AuditPacket = serde_json::from_slice(&fs::read(audit_path)?)?;
+    validate_census_identity(
+        &audit.schema,
+        &audit.repository,
+        &audit.label,
+        "adl.v0918.remote_terminal_audit.v1",
+    )?;
+    let universe_path = audit_path
+        .parent()
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "audit path has no parent"))?
+        .join("v0918-closed-issue-universe.json");
+    require_real_file(&universe_path, "closed issue universe packet")?;
+    let universe: UniversePacket = serde_json::from_slice(&fs::read(universe_path)?)?;
+    validate_census_identity(
+        &universe.schema,
+        &universe.repository,
+        &universe.label,
+        "adl.v0918.closed_issue_universe.v1",
+    )?;
+    let audit_set = audit
+        .issues
+        .iter()
+        .map(|entry| entry.number)
+        .collect::<BTreeSet<_>>();
+    let universe_set = universe
+        .issues
+        .iter()
+        .map(|entry| entry.number)
+        .collect::<BTreeSet<_>>();
+    if audit.issues.len() != 114
+        || universe.issues.len() != 114
+        || audit_set.len() != audit.issues.len()
+        || universe_set.len() != universe.issues.len()
+        || audit_set != universe_set
+    {
+        return Err(V2Error::new(
+            ErrorCode::ValidationFailed,
+            "v0.91.8 audit and closed-issue universe must contain the same 114 unique issues",
+        ));
+    }
     let request = LegacyTerminalIndexRequest {
         schema: "csdlc.legacy_terminal_index_request.v1".into(),
         issues: audit.issues.iter().map(|entry| entry.number).collect(),
@@ -400,7 +447,7 @@ pub fn validate_terminal_census(root: &Path, audit_path: &Path) -> Result<Termin
     let compatible_count = index.issues.iter().filter(|entry| entry.compatible).count();
     Ok(TerminalCensusReport {
         schema: "csdlc.terminal_census_report.v1".into(),
-        expected_count: audit.issues.len(),
+        expected_count: universe.issues.len(),
         observed_count: index.issues.len(),
         compatible_count,
         compatible: mismatches.is_empty()
@@ -444,8 +491,8 @@ fn cleanup_result(
 }
 
 fn cleanup_lock(common: &Path, issue: u64) -> Result<File> {
-    let directory = common.join("csdlc-v2/cleanup");
-    fs::create_dir_all(&directory)?;
+    let csdlc = ensure_real_directory(common, "csdlc-v2")?;
+    let directory = ensure_real_directory(&csdlc, "cleanup")?;
     let path = directory.join(format!("{issue}.lock"));
     if fs::symlink_metadata(&path)
         .is_ok_and(|metadata| metadata.file_type().is_symlink() || !metadata.file_type().is_file())
@@ -477,22 +524,9 @@ fn primary_worktree_root(common: &Path) -> Result<PathBuf> {
 }
 
 fn validate_issue_projection(worktree: &Path, issue: u64) -> Result<IssueRecord> {
-    let path = worktree
-        .join(".csdlc/issues")
-        .join(issue.to_string())
-        .join("index.json");
-    let metadata = fs::symlink_metadata(&path).map_err(|error| {
-        V2Error::new(
-            ErrorCode::UnsafeCheckout,
-            format!("issue projection is unavailable: {error}"),
-        )
-    })?;
-    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
-        return Err(V2Error::new(
-            ErrorCode::UnsafeCheckout,
-            "issue projection is not a regular file",
-        ));
-    }
+    let issue_dir = projection_directory(worktree, issue)?;
+    let path = issue_dir.join("index.json");
+    require_real_file(&path, "issue projection")?;
     let record: IssueRecord = serde_json::from_slice(&fs::read(path)?)?;
     if record.issue != issue {
         return Err(V2Error::new(
@@ -501,6 +535,107 @@ fn validate_issue_projection(worktree: &Path, issue: u64) -> Result<IssueRecord>
         ));
     }
     Ok(record)
+}
+
+fn validate_projection_layout(root: &Path, issue: u64) -> Result<()> {
+    let issue_dir = projection_directory(root, issue)?;
+    require_real_file(&issue_dir.join("index.json"), "issue projection")?;
+    let cards = require_real_directory(&issue_dir.join("cards"), "cards directory")?;
+    for kind in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        require_real_file(
+            &cards.join(format!("{kind}.values.json")),
+            "card values projection",
+        )?;
+    }
+    Ok(())
+}
+
+fn projection_directory(root: &Path, issue: u64) -> Result<PathBuf> {
+    let root = fs::canonicalize(root)?;
+    require_real_directory(&root, "repository root")?;
+    let csdlc = require_real_directory(&root.join(".csdlc"), "C-SDLC directory")?;
+    let issues = require_real_directory(&csdlc.join("issues"), "issues directory")?;
+    require_real_directory(&issues.join(issue.to_string()), "issue directory")
+}
+
+fn canonical_real_directory(path: &Path) -> Result<PathBuf> {
+    let canonical = fs::canonicalize(path)?;
+    if canonical != path {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!(
+                "directory path is not canonical and symlink-free: {}",
+                path.display()
+            ),
+        ));
+    }
+    require_real_directory(&canonical, "canonical directory")
+}
+
+fn require_real_directory(path: &Path, label: &str) -> Result<PathBuf> {
+    let metadata = fs::symlink_metadata(path).map_err(|error| {
+        V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!("{label} is unavailable at {}: {error}", path.display()),
+        )
+    })?;
+    if metadata.file_type().is_symlink() || !metadata.is_dir() {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!("{label} is not a real directory: {}", path.display()),
+        ));
+    }
+    Ok(path.to_path_buf())
+}
+
+fn ensure_real_directory(parent: &Path, name: &str) -> Result<PathBuf> {
+    let path = parent.join(name);
+    match fs::symlink_metadata(&path) {
+        Ok(_) => require_real_directory(&path, "cleanup lock directory"),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            if let Err(error) = fs::create_dir(&path) {
+                if error.kind() != std::io::ErrorKind::AlreadyExists {
+                    return Err(error.into());
+                }
+            }
+            require_real_directory(&path, "cleanup lock directory")
+        }
+        Err(error) => Err(error.into()),
+    }
+}
+
+fn require_real_file(path: &Path, label: &str) -> Result<()> {
+    let metadata = fs::symlink_metadata(path).map_err(|error| {
+        V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!("{label} is unavailable at {}: {error}", path.display()),
+        )
+    })?;
+    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!("{label} is not a real file: {}", path.display()),
+        ));
+    }
+    Ok(())
+}
+
+fn validate_census_identity(
+    schema: &str,
+    repository: &str,
+    label: &str,
+    expected_schema: &str,
+) -> Result<()> {
+    if schema != expected_schema
+        || repository != "danielbaustin/agent-design-language"
+        || label != "version:v0.91.8"
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "v0.91.8 census packet identity is invalid",
+        ));
+    }
+    Ok(())
 }
 
 fn dirty_paths(worktree: &Path) -> Result<Vec<String>> {

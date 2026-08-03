@@ -6,6 +6,7 @@
 {"name":"csdlc-v2-review","binary":"csdlc-review","subcommand":null,"mutates_state":true,"auxiliary_binaries":[]},
 {"name":"csdlc-v2-publish","binary":"csdlc-publish","subcommand":null,"mutates_state":true,"auxiliary_binaries":[]},
 {"name":"csdlc-v2-finish","binary":"csdlc-finish","subcommand":null,"mutates_state":true,"auxiliary_binaries":[]},
+{"name":"csdlc-v2-clean","binary":"csdlc-clean","subcommand":null,"mutates_state":true,"auxiliary_binaries":[]},
 {"name":"csdlc-v2-github","binary":"csdlc-github","subcommand":"run","mutates_state":true,"auxiliary_binaries":[]},
 {"name":"csdlc-v2-shepherd","binary":"csdlc-shepherd","subcommand":null,"mutates_state":false,"auxiliary_binaries":[]},
 {"name":"csdlc-v2-doctor","binary":"csdlc-doctor","subcommand":null,"mutates_state":false,"auxiliary_binaries":["csdlc-eligibility","csdlc-install"]}]}

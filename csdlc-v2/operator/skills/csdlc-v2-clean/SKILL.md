@@ -7,7 +7,7 @@ description: Safely classify or remove one exact issue worktree, and inspect leg
 
 Use `csdlc-install resolve` to locate the active `csdlc-clean` binary.
 
-For worktree cleanup, pass a typed `csdlc.cleanup_request.v1` to `cleanup`.
+For worktree cleanup, pass the versioned typed cleanup request to `cleanup`.
 The request names the issue, exact branch, absolute registered worktree path,
 and either `classify` or `remove`. The binary locks cleanup per issue, validates
 the live Git worktree registration and issue projection, rejects the primary

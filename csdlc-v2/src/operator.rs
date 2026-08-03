@@ -82,11 +82,11 @@ impl SkillManifest {
         if self.schema != "csdlc.operator_skills.v1"
             || self.generation != "v2"
             || self.generation_selector != "csdlc-v2/operator/generation-selector.json"
-            || self.skills.len() != 10
+            || self.skills.len() != 11
         {
             return Err(V2Error::new(
                 ErrorCode::InvalidManifest,
-                "operator manifest must declare ten v2 skills bound to the tracked generation selector",
+                "operator manifest must declare eleven v2 skills bound to the tracked generation selector",
             ));
         }
         let mut names = BTreeSet::new();
