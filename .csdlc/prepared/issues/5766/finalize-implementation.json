@@ -48,7 +48,7 @@
           "evidence": {
             "max_log_bytes": 200000,
             "redact_values": [],
-            "require_relative_paths": true
+            "require_relative_paths": false
           }
         },
         {
@@ -79,7 +79,7 @@
           "evidence": {
             "max_log_bytes": 200000,
             "redact_values": [],
-            "require_relative_paths": true
+            "require_relative_paths": false
           }
         },
         {
