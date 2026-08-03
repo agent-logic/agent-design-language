@@ -29,11 +29,11 @@ Added the planning-only Agent Logic repository migration reference to the canoni
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

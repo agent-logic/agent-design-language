@@ -10,3 +10,4 @@
 {"sequence":10,"generation":7,"actor":"codex:5765","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":8,"actor":"subagent:review-5765b","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":12,"generation":9,"actor":"codex:5765","reason":"Advance #5765 after exact-head subagent review passed and review evidence was recorded.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":13,"generation":10,"actor":"codex:5765","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

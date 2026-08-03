@@ -7,7 +7,7 @@
     "title": "[v0.92][planning][github] Schedule Agent Logic account repository migration",
     "slug": "v0-92-planning-github-agent-logic-account-repository-migration",
     "version": "v0.92",
-    "generation": 9
+    "generation": 10
   },
   "status": "pre_phase",
   "content": {
@@ -22,8 +22,8 @@
         "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml"
       ],
       "actual_validation": [],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "draft",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
