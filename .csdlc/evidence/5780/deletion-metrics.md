@@ -5,8 +5,8 @@ Baseline: `a5a16509af05af441369e78eeacfd74017bcf63b`.
 | Surface | Before | After | Net deleted | Reduction |
 | --- | ---: | ---: | ---: | ---: |
 | Production Rust | 28,722 | 18,516 | 10,206 | 35.53% |
-| Test Rust | 15,092 | 9,245 | 5,847 | 38.74% |
-| Combined Rust | 43,814 | 27,761 | 16,053 | 36.64% |
+| Test Rust | 15,092 | 9,247 | 5,845 | 38.73% |
+| Combined Rust | 43,814 | 27,763 | 16,051 | 36.64% |
 | Source binaries | 23 | 21 | 2 | 8.70% |
 
 Across every changed tracked file, including lifecycle cards and proof logs,

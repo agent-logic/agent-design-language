@@ -1,7 +1,7 @@
 {
   "schema": "csdlc.cleanroom_install_verification.v1",
   "issue": 5780,
-  "source_revision": "ccb7e0584e273a299986169caef6c463285d5cad",
+  "source_revision": "486cf966241f72f676c3f44ef33b84a778ce20de",
   "install_command": [
     "csdlc-install",
     "install",
@@ -20,7 +20,7 @@
     "--inventory",
     "csdlc-v2/operator/coexistence.json"
   ],
-  "installed_binary_count": 22,
+  "installed_binary_count": 21,
   "skill_count": 11,
   "default_generation": "v2",
   "missing_v2_binaries": [],

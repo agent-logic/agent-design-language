@@ -12,14 +12,14 @@
     },
     "test_rust_loc": {
       "before": 15092,
-      "after": 9245,
-      "deleted_net": 5847,
-      "reduction_percent": 38.74
+      "after": 9247,
+      "deleted_net": 5845,
+      "reduction_percent": 38.73
     },
     "combined_rust_loc": {
       "before": 43814,
-      "after": 27761,
-      "deleted_net": 16053,
+      "after": 27763,
+      "deleted_net": 16051,
       "reduction_percent": 36.64
     },
     "source_binaries": {
