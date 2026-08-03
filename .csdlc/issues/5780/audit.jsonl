@@ -10,3 +10,4 @@
 {"sequence":10,"generation":2,"actor":"Codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":3,"actor":"Harvey","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":12,"generation":4,"actor":"codex:5780-implementation","reason":"Advance after independent exact-head review resolved and recorded every finding with final PASS authority.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":13,"generation":5,"actor":"codex:5780-implementation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

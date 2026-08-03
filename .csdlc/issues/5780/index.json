@@ -3,13 +3,13 @@
   "issue": 5780,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "221c77501fda97ff06555ed4d0df264c3898ad571378af269bf5de3291370881",
-  "phase": "reviewed",
-  "generation": 4,
-  "digest": "3585c93988b51eb442fe50f04470fe9c78514fc3779e40cf4e92cdc66d2cb95e",
+  "phase": "published",
+  "generation": 5,
+  "digest": "08471a21c169adfb74192a9573d2f1307226ddff2b759c6f1435053e7031abb8",
   "claim": {
     "id": "claim-5780-delete-terminal-authority",
     "owner": "codex:5780-implementation",
-    "generation": 4,
+    "generation": 5,
     "acquired_unix_seconds": 1785782633,
     "expires_unix_seconds": 1786387433,
     "heartbeat_unix_seconds": 1785782633,
@@ -135,7 +135,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5780,
+    "pull_request": 5798,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5798",
+    "base": "main",
+    "head": "codex/5780-delete-terminal-reconciliation",
+    "revision": "git-blake3:4a81dc9d74716c030d917508d727177549373406:1f033e42f397505489a3e077d2093bf9fc21280a1fe71dcfb7cc7dc7bcd094ad",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -149,34 +159,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4a4f5721561da180a02a05c2407b5ba3eb1fcfb5d418c016ac2db2a02a881d90",
+      "values_digest": "0229be6b541ccc48e0ce0e87fef6c2b6573070de43f2baf9eded1a3cda5aa751",
       "rendered_digest": "3597ee45221f8b1895ac5770ebaad03c429b0d360c8319bed711caab587fd380",
       "ast_digest": "b7656adc3cf30e35afe0eea2ee2484db2a3dea3215b932d09a0df136a8840474"
     },
     "stp": {
-      "values_digest": "6f227cb28372410d911afd0d73aac945862656105819b2425604a6e160b06cc2",
+      "values_digest": "20daa5c99dfde0c59aa604e048f8400ad9c8b4da395ae195fa59b4a02f79d95c",
       "rendered_digest": "087ca044f39ff1a5c40e835b26ee293e20f06c5074b719f05cab3f7498aa539a",
       "ast_digest": "58c154523d574224efd00379ab3bb450c12d2a1819aaf2108b59f205cb2e0bed"
     },
     "spp": {
-      "values_digest": "2f8e7712020fdf23295be7cc996f8415b912fff09c2f252cc8674ee7bc6096e4",
+      "values_digest": "66565a7f646db23c08d42bf39f8565e283d7f644b6592ac07369850930e3c7d9",
       "rendered_digest": "0b0607d69fbefcd2cdcce5791004bf68320ba9a10dda1f15624142c8da5f7eab",
       "ast_digest": "16cfd973c3fc0f297d2e2bca1aa40805d8735982f5709df6cb761886630534b2"
     },
     "vpp": {
-      "values_digest": "762f4fbc812ede1dae93d38b34b31ed58a2e140f14ee44bc9ee7402c5c6844bf",
+      "values_digest": "b1d8500040f1d15e65768f05d24914a47cfabac2f38148d459b1f58205206eeb",
       "rendered_digest": "bd93fafa96e1547a8e1316a9a52af43f74aa72efeff58fac385ccb7cf4ee1605",
       "ast_digest": "71428718d07250751ad3aa7bf8e969763ce8bb957645ad07d0fb03e317f0ff4a"
     },
     "srp": {
-      "values_digest": "a9daea0d1b5c1119058ab51142662139f47d7a7e66e8fe37f048c1b1104fa155",
+      "values_digest": "5d82c7cf2ea6134d93cc9640b592add063aadca63eec3273b44bc98195dec35b",
       "rendered_digest": "b6b6523c3b3c2a234e78b9e088651c90bc498c028e548b3b262af8fd0245853a",
       "ast_digest": "92025c105bfee10e583416d41fc732715f53253d49ecf941fe6a86f85ef8c028"
     },
     "sor": {
-      "values_digest": "e1f5cc60fdc2cb19abe5381252a705ee9dcb7a4b0fa3c4a8eb875faf90345e1d",
-      "rendered_digest": "350c9d8d5a62f1dbad5a4276d00beea2a973a60c5c77f3eed1dc3de5b479e847",
-      "ast_digest": "a7836317a8d3af1ad2d4d07823990fe1defa1bc8244d70cd6aace9c22f2948d3"
+      "values_digest": "ef94fd8fd80f4ef6b6a4bb7e468f2d27d747fed5252b33f62cd13af1b93aad61",
+      "rendered_digest": "54644ec4d4f389d8ddd6a896311ed0b4d146e72b6e18280043cac5ba91641faa",
+      "ast_digest": "b994bb670ab3d0e7cf5aeb50b855fcce9b924995244c43a93bfc7610d51577fd"
     }
   },
   "transitions": [
@@ -207,6 +217,13 @@
       "to": "reviewed",
       "actor": "codex:5780-implementation",
       "reason": "Advance after independent exact-head review resolved and recorded every finding with final PASS authority."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5780-implementation",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -293,6 +310,13 @@
       "actor": "codex:5780-implementation",
       "reason": "Advance after independent exact-head review resolved and recorded every finding with final PASS authority.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 5,
+      "actor": "codex:5780-implementation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

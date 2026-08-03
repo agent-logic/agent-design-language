@@ -81,11 +81,11 @@ Deleted the competing C-SDLC v2 closeout binary, terminal reconciliation and rep
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
