@@ -55,8 +55,7 @@ begin
     dependency_head_sha: head_sha,
     dependency_merge_sha: merge_sha,
     dependency_generation: record.fetch("generation"),
-    receipt_sha256: Digest::SHA256.file(receipt_path).hexdigest,
-    revision: head
+    receipt_sha256: Digest::SHA256.file(receipt_path).hexdigest
   )
 rescue JSON::ParserError, KeyError => e
   fail_gate("invalid retained receipt: #{e.message}")
