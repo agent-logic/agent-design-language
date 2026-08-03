@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5765/diagram.mmd
 [
   {
     "lane": "docs-planning-focused",
-    "proof_role": "Validate YAML structure, reference text, and diff scope",
+    "proof_role": "Parse the changed v0.92 YAML, assert issue 5765 source/prerequisite/non-claim text and exact one-file scope, then run diff check",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -37,9 +37,9 @@ Diagram: .csdlc/prepared/issues/5765/diagram.mmd
     "budget_seconds": 120,
     "budget_tokens": 1000,
     "argv": [
-      "git",
-      "diff",
-      "--check"
+      "ruby",
+      "-e",
+      "require 'yaml'; path='docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml'; doc=YAML.load_file(path); entry=doc.fetch('scheduled_planning').find{|item| item['issue']==5765}; abort 'missing issue 5765 schedule' unless entry; abort 'wrong status' unless entry['status']=='planning_only'; abort 'wrong source' unless entry['source']=='.adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md'; abort 'wrong source visibility' unless entry['source_visibility']=='operator_local_unpublished'; abort 'missing asksifu exclusion' unless entry['prerequisites'].any?{|value| value.include?('asksifu')}; abort 'missing six-candidate gate' unless entry['prerequisites'].any?{|value| value.include?('exactly six')}; paths=`git diff --name-only HEAD^ HEAD`.lines.map(&:strip); abort 'missing YAML scope' unless paths.include?(path); abort 'unexpected tracked scope' unless paths.all?{|candidate| candidate==path || candidate.start_with?('.csdlc/issues/5765/') || candidate.start_with?('.csdlc/prepared/issues/5765/')}; abort 'diff check failed' unless system('git diff --check'); puts 'planning YAML validation: PASS'"
     ],
     "parallel_group": "docs",
     "defer_reason": null
@@ -58,7 +58,7 @@ Tokens: 10000
 
 ## Commands
 
-- `git diff --check`
+- `ruby -e require 'yaml'; path='docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml'; doc=YAML.load_file(path); entry=doc.fetch('scheduled_planning').find{|item| item['issue']==5765}; abort 'missing issue 5765 schedule' unless entry; abort 'wrong status' unless entry['status']=='planning_only'; abort 'wrong source' unless entry['source']=='.adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md'; abort 'wrong source visibility' unless entry['source_visibility']=='operator_local_unpublished'; abort 'missing asksifu exclusion' unless entry['prerequisites'].any?{|value| value.include?('asksifu')}; abort 'missing six-candidate gate' unless entry['prerequisites'].any?{|value| value.include?('exactly six')}; paths=`git diff --name-only HEAD^ HEAD`.lines.map(&:strip); abort 'missing YAML scope' unless paths.include?(path); abort 'unexpected tracked scope' unless paths.all?{|candidate| candidate==path || candidate.start_with?('.csdlc/issues/5765/') || candidate.start_with?('.csdlc/prepared/issues/5765/')}; abort 'diff check failed' unless system('git diff --check'); puts 'planning YAML validation: PASS'`
 
 ## Failure Semantics
 

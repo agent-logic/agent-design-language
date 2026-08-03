@@ -7,15 +7,20 @@
     "title": "[v0.92][planning][github] Schedule Agent Logic account repository migration",
     "slug": "v0-92-planning-github-agent-logic-account-repository-migration",
     "version": "v0.92",
-    "generation": 0
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
+      "summary": "Added the planning-only Agent Logic repository migration reference to the canonical v0.92 issue-wave YAML.",
+      "actual_changes": [
+        "Added issue 5765 scheduled_planning entry",
+        "Preserved Gate 0 prerequisites and asksifu personal exclusion"
+      ],
+      "artifacts": [
+        "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml"
+      ],
       "actual_validation": [],
       "integration_state": "not_started",
       "publication_state": "not_published",

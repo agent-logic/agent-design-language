@@ -12,15 +12,16 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Added the planning-only Agent Logic repository migration reference to the canonical v0.92 issue-wave YAML.
 
 ## Artifacts
 
-- none
+- docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
 
 ## Execution
 
-- none
+- Added issue 5765 scheduled_planning entry
+- Preserved Gate 0 prerequisites and asksifu personal exclusion
 
 ## Validation
 

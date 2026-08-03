@@ -18,6 +18,7 @@ scheduled_planning:
   - issue: 5765
     title: Agent Logic account repository migration
     source: .adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md
+    source_visibility: operator_local_unpublished
     status: planning_only
     prerequisites:
       - destination organization slug and owners confirmed
