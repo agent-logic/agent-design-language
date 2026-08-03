@@ -3,13 +3,13 @@
   "issue": 5789,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0274649686750df6cdc2aa61accd93b232732ab3ce4adbb5d37248345ada7e7d",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "3536a36cda121854fe403853859091acd1909d6fb734995e9aa57860a81f63b9",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "1eb029bc7478c91c3acb9ae0c9076ea64936cd612088404d4a9fe4d1b76b067a",
   "claim": {
     "id": "claim-5789-observatory-full-functionality",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 12,
+    "generation": 13,
     "acquired_unix_seconds": 1785778104,
     "expires_unix_seconds": 1786382904,
     "heartbeat_unix_seconds": 1785778104,
@@ -43,7 +43,20 @@
     "purpose": "Make the HTML Observatory fully functional against Runtime v3, including live feed truth, controls, and governed operator-to-agent communication."
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019fc8d7-953f-7ce2-955a-6d37472ba725:Zeno",
+    "scope": [
+      "adl-runtime-kernel/tests/control.rs"
+    ],
+    "reviewed_revision": "git-blake3:2ca94d91435d0a02a2782c730ead577d1ebc21fa:dffa06ba107bc51299842b74c4c8805f899c920b81f866484ed43b4298df3417",
+    "findings": [],
+    "residual_risks": [
+      "Review scope is the post-publication rustfmt repair delta; prior exact-head review by Sartre covered the substantive Runtime v3 Observatory implementation at c060ef20927081c2547f58a845c6b2ba50c66504.",
+      "GitHub run 30839953140 was cancelled after adl-rust-fmt-clippy failed, so stale pending coverage and slow-proof jobs were stopped before the repaired head was published."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -58,32 +71,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "46f002962c0af384aa8257ff3f0b45a6dc5f740b1e17096351dc5d51b3637edc",
+      "values_digest": "7ab966db165a68f3bba75908ee688d04e7d5d5b85963cb10f69838b96d6573b6",
       "rendered_digest": "3c6af59e40d58617dc080a68f10af7b97cd9eaba42cc3e735ae9c255455f1a7e",
       "ast_digest": "f1c2ad71a3a93304cca97666fd7459576f2d0ad93e13545aa33af55a64db41f0"
     },
     "stp": {
-      "values_digest": "b0c997ae5f55352fe72f5b2eda231003df470d1bdc88d7cdfdc03334ed6517f9",
+      "values_digest": "3553331dd3b331fd7192adc4431eab5ab9ecc524a3eab1efd861fa2f1d68c7f7",
       "rendered_digest": "e1e16e3500d5449f64e5bfa9d1c59f1d26063998b59fb556ae06b1b212be7d2c",
       "ast_digest": "bb3022f749ddd44a47df43f8c6226d414d62b300dda687f4e0974e9ba2a8cb61"
     },
     "spp": {
-      "values_digest": "e1bf8d096b5ee2d8b71c3c556748c234c2541c8d294203fe89e8ad0af5043018",
+      "values_digest": "21ea74610dc1da47e064d444c88ec846a37d557256f3410b3ed0459600dabbe5",
       "rendered_digest": "9e2eac76c47ac9c92dc07664c202946dcfa79b82e083dbe7aaef2a483386d812",
       "ast_digest": "4448fce4b387310e116c0eb3018543392003147825ebfd15081bed5d3074c5ae"
     },
     "vpp": {
-      "values_digest": "6d69c029a6f6f3b25c9f8287ef313386e7e1583d15255c07672c37b0252d1ed8",
+      "values_digest": "afeac5b3dc8d4bde4d7f806534dffa7c5c744f6d2acd1012932a40084e3d30c6",
       "rendered_digest": "d85325f158f6dd3728d71986ecee8ab55216acda124fd0c733a56212d1d26ff7",
       "ast_digest": "31ae69b7fd4f84cf1622f339ef76b3dbccad35f0717778feb37df3e3ebf8a7dd"
     },
     "srp": {
-      "values_digest": "a9ff0b61642f896c10093771285bba2ad821b1ffabb1bf49bbec0cc2c2b39d2b",
-      "rendered_digest": "005ec8f0bef4423ba89cb5b8161ce602d286b75896acd029d2885a04f909abf4",
-      "ast_digest": "73a9b475e568f3742a8b183dbedb04a9e8902dd3854b4c47673f502da9d9b655"
+      "values_digest": "1cd3c181ad6cefd480e6b67ebdb9fd8b5ec3e4148e24922d05b6320ffeb38b8a",
+      "rendered_digest": "dd3afd3ebd201258cef969e3d469cbe10b4c6c98073ed45c0a76f264067fbbf0",
+      "ast_digest": "32fd4d5678a3638582a7b2659fe83ec9a303ba596f82411cf5a0bffb81f614c7"
     },
     "sor": {
-      "values_digest": "4ded2ad4a7ae805193c7df3ebfb185624908dee250a5131d01641958c52431dd",
+      "values_digest": "eb4547b80c8496738e3eed85413d527cc7f83b76f0c225b5e8f131a171fe9378",
       "rendered_digest": "8e44469b5b94d3a7e9ba4100f70b2c7830d1f18c21bdfe9d16ea5de9f7cba406",
       "ast_digest": "d1c028eea2fce1f2c7aacd75876e47cb54b7df124b9c7e152c240e59b122bf74"
     }
@@ -130,6 +143,13 @@
       "to": "implemented",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Recover published review after GitHub adl-rust-fmt-clippy found rustfmt-only formatting drift in adl-runtime-kernel/tests/control.rs."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -244,6 +264,13 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Record post-publication CI fmt repair validation before exact re-review.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings\",\"bash adl/tools/test_html_observatory.sh\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target cargo test --manifest-path adl-runtime-kernel/Cargo.toml observatory_cors_allows_only_configured_origins_and_reports_canonical_port --test control -- --nocapture\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target cargo test --manifest-path adl-runtime-kernel/Cargo.toml openapi_paths_match_current_runtime_v3_axum_route_inventory --test openapi_contract -- --nocapture\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target bash adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Prove the rustfmt-only repair resolves the failed GitHub adl-rust-fmt-clippy lane while preserving Runtime v3 Observatory browser contract, CORS/OpenAPI route parity, and integrated localhost proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"commentary: all six commands passed locally after cargo fmt; generated localhost certificate proof byproducts were restored before review so the branch remained clean aside from intended source/lifecycle changes\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

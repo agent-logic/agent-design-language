@@ -12,7 +12,7 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/tests/control.rs
 
 ## Prompts
 
@@ -31,12 +31,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review scope is the post-publication rustfmt repair delta; prior exact-head review by Sartre covered the substantive Runtime v3 Observatory implementation at c060ef20927081c2547f58a845c6b2ba50c66504.
+- GitHub run 30839953140 was cancelled after adl-rust-fmt-clippy failed, so stale pending coverage and slow-proof jobs were stopped before the repaired head was published.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:2ca94d91435d0a02a2782c730ead577d1ebc21fa:dffa06ba107bc51299842b74c4c8805f899c920b81f866484ed43b4298df3417")
 
-Reviewer: None
+Reviewer: Some("subagent:019fc8d7-953f-7ce2-955a-6d37472ba725:Zeno")
 
-Result: pre_review
+Result: pass
