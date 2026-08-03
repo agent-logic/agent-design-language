@@ -3,13 +3,13 @@
   "issue": 5780,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "221c77501fda97ff06555ed4d0df264c3898ad571378af269bf5de3291370881",
-  "phase": "implemented",
-  "generation": 2,
-  "digest": "1a6beb554d4ba98463171432cd91c95a6a64ba6304f1e79cb55d0fdb0ae56d5e",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "3585c93988b51eb442fe50f04470fe9c78514fc3779e40cf4e92cdc66d2cb95e",
   "claim": {
     "id": "claim-5780-delete-terminal-authority",
     "owner": "codex:5780-implementation",
-    "generation": 2,
+    "generation": 4,
     "acquired_unix_seconds": 1785782633,
     "expires_unix_seconds": 1786387433,
     "heartbeat_unix_seconds": 1785782633,
@@ -65,8 +65,76 @@
     ],
     "purpose": "Implement #5780 by deleting competing post-merge terminal mutation and receipt-authority machinery while preserving legacy read compatibility."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "Harvey",
+    "assigned_by": "Codex",
+    "revision": "git-blake3:ce0994da07d2cdf349c658b1f8dee235814e5905:33c82a4c0a69f4f3605d03daa1e288578b38be2475eb294056d6f297f8c83996",
+    "scope": [
+      ".csdlc/evidence/5780",
+      ".csdlc/issues/5780",
+      ".csdlc/prepared/issues/5780",
+      "AGENTS.md",
+      "csdlc-v2",
+      "docs/default_workflow.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md",
+      "docs/tooling/OWNER_BINARY_INSTALLATION.md",
+      "docs/tooling/adl_pr_cycle_skill.md"
+    ]
+  },
+  "review": {
+    "reviewer": "Harvey",
+    "scope": [
+      ".csdlc/evidence/5780",
+      ".csdlc/issues/5780",
+      ".csdlc/prepared/issues/5780",
+      "AGENTS.md",
+      "csdlc-v2",
+      "docs/default_workflow.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md",
+      "docs/tooling/OWNER_BINARY_INSTALLATION.md",
+      "docs/tooling/adl_pr_cycle_skill.md"
+    ],
+    "reviewed_revision": "git-blake3:ce0994da07d2cdf349c658b1f8dee235814e5905:33c82a4c0a69f4f3605d03daa1e288578b38be2475eb294056d6f297f8c83996",
+    "findings": [
+      {
+        "id": "F-5780-1",
+        "severity": "p1",
+        "summary": "A public direct-merge API remained after the standalone binary was deleted.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:ce0994da07d2cdf349c658b1f8dee235814e5905:33c82a4c0a69f4f3605d03daa1e288578b38be2475eb294056d6f297f8c83996",
+        "route": null
+      },
+      {
+        "id": "F-5780-2",
+        "severity": "p2",
+        "summary": "Active operator documentation still advertised deleted merge and closeout binaries.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:ce0994da07d2cdf349c658b1f8dee235814e5905:33c82a4c0a69f4f3605d03daa1e288578b38be2475eb294056d6f297f8c83996",
+        "route": null
+      },
+      {
+        "id": "F-5780-3",
+        "severity": "p3",
+        "summary": "Whole-change added and net-deleted evidence totals were off by one line.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:ce0994da07d2cdf349c658b1f8dee235814e5905:33c82a4c0a69f4f3605d03daa1e288578b38be2475eb294056d6f297f8c83996",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The read-only review did not execute a live GitHub merge; full locked tests prove the preserved sequence and publication will exercise the live integration path."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -81,32 +149,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "91c9f93e0a1678932a249da38cfd3ccb01ff5c5ed7506f20a68f0554915c1da9",
+      "values_digest": "4a4f5721561da180a02a05c2407b5ba3eb1fcfb5d418c016ac2db2a02a881d90",
       "rendered_digest": "3597ee45221f8b1895ac5770ebaad03c429b0d360c8319bed711caab587fd380",
       "ast_digest": "b7656adc3cf30e35afe0eea2ee2484db2a3dea3215b932d09a0df136a8840474"
     },
     "stp": {
-      "values_digest": "e611e6e298cdf03d62395d05d8edfc62f251fef15faf8e6e152e9288d229d504",
+      "values_digest": "6f227cb28372410d911afd0d73aac945862656105819b2425604a6e160b06cc2",
       "rendered_digest": "087ca044f39ff1a5c40e835b26ee293e20f06c5074b719f05cab3f7498aa539a",
       "ast_digest": "58c154523d574224efd00379ab3bb450c12d2a1819aaf2108b59f205cb2e0bed"
     },
     "spp": {
-      "values_digest": "65d77e7516f4f518c52ad08cf7f0f65c0458bccfedaabad37e505396120cd2b2",
+      "values_digest": "2f8e7712020fdf23295be7cc996f8415b912fff09c2f252cc8674ee7bc6096e4",
       "rendered_digest": "0b0607d69fbefcd2cdcce5791004bf68320ba9a10dda1f15624142c8da5f7eab",
       "ast_digest": "16cfd973c3fc0f297d2e2bca1aa40805d8735982f5709df6cb761886630534b2"
     },
     "vpp": {
-      "values_digest": "be14cfd3dafba03541c9210ff5e9ef26e03ee7288ae533bba6307a2342bfadff",
+      "values_digest": "762f4fbc812ede1dae93d38b34b31ed58a2e140f14ee44bc9ee7402c5c6844bf",
       "rendered_digest": "bd93fafa96e1547a8e1316a9a52af43f74aa72efeff58fac385ccb7cf4ee1605",
       "ast_digest": "71428718d07250751ad3aa7bf8e969763ce8bb957645ad07d0fb03e317f0ff4a"
     },
     "srp": {
-      "values_digest": "538d18f114557c467ea9de19154a117aa9f11280c76e8f3af172d50470d42602",
-      "rendered_digest": "5600a98a517aa380162c7b769d0eab753225a0496d58f0f323285fec6e9fbbb0",
-      "ast_digest": "858d2eac94e68b4dea19a041978f69138b88d0fbccae623b5f41031fedb3d1e2"
+      "values_digest": "a9daea0d1b5c1119058ab51142662139f47d7a7e66e8fe37f048c1b1104fa155",
+      "rendered_digest": "b6b6523c3b3c2a234e78b9e088651c90bc498c028e548b3b262af8fd0245853a",
+      "ast_digest": "92025c105bfee10e583416d41fc732715f53253d49ecf941fe6a86f85ef8c028"
     },
     "sor": {
-      "values_digest": "773d71f38746e5355948b70a7505d2507676d5768625b463932e9172a122dfe6",
+      "values_digest": "e1f5cc60fdc2cb19abe5381252a705ee9dcb7a4b0fa3c4a8eb875faf90345e1d",
       "rendered_digest": "350c9d8d5a62f1dbad5a4276d00beea2a973a60c5c77f3eed1dc3de5b479e847",
       "ast_digest": "a7836317a8d3af1ad2d4d07823990fe1defa1bc8244d70cd6aace9c22f2948d3"
     }
@@ -132,6 +200,13 @@
       "to": "implemented",
       "actor": "codex:5780-implementation",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5780-implementation",
+      "reason": "Advance after independent exact-head review resolved and recorded every finding with final PASS authority."
     }
   ],
   "audit": [
@@ -197,6 +272,27 @@
       "actor": "codex:5780-review-remediation",
       "reason": "Exact-head review found the remaining public direct-merge API and active operator guidance to be competing terminal authorities; fold merge execution into finish and guard the corrected documentation.",
       "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/merge.rs\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 2,
+      "actor": "Codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 3,
+      "actor": "Harvey",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 4,
+      "actor": "codex:5780-implementation",
+      "reason": "Advance after independent exact-head review resolved and recorded every finding with final PASS authority.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
