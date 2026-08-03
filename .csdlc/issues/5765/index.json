@@ -1,0 +1,81 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5765,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "410016ef8a98a2326644e76a7d9d0be535280964fbb5295f4fd91ce9d1ebbecb",
+  "phase": "initialized",
+  "generation": 0,
+  "digest": "8073b5a95130586c7527612dd16fc2f818cf444f8bda3e7784cc96089b92a5b1",
+  "claim": {
+    "id": "claim-5765-v092-account-migration-scheduling",
+    "owner": "codex:5765",
+    "generation": 0,
+    "acquired_unix_seconds": 1785784093,
+    "expires_unix_seconds": 1786388893,
+    "heartbeat_unix_seconds": 1785784093,
+    "branch": "codex/5765-v092-migration",
+    "worktree": ".worktrees/adl-5765-v092-migration",
+    "protected_paths": [
+      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+      ".csdlc/issues/5765",
+      ".csdlc/prepared/issues/5765"
+    ],
+    "purpose": "Schedule the Agent Logic account repository migration as planning-only v0.92 work"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5765/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5765/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:5765",
+      "revision": "a9efa5d35de1d00dcd47d31009de46f6db5a009128c1767afe05565d5812d187"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "cfb10905dab222578a705fb4be7b6eef6d23d53c932d5cee56ba8e1da7d0e6ee",
+      "rendered_digest": "c76ee3a3d9228344b6dccd9a73f8076ccda5ef79adef9c720da3d500201b42e3",
+      "ast_digest": "adc4f1ced2c44ba26d4778a6418f8b83ea5b04890e21cb3d58a05daf6d48dc4a"
+    },
+    "stp": {
+      "values_digest": "762b9e198499936f225b6411d9c16acf4bb664ecb184f341c8ef63031cf8a6cd",
+      "rendered_digest": "b97672a24eb3557763eb5654ee093a0f4e95dcff5df359e5a20437841c54a525",
+      "ast_digest": "eb3edfc5756a260c44d3a4b7ada43c4c090c184bead265a1e545537e3c5309ea"
+    },
+    "spp": {
+      "values_digest": "bf6b232406c5911adee48acb41d310061cec86db3319cc990f243f10101ce4de",
+      "rendered_digest": "62093e54ef732a005959acaad1b552e7fc21bb46c8320c20953db229f41068e9",
+      "ast_digest": "7a089c5915b9d76a32a1408feac8efcfb8ff20e46c5067a94a31cf27f8b5f5d8"
+    },
+    "vpp": {
+      "values_digest": "25732e51e592509ff3da81444fce3d80ca6654090728e361a976b99ca5fb722f",
+      "rendered_digest": "2686ebaf9e23896c7a8d18305d1aac8a8fc7987aee4e111dcaf019f1d3a4dd05",
+      "ast_digest": "2bf53c9d06511f0c96406605b2ec1a94fe4509e70fff32f2b2223a4d217cd796"
+    },
+    "srp": {
+      "values_digest": "69922445828014ccab2b9e322164569082a9db3fce4430d574930cc8b930c1b0",
+      "rendered_digest": "20405d0d97d6fd70be88aa27098503310519323b18757581d5fa317046a9dcd5",
+      "ast_digest": "5fbea19479606986568f8b62bb9e59e49bff606867f881b42b3953cd73733e77"
+    },
+    "sor": {
+      "values_digest": "ccb076b50a1e67b57d1d9ab48511bd5c7719bd5254b04c7449bf52bea4df3aeb",
+      "rendered_digest": "4ce3af3551b4d2d6199a9c63ab391321eaaf3ae20b56e23d11d4d06bbc6b8f36",
+      "ast_digest": "9672ec90d1e350eddc978af961048634844350150f54facfea5dbb08f136473e"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5765",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    }
+  ]
+}

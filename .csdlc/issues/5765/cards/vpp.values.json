@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5765,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][planning][github] Schedule Agent Logic account repository migration",
+    "slug": "v0-92-planning-github-agent-logic-account-repository-migration",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "docs-planning-focused",
+          "proof_role": "Validate YAML structure, reference text, and diff scope",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed if the reference is missing, the scope widens, or the edit implies migration authorization.",
+      "design_ref": ".csdlc/prepared/issues/5765/design.md",
+      "design_digest": "a9efa5d35de1d00dcd47d31009de46f6db5a009128c1767afe05565d5812d187",
+      "diagram_ref": ".csdlc/prepared/issues/5765/diagram.mmd",
+      "diagram_digest": "6dc96fc975be9e1bcaae4933fe273b7cfcf6c42f514f642ce96e7937fa5d0c33"
+    }
+  }
+}

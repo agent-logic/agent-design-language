@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5765,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][planning][github] Schedule Agent Logic account repository migration",
+    "slug": "v0-92-planning-github-agent-logic-account-repository-migration",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Only the v0.92 YAML scheduling reference and its direct wording.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the reference preserve planning-only truth?",
+        "Are all Gate 0 prerequisites named?",
+        "Is asksifu explicitly excluded?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
