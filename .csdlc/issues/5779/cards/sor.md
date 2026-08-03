@@ -28,7 +28,7 @@ Added reviewed standalone safe C-SDLC v2 worktree cleanup and read-only v0.91.8 
 
 - Added typed classify and non-forced remove operations bound to the exact registered canonical issue worktree.
 - Made dirty, missing, relocated, primary, symlinked, identity-drifted, and concurrent cleanup fail closed without destructive fallback.
-- Bound v0.91.8 validation to the expected audit identity and independent same-set 114-issue closed universe.
+- Bound v0.91.8 validation to the expected audit identity and the fixed repository-tracked 114-issue closed universe, including coordinated-drift rejection.
 - Made worktree, issue-projection, and cleanup-lock ancestor traversal symlink-safe.
 - Registered csdlc-v2-clean as the eleventh authoritative typed operator route and updated active contracts and Gate 10A coverage.
 
