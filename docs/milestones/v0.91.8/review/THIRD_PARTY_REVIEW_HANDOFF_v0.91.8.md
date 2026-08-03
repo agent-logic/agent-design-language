@@ -10,9 +10,11 @@
 - Integrated quality gate: v0.91.8 WP-16 / `#5351`, merged at
   `2e9d2dd7c4260dcf6ec6af954b0eea97554212df`
 - Documentation alignment: v0.91.8 WP-17 / `#5360`, closed
-- Internal review: v0.91.8 WP-18 / `#5356`, active and not complete
+- Internal review: v0.91.8 WP-18 / `#5356`, closed through PR `#5781` at
+  reviewed head `ba4caa3da1f0f0358ce71bf64de0e8909c37ff28` and merge commit
+  `9e5745cdaad6f0753b22f1ef3ea7843573352c0d`
 - Release-tail revalidation owner: v0.91.8 WP-21A / `#5355`
-- Packet status: `prepared_not_sent`
+- Packet status: `ready_to_freeze_not_sent`
 - Review performed: false
 - Release approval claimed: false
 - v0.92 activation claimed: false
@@ -109,8 +111,8 @@ prepared a credible, evidence-bound packet to accept ADL v2, Runtime v3, and
 C-SDLC v2 at exact revisions before `v0.92` consumes the platform. The latest
 integrated quality source is WP-16 at
 `2e9d2dd7c4260dcf6ec6af954b0eea97554212df`; WP-17 closed the documentation
-alignment to that merged evidence, and WP-18 is the active internal-review
-owner before WP-19 formal external review.
+alignment to that merged evidence, and WP-18 closed its internal-review lane
+through PR `#5781`. WP-19 `#5357` is the current formal external-review owner.
 
 This is not a release handoff and not a review result. It prepares the formal
 third-party review surface only.
@@ -168,8 +170,8 @@ Do not review as completed implementation:
 
 - v0.91.8 product code that has not landed at the target revision;
 - v0.92 birthday implementation;
-- WP-18 internal review, formal milestone review, remediation, or release
-  ceremony work unless those exact packets are present at the target revision;
+- formal milestone review, remediation, or release ceremony work unless those
+  exact packets are present at the target revision;
 - deployment or release ceremony actions;
 - external shadow-review outputs not synthesized into tracked issue records;
 - hidden `.adl/local-artifacts` material unless explicitly copied into a
@@ -347,9 +349,8 @@ Allowed review outcomes:
 
 This handoff does not claim:
 
-- third-party review has run;
+- third-party review has been dispatched or completed;
 - v0.91.8 implementation, release, or deployment is complete;
-- WP-18 internal review is complete;
 - v0.92 birthday readiness is achieved;
 - per-issue external shadow reviews equal formal milestone review;
 - #4906 is resolved;

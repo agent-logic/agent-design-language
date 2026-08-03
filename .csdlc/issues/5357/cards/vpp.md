@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5357/diagram.mmd
 [
   {
     "lane": "preparation-contract",
-    "proof_role": "Prove six cards, reviewed design/diagram, canonical handoff identity, exact preparation scope, schemas, budgets, PVF, zero product/shared-document changes, and typed doctor truth",
+    "proof_role": "Prove six typed cards, reviewed design, exact review-document scope, current WP-17/WP-18 predecessor truth, schemas, budgets, no product changes, and typed doctor truth",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -49,7 +49,7 @@ Diagram: .csdlc/prepared/issues/5357/diagram.mmd
   },
   {
     "lane": "wp18-terminal-gate",
-    "proof_role": "Fail closed until #5356 is merged, typed closed_out, claim-free, receipt-backed, and ancestral",
+    "proof_role": "Prove #5356 terminal receipt, reviewed head, merged PR commit, claim release, and ancestry without requiring a stale tracked projection",
     "acceptance_ids": [
       "AC-1"
     ],
@@ -62,7 +62,7 @@ Diagram: .csdlc/prepared/issues/5357/diagram.mmd
       ".csdlc/prepared/issues/5357/check-dependencies.rb"
     ],
     "parallel_group": "execution-gate",
-    "defer_reason": "Mandatory before corpus freeze or dispatch; expected to fail while WP-18 is nonterminal"
+    "defer_reason": null
   },
   {
     "lane": "corpus-dispatch-preflight",

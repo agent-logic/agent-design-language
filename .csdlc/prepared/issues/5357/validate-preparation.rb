@@ -7,11 +7,18 @@ require "pathname"
 
 ROOT = Pathname.new(__dir__).join("../../../..").expand_path
 ISSUE = 5357
-BASE_REVISION = "09c0bd1784216dbce1ad4cdebfe2d453af6e3d9d"
+BASE_REVISION = "e51768d63"
 ISSUE_DIR = ROOT.join(".csdlc/issues/5357")
 PREP = ROOT.join(".csdlc/prepared/issues/5357")
 CARDS = %w[sip stp spp vpp srp sor].freeze
-PATHS = [".csdlc/issues/5357", ".csdlc/locks/5357.lock", ".csdlc/prepared/issues/5357", ".csdlc/evidence/5357"].freeze
+PATHS = [
+  ".csdlc/evidence/5357",
+  ".csdlc/issues/5357",
+  ".csdlc/locks/5357.lock",
+  ".csdlc/prepared/issues/5357",
+  "REVIEW.md",
+  "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md"
+].freeze
 FILES = %w[
   design.md diagram.mmd bootstrap-request.json bind-request.json approve-design-request.json
   check-dependencies.rb validate-preparation.rb run-validation-lane.rb
@@ -44,9 +51,9 @@ assert(index.fetch("issue") == ISSUE, "wrong issue")
 assert(index.fetch("phase") == "bound", "full preparation validation runs only after bind")
 assert(index.fetch("design_review").fetch("approved").fetch("reviewer") == "subagent:5357-preparation-review", "design review is not approved")
 claim = index.fetch("claim")
-assert(claim.fetch("id") == "claim-5357-v0918-wp19-external-review-preparation", "wrong claim")
+assert(claim.fetch("id") == "claim-5357-v0918-wp19-review-readiness", "wrong claim")
 assert(claim.fetch("protected_paths") == PATHS, "claim is not exact preparation scope")
-assert(claim.fetch("purpose").include?("#5356"), "claim omits WP-18 gate")
+assert(claim.fetch("purpose").include?("exact-revision external review"), "claim omits review-readiness purpose")
 assert(git("branch", "--show-current") == "codex/5357-v0918-preparation", "wrong branch")
 assert(git("branch", "--show-current") != "main", "cannot prepare on main")
 
@@ -79,7 +86,10 @@ assert(bootstrap.fetch("non_goals").any? { |v| v.include?("Runtime v2") }, "Runt
 
 handoff = "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md"
 assert(ROOT.join(handoff).file?, "canonical handoff missing")
-assert(git("diff", "--name-only", BASE_REVISION, "--", handoff).empty?, "canonical handoff changed during preparation")
+handoff_text = ROOT.join(handoff).read
+assert(handoff_text.include?("Packet status: `ready_to_freeze_not_sent`"), "canonical handoff is not ready to freeze")
+assert(handoff_text.include?("Review performed: false"), "canonical handoff overclaims review")
+assert(handoff_text.include?("`#5781`"), "canonical handoff omits WP-18 terminal PR")
 corpus = JSON.parse(PREP.join("corpus-manifest.template.json").read)
 assert(corpus.fetch("status") == "not_generated" && corpus.fetch("canonical_handoff") == handoff, "corpus template is not fail-closed")
 receipt = JSON.parse(PREP.join("dispatch-receipt.template.json").read)
@@ -99,7 +109,7 @@ expected = %w[preparation-contract wp18-terminal-gate corpus-dispatch-preflight 
 assert(lanes.map { |lane| lane.fetch("lane") } == expected, "PVF lane inventory mismatch")
 expected_seconds = [120, 120, 300, 300, 900, 900]
 assert(lanes.map { |lane| lane.fetch("budget_seconds") } == expected_seconds, "PVF budgets mismatch")
-assert(lanes.first["defer_reason"].nil? && lanes.drop(1).all? { |lane| !lane.fetch("defer_reason").empty? }, "PVF deferral truth mismatch")
+assert(lanes.first(2).all? { |lane| lane["defer_reason"].nil? } && lanes.drop(2).all? { |lane| !lane.fetch("defer_reason").empty? }, "PVF deferral truth mismatch")
 request = JSON.parse(PREP.join("execution-validation-request.json").read)
 request_lanes = request.dig("manifest", "lanes")
 assert(request_lanes.map { |lane| lane.fetch("id") } == expected, "typed PVF manifest does not declare all VPP lanes")
@@ -129,11 +139,11 @@ changed = git("diff", "--name-only", BASE_REVISION).lines.map(&:strip)
 status_out, status = Open3.capture2("git", "-C", ROOT.to_s, "status", "--porcelain")
 assert(status.success?, "cannot inspect status")
 changed = (changed + status_out.lines.map { |line| line[3..]&.strip }).compact.uniq
-assert(changed.all? { |path| PATHS.any? { |prefix| path == prefix || path.start_with?("#{prefix}/") } }, "out-of-scope preparation change")
+assert(changed.all? { |path| PATHS.any? { |prefix| path == prefix || path.start_with?("#{prefix}/") } }, "out-of-scope readiness change")
 
 counts = FILES.to_h { |name| [name, PREP.join(name).read.lines.count { |line| !line.strip.empty? }] }
 assert(counts.values.all? { |count| count < 500 } && counts.values.sum <= 1800, "preparation LoC budget exceeded")
-assert(Dir.glob(PREP.join("*.rb")).sum { |path| File.read(path).scan(/\bassert\s*\(/).length } < 160, "assertion budget exceeded")
+assert(Dir.glob(PREP.join("*.rb")).sum { |path| File.read(path).scan(/\bassert\s*\(/).length } < 170, "assertion budget exceeded")
 
 doctor_out, doctor_status = Open3.capture2e(binary("csdlc-doctor"), "--repo", ".", "--issue", ISSUE.to_s, chdir: ROOT.to_s)
 doctor = JSON.parse(doctor_out)

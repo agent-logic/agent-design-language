@@ -4,7 +4,7 @@
     "lanes": [
       {
         "id": "preparation-contract",
-        "proof_role": "Prove six cards, reviewed design/diagram, canonical handoff identity, exact preparation scope, schemas, budgets, PVF, zero product/shared-document changes, and typed doctor truth",
+        "proof_role": "Prove six typed cards, reviewed design, exact review-document scope, current WP-17/WP-18 predecessor truth, schemas, budgets, no product changes, and typed doctor truth",
         "purpose": "Verify the complete preparation packet while making no dispatch or product claim.",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 4000},
@@ -21,7 +21,7 @@
       },
       {
         "id": "wp18-terminal-gate",
-        "proof_role": "Fail closed until #5356 is merged, typed closed_out, claim-free, receipt-backed, and ancestral",
+        "proof_role": "Prove #5356 terminal receipt, reviewed head, merged PR commit, claim release, and ancestry without requiring a stale tracked projection",
         "purpose": "Fail closed until WP-18 is merged, typed closed_out, claim-free, receipt-backed, and ancestral.",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 2000},

@@ -4,24 +4,26 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b4ef1aecf8cb4011e9fcc651284d7fa8be1ee0611fa79ed3f2215100f5627e00",
   "phase": "bound",
-  "generation": 1,
-  "digest": "ad5f5db5d8bf610536d6549b3051122f31bb4e6882067c01d3bee7cffeda4ada",
+  "generation": 2,
+  "digest": "5acc2a4c297fcbaea8087c24927354b82191444805ad096f2283b673c5a94caf",
   "claim": {
-    "id": "claim-5357-v0918-wp19-external-review-preparation",
-    "owner": "codex:5357-preparation-owner",
-    "generation": 1,
-    "acquired_unix_seconds": 1784669355,
-    "expires_unix_seconds": 1785274155,
-    "heartbeat_unix_seconds": 1784669355,
+    "id": "claim-5357-v0918-wp19-review-readiness",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 2,
+    "acquired_unix_seconds": 1785783165,
+    "expires_unix_seconds": 1786387965,
+    "heartbeat_unix_seconds": 1785783165,
     "branch": "codex/5357-v0918-preparation",
     "worktree": ".",
     "protected_paths": [
+      ".csdlc/evidence/5357",
       ".csdlc/issues/5357",
       ".csdlc/locks/5357.lock",
       ".csdlc/prepared/issues/5357",
-      ".csdlc/evidence/5357"
+      "REVIEW.md",
+      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md"
     ],
-    "purpose": "Prepare and review #5357 WP-19 external-review contracts only; do not dispatch review or modify the canonical handoff; no execution until WP-18 #5356 is merged, typed closed_out, claim-free, receipt-backed, and ancestral"
+    "purpose": "Prepare #5357 WP-19 for exact-revision external review by refreshing REVIEW.md and the canonical handoff, freezing and validating the source corpus, and retaining issue-local readiness evidence; do not dispatch a paid review, publish, merge, or claim release approval."
   },
   "review_assignment": null,
   "review": null,
@@ -39,32 +41,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7816c32383b362b337317b193001d0f487cb01dddb6c07bd42e5096902fa60a7",
+      "values_digest": "a920ddab347edaac7978f5de5e460ca584b41e1a8f6131459981773fef37fe27",
       "rendered_digest": "cc56b388f094eaf26dd4d588a2d21154a40d18e95fd905f9aac20e317e1909e6",
       "ast_digest": "1213e66b417ed7fab27af5f8e5d77bd03efea09a519b30c40016b37f52c98c82"
     },
     "stp": {
-      "values_digest": "7113a962278b166743f381e09cc65619a6fadff9cbcf17f23933609e77187070",
+      "values_digest": "52ed02f53dae253aeef49bcecd8370042918c4b9eefdf68511ae96408fb2e534",
       "rendered_digest": "03f7d775faab206ff71dd4221b1a8456f4dd769dc28d57f2ac5526d89aa2155e",
       "ast_digest": "5914d3fb64c87868c354fb3e95cb1f62bf58fcb48796e8240371bba455f67a6d"
     },
     "spp": {
-      "values_digest": "4c51a2e07d3b58c6bb13a2b33468862157ace4ca774d5ffed0568aae81c9f719",
+      "values_digest": "9dc1460d6f536a3c2017c85c2b5825e99fca8a4aab62c5462029c652811bbfa6",
       "rendered_digest": "2b5be44322471055418ad6efd06903f47cd7656546b3f80ef40090ba88eca360",
       "ast_digest": "09520d084427d13ee92623683be98e2f0d130057f6ef3c745acfb2f8e47b66ca"
     },
     "vpp": {
-      "values_digest": "ff78b151792be19270edb1bbb77452f10c926175cf15ea11c726348fdea06aa1",
-      "rendered_digest": "77a26b2895cc9cb5eb9be6bddcc71ce24d8b0b342e4377d980f1e94571db9d77",
-      "ast_digest": "21458e74f75e3ba7681e64b983c87d97ae6955612564ee14dffa969f8fee2556"
+      "values_digest": "b6fad38e3921e1605e624acfe8ae5e33d34a6c1f048c85dc5ece5f41d975fb89",
+      "rendered_digest": "779b1cb5461e70d44e30e78727b8d6941fc37904ba4f6f55806db8325b7a81be",
+      "ast_digest": "5a00f5e0584802f52386e03980060e67de6f0a75494547feaba35364654d9b91"
     },
     "srp": {
-      "values_digest": "d5745744fbc07c461a4c60c0bfee5a59497cf617e2d6e6dda0c18dfe4aea710c",
+      "values_digest": "cba90d523db8b4a471f72bbe56c5e3dadc49ad38ffb2fb5333764983eb91b101",
       "rendered_digest": "007ff01d1bc26a554264850c8482c2079a5d06e9dc63a24c6f4cc7d8416ba387",
       "ast_digest": "3a87c74202d77d9b7411ffe69f5b97b315bcd8e4d87bba5fdfa2ef480b6ebbe6"
     },
     "sor": {
-      "values_digest": "42ba1d000d000e302f4a66003107ec5bf059a55aefeda90c615c1b04a587183f",
+      "values_digest": "98dca9e6f226f6cf1681bf456526544298c7a8d20f7346318aa4b28d3603fd20",
       "rendered_digest": "9657475cd549595130ac7df4c9564bcbe64494261b641fb7e7e3f243b4dd1603",
       "ast_digest": "e044402765288963998762f0caef37f49d1535f732d948574ea70cca18e89e32"
     }
@@ -106,6 +108,20 @@
       "actor": "codex:5357-preparation-owner",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "WP-18 #5356 is merged, typed closed_out, claim-free, receipt-backed, and ancestral; reacquire the expired preparation claim to make the WP-19 review entrypoint and handoff current without dispatching the external review.",
+      "operation": "{\"branch\":\"codex/5357-v0918-preparation\",\"claim_id\":\"claim-5357-v0918-wp19-review-readiness\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\",\"previous_claim_id\":\"claim-5357-v0918-wp19-external-review-preparation\",\"previous_owner\":\"codex:5357-preparation-owner\",\"protected_paths\":[\".csdlc/evidence/5357\",\".csdlc/issues/5357\",\".csdlc/locks/5357.lock\",\".csdlc/prepared/issues/5357\",\"REVIEW.md\",\"docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md\"],\"purpose\":\"Prepare #5357 WP-19 for exact-revision external review by refreshing REVIEW.md and the canonical handoff, freezing and validating the source corpus, and retaining issue-local readiness evidence; do not dispatch a paid review, publish, merge, or claim release approval.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Refresh WP-19 validation truth after WP-18 terminal completion and canonical handoff ownership activation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Prove six typed cards, reviewed design, exact review-document scope, current WP-17/WP-18 predecessor truth, schemas, budgets, no product changes, and typed doctor truth\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5357/validate-preparation.rb\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"wp18-terminal-gate\",\"proof_role\":\"Prove #5356 terminal receipt, reviewed head, merged PR commit, claim release, and ancestry without requiring a stale tracked projection\",\"acceptance_ids\":[\"AC-1\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5357/check-dependencies.rb\"],\"parallel_group\":\"execution-gate\",\"defer_reason\":null},{\"lane\":\"corpus-dispatch-preflight\",\"proof_role\":\"Build and verify immutable exact-revision corpus and dispatch receipt while enforcing identity, independence, redaction, and non-self-inclusion\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":6000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5357/run-validation-lane.rb\",\"corpus-dispatch-preflight\"],\"parallel_group\":\"review\",\"defer_reason\":\"Mandatory after #5356 terminal proof and exact corpus freeze; forbidden during preparation\"},{\"lane\":\"review-output-contract\",\"proof_role\":\"Validate findings-first severity order, exact evidence, evidence/inference/author-decision separation, residual risk, and typed synthesis mapping\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5357/run-validation-lane.rb\",\"review-output-contract\"],\"parallel_group\":\"review\",\"defer_reason\":\"Mandatory after reviewer output exists; forbidden during preparation\"},{\"lane\":\"complete\",\"proof_role\":\"Run dependency, identity, corpus, dispatch, output, redaction, budget, no-deferral, exact-review, and publication preflight\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":9000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5357/run-validation-lane.rb\",\"complete\"],\"parallel_group\":\"pre-publication\",\"defer_reason\":\"Mandatory at the exact reviewed result revision before publication\"},{\"lane\":\"post-merge-exact\",\"proof_role\":\"Re-run target ancestry, corpus/receipt/output digests, redaction, typed synthesis, CI and WP-20 release predicate after authorized merge\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":9000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5357/run-validation-lane.rb\",\"post-merge-exact\"],\"parallel_group\":\"post-merge\",\"defer_reason\":\"Mandatory after authorized serialized merge and before typed closeout\"}]}"
     }
   ]
 }

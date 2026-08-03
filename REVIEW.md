@@ -78,12 +78,21 @@ minimum, inspect and update every applicable item in this checklist:
 Tail closeout docs review is complete only when this surface has either been
 updated, confirmed current, or explicitly ruled not applicable with evidence.
 
-The current review posture is the v0.91.8 release tail after WP-16. WP-16
+The current review posture is v0.91.8 WP-19 external-review readiness. WP-16
 merged at `2e9d2dd7c`; its evidence records 67 audited issue outcomes, 0
 unacceptable outcomes, and passing ADL v2, Runtime v3, and C-SDLC v2
-integrated lanes. WP-17 documentation truth alignment is active. Later
-release-tail review, remediation/preflight, v0.92 handoff alignment, and
-ceremony gates remain open.
+integrated lanes. WP-17 documentation truth alignment is closed. WP-18
+internal review is closed through PR `#5781` at reviewed head `ba4caa3d` and
+merge commit `9e5745cd`. WP-19 issue `#5357` now owns the formal external-review
+handoff. The review has not been dispatched or performed; WP-20 and later
+release-tail remediation, revalidation, handoff, and ceremony gates remain
+downstream.
+
+The canonical packet for WP-19 is
+`docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md`.
+Its Target Revision fields and digest remain intentionally unset until the
+operator freezes the exact send revision. Preparation must not be mistaken for
+an external-review result.
 
 Important active non-claims:
 
