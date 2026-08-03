@@ -1238,7 +1238,9 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
     )
     .await;
     assert!(control_preflight.starts_with("HTTP/1.1 204 No Content"));
-    assert!(control_preflight.contains("access-control-allow-origin: https://observatory.example.test"));
+    assert!(
+        control_preflight.contains("access-control-allow-origin: https://observatory.example.test")
+    );
     assert!(control_preflight.contains("access-control-allow-methods: POST"));
     assert!(control_preflight.contains("access-control-allow-headers: Content-Type, Authorization"));
     assert!(control_preflight.contains("cache-control: no-store"));
@@ -1256,7 +1258,9 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
     );
     let control_response = https_request(&client, address, control_request.as_bytes()).await;
     assert!(control_response.starts_with("HTTP/1.1 200 OK"));
-    assert!(control_response.contains("access-control-allow-origin: https://observatory.example.test"));
+    assert!(
+        control_response.contains("access-control-allow-origin: https://observatory.example.test")
+    );
     assert!(control_response.contains("cache-control: no-store"));
     assert!(control_response.contains(adl_runtime_kernel::CONTROL_RESPONSE_SCHEMA));
 
@@ -1267,7 +1271,8 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
     )
     .await;
     assert!(invalid_control_response.starts_with("HTTP/1.1 400 Bad Request"));
-    assert!(invalid_control_response.contains("access-control-allow-origin: https://observatory.example.test"));
+    assert!(invalid_control_response
+        .contains("access-control-allow-origin: https://observatory.example.test"));
     assert!(invalid_control_response.contains("adl.runtime.control_error.v1"));
 
     let response = https_request(

@@ -75,16 +75,29 @@ Made the HTML Observatory default to the configured Runtime v3 API base, keep re
     "purpose": "Prove Runtime v3 event checks now return a UI-normalizable event array, preserve signed /v1/control proof, and keep the integrated Observatory proof passing after the review fix.",
     "outcome": "passed",
     "evidence_ref": "commentary: both commands passed after flattening Runtime v3 event-check shape"
+  },
+  {
+    "command": [
+      "cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
+      "bash adl/tools/test_html_observatory.sh",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target cargo test --manifest-path adl-runtime-kernel/Cargo.toml observatory_cors_allows_only_configured_origins_and_reports_canonical_port --test control -- --nocapture",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target cargo test --manifest-path adl-runtime-kernel/Cargo.toml openapi_paths_match_current_runtime_v3_axum_route_inventory --test openapi_contract -- --nocapture",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target bash adl/tools/test_v0917_html_observatory_integrated_proof.sh"
+    ],
+    "purpose": "Prove the rustfmt-only repair resolves the failed GitHub adl-rust-fmt-clippy lane while preserving Runtime v3 Observatory browser contract, CORS/OpenAPI route parity, and integrated localhost proof.",
+    "outcome": "passed",
+    "evidence_ref": "commentary: all six commands passed locally after cargo fmt; generated localhost certificate proof byproducts were restored before review so the branch remained clean aside from intended source/lifecycle changes"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

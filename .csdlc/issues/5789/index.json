@@ -3,13 +3,13 @@
   "issue": 5789,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0274649686750df6cdc2aa61accd93b232732ab3ce4adbb5d37248345ada7e7d",
-  "phase": "published",
-  "generation": 10,
-  "digest": "cfd0cff521c371f4fe47d68884c18e4dd87e96c90a6b83f8313280b660a91948",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "3536a36cda121854fe403853859091acd1909d6fb734995e9aa57860a81f63b9",
   "claim": {
     "id": "claim-5789-observatory-full-functionality",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 10,
+    "generation": 12,
     "acquired_unix_seconds": 1785778104,
     "expires_unix_seconds": 1786382904,
     "heartbeat_unix_seconds": 1785778104,
@@ -43,42 +43,8 @@
     "purpose": "Make the HTML Observatory fully functional against Runtime v3, including live feed truth, controls, and governed operator-to-agent communication."
   },
   "review_assignment": null,
-  "review": {
-    "reviewer": "subagent:019fc8ca-fab4-7df3-b05e-72e4554ff7e0:Sartre",
-    "scope": [
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl/tools/test_html_observatory.sh",
-      "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
-      "adl/tools/validate_v0917_html_observatory.py",
-      "demos/html-observatory/README.md",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/runtime-v3.config.json",
-      "docs/api/runtime-v3/v1/openapi.json",
-      "docs/api/runtime-v3/v1/observatory.openapi.json"
-    ],
-    "reviewed_revision": "git-blake3:c060ef20927081c2547f58a845c6b2ba50c66504:520da3a5a57833130cbb63dcb640e10d974698303ec10c87b971517af75371e2",
-    "findings": [],
-    "residual_risks": [
-      "The Observatory now sends signed Runtime v3 control-command envelopes to /v1/control; this proves operator command transport, not a free-form natural-language chat session with a specific shepherd model unless the runtime agent/action configuration exposes that target.",
-      "The integrated localhost proof regenerates TLS certificate evidence files; they were restored after the passing run so the reviewed branch remained clean at the exact reviewed revision."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5789,
-    "pull_request": 5792,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5792",
-    "base": "main",
-    "head": "codex/5789-observatory-full-functionality",
-    "revision": "git-blake3:178412e12967948b373e63c58667630a14a23875:6253e7977029cf6702bca378fdb7200803c7958fd2928dcd5a50f3e663438a7b",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -92,34 +58,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b21f2b8faf6b57e2996a6c1cb88ef186be1d3ebab74208c89f92c7164c261f0d",
+      "values_digest": "46f002962c0af384aa8257ff3f0b45a6dc5f740b1e17096351dc5d51b3637edc",
       "rendered_digest": "3c6af59e40d58617dc080a68f10af7b97cd9eaba42cc3e735ae9c255455f1a7e",
       "ast_digest": "f1c2ad71a3a93304cca97666fd7459576f2d0ad93e13545aa33af55a64db41f0"
     },
     "stp": {
-      "values_digest": "43b895dc6d0801472253d72d2fdf5624e37e0df0facc3530e485c9fb980e873e",
+      "values_digest": "b0c997ae5f55352fe72f5b2eda231003df470d1bdc88d7cdfdc03334ed6517f9",
       "rendered_digest": "e1e16e3500d5449f64e5bfa9d1c59f1d26063998b59fb556ae06b1b212be7d2c",
       "ast_digest": "bb3022f749ddd44a47df43f8c6226d414d62b300dda687f4e0974e9ba2a8cb61"
     },
     "spp": {
-      "values_digest": "8e317f9ad65532c26b9f7dc8e656f32d534899866fa9c8adcd90b8ace47872c2",
+      "values_digest": "e1bf8d096b5ee2d8b71c3c556748c234c2541c8d294203fe89e8ad0af5043018",
       "rendered_digest": "9e2eac76c47ac9c92dc07664c202946dcfa79b82e083dbe7aaef2a483386d812",
       "ast_digest": "4448fce4b387310e116c0eb3018543392003147825ebfd15081bed5d3074c5ae"
     },
     "vpp": {
-      "values_digest": "6c130912e5eb5a5c4ceac128c3fe2557086fe648123447569ffd145a707fc378",
+      "values_digest": "6d69c029a6f6f3b25c9f8287ef313386e7e1583d15255c07672c37b0252d1ed8",
       "rendered_digest": "d85325f158f6dd3728d71986ecee8ab55216acda124fd0c733a56212d1d26ff7",
       "ast_digest": "31ae69b7fd4f84cf1622f339ef76b3dbccad35f0717778feb37df3e3ebf8a7dd"
     },
     "srp": {
-      "values_digest": "9fb36b8c9c97875b79970dff193b9ce835d2d3ca5cab9899f3fa53d83f90c7b1",
-      "rendered_digest": "32d26c9e6a025ab7d4618e255d9d3d3d320bfd6b9b2df077a6dce74de7d2812e",
-      "ast_digest": "7c4747d871ed925d49a51ec514b7dfb031db26c01fac8172222e41742f2bb377"
+      "values_digest": "a9ff0b61642f896c10093771285bba2ad821b1ffabb1bf49bbec0cc2c2b39d2b",
+      "rendered_digest": "005ec8f0bef4423ba89cb5b8161ce602d286b75896acd029d2885a04f909abf4",
+      "ast_digest": "73a9b475e568f3742a8b183dbedb04a9e8902dd3854b4c47673f502da9d9b655"
     },
     "sor": {
-      "values_digest": "63d858ece17d3702c7ca9479f3602bc90db074224a5e76926aef4af19b672ab2",
-      "rendered_digest": "84752a522b0086d060d9d780c7dd67eeba88c031bbc83131d69b5fc762d98dff",
-      "ast_digest": "28ea87b423feb60d2c8544968f16a4541753586e3a866be7282f94958001f5c5"
+      "values_digest": "4ded2ad4a7ae805193c7df3ebfb185624908dee250a5131d01641958c52431dd",
+      "rendered_digest": "8e44469b5b94d3a7e9ba4100f70b2c7830d1f18c21bdfe9d16ea5de9f7cba406",
+      "ast_digest": "d1c028eea2fce1f2c7aacd75876e47cb54b7df124b9c7e152c240e59b122bf74"
     }
   },
   "transitions": [
@@ -157,6 +123,13 @@
       "to": "published",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Recover published review after GitHub adl-rust-fmt-clippy found rustfmt-only formatting drift in adl-runtime-kernel/tests/control.rs."
     }
   ],
   "audit": [
@@ -257,6 +230,20 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Recover published review after GitHub adl-rust-fmt-clippy found rustfmt-only formatting drift in adl-runtime-kernel/tests/control.rs.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record post-publication CI fmt repair validation before exact re-review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings\",\"bash adl/tools/test_html_observatory.sh\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target cargo test --manifest-path adl-runtime-kernel/Cargo.toml observatory_cors_allows_only_configured_origins_and_reports_canonical_port --test control -- --nocapture\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target cargo test --manifest-path adl-runtime-kernel/Cargo.toml openapi_paths_match_current_runtime_v3_axum_route_inventory --test openapi_contract -- --nocapture\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target bash adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Prove the rustfmt-only repair resolves the failed GitHub adl-rust-fmt-clippy lane while preserving Runtime v3 Observatory browser contract, CORS/OpenAPI route parity, and integrated localhost proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"commentary: all six commands passed locally after cargo fmt; generated localhost certificate proof byproducts were restored before review so the branch remained clean aside from intended source/lifecycle changes\"}}"
     }
   ]
 }
