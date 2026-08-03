@@ -7,16 +7,72 @@
     "title": "[v0.91.8][csdlc-v2][closeout] Decouple safe cleanup and migrate legacy terminal receipts",
     "slug": "standalone-cleanup",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 2
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Added standalone safe C-SDLC v2 worktree cleanup plus read-only legacy terminal compatibility and v0.91.8 census validation without coupling cleanup to delivery truth.",
+      "actual_changes": [
+        "Added typed classify and non-forced remove operations bound to the exact registered issue worktree.",
+        "Made dirty, missing, relocated, primary, symlinked, identity-drifted, and concurrent cleanup fail closed without destructive fallback.",
+        "Added read-only optional-receipt compatibility indexing and v0.91.8 terminal census validation.",
+        "Registered and documented the new generated csdlc-clean owner binary."
+      ],
+      "artifacts": [
+        "csdlc-v2/src/cleanup.rs",
+        "csdlc-v2/src/bin/csdlc-clean.rs",
+        "csdlc-v2/tests/gate_cleanup.rs",
+        "csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md",
+        "docs/default_workflow.md"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--locked",
+            "--test",
+            "gate_cleanup"
+          ],
+          "purpose": "Prove exact clean removal, dirty and drift fail-closed behavior, concurrency, receipt independence, and 114-issue census parity.",
+          "outcome": "passed",
+          "evidence_ref": "cleanup-characterization.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--locked",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Prove warning-free code across every C-SDLC v2 target.",
+          "outcome": "passed",
+          "evidence_ref": "cleanup-quality.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--locked",
+            "--test",
+            "gate10a"
+          ],
+          "purpose": "Prove generated-binary inventory, installation, coexistence, and operator manifest invariants.",
+          "outcome": "passed",
+          "evidence_ref": "operator-inventory.log"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",
