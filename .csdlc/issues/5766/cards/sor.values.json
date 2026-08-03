@@ -7,9 +7,9 @@
     "title": "[v0.91.8][runtime][api] Reconcile CSM runtime advertised endpoints with mounted routes",
     "slug": "csm-runtime-endpoint-inventory",
     "version": "v0.91.8",
-    "generation": 10
+    "generation": 13
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -94,10 +94,10 @@
           "evidence_ref": "runtime-endpoint-diff-hygiene.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
