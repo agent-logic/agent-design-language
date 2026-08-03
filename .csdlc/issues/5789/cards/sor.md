@@ -93,11 +93,11 @@ Made the HTML Observatory default to the configured Runtime v3 API base, keep re
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
