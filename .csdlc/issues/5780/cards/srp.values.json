@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5780,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][closeout] Delete terminal reconciliation and receipt-authority machinery",
+    "slug": "delete-terminal-reconciliation",
+    "version": "v0.91.8",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/Cargo.toml\ncsdlc-v2/operator\ncsdlc-v2/src\ncsdlc-v2/tests\nAGENTS.md\ncsdlc-v2/AGENTS.md\ndocs/default_workflow.md\ndocs/tooling\n.csdlc/evidence/5780\n.csdlc/issues/5780",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any supported surface still write or reconcile a tracked terminal projection or receipt?",
+        "Does legacy receipt and phase deserialization remain read-only and outcome-compatible?",
+        "Did deletion accidentally weaken exact-head finish, status, or cleanup safety?",
+        "Are all active manifests, schemas, tests, and docs aligned without a hidden wrapper?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

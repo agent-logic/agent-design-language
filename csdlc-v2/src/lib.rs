@@ -64,15 +64,9 @@ pub use migration::{
     ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison,
 };
 pub use model::{
-    Claim, ClaimRecovery, CorruptHistoricalMergedRecoveryRequest,
-    CorruptTerminalReceiptReconciliationRequest, DesignReview,
-    HistoricalMergedReconciliationRequest, IssueRecord, LifecyclePhase, MigrationEvidence,
-    NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest,
-    RecordlessClosureKind, RecordlessTerminalRecoveryRequest, ReviewAssignment, ReviewEvidence,
-    ReviewFindingEvidence, TerminalDesignRepairRequest, TerminalDispositionRepairRequest,
-    TerminalEvidence, TerminalPlanStepRepairRequest, TerminalReceipt,
-    TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
-    TerminalSorValidationRepairRequest,
+    Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase, MigrationEvidence,
+    NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReviewAssignment, ReviewEvidence,
+    ReviewFindingEvidence, TerminalEvidence, TerminalReceipt,
 };
 pub use operator::{
     build_and_install_binaries, install_binaries, resolve_operator_generation, verify_coexistence,
@@ -80,22 +74,17 @@ pub use operator::{
 };
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
-    prepare_publication, prepare_ready_publication, prepare_ready_reconciliation, reconcile_action,
-    record_merged_publication, record_publication, record_ready_publication,
-    record_ready_reconciliation, validate_ready_reconciliation_state, validate_ready_remote,
-    MergedPublicationReconciliationRequest, PublicationAction, PublicationIntent,
-    PublicationRequest, ReadyPublicationReconciliationRequest, ReadyPublicationRequest,
-    RemotePullRequest,
+    prepare_publication, reconcile_action, record_publication, PublicationAction,
+    PublicationIntent, PublicationRequest, RemotePullRequest,
 };
 pub use pvf::{
     classify_schedule, classify_shepherd, execute, finalize, select, ExecutionRequest,
     FinalizeRequest, PvfManifest, ScheduleInput, ShepherdInput,
 };
 pub use readiness::{
-    classify_readiness, closeout_issue, reconcile_terminal_observation_head, record_readiness,
-    validate_terminal_observation, CheckConclusion, CheckObservation, CheckRequirement,
-    ConflictState, PostPublicationFinding, ReadinessReport, ReadinessRequest, RemoteReviewState,
-    TerminalDisposition, TerminalObservation,
+    classify_readiness, CheckConclusion, CheckObservation, CheckRequirement, ConflictState,
+    PostPublicationFinding, ReadinessReport, ReadinessRequest, RemoteReviewState,
+    TerminalDisposition,
 };
 pub use review::{
     assign_review, evaluate_publication_review, evaluate_publication_review_in_repo, record_review,
@@ -110,6 +99,5 @@ pub use soak::{
     SoakScenario,
 };
 pub use store::{
-    approve_design, edit_issue, ApproveDesignRequest, BootstrapRequest, EditRequest,
-    RepairIdentityRequest, Store,
+    approve_design, edit_issue, ApproveDesignRequest, BootstrapRequest, EditRequest, Store,
 };

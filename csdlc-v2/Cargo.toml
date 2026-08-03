@@ -71,10 +71,6 @@ name = "csdlc-finish"
 path = "src/bin/csdlc-finish.rs"
 
 [[bin]]
-name = "csdlc-closeout"
-path = "src/bin/csdlc-closeout.rs"
-
-[[bin]]
 name = "csdlc-clean"
 path = "src/bin/csdlc-clean.rs"
 

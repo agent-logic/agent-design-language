@@ -1,0 +1,183 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5780,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "221c77501fda97ff06555ed4d0df264c3898ad571378af269bf5de3291370881",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "60a136f6b9d4774189086cdbfddc83b734feb5e46ca6189f4c1ff5aeae5b8db7",
+  "claim": {
+    "id": "claim-5780-delete-terminal-authority",
+    "owner": "codex:5780-implementation",
+    "generation": 2,
+    "acquired_unix_seconds": 1785782633,
+    "expires_unix_seconds": 1786387433,
+    "heartbeat_unix_seconds": 1785782633,
+    "branch": "codex/5780-delete-terminal-reconciliation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5780",
+      ".csdlc/issues/5780",
+      ".csdlc/locks/5780.lock",
+      ".csdlc/prepared/issues/5780",
+      ".csdlc/publication/5780.intent.json",
+      "AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/Cargo.toml",
+      "csdlc-v2/README.md",
+      "csdlc-v2/operator/coexistence.json",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/skills/csdlc-v2-closeout/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/cleanup.rs",
+      "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/proof.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/readiness.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate6.rs",
+      "csdlc-v2/tests/gate7.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs",
+      "csdlc-v2/tests/gate7_terminal_design_repair_5487.rs",
+      "csdlc-v2/tests/gate7_terminal_sor_validation_repair_5613.rs",
+      "csdlc-v2/tests/gate9.rs",
+      "csdlc-v2/tests/gate_cleanup.rs",
+      "csdlc-v2/tests/gate_terminal_authority_deletion.rs",
+      "docs/default_workflow.md",
+      "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md",
+      "docs/tooling/OWNER_BINARY_INSTALLATION.md",
+      "docs/tooling/adl_pr_cycle_skill.md"
+    ],
+    "purpose": "Implement #5780 by deleting competing post-merge terminal mutation and receipt-authority machinery while preserving legacy read compatibility."
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5780/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5780/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5780-design-review",
+      "revision": "a97805f1a8bcb6d698c1bf1184efc8a11a503e56c4c89a2cdd90ff8340a2a533"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "91c9f93e0a1678932a249da38cfd3ccb01ff5c5ed7506f20a68f0554915c1da9",
+      "rendered_digest": "3597ee45221f8b1895ac5770ebaad03c429b0d360c8319bed711caab587fd380",
+      "ast_digest": "b7656adc3cf30e35afe0eea2ee2484db2a3dea3215b932d09a0df136a8840474"
+    },
+    "stp": {
+      "values_digest": "e611e6e298cdf03d62395d05d8edfc62f251fef15faf8e6e152e9288d229d504",
+      "rendered_digest": "087ca044f39ff1a5c40e835b26ee293e20f06c5074b719f05cab3f7498aa539a",
+      "ast_digest": "58c154523d574224efd00379ab3bb450c12d2a1819aaf2108b59f205cb2e0bed"
+    },
+    "spp": {
+      "values_digest": "65d77e7516f4f518c52ad08cf7f0f65c0458bccfedaabad37e505396120cd2b2",
+      "rendered_digest": "0b0607d69fbefcd2cdcce5791004bf68320ba9a10dda1f15624142c8da5f7eab",
+      "ast_digest": "16cfd973c3fc0f297d2e2bca1aa40805d8735982f5709df6cb761886630534b2"
+    },
+    "vpp": {
+      "values_digest": "be14cfd3dafba03541c9210ff5e9ef26e03ee7288ae533bba6307a2342bfadff",
+      "rendered_digest": "bd93fafa96e1547a8e1316a9a52af43f74aa72efeff58fac385ccb7cf4ee1605",
+      "ast_digest": "71428718d07250751ad3aa7bf8e969763ce8bb957645ad07d0fb03e317f0ff4a"
+    },
+    "srp": {
+      "values_digest": "538d18f114557c467ea9de19154a117aa9f11280c76e8f3af172d50470d42602",
+      "rendered_digest": "5600a98a517aa380162c7b769d0eab753225a0496d58f0f323285fec6e9fbbb0",
+      "ast_digest": "858d2eac94e68b4dea19a041978f69138b88d0fbccae623b5f41031fedb3d1e2"
+    },
+    "sor": {
+      "values_digest": "773d71f38746e5355948b70a7505d2507676d5768625b463932e9172a122dfe6",
+      "rendered_digest": "350c9d8d5a62f1dbad5a4276d00beea2a973a60c5c77f3eed1dc3de5b479e847",
+      "ast_digest": "a7836317a8d3af1ad2d4d07823990fe1defa1bc8244d70cd6aace9c22f2948d3"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5780-implementation",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5780-implementation",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5780-implementation",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5780-implementation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:5780-design-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5780-implementation",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:5780-implementation",
+      "reason": "The obsolete merge_ready and merged writers also live in csdlc-publish and its publication/store tests, so their exact source and proof surfaces are required for complete terminal-authority deletion.",
+      "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate6.rs\",\"csdlc-v2/tests/gate7.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 1,
+      "actor": "codex:5780-implementation",
+      "reason": "The csdlc-edit repair-identity subcommand is a terminal receipt-bound projection repair writer and must be removed with the other supported terminal repair surfaces.",
+      "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/bin/csdlc-edit.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:5780-implementation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 2,
+      "actor": "codex:5780-implementation",
+      "reason": "Compiler-guided deletion reached additional exact owner, operator guidance, and obsolete proof files required to remove the competing terminal authority without leaving stale active contracts.",
+      "operation": "{\"add_protected_paths\":[\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/proof.rs\",\"csdlc-v2/tests/gate7_terminal_design_repair_5487.rs\",\"csdlc-v2/tests/gate7_terminal_sor_validation_repair_5613.rs\",\"csdlc-v2/tests/gate9.rs\"],\"operation\":\"amend_claim_scope\"}"
+    }
+  ]
+}
