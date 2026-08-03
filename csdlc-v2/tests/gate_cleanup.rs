@@ -355,7 +355,7 @@ fn terminal_census_rejects_truncation_wrong_identity_and_set_drift() {
         .parent()
         .expect("repository root");
     let source = root.join(".csdlc/evidence/5748");
-    for mutation in ["truncate", "repository", "set"] {
+    for mutation in ["truncate", "repository", "set", "coordinated"] {
         let temp = tempfile::tempdir().expect("tempdir");
         let audit_path = temp.path().join("v0918-remote-terminal-audit.json");
         let universe_path = temp.path().join("v0918-closed-issue-universe.json");
@@ -374,6 +374,18 @@ fn terminal_census_rejects_truncation_wrong_identity_and_set_drift() {
             }
             "repository" => audit["repository"] = serde_json::json!("wrong/repository"),
             "set" => audit["issues"][0]["number"] = serde_json::json!(999_999),
+            "coordinated" => {
+                audit["issues"][0]["number"] = serde_json::json!(999_999);
+                let mut universe: serde_json::Value =
+                    serde_json::from_slice(&fs::read(&universe_path).expect("universe"))
+                        .expect("universe JSON");
+                universe["issues"][0]["number"] = serde_json::json!(999_999);
+                fs::write(
+                    &universe_path,
+                    serde_json::to_vec_pretty(&universe).expect("JSON"),
+                )
+                .expect("write universe");
+            }
             _ => unreachable!(),
         }
         fs::write(

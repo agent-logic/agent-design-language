@@ -368,10 +368,8 @@ pub fn validate_terminal_census(root: &Path, audit_path: &Path) -> Result<Termin
         &audit.label,
         "adl.v0918.remote_terminal_audit.v1",
     )?;
-    let universe_path = audit_path
-        .parent()
-        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "audit path has no parent"))?
-        .join("v0918-closed-issue-universe.json");
+    let universe_path =
+        fs::canonicalize(root)?.join(".csdlc/evidence/5748/v0918-closed-issue-universe.json");
     require_real_file(&universe_path, "closed issue universe packet")?;
     let universe: UniversePacket = serde_json::from_slice(&fs::read(universe_path)?)?;
     validate_census_identity(
