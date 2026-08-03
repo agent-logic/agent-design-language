@@ -416,6 +416,21 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
     assert!(envelope_releases_claim(temp.path(), &merged, &record, 100)
         .expect("strict metadata lineage releases claim"));
 
+    git(&["checkout", "-qb", "rename-drift", &current]);
+    std::fs::create_dir_all(temp.path().join(".csdlc/moved")).unwrap();
+    git(&["mv", "src/lib.rs", ".csdlc/moved/lib.rs"]);
+    git(&["commit", "-qm", "move substantive source into metadata"]);
+    let rename_head = git(&["rev-parse", "HEAD"]);
+    let mut rename_request = request.clone();
+    rename_request.expected_head_sha = Some(rename_head);
+    let rename_error = validate_publication_head_in_repo(temp.path(), &record, &rename_request)
+        .expect_err("renamed substantive source must not become metadata-only drift");
+    assert_eq!(
+        rename_error.code,
+        csdlc_v2::ErrorCode::ReconciliationRequired
+    );
+    git(&["checkout", "-q", "codex/5778"]);
+
     let mut exact = record.clone();
     exact.publication.as_mut().unwrap().revision = csdlc_v2::git::clean_commit_revision(&current);
     std::fs::write(temp.path().join("src/lib.rs"), "dirty\n").unwrap();

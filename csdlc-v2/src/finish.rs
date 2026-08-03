@@ -241,7 +241,13 @@ fn validate_publication_head_lineage_in_repo(
     }
     let changed = git::run(
         root,
-        &["diff", "--name-only", published_head, expected_head],
+        &[
+            "diff",
+            "--name-only",
+            "--no-renames",
+            published_head,
+            expected_head,
+        ],
     )?;
     if changed
         .stdout
