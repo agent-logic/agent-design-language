@@ -6,18 +6,19 @@ It adapts the Magic UI Pro AI Agent Template direction, with the Magic UI
 Devtool Template used for denser dashboard composition cues, into a reviewable
 CSM polis panopticon without importing account credentials or private template
 metadata into the repository. The first-class mode is a compact control-room
-dashboard over `/status`, `/health`, `/ready`, `/metrics`, and `/events`, with
-runtime KPIs, agent graph preview, event tail, CSM API status, CloudWatch
-linkage, governance proof, and operator communication status visible in the
-first dashboard viewport. It auto-refreshes the retained publishable CSM API
-response artifacts from #4976 as a runtime mirror, and upgrades to live loopback
-polling when an operator supplies the currently running CSM API base. The
-retained runtime packet remains the fallback proof surface if the CSM API mirror
-cannot load. The page can also consume a configured Runtime v3 Observatory read
-feed when the operator supplies the runtime API base from the Runtime v3 init
-file. It also consumes the retained CSM runtime Observatory packet and operator
-report from the v0.91.7 Soak 2 evidence root, plus the current CSM runtime
-administration and AWS linkage evidence.
+dashboard over the Runtime v3 `/v1/observatory` and `/v1/ready` browser
+surfaces, with retained CSM `/status`, `/health`, `/ready`, `/metrics`, and
+`/events` proof available as fallback. Runtime KPIs, agent graph preview, event
+tail, CSM API status, CloudWatch linkage, governance proof, and operator
+communication status remain visible in the first dashboard viewport. It
+auto-refreshes the retained publishable CSM API response artifacts from #4976 as
+a runtime mirror, and upgrades to live loopback polling when an operator
+supplies the currently running CSM API base. The retained runtime packet remains
+the fallback proof surface if the Runtime v3 feed cannot load. The page reads
+the configured Runtime v3 Observatory API base and endpoints from
+`runtime-v3.config.json`. It also consumes the retained CSM runtime Observatory
+packet and operator report from the v0.91.7 Soak 2 evidence root, plus the
+current CSM runtime administration and AWS linkage evidence.
 
 The primary desktop dashboard is fixed to the viewport, while narrower browser
 windows use page scrolling so controls are never clipped. Event streams and
@@ -44,22 +45,25 @@ importing external template assets.
 
 The CSM polis panopticon presents an auto-refreshing agent map, agent roster,
 health, readiness, metrics, and operator event stream from the retained CSM API
-mirror by default. When a loopback API base is supplied, it polls the running
-CSM API directly. For Runtime v3, the explicit opt-in path is
-`?runtime=v3&runtimeApiBase=<runtime-api-base>&live=1`, where
-`<runtime-api-base>` must match the configured Runtime v3 control API host,
-port, and Observatory allowed-origin policy. That path consumes the
-runtime-owned `/v1/observatory` read feed using bearer authentication. Runtime
-v3 control mutation remains
-signed-command-only through `/v1/control`; the browser has no shutdown,
-mutation, CloudWatch, SNS, or state authority. The CSM API panel intentionally
+mirror fallback when Runtime v3 is unavailable. When a loopback API base is
+supplied with `runtime=v2` or `csmApiBase`, it polls the running CSM API
+directly. For Runtime v3, the default path reads
+`demos/html-observatory/runtime-v3.config.json`; query parameters such as
+`?runtime=v3&runtimeApiBase=<runtime-api-base>&live=1` remain a troubleshooting
+override. The runtime API base must match the configured Runtime v3 control API
+host, port, TLS posture, and Observatory allowed-origin policy. The Runtime v3
+path consumes the runtime-owned `/v1/observatory` read feed and `/v1/ready`
+without bearer credentials. Runtime v3 control mutation remains
+signed-command-only through `/v1/control`; the browser has no unsigned
+shutdown, mutation, CloudWatch, SNS, or state authority. The CSM API panel intentionally
 presents the standalone `csm` runtime ownership boundary from #4929 when the
 retained/default mirror is selected. The CloudWatch panel presents the retained
 live heartbeat proof from WP-08 #4684. The AWS linkage lane includes #4684
 through #4688 so closed heartbeat, ACIP-SNS, and SSM lanes remain distinct from
 open full-bridge and S3 archive work. The communication rail can prepare an
 ACIP-shaped operator message envelope, mirror the retained #4685 ACIP-SNS proof,
-and check a live loopback CSM `/events` endpoint when an operator supplies the
+check the Runtime v3 event tail through `/v1/observatory` by default, and check
+a live loopback CSM `/events` endpoint when an operator supplies a Runtime v2
 API base. Live SNS/SQS mutation remains runtime/tool-owned and is not performed
 by the browser surface.
 
@@ -93,8 +97,8 @@ adl/target/debug/csm api serve \
 http://localhost:8765/demos/html-observatory/?csmApiBase=http://localhost:24645&live=1
 ```
 
-For the Runtime v3 opt-in path, start the Runtime v3 kernel control API with
-the repo default init file:
+For the Runtime v3 path, start the Runtime v3 kernel control API with the repo
+default init file:
 
 ```sh
 ADL_RUNTIME_OBSERVATORY_TOKEN="<operator-local-token>" \
@@ -119,7 +123,7 @@ GET https://localhost:20997/v1/metrics
 GET https://localhost:20997/v1/observatory
 ```
 
-The HTML Observatory reads its Runtime v3 browser endpoints from
+The HTML Observatory reads its Runtime v3 browser API base and endpoints from
 `demos/html-observatory/runtime-v3.config.json`. Keep that file on the same
 static host as `index.html`; if it cannot be loaded, the browser falls back to
 the versioned defaults listed above.
@@ -131,9 +135,12 @@ freshness is not stale; it returns `503` with `degraded_reasons` such as
 `weather_stale` when the runtime is reachable but should not be reported as
 fully ready.
 
-Operator login is required only before the browser sends a signed control
-command or ACIP work. To enable writes for the current browser tab, set the same
-token without putting it in the URL or repository, then reconnect:
+Operator login is required only before the browser sends WSS-authenticated ACIP
+work. Signed Runtime v3 control envelopes can be submitted through `/v1/control`
+without putting a bearer token in the browser URL; Runtime v3 still verifies the
+signature, principal, capability, runtime identity, and command policy before
+execution. To enable WSS writes for the current browser tab, set the same token
+without putting it in the URL or repository, then reconnect:
 
 ```js
 sessionStorage.setItem("adl.runtimeV3.observatoryToken", "<operator-local-token>");
@@ -144,14 +151,15 @@ Serve this Observatory from the allowed HTTPS origin
 the static host and Runtime v3 API, then open:
 
 ```text
-https://localhost:8765/demos/html-observatory/?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
+https://localhost:8765/demos/html-observatory/
 ```
 
-The token elevates only that WSS connection for writes; signature verification
-and canonical ingress policy still apply. The shared localhost certificate must
-be trusted by the browser for both `https://localhost:8765` and
-`https://localhost:20997`. The kernel terminates its own TLS connection; a
-local API Gateway or sidecar is not required.
+The token elevates only that WSS connection for writes; `/v1/control` remains a
+signed-command endpoint and signature verification plus canonical ingress
+policy still apply. The shared localhost certificate must be trusted by the
+browser for both `https://localhost:8765` and `https://localhost:20997`. The
+kernel terminates its own TLS connection; a local API Gateway or sidecar is not
+required.
 
 One COTS way to serve the Observatory over local HTTPS is Caddy:
 
@@ -174,18 +182,15 @@ WSS/auth traffic to the trusted localhost API base. Native clients may still
 read the runtime-owned Observatory feed without an Origin header when the
 operator's deployment policy allows it.
 
-```text
-https://localhost:8765/demos/html-observatory/?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
-```
-
 The Runtime v3 browser path consumes the public runtime-owned read feed at
 `/v1/observatory`, the watcher readiness surface at `/v1/ready`, and the public
-read stream at `/v1/observatory/ws`. The Operator Channel can log in for writes
-on that socket and submit a complete pre-signed `adl.runtime.control_command.v1`
-envelope. The browser never creates or stores the signing key; Runtime v3
-verifies the signature, principal, capability, runtime identity, and command
-policy before execution. Logging out reconnects the public read stream without
-write authority.
+read stream at `/v1/observatory/ws`. The Operator Channel can submit a complete
+pre-signed `adl.runtime.control_command.v1` envelope to `/v1/control`, and can
+log in for WSS writes when authenticated socket control is available. The
+browser never creates or stores the signing key; Runtime v3 verifies the
+signature, principal, capability, runtime identity, and command policy before
+execution. Logging out reconnects the public read stream without write
+authority.
 
 The browser-served dashboard only receives CORS permission when its origin is
 listed in `[observatory].allowed_origins`. If the Runtime v3 API is reachable by
@@ -211,11 +216,11 @@ rendering-contract coverage. This proves that the HTML Observatory can render an
 panopticon over retained publishable runtime API responses, and can upgrade to a
 live loopback CSM panopticon when the running CSM API base is supplied. It can
 also consume the public Runtime v3 `/v1/observatory` read feed when
-Runtime v3 is selected explicitly with a configured runtime API base. It renders the retained
+Runtime v3 is available at its configured local API base. It renders the retained
 bounded runtime capture through a polished investor-facing operator UI, while exposing
 CSM API, CSM service, CloudWatch heartbeat, ACIP-SNS projection proof, Runtime
-v3 opt-in status, and WP-08 linkage status. Its Operator Channel can submit
-pre-signed commands after write login, while Runtime v3 retains signature and
+v3 status, and WP-08 linkage status. Its Operator Channel can submit
+pre-signed commands to `/v1/control`, while Runtime v3 retains signature and
 policy authority. It does not claim browser-owned AWS publish authority, Unity
-completion, default Runtime v3 cutover, Runtime v2 decommission, full AWS signal
+completion, Runtime v2 decommission, full AWS signal
 bridge completion, S3 ObsMem archive completion, or v0.92 runtime completion.

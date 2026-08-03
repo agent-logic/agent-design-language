@@ -77,9 +77,11 @@ const OBSERVATORY_VERSION = "Runtime v3";
 const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
 const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
 const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
+  api_base: "https://localhost:20997",
   observatory_endpoint: "/v1/observatory",
   readiness_endpoint: "/v1/ready",
   observatory_websocket_endpoint: "/v1/observatory/ws",
+  signed_command_endpoint: "/v1/control",
   observatory_docs_endpoint: "/v1/observatory/docs/"
 });
 const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2";
@@ -92,7 +94,9 @@ function normalizeRuntimeV3Endpoint(value, fallback) {
 }
 
 function applyRuntimeV3Config(config = {}) {
+  const apiBase = normalizeRuntimeV3ConfigApiBase(config.api_base || config.default_api_base);
   runtimeV3Config = {
+    api_base: apiBase || RUNTIME_V3_DEFAULT_CONFIG.api_base,
     observatory_endpoint: normalizeRuntimeV3Endpoint(
       config.observatory_endpoint,
       RUNTIME_V3_DEFAULT_CONFIG.observatory_endpoint
@@ -105,12 +109,24 @@ function applyRuntimeV3Config(config = {}) {
       config.observatory_websocket_endpoint,
       RUNTIME_V3_DEFAULT_CONFIG.observatory_websocket_endpoint
     ),
+    signed_command_endpoint: normalizeRuntimeV3Endpoint(
+      config.signed_command_endpoint,
+      RUNTIME_V3_DEFAULT_CONFIG.signed_command_endpoint
+    ),
     observatory_docs_endpoint: normalizeRuntimeV3Endpoint(
       config.observatory_docs_endpoint,
       RUNTIME_V3_DEFAULT_CONFIG.observatory_docs_endpoint
     )
   };
   return runtimeV3Config;
+}
+
+function normalizeRuntimeV3ConfigApiBase(value) {
+  try {
+    return value ? normalizeTrustedRuntimeV3ApiBase(value) : "";
+  } catch (_error) {
+    return "";
+  }
 }
 
 function getRuntimeV3Config() {
@@ -420,7 +436,7 @@ const DASHBOARD_FOCUS = {
     target: "#csm-api",
     focusTarget: "#hero-api-list",
     detail: "Runtime state is publicly readable; login and a trusted signature are required for control writes.",
-    facts: ["/health, /metrics, /observatory", "Signed /v1/control commands", "Authenticated full-duplex WSS"]
+    facts: ["/v1/health, /v1/metrics, /v1/observatory", "Signed /v1/control commands", "Authenticated full-duplex WSS"]
   },
   cloudwatch: {
     kicker: "AWS",
@@ -577,6 +593,9 @@ function isLoopbackApiBase(value) {
 function getQueryApiBase() {
   const params = new URLSearchParams(window.location.search);
   const candidate = params.get("runtimeApiBase") || params.get("csmApiBase") || params.get("apiBase") || "";
+  if (requestedRuntimeSelection() === "v3" && !candidate) {
+    return getRuntimeV3Config().api_base;
+  }
   const normalized = normalizeApiBase(candidate);
   if (requestedRuntimeSelection() === "v3") {
     return isRuntimeV3ApiBase(normalized) ? normalizeTrustedRuntimeV3ApiBase(normalized) : "";
@@ -586,7 +605,14 @@ function getQueryApiBase() {
 
 function requestedRuntimeSelection() {
   const params = new URLSearchParams(window.location.search);
-  return String(params.get("runtime") || params.get("runtimeSelection") || "v2").toLowerCase();
+  const explicit = params.get("runtime") || params.get("runtimeSelection");
+  if (explicit) {
+    return String(explicit).toLowerCase();
+  }
+  if (params.get("csmApiBase")) {
+    return "v2";
+  }
+  return "v3";
 }
 
 function isRuntimeV3ApiBase(value) {
@@ -624,7 +650,17 @@ function shouldAutoConnectLive() {
 async function checkEventsEndpoint(apiBase) {
   const base = normalizeApiBase(apiBase);
   if (!base) {
-    throw new Error("Enter a loopback CSM API base first.");
+    throw new Error("Enter a Runtime v3 or loopback CSM API base first.");
+  }
+  if (requestedRuntimeSelection() === "v3") {
+    if (!isRuntimeV3ApiBase(base)) {
+      throw new Error("Runtime v3 event checks require the trusted HTTPS localhost:20997 API base.");
+    }
+    const snapshot = await fetchRuntimeV3ObservatorySnapshot(base);
+    return {
+      schema: "adl.html_observatory.runtime_v3_event_check.v1",
+      events: normalizeEventEntries(snapshot.events)
+    };
   }
   if (!isLoopbackApiBase(base)) {
     throw new Error("Only loopback CSM API bases are allowed.");
@@ -700,6 +736,28 @@ async function fetchRuntimeV3Readiness(base) {
     throw new Error(`${endpoint} returned ${response.status}`);
   }
   return response.json();
+}
+
+async function submitRuntimeV3SignedControlCommand(apiBase, command) {
+  const base = normalizeTrustedRuntimeV3ApiBase(apiBase);
+  if (!command || command.schema !== "adl.runtime.control_command.v1") {
+    throw new Error("Expected an adl.runtime.control_command.v1 signed envelope.");
+  }
+  const endpoint = getRuntimeV3Config().signed_command_endpoint;
+  const response = await fetch(`${base}${endpoint}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(command)
+  });
+  const payload = await response.json().catch(() => ({
+    schema: "adl.runtime.control_error.v1",
+    code: "invalid_response"
+  }));
+  if (!response.ok) {
+    const code = payload?.code || `HTTP ${response.status}`;
+    throw new Error(`/v1/control rejected the signed command: ${code}`);
+  }
+  return payload;
 }
 
 function runtimeV3SnapshotFromFeed(feed, readiness = null) {
@@ -1526,7 +1584,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       operatorAuthStatus.dataset.state = enabled ? "passed" : "open";
     }
     if (sendSignedCommand) {
-      sendSignedCommand.disabled = !enabled;
+      const canPostSignedCommand = requestedRuntimeSelection() === "v3" && isRuntimeV3ApiBase(readApiBase() || getRuntimeV3Config().api_base);
+      sendSignedCommand.disabled = !enabled && !canPostSignedCommand;
     }
     if (operatorControlResult && detail) {
       operatorControlResult.textContent = detail;
@@ -1598,6 +1657,31 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       return;
     }
     lastLiveError = error instanceof Error ? error.message : "unknown live polling error";
+    if (requestedRuntimeSelection() === "v3") {
+      const base = readApiBase() || getRuntimeV3Config().api_base;
+      try {
+        const snapshot = await fetchRuntimeSnapshot(base);
+        if (!isCurrentLiveGeneration(requestGeneration)) {
+          return;
+        }
+        const mergedSnapshot = {
+          ...snapshot,
+          errors: {
+            ...(snapshot.errors || {}),
+            websocket: lastLiveError
+          }
+        };
+        renderPanopticon(mergedSnapshot, packet);
+        setText("live-status", "live read / stream unavailable");
+        setText("statusbar-websocket", "disconnected");
+        setLiveConnectionState("live-read");
+        setRuntimeTestStatus("live read / stream unavailable", `Runtime v3 GET feed is active; WebSocket stream not proved: ${lastLiveError}`);
+        setWriteAccess(false, "signed post available", "Paste a signed Runtime v3 command and send it through /v1/control, or log in when WSS is available.");
+        return;
+      } catch (_refreshError) {
+        // Fall through to retained evidence only when the Runtime v3 GET feed is also unavailable.
+      }
+    }
     await refreshRetained({
       live: lastLiveError
     }, requestGeneration);
@@ -1617,7 +1701,12 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
     mirrorApiBase(base);
     setText("live-status", "polling loopback");
-    setRuntimeTestStatus("polling loopback", `Checking ${base}/status, /health, /ready, /metrics, and /events.`);
+    setRuntimeTestStatus(
+      "polling loopback",
+      requestedRuntimeSelection() === "v3"
+        ? `Checking ${base}${getRuntimeV3Config().observatory_endpoint} and ${getRuntimeV3Config().readiness_endpoint}.`
+        : `Checking ${base}/status, /health, /ready, /metrics, and /events.`
+    );
     try {
       const snapshot = await fetchRuntimeSnapshot(base);
       if (liveStoppedByOperator || !isCurrentLiveGeneration(requestGeneration)) {
@@ -1637,6 +1726,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       setText("live-status", status);
       const runtimeKind = snapshot.runtimeSelection === "runtime_v3_explicit_opt_in" ? "Runtime v3 observatory feed" : "loopback CSM server";
       setRuntimeTestStatus(status, Object.keys(snapshot.errors || {}).length ? "Runtime reached, but one or more endpoints failed." : `Runtime API endpoints responded from the ${runtimeKind}.`);
+      setWriteAccess(false, "signed post available", "Paste a signed Runtime v3 command and send it through /v1/control, or log in when WSS is available.");
     } catch (error) {
       if (liveStoppedByOperator || !isCurrentLiveGeneration(requestGeneration)) {
         return;
@@ -1812,14 +1902,34 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     connectLive();
   });
   sendSignedCommand?.addEventListener("click", () => {
-    if (!liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
-      setWriteAccess(false, "connection required", "Connect to the Runtime v3 Observatory before sending a command.");
-      return;
-    }
+    const base = readApiBase() || getRuntimeV3Config().api_base;
     try {
       const command = JSON.parse(signedControlCommand?.value || "");
       if (command.schema !== "adl.runtime.control_command.v1") {
         throw new Error("Expected an adl.runtime.control_command.v1 signed envelope.");
+      }
+      if (requestedRuntimeSelection() === "v3") {
+        if (operatorControlResult) {
+          operatorControlResult.textContent = "Submitting signed command through /v1/control...";
+        }
+        submitRuntimeV3SignedControlCommand(base, command)
+          .then((response) => {
+            if (operatorControlResult) {
+              operatorControlResult.textContent = JSON.stringify(response, null, 2);
+            }
+            setCommunicationStatus("signed command sent");
+          })
+          .catch((error) => {
+            if (operatorControlResult) {
+              operatorControlResult.textContent = error instanceof Error ? error.message : "Signed command failed.";
+            }
+            setCommunicationStatus("signed command rejected");
+          });
+        return;
+      }
+      if (!liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
+        setWriteAccess(false, "connection required", "Connect to the Runtime v3 Observatory before sending a command.");
+        return;
       }
       liveSocket.send(JSON.stringify(command));
       if (operatorControlResult) {
@@ -1928,8 +2038,10 @@ globalThis.AdlHtmlObservatory = {
   normalizeApiBase,
   isLoopbackApiBase,
   getQueryApiBase,
+  checkEventsEndpoint,
   fetchRuntimeSnapshot,
   fetchRuntimeV3ObservatorySnapshot,
+  submitRuntimeV3SignedControlCommand,
   runtimeV3SnapshotFromFeed,
   connectRuntimeV3ObservatoryWebSocket,
   authenticateRuntimeV3ObservatorySocket,

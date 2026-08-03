@@ -243,7 +243,8 @@ fn real_kernel_control_routes() -> BTreeSet<(String, String)> {
                 routes.insert(("get".to_owned(), route));
             }
             "/v1/control" => {
-                routes.insert(("post".to_owned(), route));
+                routes.insert(("post".to_owned(), route.clone()));
+                routes.insert(("options".to_owned(), route));
             }
             other => panic!("unexpected public Runtime v3 route literal {other}"),
         }

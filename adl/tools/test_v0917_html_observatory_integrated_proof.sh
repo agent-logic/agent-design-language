@@ -21,7 +21,7 @@ CSM_HEALTH="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/csm_liveness_4976
 CSM_READY="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/ready.json"
 CSM_METRICS="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/metrics.json"
 CSM_EVENTS="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/events.json"
-ISSUE_EVIDENCE_DIR="${ROOT_DIR}/.csdlc/evidence/5757"
+ISSUE_EVIDENCE_DIR="${ROOT_DIR}/.csdlc/evidence/5789"
 
 prove_shared_localhost_certificate() {
   local proof_root="${ISSUE_EVIDENCE_DIR}/shared-localhost-certificate"
@@ -31,6 +31,8 @@ prove_shared_localhost_certificate() {
   local runtime_log="${proof_root}/runtime-20997.log"
   local static_cert="${proof_root}/observatory-8765.pem"
   local runtime_cert="${proof_root}/runtime-20997.pem"
+  local static_port="${ADL_HTML_OBSERVATORY_TLS_PROOF_STATIC_PORT:-18765}"
+  local runtime_port="${ADL_HTML_OBSERVATORY_TLS_PROOF_RUNTIME_PORT:-30997}"
   local static_pid=""
   local runtime_pid=""
   mkdir -p "${proof_root}"
@@ -50,38 +52,39 @@ prove_shared_localhost_certificate() {
   }
   trap cleanup_shared_tls RETURN
 
-  openssl s_server -quiet -www -accept 8765 -cert "${cert}" -key "${key}" >"${static_log}" 2>&1 &
+  openssl s_server -quiet -www -accept "${static_port}" -cert "${cert}" -key "${key}" >"${static_log}" 2>&1 &
   static_pid=$!
-  openssl s_server -quiet -www -accept 20997 -cert "${cert}" -key "${key}" >"${runtime_log}" 2>&1 &
+  openssl s_server -quiet -www -accept "${runtime_port}" -cert "${cert}" -key "${key}" >"${runtime_log}" 2>&1 &
   runtime_pid=$!
   sleep 1
   kill -0 "${static_pid}" >/dev/null 2>&1 || {
-    echo "static Observatory TLS listener on 8765 did not start" >&2
+    echo "static Observatory TLS proof listener on ${static_port} did not start" >&2
     cat "${static_log}" >&2 || true
     return 1
   }
   kill -0 "${runtime_pid}" >/dev/null 2>&1 || {
-    echo "Runtime API TLS listener on 20997 did not start" >&2
+    echo "Runtime API TLS proof listener on ${runtime_port} did not start" >&2
     cat "${runtime_log}" >&2 || true
     return 1
   }
   rm -f "${key}"
 
-  printf 'Q\n' | openssl s_client -connect localhost:8765 -servername localhost -showcerts 2>/dev/null \
+  printf 'Q\n' | openssl s_client -connect "localhost:${static_port}" -servername localhost -showcerts 2>/dev/null \
     | openssl x509 -out "${static_cert}"
-  printf 'Q\n' | openssl s_client -connect localhost:20997 -servername localhost -showcerts 2>/dev/null \
+  printf 'Q\n' | openssl s_client -connect "localhost:${runtime_port}" -servername localhost -showcerts 2>/dev/null \
     | openssl x509 -out "${runtime_cert}"
   local static_fingerprint
   local runtime_fingerprint
   static_fingerprint="$(openssl x509 -in "${static_cert}" -noout -sha256 -fingerprint)"
   runtime_fingerprint="$(openssl x509 -in "${runtime_cert}" -noout -sha256 -fingerprint)"
   if [[ "${static_fingerprint}" != "${runtime_fingerprint}" ]]; then
-    echo "localhost certificate fingerprints differ between 8765 and 20997" >&2
-    echo "8765: ${static_fingerprint}" >&2
-    echo "20997: ${runtime_fingerprint}" >&2
+    echo "localhost certificate fingerprints differ between proof ports ${static_port} and ${runtime_port}" >&2
+    echo "${static_port}: ${static_fingerprint}" >&2
+    echo "${runtime_port}: ${runtime_fingerprint}" >&2
     return 1
   fi
-  printf 'shared_localhost_certificate=pass port_8765=%s port_20997=%s\n' \
+  printf 'shared_localhost_certificate=pass configured_static_port=8765 configured_runtime_port=20997 proof_static_port=%s proof_runtime_port=%s static_fingerprint=%s runtime_fingerprint=%s\n' \
+    "${static_port}" "${runtime_port}" \
     "${static_fingerprint}" "${runtime_fingerprint}" >"${proof_root}/fingerprints.log"
 }
 

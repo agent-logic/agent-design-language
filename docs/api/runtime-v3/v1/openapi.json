@@ -185,7 +185,7 @@
           "control"
         ],
         "summary": "Submit a signed Runtime v3 control command",
-        "description": "Executes a signed Ed25519 control command against the current runtime instance. The action may read a snapshot, submit canonical work through live ingress, or request shutdown according to the key capability set.",
+        "description": "Executes a signed Ed25519 control command against the current runtime instance. The action may read a snapshot, submit canonical work through live ingress, or request shutdown according to the key capability set. Browser callers receive CORS headers only when their Origin is listed in the Runtime v3 Observatory allowed-origin policy.",
         "security": [
           {
             "runtimeSignedCommand": []
@@ -246,6 +246,23 @@
           },
           "503": {
             "$ref": "#/components/responses/TemporarilyUnavailable"
+          }
+        }
+      },
+      "options": {
+        "operationId": "runtimeControlCorsPreflight",
+        "tags": [
+          "control"
+        ],
+        "summary": "Preflight Runtime v3 signed control commands from the HTML Observatory",
+        "description": "Returns CORS preflight headers for configured Observatory origins before browser POSTs to /v1/control.",
+        "security": [],
+        "responses": {
+          "204": {
+            "description": "Origin and requested method are allowed for signed browser control commands."
+          },
+          "403": {
+            "description": "Origin is not present in configured observatory.allowed_origins."
           }
         }
       }
