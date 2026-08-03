@@ -10,8 +10,8 @@ Baseline: `a5a16509af05af441369e78eeacfd74017bcf63b`.
 | Source binaries | 23 | 21 | 2 | 8.70% |
 
 Across every changed tracked file, including lifecycle cards and proof logs,
-the implementation adds 4,674 lines and deletes 18,751, for a net deletion of
-14,077 lines.
+the implementation adds 4,675 lines and deletes 18,751, for a net deletion of
+14,076 lines.
 
 The removed surface includes the standalone closeout and merge binaries, the
 closeout skill, terminal
