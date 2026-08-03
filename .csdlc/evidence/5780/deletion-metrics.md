@@ -1,6 +1,7 @@
 # Issue 5780 deletion metrics
 
 Baseline: `a5a16509af05af441369e78eeacfd74017bcf63b`.
+Measurement revision: `ce0994da07d2cdf349c658b1f8dee235814e5905`.
 
 | Surface | Before | After | Net deleted | Reduction |
 | --- | ---: | ---: | ---: | ---: |
@@ -9,7 +10,8 @@ Baseline: `a5a16509af05af441369e78eeacfd74017bcf63b`.
 | Combined Rust | 43,814 | 27,470 | 16,344 | 37.30% |
 | Source binaries | 23 | 21 | 2 | 8.70% |
 
-Across every changed tracked file, including lifecycle cards and proof logs,
+At the independently certified measurement revision, across every changed
+tracked file, including lifecycle cards and proof logs,
 the implementation adds 4,675 lines and deletes 18,751, for a net deletion of
 14,076 lines.
 

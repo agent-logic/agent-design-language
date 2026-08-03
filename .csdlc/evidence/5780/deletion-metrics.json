@@ -2,6 +2,7 @@
   "schema": "csdlc.deletion_metrics.v1",
   "issue": 5780,
   "baseline_revision": "a5a16509af05af441369e78eeacfd74017bcf63b",
+  "measurement_revision": "ce0994da07d2cdf349c658b1f8dee235814e5905",
   "scope": "csdlc-v2",
   "metrics": {
     "production_rust_loc": {
@@ -44,6 +45,6 @@
     "production_rust_loc": "find csdlc-v2/src -name '*.rs' -type f -print0 | xargs -0 wc -l",
     "test_rust_loc": "find csdlc-v2/tests -name '*.rs' -type f -print0 | xargs -0 wc -l",
     "source_binaries": "find csdlc-v2/src/bin -name '*.rs' -type f | wc -l",
-    "whole_change_lines": "git diff --numstat"
+    "whole_change_lines": "git diff --numstat baseline_revision..measurement_revision"
   }
 }
