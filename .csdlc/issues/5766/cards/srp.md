@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -35,13 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The exact-head review did not rerun Cargo tests; it reviewed source and retained typed finalize evidence.
-- The two Cargo validation logs may include local build paths, so their PVF evidence policy intentionally does not claim relative-only log content.
+- The worktree contains unrelated untracked .csdlc/evidence/5344/work/ content, left untouched and outside #5766 scope.
+- The new router test constructs the Axum router but does not drive HTTP requests through it; direct handler tests cover health and metrics, while existing WSS tests cover websocket behavior.
 
 ## Review Result
 
-Revision: Some("git-blake3:5495193ee747e31a8dc15179f5013da17dc08d47:0be84754ef00184e650dc66b1304a43a5be0d2f75f80210d3289a03f1f008c7c")
+Revision: Some("git-blake3:75a78b883058a7251a1302b43d51cf60ad5ebce3:a7a81cf04e2213d8a4650641bd750effe96675b9432f25f75656d49e93577aef")
 
-Reviewer: Some("subagent:019fc928-dc3a-7b11-a3b3-a9627a93d0b6")
+Reviewer: Some("subagent:019fc960-976d-7500-9492-86cc9b2ca187")
 
 Result: pass
