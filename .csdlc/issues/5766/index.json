@@ -3,13 +3,13 @@
   "issue": 5766,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "15899e8716ca9d8639ebd543cef4be35c93a1e691b03a7bc685f608896a42f33",
-  "phase": "reviewed",
-  "generation": 5,
-  "digest": "05caa329743d70858947498b180634c42393fb346474fed27b23b7d8d0644e0a",
+  "phase": "published",
+  "generation": 6,
+  "digest": "b1a940a0b210dff6837cd895f48d95ea8e4ff9f830642890388bfefad888d9f3",
   "claim": {
     "id": "claim-5766-csm-runtime-endpoint-inventory",
     "owner": "codex:5766-execution",
-    "generation": 5,
+    "generation": 6,
     "acquired_unix_seconds": 1785784392,
     "expires_unix_seconds": 1786389192,
     "heartbeat_unix_seconds": 1785784392,
@@ -47,7 +47,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5766,
+    "pull_request": 5797,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5797",
+    "base": "main",
+    "head": "codex/5766-csm-runtime-endpoint-inventory",
+    "revision": "git-blake3:b6ba72148daa0a1e19cbec6fa13adac3cd5fab00:9ec8998f9b0d55c12f0bd632a26227ef0b4af19ed986c8e4d94b3a389a6d739e",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -61,34 +71,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2b427191e8b2fb60221c8c9670d5fcc483c97e4762b30a1f049ded9f7d34bbd4",
+      "values_digest": "fe09fb827b99a25ca9b19aec8c2f3fea47579b862e089e300139c0574662031b",
       "rendered_digest": "d6984655df306f472e4a05038db0ef23ed37a9f14ac94503b24582bd3bc41b6d",
       "ast_digest": "d5c9f6f9d6a36e152938cbf0a2bf9fdcd71dbf4e3cc6eb698959749e34da2e20"
     },
     "stp": {
-      "values_digest": "c26bf7c11afc70a3f167aefedc5166c4a0748aa38ff640c5c30e795eb7cb44a6",
+      "values_digest": "6708ef8a44fce9693dfb1ced07756bacea7c39adf498df27882b406c51206cf4",
       "rendered_digest": "f66fab95c3e02b41a10ebe41c5e4252ae061673a8c3259adcf5b70e4d4b03af7",
       "ast_digest": "b9e5476e5e84839a0f0b31b1ad6bb7119cb64fec591a441358a9008896542785"
     },
     "spp": {
-      "values_digest": "25f23e9d62477c27b9c8693781cdbdbe021a18d885fc17811cc4df97aeec9305",
+      "values_digest": "7b348b98a63e1654fdbc35057d25cebc8d237a735166b3631f513db864616e83",
       "rendered_digest": "a3f474af7c5a680955c317df6d71671d0e8206e7c05575c077986cf0672057a7",
       "ast_digest": "e38e1fe2871b7ec081a0e915c778ff5992c5459a915c792bbaca0953cc1d0fd1"
     },
     "vpp": {
-      "values_digest": "9b5c4f8649032f8e4e547937cabb93dfe66740d62c7fb3eb16554e588d40c180",
+      "values_digest": "1037c0a209eb5a91fd1aa1ed6b28ee2f018d617f7731d5e97c02451eedbb29c8",
       "rendered_digest": "3c536f736df09a85d6b55780a66354e03113fe8fc5cc30138860c8324c8b8b21",
       "ast_digest": "85075e001dc443145c7fda3aed1faffc4cc2041b769d211aa91f7225c6789eed"
     },
     "srp": {
-      "values_digest": "7b7fda1a220424f69d7ae0911c373fe4bb186365ae917bfda6bda6fdc5354f52",
+      "values_digest": "25e60c563305c7fe8fe74774f70db4052a7f91bcf80d119748a2d3be01abb18a",
       "rendered_digest": "9be08bd7973742e2ad603cbf202cd679fcaa280b2d7489493314a9136c9f4e69",
       "ast_digest": "f771fd56c4ad65e952c88bafed0e26b9c33252d0254b67aa3a3bf9c6c08e5334"
     },
     "sor": {
-      "values_digest": "c48bf17033951855fc1bb09b5da725290397a4515fd7d8fcdd935bbdc9f7aa7c",
-      "rendered_digest": "ae53f05011c4c42416f925732b6db0c24c3f5200a3994af5ed45a9295ff761fb",
-      "ast_digest": "8aaf51215458b88fd9f75dcea593552c21b318a92b2bd11f244470348b4ca172"
+      "values_digest": "983ed09845d5ac9d6a410e648f23963db776ea3c0c4acd0c4ffdb30cb96f3c2c",
+      "rendered_digest": "a70cc9d178e196be336a5e54d238cbc3e760f461c185e944af77332fcbf6c0d2",
+      "ast_digest": "a4152f6dd66e189e516a9ead8e41a1a2c7026b5cf9ffaa70865dce1e103d49f1"
     }
   },
   "transitions": [
@@ -119,6 +129,13 @@
       "to": "reviewed",
       "actor": "subagent:019fc928-dc3a-7b11-a3b3-a9627a93d0b6",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-5766-runtime-endpoint-inventory",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -177,6 +194,13 @@
       "actor": "subagent:019fc928-dc3a-7b11-a3b3-a9627a93d0b6",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-5766-runtime-endpoint-inventory",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

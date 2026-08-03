@@ -6,3 +6,4 @@
 {"sequence":6,"generation":4,"actor":"codex:issue-5766-runtime-endpoint-inventory","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":7,"generation":4,"actor":"codex:issue-5766-runtime-endpoint-inventory","reason":"Protect the typed finalize evidence directory created for the #5766 implementation validation.","operation":"{\"add_protected_paths\":[\".csdlc/evidence/5766\"],\"operation\":\"amend_claim_scope\"}"}
 {"sequence":8,"generation":5,"actor":"subagent:019fc928-dc3a-7b11-a3b3-a9627a93d0b6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":9,"generation":6,"actor":"codex:issue-5766-runtime-endpoint-inventory","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

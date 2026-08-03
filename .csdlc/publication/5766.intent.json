@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5766,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5766-csm-runtime-endpoint-inventory",
+  "title": "[v0.91.8][runtime][api] Reconcile CSM runtime endpoint inventory",
+  "body": "Closes #5766\n\n## Summary\n- reconciles the mounted Runtime v3 CSM API advertised endpoint list with the actual Axum route constants\n- keeps `/v1/ready` out of the mounted CSM API inventory while preserving the broader local CSM dispatch `/ready` surface\n- adds focused local dispatch coverage that walks every advertised local CSM endpoint and verifies unknown-path metadata\n\n## Validation\n- `csdlc-validate --root /Volumes/FastWork/adl-wp-5766 finalize --request .csdlc/prepared/issues/5766/finalize-implementation.json`\n- typed finalize retained logs under `.csdlc/evidence/5766/`\n- `git diff --check HEAD~2..HEAD`\n- `csdlc-doctor --repo /Volumes/FastWork/adl-wp-5766 --issue 5766`\n\n## Review\n- exact-head subagent review CLEAN at `5495193ee747e31a8dc15179f5013da17dc08d47`\n- reviewed scoped revision: `git-blake3:5495193ee747e31a8dc15179f5013da17dc08d47:0be84754ef00184e650dc66b1304a43a5be0d2f75f80210d3289a03f1f008c7c`\n- findings: none\n\nNo AWS was used.",
+  "draft": false,
+  "revision": "git-blake3:b6ba72148daa0a1e19cbec6fa13adac3cd5fab00:9ec8998f9b0d55c12f0bd632a26227ef0b4af19ed986c8e4d94b3a389a6d739e",
+  "commit_sha": "b6ba72148daa0a1e19cbec6fa13adac3cd5fab00"
+}
