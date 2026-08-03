@@ -322,7 +322,8 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
     git(&["config", "user.name", "Test"]);
     std::fs::create_dir_all(temp.path().join("src")).unwrap();
     std::fs::write(temp.path().join("src/lib.rs"), "pub fn stable() {}\n").unwrap();
-    git(&["add", "src/lib.rs"]);
+    std::fs::write(temp.path().join("outside-review.txt"), "substantive\n").unwrap();
+    git(&["add", "src/lib.rs", "outside-review.txt"]);
     git(&["commit", "-qm", "source"]);
     let source = git(&["rev-parse", "HEAD"]);
     let reviewed = csdlc_v2::git::substantive_revision(temp.path(), &["src".into()]).unwrap();
@@ -418,7 +419,11 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
 
     git(&["checkout", "-qb", "rename-drift", &current]);
     std::fs::create_dir_all(temp.path().join(".csdlc/moved")).unwrap();
-    git(&["mv", "src/lib.rs", ".csdlc/moved/lib.rs"]);
+    git(&[
+        "mv",
+        "outside-review.txt",
+        ".csdlc/moved/outside-review.txt",
+    ]);
     git(&["commit", "-qm", "move substantive source into metadata"]);
     let rename_head = git(&["rev-parse", "HEAD"]);
     let mut rename_request = request.clone();
@@ -428,6 +433,24 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
     assert_eq!(
         rename_error.code,
         csdlc_v2::ErrorCode::ReconciliationRequired
+    );
+    let mut rename_packet = merged_packet.clone();
+    rename_packet.head_sha = rename_request.expected_head_sha.clone().unwrap();
+    let rename_terminal = derive_terminal(
+        &record,
+        &rename_request,
+        &IssueTerminalObservation {
+            state: "closed".into(),
+            labels: vec![],
+            observed_unix_seconds: 102,
+        },
+        Some(&rename_packet),
+    )
+    .expect("derive renamed terminal")
+    .expect("renamed terminal");
+    assert!(
+        !envelope_releases_claim(temp.path(), &rename_terminal, &record, 102)
+            .expect("renamed substantive drift must not release claim")
     );
     git(&["checkout", "-q", "codex/5778"]);
 
