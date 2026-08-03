@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Added standalone safe C-SDLC v2 worktree cleanup plus read-only legacy terminal compatibility and v0.91.8 census validation without coupling cleanup to delivery truth.
+Added reviewed standalone safe C-SDLC v2 worktree cleanup and read-only v0.91.8 terminal compatibility validation, with exact census identity and symlink-confinement guarantees.
 
 ## Artifacts
 
@@ -20,14 +20,17 @@ Added standalone safe C-SDLC v2 worktree cleanup plus read-only legacy terminal 
 - csdlc-v2/src/bin/csdlc-clean.rs
 - csdlc-v2/tests/gate_cleanup.rs
 - csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md
-- docs/default_workflow.md
+- csdlc-v2/src/operator.rs
+- csdlc-v2/tests/gate10a.rs
+- .csdlc/evidence/5779/review-remediation.md
 
 ## Execution
 
-- Added typed classify and non-forced remove operations bound to the exact registered issue worktree.
+- Added typed classify and non-forced remove operations bound to the exact registered canonical issue worktree.
 - Made dirty, missing, relocated, primary, symlinked, identity-drifted, and concurrent cleanup fail closed without destructive fallback.
-- Added read-only optional-receipt compatibility indexing and v0.91.8 terminal census validation.
-- Registered and documented the new generated csdlc-clean owner binary.
+- Bound v0.91.8 validation to the expected audit identity and independent same-set 114-issue closed universe.
+- Made worktree, issue-projection, and cleanup-lock ancestor traversal symlink-safe.
+- Registered csdlc-v2-clean as the eleventh authoritative typed operator route and updated active contracts and Gate 10A coverage.
 
 ## Validation
 
@@ -42,25 +45,9 @@ Added standalone safe C-SDLC v2 worktree cleanup plus read-only legacy terminal 
       "--test",
       "gate_cleanup"
     ],
-    "purpose": "Prove exact clean removal, dirty and drift fail-closed behavior, concurrency, receipt independence, and 114-issue census parity.",
+    "purpose": "Prove exact cleanup behavior, ancestor symlink confinement, concurrent serialization, receipt independence, and fail-closed census identity and set parity.",
     "outcome": "passed",
-    "evidence_ref": "cleanup-characterization.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "clippy",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--locked",
-      "--all-targets",
-      "--",
-      "-D",
-      "warnings"
-    ],
-    "purpose": "Prove warning-free code across every C-SDLC v2 target.",
-    "outcome": "passed",
-    "evidence_ref": "cleanup-quality.log"
+    "evidence_ref": ".csdlc/evidence/5779/review-remediation.md"
   },
   {
     "command": [
@@ -72,9 +59,25 @@ Added standalone safe C-SDLC v2 worktree cleanup plus read-only legacy terminal 
       "--test",
       "gate10a"
     ],
-    "purpose": "Prove generated-binary inventory, installation, coexistence, and operator manifest invariants.",
+    "purpose": "Prove the eleventh typed route, owner binary installation, coexistence, and active operator guidance invariants.",
     "outcome": "passed",
-    "evidence_ref": "operator-inventory.log"
+    "evidence_ref": ".csdlc/evidence/5779/review-remediation.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--locked",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove warning-free C-SDLC v2 code across all targets after review remediation.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5779/review-remediation.md"
   }
 ]
 
