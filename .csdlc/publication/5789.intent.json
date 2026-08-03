@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5789,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5789-observatory-full-functionality",
+  "title": "[v0.91.8][runtime][observatory] Make HTML Observatory fully functional",
+  "body": "Closes #5789\n\nMakes the HTML Observatory use Runtime v3 as the default live surface instead of a stale CSM-only fallback. The page now reads the configured trusted local Runtime v3 API base, checks `/v1/observatory`, keeps retained Runtime v2/CSM compatibility for explicit `csmApiBase` use, and submits signed operator control-command envelopes through Runtime v3 `/v1/control`.\n\nRuntime v3 now exposes browser-safe CORS handling for `POST` and `OPTIONS /v1/control`, with configured-origin allowlisting, no-store responses, forbidden-origin rejection, signed command execution, and OpenAPI route parity.\n\nFocused validation:\n- `bash adl/tools/test_html_observatory.sh` passed.\n- `CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target bash adl/tools/test_v0917_html_observatory_integrated_proof.sh` passed.\n- `CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target cargo test --manifest-path adl-runtime-kernel/Cargo.toml observatory_cors_allows_only_configured_origins_and_reports_canonical_port --test control -- --nocapture` passed.\n- `CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target cargo test --manifest-path adl-runtime-kernel/Cargo.toml openapi_paths_match_current_runtime_v3_axum_route_inventory --test openapi_contract -- --nocapture` passed.\n- `git diff --check origin/main...HEAD` passed.\n- `csdlc-doctor --repo . --issue 5789` passed at reviewed generation 9.\n\nExact-head review: bounded subagent review by Sartre (`019fc8ca-fab4-7df3-b05e-72e4554ff7e0`) returned CLEAN for exact product head `c060ef20927081c2547f58a845c6b2ba50c66504`. Current publication head adds typed review metadata only.\n\nBoundary: this proves signed Runtime v3 operator-command transport from the Observatory through `/v1/control`; it does not claim free-form natural-language chat with a named shepherd model unless that target/action is configured in the running runtime.",
+  "draft": false,
+  "revision": "git-blake3:178412e12967948b373e63c58667630a14a23875:6253e7977029cf6702bca378fdb7200803c7958fd2928dcd5a50f3e663438a7b",
+  "commit_sha": "178412e12967948b373e63c58667630a14a23875"
+}

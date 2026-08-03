@@ -7,7 +7,7 @@
     "title": "[v0.91.8][runtime][observatory] Make the HTML Observatory fully functional",
     "slug": "runtime-v3-html-observatory-full-functionality",
     "version": "v0.91.8",
-    "generation": 9
+    "generation": 10
   },
   "status": "pre_phase",
   "content": {
@@ -73,8 +73,8 @@
           "evidence_ref": "commentary: both commands passed after flattening Runtime v3 event-check shape"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
