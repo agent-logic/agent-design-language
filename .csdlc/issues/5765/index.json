@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "410016ef8a98a2326644e76a7d9d0be535280964fbb5295f4fd91ce9d1ebbecb",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "4733c81384e4243ce40da6921c8d571d7281591c5ed63abd436b1fe6343550a3",
+  "generation": 6,
+  "digest": "a28e4db8126506ad70efef144cfd88a8e3adfbb70d73a9a6f059a99e72a3eb49",
   "claim": {
     "id": "claim-5765-v092-account-migration-scheduling",
     "owner": "codex:5765",
-    "generation": 5,
+    "generation": 6,
     "acquired_unix_seconds": 1785784093,
     "expires_unix_seconds": 1786388893,
     "heartbeat_unix_seconds": 1785784093,
@@ -38,32 +38,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "926324f9560869b6d64e9dbca9c6346ebfb48cba37a22ea41f4a01bf826469cf",
+      "values_digest": "abc1063d139c5ab43210fd402e9bb4e7cb0310a5c95eeb236ccf014beeb57cbf",
       "rendered_digest": "c76ee3a3d9228344b6dccd9a73f8076ccda5ef79adef9c720da3d500201b42e3",
       "ast_digest": "adc4f1ced2c44ba26d4778a6418f8b83ea5b04890e21cb3d58a05daf6d48dc4a"
     },
     "stp": {
-      "values_digest": "7705ff1f90f3b11eba031c18b1be2c60553b664e3321e6a37889f2017f7f568d",
+      "values_digest": "1f2f9a6b1a51b59ba1fbd373b3b3707bac96ca4e081719cc6c2024a5ea285fdf",
       "rendered_digest": "b97672a24eb3557763eb5654ee093a0f4e95dcff5df359e5a20437841c54a525",
       "ast_digest": "eb3edfc5756a260c44d3a4b7ada43c4c090c184bead265a1e545537e3c5309ea"
     },
     "spp": {
-      "values_digest": "5798edad5b26f2c725555050988b92acbbe6e5e9fb48ab8bb7fab695f5ea7c0f",
+      "values_digest": "ff0e035bff14e286e31e65ea290d259beeb9a8839ce8cb8b8e032dacc3789f9b",
       "rendered_digest": "62093e54ef732a005959acaad1b552e7fc21bb46c8320c20953db229f41068e9",
       "ast_digest": "7a089c5915b9d76a32a1408feac8efcfb8ff20e46c5067a94a31cf27f8b5f5d8"
     },
     "vpp": {
-      "values_digest": "b5276786045656eb3e62c13f8bab1603cd3a796a0a42d9d77d59d0a75921c2d5",
-      "rendered_digest": "3f8b8c986f95acf878ea20ea63e180ba6e15bfe9350e3041db7cb5ef2b31ef90",
-      "ast_digest": "d53ecd2e6a685c1ee5c549edebc7fa5a9cbd19da1c5cbbfc0356df590315eb26"
+      "values_digest": "9084af1bc4c4d0bfe529c8ec58ff5679ef1317eb836d05bb0a48ece7a2291c07",
+      "rendered_digest": "a10da482b763d54d858d6e15d69deafad73b04ac39acf23e938e30b8b20b4fc2",
+      "ast_digest": "6d7ea5827e8b0551220f87b8be59eef1825dfe704ac60c8646ef3138c086cc14"
     },
     "srp": {
-      "values_digest": "fdafcef4a5f7a3f0ddccafd4cb38c4f44726b6ba3ebfd8efe6e15276dcb536ec",
+      "values_digest": "fc53df600180a57d15ee9a62af134f9c2ce44ac16a7765af22c4c6811ffc1717",
       "rendered_digest": "20405d0d97d6fd70be88aa27098503310519323b18757581d5fa317046a9dcd5",
       "ast_digest": "5fbea19479606986568f8b62bb9e59e49bff606867f881b42b3953cd73733e77"
     },
     "sor": {
-      "values_digest": "6d6bde74aea8d969c3534fc75c60695dee5daf62a02472a5a43bc3ff0ecd5291",
+      "values_digest": "fa8a14c4acfd8e5380e43abd8949d39a93a13b5e7eca39d548f1aa4bc328942a",
       "rendered_digest": "5d2a9996de259d76e95d002db942e69aab3d8532e6e0d4cbea7f1e4207286964",
       "ast_digest": "5d65fc3cd91b94d91462e9449da5c7aef670dd774ef10b9a30ae0f3be781ef62"
     }
@@ -140,6 +140,13 @@
       "actor": "codex:5765",
       "reason": "Resolve exact-head review finding: prove YAML semantics and one-file scope, not whitespace only.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"docs-planning-focused\",\"proof_role\":\"Parse the changed v0.92 YAML, assert issue 5765 source/prerequisite/non-claim text and exact one-file scope, then run diff check\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\"-e\",\"require 'yaml'; path='docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml'; doc=YAML.load_file(path); entry=doc.fetch('scheduled_planning').find{|item| item['issue']==5765}; abort 'missing issue 5765 schedule' unless entry; abort 'wrong status' unless entry['status']=='planning_only'; abort 'wrong source' unless entry['source']=='.adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md'; abort 'wrong source visibility' unless entry['source_visibility']=='operator_local_unpublished'; abort 'missing asksifu exclusion' unless entry['prerequisites'].any?{|value| value.include?('asksifu')}; abort 'missing six-candidate gate' unless entry['prerequisites'].any?{|value| value.include?('exactly six')}; paths=`git diff --name-only HEAD^ HEAD`.lines.map(&:strip); abort 'missing YAML scope' unless paths.include?(path); abort 'unexpected tracked scope' unless paths.all?{|candidate| candidate==path || candidate.start_with?('.csdlc/issues/5765/') || candidate.start_with?('.csdlc/prepared/issues/5765/')}; abort 'diff check failed' unless system('git diff --check'); puts 'planning YAML validation: PASS'\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:5765",
+      "reason": "Resolve exact-head review finding: prove YAML semantics and one-file scope, not whitespace only.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"docs-planning-focused\",\"proof_role\":\"Parse the changed v0.92 YAML, assert issue 5765 source/prerequisite/non-claim text and exact one-file scope, then run diff check\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\"-e\",\"require 'yaml'; path='docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml'; doc=YAML.load_file(path); entry=doc.fetch('scheduled_planning').find{|item| item['issue']==5765}; abort 'missing issue 5765 schedule' unless entry; abort 'wrong status' unless entry['status']=='planning_only'; abort 'wrong source' unless entry['source']=='.adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md'; abort 'wrong source visibility' unless entry['source_visibility']=='operator_local_unpublished'; abort 'missing asksifu exclusion' unless entry['prerequisites'].any?{|value| value.include?('asksifu')}; abort 'missing six-candidate gate' unless entry['prerequisites'].any?{|value| value.include?('exactly six')}; paths=`git diff --name-only HEAD^ HEAD`.lines.map(&:strip); abort 'missing YAML scope' unless paths.include?(path); abort 'unexpected tracked scope' unless paths.all?{|candidate| candidate==path || candidate.start_with?('.csdlc/issues/5765/') || candidate.start_with?('.csdlc/prepared/issues/5765/')}; abort 'diff check failed' unless system('git diff --check HEAD^ HEAD'); puts 'planning YAML validation: PASS'\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
     }
   ]
 }
