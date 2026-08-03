@@ -47,7 +47,16 @@ pub const CSM_RUNTIME_API_DEFAULT_PORT: u16 = 20_997;
 const WSS_AUTH_REFRESH: Duration = Duration::from_millis(25);
 const MAX_WSS_FRAME_BYTES: usize = 64 * 1024;
 
-pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 3] = ["/v1/health", "/v1/metrics", "/v1/acip/ws"];
+const CSM_RUNTIME_API_HEALTH_PATH: &str = "/v1/health";
+const CSM_RUNTIME_API_METRICS_PATH: &str = "/v1/metrics";
+const CSM_RUNTIME_API_ACIP_WS_PATH: &str = "/v1/acip/ws";
+
+pub const CSM_RUNTIME_API_MOUNTED_ROUTES: [&str; 3] = [
+    CSM_RUNTIME_API_HEALTH_PATH,
+    CSM_RUNTIME_API_METRICS_PATH,
+    CSM_RUNTIME_API_ACIP_WS_PATH,
+];
+pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 3] = CSM_RUNTIME_API_MOUNTED_ROUTES;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
 #[serde(rename_all = "snake_case")]
@@ -195,9 +204,9 @@ where
 
 pub fn runtime_api_router(service: Arc<RuntimeApiService>) -> Router {
     Router::new()
-        .route("/v1/health", get(health_handler))
-        .route("/v1/metrics", get(metrics_handler))
-        .route("/v1/acip/ws", get(wss_handler))
+        .route(CSM_RUNTIME_API_HEALTH_PATH, get(health_handler))
+        .route(CSM_RUNTIME_API_METRICS_PATH, get(metrics_handler))
+        .route(CSM_RUNTIME_API_ACIP_WS_PATH, get(wss_handler))
         .with_state(service)
 }
 
@@ -422,6 +431,7 @@ mod tests {
             CSM_RUNTIME_API_ENDPOINTS,
             ["/v1/health", "/v1/metrics", "/v1/acip/ws"]
         );
+        assert_eq!(CSM_RUNTIME_API_ENDPOINTS, CSM_RUNTIME_API_MOUNTED_ROUTES);
         assert!(!CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/status"));
         assert!(!CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/chronosense"));
         assert_eq!(

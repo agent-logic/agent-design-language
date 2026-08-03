@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5766,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][runtime][api] Reconcile CSM runtime advertised endpoints with mounted routes",
+    "slug": "csm-runtime-endpoint-inventory",
+    "version": "v0.91.8",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime/src/runtime_api.rs, adl/src/csm_runtime_api.rs, adl/src/csm_api_gateway_bridge.rs, and focused tests/docs touched for #5766",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Check that advertised availability and mounted routes agree.",
+        "Check that Runtime v3 kernel readiness is not confused with CSM runtime API readiness.",
+        "Check that tests fail on future inventory/router drift."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
