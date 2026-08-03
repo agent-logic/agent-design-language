@@ -270,7 +270,7 @@
                 <button class="button button-secondary" type="button" id="dashboard-refresh-live">Refresh</button>
                 <button class="button button-secondary" type="button" id="dashboard-stop-live">Stop</button>
               </div>
-              <p class="row-detail" id="dashboard-live-test-detail">Supply `?runtime=v3&runtimeApiBase=https://localhost:20997` for Runtime v3 API access.</p>
+              <p class="row-detail" id="dashboard-live-test-detail">Runtime v3 API access defaults to the trusted local base in runtime-v3.config.json.</p>
             </article>
             <article>
               <span class="row-kicker">Operator Channel</span>
@@ -435,9 +435,9 @@
           <div class="panel-head">
             <div>
               <p class="eyebrow">Operator communication</p>
-              <h2 id="communication-title">ACIP event channel</h2>
+              <h2 id="communication-title">Runtime command channel</h2>
             </div>
-            <span class="mini-badge" id="communication-status">offline draft</span>
+            <span class="mini-badge" id="communication-status">public read</span>
           </div>
           <div class="communication-grid">
             <label class="field">
@@ -447,7 +447,7 @@
             <label class="field">
               <span class="row-kicker">Channel</span>
               <select id="operator-channel">
-                <option value="events">CSM /events read</option>
+                <option value="events">Runtime event tail</option>
                 <option value="acip_sns">ACIP -> SNS projection</option>
               </select>
             </label>
@@ -462,18 +462,18 @@
             </div>
             <label class="field field-wide">
               <span class="row-kicker">Signed Runtime v3 command</span>
-              <textarea id="signed-control-command" rows="8" spellcheck="false" placeholder='Paste an adl.runtime.control_command.v1 JSON envelope signed by a trusted operator key.'></textarea>
+              <textarea id="signed-control-command" rows="8" spellcheck="false" placeholder='Paste an adl.runtime.control_command.v1 JSON envelope signed by a trusted operator key. Signed commands are submitted to /v1/control.'></textarea>
             </label>
             <div class="communication-actions">
               <button class="button button-primary" type="button" id="send-signed-command" disabled>Send signed command</button>
             </div>
-            <pre class="message-envelope" id="operator-control-result" aria-live="polite">Public monitoring is active. Log in to enable signed writes.</pre>
+            <pre class="message-envelope" id="operator-control-result" aria-live="polite">Public monitoring is active. Paste a signed command to submit through Runtime v3 /v1/control, or log in for WSS writes.</pre>
             <label class="field field-wide">
               <span class="row-kicker">Message</span>
               <textarea id="operator-message" rows="4">Request current CSM event tail and runtime readiness.</textarea>
             </label>
             <div class="communication-actions">
-              <button class="button button-secondary" type="button" id="check-events">Check /events</button>
+              <button class="button button-secondary" type="button" id="check-events">Check events</button>
               <button class="button button-primary" type="button" id="prepare-envelope">Prepare envelope</button>
             </div>
             <div class="communication-proof-list" id="communication-proof-list" aria-label="ACIP and transport proof"></div>

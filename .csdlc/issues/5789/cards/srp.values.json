@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5789,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][runtime][observatory] Make the HTML Observatory fully functional",
+    "slug": "runtime-v3-html-observatory-full-functionality",
+    "version": "v0.91.8",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "HTML Observatory UI/configuration, Runtime v3 observatory read/stream/write surfaces needed for controls, focused validation, and issue-local lifecycle records.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the default Observatory route now use live Runtime v3 truth without hidden query parameters?",
+        "Are WebSocket, GET feed, retained fallback, and operator write states separated truthfully?",
+        "Can the operator communicate with agents through governed, auditable, fail-closed controls?",
+        "Do browser and CLI tests cover actual checked-in routes and negative cases?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

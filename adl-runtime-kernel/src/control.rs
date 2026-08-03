@@ -1109,6 +1109,7 @@ where
         .route(
             "/v1/control",
             post(control_handler::<C>)
+                .options(control_preflight_handler::<C>)
                 .layer(DefaultBodyLimit::max(api_policy.control_max_body_bytes)),
         )
         .merge(swagger_ui)
@@ -1512,21 +1513,63 @@ async fn observatory_preflight_handler<C: LifecycleControl + 'static>(
     response
 }
 
+async fn control_preflight_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    headers: HeaderMap,
+) -> Response {
+    let Some(origin) = allowed_origin(&service, &headers) else {
+        return StatusCode::FORBIDDEN.into_response();
+    };
+    let mut response = StatusCode::NO_CONTENT.into_response();
+    response
+        .headers_mut()
+        .insert(header::ACCESS_CONTROL_ALLOW_ORIGIN, origin);
+    response.headers_mut().insert(
+        header::ACCESS_CONTROL_ALLOW_METHODS,
+        HeaderValue::from_static("POST"),
+    );
+    response.headers_mut().insert(
+        header::ACCESS_CONTROL_ALLOW_HEADERS,
+        HeaderValue::from_static("Content-Type, Authorization"),
+    );
+    response
+        .headers_mut()
+        .insert(header::CACHE_CONTROL, HeaderValue::from_static("no-store"));
+    response
+        .headers_mut()
+        .insert(header::VARY, HeaderValue::from_static("Origin"));
+    response
+}
+
 async fn control_handler<C: LifecycleControl + 'static>(
     State(service): State<Arc<ControlService<C>>>,
+    headers: HeaderMap,
     body: Bytes,
 ) -> Response {
+    let allowed_origin = if headers.contains_key(header::ORIGIN) {
+        match allowed_origin(&service, &headers) {
+            Some(origin) => Some(origin),
+            None => return StatusCode::FORBIDDEN.into_response(),
+        }
+    } else {
+        None
+    };
     let command = match serde_json::from_slice::<SignedControlCommand>(&body) {
         Ok(command) => command,
-        Err(_) => return control_error_response(ControlError::Encoding("invalid request".into())),
+        Err(_) => {
+            return control_error_response(
+                ControlError::Encoding("invalid request".into()),
+                allowed_origin,
+            )
+        }
     };
     match service.execute(command).await {
-        Ok(response) => (StatusCode::OK, Json(response)).into_response(),
-        Err(error) => control_error_response(error),
+        Ok(response) => observatory_json(StatusCode::OK, response, allowed_origin),
+        Err(error) => control_error_response(error, allowed_origin),
     }
 }
 
-fn control_error_response(error: ControlError) -> Response {
+fn control_error_response(error: ControlError, allowed_origin: Option<HeaderValue>) -> Response {
     let status = match &error {
         ControlError::Authentication => StatusCode::UNAUTHORIZED,
         ControlError::Unauthorized => StatusCode::FORBIDDEN,
@@ -1543,7 +1586,7 @@ fn control_error_response(error: ControlError) -> Response {
         schema: "adl.runtime.control_error.v1",
         code: control_error_code(&error),
     };
-    cors_json(status, payload, None)
+    observatory_json(status, payload, allowed_origin)
 }
 
 fn control_error_code(error: &ControlError) -> &'static str {
