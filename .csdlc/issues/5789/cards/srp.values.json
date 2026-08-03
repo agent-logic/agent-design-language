@@ -7,15 +7,15 @@
     "title": "[v0.91.8][runtime][observatory] Make the HTML Observatory fully functional",
     "slug": "runtime-v3-html-observatory-full-functionality",
     "version": "v0.91.8",
-    "generation": 8
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "HTML Observatory UI/configuration, Runtime v3 observatory read/stream/write surfaces needed for controls, focused validation, and issue-local lifecycle records.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl/tools/test_html_observatory.sh\nadl/tools/test_v0917_html_observatory_integrated_proof.sh\nadl/tools/validate_v0917_html_observatory.py\ndemos/html-observatory/README.md\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/runtime-v3.config.json\ndocs/api/runtime-v3/v1/openapi.json\ndocs/api/runtime-v3/v1/observatory.openapi.json",
+      "review_revision": "git-blake3:c060ef20927081c2547f58a845c6b2ba50c66504:520da3a5a57833130cbb63dcb640e10d974698303ec10c87b971517af75371e2",
+      "reviewer": "subagent:019fc8ca-fab4-7df3-b05e-72e4554ff7e0:Sartre",
       "review_prompts": [
         "Does the default Observatory route now use live Runtime v3 truth without hidden query parameters?",
         "Are WebSocket, GET feed, retained fallback, and operator write states separated truthfully?",
@@ -23,8 +23,11 @@
         "Do browser and CLI tests cover actual checked-in routes and negative cases?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The Observatory now sends signed Runtime v3 control-command envelopes to /v1/control; this proves operator command transport, not a free-form natural-language chat session with a specific shepherd model unless the runtime agent/action configuration exposes that target.",
+        "The integrated localhost proof regenerates TLS certificate evidence files; they were restored after the passing run so the reviewed branch remained clean at the exact reviewed revision."
+      ],
+      "review_result": "pass"
     }
   }
 }

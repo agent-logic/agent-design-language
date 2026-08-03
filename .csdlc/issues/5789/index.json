@@ -3,13 +3,13 @@
   "issue": 5789,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0274649686750df6cdc2aa61accd93b232732ab3ce4adbb5d37248345ada7e7d",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "609ead6f4141a17ed712adf7bb28ae5cc8f99758a2ccd2b55dd8fefaa991af07",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "1fb13689a3e5f81483ee59e94dd8ea257502672df431cb1dcf90957f67c72016",
   "claim": {
     "id": "claim-5789-observatory-full-functionality",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 8,
+    "generation": 9,
     "acquired_unix_seconds": 1785778104,
     "expires_unix_seconds": 1786382904,
     "heartbeat_unix_seconds": 1785778104,
@@ -43,7 +43,31 @@
     "purpose": "Make the HTML Observatory fully functional against Runtime v3, including live feed truth, controls, and governed operator-to-agent communication."
   },
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019fc8ca-fab4-7df3-b05e-72e4554ff7e0:Sartre",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl/tools/test_html_observatory.sh",
+      "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+      "adl/tools/validate_v0917_html_observatory.py",
+      "demos/html-observatory/README.md",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/runtime-v3.config.json",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json"
+    ],
+    "reviewed_revision": "git-blake3:c060ef20927081c2547f58a845c6b2ba50c66504:520da3a5a57833130cbb63dcb640e10d974698303ec10c87b971517af75371e2",
+    "findings": [],
+    "residual_risks": [
+      "The Observatory now sends signed Runtime v3 control-command envelopes to /v1/control; this proves operator command transport, not a free-form natural-language chat session with a specific shepherd model unless the runtime agent/action configuration exposes that target.",
+      "The integrated localhost proof regenerates TLS certificate evidence files; they were restored after the passing run so the reviewed branch remained clean at the exact reviewed revision."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -58,32 +82,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e48007bcfa80a2196739c08e6387fd162a0b55d65fe1bab53c00ea5d2b663567",
+      "values_digest": "54e065797e30fc431710430f9c713fe36642121d7e3dde71468037ec31e02040",
       "rendered_digest": "3c6af59e40d58617dc080a68f10af7b97cd9eaba42cc3e735ae9c255455f1a7e",
       "ast_digest": "f1c2ad71a3a93304cca97666fd7459576f2d0ad93e13545aa33af55a64db41f0"
     },
     "stp": {
-      "values_digest": "86002dc6c3a8b87755c93ac51def23e507bf68e1724a2475fa0007449bb9d9f0",
+      "values_digest": "86b3e0f0ed9f05b432dba7935a731592eba264dc7ef50d8894953bd78007bddb",
       "rendered_digest": "e1e16e3500d5449f64e5bfa9d1c59f1d26063998b59fb556ae06b1b212be7d2c",
       "ast_digest": "bb3022f749ddd44a47df43f8c6226d414d62b300dda687f4e0974e9ba2a8cb61"
     },
     "spp": {
-      "values_digest": "fbf7268404dc9955fdc43ceeef9f79ba7492ef852e5e2a51ccafa3eb8b8c5839",
+      "values_digest": "a0e3e4b194f34ebef4064c8e27d13576919235f8463aba2c22e94c545a58d880",
       "rendered_digest": "9e2eac76c47ac9c92dc07664c202946dcfa79b82e083dbe7aaef2a483386d812",
       "ast_digest": "4448fce4b387310e116c0eb3018543392003147825ebfd15081bed5d3074c5ae"
     },
     "vpp": {
-      "values_digest": "01923f110e2eeac04505abc947ee0836be6c2c77fe10a0db462345a7a73d7293",
+      "values_digest": "f2f7b6ca750a2f26f0ad60f225318142a423148a6cc15f5bef692eae7fda6611",
       "rendered_digest": "d85325f158f6dd3728d71986ecee8ab55216acda124fd0c733a56212d1d26ff7",
       "ast_digest": "31ae69b7fd4f84cf1622f339ef76b3dbccad35f0717778feb37df3e3ebf8a7dd"
     },
     "srp": {
-      "values_digest": "ff7818b41892d8c1c28fa4dfc3a4c846c8b61d1a14a3082c4b6430d01cd86bfa",
-      "rendered_digest": "e667705e841e98a749c9ab538fae6b35825c9a547c429bb2c4f19aa36c482011",
-      "ast_digest": "fe9e8c59e4518002e0eccb481af9df48d2e015e850146523b31e61a06cddd55e"
+      "values_digest": "dc732226e163fa766836dcdfaef060e874839ac5fc6f7065ebcb5bb540e94796",
+      "rendered_digest": "32d26c9e6a025ab7d4618e255d9d3d3d320bfd6b9b2df077a6dce74de7d2812e",
+      "ast_digest": "7c4747d871ed925d49a51ec514b7dfb031db26c01fac8172222e41742f2bb377"
     },
     "sor": {
-      "values_digest": "909000ac65f6acc9f342a53b48acb3bf9e950aefb98ed940758a59e033a6c448",
+      "values_digest": "bde9db058a0e723d334a2c2b00a0b5e32d5d31d1080072ef8f61a458f4744577",
       "rendered_digest": "572dbc753bd53e41722a0b76183fe224155f853d936d5a43e4f29f2f2de03bc0",
       "ast_digest": "d64093e92d4aff9779b0ebbbaa5650e6edc3f92cfcf698454ad7c7f7c0483543"
     }
@@ -109,6 +133,13 @@
       "to": "implemented",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Runtime v3 HTML Observatory implementation and focused validation are complete; enter exact-head review before publication."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -195,6 +226,13 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Record the fix for the pre-PR review finding that Runtime v3 event checks returned a nested event shape the UI normalizer dropped.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash adl/tools/test_html_observatory.sh\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5789/adl-runtime-kernel-target bash adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Prove Runtime v3 event checks now return a UI-normalizable event array, preserve signed /v1/control proof, and keep the integrated Observatory proof passing after the review fix.\",\"outcome\":\"passed\",\"evidence_ref\":\"commentary: both commands passed after flattening Runtime v3 event-check shape\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
