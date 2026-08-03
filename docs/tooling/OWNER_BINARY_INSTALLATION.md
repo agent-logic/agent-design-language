@@ -34,16 +34,15 @@ Current C-SDLC v2 GitHub owner binaries include:
 - `csdlc-github-issue`
 - `csdlc-github-pr`
 - `csdlc-pr-state`
-- `csdlc-merge`
 - `csdlc-finish`
 - `csdlc-clean`
 
 `csdlc-github` remains a compatibility facade. New issue actions should route
 through `csdlc-github-issue`; PR observation should route through
-`csdlc-github-pr` or the dedicated `csdlc-pr-state` observer. `csdlc-merge`
-remains the bounded exact-head merge primitive. `csdlc-finish` is the normal
-operator route: it recognizes an already-terminal issue or invokes that same
-merge gate, then retains only a rebuildable derived terminal cache.
+`csdlc-github-pr` or the dedicated `csdlc-pr-state` observer. `csdlc-finish` is
+the sole terminal operator route: it recognizes an already-terminal issue or
+performs the exact-head merge, then retains only a rebuildable derived terminal
+cache.
 
 `csdlc-clean` is the independent safe-cleanup and legacy compatibility route.
 It never supplies merge or issue-closure authority, and it never force-removes

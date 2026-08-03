@@ -14,7 +14,6 @@ use crate::lifecycle::{
     ReacquireClaimResult, RecoverClaimRequest, ReleaseClosedClaimRequest, RevokeActiveClaimRequest,
     RevokeActiveClaimResult, TransitionActiveClaimRequest,
 };
-use crate::merge::{MergeRequest, MergeResult};
 use crate::migration::{ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison};
 use crate::model::IssueRecord;
 use crate::model::TerminalReceipt;
@@ -73,8 +72,6 @@ pub fn public_schema_bundle() -> Value {
         "remote_pull_request": schemars::schema_for!(RemotePullRequest),
         "readiness_request": schemars::schema_for!(ReadinessRequest),
         "readiness_report": schemars::schema_for!(ReadinessReport),
-        "merge_request": schemars::schema_for!(MergeRequest),
-        "merge_result": schemars::schema_for!(MergeResult),
         "finish_request": schemars::schema_for!(FinishRequest),
         "finish_result": schemars::schema_for!(FinishResult),
         "derived_terminal_envelope": schemars::schema_for!(DerivedTerminalEnvelope),

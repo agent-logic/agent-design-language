@@ -6,21 +6,21 @@
   "metrics": {
     "production_rust_loc": {
       "before": 28722,
-      "after": 18516,
-      "deleted_net": 10206,
-      "reduction_percent": 35.53
+      "after": 18194,
+      "deleted_net": 10528,
+      "reduction_percent": 36.65
     },
     "test_rust_loc": {
       "before": 15092,
-      "after": 9247,
-      "deleted_net": 5845,
-      "reduction_percent": 38.73
+      "after": 9276,
+      "deleted_net": 5816,
+      "reduction_percent": 38.54
     },
     "combined_rust_loc": {
       "before": 43814,
-      "after": 27763,
-      "deleted_net": 16051,
-      "reduction_percent": 36.64
+      "after": 27470,
+      "deleted_net": 16344,
+      "reduction_percent": 37.30
     },
     "source_binaries": {
       "before": 23,
@@ -28,9 +28,9 @@
       "deleted": 2
     },
     "whole_change_lines": {
-      "added": 4379,
-      "deleted": 18174,
-      "net_deleted": 13795
+      "added": 4674,
+      "deleted": 18751,
+      "net_deleted": 14077
     }
   },
   "terminal_authority": {

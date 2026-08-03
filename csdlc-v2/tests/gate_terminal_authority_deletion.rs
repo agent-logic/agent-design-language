@@ -14,6 +14,7 @@ fn competing_closeout_binary_and_skill_are_absent() {
     let root = repo();
     assert!(!root.join("csdlc-v2/src/bin/csdlc-closeout.rs").exists());
     assert!(!root.join("csdlc-v2/src/bin/csdlc-merge.rs").exists());
+    assert!(!root.join("csdlc-v2/src/merge.rs").exists());
     assert!(!root
         .join("csdlc-v2/operator/skills/csdlc-v2-closeout/SKILL.md")
         .exists());
@@ -21,10 +22,38 @@ fn competing_closeout_binary_and_skill_are_absent() {
     let cargo = fs::read_to_string(root.join("csdlc-v2/Cargo.toml")).unwrap();
     let skills = fs::read_to_string(root.join("csdlc-v2/operator/skills.json")).unwrap();
     let coexistence = fs::read_to_string(root.join("csdlc-v2/operator/coexistence.json")).unwrap();
-    for surface in [cargo, skills, coexistence] {
+    let agent_contract = fs::read_to_string(root.join("csdlc-v2/AGENTS.md")).unwrap();
+    let install_docs =
+        fs::read_to_string(root.join("docs/tooling/OWNER_BINARY_INSTALLATION.md")).unwrap();
+    let github_boundary =
+        fs::read_to_string(root.join("docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md")).unwrap();
+    for surface in [
+        cargo,
+        skills,
+        coexistence,
+        agent_contract,
+        install_docs,
+        github_boundary,
+    ] {
         assert!(!surface.contains("csdlc-closeout"));
         assert!(!surface.contains("csdlc-merge"));
     }
+}
+
+#[test]
+fn finish_is_the_only_public_merge_authority() {
+    let root = repo();
+    let library = fs::read_to_string(root.join("csdlc-v2/src/lib.rs")).unwrap();
+    let schemas = fs::read_to_string(root.join("csdlc-v2/src/schema.rs")).unwrap();
+    let finish = fs::read_to_string(root.join("csdlc-v2/src/finish.rs")).unwrap();
+
+    assert!(!library.contains("pub mod merge"));
+    assert!(!library.contains("MergeRequest"));
+    assert!(!library.contains("MergeResult"));
+    assert!(!schemas.contains("merge_request"));
+    assert!(!schemas.contains("merge_result"));
+    assert!(finish.contains("pub async fn execute_finish"));
+    assert!(!finish.contains("pub async fn execute_remote_merge"));
 }
 
 #[test]

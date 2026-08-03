@@ -11,7 +11,6 @@ pub mod git;
 pub mod github;
 pub mod github_token;
 pub mod lifecycle;
-pub mod merge;
 pub mod migration;
 pub mod model;
 pub mod operator;
@@ -41,6 +40,7 @@ pub use eligibility::{
     DeletionEligibilityRequest, DeletionEntry, DeletionManifest, DeletionReason, EntryDisposition,
 };
 pub use error::{ErrorCode, Result, V2Error};
+pub use finish::MergeMethod;
 pub use finish::{
     DerivedTerminalEnvelope, FinishDisposition, FinishRequest, FinishResult,
     IssueTerminalObservation,
@@ -58,7 +58,6 @@ pub use lifecycle::{
     RehomeClaimAuthorityResult, ReleaseClosedClaimRequest, RevokeActiveClaimRequest,
     RevokeActiveClaimResult, TransitionActiveClaimRequest,
 };
-pub use merge::{MergeMethod, MergeRequest, MergeResult};
 pub use migration::{
     compare_shadow, generate_compatibility_view, import_legacy, write_compatibility_view_atomic,
     ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison,

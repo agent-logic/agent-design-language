@@ -5,7 +5,7 @@
   "initialization_digest": "221c77501fda97ff06555ed4d0df264c3898ad571378af269bf5de3291370881",
   "phase": "implemented",
   "generation": 2,
-  "digest": "86de98015f9361a88dbc1310864c77d2d22b57ca133b4c980578ec04e9889e99",
+  "digest": "1a6beb554d4ba98463171432cd91c95a6a64ba6304f1e79cb55d0fdb0ae56d5e",
   "claim": {
     "id": "claim-5780-delete-terminal-authority",
     "owner": "codex:5780-implementation",
@@ -32,12 +32,15 @@
       "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
       "csdlc-v2/src/bin/csdlc-closeout.rs",
       "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/src/bin/csdlc-finish.rs",
       "csdlc-v2/src/bin/csdlc-merge.rs",
       "csdlc-v2/src/bin/csdlc-publish.rs",
       "csdlc-v2/src/cleanup.rs",
       "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/src/finish.rs",
       "csdlc-v2/src/github.rs",
       "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/merge.rs",
       "csdlc-v2/src/model.rs",
       "csdlc-v2/src/proof.rs",
       "csdlc-v2/src/publication.rs",
@@ -55,6 +58,7 @@
       "csdlc-v2/tests/gate_cleanup.rs",
       "csdlc-v2/tests/gate_terminal_authority_deletion.rs",
       "docs/default_workflow.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
       "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md",
       "docs/tooling/OWNER_BINARY_INSTALLATION.md",
       "docs/tooling/adl_pr_cycle_skill.md"
@@ -186,6 +190,13 @@
       "actor": "codex:5780-review-remediation",
       "reason": "Independent review found the standalone csdlc-merge binary remained a competing and unreachable terminal mutation route; remove its exact source and proof surfaces while retaining the internal finish-owned merge helper.",
       "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/bin/csdlc-merge.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 2,
+      "actor": "codex:5780-review-remediation",
+      "reason": "Exact-head review found the remaining public direct-merge API and active operator guidance to be competing terminal authorities; fold merge execution into finish and guard the corrected documentation.",
+      "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/merge.rs\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
