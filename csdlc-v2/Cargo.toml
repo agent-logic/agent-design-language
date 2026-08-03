@@ -75,6 +75,10 @@ name = "csdlc-closeout"
 path = "src/bin/csdlc-closeout.rs"
 
 [[bin]]
+name = "csdlc-clean"
+path = "src/bin/csdlc-clean.rs"
+
+[[bin]]
 name = "csdlc-shadow"
 path = "src/bin/csdlc-shadow.rs"
 

@@ -36,6 +36,7 @@ Current C-SDLC v2 GitHub owner binaries include:
 - `csdlc-pr-state`
 - `csdlc-merge`
 - `csdlc-finish`
+- `csdlc-clean`
 
 `csdlc-github` remains a compatibility facade. New issue actions should route
 through `csdlc-github-issue`; PR observation should route through
@@ -43,6 +44,10 @@ through `csdlc-github-issue`; PR observation should route through
 remains the bounded exact-head merge primitive. `csdlc-finish` is the normal
 operator route: it recognizes an already-terminal issue or invokes that same
 merge gate, then retains only a rebuildable derived terminal cache.
+
+`csdlc-clean` is the independent safe-cleanup and legacy compatibility route.
+It never supplies merge or issue-closure authority, and it never force-removes
+a dirty, missing, relocated, primary, or identity-drifted worktree.
 
 Cargo `target/` directories remain build/cache output only. They may be deleted
 or pruned without taking the operational command surface with them. C-SDLC v2

@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5779,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][closeout] Decouple safe cleanup and migrate legacy terminal receipts",
+    "slug": "standalone-cleanup",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/cleanup.rs\ncsdlc-v2/src/bin/csdlc-clean.rs\ncsdlc-v2/tests/gate_cleanup.rs\ncsdlc-v2/operator\ndocs/default_workflow.md\ndocs/tooling/OWNER_BINARY_INSTALLATION.md\n.csdlc/evidence/5779\n.csdlc/issues/5779",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can cleanup ever delete a dirty or mismatched worktree?",
+        "Can cleanup state affect delivery or terminal resolution?",
+        "Are legacy receipts compatibility-only and immutable?",
+        "Are missing, relocated, and concurrent cases deterministic and idempotent?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

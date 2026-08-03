@@ -1,5 +1,9 @@
 use serde_json::{json, Value};
 
+use crate::cleanup::{
+    CleanupRequest, CleanupResult, LegacyTerminalIndex, LegacyTerminalIndexRequest,
+    TerminalCensusReport,
+};
 use crate::doctor::DoctorReport;
 use crate::finish::{
     DerivedTerminalEnvelope, FinishRequest, FinishResult, IssueTerminalObservation,
@@ -37,6 +41,11 @@ use crate::store::{BootstrapRequest, EditRequest, RepairIdentityRequest};
 pub fn public_schema_bundle() -> Value {
     json!({
         "schema": "csdlc.public_schema_bundle.v1",
+        "cleanup_request": schemars::schema_for!(CleanupRequest),
+        "cleanup_result": schemars::schema_for!(CleanupResult),
+        "legacy_terminal_index_request": schemars::schema_for!(LegacyTerminalIndexRequest),
+        "legacy_terminal_index": schemars::schema_for!(LegacyTerminalIndex),
+        "terminal_census_report": schemars::schema_for!(TerminalCensusReport),
         "bootstrap_request": schemars::schema_for!(BootstrapRequest),
         "approve_design_request": schemars::schema_for!(ApproveDesignRequest),
         "edit_request": schemars::schema_for!(EditRequest),
