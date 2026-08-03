@@ -5,7 +5,7 @@
   "initialization_digest": "221c77501fda97ff06555ed4d0df264c3898ad571378af269bf5de3291370881",
   "phase": "implemented",
   "generation": 2,
-  "digest": "60a136f6b9d4774189086cdbfddc83b734feb5e46ca6189f4c1ff5aeae5b8db7",
+  "digest": "86de98015f9361a88dbc1310864c77d2d22b57ca133b4c980578ec04e9889e99",
   "claim": {
     "id": "claim-5780-delete-terminal-authority",
     "owner": "codex:5780-implementation",
@@ -32,6 +32,7 @@
       "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
       "csdlc-v2/src/bin/csdlc-closeout.rs",
       "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/src/bin/csdlc-merge.rs",
       "csdlc-v2/src/bin/csdlc-publish.rs",
       "csdlc-v2/src/cleanup.rs",
       "csdlc-v2/src/doctor.rs",
@@ -178,6 +179,13 @@
       "actor": "codex:5780-implementation",
       "reason": "Compiler-guided deletion reached additional exact owner, operator guidance, and obsolete proof files required to remove the competing terminal authority without leaving stale active contracts.",
       "operation": "{\"add_protected_paths\":[\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/proof.rs\",\"csdlc-v2/tests/gate7_terminal_design_repair_5487.rs\",\"csdlc-v2/tests/gate7_terminal_sor_validation_repair_5613.rs\",\"csdlc-v2/tests/gate9.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 2,
+      "actor": "codex:5780-review-remediation",
+      "reason": "Independent review found the standalone csdlc-merge binary remained a competing and unreachable terminal mutation route; remove its exact source and proof surfaces while retaining the internal finish-owned merge helper.",
+      "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/bin/csdlc-merge.rs\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

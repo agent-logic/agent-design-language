@@ -138,7 +138,7 @@ fn installer_records_provenance_without_replacing_other_files() {
     assert!(destination.join("csdlc-github-issue").is_file());
     assert!(destination.join("csdlc-github-pr").is_file());
     assert!(destination.join("csdlc-install").is_file());
-    assert!(destination.join("csdlc-merge").is_file());
+    assert!(!destination.join("csdlc-merge").exists());
     #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt;

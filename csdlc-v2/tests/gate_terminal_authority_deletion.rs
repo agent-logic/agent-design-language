@@ -13,6 +13,7 @@ fn repo() -> &'static Path {
 fn competing_closeout_binary_and_skill_are_absent() {
     let root = repo();
     assert!(!root.join("csdlc-v2/src/bin/csdlc-closeout.rs").exists());
+    assert!(!root.join("csdlc-v2/src/bin/csdlc-merge.rs").exists());
     assert!(!root
         .join("csdlc-v2/operator/skills/csdlc-v2-closeout/SKILL.md")
         .exists());
@@ -22,6 +23,7 @@ fn competing_closeout_binary_and_skill_are_absent() {
     let coexistence = fs::read_to_string(root.join("csdlc-v2/operator/coexistence.json")).unwrap();
     for surface in [cargo, skills, coexistence] {
         assert!(!surface.contains("csdlc-closeout"));
+        assert!(!surface.contains("csdlc-merge"));
     }
 }
 

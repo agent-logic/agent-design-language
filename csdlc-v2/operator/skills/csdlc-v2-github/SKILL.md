@@ -33,11 +33,11 @@ Supported action values:
 
 `pr_state` is read-only readiness observation. PR publication and terminal
 delivery remain under the repo-native Rust v2 command surface:
-`csdlc-publish`, `csdlc-merge`, and `csdlc-finish`. Do not route those
+`csdlc-publish` and `csdlc-finish`. Do not route those
 operations through connector actions or legacy wrapper commands.
 
 The install/coexistence inventory must include `csdlc-github`,
-`csdlc-github-issue`, `csdlc-github-pr`, `csdlc-pr-state`, and `csdlc-merge`.
+`csdlc-github-issue`, `csdlc-github-pr`, and `csdlc-pr-state`.
 Treat a missing split binary as an installation failure, not as permission to
 fall back to raw GitHub tooling.
 
