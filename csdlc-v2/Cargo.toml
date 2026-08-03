@@ -63,16 +63,8 @@ name = "csdlc-publish"
 path = "src/bin/csdlc-publish.rs"
 
 [[bin]]
-name = "csdlc-merge"
-path = "src/bin/csdlc-merge.rs"
-
-[[bin]]
 name = "csdlc-finish"
 path = "src/bin/csdlc-finish.rs"
-
-[[bin]]
-name = "csdlc-closeout"
-path = "src/bin/csdlc-closeout.rs"
 
 [[bin]]
 name = "csdlc-clean"

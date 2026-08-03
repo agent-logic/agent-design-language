@@ -127,12 +127,12 @@ These rules are mandatory for ADL issue work.
    - Every implementation PR body must include the correct GitHub closing
      keyword for its tracked issue, normally `Closes #<issue>`, so GitHub closes
      the issue immediately when the PR merges. A bare issue mention such as
-     `Related #<issue>` is not sufficient. Typed C-SDLC closeout remains a
-     separate, truthful, asynchronous follow-up after GitHub issue closure and
-     must not block independent implementation work.
-6. Always perform closeout after the issue is closed.
-   - Use the normal closeout path so issue truth, cards, artifacts, and GitHub
-     state all agree.
+     `Related #<issue>` is not sufficient. `csdlc-finish` derives terminal
+     authority from live GitHub state and must not create a second closeout PR
+     or rewrite tracked cards after merge.
+6. Always finish and clean up truthfully.
+   - Use `csdlc-finish` for terminal authority, then run `csdlc-clean cleanup`
+     separately for the exact registered worktree.
 
 ## Repository-Specific Working Style
 
@@ -225,8 +225,8 @@ For a normal tracked issue:
 11. run the smallest meaningful validation for the touched surface
 12. run a pre-PR subagent review and fix findings
 13. run `csdlc-review` before `csdlc-publish`; publication must fail closed without current review truth
-14. use `update_goal` for truthful terminal session state, then perform closeout
-   after merge/closure
+14. use `update_goal` for truthful terminal session state after `csdlc-finish`,
+   then run cleanup separately after merge/closure
 
 ## Validation Expectations
 

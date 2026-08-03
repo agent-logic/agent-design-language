@@ -17,7 +17,7 @@ The current command surface is split by responsibility:
 - `csdlc-github-pr` owns GitHub PR observation through `pr_state`.
 - `csdlc-pr-state` remains the dedicated low-level PR-state observer used by
   other v2 binaries.
-- `csdlc-merge` remains the exact-head merge authority.
+- `csdlc-finish` is the sole exact-head merge and derived-terminal authority.
 - `csdlc-github` remains a compatibility facade while callers migrate to the
   narrower owner binaries.
 
@@ -51,7 +51,7 @@ owner binary:
 - `csdlc-github-issue`
 - `csdlc-github-pr`
 - `csdlc-pr-state`
-- `csdlc-merge`
+- `csdlc-finish`
 
 `csdlc-install install` must build and install the reviewed binary set into the
 dedicated `.adl/bin/csdlc-v2/` generation directory. `csdlc-install verify`
@@ -67,9 +67,9 @@ or built from stale provenance.
   migration.
 - Do not add new issue actions to `csdlc-github-pr`.
 - Do not add new PR actions to `csdlc-github-issue`.
-- Do not route publication, readying, merging, or closeout through connector
-  actions; keep those under `csdlc-publish`, `csdlc-merge`, and
-  `csdlc-closeout`.
+- Do not route publication or terminal operations through connector actions;
+  keep publication under `csdlc-publish` and exact-head merge plus derived
+  terminal retention under `csdlc-finish`.
 - Unsupported GitHub workflow operations must fail closed until a repo-native
   Rust implementation exists.
 
