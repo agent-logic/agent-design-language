@@ -12,14 +12,21 @@ Status: pre_phase
 
 ## Scope
 
-csdlc-v2/src/cleanup.rs
+AGENTS.md
+csdlc-v2/AGENTS.md
+csdlc-v2/Cargo.toml
+csdlc-v2/operator/coexistence.json
+csdlc-v2/operator/skills.json
+csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md
 csdlc-v2/src/bin/csdlc-clean.rs
+csdlc-v2/src/cleanup.rs
+csdlc-v2/src/lib.rs
+csdlc-v2/src/operator.rs
+csdlc-v2/src/schema.rs
+csdlc-v2/tests/gate10a.rs
 csdlc-v2/tests/gate_cleanup.rs
-csdlc-v2/operator
 docs/default_workflow.md
 docs/tooling/OWNER_BINARY_INSTALLATION.md
-.csdlc/evidence/5779
-.csdlc/issues/5779
 
 ## Prompts
 
@@ -38,12 +45,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The final re-review reran the nine-test cleanup gate and diff checks; the complete crate and full Gate 10A suite were proven earlier in this issue sequence, while the final source delta was covered by focused cleanup, Gate 10A, and strict Clippy proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c865d78ff97b1aefb29f099e5a4fae8ffd131974:a8610ab682f9d0d7242b56d8351d77cbe60e711a68e9a0b89cfd2fc0d1fd2b06")
 
-Reviewer: None
+Reviewer: Some("subagent:review_5779_exact_head")
 
-Result: pre_review
+Result: pass
