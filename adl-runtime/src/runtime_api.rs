@@ -47,7 +47,16 @@ pub const CSM_RUNTIME_API_DEFAULT_PORT: u16 = 20_997;
 const WSS_AUTH_REFRESH: Duration = Duration::from_millis(25);
 const MAX_WSS_FRAME_BYTES: usize = 64 * 1024;
 
-pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 3] = ["/v1/health", "/v1/metrics", "/v1/acip/ws"];
+const CSM_RUNTIME_API_HEALTH_PATH: &str = "/v1/health";
+const CSM_RUNTIME_API_METRICS_PATH: &str = "/v1/metrics";
+const CSM_RUNTIME_API_ACIP_WS_PATH: &str = "/v1/acip/ws";
+
+pub const CSM_RUNTIME_API_MOUNTED_ROUTES: [&str; 3] = [
+    CSM_RUNTIME_API_HEALTH_PATH,
+    CSM_RUNTIME_API_METRICS_PATH,
+    CSM_RUNTIME_API_ACIP_WS_PATH,
+];
+pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 3] = CSM_RUNTIME_API_MOUNTED_ROUTES;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
 #[serde(rename_all = "snake_case")]
@@ -195,9 +204,9 @@ where
 
 pub fn runtime_api_router(service: Arc<RuntimeApiService>) -> Router {
     Router::new()
-        .route("/v1/health", get(health_handler))
-        .route("/v1/metrics", get(metrics_handler))
-        .route("/v1/acip/ws", get(wss_handler))
+        .route(CSM_RUNTIME_API_HEALTH_PATH, get(health_handler))
+        .route(CSM_RUNTIME_API_METRICS_PATH, get(metrics_handler))
+        .route(CSM_RUNTIME_API_ACIP_WS_PATH, get(wss_handler))
         .with_state(service)
 }
 
@@ -415,6 +424,80 @@ pub fn persistence_health(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use axum::body::to_bytes;
+    use axum::http::HeaderValue;
+
+    fn test_health() -> RuntimeApiHealthReport {
+        runtime_api_health_report(vec![RuntimeApiCapabilityHealth {
+            capability: "runtime_api".to_string(),
+            state: RuntimeApiHealthState::Healthy,
+            reason_code: "unit_test".to_string(),
+            evidence_ref: "adl-runtime/src/runtime_api.rs".to_string(),
+        }])
+    }
+
+    fn test_telemetry() -> RuntimeApiTelemetryConfig {
+        RuntimeApiTelemetryConfig {
+            schema: "adl.csm.runtime_api.telemetry_config.v1".to_string(),
+            sinks: vec![RuntimeApiTelemetrySink {
+                sink: "local_jsonl".to_string(),
+                supported_fields: BTreeSet::from(["event".to_string(), "state".to_string()]),
+            }],
+        }
+    }
+
+    fn test_matrix() -> RuntimeApiFeatureMatrix {
+        runtime_api_feature_matrix(vec![
+            RuntimeApiFeatureMatrixRow {
+                feature: "healthy_feature".to_string(),
+                adapter: "unit".to_string(),
+                claimed: true,
+                health_state: RuntimeApiHealthState::Healthy,
+                proof: "unit".to_string(),
+            },
+            RuntimeApiFeatureMatrixRow {
+                feature: "missing_feature".to_string(),
+                adapter: "unit".to_string(),
+                claimed: true,
+                health_state: RuntimeApiHealthState::Unavailable,
+                proof: "unit".to_string(),
+            },
+        ])
+    }
+
+    fn service_with_token() -> (tempfile::TempDir, Arc<RuntimeApiService>, String) {
+        let root = tempfile::tempdir().expect("tempdir");
+        let store = RuntimeApiCredentialStore::for_state_root(root.path());
+        store.ensure().expect("runtime API credential");
+        let token = store
+            .with_bearer_token(str::to_owned)
+            .expect("bearer token");
+        (
+            root,
+            Arc::new(RuntimeApiService::new(
+                store,
+                test_health(),
+                test_telemetry(),
+                test_matrix(),
+            )),
+            token,
+        )
+    }
+
+    fn authorized_headers(token: &str) -> HeaderMap {
+        let mut headers = HeaderMap::new();
+        headers.insert(
+            header::AUTHORIZATION,
+            HeaderValue::from_str(&format!("Bearer {token}")).expect("authorization header"),
+        );
+        headers
+    }
+
+    async fn response_json(response: Response) -> Value {
+        let body = response.into_body();
+        let bytes = to_bytes(body, 128 * 1024).await.expect("response body");
+        serde_json::from_slice(&bytes).expect("json response")
+    }
 
     #[test]
     fn runtime_api_contract_advertises_only_served_routes() {
@@ -422,11 +505,127 @@ mod tests {
             CSM_RUNTIME_API_ENDPOINTS,
             ["/v1/health", "/v1/metrics", "/v1/acip/ws"]
         );
+        assert_eq!(CSM_RUNTIME_API_ENDPOINTS, CSM_RUNTIME_API_MOUNTED_ROUTES);
         assert!(!CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/status"));
         assert!(!CSM_RUNTIME_API_ENDPOINTS.contains(&"/v1/chronosense"));
         assert_eq!(
             CSM_RUNTIME_API_STATUS_SCHEMA,
             "adl.csm.runtime_api.status.v1"
+        );
+    }
+
+    #[tokio::test]
+    async fn health_and_metrics_handlers_require_bearer_auth_and_return_contracts() {
+        let (_root, service, token) = service_with_token();
+
+        let denied = health_handler(State(service.clone()), HeaderMap::new()).await;
+        assert_eq!(denied.status(), StatusCode::UNAUTHORIZED);
+        let denied_json = response_json(denied).await;
+        assert_eq!(denied_json["code"], "authentication_failed");
+        assert_eq!(denied_json["reason"], "missing_bearer_token");
+
+        let health = health_handler(State(service.clone()), authorized_headers(&token)).await;
+        assert_eq!(health.status(), StatusCode::OK);
+        let health_json = response_json(health).await;
+        assert_eq!(health_json["schema"], CSM_RUNTIME_API_HEALTH_SCHEMA);
+        assert_eq!(health_json["runtime_owner"], crate::CSM_RUNTIME_OWNER);
+        assert_eq!(health_json["capabilities"][0]["state"], "healthy");
+
+        let metrics = metrics_handler(State(service), authorized_headers(&token)).await;
+        assert_eq!(metrics.status(), StatusCode::OK);
+        let metrics_json = response_json(metrics).await;
+        assert_eq!(
+            metrics_json["schema"],
+            "adl.csm.runtime_api.telemetry_config.v1"
+        );
+        assert_eq!(metrics_json["sinks"][0]["sink"], "local_jsonl");
+    }
+
+    #[test]
+    fn router_mounts_the_advertised_http_contract() {
+        let (_root, service, token) = service_with_token();
+        let _router = runtime_api_router(service);
+        let headers = authorized_headers(&token);
+        assert!(headers.contains_key(header::AUTHORIZATION));
+        assert_eq!(
+            CSM_RUNTIME_API_MOUNTED_ROUTES,
+            [
+                CSM_RUNTIME_API_HEALTH_PATH,
+                CSM_RUNTIME_API_METRICS_PATH,
+                CSM_RUNTIME_API_ACIP_WS_PATH
+            ]
+        );
+    }
+
+    #[test]
+    fn telemetry_events_filter_supported_fields_and_feature_matrix_flags_unhealthy_claims() {
+        let config = test_telemetry();
+        let event = runtime_api_telemetry_event(
+            &config,
+            "local_jsonl",
+            &json!({"event":"tick","state":"ok","secret":"drop_me"}),
+        )
+        .expect("telemetry event");
+        assert_eq!(event["schema"], CSM_RUNTIME_API_TELEMETRY_EVENT_SCHEMA);
+        assert_eq!(event["payload"]["event"], "tick");
+        assert_eq!(event["payload"]["state"], "ok");
+        assert!(event["payload"].get("secret").is_none());
+        assert_eq!(event["dropped_unsupported_fields"], 1);
+
+        assert_eq!(
+            runtime_api_telemetry_event(&config, "missing", &json!({})).unwrap_err(),
+            "telemetry_sink_unavailable"
+        );
+        assert_eq!(
+            runtime_api_telemetry_event(&config, "local_jsonl", &json!("bad")).unwrap_err(),
+            "telemetry_payload_must_be_object"
+        );
+
+        let matrix = test_matrix();
+        assert_eq!(
+            matrix.unresolved_claimed_features,
+            vec!["missing_feature".to_string()]
+        );
+        assert_eq!(matrix.schema, CSM_RUNTIME_API_FEATURE_MATRIX_SCHEMA);
+    }
+
+    #[test]
+    fn runtime_api_helper_payloads_preserve_operator_contracts() {
+        assert_eq!(
+            configured_runtime_api_socket(),
+            SocketAddr::from(([127, 0, 0, 1], CSM_RUNTIME_API_DEFAULT_PORT))
+        );
+
+        let persistence = persistence_health(
+            crate::continuity_history::DomainHealth {
+                domain: "checkpoint",
+                status: "healthy",
+                schema: "test.schema",
+                store: "memory",
+                restore_authority: true,
+                record_count: 1,
+                last_sequence: Some(7),
+                failure_policy: "fail_closed",
+            },
+            crate::continuity_history::DomainHealth {
+                domain: "lifelog",
+                status: "unavailable",
+                schema: "test.schema",
+                store: "memory",
+                restore_authority: false,
+                record_count: 0,
+                last_sequence: None,
+                failure_policy: "isolated",
+            },
+        );
+        assert_eq!(persistence["schema"], CSM_RUNTIME_API_PERSISTENCE_SCHEMA);
+        assert_eq!(
+            persistence["restore_authority"],
+            "checkpoint_continuity_only"
+        );
+        assert_eq!(
+            persistence["failure_isolation"],
+            "independent_stores_and_lifecycle"
         );
     }
 }
