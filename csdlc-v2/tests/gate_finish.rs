@@ -5,6 +5,7 @@ use csdlc_v2::finish::{
     derive_terminal, envelope_matches_record, envelope_releases_claim, load_cached_terminal,
     retain_cached_terminal, validate_finish_merge_authority, validate_publication_head_in_repo,
 };
+use csdlc_v2::github::PrStatePacket;
 use csdlc_v2::{
     Claim, DesignReview, FinishDisposition, FinishRequest, IssueRecord, IssueTerminalObservation,
     LifecyclePhase, MergeMethod, PublicationEvidence, ReviewEvidence,
@@ -125,11 +126,19 @@ fn mutable_terminal_cache_expires_and_is_bound_to_exact_record() {
     let envelope = derive_terminal(&record, &no_pr_request(), &issue("closed", true), None)
         .expect("derive")
         .expect("terminal");
-    assert!(envelope_releases_claim(&envelope, &record, 400).expect("fresh"));
-    assert!(!envelope_releases_claim(&envelope, &record, 401).expect("expired"));
+    assert!(
+        envelope_releases_claim(std::path::Path::new("."), &envelope, &record, 400).expect("fresh")
+    );
+    assert!(
+        !envelope_releases_claim(std::path::Path::new("."), &envelope, &record, 401)
+            .expect("expired")
+    );
     let mut changed = record.clone();
     changed.generation += 1;
-    assert!(!envelope_releases_claim(&envelope, &changed, 100).expect("record drift"));
+    assert!(
+        !envelope_releases_claim(std::path::Path::new("."), &envelope, &changed, 100)
+            .expect("record drift")
+    );
 }
 
 #[cfg(unix)]
@@ -313,7 +322,8 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
     git(&["config", "user.name", "Test"]);
     std::fs::create_dir_all(temp.path().join("src")).unwrap();
     std::fs::write(temp.path().join("src/lib.rs"), "pub fn stable() {}\n").unwrap();
-    git(&["add", "src/lib.rs"]);
+    std::fs::write(temp.path().join("outside-review.txt"), "substantive\n").unwrap();
+    git(&["add", "src/lib.rs", "outside-review.txt"]);
     git(&["commit", "-qm", "source"]);
     let source = git(&["rev-parse", "HEAD"]);
     let reviewed = csdlc_v2::git::substantive_revision(temp.path(), &["src".into()]).unwrap();
@@ -370,6 +380,80 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
     validate_publication_head_in_repo(temp.path(), &record, &request)
         .expect("metadata-only forward head");
 
+    let merged_packet = PrStatePacket {
+        schema: "csdlc.github_pr_state.v1".into(),
+        repository: "owner/repo".into(),
+        pull_request: 9,
+        linked_issue: Some(5778),
+        linkage_source: Some("github".into()),
+        state: "closed".into(),
+        draft: false,
+        merge_state: "unknown".into(),
+        review_decision: "approved".into(),
+        base_ref: Some("main".into()),
+        head_ref: Some("codex/5778".into()),
+        head_sha: current.clone(),
+        url: Some("https://example.test/pull/9".into()),
+        body: Some("Closes #5778".into()),
+        merged: true,
+        merge_commit_sha: Some("1111111111111111111111111111111111111111".into()),
+        checks: vec![],
+        required_check_names: vec![],
+        classification: "merged".into(),
+    };
+    let merged = derive_terminal(
+        &record,
+        &request,
+        &IssueTerminalObservation {
+            state: "closed".into(),
+            labels: vec![],
+            observed_unix_seconds: 100,
+        },
+        Some(&merged_packet),
+    )
+    .expect("derive merged terminal")
+    .expect("merged terminal");
+    assert!(!envelope_matches_record(&merged, &record).expect("exact publication identity"));
+    assert!(envelope_releases_claim(temp.path(), &merged, &record, 100)
+        .expect("strict metadata lineage releases claim"));
+
+    git(&["checkout", "-qb", "rename-drift", &current]);
+    std::fs::create_dir_all(temp.path().join(".csdlc/moved")).unwrap();
+    git(&[
+        "mv",
+        "outside-review.txt",
+        ".csdlc/moved/outside-review.txt",
+    ]);
+    git(&["commit", "-qm", "move substantive source into metadata"]);
+    let rename_head = git(&["rev-parse", "HEAD"]);
+    let mut rename_request = request.clone();
+    rename_request.expected_head_sha = Some(rename_head);
+    let rename_error = validate_publication_head_in_repo(temp.path(), &record, &rename_request)
+        .expect_err("renamed substantive source must not become metadata-only drift");
+    assert_eq!(
+        rename_error.code,
+        csdlc_v2::ErrorCode::ReconciliationRequired
+    );
+    let mut rename_packet = merged_packet.clone();
+    rename_packet.head_sha = rename_request.expected_head_sha.clone().unwrap();
+    let rename_terminal = derive_terminal(
+        &record,
+        &rename_request,
+        &IssueTerminalObservation {
+            state: "closed".into(),
+            labels: vec![],
+            observed_unix_seconds: 102,
+        },
+        Some(&rename_packet),
+    )
+    .expect("derive renamed terminal")
+    .expect("renamed terminal");
+    assert!(
+        !envelope_releases_claim(temp.path(), &rename_terminal, &record, 102)
+            .expect("renamed substantive drift must not release claim")
+    );
+    git(&["checkout", "-q", "codex/5778"]);
+
     let mut exact = record.clone();
     exact.publication.as_mut().unwrap().revision = csdlc_v2::git::clean_commit_revision(&current);
     std::fs::write(temp.path().join("src/lib.rs"), "dirty\n").unwrap();
@@ -385,6 +469,10 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
         format!("git-blake3:{published}:garbage");
     assert!(
         validate_publication_head_in_repo(temp.path(), &malformed_publication, &request).is_err()
+    );
+    assert!(
+        !envelope_releases_claim(temp.path(), &merged, &malformed_publication, 100)
+            .expect("malformed publication must not release claim")
     );
 
     let mut changed_scope = record.clone();
@@ -412,4 +500,23 @@ fn publication_accepts_clean_forward_csdlc_metadata_only_head() {
     let error = validate_publication_head_in_repo(temp.path(), &record, &request)
         .expect_err("substantive forward head must fail closed");
     assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+
+    let mut substantive_packet = merged_packet;
+    substantive_packet.head_sha = request.expected_head_sha.clone().unwrap();
+    let substantive = derive_terminal(
+        &record,
+        &request,
+        &IssueTerminalObservation {
+            state: "closed".into(),
+            labels: vec![],
+            observed_unix_seconds: 101,
+        },
+        Some(&substantive_packet),
+    )
+    .expect("derive substantive terminal")
+    .expect("substantive terminal");
+    assert!(
+        !envelope_releases_claim(temp.path(), &substantive, &record, 101)
+            .expect("substantive drift must not release claim")
+    );
 }

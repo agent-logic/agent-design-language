@@ -179,12 +179,6 @@ pub fn validate_publication_head_in_repo(
     let Some(expected_head) = request.expected_head_sha.as_deref() else {
         return Ok(());
     };
-    let publication = record.publication.as_ref().ok_or_else(|| {
-        V2Error::new(
-            ErrorCode::ReconciliationRequired,
-            "publication evidence is missing",
-        )
-    })?;
     if git::run(root, &["rev-parse", "HEAD"])?.stdout != expected_head
         || !git::run(
             root,
@@ -203,6 +197,26 @@ pub fn validate_publication_head_in_repo(
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
             "finish requires the exact clean local head",
+        ));
+    }
+    validate_publication_head_lineage_in_repo(root, record, expected_head)
+}
+
+fn validate_publication_head_lineage_in_repo(
+    root: &Path,
+    record: &IssueRecord,
+    expected_head: &str,
+) -> Result<()> {
+    let publication = record.publication.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "publication evidence is missing",
+        )
+    })?;
+    if expected_head.len() != 40 || !expected_head.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "publication head cannot prove an exact commit identity",
         ));
     }
     let published_head = parse_clean_git_revision(&publication.revision).ok_or_else(|| {
@@ -227,7 +241,13 @@ pub fn validate_publication_head_in_repo(
     }
     let changed = git::run(
         root,
-        &["diff", "--name-only", published_head, expected_head],
+        &[
+            "diff",
+            "--name-only",
+            "--no-renames",
+            published_head,
+            expected_head,
+        ],
     )?;
     if changed
         .stdout
@@ -274,17 +294,21 @@ pub fn validate_publication_head_in_repo(
             "review revision cannot prove exact clean commit authority",
         )
     })?;
-    if !git::substantive_scope_matches_commit(root, reviewed_commit, &review.scope)?
-        || git::run(
-            root,
-            &[
-                "merge-base",
-                "--is-ancestor",
-                reviewed_commit,
-                expected_head,
-            ],
-        )
-        .is_err()
+    if !git::substantive_scope_matches_revisions(
+        root,
+        reviewed_commit,
+        expected_head,
+        &review.scope,
+    )? || git::run(
+        root,
+        &[
+            "merge-base",
+            "--is-ancestor",
+            reviewed_commit,
+            expected_head,
+        ],
+    )
+    .is_err()
     {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
@@ -529,29 +553,51 @@ pub fn envelope_matches_record(
     record: &IssueRecord,
 ) -> Result<bool> {
     validate_envelope(envelope)?;
-    Ok(envelope.issue == record.issue
-        && envelope.repository == record.repository
-        && envelope.initialization_digest == record.initialization_digest
-        && envelope.canonical_generation == record.generation
-        && envelope.canonical_digest == record.digest
+    Ok(envelope_matches_record_identity(envelope, record)
         && match envelope.pull_request {
-            Some(pull_request) => record.publication.as_ref().is_some_and(|publication| {
-                publication.pull_request == pull_request
-                    && envelope
-                        .head_sha
-                        .as_deref()
-                        .is_some_and(|head| publication.revision == clean_commit_revision(head))
+            Some(_) => record.publication.as_ref().is_some_and(|publication| {
+                envelope
+                    .head_sha
+                    .as_deref()
+                    .is_some_and(|head| publication.revision == clean_commit_revision(head))
             }),
             None => true,
         })
 }
 
+fn envelope_matches_record_identity(
+    envelope: &DerivedTerminalEnvelope,
+    record: &IssueRecord,
+) -> bool {
+    envelope.issue == record.issue
+        && envelope.repository == record.repository
+        && envelope.initialization_digest == record.initialization_digest
+        && envelope.canonical_generation == record.generation
+        && envelope.canonical_digest == record.digest
+        && match envelope.pull_request {
+            Some(pull_request) => record
+                .publication
+                .as_ref()
+                .is_some_and(|publication| publication.pull_request == pull_request),
+            None => true,
+        }
+}
+
 pub fn envelope_releases_claim(
+    root: &Path,
     envelope: &DerivedTerminalEnvelope,
     record: &IssueRecord,
     now_unix_seconds: u64,
 ) -> Result<bool> {
-    if !envelope_matches_record(envelope, record)? {
+    validate_envelope(envelope)?;
+    if !envelope_matches_record_identity(envelope, record) {
+        return Ok(false);
+    }
+    if envelope.pull_request.is_some()
+        && !envelope.head_sha.as_deref().is_some_and(|head| {
+            validate_publication_head_lineage_in_repo(root, record, head).is_ok()
+        })
+    {
         return Ok(false);
     }
     Ok(envelope.disposition == FinishDisposition::Merged

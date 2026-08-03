@@ -1637,6 +1637,197 @@ fn active_nonoverlap_does_not_consult_stale_terminal_identity() {
 }
 
 #[test]
+fn fresh_initialization_accepts_overlap_released_by_metadata_advanced_merged_terminal() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    git(temp.path(), &["init", "-b", "main"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    fs::create_dir_all(temp.path().join("docs")).expect("docs");
+    fs::create_dir_all(temp.path().join("csdlc-v2/src")).expect("csdlc source");
+    fs::create_dir_all(temp.path().join("docs/templates/prompts")).expect("registry directory");
+    fs::create_dir_all(temp.path().join("csdlc-v2/operator")).expect("manifest directory");
+    fs::write(
+        temp.path().join("docs/templates/prompts/current.json"),
+        include_bytes!("../../docs/templates/prompts/current.json"),
+    )
+    .expect("registry fixture");
+    fs::write(
+        temp.path().join("csdlc-v2/operator/native-card-shape.json"),
+        include_bytes!("../operator/native-card-shape.json"),
+    )
+    .expect("manifest fixture");
+    fs::write(temp.path().join("docs/design.md"), "# Reviewed design\n").expect("design");
+    fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n  A --> B\n",
+    )
+    .expect("diagram");
+    fs::write(
+        temp.path().join("csdlc-v2/src/lib.rs"),
+        "pub fn stable() {}\n",
+    )
+    .expect("source");
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "reviewed source"]);
+    let reviewed_revision = csdlc_v2::git::substantive_revision(temp.path(), &["csdlc-v2".into()])
+        .expect("reviewed revision");
+
+    let review = csdlc_v2::ReviewEvidence {
+        reviewer: "independent-reviewer".into(),
+        scope: vec!["csdlc-v2".into()],
+        reviewed_revision,
+        findings: vec![],
+        residual_risks: vec![],
+        completed: true,
+        non_substantive_proof: None,
+    };
+    let mut finished = csdlc_v2::IssueRecord {
+        schema: "csdlc.issue.v2".into(),
+        issue: 5_778,
+        repository: "example/repo".into(),
+        initialization_digest: "initialization-5778".into(),
+        phase: LifecyclePhase::Reviewed,
+        generation: 25,
+        digest: "canonical-5778".into(),
+        claim: Some(Claim {
+            id: "claim-5778".into(),
+            owner: "finished-session".into(),
+            generation: 25,
+            acquired_unix_seconds: 1,
+            expires_unix_seconds: u64::MAX,
+            heartbeat_unix_seconds: 1,
+            branch: "main".into(),
+            worktree: ".".into(),
+            protected_paths: vec!["csdlc-v2".into()],
+            purpose: "implementation".into(),
+        }),
+        review_assignment: None,
+        review: Some(review),
+        publication: None,
+        readiness: None,
+        terminal: None,
+        migration: None,
+        design_path: "docs/design.md".into(),
+        diagram_path: "docs/diagram.mmd".into(),
+        design_review: csdlc_v2::DesignReview::Approved {
+            reviewer: "reviewer".into(),
+            revision: "reviewed".into(),
+        },
+        cards: std::collections::BTreeMap::new(),
+        transitions: vec![],
+        audit: vec![],
+    };
+    fs::create_dir_all(temp.path().join(".csdlc/issues/5778")).expect("issue directory");
+    fs::write(
+        temp.path().join(".csdlc/issues/5778/index.json"),
+        serde_json::to_vec_pretty(&finished).expect("historical record"),
+    )
+    .expect("historical projection");
+    git(temp.path(), &["add", ".csdlc/issues/5778/index.json"]);
+    git(temp.path(), &["commit", "-m", "review metadata"]);
+    let published = csdlc_v2::git::run(temp.path(), &["rev-parse", "HEAD"])
+        .expect("published head")
+        .stdout;
+
+    finished.phase = LifecyclePhase::Published;
+    finished.publication = Some(csdlc_v2::PublicationEvidence {
+        repository: "example/repo".into(),
+        issue: 5_778,
+        pull_request: 5_782,
+        url: "https://example.test/pull/5782".into(),
+        base: "main".into(),
+        head: "codex/5778".into(),
+        revision: csdlc_v2::git::clean_commit_revision(&published),
+        draft: false,
+        observed_state: "open".into(),
+    });
+    fs::write(
+        temp.path().join(".csdlc/issues/5778/index.json"),
+        serde_json::to_vec_pretty(&finished).expect("published record"),
+    )
+    .expect("published projection");
+    git(temp.path(), &["add", ".csdlc/issues/5778/index.json"]);
+    git(temp.path(), &["commit", "-m", "publication metadata"]);
+    let final_head = csdlc_v2::git::run(temp.path(), &["rev-parse", "HEAD"])
+        .expect("final head")
+        .stdout;
+
+    let finish_request = csdlc_v2::FinishRequest {
+        schema: "csdlc.finish_request.v1".into(),
+        issue: 5_778,
+        expected_generation: 25,
+        expected_digest: "canonical-5778".into(),
+        claim_id: "claim-5778".into(),
+        actor: "finished-session".into(),
+        repository: "example/repo".into(),
+        pull_request: Some(5_782),
+        base: Some("main".into()),
+        head: Some("codex/5778".into()),
+        expected_head_sha: Some(final_head.clone()),
+        merge_method: csdlc_v2::MergeMethod::Squash,
+        required_checks: vec![],
+        require_review: true,
+        approved_no_pr_reason: None,
+        token_file: None,
+    };
+    let packet = csdlc_v2::github::PrStatePacket {
+        schema: "csdlc.github_pr_state.v1".into(),
+        repository: "example/repo".into(),
+        pull_request: 5_782,
+        linked_issue: Some(5_778),
+        linkage_source: Some("github".into()),
+        state: "closed".into(),
+        draft: false,
+        merge_state: "unknown".into(),
+        review_decision: "approved".into(),
+        base_ref: Some("main".into()),
+        head_ref: Some("codex/5778".into()),
+        head_sha: final_head,
+        url: Some("https://example.test/pull/5782".into()),
+        body: Some("Closes #5778".into()),
+        merged: true,
+        merge_commit_sha: Some("1111111111111111111111111111111111111111".into()),
+        checks: vec![],
+        required_check_names: vec![],
+        classification: "merged".into(),
+    };
+    let envelope = csdlc_v2::finish::derive_terminal(
+        &finished,
+        &finish_request,
+        &csdlc_v2::IssueTerminalObservation {
+            state: "closed".into(),
+            labels: vec![],
+            observed_unix_seconds: 100,
+        },
+        Some(&packet),
+    )
+    .expect("derive merged terminal")
+    .expect("merged terminal");
+    csdlc_v2::finish::retain_cached_terminal(temp.path(), &envelope)
+        .expect("retain derived terminal");
+
+    fs::write(
+        temp.path().join("csdlc-v2/src/later.rs"),
+        "pub fn later_unrelated_change() {}\n",
+    )
+    .expect("later source");
+    git(temp.path(), &["add", "csdlc-v2/src/later.rs"]);
+    git(
+        temp.path(),
+        &["commit", "-m", "later unrelated main change"],
+    );
+
+    let store = Store::new(temp.path());
+    let mut next = request();
+    next.claim.protected_paths = vec!["csdlc-v2/src/finish.rs".into()];
+    initialize_issue(&store, next)
+        .expect("strictly validated merged terminal releases overlapping finished claim");
+}
+
+#[test]
 fn amend_scope_accepts_only_exact_receipt_backed_terminal_projection_overlap() {
     let temp = tempfile::tempdir().expect("tempdir");
     git(temp.path(), &["init", "-b", "main"]);
