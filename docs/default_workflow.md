@@ -20,6 +20,13 @@ binaries and operator skills under `csdlc-v2/`:
 repair. Safe worktree cleanup is a separate operation and is never a side
 effect of finish.
 
+Use `csdlc-clean cleanup` with a typed request to classify or non-forcibly
+remove one exact registered issue worktree. Dirty, missing, relocated, primary,
+or identity-drifted worktrees are reported without deletion. Use
+`compatibility-index` and `validate-census` for read-only legacy terminal
+inspection; retained receipts are optional evidence and are not delivery
+authority.
+
 Cross-session ownership and waiting-state semantics remain documented in
 `docs/tooling/ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md`.
 Use `issue-watcher` for healthy waiting states and through `pr-janitor` only when

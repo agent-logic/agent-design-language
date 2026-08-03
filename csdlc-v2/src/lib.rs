@@ -1,6 +1,7 @@
 #![recursion_limit = "256"]
 
 pub mod cards;
+pub mod cleanup;
 pub mod cutover;
 pub mod doctor;
 pub mod eligibility;
@@ -27,6 +28,11 @@ pub mod store;
 pub use cards::{
     CardKind, CardStatus, CardValues, InitialCardInput, PlanningCollectionField, PlanningProfile,
     SemanticOperation,
+};
+pub use cleanup::{
+    build_legacy_terminal_index, cleanup_schema_bundle, execute_cleanup, validate_terminal_census,
+    CleanupOperation, CleanupRequest, CleanupResult, CleanupStatus, LegacyTerminalEntry,
+    LegacyTerminalIndex, LegacyTerminalIndexRequest, TerminalCensusReport,
 };
 pub use cutover::{run_cutover, CutoverEvidence, CutoverRequest};
 pub use doctor::{diagnose, DoctorReport};
