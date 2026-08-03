@@ -12,5 +12,5 @@
   "expected_generation": 9,
   "expected_digest": "8d0d116cade3f78a747afcec584f704d231cfd9758d8ea3398dc8ac170df8157",
   "draft": true,
-  "token_file": "$HOME/keys/github.token"
+  "token_file": "/Users/daniel/keys/github.token"
 }
