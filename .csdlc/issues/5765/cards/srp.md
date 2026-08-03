@@ -12,7 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-Only the v0.92 YAML scheduling reference and its direct wording.
+docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
+.csdlc/issues/5765
+.csdlc/prepared/issues/5765
 
 ## Prompts
 
@@ -30,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The source migration plan remains operator-local and unpublished under the ignored .adl/TBD boundary; the YAML marks that visibility explicitly.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:cbd9cd0af076e70965443b90279ed5a6ce136ffc:5d06e9748d96851d4088861a5dfdd2d123d46520dd154b3b5e9cfc6b4c690224")
 
-Reviewer: None
+Reviewer: Some("subagent:review-5765b")
 
-Result: pre_review
+Result: pass
