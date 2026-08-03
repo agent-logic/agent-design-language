@@ -83,11 +83,11 @@ Added reviewed standalone safe C-SDLC v2 worktree cleanup and read-only v0.91.8 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
