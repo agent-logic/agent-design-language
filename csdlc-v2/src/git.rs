@@ -1,5 +1,5 @@
 use std::fs;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::Command;
 
 use crate::error::{ErrorCode, Result, V2Error};
@@ -40,13 +40,21 @@ pub fn worktrees(root: &Path) -> Result<Vec<(String, String)>> {
     let text = run(root, &["worktree", "list", "--porcelain"])?.stdout;
     let mut result = Vec::new();
     let mut path = None;
+    let mut branch = None;
     for line in text.lines().chain(std::iter::once("")) {
         if let Some(value) = line.strip_prefix("worktree ") {
             path = Some(value.to_owned());
         }
-        if let (Some(branch), Some(path)) = (line.strip_prefix("branch refs/heads/"), path.as_ref())
-        {
-            result.push((branch.to_owned(), path.clone()));
+        if let Some(value) = line.strip_prefix("branch refs/heads/") {
+            branch = Some(value.to_owned());
+        }
+        if line == "detached" {
+            branch = Some(String::new());
+        }
+        if line.is_empty() {
+            if let Some(path) = path.take() {
+                result.push((branch.take().unwrap_or_default(), path));
+            }
         }
     }
     Ok(result)
@@ -103,6 +111,164 @@ pub fn substantive_revision(root: &Path, scope: &[String]) -> Result<String> {
     Ok(format!("git-blake3:{head}:{}", hasher.finalize().to_hex()))
 }
 
+pub fn substantive_content_digest(root: &Path, scope: &[String]) -> Result<String> {
+    if scope.is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "revision scope is empty",
+        ));
+    }
+    let pathspec = scoped_pathspec(scope);
+    let tracked = Command::new("git")
+        .current_dir(root)
+        .args(["ls-files", "--cached", "--"])
+        .args(&pathspec)
+        .output()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !tracked.status.success() {
+        return Err(V2Error::new(
+            ErrorCode::GitFailure,
+            String::from_utf8_lossy(&tracked.stderr),
+        ));
+    }
+    let untracked = Command::new("git")
+        .current_dir(root)
+        .args(["ls-files", "--others", "--exclude-standard", "--"])
+        .args(&pathspec)
+        .output()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !untracked.status.success() {
+        return Err(V2Error::new(
+            ErrorCode::GitFailure,
+            String::from_utf8_lossy(&untracked.stderr),
+        ));
+    }
+    let mut paths = String::from_utf8_lossy(&tracked.stdout)
+        .lines()
+        .map(|path| (b'T', path.to_owned()))
+        .chain(
+            String::from_utf8_lossy(&untracked.stdout)
+                .lines()
+                .map(|path| (b'U', path.to_owned())),
+        )
+        .collect::<Vec<_>>();
+    paths.sort();
+    paths.dedup();
+    let mut hasher = blake3::Hasher::new();
+    for (classification, relative) in paths {
+        let path = root.join(&relative);
+        let metadata = fs::symlink_metadata(&path).map_err(|error| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!("reviewed scope path is unavailable at {relative}: {error}"),
+            )
+        })?;
+        if metadata.file_type().is_symlink() || !metadata.is_file() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                format!("reviewed scope contains non-regular path {relative}"),
+            ));
+        }
+        hasher.update(&[classification]);
+        hasher.update(relative.as_bytes());
+        hasher.update(&[0]);
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            hasher.update(&(metadata.permissions().mode() & 0o111).to_le_bytes());
+        }
+        hasher.update(&fs::read(path)?);
+        hasher.update(&[0]);
+    }
+    Ok(hasher.finalize().to_hex().to_string())
+}
+
+pub fn substantive_scope_matches_commit(
+    root: &Path,
+    commit: &str,
+    scope: &[String],
+) -> Result<bool> {
+    if scope.is_empty()
+        || commit.len() != 40
+        || !commit.bytes().all(|byte| byte.is_ascii_hexdigit())
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "exact commit and non-empty review scope are required",
+        ));
+    }
+    let pathspec = scoped_pathspec(scope);
+    let status = Command::new("git")
+        .current_dir(root)
+        .args(["diff", "--quiet", "--no-ext-diff", commit, "--"])
+        .args(&pathspec)
+        .status()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if status.code() == Some(1) {
+        return Ok(false);
+    }
+    if !status.success() {
+        return Err(V2Error::new(
+            ErrorCode::GitFailure,
+            "git diff failed while evaluating historical review scope",
+        ));
+    }
+    let output = Command::new("git")
+        .current_dir(root)
+        .args(["ls-files", "--others", "--exclude-standard", "--"])
+        .args(&pathspec)
+        .output()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !output.status.success() {
+        return Err(V2Error::new(
+            ErrorCode::GitFailure,
+            String::from_utf8_lossy(&output.stderr),
+        ));
+    }
+    Ok(output.stdout.is_empty())
+}
+
+pub fn substantive_scope_matches_revisions(
+    root: &Path,
+    reviewed_commit: &str,
+    candidate_commit: &str,
+    scope: &[String],
+) -> Result<bool> {
+    if scope.is_empty()
+        || [reviewed_commit, candidate_commit].iter().any(|commit| {
+            commit.len() != 40 || !commit.bytes().all(|byte| byte.is_ascii_hexdigit())
+        })
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "two exact commits and a non-empty review scope are required",
+        ));
+    }
+    let status = Command::new("git")
+        .current_dir(root)
+        .args([
+            "diff",
+            "--quiet",
+            "--no-ext-diff",
+            reviewed_commit,
+            candidate_commit,
+            "--",
+        ])
+        .args(scoped_pathspec(scope))
+        .status()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if status.code() == Some(1) {
+        return Ok(false);
+    }
+    if !status.success() {
+        return Err(V2Error::new(
+            ErrorCode::GitFailure,
+            "git diff failed while comparing reviewed and candidate revisions",
+        ));
+    }
+    Ok(true)
+}
+
 fn scoped_pathspec(scope: &[String]) -> Vec<String> {
     let mut pathspec = scope.to_vec();
     pathspec.push(":(exclude).csdlc/**".into());
@@ -113,6 +279,24 @@ pub fn clean_commit_revision(commit: &str) -> String {
     let mut hasher = blake3::Hasher::new();
     hasher.update(commit.as_bytes());
     format!("git-blake3:{commit}:{}", hasher.finalize().to_hex())
+}
+
+pub fn shared_request_path(root: &Path, issue: u64) -> Result<PathBuf> {
+    if issue == 0 {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "shared request issue must be non-zero",
+        ));
+    }
+    let common = run(
+        root,
+        &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+    )?
+    .stdout;
+    Ok(PathBuf::from(common)
+        .join("csdlc-v2")
+        .join("requests")
+        .join(format!("{issue}.json")))
 }
 
 pub fn metadata_only_changed_paths(
@@ -271,13 +455,6 @@ fn safe_metadata_path(path: &str) -> bool {
         {
             true
         }
-        [".csdlc", "requests", file]
-            if file
-                .split_once('-')
-                .is_some_and(|(issue, suffix)| issue_id(issue) && suffix.ends_with(".json")) =>
-        {
-            true
-        }
         [".csdlc", "publication", file]
             if file.strip_suffix(".intent.json").is_some_and(issue_id) =>
         {
@@ -301,7 +478,8 @@ fn typed_review_evidence_markdown(file: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::safe_metadata_path;
+    use super::{safe_metadata_path, shared_request_path};
+    use crate::ErrorCode;
 
     #[test]
     fn prepared_review_evidence_is_narrowly_metadata_safe() {
@@ -315,5 +493,25 @@ mod tests {
         assert!(!safe_metadata_path(
             ".csdlc/prepared/issues/5600/final-head-review-not-a-number.md"
         ));
+    }
+
+    #[test]
+    fn shared_request_path_is_one_overwritten_git_common_file_per_issue() {
+        let temp = tempfile::tempdir().expect("repo");
+        std::process::Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(temp.path())
+            .status()
+            .expect("git init")
+            .success()
+            .then_some(())
+            .expect("git init success");
+        let path = shared_request_path(temp.path(), 5627).expect("request path");
+        assert!(path.ends_with(".git/csdlc-v2/requests/5627.json"));
+        assert!(!path.starts_with(temp.path().join(".csdlc")));
+        assert_eq!(
+            shared_request_path(temp.path(), 0).unwrap_err().code,
+            ErrorCode::InvalidInput
+        );
     }
 }

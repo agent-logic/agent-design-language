@@ -1,0 +1,237 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5632,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "3941e020aa68cae990d3047dce3216b20af3db17f469741f3f281b59f7332d31",
+  "phase": "closed_out",
+  "generation": 10,
+  "digest": "c0c3b0bed9ceee782f69268ecdadc2969a7165188316a4f0ab737ad90f56aafc",
+  "claim": null,
+  "review_assignment": null,
+  "review": {
+    "reviewer": "codex:issue-5666-closeout-reconcile",
+    "scope": [
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "docs/architecture/adl_pr_cycle_v2_skill.md",
+      "docs/architecture/adl_pr_cycle_v2_skill.mmd"
+    ],
+    "reviewed_revision": "git-blake3:92fde26a2ca073e204459fce1bb5e88d7c895528:083189143f63a3995ea48f55a6c47be22fbcf3770885d27a2a755f714b4db3b0",
+    "findings": [],
+    "residual_risks": [
+      "GitHub issue #5632 is already closed; operator reported there is no usable PR #5634 to close or merge, so terminal disposition is no-PR lifecycle reconciliation.",
+      "Correct the historical no-PR classification: merged PR #5634 exists at exact head 92fde26a2ca073e204459fce1bb5e88d7c895528."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5632,
+    "pull_request": 5634,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5634",
+    "base": "main",
+    "head": "codex/5632-adl-pr-cycle-v2",
+    "revision": "git-blake3:92fde26a2ca073e204459fce1bb5e88d7c895528:083189143f63a3995ea48f55a6c47be22fbcf3770885d27a2a755f714b4db3b0",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": null,
+  "terminal": {
+    "pull_request": 5634,
+    "disposition": "merged",
+    "observed_sha": "92fde26a2ca073e204459fce1bb5e88d7c895528",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5632.json",
+    "released_branch": "codex/5632-adl-pr-cycle-v2",
+    "released_worktree": ".worktrees/adl-wp-5632",
+    "released_protected_paths": [
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "docs/architecture/"
+    ]
+  },
+  "migration": null,
+  "design_path": ".csdlc/issues/5632/retained/design.md",
+  "diagram_path": ".csdlc/issues/5632/retained/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex",
+      "revision": "fed7a7b36183bd305af4e66d0f093808967dea7082f5b872cf7969ee3c9cbc1c"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2f55145f38c9eb8b056ace9786baea42d520f8af3dfddb2949352ba133863fb4",
+      "rendered_digest": "7522b2f17a5ace4b2ac425fb9778b824df7fba2906ccfcd3b8c80b0faa597be6",
+      "ast_digest": "0c8f76f478a3c676db6ef8407ebd45af47b15342ec3bc613f5882f118195dffd"
+    },
+    "stp": {
+      "values_digest": "10ab0ef185d6b537a292062cb29f0bfe2e5adc3ea3f12fdd87f29d91cf3dd6b8",
+      "rendered_digest": "ed11c78cd6e5ab0a65e88f6d51f30e10aec690ed9a499a446ce8cc4e3a8b5424",
+      "ast_digest": "92376c86f429cf9e95238993130ec9e134a0b9314447f18fd3453966799eb33b"
+    },
+    "spp": {
+      "values_digest": "604d4e7663ea28952ab41978af5488b6a86a81215016cd4b3a71d23d375ff71a",
+      "rendered_digest": "b48de0db684ec3c8cd362e8587501d0ca02567044b368fef938bba7102198cb3",
+      "ast_digest": "2413ea3ea2f715418e5cd0a0cb7dc701cd9b3744d1ad0afae6352bf12290e613"
+    },
+    "vpp": {
+      "values_digest": "f0683b1daf9b0349f2d0368114e7c33a34faaba4b55dd68d9390b1c2ab9e59f0",
+      "rendered_digest": "3a0c9ca556246a6f2d443c6990145a24b6e6000f97a26c8fd3b844336f115e38",
+      "ast_digest": "ef27096587b242b46bf68e2bdd9460743eadded7872ff17dad8c166ed2bdbba6"
+    },
+    "srp": {
+      "values_digest": "ea995434ff1d6851df6964e6ae838fcb2f1f26ee80f505f3a50cec99efa32064",
+      "rendered_digest": "801b4229ea2ac7869ce7edf6460b072aac84e2fdae381f083cdcb7e39b3b186d",
+      "ast_digest": "a091439636bddb429c8526449ef12d6f7903f6751a07cdb63c699c94b64feb1c"
+    },
+    "sor": {
+      "values_digest": "fc0fe58bcb57ec2f0a5d49406a9d4c889d6c18e8428403829c4ba1ac1898961c",
+      "rendered_digest": "c342cabc682c0af77545e0bb47ee8925db9ab091d7f08355d23de4577840d7c3",
+      "ast_digest": "4ce914b1365571ad7366dd049626704d80aa0726bd7ddac1b61838b1329af86a"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-5666-closeout-reconcile",
+      "reason": "Recover stale publication truth: GitHub issue #5632 is closed and operator reports there is no usable PR #5634 to close or merge."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5666-closeout-reconcile",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "closed_out",
+      "actor": "codex:issue-5666-closeout-reconcile",
+      "reason": "observed approved non-merged terminal disposition"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-5666-closeout-reconcile",
+      "reason": "Recover stale publication truth: GitHub issue #5632 is closed and operator reports there is no usable PR #5634 to close or merge.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-5666-closeout-reconcile",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-5666-closeout-reconcile",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:v0918-terminal-reconcile-wave",
+      "reason": "Materialize retained terminal authority for the complete v0.91.8 closed-issue closeout audit.",
+      "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Restore the retained #5632 terminal receipt projection before applying the typed merged-disposition correction.",
+      "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Correct the historical no-PR classification: merged PR #5634 exists at exact head 92fde26a2ca073e204459fce1bb5e88d7c895528.",
+      "operation": "repair_terminal_disposition"
+    }
+  ]
+}

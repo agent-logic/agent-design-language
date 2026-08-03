@@ -1,14 +1,17 @@
 #![recursion_limit = "256"]
 
 pub mod cards;
+pub mod cleanup;
 pub mod cutover;
 pub mod doctor;
 pub mod eligibility;
 pub mod error;
+pub mod finish;
 pub mod git;
 pub mod github;
 pub mod github_token;
 pub mod lifecycle;
+pub mod merge;
 pub mod migration;
 pub mod model;
 pub mod operator;
@@ -26,6 +29,11 @@ pub use cards::{
     CardKind, CardStatus, CardValues, InitialCardInput, PlanningCollectionField, PlanningProfile,
     SemanticOperation,
 };
+pub use cleanup::{
+    build_legacy_terminal_index, cleanup_schema_bundle, execute_cleanup, validate_terminal_census,
+    CleanupOperation, CleanupRequest, CleanupResult, CleanupStatus, LegacyTerminalEntry,
+    LegacyTerminalIndex, LegacyTerminalIndexRequest, TerminalCensusReport,
+};
 pub use cutover::{run_cutover, CutoverEvidence, CutoverRequest};
 pub use doctor::{diagnose, DoctorReport};
 pub use eligibility::{
@@ -33,21 +41,38 @@ pub use eligibility::{
     DeletionEligibilityRequest, DeletionEntry, DeletionManifest, DeletionReason, EntryDisposition,
 };
 pub use error::{ErrorCode, Result, V2Error};
-pub use lifecycle::{
-    amend_claim_scope, bind_issue, heartbeat_claim, initialize_native_json, recover_claim,
-    release_closed_claim, transition_active_claim, AmendClaimScopeRequest, BindRequest, BindResult,
-    HeartbeatRequest, RecoverClaimRequest, ReleaseClosedClaimRequest, TransitionActiveClaimRequest,
+pub use finish::{
+    DerivedTerminalEnvelope, FinishDisposition, FinishRequest, FinishResult,
+    IssueTerminalObservation,
 };
+pub use git::shared_request_path;
+pub use github::{
+    append_marker, execute_github_action, marker_line, GithubAction, GithubActionRequest,
+    GithubActionResult, GithubIssuePacket, PrCheck, PrStatePacket, PrStateRequest,
+};
+pub use lifecycle::{
+    amend_claim_scope, bind_issue, heartbeat_claim, initialize_native_json, reacquire_claim,
+    recover_claim, rehome_claim_authority, release_closed_claim, revoke_active_claim,
+    transition_active_claim, AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest,
+    ReacquireClaimRequest, ReacquireClaimResult, RecoverClaimRequest, RehomeClaimAuthorityRequest,
+    RehomeClaimAuthorityResult, ReleaseClosedClaimRequest, RevokeActiveClaimRequest,
+    RevokeActiveClaimResult, TransitionActiveClaimRequest,
+};
+pub use merge::{MergeMethod, MergeRequest, MergeResult};
 pub use migration::{
     compare_shadow, generate_compatibility_view, import_legacy, write_compatibility_view_atomic,
     ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison,
 };
 pub use model::{
-    Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase, MigrationEvidence,
+    Claim, ClaimRecovery, CorruptHistoricalMergedRecoveryRequest,
+    CorruptTerminalReceiptReconciliationRequest, DesignReview,
+    HistoricalMergedReconciliationRequest, IssueRecord, LifecyclePhase, MigrationEvidence,
     NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest,
-    ReviewAssignment, ReviewEvidence, ReviewFindingEvidence, TerminalDesignRepairRequest,
+    RecordlessClosureKind, RecordlessTerminalRecoveryRequest, ReviewAssignment, ReviewEvidence,
+    ReviewFindingEvidence, TerminalDesignRepairRequest, TerminalDispositionRepairRequest,
     TerminalEvidence, TerminalPlanStepRepairRequest, TerminalReceipt,
-    TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest,
+    TerminalReceiptTransportRequest, TerminalSorArtifactRepairRequest,
+    TerminalSorValidationRepairRequest,
 };
 pub use operator::{
     build_and_install_binaries, install_binaries, resolve_operator_generation, verify_coexistence,
@@ -63,13 +88,14 @@ pub use publication::{
     RemotePullRequest,
 };
 pub use pvf::{
-    classify_schedule, classify_shepherd, execute, select, ExecutionRequest, PvfManifest,
-    ScheduleInput, ShepherdInput,
+    classify_schedule, classify_shepherd, execute, finalize, select, ExecutionRequest,
+    FinalizeRequest, PvfManifest, ScheduleInput, ShepherdInput,
 };
 pub use readiness::{
-    classify_readiness, closeout_issue, record_readiness, CheckConclusion, CheckObservation,
-    CheckRequirement, ConflictState, PostPublicationFinding, ReadinessReport, ReadinessRequest,
-    RemoteReviewState, TerminalDisposition, TerminalObservation,
+    classify_readiness, closeout_issue, reconcile_terminal_observation_head, record_readiness,
+    validate_terminal_observation, CheckConclusion, CheckObservation, CheckRequirement,
+    ConflictState, PostPublicationFinding, ReadinessReport, ReadinessRequest, RemoteReviewState,
+    TerminalDisposition, TerminalObservation,
 };
 pub use review::{
     assign_review, evaluate_publication_review, evaluate_publication_review_in_repo, record_review,

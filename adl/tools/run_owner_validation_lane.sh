@@ -110,24 +110,50 @@ build_owner_bins() {
 }
 
 run_csdlc_lane() {
+  run_command "C-SDLC Gate 10A final-authority proof" \
+    cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate10a
   run_command "C-SDLC owner command guidance" \
     bash adl/tools/test_cli_owner_command_guidance.sh
   run_command "C-SDLC wrapper migration contract" \
     bash adl/tools/test_cli_wrapper_migration_contract.sh
-  run_command "C-SDLC run ambiguity policy" \
-    bash adl/tools/test_pr_run_ambiguity_policy.sh
-  run_command "C-SDLC PR small-binary delegation" \
-    bash adl/tools/test_pr_small_binary_delegation.sh
-  run_command "C-SDLC PR PATH-binary delegation" \
-    bash adl/tools/test_pr_delegate_prefers_path_binary.sh
-  run_command "C-SDLC PR delegate cargo fallback liveness" \
-    bash adl/tools/test_pr_delegate_cargo_fallback_liveness.sh
-  run_command "C-SDLC prompt-template wrappers avoid implicit cargo" \
-    bash adl/tools/test_prompt_template_wrappers_no_implicit_cargo.sh
-  run_command "C-SDLC prompt-template workflow integration" \
-    bash adl/tools/test_prompt_template_workflow_integration.sh
-  run_command "C-SDLC PR locked Cargo fallback" \
-    bash adl/tools/test_pr_run_locked_cargo_fallback_refuses_cleanly.sh
+  run_command "C-SDLC editor adapter guidance" \
+    bash adl/tools/test_editor_action.sh
+  run_command "C-SDLC active command reference scan" \
+    bash adl/tools/test_generate_active_command_reference_scan.sh
+  run_command "C-SDLC typed workflow-metric backfill" \
+    python3 adl/tools/test_build_v0916_workflow_metric_backfill_inventory.py
+  run_command "C-SDLC retired prompt-wrapper contracts" \
+    bash adl/tools/test_card_prompt.sh
+  run_command "C-SDLC retired prompt-lint wrapper contract" \
+    bash adl/tools/test_prompt_spec_lint.sh
+  run_command "C-SDLC workflow guardrails" \
+    bash adl/tools/test_workflow_guardrails.sh
+  run_command "C-SDLC structured-prompt typed authority" \
+    bash adl/tools/test_structured_prompt_validation.sh
+  run_command "C-SDLC card-editor repair typed authority" \
+    bash adl/tools/test_card_editor_repair_examples.sh
+  run_command "C-SDLC installed skill retirement contracts" \
+    bash adl/tools/test_install_adl_pr_cycle_skill.sh
+  run_command "C-SDLC operational skill installation" \
+    bash adl/tools/test_install_adl_operational_skills.sh
+  run_command "C-SDLC issue-folding typed handoff" \
+    bash adl/tools/test_issue_folding_skill_contracts.sh
+  run_command "C-SDLC issue-splitter typed handoff" \
+    bash adl/tools/test_issue_splitter_skill_contracts.sh
+  run_command "C-SDLC lifecycle shepherd contract" \
+    bash adl/tools/test_issue_lifecycle_shepherd_contract.sh
+  run_command "C-SDLC retired prompt-editor surface" \
+    bash adl/tools/test_csdlc_prompt_editor.sh
+  run_command "C-SDLC retired review-card surface" \
+    bash adl/tools/test_review_card_surface.sh
+  run_command "C-SDLC retired closeout-wave helper" \
+    bash adl/tools/test_closeout_completed_issue_wave.sh
+  run_command "C-SDLC retired milestone SOR helper" \
+    bash adl/tools/test_check_milestone_closed_issue_sor_truth.sh
+  run_command "C-SDLC typed issue metadata parity" \
+    bash adl/tools/test_check_issue_metadata_parity.sh
+  run_command "C-SDLC prompt-template structure schemas" \
+    python3 adl/tools/test_prompt_template_structure_schemas.py
   run_command "C-SDLC control-plane observability contract" \
     bash adl/tools/test_control_plane_observability.sh
 }

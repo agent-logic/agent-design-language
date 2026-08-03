@@ -1,0 +1,498 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5589,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "812bcef468b7261d7d8cb522251cb0734425060895701091efad37a816ece601",
+  "phase": "closed_out",
+  "generation": 26,
+  "digest": "ef82d8e508793730f76a94bb427452d4bc79783b4ed39692c71aa9013f031102",
+  "claim": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_5589_exact",
+    "assigned_by": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+    "revision": "git-blake3:1103b3b784f570d651a54f5e9ced80960b978d48:4bf9e5c9c336295939b5d4199b835c97bc060503d93c801887ca1ef848270a47",
+    "scope": [
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs",
+      "adl-runtime-kernel/tests/governed_operations.rs",
+      ".csdlc/issues/5589/cards/sor.values.json",
+      ".csdlc/issues/5589/cards/srp.values.json",
+      ".csdlc/evidence/5589/implementation"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_5589_exact",
+    "scope": [
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs",
+      "adl-runtime-kernel/tests/governed_operations.rs",
+      ".csdlc/issues/5589/cards/sor.values.json",
+      ".csdlc/issues/5589/cards/srp.values.json",
+      ".csdlc/evidence/5589/implementation"
+    ],
+    "reviewed_revision": "git-blake3:1103b3b784f570d651a54f5e9ced80960b978d48:4bf9e5c9c336295939b5d4199b835c97bc060503d93c801887ca1ef848270a47",
+    "findings": [],
+    "residual_risks": [
+      "The exact +1,096 source delta over the authoritative 12,683 post-#5591 baseline is accepted as functionally necessary and non-duplicative."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5589,
+    "pull_request": 5620,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5620",
+    "base": "main",
+    "head": "codex/5589-runtime-v3-parity-c",
+    "revision": "git-blake3:0f22baf5d4b2fdef485164aa4c83002fdb520a3e:85ac8f86de30656e01a31c8afd1a4de67265b19acc8c7abd1bbf789b42ecb88f",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": {
+    "pull_request": 5620,
+    "head_sha": "0f22baf5d4b2fdef485164aa4c83002fdb520a3e",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29869006015/job/88764509972"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29869006015/job/88764358731"
+      },
+      {
+        "name": "adl-coverage-hosted",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29869006015/job/88764303826"
+      },
+      {
+        "name": "adl-coverage-runtime-hosted",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29869006015/job/88764304218"
+      },
+      {
+        "name": "adl-coverage-workspace-hosted",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29869006015/job/88764303847"
+      },
+      {
+        "name": "adl-demo-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29869006015/job/88764303995"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29869006015/job/88764248350"
+      },
+      {
+        "name": "adl-runtime-v3-fast",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29869006015/job/88764303977"
+      },
+      {
+        "name": "adl-rust-fmt-clippy",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29869006015/job/88764304136"
+      },
+      {
+        "name": "adl-rust-tests",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29869006015/job/88764304572"
+      },
+      {
+        "name": "adl-slow-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29869006015/job/88764304231"
+      },
+      {
+        "name": "adl-spot-ci-and-coverage",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29869006015/job/88764304052"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29869006015/job/88764303212"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5620,
+    "disposition": "merged",
+    "observed_sha": "0f22baf5d4b2fdef485164aa4c83002fdb520a3e",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5589.json",
+    "released_branch": "codex/5589-runtime-v3-parity-c",
+    "released_worktree": ".",
+    "released_protected_paths": [
+      ".csdlc/evidence/5589",
+      ".csdlc/issues/5589",
+      ".csdlc/locks/5589.lock",
+      ".csdlc/prepared/issues/5589",
+      "adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/tests/governed_operations.rs"
+    ]
+  },
+  "migration": null,
+  "design_path": ".csdlc/issues/5589/retained/design.md",
+  "diagram_path": ".csdlc/issues/5589/retained/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "revision": "6c6bae9d4a320b3f50953784a0309f60f293b8ad88da3f43c2fa96ca4a240a5e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4648fb167ec9437a1de0c040f851ae7641f75fe988e014c84bc631d77df5275e",
+      "rendered_digest": "e4eb2c40819044f7cc76ce912abe672db74767294dc52d3cb4e9bc299c84521a",
+      "ast_digest": "b5c2a719075cdd0116ddb7ef2ee6cfe965d29a50aa3a751399579f3d779e92ae"
+    },
+    "stp": {
+      "values_digest": "294ed2a09c534f0d2f7ffcb989ee73d30919ab5a33c9665571ad8e22cb08b6ad",
+      "rendered_digest": "0bb5d39c70d4b3d76bc1afaf3499fb08556b2be2fb543fa2e58eb333756d433a",
+      "ast_digest": "d8a3c985226d547ba7b559e6d58576a7c43a9c621c16289a7d5e14f4cb672bcf"
+    },
+    "spp": {
+      "values_digest": "e02bc920ea18ec22a53395edbfb100321b60bef4dc79a393860a76118dcb98c6",
+      "rendered_digest": "7b9d5b61cfc90e7e91b42fb00f7c31eb018adaa86999aff71649a33ffe0de1c1",
+      "ast_digest": "eadd8af62f3fe3f3e98682d7c6bd611c2be2bb4f297b50ad3efe4f191e69372e"
+    },
+    "vpp": {
+      "values_digest": "86472e2e8e97eb1027364eec74f83e2df5866fb7cf3add33b03641c34bb1ad9c",
+      "rendered_digest": "b5f386eb0d1060338e606fba2524d632a1811ac17a79f91f8744c441f0dc8907",
+      "ast_digest": "1ab0a796cbf114deae262c658a4b6769204369b0862006dc4636ecf42d4f6eb3"
+    },
+    "srp": {
+      "values_digest": "c271174f3744648e2ce87ee6a62c9a802103559ef5f22ff68f828fde070d2425",
+      "rendered_digest": "ab2125a158ac3922503aeb6b2a5595964bfa91b955ba7a2c4e3dfc986b6b958e",
+      "ast_digest": "611235f2bde6ac24d6c735b6b77f934a86918bb7ac331a0eaf37c377bfffa1f3"
+    },
+    "sor": {
+      "values_digest": "953557c08a0e1dcac4d171c9963697cf62bd7cc210d329f9c08b0b6d8eb37694",
+      "rendered_digest": "dc34a63b8ad6ba21837d73fe547dd089035e6dc7da25fd94658104236da36b2c",
+      "ast_digest": "e5bdafc50ba2d4bebb46f8ce773988c9602a1b9954e573cc37e7486ee74f52e2"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Complete bounded Parity-C implementation and all declared FastWork proof before exact-revision review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Current-main integrated FastWork proof and exact assigned review passed with zero actionable findings; accept the necessary non-duplicative +1,096 delta over baseline 12,683."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:5595-coordinator",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:5595-coordinator",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:5595-coordinator",
+      "reason": "terminal truth recorded and claim released"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "Record truthful completion of the preparation-only lane without claiming product implementation or publication",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Completed the repaired #5589 preparation-only package with all six typed cards synchronized to the canonical [WP-14] title, approved design and diagram, adapter/authority matrix, disjoint lifecycle claim, fail-closed focused-test inventory guards, and explicit #5591 implementation blockers; no product code or publication was performed.\",\"changes\":[\"generated issue-specific SIP, STP, SPP, VPP, SRP, and SOR through csdlc-init\",\"bound a preparation-only claim protecting only #5589 lifecycle and evidence paths\",\"authored the Runtime v3 Parity-C design, diagram, adapter/authority matrix, and readiness-blocker record\",\"declared complete live positive, negative, continuity, shutdown, budget, and zero-degraded-credit proof lanes\",\"made every eventual focused test lane require an exact nonzero inventory before executing each named test\"],\"artifacts\":[\".csdlc/prepared/issues/5589/design.md\",\".csdlc/prepared/issues/5589/diagram.mmd\",\".csdlc/prepared/issues/5589/adapter-authority-matrix.md\",\".csdlc/prepared/issues/5589/readiness-blockers.md\",\".csdlc/prepared/issues/5589/focused-test-inventory.json\",\".csdlc/prepared/issues/5589/run_focused_test_lane.rb\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "Mark only the completed preparation step while preserving every implementation and publication step as pending",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "Record the explicit committed repair range after all three exact-review findings pass retained validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_retained_diff_proof_contract.sh\",\"0dcd4d64616f37937032d9f94356b8319e31dfc2\",\"19453ea91ba082c87ab971b3e5cc8a2c58f86c92\"],\"purpose\":\"Validate the complete base-to-reviewed-head range for title synchronization, fail-closed focused test inventories, claim scope, and diff hygiene\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5589/preparation/committed-review-range.log\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "Record the explicit full repair and evidence range after the final retained-revision re-review finding passes validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5589/validate_review_range.rb\",\"--request\",\".csdlc/prepared/issues/5589/review-range.json\"],\"purpose\":\"Validate the complete base-to-final-evidence-head range and exact 15-path post-substantive metadata/evidence inventory for title synchronization, fail-closed focused test inventories, claim scope, and diff hygiene\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5589/preparation/committed-review-range.log\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Activate Runtime v3 Parity-C immediately after verified #5591 merged typed closeout while preserving disjoint Parity-B and Parity-D ownership.",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs\",\"adl-runtime-kernel/tests/governed_operations.rs\"],\"expected_owner\":\"codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90\",\"expected_purpose\":\"Prepare complete Runtime v3 Parity-C contracts and proof gates without product implementation until #5591 has a clean reviewed contract and disjoint paths\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare complete Runtime v3 Parity-C contracts and proof gates without product implementation until #5591 has a clean reviewed contract and disjoint paths\",\"purpose\":\"Implement every #5589 Runtime v3 Parity-C governed-operations adapter and live authority, identity, continuity, shutdown, budget, review, publication, integration, and closeout outcome.\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Verified #5591 merged typed closeout at generation 34, integrated current main, confirmed #5592/#5590 disjoint claims, and transitioned #5589 into its three-path implementation scope.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Record the complete bounded Parity-C implementation before exact-revision validation and review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented a live Runtime v3 governed-operations process with signed Freedom Gate and AEE dispatch, production local provider and governed-tool adapters, identity-scoped authenticated checkpoints, monotonic qualified time, redacted non-authoritative lifelog, idempotent recovery, cancellation/failure classification, and fail-closed shutdown.\",\"changes\":[\"Added the process-backed adl-runtime-governed-operations production entrypoint without changing Runtime v2, main, AWS, or cross-lane paths\",\"Bound signed commitments, attenuating grants, policy, payload digest, identity, resources, and qualified time before AEE actuation\",\"Added a COTS-backed local digest provider and real allowlisted file-metadata governed tool with deterministic bounded dispatch\",\"Persisted authenticated identity-scoped checkpoints with pending-request crash quarantine and idempotent replay\",\"Kept lifelog append-only, redacted, non-authoritative, and isolated from checkpoint and actuation success\",\"Added all 25 exact named positive, negative, restart, shutdown, production-credit, and boundary tests\"],\"artifacts\":[\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs\",\"adl-runtime-kernel/tests/governed_operations.rs\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Record complete FastWork validation and exact budget truth for the Parity-C implementation candidate.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"seven exact inventory-guarded Parity-C lanes (25 discovered and executed tests)\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/full cargo test --manifest-path adl-runtime-kernel/Cargo.toml\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/clippy cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check\",\"bash adl/tools/report_runtime_v3_loc.sh\",\"git diff --check\"],\"purpose\":\"Prove all Parity-C live positive, negative, identity, continuity, shutdown, production-credit, and boundary outcomes plus the complete Runtime v3 suite, strict lint, format, budget, and diff hygiene. Budget result is 13,266 physical lines and 220 tests: +1,057 over pinned #5336 baseline, including merged #5591, and requires explicit exact-review disposition because the 20,000 safety ceiling is non-authorizing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5589/implementation\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Implemented signed governance, delegation, resources, cancellation, agent, provider, scheduler, and governed-tool adapters.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Implemented identity-scoped private state, qualified monotonic time, authenticated checkpoint, redacted lifelog, shutdown, and restart recovery.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Executed all 25 exact live process positive, negative, identity, continuity, shutdown, provider, scheduler, and governed-tool tests with nonzero inventory guards.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Proved zero degraded, fixture, mock, metadata-only, Runtime v2, AWS, or cross-lane parity credit; retained exact COTS and budget truth for review disposition.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S6\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Complete bounded Parity-C implementation and all declared FastWork proof before exact-revision review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "subagent:/root/review_5589_exact",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Record the substantive redesign that fixes every changes-required exact-review finding before re-review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Replaced the rejected self-authorizing candidate with a live canonical-ingress implementation that accepts independently signed commitment/delegation evidence, uses trusted runtime time and revocation configuration, runs resident bounded Agent/Shepherd/Scheduler/provider adapters, canonicalizes governed-tool paths, and durably serializes capability-scoped recovery state.\",\"changes\":[\"Removed service-held policy and authority signing keys; runtime configuration contains only their public verification keys, while commands carry signed commitments and authority chains\",\"Moved governance time and revocation truth out of caller input into trusted runtime configuration and revalidates revocation before cached replay\",\"Started CanonicalIngress and operational Agent, Shepherd, Scheduler, and governed provider components under the Runtime v3 Kernel for each admitted process request\",\"Invoked a configured external provider executable and a canonical-root allowlisted metadata tool; symlink escape fails before tool actuation\",\"Serialized cross-process state transitions with a checkpoint lock, unique temporary files, file and directory fsync, authenticated state, and capability-scoped private-state keys\",\"Cleared pending requests after pre-side-effect cancellation/provider/tool failure so retry can requalify; retained quarantine only for genuine incomplete recovery\",\"Strengthened the 25 named tests to exercise signed authority, expiry, attenuation/widening, provider classifications and retry, symlink escape, identity/capability scope, current revocation, checkpoint tamper authentication, trusted-time regression, and lifelog failure isolation\"],\"artifacts\":[\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs\",\"adl-runtime-kernel/tests/governed_operations.rs\",\".csdlc/evidence/5589/implementation\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Record complete FastWork validation of the review-fix redesign and preserve the non-authorizing budget exception for exact re-review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"seven exact inventory-guarded Parity-C lanes (25 discovered and executed tests)\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/full-redesign cargo test --manifest-path adl-runtime-kernel/Cargo.toml\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/clippy-redesign cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check\",\"bash adl/tools/report_runtime_v3_loc.sh\",\"git diff --check\"],\"purpose\":\"Prove the corrected live signed-authority, canonical-ingress, Agent/Shepherd/Scheduler/provider/tool, identity/capability-state, trusted-time, durable checkpoint, retry/revocation, lifelog, shutdown, zero-degraded-credit, complete-kernel, lint, format, budget, and diff outcomes. Budget is exactly 13,496 physical lines and 220 tests: +1,287 over pinned baseline 12,209 and requires explicit review disposition because the 20,000 safety ceiling is non-authorizing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5589/implementation\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "subagent:/root/review_5589_exact",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "subagent:/root/review_5589_exact",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "subagent:/root/review_5589_exact",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Current-main integrated FastWork validation and exact assigned review are clean with no actionable findings.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S7\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Current-main integrated FastWork proof and exact assigned review passed with zero actionable findings; accept the necessary non-duplicative +1,096 delta over baseline 12,683.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:5595-coordinator",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex:5595-coordinator",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "codex:5595-coordinator",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 33,
+      "generation": 25,
+      "actor": "codex:v0918-terminal-reconcile-wave",
+      "reason": "Materialize retained terminal authority for the complete v0.91.8 closed-issue closeout audit.",
+      "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 34,
+      "generation": 26,
+      "actor": "codex:5748-terminal-recovery",
+      "reason": "Materialize the authoritative terminal receipt into the dedicated v0.91.8 closeout branch during the exhaustive live-inventory sweep.",
+      "operation": "reconcile_terminal"
+    }
+  ]
+}

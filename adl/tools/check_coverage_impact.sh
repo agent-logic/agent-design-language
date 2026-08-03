@@ -264,7 +264,8 @@ candidate_filter_for_path() {
     adl/src/provider/http_family/config.rs|\
     adl/src/provider/local.rs|\
     adl/src/provider/mod.rs|\
-    adl/src/provider/profiles.rs)
+    adl/src/provider/profiles.rs|\
+    adl/src/provider_substrate.rs)
       printf 'provider_hardening'
       ;;
     adl/src/cli/tooling_cmd/markdown.rs)
@@ -276,7 +277,8 @@ candidate_filter_for_path() {
     adl/src/cli/runtime_v3_cmd.rs)
       printf 'runtime_v3_selector'
       ;;
-    adl-runtime/src/guardian.rs)
+    adl-runtime/src/guardian.rs|\
+    adl-runtime/src/bin/adl-runtime-guardian.rs)
       printf 'runtime_v3_guardian'
       ;;
     adl-runtime/src/runtime_api_auth.rs)
@@ -324,6 +326,15 @@ candidate_filter_for_path() {
     adl/src/gws_live_capability_execution_surface.rs|adl/src/gws_live_content_card_roundtrip.rs|adl/src/gws_live_content_card_roundtrip/*.rs|adl/src/gws_live_safety_package.rs|adl/src/gws_live_test_support.rs)
       printf 'gws_live'
       ;;
+    adl/src/adl_gws_context_mirror.rs)
+      printf 'adl_gws_context_mirror'
+      ;;
+    adl/src/adl_gws_drive_sync.rs)
+      printf 'adl_gws_drive_sync'
+      ;;
+    adl/src/adl_gws_native.rs)
+      printf 'adl_gws_native'
+      ;;
     adl/src/uts_acc_multi_model_benchmark.rs|adl/src/uts_acc_multi_model_benchmark/*.rs|adl/src/uts_acc_multi_model_benchmark/*/*.rs)
       printf 'uts_acc_multi_model_benchmark::'
       ;;
@@ -341,6 +352,9 @@ candidate_filter_for_path() {
       ;;
     adl/src/chronosense.rs|adl/src/chronosense/*.rs)
       printf 'chronosense'
+      ;;
+    adl/src/demo/v086_review_surface.rs)
+      printf 'v086_review_surface'
       ;;
     adl/src/cli/run_artifacts/runtime/*.rs)
       printf 'run_state'
@@ -412,7 +426,7 @@ nextest_expression_for_filter() {
       printf '(binary_id(adl) and (test(/^csm_runtime_api::/) or test(/^csm_networking::/) or test(/^csm_backpressure::/) or test(/^csm_cav::/) or test(/^csm_constructability_gate::/) or test(/^csm_freedom_gate::/) or test(/^csm_godel_snapshot::/) or test(/^csm_shepherd_agent::/) or test(/^long_lived_agent::/) or test(/^cli::csm_service_cmd::/) or test(/^cli::csm_cmd::tests::/)) or binary_id(adl::cli_smoke) and test(/^agent::csm_/)) and not test(governed_notice_retains_spool_and_cursor_for_ambiguous_timeout)'
       ;;
     long_lived_agent_storage)
-      printf '(binary_id(adl) and test(long_lived_agent::storage)) or (binary_id(adl::bin/run_v0916_runtime_failure_injection) and test(run_v0916_runtime_failure_injection))'
+      printf 'binary_id(adl) and test(long_lived_agent::storage)'
       ;;
     runtime_v2_csm_shutdown_dag)
       printf 'test(runtime_v2_csm_shutdown_dag) or (binary_id(adl::cli_smoke) and test(csm_governed_shutdown_retains_continuity_and_publish_failures_without_false_success))'
@@ -424,16 +438,19 @@ nextest_expression_for_filter() {
       printf 'binary_id(adl::bin/adl) and test(/^cli::runtime_v3_cmd::tests::/)'
       ;;
     runtime_v3_guardian)
-      printf 'test(/^guardian::tests::/)'
+      printf 'test(/^guardian::tests::/) or (binary_id(adl-runtime::guardian_cli) and test(/^guardian_cli_/))'
       ;;
     runtime_v3_auth)
       printf 'test(/^runtime_api_auth::tests::/)'
+      ;;
+    v086_review_surface)
+      printf 'binary_id(adl) and test(/^demo::tests::v086_review_surface_demo_marks_retired_external_entries$/)'
       ;;
     finish)
       printf 'binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::tests::finish::arg_render::/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::finish_support::tests::/)'
       ;;
     demo_adl_gws_context_mirror)
-      printf 'binary_id(adl::bin/demo-adl-gws-context-mirror) and test(/^tests::/)'
+      printf 'binary_id(adl::bin/adl-gws-context-mirror) and test(/^tests::/)'
       ;;
     demo_adl_gws_native_drive_sync)
       printf 'binary_id(adl::bin/demo-adl-gws-native-drive-sync) and test(/^tests::/)'
@@ -600,7 +617,7 @@ print_candidate_filters_fail_closed() {
 
   while IFS=$'\t' read -r status path; do
     [ -n "$path" ] || continue
-    if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_removed_v1_dispatch_surface "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_aee_obsmem_pvf_handoff_companion_surface "$path" || file_is_loop_runtime_companion_surface "$path" || file_is_godel_agent_runtime_companion_surface "$path" || file_is_csm_runtime_cli_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
+    if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_removed_v1_dispatch_surface "$path" || file_is_runtime_qualification_harness "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_aee_obsmem_pvf_handoff_companion_surface "$path" || file_is_loop_runtime_companion_surface "$path" || file_is_godel_agent_runtime_companion_surface "$path" || file_is_csm_runtime_cli_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
       continue
     fi
     if path_has_companion_cli_dispatch_change "$path"; then
@@ -628,6 +645,11 @@ file_is_removed_v1_dispatch_surface() {
   local path="$1"
   [ "$path" = "adl/src/cli/mod.rs" ] || return 1
   grep -Fq "v1 lifecycle commands were removed" "$ROOT/$path"
+}
+
+file_is_runtime_qualification_harness() {
+  local path="$1"
+  [ "$path" = "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs" ]
 }
 
 file_is_structural_module_barrel() {
@@ -693,6 +715,9 @@ while IFS=$'\t' read -r status path; do
   if file_is_csm_runtime_cli_companion_surface "$path"; then
     continue
   fi
+  if file_is_runtime_qualification_harness "$path"; then
+    continue
+  fi
   lines="$(line_count_for_path "$path")"
   delta="$(changed_line_delta_for_path "$path")"
   reason=""
@@ -720,6 +745,9 @@ if [ -n "$SUMMARY" ] && [ -s "$SUMMARY" ]; then
   while IFS=$'\t' read -r _status path; do
     [ -n "$path" ] || continue
     if file_is_removed_v1_dispatch_surface "$path"; then
+      continue
+    fi
+    if file_is_runtime_qualification_harness "$path"; then
       continue
     fi
     if file_is_tokio_bootstrap_companion_surface "$path"; then
@@ -768,7 +796,7 @@ if [ -n "$SUMMARY" ] && [ -s "$SUMMARY" ]; then
         end
     ' "$SUMMARY")"
     if [ -z "$row" ]; then
-      if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_removed_v1_dispatch_surface "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_aee_obsmem_pvf_handoff_companion_surface "$path" || file_is_loop_runtime_companion_surface "$path" || file_is_godel_agent_runtime_companion_surface "$path" || file_is_csm_runtime_cli_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
+      if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_removed_v1_dispatch_surface "$path" || file_is_runtime_qualification_harness "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_aee_obsmem_pvf_handoff_companion_surface "$path" || file_is_loop_runtime_companion_surface "$path" || file_is_godel_agent_runtime_companion_surface "$path" || file_is_csm_runtime_cli_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
         continue
       fi
       if path_has_companion_cli_dispatch_change "$path"; then

@@ -45,6 +45,7 @@ impl LifecyclePhase {
                 | (Self::Implemented, Self::Reviewed)
                 | (Self::Reviewed, Self::Implemented)
                 | (Self::Reviewed, Self::Published)
+                | (Self::Reviewed, Self::ClosedOut)
                 | (Self::Published, Self::Implemented)
                 | (Self::MergeReady, Self::Implemented)
                 | (Self::Published, Self::MergeReady)
@@ -247,6 +248,135 @@ pub struct TerminalSorValidationRepairRequest {
     pub actor: String,
     pub expected_result: ValidationResult,
     pub replacement_result: ValidationResult,
+    #[serde(default)]
+    pub fail_after_stage: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct TerminalDispositionRepairRequest {
+    pub authority_issue: u64,
+    pub target_issue: u64,
+    pub expected_authority_generation: u64,
+    pub expected_authority_digest: String,
+    pub authority_claim_id: String,
+    pub expected_target_generation: u64,
+    pub expected_target_digest: String,
+    pub expected_receipt_digest: String,
+    pub expected_terminal: TerminalEvidence,
+    pub merged_evidence: crate::github::GithubActionResult,
+    pub actor: String,
+    pub correction_note: String,
+    #[serde(default)]
+    pub fail_after_stage: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct TerminalReceiptTransportRequest {
+    pub authority_issue: u64,
+    pub expected_authority_generation: u64,
+    pub expected_authority_digest: String,
+    pub authority_claim_id: String,
+    pub actor: String,
+    pub receipt: TerminalReceipt,
+    #[serde(default)]
+    pub fail_after_stage: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct CorruptTerminalReceiptReconciliationRequest {
+    pub authority_issue: u64,
+    pub target_issue: u64,
+    pub expected_authority_generation: u64,
+    pub expected_authority_digest: String,
+    pub authority_claim_id: String,
+    pub expected_corrupt_projection_digest: String,
+    pub expected_initialization_digest: String,
+    pub expected_receipt_digest: String,
+    pub actor: String,
+    pub reason: String,
+    #[serde(default)]
+    pub fail_after_stage: Option<String>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum RecordlessClosureKind {
+    Merged,
+    Duplicate,
+    Superseded,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct RecordlessTerminalRecoveryRequest {
+    pub authority_issue: u64,
+    pub expected_authority_generation: u64,
+    pub expected_authority_digest: String,
+    pub authority_claim_id: String,
+    pub actor: String,
+    pub issue: crate::github::GithubIssuePacket,
+    pub issue_evidence: crate::github::GithubActionResult,
+    pub closure_kind: RecordlessClosureKind,
+    pub merged_evidence: Option<crate::github::GithubActionResult>,
+    pub related_issue: Option<u64>,
+    pub related_issue_evidence: Option<crate::github::GithubActionResult>,
+    pub reason: String,
+    pub validation: ValidationResult,
+    #[serde(default)]
+    pub fail_after_stage: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct HistoricalMergedReconciliationRequest {
+    pub authority_issue: u64,
+    pub expected_authority_generation: u64,
+    pub expected_authority_digest: String,
+    pub authority_claim_id: String,
+    pub target_issue: u64,
+    pub expected_target_generation: u64,
+    pub expected_target_digest: String,
+    pub expected_initialization_digest: String,
+    pub required_checks: Vec<String>,
+    pub require_review: bool,
+    pub reviewed_commit: String,
+    pub review: ReviewEvidence,
+    pub issue_evidence: crate::github::GithubActionResult,
+    pub merged_evidence: crate::github::GithubActionResult,
+    pub actor: String,
+    pub operator_authority: String,
+    pub reason: String,
+    pub validation: ValidationResult,
+    #[serde(default)]
+    pub fail_after_stage: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct CorruptHistoricalMergedRecoveryRequest {
+    pub authority_issue: u64,
+    pub authority_worktree: String,
+    pub expected_authority_generation: u64,
+    pub expected_authority_digest: String,
+    pub authority_claim_id: String,
+    pub target_issue: u64,
+    pub source_commit: String,
+    pub expected_source_generation: u64,
+    pub expected_source_digest: String,
+    pub expected_initialization_digest: String,
+    pub expected_corrupt_projection_digest: String,
+    pub expected_target_claim: Claim,
+    pub required_checks: Vec<String>,
+    pub require_review: bool,
+    pub reviewed_commit: String,
+    pub review: ReviewEvidence,
+    pub issue_evidence: crate::github::GithubActionResult,
+    pub merged_evidence: crate::github::GithubActionResult,
+    pub actor: String,
+    pub operator_authority: String,
+    pub reason: String,
+    pub validation: ValidationResult,
     #[serde(default)]
     pub fail_after_stage: Option<String>,
 }

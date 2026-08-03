@@ -1,5 +1,6 @@
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
+use std::path::{Component, Path, PathBuf};
 use strum::{AsRefStr, Display, EnumString};
 
 use crate::error::{ErrorCode, Result, V2Error};
@@ -186,6 +187,21 @@ pub struct TerminalObservation {
 }
 
 pub fn closeout_issue(store: &Store, observation: TerminalObservation) -> Result<IssueRecord> {
+    validate_terminal_observation(&observation)?;
+    let evidence = TerminalEvidence {
+        pull_request: observation.pull_request,
+        disposition: observation.disposition,
+        observed_sha: observation.observed_sha.clone(),
+        observed_state: observation.observed_state.clone(),
+        receipt_path: observation.receipt_path.clone(),
+        released_branch: String::new(),
+        released_worktree: String::new(),
+        released_protected_paths: Vec::new(),
+    };
+    store.commit_terminal(observation, evidence)
+}
+
+pub fn validate_terminal_observation(observation: &TerminalObservation) -> Result<()> {
     if observation.schema != "csdlc.terminal_observation.v1"
         || observation.receipt_path.trim().is_empty()
     {
@@ -231,17 +247,93 @@ pub fn closeout_issue(store: &Store, observation: TerminalObservation) -> Result
         }
         _ => {}
     }
-    let evidence = TerminalEvidence {
-        pull_request: observation.pull_request,
-        disposition: observation.disposition,
-        observed_sha: observation.observed_sha.clone(),
-        observed_state: observation.observed_state.clone(),
-        receipt_path: observation.receipt_path.clone(),
-        released_branch: String::new(),
-        released_worktree: String::new(),
-        released_protected_paths: Vec::new(),
-    };
-    store.commit_terminal(observation, evidence)
+    Ok(())
+}
+
+pub fn reconcile_terminal_observation_head(
+    store: &Store,
+    mut observation: TerminalObservation,
+) -> Result<TerminalObservation> {
+    if observation.disposition != TerminalDisposition::Merged {
+        return Ok(observation);
+    }
+    let observed_sha = observation.observed_sha.as_deref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "merged terminal reconciliation requires an observed SHA",
+        )
+    })?;
+    let record = store.load_record(observation.issue)?;
+    if record.generation != observation.expected_generation
+        || record.digest != observation.expected_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "terminal observation does not match canonical record",
+        ));
+    }
+    let publication = record.publication.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidTransition,
+            "terminal reconciliation requires publication evidence",
+        )
+    })?;
+    let pull_request = observation.pull_request.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "terminal reconciliation requires a pull request",
+        )
+    })?;
+    if publication.pull_request != pull_request {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "terminal observation differs from the published pull request",
+        ));
+    }
+    let observed_revision = crate::git::clean_commit_revision(observed_sha);
+    let readiness = record.readiness.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidTransition,
+            "terminal reconciliation requires readiness evidence",
+        )
+    })?;
+    if !readiness.ready || readiness.pull_request != pull_request {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "terminal reconciliation requires ready evidence for the published pull request",
+        ));
+    }
+    if publication.revision == observed_revision && readiness.head_sha == observed_sha {
+        return Ok(observation);
+    }
+    let required_checks = readiness
+        .checks
+        .iter()
+        .filter(|check| check.requirement == CheckRequirement::Required)
+        .map(|check| check.name.clone())
+        .collect();
+    let reconciled = record_readiness(
+        store,
+        ReadinessRequest {
+            schema: "csdlc.readiness_request.v1".into(),
+            issue: observation.issue,
+            expected_generation: observation.expected_generation,
+            expected_digest: observation.expected_digest.clone(),
+            claim_id: observation.claim_id.clone(),
+            actor: observation.actor.clone(),
+            pull_request,
+            head_sha: observed_sha.to_owned(),
+            required_checks,
+            require_review: readiness.review_state != RemoteReviewState::NotRequired,
+            checks: readiness.checks.clone(),
+            review_state: readiness.review_state,
+            conflict_state: readiness.conflict_state,
+            post_publication_findings: readiness.post_publication_findings.clone(),
+        },
+    )?;
+    observation.expected_generation = reconciled.generation;
+    observation.expected_digest = reconciled.digest;
+    Ok(observation)
 }
 
 pub fn validate_prune_surface(
@@ -250,27 +342,15 @@ pub fn validate_prune_surface(
     expected_worktree: &str,
 ) -> Result<()> {
     let branch = crate::git::current_branch(root)?;
-    let canonical = root.canonicalize()?;
+    let canonical = root.canonicalize().map_err(|_| unsafe_checkout())?;
+    let expected = resolve_terminal_worktree(root, expected_worktree)?;
     let topology = crate::git::worktrees(root)?;
-    let observed = topology.iter().find(|(candidate_branch, candidate_path)| {
-        let expected_path = std::path::Path::new(expected_worktree);
-        let path_matches = if expected_path.is_absolute() {
-            expected_path.canonicalize().ok()
-                == std::path::Path::new(candidate_path).canonicalize().ok()
-        } else {
-            std::path::Path::new(candidate_path).ends_with(expected_path)
-        };
-        candidate_branch == expected_branch && path_matches
+    let observed = topology.iter().any(|(candidate_branch, candidate_path)| {
+        candidate_branch == expected_branch
+            && Path::new(candidate_path).canonicalize().ok().as_ref() == Some(&canonical)
     });
-    if branch != expected_branch
-        || observed.is_none_or(|(_, path)| {
-            std::path::Path::new(path).canonicalize().ok().as_ref() != Some(&canonical)
-        })
-    {
-        return Err(V2Error::new(
-            ErrorCode::UnsafeCheckout,
-            "prune target does not match terminal claim topology",
-        ));
+    if branch != expected_branch || canonical != expected || !observed {
+        return Err(unsafe_checkout());
     }
     if !crate::git::run(root, &["status", "--porcelain", "--untracked-files=all"])?
         .stdout
@@ -282,6 +362,46 @@ pub fn validate_prune_surface(
         ));
     }
     Ok(())
+}
+
+fn resolve_terminal_worktree(root: &Path, expected_worktree: &str) -> Result<PathBuf> {
+    if expected_worktree == "." {
+        return root.canonicalize().map_err(|_| unsafe_checkout());
+    }
+    let expected = Path::new(expected_worktree);
+    if expected_worktree.is_empty()
+        || expected
+            .components()
+            .any(|component| matches!(component, Component::CurDir | Component::ParentDir))
+    {
+        return Err(unsafe_checkout());
+    }
+    let candidate = if expected.is_absolute() {
+        expected.to_path_buf()
+    } else {
+        if !expected
+            .components()
+            .all(|component| matches!(component, Component::Normal(_)))
+        {
+            return Err(unsafe_checkout());
+        }
+        let common = crate::git::run(
+            root,
+            &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+        )?;
+        PathBuf::from(common.stdout)
+            .parent()
+            .ok_or_else(unsafe_checkout)?
+            .join(expected)
+    };
+    candidate.canonicalize().map_err(|_| unsafe_checkout())
+}
+
+fn unsafe_checkout() -> V2Error {
+    V2Error::new(
+        ErrorCode::UnsafeCheckout,
+        "prune target does not match terminal claim topology",
+    )
 }
 
 pub(crate) fn terminal_phase_allowed(

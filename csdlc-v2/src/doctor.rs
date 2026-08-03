@@ -85,6 +85,14 @@ pub fn diagnose(store: &Store, issue: u64) -> DoctorReport {
         report.findings.push(finding(error));
         return report;
     }
+    if record.phase == LifecyclePhase::ClosedOut {
+        if let Err(error) = store.verify_terminal_authority(issue) {
+            report.status = DoctorStatus::Corrupt;
+            report.findings.push(terminal_finding(error));
+            report.next_operation = Some("reconcile_terminal_authority".into());
+            return report;
+        }
+    }
     for (code, path) in [
         ("design_missing", &record.design_path),
         ("diagram_missing", &record.diagram_path),
@@ -104,10 +112,39 @@ pub fn diagnose(store: &Store, issue: u64) -> DoctorReport {
                 message: error.message,
             });
         }
+    } else if !matches!(
+        record.phase,
+        LifecyclePhase::Merged | LifecyclePhase::ClosedOut
+    ) && !record.audit.last().is_some_and(|event| {
+        serde_json::from_str::<serde_json::Value>(&event.operation)
+            .ok()
+            .and_then(|value| {
+                value
+                    .get("operation")
+                    .and_then(serde_json::Value::as_str)
+                    .map(str::to_owned)
+            })
+            .as_deref()
+            == Some("release_closed_claim")
+    }) {
+        report.findings.push(Finding {
+            code: "claim_dormant".into(),
+            message: "nonterminal issue has no active writer claim".into(),
+        });
     }
     if !report.findings.is_empty() {
         report.status = DoctorStatus::Block;
-        report.next_operation = Some("repair_design_readiness".into());
+        report.next_operation =
+            Some(
+                if report.findings.iter().any(|finding| {
+                    finding.code == "claim_dormant" || finding.code == "claim_not_live"
+                }) {
+                    "reacquire_claim"
+                } else {
+                    "repair_design_readiness"
+                }
+                .into(),
+            );
         return report;
     }
     let cards = match store.load_cards(issue) {
@@ -152,10 +189,8 @@ pub fn diagnose(store: &Store, issue: u64) -> DoctorReport {
         record.phase,
         LifecyclePhase::Reviewed | LifecyclePhase::Published | LifecyclePhase::MergeReady
     ) {
-        if let (Some(assignment), Some(review)) =
-            (record.review_assignment.as_ref(), record.review.as_ref())
-        {
-            let current = crate::git::substantive_revision(store.root(), &assignment.scope);
+        if let Some(review) = record.review.as_ref() {
+            let current = crate::git::substantive_revision(store.root(), &review.scope);
             let stale = current.as_ref().is_ok_and(|current| {
                 evaluate_publication_review_in_repo(store.root(), Some(review), current)
                     .blocker_codes
@@ -204,6 +239,18 @@ fn finding(error: V2Error) -> Finding {
             ErrorCode::CorruptRecord => "corrupt_record",
             ErrorCode::InterruptedTransaction => "interrupted_transaction",
             _ => "doctor_error",
+        }
+        .into(),
+        message: error.message,
+    }
+}
+
+fn terminal_finding(error: V2Error) -> Finding {
+    Finding {
+        code: match error.code {
+            ErrorCode::CorruptRecord => "corrupt_record",
+            ErrorCode::InterruptedTransaction => "interrupted_transaction",
+            _ => "terminal_authority_corrupt",
         }
         .into(),
         message: error.message,
