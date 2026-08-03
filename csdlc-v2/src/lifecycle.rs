@@ -217,7 +217,12 @@ fn terminal_projection_overlap_is_released(
     let cached_terminal = crate::finish::load_cached_terminal(store.root(), local.issue)?;
     let immutable_terminal = if let Some(terminal) = &cached_terminal {
         terminal.disposition == crate::finish::FinishDisposition::Merged
-            && crate::finish::envelope_releases_claim(terminal, local, now_unix_seconds)?
+            && crate::finish::envelope_releases_claim(
+                observed_store.root(),
+                terminal,
+                local,
+                now_unix_seconds,
+            )?
     } else {
         false
     };
@@ -236,7 +241,12 @@ fn terminal_projection_overlap_is_released(
         return Ok(false);
     }
     if let Some(terminal) = &cached_terminal {
-        if crate::finish::envelope_releases_claim(terminal, local, now_unix_seconds)? {
+        if crate::finish::envelope_releases_claim(
+            observed_store.root(),
+            terminal,
+            local,
+            now_unix_seconds,
+        )? {
             return Ok(true);
         }
     }

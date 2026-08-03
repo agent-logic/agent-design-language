@@ -228,6 +228,47 @@ pub fn substantive_scope_matches_commit(
     Ok(output.stdout.is_empty())
 }
 
+pub fn substantive_scope_matches_revisions(
+    root: &Path,
+    reviewed_commit: &str,
+    candidate_commit: &str,
+    scope: &[String],
+) -> Result<bool> {
+    if scope.is_empty()
+        || [reviewed_commit, candidate_commit].iter().any(|commit| {
+            commit.len() != 40 || !commit.bytes().all(|byte| byte.is_ascii_hexdigit())
+        })
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "two exact commits and a non-empty review scope are required",
+        ));
+    }
+    let status = Command::new("git")
+        .current_dir(root)
+        .args([
+            "diff",
+            "--quiet",
+            "--no-ext-diff",
+            reviewed_commit,
+            candidate_commit,
+            "--",
+        ])
+        .args(scoped_pathspec(scope))
+        .status()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if status.code() == Some(1) {
+        return Ok(false);
+    }
+    if !status.success() {
+        return Err(V2Error::new(
+            ErrorCode::GitFailure,
+            "git diff failed while comparing reviewed and candidate revisions",
+        ));
+    }
+    Ok(true)
+}
+
 fn scoped_pathspec(scope: &[String]) -> Vec<String> {
     let mut pathspec = scope.to_vec();
     pathspec.push(":(exclude).csdlc/**".into());
