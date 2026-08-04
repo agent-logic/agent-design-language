@@ -180,8 +180,8 @@
     }
   ],
   "non_claim_checks": [
-    "This preparation does not mutate #5352, #4758, #4759, #4760, #4761, #4762, #4763, #5007, #5107, #5357, #5804, PR #5805, or any version:v0.92 issue.",
-    "This preparation does not edit product implementation or milestone planning files.",
+    "This execution does not mutate #5352, #4758, #4759, #4760, #4761, #4762, #4763, #5007, #5107, #5357, #5804, PR #5805, or any version:v0.92 issue.",
+    "This execution edits only the declared v0.91.8 feature-list, proof-coverage, activation-map, and next-milestone handoff documents plus issue-local lifecycle evidence; it does not edit product implementation.",
     "Predecessor PR-head ancestry is not claimed because several terminal observed PR heads are not ancestors of current origin/main after squash-style merge; current-main lifecycle records and terminal receipts are the consumption authority.",
     "The closed/completed dependency set does not itself prove v0.92 birthday readiness, adaptive-learning implementation, or feature-list row disposition."
   ],
