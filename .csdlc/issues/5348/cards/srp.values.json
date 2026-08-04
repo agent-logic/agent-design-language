@@ -7,18 +7,19 @@
     "title": "[v0.91.8][WP-23] Release ceremony and lifecycle closeout",
     "slug": "v0918-wp23-release-ceremony-closeout",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Future review only; preparation performs no review churn.",
+      "review_scope": "Future exact-head review only; review #5348 cards, design, diagram, validation evidence, #5359 live-merge plus ancestry gate, and no-hidden-work constraints before any release ceremony execution or publication.",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
-        "Does the ceremony contain no hidden implementation?",
-        "Do tag, notes, issue, PR, card, milestone, and handoff state agree?"
+        "Does the exact #5348 packet keep execution blocked until #5359 is observed live-merged and ancestral to the exact execution base?",
+        "Do the cards, design, and diagram forbid hidden implementation, #5357 remediation, /private/tmp artifacts, root-main writes, publication, and version:v0.92 issue mutation during preparation?",
+        "Does the focused validation evidence prove only preparation readiness without claiming ceremony execution, review completion, publication, merge, or closeout?"
       ],
       "findings": [],
       "residual_risk": [],

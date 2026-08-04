@@ -1,0 +1,15 @@
+{
+  "issue": 5348,
+  "card": "srp",
+  "expected_generation": 3,
+  "expected_digest": "e4c5c47f99093343aabf8759cdf7e9334d4b8c8bed5f21057d839682b4ee400e",
+  "claim_id": "claim-5348-v0918-preparation-recovered",
+  "actor": "codex:5348-preparation-owner",
+  "reason": "Make the #5348 SRP review scope target future exact-head packet and ceremony-gate truth without claiming review execution.",
+  "operation": {
+    "operation": "replan",
+    "field": "review_scope",
+    "value": "Future exact-head review only; review #5348 cards, design, diagram, validation evidence, #5359 live-merge plus ancestry gate, and no-hidden-work constraints before any release ceremony execution or publication."
+  },
+  "fail_after_backup": false
+}

@@ -22,10 +22,11 @@ Prepare lifecycle packet only; release ceremony is future execution work.
 
 ## Acceptance
 
-1. AC-1: preparation packet is generated through typed C-SDLC v2
-2. AC-2: future execution is blocked on #5359 live merge and ancestry
-3. AC-3: receipts are recorded as audit evidence only
-4. AC-4: no implementation, PR, AWS, raw gh, or root-main tracked write occurs
+1. AC-1: All six #5348 cards, design, and diagram are issue-specific, typed C-SDLC v2 generated, digest-consistent, and doctor-clean.
+2. AC-2: #5348 execution remains blocked until WP-22 #5359 is observed live-merged and the observed merge SHA is an ancestor of the exact #5348 execution base.
+3. AC-3: Preparation validation is focused on csdlc-doctor, request-driven csdlc-validate, and git diff --check, with no ceremony execution.
+4. AC-4: Preparation does not publish, open a PR, tag, merge, touch main, use /private/tmp, touch #5357 remediation, or mutate any version:v0.92 issue.
+5. AC-5: Future ceremony execution reconciles release evidence, tag/release notes, GitHub issue and PR state, cards, milestone docs, and v0.92 handoff truth without hidden repair work.
 
 ## Dependencies
 

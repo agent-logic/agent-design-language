@@ -1,0 +1,25 @@
+{
+  "issue": 5348,
+  "expected_claim_id": "claim-5348-v0918-preparation",
+  "expected_generation": 0,
+  "now_unix_seconds": 1785865953,
+  "replacement": {
+    "id": "claim-5348-v0918-preparation-recovered",
+    "owner": "codex:5348-preparation-owner",
+    "generation": 0,
+    "acquired_unix_seconds": 1785865953,
+    "expires_unix_seconds": 1786470753,
+    "heartbeat_unix_seconds": 1785865953,
+    "branch": "codex/5348-v0918-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5348",
+      ".csdlc/locks/5348.lock",
+      ".csdlc/prepared/issues/5348",
+      ".csdlc/evidence/5348"
+    ],
+    "purpose": "Prepare #5348 WP-23 release ceremony and lifecycle closeout only; no execution until WP-22 #5359 is live-merged and ancestral"
+  },
+  "recovery_actor": "codex:5348-preparation-owner",
+  "reason": "Recover expired #5348 preparation claim without broadening protected scope"
+}

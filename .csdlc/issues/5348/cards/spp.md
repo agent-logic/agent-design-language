@@ -16,42 +16,45 @@ Prepare now; execute only after #5359 is live-merged and ancestral.
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Verify typed preparation packet and #5359 live merge plus ancestry",
+    "action": "Keep #5348 bound to the existing FastWork preparation branch and recover the typed claim if stale.",
     "acceptance_ids": [
       "AC-1",
-      "AC-2"
+      "AC-4"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Verify accepted release evidence and blockers",
+    "action": "Encode the #5359 live-merge plus exact-base ancestry gate in the cards, design, and diagram.",
     "acceptance_ids": [
-      "AC-3"
+      "AC-2",
+      "AC-5"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Reconcile tag, notes, issue, PR, card, milestone, and handoff truth",
+    "action": "Run focused preparation validation and retain the validation request/evidence in #5348 issue-local paths.",
     "acceptance_ids": [
-      "AC-3"
+      "AC-1",
+      "AC-3",
+      "AC-4"
     ],
     "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Perform authorized release closeout or preserve blockers without preparation-scope mutations",
+    "action": "Leave future release ceremony execution blocked unless the live #5359 merge and ancestry checks pass at the exact execution base.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-4"
+      "AC-2",
+      "AC-5"
     ],
     "status": "pending"
   }
@@ -82,13 +85,13 @@ Revision 1
 
 .csdlc/prepared/issues/5348/design.md
 
-Digest: 42d446da6fa9a799916632221c98363aa110577a72b8d384fde26d815fbdcf4f
+Digest: 72a882a9a1d63899b5a9acafcb3f87a21ef059e8e273a8bae33afd0813b8accd
 
 ## Diagram
 
 .csdlc/prepared/issues/5348/diagram.mmd
 
-Digest: 6bf90d440819d3f76adb93d445146829144efd9e7f870d1b1d84e82c14b98990
+Digest: cdbf16aaf9e251c3b06cec9c70c508ece932eee913f65f9ba46391139276861f
 
 ## Stop Conditions
 

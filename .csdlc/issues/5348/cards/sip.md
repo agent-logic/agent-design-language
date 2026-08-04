@@ -37,7 +37,11 @@ Release evidence, tag and publication truth, and reconciled issue, PR, card, mil
 
 ## Operator Constraints
 
-- preparation only
-- no tracked root-main writes
-- one issue-bound FastWork branch
-- minimal packet: six cards, design, diagram, focused doctor validation
+- preparation only; do not execute the release ceremony
+- do not publish, open a PR, tag, merge, or perform closeout
+- do not touch tracked root main
+- do not use /private/tmp for request or evidence artifacts
+- do not touch #5357 remediation
+- do not mutate any version:v0.92 issue
+- write only issue-local #5348 C-SDLC paths plus their typed request/evidence files
+- future execution stays blocked until #5359 is live-merged and its merge SHA is ancestral to the exact #5348 execution base

@@ -4,15 +4,15 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "d9886666f687eed43c121ffb299029dfb0799a973aa38c23a7566e4b50be2e2b",
   "phase": "bound",
-  "generation": 0,
-  "digest": "8c67d5db90763c9cde451f8f28e0fb7f0b8f49d51c596663ac3db0c840d0f4fd",
+  "generation": 7,
+  "digest": "a47254acd7dc77c5c01b79d599415947976ea04705fb66e10d4a68e5d2eb945a",
   "claim": {
-    "id": "claim-5348-v0918-preparation",
+    "id": "claim-5348-v0918-preparation-recovered",
     "owner": "codex:5348-preparation-owner",
-    "generation": 0,
-    "acquired_unix_seconds": 1784754875,
-    "expires_unix_seconds": 1785359675,
-    "heartbeat_unix_seconds": 1784754875,
+    "generation": 7,
+    "acquired_unix_seconds": 1785865953,
+    "expires_unix_seconds": 1786470753,
+    "heartbeat_unix_seconds": 1785865953,
     "branch": "codex/5348-v0918-preparation",
     "worktree": ".",
     "protected_paths": [
@@ -33,40 +33,40 @@
   "diagram_path": ".csdlc/prepared/issues/5348/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator-policy:release-tail-preparation",
-      "revision": "42d446da6fa9a799916632221c98363aa110577a72b8d384fde26d815fbdcf4f"
+      "reviewer": "codex:5348-preparation-owner",
+      "revision": "72a882a9a1d63899b5a9acafcb3f87a21ef059e8e273a8bae33afd0813b8accd"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "e2ce2c473c65ee1224b5f74e97b6eeeba6ee324f3fafeefd755588113508f026",
-      "rendered_digest": "2667311c9deecdebe28eb6fe689bb18a4980cf289106c9cb19ad5dc8b34f8daf",
-      "ast_digest": "69ded02c593f384e714be6c620e54f24c8036885802275da611a0e148f18af5e"
+      "values_digest": "198e5b1e1814d3fe24362272a728c4cabc42a84d60d4b405983c9c6f592f3077",
+      "rendered_digest": "e72ee5c8feec15c093bac2b2699ea08e94ff0f8780d71849acd17e75bff80612",
+      "ast_digest": "8b438c06c1475338b75e5bf1f5e0e09c8e990e110d10de9e358b9e4182e5064a"
     },
     "stp": {
-      "values_digest": "63990ca2bf79614efea1f1ce4bd655d480dd09ee8b6538f62120269df1dcd61a",
-      "rendered_digest": "9eafde874f440e6f16eaaeb3cfa7fa135e4096f256310e305b96ba6b8fc2147b",
-      "ast_digest": "a70742666a9ec63b7094810086849c06b28a27981babf5ac28d3f1c0db7f0db5"
+      "values_digest": "86f8985bd34ea47d697be57b782a01c124cc03b0ea1e3d5f321096cd8a296e0d",
+      "rendered_digest": "864d3630cfe0231ccca4c708c99734326eb320c2f2c914e9e9571aa5b4b8b061",
+      "ast_digest": "342cbe00feac318d332fd393c230ea548214ed0815ac6c20393285a0655c08f8"
     },
     "spp": {
-      "values_digest": "5605771a57d65c17af783c3671abae31b18d130f3fd0b556648d542543879219",
-      "rendered_digest": "58595133306cb7e2357379d3b6701b176e9ca505ace907b7856648bd8093e86a",
-      "ast_digest": "978bd3f36f9283197247607033977d911299d58a5fc3ecbf4bc3724c2fbc5d20"
+      "values_digest": "721b514fd44c38cedf5e64ceaabd363e45ce52546ea54af9a8ef501924bc7f2d",
+      "rendered_digest": "147450149a9307501c2e564d941c63baf5035c65c55f1c15594798e45e1a8b8c",
+      "ast_digest": "e2889ef2c91bb70bd8f262c6cb4b79c01704859c39d40ce5b707f392d4c5cc76"
     },
     "vpp": {
-      "values_digest": "569e108f68599a44104e7c86d7f7b5c1afce57cb31eee3fed0986096c4494502",
-      "rendered_digest": "08c54889503369b44a29b363aecfe23a2f65ed49b6028d2f5ed8ccdb9421fd9e",
-      "ast_digest": "e7c3cb947965aae4b29945d20ed87e33f41b3ec773cb0b656d7f19c573c371f6"
+      "values_digest": "b97051f660b94fe0174f2c9cd05750974030f832610df3083f5704e67257b864",
+      "rendered_digest": "4519c65cd6214d2c52b1a93c2fef3b51ea31ec1b6e71651633fe258991091b06",
+      "ast_digest": "c417ae6a759f589b164f834df1be19605e427fdb60249bab8e906eff4e8a2804"
     },
     "srp": {
-      "values_digest": "fb5bef33b96923e54ed68e97a0d1021344bf8822142d715d9cd68b6427238a29",
-      "rendered_digest": "687628e3b5615c60bc01019d8ef1f1b7ee9e0435026e5a7d97c848470b6e97b1",
-      "ast_digest": "925ef6437f11cddbb7caa8521912a55f84b8c7e78dd8dcec0074db20fb9b0839"
+      "values_digest": "b066b2baf1b37b9f6b6c743375e459a59198ea896db8694673da6cab5e924b4f",
+      "rendered_digest": "b7b2af1103f176058613c6d4efac3e12ba80f02e1cd8165c74ac7ebaee17ef77",
+      "ast_digest": "0194e23f2628162836d7364d0e040e317c2671aa079da0a38c044afe0962e83e"
     },
     "sor": {
-      "values_digest": "75c889aaed13cae65a321f1a690a7380559d1eda6b59412451287c54ba8d5f2f",
-      "rendered_digest": "5d01710ae917e8627af3ab31f56ac1102557547cf94f59821d06da8374c7b5b4",
-      "ast_digest": "e5f140e84f3304fd793c334a83fd3fa4c6fdc79e50b76c176dd858cd21f8a7b9"
+      "values_digest": "a9b7befeaf94e32a1d1d63af19697271605aee0f0980b19d417df3298190ae37",
+      "rendered_digest": "0950ac2f9d32e246c699becd58942d7beea71fc4629569d06e20177a84f0b915",
+      "ast_digest": "7fc03dbc2c7b26980d85f50af17c533b707cb4ba30a43c69f5651dc1f6443c95"
     }
   },
   "transitions": [
@@ -99,6 +99,62 @@
       "actor": "codex:5348-preparation-owner",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:5348-preparation-owner",
+      "reason": "Recover expired #5348 preparation claim without broadening protected scope",
+      "operation": "{\"previous_owner\":\"codex:5348-preparation-owner\",\"observed_expiry_unix_seconds\":1785359675,\"recovery_actor\":\"codex:5348-preparation-owner\",\"reason\":\"Recover expired #5348 preparation claim without broadening protected scope\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:5348-preparation-owner",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:5348-preparation-owner",
+      "reason": "Make #5348 preparation acceptance, plan, and validation lanes execution-ready around the #5359 live-merge ancestry gate.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: All six #5348 cards, design, and diagram are issue-specific, typed C-SDLC v2 generated, digest-consistent, and doctor-clean.\",\"AC-2: #5348 execution remains blocked until WP-22 #5359 is observed live-merged and the observed merge SHA is an ancestor of the exact #5348 execution base.\",\"AC-3: Preparation validation is focused on csdlc-doctor, request-driven csdlc-validate, and git diff --check, with no ceremony execution.\",\"AC-4: Preparation does not publish, open a PR, tag, merge, touch main, use /private/tmp, touch #5357 remediation, or mutate any version:v0.92 issue.\",\"AC-5: Future ceremony execution reconciles release evidence, tag/release notes, GitHub issue and PR state, cards, milestone docs, and v0.92 handoff truth without hidden repair work.\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Keep #5348 bound to the existing FastWork preparation branch and recover the typed claim if stale.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Encode the #5359 live-merge plus exact-base ancestry gate in the cards, design, and diagram.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Run focused preparation validation and retain the validation request/evidence in #5348 issue-local paths.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Leave future release ceremony execution blocked unless the live #5359 merge and ancestry checks pass at the exact execution base.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"typed-doctor-5348\",\"proof_role\":\"Validate #5348 canonical record, six generated cards, design and diagram digests, and bound claim truth.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5348\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"request-driven-preparation-validation\",\"proof_role\":\"Run the issue-local csdlc-validate request for #5348 preparation proof without finalizing or executing the ceremony.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"--request\",\".csdlc/prepared/issues/5348/validate-preparation.json\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove the preparation diff has no whitespace or patch hygiene errors.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"future-predecessor-live-merge-ancestry\",\"proof_role\":\"Future execution gate: observe #5359 live merge and verify its merge SHA is ancestral to the exact #5348 execution base.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"future-execution-gate\",\"observe-5359-live-merge-and-git-merge-base-is-ancestor\"],\"parallel_group\":\"blocked-future\",\"defer_reason\":\"Deferred because #5359 is still open as of 2026-08-04 and #5348 ceremony execution is out of scope for preparation.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:5348-preparation-owner",
+      "reason": "Encode the operator's preparation-only constraints directly in the #5348 SIP.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"preparation only; do not execute the release ceremony\",\"do not publish, open a PR, tag, merge, or perform closeout\",\"do not touch tracked root main\",\"do not use /private/tmp for request or evidence artifacts\",\"do not touch #5357 remediation\",\"do not mutate any version:v0.92 issue\",\"write only issue-local #5348 C-SDLC paths plus their typed request/evidence files\",\"future execution stays blocked until #5359 is live-merged and its merge SHA is ancestral to the exact #5348 execution base\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:5348-preparation-owner",
+      "reason": "Make the #5348 SRP review scope target future exact-head packet and ceremony-gate truth without claiming review execution.",
+      "operation": "{\"field\":\"review_scope\",\"new_value\":\"Future exact-head review only; review #5348 cards, design, diagram, validation evidence, #5359 live-merge plus ancestry gate, and no-hidden-work constraints before any release ceremony execution or publication.\",\"operation\":\"replan\",\"previous_value\":\"Future review only; preparation performs no review churn.\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:5348-preparation-owner",
+      "reason": "Make future #5348 review prompts issue-specific to predecessor and no-hidden-work gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does the exact #5348 packet keep execution blocked until #5359 is observed live-merged and ancestral to the exact execution base?\",\"Do the cards, design, and diagram forbid hidden implementation, #5357 remediation, /private/tmp artifacts, root-main writes, publication, and version:v0.92 issue mutation during preparation?\",\"Does the focused validation evidence prove only preparation readiness without claiming ceremony execution, review completion, publication, merge, or closeout?\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:5348-preparation-owner",
+      "reason": "Record the issue-local #5348 preparation packet edits without claiming release ceremony execution.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Prepared #5348 WP-23 for later execution by recovering the typed preparation claim, making cards/design/diagram issue-specific, encoding the #5359 live-merge ancestry gate, and adding focused validation evidence. Release ceremony execution, publication, PR opening, tag creation, merge, closeout, #5357 remediation, and version:v0.92 issue mutation did not occur.\",\"changes\":[\".csdlc/issues/5348\",\".csdlc/prepared/issues/5348\",\".csdlc/evidence/5348/preparation\"],\"artifacts\":[\".csdlc/prepared/issues/5348/recover-preparation-claim.json\",\".csdlc/prepared/issues/5348/reapprove-design.json\",\".csdlc/prepared/issues/5348/replace-acceptance-plan.json\",\".csdlc/prepared/issues/5348/replace-sip-operator-constraints.json\",\".csdlc/prepared/issues/5348/replan-srp-review-scope.json\",\".csdlc/prepared/issues/5348/replace-srp-review-prompts.json\",\".csdlc/prepared/issues/5348/validate-preparation.json\",\".csdlc/evidence/5348/preparation/typed-doctor-5348.log\",\".csdlc/evidence/5348/preparation/diff-hygiene.log\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:5348-preparation-owner",
+      "reason": "Record focused #5348 preparation validation evidence without advancing lifecycle phase.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"--request\",\".csdlc/prepared/issues/5348/validate-preparation.json\"],\"purpose\":\"Request-driven preparation validation ran typed doctor and diff hygiene locally; no ceremony execution, publication, PR, merge, tag, closeout, #5357 remediation, /private/tmp artifact, main write, or version:v0.92 mutation occurred.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5348/preparation\"}}"
     }
   ]
 }

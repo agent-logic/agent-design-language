@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-23] Release ceremony and lifecycle closeout",
     "slug": "v0918-wp23-release-ceremony-closeout",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 7
   },
   "status": "ready",
   "content": {
@@ -20,10 +20,11 @@
         "focused typed doctor validation"
       ],
       "acceptance_criteria": [
-        "AC-1: preparation packet is generated through typed C-SDLC v2",
-        "AC-2: future execution is blocked on #5359 live merge and ancestry",
-        "AC-3: receipts are recorded as audit evidence only",
-        "AC-4: no implementation, PR, AWS, raw gh, or root-main tracked write occurs"
+        "AC-1: All six #5348 cards, design, and diagram are issue-specific, typed C-SDLC v2 generated, digest-consistent, and doctor-clean.",
+        "AC-2: #5348 execution remains blocked until WP-22 #5359 is observed live-merged and the observed merge SHA is an ancestor of the exact #5348 execution base.",
+        "AC-3: Preparation validation is focused on csdlc-doctor, request-driven csdlc-validate, and git diff --check, with no ceremony execution.",
+        "AC-4: Preparation does not publish, open a PR, tag, merge, touch main, use /private/tmp, touch #5357 remediation, or mutate any version:v0.92 issue.",
+        "AC-5: Future ceremony execution reconciles release evidence, tag/release notes, GitHub issue and PR state, cards, milestone docs, and v0.92 handoff truth without hidden repair work."
       ],
       "dependencies": [
         "WP-22 #5359 live merged into origin/main",

@@ -7,16 +7,43 @@
     "title": "[v0.91.8][WP-23] Release ceremony and lifecycle closeout",
     "slug": "v0918-wp23-release-ceremony-closeout",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Prepared #5348 WP-23 for later execution by recovering the typed preparation claim, making cards/design/diagram issue-specific, encoding the #5359 live-merge ancestry gate, and adding focused validation evidence. Release ceremony execution, publication, PR opening, tag creation, merge, closeout, #5357 remediation, and version:v0.92 issue mutation did not occur.",
+      "actual_changes": [
+        ".csdlc/issues/5348",
+        ".csdlc/prepared/issues/5348",
+        ".csdlc/evidence/5348/preparation"
+      ],
+      "artifacts": [
+        ".csdlc/prepared/issues/5348/recover-preparation-claim.json",
+        ".csdlc/prepared/issues/5348/reapprove-design.json",
+        ".csdlc/prepared/issues/5348/replace-acceptance-plan.json",
+        ".csdlc/prepared/issues/5348/replace-sip-operator-constraints.json",
+        ".csdlc/prepared/issues/5348/replan-srp-review-scope.json",
+        ".csdlc/prepared/issues/5348/replace-srp-review-prompts.json",
+        ".csdlc/prepared/issues/5348/validate-preparation.json",
+        ".csdlc/evidence/5348/preparation/typed-doctor-5348.log",
+        ".csdlc/evidence/5348/preparation/diff-hygiene.log"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+            "--root",
+            ".",
+            "--request",
+            ".csdlc/prepared/issues/5348/validate-preparation.json"
+          ],
+          "purpose": "Request-driven preparation validation ran typed doctor and diff hygiene locally; no ceremony execution, publication, PR, merge, tag, closeout, #5357 remediation, /private/tmp artifact, main write, or version:v0.92 mutation occurred.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5348/preparation"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",
