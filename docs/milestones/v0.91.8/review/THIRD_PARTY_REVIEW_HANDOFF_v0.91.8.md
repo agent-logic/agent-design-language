@@ -13,10 +13,11 @@
 - Internal review: v0.91.8 WP-18 / `#5356`, closed through PR `#5781` at
   reviewed head `ba4caa3da1f0f0358ce71bf64de0e8909c37ff28` and merge commit
   `9e5745cdaad6f0753b22f1ef3ea7843573352c0d`
-- Final internal second pass: v0.91.8 WP-18 / `#5791`, required after residual
-  coding and not yet merged into this packet
+- Final internal second pass: v0.91.8 WP-18 / `#5791`, reviewed at
+  `70f4e76509de219ccff6ffb534f9199d74eaece2` and merged through PR `#5799`
+  at `1b1ba9990bee81cf74ea449f09c52373aeb7e16c`
 - Release-tail revalidation owner: v0.91.8 WP-21A / `#5355`
-- Packet status: `docs_current_waiting_internal_second_pass`
+- Packet status: `ready_to_freeze_not_sent`
 - Review performed: false
 - Release approval claimed: false
 - v0.92 activation claimed: false
@@ -113,9 +114,9 @@ prepared a credible, evidence-bound packet to accept ADL v2, Runtime v3, and
 C-SDLC v2 at exact revisions before `v0.92` consumes the platform. The latest
 integrated quality source is WP-16 at
 `2e9d2dd7c4260dcf6ec6af954b0eea97554212df`; WP-17 closed the documentation
-alignment to that merged evidence, and WP-18 closed its first internal-review
-lane through PR `#5781`. Residual coding requires final second-pass issue
-`#5791` before WP-19 `#5357` freezes or sends the formal external review.
+alignment to that merged evidence. WP-18 closed its first review through PR
+`#5781` and its final second pass through PR `#5799`. WP-19 `#5357` may now
+freeze the packet, but the formal external review has not been sent.
 
 This is not a release handoff and not a review result. It prepares the formal
 third-party review surface only.

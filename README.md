@@ -159,8 +159,9 @@ bridge.
 v0.91.8 has advanced through WP-16. The integrated quality gate merged at
 `2e9d2dd7c` and records 67 audited issue outcomes, 0 unacceptable outcomes,
 and passing ADL v2, Runtime v3, and C-SDLC v2 focused/integrated lanes. The
-bridge is still not release-approved: WP-17 documentation alignment,
-milestone review, remediation/preflight, v0.92 handoff truth, and release
+bridge is still not release-approved: WP-17 documentation alignment and both
+WP-18 internal reviews are closed; external review, remediation/preflight,
+v0.92 handoff truth, and release
 ceremony remain explicit release-tail work.
 
 Start here:
@@ -318,7 +319,7 @@ production markets.
 
 ## Project Status
 
-- Active milestone: v0.91.8 bridge, release-tail WP-18 #5791
+- Active milestone: v0.91.8 bridge, release-tail WP-19 #5357
 - Active sprint umbrella: #5595
 - Downstream milestone: v0.92 consumes exact-revision v0.91.8 acceptance and handoff
 - Current ADL and Runtime v2 crate version: 0.91.8
@@ -328,8 +329,9 @@ production markets.
   v0.91.7 ([GitHub release](https://github.com/danielbaustin/agent-design-language/releases/tag/v0.91.7))
 - The active v0.91.8 bridge remains unreleased pending its documented gates.
 - Current milestone state: WP-16 quality gate passed at `2e9d2dd7c`; WP-17
-  documentation truth alignment is closed, WP-18 final internal review is
-  active, and later release-tail remediation, handoff, and ceremony gates
+  documentation truth alignment and both WP-18 internal reviews are closed;
+  WP-19 external review is ready to freeze but not dispatched, and later
+  release-tail remediation, handoff, and ceremony gates
   remain open.
 - Primary implementation language: Rust
 

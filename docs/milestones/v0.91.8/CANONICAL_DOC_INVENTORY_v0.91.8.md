@@ -42,8 +42,8 @@ precedence, or leaves current blocker/register truth stale.
 
 | Surface | Path | Required routing/dependency truth | Planned/proven state | WP-21A validation |
 | --- | --- | --- | --- | --- |
-| Repository README | [../../../README.md](../../../README.md) | Names v0.91.8 as active bridge, WP-16 quality-gate pass, WP-17 docs alignment as closed, WP-18 final review as current, and v0.92 downstream. | Current entrypoint | Must not retain v0.91.7 as current or claim release approval. |
-| README | [README.md](README.md) | Names WP-16 pass, WP-17 docs alignment as closed, WP-18 final review as current, historical #5335/#5383, #5384 WP-14A, #4641 restored v0.91.7 WP-14, and v0.92 downstream bridge. | Current release-tail entrypoint | Must link this inventory and not claim release readiness. |
+| Repository README | [../../../README.md](../../../README.md) | Names v0.91.8 as active bridge, WP-16 pass, WP-17 and both WP-18 reviews closed, WP-19 current, and v0.92 downstream. | Current entrypoint | Must not retain v0.91.7 as current or claim release approval. |
+| README | [README.md](README.md) | Names WP-16 pass, WP-17 and both WP-18 reviews closed, WP-19 current, historical #5335/#5383, #5384 WP-14A, #4641 restored v0.91.7 WP-14, and v0.92 downstream bridge. | Current release-tail entrypoint | Must link this inventory and not claim release readiness. |
 | Vision | [VISION_v0.91.8.md](VISION_v0.91.8.md) | Keeps ADL v2, Runtime v3, and C-SDLC v2 ownership separate. | Current source surface | Must preserve bridge-before-v0.92 precedence. |
 | Design | [DESIGN_v0.91.8.md](DESIGN_v0.91.8.md) | Three-product acceptance boundary and deletion budget remain non-approval. | Current source surface | Must not pre-approve deletion or deployment. |
 | Decisions | [DECISIONS_v0.91.8.md](DECISIONS_v0.91.8.md) | #5383 is historical/closed setup authority; #5335 is stale predecessor; #5384 owns WP-14A. | Planned/current routing decisions | Must not call #5383 active. |

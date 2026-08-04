@@ -20,8 +20,8 @@
 | WP-15 | WP-14A accepted revisions | Complete/useful durable result per WP-16 audit and quality gate. |
 | WP-16 | WP-15 convergence proof | Passed at `2e9d2dd7c`; see `evidence/wp16/QUALITY_GATE.md`. |
 | WP-17 | WP-16 quality gate | Closed documentation and release-truth alignment. |
-| WP-18 | WP-17 merge; final pass after residual coding | First pass #5356 closed; final second pass #5791 is active. |
-| WP-19 | WP-18 #5791 merge | Prepared but not frozen or dispatched; waits for the final internal second pass. |
+| WP-18 | WP-17 merge; final pass after residual coding | Both #5356 and final second pass #5791 are closed. |
+| WP-19 | WP-18 #5791 merge | Ready to freeze; external review is not dispatched. |
 | WP-20 | WP-19 merge | Pending remediation and release preflight. |
 | WP-21 | WP-20 merge | Pending exact-revision v0.92 handoff ledger. |
 | WP-21A | WP-21 merge | Pending next-milestone closeout plan. |

@@ -37,8 +37,6 @@ begin
   packet = ROOT.join(FINAL_PACKET).read
   review_head = packet[/Review head: `([0-9a-f]{40})`/, 1]
   fail_gate("final-pass packet has no exact review head") unless review_head&.match?(HEX40)
-  _out, review_ancestry = Open3.capture2e("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", review_head, head)
-  fail_gate("final-pass reviewed head #{review_head} is not ancestral to #{head}") unless review_ancestry.success?
 
   publication = JSON.parse(ROOT.join(FINAL_PUBLICATION).read)
   fail_gate("final-pass publication does not close ##{FINAL_PASS_ISSUE}") unless publication.fetch("body").include?("Closes ##{FINAL_PASS_ISSUE}")

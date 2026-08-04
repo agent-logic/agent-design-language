@@ -4,9 +4,9 @@
 
 `v0.91.8` is not released by this documentation package. WP-16 merged at
 `2e9d2dd7c4260dcf6ec6af954b0eea97554212df` and records an integrated platform
-quality-gate pass. WP-17 documentation alignment and the first WP-18 internal
-review are closed. Final release still requires WP-18 second-pass issue `#5791`
-after residual coding, formal external review, remediation, next-milestone
+quality-gate pass. WP-17 documentation alignment and both WP-18 internal
+reviews are closed. Final release still requires formal external review,
+remediation, next-milestone
 handoff/review, and release ceremony work.
 
 ## Gates
@@ -53,8 +53,8 @@ state as operational truth.
 ## Current Non-Claims
 
 - Final `v0.91.8` release approval is not claimed.
-- WP-18 first-pass review is complete; final second-pass `#5791` and formal
-  third-party milestone review are not claimed complete.
+- Both WP-18 reviews are complete; formal third-party milestone review is not
+  claimed complete.
 - v0.92 birthday activation is not claimed.
 - Partial or ambiguous release-tail, umbrella, and lifecycle-drift items
   recorded by WP-16 remain explicit limitations unless later evidence closes

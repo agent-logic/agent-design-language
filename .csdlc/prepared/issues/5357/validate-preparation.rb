@@ -34,9 +34,15 @@ PATHS = [
   "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
   "docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_5356.md"
 ].freeze
+MERGED_TRANSFER_PATHS = %w[
+  README.md
+  docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md
+  docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md
+].freeze
 FILES = %w[
   design.md diagram.mmd bootstrap-request.json bind-request.json approve-design-request.json
   amend-canonical-review-docs-scope.json
+  amend-post-5791-canonical-paths.json
   replace-sip-constraints-for-final-review-gate.json
   replace-stp-dependencies-for-second-pass.json
   replace-stp-acceptance-for-canonical-sweep.json
@@ -126,7 +132,7 @@ assert(stp.fetch("dependencies").any? { |value| value.include?("#5791") }, "curr
 handoff = "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md"
 assert(ROOT.join(handoff).file?, "canonical handoff missing")
 handoff_text = ROOT.join(handoff).read
-assert(handoff_text.include?("Packet status: `docs_current_waiting_internal_second_pass`"), "canonical handoff status is not truthful")
+assert(handoff_text.include?("Packet status: `ready_to_freeze_not_sent`"), "canonical handoff is not ready to freeze")
 assert(handoff_text.include?("Review performed: false"), "canonical handoff overclaims review")
 assert(handoff_text.include?("`#5791`"), "canonical handoff omits the final internal review gate")
 %w[
@@ -143,7 +149,7 @@ corpus_paths = git("ls-files", "docs/milestones/v0.91.8").lines.map(&:strip).sel
 assert(corpus_paths.length >= 40, "canonical v0.91.8 document corpus is unexpectedly small")
 readiness = JSON.parse(ROOT.join(".csdlc/evidence/5357/documentation-readiness.v1.json").read)
 assert(readiness.dig("current_corpus", "tracked_markdown_yaml_json") == corpus_paths.length, "documentation-readiness corpus count drift")
-assert(readiness.fetch("external_review_dispatched") == false && readiness.fetch("release_approved") == false, "documentation-readiness evidence overclaims")
+assert(readiness.fetch("freeze_ready") == true && readiness.fetch("external_review_dispatched") == false && readiness.fetch("release_approved") == false, "documentation-readiness evidence overclaims")
 wp17 = JSON.parse(ROOT.join(readiness.fetch("source_wp17_evidence")).read)
 wp17_paths = (wp17.fetch("updated_paths") + wp17.fetch("verified_no_edit") + wp17.fetch("delegated_collisions").map { |entry| entry.fetch("path") }).uniq
 assert(wp17.fetch("summary") == readiness.fetch("source_wp17_summary"), "WP-17 summary drift")
@@ -159,12 +165,7 @@ wp17_paths.each do |relative|
   YAML.safe_load(bytes, aliases: true) if relative.match?(/\.ya?ml\z/)
   validate_local_links(path) if relative.end_with?(".md")
 end
-concurrent_paths = %w[
-  README.md
-  docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md
-  docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md
-]
-assert(git("diff", "--name-only", "origin/main...HEAD", "--", *concurrent_paths).empty?, "#5357 modified a #5791-owned current document")
+assert(Open3.capture2e("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", "1b1ba9990bee81cf74ea449f09c52373aeb7e16c", "HEAD").last.success?, "merged #5791 source is not ancestral")
 corpus_paths.each do |relative|
   path = ROOT.join(relative)
   assert(path.file?, "tracked canonical document is missing: #{relative}")
@@ -226,7 +227,8 @@ changed = git("diff", "--name-only", "origin/main...HEAD").lines.map(&:strip)
 status_out, status = Open3.capture2("git", "-C", ROOT.to_s, "status", "--porcelain")
 assert(status.success?, "cannot inspect status")
 changed = (changed + status_out.lines.map { |line| line[3..]&.strip }).compact.uniq
-assert(changed.all? { |path| PATHS.any? { |prefix| path == prefix || path.start_with?("#{prefix}/") } }, "out-of-scope readiness change")
+allowed_paths = PATHS + MERGED_TRANSFER_PATHS
+assert(changed.all? { |path| allowed_paths.any? { |prefix| path == prefix || path.start_with?("#{prefix}/") } }, "out-of-scope readiness change")
 
 counts = FILES.to_h { |name| [name, PREP.join(name).read.lines.count { |line| !line.strip.empty? }] }
 assert(counts.values.all? { |count| count < 500 } && counts.values.sum <= 1800, "preparation LoC budget exceeded")

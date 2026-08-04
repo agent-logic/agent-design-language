@@ -6,7 +6,7 @@
 - Version: `v0.91.8`
 - Status: active release tail; WP-16 quality gate and WP-17 documentation
   alignment passed, and the first WP-18 review is closed
-- Active pre-external-review issue: WP-18 second pass `#5791`
+- Active release-tail issue: WP-19 external review `#5357`
 - Milestone sprint umbrella: `#5595`
 - Historical planning sources: `#5335` and `#5383`
 - Restored source issue: `#4641` remains `v0.91.7` WP-14
@@ -41,9 +41,8 @@ audit. That quality gate is not release approval by itself.
   `#5361`, and `#5384` own bounded multi-agent, Runtime v3, and integrated
   acceptance child sets without duplicating implementation ownership.
 - WP-14A accepts only the platform revisions. Unity proof is owned by WP-15.
-  The first WP-18 review `#5356` is closed; `#5791` owns the final internal
-  second pass after residual coding. WP-19 owns external review only after that
-  pass is consumable. C-SDLC tooling remediation is owned by WP-20, and the
+  Both WP-18 reviews `#5356` and `#5791` are closed. WP-19 owns the prepared,
+  undispatched external-review packet. C-SDLC tooling remediation is owned by WP-20, and the
   exact-revision handoff, Memory Palace, launch/identity, and Adaptive Learning
   inputs are owned by WP-21.
 
@@ -52,9 +51,9 @@ audit. That quality gate is not release approval by itself.
 The milestone is not release-approved. WP-16 passed the integrated quality gate
 at `2e9d2dd7c`, with 67 audited issue outcomes, 0 unacceptable outcomes, and
 passing ADL v2, Runtime v3, and C-SDLC v2 validation lanes. WP-17 `#5360`
-closed the documentation-alignment gate and WP-18 `#5356` closed the first
-internal review. Residual coding is subject to final internal second-pass issue
-`#5791`; WP-19 external review remains undispatched until that pass merges.
+closed the documentation-alignment gate. WP-18 `#5356` and `#5791` closed both
+internal review passes. WP-19 external review is ready to freeze but remains
+undispatched.
 Remaining release-tail work must still complete external review/remediation,
 finalize v0.92 handoff truth, and run ceremony/closeout.
 
@@ -103,9 +102,9 @@ Every work package must exit as one of:
 ## Documentation Responsibility
 
 WP-17 `#5360` closed the documentation truth alignment against WP-16 merged
-evidence. WP-18 `#5356` closed the first internal review; `#5791` owns the
-required second pass after residual coding, and WP-19 `#5357` owns the
-undispatched external-review handoff after that pass. Closed v0.91.7 WP-21A
+evidence. WP-18 `#5356` and `#5791` closed both internal review passes, and
+WP-19 `#5357` owns the ready-to-freeze, undispatched external-review handoff.
+Closed v0.91.7 WP-21A
 `#5489` is historical preparation evidence. Later v0.91.8 release-tail
 documentation/review gates revalidate the canonical packet and fail closed if
 any surface named in

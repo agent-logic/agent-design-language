@@ -51,8 +51,8 @@ what has shipped, what is currently being implemented, what is demoable, and
 what is planned for later milestones. At the moment, `v0.91.8` is the active
 bridge milestone. WP-16 passed at `2e9d2dd7c` with 67 audited issue outcomes,
 0 unacceptable outcomes, and passing ADL v2, Runtime v3, and C-SDLC v2 lanes.
-WP-17 documentation alignment and the first WP-18 internal review are closed.
-The final internal second pass `#5791` must consume the residual coding before
-WP-19 freezes or dispatches its external-review packet. The milestone is not
+WP-17 documentation alignment and both WP-18 internal reviews are closed.
+WP-19 is ready to freeze its external-review packet but has not dispatched it.
+The milestone is not
 release-approved until external review, remediation, handoff, and ceremony
 gates complete.

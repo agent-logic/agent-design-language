@@ -2,7 +2,7 @@
 
 | Gate | Owner | Required proof |
 | --- | --- | --- |
-| Docs/YAML/link validity | WP-17 #5360 and first-pass WP-18 #5356 are closed; final WP-18 second pass #5791 is current; #5489/#5383/#5594 are historical inputs | Focused docs validation, YAML parse, canonical feature-list crosswalk, inventory checks, review-handoff preflight, and both internal-review packet validations |
+| Docs/YAML/link validity | WP-17 #5360 and both WP-18 passes #5356/#5791 are closed; WP-19 #5357 is current; #5489/#5383/#5594 are historical inputs | Focused docs validation, YAML parse, canonical feature-list crosswalk, inventory checks, review-handoff preflight, and both internal-review packet validations |
 | Architecture denominator | #5336 | Baseline packet and approved design |
 | Characterization corpus | #5337 | Fixture review and deterministic replay plan |
 | Core behavior | #5338, #5339, #5340, #5342 | Focused Rust tests and canonical fixture proof |
