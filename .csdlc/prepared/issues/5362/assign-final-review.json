@@ -2,7 +2,7 @@
   "schema": "csdlc.review_assignment_request.v1",
   "issue": 5362,
   "expected_generation": 10,
-  "expected_digest": "8beb9bd80ac3fa8ddedbeb77b243da49e5961a7822de4a213edfd9359c99c653",
+  "expected_digest": "6e7bcebdd5f0fe0b96f45f7f0f54dbd05e33dc4464572cb480e34890e2a3db1b",
   "claim_id": "claim-5362-v0918-preparation-20260804",
   "reviewer": "subagent:gpt-5.5:Locke",
   "assigned_by": "codex:wp21-conductor",
