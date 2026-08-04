@@ -38,12 +38,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- WP-22 review and WP-23 release ceremony remain future work.
+- This planning packet does not execute v0.92 or claim first-birthday readiness.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:bd5501be6be7bdb4b1aefac09da58fde7912c51a:6b8f88f469939c7b937d13f04b153635dba010ddd04047c5b555ba2e7f86ff15")
 
-Reviewer: None
+Reviewer: Some("subagent:gpt-5.5:WP21A-reviewer")
 
-Result: pre_review
+Result: pass
