@@ -89,6 +89,7 @@ Every work package must exit as one of:
 - Execution readiness: [WP_EXECUTION_READINESS_v0.91.8.md](WP_EXECUTION_READINESS_v0.91.8.md)
 - ADR plan: [ADR_PLAN_v0.91.8.md](ADR_PLAN_v0.91.8.md)
 - v0.92 handoff: [NEXT_MILESTONE_HANDOFF_v0.91.8.md](NEXT_MILESTONE_HANDOFF_v0.91.8.md)
+- v0.92 closeout planning packet: [NEXT_MILESTONE_CLOSEOUT_PLAN_v0.91.8.md](NEXT_MILESTONE_CLOSEOUT_PLAN_v0.91.8.md)
 - v0.92 activation test map: [V092_ACTIVATION_TEST_MAP_v0.91.8.md](V092_ACTIVATION_TEST_MAP_v0.91.8.md)
 - Feature index: [features/README.md](features/README.md)
 - Review index: [review/README.md](review/README.md)
@@ -110,7 +111,13 @@ evidence. WP-18 `#5356` and `#5791` closed both internal review passes. WP-19
 `#5363` owns remediation before any refreshed approval review or release
 closeout.
 Closed v0.91.7 WP-21A
-`#5489` is historical preparation evidence. Later v0.91.8 release-tail
+`#5489` is historical preparation evidence. Current v0.91.8 WP-21A `#5355`
+prepares
+[NEXT_MILESTONE_CLOSEOUT_PLAN_v0.91.8.md](NEXT_MILESTONE_CLOSEOUT_PLAN_v0.91.8.md)
+for WP-22 review. WP-21 `#5362` closed after PR #5807 merged exact head
+`f1ddeacf5e91a1c8da690b2940e4125937aa57a3` as squash merge
+`eaa62d3d2c0241bc07ce827fedef0e42389d0491`; WP-21A consumers must still verify
+that merge commit is contained in current `origin/main`. Later v0.91.8 release-tail
 documentation/review gates revalidate the canonical packet and fail closed if
 any surface named in
 [CANONICAL_DOC_INVENTORY_v0.91.8.md](CANONICAL_DOC_INVENTORY_v0.91.8.md) is

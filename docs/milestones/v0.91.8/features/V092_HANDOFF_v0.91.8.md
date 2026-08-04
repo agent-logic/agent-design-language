@@ -32,9 +32,16 @@ WP-17 `#5360` closed documentation alignment to WP-16, and WP-18 `#5356` plus
 remediation/preflight closed through PR #5806 at merge commit
 `e695e8b26ccdfbf62ffb68574662317dae99547e`; WP-21 may consume that retained
 truth without treating it as release approval.
-`#5355` owns the future v0.91.8 WP-21A handoff review alignment, and `#5359`
-owns release-tail closeout truth. Do not confuse future v0.91.8 WP-21A `#5355`
-with historical v0.91.7 WP-21A `#5489`.
+`#5355` owns the v0.91.8 WP-21A handoff review alignment through
+`docs/milestones/v0.91.8/NEXT_MILESTONE_CLOSEOUT_PLAN_v0.91.8.md`, and `#5359`
+owns the review of that plan before release-tail closeout truth moves to
+`#5348`. Do not confuse v0.91.8 WP-21A `#5355` with historical v0.91.7 WP-21A
+`#5489`. PR #5807 merged WP-21 `#5362` exact head
+`f1ddeacf5e91a1c8da690b2940e4125937aa57a3` as squash merge
+`eaa62d3d2c0241bc07ce827fedef0e42389d0491`; the WP-21A plan must require
+current-main ancestry verification before execution, and it must not make
+asynchronous typed closeout receipts block downstream planning after GitHub
+merge truth is established.
 
 #4762 contributes the auditable birth-witness and receipt handoff package at
 `docs/milestones/v0.91.8/review/v092_handoff_4762/`. WP-21 and v0.92 consumers
