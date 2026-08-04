@@ -2,7 +2,7 @@
   "schema": "csdlc.review_assignment_request.v1",
   "issue": 5355,
   "expected_generation": 7,
-  "expected_digest": "a7b3ab40da8140d471d3d42bc4b31f54d09b69fc7201b4d939f87b717aba4bad",
+  "expected_digest": "a9d84783c068fd8230459e994103260cd9fc2e7640aa1222947181c8a2436a04",
   "claim_id": "claim-5355-v0918-preparation",
   "reviewer": "subagent:gpt-5.5:WP21A-reviewer",
   "assigned_by": "codex:wp21a-conductor",

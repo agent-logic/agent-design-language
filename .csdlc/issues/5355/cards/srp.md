@@ -12,7 +12,14 @@ Status: pre_phase
 
 ## Scope
 
-Future review only; preparation performs no review churn.
+.csdlc/issues/5355
+.csdlc/evidence/5355
+.csdlc/prepared/issues/5355
+docs/milestones/v0.91.8/NEXT_MILESTONE_CLOSEOUT_PLAN_v0.91.8.md
+docs/milestones/v0.91.8/README.md
+docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md
+docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md
+docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md
 
 ## Prompts
 

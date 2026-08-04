@@ -14,7 +14,7 @@ used as execution authority, the operator must verify all of the following
 against live repository state:
 
 1. `#5362` is closed by a merged PR.
-2. The merged WP-21 head is contained in current `origin/main`.
+2. The observed WP-21 merge commit is contained in current `origin/main`.
 3. The WP-21 handoff surfaces are present on current `origin/main`:
    [handoff/issue-5352-v092-consumption-handoff.md](handoff/issue-5352-v092-consumption-handoff.md),
    [handoff/WP21_SPRINT_REVIEW_5352.md](handoff/WP21_SPRINT_REVIEW_5352.md),

@@ -5,7 +5,7 @@
   "initialization_digest": "624106bf52f25a8a94eb0717fe157e89f3023d6e610c0ed2ca2f6f9d257233f4",
   "phase": "implemented",
   "generation": 7,
-  "digest": "a7b3ab40da8140d471d3d42bc4b31f54d09b69fc7201b4d939f87b717aba4bad",
+  "digest": "a9d84783c068fd8230459e994103260cd9fc2e7640aa1222947181c8a2436a04",
   "claim": {
     "id": "claim-5355-v0918-preparation",
     "owner": "codex:5355-preparation-owner",
@@ -23,7 +23,21 @@
     ],
     "purpose": "Prepare #5355 WP-21A v0.91.8 next-milestone closeout-planning handoff only; no execution until WP-21 #5362 is live-merged and ancestral"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:gpt-5.5:WP21A-reviewer",
+    "assigned_by": "codex:wp21a-conductor",
+    "revision": "git-blake3:2bd40c70c8340d9b8e2508bd876ec4ab2c52dd03:1d9ba4bb360a7eebd8038ba0b77b07b7859dc6cb997d4a2e099518b97195b701",
+    "scope": [
+      ".csdlc/issues/5355",
+      ".csdlc/evidence/5355",
+      ".csdlc/prepared/issues/5355",
+      "docs/milestones/v0.91.8/NEXT_MILESTONE_CLOSEOUT_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/README.md",
+      "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md",
+      "docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -59,9 +73,9 @@
       "ast_digest": "5aceabafb5a775c75ab527a3e701a8c2cdf6a9693aa4787a438bef00ae2198ee"
     },
     "srp": {
-      "values_digest": "b8611797372457d57462653aaa130092fe6230d05785fd534d1dd6833f4ccbf0",
-      "rendered_digest": "182f678c5f5daa5616523e28ff3b21130ba4da401f95974390dab604e722448f",
-      "ast_digest": "158f6bd6eece647e77693c420f2edd6ce69023674d8aba3c39011eb98f61905a"
+      "values_digest": "51e02d45231742bd0f79b34189a86a58ac49fb676e98eed154fe60de9e3dadfd",
+      "rendered_digest": "3de5a5e306924634d92b38986c75874a41f216e711156b73e2e1464f40d50cb8",
+      "ast_digest": "f2e88251f1ba1afe9ea5df14150d027ae43beb41fcea63485494452931260bc0"
     },
     "sor": {
       "values_digest": "efd7ecd79ced2b462b69046e038b41b35945b9b7dd12fd456c8b1beb08413612",
@@ -162,6 +176,13 @@
       "actor": "codex:wp21a-conductor",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:wp21a-conductor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
