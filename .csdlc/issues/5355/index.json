@@ -3,13 +3,13 @@
   "issue": 5355,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "624106bf52f25a8a94eb0717fe157e89f3023d6e610c0ed2ca2f6f9d257233f4",
-  "phase": "reviewed",
-  "generation": 9,
-  "digest": "359544bb303b1e98df720120bab32f124893767ee6c9efb43087bf583dcc6a71",
+  "phase": "published",
+  "generation": 10,
+  "digest": "6b8874224de5f371c9831f5fb5c38d73ba174170b8ff9a92304869100dca965a",
   "claim": {
     "id": "claim-5355-v0918-preparation",
     "owner": "codex:5355-preparation-owner",
-    "generation": 9,
+    "generation": 10,
     "acquired_unix_seconds": 1785865720,
     "expires_unix_seconds": 1786470520,
     "heartbeat_unix_seconds": 1785865720,
@@ -59,7 +59,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5355,
+    "pull_request": 5808,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5808",
+    "base": "main",
+    "head": "codex/5355-v0918-preparation",
+    "revision": "git-blake3:52765450b5379f545ff95b70de5aceb6eda9b396:081095755a29b5838276925bd69f8b39ec7e948e6a408d3616af6d2ec61991ad",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -73,34 +83,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b1124ba869dce274e96d63b8f816391aa2a4ff86dfe961042a2efde49bf72f7a",
+      "values_digest": "653d60f7357144efbecda23bbb81f23aa864a9eabd3277244d7a67e49045ca87",
       "rendered_digest": "425ea6fe39456e84cb7df142f9f6de1bc71f749be3badba3d0745e90e1f0b523",
       "ast_digest": "c18fa3c30281bcbc676c36a17c9236e70a8d62fca6038ed848ed3b70d7ef72e7"
     },
     "stp": {
-      "values_digest": "102746d840ce8ecfc758351d1965688c9bdf3e71ecbdbcf848713206333cdabd",
+      "values_digest": "65e3dc4b5250356756af425847c22c2f4290ea73bceb592499f170e8500f8d44",
       "rendered_digest": "363e89456263bb797673d2c8a31bbf81c021af93db236ec70569244dbcb628ad",
       "ast_digest": "89ac830e0e28c75f05821dec5fc2695bde978758e4c862f9d959ac3c237b0bcb"
     },
     "spp": {
-      "values_digest": "688d8000a0d17b508c8da01204317bcd3c0550ba57e5b132d4f8077ed0c417ae",
+      "values_digest": "d93038af6adc806f8b404916ea751faae15050a7ae94f16f6004b4f1940ead96",
       "rendered_digest": "6bc14d7154db99d829a59058ac07ee8c31ebf78bc1d6d27749c01c49cfce6082",
       "ast_digest": "ed103aa81ff791df04ef3c9f34ea896538216b12b4669db9bd22f9d40211480d"
     },
     "vpp": {
-      "values_digest": "e8fb2ea963656b354bbc1fb31812cd5a47859f99989b552c53fbde7661f6f4d3",
+      "values_digest": "1f24485d65c920366be81c83d31aee4a6f133eef227ec566c4d329b44346ae31",
       "rendered_digest": "c37020001a2b54d9beed6d92218c3eee48972c22883709f82f8bbfbbedaba980",
       "ast_digest": "5aceabafb5a775c75ab527a3e701a8c2cdf6a9693aa4787a438bef00ae2198ee"
     },
     "srp": {
-      "values_digest": "5972f02b00ede3f319ed4ef6106d502169d0473e131150d539040c818c6086ca",
+      "values_digest": "d495e2580a3c9b1b04ac51d959a368b55f2de680dfb1aa4ec4fbb5ec2bc89f86",
       "rendered_digest": "123aefa3afe6e1e9c94b9cc406a064ce654410c022ce6671079824140ea482bb",
       "ast_digest": "76798f0fd121bd8b60befe8640fe142851bf7af27d11431be18e45a49b6712f1"
     },
     "sor": {
-      "values_digest": "ac6df2520ac0923d2e7e08362ef7d75b06d364b40c5292cb46da84f1dba27ad6",
-      "rendered_digest": "023cfc8ecb35b72b3e9d4b5f8a60e4545c018311d4801a25154ca83301e060ac",
-      "ast_digest": "b84379a84dcdf75206819febc19ec194183399d52748b99a7c28f4a6f39f16eb"
+      "values_digest": "cc012248a883bd04c5daf78b2fd1a4dbe271056f6df6200157d43669f3a5a64b",
+      "rendered_digest": "d7a727d33ec384c616a59e9a68e1b65cd2ed819045fc83c3d3ae09ad8af417de",
+      "ast_digest": "01b2ae6e379ea3b88bc27e33e256ddf9f6e36d6a2dd6ba22e54b48009a6318ea"
     }
   },
   "transitions": [
@@ -131,6 +141,13 @@
       "to": "reviewed",
       "actor": "codex:wp21a-conductor",
       "reason": "The single bounded GPT-5.5 WP-21A review passed exact revision bd5501be6 with zero blockers after the squash-ancestry wording fix."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:wp21a-conductor",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -231,6 +248,13 @@
       "actor": "codex:wp21a-conductor",
       "reason": "The single bounded GPT-5.5 WP-21A review passed exact revision bd5501be6 with zero blockers after the squash-ancestry wording fix.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:wp21a-conductor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

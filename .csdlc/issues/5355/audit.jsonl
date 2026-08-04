@@ -12,3 +12,4 @@
 {"sequence":12,"generation":7,"actor":"codex:wp21a-conductor","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":8,"actor":"codex:wp21a-conductor","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":14,"generation":9,"actor":"codex:wp21a-conductor","reason":"The single bounded GPT-5.5 WP-21A review passed exact revision bd5501be6 with zero blockers after the squash-ancestry wording fix.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":15,"generation":10,"actor":"codex:wp21a-conductor","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
