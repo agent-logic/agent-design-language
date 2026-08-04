@@ -76,6 +76,14 @@
       "docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md"
     ]
   },
+  "pre_freeze_review": {
+    "reviewer": "subagent:gpt-5.5:019fcabf-f558-7130-abce-93db35365950",
+    "reviewed_sha": "cae953df0d1afb32b7c371ead3382174c2ab864a",
+    "result": "pass",
+    "blockers": 0,
+    "fixed_findings": 1,
+    "evidence": ".csdlc/evidence/5357/pre-freeze-documentation-review.md"
+  },
   "freeze_ready": true,
   "external_review_dispatched": false,
   "release_approved": false

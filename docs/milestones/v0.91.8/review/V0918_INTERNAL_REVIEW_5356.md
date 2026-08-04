@@ -23,4 +23,4 @@ Current result:
 
 The first-pass exact-head findings were fixed and the packet merged. It remains
 historical evidence, not authority for post-merge residual coding. Final
-final internal-review authority is retained by `#5791`; release approval is not claimed.
+internal-review authority is retained by `#5791`; release approval is not claimed.

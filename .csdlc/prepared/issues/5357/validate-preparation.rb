@@ -150,6 +150,8 @@ assert(corpus_paths.length >= 40, "canonical v0.91.8 document corpus is unexpect
 readiness = JSON.parse(ROOT.join(".csdlc/evidence/5357/documentation-readiness.v1.json").read)
 assert(readiness.dig("current_corpus", "tracked_markdown_yaml_json") == corpus_paths.length, "documentation-readiness corpus count drift")
 assert(readiness.fetch("freeze_ready") == true && readiness.fetch("external_review_dispatched") == false && readiness.fetch("release_approved") == false, "documentation-readiness evidence overclaims")
+assert(readiness.dig("pre_freeze_review", "result") == "pass" && readiness.dig("pre_freeze_review", "blockers") == 0, "pre-freeze documentation review is not clean")
+assert(ROOT.join(readiness.dig("pre_freeze_review", "evidence")).file?, "pre-freeze documentation review evidence missing")
 wp17 = JSON.parse(ROOT.join(readiness.fetch("source_wp17_evidence")).read)
 wp17_paths = (wp17.fetch("updated_paths") + wp17.fetch("verified_no_edit") + wp17.fetch("delegated_collisions").map { |entry| entry.fetch("path") }).uniq
 assert(wp17.fetch("summary") == readiness.fetch("source_wp17_summary"), "WP-17 summary drift")
