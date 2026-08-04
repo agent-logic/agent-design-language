@@ -16,14 +16,14 @@ Prepare now; execute only after #5363 is live-merged and ancestral.
 
 ## Plan
 
-Revision 1
+Revision 4
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Verify typed preparation packet and #5363 live merge plus ancestry",
+    "action": "Refresh origin/main and re-read issue #5362 plus WP_ISSUE_WAVE_v0.91.8.yaml before execution",
     "acceptance_ids": [
       "AC-1",
       "AC-2"
@@ -32,23 +32,33 @@ Revision 1
   },
   {
     "id": "S2",
-    "action": "Consume accepted preflight truth",
+    "action": "Verify #5352, #4758, #4759, #4760, #4761, #4762, #4763, #5007, and #5107 live CLOSED and current-main phase closed_out with merged publication and terminal receipt paths",
     "acceptance_ids": [
-      "AC-3"
+      "AC-2"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Align feature-list and v0.92 planning inputs",
+    "action": "Consume current-main evidence paths from .csdlc/evidence and .csdlc/issues records for handoff, launch, activation, capability envelope, Memory Palace, birth witness, birthday docs, ADR, and Adaptive Learning queue inputs",
     "acceptance_ids": [
+      "AC-2",
       "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Preserve blockers or release WP-21A without preparation-scope mutations",
+    "action": "Assign evidence-bound feature-list dispositions and prepare the v0.92 planning-truth handoff without redefining birthday semantics or opening/mutating v0.92 issues",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Run focused hygiene and bounded review before any future PR; block instead of publishing if evidence or non-claim checks fail",
     "acceptance_ids": [
       "AC-1",
       "AC-4"
@@ -59,10 +69,11 @@ Revision 1
 
 ## Invariants
 
-- live merge plus ancestry is the dependency gate
-- receipts audit-only
-- no preparation review churn
-- no implementation in preparation
+- current-main lifecycle records and terminal receipts are the dependency consumption authority
+- closed dependency records do not by themselves prove v0.92 birthday readiness or adaptive-learning implementation
+- feature-list dispositions require exact evidence paths or explicit blockers/non-claims
+- preparation does not mutate #5352, #4758, #4759, #4760, #4761, #4762, #4763, #5007, #5107, #5357, PR #5805, #5804, version:v0.92 issues, or product implementation
+- no PR publication or work-package execution occurs in this preparation branch
 
 ## Risks
 
@@ -82,20 +93,22 @@ Revision 1
 
 .csdlc/prepared/issues/5362/design.md
 
-Digest: e36e285953ebe1532719cc11fcb614abc5be0a2ade5539eafa8ab0c10a6ebab2
+Digest: 50f892eb54bc56a5ab51986782a3406119a2bd04e04f11bcc89507da82ca6bdf
 
 ## Diagram
 
 .csdlc/prepared/issues/5362/diagram.mmd
 
-Digest: 6557a5d066ef3c14765e3ed132d6a1ba7cf98c4fea2cfb1a7e8813943720abe8
+Digest: 99b840bcedb1ab2bf5c9e85bcd0108c44582427b25c36eb19cb0d98c49df6a68
 
 ## Stop Conditions
 
-- #5363 not live-merged
-- #5363 merge not ancestral
-- feature disposition lacks evidence
-- v0.92 wording would overclaim
+- Any required WP-21 sidecar dependency is not live CLOSED at execution time
+- Any required dependency lacks current-main phase closed_out, publication observed_state merged, or a terminal receipt path
+- The execution base is not refreshed from current origin/main before consuming evidence
+- Feature-list disposition lacks an exact evidence path or owner-bound non-claim
+- v0.92 wording would overclaim birthday readiness, adaptive-learning implementation, or product implementation
+- The work would mutate predecessor issues, issue #5357, PR #5805, issue #5804, a version:v0.92 issue, or product implementation
 
 ## Handoff
 

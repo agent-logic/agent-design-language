@@ -4,15 +4,15 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "49dd51058366e60d5fb9ca712cb57e8db94cf86b4f1be8d6dc61eb0ac220a0c5",
   "phase": "bound",
-  "generation": 0,
-  "digest": "f783b01de4dd693f993025a5483d65ab9b53ae676f144f0d2cfad8148c78df55",
+  "generation": 8,
+  "digest": "dfed6365c9f9024c628ab62d0f99295887092b603ee402ab84a68acd0da414a7",
   "claim": {
-    "id": "claim-5362-v0918-preparation",
+    "id": "claim-5362-v0918-preparation-20260804",
     "owner": "codex:5362-preparation-owner",
-    "generation": 0,
-    "acquired_unix_seconds": 1784754875,
-    "expires_unix_seconds": 1785359675,
-    "heartbeat_unix_seconds": 1784754875,
+    "generation": 8,
+    "acquired_unix_seconds": 1785865601,
+    "expires_unix_seconds": 1786470401,
+    "heartbeat_unix_seconds": 1785865601,
     "branch": "codex/5362-v0918-preparation",
     "worktree": ".",
     "protected_paths": [
@@ -21,7 +21,7 @@
       ".csdlc/prepared/issues/5362",
       ".csdlc/evidence/5362"
     ],
-    "purpose": "Prepare #5362 WP-21 feature-list and v0.92 planning truth only; no execution until WP-20 #5363 is live-merged and ancestral"
+    "purpose": "Prepare #5362 WP-21 feature-list and v0.92 planning-truth handoff only; consume closed/completed WP-21 sidecar evidence from current origin/main; no execution, publication, PR, product implementation, predecessor mutation, or version:v0.92 issue mutation"
   },
   "review_assignment": null,
   "review": null,
@@ -34,37 +34,37 @@
   "design_review": {
     "approved": {
       "reviewer": "operator-policy:release-tail-preparation",
-      "revision": "e36e285953ebe1532719cc11fcb614abc5be0a2ade5539eafa8ab0c10a6ebab2"
+      "revision": "50f892eb54bc56a5ab51986782a3406119a2bd04e04f11bcc89507da82ca6bdf"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "433910412604e5b85d1746bceafbf9716cb626773fee5366bf008d4557ebf934",
-      "rendered_digest": "3ca4730447f792b50048e18ad38ce37cc0730e49154b10441e0ac3e85b63cd79",
-      "ast_digest": "987378da106f065941d5d4fd3d07e263fa6c9d553c57cb47594cd190fbab8309"
+      "values_digest": "513e663d85c460fb785b14da5760ad7da10891f6abcefbb9e04f6f60a8d3057d",
+      "rendered_digest": "5f7ba2fa3c47b35b5287dad36410eb01bb0c75ee3d297d317614d8968c560059",
+      "ast_digest": "6239cfa6fe6b6624af27645f0f321f9bdc0ec296fb0ad67bf3f85619d6899fc2"
     },
     "stp": {
-      "values_digest": "f294ccebf647c4654b8d12dbe41dcae597b061aa7e49d443867d976d396bd63a",
-      "rendered_digest": "986b26373bf8569ef2f989886c19e7e850725024082ce43961ffaf3d5eed884e",
-      "ast_digest": "259b934157edd64c7b9c941f6ba8ccb915ec0ecc77154170145116ce25437ea3"
+      "values_digest": "21d7bfa5a33a96143ad3ffe76eb4ac53678f3e9f9f5cd1be8bde480ad138b89f",
+      "rendered_digest": "0999b283c24c36153d7e1596722e0a45e6bb36d0ed5d73b1d10b474f589fb940",
+      "ast_digest": "b0d24b551bbb72be629ae8b3e404ca1af3eaa5d651c567dd477cbcf8730e1d21"
     },
     "spp": {
-      "values_digest": "54937e2b9ce7aeae16233fd7a716d965bfbebf9bd2b17bd08e5cfeb1e5793ab4",
-      "rendered_digest": "23f5117b1d2037842257de48c027ba1bbc5ada39a9d1a19d9ece19a02875ab3c",
-      "ast_digest": "3d5c48207e9fe42ae94fb666fe4452a2e2d8e2c7beb7f08c35709aa7cb2f914f"
+      "values_digest": "6f99d0c6706b454bf2d073eaa2480813d77b244b74c91fc774512c88afdd4f2b",
+      "rendered_digest": "1f4945733487ce994f83f3dfb3460a6b84f736a1f86a94a19f8e1c68b6ca4f6e",
+      "ast_digest": "d569e8f6426b9986f1f44d16aba7248cc1182518205610f68f261e21a3125b4b"
     },
     "vpp": {
-      "values_digest": "f9034908b6c7ac67ba2215a6c087576667ece4cdcf837a8b2ea163b794980097",
-      "rendered_digest": "752e56952e4b76197d67cbdd7528b8d18e79a1faf9a4cfc702346a0bdc586554",
-      "ast_digest": "2055701c8704ffe5b821a29119d4752a3bf3b3f7b70fb65aa69a0bb8b9d46cf3"
+      "values_digest": "c73b13344d6cf0d419be8f4a542214ef3dae6dc5bbd35f238a40cd8cc9fe4910",
+      "rendered_digest": "4d1659280ab6ff25e708850377e092251695f8dc70f6e85f7f383c7913814e3c",
+      "ast_digest": "510252c5e447569ef27c87370be9e38cdb78670487be86b2702a1827c3f29aea"
     },
     "srp": {
-      "values_digest": "aa41ba6daf7f0fa62d63f49b95cdc866d8ab4c573520e0ed7c899233326f9ad1",
+      "values_digest": "b2be374c3bd12f86dad7e0ad1900f7babb14caa24cb0aa888a1cc1b7642a89bf",
       "rendered_digest": "38d6ff52e62c31fe14c23d4f779acb723f45abe2888d645e54538d52d450694b",
       "ast_digest": "67c499edcdc614c225213c8f563acb60c8204b428f31019b00a350c7e7c96865"
     },
     "sor": {
-      "values_digest": "10b36f2a00061bad8c51116e22b00c169d26ed774818fbd1407ac9e2f3735ae6",
+      "values_digest": "f17cebacbe9f2932f6c7a149c474166eb89a8edbbb70db13abaf904ed31f3a24",
       "rendered_digest": "a9df7a62e35e4f52e54d8304f3226f963031970fd73e2ad5f4c7c70a04ea08d5",
       "ast_digest": "98e6c3161030903dd6d87bdbf092434d97f811ef53c3d9754c0d6a9a01d8be87"
     }
@@ -99,6 +99,69 @@
       "actor": "codex:5362-preparation-owner",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:5362-preparation-owner",
+      "reason": "recover expired issue-local preparation claim before typed card and design refresh",
+      "operation": "{\"previous_owner\":\"codex:5362-preparation-owner\",\"observed_expiry_unix_seconds\":1785359675,\"recovery_actor\":\"codex:5362-preparation-owner\",\"reason\":\"recover expired issue-local preparation claim before typed card and design refresh\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "operator-policy:release-tail-preparation",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:5362-preparation-owner",
+      "reason": "replace stale predecessor gate with current-main WP-21 dependency consumption plan",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: #5362 remains preparation-only with changes confined to .csdlc/issues/5362, .csdlc/prepared/issues/5362, .csdlc/evidence/5362, and .csdlc/locks/5362.lock\",\"AC-2: future execution consumes #5352, #4758, #4759, #4760, #4761, #4762, #4763, #5007, and #5107 as live CLOSED and current-main closed_out/merged evidence at the execution base\",\"AC-3: feature-list and v0.92 planning seed work cites exact current-main evidence paths and keeps unsupported readiness, birthday, adaptive-learning, or implementation claims as blockers or non-claims\",\"AC-4: preparation creates no PR, performs no work-package execution, mutates no predecessor or version:v0.92 issue, and touches no product implementation\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Refresh origin/main and re-read issue #5362 plus WP_ISSUE_WAVE_v0.91.8.yaml before execution\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Verify #5352, #4758, #4759, #4760, #4761, #4762, #4763, #5007, and #5107 live CLOSED and current-main phase closed_out with merged publication and terminal receipt paths\",\"acceptance_ids\":[\"AC-2\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Consume current-main evidence paths from .csdlc/evidence and .csdlc/issues records for handoff, launch, activation, capability envelope, Memory Palace, birth witness, birthday docs, ADR, and Adaptive Learning queue inputs\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Assign evidence-bound feature-list dispositions and prepare the v0.92 planning-truth handoff without redefining birthday semantics or opening/mutating v0.92 issues\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Run focused hygiene and bounded review before any future PR; block instead of publishing if evidence or non-claim checks fail\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"typed-csdlc-doctor-5362\",\"proof_role\":\"Diagnose the #5362 typed issue packet, claim, card projections, and design/diagram digest consistency\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5362\"],\"parallel_group\":\"wp21-preparation-hygiene\",\"defer_reason\":null},{\"lane\":\"typed-csdlc-validate-5362\",\"proof_role\":\"Run the focused typed validation/finalize surface for #5362 preparation if the packet remains bound and non-executing\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"--request\",\".csdlc/prepared/issues/5362/validate-preparation.json\"],\"parallel_group\":\"wp21-preparation-hygiene\",\"defer_reason\":null},{\"lane\":\"focused-hygiene\",\"proof_role\":\"Run git diff --check, allowed-path checks, dependency-ledger JSON parse, and forbidden-scope scans\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"manual-focused-hygiene\",\"issue-5362-only\"],\"parallel_group\":\"wp21-preparation-hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:5362-preparation-owner",
+      "reason": "replace stale WP-20-only dependency gate with exact WP-21 sidecar dependency set",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5352 CLOSED/closed_out/merged on current origin/main as exact-revision v0.92 consumption handoff\",\"#4758 CLOSED/closed_out/merged on current origin/main as launch readiness input\",\"#4759 CLOSED/closed_out/merged on current origin/main as activation-map input\",\"#4760 CLOSED/closed_out/merged on current origin/main as Memory Palace handoff input\",\"#4761 CLOSED/closed_out/merged on current origin/main as capability-envelope input\",\"#4762 CLOSED/closed_out/merged on current origin/main as birth-witness and receipt input\",\"#4763 CLOSED/closed_out/merged on current origin/main as birthday-doc and external-launch input\",\"#5007 CLOSED/closed_out/merged on current origin/main as Memory Palace ADR input\",\"#5107 CLOSED/closed_out/merged on current origin/main as Adaptive Learning DAG queue input only\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:5362-preparation-owner",
+      "reason": "replace stale ancestry stop conditions with current-main evidence and non-claim gates",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Any required WP-21 sidecar dependency is not live CLOSED at execution time\",\"Any required dependency lacks current-main phase closed_out, publication observed_state merged, or a terminal receipt path\",\"The execution base is not refreshed from current origin/main before consuming evidence\",\"Feature-list disposition lacks an exact evidence path or owner-bound non-claim\",\"v0.92 wording would overclaim birthday readiness, adaptive-learning implementation, or product implementation\",\"The work would mutate predecessor issues, issue #5357, PR #5805, issue #5804, a version:v0.92 issue, or product implementation\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:5362-preparation-owner",
+      "reason": "tighten execution invariants around current-main evidence consumption and non-claims",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"current-main lifecycle records and terminal receipts are the dependency consumption authority\",\"closed dependency records do not by themselves prove v0.92 birthday readiness or adaptive-learning implementation\",\"feature-list dispositions require exact evidence paths or explicit blockers/non-claims\",\"preparation does not mutate #5352, #4758, #4759, #4760, #4761, #4762, #4763, #5007, #5107, #5357, PR #5805, #5804, version:v0.92 issues, or product implementation\",\"no PR publication or work-package execution occurs in this preparation branch\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:5362-preparation-owner",
+      "reason": "tighten SIP authority boundary for preparation-only current-main evidence consumption",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"typed C-SDLC v2 only\",\"future execution must refresh origin/main and consume current-main closed_out/merged evidence for #5352, #4758, #4759, #4760, #4761, #4762, #4763, #5007, and #5107\",\"terminal receipts and dependency evidence are consumption inputs, not automatic readiness or birthday claims\",\"no work-package execution, PR publication, predecessor issue mutation, version:v0.92 issue mutation, issue #5357/#5804/PR #5805 mutation, or product implementation during preparation\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:5362-preparation-owner",
+      "reason": "add current-main dependency ledger and release-tail truth sources to STP inputs",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"issue #5362 live body\",\"origin/main 8621b6f3b1b91d3ea290e16d07f80ec29afd4ece\",\".csdlc/evidence/5362/dependency-verification.v1.json\",\"docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml\",\"docs/milestones/v0.91.8/SPRINT_v0.91.8.md\",\"docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\",\"docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md\",\".csdlc/issues/5352/index.json and .csdlc/evidence/5352/* on current main\",\".csdlc/issues/4758/.csdlc/evidence/4758, #4759, #4760, #4761, #4762, #4763, #5007, and #5107 current-main records/evidence\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:5362-preparation-owner",
+      "reason": "fix grouped dependency input path wording",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"issue #5362 live body\",\"origin/main 8621b6f3b1b91d3ea290e16d07f80ec29afd4ece\",\".csdlc/evidence/5362/dependency-verification.v1.json\",\"docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml\",\"docs/milestones/v0.91.8/SPRINT_v0.91.8.md\",\"docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\",\"docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md\",\".csdlc/issues/5352/index.json and .csdlc/evidence/5352/* on current main\",\".csdlc/issues/4758, #4759, #4760, #4761, #4762, #4763, #5007, and #5107 current-main records and evidence\"]}"
     }
   ]
 }

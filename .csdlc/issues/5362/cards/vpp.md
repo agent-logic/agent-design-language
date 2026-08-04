@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/5362/diagram.mmd
 
 [
   {
-    "lane": "preparation-doctor",
-    "proof_role": "Validate the generated typed C-SDLC v2 preparation packet",
+    "lane": "typed-csdlc-doctor-5362",
+    "proof_role": "Diagnose the #5362 typed issue packet, claim, card projections, and design/diagram digest consistency",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -43,7 +43,48 @@ Diagram: .csdlc/prepared/issues/5362/diagram.mmd
       "--issue",
       "5362"
     ],
-    "parallel_group": "release-tail-preparation",
+    "parallel_group": "wp21-preparation-hygiene",
+    "defer_reason": null
+  },
+  {
+    "lane": "typed-csdlc-validate-5362",
+    "proof_role": "Run the focused typed validation/finalize surface for #5362 preparation if the packet remains bound and non-executing",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 1500,
+    "argv": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+      "--root",
+      ".",
+      "--request",
+      ".csdlc/prepared/issues/5362/validate-preparation.json"
+    ],
+    "parallel_group": "wp21-preparation-hygiene",
+    "defer_reason": null
+  },
+  {
+    "lane": "focused-hygiene",
+    "proof_role": "Run git diff --check, allowed-path checks, dependency-ledger JSON parse, and forbidden-scope scans",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 1000,
+    "argv": [
+      "manual-focused-hygiene",
+      "issue-5362-only"
+    ],
+    "parallel_group": "wp21-preparation-hygiene",
     "defer_reason": null
   }
 ]
@@ -61,6 +102,8 @@ Tokens: 10000
 ## Commands
 
 - `/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 5362`
+- `/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root . --request .csdlc/prepared/issues/5362/validate-preparation.json`
+- `manual-focused-hygiene issue-5362-only`
 
 ## Failure Semantics
 

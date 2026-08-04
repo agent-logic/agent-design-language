@@ -27,9 +27,9 @@ v0.92 planning seed, source handoff, and feature-list disposition.
 ## Authority
 
 - typed C-SDLC v2 only
-- no execution before live predecessor merge plus ancestry
-- receipts audit-only
-- no raw gh, AWS, PR, merge, or closeout during preparation
+- future execution must refresh origin/main and consume current-main closed_out/merged evidence for #5352, #4758, #4759, #4760, #4761, #4762, #4763, #5007, and #5107
+- terminal receipts and dependency evidence are consumption inputs, not automatic readiness or birthday claims
+- no work-package execution, PR publication, predecessor issue mutation, version:v0.92 issue mutation, issue #5357/#5804/PR #5805 mutation, or product implementation during preparation
 
 ## Assumptions
 
