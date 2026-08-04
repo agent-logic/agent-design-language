@@ -22,10 +22,11 @@ Prepare lifecycle packet only; closeout-plan authoring is future execution work.
 
 ## Acceptance
 
-1. AC-1: preparation packet is generated through typed C-SDLC v2
-2. AC-2: future execution is blocked on #5362 live merge and ancestry
-3. AC-3: receipts are recorded as audit evidence only
-4. AC-4: no implementation, PR, AWS, raw gh, or root-main tracked write occurs
+1. AC-1: six cards, design, and diagram are issue-specific and generated or regenerated through typed C-SDLC v2 routes
+2. AC-2: later execution is blocked until WP-21 issue #5362 has a live merged PR and the observed merge commit is ancestral to refreshed origin/main and the exact #5355 execution base
+3. AC-3: the future closeout-planning packet consumes reviewed WP-21 feature-list and v0.92 planning truth without mutating any version:v0.92 issue
+4. AC-4: preparation remains issue-local and performs no implementation, #5357 remediation, PR publication, merge, closeout, AWS, or main-checkout mutation
+5. AC-5: focused validation includes C-SDLC doctor, request-driven C-SDLC validation, predecessor live-state/ancestry checks, canonical docs/YAML checks, and diff hygiene
 
 ## Dependencies
 

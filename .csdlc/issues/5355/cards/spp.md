@@ -16,23 +16,23 @@ Prepare now; execute only after #5362 is live-merged and ancestral.
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Verify typed preparation packet and #5362 live merge plus ancestry",
+    "action": "Refresh #5362 live issue/PR state, fetch origin, and block unless the observed #5362 merge commit is ancestral to refreshed origin/main and the exact #5355 execution base.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-2"
+      "AC-2",
+      "AC-5"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Consume accepted WP-21 feature-list and v0.92 truth",
+    "action": "Read accepted WP-21 outputs and canonical v0.91.8 planning inputs, then author only the WP-21A closeout-planning packet and review-ready handoff.",
     "acceptance_ids": [
       "AC-3"
     ],
@@ -40,18 +40,19 @@ Revision 1
   },
   {
     "id": "S3",
-    "action": "Prepare closeout-planning packet and canonical doc checks",
+    "action": "Run focused docs, YAML, link/crosswalk, typed C-SDLC, and diff hygiene checks; record exact commands and evidence without claiming deferred proof.",
     "acceptance_ids": [
-      "AC-3"
+      "AC-1",
+      "AC-5"
     ],
     "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Preserve blockers or release WP-22 without preparation-scope mutations",
+    "action": "Obtain exact-head bounded review before any publication and hand WP-22 forward only when blockers are absent or explicitly preserved.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-4"
+      "AC-4",
+      "AC-5"
     ],
     "status": "pending"
   }
@@ -82,13 +83,13 @@ Revision 1
 
 .csdlc/prepared/issues/5355/design.md
 
-Digest: c708bc570694fbd8d88095ef40569313c219bfb5d15465b93ef4b43806359ebe
+Digest: e4dd6dbc4b549584aace09c823c15e65144e547ee7b0ebf42f25cecf4ff1efae
 
 ## Diagram
 
 .csdlc/prepared/issues/5355/diagram.mmd
 
-Digest: 4dc2f21e876feeea6bf768a3815fc9afc3d0ab59f8f2e965042df91b3aa23a88
+Digest: aa86d8f320c6149366895acd1a90371502b605da677d6887a2e8c85cd859d0dd
 
 ## Stop Conditions
 
