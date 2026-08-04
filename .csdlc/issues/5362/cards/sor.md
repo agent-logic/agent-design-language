@@ -129,11 +129,11 @@ Implemented and validated the WP-21 documentation/planning reconciliation agains
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
