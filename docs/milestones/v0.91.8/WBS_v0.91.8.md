@@ -20,8 +20,8 @@
 | WP-15 | #5354 | Demo convergence | Demonstrate the integrated deployed stack and claim boundaries. | WP-14A |
 | WP-16 | #5351 | Quality gate | Run integrated platform quality gate. | WP-15 |
 | WP-17 | #5360 | Documentation alignment | Align README, feature docs, WBS, checklist, handoff, issue wave, deployment truth. | WP-16 |
-| WP-18 | #5356 | Internal review | Review code, deployment, docs, proof, issue graph, and release-tail packets. | WP-17 |
-| WP-19 | #5357 | External review | Run independent review after internal review is consumable. | WP-18 |
+| WP-18 | #5356, #5791 | Internal review | Retain the first milestone review, then run a final second pass after residual coding. | WP-17; residual coding before #5791 |
+| WP-19 | #5357 | External review | Freeze and run independent review only after the final internal second pass is consumable. | WP-18 #5791 |
 | WP-20 | #5363 | Remediation and preflight | Fix accepted findings and independently owned C-SDLC tooling defects, then rerun focused/integrated checks. | WP-19 |
 | WP-21 | #5362 | Feature-list and v0.92 planning truth | Prepare exact-revision handoff, launch/activation, Memory Palace, identity/birthday, capability-envelope, and Adaptive Learning inputs from reviewed deployed truth. | WP-20 |
 | WP-21A | #5355 | Next-milestone closeout planning | Prepare canonical closeout-planning packet. | WP-21 |

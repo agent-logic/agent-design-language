@@ -4,9 +4,10 @@
 
 `v0.91.8` is not released by this documentation package. WP-16 merged at
 `2e9d2dd7c4260dcf6ec6af954b0eea97554212df` and records an integrated platform
-quality-gate pass. WP-17 documentation alignment is closed, but final release
-still requires WP-18 internal review, formal review, remediation,
-next-milestone handoff/review, and release ceremony work.
+quality-gate pass. WP-17 documentation alignment and both WP-18 internal
+reviews are closed. Final release still requires formal external review,
+remediation, next-milestone
+handoff/review, and release ceremony work.
 
 ## Gates
 
@@ -22,18 +23,20 @@ next-milestone handoff/review, and release ceremony work.
    audited issues, 0 unacceptable outcomes, 0 release blockers, and focused,
    integrated, and complete lanes passing.
 10. WP-17 documentation and release-truth alignment.
-11. WP-18 internal milestone review.
-12. WP-19 independent external review.
-13. WP-20 remediation and release preflight.
-14. WP-21 exact-revision v0.92 handoff ledger.
-15. WP-21A next-milestone closeout plan.
-16. WP-22 next-milestone planning review.
-17. WP-23 release ceremony and lifecycle closeout.
+11. WP-18 first internal milestone review.
+12. WP-18 final second pass `#5791` after residual coding.
+13. WP-19 independent external review.
+14. WP-20 remediation and release preflight.
+15. WP-21 exact-revision v0.92 handoff ledger.
+16. WP-21A next-milestone closeout plan.
+17. WP-22 next-milestone planning review.
+18. WP-23 release ceremony and lifecycle closeout.
 
 The release-tail review sequence must preserve closed WP-17 documentation
-alignment, WP-18 internal review, WP-19 external review, WP-20 remediation/preflight,
-WP-21 next-milestone handoff, WP-21A closeout planning, WP-22 planning review,
-and WP-23 release ceremony. Current
+alignment, closed first-pass WP-18 review, final WP-18 second-pass review after
+residual coding, WP-19 external review, WP-20 remediation/preflight, WP-21
+next-milestone handoff, WP-21A closeout planning, WP-22 planning review, and
+WP-23 release ceremony. Current
 v0.91.7 WP-21A `#5489` is historical preparation evidence and does not execute
 v0.91.8 work.
 
@@ -50,8 +53,8 @@ state as operational truth.
 ## Current Non-Claims
 
 - Final `v0.91.8` release approval is not claimed.
-- WP-18 internal review and formal third-party milestone review are not claimed
-  complete.
+- Both WP-18 reviews are complete; formal third-party milestone review is not
+  claimed complete.
 - v0.92 birthday activation is not claimed.
 - Partial or ambiguous release-tail, umbrella, and lifecycle-drift items
   recorded by WP-16 remain explicit limitations unless later evidence closes

@@ -9,8 +9,9 @@ at `2e9d2dd7c4260dcf6ec6af954b0eea97554212df`. That evidence records 67
 audited v0.91.8 issues, 34 working-code outcomes, 21 useful durable results, 12
 partial or ambiguous release-tail/umbrella/lifecycle-drift items, 0 unacceptable
 outcomes, and 0 release blockers. WP-17 `#5360` closed the documentation
-alignment step consuming that evidence; WP-18 `#5791` owns the current final
-internal review pass before downstream release-tail gates.
+alignment step consuming that evidence; WP-18 `#5356` and `#5791` closed both
+internal review passes. WP-19 `#5357` is ready to freeze the external-review
+packet but has not dispatched it.
 
 ## Required Handoff Contents
 
@@ -53,8 +54,8 @@ activation map.
 The release tail must preserve documentation alignment, internal review, formal
 review, remediation, next-milestone planning/review, and release ceremony
 ordering before `v0.92` consumes this handoff. WP-16 is merged as the integrated
-quality gate; WP-17 `#5360` aligns the canonical docs to that gate; WP-18
-internal review and the later formal milestone review remain future work. WP-21
+quality gate; WP-17 `#5360` aligned the canonical docs to that gate; both WP-18
+internal reviews are complete and the formal milestone review remains future work. WP-21
 owns the exact v0.92 handoff and must consume the WP-16 evidence and any WP-17
 updates rather than relying on older planning-only text.
 
@@ -71,5 +72,5 @@ blocked-with-evidence unless separately dispositioned.
 This handoff must not claim identity, consciousness, birthday readiness,
 production-provider readiness, or public launch readiness unless corresponding
 issues have closed with evidence and review. It also must not claim final
-`v0.91.8` release approval, completed WP-18/formal review, or completed v0.92
+`v0.91.8` release approval, completed formal external review, or completed v0.92
 activation.

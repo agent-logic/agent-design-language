@@ -236,17 +236,19 @@ Adaptive Learning inputs after WP-14A accepts the platform.
 
 ## Wave 6: Release Tail
 
-WP-15 through WP-16 have completed their proof path. WP-17 through WP-23 stay
-serial:
+WP-15 through WP-17 and the first WP-18 pass have completed their proof path.
+Residual coding may land before the final internal review, but the final WP-18
+second pass and WP-19 through WP-23 remain serial:
 
-1. WP-17 `#5360`: docs and release truth alignment.
-2. WP-18 `#5356`: internal milestone review.
-3. WP-19 `#5357`: independent external review.
-4. WP-20 `#5363`: remediation and release preflight.
-5. WP-21 `#5362`: feature list and v0.92 planning truth.
-6. WP-21A `#5355`: next-milestone closeout plan.
-7. WP-22 `#5359`: next-milestone planning review.
-8. WP-23 `#5348`: release ceremony and lifecycle closeout.
+1. WP-17 `#5360`: docs and release truth alignment (closed).
+2. WP-18 `#5356`: first internal milestone review (closed).
+3. WP-18 `#5791`: final internal second pass after residual coding.
+4. WP-19 `#5357`: independent external review.
+5. WP-20 `#5363`: remediation and release preflight.
+6. WP-21 `#5362`: feature list and v0.92 planning truth.
+7. WP-21A `#5355`: next-milestone closeout plan.
+8. WP-22 `#5359`: next-milestone planning review.
+9. WP-23 `#5348`: release ceremony and lifecycle closeout.
 
 Release-tail work is deliberately serial because each step consumes reviewed
 truth from the previous step.

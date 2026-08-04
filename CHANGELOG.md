@@ -15,9 +15,11 @@ Current state:
   unacceptable outcomes.
 - ADL v2, Runtime v3, and C-SDLC v2 focused/integrated validation lanes passed
   at the WP-16 execution revision.
-- WP-17 documentation truth alignment is active; later release-tail review,
-  remediation/preflight, v0.92 handoff alignment, and ceremony gates remain
-  open.
+- WP-17 documentation truth alignment and both WP-18 internal reviews are
+  closed. The final second pass merged through PR `#5799`; WP-19 external
+  review is ready to freeze but has not been
+  dispatched; later remediation/preflight, v0.92 handoff alignment, and
+  ceremony gates remain open.
 - This is an active milestone entry, not a release entry.
 
 Scope notes:

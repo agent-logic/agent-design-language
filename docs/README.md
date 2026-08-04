@@ -19,7 +19,8 @@ Use this index to find the right source of truth quickly.
 ## Milestone Documentation
 
 - Active milestone package: `milestones/v0.91.8/`
-- Active WP-16 quality evidence: `milestones/v0.91.8/evidence/wp16/`
+- Integrated WP-16 quality evidence: `milestones/v0.91.8/evidence/wp16/`
+- Current review entrypoint: `milestones/v0.91.8/review/`
 - Most recently published release package: `milestones/v0.91.7/`
 - Recent stable milestones: `milestones/v0.91.5/`, `milestones/v0.91.4/`, `milestones/v0.91.3/`, `milestones/v0.91.2/`, `milestones/v0.91.1/`, `milestones/v0.90.5/`
 - Earlier milestones: `milestones/v0.75/`, `milestones/v0.7/`, `milestones/v0.6/`
@@ -50,5 +51,8 @@ what has shipped, what is currently being implemented, what is demoable, and
 what is planned for later milestones. At the moment, `v0.91.8` is the active
 bridge milestone. WP-16 passed at `2e9d2dd7c` with 67 audited issue outcomes,
 0 unacceptable outcomes, and passing ADL v2, Runtime v3, and C-SDLC v2 lanes.
-The milestone is not release-approved until the remaining release-tail docs,
-review, remediation, handoff, and ceremony gates complete.
+WP-17 documentation alignment and both WP-18 internal reviews are closed.
+WP-19 is ready to freeze its external-review packet but has not dispatched it.
+The milestone is not
+release-approved until external review, remediation, handoff, and ceremony
+gates complete.
