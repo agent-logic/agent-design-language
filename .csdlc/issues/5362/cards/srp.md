@@ -38,12 +38,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- This documentation reconciliation does not execute v0.92 work or claim first-birthday readiness.
+- Publication, CI, merge, and terminal lifecycle reconciliation remain separate steps.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:bee2a56c4ce4fffe6a09ed6cc1f2e48137d246de:7e7d35c3a20cf80c4c8f3bd50d152a7e28cc345d6fbea64a7dc1fed3c7c9afe1")
 
-Reviewer: None
+Reviewer: Some("subagent:gpt-5.5:Locke")
 
-Result: pre_review
+Result: pass
