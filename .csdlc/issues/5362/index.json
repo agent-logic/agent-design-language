@@ -3,13 +3,13 @@
   "issue": 5362,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "49dd51058366e60d5fb9ca712cb57e8db94cf86b4f1be8d6dc61eb0ac220a0c5",
-  "phase": "bound",
-  "generation": 8,
-  "digest": "dfed6365c9f9024c628ab62d0f99295887092b603ee402ab84a68acd0da414a7",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "8beb9bd80ac3fa8ddedbeb77b243da49e5961a7822de4a213edfd9359c99c653",
   "claim": {
     "id": "claim-5362-v0918-preparation-20260804",
     "owner": "codex:5362-preparation-owner",
-    "generation": 8,
+    "generation": 10,
     "acquired_unix_seconds": 1785865601,
     "expires_unix_seconds": 1786470401,
     "heartbeat_unix_seconds": 1785865601,
@@ -39,34 +39,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "513e663d85c460fb785b14da5760ad7da10891f6abcefbb9e04f6f60a8d3057d",
+      "values_digest": "9a743655fe6dad66d59816b85d7c869c6e64dce96c03442dea9deffd477146e8",
       "rendered_digest": "5f7ba2fa3c47b35b5287dad36410eb01bb0c75ee3d297d317614d8968c560059",
       "ast_digest": "6239cfa6fe6b6624af27645f0f321f9bdc0ec296fb0ad67bf3f85619d6899fc2"
     },
     "stp": {
-      "values_digest": "21d7bfa5a33a96143ad3ffe76eb4ac53678f3e9f9f5cd1be8bde480ad138b89f",
+      "values_digest": "ba5acc13f98a358200521dd262446cb718a1e7e6b8d0fdd6347c94c6f458f07d",
       "rendered_digest": "0999b283c24c36153d7e1596722e0a45e6bb36d0ed5d73b1d10b474f589fb940",
       "ast_digest": "b0d24b551bbb72be629ae8b3e404ca1af3eaa5d651c567dd477cbcf8730e1d21"
     },
     "spp": {
-      "values_digest": "6f99d0c6706b454bf2d073eaa2480813d77b244b74c91fc774512c88afdd4f2b",
+      "values_digest": "5a66ea0f8f57121c4a8433e4575268601103be5e7b53bd3944e3a31841651e15",
       "rendered_digest": "1f4945733487ce994f83f3dfb3460a6b84f736a1f86a94a19f8e1c68b6ca4f6e",
       "ast_digest": "d569e8f6426b9986f1f44d16aba7248cc1182518205610f68f261e21a3125b4b"
     },
     "vpp": {
-      "values_digest": "c73b13344d6cf0d419be8f4a542214ef3dae6dc5bbd35f238a40cd8cc9fe4910",
+      "values_digest": "7b26a171323c054fb39fcf47c8a35eb591c856892e6ba660576a692c36330d39",
       "rendered_digest": "4d1659280ab6ff25e708850377e092251695f8dc70f6e85f7f383c7913814e3c",
       "ast_digest": "510252c5e447569ef27c87370be9e38cdb78670487be86b2702a1827c3f29aea"
     },
     "srp": {
-      "values_digest": "b2be374c3bd12f86dad7e0ad1900f7babb14caa24cb0aa888a1cc1b7642a89bf",
+      "values_digest": "79519289e1a914fc12a3e37d4d55996795343116efc0fd96eb57a349141a56a2",
       "rendered_digest": "38d6ff52e62c31fe14c23d4f779acb723f45abe2888d645e54538d52d450694b",
       "ast_digest": "67c499edcdc614c225213c8f563acb60c8204b428f31019b00a350c7e7c96865"
     },
     "sor": {
-      "values_digest": "f17cebacbe9f2932f6c7a149c474166eb89a8edbbb70db13abaf904ed31f3a24",
-      "rendered_digest": "a9df7a62e35e4f52e54d8304f3226f963031970fd73e2ad5f4c7c70a04ea08d5",
-      "ast_digest": "98e6c3161030903dd6d87bdbf092434d97f811ef53c3d9754c0d6a9a01d8be87"
+      "values_digest": "84f43d4b37f363e2eff0d25dc383ff0d962e6816152fcde68f25a9cab29c3c5e",
+      "rendered_digest": "22884eea6c3b444ecef03b8e678f48c2b6b69b1d5ddd96fd5791e7e2bcc299a3",
+      "ast_digest": "6cc4f4f0f86502c12ff4021e8ac3409a5b66f2584a3c3cc6833906302a99a185"
     }
   },
   "transitions": [
@@ -83,6 +83,13 @@
       "to": "bound",
       "actor": "codex:5362-preparation-owner",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5362-wp21-doc-reconciliation",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -162,6 +169,20 @@
       "actor": "codex:5362-preparation-owner",
       "reason": "fix grouped dependency input path wording",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"issue #5362 live body\",\"origin/main 8621b6f3b1b91d3ea290e16d07f80ec29afd4ece\",\".csdlc/evidence/5362/dependency-verification.v1.json\",\"docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml\",\"docs/milestones/v0.91.8/SPRINT_v0.91.8.md\",\"docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\",\"docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md\",\".csdlc/issues/5352/index.json and .csdlc/evidence/5352/* on current main\",\".csdlc/issues/4758, #4759, #4760, #4761, #4762, #4763, #5007, and #5107 current-main records and evidence\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:5362-wp21-doc-reconciliation",
+      "reason": "Record operator-authorized WP-21 documentation reconciliation execution without publication or v0.92 mutation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Reconciled WP-21 documentation and planning truth against the closed #5352, #4758, #4759, #4760, #4761, #4762, #4763, #5007, and #5107 child tracks while preserving v0.92 non-claims.\",\"changes\":[\"Updated docs/planning/ADL_FEATURE_LIST.md current-status and planning-focus language to consume the closed WP-21 child tracks as retained inputs.\",\"Updated v0.91.8 feature preservation and proof coverage docs so closed child tracks remain handoff inputs, not implementation or release-approval claims.\",\"Updated v0.91.8 handoff docs to replace stale publication-candidate and future-review wording with current closed/merged/closed_out child-track truth.\",\"Preserved the explicit non-claims for v0.92 birthday readiness, public launch readiness, Adaptive Learning runtime implementation, and release approval.\"],\"artifacts\":[\"docs/planning/ADL_FEATURE_LIST.md\",\"docs/milestones/v0.91.8/FEATURE_PRESERVATION_CROSSWALK_v0.91.8.md\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\",\"docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md\",\"docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md\",\"docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md\",\"docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:5362-wp21-doc-reconciliation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

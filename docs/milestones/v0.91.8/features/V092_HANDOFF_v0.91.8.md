@@ -24,10 +24,14 @@ Owning issues must remain visible in the packet: `#5352` prepares the exact
 handoff; `#4758`, `#4759`, and `#4761` own launch/activation/capability;
 `#4760` and `#5007` own Memory Palace; `#4762` and `#4763` own identity and
 birthday documentation; and `#5107` owns Adaptive Learning planning.
+As of 2026-08-04, those WP-21 child tracks are closed retained inputs with
+current-main `closed_out` lifecycle records; WP-21 `#5362` reconciles their
+truth into the handoff without mutating v0.92 issues or executing v0.92 work.
 WP-17 `#5360` closed documentation alignment to WP-16, and WP-18 `#5356` plus
-`#5791` closed both internal review passes. WP-19 external review returned
-blocked findings on 2026-08-04; WP-20 `#5363` owns remediation before any
-release approval can be claimed.
+`#5791` closed both internal review passes. WP-19 external review and WP-20
+remediation/preflight closed through PR #5806 at merge commit
+`e695e8b26ccdfbf62ffb68574662317dae99547e`; WP-21 may consume that retained
+truth without treating it as release approval.
 `#5355` owns the future v0.91.8 WP-21A handoff review alignment, and `#5359`
 owns release-tail closeout truth. Do not confuse future v0.91.8 WP-21A `#5355`
 with historical v0.91.7 WP-21A `#5489`.
