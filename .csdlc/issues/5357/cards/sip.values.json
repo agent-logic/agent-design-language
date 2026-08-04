@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-19] Run independent external milestone review",
     "slug": "v0918-wp19-independent-external-review",
     "version": "v0.91.8",
-    "generation": 2
+    "generation": 10
   },
   "status": "ready",
   "content": {
@@ -31,13 +31,12 @@
       ],
       "initial_assumptions": [],
       "operator_constraints": [
-        "Use installed typed C-SDLC v2 binaries and the current-registry native six-card projection only",
-        "Keep root main untouched; all tracked preparation stays in the dedicated /Volumes/FastWork #5357 worktree",
-        "Preparation only: no external review dispatch, product or canonical-handoff edit, PR, publication, merge, closeout, Runtime v2, AWS, raw gh, credentials, paid service, or hidden network authority",
-        "Do not execute until #5356 is merged, typed closed_out, claim-free, retained-receipt-backed, and its observed merge SHA is ancestral to the exact #5357 execution revision",
-        "Reuse docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md under its canonical filename without attaching an issue number or rewriting it during preparation",
-        "Retain repository-relative, publication-safe evidence only; exclude secrets, private prompts, raw credentials, host paths, unredacted provider output, and local scratch roots",
-        "Run bounded preparation review, fix every actionable finding, typed design approval, validate, bind, doctor, commit and push, then stop"
+        "Use typed C-SDLC v2 binaries and the current native six-card projection only; keep all tracked work in the bound #5357 worktree and never on main",
+        "Refresh only the exact canonical review-document paths in the active claim; change no product code, dependency, Runtime v2 surface, AWS state, credential, or paid service",
+        "Do not collide with active #5791 ownership of README.md, the canonical inventory, or the next-milestone handoff; integrate those exact changes from main after #5791 merges",
+        "Do not freeze or dispatch external review until #5791 completes the final WP-18 second pass after residual coding and its merge is ancestral to the #5357 target revision",
+        "Retain repository-relative publication-safe evidence and exclude secrets, private prompts, raw provider output, host paths, and local scratch roots",
+        "Run one bounded exact-revision documentation review after the complete canonical sweep, fix every actionable finding, validate, commit, push, and stop without dispatch, PR publication, merge, or release claim"
       ]
     }
   }

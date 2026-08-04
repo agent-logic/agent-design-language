@@ -4,7 +4,7 @@
     "lanes": [
       {
         "id": "preparation-contract",
-        "proof_role": "Prove six typed cards, reviewed design, exact review-document scope, current WP-17/WP-18 predecessor truth, schemas, budgets, no product changes, and typed doctor truth",
+        "proof_role": "Prove six current typed cards, exact non-overlapping document scope, canonical-document existence and links, structured-file validity, stale-truth exclusions, undispatched handoff state, budgets, diff hygiene, and typed doctor truth",
         "purpose": "Verify the complete preparation packet while making no dispatch or product claim.",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 4000},
@@ -21,8 +21,8 @@
       },
       {
         "id": "wp18-terminal-gate",
-        "proof_role": "Prove #5356 terminal receipt, reviewed head, merged PR commit, claim release, and ancestry without requiring a stale tracked projection",
-        "purpose": "Fail closed until WP-18 is merged, typed closed_out, claim-free, receipt-backed, and ancestral.",
+        "proof_role": "Prove closed first-pass #5356 plus merged final second-pass #5791 after residual coding, current-main integration, and ancestry to the exact external-review target",
+        "purpose": "Fail closed until #5791 merges the final internal second pass and current main is integrated.",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 2000},
         "credentials": [], "network": "denied", "dependencies": [], "parallel_group": "execution-gate",
@@ -32,7 +32,7 @@
       },
       {
         "id": "corpus-dispatch-preflight",
-        "proof_role": "Build and verify immutable exact-revision corpus and dispatch receipt while enforcing identity, independence, redaction, and non-self-inclusion",
+        "proof_role": "Build and verify the immutable all-v0.91.8 exact-revision corpus and dispatch receipt while enforcing identity, independence, redaction, and non-self-inclusion",
         "purpose": "Validate frozen corpus and append-only dispatch identity before send.",
         "determinism": "deterministic", "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 6000},
         "credentials": [], "network": "denied", "dependencies": ["wp18-terminal-gate"], "parallel_group": "review",
@@ -52,7 +52,7 @@
       },
       {
         "id": "complete",
-        "proof_role": "Run dependency, identity, corpus, dispatch, output, redaction, budget, no-deferral, exact-review, and publication preflight",
+        "proof_role": "Run final-review ancestry, canonical-doc, link, structured-file, corpus, dispatch, output, redaction, exact-review, and publication preflight",
         "purpose": "Run all dependency, corpus, dispatch, output, redaction, and exact-review checks.",
         "determinism": "deterministic", "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 9000},
         "credentials": [], "network": "denied", "dependencies": ["review-output-contract"], "parallel_group": "pre-publication",
@@ -62,8 +62,8 @@
       },
       {
         "id": "post-merge-exact",
-        "proof_role": "Re-run target ancestry, corpus/receipt/output digests, redaction, typed synthesis, CI and WP-20 release predicate after authorized merge",
-        "purpose": "Re-run exact identities and retained proofs before typed closeout.",
+        "proof_role": "Re-run target ancestry, canonical corpus/receipt/output digests, redaction, typed synthesis, CI, and WP-20 handoff after authorized merge",
+        "purpose": "Re-run exact identities and retained proofs after authorized merge; terminal bookkeeping remains separate.",
         "determinism": "deterministic", "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 9000},
         "credentials": [], "network": "denied", "dependencies": ["complete"], "parallel_group": "post-merge",
         "release_gate": "required", "execution": "local", "timeout_seconds": 900,

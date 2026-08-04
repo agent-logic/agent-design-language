@@ -20,8 +20,8 @@
 | WP-15 | WP-14A accepted revisions | Complete/useful durable result per WP-16 audit and quality gate. |
 | WP-16 | WP-15 convergence proof | Passed at `2e9d2dd7c`; see `evidence/wp16/QUALITY_GATE.md`. |
 | WP-17 | WP-16 quality gate | Closed documentation and release-truth alignment. |
-| WP-18 | WP-17 merge | Active internal milestone review. |
-| WP-19 | WP-18 merge | Pending independent external review. |
+| WP-18 | WP-17 merge; final pass after residual coding | First pass #5356 closed; final second pass #5791 is active. |
+| WP-19 | WP-18 #5791 merge | Prepared but not frozen or dispatched; waits for the final internal second pass. |
 | WP-20 | WP-19 merge | Pending remediation and release preflight. |
 | WP-21 | WP-20 merge | Pending exact-revision v0.92 handoff ledger. |
 | WP-21A | WP-21 merge | Pending next-milestone closeout plan. |
@@ -37,6 +37,7 @@ gate pass evidence.
 
 ## Remaining Readiness Rule
 
-WP-18 through WP-23 remain serial and must refresh live issue and PR truth
-before each release-tail action. WP-16 does not approve release, v0.92
-activation, or ceremony by itself.
+The final WP-18 second pass through WP-23 remain serial and must refresh live
+issue and PR truth before each release-tail action. WP-16 and the first WP-18
+pass do not approve external review, release, v0.92 activation, or ceremony by
+themselves.

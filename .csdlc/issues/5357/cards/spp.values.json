@@ -7,20 +7,40 @@
     "title": "[v0.91.8][WP-19] Run independent external milestone review",
     "slug": "v0918-wp19-independent-external-review",
     "version": "v0.91.8",
-    "generation": 2
+    "generation": 10
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 4,
       "summary": "Render and validate six cards; freeze exact #5356 terminal gating, issue-local ownership, canonical handoff identity, corpus/receipt schemas, reviewer boundaries, findings synthesis, COTS, budgets, PVF, redaction and rollback; obtain bounded review and fixes; typed approve/bind/doctor; commit and push preparation only.",
       "steps": [
         {
           "id": "S1",
-          "action": "Complete six cards, design, diagram, exact paths, dependency gate, corpus and dispatch templates, COTS, budgets, PVF, bounded review and fixes, typed approval/bind/doctor, commit and push preparation",
+          "action": "Reconcile current main, WP-17 inventory, first-pass review, residual coding, live #5791 ownership, and amend the exact non-overlapping #5357 document claim",
           "acceptance_ids": [
             "AC-1",
+            "AC-2",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Audit and update every claimed canonical v0.91.8 review document and the undispatched external handoff; classify all remaining corpus documents as current or historical",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run exhaustive existence, link, YAML/JSON, stale-truth, redaction, diff, and typed validation; obtain one bounded exact-revision GPT-5.5 documentation review and fix findings",
+          "acceptance_ids": [
             "AC-2",
             "AC-3",
             "AC-4",
@@ -29,35 +49,15 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "in_progress"
-        },
-        {
-          "id": "S2",
-          "action": "Wait fail-closed until #5356 is merged, typed closed_out, claim-free, receipt-backed, and ancestral",
-          "acceptance_ids": [
-            "AC-1"
-          ],
-          "status": "pending"
-        },
-        {
-          "id": "S3",
-          "action": "Freeze exact landed corpus, run redaction and dispatch preflight, obtain operator-selected independent reviewer, dispatch once, and retain immutable receipt and findings-first result",
-          "acceptance_ids": [
-            "AC-2",
-            "AC-3",
-            "AC-4",
-            "AC-5",
-            "AC-6",
-            "AC-7"
-          ],
           "status": "pending"
         },
         {
           "id": "S4",
-          "action": "Synthesize findings through typed review, publish exact evidence, shepherd green CI and authorized serialized merge, run post-merge proof, close out, and release WP-20",
+          "action": "Commit and push the reviewed #5357 documentation candidate, then wait for #5791 merge, integrate current main, revalidate exact corpus truth, and leave Target Revision/digest unset until operator freeze",
           "acceptance_ids": [
-            "AC-5",
-            "AC-6",
+            "AC-1",
+            "AC-2",
+            "AC-3",
             "AC-8"
           ],
           "status": "pending"
@@ -65,12 +65,13 @@
       ],
       "affected_areas": [],
       "invariants": [
-        "preparation owns only four exact #5357 issue-local lifecycle and evidence paths",
-        "the canonical handoff filename and content remain unchanged during preparation",
-        "no dispatch occurs before complete #5356 terminal proof and exact corpus freeze",
-        "reviewer identity, process independence, evidence, inference, and author decisions remain distinct",
-        "review output cannot mutate lifecycle state or approve release",
-        "Runtime v2, AWS, credentials, host paths, private prompts, product changes, shared-document changes, and new dependencies are forbidden during preparation"
+        "#5357 edits only exact canonical review documents and issue-local support paths in its active claim",
+        "#5791 retains sole ownership of its three concurrent release-tail pages until merge; #5357 integrates those pages from main rather than duplicating them",
+        "all tracked documents under docs/milestones/v0.91.8 are included in the external-review digest corpus even when the human manifest groups rather than repeats them",
+        "the first WP-18 review remains historical evidence and cannot approve residual coding; #5791 is the final internal-review authority before WP-19 freeze",
+        "external review remains undispatched and cannot mutate lifecycle state, approve release, or substitute for product proof",
+        "Runtime v2, product changes, dependencies, AWS, credentials, paid services, host paths, private prompts, and raw provider output are forbidden",
+        "one final bounded documentation review occurs after the complete sweep and before the branch is declared ready to freeze"
       ],
       "risks": [
         "a model selected and prompted by the project could be mislabeled independent",
@@ -86,12 +87,13 @@
         "validation_seconds": 7200
       },
       "stop_conditions": [
-        "#5356 lacks merge, typed closed_out, claim release, retained receipt, or ancestry",
-        "the canonical handoff is renamed, rewritten during preparation, stale, or not at its canonical path",
-        "corpus or receipt identity is mutable, incomplete, self-referential, non-reproducible, or contains untracked/host-local inputs",
-        "reviewer identity, independence, conflict, prompt, model/provider, timing, outcome, or output digest cannot be retained truthfully",
-        "retained evidence contains secrets, private prompts, credentials, host paths, raw provider payloads, or personal data",
-        "a required proof is deferred, review is stale, scope collides, budget is exceeded without exact review, or product/shared-document work is required"
+        "#5791 has not merged its final internal second pass after residual coding or its merge is not ancestral to the proposed external-review target",
+        "a canonical v0.91.8 document is missing, stale against current issue truth, structurally invalid, unlinked, or outside the digest corpus",
+        "a requested edit overlaps #5791 or another active claim instead of integrating its merged result from main",
+        "the handoff target SHA, PR, corpus digest, reviewer identity, independence, prompt, provider/model, timing, outcome, or output digest cannot be retained truthfully",
+        "evidence contains secrets, private prompts, credentials, host paths, raw provider payloads, personal data, or unverifiable assertions",
+        "a required proof is deferred or substituted, the exact documentation review is stale or has open findings, or the change requires product behavior, Runtime v2, AWS, paid services, a dependency, or out-of-claim writes",
+        "external review would be dispatched before the operator freezes the exact revision and explicitly starts that lane"
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5357/design.md",

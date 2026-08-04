@@ -4,7 +4,7 @@
     "lanes": [
       {
         "id": "preparation-contract",
-        "proof_role": "Prove six typed cards, reviewed design, exact review-document scope, current WP-17/WP-18 predecessor truth, schemas, budgets, no product changes, and typed doctor truth",
+        "proof_role": "Prove six current typed cards, exact non-overlapping document scope, canonical-document existence and links, structured-file validity, stale-truth exclusions, undispatched handoff state, budgets, diff hygiene, and typed doctor truth",
         "purpose": "Verify the complete preparation packet while making no dispatch or product claim.",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 4000},

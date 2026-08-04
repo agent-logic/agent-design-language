@@ -1,8 +1,8 @@
 # v0.91.8 Review Packet
 
-Status: planned. This directory holds review entrypoints for the v0.91.8
-bridge milestone. It does not record that internal or third-party review has
-run.
+Status: active release-tail review index. The first WP-18 internal review is
+retained and closed. Final second-pass issue `#5791` is active after residual
+coding. Formal third-party review has not been dispatched or performed.
 
 ## Entrypoints
 
@@ -11,10 +11,12 @@ run.
   dispositions.
 - [V0918_INTERNAL_REVIEW_PLAN_5356.md](V0918_INTERNAL_REVIEW_PLAN_5356.md)
 - [V0918_INTERNAL_REVIEW_5356.md](V0918_INTERNAL_REVIEW_5356.md)
-  prepares the WP-18 internal milestone review lanes, evidence packet, finding
-  schema, and stop boundaries. It does not record that the review has run.
+  records the closed first WP-18 internal review and links its retained packet.
+- `#5791` owns the final internal second pass after residual coding. Its packet
+  must be added to this index from merged main before WP-19 freezes the
+  external-review corpus.
 - [THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md](THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md)
-  is the prepared formal milestone third-party review handoff.
+  is the prepared but undispatched formal milestone third-party review handoff.
 - [podcast_studio_5605/](podcast_studio_5605/) records the AI Agent Podcast
   Studio weekly launch-readiness packet for `#5605`; it is planning evidence,
   not public launch proof.

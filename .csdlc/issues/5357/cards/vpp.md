@@ -25,13 +25,10 @@ Diagram: .csdlc/prepared/issues/5357/diagram.mmd
 [
   {
     "lane": "preparation-contract",
-    "proof_role": "Prove six typed cards, reviewed design, exact review-document scope, current WP-17/WP-18 predecessor truth, schemas, budgets, no product changes, and typed doctor truth",
+    "proof_role": "Prove six current typed cards, exact non-overlapping document scope, canonical-document existence and links, structured-file validity, stale-truth exclusions, undispatched handoff state, budgets, diff hygiene, and typed doctor truth",
     "acceptance_ids": [
-      "AC-1",
       "AC-2",
       "AC-3",
-      "AC-4",
-      "AC-5",
       "AC-6",
       "AC-7",
       "AC-8"
@@ -49,9 +46,11 @@ Diagram: .csdlc/prepared/issues/5357/diagram.mmd
   },
   {
     "lane": "wp18-terminal-gate",
-    "proof_role": "Prove #5356 terminal receipt, reviewed head, merged PR commit, claim release, and ancestry without requiring a stale tracked projection",
+    "proof_role": "Prove closed first-pass #5356 plus merged final second-pass #5791 after residual coding, current-main integration, and ancestry to the exact external-review target",
     "acceptance_ids": [
-      "AC-1"
+      "AC-1",
+      "AC-2",
+      "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -62,17 +61,19 @@ Diagram: .csdlc/prepared/issues/5357/diagram.mmd
       ".csdlc/prepared/issues/5357/check-dependencies.rb"
     ],
     "parallel_group": "execution-gate",
-    "defer_reason": null
+    "defer_reason": "Mandatory before corpus freeze; expected to fail until #5791 merges and current main is integrated"
   },
   {
     "lane": "corpus-dispatch-preflight",
-    "proof_role": "Build and verify immutable exact-revision corpus and dispatch receipt while enforcing identity, independence, redaction, and non-self-inclusion",
+    "proof_role": "Build and verify the immutable all-v0.91.8 exact-revision corpus and dispatch receipt while enforcing identity, independence, redaction, and non-self-inclusion",
     "acceptance_ids": [
+      "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
       "AC-6",
-      "AC-7"
+      "AC-7",
+      "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "medium",
@@ -84,12 +85,13 @@ Diagram: .csdlc/prepared/issues/5357/diagram.mmd
       "corpus-dispatch-preflight"
     ],
     "parallel_group": "review",
-    "defer_reason": "Mandatory after #5356 terminal proof and exact corpus freeze; forbidden during preparation"
+    "defer_reason": "Mandatory after #5791 merge, current-main integration, and operator freeze; forbidden during documentation preparation"
   },
   {
     "lane": "review-output-contract",
     "proof_role": "Validate findings-first severity order, exact evidence, evidence/inference/author-decision separation, residual risk, and typed synthesis mapping",
     "acceptance_ids": [
+      "AC-4",
       "AC-5",
       "AC-6",
       "AC-8"
@@ -104,11 +106,11 @@ Diagram: .csdlc/prepared/issues/5357/diagram.mmd
       "review-output-contract"
     ],
     "parallel_group": "review",
-    "defer_reason": "Mandatory after reviewer output exists; forbidden during preparation"
+    "defer_reason": "Mandatory after external reviewer output exists; forbidden before dispatch"
   },
   {
     "lane": "complete",
-    "proof_role": "Run dependency, identity, corpus, dispatch, output, redaction, budget, no-deferral, exact-review, and publication preflight",
+    "proof_role": "Run final-review ancestry, canonical-doc, link, structured-file, corpus, dispatch, output, redaction, exact-review, and publication preflight",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -133,7 +135,7 @@ Diagram: .csdlc/prepared/issues/5357/diagram.mmd
   },
   {
     "lane": "post-merge-exact",
-    "proof_role": "Re-run target ancestry, corpus/receipt/output digests, redaction, typed synthesis, CI and WP-20 release predicate after authorized merge",
+    "proof_role": "Re-run target ancestry, canonical corpus/receipt/output digests, redaction, typed synthesis, CI, and WP-20 handoff after authorized merge",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -154,7 +156,7 @@ Diagram: .csdlc/prepared/issues/5357/diagram.mmd
       "post-merge-exact"
     ],
     "parallel_group": "post-merge",
-    "defer_reason": "Mandatory after authorized serialized merge and before typed closeout"
+    "defer_reason": "Mandatory after authorized serialized merge; terminal bookkeeping remains separate"
   }
 ]
 

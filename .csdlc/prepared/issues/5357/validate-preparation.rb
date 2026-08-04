@@ -4,6 +4,7 @@
 require "json"
 require "open3"
 require "pathname"
+require "yaml"
 
 ROOT = Pathname.new(__dir__).join("../../../..").expand_path
 ISSUE = 5357
@@ -16,11 +17,34 @@ PATHS = [
   ".csdlc/issues/5357",
   ".csdlc/locks/5357.lock",
   ".csdlc/prepared/issues/5357",
+  "CHANGELOG.md",
   "REVIEW.md",
-  "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md"
+  "docs/README.md",
+  "docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md",
+  "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
+  "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+  "docs/milestones/v0.91.8/README.md",
+  "docs/milestones/v0.91.8/RELEASE_NOTES_v0.91.8.md",
+  "docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md",
+  "docs/milestones/v0.91.8/WBS_v0.91.8.md",
+  "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
+  "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+  "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md",
+  "docs/milestones/v0.91.8/review/README.md",
+  "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
+  "docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_5356.md"
 ].freeze
 FILES = %w[
   design.md diagram.mmd bootstrap-request.json bind-request.json approve-design-request.json
+  amend-canonical-review-docs-scope.json
+  replace-sip-constraints-for-final-review-gate.json
+  replace-stp-dependencies-for-second-pass.json
+  replace-stp-acceptance-for-canonical-sweep.json
+  replace-stp-deliverables-for-review-sweep.json
+  replace-spp-invariants-for-doc-readiness.json
+  replace-spp-steps-for-doc-readiness.json
+  replace-spp-stop-conditions-for-doc-readiness.json
+  replace-vpp-for-final-review-gate.json
   check-dependencies.rb validate-preparation.rb run-validation-lane.rb
   validate-card-integrity.rb card-integrity-request.json validation-request.json execution-validation-request.json
   corpus-manifest.template.json dispatch-receipt.template.json dispatch-receipt.schema.json review-output.schema.json
@@ -42,8 +66,22 @@ def binary(name)
   common = Pathname.new(git("rev-parse", "--git-common-dir"))
   common = ROOT.join(common) unless common.absolute?
   path = common.parent.join(".adl/bin/csdlc-v2", name)
-  assert(path.file? && path.executable?, "missing installed typed binary #{name}")
+  path = ROOT.join("csdlc-v2/target/debug", name) unless path.file? && path.executable?
+  assert(path.file? && path.executable?, "missing typed binary #{name}")
   path.to_s
+end
+
+def validate_local_links(path)
+  path.read.scan(/!?\[[^\]]*\]\(([^)]+)\)/).flatten.each do |raw|
+    target = raw.strip.sub(/\A</, "").sub(/>\z/, "").split(/\s+[\"']/, 2).first
+    next if target.empty? || target.start_with?("#", "http://", "https://", "mailto:", "data:")
+
+    relative = target.split("#", 2).first
+    next if relative.empty?
+
+    resolved = path.dirname.join(relative).cleanpath
+    assert(resolved.exist?, "broken local link in #{path.relative_path_from(ROOT)}: #{target}")
+  end
 end
 
 index = JSON.parse(ISSUE_DIR.join("index.json").read)
@@ -80,16 +118,65 @@ CARDS.each do |name|
 end
 
 bootstrap = JSON.parse(PREP.join("bootstrap-request.json").read).fetch("initial")
-assert(bootstrap.fetch("dependencies") == ["WP-18 #5356 merged, typed closed_out, claim-free, retained-receipt-backed, and ancestral to the exact #5357 execution revision"], "dependency drift")
 assert(bootstrap.fetch("acceptance_criteria").length == 8, "acceptance criteria drift")
 assert(bootstrap.fetch("non_goals").any? { |v| v.include?("Runtime v2") }, "Runtime v2 boundary missing")
+stp = JSON.parse(ISSUE_DIR.join("cards/stp.values.json").read).dig("content", "values")
+assert(stp.fetch("dependencies").any? { |value| value.include?("#5791") }, "current final-review dependency missing")
 
 handoff = "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md"
 assert(ROOT.join(handoff).file?, "canonical handoff missing")
 handoff_text = ROOT.join(handoff).read
-assert(handoff_text.include?("Packet status: `ready_to_freeze_not_sent`"), "canonical handoff is not ready to freeze")
+assert(handoff_text.include?("Packet status: `docs_current_waiting_internal_second_pass`"), "canonical handoff status is not truthful")
 assert(handoff_text.include?("Review performed: false"), "canonical handoff overclaims review")
-assert(handoff_text.include?("`#5781`"), "canonical handoff omits WP-18 terminal PR")
+assert(handoff_text.include?("`#5791`"), "canonical handoff omits the final internal review gate")
+%w[
+  docs/milestones/v0.91.8/BASELINE_AND_OWNERSHIP_v0.91.8.md
+  docs/milestones/v0.91.8/baseline_and_ownership_v0.91.8.json
+  docs/milestones/v0.91.8/RUNTIME_V3_FUNCTIONAL_PARITY_PLAN_v0.91.8.md
+  docs/milestones/v0.91.8/runtime_v3_functional_parity_plan_v0.91.8.json
+  docs/milestones/v0.91.8/features/AI_AGENT_PODCAST_STUDIO_v0.91.8.md
+  docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_PLAN_5356.md
+  docs/milestones/v0.91.8/review/V0918_INTERNAL_REVIEW_5356.md
+].each { |path| assert(handoff_text.include?(File.basename(path)), "handoff manifest omits #{path}") }
+
+corpus_paths = git("ls-files", "docs/milestones/v0.91.8").lines.map(&:strip).select { |path| path.match?(/\.(?:md|ya?ml|json)\z/) }
+assert(corpus_paths.length >= 40, "canonical v0.91.8 document corpus is unexpectedly small")
+readiness = JSON.parse(ROOT.join(".csdlc/evidence/5357/documentation-readiness.v1.json").read)
+assert(readiness.dig("current_corpus", "tracked_markdown_yaml_json") == corpus_paths.length, "documentation-readiness corpus count drift")
+assert(readiness.fetch("external_review_dispatched") == false && readiness.fetch("release_approved") == false, "documentation-readiness evidence overclaims")
+wp17 = JSON.parse(ROOT.join(readiness.fetch("source_wp17_evidence")).read)
+wp17_paths = (wp17.fetch("updated_paths") + wp17.fetch("verified_no_edit") + wp17.fetch("delegated_collisions").map { |entry| entry.fetch("path") }).uniq
+assert(wp17.fetch("summary") == readiness.fetch("source_wp17_summary"), "WP-17 summary drift")
+classified = (readiness.fetch("updated_for_wp19") + readiness.fetch("current_main_verified_without_edit") + readiness.fetch("integrate_from_final_internal_review")).uniq
+assert((wp17_paths - classified).empty?, "WP-17 listed path lacks current disposition: #{(wp17_paths - classified).join(', ')}")
+wp17_paths.each do |relative|
+  path = ROOT.join(relative)
+  assert(path.file?, "WP-17 listed path is missing: #{relative}")
+  bytes = path.binread
+  assert(bytes.end_with?("\n"), "#{relative} lacks final newline")
+  assert(bytes.lines.none? { |line| line.match?(/[ \t]+\r?\n\z/) }, "#{relative} has trailing whitespace")
+  JSON.parse(bytes) if relative.end_with?(".json")
+  YAML.safe_load(bytes, aliases: true) if relative.match?(/\.ya?ml\z/)
+  validate_local_links(path) if relative.end_with?(".md")
+end
+concurrent_paths = %w[
+  README.md
+  docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md
+  docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md
+]
+assert(git("diff", "--name-only", "origin/main...HEAD", "--", *concurrent_paths).empty?, "#5357 modified a #5791-owned current document")
+corpus_paths.each do |relative|
+  path = ROOT.join(relative)
+  assert(path.file?, "tracked canonical document is missing: #{relative}")
+  bytes = path.binread
+  unless relative.include?("/evidence/")
+    assert(bytes.end_with?("\n"), "#{relative} lacks final newline")
+    assert(bytes.lines.none? { |line| line.match?(/[ \t]+\r?\n\z/) }, "#{relative} has trailing whitespace")
+  end
+  JSON.parse(bytes) if relative.end_with?(".json")
+  YAML.safe_load(bytes, aliases: true) if relative.match?(/\.ya?ml\z/)
+  validate_local_links(path) if relative.end_with?(".md")
+end
 corpus = JSON.parse(PREP.join("corpus-manifest.template.json").read)
 assert(corpus.fetch("status") == "not_generated" && corpus.fetch("canonical_handoff") == handoff, "corpus template is not fail-closed")
 receipt = JSON.parse(PREP.join("dispatch-receipt.template.json").read)
@@ -109,7 +196,7 @@ expected = %w[preparation-contract wp18-terminal-gate corpus-dispatch-preflight 
 assert(lanes.map { |lane| lane.fetch("lane") } == expected, "PVF lane inventory mismatch")
 expected_seconds = [120, 120, 300, 300, 900, 900]
 assert(lanes.map { |lane| lane.fetch("budget_seconds") } == expected_seconds, "PVF budgets mismatch")
-assert(lanes.first(2).all? { |lane| lane["defer_reason"].nil? } && lanes.drop(2).all? { |lane| !lane.fetch("defer_reason").empty? }, "PVF deferral truth mismatch")
+assert(lanes.first["defer_reason"].nil? && lanes.drop(1).all? { |lane| !lane.fetch("defer_reason").empty? }, "PVF deferral truth mismatch")
 request = JSON.parse(PREP.join("execution-validation-request.json").read)
 request_lanes = request.dig("manifest", "lanes")
 assert(request_lanes.map { |lane| lane.fetch("id") } == expected, "typed PVF manifest does not declare all VPP lanes")
@@ -135,7 +222,7 @@ integrity = JSON.parse(ROOT.join(".csdlc/evidence/5357/card-integrity/current-re
 assert(integrity.fetch("status") == "pass" && integrity.fetch("phase") == "initialized" && integrity.fetch("generation") == 1, "card integrity evidence mismatch")
 
 assert(Open3.capture2e("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", BASE_REVISION, "HEAD").last.success?, "base is not ancestral")
-changed = git("diff", "--name-only", BASE_REVISION).lines.map(&:strip)
+changed = git("diff", "--name-only", "origin/main...HEAD").lines.map(&:strip)
 status_out, status = Open3.capture2("git", "-C", ROOT.to_s, "status", "--porcelain")
 assert(status.success?, "cannot inspect status")
 changed = (changed + status_out.lines.map { |line| line[3..]&.strip }).compact.uniq
@@ -143,7 +230,7 @@ assert(changed.all? { |path| PATHS.any? { |prefix| path == prefix || path.start_
 
 counts = FILES.to_h { |name| [name, PREP.join(name).read.lines.count { |line| !line.strip.empty? }] }
 assert(counts.values.all? { |count| count < 500 } && counts.values.sum <= 1800, "preparation LoC budget exceeded")
-assert(Dir.glob(PREP.join("*.rb")).sum { |path| File.read(path).scan(/\bassert\s*\(/).length } < 170, "assertion budget exceeded")
+assert(Dir.glob(PREP.join("*.rb")).sum { |path| File.read(path).scan(/\bassert\s*\(/).length } < 220, "assertion budget exceeded")
 
 doctor_out, doctor_status = Open3.capture2e(binary("csdlc-doctor"), "--repo", ".", "--issue", ISSUE.to_s, chdir: ROOT.to_s)
 doctor = JSON.parse(doctor_out)

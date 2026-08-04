@@ -16,29 +16,33 @@ Prepare six cards, reviewed design/diagram, exact WP-18 dependency gate, immutab
 
 ## Deliverables
 
-- all six current-registry issue-specific typed cards
-- reviewed external-review preparation design and Mermaid diagram
-- exact preparation-only protected paths and executable WP-18 terminal gate
+- current six-card typed WP-19 contract with #5791 final-second-pass dependency
+- complete canonical v0.91.8 documentation inventory with every review-required path updated, verified, or explicitly historical
+- current REVIEW.md, release-tail plans, issue wave, feature handoff, review index, first-pass record, and undispatched third-party handoff
 - immutable exact-revision corpus-manifest and dispatch-receipt templates with fail-closed validators
-- reviewer identity, independence, authority, and conflict-disclosure contract
-- findings-first output schema separating observed evidence, inference, residual risk, and open author decisions
-- COTS, LoC, assertion, time, token, PVF, no-deferral, rollback, and publication/redaction boundaries
-- bounded preparation review with all actionable findings fixed
+- reviewer identity, independence, authority, conflict disclosure, findings-first output, and typed synthesis contracts
+- focused docs/YAML/JSON/link/stale-truth/redaction/diff validation with repository-relative retained evidence
+- one bounded exact-revision GPT-5.5 documentation review with every actionable finding fixed
+- pushed #5357 branch ready to integrate merged #5791 and freeze without dispatching external review
 
 ## Acceptance
 
-1. AC-1: No external dispatch starts until #5356 is GitHub merged, typed closed_out, claim-free, backed by a retained merged terminal receipt, and its observed merge SHA is ancestral to the exact #5357 execution revision
-2. AC-2: The canonical handoff remains at docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md and is consumed without issue-number renaming or preparation-time rewrite
-3. AC-3: The future corpus manifest binds sorted tracked mode, type, hash, and repository-relative path records plus target/base/head identities; any missing, untracked, changed, duplicate, self-referential, or non-ancestral input fails closed
-4. AC-4: The future dispatch receipt binds corpus digest, handoff digest, exact prompt digest, reviewer/provider/model identity, independence and conflict disclosures, dispatch and completion times, outcome, and output digest without granting reviewer authority
+1. AC-1: External-review freeze and dispatch remain forbidden until #5791 merges the final WP-18 second pass after residual coding and that merge is ancestral to the exact #5357 target revision
+2. AC-2: REVIEW.md, the canonical v0.91.8 entrypoints, release-tail plans, issue wave, feature handoff, review index, and canonical third-party handoff agree on current first-pass, second-pass, external-review, and non-claim truth
+3. AC-3: The future corpus manifest binds every tracked v0.91.8 milestone document plus declared repository and v0.92 bridge entrypoints as sorted mode, type, hash, and repository-relative path records; missing, changed, duplicate, untracked, self-referential, or non-ancestral input fails closed
+4. AC-4: The future dispatch receipt binds corpus digest, handoff digest, exact prompt digest, reviewer/provider/model identity, independence and conflict disclosures, dispatch/completion times, outcome, and output digest without granting reviewer authority
 5. AC-5: Review output is findings-first in P0-P3 order and separately labels observed evidence, inference, residual risk, and open author decisions with exact file/line or issue/PR support
-6. AC-6: Secrets, private prompts, credentials, raw provider payloads, host paths, local scratch roots, personal data, and unverifiable external assertions are excluded or redacted; redaction never changes finding meaning silently
-7. AC-7: Preparation changes zero product/shared-document files and adds no dependency; issue-local authored preparation remains within 1800 nonblank lines, 500 per module, fewer than 160 assertions, and 120/300/900-second lane budgets unless exactly reviewed
-8. AC-8: Required dependency, corpus, dispatch, output-schema, redaction, complete, exact-review, CI, authorized serialized merge, post-merge, and typed-closeout gates pass without deferral or substitution before WP-20 receives findings
+6. AC-6: Secrets, private prompts, credentials, raw provider payloads, host paths, local scratch roots, personal data, and unverifiable external assertions are excluded or redacted without silently changing finding meaning
+7. AC-7: The documentation-only change adds no dependency or product behavior; canonical edits stay within 2500 changed lines and issue-local authored support remains within 1800 nonblank lines, 500 per module, fewer than 170 assertions, and declared 120/300/900-second lane budgets unless exactly reviewed
+8. AC-8: Canonical docs, links, YAML/JSON structure, current issue truth, final bounded documentation review, corpus/dispatch/output contracts, redaction, CI, and post-merge identity gates pass without substitution before formal external review or WP-20 findings handoff
 
 ## Dependencies
 
-- WP-18 #5356 merged, typed closed_out, claim-free, retained-receipt-backed, and ancestral to the exact #5357 execution revision
+- WP-16 #5351 quality-gate merge remains ancestral
+- WP-17 #5360 documentation alignment remains closed
+- WP-18 first-pass #5356 remains merged through PR #5781
+- WP-18 final second-pass #5791 is merged after residual coding and ancestral to the exact #5357 freeze revision
+- the #5357 branch integrates the #5791-owned README, canonical inventory, next-milestone handoff, and final review packet from current main before corpus freeze
 
 ## Inputs
 
