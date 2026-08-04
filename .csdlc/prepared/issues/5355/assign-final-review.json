@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 5355,
+  "expected_generation": 7,
+  "expected_digest": "a7b3ab40da8140d471d3d42bc4b31f54d09b69fc7201b4d939f87b717aba4bad",
+  "claim_id": "claim-5355-v0918-preparation",
+  "reviewer": "subagent:gpt-5.5:WP21A-reviewer",
+  "assigned_by": "codex:wp21a-conductor",
+  "scope": [
+    ".csdlc/issues/5355",
+    ".csdlc/evidence/5355",
+    ".csdlc/prepared/issues/5355",
+    "docs/milestones/v0.91.8/NEXT_MILESTONE_CLOSEOUT_PLAN_v0.91.8.md",
+    "docs/milestones/v0.91.8/README.md",
+    "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md",
+    "docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md",
+    "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md"
+  ]
+}
