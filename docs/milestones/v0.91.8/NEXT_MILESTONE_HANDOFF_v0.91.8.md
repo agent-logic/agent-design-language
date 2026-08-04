@@ -59,9 +59,17 @@ internal reviews are complete and the formal milestone review remains future wor
 owns the exact v0.92 handoff and must consume the WP-16 evidence and any WP-17
 updates rather than relying on older planning-only text.
 
-Future v0.91.8 WP-21A `#5355` prepares next-milestone handoff/review alignment,
-and WP-22 reviews that packet before release ceremony work. Current v0.91.7
-WP-21A `#5489` is historical preparation evidence only.
+Future v0.91.8 WP-21A `#5355` prepares next-milestone handoff/review alignment
+through
+[NEXT_MILESTONE_CLOSEOUT_PLAN_v0.91.8.md](NEXT_MILESTONE_CLOSEOUT_PLAN_v0.91.8.md),
+and WP-22 reviews that packet before release ceremony work. WP-21 `#5362`
+closed after PR #5807 merged exact head
+`f1ddeacf5e91a1c8da690b2940e4125937aa57a3` as squash merge
+`eaa62d3d2c0241bc07ce827fedef0e42389d0491`; WP-21A consumers must still verify
+that merge commit is contained in current `origin/main`. Asynchronous typed
+closeout receipt work is not a downstream planning blocker after GitHub merge
+truth is established. Current v0.91.7 WP-21A `#5489` is historical preparation
+evidence only.
 
 Current blocker and non-claim truth must be consumed explicitly: `#5408` is
 closed/remediated via PR #5419, while #4906 remains retained
