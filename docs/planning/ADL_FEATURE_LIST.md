@@ -119,15 +119,15 @@ contracts it depends on.
 
 ## Current Repo Status
 
-Current roadmap planning truth, last verified 2026-08-01:
+Current roadmap planning truth, last verified 2026-08-04:
 - the feature-doc production wave is tracked as issue `#3779` with child
   issues `#3778`, `#3780`, `#3781`, and `#3782`
 - `v0.91.6` is the completed first pre-v0.92 readiness tranche
 - `v0.91.7` is retained implementation and proof history, not the active
   closeout tail
 - `v0.91.8` is the active reviewed platform-acceptance bridge: WP-16 merged at
-  `2e9d2dd7c` with its integrated quality gate passing, WP-17 documentation
-  alignment is active, and WP-18 through WP-23 remain serial release-tail work
+  `2e9d2dd7c`; WP-17 through WP-20 are retained inputs, and WP-21 `#5362` consumes
+  closed tracks `#5352`, `#4758`-`#4763`, `#5007`, and `#5107` while WP-21A through WP-23 remain serial release-tail gates
 - `v0.92` consumes the exact v0.91.8 handoff rather than v0.91.7 prose directly
 - `v0.92` remains the first true identity, continuity, and birthday milestone
 - `v0.95` remains MVP convergence and packaging, not first implementation of
@@ -520,8 +520,8 @@ the required reviewed v0.91.8 bridge:
 
 - consume the completed `v0.91.6` readiness tranche truthfully
 - retain `v0.91.7` as historical implementation and proof input
-- finish the serial `v0.91.8` WP-17 through WP-23 review, remediation,
-  handoff, and release tail before v0.92 consumes the exact result
+- consume closed `v0.91.8` WP-17 through WP-20 proof, then finish WP-21 through
+  WP-23 handoff, next-planning review, and ceremony before v0.92 consumes it
 - keep v0.92 as the first true identity/continuity/birthday milestone
 - keep v0.95 as convergence and packaging, not first implementation of major
   cognitive systems

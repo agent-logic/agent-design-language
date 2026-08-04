@@ -1,6 +1,6 @@
 # WP-21 Exact-Revision v0.92 Consumption Handoff
 
-Status: final #5352 publication candidate
+Status: closed retained #5352 handoff input
 
 Issue: #5352
 Integrated baseline: `origin/main` at `c34f0c9412495039a6374f7ce88fa39e34bb5042`
@@ -8,11 +8,11 @@ Final path: `docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff
 
 This handoff assembles the exact reviewed inputs that v0.92 may consume. It
 does not claim the v0.92 birthday occurred, production readiness, public launch
-approval, Adaptive Learning implementation, or terminal C-SDLC closeout. The
-active typed claim owns the final handoff directory. #5558 is closed by PR
-#5749, whose merge commit is ancestral to the publication baseline; publication
-still requires focused validation and one exact-head review with no unresolved
-actionable findings.
+approval, Adaptive Learning implementation, or release approval. Issue #5352 is
+now live `CLOSED`; `.csdlc/issues/5352/index.json` records phase `closed_out`
+and PR #5751 as merged at reviewed head
+`6105fc7377aede7d1d2d98ee03d6a9cfdb975048`. #5558 is closed by PR #5749, whose
+merge commit is ancestral to the #5352 publication baseline.
 
 ## Accepted Platform Revisions
 
@@ -124,21 +124,22 @@ separate.
 - Closed child issues and retained receipts do not substitute for exact merge
   ancestry at the publication revision.
 
-## Final Promotion Checklist
+## Retained Consumption Checklist
 
 1. Observed #5558 closed completed by PR #5749 and recorded merge commit
    `c34f0c9412495039a6374f7ce88fa39e34bb5042`.
 2. Integrated current `origin/main` once in the #5352 worktree.
-3. Verified the active execution claim owns `docs/milestones/v0.91.8/handoff`.
+3. Verified the active execution claim owned `docs/milestones/v0.91.8/handoff`
+   at publication time.
 4. Promoted the handoff to the final path and replaced pending snapshot truth.
-5. Resolve the installed C-SDLC generation through the tracked selector; do not
-   rebuild operational binaries when their source provenance is unchanged.
-6. Run dependency ancestry, ledger contract, links, typed-record, and diff checks.
-7. Commit a stable publication candidate and run exactly one GPT-5.5 review of
-   that exact revision; fix all actionable findings and refresh proof if the
-   revision changes.
-8. Publish a ready PR to `main` with `Closes #5352`, shepherd required CI to
-   green, merge, and observe issue closure. Route typed closeout asynchronously.
-9. Complete the findings-first sprint review recorded in
-   `WP21_SPRINT_REVIEW_5352.md`; fix all current blockers before merge while
-   preserving historical child evidence and explicit non-claims.
+5. Resolved the installed C-SDLC generation through the tracked selector without
+   treating local generated binaries as accepted product evidence.
+6. Ran dependency ancestry, ledger contract, links, typed-record, and diff
+   checks.
+7. Committed a stable publication candidate and ran exact-head review at the
+   reviewed revision; actionable findings were fixed before merge.
+8. Published PR #5751 to `main` with `Closes #5352`, observed merge, and
+   observed issue closure.
+9. Completed the findings-first sprint review recorded in
+   `WP21_SPRINT_REVIEW_5352.md` while preserving historical child evidence and
+   explicit non-claims.

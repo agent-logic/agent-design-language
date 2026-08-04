@@ -4,14 +4,23 @@
 reviewed platform truth, and it must preserve the boundary that the birthday
 itself has not happened in `v0.91.8`.
 
-Current source truth for this handoff is the merged WP-16 quality-gate evidence
-at `2e9d2dd7c4260dcf6ec6af954b0eea97554212df`. That evidence records 67
-audited v0.91.8 issues, 34 working-code outcomes, 21 useful durable results, 12
-partial or ambiguous release-tail/umbrella/lifecycle-drift items, 0 unacceptable
-outcomes, and 0 release blockers. WP-17 `#5360` closed the documentation
-alignment step consuming that evidence; WP-18 `#5356` and `#5791` closed both
-internal review passes. WP-19 `#5357` is ready to freeze the external-review
-packet but has not dispatched it.
+Current source truth for this handoff starts with the merged WP-16 quality-gate
+evidence at `2e9d2dd7c4260dcf6ec6af954b0eea97554212df`. That evidence records
+67 audited v0.91.8 issues, 34 working-code outcomes, 21 useful durable results,
+12 partial or ambiguous release-tail/umbrella/lifecycle-drift items, 0
+unacceptable outcomes, and 0 release blockers. WP-17 `#5360` closed the
+documentation alignment step consuming that evidence; WP-18 `#5356` and
+`#5791` closed both internal review passes. WP-19 external review and WP-20
+remediation/preflight closed together through PR #5806 at merge commit
+`e695e8b26ccdfbf62ffb68574662317dae99547e`; that releases WP-21 execution
+without claiming WP-21A, WP-22, WP-23, or v0.92 completion.
+
+WP-21 `#5362` now consumes closed WP-21 child tracks as retained handoff inputs:
+`#5352`, `#4758`, `#4759`, `#4760`, `#4761`, `#4762`, `#4763`, `#5007`, and
+`#5107` are live `CLOSED` and their current-main lifecycle indexes record
+`closed_out` with merged publication state. The recorded terminal receipt paths
+are consumption metadata; this handoff still treats v0.92 birthday readiness,
+public launch, and Adaptive Learning runtime behavior as non-claims.
 
 ## Required Handoff Contents
 
@@ -45,9 +54,9 @@ v0.92 activation planning:
 4. downstream birth-witness and receipt packaging in #4762
 
 The bridge does not claim v0.92 birthday readiness, public launch readiness,
-Memory Palace runtime completion, Unity demo proof, or unresolved Runtime v3
-Parity-B/C/D proof. Missing proof remains a named blocker or non-claim on the
-activation map.
+unbounded Memory Palace runtime completion, Unity demo proof beyond its owner
+packet, or Adaptive Learning runtime implementation. Missing proof remains a
+named blocker or non-claim on the activation map.
 
 ## Review Routing
 
@@ -55,9 +64,10 @@ The release tail must preserve documentation alignment, internal review, formal
 review, remediation, next-milestone planning/review, and release ceremony
 ordering before `v0.92` consumes this handoff. WP-16 is merged as the integrated
 quality gate; WP-17 `#5360` aligned the canonical docs to that gate; both WP-18
-internal reviews are complete and the formal milestone review remains future work. WP-21
-owns the exact v0.92 handoff and must consume the WP-16 evidence and any WP-17
-updates rather than relying on older planning-only text.
+internal reviews are complete; WP-19 external review findings and WP-20
+remediation are retained through merged PR #5806. WP-21 owns the exact v0.92
+handoff and must consume those release-tail inputs rather than relying on older
+planning-only text.
 
 Future v0.91.8 WP-21A `#5355` prepares next-milestone handoff/review alignment
 through
