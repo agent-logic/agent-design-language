@@ -5,7 +5,7 @@
   "initialization_digest": "49dd51058366e60d5fb9ca712cb57e8db94cf86b4f1be8d6dc61eb0ac220a0c5",
   "phase": "implemented",
   "generation": 10,
-  "digest": "8beb9bd80ac3fa8ddedbeb77b243da49e5961a7822de4a213edfd9359c99c653",
+  "digest": "6e7bcebdd5f0fe0b96f45f7f0f54dbd05e33dc4464572cb480e34890e2a3db1b",
   "claim": {
     "id": "claim-5362-v0918-preparation-20260804",
     "owner": "codex:5362-preparation-owner",
@@ -23,7 +23,23 @@
     ],
     "purpose": "Prepare #5362 WP-21 feature-list and v0.92 planning-truth handoff only; consume closed/completed WP-21 sidecar evidence from current origin/main; no execution, publication, PR, product implementation, predecessor mutation, or version:v0.92 issue mutation"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:gpt-5.5:Locke",
+    "assigned_by": "codex:wp21-conductor",
+    "revision": "git-blake3:bed7af56d38af9dde3553e3ccbb4338aa522223e:e6326027830465eaa0dfbcf0ff2a00a9e5428f016ee2fc4b832c393679a6d054",
+    "scope": [
+      ".csdlc/issues/5362",
+      ".csdlc/evidence/5362",
+      ".csdlc/prepared/issues/5362",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/milestones/v0.91.8/FEATURE_PRESERVATION_CROSSWALK_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
+      "docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -59,9 +75,9 @@
       "ast_digest": "510252c5e447569ef27c87370be9e38cdb78670487be86b2702a1827c3f29aea"
     },
     "srp": {
-      "values_digest": "79519289e1a914fc12a3e37d4d55996795343116efc0fd96eb57a349141a56a2",
-      "rendered_digest": "38d6ff52e62c31fe14c23d4f779acb723f45abe2888d645e54538d52d450694b",
-      "ast_digest": "67c499edcdc614c225213c8f563acb60c8204b428f31019b00a350c7e7c96865"
+      "values_digest": "bad0cc5148a1d5037bed1b3a23a3202c944f4f3c7b3dba78d3fb4d2ec96ea195",
+      "rendered_digest": "c15865ca85b419f7c71f4ccfd0d9847c546a861ded8368c07f1eaeb22cb6e85f",
+      "ast_digest": "3bddda8c69bbf0c63be52d7b56ed08b511d19b20c32aa1623616d39d3780fb68"
     },
     "sor": {
       "values_digest": "84f43d4b37f363e2eff0d25dc383ff0d962e6816152fcde68f25a9cab29c3c5e",
@@ -183,6 +199,13 @@
       "actor": "codex:5362-wp21-doc-reconciliation",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:wp21-conductor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
