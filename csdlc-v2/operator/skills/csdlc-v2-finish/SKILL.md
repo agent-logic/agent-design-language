@@ -19,5 +19,5 @@ common directory. It is a rebuildable cache, not a new lifecycle record. The
 command never edits tracked cards after merge, opens a closeout PR, or removes a
 worktree.
 
-Run cleanup separately. Legacy `csdlc-closeout` remains available only for
-records that still require the old migration/repair path.
+Run cleanup separately. Historical terminal records and retained receipts are
+read-only compatibility evidence; finish never rewrites them.

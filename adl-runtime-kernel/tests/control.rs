@@ -1231,6 +1231,50 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
     assert!(response.contains("access-control-allow-origin: https://observatory.example.test"));
     assert!(response.contains("\"weather_stale\""));
 
+    let control_preflight = https_request(
+        &client,
+        address,
+        b"OPTIONS /v1/control HTTP/1.1\r\nHost: localhost\r\nOrigin: https://observatory.example.test\r\nAccess-Control-Request-Method: POST\r\nAccess-Control-Request-Headers: content-type\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(control_preflight.starts_with("HTTP/1.1 204 No Content"));
+    assert!(
+        control_preflight.contains("access-control-allow-origin: https://observatory.example.test")
+    );
+    assert!(control_preflight.contains("access-control-allow-methods: POST"));
+    assert!(control_preflight.contains("access-control-allow-headers: Content-Type, Authorization"));
+    assert!(control_preflight.contains("cache-control: no-store"));
+
+    let body = serde_json::to_vec(&signed(
+        &key,
+        "browser-control-read",
+        ControlAction::Snapshot,
+    ))
+    .unwrap();
+    let control_request = format!(
+        "POST /v1/control HTTP/1.1\r\nHost: localhost\r\nOrigin: https://observatory.example.test\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
+        body.len(),
+        String::from_utf8(body).unwrap()
+    );
+    let control_response = https_request(&client, address, control_request.as_bytes()).await;
+    assert!(control_response.starts_with("HTTP/1.1 200 OK"));
+    assert!(
+        control_response.contains("access-control-allow-origin: https://observatory.example.test")
+    );
+    assert!(control_response.contains("cache-control: no-store"));
+    assert!(control_response.contains(adl_runtime_kernel::CONTROL_RESPONSE_SCHEMA));
+
+    let invalid_control_response = https_request(
+        &client,
+        address,
+        b"POST /v1/control HTTP/1.1\r\nHost: localhost\r\nOrigin: https://observatory.example.test\r\nContent-Type: application/json\r\nContent-Length: 1\r\nConnection: close\r\n\r\n{",
+    )
+    .await;
+    assert!(invalid_control_response.starts_with("HTTP/1.1 400 Bad Request"));
+    assert!(invalid_control_response
+        .contains("access-control-allow-origin: https://observatory.example.test"));
+    assert!(invalid_control_response.contains("adl.runtime.control_error.v1"));
+
     let response = https_request(
         &client,
         address,
@@ -1239,6 +1283,15 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
     .await;
     assert!(response.starts_with("HTTP/1.1 403 Forbidden"));
     assert!(!response.contains("access-control-allow-origin"));
+
+    let forbidden_control = https_request(
+        &client,
+        address,
+        b"POST /v1/control HTTP/1.1\r\nHost: localhost\r\nOrigin: https://other.example.test\r\nContent-Type: application/json\r\nContent-Length: 1\r\nConnection: close\r\n\r\n{",
+    )
+    .await;
+    assert!(forbidden_control.starts_with("HTTP/1.1 403 Forbidden"));
+    assert!(!forbidden_control.contains("access-control-allow-origin"));
 
     server.abort();
 }

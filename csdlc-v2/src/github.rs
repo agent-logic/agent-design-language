@@ -169,11 +169,6 @@ impl GithubActionResult {
         self.producer_digest = Some(self.content_digest()?);
         Ok(self)
     }
-
-    #[cfg(test)]
-    pub(crate) fn seal_for_test(self) -> crate::Result<Self> {
-        self.seal_producer()
-    }
 }
 
 pub async fn execute_github_action(

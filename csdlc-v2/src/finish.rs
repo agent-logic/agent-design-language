@@ -1,19 +1,47 @@
 use std::fs::{self, File, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
+use std::time::{SystemTime, UNIX_EPOCH};
 
 use fs2::FileExt;
+use octocrab::params::pulls::MergeMethod as OctoMergeMethod;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
+use strum::{AsRefStr, Display, EnumString};
 
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::git::{self, clean_commit_revision};
-use crate::github::PrStatePacket;
-use crate::merge::{MergeMethod, MergeRequest};
+use crate::github::{
+    collect_pr_state, execute_github_action, GithubAction, GithubActionRequest, GithubIssuePacket,
+    PrStatePacket, PrStateRequest,
+};
+use crate::github_token;
 use crate::model::{IssueRecord, LifecyclePhase};
+use crate::store::Store;
 
 pub const NO_PR_APPROVAL_LABEL: &str = "closeout:no-pr-approved";
 const MUTABLE_TERMINAL_FRESHNESS_SECONDS: u64 = 300;
+
+#[derive(
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    Serialize,
+    Deserialize,
+    JsonSchema,
+    Display,
+    EnumString,
+    AsRefStr,
+)]
+#[serde(rename_all = "snake_case")]
+#[strum(serialize_all = "snake_case")]
+pub enum MergeMethod {
+    Merge,
+    Squash,
+    Rebase,
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
@@ -80,6 +108,217 @@ pub struct FinishResult {
     pub schema: String,
     pub terminal: DerivedTerminalEnvelope,
     pub already_terminal: bool,
+}
+
+/// Execute the complete terminal operation. The remote merge primitive is kept
+/// private so no caller can merge without exact-head validation, live terminal
+/// re-observation, and derived-envelope retention.
+pub async fn execute_finish(root: &Path, request: &FinishRequest) -> Result<FinishResult> {
+    let store = Store::new(root);
+    let _authority_lock = store.authority_projection_lock(request.issue)?;
+    let record = store.load_record(request.issue)?;
+    validate_canonical_identity(&record, request)?;
+    validate_publication_head_in_repo(store.root(), &record, request)?;
+
+    let issue = read_issue(request).await?;
+    let observation = issue_observation(issue, now_unix_seconds()?);
+    let packet = match request.pull_request {
+        Some(pull_request) => Some(
+            collect_pr_state(&PrStateRequest {
+                repository: request.repository.clone(),
+                pull_request,
+                required_checks: request.required_checks.clone(),
+                require_review: request.require_review,
+                token_file: request.token_file.clone(),
+                linked_issue: Some(request.issue),
+            })
+            .await?,
+        ),
+        None => None,
+    };
+
+    if let Some(terminal) = derive_terminal(&record, request, &observation, packet.as_ref())? {
+        retain_cached_terminal(store.root(), &terminal)?;
+        return Ok(FinishResult {
+            schema: "csdlc.finish_result.v1".into(),
+            terminal,
+            already_terminal: true,
+        });
+    }
+
+    let state = packet.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "issue is open and has no PR terminal authority",
+        )
+    })?;
+    validate_finish_merge_authority(store.root(), &record, request, now_unix_seconds()?)?;
+    validate_remote_merge(state, request)?;
+    let token = github_token::resolve(request.token_file.as_deref())?;
+    execute_remote_merge(request, token).await?;
+
+    let observed_issue = issue_observation(read_issue(request).await?, now_unix_seconds()?);
+    let observed_pr = collect_pr_state(&PrStateRequest {
+        repository: request.repository.clone(),
+        pull_request: request.pull_request.expect("validated PR finish request"),
+        required_checks: request.required_checks.clone(),
+        require_review: request.require_review,
+        token_file: request.token_file.clone(),
+        linked_issue: Some(request.issue),
+    })
+    .await?;
+    let terminal = derive_terminal(&record, request, &observed_issue, Some(&observed_pr))?
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "merge returned success but GitHub did not re-observe terminal PR state",
+            )
+        })?;
+    retain_cached_terminal(store.root(), &terminal)?;
+    Ok(FinishResult {
+        schema: "csdlc.finish_result.v1".into(),
+        terminal,
+        already_terminal: false,
+    })
+}
+
+fn validate_remote_merge(packet: &PrStatePacket, request: &FinishRequest) -> Result<()> {
+    if packet.repository != request.repository
+        || Some(packet.pull_request) != request.pull_request
+        || packet.draft
+        || packet.merge_state != "clean"
+        || packet.base_ref.as_deref() != request.base.as_deref()
+        || Some(packet.head_sha.as_str()) != request.expected_head_sha.as_deref()
+        || packet.classification != "ready"
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "remote PR is not the exact clean finish target",
+        ));
+    }
+    for required in &request.required_checks {
+        let check = packet
+            .checks
+            .iter()
+            .find(|check| &check.name == required)
+            .ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    format!("required check {required} is missing"),
+                )
+            })?;
+        if check.conclusion != "success" {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!("required check {required} is {}", check.conclusion),
+            ));
+        }
+    }
+    if request.require_review && packet.review_decision != "approved" {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "required review approval is missing",
+        ));
+    }
+    Ok(())
+}
+
+async fn execute_remote_merge(request: &FinishRequest, token: String) -> Result<()> {
+    let (owner, repo) = request
+        .repository
+        .split_once('/')
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "repository must be owner/name"))?;
+    let pull_request = request.pull_request.expect("validated PR finish request");
+    let expected_head_sha = request
+        .expected_head_sha
+        .as_deref()
+        .expect("validated PR finish request");
+    let client = octocrab::Octocrab::builder()
+        .personal_token(token)
+        .build()
+        .map_err(remote_merge_error)?;
+    let pr = client
+        .pulls(owner, repo)
+        .get(pull_request)
+        .await
+        .map_err(remote_merge_error)?;
+    if pr.head.as_ref().map(|head| head.sha.as_str()) != Some(expected_head_sha) {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "PR head changed before finish merge",
+        ));
+    }
+    if pr.merged == Some(true) || pr.merged_at.is_some() {
+        return Ok(());
+    }
+    let response = client
+        .pulls(owner, repo)
+        .merge(pull_request)
+        .sha(expected_head_sha)
+        .method(match request.merge_method {
+            MergeMethod::Merge => OctoMergeMethod::Merge,
+            MergeMethod::Squash => OctoMergeMethod::Squash,
+            MergeMethod::Rebase => OctoMergeMethod::Rebase,
+        })
+        .send()
+        .await
+        .map_err(remote_merge_error)?;
+    if !response.merged {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "GitHub did not merge the pull request",
+        ));
+    }
+    Ok(())
+}
+
+async fn read_issue(request: &FinishRequest) -> Result<GithubIssuePacket> {
+    execute_github_action(&GithubActionRequest {
+        repository: request.repository.clone(),
+        action: GithubAction::IssueRead,
+        operation_key: None,
+        token_file: request.token_file.clone(),
+        issue: Some(request.issue),
+        pull_request: None,
+        title: None,
+        body: None,
+        labels: Vec::new(),
+        assignees: Vec::new(),
+        milestone: None,
+        state: None,
+        comment_body: None,
+        required_checks: Vec::new(),
+        require_review: false,
+        linked_issue: None,
+    })
+    .await?
+    .issue
+    .ok_or_else(|| V2Error::new(ErrorCode::RemoteFailure, "issue read returned no issue"))
+}
+
+fn issue_observation(
+    issue: GithubIssuePacket,
+    observed_unix_seconds: u64,
+) -> IssueTerminalObservation {
+    IssueTerminalObservation {
+        state: issue.state,
+        labels: issue.labels,
+        observed_unix_seconds,
+    }
+}
+
+fn now_unix_seconds() -> Result<u64> {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|duration| duration.as_secs())
+        .map_err(|error| V2Error::new(ErrorCode::InvalidClaim, error.to_string()))
+}
+
+fn remote_merge_error(error: octocrab::Error) -> V2Error {
+    V2Error::new(
+        ErrorCode::RemoteFailure,
+        format!("GitHub finish merge failed: {error}"),
+    )
 }
 
 pub fn validate_request(request: &FinishRequest) -> Result<()> {
@@ -372,28 +611,6 @@ fn claim_worktree_matches_root(root: &Path, claim: &crate::model::Claim) -> Resu
         .and_then(|expected| expected.canonicalize().ok())
         .zip(root.canonicalize().ok())
         .is_some_and(|(expected, current)| expected == current))
-}
-
-pub fn as_merge_request(request: &FinishRequest) -> Result<MergeRequest> {
-    Ok(MergeRequest {
-        schema: "csdlc.merge_request.v1".into(),
-        issue: request.issue,
-        expected_generation: request.expected_generation,
-        expected_digest: request.expected_digest.clone(),
-        claim_id: request.claim_id.clone(),
-        actor: request.actor.clone(),
-        repository: request.repository.clone(),
-        pull_request: request.pull_request.ok_or_else(|| {
-            V2Error::new(ErrorCode::InvalidInput, "merge requires a pull request")
-        })?,
-        base: request.base.clone().unwrap_or_default(),
-        head: request.head.clone().unwrap_or_default(),
-        expected_head_sha: request.expected_head_sha.clone().unwrap_or_default(),
-        merge_method: request.merge_method,
-        required_checks: request.required_checks.clone(),
-        require_review: request.require_review,
-        token_file: request.token_file.clone(),
-    })
 }
 
 pub fn derive_terminal(

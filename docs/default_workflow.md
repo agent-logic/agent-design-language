@@ -16,9 +16,8 @@ binaries and operator skills under `csdlc-v2/`:
    idempotent and never creates a second closeout PR or rewrites tracked cards
    after merge.
 
-`csdlc-closeout` is retained only for legacy terminal-record migration and
-repair. Safe worktree cleanup is a separate operation and is never a side
-effect of finish.
+There is no separate closeout writer or terminal-reconciliation command. Safe
+worktree cleanup is a separate operation and is never a side effect of finish.
 
 Use `csdlc-clean cleanup` with a typed request to classify or non-forcibly
 remove one exact registered issue worktree. Dirty, missing, relocated, primary,

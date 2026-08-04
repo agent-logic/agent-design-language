@@ -3166,6 +3166,34 @@ memory: {}
     }
 
     #[test]
+    fn runtime_api_advertised_endpoints_resolve_through_local_dispatch() {
+        let root = temp_root("advertised-endpoints");
+        let options = test_options(&root);
+
+        for endpoint in CSM_RUNTIME_API_ENDPOINTS {
+            let response = runtime_api_response(&options, endpoint).unwrap();
+            assert_ne!(
+                response.get("status").and_then(Value::as_str),
+                Some("not_found"),
+                "advertised endpoint {endpoint} must resolve through local CSM dispatch"
+            );
+        }
+
+        let unknown = runtime_api_response(&options, "/definitely-not-mounted").unwrap();
+        assert_eq!(
+            unknown.get("status").and_then(Value::as_str),
+            Some("not_found")
+        );
+        assert_eq!(
+            unknown
+                .get("supported_endpoints")
+                .and_then(Value::as_array)
+                .map(Vec::len),
+            Some(CSM_RUNTIME_API_ENDPOINTS.len())
+        );
+    }
+
+    #[test]
     fn runtime_api_rejects_mutating_admission_while_shutdown_is_quiesced() {
         let root = temp_root("shutdown-quiesced");
         let options = test_options(&root);

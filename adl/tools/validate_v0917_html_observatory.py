@@ -720,7 +720,8 @@ def main() -> int:
     assert_contains("HTML dashboard real runtime refresh", html, 'id="dashboard-refresh-live"')
     assert_contains("HTML dashboard real runtime stop", html, 'id="dashboard-stop-live"')
     assert_contains("HTML Runtime v3 opt-in port", html, "20997")
-    assert_contains("HTML Runtime v3 explicit opt-in query", html, "runtime=v3&runtimeApiBase=https://localhost:20997")
+    assert_contains("HTML Runtime v3 default config", html, "runtime-v3.config.json")
+    assert_contains("HTML Runtime v3 control endpoint", html, "/v1/control")
     assert_contains("HTML dashboard communication inspector", html, 'id="hero-communication-status"')
     assert_contains("HTML dashboard status bar", html, 'class="dashboard-statusbar"')
     assert_contains("HTML topbar capture time field", html, "Capture Time")
@@ -762,7 +763,8 @@ def main() -> int:
     assert_contains("HTML CSM API section", html, "CSM local control plane")
     assert_contains("HTML CloudWatch section", html, "CloudWatch heartbeat")
     assert_contains("HTML AWS linkages section", html, "AWS runtime linkages")
-    assert_contains("HTML communication section", html, "ACIP event channel")
+    assert_contains("HTML communication section", html, "Runtime command channel")
+    assert_contains("HTML Runtime v3 signed command result", html, "Paste a signed command to submit through Runtime v3 /v1/control")
     assert_contains("HTML communication input", html, 'id="runtime-api-base"')
     assert_contains("HTML communication proof list", html, 'id="communication-proof-list"')
     if '<option value="cloudwatch">CloudWatch heartbeat</option>' in html:
@@ -802,12 +804,16 @@ def main() -> int:
     assert_contains("JS Runtime v3 config fallback", js, f'root?.dataset.runtimeV3ConfigRef || "{RUNTIME_V3_CONFIG_REF}"')
     if runtime_v3_config.get("schema") != "adl.html_observatory.runtime_v3_config.v1":
       fail("Runtime v3 Observatory config schema mismatch")
+    if runtime_v3_config.get("api_base") != "https://localhost:20997":
+      fail("Runtime v3 Observatory config must declare the trusted https://localhost:20997 API base")
     if runtime_v3_config.get("observatory_endpoint") != "/v1/observatory":
       fail("Runtime v3 Observatory config must declare /v1/observatory")
     if runtime_v3_config.get("readiness_endpoint") != "/v1/ready":
       fail("Runtime v3 Observatory config must declare /v1/ready")
     if runtime_v3_config.get("observatory_websocket_endpoint") != "/v1/observatory/ws":
       fail("Runtime v3 Observatory config must declare /v1/observatory/ws")
+    if runtime_v3_config.get("signed_command_endpoint") != "/v1/control":
+      fail("Runtime v3 Observatory config must declare /v1/control for signed commands")
     assert_contains("JS Runtime v3 observatory schema", js, 'RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2"')
     assert_contains("JS trusted Runtime v3 origin normalizer", js, "normalizeTrustedRuntimeV3ApiBase")
     assert_contains("JS trusted Runtime v3 localhost port", js, 'parsed.port !== "20997"')
@@ -816,6 +822,7 @@ def main() -> int:
     assert_contains("JS retained generation guard", js, "refreshRetained = async (extraErrors = {}, requestGeneration = nextLiveGeneration())")
     assert_not_contains("JS public Runtime v3 reads omit bearer authentication", js, "Authorization: `Bearer ${readToken}`")
     assert_contains("JS Runtime v3 write login", js, "authenticateRuntimeV3ObservatorySocket")
+    assert_contains("JS Runtime v3 signed command POST", js, "submitRuntimeV3SignedControlCommand")
     assert_contains("JS Runtime v3 login result handling", js, 'frame.status === "authenticated"')
     assert_contains("JS Runtime v3 signed command send", js, 'liveSocket.send(JSON.stringify(command))')
     assert_contains("HTML Runtime v3 write login", html, 'id="operator-login"')
