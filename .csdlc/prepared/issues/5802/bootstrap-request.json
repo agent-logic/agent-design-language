@@ -1,0 +1,194 @@
+{
+  "issue": 5802,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5802/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5802/diagram.mmd",
+  "design_reviewer": "operator:user-approved-v0.92-fix",
+  "design_approved": true,
+  "claim": {
+    "id": "claim-5802-drive-recursive-mirror",
+    "owner": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
+    "generation": 0,
+    "acquired_unix_seconds": 1785807507,
+    "expires_unix_seconds": 1785893907,
+    "heartbeat_unix_seconds": 1785807507,
+    "branch": "codex/5802-drive-recursive-mirror",
+    "worktree": ".",
+    "protected_paths": [
+      "adl/src/adl_gws_context_mirror.rs",
+      "adl/src/adl_gws_drive_sync.rs",
+      "adl/src/adl_gws_native.rs",
+      "adl/src/bin/demo_adl_gws_context_mirror.rs",
+      "docs/tooling/ADL_GOOGLE_DRIVE_CONTEXT_MIRROR_RUNBOOK.md",
+      "docs/reviews/v0.92/google-drive-context-mirror-5802"
+    ],
+    "purpose": "Complete and prove the full recursive ADL Drive context mirror deployment"
+  },
+  "initial": {
+    "title": "[v0.92][google-workspace][deployment] Complete recursive ADL Drive context mirror",
+    "slug": "drive-recursive-mirror",
+    "version": "v0.92",
+    "goal": "Populate and verify the complete current Drive mirror for docs and .adl/docs/TBD, including the CodeFriend corpus.",
+    "required_outcome": "The configured Drive mirror reports recursive_live and every generator-selected Markdown file verifies at its repository-relative path with exact bytes.",
+    "declared_scope": [
+      "adl/src/adl_gws_context_mirror.rs",
+      "adl/src/adl_gws_drive_sync.rs",
+      "adl/src/adl_gws_native.rs",
+      "adl/src/bin/demo_adl_gws_context_mirror.rs",
+      "docs/tooling/ADL_GOOGLE_DRIVE_CONTEXT_MIRROR_RUNBOOK.md",
+      "docs/reviews/v0.92/google-drive-context-mirror-5802",
+      "Configured ADL Google Drive root and seed folder",
+      "Scheduled sync-adl-google-drive-context-mirror automation"
+    ],
+    "authority_boundary": [
+      "The repository is canonical and Drive is a read-oriented mirror",
+      "Issue #5802 owns the full recursive deployment acceptance missing from #5587",
+      "Drive writes are create-or-update only; deletion and unrelated moves are forbidden",
+      "Credential material remains outside the repository and outside retained evidence"
+    ],
+    "task_boundary": "Bind approved credentials, run the existing full recursive mirror, repair only observed in-scope defects, independently verify the complete Drive projection, and enable the schedule only after acceptance.",
+    "deliverables": [
+      "Successful native recursive execute report",
+      "Exact inventory and readback acceptance evidence",
+      "Verified 16-file CodeFriend Drive subtree",
+      "Truthful schedule enablement decision",
+      "Bounded code or runbook repair only if live execution exposes a defect"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Current Drive .adl/docs/TBD is recursively populated and listable",
+      "AC-2: All 16 CodeFriend files exist exactly once at the expected path and match repository bytes",
+      "AC-3: Every generator-selected Markdown file verifies by parent, identity, MIME, listing, and exact content digest",
+      "AC-4: The native report is recursive_live with zero skipped or unverified results",
+      "AC-5: No remote deletion, unrelated move, duplicate sibling, or credential exposure occurs",
+      "AC-6: The automation remains paused on failure and is enabled only after full acceptance"
+    ],
+    "dependencies": [
+      "Issue #5802 is open",
+      "PR #5626 recursive implementation is present on current main",
+      "An operator-approved Google credential source is available outside the repository",
+      "The Google Drive connector can independently list and fetch the bounded mirror"
+    ],
+    "repo_inputs": [
+      "Issue #5802",
+      "Issue #5587 and PR #5626",
+      "adl/src/adl_gws_context_mirror.rs",
+      "adl/src/adl_gws_drive_sync.rs",
+      "adl/src/adl_gws_native.rs",
+      "adl/src/bin/demo_adl_gws_context_mirror.rs",
+      "docs/tooling/ADL_GOOGLE_DRIVE_CONTEXT_MIRROR_RUNBOOK.md",
+      ".adl/docs/TBD/codefriend_ai"
+    ],
+    "non_goals": [
+      "Do not make Drive canonical",
+      "Do not import Drive edits into the repository",
+      "Do not delete remote files",
+      "Do not broaden Google permissions",
+      "Do not use AWS or Spot"
+    ],
+    "plan_summary": "Prove current failure, bind approved credentials, execute the full native mirror, repair only real in-scope defects, verify the complete projection independently, and publish retained deployment acceptance.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Establish the exact repository inventory, installed binary provenance, Drive bindings, and credential source label without exposing secrets",
+        "status": "pending",
+        "acceptance_ids": ["AC-3", "AC-5"]
+      },
+      {
+        "id": "S2",
+        "action": "Run the native recursive mirror and repair only observed bounded defects",
+        "status": "pending",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"]
+      },
+      {
+        "id": "S3",
+        "action": "Independently verify Drive paths and exact bytes, retain acceptance evidence, and decide schedule enablement",
+        "status": "pending",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      },
+      {
+        "id": "S4",
+        "action": "Review, publish, shepherd, finish, and clean through typed C-SDLC v2",
+        "status": "pending",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "risks": [
+      "The approved credential may lack access to the existing bounded root",
+      "A large initial tree upload may expose API quota or retry defects",
+      "Existing partial paths could contain ambiguous duplicate siblings",
+      "The connector may not provide a bulk independent byte-verification primitive"
+    ],
+    "invariants": [
+      "Repository bytes and installed generator selection are authoritative",
+      "No success claim from seeds, index metadata, fixtures, dry runs, or partial recursion",
+      "No credential bytes in output, artifacts, logs, commits, or comments",
+      "No tracked edits on main"
+    ],
+    "stop_conditions": [
+      "Credential binding resolves outside the operator-approved source",
+      "Any operation would delete or move unrelated remote content",
+      "The target root or seed folder identity differs from the declared binding",
+      "A protected-path collision is detected"
+    ],
+    "review_prompts": [
+      "Does the evidence prove every selected recursive file rather than only seeds or samples?",
+      "Are the 16 CodeFriend files exact, unique, and in the current canonical TBD subtree?",
+      "Can any reported success occur without exact content readback?",
+      "Were credentials and unrelated Drive content protected?",
+      "Was schedule activation gated on complete acceptance?"
+    ],
+    "operator_constraints": [
+      "Typed C-SDLC v2 only",
+      "Issue-bound worktree only",
+      "No AWS or Spot",
+      "One bounded subagent review before PR publication",
+      "Keep the automation paused until complete acceptance"
+    ],
+    "review_scope": "adl/src/adl_gws_context_mirror.rs\nadl/src/adl_gws_drive_sync.rs\nadl/src/adl_gws_native.rs\nadl/src/bin/demo_adl_gws_context_mirror.rs\ndocs/tooling/ADL_GOOGLE_DRIVE_CONTEXT_MIRROR_RUNBOOK.md\ndocs/reviews/v0.92/google-drive-context-mirror-5802",
+    "planning_profile": "large",
+    "validation_lanes": [
+      {
+        "lane": "native-recursive-live",
+        "proof_role": "Prove complete authenticated recursive create-or-update and exact post-write verification",
+        "deterministic": false,
+        "resource_profile": "medium",
+        "parallel_group": "live-drive",
+        "budget_seconds": 3600,
+        "budget_tokens": 4000,
+        "argv": [
+          "adl-gws-context-mirror",
+          "--repo-root",
+          ".",
+          "--drive-root-folder-id",
+          "1BmGQeRK-W2_CUWy2I_r59iAMrWEtSq19",
+          "--drive-seed-folder-id",
+          "1T66xWxk6v2LG3MFRzRiMRfQnqOZSu04Z"
+        ],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"]
+      },
+      {
+        "lane": "independent-drive-readback",
+        "proof_role": "Verify canonical folder topology, uniqueness, inventory count, and exact CodeFriend content",
+        "deterministic": false,
+        "resource_profile": "medium",
+        "parallel_group": "readback",
+        "budget_seconds": 1800,
+        "budget_tokens": 4000,
+        "argv": ["google-drive-connector", "list-and-fetch-exact"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-5", "AC-6"]
+      },
+      {
+        "lane": "focused-mirror-contracts",
+        "proof_role": "Prove local recursive, auth failure, ambiguity, and exact-readback contracts if code changes",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local-contracts",
+        "budget_seconds": 600,
+        "budget_tokens": 2500,
+        "argv": ["cargo", "test", "--manifest-path", "adl/Cargo.toml", "adl_gws_context_mirror"],
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5"]
+      }
+    ],
+    "failure_policy": "Fail closed on authentication, scope, listing, ambiguity, upload, readback, digest, or recursion mismatch; retain one actionable failure and keep the schedule paused."
+  }
+}

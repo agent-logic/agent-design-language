@@ -1,0 +1,7 @@
+flowchart LR
+  R["Canonical repository Markdown"] --> G["Installed recursive mirror generator"]
+  G --> N["Native authenticated Drive transport"]
+  N --> D["Bound Drive root"]
+  D --> V["Listing, parent, MIME, identity, and byte verification"]
+  V --> A["Recursive-live acceptance"]
+  V --> F["Fail closed and keep automation paused"]

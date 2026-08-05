@@ -88,8 +88,23 @@ pub trait WorkspaceAccessTokenProvider: Send + Sync {
     async fn access_token(&self, scopes: &[&str]) -> Result<(String, WorkspaceAuthContext)>;
 }
 
-#[derive(Debug, Default, Clone, Copy)]
-pub struct DefaultWorkspaceAccessTokenProvider;
+#[derive(Clone, Default)]
+pub struct DefaultWorkspaceAccessTokenProvider {
+    authenticator:
+        std::sync::Arc<tokio::sync::OnceCell<yup_oauth2::authenticator::DefaultAuthenticator>>,
+}
+
+impl std::fmt::Debug for DefaultWorkspaceAccessTokenProvider {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("DefaultWorkspaceAccessTokenProvider")
+            .field(
+                "authenticator_initialized",
+                &self.authenticator.initialized(),
+            )
+            .finish()
+    }
+}
 
 #[derive(Debug)]
 enum WorkspaceCredential {
@@ -113,8 +128,21 @@ impl WorkspaceAccessTokenProvider for DefaultWorkspaceAccessTokenProvider {
             }
         }
 
-        let credentials = load_workspace_credentials().await?;
-        let token = get_token_from_credentials(scopes, credentials).await?;
+        let authenticator = self
+            .authenticator
+            .get_or_try_init(|| async {
+                let credentials = load_workspace_credentials().await?;
+                build_authenticator_from_credentials(credentials).await
+            })
+            .await?;
+        let token = authenticator
+            .token(scopes)
+            .await
+            .context("fetch oauth token")?;
+        let token = token
+            .token()
+            .ok_or_else(|| anyhow!("workspace token missing access token"))?
+            .to_string();
         Ok((
             token,
             WorkspaceAuthContext {
@@ -302,32 +330,21 @@ fn adc_well_known_path() -> Option<PathBuf> {
     })
 }
 
-async fn get_token_from_credentials(
-    scopes: &[&str],
+async fn build_authenticator_from_credentials(
     credentials: WorkspaceCredential,
-) -> Result<String> {
+) -> Result<yup_oauth2::authenticator::DefaultAuthenticator> {
     match credentials {
         WorkspaceCredential::AuthorizedUser(secret) => {
-            let auth = yup_oauth2::AuthorizedUserAuthenticator::builder(secret)
+            yup_oauth2::AuthorizedUserAuthenticator::builder(secret)
                 .build()
                 .await
-                .context("build authorized user authenticator")?;
-            let token = auth.token(scopes).await.context("fetch oauth token")?;
-            Ok(token
-                .token()
-                .ok_or_else(|| anyhow!("authorized-user token missing access token"))?
-                .to_string())
+                .context("build authorized user authenticator")
         }
         WorkspaceCredential::ServiceAccount(secret) => {
-            let auth = yup_oauth2::ServiceAccountAuthenticator::builder(secret)
+            yup_oauth2::ServiceAccountAuthenticator::builder(secret)
                 .build()
                 .await
-                .context("build service account authenticator")?;
-            let token = auth.token(scopes).await.context("fetch service token")?;
-            Ok(token
-                .token()
-                .ok_or_else(|| anyhow!("service-account token missing access token"))?
-                .to_string())
+                .context("build service account authenticator")
         }
     }
 }

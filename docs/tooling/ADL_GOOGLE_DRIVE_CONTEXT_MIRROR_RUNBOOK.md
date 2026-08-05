@@ -10,10 +10,11 @@ Install the current owner binaries through the repository installer, then run fr
 ADL_GWS_LIVE_MODE=execute \
 ADL_GWS_WRITE_APPROVAL=approved \
 ADL_GWS_RECURSIVE_SYNC=enabled \
+ADL_GWS_CREDENTIALS_FILE="$HOME/keys/gcp-adl-drive-mirror-authorized-user.json" \
 .adl/bin/adl-gws-context-mirror \
   --repo-root "$PWD" \
-  --drive-root-folder-id 1BmGQeRK-W2_CUWy2I_r59iAMrWEtSq19 \
-  --drive-seed-folder-id 1T66xWxk6v2LG3MFRzRiMRfQnqOZSu04Z
+  --drive-root-folder-id 1IrNmsxyDLBD0d2jk5f9GiaTCsVm86BAx \
+  --drive-seed-folder-id 1aIoNRhGlhZLjfM_WOPYmkjIbvWBajTz0
 ```
 
 Execute mode selects `NativeWorkspaceDriveTransport`; fixture and dry-run modes select the in-memory transport. Execute mode does not substitute demo folder IDs. The command exits unsuccessfully if its report is empty, skipped, or contains any unverified result.
@@ -21,6 +22,8 @@ Execute mode selects `NativeWorkspaceDriveTransport`; fixture and dry-run modes 
 Before any Drive request, the command regenerates all four seed files from the current checkout. The generated sync index records every selected Markdown path and its SHA-256 digest, and the current-state packet derives its milestone truth from the repository README and activation ledger. Seed generation failure writes the durable failure report and prevents all Drive mutation; a stale ignored staging directory is never accepted as current input.
 
 By default, execute mode recursively mirrors regular Markdown files below `docs/` and `.adl/docs/TBD/`. It preserves repository-relative folders under the configured Drive root. Symlinks, ambiguous same-name Drive children, parent-chain escapes, API failures, and content mismatches fail closed.
+
+Folder preparation and file synchronization use bounded concurrency. Set `ADL_GWS_CONTEXT_MIRROR_CONCURRENCY` to tune the request width; the default is 16 and values are clamped to 1 through 32. Results are sorted back into deterministic repository order before the report is written. The native token provider builds its OAuth authenticator once per process, then relies on the authenticator's token cache and refresh-token flow rather than rebuilding credentials for every Drive request.
 
 ## Credentials and scopes
 
@@ -76,7 +79,7 @@ Do not induce live failures by corrupting production Drive files or credentials.
 
 ## Scheduled Codex automation
 
-Automation `sync-adl-google-drive-context-mirror` stays paused until one live write plus list/content readback succeeds. Its task contract is:
+Automation `sync-adl-google-drive-context-mirror` may run only against the company-owned root and seed IDs shown above, using the approved company credential file. It stays paused until one complete recursive live write plus independent list/content readback succeeds. Its task contract is:
 
 - archive the Codex task only after all four seed results and all selected recursive results are verified and no warning or follow-up remains;
 - leave one concise actionable task unarchived for any unresolved failure;

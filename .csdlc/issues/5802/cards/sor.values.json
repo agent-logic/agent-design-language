@@ -1,0 +1,63 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5802,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][google-workspace][deployment] Complete recursive ADL Drive context mirror",
+    "slug": "drive-recursive-mirror",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Completed and accepted the recursive Agent Logic company Drive mirror with cached OAuth, bounded concurrency, exact live verification, retained evidence, and active daily refresh automation.",
+      "actual_changes": [
+        "Cache the OAuth authenticator once per mirror process",
+        "Prepare Drive folders and synchronize files with bounded concurrency while retaining deterministic report order",
+        "Retain redacted auth source and scope evidence in the context mirror report",
+        "Bind the runbook, VPP, issue, and automation to the company Drive root only",
+        "Retain exact native and independent acceptance evidence"
+      ],
+      "artifacts": [
+        ".csdlc/evidence/5802/drive-mirror-acceptance.json",
+        ".csdlc/evidence/5802/independent-readback.json",
+        ".csdlc/evidence/5802/final-native-report.json.gz",
+        "docs/tooling/ADL_GOOGLE_DRIVE_CONTEXT_MIRROR_RUNBOOK.md"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--offline",
+            "adl_gws_context_mirror"
+          ],
+          "purpose": "Prove recursive path preparation, deterministic concurrency bounds/order, and exact content contracts",
+          "outcome": "passed",
+          "evidence_ref": "focused-mirror-contracts.log"
+        },
+        {
+          "command": [
+            "jq",
+            "-e",
+            ".native_reports[-1].recursive_mirror_status == \"recursive_live\" and .native_reports[-1].verification_failures == 0 and .independent_readback.verified == true and .independent_readback.codefriend_count == 16 and .automation.status == \"ACTIVE\" and .automation.company_root_only == true and .safety.personal_drive_operations_after_company_boundary == 0",
+            ".csdlc/evidence/5802/drive-mirror-acceptance.json"
+          ],
+          "purpose": "Validate retained recursive-live, exact-readback, auth, and automation acceptance truth",
+          "outcome": "passed",
+          "evidence_ref": "retained-live-acceptance.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

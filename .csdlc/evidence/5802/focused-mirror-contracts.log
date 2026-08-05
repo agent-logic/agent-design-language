@@ -1,0 +1,262 @@
+
+running 12 tests
+test adl_gws_context_mirror::tests::context_seed_file_names_match_expected_surface ... ok
+test adl_gws_context_mirror::tests::context_mirror_concurrency_is_bounded_and_defaults_safely ... ok
+test adl_gws_context_mirror::tests::default_context_mirror_config_uses_repo_local_staging_dir ... ok
+test adl_gws_context_mirror::tests::recursive_status_reflects_seed_only_vs_pending_truthfully ... ok
+test adl_gws_context_mirror::tests::milestone_detection_can_advance_past_v0916 ... ok
+test adl_gws_context_mirror::tests::milestone_truth_reads_current_repo_story ... ok
+test adl_gws_context_mirror::tests::recursive_mirror_rejects_a_symlink_declared_root ... ok
+test adl_gws_context_mirror::tests::context_mirror_missing_bindings_reports_skip ... ok
+test adl_gws_context_mirror::tests::ensure_seed_folder_within_root_rejects_missing_parent_chain ... ok
+test adl_gws_context_mirror::tests::context_mirror_recursive_pending_status_is_reported_truthfully ... ok
+test adl_gws_context_mirror::tests::context_mirror_dry_run_report_is_machine_readable ... ok
+test adl_gws_context_mirror::tests::execute_mode_recursively_mirrors_markdown_with_verified_content ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 1923 filtered out; finished in 0.05s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 222 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 51 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 30 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 108 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 20 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 77 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 49 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 10 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Locking 68 packages to latest compatible versions
+      Adding adl-resilience v0.1.0 (/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5802/adl-resilience)
+      Adding adl-runtime-kernel v0.92.0 (/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5802/adl-runtime-kernel)
+      Adding adler2 v2.0.1
+      Adding allocator-api2 v0.2.21
+      Adding arbitrary v1.4.2
+      Adding arrayref v0.3.9
+      Adding arrayvec v0.7.8
+      Adding asn1-rs v0.7.2
+      Adding asn1-rs-derive v0.6.0
+      Adding asn1-rs-impl v0.2.0
+      Adding bit-vec v0.9.1
+      Adding blake3 v1.8.5
+      Adding block-buffer v0.12.1
+      Adding const-oid v0.10.2
+      Adding constant_time_eq v0.4.2
+      Adding cpufeatures v0.3.0
+      Adding crypto-common v0.2.2
+      Adding curve25519-dalek v5.0.0
+      Adding der-parser v10.0.0
+      Adding derive_arbitrary v1.4.2
+      Adding digest v0.11.3
+      Adding ed25519 v3.0.0
+      Adding ed25519-dalek v3.0.0
+      Adding fiat-crypto v0.3.0
+      Adding fixedbitset v0.5.7
+      Adding flate2 v1.1.9
+      Adding foldhash v0.2.0
+      Adding hybrid-array v0.4.14
+    Updating js-sys v0.3.85 -> v0.3.103
+      Adding lru v0.16.4
+      Adding mime_guess v2.0.5
+      Adding miniz_oxide v0.8.9
+      Adding oid-registry v0.8.1
+      Adding petgraph v0.7.1
+      Adding rcgen v0.14.8
+      Adding rust-embed v8.12.0
+      Adding rust-embed-impl v8.12.0
+      Adding rust-embed-utils v8.12.0
+      Adding rusticata-macros v4.1.0
+      Adding same-file v1.0.6
+      Adding serde_spanned v1.1.1
+      Adding sha2 v0.11.0
+      Adding signature v3.0.0
+      Adding simd-adler32 v0.3.10
+      Adding toml v0.9.12+spec-1.1.0
+      Adding toml_datetime v0.7.5+spec-1.1.0
+      Adding toml_parser v1.1.3+spec-1.1.0
+      Adding toml_writer v1.1.2+spec-1.1.0
+    Updating typenum v1.19.0 -> v1.20.1
+      Adding utoipa v5.5.0
+      Adding utoipa-gen v5.5.0
+      Adding utoipa-swagger-ui v9.0.2
+      Adding utoipa-swagger-ui-vendored v0.1.2
+      Adding walkdir v2.5.0
+    Updating wasm-bindgen v0.2.108 -> v0.2.126
+    Updating wasm-bindgen-futures v0.4.58 -> v0.4.76
+    Updating wasm-bindgen-macro v0.2.108 -> v0.2.126
+    Updating wasm-bindgen-macro-support v0.2.108 -> v0.2.126
+    Updating wasm-bindgen-shared v0.2.108 -> v0.2.126
+    Updating web-sys v0.3.85 -> v0.3.103
+      Adding winapi-util v0.1.11
+      Adding winnow v0.7.15
+      Adding winnow v1.0.4
+      Adding x509-parser v0.18.1
+      Adding yasna v0.6.0
+      Adding zip v3.0.0
+      Adding zlib-rs v0.6.7
+      Adding zopfli v0.8.3
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.09s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-8b174d1cc442b266)
+     Running unittests src/main.rs (adl/target/debug/deps/adl-b2a784b9171d312c)
+     Running unittests src/bin/adl_aws_remote_validation.rs (adl/target/debug/deps/adl_aws_remote_validation-d632c172690277af)
+     Running unittests src/bin/demo_adl_gws_context_mirror.rs (adl/target/debug/deps/adl_gws_context_mirror-8c5b99962856935b)
+     Running unittests src/bin/adl_process.rs (adl/target/debug/deps/adl_process-23fc0bd518dfe249)
+     Running unittests tools/adl_provider_adapter.rs (adl/target/debug/deps/adl_provider_adapter-3904508c134e7fd8)
+     Running unittests src/bin/adl_remote.rs (adl/target/debug/deps/adl_remote-8f36cf62217a7602)
+     Running unittests src/bin/adl_review.rs (adl/target/debug/deps/adl_review-4b217364b4402b91)
+     Running unittests src/bin/adl_runtime.rs (adl/target/debug/deps/adl_runtime-a7e10109361671c8)
+     Running unittests src/bin/csm.rs (adl/target/debug/deps/csm-9b9332d6d8ab6486)
+     Running unittests src/bin/csmctl.rs (adl/target/debug/deps/csmctl-cee682375f05f456)
+     Running unittests src/bin/demo_adl_gws_native_drive_sync.rs (adl/target/debug/deps/demo_adl_gws_native_drive_sync-d43a3eb616283c40)
+     Running unittests src/bin/run_wp08_acip_sns_live_proof.rs (adl/target/debug/deps/run_wp08_acip_sns_live_proof-8e22985f4e10b4bc)
+     Running tests/adl_tests.rs (adl/target/debug/deps/adl_tests-484a69ddad9332c5)
+     Running tests/cli_smoke.rs (adl/target/debug/deps/cli_smoke-9c85cb3bb3852d08)
+     Running tests/demo_tests.rs (adl/target/debug/deps/demo_tests-ad9ce4975ac68767)
+     Running tests/execute_tests.rs (adl/target/debug/deps/execute_tests-4be60d464b5f72db)
+     Running tests/file_inputs.rs (adl/target/debug/deps/file_inputs-7c5426d6909c44bb)
+     Running tests/helpers.rs (adl/target/debug/deps/helpers-f811e673f4ee206b)
+     Running tests/instrument_tests.rs (adl/target/debug/deps/instrument_tests-c4b809ad8bba49c5)
+     Running tests/local_ollama_provider_tests.rs (adl/target/debug/deps/local_ollama_provider_tests-65ea054055604e9e)
+     Running tests/memory_palace_tests.rs (adl/target/debug/deps/memory_palace_tests-40b8d18d5bac455f)
+     Running tests/mock_provider_tests.rs (adl/target/debug/deps/mock_provider_tests-c8dc8d6564e4ac5e)
+     Running tests/obsmem_validation_tests.rs (adl/target/debug/deps/obsmem_validation_tests-7db55e40e32fa28e)
+     Running tests/provider_tests.rs (adl/target/debug/deps/provider_tests-819d94e6064e893c)
+     Running tests/remote_ollama_provider_tests.rs (adl/target/debug/deps/remote_ollama_provider_tests-9adff3f174c33ead)
+     Running tests/resolve_tests.rs (adl/target/debug/deps/resolve_tests-22fbf94cb2d06441)
+     Running tests/schema_tests.rs (adl/target/debug/deps/schema_tests-9c1b310cb2f5f404)
+     Running tests/signing_tests.rs (adl/target/debug/deps/signing_tests-d9ab7eaa93af3da2)
+     Running tests/trace_tests.rs (adl/target/debug/deps/trace_tests-7e4bca1890a3fe08)
