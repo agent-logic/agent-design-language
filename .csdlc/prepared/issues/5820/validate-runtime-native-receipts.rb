@@ -17,6 +17,12 @@ def checked_file(path, digest, label, allow_empty: false)
   abort "#{label} digest mismatch" unless Digest::SHA256.file(path).hexdigest == digest
 end
 
+def required_digest(receipt, field, label)
+  digest = receipt[field]
+  abort "missing #{label}" if digest.to_s.empty?
+  abort "invalid #{label}" unless digest.match?(SHA256)
+end
+
 path = ARGV.fetch(0, ".csdlc/evidence/#{ISSUE}/runtime-native-receipts.json")
 abort "missing #{path}" unless File.file?(path)
 packet = JSON.parse(File.read(path))
@@ -30,6 +36,10 @@ abort "platform denominator drift" unless receipts.map { |entry| entry["platform
 receipts.each do |receipt|
   platform = receipt.fetch("platform")
   abort "stale #{platform} receipt" unless receipt["source_revision"] == head
+  required_digest(receipt, "guardian_binary_sha256", "#{platform} Guardian binary digest")
+  required_digest(receipt, "kernel_binary_sha256", "#{platform} kernel binary digest")
+  required_digest(receipt, "canonical_init_sha256", "#{platform} canonical init digest")
+  required_digest(receipt, "https_wss_transcript_sha256", "#{platform} HTTPS/WSS transcript digest")
   runner = receipt.fetch("runner")
   %w[provider run_id os arch].each { |field| abort "missing #{platform} runner #{field}" if runner[field].to_s.empty? }
   abort "invalid runner identity" unless runner["identity_sha256"].to_s.match?(SHA256)

@@ -39,9 +39,9 @@ Out of scope:
 
 1. Route `#5800` only when its issue-wave dependencies and this packet serial gates are satisfied.
 2. Route `#5820` only when its issue-wave dependencies and this packet serial gates are satisfied.
-3. Route `#5795` only when its issue-wave dependencies and this packet serial gates are satisfied.
-4. Route `#5821` only when its issue-wave dependencies and this packet serial gates are satisfied.
-5. Route `#5832` only when its issue-wave dependencies and this packet serial gates are satisfied.
+3. Route `#5821` only when its issue-wave dependencies and this packet serial gates are satisfied.
+4. Route `#5832` only when its issue-wave dependencies and this packet serial gates are satisfied.
+5. Route `#5795` only when its issue-wave dependencies and this packet serial gates are satisfied.
 6. Route `#5837` only when its issue-wave dependencies and this packet serial gates are satisfied.
 
 ## Watcher Policy
@@ -73,25 +73,24 @@ Out of scope:
 
 | Lane | Issues | Why parallel-safe | Required coordination |
 |---|---|---|---|
-| lane 1 | `#5821` | Distributed-polis architecture and security work remains in its child worktree. | Runtime ingress contracts from issue 5820 are stable |
-| lane 2 | `#5832` | Protocol work is isolated after its distributed-runtime dependency. | issue 5821 and the declared ACIP substrate and trace baselines are complete |
-| lane 3 | `#5795` | Local-provider work cannot redefine Observatory, Runtime, or WP-14 protocol contracts. | preparation may precede integration; integration waits for issues 5800 and 5820 plus WP-14 issue 5832 contract stability |
+| lane 1 | `#5800`, `#5820` | Certificate/browser work and Runtime implementation start in separate child worktrees. | WP-02A is terminal; shared init, startup, or TLS edits serialize; browser-facing Runtime proof waits for issue 5800 |
+| lane 2 | `#5795`, `#5837` | Provider and consumer integration remain separate after the shared contracts freeze. | issues 5800, 5820, and 5832 are terminal; issue 5837 also requires WP-18 |
 
 ## Candidate Parallel Lanes
 
 | Lane | Classification | Issues | Expected write sets | Dependency gate | Collision posture |
 |---|---|---|---|---|---|
-| candidate 1 | safe_parallel | `#5821` | child worktree | Runtime ingress contracts from issue 5820 are stable | collapse to serial on overlap |
-| candidate 2 | safe_parallel | `#5832` | child worktree | issue 5821 and declared protocol baselines are complete | collapse to serial on overlap |
-| candidate 3 | safe_parallel | `#5795` | child worktree | preparation may precede integration; integration waits for issues 5800 and 5820 plus WP-14 issue 5832 contract stability | collapse to serial on overlap |
+| candidate 1 | safe_parallel | `#5800`, `#5820` | separate child worktrees | WP-02A terminal; shared init/TLS paths remain serial | collapse shared edits to serial ownership |
+| candidate 2 | safe_parallel | `#5795`, `#5837` | separate provider and consumer child worktrees | shared Runtime and protocol contracts terminal; WP-18 ready for 5837 | collapse to serial on overlap |
 
 ## Serial Gates
 
 | Gate | Blocks | Exit condition | Owner |
 |---|---|---|---|
 | gate 1 | downstream children | issues 5800 and 5820 establish the trusted local launch baseline | sprint session |
-| gate 2 | downstream children | issue 5795 integrates after issues 5800 and 5820 plus WP-14 issue 5832 contract stability | sprint session |
-| gate 3 | downstream children | issue 5837 integrates after issues 5820 and 5832 and its WP-18 dependency | sprint session |
+| gate 2 | issue 5832 | issue 5821 is terminal and the separate issue 5862 implementation sprint has terminal integrated proof | sprint session |
+| gate 3 | issue 5795 | issues 5800 and 5820 are terminal and issue 5832 has stable command/WSS contracts | sprint session |
+| gate 4 | issue 5837 | issues 5820 and 5832 are terminal and WP-18 is ready | sprint session |
 
 ## PVF / Validation-Tail Notes
 

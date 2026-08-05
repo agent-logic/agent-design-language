@@ -1,0 +1,38 @@
+{
+  "issue": 5820,
+  "card": "spp",
+  "expected_generation": 33,
+  "expected_digest": "33cb4b75cc60e5b2dc7a03d336774641baff48c205855477e9e2c997315536d9",
+  "claim_id": "claim-5820-sprint-5855-preparation-repair",
+  "actor": "codex:5855-child-readiness-fixes",
+  "reason": "Allow disjoint WP-03 implementation after WP-02A while retaining issue 5800 as the browser-facing proof and shared TLS/init serialization gate.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Verify WP-02A is terminal, audit current Runtime v3 launch/configuration paths and active ownership collisions, and classify issue 5800 as a browser-proof dependency that serializes only shared TLS/init edits rather than disjoint Guardian/kernel implementation.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Consolidate Guardian process ownership, complete init validation, bounded supervision/backoff/capture, and typed lifecycle terminal behavior.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Complete kernel readiness, durable restart, dependency degradation, API drain, checkpoint, logging, and authenticated API/WSS behavior.",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run real lifecycle and native-platform proof, wait for issue 5800 before browser-facing trusted-HTTPS proof, resolve exact-head review, and publish with closing linkage.",
+        "acceptance_ids": ["AC-6", "AC-7", "AC-8"],
+        "status": "pending"
+      }
+    ]
+  }
+}

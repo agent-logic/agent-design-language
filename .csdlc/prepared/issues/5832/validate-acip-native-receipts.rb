@@ -8,6 +8,7 @@ require "open3"
 SHA256 = /\A[0-9a-f]{64}\z/
 ISSUE = 5832
 REQUIRED_ASSERTIONS = %w[production_guardian rustls_wss authenticated_bidirectional protobuf_json_parity reconnect_backpressure replay_denied denied_access].freeze
+REQUIRED_ARTIFACT_KINDS = %w[binary schema transcript].freeze
 
 def checked_file(path, digest, label, allow_empty: false)
   abort "#{label} path must be issue-local" unless path.to_s.start_with?(".csdlc/evidence/#{ISSUE}/")
@@ -42,7 +43,17 @@ receipts.each do |receipt|
   abort "#{platform} ran no negative cases" unless receipt["negative_cases"].to_i.positive?
   artifacts = Array(receipt["artifacts"])
   abort "#{platform} artifacts missing" if artifacts.empty?
-  artifacts.each { |artifact| checked_file(artifact.fetch("path"), artifact.fetch("sha256"), "#{platform} artifact") }
+  artifact_kinds = artifacts.map { |artifact| artifact["kind"] }
+  missing_kinds = REQUIRED_ARTIFACT_KINDS - artifact_kinds
+  artifact_counts = artifact_kinds.each_with_object(Hash.new(0)) { |kind, counts| counts[kind] += 1 }
+  duplicate_kinds = artifact_counts.select { |kind, count| REQUIRED_ARTIFACT_KINDS.include?(kind) && count != 1 }.keys
+  abort "#{platform} artifacts missing required kinds: #{missing_kinds.join(', ')}" unless missing_kinds.empty?
+  abort "#{platform} artifacts duplicate required kinds: #{duplicate_kinds.join(', ')}" unless duplicate_kinds.empty?
+  artifacts.each do |artifact|
+    kind = artifact.fetch("kind")
+    abort "#{platform} artifact kind unsupported: #{kind}" unless REQUIRED_ARTIFACT_KINDS.include?(kind)
+    checked_file(artifact.fetch("path"), artifact.fetch("sha256"), "#{platform} #{kind} artifact")
+  end
   assertions = Array(receipt["assertions"])
   abort "#{platform} assertion denominator drift" unless assertions.map { |entry| entry["name"] }.sort == REQUIRED_ASSERTIONS.sort
   assertions.each do |assertion|
@@ -51,4 +62,4 @@ receipts.each do |receipt|
   end
 end
 abort "native runner runs are not distinct" unless receipts.map { |r| r.dig("runner", "run_id") }.uniq.length == 3
-puts "PASS: exact-head production ACIP/WSS logs, artifacts, and assertions on macOS, Linux, and native Windows"
+puts "PASS: exact-head production ACIP/WSS logs, binary/schema/transcript artifacts, and assertions on macOS, Linux, and native Windows"

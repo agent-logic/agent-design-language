@@ -3,6 +3,7 @@
 
 require "json"
 require "digest"
+require "open3"
 
 architecture = "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md"
 threat_model = "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md"
@@ -24,8 +25,16 @@ end
 packet = JSON.parse(File.read(review))
 abort "wrong review schema" unless packet["schema"] == "adl.wp04.architecture_security_review.v1"
 abort "review not accepted" unless packet["outcome"] == "accepted"
-abort "reviewer identity missing" if packet["reviewer"].to_s.empty?
-abort "review revision missing" unless packet["reviewed_revision"].to_s.match?(/\A[0-9a-f]{40}\z/)
+author = packet["author"].to_s.strip
+reviewer = packet["reviewer"].to_s.strip
+abort "author identity missing" if author.empty?
+abort "reviewer identity missing" if reviewer.empty?
+abort "reviewer must be independent from author" if reviewer == author
+head, status = Open3.capture2("git", "rev-parse", "HEAD")
+abort "cannot resolve current HEAD" unless status.success?
+head = head.strip
+abort "current HEAD is invalid" unless head.match?(/\A[0-9a-f]{40}\z/)
+abort "review revision does not match current exact HEAD" unless packet["reviewed_revision"] == head
 abort "actionable findings remain" unless Array(packet["unresolved_actionable_findings"]).empty?
 expected = {architecture => Digest::SHA256.file(architecture).hexdigest, threat_model => Digest::SHA256.file(threat_model).hexdigest, ".csdlc/prepared/issues/5821/design.md" => Digest::SHA256.file(".csdlc/prepared/issues/5821/design.md").hexdigest}
 abort "review packet digest mismatch" unless packet["artifact_sha256"] == expected
