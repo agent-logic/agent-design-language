@@ -161,7 +161,8 @@ async fn main() -> Result<()> {
         recursive_sync_enabled,
     );
     let out_path = if matches!(config.live_mode, WorkspaceExecutionMode::Execute) {
-        let transport = NativeWorkspaceDriveTransport::new(DefaultWorkspaceAccessTokenProvider)?;
+        let transport =
+            NativeWorkspaceDriveTransport::new(DefaultWorkspaceAccessTokenProvider::default())?;
         run_demo_with_transport(&config, &transport).await?
     } else {
         let transport = InMemoryDriveTransportForDemo::new();

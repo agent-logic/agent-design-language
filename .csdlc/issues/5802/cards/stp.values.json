@@ -1,0 +1,57 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5802,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][google-workspace][deployment] Complete recursive ADL Drive context mirror",
+    "slug": "drive-recursive-mirror",
+    "version": "v0.92",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Bind approved credentials, run the existing full recursive mirror, repair only observed in-scope defects, independently verify the complete Drive projection, and enable the schedule only after acceptance.",
+      "deliverables": [
+        "Successful native recursive execute report",
+        "Exact inventory and readback acceptance evidence",
+        "Verified 16-file CodeFriend Drive subtree",
+        "Truthful schedule enablement decision",
+        "Bounded code or runbook repair only if live execution exposes a defect"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Current Drive .adl/docs/TBD is recursively populated and listable",
+        "AC-2: All 16 CodeFriend files exist exactly once at the expected path and match repository bytes",
+        "AC-3: Every generator-selected Markdown file verifies by parent, identity, MIME, listing, and exact content digest",
+        "AC-4: The native report is recursive_live with zero skipped or unverified results",
+        "AC-5: No remote deletion, unrelated move, duplicate sibling, or credential exposure occurs",
+        "AC-6: The automation remains paused on failure and is enabled only after full acceptance"
+      ],
+      "dependencies": [
+        "Issue #5802 is open",
+        "PR #5626 recursive implementation is present on current main",
+        "An operator-approved Google credential source is available outside the repository",
+        "The Google Drive connector can independently list and fetch the bounded mirror"
+      ],
+      "repo_inputs": [
+        "Issue #5802",
+        "Issue #5587 and PR #5626",
+        "adl/src/adl_gws_context_mirror.rs",
+        "adl/src/adl_gws_drive_sync.rs",
+        "adl/src/adl_gws_native.rs",
+        "adl/src/bin/demo_adl_gws_context_mirror.rs",
+        "docs/tooling/ADL_GOOGLE_DRIVE_CONTEXT_MIRROR_RUNBOOK.md",
+        ".adl/docs/TBD/codefriend_ai"
+      ],
+      "non_goals": [
+        "Do not make Drive canonical",
+        "Do not import Drive edits into the repository",
+        "Do not delete remote files",
+        "Do not broaden Google permissions",
+        "Do not use AWS or Spot"
+      ]
+    }
+  }
+}

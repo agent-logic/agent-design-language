@@ -1,18 +1,24 @@
 use crate::adl_gws_drive_sync::{
-    sync_drive_file_with_transport, WorkspaceDriveFileSyncDisposition,
+    ensure_folder_path, sync_drive_file_with_transport, WorkspaceDriveFileSyncDisposition,
     WorkspaceDriveFileSyncRequest, WorkspaceDriveFileSyncResult, WorkspaceDriveSyncPolicy,
     WorkspaceDriveTransport,
 };
-use crate::adl_gws_native::{tracked_path, WorkspaceExecutionMode, WorkspaceSkipReason};
+use crate::adl_gws_native::{
+    tracked_path, WorkspaceAuthContext, WorkspaceExecutionMode, WorkspaceSkipReason,
+};
 use anyhow::{bail, Context, Result};
+use futures_util::stream::{self, StreamExt, TryStreamExt};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
-use std::collections::HashSet;
+use std::collections::{BTreeSet, HashMap, HashSet};
 use std::path::{Path, PathBuf};
 
 pub const ADL_GWS_CONTEXT_MIRROR_REPORT_ARTIFACT_PATH: &str =
     ".adl/tmp/google_workspace_cms/adl_gws_context_mirror_report.json";
 pub const ADL_GWS_CONTEXT_MIRROR_STAGING_DIR_ENV: &str = "ADL_GWS_CONTEXT_MIRROR_STAGING_DIR";
+pub const ADL_GWS_CONTEXT_MIRROR_CONCURRENCY_ENV: &str = "ADL_GWS_CONTEXT_MIRROR_CONCURRENCY";
+const DEFAULT_CONTEXT_MIRROR_CONCURRENCY: usize = 16;
+const MAX_CONTEXT_MIRROR_CONCURRENCY: usize = 32;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -53,6 +59,7 @@ pub struct WorkspaceContextMirrorReport {
     pub verification_results: Vec<String>,
     pub milestone_truth: WorkspaceMilestoneTruthRecord,
     pub recursive_mirror_status: WorkspaceRecursiveMirrorStatus,
+    pub auth_contexts: Vec<WorkspaceAuthContext>,
     pub sync_results: Vec<WorkspaceDriveFileSyncResult>,
     pub summary_lines: Vec<String>,
     pub skipped_reason: Option<WorkspaceSkipReason>,
@@ -211,6 +218,32 @@ fn recursive_mirror_status(
     }
 }
 
+fn parse_context_mirror_concurrency(value: Option<&str>) -> usize {
+    value
+        .and_then(|value| value.parse::<usize>().ok())
+        .unwrap_or(DEFAULT_CONTEXT_MIRROR_CONCURRENCY)
+        .clamp(1, MAX_CONTEXT_MIRROR_CONCURRENCY)
+}
+
+fn context_mirror_concurrency() -> usize {
+    parse_context_mirror_concurrency(
+        std::env::var(ADL_GWS_CONTEXT_MIRROR_CONCURRENCY_ENV)
+            .ok()
+            .as_deref(),
+    )
+}
+
+fn retain_auth_context(
+    auth_contexts: &mut Vec<WorkspaceAuthContext>,
+    auth_context: Option<WorkspaceAuthContext>,
+) {
+    if let Some(auth_context) = auth_context {
+        if !auth_contexts.contains(&auth_context) {
+            auth_contexts.push(auth_context);
+        }
+    }
+}
+
 pub async fn run_workspace_context_mirror_with_transport<T: WorkspaceDriveTransport>(
     live_mode: WorkspaceExecutionMode,
     write_approval_present: bool,
@@ -225,6 +258,7 @@ pub async fn run_workspace_context_mirror_with_transport<T: WorkspaceDriveTransp
     let mut files_unchanged = Vec::new();
     let mut files_skipped = Vec::new();
     let mut verification_results = Vec::new();
+    let mut auth_contexts = Vec::new();
     let mut sync_results = Vec::new();
     let milestone_truth = read_milestone_truth(Path::new(&config.repo_root))?;
     let mut recursive_mirror_status = recursive_mirror_status(&config);
@@ -261,6 +295,7 @@ pub async fn run_workspace_context_mirror_with_transport<T: WorkspaceDriveTransp
             verification_results,
             milestone_truth,
             recursive_mirror_status,
+            auth_contexts,
             sync_results,
             summary_lines: vec![
                 "Seed sync was skipped because the Drive root and seed folder bindings were not both configured.".to_string(),
@@ -318,6 +353,7 @@ pub async fn run_workspace_context_mirror_with_transport<T: WorkspaceDriveTransp
             "{}: {}",
             file_name, report.result.verification_message
         ));
+        retain_auth_context(&mut auth_contexts, report.auth_context);
         sync_results.push(report.result);
     }
 
@@ -325,7 +361,10 @@ pub async fn run_workspace_context_mirror_with_transport<T: WorkspaceDriveTransp
         let repo_root = Path::new(&config.repo_root);
         let recursive_files = recursive_markdown_files(repo_root)?;
         let recursive_result_count = recursive_files.len();
-        for source_path in recursive_files {
+        let concurrency = context_mirror_concurrency();
+        let mut recursive_sources = Vec::with_capacity(recursive_result_count);
+        let mut unique_folder_paths = BTreeSet::new();
+        for (index, source_path) in recursive_files.into_iter().enumerate() {
             let relative = source_path.strip_prefix(repo_root).with_context(|| {
                 format!(
                     "mirror source '{}' escaped repo root",
@@ -343,27 +382,82 @@ pub async fn run_workspace_context_mirror_with_transport<T: WorkspaceDriveTransp
                 .map(|component| component.as_os_str().to_string_lossy().into_owned())
                 .collect::<Vec<_>>();
             let display = relative.display().to_string();
+            let file_name = file_name.to_string();
             files_considered.push(display.clone());
-            let request = WorkspaceDriveFileSyncRequest {
-                source_file: source_path.display().to_string(),
-                target: crate::adl_gws_native::WorkspaceScopeBinding {
-                    root_folder_id: config.drive_root_folder_id.clone(),
-                    folder_path,
-                    file_name: Some(file_name.to_string()),
-                    file_id: None,
+            for depth in 1..=folder_path.len() {
+                unique_folder_paths.insert(folder_path[..depth].to_vec());
+            }
+            recursive_sources.push((index, source_path, display, file_name, folder_path));
+        }
+
+        let mut folder_ids = HashMap::new();
+        folder_ids.insert(Vec::<String>::new(), config.drive_root_folder_id.clone());
+        let max_depth = unique_folder_paths.iter().map(Vec::len).max().unwrap_or(0);
+        for depth in 1..=max_depth {
+            let bindings = unique_folder_paths
+                .iter()
+                .filter(|path| path.len() == depth)
+                .map(|path| {
+                    let parent_path = path[..path.len() - 1].to_vec();
+                    let parent_id = folder_ids.get(&parent_path).cloned().with_context(|| {
+                        format!("missing resolved Drive parent for '{}'", path.join("/"))
+                    })?;
+                    Ok((path.clone(), parent_id, path[path.len() - 1].clone()))
+                })
+                .collect::<Result<Vec<_>>>()?;
+            let resolved = stream::iter(bindings.into_iter().map(
+                |(folder_path, parent_id, segment)| async move {
+                    let (folder_id, _) =
+                        ensure_folder_path(transport, &parent_id, &[segment]).await?;
+                    Ok::<_, anyhow::Error>((folder_path, folder_id))
                 },
-                target_file_name: file_name.to_string(),
-                mime_type: "text/markdown".to_string(),
-                policy: WorkspaceDriveSyncPolicy::CreateOrUpdate,
-            };
-            let report = sync_drive_file_with_transport(
-                live_mode.clone(),
-                write_approval_present,
-                request,
-                transport,
-            )
+            ))
+            .buffer_unordered(concurrency)
+            .try_collect::<Vec<_>>()
             .await?;
-            match report.result.disposition {
+            for (folder_path, folder_id) in resolved {
+                folder_ids.insert(folder_path, folder_id);
+            }
+        }
+
+        let recursive_reports = stream::iter(recursive_sources.into_iter().map(
+            |(index, source_path, display, file_name, folder_path)| {
+                let live_mode = live_mode.clone();
+                let target_folder_id = folder_ids
+                    .get(&folder_path)
+                    .expect("folder path was resolved before file sync")
+                    .clone();
+                async move {
+                    let request = WorkspaceDriveFileSyncRequest {
+                        source_file: source_path.display().to_string(),
+                        target: crate::adl_gws_native::WorkspaceScopeBinding {
+                            root_folder_id: target_folder_id,
+                            folder_path: vec![],
+                            file_name: Some(file_name.clone()),
+                            file_id: None,
+                        },
+                        target_file_name: file_name,
+                        mime_type: "text/markdown".to_string(),
+                        policy: WorkspaceDriveSyncPolicy::CreateOrUpdate,
+                    };
+                    let report = sync_drive_file_with_transport(
+                        live_mode.clone(),
+                        write_approval_present,
+                        request,
+                        transport,
+                    )
+                    .await?;
+                    Ok::<_, anyhow::Error>((index, display, report.auth_context, report.result))
+                }
+            },
+        ))
+        .buffer_unordered(concurrency)
+        .try_collect::<Vec<_>>()
+        .await?;
+        let mut recursive_reports = recursive_reports;
+        recursive_reports.sort_by_key(|(index, _, _, _)| *index);
+        for (_, display, auth_context, result) in recursive_reports {
+            match result.disposition {
                 WorkspaceDriveFileSyncDisposition::Created => files_created.push(display.clone()),
                 WorkspaceDriveFileSyncDisposition::Updated => files_updated.push(display.clone()),
                 WorkspaceDriveFileSyncDisposition::Unchanged => {
@@ -371,11 +465,9 @@ pub async fn run_workspace_context_mirror_with_transport<T: WorkspaceDriveTransp
                 }
                 WorkspaceDriveFileSyncDisposition::Skipped => files_skipped.push(display.clone()),
             }
-            verification_results.push(format!(
-                "{}: {}",
-                display, report.result.verification_message
-            ));
-            sync_results.push(report.result);
+            verification_results.push(format!("{}: {}", display, result.verification_message));
+            retain_auth_context(&mut auth_contexts, auth_context);
+            sync_results.push(result);
         }
         if recursive_result_count > 0
             && sync_results
@@ -439,6 +531,7 @@ pub async fn run_workspace_context_mirror_with_transport<T: WorkspaceDriveTransp
         verification_results,
         milestone_truth,
         recursive_mirror_status,
+        auth_contexts,
         sync_results,
         summary_lines,
         skipped_reason: if matches!(live_mode, WorkspaceExecutionMode::DryRun) {
@@ -971,6 +1064,15 @@ mod tests {
         );
     }
 
+    #[test]
+    fn context_mirror_concurrency_is_bounded_and_defaults_safely() {
+        assert_eq!(super::parse_context_mirror_concurrency(None), 16);
+        assert_eq!(super::parse_context_mirror_concurrency(Some("invalid")), 16);
+        assert_eq!(super::parse_context_mirror_concurrency(Some("0")), 1);
+        assert_eq!(super::parse_context_mirror_concurrency(Some("8")), 8);
+        assert_eq!(super::parse_context_mirror_concurrency(Some("100")), 32);
+    }
+
     #[tokio::test]
     async fn execute_mode_recursively_mirrors_markdown_with_verified_content() {
         let repo_root = unique_temp_path("context-mirror-recursive-repo");
@@ -1008,6 +1110,9 @@ mod tests {
         tokio::fs::write(repo_root.join("docs/nested/a.md"), "# A\n")
             .await
             .expect("write nested doc");
+        tokio::fs::write(repo_root.join("docs/nested/z.md"), "# Z\n")
+            .await
+            .expect("write sibling nested doc");
         tokio::fs::write(repo_root.join(".adl/docs/TBD/b.md"), "# B\n")
             .await
             .expect("write TBD doc");
@@ -1046,6 +1151,22 @@ mod tests {
             .sync_results
             .iter()
             .all(|result| result.verification_ok));
+        let recursive_considered =
+            report.files_considered[context_seed_file_names().len()..].to_vec();
+        let recursive_results = report.sync_results[context_seed_file_names().len()..]
+            .iter()
+            .map(|result| {
+                std::path::Path::new(&result.source_file)
+                    .strip_prefix(&repo_root)
+                    .expect("recursive source remains in repo")
+                    .display()
+                    .to_string()
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(recursive_results, recursive_considered);
+        assert!(recursive_results.windows(2).all(|pair| pair[0] <= pair[1]));
+        assert!(recursive_results.contains(&"docs/nested/a.md".to_string()));
+        assert!(recursive_results.contains(&"docs/nested/z.md".to_string()));
         tokio::fs::remove_dir_all(repo_root)
             .await
             .expect("remove recursive mirror fixture");

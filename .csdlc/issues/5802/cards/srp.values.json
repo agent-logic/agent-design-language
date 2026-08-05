@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5802,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][google-workspace][deployment] Complete recursive ADL Drive context mirror",
+    "slug": "drive-recursive-mirror",
+    "version": "v0.92",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/src/adl_gws_context_mirror.rs\nadl/src/adl_gws_drive_sync.rs\nadl/src/adl_gws_native.rs\nadl/src/bin/demo_adl_gws_context_mirror.rs\ndocs/tooling/ADL_GOOGLE_DRIVE_CONTEXT_MIRROR_RUNBOOK.md\ndocs/reviews/v0.92/google-drive-context-mirror-5802",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the evidence prove every selected recursive file rather than only seeds or samples?",
+        "Are the 16 CodeFriend files exact, unique, and in the current canonical TBD subtree?",
+        "Can any reported success occur without exact content readback?",
+        "Were credentials and unrelated Drive content protected?",
+        "Was schedule activation gated on complete acceptance?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
