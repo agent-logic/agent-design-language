@@ -1,0 +1,103 @@
+{
+  "schema": "adl.google_drive_context_mirror.acceptance.v1",
+  "issue": 5802,
+  "accepted_at": "2026-08-05T02:53:40Z",
+  "account_boundary": "daniel@agent-logic.ai company Drive only",
+  "drive_root_folder_id": "1IrNmsxyDLBD0d2jk5f9GiaTCsVm86BAx",
+  "drive_seed_folder_id": "1aIoNRhGlhZLjfM_WOPYmkjIbvWBajTz0",
+  "credential_source": "$HOME/keys/gcp-adl-drive-mirror-authorized-user.json",
+  "credential_material_retained_in_artifact": false,
+  "implementation": {
+    "source_commit": "5eb6bc5a78eae085ac7ca688a65d35f97819f4d5",
+    "source_tree": "aaac1fe346345c6689490617189f051119eabd12",
+    "binary_path": ".adl/bin/adl-gws-context-mirror",
+    "binary_sha256": "823116910a49ab92ce998fcd287e2b3ed7e1f8e7c5d64f56e8cdaa750fae2b68"
+  },
+  "source_inventory": {
+    "inventory_sha256": "b7223ee9cae7339680ae80e9a0204ed924c92ecf0fa0d84249649232531d2372",
+    "recursive_markdown_files": 2987,
+    "seed_files": 4,
+    "total_files": 2991,
+    "required_folders": 654
+  },
+  "native_reports": [
+    {
+      "role": "initial_pass",
+      "completed_at": "2026-08-05T02:08:34Z",
+      "raw_sha256": "c33cdd49515615cc0b9bb47e663c9e78453c263f29b4eba3dbe11546a5358232",
+      "created": 2711,
+      "updated": 0,
+      "unchanged": 280,
+      "skipped": 0,
+      "verification_failures": 0
+    },
+    {
+      "role": "idempotence_pass",
+      "completed_at": "2026-08-05T02:17:10Z",
+      "raw_sha256": "315d5b90140cc93a9c0caaf7fc8a5883c0cc25cd1e58f30df77f71ea73d2f16e",
+      "created": 0,
+      "updated": 0,
+      "unchanged": 2991,
+      "skipped": 0,
+      "verification_failures": 0
+    },
+    {
+      "role": "runbook_reconciliation",
+      "completed_at": "2026-08-05T02:25:05Z",
+      "raw_sha256": "20bc65458990f411eb8d74a7962d1cc83ff018aa1b1a6513dcc40b92e72eea3d",
+      "created": 0,
+      "updated": 5,
+      "unchanged": 2986,
+      "skipped": 0,
+      "verification_failures": 0
+    },
+    {
+      "role": "final_auth_evidence_pass",
+      "completed_at": "2026-08-05T02:45:26Z",
+      "raw_sha256": "b2ebff8b6fc87cf9f22138a959f3ec580eb23a08e63d37151fb03c35df7c00c2",
+      "retained_artifact": ".csdlc/evidence/5802/final-native-report.json.gz",
+      "retained_artifact_sha256": "ae9642048203e559a87c797faef82856dee0361dd5670cc1342cf2db191d311f",
+      "recursive_mirror_status": "recursive_live",
+      "created": 0,
+      "updated": 0,
+      "unchanged": 2991,
+      "skipped": 0,
+      "verification_failures": 0,
+      "auth_source": "credential_store",
+      "auth_scopes": [
+        "https://www.googleapis.com/auth/drive.metadata.readonly",
+        "https://www.googleapis.com/auth/drive.file"
+      ]
+    }
+  ],
+  "independent_readback": {
+    "artifact": ".csdlc/evidence/5802/independent-readback.json",
+    "verified": true,
+    "actual_files": 2991,
+    "actual_folders": 654,
+    "content_mismatches": 0,
+    "codefriend_exact": true,
+    "codefriend_count": 16
+  },
+  "automation": {
+    "id": "sync-adl-google-drive-context-mirror",
+    "status": "ACTIVE",
+    "activated_at": "2026-08-05T02:50:57Z",
+    "project_id": "local-bb52f3e18910b93ae22838b22be3f4b6",
+    "schedule": "daily",
+    "company_root_only": true,
+    "archive_on_success": true,
+    "deduplicate_failures": true
+  },
+  "validation": {
+    "focused_tests": "12 passed, 0 failed",
+    "git_diff_check": "passed",
+    "clippy": "blocked by unrelated csm_freedom_gate warnings tracked in #5812"
+  },
+  "safety": {
+    "remote_deletions": 0,
+    "unrelated_files_moved": 0,
+    "personal_drive_operations_after_company_boundary": 0,
+    "tokens_or_credentials_printed_or_committed": false
+  }
+}

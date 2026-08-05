@@ -1,0 +1,25 @@
+{
+  "schema": "adl.google_drive_context_mirror.independent_readback.v1",
+  "completed_at": "2026-08-05T02:53:40Z",
+  "verifier_sha256": "1d65e40720c4d16bb0c06524d8b170eb7834a7dcd25f35e9957ba11da603bc00",
+  "root_id": "1IrNmsxyDLBD0d2jk5f9GiaTCsVm86BAx",
+  "seed_id": "1aIoNRhGlhZLjfM_WOPYmkjIbvWBajTz0",
+  "expected_files": 2991,
+  "actual_files": 2991,
+  "expected_folders": 654,
+  "actual_folders": 654,
+  "missing_files": [],
+  "unexpected_files": [],
+  "duplicate_paths": [],
+  "missing_folders": [],
+  "unexpected_folders": [],
+  "content_mismatches": [],
+  "codefriend_exact": true,
+  "codefriend_count": 16,
+  "zero_byte_paths": [
+    ".adl/docs/TBD/publication/medium_launch_articles/1-WHY-ADL.md",
+    "docs/milestones/v0.3/DECISIONS_v0.3.md",
+    "docs/milestones/v0.3/RELEASE_CHECKLIST_v0.3.md"
+  ],
+  "verified": true
+}
