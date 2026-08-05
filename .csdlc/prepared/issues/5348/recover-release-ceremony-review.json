@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 5348,
+  "expected_generation": 14,
+  "expected_digest": "e9dca3f983dcc9e685b92be121be2b8764dbec2e51f151e63db7b2d466ac922e",
+  "claim_id": "claim-5348-v0918-preparation-recovered",
+  "actor": "codex:5348-release-ceremony",
+  "reason": "Recover review truth after fixing the canonical inventory finding so the corrected exact head can receive one clean bounded rereview."
+}

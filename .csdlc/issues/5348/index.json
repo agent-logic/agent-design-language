@@ -3,13 +3,13 @@
   "issue": 5348,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "d9886666f687eed43c121ffb299029dfb0799a973aa38c23a7566e4b50be2e2b",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "fc13af244edbbd14b9edd6f31cfa8ffb656fb7e7bc4b0f6c0d7043f65bfc9c35",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "c5e4869f7e00304ca9b450e6ce228f3c0559459ca0c9c1411c0f3c90c01a2194",
   "claim": {
     "id": "claim-5348-v0918-preparation-recovered",
     "owner": "codex:5348-preparation-owner",
-    "generation": 13,
+    "generation": 15,
     "acquired_unix_seconds": 1785865953,
     "expires_unix_seconds": 1786470753,
     "heartbeat_unix_seconds": 1785865953,
@@ -36,7 +36,7 @@
   "review_assignment": {
     "reviewer": "subagent:gpt-5.5:Parfit",
     "assigned_by": "codex:5348-release-ceremony",
-    "revision": "git-blake3:9689359bc2744a7789f522008f34892670591930:64f8dee4c60d68dc5ed9a804fdfc1da89edf29e737628673eca34f39292bfa98",
+    "revision": "git-blake3:c5588837932b3e4088843aa3733bdbd6d7206cf3:41f6daf8cdbccb48a977806ce78a995686fff8552e0612facb91589a5b675ecf",
     "scope": [
       ".csdlc/evidence/5362/dependency-verification-publication-base.v1.json",
       ".csdlc/issues/5348",
@@ -44,7 +44,22 @@
       "docs/milestones/v0.91.8"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:gpt-5.5:Parfit",
+    "scope": [
+      ".csdlc/evidence/5362/dependency-verification-publication-base.v1.json",
+      ".csdlc/issues/5348",
+      ".csdlc/prepared/issues/5348",
+      "docs/milestones/v0.91.8"
+    ],
+    "reviewed_revision": "git-blake3:c5588837932b3e4088843aa3733bdbd6d7206cf3:41f6daf8cdbccb48a977806ce78a995686fff8552e0612facb91589a5b675ecf",
+    "findings": [],
+    "residual_risks": [
+      "The v0.91.8 tag, GitHub release, and umbrella closure are post-merge ceremony actions and were not claimed by this pre-publication review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -59,32 +74,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f79f0f6385a6392180c861f6d35ed00d2ee07fd6aa70e4fc0f479a9b6d72475a",
+      "values_digest": "538f1f84b9612307a3340effbdf4f350d3507ee1edfcb34961916800374d42a0",
       "rendered_digest": "04473bd04923059c201d5648cd08600c7d3f57f2510d94fead698402ab7f2fca",
       "ast_digest": "88bdfc638bea47914139a70ee808eed293c53dbec96608a4740d3c82f71a5bc0"
     },
     "stp": {
-      "values_digest": "5500cfffc6ec4ac096ed202c66d64289fce9fb12a54bd8c837654d23297a5e3b",
+      "values_digest": "31fae0993bc9d370cae7876108492fa2060edd3d09724f3589bfe9142eea4269",
       "rendered_digest": "bc414f2134aebcb87640fd7df7f88e4437d249e366fa6f4f3df6e328e6118991",
       "ast_digest": "2bb01833dcb18d4853d3442fd70ef39de17575b090d94d7e68b23eec6db0bd88"
     },
     "spp": {
-      "values_digest": "c7a2e38cc202f846050db11784764800fb43ac44be14ac5e9ffa8f995dd0de91",
+      "values_digest": "7f22143752d5cded9a37c27bc55c9aa5feab4f9b7547239c05ea4bc2033ce127",
       "rendered_digest": "7d2229cac4eb534a9934a4c34994a5eb425c9500905f5207d4b916d955bb81a4",
       "ast_digest": "1945b7cc8b6c4c421bb05837d7efa4922744a68d433368a0df61f859378a87c0"
     },
     "vpp": {
-      "values_digest": "2f98ddaa0e3e5fe25a49523eddcc5789a024717f1f014b368fc36bcad3654d85",
+      "values_digest": "bd3b3d1c5286aaaef7a256df7246be561f22aa722c0c6ebf83b9def05c9842eb",
       "rendered_digest": "b35d832e4e67a243769ab661c0947e80ad882767719e4d1486d5cef05fb3581d",
       "ast_digest": "3521d1b89738180d08e343c011dc2e1dbb69926a646ce55251054f1da1f592d8"
     },
     "srp": {
-      "values_digest": "85c81b0129d282adea274cec2ffa0bc3f75a4fb5d016c7cee5fe7ea41dae99c3",
-      "rendered_digest": "5ed5b09dc599d6ae3a534dca9d0805f59c6a1aadd152ef7cf94b6251ea725251",
-      "ast_digest": "52bf7d0227f36e18342579efbd6c3613cf922daae145ea15b599127bb532abe2"
+      "values_digest": "61c00ffd822d5f2dde064d13a4275f1163d4cafbddcb2cc3f7a393fc77b6ad80",
+      "rendered_digest": "3efd19b4f7592f1cc98893eba23a9c13e9dd7ef5eaeb01398d66d37aef4f0da8",
+      "ast_digest": "425b6513b074a7363e0f90e48b3f61fb197a3d5f4d47222b4f9191b764355e6b"
     },
     "sor": {
-      "values_digest": "add1610060d7d081c44a4d570ab1f0c1a8fab301f43fbd2533b581642cadbfda",
+      "values_digest": "2d897a7ed8bfe3694e0117750d657a533cb10d0cc92854990390827c666f71a2",
       "rendered_digest": "bfa6944e1010979c64bc7d1f5278a95bb67de9c826878cb695e749c897d7e467",
       "ast_digest": "21cf9281f72f1507e033c109aa8c235862e03626519805304fdb4b904a8f99af"
     }
@@ -110,6 +125,13 @@
       "to": "implemented",
       "actor": "codex:5348-release-ceremony",
       "reason": "The v0.91.8 release ceremony package and publication-base dependency evidence are implemented and focused docs-only validation passes; advance to exact-revision review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:gpt-5.5:Parfit",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -238,6 +260,27 @@
       "actor": "codex:5348-release-ceremony",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "subagent:gpt-5.5:Parfit",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:5348-release-ceremony",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "subagent:gpt-5.5:Parfit",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

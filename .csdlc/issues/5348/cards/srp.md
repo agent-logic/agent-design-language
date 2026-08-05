@@ -33,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The v0.91.8 tag, GitHub release, and umbrella closure are post-merge ceremony actions and were not claimed by this pre-publication review.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c5588837932b3e4088843aa3733bdbd6d7206cf3:41f6daf8cdbccb48a977806ce78a995686fff8552e0612facb91589a5b675ecf")
 
-Reviewer: None
+Reviewer: Some("subagent:gpt-5.5:Parfit")
 
-Result: pre_review
+Result: pass
