@@ -16,34 +16,44 @@ Deliver five serially transferred company repositories with danielbaustin/asksif
 
 ## Deliverables
 
-- five serially transferred company repositories with danielbaustin/asksifu retained as personal and Horust excluded
-- pre-transfer manifests including issue and PR assignee membership, per-repository transfer and verification evidence including assignee retention or explicit reassignment, integration updates, negative asksifu control, and final migration report
+- Organization readiness and exact five-repository scope receipt
+- Five redacted before/after manifest pairs with exact HEAD and digest lineage
+- Assignee membership or completed reassignment evidence for every open issue and PR
+- Per-repository transfer, integration, package, Pages, Actions, security, and redirect verification
+- asksifu and Horust negative-control evidence
+- Final migration report with zero unexplained drift
 
 ## Acceptance
 
-1. The declared required outcome is complete at the exact reviewed revision
-2. Declared dependencies are verified from current evidence
-3. The named proof surface is reproducible and retained
-4. Applicable negative, failure, security, privacy, portability, and claim boundaries are tested or dispositioned
-5. One bounded pre-PR review has no unresolved actionable findings
+1. Organization owners, recovery, billing, policy, permissions, destination names, and exact five-repository scope are verified
+2. Every repository has SHA-256-bound before and after manifests at one exact HEAD containing actual issues, PRs, assignees, rulesets, releases, Actions, Pages, packages, LFS, and integration data
+3. Exactly the five approved repositories transfer in order to agent-logic with names, visibility, history, and every manifest surface preserved or backed by a digest-bound verified disposition
+4. Every destination passes live GitHub inspection for API-backed surfaces and retained git-lfs-fsck evidence before the next transfer
+5. ADL transfers last; agent-logic/agent-logic.ai updates exactly site/index.html and site/beta/index.html, removes all four old ADL links, and retains source and publication receipts
+6. danielbaustin/asksifu remains personal and danielbaustin/Horust is neither transferred nor settings-mutated, with an observation receipt for each
+7. Final evidence contains no secret values, no unexplained drift, and one exact-revision bounded review
 
 ## Dependencies
 
-- WP-01
-- WP-01B
-- issue-5815-plan
-- confirmed destination organization and owners
-- complete migration inventory
-- billing and security readiness
+- WP-01 issue #5817 and WP-01B issue #5818 complete
+- Reviewed migration plan from issue #5815 and PR #5816 remains current
+- Confirmed destination organization owners, billing owner, recovery contact, and required 2FA
+- Complete five-repository inventory and free destination names
+- Organization billing, security, Actions, Pages, package, LFS, and transfer policy readiness
 
 ## Inputs
 
+- .csdlc/prepared/issues/5819/design.md
 - docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
 - docs/milestones/v0.92/WBS_v0.92.md
-- .adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md
+- .csdlc/issues/5815
+- agent-logic.ai current production and beta source-link inventory
+- GitHub transfer, organization-role, and fork-network documentation captured at execution
 
 ## Non Goals
 
-- Adjacent work packages
-- Historical evidence rewriting
-- Unsupported downstream milestone claims
+- Migration of asksifu or Horust
+- Repository rename, visibility change, recreation, or history rewrite
+- WP-02A CI and coverage redesign
+- Export of secret values or credential material
+- Downstream milestone implementation or completion claims

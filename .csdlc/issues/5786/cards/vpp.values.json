@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-21] Repository-wide code reduction cleanup",
     "slug": "v0-92-wp-21-repository-wide-code-reduction-cleanup",
     "version": "v0.92",
-    "generation": 0
+    "generation": 25
   },
   "status": "ready",
   "content": {
@@ -16,25 +16,50 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "focused-wp-21",
-          "proof_role": "reviewed deletion manifest, parity proof, and retained-surface inventory",
+          "lane": "pinned-deletion-denominator",
+          "proof_role": "Reconstruct the immutable pre-change adl/src path, blob, file-count, and LoC denominator from its ancestral Git SHA; require complete dispositions, derived reduction and references, clean install, and native macOS/Linux exact-head proof. [preexec_rejection exit=1 diagnostic_sha256=d956afaaec4fe86f37e70358e697484a58e6fa8e5c34e80fbc23786c38157c50]",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
             "AC-4",
-            "AC-5"
+            "AC-5",
+            "AC-6"
           ],
           "deterministic": true,
           "resource_profile": "medium",
-          "budget_seconds": 3600,
-          "budget_tokens": 25000,
+          "budget_seconds": 1800,
+          "budget_tokens": 9000,
           "argv": [
-            "git",
-            "diff",
-            "--check"
+            "ruby",
+            ".csdlc/prepared/issues/5786/validate-reduction.rb"
           ],
-          "parallel_group": "issue-local",
+          "parallel_group": "reduction",
+          "defer_reason": null
+        },
+        {
+          "lane": "typed-card-doctor",
+          "proof_role": "Validate the exact rendered six-card bundle, cross-card references, design approval, digests, statuses, and canonical issue record.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "5786"
+          ],
+          "parallel_group": "typed-readback",
           "defer_reason": null
         }
       ],
@@ -42,9 +67,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5786/design.md",
-      "design_digest": "a8bdc7791a07d9dc6cbc50239115bad292609037e01949282a6c0acd75ee174d",
+      "design_digest": "ee75b36cb7a9bde63967a4a57221d186e901199a4871771f6cfcc53e710ab386",
       "diagram_ref": ".csdlc/prepared/issues/5786/diagram.mmd",
-      "diagram_digest": "7e9fec9389fd1fb70076e8ecfe9717199033c94fc3382022268a3e25d0a8e300"
+      "diagram_digest": "713df357faa79f6e7978d40833f7932dcf2dc1e12f5416ab45e6b498c880be0e"
     }
   }
 }

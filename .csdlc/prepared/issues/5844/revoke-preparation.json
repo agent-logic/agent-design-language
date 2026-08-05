@@ -1,0 +1,11 @@
+{
+  "issue": 5844,
+  "repository": "danielbaustin/agent-design-language",
+  "expected_claim_id": "claim-5844-v092-preparation",
+  "expected_generation": 27,
+  "expected_digest": "f096f2ad644e2aecc260d34796ad1d282ae52cc3c310d1bdc4869391f0e5b247",
+  "now_unix_seconds": 1785953337,
+  "actor": "codex:5860-demo-publication-second-pass",
+  "operator_authority": "operator-authorized:5860-preparation-clarification",
+  "reason": "Release the temporary WP-24 second-pass repair claim after typed card validation"
+}

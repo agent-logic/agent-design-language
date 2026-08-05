@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-28] Next milestone planning",
     "slug": "v0-92-wp-28-next-milestone-planning",
     "version": "v0.92",
-    "generation": 0
+    "generation": 22
   },
   "status": "ready",
   "content": {
@@ -16,25 +16,50 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "focused-wp-28",
-          "proof_role": "next-milestone handoff document",
+          "lane": "complete-v093-handoff",
+          "proof_role": "Read live WP-27 terminal truth, reconstruct every tracked v0.93 candidate document, require evidence, owner, acceptance, and disposition for every row, and reject activation/legal/certification overclaims. [preexec_rejection exit=1 diagnostic_sha256=2126c7b4d4672a83fdb34e64117304012c87a253936880da2182237f7da85cef]",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
             "AC-4",
-            "AC-5"
+            "AC-5",
+            "AC-6"
           ],
           "deterministic": true,
           "resource_profile": "medium",
-          "budget_seconds": 1200,
-          "budget_tokens": 10000,
+          "budget_seconds": 900,
+          "budget_tokens": 8000,
           "argv": [
-            "git",
-            "diff",
-            "--check"
+            "ruby",
+            ".csdlc/prepared/issues/5849/validate-handoff.rb"
           ],
-          "parallel_group": "issue-local",
+          "parallel_group": "handoff",
+          "defer_reason": null
+        },
+        {
+          "lane": "typed-card-doctor",
+          "proof_role": "Validate the exact six-card bundle and design approval.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "5849"
+          ],
+          "parallel_group": "typed-readback",
           "defer_reason": null
         }
       ],
@@ -42,9 +67,9 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5849/design.md",
-      "design_digest": "949bead4dbda33e1f09aa971ae793365ebfed87bd37c43e3baf0089b7f8ed65d",
+      "design_digest": "2a0c2e5f81419606b4a39d276d9f95b9191e97f217f0e85ed6bd74a98f0f1f8f",
       "diagram_ref": ".csdlc/prepared/issues/5849/diagram.mmd",
-      "diagram_digest": "2aa5a8f5ae5eb634870ec6155a04490fd6f7cf3bd78ff632b9cb4b1beaaa20b4"
+      "diagram_digest": "71c4234b11ef676b8124bc3a101e7670f42ee734598fb52da48405843f96b070"
     }
   }
 }

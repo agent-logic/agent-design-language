@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-26] External / third-party review",
     "slug": "v0-92-wp-26-external-third-party-review",
     "version": "v0.92",
-    "generation": 0
+    "generation": 16
   },
   "status": "ready",
   "content": {
@@ -16,25 +16,74 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "focused-wp-26",
-          "proof_role": "review handoff and review report",
+          "lane": "external-packet-identity",
+          "proof_role": "Validate the immutable external packet corpus, digest, target SHA, redaction boundary, and reviewer authority before transfer. [preexec_rejection exit=1 diagnostic_sha256=973b17cbc0a2ca5924335f6f6750d70c2fe5cd25b7b4d57af5b3935f47a062d3]",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
             "AC-4",
-            "AC-5"
+            "AC-5",
+            "AC-6"
           ],
           "deterministic": true,
-          "resource_profile": "medium",
-          "budget_seconds": 1200,
-          "budget_tokens": 10000,
+          "resource_profile": "small",
+          "budget_seconds": 420,
+          "budget_tokens": 3500,
           "argv": [
-            "git",
-            "diff",
-            "--check"
+            "ruby",
+            ".csdlc/prepared/issues/5847/validate-external-review.rb",
+            "packet"
           ],
-          "parallel_group": "issue-local",
+          "parallel_group": "packet",
+          "defer_reason": null
+        },
+        {
+          "lane": "external-report-authority",
+          "proof_role": "Validate reviewer identity and authority, report/packet/target digests, complete finding count, full schema/evidence, risk authority, duplicate targets, and dispositions. [preexec_rejection exit=1 diagnostic_sha256=973b17cbc0a2ca5924335f6f6750d70c2fe5cd25b7b4d57af5b3935f47a062d3]",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 540,
+          "budget_tokens": 4500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5847/validate-external-review.rb",
+            "report"
+          ],
+          "parallel_group": "report",
+          "defer_reason": "Run only after the operator-authorized reviewer response is actually received."
+        },
+        {
+          "lane": "typed-card-doctor",
+          "proof_role": "Validate the exact rendered six-card bundle, cross-card references, design approval, digests, statuses, and canonical issue record.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "5847"
+          ],
+          "parallel_group": "typed-readback",
           "defer_reason": null
         }
       ],
@@ -42,9 +91,9 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5847/design.md",
-      "design_digest": "5933181c50b98d70466083f69138a21a0b6c5413c4153852225baf3f5b9dcad3",
+      "design_digest": "156c0d5b40979e54579b180b4bf1f12c7ca3dcf6bf09639835e3c988cddd2f4e",
       "diagram_ref": ".csdlc/prepared/issues/5847/diagram.mmd",
-      "diagram_digest": "94ca666891c69b3048803b84dc5ede061ab8c500837311d8fc6819796e894516"
+      "diagram_digest": "3f27fc4f521fdd57a23ed1afaa29417434e08b8ac93e33e58d1a106069d94cd1"
     }
   }
 }

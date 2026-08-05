@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/5820/diagram.mmd
 
 [
   {
-    "lane": "focused-wp-03",
-    "proof_role": "cross-platform start-stop, recovery, configuration, and clean-log proof",
+    "lane": "guardian-lifecycle-contract",
+    "proof_role": "Run the exact nonzero production Guardian lifecycle target over init, supervision, restart, durable state, degradation, shutdown, and logs.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -35,14 +35,77 @@ Diagram: .csdlc/prepared/issues/5820/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 3600,
-    "budget_tokens": 25000,
+    "budget_seconds": 900,
+    "budget_tokens": 6000,
+    "argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "runtime_guardian_lifecycle",
+      "--no-tests=fail"
+    ],
+    "parallel_group": "runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "production-guardian-api-wss-restart",
+    "proof_role": "Launch the production Guardian/kernel and prove authenticated HTTPS/WSS, child kill, bounded restart, durable state, readiness, clean shutdown, and clean logs.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 900,
+    "budget_tokens": 6000,
+    "argv": [
+      "bash",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh"
+    ],
+    "parallel_group": "runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "native-guardian-receipts",
+    "proof_role": "Recompute digest-bound macOS, Linux, and native Windows production Guardian lifecycle receipts. [preexec_rejection exit=1 diagnostic_sha256=9cc0e36ab16ebe02ba7f57850a2c3bfdb63a6580d30b1e61a6fecd754a75de48]",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 900,
+    "budget_tokens": 6000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5820/validate-runtime-native-receipts.rb"
+    ],
+    "parallel_group": "runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "exact-head-review-preflight",
+    "proof_role": "Reject diff damage before exact-head review and issue-closing publication.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 900,
+    "budget_tokens": 6000,
     "argv": [
       "git",
       "diff",
       "--check"
     ],
-    "parallel_group": "issue-local",
+    "parallel_group": "review",
     "defer_reason": null
   }
 ]
@@ -59,6 +122,9 @@ Tokens: 25000
 
 ## Commands
 
+- `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test runtime_guardian_lifecycle --no-tests=fail`
+- `bash adl/tools/validate_v092_runtime_guardian_lifecycle.sh`
+- `ruby .csdlc/prepared/issues/5820/validate-runtime-native-receipts.rb`
 - `git diff --check`
 
 ## Failure Semantics

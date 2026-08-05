@@ -7,52 +7,81 @@
     "title": "[v0.92][WP-12] Capability envelope",
     "slug": "v0-92-wp-12-capability-envelope",
     "version": "v0.92",
-    "generation": 0
+    "generation": 71
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
-      "summary": "Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.",
+      "plan_revision": 27,
+      "summary": "Implement and prove WP-12 canonical capability envelopes with explicit providers, tools, skills, grants, denials, limits, provenance, and secret-safe failure handling.",
       "steps": [
         {
           "id": "S1",
-          "action": "Prepare exact scope, design, paths, and validation plan",
+          "action": "Verify WP-08/#5825, WP-09/#5826, and #4761; collision-check nonshared paths immediately, but defer the one-line lib.rs registration claim until WP-11/#5828 has landed and released it.",
           "acceptance_ids": [
-            "AC-2"
+            "AC-2",
+            "AC-3"
           ],
           "status": "pending"
         },
         {
           "id": "S2",
-          "action": "Implement the required outcome and focused proof",
+          "action": "Implement the versioned envelope, canonical ordering, explicit grants/denials/limits, validator, and fixtures.",
           "acceptance_ids": [
             "AC-1",
-            "AC-3",
-            "AC-4"
+            "AC-3"
           ],
           "status": "pending"
         },
         {
           "id": "S3",
-          "action": "Resolve one bounded pre-PR review and publish with closing linkage",
+          "action": "Run focused canonicalization, stale/escalation/limit negatives, secret scanning, and path portability lanes.",
           "acceptance_ids": [
+            "AC-4",
             "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Resolve one bounded exact-head review and publish only with correct base and Closes #5829 linkage.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
           ],
           "status": "pending"
         }
       ],
-      "affected_areas": [],
+      "affected_areas": [
+        "adl-runtime-kernel/src/capability_envelope.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/tests/capability_envelope.rs",
+        "adl-runtime-kernel/tests/fixtures/capability_envelope",
+        "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
+        ".csdlc/prepared/issues/5829/validate-native-receipts.rb",
+        ".csdlc/prepared/issues/5829/produce-native-receipt.rb",
+        ".csdlc/evidence/5829",
+        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-birthday-kernel-registration-v1\",\"paths\":[\"adl-runtime-kernel/src/lib.rs\"],\"issues\":[5825,5826,5827,5828,5829,5830,5831,5833],\"order\":[5825,5826,5827,5828,5829,5830,5831,5833]}",
+        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-memory-capability-witness-feature-doc-v1\",\"paths\":[\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\"],\"issues\":[5829,5833],\"order\":[5829,5833]}",
+        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5829-grounding-doc-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\"],\"issues\":[5829,5843],\"order\":[5829,5843]}"
+      ],
       "invariants": [
-        "No tracked work on main",
-        "No scope absorption across work packages",
-        "Evidence claims remain exact-revision and source-grounded"
+        "Capability description never grants authority or proves invocation.",
+        "Canonical ordering makes equivalent envelopes deterministic.",
+        "Credential material, private state, and host-specific paths never enter retained evidence."
       ],
       "risks": [
-        "Dependency drift",
-        "Scope overlap",
-        "Insufficient real-behavior proof"
+        "Capability could be mistaken for authority or invocation proof.",
+        "Retained #4761 provenance could be copied without current digest verification.",
+        "A required provider adapter edit could exceed the exact capability-envelope boundary."
       ],
       "execution_estimates": {
         "elapsed_seconds": 7200,
@@ -60,15 +89,20 @@
         "validation_seconds": 1200
       },
       "stop_conditions": [
-        "Protected-path collision",
-        "Contradictory dependency evidence",
-        "Required proof cannot be produced within issue scope"
+        "WP-08/#5825, WP-09/#5826, or #4761 evidence is stale or unverifiable.",
+        "Execution requires provider-adapter or credential changes outside the exact declared paths.",
+        "Secret-like data or unbounded authority cannot be excluded.",
+        "WP-11/#5828 has not landed and released adl-runtime-kernel/src/lib.rs before the WP-12 registration claim."
       ],
-      "replan_triggers": [],
+      "replan_triggers": [
+        "#4761 must be explicitly superseded rather than consumed.",
+        "Provider/profile identifiers require a versioned compatibility mapping.",
+        "Review identifies an undeclared authority or resource dimension."
+      ],
       "design_ref": ".csdlc/prepared/issues/5829/design.md",
-      "design_digest": "622c9c6999c6bf393fe645a9989b18ec3e5017dea0e00cccb8c2bdbb8889a1c6",
+      "design_digest": "400f77c40eaf597d65642059156fbd5c24f778d6be041e9509012c6282d24fc3",
       "diagram_ref": ".csdlc/prepared/issues/5829/diagram.mmd",
-      "diagram_digest": "e4b9797e5fecee22313d1c98f5518bcec8479fd6bbec44884d8388213568403c"
+      "diagram_digest": "78acf0d1432d60e5c4c8b3eba8f887a035f2f55abeee4cc19537b6495dc5de3a"
     }
   }
 }

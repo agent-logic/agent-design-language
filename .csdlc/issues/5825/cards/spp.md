@@ -12,38 +12,54 @@ Status: ready
 
 ## Summary
 
-Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.
+Implement and prove the deterministic WP-08 birth decision, including complete disqualifying cases and explicit public-claim boundaries.
 
 ## Plan
 
-Revision 1
+Revision 28
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Prepare exact scope, design, paths, and validation plan",
+    "action": "Verify #5817/#5801 terminal receipts and inspect adl-runtime-kernel contract/proof authorities before claiming the exact birthday.rs, lib.rs, tests, fixture, feature, and evidence paths.",
     "acceptance_ids": [
-      "AC-2"
+      "AC-2",
+      "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Implement the required outcome and focused proof",
+    "action": "Implement the versioned birth-decision contract, one valid fixture, and the complete table-driven disqualifier matrix.",
     "acceptance_ids": [
       "AC-1",
-      "AC-3",
-      "AC-4"
+      "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Resolve one bounded pre-PR review and publish with closing linkage",
+    "action": "Run deterministic focused, negative, path-hygiene, and public-claim boundary lanes and retain exact-revision evidence.",
     "acceptance_ids": [
+      "AC-4",
       "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Resolve one bounded exact-head review and publish only with correct base and Closes #5825 linkage.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8"
     ],
     "status": "pending"
   }
@@ -51,15 +67,15 @@ Revision 1
 
 ## Invariants
 
-- No tracked work on main
-- No scope absorption across work packages
-- Evidence claims remain exact-revision and source-grounded
+- Birth decisions are deterministic over canonical inputs and fail closed on missing or contradictory evidence.
+- Startup, wake, restore, snapshot, copied state, migration, and admission are never sufficient birth evidence.
+- Existing v0.91.x birthday non-claims and downstream work-package authority remain unchanged.
 
 ## Risks
 
-- Dependency drift
-- Scope overlap
-- Insufficient real-behavior proof
+- The birth decision could accept a lifecycle lookalike or incomplete evidence packet.
+- The shared adl-runtime-kernel/src/lib.rs registration could collide with adjacent sequential sprint work.
+- Claim-boundary prose could overstate personhood, citizenship, governance, migration, or launch readiness.
 
 ## Estimates
 
@@ -73,19 +89,19 @@ Revision 1
 
 .csdlc/prepared/issues/5825/design.md
 
-Digest: f35ff4071d3302b89ec9e2377805c28c5e5cd1fba23f547c38881485b21694f9
+Digest: f04080d6b3bc8bc4d9c062333476ab8d4a44b464205d149c001a48c317361621
 
 ## Diagram
 
 .csdlc/prepared/issues/5825/diagram.mmd
 
-Digest: 10b00a557a108eaf99aac7ee704480acbc7f20af9b0a64ead413fc2abc7dcb92
+Digest: af3ccfe3d575efcd6afdf4b661f1a73ffef8cd1ac35a93da986e2d10d55ed3a9
 
 ## Stop Conditions
 
-- Protected-path collision
-- Contradictory dependency evidence
-- Required proof cannot be produced within issue scope
+- WP-01/#5817 or WP-02A/#5801 terminal proof is stale, missing, or contradictory.
+- Execution requires paths outside birthday.rs, lib.rs registration, tests/birthday.rs, tests/fixtures/birthday/, the WP-08 feature contract, or .csdlc/evidence/5825/ without explicit replan.
+- Any declared negative case lacks deterministic fail-closed proof.
 
 ## Handoff
 

@@ -1,0 +1,113 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5860,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][WP-01][readiness] Complete design-time cards for every milestone issue",
+    "slug": "v092-all-issue-execution-readiness",
+    "version": "v0.92",
+    "generation": 30
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 5,
+      "summary": "Audit all children, prepare six disjoint sprint sets, integrate typed designs and cards, validate every packet and released claim, then run independent exact-head review.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Audit all 58 execution issues and preserve the exact defect and readiness baseline",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Prepare source-grounded designs and typed cards in six disjoint sprint lanes, with #5855 owning WP-04 architecture and security gating and #5862 separately owning WP-04 implementation coordination after #5821 is terminal",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Integrate results, release preparation claims, and generate the exact 58-row readiness and ownership evidence",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Run typed validation and independent exact-head readiness review, then repair every actionable finding",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/issues/5860/",
+        ".csdlc/prepared/issues/5860/",
+        ".csdlc/evidence/5860/",
+        ".csdlc/locks/5860.lock",
+        ".csdlc/publication/5860.intent.json",
+        "docs/milestones/v0.92/README.md",
+        "docs/milestones/v0.92/SPRINT_v0.92.md",
+        "docs/milestones/v0.92/WBS_v0.92.md",
+        "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+        "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",
+        ".adl/docs/TBD/V092_SPRINT_5855_RUNTIME_OBSERVATORY_SESSION_PROMPT.md",
+        ".adl/docs/TBD/V092_SPRINT_5862_DISTRIBUTED_GUARDIAN_SESSION_PROMPT.md"
+      ],
+      "invariants": [
+        "No product path changes",
+        "No generic card accepted as ready",
+        "No unapproved design accepted",
+        "No active preparation claim left behind",
+        "No child implementation begins"
+      ],
+      "risks": [
+        "Large card count can hide generic or contradictory prose",
+        "Parallel lanes can drift from canonical dependency truth",
+        "Typed card edits can expose schema or claim-control defects"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Any proposed product implementation",
+        "Any unresolved child scope contradiction",
+        "Any typed validation bypass",
+        "Any overlapping preparation claim"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/5860/design.md",
+      "design_digest": "efb288c53c47046c56e512a9cd277b4b8803965a595fa2870c253b36e429d748",
+      "diagram_ref": ".csdlc/prepared/issues/5860/diagram.mmd",
+      "diagram_digest": "e2a3e34b6407cb62639a89ed201ac32976da3a2ce4a7f270cdc8a6bac3423209"
+    }
+  }
+}

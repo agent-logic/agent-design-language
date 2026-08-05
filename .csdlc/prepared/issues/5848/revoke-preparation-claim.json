@@ -1,0 +1,11 @@
+{
+  "issue": 5848,
+  "repository": "danielbaustin/agent-design-language",
+  "expected_claim_id": "claim-5848-v092-preparation",
+  "expected_generation": 11,
+  "expected_digest": "88808da13de394c0d15089dc0d55767890efae03812a34954abeb769a7a3e31b",
+  "now_unix_seconds": 1785953465,
+  "actor": "codex:5860-quality-release-second-pass",
+  "operator_authority": "operator:daniel-5860-quality-release-second-pass-completion",
+  "reason": "Release the second-pass preparation claim after typed rendering, design reapproval, and bounded validation."
+}

@@ -24,25 +24,89 @@ Diagram: .csdlc/prepared/issues/5832/diagram.mmd
 
 [
   {
-    "lane": "focused-wp-14",
-    "proof_role": "contracts, schema catalog, round-trip fixtures, denied-access case, and real WSS exchange",
+    "lane": "acip-schema-roundtrip-negatives",
+    "proof_role": "Run exact nonzero ACIP schema, catalog, protobuf/JSON round-trip, negotiation, replay, malformed, oversized, and denied-dispatch tests.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
-      "AC-5"
+      "AC-6"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 3600,
-    "budget_tokens": 25000,
+    "budget_seconds": 900,
+    "budget_tokens": 6000,
+    "argv": [
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "runtime_api_wss",
+      "--no-tests=fail"
+    ],
+    "parallel_group": "runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "production-acip-wss",
+    "proof_role": "Launch production Guardian/kernel and prove real authenticated Rustls WSS binary/JSON full-duplex exchange, correlation, backpressure, reconnect, and typed errors.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 900,
+    "budget_tokens": 6000,
+    "argv": [
+      "bash",
+      "adl/tools/validate_v092_acip_wss.sh"
+    ],
+    "parallel_group": "runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "native-acip-receipts",
+    "proof_role": "Recompute exact-revision macOS, Linux, and native Windows ACIP/WSS receipts with binary/schema/transcript digests and nonzero exchanges/negatives. [preexec_rejection exit=1 diagnostic_sha256=de72b4d18c37dc62c7f280fdab91fc7844cfa5030f3b65582551714534d8e2dc]",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 900,
+    "budget_tokens": 6000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5832/validate-acip-native-receipts.rb"
+    ],
+    "parallel_group": "runtime",
+    "defer_reason": null
+  },
+  {
+    "lane": "exact-head-review-preflight",
+    "proof_role": "Reject diff damage before exact-head review.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 900,
+    "budget_tokens": 6000,
     "argv": [
       "git",
       "diff",
       "--check"
     ],
-    "parallel_group": "issue-local",
+    "parallel_group": "review",
     "defer_reason": null
   }
 ]
@@ -59,6 +123,9 @@ Tokens: 25000
 
 ## Commands
 
+- `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss --no-tests=fail`
+- `bash adl/tools/validate_v092_acip_wss.sh`
+- `ruby .csdlc/prepared/issues/5832/validate-acip-native-receipts.rb`
 - `git diff --check`
 
 ## Failure Semantics

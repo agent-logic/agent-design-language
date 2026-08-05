@@ -24,25 +24,97 @@ Diagram: .csdlc/prepared/issues/5851/diagram.mmd
 
 [
   {
-    "lane": "focused-wp-29",
-    "proof_role": "next-milestone review findings and disposition",
+    "lane": "independent-live-universe",
+    "proof_role": "Independently reconstruct the issue denominator from the wave and reread every GitHub issue/PR/check/review plus typed terminal/claim state; reject upstream-row slicing. [preexec_rejection exit=1 diagnostic_sha256=9f5d21d76b31ce684331da6064f53c458830d54ed7afe254f135b8080a66832f]",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
-      "AC-5"
+      "AC-5",
+      "AC-6"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 1200,
-    "budget_tokens": 10000,
+    "budget_seconds": 420,
+    "budget_tokens": 3800,
     "argv": [
-      "git",
-      "diff",
-      "--check"
+      "ruby",
+      ".csdlc/prepared/issues/5851/validate-readiness-review.rb",
+      "comparison"
     ],
-    "parallel_group": "issue-local",
+    "parallel_group": "comparison",
+    "defer_reason": null
+  },
+  {
+    "lane": "handoff-review",
+    "proof_role": "Validate exact-head reviewer identity, findings dispositions, artifact digests, and v0.93 non-activation boundaries. [preexec_rejection exit=1 diagnostic_sha256=277dfcf8324b19f5028dda3387ec4673e000557794de264430f4ff9a2d987287]",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 240,
+    "budget_tokens": 1800,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5851/validate-readiness-review.rb",
+      "handoff"
+    ],
+    "parallel_group": "handoff",
+    "defer_reason": null
+  },
+  {
+    "lane": "readiness-negatives",
+    "proof_role": "Run every negative fixture through the actual independent comparison or handoff validator and require digest-bound failure. [preexec_rejection exit=1 diagnostic_sha256=13ca224eba10443b1e2f4f81446f6dd6bbaa71e51715513fc3e05fb3b1f4e732]",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 360,
+    "budget_tokens": 3300,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5851/validate-readiness-review.rb",
+      "negative"
+    ],
+    "parallel_group": "negative",
+    "defer_reason": null
+  },
+  {
+    "lane": "typed-card-doctor",
+    "proof_role": "Validate the exact six-card bundle and design approval.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "csdlc-doctor",
+      "--repo",
+      ".",
+      "--issue",
+      "5851"
+    ],
+    "parallel_group": "typed-readback",
     "defer_reason": null
   }
 ]
@@ -59,7 +131,10 @@ Tokens: 10000
 
 ## Commands
 
-- `git diff --check`
+- `ruby .csdlc/prepared/issues/5851/validate-readiness-review.rb comparison`
+- `ruby .csdlc/prepared/issues/5851/validate-readiness-review.rb handoff`
+- `ruby .csdlc/prepared/issues/5851/validate-readiness-review.rb negative`
+- `csdlc-doctor --repo . --issue 5851`
 
 ## Failure Semantics
 

@@ -1,2 +1,12 @@
-flowchart LR
-  I["Issue 5821"] --> D["Design required"]
+flowchart TD
+  W["WP-03 stable single-node Runtime"] --> A["WP-04 architecture and security gate"]
+  A --> T["Reviewed architecture and threat model"]
+  A --> L["Exact 16-child ownership ledger"]
+  T --> U["Schedule separate WP-04-IMP umbrella"]
+  L --> U
+  U --> C1["WP-04.01 through WP-04.08 identity, transport, and authority"]
+  U --> C2["WP-04.09 through WP-04.15 placement, migration, and projection"]
+  C1 --> C16["WP-04.16 real multi-node adversarial proof"]
+  C2 --> C16
+  C16 --> I["WP-04-IMP integration and terminal reconciliation"]
+  I --> N["WP-14 may consume stable distributed contracts"]

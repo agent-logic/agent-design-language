@@ -12,38 +12,55 @@ Status: ready
 
 ## Summary
 
-Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.
+Implement and prove WP-12 canonical capability envelopes with explicit providers, tools, skills, grants, denials, limits, provenance, and secret-safe failure handling.
 
 ## Plan
 
-Revision 1
+Revision 27
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Prepare exact scope, design, paths, and validation plan",
+    "action": "Verify WP-08/#5825, WP-09/#5826, and #4761; collision-check nonshared paths immediately, but defer the one-line lib.rs registration claim until WP-11/#5828 has landed and released it.",
     "acceptance_ids": [
-      "AC-2"
+      "AC-2",
+      "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Implement the required outcome and focused proof",
+    "action": "Implement the versioned envelope, canonical ordering, explicit grants/denials/limits, validator, and fixtures.",
     "acceptance_ids": [
       "AC-1",
-      "AC-3",
-      "AC-4"
+      "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Resolve one bounded pre-PR review and publish with closing linkage",
+    "action": "Run focused canonicalization, stale/escalation/limit negatives, secret scanning, and path portability lanes.",
     "acceptance_ids": [
+      "AC-4",
       "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Resolve one bounded exact-head review and publish only with correct base and Closes #5829 linkage.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8",
+      "AC-9"
     ],
     "status": "pending"
   }
@@ -51,15 +68,15 @@ Revision 1
 
 ## Invariants
 
-- No tracked work on main
-- No scope absorption across work packages
-- Evidence claims remain exact-revision and source-grounded
+- Capability description never grants authority or proves invocation.
+- Canonical ordering makes equivalent envelopes deterministic.
+- Credential material, private state, and host-specific paths never enter retained evidence.
 
 ## Risks
 
-- Dependency drift
-- Scope overlap
-- Insufficient real-behavior proof
+- Capability could be mistaken for authority or invocation proof.
+- Retained #4761 provenance could be copied without current digest verification.
+- A required provider adapter edit could exceed the exact capability-envelope boundary.
 
 ## Estimates
 
@@ -73,19 +90,20 @@ Revision 1
 
 .csdlc/prepared/issues/5829/design.md
 
-Digest: 622c9c6999c6bf393fe645a9989b18ec3e5017dea0e00cccb8c2bdbb8889a1c6
+Digest: 400f77c40eaf597d65642059156fbd5c24f778d6be041e9509012c6282d24fc3
 
 ## Diagram
 
 .csdlc/prepared/issues/5829/diagram.mmd
 
-Digest: e4b9797e5fecee22313d1c98f5518bcec8479fd6bbec44884d8388213568403c
+Digest: 78acf0d1432d60e5c4c8b3eba8f887a035f2f55abeee4cc19537b6495dc5de3a
 
 ## Stop Conditions
 
-- Protected-path collision
-- Contradictory dependency evidence
-- Required proof cannot be produced within issue scope
+- WP-08/#5825, WP-09/#5826, or #4761 evidence is stale or unverifiable.
+- Execution requires provider-adapter or credential changes outside the exact declared paths.
+- Secret-like data or unbounded authority cannot be excluded.
+- WP-11/#5828 has not landed and released adl-runtime-kernel/src/lib.rs before the WP-12 registration claim.
 
 ## Handoff
 

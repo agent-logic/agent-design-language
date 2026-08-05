@@ -3,9 +3,9 @@
   "issue": 5800,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "01a996f3111ad433ba2731d9e465e062a862e763797a061a45c684e4a22e6ab8",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "5af499b0573a1afde2d66adc9290cd2a0e6f567c29309fe31461b6ea72ffe5bb",
+  "phase": "bound",
+  "generation": 44,
+  "digest": "89c572fd5ed8ec0f561d664107058489c3009bddc9dd35fd90c3639738afead3",
   "claim": null,
   "review_assignment": null,
   "review": null,
@@ -15,40 +15,60 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5800/design.md",
   "diagram_path": ".csdlc/prepared/issues/5800/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5860-v092-ownership-design-review",
+      "revision": "5f983337ffd152615bdcc31a9d8114ed4590af85849394bdae27e2d2852cdc36"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "e2f388b5c06168c3448a764892e6ccad19d6dfac13f6f86304d2b2434543982a",
-      "rendered_digest": "e158bebdb167c0bed4f70d0b2950584bffd9b4d88c1ab8f389879374e6240370",
-      "ast_digest": "e366eab345bd05560a5b89380eb3a1d5d856f4fcec7716d31dc341aa96d07009"
+      "values_digest": "8f77247ada838b59a574d7c30a6eef36c5d9b3fca1429c91a8557b513897dfaf",
+      "rendered_digest": "6143b66a1e737a548f251daed5cdca26190ec5355b0a365c7003cbb0a86fa8b6",
+      "ast_digest": "91e90f7e2ff9cc13223d9e0b2326726dae2f7062b945217e78de9c50725a798b"
     },
     "stp": {
-      "values_digest": "0187447077fa00f4b7de734d774cb760acb3214640317d5ee5721b7a382de13b",
-      "rendered_digest": "f89e2acfc20e789452388fddb4be50fcaa591a046c37cb83e4b0ff152a9e942d",
-      "ast_digest": "7c06cdcf869fa8279c9906612bdc89d6b11b828e240e23994af37d088fa04f28"
+      "values_digest": "ce1de7dd1b24612e99f9d6ebda6339bfe62582c11afc91630d2db938ff9dbf02",
+      "rendered_digest": "b7e8321544bf20cc1015fe935798a6205189bdf4bcb5b6c773f821f4d80a8694",
+      "ast_digest": "46a3653959adc3cbe7ad8df38b7bf09fbbbd77fce7ed61ce11b51282b64c19cc"
     },
     "spp": {
-      "values_digest": "9868e974235c43405bca0613bbac9c16274c65a28bae4048627ec5b5dd75bcb5",
-      "rendered_digest": "5e09e0f9c9268e4cd013bd9ca1e6d94c5983a3442fde6074d6a1c2f34ce627a3",
-      "ast_digest": "424d11d97731f05891b44cb303d9fb103adf7fb061d84fe63f2a509ea1307428"
+      "values_digest": "ef6a1a95569bafa30538177595f7696eaf554f28fd42751bfdc5f09fbc354c3f",
+      "rendered_digest": "2d239802983cf3189276748b7ab4bafff23dd635eb0a511be0a96edfaaac147e",
+      "ast_digest": "84214e7d1863ad837b00c11711e88885261407b40b1a9605b7d4eb6bf6697434"
     },
     "vpp": {
-      "values_digest": "aa3b2c558a83db9a38fd44fd07dab08936d50ee9600bd9b2933535b74cd0a1d1",
-      "rendered_digest": "a2c7b26ac1811a311295f99c1a08395e52fade48a7ff2f0069d166284786c1d2",
-      "ast_digest": "2cc7cba489bae7741c70f1448545407f8519244f51757ad9508af64291b55d0a"
+      "values_digest": "f7397ed028dee4b16f1d6d515a37c209c0155ce863ed7ddda9112f3caea89700",
+      "rendered_digest": "a20109164235d52d3fe00759adcd111e76f6208c4eb7f4824a594aee79b461e5",
+      "ast_digest": "306ea4096f14fa7ad2af2f0869e7dab047af6fe3f9a4b3a4e5df60a0f5cd6fa4"
     },
     "srp": {
-      "values_digest": "2a909a697089d040fb583715a06106abfd530e630bd867cad7858efd1e0960f8",
-      "rendered_digest": "ee2f6104036823cfe12b623beb0ce3706d9e687f84d75991326b0a4dcc75cc72",
-      "ast_digest": "258feadcbefbb0c3b47b121124dcc97dc6e51c097fd97a63c72ef322dd4b6133"
+      "values_digest": "494223b050971e38c73f138fb04e5fecabea4c92f490732bd77695e34a786a53",
+      "rendered_digest": "d604d83d9201ea7bfdfa7defaf344f7d9f31f19952424dc8dd5cf89a57d1c602",
+      "ast_digest": "1357a28cc8559115cf7c29beef24b4ea325afa835c2c8071df4744c4d6b31627"
     },
     "sor": {
-      "values_digest": "774bcbd0f7f1674d358029d7e69452efef89171fb79afcc213b49c6c21dea665",
+      "values_digest": "9f5ff094359c13269d2c1266a8845e210a113f9c403a61855ed7d3262161599a",
       "rendered_digest": "7148b0815005ac5283ff0ca3bbe2e3f2022389e5bf225933974247be44f2c41f",
       "ast_digest": "c38cb7e2bfafaa0197f338df785a225b6c110fc6fd4ef1c4dd07401f592b351b"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "verified Git worktree binding"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -63,6 +83,391 @@
       "actor": "codex:5817",
       "reason": "Revoke WP-01 bootstrap-only preparation reservation so issue 5817 can own and review every path it publishes; the child session must reacquire its issue-local claim after WP-01 releases.",
       "operation": "{\"claim_id\":\"claim-5800-v092-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-wp01-publication-ownership\",\"previous_owner\":\"wp01:issue-wave-preparation\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Reacquire the released issue-local preparation claim to repair and approve design-time readiness for issue 5800 only.",
+      "operation": "{\"branch\":\"codex/5860-v092-execution-readiness\",\"claim_id\":\"claim-5800-v092-preparation\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-runtime-readiness\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5800\",\".csdlc/prepared/issues/5800\",\".csdlc/evidence/5800\"],\"purpose\":\"Prepare issue 5800 design, diagram, cards, and validation plan without product implementation.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:5860-runtime-readiness-design-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 1,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set the issue-specific browser trust goal.",
+      "operation": "{\"field\":\"goal\",\"new_value\":\"Make the separate local Observatory and Runtime v3 API load through one browser-trusted localhost HTTPS identity without warning or verification bypasses.\",\"operation\":\"replan\",\"previous_value\":\"Make the supported local Observatory load over browser-trusted HTTPS without warning bypasses.\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set the concrete trusted HTTPS outcome.",
+      "operation": "{\"field\":\"required_outcome\",\"new_value\":\"A documented, reproducible local certificate generation, trust installation, reissue, configuration, startup, and recovery flow makes Chrome, curl, Observatory HTML, Runtime health/readiness, and the Runtime feed agree on verified HTTPS.\",\"operation\":\"replan\",\"previous_value\":\"One documented and reproducible local trust flow makes Chrome, Observatory startup, configured URLs, health checks, and Runtime feed access agree on trusted HTTPS.\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Replace scope with source-grounded ownership candidates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl-runtime/src/local_tls.rs and its local TLS bootstrap binary\",\"adl-runtime/tests/local_tls.rs\",\"infra/runtime-v3/runtime-init.toml TLS and allowed-origin configuration\",\"demos/html-observatory HTTPS configuration, startup guidance, and focused validation\",\".csdlc/evidence/5800 trusted-browser and verified-health proof\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Clarify authority boundaries.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Issue 5800 owns local localhost certificate trust, issuance or reissue, and HTTPS consistency only\",\"Issue 5820 owns broader Guardian and Runtime launch resilience; overlapping init or TLS files serialize\",\"Issue 5795 and issue 5837 consume this trusted path and cannot redefine it\",\"No AWS, ACM, Route53, public-domain, or verification-bypass authority\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set the executable task boundary.",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Deliver one supported browser-trusted localhost HTTPS flow for the separate Observatory and Runtime API, including atomic certificate handling, explicit operator trust, consistent configuration, and reproducible positive, negative, and platform proof.\",\"operation\":\"replan\",\"previous_value\":\"Deliver a browser-trusted local Observatory HTTPS flow with reproducible browser and health proof.\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Replace deliverables with issue-specific outputs.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Supported localhost certificate generation, validation, trust installation, and reissue flow\",\"Consistent Runtime API and separate Observatory HTTPS configuration and startup guidance\",\"Chrome, curl, HTML, health/readiness, Runtime-feed, and negative certificate evidence\",\"Platform disposition for macOS, Linux, and native Windows without inferred portability\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Pin exact dependencies.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"WP-01 issue 5817 merged and ancestral\",\"WP-02A proving substrate terminal before implementation\",\"Sprint 5855 coordination\",\"Serialization with issue 5820 for shared Runtime init or TLS paths\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Replace repository inputs with live sources.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"adl-runtime/src/local_tls.rs\",\"adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs\",\"adl-runtime/tests/local_tls.rs\",\"infra/runtime-v3/runtime-init.toml\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/README.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set bounded non-goals.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"AWS, ACM, Route53, or Let's Encrypt issuance for localhost\",\"Public production-domain certificate automation\",\"Disabling TLS verification, browser warnings, or CORS policy\",\"Serving Observatory HTML from Runtime or redesigning the Observatory\",\"Claiming WP-03, WP-14, or WP-18A completion\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Replace generic summary with the issue execution sequence.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Reconcile the existing local TLS generator with one explicit browser trust mechanism, serialize shared init work with issue 5820, align both HTTPS listeners and documentation, prove failure preserves the last valid pair, then retain verified browser, health, feed, and platform evidence before exact-head review.\",\"operation\":\"replan\",\"previous_value\":\"Select the supported local trust model, align issuance/config/startup/docs, prove browser and Runtime-feed trust, and retain negative certificate cases.\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Name affected implementation candidates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"Runtime local TLS bootstrap and tests\",\"Runtime v3 TLS and CORS init configuration\",\"Separate HTML Observatory HTTPS serving and configuration\",\"Operator trust and reissue documentation\",\"Issue 5800 proof artifacts\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Record TLS invariants.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"TLS verification remains enabled\",\"SANs match configured localhost DNS and IP identities\",\"Private keys, trust exports, tokens, and secrets never enter Git or logs\",\"Failed replacement preserves the last valid committed pair\",\"Runtime and Observatory remain separate listeners with one identity contract\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Record issue-specific risks.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"risks\",\"values\":[\"Trust-store mutation could be implicit or non-reproducible\",\"SAN or expiry drift could make browser and curl behavior disagree\",\"Partial replacement could separate certificate and key generations\",\"Runtime init overlap with issue 5820 could create conflicting ownership\",\"macOS-only proof could be overstated as portable\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set fail-closed stop conditions.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"The selected flow requires a browser warning or TLS verification bypass\",\"Private key or host trust material would be committed or logged\",\"Issue 5820 owns an overlapping live edit without serialization\",\"A failed replacement can remove the last valid pair\",\"Required platform behavior has no truthful disposition\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set concrete replan triggers.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"Runtime TLS bootstrap ownership changes before implementation\",\"The supported static HTTPS server cannot consume the shared localhost identity\",\"Browser trust requires a different explicit operator mechanism on a supported platform\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set the issue-specific browser trust goal.",
+      "operation": "{\"field\":\"goal\",\"new_value\":\"Make the separate local Observatory and Runtime v3 API load through one browser-trusted localhost HTTPS identity without warning or verification bypasses.\",\"operation\":\"replan\",\"previous_value\":\"Make the separate local Observatory and Runtime v3 API load through one browser-trusted localhost HTTPS identity without warning or verification bypasses.\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set the concrete trusted HTTPS outcome.",
+      "operation": "{\"field\":\"required_outcome\",\"new_value\":\"A documented, reproducible local certificate generation, trust installation, reissue, configuration, startup, and recovery flow makes Chrome, curl, Observatory HTML, Runtime health/readiness, and the Runtime feed agree on verified HTTPS.\",\"operation\":\"replan\",\"previous_value\":\"A documented, reproducible local certificate generation, trust installation, reissue, configuration, startup, and recovery flow makes Chrome, curl, Observatory HTML, Runtime health/readiness, and the Runtime feed agree on verified HTTPS.\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Replace scope with source-grounded ownership candidates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl-runtime/src/local_tls.rs and its local TLS bootstrap binary\",\"adl-runtime/tests/local_tls.rs\",\"infra/runtime-v3/runtime-init.toml TLS and allowed-origin configuration\",\"demos/html-observatory HTTPS configuration, startup guidance, and focused validation\",\".csdlc/evidence/5800 trusted-browser and verified-health proof\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Clarify authority boundaries.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Issue 5800 owns local localhost certificate trust, issuance or reissue, and HTTPS consistency only\",\"Issue 5820 owns broader Guardian and Runtime launch resilience; overlapping init or TLS files serialize\",\"Issue 5795 and issue 5837 consume this trusted path and cannot redefine it\",\"No AWS, ACM, Route53, public-domain, or verification-bypass authority\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set the executable task boundary.",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Deliver one supported browser-trusted localhost HTTPS flow for the separate Observatory and Runtime API, including atomic certificate handling, explicit operator trust, consistent configuration, and reproducible positive, negative, and platform proof.\",\"operation\":\"replan\",\"previous_value\":\"Deliver one supported browser-trusted localhost HTTPS flow for the separate Observatory and Runtime API, including atomic certificate handling, explicit operator trust, consistent configuration, and reproducible positive, negative, and platform proof.\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 22,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Replace deliverables with issue-specific outputs.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Supported localhost certificate generation, validation, trust installation, and reissue flow\",\"Consistent Runtime API and separate Observatory HTTPS configuration and startup guidance\",\"Chrome, curl, HTML, health/readiness, Runtime-feed, and negative certificate evidence\",\"Platform disposition for macOS, Linux, and native Windows without inferred portability\"]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 23,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Pin exact dependencies.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"WP-01 issue 5817 merged and ancestral\",\"WP-02A proving substrate terminal before implementation\",\"Sprint 5855 coordination\",\"Serialization with issue 5820 for shared Runtime init or TLS paths\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Replace repository inputs with live sources.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"adl-runtime/src/local_tls.rs\",\"adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs\",\"adl-runtime/tests/local_tls.rs\",\"infra/runtime-v3/runtime-init.toml\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/README.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 25,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set bounded non-goals.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"AWS, ACM, Route53, or Let's Encrypt issuance for localhost\",\"Public production-domain certificate automation\",\"Disabling TLS verification, browser warnings, or CORS policy\",\"Serving Observatory HTML from Runtime or redesigning the Observatory\",\"Claiming WP-03, WP-14, or WP-18A completion\"]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 26,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Replace generic summary with the issue execution sequence.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Reconcile the existing local TLS generator with one explicit browser trust mechanism, serialize shared init work with issue 5820, align both HTTPS listeners and documentation, prove failure preserves the last valid pair, then retain verified browser, health, feed, and platform evidence before exact-head review.\",\"operation\":\"replan\",\"previous_value\":\"Reconcile the existing local TLS generator with one explicit browser trust mechanism, serialize shared init work with issue 5820, align both HTTPS listeners and documentation, prove failure preserves the last valid pair, then retain verified browser, health, feed, and platform evidence before exact-head review.\"}"
+    },
+    {
+      "sequence": 31,
+      "generation": 27,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Name affected implementation candidates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"Runtime local TLS bootstrap and tests\",\"Runtime v3 TLS and CORS init configuration\",\"Separate HTML Observatory HTTPS serving and configuration\",\"Operator trust and reissue documentation\",\"Issue 5800 proof artifacts\"]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 28,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Record TLS invariants.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"TLS verification remains enabled\",\"SANs match configured localhost DNS and IP identities\",\"Private keys, trust exports, tokens, and secrets never enter Git or logs\",\"Failed replacement preserves the last valid committed pair\",\"Runtime and Observatory remain separate listeners with one identity contract\"]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 29,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Record issue-specific risks.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"risks\",\"values\":[\"Trust-store mutation could be implicit or non-reproducible\",\"SAN or expiry drift could make browser and curl behavior disagree\",\"Partial replacement could separate certificate and key generations\",\"Runtime init overlap with issue 5820 could create conflicting ownership\",\"macOS-only proof could be overstated as portable\"]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 30,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set fail-closed stop conditions.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"The selected flow requires a browser warning or TLS verification bypass\",\"Private key or host trust material would be committed or logged\",\"Issue 5820 owns an overlapping live edit without serialization\",\"A failed replacement can remove the last valid pair\",\"Required platform behavior has no truthful disposition\"]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 31,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set concrete replan triggers.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"Runtime TLS bootstrap ownership changes before implementation\",\"The supported static HTTPS server cannot consume the shared localhost identity\",\"Browser trust requires a different explicit operator mechanism on a supported platform\"]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 32,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Atomically replace acceptance, plan, and validation DAG.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"Chrome loads the supported Observatory URL without certificate warnings or bypasses\",\"The committed certificate pair has correct localhost SANs, validity, Rustls compatibility, and private-key permissions\",\"Runtime API, separate Observatory server, configured origins, docs, URLs, and probes consistently use HTTPS\",\"Verified curl and browser paths reach Observatory HTML plus Runtime health, readiness, and feed\",\"Missing, malformed, expired, mismatched, untrusted, or partial certificate states fail truthfully and preserve the last valid pair\",\"No private key, token, trust-store export, or secret is committed or logged\",\"macOS proof is retained and Linux/native Windows behavior is implemented or explicitly blocked with evidence\",\"One exact-head review has no unresolved actionable findings\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Inventory current TLS generation, listener configuration, static serving, trust prerequisites, and collision state with issue 5820; select one explicit supported localhost trust model.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement atomic certificate validation/reissue and align Runtime API, Observatory server, origins, URLs, probes, and operator trust guidance.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Run deterministic TLS negatives and live Chrome, curl, HTML, health, readiness, and Runtime-feed proof on the supported local path.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Complete exact-head review, fix findings, publish with closing linkage, and retain truthful platform limits.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"local-tls-contract\",\"proof_role\":\"Prove generation, SAN, expiry, Rustls pair, permissions, atomic replacement, and last-valid-pair negatives.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"local_tls\"],\"parallel_group\":\"tls-contract\",\"defer_reason\":null},{\"lane\":\"observatory-https-integration\",\"proof_role\":\"Prove the configured separate Observatory and Runtime endpoints through verified curl, HTML, health, readiness, and feed access.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"parallel_group\":\"local-live\",\"defer_reason\":\"Run after the implementation session starts the real HTTPS listeners with the supported certificate identity.\"},{\"lane\":\"trusted-browser-macos\",\"proof_role\":\"Retain Chrome trust and no-warning evidence for the actual localhost Observatory and Runtime feed.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"curl\",\"--config\",\".csdlc/prepared/issues/5800/curl-observatory-https.conf\"],\"parallel_group\":\"local-live\",\"defer_reason\":\"Requires explicit operator trust installation and browser-visible live endpoints on macOS.\"},{\"lane\":\"platform-trust\",\"proof_role\":\"Run or disposition the same trust, probe, and negative contract on Linux and native Windows.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-5\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/run_owner_validation_lane.sh\",\"runtime\"],\"parallel_group\":\"platform\",\"defer_reason\":\"Requires native Linux and Windows runners after implementation; absent runner evidence remains blocked, not passed.\"},{\"lane\":\"exact-head-hygiene\",\"proof_role\":\"Reject unrelated changes and support exact-head review.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 33,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set the exact review scope.",
+      "operation": "{\"field\":\"review_scope\",\"new_value\":\"Review issue 5800 exact-head changes and evidence for local TLS generation/trust/reissue, Runtime and separate Observatory HTTPS consistency, failure preservation, secret hygiene, platform dispositions, and strict non-ownership of WP-03 or consumer integration.\",\"operation\":\"replan\",\"previous_value\":\"Issue 5800 local Observatory browser-trusted HTTPS implementation and retained proof\"}"
+    },
+    {
+      "sequence": 38,
+      "generation": 34,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Set issue-specific review prompts.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does Chrome trust both real localhost listeners without warning or bypass?\",\"Can malformed, expired, mismatched, or partial replacement destroy the last valid pair?\",\"Do Runtime init, CORS origins, Observatory config, docs, and probes name the same HTTPS contract?\",\"Are private material and macOS/Linux/Windows claims bounded by retained evidence?\",\"Did the change avoid WP-03 launch resilience and Observatory redesign scope?\"]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 34,
+      "actor": "codex:5860-runtime-readiness",
+      "reason": "Release completed preparation claim so implementation can reacquire authority just in time.",
+      "operation": "{\"claim_id\":\"claim-5800-v092-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-runtime-readiness\"}"
+    },
+    {
+      "sequence": 40,
+      "generation": 34,
+      "actor": "codex:5860-runtime-readiness-repair",
+      "reason": "Reacquire the released issue-local preparation claim to repair and approve design-time readiness for issue 5800 only.",
+      "operation": "{\"branch\":\"codex/5860-v092-execution-readiness\",\"claim_id\":\"claim-5800-v092-preparation\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-runtime-readiness\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5800\",\".csdlc/prepared/issues/5800\",\".csdlc/evidence/5800\"],\"purpose\":\"Prepare issue 5800 design, diagram, cards, and validation plan without product implementation.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 41,
+      "generation": 35,
+      "actor": "codex:5860-runtime-readiness-repair-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 42,
+      "generation": 36,
+      "actor": "codex:5860-runtime-readiness-repair",
+      "reason": "Replace proxy TLS checks with real v0.92 Chrome trust and live endpoint proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"local-tls-contract\",\"proof_role\":\"Prove generation, SAN, expiry, Rustls pair, permissions, atomic replacement, and last-valid-pair negatives.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"local_tls\"],\"parallel_group\":\"tls-contract\",\"defer_reason\":null},{\"lane\":\"chrome-trusted-live-observatory\",\"proof_role\":\"Use the issue-delivered Playwright validator to open real Chrome against the live HTTPS Observatory and Runtime, reject interstitials or TLS console/network errors, and prove HTML, health, readiness, and feed access with browser-visible evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_browser_trusted_observatory.mjs\",\"--browser\",\"chrome\",\"--require-trusted-tls\",\"--runtime-url\",\"https://localhost:20997\",\"--observatory-url\",\"https://localhost:8765\"],\"parallel_group\":\"live-browser\",\"defer_reason\":\"The named validator is an issue 5800 implementation deliverable and requires explicit operator trust plus both real HTTPS listeners.\"},{\"lane\":\"verified-endpoint-probe\",\"proof_role\":\"Independently verify the live Runtime HTTPS identity and endpoint responses without substituting curl for browser trust.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"curl\",\"--config\",\".csdlc/prepared/issues/5800/curl-observatory-https.conf\"],\"parallel_group\":\"live-browser\",\"defer_reason\":\"Requires the real certificate identity and Runtime listener; this lane cannot satisfy AC-1.\"},{\"lane\":\"native-platform-trust-matrix\",\"proof_role\":\"Run the same issue-delivered browser validator on native macOS, Linux, and Windows evidence lanes and fail closed on any missing required platform disposition.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_browser_trusted_observatory.mjs\",\"--require-native-platform-evidence\",\"macos,linux,windows\"],\"parallel_group\":\"platform\",\"defer_reason\":\"Requires native runners and host trust setup; missing native proof remains blocked, never inferred from macOS.\"},{\"lane\":\"exact-head-hygiene\",\"proof_role\":\"Reject unrelated changes and support exact-head review.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 43,
+      "generation": 36,
+      "actor": "codex:5860-runtime-readiness-repair",
+      "reason": "Release completed preparation claim so implementation can reacquire authority just in time.",
+      "operation": "{\"claim_id\":\"claim-5800-v092-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-runtime-readiness\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 36,
+      "actor": "codex:5860-runtime-wp04-second-pass",
+      "reason": "Reacquire issue-local preparation authority for exact-path, dependency, and proof-contract repair.",
+      "operation": "{\"branch\":\"codex/5860-v092-execution-readiness\",\"claim_id\":\"claim-5800-v092-preparation\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-runtime-wp04-second-pass\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5800\",\".csdlc/prepared/issues/5800\",\".csdlc/evidence/5800\"],\"purpose\":\"Second-pass Runtime/WP-04 readiness repair without product implementation.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 45,
+      "generation": 37,
+      "actor": "codex:5860-runtime-wp04-second-pass-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 46,
+      "generation": 38,
+      "actor": "codex:5860-runtime-wp04-second-pass",
+      "reason": "Reconcile exact Runtime/WP-04 ownership, dependencies, and proving validation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl-runtime/src/local_tls.rs\",\"adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs\",\"adl-runtime/tests/local_tls.rs\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/README.md\",\"adl/tools/validate_v092_browser_trusted_observatory.mjs\"]}"
+    },
+    {
+      "sequence": 47,
+      "generation": 39,
+      "actor": "codex:5860-runtime-wp04-second-pass",
+      "reason": "Reconcile exact Runtime/WP-04 ownership, dependencies, and proving validation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/local_tls.rs\",\"adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs\",\"adl-runtime/tests/local_tls.rs\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/README.md\",\"adl/tools/validate_v092_browser_trusted_observatory.mjs\"]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 39,
+      "actor": "codex:5860-runtime-wp04-second-pass",
+      "reason": "Release completed second-pass preparation claim for just-in-time implementation handoff.",
+      "operation": "{\"claim_id\":\"claim-5800-v092-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-runtime-wp04-second-pass\"}"
+    },
+    {
+      "sequence": 49,
+      "generation": 39,
+      "actor": "codex:5860-runtime-wp04-second-pass",
+      "reason": "Reacquire issue-local preparation authority for exact-path, dependency, and proof-contract repair.",
+      "operation": "{\"branch\":\"codex/5860-v092-execution-readiness\",\"claim_id\":\"claim-5800-v092-preparation\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-runtime-wp04-second-pass\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5800\",\".csdlc/prepared/issues/5800\",\".csdlc/evidence/5800\"],\"purpose\":\"Second-pass Runtime/WP-04 readiness repair without product implementation.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 50,
+      "generation": 40,
+      "actor": "codex:5860-runtime-wp04-second-pass-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 51,
+      "generation": 41,
+      "actor": "codex:5860-runtime-wp04-second-pass",
+      "reason": "Reconcile exact Runtime/WP-04 ownership, dependencies, and proving validation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"adl-runtime/src/local_tls.rs\",\"adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs\",\"adl-runtime/tests/local_tls.rs\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/README.md\",\"adl/tools/validate_v092_browser_trusted_observatory.mjs\"]}"
+    },
+    {
+      "sequence": 52,
+      "generation": 42,
+      "actor": "codex:5860-runtime-wp04-second-pass",
+      "reason": "Reconcile exact Runtime/WP-04 ownership, dependencies, and proving validation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/local_tls.rs\",\"adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs\",\"adl-runtime/tests/local_tls.rs\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/README.md\",\"adl/tools/validate_v092_browser_trusted_observatory.mjs\"]}"
+    },
+    {
+      "sequence": 53,
+      "generation": 42,
+      "actor": "codex:5860-runtime-wp04-second-pass",
+      "reason": "Release completed second-pass preparation claim for just-in-time implementation handoff.",
+      "operation": "{\"claim_id\":\"claim-5800-v092-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-runtime-wp04-second-pass\"}"
+    },
+    {
+      "sequence": 54,
+      "generation": 42,
+      "actor": "codex:5860-v092-ownership-normalization",
+      "reason": "Reacquire issue-local preparation authority to normalize exact owned paths and serialization gates without product implementation.",
+      "operation": "{\"branch\":\"codex/5860-v092-ownership-normalization\",\"claim_id\":\"claim-5800-v092-ownership-normalization\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-v092-ownership-normalization\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5800\",\".csdlc/prepared/issues/5800\",\".csdlc/evidence/5800\"],\"purpose\":\"Normalize issue 5800 design/card ownership only; no product implementation, GitHub mutation, wave/WBS mutation, or publication.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 55,
+      "generation": 43,
+      "actor": "codex:5860-v092-ownership-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 56,
+      "generation": 44,
+      "actor": "codex:5860-v092-ownership-normalization",
+      "reason": "Align the operative plan with exact owned paths and machine-readable serialization gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/local_tls.rs\",\"adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs\",\"adl-runtime/tests/local_tls.rs\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/README.md\",\"adl/tools/validate_v092_browser_trusted_observatory.mjs\"]}"
+    },
+    {
+      "sequence": 57,
+      "generation": 44,
+      "actor": "codex:5860-v092-ownership-normalization",
+      "reason": "Release the temporary ownership-normalization claim after typed card regeneration and exact-digest design reapproval.",
+      "operation": "{\"claim_id\":\"claim-5800-v092-ownership-normalization\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-ownership-normalization\",\"previous_owner\":\"codex:5860-v092-ownership-normalization\"}"
     }
   ]
 }

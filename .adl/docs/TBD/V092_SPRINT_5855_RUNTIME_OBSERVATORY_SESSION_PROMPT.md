@@ -4,8 +4,8 @@ Use this prompt to start the Runtime, Observatory, Polis, and Protocol sprint
 session.
 
 ```text
-You own v0.92 sprint coordination issue #5855, Runtime, Observatory, Polis, and
-Protocol.
+You own v0.92 sprint coordination issue #5855, Runtime, Observatory, distributed
+architecture, and Protocol.
 
 Read the repository root AGENTS.md first. Use only typed C-SDLC v2 lifecycle
 tools. Never write tracked work on main, never use /private/tmp, and never let
@@ -43,6 +43,12 @@ Exact child wave:
 - #5832, WP-14: ACIP/A2A contract reconciliation and transport readiness
 - #5837, WP-18A: Observatory and Unity consumer integration
 
+Separate dependent sprint:
+
+- #5862 coordinates the sixth sprint for WP-04-IMP and #5863-#5878. This
+  #5855 session provides #5821 architecture-gate truth but does not schedule or
+  execute those implementation children.
+
 The four Observatory issues #5800, #5820, #5795, and #5837 remain in this one
 sprint. Do not split them into competing Observatory owners.
 
@@ -51,6 +57,11 @@ Serial gates:
 - #5800 and #5820 establish the trusted local launch baseline.
 - #5795 integrates only after #5800 and #5820 stabilize the path and WP-14
   #5832 establishes stable protocol contracts.
+- #5862 begins as a separate sprint only after #5821 passes. Its terminal
+  reconciliation is an external dependency of this sprint's WP-14 final gate.
+- WP-14 #5832 cannot cross its final integration gate until #5862 has
+  reconciled all child PRs, merge heads, terminal receipts, and #5878 proof at
+  the exact candidate head.
 - #5837 integrates only after #5820, #5832, and its WP-18 dependency are ready.
 
 Safe preparation and parallelism:

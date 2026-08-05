@@ -12,38 +12,54 @@ Status: ready
 
 ## Summary
 
-Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.
+Implement and prove WP-09 canonical identity records with stable labels, immutable root authority, provenance, and redaction-safe negative handling.
 
 ## Plan
 
-Revision 1
+Revision 18
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Prepare exact scope, design, paths, and validation plan",
+    "action": "Verify #5825 terminal proof and inspect adl-runtime-kernel identity_memory.rs and private_state.rs before claiming the exact birthday_identity.rs, lib.rs, tests, fixture, feature, and evidence paths.",
     "acceptance_ids": [
-      "AC-2"
+      "AC-2",
+      "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Implement the required outcome and focused proof",
+    "action": "Implement the versioned identity record, deterministic derivation, canonical serialization, and valid/negative fixtures.",
     "acceptance_ids": [
       "AC-1",
-      "AC-3",
-      "AC-4"
+      "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Resolve one bounded pre-PR review and publish with closing linkage",
+    "action": "Run focused replay, alias/provenance negatives, privacy-redaction, and path-portability lanes and retain exact-revision proof.",
     "acceptance_ids": [
+      "AC-4",
       "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Resolve one bounded exact-head review and publish only with correct base and Closes #5826 linkage.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8"
     ],
     "status": "pending"
   }
@@ -51,15 +67,15 @@ Revision 1
 
 ## Invariants
 
-- No tracked work on main
-- No scope absorption across work packages
-- Evidence claims remain exact-revision and source-grounded
+- Stable name never substitutes for identity root authority.
+- Canonical identity derivation and serialization are deterministic.
+- Raw private state is unnecessary for review and cannot enter retained projections.
 
 ## Risks
 
-- Dependency drift
-- Scope overlap
-- Insufficient real-behavior proof
+- Alias updates could silently replace root identity.
+- Continuity references could be accepted without binding prior evidence.
+- Fixtures or reports could leak private or host-specific paths.
 
 ## Estimates
 
@@ -73,19 +89,19 @@ Revision 1
 
 .csdlc/prepared/issues/5826/design.md
 
-Digest: 3ba176503d2c923783a426dde64048269c260bdd235bf388910b014c5253968e
+Digest: 808598da005814fe2c5ec62495819b60cdac1d328a0611562a1126a4902fe297
 
 ## Diagram
 
 .csdlc/prepared/issues/5826/diagram.mmd
 
-Digest: c7012fc2e9c81ce8b04df56843e15954a8d663e434029083bfc6afb921782e17
+Digest: d5cc198edc4895057317ca54fe8aa3c676496c00d23ba4718aa88f17ac266f58
 
 ## Stop Conditions
 
-- Protected-path collision
-- Contradictory dependency evidence
-- Required proof cannot be produced within issue scope
+- #5825 lacks terminal receipt-backed proof.
+- Exact identity paths collide with another live claim.
+- Identity requires raw private state or an unversioned shared schema change.
 
 ## Handoff
 

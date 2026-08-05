@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-14] ACIP and A2A contract reconciliation",
     "slug": "v0-92-wp-14-acip-and-a2a-contract-reconciliation",
     "version": "v0.92",
-    "generation": 0
+    "generation": 34
   },
   "status": "ready",
   "content": {
@@ -16,25 +16,89 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "focused-wp-14",
-          "proof_role": "contracts, schema catalog, round-trip fixtures, denied-access case, and real WSS exchange",
+          "lane": "acip-schema-roundtrip-negatives",
+          "proof_role": "Run exact nonzero ACIP schema, catalog, protobuf/JSON round-trip, negotiation, replay, malformed, oversized, and denied-dispatch tests.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
             "AC-4",
-            "AC-5"
+            "AC-6"
           ],
           "deterministic": true,
           "resource_profile": "medium",
-          "budget_seconds": 3600,
-          "budget_tokens": 25000,
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
+          "argv": [
+            "cargo",
+            "nextest",
+            "run",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "runtime_api_wss",
+            "--no-tests=fail"
+          ],
+          "parallel_group": "runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "production-acip-wss",
+          "proof_role": "Launch production Guardian/kernel and prove real authenticated Rustls WSS binary/JSON full-duplex exchange, correlation, backpressure, reconnect, and typed errors.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
+          "argv": [
+            "bash",
+            "adl/tools/validate_v092_acip_wss.sh"
+          ],
+          "parallel_group": "runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "native-acip-receipts",
+          "proof_role": "Recompute exact-revision macOS, Linux, and native Windows ACIP/WSS receipts with binary/schema/transcript digests and nonzero exchanges/negatives. [preexec_rejection exit=1 diagnostic_sha256=de72b4d18c37dc62c7f280fdab91fc7844cfa5030f3b65582551714534d8e2dc]",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5832/validate-acip-native-receipts.rb"
+          ],
+          "parallel_group": "runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "exact-head-review-preflight",
+          "proof_role": "Reject diff damage before exact-head review.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
           "argv": [
             "git",
             "diff",
             "--check"
           ],
-          "parallel_group": "issue-local",
+          "parallel_group": "review",
           "defer_reason": null
         }
       ],
@@ -42,9 +106,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5832/design.md",
-      "design_digest": "940d19cba56b39716e3412682e9206974184eebdca216e38077aa604a18b87f3",
+      "design_digest": "b718ea4c1edd36ad2ac4cacfdcacd680abf06b043e65e4271d86584da3b1ac7a",
       "diagram_ref": ".csdlc/prepared/issues/5832/diagram.mmd",
-      "diagram_digest": "769cc348bc5c2ada9fc9aec69d67684f26ef58521be0dff370289a54d2d1791e"
+      "diagram_digest": "0ddb64863e3e34f2587da73ca88c9ce88eb77000c199807e0c69639234b28b7f"
     }
   }
 }

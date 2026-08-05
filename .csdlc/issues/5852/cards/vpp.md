@@ -24,25 +24,120 @@ Diagram: .csdlc/prepared/issues/5852/diagram.mmd
 
 [
   {
-    "lane": "focused-wp-30",
-    "proof_role": "release evidence packet, release notes, and closeout record",
+    "lane": "exact-release-manifest",
+    "proof_role": "Bind every release claim to exact reviewed head, ancestral merge, semantic review and terminal evidence, recomputed hashes, notes, checklist, handoff, risks, and non-claims. [preexec_rejection exit=1 diagnostic_sha256=63de60c3a947a88dd59f68d66d637490aee0c9c4adc6e2d9945833835ad7e8cc]",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
-      "AC-5"
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 240,
+    "budget_tokens": 2000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5852/validate-release-evidence.rb",
+      "manifest"
+    ],
+    "parallel_group": "manifest",
+    "defer_reason": null
+  },
+  {
+    "lane": "ceremony-preflight",
+    "proof_role": "Require every milestone issue terminal and claim-free, rerun the ceremony tests, and run exact-head v0.92 preflight. [preexec_rejection exit=1 diagnostic_sha256=63de60c3a947a88dd59f68d66d637490aee0c9c4adc6e2d9945833835ad7e8cc]",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 1200,
-    "budget_tokens": 10000,
+    "budget_seconds": 360,
+    "budget_tokens": 3000,
     "argv": [
-      "git",
-      "diff",
-      "--check"
+      "ruby",
+      ".csdlc/prepared/issues/5852/validate-release-evidence.rb",
+      "ceremony"
     ],
-    "parallel_group": "issue-local",
+    "parallel_group": "ceremony",
+    "defer_reason": null
+  },
+  {
+    "lane": "ceremony-negative-rerun",
+    "proof_role": "Rerun the real ceremony test suite and require observed dirty, branch, tag, duplicate, and partial-state rejection with fresh output digest. [preexec_rejection exit=1 diagnostic_sha256=63de60c3a947a88dd59f68d66d637490aee0c9c4adc6e2d9945833835ad7e8cc]",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 240,
+    "budget_tokens": 2000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5852/validate-release-evidence.rb",
+      "negative"
+    ],
+    "parallel_group": "negative",
+    "defer_reason": null
+  },
+  {
+    "lane": "live-release-readback",
+    "proof_role": "Prove annotated tag target, GitHub release publication, exact notes, complete assets, ancestry, and terminal claim-free milestone truth. [preexec_rejection exit=1 diagnostic_sha256=63de60c3a947a88dd59f68d66d637490aee0c9c4adc6e2d9945833835ad7e8cc]",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 240,
+    "budget_tokens": 2000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5852/validate-release-evidence.rb",
+      "post-publication"
+    ],
+    "parallel_group": "post-release",
+    "defer_reason": null
+  },
+  {
+    "lane": "typed-card-doctor",
+    "proof_role": "Validate the exact six-card bundle and design approval.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "csdlc-doctor",
+      "--repo",
+      ".",
+      "--issue",
+      "5852"
+    ],
+    "parallel_group": "typed-readback",
     "defer_reason": null
   }
 ]
@@ -59,7 +154,11 @@ Tokens: 10000
 
 ## Commands
 
-- `git diff --check`
+- `ruby .csdlc/prepared/issues/5852/validate-release-evidence.rb manifest`
+- `ruby .csdlc/prepared/issues/5852/validate-release-evidence.rb ceremony`
+- `ruby .csdlc/prepared/issues/5852/validate-release-evidence.rb negative`
+- `ruby .csdlc/prepared/issues/5852/validate-release-evidence.rb post-publication`
+- `csdlc-doctor --repo . --issue 5852`
 
 ## Failure Semantics
 

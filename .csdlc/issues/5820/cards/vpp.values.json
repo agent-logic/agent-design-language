@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-03] Runtime launch and resilience consolidation",
     "slug": "v0-92-wp-03-runtime-launch-and-resilience-consolidation",
     "version": "v0.92",
-    "generation": 0
+    "generation": 33
   },
   "status": "ready",
   "content": {
@@ -16,8 +16,8 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "focused-wp-03",
-          "proof_role": "cross-platform start-stop, recovery, configuration, and clean-log proof",
+          "lane": "guardian-lifecycle-contract",
+          "proof_role": "Run the exact nonzero production Guardian lifecycle target over init, supervision, restart, durable state, degradation, shutdown, and logs.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -27,14 +27,77 @@
           ],
           "deterministic": true,
           "resource_profile": "medium",
-          "budget_seconds": 3600,
-          "budget_tokens": 25000,
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
+          "argv": [
+            "cargo",
+            "nextest",
+            "run",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "runtime_guardian_lifecycle",
+            "--no-tests=fail"
+          ],
+          "parallel_group": "runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "production-guardian-api-wss-restart",
+          "proof_role": "Launch the production Guardian/kernel and prove authenticated HTTPS/WSS, child kill, bounded restart, durable state, readiness, clean shutdown, and clean logs.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
+          "argv": [
+            "bash",
+            "adl/tools/validate_v092_runtime_guardian_lifecycle.sh"
+          ],
+          "parallel_group": "runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "native-guardian-receipts",
+          "proof_role": "Recompute digest-bound macOS, Linux, and native Windows production Guardian lifecycle receipts. [preexec_rejection exit=1 diagnostic_sha256=9cc0e36ab16ebe02ba7f57850a2c3bfdb63a6580d30b1e61a6fecd754a75de48]",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5820/validate-runtime-native-receipts.rb"
+          ],
+          "parallel_group": "runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "exact-head-review-preflight",
+          "proof_role": "Reject diff damage before exact-head review and issue-closing publication.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
           "argv": [
             "git",
             "diff",
             "--check"
           ],
-          "parallel_group": "issue-local",
+          "parallel_group": "review",
           "defer_reason": null
         }
       ],
@@ -42,9 +105,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5820/design.md",
-      "design_digest": "f023a50116d29c1825d3d438ff6757ceb377d1249e651a52f991c607a9ef7577",
+      "design_digest": "b9838dcfa3966a4f8e3bb7482ef7762db50b7ceafbf1d9f0684227e734fd6200",
       "diagram_ref": ".csdlc/prepared/issues/5820/diagram.mmd",
-      "diagram_digest": "c82615a6a7d7c6c2e2787f53d623d9974e133aa86cae6a662121d5882be8b787"
+      "diagram_digest": "c3c9d67b221cc5f5967cbdb03ad51c66980f9e1920c1b2e069a308dbb1183b31"
     }
   }
 }

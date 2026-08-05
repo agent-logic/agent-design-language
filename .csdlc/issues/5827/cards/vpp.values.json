@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-10] Continuity across bounded cycles",
     "slug": "v0-92-wp-10-continuity-across-bounded-cycles",
     "version": "v0.92",
-    "generation": 0
+    "generation": 51
   },
   "status": "ready",
   "content": {
@@ -16,25 +16,103 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "focused-wp-10",
-          "proof_role": "continuity fixtures, cycle artifacts, and witness links",
+          "lane": "birthday_continuity-runtime-v3",
+          "proof_role": "Run the exact Runtime v3 integration target and fail when the selected target contains no tests.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
             "AC-4",
-            "AC-5"
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
           ],
           "deterministic": true,
           "resource_profile": "medium",
-          "budget_seconds": 3600,
-          "budget_tokens": 25000,
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
           "argv": [
-            "git",
-            "diff",
-            "--check"
+            "cargo",
+            "nextest",
+            "run",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "birthday_continuity",
+            "--no-tests=fail",
+            "--status-level",
+            "all"
           ],
-          "parallel_group": "issue-local",
+          "parallel_group": "5827-core",
+          "defer_reason": null
+        },
+        {
+          "lane": "birthday_continuity-macos-native-ci-producer",
+          "proof_role": "Run the issue-local receipt producer on a native GitHub Actions macos runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-8"
+          ],
+          "deterministic": false,
+          "resource_profile": "medium",
+          "budget_seconds": 240,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5827/produce-native-receipt.rb",
+            "--platform",
+            "macos",
+            "--receipt",
+            ".csdlc/evidence/5827/native-platform/macos.json",
+            "--semantic-output",
+            ".csdlc/evidence/5827/native-platform/macos-semantic.json"
+          ],
+          "parallel_group": "5827-native-produce",
+          "defer_reason": "Required on a native GitHub Actions macos runner; missing CI proof blocks portability and review readiness."
+        },
+        {
+          "lane": "birthday_continuity-linux-native-ci-producer",
+          "proof_role": "Run the issue-local receipt producer on a native GitHub Actions linux runner at exact candidate HEAD and retain the complete nextest log, source manifest, and canonical semantic output.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-8"
+          ],
+          "deterministic": false,
+          "resource_profile": "medium",
+          "budget_seconds": 240,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5827/produce-native-receipt.rb",
+            "--platform",
+            "linux",
+            "--receipt",
+            ".csdlc/evidence/5827/native-platform/linux.json",
+            "--semantic-output",
+            ".csdlc/evidence/5827/native-platform/linux-semantic.json"
+          ],
+          "parallel_group": "5827-native-produce",
+          "defer_reason": "Required on a native GitHub Actions linux runner; missing CI proof blocks portability and review readiness."
+        },
+        {
+          "lane": "birthday_continuity-native-ci-receipt-verification",
+          "proof_role": "Independently recompute producer, source-manifest, command-log, and semantic-output digests; parse a positive test count; verify GitHub Actions provenance; and require macOS/Linux semantic equivalence at exact candidate HEAD. [preexec_rejection exit=1 diagnostic_sha256=b59d9878dca7d0b4f8ff584b4548b273936271b0fd367d81a454262555ecacc9]",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5827/validate-native-receipts.rb",
+            ".csdlc/evidence/5827/native-platform/macos.json",
+            ".csdlc/evidence/5827/native-platform/linux.json"
+          ],
+          "parallel_group": "5827-native-verify",
           "defer_reason": null
         }
       ],
@@ -42,9 +120,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5827/design.md",
-      "design_digest": "835319cf3a32161665cdec2ddb81db6da8365b15650d95c94f00b63f8de9105e",
+      "design_digest": "0bd21395dbab703e08bfa7129d326f01aa7b9e431efab8588627d575e2924f7d",
       "diagram_ref": ".csdlc/prepared/issues/5827/diagram.mmd",
-      "diagram_digest": "a05f2b202743ba3c236670070ddf8e0b19f61db3d94ee0ebfbd3837b41dfd026"
+      "diagram_digest": "b8e8902ce03c1fd254d2be626f03fb412db939612b74f42de3942fcfd6cdbbb4"
     }
   }
 }

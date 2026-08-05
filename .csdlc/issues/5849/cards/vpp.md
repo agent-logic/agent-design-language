@@ -24,25 +24,50 @@ Diagram: .csdlc/prepared/issues/5849/diagram.mmd
 
 [
   {
-    "lane": "focused-wp-28",
-    "proof_role": "next-milestone handoff document",
+    "lane": "complete-v093-handoff",
+    "proof_role": "Read live WP-27 terminal truth, reconstruct every tracked v0.93 candidate document, require evidence, owner, acceptance, and disposition for every row, and reject activation/legal/certification overclaims. [preexec_rejection exit=1 diagnostic_sha256=2126c7b4d4672a83fdb34e64117304012c87a253936880da2182237f7da85cef]",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
-      "AC-5"
+      "AC-5",
+      "AC-6"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 1200,
-    "budget_tokens": 10000,
+    "budget_seconds": 900,
+    "budget_tokens": 8000,
     "argv": [
-      "git",
-      "diff",
-      "--check"
+      "ruby",
+      ".csdlc/prepared/issues/5849/validate-handoff.rb"
     ],
-    "parallel_group": "issue-local",
+    "parallel_group": "handoff",
+    "defer_reason": null
+  },
+  {
+    "lane": "typed-card-doctor",
+    "proof_role": "Validate the exact six-card bundle and design approval.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "csdlc-doctor",
+      "--repo",
+      ".",
+      "--issue",
+      "5849"
+    ],
+    "parallel_group": "typed-readback",
     "defer_reason": null
   }
 ]
@@ -59,7 +84,8 @@ Tokens: 10000
 
 ## Commands
 
-- `git diff --check`
+- `ruby .csdlc/prepared/issues/5849/validate-handoff.rb`
+- `csdlc-doctor --repo . --issue 5849`
 
 ## Failure Semantics
 

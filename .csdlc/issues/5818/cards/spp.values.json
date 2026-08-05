@@ -7,52 +7,104 @@
     "title": "[v0.92][WP-01B] Canonical documentation and version activation",
     "slug": "v0-92-wp-01b-canonical-documentation-and-version-activation",
     "version": "v0.92",
-    "generation": 0
+    "generation": 25
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
-      "summary": "Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.",
+      "plan_revision": 12,
+      "summary": "Inventory authoritative current surfaces, update v0.92 documentation and version declarations, preserve historical evidence, run focused parity and structure proof, then obtain exact-revision review.",
       "steps": [
         {
           "id": "S1",
-          "action": "Prepare exact scope, design, paths, and validation plan",
+          "action": "Build the fixed-denominator canonical-surface and version-authority inventory",
           "acceptance_ids": [
-            "AC-2"
+            "AC-1",
+            "AC-3",
+            "AC-4",
+            "AC-6"
           ],
           "status": "pending"
         },
         {
           "id": "S2",
-          "action": "Implement the required outcome and focused proof",
+          "action": "Update current documentation, feature inventory, links, and version metadata without historical drift",
           "acceptance_ids": [
-            "AC-1",
+            "AC-2",
             "AC-3",
-            "AC-4"
+            "AC-5",
+            "AC-6"
           ],
           "status": "pending"
         },
         {
           "id": "S3",
-          "action": "Resolve one bounded pre-PR review and publish with closing linkage",
+          "action": "Run activation validation, locked ADL Cargo metadata, diff hygiene, and exact-revision review",
           "acceptance_ids": [
-            "AC-5"
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
           ],
           "status": "pending"
         }
       ],
-      "affected_areas": [],
+      "affected_areas": [
+        "README.md",
+        "docs/README.md",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        "adl/README.md",
+        "csdlc-v2/README.md",
+        "AGENTS.md",
+        "REVIEW.md",
+        "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+        "docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md",
+        "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
+        "adl/Cargo.toml",
+        "adl/Cargo.lock",
+        "adl-v2/Cargo.toml",
+        "adl-v2/Cargo.lock",
+        "adl-runtime/Cargo.toml",
+        "adl-runtime/Cargo.lock",
+        "adl-runtime-kernel/Cargo.toml",
+        "adl-runtime-kernel/Cargo.lock",
+        "adl-resilience/Cargo.toml",
+        "adl-resilience/Cargo.lock",
+        "adl-characterization/Cargo.toml",
+        "adl-characterization/Cargo.lock",
+        "csdlc-v2/Cargo.toml",
+        "csdlc-v2/Cargo.lock",
+        ".csdlc/evidence/5818",
+        ".csdlc/prepared/issues/5818/validate-activation.rb",
+        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-docs-activation-final-truth-v1\",\"paths\":[\"README.md\",\"docs/README.md\",\"docs/planning/ADL_FEATURE_LIST.md\",\"AGENTS.md\",\"REVIEW.md\"],\"issues\":[5818,5843],\"order\":[5818,5843]}",
+        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-runtime-manifest-sequence-v1\",\"paths\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\"],\"issues\":[5818,5865],\"order\":[5818,5865]}",
+        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5818-skills-to-final-doc-truth-v1\",\"paths\":[\"csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\"],\"issues\":[5818,5843],\"order\":[5818,5843]}"
+      ],
       "invariants": [
-        "No tracked work on main",
-        "No scope absorption across work packages",
-        "Evidence claims remain exact-revision and source-grounded"
+        "v0.92 active does not mean v0.92 features complete",
+        "v0.91.8 remains the latest completed release until separate release authority changes it",
+        "Historical evidence retains original versions and claims",
+        "No tracked work on main and no generated-file hand editing"
       ],
       "risks": [
-        "Dependency drift",
-        "Scope overlap",
-        "Insufficient real-behavior proof"
+        "A broad replacement rewrites historical truth",
+        "Version declarations drift across workspace members",
+        "Current links point to absent or operator-local paths",
+        "Cargo.lock regeneration introduces unrelated churn"
       ],
       "execution_estimates": {
         "elapsed_seconds": 7200,
@@ -60,15 +112,20 @@
         "validation_seconds": 1200
       },
       "stop_conditions": [
-        "Protected-path collision",
-        "Contradictory dependency evidence",
-        "Required proof cannot be produced within issue scope"
+        "Ambiguous authoritative version owner",
+        "Generated-file ownership cannot be identified",
+        "Historical-preservation scan reports a rewritten evidence surface",
+        "Protected-path collision with another active issue"
       ],
-      "replan_triggers": [],
+      "replan_triggers": [
+        "A current surface is owned by another open v0.92 issue",
+        "Executable version behavior changes and requires broader proof",
+        "The active prompt-template or workspace version authority changes before execution"
+      ],
       "design_ref": ".csdlc/prepared/issues/5818/design.md",
-      "design_digest": "79cfb382f24ea48c1427a73b108423978d0a1db99ac2d74d66668becddccf4e0",
+      "design_digest": "34752158fdf79f56549f51b677b35e2ad077d326cec9c9c146759fe1efe1320a",
       "diagram_ref": ".csdlc/prepared/issues/5818/diagram.mmd",
-      "diagram_digest": "ef434e023917cd923187771e63bd314d5e45f5582b28b34813f892e41bc39dcc"
+      "diagram_digest": "031adc526b6fb3e7420d6f84f360751febe5858232cbb45d62cdb50c059ad1a9"
     }
   }
 }

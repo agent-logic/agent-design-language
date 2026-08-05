@@ -12,38 +12,50 @@ Status: ready
 
 ## Summary
 
-Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.
+After WP-03 stabilizes, freeze and review the distributed architecture and threat model, validate the exact disjoint WP-04.01 through WP-04.16 ledger, create the separate WP-04-IMP umbrella, prepare all sixteen children, and close this gate without product implementation or integration credit.
 
 ## Plan
 
-Revision 1
+Revision 19
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Prepare exact scope, design, paths, and validation plan",
+    "action": "Verify WP-03 terminal ancestry and freeze the distributed Guardian architecture, COTS transport, schemas, trust boundaries, failure semantics, and threat model.",
     "acceptance_ids": [
-      "AC-2"
+      "AC-1",
+      "AC-2",
+      "AC-7"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Implement the required outcome and focused proof",
+    "action": "Publish and validate the immutable WP-04.01 through WP-04.16 ownership, dependency, protected-path, proof, and rollback ledger.",
     "acceptance_ids": [
-      "AC-1",
       "AC-3",
-      "AC-4"
+      "AC-4",
+      "AC-7"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Resolve one bounded pre-PR review and publish with closing linkage",
+    "action": "Create and schedule the separate WP-04-IMP umbrella and prepare exactly the sixteen declared child issues before any implementation starts.",
     "acceptance_ids": [
-      "AC-5"
+      "AC-5",
+      "AC-6",
+      "AC-7"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Resolve independent architecture and security review, retain the approved gate packet, and close issue 5821 without distributed implementation credit.",
+    "acceptance_ids": [
+      "AC-8"
     ],
     "status": "pending"
   }
@@ -51,15 +63,20 @@ Revision 1
 
 ## Invariants
 
-- No tracked work on main
-- No scope absorption across work packages
-- Evidence claims remain exact-revision and source-grounded
+- The architecture preserves exactly one authoritative owner for a Runtime lineage at any epoch
+- The trust contract requires mutual authentication with separate certificate purposes and no insecure mode
+- Replay, stale epoch, cloned state, wrong node, and wrong trust domain are specified to fail closed
+- Migration ordering retains source authority until target validation and fencing succeed
+- The ledger contains exactly sixteen nonduplicative owners with disjoint protected paths
+- All sixteen children are execution-ready before WP-04-IMP starts, while issue 5821 claims no implementation credit
 
 ## Risks
 
-- Dependency drift
-- Scope overlap
-- Insufficient real-behavior proof
+- The sixteen-child denominator could omit a required behavior or duplicate ownership
+- Protected paths could overlap before binding and make parallel execution unsafe
+- Architecture or threat review could change child boundaries after issues are opened
+- The implementation umbrella could drift from the approved identities or dependency graph
+- Planning artifacts could be mistaken for distributed implementation proof
 
 ## Estimates
 
@@ -73,19 +90,22 @@ Revision 1
 
 .csdlc/prepared/issues/5821/design.md
 
-Digest: b07405493b60b4da27f287713299c91753da920cd54419f61cf944ed64775ec8
+Digest: 9fe5fa921d68ac98add7b33e9dd6caec12e051bab1a8a7c5ad4e156fa447a3a6
 
 ## Diagram
 
 .csdlc/prepared/issues/5821/diagram.mmd
 
-Digest: 8875b91f9d11d43128d8151b5de9115accf9843420f7e84ef3d424fa4ee504ea
+Digest: 2a57bd6f3950517bf9f5b6a5b2401c178e2b7bf15b382a271dafab50d000a77a
 
 ## Stop Conditions
 
-- Protected-path collision
-- Contradictory dependency evidence
-- Required proof cannot be produced within issue scope
+- WP-03 contracts are not terminal and stable
+- Architecture or threat review has unresolved actionable findings
+- The ledger is not exactly WP-04.01 through WP-04.16
+- Any two children have overlapping protected paths or unresolved dependencies
+- WP-04-IMP differs from the approved sixteen-child denominator
+- Any issue 5821 artifact claims distributed product implementation or integration completion
 
 ## Handoff
 

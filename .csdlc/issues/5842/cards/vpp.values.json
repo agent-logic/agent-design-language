@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-22] Quality gate",
     "slug": "v0-92-wp-22-quality-gate",
     "version": "v0.92",
-    "generation": 0
+    "generation": 19
   },
   "status": "ready",
   "content": {
@@ -16,25 +16,74 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "focused-wp-22",
-          "proof_role": "quality-gate record, platform proof, and blocker report",
+          "lane": "semantic-quality-matrix",
+          "proof_role": "Require the exact feature and critical-path denominator; validate issue/PR/review/merge ancestry plus semantic validation, negative, integration, platform, and typed-terminal evidence at the reviewed SHA. [preexec_rejection exit=1 diagnostic_sha256=c8553118295145212ff2b53c59e52efe32ae3bd96440a4bbe54a948978d9da9c]",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
             "AC-4",
-            "AC-5"
+            "AC-5",
+            "AC-6"
           ],
           "deterministic": true,
           "resource_profile": "medium",
-          "budget_seconds": 3600,
-          "budget_tokens": 25000,
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
           "argv": [
-            "git",
-            "diff",
-            "--check"
+            "ruby",
+            ".csdlc/prepared/issues/5842/validate-quality-gate.rb",
+            "matrix"
           ],
-          "parallel_group": "issue-local",
+          "parallel_group": "gate",
+          "defer_reason": null
+        },
+        {
+          "lane": "reconstructed-quality-negatives",
+          "proof_role": "Execute forged evidence classes through the real matrix validator and require digest-bound rejection. [preexec_rejection exit=1 diagnostic_sha256=4c157b5ba213a95a8291346057c269ed2edc4db0f70c71d20c3c49417a430889]",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5842/validate-quality-gate.rb",
+            "negative"
+          ],
+          "parallel_group": "negative",
+          "defer_reason": null
+        },
+        {
+          "lane": "typed-card-doctor",
+          "proof_role": "Validate the exact rendered six-card bundle, cross-card references, design approval, digests, statuses, and canonical issue record.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "5842"
+          ],
+          "parallel_group": "typed-readback",
           "defer_reason": null
         }
       ],
@@ -42,9 +91,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5842/design.md",
-      "design_digest": "9bf8dad87e410d0e345b79c91fae09f2242c9174905519b7e96c7a433e334e79",
+      "design_digest": "e3570720b67bc13425c8a8fda3c37175e4344b493405aa2dfa9168b666a656d6",
       "diagram_ref": ".csdlc/prepared/issues/5842/diagram.mmd",
-      "diagram_digest": "e2f09b5ec8e1353d7ecbbcbabaccfddc26fa96042cda9b54a4d97c79cbda8e44"
+      "diagram_digest": "b1829fae5cf441c5f53f7e5d0184bdbcd7bf61e53855dca5d99241bf03b6c794"
     }
   }
 }

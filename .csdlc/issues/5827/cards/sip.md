@@ -12,30 +12,36 @@ Status: ready
 
 ## Goal
 
-Complete WP-10: Continuity across bounded cycles.
+Implement WP-10 deterministic continuity across two or more bounded cycles without treating restart, wake, restore, or snapshot as sufficient identity continuity.
 
 ## Required Outcome
 
-continuity records and bounded-cycle proof
+A versioned continuity record and validator linking identity root, predecessor and current cycles, ordered evidence, continuity-head derivation, witnesses, grade or stable rejection reason.
 
 ## Scope
 
-- Issue 5827 implementation paths to be narrowed during preparation
-- docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
-- docs/milestones/v0.92/WBS_v0.92.md
+- adl-runtime-kernel/src/birthday_continuity.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/birthday_continuity.rs
+- adl-runtime-kernel/tests/fixtures/birthday_continuity/
+- docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md
+- .csdlc/prepared/issues/5827/validate-native-receipts.rb
+- .csdlc/evidence/5827/
 
 ## Authority
 
-- Issue 5827 owns only WP-10: Continuity across bounded cycles
-- Adjacent v0.92 work packages retain their own implementation and proof authority
+- Issue 5827 owns bounded cycle linkage, not identity-root creation, memory retrieval, migration, or birthday approval.
+- Prior lineage and wake evidence are inputs and never replacement authority.
+- Continuity must not expose raw private state or infer metaphysical sameness.
 
 ## Assumptions
 
-- none
+- Every listed dependency is a current execution gate to verify from source and receipt-backed evidence, not a preparation-time completion claim.
+- The exact declared implementation paths are complete for claim planning and must be collision-checked unchanged before editing; widening requires explicit replan and reapproval.
 
 ## Operator Constraints
 
-- Prepare before execution
-- Never edit tracked work on main
-- Use one bounded pre-PR review
-- Do not substitute fixtures, receipts, or prose for required working behavior
+- Use typed C-SDLC v2 lifecycle operations in an issue-bound worktree.
+- Start product implementation only after a fresh exact claim and current dependency verification.
+- Preserve deterministic output, repo-relative references, redaction, and stdout/stderr separation where applicable.
+- Run one bounded exact-head review and publish only with the required closing keyword.

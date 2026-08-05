@@ -24,25 +24,101 @@ Diagram: .csdlc/prepared/issues/5836/diagram.mmd
 
 [
   {
-    "lane": "focused-wp-18",
-    "proof_role": "demo feature doc, artifacts, negative-case report, and reviewer packet",
+    "lane": "wp18-positive-runtime",
+    "proof_role": "Prove the integrated Runtime emits one complete birthday packet.",
     "acceptance_ids": [
       "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5"
+      "AC-4"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 3600,
-    "budget_tokens": 25000,
+    "budget_seconds": 400,
+    "budget_tokens": 3000,
     "argv": [
-      "git",
-      "diff",
-      "--check"
+      "bash",
+      "adl/tools/test_v092_first_birthday_demo.sh",
+      "--positive"
     ],
-    "parallel_group": "issue-local",
+    "parallel_group": "birthday",
+    "defer_reason": null
+  },
+  {
+    "lane": "wp18-negative-replay",
+    "proof_role": "Prove all not-a-birthday, interruption, replay, and redaction cases fail closed.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 400,
+    "budget_tokens": 3000,
+    "argv": [
+      "bash",
+      "adl/tools/test_v092_first_birthday_demo.sh",
+      "--negative"
+    ],
+    "parallel_group": "birthday",
+    "defer_reason": null
+  },
+  {
+    "lane": "wp18-native-macos",
+    "proof_role": "Run the packet contract on a native macOS host and pin host class, source revision, argv, result, and artifact digests.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-6"
+    ],
+    "deterministic": false,
+    "resource_profile": "small",
+    "budget_seconds": 600,
+    "budget_tokens": 3000,
+    "argv": [
+      "bash",
+      "adl/tools/test_v092_first_birthday_demo.sh",
+      "--native-platform",
+      "macos"
+    ],
+    "parallel_group": "platform",
+    "defer_reason": "Requires a native macOS runner; absence or a non-native substitute blocks readiness."
+  },
+  {
+    "lane": "wp18-native-linux",
+    "proof_role": "Run the packet contract on a native Linux host and pin host class, source revision, argv, result, and artifact digests.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-6"
+    ],
+    "deterministic": false,
+    "resource_profile": "small",
+    "budget_seconds": 600,
+    "budget_tokens": 3000,
+    "argv": [
+      "bash",
+      "adl/tools/test_v092_first_birthday_demo.sh",
+      "--native-platform",
+      "linux"
+    ],
+    "parallel_group": "platform",
+    "defer_reason": "Requires a native Linux runner; absence or a non-native substitute blocks readiness."
+  },
+  {
+    "lane": "wp18-publication-gate",
+    "proof_role": "Validate both canonical launch documents and fail closed on missing accepted proof, stale review, unsupported claims, unresolved negatives, or absent operator authorization without publishing.",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 3000,
+    "argv": [
+      "ruby",
+      ".csdlc/evidence/5836/validate-publication-gate.rb",
+      "--check-only"
+    ],
+    "parallel_group": "publication",
     "defer_reason": null
   }
 ]
@@ -59,7 +135,11 @@ Tokens: 25000
 
 ## Commands
 
-- `git diff --check`
+- `bash adl/tools/test_v092_first_birthday_demo.sh --positive`
+- `bash adl/tools/test_v092_first_birthday_demo.sh --negative`
+- `bash adl/tools/test_v092_first_birthday_demo.sh --native-platform macos`
+- `bash adl/tools/test_v092_first_birthday_demo.sh --native-platform linux`
+- `ruby .csdlc/evidence/5836/validate-publication-gate.rb --check-only`
 
 ## Failure Semantics
 

@@ -12,24 +12,27 @@ Status: ready
 
 ## Goal
 
-Complete WP-04: Distributed Guardian/polis runtime.
+Freeze and independently approve the distributed Guardian architecture/security contract, validate the live #5862 plus #5863-#5878 denominator, and stop without product implementation.
 
 ## Required Outcome
 
-architecture and security gate followed by completion of the bounded 16-issue distributed-runtime program within v0.92
+One approved architecture and threat model plus an exact live sixteen-child ledger with owners, dependencies, exclusive paths, proof boundaries, rollback responsibilities, prepared cards, and null claims.
 
 ## Scope
 
-- Issue 5821 implementation paths to be narrowed during preparation
-- docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
-- docs/milestones/v0.92/WBS_v0.92.md
-- .adl/docs/TBD/CSM_RUNTIME_DISTRIBUTED_DESIGN.md
-- .adl/docs/TBD/CSM_RUNTIME_DISTRIBUTED_EXECUTION_PLAN.md
+- .csdlc/issues/5821
+- .csdlc/prepared/issues/5821
+- .csdlc/evidence/5821
+- docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md
+- docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md
 
 ## Authority
 
-- Issue 5821 owns only WP-04: Distributed Guardian/polis runtime
-- Adjacent v0.92 work packages retain their own implementation and proof authority
+- Issue 5821 owns only the architecture/security gate, live denominator, and gate review
+- WP-04-IMP issue 5862 owns orchestration and reconciliation only
+- Issues 5863 through 5878 own child implementation, proof, review, PR, closeout, and rollback
+- Issue 5878 alone owns module registration and final integration
+- Issue 5832 remains blocked until issue 5862 has terminal integrated output
 
 ## Assumptions
 

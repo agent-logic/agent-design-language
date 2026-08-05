@@ -1,0 +1,24 @@
+{
+  "issue": 5821,
+  "expected_generation": 29,
+  "expected_digest": "ff1aac0586952f42468c01d806241a0c6a115944c9e9417a30050eb885274dac",
+  "now_unix_seconds": 1785952176,
+  "actor": "codex:5860-runtime-readiness-repair",
+  "reason": "Reacquire the released issue-local preparation claim to repair and approve design-time readiness for issue 5821 only.",
+  "replacement": {
+    "id": "claim-5821-v092-preparation",
+    "owner": "codex:5860-runtime-readiness",
+    "generation": 29,
+    "acquired_unix_seconds": 1785952176,
+    "expires_unix_seconds": 1786038576,
+    "heartbeat_unix_seconds": 1785952176,
+    "branch": "codex/5860-v092-execution-readiness",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5821",
+      ".csdlc/prepared/issues/5821",
+      ".csdlc/evidence/5821"
+    ],
+    "purpose": "Prepare issue 5821 design, diagram, cards, and validation plan without product implementation."
+  }
+}

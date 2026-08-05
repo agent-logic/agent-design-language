@@ -7,68 +7,141 @@
     "title": "[v0.92][WP-24A] Podcast Studio first ten episodes",
     "slug": "v0-92-wp-24a-podcast-studio-first-ten-episodes",
     "version": "v0.92",
-    "generation": 0
+    "generation": 42
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
-      "summary": "Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.",
+      "plan_revision": 19,
+      "summary": "Run ten 7.5-hour/64,000-token episode waves plus a separately scheduled 5-hour/60,000-token integration wave inside the fixed 80-agent-hour/700,000-token aggregate; five parallel owners produce complete reviewed packages and stop before deployment or publication.",
       "steps": [
         {
           "id": "S1",
-          "action": "Prepare exact scope, design, paths, and validation plan",
-          "acceptance_ids": [
-            "AC-2"
-          ],
-          "status": "pending"
-        },
-        {
-          "id": "S2",
-          "action": "Implement the required outcome and focused proof",
+          "action": "Verify #5819, #3223/#3256, route/storage authority, and budget 10 x 1.75-hour/21,000-token source-and-script waves",
           "acceptance_ids": [
             "AC-1",
-            "AC-3",
             "AC-4"
           ],
           "status": "pending"
         },
         {
-          "id": "S3",
-          "action": "Resolve one bounded pre-PR review and publish with closing linkage",
+          "id": "S2",
+          "action": "Budget 10 x 2.25-hour/16,000-token production waves for generation, editing, and mastered audio",
           "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Budget 10 x 1.5-hour/13,000-token packaging waves for transcripts, notes, artwork, metadata, manifests, and RSS enclosures",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Budget 10 x 1.5-hour/10,000-token listen-review and revision waves, including consent and redaction review",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Budget 10 x 30-minute/4,000-token machine-validation waves and implement the three owned playback producers",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S6",
+          "action": "Use the allocated 5-hour/60,000-token integration wave for feed consistency, digest-recomputed platform playback, exact-head review, and final revisions",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S7",
+          "action": "Define and verify podcast rollback: restore feed/readiness records, remove only issue-owned packages and producers, retain QA evidence, and perform no deployment or publication action.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4",
+            "AC-2",
+            "AC-3",
             "AC-5"
           ],
           "status": "pending"
         }
       ],
-      "affected_areas": [],
+      "affected_areas": [
+        "demos/podcast/episodes/001-meet-the-ai-coworkers",
+        "demos/podcast/episodes/002-can-an-ai-be-a-good-teammate",
+        "demos/podcast/episodes/003-the-promise-and-weirdness-of-talking-to-machines",
+        "demos/podcast/episodes/004-what-should-we-let-ai-do-for-us",
+        "demos/podcast/episodes/005-can-ai-help-us-think-better",
+        "demos/podcast/episodes/006-the-new-creative-room",
+        "demos/podcast/episodes/007-trust-receipts-and-proof",
+        "demos/podcast/episodes/008-local-ai-vs-cloud-ai",
+        "demos/podcast/episodes/009-when-ai-gets-stuck",
+        "demos/podcast/episodes/010-what-does-a-weekly-ai-studio-look-like",
+        "demos/podcast/feed.xml",
+        "demos/podcast/LAUNCH_READINESS.md",
+        "adl/tools/generate_podcast_launch_packet.py",
+        "adl/tools/validate_podcast_launch_packet.py",
+        "adl/tools/test_podcast_launch_packet.sh",
+        "adl/tools/record_podcast_native_playback.sh",
+        "adl/tools/record_podcast_browser_playback.mjs",
+        "adl/tools/record_podcast_ios_safari_playback.sh",
+        ".csdlc/prepared/issues/5845/validate-platform-playback-receipts.rb",
+        ".csdlc/prepared/issues/5845/validate-second-pass-readiness.rb",
+        ".csdlc/evidence/5845"
+      ],
       "invariants": [
-        "No tracked work on main",
-        "No scope absorption across work packages",
-        "Evidence claims remain exact-revision and source-grounded"
+        "Every final audio digest matches its manifest and enclosure",
+        "Guest state never exceeds consent evidence",
+        "Feed records contain stable public-safe values, not local paths",
+        "Temporary validation state remains inside issue evidence",
+        "Publication status remains unclaimed"
       ],
       "risks": [
-        "Dependency drift",
-        "Scope overlap",
-        "Insufficient real-behavior proof"
+        "Audio generation or mastering may vary by provider/platform",
+        "Route/storage authority may remain unresolved",
+        "Guest and artwork rights may block individual episodes",
+        "Large binary artifacts may exceed repository policy"
       ],
       "execution_estimates": {
-        "elapsed_seconds": 7200,
-        "total_tokens": 40000,
-        "validation_seconds": 1200
+        "elapsed_seconds": 288000,
+        "total_tokens": 700000,
+        "validation_seconds": 21600
       },
       "stop_conditions": [
-        "Protected-path collision",
-        "Contradictory dependency evidence",
-        "Required proof cannot be produced within issue scope"
+        "Route/storage or binary-artifact policy is unresolved",
+        "Required consent or source rights are unavailable",
+        "Audio QA cannot produce deterministic manifests",
+        "A credential would need to enter tracked evidence",
+        "Rollback would delete upstream production proof, mutate consent, or require feed deployment/publication."
       ],
-      "replan_triggers": [],
+      "replan_triggers": [
+        "Episode briefs or guest states change",
+        "Public route/storage ownership changes",
+        "Feed, audio, artwork, or repository-size policy changes"
+      ],
       "design_ref": ".csdlc/prepared/issues/5845/design.md",
-      "design_digest": "da70240a0f6a9d2f22b1049322d0909fcc18088ee697763ae9cf6b289977630a",
+      "design_digest": "e577c1d95f46d4de635fce4f2afc6d5697cde482e44599380b9b15698a73715f",
       "diagram_ref": ".csdlc/prepared/issues/5845/diagram.mmd",
-      "diagram_digest": "59228945ae5c542df0da0d9fb79bbc251eabce39fe7c65dcad2e39ef9852cd7c"
+      "diagram_digest": "f93e767ad01814319f03d67e71121eeca0bbbaf725dbabb2e0997aaf7f37ccce"
     }
   }
 }

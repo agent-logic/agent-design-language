@@ -1,0 +1,25 @@
+{
+  "actor": "codex:5860-quality-release-second-pass",
+  "expected_digest": "ba4689cac406a54b433df7399d7a8e99f64d5f6c72d439b027c5b4fcc195323b",
+  "expected_generation": 11,
+  "issue": 5841,
+  "now_unix_seconds": 1785953261,
+  "reason": "Reacquire the released preparation claim to repair exact-head quality/release readiness findings without implementation or publication.",
+  "replacement": {
+    "acquired_unix_seconds": 1785953261,
+    "branch": "codex/5860-v092-execution-readiness",
+    "expires_unix_seconds": 1786039661,
+    "generation": 11,
+    "heartbeat_unix_seconds": 1785953261,
+    "id": "claim-5841-v092-preparation",
+    "owner": "codex:5860-quality-release-second-pass",
+    "protected_paths": [
+      ".csdlc/evidence/5841",
+      ".csdlc/issues/5841",
+      ".csdlc/locks/5841.lock",
+      ".csdlc/prepared/issues/5841"
+    ],
+    "purpose": "Repair issue 5841 design and typed cards only; no product behavior, shared milestone docs, PR, push, merge, or closeout authority.",
+    "worktree": "."
+  }
+}

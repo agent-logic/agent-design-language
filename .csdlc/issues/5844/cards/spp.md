@@ -12,37 +12,77 @@ Status: ready
 
 ## Summary
 
-Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.
+Run ten 3.5-hour/68,000-token article waves plus a separately scheduled 5-hour/60,000-token cross-series integration wave inside the fixed 40-agent-hour/740,000-token aggregate; five parallel owners produce complete reviewed articles and stop before publication.
 
 ## Plan
 
-Revision 1
+Revision 16
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Prepare exact scope, design, paths, and validation plan",
+    "action": "Budget 10 x 50-minute/18,000-token source-research waves and establish ten bounded source packets",
     "acceptance_ids": [
+      "AC-1",
       "AC-2"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Implement the required outcome and focused proof",
+    "action": "Budget 10 x 80-minute/28,000-token drafting waves and author all ten complete canonical articles",
     "acceptance_ids": [
       "AC-1",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Budget 10 x 40-minute/10,000-token editorial waves for claim, citation, link, privacy, and history/current review",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Budget 10 x 25-minute/8,000-token revision waves and resolve all per-article findings",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Budget 10 x 15-minute/4,000-token validation waves for per-article proof",
+    "acceptance_ids": [
       "AC-3",
       "AC-4"
     ],
     "status": "pending"
   },
   {
-    "id": "S3",
-    "action": "Resolve one bounded pre-PR review and publish with closing linkage",
+    "id": "S6",
+    "action": "Use the allocated 5-hour/60,000-token integration wave for series-arc review, final revisions, #5843 reconciliation, validation, and stop-before-publish disposition",
     "acceptance_ids": [
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S7",
+    "action": "Define and verify article rollback: restore disposition and series matrix, remove only issue-owned packets, retain source/editorial evidence, and perform no external publication action.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
       "AC-5"
     ],
     "status": "pending"
@@ -51,41 +91,43 @@ Revision 1
 
 ## Invariants
 
-- No tracked work on main
-- No scope absorption across work packages
-- Evidence claims remain exact-revision and source-grounded
+- Each article is grounded in a declared bounded source packet
+- Each citation is real, resolvable, and claim-relevant
+- Historical evidence is not presented as current delivery truth
+- Publication status remains review-ready until separately authorized
 
 ## Risks
 
-- Dependency drift
-- Scope overlap
-- Insufficient real-behavior proof
+- Ten articles may duplicate claims or drift in terminology
+- Late #5843 truth may invalidate release language
+- External links or citations may be unavailable
 
 ## Estimates
 
 {
-  "elapsed_seconds": 7200,
-  "total_tokens": 40000,
-  "validation_seconds": 1200
+  "elapsed_seconds": 144000,
+  "total_tokens": 740000,
+  "validation_seconds": 18000
 }
 
 ## Design
 
 .csdlc/prepared/issues/5844/design.md
 
-Digest: 5205e7a8a3e87ce24405848a8e195a116b8d6d5e215a87ffbb02c9066fa57bab
+Digest: e86b30babe31424f9a42a6b1cfb82ffc572d24a6c503d463f4eecbf6cd977d86
 
 ## Diagram
 
 .csdlc/prepared/issues/5844/diagram.mmd
 
-Digest: 3457a1de375efb2d8f55c6315c01483b076694a42949e3c6343da05264154781
+Digest: fd443e63c054166e3e4c71db483681f52038f49cafe19a5a5353a8cbb24673a1
 
 ## Stop Conditions
 
-- Protected-path collision
-- Contradictory dependency evidence
-- Required proof cannot be produced within issue scope
+- #5819 naming/link truth is unresolved
+- A material claim lacks support
+- Privacy or citation review cannot be completed
+- Rollback would delete cited upstream evidence or require an external publish, unpublish, or scheduling action.
 
 ## Handoff
 

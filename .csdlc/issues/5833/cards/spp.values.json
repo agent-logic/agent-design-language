@@ -7,52 +7,81 @@
     "title": "[v0.92][WP-15] Birth witnesses and receipts",
     "slug": "v0-92-wp-15-birth-witnesses-and-receipts",
     "version": "v0.92",
-    "generation": 0
+    "generation": 52
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
-      "summary": "Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.",
+      "plan_revision": 19,
+      "summary": "Implement and prove WP-15 exact-candidate witness consensus and deterministic redacted receipts with anti-equivocation, authority, and premature-claim protections.",
       "steps": [
         {
           "id": "S1",
-          "action": "Prepare exact scope, design, paths, and validation plan",
+          "action": "Verify #5826 through #5830 and #4762, then inspect exact private-state witness and birthday candidate contracts.",
           "acceptance_ids": [
-            "AC-2"
+            "AC-2",
+            "AC-3"
           ],
           "status": "pending"
         },
         {
           "id": "S2",
-          "action": "Implement the required outcome and focused proof",
+          "action": "Implement witness-set validation, exact candidate binding, accepted/rejected receipt derivation, caveats, redaction, and fixtures.",
           "acceptance_ids": [
             "AC-1",
-            "AC-3",
-            "AC-4"
+            "AC-3"
           ],
           "status": "pending"
         },
         {
           "id": "S3",
-          "action": "Resolve one bounded pre-PR review and publish with closing linkage",
+          "action": "Run canonical witness/receipt tests plus equivocation, duplicate, stale, forged, authority, privacy, and premature-claim negatives.",
           "acceptance_ids": [
+            "AC-4",
             "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Resolve one bounded exact-head review and publish only with correct base and Closes #5833 linkage.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
           ],
           "status": "pending"
         }
       ],
-      "affected_areas": [],
+      "affected_areas": [
+        "adl-runtime-kernel/src/birth_witness.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/tests/birth_witness.rs",
+        "adl-runtime-kernel/tests/fixtures/birth_witness",
+        "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
+        ".csdlc/prepared/issues/5833/validate-native-receipts.rb",
+        ".csdlc/prepared/issues/5833/produce-native-receipt.rb",
+        ".csdlc/evidence/5833",
+        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-birthday-kernel-registration-v1\",\"paths\":[\"adl-runtime-kernel/src/lib.rs\"],\"issues\":[5825,5826,5827,5828,5829,5830,5831,5833],\"order\":[5825,5826,5827,5828,5829,5830,5831,5833]}",
+        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-memory-capability-witness-feature-doc-v1\",\"paths\":[\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\"],\"issues\":[5829,5833],\"order\":[5829,5833]}",
+        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-5833-witness-doc-to-final-truth-v1\",\"paths\":[\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\"],\"issues\":[5833,5843],\"order\":[5833,5843]}"
+      ],
       "invariants": [
-        "No tracked work on main",
-        "No scope absorption across work packages",
-        "Evidence claims remain exact-revision and source-grounded"
+        "Witnesses bind the exact candidate and evidence digests and are distinct where policy requires.",
+        "Receipts derive only from validated decisions and preserve caveats and rejection reasons.",
+        "Raw private state never enters reviewer or citizen-facing projections."
       ],
       "risks": [
-        "Dependency drift",
-        "Scope overlap",
-        "Insufficient real-behavior proof"
+        "Duplicate or equivocal witnesses could appear as consensus.",
+        "A stale or mismatched candidate digest could receive a valid-looking receipt.",
+        "Receipt prose could leak private evidence or claim birth prematurely."
       ],
       "execution_estimates": {
         "elapsed_seconds": 7200,
@@ -60,15 +89,19 @@
         "validation_seconds": 1200
       },
       "stop_conditions": [
-        "Protected-path collision",
-        "Contradictory dependency evidence",
-        "Required proof cannot be produced within issue scope"
+        "Any sprint-gate dependency or #4762 is not verifiable.",
+        "The candidate digest cannot be bound across all witnesses.",
+        "Privacy, equivocation, authority, or premature-claim negatives cannot fail closed."
       ],
-      "replan_triggers": [],
+      "replan_triggers": [
+        "Witness role/distinctness policy changes.",
+        "Existing integrity references require a versioned adapter.",
+        "Review identifies a receipt field that substitutes for birthday authority."
+      ],
       "design_ref": ".csdlc/prepared/issues/5833/design.md",
-      "design_digest": "fd69d217f8e33b02b25b13860d3314bde4e71192cd9b7c1cea54e21149ff524a",
+      "design_digest": "6a5dc4d38599413dadd357fc88b2c29a6e07212a719660cf9fcb8ccb7c1bff70",
       "diagram_ref": ".csdlc/prepared/issues/5833/diagram.mmd",
-      "diagram_digest": "af00e001a861181a50f459f55e7c9ab91b2538b005a7adc200b0549f62d0f248"
+      "diagram_digest": "0255242ebe93f2857c2a9dc5f2d0c1a083fa373b340935cbfe34749941f0d599"
     }
   }
 }

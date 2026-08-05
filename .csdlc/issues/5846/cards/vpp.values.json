@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-25] Internal review",
     "slug": "v0-92-wp-25-internal-review",
     "version": "v0.92",
-    "generation": 0
+    "generation": 16
   },
   "status": "ready",
   "content": {
@@ -16,25 +16,50 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "focused-wp-25",
-          "proof_role": "internal review packet",
+          "lane": "complete-internal-review",
+          "proof_role": "Validate the exact packet and all nine declared specialist lanes, reviewer-authored digests, defensible zero findings, full finding schema/evidence, deduplication, disagreements, authority, and dispositions. [preexec_rejection exit=1 diagnostic_sha256=f4b74ec901baed61117f3ce7945d3e131129bf16f05f070032de68dcdf94923c]",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
             "AC-4",
-            "AC-5"
+            "AC-5",
+            "AC-6"
           ],
           "deterministic": true,
           "resource_profile": "medium",
-          "budget_seconds": 1200,
-          "budget_tokens": 10000,
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
           "argv": [
-            "git",
-            "diff",
-            "--check"
+            "ruby",
+            ".csdlc/prepared/issues/5846/validate-internal-review.rb"
           ],
-          "parallel_group": "issue-local",
+          "parallel_group": "review",
+          "defer_reason": null
+        },
+        {
+          "lane": "typed-card-doctor",
+          "proof_role": "Validate the exact rendered six-card bundle, cross-card references, design approval, digests, statuses, and canonical issue record.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "5846"
+          ],
+          "parallel_group": "typed-readback",
           "defer_reason": null
         }
       ],
@@ -42,9 +67,9 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5846/design.md",
-      "design_digest": "df9a0ff138f514095e2e1b27ed3865638dc35654dbf43320b949b148bb08233d",
+      "design_digest": "90cc1c8e968be0009fb6aa7537f66243dbf004df5fb63b071b7cd3e05ecb5537",
       "diagram_ref": ".csdlc/prepared/issues/5846/diagram.mmd",
-      "diagram_digest": "b6de047ddd7cf1fb6003c100fdebc6bd530ee94f545bfdcb4767480da713c5ee"
+      "diagram_digest": "a045efc1685d9776f7041ed3163c44f35452aadb851e7c625026a3ff430ed779"
     }
   }
 }

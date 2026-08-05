@@ -1,0 +1,25 @@
+{
+  "actor": "codex:5860-quality-release-second-pass",
+  "expected_digest": "0260ca75fd9dfc05b228427c1c2c7e9db4b321d6ede6ddfce8ec234c87f5347c",
+  "expected_generation": 8,
+  "issue": 5851,
+  "now_unix_seconds": 1785953322,
+  "reason": "Reacquire the exact released WP-01 preparation claim to make issue 5851 design-time execution-ready without product implementation, publication, push, merge, or closeout.",
+  "replacement": {
+    "acquired_unix_seconds": 1785953322,
+    "branch": "codex/5860-v092-execution-readiness",
+    "expires_unix_seconds": 1786039722,
+    "generation": 8,
+    "heartbeat_unix_seconds": 1785953322,
+    "id": "claim-5851-v092-preparation",
+    "owner": "codex:5860-quality-release-second-pass",
+    "protected_paths": [
+      ".csdlc/evidence/5851",
+      ".csdlc/issues/5851",
+      ".csdlc/locks/5851.lock",
+      ".csdlc/prepared/issues/5851"
+    ],
+    "purpose": "Prepare and approve issue 5851 design and typed cards only; no product behavior, shared milestone docs, PR, push, merge, or closeout authority.",
+    "worktree": "."
+  }
+}

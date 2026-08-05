@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-23] Docs and release-truth pass",
     "slug": "v0-92-wp-23-docs-and-release-truth-pass",
     "version": "v0.92",
-    "generation": 0
+    "generation": 22
   },
   "status": "ready",
   "content": {
@@ -16,25 +16,50 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "focused-wp-23",
-          "proof_role": "docs-review packet, ADR candidate packet if needed, and release-truth diff",
+          "lane": "complete-doc-release-universe",
+          "proof_role": "Reconstruct every tracked changelog, feature, ADR, release, skill, guidance, external-launch, and v0.92 milestone surface; require evidence-bound rows, parsing, links, command output, version ownership, and redaction. [preexec_rejection exit=1 diagnostic_sha256=7b03d62fdc99cf072907826a13e1f73d3eeb1c48a6c3d067ba39e7cb839fb43f]",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
             "AC-4",
-            "AC-5"
+            "AC-5",
+            "AC-6"
           ],
           "deterministic": true,
           "resource_profile": "medium",
-          "budget_seconds": 1200,
-          "budget_tokens": 10000,
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
           "argv": [
-            "git",
-            "diff",
-            "--check"
+            "ruby",
+            ".csdlc/prepared/issues/5843/validate-doc-release-truth.rb"
           ],
-          "parallel_group": "issue-local",
+          "parallel_group": "docs",
+          "defer_reason": null
+        },
+        {
+          "lane": "typed-card-doctor",
+          "proof_role": "Validate the exact rendered six-card bundle, cross-card references, design approval, digests, statuses, and canonical issue record.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "5843"
+          ],
+          "parallel_group": "typed-readback",
           "defer_reason": null
         }
       ],
@@ -42,9 +67,9 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5843/design.md",
-      "design_digest": "45228ff77724fc17702904d5ae76334e81f10864c905136354d64b37411e7c44",
+      "design_digest": "a578f64a6408dcc22a1e299b3a835ceb0445c14543067bdcd9444f9a88d2d178",
       "diagram_ref": ".csdlc/prepared/issues/5843/diagram.mmd",
-      "diagram_digest": "73e6a862f5895da6242eb3738982b2fa1e53fa5b49a9df1fb7e32e8f3f56c0c8"
+      "diagram_digest": "e9443389dc374e5a02a2f30234e94766f6f7c6cebf18268f6671e69c5bc97795"
     }
   }
 }

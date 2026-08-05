@@ -16,39 +16,39 @@ Verify migration and CI entry gates, freeze the comparison, capture standard and
 
 ## Plan
 
-Revision 1
+Revision 6
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Verify entry gates and freeze the exact workload, environment, permissions, cache, cost, and measurement contract",
+    "action": "Verify entry gates and freeze exact workloads, environment, permissions, cost, cache, proof topology, and numeric adoption thresholds",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
-      "AC-8"
+      "AC-7"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Capture complete standard-runner and restricted 16-core cold and warm trial evidence",
+    "action": "Capture complete ubuntu-latest and restricted 16-core cold/warm raw trials and proof parity evidence",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
-      "AC-8"
+      "AC-7"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Run one canary, decide each lane, retain observation or cleanup evidence, and resolve exact-head review",
+    "action": "Recompute statistics, apply every frozen threshold, run one canary, retain observation or cleanup/fallback proof, validate, and review",
     "acceptance_ids": [
       "AC-5",
       "AC-6",
       "AC-7",
-      "AC-9"
+      "AC-8"
     ],
     "status": "pending"
   }
@@ -83,13 +83,13 @@ Revision 1
 
 .csdlc/prepared/issues/5853/design.md
 
-Digest: 96310158c2af202cfd50cb27d68f5b5877a9bb6329ec07025377958f1cf92b48
+Digest: 5a0f7eefbffae2cfc9cdde6969b68cb6e772bf8db2c2fd6c7f48ecabef21228c
 
 ## Diagram
 
 .csdlc/prepared/issues/5853/diagram.mmd
 
-Digest: dd20f17272d8b8ac65f7f5fffe41f0bbf46184fd6b60261d243ddcddbfa13974
+Digest: 17d5a853df6d07718c8495e9076f622572dea08eba574fccccf450a39131a966
 
 ## Stop Conditions
 

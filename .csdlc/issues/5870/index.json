@@ -1,0 +1,228 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5870,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "b993a3096652d7703aa471c9306f5c1b266c45e2685d26577f06d7a209557a10",
+  "phase": "bound",
+  "generation": 7,
+  "digest": "b18f12b09fd77385a8173b1b40e9208398e277a52eac6a5f0e0a1f37ab6ce382",
+  "claim": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5870/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5870/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5860-wp04-exact-estimate-design-review",
+      "revision": "46eb50d5e004676a7a7faab45ea5b6bbad9362cb67ab3181c6dda5d09dadd7c3"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7edbd5eab00bcb31e30500647d6d253834fe556f25debdfa64d391d00bf0c883",
+      "rendered_digest": "d023ccc719851068cb85a5ca6108d65ba76aa5ed32ef724251a8b3434bccda5a",
+      "ast_digest": "d3315f3800ac8988772947962fd5dbc49d2c336e7f9878963a14d319520cfccb"
+    },
+    "stp": {
+      "values_digest": "18dc83fdc0db8e03faadd7ea1c9b51088874314d464f9d1d42d3882cb32f42a4",
+      "rendered_digest": "78186be69c35d465617c83a34b9104de6a005c1ef12851b65289d2e39dc2a886",
+      "ast_digest": "838f1dd1d68ad5974e65a6063b9affd4be080068ad5cbaa030bc325ea2de5467"
+    },
+    "spp": {
+      "values_digest": "9cbe2ca6888724a53ee84a87b097b87c0c24b8ae57541960e0cfe1c646dbe8e7",
+      "rendered_digest": "ca541b670cdad0216cc9188a2932abf87575d54015eaa1fdf1d0ea2f3076f88e",
+      "ast_digest": "37980b171ffe3327d7e88b71b538ec778bf5e765335bb16f4dfc38703163f7ea"
+    },
+    "vpp": {
+      "values_digest": "fc9627427265db0c6c89c0c8e52b624437034cb17aecd652cf7192390b040d8a",
+      "rendered_digest": "9d70e98965df58ee5e4966eda5f400737f9809b40a2130895048e366b88288f5",
+      "ast_digest": "0212f925e8f485cb4b1456ca6ad91833f9c71dcaa04ebd2a5b4645422bc1a42f"
+    },
+    "srp": {
+      "values_digest": "8d29e09a423aa941bf2a6be409511baefebde17f72dd3fd72050082e958836cf",
+      "rendered_digest": "a221ecc8dec332d492b6dc996b9e040631af360c5e4a36fb0d6135d9047412ad",
+      "ast_digest": "56805114cae04014451215298d5d9e698ff096b87aaecc25ef66a1d9e411a67a"
+    },
+    "sor": {
+      "values_digest": "a50885dadac1d1bb464ea7c446e7ef64b5c005b3cfd53bded6e5841b6315415d",
+      "rendered_digest": "438f780ba34b8cf10447ab0b4cd4ce4f8ffa306eb1b9d47fbae0076d6a4ed8c7",
+      "ast_digest": "097e7f1e5962049cd1ed1b1329a64c69e58275998990a9a2986494008fc1c28b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5860-runtime-wp04-wave",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5860-runtime-wp04-wave",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5860-runtime-wp04-wave",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:5860-runtime-wp04-wave",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:5860-runtime-wp04-wave",
+      "reason": "Release completed preparation claim for just-in-time child implementation handoff.",
+      "operation": "{\"claim_id\":\"claim-5870-v092-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-runtime-wp04-wave\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 0,
+      "actor": "codex:5860-v092-ownership-normalization",
+      "reason": "Reacquire issue-local preparation authority to normalize exact owned paths and serialization gates without product implementation.",
+      "operation": "{\"branch\":\"codex/5860-v092-ownership-normalization\",\"claim_id\":\"claim-5870-v092-ownership-normalization\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-v092-ownership-normalization\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5870\",\".csdlc/prepared/issues/5870\",\".csdlc/evidence/5870\"],\"purpose\":\"Normalize issue 5870 design/card ownership only; no product implementation, GitHub mutation, wave/WBS mutation, or publication.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 1,
+      "actor": "codex:5860-v092-ownership-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:5860-v092-ownership-normalization",
+      "reason": "Align the operative plan with exact owned paths and machine-readable serialization gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/tests/distributed_fencing.rs\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 2,
+      "actor": "codex:5860-v092-ownership-normalization",
+      "reason": "Release the temporary ownership-normalization claim after typed card regeneration and exact-digest design reapproval.",
+      "operation": "{\"claim_id\":\"claim-5870-v092-ownership-normalization\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-ownership-normalization\",\"previous_owner\":\"codex:5860-v092-ownership-normalization\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 2,
+      "actor": "codex:5860-runtime-wp04-rollback-repair",
+      "reason": "Acquire issue-local preparation authority to add the required exact Rollback section for issue 5870.",
+      "operation": "{\"branch\":\"codex/5860-runtime-wp04-repair\",\"claim_id\":\"claim-5870-v092-rollback-repair\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-runtime-wp04-rollback-repair\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5870\",\".csdlc/prepared/issues/5870\",\".csdlc/evidence/5870\"],\"purpose\":\"Add and reapprove the bounded issue-specific Rollback section for issue 5870; no product implementation.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 3,
+      "actor": "codex:5860-runtime-wp04-rollback-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 10,
+      "generation": 3,
+      "actor": "codex:5860-runtime-wp04-rollback-repair",
+      "reason": "Release the rollback-section repair claim after typed design reapproval and card regeneration.",
+      "operation": "{\"claim_id\":\"claim-5870-v092-rollback-repair\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-runtime-wp04-rollback-repair\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 3,
+      "actor": "codex:5860-wp04-estimate-repair",
+      "reason": "Acquire issue-local authority to align the approved design with its typed medium planning profile.",
+      "operation": "{\"branch\":\"codex/5860-v092-execution-readiness\",\"claim_id\":\"claim-5870-v092-estimate-repair\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-wp04-estimate-repair\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5870\",\".csdlc/prepared/issues/5870\",\".csdlc/evidence/5870\"],\"purpose\":\"Align the issue-specific design with typed planning estimates for #5870; no product implementation.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 4,
+      "actor": "codex:5860-wp04-estimate-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 13,
+      "generation": 4,
+      "actor": "codex:5860-wp04-estimate-repair",
+      "reason": "Release completed estimate-repair claim for just-in-time implementation handoff.",
+      "operation": "{\"claim_id\":\"claim-5870-v092-estimate-repair\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-wp04-estimate-repair\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 4,
+      "actor": "codex:5860-wp04-estimate-repair",
+      "reason": "Acquire issue-local authority to align the approved design with its typed medium planning profile.",
+      "operation": "{\"branch\":\"codex/5860-v092-execution-readiness\",\"claim_id\":\"claim-5870-v092-estimate-repair\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-wp04-estimate-repair\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5870\",\".csdlc/prepared/issues/5870\",\".csdlc/evidence/5870\"],\"purpose\":\"Align the issue-specific design with typed planning estimates for #5870; no product implementation.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 5,
+      "actor": "codex:5860-wp04-estimate-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 16,
+      "generation": 5,
+      "actor": "codex:5860-wp04-estimate-repair",
+      "reason": "Release completed estimate-repair claim for just-in-time implementation handoff.",
+      "operation": "{\"claim_id\":\"claim-5870-v092-estimate-repair\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-wp04-estimate-repair\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 5,
+      "actor": "codex:5860-wp04-exact-estimate-reapproval",
+      "reason": "Acquire issue-local authority for exact design-digest reapproval.",
+      "operation": "{\"branch\":\"codex/5860-v092-execution-readiness\",\"claim_id\":\"claim-5870-v092-exact-estimate-reapproval\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-wp04-exact-estimate-reapproval\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5870\",\".csdlc/prepared/issues/5870\",\".csdlc/evidence/5870\"],\"purpose\":\"Reapprove the exact issue-specific estimate design for #5870; no product implementation.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 6,
+      "actor": "codex:5860-wp04-exact-estimate-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 19,
+      "generation": 6,
+      "actor": "codex:5860-wp04-exact-estimate-reapproval",
+      "reason": "Release the exact-design reapproval claim for just-in-time implementation handoff.",
+      "operation": "{\"claim_id\":\"claim-5870-v092-exact-estimate-reapproval\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-wp04-exact-estimate-reapproval\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 6,
+      "actor": "codex:5860-vpp-preexecution-contracts",
+      "reason": "Acquire issue-local authority to declare the exact VPP pre-execution rejection contract.",
+      "operation": "{\"branch\":\"codex/5860-v092-execution-readiness\",\"claim_id\":\"claim-5870-v092-preexec-contract\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-vpp-preexecution-contracts\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5870\",\".csdlc/prepared/issues/5870\",\".csdlc/evidence/5870\"],\"purpose\":\"Declare the issue-local VPP pre-execution rejection contract without product implementation.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 7,
+      "actor": "codex:5860-vpp-preexecution-contracts",
+      "reason": "Declare the exact issue-local pre-execution rejection exit class and normalized diagnostic digest.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_fencing proves stale epoch, cloned state, split-brain, wrong owner, post-partition, and recovery fencing semantics.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_fencing\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=2154d93db7160bdb060f1edc436d0aff1ea29062f60e99aafa6ef560cb866352]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5870/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 7,
+      "actor": "codex:5860-vpp-preexecution-contracts",
+      "reason": "Release issue-local authority after typed VPP contract replacement.",
+      "operation": "{\"claim_id\":\"claim-5870-v092-preexec-contract\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-vpp-preexecution-contracts\"}"
+    }
+  ]
+}

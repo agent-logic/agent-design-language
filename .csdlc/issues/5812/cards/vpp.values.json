@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime][quality] Restore Clippy cleanliness in csm_freedom_gate",
     "slug": "v0-92-freedom-gate-clippy-cleanliness",
     "version": "v0.92",
-    "generation": 0
+    "generation": 15
   },
   "status": "ready",
   "content": {
@@ -16,18 +16,39 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "freedom-gate-clippy",
-          "proof_role": "Prove the exact defaults and named production binary are behaviorally correct and Clippy-clean with warnings denied.",
+          "lane": "freedom-gate-module-tests",
+          "proof_role": "Prove both defaults and unsafe retained-artifact rejection remain behaviorally unchanged.",
           "acceptance_ids": [
-            "AC-1",
             "AC-2",
             "AC-3",
-            "AC-4",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 400,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--lib",
+            "csm_freedom_gate::tests"
+          ],
+          "parallel_group": "rust",
+          "defer_reason": null
+        },
+        {
+          "lane": "freedom-gate-clippy",
+          "proof_role": "Eliminate the exact production-binary warnings with warnings denied.",
+          "acceptance_ids": [
+            "AC-1",
             "AC-5"
           ],
           "deterministic": true,
           "resource_profile": "medium",
-          "budget_seconds": 600,
+          "budget_seconds": 500,
           "budget_tokens": 2000,
           "argv": [
             "cargo",
@@ -45,8 +66,48 @@
           "defer_reason": null
         },
         {
+          "lane": "rust-format",
+          "proof_role": "Reject unintended Rust formatting churn.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 100,
+          "budget_tokens": 500,
+          "argv": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--all",
+            "--",
+            "--check"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "exact-path-scope-negative",
+          "proof_role": "Require the two substitutions and reject every unauthorized path. [preexec_rejection exit=1 diagnostic_sha256=a7cd33de340c1dc4ed426afae4bcd2416560c1f3ae870f15538cd04b774a4eac]",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5812/validate-path-scope.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        },
+        {
           "lane": "diff-hygiene",
-          "proof_role": "Reject unrelated whitespace changes and support exact-head review.",
+          "proof_role": "Reject whitespace errors after exact-path proof.",
           "acceptance_ids": [
             "AC-6",
             "AC-7"
@@ -68,9 +129,9 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on semantic drift, lint failure, unrelated changes, or missing focused proof.",
       "design_ref": ".csdlc/prepared/issues/5812/design.md",
-      "design_digest": "d259e90a5aadf5b1cd805f4495d30ec0a42d39dd756f2d62b0a8a63be8b98f5d",
+      "design_digest": "0a611d194b8257e832d8ad4d89a11f1395eda3ec4b7ec581afb9d4cc57ab81d3",
       "diagram_ref": ".csdlc/prepared/issues/5812/diagram.mmd",
-      "diagram_digest": "ff62ba79fb6d92d3c3e3d837678c8f146cdae9b793ab34ad77402ecdc2ebbdf5"
+      "diagram_digest": "ecc400f15bce3baa144b59854cd774554bc04d7e8747d44fecb4093ad83cbc82"
     }
   }
 }

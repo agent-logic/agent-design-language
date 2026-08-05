@@ -12,38 +12,55 @@ Status: ready
 
 ## Summary
 
-Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.
+Implement and prove WP-15 exact-candidate witness consensus and deterministic redacted receipts with anti-equivocation, authority, and premature-claim protections.
 
 ## Plan
 
-Revision 1
+Revision 19
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Prepare exact scope, design, paths, and validation plan",
+    "action": "Verify #5826 through #5830 and #4762, then inspect exact private-state witness and birthday candidate contracts.",
     "acceptance_ids": [
-      "AC-2"
+      "AC-2",
+      "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Implement the required outcome and focused proof",
+    "action": "Implement witness-set validation, exact candidate binding, accepted/rejected receipt derivation, caveats, redaction, and fixtures.",
     "acceptance_ids": [
       "AC-1",
-      "AC-3",
-      "AC-4"
+      "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Resolve one bounded pre-PR review and publish with closing linkage",
+    "action": "Run canonical witness/receipt tests plus equivocation, duplicate, stale, forged, authority, privacy, and premature-claim negatives.",
     "acceptance_ids": [
+      "AC-4",
       "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Resolve one bounded exact-head review and publish only with correct base and Closes #5833 linkage.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8",
+      "AC-9"
     ],
     "status": "pending"
   }
@@ -51,15 +68,15 @@ Revision 1
 
 ## Invariants
 
-- No tracked work on main
-- No scope absorption across work packages
-- Evidence claims remain exact-revision and source-grounded
+- Witnesses bind the exact candidate and evidence digests and are distinct where policy requires.
+- Receipts derive only from validated decisions and preserve caveats and rejection reasons.
+- Raw private state never enters reviewer or citizen-facing projections.
 
 ## Risks
 
-- Dependency drift
-- Scope overlap
-- Insufficient real-behavior proof
+- Duplicate or equivocal witnesses could appear as consensus.
+- A stale or mismatched candidate digest could receive a valid-looking receipt.
+- Receipt prose could leak private evidence or claim birth prematurely.
 
 ## Estimates
 
@@ -73,19 +90,19 @@ Revision 1
 
 .csdlc/prepared/issues/5833/design.md
 
-Digest: fd69d217f8e33b02b25b13860d3314bde4e71192cd9b7c1cea54e21149ff524a
+Digest: 6a5dc4d38599413dadd357fc88b2c29a6e07212a719660cf9fcb8ccb7c1bff70
 
 ## Diagram
 
 .csdlc/prepared/issues/5833/diagram.mmd
 
-Digest: af00e001a861181a50f459f55e7c9ab91b2538b005a7adc200b0549f62d0f248
+Digest: 0255242ebe93f2857c2a9dc5f2d0c1a083fa373b340935cbfe34749941f0d599
 
 ## Stop Conditions
 
-- Protected-path collision
-- Contradictory dependency evidence
-- Required proof cannot be produced within issue scope
+- Any sprint-gate dependency or #4762 is not verifiable.
+- The candidate digest cannot be bound across all witnesses.
+- Privacy, equivocation, authority, or premature-claim negatives cannot fail closed.
 
 ## Handoff
 

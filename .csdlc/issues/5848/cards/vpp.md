@@ -24,25 +24,50 @@ Diagram: .csdlc/prepared/issues/5848/diagram.mmd
 
 [
   {
-    "lane": "focused-wp-27",
-    "proof_role": "finding disposition record",
+    "lane": "canonical-remediation-truth",
+    "proof_role": "Reconstruct the complete internal plus external finding universe, validate every disposition and accepted-risk authority, read live remediation PR head/review/check/merge state and typed terminal truth, then rerun all affected quality and release validators. [preexec_rejection exit=1 diagnostic_sha256=3494d461d63c7bf14aa92b73910e7f93ca56895e9d0eba8d4d60ef191485843b]",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
-      "AC-5"
+      "AC-5",
+      "AC-6"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 1200,
-    "budget_tokens": 10000,
+    "budget_seconds": 960,
+    "budget_tokens": 8500,
     "argv": [
-      "git",
-      "diff",
-      "--check"
+      "ruby",
+      ".csdlc/prepared/issues/5848/validate-remediation-regressions.rb"
     ],
-    "parallel_group": "issue-local",
+    "parallel_group": "remediation",
+    "defer_reason": null
+  },
+  {
+    "lane": "typed-card-doctor",
+    "proof_role": "Validate the exact six-card bundle and design approval.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "csdlc-doctor",
+      "--repo",
+      ".",
+      "--issue",
+      "5848"
+    ],
+    "parallel_group": "typed-readback",
     "defer_reason": null
   }
 ]
@@ -59,7 +84,8 @@ Tokens: 10000
 
 ## Commands
 
-- `git diff --check`
+- `ruby .csdlc/prepared/issues/5848/validate-remediation-regressions.rb`
+- `csdlc-doctor --repo . --issue 5848`
 
 ## Failure Semantics
 

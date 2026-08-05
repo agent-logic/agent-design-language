@@ -12,38 +12,77 @@ Status: ready
 
 ## Summary
 
-Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.
+Verify #5825-#5830 and #5832-#5834; bind to landed schemas; implement the positive Runtime harness and negative matrix; run replay, redaction, separate native macOS and Linux, and interruption proof; reconcile the two canonical launch documents; validate a fail-closed publication-gate checklist; update D1-D6 only from accepted evidence; then review exact head.
 
 ## Plan
 
-Revision 1
+Revision 15
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Prepare exact scope, design, paths, and validation plan",
+    "action": "Verify all WP-18 dependency revisions, schemas, and commands",
     "acceptance_ids": [
+      "AC-1",
       "AC-2"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Implement the required outcome and focused proof",
+    "action": "Implement the integrated positive runner and deterministic packet validator",
     "acceptance_ids": [
       "AC-1",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Implement and retain the complete not-a-birthday matrix",
+    "acceptance_ids": [
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Run replay, interruption, redaction, separate native macOS and Linux, and D1-D6 artifact checks",
+    "acceptance_ids": [
       "AC-3",
       "AC-4"
     ],
     "status": "pending"
   },
   {
-    "id": "S3",
-    "action": "Resolve one bounded pre-PR review and publish with closing linkage",
+    "id": "S5",
+    "action": "Reconcile both canonical launch documents and validate the fail-closed publication-gate checklist",
     "acceptance_ids": [
+      "AC-4",
       "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S6",
+    "action": "Resolve exact-head review and retain the reviewer index",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S7",
+    "action": "Define and verify demo rollback: remove the harness and owned projections, restore D1-D6, and retain failed packets without rewriting Runtime birthday evidence.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
     ],
     "status": "pending"
   }
@@ -51,15 +90,16 @@ Revision 1
 
 ## Invariants
 
-- No tracked work on main
-- No scope absorption across work packages
-- Evidence claims remain exact-revision and source-grounded
+- Positive proof is Runtime-produced
+- Every negative case emits a typed rejection
+- Retained artifacts expose no private state or credentials
+- D1-D6 status changes only from accepted exact evidence
 
 ## Risks
 
-- Dependency drift
-- Scope overlap
-- Insufficient real-behavior proof
+- Dependency schemas may land with different commands
+- Demo may accidentally validate a fixture
+- Platform or interruption behavior may be hidden
 
 ## Estimates
 
@@ -73,19 +113,20 @@ Revision 1
 
 .csdlc/prepared/issues/5836/design.md
 
-Digest: 5f034f62cd8b993f7fbe91b6388154dbffc39c318449d284a92ac4b4901b3630
+Digest: 389dc25c9c887f4dc46845debdd6505da495c7814187b783bb436620ddcb750a
 
 ## Diagram
 
 .csdlc/prepared/issues/5836/diagram.mmd
 
-Digest: a348f1f8c06a39fd4f33842b58c01295c8a2006f6d94837120f0f8642ebaf270
+Digest: 039549736c17a86e37d74217aa9f5d20dade32c3a9e12e92c43a9975fd8d1a03
 
 ## Stop Conditions
 
-- Protected-path collision
-- Contradictory dependency evidence
-- Required proof cannot be produced within issue scope
+- Any required dependency is unlanded
+- No integrated Runtime entrypoint can emit the packet
+- A required negative cannot be distinguished within issue scope
+- Rollback would delete Runtime-produced proof, dependency evidence, or failed/incomplete packets.
 
 ## Handoff
 

@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-27] Review findings remediation",
     "slug": "v0-92-wp-27-review-findings-remediation",
     "version": "v0.92",
-    "generation": 0
+    "generation": 17
   },
   "status": "ready",
   "content": {
@@ -16,25 +16,50 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "focused-wp-27",
-          "proof_role": "finding disposition record",
+          "lane": "canonical-remediation-truth",
+          "proof_role": "Reconstruct the complete internal plus external finding universe, validate every disposition and accepted-risk authority, read live remediation PR head/review/check/merge state and typed terminal truth, then rerun all affected quality and release validators. [preexec_rejection exit=1 diagnostic_sha256=3494d461d63c7bf14aa92b73910e7f93ca56895e9d0eba8d4d60ef191485843b]",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
             "AC-4",
-            "AC-5"
+            "AC-5",
+            "AC-6"
           ],
           "deterministic": true,
           "resource_profile": "medium",
-          "budget_seconds": 1200,
-          "budget_tokens": 10000,
+          "budget_seconds": 960,
+          "budget_tokens": 8500,
           "argv": [
-            "git",
-            "diff",
-            "--check"
+            "ruby",
+            ".csdlc/prepared/issues/5848/validate-remediation-regressions.rb"
           ],
-          "parallel_group": "issue-local",
+          "parallel_group": "remediation",
+          "defer_reason": null
+        },
+        {
+          "lane": "typed-card-doctor",
+          "proof_role": "Validate the exact six-card bundle and design approval.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "5848"
+          ],
+          "parallel_group": "typed-readback",
           "defer_reason": null
         }
       ],
@@ -42,9 +67,9 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5848/design.md",
-      "design_digest": "12a8c97a937e85ff1ddbc6220b4346fa081484323af96736c09f3f840f3bce81",
+      "design_digest": "a8c4e836fab9cfe165b47685a5ac10d40f44741c1e6f055a4085d62be188bdf1",
       "diagram_ref": ".csdlc/prepared/issues/5848/diagram.mmd",
-      "diagram_digest": "25b8dec2b759e8dfba87fd2c6055a1f6a8063c69efc0115abfc869b27b849aed"
+      "diagram_digest": "bbd55a23ecab369dc5724109636f2fa3e89c73129f97ce62f2d8b3ee87b0df77"
     }
   }
 }

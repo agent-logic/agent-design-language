@@ -3,9 +3,9 @@
   "issue": 5852,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "af917826983f54ef33a15a08cacf4239502b6469ee09079b0a28f195e9741431",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "109bb41ae2326a9577aafbab69ce713302862f43dcbbb80536b5058851fdedff",
+  "phase": "bound",
+  "generation": 18,
+  "digest": "f8dee3e1205a131b78e98a125b942c0e9ac6122419f2d97f4d84b6620b29bb35",
   "claim": null,
   "review_assignment": null,
   "review": null,
@@ -15,40 +15,60 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5852/design.md",
   "diagram_path": ".csdlc/prepared/issues/5852/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5860-quality-release-replay-combined-design-review",
+      "revision": "9acff2df21c37eee745b4e693922bd3008918e474fdc920a5a9d7b8af341b14c"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "96ced71cdc79474bd89a3fd4cd921eee751aa01c8b339f477c8ff8c8444f9ac8",
-      "rendered_digest": "1eeeb4956f3d2541e81f989144ed4f526166a82ab61edac217b71225be118731",
-      "ast_digest": "abced984e8656b92e28e7582532db0d6190f3a4f5db8f5c32b3918ef26d15e7c"
+      "values_digest": "354b759b5128d2e82ba73a7db10a9be231f753ba88a7322c1e5ad11e51313b43",
+      "rendered_digest": "be5003b662067d5bab91d7c4553fcdd70728fbe6e5de6ee928563a945d5e58e1",
+      "ast_digest": "26f535c6f0bcb09c4857e1b891a69f874f1cf58a6976c6dfe6872ced7d7b0c7b"
     },
     "stp": {
-      "values_digest": "4c38fb81971c650903a74b26eb856399fc7b2269f779b56e60909103408d2318",
-      "rendered_digest": "94e8ef5f3d0024698a2c76a918edc9d1477302deb832e090ff22428007ae42ad",
-      "ast_digest": "cd008c8315b6d0ecfe5b0df6cd2d35f4aaa494c91a35c7a013a928fc76b892fc"
+      "values_digest": "c1b702820426fb95cea597a513db816fd1543d4aa3dc80aa5b21cfea00627381",
+      "rendered_digest": "3d396b6e5e1491362ba0f40f6d1f74ccb8d988730770630570ceb3fe9da149d6",
+      "ast_digest": "bea85d5035a0b377f19f1a0f64bf0ef94d0de6185cd8be44a92da1485798ad9a"
     },
     "spp": {
-      "values_digest": "cddefdda91e7d2559206fa41efd252efabb98164069247289373970378179904",
-      "rendered_digest": "43e3bb7694ab17a351a9ed6d8826f5ead0954521732c6654448e1736b11df38a",
-      "ast_digest": "09f551d70f5bf5c4080edce1d9041185a74a5df12fcf6dff372fdf012bab29d0"
+      "values_digest": "32266e623866df25d3b8a047598217ac153d4d08443cb9ece39a28b432407716",
+      "rendered_digest": "0904a6a03fcabd95a9beab3c013e04de9fb18117571824d7dd7e1baf587a4b2a",
+      "ast_digest": "711d5f5e2a1a07cdff3eead983ba0d4a056cad53854fe4b126d3f27e545b3499"
     },
     "vpp": {
-      "values_digest": "e87e23db3fc5af6e10dcdf4f15f782eb5db4aecb997d44f31f9829d55ab1dde1",
-      "rendered_digest": "5785cbed50142a54675b10d7f9b92f497ac0218b1dc60ad67d0ba3b2a0f8af36",
-      "ast_digest": "d38e3a3155b4438a5a282478e705d3bb9e2df98c3f2fa8606f220d2852add0d8"
+      "values_digest": "b506249607754bdf058162b3f451c5be8a6f524309246732aa5c002fcb7d47c4",
+      "rendered_digest": "e81c93a65f35db513d0e3169d1e52fac4f79debf93e5b90239ea3f7cfcd090dc",
+      "ast_digest": "57e1c79e19accd7eb794132aeca49b649c2766518a89be11fad70156c87967cb"
     },
     "srp": {
-      "values_digest": "4b361f91c11b27110e4d41b566b5a449f3752e4217e097698e036da2ee238c75",
-      "rendered_digest": "26dab4778a59c7347ba8daba6b1efe4eb5e9b8b40b6e97ccbda182ea4321e781",
-      "ast_digest": "398f6441b209b74c4ea0b65199ece10f6163f697a308e96af31b7b109dc4964f"
+      "values_digest": "c543a54fbccb77b4cce3c712e672941cce4a593231ace04616ca2c38b9ef1b1a",
+      "rendered_digest": "392c586ae21a77ce6717f21c780b03649921cab7ce1faf6b4ec5ee16247652cb",
+      "ast_digest": "75d679dec3b72e6f8b9c263e17f296e2b8bcc2049033e2f66a5a9c30187fc175"
     },
     "sor": {
-      "values_digest": "d61c3a9b53e9dfd7263f1cd5e2f3f21085e2567c0a41400de236d5e0ba17558c",
+      "values_digest": "fbd7994e8369878fa66f3277e043ca7c5f5b6295edf04dd5876820ea8858fcf5",
       "rendered_digest": "2cf64595a2dc6c3b25eefd8028717e80ac4fa419fb182cab5d1bf273c16b484f",
       "ast_digest": "e5296f9f599959eaaa052d0feaecd7cfa28ec61756815c3d98807aacebfde812"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "verified Git worktree binding"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -63,6 +83,223 @@
       "actor": "codex:5817",
       "reason": "Revoke WP-01 bootstrap-only preparation reservation so issue 5817 can own and review every path it publishes; the child session must reacquire its issue-local claim after WP-01 releases.",
       "operation": "{\"claim_id\":\"claim-5852-v092-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-wp01-publication-ownership\",\"previous_owner\":\"wp01:issue-wave-preparation\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Reacquire the exact released WP-01 preparation claim to make issue 5852 design-time execution-ready without product implementation, publication, push, merge, or closeout.",
+      "operation": "{\"branch\":\"codex/5860-quality-release-readiness\",\"claim_id\":\"claim-5852-v092-preparation\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-quality-release-readiness\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5852\",\".csdlc/issues/5852\",\".csdlc/locks/5852.lock\",\".csdlc/prepared/issues/5852\"],\"purpose\":\"Prepare and approve issue 5852 design and typed cards only; no product behavior, shared milestone docs, PR, push, merge, or closeout authority.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:5860-quality-release-readiness-design-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 1,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Replace generic scope with exact issue-owned preparation and future execution boundaries.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"Assemble the exact v0.92 release evidence manifest, final release notes/checklist/handoff, and residual-risk/non-claim record\",\"Execute the WP-29-approved split-step tag/release ceremony with identity checks and idempotent recovery\",\"Verify live release artifacts and complete typed issue, sprint, milestone, and handoff closeout\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Bind the task to current issue, repository, milestone, and predecessor evidence.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"Passing terminal WP-29 review and its approved closeout/ceremony sequence\",\"All required terminal child/sprint records, quality/internal/external/remediation evidence, final docs and launch packages\",\"docs/milestones/v0.92/RELEASE_PLAN_v0.92.md, RELEASE_NOTES_v0.92.md, MILESTONE_CHECKLIST_v0.92.md, NEXT_MILESTONE_HANDOFF_v0.92.md, and adl/tools/release_ceremony.sh\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Replace generic non-goals with issue-specific exclusions and authority boundaries.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"Product remediation, evidence invention, or feature completion by tag/release ceremony\",\"Unreviewed network mutation or blind retry of partial/non-idempotent release steps\",\"Activating v0.93 or claiming legal personhood, production governance, consciousness, or unproven delivery\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Replace generic acceptance, three-step scaffolding, and diff-only VPP with the complete issue-specific plan.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: WP-29 passed at the exact ancestral SHA; every required child/sprint is terminal and claim-free; the candidate head is clean with green required checks and conflict-free tag/release identity.\",\"AC-2: The release evidence manifest binds every final claim to exact implementation, validation, review, merge, terminal receipt, artifact hash, and residual-risk/non-claim evidence.\",\"AC-3: Final notes, plan, checklist, handoff, launch assets, and evidence links describe landed reviewed behavior only and pass format/link/redaction/claim-boundary checks.\",\"AC-4: Ceremony script tests and dry-run pass at the exact reviewed head; tag push, draft release, publication, and verification execute in the approved order with identity checks before retry.\",\"AC-5: Independent live readback proves annotated tag object/target, release target/state/notes/assets/hashes, and records any partial failure without duplicate mutation.\",\"AC-6: Typed #5852, sprint #5856, and milestone closeout use retained receipts/live release truth, and v0.93 receives the accepted handoff without activation or unsupported claims.\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Verify WP-29 pass, all terminal/claim/check/head/tag/release entry gates, and pin the ceremony candidate SHA.\",\"acceptance_ids\":[\"AC-1\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Assemble and validate the evidence manifest, final notes/plan/checklist/handoff, assets, hashes, risks, and non-claims.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Run focused ceremony script tests and dry-run; resolve exact-head review before merge.\",\"acceptance_ids\":[\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"At the exact merge commit create/push the annotated tag, create/publish the release, and identity-check every retry.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Verify live tag/release/assets, complete typed issue/sprint/milestone closeout, and accept the v0.93 handoff without activation.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"release-evidence-manifest\",\"proof_role\":\"Require every release claim to bind exact implementation, validation, review, merge, terminal receipt, artifact hash, risk, and non-claim evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\"-e\",\"require 'json'; r=JSON.parse(File.read('.csdlc/evidence/5852/release-evidence-manifest.json')); abort 'empty manifest' unless r['rows'].is_a?(Array) && !r['rows'].empty?; abort 'unbound claim' unless r['rows'].all? { |x| %w[claim implementation_ref validation_ref review_ref merge_sha terminal_ref].all? { |k| x[k] } }\"],\"parallel_group\":\"release\",\"defer_reason\":null},{\"lane\":\"ceremony-script-preflight\",\"proof_role\":\"Prove tag/release ordering, identity checks, dry-run behavior, partial-failure recovery, and duplicate-mutation rejection.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":540,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_release_ceremony.sh\"],\"parallel_group\":\"ceremony\",\"defer_reason\":null},{\"lane\":\"release-identity-negative\",\"proof_role\":\"Reject red checks, active claims, missing receipts/findings, dirty head, tag/release conflict, partial verification, stale assets, and blind retries.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\"-e\",\"require 'json'; r=JSON.parse(File.read('.csdlc/evidence/5852/ceremony-negative-cases.json')); abort 'negative case escaped' unless r['cases'].is_a?(Array) && r['cases'].all? { |x| x['outcome']=='blocked' }\"],\"parallel_group\":\"negative\",\"defer_reason\":null},{\"lane\":\"release-doc-hygiene\",\"proof_role\":\"Validate final notes, plan, checklist, handoff, links, hashes, redaction, claims, and diff hygiene without broad product tests.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"typed-card-doctor\",\"proof_role\":\"Validate the exact rendered six-card bundle, cross-card references, digests, statuses, and canonical issue record.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5852\"],\"parallel_group\":\"typed-readback\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Make the operative SPP summary issue-specific and executable.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Verify WP-29 and all terminal gates, assemble evidence-linked final release artifacts, dry-run and review the ceremony, then at the exact merged commit create/push tag, publish/verify release, recover partial state idempotently, and close typed issue/sprint/milestone truth.\",\"operation\":\"replan\",\"previous_value\":\"Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Record exact protected-path candidates and require just-in-time narrowing.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92/RELEASE_NOTES_v0.92.md, RELEASE_PLAN_v0.92.md, MILESTONE_CHECKLIST_v0.92.md, and NEXT_MILESTONE_HANDOFF_v0.92.md\",\"docs/milestones/v0.92/V092_RELEASE_CEREMONY_5852.md\",\"adl/tools/release_ceremony.sh and test_release_ceremony.sh only for a separately reviewed preflight defect\",\".csdlc/evidence/5852 plus live tag/release/issue/sprint state\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Replace generic review prompts while preserving truthful pre-review state.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does every release claim map to exact implementation, validation, review, merge, terminal, artifact, risk, and non-claim evidence?\",\"Are final notes, checklist, handoff, launch assets, and hashes consistent with landed truth only?\",\"Do ceremony tests and the reviewed sequence prevent stale, red, dirty, conflicting, partial, or duplicate network mutation?\",\"Does typed issue/sprint/milestone closeout follow verified release identity without activating v0.93?\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Release the temporary preparation-only binding after exact-digest design approval and typed card rendering so the implementation session can reacquire authority just in time.",
+      "operation": "{\"claim_id\":\"claim-5852-v092-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-5860-preparation-completion\",\"previous_owner\":\"codex:5860-quality-release-readiness\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:5860-quality-release-readiness-repair",
+      "reason": "Reacquire the released preparation claim to repair exact-head quality/release readiness findings without implementation or publication.",
+      "operation": "{\"branch\":\"codex/5860-v092-execution-readiness\",\"claim_id\":\"claim-5852-v092-preparation\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-quality-release-readiness-repair\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5852\",\".csdlc/issues/5852\",\".csdlc/locks/5852.lock\",\".csdlc/prepared/issues/5852\"],\"purpose\":\"Repair issue 5852 design and typed cards only; no product behavior, shared milestone docs, PR, push, merge, or closeout authority.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:5860-quality-release-readiness-repair-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:5860-quality-release-readiness-repair",
+      "reason": "Replace self-attested quality/release validation with issue-local proving validators that resolve the exact-head review findings.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"release-evidence-manifest\",\"proof_role\":\"Require every release claim to bind nonempty exact implementation, validation, review, merge, terminal, artifact hash, residual-risk, and non-claim evidence, then recompute every artifact digest.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5852/validate-release-evidence.rb\"],\"parallel_group\":\"release\",\"defer_reason\":null},{\"lane\":\"ceremony-script-preflight\",\"proof_role\":\"Prove tag/release ordering, identity checks, dry-run behavior, partial-failure recovery, and duplicate-mutation rejection.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":540,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_release_ceremony.sh\"],\"parallel_group\":\"ceremony\",\"defer_reason\":null},{\"lane\":\"release-identity-negative\",\"proof_role\":\"Reject red checks, active claims, missing receipts/findings, dirty head, tag/release conflict, partial verification, stale assets, and blind retries with an exercised negative-case packet.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\"-e\",\"require 'json'; r=JSON.parse(File.read('.csdlc/evidence/5852/ceremony-negative-cases.json')); c=r['cases']; abort 'negative cases missing' unless c.is_a?(Array) && !c.empty?; abort 'unexercised negative case' unless c.all? { |x| x['observed_exit'].is_a?(Integer) && x['observed_exit'] != 0 && x['stderr_sha256'].is_a?(String) && x['stderr_sha256'].match?(/\\\\A[0-9a-f]{64}\\\\z/) }\"],\"parallel_group\":\"negative\",\"defer_reason\":null},{\"lane\":\"typed-card-doctor\",\"proof_role\":\"Validate the exact rendered six-card bundle, cross-card references, digests, statuses, and canonical issue record.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5852\"],\"parallel_group\":\"typed-readback\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "codex:5860-quality-release-readiness-repair",
+      "reason": "Release the temporary repair claim after typed rendering, design reapproval, and bounded readiness validation.",
+      "operation": "{\"claim_id\":\"claim-5852-v092-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-5860-readiness-repair-completion\",\"previous_owner\":\"codex:5860-quality-release-readiness-repair\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 10,
+      "actor": "codex:5860-v092-ownership-normalization",
+      "reason": "Reacquire issue-local preparation authority to normalize exact owned paths and serialization gates without product implementation.",
+      "operation": "{\"branch\":\"codex/5860-v092-ownership-normalization\",\"claim_id\":\"claim-5852-v092-ownership-normalization\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-v092-ownership-normalization\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5852\",\".csdlc/prepared/issues/5852\",\".csdlc/evidence/5852\"],\"purpose\":\"Normalize issue 5852 design/card ownership only; no product implementation, GitHub mutation, wave/WBS mutation, or publication.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 11,
+      "actor": "codex:5860-v092-ownership-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 20,
+      "generation": 12,
+      "actor": "codex:5860-v092-ownership-normalization",
+      "reason": "Align the operative plan with exact owned paths and machine-readable serialization gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92/RELEASE_NOTES_v0.92.md\",\"docs/milestones/v0.92/RELEASE_PLAN_v0.92.md\",\"docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md\",\"docs/milestones/v0.92/V092_RELEASE_CEREMONY_5852.md\",\".csdlc/evidence/5852\",\".csdlc/prepared/issues/5852/validate-release-evidence.rb\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 12,
+      "actor": "codex:5860-v092-ownership-normalization",
+      "reason": "Release the temporary ownership-normalization claim after typed card regeneration and exact-digest design reapproval.",
+      "operation": "{\"claim_id\":\"claim-5852-v092-ownership-normalization\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-ownership-normalization\",\"previous_owner\":\"codex:5860-v092-ownership-normalization\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 12,
+      "actor": "codex:5860-quality-release-exact-repair",
+      "reason": "Acquire bounded preparation claim for exact-head quality/release readiness repair of issue 5852; no product implementation or aggregate mutation.",
+      "operation": "{\"branch\":\"codex/5860-quality-release-exact-repair\",\"claim_id\":\"claim-5852-v092-quality-release-exact-repair\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-quality-release-exact-repair\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5852\",\".csdlc/issues/5852\",\".csdlc/locks/5852.lock\",\".csdlc/prepared/issues/5852\"],\"purpose\":\"Repair issue 5852 design, exact ownership, and issue-local proving validator only; no product implementation, #5860 aggregate surfaces, #5861, GitHub bodies, publication, merge, or closeout authority.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 13,
+      "actor": "codex:5860-quality-release-exact-repair-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 24,
+      "generation": 14,
+      "actor": "codex:5860-quality-release-exact-repair",
+      "reason": "Replace incomplete or self-attested readiness proof with issue-local reconstructed and exact-head validation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-release-manifest\",\"proof_role\":\"Bind every release claim to exact reviewed head, ancestral merge, semantic review and terminal evidence, recomputed hashes, notes, checklist, handoff, risks, and non-claims.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5852/validate-release-evidence.rb\",\"manifest\"],\"parallel_group\":\"manifest\",\"defer_reason\":null},{\"lane\":\"ceremony-preflight\",\"proof_role\":\"Require every milestone issue terminal and claim-free, rerun the ceremony tests, and run exact-head v0.92 preflight.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":360,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5852/validate-release-evidence.rb\",\"ceremony\"],\"parallel_group\":\"ceremony\",\"defer_reason\":null},{\"lane\":\"ceremony-negative-rerun\",\"proof_role\":\"Rerun the real ceremony test suite and require observed dirty, branch, tag, duplicate, and partial-state rejection with fresh output digest.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5852/validate-release-evidence.rb\",\"negative\"],\"parallel_group\":\"negative\",\"defer_reason\":null},{\"lane\":\"live-release-readback\",\"proof_role\":\"Prove annotated tag target, GitHub release publication, exact notes, complete assets, ancestry, and terminal claim-free milestone truth.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5852/validate-release-evidence.rb\",\"post-publication\"],\"parallel_group\":\"post-release\",\"defer_reason\":null},{\"lane\":\"typed-card-doctor\",\"proof_role\":\"Validate the exact six-card bundle and design approval.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5852\"],\"parallel_group\":\"typed-readback\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 15,
+      "actor": "codex:5860-quality-release-exact-repair",
+      "reason": "Mirror the final exact Owned Paths and serialization gates into SPP after design approval.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92/RELEASE_NOTES_v0.92.md\",\"docs/milestones/v0.92/RELEASE_PLAN_v0.92.md\",\"docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md\",\"docs/milestones/v0.92/V092_RELEASE_CEREMONY_5852.md\",\".csdlc/evidence/5852\",\".csdlc/prepared/issues/5852/validate-release-evidence.rb\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-doc-truth-to-release-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/RELEASE_NOTES_v0.92.md\\\",\\\"docs/milestones/v0.92/RELEASE_PLAN_v0.92.md\\\",\\\"docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md\\\"],\\\"issues\\\":[5843,5852],\\\"order\\\":[5843,5852]}\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 15,
+      "actor": "codex:5860-quality-release-exact-repair",
+      "reason": "Release bounded readiness-repair preparation claim after typed rendering, design approval, and focused validation.",
+      "operation": "{\"claim_id\":\"claim-5852-v092-quality-release-exact-repair\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-5860-quality-release-exact-repair-completion\",\"previous_owner\":\"codex:5860-quality-release-exact-repair\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 15,
+      "actor": "codex:5860-quality-release-replay",
+      "reason": "Reacquire the released issue-local preparation claim to replay quality rollback and reciprocal serialization onto the exact integrated head.",
+      "operation": "{\"branch\":\"codex/5860-quality-release-replay\",\"claim_id\":\"claim-5852-v092-quality-replay\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-quality-release-replay\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5852\",\".csdlc/prepared/issues/5852\",\".csdlc/evidence/5852\"],\"purpose\":\"Replay issue-local rollback and serialization readiness onto exact integrated head only; preserve Birthday changes; no product implementation, #5860 aggregate, #5861, publication, merge, or closeout authority.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 28,
+      "generation": 16,
+      "actor": "codex:5860-quality-release-replay-combined-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 29,
+      "generation": 17,
+      "actor": "codex:5860-quality-release-replay",
+      "reason": "Regenerate the exact combined-head SPP projection from approved Owned Paths plus Serialization Gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92/RELEASE_NOTES_v0.92.md\",\"docs/milestones/v0.92/RELEASE_PLAN_v0.92.md\",\"docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md\",\"docs/milestones/v0.92/V092_RELEASE_CEREMONY_5852.md\",\".csdlc/evidence/5852\",\".csdlc/prepared/issues/5852/validate-release-evidence.rb\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-doc-truth-to-release-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/RELEASE_NOTES_v0.92.md\\\",\\\"docs/milestones/v0.92/RELEASE_PLAN_v0.92.md\\\",\\\"docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md\\\"],\\\"issues\\\":[5843,5852],\\\"order\\\":[5843,5852]}\"]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 17,
+      "actor": "codex:5860-quality-release-replay",
+      "reason": "Release exact-head replay claim after combined design approval, SPP regeneration, 58-issue ownership proof, and zero rollback-gap proof.",
+      "operation": "{\"claim_id\":\"claim-5852-v092-quality-replay\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-5860-quality-replay-completion\",\"previous_owner\":\"codex:5860-quality-release-replay\"}"
+    },
+    {
+      "sequence": 31,
+      "generation": 17,
+      "actor": "codex:5860-vpp-preexecution-contracts",
+      "reason": "Acquire issue-local authority to declare the exact VPP pre-execution rejection contract.",
+      "operation": "{\"branch\":\"codex/5860-v092-execution-readiness\",\"claim_id\":\"claim-5852-v092-preexec-contract\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-vpp-preexecution-contracts\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5852\",\".csdlc/prepared/issues/5852\",\".csdlc/evidence/5852\"],\"purpose\":\"Declare the issue-local VPP pre-execution rejection contract without product implementation.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 32,
+      "generation": 18,
+      "actor": "codex:5860-vpp-preexecution-contracts",
+      "reason": "Declare the exact issue-local pre-execution rejection exit class and normalized diagnostic digest.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-release-manifest\",\"proof_role\":\"Bind every release claim to exact reviewed head, ancestral merge, semantic review and terminal evidence, recomputed hashes, notes, checklist, handoff, risks, and non-claims. [preexec_rejection exit=1 diagnostic_sha256=63de60c3a947a88dd59f68d66d637490aee0c9c4adc6e2d9945833835ad7e8cc]\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5852/validate-release-evidence.rb\",\"manifest\"],\"parallel_group\":\"manifest\",\"defer_reason\":null},{\"lane\":\"ceremony-preflight\",\"proof_role\":\"Require every milestone issue terminal and claim-free, rerun the ceremony tests, and run exact-head v0.92 preflight. [preexec_rejection exit=1 diagnostic_sha256=63de60c3a947a88dd59f68d66d637490aee0c9c4adc6e2d9945833835ad7e8cc]\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":360,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5852/validate-release-evidence.rb\",\"ceremony\"],\"parallel_group\":\"ceremony\",\"defer_reason\":null},{\"lane\":\"ceremony-negative-rerun\",\"proof_role\":\"Rerun the real ceremony test suite and require observed dirty, branch, tag, duplicate, and partial-state rejection with fresh output digest. [preexec_rejection exit=1 diagnostic_sha256=63de60c3a947a88dd59f68d66d637490aee0c9c4adc6e2d9945833835ad7e8cc]\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5852/validate-release-evidence.rb\",\"negative\"],\"parallel_group\":\"negative\",\"defer_reason\":null},{\"lane\":\"live-release-readback\",\"proof_role\":\"Prove annotated tag target, GitHub release publication, exact notes, complete assets, ancestry, and terminal claim-free milestone truth. [preexec_rejection exit=1 diagnostic_sha256=63de60c3a947a88dd59f68d66d637490aee0c9c4adc6e2d9945833835ad7e8cc]\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":240,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5852/validate-release-evidence.rb\",\"post-publication\"],\"parallel_group\":\"post-release\",\"defer_reason\":null},{\"lane\":\"typed-card-doctor\",\"proof_role\":\"Validate the exact six-card bundle and design approval.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5852\"],\"parallel_group\":\"typed-readback\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 18,
+      "actor": "codex:5860-vpp-preexecution-contracts",
+      "reason": "Release issue-local authority after typed VPP contract replacement.",
+      "operation": "{\"claim_id\":\"claim-5852-v092-preexec-contract\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-vpp-preexecution-contracts\"}"
     }
   ]
 }

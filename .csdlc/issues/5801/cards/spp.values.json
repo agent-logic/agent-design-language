@@ -7,52 +7,81 @@
     "title": "[v0.92][WP-02A] CI and coverage reliability",
     "slug": "v0-92-wp-02-ci-and-coverage-reliability",
     "version": "v0.92",
-    "generation": 0
+    "generation": 24
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
-      "summary": "Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.",
+      "plan_revision": 11,
+      "summary": "Review the current topology, centralize deterministic path/PVF classification, deduplicate heavy and coverage lanes, preserve exact-head source safety, bound metadata-only reuse, prove stale-run behavior, and validate platform contracts.",
       "steps": [
         {
           "id": "S1",
-          "action": "Prepare exact scope, design, paths, and validation plan",
+          "action": "Retain and cryptographically validate Gemini 3.1 Pro review artifacts and dispose every actionable finding",
           "acceptance_ids": [
+            "AC-1",
             "AC-2"
           ],
           "status": "pending"
         },
         {
           "id": "S2",
-          "action": "Implement the required outcome and focused proof",
+          "action": "Implement focused/slow routing, coverage deduplication, metadata-lineage reuse, and cancellation safety",
           "acceptance_ids": [
-            "AC-1",
+            "AC-2",
             "AC-3",
-            "AC-4"
+            "AC-4",
+            "AC-5",
+            "AC-6"
           ],
           "status": "pending"
         },
         {
           "id": "S3",
-          "action": "Resolve one bounded pre-PR review and publish with closing linkage",
+          "action": "Run review-packet, policy, coverage, lifecycle, platform, and exact-head proof",
           "acceptance_ids": [
-            "AC-5"
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
           ],
           "status": "pending"
         }
       ],
-      "affected_areas": [],
+      "affected_areas": [
+        ".github/workflows/ci.yaml",
+        "adl/tools/ci_path_policy.sh",
+        "adl/tools/run_pr_fast_test_lane.sh",
+        "adl/tools/run_pr_fast_coverage_lane.sh",
+        "adl/tools/check_coverage_impact.sh",
+        "adl/tools/run_authoritative_coverage_lane.sh",
+        "adl/tools/test_ci_path_policy.sh",
+        "adl/tools/test_run_pr_fast_test_lane.sh",
+        "adl/tools/test_run_pr_fast_coverage_lane.sh",
+        "adl/tools/test_check_coverage_impact.sh",
+        "adl/tools/test_coverage_authority_contract.sh",
+        "adl/tools/test_ci_runtime_contracts.sh",
+        ".csdlc/evidence/5801",
+        ".csdlc/prepared/issues/5801/validate-gemini-review.rb",
+        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-ci-runner-experiment-v1\",\"paths\":[\".github/workflows/ci.yaml\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"issues\":[5801,5853],\"order\":[5801,5853]}"
+      ],
       "invariants": [
-        "No tracked work on main",
-        "No scope absorption across work packages",
-        "Evidence claims remain exact-revision and source-grounded"
+        "Unknown or mixed source changes select the stronger proving lane",
+        "Source/product exact-head review and merge evidence is never reused across substantive drift",
+        "Each PR class runs one authoritative coverage topology",
+        "Required-check names and branch protection remain stable",
+        "Machine-readable outputs and adl_event stderr separation remain intact"
       ],
       "risks": [
-        "Dependency drift",
-        "Scope overlap",
-        "Insufficient real-behavior proof"
+        "A docs or metadata classifier accidentally suppresses source proof",
+        "Coverage shards duplicate work or aggregate different revisions",
+        "Cancellation hides a missing final required state",
+        "Metadata lineage accepts substantive or renamed source drift",
+        "Platform-specific path handling diverges"
       ],
       "execution_estimates": {
         "elapsed_seconds": 21600,
@@ -60,15 +89,22 @@
         "validation_seconds": 3600
       },
       "stop_conditions": [
-        "Protected-path collision",
-        "Contradictory dependency evidence",
-        "Required proof cannot be produced within issue scope"
+        "WP-02 destination CI state is not stable",
+        "A proposed route weakens required source proof",
+        "Required-check identity or branch protection must change",
+        "Unknown path classification would default to less proof",
+        "Coverage artifacts cannot prove one exact revision and authority"
       ],
-      "replan_triggers": [],
+      "replan_triggers": [
+        "GitHub Actions or branch-protection topology changes after migration",
+        "Current coverage authority or shard count changes",
+        "C-SDLC v2 exact-head metadata-lineage semantics change",
+        "A platform contract exposes a path or shell portability gap"
+      ],
       "design_ref": ".csdlc/prepared/issues/5801/design.md",
-      "design_digest": "1b0420b4b96beb25204b112adc3e7914e79b1ae4dc5f26c06a676be75a4fedfe",
+      "design_digest": "2f832db4fe0e6fc90b9a532f824eddda7e298100573fe3ed9499231e1bda6eeb",
       "diagram_ref": ".csdlc/prepared/issues/5801/diagram.mmd",
-      "diagram_digest": "6f5405e1aee1975ec02b11337005bc4404c4bd458b594093ebf9596c65c59e27"
+      "diagram_digest": "38d2b37695ebf0a973ad18715373b5388f65f5eb6d61f68fafb821966de2ecb2"
     }
   }
 }

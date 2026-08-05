@@ -24,18 +24,39 @@ Diagram: .csdlc/prepared/issues/5812/diagram.mmd
 
 [
   {
-    "lane": "freedom-gate-clippy",
-    "proof_role": "Prove the exact defaults and named production binary are behaviorally correct and Clippy-clean with warnings denied.",
+    "lane": "freedom-gate-module-tests",
+    "proof_role": "Prove both defaults and unsafe retained-artifact rejection remain behaviorally unchanged.",
     "acceptance_ids": [
-      "AC-1",
       "AC-2",
       "AC-3",
-      "AC-4",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 400,
+    "budget_tokens": 2000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--lib",
+      "csm_freedom_gate::tests"
+    ],
+    "parallel_group": "rust",
+    "defer_reason": null
+  },
+  {
+    "lane": "freedom-gate-clippy",
+    "proof_role": "Eliminate the exact production-binary warnings with warnings denied.",
+    "acceptance_ids": [
+      "AC-1",
       "AC-5"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 600,
+    "budget_seconds": 500,
     "budget_tokens": 2000,
     "argv": [
       "cargo",
@@ -53,8 +74,48 @@ Diagram: .csdlc/prepared/issues/5812/diagram.mmd
     "defer_reason": null
   },
   {
+    "lane": "rust-format",
+    "proof_role": "Reject unintended Rust formatting churn.",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 100,
+    "budget_tokens": 500,
+    "argv": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--all",
+      "--",
+      "--check"
+    ],
+    "parallel_group": "issue-local",
+    "defer_reason": null
+  },
+  {
+    "lane": "exact-path-scope-negative",
+    "proof_role": "Require the two substitutions and reject every unauthorized path. [preexec_rejection exit=1 diagnostic_sha256=a7cd33de340c1dc4ed426afae4bcd2416560c1f3ae870f15538cd04b774a4eac]",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 1000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/5812/validate-path-scope.rb"
+    ],
+    "parallel_group": "issue-local",
+    "defer_reason": null
+  },
+  {
     "lane": "diff-hygiene",
-    "proof_role": "Reject unrelated whitespace changes and support exact-head review.",
+    "proof_role": "Reject whitespace errors after exact-path proof.",
     "acceptance_ids": [
       "AC-6",
       "AC-7"
@@ -85,7 +146,10 @@ Tokens: 10000
 
 ## Commands
 
+- `cargo test --locked --manifest-path adl/Cargo.toml --lib csm_freedom_gate::tests`
 - `cargo clippy --locked --manifest-path adl/Cargo.toml --bin adl-gws-context-mirror -- -D warnings`
+- `cargo fmt --manifest-path adl/Cargo.toml --all -- --check`
+- `ruby .csdlc/prepared/issues/5812/validate-path-scope.rb`
 - `git diff --check`
 
 ## Failure Semantics

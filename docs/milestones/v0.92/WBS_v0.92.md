@@ -41,7 +41,24 @@ moral-trace, or constitutional-governance milestones.
 | WP-02A | CI and coverage reliability | Repair fast/slow routing, coverage aggregation, platform parity, and immediate-failure causes before broad execution. | Green proving substrate with focused and slow lanes separated. | WP-02. |
 | WP-02B | Post-migration build acceleration experiment | Compare the same exact CI workloads on standard and one restricted 16-core GitHub-hosted Ubuntu runner without changing proof semantics. | Complete cold/warm measurement corpus, proof parity, one canary, lane decisions, and fallback or cleanup evidence. | WP-02, WP-02A, organization-owner budget and runner-access approval. |
 | WP-03 | Runtime launch and resilience consolidation | Combine launch recovery and long-lived Agent OS plans into one bounded reliability tranche. | One Guardian-owned launch path, resilient kernel startup, configuration, recovery, and lifecycle proof. | WP-02A. |
-| WP-04 | Distributed Guardian/polis runtime | Execute and complete the documented 16-issue distributed-runtime program within v0.92 with architecture and security gates. | Reviewed architecture/security gate, all 16 child issues landed, and integrated distributed proof. | WP-03. |
+| WP-04 | Distributed Guardian/polis runtime | Pass issue #5821's architecture/security and exact child-wave gate, then execute the same-milestone WP-04-IMP umbrella over exactly WP-04.01 through WP-04.16. | Reviewed architecture/security gate and disjoint child ledger, followed by all 16 child issues landed and integrated distributed proof. | WP-03; WP-04-IMP starts only after #5821 passes. |
+| WP-04-IMP | Distributed Guardian implementation umbrella | Coordinate issues #5863 through #5878 without owning product paths. | Exact child scheduling, terminal evidence matrix, and WP-04.16 integration handoff. | WP-03 and WP-04 #5821 terminal. |
+| WP-04.01 | Node identity and enrollment | Stable node/Guardian identity and fail-closed enrollment. | Identity implementation and exact positive/negative proof. | WP-03, WP-04. |
+| WP-04.02 | Certificate lifecycle | Separate purposes, rotation, revocation, expiry, and compromise behavior. | Certificate implementation and rollback proof. | WP-04.01. |
+| WP-04.03 | QUIC/TLS transport | Maintained bounded mutually authenticated transport. | Transport adapter and dependency parity proof. | WP-04.02. |
+| WP-04.04 | Discovery and join | Bounded seed discovery and authenticated join. | Discovery/join implementation and refusal cases. | WP-04.03. |
+| WP-04.05 | Membership convergence | Deterministic epochs and bounded topology convergence. | Membership implementation and restart proof. | WP-04.04. |
+| WP-04.06 | Failure and partition | Bounded failure detection and partition classification. | Failure/recovery implementation and event proof. | WP-04.05. |
+| WP-04.07 | Epochs and leases | Monotonic epochs and bounded lease authority. | Lease implementation and stale-holder proof. | WP-04.05. |
+| WP-04.08 | Fencing | Single-owner enforcement under stale, cloned, and partitioned state. | Fencing implementation and split-brain denial. | WP-04.06, WP-04.07. |
+| WP-04.09 | Capability advertisements | Signed bounded capability evidence. | Advertisement implementation and replay/redaction proof. | WP-04.03. |
+| WP-04.10 | Resource-weather advertisements | Signed bounded fresh resource evidence. | Advertisement implementation and no-data proof. | WP-04.03. |
+| WP-04.11 | Placement | Deterministic bounded placement from trusted inputs. | Placement implementation and exclusion proof. | WP-04.05, WP-04.08, WP-04.09, WP-04.10. |
+| WP-04.12 | Snapshot transfer catalog | Digest-bound authenticated snapshot and transfer manifests. | Catalog implementation and corruption/authorization proof. | WP-04.02, WP-04.08. |
+| WP-04.13 | Migration | Prepare-through-commit migration with retained source authority. | Migration state machine and transition proof. | WP-04.08, WP-04.11, WP-04.12. |
+| WP-04.14 | Recovery | Rollback and one-owner recovery from failed relocation. | Recovery implementation and failure-stage proof. | WP-04.13. |
+| WP-04.15 | Distributed projection | Redacted versioned distributed Runtime API. | Projection and OpenAPI parity proof. | WP-04.05, WP-04.08, WP-04.13, WP-04.14. |
+| WP-04.16 | Integration and native proof | Register distributed modules and prove real multi-node behavior. | Production API/WSS, adversarial, recovery, shutdown, and macOS/Linux/Windows proof. | WP-04.01 through WP-04.15. |
 | WP-05 | C-SDLC estimation and cycle-time reduction | Join session estimation/reconnection and sprint cycle-time work into one workflow-efficiency track. | Measured cycle-time baseline, simplified lifecycle path, and regression proof. | WP-02A. |
 | WP-06 | Remote validation/build runner | Pilot a portable remote validation runner without making local execution depend on network availability. | Bounded runner, provenance contract, failover, and platform proof. | WP-02A. |
 | WP-07 | Prompt-card enum typing | Verify historical delivery and implement only the remaining typed-enum gap. | Delivery audit plus bounded enum/schema/tooling correction if needed. | WP-01, WP-05. |
@@ -106,7 +123,7 @@ closeout planning, next-milestone review, and ceremony form the release tail.
 
 ## Sprint Umbrellas
 
-The issue wave is grouped into five coordination-only sprint umbrellas. These
+The issue wave is grouped into six coordination-only sprint umbrellas. These
 umbrellas define dependency routing, safe parallel lanes, integration proof,
 and write-surface boundaries; they do not replace child-issue ownership or
 authorize an umbrella agent to implement child code directly.
@@ -114,12 +131,13 @@ authorize an umbrella agent to implement child code directly.
 | Sprint issue | Sprint | Members | Execution shape |
 | --- | --- | --- | --- |
 | `#5858` | Foundation and throughput | WP-01B, WP-02, support `#5812`, WP-02A, WP-02B, WP-05, WP-06, WP-07 | Hybrid: migration and CI are serial gates; workflow and remote-runner work may proceed in parallel after CI stabilizes. |
-| `#5855` | Runtime, Observatory, polis, and protocol | support `#5800`, WP-03, support `#5795`, WP-04, WP-14, WP-18A | Hybrid: browser trust and Runtime resilience establish the baseline; local Shepherd integration follows; distributed, protocol, and consumer lanes converge afterward. |
+| `#5855` | Runtime, Observatory, distributed architecture, and protocol | support `#5800`, WP-03, support `#5795`, WP-04, WP-14, WP-18A | Hybrid: browser trust and Runtime resilience establish the baseline; WP-04 publishes the architecture and security gate to `#5862`; protocol and consumer lanes remain dependency-gated. |
+| `#5862` | Distributed Guardian implementation | WP-04-IMP and WP-04.01 through WP-04.16 | Hybrid: starts only after WP-04 issue `#5821` is terminal; child-owned implementation lanes follow the declared DAG and converge through WP-04.16 integrated proof. |
 | `#5857` | Birthday core | WP-08 through WP-13A, WP-15, WP-16 | Hybrid dependency graph with contract and identity gates before integrated witness/review proof. |
 | `#5854` | Demonstration, handoff, and publication | WP-17, WP-18, WP-18B, WP-19, WP-20, WP-24, WP-24A | Publication production starts early after migration; proof and handoff converge only after birthday and protocol dependencies. |
 | `#5856` | Release tail | WP-21, WP-21A, WP-22, WP-23, WP-25 through WP-30 | Sequential quality, review, remediation, planning, and ceremony chain. |
 
-All five umbrellas may be prepared in parallel. Live implementation may start
+All six umbrellas may be prepared in parallel. Live implementation may start
 only for dependency-ready child issues, and each child keeps its own typed
 lifecycle, validation, exact-head review, and publication authority. The exact
 machine-readable membership and serial gates are in

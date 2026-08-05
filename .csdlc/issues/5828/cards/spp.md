@@ -12,39 +12,55 @@ Status: ready
 
 ## Summary
 
-Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.
+Extend and prove the existing WP-11 Memory Palace topology with identity/continuity gates, bounded deterministic selection, overflow, provenance, and redaction.
 
 ## Plan
 
-Revision 1
+Revision 16
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Prepare exact scope, design, paths, and validation plan",
+    "action": "Verify #5826/#5827 and record recomputed ObsMem models, Runtime v3 observability/proof, fixture, citation, trace, and output digests in the integration receipt.",
     "acceptance_ids": [
-      "AC-2"
+      "AC-2",
+      "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Implement the required outcome and focused proof",
+    "action": "Implement the bounded Runtime v3 Memory Palace topology and normalized ObsMem/trace bridge in the exact declared files.",
     "acceptance_ids": [
       "AC-1",
-      "AC-3",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Run focused integration, deterministic replay, stale/hash/continuity/redaction negatives, and platform portability lanes.",
+    "acceptance_ids": [
       "AC-4",
       "AC-5"
     ],
     "status": "pending"
   },
   {
-    "id": "S3",
-    "action": "Resolve one bounded pre-PR review and publish with closing linkage",
+    "id": "S4",
+    "action": "Resolve one bounded exact-head review and publish only with correct base and Closes #5828 linkage.",
     "acceptance_ids": [
-      "AC-6"
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8",
+      "AC-9"
     ],
     "status": "pending"
   }
@@ -52,15 +68,15 @@ Revision 1
 
 ## Invariants
 
-- No tracked work on main
-- No scope absorption across work packages
-- Evidence claims remain exact-revision and source-grounded
+- Same inputs and observation time produce byte-equivalent semantic topology output.
+- Selection remains bounded and records overflow instead of silently consuming beyond limits.
+- All loaded items pass identity, continuity, provenance, temporal, hash, and redaction gates.
 
 ## Risks
 
-- Dependency drift
-- Scope overlap
-- Insufficient real-behavior proof
+- Schema drift could break existing Memory Palace packets.
+- Selection order or observation time could introduce nondeterminism.
+- Context fixtures could disclose private or host-specific paths.
 
 ## Estimates
 
@@ -74,19 +90,20 @@ Revision 1
 
 .csdlc/prepared/issues/5828/design.md
 
-Digest: 252a09ae442aac6f17105b30c138ee586fe910cb1ae863e38c52ae0ff10befa7
+Digest: f45c9ef86e3ddd174ed2b1f1ab71865ef6ff02989b5ab3e4205845499160dd50
 
 ## Diagram
 
 .csdlc/prepared/issues/5828/diagram.mmd
 
-Digest: 9f9576ad8955259454410bbd22fced868ac0a02c730fb41e59f9b919b7b820a8
+Digest: ff82b0bec69f0e9368d20aff4022d0a5506a8040000a27f8a1991dece282ff8b
 
 ## Stop Conditions
 
-- Protected-path collision
-- Contradictory dependency evidence
-- Required proof cannot be produced within issue scope
+- Any dependency or ObsMem/trace baseline is not currently proven.
+- An existing packet schema must change without an explicit migration.
+- The exact files collide with another live protected-path claim.
+- The ObsMem models, Runtime v3 observability, or proof authority digest cannot be recorded and recomputed before implementation.
 
 ## Handoff
 

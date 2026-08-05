@@ -1,0 +1,25 @@
+{
+  "issue": 5836,
+  "expected_generation": 22,
+  "expected_digest": "9930d762f5a09838cdfd95f4202b68c7fee39843ee99afa503cdb5d90bc965fa",
+  "now_unix_seconds": 1785951545,
+  "actor": "codex:5860-demo-publication-repair",
+  "reason": "Reacquire the released preparation claim to repair reviewed WP-18 readiness findings.",
+  "replacement": {
+    "id": "claim-5836-v092-preparation",
+    "owner": "codex:5860-demo-publication-repair",
+    "generation": 22,
+    "acquired_unix_seconds": 1785951545,
+    "expires_unix_seconds": 1786037945,
+    "heartbeat_unix_seconds": 1785951545,
+    "branch": "codex/5860-v092-execution-readiness",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5836",
+      ".csdlc/prepared/issues/5836",
+      ".csdlc/evidence/5836",
+      ".csdlc/locks/5836.lock"
+    ],
+    "purpose": "review-finding readiness repair only"
+  }
+}

@@ -24,25 +24,50 @@ Diagram: .csdlc/prepared/issues/5841/diagram.mmd
 
 [
   {
-    "lane": "focused-wp-21a",
-    "proof_role": "exact refactoring inventory, focused behavior parity, Clippy and test proof, before/after LoC, and bounded review",
+    "lane": "exact-source-refactor-proof",
+    "proof_role": "Restrict edits to the declared control and observability source/tests, require behavior invariants and rollback, run focused tests plus strict fmt/clippy, reject LoC/duplication regression, and bind native macOS/Linux proof to HEAD. [preexec_rejection exit=1 diagnostic_sha256=3abf5e53d59152c48eeffa2d7cfcf34d73e045614de02a2495a9db24ddba04a4]",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
-      "AC-5"
+      "AC-5",
+      "AC-6"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 3600,
-    "budget_tokens": 25000,
+    "budget_seconds": 1800,
+    "budget_tokens": 9000,
     "argv": [
-      "git",
-      "diff",
-      "--check"
+      "ruby",
+      ".csdlc/prepared/issues/5841/validate-refactor-selection.rb"
     ],
-    "parallel_group": "issue-local",
+    "parallel_group": "refactor",
+    "defer_reason": null
+  },
+  {
+    "lane": "typed-card-doctor",
+    "proof_role": "Validate the exact rendered six-card bundle, cross-card references, design approval, digests, statuses, and canonical issue record.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "csdlc-doctor",
+      "--repo",
+      ".",
+      "--issue",
+      "5841"
+    ],
+    "parallel_group": "typed-readback",
     "defer_reason": null
   }
 ]
@@ -59,7 +84,8 @@ Tokens: 25000
 
 ## Commands
 
-- `git diff --check`
+- `ruby .csdlc/prepared/issues/5841/validate-refactor-selection.rb`
+- `csdlc-doctor --repo . --issue 5841`
 
 ## Failure Semantics
 

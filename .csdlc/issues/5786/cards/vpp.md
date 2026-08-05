@@ -24,25 +24,50 @@ Diagram: .csdlc/prepared/issues/5786/diagram.mmd
 
 [
   {
-    "lane": "focused-wp-21",
-    "proof_role": "reviewed deletion manifest, parity proof, and retained-surface inventory",
+    "lane": "pinned-deletion-denominator",
+    "proof_role": "Reconstruct the immutable pre-change adl/src path, blob, file-count, and LoC denominator from its ancestral Git SHA; require complete dispositions, derived reduction and references, clean install, and native macOS/Linux exact-head proof. [preexec_rejection exit=1 diagnostic_sha256=d956afaaec4fe86f37e70358e697484a58e6fa8e5c34e80fbc23786c38157c50]",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
-      "AC-5"
+      "AC-5",
+      "AC-6"
     ],
     "deterministic": true,
     "resource_profile": "medium",
-    "budget_seconds": 3600,
-    "budget_tokens": 25000,
+    "budget_seconds": 1800,
+    "budget_tokens": 9000,
     "argv": [
-      "git",
-      "diff",
-      "--check"
+      "ruby",
+      ".csdlc/prepared/issues/5786/validate-reduction.rb"
     ],
-    "parallel_group": "issue-local",
+    "parallel_group": "reduction",
+    "defer_reason": null
+  },
+  {
+    "lane": "typed-card-doctor",
+    "proof_role": "Validate the exact rendered six-card bundle, cross-card references, design approval, digests, statuses, and canonical issue record.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "csdlc-doctor",
+      "--repo",
+      ".",
+      "--issue",
+      "5786"
+    ],
+    "parallel_group": "typed-readback",
     "defer_reason": null
   }
 ]
@@ -59,7 +84,8 @@ Tokens: 25000
 
 ## Commands
 
-- `git diff --check`
+- `ruby .csdlc/prepared/issues/5786/validate-reduction.rb`
+- `csdlc-doctor --repo . --issue 5786`
 
 ## Failure Semantics
 
