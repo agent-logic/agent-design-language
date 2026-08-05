@@ -60,11 +60,11 @@ Completed and accepted the recursive Agent Logic company Drive mirror with cache
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

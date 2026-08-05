@@ -3,13 +3,13 @@
   "issue": 5802,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "77fb2fc0cda6f8173344e07a5f1b6659802dab9ba830373b694b1953861be1b6",
-  "phase": "reviewed",
-  "generation": 4,
-  "digest": "b4f61f9039af24fa785932d10f2158c63610163addef4accd7022f954e230c42",
+  "phase": "published",
+  "generation": 5,
+  "digest": "1c84e24105e9005c5d9ff6e9c7846ed7e30481d4d36c1949e7c120b8d5e6f7ac",
   "claim": {
     "id": "claim-5802-drive-recursive-mirror-2",
     "owner": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
-    "generation": 4,
+    "generation": 5,
     "acquired_unix_seconds": 1785896959,
     "expires_unix_seconds": 1785983359,
     "heartbeat_unix_seconds": 1785896959,
@@ -94,7 +94,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5802,
+    "pull_request": 5813,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5813",
+    "base": "main",
+    "head": "codex/5802-drive-recursive-mirror",
+    "revision": "git-blake3:5cb971006cd8c5bd303375bb5a665d33e1fd0628:a7a47162831dd7871a3c029972bcea5ef9992dea92859df1178a8eb77eee523f",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -108,34 +118,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e5f8d8c0c862de41626a65436aa292e58558cd48e851aab5caf008b5b5efafde",
+      "values_digest": "370424c509beaa24be71fa61684ef419d652802e6ca1e22f28893138c4b88319",
       "rendered_digest": "3308717b8917bec1fdc4c6d7bcfae36453a0d4863c5194d362e9b84962152c4d",
       "ast_digest": "a90c2942c0b88400909952725e12f69b78bb30b6ef18aa97b99671f7ef59ea34"
     },
     "stp": {
-      "values_digest": "82dff1a3e75aaa06f3247baad0f74e0fcd0b2b211954f355a38c38d544d62c08",
+      "values_digest": "48b2a114e2c87383e8f3fd444cc49df1e865029249fde7e60b020c4f9e15d5a3",
       "rendered_digest": "a6e604487acfa509a5ca1c58a84511bf3c1cf8a890d5c02670993bd610db582c",
       "ast_digest": "6aa35b9470f537bc5cb089b336f0d4f740cedfd120a4eacbb92cb64ef2a16224"
     },
     "spp": {
-      "values_digest": "dca7acbab003637111ed1b6881d79526e211e977ca779dcd688e0484db2eb29a",
+      "values_digest": "87e8af7998f09627f7fde015f5c9d151a9037197a6c689dfcd13f32240c41891",
       "rendered_digest": "e557d432d96fe626efd33a82489055bd256a79c76ded915d6251757d10f22ef8",
       "ast_digest": "872f0bc8447b061bbf79f275a53db86d2b356f03bd85bfd268d3edf08ba480f3"
     },
     "vpp": {
-      "values_digest": "7f0845c0a7efc0db3972caafa9d816144cc9ae679de953958092cd610687f36d",
+      "values_digest": "64bcf0c3584d338b5405960faf0208236cc75e49407f9102fbfb42ac7b131f1b",
       "rendered_digest": "cd05799cbda6741e13492b57ffb9ae19c190943b31ed8eef92a5f8c0d7efc6ef",
       "ast_digest": "2492481432871c7ae68ae1f4d4017b8e45eabba6d0eef2aacf39330e5b2f3cd2"
     },
     "srp": {
-      "values_digest": "ce7fe57c8892c5cde37954332eff2651574e5ca61460ffe68ff1f6b034b7ef71",
+      "values_digest": "cfefb9cbe2849e21be80ee270870d84863cfe5e6834451a45b416709964ca1ca",
       "rendered_digest": "12d47b9537f0fc898e11979c03208feb211170387d4e428029613ccdea857c2a",
       "ast_digest": "283036042ccaa3b8a19bf32faee424017d4d8d0a13c4f5854c4c38a56fe61aa1"
     },
     "sor": {
-      "values_digest": "be5869c072abca9417e8767c56fd9edd8e4818d69f7da7dd65e66c1250c79406",
-      "rendered_digest": "29706e0fa52c36de44e8583186e67541009c8ffb587300d1535aa06ba20a546a",
-      "ast_digest": "9d013ae29da538dd5d8cb4f39179982e7d118695570ea9829f42f7dbb5748812"
+      "values_digest": "e49e100fe3ac3254c3a44e1a187c97f3cf3ddf5481bb0eef42843d3cff1ca3dd",
+      "rendered_digest": "5078a611e1010977e30b817196a4d3148d97efad2d95c58465e221380d6f90a9",
+      "ast_digest": "85d4a8743366d789aaa3eed81cb71b010ab46591ffe5036616748f6133342d27"
     }
   },
   "transitions": [
@@ -166,6 +176,13 @@
       "to": "reviewed",
       "actor": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -217,6 +234,13 @@
       "actor": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

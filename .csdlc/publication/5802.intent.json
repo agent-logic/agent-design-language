@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5802,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5802-drive-recursive-mirror",
+  "title": "[v0.92][google-workspace] Complete recursive company Drive mirror",
+  "body": "## Summary\n\n- deploy the complete recursive ADL context mirror to the Agent Logic company Drive only\n- cache the OAuth authenticator once per process and add bounded concurrent folder/file synchronization with deterministic result ordering\n- retain redacted auth source/scopes, exact native report, independent byte readback, and stable binary deployment evidence\n- activate the daily company-only mirror automation after complete acceptance\n\n## Acceptance\n\n- 2,991 files and 654 required folders verified exactly\n- all 16 CodeFriend documents verified byte-for-byte with no duplicate paths\n- three zero-byte Markdown files preserved exactly\n- final native pass: 2,991 unchanged, zero skipped, zero verification failures\n- independent readback: zero missing, unexpected, duplicate, or mismatched paths\n- stable automation binary SHA-256 matches the accepted branch build\n\n## Validation\n\n- `cargo test --offline adl_gws_context_mirror` (12 passed)\n- typed retained-live acceptance lane (passed)\n- `git diff --check`\n- independent subagent review PASS at exact reviewed revision\n\nCloses #5802\n",
+  "draft": false,
+  "revision": "git-blake3:5cb971006cd8c5bd303375bb5a665d33e1fd0628:a7a47162831dd7871a3c029972bcea5ef9992dea92859df1178a8eb77eee523f",
+  "commit_sha": "5cb971006cd8c5bd303375bb5a665d33e1fd0628"
+}
