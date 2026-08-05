@@ -4,9 +4,8 @@
 
 - Milestone: `v0.91.8`
 - Version: `v0.91.8`
-- Status: active release tail; WP-16 quality gate and WP-17 documentation
-  alignment passed, and the first WP-18 review is closed
-- Active release-tail issue: WP-20 external-review remediation `#5363`
+- Status: WP-23 release ceremony active after all preceding release-tail gates
+- Active release-tail issue: WP-23 release ceremony `#5348`
 - Milestone sprint umbrella: `#5595`
 - Historical planning sources: `#5335` and `#5383`
 - Restored source issue: `#4641` remains `v0.91.7` WP-14
@@ -41,23 +40,19 @@ audit. That quality gate is not release approval by itself.
   `#5361`, and `#5384` own bounded multi-agent, Runtime v3, and integrated
   acceptance child sets without duplicating implementation ownership.
 - WP-14A accepts only the platform revisions. Unity proof is owned by WP-15.
-  Both WP-18 reviews `#5356` and `#5791` are closed. WP-19 `#5357` returned
-  blocked external-review findings on 2026-08-04. WP-20 `#5363` owns
-  remediation and current release-tail review truth, and the exact-revision
-  handoff, Memory Palace, launch/identity, and Adaptive Learning inputs are
-  owned by WP-21.
+  Both WP-18 reviews `#5356` and `#5791`, WP-19 external review, WP-20
+  remediation, WP-21 handoff, WP-21A closeout planning, and WP-22 planning
+  review are closed. WP-23 owns the final release ceremony.
 
 ## Status
 
-The milestone is not release-approved. WP-16 passed the integrated quality gate
+The milestone is ceremony-ready. WP-16 passed the integrated quality gate
 at `2e9d2dd7c`, with 67 audited issue outcomes, 0 unacceptable outcomes, and
 passing ADL v2, Runtime v3, and C-SDLC v2 validation lanes. WP-17 `#5360`
 closed the documentation-alignment gate. WP-18 `#5356` and `#5791` closed both
-internal review passes. WP-19 external review returned blocked findings; WP-20
-must land remediation and a refreshed exact-revision review packet before any
-release approval can be claimed. Remaining release-tail work must still
-complete review/remediation, finalize v0.92 handoff truth, and run
-ceremony/closeout.
+internal review passes. WP-19 external review findings were remediated by
+WP-20; WP-21, WP-21A, and WP-22 completed the v0.92 handoff and planning review.
+Only the WP-23 tag, GitHub release, and umbrella closure remain.
 
 Every work package must exit as one of:
 
@@ -82,7 +77,8 @@ Every work package must exit as one of:
 - Demo matrix: [DEMO_MATRIX_v0.91.8.md](DEMO_MATRIX_v0.91.8.md)
 - Checklist: [MILESTONE_CHECKLIST_v0.91.8.md](MILESTONE_CHECKLIST_v0.91.8.md)
 - Release plan: [RELEASE_PLAN_v0.91.8.md](RELEASE_PLAN_v0.91.8.md)
-- Release notes draft: [RELEASE_NOTES_v0.91.8.md](RELEASE_NOTES_v0.91.8.md)
+- Release notes: [RELEASE_NOTES_v0.91.8.md](RELEASE_NOTES_v0.91.8.md)
+- WP-23 ceremony: [V0918_WP23_RELEASE_CEREMONY_5348.md](V0918_WP23_RELEASE_CEREMONY_5348.md)
 - Quality gate: [QUALITY_GATE_v0.91.8.md](QUALITY_GATE_v0.91.8.md)
 - Feature proof coverage: [FEATURE_PROOF_COVERAGE_v0.91.8.md](FEATURE_PROOF_COVERAGE_v0.91.8.md)
 - Feature preservation crosswalk: [FEATURE_PRESERVATION_CROSSWALK_v0.91.8.md](FEATURE_PRESERVATION_CROSSWALK_v0.91.8.md)
@@ -104,12 +100,10 @@ Every work package must exit as one of:
 
 ## Documentation Responsibility
 
-WP-17 `#5360` closed the documentation truth alignment against WP-16 merged
-evidence. WP-18 `#5356` and `#5791` closed both internal review passes. WP-19
-`#5357` returned blocked findings retained under
-[review/external_review_5357/](review/external_review_5357/), and WP-20
-`#5363` owns remediation before any refreshed approval review or release
-closeout.
+WP-17 `#5360` closed documentation alignment. WP-18 `#5356` and `#5791`
+closed both internal review passes. WP-19 findings are retained under
+[review/external_review_5357/](review/external_review_5357/), and WP-20 closed
+their accepted remediation before the handoff and ceremony stages.
 Closed v0.91.7 WP-21A
 `#5489` is historical preparation evidence. Current v0.91.8 WP-21A `#5355`
 prepares

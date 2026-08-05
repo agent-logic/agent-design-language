@@ -1,10 +1,11 @@
 flowchart TD
-    A["#5359 observed live state"] --> A1{"#5359 merged?"}
-    A1 -- "No: open/pending/unknown" --> X["Block #5348 ceremony"]
-    A1 -- "Yes: merge SHA observed" --> B{"Merge SHA ancestral to exact #5348 base?"}
-    B -- "No" --> X["Block ceremony"]
-    B -- "Yes" --> C["Run focused preparation and release-evidence validation"]
-    C --> D["Reconcile tag, notes, issue, PR, card, and milestone truth"]
-    D --> E["No hidden implementation, #5357 remediation, or v0.92 issue mutation"]
-    E --> F["Exact revision review before any PR"]
-    F --> G["Authorized release closeout"]
+    A["WP-22 merge 703ee31f2"] --> B{"Ancestral to exact #5348 revision?"}
+    B -- "No" --> X["Stop ceremony"]
+    B -- "Yes" --> C["Finalize release docs and #5809 evidence"]
+    C --> D["Focused docs validation and script preflight"]
+    D --> E["One exact-head review"]
+    E --> F["Merge PR closing #5348 and #5809"]
+    F --> G["Create and push v0.91.8 tag"]
+    G --> H["Create and publish GitHub release"]
+    H --> I["Verify release identity"]
+    I --> J["Close sprint umbrella #5595"]

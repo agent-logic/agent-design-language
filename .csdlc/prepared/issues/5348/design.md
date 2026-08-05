@@ -2,49 +2,48 @@
 
 ## Status
 
-Preparation-only packet for v0.91.8 WP-23. It does not tag, publish, merge,
-close, edit release notes, mutate v0.92 issues, touch #5357 remediation, or
-treat retained receipts as execution gates.
+Execution packet for the final v0.91.8 release ceremony. It changes only
+release documentation, bounded release evidence, and issue-local lifecycle
+state before the post-merge tag and GitHub release actions.
 
 ## Objective
 
-Prepare the lifecycle surface for the future release ceremony after WP-22
-#5359 has reviewed v0.92 inputs and release-tail blockers, has live-merged,
-and that merge is ancestral to the exact #5348 execution base. The ceremony
-must contain no hidden implementation or remediation work.
+Publish an evidence-bound v0.91.8 release after WP-22, then close the milestone
+sprint umbrella. The ceremony contains no product implementation, hidden
+remediation, or v0.92 execution.
 
 ## Authority Boundary
 
-Preparation owns only `.csdlc/issues/5348`, `.csdlc/locks/5348.lock`,
-`.csdlc/prepared/issues/5348`, and `.csdlc/evidence/5348`.
+The active claim names the exact release documents, #5809 supplemental
+evidence, and #5348 issue-local lifecycle paths. Root main remains inspection
+only; tracked changes occur in the bound FastWork worktree.
 
-## Dependency Gate
+## Entry Gate
 
-As of 2026-08-04, live GitHub state still reports #5359 open, so #5348
-execution remains blocked. Future execution must perform both checks at the
-same exact base before any ceremony action:
+WP-22 PR #5811 merge `703ee31f2c02bb6c8fda7d6bc51ff7963075132e`
+must be ancestral to the exact #5348 revision. Before release mutation, the
+remote `v0.91.8` tag and GitHub release must both be absent.
 
-1. Observe #5359 terminal live-merge truth through typed C-SDLC/GitHub state,
-   not retained receipts alone.
-2. Verify the observed #5359 merge SHA is an ancestor of the exact #5348
-   execution base.
+## Ceremony Flow
 
-Receipts remain audit-only and cannot satisfy either check by themselves.
-
-## Future Work Shape
-
-Future execution should reconcile release evidence, tag/publication truth,
-issue/PR/card/milestone state, and v0.92 handoff state without adding new
-implementation, publication repair, external-review remediation, or v0.92 issue
-mutation.
+1. Finalize release notes, plan, checklist, ceremony packet, and #5809 evidence.
+2. Run focused docs/evidence validation and the release script preflight.
+3. Obtain one exact-head review and merge a PR closing #5348 and #5809.
+4. At the merge commit, use `adl/tools/release_ceremony.sh` to create and push
+   the annotated tag, create the draft release, and publish it.
+5. Verify tag/release identity and close #5595 with exact release references.
 
 ## Validation
 
-Preparation proof is the focused local trio:
+This docs-only lane uses Markdown/path checks, JSON/YAML parsing,
+`git diff --check`, exact Git identity, release-script preflight, and live
+tag/release verification. It does not run Rust builds, Clippy, coverage, or a
+broad test matrix.
 
-- `csdlc-doctor --repo . --issue 5348`
-- request-driven `csdlc-validate --root . --request <issue-local request>`
-- `git diff --check`
+## Circular Closeout Boundary
 
-Future ceremony validation additionally gates on live #5359 merge observation
-plus Git ancestry before any tag, release note, PR, merge, or closeout action.
+The release script's local typed-closeout gate includes #5348 itself, which
+cannot be closed_out before its merge and release. The post-merge release
+mutation therefore uses the script's explicit `--skip-sor-gate` option only for
+that circular boundary. Typed #5348 closeout follows the release and does not
+serve as evidence for an earlier gate.

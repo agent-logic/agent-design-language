@@ -3,23 +3,33 @@
   "issue": 5348,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "d9886666f687eed43c121ffb299029dfb0799a973aa38c23a7566e4b50be2e2b",
-  "phase": "bound",
-  "generation": 7,
-  "digest": "a47254acd7dc77c5c01b79d599415947976ea04705fb66e10d4a68e5d2eb945a",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "cd63e3a7c2b31a8ea6682bb2ef0331270c2aa5bc5b1b11243bbf32a30fa8e593",
   "claim": {
     "id": "claim-5348-v0918-preparation-recovered",
     "owner": "codex:5348-preparation-owner",
-    "generation": 7,
+    "generation": 13,
     "acquired_unix_seconds": 1785865953,
     "expires_unix_seconds": 1786470753,
     "heartbeat_unix_seconds": 1785865953,
     "branch": "codex/5348-v0918-preparation",
     "worktree": ".",
     "protected_paths": [
+      ".csdlc/evidence/5348",
+      ".csdlc/evidence/5362/dependency-verification-publication-base.v1.json",
       ".csdlc/issues/5348",
       ".csdlc/locks/5348.lock",
       ".csdlc/prepared/issues/5348",
-      ".csdlc/evidence/5348"
+      "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md",
+      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
+      "docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md",
+      "docs/milestones/v0.91.8/README.md",
+      "docs/milestones/v0.91.8/RELEASE_NOTES_v0.91.8.md",
+      "docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/V0918_WP23_RELEASE_CEREMONY_5348.md",
+      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md"
     ],
     "purpose": "Prepare #5348 WP-23 release ceremony and lifecycle closeout only; no execution until WP-22 #5359 is live-merged and ancestral"
   },
@@ -33,40 +43,40 @@
   "diagram_path": ".csdlc/prepared/issues/5348/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5348-preparation-owner",
-      "revision": "72a882a9a1d63899b5a9acafcb3f87a21ef059e8e273a8bae33afd0813b8accd"
+      "reviewer": "codex:5348-release-ceremony",
+      "revision": "ab8d9286241ed70d72e00f4a3132052b2738174b61fa7db2cea7557aeb6b7f97"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "198e5b1e1814d3fe24362272a728c4cabc42a84d60d4b405983c9c6f592f3077",
-      "rendered_digest": "e72ee5c8feec15c093bac2b2699ea08e94ff0f8780d71849acd17e75bff80612",
-      "ast_digest": "8b438c06c1475338b75e5bf1f5e0e09c8e990e110d10de9e358b9e4182e5064a"
+      "values_digest": "f79f0f6385a6392180c861f6d35ed00d2ee07fd6aa70e4fc0f479a9b6d72475a",
+      "rendered_digest": "04473bd04923059c201d5648cd08600c7d3f57f2510d94fead698402ab7f2fca",
+      "ast_digest": "88bdfc638bea47914139a70ee808eed293c53dbec96608a4740d3c82f71a5bc0"
     },
     "stp": {
-      "values_digest": "86f8985bd34ea47d697be57b782a01c124cc03b0ea1e3d5f321096cd8a296e0d",
-      "rendered_digest": "864d3630cfe0231ccca4c708c99734326eb320c2f2c914e9e9571aa5b4b8b061",
-      "ast_digest": "342cbe00feac318d332fd393c230ea548214ed0815ac6c20393285a0655c08f8"
+      "values_digest": "5500cfffc6ec4ac096ed202c66d64289fce9fb12a54bd8c837654d23297a5e3b",
+      "rendered_digest": "bc414f2134aebcb87640fd7df7f88e4437d249e366fa6f4f3df6e328e6118991",
+      "ast_digest": "2bb01833dcb18d4853d3442fd70ef39de17575b090d94d7e68b23eec6db0bd88"
     },
     "spp": {
-      "values_digest": "721b514fd44c38cedf5e64ceaabd363e45ce52546ea54af9a8ef501924bc7f2d",
-      "rendered_digest": "147450149a9307501c2e564d941c63baf5035c65c55f1c15594798e45e1a8b8c",
-      "ast_digest": "e2889ef2c91bb70bd8f262c6cb4b79c01704859c39d40ce5b707f392d4c5cc76"
+      "values_digest": "c7a2e38cc202f846050db11784764800fb43ac44be14ac5e9ffa8f995dd0de91",
+      "rendered_digest": "7d2229cac4eb534a9934a4c34994a5eb425c9500905f5207d4b916d955bb81a4",
+      "ast_digest": "1945b7cc8b6c4c421bb05837d7efa4922744a68d433368a0df61f859378a87c0"
     },
     "vpp": {
-      "values_digest": "b97051f660b94fe0174f2c9cd05750974030f832610df3083f5704e67257b864",
-      "rendered_digest": "4519c65cd6214d2c52b1a93c2fef3b51ea31ec1b6e71651633fe258991091b06",
-      "ast_digest": "c417ae6a759f589b164f834df1be19605e427fdb60249bab8e906eff4e8a2804"
+      "values_digest": "2f98ddaa0e3e5fe25a49523eddcc5789a024717f1f014b368fc36bcad3654d85",
+      "rendered_digest": "b35d832e4e67a243769ab661c0947e80ad882767719e4d1486d5cef05fb3581d",
+      "ast_digest": "3521d1b89738180d08e343c011dc2e1dbb69926a646ce55251054f1da1f592d8"
     },
     "srp": {
-      "values_digest": "b066b2baf1b37b9f6b6c743375e459a59198ea896db8694673da6cab5e924b4f",
+      "values_digest": "0449f3dd01e74cb7ee7a3873c36cedbc56e3e2553af4c0e0ead1ff1e286cf8b3",
       "rendered_digest": "b7b2af1103f176058613c6d4efac3e12ba80f02e1cd8165c74ac7ebaee17ef77",
       "ast_digest": "0194e23f2628162836d7364d0e040e317c2671aa079da0a38c044afe0962e83e"
     },
     "sor": {
-      "values_digest": "a9b7befeaf94e32a1d1d63af19697271605aee0f0980b19d417df3298190ae37",
-      "rendered_digest": "0950ac2f9d32e246c699becd58942d7beea71fc4629569d06e20177a84f0b915",
-      "ast_digest": "7fc03dbc2c7b26980d85f50af17c533b707cb4ba30a43c69f5651dc1f6443c95"
+      "values_digest": "add1610060d7d081c44a4d570ab1f0c1a8fab301f43fbd2533b581642cadbfda",
+      "rendered_digest": "bfa6944e1010979c64bc7d1f5278a95bb67de9c826878cb695e749c897d7e467",
+      "ast_digest": "21cf9281f72f1507e033c109aa8c235862e03626519805304fdb4b904a8f99af"
     }
   },
   "transitions": [
@@ -83,6 +93,13 @@
       "to": "bound",
       "actor": "codex:5348-preparation-owner",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5348-release-ceremony",
+      "reason": "The v0.91.8 release ceremony package and publication-base dependency evidence are implemented and focused docs-only validation passes; advance to exact-revision review."
     }
   ],
   "audit": [
@@ -155,6 +172,55 @@
       "actor": "codex:5348-preparation-owner",
       "reason": "Record focused #5348 preparation validation evidence without advancing lifecycle phase.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"--request\",\".csdlc/prepared/issues/5348/validate-preparation.json\"],\"purpose\":\"Request-driven preparation validation ran typed doctor and diff hygiene locally; no ceremony execution, publication, PR, merge, tag, closeout, #5357 remediation, /private/tmp artifact, main write, or version:v0.92 mutation occurred.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5348/preparation\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:5348-release-ceremony",
+      "reason": "Protect the exact WP-23 release documentation and the #5809 supplemental publication-base evidence required for the v0.91.8 ceremony.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/evidence/5362/dependency-verification-publication-base.v1.json\",\"docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md\",\"docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\",\"docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md\",\"docs/milestones/v0.91.8/README.md\",\"docs/milestones/v0.91.8/RELEASE_NOTES_v0.91.8.md\",\"docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/V0918_WP23_RELEASE_CEREMONY_5348.md\",\"docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:5348-release-ceremony",
+      "reason": "Replace the completed preparation plan with the operator-authorized WP-23 documentation, release-script, and sprint-umbrella closeout path.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: WP-22 PR #5811 merge 703ee31f2c02bb6c8fda7d6bc51ff7963075132e is ancestral to the exact WP-23 worktree revision.\",\"AC-2: Release plan, final release notes, checklist, readiness, proof coverage, demo matrix, canonical inventory, and ceremony packet agree on completed release-tail truth and explicit v0.92 non-claims.\",\"AC-3: #5809 supplemental evidence pins the WP-21 publication base, reviewed head, squash merge, and tree equivalence without rewriting execution-time evidence.\",\"AC-4: Focused Markdown/path checks, JSON and YAML parsing, git diff --check, and release-script check-only preflight pass; no Rust build, Clippy, coverage, or broad tests run for this docs-only issue.\",\"AC-5: One bounded exact-head review passes before publication, and the PR body closes #5348 and #5809.\",\"AC-6: After merge, adl/tools/release_ceremony.sh creates and pushes tag v0.91.8, publishes the GitHub release from final notes, and live verification proves the tag target and release state.\",\"AC-7: Sprint umbrella #5595 closes only after #5348, #5809, the tag, and the published release are verified.\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Verify WP-22 merge ancestry, remaining v0.91.8 open issues, and pre-ceremony tag/release absence.\",\"acceptance_ids\":[\"AC-1\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Finalize release documentation, ceremony packet, and #5809 supplemental evidence without product changes.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Run focused docs/evidence validation and release-script check-only preflight.\",\"acceptance_ids\":[\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Obtain one exact-head bounded review, fix findings, and publish a PR closing #5348 and #5809.\",\"acceptance_ids\":[\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"After merge, execute and verify the repository release script, then close sprint umbrella #5595 with exact release identity.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"release-docs-and-evidence\",\"proof_role\":\"Validate WP-22 ancestry, required release files, supplemental JSON, and milestone YAML.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"ruby\",\"focused-release-docs-validator\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"release-diff-hygiene\",\"proof_role\":\"Prove the bounded docs/evidence diff has no whitespace errors.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":15,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"release-script-preflight\",\"proof_role\":\"Run the canonical ceremony script in check-only mode with the documented WP-23 circular closeout exception.\",\"acceptance_ids\":[\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/release_ceremony.sh\",\"--version\",\"v0.91.8\",\"--target-branch\",\"codex/5348-v0918-preparation\",\"--allow-dirty\",\"--skip-sor-gate\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"exact-head-review\",\"proof_role\":\"Obtain one bounded findings-first review of the exact docs/evidence revision before publication.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"subagent-review\",\"exact-head\"],\"parallel_group\":\"review\",\"defer_reason\":null},{\"lane\":\"post-merge-release-verification\",\"proof_role\":\"Verify the pushed tag, published GitHub release, closed #5348/#5809, and final umbrella closure against the WP-23 merge commit.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"release-ceremony\",\"post-merge-live-verification\"],\"parallel_group\":\"post-merge\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:5348-release-ceremony",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:5348-release-ceremony",
+      "reason": "Replace superseded preparation-only constraints with the authorized WP-23 release ceremony boundary.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"execute only the v0.91.8 documentation and release ceremony\",\"use adl/tools/release_ceremony.sh for tag and GitHub release actions\",\"do not write tracked changes on root main\",\"do not use /private/tmp for request or evidence artifacts\",\"do not change product code or run broad Rust validation for this docs-only issue\",\"do not mutate or activate version:v0.92 issues\",\"obtain one exact-head review before publication\",\"close #5595 only after the v0.91.8 tag and published release are verified\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:5348-release-ceremony",
+      "reason": "Record the WP-23 release documentation and #5809 supplemental evidence implementation before exact-head review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Integrated the closed WP-22 merge, finalized v0.91.8 release notes and ceremony documentation, reconciled release-tail status surfaces, and added the #5809 publication-base supplement. No product code or v0.92 issue was changed.\",\"changes\":[\"Finalized v0.91.8 release plan, notes, checklist, readiness, proof coverage, demo matrix, and canonical inventory.\",\"Added the WP-23 ceremony packet with exact post-merge tag, release, and umbrella-close sequence.\",\"Added the WP-21 publication-base supplemental evidence without changing the original execution-time record.\"],\"artifacts\":[\"docs/milestones/v0.91.8/V0918_WP23_RELEASE_CEREMONY_5348.md\",\"docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/RELEASE_NOTES_v0.91.8.md\",\"docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md\",\".csdlc/evidence/5362/dependency-verification-publication-base.v1.json\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:5348-release-ceremony",
+      "reason": "Record focused docs-only WP-23 validation and canonical ceremony-script preflight.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"&&\",\"ruby\",\"parse-release-json-and-yaml\",\"&&\",\"bash\",\"adl/tools/release_ceremony.sh\",\"--version\",\"v0.91.8\",\"--target-branch\",\"codex/5348-v0918-preparation\",\"--allow-dirty\",\"--skip-sor-gate\"],\"purpose\":\"Prove release-document hygiene, supplemental evidence parsing, milestone YAML parsing, required file presence, and canonical release-script preflight without broad tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.91.8/V0918_WP23_RELEASE_CEREMONY_5348.md\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:5348-release-ceremony",
+      "reason": "The v0.91.8 release ceremony package and publication-base dependency evidence are implemented and focused docs-only validation passes; advance to exact-revision review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }

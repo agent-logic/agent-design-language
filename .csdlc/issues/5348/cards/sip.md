@@ -37,11 +37,11 @@ Release evidence, tag and publication truth, and reconciled issue, PR, card, mil
 
 ## Operator Constraints
 
-- preparation only; do not execute the release ceremony
-- do not publish, open a PR, tag, merge, or perform closeout
-- do not touch tracked root main
+- execute only the v0.91.8 documentation and release ceremony
+- use adl/tools/release_ceremony.sh for tag and GitHub release actions
+- do not write tracked changes on root main
 - do not use /private/tmp for request or evidence artifacts
-- do not touch #5357 remediation
-- do not mutate any version:v0.92 issue
-- write only issue-local #5348 C-SDLC paths plus their typed request/evidence files
-- future execution stays blocked until #5359 is live-merged and its merge SHA is ancestral to the exact #5348 execution base
+- do not change product code or run broad Rust validation for this docs-only issue
+- do not mutate or activate version:v0.92 issues
+- obtain one exact-head review before publication
+- close #5595 only after the v0.91.8 tag and published release are verified

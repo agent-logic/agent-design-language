@@ -22,11 +22,13 @@ Prepare lifecycle packet only; release ceremony is future execution work.
 
 ## Acceptance
 
-1. AC-1: All six #5348 cards, design, and diagram are issue-specific, typed C-SDLC v2 generated, digest-consistent, and doctor-clean.
-2. AC-2: #5348 execution remains blocked until WP-22 #5359 is observed live-merged and the observed merge SHA is an ancestor of the exact #5348 execution base.
-3. AC-3: Preparation validation is focused on csdlc-doctor, request-driven csdlc-validate, and git diff --check, with no ceremony execution.
-4. AC-4: Preparation does not publish, open a PR, tag, merge, touch main, use /private/tmp, touch #5357 remediation, or mutate any version:v0.92 issue.
-5. AC-5: Future ceremony execution reconciles release evidence, tag/release notes, GitHub issue and PR state, cards, milestone docs, and v0.92 handoff truth without hidden repair work.
+1. AC-1: WP-22 PR #5811 merge 703ee31f2c02bb6c8fda7d6bc51ff7963075132e is ancestral to the exact WP-23 worktree revision.
+2. AC-2: Release plan, final release notes, checklist, readiness, proof coverage, demo matrix, canonical inventory, and ceremony packet agree on completed release-tail truth and explicit v0.92 non-claims.
+3. AC-3: #5809 supplemental evidence pins the WP-21 publication base, reviewed head, squash merge, and tree equivalence without rewriting execution-time evidence.
+4. AC-4: Focused Markdown/path checks, JSON and YAML parsing, git diff --check, and release-script check-only preflight pass; no Rust build, Clippy, coverage, or broad tests run for this docs-only issue.
+5. AC-5: One bounded exact-head review passes before publication, and the PR body closes #5348 and #5809.
+6. AC-6: After merge, adl/tools/release_ceremony.sh creates and pushes tag v0.91.8, publishes the GitHub release from final notes, and live verification proves the tag target and release state.
+7. AC-7: Sprint umbrella #5595 closes only after #5348, #5809, the tag, and the published release are verified.
 
 ## Dependencies
 

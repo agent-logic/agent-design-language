@@ -7,49 +7,55 @@
     "title": "[v0.91.8][WP-23] Release ceremony and lifecycle closeout",
     "slug": "v0918-wp23-release-ceremony-closeout",
     "version": "v0.91.8",
-    "generation": 7
+    "generation": 13
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Prepare now; execute only after #5359 is live-merged and ancestral.",
       "steps": [
         {
           "id": "S1",
-          "action": "Keep #5348 bound to the existing FastWork preparation branch and recover the typed claim if stale.",
+          "action": "Verify WP-22 merge ancestry, remaining v0.91.8 open issues, and pre-ceremony tag/release absence.",
           "acceptance_ids": [
             "AC-1",
-            "AC-4"
+            "AC-7"
           ],
           "status": "pending"
         },
         {
           "id": "S2",
-          "action": "Encode the #5359 live-merge plus exact-base ancestry gate in the cards, design, and diagram.",
+          "action": "Finalize release documentation, ceremony packet, and #5809 supplemental evidence without product changes.",
           "acceptance_ids": [
             "AC-2",
-            "AC-5"
+            "AC-3"
           ],
           "status": "pending"
         },
         {
           "id": "S3",
-          "action": "Run focused preparation validation and retain the validation request/evidence in #5348 issue-local paths.",
+          "action": "Run focused docs/evidence validation and release-script check-only preflight.",
           "acceptance_ids": [
-            "AC-1",
-            "AC-3",
             "AC-4"
           ],
           "status": "pending"
         },
         {
           "id": "S4",
-          "action": "Leave future release ceremony execution blocked unless the live #5359 merge and ancestry checks pass at the exact execution base.",
+          "action": "Obtain one exact-head bounded review, fix findings, and publish a PR closing #5348 and #5809.",
           "acceptance_ids": [
-            "AC-2",
             "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "After merge, execute and verify the repository release script, then close sprint umbrella #5595 with exact release identity.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
           ],
           "status": "pending"
         }
@@ -79,9 +85,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5348/design.md",
-      "design_digest": "72a882a9a1d63899b5a9acafcb3f87a21ef059e8e273a8bae33afd0813b8accd",
+      "design_digest": "ab8d9286241ed70d72e00f4a3132052b2738174b61fa7db2cea7557aeb6b7f97",
       "diagram_ref": ".csdlc/prepared/issues/5348/diagram.mmd",
-      "diagram_digest": "cdbf16aaf9e251c3b06cec9c70c508ece932eee913f65f9ba46391139276861f"
+      "diagram_digest": "762a615dcdae2affac2d7c0e5bf51ede96c495ae463c326d133d59847cfb9d0a"
     }
   }
 }

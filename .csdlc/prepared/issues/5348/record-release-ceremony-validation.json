@@ -1,0 +1,23 @@
+{
+  "issue": 5348,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "be7c3aa5a563af71f4d481f6413e4cc53d370855d828ff59bc4bc6d5f4789cf1",
+  "claim_id": "claim-5348-v0918-preparation-recovered",
+  "actor": "codex:5348-release-ceremony",
+  "reason": "Record focused docs-only WP-23 validation and canonical ceremony-script preflight.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "git", "diff", "--check", "&&",
+        "ruby", "parse-release-json-and-yaml", "&&",
+        "bash", "adl/tools/release_ceremony.sh", "--version", "v0.91.8", "--target-branch", "codex/5348-v0918-preparation", "--allow-dirty", "--skip-sor-gate"
+      ],
+      "purpose": "Prove release-document hygiene, supplemental evidence parsing, milestone YAML parsing, required file presence, and canonical release-script preflight without broad tests.",
+      "outcome": "passed",
+      "evidence_ref": "docs/milestones/v0.91.8/V0918_WP23_RELEASE_CEREMONY_5348.md"
+    }
+  },
+  "fail_after_backup": false
+}

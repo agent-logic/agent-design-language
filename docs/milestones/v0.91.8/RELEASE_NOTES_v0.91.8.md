@@ -1,41 +1,48 @@
-# v0.91.8 Release Notes Draft
+# ADL v0.91.8
 
-These notes are a draft assembled from merged milestone evidence. They are not
-final release notes and do not claim release approval.
+ADL v0.91.8 completes the ADL Core Rearchitecture bridge: ADL v2, Runtime v3,
+and C-SDLC v2 are accepted as an integrated platform with exact-revision
+evidence, rollback paths, release-tail review, and a bounded v0.92 handoff.
 
-## Evidence-Backed Themes
+## Highlights
 
-- ADL v2 clean-room core, deterministic compiler, language-core work, and thin
-  CLI surfaces reached working-code or durable-result status in the WP-16 audit.
-- Runtime v3 adapter, provider/protocol surfaces, local/durable state,
-  observability, platform lifecycle, and parity work have merged evidence, with
-  remaining release-tail limitations kept explicit.
-- C-SDLC v2 is the sole current C-SDLC lifecycle authority, with the v1 command
-  wrappers sunset and terminal-repair tooling defects remediated before WP-16
-  merged.
-- Exact-revision parity, soak, rollback, deletion, convergence, and integrated
-  platform quality evidence are recorded by WP-12 through WP-16.
-- The v0.92 handoff is prepared as a bridge with explicit non-claims: birthday
-  activation and final release are still later work. Both internal review
-  passes are complete; WP-19 external review returned blocked findings and
-  WP-20 owns remediation before release approval.
+- Added the clean-room ADL v2 language core, deterministic compiler, portable
+  execution engine, signed records, Runtime v3 adapter, provider and governed
+  tool adapters, and thin CLI/selector.
+- Completed Runtime v3's Axum/Tokio/Rustls service path, durable local and redb
+  state, provider/protocol adapters, observability, platform lifecycle proof,
+  and parity work while retaining explicit authority boundaries.
+- Made C-SDLC v2 the sole C-SDLC lifecycle authority and removed the retired
+  v1 command surfaces.
+- Proved normalized shadow parity, opt-in soak, rollback, reversible cutover,
+  and reviewed deletion of replaced incumbent surfaces.
+- Completed integrated platform acceptance, demo convergence, quality gates,
+  documentation alignment, two internal reviews, an independent external
+  review, and findings remediation.
+- Prepared the v0.92 planning and activation inputs with explicit non-claims
+  for future work.
 
-## WP-16 Evidence Snapshot
+## Quality And Review
 
-- Merged quality-gate revision: `2e9d2dd7c4260dcf6ec6af954b0eea97554212df`.
-- Audited issues: 67.
-- Working-code outcomes: 34.
-- Useful durable results: 21.
-- Partial or ambiguous outcomes: 12.
-- Unacceptable outcomes: 0.
-- Release blockers: 0.
+- WP-16 audited 67 issue outcomes with 0 unacceptable outcomes and 0 release
+  blockers at its quality-gate revision.
+- ADL v2, Runtime v3, and C-SDLC v2 focused and integrated validation evidence
+  is retained under `docs/milestones/v0.91.8/` and `.csdlc/evidence/`.
+- Internal review ran twice; external findings were remediated before the
+  release tail advanced.
+- WP-22 reviewed the complete v0.92 planning package before this ceremony.
 
-## Not Yet Claimed
+## Compatibility And Operations
 
-- Release approval.
-- Formal external-review approval.
-- Formal third-party milestone review approval.
-- Production readiness beyond the exact surfaces proven by merged evidence.
-- Birthday readiness.
-- Public demo readiness.
-- v0.92 activation.
+- Stable operational binaries live under `.adl/bin/`; Cargo target directories
+  remain disposable build output.
+- Runtime and lifecycle rollback retain the previous selector and generation
+  path rather than depending on mutable build caches.
+- v0.92 activation is deliberately separate from this release.
+
+## Known Boundaries
+
+- This release does not claim completion of v0.92 birthday work, Adaptive
+  Learning implementation, or future distributed-polis work.
+- Preparation-only v0.92 packets remain planning inputs until their own issues
+  execute and pass review.

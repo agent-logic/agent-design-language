@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-23] Release ceremony and lifecycle closeout",
     "slug": "v0918-wp23-release-ceremony-closeout",
     "version": "v0.91.8",
-    "generation": 7
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -20,11 +20,13 @@
         "focused typed doctor validation"
       ],
       "acceptance_criteria": [
-        "AC-1: All six #5348 cards, design, and diagram are issue-specific, typed C-SDLC v2 generated, digest-consistent, and doctor-clean.",
-        "AC-2: #5348 execution remains blocked until WP-22 #5359 is observed live-merged and the observed merge SHA is an ancestor of the exact #5348 execution base.",
-        "AC-3: Preparation validation is focused on csdlc-doctor, request-driven csdlc-validate, and git diff --check, with no ceremony execution.",
-        "AC-4: Preparation does not publish, open a PR, tag, merge, touch main, use /private/tmp, touch #5357 remediation, or mutate any version:v0.92 issue.",
-        "AC-5: Future ceremony execution reconciles release evidence, tag/release notes, GitHub issue and PR state, cards, milestone docs, and v0.92 handoff truth without hidden repair work."
+        "AC-1: WP-22 PR #5811 merge 703ee31f2c02bb6c8fda7d6bc51ff7963075132e is ancestral to the exact WP-23 worktree revision.",
+        "AC-2: Release plan, final release notes, checklist, readiness, proof coverage, demo matrix, canonical inventory, and ceremony packet agree on completed release-tail truth and explicit v0.92 non-claims.",
+        "AC-3: #5809 supplemental evidence pins the WP-21 publication base, reviewed head, squash merge, and tree equivalence without rewriting execution-time evidence.",
+        "AC-4: Focused Markdown/path checks, JSON and YAML parsing, git diff --check, and release-script check-only preflight pass; no Rust build, Clippy, coverage, or broad tests run for this docs-only issue.",
+        "AC-5: One bounded exact-head review passes before publication, and the PR body closes #5348 and #5809.",
+        "AC-6: After merge, adl/tools/release_ceremony.sh creates and pushes tag v0.91.8, publishes the GitHub release from final notes, and live verification proves the tag target and release state.",
+        "AC-7: Sprint umbrella #5595 closes only after #5348, #5809, the tag, and the published release are verified."
       ],
       "dependencies": [
         "WP-22 #5359 live merged into origin/main",
