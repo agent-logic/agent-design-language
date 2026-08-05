@@ -85,6 +85,10 @@
     "activated_at": "2026-08-05T02:50:57Z",
     "project_id": "local-bb52f3e18910b93ae22838b22be3f4b6",
     "schedule": "daily",
+    "stable_binary_path": "/Users/daniel/git/agent-design-language/.adl/bin/adl-gws-context-mirror",
+    "stable_binary_sha256": "823116910a49ab92ce998fcd287e2b3ed7e1f8e7c5d64f56e8cdaa750fae2b68",
+    "stable_binary_deployed_at": "2026-08-05T03:01:04Z",
+    "stable_binary_source_commit": "5eb6bc5a78eae085ac7ca688a65d35f97819f4d5",
     "company_root_only": true,
     "archive_on_success": true,
     "deduplicate_failures": true
