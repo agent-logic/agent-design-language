@@ -1,0 +1,131 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 5817
+
+Repository: danielbaustin/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Activated the canonical v0.92 milestone package, requalified prerequisites, opened the complete issue wave, initialized every child, supporting issue, and sprint umbrella, and prepared five independent sprint sessions.
+
+## Artifacts
+
+- docs/milestones/v0.92
+- .csdlc/issues/5786
+- .csdlc/issues/5795
+- .csdlc/issues/5800
+- .csdlc/issues/5801
+- .csdlc/issues/5812
+- .csdlc/issues/5818 through .csdlc/issues/5858
+- .csdlc/prepared/issues/5795
+- .csdlc/prepared/issues/5800
+- .csdlc/prepared/issues/5812
+- .csdlc/prepared/issues/5854 through .csdlc/prepared/issues/5858
+- .adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md
+- .adl/docs/TBD/V092_SPRINT_5855_RUNTIME_OBSERVATORY_SESSION_PROMPT.md
+- .adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md
+- .adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md
+- .adl/docs/TBD/V092_SPRINT_5858_FOUNDATION_SESSION_PROMPT.md
+- .csdlc/evidence/5817/feature-and-issue-coverage-audit.md
+- .csdlc/evidence/5817/prerequisite-and-loop-runtime-requalification.md
+
+## Execution
+
+- Reconciled active milestone, sprint, WBS, ADR, demo, feature, quality, handoff, and execution-readiness surfaces
+- Opened and verified 41 child and supporting issues across 39 unique work packages and three explicit supporting issues
+- Created live sprint umbrella issues 5854 through 5858 and initialized each with six typed cards
+- Generated 552 typed card artifacts with exact wave and sprint alignment
+- Added one Sprint Execution Packet per umbrella with exact membership, safe lanes, serial gates, review path, activity log, child-goal rule, and closeout rule
+- Added five copy-ready individual-session prompts under .adl/docs/TBD and pinned each prompt to its live sprint umbrella
+- Kept every umbrella coordination-only so child issues retain implementation, proof, review, publication, and closeout authority
+- Added complete feature ownership and hard WP-22 completion gates, including WP-24 and WP-24A
+- Requalified #5104 loop semantics against current Runtime v3 source and focused tests
+
+## Validation
+
+[
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5817/validate-v092-package.rb"
+    ],
+    "purpose": "Prove 39 WPs, 41 initialized child and supporting issues, five initialized sprint umbrellas, 552 typed card artifacts, exact execution packets, source dispositions, feature coverage, links, and delivery gates.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5817/feature-and-issue-coverage-audit.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--target-dir",
+      "/Volumes/FastWork/adl-wp-5817/target",
+      "--test",
+      "reasoning"
+    ],
+    "purpose": "Requalify current Runtime v3 bounded reasoning, replay, cancellation, checkpoint, mutation, and forgery-rejection behavior.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5817/prerequisite-and-loop-runtime-requalification.md"
+  },
+  {
+    "command": [
+      "csdlc-doctor",
+      "--repo",
+      ".",
+      "--issue",
+      "5817"
+    ],
+    "purpose": "Confirm the WP-01 typed lifecycle record remains healthy after sprint organization.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/5817/index.json"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject whitespace errors in the complete candidate.",
+    "outcome": "passed",
+    "evidence_ref": "working tree"
+  },
+  {
+    "command": [
+      "git",
+      "-C",
+      "/Users/daniel/git/agent-design-language",
+      "status",
+      "--short",
+      "--branch"
+    ],
+    "purpose": "Confirm the primary checkout remains clean on main.",
+    "outcome": "passed",
+    "evidence_ref": "/Users/daniel/git/agent-design-language"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

@@ -2,27 +2,26 @@
 
 ## Metadata
 
-- Sprint: `v0.92-candidate`
+- Sprint: `v0.92`
 - Milestone: `v0.92`
-- Start date: pending v0.92 opening
+- Start date: `2026-08-04`
 - End date: pending v0.92 closeout
 - Owner: ADL maintainers
-- Status: reviewed candidate planning package refreshed by `#5359`
+- Status: active issue wave opened by WP-01 after `#5359` review
 - Related issues: `#3377`, `#3434`, `#5359`, `#5765`
 - Planning template set: `docs/templates/planning/1.0.0`
 
 ## Status
 
-Forward-planning sprint outline. The final sprint and WP sequence will be
-opened during v0.92 WP-01 from
-[WP_ISSUE_WAVE_v0.92.yaml](WP_ISSUE_WAVE_v0.92.yaml) after consuming
-the final v0.91.8 release package, WP-22 TBD dispositions, the activation-test
-map, the AEE completion tranche, and `#3377`.
+Active sprint outline. WP-01 opened the final sprint and WP sequence from
+[WP_ISSUE_WAVE_v0.92.yaml](WP_ISSUE_WAVE_v0.92.yaml) after consuming the final
+v0.91.8 release package, WP-22 TBD dispositions, the activation-test map, the
+AEE completion tranche, and `#3377`.
 
 ## How To Use
 
-Use this document as a candidate sprint envelope for WP-01. It is not the
-final sprint state machine and does not open or close any v0.92 sprint issues.
+Use this document with the opened issue wave as the milestone execution
+envelope. Individual issues and typed records remain execution authority.
 
 ## Sprint Overview
 
@@ -31,15 +30,16 @@ repository migration, then establish reliable CI, Runtime launch/resilience,
 distributed Guardian/polis execution, and efficient workflow tooling. It then
 moves through birthday definition, identity evidence, transport/readability,
 consumer and provider-neutral proofs, cleanup, review, remediation, and
-ceremony. The exact sprint partition should be generated after WP-01 confirms
-the final issue wave.
+ceremony. WP-01 confirmed the final issue wave; the active partition below is
+the execution sequence.
 
 ## Sprint Goals
 
 - Preserve first-birthday scope without absorbing v0.93 governance.
-- Complete the reviewed six-repository Agent Logic GitHub organization
+- Activate v0.92 documentation and version surfaces through WP-01B, then
+  complete the reviewed five-repository Agent Logic GitHub organization
   migration before substantive milestone execution, while retaining
-  `danielbaustin/asksifu` as personal.
+  `danielbaustin/asksifu` as personal and excluding Horust.
 - Write all ten Medium launch articles in parallel as early living drafts,
   bring all ten to editorial-review-ready state, and finalize their claims only
   after the release-truth pass.
@@ -47,6 +47,9 @@ the final issue wave.
   review-ready packages with real audio, transcripts, show notes, metadata,
   and RSS-ready artifacts.
 - Repair CI/coverage before it is used as milestone proof.
+- After migration and CI repair, run the bounded same-SHA build-acceleration
+  experiment and adopt no lane without proof parity, canary, cost, and fallback
+  evidence.
 - Consolidate Runtime reliability and schedule the distributed Guardian/polis
   program without hiding its 16 child issues.
 - Reduce C-SDLC cycle time and establish portable remote validation without
@@ -79,13 +82,15 @@ program.
 3. Start all ten Medium articles and all ten Podcast Studio episodes as two
    parallel publication-production tranches.
 4. Repair CI/coverage.
-5. Run Runtime reliability, distributed-runtime, workflow-efficiency, remote
+5. Run the post-migration standard-versus-16-core build-acceleration experiment.
+6. Run Runtime reliability, distributed-runtime, workflow-efficiency, remote
    validation, and prompt-typing tracks in parallel where safe.
-6. Execute birthday, identity, continuity, memory, capability, ACP,
+7. Execute birthday, identity, continuity, memory, capability, ACP,
    adaptive-learning, ACIP/A2A, witness, review-packet, demo, consumer,
    provider-neutral proof, and handoff work in dependency order.
-7. Complete the bounded repository-reduction cleanup.
-8. Run quality, docs and publication finalization, internal review, external review, remediation,
+8. Complete the bounded repository-reduction cleanup and the behavior-preserving
+   Rust refactoring and maintainability pass.
+9. Run quality, docs and publication finalization, internal review, external review, remediation,
    next-milestone planning, closeout planning, next-milestone review, and
    release ceremony.
 
@@ -96,23 +101,40 @@ cards present, with `SIP`, `STP`, and `SPP` design-time ready before execution.
 
 ## Cadence Expectations
 
-The final cadence should be set by WP-01 based on actual issue count and
-dependencies. The planning preference is sprint-sized batches that keep review
-and validation tight rather than one oversized single-threaded queue.
+WP-01 records five live coordination-only umbrellas in
+`WP_ISSUE_WAVE_v0.92.yaml`: foundation and throughput `#5858`; Runtime,
+Observatory, polis, and protocol `#5855`; birthday core `#5857`;
+demonstration, handoff, and publication `#5854`; and quality and release tail
+`#5856`. All five may be prepared in parallel, while live child
+execution remains dependency-gated. This keeps review and validation tight
+without forcing one oversized single-threaded queue or allowing parallel
+agents to collide on shared Runtime and Observatory surfaces.
+
+Copy-ready prompts for the five individual sprint sessions are retained in:
+
+- `.adl/docs/TBD/V092_SPRINT_5858_FOUNDATION_SESSION_PROMPT.md`
+- `.adl/docs/TBD/V092_SPRINT_5855_RUNTIME_OBSERVATORY_SESSION_PROMPT.md`
+- `.adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md`
+- `.adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md`
+- `.adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md`
+
+Each prompt is pinned to its umbrella and child set, preserves child-level
+lifecycle authority, and states the declared serial and parallel boundaries.
 
 ## Planned Phases
 
 | Phase | Focus | Expected outcome |
 | --- | --- | --- |
 | 1 | Planning, migration, and publication setup | Canonical docs, reviewed issue wave, six-card bundles, completed Agent Logic repository migration, ten article drafts, and ten podcast production packets underway in parallel. |
-| 2 | Runtime and workflow foundations | Consolidated Runtime launch/resilience, architecture-gated distributed Guardian/polis program, C-SDLC efficiency, remote validation, and prompt typing. |
-| 3 | Birthday contract | Definition of birth and negative cases. |
-| 4 | Identity and continuity | Stable name, identity root, continuity record, and cycle evidence. |
-| 5 | Memory, capability, and cognitive profile | Memory grounding, capability envelope, ACP/cognitive profile, and redacted review boundaries. |
-| 6 | Adaptive learning and ACIP/A2A readiness | Adaptive Learning DAG queue plus reconciled protocol semantics, protobuf schema, public catalog, JSON projection, and authenticated full-duplex WSS proof. |
-| 7 | Witness and integrated review packet | Birth witness set, receipt, and reviewer packet. |
-| 8 | Demos, consumers, and handoff | First-birthday demo, Observatory/Unity integration, provider-neutral multi-agent proof, governance handoff, and proof matrix. |
-| 9 | Cleanup and release tail | Repository reduction, quality, docs, article and podcast finalization, reviews, remediation, next-milestone planning, closeout planning, and ceremony. |
+| 2 | CI and build foundation | Reliable CI/coverage plus a completed same-SHA standard-versus-16-core experiment with a reversible lane decision. |
+| 3 | Runtime and workflow foundations | Consolidated Runtime launch/resilience, architecture-gated distributed Guardian/polis program, C-SDLC efficiency, remote validation, and prompt typing. |
+| 4 | Birthday contract | Definition of birth and negative cases. |
+| 5 | Identity and continuity | Stable name, identity root, continuity record, and cycle evidence. |
+| 6 | Memory, capability, and cognitive profile | Memory grounding, capability envelope, ACP/cognitive profile, and redacted review boundaries. |
+| 7 | Adaptive learning and ACIP/A2A readiness | Adaptive Learning DAG queue plus reconciled protocol semantics, protobuf schema, public catalog, JSON projection, and authenticated full-duplex WSS proof. |
+| 8 | Witness and integrated review packet | Birth witness set, receipt, and reviewer packet. |
+| 9 | Demos, consumers, and handoff | First-birthday demo, Observatory/Unity integration, provider-neutral multi-agent proof, governance handoff, and proof matrix. |
+| 10 | Cleanup and release tail | Repository reduction, Rust refactoring, quality, docs, article and podcast finalization, reviews, remediation, next-milestone planning, closeout planning, and ceremony. |
 
 ## Dependencies To Check Before WP-01
 
@@ -125,9 +147,10 @@ and validation tight rather than one oversized single-threaded queue.
 - v0.91.1 runtime/polis, memory/identity, ToM, intelligence metric, governed
   learning, and capability/aptitude outputs are stable enough to feed ACP
   profile evidence.
-- v0.91.7 `#5104` loop-runtime evidence is merged and reviewed before v0.92
-  treats loops as validated, replayable runtime objects for adaptive-learning
-  planning.
+- v0.91.7 `#5104` loop-runtime evidence is merged and reviewed. WP-01
+  requalified its bounded-loop semantics against current Runtime v3 source and
+  focused tests; v0.92 may treat bounded loops as validated, replayable Runtime
+  v3 objects without treating adaptive learning or graph mutation as complete.
 - v0.93 governance remains downstream and is not absorbed by birthday work.
 - Memory palace and learning-model sources are used as context, not broad
   implementation commitments.
@@ -188,7 +211,8 @@ evidence packet is internally consistent.
 ## Exit Criteria
 
 - The WBS is converted from candidate areas into concrete WPs.
-- The candidate issue wave is reviewed and either seeded or corrected by WP-01.
+- The opened issue wave is reviewed, mapped to live issue numbers, and supplied
+  with six typed cards per child issue by WP-01.
 - Every scheduled TBD input has one owner WP and every deferred input remains
   explicitly indexed.
 - Every implementation WP has a code, fixture, test, demo, or reviewable docs
