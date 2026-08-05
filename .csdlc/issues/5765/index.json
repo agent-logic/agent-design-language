@@ -3,25 +3,10 @@
   "issue": 5765,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "410016ef8a98a2326644e76a7d9d0be535280964fbb5295f4fd91ce9d1ebbecb",
-  "phase": "published",
-  "generation": 10,
-  "digest": "9bd57b5fcdd6d045a9648a61fda1ae3eb52e1c29cb904a17046b833ca33d0225",
-  "claim": {
-    "id": "claim-5765-v092-account-migration-scheduling",
-    "owner": "codex:5765",
-    "generation": 10,
-    "acquired_unix_seconds": 1785784093,
-    "expires_unix_seconds": 1786388893,
-    "heartbeat_unix_seconds": 1785784093,
-    "branch": "codex/5765-v092-migration",
-    "worktree": ".worktrees/adl-5765-v092-migration",
-    "protected_paths": [
-      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
-      ".csdlc/issues/5765",
-      ".csdlc/prepared/issues/5765"
-    ],
-    "purpose": "Schedule the Agent Logic account repository migration as planning-only v0.92 work"
-  },
+  "phase": "closed_out",
+  "generation": 11,
+  "digest": "48e5c09c99483a4cf09b33efc45bd5e93c12684c23494f2701225c61f6ec3645",
+  "claim": null,
   "review_assignment": {
     "reviewer": "subagent:review-5765b",
     "assigned_by": "codex:5765",
@@ -56,10 +41,23 @@
     "head": "codex/5765-v092-migration",
     "revision": "git-blake3:f9f74aebb2ff0332b58cc6bc6b79be8269be9c3f:66cc5ffd4517f63dac8b77bb5a5c10b3de7fda391254963af042b96d03efb166",
     "draft": true,
-    "observed_state": "open"
+    "observed_state": "merged"
   },
   "readiness": null,
-  "terminal": null,
+  "terminal": {
+    "pull_request": 5796,
+    "disposition": "merged",
+    "observed_sha": "2cac00bb1dab4c9fcd97cffedd374037c0b65a4c",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5765.json",
+    "released_branch": "codex/5765-v092-migration",
+    "released_worktree": ".worktrees/adl-5765-v092-migration",
+    "released_protected_paths": [
+      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+      ".csdlc/issues/5765",
+      ".csdlc/prepared/issues/5765"
+    ]
+  },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5765/design.md",
   "diagram_path": ".csdlc/prepared/issues/5765/diagram.mmd",
@@ -71,34 +69,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "63b533f38c65ef363fd1519bfce07cc6c1383ee96883a0b05f2485453c8398d1",
+      "values_digest": "191c3e25a92dfb65a48d1f98ce46793d7bd074f737bf9471d4149f6889e7a595",
       "rendered_digest": "c76ee3a3d9228344b6dccd9a73f8076ccda5ef79adef9c720da3d500201b42e3",
       "ast_digest": "adc4f1ced2c44ba26d4778a6418f8b83ea5b04890e21cb3d58a05daf6d48dc4a"
     },
     "stp": {
-      "values_digest": "1267ceb80ac132b4b65215a0d2a60047524a2188348106e9101b05dcc723b3f5",
+      "values_digest": "d0afd3837d9b01b50d0de43362136cc4995702e795f9bef8034c3b0f0f775c29",
       "rendered_digest": "b97672a24eb3557763eb5654ee093a0f4e95dcff5df359e5a20437841c54a525",
       "ast_digest": "eb3edfc5756a260c44d3a4b7ada43c4c090c184bead265a1e545537e3c5309ea"
     },
     "spp": {
-      "values_digest": "6076fb770c10208fc3178fd807c6b60ada1a56bc73b5985d4f5346fc188cac8e",
+      "values_digest": "bd75e4e754b913311b3681b494ad7b3bbe8f97dac5ed464f68a255bacd54beae",
       "rendered_digest": "62093e54ef732a005959acaad1b552e7fc21bb46c8320c20953db229f41068e9",
       "ast_digest": "7a089c5915b9d76a32a1408feac8efcfb8ff20e46c5067a94a31cf27f8b5f5d8"
     },
     "vpp": {
-      "values_digest": "e428f41d56b5bf7c6a4b8381916df33563e0c9aef924ec01f8f0a8d1063bf354",
+      "values_digest": "d897b13e5dfc44a1228d1ad8b3e3780715ee0fba6da5119bd2267a53f7b0d867",
       "rendered_digest": "60f37f58427dbb731cbff12b9525613453f05b680b0c8dd22de8b1d5175e27dd",
       "ast_digest": "4e184f8ca6528cce203ea8d587289899ccac5435bf1b6de114bb798b17374c1b"
     },
     "srp": {
-      "values_digest": "0607f702477f91f3887e056124f078a432e2edac55f5797f095b669f47c7b219",
+      "values_digest": "50724d77d9f5d88615e12d4fb51082cf3951bc8caf527122d967203b817efca8",
       "rendered_digest": "65c76a15e58ae68d6561a2ef9d308aac02989c9bb2270b9f813845ceeb861532",
       "ast_digest": "89683b6a4008aebab52ed29c700a39e6e00a71a5cb2a215f08be8fefc7a7001a"
     },
     "sor": {
-      "values_digest": "49b0d7956d733f83dc5669dadfb96d58b768b5ef6f32a621339f9802adddcd48",
-      "rendered_digest": "76029b446bd9d30c215586e75df186ac9329d333d7dd5cb1ba0b13c3da31f750",
-      "ast_digest": "544e7ac694a38e807e37cb175d1c7fceafd854044aa5dff1d76ec6f1e7ec19c1"
+      "values_digest": "ac26e640da943d94597b8e8c3ff3fe1166eeb160e67532ab5421d8c0ee19bce9",
+      "rendered_digest": "33213052598c46771b55a97c6c855494007b7db90773393eb49aaf4fbc991cdc",
+      "ast_digest": "2fed05db3c2fb418a27f59430b366ee4ee2f1de0b6563b2963c31c62b3645a16"
     }
   },
   "transitions": [
@@ -136,6 +134,27 @@
       "to": "published",
       "actor": "codex:5765",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:wp22-planning-reconciliation",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:wp22-planning-reconciliation",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:wp22-planning-reconciliation",
+      "reason": "Materialize live merged PR #5796 terminal truth and release the completed v0.92 planning claim before WP-22 revises the milestone package."
     }
   ],
   "audit": [
@@ -229,6 +248,13 @@
       "actor": "codex:5765",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:wp22-planning-reconciliation",
+      "reason": "Materialize live merged PR #5796 terminal truth and release the completed v0.92 planning claim before WP-22 revises the milestone package.",
+      "operation": "materialize_derived_terminal"
     }
   ]
 }

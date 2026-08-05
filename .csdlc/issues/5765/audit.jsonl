@@ -11,3 +11,4 @@
 {"sequence":11,"generation":8,"actor":"subagent:review-5765b","reason":"atomically record assigned review evidence and SRP projection","operation":"record_review"}
 {"sequence":12,"generation":9,"actor":"codex:5765","reason":"Advance #5765 after exact-head subagent review passed and review evidence was recorded.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":13,"generation":10,"actor":"codex:5765","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":14,"generation":11,"actor":"codex:wp22-planning-reconciliation","reason":"Materialize live merged PR #5796 terminal truth and release the completed v0.92 planning claim before WP-22 revises the milestone package.","operation":"materialize_derived_terminal"}
