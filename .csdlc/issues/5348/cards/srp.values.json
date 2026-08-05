@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Future exact-head review only; review #5348 cards, design, diagram, validation evidence, #5359 live-merge plus ancestry gate, and no-hidden-work constraints before any release ceremony execution or publication.",
+      "review_scope": ".csdlc/evidence/5362/dependency-verification-publication-base.v1.json\n.csdlc/issues/5348\n.csdlc/prepared/issues/5348\ndocs/milestones/v0.91.8",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

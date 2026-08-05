@@ -5,7 +5,7 @@
   "initialization_digest": "d9886666f687eed43c121ffb299029dfb0799a973aa38c23a7566e4b50be2e2b",
   "phase": "implemented",
   "generation": 13,
-  "digest": "cd63e3a7c2b31a8ea6682bb2ef0331270c2aa5bc5b1b11243bbf32a30fa8e593",
+  "digest": "fc13af244edbbd14b9edd6f31cfa8ffb656fb7e7bc4b0f6c0d7043f65bfc9c35",
   "claim": {
     "id": "claim-5348-v0918-preparation-recovered",
     "owner": "codex:5348-preparation-owner",
@@ -33,7 +33,17 @@
     ],
     "purpose": "Prepare #5348 WP-23 release ceremony and lifecycle closeout only; no execution until WP-22 #5359 is live-merged and ancestral"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:gpt-5.5:Parfit",
+    "assigned_by": "codex:5348-release-ceremony",
+    "revision": "git-blake3:9689359bc2744a7789f522008f34892670591930:64f8dee4c60d68dc5ed9a804fdfc1da89edf29e737628673eca34f39292bfa98",
+    "scope": [
+      ".csdlc/evidence/5362/dependency-verification-publication-base.v1.json",
+      ".csdlc/issues/5348",
+      ".csdlc/prepared/issues/5348",
+      "docs/milestones/v0.91.8"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -69,9 +79,9 @@
       "ast_digest": "3521d1b89738180d08e343c011dc2e1dbb69926a646ce55251054f1da1f592d8"
     },
     "srp": {
-      "values_digest": "0449f3dd01e74cb7ee7a3873c36cedbc56e3e2553af4c0e0ead1ff1e286cf8b3",
-      "rendered_digest": "b7b2af1103f176058613c6d4efac3e12ba80f02e1cd8165c74ac7ebaee17ef77",
-      "ast_digest": "0194e23f2628162836d7364d0e040e317c2671aa079da0a38c044afe0962e83e"
+      "values_digest": "85c81b0129d282adea274cec2ffa0bc3f75a4fb5d016c7cee5fe7ea41dae99c3",
+      "rendered_digest": "5ed5b09dc599d6ae3a534dca9d0805f59c6a1aadd152ef7cf94b6251ea725251",
+      "ast_digest": "52bf7d0227f36e18342579efbd6c3613cf922daae145ea15b599127bb532abe2"
     },
     "sor": {
       "values_digest": "add1610060d7d081c44a4d570ab1f0c1a8fab301f43fbd2533b581642cadbfda",
@@ -221,6 +231,13 @@
       "actor": "codex:5348-release-ceremony",
       "reason": "The v0.91.8 release ceremony package and publication-base dependency evidence are implemented and focused docs-only validation passes; advance to exact-revision review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:5348-release-ceremony",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

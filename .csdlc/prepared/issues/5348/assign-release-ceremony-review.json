@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 5348,
+  "expected_generation": 13,
+  "expected_digest": "cd63e3a7c2b31a8ea6682bb2ef0331270c2aa5bc5b1b11243bbf32a30fa8e593",
+  "claim_id": "claim-5348-v0918-preparation-recovered",
+  "reviewer": "subagent:gpt-5.5:Parfit",
+  "assigned_by": "codex:5348-release-ceremony",
+  "scope": [
+    ".csdlc/evidence/5362/dependency-verification-publication-base.v1.json",
+    ".csdlc/issues/5348",
+    ".csdlc/prepared/issues/5348",
+    "docs/milestones/v0.91.8"
+  ]
+}

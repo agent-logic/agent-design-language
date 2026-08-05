@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Future exact-head review only; review #5348 cards, design, diagram, validation evidence, #5359 live-merge plus ancestry gate, and no-hidden-work constraints before any release ceremony execution or publication.
+.csdlc/evidence/5362/dependency-verification-publication-base.v1.json
+.csdlc/issues/5348
+.csdlc/prepared/issues/5348
+docs/milestones/v0.91.8
 
 ## Prompts
 
