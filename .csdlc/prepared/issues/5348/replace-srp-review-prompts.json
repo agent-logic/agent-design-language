@@ -1,0 +1,19 @@
+{
+  "issue": 5348,
+  "card": "srp",
+  "expected_generation": 4,
+  "expected_digest": "4e48fff11b27964f59296e6315e1d476a3972e264b8792e0bfebac5f6c379bc0",
+  "claim_id": "claim-5348-v0918-preparation-recovered",
+  "actor": "codex:5348-preparation-owner",
+  "reason": "Make future #5348 review prompts issue-specific to predecessor and no-hidden-work gates.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "review_prompts",
+    "values": [
+      "Does the exact #5348 packet keep execution blocked until #5359 is observed live-merged and ancestral to the exact execution base?",
+      "Do the cards, design, and diagram forbid hidden implementation, #5357 remediation, /private/tmp artifacts, root-main writes, publication, and version:v0.92 issue mutation during preparation?",
+      "Does the focused validation evidence prove only preparation readiness without claiming ceremony execution, review completion, publication, merge, or closeout?"
+    ]
+  },
+  "fail_after_backup": false
+}

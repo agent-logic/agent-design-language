@@ -1,0 +1,7 @@
+{
+  "issue": 5348,
+  "expected_generation": 0,
+  "expected_digest": "d1fc6dc4bf3fbb7bbdd46b663e1bc5b240810e5eca2edf5a1d27861cf49bc90d",
+  "claim_id": "claim-5348-v0918-preparation-recovered",
+  "reviewer": "codex:5348-preparation-owner"
+}

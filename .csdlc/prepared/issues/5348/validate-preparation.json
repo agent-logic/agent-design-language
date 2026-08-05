@@ -1,0 +1,85 @@
+{
+  "manifest": {
+    "schema": "csdlc.pvf.manifest.v1",
+    "lanes": [
+      {
+        "id": "typed-doctor-5348",
+        "proof_role": "Lifecycle record proof",
+        "purpose": "Prove #5348 card projections, design and diagram digests, claim recovery, and bound preparation truth",
+        "determinism": "deterministic",
+        "resources": {
+          "cpu_units": 1,
+          "memory_mib": 256,
+          "tokens": 1000
+        },
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "preparation",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 60,
+        "executable": "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
+        "argv": [
+          "--repo",
+          ".",
+          "--issue",
+          "5348"
+        ],
+        "evidence": {
+          "max_log_bytes": 32768,
+          "redact_values": [],
+          "require_relative_paths": true
+        }
+      },
+      {
+        "id": "diff-hygiene",
+        "proof_role": "Patch hygiene proof",
+        "purpose": "Prove the #5348 preparation diff has no whitespace errors",
+        "determinism": "deterministic",
+        "resources": {
+          "cpu_units": 1,
+          "memory_mib": 128,
+          "tokens": 500
+        },
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [
+          "typed-doctor-5348"
+        ],
+        "parallel_group": "preparation",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 30,
+        "executable": "/usr/bin/env",
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "evidence": {
+          "max_log_bytes": 32768,
+          "redact_values": [],
+          "require_relative_paths": true
+        }
+      }
+    ]
+  },
+  "selection": {
+    "requested_lanes": [
+      "typed-doctor-5348",
+      "diff-hygiene"
+    ],
+    "allow_network": false,
+    "available_credentials": []
+  },
+  "budget": {
+    "max_parallel": 1,
+    "cpu_units": 1,
+    "memory_mib": 512,
+    "tokens": 1500
+  },
+  "root": ".",
+  "evidence_dir": ".csdlc/evidence/5348/preparation",
+  "cancellation_file": null
+}

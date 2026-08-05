@@ -25,8 +25,8 @@
 | WP-20 | WP-19 merge | Closed; remediation and release preflight landed through PR #5806. |
 | WP-21 | WP-20 merge | Closed; exact-revision v0.92 handoff ledger landed through PR #5807. |
 | WP-21A | WP-21 merge | Closed; next-milestone closeout plan landed through PR #5808. |
-| WP-22 | WP-21A merge | Ready for next-milestone planning review. |
-| WP-23 | WP-22 merge | Pending release ceremony and lifecycle closeout. |
+| WP-22 | WP-21A merge | Closed through PR #5811; reviewed planning package merged as `703ee31f2`. |
+| WP-23 | WP-22 merge | Active release ceremony and lifecycle closeout. |
 
 ## Historical Card-Factory Wave
 
@@ -37,7 +37,5 @@ gate pass evidence.
 
 ## Remaining Readiness Rule
 
-The remaining WP-22 through WP-23 release-tail work remains serial and must
-refresh live issue and PR truth before each action. WP-16, WP-18, WP-19, WP-20,
-WP-21, and WP-21A do not approve v0.92 activation or release ceremony by
-themselves.
+WP-23 must refresh live issue, tag, and release truth before each ceremony
+action. The completed release tail does not approve v0.92 activation.

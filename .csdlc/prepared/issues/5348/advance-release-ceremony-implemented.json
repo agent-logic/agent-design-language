@@ -1,0 +1,14 @@
+{
+  "issue": 5348,
+  "card": "sor",
+  "expected_generation": 12,
+  "expected_digest": "adc3ed07221d3104e6fd8eb0503d8023cad8828e616a78d816e7dde31d504bb2",
+  "claim_id": "claim-5348-v0918-preparation-recovered",
+  "actor": "codex:5348-release-ceremony",
+  "reason": "The v0.91.8 release ceremony package and publication-base dependency evidence are implemented and focused docs-only validation passes; advance to exact-revision review.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "fail_after_backup": false
+}

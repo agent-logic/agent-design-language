@@ -15,7 +15,7 @@
 - [x] WP-15 owns convergence/demo proof; WP-20 remains release-tail remediation authority.
 - [x] WP-17 documentation alignment and the first WP-18 internal review are closed.
 - [x] WP-18 second-pass review `#5791` consumed all residual coding before WP-19 external-review freeze.
-- [ ] WP-21 owns exact handoff, Memory Palace, launch/identity, capability, and Adaptive Learning planning.
-- [ ] External review, remediation, and preflight converge.
-- [ ] v0.92 handoff names exact revisions and non-claims.
-- [ ] Release ceremony and lifecycle closeout record truthful terminal state.
+- [x] WP-21 owns exact handoff, Memory Palace, launch/identity, capability, and Adaptive Learning planning.
+- [x] External review, remediation, and preflight converge.
+- [x] v0.92 handoff names exact revisions and non-claims.
+- [ ] WP-23 creates and verifies the `v0.91.8` tag and published GitHub release, then closes sprint umbrella `#5595`.

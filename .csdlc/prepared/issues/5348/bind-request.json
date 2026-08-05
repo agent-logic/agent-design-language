@@ -1,0 +1,23 @@
+{
+  "issue": 5348,
+  "base_branch": "main",
+  "branch": "codex/5348-v0918-preparation",
+  "worktree": ".",
+  "claim": {
+    "id": "claim-5348-v0918-preparation",
+    "owner": "codex:5348-preparation-owner",
+    "generation": 0,
+    "acquired_unix_seconds": 1784754875,
+    "expires_unix_seconds": 1785359675,
+    "heartbeat_unix_seconds": 1784754875,
+    "branch": "codex/5348-v0918-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5348",
+      ".csdlc/locks/5348.lock",
+      ".csdlc/prepared/issues/5348",
+      ".csdlc/evidence/5348"
+    ],
+    "purpose": "Prepare #5348 WP-23 release ceremony and lifecycle closeout only; no execution until WP-22 #5359 is live-merged and ancestral"
+  }
+}

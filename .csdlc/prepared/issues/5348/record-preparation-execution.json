@@ -1,0 +1,30 @@
+{
+  "issue": 5348,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "460451f4d515be193c58c77a2186d45e60ff98c5035832090366eee08b83c4dd",
+  "claim_id": "claim-5348-v0918-preparation-recovered",
+  "actor": "codex:5348-preparation-owner",
+  "reason": "Record the issue-local #5348 preparation packet edits without claiming release ceremony execution.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Prepared #5348 WP-23 for later execution by recovering the typed preparation claim, making cards/design/diagram issue-specific, encoding the #5359 live-merge ancestry gate, and adding focused validation evidence. Release ceremony execution, publication, PR opening, tag creation, merge, closeout, #5357 remediation, and version:v0.92 issue mutation did not occur.",
+    "changes": [
+      ".csdlc/issues/5348",
+      ".csdlc/prepared/issues/5348",
+      ".csdlc/evidence/5348/preparation"
+    ],
+    "artifacts": [
+      ".csdlc/prepared/issues/5348/recover-preparation-claim.json",
+      ".csdlc/prepared/issues/5348/reapprove-design.json",
+      ".csdlc/prepared/issues/5348/replace-acceptance-plan.json",
+      ".csdlc/prepared/issues/5348/replace-sip-operator-constraints.json",
+      ".csdlc/prepared/issues/5348/replan-srp-review-scope.json",
+      ".csdlc/prepared/issues/5348/replace-srp-review-prompts.json",
+      ".csdlc/prepared/issues/5348/validate-preparation.json",
+      ".csdlc/evidence/5348/preparation/typed-doctor-5348.log",
+      ".csdlc/evidence/5348/preparation/diff-hygiene.log"
+    ]
+  },
+  "fail_after_backup": false
+}

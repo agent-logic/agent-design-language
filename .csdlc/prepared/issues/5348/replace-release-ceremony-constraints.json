@@ -1,0 +1,23 @@
+{
+  "issue": 5348,
+  "card": "sip",
+  "expected_generation": 9,
+  "expected_digest": "87e249a41b140c26d1ef7a68fd0219b18be601a6c2a61f27245451236805fd34",
+  "claim_id": "claim-5348-v0918-preparation-recovered",
+  "actor": "codex:5348-release-ceremony",
+  "reason": "Replace superseded preparation-only constraints with the authorized WP-23 release ceremony boundary.",
+  "operation": {
+    "operation": "replace_operator_constraints",
+    "values": [
+      "execute only the v0.91.8 documentation and release ceremony",
+      "use adl/tools/release_ceremony.sh for tag and GitHub release actions",
+      "do not write tracked changes on root main",
+      "do not use /private/tmp for request or evidence artifacts",
+      "do not change product code or run broad Rust validation for this docs-only issue",
+      "do not mutate or activate version:v0.92 issues",
+      "obtain one exact-head review before publication",
+      "close #5595 only after the v0.91.8 tag and published release are verified"
+    ]
+  },
+  "fail_after_backup": false
+}

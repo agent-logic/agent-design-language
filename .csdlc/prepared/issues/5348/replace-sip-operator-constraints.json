@@ -1,0 +1,23 @@
+{
+  "issue": 5348,
+  "card": "sip",
+  "expected_generation": 2,
+  "expected_digest": "399f474a63b1b071fbd543e8f898a4c3a603156aa17c9591ee658d343ac4007f",
+  "claim_id": "claim-5348-v0918-preparation-recovered",
+  "actor": "codex:5348-preparation-owner",
+  "reason": "Encode the operator's preparation-only constraints directly in the #5348 SIP.",
+  "operation": {
+    "operation": "replace_operator_constraints",
+    "values": [
+      "preparation only; do not execute the release ceremony",
+      "do not publish, open a PR, tag, merge, or perform closeout",
+      "do not touch tracked root main",
+      "do not use /private/tmp for request or evidence artifacts",
+      "do not touch #5357 remediation",
+      "do not mutate any version:v0.92 issue",
+      "write only issue-local #5348 C-SDLC paths plus their typed request/evidence files",
+      "future execution stays blocked until #5359 is live-merged and its merge SHA is ancestral to the exact #5348 execution base"
+    ]
+  },
+  "fail_after_backup": false
+}

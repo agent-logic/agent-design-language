@@ -1,0 +1,7 @@
+{
+  "issue": 5348,
+  "expected_generation": 8,
+  "expected_digest": "a4d5f614e4ae0dad0f3d932d3519c2e83d48866b65b391379f696f481d5095bf",
+  "claim_id": "claim-5348-v0918-preparation-recovered",
+  "reviewer": "codex:5348-release-ceremony"
+}

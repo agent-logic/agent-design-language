@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5348,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-23] Release ceremony and lifecycle closeout",
+    "slug": "v0918-wp23-release-ceremony-closeout",
+    "version": "v0.91.8",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Prepare lifecycle packet only; release ceremony is future execution work.",
+      "deliverables": [
+        "generated six-card preparation packet",
+        "concise design and diagram",
+        "focused typed doctor validation"
+      ],
+      "acceptance_criteria": [
+        "AC-1: WP-22 PR #5811 merge 703ee31f2c02bb6c8fda7d6bc51ff7963075132e is ancestral to the exact WP-23 worktree revision.",
+        "AC-2: Release plan, final release notes, checklist, readiness, proof coverage, demo matrix, canonical inventory, and ceremony packet agree on completed release-tail truth and explicit v0.92 non-claims.",
+        "AC-3: #5809 supplemental evidence pins the WP-21 publication base, reviewed head, squash merge, and tree equivalence without rewriting execution-time evidence.",
+        "AC-4: Focused Markdown/path checks, JSON and YAML parsing, git diff --check, and release-script check-only preflight pass; no Rust build, Clippy, coverage, or broad tests run for this docs-only issue.",
+        "AC-5: One bounded exact-head review passes before publication, and the PR body closes #5348 and #5809.",
+        "AC-6: After merge, adl/tools/release_ceremony.sh creates and pushes tag v0.91.8, publishes the GitHub release from final notes, and live verification proves the tag target and release state.",
+        "AC-7: Sprint umbrella #5595 closes only after #5348, #5809, the tag, and the published release are verified."
+      ],
+      "dependencies": [
+        "WP-22 #5359 live merged into origin/main",
+        "#5359 observed merge SHA ancestral to exact #5348 execution base"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md",
+        "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+        "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+        "issue #5348"
+      ],
+      "non_goals": [
+        "implementation or remediation during ceremony",
+        "release tagging during preparation",
+        "PR publication",
+        "receipt-gated execution"
+      ]
+    }
+  }
+}

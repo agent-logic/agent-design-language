@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5348,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-23] Release ceremony and lifecycle closeout",
+    "slug": "v0918-wp23-release-ceremony-closeout",
+    "version": "v0.91.8",
+    "generation": 16
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/evidence/5362/dependency-verification-publication-base.v1.json\n.csdlc/issues/5348\n.csdlc/prepared/issues/5348\ndocs/milestones/v0.91.8",
+      "review_revision": "git-blake3:c5588837932b3e4088843aa3733bdbd6d7206cf3:41f6daf8cdbccb48a977806ce78a995686fff8552e0612facb91589a5b675ecf",
+      "reviewer": "subagent:gpt-5.5:Parfit",
+      "review_prompts": [
+        "Does the exact #5348 packet keep execution blocked until #5359 is observed live-merged and ancestral to the exact execution base?",
+        "Do the cards, design, and diagram forbid hidden implementation, #5357 remediation, /private/tmp artifacts, root-main writes, publication, and version:v0.92 issue mutation during preparation?",
+        "Does the focused validation evidence prove only preparation readiness without claiming ceremony execution, review completion, publication, merge, or closeout?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The v0.91.8 tag, GitHub release, and umbrella closure are post-merge ceremony actions and were not claimed by this pre-publication review."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

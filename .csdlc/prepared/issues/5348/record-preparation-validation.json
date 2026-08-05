@@ -1,0 +1,25 @@
+{
+  "issue": 5348,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "eb8ef05fb445f3f66069715eaefd95cc9c054338a9f74373c0c53367e5ba0be6",
+  "claim_id": "claim-5348-v0918-preparation-recovered",
+  "actor": "codex:5348-preparation-owner",
+  "reason": "Record focused #5348 preparation validation evidence without advancing lifecycle phase.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+        "--root",
+        ".",
+        "--request",
+        ".csdlc/prepared/issues/5348/validate-preparation.json"
+      ],
+      "evidence_ref": ".csdlc/evidence/5348/preparation",
+      "outcome": "passed",
+      "purpose": "Request-driven preparation validation ran typed doctor and diff hygiene locally; no ceremony execution, publication, PR, merge, tag, closeout, #5357 remediation, /private/tmp artifact, main write, or version:v0.92 mutation occurred."
+    }
+  },
+  "fail_after_backup": false
+}

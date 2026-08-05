@@ -1,0 +1,153 @@
+{
+  "issue": 5348,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5348/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5348/diagram.mmd",
+  "design_reviewer": "operator-policy:release-tail-preparation",
+  "design_approved": true,
+  "claim": {
+    "id": "claim-5348-v0918-preparation",
+    "owner": "codex:5348-preparation-owner",
+    "generation": 0,
+    "acquired_unix_seconds": 1784754875,
+    "expires_unix_seconds": 1785359675,
+    "heartbeat_unix_seconds": 1784754875,
+    "branch": "codex/5348-v0918-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5348",
+      ".csdlc/locks/5348.lock",
+      ".csdlc/prepared/issues/5348",
+      ".csdlc/evidence/5348"
+    ],
+    "purpose": "Prepare #5348 WP-23 release ceremony and lifecycle closeout only; no execution until WP-22 #5359 is live-merged and ancestral"
+  },
+  "initial": {
+    "title": "[v0.91.8][WP-23] Release ceremony and lifecycle closeout",
+    "slug": "v0918-wp23-release-ceremony-closeout",
+    "version": "v0.91.8",
+    "goal": "Execute the canonical WP-23 release ceremony after WP-22 next-milestone review.",
+    "required_outcome": "Release evidence, tag and publication truth, and reconciled issue, PR, card, milestone, and v0.92 handoff state.",
+    "declared_scope": [
+      "release ceremony truth",
+      "tag and publication evidence",
+      "lifecycle closeout reconciliation"
+    ],
+    "authority_boundary": [
+      "typed C-SDLC v2 only",
+      "no execution before live predecessor merge plus ancestry",
+      "receipts audit-only",
+      "no raw gh, AWS, PR, merge, or closeout during preparation"
+    ],
+    "operator_constraints": [
+      "preparation only",
+      "no tracked root-main writes",
+      "one issue-bound FastWork branch",
+      "minimal packet: six cards, design, diagram, focused doctor validation"
+    ],
+    "task_boundary": "Prepare lifecycle packet only; release ceremony is future execution work.",
+    "deliverables": [
+      "generated six-card preparation packet",
+      "concise design and diagram",
+      "focused typed doctor validation"
+    ],
+    "acceptance_criteria": [
+      "AC-1: preparation packet is generated through typed C-SDLC v2",
+      "AC-2: future execution is blocked on #5359 live merge and ancestry",
+      "AC-3: receipts are recorded as audit evidence only",
+      "AC-4: no implementation, PR, AWS, raw gh, or root-main tracked write occurs"
+    ],
+    "dependencies": [
+      "WP-22 #5359 live merged into origin/main",
+      "#5359 observed merge SHA ancestral to exact #5348 execution base"
+    ],
+    "repo_inputs": [
+      "docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "issue #5348"
+    ],
+    "non_goals": [
+      "implementation or remediation during ceremony",
+      "release tagging during preparation",
+      "PR publication",
+      "receipt-gated execution"
+    ],
+    "plan_summary": "Prepare now; execute only after #5359 is live-merged and ancestral.",
+    "steps": [
+      {"id":"S1","action":"Verify typed preparation packet and #5359 live merge plus ancestry","status":"pending","acceptance_ids":["AC-1","AC-2"]},
+      {"id":"S2","action":"Verify accepted release evidence and blockers","status":"pending","acceptance_ids":["AC-3"]},
+      {"id":"S3","action":"Reconcile tag, notes, issue, PR, card, milestone, and handoff truth","status":"pending","acceptance_ids":["AC-3"]},
+      {"id":"S4","action":"Perform authorized release closeout or preserve blockers without preparation-scope mutations","status":"pending","acceptance_ids":["AC-1","AC-4"]}
+    ],
+    "risks": [
+      "ceremony could hide implementation work",
+      "release notes could overclaim",
+      "GitHub, card, milestone, and handoff state may disagree"
+    ],
+    "invariants": [
+      "live merge plus ancestry is the dependency gate",
+      "receipts audit-only",
+      "no preparation review churn",
+      "no implementation in preparation"
+    ],
+    "stop_conditions": [
+      "#5359 not live-merged",
+      "#5359 merge not ancestral",
+      "release evidence incomplete",
+      "ceremony would require repair work"
+    ],
+    "review_prompts": [
+      "Does the ceremony contain no hidden implementation?",
+      "Do tag, notes, issue, PR, card, milestone, and handoff state agree?"
+    ],
+    "review_scope": "Future review only; preparation performs no review churn.",
+    "planning_profile": "small",
+    "validation_lanes": [
+      {
+        "lane": "preparation-doctor",
+        "proof_role": "Validate the generated typed C-SDLC v2 preparation packet",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "release-tail-preparation",
+        "budget_seconds": 30,
+        "budget_tokens": 1000,
+        "argv": ["/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor", "--repo", ".", "--issue", "5348"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"]
+      }
+    ],
+    "failure_policy": "Fail closed on missing live predecessor merge, stale ancestry, incomplete release evidence, or hidden implementation need.",
+    "design_status": "approved",
+    "architecture_summary": "Issue-local preparation for the serial WP-23 release ceremony gate.",
+    "architecture_boundaries": [
+      "issue-local C-SDLC packet only",
+      "no release mutation in preparation",
+      "no GitHub lifecycle mutation"
+    ],
+    "selected_cots": [
+      "typed C-SDLC v2 binaries",
+      "Git ancestry checks"
+    ],
+    "rejected_alternatives": [
+      "receipt-gated dependency execution",
+      "preparation review churn",
+      "tagging during packet preparation"
+    ],
+    "budget_profile": "Preparation validation under 30 seconds; future execution budget deferred.",
+    "negative_proofs": [
+      "no release files claimed",
+      "no PR opened",
+      "no raw gh or AWS"
+    ],
+    "rollback": "Delete the issue-local preparation branch before publication; no release state is changed.",
+    "review_focus": [
+      "release evidence agreement",
+      "no hidden implementation",
+      "lifecycle closeout truth"
+    ],
+    "expected_evidence": [
+      "doctor-clean typed packet",
+      "live merge plus ancestry observation at execution time"
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "adl.wp21.dependency_verification_publication_base.v1",
+  "issue": 5362,
+  "repository": "danielbaustin/agent-design-language",
+  "observed_date": "2026-08-04",
+  "publication_base_sha": "e695e8b26ccdfbf62ffb68574662317dae99547e",
+  "reviewed_head_sha": "f1ddeacf5e91a1c8da690b2940e4125937aa57a3",
+  "merge_sha": "eaa62d3d2c0241bc07ce827fedef0e42389d0491",
+  "identity_checks": {
+    "publication_base_is_merge_parent": true,
+    "publication_base_is_ancestor_of_reviewed_head": true,
+    "reviewed_head_tree": "9a878936399d0c19c5a585224896a38d584fd652",
+    "merge_tree": "9a878936399d0c19c5a585224896a38d584fd652",
+    "reviewed_head_and_squash_merge_trees_match": true
+  },
+  "dependency_source": {
+    "path": ".csdlc/evidence/5362/dependency-verification.v1.json",
+    "disposition": "immutable_execution_time_observation"
+  },
+  "verified_dependencies": [5352, 4758, 4759, 4760, 4761, 4762, 4763, 5007, 5107],
+  "result": "pass",
+  "non_claims": [
+    "This supplemental artifact does not rewrite the original execution-time observation.",
+    "Squash-merge tree equivalence does not make the reviewed head an ancestor of the merge commit.",
+    "Dependency closure does not activate v0.92 work or widen retained feature claims."
+  ]
+}

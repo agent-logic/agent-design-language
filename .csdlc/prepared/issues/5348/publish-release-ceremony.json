@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 5348,
+  "expected_generation": 15,
+  "expected_digest": "c5e4869f7e00304ca9b450e6ce228f3c0559459ca0c9c1411c0f3c90c01a2194",
+  "claim_id": "claim-5348-v0918-preparation-recovered",
+  "actor": "codex:5348-release-ceremony",
+  "repository": "danielbaustin/agent-design-language",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/5348-v0918-preparation",
+  "title": "[v0.91.8][WP-23] Execute release ceremony",
+  "body": "Closes #5348\nCloses #5809\n\n## Summary\n- finalizes the v0.91.8 release plan, release notes, checklist, readiness, proof coverage, demo matrix, and canonical inventory\n- adds the publication-base dependency supplement required by #5809 while preserving the original execution-time evidence\n- records the canonical post-merge sequence for creating the v0.91.8 tag, publishing the GitHub release, and closing sprint umbrella #5595\n\n## Validation\n- exact-head GPT-5.5 review: PASS, 0 blockers\n- git diff --check: PASS\n- supplemental JSON and milestone YAML parsing: PASS\n- WP-22 merge ancestry: PASS\n- adl/tools/release_ceremony.sh check-only preflight: PASS\n\nDocs-only issue: no Rust tests, Clippy, coverage, or broad suites were run.",
+  "draft": false,
+  "token_file": null
+}
