@@ -81,11 +81,11 @@ Integrated the closed WP-22 merge, finalized v0.91.8 release notes and ceremony 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
