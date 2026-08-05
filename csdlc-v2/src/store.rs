@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 use std::fs::{self, File, OpenOptions};
-use std::io::Write;
+use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -114,6 +114,35 @@ impl Store {
             .open(dir.join("bindings.lock"))?;
         file.lock_exclusive()?;
         Ok(file)
+    }
+
+    pub(crate) fn remove_unstarted_binding_projection(
+        &self,
+        issue: u64,
+        claim_id: &str,
+        expected_digest: &str,
+    ) -> Result<()> {
+        let _lock = self.lock(issue)?;
+        self.recover_if_needed(issue)?;
+        let record = self.load_record(issue)?;
+        if record.digest != expected_digest
+            || record.claim.as_ref().map(|claim| claim.id.as_str()) != Some(claim_id)
+            || !matches!(
+                record.phase,
+                LifecyclePhase::Initialized | LifecyclePhase::Ready | LifecyclePhase::Bound
+            )
+            || record.publication.is_some()
+            || record.review.is_some()
+            || record.terminal.is_some()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "binding projection has execution or mismatched ownership and cannot be released",
+            ));
+        }
+        fs::remove_dir_all(self.issue_dir(issue))?;
+        sync_dir(&self.root.join(".csdlc/issues"))?;
+        Ok(())
     }
 
     pub fn load_record(&self, issue: u64) -> Result<IssueRecord> {
@@ -421,6 +450,7 @@ impl Store {
         self.commit(issue, record, &cards, false)
     }
 
+    #[cfg(debug_assertions)]
     pub(crate) fn replace_authority_record(
         &self,
         issue: u64,
@@ -1233,6 +1263,8 @@ pub struct BootstrapRequest {
     pub design_approved: bool,
     pub claim: Claim,
     pub initial: InitialCardInput,
+    #[serde(default)]
+    pub prepared_cards: Option<BTreeMap<CardKind, CardValues>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
@@ -1381,15 +1413,40 @@ pub(crate) fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Resul
     let bootstrap_actor = request.claim.owner.clone();
     let design_digest = digest(&fs::read(store.root.join(&request.design_path))?);
     let diagram_digest = digest(&fs::read(store.root.join(&request.diagram_path))?);
-    let cards = initial_cards(
-        request.issue,
-        &request.repository,
-        &request.design_path,
-        &design_digest,
-        &request.diagram_path,
-        &diagram_digest,
-        request.initial,
-    )?;
+    let cards = if let Some(mut cards) = request.prepared_cards {
+        for values in cards.values_mut() {
+            if values.identity.issue != request.issue
+                || values.identity.repository != request.repository
+                || values.identity.title != request.initial.title
+                || values.identity.slug != request.initial.slug
+                || values.identity.version != request.initial.version
+            {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "prepared card identity does not match bootstrap authority",
+                ));
+            }
+            values.identity.generation = 0;
+        }
+        validate_cross_card(
+            &cards,
+            &request.design_path,
+            &design_digest,
+            &request.diagram_path,
+            &diagram_digest,
+        )?;
+        cards
+    } else {
+        initial_cards(
+            request.issue,
+            &request.repository,
+            &request.design_path,
+            &design_digest,
+            &request.diagram_path,
+            &diagram_digest,
+            request.initial,
+        )?
+    };
     let mut record = IssueRecord {
         schema: "csdlc.issue.index.v1".into(),
         issue: request.issue,
@@ -2292,7 +2349,7 @@ fn verify_canonical_projection_bytes(
     Ok(())
 }
 
-fn read_regular_projection(root: &Path, relative: &Path) -> Result<Vec<u8>> {
+pub(crate) fn read_regular_projection(root: &Path, relative: &Path) -> Result<Vec<u8>> {
     let path = root.join(relative);
     let metadata = canonical_path_metadata_beneath(root, relative)?.ok_or_else(|| {
         V2Error::new(
@@ -2309,7 +2366,35 @@ fn read_regular_projection(root: &Path, relative: &Path) -> Result<Vec<u8>> {
             ),
         ));
     }
-    Ok(fs::read(path)?)
+    let mut options = OpenOptions::new();
+    options.read(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        options.custom_flags(libc::O_NOFOLLOW);
+    }
+    let mut file = options.open(&path).map_err(|error| {
+        #[cfg(unix)]
+        if error.raw_os_error() == Some(libc::ELOOP) {
+            return V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                format!("authority projection is a symlink: {}", path.display()),
+            );
+        }
+        V2Error::new(ErrorCode::Io, error.to_string())
+    })?;
+    if !file.metadata()?.is_file() {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!(
+                "authority projection handle is not a regular file: {}",
+                path.display()
+            ),
+        ));
+    }
+    let mut bytes = Vec::new();
+    file.read_to_end(&mut bytes)?;
+    Ok(bytes)
 }
 
 fn read_regular_authored_artifact(root: &Path, relative: &Path) -> Result<Option<Vec<u8>>> {
@@ -2389,7 +2474,7 @@ fn canonical_path_metadata_beneath(root: &Path, relative: &Path) -> Result<Optio
     Ok(None)
 }
 
-fn require_canonical_parent_beneath(root: &Path, relative: &Path) -> Result<()> {
+pub(crate) fn require_canonical_parent_beneath(root: &Path, relative: &Path) -> Result<()> {
     if !crate::pvf::clean_relative(relative) {
         return Err(V2Error::new(
             ErrorCode::UnsafeCheckout,
@@ -2429,7 +2514,7 @@ fn require_canonical_parent_beneath(root: &Path, relative: &Path) -> Result<()> 
     Ok(())
 }
 
-fn require_regular_or_absent_beneath(root: &Path, relative: &Path) -> Result<()> {
+pub(crate) fn require_regular_or_absent_beneath(root: &Path, relative: &Path) -> Result<()> {
     if let Some(metadata) = canonical_path_metadata_beneath(root, relative)? {
         if !metadata.is_file() {
             return Err(V2Error::new(
@@ -2519,7 +2604,14 @@ fn read_json<T: for<'de> Deserialize<'de>>(path: &Path) -> Result<T> {
     Ok(serde_json::from_slice(&fs::read(path)?)?)
 }
 
-fn sync_dir(path: &Path) -> Result<()> {
+#[cfg(windows)]
+pub(crate) fn sync_dir(_path: &Path) -> Result<()> {
+    // Windows does not support FlushFileBuffers on directory handles.
+    Ok(())
+}
+
+#[cfg(not(windows))]
+pub(crate) fn sync_dir(path: &Path) -> Result<()> {
     File::open(path)?.sync_all()?;
     Ok(())
 }
