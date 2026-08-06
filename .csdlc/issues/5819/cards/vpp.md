@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/5819/diagram.mmd
 
 [
   {
-    "lane": "migration-evidence-contract",
-    "proof_role": "Recompute five before/after manifest digests and compare all ten required surfaces, dispositions, controls, and website receipts. [preexec_rejection exit=1 diagnostic_sha256=42bce66c75566e9c22ccf2fe0b0dbd05d1114ada94a90a88d125a644d18305a1]",
+    "lane": "copy-evidence-contract",
+    "proof_role": "Validate exact repository order and visibility, source-before/destination-after/source-after manifests, Git and LFS parity receipts, the complete non-Git surface disposition denominator, names-only secret and variable evidence, authenticated-confirmation identifiers, #5888 handoff, controls, and zero unexplained drift.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -33,7 +33,9 @@ Diagram: .csdlc/prepared/issues/5819/diagram.mmd
       "AC-4",
       "AC-5",
       "AC-6",
-      "AC-7"
+      "AC-7",
+      "AC-8",
+      "AC-9"
     ],
     "deterministic": true,
     "resource_profile": "medium",
@@ -43,15 +45,18 @@ Diagram: .csdlc/prepared/issues/5819/diagram.mmd
       "ruby",
       ".csdlc/prepared/issues/5819/validate-migration-evidence.rb"
     ],
-    "parallel_group": "migration-contract",
+    "parallel_group": "copy-contract",
     "defer_reason": null
   },
   {
-    "lane": "github-five-destination-live-proof",
-    "proof_role": "Inspect all five live destinations across issues, PRs, assignees, rulesets, releases, Actions, Pages, packages, LFS receipts, and integrations. [preexec_rejection exit=1 diagnostic_sha256=42bce66c75566e9c22ccf2fe0b0dbd05d1114ada94a90a88d125a644d18305a1]",
+    "lane": "github-copy-live-proof",
+    "proof_role": "Recompute API-visible repository and configuration digests for all five sources, five destinations, and two controls; verify exact identities, visibility, branches, HEADs, refs, Actions state, and absent control destinations; and validate authenticated issue comments that bind organization readiness plus each repository's Actions-before-push, LFS, platform-disposition, and source-immutability receipts.",
     "acceptance_ids": [
       "AC-3",
-      "AC-4"
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-8"
     ],
     "deterministic": false,
     "resource_profile": "medium",
@@ -66,9 +71,9 @@ Diagram: .csdlc/prepared/issues/5819/diagram.mmd
   },
   {
     "lane": "diff-hygiene",
-    "proof_role": "Reject whitespace errors in tracked integration and evidence changes.",
+    "proof_role": "Reject whitespace errors in tracked copy evidence and contract changes.",
     "acceptance_ids": [
-      "AC-7"
+      "AC-9"
     ],
     "deterministic": true,
     "resource_profile": "small",

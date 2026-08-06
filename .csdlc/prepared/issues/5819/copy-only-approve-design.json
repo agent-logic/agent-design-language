@@ -1,0 +1,6 @@
+{
+  "issue": 5819,
+  "expected_generation": 24,
+  "expected_digest": "20ede619a8ade4bb30d5b47a2c1af8f0bb244a3d523b28fc65f04fd466977e00",
+  "reviewer": "codex:5819-copy-only-design-reconciliation"
+}

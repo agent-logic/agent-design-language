@@ -28,8 +28,8 @@ and each issue's own evidence.
 - Release readiness: not claimed
 
 The completed v0.91.8 release package, issue `#3377`, planning review `#5359`,
-the activation bridge ledger, AEE evidence, and the reviewed repository
-migration plan are prerequisite inputs. They do not substitute for v0.92
+the activation bridge ledger, AEE evidence, and the superseding repository
+copy plan are prerequisite inputs. They do not substitute for v0.92
 implementation proof.
 
 ## Purpose
@@ -262,7 +262,7 @@ WP execution should preserve the following milestone rhythm:
 - WP-01: reconcile milestone truth, open the reviewed issue wave, and initialize
   all six typed cards per child issue
 - WP-01B: activate v0.92 across canonical docs and version declarations
-- WP-02: execute the reviewed Agent Logic repository migration
+- WP-02: create five verified Agent Logic destination copies while preserving all personal-account sources
 - WP-02A: establish reliable CI and coverage before broad implementation proof
 - WP-02B: measure one restricted 16-core GitHub-hosted runner against the
   same-SHA standard-runner control and retain a reversible lane decision

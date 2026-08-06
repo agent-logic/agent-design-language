@@ -12,26 +12,28 @@ Status: ready
 
 ## Goal
 
-Complete WP-02: Agent Logic GitHub organization repository migration.
+Complete WP-02 by creating five verified Agent Logic repository copies while preserving all seven personal-account source repositories unchanged.
 
 ## Required Outcome
 
-five serially transferred company repositories with danielbaustin/asksifu retained as personal and Horust excluded
+five destination mirrors with four private and public ADL visibility, exact Git/LFS parity, destination-only configuration dispositions, source-immutability proof, and untouched asksifu/Horust controls
 
 ## Scope
 
-- Serial transfer of cognitive-sdlc-paper, godel-hadamard-bayes-paper, general-intelligence-paper-private, universal-tool-schema, and agent-design-language from danielbaustin to agent-logic
-- Per-repository redacted before and after manifests, assignee membership or reassignment plans, and transfer receipts
-- Current operational URL, package, OIDC, Pages, webhook, App, clone remote, and external integration updates
-- agent-logic.ai production and beta ADL link cutover after the ADL destination exists
-- .csdlc/issues/5819, .csdlc/prepared/issues/5819, and .csdlc/evidence/5819
+- Serial destination copies of cognitive-sdlc-paper, godel-hadamard-bayes-paper, general-intelligence-paper-private, universal-tool-schema, and agent-design-language from read-only danielbaustin sources into agent-logic
+- Four private destinations and one public agent-design-language destination
+- Per-repository source-before, destination-after, and source-after manifests with Git/ref/LFS parity and destination-only configuration dispositions
+- Destination Actions disabled before any mirrored ref arrives
+- asksifu and Horust as unchanged no-destination controls
+- Website reference handoff to sidecar issue #5888 after ADL verification
 
 ## Authority
 
-- Agent Logic organization owners authorize transfer windows, billing, policy, and recovery decisions
-- Issue 5819 owns exactly five approved transfers and their verification
-- danielbaustin/asksifu remains personal and Horust remains excluded
-- WP-02A owns CI redesign; downstream work packages retain implementation authority
+- The operator authorizes each named destination-creation window after preflight
+- Issue 5819 owns exactly five destination copies and verification but no source mutation
+- All seven danielbaustin repositories and settings remain read-only
+- asksifu and Horust receive no destination and no settings mutation
+- WP-02A owns CI redesign and #5888 owns website reference cutover
 
 ## Assumptions
 
@@ -39,7 +41,10 @@ five serially transferred company repositories with danielbaustin/asksifu retain
 
 ## Operator Constraints
 
-- Prepare before execution
+- Prepare and review before destination creation
 - Never edit tracked work on main
+- Never write to, transfer, rename, archive, delete, or change a danielbaustin repository
+- Disable destination Actions before mirror push and re-enable only after destination configuration is verified
+- Never use /private/tmp
+- Record secret names and scopes only, never secret values
 - Use one bounded pre-PR review
-- Do not substitute fixtures, receipts, or prose for required working behavior

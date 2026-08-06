@@ -151,7 +151,7 @@ scope change approved before review; silence or an open issue is not deferral.
 
 ## Supporting Work Tracks
 
-WP-01/WP-01B planning and docs, WP-02 repository migration, WP-02A CI,
+WP-01/WP-01B planning and docs, WP-02 repository copies, WP-02A CI,
 WP-05 through WP-07 workflow tooling, WP-20 proof coverage, WP-21/WP-21A code
 quality, WP-22/WP-23 quality and docs, WP-24/WP-24A publication, and WP-25
 through WP-30 review/release work support the feature package but are not

@@ -16,10 +16,13 @@ WP-02 issue 5819, its declared implementation paths, and retained proof
 
 ## Prompts
 
-- Did exactly the five approved repositories transfer in the declared order?
-- Does every before/after manifest prove assignee and GitHub-surface preservation or explicit repair?
-- Are asksifu, Horust, secret values, WP-02A, and downstream work excluded?
-- Are the ADL website, remote, package, OIDC, and integration cutovers canonical and reversible?
+- Did exactly five destinations get created in order with four private and ADL public?
+- Was destination Actions disablement proven before every mirror push?
+- Does every destination prove Git/ref/LFS parity without falsely claiming GitHub metadata parity?
+- Do source-before and source-after manifests prove all seven personal repositories remained unchanged?
+- Are package, App, OIDC, Pages, security, and workflow dispositions truthful and secret-safe?
+- Are asksifu, Horust, WP-02A, website edits, and downstream work excluded?
+- Is #5888 gated on verified public ADL destination readiness?
 
 ## Findings
 

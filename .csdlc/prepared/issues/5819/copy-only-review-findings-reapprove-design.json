@@ -1,0 +1,6 @@
+{
+  "issue": 5819,
+  "expected_generation": 50,
+  "expected_digest": "e4b28b55cda7bf7927f6a21c3c8f72560e922f74709bac5dcb2a08e994f616bf",
+  "reviewer": "codex:5819-copy-only-review-findings"
+}

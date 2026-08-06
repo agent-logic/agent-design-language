@@ -4,9 +4,10 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8f38743f59dd814a09097b78e17331ac66a04b30cc584dab53d682d1e1d4ea34",
   "phase": "bound",
-  "generation": 24,
-  "digest": "0f90643d655b265a8a018765e103433efc3182a7629474be1002c37400bfec92",
-  "claim": null,
+  "generation": 51,
+  "digest": "66b85a35263dd302b808da5145e4f098f2ab7fd0febb6df50335f6e1f10e9935",
+  "branch": "codex/5819-v092-repository-migration-preflight",
+  "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5819-preflight",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -17,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5819/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-foundation-rollback-followup-design-review",
-      "revision": "2d7445037b1d3a4909ae3015173a89c17842054186fde492cab4fbeb71d25290"
+      "reviewer": "codex:5819-copy-only-review-findings",
+      "revision": "173fc8d7eb6d645d019cfe70be8610b8baf93f0f305b6c1a0ea73ce0a0d54b87"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "e239179dcedd8fa417220a4e21c935929a34e7f0635c75f5688676deaeb3b297",
-      "rendered_digest": "44e6d8cf86fd0800f426b743c58bc2352661d9beeea3551cfdbb579e08a05dfc",
-      "ast_digest": "dadf91013f912bb3f6d459708baa2117f193b2c4eeb7b7ef1e1bbee61995e981"
+      "values_digest": "5f311837c13aa8414b0d9297ebee08cab400182ad0d4c10f849c41192dd7b79c",
+      "rendered_digest": "7539f62d2d912024743c2f68677d825eb6441c1056b8d01fc36a6effb8c64323",
+      "ast_digest": "00821c7db8716e696006773471e00cdae1291fd811d4e892069631fc210d16c8"
     },
     "stp": {
-      "values_digest": "c7a2699ebe8c7da0d1c947e53643bcf9b0a7374d044ab3b3125254f28d55cd50",
-      "rendered_digest": "618913b7938d42b6bdf89cb4a8b55548f34ca26c4d11a50c19d6f5c23fd35991",
-      "ast_digest": "ff3715976eb2a09e3043bbe14e4b690aa7d608e73bcfc3a9444c888274fe62a2"
+      "values_digest": "e5f8349cef4983d4b400e4deac25fc5cdc3e130fe28e7d58673899e2fcdc892f",
+      "rendered_digest": "cbc291fd6122cd5eefd8a0fb0c2aa8674991d2115a8d5098b8c6009aad08e936",
+      "ast_digest": "dc301a8398ff69078c0c1f9265b179ac22b7b4c28f2d206f5cf70652ac30a6d8"
     },
     "spp": {
-      "values_digest": "da4e39eeae61500d79c0560cb529c5d5ec44244c3a9f6a89a40229adfbf134ae",
-      "rendered_digest": "e3d954a041303c26c23b992920bc6810babd7de157d655cb34eef6d4110c63b3",
-      "ast_digest": "6efd1af96d9f423db0195c3a973e980b1b054ac85aff8683f93ffdf8a7ed0f77"
+      "values_digest": "4ed3251f0539f173baf05285795abf61d0fc84c962d81a35573a644858832354",
+      "rendered_digest": "2369b7473f715d06a48d9f5034be7f7f2940da170be3bc29b40038c70e524bc9",
+      "ast_digest": "1a61e71bcb58e1463e6dc37d7524c71d03aecab09290a417cc32c37475420b7e"
     },
     "vpp": {
-      "values_digest": "5723fe0de15c97a0d49e5ddef02eb3b3476606c4724bb5f24958746f740e712c",
-      "rendered_digest": "110543c57564922143ba87656d4025b3046e20807f13746fcb047fa19cd71aef",
-      "ast_digest": "2d514ce903462815f04d03fc7ffbda62b8a371a631f97c1454963034a964ab75"
+      "values_digest": "469ab6823e34ffdf3ab0464de8d17ae2ba4e04f8df5ed07e59c573917019cc9f",
+      "rendered_digest": "1f4515d003bf0d53349381c48a6b3a208cc15c59423ae595bdec0fc095feab5c",
+      "ast_digest": "212296befbf3a77bc6c2752f9e47d23a098d6102e7d0d37279285ddc0af4b384"
     },
     "srp": {
-      "values_digest": "cf85faee71ae2c96f2d4432af21ade6af1e136bb5e214db16acf4a8356b477c2",
-      "rendered_digest": "734056ebfca5125e98986cbbfd83620c219853a8db268ceba6b4d30dec8df33b",
-      "ast_digest": "3e8f2043f792c6d62e42f6a5ca496e340b8a9f6d1a040cf8c72371ec3148c862"
+      "values_digest": "e0c4da8e4b582bafa8d10ad3d6b7ba00d4962bedf0ebcdcf28ada1f0d2c22c74",
+      "rendered_digest": "7f164f7fa66e794a30a5ad309aa83c7ee0c64c0bb7f38f8f13c7cb7dcc9821e9",
+      "ast_digest": "d010bf662f11add3b8ddee31aa1ec08c37fb3e4945e1388c865b66ef22ac688d"
     },
     "sor": {
-      "values_digest": "ec06c074822e695458722d1b4852ce973329961dd55631262a3c394cafdc1641",
+      "values_digest": "a3ebc535a1fe3630f672d7ac6e10e84ea6f1261b166b082b2f6b9dddcaded1b1",
       "rendered_digest": "b9d02042c58382c56857864e90a725014418ad564516ddde5a0559f85a2a1e9b",
       "ast_digest": "2d4882273217ccc6b33a14cd0d057b992c48a401a63dfe2680b0ca6254180916"
     }
@@ -370,6 +371,195 @@
       "actor": "codex:5860-vpp-preexecution-contracts",
       "reason": "Release issue-local authority after typed VPP contract replacement.",
       "operation": "{\"claim_id\":\"claim-5819-v092-preexec-contract\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-vpp-preexecution-contracts\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 25,
+      "actor": "codex:5819-copy-only-design-reconciliation",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 45,
+      "generation": 26,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Replace transfer-era acceptance and proof lanes with destination-copy and source-immutability truth.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"Organization owners, recovery, billing, 2FA, policy, destination names, exact five-copy allowlist, two-control denylist, and four-private/one-public visibility matrix are verified\",\"Each approved source has a redacted exact-ref source-before manifest and every non-Git GitHub surface has a truthful recreate, retain-source, omit, or operator-action disposition\",\"Exactly five empty agent-logic destinations are created in order, destination Actions are disabled before any mirrored ref arrives, and every source repository remains unchanged\",\"Each destination has exact Git ref and object parity, complete Git LFS parity or a proven no-LFS disposition, the required visibility, and reconstructed or dispositioned destination configuration\",\"A source-after manifest proves owner, visibility, default branch, refs, HEAD, and settings inventory remain unchanged for every copied source\",\"ADL copies last and remains public; its destination Actions stay disabled until environments, rulesets, secrets/variables names, OIDC, packages, Apps, security, and workflow activation are verified\",\"Website reference cutover is delegated to #5888 and starts only after the public ADL destination passes verification\",\"danielbaustin/asksifu and danielbaustin/Horust remain unchanged and no corresponding agent-logic destination exists\",\"Final evidence contains no secret values, no unsupported metadata-copy claims, no unexplained drift, and one exact-revision bounded review\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Verify organization readiness and capture the exact seven-repository read-only preflight plus per-surface copy dispositions\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Create and verify each destination serially with Actions disabled before mirror push and source-after immutability proof before continuing\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Record #5888 handoff, negative controls, final copy report, focused validators, and exact-revision review\",\"acceptance_ids\":[\"AC-7\",\"AC-8\",\"AC-9\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"copy-evidence-contract\",\"proof_role\":\"Validate exact repository order and visibility, source-before/destination-after/source-after manifests, Actions-disabled-before-push receipts, Git/LFS parity, #5888 handoff, controls, and zero unexplained drift.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5819/validate-migration-evidence.rb\"],\"parallel_group\":\"copy-contract\",\"defer_reason\":null},{\"lane\":\"github-copy-live-proof\",\"proof_role\":\"Inspect the five live destinations and re-read all seven source controls, proving destination visibility/configuration and source immutability without claiming issues or settings were mirrored by Git.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5819/verify-live-repositories.rb\"],\"parallel_group\":\"github-live\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors in tracked copy evidence and contract changes.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 46,
+      "generation": 27,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Set copy-only issue goal.",
+      "operation": "{\"field\":\"goal\",\"new_value\":\"Complete WP-02 by creating five verified Agent Logic repository copies while preserving all seven personal-account source repositories unchanged.\",\"operation\":\"replan\",\"previous_value\":\"Complete WP-02: Agent Logic GitHub organization repository migration.\"}"
+    },
+    {
+      "sequence": 47,
+      "generation": 28,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Set exact copy-only outcome.",
+      "operation": "{\"field\":\"required_outcome\",\"new_value\":\"five destination mirrors with four private and public ADL visibility, exact Git/LFS parity, destination-only configuration dispositions, source-immutability proof, and untouched asksifu/Horust controls\",\"operation\":\"replan\",\"previous_value\":\"five serially transferred company repositories with danielbaustin/asksifu retained as personal and Horust excluded\"}"
+    },
+    {
+      "sequence": 48,
+      "generation": 29,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Declare the exact copy-only scope.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"Serial destination copies of cognitive-sdlc-paper, godel-hadamard-bayes-paper, general-intelligence-paper-private, universal-tool-schema, and agent-design-language from read-only danielbaustin sources into agent-logic\",\"Four private destinations and one public agent-design-language destination\",\"Per-repository source-before, destination-after, and source-after manifests with Git/ref/LFS parity and destination-only configuration dispositions\",\"Destination Actions disabled before any mirrored ref arrives\",\"asksifu and Horust as unchanged no-destination controls\",\"Website reference handoff to sidecar issue #5888 after ADL verification\"]}"
+    },
+    {
+      "sequence": 49,
+      "generation": 30,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Replace transfer authority with destination-only authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"The operator authorizes each named destination-creation window after preflight\",\"Issue 5819 owns exactly five destination copies and verification but no source mutation\",\"All seven danielbaustin repositories and settings remain read-only\",\"asksifu and Horust receive no destination and no settings mutation\",\"WP-02A owns CI redesign and #5888 owns website reference cutover\"]}"
+    },
+    {
+      "sequence": 50,
+      "generation": 31,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Make source safety and destination workflow activation explicit.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Prepare and review before destination creation\",\"Never edit tracked work on main\",\"Never write to, transfer, rename, archive, delete, or change a danielbaustin repository\",\"Disable destination Actions before mirror push and re-enable only after destination configuration is verified\",\"Never use /private/tmp\",\"Record secret names and scopes only, never secret values\",\"Use one bounded pre-PR review\"]}"
+    },
+    {
+      "sequence": 51,
+      "generation": 32,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Replace transfer task boundary.",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Create and verify exactly five Agent Logic destination copies without changing any of the seven source repositories; retain asksifu and Horust as untouched controls.\",\"operation\":\"replan\",\"previous_value\":\"Deliver five serially transferred company repositories with danielbaustin/asksifu retained as personal and Horust excluded.\"}"
+    },
+    {
+      "sequence": 52,
+      "generation": 33,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Replace transfer deliverables.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Organization readiness and exact five-copy/two-control inventory\",\"Fixed four-private/one-public destination visibility matrix\",\"Five source-before, destination-after, and source-after manifest sets\",\"Exact Git/ref/object and Git LFS parity proof\",\"Actions-disabled-before-push receipts and destination configuration dispositions\",\"asksifu and Horust negative-control evidence\",\"#5888 website handoff receipt\",\"Final copy report with zero unexplained drift\"]}"
+    },
+    {
+      "sequence": 53,
+      "generation": 34,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Replace transfer dependencies.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"WP-01 issue #5817 and corrective WP-01B PR #5887 terminal before the ADL source snapshot\",\"Copy-only plan and issue design reviewed and current\",\"Destination organization owner, billing, recovery, 2FA, private-repository, Actions, Pages, package, LFS, and security readiness\",\"Five free destination names\",\"Package, GitHub App, and organization Actions-policy unknowns dispositioned before affected destination activation\"]}"
+    },
+    {
+      "sequence": 54,
+      "generation": 35,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Use copy-only authoritative inputs.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\".adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md\",\".csdlc/prepared/issues/5819/design.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"docs/milestones/v0.92/WBS_v0.92.md\",\"GitHub repository duplication and LFS documentation\",\"Live seven-source and destination-name inventory\",\"agent-logic.ai personal-account reference inventory tracked by #5888\"]}"
+    },
+    {
+      "sequence": 55,
+      "generation": 36,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Make copy-only non-goals exact.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"Transfer, deletion, rename, archival, visibility change, settings mutation, issue movement, or push to any danielbaustin repository\",\"Copy or mutation of asksifu or Horust\",\"Claiming Git mirroring copies issues, pull requests, settings, secrets, packages, or integrations\",\"Website edits owned by #5888\",\"WP-02A CI redesign\",\"Export of secret values or credential material\",\"Downstream milestone implementation\"]}"
+    },
+    {
+      "sequence": 56,
+      "generation": 37,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Replace transfer plan summary.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Verify copy-only organization gates, create exactly five destinations serially with Actions disabled before mirror push, prove Git/LFS parity and destination configuration, re-read every source for immutability, retain two negative controls, and hand website reference cleanup to #5888.\",\"operation\":\"replan\",\"previous_value\":\"Verify organization gates, transfer exactly five repositories serially with assignee-aware manifests and zero unexplained drift, execute the ADL website/integration cutover last, prove exclusions, and retain a reviewed final report.\"}"
+    },
+    {
+      "sequence": 57,
+      "generation": 38,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Declare copy-only affected areas.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"Five new agent-logic destination repositories\",\"Destination-only rulesets, Actions, environments, OIDC, packages, LFS, Pages, webhooks, Apps, deploy keys, and security configuration\",\"Issue-local source/destination evidence\",\"WP-02 milestone and copy-plan contracts\",\"Website reference handoff to #5888\"]}"
+    },
+    {
+      "sequence": 58,
+      "generation": 39,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Record copy-only invariants.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"All seven danielbaustin repositories remain present and unchanged\",\"Only five named agent-logic destinations may be created\",\"Four destinations are private and agent-design-language is public\",\"Destination Actions are disabled before mirror push\",\"One destination passes verification before the next starts\",\"Git and LFS parity are distinct from GitHub metadata reconstruction\",\"Secret values never enter retained evidence\",\"asksifu and Horust remain untouched\"]}"
+    },
+    {
+      "sequence": 59,
+      "generation": 40,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Record copy-specific risks.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"risks\",\"values\":[\"Mirror push triggers copied workflows before destination configuration is ready\",\"Git mirroring is falsely treated as issue, PR, release, settings, package, or integration parity\",\"Destination becomes an unintended divergent active repository\",\"Package, GitHub App, or organization Actions policy remains unaudited\",\"LFS objects are omitted despite ref parity\",\"A command targets the source push URL\",\"Concurrent source change invalidates the approved snapshot\"]}"
+    },
+    {
+      "sequence": 60,
+      "generation": 41,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Record copy-only stop conditions.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"WP-01B is not terminal before the ADL source snapshot\",\"Destination owner, billing, recovery, 2FA, security, or required capability gate is incomplete\",\"A destination name or required visibility conflicts\",\"Source-before drift is unexplained\",\"Destination Actions cannot be proven disabled before mirror push\",\"Push URL owner is not exactly agent-logic\",\"Git/LFS parity or destination configuration proof fails\",\"Source-after differs from source-before\",\"A secret value appears in retained evidence\"]}"
+    },
+    {
+      "sequence": 61,
+      "generation": 42,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Record copy-only replanning triggers.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"GitHub changes repository duplication, LFS, package, Pages, or Actions behavior\",\"A destination name or fork-network conflict appears\",\"Package, GitHub App, or organization policy cannot be inspected or safely dispositioned\",\"A destination must become active instead of remaining a cold mirror\",\"Website cutover requirements expand beyond #5888\"]}"
+    },
+    {
+      "sequence": 62,
+      "generation": 43,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Replace transfer review prompts.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Did exactly five destinations get created in order with four private and ADL public?\",\"Was destination Actions disablement proven before every mirror push?\",\"Does every destination prove Git/ref/LFS parity without falsely claiming GitHub metadata parity?\",\"Do source-before and source-after manifests prove all seven personal repositories remained unchanged?\",\"Are package, App, OIDC, Pages, security, and workflow dispositions truthful and secret-safe?\",\"Are asksifu, Horust, WP-02A, website edits, and downstream work excluded?\",\"Is #5888 gated on verified public ADL destination readiness?\"]}"
+    },
+    {
+      "sequence": 63,
+      "generation": 44,
+      "actor": "codex:5819-copy-only-card-reconciliation",
+      "reason": "Declare exact issue-owned repository paths for readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md\",\".csdlc/evidence/5819\",\".csdlc/issues/5819\",\".csdlc/prepared/issues/5819\",\"docs/milestones/v0.92/SPRINT_v0.92.md\",\"docs/milestones/v0.92/WBS_v0.92.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\"]}"
+    },
+    {
+      "sequence": 64,
+      "generation": 45,
+      "actor": "codex:5819-copy-only-readiness",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 65,
+      "generation": 46,
+      "actor": "codex:5819-copy-only-readiness",
+      "reason": "Declare every path intentionally changed by the WP-02 readiness correction.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md\",\".adl/docs/TBD/V092_SPRINT_5858_FOUNDATION_SESSION_PROMPT.md\",\".csdlc/evidence/5819\",\".csdlc/issues/5819\",\".csdlc/prepared/issues/5819\",\"docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/README.md\",\"docs/milestones/v0.92/SPRINT_v0.92.md\",\"docs/milestones/v0.92/WBS_v0.92.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"docs/milestones/v0.92/features/README.md\"]}"
+    },
+    {
+      "sequence": 66,
+      "generation": 47,
+      "actor": "codex:5819-copy-only-review-repair",
+      "reason": "Match each validation lane to the proof it actually establishes and bind configuration proof to the complete disposition packet.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"copy-evidence-contract\",\"proof_role\":\"Validate exact repository order and visibility, source-before/destination-after/source-after manifests, actual first-push ordering after Actions disablement, Git and LFS parity receipts, the complete non-Git surface disposition denominator, names-only secret and variable evidence, #5888 handoff, controls, and zero unexplained drift.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5819/validate-migration-evidence.rb\"],\"parallel_group\":\"copy-contract\",\"defer_reason\":null},{\"lane\":\"github-copy-live-proof\",\"proof_role\":\"Inspect the five live destinations and all seven live source controls for repository identity, visibility, default branch, exact HEAD, exact refs, destination Actions state, and absence of both prohibited control destinations; combine this with the digest-bound disposition packet rather than claiming this lane alone proves every GitHub setting.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5819/verify-live-repositories.rb\"],\"parallel_group\":\"github-live\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors in tracked copy evidence and contract changes.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 67,
+      "generation": 48,
+      "actor": "codex:5819-copy-only-review-repair",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 68,
+      "generation": 49,
+      "actor": "codex:5819-copy-only-proof-repair",
+      "reason": "Bind local receipts to live API surface digests and authenticated operator confirmations for manual organization and repository gates.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"copy-evidence-contract\",\"proof_role\":\"Validate exact repository order and visibility, source-before/destination-after/source-after manifests, Git and LFS parity receipts, the complete non-Git surface disposition denominator, names-only secret and variable evidence, authenticated-confirmation identifiers, #5888 handoff, controls, and zero unexplained drift.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5819/validate-migration-evidence.rb\"],\"parallel_group\":\"copy-contract\",\"defer_reason\":null},{\"lane\":\"github-copy-live-proof\",\"proof_role\":\"Recompute API-visible repository and configuration digests for all five sources, five destinations, and two controls; verify exact identities, visibility, branches, HEADs, refs, Actions state, and absent control destinations; and validate authenticated issue comments that bind organization readiness plus each repository's Actions-before-push, LFS, platform-disposition, and source-immutability receipts.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5819/verify-live-repositories.rb\"],\"parallel_group\":\"github-live\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors in tracked copy evidence and contract changes.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 69,
+      "generation": 50,
+      "actor": "codex:5819-copy-only-proof-contract",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 70,
+      "generation": 51,
+      "actor": "codex:5819-copy-only-review-findings",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

@@ -26,7 +26,7 @@ envelope. Individual issues and typed records remain execution authority.
 ## Sprint Overview
 
 The milestone should first complete the Agent Logic GitHub organization and
-repository migration, then establish reliable CI, Runtime launch/resilience,
+repository copy, then establish reliable CI, Runtime launch/resilience,
 distributed Guardian/polis execution, and efficient workflow tooling. It then
 moves through birthday definition, identity evidence, transport/readability,
 consumer and provider-neutral proofs, cleanup, review, remediation, and
@@ -37,9 +37,9 @@ the execution sequence.
 
 - Preserve first-birthday scope without absorbing v0.93 governance.
 - Activate v0.92 documentation and version surfaces through WP-01B, then
-  complete the reviewed five-repository Agent Logic GitHub organization
-  migration before substantive milestone execution, while retaining
-  `danielbaustin/asksifu` as personal and excluding Horust.
+  complete five verified Agent Logic destination copies before substantive
+  milestone execution, while preserving all seven `danielbaustin` sources
+  unchanged and creating no destination for `asksifu` or Horust.
 - Write all ten Medium launch articles in parallel as early living drafts,
   bring all ten to editorial-review-ready state, and finalize their claims only
   after the release-truth pass.
@@ -78,7 +78,7 @@ program.
 ## Work Plan
 
 1. Update canonical docs and seed the final issue wave and six-card bundles.
-2. Execute and verify the Agent Logic GitHub organization repository migration.
+2. Create and verify the five Agent Logic repository copies without mutating any source.
 3. Start all ten Medium articles and all ten Podcast Studio episodes as two
    parallel publication-production tranches.
 4. Repair CI/coverage.
@@ -127,7 +127,7 @@ lifecycle authority, and states the declared serial and parallel boundaries.
 
 | Phase | Focus | Expected outcome |
 | --- | --- | --- |
-| 1 | Planning, migration, and publication setup | Canonical docs, reviewed issue wave, six-card bundles, completed Agent Logic repository migration, ten article drafts, and ten podcast production packets underway in parallel. |
+| 1 | Planning, repository-copy, and publication setup | Canonical docs, reviewed issue wave, six-card bundles, five verified Agent Logic destination copies, ten article drafts, and ten podcast production packets underway in parallel. |
 | 2 | CI and build foundation | Reliable CI/coverage plus a completed same-SHA standard-versus-16-core experiment with a reversible lane decision. |
 | 3 | Runtime and workflow foundations | Consolidated Runtime launch/resilience, architecture-gated distributed Guardian/polis program, C-SDLC efficiency, remote validation, and prompt typing. |
 | 4 | Birthday contract | Definition of birth and negative cases. |
