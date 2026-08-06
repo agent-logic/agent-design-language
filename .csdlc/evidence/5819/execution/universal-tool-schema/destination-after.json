@@ -1,0 +1,12 @@
+{
+  "repository": "agent-logic/universal-tool-schema",
+  "repository_id": 1324823518,
+  "visibility": "private",
+  "default_branch": "main",
+  "exact_head": "7997dd41863b0ba6560c2cab322e21be1a975613",
+  "refs_sha256": "e6fa2cc08a63a96dacde16aef59f26f865e8b0fe35c0bc3828e2d642f111af13",
+  "api_surface_sha256": "8d8719e84db8a58833771002b985ac8a336d5cdb426e0eae9bb7da63dee2757c",
+  "actions_enabled": false,
+  "observed_at": "2026-08-06T06:22:39.116842Z",
+  "label": "universal-tool-schema/destination-after-support"
+}

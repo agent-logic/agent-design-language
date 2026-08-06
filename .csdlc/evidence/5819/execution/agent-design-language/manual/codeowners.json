@@ -1,0 +1,9 @@
+{
+  "source": "danielbaustin/agent-design-language",
+  "destination": "agent-logic/agent-design-language",
+  "surface": "codeowners",
+  "result": "pass",
+  "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative.",
+  "secret_values_retained": false,
+  "observed_at": "2026-08-06T06:37:47.184241Z"
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "adl.wp02.evidence-supersession.v1",
+  "repository": "cognitive-sdlc-paper",
+  "reason": "The GitHub Team upgrade made repository policy surfaces newly queryable. The explicit policy refresh replaced the original local platform and source-after files before publication.",
+  "historical_gate_boundary": "The retained, unedited GitHub comment is a contemporaneous operator attestation of the serial gate decision. It does not make the superseded local bytes reviewable.",
+  "old_artifact_bytes_available": false,
+  "old_artifact_bytes_revalidated": false,
+  "refresh_comment_id": 5201116603,
+  "refresh_comment_created_at": "2026-08-06T06:21:28Z",
+  "mappings": [
+    {
+      "surface": "platform_dispositions",
+      "old_sha256": "1cb85d9f21455b1575cd74e8d8dac3180c881b75d0dbcc44ec199c6b5b64d2c8",
+      "replacement_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/platform-dispositions.json",
+      "current_sha256": "7f27953f4dcef576ff411046ef567d0e35e00494ac0a4f9ba8bfe51d00486520",
+      "byte_equivalence_claimed": false
+    },
+    {
+      "surface": "source_immutability",
+      "old_sha256": "8efa1eb4178891fcbb753d9cb64b47823501f7d8f257b70591f87197bb74b403",
+      "replacement_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/source-after.json",
+      "current_sha256": "e7acd69ad089a26d9e1fe5406fb6dfb54491560f88264a494fb6433d372702fb",
+      "byte_equivalence_claimed": false
+    }
+  ]
+}

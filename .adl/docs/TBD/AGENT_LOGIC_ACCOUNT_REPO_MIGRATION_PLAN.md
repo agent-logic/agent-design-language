@@ -1,334 +1,312 @@
-# Agent Logic GitHub Repository Migration Plan
+# Agent Logic GitHub Repository Copy Plan
 
 ## Status
 
-Final execution plan for v0.92 WP-01A. This document defines the migration
-sequence and proof required to move five company repositories from Daniel's
-personal GitHub account to the existing `agent-logic` organization.
+Final execution plan for v0.92 WP-02. This document defines the non-destructive
+copy sequence and proof required to create company-owned mirrors under the
+existing `agent-logic` organization while preserving every source repository
+under `danielbaustin` unchanged.
 
-This plan does not authorize a transfer by itself. Each transfer requires the
-operator to start its named window after the preflight gate passes. Secret
-values must never be copied into plans, logs, issues, chat, or evidence.
+This plan does not authorize a copy window by itself. The operator must start
+each named window after its preflight passes. Source deletion, transfer,
+rename, archival, visibility change, settings mutation, issue movement, and
+history rewrite are forbidden throughout WP-02.
 
 ## Decision
 
-Move these five repositories from `danielbaustin` to `agent-logic` without
-renaming them or changing visibility:
+Create these five destination repositories as independent copies:
 
-| Order | Source repository | Destination repository | Reason for order |
+| Order | Read-only source | Destination | Required visibility |
 | --- | --- | --- | --- |
-| 1 | `danielbaustin/cognitive-sdlc-paper` | `agent-logic/cognitive-sdlc-paper` | Private paper with limited operational coupling |
-| 2 | `danielbaustin/godel-hadamard-bayes-paper` | `agent-logic/godel-hadamard-bayes-paper` | Private paper with limited operational coupling |
-| 3 | `danielbaustin/general-intelligence-paper-private` | `agent-logic/general-intelligence-paper-private` | Private paper; verify publication collaborators before transfer |
-| 4 | `danielbaustin/universal-tool-schema` | `agent-logic/universal-tool-schema` | Shared schema dependency; transfer only after consumers are inventoried |
-| 5 | `danielbaustin/agent-design-language` | `agent-logic/agent-design-language` | Central repository with the widest CI, package, website, and integration surface |
+| 1 | `danielbaustin/cognitive-sdlc-paper` | `agent-logic/cognitive-sdlc-paper` | Private |
+| 2 | `danielbaustin/godel-hadamard-bayes-paper` | `agent-logic/godel-hadamard-bayes-paper` | Private |
+| 3 | `danielbaustin/general-intelligence-paper-private` | `agent-logic/general-intelligence-paper-private` | Private |
+| 4 | `danielbaustin/universal-tool-schema` | `agent-logic/universal-tool-schema` | Private |
+| 5 | `danielbaustin/agent-design-language` | `agent-logic/agent-design-language` | Public |
 
-Explicit exclusions:
+The full denominator is seven source repositories. These two are immutable
+negative controls and receive no destination copy:
 
-- `danielbaustin/asksifu` remains personal and must never appear in a transfer
-  request.
-- `danielbaustin/Horust` remains an inactive upstream-contribution fork. ADL
-  forked it to propose a bounded restart fix in upstream PR `#319`; Runtime v3
-  no longer uses Horust. It is not an Agent Logic product repository and is not
-  migrated.
+- `danielbaustin/asksifu`
+- `danielbaustin/Horust`
 
-Repositories already owned by `agent-logic` are inventory and verification
-surfaces only:
+Repositories already owned by `agent-logic` are read-only integration inputs:
 
 - `agent-logic/agent-logic.ai`
 - `agent-logic/codefriend.ai`
 - `agent-logic/strategic-cognitive-reserve`
 
+## Copy Semantics
+
+GitHub repository duplication copies Git objects and copyable refs. For WP-02,
+the exact ref denominator is branches (`refs/heads/*`), tags (`refs/tags/*`),
+and supported Git notes (`refs/notes/*`). GitHub-owned pull-request refs under
+`refs/pull/*` are source-authoritative collaboration metadata and are excluded
+from destination ref parity. Git LFS objects need
+their own fetch and push. GitHub's ordinary duplication and import paths do not
+copy collaboration history or repository settings such as issues, pull
+requests, discussions, collaborators, rulesets, environments, secrets,
+webhooks, Apps, Pages, packages, or security configuration.
+
+Therefore WP-02 has two distinct outputs:
+
+1. an exact Git and Git LFS copy at the destination; and
+2. an explicitly reconstructed destination configuration, with every
+   non-copyable source surface either recreated, linked back to the retained
+   source, or dispositioned as intentionally source-authoritative.
+
+No evidence may describe an issue, pull request, setting, package, or
+integration as copied unless live destination inspection proves it.
+
 ## Success Criteria
 
-The migration is complete only when:
+WP-02 is complete only when:
 
-1. all five destination repositories exist with the expected visibility,
-   default branch, exact source HEAD, tags, releases, issues, pull requests,
-   wiki, LFS objects, and settings;
-2. required checks, Actions, environments, variables, secret names, OIDC trust,
-   packages, Pages, webhooks, deploy keys, and external integrations have been
-   verified or repaired;
-3. durable operational references use `agent-logic/<repository>` rather than
-   relying on GitHub redirects;
-4. the production and beta `agent-logic.ai` pages link directly to
-   `agent-logic/agent-design-language`;
-5. `asksifu` remains personal and Horust remains outside the migration;
-6. no unexplained inventory drift remains.
+1. all five destinations exist in order with the visibility matrix above;
+2. every destination has the exact approved source refs, object graph, default
+   branch, tags, and Git LFS objects;
+3. destination settings and integrations are reconstructed or have an explicit
+   reviewed disposition;
+4. the five source repositories still exist under `danielbaustin` with their
+   pre-copy visibility, default branch, refs, HEAD, settings inventory, and
+   collaboration inventory unchanged;
+5. `asksifu` and `Horust` remain unchanged and have no destination copy;
+6. issue #5888 is open and bound to the verified public ADL destination for
+   the later website-reference cutover; and
+7. no secret values or unexplained drift appear in retained evidence.
 
-## Operating Rules
+## Safety Invariants
 
-- Transfer one repository at a time. Finish its verification before beginning
-  the next transfer.
-- Use GitHub's repository-transfer operation. Do not recreate repositories or
-  rewrite history.
-- Keep repository names and visibility unchanged.
-- Freeze only operations that can race the active transfer, such as release
-  publication or destructive settings changes.
-- Record secret and variable names and scopes only. Never export their values.
-- Treat redirects as temporary compatibility, not a durable configuration.
-- Treat packages, GHCR coordinates, OIDC subjects, Pages URLs, and external
-  callbacks as possible hard breaks.
-- Stop the migration wave on any unexplained difference. Repair or make an
-  explicit operator decision before continuing.
+- Source remotes are read-only inputs. No command may push to, edit, transfer,
+  rename, archive, delete, or change settings on a `danielbaustin` repository.
+- Destination creation is the first mutation in each copy window.
+- Every write command must name `agent-logic/<repository>` explicitly.
+- Before a mirror push, verify the push URL owner is exactly `agent-logic` and
+  the repository name is the expected current item.
+- Never use `git push --mirror`; push only the approved destination refspecs.
+- Work one repository at a time and stop on any failed gate.
+- Preserve names and the required visibility matrix.
+- Record secret and variable names and scopes only, never values.
+- Do not rely on source deletion, ownership transfer, or redirect behavior.
+- Do not use `/private/tmp`; use the issue worktree or another approved durable
+  workspace for temporary mirror data.
 
 ## Gate 0: Organization Readiness
 
-Before the first repository window:
+Before the first copy window:
 
-1. Confirm `agent-logic` is the legal company destination.
-2. Confirm at least two organization owners, a billing owner, and a recovery
-   contact have working access and required 2FA.
-3. Confirm the organization plan preserves required private-repository,
-   protected-branch, Actions, Pages, package, and security features.
-4. Configure repository creation, deletion, transfer, visibility, outside-
-   collaborator, Actions, and private-fork policies.
-5. Confirm Actions, Packages, and Git LFS storage/bandwidth budgets, payment
-   methods, quotas, and alert owners.
-6. Confirm the operator can create repositories in the organization and
-   administer all five source repositories.
-7. Confirm no destination repository or fork conflicts with any of the five
-   names.
-8. Confirm the five-item migrate list and the two exclusions above.
+1. Confirm `agent-logic` is the intended company destination.
+2. Confirm organization owners, billing owner, recovery contact, and required
+   2FA.
+3. Confirm private-repository, Actions, Pages, package, LFS, and security
+   capabilities and budgets.
+4. Confirm the operator can create repositories and administer destination
+   settings without mutating source settings.
+5. Confirm all five destination names are free.
+6. Confirm the exact seven-repository denominator, five-copy allowlist, two
+   untouched controls, and visibility matrix.
 
-Exit condition: organization ownership, recovery, billing, policy, transfer
-permissions, destination names, and exact scope are verified.
+Exit condition: organization readiness and the exact copy-only scope are
+recorded. Transfer authority is neither required nor exercised.
 
-## Gate 1: Repository Manifest
+## Gate 1: Read-Only Source Manifest
 
-Create a redacted before-manifest for the active repository window containing:
+Capture a redacted source manifest without changing the repository:
 
-- source owner/name, visibility, default branch, exact HEAD, tags, and releases;
-- open issues and pull requests, milestones, projects, discussions, wiki,
+- owner/name, visibility, default branch, exact HEAD, all refs, tags, releases,
+  object counts, and Git LFS inventory;
+- issues, pull requests, milestones, projects, discussions, wiki, assignees,
   collaborators, and outside collaborators;
-- branch protections, rulesets, required checks, CODEOWNERS, environments, and
-  approvals;
-- workflows, schedules, runner labels, cache/artifact expectations, variables,
-  secret names, and OIDC subjects;
-- packages and GHCR coordinates, their permission model and repository links,
-  LFS usage, Pages/custom domains, DNS ownership, webhooks, deploy keys,
-  GitHub Apps, OAuth integrations, and release callbacks;
-- forks, upstream network, private-fork owners, submodules, badges, import paths,
-  clone URLs, and downstream consumers;
-- code scanning, secret scanning, Dependabot, and other security feature state.
+- rulesets, protections, required checks, CODEOWNERS, environments, approvals,
+  workflows, schedules, runner labels, variables, and secret names;
+- packages, Pages, custom domains, OIDC subjects, webhooks, deploy keys, Apps,
+  OAuth integrations, callbacks, forks, submodules, and downstream consumers;
+- security-feature state and current operational URLs.
 
-The manifest must identify an owner and same-window update procedure for every
-critical old-owner dependency. Historical evidence may retain historical URLs;
-operational configuration may not.
+Record both machine-readable data and unsupported/manual dispositions. Secret
+values are never read or retained. Compute `refs_sha256` from the canonical
+sorted array of `[fully-qualified-ref, object-sha]` pairs for the approved
+branches, tags, and notes; the live verifier recomputes this exact form.
 
-Exit condition: the manifest is timestamped, redacted, reviewed, and unchanged
-at transfer time.
+Exit condition: the source manifest is timestamped, redacted, reviewed, and
+bound to the exact source HEAD and refs immediately before the copy.
 
-## Gate 2: Pre-Staged Consumer Changes
-
-Before transferring the active repository:
-
-1. Search the five migration repositories and the three existing company
-   repositories for current `danielbaustin/<repository>` references.
-2. Classify each reference as operational, documentation, badge, historical
-   evidence, package, workflow, deployment, webhook, Pages, or clone-only.
-3. Prepare reviewed changes for operational references, but do not merge a
-   destination URL before that destination exists.
-4. Prepare local remote updates for maintained clones and active worktrees.
-5. Map source individual collaborators to destination organization members and
-   teams; personal repositories have no source teams to preserve.
-6. Classify each GitHub package before transfer. Repository-scoped package
-   registries may transfer with the repository. Granular user/organization-
-   scoped packages, including GHCR, retain their original account scope and
-   lose their repository link and inherited Actions access when the repository
-   transfers. For those packages, pre-stage destination publication or rebuild,
-   consumer coordinate changes, repository linkage, and permissions.
-7. Where the external provider permits it, pre-authorize both old and new OIDC
-   subjects for the transfer window, verify the new subject after transfer, and
-   remove the old subject only after consumers pass.
-8. Have an organization administrator provision required organization-level
-   secrets and variables through an approved secret-handling path. Record names
-   and scopes only; do not export source values into migration evidence.
-9. Prepare GitHub App organization approval, webhook, deploy-key, OAuth, and
-   deployment callback updates for the same transfer window.
-10. For any Pages site, pre-stage destination organization domain verification,
-    DNS changes, expected default-URL changes, and a bounded maintenance notice.
-    Custom-domain routing and TLS reprovisioning may introduce downtime.
-
-Exit condition: every critical consumer has a prepared update, owner, test, and
-rollback instruction.
-
-## Gate 3: Transfer Window
+## Gate 2: Destination Plan
 
 For the active repository:
 
-1. Recheck that source HEAD and the before-manifest have not drifted.
-2. Recheck destination name and fork-network compatibility.
-3. Pause only release, destructive-settings, and other transfer-racing work.
-4. Transfer the repository through GitHub's owner-authorized transfer flow.
-5. Verify ownership at `agent-logic/<repository>` and record the transfer time.
-6. Do not create a replacement repository at the old location; doing so can
-   destroy GitHub's redirect.
-7. Apply the prepared critical consumer updates.
-8. Update maintained local clones with the new canonical remote URL.
-9. Reauthorize GitHub Apps and organization access where destination policy
-   requires explicit owner approval.
+1. Confirm the destination name is still free.
+2. Decide the exact destination visibility from the fixed matrix.
+3. Classify each non-Git source surface as:
+   - recreate at destination;
+   - retain at source and link explicitly;
+   - intentionally omit with rationale; or
+   - operator action required because GitHub does not expose the value.
+4. Prepare destination teams, rulesets, Actions policy, environments, secret
+   names/scopes, OIDC trust, packages, Pages, webhooks, Apps, and consumers.
+5. For open issues and pull requests, retain the source as historical authority
+   unless a separately reviewed copy mechanism can preserve attribution and
+   links without modifying the source.
+6. Prepare a rollback that deletes or quarantines only the new destination;
+   source recovery must never be necessary because the source is immutable.
+
+Exit condition: every non-Git surface has an owner, disposition, validation,
+and destination-only recovery action.
+
+## Gate 3: Copy Window
+
+For the active repository:
+
+1. Re-read source HEAD, refs, visibility, and default branch; stop on drift.
+2. Create the empty destination with the exact required visibility and without
+   an initialized README, license, or `.gitignore`.
+3. Disable GitHub Actions on the empty destination and verify it is disabled
+   before pushing any ref. This prevents copied push and scheduled workflows
+   from running with incomplete destination configuration.
+4. Create a local mirror from the read-only source.
+5. Fetch all Git LFS objects when LFS is present.
+6. Set and inspect a separate push URL that names only the expected
+   `agent-logic/<repository>` destination.
+7. Push the approved branches, tags, and supported notes to the destination
+   with explicit refspecs: `+refs/heads/*:refs/heads/*`,
+   `+refs/tags/*:refs/tags/*`, and `+refs/notes/*:refs/notes/*`. Do not use
+   `git push --mirror`, and do not treat GitHub-owned `refs/pull/*` as copyable
+   refs.
+8. Push all Git LFS objects to the destination when applicable.
+9. Set the destination default branch and reconstruct approved destination
+   configuration.
+10. Re-enable Actions only after required destination secrets, variables,
+    environments, OIDC trust, rulesets, permissions, and workflow dispositions
+    are verified. Keep Actions disabled for a cold mirror.
+11. Do not change any source repository or source-side configuration.
 
 The next repository may not start until Gate 4 passes.
 
-## Gate 4: Per-Repository Verification
+## Gate 4: Destination And Source Verification
 
-Compare the destination against the before-manifest and verify:
+Verify the destination:
 
-- default branch and exact HEAD;
-- tags, releases, issues, pull requests, milestones, wiki, projects, stars,
-  watchers, forks, and LFS objects;
-- visibility, rulesets, branch protections, required checks, CODEOWNERS, teams,
-  collaborators, and outside access;
-- workflow enablement plus a bounded push or pull-request smoke appropriate to
-  the repository;
-- environments, approvals, runner labels, variable names, secret names, and
-  updated OIDC trust;
-- repository-scoped package transfer state and granular package account scope,
-  repository links, permissions, destination publication, and consumer
-  coordinates;
-- asynchronous LFS object completion plus destination quota and billing state;
-- Pages URL, custom-domain ownership, DNS/TXT state, and TLS where applicable;
-- webhooks, deploy keys, GitHub Apps, OAuth integrations, submodules, badges,
-  callbacks, and external consumers;
-- old repository URL redirect and new canonical URL;
-- absence of secret values from logs and evidence.
+- exact refs and object identity against the approved source snapshot;
+- exact HEAD, default branch, tags, releases disposition, and LFS object proof;
+- required visibility;
+- reconstructed rulesets, checks, teams, collaborators, environments, Actions,
+  Pages, packages, OIDC, webhooks, Apps, security, and consumer configuration;
+- explicit issue/PR/collaboration-history disposition; and
+- a bounded repository-appropriate smoke check.
 
-Exit condition: zero unexplained drift. A failure stops the wave and names the
-exact repair owner.
+Then re-read the source and compare it with its before-manifest. The source must
+still have the same owner, visibility, default branch, refs, HEAD, and settings
+inventory. Any unexplained source difference is a blocker even if the
+destination is correct.
 
-## ADL and Website Cutover Window
+Exit condition: destination proof passes and source immutability is proven.
 
-`agent-design-language` transfers last. Before its window, all preceding
-repositories must have passed Gate 4 and organization Actions policy must be
-known to work.
+## ADL And Website Cutover
 
-Current `agent-logic.ai` `origin/main` contains four public links to
-`https://github.com/danielbaustin/agent-design-language`:
+`agent-design-language` copies last. The destination remains public. Only after
+its destination passes Gate 4 may the dedicated `agent-logic.ai` change replace
+the four current ADL links in:
 
-- `site/index.html`, header;
-- `site/index.html`, footer;
-- `site/beta/index.html`, header;
-- `site/beta/index.html`, footer.
+- `site/index.html`, header and footer;
+- `site/beta/index.html`, header and footer.
 
-Prepare a dedicated `agent-logic.ai` PR that changes only those current links
-to `https://github.com/agent-logic/agent-design-language`. Do not merge it before
-the ADL destination exists.
-
-Immediately after ADL transfers:
-
-1. verify the ADL destination and critical CI/integration surfaces;
-2. merge and deploy the prepared `agent-logic.ai` link update;
-3. verify production and beta pages link directly to the new canonical URL;
-4. verify the old ADL URL redirects without relying on that redirect in current
-   site source;
-5. update ADL clone remotes, Actions/OIDC subjects, package references,
-   webhooks, Apps, badges, documentation, and external consumers;
-6. run the bounded ADL CI and publication smoke defined by the manifest.
+The source `danielbaustin/agent-design-language` repository remains public and
+unchanged throughout WP-02. A later issue may add a prominent canonical-repo
+notice, then optionally archive the source after the destination is proven.
+That notice is not a native GitHub redirect, and retained historical evidence
+does not need rewriting.
 
 ## Organization-Wide Final Verification
 
-After all five repositories pass their individual gates:
+1. Confirm exactly five destinations and exactly seven source controls.
+2. Confirm all seven source repositories remain under `danielbaustin`.
+3. Confirm the five copied sources are unchanged from their before-manifests.
+4. Confirm `asksifu` and `Horust` are unchanged and absent from `agent-logic`.
+5. Confirm four private destinations and one public ADL destination.
+6. Verify that #5888 owns the post-copy website reference update and is blocked
+   until the public ADL destination passes Gate 4. The website cutover is not a
+   WP-02 closeout requirement.
+7. Record source/destination URLs, exact refs and HEADs, manifest digests,
+   destination creation times, validation outcomes, repairs, and residual risk.
 
-1. List source and destination inventories and confirm exactly five transfers.
-2. Confirm `danielbaustin/asksifu` is unchanged and personal.
-3. Confirm `danielbaustin/Horust` was not transferred or modified.
-4. Search current operational surfaces for old owner references and disposition
-   every remaining match.
-5. Verify organization teams, outside collaborators, policies, Actions budget,
-   runner access, package access, security features, and recovery ownership.
-6. Verify production and beta `agent-logic.ai` links.
-7. Record before/after manifest digests, source and destination URLs, exact
-   HEADs, transfer times, validation outcomes, repairs, and accepted residual
-   risks.
+## Failure And Recovery
 
-Do not remove old local configuration or rollback artifacts until the agreed
-retention window ends.
+When a copy or verification fails:
 
-## Failure and Recovery
+1. stop the copy wave;
+2. preserve the source and its manifests without mutation;
+3. disable, quarantine, or delete only the incomplete destination with explicit
+   operator authorization;
+4. repair destination configuration or recreate the destination from the same
+   approved source snapshot;
+5. rerun complete destination and source-immutability verification.
 
-When a transfer or verification fails:
-
-1. stop the migration wave;
-2. preserve the destination repository and both manifests;
-3. diagnose settings, access, package, URL, Pages, workflow, or integration
-   drift without deleting or recreating repository data;
-4. prefer in-place repair;
-5. transfer back only after an organization owner determines that in-place
-   repair is unsafe;
-6. rerun the complete Gate 4 verification before resuming.
-
-GitHub transfer-back is not assumed to restore every organization setting,
-assignment, package association, Pages binding, secret value, alert history, or
-external integration. Each manifest must name a repair owner for those surfaces.
-
-Where OIDC dual authorization is impossible, the manifest must declare the
-expected authentication interruption and sequence transfer, trust update, and
-verification as one bounded maintenance window.
+There is no transfer-back path because ownership never moves.
 
 ## Evidence Package
 
-Retain one compact migration package containing:
+Retain one compact, redacted package containing:
 
-- approved organization and owner roles;
-- the five migrate repositories and two exclusions;
-- before/after manifest digests and exact HEADs;
-- transfer timestamps and canonical URLs;
-- per-repository verification outcomes;
-- website deployment verification;
-- repairs and accepted residual risks;
-- billing/runner owner and first post-migration review date.
+- organization-readiness receipt;
+- exact five-copy and two-control inventory;
+- fixed visibility matrix;
+- source before/after immutability manifests and digests;
+- destination Git/ref/LFS and configuration manifests;
+- non-copyable GitHub-surface dispositions;
+- destination creation timestamps, Actions-disabled observations, actual first
+  push timestamps and transcripts, and canonical URLs;
+- per-repository validation outcomes;
+- #5888 handoff receipt bound to the verified public ADL destination;
+- repairs, residual risks, and first post-copy review date.
 
-The evidence package is operational history, not a dependency required for
-ordinary repository use after migration.
+Every one of the 37 named non-Git platform surfaces must carry one digest-bound proof:
+
+- `live_api`, with separate source and destination response digests;
+- `operator_confirmation`, with a redacted evidence artifact and digest; or
+- `not_applicable`, only when the reviewed disposition is also not applicable.
+
+The operator confirms organization readiness on #5819 with these exact lines:
+
+```text
+WP-02-ORG-READINESS: CONFIRMED
+OWNERS: CONFIRMED
+BILLING: CONFIRMED
+RECOVERY: CONFIRMED
+ACTIONS-POLICY: CONFIRMED
+PACKAGES: CONFIRMED
+GITHUB-APPS: CONFIRMED
+```
+
+After each repository passes Gate 4, the operator binds the evidence chain on
+#5819 with these exact lines, replacing placeholders with retained digests:
+
+```text
+WP-02-REPOSITORY: <repository-name>
+ACTIONS-DISABLED: <actions-disabled-receipt-sha256>
+ACTIONS-BEFORE-FIRST-PUSH: <first-push-receipt-sha256>
+LFS-PARITY: <lfs-receipt-sha256>
+PLATFORM-DISPOSITIONS: <platform-packet-sha256>
+SOURCE-IMMUTABILITY: <source-after-manifest-sha256>
+```
+
+The two negative controls require timestamped snapshots before the first copy
+window and after the fifth copy window, plus final live verification that no
+destination exists.
 
 ## Sources
 
-- GitHub, `Transferring a repository`:
-  <https://docs.github.com/en/repositories/creating-and-managing-repositories/transferring-a-repository>
-- GitHub, `Repository roles for an organization`:
-  <https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization>
-- GitHub, `Forks`:
-  <https://docs.github.com/en/pull-requests/reference/forks>
-- Current live GitHub inventory for `danielbaustin` and `agent-logic`, observed
-  2026-08-04.
-- Current `agent-logic/agent-logic.ai` `origin/main` link inventory, observed
-  2026-08-04.
+- GitHub, `Duplicating a repository`:
+  <https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository>
+- GitHub, `About source code imports using the command line`:
+  <https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/about-source-code-imports-using-the-command-line>
+- GitHub, `Backing up a repository`:
+  <https://docs.github.com/en/repositories/archiving-a-github-repository/backing-up-a-repository>
+- Current live GitHub inventory for `danielbaustin` and `agent-logic`.
 - Repository operating contract: `AGENTS.md`.
-
-## Gemini 3.1 Pro Review
-
-Gemini 3.1 Pro reviewed this final plan through the repository's Rust provider
-adapter using OpenRouter route `google/gemini-3.1-pro-preview`. The result was
-`pass_with_findings`.
-
-Findings and dispositions:
-
-1. **GHCR/package ownership:** incorporated with a correction grounded in
-   GitHub's registry-specific transfer rules. Granular packages remain scoped
-   to their original account and lose repository linkage/access; repository-
-   scoped registries may transfer. The plan now requires classification and a
-   destination publication/consumer strategy rather than assuming one behavior
-   for every registry.
-2. **Git LFS quota and billing:** incorporated in organization readiness and
-   post-transfer verification.
-3. **Pages custom-domain and TLS interruption:** incorporated as an explicit
-   pre-staged DNS/domain-verification task and possible maintenance window.
-4. **Personal-account teams:** corrected. The source manifest records
-   individual collaborators, and the destination preparation maps them to
-   organization membership and teams.
-5. **Organization secrets:** incorporated as an administrator-owned,
-   secret-safe provisioning step that records names and scopes only.
-
-Gemini's simplification suggestion to generate machine-readable manifests is
-accepted. Execution should use the repository-native C-SDLC GitHub surfaces and
-GitHub API readback where supported, with only unsupported settings recorded
-manually. A new migration-only CI framework is not required; existing focused
-repository workflows provide the post-transfer smoke proof.
 
 ## Review Boundary
 
-Gemini review is required to check GitHub-specific transfer prerequisites,
-scope accuracy, website cutover, Actions/OIDC/packages/Pages behavior,
-rollback, evidence proportionality, and opportunities to simplify this plan.
-The review is advisory and does not authorize migration.
+Independent review must verify the copy-only safety model, exact denominator,
+visibility matrix, source immutability, destination-only writes, Git/LFS parity,
+non-copyable metadata dispositions, and the #5888 handoff. Review does not
+authorize destination creation, website cutover, or any source mutation.

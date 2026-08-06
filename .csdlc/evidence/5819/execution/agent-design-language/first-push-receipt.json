@@ -1,0 +1,9 @@
+{
+  "destination": "agent-logic/agent-design-language",
+  "exit_status": 0,
+  "source_refs_sha256": "8703508aa57ed5accaefaa0a21b1d1f8c7de61fab20c5d5a259f75183e910306",
+  "destination_refs_sha256": "8703508aa57ed5accaefaa0a21b1d1f8c7de61fab20c5d5a259f75183e910306",
+  "transcript_path": ".csdlc/evidence/5819/execution/agent-design-language/push-transcript.txt",
+  "transcript_sha256": "c0ef26ad0a627bf9a49dbdd5832a9097c83f6a4dd529a1ac3357046756e1a478",
+  "pushed_at": "2026-08-06T06:37:02.486017Z"
+}

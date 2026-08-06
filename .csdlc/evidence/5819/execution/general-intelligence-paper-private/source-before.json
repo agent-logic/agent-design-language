@@ -1,0 +1,12 @@
+{
+  "repository": "danielbaustin/general-intelligence-paper-private",
+  "repository_id": 1240045659,
+  "visibility": "private",
+  "default_branch": "main",
+  "exact_head": "d0530fdd3f37aeee56bd579f5e8db15909107037",
+  "refs_sha256": "c084be1e3d669e90d412bb8a322fe642727b32b3202cf7be9e5b9e2a6096226d",
+  "api_surface_sha256": "88ad0feae78b72c34199c8dbea390ded272442e2d676b9804ee8bfd9ea5a8ad6",
+  "actions_enabled": true,
+  "observed_at": "2026-08-06T06:15:03.291622Z",
+  "label": "general-intelligence-paper-private/source-before-support"
+}

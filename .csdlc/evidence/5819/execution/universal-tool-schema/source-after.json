@@ -1,0 +1,12 @@
+{
+  "repository": "danielbaustin/universal-tool-schema",
+  "repository_id": 1240135608,
+  "visibility": "private",
+  "default_branch": "main",
+  "exact_head": "7997dd41863b0ba6560c2cab322e21be1a975613",
+  "refs_sha256": "e6fa2cc08a63a96dacde16aef59f26f865e8b0fe35c0bc3828e2d642f111af13",
+  "api_surface_sha256": "99d0b7d9f1a5052592befe0675a7041216df3a2f9601921a45e6d35179aad731",
+  "actions_enabled": true,
+  "observed_at": "2026-08-06T06:22:31.175880Z",
+  "label": "universal-tool-schema/source-after-support"
+}

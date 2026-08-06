@@ -1,0 +1,12 @@
+{
+  "repository": "danielbaustin/Horust",
+  "repository_id": 1297989599,
+  "visibility": "public",
+  "default_branch": "master",
+  "exact_head": "37e753561f07bdfd48a4b8e4c101759ba7974ddb",
+  "refs_sha256": "7f89772e15ac14e909ffd73b2c3ab4648557a359e1c8aa1aa0ed16924777ff86",
+  "api_surface_sha256": "72cf97f81db874d6e658a30ff4a90d0d9fedab24c3efbe9315663593357bdf62",
+  "actions_enabled": true,
+  "observed_at": "2026-08-06T06:38:11.341900Z",
+  "label": "Horust/source-after-support"
+}

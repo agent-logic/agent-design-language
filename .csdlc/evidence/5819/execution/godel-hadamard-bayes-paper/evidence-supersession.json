@@ -1,0 +1,26 @@
+{
+  "schema": "adl.wp02.evidence-supersession.v1",
+  "repository": "godel-hadamard-bayes-paper",
+  "reason": "The GitHub Team upgrade made repository policy surfaces newly queryable. The explicit policy refresh replaced the original local platform and source-after files before publication.",
+  "historical_gate_boundary": "The retained, unedited GitHub comment is a contemporaneous operator attestation of the serial gate decision. It does not make the superseded local bytes reviewable.",
+  "old_artifact_bytes_available": false,
+  "old_artifact_bytes_revalidated": false,
+  "refresh_comment_id": 5201118365,
+  "refresh_comment_created_at": "2026-08-06T06:21:44Z",
+  "mappings": [
+    {
+      "surface": "platform_dispositions",
+      "old_sha256": "1f4c508d19c7cea7a0dfb39d04a208d06542477ed85099d89c0bf09106930893",
+      "replacement_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/platform-dispositions.json",
+      "current_sha256": "c55bfa435a663e2055e324d426a36ec3f4c55c27bc5fae150692aa6672f3ed09",
+      "byte_equivalence_claimed": false
+    },
+    {
+      "surface": "source_immutability",
+      "old_sha256": "cfc551ee7b7ee6f1644f402da6a77a9cf615519dcd4449c5f340a9803c19a459",
+      "replacement_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/source-after.json",
+      "current_sha256": "7feabfcf8fc0800160b5f0455eb14b96900b759a4f675b420c6ac084826b1e66",
+      "byte_equivalence_claimed": false
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "destination": "agent-logic/universal-tool-schema",
+  "exit_status": 0,
+  "source_refs_sha256": "e6fa2cc08a63a96dacde16aef59f26f865e8b0fe35c0bc3828e2d642f111af13",
+  "destination_refs_sha256": "e6fa2cc08a63a96dacde16aef59f26f865e8b0fe35c0bc3828e2d642f111af13",
+  "transcript_path": ".csdlc/evidence/5819/execution/universal-tool-schema/push-transcript.txt",
+  "transcript_sha256": "795488a27a75610c5bfe8b80d25ee219ea515c87dc525edf029c01ee6ba77771",
+  "pushed_at": "2026-08-06T06:22:19.578290Z"
+}

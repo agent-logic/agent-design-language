@@ -1,0 +1,294 @@
+{
+  "repository": {
+    "id": 1148444120,
+    "full_name": "danielbaustin/agent-design-language",
+    "visibility": "public",
+    "default_branch": "main",
+    "archived": false,
+    "fork": false,
+    "has_issues": true,
+    "has_projects": true,
+    "has_wiki": true,
+    "has_discussions": false,
+    "security_and_analysis": {
+      "secret_scanning": {
+        "status": "enabled"
+      },
+      "secret_scanning_push_protection": {
+        "status": "enabled"
+      },
+      "dependabot_security_updates": {
+        "status": "disabled"
+      },
+      "secret_scanning_non_provider_patterns": {
+        "status": "disabled"
+      },
+      "secret_scanning_validity_checks": {
+        "status": "disabled"
+      }
+    }
+  },
+  "actions_permissions": {
+    "enabled": true,
+    "allowed_actions": "all"
+  },
+  "workflows": [
+    {
+      "id": 232362865,
+      "name": "ci",
+      "path": ".github/workflows/ci.yaml",
+      "state": "active"
+    },
+    {
+      "id": 240647723,
+      "name": "nightly-coverage-ratchet",
+      "path": ".github/workflows/nightly-coverage-ratchet.yaml",
+      "state": "active"
+    },
+    {
+      "id": 307718776,
+      "name": "aws-spot-remote-validation",
+      "path": ".github/workflows/aws-spot-remote-validation.yaml",
+      "state": "active"
+    },
+    {
+      "id": 307731663,
+      "name": "aws-codefriend-build",
+      "path": ".github/workflows/aws-codefriend-build.yaml",
+      "state": "active"
+    }
+  ],
+  "environments": [
+    {
+      "id": 18039012301,
+      "name": "adl-spot-ci",
+      "protection_rules": [
+
+      ],
+      "deployment_branch_policy": null
+    }
+  ],
+  "rulesets": [
+    {
+      "id": 13419813,
+      "name": "main-protection",
+      "target": "branch",
+      "enforcement": "active",
+      "source_type": "Repository"
+    }
+  ],
+  "releases": [
+    {
+      "id": 286273708,
+      "tag_name": "v0.3.0-alpha.1",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 286286411,
+      "tag_name": "v0.3.0-alpha.2",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 286293019,
+      "tag_name": "v0.3.0-alpha.3",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 287366745,
+      "tag_name": "v0.3.0",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 287501130,
+      "tag_name": "v0.4.0",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 288948436,
+      "tag_name": "v0.5.0",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 289736026,
+      "tag_name": "v0.6.0",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 292806247,
+      "tag_name": "v0.7.0",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 294155920,
+      "tag_name": "v0.75",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 297104578,
+      "tag_name": "v0.8.0",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 302574646,
+      "tag_name": "v0.85.0",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 304342518,
+      "tag_name": "v0.86",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 306472513,
+      "tag_name": "v0.87",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 310245867,
+      "tag_name": "v0.89.1",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 310817335,
+      "tag_name": "v0.90",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 311067454,
+      "tag_name": "v0.90.1",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 311656214,
+      "tag_name": "v0.90.2",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 312963622,
+      "tag_name": "v0.90.3",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 313525494,
+      "tag_name": "v0.90.4",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 317970348,
+      "tag_name": "v0.90.5",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 319278529,
+      "tag_name": "v0.91",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 321319279,
+      "tag_name": "v0.91.1",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 332703450,
+      "tag_name": "v0.91.4",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 341060561,
+      "tag_name": "v0.91.5",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    },
+    {
+      "id": 365272437,
+      "tag_name": "v0.91.8",
+      "target_commitish": "main",
+      "draft": false,
+      "prerelease": false
+    }
+  ],
+  "collaborators": [
+    {
+      "id": 605773,
+      "login": "danielbaustin",
+      "role_name": "admin",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "push": true,
+        "triage": true,
+        "pull": true
+      }
+    }
+  ],
+  "webhooks": [
+
+  ],
+  "deploy_keys": [
+
+  ],
+  "pages": {
+    "status": "absent"
+  },
+  "action_secret_names": [
+    "AWS_SPOT_REMOTE_VALIDATION_ROLE_ARN",
+    "AWS_SPOT_REMOTE_VALIDATION_SSH_PRIVATE_KEY_B64",
+    "CODECOV_TOKEN"
+  ],
+  "action_variable_names": [
+    "ADL_AWS_REMOTE_VALIDATION_SSH_ALLOWED_CIDR",
+    "ADL_HEAVY_CI_BACKEND",
+    "AWS_SPOT_REMOTE_VALIDATION_REGION",
+    "AWS_SPOT_REMOTE_VALIDATION_SSH_ALLOWED_CIDR"
+  ],
+  "branch_protection": {
+    "status": "absent"
+  }
+}

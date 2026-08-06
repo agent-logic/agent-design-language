@@ -1,0 +1,9 @@
+{
+  "destination": "agent-logic/godel-hadamard-bayes-paper",
+  "exit_status": 0,
+  "source_refs_sha256": "af47dab11bc45a3454901c2965bfa5abcf94fc03386e3a0178a93638ace730f2",
+  "destination_refs_sha256": "af47dab11bc45a3454901c2965bfa5abcf94fc03386e3a0178a93638ace730f2",
+  "transcript_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/push-transcript.txt",
+  "transcript_sha256": "c0ff122114ad5c6a01b9fcb93ef65ff7018032eb8a12bcef370fc9aec5a2ab91",
+  "pushed_at": "2026-08-06T06:18:57.821189Z"
+}
