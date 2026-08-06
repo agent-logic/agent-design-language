@@ -97,6 +97,41 @@ Launch gate: WP-02A `#5801` must be terminal and ancestral to current
 | gate 3 | issue 5795 | issues 5800 and 5820 are terminal and issue 5832 has stable command/WSS contracts | sprint session |
 | gate 4 | issue 5837 | issues 5820 and 5832 are terminal and WP-18 is ready | sprint session |
 
+## Prepared Launch Findings
+
+These findings are preparation constraints, not permission to cross a serial
+gate or widen a child's owned paths.
+
+### Issue #5800
+
+- Reused local certificates must be rejected or reissued when expired,
+  not-yet-valid, or otherwise outside their declared validity interval.
+- The bootstrap path must expose explicit trust install, verification,
+  reissue, and issue-created trust removal outcomes.
+- The browser proof requires a pinned repository-native Playwright route; an
+  operator-global package is not acceptable proof.
+- The independent curl proof must bind the trusted certificate and cover the
+  Observatory page plus Runtime health, readiness, and feed endpoints.
+- The stale closed `#5757` worktree is not a valid implementation base and may
+  not supply or delete `runtime-v3.config.json` for this issue.
+
+### Issue #5795
+
+- Real local inference is nondeterministic and must not retain the current
+  deterministic Shepherd service classification.
+- Production wiring, governed admission, and Observatory result projection
+  currently sit outside the six declared product-owned paths. Recheck the
+  terminal `#5800`, `#5820`, and `#5832` diffs for extension points; if they do
+  not provide them, revise ownership/design through typed lifecycle planning
+  before implementation.
+- The deterministic VPP lane must include the issue-owned Shepherd production
+  path test, and the browser lane must use the Runtime v3 control and
+  Observatory WSS routes established by `#5832`.
+- The repository-configured candidate is `gemma4:12b-mlx`; its live local
+  availability and callability must be reverified when `#5795` executes.
+  Provider selection must be explicit and must not silently fall back to a
+  different model or cloud service.
+
 ## PVF / Validation-Tail Notes
 
 - Child VPP lanes remain the only authority for implementation proof.

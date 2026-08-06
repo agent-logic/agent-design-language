@@ -76,6 +76,15 @@ Safe preparation and parallelism:
   parallel.
 - #5795 may prepare local-provider work before its final integration gate, but
   it may not redefine Runtime, Observatory, or WP-14 protocol contracts.
+- After dependency and ownership checks permit binding #5800, implement
+  certificate-validity checks, explicit local trust install/verify/remove
+  behavior, a pinned repository-native Playwright route, and trusted curl proof
+  across Observatory and Runtime endpoints in its dedicated worktree.
+- Before binding #5795, verify that terminal dependencies provide extension
+  points for nondeterministic Shepherd classification, production assembly,
+  governed admission, and Observatory result projection. If they do not,
+  revise the typed design/ownership boundary instead of crossing undeclared
+  product paths.
 
 For every dependency-ready child: bind or verify the dedicated worktree, create
 the child issue goal, implement

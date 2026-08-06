@@ -17,6 +17,18 @@ serial_gates:
   - issue 5832 starts only after issues 5821 and 5862 are terminal
   - issue 5795 integrates after issues 5800 and 5820 plus WP-14 issue 5832 contract stability
   - issue 5837 integrates after issues 5820 and 5832 and its WP-18 dependency
+prepared_launch_findings:
+  issue_5800:
+    - enforce certificate validity on generation, reuse, replacement, and managed-external paths
+    - expose explicit trust install, verify, reissue, and issue-created trust removal outcomes
+    - use a pinned repository-native Playwright route for real-browser proof
+    - bind trusted curl proof to Observatory plus Runtime health, readiness, and feed endpoints
+    - exclude the stale closed issue 5757 worktree as an implementation base
+  issue_5795:
+    - classify real local inference as nondeterministic
+    - recheck terminal dependency diffs for production wiring, governed admission, and Observatory projection extension points before revising ownership
+    - include the issue-owned Shepherd production-path test and Runtime v3 control and Observatory WSS browser proof
+    - reverify live availability of the repository-configured gemma4:12b-mlx candidate and select it explicitly with no cloud or substituted-model fallback
 review_path: .csdlc/evidence/5855/sprint-review.md
 activity_log_path: .csdlc/evidence/5855/activity.jsonl
 child_goal_rule: Each dependency-ready child session verifies or creates its dedicated bound branch/worktree with the current typed csdlc-bind contract, then creates an issue-bound goal before implementation; claims and leases are not lifecycle authority.
