@@ -37,6 +37,9 @@ Out of scope:
 
 ## Recommended Execution Order
 
+Launch gate: WP-02A `#5801` must be terminal and ancestral to current
+`origin/main`. An open or merely reviewed PR does not satisfy this gate.
+
 1. Route `#5800` only when its issue-wave dependencies and this packet serial gates are satisfied.
 2. Route `#5820` only when its issue-wave dependencies and this packet serial gates are satisfied.
 3. Route `#5821` only when its issue-wave dependencies and this packet serial gates are satisfied.
@@ -53,9 +56,10 @@ Out of scope:
 ## Budget And Goal Accounting
 
 - No sprint-global token budget is preallocated.
-- After WP-01 releases its publication claim, every implementation session
-  registers its child worktree, reacquires the exact issue-local claim, binds,
-  and creates its own issue-bound goal before implementation.
+- Every implementation session verifies or creates the child's dedicated bound
+  branch/worktree with the current typed `csdlc-bind` contract and creates its
+  own issue-bound goal before implementation. Claims and leases are not
+  lifecycle authority.
 - Actual time and token use are recorded per child when available and are never inferred as zero.
 
 ## Watcher Plan
@@ -87,6 +91,7 @@ Out of scope:
 
 | Gate | Blocks | Exit condition | Owner |
 |---|---|---|---|
+| launch gate | issues 5800 and 5820 | issue 5801 is terminal and its merge is ancestral to current origin/main | sprint session |
 | gate 1 | downstream children | issues 5800 and 5820 establish the trusted local launch baseline | sprint session |
 | gate 2 | issue 5832 | issue 5821 is terminal and the separate issue 5862 implementation sprint has terminal integrated proof | sprint session |
 | gate 3 | issue 5795 | issues 5800 and 5820 are terminal and issue 5832 has stable command/WSS contracts | sprint session |

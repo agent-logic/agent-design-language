@@ -10,6 +10,8 @@ READY_CARDS = %w[sip stp spp vpp].freeze
 PRE_PHASE_CARDS = %w[srp sor].freeze
 PACKET_YAML = ".csdlc/prepared/issues/#{SPRINT}/sprint-execution-packet.yaml"
 PACKET_MD = ".csdlc/prepared/issues/#{SPRINT}/sprint-execution-packet.md"
+SESSION_PROMPT = ".adl/docs/TBD/V092_SPRINT_5855_RUNTIME_OBSERVATORY_SESSION_PROMPT.md"
+LAUNCH_GATE = "issue 5801 is terminal and its merge is ancestral to current origin/main"
 REQUIRED_SECTIONS = [
   "Child Issue Wave",
   "Recommended Execution Order",
@@ -37,6 +39,7 @@ packet = YAML.safe_load(File.read(PACKET_YAML))
 abort("wrong sprint issue") unless packet.fetch("sprint_issue") == SPRINT
 abort("wrong execution mode") unless packet.fetch("execution_mode") == "hybrid"
 abort("unsafe or impossible child order") unless packet.fetch("ordered_issue_numbers") == CHILDREN
+abort("missing WP-02A launch gate") unless packet.fetch("launch_gate") == LAUNCH_GATE
 abort("missing sprint review path") unless packet.fetch("review_path") == ".csdlc/evidence/5855/sprint-review.md"
 abort("missing sprint activity path") unless packet.fetch("activity_log_path") == ".csdlc/evidence/5855/activity.jsonl"
 
@@ -45,11 +48,16 @@ REQUIRED_SECTIONS.each do |section|
   abort("missing packet section: #{section}") unless packet_markdown.include?("## #{section}")
 end
 
+session_prompt = File.read(SESSION_PROMPT)
+abort("session prompt omits WP-02A terminal gate") unless session_prompt.include?("WP-02A #5801 is terminal and ancestral")
+abort("session prompt retains obsolete reacquire route") if session_prompt.include?("--reacquire-request")
+abort("session prompt omits branch/worktree authority") unless session_prompt.include?("Branch/worktree binding is ownership authority")
+
 CHILDREN.each do |issue|
   index_path = ".csdlc/issues/#{issue}/index.json"
   index = read_json(index_path)
   abort("issue mismatch in #{index_path}") unless index.fetch("issue") == issue
-  abort("active preparation claim on ##{issue}") unless index["claim"].nil?
+  abort("unexpected retained compatibility claim on ##{issue}") unless index["claim"].nil?
 
   approval = index.dig("design_review", "approved")
   revision = approval && approval["revision"]
@@ -74,7 +82,8 @@ puts JSON.generate(
   ordered_issue_numbers: CHILDREN,
   child_count: CHILDREN.length,
   card_contract: "ready_pre_phase",
-  claims: "null",
+  compatibility_claims: "null_non_authoritative",
+  launch_gate_contract: "present_live_check_deferred",
   design_approvals: "revision_matched",
   status: "prepared"
 )

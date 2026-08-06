@@ -3,6 +3,7 @@ version: v0.92
 slug: runtime-observatory-polis-protocol
 execution_mode: hybrid
 ordered_issue_numbers: [5800, 5820, 5821, 5832, 5795, 5837]
+launch_gate: issue 5801 is terminal and its merge is ancestral to current origin/main
 safe_parallel_lanes:
   - issues: [5800, 5820]
     gate: WP-02A is terminal and ancestral
@@ -18,5 +19,5 @@ serial_gates:
   - issue 5837 integrates after issues 5820 and 5832 and its WP-18 dependency
 review_path: .csdlc/evidence/5855/sprint-review.md
 activity_log_path: .csdlc/evidence/5855/activity.jsonl
-child_goal_rule: After WP-01 releases its publication claim, each child session registers its worktree, reacquires the exact issue-local claim, binds, and creates an issue-bound goal before implementation.
+child_goal_rule: Each dependency-ready child session verifies or creates its dedicated bound branch/worktree with the current typed csdlc-bind contract, then creates an issue-bound goal before implementation; claims and leases are not lifecycle authority.
 closeout_rule: Review the integrated Runtime and Observatory path before umbrella closeout.

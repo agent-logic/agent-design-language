@@ -23,16 +23,19 @@ Startup contract:
    collisions.
 3. Read issue #5855, .csdlc/issues/5855/, both Sprint Execution Packets under
    .csdlc/prepared/issues/5855/, and the v0.92 issue wave.
-4. Run typed doctor for #5855 and every child. Treat .csdlc issue records as
+4. Verify WP-02A #5801 is terminal and ancestral before starting #5800 or
+   #5820. A reviewed or open PR is not terminal dependency evidence.
+5. Run typed doctor for #5855 and every child. Treat .csdlc issue records as
    canonical; do not recreate cards through a sunset .adl bundle path.
-5. Prepare blocked children now, but do not cross a serial gate merely to keep
+6. Prepare blocked children now, but do not cross a serial gate merely to keep
    the session busy.
 
-WP-01 published the initialized child records under its own temporary publication
-claim. After WP-01 releases that claim, create and register each real child
-worktree, use typed `csdlc-bind --reacquire-request` to acquire the child's exact
-issue-local paths, then run the normal bind and goal sequence. Do not assume the
-bootstrap reservation is still active.
+WP-01 published the initialized child records. For each dependency-ready child,
+use the current typed `csdlc-bind` contract to create or verify its dedicated Git
+branch and worktree, then create the issue-bound goal before implementation.
+Branch/worktree binding is ownership authority; retired claims, leases, and
+historical preparation reservations are not lifecycle authority. Inspect the
+installed binary's current help/schema before preparing a bind request.
 
 Exact child wave:
 
@@ -54,6 +57,7 @@ sprint. Do not split them into competing Observatory owners.
 
 Serial gates:
 
+- #5800 and #5820 do not start until WP-02A #5801 is terminal and ancestral.
 - #5800 and #5820 establish the trusted local launch baseline.
 - #5795 integrates only after #5800 and #5820 stabilize the path and WP-14
   #5832 establishes stable protocol contracts.
@@ -73,7 +77,8 @@ Safe preparation and parallelism:
 - #5795 may prepare local-provider work before its final integration gate, but
   it may not redefine Runtime, Observatory, or WP-14 protocol contracts.
 
-For every dependency-ready child: bind, create the child issue goal, implement
+For every dependency-ready child: bind or verify the dedicated worktree, create
+the child issue goal, implement
 the complete production outcome, prove real positive and negative behavior,
 review the exact head, fix all findings, and publish with `Closes #<child>`.
 No fixture-only, demo-mode, substituted-provider, URL-only, or metadata-only
