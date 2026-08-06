@@ -1,0 +1,94 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5896,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][migration] Migrate pre-topology bound issue records to Git topology",
+    "slug": "v0-92-migrate-pre-topology-bound-records",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "migration-contract",
+          "proof_role": "Prove classification, atomicity, preservation, failure behavior, and idempotence through focused Rust tests.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "topology_migration"
+          ],
+          "parallel_group": "migration",
+          "defer_reason": null
+        },
+        {
+          "lane": "cohort-proof",
+          "proof_role": "Prove the exact before and after cohort counts, dispositions, second-run no-op, current doctor results, and issue 5844 bindability.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5896/validate-migration.rb"
+          ],
+          "parallel_group": "cohort",
+          "defer_reason": "Validator is produced with the implementation and runs against the final migrated cohort."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject whitespace errors in migration code, tests, records, and evidence.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "hygiene",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 21600,
+      "planned_validation_tokens": 100000,
+      "failure_policy": "Fail before any mutation on invalid digest, missing issue state, ambiguous topology, partial topology, or classification error; retain a complete diagnostic report.",
+      "design_ref": ".csdlc/prepared/issues/5896/design.md",
+      "design_digest": "3630249209061b26e687230fc580c0eceb71026ecc1a6daff839970b83d01d12",
+      "diagram_ref": ".csdlc/prepared/issues/5896/diagram.mmd",
+      "diagram_digest": "aebaba3073eadae57755ce3ce6f0200a24c6f552d4730d1d555bcaf3ec7201b8"
+    }
+  }
+}

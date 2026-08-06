@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5896,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][migration] Migrate pre-topology bound issue records to Git topology",
+    "slug": "v0-92-migrate-pre-topology-bound-records",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue 5896 typed migration contracts, current v2 migration implementation, focused tests, the exact cohort disposition, and WP-24 bindability proof.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any classification invent topology, reopen terminal work, or reset a genuinely bound issue?",
+        "Does any failure permit partial cohort mutation?",
+        "Are cards, authored evidence, audit history, and digests preserved?",
+        "Is the second run demonstrably a no-op?",
+        "Does the design retain #5886 topology authority without restoring claims?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

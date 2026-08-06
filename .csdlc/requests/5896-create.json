@@ -1,0 +1,149 @@
+{
+  "issue": 5896,
+  "repository": "danielbaustin/agent-design-language",
+  "actor": "codex",
+  "design_path": ".csdlc/prepared/issues/5896/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5896/diagram.mmd",
+  "design_reviewer": "operator",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92][migration] Migrate pre-topology bound issue records to Git topology",
+    "slug": "v0-92-migrate-pre-topology-bound-records",
+    "version": "v0.92",
+    "goal": "Migrate every pre-#5886 bound record with incomplete topology into truthful current C-SDLC v2 state.",
+    "required_outcome": "All affected records receive a deterministic disposition and open never-bound issues become normally bindable without restoring claims.",
+    "declared_scope": [
+      "The exact canonical bound-plus-incomplete-topology cohort",
+      "One typed migration operation under the current csdlc-issue owner",
+      "Per-issue disposition evidence and focused regression tests"
+    ],
+    "authority_boundary": [
+      "Canonical .csdlc issue records and verified Git worktree topology",
+      "Explicit live GitHub issue-state snapshot supplied as typed input",
+      "No product-issue binding or implementation"
+    ],
+    "operator_constraints": [
+      "Treat this as state migration, not tooling reliability work",
+      "Do not restore claims, leases, heartbeats, or preparation state",
+      "Do not hand-edit canonical issue records",
+      "Keep root main clean"
+    ],
+    "task_boundary": "Implement and prove one deterministic migration for records rendered bound without topology before the #5886 cutover.",
+    "deliverables": [
+      "Typed migration request and result contracts",
+      "Explicit csdlc-issue migration command",
+      "Atomic idempotent record conversion",
+      "Focused migration tests and cohort disposition evidence"
+    ],
+    "acceptance_criteria": [
+      "The exact affected cohort is inventoried before mutation",
+      "Every record is classified using canonical state, live issue state, and actual Git topology",
+      "Open never-bound records become initialized and normally bindable",
+      "Verified existing topology and terminal records are preserved truthfully",
+      "Cards, authored artifacts, audit history, identity, and digest integrity are preserved",
+      "Ambiguous topology and digest mismatch fail before mutation",
+      "The operation is idempotent and emits a per-issue disposition report",
+      "Doctor no longer rejects migrated records solely for bound null topology",
+      "Issue 5844 becomes bindable through current csdlc-bind",
+      "Focused tests cover all required positive and negative classifications"
+    ],
+    "dependencies": [
+      "PR #5886 topology-only binding authority",
+      "PR #5880 pre-cutover readiness records"
+    ],
+    "repo_inputs": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      ".csdlc/issues/*/index.json"
+    ],
+    "non_goals": [
+      "Restoring removed claim or preparation authority",
+      "Redesigning the lifecycle state machine",
+      "Binding or implementing migrated product issues",
+      "Reopening terminal issues",
+      "Hand-editing individual records"
+    ],
+    "plan_summary": "Define typed migration contracts, classify the full cohort before writes, atomically reset only unambiguous open never-bound records, prove idempotence and negative cases, then validate the real cohort and WP-24 bindability.",
+    "steps": [
+      {"id":"S1","action":"Implement typed request, disposition, report, and dry-run classification for the exact legacy shape.","acceptance_ids":["AC-1","AC-2","AC-7"],"status":"pending"},
+      {"id":"S2","action":"Apply atomic record migration only after full classification succeeds, preserving cards and audit truth.","acceptance_ids":["AC-3","AC-4","AC-5","AC-6"],"status":"pending"},
+      {"id":"S3","action":"Add focused tests for all positive, negative, and idempotent cases.","acceptance_ids":["AC-6","AC-7","AC-10"],"status":"pending"},
+      {"id":"S4","action":"Run the real cohort migration, retain dispositions, and prove current doctor plus WP-24 bindability.","acceptance_ids":["AC-1","AC-8","AC-9"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/tests",
+      ".csdlc/issues",
+      ".csdlc/evidence/5896"
+    ],
+    "invariants": [
+      "Git branch/worktree topology remains the sole binding authority",
+      "No record changes before complete classification succeeds",
+      "No branch or worktree value is invented",
+      "Terminal truth and retained evidence are immutable",
+      "A second migration pass makes no changes"
+    ],
+    "risks": [
+      "A historical branch name may resemble issue topology without being authoritative",
+      "A partial migration could strand records unless classification is transaction-wide",
+      "Closed records may require preservation rather than phase reset"
+    ],
+    "planning_profile": "migration",
+    "stop_conditions": [
+      "Any record or card digest fails verification",
+      "Live topology is ambiguous or only partially matches",
+      "Live issue state is missing for a cohort member",
+      "The migration would alter cards, authored evidence, or terminal truth"
+    ],
+    "validation_lanes": [
+      {
+        "lane":"migration-contract",
+        "proof_role":"Prove classification, atomicity, preservation, failure behavior, and idempotence through focused Rust tests.",
+        "acceptance_ids":["AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-10"],
+        "deterministic":true,
+        "resource_profile":"medium",
+        "budget_seconds":300,
+        "budget_tokens":3000,
+        "argv":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--test","topology_migration"],
+        "parallel_group":"migration",
+        "defer_reason":null
+      },
+      {
+        "lane":"cohort-proof",
+        "proof_role":"Prove the exact before and after cohort counts, dispositions, second-run no-op, current doctor results, and issue 5844 bindability.",
+        "acceptance_ids":["AC-1","AC-7","AC-8","AC-9"],
+        "deterministic":true,
+        "resource_profile":"medium",
+        "budget_seconds":300,
+        "budget_tokens":3000,
+        "argv":["ruby",".csdlc/prepared/issues/5896/validate-migration.rb"],
+        "parallel_group":"cohort",
+        "defer_reason":"Validator is produced with the implementation and runs against the final migrated cohort."
+      },
+      {
+        "lane":"diff-hygiene",
+        "proof_role":"Reject whitespace errors in migration code, tests, records, and evidence.",
+        "acceptance_ids":["AC-5","AC-10"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":30,
+        "budget_tokens":500,
+        "argv":["git","diff","--check"],
+        "parallel_group":"hygiene",
+        "defer_reason":null
+      }
+    ],
+    "failure_policy": "Fail before any mutation on invalid digest, missing issue state, ambiguous topology, partial topology, or classification error; retain a complete diagnostic report.",
+    "review_prompts": [
+      "Can any classification invent topology, reopen terminal work, or reset a genuinely bound issue?",
+      "Does any failure permit partial cohort mutation?",
+      "Are cards, authored evidence, audit history, and digests preserved?",
+      "Is the second run demonstrably a no-op?",
+      "Does the design retain #5886 topology authority without restoring claims?"
+    ],
+    "review_scope": "Issue 5896 typed migration contracts, current v2 migration implementation, focused tests, the exact cohort disposition, and WP-24 bindability proof."
+  }
+}
