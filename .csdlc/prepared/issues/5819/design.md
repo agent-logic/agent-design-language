@@ -106,11 +106,18 @@ Retain for each copy:
 - exact refs, HEAD, object, default-branch, visibility, and LFS proof;
 - per-surface reconstruction or source-authoritative dispositions;
 - destination creation time, Actions-disabled receipt, and the actual first
-  mirror-push timestamp plus transcript proving disablement preceded ref arrival;
+  mirror-push receipt plus the first retained server-timestamped GitHub ref
+  event proving disablement was observed before ref arrival;
 - source immutability comparison;
 - complete GitHub-surface dispositions, including package/App/Actions-policy
   evidence and names-only secret/variable records without values; and
 - exact-review revision and residual risks.
+
+Each repository also retains an authenticated, unedited GitHub confirmation
+comment. Its server timestamp must precede the next repository's copy start,
+which independently proves the serial verification gate even when a later
+organization-policy refresh replaces the canonical source/destination
+snapshots.
 
 Each of the 37 named platform surfaces requires a digest-bound `live_api`,
 `operator_confirmation`, or valid `not_applicable` proof. The per-repository

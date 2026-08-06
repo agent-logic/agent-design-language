@@ -177,6 +177,32 @@ rows.each_with_index do |row, index|
   pushed_at = timestamp(push["pushed_at"], "#{name} first push")
   abort "#{name} first push is outside the copy window" unless started <= pushed_at && pushed_at <= completed
   abort "#{name} Actions disablement was not before the first push" unless disabled_at < pushed_at
+
+  first_ref_event = artifact(
+    row["first_ref_event_path"],
+    row["first_ref_event_sha256"],
+    "#{name} first-ref GitHub event"
+  )
+  abort "#{name} first-ref event id is missing" if first_ref_event["id"].to_s.empty?
+  abort "#{name} first-ref event type mismatch" unless first_ref_event["type"] == "CreateEvent"
+  abort "#{name} first-ref event repository mismatch" unless first_ref_event.dig("repo", "name") == destination
+  abort "#{name} first-ref event actor mismatch" unless first_ref_event.dig("actor", "login") == "danielbaustin"
+  abort "#{name} first-ref event is not a branch" unless first_ref_event.dig("payload", "ref_type") == "branch"
+  abort "#{name} first-ref event lacks a ref" if first_ref_event.dig("payload", "ref").to_s.empty?
+  first_ref_at = timestamp(first_ref_event["created_at"], "#{name} first-ref GitHub event")
+  abort "#{name} GitHub recorded ref arrival before Actions disablement" unless disabled_at < first_ref_at
+  abort "#{name} first-ref event is outside the copy window" unless started <= first_ref_at && first_ref_at <= completed
+  abort "#{name} local push completion precedes GitHub ref arrival" unless first_ref_at <= pushed_at
+
+  serial_gate_at = timestamp(row["serial_gate_confirmed_at"], "#{name} serial-gate confirmation")
+  abort "#{name} serial-gate confirmation id missing" unless row["serial_gate_confirmation_comment_id"].to_i.positive?
+  abort "#{name} serial gate preceded its first push" unless serial_gate_at >= pushed_at
+  if index + 1 < rows.length
+    next_started = timestamp(rows.fetch(index + 1)["copy_started_at"], "#{name} next-copy start")
+    abort "#{name} was not confirmed before the next copy started" unless serial_gate_at < next_started
+  else
+    abort "#{name} final serial gate is outside the copy window" unless serial_gate_at <= completed
+  end
   abort "#{name} source-after snapshot was not captured after the first push" unless source_after_at >= pushed_at
   abort "#{name} destination-after snapshot was not captured after the first push" unless destination_after_at >= pushed_at
 

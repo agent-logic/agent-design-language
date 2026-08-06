@@ -5,6 +5,7 @@ require "digest"
 require "json"
 require "open3"
 require "pathname"
+require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath
 REPORT = ROOT.join(".csdlc/evidence/5819/copy-report.json")
@@ -170,6 +171,8 @@ def confirmation(comment_id, required_lines, label)
   required_lines.each do |line|
     abort "#{label} comment lacks #{line.inspect}" unless body.lines.map(&:strip).include?(line)
   end
+  abort "#{label} comment was edited after creation" unless comment["updated_at"] == comment["created_at"]
+  comment
 end
 
 abort "missing copy report" unless REPORT.file? && !REPORT.zero?
@@ -240,6 +243,56 @@ REPOSITORIES.each_with_index do |(name, visibility), index|
 
   actions = gh_json("repos/#{destination_name}/actions/permissions")
   abort "destination Actions state mismatch for #{name}" unless actions["enabled"] == row["expected_actions_enabled"]
+
+  retained_event = artifact(
+    row["first_ref_event_path"],
+    row["first_ref_event_sha256"],
+    "#{name} first-ref GitHub event"
+  )
+  live_event = gh_json("repos/#{destination_name}/events?per_page=100").find do |event|
+    event["id"].to_s == retained_event["id"].to_s
+  end
+  abort "#{name} retained first-ref event is not live" unless live_event
+  live_event_projection = {
+    "id" => live_event["id"].to_s,
+    "type" => live_event["type"],
+    "actor" => {"login" => live_event.dig("actor", "login")},
+    "repo" => {"name" => live_event.dig("repo", "name")},
+    "payload" => {
+      "ref" => live_event.dig("payload", "ref"),
+      "ref_type" => live_event.dig("payload", "ref_type")
+    },
+    "created_at" => live_event["created_at"]
+  }
+  abort "#{name} first-ref GitHub event drift" unless live_event_projection == retained_event
+
+  actions_receipt = artifact(
+    row["actions_disabled_receipt_path"],
+    row["actions_disabled_receipt_sha256"],
+    "#{name} Actions-disabled receipt"
+  )
+  actions_at = Time.iso8601(actions_receipt.fetch("observed_at"))
+  first_ref_at = Time.iso8601(retained_event.fetch("created_at"))
+  abort "#{name} GitHub ref event preceded Actions-disabled observation" unless actions_at < first_ref_at
+
+  serial_comment = confirmation(
+    row["serial_gate_confirmation_comment_id"],
+    ["WP-02-REPOSITORY: #{name}"],
+    "#{name} serial-gate confirmation"
+  )
+  serial_lines = serial_comment.fetch("body").lines.map(&:strip)
+  %w[
+    ACTIONS-DISABLED ACTIONS-BEFORE-FIRST-PUSH LFS-PARITY
+    PLATFORM-DISPOSITIONS SOURCE-IMMUTABILITY
+  ].each do |prefix|
+    line = serial_lines.find { |candidate| candidate.start_with?("#{prefix}: ") }
+    abort "#{name} serial-gate confirmation lacks #{prefix}" unless line&.split(": ", 2)&.last&.match?(/\A[0-9a-f]{64}\z/)
+  end
+  abort "#{name} serial-gate timestamp mismatch" unless serial_comment["created_at"] == row["serial_gate_confirmed_at"]
+  if index + 1 < rows.length
+    next_started = Time.iso8601(rows.fetch(index + 1).fetch("copy_started_at"))
+    abort "#{name} live serial gate followed the next copy start" unless Time.iso8601(serial_comment["created_at"]) < next_started
+  end
 
   confirmation(
     row["operator_confirmation_comment_id"],
