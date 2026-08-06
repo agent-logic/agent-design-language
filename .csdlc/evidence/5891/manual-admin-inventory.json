@@ -1,0 +1,13 @@
+{
+  "schema": "adl.repository_cutover_manual_admin_inventory.v1",
+  "captured_at": "2026-08-06",
+  "method": "operator_authenticated_github_ui",
+  "organization_runners": {
+    "url": "https://github.com/organizations/agent-logic/settings/actions/runners",
+    "count": 0
+  },
+  "packages": {
+    "url": "https://github.com/orgs/agent-logic/packages",
+    "count": 0
+  }
+}

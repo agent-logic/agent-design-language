@@ -80,13 +80,14 @@ links remain on the legacy repository because that history was not copied.
 - Packages, organization runners, and GitHub Apps: activation stop condition
   until inventoried with sufficient read-only authority or proven unused.
 
-The post verifier derives canonical integration states from live APIs rather
-than accepting free-form dispositions: `N_names` for variables and secrets,
-`present` for the environment, disabled dependent AWS workflows,
-`canonical_badge_current` for Codecov, and exact package, organization-runner,
-GitHub-App, and webhook counts. The final manifest must record those exact
-observed tokens and receive independent review. Missing `read:packages` or
-`admin:org` authority is an activation stop, not an inferred empty inventory.
+The post verifier derives canonical integration states from live APIs and the
+retained operator-authenticated GitHub UI inventory rather than accepting
+free-form dispositions: `N_names` for variables and secrets, `present` for the
+environment, disabled dependent AWS workflows, the observed Codecov badge
+state, and exact package, organization-runner, GitHub-App, and webhook counts.
+The final manifest must record those exact observed tokens and receive
+independent review. Package and runner counts may use the retained signed-in UI
+evidence when the CLI token lacks the two read-only organization scopes.
 
 ## Compact Disposition Manifests
 
