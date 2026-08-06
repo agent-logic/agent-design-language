@@ -198,6 +198,7 @@ fn migrate_bound_topology_inner(
     request: BoundTopologyMigrationRequest,
     fail_after_commits: Option<(usize, bool)>,
 ) -> Result<BoundTopologyMigrationReport> {
+    let _migration_lock = store.binding_lock()?;
     if request.schema != "csdlc.bound_topology_migration_request.v1"
         || request.actor.trim().is_empty()
         || !clean_relative_path(&request.issue_state_evidence)
@@ -448,6 +449,7 @@ fn migrate_bound_topology_inner(
             }
             return Err(error);
         }
+        mark_snapshot_committed(&snapshot, &changed_issues)?;
         fs::remove_dir_all(snapshot)?;
     }
     let results = planned
@@ -497,6 +499,7 @@ fn clean_relative_path(value: &str) -> bool {
 struct MigrationSnapshotManifest {
     schema: String,
     issues: Vec<u64>,
+    committed: bool,
 }
 
 fn migration_snapshot_path(store: &Store) -> PathBuf {
@@ -525,6 +528,10 @@ fn recover_interrupted_migration(store: &Store) -> Result<()> {
             "bound topology migration recovery manifest is invalid",
         ));
     }
+    if manifest.committed {
+        fs::remove_dir_all(snapshot)?;
+        return Ok(());
+    }
     let _locks = manifest
         .issues
         .iter()
@@ -552,22 +559,48 @@ fn snapshot_issue_directories(store: &Store, issues: &[u64]) -> Result<PathBuf> 
     let manifest = MigrationSnapshotManifest {
         schema: "csdlc.bound_topology_snapshot.v1".into(),
         issues: issues.to_vec(),
+        committed: false,
     };
-    let manifest_path = snapshot.join("manifest.json");
-    let file = fs::File::create(&manifest_path)?;
-    serde_json::to_writer_pretty(&file, &manifest)?;
-    file.sync_all()?;
-    fs::File::open(&snapshot)?.sync_all()?;
+    write_snapshot_manifest(&snapshot, &manifest)?;
     Ok(snapshot)
+}
+
+fn mark_snapshot_committed(snapshot: &Path, issues: &[u64]) -> Result<()> {
+    write_snapshot_manifest(
+        snapshot,
+        &MigrationSnapshotManifest {
+            schema: "csdlc.bound_topology_snapshot.v1".into(),
+            issues: issues.to_vec(),
+            committed: true,
+        },
+    )
+}
+
+fn write_snapshot_manifest(snapshot: &Path, manifest: &MigrationSnapshotManifest) -> Result<()> {
+    let temporary = snapshot.join("manifest.json.tmp");
+    let file = fs::File::create(&temporary)?;
+    serde_json::to_writer_pretty(&file, manifest)?;
+    file.sync_all()?;
+    fs::rename(temporary, snapshot.join("manifest.json"))?;
+    fs::File::open(snapshot)?.sync_all()?;
+    Ok(())
 }
 
 fn restore_issue_directories(store: &Store, snapshot: &Path, issues: &[u64]) -> Result<()> {
     for issue in issues {
+        let backup = snapshot.join(issue.to_string());
         let destination = store.issue_dir(*issue);
-        if destination.exists() {
-            fs::remove_dir_all(&destination)?;
+        if backup.exists() {
+            if destination.exists() {
+                fs::remove_dir_all(&destination)?;
+            }
+            fs::rename(backup, destination)?;
+        } else if !destination.exists() {
+            return Err(V2Error::new(
+                ErrorCode::InterruptedTransaction,
+                format!("issue {issue} has neither migration backup nor restored record"),
+            ));
         }
-        fs::rename(snapshot.join(issue.to_string()), destination)?;
     }
     fs::remove_dir_all(snapshot)?;
     Ok(())
@@ -642,7 +675,7 @@ fn verified_topology_candidates(
             &record,
             &candidate_store.load_cards(issue)?,
         )?;
-        reject_conflicting_topology_owner(issue, branch, &canonical, worktrees)?;
+        reject_conflicting_topology_owner(root, issue, branch, &canonical, worktrees)?;
         candidates.insert((
             listed_branch.clone(),
             canonical.to_string_lossy().into_owned(),
@@ -652,6 +685,7 @@ fn verified_topology_candidates(
 }
 
 fn reject_conflicting_topology_owner(
+    root: &Path,
     issue: u64,
     branch: &str,
     worktree: &Path,
@@ -685,7 +719,7 @@ fn reject_conflicting_topology_owner(
                     let resolved = if path.is_absolute() {
                         path.to_path_buf()
                     } else {
-                        Path::new(listed_path).join(path)
+                        root.join(path)
                     };
                     resolved.canonicalize().ok()
                 });

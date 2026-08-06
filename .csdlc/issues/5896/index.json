@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f9a233a5a2c5c84d627f97fd928a4df09bc19b2474bc436e9b69c31219053e2c",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "eaaf6f61b2def377f6336561dcc18316894e446eb47afc34621e23377676b7a3",
+  "generation": 7,
+  "digest": "3f7f6feafd294472ce88427e90667e296551c2140bde8c3afd5c4aef315d4166",
   "branch": "codex/5896-bound-topology-migration",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-5896-bound-topology-migration",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7b45293cf70e627c103087a87e6a2ef180e385f4b6a40bd6c23df5effe0a1007",
+      "values_digest": "2581d0eed5ad4aac1daf60d4e398ac048de35e4aa5111a2feea0bc427d5dc66e",
       "rendered_digest": "0d48f6d1045efa10ab18a91c68e5502d0fabadb9ce0189e1cb7af589218574d3",
       "ast_digest": "17e32400c46cd740a7bbd8650dbe500e723b5e07957b9cffce9ce60754800931"
     },
     "stp": {
-      "values_digest": "e29d8750636524f2108110f3cd8a26652a93749e0b46b2572b55e3d76aac86b4",
+      "values_digest": "3c75880466831f3f06cd430689a2d20b15df09f504e846e2edf56979db2418ab",
       "rendered_digest": "976052055d1d90674eb470f2dcb67d6b0d0cb735af67b580f8725c8dc4c48170",
       "ast_digest": "e6165c451fa414614ee7d5bf9972162524b31d3c34a153185613b9af8edd9fd1"
     },
     "spp": {
-      "values_digest": "9e454da28fbc110d877d6783518569c1b846baa9b5ac97c910cbb3fcadf0ba1e",
+      "values_digest": "c8f18de676c3d12a1500d34432dad1d4ed3ea1e0f29006dfcf7fe90c0d404108",
       "rendered_digest": "1991171cf9212e2c60133edc6938644843d26988cba6584210c7fcfd0b0aed3d",
       "ast_digest": "0cd112ec6ac771b11499e5ce3073316d0907642c99ba3e140b29eaa4a98fe486"
     },
     "vpp": {
-      "values_digest": "857e9d7cf8aee13806be9d076317cf0eb87a1b333b9bcc6aeebf2903e5c7dd45",
+      "values_digest": "5faa07e58db4e277892ae7b58342c52f67ed1a1dacf5e509f7d2525d6bf147a1",
       "rendered_digest": "53c06c95481d4fc792b07327ba25b20951d431ac618f70868b6722d9870debe6",
       "ast_digest": "b36bbc1fe670a23f4a6f30882478f19ec9a28abebf0b462a309da666ffb25cc0"
     },
     "srp": {
-      "values_digest": "c7a377251e8b3caaf0f1660822bfb2d22b5e3b2137b109ed743ad5ad9178a8ef",
+      "values_digest": "10b9c327f88f85c8c1c298a2d0347c94c5ec9a15cbbc75ba6978f78373b12fc6",
       "rendered_digest": "5d2061fd4e1f1d046f92359dff097acf8f4be9a0406bdf72caea1e26de61b615",
       "ast_digest": "1586632f9f705bffba5c8e0dacc81f49f39befa4bd2d9752cc75842d65eb5c55"
     },
     "sor": {
-      "values_digest": "a0b90ebc7fc2d2cd14aee889fe131c14ff1261acbe8d1ad6ca0dbc81fc07cbe1",
-      "rendered_digest": "9c7a4f63d40bfdc459dc4b8fb7f9e073f7c6c1598a569631b6206c4a50200f9e",
-      "ast_digest": "10d21d097d88938efeaa60c59eae228aa273c42a2642420eb167b0d096cc2629"
+      "values_digest": "7148e4fb5a04a34aa27b6a1fc4ab8df0588bd448f22fdf6d1b7f235f5703b436",
+      "rendered_digest": "ba49a917ca16c6454469ad01f10438472f719dcf0b80114dfd646a7c1e85fa2b",
+      "ast_digest": "04c18daf24df55cf2c6cdf3cd9471da82033a2dc5641c1d9feca615dfa547aca"
     }
   },
   "transitions": [
@@ -133,6 +133,13 @@
       "actor": "codex-5896",
       "reason": "record post-review migration validation",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--test\",\"topology_migration\"],\"purpose\":\"Prove durable crash recovery plus atomicity, evidence, collision, and idempotence behavior after review fixes.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/topology_migration.rs\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex-5896",
+      "reason": "record final concurrency validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--test\",\"topology_migration\"],\"purpose\":\"Prove repository-serialized concurrent migration and idempotent interrupted recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/topology_migration.rs\"}}"
     }
   ]
 }

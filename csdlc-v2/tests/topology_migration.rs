@@ -339,8 +339,8 @@ fn topology_owned_by_another_issue_is_rejected() {
         conflicting.join("index.json"),
         serde_json::to_vec_pretty(&serde_json::json!({
             "issue":999,
-            "branch":"issue-47",
-            "worktree":candidate.canonicalize().unwrap()
+            "branch":"different-branch",
+            "worktree":"../candidate-47-one"
         }))
         .unwrap(),
     )
@@ -465,4 +465,32 @@ fn next_run_recovers_a_durable_interrupted_batch() {
         .root()
         .join(".csdlc/issues/.bound-topology-migration-backup")
         .exists());
+}
+
+#[test]
+fn concurrent_runs_are_serialized_by_the_repository_lock() {
+    let (_temp, store) = fixture(52);
+    let request = request(&store, 52, MigrationIssueState::Open, true);
+    let root = store.root().to_path_buf();
+    let mut changed = std::thread::scope(|scope| {
+        let first_request = request.clone();
+        let first_root = root.clone();
+        let first = scope.spawn(move || {
+            migrate_bound_topology(&Store::new(first_root), first_request)
+                .unwrap()
+                .changed
+        });
+        let second = scope.spawn(move || {
+            migrate_bound_topology(&Store::new(root), request)
+                .unwrap()
+                .changed
+        });
+        vec![first.join().unwrap(), second.join().unwrap()]
+    });
+    changed.sort_unstable();
+    assert_eq!(changed, vec![0, 1]);
+    assert_eq!(
+        store.load_record(52).unwrap().phase,
+        LifecyclePhase::Initialized
+    );
 }

@@ -69,6 +69,17 @@ Implemented and applied the pre-topology bound-record migration.
     "purpose": "Prove durable crash recovery plus atomicity, evidence, collision, and idempotence behavior after review fixes.",
     "outcome": "passed",
     "evidence_ref": "csdlc-v2/tests/topology_migration.rs"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--test",
+      "topology_migration"
+    ],
+    "purpose": "Prove repository-serialized concurrent migration and idempotent interrupted recovery.",
+    "outcome": "passed",
+    "evidence_ref": "csdlc-v2/tests/topology_migration.rs"
   }
 ]
 

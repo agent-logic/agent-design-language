@@ -7,7 +7,7 @@
     "title": "[v0.92][migration] Migrate pre-topology bound issue records to Git topology",
     "slug": "v0-92-migrate-pre-topology-bound-records",
     "version": "v0.92",
-    "generation": 6
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
@@ -63,6 +63,17 @@
             "topology_migration"
           ],
           "purpose": "Prove durable crash recovery plus atomicity, evidence, collision, and idempotence behavior after review fixes.",
+          "outcome": "passed",
+          "evidence_ref": "csdlc-v2/tests/topology_migration.rs"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--test",
+            "topology_migration"
+          ],
+          "purpose": "Prove repository-serialized concurrent migration and idempotent interrupted recovery.",
           "outcome": "passed",
           "evidence_ref": "csdlc-v2/tests/topology_migration.rs"
         }
