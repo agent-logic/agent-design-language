@@ -3,9 +3,9 @@
   "issue": 5819,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8f38743f59dd814a09097b78e17331ac66a04b30cc584dab53d682d1e1d4ea34",
-  "phase": "reviewed",
-  "generation": 68,
-  "digest": "bf059406cf0e2681ed7883f2c76204c09d165c84d59638619dde0cfe915e1c8a",
+  "phase": "published",
+  "generation": 69,
+  "digest": "da8676ffe571893d482e6b8163c605b7f5bc0789ff3261026cc3e885bf4b7f0e",
   "branch": "codex/5819-v092-repository-migration-preflight",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5819-preflight",
   "review_assignment": {
@@ -35,7 +35,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5819,
+    "pull_request": 5889,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5889",
+    "base": "main",
+    "head": "codex/5819-v092-repository-migration-preflight",
+    "revision": "git-blake3:201ccb8b8b596b968579140925541fb32ee94a8a:06fef35e9d6f255bca88f47b70c3c2882a7be7d205e8933d6246e02be3775149",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -49,34 +59,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dca170421af5ade4721611ec8db9d9a640a55b38bc14bca6607f0dbb40d581b8",
+      "values_digest": "6aa224200bbfadfc1c53bb5feee5314449659debd11e89adae25e51970d3d685",
       "rendered_digest": "7539f62d2d912024743c2f68677d825eb6441c1056b8d01fc36a6effb8c64323",
       "ast_digest": "00821c7db8716e696006773471e00cdae1291fd811d4e892069631fc210d16c8"
     },
     "stp": {
-      "values_digest": "e07830a6bcdf06ece2adfad8c89c64cfad336e91055a880994a991602356071c",
+      "values_digest": "3ff85b5f5e77377a097ad721a13010ab552dfeb5a71bf45f7ed4a81471fe08f2",
       "rendered_digest": "cbc291fd6122cd5eefd8a0fb0c2aa8674991d2115a8d5098b8c6009aad08e936",
       "ast_digest": "dc301a8398ff69078c0c1f9265b179ac22b7b4c28f2d206f5cf70652ac30a6d8"
     },
     "spp": {
-      "values_digest": "196eb0fb160bb41f51500fffcdface7ecd94985c82fd5502ab40828b8c3ccf6e",
+      "values_digest": "c2cd441d18a988ad9151d51e34ecd71e0ffae2e48e841ad4283538690ea0ff6c",
       "rendered_digest": "3c18f7548876e0523d1b429fe6b31993f8dfb5337307e39be3655648b2be4e14",
       "ast_digest": "7466febfe812578231e910a6df09c26e78bd23c44339383345da650967a04256"
     },
     "vpp": {
-      "values_digest": "4872a3f28912aabbd91603cfbf8ccebbb8e420c70e088e1f4a5d15c072597cce",
+      "values_digest": "7db7ceb04feccb98629323facdf4ed1c85e0fa509e83f39aae4e283b12eaa0d7",
       "rendered_digest": "1f4515d003bf0d53349381c48a6b3a208cc15c59423ae595bdec0fc095feab5c",
       "ast_digest": "212296befbf3a77bc6c2752f9e47d23a098d6102e7d0d37279285ddc0af4b384"
     },
     "srp": {
-      "values_digest": "653cb1b7dff591fa1bc98cc2559f243f99d3b5b12cd83f6ac28b8762e60d8f0c",
+      "values_digest": "4f478ee18049904a69dd76a332227c1d4ff7ff6fb8fb378d137f42ab7b504353",
       "rendered_digest": "86286d11d430eb3a92dc419088e07d76e705039de7f4dd3a94787245ee6f89c5",
       "ast_digest": "cce49b2a5935e44cf3530f6bf522f400ae83ffcaea81bc102478da96a3bc2f86"
     },
     "sor": {
-      "values_digest": "7011add7ca9c22238410aa4f823fad056e8203744927e37d210c0e4feb37cb31",
-      "rendered_digest": "a718667197a766c8091d17a35fb2b1f7ae847b56df69ca9eea9b78213ea3da29",
-      "ast_digest": "0f5a287f823a2c39a2adfa2871d1aca0618730e10d3a95d0de75732292ce1288"
+      "values_digest": "add227b408a199fd24e73f3d85546e0f9a83473388b7f50a02efc3f0f3b5087a",
+      "rendered_digest": "b9b64a18fd4cbdbfae2aac7f713e4c659b623fa80fe7b27f4f035d4c2b30400d",
+      "ast_digest": "3fb752d4608f6e73b46ac5fa05086e1fff86aa5bac85c2b9363786c0fc663103"
     }
   },
   "transitions": [
@@ -107,6 +117,13 @@
       "to": "reviewed",
       "actor": "codex:mill-wp02-supersession-review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:wp02-copy-publication",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -739,6 +756,13 @@
       "actor": "codex:mill-wp02-supersession-review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 91,
+      "generation": 69,
+      "actor": "codex:wp02-copy-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
