@@ -170,10 +170,8 @@ These rules are mandatory for ADL issue work.
   `SIP`, `STP`, and `SPP` should be issue-specific and design-time ready before
   execution starts. If they are generic, stale, or incomplete, route them through
   the appropriate editor skill before running the issue.
-- During v0.91.6 rescue-sprint and release-tail work, also follow
-  `docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md` for watcher-owned
-  wait states, prep-scout promotion, scheduler non-authority, and binary-first
-  workflow command expectations.
+- The retained v0.91.6 rescue-sprint contract is historical evidence. Current
+  work follows this file and the typed C-SDLC v2 operator skills.
 - Treat `SPP` as the operative issue-local plan. If real execution diverges
   materially from the tracked plan, update the `SPP` before continuing.
 - Treat `SRP` and `SOR` as truth surfaces. `SRP` records review prompts,

@@ -63,7 +63,7 @@ ADL already has a substantial platform baseline:
 - Runtime v2 and CSM Observatory planning and proof surfaces
 - Gödel agents and the
   [Gödel-Hadamard-Bayes algorithm](docs/milestones/v0.86/features/GODEL_HADAMARD_BAYES_ALGORITHM.md)
-- structured PR/control-plane workflow with SIP, STP, SPP, SRP, and SOR records
+- structured PR/control-plane workflow with SIP, STP, SPP, VPP, SRP, and SOR records
 
 For the full capability matrix, read the canonical feature index:
 [docs/planning/ADL_FEATURE_LIST.md](docs/planning/ADL_FEATURE_LIST.md).
@@ -103,13 +103,13 @@ intelligence can become infrastructure instead of an unreproducible transcript.
 
 ## Quick Start
 
-Generate the current v0.91 cognitive-being flagship proof packet:
+Generate the retained v0.91 cognitive-being flagship proof packet:
 
 ```bash
 cargo run --manifest-path adl/Cargo.toml -- runtime-v2 cognitive-being-flagship-demo --out artifacts/quickstart/cognitive-being-flagship
 ```
 
-Inspect a current v0.91 multi-agent workflow plan:
+Inspect a retained v0.91 multi-agent workflow plan:
 
 ```bash
 cargo run -q --manifest-path adl/Cargo.toml --bin adl -- adl/examples/v0-91-chatgpt-gemini-claude-triad-conversation.adl.yaml --print-plan
@@ -339,8 +339,7 @@ production markets.
 - Foundation sprint umbrella: #5858
 - Upstream handoff: v0.92 consumes the retained exact-revision v0.91.8
   acceptance and handoff
-- Package and workspace versions remain independently governed by their owning
-  release issues; this documentation activation does not change them
+- Current ADL package and workspace version: `0.92.0`
 - Most recently completed implementation/readiness tranche and public release:
   v0.91.7 ([GitHub release](https://github.com/danielbaustin/agent-design-language/releases/tag/v0.91.7))
 - Current milestone state: the v0.92 package and issue wave are active; feature

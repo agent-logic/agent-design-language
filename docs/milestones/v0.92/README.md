@@ -13,8 +13,7 @@
 
 Current status: `v0.92` is the active development milestone. WP-01 planning
 issue `#5817` and execution-readiness issue `#5860` are closed. WP-01B `#5818`
-owns canonical documentation activation. Package and workspace versions remain
-independently governed by their owning release issues. The
+owns canonical documentation and `0.92.0` package/workspace activation. The
 final work-package issue wave is open, with issue numbers recorded in
 `WP_ISSUE_WAVE_v0.92.yaml`; execution remains governed by the dependency graph
 and each issue's own evidence.
