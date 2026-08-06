@@ -1,5 +1,8 @@
 use clap::{Parser, Subcommand};
-use csdlc_v2::{execute, finalize, ExecutionRequest, FinalizeRequest, Store};
+use csdlc_v2::{
+    doctor::DoctorStatus, execute, finalize, ErrorCode, ExecutionRequest, FinalizeRequest, Store,
+    V2Error,
+};
 use std::{fs, path::PathBuf};
 #[derive(Parser)]
 struct Cli {
@@ -12,6 +15,10 @@ struct Cli {
 }
 #[derive(Subcommand)]
 enum Command {
+    Issue {
+        #[arg(long)]
+        issue: u64,
+    },
     Finalize {
         #[arg(long)]
         request: PathBuf,
@@ -20,6 +27,18 @@ enum Command {
 fn main() {
     let cli = Cli::parse();
     let result = match cli.command {
+        Some(Command::Issue { issue }) => {
+            csdlc_v2::doctor::diagnose_result(&Store::new(cli.root), issue).and_then(|report| {
+                if report.status != DoctorStatus::Pass {
+                    return Err(V2Error::new(
+                        ErrorCode::CardInvalid,
+                        serde_json::to_string(&report)
+                            .unwrap_or_else(|_| "issue validation did not pass".to_string()),
+                    ));
+                }
+                serde_json::to_value(report).map_err(Into::into)
+            })
+        }
         Some(Command::Finalize { request }) => fs::read(request)
             .map_err(csdlc_v2::V2Error::from)
             .and_then(|b| serde_json::from_slice::<FinalizeRequest>(&b).map_err(Into::into))

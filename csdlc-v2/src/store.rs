@@ -1,8 +1,7 @@
 use std::collections::BTreeMap;
 use std::fs::{self, File, OpenOptions};
-use std::io::{Read, Write};
+use std::io::Write;
 use std::path::{Path, PathBuf};
-use std::time::{SystemTime, UNIX_EPOCH};
 
 use fs2::FileExt;
 use schemars::JsonSchema;
@@ -15,11 +14,81 @@ use crate::cards::{
 };
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
-    AuditEvent, CardProjection, Claim, DesignReview, IssueRecord, LifecyclePhase,
-    PublicationEvidence, ReviewAssignment, ReviewEvidence, TerminalEvidence, TerminalReceipt,
-    TransitionEvent,
+    AuditEvent, CardProjection, DesignReview, IssueRecord, LifecyclePhase, PublicationEvidence,
+    ReviewAssignment, ReviewEvidence, TerminalEvidence, TerminalReceipt, TransitionEvent,
 };
 use crate::review::evaluate_publication_review_in_repo;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct LegacyClaim {
+    id: String,
+    owner: String,
+    generation: u64,
+    acquired_unix_seconds: u64,
+    expires_unix_seconds: u64,
+    heartbeat_unix_seconds: u64,
+    branch: String,
+    worktree: String,
+    protected_paths: Vec<String>,
+    purpose: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct LegacyTerminalEvidence {
+    pull_request: Option<u64>,
+    disposition: crate::readiness::TerminalDisposition,
+    observed_sha: Option<String>,
+    observed_state: String,
+    receipt_path: String,
+    released_branch: String,
+    released_worktree: String,
+    released_protected_paths: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct LegacyIssueRecord {
+    schema: String,
+    issue: u64,
+    repository: String,
+    initialization_digest: String,
+    phase: LifecyclePhase,
+    generation: u64,
+    digest: String,
+    claim: Option<LegacyClaim>,
+    review_assignment: Option<ReviewAssignment>,
+    review: Option<ReviewEvidence>,
+    #[serde(default)]
+    publication: Option<PublicationEvidence>,
+    #[serde(default)]
+    readiness: Option<crate::model::ReadinessEvidence>,
+    #[serde(default)]
+    terminal: Option<LegacyTerminalEvidence>,
+    #[serde(default)]
+    migration: Option<crate::model::MigrationEvidence>,
+    design_path: String,
+    diagram_path: String,
+    design_review: DesignReview,
+    cards: BTreeMap<CardKind, CardProjection>,
+    transitions: Vec<TransitionEvent>,
+    audit: Vec<AuditEvent>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct LegacyTerminalReceipt {
+    schema: String,
+    issue: u64,
+    repository: String,
+    initialization_digest: String,
+    receipt_ref: String,
+    authored_artifacts: BTreeMap<String, String>,
+    record: LegacyIssueRecord,
+    cards: BTreeMap<CardKind, CardValues>,
+    digest: String,
+}
 
 #[derive(Debug, Clone)]
 pub struct Store {
@@ -31,7 +100,6 @@ pub(crate) struct ImplementationCommit {
     pub issue: u64,
     pub expected_generation: u64,
     pub expected_digest: String,
-    pub claim_id: String,
     pub actor: String,
     pub summary: String,
     pub changes: Vec<String>,
@@ -44,7 +112,6 @@ pub(crate) struct ReviewCommit {
     pub issue: u64,
     pub expected_digest: String,
     pub actor: String,
-    pub claim_id: String,
     pub evidence: ReviewEvidence,
     pub result: crate::cards::ReviewResult,
     pub advance_reviewed: bool,
@@ -116,37 +183,17 @@ impl Store {
         Ok(file)
     }
 
-    pub(crate) fn remove_unstarted_binding_projection(
-        &self,
-        issue: u64,
-        claim_id: &str,
-        expected_digest: &str,
-    ) -> Result<()> {
-        let _lock = self.lock(issue)?;
-        self.recover_if_needed(issue)?;
-        let record = self.load_record(issue)?;
-        if record.digest != expected_digest
-            || record.claim.as_ref().map(|claim| claim.id.as_str()) != Some(claim_id)
-            || !matches!(
-                record.phase,
-                LifecyclePhase::Initialized | LifecyclePhase::Ready | LifecyclePhase::Bound
-            )
-            || record.publication.is_some()
-            || record.review.is_some()
-            || record.terminal.is_some()
-        {
-            return Err(V2Error::new(
-                ErrorCode::InvalidTransition,
-                "binding projection has execution or mismatched ownership and cannot be released",
-            ));
-        }
-        fs::remove_dir_all(self.issue_dir(issue))?;
-        sync_dir(&self.root.join(".csdlc/issues"))?;
-        Ok(())
-    }
-
     pub fn load_record(&self, issue: u64) -> Result<IssueRecord> {
-        let record: IssueRecord = read_json(&self.issue_dir(issue).join("index.json"))?;
+        let mut value: serde_json::Value =
+            serde_json::from_slice(&fs::read(self.issue_dir(issue).join("index.json"))?)?;
+        if value.get("claim").is_some() {
+            verify_legacy_record_json(&value)?;
+        }
+        let had_legacy_claim = normalize_legacy_record_json(&mut value);
+        let mut record: IssueRecord = serde_json::from_value(value)?;
+        if had_legacy_claim {
+            record.digest = record_digest(&record)?;
+        }
         if record.issue != issue {
             return Err(V2Error::new(
                 ErrorCode::CorruptRecord,
@@ -220,7 +267,22 @@ impl Store {
                 ),
             ));
         }
-        let receipt: TerminalReceipt = read_json(&path)?;
+        let mut value: serde_json::Value = read_json(&path)?;
+        if value
+            .get("record")
+            .and_then(|record| record.get("claim"))
+            .is_some()
+        {
+            verify_legacy_terminal_receipt_json(&value)?;
+        }
+        let had_legacy_claim = value
+            .get_mut("record")
+            .is_some_and(normalize_legacy_record_json);
+        let mut receipt: TerminalReceipt = serde_json::from_value(value)?;
+        if had_legacy_claim {
+            receipt.record.digest = record_digest(&receipt.record)?;
+            receipt.digest = terminal_receipt_digest(&receipt)?;
+        }
         validate_terminal_receipt(&receipt)?;
         if receipt.issue != issue {
             return Err(V2Error::new(
@@ -232,61 +294,6 @@ impl Store {
             ));
         }
         Ok(Some(receipt))
-    }
-
-    pub(crate) fn has_claim_free_terminal_authority(
-        &self,
-        issue: u64,
-        repository: &str,
-        initialization_digest: &str,
-    ) -> Result<bool> {
-        let local = self.load_record(issue)?;
-        if local.phase != LifecyclePhase::ClosedOut
-            || local.claim.is_some()
-            || local.repository != repository
-            || local.initialization_digest != initialization_digest
-        {
-            return Ok(false);
-        }
-        let Some(receipt) = self.load_terminal_receipt(issue)? else {
-            return Ok(false);
-        };
-        self.legacy_receipt_matches_projection(&receipt)
-    }
-
-    pub(crate) fn has_claim_free_retained_terminal_authority(
-        &self,
-        observed: &IssueRecord,
-    ) -> Result<bool> {
-        let Some(observed_claim) = observed.claim.as_ref() else {
-            return Ok(false);
-        };
-        let local = self.load_record(observed.issue)?;
-        if local.claim.is_some()
-            || local.repository != observed.repository
-            || local.initialization_digest != observed.initialization_digest
-        {
-            return Ok(false);
-        }
-        let Some(receipt) = self.load_terminal_receipt(observed.issue)? else {
-            return Ok(false);
-        };
-        if !self.legacy_receipt_matches_projection(&receipt)? {
-            return Ok(false);
-        }
-        let Some(terminal) = receipt.record.terminal.as_ref() else {
-            return Ok(false);
-        };
-        let mut released_paths = terminal.released_protected_paths.clone();
-        let mut observed_paths = observed_claim.protected_paths.clone();
-        released_paths.sort();
-        observed_paths.sort();
-        Ok(receipt.record.phase == LifecyclePhase::ClosedOut
-            && receipt.record.claim.is_none()
-            && receipt.record.generation > observed.generation
-            && terminal.released_branch == observed_claim.branch
-            && terminal.released_worktree == observed_claim.worktree
-            && released_paths == observed_paths)
     }
 
     fn legacy_receipt_matches_projection(&self, receipt: &TerminalReceipt) -> Result<bool> {
@@ -437,6 +444,15 @@ impl Store {
         record: &IssueRecord,
     ) -> Result<()> {
         let _lock = self.lock(issue)?;
+        self.replace_record_locked(issue, expected_digest, record)
+    }
+
+    pub(crate) fn replace_record_locked(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        record: &IssueRecord,
+    ) -> Result<()> {
         self.recover_if_needed(issue)?;
         let current = self.load_record(issue)?;
         if current.digest != expected_digest {
@@ -448,69 +464,6 @@ impl Store {
         let cards = self.load_cards(issue)?;
         verify_cards(self, &current, &cards)?;
         self.commit(issue, record, &cards, false)
-    }
-
-    #[cfg(debug_assertions)]
-    pub(crate) fn replace_authority_record(
-        &self,
-        issue: u64,
-        expected_digest: &str,
-        record: &IssueRecord,
-    ) -> Result<IssueRecord> {
-        let _lock = self.lock(issue)?;
-        self.recover_if_needed(issue)?;
-        let current = self.load_record(issue)?;
-        if current.digest != expected_digest {
-            return Err(V2Error::new(
-                ErrorCode::StaleDigest,
-                "record changed before compare-and-swap authority commit",
-            ));
-        }
-        let cards = self.load_cards(issue)?;
-        // Authority recovery accepts projection drift only when the typed card
-        // values, identities, generations, and rendered Markdown agree.
-        verify_authority_card_inputs(self, &current, &cards)?;
-        let mut repaired = record.clone();
-        hydrate_projections(&mut repaired, &cards)?;
-        repaired.digest = record_digest(&repaired)?;
-        self.commit(issue, &repaired, &cards, false)?;
-        Ok(repaired)
-    }
-
-    pub(crate) fn replace_authority_projection_locked(
-        &self,
-        issue: u64,
-        expected_digest: &str,
-        record: &IssueRecord,
-        cards: &BTreeMap<CardKind, CardValues>,
-    ) -> Result<IssueRecord> {
-        self.recover_if_needed(issue)?;
-        let current = self.load_record(issue)?;
-        if current.digest != expected_digest {
-            return Err(V2Error::new(
-                ErrorCode::StaleDigest,
-                "projection changed before compare-and-swap authority materialization",
-            ));
-        }
-        let current_cards = self.load_cards(issue)?;
-        verify_cards(self, &current, &current_cards)?;
-        verify_canonical_projection_bytes(self, &current, &current_cards)?;
-        let mut materialized = record.clone();
-        hydrate_projections(&mut materialized, cards)?;
-        materialized.digest = record_digest(&materialized)?;
-        self.commit(issue, &materialized, cards, false)?;
-        if let Err(error) = verify_cards(self, &materialized, cards) {
-            self.commit(issue, &current, &current_cards, false)?;
-            verify_cards(self, &current, &current_cards)?;
-            return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                format!(
-                    "authority projection failed post-commit verification and was rolled back: {}",
-                    error.message
-                ),
-            ));
-        }
-        Ok(materialized)
     }
 
     pub(crate) fn materialize_terminal_from_derived(
@@ -577,20 +530,8 @@ impl Store {
         let rollback_record = record.clone();
         let rollback_cards = cards.clone();
 
-        let released = match (record.claim.clone(), record.terminal.clone()) {
-            (Some(claim), _) => (claim.branch, claim.worktree, claim.protected_paths),
-            (None, Some(terminal)) => (
-                terminal.released_branch,
-                terminal.released_worktree,
-                terminal.released_protected_paths,
-            ),
-            (None, None) => {
-                return Err(V2Error::new(
-                    ErrorCode::MissingClaim,
-                    "terminal materialization requires a source claim or terminal release evidence",
-                ));
-            }
-        };
+        let branch = record.branch.clone();
+        let worktree = record.worktree.clone();
         let publication = record.publication.as_mut().ok_or_else(|| {
             V2Error::new(
                 ErrorCode::ReconciliationRequired,
@@ -665,16 +606,14 @@ impl Store {
         for values in cards.values_mut() {
             values.identity.generation = record.generation;
         }
-        record.claim = None;
         record.terminal = Some(TerminalEvidence {
             pull_request: envelope.pull_request,
             disposition: terminal_disposition,
             observed_sha: envelope.head_sha.clone(),
             observed_state: observed_state.into(),
             receipt_path: format!("csdlc-v2/closeout/{issue}.json"),
-            released_branch: released.0,
-            released_worktree: released.1,
-            released_protected_paths: released.2,
+            branch,
+            worktree,
         });
         match record.phase {
             LifecyclePhase::Published => {
@@ -775,14 +714,6 @@ impl Store {
         )
     }
 
-    pub(crate) fn verify_canonical_authority_projection(
-        &self,
-        record: &IssueRecord,
-        cards: &BTreeMap<CardKind, CardValues>,
-    ) -> Result<()> {
-        verify_canonical_projection_bytes(self, record, cards)
-    }
-
     pub(crate) fn commit_migration(
         &self,
         issue: u64,
@@ -813,9 +744,6 @@ impl Store {
         for values in cards.values_mut() {
             values.identity.generation = record.generation;
         }
-        if let Some(claim) = record.claim.as_mut() {
-            claim.generation = record.generation;
-        }
         record.migration = Some(evidence);
         record.audit.push(AuditEvent {
             sequence: record.audit.len() as u64 + 1,
@@ -835,18 +763,12 @@ impl Store {
         &self,
         issue: u64,
         expected_digest: &str,
-        claim_id: &str,
         actor: String,
         evidence: PublicationEvidence,
     ) -> Result<IssueRecord> {
         let _lock = self.lock(issue)?;
         self.recover_if_needed(issue)?;
         let mut record = self.load_record(issue)?;
-        record
-            .claim
-            .as_ref()
-            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
-            .validate(claim_id, now_seconds()?)?;
         if record.digest != expected_digest {
             return Err(V2Error::new(
                 ErrorCode::StaleDigest,
@@ -869,9 +791,6 @@ impl Store {
         record.generation += 1;
         for values in cards.values_mut() {
             values.identity.generation = record.generation;
-        }
-        if let Some(claim) = record.claim.as_mut() {
-            claim.generation = record.generation;
         }
         record.publication = Some(evidence);
         if record.phase == LifecyclePhase::Reviewed {
@@ -913,11 +832,6 @@ impl Store {
                 "implementation finalization changed before commit",
             ));
         }
-        record
-            .claim
-            .as_ref()
-            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
-            .validate(&commit.claim_id, now_seconds()?)?;
         if record.phase != LifecyclePhase::Bound || commit.validation.is_empty() {
             return Err(V2Error::new(
                 ErrorCode::InvalidTransition,
@@ -951,9 +865,6 @@ impl Store {
         record.generation += 1;
         for values in cards.values_mut() {
             values.identity.generation = record.generation;
-        }
-        if let Some(claim) = record.claim.as_mut() {
-            claim.generation = record.generation;
         }
         record.audit.push(AuditEvent {
             sequence: record.audit.len() as u64 + 1,
@@ -1048,11 +959,6 @@ impl Store {
         let _lock = self.lock(issue)?;
         self.recover_if_needed(issue)?;
         let mut record = self.load_record(issue)?;
-        record
-            .claim
-            .as_ref()
-            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
-            .validate(&commit.claim_id, now_seconds()?)?;
         if record.digest != commit.expected_digest {
             return Err(V2Error::new(
                 ErrorCode::StaleDigest,
@@ -1089,9 +995,6 @@ impl Store {
         for values in cards.values_mut() {
             values.identity.generation = record.generation;
         }
-        if let Some(claim) = record.claim.as_mut() {
-            claim.generation = record.generation;
-        }
         record.review = Some(commit.evidence);
         if commit.advance_reviewed && commit.result == crate::cards::ReviewResult::Pass {
             record.advance(
@@ -1122,7 +1025,6 @@ impl Store {
         &self,
         issue: u64,
         expected_digest: &str,
-        claim_id: &str,
         assignment: ReviewAssignment,
     ) -> Result<IssueRecord> {
         let _lock = self.lock(issue)?;
@@ -1134,11 +1036,6 @@ impl Store {
                 "review assignment changed before commit",
             ));
         }
-        record
-            .claim
-            .as_ref()
-            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
-            .validate(claim_id, now_seconds()?)?;
         if record.phase != LifecyclePhase::Implemented {
             return Err(V2Error::new(
                 ErrorCode::InvalidTransition,
@@ -1173,7 +1070,6 @@ impl Store {
         issue: u64,
         expected_generation: u64,
         expected_digest: &str,
-        claim_id: &str,
         actor: String,
         reason: String,
     ) -> Result<IssueRecord> {
@@ -1192,11 +1088,6 @@ impl Store {
                 "review recovery record changed before commit",
             ));
         }
-        record
-            .claim
-            .as_ref()
-            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
-            .validate(claim_id, now_seconds()?)?;
         if !matches!(
             record.phase,
             LifecyclePhase::Reviewed | LifecyclePhase::Published | LifecyclePhase::MergeReady
@@ -1235,9 +1126,6 @@ impl Store {
         for values in cards.values_mut() {
             values.identity.generation = record.generation;
         }
-        if let Some(claim) = record.claim.as_mut() {
-            claim.generation = record.generation;
-        }
         record.audit.push(AuditEvent {
             sequence: record.audit.len() as u64 + 1,
             generation: record.generation,
@@ -1256,15 +1144,13 @@ impl Store {
 pub struct BootstrapRequest {
     pub issue: u64,
     pub repository: String,
+    pub actor: String,
     pub design_path: String,
     pub diagram_path: String,
     pub design_reviewer: String,
     #[serde(default)]
     pub design_approved: bool,
-    pub claim: Claim,
     pub initial: InitialCardInput,
-    #[serde(default)]
-    pub prepared_cards: Option<BTreeMap<CardKind, CardValues>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
@@ -1273,7 +1159,6 @@ pub struct EditRequest {
     pub card: CardKind,
     pub expected_generation: u64,
     pub expected_digest: String,
-    pub claim_id: String,
     pub actor: String,
     pub reason: String,
     pub operation: SemanticOperation,
@@ -1286,7 +1171,6 @@ pub struct ApproveDesignRequest {
     pub issue: u64,
     pub expected_generation: u64,
     pub expected_digest: String,
-    pub claim_id: String,
     pub reviewer: String,
 }
 
@@ -1312,11 +1196,6 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
             "design reviewer is required",
         ));
     }
-    record
-        .claim
-        .as_ref()
-        .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
-        .validate(&request.claim_id, now_seconds()?)?;
     let mut cards = store.load_cards(request.issue)?;
     verify_card_projections(store, &record, &cards)?;
     let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
@@ -1370,9 +1249,6 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
     for values in cards.values_mut() {
         values.identity.generation = record.generation;
     }
-    if let Some(claim) = record.claim.as_mut() {
-        claim.generation = record.generation;
-    }
     record.audit.push(AuditEvent {
         sequence: record.audit.len() as u64 + 1,
         generation: record.generation,
@@ -1410,43 +1286,18 @@ pub(crate) fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Resul
             "issue exists with different initialization truth",
         ));
     }
-    let bootstrap_actor = request.claim.owner.clone();
+    let bootstrap_actor = request.actor.clone();
     let design_digest = digest(&fs::read(store.root.join(&request.design_path))?);
     let diagram_digest = digest(&fs::read(store.root.join(&request.diagram_path))?);
-    let cards = if let Some(mut cards) = request.prepared_cards {
-        for values in cards.values_mut() {
-            if values.identity.issue != request.issue
-                || values.identity.repository != request.repository
-                || values.identity.title != request.initial.title
-                || values.identity.slug != request.initial.slug
-                || values.identity.version != request.initial.version
-            {
-                return Err(V2Error::new(
-                    ErrorCode::CardInvalid,
-                    "prepared card identity does not match bootstrap authority",
-                ));
-            }
-            values.identity.generation = 0;
-        }
-        validate_cross_card(
-            &cards,
-            &request.design_path,
-            &design_digest,
-            &request.diagram_path,
-            &diagram_digest,
-        )?;
-        cards
-    } else {
-        initial_cards(
-            request.issue,
-            &request.repository,
-            &request.design_path,
-            &design_digest,
-            &request.diagram_path,
-            &diagram_digest,
-            request.initial,
-        )?
-    };
+    let cards = initial_cards(
+        request.issue,
+        &request.repository,
+        &request.design_path,
+        &design_digest,
+        &request.diagram_path,
+        &diagram_digest,
+        request.initial,
+    )?;
     let mut record = IssueRecord {
         schema: "csdlc.issue.index.v1".into(),
         issue: request.issue,
@@ -1455,7 +1306,8 @@ pub(crate) fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Resul
         phase: LifecyclePhase::Initialized,
         generation: 0,
         digest: String::new(),
-        claim: Some(request.claim),
+        branch: None,
+        worktree: None,
         review_assignment: None,
         review: None,
         publication: None,
@@ -1495,24 +1347,14 @@ pub(crate) fn validate_bootstrap_request(request: &BootstrapRequest) -> Result<(
             "issue and repository are required",
         ));
     }
-    let now = now_seconds()?;
     if (request.design_approved && request.design_reviewer.trim().is_empty())
-        || request.claim.id.trim().is_empty()
-        || request.claim.owner.trim().is_empty()
-        || request.claim.purpose.trim().is_empty()
-        || request.claim.branch.trim().is_empty()
-        || request.claim.worktree.trim().is_empty()
-        || request.claim.generation != 0
-        || request.claim.protected_paths.is_empty()
-        || request.claim.heartbeat_unix_seconds < request.claim.acquired_unix_seconds
-        || request.claim.expires_unix_seconds <= request.claim.heartbeat_unix_seconds
+        || request.actor.trim().is_empty()
     {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
-            "bootstrap claim/reviewer invariants are incomplete",
+            "bootstrap actor/reviewer invariants are incomplete",
         ));
     }
-    request.claim.validate(&request.claim.id, now)?;
     Ok(())
 }
 
@@ -1530,18 +1372,6 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         return Err(V2Error::new(
             ErrorCode::StaleDigest,
             "expected issue digest is stale",
-        ));
-    }
-    let now = now_seconds()?;
-    let claim = record
-        .claim
-        .as_ref()
-        .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "mutation requires a claim"))?;
-    claim.validate(&request.claim_id, now)?;
-    if claim.generation != record.generation {
-        return Err(V2Error::new(
-            ErrorCode::StaleGeneration,
-            "claim generation is stale",
         ));
     }
     let mut cards = store.load_cards(request.issue)?;
@@ -1662,9 +1492,6 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     for values in cards.values_mut() {
         values.identity.generation = record.generation;
     }
-    if let Some(claim) = record.claim.as_mut() {
-        claim.generation = record.generation;
-    }
     record.audit.push(AuditEvent {
         sequence: record.audit.len() as u64 + 1,
         generation: record.generation,
@@ -1706,6 +1533,17 @@ pub(crate) fn verify_cards(
     cards: &BTreeMap<CardKind, CardValues>,
 ) -> Result<()> {
     verify_card_projections(store, record, cards)?;
+    let mut expected_audit = Vec::new();
+    for event in &record.audit {
+        serde_json::to_writer(&mut expected_audit, event)?;
+        expected_audit.push(b'\n');
+    }
+    if fs::read(store.issue_dir(record.issue).join("audit.jsonl"))? != expected_audit {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "audit projection drift",
+        ));
+    }
     let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
     let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
     validate_cross_card(
@@ -1796,28 +1634,21 @@ pub(crate) fn verify_record(record: &IssueRecord) -> Result<()> {
             "index digest mismatch",
         ));
     }
-    if record.phase == LifecyclePhase::ClosedOut {
-        if record.claim.is_some() || record.terminal.is_none() {
-            return Err(V2Error::new(
-                ErrorCode::CorruptRecord,
-                "closed-out record must have terminal evidence and no active claim",
-            ));
-        }
-    } else if let Some(claim) = record.claim.as_ref() {
-        if claim.generation != record.generation
-            || claim.id.is_empty()
-            || claim.owner.is_empty()
-            || claim.protected_paths.is_empty()
-            || claim.branch.is_empty()
-            || claim.worktree.is_empty()
-            || claim.heartbeat_unix_seconds < claim.acquired_unix_seconds
-            || claim.expires_unix_seconds <= claim.heartbeat_unix_seconds
-        {
-            return Err(V2Error::new(
-                ErrorCode::CorruptRecord,
-                "claim invariant failed",
-            ));
-        }
+    if record.phase == LifecyclePhase::ClosedOut && record.terminal.is_none() {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "closed-out record must have terminal evidence",
+        ));
+    }
+    if record.branch.is_some() != record.worktree.is_some()
+        || (record.phase == LifecyclePhase::Bound
+            && (record.branch.as_deref().is_none_or(str::is_empty)
+                || record.worktree.as_deref().is_none_or(str::is_empty)))
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "issue branch/worktree topology is incomplete",
+        ));
     }
     if let DesignReview::Approved { reviewer, revision } = &record.design_review {
         if reviewer.trim().is_empty() || revision.trim().is_empty() {
@@ -2179,7 +2010,6 @@ fn validate_terminal_receipt(receipt: &TerminalReceipt) -> Result<()> {
         || receipt.initialization_digest != receipt.record.initialization_digest
         || receipt.receipt_ref != format!("csdlc-v2/closeout/{}.json", receipt.issue)
         || receipt.record.phase != LifecyclePhase::ClosedOut
-        || receipt.record.claim.is_some()
         || receipt.record.terminal.is_none()
         || receipt.cards.len() != 6
         || receipt.authored_artifacts.len() != 2
@@ -2280,7 +2110,6 @@ fn terminal_matches_derived(
     envelope: &crate::finish::DerivedTerminalEnvelope,
 ) -> bool {
     if record.phase != LifecyclePhase::ClosedOut
-        || record.claim.is_some()
         || envelope.issue != record.issue
         || envelope.repository != record.repository
         || envelope.initialization_digest != record.initialization_digest
@@ -2349,7 +2178,7 @@ fn verify_canonical_projection_bytes(
     Ok(())
 }
 
-pub(crate) fn read_regular_projection(root: &Path, relative: &Path) -> Result<Vec<u8>> {
+fn read_regular_projection(root: &Path, relative: &Path) -> Result<Vec<u8>> {
     let path = root.join(relative);
     let metadata = canonical_path_metadata_beneath(root, relative)?.ok_or_else(|| {
         V2Error::new(
@@ -2366,38 +2195,13 @@ pub(crate) fn read_regular_projection(root: &Path, relative: &Path) -> Result<Ve
             ),
         ));
     }
-    let mut options = OpenOptions::new();
-    options.read(true);
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::OpenOptionsExt;
-        options.custom_flags(libc::O_NOFOLLOW);
-    }
-    let mut file = options.open(&path).map_err(|error| {
-        #[cfg(unix)]
-        if error.raw_os_error() == Some(libc::ELOOP) {
-            return V2Error::new(
-                ErrorCode::UnsafeCheckout,
-                format!("authority projection is a symlink: {}", path.display()),
-            );
-        }
-        V2Error::new(ErrorCode::Io, error.to_string())
-    })?;
-    if !file.metadata()?.is_file() {
-        return Err(V2Error::new(
-            ErrorCode::UnsafeCheckout,
-            format!(
-                "authority projection handle is not a regular file: {}",
-                path.display()
-            ),
-        ));
-    }
-    let mut bytes = Vec::new();
-    file.read_to_end(&mut bytes)?;
-    Ok(bytes)
+    Ok(fs::read(path)?)
 }
 
-fn read_regular_authored_artifact(root: &Path, relative: &Path) -> Result<Option<Vec<u8>>> {
+pub(crate) fn read_regular_authored_artifact(
+    root: &Path,
+    relative: &Path,
+) -> Result<Option<Vec<u8>>> {
     if !crate::pvf::clean_relative(relative) {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
@@ -2604,23 +2408,88 @@ fn read_json<T: for<'de> Deserialize<'de>>(path: &Path) -> Result<T> {
     Ok(serde_json::from_slice(&fs::read(path)?)?)
 }
 
-#[cfg(windows)]
-pub(crate) fn sync_dir(_path: &Path) -> Result<()> {
-    // Windows does not support FlushFileBuffers on directory handles.
+fn legacy_record_digest(record: &LegacyIssueRecord) -> Result<String> {
+    let mut value = record.clone();
+    value.digest.clear();
+    Ok(digest(&serde_json::to_vec(&value)?))
+}
+
+fn verify_legacy_record_json(value: &serde_json::Value) -> Result<()> {
+    let record: LegacyIssueRecord = serde_json::from_value(value.clone())?;
+    if record.digest != legacy_record_digest(&record)? {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "legacy index digest mismatch",
+        ));
+    }
     Ok(())
 }
 
-#[cfg(not(windows))]
-pub(crate) fn sync_dir(path: &Path) -> Result<()> {
+fn legacy_terminal_receipt_digest(receipt: &LegacyTerminalReceipt) -> Result<String> {
+    let mut value = receipt.clone();
+    value.digest.clear();
+    Ok(digest(&serde_json::to_vec(&value)?))
+}
+
+fn verify_legacy_terminal_receipt_json(value: &serde_json::Value) -> Result<()> {
+    let receipt: LegacyTerminalReceipt = serde_json::from_value(value.clone())?;
+    if receipt.record.digest != legacy_record_digest(&receipt.record)?
+        || receipt.digest != legacy_terminal_receipt_digest(&receipt)?
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "legacy terminal receipt digest mismatch",
+        ));
+    }
+    Ok(())
+}
+
+fn normalize_legacy_record_json(value: &mut serde_json::Value) -> bool {
+    let Some(object) = value.as_object_mut() else {
+        return false;
+    };
+    let legacy_claim = object.remove("claim");
+    let had_legacy_claim = legacy_claim.is_some();
+    let topology = legacy_claim
+        .and_then(|claim| claim.as_object().cloned())
+        .map(|claim| (claim.get("branch").cloned(), claim.get("worktree").cloned()));
+    if let Some((Some(branch), Some(worktree))) = topology {
+        if object.get("branch").is_none_or(serde_json::Value::is_null) {
+            object.insert("branch".into(), branch);
+        }
+        if object
+            .get("worktree")
+            .is_none_or(serde_json::Value::is_null)
+        {
+            object.insert("worktree".into(), worktree);
+        }
+    }
+    if let Some(terminal) = object
+        .get_mut("terminal")
+        .and_then(serde_json::Value::as_object_mut)
+    {
+        if terminal.get("branch").is_none() {
+            let branch = terminal
+                .remove("released_branch")
+                .filter(|value| !value.as_str().is_some_and(str::is_empty))
+                .unwrap_or(serde_json::Value::Null);
+            terminal.insert("branch".into(), branch);
+        }
+        if terminal.get("worktree").is_none() {
+            let worktree = terminal
+                .remove("released_worktree")
+                .filter(|value| !value.as_str().is_some_and(str::is_empty))
+                .unwrap_or(serde_json::Value::Null);
+            terminal.insert("worktree".into(), worktree);
+        }
+        terminal.remove("released_protected_paths");
+    }
+    had_legacy_claim
+}
+
+fn sync_dir(path: &Path) -> Result<()> {
     File::open(path)?.sync_all()?;
     Ok(())
-}
-
-pub(crate) fn now_seconds() -> Result<u64> {
-    SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .map(|duration| duration.as_secs())
-        .map_err(|error| V2Error::new(ErrorCode::InvalidInput, error.to_string()))
 }
 
 fn enum_iterator() -> impl Iterator<Item = CardKind> {
@@ -2697,5 +2566,108 @@ mod edit_authorization_tests {
                 assert_eq!(error.code, ErrorCode::InvalidTransition);
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod legacy_compatibility_tests {
+    use super::*;
+
+    fn legacy_record(issue: u64) -> LegacyIssueRecord {
+        let mut record = LegacyIssueRecord {
+            schema: "csdlc.issue.index.v1".into(),
+            issue,
+            repository: "example/repo".into(),
+            initialization_digest: "initialization".into(),
+            phase: LifecyclePhase::Bound,
+            generation: 1,
+            digest: String::new(),
+            claim: Some(LegacyClaim {
+                id: "legacy-claim".into(),
+                owner: "legacy-operator".into(),
+                generation: 1,
+                acquired_unix_seconds: 1,
+                expires_unix_seconds: 3,
+                heartbeat_unix_seconds: 2,
+                branch: format!("issue-{issue}"),
+                worktree: format!(".worktrees/issue-{issue}"),
+                protected_paths: vec!["src".into()],
+                purpose: "legacy compatibility fixture".into(),
+            }),
+            review_assignment: None,
+            review: None,
+            publication: None,
+            readiness: None,
+            terminal: None,
+            migration: None,
+            design_path: format!("design/issue-{issue}.md"),
+            diagram_path: format!("design/issue-{issue}.mmd"),
+            design_review: DesignReview::Pending,
+            cards: BTreeMap::new(),
+            transitions: Vec::new(),
+            audit: Vec::new(),
+        };
+        record.digest = legacy_record_digest(&record).expect("legacy digest");
+        record
+    }
+
+    fn write_legacy(store: &Store, record: &LegacyIssueRecord) {
+        fs::create_dir_all(store.issue_dir(record.issue)).expect("issue directory");
+        fs::write(
+            store.issue_dir(record.issue).join("index.json"),
+            serde_json::to_vec_pretty(record).expect("legacy JSON"),
+        )
+        .expect("legacy index");
+    }
+
+    #[test]
+    fn valid_legacy_claim_is_verified_before_bounded_normalization() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let store = Store::new(temp.path());
+        let legacy = legacy_record(42);
+        write_legacy(&store, &legacy);
+
+        let record = store.load_record(42).expect("compatible legacy record");
+        assert_eq!(record.branch.as_deref(), Some("issue-42"));
+        assert_eq!(record.worktree.as_deref(), Some(".worktrees/issue-42"));
+        assert_eq!(
+            record.digest,
+            record_digest(&record).expect("current digest")
+        );
+    }
+
+    #[test]
+    fn tampered_legacy_claim_is_rejected_before_normalization() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let store = Store::new(temp.path());
+        let mut legacy = legacy_record(43);
+        legacy.claim.as_mut().expect("claim").owner = "tampered".into();
+        write_legacy(&store, &legacy);
+
+        let error = store
+            .load_record(43)
+            .expect_err("tampering must fail closed");
+        assert_eq!(error.code, ErrorCode::CorruptRecord);
+        assert_eq!(error.message, "legacy index digest mismatch");
+    }
+
+    #[test]
+    fn unsigned_current_topology_cannot_be_injected_into_legacy_record() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let store = Store::new(temp.path());
+        let legacy = legacy_record(44);
+        let mut value = serde_json::to_value(legacy).expect("legacy JSON");
+        value["branch"] = serde_json::json!("injected-branch");
+        value["worktree"] = serde_json::json!("injected-worktree");
+        fs::create_dir_all(store.issue_dir(44)).expect("issue directory");
+        fs::write(
+            store.issue_dir(44).join("index.json"),
+            serde_json::to_vec_pretty(&value).expect("legacy JSON"),
+        )
+        .expect("legacy index");
+
+        store
+            .load_record(44)
+            .expect_err("unsigned topology injection must fail closed");
     }
 }

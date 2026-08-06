@@ -1,10 +1,8 @@
 ---
 name: csdlc-v2-init
-description: Create and prepare claim-free C-SDLC v2 issue state from typed input, including migration of legacy preparation records.
+description: Create all six C-SDLC v2 cards and canonical issue state from typed input.
 ---
-Invoke `csdlc-issue create`, then `csdlc-prepare sync`, `seal`, or `run` with
-typed request files. Use `csdlc-migrate preparation` or `repair` only for the
-audited legacy route. These commands create no execution claim and never bind a
-worktree. Do not edit Markdown/state, invoke shell/Python lifecycle logic, or
-infer success from prose. The final `v1_sunset` selector makes the installed v2
-generation the sole operational authority.
+Invoke `csdlc-issue --root <repo> create --request <json>`. Do not edit
+Markdown/state, invoke shell/Python lifecycle logic, bind a worktree, or infer
+success from prose. The installed v2 generation remains the sole operational
+authority.

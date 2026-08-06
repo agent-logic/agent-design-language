@@ -10,11 +10,10 @@ pub mod finish;
 pub mod git;
 pub mod github;
 pub mod github_token;
-mod lifecycle;
+pub mod lifecycle;
 pub mod migration;
 pub mod model;
 pub mod operator;
-pub mod preparation;
 pub mod proof;
 pub mod publication;
 pub mod pvf;
@@ -51,38 +50,19 @@ pub use github::{
     append_marker, execute_github_action, marker_line, GithubAction, GithubActionRequest,
     GithubActionResult, GithubIssuePacket, PrCheck, PrStatePacket, PrStateRequest,
 };
-pub use lifecycle::{
-    amend_claim_scope, heartbeat_claim, recover_claim, rehome_claim_authority,
-    release_closed_claim, revoke_active_claim, transition_active_claim, AmendClaimScopeRequest,
-    BindResult, HeartbeatRequest, RecoverClaimRequest, RehomeClaimAuthorityRequest,
-    RehomeClaimAuthorityResult, ReleaseClosedClaimRequest, RevokeActiveClaimRequest,
-    RevokeActiveClaimResult, TransitionActiveClaimRequest,
-};
+pub use lifecycle::{bind_issue, initialize_native_json, BindRequest, BindResult};
 pub use migration::{
     compare_shadow, generate_compatibility_view, import_legacy, write_compatibility_view_atomic,
     ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison,
 };
 pub use model::{
-    Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase, MigrationEvidence,
-    NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReviewAssignment, ReviewEvidence,
+    DesignReview, IssueRecord, LifecyclePhase, MigrationEvidence, NonSubstantiveProof,
+    PublicationEvidence, ReadinessEvidence, ReviewAssignment, ReviewEvidence,
     ReviewFindingEvidence, TerminalEvidence, TerminalReceipt,
 };
 pub use operator::{
     build_and_install_binaries, install_binaries, resolve_operator_generation, verify_coexistence,
     CoexistenceInventory, InstallReceipt, SkillManifest,
-};
-pub use preparation::{
-    create_issue_draft, load_binding_intent, load_manifest as load_preparation_manifest,
-    migrate_legacy_preparation, release_derived_bind, repair_legacy_preparation, run_derived_bind,
-    run_preparation, run_preparation_batch, seal_preparation, sync_preparation, BatchChildOutcome,
-    BatchChildResult, BindReleaseRequest, BindReleaseResult, BindingIntent, BindingIntentState,
-    DependencyRevision, DerivedBindRequest, DerivedBindResult, ExecutionReadinessReceipt,
-    IssueCreateRequest, IssueDraft, LegacyPreparationDisposition,
-    LegacyPreparationMigrationRequest, LegacyPreparationMigrationResult,
-    LegacyPreparationRepairDisposition, LegacyPreparationRepairRequest,
-    LegacyPreparationRepairResult, PreparationManifest, PreparationState, PrepareBatchRequest,
-    PrepareBatchResult, PrepareRunRequest, PrepareRunResult, PrepareSealRequest,
-    PrepareSyncRequest, PreparedGeneration,
 };
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
@@ -110,14 +90,6 @@ pub use soak::{
     SamplePacket, ScenarioEvidence, ScenarioOutcome, SoakDecisionPacket, SoakEvidenceInput,
     SoakScenario,
 };
-pub use store::{approve_design, edit_issue, ApproveDesignRequest, EditRequest, Store};
-
-#[cfg(debug_assertions)]
-#[doc(hidden)]
-pub mod test_support {
-    pub use crate::lifecycle::{
-        bind_issue, initialize_native_json, reacquire_claim, BindRequest, ReacquireClaimRequest,
-        ReacquireClaimResult,
-    };
-    pub use crate::store::BootstrapRequest;
-}
+pub use store::{
+    approve_design, edit_issue, ApproveDesignRequest, BootstrapRequest, EditRequest, Store,
+};
