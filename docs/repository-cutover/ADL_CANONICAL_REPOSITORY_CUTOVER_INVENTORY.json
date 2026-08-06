@@ -1,0 +1,176 @@
+{
+  "schema": "adl.repository_cutover_inventory.v3",
+  "status": "provisional",
+  "captured_at": "2026-08-06",
+  "refresh_required": "Refreshed immediately before activation after WP-02A and the Freedom Gate quality prerequisite became terminal; active legacy issues remain explicitly dispositioned.",
+  "canonical_repository": "agent-logic/agent-design-language",
+  "legacy_repository": "danielbaustin/agent-design-language",
+  "policy": {
+    "migration_mode": "copy_only",
+    "canonical_visibility": "public",
+    "legacy_visibility": "public",
+    "legacy_mutation": "README notice only after reviewed destination merge",
+    "excluded_repositories": [
+      "danielbaustin/asksifu",
+      "danielbaustin/Horust"
+    ]
+  },
+  "refs": {
+    "common_main_sha": "1cbafe43eb8c640635d9da4f9e2763c70741a2ba",
+    "pre_legacy_manifest": ".csdlc/evidence/5891/legacy-refs.tsv",
+    "pre_canonical_manifest": ".csdlc/evidence/5891/canonical-refs.tsv",
+    "post_legacy_manifest": ".csdlc/evidence/5891/post-cutover-legacy-refs.tsv",
+    "post_canonical_manifest": ".csdlc/evidence/5891/post-cutover-canonical-refs.tsv",
+    "disposition": "pre manifests are reviewed activation inputs; distinct post manifests are generated after both reviewed merges and independently reviewed as terminal evidence before closeout"
+  },
+  "disposition_manifests": {
+    "active_issues": ".csdlc/evidence/5891/active-issue-dispositions.tsv",
+    "active_pull_requests": ".csdlc/evidence/5891/active-pull-request-dispositions.tsv",
+    "worktrees": ".csdlc/evidence/5891/worktrees.txt",
+    "automations": ".csdlc/evidence/5891/automation-dispositions.tsv",
+    "integrations": ".csdlc/evidence/5891/integration-dispositions.tsv",
+    "references": ".csdlc/evidence/5891/reference-dispositions.tsv"
+  },
+  "snapshot_counts": {
+    "active_issues": 63,
+    "active_pull_requests": 0,
+    "worktrees": 166,
+    "branch_bound_worktrees": 148,
+    "detached_worktrees": 18,
+    "clean_worktrees": 69,
+    "dirty_worktrees": 97,
+    "workflows": 4
+  },
+  "operational_references": [
+    {
+      "path": "README.md",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    },
+    {
+      "path": "adl/README.md",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    },
+    {
+      "path": "adl/src/aws_remote_validation.rs",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    },
+    {
+      "path": "adl/src/bin/adl_aws_remote_validation.rs",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    },
+    {
+      "path": "adl/tools/publish_adl_builder_image_codebuild.sh",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    },
+    {
+      "path": "adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    },
+    {
+      "path": "adl/tools/run_nessus_remote_validation.sh",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    },
+    {
+      "path": "adl/tools/run_v0915_multi_agent_quality_comparison.py",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    },
+    {
+      "path": "adl/tools/setup_aws_codefriend_build_resources.sh",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    },
+    {
+      "path": "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    },
+    {
+      "path": "docs/tooling/CI_LOG_ARCHIVE_S3.md",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    },
+    {
+      "path": "tools/aws_remote_validation/src/aws_remote_validation.rs",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    },
+    {
+      "path": "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    }
+  ],
+  "preserved_reference_classes": [
+    {
+      "surface": ".csdlc/**",
+      "classification": "live_and_historical_lifecycle",
+      "disposition": "preserve_legacy_issue_authority"
+    },
+    {
+      "surface": "historical issue, release, and evidence links",
+      "classification": "historical",
+      "disposition": "preserve_legacy_history_links"
+    },
+    {
+      "surface": "adl-spec schema identifiers",
+      "classification": "stable_identity",
+      "disposition": "preserve_unchanged"
+    }
+  ],
+  "scope": {
+    "base_revision": "1cbafe43eb8c640635d9da4f9e2763c70741a2ba",
+    "exact_allowlist": [
+      ".csdlc/evidence/5891/active-issue-dispositions.tsv",
+      ".csdlc/evidence/5891/active-pull-request-dispositions.tsv",
+      ".csdlc/evidence/5891/automation-dispositions.tsv",
+      ".csdlc/evidence/5891/canonical-refs.tsv",
+      ".csdlc/evidence/5891/canonical-secret-names.json",
+      ".csdlc/evidence/5891/canonical-variable-names.json",
+      ".csdlc/evidence/5891/integration-dispositions.tsv",
+      ".csdlc/evidence/5891/legacy-refs.tsv",
+      ".csdlc/evidence/5891/legacy-secret-names.json",
+      ".csdlc/evidence/5891/legacy-variable-names.json",
+      ".csdlc/evidence/5891/open-issues.json",
+      ".csdlc/evidence/5891/open-pull-requests.json",
+      ".csdlc/evidence/5891/reference-dispositions.tsv",
+      ".csdlc/evidence/5891/workflows.txt",
+      ".csdlc/evidence/5891/worktrees.txt",
+      ".csdlc/prepared/issues/5891/design.md",
+      ".csdlc/prepared/issues/5891/diagram.mmd",
+      ".csdlc/prepared/issues/5891/validate-cutover.rb",
+      ".csdlc/prepared/issues/5891/verify-live-cutover.rb",
+      "README.md",
+      "adl/README.md",
+      "adl/src/aws_remote_validation.rs",
+      "adl/src/bin/adl_aws_remote_validation.rs",
+      "adl/tools/publish_adl_builder_image_codebuild.sh",
+      "adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "adl/tools/run_nessus_remote_validation.sh",
+      "adl/tools/run_v0915_multi_agent_quality_comparison.py",
+      "adl/tools/setup_aws_codefriend_build_resources.sh",
+      "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
+      "docs/repository-cutover/ADL_CANONICAL_REPOSITORY_CUTOVER.md",
+      "docs/repository-cutover/ADL_CANONICAL_REPOSITORY_CUTOVER_INVENTORY.json",
+      "docs/tooling/CI_LOG_ARCHIVE_S3.md",
+      "tools/aws_remote_validation/src/aws_remote_validation.rs",
+      "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs"
+    ],
+    "ignored_preexisting_surface": ".csdlc/preparation/**",
+    "ignored_preexisting_reason": "Operator-owned preparation state is explicitly outside this remediation and is neither modified nor published by this change.",
+    "ignored_preexisting_untracked_count": 75,
+    "ignored_preexisting_untracked_digest": "19d47ec869ee24b6fb7d16957f277f9014fd0920435739803b6cd0854b5a0400"
+  },
+  "rollback": {
+    "local": "restore the recorded personal URL as origin and retain the Agent Logic URL under a noncanonical remote name",
+    "remote": "do not delete, force-push, rewrite, or privatize either repository",
+    "content": "use a separately reviewed pull request for any published content reversal"
+  }
+}

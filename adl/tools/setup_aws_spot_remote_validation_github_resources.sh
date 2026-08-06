@@ -11,7 +11,7 @@ Options:
   --check                         Report whether resources exist without mutating AWS.
   --profile <profile>             AWS CLI profile. Default: agent-logic-admin.
   --region <region>               AWS region. Default: us-west-2.
-  --repo <owner/name>             GitHub repository. Default: danielbaustin/agent-design-language.
+  --repo <owner/name>             GitHub repository. Default: agent-logic/agent-design-language.
   --github-role-name <name>       OIDC role for GitHub Actions.
   --ssh-allowed-cidr <cidr>       Optional SSH debug source CIDR repository variable.
   --github-vars-only              Only create/update GitHub repository variables.
@@ -34,7 +34,7 @@ GITHUB_API_BIN="${ADL_GITHUB_API_BIN:-curl}"
 GITHUB_API_URL="${ADL_GITHUB_API_URL:-https://api.github.com}"
 PROFILE="${ADL_AWS_PROFILE:-agent-logic-admin}"
 REGION="${ADL_AWS_REGION:-us-west-2}"
-REPO="danielbaustin/agent-design-language"
+REPO="agent-logic/agent-design-language"
 GITHUB_ROLE_NAME="adl-spot-remote-validation-github-actions-role"
 SSH_ALLOWED_CIDR="${ADL_AWS_REMOTE_VALIDATION_SSH_ALLOWED_CIDR:-}"
 ARTIFACT_DIR=".adl/tmp/aws-spot-remote-validation-github-setup"

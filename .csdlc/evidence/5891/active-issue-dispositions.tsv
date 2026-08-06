@@ -1,0 +1,64 @@
+issue	title	authority	disposition
+5786	[v0.92][WP-21] Repository-wide code reduction cleanup	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5795	[v0.92][runtime][shepherd] Pull local Gemma/MLX Shepherd MVP forward	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5800	[v0.92][observatory][tls] Use browser-trusted local HTTPS certificate	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5820	[v0.92][WP-03] Runtime launch and resilience consolidation	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5821	[v0.92][WP-04] Distributed Guardian/polis runtime	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5822	[v0.92][WP-05] C-SDLC estimation and cycle-time reduction	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5823	[v0.92][WP-06] Remote validation/build runner	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5824	[v0.92][WP-07] Prompt-card enum typing	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5825	[v0.92][WP-08] Birthday contract and negative cases	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5826	[v0.92][WP-09] Stable name and identity architecture	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5827	[v0.92][WP-10] Continuity across bounded cycles	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5828	[v0.92][WP-11][runtime] Implement the first Memory Palace context-topology slice	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5829	[v0.92][WP-12] Capability envelope	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5830	[v0.92][WP-13] ACP / cognitive profiles	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5831	[v0.92][WP-13A][runtime] Implement the Adaptive Learning DAG	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5832	[v0.92][WP-14] ACIP and A2A contract reconciliation	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5833	[v0.92][WP-15] Birth witnesses and receipts	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5834	[v0.92][WP-16] Birthday review packet	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5835	[v0.92][WP-17] Migration and cross-polis continuity planning	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5836	[v0.92][WP-18] First birthday demo	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5837	[v0.92][WP-18A] Observatory/Unity consumer integration	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5838	[v0.92][WP-18B] Provider-neutral multi-agent proof	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5839	[v0.92][WP-19] Birthday-to-governance handoff	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5840	[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5841	[v0.92][WP-21A] Rust refactoring and maintainability pass	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5842	[v0.92][WP-22] Quality gate	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5843	[v0.92][WP-23] Docs and release-truth pass	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5844	[v0.92][WP-24] Ten-article launch series	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5845	[v0.92][WP-24A] Podcast Studio first ten episodes	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5846	[v0.92][WP-25] Internal review	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5847	[v0.92][WP-26] External / third-party review	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5848	[v0.92][WP-27] Review findings remediation	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5849	[v0.92][WP-28] Next milestone planning	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5850	[v0.92][WP-28A] Next-milestone closeout plan	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5851	[v0.92][WP-29] Next milestone review pass	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5852	[v0.92][WP-30] Release ceremony	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5853	[v0.92][WP-02B][build] Run the post-migration build acceleration experiment	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5854	[v0.92][sprint] Demonstration, handoff, and publication	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5855	[v0.92][sprint] Runtime, Observatory, polis, and protocol	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5856	[v0.92][sprint] Quality and release tail	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5857	[v0.92][sprint] First-birthday core	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5858	[v0.92][sprint] Foundation and throughput	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5862	[v0.92][WP-04-IMP][umbrella] Execute distributed Guardian child wave	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5863	[v0.92][WP-04.01] Node identity and authenticated enrollment	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5864	[v0.92][WP-04.02] Distributed certificate purposes and lifecycle	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5865	[v0.92][WP-04.03] Maintained QUIC/TLS transport adapter	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5866	[v0.92][WP-04.04] Seed discovery and authenticated join	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5867	[v0.92][WP-04.05] Membership state and topology convergence	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5868	[v0.92][WP-04.06] Failure detection and partition classification	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5869	[v0.92][WP-04.07] Epoch and lease authority	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5870	[v0.92][WP-04.08] Fencing and single-owner enforcement	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5871	[v0.92][WP-04.09] Signed capability advertisements	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5872	[v0.92][WP-04.10] Signed resource-weather advertisements	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5873	[v0.92][WP-04.11] Bounded placement decisions	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5874	[v0.92][WP-04.12] Snapshot catalog and transfer manifest	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5875	[v0.92][WP-04.13] Migration state machine	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5876	[v0.92][WP-04.14] Rollback, recovery, and relocation failure	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5877	[v0.92][WP-04.15] Versioned distributed topology and migration projection	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5878	[v0.92][WP-04.16] Distributed integration, adversarial, and native-platform proof	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5881	[v0.92][C-SDLC v2] Remove claims from the lifecycle	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5883	[Backlog][C-SDLC v2] Retire duplicate csdlc-init entrypoint	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5891	[v0.92][Cutover] Promote the Agent Logic ADL copy to canonical repository authority	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5895	[Backlog][C-SDLC v2] Remove retired csdlc-migrate from installer and coexistence authority	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred

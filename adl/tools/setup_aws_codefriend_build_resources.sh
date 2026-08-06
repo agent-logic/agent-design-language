@@ -12,7 +12,7 @@ Options:
   --profile <profile>             AWS CLI profile. Default: agent-logic-admin.
   --region <region>               AWS region. Default: us-west-2.
   --project-name <name>           CodeBuild project. Default: adl-codefriend-build.
-  --repo <owner/name>             GitHub repository. Default: danielbaustin/agent-design-language.
+  --repo <owner/name>             GitHub repository. Default: agent-logic/agent-design-language.
   --source-location <url>         CodeBuild GitHub source URL.
   --compute-type <type>           CodeBuild compute type. Default: BUILD_GENERAL1_XLARGE.
   --image-uri <uri>               CodeBuild environment image. Default: ADL_AWS_CODEFRIEND_IMAGE,
@@ -41,8 +41,8 @@ AWS_CLI="${ADL_AWS_CLI:-aws}"
 PROFILE="${ADL_AWS_PROFILE:-agent-logic-admin}"
 REGION="${ADL_AWS_REGION:-us-west-2}"
 PROJECT_NAME="${ADL_AWS_CODEFRIEND_CODEBUILD_PROJECT:-adl-codefriend-build}"
-REPO="danielbaustin/agent-design-language"
-SOURCE_LOCATION="https://github.com/danielbaustin/agent-design-language.git"
+REPO="agent-logic/agent-design-language"
+SOURCE_LOCATION="https://github.com/agent-logic/agent-design-language.git"
 COMPUTE_TYPE="${ADL_AWS_CODEFRIEND_COMPUTE_TYPE:-BUILD_GENERAL1_XLARGE}"
 IMAGE_URI="${ADL_AWS_CODEFRIEND_IMAGE:-adl-builder:v0.91.7-fixed}"
 CACHE_BUCKET="${ADL_AWS_CODEFRIEND_CACHE_BUCKET:-adl-codefriend-build-cache}"

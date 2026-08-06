@@ -116,7 +116,7 @@ payload = {
     "description": "Build, verify, and publish the immutable ADL validation image",
     "source": {
         "type": "GITHUB",
-        "location": "https://github.com/danielbaustin/agent-design-language.git",
+        "location": "https://github.com/agent-logic/agent-design-language.git",
         "gitCloneDepth": 1,
         "buildspec": buildspec,
     },

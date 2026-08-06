@@ -1,0 +1,4 @@
+.github/workflows/aws-codefriend-build.yaml
+.github/workflows/aws-spot-remote-validation.yaml
+.github/workflows/ci.yaml
+.github/workflows/nightly-coverage-ratchet.yaml

@@ -242,7 +242,7 @@ def run_single_agent(source_texts: dict[str, str], openrouter_key: str) -> LaneR
     payload = {"model": OPENROUTER_MODEL, "messages": [{"role": "user", "content": prompt}], "temperature": 0}
     headers = {
         "Authorization": f"Bearer {openrouter_key}",
-        "HTTP-Referer": "https://github.com/danielbaustin/agent-design-language",
+        "HTTP-Referer": "https://github.com/agent-logic/agent-design-language",
         "X-Title": "ADL #3725 single baseline",
     }
     start = time.perf_counter()
@@ -288,7 +288,7 @@ def run_multi_lane(lane_id: str, source_texts: dict[str, str], openrouter_key: s
         }
         headers = {
             "Authorization": f"Bearer {openrouter_key}",
-            "HTTP-Referer": "https://github.com/danielbaustin/agent-design-language",
+            "HTTP-Referer": "https://github.com/agent-logic/agent-design-language",
             "X-Title": "ADL #3725 multi-agent lane",
         }
         response = http_post_json(OPENROUTER_URL, payload, headers=headers, timeout=180)

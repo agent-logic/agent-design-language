@@ -1,0 +1,9 @@
+flowchart LR
+  F["Provisional inventory until activation"] --> T["Refresh immediately before activation"]
+  T --> R["Independent review"]
+  R --> D["Merge Agent Logic destination change"]
+  D --> N["Merge legacy README notice only"]
+  N --> C["Switch origin to Agent Logic"]
+  C --> V["Verify push, CI, links, and continuity"]
+  V --> P["Retain proof and close #5891"]
+  C -. "non-destructive rollback" .-> L["Restore legacy-origin URL"]

@@ -15,7 +15,7 @@ adl tooling ci-log-archive summarize \
   --aws-profile agent-logic-admin \
   --out <manifest.json> \
   --s3-prefix s3://<bucket>/<prefix> \
-  --repo danielbaustin/agent-design-language \
+  --repo agent-logic/agent-design-language \
   --pr <pr-number> \
   --run-id <github-actions-run-id> \
   --commit <sha>
@@ -46,4 +46,3 @@ paths in manifests or lifecycle cards.
 
 Raw CI logs remain private evidence. Tracked manifests and redacted summaries
 are the reviewable memory surfaces.
-

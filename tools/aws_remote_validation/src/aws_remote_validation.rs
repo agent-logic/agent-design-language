@@ -3584,7 +3584,7 @@ mod tests {
             run_id: "test-run".to_string(),
             region: "us-west-2".to_string(),
             profile: Some("agent-logic-admin".to_string()),
-            repo_url: "https://github.com/danielbaustin/agent-design-language.git".to_string(),
+            repo_url: "https://github.com/agent-logic/agent-design-language.git".to_string(),
             git_ref: "origin/main".to_string(),
             cache_bucket: Some("adl-aws-remote-tool-cache-agentlogic".to_string()),
             cache_prefix: Some("adl/remote-validation/4603".to_string()),
