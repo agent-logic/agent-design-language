@@ -5,13 +5,30 @@
   "reviewed_revision": "bc3581b390bfc90cfbc10a134d085df2fbadb0b5",
   "prompt_path": ".csdlc/evidence/5801/gemini-review-prompt.md",
   "prompt_sha256": "bd8ae103624f7abb0f70973aa742743500bbca05fe692c13e914af7f665475ba",
+  "initial_response_path": ".csdlc/evidence/5801/gemini-review-response-initial.json",
+  "initial_response_sha256": "5c329bb98ab0ec4df509a1f4cacdf8a7d797a5a30c6b133a8c2e89154d732c1b",
   "response_path": ".csdlc/evidence/5801/gemini-review-response.json",
   "response_sha256": "89d5b4be36efd6caf60c93daa026473c4a611895c2264e23f2be5a8e62cab4d5",
   "topology_path": ".csdlc/evidence/5801/ci-topology.md",
   "topology_sha256": "405e19dc7d2821e7b1e40a39f44f7ab5070ac71fec4d36bd33b092ddb36851f4",
   "topology_blob": "058bd1b4dbacb2b71e0426d96b00639671584f83",
   "reviewed_at": "2026-08-06T18:56:40Z",
-  "findings": [],
+  "findings": [
+    {
+      "id": "invalid-non-pr-change-class",
+      "severity": "high",
+      "actionable": true,
+      "path": "adl/tools/ci_path_policy.sh",
+      "summary": "The policy assigns an undocumented 'non_pr_authoritative' class to non-pull-request events instead of 'unknown'. This violates the normalized classes topology and incorrectly classifies changes where the diff is unavailable."
+    },
+    {
+      "id": "incomplete-aggregator-contract-test",
+      "severity": "critical",
+      "actionable": true,
+      "path": "adl/tools/test_ci_runtime_contracts.sh",
+      "summary": "The accepted_lane_results regex only parses the first case arm of the aggregator block. This allows a defective aggregator to accept cancelled, failure, or missing results in subsequent case arms without failing the contract test."
+    }
+  ],
   "dispositions": [
     {
       "finding_id": "invalid-non-pr-change-class",
