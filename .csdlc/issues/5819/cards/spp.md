@@ -12,61 +12,68 @@ Status: ready
 
 ## Summary
 
-Verify organization gates, transfer exactly five repositories serially with assignee-aware manifests and zero unexplained drift, execute the ADL website/integration cutover last, prove exclusions, and retain a reviewed final report.
+Verify copy-only organization gates, create exactly five destinations serially with Actions disabled before mirror push, prove Git/LFS parity and destination configuration, re-read every source for immutability, retain two negative controls, and hand website reference cleanup to #5888.
 
 ## Plan
 
-Revision 11
+Revision 20
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Capture complete digest-bound before manifests and assignee-aware transfer plans for all five repositories",
+    "action": "Verify organization readiness and capture the exact seven-repository read-only preflight plus per-surface copy dispositions",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
-      "AC-6"
+      "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
-    "action": "Transfer serially and compare recomputed per-surface before/after evidence plus live destination state",
+    "action": "Create and verify each destination serially with Actions disabled before mirror push and source-after immutability proof before continuing",
     "acceptance_ids": [
       "AC-3",
-      "AC-4"
+      "AC-4",
+      "AC-5",
+      "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
-    "action": "Complete website cutover, controls, final report, validators, and exact-revision review",
+    "action": "Record #5888 handoff, negative controls, final copy report, focused validators, and exact-revision review",
     "acceptance_ids": [
-      "AC-5",
-      "AC-6",
-      "AC-7"
+      "AC-7",
+      "AC-8",
+      "AC-9"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
 ## Invariants
 
-- Transfer one repository at a time and pass verification before continuing
-- Preserve repository name, visibility, default branch, and exact history
-- Record secret names and scopes only, never values
-- Use redirects only as temporary compatibility
-- asksifu remains personal and Horust is untouched
+- All seven danielbaustin repositories remain present and unchanged
+- Only five named agent-logic destinations may be created
+- Four destinations are private and agent-design-language is public
+- Destination Actions are disabled before mirror push
+- One destination passes verification before the next starts
+- Git and LFS parity are distinct from GitHub metadata reconstruction
+- Secret values never enter retained evidence
+- asksifu and Horust remain untouched
 
 ## Risks
 
-- Assignee loses eligibility after organization transfer
-- Packages, OIDC, Pages, or integrations retain old-owner coupling
-- Fork-network or destination-name conflict blocks transfer
-- Transfer-back fails to restore organization-owned settings
-- Concurrent publication changes the manifest during a window
+- Mirror push triggers copied workflows before destination configuration is ready
+- Git mirroring is falsely treated as issue, PR, release, settings, package, or integration parity
+- Destination becomes an unintended divergent active repository
+- Package, GitHub App, or organization Actions policy remains unaudited
+- LFS objects are omitted despite ref parity
+- A command targets the source push URL
+- Concurrent source change invalidates the approved snapshot
 
 ## Estimates
 
@@ -80,21 +87,24 @@ Revision 11
 
 .csdlc/prepared/issues/5819/design.md
 
-Digest: 2d7445037b1d3a4909ae3015173a89c17842054186fde492cab4fbeb71d25290
+Digest: 6edfcea1882db6a800a3e261733a1dd46734606b5e3c31c2611c7a8fe4a3b278
 
 ## Diagram
 
 .csdlc/prepared/issues/5819/diagram.mmd
 
-Digest: 204d0f3b1c0bcb0a1821d0253e340cb71a0f802ace72f599bcca643f8bb3bf4b
+Digest: 683b91e14df1fe7f5e1c45427ae68b7610e33ab62d979d664fcfcbcb5042351e
 
 ## Stop Conditions
 
-- WP-01B or #5815 plan lineage is not current
-- Destination owner, billing, recovery, or security gate is incomplete
-- Before-manifest drift is unexplained
-- An assignee lacks membership and an approved reassignment plan
-- Any transferred repository fails Gate 4 verification
+- WP-01B is not terminal before the ADL source snapshot
+- Destination owner, billing, recovery, 2FA, security, or required capability gate is incomplete
+- A destination name or required visibility conflicts
+- Source-before drift is unexplained
+- Destination Actions cannot be proven disabled before mirror push
+- Push URL owner is not exactly agent-logic
+- Git/LFS parity or destination configuration proof fails
+- Source-after differs from source-before
 - A secret value appears in retained evidence
 
 ## Handoff

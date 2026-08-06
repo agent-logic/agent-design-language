@@ -6,7 +6,7 @@ plan, not evidence that a gate has passed.
 | Gate | Owning work | Required evidence |
 | --- | --- | --- |
 | Milestone truth and issue graph | WP-01, WP-01B | Live issue-number map, dependency validation, six valid typed cards per issue, current canonical docs and version declarations |
-| Repository ownership | WP-02 | Reviewed migration plan, five verified transfers, preserved GitHub surfaces including issue/PR assignee retention or explicit reassignment, negative `asksifu` control, Horust exclusion |
+| Repository copies | WP-02 | Reviewed copy-only plan, five verified destinations with exact visibility and Git/LFS parity, Actions-disabled-before-push receipts, truthful destination configuration dispositions, source-immutability proof, negative `asksifu` control, and Horust exclusion |
 | CI and coverage | WP-02A | Deterministic lane selection, separated fast/slow work, nonduplicated coverage, platform parity, exact-head green checks |
 | Build acceleration | WP-02B | Same-SHA cold/warm corpus, cache and queue accounting, proof parity, cost thresholds, canary, and retained fallback or cleanup |
 | Runtime resilience | WP-03, WP-04 | Guardian-owned launch, recovery and relocation proof, clean logs, distributed security review, cross-platform validation |

@@ -1,7 +1,6 @@
-use std::{fs, path::PathBuf};
-
 use clap::{Parser, Subcommand};
-use csdlc_v2::{create_issue_draft, IssueCreateRequest, Store};
+use csdlc_v2::{initialize_native_json, Store};
+use std::{fs, path::PathBuf};
 
 #[derive(Parser)]
 struct Cli {
@@ -24,21 +23,12 @@ fn main() {
     let result = match cli.command {
         Command::Create { request } => fs::read(request)
             .map_err(csdlc_v2::V2Error::from)
-            .and_then(|bytes| {
-                serde_json::from_slice::<IssueCreateRequest>(&bytes)
-                    .map_err(csdlc_v2::V2Error::from)
-            })
-            .and_then(|request| create_issue_draft(&Store::new(cli.root), request))
-            .and_then(|value| serde_json::to_value(value).map_err(csdlc_v2::V2Error::from)),
+            .and_then(|bytes| initialize_native_json(&Store::new(cli.root), &bytes)),
     };
-    emit(result, "csdlc-issue");
-}
-
-fn emit(result: csdlc_v2::Result<serde_json::Value>, command: &str) {
     match result {
-        Ok(value) => println!("{}", serde_json::to_string(&value).expect("JSON")),
+        Ok(record) => println!("{}", serde_json::to_string(&record).expect("JSON")),
         Err(error) => {
-            eprintln!("{command}: {error}");
+            eprintln!("csdlc-issue: {}", error);
             println!(
                 "{}",
                 serde_json::json!({"schema":"csdlc.error.v1","code":error.code,"message":error.message})

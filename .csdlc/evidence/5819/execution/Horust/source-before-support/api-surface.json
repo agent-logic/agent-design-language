@@ -1,0 +1,79 @@
+{
+  "repository": {
+    "id": 1297989599,
+    "full_name": "danielbaustin/Horust",
+    "visibility": "public",
+    "default_branch": "master",
+    "archived": false,
+    "fork": true,
+    "has_issues": false,
+    "has_projects": true,
+    "has_wiki": true,
+    "has_discussions": false,
+    "security_and_analysis": {
+      "secret_scanning": {
+        "status": "enabled"
+      },
+      "secret_scanning_push_protection": {
+        "status": "enabled"
+      },
+      "dependabot_security_updates": {
+        "status": "disabled"
+      },
+      "secret_scanning_non_provider_patterns": {
+        "status": "disabled"
+      },
+      "secret_scanning_validity_checks": {
+        "status": "disabled"
+      }
+    }
+  },
+  "actions_permissions": {
+    "enabled": true,
+    "allowed_actions": "all"
+  },
+  "workflows": [
+
+  ],
+  "environments": [
+
+  ],
+  "rulesets": [
+
+  ],
+  "releases": [
+
+  ],
+  "collaborators": [
+    {
+      "id": 605773,
+      "login": "danielbaustin",
+      "role_name": "admin",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "push": true,
+        "triage": true,
+        "pull": true
+      }
+    }
+  ],
+  "webhooks": [
+
+  ],
+  "deploy_keys": [
+
+  ],
+  "pages": {
+    "status": "absent"
+  },
+  "action_secret_names": [
+
+  ],
+  "action_variable_names": [
+
+  ],
+  "branch_protection": {
+    "status": "absent"
+  }
+}

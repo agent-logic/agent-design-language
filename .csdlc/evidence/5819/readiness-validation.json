@@ -1,0 +1,81 @@
+{
+  "schema": "adl.wp02.readiness-validation.v1",
+  "issue": 5819,
+  "observed_at": "2026-08-06T04:57:16Z",
+  "branch": "codex/5819-v092-repository-migration-preflight",
+  "structurally_prepared": true,
+  "execution_authorized": false,
+  "destination_repositories_created": false,
+  "checks": [
+    {
+      "name": "typed_issue_doctor",
+      "status": "pass",
+      "evidence": "generation 51; phase bound; exact design revision 173fc8d7eb6d645d019cfe70be8610b8baf93f0f305b6c1a0ea73ce0a0d54b87 approved"
+    },
+    {
+      "name": "declared_path_coverage",
+      "status": "pass",
+      "evidence": "all 39 changed or new paths are covered by SPP affected_areas"
+    },
+    {
+      "name": "json_parse",
+      "status": "pass",
+      "evidence": "issue values, typed requests, and readiness evidence parse as JSON"
+    },
+    {
+      "name": "milestone_yaml_parse",
+      "status": "pass",
+      "evidence": "WP_ISSUE_WAVE_v0.92.yaml parses with aliases enabled"
+    },
+    {
+      "name": "validator_syntax",
+      "status": "pass",
+      "evidence": "both issue-local Ruby validators report Syntax OK"
+    },
+    {
+      "name": "proof_binding_contract",
+      "status": "pass",
+      "evidence": "copyable refs are branches, tags, and supported notes; local receipts require wave-bound timestamps, exactly 37 named platform surfaces, exactly two negative controls, API/manual per-surface proof, complete evidence-directory scanning for common credential forms, and confirmation identifiers; live verification paginates GitHub list APIs, binds source and destination ref digests to the approved snapshot, excludes GitHub-owned pull refs, recomputes API-visible state, validates #5888, and authenticates operator comments binding organization, Actions-disabled, first-push, LFS, disposition, and source-immutability receipts"
+    },
+    {
+      "name": "pre_execution_rejection",
+      "status": "pass",
+      "evidence": "final copy validator exits nonzero with missing copy report before any destination exists"
+    },
+    {
+      "name": "diff_hygiene",
+      "status": "pass",
+      "evidence": "git diff --check reports no errors"
+    },
+    {
+      "name": "live_scope_preflight",
+      "status": "pass",
+      "evidence": "seven source repositories observed; five destination names and both prohibited control destinations absent; four-private/one-public matrix retained; organization 2FA enabled"
+    },
+    {
+      "name": "website_sidecar",
+      "status": "pass",
+      "evidence": "issue 5888 is open and blocked on verified public ADL destination readiness"
+    }
+  ],
+  "open_gates": [
+    "billing owner and payment readiness require operator confirmation",
+    "organization recovery contact requires operator confirmation",
+    "organization Actions policy requires operator confirmation or a reviewed disposition",
+    "package and GitHub App inventories require operator confirmation or reviewed dispositions",
+    "each repository requires an explicitly started named copy window"
+  ],
+  "residual_metadata": [
+    {
+      "surface": "card_identity_title_and_slug",
+      "status": "retained_current_non_operational_identity_metadata",
+      "detail": "All six current cards use the WP-02 title but retain the original wp-01a slug. The current typed editor has no slug identity operation; rendered card content, the live issue title, the design, and every operative task field are copy-only. C-SDLC v2 does not render the slug and uses it only for cross-card equality, which remains satisfied. This current metadata limitation is disclosed rather than bypassing typed editing with a manual card mutation."
+    }
+  ],
+  "non_claims": [
+    "No destination repository has been created.",
+    "No source repository, source setting, source visibility, or source ref has been changed by WP-02 execution.",
+    "No Git, LFS, issue, pull-request, release, package, setting, or integration parity is claimed yet.",
+    "This record does not authorize a copy window."
+  ]
+}

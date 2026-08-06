@@ -1,0 +1,6 @@
+{
+  "issue": 5819,
+  "expected_generation": 49,
+  "expected_digest": "57804bdd46da15731b9e35e3227a0832c973242bccb184d5fedaa267c2df583f",
+  "reviewer": "codex:5819-copy-only-proof-contract"
+}

@@ -9,7 +9,7 @@ packets, demos, and milestone evidence.
 
 [![adl-ci (main)](https://github.com/danielbaustin/agent-design-language/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/danielbaustin/agent-design-language/actions/workflows/ci.yaml)
 [![coverage](https://codecov.io/gh/danielbaustin/agent-design-language/graph/badge.svg?branch=main)](https://app.codecov.io/gh/danielbaustin/agent-design-language/tree/main)
-![Milestone](https://img.shields.io/badge/milestone-v0.91.8%20active%20bridge-blue)
+![Milestone](https://img.shields.io/badge/milestone-v0.92%20active%20development-blue)
 
 Homepage: [agent-logic.ai](https://agent-logic.ai)
 
@@ -63,7 +63,7 @@ ADL already has a substantial platform baseline:
 - Runtime v2 and CSM Observatory planning and proof surfaces
 - Gödel agents and the
   [Gödel-Hadamard-Bayes algorithm](docs/milestones/v0.86/features/GODEL_HADAMARD_BAYES_ALGORITHM.md)
-- structured PR/control-plane workflow with SIP, STP, SPP, SRP, and SOR records
+- structured PR/control-plane workflow with SIP, STP, SPP, VPP, SRP, and SOR records
 
 For the full capability matrix, read the canonical feature index:
 [docs/planning/ADL_FEATURE_LIST.md](docs/planning/ADL_FEATURE_LIST.md).
@@ -103,13 +103,13 @@ intelligence can become infrastructure instead of an unreproducible transcript.
 
 ## Quick Start
 
-Generate the current v0.91 cognitive-being flagship proof packet:
+Generate the retained v0.91 cognitive-being flagship proof packet:
 
 ```bash
 cargo run --manifest-path adl/Cargo.toml -- runtime-v2 cognitive-being-flagship-demo --out artifacts/quickstart/cognitive-being-flagship
 ```
 
-Inspect a current v0.91 multi-agent workflow plan:
+Inspect a retained v0.91 multi-agent workflow plan:
 
 ```bash
 cargo run -q --manifest-path adl/Cargo.toml --bin adl -- adl/examples/v0-91-chatgpt-gemini-claude-triad-conversation.adl.yaml --print-plan
@@ -151,18 +151,34 @@ from issue
 
 ## Recent Milestones
 
-### v0.91.8 - Active Bridge Milestone
+### v0.92 - Active Development Milestone
+
+v0.92 is the active development milestone. Its issue wave is prepared, the
+foundation lane is active, and the runtime, observatory, identity, resilience,
+and release-proof lanes remain governed by their declared dependency gates.
+Activation does not claim those planned outcomes are implemented or
+release-approved.
+
+Start here:
+
+- [v0.92 README](docs/milestones/v0.92/README.md)
+- [v0.92 sprint plan](docs/milestones/v0.92/SPRINT_v0.92.md)
+- [v0.92 issue wave](docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml)
+- [v0.92 execution readiness](docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md)
+- [v0.92 feature-proof coverage](docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md)
+- [v0.92 milestone checklist](docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md)
+
+### v0.91.8 - Retained Handoff Bridge
 
 v0.91.7 is now published as the [ADL v0.91.7 GitHub release](https://github.com/danielbaustin/agent-design-language/releases/tag/v0.91.7)
-and remains the implementation/readiness tranche feeding the active v0.91.8
-bridge.
-v0.91.8 has advanced through WP-16. The integrated quality gate merged at
+and remains the implementation/readiness tranche that fed the v0.91.8 bridge.
+v0.91.8 completed its retained review and handoff bridge. The integrated quality gate merged at
 `2e9d2dd7c` and records 67 audited issue outcomes, 0 unacceptable outcomes,
 and passing ADL v2, Runtime v3, and C-SDLC v2 focused/integrated lanes. The
-bridge is still not release-approved: WP-17 documentation alignment and both
-WP-18 internal reviews are closed; external review, remediation/preflight,
-v0.92 handoff truth, and release
-ceremony remain explicit release-tail work.
+subsequent documentation, internal and external review, remediation,
+revalidation, v0.92 handoff, and release-ceremony issues are closed. These
+retained records supply upstream evidence for v0.92; they do not prove any
+planned v0.92 outcome complete.
 
 Start here:
 
@@ -319,20 +335,17 @@ production markets.
 
 ## Project Status
 
-- Active milestone: v0.91.8 bridge, release-tail WP-19 #5357
-- Active sprint umbrella: #5595
-- Downstream milestone: v0.92 consumes exact-revision v0.91.8 acceptance and handoff
-- Current ADL and Runtime v2 crate version: 0.91.8
-- Independent Runtime v3 kernel package version: 0.92.0; it remains separately
-  versioned and does not by itself claim v0.92 activation readiness
-- Most recently completed implementation/readiness tranche and public release:
-  v0.91.7 ([GitHub release](https://github.com/danielbaustin/agent-design-language/releases/tag/v0.91.7))
-- The active v0.91.8 bridge remains unreleased pending its documented gates.
-- Current milestone state: WP-16 quality gate passed at `2e9d2dd7c`; WP-17
-  documentation truth alignment and both WP-18 internal reviews are closed;
-  WP-19 external review is ready to freeze but not dispatched, and later
-  release-tail remediation, handoff, and ceremony gates
-  remain open.
+- Active milestone: v0.92 development and execution
+- Foundation sprint umbrella: #5858
+- Upstream handoff: v0.92 consumes the retained exact-revision v0.91.8
+  acceptance and handoff
+- Current ADL package and workspace version: `0.92.0`
+- Most recently completed implementation/readiness handoff: v0.91.8
+- Most recently published public release: v0.91.7
+  ([GitHub release](https://github.com/danielbaustin/agent-design-language/releases/tag/v0.91.7))
+- Current milestone state: the v0.92 package and issue wave are active; feature
+  implementation, integration, review, and release gates remain open and must
+  be proved by their owning issues.
 - Primary implementation language: Rust
 
 ADL is under active development. The repository contains implemented runtime

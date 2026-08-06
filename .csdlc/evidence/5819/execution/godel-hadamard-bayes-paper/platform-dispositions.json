@@ -1,0 +1,345 @@
+{
+  "source": "danielbaustin/godel-hadamard-bayes-paper",
+  "destination": "agent-logic/godel-hadamard-bayes-paper",
+  "secret_values_retained": false,
+  "observed_at": "2026-08-06T06:21:43.285379Z",
+  "surfaces": {
+    "issues": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.282546Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/issues.json",
+        "evidence_sha256": "405f344fe2c334f6a1b50d6d06bb2bbeaa36caa6af8424313b2f3f42cbe9c498"
+      }
+    },
+    "pull_requests": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.282683Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/pull_requests.json",
+        "evidence_sha256": "666cdf18526ca1b1252d4bcae841c3215696e24f2c1e8f7e65d6647a58aa77b3"
+      }
+    },
+    "milestones": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.282814Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/milestones.json",
+        "evidence_sha256": "5aad60866cf9f392f02a9604d0bda346f05b0224a0687f9c7994fbe3ed2a789e"
+      }
+    },
+    "projects": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.282834Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "6a562c6179211e20ecda68eb8597dbc98e8e9f9d2fcdabcaf23c84e481efe758",
+        "destination_sha256": "b892a9da51eb764cac9bd57d7c2606d79862e5dbb9aa2da373220ab68d56a3de"
+      }
+    },
+    "discussions": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.282849Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "6a562c6179211e20ecda68eb8597dbc98e8e9f9d2fcdabcaf23c84e481efe758",
+        "destination_sha256": "b892a9da51eb764cac9bd57d7c2606d79862e5dbb9aa2da373220ab68d56a3de"
+      }
+    },
+    "wiki": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.282864Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "6a562c6179211e20ecda68eb8597dbc98e8e9f9d2fcdabcaf23c84e481efe758",
+        "destination_sha256": "b892a9da51eb764cac9bd57d7c2606d79862e5dbb9aa2da373220ab68d56a3de"
+      }
+    },
+    "assignees": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.282992Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/assignees.json",
+        "evidence_sha256": "e0f66d9ff077daeb097a66040e38ae68526e9e9332fe0ee07685a1faa0ead813"
+      }
+    },
+    "collaborators": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.283004Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "982d8bd3a394cf9e2a926c415424edc34ecaf796c8281b7366c482d9e7e69c9e",
+        "destination_sha256": "982d8bd3a394cf9e2a926c415424edc34ecaf796c8281b7366c482d9e7e69c9e"
+      }
+    },
+    "outside_collaborators": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.283142Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/outside_collaborators.json",
+        "evidence_sha256": "0356898cf7fbbab2095261c4ba89165a23b96b78570472ca8e748b3c53d83383"
+      }
+    },
+    "teams": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.283267Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/teams.json",
+        "evidence_sha256": "beea01c6d03941e50421fdd7dc4c0790b73b689e69f76f0120bf91c6b264e190"
+      }
+    },
+    "rulesets": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.283272Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "branch_protections": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.283277Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64",
+        "destination_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64"
+      }
+    },
+    "required_checks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.283405Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/required_checks.json",
+        "evidence_sha256": "b6039b8d77eeb5c23120656baae626b29a66783356c3c6c0efb1d3bb8ae2d707"
+      }
+    },
+    "approvals": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.283563Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/approvals.json",
+        "evidence_sha256": "f29b057bfd3e025203bbdfc96d48769c9122415ef1f2647b34377bab0b8a6bf5"
+      }
+    },
+    "codeowners": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.283707Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/codeowners.json",
+        "evidence_sha256": "994c74ed16881e95cfd1dc55df91aaf99c2a4938cf75f924a05ea0b1f5633073"
+      }
+    },
+    "releases": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.283713Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "actions": {
+      "status": "cold_mirror_disabled",
+      "observed_at": "2026-08-06T06:21:43.283719Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "1d13f407420627b1ff9e9d6f19ef735aa9ed9ab567cbde173101a6d17e4c0dc2",
+        "destination_sha256": "5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+      }
+    },
+    "workflows": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.283723Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "schedules": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.283867Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/schedules.json",
+        "evidence_sha256": "80c347eda6a94ec968992e4b7975c93a3fa3c85764c06d722e3c83b442d7dba1"
+      }
+    },
+    "runner_labels": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.283999Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/runner_labels.json",
+        "evidence_sha256": "8221e68fff936bc26f5bb069910d6da4984ff2e5d99467e70b09f985be62b905"
+      }
+    },
+    "environments": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.284003Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "variables": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.284007Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "names_only": true,
+      "values_retained": false
+    },
+    "secrets": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.284011Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "names_only": true,
+      "values_retained": false
+    },
+    "oidc": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.284141Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/oidc.json",
+        "evidence_sha256": "38c8b9eec5e7876fabba761c6b61c23f8ee2b7a131c33e7ba66d8e9fbd7d8660"
+      }
+    },
+    "webhooks": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.284146Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "deploy_keys": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.284149Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "apps": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.284272Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/apps.json",
+        "evidence_sha256": "2fdf5ba0e13db2a559a24fbe0b8a494ca11de655740cba98a6d22a3c65a4505c"
+      }
+    },
+    "oauth_integrations": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.284403Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/oauth_integrations.json",
+        "evidence_sha256": "e45d2db1223665808c4e63c786fe0fd0f4690582f41af098cc08135576ba94f8"
+      }
+    },
+    "callbacks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.284529Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/callbacks.json",
+        "evidence_sha256": "992abc472884f037be4e3b708f0f4e4028af29387d5ebcc22001810e564e530e"
+      }
+    },
+    "pages": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.284534Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64",
+        "destination_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64"
+      }
+    },
+    "custom_domains": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.284671Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/custom_domains.json",
+        "evidence_sha256": "22a29cfe81edc5a91f4ec8fcac913c1e433b1c05399c0f27be3e4fe2800cf53c"
+      }
+    },
+    "packages": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.284828Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/packages.json",
+        "evidence_sha256": "2cc9c5c18f54295d331308dadb7d1e88768ae4d014bd976c76504f322c8988cc"
+      }
+    },
+    "security": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:43.284844Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "6a562c6179211e20ecda68eb8597dbc98e8e9f9d2fcdabcaf23c84e481efe758",
+        "destination_sha256": "b892a9da51eb764cac9bd57d7c2606d79862e5dbb9aa2da373220ab68d56a3de"
+      }
+    },
+    "forks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.284980Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/forks.json",
+        "evidence_sha256": "c9095cdf32619fafe3f9f2bdde17bd0bbdd8aa5732c52516179efa6967cfc1f9"
+      }
+    },
+    "submodules": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.285106Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/submodules.json",
+        "evidence_sha256": "f389ae6680a98c71884f824639db5e36febf28773a1c77a29d74e8446eb546bb"
+      }
+    },
+    "downstream_consumers": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.285240Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/downstream_consumers.json",
+        "evidence_sha256": "9c1db6c3fba174905da47c2516de04d803e93a89fcab461b782c44b3403f378f"
+      }
+    },
+    "operational_urls": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:43.285377Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/manual/operational_urls.json",
+        "evidence_sha256": "f4f7685ec76f5d98272b1bfe3dba2623697f851dff4d108ed0319bc58515eb80"
+      }
+    }
+  }
+}

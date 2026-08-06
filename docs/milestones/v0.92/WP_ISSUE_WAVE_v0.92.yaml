@@ -9,7 +9,7 @@ notes:
   - v0.92 is the first true Godel-agent birthday milestone on a hardened execution substrate.
   - This file records the opened GitHub work-package issue wave and its live issue-number mapping.
   - WP-01 updates canonical docs and consumes the final v0.91.8 release package, the activation-test map, AEE completion evidence, issue 3377, and WP-22 planning dispositions before opening the wave.
-  - WP-02 performs the Agent Logic GitHub organization repository migration before substantive milestone work begins.
+  - WP-02 creates five verified Agent Logic destination copies while preserving all seven personal-account sources unchanged before substantive milestone work begins.
   - WP-02A repairs CI and coverage before broad milestone proof receives credit.
   - WP-02B runs one bounded post-migration build-acceleration experiment only after WP-02 and WP-02A are complete.
   - Runtime, distributed Guardian/polis, C-SDLC efficiency, remote validation, and prompt-typing tracks may proceed in parallel only where their declared dependencies allow.
@@ -23,7 +23,7 @@ notes:
 scheduled_planning:
   - issue: 5765
     pull_request: 5796
-    title: Agent Logic account repository migration
+    title: Historical Agent Logic repository-transfer planning input superseded by WP-02 copy-only authority
     source: .adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md
     source_visibility: operator_local_unpublished
     status: merged_planning_input
@@ -285,11 +285,11 @@ work_packages:
     proof_surface: canonical-surface inventory including docs/planning/ADL_FEATURE_LIST.md, link and version parity checks, Cargo metadata, and focused documentation review
   - wp: WP-02
     issue: 5819
-    title: Agent Logic GitHub organization repository migration
+    title: Agent Logic GitHub organization repository copy
     queue: operations
-    depends_on: [WP-01, WP-01B, issue-5815-plan, confirmed destination organization and owners, complete migration inventory, billing and security readiness]
-    primary_deliverable: five serially transferred company repositories with danielbaustin/asksifu retained as personal and Horust excluded
-    proof_surface: pre-transfer manifests including issue and PR assignee membership, per-repository transfer and verification evidence including assignee retention or explicit reassignment, integration updates, negative asksifu control, and final migration report
+    depends_on: [WP-01, WP-01B, superseding copy-only plan, confirmed destination organization and owners, complete seven-source inventory, billing and security readiness]
+    primary_deliverable: five serial destination mirrors with four private and public ADL visibility while all seven danielbaustin sources remain unchanged
+    proof_surface: source-before, destination-after, and source-after manifests; Actions-disabled-before-push receipts; exact Git and LFS parity; destination-only configuration dispositions; negative asksifu and Horust controls; and final copy report
   - wp: WP-24
     issue: 5844
     title: Ten-article launch series

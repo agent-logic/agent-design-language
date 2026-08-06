@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5819,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5819-v092-repository-migration-preflight",
+  "title": "[v0.92][WP-02] Copy company repositories without changing sources",
+  "body": "Closes #5819\n\n## Outcome\n\nCreates exactly five independent company-owned repository copies under `agent-logic`: four private repositories and public `agent-design-language`. All seven `danielbaustin` source repositories remain present and unchanged; `asksifu` and `Horust` received no destinations.\n\n## Safety and proof\n\n- destination Actions were disabled before the first mirrored ref and remain disabled for the cold copies\n- every approved branch, tag, and supported note ref was copied explicitly without repository transfer or `git push --mirror`\n- exact Git ref parity and a proven no-LFS disposition are retained for all five copies\n- source-before/source-after evidence proves the five copied sources and both negative controls remained unchanged\n- 37 non-Git GitHub surfaces have explicit evidence-backed dispositions without claiming issues, pull requests, settings, secrets, packages, or integrations were copied\n- the two pre-Team historical gates retain authenticated unedited attestations and explicit supersession maps; overwritten old bytes are disclosed as unavailable and are not claimed as revalidated\n- website reference updates remain isolated in gated sidecar #5888\n\n## Focused validation\n\n- `ruby .csdlc/prepared/issues/5819/validate-migration-evidence.rb`: PASS, five destinations, seven immutable sources, 37 disposition surfaces\n- `ruby .csdlc/prepared/issues/5819/verify-live-repositories.rb`: PASS, live organization confirmation, destination settings, exact refs, historical gate attestations, and two untouched controls\n- `git diff --check origin/main...HEAD`: PASS\n- independent exact-head review at `934f0d7cb3b7aa2007dbf382ef7be1914e3b6177`: PASS, no actionable findings\n\nNo broad test suite was run because this is a repository-operations and retained-evidence change, not a product-code change.",
+  "draft": false,
+  "revision": "git-blake3:201ccb8b8b596b968579140925541fb32ee94a8a:06fef35e9d6f255bca88f47b70c3c2882a7be7d205e8933d6246e02be3775149",
+  "commit_sha": "201ccb8b8b596b968579140925541fb32ee94a8a"
+}

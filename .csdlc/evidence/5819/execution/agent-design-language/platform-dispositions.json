@@ -1,0 +1,345 @@
+{
+  "source": "danielbaustin/agent-design-language",
+  "destination": "agent-logic/agent-design-language",
+  "secret_values_retained": false,
+  "observed_at": "2026-08-06T06:37:47.186378Z",
+  "surfaces": {
+    "issues": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.183188Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/issues.json",
+        "evidence_sha256": "7d5a6828f94c26e5c43344a12f52a7bba9ba41245204f029b20c85f24893499d"
+      }
+    },
+    "pull_requests": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.183328Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/pull_requests.json",
+        "evidence_sha256": "b6c23538871d550300332f5411089d07d1bdbb6044ce753323efc6b4156b5689"
+      }
+    },
+    "milestones": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.183465Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/milestones.json",
+        "evidence_sha256": "f1ca95f623a6689bedba4cb1f14f30c9bb1f849f417c0e17d6a45be6d12f1221"
+      }
+    },
+    "projects": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.183490Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "3f0a7182cf09f6b6c1706e6fb9aa1b572414e85e4fc9ef49310a14a159c76db5",
+        "destination_sha256": "4832f1d4696aecf7fd51f0bf2fc60514cb0859a7ac50775192ebb5cde8667b68"
+      }
+    },
+    "discussions": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.183511Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "3f0a7182cf09f6b6c1706e6fb9aa1b572414e85e4fc9ef49310a14a159c76db5",
+        "destination_sha256": "4832f1d4696aecf7fd51f0bf2fc60514cb0859a7ac50775192ebb5cde8667b68"
+      }
+    },
+    "wiki": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.183529Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "3f0a7182cf09f6b6c1706e6fb9aa1b572414e85e4fc9ef49310a14a159c76db5",
+        "destination_sha256": "4832f1d4696aecf7fd51f0bf2fc60514cb0859a7ac50775192ebb5cde8667b68"
+      }
+    },
+    "assignees": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.183673Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/assignees.json",
+        "evidence_sha256": "984265daaf8111fe38f0d51ab2278239d84f9a16a7b7c775612ae45ed35bb9a3"
+      }
+    },
+    "collaborators": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.183686Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "982d8bd3a394cf9e2a926c415424edc34ecaf796c8281b7366c482d9e7e69c9e",
+        "destination_sha256": "982d8bd3a394cf9e2a926c415424edc34ecaf796c8281b7366c482d9e7e69c9e"
+      }
+    },
+    "outside_collaborators": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.183819Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/outside_collaborators.json",
+        "evidence_sha256": "bdb4b6b02071fd5299145ab8dc01347c4c227b4735ddda648e434fc86637403d"
+      }
+    },
+    "teams": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.183958Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/teams.json",
+        "evidence_sha256": "d8463980404f1170f6dbfc723518429369b2e4cf5d5d3283e7398b5c65b5c404"
+      }
+    },
+    "rulesets": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.183965Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "7fa3c733a49de275c17aa7f787b831e6a44777462d7c70e82a5d7f8c29bd146a",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "branch_protections": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.183970Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64",
+        "destination_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64"
+      }
+    },
+    "required_checks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.184102Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/required_checks.json",
+        "evidence_sha256": "3f87d4b61cac0ddb576999e7b2c66aed80177b4b8b534bf6049811ce61703ffd"
+      }
+    },
+    "approvals": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.184239Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/approvals.json",
+        "evidence_sha256": "58f84940f681ac00c611470bbf6ec57793a7fd149bc12476f875eab241598302"
+      }
+    },
+    "codeowners": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.184375Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/codeowners.json",
+        "evidence_sha256": "5b4f5aba6f84517f4afdd06e4dd2f6a017ad616ee8daeae0aaaa48559a10d6d0"
+      }
+    },
+    "releases": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.184420Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "14af7b8010901d8b183191f7adbc3e83dfce6f6f1219af11a45c82fc836ea305",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "actions": {
+      "status": "cold_mirror_disabled",
+      "observed_at": "2026-08-06T06:37:47.184429Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "1d13f407420627b1ff9e9d6f19ef735aa9ed9ab567cbde173101a6d17e4c0dc2",
+        "destination_sha256": "5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+      }
+    },
+    "workflows": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.184448Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "bd83ca598955864b6dbf6eec792042e0ef37f9ead65fef75f145bafe1a012e9e",
+        "destination_sha256": "b110ba71056f70cd41a3e02c2ac7b03f61fdc5beaddc589e84eb310a0dfaa5cb"
+      }
+    },
+    "schedules": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.184600Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/schedules.json",
+        "evidence_sha256": "aa9ee29b31a67f3ba4f6e168b647fd7fc54dd078d653262f59d4a8651e0118ce"
+      }
+    },
+    "runner_labels": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.184733Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/runner_labels.json",
+        "evidence_sha256": "f5c2422d76c1cb2ddd383963def5eb7ac3d55e6fa33f40a97e03afe62eae831b"
+      }
+    },
+    "environments": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.184739Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "c632403795a79bedaaa087146c8fc2be00dfbe09b8ca9c4d48cd699ced6fc8c7",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "variables": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.184744Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b652cf68f29c690e7efba7c91957583f2240534d07cde7e58c5aad246dfc0a78",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "names_only": true,
+      "values_retained": false
+    },
+    "secrets": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.184748Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "1f9fc2436ab99d0c751f4c801a19950f2b37d632ec0b748d783401aa08ec782a",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "names_only": true,
+      "values_retained": false
+    },
+    "oidc": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.184877Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/oidc.json",
+        "evidence_sha256": "49ce362e7072bb068822d0246840a75a653a5bdd3b33175eea51a78514103287"
+      }
+    },
+    "webhooks": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.184881Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "deploy_keys": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.184885Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "apps": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.185017Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/apps.json",
+        "evidence_sha256": "053fa4c3df0e95f3400148c52653e57638f5cf277ae5d25ab4c3401880287aff"
+      }
+    },
+    "oauth_integrations": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.185148Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/oauth_integrations.json",
+        "evidence_sha256": "70072d813fddcfcc045e2a1714871305beddcfa899bf33767db7e54bf5259a61"
+      }
+    },
+    "callbacks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.185279Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/callbacks.json",
+        "evidence_sha256": "7cf321cf3608eb706b39b39166a97a4d024537ed76b279fc725ddcdc55c14460"
+      }
+    },
+    "pages": {
+      "status": "deferred_to_5888",
+      "observed_at": "2026-08-06T06:37:47.185284Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64",
+        "destination_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64"
+      }
+    },
+    "custom_domains": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.185417Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/custom_domains.json",
+        "evidence_sha256": "2394639a4d57417e689a17c363bd7315d0d90c9f04257876b00bae059ec420f7"
+      }
+    },
+    "packages": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.185564Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/packages.json",
+        "evidence_sha256": "d901e13d26b3f95990a757ffadc291a1f32533fb48176f56f6490192282dfe3d"
+      }
+    },
+    "security": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:37:47.185582Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "3f0a7182cf09f6b6c1706e6fb9aa1b572414e85e4fc9ef49310a14a159c76db5",
+        "destination_sha256": "4832f1d4696aecf7fd51f0bf2fc60514cb0859a7ac50775192ebb5cde8667b68"
+      }
+    },
+    "forks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.185766Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/forks.json",
+        "evidence_sha256": "6026b5fc76914e663735520626243f4a46512bb698a720cb7840109394369d32"
+      }
+    },
+    "submodules": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.185924Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/submodules.json",
+        "evidence_sha256": "87b0522a5aa038f6d9d03c2da9da4a28caa3366d97137e0adafd22675464a825"
+      }
+    },
+    "downstream_consumers": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.186093Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/downstream_consumers.json",
+        "evidence_sha256": "e4a30b5cc0112dc00de8510f337599b681ac790ae76dd347c2aa20a7c0dee5d9"
+      }
+    },
+    "operational_urls": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:37:47.186376Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/agent-design-language/manual/operational_urls.json",
+        "evidence_sha256": "4a2d363ea128563b9e04ff55a30d0ec270949b6d8a2095991d67c8e0e78fb681"
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "repository": "agent-logic/cognitive-sdlc-paper",
+  "actions_enabled": false,
+  "observed_at": "2026-08-06T06:15:45.137376Z",
+  "api_response_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/actions-disabled-api.json",
+  "api_response_sha256": "a96b259bc12ec9131c30e4ab82ab9bfe89716abeebea0823344865f16c10ff46"
+}

@@ -1,11 +1,14 @@
 flowchart TD
-  G["Organization, owner, billing, and security gates"] --> M["Exact five-repository manifest"]
-  M --> B["Before-manifest and assignee gate"]
-  B --> T["Owner-authorized transfer"]
-  T --> V["Destination and integration verification"]
-  V --> D{"Unexplained drift?"}
-  D -->|Yes| S["Stop wave and repair in place"]
-  D -->|No| X{"More repositories?"}
-  X -->|Yes| B
-  X -->|No| N["asksifu and Horust negative controls"]
-  N --> R["Final migration report and review"]
+  G["Organization and copy-only readiness gates"] --> M["Exact five-copy and two-control manifest"]
+  M --> B["Read-only source-before snapshot"]
+  B --> C["Create empty destination"]
+  C --> A["Disable destination Actions"]
+  A --> P["Mirror-push Git refs and LFS to destination only"]
+  P --> V["Verify destination and reconstruct configuration"]
+  V --> S["Read-only source-after snapshot"]
+  S --> D{"Destination drift or source mutation?"}
+  D -->|Yes| X["Stop wave and repair destination only"]
+  D -->|No| N{"More approved destinations?"}
+  N -->|Yes| B
+  N -->|No| Q["Verify asksifu and Horust untouched"]
+  Q --> R["Final copy report and exact-revision review"]

@@ -1,0 +1,32 @@
+{
+  "issue": 5819,
+  "card": "spp",
+  "expected_generation": 25,
+  "expected_digest": "ab993522c38c70cc5f4c9fa3eb1aec243e81e3bb3909bcd592790044c7778d9d",
+  "actor": "codex:5819-copy-only-card-reconciliation",
+  "reason": "Replace transfer-era acceptance and proof lanes with destination-copy and source-immutability truth.",
+  "operation": {
+    "operation": "replace_acceptance_plan",
+    "acceptance_criteria": [
+      "Organization owners, recovery, billing, 2FA, policy, destination names, exact five-copy allowlist, two-control denylist, and four-private/one-public visibility matrix are verified",
+      "Each approved source has a redacted exact-ref source-before manifest and every non-Git GitHub surface has a truthful recreate, retain-source, omit, or operator-action disposition",
+      "Exactly five empty agent-logic destinations are created in order, destination Actions are disabled before any mirrored ref arrives, and every source repository remains unchanged",
+      "Each destination has exact Git ref and object parity, complete Git LFS parity or a proven no-LFS disposition, the required visibility, and reconstructed or dispositioned destination configuration",
+      "A source-after manifest proves owner, visibility, default branch, refs, HEAD, and settings inventory remain unchanged for every copied source",
+      "ADL copies last and remains public; its destination Actions stay disabled until environments, rulesets, secrets/variables names, OIDC, packages, Apps, security, and workflow activation are verified",
+      "Website reference cutover is delegated to #5888 and starts only after the public ADL destination passes verification",
+      "danielbaustin/asksifu and danielbaustin/Horust remain unchanged and no corresponding agent-logic destination exists",
+      "Final evidence contains no secret values, no unsupported metadata-copy claims, no unexplained drift, and one exact-revision bounded review"
+    ],
+    "steps": [
+      {"id":"S1","action":"Verify organization readiness and capture the exact seven-repository read-only preflight plus per-surface copy dispositions","acceptance_ids":["AC-1","AC-2","AC-8"],"status":"pending"},
+      {"id":"S2","action":"Create and verify each destination serially with Actions disabled before mirror push and source-after immutability proof before continuing","acceptance_ids":["AC-3","AC-4","AC-5","AC-6"],"status":"pending"},
+      {"id":"S3","action":"Record #5888 handoff, negative controls, final copy report, focused validators, and exact-revision review","acceptance_ids":["AC-7","AC-8","AC-9"],"status":"pending"}
+    ],
+    "validation_lanes": [
+      {"lane":"copy-evidence-contract","proof_role":"Validate exact repository order and visibility, source-before/destination-after/source-after manifests, Actions-disabled-before-push receipts, Git/LFS parity, #5888 handoff, controls, and zero unexplained drift.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8","AC-9"],"deterministic":true,"resource_profile":"medium","budget_seconds":300,"budget_tokens":4000,"argv":["ruby",".csdlc/prepared/issues/5819/validate-migration-evidence.rb"],"parallel_group":"copy-contract","defer_reason":null},
+      {"lane":"github-copy-live-proof","proof_role":"Inspect the five live destinations and re-read all seven source controls, proving destination visibility/configuration and source immutability without claiming issues or settings were mirrored by Git.","acceptance_ids":["AC-3","AC-4","AC-5","AC-6","AC-8"],"deterministic":false,"resource_profile":"medium","budget_seconds":1800,"budget_tokens":5000,"argv":["ruby",".csdlc/prepared/issues/5819/verify-live-repositories.rb"],"parallel_group":"github-live","defer_reason":null},
+      {"lane":"diff-hygiene","proof_role":"Reject whitespace errors in tracked copy evidence and contract changes.","acceptance_ids":["AC-9"],"deterministic":true,"resource_profile":"small","budget_seconds":30,"budget_tokens":500,"argv":["git","diff","--check"],"parallel_group":"issue-local","defer_reason":null}
+    ]
+  }
+}

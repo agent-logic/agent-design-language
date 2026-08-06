@@ -9,8 +9,8 @@ operational authority is the independent Rust v2 binary set under
 Use the typed v2 binaries and do not invoke the removed v1 wrappers. The final
 coexistence inventory explicitly records `v1_sunset`; historical Gate 10A-C
 records remain immutable evidence and are not an instruction to retain deleted
-binaries. Session ownership and stale-claim recovery remain required
-invariants, retained in the shared ledger until a later ADL overlap cleanup.
+binaries. Issue ownership is derived from the bound Git branch and worktree;
+claims, leases, heartbeats, and protected-path ledgers are not lifecycle authority.
 
 This file is the repository-local operating contract for coding agents working
 in ADL.
@@ -170,10 +170,8 @@ These rules are mandatory for ADL issue work.
   `SIP`, `STP`, and `SPP` should be issue-specific and design-time ready before
   execution starts. If they are generic, stale, or incomplete, route them through
   the appropriate editor skill before running the issue.
-- During v0.91.6 rescue-sprint and release-tail work, also follow
-  `docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md` for watcher-owned
-  wait states, prep-scout promotion, scheduler non-authority, and binary-first
-  workflow command expectations.
+- The retained v0.91.6 rescue-sprint contract is historical evidence. Current
+  work follows this file and the typed C-SDLC v2 operator skills.
 - Treat `SPP` as the operative issue-local plan. If real execution diverges
   materially from the tracked plan, update the `SPP` before continuing.
 - Treat `SRP` and `SOR` as truth surfaces. `SRP` records review prompts,
@@ -214,7 +212,7 @@ For a normal tracked issue:
    registry
 5. make sure `SIP`, `STP`, and `SPP` are issue-specific and design-time ready
 6. follow the conductor-selected lifecycle step
-7. if the issue is ready for execution binding, use `csdlc-bind --root . run --request <request.json>`
+7. if the issue is ready for execution binding, use `csdlc-bind --root . --request <request.json>`
 8. call `create_goal` for the bound tracked issue session before implementation
    starts
 9. make the bounded change in the issue worktree, never on `main`

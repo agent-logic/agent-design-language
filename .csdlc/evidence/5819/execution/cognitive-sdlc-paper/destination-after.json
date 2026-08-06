@@ -1,0 +1,12 @@
+{
+  "repository": "agent-logic/cognitive-sdlc-paper",
+  "repository_id": 1324816234,
+  "visibility": "private",
+  "default_branch": "main",
+  "exact_head": "fb902ec4c5a97fa18ff86e7d192bbedcc3a365ce",
+  "refs_sha256": "4c998bf54f2727263e78000c5f891bb13486b7aabdc58fe7b12bdc1655f494dc",
+  "api_surface_sha256": "1ca3cd9ef8ada0f8031127739020e9d541c11d31cac58928bfc10730f6a7e0b5",
+  "actions_enabled": false,
+  "observed_at": "2026-08-06T06:21:27.859895Z",
+  "label": "cognitive-sdlc-paper/destination-after-support"
+}

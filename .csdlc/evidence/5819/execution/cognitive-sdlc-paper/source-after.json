@@ -1,0 +1,12 @@
+{
+  "repository": "danielbaustin/cognitive-sdlc-paper",
+  "repository_id": 1246168746,
+  "visibility": "private",
+  "default_branch": "main",
+  "exact_head": "fb902ec4c5a97fa18ff86e7d192bbedcc3a365ce",
+  "refs_sha256": "4c998bf54f2727263e78000c5f891bb13486b7aabdc58fe7b12bdc1655f494dc",
+  "api_surface_sha256": "8b359492183aabc5bd03480a914406d79bf54cd55ba216ce6b397f7490bd8c92",
+  "actions_enabled": true,
+  "observed_at": "2026-08-06T06:21:20.270783Z",
+  "label": "cognitive-sdlc-paper/source-after-support"
+}

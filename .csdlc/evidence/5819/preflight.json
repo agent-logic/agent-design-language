@@ -1,0 +1,233 @@
+{
+  "schema": "adl.wp02.copy-preflight.v1",
+  "issue": 5819,
+  "observed_at": "2026-08-06T04:57:16Z",
+  "execution_authorized": false,
+  "destination_repositories_created": false,
+  "copy_only": true,
+  "source_mutation_authorized": false,
+  "secret_values_retained": false,
+  "organization": {
+    "login": "agent-logic",
+    "plan_observed": "free",
+    "two_factor_requirement_enabled": true,
+    "members_can_create_repositories": true,
+    "default_repository_permission": "read"
+  },
+  "authenticated_operator": {
+    "login": "danielbaustin",
+    "user_id": 605773,
+    "organization_membership": "active",
+    "organization_role": "admin"
+  },
+  "copies": [
+    {
+      "sequence": 1,
+      "source": "danielbaustin/cognitive-sdlc-paper",
+      "source_repository_id": 1246168746,
+      "source_visibility": "private",
+      "source_default_branch": "main",
+      "source_head": "fb902ec4c5a97fa18ff86e7d192bbedcc3a365ce",
+      "source_archived": false,
+      "destination": "agent-logic/cognitive-sdlc-paper",
+      "destination_visibility": "private",
+      "destination_name_free": true,
+      "platform_inventory": {
+        "open_issues": 2,
+        "open_pull_requests": 0,
+        "actions_workflows": 0,
+        "releases": 0,
+        "environments": 0,
+        "rulesets": 0,
+        "webhooks": 0,
+        "deploy_keys": 0,
+        "actions_secret_names": 0,
+        "actions_variables": 0
+      }
+    },
+    {
+      "sequence": 2,
+      "source": "danielbaustin/godel-hadamard-bayes-paper",
+      "source_repository_id": 1269583921,
+      "source_visibility": "private",
+      "source_default_branch": "main",
+      "source_head": "315afb209b0124b08af7a2a27aa39e6321ae34b8",
+      "source_archived": false,
+      "destination": "agent-logic/godel-hadamard-bayes-paper",
+      "destination_visibility": "private",
+      "destination_name_free": true,
+      "platform_inventory": {
+        "open_issues": 2,
+        "open_pull_requests": 0,
+        "actions_workflows": 0,
+        "releases": 0,
+        "environments": 0,
+        "rulesets": 0,
+        "webhooks": 0,
+        "deploy_keys": 0,
+        "actions_secret_names": 0,
+        "actions_variables": 0
+      }
+    },
+    {
+      "sequence": 3,
+      "source": "danielbaustin/general-intelligence-paper-private",
+      "source_repository_id": 1240045659,
+      "source_visibility": "private",
+      "source_default_branch": "main",
+      "source_head": "d0530fdd3f37aeee56bd579f5e8db15909107037",
+      "source_archived": false,
+      "destination": "agent-logic/general-intelligence-paper-private",
+      "destination_visibility": "private",
+      "destination_name_free": true,
+      "platform_inventory": {
+        "open_issues": 0,
+        "open_pull_requests": 0,
+        "actions_workflows": 0,
+        "releases": 0,
+        "environments": 0,
+        "rulesets": 0,
+        "webhooks": 0,
+        "deploy_keys": 0,
+        "actions_secret_names": 0,
+        "actions_variables": 0
+      }
+    },
+    {
+      "sequence": 4,
+      "source": "danielbaustin/universal-tool-schema",
+      "source_repository_id": 1240135608,
+      "source_visibility": "private",
+      "source_default_branch": "main",
+      "source_head": "7997dd41863b0ba6560c2cab322e21be1a975613",
+      "source_archived": false,
+      "destination": "agent-logic/universal-tool-schema",
+      "destination_visibility": "private",
+      "destination_name_free": true,
+      "platform_inventory": {
+        "open_issues": 5,
+        "open_pull_requests": 2,
+        "actions_workflows": 0,
+        "releases": 0,
+        "environments": 0,
+        "rulesets": 0,
+        "webhooks": 0,
+        "deploy_keys": 0,
+        "actions_secret_names": 0,
+        "actions_variables": 0
+      }
+    },
+    {
+      "sequence": 5,
+      "source": "danielbaustin/agent-design-language",
+      "source_repository_id": 1148444120,
+      "source_visibility": "public",
+      "source_default_branch": "main",
+      "source_head": "423c50d8cc185a0fbbec0fa0dcd636c81f4e04f5",
+      "source_archived": false,
+      "destination": "agent-logic/agent-design-language",
+      "destination_visibility": "public",
+      "destination_name_free": true,
+      "recaptured_after_pr_5887": true,
+      "pr_5887_merge_sha": "423c50d8cc185a0fbbec0fa0dcd636c81f4e04f5",
+      "platform_inventory": {
+        "open_issues": 65,
+        "open_pull_requests": 0,
+        "actions_workflows": 4,
+        "releases": 25,
+        "environments": 1,
+        "rulesets": 1,
+        "webhooks": 0,
+        "deploy_keys": 0,
+        "actions_secret_names": 3,
+        "actions_variables": 4
+      }
+    }
+  ],
+  "negative_controls": [
+    {
+      "source": "danielbaustin/asksifu",
+      "source_repository_id": 1211732279,
+      "source_visibility": "private",
+      "source_default_branch": "main",
+      "source_head": "c45125edaa0d7b10dcb7d20b8bd53507bf18b145",
+      "source_archived": false,
+      "destination": "agent-logic/asksifu",
+      "destination_name_free": true,
+      "copy_authorized": false
+    },
+    {
+      "source": "danielbaustin/Horust",
+      "source_repository_id": 1297989599,
+      "source_visibility": "public",
+      "source_default_branch": "master",
+      "source_head": "37e753561f07bdfd48a4b8e4c101759ba7974ddb",
+      "source_archived": false,
+      "source_is_fork": true,
+      "destination": "agent-logic/Horust",
+      "destination_name_free": true,
+      "copy_authorized": false
+    }
+  ],
+  "confirmed_readiness": [
+    "exact five-copy allowlist and two-repository negative-control denylist",
+    "four-private and one-public destination visibility matrix",
+    "all five destination names are free",
+    "organization requires two-factor authentication",
+    "all seven source repositories are present and unarchived, and their default-branch HEADs remained unchanged during read-only inspection",
+    "destination Actions must be disabled before the first mirrored ref is pushed",
+    "website reference cleanup is tracked by issue 5888 and starts only after ADL destination verification"
+  ],
+  "execution_gates": [
+    {
+      "gate": "wp01b_terminal",
+      "status": "pass",
+      "reason": "PR 5887 merged as 423c50d8cc185a0fbbec0fa0dcd636c81f4e04f5 and the final ADL source snapshot was recaptured at that exact main-branch head"
+    },
+    {
+      "gate": "billing_owner_and_payment",
+      "status": "operator_confirmation_required",
+      "reason": "not provable through the current GitHub API token"
+    },
+    {
+      "gate": "organization_recovery_contact",
+      "status": "operator_confirmation_required",
+      "reason": "not provable through the current GitHub API token"
+    },
+    {
+      "gate": "organization_actions_policy",
+      "status": "operator_confirmation_required",
+      "reason": "current token lacks the organization administration scope needed to inspect policy"
+    },
+    {
+      "gate": "package_inventory",
+      "status": "operator_disposition_required",
+      "reason": "package API inventory is unavailable to the current token"
+    },
+    {
+      "gate": "github_app_inventory",
+      "status": "operator_disposition_required",
+      "reason": "GitHub App installation inventory is not completely visible to the current token"
+    },
+    {
+      "gate": "lfs_inventory",
+      "status": "execution_receipt_required",
+      "reason": "no LFS filter patterns were observed, but each mirror window must still prove fetch and push disposition"
+    },
+    {
+      "gate": "named_copy_window",
+      "status": "operator_authorization_required",
+      "reason": "no destination may be created until the operator starts that repository window"
+    }
+  ],
+  "post_copy_follow_ups": [
+    {
+      "issue": 5888,
+      "purpose": "update website references after the public ADL destination is verified"
+    },
+    {
+      "purpose": "leave the old public ADL repository available as a signpost, then add a canonical-repository notice and optionally archive it",
+      "in_wp02": false
+    }
+  ]
+}

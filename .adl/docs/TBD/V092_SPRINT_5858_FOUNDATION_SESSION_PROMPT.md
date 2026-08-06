@@ -10,8 +10,8 @@ typed C-SDLC v2 authority. Never write tracked work on main, never use
 /private/tmp, never invoke sunset wrappers, and never expose credentials.
 
 The umbrella coordinates child work; it does not own child implementation.
-Every child keeps its own issue-bound worktree, claim, session goal, validation,
-review, PR, merge, finish, and cleanup truth. Do not edit child product paths
+Every child keeps its own issue-bound worktree, branch-derived ownership,
+session goal, validation, review, PR, merge, finish, and cleanup truth. Do not edit child product paths
 from the #5858 umbrella worktree.
 
 Before execution:
@@ -30,16 +30,15 @@ Before execution:
 5. Use sprint-conductor for coordination, but route every implementation
    through the child's typed v2 lifecycle.
 
-WP-01 published the initialized child records under its own temporary publication
-claim. After WP-01 releases that claim, create and register each real child
-worktree, use typed `csdlc-bind --reacquire-request` to acquire the child's exact
-issue-local paths, then run the normal bind and goal sequence. Do not assume the
-bootstrap reservation is still active.
+WP-01 published the initialized child records. For each dependency-ready child,
+create or verify its real issue branch and worktree, confirm that no active
+session owns the same branch or path set, then use the current typed `csdlc-bind`
+route and create the issue-bound goal. Do not create or recover claim records.
 
 Exact child wave:
 
 - #5818, WP-01B: activate canonical v0.92 docs and version surfaces
-- #5819, WP-02: perform the Agent Logic repository migration
+- #5819, WP-02: create five verified Agent Logic destination copies without mutating any personal-account source
 - #5812: bounded Freedom Gate Clippy cleanup coordinated with CI
 - #5801, WP-02A: repair and simplify CI/PVF/coverage
 - #5853, WP-02B: run the bounded post-migration build experiment

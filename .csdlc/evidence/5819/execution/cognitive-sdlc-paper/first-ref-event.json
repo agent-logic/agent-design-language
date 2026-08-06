@@ -1,0 +1,8 @@
+{
+  "id": "16886471770",
+  "type": "CreateEvent",
+  "actor": {"login": "danielbaustin"},
+  "repo": {"name": "agent-logic/cognitive-sdlc-paper"},
+  "payload": {"ref": "codex/14-record-first-private-review", "ref_type": "branch"},
+  "created_at": "2026-08-06T06:15:51Z"
+}

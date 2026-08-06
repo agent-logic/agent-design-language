@@ -1,0 +1,26 @@
+{
+  "issue": 5819,
+  "card": "spp",
+  "expected_generation": 45,
+  "expected_digest": "318ca204ea78e384f42d0a3d0ff0ec186dd4f6d03c7c6a01fe37d53017bcaf4f",
+  "actor": "codex:5819-copy-only-readiness",
+  "reason": "Declare every path intentionally changed by the WP-02 readiness correction.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md",
+      ".adl/docs/TBD/V092_SPRINT_5858_FOUNDATION_SESSION_PROMPT.md",
+      ".csdlc/evidence/5819",
+      ".csdlc/issues/5819",
+      ".csdlc/prepared/issues/5819",
+      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+      "docs/milestones/v0.92/README.md",
+      "docs/milestones/v0.92/SPRINT_v0.92.md",
+      "docs/milestones/v0.92/WBS_v0.92.md",
+      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+      "docs/milestones/v0.92/features/README.md"
+    ]
+  }
+}

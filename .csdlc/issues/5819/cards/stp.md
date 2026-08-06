@@ -12,48 +12,55 @@ Status: ready
 
 ## Task
 
-Deliver five serially transferred company repositories with danielbaustin/asksifu retained as personal and Horust excluded.
+Create and verify exactly five Agent Logic destination copies without changing any of the seven source repositories; retain asksifu and Horust as untouched controls.
 
 ## Deliverables
 
-- Organization readiness and exact five-repository scope receipt
-- Five redacted before/after manifest pairs with exact HEAD and digest lineage
-- Assignee membership or completed reassignment evidence for every open issue and PR
-- Per-repository transfer, integration, package, Pages, Actions, security, and redirect verification
+- Organization readiness and exact five-copy/two-control inventory
+- Fixed four-private/one-public destination visibility matrix
+- Five source-before, destination-after, and source-after manifest sets
+- Exact Git/ref/object and Git LFS parity proof
+- Actions-disabled-before-push receipts and destination configuration dispositions
 - asksifu and Horust negative-control evidence
-- Final migration report with zero unexplained drift
+- #5888 website handoff receipt
+- Final copy report with zero unexplained drift
 
 ## Acceptance
 
-1. Organization owners, recovery, billing, policy, permissions, destination names, and exact five-repository scope are verified
-2. Every repository has SHA-256-bound before and after manifests at one exact HEAD containing actual issues, PRs, assignees, rulesets, releases, Actions, Pages, packages, LFS, and integration data
-3. Exactly the five approved repositories transfer in order to agent-logic with names, visibility, history, and every manifest surface preserved or backed by a digest-bound verified disposition
-4. Every destination passes live GitHub inspection for API-backed surfaces and retained git-lfs-fsck evidence before the next transfer
-5. ADL transfers last; agent-logic/agent-logic.ai updates exactly site/index.html and site/beta/index.html, removes all four old ADL links, and retains source and publication receipts
-6. danielbaustin/asksifu remains personal and danielbaustin/Horust is neither transferred nor settings-mutated, with an observation receipt for each
-7. Final evidence contains no secret values, no unexplained drift, and one exact-revision bounded review
+1. Organization owners, recovery, billing, 2FA, policy, destination names, exact five-copy allowlist, two-control denylist, and four-private/one-public visibility matrix are verified
+2. Each approved source has a redacted exact-ref source-before manifest and every non-Git GitHub surface has a truthful recreate, retain-source, omit, or operator-action disposition
+3. Exactly five empty agent-logic destinations are created in order, destination Actions are disabled before any mirrored ref arrives, and every source repository remains unchanged
+4. Each destination has exact Git ref and object parity, complete Git LFS parity or a proven no-LFS disposition, the required visibility, and reconstructed or dispositioned destination configuration
+5. A source-after manifest proves owner, visibility, default branch, refs, HEAD, and settings inventory remain unchanged for every copied source
+6. ADL copies last and remains public; its destination Actions stay disabled until environments, rulesets, secrets/variables names, OIDC, packages, Apps, security, and workflow activation are verified
+7. Website reference cutover is delegated to #5888 and starts only after the public ADL destination passes verification
+8. danielbaustin/asksifu and danielbaustin/Horust remain unchanged and no corresponding agent-logic destination exists
+9. Final evidence contains no secret values, no unsupported metadata-copy claims, no unexplained drift, and one exact-revision bounded review
 
 ## Dependencies
 
-- WP-01 issue #5817 and WP-01B issue #5818 complete
-- Reviewed migration plan from issue #5815 and PR #5816 remains current
-- Confirmed destination organization owners, billing owner, recovery contact, and required 2FA
-- Complete five-repository inventory and free destination names
-- Organization billing, security, Actions, Pages, package, LFS, and transfer policy readiness
+- WP-01 issue #5817 and corrective WP-01B PR #5887 terminal before the ADL source snapshot
+- Copy-only plan and issue design reviewed and current
+- Destination organization owner, billing, recovery, 2FA, private-repository, Actions, Pages, package, LFS, and security readiness
+- Five free destination names
+- Package, GitHub App, and organization Actions-policy unknowns dispositioned before affected destination activation
 
 ## Inputs
 
+- .adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md
 - .csdlc/prepared/issues/5819/design.md
 - docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
 - docs/milestones/v0.92/WBS_v0.92.md
-- .csdlc/issues/5815
-- agent-logic.ai current production and beta source-link inventory
-- GitHub transfer, organization-role, and fork-network documentation captured at execution
+- GitHub repository duplication and LFS documentation
+- Live seven-source and destination-name inventory
+- agent-logic.ai personal-account reference inventory tracked by #5888
 
 ## Non Goals
 
-- Migration of asksifu or Horust
-- Repository rename, visibility change, recreation, or history rewrite
-- WP-02A CI and coverage redesign
+- Transfer, deletion, rename, archival, visibility change, settings mutation, issue movement, or push to any danielbaustin repository
+- Copy or mutation of asksifu or Horust
+- Claiming Git mirroring copies issues, pull requests, settings, secrets, packages, or integrations
+- Website edits owned by #5888
+- WP-02A CI redesign
 - Export of secret values or credential material
-- Downstream milestone implementation or completion claims
+- Downstream milestone implementation
