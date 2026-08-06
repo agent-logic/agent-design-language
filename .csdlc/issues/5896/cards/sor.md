@@ -85,11 +85,11 @@ Implemented and applied the pre-topology bound-record migration.
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

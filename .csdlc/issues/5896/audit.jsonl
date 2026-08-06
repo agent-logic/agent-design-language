@@ -9,3 +9,4 @@
 {"sequence":9,"generation":7,"actor":"codex-5896","reason":"record final concurrency validation","operation":"{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--test\",\"topology_migration\"],\"purpose\":\"Prove repository-serialized concurrent migration and idempotent interrupted recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/topology_migration.rs\"}}"}
 {"sequence":10,"generation":7,"actor":"codex-5896","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":8,"actor":"codex-5896","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":12,"generation":9,"actor":"codex-5896","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
