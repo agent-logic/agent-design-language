@@ -59,6 +59,12 @@ def expected_names(relative)
   JSON.parse(File.read(File.join(ROOT, relative))).sort
 end
 
+def paginated_array(endpoint)
+  pages = JSON.parse(capture("gh", "api", "--paginate", "--slurp", endpoint))
+  abort_with("paginated endpoint did not return arrays: #{endpoint}") unless pages.all? { |page| page.is_a?(Array) }
+  pages.flatten
+end
+
 def workflow_state(repo_name, workflow)
   JSON.parse(capture("gh", "workflow", "view", workflow, "--repo", repo_name, "--json", "state")).fetch("state")
 end
@@ -175,13 +181,13 @@ if PHASE == "post"
   codecov_current = codecov_status.success? && !codecov_body.downcase.match?(/(?:unknown|error|not found)/)
   observed_integrations["Codecov"] = codecov_current ? "canonical_badge_current" : "canonical_badge_unproven"
 
-  packages = JSON.parse(capture("gh", "api", "orgs/agent-logic/packages?package_type=container&per_page=100"))
+  packages = paginated_array("orgs/agent-logic/packages?package_type=container&per_page=100")
   runners = JSON.parse(capture("gh", "api", "orgs/agent-logic/actions/runners?per_page=100"))
   installations = JSON.parse(capture("gh", "api", "orgs/agent-logic/installations?per_page=100"))
-  hooks = JSON.parse(capture("gh", "api", "repos/#{CANONICAL_REPO}/hooks?per_page=100"))
+  hooks = paginated_array("repos/#{CANONICAL_REPO}/hooks?per_page=100")
   observed_integrations["packages"] = "#{packages.length}_packages"
   observed_integrations["organization-runners"] = "#{runners.fetch('total_count')}_runners"
-  observed_integrations["GitHub-Apps-and-webhooks"] = "#{installations.length}_apps_#{hooks.length}_webhooks"
+  observed_integrations["GitHub-Apps-and-webhooks"] = "#{installations.fetch('total_count')}_apps_#{hooks.length}_webhooks"
 
   observed_integrations.each do |surface, observed|
     expected = integration_state(integration_rows, surface)
