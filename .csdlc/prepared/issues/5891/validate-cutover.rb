@@ -3,6 +3,7 @@
 
 require "json"
 require "open3"
+require "digest"
 
 ROOT = File.expand_path("../../../..", __dir__)
 INVENTORY_PATH = File.join(ROOT, "docs/repository-cutover/ADL_CANONICAL_REPOSITORY_CUTOVER_INVENTORY.json")
@@ -24,7 +25,16 @@ end
 def changed_and_untracked_paths(base_revision)
   changed = capture("git", "diff", "--name-only", base_revision).lines.map(&:strip)
   untracked = capture("git", "ls-files", "--others", "--exclude-standard").lines.map(&:strip)
-  (changed + untracked).reject(&:empty?).uniq.sort
+  preparation, ordinary = untracked.reject(&:empty?).partition { |path| path.start_with?(IGNORED_PREPARATION_PREFIX) }
+  [(changed + ordinary).reject(&:empty?).uniq.sort, preparation.sort]
+end
+
+def preparation_digest(paths)
+  material = paths.map do |relative|
+    digest = Digest::SHA256.file(File.join(ROOT, relative)).hexdigest
+    "#{relative}\0#{digest}\n"
+  end.join
+  Digest::SHA256.hexdigest(material)
 end
 
 def scope_delta(actual, allowed)
@@ -79,18 +89,23 @@ abort_with("exact allowlist missing") unless allowed.is_a?(Array) && !allowed.em
 abort_with("exact allowlist contains duplicates") unless allowed.uniq.length == allowed.length
 abort_with("preparation state entered allowlist") if allowed.any? { |path| path.start_with?(IGNORED_PREPARATION_PREFIX) }
 
-actual = changed_and_untracked_paths(base_revision).reject { |path| path.start_with?(IGNORED_PREPARATION_PREFIX) }
+actual, untracked_preparation = changed_and_untracked_paths(base_revision)
+expected_preparation_count = inventory.dig("scope", "ignored_preexisting_untracked_count")
+expected_preparation_digest = inventory.dig("scope", "ignored_preexisting_untracked_digest")
+abort_with("preexisting preparation count drift") unless untracked_preparation.length == expected_preparation_count
+abort_with("preexisting preparation digest drift") unless preparation_digest(untracked_preparation) == expected_preparation_digest
 delta = scope_delta(actual, allowed.sort)
 unless delta.values.all?(&:empty?)
   abort_with("scope mismatch unexpected=#{delta['unexpected'].inspect} missing=#{delta['missing'].inspect}")
 end
 
 negative = scope_delta(
-  allowed.sort + ["docs/unrelated-cutover-note.md", ".csdlc/evidence/9999/unrelated.json"],
+  allowed.sort + ["docs/unrelated-cutover-note.md", ".csdlc/evidence/9999/unrelated.json", ".csdlc/preparation/issues/9999/unrelated.json"],
   allowed.sort
 )
 abort_with("negative scope self-test failed") unless negative["unexpected"] == [
   ".csdlc/evidence/9999/unrelated.json",
+  ".csdlc/preparation/issues/9999/unrelated.json",
   "docs/unrelated-cutover-note.md"
 ]
 if ARGV.include?("--self-test-only")
@@ -204,6 +219,8 @@ puts JSON.generate(
   schema: "adl.repository_cutover_static_validation.v2",
   result: "pass",
   base_revision: base_revision,
+  preparation_baseline_count: untracked_preparation.length,
+  preparation_baseline_digest: expected_preparation_digest,
   exact_allowlist_paths: allowed.length,
   operational_references: operational_paths.length,
   active_issue_dispositions: issue_rows.length,

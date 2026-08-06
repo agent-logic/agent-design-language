@@ -17,9 +17,11 @@
   },
   "refs": {
     "common_main_sha": "18d3cb93017469521dd0f50c9bc032d6d59ea184",
-    "legacy_manifest": ".csdlc/evidence/5891/legacy-refs.tsv",
-    "canonical_manifest": ".csdlc/evidence/5891/canonical-refs.tsv",
-    "disposition": "provisional snapshot; reconfirm exact parity immediately before activation"
+    "pre_legacy_manifest": ".csdlc/evidence/5891/legacy-refs.tsv",
+    "pre_canonical_manifest": ".csdlc/evidence/5891/canonical-refs.tsv",
+    "post_legacy_manifest": ".csdlc/evidence/5891/post-cutover-legacy-refs.tsv",
+    "post_canonical_manifest": ".csdlc/evidence/5891/post-cutover-canonical-refs.tsv",
+    "disposition": "pre manifests are reviewed activation inputs; distinct post manifests are generated after both reviewed merges and independently reviewed as terminal evidence before closeout"
   },
   "disposition_manifests": {
     "active_issues": ".csdlc/evidence/5891/active-issue-dispositions.tsv",
@@ -162,7 +164,9 @@
       "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs"
     ],
     "ignored_preexisting_surface": ".csdlc/preparation/**",
-    "ignored_preexisting_reason": "Operator-owned preparation state is explicitly outside this remediation and is neither modified nor published by this change."
+    "ignored_preexisting_reason": "Operator-owned preparation state is explicitly outside this remediation and is neither modified nor published by this change.",
+    "ignored_preexisting_untracked_count": 75,
+    "ignored_preexisting_untracked_digest": "19d47ec869ee24b6fb7d16957f277f9014fd0920435739803b6cd0854b5a0400"
   },
   "rollback": {
     "local": "restore the recorded personal URL as origin and retain the Agent Logic URL under a noncanonical remote name",

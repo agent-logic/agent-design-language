@@ -79,6 +79,9 @@ remotes, GitHub settings, and repositories are outside this remediation.
 8. Change the shared local `origin` to Agent Logic and add `legacy-origin`.
 9. Verify destination push authority, focused CI, active-work continuity,
    canonical links, and non-destructive rollback.
+10. After the destination and source-notice merges, generate distinct final
+    source and destination full-ref manifests and obtain independent review of
+    that terminal evidence before issue closeout.
 
 ## Rollback
 

@@ -34,7 +34,9 @@ def remote_refs(url)
 end
 
 def manifest_refs(relative)
-  File.readlines(File.join(ROOT, relative), chomp: true).reject(&:empty?).sort
+  path = File.join(ROOT, relative)
+  abort_with("missing #{PHASE}-cutover ref manifest: #{relative}") unless File.file?(path)
+  File.readlines(path, chomp: true).reject(&:empty?).sort
 end
 
 def read_tsv(relative)
@@ -43,8 +45,8 @@ def read_tsv(relative)
   lines.map { |line| header.zip(line.split("\t", -1)).to_h }
 end
 
-def repository_file(repo_name, path)
-  payload = JSON.parse(capture("gh", "api", "repos/#{repo_name}/contents/#{path}?ref=main"))
+def repository_file(repo_name, path, ref = "main")
+  payload = JSON.parse(capture("gh", "api", "repos/#{repo_name}/contents/#{path}?ref=#{ref}"))
   Base64.decode64(payload.fetch("content"))
 end
 
@@ -55,6 +57,16 @@ end
 
 def expected_names(relative)
   JSON.parse(File.read(File.join(ROOT, relative))).sort
+end
+
+def workflow_state(repo_name, workflow)
+  JSON.parse(capture("gh", "workflow", "view", workflow, "--repo", repo_name, "--json", "state")).fetch("state")
+end
+
+def integration_state(rows, surface)
+  row = rows.find { |candidate| candidate.fetch("surface") == surface }
+  abort_with("integration disposition missing: #{surface}") unless row
+  row.fetch("canonical_state")
 end
 
 def live_worktrees
@@ -100,8 +112,9 @@ abort_with("wrong inventory schema") unless inventory["schema"] == "adl.reposito
 
 legacy_refs = remote_refs(LEGACY_URL)
 canonical_refs = remote_refs(CANONICAL_URL)
-expected_legacy_refs = manifest_refs(inventory.dig("refs", "legacy_manifest"))
-expected_canonical_refs = manifest_refs(inventory.dig("refs", "canonical_manifest"))
+manifest_prefix = PHASE == "pre" ? "pre" : "post"
+expected_legacy_refs = manifest_refs(inventory.dig("refs", "#{manifest_prefix}_legacy_manifest"))
+expected_canonical_refs = manifest_refs(inventory.dig("refs", "#{manifest_prefix}_canonical_manifest"))
 abort_with("legacy full-ref manifest drift") unless legacy_refs == expected_legacy_refs
 abort_with("canonical full-ref manifest drift") unless canonical_refs == expected_canonical_refs
 abort_with("pre-cutover full-ref parity failed") if PHASE == "pre" && legacy_refs != canonical_refs
@@ -122,6 +135,7 @@ negative_repos.each do |name|
 end
 
 rollback_result = "not_run"
+observed_integrations = {}
 if PHASE == "post"
   origin = capture("git", "remote", "get-url", "origin")
   legacy_origin = capture("git", "remote", "get-url", "legacy-origin")
@@ -133,20 +147,46 @@ if PHASE == "post"
 
   expected_variables = expected_names(".csdlc/evidence/5891/canonical-variable-names.json")
   expected_secrets = expected_names(".csdlc/evidence/5891/canonical-secret-names.json")
-  abort_with("canonical variable-name drift") unless name_inventory(CANONICAL_REPO, "variables") == expected_variables
-  abort_with("canonical secret-name drift") unless name_inventory(CANONICAL_REPO, "secrets") == expected_secrets
+  live_variables = name_inventory(CANONICAL_REPO, "variables")
+  live_secrets = name_inventory(CANONICAL_REPO, "secrets")
+  abort_with("canonical variable-name drift") unless live_variables == expected_variables
+  abort_with("canonical secret-name drift") unless live_secrets == expected_secrets
 
   environments = JSON.parse(capture("gh", "api", "repos/#{CANONICAL_REPO}/environments?per_page=100"))
   environment_names = environments.fetch("environments").map { |row| row.fetch("name") }
   abort_with("destination adl-spot-ci environment missing") unless environment_names.include?("adl-spot-ci")
 
   integration_rows = read_tsv(inventory.dig("disposition_manifests", "integrations"))
-  unresolved = integration_rows.select do |row|
-    [row.fetch("canonical_state"), row.fetch("disposition")].any? do |value|
-      value.match?(/(?:unproven|incomplete|activation_stop|absent|0_names)/)
-    end
+  observed_integrations = {
+    "repository-secrets" => "#{live_secrets.length}_names",
+    "repository-variables" => "#{live_variables.length}_names",
+    "environment:adl-spot-ci" => "present"
+  }
+
+  aws_workflows = %w[aws-codefriend-build.yaml aws-spot-remote-validation.yaml]
+  observed_integrations["AWS-OIDC-and-CodeBuild"] = if aws_workflows.all? { |workflow| workflow_state(CANONICAL_REPO, workflow) == "disabled_manually" }
+                                                        "dependent_workflows_disabled"
+                                                      else
+                                                        "dependent_workflows_not_disabled"
+                                                      end
+
+  codecov_url = "https://codecov.io/gh/#{CANONICAL_REPO}/graph/badge.svg?branch=main"
+  codecov_body, _codecov_err, codecov_status = Open3.capture3("curl", "--fail", "--silent", "--show-error", "--location", codecov_url, chdir: ROOT)
+  codecov_current = codecov_status.success? && !codecov_body.downcase.match?(/(?:unknown|error|not found)/)
+  observed_integrations["Codecov"] = codecov_current ? "canonical_badge_current" : "canonical_badge_unproven"
+
+  packages = JSON.parse(capture("gh", "api", "orgs/agent-logic/packages?package_type=container&per_page=100"))
+  runners = JSON.parse(capture("gh", "api", "orgs/agent-logic/actions/runners?per_page=100"))
+  installations = JSON.parse(capture("gh", "api", "orgs/agent-logic/installations?per_page=100"))
+  hooks = JSON.parse(capture("gh", "api", "repos/#{CANONICAL_REPO}/hooks?per_page=100"))
+  observed_integrations["packages"] = "#{packages.length}_packages"
+  observed_integrations["organization-runners"] = "#{runners.fetch('total_count')}_runners"
+  observed_integrations["GitHub-Apps-and-webhooks"] = "#{installations.length}_apps_#{hooks.length}_webhooks"
+
+  observed_integrations.each do |surface, observed|
+    expected = integration_state(integration_rows, surface)
+    abort_with("integration drift for #{surface}: expected #{expected}, observed #{observed}") unless observed == expected
   end
-  abort_with("unresolved destination integrations: #{unresolved.map { |row| row.fetch('surface') }.join(', ')}") unless unresolved.empty?
 
   expected_worktrees = read_tsv(inventory.dig("disposition_manifests", "worktrees")).sort_by { |row| row.fetch("worktree_id") }
   abort_with("registered worktree continuity drift") unless live_worktrees == expected_worktrees
@@ -158,13 +198,19 @@ if PHASE == "post"
   %w[README.md adl/README.md].each do |path|
     text = repository_file(CANONICAL_REPO, path)
     canonical_badges.each { |badge| abort_with("canonical #{path} badge missing: #{badge}") unless text.include?(badge) }
+    abort_with("legacy Actions badge remains in canonical #{path}") if text.include?("https://github.com/#{LEGACY_REPO}/actions/workflows/ci.yaml")
+    abort_with("legacy Codecov badge remains in canonical #{path}") if text.include?("https://codecov.io/gh/#{LEGACY_REPO}")
   end
 
   common_main = inventory.dig("refs", "common_main_sha")
   comparison = JSON.parse(capture("gh", "api", "repos/#{LEGACY_REPO}/compare/#{common_main}...main"))
   legacy_changed_files = comparison.fetch("files").map { |row| row.fetch("filename") }.sort
   abort_with("legacy mutation exceeded README notice: #{legacy_changed_files.inspect}") unless legacy_changed_files == ["README.md"]
-  abort_with("legacy README lacks canonical notice") unless repository_file(LEGACY_REPO, "README.md").include?(CANONICAL_REPO)
+  legacy_notice = "> **Canonical development has moved:** New code, branches, and pull requests belong in " \
+                  "[agent-logic/agent-design-language](https://github.com/agent-logic/agent-design-language)."
+  baseline_readme = repository_file(LEGACY_REPO, "README.md", common_main)
+  expected_legacy_readme = "#{legacy_notice}\n\n#{baseline_readme}"
+  abort_with("legacy README differs from the exact notice-only projection") unless repository_file(LEGACY_REPO, "README.md") == expected_legacy_readme
 
   capture("git", "push", "--dry-run", "origin", "HEAD:refs/heads/codex/5891-push-authority-check")
   rollback_result = rollback_drill
@@ -180,5 +226,6 @@ puts JSON.generate(
   canonical_ref_digest: Digest::SHA256.hexdigest(canonical_refs.join("\n")),
   open_legacy_pull_requests: open_prs.length,
   excluded_repositories_absent: negative_repos,
-  rollback_drill: rollback_result
+  rollback_drill: rollback_result,
+  observed_integrations: observed_integrations
 )

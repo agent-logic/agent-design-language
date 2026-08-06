@@ -53,6 +53,15 @@ account and must not be copied or created in the Agent Logic organization.
 7. Verify authenticated canonical push authority, workflow status, both README
    badge surfaces, active issue continuity, every registered worktree, and the
    rollback path through a non-destructive local remote-renaming drill.
+8. Generate distinct post-cutover full-ref manifests for both repositories,
+   review those terminal manifests independently, and only then close #5891.
+
+The source notice must be this exact one-line paragraph prepended to the
+unchanged pre-cutover README:
+
+```text
+> **Canonical development has moved:** New code, branches, and pull requests belong in [agent-logic/agent-design-language](https://github.com/agent-logic/agent-design-language).
+```
 
 Existing issues are closed from canonical pull requests only with qualified
 references such as `Closes danielbaustin/agent-design-language#5801`. Historical
@@ -68,6 +77,14 @@ links remain on the legacy repository because that history was not copied.
 - Repository secrets: recreate out of band by name; never print or retain values.
 - Packages, organization runners, and GitHub Apps: activation stop condition
   until inventoried with sufficient read-only authority or proven unused.
+
+The post verifier derives canonical integration states from live APIs rather
+than accepting free-form dispositions: `N_names` for variables and secrets,
+`present` for the environment, disabled dependent AWS workflows,
+`canonical_badge_current` for Codecov, and exact package, organization-runner,
+GitHub-App, and webhook counts. The final manifest must record those exact
+observed tokens and receive independent review. Missing `read:packages` or
+`admin:org` authority is an activation stop, not an inferred empty inventory.
 
 ## Compact Disposition Manifests
 
