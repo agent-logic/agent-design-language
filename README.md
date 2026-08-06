@@ -13,6 +13,8 @@ packets, demos, and milestone evidence.
 
 Homepage: [agent-logic.ai](https://agent-logic.ai)
 
+Canonical repository: [agent-logic/agent-design-language](https://github.com/agent-logic/agent-design-language)
+
 ![ADL deterministic cognitive architecture overview](docs/assets/ADL-overview.png)
 
 ## Table Of Contents

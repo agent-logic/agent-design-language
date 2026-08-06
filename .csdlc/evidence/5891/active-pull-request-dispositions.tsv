@@ -1,0 +1,3 @@
+pr	title	head	base	draft	disposition
+5893	[v0.92][WP-02A] Make CI and coverage routing explicit	codex/5801-v0-92-wp-02a-ci-coverage-reliability	main	false	finish_and_merge_or_close_on_legacy_before_activation
+5894	[v0.92][runtime][quality] Restore Clippy cleanliness in csm_freedom_gate	codex/5812-v0-92-freedom-gate-clippy	main	false	finish_and_merge_or_close_on_legacy_before_activation

@@ -198,7 +198,7 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
     let mut run_id = None;
     let mut region = env::var("AWS_REGION").unwrap_or_else(|_| "us-west-2".to_string());
     let mut profile = env::var("AWS_PROFILE").ok();
-    let mut repo_url = "https://github.com/danielbaustin/agent-design-language.git".to_string();
+    let mut repo_url = "https://github.com/agent-logic/agent-design-language.git".to_string();
     let mut git_ref = detect_default_git_ref();
     let mut cache_bucket = env::var("ADL_AWS_REMOTE_VALIDATION_CACHE_BUCKET").ok();
     let mut cache_prefix = env::var("ADL_AWS_REMOTE_VALIDATION_CACHE_PREFIX").ok();
