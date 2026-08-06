@@ -5,7 +5,7 @@
   "initialization_digest": "11c8c3af9d6da39dbef1a1346e9367fa8bc5fc51f5d1989c22c14ee7432e16bd",
   "phase": "initialized",
   "generation": 9,
-  "digest": "4e2a490045314d31da254563903beb403415d5e9841f882fed4a5b04cf35cc04",
+  "digest": "67e38fcd0acbc392f294e9c29a0e01aa579ae1bc94461ad9114d6274dd54124c",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -265,7 +265,7 @@
       "generation": 9,
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
-      "operation": "migrate_bound_topology"
+      "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
     }
   ]
 }

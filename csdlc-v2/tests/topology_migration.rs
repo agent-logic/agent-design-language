@@ -3,10 +3,11 @@ use std::process::Command;
 
 use csdlc_v2::cards::{digest, PlanStep, ResourceProfile, StepStatus, ValidationLane};
 use csdlc_v2::{
-    initialize_native_json, migrate_bound_topology, migrate_bound_topology_with_failure_for_test,
-    BootstrapRequest, BoundTopologyDisposition, BoundTopologyMigrationItem,
-    BoundTopologyMigrationRequest, ClosedIssueEvidence, InitialCardInput, LifecyclePhase,
-    MigrationIssueState, PlanningProfile, Store, TerminalDisposition,
+    initialize_native_json, migrate_bound_topology, migrate_bound_topology_with_crash_for_test,
+    migrate_bound_topology_with_failure_for_test, BootstrapRequest, BoundTopologyDisposition,
+    BoundTopologyMigrationItem, BoundTopologyMigrationRequest, ClosedIssueEvidence,
+    InitialCardInput, LifecyclePhase, MigrationIssueState, PlanningProfile, Store,
+    TerminalDisposition,
 };
 
 fn git(root: &std::path::Path, args: &[&str]) {
@@ -406,4 +407,62 @@ fn mid_batch_failure_restores_every_issue_byte_for_byte() {
             before[offset].1
         );
     }
+}
+
+#[test]
+fn next_run_recovers_a_durable_interrupted_batch() {
+    let (_temp, store) = fixture(50);
+    initialize_native_json(&store, &serde_json::to_vec(&bootstrap_request(51)).unwrap()).unwrap();
+    make_pre_topology_bound(&store, 51);
+    let evidence_dir = store.root().join("evidence");
+    fs::create_dir_all(&evidence_dir).unwrap();
+    fs::write(
+        evidence_dir.join("states.json"),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "schema":"csdlc.bound_topology_issue_states.v1",
+            "issues":[
+                {"issue":50,"state":"open","closed_at":null},
+                {"issue":51,"state":"open","closed_at":null}
+            ]
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let request = BoundTopologyMigrationRequest {
+        schema: "csdlc.bound_topology_migration_request.v1".into(),
+        apply: true,
+        actor: "test-migrator".into(),
+        issue_state_evidence: "evidence/states.json".into(),
+        issues: vec![50, 51]
+            .into_iter()
+            .map(|issue| BoundTopologyMigrationItem {
+                issue,
+                state: MigrationIssueState::Open,
+                terminal: None,
+            })
+            .collect(),
+    };
+    let before = [50, 51].map(|issue| fs::read(store.issue_dir(issue).join("index.json")).unwrap());
+    migrate_bound_topology_with_crash_for_test(&store, request.clone(), 1).unwrap_err();
+    assert_eq!(
+        store.load_record(50).unwrap().phase,
+        LifecyclePhase::Initialized
+    );
+
+    let report = migrate_bound_topology(&store, request).unwrap();
+    assert_eq!(report.changed, 2);
+    for (offset, issue) in [50, 51].into_iter().enumerate() {
+        assert_ne!(
+            fs::read(store.issue_dir(issue).join("index.json")).unwrap(),
+            before[offset]
+        );
+        assert_eq!(
+            store.load_record(issue).unwrap().phase,
+            LifecyclePhase::Initialized
+        );
+    }
+    assert!(!store
+        .root()
+        .join(".csdlc/issues/.bound-topology-migration-backup")
+        .exists());
 }

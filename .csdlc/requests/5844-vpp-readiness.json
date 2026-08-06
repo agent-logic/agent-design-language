@@ -2,7 +2,7 @@
   "issue": 5844,
   "card": "vpp",
   "expected_generation": 36,
-  "expected_digest": "f0d5949687ad710af14eea0fc8de99ebe8f7a45a095ab8156b872fc4053920fd",
+  "expected_digest": "716684b1ce1ad3efa691bda77c642db0015eced4fb65b87eb09aae6ec2000f3b",
   "actor": "codex-5896-migration",
   "reason": "make the migrated WP-24 validation plan directly executable",
   "operation": {

@@ -58,6 +58,17 @@ Implemented and applied the pre-topology bound-record migration.
     "purpose": "Validate the 58-record cohort, idempotence, corruption denominator, and WP-24 readiness.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5896/doctor-results.json"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--test",
+      "topology_migration"
+    ],
+    "purpose": "Prove durable crash recovery plus atomicity, evidence, collision, and idempotence behavior after review fixes.",
+    "outcome": "passed",
+    "evidence_ref": "csdlc-v2/tests/topology_migration.rs"
   }
 ]
 

@@ -7,7 +7,7 @@
     "title": "[v0.92][migration] Migrate pre-topology bound issue records to Git topology",
     "slug": "v0-92-migrate-pre-topology-bound-records",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "ready",
   "content": {

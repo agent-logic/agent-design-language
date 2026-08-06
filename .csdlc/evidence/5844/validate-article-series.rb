@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-root = File.expand_path("../../../..", __dir__)
+root = File.expand_path("../../..", __dir__)
 articles = File.join(root, "docs/milestones/v0.92/publication/articles")
 slugs = %w[
   01-what-is-adl

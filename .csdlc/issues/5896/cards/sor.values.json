@@ -7,7 +7,7 @@
     "title": "[v0.92][migration] Migrate pre-topology bound issue records to Git topology",
     "slug": "v0-92-migrate-pre-topology-bound-records",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
@@ -54,6 +54,17 @@
           "purpose": "Validate the 58-record cohort, idempotence, corruption denominator, and WP-24 readiness.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/5896/doctor-results.json"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--test",
+            "topology_migration"
+          ],
+          "purpose": "Prove durable crash recovery plus atomicity, evidence, collision, and idempotence behavior after review fixes.",
+          "outcome": "passed",
+          "evidence_ref": "csdlc-v2/tests/topology_migration.rs"
         }
       ],
       "integration_state": "not_started",
