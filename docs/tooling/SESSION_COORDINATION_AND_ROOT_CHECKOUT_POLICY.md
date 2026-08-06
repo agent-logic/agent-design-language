@@ -35,10 +35,10 @@ Allowed primary-checkout uses:
 
 - read-only inspection
 - issue creation/bootstrap
-- `pr ready` / `pr doctor`
+- typed `csdlc-doctor` readiness inspection
 - prep-scout issue inspection/readiness checks for a separate next-issue lane
   while the current issue is in a truthful wait state
-- issue-mode `pr run` binding when `main` is clean
+- typed `csdlc-bind` when `main` is clean
 - fast-forwarding `main`
 - checking root/worktree state before routing
 
@@ -100,100 +100,20 @@ If a broad process check is needed, use the permission-safe process helper from
 `docs/tooling/PERMISSION_SAFE_PROCESS_STATUS.md`; do not use broad `ps`,
 `pgrep`, or `lsof` scans as workflow control.
 
-## Polis Occupancy Ledger
+## Git Topology Coordination
 
-ADL needs a first-class local occupancy ledger. The immediate C-SDLC use case is
-session coordination across issues, branches, PRs, and worktrees, but the
-underlying concept is broader: agents and sessions claim bounded authority over
-shared polis resources.
+Current issue ownership is derived from observable repository state:
 
-The general shape is:
+- the live GitHub issue and PR
+- the issue branch
+- the registered worktree
+- the branch/worktree relationship reported by Git
 
-```text
-agent/session/role
-claims authority over
-resource/surface/task
-for a bounded purpose
-under a policy
-with heartbeat, expiry, handoff, and audit trail
-```
-
-For the software guild, resources are usually C-SDLC issues, PRs, branches, and
-worktrees. Future guilds may use the same claim model for research threads,
-publication drafts, model evaluations, memory-palace rooms, governance
-proposals, compute budgets, local machines, or Observatory surfaces.
-
-The preferred owner-binary ledger surface is:
-
-```bash
-adl-session status [--ledger <path>] [--json]
-adl-session claim --session-id <id> --owner <name> --resource <kind:id> --purpose <text> [--issue <n>] [--pr <n>] [--branch <name>] [--worktree <path>] [--policy-ref <path>] [--lifecycle-phase <phase>] [--mode active|watching|paused] [--ttl-secs <n>] [--do-not-touch <path>]... [--blocker <text>]... [--ledger <path>] [--json]
-adl-session heartbeat --claim-id <id> [--ttl-secs <n>] [--ledger <path>] [--json]
-adl-session release --claim-id <id> [--reason <text>] [--ledger <path>] [--json]
-```
-
-The compatibility `adl` surface remains available during the owner-binary
-migration:
-
-```bash
-adl session status [--ledger <path>] [--json]
-adl session claim --session-id <id> --owner <name> --resource <kind:id> --purpose <text> [--issue <n>] [--pr <n>] [--branch <name>] [--worktree <path>] [--policy-ref <path>] [--lifecycle-phase <phase>] [--mode active|watching|paused] [--ttl-secs <n>] [--do-not-touch <path>]... [--blocker <text>]... [--ledger <path>] [--json]
-adl session heartbeat --claim-id <id> [--ttl-secs <n>] [--ledger <path>] [--json]
-adl session release --claim-id <id> [--reason <text>] [--ledger <path>] [--json]
-```
-
-When `adl-session` is not installed globally, run the same subcommands through
-the repo-local owner binary, for example
-`./adl/target/debug/adl-session claim ...` from the primary checkout. Workflow
-diagnostics should prefer that repo-local owner-binary form so a fresh session
-does not need shell-profile setup before it can repair a session claim.
-
-Default local ledger path:
-
-```text
-.adl/session-ledger/ledger.json
-```
-
-The default path is rooted at the primary checkout, not the current linked
-worktree. Sessions launched from `.worktrees/adl-wp-*` and sessions launched
-from the root checkout must therefore converge on the same shared
-`.adl/session-ledger/ledger.json` file unless an explicit `--ledger` override
-is supplied.
-
-The ledger records:
-
-- `session_id` or thread identifier when known
-- owner/account/agent label
-- generic `resource.kind` and `resource.id`
-- purpose
-- claim mode: `active`, `watching`, `paused`, `stale`, or `released`
-- issue number or sprint umbrella when the resource is C-SDLC work
-- branch
-- worktree path
-- current lifecycle stage
-- PR number or URL when known
-- do-not-touch paths
-- watcher or janitor owner when one exists
-- heartbeat, expiry, and release timestamps
-- known blockers
-
-The ledger is coordination infrastructure, not final authority. GitHub issue/PR
-state, tracked cards, and closeout records remain authoritative for lifecycle
-truth. A stale ledger claim must block blind writes; it does not authorize
-destructive cleanup by itself.
-
-Current rescue-sprint practice uses the ledger to transfer wait states rather
-than abandon them. When an issue enters CI, review, mergeability, dependency, or
-operator-decision wait, the active session should release or hand off the
-implementation claim and create a watcher claim that names the issue, PR,
-branch, worktree, and expected next skill. When the watcher routes a blocker to
-`pr-janitor` or a merged PR to `pr-closeout`, the claim should move with that
-route instead of leaving duplicate active ownership behind.
-
-Mutating commands acquire a short-lived sibling lock file next to the selected
-ledger path, such as `.adl/session-ledger/ledger.json.lock`, before loading and
-rewriting the ledger. A leftover lock file means a previous process may have
-stopped mid-mutation and should be inspected before removal.
+Claims, leases, heartbeats, protected-path ledgers, and machine-local lock
+records are not lifecycle authority. Sessions should inspect the shared Git
+topology before binding, avoid a branch or worktree already in active use, and
+record concise handoff notes on the issue or PR when responsibility changes.
+`csdlc-doctor` and `csdlc-bind` should report this topology directly.
 
 ## Broadcast Notes
 
@@ -231,7 +151,7 @@ When another session appears to own an issue or worktree:
 
 Prep-scout-specific collision rule:
 
-- if the candidate issue already has an active session claim, open PR, or bound
+- if the candidate issue already has an open PR or bound
   worktree owned by another session, classify the handoff as `collision`
   instead of beginning duplicate preparation
 

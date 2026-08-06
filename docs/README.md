@@ -9,7 +9,7 @@ Use this index to find the right source of truth quickly.
 - Active milestone package: `milestones/v0.92/`
 - Current execution readiness: `milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md`
 - Most recently published release: `v0.91.7`
-- Previous completed bridge package: `milestones/v0.91.6/`
+- Immediate completed handoff bridge: `milestones/v0.91.8/`
 - Root project overview: `../README.md`
 - Runtime and CLI guide: `../adl/README.md`
 - Language/spec entrypoint: `../adl-spec/README.md`
@@ -23,7 +23,7 @@ Use this index to find the right source of truth quickly.
 - Current quality plan: `milestones/v0.92/QUALITY_GATE_v0.92.md`
 - Current review entrypoint: `milestones/v0.92/README.md`
 - Most recently published release package: `milestones/v0.91.7/`
-- Recent stable milestones: `milestones/v0.91.5/`, `milestones/v0.91.4/`, `milestones/v0.91.3/`, `milestones/v0.91.2/`, `milestones/v0.91.1/`, `milestones/v0.90.5/`
+- Recent stable milestones: `milestones/v0.91.8/`, `milestones/v0.91.7/`, `milestones/v0.91.6/`, `milestones/v0.91.5/`, `milestones/v0.91.4/`, `milestones/v0.91.3/`, `milestones/v0.91.2/`, `milestones/v0.91.1/`, `milestones/v0.90.5/`
 - Earlier milestones: `milestones/v0.75/`, `milestones/v0.7/`, `milestones/v0.6/`
 - Historical milestones: `milestones/v0.5/`, `milestones/v0.4/`, `milestones/v0.3/`, `milestones/v0.2/`
 
@@ -42,7 +42,7 @@ Use this index to find the right source of truth quickly.
 - Active milestone demo matrix: `milestones/v0.92/DEMO_MATRIX_v0.92.md`
 - Active feature-proof coverage: `milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md`
 - Active quality gate plan: `milestones/v0.92/QUALITY_GATE_v0.92.md`
-- Most recently completed milestone demo matrix: `milestones/v0.91.6/DEMO_MATRIX_v0.91.6.md`
+- Retained completed demo matrix: `milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md`
 - Editor/tooling demo surfaces: `tooling/editor/README.md`
 
 ## Notes

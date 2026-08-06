@@ -1,5 +1,7 @@
 # C-SDLC v2
 
+Current package version: `0.92.0`.
+
 `csdlc-shepherd --schema` and `--example <name>` are currently the complete
 discovery path for a JSON-input owner binary. The same affordance is planned
 for the remaining request-driven binaries as their CLI contracts are repaired;
@@ -11,7 +13,7 @@ schemas, templates, tests, fixtures, or skills.
 
 Gate 2 provides the typed lifecycle/card engine and whole-record transactions.
 Gate 3 adds separate `csdlc-init` and `csdlc-bind` binaries for deterministic
-construction and safe Git worktree/claim binding. Git uses typed argv arrays;
+construction and safe Git branch/worktree binding. Git uses typed argv arrays;
 the control plane contains no shell or Python lifecycle logic. Later gates add
 PVF, review truth, publication, and terminal finish without widening this core's
 authority.
@@ -22,7 +24,7 @@ resource costs, network/credential posture, timeouts, and bounded evidence
 policy. The scheduler and shepherd are pure read-only classifiers; only
 `csdlc-validate` can execute a declared proof DAG.
 
-Gate 5 adds `csdlc-review` for live-claim review assignment, exact-revision
+Gate 5 adds `csdlc-review` for issue-bound review assignment, exact-revision
 review recording, finding/fix/route evidence, and a read-only publication
 guard. Review has no GitHub or lifecycle publication authority.
 
@@ -46,11 +48,11 @@ Bootstrap selects a typed planning profile and automatically writes explicit
 SPP time/token estimates and VPP time/token budgets. There is no follow-up
 manual budget-filling stage.
 
-Gate 10A adds `csdlc-install` and a nine-skill operator manifest. It installs
-provenance-recorded v2 binaries beside v1 and verifies a fail-closed
-coexistence inventory. Gate 10A left v1 as the default; the tracked generation
-selector remains the current authority, and later cutover never deletes or
-disables any v1 surface.
+Gate 10D2 is the current authority. The v1 wrappers and command surfaces are
+sunset; `csdlc-install resolve` selects the independent v2 binaries and the
+eleven typed operator skills cover init, GitHub, finish, review, shepherd,
+doctor, validate, bind, clean, card editing, and publish. Earlier coexistence
+gates remain historical evidence, not current operating instructions.
 
 Gate 10D1 adds `csdlc-eligibility`, a non-mutating decision and proposed-
 manifest binary. It derives the exact Gate 1 inventory from its pinned Git
@@ -71,7 +73,7 @@ delivery authority. New terminal authority is the minimal derived envelope
 produced by `csdlc-finish` from live GitHub state.
 
 Issue-local bootstrap is supported when all six cards and the approved design
-already live in the target worktree: use a claim whose worktree is `.` and run
-`csdlc-bind` from that worktree. The binder verifies the existing branch and
-claim in place, performs no primary-checkout write, and still applies the
-normal collision and protected-path checks.
+already live in the target worktree. Run `csdlc-bind` from that worktree; the
+binder verifies the issue, branch, worktree, and GitHub state in place without
+writing to the primary checkout. Branch/worktree topology and live issue/PR
+state are the coordination authority.
