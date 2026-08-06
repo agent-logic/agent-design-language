@@ -1972,6 +1972,9 @@ PY
   assert_has "$main_output" "coverage_authority=push_main"
   assert_has "$main_output" "coverage_execution_state=authoritative_full_required"
   assert_has "$main_output" "reason=push_main_runs_authoritative_full_coverage"
+  assert_has "$main_output" "change_class=unknown"
+  assert_has "$main_output" "pvf_lane=authoritative_full"
+  assert_has "$main_output" "release_gate_role=source_required"
 
   non_pr_output="$($POLICY --event-name schedule --ref "refs/heads/main")"
   assert_has "$non_pr_output" "rust_required=true"
@@ -1990,6 +1993,9 @@ PY
   assert_has "$non_pr_output" "coverage_authority=non_pr_event"
   assert_has "$non_pr_output" "coverage_execution_state=authoritative_full_required"
   assert_has "$non_pr_output" "reason=non_pull_request_event_runs_full_validation"
+  assert_has "$non_pr_output" "change_class=unknown"
+  assert_has "$non_pr_output" "pvf_lane=authoritative_full"
+  assert_has "$non_pr_output" "release_gate_role=source_required"
 
   fail_closed_output="$("$POLICY" --event-name pull_request --base "" --head "$runtime_head" --ref "refs/pull/1/merge")"
   assert_has "$fail_closed_output" "rust_required=true"

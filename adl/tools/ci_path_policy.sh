@@ -1837,7 +1837,7 @@ derive_normalized_policy_summary() {
   local classes=""
 
   if [ "$event_name" != "pull_request" ]; then
-    change_class="non_pr_authoritative"
+    change_class="unknown"
   elif [ -n "$changed_files" ]; then
     while IFS= read -r path; do
       [ -n "$path" ] || continue
