@@ -3,15 +3,15 @@
   "issue": 5819,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8f38743f59dd814a09097b78e17331ac66a04b30cc584dab53d682d1e1d4ea34",
-  "phase": "implemented",
-  "generation": 67,
-  "digest": "fefaf809ecd0148250fe23cafaa6eb1f84e3441ab9b1f1ef318337e00d76de1e",
+  "phase": "reviewed",
+  "generation": 68,
+  "digest": "bf059406cf0e2681ed7883f2c76204c09d165c84d59638619dde0cfe915e1c8a",
   "branch": "codex/5819-v092-repository-migration-preflight",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5819-preflight",
   "review_assignment": {
     "reviewer": "codex:mill-wp02-supersession-review",
     "assigned_by": "codex:wp02-supersession-remediation",
-    "revision": "git-blake3:d5fb3f744e003d09b538e18f2ea98f61df79d430:f81ff28a5b042261b9c75f3088670854b0bd88fcae6f2bfabd77ede2d6183403",
+    "revision": "git-blake3:934f0d7cb3b7aa2007dbf382ef7be1914e3b6177:09838aa1db9f44599cdd97777f2869d4ff4876ed15db369cdf3d222b6ef1c0f0",
     "scope": [
       ".csdlc/evidence/5819",
       ".csdlc/prepared/issues/5819/design.md",
@@ -19,7 +19,22 @@
       ".csdlc/prepared/issues/5819/verify-live-repositories.rb"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex:mill-wp02-supersession-review",
+    "scope": [
+      ".csdlc/evidence/5819",
+      ".csdlc/prepared/issues/5819/design.md",
+      ".csdlc/prepared/issues/5819/validate-migration-evidence.rb",
+      ".csdlc/prepared/issues/5819/verify-live-repositories.rb"
+    ],
+    "reviewed_revision": "git-blake3:934f0d7cb3b7aa2007dbf382ef7be1914e3b6177:09838aa1db9f44599cdd97777f2869d4ff4876ed15db369cdf3d222b6ef1c0f0",
+    "findings": [],
+    "residual_risks": [
+      "The two original pre-Team local artifact pairs were overwritten before publication and are unavailable; authenticated historical gate attestations and independently retained current evidence prove the resulting migration state without claiming old-byte revalidation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -34,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e08fe437a09b06be2570b1405b0c9c3d54e2d4f7f1819ec212d45fc73ad10157",
+      "values_digest": "dca170421af5ade4721611ec8db9d9a640a55b38bc14bca6607f0dbb40d581b8",
       "rendered_digest": "7539f62d2d912024743c2f68677d825eb6441c1056b8d01fc36a6effb8c64323",
       "ast_digest": "00821c7db8716e696006773471e00cdae1291fd811d4e892069631fc210d16c8"
     },
     "stp": {
-      "values_digest": "319f615748fe7bc678b90c2c55162ba0a559e924e6a9d541d6313b4f25aa1d4f",
+      "values_digest": "e07830a6bcdf06ece2adfad8c89c64cfad336e91055a880994a991602356071c",
       "rendered_digest": "cbc291fd6122cd5eefd8a0fb0c2aa8674991d2115a8d5098b8c6009aad08e936",
       "ast_digest": "dc301a8398ff69078c0c1f9265b179ac22b7b4c28f2d206f5cf70652ac30a6d8"
     },
     "spp": {
-      "values_digest": "e36662f534f88c74ad7d01fc5a0d4c1f0fd34d95dde5bb46b7f3a8350f3d9af0",
+      "values_digest": "196eb0fb160bb41f51500fffcdface7ecd94985c82fd5502ab40828b8c3ccf6e",
       "rendered_digest": "3c18f7548876e0523d1b429fe6b31993f8dfb5337307e39be3655648b2be4e14",
       "ast_digest": "7466febfe812578231e910a6df09c26e78bd23c44339383345da650967a04256"
     },
     "vpp": {
-      "values_digest": "c5b833eae40f78ed3ccf32d34b56e4abb142364dfc11eabce98a3e4f15b4aa5a",
+      "values_digest": "4872a3f28912aabbd91603cfbf8ccebbb8e420c70e088e1f4a5d15c072597cce",
       "rendered_digest": "1f4515d003bf0d53349381c48a6b3a208cc15c59423ae595bdec0fc095feab5c",
       "ast_digest": "212296befbf3a77bc6c2752f9e47d23a098d6102e7d0d37279285ddc0af4b384"
     },
     "srp": {
-      "values_digest": "201441de947c8bd5f5b66dd099e321a970a98fc95c54c814d8bc0e9f5d670aa7",
-      "rendered_digest": "ab8416b6688d6b377967a2cf6886367385f1bc90165b3f7fa9f29607225cd589",
-      "ast_digest": "6479faaea741b439cd6b0ac6364cdbfc276067eeb628fc1ed1ffeb4f4e3d63b3"
+      "values_digest": "653cb1b7dff591fa1bc98cc2559f243f99d3b5b12cd83f6ac28b8762e60d8f0c",
+      "rendered_digest": "86286d11d430eb3a92dc419088e07d76e705039de7f4dd3a94787245ee6f89c5",
+      "ast_digest": "cce49b2a5935e44cf3530f6bf522f400ae83ffcaea81bc102478da96a3bc2f86"
     },
     "sor": {
-      "values_digest": "2b72e588cc01703f634d6eff64acb920010eb91c61b692b8f94f5986a7cd0b6c",
+      "values_digest": "7011add7ca9c22238410aa4f823fad056e8203744927e37d210c0e4feb37cb31",
       "rendered_digest": "a718667197a766c8091d17a35fb2b1f7ae847b56df69ca9eea9b78213ea3da29",
       "ast_digest": "0f5a287f823a2c39a2adfa2871d1aca0618730e10d3a95d0de75732292ce1288"
     }
@@ -85,6 +100,13 @@
       "to": "implemented",
       "actor": "codex:wp02-copy-execution",
       "reason": "Advance WP-02 to implemented after completing the five copy-only destinations and focused proof, ready for exact-revision review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:mill-wp02-supersession-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -703,6 +725,20 @@
       "actor": "codex:wp02-supersession-remediation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 89,
+      "generation": 67,
+      "actor": "codex:wp02-supersession-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 90,
+      "generation": 68,
+      "actor": "codex:mill-wp02-supersession-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

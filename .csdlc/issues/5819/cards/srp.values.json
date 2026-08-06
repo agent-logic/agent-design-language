@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-02] Agent Logic GitHub organization repository migration",
     "slug": "v0-92-wp-01a-agent-logic-github-organization-repository-migration",
     "version": "v0.92",
-    "generation": 67
+    "generation": 68
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/evidence/5819\n.csdlc/prepared/issues/5819/design.md\n.csdlc/prepared/issues/5819/validate-migration-evidence.rb\n.csdlc/prepared/issues/5819/verify-live-repositories.rb",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:934f0d7cb3b7aa2007dbf382ef7be1914e3b6177:09838aa1db9f44599cdd97777f2869d4ff4876ed15db369cdf3d222b6ef1c0f0",
+      "reviewer": "codex:mill-wp02-supersession-review",
       "review_prompts": [
         "Did exactly five destinations get created in order with four private and ADL public?",
         "Was destination Actions disablement proven before every mirror push?",
@@ -26,8 +26,10 @@
         "Is #5888 gated on verified public ADL destination readiness?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The two original pre-Team local artifact pairs were overwritten before publication and are unavailable; authenticated historical gate attestations and independently retained current evidence prove the resulting migration state without claiming old-byte revalidation."
+      ],
+      "review_result": "pass"
     }
   }
 }

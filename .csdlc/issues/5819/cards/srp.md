@@ -37,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The two original pre-Team local artifact pairs were overwritten before publication and are unavailable; authenticated historical gate attestations and independently retained current evidence prove the resulting migration state without claiming old-byte revalidation.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:934f0d7cb3b7aa2007dbf382ef7be1914e3b6177:09838aa1db9f44599cdd97777f2869d4ff4876ed15db369cdf3d222b6ef1c0f0")
 
-Reviewer: None
+Reviewer: Some("codex:mill-wp02-supersession-review")
 
-Result: pre_review
+Result: pass
