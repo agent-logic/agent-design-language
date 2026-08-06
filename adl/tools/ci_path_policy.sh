@@ -119,6 +119,9 @@ reason="path_policy_docs_or_tooling_only"
 changed_count=0
 changed_files=""
 changed_rows=""
+change_class="unknown"
+pvf_lane="authoritative_full"
+release_gate_role="source_required"
 validation_profile_selected=""
 validation_profile_status=""
 validation_profile_pr_publication_sufficient=""
@@ -1805,6 +1808,84 @@ if [ "$fail_closed" = true ]; then
   coverage_execution_state="fail_closed_authoritative_full_required"
 fi
 
+classify_changed_path() {
+  local path="$1"
+  case "$path" in
+    .csdlc/*)
+      printf '%s\n' "lifecycle_metadata"
+      ;;
+    .github/workflows/*|adl/tools/*|tools/*)
+      printf '%s\n' "workflow_tooling"
+      ;;
+    docs/*|.adl/docs/TBD/*|README.md|*/README.md|*.md)
+      printf '%s\n' "current_docs_review"
+      ;;
+    adl-runtime/*|adl-runtime-kernel/*|infra/runtime-v3/*|adl/src/csm*|adl/src/long_lived*)
+      printf '%s\n' "runtime_critical_source"
+      ;;
+    adl/src/*|adl/tests/*|adl/Cargo.toml|adl/Cargo.lock|adl/build.rs|adl-v2/*|csdlc-v2/*)
+      printf '%s\n' "ordinary_product_source"
+      ;;
+    *)
+      printf '%s\n' "unknown"
+      ;;
+  esac
+}
+
+derive_normalized_policy_summary() {
+  local path path_class
+  local classes=""
+
+  if [ "$event_name" != "pull_request" ]; then
+    change_class="unknown"
+  elif [ -n "$changed_files" ]; then
+    while IFS= read -r path; do
+      [ -n "$path" ] || continue
+      path_class="$(classify_changed_path "$path")"
+      case ",$classes," in
+        *",$path_class,"*) ;;
+        *) classes="${classes}${classes:+,}${path_class}" ;;
+      esac
+    done <<EOF
+$changed_files
+EOF
+    if [[ "$classes" == *,* ]]; then
+      change_class="mixed"
+    elif [ -n "$classes" ]; then
+      change_class="$classes"
+    else
+      change_class="unknown"
+    fi
+  else
+    change_class="unknown"
+  fi
+
+  if [ "$full_coverage_required" = true ]; then
+    pvf_lane="authoritative_full"
+    release_gate_role="source_required"
+  elif [ "$runtime_v3_fast_required" = true ]; then
+    pvf_lane="runtime_v3_fast"
+    release_gate_role="source_required"
+  elif [ "$rust_required" = true ]; then
+    pvf_lane="focused_rust"
+    release_gate_role="source_required"
+  elif [ "$csdlc_v2_standalone_required" = true ] || [ "$adl_v2_standalone_required" = true ]; then
+    pvf_lane="standalone_focused"
+    release_gate_role="source_required"
+  elif [ "$ci_contracts_required" = true ]; then
+    pvf_lane="contract"
+    release_gate_role="contract_required"
+  else
+    pvf_lane="diff_hygiene"
+    release_gate_role="docs_guardrail"
+  fi
+}
+
+derive_normalized_policy_summary
+
+emit "change_class" "$change_class"
+emit "pvf_lane" "$pvf_lane"
+emit "release_gate_role" "$release_gate_role"
 emit "rust_required" "$rust_required"
 emit "coverage_required" "$coverage_required"
 emit "full_coverage_required" "$full_coverage_required"
@@ -1840,6 +1921,9 @@ emit "validation_profile_error" "$validation_profile_error"
 emit "validation_profile_report" "$validation_profile_report"
 
 printf '\nChanged path policy: %s\n' "$reason"
+printf '  change_class=%s\n' "$change_class"
+printf '  pvf_lane=%s\n' "$pvf_lane"
+printf '  release_gate_role=%s\n' "$release_gate_role"
 printf '  rust_required=%s\n' "$rust_required"
 printf '  coverage_required=%s\n' "$coverage_required"
 printf '  full_coverage_required=%s\n' "$full_coverage_required"

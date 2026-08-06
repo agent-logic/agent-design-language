@@ -1,0 +1,22 @@
+{
+  "api_model": "gemini-3.1-pro-preview",
+  "reviewed_revision": "5b7a445a7a3f1837023e25c5835d6c51357f9d9b",
+  "summary": "The revision introduces a critical flaw in the aggregator contract test and incorrectly classifies non-PR events, violating the normalized classes topology.",
+  "findings": [
+    {
+      "id": "invalid-non-pr-change-class",
+      "severity": "high",
+      "actionable": true,
+      "path": "adl/tools/ci_path_policy.sh",
+      "summary": "The policy assigns an undocumented 'non_pr_authoritative' class to non-pull-request events instead of 'unknown'. This violates the normalized classes topology and incorrectly classifies changes where the diff is unavailable."
+    },
+    {
+      "id": "incomplete-aggregator-contract-test",
+      "severity": "critical",
+      "actionable": true,
+      "path": "adl/tools/test_ci_runtime_contracts.sh",
+      "summary": "The accepted_lane_results regex only parses the first case arm of the aggregator block. This allows a defective aggregator to accept cancelled, failure, or missing results in subsequent case arms without failing the contract test."
+    }
+  ],
+  "recommendation": "changes_required"
+}
