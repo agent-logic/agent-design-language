@@ -1,0 +1,9 @@
+{
+  "source": "danielbaustin/cognitive-sdlc-paper",
+  "destination": "agent-logic/cognitive-sdlc-paper",
+  "surface": "pull_requests",
+  "result": "pass",
+  "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative.",
+  "secret_values_retained": false,
+  "observed_at": "2026-08-06T06:21:27.862164Z"
+}

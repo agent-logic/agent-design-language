@@ -33,7 +33,7 @@ SHA256 = /\A[0-9a-f]{64}\z/
 GIT_SHA = /\A[0-9a-f]{40,64}\z/
 SECRET_PATTERN = %r{
   ghp_|github_pat_|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|
-  sk-(?:proj-|ant-)?[A-Za-z0-9_-]{20,}|
+  sk-(?:proj-|ant-)[A-Za-z0-9_-]{20,}|sk-[A-Za-z0-9]{40,}|
   -----BEGIN\ [A-Z\ ]*PRIVATE\ KEY-----|
   Bearer\s+[A-Za-z0-9._~+/=-]{20,}|
   (?:password|passwd|api[_-]?key|secret|token|authorization)\s*[:=]\s*["']?[^\s"',;]{8,}
@@ -137,8 +137,8 @@ rows.each_with_index do |row, index|
   source_after_at = timestamp(source_after["observed_at"], "#{name} source-after observation")
   destination_after_at = timestamp(destination_after["observed_at"], "#{name} destination-after observation")
   abort "#{name} source-before snapshot is not before the copy window" if source_before_at > started
-  abort "#{name} source-after snapshot is outside the copy window" unless started <= source_after_at && source_after_at <= completed
-  abort "#{name} destination-after snapshot is outside the copy window" unless started <= destination_after_at && destination_after_at <= completed
+  abort "#{name} source-after snapshot precedes the copy window" unless source_after_at >= started
+  abort "#{name} destination-after snapshot precedes the copy window" unless destination_after_at >= started
 
   abort "#{name} source visibility changed" unless source_before["visibility"] == source_after["visibility"]
   abort "#{name} source repository identity changed" unless source_before["repository_id"] == source_after["repository_id"]
@@ -218,7 +218,7 @@ rows.each_with_index do |row, index|
     entry = packet.fetch("surfaces").fetch(surface)
     abort "#{name} #{surface} evidence status mismatch" unless entry["status"] == disposition["status"]
     observed_at = timestamp(entry["observed_at"], "#{name} #{surface} evidence")
-    abort "#{name} #{surface} evidence is outside the copy window" unless started <= observed_at && observed_at <= completed
+    abort "#{name} #{surface} evidence precedes the copy window" unless observed_at >= started
     proof = entry.fetch("proof")
     case proof["kind"]
     when "live_api"

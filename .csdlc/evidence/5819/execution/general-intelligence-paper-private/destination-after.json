@@ -1,0 +1,12 @@
+{
+  "repository": "agent-logic/general-intelligence-paper-private",
+  "repository_id": 1324820779,
+  "visibility": "private",
+  "default_branch": "main",
+  "exact_head": "d0530fdd3f37aeee56bd579f5e8db15909107037",
+  "refs_sha256": "c084be1e3d669e90d412bb8a322fe642727b32b3202cf7be9e5b9e2a6096226d",
+  "api_surface_sha256": "cb808b269dcc62747193467532084a405d4d15118277e7a759bc4d629255051b",
+  "actions_enabled": false,
+  "observed_at": "2026-08-06T06:20:15.220790Z",
+  "label": "general-intelligence-paper-private/destination-after-support"
+}

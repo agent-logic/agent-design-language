@@ -1,0 +1,12 @@
+{
+  "repository": "danielbaustin/agent-design-language",
+  "repository_id": 1148444120,
+  "visibility": "public",
+  "default_branch": "main",
+  "exact_head": "423c50d8cc185a0fbbec0fa0dcd636c81f4e04f5",
+  "refs_sha256": "8703508aa57ed5accaefaa0a21b1d1f8c7de61fab20c5d5a259f75183e910306",
+  "api_surface_sha256": "1cd3f8a44ba50d3a609436fb55396e9102cc69c35e4ecb789db52981cedea949",
+  "actions_enabled": true,
+  "observed_at": "2026-08-06T06:15:19.028924Z",
+  "label": "agent-design-language/source-before-support"
+}

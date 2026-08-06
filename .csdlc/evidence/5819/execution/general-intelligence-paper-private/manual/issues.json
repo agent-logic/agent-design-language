@@ -1,0 +1,9 @@
+{
+  "source": "danielbaustin/general-intelligence-paper-private",
+  "destination": "agent-logic/general-intelligence-paper-private",
+  "surface": "issues",
+  "result": "pass",
+  "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative.",
+  "secret_values_retained": false,
+  "observed_at": "2026-08-06T06:20:15.221846Z"
+}

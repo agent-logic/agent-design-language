@@ -1,0 +1,12 @@
+{
+  "repository": "agent-logic/godel-hadamard-bayes-paper",
+  "repository_id": 1324819830,
+  "visibility": "private",
+  "default_branch": "main",
+  "exact_head": "315afb209b0124b08af7a2a27aa39e6321ae34b8",
+  "refs_sha256": "af47dab11bc45a3454901c2965bfa5abcf94fc03386e3a0178a93638ace730f2",
+  "api_surface_sha256": "4b0efd56687d8db2ff3849b5a3f213cdfc99b64f079ac70ee8fa20025c132591",
+  "actions_enabled": false,
+  "observed_at": "2026-08-06T06:21:43.280538Z",
+  "label": "godel-hadamard-bayes-paper/destination-after-support"
+}

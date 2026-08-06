@@ -1,0 +1,81 @@
+{
+  "repository": {
+    "id": 1324816234,
+    "full_name": "agent-logic/cognitive-sdlc-paper",
+    "visibility": "private",
+    "default_branch": "main",
+    "archived": false,
+    "fork": false,
+    "has_issues": true,
+    "has_projects": true,
+    "has_wiki": true,
+    "has_discussions": false,
+    "security_and_analysis": {
+      "code_security": {
+        "status": "disabled"
+      },
+      "secret_scanning": {
+        "status": "disabled"
+      },
+      "secret_scanning_push_protection": {
+        "status": "disabled"
+      },
+      "dependabot_security_updates": {
+        "status": "disabled"
+      },
+      "secret_scanning_non_provider_patterns": {
+        "status": "disabled"
+      },
+      "secret_scanning_validity_checks": {
+        "status": "disabled"
+      }
+    }
+  },
+  "actions_permissions": {
+    "enabled": false
+  },
+  "workflows": [
+
+  ],
+  "environments": [
+
+  ],
+  "rulesets": [
+
+  ],
+  "releases": [
+
+  ],
+  "collaborators": [
+    {
+      "id": 605773,
+      "login": "danielbaustin",
+      "role_name": "admin",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "push": true,
+        "triage": true,
+        "pull": true
+      }
+    }
+  ],
+  "webhooks": [
+
+  ],
+  "deploy_keys": [
+
+  ],
+  "pages": {
+    "status": "absent"
+  },
+  "action_secret_names": [
+
+  ],
+  "action_variable_names": [
+
+  ],
+  "branch_protection": {
+    "status": "absent"
+  }
+}

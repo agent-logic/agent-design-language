@@ -1,0 +1,128 @@
+{
+  "repository": {
+    "id": 1211732279,
+    "full_name": "danielbaustin/asksifu",
+    "visibility": "private",
+    "default_branch": "main",
+    "archived": false,
+    "fork": false,
+    "has_issues": true,
+    "has_projects": true,
+    "has_wiki": true,
+    "has_discussions": false
+  },
+  "actions_permissions": {
+    "enabled": true,
+    "allowed_actions": "all"
+  },
+  "workflows": [
+    {
+      "id": 261402652,
+      "name": "tests",
+      "path": ".github/workflows/tests.yml",
+      "state": "active"
+    },
+    {
+      "id": 261511772,
+      "name": "coverage",
+      "path": ".github/workflows/coverage.yaml",
+      "state": "active"
+    },
+    {
+      "id": 261511781,
+      "name": "ci",
+      "path": ".github/workflows/ci.yaml",
+      "state": "active"
+    }
+  ],
+  "environments": [
+
+  ],
+  "rulesets": [
+
+  ],
+  "releases": [
+    {
+      "id": 309721703,
+      "tag_name": "v0.1",
+      "target_commitish": "main",
+      "draft": true,
+      "prerelease": false
+    }
+  ],
+  "collaborators": [
+    {
+      "id": 605773,
+      "login": "danielbaustin",
+      "role_name": "admin",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "push": true,
+        "triage": true,
+        "pull": true
+      }
+    }
+  ],
+  "webhooks": [
+
+  ],
+  "deploy_keys": [
+
+  ],
+  "pages": {
+    "status": "absent"
+  },
+  "action_secret_names": [
+
+  ],
+  "action_variable_names": [
+
+  ],
+  "branch_protection": {
+    "required_status_checks": {
+      "url": "https://api.github.com/repos/danielbaustin/asksifu/branches/main/protection/required_status_checks",
+      "strict": true,
+      "contexts": [
+        "asksifu-ci",
+        "asksifu-coverage"
+      ],
+      "contexts_url": "https://api.github.com/repos/danielbaustin/asksifu/branches/main/protection/required_status_checks/contexts",
+      "checks": [
+        {
+          "context": "asksifu-ci",
+          "app_id": 15368
+        },
+        {
+          "context": "asksifu-coverage",
+          "app_id": 15368
+        }
+      ]
+    },
+    "enforce_admins": {
+      "url": "https://api.github.com/repos/danielbaustin/asksifu/branches/main/protection/enforce_admins",
+      "enabled": false
+    },
+    "required_linear_history": {
+      "enabled": false
+    },
+    "allow_force_pushes": {
+      "enabled": false
+    },
+    "allow_deletions": {
+      "enabled": false
+    },
+    "block_creations": {
+      "enabled": false
+    },
+    "required_conversation_resolution": {
+      "enabled": false
+    },
+    "lock_branch": {
+      "enabled": false
+    },
+    "allow_fork_syncing": {
+      "enabled": false
+    }
+  }
+}

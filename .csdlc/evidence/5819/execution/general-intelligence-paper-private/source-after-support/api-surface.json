@@ -1,0 +1,62 @@
+{
+  "repository": {
+    "id": 1240045659,
+    "full_name": "danielbaustin/general-intelligence-paper-private",
+    "visibility": "private",
+    "default_branch": "main",
+    "archived": false,
+    "fork": false,
+    "has_issues": true,
+    "has_projects": true,
+    "has_wiki": true,
+    "has_discussions": false
+  },
+  "actions_permissions": {
+    "enabled": true,
+    "allowed_actions": "all"
+  },
+  "workflows": [
+
+  ],
+  "environments": [
+
+  ],
+  "rulesets": [
+
+  ],
+  "releases": [
+
+  ],
+  "collaborators": [
+    {
+      "id": 605773,
+      "login": "danielbaustin",
+      "role_name": "admin",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "push": true,
+        "triage": true,
+        "pull": true
+      }
+    }
+  ],
+  "webhooks": [
+
+  ],
+  "deploy_keys": [
+
+  ],
+  "pages": {
+    "status": "absent"
+  },
+  "action_secret_names": [
+
+  ],
+  "action_variable_names": [
+
+  ],
+  "branch_protection": {
+    "status": "absent"
+  }
+}

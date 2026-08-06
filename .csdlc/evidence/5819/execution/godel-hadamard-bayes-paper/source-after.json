@@ -1,0 +1,12 @@
+{
+  "repository": "danielbaustin/godel-hadamard-bayes-paper",
+  "repository_id": 1269583921,
+  "visibility": "private",
+  "default_branch": "main",
+  "exact_head": "315afb209b0124b08af7a2a27aa39e6321ae34b8",
+  "refs_sha256": "af47dab11bc45a3454901c2965bfa5abcf94fc03386e3a0178a93638ace730f2",
+  "api_surface_sha256": "1f3311bed5014ec3e8e63fca2ca0f27a5432a7e567b2351881aa92ef3bd46720",
+  "actions_enabled": true,
+  "observed_at": "2026-08-06T06:21:35.923278Z",
+  "label": "godel-hadamard-bayes-paper/source-after-support"
+}

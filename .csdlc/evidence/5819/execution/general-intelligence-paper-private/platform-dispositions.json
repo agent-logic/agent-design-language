@@ -1,0 +1,345 @@
+{
+  "source": "danielbaustin/general-intelligence-paper-private",
+  "destination": "agent-logic/general-intelligence-paper-private",
+  "secret_values_retained": false,
+  "observed_at": "2026-08-06T06:20:15.225477Z",
+  "surfaces": {
+    "issues": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.222032Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/issues.json",
+        "evidence_sha256": "935a2a40f9822afcdf3e89d4778a1e749c8f17a4b074141c8875d4f4f21526cd"
+      }
+    },
+    "pull_requests": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.222193Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/pull_requests.json",
+        "evidence_sha256": "3b593fe8abe4e8f9826bf95474f77989136f35ad58e17a0529c07a7363420434"
+      }
+    },
+    "milestones": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.222330Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/milestones.json",
+        "evidence_sha256": "288a9b5df08daa397b645b90c57a3e355b119ac2c8a3fb4b9ae2e49032dbb68f"
+      }
+    },
+    "projects": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.222360Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "55f71dbff441110b170a1b2fbce523ecaf770a7b67a6af0debbffc349331f3b8",
+        "destination_sha256": "a39319b277d1a2f5612e1d80e99988bcdf79723f02e76ec33ef32ee4b7c69591"
+      }
+    },
+    "discussions": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.222376Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "55f71dbff441110b170a1b2fbce523ecaf770a7b67a6af0debbffc349331f3b8",
+        "destination_sha256": "a39319b277d1a2f5612e1d80e99988bcdf79723f02e76ec33ef32ee4b7c69591"
+      }
+    },
+    "wiki": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.222391Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "55f71dbff441110b170a1b2fbce523ecaf770a7b67a6af0debbffc349331f3b8",
+        "destination_sha256": "a39319b277d1a2f5612e1d80e99988bcdf79723f02e76ec33ef32ee4b7c69591"
+      }
+    },
+    "assignees": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.222538Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/assignees.json",
+        "evidence_sha256": "ee995fd7b67c81025a20c6daceb2dd80e991f966dceaf25e0e86785512c31634"
+      }
+    },
+    "collaborators": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.222552Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "982d8bd3a394cf9e2a926c415424edc34ecaf796c8281b7366c482d9e7e69c9e",
+        "destination_sha256": "982d8bd3a394cf9e2a926c415424edc34ecaf796c8281b7366c482d9e7e69c9e"
+      }
+    },
+    "outside_collaborators": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.222697Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/outside_collaborators.json",
+        "evidence_sha256": "3d098a06ebddc544979dd4d1c709dfc055b1358a228e02b88ac3d46511b195da"
+      }
+    },
+    "teams": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.222837Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/teams.json",
+        "evidence_sha256": "faa11ce54170ef705c0d32c8402dd6698fae7b1a70a37a0f0883a19bbbef37fd"
+      }
+    },
+    "rulesets": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.222842Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "branch_protections": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.222849Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64",
+        "destination_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64"
+      }
+    },
+    "required_checks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.222984Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/required_checks.json",
+        "evidence_sha256": "112258d3f2737c9401c7ab55fb044f63756f2f9463074d2d06ad588dd11bc12d"
+      }
+    },
+    "approvals": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.223144Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/approvals.json",
+        "evidence_sha256": "9c9949cad776157792b65d705070bd9b9878904691d4fa418ffe454fdee91098"
+      }
+    },
+    "codeowners": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.223315Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/codeowners.json",
+        "evidence_sha256": "8a68b54e9ea284c059c2a2560ce48ace0a8ee95b6372e55e4e8860e6f1bbe53e"
+      }
+    },
+    "releases": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.223320Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "actions": {
+      "status": "cold_mirror_disabled",
+      "observed_at": "2026-08-06T06:20:15.223326Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "1d13f407420627b1ff9e9d6f19ef735aa9ed9ab567cbde173101a6d17e4c0dc2",
+        "destination_sha256": "5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+      }
+    },
+    "workflows": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.223332Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "schedules": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.223496Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/schedules.json",
+        "evidence_sha256": "261493080fbdaea8abc14a4568ac3bb5e77cc00263079ad1dfc8541676912ab3"
+      }
+    },
+    "runner_labels": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.223645Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/runner_labels.json",
+        "evidence_sha256": "e2102ac1fe939420fa656036824a3435d1bbf439d628237415a2aee40d0599cd"
+      }
+    },
+    "environments": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.223652Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "variables": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.223657Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "names_only": true,
+      "values_retained": false
+    },
+    "secrets": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.223660Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "names_only": true,
+      "values_retained": false
+    },
+    "oidc": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.223795Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/oidc.json",
+        "evidence_sha256": "8a37f35ef7f6ee14bc67d8ee9fbf9f3c584526c1940a2a5e2074cf7981b41745"
+      }
+    },
+    "webhooks": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.223799Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "deploy_keys": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.223803Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "apps": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.223958Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/apps.json",
+        "evidence_sha256": "defcef97cae8fc004c050309a235a424c762b9a88f5e86e89f8e167edf348fd0"
+      }
+    },
+    "oauth_integrations": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.224100Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/oauth_integrations.json",
+        "evidence_sha256": "b27ecaffe843d8a6d15bb17dc662b5366b349a97ace02b696ca811391766ea9a"
+      }
+    },
+    "callbacks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.224238Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/callbacks.json",
+        "evidence_sha256": "53a4c29f6b81967645f90f7111053cccddb5cb9ca196dfa3c9ad8670ceb03264"
+      }
+    },
+    "pages": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.224244Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64",
+        "destination_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64"
+      }
+    },
+    "custom_domains": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.224384Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/custom_domains.json",
+        "evidence_sha256": "106247e1fa16972a048ab26b2c1f9fabcee372d32935b1f0cf503ab50b3fbde5"
+      }
+    },
+    "packages": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.224542Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/packages.json",
+        "evidence_sha256": "232d8219f1a9074cf828e792c4507d88b8b9d233ac14cb7ec0585202c70a208d"
+      }
+    },
+    "security": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:20:15.224560Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "55f71dbff441110b170a1b2fbce523ecaf770a7b67a6af0debbffc349331f3b8",
+        "destination_sha256": "a39319b277d1a2f5612e1d80e99988bcdf79723f02e76ec33ef32ee4b7c69591"
+      }
+    },
+    "forks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.224723Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/forks.json",
+        "evidence_sha256": "428cc71c714ca0847ed28126a62f0ed0f4dd3b91f9950571f6b4d4f6aa530887"
+      }
+    },
+    "submodules": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.224880Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/submodules.json",
+        "evidence_sha256": "324f25aeb523f355b725330b0c5e14d80d0a3c3ebd1579a0b6990d036b5b2fdc"
+      }
+    },
+    "downstream_consumers": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.225342Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/downstream_consumers.json",
+        "evidence_sha256": "596ea31d5df2a215043fe6242d88482b96f324257affea34205a65f1dd23b608"
+      }
+    },
+    "operational_urls": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:20:15.225475Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/manual/operational_urls.json",
+        "evidence_sha256": "9522a67418da6e8a7126a83810b7f0f4dfba375ba57870eac3575223544577ac"
+      }
+    }
+  }
+}

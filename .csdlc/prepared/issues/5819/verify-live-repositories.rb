@@ -39,7 +39,14 @@ LIVE_API_SURFACES = {
 
 def gh_json(path, allow_missing: false)
   stdout, stderr, status = Open3.capture3("gh", "api", path)
-  return nil if allow_missing && !status.success? && stderr.match?(/HTTP 404|Not Found/i)
+  return nil if allow_missing && !status.success? && stderr.match?(/HTTP 404|Not Found|Upgrade to GitHub Pro/i)
+  abort "gh api #{path} failed: #{stderr.strip}" unless status.success?
+  JSON.parse(stdout)
+end
+
+def optional_pages(path)
+  stdout, stderr, status = Open3.capture3("gh", "api", "#{path}?per_page=100")
+  return {"status" => "unavailable_on_plan"} if !status.success? && stderr.match?(/Upgrade to GitHub Pro/i)
   abort "gh api #{path} failed: #{stderr.strip}" unless status.success?
   JSON.parse(stdout)
 end
@@ -83,7 +90,7 @@ def artifact(relative, expected_digest, label)
 end
 
 def refs(repository)
-  gh_pages("repos/#{repository}/git/matching-refs/").map do |row|
+  gh_json("repos/#{repository}/git/matching-refs/").map do |row|
     [row.fetch("ref"), row.dig("object", "sha")]
   end.select do |ref, _sha|
     ref.start_with?("refs/heads/", "refs/tags/", "refs/notes/")
@@ -112,9 +119,11 @@ def api_surface_snapshot(repository, branch)
     "environments" => gh_pages("repos/#{repository}/environments", key: "environments")
       .map { |row| row.slice("id", "name", "protection_rules", "deployment_branch_policy") }
       .sort_by { |row| row.fetch("id") },
-    "rulesets" => gh_pages("repos/#{repository}/rulesets")
-      .map { |row| row.slice("id", "name", "target", "enforcement", "source_type") }
-      .sort_by { |row| row.fetch("id") },
+    "rulesets" => begin
+      value = optional_pages("repos/#{repository}/rulesets")
+      value.is_a?(Array) ? value.map { |row| row.slice("id", "name", "target", "enforcement", "source_type") }
+                               .sort_by { |row| row.fetch("id") } : value
+    end,
     "releases" => gh_pages("repos/#{repository}/releases")
       .map { |row| row.slice("id", "tag_name", "target_commitish", "draft", "prerelease") }
       .sort_by { |row| row.fetch("id") },

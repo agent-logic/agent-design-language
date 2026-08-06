@@ -29,7 +29,7 @@ Revision 20
       "AC-2",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -40,7 +40,7 @@ Revision 20
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -50,7 +50,7 @@ Revision 20
       "AC-8",
       "AC-9"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 

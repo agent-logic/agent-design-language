@@ -1,0 +1,345 @@
+{
+  "source": "danielbaustin/cognitive-sdlc-paper",
+  "destination": "agent-logic/cognitive-sdlc-paper",
+  "secret_values_retained": false,
+  "observed_at": "2026-08-06T06:21:27.865186Z",
+  "surfaces": {
+    "issues": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.862160Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/issues.json",
+        "evidence_sha256": "86aeb642e5d475d9f459c219bc6efafc976fb9e53e6f0c6488f8e44ee067ab90"
+      }
+    },
+    "pull_requests": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.862300Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/pull_requests.json",
+        "evidence_sha256": "545819adfa2aa39bb5592833d88fd7afdd0684e8c6896b4ede972eab6efcc0f3"
+      }
+    },
+    "milestones": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.862429Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/milestones.json",
+        "evidence_sha256": "ad91653c697811ef520341e30e195221a1f3a4bb0568aac5bb3eb2938c5130b9"
+      }
+    },
+    "projects": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.862451Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b4c087da33ca6a333f7034ecf3367bfc53362388985723a67475c8fe9802c199",
+        "destination_sha256": "fb7a369fe7292b3d672b9e6bd0d2ffe4a91da2e291a7b5710e9a6cf1af1c8297"
+      }
+    },
+    "discussions": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.862466Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b4c087da33ca6a333f7034ecf3367bfc53362388985723a67475c8fe9802c199",
+        "destination_sha256": "fb7a369fe7292b3d672b9e6bd0d2ffe4a91da2e291a7b5710e9a6cf1af1c8297"
+      }
+    },
+    "wiki": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.862479Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b4c087da33ca6a333f7034ecf3367bfc53362388985723a67475c8fe9802c199",
+        "destination_sha256": "fb7a369fe7292b3d672b9e6bd0d2ffe4a91da2e291a7b5710e9a6cf1af1c8297"
+      }
+    },
+    "assignees": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.862615Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/assignees.json",
+        "evidence_sha256": "2039d45c75e8f808b43a9fc5bafed69a5ad17aadce045f3adbd455ef5b90aff4"
+      }
+    },
+    "collaborators": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.862626Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "982d8bd3a394cf9e2a926c415424edc34ecaf796c8281b7366c482d9e7e69c9e",
+        "destination_sha256": "982d8bd3a394cf9e2a926c415424edc34ecaf796c8281b7366c482d9e7e69c9e"
+      }
+    },
+    "outside_collaborators": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.862773Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/outside_collaborators.json",
+        "evidence_sha256": "be3cdaff07a85d6e01852264152495c16d91a1de020730bda5471dbafd87bcff"
+      }
+    },
+    "teams": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.862907Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/teams.json",
+        "evidence_sha256": "5ec330e8584e39871afeb09f5919b902acd11c6f51641ba2c611352469ac08eb"
+      }
+    },
+    "rulesets": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.862912Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "branch_protections": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.862917Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64",
+        "destination_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64"
+      }
+    },
+    "required_checks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.863206Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/required_checks.json",
+        "evidence_sha256": "8339ebf3724c396616cbf4517804b6f220766bc1b3ce275f7a8766827813d740"
+      }
+    },
+    "approvals": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.863367Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/approvals.json",
+        "evidence_sha256": "b6e33517f93e794a9e17a7aebb73d8a6f1529f116e238a32c16325ed5d778068"
+      }
+    },
+    "codeowners": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.863501Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/codeowners.json",
+        "evidence_sha256": "11254e906411faa329ffbe2f3679e5ebf179960a7aed5be79573e2ec7147e5af"
+      }
+    },
+    "releases": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.863506Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "actions": {
+      "status": "cold_mirror_disabled",
+      "observed_at": "2026-08-06T06:21:27.863512Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "1d13f407420627b1ff9e9d6f19ef735aa9ed9ab567cbde173101a6d17e4c0dc2",
+        "destination_sha256": "5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+      }
+    },
+    "workflows": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.863516Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "schedules": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.863647Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/schedules.json",
+        "evidence_sha256": "0830b2e081a3ce4ae19ab70a528c486802268366268e70d5a0f72a8f716ca7b3"
+      }
+    },
+    "runner_labels": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.863781Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/runner_labels.json",
+        "evidence_sha256": "d1e847d26fdfa13489c5c5b7646c644c934e1f268cbff82da8aa498ca378e2bd"
+      }
+    },
+    "environments": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.863786Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "variables": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.863789Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "names_only": true,
+      "values_retained": false
+    },
+    "secrets": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.863793Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "names_only": true,
+      "values_retained": false
+    },
+    "oidc": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.863922Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/oidc.json",
+        "evidence_sha256": "326ac4edc8a64f4112db3a9955725422cae98e5c6db22d016a0ca1bbad27e972"
+      }
+    },
+    "webhooks": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.863926Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "deploy_keys": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.863932Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "apps": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.864065Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/apps.json",
+        "evidence_sha256": "94a8c8d8f8b3d2c746f2286df0b6d285581b8e359310af91662e11221a6d645b"
+      }
+    },
+    "oauth_integrations": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.864201Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/oauth_integrations.json",
+        "evidence_sha256": "e18fb78ab701093d8ca5dee17e4997982da9eb8fbf74abd5e024795fea0989e4"
+      }
+    },
+    "callbacks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.864332Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/callbacks.json",
+        "evidence_sha256": "629d50ddd4e00f1dddd6b092f91103f3cf75d7b4be930c407a4ae7fd191d047d"
+      }
+    },
+    "pages": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.864337Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64",
+        "destination_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64"
+      }
+    },
+    "custom_domains": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.864465Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/custom_domains.json",
+        "evidence_sha256": "c7bb944e3fd969de311d13ced32f4baa4621f581bd74efd3a1884364db233092"
+      }
+    },
+    "packages": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.864620Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/packages.json",
+        "evidence_sha256": "16e38f2429c87690ebb55ed9d52eac391f0fcc1795c5c6ae434f9253f255a80f"
+      }
+    },
+    "security": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:21:27.864638Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b4c087da33ca6a333f7034ecf3367bfc53362388985723a67475c8fe9802c199",
+        "destination_sha256": "fb7a369fe7292b3d672b9e6bd0d2ffe4a91da2e291a7b5710e9a6cf1af1c8297"
+      }
+    },
+    "forks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.864790Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/forks.json",
+        "evidence_sha256": "9efad2f1947dbec46a534347c1e2217c605c615a7735018b79b95bcecc9cedda"
+      }
+    },
+    "submodules": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.864925Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/submodules.json",
+        "evidence_sha256": "9a85c73cc6056aadb75431a96e17823be4e136690292d9144246b4fc9ee98d4c"
+      }
+    },
+    "downstream_consumers": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.865055Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/downstream_consumers.json",
+        "evidence_sha256": "163380a28887ee441d450ee8bc1d3e1c96b454b0a0888ee36ad4e4dd3d3f0e0f"
+      }
+    },
+    "operational_urls": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:21:27.865184Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/manual/operational_urls.json",
+        "evidence_sha256": "501d17ec1a54d3f380bf4b3afcc8cd7608f437b38a35aa336646b90292e7b35d"
+      }
+    }
+  }
+}

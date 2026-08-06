@@ -1,0 +1,15 @@
+{
+  "source": "danielbaustin/agent-design-language",
+  "destination": "agent-logic/agent-design-language",
+  "status": "no_lfs",
+  "source_fsck_exit": 0,
+  "destination_fsck_exit": 0,
+  "source_inventory_path": ".csdlc/evidence/5819/execution/agent-design-language/source-lfs-inventory.txt",
+  "source_inventory_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "destination_inventory_path": ".csdlc/evidence/5819/execution/agent-design-language/destination-lfs-inventory.txt",
+  "destination_inventory_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_object_count": 0,
+  "destination_object_count": 0,
+  "push_transcript_path": ".csdlc/evidence/5819/execution/agent-design-language/lfs-push-transcript.txt",
+  "push_transcript_sha256": "cd59f487b40572d4487f1cf10748a0f284e7ee2e78006246f5bd544a594495b5"
+}

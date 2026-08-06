@@ -1,0 +1,12 @@
+{
+  "repository": "danielbaustin/asksifu",
+  "repository_id": 1211732279,
+  "visibility": "private",
+  "default_branch": "main",
+  "exact_head": "c45125edaa0d7b10dcb7d20b8bd53507bf18b145",
+  "refs_sha256": "0e9da43963e3cd2408f55c4273bc39fe39a38082ef04d14b73d2c5d09a043d1a",
+  "api_surface_sha256": "78e529c8735124a834a11cc7ff6d4e0b7c1905a283eec79a4f2377795d7b4f2d",
+  "actions_enabled": true,
+  "observed_at": "2026-08-06T06:15:27.064477Z",
+  "label": "asksifu/source-before-support"
+}

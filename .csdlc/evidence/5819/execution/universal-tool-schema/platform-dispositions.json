@@ -1,0 +1,345 @@
+{
+  "source": "danielbaustin/universal-tool-schema",
+  "destination": "agent-logic/universal-tool-schema",
+  "secret_values_retained": false,
+  "observed_at": "2026-08-06T06:22:39.121662Z",
+  "surfaces": {
+    "issues": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.118253Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/issues.json",
+        "evidence_sha256": "4a27267aacd1028160a4847cbc88b2aba655ba656d0da02a078b9c04f0f96a74"
+      }
+    },
+    "pull_requests": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.118410Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/pull_requests.json",
+        "evidence_sha256": "85153d6bcb43e4ec9f004dc3370eb891c43d5c2a99604b322d152cad1e5ea4d7"
+      }
+    },
+    "milestones": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.118555Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/milestones.json",
+        "evidence_sha256": "905231fbb1d1bc9eab446d2428c544c8956223eff0fb93d469805d509ba804dc"
+      }
+    },
+    "projects": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.118578Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "ae5436ff9bc3cfd9c233ab88a619ed04ad0a8b182eddb62743a6a7eecd0d2955",
+        "destination_sha256": "7b9f409b539f5ca1703791aac8e79c4362306f65decdd1a433504795b1436694"
+      }
+    },
+    "discussions": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.118594Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "ae5436ff9bc3cfd9c233ab88a619ed04ad0a8b182eddb62743a6a7eecd0d2955",
+        "destination_sha256": "7b9f409b539f5ca1703791aac8e79c4362306f65decdd1a433504795b1436694"
+      }
+    },
+    "wiki": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.118609Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "ae5436ff9bc3cfd9c233ab88a619ed04ad0a8b182eddb62743a6a7eecd0d2955",
+        "destination_sha256": "7b9f409b539f5ca1703791aac8e79c4362306f65decdd1a433504795b1436694"
+      }
+    },
+    "assignees": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.118755Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/assignees.json",
+        "evidence_sha256": "16010a4350b64b61a36c368b5211f94d9df38a8ce28fff120299aa569206f352"
+      }
+    },
+    "collaborators": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.118772Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "982d8bd3a394cf9e2a926c415424edc34ecaf796c8281b7366c482d9e7e69c9e",
+        "destination_sha256": "982d8bd3a394cf9e2a926c415424edc34ecaf796c8281b7366c482d9e7e69c9e"
+      }
+    },
+    "outside_collaborators": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.118912Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/outside_collaborators.json",
+        "evidence_sha256": "967980be6bcc69922cff391791c94e15582e3e8ff91aa7f412c06ab59aee1064"
+      }
+    },
+    "teams": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.119059Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/teams.json",
+        "evidence_sha256": "e7e1f17332a24589fa47e66ff49d524e8ede086150ae1c914cd6cfd0c2838dea"
+      }
+    },
+    "rulesets": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.119065Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "branch_protections": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.119071Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64",
+        "destination_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64"
+      }
+    },
+    "required_checks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.119233Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/required_checks.json",
+        "evidence_sha256": "3060698abf5e4432e585fb2e31c07f281f942938b6f2264bc14e94a0301a53c3"
+      }
+    },
+    "approvals": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.119374Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/approvals.json",
+        "evidence_sha256": "27e7cfc66a02e269ccc6f8cd21837901ecc443ee8e92a3037a3c14a180c7a271"
+      }
+    },
+    "codeowners": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.119533Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/codeowners.json",
+        "evidence_sha256": "41f27ee9785ac2c8b8bdae3e07925f891c1a62ec21a4ee01ecea7b9db63b0221"
+      }
+    },
+    "releases": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.119538Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "actions": {
+      "status": "cold_mirror_disabled",
+      "observed_at": "2026-08-06T06:22:39.119543Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "1d13f407420627b1ff9e9d6f19ef735aa9ed9ab567cbde173101a6d17e4c0dc2",
+        "destination_sha256": "5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+      }
+    },
+    "workflows": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.119549Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "schedules": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.119688Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/schedules.json",
+        "evidence_sha256": "8b3cf8913a4405f328daf8af6a126af7ad826cd2fc4c41b869919e4646f0b0a3"
+      }
+    },
+    "runner_labels": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.119839Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/runner_labels.json",
+        "evidence_sha256": "2efea0b150c6de75a54b1644b9a208033328c4821b696534680c07c7de512a5e"
+      }
+    },
+    "environments": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.119843Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "variables": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.119846Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "names_only": true,
+      "values_retained": false
+    },
+    "secrets": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.119850Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "names_only": true,
+      "values_retained": false
+    },
+    "oidc": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.119997Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/oidc.json",
+        "evidence_sha256": "6a1552648f9a4444c1166f169cb2e5520ca0742526b36e5d550157aa14593942"
+      }
+    },
+    "webhooks": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.120001Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "deploy_keys": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.120005Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "destination_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "apps": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.120150Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/apps.json",
+        "evidence_sha256": "821c6b7c6eb056518fa6c3bb6c12125e2e59f255ba80cc051334b1a9bff61fe5"
+      }
+    },
+    "oauth_integrations": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.120308Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/oauth_integrations.json",
+        "evidence_sha256": "cdb420b37d57d0e06bfdabdcdc502b94b94fc97682c3162908efd4f16496af70"
+      }
+    },
+    "callbacks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.120435Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/callbacks.json",
+        "evidence_sha256": "d452ff5d4b73a6c53da60599c18cfccfb171da661bc8a4cc0224bde0613d1150"
+      }
+    },
+    "pages": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.120441Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64",
+        "destination_sha256": "b888a0b98711f13528e6abb6bb24646018c6293f7a84a2d860130a1442543f64"
+      }
+    },
+    "custom_domains": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.120570Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/custom_domains.json",
+        "evidence_sha256": "a3bc040e0f7a17c850e1dc3f11aef96dd04ca9f7107b6120d606abeaf613aef6"
+      }
+    },
+    "packages": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.120727Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/packages.json",
+        "evidence_sha256": "414200ac570e42d1acc5962daa4f4a0ea8adaabdf1d5504ce00eea31b4e64c27"
+      }
+    },
+    "security": {
+      "status": "operator_verified",
+      "observed_at": "2026-08-06T06:22:39.120748Z",
+      "proof": {
+        "kind": "live_api",
+        "source_sha256": "ae5436ff9bc3cfd9c233ab88a619ed04ad0a8b182eddb62743a6a7eecd0d2955",
+        "destination_sha256": "7b9f409b539f5ca1703791aac8e79c4362306f65decdd1a433504795b1436694"
+      }
+    },
+    "forks": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.120888Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/forks.json",
+        "evidence_sha256": "48abd70d93f1986dc22006fd6091c0d6b86c1a18b346fca697ae522c1ad9def3"
+      }
+    },
+    "submodules": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.121017Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/submodules.json",
+        "evidence_sha256": "d2e88a0dde9cf4469a6a36142e4eb72d3ded0761717068614d6346976b7e5d63"
+      }
+    },
+    "downstream_consumers": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.121515Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/downstream_consumers.json",
+        "evidence_sha256": "9e592d4cdd70fd05a2e93c044afa997903440fb9f10d222a28f6bd29af00c262"
+      }
+    },
+    "operational_urls": {
+      "status": "source_authoritative",
+      "observed_at": "2026-08-06T06:22:39.121660Z",
+      "proof": {
+        "kind": "operator_confirmation",
+        "evidence_path": ".csdlc/evidence/5819/execution/universal-tool-schema/manual/operational_urls.json",
+        "evidence_sha256": "e82a9d4b47e44ac018615b9d015f2ce48e4e0ca241962464ba87b17cb2b48e27"
+      }
+    }
+  }
+}

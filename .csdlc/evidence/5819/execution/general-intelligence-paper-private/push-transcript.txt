@@ -1,0 +1,11 @@
+To https://github.com/agent-logic/general-intelligence-paper-private.git
+ * [new branch]      codex/11-regenerate-paper-pdf-main -> codex/11-regenerate-paper-pdf-main
+ * [new branch]      codex/15-arxiv-package-scripts -> codex/15-arxiv-package-scripts
+ * [new branch]      codex/22-repair-paper-formal-consistency -> codex/22-repair-paper-formal-consistency
+ * [new branch]      codex/23-tighten-paper-examples-claim-boundaries -> codex/23-tighten-paper-examples-claim-boundaries
+ * [new branch]      codex/24-install-portable-adl-adapter -> codex/24-install-portable-adl-adapter
+ * [new branch]      codex/26-reduce-clarify-paper-abstract -> codex/26-reduce-clarify-paper-abstract
+ * [new branch]      codex/3152-general-intelligence-paper-v4 -> codex/3152-general-intelligence-paper-v4
+ * [new branch]      codex/close-paper-readiness-issues-3-5-9 -> codex/close-paper-readiness-issues-3-5-9
+ * [new branch]      codex/formal-publication-hardening -> codex/formal-publication-hardening
+ * [new branch]      main -> main

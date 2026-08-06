@@ -1,0 +1,957 @@
+{
+  "schema": "adl.wp02.copy-report.v1",
+  "copy_only": true,
+  "source_mutation_authorized": false,
+  "secret_values_retained": false,
+  "organization_readiness": {
+    "confirmation_comment_id": 5201022336
+  },
+  "repositories": [
+    {
+      "name": "cognitive-sdlc-paper",
+      "copy_sequence": 1,
+      "source": "danielbaustin/cognitive-sdlc-paper",
+      "destination": "agent-logic/cognitive-sdlc-paper",
+      "expected_visibility": "private",
+      "copy_started_at": "2026-08-06T06:15:42Z",
+      "copy_completed_at": "2026-08-06T06:17:57.310362Z",
+      "source_before_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/source-before.json",
+      "source_before_sha256": "2768e10bafdfac290b9e17a55e33c8521ce82f7d7c74ac563777bcfe1a39e0dd",
+      "destination_after_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/destination-after.json",
+      "destination_after_sha256": "5283ff08a9700f1d8e46898ac8a2afa64331e6b5cefa4134aa983fca4a5ab36a",
+      "source_after_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/source-after.json",
+      "source_after_sha256": "e7acd69ad089a26d9e1fe5406fb6dfb54491560f88264a494fb6433d372702fb",
+      "source_unchanged": true,
+      "destination_verified": true,
+      "operator_confirmation_comment_id": 5201116603,
+      "source_live_visibility": "private",
+      "source_default_branch": "main",
+      "exact_head": "fb902ec4c5a97fa18ff86e7d192bbedcc3a365ce",
+      "expected_actions_enabled": false,
+      "actions_disabled_receipt_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/actions-disabled-receipt.json",
+      "actions_disabled_receipt_sha256": "9b372adb54f02fccad38716f15b656b278599d3ea8a1915a5cbba4d9b413d794",
+      "first_push_receipt_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/first-push-receipt.json",
+      "first_push_receipt_sha256": "15f05514acf9fb535b931506133551d8273c62d50caf67193e0848f38521faab",
+      "lfs": {
+        "status": "no_lfs",
+        "reason": "No LFS pointers exist in any approved ref.",
+        "receipt_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/lfs-receipt.json",
+        "receipt_sha256": "e9ab046704be263b8049618837891cbd51ec1aec09c329609009b368ccddb991"
+      },
+      "platform_disposition_packet_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/platform-dispositions.json",
+      "platform_disposition_packet_sha256": "7f27953f4dcef576ff411046ef567d0e35e00494ac0a4f9ba8bfe51d00486520",
+      "platform_dispositions": {
+        "issues": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "pull_requests": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "milestones": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "projects": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "discussions": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "wiki": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "assignees": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "collaborators": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "outside_collaborators": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "teams": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "rulesets": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "branch_protections": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "required_checks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "approvals": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "codeowners": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "releases": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "actions": {
+          "status": "cold_mirror_disabled",
+          "reason": "Destination Actions remain disabled for the verified cold copy."
+        },
+        "workflows": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "schedules": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "runner_labels": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "environments": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "variables": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "secrets": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "oidc": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "webhooks": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "deploy_keys": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "apps": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "oauth_integrations": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "callbacks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "pages": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "custom_domains": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "packages": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "security": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "forks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "submodules": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "downstream_consumers": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "operational_urls": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        }
+      },
+      "policy_refreshed_at": "2026-08-06T06:21:29.016848Z"
+    },
+    {
+      "name": "godel-hadamard-bayes-paper",
+      "copy_sequence": 2,
+      "source": "danielbaustin/godel-hadamard-bayes-paper",
+      "destination": "agent-logic/godel-hadamard-bayes-paper",
+      "expected_visibility": "private",
+      "copy_started_at": "2026-08-06T06:18:49.962882Z",
+      "copy_completed_at": "2026-08-06T06:19:18.144620Z",
+      "source_before_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/source-before.json",
+      "source_before_sha256": "8f547b3773414055e8683f730869506d054912b1f46213d270556e5d244e7822",
+      "destination_after_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/destination-after.json",
+      "destination_after_sha256": "88960e007685ac31d4cdb995bfcc304dd0a2855a1de83108f0fed1a865c08923",
+      "source_after_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/source-after.json",
+      "source_after_sha256": "7feabfcf8fc0800160b5f0455eb14b96900b759a4f675b420c6ac084826b1e66",
+      "source_unchanged": true,
+      "destination_verified": true,
+      "operator_confirmation_comment_id": 5201118365,
+      "source_live_visibility": "private",
+      "source_default_branch": "main",
+      "exact_head": "315afb209b0124b08af7a2a27aa39e6321ae34b8",
+      "expected_actions_enabled": false,
+      "actions_disabled_receipt_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/actions-disabled-receipt.json",
+      "actions_disabled_receipt_sha256": "756bb23bb4c7f89901ed6e525b16330134b1f84b8b75c9a13efb45ac9f7fbbe5",
+      "first_push_receipt_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/first-push-receipt.json",
+      "first_push_receipt_sha256": "30d1a84091a94a0a1277f5531b163b7deb9d4c9657b2d2a6f732463b3c978792",
+      "lfs": {
+        "status": "no_lfs",
+        "reason": "No LFS pointers exist in any approved ref.",
+        "receipt_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/lfs-receipt.json",
+        "receipt_sha256": "79de0508ecec9a5707d3a05179416dc34d0351fec37eff8cf8cbae4e7ccba51e"
+      },
+      "platform_disposition_packet_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/platform-dispositions.json",
+      "platform_disposition_packet_sha256": "c55bfa435a663e2055e324d426a36ec3f4c55c27bc5fae150692aa6672f3ed09",
+      "platform_dispositions": {
+        "issues": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "pull_requests": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "milestones": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "projects": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "discussions": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "wiki": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "assignees": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "collaborators": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "outside_collaborators": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "teams": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "rulesets": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "branch_protections": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "required_checks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "approvals": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "codeowners": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "releases": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "actions": {
+          "status": "cold_mirror_disabled",
+          "reason": "Destination Actions remain disabled for the verified cold copy."
+        },
+        "workflows": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "schedules": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "runner_labels": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "environments": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "variables": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "secrets": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "oidc": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "webhooks": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "deploy_keys": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "apps": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "oauth_integrations": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "callbacks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "pages": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "custom_domains": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "packages": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "security": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "forks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "submodules": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "downstream_consumers": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "operational_urls": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        }
+      },
+      "policy_refreshed_at": "2026-08-06T06:21:44.266393Z"
+    },
+    {
+      "name": "general-intelligence-paper-private",
+      "copy_sequence": 3,
+      "source": "danielbaustin/general-intelligence-paper-private",
+      "destination": "agent-logic/general-intelligence-paper-private",
+      "expected_visibility": "private",
+      "copy_started_at": "2026-08-06T06:19:34.422857Z",
+      "copy_completed_at": "2026-08-06T06:20:16.381009Z",
+      "source_before_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/source-before.json",
+      "source_before_sha256": "d0c0edcda32d14acc2c28fe79c103dfee751a825817c8ee37d72a1ede4ba7ab4",
+      "destination_after_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/destination-after.json",
+      "destination_after_sha256": "61a02b8ed0f4459014a02904e84a09da01491ba42898e0c26baf3b9f94924ee1",
+      "source_after_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/source-after.json",
+      "source_after_sha256": "899012ba487595c1c810d4e07ec72405966bd9570f5f237d2f6342a2c993be3f",
+      "source_unchanged": true,
+      "destination_verified": true,
+      "operator_confirmation_comment_id": 5201108026,
+      "source_live_visibility": "private",
+      "source_default_branch": "main",
+      "exact_head": "d0530fdd3f37aeee56bd579f5e8db15909107037",
+      "expected_actions_enabled": false,
+      "actions_disabled_receipt_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/actions-disabled-receipt.json",
+      "actions_disabled_receipt_sha256": "319a9d26ec70c47c1c7c15c7b8aec8c12dea58e5a2b0c2121992cb3c0dc1948f",
+      "first_push_receipt_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/first-push-receipt.json",
+      "first_push_receipt_sha256": "e47639764d7e4bdf245f116e9a35edb218f1d5f8506a2ecd2dd3217d5fe43474",
+      "lfs": {
+        "status": "no_lfs",
+        "reason": "No LFS pointers exist in any approved ref.",
+        "receipt_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/lfs-receipt.json",
+        "receipt_sha256": "6d59ad86d1f1a955a1d5d5a70e3d96ed1a7714b2614f9d2b5a1ea92c01c3038c"
+      },
+      "platform_disposition_packet_path": ".csdlc/evidence/5819/execution/general-intelligence-paper-private/platform-dispositions.json",
+      "platform_disposition_packet_sha256": "b84804216a6196669f80e9a70f039218741c5c4564a6ff2a1f871cd661a085cf",
+      "platform_dispositions": {
+        "issues": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "pull_requests": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "milestones": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "projects": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "discussions": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "wiki": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "assignees": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "collaborators": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "outside_collaborators": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "teams": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "rulesets": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "branch_protections": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "required_checks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "approvals": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "codeowners": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "releases": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "actions": {
+          "status": "cold_mirror_disabled",
+          "reason": "Destination Actions remain disabled for the verified cold copy."
+        },
+        "workflows": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "schedules": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "runner_labels": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "environments": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "variables": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "secrets": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "oidc": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "webhooks": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "deploy_keys": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "apps": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "oauth_integrations": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "callbacks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "pages": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "custom_domains": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "packages": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "security": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "forks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "submodules": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "downstream_consumers": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "operational_urls": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        }
+      }
+    },
+    {
+      "name": "universal-tool-schema",
+      "copy_sequence": 4,
+      "source": "danielbaustin/universal-tool-schema",
+      "destination": "agent-logic/universal-tool-schema",
+      "expected_visibility": "private",
+      "copy_started_at": "2026-08-06T06:22:10.279838Z",
+      "copy_completed_at": "2026-08-06T06:22:40.521182Z",
+      "source_before_path": ".csdlc/evidence/5819/execution/universal-tool-schema/source-before.json",
+      "source_before_sha256": "bad3601729952dbc8f463bf2b7c3e3701b3792f61f37ce6f2cd346865e3cfc9f",
+      "destination_after_path": ".csdlc/evidence/5819/execution/universal-tool-schema/destination-after.json",
+      "destination_after_sha256": "cb2a05eb28f04b191673d612bc765ec1b898ebd848b9b099afea8f5c3654ff3e",
+      "source_after_path": ".csdlc/evidence/5819/execution/universal-tool-schema/source-after.json",
+      "source_after_sha256": "bff64f98611487cc965f08995d889077c979623cd83780063adfee5d7773d2d9",
+      "source_unchanged": true,
+      "destination_verified": true,
+      "operator_confirmation_comment_id": 5201125431,
+      "source_live_visibility": "private",
+      "source_default_branch": "main",
+      "exact_head": "7997dd41863b0ba6560c2cab322e21be1a975613",
+      "expected_actions_enabled": false,
+      "actions_disabled_receipt_path": ".csdlc/evidence/5819/execution/universal-tool-schema/actions-disabled-receipt.json",
+      "actions_disabled_receipt_sha256": "820f7759fe9e1d4f40b07fa7ad38c5bd52764a84dc1f0c48c67d97098bc28872",
+      "first_push_receipt_path": ".csdlc/evidence/5819/execution/universal-tool-schema/first-push-receipt.json",
+      "first_push_receipt_sha256": "ad12263b978479f015980d5ad2c50d635a5a8aad06d5da2f0ed144efb8ea1937",
+      "lfs": {
+        "status": "no_lfs",
+        "reason": "No LFS pointers exist in any approved ref.",
+        "receipt_path": ".csdlc/evidence/5819/execution/universal-tool-schema/lfs-receipt.json",
+        "receipt_sha256": "18c645c89e5aa5cb173aaf0a5a11beb50f7fe16ec7f6a1ed90d3548949b82b00"
+      },
+      "platform_disposition_packet_path": ".csdlc/evidence/5819/execution/universal-tool-schema/platform-dispositions.json",
+      "platform_disposition_packet_sha256": "24bb130e79d96b55952d9ccb4ff06dc9d46460656da3a90bfc07c0fba84ab8e1",
+      "platform_dispositions": {
+        "issues": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "pull_requests": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "milestones": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "projects": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "discussions": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "wiki": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "assignees": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "collaborators": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "outside_collaborators": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "teams": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "rulesets": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "branch_protections": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "required_checks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "approvals": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "codeowners": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "releases": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "actions": {
+          "status": "cold_mirror_disabled",
+          "reason": "Destination Actions remain disabled for the verified cold copy."
+        },
+        "workflows": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "schedules": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "runner_labels": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "environments": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "variables": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "secrets": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "oidc": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "webhooks": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "deploy_keys": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "apps": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "oauth_integrations": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "callbacks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "pages": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "custom_domains": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "packages": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "security": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "forks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "submodules": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "downstream_consumers": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "operational_urls": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        }
+      }
+    },
+    {
+      "name": "agent-design-language",
+      "copy_sequence": 5,
+      "source": "danielbaustin/agent-design-language",
+      "destination": "agent-logic/agent-design-language",
+      "expected_visibility": "public",
+      "copy_started_at": "2026-08-06T06:22:51Z",
+      "copy_completed_at": "2026-08-06T06:37:48.407418Z",
+      "source_before_path": ".csdlc/evidence/5819/execution/agent-design-language/source-before.json",
+      "source_before_sha256": "557aa53f0f64cbebbae0e92b3c3076aaa91106a727bd039d66665d3ee985dd67",
+      "destination_after_path": ".csdlc/evidence/5819/execution/agent-design-language/destination-after.json",
+      "destination_after_sha256": "00dcb84110fff07480402a6cf1a6b20d25c1da86e8d9ceb5d6bb107757d61872",
+      "source_after_path": ".csdlc/evidence/5819/execution/agent-design-language/source-after.json",
+      "source_after_sha256": "f11b2844cf0a9ac8bb43894422a6ad8bcef0a537b9ff90e42e7f7d58739e3fb5",
+      "source_unchanged": true,
+      "destination_verified": true,
+      "operator_confirmation_comment_id": 5201235756,
+      "source_live_visibility": "public",
+      "source_default_branch": "main",
+      "exact_head": "423c50d8cc185a0fbbec0fa0dcd636c81f4e04f5",
+      "expected_actions_enabled": false,
+      "actions_disabled_receipt_path": ".csdlc/evidence/5819/execution/agent-design-language/actions-disabled-receipt.json",
+      "actions_disabled_receipt_sha256": "f87c2118993050081fb73549bab50cf30004077d6aba6a1d66f4c0e9ab9c42ff",
+      "first_push_receipt_path": ".csdlc/evidence/5819/execution/agent-design-language/first-push-receipt.json",
+      "first_push_receipt_sha256": "f1aba31e6ef1558735bcab7aaa4fde11b850886477dc7b31d454372675e6902e",
+      "lfs": {
+        "status": "no_lfs",
+        "reason": "No LFS pointers exist in any approved ref.",
+        "receipt_path": ".csdlc/evidence/5819/execution/agent-design-language/lfs-receipt.json",
+        "receipt_sha256": "d6e66de1326cb42b4f8b9230a29e3522ae931a6c33f6c177b4291b19df876b40"
+      },
+      "platform_disposition_packet_path": ".csdlc/evidence/5819/execution/agent-design-language/platform-dispositions.json",
+      "platform_disposition_packet_sha256": "b837b941d71bdfe74a1ffdd69453b556ac86202267bf77cab9d4f44e57107dc5",
+      "platform_dispositions": {
+        "issues": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "pull_requests": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "milestones": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "projects": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "discussions": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "wiki": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "assignees": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "collaborators": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "outside_collaborators": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "teams": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "rulesets": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "branch_protections": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "required_checks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "approvals": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "codeowners": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "releases": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "actions": {
+          "status": "cold_mirror_disabled",
+          "reason": "Destination Actions remain disabled for the verified cold copy."
+        },
+        "workflows": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "schedules": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "runner_labels": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "environments": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "variables": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "secrets": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "oidc": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "webhooks": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "deploy_keys": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "apps": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "oauth_integrations": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "callbacks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "pages": {
+          "status": "deferred_to_5888",
+          "reason": "Website and public-link cutover is owned by issue #5888."
+        },
+        "custom_domains": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "packages": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "security": {
+          "status": "operator_verified",
+          "reason": "Live source and destination API state was captured and digest-bound."
+        },
+        "forks": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "submodules": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "downstream_consumers": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        },
+        "operational_urls": {
+          "status": "source_authoritative",
+          "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
+        }
+      }
+    }
+  ],
+  "negative_controls": {
+    "asksifu": {
+      "source_before_path": ".csdlc/evidence/5819/execution/asksifu/source-before.json",
+      "source_before_sha256": "fb49998e9ac4fdb51c8f6d0ff95178224ad4ee3228841e6336f12c7c4ee0e451",
+      "source_after_path": ".csdlc/evidence/5819/execution/asksifu/source-after.json",
+      "source_after_sha256": "baa194b773f33716c88484bd652b9d2117b667828910d32838c044709e393e74",
+      "repository_id": 1211732279,
+      "exact_head": "c45125edaa0d7b10dcb7d20b8bd53507bf18b145",
+      "destination_absent": true
+    },
+    "Horust": {
+      "source_before_path": ".csdlc/evidence/5819/execution/Horust/source-before.json",
+      "source_before_sha256": "b3e9d674276fa03f0451ec9fbd96778c692626b9ba65722b5188b430a5a8699b",
+      "source_after_path": ".csdlc/evidence/5819/execution/Horust/source-after.json",
+      "source_after_sha256": "186a04e4b3081b26c9dfd8a5d2c2389ff97aa47ca5606e23867b1edfffb10b6e",
+      "repository_id": 1297989599,
+      "exact_head": "37e753561f07bdfd48a4b8e4c101759ba7974ddb",
+      "destination_absent": true
+    }
+  },
+  "website_handoff": {
+    "issue": 5888,
+    "blocked_until_adl_verified": true
+  }
+}

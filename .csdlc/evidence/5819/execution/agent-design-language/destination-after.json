@@ -1,0 +1,12 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "repository_id": 1324824267,
+  "visibility": "public",
+  "default_branch": "main",
+  "exact_head": "423c50d8cc185a0fbbec0fa0dcd636c81f4e04f5",
+  "refs_sha256": "8703508aa57ed5accaefaa0a21b1d1f8c7de61fab20c5d5a259f75183e910306",
+  "api_surface_sha256": "58f19bd198e60f21c31868b3560a220ba3d9e53a5ab8aa06958e0b691938a2af",
+  "actions_enabled": false,
+  "observed_at": "2026-08-06T06:37:47.180997Z",
+  "label": "agent-design-language/destination-after-support"
+}

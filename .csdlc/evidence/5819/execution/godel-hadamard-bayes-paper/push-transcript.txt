@@ -1,0 +1,4 @@
+To https://github.com/agent-logic/godel-hadamard-bayes-paper.git
+ * [new branch]      codex/1-harden-expanded-ghb-draft -> codex/1-harden-expanded-ghb-draft
+ * [new branch]      codex/2-align-paper-packets -> codex/2-align-paper-packets
+ * [new branch]      main -> main

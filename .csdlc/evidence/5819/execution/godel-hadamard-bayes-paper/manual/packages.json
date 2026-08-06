@@ -1,0 +1,9 @@
+{
+  "source": "danielbaustin/godel-hadamard-bayes-paper",
+  "destination": "agent-logic/godel-hadamard-bayes-paper",
+  "surface": "packages",
+  "result": "pass",
+  "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative.",
+  "secret_values_retained": false,
+  "observed_at": "2026-08-06T06:21:43.284673Z"
+}
