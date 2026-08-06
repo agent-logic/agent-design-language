@@ -3,15 +3,24 @@
   "issue": 5357,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b4ef1aecf8cb4011e9fcc651284d7fa8be1ee0611fa79ed3f2215100f5627e00",
-  "phase": "bound",
+  "phase": "closed_out",
   "generation": 10,
-  "digest": "e2b7cee5cce9adf1f750b2e3ef03d64885f1a7039aae02c15d4a49f33aafe92b",
-  "claim": null,
+  "digest": "b43e4316cedacc712c829c7415d30b18dabdaf88f1942a9e79d3e044980577fd",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
-  "terminal": null,
+  "terminal": {
+    "pull_request": null,
+    "disposition": "closed_no_pr",
+    "observed_sha": null,
+    "observed_state": "closed",
+    "receipt_path": ".csdlc/evidence/5896/terminal/5357.json",
+    "branch": null,
+    "worktree": null
+  },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5357/design.md",
   "diagram_path": ".csdlc/prepared/issues/5357/diagram.mmd",
@@ -67,6 +76,13 @@
       "to": "bound",
       "actor": "codex:5357-preparation-owner",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "closed_out",
+      "actor": "csdlc-topology-migrate",
+      "reason": "migrate pre-topology bound record"
     }
   ],
   "audit": [
@@ -174,6 +190,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Release the overlapping documentation claim to issue #5804 while retaining #5357 as the open external-review owner.",
       "operation": "{\"claim_id\":\"claim-5357-v0918-wp19-review-readiness\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"User directed a separate prerequisite issue for documentation repairs so WP-19 remains open until the external review completes.\",\"previous_owner\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:5896-bound-topology-migration",
+      "reason": "migrate pre-#5886 bound record to Git topology authority",
+      "operation": "migrate_bound_topology"
     }
   ]
 }

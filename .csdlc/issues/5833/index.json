@@ -3,10 +3,11 @@
   "issue": 5833,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "53e5aa3396c8636e2b4d03f6971114be6111155898524a5ca2c789983f475997",
-  "phase": "bound",
+  "phase": "initialized",
   "generation": 52,
-  "digest": "f5eee7acbed86b484df198bcbd09f6c6c552064efb65090b3b06347188f862e3",
-  "claim": null,
+  "digest": "0c3f185c641adee04f397003dd73c80f035499bc86563234218a9148a5eb1892",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -67,6 +68,13 @@
       "to": "bound",
       "actor": "codex-5860-birthday-preparation",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "initialized",
+      "actor": "csdlc-topology-migrate",
+      "reason": "migrate pre-topology bound record"
     }
   ],
   "audit": [
@@ -580,6 +588,13 @@
       "actor": "codex:5860-vpp-preexecution-contracts",
       "reason": "Release issue-local authority after typed VPP contract replacement.",
       "operation": "{\"claim_id\":\"claim-5833-v092-preexec-contract\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-vpp-preexecution-contracts\"}"
+    },
+    {
+      "sequence": 74,
+      "generation": 52,
+      "actor": "codex:5896-bound-topology-migration",
+      "reason": "migrate pre-#5886 bound record to Git topology authority",
+      "operation": "migrate_bound_topology"
     }
   ]
 }

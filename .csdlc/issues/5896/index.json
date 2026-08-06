@@ -3,11 +3,11 @@
   "issue": 5896,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f9a233a5a2c5c84d627f97fd928a4df09bc19b2474bc436e9b69c31219053e2c",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "a4240e4fc96bb5655b0b0fbc3524e45f84adcf4973c1590b0da3f174cdf2e2fb",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "6442408774ae07aa08475ac6932f52adb1edf91b39bf02f8bda55de03b79b436",
+  "branch": "codex/5896-bound-topology-migration",
+  "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-5896-bound-topology-migration",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,37 +24,59 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bd0aee8e62f60349fa0a5168d68ef19ff8b98896d49ca954feac2f30cd3f309e",
+      "values_digest": "99168085e2a7d47873c37c348d8ca29def494e0b9de99745308e1273eaf89515",
       "rendered_digest": "0d48f6d1045efa10ab18a91c68e5502d0fabadb9ce0189e1cb7af589218574d3",
       "ast_digest": "17e32400c46cd740a7bbd8650dbe500e723b5e07957b9cffce9ce60754800931"
     },
     "stp": {
-      "values_digest": "ec650f34cca1754db1651e99f9a46ea3b764b0cd235a9c0d0d97fbc92cc020eb",
+      "values_digest": "c6d4b8ae958b1179154ad629396ab4bb38c5402223ca03cee58b9a842d6c8b85",
       "rendered_digest": "976052055d1d90674eb470f2dcb67d6b0d0cb735af67b580f8725c8dc4c48170",
       "ast_digest": "e6165c451fa414614ee7d5bf9972162524b31d3c34a153185613b9af8edd9fd1"
     },
     "spp": {
-      "values_digest": "770baef876f2ae7c2ad72ddedf22ae9e16f7522fea1df5fb4210d13874c1c2b6",
+      "values_digest": "c56a9f44f6e28038f45baf49ba3accea98c03e6a2f7af31b889d448e88953657",
       "rendered_digest": "1991171cf9212e2c60133edc6938644843d26988cba6584210c7fcfd0b0aed3d",
       "ast_digest": "0cd112ec6ac771b11499e5ce3073316d0907642c99ba3e140b29eaa4a98fe486"
     },
     "vpp": {
-      "values_digest": "c0982d1a3ffd2b421c8378da543d5bfa427c9d04fae763c438bb35d1492109c7",
+      "values_digest": "a7295bd350a4023b819fdbc3a21bc35298d901944186bdcf44b0c1347b178fc8",
       "rendered_digest": "53c06c95481d4fc792b07327ba25b20951d431ac618f70868b6722d9870debe6",
       "ast_digest": "b36bbc1fe670a23f4a6f30882478f19ec9a28abebf0b462a309da666ffb25cc0"
     },
     "srp": {
-      "values_digest": "ab34cc1001f1b3616d96e445e8e179d10d62b70ce32b0742c1d73a5d56d5b5dc",
+      "values_digest": "7669c3b91ba0f57a134d29baae628a175704443e65dbdbab065a4b455a41e711",
       "rendered_digest": "5d2061fd4e1f1d046f92359dff097acf8f4be9a0406bdf72caea1e26de61b615",
       "ast_digest": "1586632f9f705bffba5c8e0dacc81f49f39befa4bd2d9752cc75842d65eb5c55"
     },
     "sor": {
-      "values_digest": "98ee3ec62b17316e42acb17d52143d1aaf06ed450560789f5312f612c0430d24",
-      "rendered_digest": "95445568548409f189877a48a4cf28e0a67e4e72974eff56d5f2d4a226a21aa7",
-      "ast_digest": "3e268cef4fda0c6065bf6e3e1aa75ad1640facee24372034a63d6d9fe3667aaf"
+      "values_digest": "519f869b5b474b5650b20c6032788b3e62d819773a129f9a4c15c0fba225e132",
+      "rendered_digest": "225d062d821ac586580cdd8b12a9fa242aa322e7d5ed4858e5719020dd456289",
+      "ast_digest": "bd6d73e438c28aa9f51852511e28a0305a8881672ba5b7618fc60fdd25a8c9f1"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-5896",
+      "reason": "advance completed implementation to review"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -62,6 +84,48 @@
       "actor": "codex",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex-5896",
+      "reason": "record implemented bound-topology migration",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented and applied the pre-topology bound-record migration.\",\"changes\":[\"Added evidence-bound atomic migration for 58 pre-topology records\",\"Corrected bind ordering and topology collision checks\",\"Made WP-24 validation planning executable and execution-ready\"],\"artifacts\":[\".csdlc/evidence/5896/apply-report.json\",\".csdlc/evidence/5896/doctor-results.json\",\".csdlc/evidence/5844/validate-article-series.rb\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex-5896",
+      "reason": "advance completed implementation to review",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex-5896",
+      "reason": "record passing validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--test\",\"topology_migration\"],\"purpose\":\"Focused atomicity, evidence, topology, and idempotence regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5896/apply-report.json\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex-5896",
+      "reason": "record passing validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"check\",\"--all-targets\"],\"purpose\":\"Compile all v2 targets after migration API and bind changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/topology_migration.rs\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex-5896",
+      "reason": "record passing validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5896/validate-migration.rb\"],\"purpose\":\"Validate the 58-record cohort, idempotence, corruption denominator, and WP-24 readiness.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5896/doctor-results.json\"}}"
     }
   ]
 }

@@ -1,0 +1,847 @@
+[
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5357,
+    "status": "block",
+    "phase": "closed_out",
+    "generation": 10,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5786,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 25,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5795,
+    "status": "pass",
+    "phase": "initialized",
+    "generation": 31,
+    "ready": true,
+    "findings": [],
+    "next_operation": "advance_ready"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5800,
+    "status": "pass",
+    "phase": "initialized",
+    "generation": 44,
+    "ready": true,
+    "findings": [],
+    "next_operation": "advance_ready"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5801,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 24,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5812,
+    "status": "pass",
+    "phase": "initialized",
+    "generation": 15,
+    "ready": true,
+    "findings": [],
+    "next_operation": "advance_ready"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5818,
+    "status": "block",
+    "phase": "closed_out",
+    "generation": 25,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5820,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 33,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5821,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 54,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5822,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 22,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5823,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 22,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5824,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 24,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5825,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 65,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5826,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 52,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5827,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 51,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5828,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 47,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5829,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 71,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5830,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 49,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5831,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 52,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5832,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 34,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5833,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 52,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5834,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 49,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5835,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 30,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5836,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 39,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5837,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 29,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5838,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 30,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5839,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 30,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5840,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 30,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5841,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 24,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5842,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 19,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5843,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 22,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5844,
+    "status": "pass",
+    "phase": "initialized",
+    "generation": 37,
+    "ready": true,
+    "findings": [],
+    "next_operation": "advance_ready"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5845,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 42,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5846,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 16,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5847,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 16,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5848,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 17,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5849,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 22,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5850,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 16,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5851,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 16,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5852,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 18,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5853,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 11,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5862,
+    "status": "pass",
+    "phase": "initialized",
+    "generation": 4,
+    "ready": true,
+    "findings": [],
+    "next_operation": "advance_ready"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5863,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 9,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5864,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 8,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5865,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 8,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5866,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 8,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5867,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 8,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5868,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 7,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5869,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 7,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5870,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 7,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5871,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 7,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5872,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 7,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5873,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 7,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5874,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 7,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5875,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 7,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5876,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 7,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5877,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 7,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  },
+  {
+    "schema": "csdlc.doctor.report.v1",
+    "issue": 5878,
+    "status": "block",
+    "phase": "initialized",
+    "generation": 8,
+    "ready": false,
+    "findings": [
+      {
+        "code": "execution_readiness_invalid",
+        "message": "execution readiness requires owned repository paths and proving validation lanes"
+      }
+    ],
+    "next_operation": "repair_design_readiness"
+  }
+]

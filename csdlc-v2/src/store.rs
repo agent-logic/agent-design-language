@@ -142,7 +142,7 @@ impl Store {
             .join(format!(".{issue}.staging"))
     }
 
-    fn lock(&self, issue: u64) -> Result<File> {
+    pub(crate) fn lock(&self, issue: u64) -> Result<File> {
         let relative = PathBuf::from(format!(".csdlc/locks/{issue}.lock"));
         require_canonical_parent_beneath(&self.root, &relative)?;
         let dir = self.root.join(".csdlc/locks");
@@ -203,6 +203,27 @@ impl Store {
                 ),
             ));
         }
+        Ok(record)
+    }
+
+    pub(crate) fn load_record_for_topology_scan(&self, issue: u64) -> Result<IssueRecord> {
+        let path = self.issue_dir(issue).join("index.json");
+        let mut value: serde_json::Value = serde_json::from_slice(&fs::read(path)?)?;
+        if value.get("claim").is_some() {
+            verify_legacy_record_json(&value)?;
+        }
+        let had_legacy_claim = normalize_legacy_record_json(&mut value);
+        let mut record: IssueRecord = serde_json::from_value(value)?;
+        if had_legacy_claim {
+            record.digest = record_digest(&record)?;
+        }
+        if record.issue != issue {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "issue projection namespace mismatch during topology scan",
+            ));
+        }
+        verify_record_with_options(&record, true)?;
         Ok(record)
     }
 
@@ -463,6 +484,25 @@ impl Store {
         }
         let cards = self.load_cards(issue)?;
         verify_cards(self, &current, &cards)?;
+        self.commit(issue, record, &cards, false)
+    }
+
+    pub(crate) fn replace_pre_topology_record_locked(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        record: &IssueRecord,
+    ) -> Result<()> {
+        self.recover_if_needed(issue)?;
+        let current = self.load_record_for_topology_scan(issue)?;
+        if current.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "record changed before topology migration commit",
+            ));
+        }
+        let cards = self.load_cards(issue)?;
+        verify_pre_topology_cards(self, &current, &cards)?;
         self.commit(issue, record, &cards, false)
     }
 
@@ -1556,12 +1596,49 @@ pub(crate) fn verify_cards(
     Ok(())
 }
 
+pub(crate) fn verify_pre_topology_cards(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+) -> Result<()> {
+    verify_card_projections_with_options(store, record, cards, true)?;
+    let mut expected_audit = Vec::new();
+    for event in &record.audit {
+        serde_json::to_writer(&mut expected_audit, event)?;
+        expected_audit.push(b'\n');
+    }
+    if fs::read(store.issue_dir(record.issue).join("audit.jsonl"))? != expected_audit {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "audit projection drift",
+        ));
+    }
+    let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
+    let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
+    validate_cross_card(
+        cards,
+        &record.design_path,
+        &design_digest,
+        &record.diagram_path,
+        &diagram_digest,
+    )
+}
+
 fn verify_card_projections(
     store: &Store,
     record: &IssueRecord,
     cards: &BTreeMap<CardKind, CardValues>,
 ) -> Result<()> {
-    verify_authority_card_inputs(store, record, cards)?;
+    verify_card_projections_with_options(store, record, cards, false)
+}
+
+fn verify_card_projections_with_options(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+    allow_pre_topology_bound: bool,
+) -> Result<()> {
+    verify_authority_card_inputs(store, record, cards, allow_pre_topology_bound)?;
     for (kind, values) in cards {
         let rendered = render(values)?;
         let projection = record.cards.get(kind).ok_or_else(|| {
@@ -1587,8 +1664,9 @@ fn verify_authority_card_inputs(
     store: &Store,
     record: &IssueRecord,
     cards: &BTreeMap<CardKind, CardValues>,
+    allow_pre_topology_bound: bool,
 ) -> Result<()> {
-    verify_record(record)?;
+    verify_record_with_options(record, allow_pre_topology_bound)?;
     for (kind, values) in cards {
         if values.kind() != *kind
             || values.identity.issue != record.issue
@@ -1618,6 +1696,10 @@ fn verify_authority_card_inputs(
 }
 
 pub(crate) fn verify_record(record: &IssueRecord) -> Result<()> {
+    verify_record_with_options(record, false)
+}
+
+fn verify_record_with_options(record: &IssueRecord, allow_pre_topology_bound: bool) -> Result<()> {
     if record.schema != "csdlc.issue.index.v1"
         || record.issue == 0
         || record.repository.is_empty()
@@ -1640,8 +1722,13 @@ pub(crate) fn verify_record(record: &IssueRecord) -> Result<()> {
             "closed-out record must have terminal evidence",
         ));
     }
+    let pre_topology_bound = allow_pre_topology_bound
+        && record.phase == LifecyclePhase::Bound
+        && record.branch.is_none()
+        && record.worktree.is_none();
     if record.branch.is_some() != record.worktree.is_some()
-        || (record.phase == LifecyclePhase::Bound
+        || (!pre_topology_bound
+            && record.phase == LifecyclePhase::Bound
             && (record.branch.as_deref().is_none_or(str::is_empty)
                 || record.worktree.as_deref().is_none_or(str::is_empty)))
     {
@@ -1693,11 +1780,19 @@ pub(crate) fn verify_record(record: &IssueRecord) -> Result<()> {
                 | (LifecyclePhase::Merged, LifecyclePhase::ClosedOut)
                 | (LifecyclePhase::Reviewed, LifecyclePhase::ClosedOut)
         );
+        let topology_migration_transition = event.actor == "csdlc-topology-migrate"
+            && event.reason == "migrate pre-topology bound record"
+            && matches!(
+                (event.from, event.to),
+                (LifecyclePhase::Bound, LifecyclePhase::Initialized)
+                    | (LifecyclePhase::Bound, LifecyclePhase::ClosedOut)
+            );
         if event.sequence != index as u64 + 1
             || event.from != phase
             || (!event.from.allows(event.to)
                 && !direct_recordless_closeout
-                && !legacy_terminal_transition)
+                && !legacy_terminal_transition
+                && !topology_migration_transition)
             || event.actor.is_empty()
             || event.reason.is_empty()
         {
@@ -1905,7 +2000,10 @@ fn authorize_card_operation(
                 ..
             },
         ) | (
-            LifecyclePhase::Bound | LifecyclePhase::Implemented,
+            LifecyclePhase::Initialized
+                | LifecyclePhase::Ready
+                | LifecyclePhase::Bound
+                | LifecyclePhase::Implemented,
             CardKind::Vpp,
             SemanticOperation::ReplaceValidationLanes { .. },
         ) | (

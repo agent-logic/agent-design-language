@@ -1,0 +1,50 @@
+{
+  "issue": 5844,
+  "card": "vpp",
+  "expected_generation": 36,
+  "expected_digest": "f0d5949687ad710af14eea0fc8de99ebe8f7a45a095ab8156b872fc4053920fd",
+  "actor": "codex-5896-migration",
+  "reason": "make the migrated WP-24 validation plan directly executable",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "wp24-series-contract",
+        "proof_role": "Prove all ten complete packets satisfy the Medium writer and series contract.",
+        "acceptance_ids": ["AC-1", "AC-3", "AC-4"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 450,
+        "budget_tokens": 4000,
+        "argv": ["ruby", ".csdlc/evidence/5844/validate-article-series.rb"],
+        "parallel_group": "articles",
+        "defer_reason": null
+      },
+      {
+        "lane": "wp24-claims-negative",
+        "proof_role": "Reject outlines, placeholders, fabricated or missing citations, private data, and unsupported current or release claims.",
+        "acceptance_ids": ["AC-2", "AC-4", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 450,
+        "budget_tokens": 4000,
+        "argv": ["ruby", ".csdlc/evidence/5844/validate-article-series.rb", "--negative"],
+        "parallel_group": "articles",
+        "defer_reason": null
+      },
+      {
+        "lane": "wp24-writer-contract",
+        "proof_role": "Prove the repository Medium article writer retains source-packet and stop-before-publish safeguards.",
+        "acceptance_ids": ["AC-2", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["adl/tools/test_medium_article_writer_skill_contracts.sh"],
+        "parallel_group": "contracts",
+        "defer_reason": null
+      }
+    ]
+  },
+  "fail_after_backup": false
+}
