@@ -1,0 +1,9 @@
+flowchart LR
+  A["Load and verify canonical records"] --> B["Classify live issue and Git topology"]
+  B --> C{"Unambiguous disposition?"}
+  C -- "No" --> D["Fail before mutation"]
+  C -- "Terminal or valid topology" --> E["Preserve and report"]
+  C -- "Open with no topology" --> F["Reset to initialized"]
+  F --> G["Atomic commit and audit"]
+  E --> H["Typed migration report"]
+  G --> H

@@ -1,0 +1,221 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5896,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "f9a233a5a2c5c84d627f97fd928a4df09bc19b2474bc436e9b69c31219053e2c",
+  "phase": "published",
+  "generation": 9,
+  "digest": "82b5c3292cdadee8197675567040f5fc07f84d79428fb0973d0405c1cab1b6c8",
+  "branch": "codex/5896-bound-topology-migration",
+  "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-5896-bound-topology-migration",
+  "review_assignment": {
+    "reviewer": "subagent:Pascal",
+    "assigned_by": "codex-5896",
+    "revision": "git-blake3:e84b4bb4a17635a413b032b8b2910cc0fb02c1bf:890192eec0893ce1e26fdaa6b07d5cb01aaf8f528b96f18558b2459e80411fa9",
+    "scope": [
+      ".csdlc/issues",
+      ".csdlc/evidence",
+      ".csdlc/prepared/issues/5896",
+      ".csdlc/requests",
+      "adl/tools/test_medium_article_writer_skill_contracts.sh",
+      "csdlc-v2",
+      "docs/milestones/v0.92/publication/articles"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:Pascal",
+    "scope": [
+      ".csdlc/issues",
+      ".csdlc/evidence",
+      ".csdlc/prepared/issues/5896",
+      ".csdlc/requests",
+      "adl/tools/test_medium_article_writer_skill_contracts.sh",
+      "csdlc-v2",
+      "docs/milestones/v0.92/publication/articles"
+    ],
+    "reviewed_revision": "git-blake3:e84b4bb4a17635a413b032b8b2910cc0fb02c1bf:890192eec0893ce1e26fdaa6b07d5cb01aaf8f528b96f18558b2459e80411fa9",
+    "findings": [],
+    "residual_risks": [
+      "WP-24 article authoring remains scoped to issue #5844; this migration proves its execution readiness only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5896,
+    "pull_request": 5897,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5897",
+    "base": "main",
+    "head": "codex/5896-bound-topology-migration",
+    "revision": "git-blake3:ba71dbbde709134484e2dc7c0cbcd689b3633956:5c77baa4c57a06fda47706b7fcbc91b96d5bdf8c61646ef7b6eaa3a8e10a1b20",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5896/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5896/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator",
+      "revision": "3630249209061b26e687230fc580c0eceb71026ecc1a6daff839970b83d01d12"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "df663da3dcbe27fef71d36b437c076836b5a9b5c0c51c29babc86d4be0fc8a89",
+      "rendered_digest": "0d48f6d1045efa10ab18a91c68e5502d0fabadb9ce0189e1cb7af589218574d3",
+      "ast_digest": "17e32400c46cd740a7bbd8650dbe500e723b5e07957b9cffce9ce60754800931"
+    },
+    "stp": {
+      "values_digest": "41e4ae68e3adf1aac8a06b1379a028017a575222c05a6e6671fde5e51b45e24d",
+      "rendered_digest": "976052055d1d90674eb470f2dcb67d6b0d0cb735af67b580f8725c8dc4c48170",
+      "ast_digest": "e6165c451fa414614ee7d5bf9972162524b31d3c34a153185613b9af8edd9fd1"
+    },
+    "spp": {
+      "values_digest": "dd83ef54d24746228f63f13feb4b74b190d2e818b19c7e25b6347bc727cc5da5",
+      "rendered_digest": "1991171cf9212e2c60133edc6938644843d26988cba6584210c7fcfd0b0aed3d",
+      "ast_digest": "0cd112ec6ac771b11499e5ce3073316d0907642c99ba3e140b29eaa4a98fe486"
+    },
+    "vpp": {
+      "values_digest": "8b3b0e0cd5bd832e7c9544919e273ae774206829d42c923da145d7595120437c",
+      "rendered_digest": "53c06c95481d4fc792b07327ba25b20951d431ac618f70868b6722d9870debe6",
+      "ast_digest": "b36bbc1fe670a23f4a6f30882478f19ec9a28abebf0b462a309da666ffb25cc0"
+    },
+    "srp": {
+      "values_digest": "a5548eb84900c3441b6f76b5e9ab5c9f9aa4062722046caa95baacf3dbe234b7",
+      "rendered_digest": "9043ff63f2b9a6cd4808bdfd8bd2bb7850fcf1ea3f7bc96c9d81a6f0199b5185",
+      "ast_digest": "4123fefef48d997d905e38897a72554d447ad5688843baabac3864ecf1df589b"
+    },
+    "sor": {
+      "values_digest": "fa09ec356a889ebd1aea5d2282996c3fef5437f111c9cc868d4048fb71237f1f",
+      "rendered_digest": "9d7756796c1f412010dcf73c72698054ad8a960cd08797ae5e51c3d16127d348",
+      "ast_digest": "9e2493f201214f039b2697152068762a0c5e1fe47e5bc500256d2c34197bb468"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-5896",
+      "reason": "advance completed implementation to review"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-5896",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex-5896",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex-5896",
+      "reason": "record implemented bound-topology migration",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented and applied the pre-topology bound-record migration.\",\"changes\":[\"Added evidence-bound atomic migration for 58 pre-topology records\",\"Corrected bind ordering and topology collision checks\",\"Made WP-24 validation planning executable and execution-ready\"],\"artifacts\":[\".csdlc/evidence/5896/apply-report.json\",\".csdlc/evidence/5896/doctor-results.json\",\".csdlc/evidence/5844/validate-article-series.rb\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex-5896",
+      "reason": "advance completed implementation to review",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex-5896",
+      "reason": "record passing validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--test\",\"topology_migration\"],\"purpose\":\"Focused atomicity, evidence, topology, and idempotence regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5896/apply-report.json\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex-5896",
+      "reason": "record passing validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"check\",\"--all-targets\"],\"purpose\":\"Compile all v2 targets after migration API and bind changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/topology_migration.rs\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex-5896",
+      "reason": "record passing validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5896/validate-migration.rb\"],\"purpose\":\"Validate the 58-record cohort, idempotence, corruption denominator, and WP-24 readiness.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5896/doctor-results.json\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex-5896",
+      "reason": "record post-review migration validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--test\",\"topology_migration\"],\"purpose\":\"Prove durable crash recovery plus atomicity, evidence, collision, and idempotence behavior after review fixes.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/topology_migration.rs\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex-5896",
+      "reason": "record final concurrency validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--test\",\"topology_migration\"],\"purpose\":\"Prove repository-serialized concurrent migration and idempotent interrupted recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-v2/tests/topology_migration.rs\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex-5896",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex-5896",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex-5896",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-24] Ten-article launch series",
     "slug": "v0-92-wp-24-ten-article-launch-series",
     "version": "v0.92",
-    "generation": 36
+    "generation": 37
   },
   "status": "ready",
   "content": {
@@ -66,7 +66,6 @@
           "budget_seconds": 300,
           "budget_tokens": 2000,
           "argv": [
-            "bash",
             "adl/tools/test_medium_article_writer_skill_contracts.sh"
           ],
           "parallel_group": "contracts",

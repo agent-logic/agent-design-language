@@ -10,7 +10,10 @@ use crate::finish::{
 };
 use crate::github::{GithubActionRequest, GithubActionResult, GithubIssuePacket, PrStatePacket};
 use crate::lifecycle::{BindRequest, BindResult};
-use crate::migration::{ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison};
+use crate::migration::{
+    BoundTopologyMigrationReport, BoundTopologyMigrationRequest, ImportReport, LegacyImportRequest,
+    NormalizedOutcome, ShadowComparison,
+};
 use crate::model::IssueRecord;
 use crate::model::TerminalReceipt;
 use crate::publication::{PublicationIntent, PublicationRequest, RemotePullRequest};
@@ -65,6 +68,8 @@ pub fn public_schema_bundle() -> Value {
         "issue_terminal_observation": schemars::schema_for!(IssueTerminalObservation),
         "legacy_import_request": schemars::schema_for!(LegacyImportRequest),
         "legacy_import_report": schemars::schema_for!(ImportReport),
+        "bound_topology_migration_request": schemars::schema_for!(BoundTopologyMigrationRequest),
+        "bound_topology_migration_report": schemars::schema_for!(BoundTopologyMigrationReport),
         "normalized_outcome": schemars::schema_for!(NormalizedOutcome),
         "shadow_comparison": schemars::schema_for!(ShadowComparison),
         "deletion_eligibility": crate::eligibility::eligibility_schema_bundle(),

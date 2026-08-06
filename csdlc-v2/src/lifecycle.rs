@@ -105,7 +105,12 @@ fn same_worktree(root: &Path, recorded: &str, requested: &Path) -> bool {
     requested_worktree(root, recorded).is_ok_and(|path| path == requested)
 }
 
-fn issue_records(store: &Store) -> Result<Vec<crate::IssueRecord>> {
+fn issue_records(
+    store: &Store,
+    requested_issue: u64,
+    requested_branch: &str,
+    requested_worktree: &Path,
+) -> Result<Vec<crate::IssueRecord>> {
     let issues = store.root().join(".csdlc/issues");
     if !issues.exists() {
         return Ok(Vec::new());
@@ -121,7 +126,21 @@ fn issue_records(store: &Store) -> Result<Vec<crate::IssueRecord>> {
             continue;
         };
         if entry.path().join("index.json").exists() {
-            let record = store.load_record(issue)?;
+            let value: serde_json::Value =
+                serde_json::from_slice(&fs::read(entry.path().join("index.json"))?)?;
+            let branch = value.get("branch").and_then(serde_json::Value::as_str);
+            let worktree = value.get("worktree").and_then(serde_json::Value::as_str);
+            let relevant = issue == requested_issue
+                || branch == Some(requested_branch)
+                || worktree
+                    .is_some_and(|value| same_worktree(store.root(), value, requested_worktree));
+            if !relevant {
+                continue;
+            }
+            let record = store.load_record_for_topology_scan(issue)?;
+            if record.branch.is_none() && record.worktree.is_none() {
+                continue;
+            }
             crate::store::verify_cards(store, &record, &store.load_cards(issue)?)?;
             records.push(record);
         }
@@ -459,7 +478,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         if !path.exists() {
             continue;
         }
-        for record in issue_records(&Store::new(path))? {
+        for record in issue_records(&Store::new(path), request.issue, &request.branch, &wanted)? {
             if record.branch.is_none() && record.worktree.is_none() {
                 continue;
             }
@@ -565,6 +584,8 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                 "validated issue readiness".into(),
             )?;
         }
+        record.branch = Some(request.branch.clone());
+        record.worktree = Some(wanted_text.clone());
         if record.phase == crate::LifecyclePhase::Ready {
             record.advance(
                 crate::LifecyclePhase::Bound,
@@ -577,8 +598,6 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
                 "issue phase cannot be bound",
             ));
         }
-        record.branch = Some(request.branch.clone());
-        record.worktree = Some(wanted_text.clone());
         record.audit.push(AuditEvent {
             sequence: record.audit.len() as u64 + 1,
             generation: record.generation,

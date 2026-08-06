@@ -1,0 +1,88 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5896,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][migration] Migrate pre-topology bound issue records to Git topology",
+    "slug": "v0-92-migrate-pre-topology-bound-records",
+    "version": "v0.92",
+    "generation": 9
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented and applied the pre-topology bound-record migration.",
+      "actual_changes": [
+        "Added evidence-bound atomic migration for 58 pre-topology records",
+        "Corrected bind ordering and topology collision checks",
+        "Made WP-24 validation planning executable and execution-ready"
+      ],
+      "artifacts": [
+        ".csdlc/evidence/5896/apply-report.json",
+        ".csdlc/evidence/5896/doctor-results.json",
+        ".csdlc/evidence/5844/validate-article-series.rb"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--test",
+            "topology_migration"
+          ],
+          "purpose": "Focused atomicity, evidence, topology, and idempotence regressions.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5896/apply-report.json"
+        },
+        {
+          "command": [
+            "cargo",
+            "check",
+            "--all-targets"
+          ],
+          "purpose": "Compile all v2 targets after migration API and bind changes.",
+          "outcome": "passed",
+          "evidence_ref": "csdlc-v2/tests/topology_migration.rs"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5896/validate-migration.rb"
+          ],
+          "purpose": "Validate the 58-record cohort, idempotence, corruption denominator, and WP-24 readiness.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5896/doctor-results.json"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--test",
+            "topology_migration"
+          ],
+          "purpose": "Prove durable crash recovery plus atomicity, evidence, collision, and idempotence behavior after review fixes.",
+          "outcome": "passed",
+          "evidence_ref": "csdlc-v2/tests/topology_migration.rs"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--test",
+            "topology_migration"
+          ],
+          "purpose": "Prove repository-serialized concurrent migration and idempotent interrupted recovery.",
+          "outcome": "passed",
+          "evidence_ref": "csdlc-v2/tests/topology_migration.rs"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

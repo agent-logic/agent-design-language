@@ -1,6 +1,6 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use markdown::mdast::Node;
 use markdown::{to_mdast, ParseOptions};
@@ -11,7 +11,9 @@ use strum::{AsRefStr, Display, EnumString};
 use crate::cards::{CardContent, CardKind, InitialCardInput, PlanStep, StepStatus, ValidationLane};
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::lifecycle::initialize_issue;
+use crate::model::{AuditEvent, TerminalEvidence, TransitionEvent};
 use crate::model::{LifecyclePhase, MigrationEvidence};
+use crate::readiness::TerminalDisposition;
 use crate::{
     edit_issue, BootstrapRequest, CardStatus, EditRequest, PlanningProfile, SemanticOperation,
     Store,
@@ -76,6 +78,666 @@ pub struct ImportReport {
     pub diagnostics: Vec<MigrationDiagnostic>,
     pub compatibility_view: Option<String>,
     pub sunset_unix_seconds: u64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum MigrationIssueState {
+    Open,
+    Closed,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct ClosedIssueEvidence {
+    pub pull_request: Option<u64>,
+    pub disposition: TerminalDisposition,
+    pub observed_sha: Option<String>,
+    pub observed_state: String,
+    pub receipt_path: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct BoundTopologyMigrationItem {
+    pub issue: u64,
+    pub state: MigrationIssueState,
+    pub terminal: Option<ClosedIssueEvidence>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct BoundTopologyMigrationRequest {
+    pub schema: String,
+    pub apply: bool,
+    pub actor: String,
+    pub issue_state_evidence: String,
+    pub issues: Vec<BoundTopologyMigrationItem>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum BoundTopologyDisposition {
+    ResetInitialized,
+    AdoptedVerifiedTopology,
+    ClosedOut,
+    AlreadyCurrent,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct BoundTopologyMigrationResult {
+    pub issue: u64,
+    pub disposition: BoundTopologyDisposition,
+    pub source_digest: String,
+    pub normalized_digest: String,
+    pub resulting_digest: String,
+    pub branch: Option<String>,
+    pub worktree: Option<String>,
+    pub terminal_evidence_digest: Option<String>,
+    pub changed: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct BoundTopologyMigrationReport {
+    pub schema: String,
+    pub applied: bool,
+    pub changed: usize,
+    pub issue_state_evidence: String,
+    pub issue_state_evidence_digest: String,
+    pub results: Vec<BoundTopologyMigrationResult>,
+}
+
+#[derive(Debug, Deserialize)]
+struct IssueStateEvidence {
+    schema: String,
+    issues: Vec<ObservedIssueState>,
+}
+
+#[derive(Debug, Deserialize)]
+struct ObservedIssueState {
+    issue: u64,
+    state: MigrationIssueState,
+    closed_at: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct TerminalObservation {
+    schema: String,
+    issue: u64,
+    issue_state: MigrationIssueState,
+    closed_at: Option<String>,
+    disposition: TerminalDisposition,
+    pull_request: Option<u64>,
+    observed_sha: Option<String>,
+}
+
+pub fn migrate_bound_topology(
+    store: &Store,
+    request: BoundTopologyMigrationRequest,
+) -> Result<BoundTopologyMigrationReport> {
+    migrate_bound_topology_inner(store, request, None)
+}
+
+#[doc(hidden)]
+pub fn migrate_bound_topology_with_failure_for_test(
+    store: &Store,
+    request: BoundTopologyMigrationRequest,
+    fail_after_commits: usize,
+) -> Result<BoundTopologyMigrationReport> {
+    migrate_bound_topology_inner(store, request, Some((fail_after_commits, true)))
+}
+
+#[doc(hidden)]
+pub fn migrate_bound_topology_with_crash_for_test(
+    store: &Store,
+    request: BoundTopologyMigrationRequest,
+    fail_after_commits: usize,
+) -> Result<BoundTopologyMigrationReport> {
+    migrate_bound_topology_inner(store, request, Some((fail_after_commits, false)))
+}
+
+fn migrate_bound_topology_inner(
+    store: &Store,
+    request: BoundTopologyMigrationRequest,
+    fail_after_commits: Option<(usize, bool)>,
+) -> Result<BoundTopologyMigrationReport> {
+    let _migration_lock = store.binding_lock()?;
+    if request.schema != "csdlc.bound_topology_migration_request.v1"
+        || request.actor.trim().is_empty()
+        || !clean_relative_path(&request.issue_state_evidence)
+        || request.issues.is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "bound topology migration request is incomplete",
+        ));
+    }
+    let unique = request
+        .issues
+        .iter()
+        .map(|item| item.issue)
+        .collect::<BTreeSet<_>>();
+    if unique.len() != request.issues.len() || unique.contains(&0) {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "bound topology migration issues must be unique and nonzero",
+        ));
+    }
+
+    recover_interrupted_migration(store)?;
+    let state_evidence_bytes = fs::read(store.root().join(&request.issue_state_evidence))?;
+    let state_evidence_digest = crate::cards::digest(&state_evidence_bytes);
+    let observed: IssueStateEvidence = serde_json::from_slice(&state_evidence_bytes)?;
+    if observed.schema != "csdlc.bound_topology_issue_states.v1" {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "issue state evidence schema is unsupported",
+        ));
+    }
+    let observed_states = observed
+        .issues
+        .into_iter()
+        .map(|entry| (entry.issue, (entry.state, entry.closed_at)))
+        .collect::<BTreeMap<_, _>>();
+    if observed_states.len() != request.issues.len()
+        || request.issues.iter().any(|item| {
+            observed_states
+                .get(&item.issue)
+                .is_none_or(|(state, closed_at)| {
+                    *state != item.state
+                        || (*state == MigrationIssueState::Closed && closed_at.is_none())
+                })
+        })
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "migration request does not match retained live issue state evidence",
+        ));
+    }
+
+    let worktrees = crate::git::worktrees(store.root())?;
+    let mut planned = Vec::new();
+    for item in &request.issues {
+        let mut terminal_evidence_digest = None;
+        let source_value: serde_json::Value =
+            serde_json::from_slice(&fs::read(store.issue_dir(item.issue).join("index.json"))?)?;
+        let source_digest = source_value
+            .get("digest")
+            .and_then(serde_json::Value::as_str)
+            .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "source digest is missing"))?
+            .to_owned();
+        let record = store.load_record_for_topology_scan(item.issue)?;
+        let normalized_digest = record.digest.clone();
+        let cards = store.load_cards(item.issue)?;
+        crate::store::verify_pre_topology_cards(store, &record, &cards)?;
+        if record.phase != LifecyclePhase::Bound
+            || record.branch.is_some()
+            || record.worktree.is_some()
+        {
+            planned.push((
+                item.issue,
+                source_digest,
+                normalized_digest,
+                record,
+                BoundTopologyDisposition::AlreadyCurrent,
+                terminal_evidence_digest,
+                false,
+            ));
+            continue;
+        }
+
+        let topology = if item.state == MigrationIssueState::Open {
+            verified_topology_candidates(store.root(), item.issue, &worktrees)?
+        } else {
+            BTreeSet::new()
+        };
+        if topology.len() > 1 {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!("issue {} has ambiguous Git topology", item.issue),
+            ));
+        }
+        let mut migrated = record;
+        let disposition = if let Some((branch, worktree)) = topology.into_iter().next() {
+            migrated.branch = Some(branch);
+            migrated.worktree = Some(worktree);
+            BoundTopologyDisposition::AdoptedVerifiedTopology
+        } else {
+            match item.state {
+                MigrationIssueState::Open => {
+                    migrated.transitions.push(TransitionEvent {
+                        sequence: migrated.transitions.len() as u64 + 1,
+                        from: LifecyclePhase::Bound,
+                        to: LifecyclePhase::Initialized,
+                        actor: "csdlc-topology-migrate".into(),
+                        reason: "migrate pre-topology bound record".into(),
+                    });
+                    migrated.phase = LifecyclePhase::Initialized;
+                    BoundTopologyDisposition::ResetInitialized
+                }
+                MigrationIssueState::Closed => {
+                    let terminal = item.terminal.as_ref().ok_or_else(|| {
+                        V2Error::new(
+                            ErrorCode::InvalidInput,
+                            format!("closed issue {} requires terminal evidence", item.issue),
+                        )
+                    })?;
+                    if terminal.observed_state != "closed"
+                        || terminal.receipt_path.trim().is_empty()
+                        || !clean_relative_path(&terminal.receipt_path)
+                        || match terminal.disposition {
+                            TerminalDisposition::Merged => {
+                                terminal.pull_request.is_none()
+                                    || terminal.observed_sha.as_deref().is_none_or(str::is_empty)
+                            }
+                            TerminalDisposition::ClosedUnmerged => terminal.pull_request.is_none(),
+                            TerminalDisposition::ClosedNoPr => {
+                                terminal.pull_request.is_some() || terminal.observed_sha.is_some()
+                            }
+                        }
+                    {
+                        return Err(V2Error::new(
+                            ErrorCode::InvalidInput,
+                            format!(
+                                "closed issue {} terminal evidence is incomplete",
+                                item.issue
+                            ),
+                        ));
+                    }
+                    let terminal_bytes = fs::read(store.root().join(&terminal.receipt_path))?;
+                    terminal_evidence_digest = Some(crate::cards::digest(&terminal_bytes));
+                    let observation: TerminalObservation = serde_json::from_slice(&terminal_bytes)?;
+                    if observation.schema != "csdlc.bound_topology_terminal_observation.v1"
+                        || observation.issue != item.issue
+                        || observation.issue_state != MigrationIssueState::Closed
+                        || observation.closed_at.is_none()
+                        || observation.disposition != terminal.disposition
+                        || observation.pull_request != terminal.pull_request
+                        || observation.observed_sha != terminal.observed_sha
+                    {
+                        return Err(V2Error::new(
+                            ErrorCode::ReconciliationRequired,
+                            format!(
+                                "closed issue {} evidence does not match request",
+                                item.issue
+                            ),
+                        ));
+                    }
+                    migrated.transitions.push(TransitionEvent {
+                        sequence: migrated.transitions.len() as u64 + 1,
+                        from: LifecyclePhase::Bound,
+                        to: LifecyclePhase::ClosedOut,
+                        actor: "csdlc-topology-migrate".into(),
+                        reason: "migrate pre-topology bound record".into(),
+                    });
+                    migrated.phase = LifecyclePhase::ClosedOut;
+                    migrated.terminal = Some(TerminalEvidence {
+                        pull_request: terminal.pull_request,
+                        disposition: terminal.disposition,
+                        observed_sha: terminal.observed_sha.clone(),
+                        observed_state: terminal.observed_state.clone(),
+                        receipt_path: terminal.receipt_path.clone(),
+                        branch: None,
+                        worktree: None,
+                    });
+                    BoundTopologyDisposition::ClosedOut
+                }
+            }
+        };
+        migrated.audit.push(AuditEvent {
+            sequence: migrated.audit.len() as u64 + 1,
+            generation: migrated.generation,
+            actor: request.actor.clone(),
+            reason: "migrate pre-#5886 bound record to Git topology authority".into(),
+            operation: serde_json::json!({
+                "operation": "migrate_bound_topology",
+                "issue_state_evidence": request.issue_state_evidence,
+                "issue_state_evidence_digest": state_evidence_digest,
+                "terminal_evidence_digest": terminal_evidence_digest,
+            })
+            .to_string(),
+        });
+        migrated.digest = crate::store::record_digest(&migrated)?;
+        crate::store::verify_record(&migrated)?;
+        planned.push((
+            item.issue,
+            source_digest,
+            normalized_digest,
+            migrated,
+            disposition,
+            terminal_evidence_digest,
+            true,
+        ));
+    }
+
+    if request.apply {
+        let _locks = request
+            .issues
+            .iter()
+            .map(|item| store.lock(item.issue))
+            .collect::<Result<Vec<_>>>()?;
+        for (issue, _, normalized_digest, _, _, _, _) in &planned {
+            if store.load_record_for_topology_scan(*issue)?.digest != *normalized_digest {
+                return Err(V2Error::new(
+                    ErrorCode::StaleDigest,
+                    "record changed after topology migration classification",
+                ));
+            }
+        }
+        let changed_issues = planned
+            .iter()
+            .filter(|(_, _, _, _, _, _, changed)| *changed)
+            .map(|(issue, _, _, _, _, _, _)| *issue)
+            .collect::<Vec<_>>();
+        let snapshot = snapshot_issue_directories(store, &changed_issues)?;
+        let apply_result = (|| {
+            let mut committed = 0usize;
+            for (issue, _, normalized_digest, record, _, _, changed) in &planned {
+                if *changed {
+                    store.replace_pre_topology_record_locked(*issue, normalized_digest, record)?;
+                    committed += 1;
+                    if fail_after_commits.is_some_and(|(count, _)| count == committed) {
+                        return Err(V2Error::new(
+                            ErrorCode::InterruptedTransaction,
+                            "injected bound topology batch interruption",
+                        ));
+                    }
+                }
+            }
+            Ok(())
+        })();
+        if let Err(error) = apply_result {
+            if fail_after_commits.is_none_or(|(_, rollback)| rollback) {
+                restore_issue_directories(store, &snapshot, &changed_issues)?;
+            }
+            return Err(error);
+        }
+        mark_snapshot_committed(&snapshot, &changed_issues)?;
+        fs::remove_dir_all(snapshot)?;
+    }
+    let results = planned
+        .into_iter()
+        .map(
+            |(
+                issue,
+                source_digest,
+                normalized_digest,
+                record,
+                disposition,
+                terminal_evidence_digest,
+                changed,
+            )| {
+                BoundTopologyMigrationResult {
+                    issue,
+                    disposition,
+                    resulting_digest: record.digest.clone(),
+                    source_digest,
+                    normalized_digest,
+                    branch: record.branch,
+                    worktree: record.worktree,
+                    terminal_evidence_digest,
+                    changed: changed && request.apply,
+                }
+            },
+        )
+        .collect::<Vec<_>>();
+    Ok(BoundTopologyMigrationReport {
+        schema: "csdlc.bound_topology_migration_report.v1".into(),
+        applied: request.apply,
+        changed: results.iter().filter(|result| result.changed).count(),
+        issue_state_evidence: request.issue_state_evidence,
+        issue_state_evidence_digest: state_evidence_digest,
+        results,
+    })
+}
+
+fn clean_relative_path(value: &str) -> bool {
+    !value.is_empty()
+        && Path::new(value)
+            .components()
+            .all(|part| matches!(part, std::path::Component::Normal(_)))
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct MigrationSnapshotManifest {
+    schema: String,
+    issues: Vec<u64>,
+    committed: bool,
+}
+
+fn migration_snapshot_path(store: &Store) -> PathBuf {
+    store
+        .root()
+        .join(".csdlc/issues/.bound-topology-migration-backup")
+}
+
+fn recover_interrupted_migration(store: &Store) -> Result<()> {
+    let snapshot = migration_snapshot_path(store);
+    if !snapshot.exists() {
+        return Ok(());
+    }
+    let manifest_path = snapshot.join("manifest.json");
+    if !manifest_path.is_file() {
+        fs::remove_dir_all(snapshot)?;
+        return Ok(());
+    }
+    let manifest: MigrationSnapshotManifest = serde_json::from_slice(&fs::read(&manifest_path)?)?;
+    if manifest.schema != "csdlc.bound_topology_snapshot.v1"
+        || manifest.issues.is_empty()
+        || manifest.issues.iter().any(|issue| *issue == 0)
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "bound topology migration recovery manifest is invalid",
+        ));
+    }
+    if manifest.committed {
+        fs::remove_dir_all(snapshot)?;
+        return Ok(());
+    }
+    let _locks = manifest
+        .issues
+        .iter()
+        .map(|issue| store.lock(*issue))
+        .collect::<Result<Vec<_>>>()?;
+    restore_issue_directories(store, &snapshot, &manifest.issues)
+}
+
+fn snapshot_issue_directories(store: &Store, issues: &[u64]) -> Result<PathBuf> {
+    let snapshot = migration_snapshot_path(store);
+    if snapshot.exists() {
+        return Err(V2Error::new(
+            ErrorCode::InterruptedTransaction,
+            "bound topology migration snapshot already exists",
+        ));
+    }
+    fs::create_dir(&snapshot)?;
+    let result = issues.iter().try_for_each(|issue| {
+        copy_directory(&store.issue_dir(*issue), &snapshot.join(issue.to_string()))
+    });
+    if let Err(error) = result {
+        let _ = fs::remove_dir_all(&snapshot);
+        return Err(error);
+    }
+    let manifest = MigrationSnapshotManifest {
+        schema: "csdlc.bound_topology_snapshot.v1".into(),
+        issues: issues.to_vec(),
+        committed: false,
+    };
+    write_snapshot_manifest(&snapshot, &manifest)?;
+    Ok(snapshot)
+}
+
+fn mark_snapshot_committed(snapshot: &Path, issues: &[u64]) -> Result<()> {
+    write_snapshot_manifest(
+        snapshot,
+        &MigrationSnapshotManifest {
+            schema: "csdlc.bound_topology_snapshot.v1".into(),
+            issues: issues.to_vec(),
+            committed: true,
+        },
+    )
+}
+
+fn write_snapshot_manifest(snapshot: &Path, manifest: &MigrationSnapshotManifest) -> Result<()> {
+    let temporary = snapshot.join("manifest.json.tmp");
+    let file = fs::File::create(&temporary)?;
+    serde_json::to_writer_pretty(&file, manifest)?;
+    file.sync_all()?;
+    fs::rename(temporary, snapshot.join("manifest.json"))?;
+    fs::File::open(snapshot)?.sync_all()?;
+    Ok(())
+}
+
+fn restore_issue_directories(store: &Store, snapshot: &Path, issues: &[u64]) -> Result<()> {
+    for issue in issues {
+        let backup = snapshot.join(issue.to_string());
+        let destination = store.issue_dir(*issue);
+        if backup.exists() {
+            if destination.exists() {
+                fs::remove_dir_all(&destination)?;
+            }
+            fs::rename(backup, destination)?;
+        } else if !destination.exists() {
+            return Err(V2Error::new(
+                ErrorCode::InterruptedTransaction,
+                format!("issue {issue} has neither migration backup nor restored record"),
+            ));
+        }
+    }
+    fs::remove_dir_all(snapshot)?;
+    Ok(())
+}
+
+fn copy_directory(source: &Path, destination: &Path) -> Result<()> {
+    if source.symlink_metadata()?.file_type().is_symlink() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "topology migration refuses symlinked issue directories",
+        ));
+    }
+    fs::create_dir(destination)?;
+    for entry in fs::read_dir(source)? {
+        let entry = entry?;
+        let file_type = entry.file_type()?;
+        let target = destination.join(entry.file_name());
+        if file_type.is_symlink() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "topology migration refuses symlinked issue contents",
+            ));
+        }
+        if file_type.is_dir() {
+            copy_directory(&entry.path(), &target)?;
+        } else if file_type.is_file() {
+            fs::copy(entry.path(), target)?;
+        } else {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "topology migration refuses special issue files",
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn verified_topology_candidates(
+    root: &Path,
+    issue: u64,
+    worktrees: &[(String, String)],
+) -> Result<BTreeSet<(String, String)>> {
+    let mut candidates = BTreeSet::new();
+    for (listed_branch, listed_path) in worktrees {
+        if listed_branch.is_empty() || !Path::new(listed_path).exists() {
+            continue;
+        }
+        let candidate_store = Store::new(listed_path);
+        let index = candidate_store.issue_dir(issue).join("index.json");
+        if !index.is_file() {
+            continue;
+        }
+        let value: serde_json::Value = serde_json::from_slice(&fs::read(index)?)?;
+        let Some(branch) = value.get("branch").and_then(serde_json::Value::as_str) else {
+            continue;
+        };
+        let Some(worktree) = value.get("worktree").and_then(serde_json::Value::as_str) else {
+            continue;
+        };
+        let canonical = Path::new(listed_path).canonicalize()?;
+        let recorded = if Path::new(worktree).is_absolute() {
+            PathBuf::from(worktree)
+        } else {
+            root.join(worktree)
+        };
+        if branch != listed_branch || recorded.canonicalize()? != canonical {
+            continue;
+        }
+        let record = candidate_store.load_record(issue)?;
+        crate::store::verify_cards(
+            &candidate_store,
+            &record,
+            &candidate_store.load_cards(issue)?,
+        )?;
+        reject_conflicting_topology_owner(root, issue, branch, &canonical, worktrees)?;
+        candidates.insert((
+            listed_branch.clone(),
+            canonical.to_string_lossy().into_owned(),
+        ));
+    }
+    Ok(candidates)
+}
+
+fn reject_conflicting_topology_owner(
+    root: &Path,
+    issue: u64,
+    branch: &str,
+    worktree: &Path,
+    worktrees: &[(String, String)],
+) -> Result<()> {
+    for (_, listed_path) in worktrees {
+        let issue_root = Path::new(listed_path).join(".csdlc/issues");
+        if !issue_root.is_dir() {
+            continue;
+        }
+        for entry in fs::read_dir(issue_root)? {
+            let entry = entry?;
+            let Some(other_issue) = entry
+                .file_name()
+                .to_str()
+                .and_then(|value| value.parse::<u64>().ok())
+            else {
+                continue;
+            };
+            if other_issue == issue || !entry.path().join("index.json").is_file() {
+                continue;
+            }
+            let value: serde_json::Value =
+                serde_json::from_slice(&fs::read(entry.path().join("index.json"))?)?;
+            let other_branch = value.get("branch").and_then(serde_json::Value::as_str);
+            let other_worktree = value
+                .get("worktree")
+                .and_then(serde_json::Value::as_str)
+                .and_then(|value| {
+                    let path = Path::new(value);
+                    let resolved = if path.is_absolute() {
+                        path.to_path_buf()
+                    } else {
+                        root.join(path)
+                    };
+                    resolved.canonicalize().ok()
+                });
+            if other_branch == Some(branch)
+                || other_worktree
+                    .as_deref()
+                    .is_some_and(|path| path == worktree)
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    format!(
+                        "topology candidate for issue {issue} is claimed by issue {other_issue}"
+                    ),
+                ));
+            }
+        }
+    }
+    Ok(())
 }
 
 pub fn import_legacy(request: LegacyImportRequest) -> Result<ImportReport> {

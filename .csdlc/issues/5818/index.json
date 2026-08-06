@@ -3,15 +3,24 @@
   "issue": 5818,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "9ed0c16b82a7c094d6474b27313bfc4d63eaabcae5bedee51d7e839e9c8534fd",
-  "phase": "bound",
+  "phase": "closed_out",
   "generation": 25,
-  "digest": "d65b5aa52a81c69ff2366b887966b24c9a72320cfe9e19ec8aad6bb788bb8898",
-  "claim": null,
+  "digest": "72261c581323a5c3bbcabbbdca6027931e3c2a04f1d21992f3b4a08c6adf7d59",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
-  "terminal": null,
+  "terminal": {
+    "pull_request": 5887,
+    "disposition": "merged",
+    "observed_sha": "423c50d8cc185a0fbbec0fa0dcd636c81f4e04f5",
+    "observed_state": "closed",
+    "receipt_path": ".csdlc/evidence/5896/terminal/5818.json",
+    "branch": null,
+    "worktree": null
+  },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5818/design.md",
   "diagram_path": ".csdlc/prepared/issues/5818/diagram.mmd",
@@ -67,6 +76,13 @@
       "to": "bound",
       "actor": "codex:5860-foundation-readiness",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "closed_out",
+      "actor": "csdlc-topology-migrate",
+      "reason": "migrate pre-topology bound record"
     }
   ],
   "audit": [
@@ -377,6 +393,13 @@
       "actor": "codex:5860-vpp-preexecution-contracts",
       "reason": "Release issue-local authority after typed VPP contract replacement.",
       "operation": "{\"claim_id\":\"claim-5818-v092-preexec-contract\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-vpp-preexecution-contracts\"}"
+    },
+    {
+      "sequence": 45,
+      "generation": 25,
+      "actor": "codex:5896-bound-topology-migration",
+      "reason": "migrate pre-#5886 bound record to Git topology authority",
+      "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":\"8c1cecba8a44872baaa851be71688a8abdf5c9a6faa942ea088a3d5bc30f5777\"}"
     }
   ]
 }

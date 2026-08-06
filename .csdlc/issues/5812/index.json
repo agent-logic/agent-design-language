@@ -3,10 +3,11 @@
   "issue": 5812,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "00ffe4f675d8a5fb02d44c4860d3f331ef37cbc03e595286463aa7d700e358d4",
-  "phase": "bound",
+  "phase": "initialized",
   "generation": 15,
-  "digest": "4e308ab8f8d145aa7854c201266000984f4e0e97ada1b7f458b40a0590b0be65",
-  "claim": null,
+  "digest": "d034c5ce0f646373290494f572a1d0e07404ebd6bfefd09599f5ead241f95a4f",
+  "branch": null,
+  "worktree": null,
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -67,6 +68,13 @@
       "to": "bound",
       "actor": "codex:5860-foundation-readiness",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "initialized",
+      "actor": "csdlc-topology-migrate",
+      "reason": "migrate pre-topology bound record"
     }
   ],
   "audit": [
@@ -321,6 +329,13 @@
       "actor": "codex:5860-readiness-integration",
       "reason": "Release #5812 after its exact-head pre-execution diagnostic contract is refreshed; child implementation remains unstarted.",
       "operation": "{\"claim_id\":\"claim-5812-v092-readiness-proof-repair\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-readiness-repair\",\"previous_owner\":\"codex:5860-readiness-integration\"}"
+    },
+    {
+      "sequence": 37,
+      "generation": 15,
+      "actor": "codex:5896-bound-topology-migration",
+      "reason": "migrate pre-#5886 bound record to Git topology authority",
+      "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
     }
   ]
 }

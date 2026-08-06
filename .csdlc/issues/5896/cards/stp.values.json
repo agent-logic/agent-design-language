@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5896,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][migration] Migrate pre-topology bound issue records to Git topology",
+    "slug": "v0-92-migrate-pre-topology-bound-records",
+    "version": "v0.92",
+    "generation": 9
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement and prove one deterministic migration for records rendered bound without topology before the #5886 cutover.",
+      "deliverables": [
+        "Typed migration request and result contracts",
+        "Explicit csdlc-issue migration command",
+        "Atomic idempotent record conversion",
+        "Focused migration tests and cohort disposition evidence"
+      ],
+      "acceptance_criteria": [
+        "The exact affected cohort is inventoried before mutation",
+        "Every record is classified using canonical state, live issue state, and actual Git topology",
+        "Open never-bound records become initialized and normally bindable",
+        "Verified existing topology and terminal records are preserved truthfully",
+        "Cards, authored artifacts, audit history, identity, and digest integrity are preserved",
+        "Ambiguous topology and digest mismatch fail before mutation",
+        "The operation is idempotent and emits a per-issue disposition report",
+        "Doctor no longer rejects migrated records solely for bound null topology",
+        "Issue 5844 becomes bindable through current csdlc-bind",
+        "Focused tests cover all required positive and negative classifications"
+      ],
+      "dependencies": [
+        "PR #5886 topology-only binding authority",
+        "PR #5880 pre-cutover readiness records"
+      ],
+      "repo_inputs": [
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/lifecycle.rs",
+        "csdlc-v2/src/migration.rs",
+        "csdlc-v2/src/bin/csdlc-issue.rs",
+        ".csdlc/issues/*/index.json"
+      ],
+      "non_goals": [
+        "Restoring removed claim or preparation authority",
+        "Redesigning the lifecycle state machine",
+        "Binding or implementing migrated product issues",
+        "Reopening terminal issues",
+        "Hand-editing individual records"
+      ]
+    }
+  }
+}
