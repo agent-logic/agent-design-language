@@ -13,7 +13,8 @@
 
 Current status: `v0.92` is the active development milestone. WP-01 planning
 issue `#5817` and execution-readiness issue `#5860` are closed. WP-01B `#5818`
-owns canonical documentation and `0.92.0` package/workspace activation. The
+completed canonical documentation and `0.92.0` package/workspace activation.
+The
 final work-package issue wave is open, with issue numbers recorded in
 `WP_ISSUE_WAVE_v0.92.yaml`; execution remains governed by the dependency graph
 and each issue's own evidence.
@@ -24,12 +25,13 @@ and each issue's own evidence.
   umbrellas are mapped in the wave file
 - Cards: design-time readiness completed for every mapped child issue under
   `#5860`; implementation and proof remain issue-owned
-- Execution: WP-01B is active; later work packages remain dependency-gated
+- Execution: WP-01B activation is complete under `#5818`; later work packages
+  remain dependency-gated
 - Release readiness: not claimed
 
 The completed v0.91.8 release package, issue `#3377`, planning review `#5359`,
-the activation bridge ledger, AEE evidence, and the superseding repository
-copy plan are prerequisite inputs. They do not substitute for v0.92
+the activation bridge ledger, AEE evidence, and the reviewed repository
+migration plan are prerequisite inputs. They do not substitute for v0.92
 implementation proof.
 
 ## Purpose
@@ -262,7 +264,7 @@ WP execution should preserve the following milestone rhythm:
 - WP-01: reconcile milestone truth, open the reviewed issue wave, and initialize
   all six typed cards per child issue
 - WP-01B: activate v0.92 across canonical docs and version declarations
-- WP-02: create five verified Agent Logic destination copies while preserving all personal-account sources
+- WP-02: execute the reviewed Agent Logic repository migration
 - WP-02A: establish reliable CI and coverage before broad implementation proof
 - WP-02B: measure one restricted 16-core GitHub-hosted runner against the
   same-SHA standard-runner control and retain a reversible lane decision
