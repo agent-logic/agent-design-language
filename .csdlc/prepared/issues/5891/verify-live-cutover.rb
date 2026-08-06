@@ -39,6 +39,12 @@ def manifest_refs(relative)
   File.readlines(path, chomp: true).reject(&:empty?).sort
 end
 
+def ref_sha(rows, ref)
+  row = rows.find { |line| line.end_with?("\t#{ref}") }
+  abort_with("missing ref #{ref}") unless row
+  row.split("\t", 2).first
+end
+
 def read_tsv(relative)
   lines = File.readlines(File.join(ROOT, relative), chomp: true)
   header = lines.shift.split("\t", -1)
@@ -59,6 +65,15 @@ def expected_names(relative)
   JSON.parse(File.read(File.join(ROOT, relative))).sort
 end
 
+def manual_admin_inventory
+  relative = ".csdlc/evidence/5891/manual-admin-inventory.json"
+  payload = JSON.parse(File.read(File.join(ROOT, relative)))
+  abort_with("wrong manual admin inventory schema") unless payload["schema"] == "adl.repository_cutover_manual_admin_inventory.v1"
+  abort_with("manual package inventory URL is wrong") unless payload.dig("packages", "url") == "https://github.com/orgs/agent-logic/packages"
+  abort_with("manual runner inventory URL is wrong") unless payload.dig("organization_runners", "url") == "https://github.com/organizations/agent-logic/settings/actions/runners"
+  payload
+end
+
 def paginated_array(endpoint)
   pages = JSON.parse(capture("gh", "api", "--paginate", "--slurp", endpoint))
   abort_with("paginated endpoint did not return arrays: #{endpoint}") unless pages.all? { |page| page.is_a?(Array) }
@@ -66,7 +81,7 @@ def paginated_array(endpoint)
 end
 
 def workflow_state(repo_name, workflow)
-  JSON.parse(capture("gh", "workflow", "view", workflow, "--repo", repo_name, "--json", "state")).fetch("state")
+  JSON.parse(capture("gh", "api", "repos/#{repo_name}/actions/workflows/#{workflow}")).fetch("state")
 end
 
 def integration_state(rows, surface)
@@ -192,12 +207,11 @@ if PHASE == "post"
   codecov_current = codecov_status.success? && !codecov_body.downcase.match?(/(?:unknown|error|not found)/)
   observed_integrations["Codecov"] = codecov_current ? "canonical_badge_current" : "canonical_badge_unproven"
 
-  packages = paginated_array("orgs/agent-logic/packages?package_type=container&per_page=100")
-  runners = JSON.parse(capture("gh", "api", "orgs/agent-logic/actions/runners?per_page=100"))
+  manual_admin = manual_admin_inventory
   installations = JSON.parse(capture("gh", "api", "orgs/agent-logic/installations?per_page=100"))
   hooks = paginated_array("repos/#{CANONICAL_REPO}/hooks?per_page=100")
-  observed_integrations["packages"] = "#{packages.length}_packages"
-  observed_integrations["organization-runners"] = "#{runners.fetch('total_count')}_runners"
+  observed_integrations["packages"] = "#{manual_admin.dig('packages', 'count')}_packages"
+  observed_integrations["organization-runners"] = "#{manual_admin.dig('organization_runners', 'count')}_runners"
   observed_integrations["GitHub-Apps-and-webhooks"] = "#{installations.fetch('total_count')}_apps_#{hooks.length}_webhooks"
 
   observed_integrations.each do |surface, observed|
@@ -236,6 +250,9 @@ puts JSON.generate(
   result: "pass",
   legacy_ref_count: legacy_refs.length,
   canonical_ref_count: canonical_refs.length,
+  legacy_main_sha: ref_sha(legacy_refs, "refs/heads/main"),
+  canonical_main_sha: ref_sha(canonical_refs, "refs/heads/main"),
+  activation_revision: ref_sha(canonical_refs, "refs/heads/main"),
   legacy_ref_digest: Digest::SHA256.hexdigest(legacy_refs.join("\n")),
   canonical_ref_digest: Digest::SHA256.hexdigest(canonical_refs.join("\n")),
   open_legacy_pull_requests: open_prs.length,
