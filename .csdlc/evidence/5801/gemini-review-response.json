@@ -1,0 +1,7 @@
+{
+  "api_model": "gemini-3.1-pro-preview",
+  "reviewed_revision": "bc3581b390bfc90cfbc10a134d085df2fbadb0b5",
+  "summary": "The revision correctly implements the WP-02A CI topology invariants. The non-PR event classification correctly defaults to 'unknown', and the aggregator contract test robustly parses all case arms to reject cancelled, failed, or missing results.",
+  "findings": [],
+  "recommendation": "pass"
+}
