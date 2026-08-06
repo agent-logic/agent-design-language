@@ -1,0 +1,11 @@
+{
+  "schema": "csdlc.bound_topology_terminal_observation.v1",
+  "issue": 5818,
+  "issue_state": "closed",
+  "closed_at": "2026-08-06T04:55:41Z",
+  "disposition": "merged",
+  "pull_request": 5887,
+  "observed_sha": "423c50d8cc185a0fbbec0fa0dcd636c81f4e04f5",
+  "source": "typed csdlc-github-issue issue_read plus csdlc-github-pr state",
+  "closing_relation": true
+}

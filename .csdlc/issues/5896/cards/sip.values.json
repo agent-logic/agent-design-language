@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5896,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][migration] Migrate pre-topology bound issue records to Git topology",
+    "slug": "v0-92-migrate-pre-topology-bound-records",
+    "version": "v0.92",
+    "generation": 9
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Migrate every pre-#5886 bound record with incomplete topology into truthful current C-SDLC v2 state.",
+      "required_outcome": "All affected records receive a deterministic disposition and open never-bound issues become normally bindable without restoring claims.",
+      "declared_scope": [
+        "The exact canonical bound-plus-incomplete-topology cohort",
+        "One typed migration operation under the current csdlc-issue owner",
+        "Per-issue disposition evidence and focused regression tests"
+      ],
+      "authority_boundary": [
+        "Canonical .csdlc issue records and verified Git worktree topology",
+        "Explicit live GitHub issue-state snapshot supplied as typed input",
+        "No product-issue binding or implementation"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Treat this as state migration, not tooling reliability work",
+        "Do not restore claims, leases, heartbeats, or preparation state",
+        "Do not hand-edit canonical issue records",
+        "Keep root main clean"
+      ]
+    }
+  }
+}

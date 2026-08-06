@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5896,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][migration] Migrate pre-topology bound issue records to Git topology",
+    "slug": "v0-92-migrate-pre-topology-bound-records",
+    "version": "v0.92",
+    "generation": 9
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues\n.csdlc/evidence\n.csdlc/prepared/issues/5896\n.csdlc/requests\nadl/tools/test_medium_article_writer_skill_contracts.sh\ncsdlc-v2\ndocs/milestones/v0.92/publication/articles",
+      "review_revision": "git-blake3:e84b4bb4a17635a413b032b8b2910cc0fb02c1bf:890192eec0893ce1e26fdaa6b07d5cb01aaf8f528b96f18558b2459e80411fa9",
+      "reviewer": "subagent:Pascal",
+      "review_prompts": [
+        "Can any classification invent topology, reopen terminal work, or reset a genuinely bound issue?",
+        "Does any failure permit partial cohort mutation?",
+        "Are cards, authored evidence, audit history, and digests preserved?",
+        "Is the second run demonstrably a no-op?",
+        "Does the design retain #5886 topology authority without restoring claims?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "WP-24 article authoring remains scoped to issue #5844; this migration proves its execution readiness only."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

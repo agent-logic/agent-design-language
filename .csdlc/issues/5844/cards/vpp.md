@@ -74,7 +74,6 @@ Diagram: .csdlc/prepared/issues/5844/diagram.mmd
     "budget_seconds": 300,
     "budget_tokens": 2000,
     "argv": [
-      "bash",
       "adl/tools/test_medium_article_writer_skill_contracts.sh"
     ],
     "parallel_group": "contracts",
@@ -96,7 +95,7 @@ Tokens: 60000
 
 - `ruby .csdlc/evidence/5844/validate-article-series.rb`
 - `ruby .csdlc/evidence/5844/validate-article-series.rb --negative`
-- `bash adl/tools/test_medium_article_writer_skill_contracts.sh`
+- `adl/tools/test_medium_article_writer_skill_contracts.sh`
 
 ## Failure Semantics
 

@@ -1,0 +1,354 @@
+{
+  "schema": "csdlc.bound_topology_issue_states.v1",
+  "source": "typed csdlc-github-issue issue_read",
+  "issues": [
+    {
+      "issue": 5357,
+      "state": "closed",
+      "closed_at": "2026-08-04T19:11:42Z",
+      "title": "[v0.91.8][WP-19] Run independent external milestone review"
+    },
+    {
+      "issue": 5786,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-21] Repository-wide code reduction cleanup"
+    },
+    {
+      "issue": 5795,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][runtime][shepherd] Pull local Gemma/MLX Shepherd MVP forward"
+    },
+    {
+      "issue": 5800,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][observatory][tls] Use browser-trusted local HTTPS certificate"
+    },
+    {
+      "issue": 5801,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-02A] CI and coverage reliability"
+    },
+    {
+      "issue": 5812,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][runtime][quality] Restore Clippy cleanliness in csm_freedom_gate"
+    },
+    {
+      "issue": 5818,
+      "state": "closed",
+      "closed_at": "2026-08-06T04:55:41Z",
+      "title": "[v0.92][WP-01B] Canonical documentation and version activation"
+    },
+    {
+      "issue": 5820,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-03] Runtime launch and resilience consolidation"
+    },
+    {
+      "issue": 5821,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04] Distributed Guardian/polis runtime"
+    },
+    {
+      "issue": 5822,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-05] C-SDLC estimation and cycle-time reduction"
+    },
+    {
+      "issue": 5823,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-06] Remote validation/build runner"
+    },
+    {
+      "issue": 5824,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-07] Prompt-card enum typing"
+    },
+    {
+      "issue": 5825,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-08] Birthday contract and negative cases"
+    },
+    {
+      "issue": 5826,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-09] Stable name and identity architecture"
+    },
+    {
+      "issue": 5827,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-10] Continuity across bounded cycles"
+    },
+    {
+      "issue": 5828,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-11][runtime] Implement the first Memory Palace context-topology slice"
+    },
+    {
+      "issue": 5829,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-12] Capability envelope"
+    },
+    {
+      "issue": 5830,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-13] ACP / cognitive profiles"
+    },
+    {
+      "issue": 5831,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-13A][runtime] Implement the Adaptive Learning DAG"
+    },
+    {
+      "issue": 5832,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-14] ACIP and A2A contract reconciliation"
+    },
+    {
+      "issue": 5833,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-15] Birth witnesses and receipts"
+    },
+    {
+      "issue": 5834,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-16] Birthday review packet"
+    },
+    {
+      "issue": 5835,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-17] Migration and cross-polis continuity planning"
+    },
+    {
+      "issue": 5836,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-18] First birthday demo"
+    },
+    {
+      "issue": 5837,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-18A] Observatory/Unity consumer integration"
+    },
+    {
+      "issue": 5838,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-18B] Provider-neutral multi-agent proof"
+    },
+    {
+      "issue": 5839,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-19] Birthday-to-governance handoff"
+    },
+    {
+      "issue": 5840,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage"
+    },
+    {
+      "issue": 5841,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-21A] Rust refactoring and maintainability pass"
+    },
+    {
+      "issue": 5842,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-22] Quality gate"
+    },
+    {
+      "issue": 5843,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-23] Docs and release-truth pass"
+    },
+    {
+      "issue": 5844,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-24] Ten-article launch series"
+    },
+    {
+      "issue": 5845,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-24A] Podcast Studio first ten episodes"
+    },
+    {
+      "issue": 5846,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-25] Internal review"
+    },
+    {
+      "issue": 5847,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-26] External / third-party review"
+    },
+    {
+      "issue": 5848,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-27] Review findings remediation"
+    },
+    {
+      "issue": 5849,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-28] Next milestone planning"
+    },
+    {
+      "issue": 5850,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-28A] Next-milestone closeout plan"
+    },
+    {
+      "issue": 5851,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-29] Next milestone review pass"
+    },
+    {
+      "issue": 5852,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-30] Release ceremony"
+    },
+    {
+      "issue": 5853,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-02B][build] Run the post-migration build acceleration experiment"
+    },
+    {
+      "issue": 5862,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04-IMP][umbrella] Execute distributed Guardian child wave"
+    },
+    {
+      "issue": 5863,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.01] Node identity and authenticated enrollment"
+    },
+    {
+      "issue": 5864,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.02] Distributed certificate purposes and lifecycle"
+    },
+    {
+      "issue": 5865,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.03] Maintained QUIC/TLS transport adapter"
+    },
+    {
+      "issue": 5866,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.04] Seed discovery and authenticated join"
+    },
+    {
+      "issue": 5867,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.05] Membership state and topology convergence"
+    },
+    {
+      "issue": 5868,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.06] Failure detection and partition classification"
+    },
+    {
+      "issue": 5869,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.07] Epoch and lease authority"
+    },
+    {
+      "issue": 5870,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.08] Fencing and single-owner enforcement"
+    },
+    {
+      "issue": 5871,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.09] Signed capability advertisements"
+    },
+    {
+      "issue": 5872,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.10] Signed resource-weather advertisements"
+    },
+    {
+      "issue": 5873,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.11] Bounded placement decisions"
+    },
+    {
+      "issue": 5874,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.12] Snapshot catalog and transfer manifest"
+    },
+    {
+      "issue": 5875,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.13] Migration state machine"
+    },
+    {
+      "issue": 5876,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.14] Rollback, recovery, and relocation failure"
+    },
+    {
+      "issue": 5877,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.15] Versioned distributed topology and migration projection"
+    },
+    {
+      "issue": 5878,
+      "state": "open",
+      "closed_at": null,
+      "title": "[v0.92][WP-04.16] Distributed integration, adversarial, and native-platform proof"
+    }
+  ]
+}
