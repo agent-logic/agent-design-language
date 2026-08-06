@@ -115,15 +115,21 @@ Retain for each copy:
 
 Each repository also retains an authenticated, unedited GitHub confirmation
 comment. Its server timestamp must precede the next repository's copy start,
-which independently proves the serial verification gate even when a later
-organization-policy refresh replaces the canonical source/destination
-snapshots.
+which authenticates the contemporaneous serial-gate decision. For the first
+two repositories, the later organization-policy refresh replaced two local
+artifacts before publication. Their original bytes are explicitly unavailable
+and are not claimed as reviewable or revalidated. A complete supersession map
+links each historical hash to the refresh comment and replacement artifact;
+retained server events, receipts, current snapshots, and live verification
+independently prove every substantive migration invariant.
 
 Each of the 37 named platform surfaces requires a digest-bound `live_api`,
 `operator_confirmation`, or valid `not_applicable` proof. The per-repository
-operator comment binds the Actions-disabled receipt, first-push receipt, LFS
-receipt, platform packet, and source-after manifest; the organization comment
-binds owner, billing, recovery, Actions, package, and GitHub App readiness.
+operator comment authenticates the historical gate decision. Current retained
+artifacts prove the Actions-disabled receipt, first-push receipt, LFS result,
+platform dispositions, and source immutability; the organization comment
+authenticates owner, billing, recovery, Actions, package, and GitHub App
+readiness.
 
 The issue validator must fail on a missing or reordered repository, incorrect
 visibility, missing source-after proof, source drift, Actions disabled only

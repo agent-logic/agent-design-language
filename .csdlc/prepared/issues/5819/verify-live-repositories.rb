@@ -294,6 +294,46 @@ REPOSITORIES.each_with_index do |(name, visibility), index|
     abort "#{name} live serial gate followed the next copy start" unless Time.iso8601(serial_comment["created_at"]) < next_started
   end
 
+  if row["evidence_supersession_path"]
+    retained_comment = artifact(
+      row["serial_gate_comment_path"],
+      row["serial_gate_comment_sha256"],
+      "#{name} retained serial-gate comment"
+    )
+    live_comment_projection = {
+      "id" => serial_comment["id"],
+      "issue_url" => serial_comment["issue_url"],
+      "html_url" => serial_comment["html_url"],
+      "user" => {"login" => serial_comment.dig("user", "login")},
+      "created_at" => serial_comment["created_at"],
+      "updated_at" => serial_comment["updated_at"],
+      "body" => serial_comment["body"]
+    }
+    abort "#{name} retained serial-gate comment drift" unless retained_comment == live_comment_projection
+
+    supersession = artifact(
+      row["evidence_supersession_path"],
+      row["evidence_supersession_sha256"],
+      "#{name} evidence supersession"
+    )
+    abort "#{name} supersession falsely claims old bytes" unless supersession["old_artifact_bytes_available"] == false
+    abort "#{name} supersession falsely claims old-byte revalidation" unless supersession["old_artifact_bytes_revalidated"] == false
+    abort "#{name} supersession refresh comment mismatch" unless supersession["refresh_comment_id"] == row["operator_confirmation_comment_id"]
+    mappings = supersession.fetch("mappings").to_h { |mapping| [mapping.fetch("surface"), mapping] }
+    expected_mappings = {
+      "platform_dispositions" => ["PLATFORM-DISPOSITIONS", row["platform_disposition_packet_path"], row["platform_disposition_packet_sha256"]],
+      "source_immutability" => ["SOURCE-IMMUTABILITY", row["source_after_path"], row["source_after_sha256"]]
+    }
+    expected_mappings.each do |surface, (comment_key, replacement_path, current_sha)|
+      mapping = mappings.fetch(surface)
+      line = serial_lines.find { |candidate| candidate.start_with?("#{comment_key}: ") }
+      abort "#{name} #{surface} historical hash mismatch" unless mapping["old_sha256"] == line.split(": ", 2).last
+      abort "#{name} #{surface} replacement path mismatch" unless mapping["replacement_path"] == replacement_path
+      abort "#{name} #{surface} current hash mismatch" unless mapping["current_sha256"] == current_sha
+      abort "#{name} #{surface} falsely claims byte equivalence" unless mapping["byte_equivalence_claimed"] == false
+    end
+  end
+
   confirmation(
     row["operator_confirmation_comment_id"],
     [

@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-WP-02 issue 5819, its declared implementation paths, and retained proof
+.csdlc/evidence/5819
+.csdlc/prepared/issues/5819/design.md
+.csdlc/prepared/issues/5819/validate-migration-evidence.rb
+.csdlc/prepared/issues/5819/verify-live-repositories.rb
 
 ## Prompts
 

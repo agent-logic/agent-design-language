@@ -4,11 +4,21 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8f38743f59dd814a09097b78e17331ac66a04b30cc584dab53d682d1e1d4ea34",
   "phase": "implemented",
-  "generation": 63,
-  "digest": "a0da2888f4d2a4a827cb53a893ad7dabcb18c6b57fad09719a761d1e44bc3393",
+  "generation": 67,
+  "digest": "c8c3b7198e7a89d2d5ab184f2dade03546b388a8403f4daf4ac1e31ce72d421a",
   "branch": "codex/5819-v092-repository-migration-preflight",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5819-preflight",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:mill-wp02-exact-head-review",
+    "assigned_by": "codex:wp02-copy-execution",
+    "revision": "git-blake3:2b1ca10e731c05c6d4550ca2073f39388a10da49:a807450f8dd706c581d7303f04c7ad771f64dc8a92a363506096ce2a83821b0d",
+    "scope": [
+      ".csdlc/evidence/5819",
+      ".csdlc/prepared/issues/5819/design.md",
+      ".csdlc/prepared/issues/5819/validate-migration-evidence.rb",
+      ".csdlc/prepared/issues/5819/verify-live-repositories.rb"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -18,40 +28,40 @@
   "diagram_path": ".csdlc/prepared/issues/5819/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:wp02-proof-remediation",
-      "revision": "e61713eaa30976709d7f7d223fd66fbfdf18eacc6845e9aaf8a69dde56649815"
+      "reviewer": "codex:mill-wp02-supersession-review",
+      "revision": "6edfcea1882db6a800a3e261733a1dd46734606b5e3c31c2611c7a8fe4a3b278"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "faf5cd835f52e65cceaffc184167a886fdc2ee3f0d1919d5c1b6b53902600db5",
+      "values_digest": "e08fe437a09b06be2570b1405b0c9c3d54e2d4f7f1819ec212d45fc73ad10157",
       "rendered_digest": "7539f62d2d912024743c2f68677d825eb6441c1056b8d01fc36a6effb8c64323",
       "ast_digest": "00821c7db8716e696006773471e00cdae1291fd811d4e892069631fc210d16c8"
     },
     "stp": {
-      "values_digest": "9fb81680a5c53ee200aca10166f8a82ebcbe45cbf9dc883da624cf71cb34b949",
+      "values_digest": "319f615748fe7bc678b90c2c55162ba0a559e924e6a9d541d6313b4f25aa1d4f",
       "rendered_digest": "cbc291fd6122cd5eefd8a0fb0c2aa8674991d2115a8d5098b8c6009aad08e936",
       "ast_digest": "dc301a8398ff69078c0c1f9265b179ac22b7b4c28f2d206f5cf70652ac30a6d8"
     },
     "spp": {
-      "values_digest": "a6cc9f7fcd356c720ccc2520c4935074d3a5f4ca35d5ed3418a091ef5ca704a1",
-      "rendered_digest": "d5b58294bdbb26a876cb02972fb68a42ba3f39babd64ec29df4674ecdffcb887",
-      "ast_digest": "94ebc87c30223a613003908332e7aec3af13519aedad1db889f999e76c46c3a9"
+      "values_digest": "e36662f534f88c74ad7d01fc5a0d4c1f0fd34d95dde5bb46b7f3a8350f3d9af0",
+      "rendered_digest": "3c18f7548876e0523d1b429fe6b31993f8dfb5337307e39be3655648b2be4e14",
+      "ast_digest": "7466febfe812578231e910a6df09c26e78bd23c44339383345da650967a04256"
     },
     "vpp": {
-      "values_digest": "ca96544d0e5c068e4bacbbefc1cb65ca71881207a1337ac0dc536926552c3d03",
+      "values_digest": "c5b833eae40f78ed3ccf32d34b56e4abb142364dfc11eabce98a3e4f15b4aa5a",
       "rendered_digest": "1f4515d003bf0d53349381c48a6b3a208cc15c59423ae595bdec0fc095feab5c",
       "ast_digest": "212296befbf3a77bc6c2752f9e47d23a098d6102e7d0d37279285ddc0af4b384"
     },
     "srp": {
-      "values_digest": "d801ec3969b584670f581716be52f0f458afb818b30c0ba2d43e3ad8fc821acc",
-      "rendered_digest": "7f164f7fa66e794a30a5ad309aa83c7ee0c64c0bb7f38f8f13c7cb7dcc9821e9",
-      "ast_digest": "d010bf662f11add3b8ddee31aa1ec08c37fb3e4945e1388c865b66ef22ac688d"
+      "values_digest": "201441de947c8bd5f5b66dd099e321a970a98fc95c54c814d8bc0e9f5d670aa7",
+      "rendered_digest": "ab8416b6688d6b377967a2cf6886367385f1bc90165b3f7fa9f29607225cd589",
+      "ast_digest": "6479faaea741b439cd6b0ac6364cdbfc276067eeb628fc1ed1ffeb4f4e3d63b3"
     },
     "sor": {
-      "values_digest": "867db3b259c575b4a407b4adfd55353468ee26c2c9ea3fba7a2ac728dbb6cf69",
-      "rendered_digest": "8938723d93b2e0ea8078f9f561c759001dea7e6204f2e0c26b57e9139b1ad9bf",
-      "ast_digest": "7ea2c6af5454778d6139b4ed4910d84f78c9bf98155831721ef27ebcaf129639"
+      "values_digest": "2b72e588cc01703f634d6eff64acb920010eb91c61b692b8f94f5986a7cd0b6c",
+      "rendered_digest": "a718667197a766c8091d17a35fb2b1f7ae847b56df69ca9eea9b78213ea3da29",
+      "ast_digest": "0f5a287f823a2c39a2adfa2871d1aca0618730e10d3a95d0de75732292ce1288"
     }
   },
   "transitions": [
@@ -651,6 +661,41 @@
       "actor": "codex:wp02-proof-remediation",
       "reason": "Record passing live GitHub chronology and repository verification after review remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5819/verify-live-repositories.rb\"],\"purpose\":\"Re-read live repositories, server ref events, and unedited serial-gate comments for all five destinations and seven source controls.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5819/execution\"}}"
+    },
+    {
+      "sequence": 83,
+      "generation": 63,
+      "actor": "codex:wp02-copy-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 84,
+      "generation": 64,
+      "actor": "codex:mill-wp02-supersession-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 85,
+      "generation": 65,
+      "actor": "codex:wp02-supersession-remediation",
+      "reason": "Record the truthful historical-attestation boundary and complete supersession proof for the two pre-Team serial gates.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Created and verified exactly five Agent Logic destination copies in the approved order while preserving all seven danielbaustin source repositories unchanged, with authenticated historical gates and independently retained current proof.\",\"changes\":[\"Retained exact unedited GitHub API projections for the first two historical serial-gate attestations\",\"Disclosed that the two overwritten pre-Team local artifact pairs are unavailable and were not independently revalidated\",\"Mapped each historical hash to its refresh comment, replacement artifact, and current hash without claiming byte equivalence\",\"Strengthened deterministic and live validation to reject missing disclosures, altered comments, incomplete mappings, or false retention claims\"],\"artifacts\":[\".csdlc/evidence/5819/execution/cognitive-sdlc-paper/serial-gate-comment.json\",\".csdlc/evidence/5819/execution/cognitive-sdlc-paper/evidence-supersession.json\",\".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/serial-gate-comment.json\",\".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/evidence-supersession.json\"]}"
+    },
+    {
+      "sequence": 86,
+      "generation": 66,
+      "actor": "codex:wp02-supersession-remediation",
+      "reason": "Record passing focused contract validation for the historical-attestation and supersession boundary.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5819/validate-migration-evidence.rb\"],\"purpose\":\"Validate the five copies, retained historical gate comments, explicit unavailable-byte disclosure, complete supersession maps, and independently retained migration proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5819/copy-report.json\"}}"
+    },
+    {
+      "sequence": 87,
+      "generation": 67,
+      "actor": "codex:wp02-supersession-remediation",
+      "reason": "Record passing live GitHub verification of the retained historical comments, refresh comments, repositories, and controls.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5819/verify-live-repositories.rb\"],\"purpose\":\"Re-read live GitHub comments and repository state and verify the attestation, supersession, copy parity, visibility, source immutability, and negative-control proofs.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5819/execution\"}}"
     }
   ]
 }

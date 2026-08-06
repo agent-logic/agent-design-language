@@ -203,6 +203,57 @@ rows.each_with_index do |row, index|
   else
     abort "#{name} final serial gate is outside the copy window" unless serial_gate_at <= completed
   end
+
+  if row["evidence_supersession_path"]
+    gate_comment = artifact(
+      row["serial_gate_comment_path"],
+      row["serial_gate_comment_sha256"],
+      "#{name} retained serial-gate comment"
+    )
+    abort "#{name} retained gate comment id mismatch" unless gate_comment["id"] == row["serial_gate_confirmation_comment_id"]
+    abort "#{name} retained gate comment issue mismatch" unless gate_comment["issue_url"] == "https://api.github.com/repos/danielbaustin/agent-design-language/issues/5819"
+    abort "#{name} retained gate comment author mismatch" unless gate_comment.dig("user", "login") == "danielbaustin"
+    abort "#{name} retained gate comment was edited" unless gate_comment["created_at"] == gate_comment["updated_at"]
+    abort "#{name} retained gate timestamp mismatch" unless gate_comment["created_at"] == row["serial_gate_confirmed_at"]
+
+    gate_lines = gate_comment.fetch("body").lines.map(&:strip).to_h do |line|
+      key, value = line.split(": ", 2)
+      [key, value]
+    end
+    abort "#{name} retained gate repository mismatch" unless gate_lines["WP-02-REPOSITORY"] == name
+    abort "#{name} retained Actions hash mismatch" unless gate_lines["ACTIONS-DISABLED"] == row["actions_disabled_receipt_sha256"]
+    abort "#{name} retained push hash mismatch" unless gate_lines["ACTIONS-BEFORE-FIRST-PUSH"] == row["first_push_receipt_sha256"]
+    abort "#{name} retained LFS hash mismatch" unless gate_lines["LFS-PARITY"] == row.dig("lfs", "receipt_sha256")
+
+    supersession = artifact(
+      row["evidence_supersession_path"],
+      row["evidence_supersession_sha256"],
+      "#{name} evidence supersession"
+    )
+    abort "#{name} supersession schema mismatch" unless supersession["schema"] == "adl.wp02.evidence-supersession.v1"
+    abort "#{name} supersession repository mismatch" unless supersession["repository"] == name
+    abort "#{name} supersession falsely claims old bytes" unless supersession["old_artifact_bytes_available"] == false
+    abort "#{name} supersession falsely claims old-byte revalidation" unless supersession["old_artifact_bytes_revalidated"] == false
+    abort "#{name} supersession lacks historical boundary" if supersession["historical_gate_boundary"].to_s.empty?
+    abort "#{name} refresh comment mismatch" unless supersession["refresh_comment_id"] == row["operator_confirmation_comment_id"]
+    refresh_at = timestamp(supersession["refresh_comment_created_at"], "#{name} refresh comment")
+    abort "#{name} refresh did not follow the historical gate" unless refresh_at > serial_gate_at
+
+    mappings = supersession.fetch("mappings").to_h { |mapping| [mapping.fetch("surface"), mapping] }
+    abort "#{name} supersession denominator mismatch" unless mappings.keys.sort == %w[platform_dispositions source_immutability]
+    expected_mappings = {
+      "platform_dispositions" => ["PLATFORM-DISPOSITIONS", row["platform_disposition_packet_path"], row["platform_disposition_packet_sha256"]],
+      "source_immutability" => ["SOURCE-IMMUTABILITY", row["source_after_path"], row["source_after_sha256"]]
+    }
+    expected_mappings.each do |surface, (comment_key, replacement_path, current_sha)|
+      mapping = mappings.fetch(surface)
+      abort "#{name} #{surface} old hash mismatch" unless mapping["old_sha256"] == gate_lines[comment_key]
+      abort "#{name} #{surface} replacement path mismatch" unless mapping["replacement_path"] == replacement_path
+      abort "#{name} #{surface} current hash mismatch" unless mapping["current_sha256"] == current_sha
+      abort "#{name} #{surface} falsely claims byte equivalence" unless mapping["byte_equivalence_claimed"] == false
+    end
+  end
+
   abort "#{name} source-after snapshot was not captured after the first push" unless source_after_at >= pushed_at
   abort "#{name} destination-after snapshot was not captured after the first push" unless destination_after_at >= pushed_at
 

@@ -36,6 +36,8 @@
       "first_ref_event_sha256": "394216d0d67a2dc6ab2e9d1941aca37ec63379c18710567887cd8d47d91dc537",
       "serial_gate_confirmation_comment_id": 5201090754,
       "serial_gate_confirmed_at": "2026-08-06T06:17:56Z",
+      "serial_gate_comment_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/serial-gate-comment.json",
+      "serial_gate_comment_sha256": "3c8210fbce90084218954484f971371ad96adad74e14970964e758b9865c5299",
       "lfs": {
         "status": "no_lfs",
         "reason": "No LFS pointers exist in any approved ref.",
@@ -194,7 +196,9 @@
           "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
         }
       },
-      "policy_refreshed_at": "2026-08-06T06:21:29.016848Z"
+      "policy_refreshed_at": "2026-08-06T06:21:29.016848Z",
+      "evidence_supersession_path": ".csdlc/evidence/5819/execution/cognitive-sdlc-paper/evidence-supersession.json",
+      "evidence_supersession_sha256": "cd0acd4c3d5c1af0e85514a2880a0072f50361c1310864bf9b6df9c00315aeaa"
     },
     {
       "name": "godel-hadamard-bayes-paper",
@@ -225,6 +229,8 @@
       "first_ref_event_sha256": "2e4eacb59d8edd49f35f6617c6c2e0af2377feef18392543e4b5ec52035f9059",
       "serial_gate_confirmation_comment_id": 5201100675,
       "serial_gate_confirmed_at": "2026-08-06T06:19:17Z",
+      "serial_gate_comment_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/serial-gate-comment.json",
+      "serial_gate_comment_sha256": "42d1decf8a7f1f0c59cbf55a179986d94a694ee1e65c30e4f6e92ee3cd263d1a",
       "lfs": {
         "status": "no_lfs",
         "reason": "No LFS pointers exist in any approved ref.",
@@ -383,7 +389,9 @@
           "reason": "This GitHub surface is not copied by Git mirroring; the unchanged source remains authoritative."
         }
       },
-      "policy_refreshed_at": "2026-08-06T06:21:44.266393Z"
+      "policy_refreshed_at": "2026-08-06T06:21:44.266393Z",
+      "evidence_supersession_path": ".csdlc/evidence/5819/execution/godel-hadamard-bayes-paper/evidence-supersession.json",
+      "evidence_supersession_sha256": "e773c540a52113f4f9f77a33d4360e62b1ec78cd10782c785405fc0f7fd21e65"
     },
     {
       "name": "general-intelligence-paper-private",
