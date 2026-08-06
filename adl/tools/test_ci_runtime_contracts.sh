@@ -286,6 +286,47 @@ for required_fragment in (
             f"missing fragment: {required_fragment}"
         )
 
+def aggregator_result_arms(block: str) -> list[list[str]]:
+    match = re.search(r'case "\$result" in\s*(.*?)^\s*esac\s*$', block, re.MULTILINE | re.DOTALL)
+    if not match:
+        raise ValueError("stable aggregator is missing its lane-result case contract")
+    arms = re.findall(
+        r"^\s*([^\n)]+)\)\s*.*?(?=^\s*[^\n)]+\)\s*|\Z)",
+        match.group(1),
+        re.MULTILINE | re.DOTALL,
+    )
+    return [
+        [item.strip().strip("\"'") for item in patterns.split("|")]
+        for patterns in arms
+    ]
+
+def require_aggregator_result_contract(name: str, block: str) -> None:
+    try:
+        arms = aggregator_result_arms(block)
+    except ValueError as error:
+        raise SystemExit(str(error)) from error
+    if arms != [["success", "skipped"], ["*"]]:
+        raise SystemExit(f"{name} aggregator has unexpected lane-result arms: {arms}")
+
+for name, block in (
+    ("adl-ci", aggregator_block),
+    ("adl-coverage", step_block("Aggregate hosted or Spot coverage lane")),
+):
+    require_aggregator_result_contract(name, block)
+    for rejected in ("cancelled", "failure", '""'):
+        fixture = re.sub(
+            r'(case "\$result" in.*?)(^\s*)\*\)',
+            lambda match: f"{match.group(1)}{match.group(2)}{rejected}) ;;\n{match.group(2)}*)",
+            block,
+            count=1,
+            flags=re.MULTILINE | re.DOTALL,
+        )
+        try:
+            require_aggregator_result_contract(name, fixture)
+        except SystemExit:
+            continue
+        raise SystemExit(f"{name} aggregator accepted a {rejected or 'missing'} negative fixture")
+
 podcast_launch_packet_if = step_optional_if("podcast launch packet contract")
 if podcast_launch_packet_if != "contains(needs.adl_path_policy.outputs.validation_profile_run_lanes, 'podcast_launch_packet')":
     raise SystemExit(

@@ -246,6 +246,9 @@ EOF
   docs_head="$(git rev-parse HEAD)"
 
   docs_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$docs_head" --ref "refs/pull/1/merge")"
+  assert_has "$docs_output" "change_class=current_docs_review"
+  assert_has "$docs_output" "pvf_lane=diff_hygiene"
+  assert_has "$docs_output" "release_gate_role=docs_guardrail"
   assert_has "$docs_output" "rust_required=false"
   assert_has "$docs_output" "coverage_required=false"
   assert_has "$docs_output" "full_coverage_required=false"
@@ -311,6 +314,7 @@ PY
   git commit -q -m csdlc-metadata-only
   csdlc_metadata_head="$(git rev-parse HEAD)"
   csdlc_metadata_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$csdlc_metadata_head" --ref "refs/pull/1/merge")"
+  assert_has "$csdlc_metadata_output" "change_class=lifecycle_metadata"
   assert_has "$csdlc_metadata_output" "csdlc_v2_standalone_required=false"
   assert_has "$csdlc_metadata_output" "rust_required=false"
   assert_has "$csdlc_metadata_output" "coverage_required=false"
@@ -385,6 +389,9 @@ PY
   git commit -q -m runtime-v3-only
   runtime_v3_head="$(git rev-parse HEAD)"
   runtime_v3_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_v3_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_v3_output" "change_class=runtime_critical_source"
+  assert_has "$runtime_v3_output" "pvf_lane=runtime_v3_fast"
+  assert_has "$runtime_v3_output" "release_gate_role=source_required"
   assert_has "$runtime_v3_output" "runtime_v3_fast_required=true"
   assert_has "$runtime_v3_output" "rust_required=false"
   assert_has "$runtime_v3_output" "coverage_required=false"
@@ -402,6 +409,7 @@ PY
   git commit -q -m runtime-v3-mixed
   runtime_v3_mixed_head="$(git rev-parse HEAD)"
   runtime_v3_mixed_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_v3_mixed_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_v3_mixed_output" "change_class=mixed"
   assert_has "$runtime_v3_mixed_output" "runtime_v3_fast_required=false"
   assert_has "$runtime_v3_mixed_output" "rust_required=true"
 
@@ -412,6 +420,8 @@ PY
   git commit -q -m runtime-v3-unmapped
   runtime_v3_unmapped_head="$(git rev-parse HEAD)"
   runtime_v3_unmapped_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_v3_unmapped_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_v3_unmapped_output" "change_class=unknown"
+  assert_has "$runtime_v3_unmapped_output" "pvf_lane=authoritative_full"
   assert_has "$runtime_v3_unmapped_output" "runtime_v3_fast_required=false"
   assert_has "$runtime_v3_unmapped_output" "full_coverage_required=true"
   assert_has "$runtime_v3_unmapped_output" "fail_closed=true"
@@ -516,6 +526,9 @@ EOF
   runtime_head="$(git rev-parse HEAD)"
 
   runtime_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$runtime_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_output" "change_class=ordinary_product_source"
+  assert_has "$runtime_output" "pvf_lane=focused_rust"
+  assert_has "$runtime_output" "release_gate_role=source_required"
   assert_has "$runtime_output" "rust_required=true"
   assert_has "$runtime_output" "coverage_required=false"
   assert_has "$runtime_output" "full_coverage_required=false"
@@ -804,6 +817,9 @@ EOF
   classifier_followup_head="$(git rev-parse HEAD)"
 
   classifier_followup_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$classifier_followup_head" --ref "refs/pull/1/merge")"
+  assert_has "$classifier_followup_output" "change_class=mixed"
+  assert_has "$classifier_followup_output" "pvf_lane=contract"
+  assert_has "$classifier_followup_output" "release_gate_role=contract_required"
   assert_has "$classifier_followup_output" "rust_required=false"
   assert_has "$classifier_followup_output" "coverage_required=false"
   assert_has "$classifier_followup_output" "full_coverage_required=false"
@@ -947,6 +963,9 @@ EOF
   policy_surface_head="$(git rev-parse HEAD)"
 
   policy_surface_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$policy_surface_head" --ref "refs/pull/1/merge")"
+  assert_has "$policy_surface_output" "change_class=workflow_tooling"
+  assert_has "$policy_surface_output" "pvf_lane=contract"
+  assert_has "$policy_surface_output" "release_gate_role=contract_required"
   assert_has "$policy_surface_output" "rust_required=false"
   assert_has "$policy_surface_output" "coverage_required=false"
   assert_has "$policy_surface_output" "full_coverage_required=false"
@@ -1953,6 +1972,9 @@ PY
   assert_has "$main_output" "coverage_authority=push_main"
   assert_has "$main_output" "coverage_execution_state=authoritative_full_required"
   assert_has "$main_output" "reason=push_main_runs_authoritative_full_coverage"
+  assert_has "$main_output" "change_class=unknown"
+  assert_has "$main_output" "pvf_lane=authoritative_full"
+  assert_has "$main_output" "release_gate_role=source_required"
 
   non_pr_output="$($POLICY --event-name schedule --ref "refs/heads/main")"
   assert_has "$non_pr_output" "rust_required=true"
@@ -1971,6 +1993,9 @@ PY
   assert_has "$non_pr_output" "coverage_authority=non_pr_event"
   assert_has "$non_pr_output" "coverage_execution_state=authoritative_full_required"
   assert_has "$non_pr_output" "reason=non_pull_request_event_runs_full_validation"
+  assert_has "$non_pr_output" "change_class=unknown"
+  assert_has "$non_pr_output" "pvf_lane=authoritative_full"
+  assert_has "$non_pr_output" "release_gate_role=source_required"
 
   fail_closed_output="$("$POLICY" --event-name pull_request --base "" --head "$runtime_head" --ref "refs/pull/1/merge")"
   assert_has "$fail_closed_output" "rust_required=true"
