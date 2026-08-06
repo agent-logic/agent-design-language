@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5896,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5896-bound-topology-migration",
+  "title": "[v0.92][migration] Migrate pre-topology bound issue records",
+  "body": "## Summary\n- migrate all 58 pre-#5886 bound records to explicit topology-safe lifecycle truth\n- add evidence-bound, crash-recoverable, repository-serialized migration support\n- restore WP-24 execution readiness with typed validation-lane repair\n\n## Validation\n- cargo test --test topology_migration (9 passed)\n- cargo check --all-targets\n- ruby .csdlc/prepared/issues/5896/validate-migration.rb\n- WP-24 doctor: pass, zero findings\n\nCloses #5896",
+  "draft": false,
+  "revision": "git-blake3:ba71dbbde709134484e2dc7c0cbcd689b3633956:5c77baa4c57a06fda47706b7fcbc91b96d5bdf8c61646ef7b6eaa3a8e10a1b20",
+  "commit_sha": "ba71dbbde709134484e2dc7c0cbcd689b3633956"
+}
