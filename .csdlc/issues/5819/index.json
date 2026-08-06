@@ -5,13 +5,13 @@
   "initialization_digest": "8f38743f59dd814a09097b78e17331ac66a04b30cc584dab53d682d1e1d4ea34",
   "phase": "implemented",
   "generation": 67,
-  "digest": "c8c3b7198e7a89d2d5ab184f2dade03546b388a8403f4daf4ac1e31ce72d421a",
+  "digest": "fefaf809ecd0148250fe23cafaa6eb1f84e3441ab9b1f1ef318337e00d76de1e",
   "branch": "codex/5819-v092-repository-migration-preflight",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5819-preflight",
   "review_assignment": {
-    "reviewer": "codex:mill-wp02-exact-head-review",
-    "assigned_by": "codex:wp02-copy-execution",
-    "revision": "git-blake3:2b1ca10e731c05c6d4550ca2073f39388a10da49:a807450f8dd706c581d7303f04c7ad771f64dc8a92a363506096ce2a83821b0d",
+    "reviewer": "codex:mill-wp02-supersession-review",
+    "assigned_by": "codex:wp02-supersession-remediation",
+    "revision": "git-blake3:d5fb3f744e003d09b538e18f2ea98f61df79d430:f81ff28a5b042261b9c75f3088670854b0bd88fcae6f2bfabd77ede2d6183403",
     "scope": [
       ".csdlc/evidence/5819",
       ".csdlc/prepared/issues/5819/design.md",
@@ -696,6 +696,13 @@
       "actor": "codex:wp02-supersession-remediation",
       "reason": "Record passing live GitHub verification of the retained historical comments, refresh comments, repositories, and controls.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5819/verify-live-repositories.rb\"],\"purpose\":\"Re-read live GitHub comments and repository state and verify the attestation, supersession, copy parity, visibility, source immutability, and negative-control proofs.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5819/execution\"}}"
+    },
+    {
+      "sequence": 88,
+      "generation": 67,
+      "actor": "codex:wp02-supersession-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

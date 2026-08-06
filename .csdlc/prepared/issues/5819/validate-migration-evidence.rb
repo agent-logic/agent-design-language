@@ -17,6 +17,7 @@ REPOSITORIES = [
   ["agent-design-language", "public"]
 ].freeze
 CONTROLS = {"asksifu" => "private", "Horust" => "public"}.freeze
+SUPERSESSION_REPOSITORIES = %w[cognitive-sdlc-paper godel-hadamard-bayes-paper].freeze
 PLATFORM_SURFACES = %w[
   issues pull_requests milestones projects discussions wiki assignees
   collaborators outside_collaborators teams rulesets branch_protections
@@ -204,7 +205,18 @@ rows.each_with_index do |row, index|
     abort "#{name} final serial gate is outside the copy window" unless serial_gate_at <= completed
   end
 
-  if row["evidence_supersession_path"]
+  supersession_fields = %w[
+    serial_gate_comment_path serial_gate_comment_sha256
+    evidence_supersession_path evidence_supersession_sha256
+  ]
+  supersession_present = supersession_fields.all? { |field| !row[field].to_s.empty? }
+  if SUPERSESSION_REPOSITORIES.include?(name)
+    abort "#{name} required supersession evidence is incomplete" unless supersession_present
+  else
+    abort "#{name} has unexpected supersession evidence" if supersession_fields.any? { |field| row.key?(field) }
+  end
+
+  if supersession_present
     gate_comment = artifact(
       row["serial_gate_comment_path"],
       row["serial_gate_comment_sha256"],

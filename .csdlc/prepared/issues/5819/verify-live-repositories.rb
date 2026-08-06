@@ -17,6 +17,7 @@ REPOSITORIES = [
   ["agent-design-language", "public"]
 ].freeze
 CONTROLS = ["asksifu", "Horust"].freeze
+SUPERSESSION_REPOSITORIES = %w[cognitive-sdlc-paper godel-hadamard-bayes-paper].freeze
 OPERATOR = "danielbaustin"
 ISSUE = 5819
 LIVE_API_SURFACES = {
@@ -294,7 +295,18 @@ REPOSITORIES.each_with_index do |(name, visibility), index|
     abort "#{name} live serial gate followed the next copy start" unless Time.iso8601(serial_comment["created_at"]) < next_started
   end
 
-  if row["evidence_supersession_path"]
+  supersession_fields = %w[
+    serial_gate_comment_path serial_gate_comment_sha256
+    evidence_supersession_path evidence_supersession_sha256
+  ]
+  supersession_present = supersession_fields.all? { |field| !row[field].to_s.empty? }
+  if SUPERSESSION_REPOSITORIES.include?(name)
+    abort "#{name} required supersession evidence is incomplete" unless supersession_present
+  else
+    abort "#{name} has unexpected supersession evidence" if supersession_fields.any? { |field| row.key?(field) }
+  end
+
+  if supersession_present
     retained_comment = artifact(
       row["serial_gate_comment_path"],
       row["serial_gate_comment_sha256"],
