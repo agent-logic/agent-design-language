@@ -26,7 +26,8 @@ account and must not be copied or created in the Agent Logic organization.
 ## Pre-Activation Gates
 
 1. Finish Sprint 1 on `danielbaustin/agent-design-language`, including WP-02A.
-2. Reconfirm exact source/destination branch and tag parity.
+2. Reconfirm exact source/destination full branch and tag manifests, including
+   annotated-tag peeled refs.
 3. Confirm zero open source pull requests and disposition every open issue.
 4. Preserve all worktrees, detached heads, dirty states, and local branches.
 5. Recreate reviewed destination variables and the `adl-spot-ci` environment.
@@ -49,8 +50,9 @@ account and must not be copied or created in the Agent Logic organization.
    legacy relationship until intentionally reconciled.
 6. Open and merge a source-only README notice pointing contributors to the
    canonical repository. No other personal-repository mutation is authorized.
-7. Verify authenticated canonical push authority, workflow status, badge links,
-   active issue continuity, every registered worktree, and the rollback path.
+7. Verify authenticated canonical push authority, workflow status, both README
+   badge surfaces, active issue continuity, every registered worktree, and the
+   rollback path through a non-destructive local remote-renaming drill.
 
 Existing issues are closed from canonical pull requests only with qualified
 references such as `Closes danielbaustin/agent-design-language#5801`. Historical

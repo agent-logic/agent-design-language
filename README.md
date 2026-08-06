@@ -7,8 +7,8 @@ ADL is a Rust-backed runtime and documentation system for turning agent work
 into explicit programs, governed tool calls, traceable artifacts, review
 packets, demos, and milestone evidence.
 
-[![adl-ci (main)](https://github.com/danielbaustin/agent-design-language/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/danielbaustin/agent-design-language/actions/workflows/ci.yaml)
-[![coverage](https://codecov.io/gh/danielbaustin/agent-design-language/graph/badge.svg?branch=main)](https://app.codecov.io/gh/danielbaustin/agent-design-language/tree/main)
+[![adl-ci (main)](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml)
+[![coverage](https://codecov.io/gh/agent-logic/agent-design-language/graph/badge.svg?branch=main)](https://app.codecov.io/gh/agent-logic/agent-design-language/tree/main)
 ![Milestone](https://img.shields.io/badge/milestone-v0.92%20active%20development-blue)
 
 Homepage: [agent-logic.ai](https://agent-logic.ai)

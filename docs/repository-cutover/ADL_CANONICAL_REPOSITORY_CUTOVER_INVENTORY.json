@@ -1,5 +1,5 @@
 {
-  "schema": "adl.repository_cutover_inventory.v2",
+  "schema": "adl.repository_cutover_inventory.v3",
   "status": "provisional",
   "captured_at": "2026-08-06",
   "refresh_required": "Refresh every live manifest and rerun static and live verification immediately before activation because Sprint 1 remains active.",
@@ -42,6 +42,11 @@
   "operational_references": [
     {
       "path": "README.md",
+      "classification": "current_operational",
+      "disposition": "update_to_agent_logic"
+    },
+    {
+      "path": "adl/README.md",
       "classification": "current_operational",
       "disposition": "update_to_agent_logic"
     },
@@ -119,6 +124,7 @@
     }
   ],
   "scope": {
+    "base_revision": "18d3cb93017469521dd0f50c9bc032d6d59ea184",
     "exact_allowlist": [
       ".csdlc/evidence/5891/active-issue-dispositions.tsv",
       ".csdlc/evidence/5891/active-pull-request-dispositions.tsv",
@@ -140,6 +146,7 @@
       ".csdlc/prepared/issues/5891/validate-cutover.rb",
       ".csdlc/prepared/issues/5891/verify-live-cutover.rb",
       "README.md",
+      "adl/README.md",
       "adl/src/aws_remote_validation.rs",
       "adl/src/bin/adl_aws_remote_validation.rs",
       "adl/tools/publish_adl_builder_image_codebuild.sh",

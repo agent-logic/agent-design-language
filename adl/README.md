@@ -4,8 +4,8 @@ The ADL runtime is the reference Rust runtime and CLI for **Agent Design Languag
 
 The runtime is built for readers and builders who want AI workflow execution to be predictable, inspectable, and reviewable. It emphasizes clear execution behavior, stable artifacts, and reproducible runs over hidden orchestration logic.
 
-[![adl-ci (main)](https://github.com/danielbaustin/agent-design-language/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/danielbaustin/agent-design-language/actions/workflows/ci.yaml)
-[![coverage](https://codecov.io/gh/danielbaustin/agent-design-language/graph/badge.svg?branch=main)](https://app.codecov.io/gh/danielbaustin/agent-design-language/tree/main)
+[![adl-ci (main)](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml)
+[![coverage](https://codecov.io/gh/agent-logic/agent-design-language/graph/badge.svg?branch=main)](https://app.codecov.io/gh/agent-logic/agent-design-language/tree/main)
 ![License](https://img.shields.io/badge/license-MIT%20or%20Apache--2.0-blue)
 ![Rust toolchain](https://img.shields.io/badge/Rust-stable-blue)
 

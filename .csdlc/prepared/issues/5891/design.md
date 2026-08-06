@@ -12,9 +12,9 @@ and may be closed by qualified cross-repository references.
 
 The cutover has two independently reviewed content changes:
 
-1. A destination change set updates current clone and remote
-   execution defaults to the Agent Logic repository and retains a complete
-   redacted continuity inventory.
+1. A destination change set updates current clone, badge, and remote execution
+   defaults to the Agent Logic repository and retains a complete redacted
+   continuity inventory.
 2. A source-only README notice identifies the Agent Logic repository as the
    canonical development location. No other source content or setting changes.
 
@@ -29,9 +29,10 @@ planning evidence, not activation authority.
 
 ## Declared Scope
 
-The destination content change owns exactly these 12 operational references:
+The destination content change owns exactly these 13 operational references:
 
 - `README.md`
+- `adl/README.md`
 - `adl/src/aws_remote_validation.rs`
 - `adl/src/bin/adl_aws_remote_validation.rs`
 - `adl/tools/publish_adl_builder_image_codebuild.sh`
@@ -48,8 +49,8 @@ The remaining owned paths are the two cutover documents, the issue-5891
 evidence manifests, and the four prepared design/validation files. The exact
 file allowlist is machine-readable in
 `docs/repository-cutover/ADL_CANONICAL_REPOSITORY_CUTOVER_INVENTORY.json`.
-`adl/README.md`, schema files, session records, lifecycle cards,
-`.csdlc/preparation/**`, source code beyond the 12 references, workflow files,
+Schema files, session records, lifecycle cards, `.csdlc/preparation/**`, source
+code beyond the 13 references, workflow files,
 remotes, GitHub settings, and repositories are outside this remediation.
 
 ## Continuity Model

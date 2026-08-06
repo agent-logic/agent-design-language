@@ -1,5 +1,6 @@
 path	classification	disposition
 README.md	current_operational	update_to_agent_logic
+adl/README.md	current_operational	update_to_agent_logic
 adl/src/aws_remote_validation.rs	current_operational	update_to_agent_logic
 adl/src/bin/adl_aws_remote_validation.rs	current_operational	update_to_agent_logic
 adl/tools/publish_adl_builder_image_codebuild.sh	current_operational	update_to_agent_logic

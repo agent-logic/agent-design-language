@@ -21,8 +21,8 @@ def capture(*argv)
   stdout
 end
 
-def changed_and_untracked_paths
-  changed = capture("git", "diff", "--name-only", "HEAD").lines.map(&:strip)
+def changed_and_untracked_paths(base_revision)
+  changed = capture("git", "diff", "--name-only", base_revision).lines.map(&:strip)
   untracked = capture("git", "ls-files", "--others", "--exclude-standard").lines.map(&:strip)
   (changed + untracked).reject(&:empty?).uniq.sort
 end
@@ -64,18 +64,22 @@ abort_with("missing cutover inventory") unless File.file?(INVENTORY_PATH)
 abort_with("missing cutover runbook") unless File.file?(RUNBOOK_PATH)
 
 inventory = JSON.parse(File.read(INVENTORY_PATH))
-abort_with("wrong inventory schema") unless inventory["schema"] == "adl.repository_cutover_inventory.v2"
+abort_with("wrong inventory schema") unless inventory["schema"] == "adl.repository_cutover_inventory.v3"
 abort_with("inventory must remain provisional") unless inventory["status"] == "provisional"
 abort_with("missing immediate refresh gate") unless inventory["refresh_required"].to_s.include?("immediately before activation")
 abort_with("wrong canonical repository") unless inventory["canonical_repository"] == CANONICAL
 abort_with("wrong legacy repository") unless inventory["legacy_repository"] == LEGACY
 
 allowed = inventory.dig("scope", "exact_allowlist")
+base_revision = inventory.dig("scope", "base_revision")
+abort_with("scope base revision missing") if base_revision.to_s.empty?
+capture("git", "cat-file", "-e", "#{base_revision}^{commit}")
+capture("git", "merge-base", "--is-ancestor", base_revision, "HEAD")
 abort_with("exact allowlist missing") unless allowed.is_a?(Array) && !allowed.empty?
 abort_with("exact allowlist contains duplicates") unless allowed.uniq.length == allowed.length
 abort_with("preparation state entered allowlist") if allowed.any? { |path| path.start_with?(IGNORED_PREPARATION_PREFIX) }
 
-actual = changed_and_untracked_paths.reject { |path| path.start_with?(IGNORED_PREPARATION_PREFIX) }
+actual = changed_and_untracked_paths(base_revision).reject { |path| path.start_with?(IGNORED_PREPARATION_PREFIX) }
 delta = scope_delta(actual, allowed.sort)
 unless delta.values.all?(&:empty?)
   abort_with("scope mismatch unexpected=#{delta['unexpected'].inspect} missing=#{delta['missing'].inspect}")
@@ -158,12 +162,30 @@ reference_operational = reference_rows
   .map { |row| row.fetch("path") }
   .sort
 abort_with("operational reference manifest mismatch") unless operational_paths == reference_operational
-abort_with("operational reference count must be 12") unless operational_paths.length == 12
+abort_with("operational reference count must be 13") unless operational_paths.length == 13
 
 operational_paths.each do |relative|
   path = File.join(ROOT, relative)
   abort_with("missing current operational file #{relative}") unless File.file?(path)
   abort_with("canonical repository missing from #{relative}") unless File.read(path).include?(CANONICAL)
+end
+
+{
+  "README.md" => [
+    "https://github.com/#{CANONICAL}/actions/workflows/ci.yaml",
+    "https://codecov.io/gh/#{CANONICAL}/graph/badge.svg"
+  ],
+  "adl/README.md" => [
+    "https://github.com/#{CANONICAL}/actions/workflows/ci.yaml",
+    "https://codecov.io/gh/#{CANONICAL}/graph/badge.svg"
+  ]
+}.each do |relative, expected_badges|
+  text = File.read(File.join(ROOT, relative))
+  expected_badges.each do |badge|
+    abort_with("canonical badge missing from #{relative}: #{badge}") unless text.include?(badge)
+  end
+  abort_with("legacy Actions badge remains in #{relative}") if text.include?("https://github.com/#{LEGACY}/actions/workflows/ci.yaml")
+  abort_with("legacy Codecov badge remains in #{relative}") if text.include?("https://codecov.io/gh/#{LEGACY}")
 end
 
 allowed.each do |relative|
@@ -181,6 +203,7 @@ abort_with("runbook missing Sprint 1 refresh gate") unless runbook.include?("Spr
 puts JSON.generate(
   schema: "adl.repository_cutover_static_validation.v2",
   result: "pass",
+  base_revision: base_revision,
   exact_allowlist_paths: allowed.length,
   operational_references: operational_paths.length,
   active_issue_dispositions: issue_rows.length,
