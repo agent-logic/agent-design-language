@@ -286,6 +286,27 @@ for required_fragment in (
             f"missing fragment: {required_fragment}"
         )
 
+def accepted_lane_results(block: str) -> set[str]:
+    match = re.search(
+        r'case "\$result" in\s*\n\s*([^\n)]+)\)',
+        block,
+        re.MULTILINE,
+    )
+    if not match:
+        raise SystemExit("stable aggregator is missing its lane-result case contract")
+    return {item.strip() for item in match.group(1).split("|") if item.strip()}
+
+for name, block in (
+    ("adl-ci", aggregator_block),
+    ("adl-coverage", step_block("Aggregate hosted or Spot coverage lane")),
+):
+    accepted = accepted_lane_results(block)
+    if accepted != {"success", "skipped"}:
+        raise SystemExit(f"{name} aggregator accepts unexpected lane states: {sorted(accepted)}")
+    for rejected in ("cancelled", "failure", ""):
+        if rejected in accepted:
+            raise SystemExit(f"{name} aggregator must reject {rejected or 'missing'} lane state")
+
 podcast_launch_packet_if = step_optional_if("podcast launch packet contract")
 if podcast_launch_packet_if != "contains(needs.adl_path_policy.outputs.validation_profile_run_lanes, 'podcast_launch_packet')":
     raise SystemExit(

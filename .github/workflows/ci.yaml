@@ -28,6 +28,9 @@ jobs:
       pull-requests: read
     outputs:
       reason: ${{ steps.path-policy.outputs.reason }}
+      change_class: ${{ steps.path-policy.outputs.change_class }}
+      pvf_lane: ${{ steps.path-policy.outputs.pvf_lane }}
+      release_gate_role: ${{ steps.path-policy.outputs.release_gate_role }}
       rust_required: ${{ steps.path-policy.outputs.rust_required }}
       coverage_required: ${{ steps.path-policy.outputs.coverage_required }}
       full_coverage_required: ${{ steps.path-policy.outputs.full_coverage_required }}
@@ -84,6 +87,9 @@ jobs:
             echo "| Field | Value |"
             echo "|---|---|"
             echo "| reason | \`${{ steps.path-policy.outputs.reason }}\` |"
+            echo "| change class | \`${{ steps.path-policy.outputs.change_class }}\` |"
+            echo "| PVF lane | \`${{ steps.path-policy.outputs.pvf_lane }}\` |"
+            echo "| release-gate role | \`${{ steps.path-policy.outputs.release_gate_role }}\` |"
             echo "| selected profile | \`${{ steps.path-policy.outputs.validation_profile_selected }}\` |"
             echo "| profile status | \`${{ steps.path-policy.outputs.validation_profile_status }}\` |"
             echo "| PR publication sufficient | \`${{ steps.path-policy.outputs.validation_profile_pr_publication_sufficient }}\` |"
