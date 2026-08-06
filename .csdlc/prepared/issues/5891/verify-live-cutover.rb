@@ -90,9 +90,14 @@ def live_worktrees
       "mode" => mode,
       "branch" => branch,
       "dirty" => status.empty? ? "clean" : "dirty",
-      "disposition" => "preserve_head_branch_mode_and_dirty_state"
+      "disposition" => "preserve_registration_branch_and_existing_work"
     }
   end.sort_by { |row| row.fetch("worktree_id") }
+end
+
+def worktree_registration(rows)
+  rows.map { |row| row.slice("worktree_id", "mode", "branch") }
+      .sort_by { |row| row.fetch("worktree_id") }
 end
 
 def rollback_drill
@@ -138,6 +143,12 @@ negative_repos = %w[agent-logic/asksifu agent-logic/Horust]
 negative_repos.each do |name|
   _out, _err, status = Open3.capture3("gh", "repo", "view", name, chdir: ROOT)
   abort_with("excluded repository unexpectedly exists: #{name}") if status.success?
+end
+
+expected_worktrees = read_tsv(inventory.dig("disposition_manifests", "worktrees"))
+current_worktrees = live_worktrees
+unless worktree_registration(current_worktrees) == worktree_registration(expected_worktrees)
+  abort_with("registered worktree, branch, or detached-mode continuity drift")
 end
 
 rollback_result = "not_run"
@@ -193,9 +204,6 @@ if PHASE == "post"
     expected = integration_state(integration_rows, surface)
     abort_with("integration drift for #{surface}: expected #{expected}, observed #{observed}") unless observed == expected
   end
-
-  expected_worktrees = read_tsv(inventory.dig("disposition_manifests", "worktrees")).sort_by { |row| row.fetch("worktree_id") }
-  abort_with("registered worktree continuity drift") unless live_worktrees == expected_worktrees
 
   canonical_badges = [
     "https://github.com/#{CANONICAL_REPO}/actions/workflows/ci.yaml",

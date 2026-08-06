@@ -8,28 +8,29 @@ authority until those issues close.
 
 ## Current Decision
 
-The repository copy is complete and exact at the recorded common revision, but
-activation must wait until Sprint 1 is terminal. Current C-SDLC issue records
-and publication contracts name the legacy repository; replacing `origin` first
-would strand active work. This is an ordering gate, not a request for tooling
-changes or lifecycle-record rewrites.
+The repository copy is complete and exact at the recorded common revision.
+Activation proceeds after WP-02A and the Freedom Gate quality prerequisite are
+terminal. Current C-SDLC issue records and publication contracts continue to
+name the legacy issue tracker while code and push authority move to the Agent
+Logic repository, so active work remains reachable without lifecycle-record
+rewrites.
 
-The retained inventory is **provisional** while Sprint 1 is active. Immediately
-before activation, refresh the issue, pull-request, worktree, ref, automation,
+The retained inventory is **provisional** until activation. Immediately before
+activation, refresh the issue, pull-request, worktree, ref, automation,
 integration, and current-reference manifests and rerun the focused static and
-live verifiers. Snapshot counts in the present packet must not authorize the
-cutover.
+live verifiers. Snapshot counts alone must not authorize the cutover.
 
 `asksifu` and `Horust` are excluded. They remain unchanged in the personal
 account and must not be copied or created in the Agent Logic organization.
 
 ## Pre-Activation Gates
 
-1. Finish Sprint 1 on `danielbaustin/agent-design-language`, including WP-02A.
+1. Confirm WP-02A and the Freedom Gate quality prerequisite are terminal.
 2. Reconfirm exact source/destination full branch and tag manifests, including
    annotated-tag peeled refs.
 3. Confirm zero open source pull requests and disposition every open issue.
-4. Preserve all worktrees, detached heads, dirty states, and local branches.
+4. Preserve every registered worktree, branch or detached binding, and all
+   existing work. Active sessions may advance their own HEAD or dirty state.
 5. Recreate reviewed destination variables and the `adl-spot-ci` environment.
 6. Keep secret-, OIDC-, CodeBuild-, package-, App-, and runner-dependent lanes
    disabled until their authority is independently proven.
@@ -51,8 +52,9 @@ account and must not be copied or created in the Agent Logic organization.
 6. Open and merge a source-only README notice pointing contributors to the
    canonical repository. No other personal-repository mutation is authorized.
 7. Verify authenticated canonical push authority, workflow status, both README
-   badge surfaces, active issue continuity, every registered worktree, and the
-   rollback path through a non-destructive local remote-renaming drill.
+   badge surfaces, active issue continuity, every registered worktree and its
+   branch or detached binding, and the rollback path through a non-destructive
+   local remote-renaming drill.
 8. Generate distinct post-cutover full-ref manifests for both repositories,
    review those terminal manifests independently, and only then close #5891.
 
@@ -98,9 +100,11 @@ disposition in these redacted manifests:
 - Integrations: `.csdlc/evidence/5891/integration-dispositions.tsv`
 - Current and preserved references: `.csdlc/evidence/5891/reference-dispositions.tsv`
 
-Worktree rows intentionally retain only an opaque identifier, exact HEAD,
-branch-or-detached mode, dirty state, and disposition. Machine-local paths are
-not durable evidence.
+Worktree rows intentionally retain only an opaque identifier, snapshot HEAD,
+branch-or-detached mode, snapshot dirty state, and disposition. Activation
+requires registration and branch-or-detached continuity; active sessions may
+advance their own HEAD or dirty state. Machine-local paths are not durable
+evidence.
 
 ## Rollback
 

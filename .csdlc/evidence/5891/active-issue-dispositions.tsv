@@ -2,8 +2,6 @@ issue	title	authority	disposition
 5786	[v0.92][WP-21] Repository-wide code reduction cleanup	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
 5795	[v0.92][runtime][shepherd] Pull local Gemma/MLX Shepherd MVP forward	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
 5800	[v0.92][observatory][tls] Use browser-trusted local HTTPS certificate	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
-5801	[v0.92][WP-02A] CI and coverage reliability	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
-5812	[v0.92][runtime][quality] Restore Clippy cleanliness in csm_freedom_gate	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
 5820	[v0.92][WP-03] Runtime launch and resilience consolidation	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
 5821	[v0.92][WP-04] Distributed Guardian/polis runtime	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
 5822	[v0.92][WP-05] C-SDLC estimation and cycle-time reduction	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
@@ -63,3 +61,4 @@ issue	title	authority	disposition
 5881	[v0.92][C-SDLC v2] Remove claims from the lifecycle	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
 5883	[Backlog][C-SDLC v2] Retire duplicate csdlc-init entrypoint	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
 5891	[v0.92][Cutover] Promote the Agent Logic ADL copy to canonical repository authority	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred
+5895	[Backlog][C-SDLC v2] Remove retired csdlc-migrate from installer and coexistence authority	danielbaustin/agent-design-language	preserve_on_legacy_tracker_until_terminal_or_explicitly_transferred

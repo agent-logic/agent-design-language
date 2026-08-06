@@ -2,7 +2,7 @@
   "schema": "adl.repository_cutover_inventory.v3",
   "status": "provisional",
   "captured_at": "2026-08-06",
-  "refresh_required": "Refresh every live manifest and rerun static and live verification immediately before activation because Sprint 1 remains active.",
+  "refresh_required": "Refreshed immediately before activation after WP-02A and the Freedom Gate quality prerequisite became terminal; active legacy issues remain explicitly dispositioned.",
   "canonical_repository": "agent-logic/agent-design-language",
   "legacy_repository": "danielbaustin/agent-design-language",
   "policy": {
@@ -16,7 +16,7 @@
     ]
   },
   "refs": {
-    "common_main_sha": "18d3cb93017469521dd0f50c9bc032d6d59ea184",
+    "common_main_sha": "1cbafe43eb8c640635d9da4f9e2763c70741a2ba",
     "pre_legacy_manifest": ".csdlc/evidence/5891/legacy-refs.tsv",
     "pre_canonical_manifest": ".csdlc/evidence/5891/canonical-refs.tsv",
     "post_legacy_manifest": ".csdlc/evidence/5891/post-cutover-legacy-refs.tsv",
@@ -32,13 +32,13 @@
     "references": ".csdlc/evidence/5891/reference-dispositions.tsv"
   },
   "snapshot_counts": {
-    "active_issues": 64,
-    "active_pull_requests": 2,
-    "worktrees": 162,
-    "branch_bound_worktrees": 144,
+    "active_issues": 63,
+    "active_pull_requests": 0,
+    "worktrees": 166,
+    "branch_bound_worktrees": 148,
     "detached_worktrees": 18,
-    "clean_worktrees": 97,
-    "dirty_worktrees": 65,
+    "clean_worktrees": 69,
+    "dirty_worktrees": 97,
     "workflows": 4
   },
   "operational_references": [
@@ -126,7 +126,7 @@
     }
   ],
   "scope": {
-    "base_revision": "18d3cb93017469521dd0f50c9bc032d6d59ea184",
+    "base_revision": "1cbafe43eb8c640635d9da4f9e2763c70741a2ba",
     "exact_allowlist": [
       ".csdlc/evidence/5891/active-issue-dispositions.tsv",
       ".csdlc/evidence/5891/active-pull-request-dispositions.tsv",

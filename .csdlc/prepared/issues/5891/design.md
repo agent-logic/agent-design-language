@@ -18,14 +18,16 @@ The cutover has two independently reviewed content changes:
 2. A source-only README notice identifies the Agent Logic repository as the
    canonical development location. No other source content or setting changes.
 
-The live cutover window begins only after Sprint 1 is terminal, source and
-destination refs have an exact explained match, all open pull requests have a
-disposition, every active worktree branch is preserved, and authenticated
-destination push authority is confirmed.
+The live cutover window begins only after WP-02A and the Freedom Gate quality
+prerequisite are terminal, source and destination refs have an exact explained
+match, all open pull requests have a disposition, every registered worktree and
+branch-or-detached binding is preserved, and authenticated destination push
+authority is confirmed. Active sessions may advance their own HEAD or dirty
+state during the window.
 
-The retained inventory is provisional while Sprint 1 remains active. It must
-be refreshed immediately before activation; the current counts and refs are
-planning evidence, not activation authority.
+The retained inventory is provisional until activation. It must be refreshed
+immediately before activation; the current counts and refs are planning
+evidence, not activation authority.
 
 ## Declared Scope
 
@@ -71,7 +73,8 @@ remotes, GitHub settings, and repositories are outside this remediation.
 
 1. Freeze and record source/destination refs and repository settings.
 2. Produce the complete active-work and operational-reference inventory.
-3. Finish Sprint 1 using the existing legacy issue authority.
+3. Preserve existing legacy issue authority while remaining Sprint 1 work runs
+   from the canonical code repository.
 4. Prepare destination and source-notice branches from the common base.
 5. Run focused validation and independent exact-head review.
 6. Enable destination Actions and open the destination pull request.

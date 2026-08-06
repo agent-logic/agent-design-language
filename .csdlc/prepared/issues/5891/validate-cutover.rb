@@ -213,7 +213,7 @@ runbook = File.read(RUNBOOK_PATH)
   abort_with("runbook missing #{term}") unless runbook.downcase.include?(term)
 end
 runbook_lower = runbook.downcase.gsub(/\s+/, " ")
-abort_with("runbook missing Sprint 1 refresh gate") unless runbook.include?("Sprint 1") && runbook_lower.include?("immediately before activation")
+abort_with("runbook missing prerequisite refresh gate") unless runbook.include?("WP-02A") && runbook_lower.include?("immediately before activation")
 
 puts JSON.generate(
   schema: "adl.repository_cutover_static_validation.v2",

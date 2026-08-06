@@ -1,18 +1,1 @@
-[
-  {
-    "baseRefName": "main",
-    "headRefName": "codex/5812-v0-92-freedom-gate-clippy",
-    "isDraft": false,
-    "number": 5894,
-    "title": "[v0.92][runtime][quality] Restore Clippy cleanliness in csm_freedom_gate",
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5894"
-  },
-  {
-    "baseRefName": "main",
-    "headRefName": "codex/5801-v0-92-wp-02a-ci-coverage-reliability",
-    "isDraft": false,
-    "number": 5893,
-    "title": "[v0.92][WP-02A] Make CI and coverage routing explicit",
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5893"
-  }
-]
+[]
