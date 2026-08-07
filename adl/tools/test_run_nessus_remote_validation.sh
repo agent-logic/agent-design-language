@@ -129,6 +129,30 @@ PY
 grep -F "apt.releases.hashicorp.com" "$sources_list" >/dev/null
 assert_file "$kubernetes_list"
 
+fixture_token="ghp_012345678901234567890123456789012345"
+PATH="$fake_bin:$PATH" \
+ADL_NESSUS_APT_SOURCES_LIST="$sources_list" \
+ADL_NESSUS_APT_KUBERNETES_LIST="$kubernetes_list" \
+bash "$SCRIPT" \
+  --executor local \
+  --repo-url "$origin_bare" \
+  --git-ref origin/main \
+  --remote-root "$TMP/remote-root-redaction" \
+  --run-id fixture-redaction \
+  --command "printf '$fixture_token'" \
+  --local-artifact-dir "$TMP/artifacts-redaction" \
+  >"$TMP/redaction.json"
+
+assert_file "$TMP/artifacts-redaction/summary.json"
+assert_file "$TMP/artifacts-redaction/run-logs.tar.gz"
+mkdir -p "$TMP/artifacts-redaction-expanded"
+tar -xzf "$TMP/artifacts-redaction/run-logs.tar.gz" -C "$TMP/artifacts-redaction-expanded"
+if grep -R -F "$fixture_token" "$TMP/artifacts-redaction" "$TMP/artifacts-redaction-expanded" >/dev/null; then
+  echo "expected credential-shaped fixture value to be redacted from retained evidence" >&2
+  exit 1
+fi
+grep -F "<github-token-redacted>" "$TMP/artifacts-redaction/summary.json" >/dev/null
+
 cat >"$fake_bin/docker" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail

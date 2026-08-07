@@ -344,6 +344,26 @@ fn local_native_execution_records_artifact_and_exact_revision() {
 }
 
 #[test]
+fn local_native_execution_fails_redaction_for_sensitive_artifact_content() {
+    let checkout = fixture_checkout("artifact-redaction");
+    let artifact = checkout.join(".csdlc/evidence/5823/secret.log");
+    std::fs::create_dir_all(artifact.parent().unwrap()).unwrap();
+    std::fs::write(
+        &artifact,
+        "Authorization: Bearer fixture-token-must-not-be-retained\n",
+    )
+    .unwrap();
+    let mut value = local_request(&checkout, vec!["/usr/bin/true".into()]);
+    value.artifact_policy.paths = vec![".csdlc/evidence/5823/secret.log".into()];
+    let result = run_local(&value, &checkout).unwrap();
+    assert!(!result.redaction_passed);
+    assert!(validate_result(&value, &result)
+        .unwrap_err()
+        .contains("redaction"));
+    std::fs::remove_dir_all(checkout).unwrap();
+}
+
+#[test]
 fn local_timeout_and_cancellation_kill_and_reap_the_child() {
     let checkout = fixture_checkout("timeout-cancel");
     let mut timed = local_request(&checkout, vec!["/bin/sleep".into(), "5".into()]);
@@ -424,5 +444,13 @@ fn canonical_adapter_result_hashes_declared_artifacts_and_preserves_contract() {
     assert_eq!(result.artifact_policy, value.artifact_policy);
     assert_eq!(result.artifact_digests.len(), 1);
     validate_result(&value, &result).unwrap();
+    std::fs::write(
+        checkout.join("proof/summary.json"),
+        b"AWS_SECRET_ACCESS_KEY=fixture-secret-must-not-be-retained\n",
+    )
+    .unwrap();
+    assert!(canonicalize_adapter_result(&value, &receipt, &checkout)
+        .unwrap_err()
+        .contains("redaction"));
     std::fs::remove_dir_all(checkout).unwrap();
 }

@@ -8,6 +8,17 @@ require "pathname"
 
 HEX40 = /\A[0-9a-f]{40}\z/
 HEX64 = /\A[0-9a-f]{64}\z/
+POST_VALIDATION_TRUTH_PATHS = [
+  ".csdlc/evidence/5823/",
+  ".csdlc/issues/5823/",
+  ".csdlc/prepared/issues/5823/publish-final.json",
+].freeze
+
+def post_validation_truth_path?(path)
+  POST_VALIDATION_TRUTH_PATHS.any? do |allowed|
+    allowed.end_with?("/") ? path.start_with?(allowed) : path == allowed
+  end
+end
 
 def read_json(path)
   raise("missing receipt #{path}") unless path.file? && !path.zero?
@@ -41,9 +52,7 @@ def verify_validation_revision(root, revision)
   )
   raise("failed to inspect deterministic validation drift: #{error}") unless status.success?
 
-  unexpected = changed.lines.map(&:strip).reject(&:empty?).reject do |path|
-    path.start_with?(".csdlc/evidence/5823/")
-  end
+  unexpected = changed.lines.map(&:strip).reject(&:empty?).reject { |path| post_validation_truth_path?(path) }
   unless unexpected.empty?
     raise("deterministic validation revision is stale for: #{unexpected.join(', ')}")
   end
@@ -57,7 +66,7 @@ def verify_validation_revision(root, revision)
     raise("failed to inspect deterministic validation worktree: #{error}") unless status.success?
     dirty_paths.concat(output.lines.map(&:strip).reject(&:empty?))
   end
-  dirty_paths = dirty_paths.uniq.reject { |path| path.start_with?(".csdlc/evidence/5823/") }
+  dirty_paths = dirty_paths.uniq.reject { |path| post_validation_truth_path?(path) }
   unless dirty_paths.empty?
     raise("deterministic validation worktree is dirty for: #{dirty_paths.join(', ')}")
   end
@@ -230,6 +239,10 @@ if ARGV == ["--self-test"]
   root = Pathname.new(__dir__).join("../../../..").cleanpath
   raise "hex validator accepted invalid revision" if HEX40.match?("g" * 40)
   raise "digest validator accepted invalid digest" if HEX64.match?("0" * 63)
+  raise "issue lifecycle path must be allowed after validation" unless post_validation_truth_path?(".csdlc/issues/5823/index.json")
+  raise "publication request path must be allowed after validation" unless post_validation_truth_path?(".csdlc/prepared/issues/5823/publish-final.json")
+  raise "unrelated documentation path was accepted after validation" if post_validation_truth_path?("docs/unrelated.md")
+  raise "unrelated lifecycle path was accepted after validation" if post_validation_truth_path?(".csdlc/issues/9999/index.json")
   begin
     repo_relative_path(Pathname.new("."), "/Volumes/FastWork/proof.json")
     raise "path validator accepted absolute machine path"

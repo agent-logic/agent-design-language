@@ -566,12 +566,56 @@ pub fn verify_checkout_revision(checkout: &Path, revision: &str) -> Result<(), S
     Ok(())
 }
 
+fn contains_sensitive_artifact_content(bytes: &[u8]) -> bool {
+    let text = String::from_utf8_lossy(bytes);
+    let lower = text.to_ascii_lowercase();
+    let sensitive_fragments = [
+        "/users/",
+        "/volumes/",
+        "/private/",
+        "/tmp/",
+        "/root/",
+        "arn:aws:",
+        "bearer ",
+        "basic ",
+        "github_pat_",
+        "ghp_",
+        "gho_",
+        "ghu_",
+        "ghs_",
+        "ghr_",
+        "-----begin private key-----",
+        "-----begin rsa private key-----",
+        "-----begin ec private key-----",
+        "aws_secret_access_key",
+        "github_token",
+        "openai_api_key",
+        "anthropic_api_key",
+        "gemini_api_key",
+        "google_api_key",
+    ];
+    if sensitive_fragments
+        .iter()
+        .any(|fragment| lower.contains(fragment))
+    {
+        return true;
+    }
+
+    bytes.windows(20).any(|window| {
+        (&window[..4] == b"AKIA" || &window[..4] == b"ASIA")
+            && window[4..]
+                .iter()
+                .all(|byte| byte.is_ascii_uppercase() || byte.is_ascii_digit())
+    })
+}
+
 fn artifact_digests(
     checkout: &Path,
     policy: &ArtifactPolicy,
-) -> Result<Vec<ArtifactDigest>, String> {
+) -> Result<(Vec<ArtifactDigest>, bool), String> {
     let mut total = 0_u64;
     let mut artifacts = Vec::new();
+    let mut redaction_passed = true;
     for relative in &policy.paths {
         let path = checkout.join(relative);
         if !path.is_file() {
@@ -585,13 +629,14 @@ fn artifact_digests(
         if total > policy.max_total_bytes {
             return Err("artifact budget exceeded".into());
         }
+        redaction_passed &= !contains_sensitive_artifact_content(&bytes);
         artifacts.push(ArtifactDigest {
             path: relative.clone(),
             sha256: sha256_hex(&bytes),
             bytes: bytes.len() as u64,
         });
     }
-    Ok(artifacts)
+    Ok((artifacts, redaction_passed))
 }
 
 pub fn canonicalize_adapter_result(
@@ -605,6 +650,8 @@ pub fn canonicalize_adapter_result(
     {
         return Err("adapter execution receipt identity does not match request".into());
     }
+    let (artifact_digests, artifact_redaction_passed) =
+        artifact_digests(artifact_root, &request.artifact_policy)?;
     let result = PortableResult {
         schema: RESULT_SCHEMA.into(),
         request_id: request.request_id.clone(),
@@ -619,8 +666,8 @@ pub fn canonicalize_adapter_result(
         finished_unix_ms: receipt.finished_unix_ms,
         exit_code: receipt.exit_code,
         outcome: receipt.outcome.clone(),
-        artifact_digests: artifact_digests(artifact_root, &request.artifact_policy)?,
-        redaction_passed: receipt.redaction_passed,
+        artifact_digests,
+        redaction_passed: receipt.redaction_passed && artifact_redaction_passed,
         cleanup: receipt.cleanup.clone(),
         fallback: receipt.fallback.clone(),
     };
@@ -701,7 +748,7 @@ pub fn run_local(
         }
         thread::sleep(Duration::from_millis(20));
     };
-    let artifacts = artifact_digests(&checkout, &request.artifact_policy)?;
+    let (artifacts, redaction_passed) = artifact_digests(&checkout, &request.artifact_policy)?;
     Ok(PortableResult {
         schema: RESULT_SCHEMA.into(),
         request_id: request.request_id.clone(),
@@ -722,7 +769,7 @@ pub fn run_local(
         exit_code,
         outcome,
         artifact_digests: artifacts,
-        redaction_passed: true,
+        redaction_passed,
         cleanup,
         fallback: FallbackStatus {
             policy: FallbackPolicy::Disabled,

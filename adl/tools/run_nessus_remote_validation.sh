@@ -380,6 +380,11 @@ def redact(value):
         value = re.sub(r"\b\d{12}\b", "<account-id-redacted>", value)
         value = re.sub(r"\bi-[0-9a-f]{8,17}\b", "<instance-id-redacted>", value)
         value = re.sub(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", "<ip-address-redacted>", value)
+        value = re.sub(r"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b", "<aws-access-key-redacted>", value)
+        value = re.sub(r"(?i)\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+", r"\1 <credential-redacted>", value)
+        value = re.sub(r"\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,})\b", "<github-token-redacted>", value)
+        value = re.sub(r"(?i)\b(?:AWS_SECRET_ACCESS_KEY|GITHUB_TOKEN|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GOOGLE_API_KEY)\s*[:=]\s*[^\s,\"']+", "<secret-assignment-redacted>", value)
+        value = re.sub(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----", "<private-key-redacted>", value, flags=re.DOTALL)
         return value
     return value
 
@@ -487,6 +492,11 @@ patterns = (
     (re.compile(r"\b\d{12}\b"), "<account-id-redacted>"),
     (re.compile(r"\bi-[0-9a-f]{8,17}\b"), "<instance-id-redacted>"),
     (re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b"), "<ip-address-redacted>"),
+    (re.compile(r"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b"), "<aws-access-key-redacted>"),
+    (re.compile(r"(?i)\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+"), r"\1 <credential-redacted>"),
+    (re.compile(r"\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,})\b"), "<github-token-redacted>"),
+    (re.compile(r"(?i)\b(?:AWS_SECRET_ACCESS_KEY|GITHUB_TOKEN|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GOOGLE_API_KEY)\s*[:=]\s*[^\s,\"']+"), "<secret-assignment-redacted>"),
+    (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----", re.DOTALL), "<private-key-redacted>"),
 )
 for path in root.glob("*"):
     if not path.is_file() or path.name in {"runner.pid", "cancel.request", "timeout.request"}:
@@ -921,6 +931,11 @@ def redact(value):
         value = re.sub(r"\b\d{12}\b", "<account-id-redacted>", value)
         value = re.sub(r"\bi-[0-9a-f]{8,17}\b", "<instance-id-redacted>", value)
         value = re.sub(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", "<ip-address-redacted>", value)
+        value = re.sub(r"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b", "<aws-access-key-redacted>", value)
+        value = re.sub(r"(?i)\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+", r"\1 <credential-redacted>", value)
+        value = re.sub(r"\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,})\b", "<github-token-redacted>", value)
+        value = re.sub(r"(?i)\b(?:AWS_SECRET_ACCESS_KEY|GITHUB_TOKEN|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GOOGLE_API_KEY)\s*[:=]\s*[^\s,\"']+", "<secret-assignment-redacted>", value)
+        value = re.sub(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----", "<private-key-redacted>", value, flags=re.DOTALL)
     return value
 
 with open(destination, "w", encoding="utf-8") as handle:
@@ -1040,6 +1055,14 @@ def redact(value):
     if isinstance(value, str):
         value = re.sub(r"/(?:Users|Volumes|private|tmp|root)/[^\s,\"]*", "<machine-path-redacted>", value)
         value = re.sub(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", "<ip-address-redacted>", value)
+        value = re.sub(r"arn:aws:[^\s,\"]*", "<aws-arn-redacted>", value)
+        value = re.sub(r"\b\d{12}\b", "<account-id-redacted>", value)
+        value = re.sub(r"\bi-[0-9a-f]{8,17}\b", "<instance-id-redacted>", value)
+        value = re.sub(r"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b", "<aws-access-key-redacted>", value)
+        value = re.sub(r"(?i)\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+", r"\1 <credential-redacted>", value)
+        value = re.sub(r"\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,})\b", "<github-token-redacted>", value)
+        value = re.sub(r"(?i)\b(?:AWS_SECRET_ACCESS_KEY|GITHUB_TOKEN|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GOOGLE_API_KEY)\s*[:=]\s*[^\s,\"']+", "<secret-assignment-redacted>", value)
+        value = re.sub(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----", "<private-key-redacted>", value, flags=re.DOTALL)
         return value
     return value
 
@@ -1092,6 +1115,11 @@ sensitive_patterns = tuple(re.compile(pattern) for pattern in (
     r"\b\d{12}\b",
     r"\bi-[0-9a-f]{8,17}\b",
     r"\b(?:\d{1,3}\.){3}\d{1,3}\b",
+    r"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b",
+    r"(?i)\b(?:Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+",
+    r"\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,})\b",
+    r"(?i)\b(?:AWS_SECRET_ACCESS_KEY|GITHUB_TOKEN|OPENAI_API_KEY|ANTHROPIC_API_KEY|GEMINI_API_KEY|GOOGLE_API_KEY)\s*[:=]\s*[^\s,\"']+",
+    r"-----BEGIN [A-Z ]*PRIVATE KEY-----",
 ))
 retained_text = [json.dumps(summary, sort_keys=True)]
 archive = Path(archive_path)
