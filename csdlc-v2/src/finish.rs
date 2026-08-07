@@ -11,7 +11,12 @@ use strum::{AsRefStr, Display, EnumString};
 
 use crate::cards::{CardContent, CardKind};
 use crate::error::{ErrorCode, Result, V2Error};
-use crate::estimation::{validate_accepted_estimate, TerminalOutcome, OUTCOME_SCHEMA};
+use crate::estimation::{
+    canonical_digest, load_verified_json, terminal_outcome, validate_accepted_estimate,
+    verified_calibration, ArtifactReference, Availability, EstimateDisposition, Forecast,
+    MetricObservation, Observation, ObservationSource, Provenance, TerminalOutcome,
+    OBSERVATION_SCHEMA, OUTCOME_SCHEMA,
+};
 use crate::git::{self, clean_commit_revision};
 use crate::github::{
     collect_pr_state, execute_github_action, GithubAction, GithubActionRequest, GithubIssuePacket,
@@ -108,6 +113,26 @@ pub struct FinishResult {
     pub schema: String,
     pub terminal: DerivedTerminalEnvelope,
     pub already_terminal: bool,
+    pub estimation: TerminalEstimationResult,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum TerminalEstimationStatus {
+    NotPlanned,
+    Deferred,
+    Recorded,
+    Invalid,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct TerminalEstimationResult {
+    pub schema: String,
+    pub issue: u64,
+    pub status: TerminalEstimationStatus,
+    pub outcome_ref: Option<String>,
+    pub outcome_digest: Option<String>,
+    pub detail: String,
 }
 
 /// Execute the complete terminal operation. The remote merge primitive is kept
@@ -139,10 +164,12 @@ pub async fn execute_finish(root: &Path, request: &FinishRequest) -> Result<Fini
 
     if let Some(terminal) = derive_terminal(&record, request, &observation, packet.as_ref())? {
         retain_cached_terminal(store.root(), &terminal)?;
+        let estimation = retain_terminal_estimation_outcome(&store, &terminal);
         return Ok(FinishResult {
             schema: "csdlc.finish_result.v1".into(),
             terminal,
             already_terminal: true,
+            estimation,
         });
     }
 
@@ -175,16 +202,153 @@ pub async fn execute_finish(root: &Path, request: &FinishRequest) -> Result<Fini
             )
         })?;
     retain_cached_terminal(store.root(), &terminal)?;
+    let estimation = retain_terminal_estimation_outcome(&store, &terminal);
     Ok(FinishResult {
         schema: "csdlc.finish_result.v1".into(),
         terminal,
         already_terminal: false,
+        estimation,
     })
 }
 
-/// Validate terminal forecast-versus-actual evidence when an operator elects
-/// to use an accepted advisory estimate. This is deliberately separate from
-/// `execute_finish`: estimates must never block merge or lifecycle closeout.
+/// Retain advisory forecast-versus-actual truth after terminal authority is
+/// durable. Estimation is deliberately non-enforcing: a malformed or missing
+/// advisory artifact is reported as `invalid` and never reverses closeout.
+pub fn retain_terminal_estimation_outcome(
+    store: &Store,
+    terminal: &DerivedTerminalEnvelope,
+) -> TerminalEstimationResult {
+    match try_retain_terminal_estimation_outcome(store, terminal) {
+        Ok(result) => result,
+        Err(error) => TerminalEstimationResult {
+            schema: "csdlc.terminal_estimation_result.v1".into(),
+            issue: terminal.issue,
+            status: TerminalEstimationStatus::Invalid,
+            outcome_ref: None,
+            outcome_digest: None,
+            detail: error.to_string(),
+        },
+    }
+}
+
+fn try_retain_terminal_estimation_outcome(
+    store: &Store,
+    terminal: &DerivedTerminalEnvelope,
+) -> Result<TerminalEstimationResult> {
+    let cards = store.load_cards(terminal.issue)?;
+    let spp = cards
+        .get(&CardKind::Spp)
+        .ok_or_else(|| V2Error::new(ErrorCode::CardInvalid, "SPP card is missing"))?;
+    let CardContent::Spp(spp) = &spp.content else {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "SPP projection has the wrong type",
+        ));
+    };
+    let Some(accepted) = &spp.execution_estimates.advisory else {
+        return Ok(estimation_result(
+            terminal.issue,
+            TerminalEstimationStatus::NotPlanned,
+            "no advisory forecast was dispositioned",
+        ));
+    };
+    validate_accepted_estimate(accepted)?;
+    let forecast_artifact = ArtifactReference {
+        reference: accepted.forecast_ref.clone(),
+        digest: accepted.forecast_digest.clone(),
+    };
+    let forecast: Forecast = load_verified_json(store.root(), &forecast_artifact)?;
+    if forecast.target_issue != terminal.issue {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "accepted forecast target does not match terminal issue",
+        ));
+    }
+    if let Some(calibration) = forecast.calibration.clone() {
+        let calibration = verified_calibration(store.root(), calibration)?;
+        if !calibration.report.calibrated {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "accepted forecast references failed calibration",
+            ));
+        }
+    }
+    if matches!(
+        accepted.disposition,
+        EstimateDisposition::Rejected | EstimateDisposition::Deferred
+    ) {
+        return Ok(estimation_result(
+            terminal.issue,
+            TerminalEstimationStatus::Deferred,
+            "verified advisory artifacts; operator disposition does not request terminal comparison",
+        ));
+    }
+
+    let terminal_ref = format!(
+        "git-common:csdlc-v2/derived-terminal/{}.json",
+        terminal.issue
+    );
+    let unknown = |name: &str| MetricObservation {
+        availability: Availability::Unknown,
+        value: None,
+        provenance: vec![Provenance {
+            source: ObservationSource::Lifecycle,
+            reference: format!("{terminal_ref}#{name}"),
+        }],
+    };
+    let actual = Observation {
+        schema: OBSERVATION_SCHEMA.into(),
+        issue: terminal.issue,
+        key: forecast.key.clone(),
+        elapsed_seconds: unknown("elapsed_seconds_unavailable"),
+        active_work_seconds: unknown("active_work_seconds_unavailable"),
+        validation_seconds: unknown("validation_seconds_unavailable"),
+        pr_wait_seconds: unknown("pr_wait_seconds_unavailable"),
+        ci_wait_seconds: unknown("ci_wait_seconds_unavailable"),
+        total_tokens: unknown("total_tokens_unavailable"),
+    };
+    let outcome = terminal_outcome(&forecast, accepted.forecast_ref.clone(), &actual)?;
+    let digest = canonical_digest(&outcome)?;
+    let path = terminal_estimation_path(store.root(), terminal.issue)?;
+    retain_terminal_estimation_file(store.root(), &path, &outcome)?;
+    let retained: TerminalOutcome = serde_json::from_slice(&fs::read(&path)?)?;
+    if retained != outcome || canonical_digest(&retained)? != digest {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "retained terminal estimation outcome failed reread validation",
+        ));
+    }
+    Ok(TerminalEstimationResult {
+        schema: "csdlc.terminal_estimation_result.v1".into(),
+        issue: terminal.issue,
+        status: TerminalEstimationStatus::Recorded,
+        outcome_ref: Some(format!(
+            "git-common:csdlc-v2/derived-terminal/{}.estimation.json",
+            terminal.issue
+        )),
+        outcome_digest: Some(digest),
+        detail: "verified advisory forecast and retained terminal outcome".into(),
+    })
+}
+
+fn estimation_result(
+    issue: u64,
+    status: TerminalEstimationStatus,
+    detail: impl Into<String>,
+) -> TerminalEstimationResult {
+    TerminalEstimationResult {
+        schema: "csdlc.terminal_estimation_result.v1".into(),
+        issue,
+        status,
+        outcome_ref: None,
+        outcome_digest: None,
+        detail: detail.into(),
+    }
+}
+
+/// Validate the derived terminal forecast-versus-actual evidence retained by
+/// `execute_finish`. This check is explicit and may fail, while finish itself
+/// reports estimation failure without weakening terminal lifecycle authority.
 pub fn validate_terminal_estimation_evidence(store: &Store, issue: u64) -> Result<()> {
     let cards = store.load_cards(issue)?;
     let spp = cards
@@ -200,23 +364,32 @@ pub fn validate_terminal_estimation_evidence(store: &Store, issue: u64) -> Resul
         return Ok(());
     };
     validate_accepted_estimate(accepted)?;
+    let forecast_artifact = ArtifactReference {
+        reference: accepted.forecast_ref.clone(),
+        digest: accepted.forecast_digest.clone(),
+    };
+    let forecast: Forecast = load_verified_json(store.root(), &forecast_artifact)?;
+    if let Some(calibration) = forecast.calibration.clone() {
+        let calibration = verified_calibration(store.root(), calibration)?;
+        if !calibration.report.calibrated {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "terminal forecast references failed calibration",
+            ));
+        }
+    }
     if matches!(
         accepted.disposition,
-        crate::estimation::EstimateDisposition::Rejected
-            | crate::estimation::EstimateDisposition::Deferred
+        EstimateDisposition::Rejected | EstimateDisposition::Deferred
     ) {
         return Ok(());
     }
-    let path = store
-        .root()
-        .join(".csdlc/evidence")
-        .join(issue.to_string())
-        .join("estimation-outcome.json");
+    let path = terminal_estimation_path(store.root(), issue)?;
     let bytes = fs::read(&path).map_err(|error| {
         V2Error::new(
             ErrorCode::ReconciliationRequired,
             format!(
-                "accepted advisory estimate requires {}: {error}",
+                "accepted advisory estimate requires derived outcome {}: {error}",
                 path.display()
             ),
         )
@@ -231,6 +404,7 @@ pub fn validate_terminal_estimation_evidence(store: &Store, issue: u64) -> Resul
         || outcome.issue != issue
         || outcome.forecast_ref != accepted.forecast_ref
         || outcome.forecast_digest != accepted.forecast_digest
+        || outcome.forecast_digest != canonical_digest(&forecast)?
     {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
@@ -874,6 +1048,57 @@ pub fn terminal_cache_path(root: &Path, issue: u64) -> Result<PathBuf> {
     Ok(PathBuf::from(common)
         .join("csdlc-v2/derived-terminal")
         .join(format!("{issue}.json")))
+}
+
+fn terminal_estimation_path(root: &Path, issue: u64) -> Result<PathBuf> {
+    Ok(validate_cache_parent(root, true)?.join(format!("{issue}.estimation.json")))
+}
+
+fn retain_terminal_estimation_file(
+    root: &Path,
+    path: &Path,
+    outcome: &TerminalOutcome,
+) -> Result<()> {
+    if path.parent() != Some(validate_cache_parent(root, true)?.as_path()) {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "terminal estimation path is outside the derived terminal cache",
+        ));
+    }
+    if path.exists() {
+        let metadata = fs::symlink_metadata(path)?;
+        if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "terminal estimation outcome is not a regular file",
+            ));
+        }
+        let existing: TerminalOutcome = serde_json::from_slice(&fs::read(path)?)?;
+        if existing == *outcome {
+            return Ok(());
+        }
+    }
+    let parent = path.parent().expect("validated terminal estimation parent");
+    let nonce = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map_err(|error| V2Error::new(ErrorCode::InvalidInput, error.to_string()))?
+        .as_nanos();
+    let temp = parent.join(format!(
+        ".{}.{}.{}.estimation.tmp",
+        outcome.issue,
+        std::process::id(),
+        nonce
+    ));
+    let mut file = OpenOptions::new()
+        .create_new(true)
+        .write(true)
+        .open(&temp)?;
+    serde_json::to_writer_pretty(&mut file, outcome)?;
+    file.write_all(b"\n")?;
+    file.sync_all()?;
+    fs::rename(&temp, path)?;
+    File::open(parent)?.sync_all()?;
+    Ok(())
 }
 
 pub fn load_cached_terminal(root: &Path, issue: u64) -> Result<Option<DerivedTerminalEnvelope>> {

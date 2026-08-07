@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5822/diagram.mmd
 [
   {
     "lane": "estimation-contracts-exact-target",
-    "proof_role": "Run the exact estimation_contracts integration target for schema, privacy, negatives, cohorts, fallback, calibration, and backtesting; zero tests fail.",
+    "proof_role": "Run the exact estimation_contracts target for concrete observation adapters, unique issue cohorts, calibration fallback, finish reconciliation, digest tampering, bounded references, and advisory semantics; zero tests fail.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -54,8 +54,8 @@ Diagram: .csdlc/prepared/issues/5822/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "cycle-time-comparison",
-    "proof_role": "Validate retained equivalent baseline and candidate cohorts and component timing.",
+    "lane": "cycle-time-evidence-boundary",
+    "proof_role": "Validate measured operator provenance and require a non-comparable, zero-reduction result when cohorts or timing components are incomplete.",
     "acceptance_ids": [
       "AC-7",
       "AC-8"
@@ -68,7 +68,7 @@ Diagram: .csdlc/prepared/issues/5822/diagram.mmd
       "ruby",
       "-rjson",
       "-e",
-      "r=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-comparison.json')); abort('incomparable') unless r['baseline_cohort']&&r['candidate_cohort']&&r['comparison_basis_equal']==true&&r['gates_preserved']==true"
+      "r=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-comparison.json')); abort('invalid boundary') unless r['status']=='not_comparable' && r['comparison_basis_equal']==false && r['gates_preserved']==true && r['elapsed_reduction_seconds']==0 && r['reconnect_action_reduction']==0 && r.dig('baseline_cohort','measured')==true && r.dig('candidate_cohort','measured')==true && !r.dig('baseline_cohort','provenance').empty? && !r.dig('candidate_cohort','provenance').empty?"
     ],
     "parallel_group": "analysis",
     "defer_reason": null
@@ -106,7 +106,7 @@ Tokens: 25000
 ## Commands
 
 - `cargo nextest run --locked --manifest-path csdlc-v2/Cargo.toml --no-tests=fail --test estimation_contracts`
-- `ruby -rjson -e r=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-comparison.json')); abort('incomparable') unless r['baseline_cohort']&&r['candidate_cohort']&&r['comparison_basis_equal']==true&&r['gates_preserved']==true`
+- `ruby -rjson -e r=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-comparison.json')); abort('invalid boundary') unless r['status']=='not_comparable' && r['comparison_basis_equal']==false && r['gates_preserved']==true && r['elapsed_reduction_seconds']==0 && r['reconnect_action_reduction']==0 && r.dig('baseline_cohort','measured')==true && r.dig('candidate_cohort','measured')==true && !r.dig('baseline_cohort','provenance').empty? && !r.dig('candidate_cohort','provenance').empty?`
 - `git diff --check`
 
 ## Failure Semantics

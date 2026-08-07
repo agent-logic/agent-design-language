@@ -50,5 +50,9 @@
   "drift": "insufficient_data",
   "outlier_factors": [],
   "comparable_issues": [],
-  "fallback_reason": "fewer than three comparable known observations"
+  "calibration": {
+    "reference": ".csdlc/evidence/5822/calibration-backtest.json",
+    "digest": "31186b1e72d683c11788ac2025b0a1c30cd1d0a6aa1e06a20bc30f3a1990df7d"
+  },
+  "fallback_reason": "fewer than three unique comparable known issues"
 }

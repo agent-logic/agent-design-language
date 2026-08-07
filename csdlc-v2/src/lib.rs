@@ -42,16 +42,21 @@ pub use eligibility::{
 };
 pub use error::{ErrorCode, Result, V2Error};
 pub use estimation::{
+    adapt_github, adapt_lifecycle, adapt_operator, adapt_session, adapt_validation,
     calibration_report, compare_cycle_time, estimation_schema_bundle, forecast, join_observations,
-    terminal_outcome, AcceptedEstimate, Availability, BacktestCase, CalibrationReport,
-    ComparableKey, Confidence, CycleTimeCohort, CycleTimeComparison, DriftState,
-    EstimateDisposition, EstimateMethod, Forecast, ForecastRange, MetricComparison,
-    MetricObservation, Observation, ObservationSource, Provenance, StaticEstimate, TerminalOutcome,
+    load_verified_json, terminal_outcome, validate_artifact_reference, validate_reference,
+    verified_calibration, AcceptedEstimate, AdapterContext, ArtifactReference, Availability,
+    BacktestCase, CalibrationReport, ComparableKey, Confidence, CycleTimeCohort,
+    CycleTimeComparison, CycleTimeComparisonStatus, DriftState, EstimateDisposition,
+    EstimateMethod, Forecast, ForecastRange, GithubTiming, LifecycleTiming, MetricComparison,
+    MetricObservation, Observation, ObservationSource, OperatorTiming, Provenance, SessionTiming,
+    StaticEstimate, TerminalOutcome, ValidationTiming, VerifiedCalibration,
 };
 pub use finish::MergeMethod;
 pub use finish::{
-    validate_terminal_estimation_evidence, DerivedTerminalEnvelope, FinishDisposition,
-    FinishRequest, FinishResult, IssueTerminalObservation,
+    retain_terminal_estimation_outcome, validate_terminal_estimation_evidence,
+    DerivedTerminalEnvelope, FinishDisposition, FinishRequest, FinishResult,
+    IssueTerminalObservation, TerminalEstimationResult, TerminalEstimationStatus,
 };
 pub use git::shared_request_path;
 pub use github::{

@@ -2,10 +2,10 @@
   "schema": "csdlc.estimation_outcome.v1",
   "issue": 7201,
   "forecast_ref": ".csdlc/evidence/5822/backtest/7201-forecast.json",
-  "forecast_digest": "18e91ff5ca0b368b83165dea010acd914ff341bff759c25011b049aebc01a5c0",
+  "forecast_digest": "3e35f017118212af7ae99545d2e9be9343ed010ebfb58dcd6438afbd7b645a34",
   "elapsed_seconds": {
-    "forecast": 1100,
-    "actual": 1100,
+    "forecast": 21600,
+    "actual": 21600,
     "absolute_error": 0,
     "error_basis_points": 0,
     "actual_provenance": [
@@ -16,8 +16,8 @@
     ]
   },
   "validation_seconds": {
-    "forecast": 110,
-    "actual": 110,
+    "forecast": 3600,
+    "actual": 3600,
     "absolute_error": 0,
     "error_basis_points": 0,
     "actual_provenance": [
@@ -28,8 +28,8 @@
     ]
   },
   "total_tokens": {
-    "forecast": 22000,
-    "actual": 22000,
+    "forecast": 80000,
+    "actual": 80000,
     "absolute_error": 0,
     "error_basis_points": 0,
     "actual_provenance": [

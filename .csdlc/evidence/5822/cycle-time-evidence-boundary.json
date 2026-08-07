@@ -1,14 +1,14 @@
 {
   "does_not_prove": [
     "production speedup",
-    "predictive accuracy from one retained historical sample",
+    "equivalent cohort cycle-time reduction",
     "future operator cycle time"
   ],
-  "evidence_class": "controlled_equivalent_workflow_fixture",
+  "evidence_class": "measured_operator_goal_snapshots",
   "proves": [
-    "component accounting includes active work, validation, review, CI, wait, and reconnection actions",
-    "candidate and baseline preserve the same validation, review, and CI gates",
-    "comparison rejects unequal cohort sizes or weakened gates"
+    "retained measurements identify source goals and known versus unknown components",
+    "the comparison refuses a speedup claim for unequal execution phases or incomplete timing"
   ],
-  "schema": "csdlc.cycle_time_evidence_boundary.v1"
+  "schema": "csdlc.cycle_time_evidence_boundary.v1",
+  "status": "not_comparable"
 }

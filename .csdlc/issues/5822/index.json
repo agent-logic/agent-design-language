@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b476d2b9dfcbc719a2efb87fbffe14fcb7df6263bcbaecc1a27a64c5c4c1e798",
   "phase": "implemented",
-  "generation": 34,
-  "digest": "087fe0a047a1cf306c7d5fffc8dbcc7abdee6a087d42cc8100be39902e7d81b5",
+  "generation": 37,
+  "digest": "3526a5f2a3b9808f173cb9be57bce2f29cd12314a353ac53064bbb483f8fad8b",
   "branch": "codex/5822-v0-92-csdlc-estimation-cycle-time",
   "worktree": "/Volumes/FastWork/adl-wp-5822-v0-92-csdlc-estimation-cycle-time",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e4610492466fb528d375e540334e0b24daec094ab4166cfecf90147f716ce505",
+      "values_digest": "b105172cb665544b18aca07b8885903a9d05b8c275f68e7a924d9f2d1f72c648",
       "rendered_digest": "a2e05d299c61fb87347a0c7e4217da58dcd8ffcdb615f1dc0aac4438c3bebd79",
       "ast_digest": "98e306b57fa7f5865499191708ed16b077317e9e8f9018041ed11757b0f78e2f"
     },
     "stp": {
-      "values_digest": "bb7184d424d00ca64b41c6e932d832ec37d7f903f6c2c5d61d851a434291a266",
+      "values_digest": "cba47bc294e7d091a6ee09876484a2abf6c101e21bfffc89de97019a1979872c",
       "rendered_digest": "b5ea1948c8b04f65c7e6fe5a5709ae0c27e3efa3a9f4d68ea4c2a2eb83d64586",
       "ast_digest": "aa359ab54626c9f0787a862efa22ec899c7bf5a73f630127203541e458cb9ada"
     },
     "spp": {
-      "values_digest": "02f973943e46a79b8362ce57556398c23d4797c58bc13e6afcca8eea50ca99af",
-      "rendered_digest": "7fdbcd00af377b9791a5e9b6672c0175149529659564494dde6970e5eff30007",
-      "ast_digest": "d75102a8957a4c1363fa7c1013e0dcb0b2392d9faeeb016804bdc5d13a70033e"
+      "values_digest": "881cc05685256f859944d7d6bc75a2a34d339d0add40b22eba5c525f37454cad",
+      "rendered_digest": "d5f05272b25197cd0170e65dcd3bb56b3942a6a5bedc6fd86d2da84c4b970b83",
+      "ast_digest": "a242b0bd4a6e062341974356147cfdc976f03a493e2da8479bb723f087f3931d"
     },
     "vpp": {
-      "values_digest": "3e416e58cf51037f83b2f3290878fda249ad2d7155ffd6148a8529cc8841339f",
-      "rendered_digest": "b5c9f1109eb92758ae4d584feaed93929e2a63b2c6f3cf2299e2a2263e614f45",
-      "ast_digest": "2a57b64e87e65cb60059e4a14343acb120dbd5df9d67f9b69edb0a33d890ff02"
+      "values_digest": "e763f1766b29a5d18943d06e8cc73d18c71f618feca5c524b7be6d68ed16344e",
+      "rendered_digest": "136f328051097a5b2aec4f7fee8cb888e6bcc1981d08e177845d6d5e1937cd29",
+      "ast_digest": "51f1a7d9bce6f05934aca3e2291707d35d03fd71034a87cc5f4c1ff5581506c6"
     },
     "srp": {
-      "values_digest": "38ac23f97e84f75c23b8cb135a6db6eb46e0646b1833b48a65b4052448d1945c",
+      "values_digest": "98b3e56abf18e4291cb0e766692c4c06da994c660913be54b18a1fe5eaf3222f",
       "rendered_digest": "69ab3feab354c989fbe6922f1f8b04f2a39e07b6831180b12f22fbee71eceb58",
       "ast_digest": "6cac5cde4b2319c579dc8d5b66b951bda0ab8ea548ce7d91f55a755f5c0a3a80"
     },
     "sor": {
-      "values_digest": "8b1af2f1b7de6bc6ab381b51b85997d98d4b18991f002faa06c46b11a0faf68c",
-      "rendered_digest": "0ca206dc44565d95c7bd67d76473f69962ee0d72b1f97187b43b4ec54210371b",
-      "ast_digest": "a852eae415574dd2352dc27fdac26766a3c08f93af2d132fa9cebdd62365dc1f"
+      "values_digest": "1fd12afd06ce2507343766cb62e9aab2a081c6a3120d18eb6152fd5f81c472e0",
+      "rendered_digest": "abc0872c1644e7f92c0f3dd37dac612b8625a35af9bf52be474e599ee981806b",
+      "ast_digest": "9ed1b443b93b40d03a53bb2ce2c2b850c2becd8ad958010069ff403c3053a1c4"
     }
   },
   "transitions": [
@@ -441,6 +441,27 @@
       "actor": "codex:issue-5822",
       "reason": "Refresh the deferred advisory digest after adding required per-field forecast provenance.",
       "operation": "{\"operation\":\"record_advisory_estimate\",\"estimate\":{\"forecast_ref\":\".csdlc/evidence/5822/forecast.json\",\"forecast_digest\":\"9de7ecc84eb60e0fb01309669b5916d1436dad7369f73fc55a3aa15a90cdb457\",\"disposition\":\"deferred\",\"advisory_only\":true,\"adjusted\":null,\"operator_rationale\":\"No current-era comparable cohort exists; retain the static PlanningProfile fallback as advisory only until terminal actuals accumulate.\"}}"
+    },
+    {
+      "sequence": 50,
+      "generation": 35,
+      "actor": "codex",
+      "reason": "Align focused proof lanes with the independent-review repair and measured evidence boundary.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"estimation-contracts-exact-target\",\"proof_role\":\"Run the exact estimation_contracts target for concrete observation adapters, unique issue cohorts, calibration fallback, finish reconciliation, digest tampering, bounded references, and advisory semantics; zero tests fail.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--no-tests=fail\",\"--test\",\"estimation_contracts\"],\"parallel_group\":\"csdlc-v2\",\"defer_reason\":null},{\"lane\":\"cycle-time-evidence-boundary\",\"proof_role\":\"Validate measured operator provenance and require a non-comparable, zero-reduction result when cohorts or timing components are incomplete.\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\"-rjson\",\"-e\",\"r=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-comparison.json')); abort('invalid boundary') unless r['status']=='not_comparable' && r['comparison_basis_equal']==false && r['gates_preserved']==true && r['elapsed_reduction_seconds']==0 && r['reconnect_action_reduction']==0 && r.dig('baseline_cohort','measured')==true && r.dig('candidate_cohort','measured')==true && !r.dig('baseline_cohort','provenance').empty? && !r.dig('candidate_cohort','provenance').empty?\"],\"parallel_group\":\"analysis\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors and support exact-revision review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 51,
+      "generation": 36,
+      "actor": "codex",
+      "reason": "Bind the deferred advisory to the reproducible calibrated forecast and its current digest.",
+      "operation": "{\"operation\":\"record_advisory_estimate\",\"estimate\":{\"forecast_ref\":\".csdlc/evidence/5822/forecast.json\",\"forecast_digest\":\"02de8bb3365d876b1c7319cb82240831fd14a566665e98a430611e016fd2adda\",\"disposition\":\"deferred\",\"advisory_only\":true,\"adjusted\":null,\"operator_rationale\":\"Calibration passes, but no three-issue current-era comparable cohort exists; retain static planning guidance without execution authority.\"}}"
+    },
+    {
+      "sequence": 52,
+      "generation": 37,
+      "actor": "codex",
+      "reason": "Record the complete independent-review repair, focused proof, and truthful cycle-time boundary.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented concrete lifecycle, GitHub, validation, session, and operator observation adapters; unique-issue cohort consolidation; calibration-gated fallback; digest-verified terminal finish reconciliation; bounded artifact references; reproducible calibration inputs; and measured operator evidence that refuses an unsupported cycle-time claim.\",\"changes\":[\"csdlc-v2/src/estimation.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/tests/estimation_contracts.rs\"],\"artifacts\":[\".csdlc/evidence/5822/atomic-readiness-repair.json\",\".csdlc/evidence/5822/forecast-inputs.json\",\".csdlc/evidence/5822/forecast.json\",\".csdlc/evidence/5822/accepted-estimate.json\",\".csdlc/evidence/5822/calibration-backtest-inputs.json\",\".csdlc/evidence/5822/calibration-backtest.json\",\".csdlc/evidence/5822/estimation-outcome.sample.json\",\".csdlc/evidence/5822/operator-cycle-inputs.json\",\".csdlc/evidence/5822/cycle-time-comparison.json\",\".csdlc/evidence/5822/cycle-time-evidence-boundary.json\",\".csdlc/evidence/5822/validation-summary.json\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--no-tests=fail\",\"--test\",\"estimation_contracts\"],\"purpose\":\"Prove concrete adapters, unique cohorts, calibration fallback, digest tampering, terminal finish reconciliation, traversal rejection, and advisory-only behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5822/validation-summary.json\"},{\"command\":[\"ruby\",\"-rjson\",\"-e\",\"validate measured provenance and non-comparable zero-reduction boundary\"],\"purpose\":\"Prove measured provenance is retained and unsupported cycle-time reduction is refused.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5822/cycle-time-comparison.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors and preserve reviewable exact-revision output.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5822/validation-summary.json\"}]}"
     }
   ]
 }

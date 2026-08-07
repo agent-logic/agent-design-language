@@ -12,17 +12,21 @@ Status: pre_phase
 
 ## Summary
 
-Implemented provenance-bearing advisory estimation, deterministic cohort selection and fallback, typed SPP disposition, terminal comparison validation, calibration/backtesting, and gate-preserving cycle-time comparison.
+Implemented concrete lifecycle, GitHub, validation, session, and operator observation adapters; unique-issue cohort consolidation; calibration-gated fallback; digest-verified terminal finish reconciliation; bounded artifact references; reproducible calibration inputs; and measured operator evidence that refuses an unsupported cycle-time claim.
 
 ## Artifacts
 
 - .csdlc/evidence/5822/atomic-readiness-repair.json
+- .csdlc/evidence/5822/forecast-inputs.json
 - .csdlc/evidence/5822/forecast.json
 - .csdlc/evidence/5822/accepted-estimate.json
-- .csdlc/evidence/5822/estimation-outcome.sample.json
+- .csdlc/evidence/5822/calibration-backtest-inputs.json
 - .csdlc/evidence/5822/calibration-backtest.json
+- .csdlc/evidence/5822/estimation-outcome.sample.json
+- .csdlc/evidence/5822/operator-cycle-inputs.json
 - .csdlc/evidence/5822/cycle-time-comparison.json
 - .csdlc/evidence/5822/cycle-time-evidence-boundary.json
+- .csdlc/evidence/5822/validation-summary.json
 
 ## Execution
 
@@ -48,7 +52,7 @@ Implemented provenance-bearing advisory estimation, deterministic cohort selecti
       "--test",
       "estimation_contracts"
     ],
-    "purpose": "Prove schema, privacy, leakage rejection, deterministic cohorts, fallback, advisory-only editing, terminal comparison, calibration, and backtesting.",
+    "purpose": "Prove concrete adapters, unique cohorts, calibration fallback, digest tampering, terminal finish reconciliation, traversal rejection, and advisory-only behavior.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5822/validation-summary.json"
   },
@@ -57,9 +61,9 @@ Implemented provenance-bearing advisory estimation, deterministic cohort selecti
       "ruby",
       "-rjson",
       "-e",
-      "validate cycle-time-comparison.json equivalent cohorts and preserved gates"
+      "validate measured provenance and non-comparable zero-reduction boundary"
     ],
-    "purpose": "Prove controlled component accounting and reject incomparable or gate-weakened cycle-time claims.",
+    "purpose": "Prove measured provenance is retained and unsupported cycle-time reduction is refused.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5822/cycle-time-comparison.json"
   },

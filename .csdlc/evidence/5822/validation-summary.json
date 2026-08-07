@@ -13,14 +13,14 @@
       "lane": "estimation-contracts-exact-target",
       "command": "cargo nextest run --locked --manifest-path csdlc-v2/Cargo.toml --no-tests=fail --test estimation_contracts",
       "outcome": "passed",
-      "run_id": "fb114e2e-902a-4968-a48c-97f039eb0a7d",
-      "tests_run": 8,
-      "tests_passed": 8,
+      "run_id": "f257d953-b419-4e67-bb5f-775992f847b4",
+      "tests_run": 9,
+      "tests_passed": 9,
       "tests_skipped": 0
     },
     {
-      "lane": "cycle-time-comparison",
-      "command": "ruby retained comparison guard from issue VPP",
+      "lane": "cycle-time-evidence-boundary",
+      "command": "ruby retained measured-provenance and non-comparable boundary guard from issue VPP",
       "outcome": "passed",
       "evidence": ".csdlc/evidence/5822/cycle-time-comparison.json",
       "boundary": ".csdlc/evidence/5822/cycle-time-evidence-boundary.json"
@@ -35,14 +35,14 @@
       "command": "/Volumes/FastWork/adl-cargo-target-5822/debug/csdlc-doctor --repo <worktree> --issue 5822",
       "outcome": "passed",
       "phase": "implemented",
-      "generation": 34,
+      "generation": 37,
       "findings": []
     }
   ],
   "broad_suite_run": false,
   "broad_suite_reason": "The issue VPP requires one exact integration target plus retained cycle-time and diff-hygiene checks; no broader validation was requested or needed.",
   "non_claims": [
-    "The controlled equivalent-cohort fixture does not prove production speedup.",
+    "The measured operator snapshots are not equivalent completed cohorts and do not prove production speedup.",
     "The single retained v0.91.7 sample is not treated as a calibrated current-era cohort.",
     "The deferred estimate does not enforce time, tokens, phase, completion, validation, review, publication, merge, or closeout."
   ]

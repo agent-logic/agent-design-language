@@ -85,11 +85,11 @@ Revision 12
   "validation_seconds": 3600,
   "advisory": {
     "forecast_ref": ".csdlc/evidence/5822/forecast.json",
-    "forecast_digest": "9de7ecc84eb60e0fb01309669b5916d1436dad7369f73fc55a3aa15a90cdb457",
+    "forecast_digest": "02de8bb3365d876b1c7319cb82240831fd14a566665e98a430611e016fd2adda",
     "disposition": "deferred",
     "advisory_only": true,
     "adjusted": null,
-    "operator_rationale": "No current-era comparable cohort exists; retain the static PlanningProfile fallback as advisory only until terminal actuals accumulate."
+    "operator_rationale": "Calibration passes, but no three-issue current-era comparable cohort exists; retain static planning guidance without execution authority."
   }
 }
 
