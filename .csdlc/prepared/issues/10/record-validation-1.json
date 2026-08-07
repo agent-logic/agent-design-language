@@ -1,0 +1,21 @@
+{
+  "issue": 10,
+  "card": "sor",
+  "expected_generation": 9,
+  "expected_digest": "38129a5e6a51e0c8938da6e320d00f7038b5972f36a82ab8d35ffa11d6613c93",
+  "actor": "codex:wp24-canonical-migration",
+  "reason": "Preserve proven WP-24 validation lane 1 in canonical issue #10.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "ruby",
+        ".csdlc/evidence/5844/validate-article-series.rb"
+      ],
+      "purpose": "Prove all ten unique complete packets, required headings, minimum draft depth, declared and existing repository sources, local link resolution, claim-posture labels, and privacy safeguards.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/5844/validate-article-series.rb"
+    }
+  },
+  "fail_after_backup": false
+}

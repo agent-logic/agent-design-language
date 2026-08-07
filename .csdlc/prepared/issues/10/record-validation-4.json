@@ -1,0 +1,21 @@
+{
+  "issue": 10,
+  "card": "sor",
+  "expected_generation": 12,
+  "expected_digest": "68164f1f86d55cb8011ab83e3944deb0451af240bb2abb7c0f4f1c5b32cad386",
+  "actor": "codex:wp24-canonical-migration",
+  "reason": "Preserve proven WP-24 validation lane 4 in canonical issue #10.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        "adl/tools/test_medium_article_writer_skill_contracts.sh"
+      ],
+      "purpose": "Prove the repository article-writer contract retains source and stop-before-publish safeguards.",
+      "outcome": "passed",
+      "evidence_ref": "adl/tools/test_medium_article_writer_skill_contracts.sh"
+    }
+  },
+  "fail_after_backup": false
+}

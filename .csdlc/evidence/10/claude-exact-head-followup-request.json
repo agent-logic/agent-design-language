@@ -1,0 +1,28 @@
+{
+  "request_id": "issue-10-claude-exact-head-followup-v2",
+  "run_id": "issue-10-claude-exact-head-followup-v2",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "anthropic",
+    "provider_model_id": "claude-opus-4-8",
+    "runtime_surface": "hosted_api",
+    "credential_ref": "env:ANTHROPIC_API_KEY"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "anthropic",
+    "model_ref": "claude-opus-4-8",
+    "provider_model_id": "claude-opus-4-8",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "unix:1"
+  },
+  "prompt_contract_ref": "csdlc.review.findings.v1",
+  "lane_ref": "anthropic:claude-opus-4-8__issue-10-exact-head-followup",
+  "attempt_policy": {
+    "timeout_ms": 180000,
+    "max_attempts": 1,
+    "retry_backoff_ms": 1000
+  },
+  "input_text": "Resolve your truncated P1 finding in at most 100 words. Facts: exact reviewed commit is 4c729ed811fc79ea2fcbf32dd3b715716d43efd7; its parent/source implementation head is 9a5a225bb39906d0e47f1d1df2e601bb8c944876; git diff 9a5a225..4c729ed adds only .csdlc/evidence/10, .csdlc/issues/10, .csdlc/locks/10.lock, and .csdlc/prepared/issues/10. It does not modify .csdlc/issues/5844 or article/editorial files. The full origin/main diff includes earlier legacy lifecycle history, while the receipt claims only that article series and editorial evidence remain unchanged from source head. Current legacy record remains repository danielbaustin/agent-design-language, phase implemented, publication null. Is there still an actionable P1 contradiction? Reply exactly APPROVED if not. Otherwise state one complete actionable finding with exact correction. Do not authorize publication or merge."
+}

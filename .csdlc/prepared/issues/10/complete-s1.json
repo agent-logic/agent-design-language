@@ -1,0 +1,14 @@
+{
+  "issue": 10,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "d5f05d47dde4078072314707c5ae042e9ac03af2f509b79fc0230c7c4ac18919",
+  "actor": "codex:wp24-canonical-migration",
+  "reason": "Preserve completed WP-24 step S1 in canonical issue #10.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S1",
+    "status": "completed"
+  },
+  "fail_after_backup": false
+}

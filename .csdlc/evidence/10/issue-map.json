@@ -1,0 +1,27 @@
+{
+  "schema": "adl.issue_migration.row.v1",
+  "source": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5844,
+    "url": "https://github.com/danielbaustin/agent-design-language/issues/5844"
+  },
+  "destination": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 10,
+    "url": "https://github.com/agent-logic/agent-design-language/issues/10"
+  },
+  "operation_key": "issue-migration.danielbaustin-agent-design-language.5844.v1",
+  "source_head": "9a5a225bb39906d0e47f1d1df2e601bb8c944876",
+  "canonical_branch": "codex/10-v092-wp24-article-series",
+  "canonical_worktree_ref": ".csdlc/issues/10/index.json",
+  "legacy_pull_request": 5902,
+  "legacy_pull_request_state": "closed_unmerged",
+  "canonical_pull_request": 14,
+  "canonical_pull_request_url": "https://github.com/agent-logic/agent-design-language/pull/14",
+  "canonical_pull_request_state": "open",
+  "source_issue_state": "closed_superseded",
+  "destination_issue_state": "open",
+  "authority": "destination",
+  "integrated_main": "7dfb791ad2fc1ecbc1e3b3651815b1d37bfa060f",
+  "state": "canonical_authority_active"
+}

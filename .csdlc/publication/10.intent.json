@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 10,
+  "repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/10-v092-wp24-article-series",
+  "title": "[v0.92][WP-24] Complete the ten-article ADL launch series",
+  "body": "Closes #10\n\nCompletes the source-grounded WP-24 launch series in the canonical repository: ten bounded source packets, ten full Medium-style article drafts, ten editorial reviews, a cross-series claim matrix, and a stop-before-publish disposition.\n\nThis revision also reconciles migration authority after review: canonical issue #10 and PR #14 are authoritative, legacy issue danielbaustin/agent-design-language#5844 is closed as superseded provenance, legacy PR danielbaustin/agent-design-language#5902 is closed unmerged, and current canonical main is integrated. A focused regression now rejects stale null-PR, pending-publication, or dual-authority migration evidence.\n\nValidation:\n- `ruby .csdlc/evidence/5844/validate-article-series.rb`\n- `ruby .csdlc/evidence/5844/validate-article-series.rb --negative`\n- `ruby .csdlc/evidence/5844/validate-article-series.rb --rollback`\n- `bash adl/tools/test_medium_article_writer_skill_contracts.sh`\n- typed C-SDLC issue validation and exact diff hygiene\n\nReview:\n- Claude and Gemini editorial evidence is retained without credentials.\n- Linnaeus approved exact head `4fe438af3`, including live canonical/legacy issue and PR readback, current-main ancestry, migration regression proof, unchanged article content, and the stop-before-publish boundary.\n\nExternal Medium publication remains operator-only and is not authorized by this PR. Release-dependent wording remains gated by legacy issue danielbaustin/agent-design-language#5843 and a final drift-prone claim recheck.",
+  "draft": false,
+  "revision": "git-blake3:2a708372bffb9a4f1b598548ac2fe59469828470:1e6d9c4e5b98ddd54db335ccf5533476023a2b427c2a5091b3968e934ffcafab",
+  "commit_sha": "2a708372bffb9a4f1b598548ac2fe59469828470"
+}

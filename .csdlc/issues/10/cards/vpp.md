@@ -1,0 +1,129 @@
+# Validation Planning Prompt
+
+Template: 1.0.0
+
+Issue: 10
+
+Repository: agent-logic/agent-design-language
+
+Card: vpp
+
+Status: ready
+
+## Summary
+
+Execute the smallest proving validation DAG.
+
+## Lane Inputs
+
+Design: .csdlc/prepared/issues/10/design.md
+
+Diagram: .csdlc/prepared/issues/10/diagram.mmd
+
+## Selected Lanes
+
+[
+  {
+    "lane": "wp24-series-contract",
+    "proof_role": "Prove all ten complete packets satisfy the Medium writer and series contract.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-3",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 450,
+    "budget_tokens": 4000,
+    "argv": [
+      "ruby",
+      ".csdlc/evidence/5844/validate-article-series.rb"
+    ],
+    "parallel_group": "articles",
+    "defer_reason": null
+  },
+  {
+    "lane": "wp24-claims-negative",
+    "proof_role": "Reject outlines, placeholders, missing or source-packet-unlisted citations, private data, malformed current/planned posture, and unsafe release disposition; semantic claim relevance remains provider/editor review evidence.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 450,
+    "budget_tokens": 4000,
+    "argv": [
+      "ruby",
+      ".csdlc/evidence/5844/validate-article-series.rb",
+      "--negative"
+    ],
+    "parallel_group": "articles",
+    "defer_reason": null
+  },
+  {
+    "lane": "wp24-writer-contract",
+    "proof_role": "Prove the repository Medium article writer retains source-packet and stop-before-publish safeguards.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 2000,
+    "argv": [
+      "adl/tools/test_medium_article_writer_skill_contracts.sh"
+    ],
+    "parallel_group": "contracts",
+    "defer_reason": null
+  },
+  {
+    "lane": "wp24-rollback-contract",
+    "proof_role": "Prove rollback removes only article drafts, retains source and editorial evidence, restores shared series records, and requires no external publication action.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-4",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "ruby",
+      ".csdlc/evidence/5844/validate-article-series.rb",
+      "--rollback"
+    ],
+    "parallel_group": "articles",
+    "defer_reason": null
+  }
+]
+
+## Parallelization
+
+Only declared parallel groups may overlap.
+
+## Budgets
+
+Seconds: 7200
+
+Tokens: 50000
+
+## Commands
+
+- `ruby .csdlc/evidence/5844/validate-article-series.rb`
+- `ruby .csdlc/evidence/5844/validate-article-series.rb --negative`
+- `adl/tools/test_medium_article_writer_skill_contracts.sh`
+- `ruby .csdlc/evidence/5844/validate-article-series.rb --rollback`
+
+## Failure Semantics
+
+Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.
+
+## Handoff
+
+Retain typed evidence before convergence.

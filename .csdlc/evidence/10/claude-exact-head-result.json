@@ -1,0 +1,37 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "anthropic",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "claude-opus-4-8",
+    "credential_ref": "env:ANTHROPIC_API_KEY"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "anthropic",
+    "model_ref": "claude-opus-4-8",
+    "provider_model_id": "claude-opus-4-8",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "unix:1"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786073836",
+      "duration_ms": 6019,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=664]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 6020,
+  "request_id": "issue-10-claude-exact-head-closing-v1",
+  "output_text": "I'll review this closing diff against the six named axes. Let me work through the verifiable claims and where the diff's own text creates tension.\n\n## Findings\n\n### P1 — Migration \"truth\" is internally contradicted by the retained source-issue writeback\n\n**Files:** `.csdlc/evidence/10/ISSUE_MIGRATION_RECEIPT.md`, `.csdlc/evidence/10/issue-map.json`, `.csdlc/issues/5844/index.json` (+234/-?), `.csdlc/issues/5844/audit.jsonl` (+22)\n\nThe receipt claims the canonical record was migrated and that \"the complete article series and retained editorial evidence remain unchanged from the source implementation head\" (`source_head 9a5a225…`). But this branch also m",
+  "output_text_excerpt": "[redacted provider text len=664]",
+  "artifact_ref": ".csdlc/evidence/10/claude-exact-head-result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}
