@@ -212,7 +212,7 @@ STATS
       "printf builder-ok")
         printf builder-ok
         ;;
-      "'sleep' '5'")
+      "cd -- '.' && env -i PATH=\"\${PATH-}\" 'sleep' '5'")
         printf '%s\n' "$$" >"${DOCKER_CONTAINER_PID_FILE:?}"
         trap 'rm -f "$DOCKER_CONTAINER_PID_FILE"' EXIT
         sleep 5
@@ -455,7 +455,7 @@ summary = json.load(open(sys.argv[1], encoding="utf-8"))
 result = json.load(open(sys.argv[2], encoding="utf-8"))
 assert summary["status"] == "passed"
 assert summary["resolved_commit"] == sys.argv[3]
-assert summary["command"] == "'printf' 'portable-ok'"
+assert summary["command"] == "cd -- '.' && env -i PATH=\"${PATH-}\" 'printf' 'portable-ok'"
 assert result["revision"] == sys.argv[3]
 assert result["platform"] == {"os": "windows", "architecture": "x86_64", "native": False, "qualification": "fixture"}
 assert result["resource_budget"]["cpu_cores"] == 4
@@ -569,7 +569,16 @@ PATH="$fake_bin:$PATH" bash "$SCRIPT" \
   --local-artifact-dir "$TMP/artifacts-portable-cancel" \
   >"$TMP/portable-cancel-after.out" 2>"$TMP/portable-cancel-after.err" &
 cancel_pid=$!
-sleep 0.3
+for _ in {1..50}; do
+  [[ -d "$TMP/portable-cancel-root/transient/portable-cancel-after-start" ]] && break
+  sleep 0.1
+done
+if [[ ! -d "$TMP/portable-cancel-root/transient/portable-cancel-after-start" ]]; then
+  echo "Nessus cancellation fixture did not reach remote execution" >&2
+  kill "$cancel_pid" 2>/dev/null || true
+  wait "$cancel_pid" 2>/dev/null || true
+  exit 1
+fi
 touch "$ROOT/wp5823-nessus-cancel-after-start.signal"
 wait "$cancel_pid"
 cancel_rc=$?
@@ -602,7 +611,16 @@ bash "$SCRIPT" \
   --local-artifact-dir "$TMP/artifacts-portable-builder-cancel" \
   >"$TMP/portable-builder-cancel.out" 2>"$TMP/portable-builder-cancel.err" &
 builder_cancel_pid=$!
-sleep 0.3
+for _ in {1..50}; do
+  [[ -s "$TMP/docker-container.pid" ]] && break
+  sleep 0.1
+done
+if [[ ! -s "$TMP/docker-container.pid" ]]; then
+  echo "containerized cancellation fixture did not start the builder" >&2
+  kill "$builder_cancel_pid" 2>/dev/null || true
+  wait "$builder_cancel_pid" 2>/dev/null || true
+  exit 1
+fi
 touch "$ROOT/wp5823-nessus-cancel-after-start.signal"
 wait "$builder_cancel_pid"
 builder_cancel_rc=$?
