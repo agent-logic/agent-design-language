@@ -6,10 +6,10 @@ use csdlc_v2::cards::{CardContent, CardValues};
 use csdlc_v2::estimation::{
     artifact_reference, calibration_report, compare_cycle_time, forecast,
     load_observation_manifest, load_verified_json, terminal_outcome, validate_reference,
-    verified_calibration, AcceptedEstimate, ArtifactReference, BacktestCase,
+    verified_calibration, AcceptedEstimate, ArtifactReference, Availability, BacktestCase,
     CalibrationCaseArtifacts, CalibrationManifest, ComparableKey, CycleTimeComparisonStatus,
-    CycleTimeEvidence, EstimateDisposition, EstimateMethod, MetricObservation, Observation,
-    ObservationManifest, ObservationSource, StaticEstimate, TerminalOutcome,
+    CycleTimeEvidence, DriftState, EstimateDisposition, EstimateMethod, MetricObservation,
+    Observation, ObservationManifest, ObservationSource, StaticEstimate, TerminalOutcome,
     ValidationSourceManifest, OBSERVATION_SCHEMA,
 };
 use csdlc_v2::{
@@ -123,7 +123,7 @@ fn source_manifest(root: &Path, issue: u64) -> ArtifactReference {
         "non_substantive_proof":null
     });
     lifecycle_value["publication"] = serde_json::json!({
-        "repository":"danielbaustin/agent-design-language", "issue":issue,
+        "repository":"agent-logic/agent-design-language", "issue":issue,
         "pull_request":6000, "url":"https://example.invalid/pr/6000", "base":"main",
         "head":"codex/test", "revision":"a", "draft":false, "observed_state":"merged"
     });
@@ -138,7 +138,8 @@ fn source_manifest(root: &Path, issue: u64) -> ArtifactReference {
         root,
         &format!("{base}/github.json"),
         &serde_json::json!({
-            "number":6000, "body":format!("Closes #{issue}"),
+            "number":6000,
+            "body":format!("Closes danielbaustin/agent-design-language#{issue}"),
             "created_at":"2026-08-06T00:00:00Z", "closed_at":"2026-08-06T00:02:00Z",
             "merged_at":"2026-08-06T00:02:00Z",
             "ci_started_at":"2026-08-06T00:00:00Z",
@@ -304,6 +305,94 @@ fn adapters_derive_identity_and_measurements_from_verified_retained_sources() {
 
     fs::write(root.join(".csdlc/evidence/5822/session.json"), b"{}\n").unwrap();
     assert!(load_observation_manifest(&root, &manifest).is_err());
+}
+
+#[test]
+fn github_adapter_requires_qualified_linkage_and_verified_publication_repository() {
+    let root = fixture_root("github-authority");
+    let manifest_ref = source_manifest(&root, 5822);
+    let mut manifest: ObservationManifest = load_verified_json(&root, &manifest_ref).unwrap();
+    let github_ref = manifest.github.clone().unwrap();
+    let mut github: serde_json::Value = load_verified_json(&root, &github_ref).unwrap();
+    github["body"] = "Closes #5822".into();
+    manifest.github = Some(write_json(&root, &github_ref.reference, &github));
+    let unqualified = write_json(
+        &root,
+        ".csdlc/evidence/5822/unqualified-github-manifest.json",
+        &serde_json::to_value(&manifest).unwrap(),
+    );
+    assert!(load_observation_manifest(&root, &unqualified).is_err());
+
+    let manifest_ref = source_manifest(&root, 5822);
+    let mut manifest: ObservationManifest = load_verified_json(&root, &manifest_ref).unwrap();
+    let github_ref = manifest.github.clone().unwrap();
+    let mut github: serde_json::Value = load_verified_json(&root, &github_ref).unwrap();
+    github["base"]["repo"]["full_name"] = "wrong/repository".into();
+    manifest.github = Some(write_json(&root, &github_ref.reference, &github));
+    let wrong_repository = write_json(
+        &root,
+        ".csdlc/evidence/5822/wrong-repository-github-manifest.json",
+        &serde_json::to_value(&manifest).unwrap(),
+    );
+    assert!(load_observation_manifest(&root, &wrong_repository).is_err());
+}
+
+#[test]
+fn session_adapter_emits_schema_drift_and_forces_static_fallback() {
+    let root = fixture_root("session-schema-drift");
+    let manifest_ref = source_manifest(&root, 60);
+    let mut manifest: ObservationManifest = load_verified_json(&root, &manifest_ref).unwrap();
+    let session_ref = manifest.session.clone().unwrap();
+    let mut session: serde_json::Value = load_verified_json(&root, &session_ref).unwrap();
+    session["elapsed_availability"] = "future_availability".into();
+    manifest.session = Some(write_json(&root, &session_ref.reference, &session));
+    let unexpected_availability = write_json(
+        &root,
+        ".csdlc/evidence/60/unexpected-availability-manifest.json",
+        &serde_json::to_value(&manifest).unwrap(),
+    );
+    let unexpected = load_observation_manifest(&root, &unexpected_availability).unwrap();
+    assert_eq!(
+        unexpected.elapsed_seconds.availability,
+        Availability::SchemaDrift
+    );
+    assert_eq!(unexpected.elapsed_seconds.value, None);
+
+    let mut drifted = Vec::new();
+    for issue in [61_u64, 62, 63] {
+        let manifest_ref = source_manifest(&root, issue);
+        let mut manifest: ObservationManifest = load_verified_json(&root, &manifest_ref).unwrap();
+        let session_ref = manifest.session.clone().unwrap();
+        let mut session: serde_json::Value = load_verified_json(&root, &session_ref).unwrap();
+        session["schema_version"] = "issue_goal_metrics.v2".into();
+        manifest.session = Some(write_json(&root, &session_ref.reference, &session));
+        let drifted_ref = write_json(
+            &root,
+            &format!(".csdlc/evidence/{issue}/drifted-manifest.json"),
+            &serde_json::to_value(&manifest).unwrap(),
+        );
+        let observation = load_observation_manifest(&root, &drifted_ref).unwrap();
+        assert_eq!(
+            observation.elapsed_seconds.availability,
+            Availability::SchemaDrift
+        );
+        assert_eq!(
+            observation.active_work_seconds.availability,
+            Availability::SchemaDrift
+        );
+        assert_eq!(
+            observation.total_tokens.availability,
+            Availability::SchemaDrift
+        );
+        drifted.push(observation);
+    }
+    let calibration = verified_fixture_calibration(&root);
+    let forecast = forecast(99, key(), &drifted, fallback(), Some(&calibration)).unwrap();
+    assert_eq!(
+        forecast.method,
+        EstimateMethod::StaticPlanningProfileFallback
+    );
+    assert_eq!(forecast.drift, DriftState::SchemaDrift);
 }
 
 #[test]

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-WP-05 now retains provenance-bearing advisory estimates and terminal actuals, recomputes calibration from verified sources, measures one genuine terminal cycle-time baseline, and explicitly leaves candidate and reduction fields absent until an equivalent terminal cohort exists.
+WP-05 retains provenance-bearing advisory estimates and terminal actuals, measures one genuine terminal cycle-time baseline without claiming a candidate reduction, validates qualified cross-repository closing linkage against verified publication authority, and emits explicit schema drift for unsupported session evidence.
 
 ## Artifacts
 
@@ -49,18 +49,31 @@ WP-05 now retains provenance-bearing advisory estimates and terminal actuals, re
       "--test",
       "estimation_contracts"
     ],
-    "purpose": "Prove all nine estimation, retained-source, terminal-outcome, calibration, security-negative, and terminal-baseline contracts with zero failures.",
+    "purpose": "Prove all eleven estimation, retained-source, publication-authority, schema-drift, terminal-outcome, calibration, security-negative, and terminal-baseline contracts with zero failures.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5822/cycle-time-baseline.json"
+    "evidence_ref": ".csdlc/evidence/5822/validation-summary.json"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all",
+      "--",
+      "--check"
+    ],
+    "purpose": "Reject Rust formatting drift in the remediated adapter and focused tests.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5822/validation-summary.json"
   },
   {
     "command": [
       "git",
       "diff",
-      "--check",
-      "origin/main...HEAD"
+      "--check"
     ],
-    "purpose": "Reject whitespace errors at the exact review revision.",
+    "purpose": "Reject whitespace errors before the exact review revision is committed.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5822/cycle-time-evidence-boundary.json"
   }

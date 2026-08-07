@@ -10,6 +10,9 @@ use time::OffsetDateTime;
 
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::IssueRecord;
+use crate::publication::{
+    body_has_github_closing_keyword, body_has_qualified_github_closing_keyword,
+};
 use crate::pvf::ExecutionReport;
 use crate::store::record_digest;
 
@@ -464,9 +467,37 @@ fn adapt_github(
     key: &ComparableKey,
 ) -> Result<Observation> {
     let source: GithubSource = load_verified_json(root, artifact)?;
-    let closing_marker = format!("Closes #{}", manifest.issue);
-    if !source.body.contains(&closing_marker)
-        || source.base.repo.full_name.trim().is_empty()
+    let lifecycle_ref = manifest.lifecycle.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "GitHub evidence requires lifecycle publication authority",
+        )
+    })?;
+    let lifecycle: IssueRecord = load_verified_json(root, lifecycle_ref)?;
+    verify_issue_record(&lifecycle)?;
+    let publication_repository = lifecycle
+        .publication
+        .as_ref()
+        .map(|publication| publication.repository.as_str())
+        .filter(|repository| repository.split_once('/').is_some())
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::InvalidInput,
+                "GitHub evidence requires a verified publication repository",
+            )
+        })?;
+    let closing_linkage_ok = if publication_repository != lifecycle.repository {
+        body_has_qualified_github_closing_keyword(
+            &source.body,
+            manifest.issue,
+            &lifecycle.repository,
+        )
+    } else {
+        body_has_github_closing_keyword(&source.body, manifest.issue, &lifecycle.repository)
+    };
+    if lifecycle.issue != manifest.issue
+        || source.base.repo.full_name != publication_repository
+        || !closing_linkage_ok
         || source.number == 0
     {
         return invalid("GitHub packet does not match adapter issue");
@@ -548,36 +579,61 @@ fn adapt_session(
     key: &ComparableKey,
 ) -> Result<Observation> {
     let source: SessionSource = load_verified_json(root, artifact)?;
-    if source.schema_version != "issue_goal_metrics.v1"
-        || source.issue_number != manifest.issue
+    if source.issue_number != manifest.issue
         || source.data_source != "codex_goal_tool"
         || source.model_ref.trim().is_empty()
     {
         return invalid("session source is not authoritative for the observation manifest");
     }
-    let elapsed = checked_elapsed(
-        parse_rfc3339(&source.started_at)?,
-        parse_rfc3339(&source.completed_at)?,
-    )?;
-    if source.elapsed_availability == "known" && source.elapsed_seconds != Some(elapsed) {
+    let schema_drift = source.schema_version != "issue_goal_metrics.v1";
+    let elapsed_availability = availability(&source.elapsed_availability, schema_drift);
+    let active_work_availability = availability(&source.active_work_availability, schema_drift);
+    let token_availability = availability(&source.token_usage.availability, schema_drift);
+    let elapsed = if elapsed_availability == Availability::Known {
+        Some(checked_elapsed(
+            parse_rfc3339(&source.started_at)?,
+            parse_rfc3339(&source.completed_at)?,
+        )?)
+    } else {
+        None
+    };
+    if elapsed_availability == Availability::Known && source.elapsed_seconds != elapsed {
         return invalid("session source elapsed value disagrees with retained timestamps");
     }
-    fragment(
+    let mut observation = fragment(
         manifest.issue,
         key.clone(),
         artifact.reference.clone(),
         ObservationSource::Session,
         FragmentMetrics {
-            elapsed_seconds: (source.elapsed_availability == "known").then_some(elapsed),
-            active_work_seconds: (source.active_work_availability == "known")
+            elapsed_seconds: elapsed,
+            active_work_seconds: (active_work_availability == Availability::Known)
                 .then_some(source.active_work_seconds)
                 .flatten(),
-            total_tokens: (source.token_usage.availability == "known")
+            total_tokens: (token_availability == Availability::Known)
                 .then_some(source.token_usage.total_tokens)
                 .flatten(),
             ..FragmentMetrics::default()
         },
-    )
+    )?;
+    observation.elapsed_seconds.availability = elapsed_availability;
+    observation.active_work_seconds.availability = active_work_availability;
+    observation.total_tokens.availability = token_availability;
+    validate_observation(&observation)?;
+    Ok(observation)
+}
+
+fn availability(value: &str, schema_drift: bool) -> Availability {
+    if schema_drift {
+        return Availability::SchemaDrift;
+    }
+    match value {
+        "known" => Availability::Known,
+        "unknown" => Availability::Unknown,
+        "interrupted" => Availability::Interrupted,
+        "schema_drift" => Availability::SchemaDrift,
+        _ => Availability::SchemaDrift,
+    }
 }
 
 fn adapt_operator(
