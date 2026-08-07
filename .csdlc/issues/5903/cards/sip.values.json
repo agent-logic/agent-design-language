@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5903,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][sprint-4] Repair first-birthday wave readiness",
+    "slug": "v0-92-csdlc-v2-sprint4-first-birthday-readiness",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make the approved Sprint 4 issue wave truthfully execution-ready under claim-free Git-topology authority.",
+      "required_outcome": "Typed doctor passes umbrella #5857 and all nine children while the execution packet uses current branch/worktree binding authority.",
+      "declared_scope": [
+        "Sprint 4 typed SPP ownership repair",
+        "Sprint 4 prompt and execution-packet authority repair",
+        "Exact readiness proof"
+      ],
+      "authority_boundary": [
+        "Issue #5903 owns readiness records and operator packet text only",
+        "Issue #5857 remains the sprint umbrella",
+        "Children retain exclusive product ownership"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked changes on main",
+        "Use typed C-SDLC v2 card edits",
+        "Do not bind or implement a Sprint 4 child",
+        "Do not restore claims"
+      ]
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "issue": 5901,
+  "card": "spp",
+  "expected_generation": 6,
+  "expected_digest": "db800ff661109a00761dafa75bf86c96e7e56f5f7f386570c679676c88683ae0",
+  "actor": "codex:5901-sprint3-readiness",
+  "reason": "Apply independently reviewed acceptance, plan, and proving lanes.",
+  "operation": {
+    "operation": "replace_acceptance_plan",
+    "acceptance_criteria": [
+      "Accept safe repository-relative future paths beneath a real canonical in-repository ancestor",
+      "Reject absolute, traversal, placeholder, unrooted, and metadata values",
+      "Reject inside-repository symlink ancestors, outside-repository symlink ancestors, symlink leaves, and existing-file intermediate prefixes",
+      "Permit exact-digest typed planning-collection repair while initialized or ready, then move #5865 serialization ordering to typed replan_triggers while keeping exactly four path-only affected_areas",
+      "Remove every claim read and claim-derived assertion from WP-04 preflight and terminal reconciliation; validate initialized unbound topology in preflight and csdlc.derived_terminal.v1 envelopes plus live closing linkage, exact heads, merge SHAs, digests, and candidate ancestry at terminal",
+      "Pass doctor for #5862 through #5878 without product file creation or child binding",
+      "Pass the exact sixteen-child, 38-path WP-04 preflight",
+      "Pass an exact-base changed-path allowlist that rejects every Sprint 3 product path and child topology mutation",
+      "Complete independent exact-head review and resolve every actionable finding"
+    ],
+    "steps": [
+      {"id":"S1","action":"Add the complete readiness regression matrix and implement canonical no-symlink ancestor containment.","acceptance_ids":["AC-1","AC-2","AC-3"],"status":"pending"},
+      {"id":"S2","action":"Enable bounded initialized/ready planning repair, then move #5865 serialization-gate JSON to replan_triggers with typed SPP edits and preserve the exact four product paths.","acceptance_ids":["AC-4"],"status":"pending"},
+      {"id":"S3","action":"Replace legacy claim, index-terminal, and receipt assumptions with validated derived-terminal envelopes.","acceptance_ids":["AC-5"],"status":"pending"},
+      {"id":"S4","action":"Run doctor, preflight, exact-base scope guard, focused tests, and exact-head review.","acceptance_ids":["AC-6","AC-7","AC-8","AC-9"],"status":"pending"}
+    ],
+    "validation_lanes": [
+      {
+        "lane":"csdlc-readiness-focused",
+        "proof_role":"Focused Rust tests prove safe future-path admission, malformed path rejection, and exact-digest initialized/ready planning repair without widening non-planning edits or bound behavior.",
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":600,
+        "budget_tokens":4000,
+        "argv":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--test","gate2"],
+        "parallel_group":"local",
+        "defer_reason":null,
+        "acceptance_ids":["AC-1","AC-2","AC-3"]
+      },
+      {
+        "lane":"wp04-wave-preflight",
+        "proof_role":"Exact typed doctor sweep and canonical wave preflight prove all sixteen packets are structurally bind-ready and claim-free.",
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":180,
+        "budget_tokens":1500,
+        "argv":["ruby",".csdlc/prepared/issues/5862/validate-implementation-wave.rb","--preflight"],
+        "parallel_group":"local",
+        "defer_reason":null,
+        "acceptance_ids":["AC-4","AC-5","AC-6","AC-7"]
+      },
+      {
+        "lane":"exact-scope-guard",
+        "proof_role":"Exact-base changed-path allowlist rejects Guardian product changes, child binding, and unexpected lifecycle mutation.",
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":60,
+        "budget_tokens":500,
+        "argv":["ruby",".csdlc/prepared/issues/5901/validate-scope.rb"],
+        "parallel_group":"local",
+        "defer_reason":null,
+        "acceptance_ids":["AC-8","AC-9"]
+      },
+      {
+        "lane":"wp04-terminal-fixtures",
+        "proof_role":"Fixture-backed terminal execution proves valid derived envelopes and rejects malformed, digest, head, merge, linkage, and ancestry failures.",
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":300,
+        "budget_tokens":3000,
+        "argv":["ruby",".csdlc/prepared/issues/5901/test-implementation-wave.rb"],
+        "parallel_group":"local",
+        "defer_reason":null,
+        "acceptance_ids":["AC-5"]
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

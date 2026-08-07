@@ -1,0 +1,9 @@
+{
+  "issue": 5903,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "d1186878ad2e5aefbf3c04b7524ed8eb8c0af97f1755a58028c14cf4ec4cc5e4",
+  "actor": "codex:5903-sprint4-readiness",
+  "reason": "Complete ten-issue readiness and live dependency proof",
+  "operation": {"operation": "update_plan_step", "step_id": "S3", "status": "completed"}
+}

@@ -1,0 +1,6 @@
+{
+  "issue": 5901,
+  "expected_generation": 5,
+  "expected_digest": "4c7a026d195cd93fe87865e800b8ed796e3e10069761b7b7399b7cfa91850f4a",
+  "reviewer": "codex:review-5901-design-reapproval"
+}

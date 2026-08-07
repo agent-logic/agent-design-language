@@ -1,0 +1,70 @@
+{
+  "issue": 5903,
+  "repository": "danielbaustin/agent-design-language",
+  "actor": "codex:5903-sprint4-readiness",
+  "design_path": ".csdlc/prepared/issues/5903/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5903/diagram.mmd",
+  "design_reviewer": "pending-independent-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92][C-SDLC v2][sprint-4] Repair first-birthday wave readiness",
+    "slug": "v0-92-csdlc-v2-sprint4-first-birthday-readiness",
+    "version": "v0.92",
+    "goal": "Make the approved Sprint 4 issue wave truthfully execution-ready under claim-free Git-topology authority.",
+    "required_outcome": "Typed doctor passes umbrella #5857 and all nine children while the execution packet uses current branch/worktree binding authority.",
+    "declared_scope": ["Sprint 4 typed SPP ownership repair", "Sprint 4 prompt and execution-packet authority repair", "Exact readiness proof"],
+    "affected_areas": [
+      ".adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md",
+      ".csdlc/prepared/issues/5857/sprint-execution-packet.md",
+      ".csdlc/prepared/issues/5857/sprint-execution-packet.yaml",
+      ".csdlc/issues/5857",
+      ".csdlc/issues/5825",
+      ".csdlc/issues/5826",
+      ".csdlc/issues/5827",
+      ".csdlc/issues/5828",
+      ".csdlc/issues/5829",
+      ".csdlc/issues/5830",
+      ".csdlc/issues/5831",
+      ".csdlc/issues/5833",
+      ".csdlc/issues/5834",
+      ".csdlc/prepared/issues/5857",
+      ".csdlc/prepared/issues/5903",
+      ".csdlc/evidence/5903"
+    ],
+    "authority_boundary": ["Issue #5903 owns readiness records and operator packet text only", "Issue #5857 remains the sprint umbrella", "Children retain exclusive product ownership"],
+    "operator_constraints": ["Never write tracked changes on main", "Use typed C-SDLC v2 card edits", "Do not bind or implement a Sprint 4 child", "Do not restore claims"],
+    "task_boundary": "Repair only the Sprint 4 execution-readiness packet and generated lifecycle projections.",
+    "deliverables": ["Path-only SPP ownership projections", "Claim-free Sprint 4 operator packet", "Ten passing typed doctor reports", "Focused readiness validation"],
+    "acceptance_criteria": [
+      "All nine child SPP affected_areas collections contain only repository-relative owned paths",
+      "Umbrella #5857 owns its Sprint Execution Packet and evidence paths",
+      "Typed doctor passes #5857 and all nine children with ready=true",
+      "The prompt and execution packet use typed branch/worktree binding and no retired claim/reacquire route",
+      "Live prerequisites #5817, #5818, #5819, and #5801 are closed",
+      "No Sprint 4 product implementation or child binding occurs",
+      "Independent exact-head review has no unresolved actionable findings"
+    ],
+    "dependencies": ["Issue #5901 and canonical PR #4 merged", "Issues #5817, #5818, #5819, and #5801 closed", "Approved Sprint 4 child designs and diagrams"],
+    "repo_inputs": ["AGENTS.md", ".adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md", ".csdlc/prepared/issues/5857/sprint-execution-packet.md", ".csdlc/prepared/issues/5857/sprint-execution-packet.yaml"],
+    "non_goals": ["Sprint 4 product implementation", "Closing umbrella #5857", "Changing the approved birthday architecture", "Binding a child worktree"],
+    "plan_summary": "Apply typed path repairs, update the operator packet, prove the exact ten-issue readiness denominator, review, and publish.",
+    "steps": [
+      {"id":"S1","action":"Apply exact-digest typed SPP path repairs to the umbrella and nine children.","acceptance_ids":["AC-1","AC-2"],"status":"pending"},
+      {"id":"S2","action":"Replace retired claim instructions in the controlling prompt and Sprint Execution Packet.","acceptance_ids":["AC-4"],"status":"pending"},
+      {"id":"S3","action":"Run the ten-issue doctor sweep and verify live prerequisite closure.","acceptance_ids":["AC-3","AC-5","AC-6"],"status":"pending"},
+      {"id":"S4","action":"Complete independent exact-head review and publish the readiness repair.","acceptance_ids":["AC-7"],"status":"pending"}
+    ],
+    "invariants": ["No product source changes", "Exact nine-child denominator", "Git topology is ownership authority", "Umbrella #5857 remains open"],
+    "risks": ["Serialization metadata remains in a path-only field", "Stale claim instructions survive", "A dependency is assumed terminal without live proof"],
+    "stop_conditions": ["A product source change is required", "A child design or dependency order must change", "Any doctor remains blocked after bounded repair"],
+    "review_scope": "Issue #5903 typed readiness records, operator packet text, exact denominator, and no-product-change boundary.",
+    "review_prompts": ["Are all SPP affected areas path-only?", "Are all claim/reacquire instructions retired?", "Do all ten doctors pass?", "Did the repair avoid product implementation and child binding?"],
+    "failure_policy": "Fail closed on non-path metadata, stale claim authority, doctor failure, dependency drift, or product-path mutation.",
+    "planning_profile": "small",
+    "validation_lanes": [
+      {"lane":"sprint4-readiness-doctor-contract","proof_role":"Run the current typed doctor contract tests that cover initialized planning repair and execution readiness.","acceptance_ids":["AC-1","AC-2","AC-3"],"deterministic":true,"resource_profile":"small","budget_seconds":540,"budget_tokens":3000,"argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","gate2"],"parallel_group":"local","defer_reason":null},
+      {"lane":"sprint4-live-readiness-validator","proof_role":"Force-build and digest the current source doctor, prove all ten doctors ready, compare baseline/manifest/current serialization gates, query live prerequisites through the external GitHub proof boundary, reject retired claim text, and enforce the no-product-change allowlist.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6"],"deterministic":false,"resource_profile":"small","budget_seconds":600,"budget_tokens":3000,"argv":["ruby",".csdlc/prepared/issues/5903/validate-readiness.rb"],"parallel_group":"local","defer_reason":null},
+      {"lane":"sprint4-exact-head-review-hygiene","proof_role":"Reject malformed diffs before the independently executed exact-head review and typed csdlc-review record satisfy AC-7.","acceptance_ids":["AC-7"],"deterministic":true,"resource_profile":"small","budget_seconds":60,"budget_tokens":500,"argv":["git","diff","--check"],"parallel_group":"local","defer_reason":null}
+    ]
+  }
+}

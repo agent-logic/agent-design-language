@@ -75,12 +75,7 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         .map(|pr| normalize(&intent, pr))
         .transpose()?;
     if let Some(value) = &before {
-        if !csdlc_v2::publication::body_has_github_closing_keyword(
-            &value.body,
-            intent.issue,
-            &intent.repository,
-        ) || value.draft != intent.draft
-        {
+        if !existing_pr_matches_governed_mode(&intent, value) {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "existing PR does not match this issue's governed publication mode",
@@ -132,6 +127,26 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
     Ok(
         serde_json::json!({"schema":"csdlc.publication_result.v1","publication":normalized,"generation":record.generation,"digest":record.digest}),
     )
+}
+
+fn existing_pr_matches_governed_mode(
+    intent: &PublicationIntent,
+    value: &RemotePullRequest,
+) -> bool {
+    let linked = if intent.repository != intent.issue_repository {
+        csdlc_v2::publication::body_has_qualified_github_closing_keyword(
+            &value.body,
+            intent.issue,
+            &intent.issue_repository,
+        )
+    } else {
+        csdlc_v2::publication::body_has_github_closing_keyword(
+            &value.body,
+            intent.issue,
+            &intent.issue_repository,
+        )
+    };
+    linked && value.draft == intent.draft
 }
 
 fn resolve_token(request: &PublicationRequest) -> csdlc_v2::Result<String> {
@@ -361,9 +376,10 @@ fn reconcile_create_observation(send_failed: bool, observed: bool) -> csdlc_v2::
 #[cfg(test)]
 mod tests {
     use super::{
-        reconcile_create_observation, remote_url_matches, validate_observed_repository_identity,
+        existing_pr_matches_governed_mode, reconcile_create_observation, remote_url_matches,
+        validate_observed_repository_identity,
     };
-    use csdlc_v2::PublicationIntent;
+    use csdlc_v2::{PublicationIntent, RemotePullRequest};
 
     #[test]
     fn remote_url_requires_exact_github_host_and_repository() {
@@ -399,6 +415,7 @@ mod tests {
             schema: "csdlc.publication_intent.v1".into(),
             issue: 5466,
             repository: "owner/repo".into(),
+            issue_repository: "owner/repo".into(),
             base: "main".into(),
             head: "codex/5466".into(),
             title: "title".into(),
@@ -421,5 +438,37 @@ mod tests {
         .is_err());
         assert!(validate_observed_repository_identity(&intent, None, Some("owner/repo")).is_err());
         assert!(validate_observed_repository_identity(&intent, Some("owner/repo"), None).is_err());
+    }
+
+    #[test]
+    fn existing_split_authority_pr_requires_qualified_issue_linkage() {
+        let intent = PublicationIntent {
+            schema: "csdlc.publication_intent.v1".into(),
+            issue: 5901,
+            repository: "agent-logic/agent-design-language".into(),
+            issue_repository: "danielbaustin/agent-design-language".into(),
+            base: "main".into(),
+            head: "codex/5901".into(),
+            title: "title".into(),
+            body: "Closes danielbaustin/agent-design-language#5901".into(),
+            draft: false,
+            revision: "revision".into(),
+            commit_sha: "sha".into(),
+        };
+        let mut remote = RemotePullRequest {
+            number: 1,
+            url: "https://example.invalid/1".into(),
+            repository: intent.repository.clone(),
+            base: intent.base.clone(),
+            head: intent.head.clone(),
+            title: intent.title.clone(),
+            body: intent.body.clone(),
+            draft: false,
+            state: "open".into(),
+            head_sha: intent.commit_sha.clone(),
+        };
+        assert!(existing_pr_matches_governed_mode(&intent, &remote));
+        remote.body = "Closes #5901".into();
+        assert!(!existing_pr_matches_governed_mode(&intent, &remote));
     }
 }

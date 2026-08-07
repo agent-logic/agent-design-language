@@ -1,0 +1,9 @@
+{
+  "issue": 5903,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "2f1ccf612032bc696ec60f34d23e870c60c9ee1da9e04f1affff907a890175c7",
+  "actor": "codex:5903-sprint4-readiness",
+  "reason": "Complete typed Sprint 4 SPP ownership repair",
+  "operation": {"operation": "update_plan_step", "step_id": "S1", "status": "completed"}
+}

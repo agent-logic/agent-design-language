@@ -1,0 +1,31 @@
+{
+  "issue": 5903,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "3165e81881d8497a42d69aa39b1ed59f346b53acbd2a21e36977ba2b43c69d78",
+  "actor": "codex:5903-sprint4-readiness",
+  "reason": "Record bounded Sprint 4 readiness repair",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Normalized the Sprint 4 umbrella and nine child planning records through typed edits, preserved every serialization gate in typed replan triggers, replaced retired claim instructions with Git branch/worktree authority, and added exact live readiness proof.",
+    "changes": [
+      ".adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md",
+      ".csdlc/issues/5857",
+      ".csdlc/issues/5825",
+      ".csdlc/issues/5826",
+      ".csdlc/issues/5827",
+      ".csdlc/issues/5828",
+      ".csdlc/issues/5829",
+      ".csdlc/issues/5830",
+      ".csdlc/issues/5831",
+      ".csdlc/issues/5833",
+      ".csdlc/issues/5834",
+      ".csdlc/prepared/issues/5857/sprint-execution-packet.md",
+      ".csdlc/prepared/issues/5857/sprint-execution-packet.yaml"
+    ],
+    "artifacts": [
+      ".csdlc/prepared/issues/5903/serialization-gates.json",
+      ".csdlc/prepared/issues/5903/validate-readiness.rb"
+    ]
+  }
+}

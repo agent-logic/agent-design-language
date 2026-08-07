@@ -1,0 +1,6 @@
+{
+  "issue": 5901,
+  "expected_generation": 8,
+  "expected_digest": "cd7bca9791ae01e203405410c7ba363d4ac7d86a8f6f657f85d2519f0917addb",
+  "reviewer": "codex:review-5901-final-design"
+}

@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c55fcec9d7fd6a0d4d2da1c93fd714b817b6f697dc7c376a861c603da0e046bf",
   "phase": "initialized",
-  "generation": 8,
-  "digest": "ac1551a66e43cbc3caf707fac05811fe5d8e10aba55d9c28c67977ea088a8d5d",
+  "generation": 10,
+  "digest": "b899d4050524e715b78bd62ecc4f87f3ac3448ee01146d6b4a76333f08fc0c58",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f5f12dbbe3cf275b5bdd8018ac040076788c7210e003d97353c455ce7548cee2",
+      "values_digest": "d363a5d9e08f1fdb9d07667625779d100121faa010245c69b46cfd60db73051a",
       "rendered_digest": "6f6ea34f77a17f2a8b5331b49e028f85d71a4560b55289145f9413f7f27de7e3",
       "ast_digest": "72841efd922af196894c6b0f4f00604ffbf5b44ee922a7ca951628d88c4071dd"
     },
     "stp": {
-      "values_digest": "77e6b761af8ed29d904878cc6ed6bf4dd81d811da89c14ce4afbcaf6ade58bca",
+      "values_digest": "b4ca56adc9f8a1bfd05aec890f80586d461e6aa5df72519b562810e08cff19f3",
       "rendered_digest": "8e62c5c84f3bf3d32d53306a3fdf445e10f328510522e899e894c84b3890e238",
       "ast_digest": "bdf7b0fa6b6c76a43e9704d0f4774422ea93e9a73e8e163be1baa31fdf32a5ca"
     },
     "spp": {
-      "values_digest": "929ea73361eeafa4a70afc7b0067febc38ea4b4c237772863700f637056cbd0f",
-      "rendered_digest": "bdd04b0f617e8c17f9eb393d3cde64eda984ebf874bf78120c8ee7c4495395f9",
-      "ast_digest": "9db7049ad351715b33efedbf41ccd257cb39dc8635e50dba2e76a604ded576df"
+      "values_digest": "bddd3ef51fb3fdc52a9f41fe8152187da8f27a18f8bc16c33be3f7a0fa0654b1",
+      "rendered_digest": "46fcbfc9e024fef9c05ed3aaf9cb62fd0bdc12e3e10640625034e14d11ef8055",
+      "ast_digest": "69281c4700861d25e33f39a184cf1cf623bdc5d08ebd6cf8385ab270ecff5c7f"
     },
     "vpp": {
-      "values_digest": "8e6e368c89a7fc8d0fd6202b0b8db9424af2a6ebaa1471c005f05305720388f5",
+      "values_digest": "fc6ae4fe52aba8d95d6d681caba5a3a828661a0ff29fa9b6327fd49ffc6509ef",
       "rendered_digest": "37731811c9b4495decbeaeae869f074a44ff073e95ba8dfe0728e6f13d0e38e2",
       "ast_digest": "1f880748a1aa3bb8aff7f65496fdda193bed3a76711b8c60b95a80c92e6a6825"
     },
     "srp": {
-      "values_digest": "71756de9c3c52b24d50e44c4d59767b9d315777b131c1892c1739623c7293703",
+      "values_digest": "9b56a9315cc5c0a91086a01d271a433937b430c5e34e45bce273dad88036edd9",
       "rendered_digest": "27edbfc0190ce3518ca553a2033ed6efa0fe0f95b0f0c53825aa246251586604",
       "ast_digest": "39961c7b9c3346314fa7fbd670043f587907c9cfda67a0e7fec519fb399c6c7f"
     },
     "sor": {
-      "values_digest": "4eb9bcfd0e31adaa838de654068b8c2abcff65ba61e3db07cc1d6d31a7d6621d",
+      "values_digest": "e264be0521da5ed08aab6e4105efe03414a3f816c7ecc36c76df10cc71a89c2b",
       "rendered_digest": "91e3df1e90e17adff864c9341ead30dcfce2338b2db616f2f776f2c082a4b890",
       "ast_digest": "224feb4a691373173f4a197a42dee8cd346722fbd3e3556d10cab347869ec510"
     }
@@ -259,6 +259,20 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 27,
+      "generation": 9,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Preserve the runtime manifest serialization gate as a typed replan trigger before removing it from the path-only ownership collection.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-runtime-manifest-sequence-v1\\\",\\\"paths\\\":[\\\"adl-runtime/Cargo.toml\\\",\\\"adl-runtime/Cargo.lock\\\"],\\\"issues\\\":[5818,5865],\\\"order\\\":[5818,5865]}\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 10,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Restore #5865 affected_areas to its exact four approved product paths after preserving serialization ordering in replan_triggers.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\"]}"
     }
   ]
 }
