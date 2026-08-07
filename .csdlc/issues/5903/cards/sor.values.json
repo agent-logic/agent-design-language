@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5903,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][sprint-4] Repair first-birthday wave readiness",
+    "slug": "v0-92-csdlc-v2-sprint4-first-birthday-readiness",
+    "version": "v0.92",
+    "generation": 9
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Normalized the Sprint 4 umbrella and nine child planning records through typed edits, preserved every serialization gate in typed replan triggers, replaced retired claim instructions with Git branch/worktree authority, and added exact live readiness proof.",
+      "actual_changes": [
+        ".adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md",
+        ".csdlc/issues/5857",
+        ".csdlc/issues/5825",
+        ".csdlc/issues/5826",
+        ".csdlc/issues/5827",
+        ".csdlc/issues/5828",
+        ".csdlc/issues/5829",
+        ".csdlc/issues/5830",
+        ".csdlc/issues/5831",
+        ".csdlc/issues/5833",
+        ".csdlc/issues/5834",
+        ".csdlc/prepared/issues/5857/sprint-execution-packet.md",
+        ".csdlc/prepared/issues/5857/sprint-execution-packet.yaml"
+      ],
+      "artifacts": [
+        ".csdlc/prepared/issues/5903/serialization-gates.json",
+        ".csdlc/prepared/issues/5903/validate-readiness.rb"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5903/validate-readiness.rb"
+          ],
+          "purpose": "Prove source-built doctor readiness for the exact ten-issue denominator, baseline-manifest-current serialization parity, live prerequisite closure, claim-free operator text, and the no-product-change allowlist.",
+          "outcome": "passed",
+          "evidence_ref": "Validator passed at merged readiness base 51f4e00a32176a7d2fb9388997da8448d8e3d4f2 with 10 ready doctors, 22 gate occurrences, 13 unique gate IDs, and four live closed prerequisites; gate2 also passed 1 test and git diff --check passed."
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

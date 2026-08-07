@@ -1,0 +1,9 @@
+{
+  "issue": 5903,
+  "card": "sor",
+  "expected_generation": 8,
+  "expected_digest": "8b14e760d897981fda03d1b351c97b393363bd797145278e7c0f6ea14c208418",
+  "actor": "codex:5903-sprint4-readiness",
+  "reason": "Sprint 4 readiness repair and focused validation are complete",
+  "operation": {"operation": "advance_phase", "phase": "implemented"}
+}

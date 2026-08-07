@@ -1,0 +1,17 @@
+{
+  "issue": 5903,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "46908f5407ac4ca3f10e7f8d16e5c9192ce7547a4bb3305aec1b22a9fc77e8f1",
+  "actor": "codex:5903-sprint4-readiness",
+  "reason": "Record focused Sprint 4 readiness proof",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["ruby", ".csdlc/prepared/issues/5903/validate-readiness.rb"],
+      "purpose": "Prove source-built doctor readiness for the exact ten-issue denominator, baseline-manifest-current serialization parity, live prerequisite closure, claim-free operator text, and the no-product-change allowlist.",
+      "outcome": "passed",
+      "evidence_ref": "Validator passed at merged readiness base 51f4e00a32176a7d2fb9388997da8448d8e3d4f2 with 10 ready doctors, 22 gate occurrences, 13 unique gate IDs, and four live closed prerequisites; gate2 also passed 1 test and git diff --check passed."
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5903,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][sprint-4] Repair first-birthday wave readiness",
+    "slug": "v0-92-csdlc-v2-sprint4-first-birthday-readiness",
+    "version": "v0.92",
+    "generation": 9
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Apply typed path repairs, update the operator packet, prove the exact ten-issue readiness denominator, review, and publish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Apply exact-digest typed SPP path repairs to the umbrella and nine children.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Replace retired claim instructions in the controlling prompt and Sprint Execution Packet.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Run the ten-issue doctor sweep and verify live prerequisite closure.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Complete independent exact-head review and publish the readiness repair.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "status": "in_progress"
+        }
+      ],
+      "affected_areas": [
+        ".adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md",
+        ".csdlc/prepared/issues/5857/sprint-execution-packet.md",
+        ".csdlc/prepared/issues/5857/sprint-execution-packet.yaml",
+        ".csdlc/issues/5857",
+        ".csdlc/issues/5825",
+        ".csdlc/issues/5826",
+        ".csdlc/issues/5827",
+        ".csdlc/issues/5828",
+        ".csdlc/issues/5829",
+        ".csdlc/issues/5830",
+        ".csdlc/issues/5831",
+        ".csdlc/issues/5833",
+        ".csdlc/issues/5834",
+        ".csdlc/prepared/issues/5857",
+        ".csdlc/prepared/issues/5903",
+        ".csdlc/evidence/5903"
+      ],
+      "invariants": [
+        "No product source changes",
+        "Exact nine-child denominator",
+        "Git topology is ownership authority",
+        "Umbrella #5857 remains open"
+      ],
+      "risks": [
+        "Serialization metadata remains in a path-only field",
+        "Stale claim instructions survive",
+        "A dependency is assumed terminal without live proof"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "A product source change is required",
+        "A child design or dependency order must change",
+        "Any doctor remains blocked after bounded repair"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/5903/design.md",
+      "design_digest": "39abab15840ba509401200511f87ed54f6760bd9641dc8e05df3931796f48c0b",
+      "diagram_ref": ".csdlc/prepared/issues/5903/diagram.mmd",
+      "diagram_digest": "e4a40196515c48cb49fc636be3c986f8d2729005dcdbd3898500c44d42674dae"
+    }
+  }
+}

@@ -16,7 +16,7 @@ Implement and prove WP-13A's evaluation-to-policy-to-graph DAG, including accept
 
 ## Plan
 
-Revision 19
+Revision 21
 
 ## Steps
 
