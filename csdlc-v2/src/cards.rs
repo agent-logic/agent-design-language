@@ -1,4 +1,5 @@
 use std::collections::{BTreeMap, BTreeSet};
+use std::fs;
 use std::path::{Component, Path};
 
 use markdown::mdast::Node;
@@ -1576,7 +1577,7 @@ fn proving_lane(lane: &ValidationLane) -> bool {
             .any(|value| matches!(value.as_str(), "--help" | "-h" | "--version" | "-V"))
         && !matches!(
             executable.as_str(),
-            "true" | "false" | "echo" | "printf" | "sleep" | ":" | "sh" | "bash" | "zsh" | "env"
+            "true" | "false" | "echo" | "printf" | "sleep" | ":" | "sh" | "zsh" | "env"
         )
 }
 
@@ -1598,7 +1599,14 @@ fn executable_file(path: &Path) -> bool {
     }
 }
 
-fn proving_lane_at(root: &Path, lane: &ValidationLane) -> bool {
+fn proving_lane_at(root: &Path, lane: &ValidationLane, owned_paths: &[String]) -> bool {
+    let executable = lane
+        .argv
+        .first()
+        .and_then(|value| Path::new(value).file_name())
+        .and_then(|value| value.to_str())
+        .unwrap_or_default()
+        .to_ascii_lowercase();
     let executable_exists = if lane.argv.first().is_none_or(String::is_empty) {
         false
     } else if lane.argv[0].contains('/') {
@@ -1609,7 +1617,67 @@ fn proving_lane_at(root: &Path, lane: &ValidationLane) -> bool {
                 .any(|directory| executable_file(&directory.join(&lane.argv[0])))
         })
     };
-    executable_exists && proving_lane(lane)
+    let governed_shell_script = executable != "bash"
+        || lane.argv.get(1).is_some_and(|script| {
+            script.ends_with(".sh")
+                && owned_paths.iter().any(|owned| owned == script)
+                && owned_path_at(root, script)
+        });
+    executable_exists && governed_shell_script && proving_lane(lane)
+}
+
+fn owned_path_at(root: &Path, value: &str) -> bool {
+    let relative = Path::new(value);
+    if placeholder(value)
+        || !relative
+            .components()
+            .all(|component| matches!(component, Component::Normal(_)))
+    {
+        return false;
+    }
+    match fs::symlink_metadata(root) {
+        Ok(metadata) if metadata.is_dir() && !metadata.file_type().is_symlink() => {}
+        _ => return false,
+    }
+    let canonical_root = match root.canonicalize() {
+        Ok(root) => root,
+        Err(_) => return false,
+    };
+    let components: Vec<_> = relative.components().collect();
+    let mut current = root.to_path_buf();
+    let mut saw_existing_relative_prefix = false;
+    for (index, component) in components.iter().enumerate() {
+        let Component::Normal(part) = component else {
+            return false;
+        };
+        current.push(part);
+        match fs::symlink_metadata(&current) {
+            Ok(metadata) => {
+                if metadata.file_type().is_symlink()
+                    || (index + 1 < components.len() && !metadata.is_dir())
+                {
+                    return false;
+                }
+                saw_existing_relative_prefix = true;
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                if !saw_existing_relative_prefix {
+                    return false;
+                }
+                let Some(existing) = current.parent() else {
+                    return false;
+                };
+                return existing
+                    .canonicalize()
+                    .is_ok_and(|ancestor| ancestor.starts_with(&canonical_root));
+            }
+            Err(_) => return false,
+        }
+    }
+    saw_existing_relative_prefix
+        && current
+            .canonicalize()
+            .is_ok_and(|owned| owned.starts_with(&canonical_root))
 }
 
 pub(crate) fn validate_execution_readiness(
@@ -1625,17 +1693,9 @@ pub(crate) fn validate_execution_readiness(
         _ => unreachable!("SPP projection"),
     };
     let owned_paths_are_valid = !affected_areas.is_empty()
-        && affected_areas.iter().all(|value| {
-            let relative = Path::new(value);
-            !placeholder(value)
-                && relative
-                    .components()
-                    .all(|component| matches!(component, Component::Normal(_)))
-                && (root.join(relative).exists()
-                    || relative.parent().is_some_and(|parent| {
-                        !parent.as_os_str().is_empty() && root.join(parent).is_dir()
-                    }))
-        });
+        && affected_areas
+            .iter()
+            .all(|value| owned_path_at(root, value));
     let lanes = match &cards
         .get(&CardKind::Vpp)
         .ok_or_else(|| V2Error::new(ErrorCode::CardInvalid, "VPP projection missing"))?
@@ -1646,7 +1706,9 @@ pub(crate) fn validate_execution_readiness(
     };
     if !owned_paths_are_valid
         || lanes.is_empty()
-        || lanes.iter().any(|lane| !proving_lane_at(root, lane))
+        || lanes
+            .iter()
+            .any(|lane| !proving_lane_at(root, lane, affected_areas))
     {
         return Err(V2Error::new(
             ErrorCode::CardInvalid,
@@ -1910,7 +1972,27 @@ pub fn digest(bytes: &[u8]) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::{terminal_validation_passed, EvidenceOutcome, ValidationResult};
+    use std::fs;
+
+    use super::{
+        owned_path_at, proving_lane_at, terminal_validation_passed, EvidenceOutcome,
+        ResourceProfile, ValidationLane, ValidationResult,
+    };
+
+    fn lane(argv: &[&str]) -> ValidationLane {
+        ValidationLane {
+            lane: "focused".into(),
+            proof_role: "execute a governed repository validation".into(),
+            acceptance_ids: vec!["AC-1".into()],
+            deterministic: true,
+            resource_profile: ResourceProfile::Small,
+            budget_seconds: 60,
+            budget_tokens: 500,
+            argv: argv.iter().map(|value| (*value).into()).collect(),
+            parallel_group: "local".into(),
+            defer_reason: None,
+        }
+    }
 
     fn result(outcome: EvidenceOutcome) -> ValidationResult {
         ValidationResult {
@@ -1935,5 +2017,79 @@ mod tests {
             result(EvidenceOutcome::Passed),
             result(EvidenceOutcome::Failed),
         ]));
+    }
+
+    #[test]
+    fn owned_paths_accept_real_files_and_safe_future_descendants() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        fs::create_dir_all(temp.path().join("existing/deep")).expect("existing directory");
+        fs::write(temp.path().join("existing/file.rs"), "proof\n").expect("existing file");
+
+        assert!(owned_path_at(temp.path(), "existing/file.rs"));
+        assert!(owned_path_at(temp.path(), "existing/deep/future/module.rs"));
+        assert!(!owned_path_at(temp.path(), "missing/future.rs"));
+        assert!(!owned_path_at(temp.path(), "existing/file.rs/future.rs"));
+        assert!(!owned_path_at(temp.path(), "../escape.rs"));
+        assert!(!owned_path_at(temp.path(), "/absolute/escape.rs"));
+        assert!(!owned_path_at(temp.path(), "<owned-path>"));
+        assert!(!owned_path_at(
+            temp.path(),
+            "SERIALIZATION_GATE {\"paths\":[\"existing/file.rs\"]}"
+        ));
+    }
+
+    #[test]
+    fn bash_lane_requires_a_governed_repository_script() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        fs::create_dir_all(temp.path().join("tools")).expect("tools directory");
+
+        let owned = vec!["tools/future-validation.sh".to_string()];
+        assert!(proving_lane_at(
+            temp.path(),
+            &lane(&["bash", "tools/future-validation.sh"]),
+            &owned
+        ));
+        assert!(!proving_lane_at(temp.path(), &lane(&["bash"]), &owned));
+        assert!(!proving_lane_at(
+            temp.path(),
+            &lane(&["bash", "tools/unowned-validation.sh"]),
+            &owned
+        ));
+        assert!(!proving_lane_at(
+            temp.path(),
+            &lane(&["bash", "-c", "echo unsafe"]),
+            &owned
+        ));
+        assert!(!proving_lane_at(
+            temp.path(),
+            &lane(&["bash", "../outside.sh"]),
+            &["../outside.sh".into()]
+        ));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn owned_paths_reject_every_symlink_component() {
+        use std::os::unix::fs::symlink;
+
+        let temp = tempfile::tempdir().expect("tempdir");
+        let outside = tempfile::tempdir().expect("outside tempdir");
+        fs::create_dir_all(temp.path().join("real/inside")).expect("inside directory");
+        fs::write(temp.path().join("real/leaf.rs"), "proof\n").expect("leaf");
+        symlink(outside.path(), temp.path().join("outside-link")).expect("outside symlink");
+        symlink(
+            temp.path().join("real/inside"),
+            temp.path().join("inside-link"),
+        )
+        .expect("inside symlink");
+        symlink(
+            temp.path().join("real/leaf.rs"),
+            temp.path().join("leaf-link.rs"),
+        )
+        .expect("leaf symlink");
+
+        assert!(!owned_path_at(temp.path(), "outside-link/future.rs"));
+        assert!(!owned_path_at(temp.path(), "inside-link/future.rs"));
+        assert!(!owned_path_at(temp.path(), "leaf-link.rs"));
     }
 }

@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "904390dda83597a867777bbf16ebbe9907f65b6d6481c7be13b55d2ed2e2de2d",
   "phase": "initialized",
-  "generation": 65,
-  "digest": "5d67224c90c8e34ec34d57192c7728e4d67e76d162a422c98096384ba4cbd382",
+  "generation": 67,
+  "digest": "60737859539f5dd63c6ef388ebbda06689edbceed5e7fc56983521ff642ca383",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e5ee74e83dab7dba9895b74731ccbcc0be82120babd4bae10c2cfa4b547a5f79",
+      "values_digest": "805a1b7979b7fa857a66625b517322e00858e131a28dd946cc9b7582b54b3432",
       "rendered_digest": "d6a522f9b96a13db366a0ee6b8ce2cdab3049852134faabe28fe9a42af07fe66",
       "ast_digest": "8d6bf8fbed7abdd44c892e87970e36f564d7ffc9fc248f3cae3aa1c0b8185d8a"
     },
     "stp": {
-      "values_digest": "300655a79e6b190c78ca40ea900b49d4a503693aa23aa721df7c70254dd0cead",
+      "values_digest": "cd9108878a033302cc1762ee34fb4ebd35c1506ae43eaf6c4b17efe370661961",
       "rendered_digest": "9b4a0528dca8794b600709aeeae7acd7726325f47dd2975721db6e5156dcc245",
       "ast_digest": "013473c072130c1eb36860a8ccbf49a7b8b4acb815224e3e298125a880502aa6"
     },
     "spp": {
-      "values_digest": "b64befc8a75c62b9002b726b75f5e9c4154c7ba6b01e5f5b372237c0ef3600eb",
-      "rendered_digest": "e70533eeec1d595753e873872cd60c84921294bf19043d1b6527e977bb219bcf",
-      "ast_digest": "88d570e15dbae66e6ba456963de20f798f5fa98727a44a1b88352238eb7795db"
+      "values_digest": "626778670745267b2b37ccf9d3b689cc1d3427305c9c0ecaa40e03a9732648a4",
+      "rendered_digest": "3892d59c3fdb136316095e6b74bcfec0a0446f019f7cb3729b9aee3bc07ae1e2",
+      "ast_digest": "a74b944fa96ab68704d950730a43b42959ad57d22e0660f2d1700ec7b3701300"
     },
     "vpp": {
-      "values_digest": "a9f4eb419c192f56c3fa435bccc380bf734ba4e3b8ad471d09baa7e742d47405",
+      "values_digest": "54d66ed463f4bdf391c8cbca832d4948edea1ef9f2b94a745cb090c0639d16e4",
       "rendered_digest": "99bfa9cb57e3bce8a94bfa4265fa7a503aa89e00d653fbe0317b74a0bd3c4754",
       "ast_digest": "800cdc9faf9d9e8150d11b8b7cc41d660c8619ab66d8fb3f17913ec956c5f6e9"
     },
     "srp": {
-      "values_digest": "8fb6ba56eb474d3ff5e66ee5eef506c85f63991f5f8126938034a4b29539f57f",
+      "values_digest": "8eae364fb40555534e8a678193f496d4352ec7e4805a4dea1f3b9a53aea6b48a",
       "rendered_digest": "656f33b83ff10ead3fa1cb155ab9ef8be5b90d51a2e442224b85d9fbfe76b2b4",
       "ast_digest": "ecc45c5df390f8f354a35abfe2e442480c22c6a4d71cbba8d76a340898994d13"
     },
     "sor": {
-      "values_digest": "94e1ccddb5658d64645d047eaa210ba02ab762f0b89adc07ed93b3b86fe80e94",
+      "values_digest": "367f0fea93cb8ce7a593297429bab5e465cd9fa3910d01e7ce712222a24b508b",
       "rendered_digest": "e3a6c6ec76708b4213ad79897d6cf48fe48bcaecd057a5a4c8601d59795a6d41",
       "ast_digest": "bf6ffc3401c9b3afd0a0dc0839121b241979dfa196064dffb3a6f233a26d1799"
     }
@@ -686,6 +686,20 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 88,
+      "generation": 66,
+      "actor": "codex:5857-sprint4-readiness",
+      "reason": "Keep only repository-relative owned paths in SPP; sequencing metadata remains authoritative in the Sprint Execution Packet.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birthday.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birthday.rs\",\"adl-runtime-kernel/tests/fixtures/birthday\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\".csdlc/prepared/issues/5825/validate-native-receipts.rb\",\".csdlc/prepared/issues/5825/produce-native-receipt.rb\",\".csdlc/evidence/5825\"]}"
+    },
+    {
+      "sequence": 89,
+      "generation": 67,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"The source contract changes required birth evidence or disqualifiers.\",\"Execution requires a shared Runtime v3 schema change outside the exact declared paths.\",\"A reviewer identifies an uncovered lifecycle lookalike or unsupported public claim.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-kernel-registration-v1\\\",\\\"paths\\\":[\\\"adl-runtime-kernel/src/lib.rs\\\"],\\\"issues\\\":[5825,5826,5827,5828,5829,5830,5831,5833],\\\"order\\\":[5825,5826,5827,5828,5829,5830,5831,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5825-birthday-doc-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\\\"],\\\"issues\\\":[5825,5843],\\\"order\\\":[5825,5843]}\"]}"
     }
   ]
 }

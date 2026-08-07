@@ -1,0 +1,9 @@
+{
+  "issue": 5903,
+  "card": "spp",
+  "expected_generation": 5,
+  "expected_digest": "d59ebb4f95da8bd2871d8fa1ca04c5720aa65b7e9834e2d993faf7c555f3b093",
+  "actor": "codex:5903-sprint4-readiness",
+  "reason": "Begin exact-head review and publication",
+  "operation": {"operation": "update_plan_step", "step_id": "S4", "status": "in_progress"}
+}

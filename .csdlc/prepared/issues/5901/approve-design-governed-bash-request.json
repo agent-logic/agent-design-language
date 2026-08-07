@@ -1,0 +1,6 @@
+{
+  "issue": 5901,
+  "expected_generation": 10,
+  "expected_digest": "e1fffa820ef40d65b6c831224c97fc23a17bf2da0daffc58cbac59ddf97e8e43",
+  "reviewer": "codex:review-5901-governed-bash"
+}

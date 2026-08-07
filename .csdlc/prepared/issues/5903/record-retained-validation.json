@@ -1,0 +1,17 @@
+{
+  "issue": 5903,
+  "card": "sor",
+  "expected_generation": 10,
+  "expected_digest": "67b04b78a9b0b8aef4845c3f0753395fbb44b824358f1d94d1209149bac24a77",
+  "actor": "codex:5903-sprint4-readiness",
+  "reason": "Bind validation truth to the retained exact-revision provenance record",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["ruby", ".csdlc/prepared/issues/5903/validate-readiness.rb"],
+      "purpose": "Retain the exact candidate revision, source-built doctor digest, ten doctor generations, baseline gate parity, live prerequisites, and changed-path allowlist.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/5903/readiness-validation.json"
+    }
+  }
+}

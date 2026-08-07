@@ -1,0 +1,92 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5903,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][sprint-4] Repair first-birthday wave readiness",
+    "slug": "v0-92-csdlc-v2-sprint4-first-birthday-readiness",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "sprint4-readiness-doctor-contract",
+          "proof_role": "Run the current typed doctor contract tests that cover initialized planning repair and execution readiness.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 540,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "sprint4-live-readiness-validator",
+          "proof_role": "Force-build and digest the current source doctor, prove all ten doctors ready, compare baseline/manifest/current serialization gates, query live prerequisites through the external GitHub proof boundary, reject retired claim text, and enforce the no-product-change allowlist.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5903/validate-readiness.rb"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "sprint4-exact-head-review-hygiene",
+          "proof_role": "Reject malformed diffs before the independently executed exact-head review and typed csdlc-review record satisfy AC-7.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on non-path metadata, stale claim authority, doctor failure, dependency drift, or product-path mutation.",
+      "design_ref": ".csdlc/prepared/issues/5903/design.md",
+      "design_digest": "39abab15840ba509401200511f87ed54f6760bd9641dc8e05df3931796f48c0b",
+      "diagram_ref": ".csdlc/prepared/issues/5903/diagram.mmd",
+      "diagram_digest": "e4a40196515c48cb49fc636be3c986f8d2729005dcdbd3898500c44d42674dae"
+    }
+  }
+}

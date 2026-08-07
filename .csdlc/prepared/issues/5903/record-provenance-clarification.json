@@ -1,0 +1,14 @@
+{
+  "issue": 5903,
+  "card": "sor",
+  "expected_generation": 9,
+  "expected_digest": "afda90adcf79d52d498c0694de68c2cc9014ae2f3e58751114597f6fc72745f6",
+  "actor": "codex:5903-sprint4-readiness",
+  "reason": "Retain exact validator provenance and clarify immutable audit wording",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Sprint 4 readiness is repaired and proven. Clarification: design approval occurred at audit sequence 2 and the revised validation lanes were applied afterward at sequence 3; the earlier sequence-3 reason saying before approval is stale wording only, while the immutable sequence and resulting state are correct.",
+    "changes": [".csdlc/evidence/5903/readiness-validation.json"],
+    "artifacts": [".csdlc/evidence/5903/readiness-validation.json"]
+  }
+}

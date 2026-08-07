@@ -7,13 +7,13 @@
     "title": "First-birthday core sprint",
     "slug": "first-birthday-core",
     "version": "v0.92",
-    "generation": 0
+    "generation": 1
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Verify the full child batch, route safe independent lanes to separate sessions, preserve serial gates, and synthesize one integrated sprint review after child completion.",
       "steps": [
         {
@@ -46,7 +46,11 @@
           "status": "pending"
         }
       ],
-      "affected_areas": [],
+      "affected_areas": [
+        ".csdlc/prepared/issues/5857/sprint-execution-packet.md",
+        ".csdlc/prepared/issues/5857/sprint-execution-packet.yaml",
+        ".csdlc/evidence/5857"
+      ],
       "invariants": [
         "Child issues retain all code and proof authority",
         "No child begins before its declared dependencies",

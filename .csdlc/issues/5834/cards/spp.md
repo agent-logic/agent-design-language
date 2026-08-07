@@ -16,7 +16,7 @@ Assemble and prove WP-16's exact-digest reviewer packet with complete child evid
 
 ## Plan
 
-Revision 19
+Revision 21
 
 ## Steps
 

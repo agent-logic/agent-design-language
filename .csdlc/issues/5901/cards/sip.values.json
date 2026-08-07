@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5901,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][sprint-3] Repair claim-free WP-04 wave readiness",
+    "slug": "v0-92-csdlc-v2-sprint3-claim-free-readiness",
+    "version": "v0.92",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make the approved Sprint 3 child wave truthfully bind-ready under claim-free Git-topology authority.",
+      "required_outcome": "Typed doctor passes the umbrella and all sixteen children while the wave validator is claim-free and product code remains untouched.",
+      "declared_scope": [
+        "Generic future-path readiness validation",
+        "#5865 typed path-projection normalization",
+        "WP-04 claim-free terminal reconciliation"
+      ],
+      "authority_boundary": [
+        "Issue #5901 owns only the listed tooling and lifecycle-record paths",
+        "Issue #5862 remains coordination-only",
+        "Children #5863 through #5878 retain exclusive product ownership",
+        "Issue #5821 remains the execution gate"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked changes on main",
+        "Use typed C-SDLC v2 lifecycle and card editors",
+        "Do not bind or implement any Sprint 3 child",
+        "Do not restore claims or v1 routes"
+      ]
+    }
+  }
+}

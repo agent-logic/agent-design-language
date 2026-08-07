@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "2f8a9edc733d36518cfdfe54639ecbf45210e8028e1a884bf5e25a2d1d52408c",
   "phase": "initialized",
-  "generation": 49,
-  "digest": "6a80f4d2d8b22fe3f6b77c2b1af52a17959fbc889be4ebe6a54fbc49282c6c4c",
+  "generation": 51,
+  "digest": "953ce79839f065570c7b1ba4f6b1a1db1b98aaba09bc4bb9a7b69eb746171fea",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "65c319de3e7e83b9096d48596896699029a3b0fb6fb3f1e93a5381737d1c68be",
+      "values_digest": "83e5f87ac7c0d85357b8b4cfa4a2762c8a288ee97ebdbab7e9bd5a17d5ad6645",
       "rendered_digest": "75fcd7a9ca988fb75b97169b64a72b3a7bcdb5b033e0ae15536b2cffa73ff6c6",
       "ast_digest": "725fd3bcdf422bf6c8117264e314f2fd76083afc31e9d67608c1aa8fbdac63f6"
     },
     "stp": {
-      "values_digest": "32facfaed094c559a457d7bf473d7eb50aa8458a8acf6e590466d58c8cb36781",
+      "values_digest": "871d92b4d8f6c142f17fa5a7a8f91c8e7f1c49d83589b3ad7819c48ab9b9db4e",
       "rendered_digest": "8827b3a7cdd999e4beeb34f4a4acc83e599697915de0c15b2ff7c602e4476e88",
       "ast_digest": "7df437a7adc6cf8269fbc8198fbc546a30dbbf6372d1579e4468bd0aa104747c"
     },
     "spp": {
-      "values_digest": "81dfe9eb366ab0271847887347ca9d0ab05ca0a3c2c433abfb1cb70cc0254096",
-      "rendered_digest": "3e7de7e5a1ef86fa5e4d297d8c7105ec5017413c09b02da64e69db3d66530dc3",
-      "ast_digest": "b4a68ec069635300f2d2b3e30aebb1259bd3150e939a3f30fb096482ae3d5c56"
+      "values_digest": "71407f615543068346bceab50cb942c6ba945935fba99ed270c78fa0f4cf7dac",
+      "rendered_digest": "5055eebd16e2eb6aba19b5fc9e2fda283fea82ed26154a19c142a6c03a3d13d1",
+      "ast_digest": "5497b61c335c7a1337fec7c65a71fa8e4fcd2c66b37997f3745288b042ad3b0c"
     },
     "vpp": {
-      "values_digest": "02ca4ec27071ad8f538491a82c910ae7e1f5a8acb8de8c3e600a39c72cc17e6e",
+      "values_digest": "0210caf76ad14a95fba0346305cea79960c4fda058bdfa367aa3f4f54d2c0467",
       "rendered_digest": "2dfb6d7bc24e9dac49d728129d79e336a0b9df3982aa7e17dce99c1ea1a52966",
       "ast_digest": "b49b2b680a76314daa9af47da607411f5ef2cdebd31391702f63c6328e77c29c"
     },
     "srp": {
-      "values_digest": "d85be91a318dce18f3d2ec1f381f908a997ec75af32aeeefb287209d9e026ec4",
+      "values_digest": "0f363a8f523cf8127b127f0c3a74edfa9759a7a4a1f7d0a21930d35ff6ba2225",
       "rendered_digest": "17190932d0bba5d9191d53a975465fddac37eb89830aaaa38ebd756d964599a3",
       "ast_digest": "137e5f2ec6e6c6f2da3c450deb1eebac5ae35339e1bd543c1dfc7d6abc733269"
     },
     "sor": {
-      "values_digest": "e564fd4a11fdca5edc5e34520360138425f9b6d1059015e8cb1500f80fc5fff3",
+      "values_digest": "c933f117390c066ac7aa5b9508e6e2da77046e24d5f00f49ecfb40cbc9300d66",
       "rendered_digest": "9c5f2b3c80e1c6fef456129710248d984e21f19b8959152442c897af648beca7",
       "ast_digest": "1e76b8e18e111f25a6ef160b34eb5df0a73d783efe16a58ce5209f6e8b6697a4"
     }
@@ -560,6 +560,20 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 70,
+      "generation": 50,
+      "actor": "codex:5857-sprint4-readiness",
+      "reason": "Keep only repository-relative owned paths in SPP; sequencing metadata remains authoritative in the Sprint Execution Packet.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md\",\"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\",\"docs/milestones/v0.92/review/first-birthday-review-packet.schema.json\",\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\".csdlc/prepared/issues/5834/validate-review-packet.rb\",\".csdlc/evidence/5834\"]}"
+    },
+    {
+      "sequence": 71,
+      "generation": 51,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"A child republishes or supersedes its canonical exact-head proof.\",\"The packet schema needs a new blocked disposition or redaction class.\",\"Review finds duplicate authority or a presentation-only proof substitution.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-demo-matrix-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\\\"],\\\"issues\\\":[5834,5836,5840],\\\"order\\\":[5834,5836,5840]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5834-demo-matrix-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\\\"],\\\"issues\\\":[5834,5843],\\\"order\\\":[5834,5843]}\"]}"
     }
   ]
 }
