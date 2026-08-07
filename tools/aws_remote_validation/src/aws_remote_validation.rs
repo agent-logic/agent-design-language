@@ -1627,10 +1627,19 @@ if [ ! -d "$CHECKOUT_DIR/.git" ]; then
 fi
 CURRENT_STAGE="fetch_repo"
 log_progress "stage=fetch_repo"
-git -C "$CHECKOUT_DIR" fetch --all --tags >/tmp/adl-git-fetch.log 2>&1
+case {git_ref} in
+  refs/heads/*|refs/tags/*)
+    git -C "$CHECKOUT_DIR" fetch origin {git_ref} >/tmp/adl-git-fetch.log 2>&1
+    CHECKOUT_REF="FETCH_HEAD"
+    ;;
+  *)
+    git -C "$CHECKOUT_DIR" fetch --all --tags >/tmp/adl-git-fetch.log 2>&1
+    CHECKOUT_REF={git_ref}
+    ;;
+esac
 CURRENT_STAGE="checkout_ref"
 log_progress "stage=checkout_ref ref={git_ref}"
-git -C "$CHECKOUT_DIR" checkout {git_ref} >/tmp/adl-git-checkout.log 2>&1
+git -C "$CHECKOUT_DIR" checkout --detach "$CHECKOUT_REF" >/tmp/adl-git-checkout.log 2>&1
 
 export ADL_RUN_ID={run_id}
 export ADL_RUN_ROOT="$RUN_ROOT"
@@ -4137,6 +4146,9 @@ mod tests {
         ));
         assert!(script.contains("CURRENT_STAGE=\"tracked_remote_runner\""));
         assert!(script.contains("remote_validation_runner.sh"));
+        assert!(script.contains("refs/heads/*|refs/tags/*"));
+        assert!(script.contains("fetch origin 'origin/main'"));
+        assert!(script.contains("checkout --detach \"$CHECKOUT_REF\""));
 
         let tracked_runner = include_str!("../scripts/remote_validation_runner.sh");
         assert!(tracked_runner.contains("os.environ[\"COMMAND_EXIT\"]"));
