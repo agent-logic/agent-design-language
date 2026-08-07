@@ -108,7 +108,7 @@ Repaired the provider-neutral remote-validation contract after independent revie
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

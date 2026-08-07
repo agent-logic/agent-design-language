@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-06] Remote validation/build runner",
     "slug": "v0-92-wp-06-remote-validation-build-runner",
     "version": "v0.92",
-    "generation": 30
+    "generation": 31
   },
   "status": "pre_phase",
   "content": {
@@ -101,7 +101,7 @@
           "evidence_ref": ".csdlc/evidence/5823/final-diff-hygiene.log"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
