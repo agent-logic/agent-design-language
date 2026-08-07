@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 10,
+  "repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/10-v092-wp24-article-series",
+  "title": "[v0.92][WP-24] Complete the ten-article ADL launch series",
+  "body": "Closes #10\n\nCompletes the source-grounded WP-24 launch series in the canonical repository: ten bounded source packets, ten full Medium-style article drafts, ten editorial reviews, a cross-series claim matrix, and a stop-before-publish disposition. This canonical PR supersedes legacy PR danielbaustin/agent-design-language#5902 without claiming that any article has been submitted, scheduled, uploaded, or externally published.\n\nValidation:\n- `ruby .csdlc/evidence/5844/validate-article-series.rb`\n- `ruby .csdlc/evidence/5844/validate-article-series.rb --negative`\n- `ruby .csdlc/evidence/5844/validate-article-series.rb --rollback`\n- `bash adl/tools/test_medium_article_writer_skill_contracts.sh`\n- typed C-SDLC issue validation and exact diff hygiene\n\nReview:\n- Claude and Gemini editorial evidence is retained without credentials.\n- Linnaeus approved the implementation, current-main integration, and final lifecycle recovery delta with no actionable findings.\n\nExternal Medium publication remains operator-only and is not authorized by this PR. Release-dependent wording remains gated by legacy issue danielbaustin/agent-design-language#5843 and a final drift-prone claim recheck.",
+  "draft": false,
+  "revision": "git-blake3:53e511b94921b74fa4cc668ce57d6b7d8d9daec7:61b36f5329368cd5aa12b707410f8bd1c8736a129d93491a2d575e9199f1d4ed",
+  "commit_sha": "53e511b94921b74fa4cc668ce57d6b7d8d9daec7"
+}
