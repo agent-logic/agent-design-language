@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-06] Remote validation/build runner",
     "slug": "v0-92-wp-06-remote-validation-build-runner",
     "version": "v0.92",
-    "generation": 32
+    "generation": 34
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/5823\n.csdlc/prepared/issues/5823/validate-platform-matrix.rb\nadl/tools/aws_spot_artifact_finalize.py\nadl/tools/run_aws_spot_remote_validation_lane.sh\nadl/tools/run_nessus_remote_validation.sh\nadl/tools/test_run_aws_spot_remote_validation_lane.sh\nadl/tools/test_run_nessus_remote_validation.sh\ntools/aws_remote_validation/src/aws_remote_validation.rs\ntools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs\ntools/aws_remote_validation/tests/portable_adapter.rs\ntools/remote_validation/Cargo.lock\ntools/remote_validation/Cargo.toml\ntools/remote_validation/src/bin/adl-remote-validation.rs\ntools/remote_validation/src/lib.rs\ntools/remote_validation/tests/contract.rs",
+      "review_revision": "git-blake3:a97c9e6efbc9d81f022cd275a172bbda18201fa9:64c7369f463cef87143bacfc8039a80fede3ac01ce150a809017d710f9744964",
+      "reviewer": "subagent:019fde22-3b39-7572-8a05-847988d33b3d",
       "review_prompts": [
         "Do all adapters preserve one exact-revision request/result and artifact contract?",
         "Can network, timeout, cancellation, malformed output, or cleanup failure produce false success?",
@@ -23,8 +23,12 @@
         "Are Linux, macOS, Windows, observability, redaction, credential, and AWS-account boundaries truthful?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Live AWS and Nessus behavior remains dependent on external provider timing and availability.",
+        "Windows proof remains fixture-qualified rather than live-native.",
+        "Native Linux execution is pinned to 2c76b1f8; later fail-closed redaction repairs are covered by focused deterministic contract and wrapper proof."
+      ],
+      "review_result": "pass"
     }
   }
 }
