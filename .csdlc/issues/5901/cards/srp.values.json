@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC v2][sprint-3] Repair claim-free WP-04 wave readiness",
     "slug": "v0-92-csdlc-v2-sprint3-claim-free-readiness",
     "version": "v0.92",
-    "generation": 13
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #5901 readiness predicate, #5865 typed normalization, WP-04 validator, focused tests, and exact readiness proof.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/bin/csdlc-finish.rs\ncsdlc-v2/tests/gate2.rs\ncsdlc-v2/tests/gate_finish.rs\n.csdlc/issues/5865\n.csdlc/prepared/issues/5862/validate-implementation-wave.rb\n.csdlc/prepared/issues/5901/test-implementation-wave.rb\n.csdlc/prepared/issues/5901/validate-scope.rb",
+      "review_revision": "git-blake3:54de5b00fd56bb15f70f45e294378073caa54577:3a346187b843eb033c3df3e8c20c8b24ec1cf516aab4a5d08862dc43294dd297",
+      "reviewer": "subagent:fast-review-5901",
       "review_prompts": [
         "Does future-path admission remain canonically contained beneath the repository with every symlink and non-directory prefix rejected?",
         "Does #5865 retain serialization truth in replan_triggers without path-field pollution or unrelated card changes?",
@@ -23,8 +23,10 @@
         "Did the repair avoid child binding and every Guardian product change?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Sprint 3 execution remains gated on terminal #5821 and this repair does not bind a child."
+      ],
+      "review_result": "pass"
     }
   }
 }

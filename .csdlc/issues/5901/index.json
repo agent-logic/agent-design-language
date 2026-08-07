@@ -3,13 +3,48 @@
   "issue": 5901,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8ff80b9cfa60fbc6966b16dc5835ba59e7c1b85519a45baae5ac1b73cd9f3f99",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "e77a90d556163ce1b730ab8ad6f1deec4377108412ff597a93d9989a75d5a6eb",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "48303a75f41469303801e81a9e2ddecde78040494b6db42f74591bfea673b25d",
   "branch": "codex/5901-sprint3-readiness",
   "worktree": "/Volumes/FastWork/adl-wp-5901-sprint3-readiness",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:fast-review-5901",
+    "assigned_by": "codex:5901-sprint3-readiness",
+    "revision": "git-blake3:54de5b00fd56bb15f70f45e294378073caa54577:3a346187b843eb033c3df3e8c20c8b24ec1cf516aab4a5d08862dc43294dd297",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      ".csdlc/issues/5865",
+      ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+      ".csdlc/prepared/issues/5901/test-implementation-wave.rb",
+      ".csdlc/prepared/issues/5901/validate-scope.rb"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:fast-review-5901",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      ".csdlc/issues/5865",
+      ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+      ".csdlc/prepared/issues/5901/test-implementation-wave.rb",
+      ".csdlc/prepared/issues/5901/validate-scope.rb"
+    ],
+    "reviewed_revision": "git-blake3:54de5b00fd56bb15f70f45e294378073caa54577:3a346187b843eb033c3df3e8c20c8b24ec1cf516aab4a5d08862dc43294dd297",
+    "findings": [],
+    "residual_risks": [
+      "Sprint 3 execution remains gated on terminal #5821 and this repair does not bind a child."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +59,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a56658d82d76efa5f4a6393d58a2f5101f1c638dd4e82d2a1a44352f02b30367",
+      "values_digest": "bfbe4272ab7fd6893adbb32b0552c7799f6faa49df029643d90738e96c74bb41",
       "rendered_digest": "dc0345098c9a2036ec8fca6ba7710aec9657b7643543d05984245662714d0981",
       "ast_digest": "33efe65162810c074e60ff2d66c99cfb9af67ac3bb0dbf0e94ea4afc220767ff"
     },
     "stp": {
-      "values_digest": "e597f6d8459bd5c21d431cfe3a2798533921243d875c03b36e30e1e8df0d04b4",
+      "values_digest": "d57b6337bcdc241ececac2b3a2a4b37755c503d7d33f210b880e2c43487f33f4",
       "rendered_digest": "7f83db3a48f67b32737b3433dcc1f238d62a9ef43d37d07dffe23bdbd3950b3c",
       "ast_digest": "790622a5fba6af5345d162af52139fba71871c2754a6aaef7be271cee6d99ddc"
     },
     "spp": {
-      "values_digest": "e440aed68d55cc37dcc5acc376f940545ca52ebb1c966a49280f0e5af03c7b29",
+      "values_digest": "c41f6a84e6c3a316e99deaabd4a34b4ab0c7532466789621eb165800e4fae4a1",
       "rendered_digest": "4dd5a66e9213639cf511e684f425bad3f8ee87a5b9553626ac02dad40a4bd558",
       "ast_digest": "abe1ac3df64d7a052e91789df96a2cf5e2c72d9204927a495a9a7c42322fc2ac"
     },
     "vpp": {
-      "values_digest": "c149cd7295cccded2369e14f35db9a9a6129bcc638d71ff5a671b75737353602",
+      "values_digest": "bec4c69b0906788cafb32a771b822a8a0d488e78847ed95ddec31249b29d2e87",
       "rendered_digest": "670d646ac3a2663665c06c7ae3074c013cb9de76886f3d0ab5125e20ef2f2bff",
       "ast_digest": "842e8cd41caa7090cf0ab24e273d20c6ab4cf373ecbe7cfdd775d4ffe1363ca2"
     },
     "srp": {
-      "values_digest": "920f505f5893930b2df9c8ad6bfde3387ceb3a3a38422dffecc3e11838cc3217",
-      "rendered_digest": "9ea4308663a6b8f095780863526b2816fc403287567d2036a81bf321611bbea4",
-      "ast_digest": "9904b06efae368bdbb2e9d572022015d7ee8197d78d52ea8c3bbbecce71027bc"
+      "values_digest": "f8671772788966567ac0be8f39943ec4a1cf8f7fff21a322255751353e00f211",
+      "rendered_digest": "b180feda35cd1bbd1038568c5ecc0588cf22d3e6580c6665de4c9b761fdfd9ea",
+      "ast_digest": "2c203b3885ed503be328a74d41cca6ecfcaf733879da4073f9f29a862ce8b238"
     },
     "sor": {
-      "values_digest": "89d12458ddf35115e884d55af63184fbbde0459072d57b0cdc0b123806c034f5",
+      "values_digest": "ccf0db872edcab3819ec55fbb5eba6b18d6cb4c68f7d8bf2dd7578b81c99ea20",
       "rendered_digest": "b88b12397c8bd011aa21aedf4e58f2f0c74cea9a146cafe147c560a231ff2cae",
       "ast_digest": "7dfbbfb6f06b391a78ea15fef6abc880880c4eb06cf83de247f97f75a1043527"
     }
@@ -75,6 +110,13 @@
       "to": "implemented",
       "actor": "codex:5901-sprint3-readiness",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:fast-review-5901",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -182,6 +224,20 @@
       "actor": "codex:review-5901-whitespace-normalization",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "subagent:fast-review-5901",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

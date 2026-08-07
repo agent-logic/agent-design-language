@@ -13,3 +13,5 @@
 {"sequence":13,"generation":11,"actor":"codex:review-5901-governed-bash","reason":"reapprove changed issue design","operation":"approve_design"}
 {"sequence":14,"generation":12,"actor":"codex:5901-sprint3-readiness","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":15,"generation":13,"actor":"codex:review-5901-whitespace-normalization","reason":"reapprove changed issue design","operation":"approve_design"}
+{"sequence":16,"generation":13,"actor":"codex:5901-sprint3-readiness","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":17,"generation":14,"actor":"subagent:fast-review-5901","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
