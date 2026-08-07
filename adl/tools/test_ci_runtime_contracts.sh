@@ -66,9 +66,10 @@ fixtures.each do |fixture|
 end
 RUBY
 
-python3 - "$WORKFLOW" "$ROOT_DIR/adl/tools/test_run_authoritative_coverage_lane.sh" "$ROOT_DIR/adl/tools/run_authoritative_coverage_lane.sh" "$ROOT_DIR/adl/tools/run_pr_fast_coverage_lane.sh" <<'PY'
+python3 - "$WORKFLOW" "$ROOT_DIR/adl/tools/test_run_authoritative_coverage_lane.sh" "$ROOT_DIR/adl/tools/run_authoritative_coverage_lane.sh" "$ROOT_DIR/adl/tools/run_pr_fast_coverage_lane.sh" "$ROOT_DIR/adl/tools/verify_ci_backend_route.py" <<'PY'
 import pathlib
 import re
+import subprocess
 import sys
 
 workflow_path = pathlib.Path(sys.argv[1])
@@ -76,6 +77,7 @@ workflow = workflow_path.read_text()
 runner_test = pathlib.Path(sys.argv[2])
 runner_script = pathlib.Path(sys.argv[3])
 pr_fast_runner = pathlib.Path(sys.argv[4])
+route_verifier = pathlib.Path(sys.argv[5])
 workflow_root = workflow_path.parent
 
 if re.search(r"^\s{2}push:\s*$", workflow, re.MULTILINE):
@@ -369,18 +371,20 @@ if ordinary_test != expected_ordinary_test:
 ordinary_test_if = step_optional_if("test")
 expected_ordinary_test_if = (
     "needs.adl_path_policy.outputs.full_coverage_required != 'true' && "
-    "needs.adl_path_policy.outputs.validation_profile_escalation_required != 'true'"
+    "(needs.adl_path_policy.outputs.validation_profile_escalation_required != 'true' || "
+    "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true')"
 )
 if ordinary_test_if != expected_ordinary_test_if:
     raise SystemExit(
-        "ordinary adl-ci test lane must not run the fail-closed PR-fast runner after validation-manager escalation; "
+        "ordinary adl-ci test lane must run the routing canary even when validation-manager escalation is selected; "
         f"found: {ordinary_test_if}"
     )
 
 escalated_test_if = step_optional_if("test deferred to validation-manager escalation")
 expected_escalated_test_if = (
     "needs.adl_path_policy.outputs.full_coverage_required != 'true' && "
-    "needs.adl_path_policy.outputs.validation_profile_escalation_required == 'true'"
+    "needs.adl_path_policy.outputs.validation_profile_escalation_required == 'true' && "
+    "needs.adl_path_policy.outputs.ci_path_policy_contracts_required != 'true'"
 )
 if escalated_test_if != expected_escalated_test_if:
     raise SystemExit(
@@ -561,7 +565,7 @@ required_status_job = job_block("adl-coverage")
 if "cargo llvm-cov report --lcov" in workspace_job + workspace_fast_job:
     raise SystemExit("workspace workflow must not run detached post-profile lcov commands")
 
-selected_runner = "runs-on: adl-ubuntu-24.04-16core"
+selected_runner = "runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}"
 if selected_runner not in runtime_job or selected_runner not in workspace_job or selected_runner not in workspace_fast_job:
     raise SystemExit("Rust coverage producers must use the selected 16-core GitHub-hosted runner")
 if "needs.adl_path_policy.outputs.full_coverage_required == 'true'" not in runtime_job.split("runs-on:", 1)[0]:
@@ -926,13 +930,63 @@ if workspace_profile_artifact_if != expected_workspace_profile_artifact_if:
     )
 
 rust_test_job = job_block("adl_rust_tests")
-if "runs-on: adl-ubuntu-24.04-16core" not in rust_test_job:
+if selected_runner not in rust_test_job:
     raise SystemExit("adl-rust-tests must use the selected 16-core GitHub-hosted runner")
 if "runs-on: ubuntu-latest" in rust_test_job:
     raise SystemExit("adl-rust-tests must not silently fall back to the standard runner")
 rust_test_condition = rust_test_job.split("runs-on:", 1)[0]
 if "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'" not in rust_test_condition:
     raise SystemExit("CI routing changes must exercise adl-rust-tests on the selected runner")
+
+test_step_condition = step_if("test")
+for required_fragment in (
+    "needs.adl_path_policy.outputs.full_coverage_required != 'true'",
+    "needs.adl_path_policy.outputs.validation_profile_escalation_required != 'true'",
+    "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'",
+):
+    if required_fragment not in test_step_condition:
+        raise SystemExit(f"adl-rust-tests test step can skip the routing canary; missing {required_fragment}")
+
+deferred_test_condition = step_if("test deferred to validation-manager escalation")
+if "needs.adl_path_policy.outputs.ci_path_policy_contracts_required != 'true'" not in deferred_test_condition:
+    raise SystemExit("validation-manager deferral must not replace the routing canary test step")
+
+adl_ci_job = job_block("adl-ci")
+for required_fragment in (
+    "WORK_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'",
+    "RUST_TESTS_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' }}",
+    '--rust-tests-required "$RUST_TESTS_REQUIRED"',
+):
+    if required_fragment not in adl_ci_job:
+        raise SystemExit(f"adl-ci narrow Rust-test route is missing {required_fragment}")
+
+if workflow.count(selected_runner) != 10:
+    raise SystemExit("all ten heavy producers must share the centralized ADL_HEAVY_RUNNER selector")
+if "runs-on: adl-ubuntu-24.04-16core" in workflow:
+    raise SystemExit("heavy runner selection must not be duplicated outside the centralized variable expression")
+
+narrow_route = [
+    sys.executable,
+    str(route_verifier),
+    "--surface", "adl-ci",
+    "--backend", "hosted",
+    "--event-name", "pull_request",
+    "--same-repo-pr", "true",
+    "--work-required", "true",
+    "--rust-required", "false",
+    "--rust-tests-required", "true",
+    "--demo-required", "false",
+    "--path-policy-result", "success",
+    "--spot-result", "skipped",
+    "--hosted-result", "rust-fmt-clippy=skipped",
+    "--hosted-result", "rust-tests=success",
+    "--hosted-result", "demo-proof=skipped",
+]
+subprocess.run(narrow_route, check=True, capture_output=True, text=True)
+failed_narrow_route = narrow_route.copy()
+failed_narrow_route[failed_narrow_route.index("rust-tests=success")] = "rust-tests=skipped"
+if subprocess.run(failed_narrow_route, capture_output=True, text=True).returncode == 0:
+    raise SystemExit("narrow Rust-test route must reject a skipped test producer")
 
 for heavy_job_name in (
     "csdlc_v2_standalone",

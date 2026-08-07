@@ -28,8 +28,9 @@ portable runtime dependency.
    validation semantics remain unchanged.
 5. Route `adl-rust-tests` to the selected runner, remove the dispatch-only
    experiment harness, and use the implementation PR as the production canary.
-6. Preserve `ubuntu-latest` as a one-line rollback without using it as a new
-   experimental control.
+6. Preserve `ubuntu-latest` as a one-line rollback through the repository
+   `ADL_HEAVY_RUNNER` Actions variable without using it as a new experimental
+   control.
 7. Run issue-selected validation before merge. Do not automatically repeat the
    paid validation wave after a merge to `main`; retain scheduled and manual
    full validation for explicit integration and Codecov publication.
@@ -70,6 +71,7 @@ statistics, missing security gates, or adoption below either performance gate.
 - `adl/tools/ci_path_policy.sh`
 - `adl/tools/test_ci_path_policy.sh`
 - `adl/tools/test_ci_runtime_contracts.sh`
+- `adl/tools/verify_ci_backend_route.py`
 - `.csdlc/evidence/5853`
 - `.csdlc/prepared/issues/5853/validate-experiment.rb`
 
@@ -89,7 +91,8 @@ statistics, missing security gates, or adoption below either performance gate.
       ".github/workflows/ci.yaml",
       "adl/tools/ci_path_policy.sh",
       "adl/tools/test_ci_path_policy.sh",
-      "adl/tools/test_ci_runtime_contracts.sh"
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/verify_ci_backend_route.py"
     ],
     "issues": [
       5801,

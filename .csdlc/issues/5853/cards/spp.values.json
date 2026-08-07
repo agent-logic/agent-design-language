@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-02B][build] Run the post-migration build acceleration experiment",
     "slug": "v0-92-wp-02b-post-migration-build-acceleration",
     "version": "v0.92",
-    "generation": 40
+    "generation": 43
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 13,
+      "plan_revision": 14,
       "summary": "Use the seven retained 16-core measurements to select the test-only command structure, route adl-rust-tests to the 16-core runner, remove the dispatch-only experiment harness, and require the implementation PR as the production canary.",
       "steps": [
         {
@@ -50,6 +50,7 @@
       "affected_areas": [
         ".github/workflows/ci.yaml",
         "adl/tools/test_ci_runtime_contracts.sh",
+        "adl/tools/verify_ci_backend_route.py",
         ".csdlc/evidence/5853",
         ".csdlc/prepared/issues/5853/validate-experiment.rb",
         "adl/tools/ci_path_policy.sh",
@@ -91,7 +92,7 @@
         "The organization owner changes thresholds before the first measured run"
       ],
       "design_ref": ".csdlc/prepared/issues/5853/design.md",
-      "design_digest": "95e3beaf0bbc9285e1b5b17315997f50ff22bafb25de9a4c374d5c5459cbc76e",
+      "design_digest": "366401d1c5744adc5ed02ba96780df2f4f754d83f7c264916054be203a723965",
       "diagram_ref": ".csdlc/prepared/issues/5853/diagram.mmd",
       "diagram_digest": "17d5a853df6d07718c8495e9076f622572dea08eba574fccccf450a39131a966"
     }

@@ -53,6 +53,7 @@ Measure the already-approved 16-core GitHub-hosted runner with one cold baseline
 - adl/tools/ci_path_policy.sh
 - adl/tools/test_ci_path_policy.sh
 - adl/tools/test_ci_runtime_contracts.sh
+- adl/tools/verify_ci_backend_route.py
 
 ## Non Goals
 

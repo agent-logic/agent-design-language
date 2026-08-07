@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-02B][build] Run the post-migration build acceleration experiment",
     "slug": "v0-92-wp-02b-post-migration-build-acceleration",
     "version": "v0.92",
-    "generation": 40
+    "generation": 43
   },
   "status": "ready",
   "content": {
@@ -48,7 +48,8 @@
         "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
         "adl/tools/ci_path_policy.sh",
         "adl/tools/test_ci_path_policy.sh",
-        "adl/tools/test_ci_runtime_contracts.sh"
+        "adl/tools/test_ci_runtime_contracts.sh",
+        "adl/tools/verify_ci_backend_route.py"
       ],
       "non_goals": [
         "AWS or a self-hosted runner platform",

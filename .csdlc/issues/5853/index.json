@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "30c5e01cd7aaa0c008930afafb3d1c037c58ffe34866399d13f29b55d2f8d503",
   "phase": "bound",
-  "generation": 40,
-  "digest": "dec8faf66a9fc3a5ff2dc44e9e8fcfb84cb9b421569c6bc5f10c5b1c3e49fa50",
+  "generation": 43,
+  "digest": "bd7bc72e834f219644cdca77ae44fc92269b59338eb633575c7358b23f8ea912",
   "branch": "codex/5853-v0-92-wp-02b-post-migration-build-acceleration",
   "worktree": "/Volumes/FastWork/adl-wp-5853-v0-92-wp-02b-post-migration-build-acceleration",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5853/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5853-premerge-only-validation",
-      "revision": "95e3beaf0bbc9285e1b5b17315997f50ff22bafb25de9a4c374d5c5459cbc76e"
+      "reviewer": "codex:5853-route-repair",
+      "revision": "366401d1c5744adc5ed02ba96780df2f4f754d83f7c264916054be203a723965"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "733c0c59bc7e64cc986814e5af3778567276becd016e93838cd78a65bf47a6c0",
+      "values_digest": "73e910f99953afea97f3a8ab88f67a54d9895f74b6c58da6c3df5a7e92585fc1",
       "rendered_digest": "9f1e73fc7b55bb8e85f5ee67bccc245158163f8e08e12c23b86e79a73b71aa35",
       "ast_digest": "5df5bd8d50cc89e0c6014e4f9f470c80cfc8826c06862ecaa9d87f19daf1beba"
     },
     "stp": {
-      "values_digest": "9b12f5e64a2a572e793fb5c381d2fc0cbfe6a27144ac02e04975354b95c9971a",
-      "rendered_digest": "dc7aeb791dad0cc2a9eb3c72171da72c8f84bdd1a903b4271320e954be42119d",
-      "ast_digest": "95bb5cb04b44f2c09f774ba87dad1a99077b331224a07eae95f0c8fcccf07231"
+      "values_digest": "3c47e8acc5feb959c06c75c4ae5809a620e7a43f0d86e7b2d5260c3a06f560b5",
+      "rendered_digest": "8351a6652a6683b26b34f10e110765d1401606ff2efd88880acf6d6805cdb7e7",
+      "ast_digest": "0dc52670de6d76c90f96c2538d60575190fccb5f4bf0cafc1242f3f1f911930c"
     },
     "spp": {
-      "values_digest": "950588b305ee45a7bf65e071de74ad6e9b7666470ba0dfc738549b3e24c213e9",
-      "rendered_digest": "dc90a2ea86998d8e0770daccc1f429c7c2f11f88853222cad0955cc4f894f6fd",
-      "ast_digest": "1e9ec502e58bea11d552eb8f2e4365ea4a44faef706319e2c6fef8c6657a8ab8"
+      "values_digest": "9a06e242032e1b3a7c1e8901710d399d8e299d416f3eabcc5b6905fc6e83607d",
+      "rendered_digest": "6b37b546144cd77d307101943a777e4aa7de54e7c9f9fa419cc424e81f2a1783",
+      "ast_digest": "1fec05d03f1dac69b7755951d6eb1abc5a587e4969df74dfadb430d2d7670f0c"
     },
     "vpp": {
-      "values_digest": "3744cd27c194343a1befcb1853e66240bd7da95e6cfd9a7e72e704c6d6428d88",
+      "values_digest": "28004255c589249eba12e39e589b71b27a98c949c563008a48278c94638ba4b7",
       "rendered_digest": "1cf58848c0df44895e235b745d9dbf26e1a40185e0dcc321567e32504cbae1de",
       "ast_digest": "a070c434a89391f5660ff219bcb1d9965feb141db1b150d05c7a6d9b3ca4d420"
     },
     "srp": {
-      "values_digest": "8d81d49a79a5800e08b4bab6e7d0299a9866bfe50939e32f0267362971656f0d",
+      "values_digest": "c430b09c2a93ad976cffba81f25c0ed1ef60b7ab709ba1aa14150707156bec3d",
       "rendered_digest": "b697a1894e90439d6a5d7b5c5b3954a52a9766c17bf612204b20287c993ae387",
       "ast_digest": "191d41e27dcd0b8037611c604f1d89297c6d224c576055534d242e69ce6a35aa"
     },
     "sor": {
-      "values_digest": "1c9e3dc64688ba1c18ee767ec5ab1894b8c42423d1c312f96f5d57d196b4779d",
+      "values_digest": "9516cc42d3e73e1379a5a052b3418d4090735a4146467ddc3deb47e400f7db3c",
       "rendered_digest": "c8c0658069791fed33a7be33428288105be9227795586c3ab67ca9b5c6c9272f",
       "ast_digest": "c376bbd4d55aa0d818ef44f2c187ea3875d728095d27dddd352d43798c8fa825"
     }
@@ -518,6 +518,27 @@
       "actor": "codex:5853-premerge-only-validation",
       "reason": "Record the pre-merge validation and post-merge cost invariant.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Heavy Rust validation producers use the selected 16-core runner pool capped at ten; lightweight orchestration remains on standard GitHub-hosted runners and the standard runner remains the immediate fallback\",\"Exact-head validation and proof quality are independent of runner class\",\"Required-check names and branch protection remain stable\",\"No tracked work occurs on main\",\"No sample or error is silently discarded\",\"Issue-selected validation runs before merge; ordinary main pushes do not repeat paid validation, and scheduled or manual full validation remains explicit\"]}"
+    },
+    {
+      "sequence": 59,
+      "generation": 41,
+      "actor": "codex:5853-route-repair",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 60,
+      "generation": 42,
+      "actor": "codex:5853-route-repair",
+      "reason": "Declare the exact aggregate route verifier changed by the canary repair.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\".csdlc/prepared/issues/5853/design.md\",\".csdlc/prepared/issues/5853/validate-experiment.rb\",\".github/workflows/ci.yaml\",\"docs/tooling/BUILD_PLATFORM_BENCHMARKS.md\",\"docs/tooling/VALIDATION_PLATFORM_ROUTING.md\",\"docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md\",\"docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"adl/tools/ci_path_policy.sh\",\"adl/tools/test_ci_path_policy.sh\",\"adl/tools/test_ci_runtime_contracts.sh\",\"adl/tools/verify_ci_backend_route.py\"]}"
+    },
+    {
+      "sequence": 61,
+      "generation": 43,
+      "actor": "codex:5853-route-repair",
+      "reason": "Declare the exact aggregate route verifier changed by the canary repair.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".github/workflows/ci.yaml\",\"adl/tools/test_ci_runtime_contracts.sh\",\"adl/tools/verify_ci_backend_route.py\",\".csdlc/evidence/5853\",\".csdlc/prepared/issues/5853/validate-experiment.rb\",\"adl/tools/ci_path_policy.sh\",\"adl/tools/test_ci_path_policy.sh\"]}"
     }
   ]
 }

@@ -16,7 +16,7 @@ Use the seven retained 16-core measurements to select the test-only command stru
 
 ## Plan
 
-Revision 13
+Revision 14
 
 ## Steps
 
@@ -83,7 +83,7 @@ Revision 13
 
 .csdlc/prepared/issues/5853/design.md
 
-Digest: 95e3beaf0bbc9285e1b5b17315997f50ff22bafb25de9a4c374d5c5459cbc76e
+Digest: 366401d1c5744adc5ed02ba96780df2f4f754d83f7c264916054be203a723965
 
 ## Diagram
 
