@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Only issue 5906 merged-candidate identity, precedence logic, and focused tests
+csdlc-v2/src/github.rs
+csdlc-v2/src/finish.rs
+csdlc-v2/tests/gate_finish.rs
+.csdlc/issues/5906
+.csdlc/prepared/issues/5906
 
 ## Prompts
 

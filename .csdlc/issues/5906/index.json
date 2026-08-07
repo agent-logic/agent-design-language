@@ -5,10 +5,21 @@
   "initialization_digest": "e8e7bd142c00ba3caca208dd41ca95c341df278dfb01e5b324c9757befe5d0ec",
   "phase": "implemented",
   "generation": 5,
-  "digest": "28a11db588380e4b5741a7ca35f48e007e8f13be2cb999bbbcc393811d58d900",
+  "digest": "72450a25bea8a9355efda5ee8dc128d3dfb111ca1d7162304b7d9a7f058033b7",
   "branch": "codex/5906-v092-terminal-precedence",
   "worktree": "/Volumes/FastWork/adl-wp-5906",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:review-5906-implementation",
+    "assigned_by": "codex:5906-terminal-precedence",
+    "revision": "git-blake3:7004c9264946adecca84fd3dabff55c1c7e94789:65ce756c425a6d5c05b71085cbf716168255eb99eed16d77ef4017fe9ad89c14",
+    "scope": [
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      ".csdlc/issues/5906",
+      ".csdlc/prepared/issues/5906"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +55,9 @@
       "ast_digest": "e30e5eead6b89ac8b866bf5ec4356accbceba0a0a803e0a625e165ee4e76dfc5"
     },
     "srp": {
-      "values_digest": "0ac43ade0849c3d2e5fa9e2c801b9f838947b40600245b60767ab89f1f167c59",
-      "rendered_digest": "47319ca6ba35826bf76a539144f39bb77426d2d5ac199ea893af19d5058d6e6a",
-      "ast_digest": "df84392c2124336bf72e9be76828eae7688953348984a70ab8d5e8bcf032dd6c"
+      "values_digest": "688ed6660ef81b2a7ad420556962b8250bb43dbd9fb3d1d62e0cbd25138cff7b",
+      "rendered_digest": "568e3c988334b709b9c0d68ea4a61c9796e1d6a258ee404b17f05d19aa311bba",
+      "ast_digest": "5d2c529e4abed525f338172118d2f0f8febb6e07575e3a3fe41d41a0e8074935"
     },
     "sor": {
       "values_digest": "eb471e252ea7ce7a7e9fbb2aff97995ea962fe7dc0289416a57935313fe29148",
@@ -126,6 +137,13 @@
       "actor": "codex:5906-terminal-precedence",
       "reason": "Implementation and focused proof are complete.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:5906-terminal-precedence",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

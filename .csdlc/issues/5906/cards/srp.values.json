@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Only issue 5906 merged-candidate identity, precedence logic, and focused tests",
+      "review_scope": "csdlc-v2/src/github.rs\ncsdlc-v2/src/finish.rs\ncsdlc-v2/tests/gate_finish.rs\n.csdlc/issues/5906\n.csdlc/prepared/issues/5906",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
