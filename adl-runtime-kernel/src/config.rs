@@ -663,7 +663,7 @@ impl RuntimeGuardianInitConfig {
         }
         if self.configuration_exit_codes.is_empty()
             || self.configuration_exit_codes.len() > MAX_GUARDIAN_CONFIGURATION_EXIT_CODES
-            || self.configuration_exit_codes.iter().any(|code| *code < 0)
+            || self.configuration_exit_codes.iter().any(|code| *code <= 0)
         {
             return Err(RuntimeInitError::Policy(
                 "guardian.configuration_exit_codes must be a non-empty bounded list of positive exit codes".to_owned(),

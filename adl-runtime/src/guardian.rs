@@ -4,7 +4,7 @@
 //! `adl-runtime-kernel serve --init <init-path> <continuity-path>`. It intentionally does not
 //! become a platform service manager and does not supervise Runtime v2.
 
-use std::collections::VecDeque;
+use std::collections::{BTreeSet, VecDeque};
 use std::path::PathBuf;
 use std::process::{ExitStatus, Stdio};
 use std::sync::{
@@ -44,6 +44,10 @@ use windows_sys::Win32::{
 compile_error!("adl-runtime Guardian supports only Unix and Windows signal handling");
 
 pub const GUARDIAN_SCHEMA: &str = "adl.runtime_v3.external_guardian.v2";
+const MAX_RESTART_BUDGET: u32 = 10_000;
+const MAX_LEASE_AUTH_ATTEMPTS: u32 = 32;
+const MAX_CAPTURE_BYTES: u64 = 1024 * 1024 * 1024;
+const MAX_CONFIGURATION_EXIT_CODES: usize = 16;
 #[cfg(windows)]
 const WINDOWS_FORCED_TERMINATION_EXIT_CODE: u32 = 0xAD1D_F0CE;
 pub const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
@@ -105,6 +109,27 @@ impl GuardianConfig {
         if self.backoff_cap_ms < self.backoff_base_ms {
             return Err(GuardianConfigError::BackoffCapBelowBase);
         }
+        if self.restart_budget > MAX_RESTART_BUDGET {
+            return Err(GuardianConfigError::RestartBudgetTooLarge);
+        }
+        if self.lease_auth_attempts > MAX_LEASE_AUTH_ATTEMPTS {
+            return Err(GuardianConfigError::LeaseAuthAttemptsTooLarge);
+        }
+        if self.capture_max_bytes > MAX_CAPTURE_BYTES {
+            return Err(GuardianConfigError::CaptureLimitTooLarge);
+        }
+        if self.configuration_exit_codes.is_empty()
+            || self.configuration_exit_codes.len() > MAX_CONFIGURATION_EXIT_CODES
+            || self.configuration_exit_codes.iter().any(|code| *code <= 0)
+            || self
+                .configuration_exit_codes
+                .iter()
+                .collect::<BTreeSet<_>>()
+                .len()
+                != self.configuration_exit_codes.len()
+        {
+            return Err(GuardianConfigError::InvalidConfigurationExitCodes);
+        }
         if self.healthy_window_ms == 0
             || self.child_shutdown_budget_ms == 0
             || self.shutdown_grace_ms == 0
@@ -129,6 +154,10 @@ pub enum GuardianConfigError {
     InvalidEnvironmentName,
     ZeroBackoff,
     BackoffCapBelowBase,
+    RestartBudgetTooLarge,
+    LeaseAuthAttemptsTooLarge,
+    CaptureLimitTooLarge,
+    InvalidConfigurationExitCodes,
     ZeroShutdownGrace,
     ShutdownGraceBelowChildBudget,
     SignalRegistrationFailed,
