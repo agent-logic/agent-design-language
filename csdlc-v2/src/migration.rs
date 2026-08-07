@@ -521,7 +521,7 @@ fn recover_interrupted_migration(store: &Store) -> Result<()> {
     let manifest: MigrationSnapshotManifest = serde_json::from_slice(&fs::read(&manifest_path)?)?;
     if manifest.schema != "csdlc.bound_topology_snapshot.v1"
         || manifest.issues.is_empty()
-        || manifest.issues.contains(&0)
+        || manifest.issues.iter().any(|issue| *issue == 0)
     {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
