@@ -1,1 +1,1 @@
-WP-06 platform matrix self-test passed
+WP-06 platform validator self-test passed

@@ -3,7 +3,7 @@
   "profile": "agent-logic-admin",
   "account_matches_retained_proof": true,
   "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
-  "source_commit": "7868fe91210f136640b330de202c7da6a1f0d29d",
+  "source_commit": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
   "builder_image_digest_sha256": "a53b2d503af05ac42835c2fc4b9c478cbb3d27f6fd19bfb2ad81b1e9a92b5ee8",
   "builder_image_immutable": true,
   "retained_cache_available": true,

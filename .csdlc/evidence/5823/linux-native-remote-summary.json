@@ -1,9 +1,9 @@
 {
   "schema": "adl.wp06.aws_native_receipt.v1",
-  "run_id": "adl-wp-5823-linux-native-7868fe91",
+  "run_id": "adl-wp-5823-linux-native-2c76b1f8-r6",
   "profile": "agent-logic-admin",
   "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
-  "source_commit": "7868fe91210f136640b330de202c7da6a1f0d29d",
+  "source_commit": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
   "request_limits": {
     "timeout_seconds": 900,
     "estimated_max_cost_usd": 0.2
@@ -11,14 +11,14 @@
   "run": {
     "status": "passed",
     "purchase_option": "spot",
-    "resolved_commit": "7868fe91210f136640b330de202c7da6a1f0d29d",
+    "resolved_commit": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
     "validation_exit_code": 0,
-    "tests_passed": 9,
+    "tests_passed": 11,
     "tests_failed": 0,
-    "started_unix_ms": 1786065802795,
-    "finished_unix_ms": 1786065996743,
-    "total_seconds": 193,
-    "validation_seconds": 8
+    "started_unix_ms": 1786134859205,
+    "finished_unix_ms": 1786135034599,
+    "total_seconds": 159,
+    "validation_seconds": 2
   },
   "builder": {
     "immutable_image_verified": true,
@@ -42,7 +42,7 @@
   },
   "cost": {
     "estimated_hourly_usd": 0.1977,
-    "estimated_compute_cost_usd": 0.010599,
+    "estimated_compute_cost_usd": 0.008732,
     "estimate_basis": "observed instance lifetime multiplied by pre-run Spot hourly price",
     "cost_explorer_amount_usd": "0",
     "cost_explorer_delayed_billing_boundary": true
