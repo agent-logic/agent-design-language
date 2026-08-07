@@ -97,11 +97,11 @@ Authored and independently edited the complete source-grounded ten-article WP-24
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
