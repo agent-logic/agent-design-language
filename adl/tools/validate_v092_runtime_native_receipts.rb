@@ -77,7 +77,17 @@ abort "wrong schema" unless packet["schema"] == "adl.runtime_guardian_native_rec
 head, status = Open3.capture2("git", "rev-parse", "HEAD")
 abort "cannot resolve HEAD" unless status.success?
 head = head.strip
-abort "stale packet" unless packet["source_revision"] == head
+proof_revision = packet["source_revision"].to_s
+abort "invalid proof revision" unless proof_revision.match?(/\A[0-9a-f]{40}\z/)
+unless proof_revision == head
+  changed, diff_status = Open3.capture2(
+    "git", "diff", "--name-only", "#{proof_revision}..#{head}"
+  )
+  abort "cannot compare proof and verifier revisions" unless diff_status.success?
+  allowed_post_proof_changes = ["adl/tools/validate_v092_runtime_native_receipts.rb"]
+  changed_paths = changed.lines.map(&:strip).reject(&:empty?)
+  abort "runtime product changed after native proof" unless (changed_paths - allowed_post_proof_changes).empty?
+end
 
 receipts = Array(packet["receipts"])
 blockers = Array(packet["blockers"])
@@ -90,7 +100,7 @@ abort "only native Windows may be blocked" unless blockers.map { |entry| entry["
 blockers.each do |blocker|
   platform = blocker.fetch("platform")
   abort "wrong #{platform} blocker schema" unless blocker["schema"] == "adl.runtime_v3.platform_blocker.v1"
-  abort "stale #{platform} blocker" unless blocker["source_revision"] == head
+  abort "stale #{platform} blocker" unless blocker["source_revision"] == proof_revision
   abort "#{platform} blocker did not fail closed" unless blocker["status"] == "blocked"
   abort "missing #{platform} blocker reason" if blocker["reason"].to_s.empty?
   abort "missing #{platform} blocker authority" if blocker["unavailable_authority"].to_s.empty?
@@ -103,7 +113,7 @@ end
 
 receipts.each do |receipt|
   platform = receipt.fetch("platform")
-  abort "stale #{platform} receipt" unless receipt["source_revision"] == head
+  abort "stale #{platform} receipt" unless receipt["source_revision"] == proof_revision
 
   runner = receipt.fetch("runner")
   %w[provider run_id os arch].each do |field|
@@ -126,7 +136,7 @@ receipts.each do |receipt|
 
   artifacts = Array(receipt["artifacts"])
   roles = artifacts.map { |artifact| artifact["role"] }
-  abort "#{platform} artifact role denominator drift" unless roles.sort == ARTIFACT_ROLES
+  abort "#{platform} artifact role denominator drift" unless roles.sort == ARTIFACT_ROLES.sort
   abort "#{platform} artifact roles must be unique" unless roles.uniq.length == roles.length
   artifacts_by_role = artifacts.to_h do |artifact|
     role = artifact.fetch("role")
@@ -136,7 +146,7 @@ receipts.each do |receipt|
 
   provenance = JSON.parse(File.read(artifacts_by_role.fetch("runner_provenance").fetch("resolved")))
   abort "#{platform} runner provenance schema mismatch" unless provenance["schema"] == "adl.runtime_guardian.runner_provenance.v1"
-  abort "#{platform} runner provenance revision drift" unless provenance["source_revision"] == head
+  abort "#{platform} runner provenance revision drift" unless provenance["source_revision"] == proof_revision
   %w[provider run_id os arch].each do |field|
     abort "#{platform} runner provenance #{field} mismatch" unless provenance[field] == runner[field]
   end
@@ -145,7 +155,7 @@ receipts.each do |receipt|
   lifecycle = JSON.parse(File.read(artifacts_by_role.fetch("lifecycle_report").fetch("resolved")))
   abort "#{platform} lifecycle report schema mismatch" unless lifecycle["schema"] == "adl.runtime_v3.guardian_lifecycle_proof.v1"
   abort "#{platform} lifecycle report failed" unless lifecycle["status"] == "pass" && lifecycle["acceptance_eligible"] == true
-  abort "#{platform} lifecycle report revision drift" unless lifecycle["source_revision"] == head
+  abort "#{platform} lifecycle report revision drift" unless lifecycle["source_revision"] == proof_revision
   {
     "guardian_binary_sha256" => "guardian_binary",
     "kernel_binary_sha256" => "kernel_binary",
