@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "50b75585680c7acb7b8f8912ae3704962d8da142da1ef08a64e78dd0fb1f0129",
   "phase": "bound",
-  "generation": 34,
-  "digest": "9e5233dab2bd974e0cf30db01d30357d02fe422fabc6f308abcfeedbdc36c546",
+  "generation": 38,
+  "digest": "c4ffe3c1d6fa6bd0675e04b9d9249118f76c187174c05a0f1f2ff896d3b447f7",
   "branch": "codex/5820-v092-runtime-launch-resilience",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-wp-5820-runtime-launch-resilience",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c21200380c33cc191f54f15effd161655193af943742f5ccec8d7947ad89a1c1",
+      "values_digest": "6d7de988656f1b5a383878543671f0803bb81250bb5eebdb798291175e41cd1e",
       "rendered_digest": "822b110b8030f1e2f7820eea7307b907c69c28d2f51c220c8ff9a7b3186618c4",
       "ast_digest": "04364454cada7124a7cda08bc8a36d90667b54ba2d46a986a10cf3e5f8493806"
     },
     "stp": {
-      "values_digest": "b760ab484743490d031f1c1313f73f2125c64753ecae9e8e2187fc7d4b608545",
+      "values_digest": "f19e4c6a41c370e75b3b63753b092f8dccc3886c89c473c267981007b5e3fb16",
       "rendered_digest": "42851e4b8c0b2f55ea1c753bba432a5fd8a015ea097b764dd0a8b2bc15eb5b19",
       "ast_digest": "3520e78cac053e9737dcb5cc31ac6407f4e4bc2b0f319992508b9acc0c9903ea"
     },
     "spp": {
-      "values_digest": "d42302050b249955ca3038770e55b7b93b2444ca64c268ac7ad1ef84663f4e09",
-      "rendered_digest": "77d687ead77842281726b6809fa76d6dfb1b0bb938c1a87bae5bb7a5c2c584e8",
-      "ast_digest": "2d5ca983c8a0dc031f401f7f301559511a8629ee778a2daaa21ced6f2c8366bc"
+      "values_digest": "d4411394ee5a5773e1b9330e2323a81ca7ade595ec0e5208c73f111b084eaf98",
+      "rendered_digest": "b975b27fa142e8b9945ec0e9b1969b3574776cc818a470a87a63eba1c54a68e6",
+      "ast_digest": "1c83fa258efc5a3ca632eeb2371fc96dfa0f1f6c3f8bd2881ddc85b59786ebfd"
     },
     "vpp": {
-      "values_digest": "2b9459ddd03e980ca52e3dc8fba739db60b4b8d9aec6f714d0760810c34e5313",
+      "values_digest": "0088d2a22c6a5e28ccd71cf4e31714542c48b30d9a8b7742657ee5c0f888c68d",
       "rendered_digest": "1ce19821f6eaa102d187e468434affa093a3032a19e4e04baef1851c12f7d0dd",
       "ast_digest": "c4c703ed1294d970ff71a3028977132b676e498b58c5832c5e7e27887af6621d"
     },
     "srp": {
-      "values_digest": "9f0f34562af0da8ed276f29fed1a3da04a3d11781e2823facd8a9a65d6654e5f",
+      "values_digest": "9762a4ea693a1f3f0a3dec6b4ba917738dad024357d42ea2c1eec558c4de507f",
       "rendered_digest": "9c7c37c04789b4430bf9e043b973021fe19d34e483fd88ed7c27b623ce4b1386",
       "ast_digest": "baacb4d0f1a6b174755fca142e86fb09268a52e9de59d07f4590ac5503b8646e"
     },
     "sor": {
-      "values_digest": "08094b062a9cc6799b9df41d3c9fe6ab7bd44d8767d5e2b9bfe3af6bab9e606d",
+      "values_digest": "816a7c83dab35855c3cf48dd45a04e6898618ce20fa44483d080b65419125406",
       "rendered_digest": "6366dce0988089114b667d0e041ec857a2ae01ffdd5d685b0fe12e96ebc3cfdd",
       "ast_digest": "ac7fef06771ff91e952fce5af2722151f0fe7a59be4ba8c517a2f57ab786cd25"
     }
@@ -434,6 +434,34 @@
       "actor": "codex:5820-runtime-launch-resilience",
       "reason": "Align the planned native receipt lane with the hardened issue-owned validator and remove stale execution-result text from validation planning.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"guardian-lifecycle-contract\",\"proof_role\":\"Run the exact nonzero production Guardian lifecycle target over init, supervision, restart, durable state, degradation, shutdown, and logs.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_guardian_lifecycle\",\"--no-tests=fail\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"production-guardian-api-wss-restart\",\"proof_role\":\"Launch the production Guardian/kernel and prove authenticated HTTPS/WSS, child kill, bounded restart, durable state, readiness, clean shutdown, and clean logs.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"native-guardian-receipts\",\"proof_role\":\"Recompute digest-bound macOS, Linux, and native Windows production Guardian lifecycle receipts.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"ruby\",\"adl/tools/validate_v092_runtime_native_receipts.rb\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"exact-head-review-preflight\",\"proof_role\":\"Reject diff damage before exact-head review and issue-closing publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"review\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 50,
+      "generation": 35,
+      "actor": "codex:5820-runtime-launch-resilience",
+      "reason": "Record completed Runtime launch-path audit and ownership narrowing from committed implementation evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 51,
+      "generation": 36,
+      "actor": "codex:5820-runtime-launch-resilience",
+      "reason": "Record completed Guardian ownership, bounded lifecycle, and init-validation implementation from committed source and focused tests.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 52,
+      "generation": 37,
+      "actor": "codex:5820-runtime-launch-resilience",
+      "reason": "Record completed durable restart, degradation, authenticated HTTPS/WSS, shutdown, and logging work from exact production evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 53,
+      "generation": 38,
+      "actor": "codex:5820-runtime-launch-resilience",
+      "reason": "Record native receipt and exact-head pre-publication review work as active without claiming unavailable platform proof or publication.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
     }
   ]
 }
