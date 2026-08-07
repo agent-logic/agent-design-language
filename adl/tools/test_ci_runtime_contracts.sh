@@ -930,8 +930,10 @@ def require_build_acceleration_contract(source)
 
   jobs = workflow.fetch("jobs")
   experiment = jobs.fetch("build_acceleration_experiment")
-  expected_runner = "${{ inputs.build_acceleration_platform == 'candidate' && 'adl-ubuntu-24.04-16core' || 'ubuntu-latest' }}"
+  expected_runner = "adl-ubuntu-24.04-16core"
   raise BuildAccelerationContractError, "WP-02B runner selector drifted" unless experiment.fetch("runs-on") == expected_runner
+  platform_options = inputs.fetch("build_acceleration_platform").fetch("options")
+  raise BuildAccelerationContractError, "WP-02B must disable standard-runner experiment dispatch" unless platform_options == ["none", "candidate"]
   raise BuildAccelerationContractError, "WP-02B timeout must remain 30 minutes" unless experiment.fetch("timeout-minutes") == 30
   raise BuildAccelerationContractError, "WP-02B permissions widened" unless experiment.fetch("permissions") == { "contents" => "read" }
 
@@ -976,7 +978,7 @@ end
 workflow = File.read(ARGV.fetch(0))
 require_build_acceleration_contract(workflow)
 [
-  workflow.sub("adl-ubuntu-24.04-16core", "ubuntu-latest"),
+  workflow.sub("runs-on: adl-ubuntu-24.04-16core", "runs-on: ubuntu-latest"),
   workflow.sub("github.ref == 'refs/heads/codex/5853-v0-92-wp-02b-post-migration-build-acceleration' &&\n", ""),
   workflow.sub("save-if: ${{ inputs.build_acceleration_sample_role == 'cache_seed' }}", "save-if: true"),
   workflow.sub("--bin adl", "--bin adl-pr-doctor"),

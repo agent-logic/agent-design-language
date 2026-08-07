@@ -20,7 +20,6 @@ on:
         default: none
         options:
           - none
-          - control
           - candidate
       build_acceleration_cache_state:
         description: "WP-02B cache state"
@@ -1594,7 +1593,7 @@ jobs:
       github.event_name == 'workflow_dispatch' &&
       github.ref == 'refs/heads/codex/5853-v0-92-wp-02b-post-migration-build-acceleration' &&
       inputs.build_acceleration_platform != 'none'
-    runs-on: ${{ inputs.build_acceleration_platform == 'candidate' && 'adl-ubuntu-24.04-16core' || 'ubuntu-latest' }}
+    runs-on: adl-ubuntu-24.04-16core
     timeout-minutes: 30
     permissions:
       contents: read
@@ -1612,7 +1611,7 @@ jobs:
           RUN_ID: ${{ inputs.build_acceleration_run_id }}
         run: |
           set -euo pipefail
-          case "$PLATFORM" in control|candidate) ;; *) exit 2 ;; esac
+          case "$PLATFORM" in candidate) ;; *) exit 2 ;; esac
           case "$CACHE_STATE" in cold|warm) ;; *) exit 2 ;; esac
           case "$SAMPLE_ROLE" in measurement|cache_seed|canary) ;; *) exit 2 ;; esac
           case "$RUN_ID" in
