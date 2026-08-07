@@ -4,14 +4,14 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7c3bcca3a89242a98791c5d0a2391d199e3e2a088e3fa577d270275ae22c2571",
   "phase": "published",
-  "generation": 34,
-  "digest": "50139df7c1695e07081cd7bfbacdc70e9d08ac4aba20f893485e69151f9a2221",
+  "generation": 37,
+  "digest": "146a63d2f91b8aaadde308f751509e1db7de9e43afd198bc8fe9a0f35442d15d",
   "branch": "codex/5823-v0-92-wp-06-remote-validation-build-runner",
   "worktree": "/Volumes/FastWork/adl-wp-5823-v0-92-wp-06-remote-validation-build-runner",
   "review_assignment": {
     "reviewer": "subagent:019fde22-3b39-7572-8a05-847988d33b3d",
     "assigned_by": "codex:5823-review-reconciliation",
-    "revision": "git-blake3:a97c9e6efbc9d81f022cd275a172bbda18201fa9:64c7369f463cef87143bacfc8039a80fede3ac01ce150a809017d710f9744964",
+    "revision": "git-blake3:6ce1e9051ffb5124f670eda5e9bd7477855d72c9:80c27d2cbd7a4a7a78a1f9070d6d09fb85125001146db14d10a6afb1212cc39a",
     "scope": [
       ".csdlc/evidence/5823",
       ".csdlc/prepared/issues/5823/validate-platform-matrix.rb",
@@ -49,7 +49,7 @@
       "tools/remote_validation/src/lib.rs",
       "tools/remote_validation/tests/contract.rs"
     ],
-    "reviewed_revision": "git-blake3:a97c9e6efbc9d81f022cd275a172bbda18201fa9:64c7369f463cef87143bacfc8039a80fede3ac01ce150a809017d710f9744964",
+    "reviewed_revision": "git-blake3:6ce1e9051ffb5124f670eda5e9bd7477855d72c9:80c27d2cbd7a4a7a78a1f9070d6d09fb85125001146db14d10a6afb1212cc39a",
     "findings": [],
     "residual_risks": [
       "Live AWS and Nessus behavior remains dependent on external provider timing and availability.",
@@ -66,7 +66,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/15",
     "base": "main",
     "head": "codex/5823-v0-92-wp-06-remote-validation-build-runner",
-    "revision": "git-blake3:a97c9e6efbc9d81f022cd275a172bbda18201fa9:64c7369f463cef87143bacfc8039a80fede3ac01ce150a809017d710f9744964",
+    "revision": "git-blake3:6ce1e9051ffb5124f670eda5e9bd7477855d72c9:80c27d2cbd7a4a7a78a1f9070d6d09fb85125001146db14d10a6afb1212cc39a",
     "draft": false,
     "observed_state": "open"
   },
@@ -83,32 +83,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2c458f9d134f59ff343a110d7306b05e469fc796a6cda846c7206d06556afeb5",
+      "values_digest": "e776b1694edbe093492b12b2717bab9d2fbdcf235cb7b852b4444bfc9e56e6d3",
       "rendered_digest": "3a521d5361568d36e6e58f2b1548dbe24b6deedb254c5106942ee132edda129d",
       "ast_digest": "c753f60486959e5674018050c5085ce087467ae6c749eefa4ed399b678129b0c"
     },
     "stp": {
-      "values_digest": "661a8d542559ac94ac7a28d0d631bb62adabfa81448aa2d94e7e595b07da9f90",
+      "values_digest": "0373a0eb9f72e77c730e35a613688eaff8f225db8b46ff6af082dabebc176bdd",
       "rendered_digest": "26a93a4af8877e02ec404514a74bfc23902ac3cbe536343ef04a7cad5dfabb85",
       "ast_digest": "0b73a4514b346098dad1a34949ea16795bc21fbf9f49c10c610ac39d3e5af291"
     },
     "spp": {
-      "values_digest": "b36b099b3e47b6ecec511a2715d09baccae7ef12ce0a2d2cff13fbe051fa153b",
+      "values_digest": "9ad9b96947209041f33204ebcd59af51af6fcb913bb8e54b3a79c46d6d898ad3",
       "rendered_digest": "c27d7e003828c5ff60436ebb5cec56a7ef0dcfa90d4f50c67057e7f2f7e64ef8",
       "ast_digest": "6d8bce4a6f3a82f12679a4e239d1ad04e332ce8e17f80e1785836b84a1f78543"
     },
     "vpp": {
-      "values_digest": "4f07f8f8729868e4b0d6ca5a53c12f788490dbaafa2e7b50b7b2c6a86f4e3a4a",
+      "values_digest": "26eb1720170e71ab77e11bff0a9448f281b49eb6d263afc80ab888578b8aed58",
       "rendered_digest": "b1874acfe1560921aea1949e011354b80cda7bc75d1e98605796987eaf42f5f7",
       "ast_digest": "8e6723ca7e839922ab54a4d972a48184c8b27d6bc5f897725414cecf524f34b3"
     },
     "srp": {
-      "values_digest": "0585e3399a0a25fe39d6537c4a789580cb8d4971ab68fdef469961cdb104009e",
-      "rendered_digest": "854e160d7edac88271abaeee69d3496816d0d8ef632eea7e108be704dc14b23f",
-      "ast_digest": "1467ad9631791bf806a3a89db03270856d6a944f1a5d1481a2a7eda05b7865b5"
+      "values_digest": "e229568ff879969ec1fa81ab6f02ba6aa11e88a61780915e9f71b6790b1786a8",
+      "rendered_digest": "7c053ecbfc897f380701bb3b97ddab01d4f9bd1757f3c95eb05eaeeb960ac148",
+      "ast_digest": "6cc468684af3fb3ddfa72b383fdf7879d8e640d2d8b8642d57f8a10ad37e1855"
     },
     "sor": {
-      "values_digest": "ebcc1134d9432b46381dd9fbbf8550ebb06c1466f8a68713f31eb38ffec2c92b",
+      "values_digest": "843c12e152bb5ef16fe66a38d1da6b6397aca675b1a805dc36472538abadc1f4",
       "rendered_digest": "eb992e784ac1b5ae7bb3436b5e8556279d1cd2a2d11a70ef9c4f4f4d2da243e8",
       "ast_digest": "05f6582425a2f59135ef7a14952f8b03750e0675414a651708ac1d56c767c06f"
     }
@@ -179,6 +179,27 @@
     },
     {
       "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5823-final-review-reconciliation",
+      "reason": "The final exact publication-intent sibling rejection was added after the retained review; return to implemented to record the independent PASS at exact substantive head 6ce1e9051."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:5823-review-reconciliation",
@@ -567,6 +588,34 @@
     {
       "sequence": 55,
       "generation": 34,
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 56,
+      "generation": 35,
+      "actor": "codex:5823-final-review-reconciliation",
+      "reason": "The final exact publication-intent sibling rejection was added after the retained review; return to implemented to record the independent PASS at exact substantive head 6ce1e9051.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 35,
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 36,
+      "actor": "codex:5823-review-reconciliation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 37,
       "actor": "codex:5823-review-reconciliation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
