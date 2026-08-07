@@ -7,15 +7,15 @@
     "title": "[v0.92][csdlc-v2][closeout] Reconcile all closed issues into terminal truth",
     "slug": "v0-92-closed-terminal-reconciliation",
     "version": "v0.92",
-    "generation": 11
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "The typed compatibility contract, exact live identity checks, terminal envelope construction, and unchanged routine finish gates.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/finish.rs\ncsdlc-v2/src/github.rs\ncsdlc-v2/src/bin/csdlc-finish.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/tests/gate_finish.rs\n.csdlc/issues/5905\n.csdlc/prepared/issues/5905",
+      "review_revision": "git-blake3:a3d5b1ed6b9973315761beed1eb3d6b172aeece1:743e60fdbe05e2efc844c0ca82e06a0f975f5e896457fa36d77be2d447ebaf88",
+      "reviewer": "subagent:review-5905-implementation",
       "review_prompts": [
         "Can the compatibility path accept non-terminal or mismatched state?",
         "Does it preserve csdlc-finish as the sole authority?",
@@ -23,8 +23,10 @@
         "Are #5800 and the remaining inventory handled truthfully?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The live #5800 canary and remaining v0.92 reconciliation sweep intentionally run only after the reviewed implementation is merged and installed."
+      ],
+      "review_result": "pass"
     }
   }
 }

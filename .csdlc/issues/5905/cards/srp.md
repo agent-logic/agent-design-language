@@ -12,7 +12,14 @@ Status: pre_phase
 
 ## Scope
 
-The typed compatibility contract, exact live identity checks, terminal envelope construction, and unchanged routine finish gates.
+csdlc-v2/src/finish.rs
+csdlc-v2/src/github.rs
+csdlc-v2/src/bin/csdlc-finish.rs
+csdlc-v2/src/lib.rs
+csdlc-v2/src/schema.rs
+csdlc-v2/tests/gate_finish.rs
+.csdlc/issues/5905
+.csdlc/prepared/issues/5905
 
 ## Prompts
 
@@ -31,12 +38,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The live #5800 canary and remaining v0.92 reconciliation sweep intentionally run only after the reviewed implementation is merged and installed.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:a3d5b1ed6b9973315761beed1eb3d6b172aeece1:743e60fdbe05e2efc844c0ca82e06a0f975f5e896457fa36d77be2d447ebaf88")
 
-Reviewer: None
+Reviewer: Some("subagent:review-5905-implementation")
 
-Result: pre_review
+Result: pass
