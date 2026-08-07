@@ -27,6 +27,15 @@ use tokio::io::{AsyncBufReadExt, BufReader};
 use tokio::process::{Child, Command as TokioCommand};
 use tokio::time::sleep;
 
+#[path = "../../remote_validation/src/lib.rs"]
+pub mod portable_remote_validation;
+
+use portable_remote_validation::{
+    adapter_plan as build_portable_adapter_plan, validate_result as validate_portable_result,
+    AdapterKind as PortableAdapterKind, AdapterPlan as PortableAdapterPlan, PortableRequest,
+    PortableResult,
+};
+
 const SPOT_QUOTA_NAME: &str = "All Standard (A, C, D, H, I, M, R, T, Z) Spot Instance Requests";
 const ON_DEMAND_QUOTA_NAME: &str =
     "Running On-Demand Standard (A, C, D, H, I, M, R, T, Z) instances";
@@ -174,6 +183,32 @@ impl AwsRemoteValidationConfig {
         }
         Ok(())
     }
+}
+
+pub fn portable_aws_adapter_plan(request: &PortableRequest) -> Result<PortableAdapterPlan> {
+    build_portable_adapter_plan(request, PortableAdapterKind::Aws).map_err(|error| anyhow!(error))
+}
+
+pub fn apply_portable_aws_request(
+    config: &mut AwsRemoteValidationConfig,
+    request: &PortableRequest,
+) -> Result<PortableAdapterPlan> {
+    let plan = portable_aws_adapter_plan(request)?;
+    config.git_ref = plan.revision.clone();
+    config.command = plan.shell_command.clone();
+    config.command_timeout_seconds = Some(plan.timeout_seconds);
+    config.expected_max_cost_usd = request
+        .resource_budget
+        .estimated_max_cost_microusd
+        .map(|value| value as f64 / 1_000_000.0);
+    Ok(plan)
+}
+
+pub fn validate_portable_aws_result(
+    request: &PortableRequest,
+    result: &PortableResult,
+) -> Result<()> {
+    validate_portable_result(request, result).map_err(|error| anyhow!(error))
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

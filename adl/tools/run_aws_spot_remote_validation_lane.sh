@@ -23,7 +23,11 @@ REGION="${AWS_REGION:-us-west-2}"
 ISSUE="5191"
 RUN_ID="adl-wp-5191-aws-spot-$(date -u +%Y%m%d%H%M%S)"
 COMMAND=""
+COMMAND_EXPLICIT=false
 GIT_REF=""
+GIT_REF_EXPLICIT=false
+PORTABLE_REQUEST=""
+PORTABLE_RUNNER="${ADL_REMOTE_VALIDATION_BIN:-}"
 SOURCE_COMMIT=""
 REPO_URL="https://github.com/agent-logic/agent-design-language.git"
 OUT_PATH=""
@@ -85,6 +89,8 @@ Options:
   --issue <number>              Issue recorded in the summary. Defaults to 5191.
   --run-id <id>                 Stable run id for artifacts.
   --command <shell-command>     Remote validation command to run.
+  --portable-request <path>     Portable request JSON; mutually exclusive with command/ref overrides.
+  --portable-runner <path>      adl-remote-validation binary for portable requests.
   --git-ref <ref>               Remote git ref. Defaults to current branch/ref.
   --repo-url <url>              Remote ADL repository URL.
   --out <path>                  Summary JSON path. Defaults under .adl/tmp.
@@ -172,10 +178,20 @@ while [[ $# -gt 0 ]]; do
       ;;
     --command)
       COMMAND="${2:-}"
+      COMMAND_EXPLICIT=true
+      shift 2
+      ;;
+    --portable-request)
+      PORTABLE_REQUEST="${2:-}"
+      shift 2
+      ;;
+    --portable-runner)
+      PORTABLE_RUNNER="${2:-}"
       shift 2
       ;;
     --git-ref)
       GIT_REF="${2:-}"
+      GIT_REF_EXPLICIT=true
       shift 2
       ;;
     --repo-url)
@@ -318,6 +334,24 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+
+if [[ -n "$PORTABLE_REQUEST" ]]; then
+  if [[ "$COMMAND_EXPLICIT" == true || "$GIT_REF_EXPLICIT" == true ]]; then
+    echo "run_aws_spot_remote_validation_lane: portable request conflicts with command/ref overrides" >&2
+    exit 2
+  fi
+  if [[ ! -x "$PORTABLE_RUNNER" ]]; then
+    echo "run_aws_spot_remote_validation_lane: portable runner is missing or not executable" >&2
+    exit 2
+  fi
+  PORTABLE_PLAN="$($PORTABLE_RUNNER adapter-plan aws "$PORTABLE_REQUEST")" || {
+    echo "run_aws_spot_remote_validation_lane: portable request was rejected" >&2
+    exit 2
+  }
+  COMMAND="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["shell_command"])')"
+  GIT_REF="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["revision"])')"
+  MAX_RUN_SECONDS="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["timeout_seconds"])')"
+fi
 
 if [[ "$ACTION" == "launch" ]]; then
   RUN=true
@@ -880,13 +914,13 @@ execute_run() {
   local runner_status finalize_status wrapper_summary
 
   set +e
-  # Stream manager output to the live CI log while retaining redacted artifacts.
-  # Do not hide remote progress behind a file-only redirect.
-  "${cmd[@]}" \
-    > >(tee "$runner_stdout") \
-    2> >(tee "$runner_stderr" >&2)
+  # Retain stdout and stderr separately without relying on /dev/fd process
+  # substitution, which is unavailable on some bounded runners.
+  "${cmd[@]}" >"$runner_stdout" 2>"$runner_stderr"
   runner_status="$?"
   set -e
+  cat "$runner_stdout"
+  cat "$runner_stderr" >&2
 
   wrapper_summary="$ARTIFACT_DIR/wrapper-final-summary.json"
   finalize_status=0

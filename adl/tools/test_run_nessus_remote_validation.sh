@@ -377,4 +377,62 @@ assert summary["command"] == "printf no-transport"
 PY
 grep -F "fallback summary written locally" "$TMP/transport-fail.err" >/dev/null
 
+portable_runner="${ADL_REMOTE_VALIDATION_BIN:?ADL_REMOTE_VALIDATION_BIN is required for portable adapter proof}"
+portable_request="$TMP/portable-nessus-request.json"
+fixture_revision="$(git -C "$origin_src" rev-parse HEAD)"
+python3 - "$portable_request" "$fixture_revision" <<'PY'
+import hashlib
+import json
+import sys
+
+path, revision = sys.argv[1:]
+profile = {
+    "argv": ["printf", "portable-ok"],
+    "working_directory": ".",
+    "environment_allowlist": ["PATH"],
+}
+digest = hashlib.sha256(json.dumps(profile, separators=(",", ":")).encode()).hexdigest()
+payload = {
+    "schema": "adl.remote_validation.request.v1",
+    "request_id": "wp-5823-nessus-shell-adapter",
+    "checkout": ".",
+    "revision": revision,
+    "command_profile": profile,
+    "command_profile_digest": digest,
+    "adapter": "nessus",
+    "requested_platform": "windows",
+    "resource_budget": {"cpu_cores": 4, "memory_mib": 4096, "timeout_seconds": 60, "estimated_max_cost_microusd": None},
+    "artifact_policy": {"paths": ["summary.json"], "required": True, "max_total_bytes": 1048576},
+    "cancellation_file": None,
+    "fallback": "offer_local",
+}
+with open(path, "w", encoding="utf-8") as handle:
+    json.dump(payload, handle, separators=(",", ":"))
+PY
+
+PATH="$fake_bin:$PATH" \
+  bash "$SCRIPT" \
+    --portable-request "$portable_request" \
+    --portable-runner "$portable_runner" \
+    --executor local \
+    --remote-root "$TMP/portable-root" \
+    --repo-url "$origin_bare" \
+    --run-id portable-nessus \
+    --local-artifact-dir "$TMP/artifacts-portable" >"$TMP/portable-nessus.out"
+python3 - "$TMP/artifacts-portable/summary.json" "$fixture_revision" <<'PY'
+import json
+import sys
+
+summary = json.load(open(sys.argv[1], encoding="utf-8"))
+assert summary["status"] == "passed"
+assert summary["resolved_commit"] == sys.argv[2]
+assert summary["command"] == "'printf' 'portable-ok'"
+PY
+
+if bash "$SCRIPT" --portable-request "$portable_request" --portable-runner "$portable_runner" --command "true" >"$TMP/portable-conflict.out" 2>"$TMP/portable-conflict.err"; then
+  echo "expected portable/manual Nessus ambiguity to fail closed" >&2
+  exit 1
+fi
+grep -F "mutually exclusive" "$TMP/portable-conflict.err" >/dev/null
+
 echo "PASS test_run_nessus_remote_validation"

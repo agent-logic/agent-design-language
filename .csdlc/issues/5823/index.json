@@ -3,11 +3,11 @@
   "issue": 5823,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7c3bcca3a89242a98791c5d0a2391d199e3e2a088e3fa577d270275ae22c2571",
-  "phase": "initialized",
-  "generation": 22,
-  "digest": "e102fe8f9d1a59808be04928d7666b488a8895632414c67957701b373d763450",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 26,
+  "digest": "ad1473a650a9f090ce26851a22a1e55c7893d33d01ff69d6b0c8a7fdc531ee52",
+  "branch": "codex/5823-v0-92-wp-06-remote-validation-build-runner",
+  "worktree": "/Volumes/FastWork/adl-wp-5823-v0-92-wp-06-remote-validation-build-runner",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "72104108554c825c066bc986444652b5b86a2360e38e3b68465fac493df4ba75",
+      "values_digest": "cc99623da6fe79432ae48acfa0ad764cfa09fc7245c51e695a5e4559a08a63fd",
       "rendered_digest": "3a521d5361568d36e6e58f2b1548dbe24b6deedb254c5106942ee132edda129d",
       "ast_digest": "c753f60486959e5674018050c5085ce087467ae6c749eefa4ed399b678129b0c"
     },
     "stp": {
-      "values_digest": "e7f89975a64c0a90a78a33c791925c243e60e04d599f20a5b8c59dad0debdaf2",
+      "values_digest": "dbc58db832ac81e17ae742b141d8adde4ce0c1af6b7eca31bea09f4418ea86f8",
       "rendered_digest": "26a93a4af8877e02ec404514a74bfc23902ac3cbe536343ef04a7cad5dfabb85",
       "ast_digest": "0b73a4514b346098dad1a34949ea16795bc21fbf9f49c10c610ac39d3e5af291"
     },
     "spp": {
-      "values_digest": "c6635c2269e6cc46627af64affed0ba8127bab2b072b06b9d13b25ff9fcfcf1c",
-      "rendered_digest": "c6848d6c6c04137a52c3853c922f46a46d00eb765b292e4e0818d52340d22278",
-      "ast_digest": "598434e1c2fc48f62e288fa21e9a79a55a4fc0dcbe92142c1f7e47aecf868143"
+      "values_digest": "4fe9c495ed6da8e753eca93ef9579a1e2f916fef672436588b4e3cbc6527abeb",
+      "rendered_digest": "d7f0d0628ab5cd8caca4045982480321dffe197fae189be10cc619601562569f",
+      "ast_digest": "d79bc3bba2dcd725e8b5dab34406d2735cbcd4f0931cc325c542d1cb6327169f"
     },
     "vpp": {
-      "values_digest": "71627a73bae7c320e344d2a8921964359b2c4b5988c48c2577854245925b865f",
-      "rendered_digest": "171cdc3827da2194027c1c6dff80aee57655459a6fc311024f45870bdd807b18",
-      "ast_digest": "eb5c855c9d5da1f9e08e664deac765ea702cbc22cfebb9e566f6bb4a47d6053e"
+      "values_digest": "416fe0483b3c35f060bb286d9351e431a9216453fdc94d17e70865346619a3d4",
+      "rendered_digest": "b1874acfe1560921aea1949e011354b80cda7bc75d1e98605796987eaf42f5f7",
+      "ast_digest": "8e6723ca7e839922ab54a4d972a48184c8b27d6bc5f897725414cecf524f34b3"
     },
     "srp": {
-      "values_digest": "a6a21b061e520cd48b4e1116e17a415de89d6e0b2830e805c801c6e54d4ea094",
+      "values_digest": "ecc945420dfaa79c9c04df3766225d2053f07c529016ed934ab59a12c3d53836",
       "rendered_digest": "d75b392680f254c5218c7ac6d47f1f0dab88c8d5975c5f9dcc312a58048cc045",
       "ast_digest": "fa8a9f100c7618edbbdd6de56dbf5ca70b1f4dfe33d7cccf069ed303d921ba71"
     },
     "sor": {
-      "values_digest": "29419a089080bbb6e4d8f45e25b015a23007f46676ef73159930ae331c749538",
+      "values_digest": "bffcf8c8fc0fb981be5512050f687e8916fed200dca4ec212123e1c5a4302465",
       "rendered_digest": "918dde528a114bce7b991e20381cf7cd3f7c83daf40a3822786b937728ef41d3",
       "ast_digest": "d44360186e739b1c36a6a1fd09a920ea5520e8b6f6203480950507a0168fb57c"
     }
@@ -75,6 +75,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -357,6 +371,41 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 41,
+      "generation": 23,
+      "actor": "codex:5823-execution",
+      "reason": "Replace rejected shell-wrapper validation lanes with direct issue-owned proving executables before binding.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"portable-runner-contract\",\"proof_role\":\"Compile and run the new portable runner crate's exact contract target, proving its typed request/result, provenance, adapter boundary, artifacts, redaction, timeout, and cleanup semantics.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"tools/remote_validation/Cargo.toml\",\"--test\",\"contract\"],\"parallel_group\":\"runner-contract\",\"defer_reason\":null},{\"lane\":\"aws-adapter-negative\",\"proof_role\":\"Exercise unreachable provider, stale revision, malformed output, timeout, cancellation, redaction, and cleanup failures without a live paid run.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":400,\"budget_tokens\":3000,\"argv\":[\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\"],\"parallel_group\":\"adapter-fixtures\",\"defer_reason\":null},{\"lane\":\"nessus-and-local-fallback\",\"proof_role\":\"Prove the existing owned-runner adapter and same-profile local/no-network fallback contract.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":400,\"budget_tokens\":3000,\"argv\":[\"adl/tools/test_run_nessus_remote_validation.sh\"],\"parallel_group\":\"adapter-fixtures\",\"defer_reason\":null},{\"lane\":\"native-platform-contract-matrix\",\"proof_role\":\"Require native live Linux and macOS receipts plus live-native or explicitly non-native fixture Windows proof; reject blocked rows.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":6000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5823/validate-platform-matrix.rb\"],\"parallel_group\":\"platform\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors and support exact-revision review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 42,
+      "generation": 23,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 43,
+      "generation": 24,
+      "actor": "codex:5823-execution",
+      "reason": "Portable request/result, provenance, redaction, cleanup, and fallback contracts are implemented with focused proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 25,
+      "actor": "codex:5823-execution",
+      "reason": "Local, Nessus, and AWS adapters preserve exact request planning, timeout, budget, fallback, and result-validation contracts with focused positive and negative proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 45,
+      "generation": 26,
+      "actor": "codex:5823-execution",
+      "reason": "Focused local, macOS native, and Windows fixture proof is complete; the mandatory native Linux provider receipt and exact-head review remain outstanding.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
     }
   ]
 }

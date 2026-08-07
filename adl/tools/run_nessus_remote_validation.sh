@@ -10,6 +10,8 @@ Usage:
 
 Options:
   --command <shell-command>        Command to run inside the remote ADL checkout. Required.
+  --portable-request <path>       Portable request JSON; mutually exclusive with --command.
+  --portable-runner <path>        adl-remote-validation binary for portable requests.
   --executor <ssh|local>           Execution transport. Defaults to ssh. local is for bounded contract tests.
   --host <host>                    Remote host. Defaults to nessus.local.
   --ssh-user <user>                SSH login user. Defaults to danie.
@@ -55,6 +57,9 @@ quote_remote_single() {
 }
 
 COMMAND_STRING=""
+COMMAND_EXPLICIT=false
+PORTABLE_REQUEST=""
+PORTABLE_RUNNER="${ADL_REMOTE_VALIDATION_BIN:-}"
 EXECUTOR="${ADL_NESSUS_REMOTE_EXECUTOR:-ssh}"
 HOST="${ADL_NESSUS_REMOTE_HOST:-nessus.local}"
 SSH_USER="${ADL_NESSUS_REMOTE_SSH_USER:-danie}"
@@ -74,6 +79,15 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --command)
       COMMAND_STRING="${2:-}"
+      COMMAND_EXPLICIT=true
+      shift 2
+      ;;
+    --portable-request)
+      PORTABLE_REQUEST="${2:-}"
+      shift 2
+      ;;
+    --portable-runner)
+      PORTABLE_RUNNER="${2:-}"
       shift 2
       ;;
     --executor)
@@ -140,8 +154,25 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if [[ -n "$PORTABLE_REQUEST" ]]; then
+  if [[ "$COMMAND_EXPLICIT" == true ]]; then
+    echo "run_nessus_remote_validation: --portable-request and --command are mutually exclusive" >&2
+    exit 2
+  fi
+  if [[ ! -x "$PORTABLE_RUNNER" ]]; then
+    echo "run_nessus_remote_validation: portable runner is missing or not executable" >&2
+    exit 2
+  fi
+  PORTABLE_PLAN="$($PORTABLE_RUNNER adapter-plan nessus "$PORTABLE_REQUEST")" || {
+    echo "run_nessus_remote_validation: portable request was rejected" >&2
+    exit 2
+  }
+  COMMAND_STRING="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["shell_command"])')"
+  GIT_REF="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["revision"])')"
+fi
+
 if [[ -z "$COMMAND_STRING" ]]; then
-  echo "run_nessus_remote_validation: --command is required" >&2
+  echo "run_nessus_remote_validation: --command or --portable-request is required" >&2
   usage >&2
   exit 2
 fi

@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 SCRIPT="$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh"
 SETUP_SCRIPT="$ROOT/adl/tools/setup_aws_spot_remote_validation_github_resources.sh"
 WORKFLOW="$ROOT/.github/workflows/aws-spot-remote-validation.yaml"
-TMP_PARENT="$ROOT/.adl/tmp/aws-spot-remote-validation-tests"
+TMP_PARENT="${TMPDIR:?TMPDIR must be set to an approved external volume}/adl-aws-spot-remote-validation-tests"
 
 grep -F 'LANE_BIN="$ROOT/tools/aws_remote_validation/target/debug/adl-aws-remote-validation"' "$SCRIPT" >/dev/null
 grep -F 'selected binary does not implement the required Spot contract' "$SCRIPT" >/dev/null
@@ -277,6 +277,7 @@ fi
 exec /usr/bin/stat "$@"
 EOF
 chmod +x "$fake_bin/aws" "$fake_bin/adl-aws-remote-validation" "$fake_bin/curl" "$fake_bin/stat"
+export ADL_AWS_REMOTE_VALIDATION_BIN="$fake_bin/adl-aws-remote-validation"
 
 ADL_FAKE_GITHUB_API_LOG="$TMP/github-api.log" \
 ADL_GITHUB_API_BIN="$fake_bin/curl" \
@@ -619,6 +620,54 @@ if grep -F -- '--ssh-allowed-cidr' "$WORKFLOW" >/dev/null; then
   echo "hosted Spot workflow must preserve runner CIDR auto-detection" >&2
   exit 1
 fi
+
+portable_runner="${ADL_REMOTE_VALIDATION_BIN:?ADL_REMOTE_VALIDATION_BIN is required for portable adapter proof}"
+portable_request="$TMP/portable-aws-request.json"
+python3 - "$portable_request" "$(git -C "$ROOT" rev-parse HEAD)" <<'PY'
+import hashlib
+import json
+import sys
+
+path, revision = sys.argv[1:]
+profile = {
+    "argv": ["cargo", "test", "--locked"],
+    "working_directory": ".",
+    "environment_allowlist": ["PATH"],
+}
+digest = hashlib.sha256(json.dumps(profile, separators=(",", ":")).encode()).hexdigest()
+payload = {
+    "schema": "adl.remote_validation.request.v1",
+    "request_id": "wp-5823-aws-shell-adapter",
+    "checkout": ".",
+    "revision": revision,
+    "command_profile": profile,
+    "command_profile_digest": digest,
+    "adapter": "aws",
+    "requested_platform": "linux",
+    "resource_budget": {"cpu_cores": 8, "memory_mib": 32768, "timeout_seconds": 321, "estimated_max_cost_microusd": None},
+    "artifact_policy": {"paths": ["artifacts/summary.json"], "required": True, "max_total_bytes": 1048576},
+    "cancellation_file": None,
+    "fallback": "offer_local",
+}
+with open(path, "w", encoding="utf-8") as handle:
+    json.dump(payload, handle, separators=(",", ":"))
+PY
+
+bash "$SCRIPT" \
+    --portable-request "$portable_request" \
+    --portable-runner "$portable_runner" \
+    --bin "$fake_bin/adl-aws-remote-validation" \
+    --out "$TMP/portable-summary.json" \
+    --artifact-dir "$TMP/portable-artifacts" >"$TMP/portable-plan.out"
+grep -F "source_commit_resolved=true" "$TMP/portable-plan.out" >/dev/null
+grep -F "DRY-RUN no EC2 resources launched" "$TMP/portable-plan.out" >/dev/null
+
+if bash "$SCRIPT" --portable-request "$portable_request" --portable-runner "$portable_runner" --command "true" >"$TMP/portable-conflict.out" 2>"$TMP/portable-conflict.err"; then
+  echo "expected portable/manual AWS ambiguity to fail closed" >&2
+  exit 1
+fi
+grep -F "conflicts with command/ref overrides" "$TMP/portable-conflict.err" >/dev/null
+
 grep -F -- "if-no-files-found: warn" "$WORKFLOW" >/dev/null
 grep -F -- "ec2:RunInstances" "$SETUP_SCRIPT" >/dev/null
 if grep -F -- '"ec2:CreateVolume"' "$SETUP_SCRIPT" >/dev/null; then
