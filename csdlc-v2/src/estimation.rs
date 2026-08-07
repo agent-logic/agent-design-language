@@ -447,21 +447,13 @@ fn adapt_lifecycle(
     if source.issue != manifest.issue || source.repository.trim().is_empty() {
         return invalid("lifecycle source does not match observation manifest");
     }
-    Ok(fragment(
+    fragment(
         manifest.issue,
         key.clone(),
         artifact.reference.clone(),
         ObservationSource::Lifecycle,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        false,
-    )?)
+        FragmentMetrics::default(),
+    )
 }
 
 fn adapt_github(
@@ -497,15 +489,11 @@ fn adapt_github(
         key.clone(),
         artifact.reference.clone(),
         ObservationSource::Github,
-        None,
-        None,
-        None,
-        Some(pr_wait),
-        ci_wait,
-        None,
-        None,
-        None,
-        false,
+        FragmentMetrics {
+            pr_wait_seconds: Some(pr_wait),
+            ci_wait_seconds: ci_wait,
+            ..FragmentMetrics::default()
+        },
     )
 }
 
@@ -544,15 +532,11 @@ fn adapt_validation(
         key.clone(),
         source.execution_report.reference.clone(),
         ObservationSource::Validation,
-        None,
-        None,
-        passed.then_some(validation),
-        None,
-        None,
-        None,
-        None,
-        None,
-        !passed,
+        FragmentMetrics {
+            validation_seconds: passed.then_some(validation),
+            interrupted: !passed,
+            ..FragmentMetrics::default()
+        },
     )
 }
 
@@ -582,19 +566,16 @@ fn adapt_session(
         key.clone(),
         artifact.reference.clone(),
         ObservationSource::Session,
-        (source.elapsed_availability == "known").then_some(elapsed),
-        (source.active_work_availability == "known")
-            .then_some(source.active_work_seconds)
-            .flatten(),
-        None,
-        None,
-        None,
-        (source.token_usage.availability == "known")
-            .then_some(source.token_usage.total_tokens)
-            .flatten(),
-        None,
-        None,
-        false,
+        FragmentMetrics {
+            elapsed_seconds: (source.elapsed_availability == "known").then_some(elapsed),
+            active_work_seconds: (source.active_work_availability == "known")
+                .then_some(source.active_work_seconds)
+                .flatten(),
+            total_tokens: (source.token_usage.availability == "known")
+                .then_some(source.token_usage.total_tokens)
+                .flatten(),
+            ..FragmentMetrics::default()
+        },
     )
 }
 
@@ -625,15 +606,12 @@ fn adapt_operator(
         key.clone(),
         artifact.reference.clone(),
         ObservationSource::OperatorAnnotation,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        Some(wait),
-        Some(source.reconnect_actions),
-        source.interrupted,
+        FragmentMetrics {
+            operator_wait_seconds: Some(wait),
+            reconnect_actions: Some(source.reconnect_actions),
+            interrupted: source.interrupted,
+            ..FragmentMetrics::default()
+        },
     )
 }
 
@@ -1113,11 +1091,8 @@ pub fn validate_reference(reference: &str) -> Result<()> {
     Ok(())
 }
 
-fn fragment(
-    issue: u64,
-    key: ComparableKey,
-    reference: String,
-    source: ObservationSource,
+#[derive(Default)]
+struct FragmentMetrics {
     elapsed_seconds: Option<u64>,
     active_work_seconds: Option<u64>,
     validation_seconds: Option<u64>,
@@ -1127,6 +1102,14 @@ fn fragment(
     operator_wait_seconds: Option<u64>,
     reconnect_actions: Option<u64>,
     interrupted: bool,
+}
+
+fn fragment(
+    issue: u64,
+    key: ComparableKey,
+    reference: String,
+    source: ObservationSource,
+    metrics: FragmentMetrics,
 ) -> Result<Observation> {
     if issue == 0 {
         return invalid("adapter issue must be non-zero");
@@ -1135,7 +1118,7 @@ fn fragment(
     let metric = |value| match value {
         Some(value) => MetricObservation::known(value, source, reference.clone()),
         None => MetricObservation::unavailable(
-            if interrupted {
+            if metrics.interrupted {
                 Availability::Interrupted
             } else {
                 Availability::Unknown
@@ -1148,14 +1131,14 @@ fn fragment(
         schema: OBSERVATION_SCHEMA.into(),
         issue,
         key,
-        elapsed_seconds: metric(elapsed_seconds),
-        active_work_seconds: metric(active_work_seconds),
-        validation_seconds: metric(validation_seconds),
-        pr_wait_seconds: metric(pr_wait_seconds),
-        ci_wait_seconds: metric(ci_wait_seconds),
-        operator_wait_seconds: metric(operator_wait_seconds),
-        reconnect_actions: metric(reconnect_actions),
-        total_tokens: metric(total_tokens),
+        elapsed_seconds: metric(metrics.elapsed_seconds),
+        active_work_seconds: metric(metrics.active_work_seconds),
+        validation_seconds: metric(metrics.validation_seconds),
+        pr_wait_seconds: metric(metrics.pr_wait_seconds),
+        ci_wait_seconds: metric(metrics.ci_wait_seconds),
+        operator_wait_seconds: metric(metrics.operator_wait_seconds),
+        reconnect_actions: metric(metrics.reconnect_actions),
+        total_tokens: metric(metrics.total_tokens),
     };
     validate_observation(&observation)?;
     Ok(observation)
