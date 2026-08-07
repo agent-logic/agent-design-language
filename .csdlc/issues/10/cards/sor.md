@@ -100,7 +100,7 @@ Authored and independently edited the complete source-grounded ten-article WP-24
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

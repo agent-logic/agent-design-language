@@ -3,61 +3,13 @@
   "issue": 10,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "aaefb83fa55b156bd233db58af78a5439d66856e3ec8dde179d56cd4b77c0fd7",
-  "phase": "reviewed",
-  "generation": 18,
-  "digest": "985ed1749670fb90501ec4c6079f6d3ef182ad6987a8d188a5bf50872a689b41",
+  "phase": "implemented",
+  "generation": 19,
+  "digest": "744c19003a075269ffe78a49110a6b49e0a8f4f92cad7f59eb4059f2f1248565",
   "branch": "codex/10-v092-wp24-article-series",
   "worktree": "/Volumes/FastWork/adl-wp-10",
   "review_assignment": null,
-  "review": {
-    "reviewer": "Linnaeus",
-    "scope": [
-      "docs/milestones/v0.92/publication/articles",
-      ".csdlc/evidence/5844",
-      ".csdlc/evidence/10",
-      ".csdlc/issues/10",
-      ".csdlc/prepared/issues/10"
-    ],
-    "reviewed_revision": "git-blake3:f640e0df287ab31dceb75443af5475e23bba0d0a:5ffb9d8a15e47d1cc3db4e23815fed3eb99efa91a1d97f85d85948b61515a6e1",
-    "findings": [
-      {
-        "id": "P1-canonical-legacy-release-gate-ambiguity",
-        "severity": "p1",
-        "summary": "Fixed: current publication disposition and Article 10 editorial review now owner-qualify the legacy WP-23 release gate after canonical migration.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:f640e0df287ab31dceb75443af5475e23bba0d0a:5ffb9d8a15e47d1cc3db4e23815fed3eb99efa91a1d97f85d85948b61515a6e1",
-        "route": null
-      },
-      {
-        "id": "P2-negative-publication-boundary-too-weak",
-        "severity": "p2",
-        "summary": "Fixed: the validator requires the exact truthful non-publication boundary and rejects positive published, submitted, scheduled, and uploaded claims through focused fixtures.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:f640e0df287ab31dceb75443af5475e23bba0d0a:5ffb9d8a15e47d1cc3db4e23815fed3eb99efa91a1d97f85d85948b61515a6e1",
-        "route": null
-      },
-      {
-        "id": "P2-rollback-missing-from-vpp",
-        "severity": "p2",
-        "summary": "Fixed: the typed VPP now includes the already-executed rollback contract as an explicit validation lane.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:f640e0df287ab31dceb75443af5475e23bba0d0a:5ffb9d8a15e47d1cc3db4e23815fed3eb99efa91a1d97f85d85948b61515a6e1",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "External Medium publication remains explicitly unauthorized and requires a later operator decision plus a drift-prone claim recheck.",
-      "Release-dependent v0.92 and first-birthday language remains gated by legacy issue danielbaustin/agent-design-language#5843 and current repository truth."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -72,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ff468d9c9f03b013d5970e7510b7e4b6010a99a2ccd40e79065c571cf0f2c34c",
+      "values_digest": "3578cdbd595d0fc3631b459144d8e660456bd2883c657df775d251bd052fe965",
       "rendered_digest": "3620987df334148e271e62df6d66ed3fb706122ed7a8fe312a679c3e8842e634",
       "ast_digest": "c47a88b3b7081c55143bf2e3cdb62c3860119d4300798382e7818e865796bcc3"
     },
     "stp": {
-      "values_digest": "8bc822efc2f8fd24e2e41965f7350f18c1ed16214cc057523bd0c639b21a8b20",
+      "values_digest": "e48aa7a0db8926e928bfd16ce84185c93fe54b62184cea4cb58271977cc9f855",
       "rendered_digest": "afd31a77167532d1ad92e0125ae28c13131c4e9e890eb57c516ce8fa9f0750f6",
       "ast_digest": "214ff5ca0cf27a3d5e720bfea79edede4c9237ffe6cba06220b023d6f3cc70b9"
     },
     "spp": {
-      "values_digest": "f9173609da71dbd5587509fd289748959f8822f2ff1c3d06c70662ce53f2675a",
+      "values_digest": "c11da2488b5cbeb4cc3ea78c8833b771d857e73284fc656c7e971aad9abcd1e0",
       "rendered_digest": "e30a5c77f77107757320844847c98ef7c9a3eccdb948dd27ea03fc132c587ea4",
       "ast_digest": "c7c7b3dea622e947960be940258da4819afd368bb29943aac3559dc360c7546e"
     },
     "vpp": {
-      "values_digest": "7a8804cd8e0e4bdd6c494162809f91eeb329032d54935de71f479b8f9b12893c",
+      "values_digest": "f527d88e8e2662c5eee530fa16fa95498b889ea607cc5fa256641d47f03c5c8f",
       "rendered_digest": "16891f084812637c91807f49aa23751e6e6913c6838d12a67a12efff0ea130a9",
       "ast_digest": "8645a4cadfcb885baf6303ed1986e37e06819c6f212329226a1ad10a488325e5"
     },
     "srp": {
-      "values_digest": "5833b5db5b058aec97134063c699c4ec64ff98c987dabbcad55f421c332573e0",
-      "rendered_digest": "e5374848260f9ec0d5a294b27bbe55e20ba36c76a69102f9e6bd36c66aa28eeb",
-      "ast_digest": "dd86e111015e1e5b334c1ae4c587b8f2bd555f46910b6e4e9f3a008cb8d16df9"
+      "values_digest": "caea954958903d373391cc8fb2b6542c442bf9a12d95765ad40ffeac943fe09c",
+      "rendered_digest": "33d7cc88690e1da7863fea4c1af30b5ddc5eaf63c3af7d1aeb833724240094fe",
+      "ast_digest": "6d293516caee55edc3d3a2505d869bf333ab3af6eb3fb6a609211872f02b852d"
     },
     "sor": {
-      "values_digest": "7fc1a9d19c9640054771502046c0ba00fbbcb37684c5d200624e5f8a958ea435",
-      "rendered_digest": "e490bba573516275aeb8ce39ab85095734d56721925d27cdd4808382276c022c",
-      "ast_digest": "ade7e67b38501e08ad5f0d7a00413234569b8afcb32ff2dd450876cd9028d513"
+      "values_digest": "6a362648aaa015946315615a803ecf3d3122dca6456c86f5a4fb2401c25822ad",
+      "rendered_digest": "69dc0a064b4152649a9064d4aa6081566e1e5a934c48ed28022652fe48d72966",
+      "ast_digest": "cf18cbd4352eb41f16f51d847aa322cc481aa0215cfc9a3a3a5c78983a4ef4d6"
     }
   },
   "transitions": [
@@ -130,6 +82,13 @@
       "to": "reviewed",
       "actor": "codex:wp24-canonical-publication",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:wp24-canonical-publication",
+      "reason": "Current canonical origin/main was integrated after the prior exact-head review; recover stale review truth for final merged-head approval and publication."
     }
   ],
   "audit": [
@@ -272,6 +231,13 @@
       "actor": "codex:wp24-canonical-publication",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:wp24-canonical-publication",
+      "reason": "Current canonical origin/main was integrated after the prior exact-head review; recover stale review truth for final merged-head approval and publication.",
+      "operation": "recover_review"
     }
   ]
 }
