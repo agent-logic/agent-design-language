@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC v2][closeout] Resolve multiple merged closing PRs deterministically",
     "slug": "v092-terminal-precedence-multiple-merged-prs",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {

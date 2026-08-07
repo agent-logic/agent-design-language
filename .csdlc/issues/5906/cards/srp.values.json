@@ -7,23 +7,25 @@
     "title": "[v0.92][C-SDLC v2][closeout] Resolve multiple merged closing PRs deterministically",
     "slug": "v092-terminal-precedence-multiple-merged-prs",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2/src/github.rs\ncsdlc-v2/src/finish.rs\ncsdlc-v2/tests/gate_finish.rs\n.csdlc/issues/5906\n.csdlc/prepared/issues/5906",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:7004c9264946adecca84fd3dabff55c1c7e94789:65ce756c425a6d5c05b71085cbf716168255eb99eed16d77ef4017fe9ad89c14",
+      "reviewer": "subagent:review-5906-implementation",
       "review_prompts": [
         "Does unique-latest selection remain fail closed?",
         "Can an earlier or ambiguous merged PR be selected?",
         "Are routine finish and review gates unchanged?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Live end-to-end historical reconciliation remains post-merge and must pin PR 5886 exact repository, head SHA, and merge SHA."
+      ],
+      "review_result": "pass"
     }
   }
 }

@@ -34,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Live end-to-end historical reconciliation remains post-merge and must pin PR 5886 exact repository, head SHA, and merge SHA.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:7004c9264946adecca84fd3dabff55c1c7e94789:65ce756c425a6d5c05b71085cbf716168255eb99eed16d77ef4017fe9ad89c14")
 
-Reviewer: None
+Reviewer: Some("subagent:review-5906-implementation")
 
-Result: pre_review
+Result: pass
