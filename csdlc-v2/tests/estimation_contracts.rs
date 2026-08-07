@@ -33,9 +33,8 @@ fn fallback() -> StaticEstimate {
     }
 }
 
-fn fastwork_root(name: &str) -> PathBuf {
-    let target = PathBuf::from(std::env::var("CARGO_TARGET_DIR").expect("FastWork target"));
-    assert!(target.starts_with("/Volumes/FastWork"));
+fn fixture_root(name: &str) -> PathBuf {
+    let target = PathBuf::from(std::env::var("CARGO_TARGET_DIR").expect("Cargo target"));
     let root = target.join("estimation-contract-fixtures").join(name);
     let _ = fs::remove_dir_all(&root);
     fs::create_dir_all(&root).unwrap();
@@ -292,7 +291,7 @@ fn verified_fixture_calibration(root: &Path) -> csdlc_v2::VerifiedCalibration {
 
 #[test]
 fn adapters_derive_identity_and_measurements_from_verified_retained_sources() {
-    let root = fastwork_root("sources");
+    let root = fixture_root("sources");
     let manifest = source_manifest(&root, 5822);
     let joined = load_observation_manifest(&root, &manifest).unwrap();
     assert_eq!(joined.issue, 5822);
@@ -309,7 +308,7 @@ fn adapters_derive_identity_and_measurements_from_verified_retained_sources() {
 
 #[test]
 fn source_identity_mismatch_and_missing_sources_fail_closed() {
-    let root = fastwork_root("source-identity");
+    let root = fixture_root("source-identity");
     let manifest = source_manifest(&root, 5822);
     let manifest_value: ObservationManifest = load_verified_json(&root, &manifest).unwrap();
     let session = manifest_value.session.unwrap();
@@ -377,7 +376,7 @@ fn source_identity_mismatch_and_missing_sources_fail_closed() {
 
 #[test]
 fn verified_calibration_is_loader_only_reproducible_and_tamper_evident() {
-    let root = fastwork_root("calibration");
+    let root = fixture_root("calibration");
     let calibration = verified_fixture_calibration(&root);
     assert!(calibration.report().calibrated);
     let candidates = vec![
@@ -467,7 +466,7 @@ fn missing_or_failed_calibration_forces_static_fallback() {
             .method,
         EstimateMethod::StaticPlanningProfileFallback
     );
-    let root = fastwork_root("failed-calibration");
+    let root = fixture_root("failed-calibration");
     let context = write_json(
         &root,
         ".csdlc/evidence/99/real-history.json",
@@ -502,7 +501,7 @@ fn missing_or_failed_calibration_forces_static_fallback() {
 
 #[test]
 fn cycle_comparison_derives_basis_gates_and_totals_from_verified_artifacts() {
-    let root = fastwork_root("cycle");
+    let root = fixture_root("cycle");
     let baseline_observation = source_manifest(&root, 101);
     let candidate_observation = source_manifest(&root, 102);
     let mut candidate_manifest: ObservationManifest =
@@ -565,7 +564,7 @@ fn retained_cycle_boundary_does_not_claim_a_nonterminal_sample_as_terminal() {
 
 #[test]
 fn finish_records_available_actuals_even_when_the_estimate_is_deferred() {
-    let root = fastwork_root("finish");
+    let root = fixture_root("finish");
     assert!(Command::new("git")
         .args(["init", "--quiet"])
         .current_dir(&root)
