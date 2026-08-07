@@ -1,0 +1,2114 @@
+[
+  {
+    "field": "AuditEvent.actor",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#AuditEvent",
+      "formatter": "csdlc-v2/src/model.rs#AuditEvent",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "AuditEvent.operation",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#AuditEvent",
+      "formatter": "csdlc-v2/src/model.rs#AuditEvent",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "AuditEvent.reason",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#AuditEvent",
+      "formatter": "csdlc-v2/src/model.rs#AuditEvent",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "CardContent",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": false,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#CardContent",
+      "formatter": "csdlc-v2/src/cards.rs#CardContent",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "CardIdentity.repository",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#CardIdentity",
+      "formatter": "csdlc-v2/src/cards.rs#CardIdentity",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "CardIdentity.schema_version",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#CardIdentity",
+      "formatter": "csdlc-v2/src/cards.rs#CardIdentity",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "CardIdentity.slug",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#CardIdentity",
+      "formatter": "csdlc-v2/src/cards.rs#CardIdentity",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "CardIdentity.template_version",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#CardIdentity",
+      "formatter": "csdlc-v2/src/cards.rs#CardIdentity",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "CardIdentity.title",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#CardIdentity",
+      "formatter": "csdlc-v2/src/cards.rs#CardIdentity",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "CardIdentity.version",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#CardIdentity",
+      "formatter": "csdlc-v2/src/cards.rs#CardIdentity",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "CardKind",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#CardKind",
+      "formatter": "csdlc-v2/src/cards.rs#CardKind",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "CardProjection.ast_digest",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#CardProjection",
+      "formatter": "csdlc-v2/src/model.rs#CardProjection",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "CardProjection.rendered_digest",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#CardProjection",
+      "formatter": "csdlc-v2/src/model.rs#CardProjection",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "CardProjection.values_digest",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#CardProjection",
+      "formatter": "csdlc-v2/src/model.rs#CardProjection",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "CardStatus",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#CardStatus",
+      "formatter": "csdlc-v2/src/cards.rs#CardStatus",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "CloseoutState",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#CloseoutState",
+      "formatter": "csdlc-v2/src/cards.rs#CloseoutState",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "DesignReview",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": false,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#DesignReview",
+      "formatter": "csdlc-v2/src/model.rs#DesignReview",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "DesignReview.Approved.reviewer",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#DesignReview",
+      "formatter": "csdlc-v2/src/model.rs#DesignReview",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "DesignReview.Approved.revision",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#DesignReview",
+      "formatter": "csdlc-v2/src/model.rs#DesignReview",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "DesignReview.ChangesRequired.reason",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#DesignReview",
+      "formatter": "csdlc-v2/src/model.rs#DesignReview",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "DesignReview.ChangesRequired.reviewer",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#DesignReview",
+      "formatter": "csdlc-v2/src/model.rs#DesignReview",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "EvidenceOutcome",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#EvidenceOutcome",
+      "formatter": "csdlc-v2/src/cards.rs#EvidenceOutcome",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "FindingDisposition",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#FindingDisposition",
+      "formatter": "csdlc-v2/src/cards.rs#FindingDisposition",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "FindingSeverity",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#FindingSeverity",
+      "formatter": "csdlc-v2/src/cards.rs#FindingSeverity",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "InitialCardInput.failure_policy",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "formatter": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "InitialCardInput.goal",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "formatter": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "InitialCardInput.plan_summary",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "formatter": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "InitialCardInput.required_outcome",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "formatter": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "InitialCardInput.review_scope",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "formatter": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "InitialCardInput.slug",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "formatter": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "InitialCardInput.task_boundary",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "formatter": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "InitialCardInput.title",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "formatter": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "InitialCardInput.version",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "formatter": "csdlc-v2/src/cards.rs#InitialCardInput",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "IntegrationState",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#IntegrationState",
+      "formatter": "csdlc-v2/src/cards.rs#IntegrationState",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "IssueRecord.branch",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#IssueRecord",
+      "formatter": "csdlc-v2/src/model.rs#IssueRecord",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "IssueRecord.design_path",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#IssueRecord",
+      "formatter": "csdlc-v2/src/model.rs#IssueRecord",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "IssueRecord.diagram_path",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#IssueRecord",
+      "formatter": "csdlc-v2/src/model.rs#IssueRecord",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "IssueRecord.digest",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#IssueRecord",
+      "formatter": "csdlc-v2/src/model.rs#IssueRecord",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "IssueRecord.initialization_digest",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#IssueRecord",
+      "formatter": "csdlc-v2/src/model.rs#IssueRecord",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "IssueRecord.repository",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#IssueRecord",
+      "formatter": "csdlc-v2/src/model.rs#IssueRecord",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "IssueRecord.schema",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#IssueRecord",
+      "formatter": "csdlc-v2/src/model.rs#IssueRecord",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "IssueRecord.worktree",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#IssueRecord",
+      "formatter": "csdlc-v2/src/model.rs#IssueRecord",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "LifecyclePhase",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#LifecyclePhase",
+      "formatter": "csdlc-v2/src/model.rs#LifecyclePhase",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "MergeState",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#MergeState",
+      "formatter": "csdlc-v2/src/cards.rs#MergeState",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "MigrationEvidence.compatibility_view",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#MigrationEvidence",
+      "formatter": "csdlc-v2/src/model.rs#MigrationEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "MigrationEvidence.schema",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#MigrationEvidence",
+      "formatter": "csdlc-v2/src/model.rs#MigrationEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "MigrationEvidence.source_digest",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#MigrationEvidence",
+      "formatter": "csdlc-v2/src/model.rs#MigrationEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "NonSubstantiveProof.from_commit",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#NonSubstantiveProof",
+      "formatter": "csdlc-v2/src/model.rs#NonSubstantiveProof",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "NonSubstantiveProof.from_revision",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#NonSubstantiveProof",
+      "formatter": "csdlc-v2/src/model.rs#NonSubstantiveProof",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "NonSubstantiveProof.policy",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#NonSubstantiveProof",
+      "formatter": "csdlc-v2/src/model.rs#NonSubstantiveProof",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "NonSubstantiveProof.to_commit",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#NonSubstantiveProof",
+      "formatter": "csdlc-v2/src/model.rs#NonSubstantiveProof",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "NonSubstantiveProof.to_revision",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#NonSubstantiveProof",
+      "formatter": "csdlc-v2/src/model.rs#NonSubstantiveProof",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "PlanStep.action",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#PlanStep",
+      "formatter": "csdlc-v2/src/cards.rs#PlanStep",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "PlanStep.id",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#PlanStep",
+      "formatter": "csdlc-v2/src/cards.rs#PlanStep",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "PlanningCollectionField",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#PlanningCollectionField",
+      "formatter": "csdlc-v2/src/cards.rs#PlanningCollectionField",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "PlanningProfile",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#PlanningProfile",
+      "formatter": "csdlc-v2/src/cards.rs#PlanningProfile",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "PublicationEvidence.base",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#PublicationEvidence",
+      "formatter": "csdlc-v2/src/model.rs#PublicationEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "PublicationEvidence.head",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#PublicationEvidence",
+      "formatter": "csdlc-v2/src/model.rs#PublicationEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "PublicationEvidence.observed_state",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#PublicationEvidence",
+      "formatter": "csdlc-v2/src/model.rs#PublicationEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "PublicationEvidence.repository",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#PublicationEvidence",
+      "formatter": "csdlc-v2/src/model.rs#PublicationEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "PublicationEvidence.revision",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#PublicationEvidence",
+      "formatter": "csdlc-v2/src/model.rs#PublicationEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "PublicationEvidence.url",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#PublicationEvidence",
+      "formatter": "csdlc-v2/src/model.rs#PublicationEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "PublicationState",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#PublicationState",
+      "formatter": "csdlc-v2/src/cards.rs#PublicationState",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReadinessEvidence.head_sha",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#ReadinessEvidence",
+      "formatter": "csdlc-v2/src/model.rs#ReadinessEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "RenderedCard.ast_digest",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#RenderedCard",
+      "formatter": "csdlc-v2/src/cards.rs#RenderedCard",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "RenderedCard.markdown",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#RenderedCard",
+      "formatter": "csdlc-v2/src/cards.rs#RenderedCard",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "RenderedCard.rendered_digest",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#RenderedCard",
+      "formatter": "csdlc-v2/src/cards.rs#RenderedCard",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "RenderedCard.values_digest",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#RenderedCard",
+      "formatter": "csdlc-v2/src/cards.rs#RenderedCard",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ResourceProfile",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#ResourceProfile",
+      "formatter": "csdlc-v2/src/cards.rs#ResourceProfile",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewAssignment.assigned_by",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#ReviewAssignment",
+      "formatter": "csdlc-v2/src/model.rs#ReviewAssignment",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewAssignment.reviewer",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#ReviewAssignment",
+      "formatter": "csdlc-v2/src/model.rs#ReviewAssignment",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewAssignment.revision",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#ReviewAssignment",
+      "formatter": "csdlc-v2/src/model.rs#ReviewAssignment",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewEvidence.reviewed_revision",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#ReviewEvidence",
+      "formatter": "csdlc-v2/src/model.rs#ReviewEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewEvidence.reviewer",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#ReviewEvidence",
+      "formatter": "csdlc-v2/src/model.rs#ReviewEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewFinding.fix_revision",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#ReviewFinding",
+      "formatter": "csdlc-v2/src/cards.rs#ReviewFinding",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewFinding.id",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#ReviewFinding",
+      "formatter": "csdlc-v2/src/cards.rs#ReviewFinding",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewFinding.route",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#ReviewFinding",
+      "formatter": "csdlc-v2/src/cards.rs#ReviewFinding",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewFinding.summary",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#ReviewFinding",
+      "formatter": "csdlc-v2/src/cards.rs#ReviewFinding",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewFindingEvidence.fix_revision",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#ReviewFindingEvidence",
+      "formatter": "csdlc-v2/src/model.rs#ReviewFindingEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewFindingEvidence.id",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#ReviewFindingEvidence",
+      "formatter": "csdlc-v2/src/model.rs#ReviewFindingEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewFindingEvidence.route",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#ReviewFindingEvidence",
+      "formatter": "csdlc-v2/src/model.rs#ReviewFindingEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewFindingEvidence.summary",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#ReviewFindingEvidence",
+      "formatter": "csdlc-v2/src/model.rs#ReviewFindingEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ReviewResult",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#ReviewResult",
+      "formatter": "csdlc-v2/src/cards.rs#ReviewResult",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SemanticOperation",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": false,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "formatter": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SemanticOperation.AppendReference.value",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "formatter": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SemanticOperation.DisposeFinding.finding_id",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "formatter": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SemanticOperation.RecordExecution.summary",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "formatter": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SemanticOperation.RecordReview.reviewer",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "formatter": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SemanticOperation.RecordReview.revision",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "formatter": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SemanticOperation.ReplaceExecution.summary",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "formatter": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SemanticOperation.Replan.value",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "formatter": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SemanticOperation.SetField.value",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "formatter": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SemanticOperation.UpdateIdentityVersion.version",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "formatter": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SemanticOperation.UpdatePlanStep.step_id",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "formatter": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SipValues.goal",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SipValues",
+      "formatter": "csdlc-v2/src/cards.rs#SipValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SipValues.required_outcome",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SipValues",
+      "formatter": "csdlc-v2/src/cards.rs#SipValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SorValues.summary",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SorValues",
+      "formatter": "csdlc-v2/src/cards.rs#SorValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SppValues.design_digest",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SppValues",
+      "formatter": "csdlc-v2/src/cards.rs#SppValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SppValues.design_ref",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SppValues",
+      "formatter": "csdlc-v2/src/cards.rs#SppValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SppValues.diagram_digest",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SppValues",
+      "formatter": "csdlc-v2/src/cards.rs#SppValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SppValues.diagram_ref",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SppValues",
+      "formatter": "csdlc-v2/src/cards.rs#SppValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SppValues.summary",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SppValues",
+      "formatter": "csdlc-v2/src/cards.rs#SppValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SrpValues.review_revision",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SrpValues",
+      "formatter": "csdlc-v2/src/cards.rs#SrpValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SrpValues.review_scope",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SrpValues",
+      "formatter": "csdlc-v2/src/cards.rs#SrpValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "SrpValues.reviewer",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#SrpValues",
+      "formatter": "csdlc-v2/src/cards.rs#SrpValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "StepStatus",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#StepStatus",
+      "formatter": "csdlc-v2/src/cards.rs#StepStatus",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "StpValues.task_boundary",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#StpValues",
+      "formatter": "csdlc-v2/src/cards.rs#StpValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "TerminalEvidence.branch",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#TerminalEvidence",
+      "formatter": "csdlc-v2/src/model.rs#TerminalEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "TerminalEvidence.observed_sha",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#TerminalEvidence",
+      "formatter": "csdlc-v2/src/model.rs#TerminalEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "TerminalEvidence.observed_state",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#TerminalEvidence",
+      "formatter": "csdlc-v2/src/model.rs#TerminalEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "TerminalEvidence.receipt_path",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#TerminalEvidence",
+      "formatter": "csdlc-v2/src/model.rs#TerminalEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "TerminalEvidence.worktree",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#TerminalEvidence",
+      "formatter": "csdlc-v2/src/model.rs#TerminalEvidence",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "TerminalReceipt.digest",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#TerminalReceipt",
+      "formatter": "csdlc-v2/src/model.rs#TerminalReceipt",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "TerminalReceipt.initialization_digest",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#TerminalReceipt",
+      "formatter": "csdlc-v2/src/model.rs#TerminalReceipt",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "TerminalReceipt.receipt_ref",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#TerminalReceipt",
+      "formatter": "csdlc-v2/src/model.rs#TerminalReceipt",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "TerminalReceipt.repository",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#TerminalReceipt",
+      "formatter": "csdlc-v2/src/model.rs#TerminalReceipt",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "TerminalReceipt.schema",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#TerminalReceipt",
+      "formatter": "csdlc-v2/src/model.rs#TerminalReceipt",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "TextField",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "enum",
+    "disposition": "typed_complete",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#TextField",
+      "formatter": "csdlc-v2/src/cards.rs#TextField",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "TransitionEvent.actor",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#TransitionEvent",
+      "formatter": "csdlc-v2/src/model.rs#TransitionEvent",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "TransitionEvent.reason",
+    "source": "csdlc-v2/src/model.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/model.rs#TransitionEvent",
+      "formatter": "csdlc-v2/src/model.rs#TransitionEvent",
+      "schema": "csdlc-v2/src/model.rs#JsonSchema",
+      "editor": "csdlc-v2/src/store.rs#edit_issue",
+      "validator": "csdlc-v2/src/store.rs#verify_cards",
+      "markdown": "not_applicable:lifecycle record field is not rendered card Markdown",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ValidationLane.defer_reason",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#ValidationLane",
+      "formatter": "csdlc-v2/src/cards.rs#ValidationLane",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ValidationLane.lane",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#ValidationLane",
+      "formatter": "csdlc-v2/src/cards.rs#ValidationLane",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ValidationLane.parallel_group",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#ValidationLane",
+      "formatter": "csdlc-v2/src/cards.rs#ValidationLane",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ValidationLane.proof_role",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#ValidationLane",
+      "formatter": "csdlc-v2/src/cards.rs#ValidationLane",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ValidationResult.evidence_ref",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#ValidationResult",
+      "formatter": "csdlc-v2/src/cards.rs#ValidationResult",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "ValidationResult.purpose",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#ValidationResult",
+      "formatter": "csdlc-v2/src/cards.rs#ValidationResult",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "VppValues.design_digest",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#VppValues",
+      "formatter": "csdlc-v2/src/cards.rs#VppValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "VppValues.design_ref",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#VppValues",
+      "formatter": "csdlc-v2/src/cards.rs#VppValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "VppValues.diagram_digest",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#VppValues",
+      "formatter": "csdlc-v2/src/cards.rs#VppValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "VppValues.diagram_ref",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#VppValues",
+      "formatter": "csdlc-v2/src/cards.rs#VppValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "VppValues.failure_policy",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#VppValues",
+      "formatter": "csdlc-v2/src/cards.rs#VppValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  },
+  {
+    "field": "VppValues.summary",
+    "source": "csdlc-v2/src/cards.rs",
+    "kind": "string_candidate",
+    "disposition": "intentionally_extensible",
+    "stored_string": true,
+    "owners": {
+      "parser": "csdlc-v2/src/cards.rs#VppValues",
+      "formatter": "csdlc-v2/src/cards.rs#VppValues",
+      "schema": "csdlc-v2/src/cards.rs#JsonSchema",
+      "editor": "csdlc-v2/src/cards.rs#SemanticOperation",
+      "validator": "csdlc-v2/src/cards.rs#validate_cross_card",
+      "markdown": "csdlc-v2/src/cards.rs#render",
+      "tests": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    }
+  }
+]

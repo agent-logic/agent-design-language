@@ -7,16 +7,61 @@
     "title": "[v0.92][WP-07] Prompt-card enum typing",
     "slug": "v0-92-wp-07-prompt-card-enum-typing",
     "version": "v0.92",
-    "generation": 24
+    "generation": 31
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Audited every restricted enum and scalar string surface in the prompt-card model, retained digest-bound dispositions for all 132 source-derived candidates, and proved that no additional finite enum conversion is currently justified.",
+      "actual_changes": [
+        "Expanded the inventory validator to derive enum definitions and scalar string fields from structs and enum variants.",
+        "Retained canonical inventory and audit-decision evidence with source, denominator, ownership, and disposition digests.",
+        "Added focused integration coverage for enum parsing, tagged enums, all six tracked card round trips, active template parity, typed invalid-value diagnostics, and mutation safety."
+      ],
+      "artifacts": [
+        ".csdlc/evidence/5824/enum-inventory.json",
+        ".csdlc/evidence/5824/enum-audit-decision.json",
+        ".csdlc/prepared/issues/5824/validate-enum-inventory.rb",
+        "csdlc-v2/tests/prompt_card_enum_typing.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5824/validate-enum-inventory.rb"
+          ],
+          "purpose": "Prove a complete source-derived denominator, one disposition per candidate, digest-bound ownership, and a finite-gap decision.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5824/enum-audit-decision.json"
+        },
+        {
+          "command": [
+            "cargo",
+            "nextest",
+            "run",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--no-tests=fail",
+            "--test",
+            "prompt_card_enum_typing"
+          ],
+          "purpose": "Prove enum parsing and schema parity, tagged-enum rejection, all six card round trips, active template parity, typed invalid-value diagnostics, and mutation safety.",
+          "outcome": "passed",
+          "evidence_ref": "csdlc-v2/tests/prompt_card_enum_typing.rs"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Prove whitespace hygiene across the bounded audit, evidence, test, and lifecycle surfaces.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5824/enum-audit-decision.json"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",
