@@ -139,7 +139,7 @@ bash "$SCRIPT" \
   --git-ref origin/main \
   --remote-root "$TMP/remote-root-redaction" \
   --run-id fixture-redaction \
-  --command "printf '$fixture_token'" \
+  --command "printf '$fixture_token /home/runner/work/repo /var/folders/fixture/repo'" \
   --local-artifact-dir "$TMP/artifacts-redaction" \
   >"$TMP/redaction.json"
 
@@ -151,7 +151,12 @@ if grep -R -F "$fixture_token" "$TMP/artifacts-redaction" "$TMP/artifacts-redact
   echo "expected credential-shaped fixture value to be redacted from retained evidence" >&2
   exit 1
 fi
+if grep -R -E '/home/runner|/var/folders/' "$TMP/artifacts-redaction" "$TMP/artifacts-redaction-expanded" >/dev/null; then
+  echo "expected machine-path fixture values to be redacted from retained evidence" >&2
+  exit 1
+fi
 grep -F "<github-token-redacted>" "$TMP/artifacts-redaction/summary.json" >/dev/null
+grep -F "<machine-path-redacted>" "$TMP/artifacts-redaction/summary.json" >/dev/null
 
 cat >"$fake_bin/docker" <<'EOF'
 #!/usr/bin/env bash

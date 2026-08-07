@@ -350,7 +350,7 @@ fn local_native_execution_fails_redaction_for_sensitive_artifact_content() {
     std::fs::create_dir_all(artifact.parent().unwrap()).unwrap();
     std::fs::write(
         &artifact,
-        "Authorization: Bearer fixture-token-must-not-be-retained\n",
+        "Authorization: Bearer fixture-token-must-not-be-retained\n/home/runner/work/repo\n/var/folders/fixture/repo\n",
     )
     .unwrap();
     let mut value = local_request(&checkout, vec!["/usr/bin/true".into()]);

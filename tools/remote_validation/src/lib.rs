@@ -575,6 +575,8 @@ fn contains_sensitive_artifact_content(bytes: &[u8]) -> bool {
         "/private/",
         "/tmp/",
         "/root/",
+        "/home/",
+        "/var/folders/",
         "arn:aws:",
         "bearer ",
         "basic ",

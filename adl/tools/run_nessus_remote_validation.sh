@@ -372,7 +372,7 @@ def redact(value):
         return [redact(item) for item in value]
     if isinstance(value, str):
         value = re.sub(
-            r"/(?:Users|Volumes|private|tmp|root)/[^\s,\"]*",
+            r"/(?:Users|Volumes|private|tmp|root|home|var/folders)/[^\s,\"]*",
             lambda match: f"<machine-path-redacted>/{Path(match.group(0)).name}",
             value,
         )
@@ -487,7 +487,7 @@ from pathlib import Path
 
 root = Path(sys.argv[1])
 patterns = (
-    (re.compile(r"/(?:Users|Volumes|private|tmp|root)/[^\s,\"]*"), "<machine-path-redacted>"),
+    (re.compile(r"/(?:Users|Volumes|private|tmp|root|home|var/folders)/[^\s,\"]*"), "<machine-path-redacted>"),
     (re.compile(r"arn:aws:[^\s,\"]*"), "<aws-arn-redacted>"),
     (re.compile(r"\b\d{12}\b"), "<account-id-redacted>"),
     (re.compile(r"\bi-[0-9a-f]{8,17}\b"), "<instance-id-redacted>"),
@@ -926,7 +926,7 @@ def redact(value):
     if isinstance(value, list):
         return [redact(item) for item in value]
     if isinstance(value, str):
-        value = re.sub(r"/(?:Users|Volumes|private|tmp|root)/[^\s,\"]*", "<machine-path-redacted>", value)
+        value = re.sub(r"/(?:Users|Volumes|private|tmp|root|home|var/folders)/[^\s,\"]*", "<machine-path-redacted>", value)
         value = re.sub(r"arn:aws:[^\s,\"]*", "<aws-arn-redacted>", value)
         value = re.sub(r"\b\d{12}\b", "<account-id-redacted>", value)
         value = re.sub(r"\bi-[0-9a-f]{8,17}\b", "<instance-id-redacted>", value)
@@ -1053,7 +1053,7 @@ def redact(value):
     if isinstance(value, list):
         return [redact(item) for item in value]
     if isinstance(value, str):
-        value = re.sub(r"/(?:Users|Volumes|private|tmp|root)/[^\s,\"]*", "<machine-path-redacted>", value)
+        value = re.sub(r"/(?:Users|Volumes|private|tmp|root|home|var/folders)/[^\s,\"]*", "<machine-path-redacted>", value)
         value = re.sub(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", "<ip-address-redacted>", value)
         value = re.sub(r"arn:aws:[^\s,\"]*", "<aws-arn-redacted>", value)
         value = re.sub(r"\b\d{12}\b", "<account-id-redacted>", value)
@@ -1110,7 +1110,7 @@ fallback_allowed = (
     and request["fallback"] != "disabled"
 )
 sensitive_patterns = tuple(re.compile(pattern) for pattern in (
-    r"/(?:Users|Volumes|private|tmp|root)/",
+    r"/(?:Users|Volumes|private|tmp|root|home|var/folders)/",
     r"arn:aws:",
     r"\b\d{12}\b",
     r"\bi-[0-9a-f]{8,17}\b",
