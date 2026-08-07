@@ -25,9 +25,10 @@ Both real clients consume current Runtime snapshots/events, perform only authori
 - demos/v0.91.6/unity-observatory/Assets/Scripts/RuntimeV3Client.cs
 - demos/v0.91.6/unity-observatory/Assets/Resources/runtime-v3-contract.json
 - demos/v0.91.6/unity-observatory/Assets/Tests/RuntimeV3ClientTests.cs
+- adl-runtime/tests/runtime_api_wss.rs
 - adl/tools/validate_v092_html_observatory_live.mjs
-- adl/tools/validate_v092_unity_observatory_live.sh
-- adl/tools/validate_v092_observatory_restart_reconnect.sh
+- .csdlc/prepared/issues/5837/validate-unity-observatory-live.rb
+- adl/tools/validate_v092_observatory_restart_reconnect.mjs
 
 ## Authority
 

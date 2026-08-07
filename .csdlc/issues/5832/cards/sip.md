@@ -25,11 +25,10 @@ Runtime v3 admits, transports, projects, traces, replays, and rejects the same A
 - adl-runtime-kernel/src/acip.rs
 - adl-runtime-kernel/src/protocol_adapters.rs
 - adl-runtime/tests/runtime_api_wss.rs
-- schemas/acip/v1/acip.proto
-- schemas/acip/v1/catalog.json
+- adl-runtime/schemas/acip/v1/acip.proto
+- adl-runtime/schemas/acip/v1/catalog.json
 - docs/api/runtime-v3/v1/acip.openapi.json
-- adl/tools/validate_v092_acip_wss.sh
-- adl/tools/validate_v092_acip_native_receipts.rb
+- .csdlc/prepared/issues/5832/validate-acip-native-receipts.rb
 
 ## Authority
 

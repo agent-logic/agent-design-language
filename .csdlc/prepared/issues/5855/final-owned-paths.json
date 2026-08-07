@@ -1,0 +1,19 @@
+{
+  "issue": 5855,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "94008d5717b325292991b66a0387244adc1c5892a3949a8bc5113fffd3234add",
+  "actor": "codex:5855-final-readiness",
+  "reason": "Declare the exact Sprint 2 coordination packet, prompt, validator, and evidence boundary.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".adl/docs/TBD/V092_SPRINT_5855_RUNTIME_OBSERVATORY_SESSION_PROMPT.md",
+      ".csdlc/prepared/issues/5855/sprint-execution-packet.yaml",
+      ".csdlc/prepared/issues/5855/sprint-execution-packet.md",
+      ".csdlc/prepared/issues/5855/validate-sprint-readiness.rb",
+      ".csdlc/evidence/5855"
+    ]
+  }
+}

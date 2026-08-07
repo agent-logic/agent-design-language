@@ -1,0 +1,23 @@
+{
+  "issue": 5832,
+  "card": "sip",
+  "expected_generation": 39,
+  "expected_digest": "6dbbf0995c89a23712f005ea392f43f4932e042f54d86797835ca14a52f911f8",
+  "actor": "codex:5855-final-readiness",
+  "reason": "Place the new ACIP schema under the existing Runtime crate boundary and remove the redundant shell-owned production launcher.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "declared_scope",
+    "values": [
+      "adl-runtime/src/acip.rs",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl-runtime-kernel/src/acip.rs",
+      "adl-runtime-kernel/src/protocol_adapters.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl-runtime/schemas/acip/v1/acip.proto",
+      "adl-runtime/schemas/acip/v1/catalog.json",
+      "docs/api/runtime-v3/v1/acip.openapi.json",
+      ".csdlc/prepared/issues/5832/validate-acip-native-receipts.rb"
+    ]
+  }
+}

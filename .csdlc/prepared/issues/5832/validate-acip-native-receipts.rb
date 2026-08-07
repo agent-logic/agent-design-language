@@ -8,6 +8,12 @@ require "open3"
 SHA256 = /\A[0-9a-f]{64}\z/
 ISSUE = 5832
 REQUIRED_ASSERTIONS = %w[production_guardian rustls_wss authenticated_bidirectional protobuf_json_parity reconnect_backpressure replay_denied denied_access].freeze
+PRODUCER_ARGV = [
+  "cargo", "nextest", "run",
+  "--manifest-path", "adl-runtime/Cargo.toml",
+  "--test", "runtime_api_wss",
+  "--no-tests=fail", "production_acip_wss"
+].freeze
 
 def checked_file(path, digest, label, allow_empty: false)
   abort "#{label} path must be issue-local" unless path.to_s.start_with?(".csdlc/evidence/#{ISSUE}/")
@@ -34,7 +40,7 @@ receipts.each do |receipt|
   %w[provider run_id os arch].each { |field| abort "missing #{platform} runner #{field}" if runner[field].to_s.empty? }
   abort "invalid runner identity" unless runner["identity_sha256"].to_s.match?(SHA256)
   command = receipt.fetch("command")
-  abort "wrong #{platform} producer command" unless Array(command["argv"]) == ["bash", "adl/tools/validate_v092_acip_wss.sh"]
+  abort "wrong #{platform} producer command" unless Array(command["argv"]) == PRODUCER_ARGV
   abort "#{platform} producer failed" unless command["exit_code"] == 0
   checked_file(command["stdout_path"], command["stdout_sha256"], "#{platform} stdout")
   checked_file(command["stderr_path"], command["stderr_sha256"], "#{platform} stderr", allow_empty: true)

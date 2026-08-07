@@ -56,11 +56,10 @@ logs, fixtures, or committed artifacts.
 - `adl-runtime-kernel/src/acip.rs`
 - `adl-runtime-kernel/src/protocol_adapters.rs`
 - `adl-runtime/tests/runtime_api_wss.rs`
-- `schemas/acip/v1/acip.proto`
-- `schemas/acip/v1/catalog.json`
+- `adl-runtime/schemas/acip/v1/acip.proto`
+- `adl-runtime/schemas/acip/v1/catalog.json`
 - `docs/api/runtime-v3/v1/acip.openapi.json`
-- `adl/tools/validate_v092_acip_wss.sh`
-- `adl/tools/validate_v092_acip_native_receipts.rb`
+- `.csdlc/prepared/issues/5832/validate-acip-native-receipts.rb`
 
 ## Read-Only Inputs
 
@@ -90,14 +89,17 @@ implementation files remain out of scope here.
 
 Deterministic lanes cover schema/catalog parity, protobuf/JSON round trips,
 golden compatibility fixtures, ordering, limits, unsupported versions,
-malformed frames, replay, and denied access.
-`adl/tools/validate_v092_acip_wss.sh` launches the production Guardian/kernel,
-uses the real Rustls endpoint, performs authenticated bidirectional binary and
-JSON exchanges, reconnects under backpressure, verifies trace/replay identity,
-and retains exact-revision transcript digests. It fails on fixture servers,
-plaintext, direct-kernel launch, zero exchanges, schema drift, or auth bypass.
+malformed frames, replay, and denied access. The issue-owned
+`acip_schema_roundtrip_negatives` test is the mandatory nonzero denominator for
+that lane.
+The `runtime_api_wss` production target launches the production
+Guardian/kernel, uses the real Rustls endpoint, performs authenticated
+bidirectional binary and JSON exchanges, reconnects under backpressure,
+verifies trace/replay identity, and retains exact-revision transcript digests.
+It fails on fixture servers, plaintext, direct-kernel launch, zero exchanges,
+schema drift, or auth bypass without adding a second shell-owned launch path.
 
-`adl/tools/validate_v092_acip_native_receipts.rb` requires distinct macOS,
+`.csdlc/prepared/issues/5832/validate-acip-native-receipts.rb` requires distinct macOS,
 Linux, and native Windows receipts bound to source revision, binary/schema
 digests, exact argv, runner identity, nonzero exchanges, negative-case counts,
 and output artifacts. Consumer rendering remains deferred to #5837.

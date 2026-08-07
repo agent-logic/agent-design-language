@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5837/diagram.mmd
 [
   {
     "lane": "shared-consumer-contract",
-    "proof_role": "Validate one schema, audience, ordering, reconnect, auth, and backpressure matrix plus redaction and denied actions for both clients.",
+    "proof_role": "Run the issue-owned nonzero shared consumer contract test for one schema, audience, ordering, reconnect, auth, backpressure, redaction, and denied actions across both clients.",
     "acceptance_ids": [
       "AC-1",
       "AC-4",
@@ -36,11 +36,18 @@ Diagram: .csdlc/prepared/issues/5837/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "bash",
-      "adl/tools/test_v0916_unity_observatory_contract.sh"
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "runtime_api_wss",
+      "--no-tests=fail",
+      "shared_consumer_contract"
     ],
     "parallel_group": "consumer-contract",
-    "defer_reason": null
+    "defer_reason": "The named nonzero test is an issue 5837 implementation deliverable in the explicitly owned runtime_api_wss test surface."
   },
   {
     "lane": "html-live-runtime",
@@ -69,7 +76,7 @@ Diagram: .csdlc/prepared/issues/5837/diagram.mmd
   },
   {
     "lane": "unity-live-runtime",
-    "proof_role": "Use the issue-delivered native entrypoint to launch the approved Unity Editor/player against the same Runtime revision and retain real reads, controls, denial, failure, and visual interaction evidence.",
+    "proof_role": "Use the issue-delivered native coordinator to launch the approved Unity Editor/player against the same Runtime revision and retain real reads, controls, denial, failure, and visual interaction evidence.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -81,14 +88,14 @@ Diagram: .csdlc/prepared/issues/5837/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "bash",
-      "adl/tools/validate_v092_unity_observatory_live.sh",
+      "ruby",
+      ".csdlc/prepared/issues/5837/validate-unity-observatory-live.rb",
       "--require-editor-player",
       "--require-live-runtime",
       "--require-visual-evidence"
     ],
     "parallel_group": "consumer-live",
-    "defer_reason": "The named validator is an issue 5837 implementation deliverable and requires the approved Unity version and native environment."
+    "defer_reason": "The named coordinator is an issue 5837 implementation deliverable and requires the approved Unity version and native environment."
   },
   {
     "lane": "guardian-restart-both-clients",
@@ -106,8 +113,8 @@ Diagram: .csdlc/prepared/issues/5837/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "bash",
-      "adl/tools/validate_v092_observatory_restart_reconnect.sh",
+      "node",
+      "adl/tools/validate_v092_observatory_restart_reconnect.mjs",
       "--clients",
       "html,unity",
       "--require-bounded-replay",
@@ -115,7 +122,7 @@ Diagram: .csdlc/prepared/issues/5837/diagram.mmd
       "--require-unchanged-authority"
     ],
     "parallel_group": "consumer-live",
-    "defer_reason": "The named validator is an issue 5837 implementation deliverable and requires both completed consumers and the exact Guardian/Runtime candidate."
+    "defer_reason": "The named coordinator is an issue 5837 implementation deliverable and requires both completed consumers and the exact Guardian/Runtime candidate."
   },
   {
     "lane": "exact-head-hygiene",
@@ -149,10 +156,10 @@ Tokens: 25000
 
 ## Commands
 
-- `bash adl/tools/test_v0916_unity_observatory_contract.sh`
+- `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss --no-tests=fail shared_consumer_contract`
 - `node adl/tools/validate_v092_html_observatory_live.mjs --browser chrome --require-live-runtime --require-authorized-control --require-denial-proof`
-- `bash adl/tools/validate_v092_unity_observatory_live.sh --require-editor-player --require-live-runtime --require-visual-evidence`
-- `bash adl/tools/validate_v092_observatory_restart_reconnect.sh --clients html,unity --require-bounded-replay --reject-duplicates --require-unchanged-authority`
+- `ruby .csdlc/prepared/issues/5837/validate-unity-observatory-live.rb --require-editor-player --require-live-runtime --require-visual-evidence`
+- `node adl/tools/validate_v092_observatory_restart_reconnect.mjs --clients html,unity --require-bounded-replay --reject-duplicates --require-unchanged-authority`
 - `git diff --check`
 
 ## Failure Semantics

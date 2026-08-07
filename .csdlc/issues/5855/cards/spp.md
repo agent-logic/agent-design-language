@@ -16,7 +16,7 @@ Verify the full child batch, route safe independent lanes to separate sessions, 
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -77,13 +77,13 @@ Revision 1
 
 .csdlc/prepared/issues/5855/design.md
 
-Digest: 14efc285fc7c301a47f421208ca999e55059c7610b4b35f6e4a73937eb6a8629
+Digest: d5fa7a5b5238ac65773c861a4ddd37e60d85600a156e3091ba8db78883b72d4e
 
 ## Diagram
 
 .csdlc/prepared/issues/5855/diagram.mmd
 
-Digest: 1b448f8fceeef8bc220530de9597b95cf405a2b2e2d8f15eb01194c067028c5c
+Digest: 143bcc094efbbc095712351c5619ccb059308940448052fe6e3b8e9a3f483904
 
 ## Stop Conditions
 

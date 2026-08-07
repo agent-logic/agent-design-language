@@ -1,0 +1,23 @@
+{
+  "issue": 5832,
+  "card": "spp",
+  "expected_generation": 40,
+  "expected_digest": "c485e211f5970d1769e9d6971591a9ec012f54aadb170fc62bd22e25334b96b6",
+  "actor": "codex:5855-final-readiness",
+  "reason": "Align WP-14 owned paths with the Runtime crate schema boundary and executable-direct production proof.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime/src/acip.rs",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl-runtime-kernel/src/acip.rs",
+      "adl-runtime-kernel/src/protocol_adapters.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl-runtime/schemas/acip/v1/acip.proto",
+      "adl-runtime/schemas/acip/v1/catalog.json",
+      "docs/api/runtime-v3/v1/acip.openapi.json",
+      ".csdlc/prepared/issues/5832/validate-acip-native-receipts.rb"
+    ]
+  }
+}

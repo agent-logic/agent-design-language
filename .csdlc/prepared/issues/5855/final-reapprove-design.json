@@ -1,0 +1,6 @@
+{
+  "issue": 5855,
+  "expected_generation": 0,
+  "expected_digest": "ad60fc0d2ac822c4164f6d9cbb95a36805f6e7887a8f961896a59a6dedf8d4ca",
+  "reviewer": "codex:5855-final-readiness"
+}

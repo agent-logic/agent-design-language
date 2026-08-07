@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6ef29c7a1f87d77504d438d2f3513062d5e22dd635a6f3c6f71424e2c76468f9",
   "phase": "initialized",
-  "generation": 29,
-  "digest": "50cb4b5114a5c6427d740ecb3d8152af5c60d53d5e6e38500d3ab5583a56276f",
+  "generation": 37,
+  "digest": "999d4ccbd09f81d20b398d729ef2698b4ecfae24354b01fbbfd5a13fc0a152df",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5837/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-v092-ownership-design-review",
-      "revision": "1d3852345f499a82f8dd3e3f1cf6812b20681a10f1a049035d2d9dd575c47b70"
+      "reviewer": "codex:5855-final-readiness-design-review",
+      "revision": "e427d7932e8473a8a155e111af526b720e2aeca4b0c2d83c971d4382ec5ba4b2"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "e552e69d86a2aac6e9e16715d5df38909b53ef42b26c2da6a44ed059b1369fb6",
-      "rendered_digest": "bbab24ffe9faf3355d4b33dfbc19144d00517bd8889f423e60483a7a3ca85fd9",
-      "ast_digest": "0fe16be119620129496b8cf01a2fe7977d963a7b0fd932211db3fb644ee64975"
+      "values_digest": "2ea92d7929434b75f5fd87e5c52218bd000e4663e2040f3334066fa417218861",
+      "rendered_digest": "1abdcd7f29d897554fc3d533993927794ffa2b6929674f1681b246205a742039",
+      "ast_digest": "ad974575ce442e37ffbc533d31920974ff0833ddf20d65dfbdefaef876f7dcb3"
     },
     "stp": {
-      "values_digest": "8f3722511724dd217dd98578fc4874605c0a692a0572b590407a151d12acd7ac",
+      "values_digest": "2ea6c344d5a2193d5f4c776a254f14a3b825e82f278cbb03747e49b3fe40eb34",
       "rendered_digest": "89a92d1719e4464a06de2a30eaf346d32e1ec097611a230a044878776ff4fd7d",
       "ast_digest": "4949958bceeea8511af36f6bfa70dcb6f46824e2ad83caf9d956e112686011ed"
     },
     "spp": {
-      "values_digest": "d429229cb973d596d24a00e58f2de1b3eecbc187f01ea8016b905de737e3deee",
-      "rendered_digest": "3907ad620d10734619e568c453156ad526682054ec2f1a3ed33b25e69c66fcd4",
-      "ast_digest": "bc0051a0a3daa4d8850a0453c24b6f7dcbe64dd8ff506b7b92eb8d7b770c89db"
+      "values_digest": "f2ce28edae34ba12a1ed9f5cf29034468d83f5459c356ea8ec5afda6467806bf",
+      "rendered_digest": "23ecb827f13fefa5d03e27a78a707e8bf56adcb838f2f919304e1c6ea5c3778f",
+      "ast_digest": "84e80ef6d31cd4020fe24ce78ffb30e80a43ac143de8d6267e579fc7927caadd"
     },
     "vpp": {
-      "values_digest": "d0ee90f198da4b9b86270862bdcc1626b8528f877e9fcaa8c05f7a18e69f753b",
-      "rendered_digest": "d33203b81b04a5239b8179ab1efb776cbc490a99bcd90e96b17f9301065b87be",
-      "ast_digest": "a20e2ed567a066d3be713390d5470d24ffd8cf8c4bfba7fe6c7c5b00aa84894d"
+      "values_digest": "85bf3a9a11eb69143a17396a2a00c4e5a873c25e3cdf4efe163c68afff1f6097",
+      "rendered_digest": "aea72fdb6e079e1f934c0079be17f76a11aa3e0e2c203ccfdfd7e6fccd6343aa",
+      "ast_digest": "75ac02e669b13ecfc71bf27f2f82bd229804516e30a0bdafdfbe54ba2cc75bc3"
     },
     "srp": {
-      "values_digest": "6695b637a297b4adf8fa5caa29abffb1784f62e1d842f633477d1e87dcd08e1a",
+      "values_digest": "a77882c5d97a4b9e567f453e6e8bf5be4e34c5ee404727673df55fcd18fbb6a8",
       "rendered_digest": "4a410e3fc919d32ef714e9727514d78b364d0e8f4a7ad3e40d0c63d97151921a",
       "ast_digest": "632f461a5bbba97888a8eb14bb652b0b7953cc2348818bd06367e9cc79bd6e9b"
     },
     "sor": {
-      "values_digest": "058365886c75fbe04fc3935790e51053cf0bc5af970d2fb9bfeb67e0f534b798",
+      "values_digest": "53782e217c1d0b7798a4f18d9a4fea8223aaf33ce0f4ab052c875e1ff170bf4f",
       "rendered_digest": "cd5d91a22977f1ce997fe7b2f496d6e9ee52629243f267790c4b7e51d366e13b",
       "ast_digest": "b26fb3458067490fe6011bc9fd74c3a3065bd6a94cdccb84aa3d3d23b8691158"
     }
@@ -378,6 +378,62 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 44,
+      "generation": 30,
+      "actor": "codex:5855-final-readiness",
+      "reason": "Use executable-direct consumer proving lanes so pre-execution readiness does not depend on missing shell wrappers.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"shared-consumer-contract\",\"proof_role\":\"Validate one schema, audience, ordering, reconnect, auth, and backpressure matrix plus redaction and denied actions for both clients.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\",\"shared_consumer_contract\"],\"parallel_group\":\"consumer-contract\",\"defer_reason\":null},{\"lane\":\"html-live-runtime\",\"proof_role\":\"Use the issue-delivered Playwright entrypoint to drive the real HTML Observatory over trusted Runtime HTTPS/WSS and retain read, authorized control, denial, stale, offline, and visible browser evidence.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"--browser\",\"chrome\",\"--require-live-runtime\",\"--require-authorized-control\",\"--require-denial-proof\"],\"parallel_group\":\"consumer-live\",\"defer_reason\":\"The named validator is an issue 5837 implementation deliverable and requires issue 5800 trust plus the exact Runtime candidate.\"},{\"lane\":\"unity-live-runtime\",\"proof_role\":\"Use the issue-delivered native coordinator to launch the approved Unity Editor/player against the same Runtime revision and retain real reads, controls, denial, failure, and visual interaction evidence.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5837/validate-unity-observatory-live.rb\",\"--require-editor-player\",\"--require-live-runtime\",\"--require-visual-evidence\"],\"parallel_group\":\"consumer-live\",\"defer_reason\":\"The named coordinator is an issue 5837 implementation deliverable and requires the approved Unity version and native environment.\"},{\"lane\":\"guardian-restart-both-clients\",\"proof_role\":\"Use the issue-delivered coordinator to keep both clients active across Guardian-owned Runtime restart and prove bounded replay, no duplicate application, fresh post-restart correlation, and unchanged authorization.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_observatory_restart_reconnect.mjs\",\"--clients\",\"html,unity\",\"--require-bounded-replay\",\"--reject-duplicates\",\"--require-unchanged-authority\"],\"parallel_group\":\"consumer-live\",\"defer_reason\":\"The named coordinator is an issue 5837 implementation deliverable and requires both completed consumers and the exact Guardian/Runtime candidate.\"},{\"lane\":\"exact-head-hygiene\",\"proof_role\":\"Reject unrelated changes and support exact-head review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 45,
+      "generation": 31,
+      "actor": "codex:5855-final-readiness-design-review",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 46,
+      "generation": 32,
+      "actor": "codex:5855-final-readiness",
+      "reason": "Align the consumer proof entrypoints with the executable-direct VPP design.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"demos/v0.91.6/unity-observatory/Assets/Scripts/RuntimeV3Client.cs\",\"demos/v0.91.6/unity-observatory/Assets/Resources/runtime-v3-contract.json\",\"demos/v0.91.6/unity-observatory/Assets/Tests/RuntimeV3ClientTests.cs\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\".csdlc/prepared/issues/5837/validate-unity-observatory-live.rb\",\"adl/tools/validate_v092_observatory_restart_reconnect.mjs\"]}"
+    },
+    {
+      "sequence": 47,
+      "generation": 33,
+      "actor": "codex:5855-final-readiness",
+      "reason": "Align the consumer owned paths with the executable-direct VPP design.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"demos/v0.91.6/unity-observatory/Assets/Scripts/RuntimeV3Client.cs\",\"demos/v0.91.6/unity-observatory/Assets/Resources/runtime-v3-contract.json\",\"demos/v0.91.6/unity-observatory/Assets/Tests/RuntimeV3ClientTests.cs\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\".csdlc/prepared/issues/5837/validate-unity-observatory-live.rb\",\"adl/tools/validate_v092_observatory_restart_reconnect.mjs\"]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 34,
+      "actor": "codex:5855-final-readiness-design-review",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 49,
+      "generation": 35,
+      "actor": "codex:5855-final-readiness",
+      "reason": "Use executable-direct consumer proving lanes so pre-execution readiness does not depend on missing shell wrappers.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"shared-consumer-contract\",\"proof_role\":\"Run the issue-owned nonzero shared consumer contract test for one schema, audience, ordering, reconnect, auth, backpressure, redaction, and denied actions across both clients.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\",\"--no-tests=fail\",\"shared_consumer_contract\"],\"parallel_group\":\"consumer-contract\",\"defer_reason\":\"The named nonzero test is an issue 5837 implementation deliverable in the explicitly owned runtime_api_wss test surface.\"},{\"lane\":\"html-live-runtime\",\"proof_role\":\"Use the issue-delivered Playwright entrypoint to drive the real HTML Observatory over trusted Runtime HTTPS/WSS and retain read, authorized control, denial, stale, offline, and visible browser evidence.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\"--browser\",\"chrome\",\"--require-live-runtime\",\"--require-authorized-control\",\"--require-denial-proof\"],\"parallel_group\":\"consumer-live\",\"defer_reason\":\"The named validator is an issue 5837 implementation deliverable and requires issue 5800 trust plus the exact Runtime candidate.\"},{\"lane\":\"unity-live-runtime\",\"proof_role\":\"Use the issue-delivered native coordinator to launch the approved Unity Editor/player against the same Runtime revision and retain real reads, controls, denial, failure, and visual interaction evidence.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5837/validate-unity-observatory-live.rb\",\"--require-editor-player\",\"--require-live-runtime\",\"--require-visual-evidence\"],\"parallel_group\":\"consumer-live\",\"defer_reason\":\"The named coordinator is an issue 5837 implementation deliverable and requires the approved Unity version and native environment.\"},{\"lane\":\"guardian-restart-both-clients\",\"proof_role\":\"Use the issue-delivered coordinator to keep both clients active across Guardian-owned Runtime restart and prove bounded replay, no duplicate application, fresh post-restart correlation, and unchanged authorization.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"node\",\"adl/tools/validate_v092_observatory_restart_reconnect.mjs\",\"--clients\",\"html,unity\",\"--require-bounded-replay\",\"--reject-duplicates\",\"--require-unchanged-authority\"],\"parallel_group\":\"consumer-live\",\"defer_reason\":\"The named coordinator is an issue 5837 implementation deliverable and requires both completed consumers and the exact Guardian/Runtime candidate.\"},{\"lane\":\"exact-head-hygiene\",\"proof_role\":\"Reject unrelated changes and support exact-head review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 50,
+      "generation": 36,
+      "actor": "codex:5855-final-readiness",
+      "reason": "Align the consumer proof entrypoints with the executable-direct VPP design.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"demos/v0.91.6/unity-observatory/Assets/Scripts/RuntimeV3Client.cs\",\"demos/v0.91.6/unity-observatory/Assets/Resources/runtime-v3-contract.json\",\"demos/v0.91.6/unity-observatory/Assets/Tests/RuntimeV3ClientTests.cs\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\".csdlc/prepared/issues/5837/validate-unity-observatory-live.rb\",\"adl/tools/validate_v092_observatory_restart_reconnect.mjs\"]}"
+    },
+    {
+      "sequence": 51,
+      "generation": 37,
+      "actor": "codex:5855-final-readiness",
+      "reason": "Align the consumer owned paths with the executable-direct VPP design.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"demos/v0.91.6/unity-observatory/Assets/Scripts/RuntimeV3Client.cs\",\"demos/v0.91.6/unity-observatory/Assets/Resources/runtime-v3-contract.json\",\"demos/v0.91.6/unity-observatory/Assets/Tests/RuntimeV3ClientTests.cs\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl/tools/validate_v092_html_observatory_live.mjs\",\".csdlc/prepared/issues/5837/validate-unity-observatory-live.rb\",\"adl/tools/validate_v092_observatory_restart_reconnect.mjs\"]}"
     }
   ]
 }
