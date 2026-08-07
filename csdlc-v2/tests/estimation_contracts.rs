@@ -536,6 +536,26 @@ fn cycle_comparison_derives_basis_gates_and_totals_from_verified_artifacts() {
     assert_eq!(comparison.status, CycleTimeComparisonStatus::Comparable);
     assert_eq!(comparison.elapsed_reduction_seconds, 3_600);
 
+    let same_elapsed_observation = rewrite_session_measurements(
+        &root,
+        &source_manifest(&root, 103),
+        "2026-08-06T06:00:00Z",
+        21_600,
+        1_000,
+        80_000,
+    );
+    let same_elapsed = write_json(
+        &root,
+        ".csdlc/evidence/99/same-elapsed.json",
+        &serde_json::to_value(cohort(same_elapsed_observation)).unwrap(),
+    );
+    let same_elapsed_comparison = compare_cycle_time(&root, &baseline, &same_elapsed).unwrap();
+    assert_eq!(
+        same_elapsed_comparison.status,
+        CycleTimeComparisonStatus::Comparable
+    );
+    assert_eq!(same_elapsed_comparison.elapsed_reduction_seconds, 0);
+
     fs::write(root.join(&candidate_session.reference), b"tampered\n").unwrap();
     assert!(compare_cycle_time(&root, &baseline, &candidate).is_err());
     let missing = ArtifactReference {

@@ -278,6 +278,7 @@ pub struct CalibrationCaseArtifacts {
 pub struct CycleTimeCohort {
     pub id: String,
     pub issue_count: usize,
+    pub elapsed_seconds: u64,
     pub active_work_seconds: u64,
     pub validation_seconds: u64,
     pub pr_lifecycle_seconds: u64,
@@ -1317,12 +1318,7 @@ fn optional_median(values: &mut [u64]) -> Option<u64> {
 }
 
 fn cohort_total(cohort: &CycleTimeCohort) -> u64 {
-    cohort
-        .active_work_seconds
-        .saturating_add(cohort.validation_seconds)
-        .saturating_add(cohort.pr_lifecycle_seconds)
-        .saturating_add(cohort.ci_seconds)
-        .saturating_add(cohort.wait_seconds)
+    cohort.elapsed_seconds
 }
 
 fn derive_cycle_cohort(root: &Path, source: CycleTimeEvidence) -> Result<CycleTimeCohort> {
@@ -1378,6 +1374,14 @@ fn derive_cycle_cohort(root: &Path, source: CycleTimeEvidence) -> Result<CycleTi
             .collect(),
         &mut unknown,
     );
+    let elapsed_seconds = sum(
+        "elapsed_seconds",
+        observations
+            .iter()
+            .map(|item| item.elapsed_seconds.value)
+            .collect(),
+        &mut unknown,
+    );
     let validation_seconds = sum(
         "validation_seconds",
         observations
@@ -1428,6 +1432,7 @@ fn derive_cycle_cohort(root: &Path, source: CycleTimeEvidence) -> Result<CycleTi
                 .join("-")
         ),
         issue_count: issue_ids.len(),
+        elapsed_seconds,
         active_work_seconds,
         validation_seconds,
         pr_lifecycle_seconds,
