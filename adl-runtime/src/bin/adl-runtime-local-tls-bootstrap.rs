@@ -1,13 +1,38 @@
-use std::{path::PathBuf, process::ExitCode};
+use std::{
+    collections::BTreeSet,
+    fs::{self, OpenOptions},
+    io::Write,
+    net::{IpAddr, Ipv4Addr, Ipv6Addr},
+    path::{Path, PathBuf},
+    process::ExitCode,
+};
 
-use adl_runtime::local_tls::{bootstrap_runtime_tls, LocalTlsError, RuntimeTlsBootstrapConfig};
-use serde::Serialize;
+#[cfg(target_os = "macos")]
+use std::process::Command;
+
+use adl_runtime::local_tls::{
+    bootstrap_runtime_tls, certificate_fingerprint_sha256, current_local_certificate_sha256,
+    reissue_runtime_tls_with_trust, LocalTlsError, LocalTlsTrustTransaction,
+    RuntimeTlsBootstrapConfig, RuntimeTlsBootstrapMode,
+};
+use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 const FAILURE_SCHEMA: &str = "adl.runtime_v3.local_tls_bootstrap.failure.v1";
+const TRUST_OUTCOME_SCHEMA: &str = "adl.runtime_v3.local_tls_trust.outcome.v1";
+#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
+const TRUST_RECEIPT_SCHEMA: &str = "adl.runtime_v3.local_tls_trust_receipt.v1";
+const TRUST_CLEANUP_SCHEMA: &str = "adl.runtime_v3.local_tls_cleanup_pending.v1";
+const TRUST_RECEIPTS_DIR: &str = "trust-receipts";
+const TRUST_CLEANUP_FILE: &str = "cleanup-pending.json";
 
 #[tokio::main]
 async fn main() -> ExitCode {
-    let args = match Args::parse(std::env::args().skip(1).collect()) {
+    run(std::env::args().skip(1).collect()).await
+}
+
+async fn run(raw_args: Vec<String>) -> ExitCode {
+    let args = match Args::parse(raw_args) {
         Ok(args) => args,
         Err(error) => {
             return emit_failure("parse_args", 64, "usage", error, None);
@@ -47,7 +72,8 @@ async fn main() -> ExitCode {
             );
         }
     };
-    match bootstrap_runtime_tls(&config).await {
+    let result = execute(&args, &config).await;
+    match result {
         Ok(outcome) => match serde_json::to_string_pretty(&outcome) {
             Ok(json) => {
                 println!("{json}");
@@ -62,13 +88,762 @@ async fn main() -> ExitCode {
             ),
         },
         Err(error) => emit_failure(
-            "bootstrap",
+            args.operation.stage(),
             75,
             local_tls_error_kind(&error),
             error.to_string(),
             Some(&args.config),
         ),
     }
+}
+
+async fn execute(
+    args: &Args,
+    config: &RuntimeTlsBootstrapConfig,
+) -> Result<CliOutcome, LocalTlsError> {
+    match args.operation {
+        Operation::Bootstrap => bootstrap_runtime_tls(config)
+            .await
+            .map(CliOutcome::Bootstrap),
+        Operation::TrustInstall => {
+            require_consent(args)?;
+            validate_supported_localhost_identity(config)?;
+            let outcome = bootstrap_runtime_tls(config).await?;
+            if !outcome.manifest_durable {
+                return Err(LocalTlsError::Io(
+                    "local TLS manifest durability is uncertain; refusing host trust mutation"
+                        .to_owned(),
+                ));
+            }
+            let certificate = outcome.public_certificate_path.as_ref().ok_or_else(|| {
+                LocalTlsError::Policy("local TLS public certificate is required".to_owned())
+            })?;
+            let mut trust = MacOsTrustTransaction::new(config, args)?;
+            let status = trust.install_current(certificate)?;
+            Ok(CliOutcome::Trust(TrustOutcome::new(
+                "trust_install",
+                status,
+                certificate,
+            )?))
+        }
+        Operation::TrustVerify => {
+            validate_supported_localhost_identity(config)?;
+            let outcome = bootstrap_runtime_tls(config).await?;
+            let certificate = outcome.public_certificate_path.as_ref().ok_or_else(|| {
+                LocalTlsError::Policy("local TLS public certificate is required".to_owned())
+            })?;
+            let trust = MacOsTrustTransaction::new(config, args)?;
+            trust.verify(certificate)?;
+            Ok(CliOutcome::Trust(TrustOutcome::new(
+                "trust_verify",
+                "trusted",
+                certificate,
+            )?))
+        }
+        Operation::Reissue => {
+            require_consent(args)?;
+            validate_supported_localhost_identity(config)?;
+            let mut trust = MacOsTrustTransaction::new(config, args)?;
+            if let Some(old_sha) = trust.read_cleanup_pending()? {
+                let current_sha = current_local_certificate_sha256(config)?.ok_or_else(|| {
+                    LocalTlsError::Policy(
+                        "cleanup recovery requires a committed local identity".to_owned(),
+                    )
+                })?;
+                if current_sha != old_sha {
+                    trust.remove_old_digest_if_owned(&old_sha)?;
+                    trust.clear_cleanup_pending()?;
+                    let outcome = bootstrap_runtime_tls(config).await?;
+                    let certificate =
+                        outcome.public_certificate_path.as_ref().ok_or_else(|| {
+                            LocalTlsError::Policy(
+                                "cleanup recovery requires a local TLS public certificate"
+                                    .to_owned(),
+                            )
+                        })?;
+                    return Ok(CliOutcome::Trust(TrustOutcome::new(
+                        "reissue",
+                        "cleanup_recovered",
+                        certificate,
+                    )?));
+                }
+                trust.remove_non_current_owned_receipts(&current_sha)?;
+                trust.clear_cleanup_pending()?;
+            }
+            let old_sha = current_local_certificate_sha256(config)?.ok_or_else(|| {
+                LocalTlsError::Policy(
+                    "reissue requires an existing committed local identity".to_owned(),
+                )
+            })?;
+            trust.write_cleanup_pending(&old_sha)?;
+            let outcome = reissue_runtime_tls_with_trust(config, &mut trust).await?;
+            let cleanup_pending_certificate_sha256 = if outcome.manifest_durable {
+                match trust.remove_old_digest_if_owned(&old_sha) {
+                    Ok(()) => {
+                        trust.clear_cleanup_pending()?;
+                        None
+                    }
+                    Err(_) => Some(old_sha),
+                }
+            } else {
+                Some(old_sha)
+            };
+            let certificate = outcome.public_certificate_path.as_ref().ok_or_else(|| {
+                LocalTlsError::Policy(
+                    "reissued local TLS public certificate is required".to_owned(),
+                )
+            })?;
+            Ok(CliOutcome::Trust(TrustOutcome::new_with_cleanup(
+                "reissue",
+                if cleanup_pending_certificate_sha256.is_some() {
+                    "trusted_cleanup_pending"
+                } else {
+                    "trusted"
+                },
+                certificate,
+                cleanup_pending_certificate_sha256,
+            )?))
+        }
+        Operation::TrustRemove => {
+            require_consent(args)?;
+            let digest = normalize_sha256(&match args.certificate_sha256.as_ref() {
+                Some(digest) => normalize_sha256(digest)?,
+                None => current_local_certificate_sha256(config)?.ok_or_else(|| {
+                    LocalTlsError::Policy("no committed local identity is available".to_owned())
+                })?,
+            })?;
+            let trust = MacOsTrustTransaction::new(config, args)?;
+            trust.remove_digest_if_owned(&digest)?;
+            Ok(CliOutcome::Trust(TrustOutcome {
+                schema: TRUST_OUTCOME_SCHEMA,
+                operation: "trust_remove",
+                status: "removed",
+                certificate_sha256: digest,
+                cleanup_pending_certificate_sha256: None,
+            }))
+        }
+    }
+}
+
+#[derive(Serialize)]
+#[serde(untagged)]
+enum CliOutcome {
+    Bootstrap(adl_runtime::local_tls::RuntimeTlsBootstrapOutcome),
+    Trust(TrustOutcome),
+}
+
+#[derive(Serialize)]
+struct TrustOutcome {
+    schema: &'static str,
+    operation: &'static str,
+    status: &'static str,
+    certificate_sha256: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    cleanup_pending_certificate_sha256: Option<String>,
+}
+
+impl TrustOutcome {
+    fn new(
+        operation: &'static str,
+        status: &'static str,
+        certificate: &Path,
+    ) -> Result<Self, LocalTlsError> {
+        Self::new_with_cleanup(operation, status, certificate, None)
+    }
+
+    fn new_with_cleanup(
+        operation: &'static str,
+        status: &'static str,
+        certificate: &Path,
+        cleanup_pending_certificate_sha256: Option<String>,
+    ) -> Result<Self, LocalTlsError> {
+        Ok(Self {
+            schema: TRUST_OUTCOME_SCHEMA,
+            operation,
+            status,
+            certificate_sha256: certificate_sha256(certificate)?,
+            cleanup_pending_certificate_sha256,
+        })
+    }
+}
+
+#[derive(Clone, Copy)]
+enum Operation {
+    Bootstrap,
+    TrustInstall,
+    TrustVerify,
+    Reissue,
+    TrustRemove,
+}
+
+impl Operation {
+    fn stage(self) -> &'static str {
+        match self {
+            Self::Bootstrap => "bootstrap",
+            Self::TrustInstall => "trust_install",
+            Self::TrustVerify => "trust_verify",
+            Self::Reissue => "reissue",
+            Self::TrustRemove => "trust_remove",
+        }
+    }
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
+struct TrustReceipt {
+    schema: String,
+    platform: String,
+    certificate_sha256: String,
+    trust_store_sha256: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct TrustCleanupPending {
+    schema: String,
+    certificate_sha256: String,
+    trust_store_sha256: String,
+}
+
+struct MacOsTrustTransaction {
+    trust_store: PathBuf,
+    receipt_root: PathBuf,
+    installed_candidate: Option<String>,
+}
+
+#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
+impl MacOsTrustTransaction {
+    fn new(config: &RuntimeTlsBootstrapConfig, args: &Args) -> Result<Self, LocalTlsError> {
+        let trust_store = args.trust_store.clone().ok_or_else(|| {
+            LocalTlsError::Policy("--trust-store is required for host trust operations".to_owned())
+        })?;
+        if !trust_store.is_absolute() || !trust_store.is_file() {
+            return Err(LocalTlsError::Policy(
+                "--trust-store must be an absolute existing macOS user keychain".to_owned(),
+            ));
+        }
+        let state_root = config.state_root.as_ref().ok_or_else(|| {
+            LocalTlsError::Policy("state_root is required for host trust operations".to_owned())
+        })?;
+        let tls_dir = config.tls_dir.as_ref().ok_or_else(|| {
+            LocalTlsError::Policy("tls_dir is required for host trust operations".to_owned())
+        })?;
+        if std::env::consts::OS != "macos" {
+            return Err(LocalTlsError::Trust(format!(
+                "native {} trust is blocked: issue 5800 implements and proves the macOS user-keychain path only",
+                std::env::consts::OS
+            )));
+        }
+        Ok(Self {
+            trust_store,
+            receipt_root: state_root.join(tls_dir).join(TRUST_RECEIPTS_DIR),
+            installed_candidate: None,
+        })
+    }
+
+    #[cfg(target_os = "macos")]
+    fn install_current(&mut self, certificate: &Path) -> Result<&'static str, LocalTlsError> {
+        if self.verify(certificate).is_ok() {
+            let digest = certificate_sha256(certificate)?;
+            return if self.authorize_removal(&digest).is_ok() {
+                Ok("already_trusted_owned")
+            } else {
+                Ok("already_trusted_external")
+            };
+        }
+        self.install_owned(certificate)?;
+        Ok("trusted")
+    }
+
+    #[cfg(target_os = "macos")]
+    fn install_owned(&mut self, certificate: &Path) -> Result<(), LocalTlsError> {
+        let digest = certificate_sha256(certificate)?;
+        if self.keychain_contains_digest(&digest)? {
+            self.authorize_removal(&digest).map_err(|_| {
+                LocalTlsError::Trust(
+                    "the candidate certificate already exists in the selected keychain without an issue-created receipt; refusing to modify unknown trust"
+                        .to_owned(),
+                )
+            })?;
+            if self.verify(certificate).is_ok() {
+                self.installed_candidate = Some(digest);
+                return Ok(());
+            }
+        } else {
+            self.write_receipt(&digest)?;
+        }
+        if let Err(error) = run_security([
+            "add-trusted-cert",
+            "-r",
+            "trustRoot",
+            "-p",
+            "ssl",
+            "-k",
+            path_text(&self.trust_store)?,
+            path_text(certificate)?,
+        ]) {
+            if self
+                .keychain_contains_digest(&digest)
+                .is_ok_and(|present| !present)
+            {
+                let _ = self.remove_receipt(&digest);
+            }
+            return Err(error);
+        }
+        if let Err(error) = self.verify(certificate) {
+            let rollback = self.delete_exact_digest(&digest);
+            return match rollback {
+                Ok(()) => {
+                    self.remove_receipt(&digest)?;
+                    Err(error)
+                }
+                Err(rollback_error) => Err(LocalTlsError::Trust(format!(
+                    "candidate trust verification failed ({error}); exact trust rollback also failed ({rollback_error})"
+                ))),
+            };
+        }
+        self.installed_candidate = Some(digest);
+        Ok(())
+    }
+
+    #[cfg(target_os = "macos")]
+    fn verify(&self, certificate: &Path) -> Result<(), LocalTlsError> {
+        run_security([
+            "verify-cert",
+            "-c",
+            path_text(certificate)?,
+            "-p",
+            "ssl",
+            "-s",
+            "localhost",
+            "-k",
+            path_text(&self.trust_store)?,
+        ])
+    }
+
+    #[cfg(target_os = "macos")]
+    fn remove_digest_if_owned(&self, digest: &str) -> Result<(), LocalTlsError> {
+        let digest = normalize_sha256(digest)?;
+        let receipt_path = self.receipt_path(&digest);
+        self.authorize_removal(&digest)?;
+        if self.keychain_contains_digest(&digest)? {
+            self.delete_exact_digest(&digest)?;
+        }
+        self.remove_receipt_path(&receipt_path)
+    }
+
+    fn authorize_removal(&self, digest: &str) -> Result<TrustReceipt, LocalTlsError> {
+        let digest = normalize_sha256(digest)?;
+        let bytes = fs::read(self.receipt_path(&digest)).map_err(|_| {
+            LocalTlsError::Trust(
+                "no issue-created trust receipt matches the requested certificate; refusing to delete unknown trust"
+                    .to_owned(),
+            )
+        })?;
+        let receipt: TrustReceipt = serde_json::from_slice(&bytes)
+            .map_err(|error| LocalTlsError::Trust(format!("invalid trust receipt: {error}")))?;
+        if receipt.schema != TRUST_RECEIPT_SCHEMA
+            || receipt.platform != "macos"
+            || receipt.certificate_sha256 != digest
+            || receipt.trust_store_sha256 != path_sha256(&self.trust_store)
+        {
+            return Err(LocalTlsError::Trust(
+                "trust receipt does not authorize removal from the selected keychain".to_owned(),
+            ));
+        }
+        Ok(receipt)
+    }
+
+    #[cfg(target_os = "macos")]
+    fn remove_old_digest_if_owned(&self, digest: &str) -> Result<(), LocalTlsError> {
+        let digest = normalize_sha256(digest)?;
+        if self.receipt_path(&digest).is_file() {
+            self.remove_digest_if_owned(&digest)
+        } else {
+            Ok(())
+        }
+    }
+
+    #[cfg(target_os = "macos")]
+    fn delete_exact_digest(&self, digest: &str) -> Result<(), LocalTlsError> {
+        run_security(delete_certificate_args(
+            digest,
+            path_text(&self.trust_store)?,
+        ))?;
+        if self.keychain_contains_digest(digest)? {
+            return Err(LocalTlsError::Trust(
+                "security did not remove the exact certificate and its trust settings".to_owned(),
+            ));
+        }
+        Ok(())
+    }
+
+    #[cfg(target_os = "macos")]
+    fn keychain_contains_digest(&self, digest: &str) -> Result<bool, LocalTlsError> {
+        let output = Command::new("/usr/bin/security")
+            .args(["find-certificate", "-a", "-Z"])
+            .arg(&self.trust_store)
+            .output()
+            .map_err(|error| LocalTlsError::Trust(format!("launch security failed: {error}")))?;
+        if !output.status.success() {
+            return Err(LocalTlsError::Trust(format!(
+                "security find-certificate failed with status {}",
+                output.status
+            )));
+        }
+        let stdout = String::from_utf8_lossy(&output.stdout).to_ascii_uppercase();
+        Ok(stdout.lines().any(|line| {
+            line.trim()
+                .strip_prefix("SHA-256 HASH: ")
+                .is_some_and(|observed| observed.trim() == digest)
+        }))
+    }
+
+    fn write_receipt(&self, digest: &str) -> Result<(), LocalTlsError> {
+        fs::create_dir_all(&self.receipt_root)
+            .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+        if self.receipt_path(digest).exists() {
+            self.authorize_removal(digest)?;
+            return sync_directory(&self.receipt_root);
+        }
+        let receipt = TrustReceipt {
+            schema: TRUST_RECEIPT_SCHEMA.to_owned(),
+            platform: "macos".to_owned(),
+            certificate_sha256: digest.to_owned(),
+            trust_store_sha256: path_sha256(&self.trust_store),
+        };
+        let target = self.receipt_path(digest);
+        let temporary = self
+            .receipt_root
+            .join(format!(".{digest}.{}.json.tmp", std::process::id()));
+        let mut options = OpenOptions::new();
+        options.create_new(true).write(true);
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::OpenOptionsExt;
+            options.mode(0o600);
+        }
+        let mut file = options
+            .open(&temporary)
+            .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+        file.write_all(
+            &serde_json::to_vec_pretty(&receipt)
+                .map_err(|error| LocalTlsError::Io(error.to_string()))?,
+        )
+        .and_then(|()| file.sync_all())
+        .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+        fs::rename(&temporary, &target).map_err(|error| {
+            let _ = fs::remove_file(&temporary);
+            LocalTlsError::Io(error.to_string())
+        })?;
+        sync_directory(&self.receipt_root)
+    }
+
+    #[cfg(target_os = "macos")]
+    fn remove_receipt(&self, digest: &str) -> Result<(), LocalTlsError> {
+        self.remove_receipt_path(&self.receipt_path(digest))
+    }
+
+    fn remove_receipt_path(&self, path: &Path) -> Result<(), LocalTlsError> {
+        match fs::remove_file(path) {
+            Ok(()) => sync_directory(&self.receipt_root),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+            Err(error) => Err(LocalTlsError::Io(error.to_string())),
+        }
+    }
+
+    fn receipt_path(&self, digest: &str) -> PathBuf {
+        self.receipt_root.join(format!("{digest}.json"))
+    }
+
+    fn cleanup_pending_path(&self) -> PathBuf {
+        self.receipt_root.join(TRUST_CLEANUP_FILE)
+    }
+
+    #[cfg(target_os = "macos")]
+    fn remove_non_current_owned_receipts(&self, current_digest: &str) -> Result<(), LocalTlsError> {
+        for digest in self.non_current_owned_receipts(current_digest)? {
+            self.remove_digest_if_owned(&digest)?;
+        }
+        Ok(())
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn install_current(&mut self, _certificate: &Path) -> Result<&'static str, LocalTlsError> {
+        unsupported_native_trust()
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn verify(&self, _certificate: &Path) -> Result<(), LocalTlsError> {
+        unsupported_native_trust()
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn remove_digest_if_owned(&self, _digest: &str) -> Result<(), LocalTlsError> {
+        unsupported_native_trust()
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn remove_old_digest_if_owned(&self, _digest: &str) -> Result<(), LocalTlsError> {
+        unsupported_native_trust()
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn remove_non_current_owned_receipts(
+        &self,
+        _current_digest: &str,
+    ) -> Result<(), LocalTlsError> {
+        unsupported_native_trust()
+    }
+
+    fn non_current_owned_receipts(
+        &self,
+        current_digest: &str,
+    ) -> Result<Vec<String>, LocalTlsError> {
+        let entries = match fs::read_dir(&self.receipt_root) {
+            Ok(entries) => entries,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
+            Err(error) => return Err(LocalTlsError::Io(error.to_string())),
+        };
+        let mut digests = Vec::new();
+        for entry in entries {
+            let entry = entry.map_err(|error| LocalTlsError::Io(error.to_string()))?;
+            let path = entry.path();
+            if path == self.cleanup_pending_path()
+                || path.extension().and_then(|value| value.to_str()) != Some("json")
+            {
+                continue;
+            }
+            let receipt: TrustReceipt = serde_json::from_slice(
+                &fs::read(&path).map_err(|error| LocalTlsError::Io(error.to_string()))?,
+            )
+            .map_err(|error| {
+                LocalTlsError::Trust(format!("trust receipt is malformed: {error}"))
+            })?;
+            let digest = normalize_sha256(&receipt.certificate_sha256)?;
+            self.authorize_removal(&digest)?;
+            if digest != current_digest {
+                digests.push(digest);
+            }
+        }
+        digests.sort();
+        digests.dedup();
+        Ok(digests)
+    }
+
+    fn write_cleanup_pending(&self, digest: &str) -> Result<(), LocalTlsError> {
+        fs::create_dir_all(&self.receipt_root)
+            .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+        let pending = TrustCleanupPending {
+            schema: TRUST_CLEANUP_SCHEMA.to_owned(),
+            certificate_sha256: normalize_sha256(digest)?,
+            trust_store_sha256: path_sha256(&self.trust_store),
+        };
+        write_json_atomically(
+            &self.receipt_root,
+            &self.cleanup_pending_path(),
+            &pending,
+            "cleanup-pending",
+        )
+    }
+
+    fn read_cleanup_pending(&self) -> Result<Option<String>, LocalTlsError> {
+        let path = self.cleanup_pending_path();
+        let bytes = match fs::read(&path) {
+            Ok(bytes) => bytes,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+            Err(error) => return Err(LocalTlsError::Io(error.to_string())),
+        };
+        let pending: TrustCleanupPending = serde_json::from_slice(&bytes).map_err(|error| {
+            LocalTlsError::Trust(format!("cleanup-pending journal is malformed: {error}"))
+        })?;
+        if pending.schema != TRUST_CLEANUP_SCHEMA
+            || pending.trust_store_sha256 != path_sha256(&self.trust_store)
+        {
+            return Err(LocalTlsError::Trust(
+                "cleanup-pending journal does not authorize this keychain".to_owned(),
+            ));
+        }
+        normalize_sha256(&pending.certificate_sha256).map(Some)
+    }
+
+    fn clear_cleanup_pending(&self) -> Result<(), LocalTlsError> {
+        self.remove_receipt_path(&self.cleanup_pending_path())
+    }
+}
+
+fn write_json_atomically<T: Serialize>(
+    directory: &Path,
+    target: &Path,
+    value: &T,
+    label: &str,
+) -> Result<(), LocalTlsError> {
+    let temporary = directory.join(format!(
+        ".{label}.{}.{}.json.tmp",
+        std::process::id(),
+        unique_nonce()
+    ));
+    let mut options = OpenOptions::new();
+    options.create_new(true).write(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        options.mode(0o600);
+    }
+    let mut file = options
+        .open(&temporary)
+        .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    file.write_all(
+        &serde_json::to_vec_pretty(value).map_err(|error| LocalTlsError::Io(error.to_string()))?,
+    )
+    .and_then(|()| file.sync_all())
+    .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    fs::rename(&temporary, target).map_err(|error| {
+        let _ = fs::remove_file(&temporary);
+        LocalTlsError::Io(error.to_string())
+    })?;
+    sync_directory(directory)
+}
+
+fn unique_nonce() -> u128 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|duration| duration.as_nanos())
+        .unwrap_or_default()
+}
+
+fn sync_directory(path: &Path) -> Result<(), LocalTlsError> {
+    fs::File::open(path)
+        .and_then(|directory| directory.sync_all())
+        .map_err(|error| LocalTlsError::Io(error.to_string()))
+}
+
+#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
+fn delete_certificate_args<'a>(digest: &'a str, trust_store: &'a str) -> [&'a str; 5] {
+    ["delete-certificate", "-t", "-Z", digest, trust_store]
+}
+
+impl LocalTlsTrustTransaction for MacOsTrustTransaction {
+    #[cfg(target_os = "macos")]
+    fn install_and_verify(&mut self, candidate_certificate: &Path) -> Result<(), LocalTlsError> {
+        self.install_owned(candidate_certificate)
+    }
+
+    #[cfg(target_os = "macos")]
+    fn rollback_candidate(&mut self, _candidate_certificate: &Path) -> Result<(), LocalTlsError> {
+        let digest = self.installed_candidate.take().ok_or_else(|| {
+            LocalTlsError::Trust("candidate trust rollback had no owned receipt".to_owned())
+        })?;
+        self.remove_digest_if_owned(&digest)
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn install_and_verify(&mut self, _candidate_certificate: &Path) -> Result<(), LocalTlsError> {
+        unsupported_native_trust()
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn rollback_candidate(&mut self, _candidate_certificate: &Path) -> Result<(), LocalTlsError> {
+        unsupported_native_trust()
+    }
+}
+
+#[cfg(target_os = "macos")]
+fn run_security<const N: usize>(args: [&str; N]) -> Result<(), LocalTlsError> {
+    let output = Command::new("/usr/bin/security")
+        .args(args)
+        .output()
+        .map_err(|error| LocalTlsError::Trust(format!("launch security failed: {error}")))?;
+    if output.status.success() {
+        Ok(())
+    } else {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        let detail = stderr.trim();
+        Err(LocalTlsError::Trust(format!(
+            "security command failed with status {}{}",
+            output.status,
+            if detail.is_empty() {
+                String::new()
+            } else {
+                format!(": {detail}")
+            }
+        )))
+    }
+}
+
+#[cfg(not(target_os = "macos"))]
+fn unsupported_native_trust<T>() -> Result<T, LocalTlsError> {
+    Err(LocalTlsError::Trust(format!(
+        "native {} trust is blocked: issue 5800 implements and proves the macOS user-keychain path only",
+        std::env::consts::OS
+    )))
+}
+
+fn validate_supported_localhost_identity(
+    config: &RuntimeTlsBootstrapConfig,
+) -> Result<(), LocalTlsError> {
+    if config.mode != RuntimeTlsBootstrapMode::LocalSelfSigned {
+        return Err(LocalTlsError::Policy(
+            "host trust operations require local_self_signed TLS".to_owned(),
+        ));
+    }
+    let dns = config
+        .dns_names
+        .iter()
+        .map(|name| name.to_ascii_lowercase())
+        .collect::<BTreeSet<_>>();
+    let ips = config.ip_addresses.iter().copied().collect::<BTreeSet<_>>();
+    if dns != BTreeSet::from(["localhost".to_owned()])
+        || ips
+            != BTreeSet::from([
+                IpAddr::V4(Ipv4Addr::LOCALHOST),
+                IpAddr::V6(Ipv6Addr::LOCALHOST),
+            ])
+    {
+        return Err(LocalTlsError::Policy(
+            "the supported browser-trusted identity requires exactly localhost, 127.0.0.1, and ::1 SANs"
+                .to_owned(),
+        ));
+    }
+    Ok(())
+}
+
+fn require_consent(args: &Args) -> Result<(), LocalTlsError> {
+    if args.consent_host_trust {
+        Ok(())
+    } else {
+        Err(LocalTlsError::Policy(
+            "host trust mutation requires --consent-host-trust".to_owned(),
+        ))
+    }
+}
+
+fn certificate_sha256(path: &Path) -> Result<String, LocalTlsError> {
+    certificate_fingerprint_sha256(path)
+}
+
+fn path_sha256(path: &Path) -> String {
+    hex::encode_upper(Sha256::digest(
+        path.as_os_str().to_string_lossy().as_bytes(),
+    ))
+}
+
+fn normalize_sha256(digest: &str) -> Result<String, LocalTlsError> {
+    let normalized = digest.trim().to_ascii_uppercase();
+    if normalized.len() == 64 && normalized.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        Ok(normalized)
+    } else {
+        Err(LocalTlsError::Policy(
+            "certificate SHA-256 must be exactly 64 hexadecimal characters".to_owned(),
+        ))
+    }
+}
+
+#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
+fn path_text(path: &Path) -> Result<&str, LocalTlsError> {
+    path.to_str()
+        .ok_or_else(|| LocalTlsError::Policy("host trust path must be UTF-8".to_owned()))
 }
 
 #[derive(Serialize)]
@@ -124,16 +899,25 @@ fn local_tls_error_kind(error: &LocalTlsError) -> &'static str {
         LocalTlsError::Io(_) => "io",
         LocalTlsError::Generate(_) => "generate",
         LocalTlsError::Rustls(_) => "rustls",
+        LocalTlsError::Trust(_) => "trust",
     }
 }
 
 struct Args {
     config: PathBuf,
+    operation: Operation,
+    consent_host_trust: bool,
+    trust_store: Option<PathBuf>,
+    certificate_sha256: Option<String>,
 }
 
 impl Args {
     fn parse(args: Vec<String>) -> Result<Self, String> {
         let mut config = None;
+        let mut operation = Operation::Bootstrap;
+        let mut consent_host_trust = false;
+        let mut trust_store = None;
+        let mut certificate_sha256 = None;
         let mut iter = args.into_iter();
         while let Some(arg) = iter.next() {
             match arg.as_str() {
@@ -143,10 +927,36 @@ impl Args {
                         .ok_or_else(|| "--config requires a path".to_owned())?;
                     config = Some(PathBuf::from(value));
                 }
+                "--operation" => {
+                    operation = match iter
+                        .next()
+                        .ok_or_else(|| "--operation requires a value".to_owned())?
+                        .as_str()
+                    {
+                        "bootstrap" => Operation::Bootstrap,
+                        "trust-install" => Operation::TrustInstall,
+                        "trust-verify" => Operation::TrustVerify,
+                        "reissue" => Operation::Reissue,
+                        "trust-remove" => Operation::TrustRemove,
+                        value => return Err(format!("unsupported --operation: {value}")),
+                    };
+                }
+                "--consent-host-trust" => consent_host_trust = true,
+                "--trust-store" => {
+                    trust_store = Some(PathBuf::from(
+                        iter.next()
+                            .ok_or_else(|| "--trust-store requires a path".to_owned())?,
+                    ));
+                }
+                "--certificate-sha256" => {
+                    certificate_sha256 = Some(
+                        iter.next()
+                            .ok_or_else(|| "--certificate-sha256 requires a digest".to_owned())?,
+                    );
+                }
                 "--help" | "-h" => {
                     return Err(
-                        "Usage: adl-runtime-local-tls-bootstrap --config <config.toml|config.json>"
-                            .to_owned(),
+                        "Usage: adl-runtime-local-tls-bootstrap --config <config.toml|config.json> [--operation bootstrap|trust-install|trust-verify|reissue|trust-remove] [--consent-host-trust] [--trust-store <absolute-user-keychain>] [--certificate-sha256 <digest>]".to_owned(),
                     );
                 }
                 _ => return Err(format!("unknown argument: {arg}")),
@@ -154,6 +964,10 @@ impl Args {
         }
         Ok(Self {
             config: config.ok_or_else(|| "--config is required".to_owned())?,
+            operation,
+            consent_host_trust,
+            trust_store,
+            certificate_sha256,
         })
     }
 }
@@ -161,6 +975,8 @@ impl Args {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    const DIGEST: &str = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 
     #[test]
     fn failure_payload_is_machine_readable_json() {
@@ -178,5 +994,518 @@ mod tests {
         assert_eq!(parsed["exit_code"], 75);
         assert_eq!(parsed["error_kind"], "policy");
         assert_eq!(parsed["config_path"], "config.toml");
+    }
+
+    #[test]
+    fn trust_operations_parse_and_report_distinct_stages() {
+        for (name, stage) in [
+            ("bootstrap", "bootstrap"),
+            ("trust-install", "trust_install"),
+            ("trust-verify", "trust_verify"),
+            ("reissue", "reissue"),
+            ("trust-remove", "trust_remove"),
+        ] {
+            let args = Args::parse(vec![
+                "--config".to_owned(),
+                "config.toml".to_owned(),
+                "--operation".to_owned(),
+                name.to_owned(),
+            ])
+            .unwrap();
+            assert_eq!(args.operation.stage(), stage);
+        }
+    }
+
+    #[test]
+    fn host_trust_mutation_requires_explicit_consent() {
+        let denied = Args::parse(vec![
+            "--config".to_owned(),
+            "config.toml".to_owned(),
+            "--operation".to_owned(),
+            "trust-install".to_owned(),
+        ])
+        .unwrap();
+        assert!(require_consent(&denied).is_err());
+
+        let allowed = Args::parse(vec![
+            "--config".to_owned(),
+            "config.toml".to_owned(),
+            "--operation".to_owned(),
+            "trust-install".to_owned(),
+            "--consent-host-trust".to_owned(),
+        ])
+        .unwrap();
+        assert!(require_consent(&allowed).is_ok());
+    }
+
+    #[test]
+    fn trusted_identity_requires_exact_localhost_sans() {
+        let temp = tempfile::tempdir().unwrap();
+        let config = localhost_config(temp.path().to_path_buf());
+        assert!(validate_supported_localhost_identity(&config).is_ok());
+
+        let mut missing_ipv6 = config.clone();
+        missing_ipv6.ip_addresses.pop();
+        assert!(validate_supported_localhost_identity(&missing_ipv6).is_err());
+
+        let mut widened = config;
+        widened.dns_names.push("runtime.local".to_owned());
+        assert!(validate_supported_localhost_identity(&widened).is_err());
+    }
+
+    #[test]
+    fn sha256_normalization_rejects_non_exact_digests() {
+        assert_eq!(
+            normalize_sha256(&DIGEST.to_ascii_lowercase()).unwrap(),
+            DIGEST
+        );
+        assert!(normalize_sha256("AA").is_err());
+        assert!(normalize_sha256(&"G".repeat(64)).is_err());
+    }
+
+    #[test]
+    fn deletion_targets_exact_fingerprint_and_removes_trust_settings() {
+        assert_eq!(
+            delete_certificate_args(DIGEST, "/Volumes/FastWork/test.keychain-db"),
+            [
+                "delete-certificate",
+                "-t",
+                "-Z",
+                DIGEST,
+                "/Volumes/FastWork/test.keychain-db",
+            ]
+        );
+    }
+
+    #[tokio::test]
+    async fn committed_reissue_can_report_retryable_old_trust_cleanup() {
+        let temp = tempfile::tempdir().unwrap();
+        let outcome = bootstrap_runtime_tls(&localhost_config(temp.path().to_path_buf()))
+            .await
+            .unwrap();
+        let certificate = outcome.public_certificate_path.unwrap();
+        let outcome = TrustOutcome::new_with_cleanup(
+            "reissue",
+            "trusted_cleanup_pending",
+            &certificate,
+            Some(DIGEST.to_owned()),
+        )
+        .unwrap();
+        let value = serde_json::to_value(outcome).unwrap();
+        assert_eq!(value["status"], "trusted_cleanup_pending");
+        assert_eq!(value["cleanup_pending_certificate_sha256"], DIGEST);
+    }
+
+    #[tokio::test]
+    async fn execute_bootstrap_and_trust_paths_are_fail_closed() {
+        let temp = tempfile::tempdir().unwrap();
+        let config = localhost_config(temp.path().to_path_buf());
+        let bootstrap = Args::parse(vec!["--config".to_owned(), "config.toml".to_owned()]).unwrap();
+        assert!(matches!(
+            execute(&bootstrap, &config).await.unwrap(),
+            CliOutcome::Bootstrap(_)
+        ));
+
+        let no_consent = Args::parse(vec![
+            "--config".to_owned(),
+            "config.toml".to_owned(),
+            "--operation".to_owned(),
+            "trust-install".to_owned(),
+        ])
+        .unwrap();
+        assert!(matches!(
+            execute(&no_consent, &config).await,
+            Err(LocalTlsError::Policy(_))
+        ));
+
+        let missing_store = Args::parse(vec![
+            "--config".to_owned(),
+            "config.toml".to_owned(),
+            "--operation".to_owned(),
+            "trust-verify".to_owned(),
+        ])
+        .unwrap();
+        assert!(execute(&missing_store, &config).await.is_err());
+
+        for operation in ["trust-install", "trust-verify", "reissue", "trust-remove"] {
+            let keychain = temp.path().join("test.keychain-db");
+            fs::write(&keychain, b"not a keychain").unwrap();
+            let mut raw = vec![
+                "--config".to_owned(),
+                "config.toml".to_owned(),
+                "--operation".to_owned(),
+                operation.to_owned(),
+                "--trust-store".to_owned(),
+                keychain.to_string_lossy().into_owned(),
+                "--consent-host-trust".to_owned(),
+            ];
+            if operation == "trust-remove" {
+                raw.extend(["--certificate-sha256".to_owned(), DIGEST.to_owned()]);
+            }
+            let args = Args::parse(raw).unwrap();
+            assert!(execute(&args, &config).await.is_err(), "{operation}");
+        }
+
+        let remove_without_identity = Args::parse(vec![
+            "--config".to_owned(),
+            "config.toml".to_owned(),
+            "--operation".to_owned(),
+            "trust-remove".to_owned(),
+            "--consent-host-trust".to_owned(),
+        ])
+        .unwrap();
+        let empty_config = localhost_config(temp.path().join("empty"));
+        assert!(matches!(
+            execute(&remove_without_identity, &empty_config).await,
+            Err(LocalTlsError::Policy(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn run_reports_parse_read_config_and_config_errors_then_bootstraps() {
+        let missing_args = run(Vec::new()).await;
+        assert_ne!(missing_args, ExitCode::SUCCESS);
+
+        let temp = tempfile::tempdir().unwrap();
+        let missing_path = temp.path().join("missing.toml");
+        let missing_config = run(vec![
+            "--config".to_owned(),
+            missing_path.to_string_lossy().into_owned(),
+        ])
+        .await;
+        assert_ne!(missing_config, ExitCode::SUCCESS);
+
+        let invalid_path = temp.path().join("invalid.json");
+        fs::write(&invalid_path, b"{}").unwrap();
+        let invalid_config = run(vec![
+            "--config".to_owned(),
+            invalid_path.to_string_lossy().into_owned(),
+        ])
+        .await;
+        assert_ne!(invalid_config, ExitCode::SUCCESS);
+
+        let config_path = temp.path().join("local.toml");
+        fs::write(
+            &config_path,
+            toml::to_string(&localhost_config(temp.path().to_path_buf())).unwrap(),
+        )
+        .unwrap();
+        let success = run(vec![
+            "--config".to_owned(),
+            config_path.to_string_lossy().into_owned(),
+        ])
+        .await;
+        assert_eq!(success, ExitCode::SUCCESS);
+
+        let json_path = temp.path().join("local.json");
+        fs::write(
+            &json_path,
+            serde_json::to_vec(&localhost_config(temp.path().join("json"))).unwrap(),
+        )
+        .unwrap();
+        let json_success = run(vec![
+            "--config".to_owned(),
+            json_path.to_string_lossy().into_owned(),
+        ])
+        .await;
+        assert_eq!(json_success, ExitCode::SUCCESS);
+    }
+
+    #[test]
+    fn trusted_identity_rejects_managed_external_mode() {
+        let temp = tempfile::tempdir().unwrap();
+        let mut config = localhost_config(temp.path().to_path_buf());
+        config.mode = RuntimeTlsBootstrapMode::ManagedExternal;
+        assert!(matches!(
+            validate_supported_localhost_identity(&config),
+            Err(LocalTlsError::Policy(_))
+        ));
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn trust_transaction_requires_exact_existing_keychain_and_state_paths() {
+        let temp = tempfile::tempdir().unwrap();
+        let keychain = temp.path().join("test.keychain-db");
+        fs::write(&keychain, b"test").unwrap();
+        let args = Args {
+            config: PathBuf::from("config.toml"),
+            operation: Operation::TrustVerify,
+            consent_host_trust: false,
+            trust_store: Some(keychain.clone()),
+            certificate_sha256: None,
+        };
+
+        let mut relative = args_for_store(PathBuf::from("relative.keychain-db"));
+        assert!(matches!(
+            MacOsTrustTransaction::new(&localhost_config(temp.path().to_path_buf()), &relative),
+            Err(LocalTlsError::Policy(_))
+        ));
+        relative.trust_store = Some(temp.path().join("missing.keychain-db"));
+        assert!(matches!(
+            MacOsTrustTransaction::new(&localhost_config(temp.path().to_path_buf()), &relative),
+            Err(LocalTlsError::Policy(_))
+        ));
+
+        let mut no_state = localhost_config(temp.path().to_path_buf());
+        no_state.state_root = None;
+        assert!(matches!(
+            MacOsTrustTransaction::new(&no_state, &args),
+            Err(LocalTlsError::Policy(_))
+        ));
+        let mut no_tls_dir = localhost_config(temp.path().to_path_buf());
+        no_tls_dir.tls_dir = None;
+        assert!(matches!(
+            MacOsTrustTransaction::new(&no_tls_dir, &args),
+            Err(LocalTlsError::Policy(_))
+        ));
+
+        let transaction =
+            MacOsTrustTransaction::new(&localhost_config(temp.path().to_path_buf()), &args)
+                .unwrap();
+        assert_eq!(transaction.trust_store, keychain);
+    }
+
+    #[cfg(target_os = "macos")]
+    fn args_for_store(path: PathBuf) -> Args {
+        Args {
+            config: PathBuf::from("config.toml"),
+            operation: Operation::TrustVerify,
+            consent_host_trust: false,
+            trust_store: Some(path),
+            certificate_sha256: None,
+        }
+    }
+
+    #[test]
+    fn trust_outcome_new_hashes_the_certificate() {
+        let temp = tempfile::tempdir().unwrap();
+        let runtime = tokio::runtime::Runtime::new().unwrap();
+        let outcome = runtime
+            .block_on(bootstrap_runtime_tls(&localhost_config(
+                temp.path().to_path_buf(),
+            )))
+            .unwrap();
+        let certificate = outcome.public_certificate_path.unwrap();
+        let trust = TrustOutcome::new("trust_verify", "trusted", &certificate).unwrap();
+        assert_eq!(trust.operation, "trust_verify");
+        assert_eq!(trust.status, "trusted");
+        assert_eq!(
+            trust.certificate_sha256,
+            certificate_sha256(&certificate).unwrap()
+        );
+    }
+
+    #[test]
+    fn error_kinds_cover_every_local_tls_failure_class() {
+        let errors = [
+            LocalTlsError::UnsupportedSchema("old".to_owned()),
+            LocalTlsError::Config("config".to_owned()),
+            LocalTlsError::Policy("policy".to_owned()),
+            LocalTlsError::LockBusy,
+            LocalTlsError::Io("io".to_owned()),
+            LocalTlsError::Generate("generate".to_owned()),
+            LocalTlsError::Rustls("rustls".to_owned()),
+            LocalTlsError::Trust("trust".to_owned()),
+        ];
+        for error in errors {
+            assert!(!local_tls_error_kind(&error).is_empty());
+        }
+    }
+
+    #[test]
+    fn argument_parser_rejects_incomplete_and_unknown_inputs() {
+        for args in [
+            vec!["--config".to_owned()],
+            vec!["--operation".to_owned()],
+            vec!["--operation".to_owned(), "unknown".to_owned()],
+            vec!["--trust-store".to_owned()],
+            vec!["--certificate-sha256".to_owned()],
+            vec!["--unknown".to_owned()],
+            vec!["--help".to_owned()],
+        ] {
+            assert!(Args::parse(args).is_err());
+        }
+    }
+
+    #[test]
+    fn journal_rejects_wrong_keychain_and_malformed_content() {
+        let temp = tempfile::tempdir().unwrap();
+        let transaction = fake_transaction(temp.path());
+        fs::create_dir_all(&transaction.receipt_root).unwrap();
+        fs::write(transaction.cleanup_pending_path(), b"not json").unwrap();
+        assert!(matches!(
+            transaction.read_cleanup_pending(),
+            Err(LocalTlsError::Trust(_))
+        ));
+
+        let pending = TrustCleanupPending {
+            schema: TRUST_CLEANUP_SCHEMA.to_owned(),
+            certificate_sha256: DIGEST.to_owned(),
+            trust_store_sha256: "B".repeat(64),
+        };
+        fs::write(
+            transaction.cleanup_pending_path(),
+            serde_json::to_vec(&pending).unwrap(),
+        )
+        .unwrap();
+        assert!(matches!(
+            transaction.read_cleanup_pending(),
+            Err(LocalTlsError::Trust(_))
+        ));
+    }
+
+    #[test]
+    fn receipt_scanner_ignores_non_receipts_and_rejects_malformed_receipts() {
+        let temp = tempfile::tempdir().unwrap();
+        let transaction = fake_transaction(temp.path());
+        fs::create_dir_all(&transaction.receipt_root).unwrap();
+        fs::write(transaction.receipt_root.join("notes.txt"), b"ignored").unwrap();
+        assert!(transaction
+            .non_current_owned_receipts(DIGEST)
+            .unwrap()
+            .is_empty());
+
+        fs::write(transaction.receipt_path(DIGEST), b"not json").unwrap();
+        assert!(matches!(
+            transaction.non_current_owned_receipts(&"B".repeat(64)),
+            Err(LocalTlsError::Trust(_))
+        ));
+    }
+
+    #[test]
+    fn receipt_authorization_rejects_absent_and_malformed_receipts() {
+        let temp = tempfile::tempdir().unwrap();
+        let transaction = fake_transaction(temp.path());
+        assert!(transaction.authorize_removal(DIGEST).is_err());
+
+        fs::create_dir_all(&transaction.receipt_root).unwrap();
+        fs::write(transaction.receipt_path(DIGEST), b"not json").unwrap();
+        assert!(transaction.authorize_removal(DIGEST).is_err());
+    }
+
+    #[test]
+    fn receipt_authorization_rejects_wrong_certificate_or_keychain() {
+        let temp = tempfile::tempdir().unwrap();
+        let transaction = fake_transaction(temp.path());
+        fs::create_dir_all(&transaction.receipt_root).unwrap();
+        write_test_receipt(
+            &transaction,
+            DIGEST,
+            &"B".repeat(64),
+            &path_sha256(&transaction.trust_store),
+        );
+        assert!(transaction.authorize_removal(DIGEST).is_err());
+
+        write_test_receipt(&transaction, DIGEST, DIGEST, &"C".repeat(64));
+        assert!(transaction.authorize_removal(DIGEST).is_err());
+    }
+
+    #[test]
+    fn receipt_authorization_accepts_exact_owned_identity_without_keychain_mutation() {
+        let temp = tempfile::tempdir().unwrap();
+        let transaction = fake_transaction(temp.path());
+        transaction.write_receipt(DIGEST).unwrap();
+
+        let receipt = transaction.authorize_removal(DIGEST).unwrap();
+
+        assert_eq!(receipt.certificate_sha256, DIGEST);
+        assert_eq!(
+            receipt.trust_store_sha256,
+            path_sha256(&transaction.trust_store)
+        );
+    }
+
+    #[test]
+    fn ownership_receipt_is_idempotent_and_leaves_no_temporary_file() {
+        let temp = tempfile::tempdir().unwrap();
+        let transaction = fake_transaction(temp.path());
+
+        transaction.write_receipt(DIGEST).unwrap();
+        transaction.write_receipt(DIGEST).unwrap();
+
+        assert!(transaction.receipt_path(DIGEST).is_file());
+        assert_eq!(fs::read_dir(&transaction.receipt_root).unwrap().count(), 1);
+        transaction.authorize_removal(DIGEST).unwrap();
+    }
+
+    #[test]
+    fn cleanup_pending_journal_is_durable_idempotent_and_keychain_bound() {
+        let temp = tempfile::tempdir().unwrap();
+        let transaction = fake_transaction(temp.path());
+
+        transaction.write_cleanup_pending(DIGEST).unwrap();
+        transaction.write_cleanup_pending(DIGEST).unwrap();
+        assert_eq!(
+            transaction.read_cleanup_pending().unwrap().as_deref(),
+            Some(DIGEST)
+        );
+        assert!(transaction.cleanup_pending_path().is_file());
+
+        transaction.clear_cleanup_pending().unwrap();
+        transaction.clear_cleanup_pending().unwrap();
+        assert_eq!(transaction.read_cleanup_pending().unwrap(), None);
+    }
+
+    #[test]
+    fn recovery_selects_only_non_current_owned_certificate_receipts() {
+        const CANDIDATE: &str = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
+        let temp = tempfile::tempdir().unwrap();
+        let transaction = fake_transaction(temp.path());
+
+        transaction.write_receipt(DIGEST).unwrap();
+        transaction.write_receipt(CANDIDATE).unwrap();
+
+        assert_eq!(
+            transaction.non_current_owned_receipts(DIGEST).unwrap(),
+            vec![CANDIDATE.to_owned()]
+        );
+    }
+
+    fn localhost_config(state_root: PathBuf) -> RuntimeTlsBootstrapConfig {
+        RuntimeTlsBootstrapConfig {
+            schema: adl_runtime::local_tls::LOCAL_TLS_BOOTSTRAP_SCHEMA.to_owned(),
+            mode: RuntimeTlsBootstrapMode::LocalSelfSigned,
+            state_root: Some(state_root),
+            tls_dir: Some(PathBuf::from("runtime-tls")),
+            certificate_chain_path: PathBuf::from("localhost-chain.pem"),
+            public_certificate_path: Some(PathBuf::from("localhost-public.pem")),
+            private_key_path: PathBuf::from("localhost-key.pem"),
+            dns_names: vec!["localhost".to_owned()],
+            ip_addresses: vec![
+                IpAddr::V4(Ipv4Addr::LOCALHOST),
+                IpAddr::V6(Ipv6Addr::LOCALHOST),
+            ],
+            replace: false,
+        }
+    }
+
+    fn fake_transaction(root: &Path) -> MacOsTrustTransaction {
+        let trust_store = root.join("login.keychain-db");
+        fs::write(&trust_store, b"test keychain placeholder").unwrap();
+        MacOsTrustTransaction {
+            trust_store,
+            receipt_root: root.join(TRUST_RECEIPTS_DIR),
+            installed_candidate: None,
+        }
+    }
+
+    fn write_test_receipt(
+        transaction: &MacOsTrustTransaction,
+        path_digest: &str,
+        certificate_digest: &str,
+        trust_store_digest: &str,
+    ) {
+        let receipt = TrustReceipt {
+            schema: TRUST_RECEIPT_SCHEMA.to_owned(),
+            platform: "macos".to_owned(),
+            certificate_sha256: certificate_digest.to_owned(),
+            trust_store_sha256: trust_store_digest.to_owned(),
+        };
+        fs::write(
+            transaction.receipt_path(path_digest),
+            serde_json::to_vec_pretty(&receipt).unwrap(),
+        )
+        .unwrap();
     }
 }

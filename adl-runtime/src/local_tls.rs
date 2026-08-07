@@ -15,7 +15,7 @@ use fs2::FileExt;
 use rcgen::{CertificateParams, ExtendedKeyUsagePurpose, KeyPair};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
-use x509_parser::{extensions::GeneralName, parse_x509_certificate};
+use x509_parser::{extensions::GeneralName, parse_x509_certificate, time::ASN1Time};
 
 pub const LOCAL_TLS_BOOTSTRAP_SCHEMA: &str = "adl.runtime_v3.local_tls_bootstrap.v1";
 pub const LOCAL_TLS_BOOTSTRAP_OUTCOME_SCHEMA: &str =
@@ -26,6 +26,8 @@ const CURRENT_GENERATION_MANIFEST: &str = "current-generation.json";
 const GENERATIONS_DIR: &str = "generations";
 #[cfg(test)]
 static FORCE_POST_SWAP_MANIFEST_SYNC_FAILURE: AtomicBool = AtomicBool::new(false);
+#[cfg(test)]
+static FORCE_PRE_SWAP_MANIFEST_COMMIT_FAILURE: AtomicBool = AtomicBool::new(false);
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -149,6 +151,7 @@ pub struct RuntimeTlsBootstrapOutcome {
     pub public_certificate_path: Option<PathBuf>,
     pub private_key_path: PathBuf,
     pub certificate_sha256: Option<String>,
+    pub manifest_durable: bool,
     pub reused_existing_identity: bool,
     pub replaced_existing_identity: bool,
     pub event: RuntimeTlsBootstrapEvent,
@@ -172,6 +175,7 @@ pub enum LocalTlsError {
     Io(String),
     Generate(String),
     Rustls(String),
+    Trust(String),
 }
 
 impl std::fmt::Display for LocalTlsError {
@@ -211,6 +215,9 @@ impl std::fmt::Display for LocalTlsError {
                     "local TLS material failed rustls validation: {error}"
                 )
             }
+            LocalTlsError::Trust(error) => {
+                write!(formatter, "local TLS host trust operation failed: {error}")
+            }
         }
     }
 }
@@ -233,6 +240,11 @@ struct CommittedTlsGeneration {
     certificate_chain: PathBuf,
     public_certificate: PathBuf,
     private_key: PathBuf,
+}
+
+struct PreparedTlsGeneration {
+    generation: CommittedTlsGeneration,
+    directory: PathBuf,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -269,6 +281,11 @@ pub struct GeneratedTlsMaterial {
     pub private_key_pem: String,
 }
 
+pub trait LocalTlsTrustTransaction {
+    fn install_and_verify(&mut self, candidate_certificate: &Path) -> Result<(), LocalTlsError>;
+    fn rollback_candidate(&mut self, candidate_certificate: &Path) -> Result<(), LocalTlsError>;
+}
+
 pub async fn bootstrap_runtime_tls(
     config: &RuntimeTlsBootstrapConfig,
 ) -> Result<RuntimeTlsBootstrapOutcome, LocalTlsError> {
@@ -285,20 +302,30 @@ where
     config.validate()?;
     match config.mode {
         RuntimeTlsBootstrapMode::ManagedExternal => {
+            validate_certificate_validity(&config.certificate_chain_path)?;
             validate_rustls_pair(&config.certificate_chain_path, &config.private_key_path).await?;
+            validate_managed_external_private_key_permissions(&config.private_key_path)?;
             Ok(RuntimeTlsBootstrapOutcome {
                 schema: LOCAL_TLS_BOOTSTRAP_OUTCOME_SCHEMA.to_owned(),
                 mode: config.mode,
                 certificate_chain_path: config.certificate_chain_path.clone(),
                 public_certificate_path: config.public_certificate_path.clone(),
                 private_key_path: config.private_key_path.clone(),
-                certificate_sha256: sha256_file(&config.certificate_chain_path).ok(),
+                certificate_sha256: certificate_fingerprint_sha256(&config.certificate_chain_path)
+                    .ok(),
+                manifest_durable: true,
                 reused_existing_identity: true,
                 replaced_existing_identity: false,
                 event: RuntimeTlsBootstrapEvent::ManagedExternalPreserved,
             })
         }
         RuntimeTlsBootstrapMode::LocalSelfSigned => {
+            if config.replace {
+                return Err(LocalTlsError::Policy(
+                    "local TLS replacement requires the explicit reissue operation so host trust can be verified before commit"
+                        .to_owned(),
+                ));
+            }
             let paths = local_paths(config)?;
             fs::create_dir_all(&paths.tls_root)
                 .map_err(|error| LocalTlsError::Io(error.to_string()))?;
@@ -307,34 +334,29 @@ where
             let _guard = LocalBootstrapGuard::acquire(&paths.lock_file)?;
             let current = read_current_generation(&paths)?;
             if let Some(current) = current.as_ref() {
-                validate_rustls_pair(&current.certificate_chain, &current.private_key).await?;
-                let sans_result = verify_certificate_sans(&current.certificate_chain, config);
-                if !config.replace {
-                    sans_result?;
-                }
-                enforce_private_key_permissions(&current.private_key)?;
+                validate_committed_generation(current, config).await?;
                 ensure_public_certificate_copy(
                     &current.certificate_chain,
                     &current.public_certificate,
                 )?;
-                if !config.replace {
-                    return Ok(local_outcome(
-                        config.mode,
-                        current,
-                        true,
-                        false,
-                        RuntimeTlsBootstrapEvent::LocalCertificateReused,
-                    ));
-                }
+                return Ok(local_outcome(
+                    config.mode,
+                    current,
+                    true,
+                    false,
+                    sync_directory(&paths.tls_root).is_ok(),
+                    RuntimeTlsBootstrapEvent::LocalCertificateReused,
+                ));
             }
             let material = generator(config)?;
-            verify_generated_certificate_sans(material.certificate_pem.as_bytes(), config)?;
-            let generation = commit_generation(&paths, &material).await?;
+            let (generation, manifest_durable) =
+                commit_generation(&paths, &material, config).await?;
             Ok(local_outcome(
                 config.mode,
                 &generation,
                 false,
                 current.is_some(),
+                manifest_durable,
                 if current.is_some() {
                     RuntimeTlsBootstrapEvent::LocalCertificateReplaced
                 } else {
@@ -345,11 +367,105 @@ where
     }
 }
 
+pub fn current_local_certificate_sha256(
+    config: &RuntimeTlsBootstrapConfig,
+) -> Result<Option<String>, LocalTlsError> {
+    config.validate()?;
+    if config.mode != RuntimeTlsBootstrapMode::LocalSelfSigned {
+        return Err(LocalTlsError::Policy(
+            "host trust operations require local_self_signed TLS".to_owned(),
+        ));
+    }
+    let paths = local_paths(config)?;
+    read_current_generation(&paths)?
+        .map(|generation| certificate_fingerprint_sha256(&generation.certificate_chain))
+        .transpose()
+}
+
+pub fn certificate_fingerprint_sha256(path: &Path) -> Result<String, LocalTlsError> {
+    let bytes = fs::read(path).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    let der = first_pem_certificate_der(&bytes)?;
+    Ok(hex::encode_upper(Sha256::digest(der)))
+}
+
+pub async fn reissue_runtime_tls_with_trust<T>(
+    config: &RuntimeTlsBootstrapConfig,
+    trust: &mut T,
+) -> Result<RuntimeTlsBootstrapOutcome, LocalTlsError>
+where
+    T: LocalTlsTrustTransaction,
+{
+    reissue_runtime_tls_with_generator_and_trust(config, generate_local_material, trust).await
+}
+
+pub async fn reissue_runtime_tls_with_generator_and_trust<F, T>(
+    config: &RuntimeTlsBootstrapConfig,
+    generator: F,
+    trust: &mut T,
+) -> Result<RuntimeTlsBootstrapOutcome, LocalTlsError>
+where
+    F: FnOnce(&RuntimeTlsBootstrapConfig) -> Result<GeneratedTlsMaterial, LocalTlsError>,
+    T: LocalTlsTrustTransaction,
+{
+    config.validate()?;
+    if config.mode != RuntimeTlsBootstrapMode::LocalSelfSigned {
+        return Err(LocalTlsError::Policy(
+            "reissue requires local_self_signed TLS".to_owned(),
+        ));
+    }
+    let paths = local_paths(config)?;
+    fs::create_dir_all(&paths.tls_root).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    fs::create_dir_all(&paths.generations_root)
+        .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    let _guard = LocalBootstrapGuard::acquire(&paths.lock_file)?;
+    read_current_generation(&paths)?.ok_or_else(|| {
+        LocalTlsError::Policy("reissue requires an existing committed local identity".to_owned())
+    })?;
+    let material = generator(config)?;
+    let prepared = prepare_generation(&paths, &material, config).await?;
+    if let Err(error) = trust.install_and_verify(&prepared.generation.public_certificate) {
+        remove_directory(&prepared.directory);
+        return Err(error);
+    }
+    let manifest_durable = match commit_current_manifest(&paths, &prepared.generation) {
+        Ok(durable) => durable,
+        Err(error) => {
+            let rollback = trust.rollback_candidate(&prepared.generation.public_certificate);
+            remove_directory(&prepared.directory);
+            return match rollback {
+                Ok(()) => Err(error),
+                Err(rollback_error) => Err(LocalTlsError::Trust(format!(
+                    "manifest commit failed ({error}); candidate trust rollback also failed ({rollback_error})"
+                ))),
+            };
+        }
+    };
+    Ok(local_outcome(
+        config.mode,
+        &prepared.generation,
+        false,
+        true,
+        manifest_durable,
+        RuntimeTlsBootstrapEvent::LocalCertificateReplaced,
+    ))
+}
+
+async fn validate_committed_generation(
+    generation: &CommittedTlsGeneration,
+    config: &RuntimeTlsBootstrapConfig,
+) -> Result<(), LocalTlsError> {
+    validate_certificate_validity(&generation.certificate_chain)?;
+    verify_certificate_sans(&generation.certificate_chain, config)?;
+    validate_rustls_pair(&generation.certificate_chain, &generation.private_key).await?;
+    validate_private_key_permissions(&generation.private_key)
+}
+
 fn local_outcome(
     mode: RuntimeTlsBootstrapMode,
     generation: &CommittedTlsGeneration,
     reused: bool,
     replaced: bool,
+    manifest_durable: bool,
     event: RuntimeTlsBootstrapEvent,
 ) -> RuntimeTlsBootstrapOutcome {
     RuntimeTlsBootstrapOutcome {
@@ -358,7 +474,8 @@ fn local_outcome(
         certificate_chain_path: generation.certificate_chain.clone(),
         public_certificate_path: Some(generation.public_certificate.clone()),
         private_key_path: generation.private_key.clone(),
-        certificate_sha256: sha256_file(&generation.certificate_chain).ok(),
+        certificate_sha256: certificate_fingerprint_sha256(&generation.certificate_chain).ok(),
+        manifest_durable,
         reused_existing_identity: reused,
         replaced_existing_identity: replaced,
         event,
@@ -389,7 +506,23 @@ fn generate_local_material(
 async fn commit_generation(
     paths: &LocalTlsPaths,
     material: &GeneratedTlsMaterial,
-) -> Result<CommittedTlsGeneration, LocalTlsError> {
+    config: &RuntimeTlsBootstrapConfig,
+) -> Result<(CommittedTlsGeneration, bool), LocalTlsError> {
+    let prepared = prepare_generation(paths, material, config).await?;
+    match commit_current_manifest(paths, &prepared.generation) {
+        Ok(manifest_durable) => Ok((prepared.generation, manifest_durable)),
+        Err(error) => {
+            remove_directory(&prepared.directory);
+            Err(error)
+        }
+    }
+}
+
+async fn prepare_generation(
+    paths: &LocalTlsPaths,
+    material: &GeneratedTlsMaterial,
+    config: &RuntimeTlsBootstrapConfig,
+) -> Result<PreparedTlsGeneration, LocalTlsError> {
     let generation_id = format!("generation-{}-{}", std::process::id(), unique_suffix());
     let temp_generation = paths.generations_root.join(format!(".{generation_id}.tmp"));
     let final_generation = paths.generations_root.join(&generation_id);
@@ -423,7 +556,15 @@ async fn commit_generation(
         remove_directory(&temp_generation);
         return Err(error);
     }
-    if let Err(error) = enforce_private_key_permissions(&key_tmp) {
+    if let Err(error) = validate_certificate_validity(&cert_tmp) {
+        remove_directory(&temp_generation);
+        return Err(error);
+    }
+    if let Err(error) = verify_certificate_sans(&cert_tmp, config) {
+        remove_directory(&temp_generation);
+        return Err(error);
+    }
+    if let Err(error) = validate_private_key_permissions(&key_tmp) {
         remove_directory(&temp_generation);
         return Err(error);
     }
@@ -455,8 +596,10 @@ async fn commit_generation(
             })?)
             .join(&paths.private_key_name),
     )?;
-    commit_current_manifest(paths, &generation)?;
-    Ok(generation)
+    Ok(PreparedTlsGeneration {
+        generation,
+        directory: final_generation,
+    })
 }
 
 fn ensure_public_certificate_copy(source: &Path, target: &Path) -> Result<(), LocalTlsError> {
@@ -496,6 +639,30 @@ fn verify_certificate_sans(
     verify_generated_certificate_sans(&bytes, config)
 }
 
+fn validate_certificate_validity(certificate: &Path) -> Result<(), LocalTlsError> {
+    let bytes = fs::read(certificate).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    validate_certificate_validity_bytes(&bytes)
+}
+
+fn validate_certificate_validity_bytes(certificate_pem: &[u8]) -> Result<(), LocalTlsError> {
+    let der = first_pem_certificate_der(certificate_pem)?;
+    let (_, certificate) = parse_x509_certificate(&der).map_err(|error| {
+        LocalTlsError::Policy(format!("could not parse local TLS certificate: {error}"))
+    })?;
+    let now = ASN1Time::now();
+    if now < certificate.validity().not_before {
+        return Err(LocalTlsError::Policy(
+            "local TLS certificate is not valid yet (notBefore is in the future)".to_owned(),
+        ));
+    }
+    if now > certificate.validity().not_after {
+        return Err(LocalTlsError::Policy(
+            "local TLS certificate is expired (notAfter is in the past)".to_owned(),
+        ));
+    }
+    Ok(())
+}
+
 fn verify_generated_certificate_sans(
     certificate_pem: &[u8],
     config: &RuntimeTlsBootstrapConfig,
@@ -504,7 +671,7 @@ fn verify_generated_certificate_sans(
     let observed = certificate_sans(certificate_pem)?;
     if observed != expected {
         return Err(LocalTlsError::Policy(
-            "local TLS certificate SANs do not match configured DNS/IP SANs; rerun with replace=true to intentionally replace the local identity"
+            "local TLS certificate SANs do not match configured DNS/IP SANs; use the explicit reissue operation to replace the local identity after host trust is prepared"
                 .to_owned(),
         ));
     }
@@ -625,7 +792,7 @@ fn read_current_generation(
             )));
         }
     }
-    let observed_sha = sha256_file(&generation.certificate_chain)?;
+    let observed_sha = certificate_fingerprint_sha256(&generation.certificate_chain)?;
     let manifest_sha = serde_json::from_slice::<GenerationManifest>(&bytes)
         .map_err(|error| LocalTlsError::Policy(error.to_string()))?
         .certificate_sha256;
@@ -655,14 +822,14 @@ fn committed_generation_from_manifest_paths(
 fn commit_current_manifest(
     paths: &LocalTlsPaths,
     generation: &CommittedTlsGeneration,
-) -> Result<(), LocalTlsError> {
+) -> Result<bool, LocalTlsError> {
     let manifest = GenerationManifest {
         schema: GENERATION_MANIFEST_SCHEMA.to_owned(),
         generation_id: generation.generation_id.clone(),
         certificate_chain_path: strip_tls_root(&paths.tls_root, &generation.certificate_chain)?,
         public_certificate_path: strip_tls_root(&paths.tls_root, &generation.public_certificate)?,
         private_key_path: strip_tls_root(&paths.tls_root, &generation.private_key)?,
-        certificate_sha256: sha256_file(&generation.certificate_chain)?,
+        certificate_sha256: certificate_fingerprint_sha256(&generation.certificate_chain)?,
     };
     let temporary = paths
         .tls_root
@@ -674,14 +841,20 @@ fn commit_current_manifest(
             .as_slice(),
         FileMode::Public,
     )?;
+    #[cfg(test)]
+    if FORCE_PRE_SWAP_MANIFEST_COMMIT_FAILURE.swap(false, Ordering::SeqCst) {
+        let _ = fs::remove_file(&temporary);
+        return Err(LocalTlsError::Io(
+            "forced pre-swap manifest commit failure".to_owned(),
+        ));
+    }
     replace_file_atomically(&temporary, &paths.current_manifest).map_err(|error| {
         let _ = fs::remove_file(&temporary);
         LocalTlsError::Io(format!(
             "commit local TLS generation manifest failed: {error}"
         ))
     })?;
-    let _ = sync_current_manifest_after_swap(paths);
-    Ok(())
+    Ok(sync_current_manifest_after_swap(paths).is_ok())
 }
 
 fn strip_tls_root(root: &Path, path: &Path) -> Result<PathBuf, LocalTlsError> {
@@ -767,7 +940,7 @@ fn write_file(path: &Path, bytes: &[u8], mode: FileMode) -> Result<(), LocalTlsE
         .map_err(|error| LocalTlsError::Io(error.to_string()))?;
     #[cfg(windows)]
     if matches!(mode, FileMode::Private) {
-        if let Err(error) = enforce_private_key_permissions(path) {
+        if let Err(error) = apply_windows_private_key_permissions(path) {
             drop(file);
             let _ = fs::remove_file(path);
             return Err(error);
@@ -836,16 +1009,11 @@ fn sync_directory(_path: &Path) -> Result<(), std::io::Error> {
 }
 
 #[cfg(unix)]
-fn enforce_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
-    use std::os::unix::fs::{MetadataExt, PermissionsExt};
+fn validate_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
+    use std::os::unix::fs::MetadataExt;
 
     let metadata = fs::metadata(path).map_err(|error| LocalTlsError::Io(error.to_string()))?;
-    if metadata.mode() & 0o777 != 0o600 {
-        fs::set_permissions(path, fs::Permissions::from_mode(0o600))
-            .map_err(|error| LocalTlsError::Io(error.to_string()))?;
-    }
-    let repaired = fs::metadata(path).map_err(|error| LocalTlsError::Io(error.to_string()))?;
-    if repaired.mode() & 0o777 != 0o600 {
+    if !metadata.is_file() || metadata.mode() & 0o777 != 0o600 {
         return Err(LocalTlsError::Policy(
             "local TLS private key permissions are not 0600".to_owned(),
         ));
@@ -853,8 +1021,23 @@ fn enforce_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
     Ok(())
 }
 
+#[cfg(unix)]
+fn validate_managed_external_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
+    use std::os::unix::fs::MetadataExt;
+
+    let metadata = fs::metadata(path).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    let mode = metadata.mode() & 0o777;
+    if !metadata.is_file() || mode & 0o077 != 0 || mode & 0o400 == 0 {
+        return Err(LocalTlsError::Policy(
+            "managed external TLS private key must be a regular owner-readable file with no group or other permissions"
+                .to_owned(),
+        ));
+    }
+    Ok(())
+}
+
 #[cfg(windows)]
-fn enforce_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
+fn apply_windows_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
     use std::{ffi::c_void, os::windows::ffi::OsStrExt, ptr};
     use windows_sys::Win32::{
         Foundation::{CloseHandle, LocalFree, ERROR_INSUFFICIENT_BUFFER, ERROR_SUCCESS, HANDLE},
@@ -984,8 +1167,8 @@ fn enforce_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
     Ok(())
 }
 
-#[cfg(not(any(unix, windows)))]
-fn enforce_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
+#[cfg(windows)]
+fn validate_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
     let metadata = fs::metadata(path).map_err(|error| LocalTlsError::Io(error.to_string()))?;
     if !metadata.is_file() {
         return Err(LocalTlsError::Policy(
@@ -995,9 +1178,25 @@ fn enforce_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
     Ok(())
 }
 
-fn sha256_file(path: &Path) -> Result<String, LocalTlsError> {
-    let bytes = fs::read(path).map_err(|error| LocalTlsError::Io(error.to_string()))?;
-    Ok(hex::encode(Sha256::digest(bytes)))
+#[cfg(windows)]
+fn validate_managed_external_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
+    validate_private_key_permissions(path)
+}
+
+#[cfg(not(any(unix, windows)))]
+fn validate_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
+    let metadata = fs::metadata(path).map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    if !metadata.is_file() {
+        return Err(LocalTlsError::Policy(
+            "local TLS private key must be a regular file".to_owned(),
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(not(any(unix, windows)))]
+fn validate_managed_external_private_key_permissions(path: &Path) -> Result<(), LocalTlsError> {
+    validate_private_key_permissions(path)
 }
 
 fn unique_suffix() -> String {
@@ -1079,7 +1278,9 @@ fn in_process_locks() -> &'static Mutex<BTreeSet<PathBuf>> {
 #[cfg(test)]
 mod manifest_commit_tests {
     use super::*;
-    use std::net::{IpAddr, Ipv4Addr};
+    use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
+
+    static MANIFEST_FAILURE_TEST_LOCK: tokio::sync::Mutex<()> = tokio::sync::Mutex::const_new(());
 
     fn local_config(root: PathBuf) -> RuntimeTlsBootstrapConfig {
         RuntimeTlsBootstrapConfig {
@@ -1091,28 +1292,76 @@ mod manifest_commit_tests {
             public_certificate_path: Some(PathBuf::from("runtime-local-public.pem")),
             private_key_path: PathBuf::from("runtime-local-key.pem"),
             dns_names: vec!["localhost".to_owned()],
-            ip_addresses: vec![IpAddr::V4(Ipv4Addr::LOCALHOST)],
+            ip_addresses: vec![
+                IpAddr::V4(Ipv4Addr::LOCALHOST),
+                IpAddr::V6(Ipv6Addr::LOCALHOST),
+            ],
             replace: false,
         }
     }
 
     #[tokio::test]
-    async fn post_swap_manifest_sync_failure_does_not_report_failed_bootstrap() {
+    async fn post_swap_manifest_sync_failure_reports_durability_uncertain() {
+        let _test_guard = MANIFEST_FAILURE_TEST_LOCK.lock().await;
         let temp = tempfile::tempdir().unwrap();
-        let mut config = local_config(temp.path().to_path_buf());
+        let config = local_config(temp.path().to_path_buf());
         let first = bootstrap_runtime_tls(&config).await.unwrap();
-        config.replace = true;
         FORCE_POST_SWAP_MANIFEST_SYNC_FAILURE.store(true, Ordering::SeqCst);
+        let mut trust = FakeTrust::default();
 
-        let second = bootstrap_runtime_tls(&config)
+        let second = reissue_runtime_tls_with_trust(&config, &mut trust)
             .await
-            .expect("post-swap sync is not returned as a failed identity commit");
+            .expect("visible post-swap identity remains usable");
 
         assert_ne!(first.certificate_sha256, second.certificate_sha256);
+        assert!(!second.manifest_durable);
         let after = bootstrap_runtime_tls(&local_config(temp.path().to_path_buf()))
             .await
             .unwrap();
         assert_eq!(second.certificate_sha256, after.certificate_sha256);
+        assert!(after.manifest_durable);
+    }
+
+    #[tokio::test]
+    async fn pre_swap_manifest_failure_rolls_back_candidate_trust_and_preserves_current() {
+        let _test_guard = MANIFEST_FAILURE_TEST_LOCK.lock().await;
+        let temp = tempfile::tempdir().unwrap();
+        let config = local_config(temp.path().to_path_buf());
+        let first = bootstrap_runtime_tls(&config).await.unwrap();
+        let manifest_path = temp.path().join("runtime-tls/current-generation.json");
+        let manifest = fs::read(&manifest_path).unwrap();
+        let mut trust = FakeTrust::default();
+        FORCE_PRE_SWAP_MANIFEST_COMMIT_FAILURE.store(true, Ordering::SeqCst);
+
+        let error = reissue_runtime_tls_with_trust(&config, &mut trust)
+            .await
+            .unwrap_err();
+
+        assert!(error.to_string().contains("pre-swap"));
+        assert!(trust.rolled_back);
+        assert!(!trust.installed);
+        assert_eq!(manifest, fs::read(&manifest_path).unwrap());
+        let after = bootstrap_runtime_tls(&config).await.unwrap();
+        assert_eq!(first.certificate_sha256, after.certificate_sha256);
+    }
+
+    #[derive(Default)]
+    struct FakeTrust {
+        installed: bool,
+        rolled_back: bool,
+    }
+
+    impl LocalTlsTrustTransaction for FakeTrust {
+        fn install_and_verify(&mut self, _: &Path) -> Result<(), LocalTlsError> {
+            self.installed = true;
+            Ok(())
+        }
+
+        fn rollback_candidate(&mut self, _: &Path) -> Result<(), LocalTlsError> {
+            self.installed = false;
+            self.rolled_back = true;
+            Ok(())
+        }
     }
 }
 
