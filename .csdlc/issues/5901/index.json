@@ -3,15 +3,15 @@
   "issue": 5901,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8ff80b9cfa60fbc6966b16dc5835ba59e7c1b85519a45baae5ac1b73cd9f3f99",
-  "phase": "reviewed",
-  "generation": 16,
-  "digest": "ea97aa27b2df2e0788cbce3fc4ef1ff5cfd9db4a38bf9bab713dba43235da150",
+  "phase": "published",
+  "generation": 27,
+  "digest": "57d5693ffc374d90c679f6fb766a112fce9baa7ae81497990ca0b44cbb2e82ff",
   "branch": "codex/5901-sprint3-readiness",
   "worktree": "/Volumes/FastWork/adl-wp-5901-sprint3-readiness",
   "review_assignment": {
     "reviewer": "subagent:fast-review-5901",
     "assigned_by": "codex:5901-sprint3-readiness",
-    "revision": "git-blake3:99d53c73a4e8845135cdbbda6edb407342213944:8aa7532709702fc23f6e25d0819486e13bbac62685086a5d9d53a183ecbb7719",
+    "revision": "git-blake3:c40dc519ee72f86e83b12a711d0d898399351963:a04ca7ed805d887f53193c957d10d396a06c3f37449c076e7c72e675ed87dcee",
     "scope": [
       "."
     ]
@@ -21,7 +21,7 @@
     "scope": [
       "."
     ],
-    "reviewed_revision": "git-blake3:99d53c73a4e8845135cdbbda6edb407342213944:8aa7532709702fc23f6e25d0819486e13bbac62685086a5d9d53a183ecbb7719",
+    "reviewed_revision": "git-blake3:c40dc519ee72f86e83b12a711d0d898399351963:a04ca7ed805d887f53193c957d10d396a06c3f37449c076e7c72e675ed87dcee",
     "findings": [],
     "residual_risks": [
       "Sprint 3 execution remains gated on terminal #5821 and this repair does not bind a child."
@@ -29,7 +29,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5901,
+    "pull_request": 5,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/5",
+    "base": "main",
+    "head": "codex/5901-sprint3-readiness",
+    "revision": "git-blake3:85f10ad58220300532bb8de56b4ff91a2f5c9efe:691c901ed88517a7964f5cd61e3d5b015922044f9ef9160c8f17b94c2ffdfd0d",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -37,40 +47,40 @@
   "diagram_path": ".csdlc/prepared/issues/5901/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:review-5901-whitespace-normalization",
-      "revision": "0a226aabf91f3cdc705bd6119fe0f80d7625e52f87d8fe4291d77cdbb28367f8"
+      "reviewer": "codex:review-5901-terminal-safety",
+      "revision": "aae9193bf56be26ef23d49f34104819214cf0d43f4ea34da40fc9ae4e76ab9ea"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "2c15ed5f5bad6639d90811fc7e542cb891d38d97d99d6b2e8174350586fe5359",
+      "values_digest": "17c9c3adaff6061910fa56511f2fdef6222bae206227ed5d6a80eeea090f93d8",
       "rendered_digest": "dc0345098c9a2036ec8fca6ba7710aec9657b7643543d05984245662714d0981",
       "ast_digest": "33efe65162810c074e60ff2d66c99cfb9af67ac3bb0dbf0e94ea4afc220767ff"
     },
     "stp": {
-      "values_digest": "04303e6796764b6bb2c3cd4e0dc79377df639c74ea96562ca594a0ae6b753880",
+      "values_digest": "a587ded1b421ac3d916db98f1e4c0d3ffe6a4d6812eea5c207fe24d626241c0b",
       "rendered_digest": "7f83db3a48f67b32737b3433dcc1f238d62a9ef43d37d07dffe23bdbd3950b3c",
       "ast_digest": "790622a5fba6af5345d162af52139fba71871c2754a6aaef7be271cee6d99ddc"
     },
     "spp": {
-      "values_digest": "e097f8c72f9a99d5df69aa525d53b996052ae2ed19772b3c64ad862535e3ebcd",
-      "rendered_digest": "4dd5a66e9213639cf511e684f425bad3f8ee87a5b9553626ac02dad40a4bd558",
-      "ast_digest": "abe1ac3df64d7a052e91789df96a2cf5e2c72d9204927a495a9a7c42322fc2ac"
+      "values_digest": "ab6382f65007e83fea648fcd9f3d11e4f81aa77466cd6fd937c9680b21d0754c",
+      "rendered_digest": "1c30fb062fe6988e541ea1fac5e69cf3c0c6f8b950520650e7cc2e6b24787767",
+      "ast_digest": "f5e05dfb51a18d0ae9c5c1657cacaddfa7898f1b44da2266e6dd135f80a177c0"
     },
     "vpp": {
-      "values_digest": "b60e9b38ce19ad29e0d2482825a9eae0b8e57f8185a18abe6407b1dff3d38942",
+      "values_digest": "b396e307f1ba494788bb35970766b7395a75adf2ed6040ec51cb14687422f7f7",
       "rendered_digest": "670d646ac3a2663665c06c7ae3074c013cb9de76886f3d0ab5125e20ef2f2bff",
       "ast_digest": "842e8cd41caa7090cf0ab24e273d20c6ab4cf373ecbe7cfdd775d4ffe1363ca2"
     },
     "srp": {
-      "values_digest": "f8e57a29c811dda3c5d004cab0fccbacdd1fc9d5271847cccb1de704c986b9ae",
-      "rendered_digest": "8a55b8c530a285b97e73751be9801a9f133571a5f727cd944f38af8e1779acb9",
-      "ast_digest": "ec48081dffbd7f927e57512fcf09fa220d4c348bd7d382a0355463c5aa11e966"
+      "values_digest": "109c51e3dec4729dc9e9c39840110ed7916834c6d153f7ec522a0528003c0730",
+      "rendered_digest": "745ff11d6954252eb54aef6509c3ae71a36ba78c3af84f7cea771ce8b83df095",
+      "ast_digest": "538d0d2d8db2933503f8b15f9cb12d90284326d269aef7d2af31ed7b15b9c7e0"
     },
     "sor": {
-      "values_digest": "39fe09264d9d01bfb98006833c82068ab012bfb7c418fb64fa5e61206c261772",
-      "rendered_digest": "2b315a15567963c4056f9e54d7356c9237095d061c021d46e75ef92aad385881",
-      "ast_digest": "05b6c77177c59692f12eefc7554c40329c50f57ef442514269d914c56c606b54"
+      "values_digest": "5192b358794dd086c70d984a252f360b287c76c2716ef5b8b76c8fffec9f3d13",
+      "rendered_digest": "7a4f57f1f583c4bd155bf3fdc2bee4b8fd1a7bc845768380bb2afc78f7265476",
+      "ast_digest": "a5c20107f23eb5028b99861d03ed6acdc99f2c72a5d7ca74fd7ad39d1df24bdc"
     }
   },
   "transitions": [
@@ -115,6 +125,27 @@
       "to": "reviewed",
       "actor": "subagent:fast-review-5901",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Repair the typed split issue/code repository publication blocker exposed by canonical cutover."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:fast-review-5901",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -257,6 +288,90 @@
       "actor": "subagent:fast-review-5901",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Repair the typed split issue/code repository publication blocker exposed by canonical cutover.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:review-5901-split-authority",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Add the typed canonical-code/legacy-issue publication repair exposed at publication.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate6.rs\",\"csdlc-v2/tests/gate_finish.rs\",\".csdlc/issues/5865/cards/sip.values.json\",\".csdlc/issues/5865/cards/stp.values.json\",\".csdlc/issues/5865/cards/spp.md\",\".csdlc/issues/5865/cards/spp.values.json\",\".csdlc/issues/5865/cards/vpp.values.json\",\".csdlc/issues/5865/cards/srp.values.json\",\".csdlc/issues/5865/cards/sor.values.json\",\".csdlc/issues/5865/index.json\",\".csdlc/issues/5865/audit.jsonl\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\".csdlc/prepared/issues/5901/test-implementation-wave.rb\",\".csdlc/prepared/issues/5901/validate-scope.rb\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:review-5901-final-split-authority",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Add the typed canonical-code/legacy-issue publication repair exposed at publication.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate6.rs\",\"csdlc-v2/tests/gate_finish.rs\",\".csdlc/issues/5865/cards/sip.values.json\",\".csdlc/issues/5865/cards/stp.values.json\",\".csdlc/issues/5865/cards/spp.md\",\".csdlc/issues/5865/cards/spp.values.json\",\".csdlc/issues/5865/cards/vpp.values.json\",\".csdlc/issues/5865/cards/srp.values.json\",\".csdlc/issues/5865/cards/sor.values.json\",\".csdlc/issues/5865/index.json\",\".csdlc/issues/5865/audit.jsonl\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\".csdlc/prepared/issues/5901/test-implementation-wave.rb\",\".csdlc/prepared/issues/5901/validate-scope.rb\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 22,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Record the canonical-code/legacy-issue publication and finish repair exposed during publication.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Made Sprint 3 packets bind-ready and repaired typed publication/finish for canonical Agent Logic code PRs that close retained legacy issues.\",\"changes\":[\"Accepted safe future owned paths while rejecting symlinks, traversal, placeholders, and file intermediates.\",\"Restricted Bash proving lanes to safe scripts exactly owned by the issue SPP.\",\"Enabled exact-digest typed planning repairs before binding and normalized malformed #5865 path projection.\",\"Replaced legacy claim and receipt assumptions with typed derived-terminal envelope validation.\",\"Separated canonical code repository authority from retained legacy issue authority across typed publication, live closing-link verification, and finish.\",\"Added deterministic terminal-wave, split-authority publication, finish, and exact-scope regressions.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate6.rs\",\"csdlc-v2/tests/gate_finish.rs\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\".csdlc/prepared/issues/5901/test-implementation-wave.rb\",\".csdlc/prepared/issues/5901/validate-scope.rb\",\".csdlc/evidence/5901/split-authority-validation.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove the complete C-SDLC v2 suite including split publication and finish.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5901/split-authority-validation.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5901/test-implementation-wave.rb\"],\"purpose\":\"Prove terminal wave success and declared corruption failures.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5901/split-authority-validation.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\"--preflight\"],\"purpose\":\"Prove all sixteen unbound child packets and exact ownership.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5901/split-authority-validation.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5901/validate-scope.rb\"],\"purpose\":\"Reject Guardian product, child topology, and unrelated path mutations.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5901/split-authority-validation.json\"}]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 23,
+      "actor": "codex:review-5901-terminal-safety",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Add the typed canonical-code/legacy-issue publication repair exposed at publication.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/migration.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate6.rs\",\"csdlc-v2/tests/gate_finish.rs\",\".csdlc/issues/5865/cards/sip.values.json\",\".csdlc/issues/5865/cards/stp.values.json\",\".csdlc/issues/5865/cards/spp.md\",\".csdlc/issues/5865/cards/spp.values.json\",\".csdlc/issues/5865/cards/vpp.values.json\",\".csdlc/issues/5865/cards/srp.values.json\",\".csdlc/issues/5865/cards/sor.values.json\",\".csdlc/issues/5865/index.json\",\".csdlc/issues/5865/audit.jsonl\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\".csdlc/prepared/issues/5901/test-implementation-wave.rb\",\".csdlc/prepared/issues/5901/validate-scope.rb\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 25,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Record strict all-target validation after the final terminal-safety fix.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free C-SDLC v2 code across all targets, including split publication and finish.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5901/split-authority-validation.json\"}}"
+    },
+    {
+      "sequence": 30,
+      "generation": 25,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 26,
+      "actor": "subagent:fast-review-5901",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 27,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

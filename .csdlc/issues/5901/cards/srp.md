@@ -35,7 +35,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:99d53c73a4e8845135cdbbda6edb407342213944:8aa7532709702fc23f6e25d0819486e13bbac62685086a5d9d53a183ecbb7719")
+Revision: Some("git-blake3:c40dc519ee72f86e83b12a711d0d898399351963:a04ca7ed805d887f53193c957d10d396a06c3f37449c076e7c72e675ed87dcee")
 
 Reviewer: Some("subagent:fast-review-5901")
 

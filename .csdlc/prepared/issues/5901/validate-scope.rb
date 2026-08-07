@@ -11,8 +11,14 @@ allowed_files = Set.new(%w[
   csdlc-v2/src/cards.rs
   csdlc-v2/src/store.rs
   csdlc-v2/src/bin/csdlc-finish.rs
+  csdlc-v2/src/finish.rs
+  csdlc-v2/src/bin/csdlc-publish.rs
+  csdlc-v2/src/publication.rs
+  csdlc-v2/src/github.rs
+  csdlc-v2/src/migration.rs
   csdlc-v2/tests/gate2.rs
   csdlc-v2/tests/gate_finish.rs
+  csdlc-v2/tests/gate6.rs
   .csdlc/issues/5865/cards/sip.values.json
   .csdlc/issues/5865/cards/stp.values.json
   .csdlc/issues/5865/cards/spp.md

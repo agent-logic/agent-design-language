@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5901,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5901-sprint3-readiness",
+  "title": "[v0.92][C-SDLC v2][Sprint 3] Make WP-04 packets bind-ready",
+  "body": "Closes danielbaustin/agent-design-language#5901\n\n## Summary\n- makes the WP-04 umbrella and all sixteen Sprint 3 children pass claim-free typed readiness without binding any child\n- validates safe future owned paths and governed owned Bash validation scripts\n- normalizes #5865 through typed planning edits and replaces legacy terminal assumptions with derived-envelope authority\n- supports canonical Agent Logic code PRs that close retained legacy issues through qualified linkage and typed finish\n\n## Validation\n- complete C-SDLC v2 test suite: PASS\n- strict all-target Clippy with warnings denied: PASS\n- all 17 typed doctor checks: PASS\n- sixteen-child, 38-path Sprint 3 preflight: PASS\n- terminal-wave success and corruption fixtures: PASS\n- exact issue scope guard: PASS\n- independent exact-head review: PASS\n\n## Boundary\n- no Distributed Guardian product code changed\n- no Sprint 3 child was bound\n- execution remains gated on terminal #5821",
+  "draft": false,
+  "revision": "git-blake3:85f10ad58220300532bb8de56b4ff91a2f5c9efe:691c901ed88517a7964f5cd61e3d5b015922044f9ef9160c8f17b94c2ffdfd0d",
+  "commit_sha": "85f10ad58220300532bb8de56b4ff91a2f5c9efe"
+}

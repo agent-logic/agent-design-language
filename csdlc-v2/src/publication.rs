@@ -15,6 +15,8 @@ pub struct PublicationRequest {
     pub expected_digest: String,
     pub actor: String,
     pub repository: String,
+    #[serde(default)]
+    pub code_repository: Option<String>,
     pub base: String,
     pub head: String,
     pub title: String,
@@ -30,6 +32,7 @@ pub struct PublicationIntent {
     pub schema: String,
     pub issue: u64,
     pub repository: String,
+    pub issue_repository: String,
     pub base: String,
     pub head: String,
     pub title: String,
@@ -56,6 +59,17 @@ pub struct RemotePullRequest {
 pub fn body_has_github_closing_keyword(body: &str, issue: u64, repository: &str) -> bool {
     let issue_ref = format!("#{issue}");
     let qualified_issue_ref = format!("{repository}#{issue}").to_ascii_lowercase();
+    body_has_closing_reference(body, |token| {
+        token == issue_ref || token == qualified_issue_ref
+    })
+}
+
+pub fn body_has_qualified_github_closing_keyword(body: &str, issue: u64, repository: &str) -> bool {
+    let qualified_issue_ref = format!("{repository}#{issue}").to_ascii_lowercase();
+    body_has_closing_reference(body, |token| token == qualified_issue_ref)
+}
+
+fn body_has_closing_reference(body: &str, references_issue: impl Fn(&str) -> bool) -> bool {
     body.lines().any(|line| {
         let mut closing_keyword = false;
         for token in line.split_whitespace() {
@@ -82,8 +96,7 @@ pub fn body_has_github_closing_keyword(body: &str, issue: u64, repository: &str)
                 closing_keyword = true;
                 continue;
             }
-            let references_issue = token == issue_ref || token == qualified_issue_ref;
-            if closing_keyword && references_issue {
+            if closing_keyword && references_issue(&token) {
                 return true;
             }
             closing_keyword = false;
@@ -132,12 +145,25 @@ pub fn prepare_publication(
     store: &Store,
     request: &PublicationRequest,
 ) -> Result<PublicationIntent> {
+    let split_authority = request
+        .code_repository
+        .as_deref()
+        .is_some_and(|repository| repository != request.repository);
+    let closing_linkage_ok = if split_authority {
+        body_has_qualified_github_closing_keyword(&request.body, request.issue, &request.repository)
+    } else {
+        body_has_github_closing_keyword(&request.body, request.issue, &request.repository)
+    };
     if request.schema != "csdlc.publication_request.v1"
         || request.repository.split_once('/').is_none()
+        || request
+            .code_repository
+            .as_deref()
+            .is_some_and(|repository| repository.split_once('/').is_none())
         || request.base.trim().is_empty()
         || request.head.trim().is_empty()
         || request.title.trim().is_empty()
-        || !body_has_github_closing_keyword(&request.body, request.issue, &request.repository)
+        || !closing_linkage_ok
         || !valid_remote_name(&request.remote)
         || !valid_ref_name(&request.base)
         || !valid_ref_name(&request.head)
@@ -181,7 +207,11 @@ pub fn prepare_publication(
     Ok(PublicationIntent {
         schema: "csdlc.publication_intent.v1".into(),
         issue: request.issue,
-        repository: request.repository.clone(),
+        repository: request
+            .code_repository
+            .clone()
+            .unwrap_or_else(|| request.repository.clone()),
+        issue_repository: request.repository.clone(),
         base: request.base.clone(),
         head: request.head.clone(),
         title: request.title.clone(),
@@ -231,10 +261,19 @@ pub fn validate_remote(intent: &PublicationIntent, remote: &RemotePullRequest) -
 }
 
 fn validate_remote_identity(intent: &PublicationIntent, remote: &RemotePullRequest) -> Result<()> {
+    let closing_linkage_ok = if intent.repository != intent.issue_repository {
+        body_has_qualified_github_closing_keyword(
+            &remote.body,
+            intent.issue,
+            &intent.issue_repository,
+        )
+    } else {
+        body_has_github_closing_keyword(&remote.body, intent.issue, &intent.issue_repository)
+    };
     if remote.repository != intent.repository
         || remote.base != intent.base
         || remote.head != intent.head
-        || !body_has_github_closing_keyword(&remote.body, intent.issue, &intent.repository)
+        || !closing_linkage_ok
     {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
