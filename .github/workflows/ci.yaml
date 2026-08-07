@@ -38,6 +38,14 @@ on:
           - measurement
           - cache_seed
           - canary
+      build_acceleration_variant:
+        description: "WP-02B workload variant"
+        required: true
+        type: choice
+        default: baseline
+        options:
+          - baseline
+          - test_only
       build_acceleration_run_id:
         description: "Unique WP-02B run identifier"
         required: false
@@ -1608,12 +1616,14 @@ jobs:
           PLATFORM: ${{ inputs.build_acceleration_platform }}
           CACHE_STATE: ${{ inputs.build_acceleration_cache_state }}
           SAMPLE_ROLE: ${{ inputs.build_acceleration_sample_role }}
+          VARIANT: ${{ inputs.build_acceleration_variant }}
           RUN_ID: ${{ inputs.build_acceleration_run_id }}
         run: |
           set -euo pipefail
           case "$PLATFORM" in candidate) ;; *) exit 2 ;; esac
           case "$CACHE_STATE" in cold|warm) ;; *) exit 2 ;; esac
           case "$SAMPLE_ROLE" in measurement|cache_seed|canary) ;; *) exit 2 ;; esac
+          case "$VARIANT" in baseline|test_only) ;; *) exit 2 ;; esac
           case "$RUN_ID" in
             wp02b-[a-z0-9-]*) ;;
             *) echo "run id must start with wp02b- and contain lowercase letters, digits, or hyphens" >&2; exit 2 ;;
@@ -1645,6 +1655,7 @@ jobs:
         env:
           PLATFORM: ${{ inputs.build_acceleration_platform }}
           CACHE_STATE: ${{ inputs.build_acceleration_cache_state }}
+          VARIANT: ${{ inputs.build_acceleration_variant }}
           RUN_ID: ${{ inputs.build_acceleration_run_id }}
         run: |
           set -euo pipefail
@@ -1653,8 +1664,14 @@ jobs:
           build_command="cargo build --manifest-path adl/Cargo.toml --locked --bin adl"
           test_command="cargo test --manifest-path adl/Cargo.toml --locked --lib provider_communication -- --nocapture"
           start_epoch="$(date +%s)"
-          /usr/bin/time -p cargo build --manifest-path adl/Cargo.toml --locked --bin adl \
-            >"$artifact_dir/build.stdout.log" 2>"$artifact_dir/build.stderr.log"
+          if [ "$VARIANT" = baseline ]; then
+            /usr/bin/time -p cargo build --manifest-path adl/Cargo.toml --locked --bin adl \
+              >"$artifact_dir/build.stdout.log" 2>"$artifact_dir/build.stderr.log"
+          else
+            build_command="skipped:test_only"
+            : >"$artifact_dir/build.stdout.log"
+            : >"$artifact_dir/build.stderr.log"
+          fi
           after_build_epoch="$(date +%s)"
           /usr/bin/time -p cargo test --manifest-path adl/Cargo.toml --locked --lib provider_communication -- --nocapture \
             >"$artifact_dir/test.stdout.log" 2>"$artifact_dir/test.stderr.log"
@@ -1663,6 +1680,7 @@ jobs:
             "$artifact_dir/benchmark.json" \
             "github-hosted-$PLATFORM" \
             "$CACHE_STATE" \
+            "$VARIANT" \
             "$build_command" \
             "$test_command" \
             "$start_epoch" \
@@ -1679,6 +1697,7 @@ jobs:
               out_path,
               platform,
               cache_state,
+              variant,
               build_command,
               test_command,
               start_epoch,
@@ -1697,6 +1716,7 @@ jobs:
               "schema": "adl.build_platform_benchmark.v1",
               "platform": platform,
               "cache_posture": cache_state,
+              "variant": variant,
               "status": "passed",
               "build_command": build_command,
               "test_command": test_command,
@@ -1716,6 +1736,7 @@ jobs:
           PLATFORM: ${{ inputs.build_acceleration_platform }}
           CACHE_STATE: ${{ inputs.build_acceleration_cache_state }}
           SAMPLE_ROLE: ${{ inputs.build_acceleration_sample_role }}
+          VARIANT: ${{ inputs.build_acceleration_variant }}
           RUN_ID: ${{ inputs.build_acceleration_run_id }}
           CACHE_HIT: ${{ steps.rust-cache.outputs.cache-hit || 'false' }}
         run: |
@@ -1739,6 +1760,7 @@ jobs:
               "platform": os.environ["PLATFORM"],
               "cache_state": os.environ["CACHE_STATE"],
               "sample_role": os.environ["SAMPLE_ROLE"],
+              "variant": os.environ["VARIANT"],
               "cache_hit": os.environ["CACHE_HIT"].lower() == "true",
               "runner_name": os.environ["RUNNER_NAME"],
               "runner_os": os.environ["RUNNER_OS"],

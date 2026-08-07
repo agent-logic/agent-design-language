@@ -924,6 +924,7 @@ def require_build_acceleration_contract(source)
     build_acceleration_platform
     build_acceleration_cache_state
     build_acceleration_sample_role
+    build_acceleration_variant
     build_acceleration_run_id
   ]
   raise BuildAccelerationContractError, "WP-02B dispatch inputs drifted" unless inputs.keys == expected_inputs
@@ -934,6 +935,8 @@ def require_build_acceleration_contract(source)
   raise BuildAccelerationContractError, "WP-02B runner selector drifted" unless experiment.fetch("runs-on") == expected_runner
   platform_options = inputs.fetch("build_acceleration_platform").fetch("options")
   raise BuildAccelerationContractError, "WP-02B must disable standard-runner experiment dispatch" unless platform_options == ["none", "candidate"]
+  variant_options = inputs.fetch("build_acceleration_variant").fetch("options")
+  raise BuildAccelerationContractError, "WP-02B workload variants drifted" unless variant_options == ["baseline", "test_only"]
   raise BuildAccelerationContractError, "WP-02B timeout must remain 30 minutes" unless experiment.fetch("timeout-minutes") == 30
   raise BuildAccelerationContractError, "WP-02B permissions widened" unless experiment.fetch("permissions") == { "contents" => "read" }
 
@@ -954,6 +957,8 @@ def require_build_acceleration_contract(source)
   workload = steps.fetch("Run frozen build acceleration workload").fetch("run")
   unless workload.include?("cargo build --manifest-path adl/Cargo.toml --locked --bin adl") &&
          workload.include?("cargo test --manifest-path adl/Cargo.toml --locked --lib provider_communication -- --nocapture") &&
+         workload.include?('if [ "$VARIANT" = baseline ]') &&
+         workload.include?('build_command="skipped:test_only"') &&
          workload.include?("adl.build_platform_benchmark.v1")
     raise BuildAccelerationContractError, "WP-02B frozen workload drifted"
   end
