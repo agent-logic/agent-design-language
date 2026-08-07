@@ -12,7 +12,15 @@ Status: pre_phase
 
 ## Scope
 
-Review issue 5820 exact-head Guardian/kernel/init changes and retained proof for sole process ownership, bounded lifecycle behavior, durable restart, truthful degradation/readiness, authenticated API/WSS, observability channel policy, native platforms, and strict exclusion of distributed/protocol/consumer scope.
+adl-runtime-kernel/src/config.rs
+adl-runtime/src/bin/adl-runtime-guardian.rs
+adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
+adl-runtime/src/guardian.rs
+adl-runtime/tests/runtime_guardian_lifecycle.rs
+adl/tools/validate_v092_runtime_guardian_lifecycle.sh
+adl/tools/validate_v092_runtime_native_receipts.rb
+.csdlc/issues/5820
+.csdlc/evidence/5820
 
 ## Prompts
 
@@ -24,7 +32,28 @@ Review issue 5820 exact-head Guardian/kernel/init changes and retained proof for
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5820-1",
+    "severity": "p2",
+    "summary": "Preflight lifecycle reports were overstated as platform acceptance proof despite acceptance_eligible=false.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "F-5820-2",
+    "severity": "p2",
+    "summary": "Final validation replaced digest-complete native receipt semantics with a shallow selected-field summary check.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -32,12 +61,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Native Windows lifecycle proof remains explicitly blocked by unavailable execution authority.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:833ace7992c0cfd109777183ca55064d4c3a5a05:011a1577df5c66e35f206df42fc5a3578672dd1008f6c5f3a93f080071d8c2d4")
 
-Reviewer: None
+Reviewer: Some("subagent:Leibniz")
 
-Result: pre_review
+Result: changes_required

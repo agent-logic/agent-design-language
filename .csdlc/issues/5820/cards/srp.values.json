@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-03] Runtime launch and resilience consolidation",
     "slug": "v0-92-wp-03-runtime-launch-and-resilience-consolidation",
     "version": "v0.92",
-    "generation": 40
+    "generation": 41
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review issue 5820 exact-head Guardian/kernel/init changes and retained proof for sole process ownership, bounded lifecycle behavior, durable restart, truthful degradation/readiness, authenticated API/WSS, observability channel policy, native platforms, and strict exclusion of distributed/protocol/consumer scope.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/config.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\nadl-runtime/src/guardian.rs\nadl-runtime/tests/runtime_guardian_lifecycle.rs\nadl/tools/validate_v092_runtime_guardian_lifecycle.sh\nadl/tools/validate_v092_runtime_native_receipts.rb\n.csdlc/issues/5820\n.csdlc/evidence/5820",
+      "review_revision": "git-blake3:833ace7992c0cfd109777183ca55064d4c3a5a05:011a1577df5c66e35f206df42fc5a3578672dd1008f6c5f3a93f080071d8c2d4",
+      "reviewer": "subagent:Leibniz",
       "review_prompts": [
         "Is Guardian the only production process owner and is one init file truly authoritative?",
         "Can configuration, provider, network time, certificate, Vector, or Observatory failure kill or deadlock the kernel?",
@@ -23,9 +23,32 @@
         "Do authenticated API/WSS and stdout/stderr logging proofs use production paths?",
         "Are macOS, Linux, and native Windows claims exact and is WP-04/WP-14/WP-18A scope excluded?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "F-5820-1",
+          "severity": "p2",
+          "summary": "Preflight lifecycle reports were overstated as platform acceptance proof despite acceptance_eligible=false.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "F-5820-2",
+          "severity": "p2",
+          "summary": "Final validation replaced digest-complete native receipt semantics with a shallow selected-field summary check.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Native Windows lifecycle proof remains explicitly blocked by unavailable execution authority."
+      ],
+      "review_result": "changes_required"
     }
   }
 }

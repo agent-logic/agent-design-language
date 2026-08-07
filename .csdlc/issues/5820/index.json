@@ -4,12 +4,68 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "50b75585680c7acb7b8f8912ae3704962d8da142da1ef08a64e78dd0fb1f0129",
   "phase": "implemented",
-  "generation": 40,
-  "digest": "eacc13f387898a10e11768135fc32d3372d2d7f16ad5e6a0e15729d320d20c19",
+  "generation": 41,
+  "digest": "4c6076bd8209ca1491653db50b5d14fb2a0ddc94a11edc7511ade40c84e3fb5e",
   "branch": "codex/5820-v092-runtime-launch-resilience",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-wp-5820-runtime-launch-resilience",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:Leibniz",
+    "assigned_by": "codex:5820-runtime-resilience",
+    "revision": "git-blake3:833ace7992c0cfd109777183ca55064d4c3a5a05:011a1577df5c66e35f206df42fc5a3578672dd1008f6c5f3a93f080071d8c2d4",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/tests/runtime_guardian_lifecycle.rs",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "adl/tools/validate_v092_runtime_native_receipts.rb",
+      ".csdlc/issues/5820",
+      ".csdlc/evidence/5820"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:Leibniz",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/tests/runtime_guardian_lifecycle.rs",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "adl/tools/validate_v092_runtime_native_receipts.rb",
+      ".csdlc/issues/5820",
+      ".csdlc/evidence/5820"
+    ],
+    "reviewed_revision": "git-blake3:833ace7992c0cfd109777183ca55064d4c3a5a05:011a1577df5c66e35f206df42fc5a3578672dd1008f6c5f3a93f080071d8c2d4",
+    "findings": [
+      {
+        "id": "F-5820-1",
+        "severity": "p2",
+        "summary": "Preflight lifecycle reports were overstated as platform acceptance proof despite acceptance_eligible=false.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5820-2",
+        "severity": "p2",
+        "summary": "Final validation replaced digest-complete native receipt semantics with a shallow selected-field summary check.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Native Windows lifecycle proof remains explicitly blocked by unavailable execution authority."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +80,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "26eb73d34d33ef4d30f269cf1eed0f8679ab970c65947145f54e4083662b11a0",
+      "values_digest": "5e583c213174296de27dfe9f924176e5feeee805fd9152c9044d2f8a0f50a0ee",
       "rendered_digest": "822b110b8030f1e2f7820eea7307b907c69c28d2f51c220c8ff9a7b3186618c4",
       "ast_digest": "04364454cada7124a7cda08bc8a36d90667b54ba2d46a986a10cf3e5f8493806"
     },
     "stp": {
-      "values_digest": "20c80a7c568733b9b05806407c0cfa8673f4bcfbfc2de623e90efa37e54037d8",
+      "values_digest": "fb5bb3d8708f540e4d2d0753bb57813ec12fb15b380e247ca803f35c309dc98f",
       "rendered_digest": "42851e4b8c0b2f55ea1c753bba432a5fd8a015ea097b764dd0a8b2bc15eb5b19",
       "ast_digest": "3520e78cac053e9737dcb5cc31ac6407f4e4bc2b0f319992508b9acc0c9903ea"
     },
     "spp": {
-      "values_digest": "24ef43404a4f1a977bda4351290a9d2b50a8c175bc9aa24255c6c19cd3f3db3b",
+      "values_digest": "3ebe3c78398e7ec4041b78a580f7b2779fcd6c12b651dfe8760eaf5584168882",
       "rendered_digest": "b975b27fa142e8b9945ec0e9b1969b3574776cc818a470a87a63eba1c54a68e6",
       "ast_digest": "1c83fa258efc5a3ca632eeb2371fc96dfa0f1f6c3f8bd2881ddc85b59786ebfd"
     },
     "vpp": {
-      "values_digest": "93b7d78f275895627377d26e01f93ac7e1393eafb4c6f3c59e8d62f8dba29d67",
+      "values_digest": "a4977da07f08b252e32b50aa12243dc94fb0b34805ef5b44f5cf0f8b5e2a3397",
       "rendered_digest": "f57f920c52a31723a59293798dbfc4855ceead2a6a094a49610e2b5dfc8dbc16",
       "ast_digest": "10abc4e2ed3afdd7c99b3c950fd85e89da20c5ab2fa4fa63c0e6ba8a97d46ae0"
     },
     "srp": {
-      "values_digest": "04cdc5a51181791a40989048d3e3a41b0926ec38980a20dbbd82169252c5d2cc",
-      "rendered_digest": "9c7c37c04789b4430bf9e043b973021fe19d34e483fd88ed7c27b623ce4b1386",
-      "ast_digest": "baacb4d0f1a6b174755fca142e86fb09268a52e9de59d07f4590ac5503b8646e"
+      "values_digest": "3999182c47b2d16166d1ec6dfb0c94deb2ce36e2f1d0f16333bb0dc1f8a1e9a9",
+      "rendered_digest": "465743774ab2d88da17c259ad0ae46593fc6a7119714f09678e262ea63dd0cca",
+      "ast_digest": "57c99d3cb32d7f78bdcf89728ee39d4284687bdae9fe3c0e3fc48193c4c07716"
     },
     "sor": {
-      "values_digest": "2d6371f97dcca969d4f8868dd28a6915764dbe2ed6d3ffbf9cebd3cdde8fd167",
+      "values_digest": "b5c5be59578be3a26e5904164a5193334df364dcc3c1a0d1b91976a81cc21cd9",
       "rendered_digest": "9d8459895ceed41afeac278884c4e82bd577bf01e6f78da43737abaf386f63f1",
       "ast_digest": "5e3d951486d10895a2b963af7602e879bb53c38d0dd8b649df6abb04d900b0b9"
     }
@@ -483,6 +539,20 @@
       "actor": "codex:5820-runtime-resilience",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 56,
+      "generation": 40,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 41,
+      "actor": "subagent:Leibniz",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

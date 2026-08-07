@@ -5,6 +5,15 @@ repo_root=$(cd "$(dirname "$0")/../.." && pwd -P)
 qualification_root=${ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT:-$repo_root/.adl/runtime-v3/qualification}
 target_dir=${CARGO_TARGET_DIR:-$repo_root/.adl/target/5820-runtime}
 target_root=${ADL_RUNTIME_GUARDIAN_TARGET_ROOT:-$repo_root}
+lifecycle_suite=${ADL_RUNTIME_GUARDIAN_SUITE:-preflight}
+
+case "$lifecycle_suite" in
+  preflight|preflight_1x|lifecycle_10000|stress_100x10s|endurance_10x600s) ;;
+  *)
+    echo "unsupported ADL_RUNTIME_GUARDIAN_SUITE: $lifecycle_suite" >&2
+    exit 64
+    ;;
+esac
 
 validate_contained_path() {
   python3 - "$1" "$2" "$3" <<'PY'
@@ -458,7 +467,7 @@ soak_status=0
   --revision "$revision" \
   --pre-restart-ready-file "$probe_ready" \
   --pre-restart-ack-file "$probe_ack" \
-  --suite preflight || soak_status=$?
+  --suite "$lifecycle_suite" || soak_status=$?
 
 probe_status=0
 wait "$wss_probe_pid" || probe_status=$?
@@ -541,7 +550,7 @@ proof = {
     "schema": "adl.runtime_v3.guardian_lifecycle_proof.v1",
     "status": "pass",
     "source_revision": revision,
-    "acceptance_eligible": True,
+    "acceptance_eligible": report.get("acceptance_eligible") is True,
     "lifecycle_component_suite": report.get("suite"),
     "lifecycle_component_acceptance_eligible": report.get("acceptance_eligible"),
     "lifecycle_report_path": report_path,
