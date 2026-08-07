@@ -369,6 +369,9 @@ while not os.path.isfile(probe_ready_path):
     if time.monotonic() >= deadline:
         raise RuntimeError("lifecycle harness did not publish pre-restart readiness")
     time.sleep(0.01)
+probe_nonce = pathlib.Path(probe_ready_path).read_text(encoding="utf-8").strip()
+if not probe_nonce:
+    raise RuntimeError("lifecycle harness published an empty pre-restart nonce")
 
 while True:
     try:
@@ -430,7 +433,7 @@ while True:
             "bounded_request_response": True,
         }
         write_json(proof_path, proof)
-        pathlib.Path(probe_ack_path).write_text("authenticated_probe_complete\n", encoding="utf-8")
+        pathlib.Path(probe_ack_path).write_text(probe_nonce + "\n", encoding="utf-8")
         break
     except Exception as error:
         if os.environ.get("ADL_RUNTIME_WSS_DEBUG") == "1":
@@ -442,6 +445,7 @@ PY
 wss_probe_pid=$!
 trap 'kill "$wss_probe_pid" 2>/dev/null || true' EXIT
 
+soak_status=0
 "$target_dir/debug/adl-runtime-lifecycle-soak" \
   --guardian "$target_dir/debug/adl-runtime-guardian" \
   --kernel "$target_dir/debug/adl-runtime-kernel" \
@@ -452,14 +456,19 @@ trap 'kill "$wss_probe_pid" 2>/dev/null || true' EXIT
   --revision "$revision" \
   --pre-restart-ready-file "$probe_ready" \
   --pre-restart-ack-file "$probe_ack" \
-  --suite preflight
+  --suite preflight || soak_status=$?
 
-if ! wait "$wss_probe_pid"; then
+probe_status=0
+wait "$wss_probe_pid" || probe_status=$?
+trap - EXIT
+if (( probe_status != 0 )); then
   echo "authenticated HTTPS/WSS probe failed; retained diagnostic follows" >&2
   cat "$wss_stderr" >&2 || true
+fi
+if (( soak_status != 0 || probe_status != 0 )); then
+  echo "Guardian lifecycle validation failed: soak_status=$soak_status probe_status=$probe_status" >&2
   exit 1
 fi
-trap - EXIT
 
 python3 - "$report" "$wss_proof" "$run_root/issue-proof.json" "$revision" \
   "$target_dir/debug/adl-runtime-guardian" "$target_dir/debug/adl-runtime-kernel" \
