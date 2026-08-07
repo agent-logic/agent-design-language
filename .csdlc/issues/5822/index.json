@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b476d2b9dfcbc719a2efb87fbffe14fcb7df6263bcbaecc1a27a64c5c4c1e798",
   "phase": "implemented",
-  "generation": 46,
-  "digest": "7be94879f362187cbd70a30411ba62a2de79e5bb9c127491df1c983d359c5a82",
+  "generation": 49,
+  "digest": "2b3825a6856ce8342fbdeffb29132d825dfc88a4f565d24ab00a84ca54bc7a68",
   "branch": "codex/5822-v0-92-csdlc-estimation-cycle-time",
   "worktree": "/Volumes/FastWork/adl-wp-5822-v0-92-csdlc-estimation-cycle-time",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "89fc9507b9b30437def05cb09d2aed56c59e21c8b590658784d0551336146616",
+      "values_digest": "f86ae53a758af45b2f9489d7cedeefe4e0c0e3d92fdd2a8036d0c9ef2bec5b15",
       "rendered_digest": "a2e05d299c61fb87347a0c7e4217da58dcd8ffcdb615f1dc0aac4438c3bebd79",
       "ast_digest": "98e306b57fa7f5865499191708ed16b077317e9e8f9018041ed11757b0f78e2f"
     },
     "stp": {
-      "values_digest": "7e002e408b945dbebd88c4140d9e9745350617a245bf020727ecc785df665414",
-      "rendered_digest": "af83a39ff0bff24eca07c5ca88a1397df53cba2ff5e4cb6642068ef84a839ad7",
-      "ast_digest": "91fd96fdcf741430e88f4f3055ecafc165205bf6c65a1dc043997c628796a21a"
+      "values_digest": "09891a1f2861fad83b697ffd4d8f883f7cecfe7bc212cc5e62448c4694d728df",
+      "rendered_digest": "be2a033a83efcad03313d062e86c830b105a567934e2f41f23ad7306d801c8d0",
+      "ast_digest": "44d01e6fa207e51f9e4fad51a1b420c671d34b217750e8393f564db6a461e694"
     },
     "spp": {
-      "values_digest": "f0bca35e9151a6b1e8e0525e1b5ad6adafe7c3133f7ffd3b704fb32a5e1d3547",
+      "values_digest": "7c261fefb49edf54c0802a413ec6efbea010ecb1015f4c39af83830b730dfc77",
       "rendered_digest": "a2cb13b0310cc5cff48d9075b26b634c174af4b43c89551a7cbf5eee7ad1ae68",
       "ast_digest": "96ebc433d26a3e508f6c696370c3efd251e8d584aef82319995124c3db89a7c3"
     },
     "vpp": {
-      "values_digest": "e2c2b09204e9d9e8597bc4e844c6ba6dca1fbe819123829152be3d44821c507f",
-      "rendered_digest": "549268b8d2e421175ae62dfea316d52731ff5e6a53a6534846aa6db3b2ee9344",
-      "ast_digest": "46f1ba99fa26ec3de972f5655ac1fc1bcc24912abcf60ef7e8888b85aff25e8e"
+      "values_digest": "5d2c1daec8b10b24a6f13a87c84af3376f731706661c1de9b0f001db74609cb4",
+      "rendered_digest": "54c3521109b047917360243a55b6ca9ce77c175124a4e22489aebd9cd91c8e5c",
+      "ast_digest": "53c22a9bc5dc650c0a457c354ee21613d0287f44d3e21aa59de1afed118f936c"
     },
     "srp": {
-      "values_digest": "1b51d73102d3ee85b4f0c65ef65670ccf6c09266dac97fb1af3449b07345b254",
+      "values_digest": "84ce70a5ce209a6c1e29fb1dcb7e2187baa30b840bed7c5508fdc845345c3698",
       "rendered_digest": "69ab3feab354c989fbe6922f1f8b04f2a39e07b6831180b12f22fbee71eceb58",
       "ast_digest": "6cac5cde4b2319c579dc8d5b66b951bda0ab8ea548ce7d91f55a755f5c0a3a80"
     },
     "sor": {
-      "values_digest": "842522ab4c301be66ca52402f4017dc14f51bfd47d000a03318989c1bbcce20a",
-      "rendered_digest": "6594887fd90a2c98f8d478d065460fe43ea3a6ae75e6b0a48725f951573ecfb8",
-      "ast_digest": "c469c7f34ee0924357be9ba1322ebb43e2d2b6104fe9262b9f70e3e57bd9c44d"
+      "values_digest": "e8257e3ad997eaf78a2ae0f93b61a66c4788e002c9e0a940006a451b192072a2",
+      "rendered_digest": "7b9bc0c25fabf20d61204e95535d7b226f217f9d4d169b0c41d245beb8717f44",
+      "ast_digest": "99e2274434f6280c1ac755c998eff016db1a4a2324f94dc63c771180a888732a"
     }
   },
   "transitions": [
@@ -525,6 +525,27 @@
       "actor": "codex:5822-third-review-remediation",
       "reason": "Record the narrow third-review repair and the unchanged AC-7 blocker truthfully.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Deferred finish now retains available terminal observations; observation identity and validation ownership derive from canonical digest-verified issue records; operator wait and reconnect measurements are retained; calibration outcomes are recomputed from recursively digest-verified actual observation sources; and cycle identity, timing, and required gates derive from verified source bytes. AC-7 remains unsatisfied because no real equivalent terminal baseline and candidate cohort exists.\",\"changes\":[\"csdlc-v2/src/estimation.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/tests/estimation_contracts.rs\"],\"artifacts\":[\".csdlc/evidence/5822/atomic-readiness-repair.json\",\".csdlc/evidence/5822/forecast.json\",\".csdlc/evidence/5822/accepted-estimate.json\",\".csdlc/evidence/5822/calibration-source-manifest.json\",\".csdlc/evidence/5822/calibration-report.json\",\".csdlc/evidence/5822/cycle-time-evidence-boundary.json\",\".csdlc/evidence/5822/validation-summary.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"estimation_contracts\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the focused estimation and finish contracts, including forged identity, favorable outcome, digest, traversal, deferred finish, operator timing, and gate-derived cycle negatives.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5822/validation-summary.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"estimation_contracts\",\"cycle_comparison_derives_basis_gates_and_totals_from_verified_artifacts\"],\"purpose\":\"Require a real equivalent terminal baseline and candidate cohort under identical source-derived gates for AC-7.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/5822/cycle-time-evidence-boundary.json\"}]}"
+    },
+    {
+      "sequence": 62,
+      "generation": 47,
+      "actor": "codex:5822-terminal-baseline-repair",
+      "reason": "Replace the stale baseline-versus-candidate blocker with the live issue contract: one measured terminal baseline and an explicit no-candidate, no-reduction boundary.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"estimation-contracts-exact-target\",\"proof_role\":\"Prove source-derived identity and measurements, recursive calibration verification, deferred finish retention, gate-derived cycle projections, traversal rejection, advisory semantics, and the retained terminal baseline boundary; zero tests fail.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":9000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"estimation_contracts\"],\"parallel_group\":\"csdlc-v2\",\"defer_reason\":null},{\"lane\":\"terminal-cycle-time-baseline\",\"proof_role\":\"Validate one genuinely terminal issue with complete retained lifecycle, session, GitHub, CI, and operator timing while requiring candidate and reduction fields to remain absent.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"estimation_contracts\",\"retained_cycle_boundary_records_one_terminal_baseline_without_a_reduction_claim\"],\"parallel_group\":\"analysis\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors and support exact-revision review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 63,
+      "generation": 48,
+      "actor": "codex:5822-terminal-baseline-repair",
+      "reason": "Align AC-7 with the operator-approved terminal-baseline and explicit no-comparison contract already published on the live issue.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"Typed observation, forecast, accepted-estimate, and outcome schemas retain per-field provenance and explicit unknown values\",\"Lifecycle, GitHub, PVF/validation, approved session, and operator-annotation adapters derive identity and measurements from byte-verified retained source artifacts without transcript-content leakage\",\"Comparable cohorts exclude target actuals and forecasts report ranges, cohort size, dispersion, confidence, outlier factors, and drift state\",\"Static PlanningProfile estimates remain an explicit fallback when data sufficiency or verified calibration gates fail\",\"A typed SPP edit records advisory estimate source and operator disposition without enforcing time, tokens, completion, or phase\",\"Terminal closeout records every available retained actual measurement in forecast-versus-actual evidence and supports reproducible digest-linked calibration reports\",\"A real retained terminal baseline is measured; no cycle-time or reconnection reduction is claimed until an equivalent terminal candidate cohort exists with identical gates and complete byte-verified evidence\",\"The exact csdlc-v2/tests/estimation_contracts.rs target proves source-derived adapters, privacy, deterministic cohorts, fallback, calibration verification, terminal actual collection, artifact tamper rejection, and deferred comparison behavior with zero tests treated as failure\"]}"
+    },
+    {
+      "sequence": 64,
+      "generation": 49,
+      "actor": "codex:5822-terminal-baseline-repair",
+      "reason": "Replace the obsolete AC-7 blocker with the measured terminal baseline and the focused passing validation truth.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"WP-05 now retains provenance-bearing advisory estimates and terminal actuals, recomputes calibration from verified sources, measures one genuine terminal cycle-time baseline, and explicitly leaves candidate and reduction fields absent until an equivalent terminal cohort exists.\",\"changes\":[\"csdlc-v2/src/estimation.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/tests/estimation_contracts.rs\"],\"artifacts\":[\".csdlc/evidence/5822/forecast.json\",\".csdlc/evidence/5822/accepted-estimate.json\",\".csdlc/evidence/5822/calibration-source-manifest.json\",\".csdlc/evidence/5822/calibration-report.json\",\".csdlc/evidence/5822/cycle-time-baseline.json\",\".csdlc/evidence/5822/terminal-baseline-source-5778.json\",\".csdlc/evidence/5822/cycle-time-evidence-boundary.json\",\".csdlc/evidence/5822/validation-summary.json\"],\"validation\":[{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5822/csdlc-v2\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"estimation_contracts\"],\"purpose\":\"Prove all nine estimation, retained-source, terminal-outcome, calibration, security-negative, and terminal-baseline contracts with zero failures.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5822/cycle-time-baseline.json\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace errors at the exact review revision.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5822/cycle-time-evidence-boundary.json\"}]}"
     }
   ]
 }

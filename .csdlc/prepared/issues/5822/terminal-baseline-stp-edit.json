@@ -1,0 +1,21 @@
+{
+  "issue": 5822,
+  "card": "stp",
+  "expected_generation": 47,
+  "expected_digest": "93da55e6ce938686d38789a7b02e5428bcd88934edbb428d41bcfe6b1b1a2246",
+  "actor": "codex:5822-terminal-baseline-repair",
+  "reason": "Align AC-7 with the operator-approved terminal-baseline and explicit no-comparison contract already published on the live issue.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "Typed observation, forecast, accepted-estimate, and outcome schemas retain per-field provenance and explicit unknown values",
+      "Lifecycle, GitHub, PVF/validation, approved session, and operator-annotation adapters derive identity and measurements from byte-verified retained source artifacts without transcript-content leakage",
+      "Comparable cohorts exclude target actuals and forecasts report ranges, cohort size, dispersion, confidence, outlier factors, and drift state",
+      "Static PlanningProfile estimates remain an explicit fallback when data sufficiency or verified calibration gates fail",
+      "A typed SPP edit records advisory estimate source and operator disposition without enforcing time, tokens, completion, or phase",
+      "Terminal closeout records every available retained actual measurement in forecast-versus-actual evidence and supports reproducible digest-linked calibration reports",
+      "A real retained terminal baseline is measured; no cycle-time or reconnection reduction is claimed until an equivalent terminal candidate cohort exists with identical gates and complete byte-verified evidence",
+      "The exact csdlc-v2/tests/estimation_contracts.rs target proves source-derived adapters, privacy, deterministic cohorts, fallback, calibration verification, terminal actual collection, artifact tamper rejection, and deferred comparison behavior with zero tests treated as failure"
+    ]
+  }
+}

@@ -31,7 +31,7 @@ Deliver measured estimation, reconnection, and simplified lifecycle path.
 4. Static PlanningProfile estimates remain an explicit fallback when data sufficiency or verified calibration gates fail
 5. A typed SPP edit records advisory estimate source and operator disposition without enforcing time, tokens, completion, or phase
 6. Terminal closeout records every available retained actual measurement in forecast-versus-actual evidence and supports reproducible digest-linked calibration reports
-7. Equivalent baseline and candidate cohorts demonstrate truthful operator cycle-time and reconnection behavior without gate weakening
+7. A real retained terminal baseline is measured; no cycle-time or reconnection reduction is claimed until an equivalent terminal candidate cohort exists with identical gates and complete byte-verified evidence
 8. The exact csdlc-v2/tests/estimation_contracts.rs target proves source-derived adapters, privacy, deterministic cohorts, fallback, calibration verification, terminal actual collection, artifact tamper rejection, and deferred comparison behavior with zero tests treated as failure
 
 ## Dependencies

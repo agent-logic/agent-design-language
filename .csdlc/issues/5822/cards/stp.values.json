@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-05] C-SDLC estimation and cycle-time reduction",
     "slug": "v0-92-wp-05-c-sdlc-estimation-and-cycle-time-reduction",
     "version": "v0.92",
-    "generation": 46
+    "generation": 49
   },
   "status": "ready",
   "content": {
@@ -29,7 +29,7 @@
         "Static PlanningProfile estimates remain an explicit fallback when data sufficiency or verified calibration gates fail",
         "A typed SPP edit records advisory estimate source and operator disposition without enforcing time, tokens, completion, or phase",
         "Terminal closeout records every available retained actual measurement in forecast-versus-actual evidence and supports reproducible digest-linked calibration reports",
-        "Equivalent baseline and candidate cohorts demonstrate truthful operator cycle-time and reconnection behavior without gate weakening",
+        "A real retained terminal baseline is measured; no cycle-time or reconnection reduction is claimed until an equivalent terminal candidate cohort exists with identical gates and complete byte-verified evidence",
         "The exact csdlc-v2/tests/estimation_contracts.rs target proves source-derived adapters, privacy, deterministic cohorts, fallback, calibration verification, terminal actual collection, artifact tamper rejection, and deferred comparison behavior with zero tests treated as failure"
       ],
       "dependencies": [
