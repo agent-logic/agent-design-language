@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-02B][build] Run the post-migration build acceleration experiment",
     "slug": "v0-92-wp-02b-post-migration-build-acceleration",
     "version": "v0.92",
-    "generation": 23
+    "generation": 35
   },
   "status": "ready",
   "content": {
@@ -40,7 +40,7 @@
         },
         {
           "lane": "runner-security-negative",
-          "proof_role": "Reject broad repository access, concurrency expansion, untrusted fork privilege, missing fallback, changed required-check identity, or incomplete cleanup.",
+          "proof_role": "Reject broad repository access, concurrency above ten, untrusted fork privilege, missing fallback, changed required-check identity, or incomplete cleanup.",
           "acceptance_ids": [
             "AC-1",
             "AC-6",
@@ -55,7 +55,7 @@
             "ruby",
             "-rjson",
             "-e",
-            "e=JSON.parse(File.read('.csdlc/evidence/5853/eligibility.json')); f=JSON.parse(File.read('.csdlc/evidence/5853/final-state.json')); abort('security boundary') unless e['selected_repository_access']==true&&e['concurrency_one']==true&&e['untrusted_fork_privilege']==false&&f['standard_runner_fallback']==true&&f['required_check_identity_preserved']==true"
+            "e=JSON.parse(File.read('.csdlc/evidence/5853/eligibility.json')); f=JSON.parse(File.read('.csdlc/evidence/5853/final-state.json')); abort('security boundary') unless e['selected_repository_access']==true&&e['bounded_concurrency']==true&&e.dig('runner_receipt','maximum_runners')==10&&f['runner_group_concurrency']==10&&e['untrusted_fork_privilege']==false&&f['standard_runner_fallback']==true&&f['required_check_identity_preserved']==true"
           ],
           "parallel_group": "negative",
           "defer_reason": null
@@ -103,7 +103,7 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on incomplete entry gates, incomparable trials, missing samples, proof drift, access expansion, budget breach, or false acceleration claims; preserve the standard-runner route and specific evidence instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5853/design.md",
-      "design_digest": "647236d6cb80c075e20be0bce9125064fc4b7ec21f6b2f447cad1a54098864a7",
+      "design_digest": "01ba2e3b1320adccf2b604ea3e3d858edcd16885c2fa50f176716ee2abda1e4e",
       "diagram_ref": ".csdlc/prepared/issues/5853/diagram.mmd",
       "diagram_digest": "17d5a853df6d07718c8495e9076f622572dea08eba574fccccf450a39131a966"
     }

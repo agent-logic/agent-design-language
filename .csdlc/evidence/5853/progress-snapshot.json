@@ -5,7 +5,7 @@
   "production_runner": "adl-ubuntu-24.04-16core",
   "standard_experiment_dispatch_disabled": true,
   "runner_group_id": 3,
-  "runner_group_concurrency": 1,
+  "runner_group_concurrency": 10,
   "budget_amount": 10,
   "accrued_rounded_cost": 1.302,
   "successful_paid_runs": 8,

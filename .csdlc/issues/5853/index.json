@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "30c5e01cd7aaa0c008930afafb3d1c037c58ffe34866399d13f29b55d2f8d503",
   "phase": "bound",
-  "generation": 23,
-  "digest": "db4e9c9085b7751f234b8dbbde8a6921e248be7837c4626967aa8262889830c0",
+  "generation": 35,
+  "digest": "09d6d447d35790704cbfa613c95ac26363c4fb22889c9410b6a59c9b48a3d07c",
   "branch": "codex/5853-v0-92-wp-02b-post-migration-build-acceleration",
   "worktree": "/Volumes/FastWork/adl-wp-5853-v0-92-wp-02b-post-migration-build-acceleration",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5853/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5853-operator-replan",
-      "revision": "647236d6cb80c075e20be0bce9125064fc4b7ec21f6b2f447cad1a54098864a7"
+      "reviewer": "codex:5853-max10-runner-replan",
+      "revision": "01ba2e3b1320adccf2b604ea3e3d858edcd16885c2fa50f176716ee2abda1e4e"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "09b7ac1b6491a525aa4a7cf41e8559c5da3f6eee2b79cb82a03113e5035ed5b3",
-      "rendered_digest": "718b77d5b1f856b60e25fae5100d133ef18c17c723d1361c324c12fa4af50fce",
-      "ast_digest": "437de793a48b3ec154bcbfbe384ac1d81457087ed3eb36e7b8b8579aa6faae0c"
+      "values_digest": "de1acbe927844a8cf7655e00854759bf7b9a64a95addfbe8e7302dff9533e4f2",
+      "rendered_digest": "9f1e73fc7b55bb8e85f5ee67bccc245158163f8e08e12c23b86e79a73b71aa35",
+      "ast_digest": "5df5bd8d50cc89e0c6014e4f9f470c80cfc8826c06862ecaa9d87f19daf1beba"
     },
     "stp": {
-      "values_digest": "bb1bd47afae6eef755cfba4d3fa9766b1285bb135fa85af27b83e66fb1dd6c2d",
-      "rendered_digest": "d2b6fe8ce2a25ce639dec9db7c090a6a75c0d39748f2aa00cd56801bef70ceb5",
-      "ast_digest": "e50b2b52690a240b7b5453ea5fb9b1f9b023b1cdc9b68ea11fd46d093cd4b721"
+      "values_digest": "6fd2e661ddbbfc6878c72c8102ad70807eeaa82ae62336953763445709bbf9cb",
+      "rendered_digest": "853df59253d0e6a815bbd3779c6b3aee6f54abbb84dc7cfb943c6ddd9952c980",
+      "ast_digest": "1e96e65310a7d9f8aa677cbbf5a8b6c0722a7a1cbc55c806deab3807d09e2f89"
     },
     "spp": {
-      "values_digest": "e3845c6313b209801eac28191b3aecaa2406aceff1f0d741ce6ffd856b858936",
-      "rendered_digest": "75c2415f602f130911349816d3fa2e6da29bcd1a3d3890b931e26cbb8dd3993b",
-      "ast_digest": "6dc6d790341241b3a7747195afdb9af5780bec980721ffecf58124caf6b1656f"
+      "values_digest": "985552761dab6604bec9ad2792471cd8536b7577f4fe4cb4fab871eb70aa4b25",
+      "rendered_digest": "c1c62925181c687e8828023c525497b9b7998df275943bee0a35be671c0e76de",
+      "ast_digest": "fd4b933593db584f4dbc1b3ebb98eafaa528372af8cdaa9e9758183d57349f1f"
     },
     "vpp": {
-      "values_digest": "8587fac06c37eb79b8120c41011ee7cc9127d8b7b5e56fd8a111df58c79d1ca4",
-      "rendered_digest": "745d19bc43ea42cab9f38a7bd972f8f9ef5060c4590d4e660b67069e4e799271",
-      "ast_digest": "afd6e98e442169580725768bd08c3b132940f0bcab54f2ecfd6000ef706f3fc8"
+      "values_digest": "95448c78813fa31645b6351f5380a6c99de6a3c494fcace19a093eb2bf3e4857",
+      "rendered_digest": "1cf58848c0df44895e235b745d9dbf26e1a40185e0dcc321567e32504cbae1de",
+      "ast_digest": "a070c434a89391f5660ff219bcb1d9965feb141db1b150d05c7a6d9b3ca4d420"
     },
     "srp": {
-      "values_digest": "e4a7e1c60e05cae198d08eb7880d75c43fa1f10467f771b87d188faff88ad4c7",
+      "values_digest": "a8f4a1f1f2ced6e2b9b00cd5be4c9fde970246f2d39e3e269f1450bb6c05c051",
       "rendered_digest": "b697a1894e90439d6a5d7b5c5b3954a52a9766c17bf612204b20287c993ae387",
       "ast_digest": "191d41e27dcd0b8037611c604f1d89297c6d224c576055534d242e69ce6a35aa"
     },
     "sor": {
-      "values_digest": "2b5ad5409c25867c1e734f6a871d114f9fc45d0156f4d55f85a16d4d26d4f96d",
+      "values_digest": "6a95e2e71181b091a618731f65ec49e720f5d4a0244c196289bd15b0584dd88d",
       "rendered_digest": "c8c0658069791fed33a7be33428288105be9227795586c3ab67ca9b5c6c9272f",
       "ast_digest": "c376bbd4d55aa0d818ef44f2c187ea3875d728095d27dddd352d43798c8fa825"
     }
@@ -399,6 +399,90 @@
       "actor": "codex:5853-contract-repair",
       "reason": "Make the accepted contract exactly match the bounded 16-core experiment and production adoption path.",
       "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"WP-02, WP-02A, organization plan, owner budget and alerts, selected-repository access, concurrency-one, security, and rollback entry gates are verified\",\"Exactly one cold, three warm, and three test-only 16-core measurements are retained with finite nonnegative timings, queue and cache evidence, and warm cache-hit proof\",\"The issue-local validator recomputes statistics, reliability, and cost from retained per-run accounting and rejects denominator, toolchain, runner, report, threshold, or production-canary drift\",\"The test-only p95 is at most 120 seconds and its median duration improves by at least 35 percent over the warm baseline\",\"adl-rust-tests runs on adl-ubuntu-24.04-16core with its required-check identity, commands, validation breadth, and proof semantics unchanged\",\"The temporary workflow-dispatch experiment harness is absent from the final implementation\",\"The implementation PR passes an exact-head adl-rust-tests production canary on the selected 16-core runner\",\"The focused evidence validator, workflow-routing contract, diff hygiene, and independent exact-head review pass\"]}"
+    },
+    {
+      "sequence": 42,
+      "generation": 24,
+      "actor": "codex:5853-max10-runner-replan",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 43,
+      "generation": 25,
+      "actor": "codex:5853-max10-runner-replan",
+      "reason": "Record the operator-authorized maximum of ten selected 16-core runners and direct exact-head canary requirement.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"WP-02, WP-02A, organization plan, owner budget and alerts, selected-repository access, bounded maximum concurrency ten, security, and rollback entry gates are verified\",\"Exactly one cold, three warm, and three test-only 16-core measurements are retained with finite nonnegative timings, queue and cache evidence, and warm cache-hit proof\",\"The issue-local validator recomputes statistics, reliability, and cost from retained per-run accounting and rejects denominator, toolchain, runner, report, threshold, or production-canary drift\",\"The test-only p95 is at most 120 seconds and its median duration improves by at least 35 percent over the warm baseline\",\"adl-rust-tests and the heavy Rust validation producers run on adl-ubuntu-24.04-16core with required-check identities, commands, validation breadth, and proof semantics unchanged\",\"The temporary workflow-dispatch experiment harness is absent from the final implementation\",\"The implementation PR passes an exact-head direct adl-rust-tests production canary on the selected 16-core runner without substituting a skipped test shell\",\"The focused evidence validator, workflow-routing contract, diff hygiene, and independent exact-head review pass\"]}"
+    },
+    {
+      "sequence": 44,
+      "generation": 26,
+      "actor": "codex:5853-max10-runner-replan",
+      "reason": "Record bounded runner capacity and issue-affected CI execution.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Run only after WP-02 and WP-02A gates pass\",\"Use one restricted selected-repository runner group with maximum concurrency ten; run only issue-affected lanes except for an explicitly required full-validation wave\",\"Freeze exact comparison inputs and preserve required-check identity\",\"Retain all samples and explain every excluded result\",\"Never edit tracked work on main\",\"Use one bounded pre-PR review\"]}"
+    },
+    {
+      "sequence": 45,
+      "generation": 27,
+      "actor": "codex:5853-max10-runner-replan",
+      "reason": "Reconcile runner-routing authority with the operator authorization.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Issue 5853 owns the bounded 16-core GitHub-hosted runner experiment and any accepted routing change\",\"WP-02 owns repository transfer and WP-02A owns CI correctness and coverage reliability\",\"Organization billing and runner-group changes require Agent Logic organization-owner approval\",\"The operator-authorized scope includes routing heavy Rust validation producers to the selected 16-core runner pool with capacity capped at ten; 32-core, custom-image, ARM64, AWS, and self-hosted changes remain separate work\"]}"
+    },
+    {
+      "sequence": 46,
+      "generation": 28,
+      "actor": "codex:5853-max10-runner-replan",
+      "reason": "Align deliverables with the authorized heavy-runner pool.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Migration, budget, selected-repository access, bounded maximum concurrency ten, security, and rollback eligibility receipts\",\"One cold, three warm, and three test-only 16-core measurement receipts with queue, cache, timing, reliability, and cost accounting\",\"Recomputed performance and cost decision bound to frozen adoption thresholds\",\"Production routing of adl-rust-tests and heavy Rust validation producers to adl-ubuntu-24.04-16core with unchanged check identities and validation semantics\",\"Removal of the temporary experiment-dispatch harness\",\"Green exact-head production canary plus focused validator, workflow-contract, diff-hygiene, and independent review evidence\"]}"
+    },
+    {
+      "sequence": 47,
+      "generation": 29,
+      "actor": "codex:5853-max10-runner-replan",
+      "reason": "Remove the now-authorized heavy Rust routing topology from non-goals.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"AWS or a self-hosted runner platform\",\"Organization-wide larger-runner defaults\",\"Changes to validation breadth, test semantics, required-check names, or branch protection\",\"32-core, custom-image, ARM64, or self-hosted experiments\",\"Treating runner provisioning, cache existence, or planning prose as acceleration proof\"]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 30,
+      "actor": "codex:5853-max10-runner-replan",
+      "reason": "Replan execution for bounded parallel heavy-runner routing.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Verify migration, budget, runner-group, selected-repository, bounded maximum concurrency ten, and rollback gates\",\"acceptance_ids\":[\"AC-1\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Retain one cold, three warm, and three test-only 16-core measurements and recompute the bounded decision\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Route adl-rust-tests and heavy Rust validation producers to the selected runner, preserve lightweight orchestration on standard runners, validate, and require a green direct-test production canary\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 49,
+      "generation": 31,
+      "actor": "codex:5853-max10-runner-replan",
+      "reason": "Restore completed entry-gate step after typed replan.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 50,
+      "generation": 32,
+      "actor": "codex:5853-max10-runner-replan",
+      "reason": "Restore completed measurement step after typed replan.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 51,
+      "generation": 33,
+      "actor": "codex:5853-max10-runner-replan",
+      "reason": "Record the paid-heavy and standard-lightweight routing invariant.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Heavy Rust validation producers use the selected 16-core runner pool capped at ten; lightweight orchestration remains on standard GitHub-hosted runners and the standard runner remains the immediate fallback\",\"Exact-head validation and proof quality are independent of runner class\",\"Required-check names and branch protection remain stable\",\"No tracked work occurs on main\",\"No sample or error is silently discarded\"]}"
+    },
+    {
+      "sequence": 52,
+      "generation": 34,
+      "actor": "codex:5853-max10-runner-replan",
+      "reason": "Validate bounded ten-runner capacity and retained security controls.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"experiment-evidence-contract\",\"proof_role\":\"Validate entry gates, frozen numeric thresholds, finite nonnegative and internally consistent raw samples, recomputed statistics and reliability, parity, threshold-bound decisions, and observation-or-cleanup state. [preexec_rejection exit=1 diagnostic_sha256=1eb3ccc84301d57160de21ef230e744a5eac8ede13c80e5ab4ef837bfcf8d44f]\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5853/validate-experiment.rb\"],\"parallel_group\":\"experiment-analysis\",\"defer_reason\":null},{\"lane\":\"runner-security-negative\",\"proof_role\":\"Reject broad repository access, concurrency above ten, untrusted fork privilege, missing fallback, changed required-check identity, or incomplete cleanup.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\"-rjson\",\"-e\",\"e=JSON.parse(File.read('.csdlc/evidence/5853/eligibility.json')); g=JSON.parse(File.read('.csdlc/evidence/5853/runner-group-receipt.json')); f=JSON.parse(File.read('.csdlc/evidence/5853/final-state.json')); abort('security boundary') unless e['selected_repository_access']==true&&e['bounded_concurrency']==true&&g['maximum_runners']==10&&f['runner_group_concurrency']==10&&e['untrusted_fork_privilege']==false&&f['standard_runner_fallback']==true&&f['required_check_identity_preserved']==true\"],\"parallel_group\":\"negative\",\"defer_reason\":null},{\"lane\":\"workflow-routing-platform-contract\",\"proof_role\":\"Prove Linux larger-runner routing remains a machine-selection detail and preserves workflow/check semantics.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"adl/tools/test_ci_runtime_contracts.sh\"],\"parallel_group\":\"workflow\",\"defer_reason\":null},{\"lane\":\"exact-head-diff-hygiene\",\"proof_role\":\"Reject whitespace errors and support exact-revision review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 53,
+      "generation": 35,
+      "actor": "codex:5853-max10-runner-replan",
+      "reason": "Validate bounded ten-runner capacity and retained security controls.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"experiment-evidence-contract\",\"proof_role\":\"Validate entry gates, frozen numeric thresholds, finite nonnegative and internally consistent raw samples, recomputed statistics and reliability, parity, threshold-bound decisions, and observation-or-cleanup state. [preexec_rejection exit=1 diagnostic_sha256=1eb3ccc84301d57160de21ef230e744a5eac8ede13c80e5ab4ef837bfcf8d44f]\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5853/validate-experiment.rb\"],\"parallel_group\":\"experiment-analysis\",\"defer_reason\":null},{\"lane\":\"runner-security-negative\",\"proof_role\":\"Reject broad repository access, concurrency above ten, untrusted fork privilege, missing fallback, changed required-check identity, or incomplete cleanup.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\"-rjson\",\"-e\",\"e=JSON.parse(File.read('.csdlc/evidence/5853/eligibility.json')); f=JSON.parse(File.read('.csdlc/evidence/5853/final-state.json')); abort('security boundary') unless e['selected_repository_access']==true&&e['bounded_concurrency']==true&&e.dig('runner_receipt','maximum_runners')==10&&f['runner_group_concurrency']==10&&e['untrusted_fork_privilege']==false&&f['standard_runner_fallback']==true&&f['required_check_identity_preserved']==true\"],\"parallel_group\":\"negative\",\"defer_reason\":null},{\"lane\":\"workflow-routing-platform-contract\",\"proof_role\":\"Prove Linux larger-runner routing remains a machine-selection detail and preserves workflow/check semantics.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"adl/tools/test_ci_runtime_contracts.sh\"],\"parallel_group\":\"workflow\",\"defer_reason\":null},{\"lane\":\"exact-head-diff-hygiene\",\"proof_role\":\"Reject whitespace errors and support exact-revision review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
     }
   ]
 }

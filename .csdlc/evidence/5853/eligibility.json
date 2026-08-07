@@ -1,5 +1,5 @@
 {
-  "schema": "adl.wp02b.eligibility.v1",
+  "schema": "adl.wp02b.eligibility.v2",
   "migration_gate": true,
   "ci_reliability_gate": true,
   "organization_plan_ready": true,
@@ -7,7 +7,7 @@
   "budget_alerts_configured": true,
   "spend_alerts_configured": true,
   "selected_repository_access": true,
-  "concurrency_one": true,
+  "bounded_concurrency": true,
   "rollback_verified": true,
   "untrusted_fork_privilege": false,
   "approved_max_total_cost": 10,
@@ -32,7 +32,7 @@
     "name": "adl-ubuntu-24.04-16core",
     "status": "Ready",
     "runner_group_id": 3,
-    "maximum_runners": 1,
+    "maximum_runners": 10,
     "machine_size": "16-core",
     "public_ip_enabled": false
   }

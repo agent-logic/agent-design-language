@@ -38,6 +38,7 @@
     "cpu_cores": 16,
     "memory_gb": 64,
     "storage_gb": 600,
+    "maximum_runners": 10,
     "rate_usd_per_rounded_job_minute": 0.042,
     "idle_cost_usd": 0
   },

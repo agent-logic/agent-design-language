@@ -5,7 +5,7 @@
   "required_check_identity_preserved": true,
   "validation_breadth_preserved": false,
   "validation_breadth_contract_preserved": true,
-  "runner_group_concurrency": 1,
+  "runner_group_concurrency": 10,
   "selected_repository_access": true,
   "untrusted_fork_privilege": false,
   "standard_runner_fallback": true,

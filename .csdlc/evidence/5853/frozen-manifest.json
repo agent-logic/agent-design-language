@@ -56,7 +56,7 @@
       "workflow_label": "adl-ubuntu-24.04-16core",
       "runner_id": 2,
       "runner_group_id": 3,
-      "maximum_runners": 1,
+      "maximum_runners": 10,
       "cost_usd_per_rounded_job_minute": 0.042
     }
   },
@@ -76,7 +76,7 @@
   "stop_conditions": [
     "projected metered candidate usage can reach USD 10 before the next dispatch",
     "hard-stop budget or alerts are absent",
-    "runner maximum_runners differs from one",
+    "runner maximum_runners differs from ten",
     "runner group repository or workflow allowlist widens",
     "frozen commit, workflow, lockfile, manifest, toolchain, command, permission, cache, or image identity drifts",
     "any candidate failure, cancellation, parity failure, or unexplained outlier occurs"

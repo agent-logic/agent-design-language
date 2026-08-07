@@ -16,14 +16,14 @@ Use the seven retained 16-core measurements to select the test-only command stru
 
 ## Plan
 
-Revision 9
+Revision 11
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Verify migration, budget, runner-group, selected-repository, concurrency-one, and rollback gates",
+    "action": "Verify migration, budget, runner-group, selected-repository, bounded maximum concurrency ten, and rollback gates",
     "acceptance_ids": [
       "AC-1",
       "AC-7"
@@ -43,7 +43,7 @@ Revision 9
   },
   {
     "id": "S3",
-    "action": "Route adl-rust-tests to the selected runner, remove experiment-only machinery, validate, and require a green production canary",
+    "action": "Route adl-rust-tests and heavy Rust validation producers to the selected runner, preserve lightweight orchestration on standard runners, validate, and require a green direct-test production canary",
     "acceptance_ids": [
       "AC-6",
       "AC-7",
@@ -55,7 +55,7 @@ Revision 9
 
 ## Invariants
 
-- Standard GitHub-hosted runners remain the default and immediate fallback
+- Heavy Rust validation producers use the selected 16-core runner pool capped at ten; lightweight orchestration remains on standard GitHub-hosted runners and the standard runner remains the immediate fallback
 - Exact-head validation and proof quality are independent of runner class
 - Required-check names and branch protection remain stable
 - No tracked work occurs on main
@@ -82,7 +82,7 @@ Revision 9
 
 .csdlc/prepared/issues/5853/design.md
 
-Digest: 647236d6cb80c075e20be0bce9125064fc4b7ec21f6b2f447cad1a54098864a7
+Digest: 01ba2e3b1320adccf2b604ea3e3d858edcd16885c2fa50f176716ee2abda1e4e
 
 ## Diagram
 

@@ -49,7 +49,7 @@ eligibility = read_json(EVIDENCE.join("eligibility.json"))
 %w[
   migration_gate ci_reliability_gate organization_plan_ready owner_budget_approved
   budget_alerts_configured spend_alerts_configured selected_repository_access
-  concurrency_one rollback_verified
+  bounded_concurrency rollback_verified
 ].each { |gate| abort "eligibility gate not proven: #{gate}" unless eligibility[gate] == true }
 abort "cost ceiling drifted" unless eligibility["approved_max_total_cost"] == 10
 
@@ -58,7 +58,7 @@ abort "measurement status drifted" unless status["phase"] == "measurement_comple
 
 manifest = read_json(EVIDENCE.join("frozen-manifest.json"))
 abort "wrong selected runner" unless manifest.dig("production_target", "github-hosted-ubuntu-16-core", "workflow_label") == RUNNER_LABEL
-abort "runner concurrency drifted" unless manifest.dig("production_target", "github-hosted-ubuntu-16-core", "maximum_runners") == 1
+abort "runner concurrency drifted" unless manifest.dig("production_target", "github-hosted-ubuntu-16-core", "maximum_runners") == 10
 abort "standard comparison was re-enabled" unless manifest.dig("historical_baseline", "dispatch_allowed") == false
 abort "trial denominator drifted" unless manifest["trial_counts"] == {
   "cold_baseline" => 1, "warm_baseline" => 3, "cache_seed_total" => 1, "test_only_canary" => 3

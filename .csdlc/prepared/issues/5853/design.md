@@ -33,15 +33,16 @@ portable runtime dependency.
 
 ## Security And Negative Boundary
 
-- The runner group is selected-repository only with maximum concurrency one.
+- The runner group is selected-repository only with maximum concurrency ten.
 - Paid execution requires an owner-approved maximum cost and alerts.
 - Untrusted fork code receives no privileged runner or secret access.
 - Required-check names, branch protection, validation breadth, and proof
   semantics do not change.
 - Missing gates, absent cache-hit evidence, incomplete declared samples,
   parity failure, cost breach, or failed cleanup invalidates adoption.
-- AWS, self-hosting, 32-core runners, coverage topology, custom images, and
-  ARM64 are separate decisions.
+- AWS, self-hosting, 32-core runners, custom images, and ARM64 are separate
+  decisions. Heavy Rust validation jobs may share the selected 16-core pool;
+  their commands, proof semantics, and required-check identities remain fixed.
 
 ## Rollback
 

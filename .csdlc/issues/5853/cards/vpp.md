@@ -48,7 +48,7 @@ Diagram: .csdlc/prepared/issues/5853/diagram.mmd
   },
   {
     "lane": "runner-security-negative",
-    "proof_role": "Reject broad repository access, concurrency expansion, untrusted fork privilege, missing fallback, changed required-check identity, or incomplete cleanup.",
+    "proof_role": "Reject broad repository access, concurrency above ten, untrusted fork privilege, missing fallback, changed required-check identity, or incomplete cleanup.",
     "acceptance_ids": [
       "AC-1",
       "AC-6",
@@ -63,7 +63,7 @@ Diagram: .csdlc/prepared/issues/5853/diagram.mmd
       "ruby",
       "-rjson",
       "-e",
-      "e=JSON.parse(File.read('.csdlc/evidence/5853/eligibility.json')); f=JSON.parse(File.read('.csdlc/evidence/5853/final-state.json')); abort('security boundary') unless e['selected_repository_access']==true&&e['concurrency_one']==true&&e['untrusted_fork_privilege']==false&&f['standard_runner_fallback']==true&&f['required_check_identity_preserved']==true"
+      "e=JSON.parse(File.read('.csdlc/evidence/5853/eligibility.json')); f=JSON.parse(File.read('.csdlc/evidence/5853/final-state.json')); abort('security boundary') unless e['selected_repository_access']==true&&e['bounded_concurrency']==true&&e.dig('runner_receipt','maximum_runners')==10&&f['runner_group_concurrency']==10&&e['untrusted_fork_privilege']==false&&f['standard_runner_fallback']==true&&f['required_check_identity_preserved']==true"
     ],
     "parallel_group": "negative",
     "defer_reason": null
@@ -121,7 +121,7 @@ Tokens: 50000
 ## Commands
 
 - `ruby .csdlc/prepared/issues/5853/validate-experiment.rb`
-- `ruby -rjson -e e=JSON.parse(File.read('.csdlc/evidence/5853/eligibility.json')); f=JSON.parse(File.read('.csdlc/evidence/5853/final-state.json')); abort('security boundary') unless e['selected_repository_access']==true&&e['concurrency_one']==true&&e['untrusted_fork_privilege']==false&&f['standard_runner_fallback']==true&&f['required_check_identity_preserved']==true`
+- `ruby -rjson -e e=JSON.parse(File.read('.csdlc/evidence/5853/eligibility.json')); f=JSON.parse(File.read('.csdlc/evidence/5853/final-state.json')); abort('security boundary') unless e['selected_repository_access']==true&&e['bounded_concurrency']==true&&e.dig('runner_receipt','maximum_runners')==10&&f['runner_group_concurrency']==10&&e['untrusted_fork_privilege']==false&&f['standard_runner_fallback']==true&&f['required_check_identity_preserved']==true`
 - `adl/tools/test_ci_runtime_contracts.sh`
 - `git diff --check`
 

@@ -546,8 +546,9 @@ required_status_job = job_block("adl-coverage")
 if "cargo llvm-cov report --lcov" in workspace_job + workspace_fast_job:
     raise SystemExit("workspace workflow must not run detached post-profile lcov commands")
 
-if "runs-on: ubuntu-latest" not in runtime_job or "runs-on: ubuntu-latest" not in workspace_job or "runs-on: ubuntu-latest" not in workspace_fast_job:
-    raise SystemExit("both isolated coverage producers must use fresh GitHub-hosted runners")
+selected_runner = "runs-on: adl-ubuntu-24.04-16core"
+if selected_runner not in runtime_job or selected_runner not in workspace_job or selected_runner not in workspace_fast_job:
+    raise SystemExit("Rust coverage producers must use the selected 16-core GitHub-hosted runner")
 if "needs.adl_path_policy.outputs.full_coverage_required == 'true'" not in runtime_job.split("runs-on:", 1)[0]:
     raise SystemExit("runtime coverage producer must run only for full authoritative coverage")
 if "needs.adl_path_policy.outputs.full_coverage_required == 'true'" not in workspace_job.split("runs-on:", 1)[0]:
@@ -914,6 +915,20 @@ if "runs-on: adl-ubuntu-24.04-16core" not in rust_test_job:
     raise SystemExit("adl-rust-tests must use the selected 16-core GitHub-hosted runner")
 if "runs-on: ubuntu-latest" in rust_test_job:
     raise SystemExit("adl-rust-tests must not silently fall back to the standard runner")
+rust_test_condition = rust_test_job.split("runs-on:", 1)[0]
+if "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'" not in rust_test_condition:
+    raise SystemExit("CI routing changes must exercise adl-rust-tests on the selected runner")
+
+for heavy_job_name in (
+    "csdlc_v2_standalone",
+    "adl_v2_standalone",
+    "adl_runtime_v3_fast",
+    "adl_rust_fmt_clippy",
+    "adl_demo_proof",
+    "adl-slow-proof",
+):
+    if selected_runner not in job_block(heavy_job_name):
+        raise SystemExit(f"{heavy_job_name} must use the selected 16-core GitHub-hosted runner")
 
 print("PASS test_ci_runtime_contracts")
 PY

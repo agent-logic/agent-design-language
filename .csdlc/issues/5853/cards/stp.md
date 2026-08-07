@@ -16,22 +16,22 @@ Measure the already-approved 16-core GitHub-hosted runner with one cold baseline
 
 ## Deliverables
 
-- Migration, budget, selected-repository access, concurrency-one, security, and rollback eligibility receipts
+- Migration, budget, selected-repository access, bounded maximum concurrency ten, security, and rollback eligibility receipts
 - One cold, three warm, and three test-only 16-core measurement receipts with queue, cache, timing, reliability, and cost accounting
 - Recomputed performance and cost decision bound to frozen adoption thresholds
-- Minimal production routing of adl-rust-tests to adl-ubuntu-24.04-16core with unchanged check identity and validation semantics
+- Production routing of adl-rust-tests and heavy Rust validation producers to adl-ubuntu-24.04-16core with unchanged check identities and validation semantics
 - Removal of the temporary experiment-dispatch harness
 - Green exact-head production canary plus focused validator, workflow-contract, diff-hygiene, and independent review evidence
 
 ## Acceptance
 
-1. WP-02, WP-02A, organization plan, owner budget and alerts, selected-repository access, concurrency-one, security, and rollback entry gates are verified
+1. WP-02, WP-02A, organization plan, owner budget and alerts, selected-repository access, bounded maximum concurrency ten, security, and rollback entry gates are verified
 2. Exactly one cold, three warm, and three test-only 16-core measurements are retained with finite nonnegative timings, queue and cache evidence, and warm cache-hit proof
 3. The issue-local validator recomputes statistics, reliability, and cost from retained per-run accounting and rejects denominator, toolchain, runner, report, threshold, or production-canary drift
 4. The test-only p95 is at most 120 seconds and its median duration improves by at least 35 percent over the warm baseline
-5. adl-rust-tests runs on adl-ubuntu-24.04-16core with its required-check identity, commands, validation breadth, and proof semantics unchanged
+5. adl-rust-tests and the heavy Rust validation producers run on adl-ubuntu-24.04-16core with required-check identities, commands, validation breadth, and proof semantics unchanged
 6. The temporary workflow-dispatch experiment harness is absent from the final implementation
-7. The implementation PR passes an exact-head adl-rust-tests production canary on the selected 16-core runner
+7. The implementation PR passes an exact-head direct adl-rust-tests production canary on the selected 16-core runner without substituting a skipped test shell
 8. The focused evidence validator, workflow-routing contract, diff hygiene, and independent exact-head review pass
 
 ## Dependencies
@@ -56,5 +56,5 @@ Measure the already-approved 16-core GitHub-hosted runner with one cold baseline
 - AWS or a self-hosted runner platform
 - Organization-wide larger-runner defaults
 - Changes to validation breadth, test semantics, required-check names, or branch protection
-- 32-core, coverage-topology, custom-image, ARM64, or self-hosted experiments
+- 32-core, custom-image, ARM64, or self-hosted experiments
 - Treating runner provisioning, cache existence, or planning prose as acceleration proof
