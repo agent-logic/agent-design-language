@@ -560,22 +560,37 @@ fn retained_cycle_boundary_records_one_terminal_baseline_without_a_reduction_cla
     assert_eq!(baseline["terminal"], true);
     assert_eq!(baseline["unknown_components"], serde_json::json!([]));
     assert_eq!(baseline["candidate_ref"], serde_json::Value::Null);
-    assert_eq!(baseline["elapsed_reduction_seconds"], serde_json::Value::Null);
-    assert_eq!(baseline["reconnect_action_reduction"], serde_json::Value::Null);
+    assert_eq!(
+        baseline["elapsed_reduction_seconds"],
+        serde_json::Value::Null
+    );
+    assert_eq!(
+        baseline["reconnect_action_reduction"],
+        serde_json::Value::Null
+    );
     assert_eq!(baseline["reduction_claimed"], false);
     let boundary: serde_json::Value = serde_json::from_slice(
         &fs::read(root.join(".csdlc/evidence/5822/cycle-time-evidence-boundary.json")).unwrap(),
     )
     .unwrap();
-    assert_eq!(boundary["status"], "terminal_baseline_measured_candidate_absent");
+    assert_eq!(
+        boundary["status"],
+        "terminal_baseline_measured_candidate_absent"
+    );
     assert_eq!(boundary["ac7_satisfied"], true);
     assert_eq!(
         boundary["baseline_artifact"],
         ".csdlc/evidence/5822/cycle-time-baseline.json"
     );
     assert_eq!(boundary["candidate_ref"], serde_json::Value::Null);
-    assert_eq!(boundary["elapsed_reduction_seconds"], serde_json::Value::Null);
-    assert_eq!(boundary["reconnect_action_reduction"], serde_json::Value::Null);
+    assert_eq!(
+        boundary["elapsed_reduction_seconds"],
+        serde_json::Value::Null
+    );
+    assert_eq!(
+        boundary["reconnect_action_reduction"],
+        serde_json::Value::Null
+    );
 }
 
 #[test]
