@@ -1,11 +1,11 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
-     Running tests/contract.rs (/Volumes/FastWork/adl-wp-5823-target/debug/deps/contract-70699edba0a06bfb)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.02s
+     Running tests/contract.rs (<machine-path-redacted>)
 
 running 10 tests
-test result_rejects_malformed_provenance_redaction_and_cleanup ... ok
+test fallback_is_same_profile_and_never_hides_bad_remote_proof ... ok
 test adapter_selection_and_shell_encoding_fail_closed ... ok
 test request_round_trip_and_adapter_plan_preserve_provenance ... ok
-test fallback_is_same_profile_and_never_hides_bad_remote_proof ... ok
+test result_rejects_malformed_provenance_redaction_and_cleanup ... ok
 test request_rejects_stale_digest_absolute_paths_and_secret_environment ... ok
 test canonical_adapter_result_hashes_declared_artifacts_and_preserves_contract ... ok
 test local_execution_rejects_stale_revision_before_spawning ... ok

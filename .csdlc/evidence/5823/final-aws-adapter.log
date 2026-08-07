@@ -1,21 +1,21 @@
 warning: function `portable_aws_adapter_plan` is never used
-   --> src/bin/../aws_remote_validation.rs:201:8
+   --> src/bin/../aws_remote_validation.rs:228:8
     |
-201 | pub fn portable_aws_adapter_plan(request: &PortableRequest) -> Result<PortableAdapterPlan> {
+228 | pub fn portable_aws_adapter_plan(request: &PortableRequest) -> Result<PortableAdapterPlan> {
     |        ^^^^^^^^^^^^^^^^^^^^^^^^^
     |
     = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
 
 warning: function `apply_portable_aws_request` is never used
-   --> src/bin/../aws_remote_validation.rs:205:8
+   --> src/bin/../aws_remote_validation.rs:232:8
     |
-205 | pub fn apply_portable_aws_request(
+232 | pub fn apply_portable_aws_request(
     |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 warning: function `validate_portable_aws_result` is never used
-   --> src/bin/../aws_remote_validation.rs:224:8
+   --> src/bin/../aws_remote_validation.rs:252:8
     |
-224 | pub fn validate_portable_aws_result(
+252 | pub fn validate_portable_aws_result(
     |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 warning: constant `REQUEST_SCHEMA` is never used
@@ -259,160 +259,148 @@ warning: function `resolve_repository_root` is never used
     |        ^^^^^^^^^^^^^^^^^^^^^^^
 
 warning: constant `SPOT_QUOTA_NAME` is never used
-  --> tests/../src/aws_remote_validation.rs:39:7
+  --> tests/../src/aws_remote_validation.rs:40:7
    |
-39 | const SPOT_QUOTA_NAME: &str = "All Standard (A, C, D, H, I, M, R, T, Z) Spot Instance Requests";
+40 | const SPOT_QUOTA_NAME: &str = "All Standard (A, C, D, H, I, M, R, T, Z) Spot Instance Requests";
    |       ^^^^^^^^^^^^^^^
    |
    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
 
 warning: constant `ON_DEMAND_QUOTA_NAME` is never used
-  --> tests/../src/aws_remote_validation.rs:40:7
+  --> tests/../src/aws_remote_validation.rs:41:7
    |
-40 | const ON_DEMAND_QUOTA_NAME: &str =
+41 | const ON_DEMAND_QUOTA_NAME: &str =
    |       ^^^^^^^^^^^^^^^^^^^^
 
 warning: constant `CACHE_ROLE_POLICY_NAME` is never used
-  --> tests/../src/aws_remote_validation.rs:42:7
+  --> tests/../src/aws_remote_validation.rs:43:7
    |
-42 | const CACHE_ROLE_POLICY_NAME: &str = "AdlAwsRemoteValidationCacheAccess";
+43 | const CACHE_ROLE_POLICY_NAME: &str = "AdlAwsRemoteValidationCacheAccess";
    |       ^^^^^^^^^^^^^^^^^^^^^^
 
 warning: constant `BUILDER_IMAGE_ECR_ROLE_POLICY_NAME` is never used
-  --> tests/../src/aws_remote_validation.rs:43:7
+  --> tests/../src/aws_remote_validation.rs:44:7
    |
-43 | const BUILDER_IMAGE_ECR_ROLE_POLICY_NAME: &str = "AdlAwsRemoteValidationBuilderImageEcrRead";
+44 | const BUILDER_IMAGE_ECR_ROLE_POLICY_NAME: &str = "AdlAwsRemoteValidationBuilderImageEcrRead";
    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 warning: function `ssh_debug_control_script_path` is never used
-  --> tests/../src/aws_remote_validation.rs:48:4
+  --> tests/../src/aws_remote_validation.rs:49:4
    |
-48 | fn ssh_debug_control_script_path() -> PathBuf {
+49 | fn ssh_debug_control_script_path() -> PathBuf {
    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 warning: function `spawn_tail_pump` is never used
-  --> tests/../src/aws_remote_validation.rs:54:4
+  --> tests/../src/aws_remote_validation.rs:55:4
    |
-54 | fn spawn_tail_pump<R>(reader: R, sink: Arc<Mutex<std::fs::File>>)
+55 | fn spawn_tail_pump<R>(reader: R, sink: Arc<Mutex<std::fs::File>>)
    |    ^^^^^^^^^^^^^^^
 
 warning: struct `SshDebugConfig` is never constructed
-   --> tests/../src/aws_remote_validation.rs:143:8
+   --> tests/../src/aws_remote_validation.rs:146:8
     |
-143 | struct SshDebugConfig {
+146 | struct SshDebugConfig {
     |        ^^^^^^^^^^^^^^
 
 warning: function `validate_portable_aws_result` is never used
-   --> tests/../src/aws_remote_validation.rs:224:8
+   --> tests/../src/aws_remote_validation.rs:252:8
     |
-224 | pub fn validate_portable_aws_result(
+252 | pub fn validate_portable_aws_result(
     |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-warning: function `write_summary_artifacts` is never used
-    --> tests/../src/aws_remote_validation.rs:1435:14
-     |
-1435 | pub async fn write_summary_artifacts(
-     |              ^^^^^^^^^^^^^^^^^^^^^^^
-
-warning: function `append_command_status_line` is never used
-    --> tests/../src/aws_remote_validation.rs:1516:4
-     |
-1516 | fn append_command_status_line(status: &str, detail: impl Into<String>) {
-     |    ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 warning: function `build_ssh_debug_config` is never used
-    --> tests/../src/aws_remote_validation.rs:1666:4
+    --> tests/../src/aws_remote_validation.rs:1837:4
      |
-1666 | fn build_ssh_debug_config(config: &AwsRemoteValidationConfig) -> Result<Option<SshDebugConfig>> {
+1837 | fn build_ssh_debug_config(config: &AwsRemoteValidationConfig) -> Result<Option<SshDebugConfig>> {
      |    ^^^^^^^^^^^^^^^^^^^^^^
 
 warning: function `temp_resource_name` is never used
-    --> tests/../src/aws_remote_validation.rs:1868:4
+    --> tests/../src/aws_remote_validation.rs:2039:4
      |
-1868 | fn temp_resource_name(issue: Option<u32>, run_id: &str, prefix: &str, max_len: usize) -> String {
+2039 | fn temp_resource_name(issue: Option<u32>, run_id: &str, prefix: &str, max_len: usize) -> String {
      |    ^^^^^^^^^^^^^^^^^^
 
 warning: struct `PreparedLaunchSurface` is never constructed
-    --> tests/../src/aws_remote_validation.rs:1901:12
+    --> tests/../src/aws_remote_validation.rs:2072:12
      |
-1901 | pub struct PreparedLaunchSurface {
+2072 | pub struct PreparedLaunchSurface {
      |            ^^^^^^^^^^^^^^^^^^^^^
 
 warning: struct `LiveAwsRemoteValidationAdapter` is never constructed
-    --> tests/../src/aws_remote_validation.rs:1907:12
+    --> tests/../src/aws_remote_validation.rs:2078:12
      |
-1907 | pub struct LiveAwsRemoteValidationAdapter {
+2078 | pub struct LiveAwsRemoteValidationAdapter {
      |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 warning: multiple associated items are never used
-    --> tests/../src/aws_remote_validation.rs:1919:18
+    --> tests/../src/aws_remote_validation.rs:2090:18
      |
-1918 | impl LiveAwsRemoteValidationAdapter {
+2089 | impl LiveAwsRemoteValidationAdapter {
      | ----------------------------------- associated items in this implementation
-1919 |     pub async fn new(config: &AwsRemoteValidationConfig) -> Result<Self> {
+2090 |     pub async fn new(config: &AwsRemoteValidationConfig) -> Result<Self> {
      |                  ^^^
 ...
-1948 |     async fn instance_public_ip(&self, instance_id: &str) -> Result<Option<String>> {
+2119 |     async fn instance_public_ip(&self, instance_id: &str) -> Result<Option<String>> {
      |              ^^^^^^^^^^^^^^^^^^
 ...
-1963 |     async fn subnet_availability_zone(&self, subnet_id: &str) -> Result<String> {
+2134 |     async fn subnet_availability_zone(&self, subnet_id: &str) -> Result<String> {
      |              ^^^^^^^^^^^^^^^^^^^^^^^^
 ...
-1978 |     async fn ensure_cache_volume(
+2149 |     async fn ensure_cache_volume(
      |              ^^^^^^^^^^^^^^^^^^^
 ...
-2108 |     async fn wait_for_volume_available(
+2279 |     async fn wait_for_volume_available(
      |              ^^^^^^^^^^^^^^^^^^^^^^^^^
 ...
-2140 |     async fn attach_cache_volume(
+2311 |     async fn attach_cache_volume(
      |              ^^^^^^^^^^^^^^^^^^^
 ...
-2214 |     async fn wait_for_instance_running(
+2385 |     async fn wait_for_instance_running(
      |              ^^^^^^^^^^^^^^^^^^^^^^^^^
 ...
-2261 |     async fn wait_for_ssh_debug_ready(
+2432 |     async fn wait_for_ssh_debug_ready(
      |              ^^^^^^^^^^^^^^^^^^^^^^^^
 ...
-2349 |     async fn start_ssh_tail(&self, instance_id: &str, run_root: &str) -> Result<Option<Child>> {
+2520 |     async fn start_ssh_tail(&self, instance_id: &str, run_root: &str) -> Result<Option<Child>> {
      |              ^^^^^^^^^^^^^^
 ...
-2404 |     pub async fn prepare_launch_surface(
+2575 |     pub async fn prepare_launch_surface(
      |                  ^^^^^^^^^^^^^^^^^^^^^^
 ...
-2502 |     pub async fn cleanup_launch_surface(
+2673 |     pub async fn cleanup_launch_surface(
      |                  ^^^^^^^^^^^^^^^^^^^^^^
 ...
-2633 |     async fn resolve_vpc_and_subnet(
+2804 |     async fn resolve_vpc_and_subnet(
      |              ^^^^^^^^^^^^^^^^^^^^^^
 ...
-2710 |     async fn resolve_default_ami(&self) -> Result<String> {
+2881 |     async fn resolve_default_ami(&self) -> Result<String> {
      |              ^^^^^^^^^^^^^^^^^^^
 ...
-2724 |     async fn create_security_group(
+2895 |     async fn create_security_group(
      |              ^^^^^^^^^^^^^^^^^^^^^
 ...
-2769 |     async fn ensure_ssh_debug_ingress(&self, group_id: &str) -> Result<()> {
+2940 |     async fn ensure_ssh_debug_ingress(&self, group_id: &str) -> Result<()> {
      |              ^^^^^^^^^^^^^^^^^^^^^^^^
 ...
-2806 |     async fn create_instance_profile_with_ssm_role(
+2977 |     async fn create_instance_profile_with_ssm_role(
      |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 warning: function `classify_run_instances_error` is never used
-    --> tests/../src/aws_remote_validation.rs:3612:4
+    --> tests/../src/aws_remote_validation.rs:3816:4
      |
-3612 | fn classify_run_instances_error(
+3816 | fn classify_run_instances_error(
      |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 warning: function `classify_ssm_error` is never used
-    --> tests/../src/aws_remote_validation.rs:3654:4
+    --> tests/../src/aws_remote_validation.rs:3858:4
      |
-3654 | fn classify_ssm_error<E: fmt::Display>(err: E) -> AwsAdapterError {
+3858 | fn classify_ssm_error<E: fmt::Display>(err: E) -> AwsAdapterError {
      |    ^^^^^^^^^^^^^^^^^^
 
 warning: function `classify_ec2_error` is never used
-    --> tests/../src/aws_remote_validation.rs:3662:4
+    --> tests/../src/aws_remote_validation.rs:3866:4
      |
-3662 | fn classify_ec2_error<E: fmt::Display>(err: E) -> AwsAdapterError {
+3866 | fn classify_ec2_error<E: fmt::Display>(err: E) -> AwsAdapterError {
      |    ^^^^^^^^^^^^^^^^^^
 
 warning: constant `RESULT_SCHEMA` is never used
@@ -554,29 +542,36 @@ warning: function `resolve_repository_root` is never used
     |        ^^^^^^^^^^^^^^^^^^^^^^^
 
 warning: `adl-aws-remote-validation-tool` (bin "adl-aws-remote-validation") generated 43 warnings
-warning: `adl-aws-remote-validation-tool` (test "portable_adapter") generated 41 warnings
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
-     Running tests/portable_adapter.rs (/Volumes/FastWork/adl-wp-5823-target/debug/deps/portable_adapter-9532c0b6b357afbb)
+warning: `adl-aws-remote-validation-tool` (test "portable_adapter") generated 39 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running tests/portable_adapter.rs (<machine-path-redacted>)
 
-running 19 tests
-test aws_remote_validation::tests::extract_run_root_supports_single_quoted_assignments ... ok
-test aws_remote_validation::tests::public_ipv4_cidr_accepts_one_global_address ... ok
-test aws_remote_validation::tests::parse_remote_summary_extracts_json_block ... ok
-test aws_adapter_rejects_other_provider_requests ... ok
-test aws_remote_validation::tests::public_ipv4_cidr_rejects_non_global_or_malformed_responses ... ok
+running 26 tests
 test aws_remote_validation::tests::build_remote_command_script_uses_boolean_nextest_flag ... ok
-test aws_remote_validation::tests::build_remote_command_script_uses_environment_backed_python_summary ... ok
+test aws_remote_validation::tests::extract_run_root_supports_single_quoted_assignments ... ok
+test aws_adapter_rejects_other_provider_requests ... ok
 test aws_remote_validation::tests::build_remote_command_script_tracks_sccache_degradation ... ok
+test aws_remote_validation::tests::public_ipv4_cidr_accepts_one_global_address ... ok
+test aws_remote_validation::tests::build_remote_command_script_uses_environment_backed_python_summary ... ok
+test aws_remote_validation::tests::public_ipv4_cidr_rejects_non_global_or_malformed_responses ... ok
+test aws_remote_validation::tests::parse_remote_summary_extracts_json_block ... ok
 test aws_remote_validation::tests::shell_single_quote_wraps_values_for_shell_assignment ... ok
+test aws_remote_validation::tests::live_status_append_redacts_identifiers_and_machine_paths ... ok
+test cumulative_provider_cost_is_rejected_before_launch ... ok
+test declared_cost_ceiling_requires_rate_and_total_timeout ... ok
+test provider_work_requires_an_explicit_cost_ceiling ... ok
 test portable_request_maps_exactly_to_aws_adapter_inputs ... ok
-test aws_remote_validation::tests::remote_validation_classifies_quota_blockers_as_operator_gated ... ok
 test aws_remote_validation::tests::remote_validation_classifies_auth_permission_failures_as_operator_gated ... ok
+test aws_remote_validation::tests::remote_validation_classifies_quota_blockers_as_operator_gated ... ok
+test aws_remote_validation::tests::cancellation_arriving_during_ssm_wait_terminates_provider_resource ... ok
 test aws_remote_validation::tests::remote_validation_classifies_ssm_failures_as_retryable ... ok
-test aws_remote_validation::tests::remote_validation_records_cleanup_partial_failure_even_after_command_success ... ok
+test aws_remote_validation::tests::cancellation_arriving_during_command_terminates_provider_resource ... ok
+test aws_remote_validation::tests::cancellation_arriving_during_launch_retains_identity_and_terminates_resource ... ok
 test aws_remote_validation::tests::remote_validation_fails_when_sccache_degrades ... ok
-test aws_remote_validation::tests::remote_validation_ignores_html_spot_notice_false_positives ... ok
 test aws_remote_validation::tests::remote_validation_falls_back_to_on_demand_after_spot_capacity_failure ... ok
 test aws_remote_validation::tests::remote_validation_classifies_spot_interruptions_truthfully ... ok
+test aws_remote_validation::tests::remote_validation_records_cleanup_partial_failure_even_after_command_success ... ok
+test aws_remote_validation::tests::remote_validation_ignores_html_spot_notice_false_positives ... ok
 test aws_remote_validation::tests::remote_validation_prefers_spot_and_records_success ... ok
 
-test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 26 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s

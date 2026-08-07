@@ -1,22 +1,23 @@
 {
   "schema": "adl.wp06.deterministic_validation_summary.v1",
   "subject_revision": "7868fe91210f136640b330de202c7da6a1f0d29d",
+  "validation_revision": "e3007e513991c92f1530a4dd9b440769788a958e",
   "storage_policy": "external_volume_only",
   "live_paid_provider_work_run": true,
   "lanes": [
     {
       "name": "portable-contract",
       "outcome": "passed",
-      "tests_passed": 9,
+      "tests_passed": 10,
       "receipt": ".csdlc/evidence/5823/portable-contract.log",
-      "receipt_sha256": "b9f0a4af2984661b2a3b4c3ea1565f432a70300ae5126211ba8c3352cd245a8b"
+      "receipt_sha256": "7db65b76ab63e4ff128be8832582b8825b183e11ff7d513e2ae9d558b2ec1e3c"
     },
     {
       "name": "aws-portable-adapter",
       "outcome": "passed",
-      "tests_passed": 19,
+      "tests_passed": 26,
       "receipt": ".csdlc/evidence/5823/aws-portable-adapter.log",
-      "receipt_sha256": "e673f3385fea17eae3438219a4238530c67c58486476023548abc105eb4c58b8"
+      "receipt_sha256": "4f5e2100e4af2750d3d0064a0b3b561cc3dd23de4e6c2326533be8e90ad4c5cc"
     },
     {
       "name": "nessus-shell-adapter",
@@ -28,35 +29,37 @@
       "name": "aws-shell-adapter",
       "outcome": "passed",
       "receipt": ".csdlc/evidence/5823/aws-shell-adapter.log",
-      "receipt_sha256": "591296c072b2e460d1efafb011e2c943fa4089b7c1894a3bf3ccf714ff70c69b"
+      "receipt_sha256": "d2602ba8177edaf51b3f43ef06421bfb54c34b7504e418c362704ab1aaf718ac"
     },
     {
       "name": "platform-validator-negative-self-test",
       "outcome": "passed",
       "receipt": ".csdlc/evidence/5823/platform-validator-self-test.log",
-      "receipt_sha256": "499487130b19e441fdfd5befa27e4b05cee17b14f09f78fba016483e62372311"
+      "receipt_sha256": "a27f6d40280198a934b4c4ea3f04123d88366c0e99bc1b9f37b42d9c0832c1b8"
     },
     {
       "name": "macos-native-local",
       "outcome": "passed",
       "receipt": ".csdlc/evidence/5823/macos-native-result.json",
-      "receipt_sha256": "548d0f25e780be15ac5603c6d409289fc9865f3e1c2c72980bb8666936d8b1fe"
+      "receipt_sha256": "9acbdfa1fa3c803604b8f581272c768deaf6c9e952d02d2ff0dfa873ef45cb65"
     },
     {
       "name": "windows-deterministic-fixture",
       "outcome": "passed_non_native",
       "receipt": ".csdlc/evidence/5823/windows-fixture-result.json",
-      "receipt_sha256": "0af1c1269ae4997a60a47ba6cc71f0eb500ee5929f171e00f64122cdb5c10366"
+      "receipt_sha256": "0327e09c25439fd622a5ddacc0cbe978af5eff9ac083b34fef4ba469e28cb794"
     },
     {
       "name": "linux-native-live",
       "outcome": "passed",
       "receipt": ".csdlc/evidence/5823/linux-native-result.json",
-      "receipt_sha256": "153d3bf290b8c12c2d2e97d3bb9fa4094a99ae2e59bae26756499e7a0cb83d0f",
+      "receipt_sha256": "bb15f5f5fb2b83ccaf840060899f1744ba02116a09d824d6a1ca2025226a6c86",
       "provider_receipt": ".csdlc/evidence/5823/linux-native-remote-summary.json",
       "provider_receipt_sha256": "b52289740ba9ae767e9328a60a1a6f72d3b0037d8955c2e5ce2cc051d6cc8779",
       "preflight_receipt": ".csdlc/evidence/5823/aws-preflight.json",
+      "preflight_receipt_sha256": "50dd55f2b6a2b3ea798a07d0733fdac6e4d02fdceb26c84732774466a128b89e",
       "first_attempt_receipt": ".csdlc/evidence/5823/linux-native-first-attempt.json",
+      "first_attempt_receipt_sha256": "6348a956084d00a4fb7ee95459451d79771d985a109e84f522e8ceb363db2ebb",
       "matrix_validation_receipt": ".csdlc/evidence/5823/platform-matrix-validation.log",
       "matrix_validation_receipt_sha256": "b2afa3d08006ae384100b8eb2d28f781788b0cfa3be9324825c10bb7f9ce7e70",
       "request_timeout_seconds": 900,
