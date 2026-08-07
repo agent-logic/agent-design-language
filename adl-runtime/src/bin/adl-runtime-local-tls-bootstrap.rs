@@ -101,6 +101,12 @@ async fn execute(
             require_consent(args)?;
             validate_supported_localhost_identity(config)?;
             let outcome = bootstrap_runtime_tls(config).await?;
+            if !outcome.manifest_durable {
+                return Err(LocalTlsError::Io(
+                    "local TLS manifest durability is uncertain; refusing host trust mutation"
+                        .to_owned(),
+                ));
+            }
             let certificate = outcome.public_certificate_path.as_ref().ok_or_else(|| {
                 LocalTlsError::Policy("local TLS public certificate is required".to_owned())
             })?;
@@ -153,6 +159,7 @@ async fn execute(
                         certificate,
                     )?));
                 }
+                trust.remove_non_current_owned_receipts(&current_sha)?;
                 trust.clear_cleanup_pending()?;
             }
             let old_sha = current_local_certificate_sha256(config)?.ok_or_else(|| {
@@ -534,6 +541,48 @@ impl MacOsTrustTransaction {
 
     fn cleanup_pending_path(&self) -> PathBuf {
         self.receipt_root.join(TRUST_CLEANUP_FILE)
+    }
+
+    fn remove_non_current_owned_receipts(&self, current_digest: &str) -> Result<(), LocalTlsError> {
+        for digest in self.non_current_owned_receipts(current_digest)? {
+            self.remove_digest_if_owned(&digest)?;
+        }
+        Ok(())
+    }
+
+    fn non_current_owned_receipts(
+        &self,
+        current_digest: &str,
+    ) -> Result<Vec<String>, LocalTlsError> {
+        let entries = match fs::read_dir(&self.receipt_root) {
+            Ok(entries) => entries,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
+            Err(error) => return Err(LocalTlsError::Io(error.to_string())),
+        };
+        let mut digests = Vec::new();
+        for entry in entries {
+            let entry = entry.map_err(|error| LocalTlsError::Io(error.to_string()))?;
+            let path = entry.path();
+            if path == self.cleanup_pending_path()
+                || path.extension().and_then(|value| value.to_str()) != Some("json")
+            {
+                continue;
+            }
+            let receipt: TrustReceipt = serde_json::from_slice(
+                &fs::read(&path).map_err(|error| LocalTlsError::Io(error.to_string()))?,
+            )
+            .map_err(|error| {
+                LocalTlsError::Trust(format!("trust receipt is malformed: {error}"))
+            })?;
+            let digest = normalize_sha256(&receipt.certificate_sha256)?;
+            self.authorize_removal(&digest)?;
+            if digest != current_digest {
+                digests.push(digest);
+            }
+        }
+        digests.sort();
+        digests.dedup();
+        Ok(digests)
     }
 
     fn write_cleanup_pending(&self, digest: &str) -> Result<(), LocalTlsError> {
@@ -1049,6 +1098,21 @@ mod tests {
         transaction.clear_cleanup_pending().unwrap();
         transaction.clear_cleanup_pending().unwrap();
         assert_eq!(transaction.read_cleanup_pending().unwrap(), None);
+    }
+
+    #[test]
+    fn recovery_selects_only_non_current_owned_certificate_receipts() {
+        const CANDIDATE: &str = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
+        let temp = tempfile::tempdir().unwrap();
+        let transaction = fake_transaction(temp.path());
+
+        transaction.write_receipt(DIGEST).unwrap();
+        transaction.write_receipt(CANDIDATE).unwrap();
+
+        assert_eq!(
+            transaction.non_current_owned_receipts(DIGEST).unwrap(),
+            vec![CANDIDATE.to_owned()]
+        );
     }
 
     fn localhost_config(state_root: PathBuf) -> RuntimeTlsBootstrapConfig {

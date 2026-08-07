@@ -2,11 +2,12 @@
 
 import { createHash, X509Certificate } from "node:crypto";
 import { createReadStream, promises as fs } from "node:fs";
-import { createServer, request as httpsRequest } from "node:https";
+import { createServer } from "node:https";
 import { createRequire } from "node:module";
 import { dirname, extname, isAbsolute, join, normalize, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { spawn } from "node:child_process";
+import { connect as tlsConnect } from "node:tls";
 
 const PLAYWRIGHT_VERSION = "1.60.0";
 const EVIDENCE_SCHEMA = "adl.v092.browser_trusted_observatory.evidence.v1";
@@ -44,6 +45,20 @@ const privateKey = await requiredPath("ADL_V092_TLS_KEY");
 const runtimeCommand = parseRuntimeCommand(process.env.ADL_V092_RUNTIME_COMMAND_JSON);
 const runtimeGuardian = await requiredPath("ADL_V092_RUNTIME_GUARDIAN");
 const runtimeKernel = await requiredPath("ADL_V092_RUNTIME_KERNEL");
+const runtimeBootstrap = await requiredPath("ADL_V092_TLS_BOOTSTRAP");
+const runtimeBootstrapConfig = await requiredPath("ADL_V092_TLS_BOOTSTRAP_CONFIG");
+const exactBuild = await buildExactHeadBinaries({
+  repoRoot,
+  guardian: runtimeGuardian,
+  kernel: runtimeKernel,
+  bootstrap: runtimeBootstrap,
+});
+const tlsBootstrap = await verifyDurableTlsBootstrap({
+  bootstrap: runtimeBootstrap,
+  config: runtimeBootstrapConfig,
+  certificate,
+  privateKey,
+});
 if (await fs.realpath(runtimeCommand[0]) !== runtimeGuardian) {
   fail("Runtime candidate command must launch the declared Guardian binary directly");
 }
@@ -61,6 +76,7 @@ const tlsErrors = [];
 let staticServer;
 let runtimeProcess;
 let runtimeProcessId;
+let runtimeOwnership;
 let browser;
 
 try {
@@ -74,6 +90,22 @@ try {
   });
   await waitForTrustedEndpoint(new URL("/v1/health", runtime), certificate, runtimeProcess);
   await waitForRuntimeReady(new URL("/v1/ready", runtime), certificate, runtimeProcess);
+  const listenerCertificateSha256 = {
+    observatory: await peerCertificateSha256(observatory, certificate),
+    runtime: await peerCertificateSha256(runtime, certificate),
+  };
+  if (new Set(Object.values(listenerCertificateSha256)).size !== 1
+      || listenerCertificateSha256.runtime !== await certificateDerSha256(certificate)) {
+    fail("all HTTPS listeners must present the one current manifest certificate identity");
+  }
+  runtimeOwnership = await proveRuntimeCandidateOwnership({
+    feed: await curlTrustedJson(new URL("/v1/observatory", runtime), certificate),
+    guardian: runtimeGuardian,
+    guardianProcess: runtimeProcess,
+    kernel: runtimeKernel,
+    runtime,
+  });
+  runtimeProcessId = runtimeOwnership.runtime_pid;
 
   const { chromium, version } = await loadPinnedPlaywright();
   browser = await chromium.launch({ channel: args.browser, headless: true });
@@ -135,14 +167,16 @@ try {
   const ready = browserEndpoints.find((entry) => entry.path === "/v1/ready");
   if (ready?.body?.ready !== true) fail("Runtime readiness response did not report ready=true");
   const observatoryFeed = browserEndpoints.find((entry) => entry.path === "/v1/observatory")?.body;
-  const runtimeOwnership = await proveRuntimeCandidateOwnership({
+  const browserRuntimeOwnership = await proveRuntimeCandidateOwnership({
     feed: observatoryFeed,
     guardian: runtimeGuardian,
     guardianProcess: runtimeProcess,
     kernel: runtimeKernel,
     runtime,
   });
-  runtimeProcessId = runtimeOwnership.runtime_pid;
+  if (browserRuntimeOwnership.runtime_pid !== runtimeProcessId) {
+    fail("Runtime process identity changed between readiness and browser proof");
+  }
 
   const healthPage = await context.newPage();
   const browserHealth = await healthPage.goto(new URL("/v1/health", runtime).href, {
@@ -184,6 +218,7 @@ try {
       observatory: `${observatory.protocol}//${observatory.hostname}:${observatory.port}`,
       runtime: `${runtime.protocol}//${runtime.hostname}:${runtime.port}`,
     },
+    listener_certificate_sha256: listenerCertificateSha256,
     browser_endpoints: browserEndpoints.map(({ path, status }) => ({ path, status })),
     browser_direct_health_status: browserHealth.status(),
     dashboard_live_status: dashboardLiveStatus?.trim(),
@@ -191,6 +226,8 @@ try {
     curl_endpoints: curlEndpoints.map((endpoint) => endpoint.pathname),
     concurrent_runtime_connections: concurrentRuntimeProof,
     runtime_candidate: runtimeOwnership,
+    exact_head_build: exactBuild,
+    tls_bootstrap: tlsBootstrap,
     platforms: platformDispositions(args.nativePlatforms ?? [process.platform]),
   };
   if (evidencePath) await writeEvidence(evidencePath, evidence);
@@ -198,7 +235,7 @@ try {
 } finally {
   if (browser) await browser.close();
   if (staticServer) await new Promise((done) => staticServer.close(done));
-  await terminateRuntimeCandidate(runtimeProcess, runtimeProcessId);
+  await terminateRuntimeCandidate(runtimeProcess, runtimeOwnership, runtimeKernel);
 }
 
 function parseArgs(argv) {
@@ -248,9 +285,79 @@ async function loadPinnedPlaywright() {
   return { chromium: playwright.chromium, version: packageJson.version };
 }
 
+async function buildExactHeadBinaries({ repoRoot, guardian, kernel, bootstrap }) {
+  const expected = {
+    guardian: await fs.realpath(join(repoRoot, "adl-runtime/target/debug/adl-runtime-guardian")),
+    kernel: await fs.realpath(join(repoRoot, "adl-runtime-kernel/target/debug/adl-runtime-kernel")),
+    bootstrap: await fs.realpath(join(repoRoot, "adl-runtime/target/debug/adl-runtime-local-tls-bootstrap")),
+  };
+  if (guardian !== expected.guardian || kernel !== expected.kernel || bootstrap !== expected.bootstrap) {
+    fail("Runtime proof binaries must be the exact issue-worktree Cargo outputs");
+  }
+  const commands = [
+    ["cargo", "build", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--bin", "adl-runtime-guardian", "--bin", "adl-runtime-local-tls-bootstrap"],
+    ["cargo", "build", "--locked", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--bin", "adl-runtime-kernel"],
+  ];
+  for (const [executable, ...argv] of commands) await runChecked(executable, argv, repoRoot);
+  return {
+    head: (await capture("git", ["-C", repoRoot, "rev-parse", "HEAD"])).trim(),
+    commands: commands.map((command) => command.join(" ")),
+    guardian_sha256: await fileSha256(guardian),
+    kernel_sha256: await fileSha256(kernel),
+    bootstrap_sha256: await fileSha256(bootstrap),
+  };
+}
+
+async function verifyDurableTlsBootstrap({ bootstrap, config, certificate, privateKey }) {
+  const output = await capture(bootstrap, ["--config", config, "--operation", "bootstrap"]);
+  let outcome;
+  try {
+    outcome = JSON.parse(output);
+  } catch (error) {
+    fail(`TLS bootstrap returned invalid JSON: ${error.message}`);
+  }
+  if (outcome.manifest_durable !== true) fail("TLS bootstrap manifest is not durably synchronized");
+  if (await fs.realpath(outcome.certificate_chain_path) !== certificate
+      || await fs.realpath(outcome.private_key_path) !== privateKey) {
+    fail("TLS proof paths do not match the durable current-generation manifest");
+  }
+  const marker = `${join("tls", "generations")}/`;
+  const markerIndex = certificate.lastIndexOf(marker);
+  if (markerIndex < 0) fail("TLS certificate is not inside a generated manifest identity");
+  const tlsRoot = certificate.slice(0, markerIndex + "tls".length);
+  const manifestPath = join(tlsRoot, "current-generation.json");
+  const manifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
+  const manifestCertificate = await fs.realpath(join(tlsRoot, manifest.certificate_chain_path));
+  const manifestPrivateKey = await fs.realpath(join(tlsRoot, manifest.private_key_path));
+  const certificateSha256 = (await certificateDerSha256(certificate)).toUpperCase();
+  if (manifestCertificate !== certificate
+      || manifestPrivateKey !== privateKey
+      || manifest.certificate_sha256 !== certificateSha256
+      || outcome.certificate_sha256 !== certificateSha256) {
+    fail("TLS manifest, bootstrap outcome, and supplied identity do not match");
+  }
+  return {
+    manifest_durable: true,
+    manifest_path: manifestPath,
+    manifest_sha256: await fileSha256(manifestPath),
+    certificate_sha256: certificateSha256.toLowerCase(),
+    bootstrap_sha256: await fileSha256(bootstrap),
+    bootstrap_config_sha256: await fileSha256(config),
+  };
+}
+
+async function runChecked(executable, argv, cwd) {
+  const child = spawn(executable, argv, { cwd, env: process.env, stdio: ["ignore", "ignore", "pipe"] });
+  let stderr = "";
+  child.stderr.on("data", (chunk) => { stderr += chunk; });
+  const code = await onceExit(child);
+  if (code !== 0) fail(`${executable} failed with status ${code}: ${stderr.trim()}`);
+}
+
 function startRuntime(command, cwd) {
   const child = spawn(command[0], command.slice(1), {
     cwd,
+    detached: true,
     env: process.env,
     stdio: ["ignore", "pipe", "pipe"],
   });
@@ -347,40 +454,56 @@ async function curlTrustedJson(url, certificate) {
 async function proveConcurrentTrustedConnections(url, certificate, count) {
   const ca = await fs.readFile(certificate);
   const expectedPeerSha256 = new X509Certificate(ca).fingerprint256.replaceAll(":", "").toLowerCase();
-  const requests = Array.from({ length: count }, (_, index) => new Promise((resolveRequest, rejectRequest) => {
-    const request = httpsRequest(url, {
-      agent: false,
+  const sessions = await Promise.all(Array.from({ length: count }, (_, index) => new Promise((resolveSession, rejectSession) => {
+    const socket = tlsConnect({
+      host: url.hostname,
+      port: Number(url.port),
       ca,
-      headers: { connection: "close" },
       rejectUnauthorized: true,
       servername: "localhost",
-      timeout: 10000,
-    }, (response) => {
-      const peerCertificate = response.socket.getPeerCertificate();
+      ALPNProtocols: ["http/1.1"],
+    });
+    socket.setTimeout(10_000, () => socket.destroy(new Error(`connection ${index + 1} timed out`)));
+    socket.once("secureConnect", () => {
+      const peerCertificate = socket.getPeerCertificate();
       const peerSha256 = peerCertificate.raw
         ? createHash("sha256").update(peerCertificate.raw).digest("hex")
         : null;
-      const authorized = response.socket.authorized === true;
-      response.resume();
-      response.once("end", () => {
-        const status = response.statusCode ?? 0;
-        if (!authorized || peerSha256 !== expectedPeerSha256 || status < 200 || status >= 300) {
-          rejectRequest(new Error(
-            `connection ${index + 1} failed verification: authorized=${authorized} peer=${peerSha256} status=${status}`,
-          ));
-          return;
-        }
-        resolveRequest({ authorized, peerSha256, status });
-      });
+      const authorized = socket.authorized === true;
+      if (!authorized || peerSha256 !== expectedPeerSha256) {
+        socket.destroy();
+        rejectSession(new Error(
+          `connection ${index + 1} failed TLS verification: authorized=${authorized} peer=${peerSha256}`,
+        ));
+        return;
+      }
+      resolveSession({ index, socket, peerSha256 });
     });
-    request.once("timeout", () => request.destroy(new Error(`connection ${index + 1} timed out`)));
-    request.once("error", rejectRequest);
-    request.end();
-  }));
-  const results = await Promise.all(requests);
+    socket.once("error", rejectSession);
+  })));
+  const simultaneousOpenConnections = sessions.filter(({ socket }) => !socket.destroyed).length;
+  if (simultaneousOpenConnections !== count) {
+    sessions.forEach(({ socket }) => socket.destroy());
+    fail(`only ${simultaneousOpenConnections} of ${count} TLS sessions remained open at the barrier`);
+  }
+  const results = await Promise.all(sessions.map(({ index, socket, peerSha256 }) => new Promise((resolveResponse, rejectResponse) => {
+    let response = "";
+    socket.on("data", (chunk) => { response += chunk; });
+    socket.once("end", () => {
+      const status = Number(response.match(/^HTTP\/1\.[01] (\d{3})/m)?.[1] ?? 0);
+      if (status < 200 || status >= 300) {
+        rejectResponse(new Error(`connection ${index + 1} returned HTTP ${status}`));
+        return;
+      }
+      resolveResponse({ peerSha256, status });
+    });
+    socket.once("error", rejectResponse);
+    socket.write(`GET ${url.pathname}${url.search} HTTP/1.1\r\nHost: localhost:${url.port}\r\nConnection: close\r\n\r\n`);
+  })));
   return {
     requested: count,
     completed: results.length,
+    simultaneous_open_connections_at_barrier: simultaneousOpenConnections,
     certificate_verification: "required",
     connection_reuse: "disabled",
     peer_certificate_sha256: expectedPeerSha256,
@@ -400,6 +523,7 @@ async function proveRuntimeCandidateOwnership({ feed, guardian, guardianProcess,
   const observedKernel = await fs.realpath(
     (await capture("/bin/ps", ["-p", String(runtimePid), "-o", "comm="])).trim(),
   );
+  const processStartedAt = (await capture("/bin/ps", ["-p", String(runtimePid), "-o", "lstart="])).trim();
   if (observedKernel !== kernel) {
     fail(`Runtime process ${runtimePid} executable does not match the declared kernel`);
   }
@@ -421,6 +545,7 @@ async function proveRuntimeCandidateOwnership({ feed, guardian, guardianProcess,
     kernel_sha256: await fileSha256(kernel),
     runtime_pid: runtimePid,
     runtime_parent_pid: parentPid,
+    runtime_process_started_at: processStartedAt,
     runtime_listener_port: Number(runtime.port),
     runtime_process_matches_declared_kernel: true,
   };
@@ -437,21 +562,44 @@ async function capture(executable, argv) {
   return stdout;
 }
 
-async function terminateRuntimeCandidate(guardianProcess, runtimePid) {
-  if (guardianProcess && guardianProcess.exitCode === null) {
-    guardianProcess.kill("SIGTERM");
+async function terminateRuntimeCandidate(guardianProcess, ownership, kernel) {
+  if (guardianProcess) {
+    signalProcessGroup(guardianProcess.pid, "SIGTERM");
     await Promise.race([onceExit(guardianProcess), delay(5000)]);
-    if (guardianProcess.exitCode === null) guardianProcess.kill("SIGKILL");
+    if (guardianProcess.exitCode === null) signalProcessGroup(guardianProcess.pid, "SIGKILL");
   }
+  const runtimePid = ownership?.runtime_pid;
   if (!runtimePid) return;
   const exited = await waitForPidExit(runtimePid, 5000);
   if (exited) return;
+  const currentKernel = await tryCapture("/bin/ps", ["-p", String(runtimePid), "-o", "comm="]);
+  const currentStartedAt = await tryCapture("/bin/ps", ["-p", String(runtimePid), "-o", "lstart="]);
+  if (!currentKernel
+      || await fs.realpath(currentKernel.trim()) !== kernel
+      || currentStartedAt?.trim() !== ownership.runtime_process_started_at) {
+    fail(`Runtime candidate PID ${runtimePid} identity changed before cleanup; refusing to signal it`);
+  }
   process.kill(runtimePid, "SIGTERM");
   if (await waitForPidExit(runtimePid, 3000)) return;
   process.kill(runtimePid, "SIGKILL");
   if (!(await waitForPidExit(runtimePid, 3000))) {
     fail(`verified Runtime candidate process ${runtimePid} survived cleanup`);
   }
+}
+
+function signalProcessGroup(pid, signal) {
+  try {
+    process.kill(-pid, signal);
+  } catch (error) {
+    if (error.code !== "ESRCH") throw error;
+  }
+}
+
+async function tryCapture(executable, argv) {
+  const child = spawn(executable, argv, { stdio: ["ignore", "pipe", "pipe"] });
+  let stdout = "";
+  child.stdout.on("data", (chunk) => { stdout += chunk; });
+  return (await onceExit(child)) === 0 ? stdout : null;
 }
 
 async function waitForPidExit(pid, timeoutMilliseconds) {
@@ -466,6 +614,31 @@ async function waitForPidExit(pid, timeoutMilliseconds) {
     await delay(100);
   }
   return false;
+}
+
+async function peerCertificateSha256(url, certificate) {
+  const ca = await fs.readFile(certificate);
+  return new Promise((resolvePeer, rejectPeer) => {
+    const socket = tlsConnect({
+      host: url.hostname,
+      port: Number(url.port),
+      ca,
+      rejectUnauthorized: true,
+      servername: "localhost",
+    });
+    socket.setTimeout(10_000, () => socket.destroy(new Error(`TLS probe timed out for ${url.origin}`)));
+    socket.once("secureConnect", () => {
+      const peer = socket.getPeerCertificate();
+      const digest = peer.raw ? createHash("sha256").update(peer.raw).digest("hex") : null;
+      socket.end();
+      if (!socket.authorized || !digest) {
+        rejectPeer(new Error(`TLS listener ${url.origin} did not present an authorized certificate`));
+        return;
+      }
+      resolvePeer(digest);
+    });
+    socket.once("error", rejectPeer);
+  });
 }
 
 async function certificateDerSha256(path) {
