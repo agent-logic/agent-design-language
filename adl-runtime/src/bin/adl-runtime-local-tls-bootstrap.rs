@@ -20,6 +20,7 @@ use sha2::{Digest, Sha256};
 
 const FAILURE_SCHEMA: &str = "adl.runtime_v3.local_tls_bootstrap.failure.v1";
 const TRUST_OUTCOME_SCHEMA: &str = "adl.runtime_v3.local_tls_trust.outcome.v1";
+#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
 const TRUST_RECEIPT_SCHEMA: &str = "adl.runtime_v3.local_tls_trust_receipt.v1";
 const TRUST_CLEANUP_SCHEMA: &str = "adl.runtime_v3.local_tls_cleanup_pending.v1";
 const TRUST_RECEIPTS_DIR: &str = "trust-receipts";
@@ -289,6 +290,7 @@ impl Operation {
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
+#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
 struct TrustReceipt {
     schema: String,
     platform: String,
@@ -307,10 +309,10 @@ struct TrustCleanupPending {
 struct MacOsTrustTransaction {
     trust_store: PathBuf,
     receipt_root: PathBuf,
-    #[cfg(target_os = "macos")]
     installed_candidate: Option<String>,
 }
 
+#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
 impl MacOsTrustTransaction {
     fn new(config: &RuntimeTlsBootstrapConfig, args: &Args) -> Result<Self, LocalTlsError> {
         let trust_store = args.trust_store.clone().ok_or_else(|| {
@@ -336,7 +338,6 @@ impl MacOsTrustTransaction {
         Ok(Self {
             trust_store,
             receipt_root: state_root.join(tls_dir).join(TRUST_RECEIPTS_DIR),
-            #[cfg(target_os = "macos")]
             installed_candidate: None,
         })
     }
@@ -574,11 +575,6 @@ impl MacOsTrustTransaction {
     }
 
     #[cfg(not(target_os = "macos"))]
-    fn install_owned(&mut self, _certificate: &Path) -> Result<(), LocalTlsError> {
-        unsupported_native_trust()
-    }
-
-    #[cfg(not(target_os = "macos"))]
     fn verify(&self, _certificate: &Path) -> Result<(), LocalTlsError> {
         unsupported_native_trust()
     }
@@ -723,6 +719,7 @@ fn sync_directory(path: &Path) -> Result<(), LocalTlsError> {
         .map_err(|error| LocalTlsError::Io(error.to_string()))
 }
 
+#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
 fn delete_certificate_args<'a>(digest: &'a str, trust_store: &'a str) -> [&'a str; 5] {
     ["delete-certificate", "-t", "-Z", digest, trust_store]
 }
@@ -843,6 +840,7 @@ fn normalize_sha256(digest: &str) -> Result<String, LocalTlsError> {
     }
 }
 
+#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
 fn path_text(path: &Path) -> Result<&str, LocalTlsError> {
     path.to_str()
         .ok_or_else(|| LocalTlsError::Policy("host trust path must be UTF-8".to_owned()))
