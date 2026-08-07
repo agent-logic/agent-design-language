@@ -83,7 +83,6 @@ Diagram: .csdlc/prepared/issues/5853/diagram.mmd
     "budget_seconds": 900,
     "budget_tokens": 4000,
     "argv": [
-      "bash",
       "adl/tools/test_ci_runtime_contracts.sh"
     ],
     "parallel_group": "workflow",
@@ -123,7 +122,7 @@ Tokens: 50000
 
 - `ruby .csdlc/prepared/issues/5853/validate-experiment.rb`
 - `ruby -rjson -e e=JSON.parse(File.read('.csdlc/evidence/5853/eligibility.json')); f=JSON.parse(File.read('.csdlc/evidence/5853/final-state.json')); abort('security boundary') unless e['selected_repository_access']==true&&e['concurrency_one']==true&&e['untrusted_fork_privilege']==false&&f['standard_runner_fallback']==true&&f['required_check_identity_preserved']==true`
-- `bash adl/tools/test_ci_runtime_contracts.sh`
+- `adl/tools/test_ci_runtime_contracts.sh`
 - `git diff --check`
 
 ## Failure Semantics

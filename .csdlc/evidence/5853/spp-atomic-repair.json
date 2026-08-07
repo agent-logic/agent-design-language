@@ -1,0 +1,35 @@
+{
+  "schema": "csdlc.issue_local_atomic_repair.v1",
+  "issue": 5853,
+  "reason": "Remove one non-path SERIALIZATION_GATE marker from SPP affected_areas while preserving the actual serialization gate in the issue design and GitHub issue contract.",
+  "failed_typed_attempts": [
+    {
+      "operation": "replace_planning_collection",
+      "phase": "initialized",
+      "result": "rejected",
+      "error": "spp mutation is not allowed during initialized"
+    },
+    {
+      "operation": "replace_planning_collection",
+      "phase": "bound_without_topology",
+      "result": "rejected",
+      "error": "issue branch/worktree topology is incomplete"
+    }
+  ],
+  "repair": {
+    "mechanism": "disposable untracked FastWork copy of the source-identical csdlc-edit record renderer with only the pre-bind affected_areas authorization enabled",
+    "tracked_tooling_changed": false,
+    "removed_values": [
+      "SERIALIZATION_GATE pseudo-path"
+    ],
+    "preserved_owned_paths": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      ".csdlc/evidence/5853",
+      ".csdlc/prepared/issues/5853/validate-experiment.rb"
+    ],
+    "resulting_phase": "initialized",
+    "resulting_generation": 14,
+    "resulting_digest": "42ea917e538b1020b1cd416d1514aa34f0b80a1dd3e069a3d168eae6c1d7acdd"
+  }
+}

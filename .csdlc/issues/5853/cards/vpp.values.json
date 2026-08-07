@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-02B][build] Run the post-migration build acceleration experiment",
     "slug": "v0-92-wp-02b-post-migration-build-acceleration",
     "version": "v0.92",
-    "generation": 11
+    "generation": 15
   },
   "status": "ready",
   "content": {
@@ -75,7 +75,6 @@
           "budget_seconds": 900,
           "budget_tokens": 4000,
           "argv": [
-            "bash",
             "adl/tools/test_ci_runtime_contracts.sh"
           ],
           "parallel_group": "workflow",

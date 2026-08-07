@@ -912,4 +912,74 @@ if workspace_profile_artifact_if != expected_workspace_profile_artifact_if:
 print("PASS test_ci_runtime_contracts")
 PY
 
+ruby -ryaml - "$WORKFLOW" <<'RUBY'
+class BuildAccelerationContractError < StandardError; end
+
+def require_build_acceleration_contract(source)
+  workflow = YAML.safe_load(source, permitted_classes: [], permitted_symbols: [], aliases: true)
+  triggers = workflow["on"] || workflow[true]
+  dispatch = triggers.fetch("workflow_dispatch")
+  inputs = dispatch.fetch("inputs")
+  expected_inputs = %w[
+    build_acceleration_platform
+    build_acceleration_cache_state
+    build_acceleration_sample_role
+    build_acceleration_run_id
+  ]
+  raise BuildAccelerationContractError, "WP-02B dispatch inputs drifted" unless inputs.keys == expected_inputs
+
+  jobs = workflow.fetch("jobs")
+  experiment = jobs.fetch("build_acceleration_experiment")
+  expected_runner = "${{ inputs.build_acceleration_platform == 'candidate' && 'adl-ubuntu-24.04-16core' || 'ubuntu-latest' }}"
+  raise BuildAccelerationContractError, "WP-02B runner selector drifted" unless experiment.fetch("runs-on") == expected_runner
+  raise BuildAccelerationContractError, "WP-02B timeout must remain 30 minutes" unless experiment.fetch("timeout-minutes") == 30
+  raise BuildAccelerationContractError, "WP-02B permissions widened" unless experiment.fetch("permissions") == { "contents" => "read" }
+
+  experiment_if = experiment.fetch("if")
+  unless experiment_if.include?("github.event_name == 'workflow_dispatch'") &&
+         experiment_if.include?("refs/heads/codex/5853-v0-92-wp-02b-post-migration-build-acceleration") &&
+         experiment_if.include?("inputs.build_acceleration_platform != 'none'")
+    raise BuildAccelerationContractError, "WP-02B branch/event gate drifted"
+  end
+
+  steps = experiment.fetch("steps").to_h { |step| [step.fetch("name"), step] }
+  cache = steps.fetch("Restore frozen warm cache")
+  raise BuildAccelerationContractError, "WP-02B cache action pin drifted" unless cache.fetch("uses") == "Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4"
+  raise BuildAccelerationContractError, "WP-02B warm-cache gate drifted" unless cache.fetch("if") == "inputs.build_acceleration_cache_state == 'warm'"
+  raise BuildAccelerationContractError, "WP-02B cache must save only its seed" unless cache.fetch("with").fetch("save-if") == "${{ inputs.build_acceleration_sample_role == 'cache_seed' }}"
+  raise BuildAccelerationContractError, "WP-02B cache-on-failure must remain disabled" unless cache.fetch("with").fetch("cache-on-failure") == false
+
+  workload = steps.fetch("Run frozen build acceleration workload").fetch("run")
+  raise BuildAccelerationContractError, "WP-02B workload helper drifted" unless workload.include?("bash adl/tools/run_build_platform_benchmark.sh")
+  raise BuildAccelerationContractError, "WP-02B workload may not use secrets" if experiment.to_s.include?("secrets")
+
+  upload = steps.fetch("Upload frozen experiment artifacts")
+  raise BuildAccelerationContractError, "WP-02B artifact pin drifted" unless upload.fetch("uses") == "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a"
+
+  normal_gate = "inputs.build_acceleration_platform == '' || inputs.build_acceleration_platform == 'none'"
+  raise BuildAccelerationContractError, "normal CI experiment exclusion drifted" unless jobs.fetch("adl_path_policy").fetch("if") == normal_gate
+  %w[adl-ci adl_coverage_hosted adl-coverage].each do |name|
+    condition = jobs.fetch(name).fetch("if")
+    raise BuildAccelerationContractError, "#{name} experiment exclusion drifted" unless condition.include?(normal_gate)
+  end
+end
+
+workflow = File.read(ARGV.fetch(0))
+require_build_acceleration_contract(workflow)
+[
+  workflow.sub("adl-ubuntu-24.04-16core", "ubuntu-latest"),
+  workflow.sub("github.ref == 'refs/heads/codex/5853-v0-92-wp-02b-post-migration-build-acceleration' &&\n", ""),
+  workflow.sub("save-if: ${{ inputs.build_acceleration_sample_role == 'cache_seed' }}", "save-if: true"),
+].each do |fixture|
+  begin
+    require_build_acceleration_contract(fixture)
+  rescue BuildAccelerationContractError
+    next
+  end
+  abort "invalid WP-02B workflow fixture escaped enforcement"
+end
+
+puts "PASS build_acceleration_experiment_contract"
+RUBY
+
 bash "$ROOT_DIR/adl/tools/test_run_pr_fast_coverage_lane.sh"

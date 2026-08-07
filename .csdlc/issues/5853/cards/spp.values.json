@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-02B][build] Run the post-migration build acceleration experiment",
     "slug": "v0-92-wp-02b-post-migration-build-acceleration",
     "version": "v0.92",
-    "generation": 11
+    "generation": 15
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 6,
+      "plan_revision": 7,
       "summary": "Verify migration and CI entry gates, freeze the comparison, capture standard and 16-core cold/warm trials, prove parity, run one canary, apply predeclared thresholds, retain the decision, and prove fallback or cleanup.",
       "steps": [
         {
@@ -52,8 +52,7 @@
         ".github/workflows/ci.yaml",
         "adl/tools/test_ci_runtime_contracts.sh",
         ".csdlc/evidence/5853",
-        ".csdlc/prepared/issues/5853/validate-experiment.rb",
-        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-ci-runner-experiment-v1\",\"paths\":[\".github/workflows/ci.yaml\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"issues\":[5801,5853],\"order\":[5801,5853]}"
+        ".csdlc/prepared/issues/5853/validate-experiment.rb"
       ],
       "invariants": [
         "Standard GitHub-hosted runners remain the default and immediate fallback",

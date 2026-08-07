@@ -16,7 +16,7 @@ Verify migration and CI entry gates, freeze the comparison, capture standard and
 
 ## Plan
 
-Revision 6
+Revision 7
 
 ## Steps
 

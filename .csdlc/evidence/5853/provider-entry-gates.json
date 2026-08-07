@@ -1,0 +1,54 @@
+{
+  "schema": "adl.wp02b.provider_entry_gates.v1",
+  "observed_at": "2026-08-06",
+  "organization": {
+    "login": "agent-logic",
+    "plan": "team"
+  },
+  "runner_group": {
+    "id": 3,
+    "name": "adl-build-experiment",
+    "visibility": "selected",
+    "allows_public_repositories": true,
+    "selected_repositories": [
+      "agent-logic/agent-design-language"
+    ],
+    "restricted_to_workflows": true,
+    "selected_workflows_before_experiment_branch_publication": [
+      "agent-logic/agent-design-language/.github/workflows/ci.yaml@refs/heads/main"
+    ]
+  },
+  "budget": {
+    "id": "f7503072-8110-4f64-86e8-8b085582f107",
+    "type": "ProductPricing",
+    "product_sku": "actions",
+    "scope": "organization",
+    "amount_usd": 10,
+    "prevent_further_usage": true,
+    "alerts_enabled": true,
+    "alert_recipients": [
+      "danielbaustin"
+    ]
+  },
+  "candidate": {
+    "image_id": "2306",
+    "image": "Ubuntu Latest (24.04)",
+    "platform": "linux-x64",
+    "machine_size": "16-core",
+    "cpu_cores": 16,
+    "memory_gb": 64,
+    "storage_gb": 600,
+    "rate_usd_per_rounded_job_minute": 0.042,
+    "idle_cost_usd": 0
+  },
+  "rollback": {
+    "remove_candidate_runner": true,
+    "restore_runner_group_workflow_allowlist_to_main_only": true,
+    "restore_actions_budget_usd": 0,
+    "standard_runner_fallback": "ubuntu-latest"
+  },
+  "sources": [
+    "https://docs.github.com/en/billing/reference/actions-runner-pricing",
+    "https://docs.github.com/en/rest/billing/budgets?apiVersion=2026-03-10"
+  ]
+}
