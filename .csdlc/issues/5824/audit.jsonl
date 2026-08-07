@@ -50,3 +50,4 @@
 {"sequence":50,"generation":31,"actor":"codex:5824-execution","reason":"The bounded audit, focused validation, and independent pre-publication review are complete.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
 {"sequence":51,"generation":31,"actor":"codex:wp07-session","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":52,"generation":32,"actor":"subagent:019fddaa-910d-74f2-a97a-047648474d73","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":53,"generation":33,"actor":"codex:5824-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
