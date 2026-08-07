@@ -3,13 +3,61 @@
   "issue": 10,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "aaefb83fa55b156bd233db58af78a5439d66856e3ec8dde179d56cd4b77c0fd7",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "4be58b2d13f280a903302a77bc8c31db48312d8a484f7a61116ec98258380bf7",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "985ed1749670fb90501ec4c6079f6d3ef182ad6987a8d188a5bf50872a689b41",
   "branch": "codex/10-v092-wp24-article-series",
   "worktree": "/Volumes/FastWork/adl-wp-10",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "Linnaeus",
+    "scope": [
+      "docs/milestones/v0.92/publication/articles",
+      ".csdlc/evidence/5844",
+      ".csdlc/evidence/10",
+      ".csdlc/issues/10",
+      ".csdlc/prepared/issues/10"
+    ],
+    "reviewed_revision": "git-blake3:f640e0df287ab31dceb75443af5475e23bba0d0a:5ffb9d8a15e47d1cc3db4e23815fed3eb99efa91a1d97f85d85948b61515a6e1",
+    "findings": [
+      {
+        "id": "P1-canonical-legacy-release-gate-ambiguity",
+        "severity": "p1",
+        "summary": "Fixed: current publication disposition and Article 10 editorial review now owner-qualify the legacy WP-23 release gate after canonical migration.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:f640e0df287ab31dceb75443af5475e23bba0d0a:5ffb9d8a15e47d1cc3db4e23815fed3eb99efa91a1d97f85d85948b61515a6e1",
+        "route": null
+      },
+      {
+        "id": "P2-negative-publication-boundary-too-weak",
+        "severity": "p2",
+        "summary": "Fixed: the validator requires the exact truthful non-publication boundary and rejects positive published, submitted, scheduled, and uploaded claims through focused fixtures.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:f640e0df287ab31dceb75443af5475e23bba0d0a:5ffb9d8a15e47d1cc3db4e23815fed3eb99efa91a1d97f85d85948b61515a6e1",
+        "route": null
+      },
+      {
+        "id": "P2-rollback-missing-from-vpp",
+        "severity": "p2",
+        "summary": "Fixed: the typed VPP now includes the already-executed rollback contract as an explicit validation lane.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:f640e0df287ab31dceb75443af5475e23bba0d0a:5ffb9d8a15e47d1cc3db4e23815fed3eb99efa91a1d97f85d85948b61515a6e1",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "External Medium publication remains explicitly unauthorized and requires a later operator decision plus a drift-prone claim recheck.",
+      "Release-dependent v0.92 and first-birthday language remains gated by legacy issue danielbaustin/agent-design-language#5843 and current repository truth."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +72,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "22f30c4c1199ad8367896ad6ff5c8809460e3295d3f9a0b442bad51d7f042e22",
+      "values_digest": "ff468d9c9f03b013d5970e7510b7e4b6010a99a2ccd40e79065c571cf0f2c34c",
       "rendered_digest": "3620987df334148e271e62df6d66ed3fb706122ed7a8fe312a679c3e8842e634",
       "ast_digest": "c47a88b3b7081c55143bf2e3cdb62c3860119d4300798382e7818e865796bcc3"
     },
     "stp": {
-      "values_digest": "b166ec707e10676386f78c1c11b6a864bbf3886eef2c74350538f6f81bb1cfb7",
+      "values_digest": "8bc822efc2f8fd24e2e41965f7350f18c1ed16214cc057523bd0c639b21a8b20",
       "rendered_digest": "afd31a77167532d1ad92e0125ae28c13131c4e9e890eb57c516ce8fa9f0750f6",
       "ast_digest": "214ff5ca0cf27a3d5e720bfea79edede4c9237ffe6cba06220b023d6f3cc70b9"
     },
     "spp": {
-      "values_digest": "810dbb53da191a102cf58759bf52537f27e55edd694f2a1a10205c78a019139a",
+      "values_digest": "f9173609da71dbd5587509fd289748959f8822f2ff1c3d06c70662ce53f2675a",
       "rendered_digest": "e30a5c77f77107757320844847c98ef7c9a3eccdb948dd27ea03fc132c587ea4",
       "ast_digest": "c7c7b3dea622e947960be940258da4819afd368bb29943aac3559dc360c7546e"
     },
     "vpp": {
-      "values_digest": "736de78a04f2f14d583332f0a0e7e36fc9f67bba42ebf79a20b90e87201a2930",
+      "values_digest": "7a8804cd8e0e4bdd6c494162809f91eeb329032d54935de71f479b8f9b12893c",
       "rendered_digest": "16891f084812637c91807f49aa23751e6e6913c6838d12a67a12efff0ea130a9",
       "ast_digest": "8645a4cadfcb885baf6303ed1986e37e06819c6f212329226a1ad10a488325e5"
     },
     "srp": {
-      "values_digest": "b43adafcd4fe0e393e6a60391e18c1d6486834120ef62f1647ff5e83e4dd9649",
-      "rendered_digest": "a3549b7f4a0718db3d6b16328228a3ac0e160108d7e1113b80561ddec4a217c5",
-      "ast_digest": "1f660d29817eb7d79752dae67b8d0da08ffa28aee646d1cd6bcef4ce4da99855"
+      "values_digest": "5833b5db5b058aec97134063c699c4ec64ff98c987dabbcad55f421c332573e0",
+      "rendered_digest": "e5374848260f9ec0d5a294b27bbe55e20ba36c76a69102f9e6bd36c66aa28eeb",
+      "ast_digest": "dd86e111015e1e5b334c1ae4c587b8f2bd555f46910b6e4e9f3a008cb8d16df9"
     },
     "sor": {
-      "values_digest": "27970a3b06440825c755ef206cb7cd602999cd17b29eb066e0580f8e080ef4b4",
+      "values_digest": "7fc1a9d19c9640054771502046c0ba00fbbcb37684c5d200624e5f8a958ea435",
       "rendered_digest": "e490bba573516275aeb8ce39ab85095734d56721925d27cdd4808382276c022c",
       "ast_digest": "ade7e67b38501e08ad5f0d7a00413234569b8afcb32ff2dd450876cd9028d513"
     }
@@ -75,6 +123,13 @@
       "to": "implemented",
       "actor": "codex:wp24-canonical-migration",
       "reason": "Advance canonical WP-24 successor after completed plan, execution evidence, and four passing validation records."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:wp24-canonical-publication",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -210,6 +265,13 @@
       "actor": "codex:wp24-canonical-publication",
       "reason": "Disambiguate legacy issue references after the canonical repository move.",
       "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: All ten canonical titles have complete source-packet, article, and editorial-review artifacts.\",\"AC-2: Every material claim and citation is source-grounded, privacy-safe, and correctly labeled current, historical, planned, or unknown.\",\"AC-3: The series arc is coherent, non-duplicative, consistently named, and audience-appropriate.\",\"AC-4: Automated completeness, link/citation, claim-boundary, privacy, and negative placeholder scans pass.\",\"AC-5: Legacy danielbaustin/agent-design-language#5819-sensitive links and danielbaustin/agent-design-language#5843-sensitive release claims are reconciled before final disposition.\",\"AC-6: The disposition remains review-ready or explicitly operator-approved; no autonomous publication occurs.\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:wp24-canonical-publication",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
