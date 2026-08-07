@@ -1,19 +1,19 @@
 {
   "schema": "csdlc.issue_validation_summary.v1",
   "issue": 5822,
-  "revision_basis": "second independent-review repair working tree before local commit and re-review",
+  "revision_basis": "final terminal-baseline implementation and typed-card repair before independent exact-head review",
   "environment": {
     "worktree": "/Volumes/FastWork/adl-wp-5822-v0-92-csdlc-estimation-cycle-time",
-    "cargo_home": "/Volumes/FastWork/adl-cargo-home-5822",
-    "cargo_target_dir": "/Volumes/FastWork/adl-cargo-target-5822",
+    "cargo_home": "operator default; no repository-local credential or cache material retained",
+    "cargo_target_dir": "/Volumes/FastWork/adl-builds/5822/csdlc-v2",
     "temp_or_cache_outside_fastwork": false
   },
   "results": [
     {
       "lane": "estimation-contracts-exact-target",
-      "command": "cargo nextest run --locked --manifest-path csdlc-v2/Cargo.toml --no-tests=fail --test estimation_contracts",
+      "command": "CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5822/csdlc-v2 cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test estimation_contracts",
       "outcome": "passed",
-      "run_id": "834da7dc-e410-484c-b600-d07135f5d6d7",
+      "run_id": "local-focused-final",
       "tests_run": 9,
       "tests_passed": 9,
       "tests_skipped": 0
@@ -32,10 +32,10 @@
     },
     {
       "lane": "source-identical-doctor",
-      "command": "/Volumes/FastWork/adl-cargo-target-5822/debug/csdlc-doctor --repo <worktree> --issue 5822",
+      "command": "/Volumes/FastWork/adl-builds/5822/csdlc-v2/debug/csdlc-validate --root <worktree> issue --issue 5822",
       "outcome": "passed",
       "phase": "implemented",
-      "generation": 43,
+      "generation": 49,
       "findings": []
     }
   ],
