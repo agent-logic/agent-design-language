@@ -1,0 +1,17 @@
+
+running 10 tests
+test tests::checked_observability_is_discarded_between_timed_runs ... ok
+test tests::accepts_only_the_three_exact_acceptance_suites ... ok
+test tests::pre_restart_probe_barrier_requires_paired_absolute_paths ... ok
+test tests::toml_path_preserves_windows_paths_through_serializer_round_trip ... ok
+test tests::preflight_is_real_but_never_acceptance_eligible ... ok
+test tests::nonzero_guardian_diagnostic_preserves_child_exit_cause ... ok
+test tests::rejects_partial_or_mixed_acceptance_suites ... ok
+test tests::aggregates_four_exact_lifecycle_reports_with_compact_clean_logs ... ok
+test tests::qualification_lock_serializes_the_configured_api_address ... ok
+test tests::init_fixture_uses_stable_local_tls_bootstrap ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.29s
+     Running unittests src/bin/adl-runtime-lifecycle-soak.rs (adl-runtime/target/debug/deps/adl_runtime_lifecycle_soak-e80b01046eac5acd)

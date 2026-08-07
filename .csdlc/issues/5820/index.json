@@ -3,9 +3,9 @@
   "issue": 5820,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "50b75585680c7acb7b8f8912ae3704962d8da142da1ef08a64e78dd0fb1f0129",
-  "phase": "bound",
-  "generation": 38,
-  "digest": "c4ffe3c1d6fa6bd0675e04b9d9249118f76c187174c05a0f1f2ff896d3b447f7",
+  "phase": "implemented",
+  "generation": 40,
+  "digest": "eacc13f387898a10e11768135fc32d3372d2d7f16ad5e6a0e15729d320d20c19",
   "branch": "codex/5820-v092-runtime-launch-resilience",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-wp-5820-runtime-launch-resilience",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6d7de988656f1b5a383878543671f0803bb81250bb5eebdb798291175e41cd1e",
+      "values_digest": "26eb73d34d33ef4d30f269cf1eed0f8679ab970c65947145f54e4083662b11a0",
       "rendered_digest": "822b110b8030f1e2f7820eea7307b907c69c28d2f51c220c8ff9a7b3186618c4",
       "ast_digest": "04364454cada7124a7cda08bc8a36d90667b54ba2d46a986a10cf3e5f8493806"
     },
     "stp": {
-      "values_digest": "f19e4c6a41c370e75b3b63753b092f8dccc3886c89c473c267981007b5e3fb16",
+      "values_digest": "20c80a7c568733b9b05806407c0cfa8673f4bcfbfc2de623e90efa37e54037d8",
       "rendered_digest": "42851e4b8c0b2f55ea1c753bba432a5fd8a015ea097b764dd0a8b2bc15eb5b19",
       "ast_digest": "3520e78cac053e9737dcb5cc31ac6407f4e4bc2b0f319992508b9acc0c9903ea"
     },
     "spp": {
-      "values_digest": "d4411394ee5a5773e1b9330e2323a81ca7ade595ec0e5208c73f111b084eaf98",
+      "values_digest": "24ef43404a4f1a977bda4351290a9d2b50a8c175bc9aa24255c6c19cd3f3db3b",
       "rendered_digest": "b975b27fa142e8b9945ec0e9b1969b3574776cc818a470a87a63eba1c54a68e6",
       "ast_digest": "1c83fa258efc5a3ca632eeb2371fc96dfa0f1f6c3f8bd2881ddc85b59786ebfd"
     },
     "vpp": {
-      "values_digest": "0088d2a22c6a5e28ccd71cf4e31714542c48b30d9a8b7742657ee5c0f888c68d",
-      "rendered_digest": "1ce19821f6eaa102d187e468434affa093a3032a19e4e04baef1851c12f7d0dd",
-      "ast_digest": "c4c703ed1294d970ff71a3028977132b676e498b58c5832c5e7e27887af6621d"
+      "values_digest": "93b7d78f275895627377d26e01f93ac7e1393eafb4c6f3c59e8d62f8dba29d67",
+      "rendered_digest": "f57f920c52a31723a59293798dbfc4855ceead2a6a094a49610e2b5dfc8dbc16",
+      "ast_digest": "10abc4e2ed3afdd7c99b3c950fd85e89da20c5ab2fa4fa63c0e6ba8a97d46ae0"
     },
     "srp": {
-      "values_digest": "9762a4ea693a1f3f0a3dec6b4ba917738dad024357d42ea2c1eec558c4de507f",
+      "values_digest": "04cdc5a51181791a40989048d3e3a41b0926ec38980a20dbbd82169252c5d2cc",
       "rendered_digest": "9c7c37c04789b4430bf9e043b973021fe19d34e483fd88ed7c27b623ce4b1386",
       "ast_digest": "baacb4d0f1a6b174755fca142e86fb09268a52e9de59d07f4590ac5503b8646e"
     },
     "sor": {
-      "values_digest": "816a7c83dab35855c3cf48dd45a04e6898618ce20fa44483d080b65419125406",
-      "rendered_digest": "6366dce0988089114b667d0e041ec857a2ae01ffdd5d685b0fe12e96ebc3cfdd",
-      "ast_digest": "ac7fef06771ff91e952fce5af2722151f0fe7a59be4ba8c517a2f57ab786cd25"
+      "values_digest": "2d6371f97dcca969d4f8868dd28a6915764dbe2ed6d3ffbf9cebd3cdde8fd167",
+      "rendered_digest": "9d8459895ceed41afeac278884c4e82bd577bf01e6f78da43737abaf386f63f1",
+      "ast_digest": "5e3d951486d10895a2b963af7602e879bb53c38d0dd8b649df6abb04d900b0b9"
     }
   },
   "transitions": [
@@ -89,6 +89,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -462,6 +469,20 @@
       "actor": "codex:5820-runtime-launch-resilience",
       "reason": "Record native receipt and exact-head pre-publication review work as active without claiming unavailable platform proof or publication.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 54,
+      "generation": 39,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "Align final validation with the exact implemented production path, retained Linux Spot evidence, and the acceptance-authorized named native Windows blocker.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"guardian-lifecycle-unit\",\"proof_role\":\"Prove Guardian restart policy, lifecycle aggregation, and nonce-bound pre-restart probe synchronization.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"--no-default-features\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"production-guardian-api-wss-restart\",\"proof_role\":\"Launch the production Guardian/kernel on macOS and prove authenticated HTTPS/WSS, forced child failure, bounded restart, durable continuity, clean logs, and shutdown.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\"],\"parallel_group\":\"runtime-production\",\"defer_reason\":null},{\"lane\":\"linux-spot-runtime-proof\",\"proof_role\":\"Validate the retained exact-head Linux Spot lifecycle result, immutable builder provenance, and verified instance teardown.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"python3\",\"-c\",\"import json,pathlib; s=json.loads(pathlib.Path('.csdlc/evidence/5820/external-linux/summary.json').read_text()); w=json.loads(pathlib.Path('.csdlc/evidence/5820/external-linux/wrapper-final-summary.json').read_text()); assert s['status']=='passed' and s['remote_summary']['resolved_commit']=='2faa7c0ddda8e12e452d7be4b309aeb86c10f69d' and s['cleanup']['final_instance_state']=='terminated' and s['launch']['purchase_option']=='spot'; assert w['status']=='passed' and w['source_commit']=='2faa7c0ddda8e12e452d7be4b309aeb86c10f69d' and w['self_verification']['compute_teardown_verified'] is True; print('PASS: exact-head Linux Spot Guardian lifecycle and teardown evidence')\"],\"parallel_group\":\"platform-evidence\",\"defer_reason\":null},{\"lane\":\"native-windows-blocker\",\"proof_role\":\"Retain the acceptance-authorized named blocker that no native Windows execution authority is available in this bounded issue session; do not claim Windows lifecycle proof.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":250,\"argv\":[\"python3\",\"-c\",\"import json; print(json.dumps({'schema':'adl.runtime_v3.platform_blocker.v1','platform':'windows','status':'blocked','reason':'native_windows_runner_unavailable','source_revision':'2faa7c0ddda8e12e452d7be4b309aeb86c10f69d'},sort_keys=True))\"],\"parallel_group\":\"platform-evidence\",\"defer_reason\":null},{\"lane\":\"exact-head-hygiene\",\"proof_role\":\"Reject whitespace damage before exact-head review and issue-closing publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"review\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 55,
+      "generation": 40,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
