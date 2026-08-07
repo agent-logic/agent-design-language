@@ -1,0 +1,32 @@
+{
+  "schema": "adl.runtime_v3.guardian_wss_transcript.v1",
+  "request": {
+    "method": "GET",
+    "path": "/v1/acip/ws",
+    "authentication": "bearer_redacted",
+    "upgrade": "websocket"
+  },
+  "upgrade": {
+    "status": 101,
+    "sha256": "3d6b6aaba809abe881466f4865abd9bf12a1c67137243b3518d3e34b79ab8513"
+  },
+  "hello": {
+    "bidirectional": true,
+    "event": "authenticated",
+    "path": "/v1/acip/ws",
+    "schema": "adl.csm.acip_carrier.websocket_frame.v1"
+  },
+  "bounded_request": {
+    "opcode": "binary",
+    "bytes": 208,
+    "sha256": "4fd711995a3e50dd9fa0866d2243a5ed6e60af24d11d4d88c2f9f06d72f3c8eb"
+  },
+  "response": {
+    "accepted_sequence": 1,
+    "message_id": "wp-5820-wss-proof",
+    "result_hash": "8021d4eeba26f47d37df3a41f6cbbb937476d16e2f6bda8e8fe4316511a71413",
+    "schema": "adl.csm.acip_carrier.websocket_frame.v1",
+    "sequence_reserved": true,
+    "status": "completed"
+  }
+}

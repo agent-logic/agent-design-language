@@ -1,0 +1,33 @@
+{
+  "schema": "adl.runtime_v3.guardian_lifecycle_proof.v1",
+  "status": "pass",
+  "source_revision": "0dfd6c26084b20528e805aa570b2d6b930c42b81",
+  "acceptance_eligible": true,
+  "lifecycle_component_suite": "stress_100x10s",
+  "lifecycle_component_acceptance_eligible": true,
+  "lifecycle_report_path": "/workspace/.adl/runtime-v3/qualification/5820-run.RzBBGF/report.json",
+  "lifecycle_report_sha256": "412f56541f82fe584fcbfe1aa52c92df9b8fad59be8b873afa5adf9906525615",
+  "wss_proof_path": "/workspace/.adl/runtime-v3/qualification/5820-run.RzBBGF/wss-proof.json",
+  "wss_proof_sha256": "a48692cf8b33ee532a3b2395434341dc7dfcfdf31b006d1f15511ac4294f3859",
+  "guardian_binary_path": "/cache-root/targets/5820-runtime/debug/adl-runtime-guardian",
+  "guardian_binary_sha256": "1b0bfdc5d5fecf3e456fd9db1f3b3be63e7683f3fc23e5c1fc2096567559cef1",
+  "kernel_binary_path": "/cache-root/targets/5820-runtime/debug/adl-runtime-kernel",
+  "kernel_binary_sha256": "4833d3701c0b3afd0aa5bafed5d884fd7881df7425622b51fa5347adceaa15b0",
+  "canonical_init_path": "/workspace/infra/runtime-v3/runtime-init.toml",
+  "canonical_init_sha256": "2c3718a7aa1d0a49c5dbf7c181b6e9ed668a732d2bbea6bb20d393fcbc6634e4",
+  "https_transcript_path": "/workspace/.adl/runtime-v3/qualification/5820-run.RzBBGF/https-transcript.json",
+  "https_transcript_sha256": "9dde714a464f9c45cabb120fe5b352170370cd5a934e5a0cca367055fb5cc5ad",
+  "wss_transcript_path": "/workspace/.adl/runtime-v3/qualification/5820-run.RzBBGF/wss-transcript.json",
+  "wss_transcript_sha256": "eec6429f807594717048c101299f6a367e9f0a3e596e24e1a989584ea8d98df2",
+  "assertions": {
+    "guardian_launched": true,
+    "kernel_ready": true,
+    "authenticated_https": true,
+    "authenticated_wss": true,
+    "child_killed": true,
+    "bounded_restart": true,
+    "state_preserved": true,
+    "clean_shutdown": true,
+    "clean_logs": true
+  }
+}

@@ -1,0 +1,1 @@
+{"schema":"adl.runtime_guardian.runner_provenance.v1","source_revision":"0dfd6c26084b20528e805aa570b2d6b930c42b81","provider":"aws-spot","run_id":"adl-wp-5820-linux-stress-20260807-2345","os":"linux","arch":"x86_64"}
