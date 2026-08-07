@@ -1,0 +1,21 @@
+{
+  "schema": "adl.v092.browser_trusted_observatory.evidence.v1",
+  "mode": "platform_disposition",
+  "platforms": [
+    {
+      "platform": "macos",
+      "status": "supported",
+      "trust": "explicit user-keychain security(1) transaction"
+    },
+    {
+      "platform": "linux",
+      "status": "blocked",
+      "reason": "Chrome NSS trust and system curl trust are separate stores; no single reversible native transaction is implemented"
+    },
+    {
+      "platform": "windows",
+      "status": "blocked",
+      "reason": "CurrentUser Root import/removal has not received native Windows execution proof"
+    }
+  ]
+}
