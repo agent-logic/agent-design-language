@@ -59,6 +59,11 @@ const tlsBootstrap = await verifyDurableTlsBootstrap({
   certificate,
   privateKey,
 });
+const runtimeTlsPaths = await verifyRuntimeTlsPaths({
+  command: runtimeCommand,
+  certificate: tlsBootstrap.certificate_path,
+  privateKey: tlsBootstrap.private_key_path,
+});
 if (await fs.realpath(runtimeCommand[0]) !== runtimeGuardian) {
   fail("Runtime candidate command must launch the declared Guardian binary directly");
 }
@@ -226,6 +231,7 @@ try {
     curl_endpoints: curlEndpoints.map((endpoint) => endpoint.pathname),
     concurrent_runtime_connections: concurrentRuntimeProof,
     runtime_candidate: runtimeOwnership,
+    runtime_tls_paths: runtimeTlsPaths,
     exact_head_build: exactBuild,
     tls_bootstrap: tlsBootstrap,
     platforms: platformDispositions(args.nativePlatforms ?? [process.platform]),
@@ -341,9 +347,62 @@ async function verifyDurableTlsBootstrap({ bootstrap, config, certificate, priva
     manifest_path: manifestPath,
     manifest_sha256: await fileSha256(manifestPath),
     certificate_sha256: certificateSha256.toLowerCase(),
+    certificate_path: manifestCertificate,
+    private_key_path: manifestPrivateKey,
     bootstrap_sha256: await fileSha256(bootstrap),
     bootstrap_config_sha256: await fileSha256(config),
   };
+}
+
+async function verifyRuntimeTlsPaths({ command, certificate, privateKey }) {
+  const initMarkers = command
+    .map((part, index) => part === "--init" ? index : -1)
+    .filter((index) => index >= 0);
+  if (initMarkers.length !== 1 || !command[initMarkers[0] + 1]) {
+    fail("Runtime candidate command must contain exactly one --init <path> argument");
+  }
+  const initPath = await canonicalExistingFastWorkPath(
+    command[initMarkers[0] + 1],
+    "Runtime init",
+  );
+  const init = await fs.readFile(initPath, "utf8");
+  const configuredCertificate = await canonicalExistingFastWorkPath(
+    tomlSectionString(init, "api.tls", "certificate_chain_path"),
+    "Runtime TLS certificate",
+  );
+  const configuredPrivateKey = await canonicalExistingFastWorkPath(
+    tomlSectionString(init, "api.tls", "private_key_path"),
+    "Runtime TLS private key",
+  );
+  if (configuredCertificate !== certificate || configuredPrivateKey !== privateKey) {
+    fail("Runtime init TLS paths do not match the one durable manifest identity");
+  }
+  return {
+    init_path: initPath,
+    certificate_path: configuredCertificate,
+    private_key_path: configuredPrivateKey,
+    matches_manifest: true,
+  };
+}
+
+function tomlSectionString(document, section, key) {
+  let currentSection = null;
+  const matches = [];
+  for (const rawLine of document.split(/\r?\n/u)) {
+    const line = rawLine.trim();
+    const sectionMatch = /^\[([^\]]+)\]$/u.exec(line);
+    if (sectionMatch) {
+      currentSection = sectionMatch[1].trim();
+      continue;
+    }
+    if (currentSection !== section || !line || line.startsWith("#")) continue;
+    const valueMatch = new RegExp(`^${key}\\s*=\\s*("(?:[^"\\\\]|\\\\.)*")\\s*(?:#.*)?$`, "u").exec(line);
+    if (valueMatch) matches.push(JSON.parse(valueMatch[1]));
+  }
+  if (matches.length !== 1 || typeof matches[0] !== "string" || !matches[0]) {
+    fail(`Runtime init must declare exactly one string ${section}.${key}`);
+  }
+  return matches[0];
 }
 
 async function runChecked(executable, argv, cwd) {
