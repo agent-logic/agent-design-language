@@ -90,7 +90,7 @@ try {
   }
 
   const browserEndpoints = await page.evaluate(async ({ base }) => {
-    const paths = ["/v1/health", "/v1/ready", "/v1/observatory"];
+    const paths = ["/v1/ready", "/v1/observatory"];
     return Promise.all(paths.map(async (path) => {
       try {
         const response = await fetch(new URL(path, base));
@@ -106,6 +106,15 @@ try {
   }
   const ready = browserEndpoints.find((entry) => entry.path === "/v1/ready");
   if (ready?.body?.ready !== true) fail("Runtime readiness response did not report ready=true");
+
+  const healthPage = await context.newPage();
+  const browserHealth = await healthPage.goto(new URL("/v1/health", runtime).href, {
+    waitUntil: "domcontentloaded",
+  });
+  if (!browserHealth || !browserHealth.ok()) {
+    fail(`browser Runtime health navigation returned ${browserHealth?.status() ?? "no response"}`);
+  }
+  await healthPage.close();
   if (tlsErrors.length) fail(`browser reported TLS errors: ${tlsErrors.join("; ")}`);
 
   const curlEndpoints = [
@@ -139,6 +148,7 @@ try {
       runtime: `${runtime.protocol}//${runtime.hostname}:${runtime.port}`,
     },
     browser_endpoints: browserEndpoints.map(({ path, status }) => ({ path, status })),
+    browser_direct_health_status: browserHealth.status(),
     curl_endpoints: curlEndpoints.map((endpoint) => endpoint.pathname),
     concurrent_runtime_connections: concurrentRuntimeProof,
     platforms: platformDispositions(args.nativePlatforms ?? [process.platform]),
