@@ -15,6 +15,13 @@
   "canonical_branch": "codex/10-v092-wp24-article-series",
   "canonical_worktree_ref": ".csdlc/issues/10/index.json",
   "legacy_pull_request": 5902,
-  "canonical_pull_request": null,
-  "state": "canonical_record_implemented_pending_review"
+  "legacy_pull_request_state": "closed_unmerged",
+  "canonical_pull_request": 14,
+  "canonical_pull_request_url": "https://github.com/agent-logic/agent-design-language/pull/14",
+  "canonical_pull_request_state": "open",
+  "source_issue_state": "closed_superseded",
+  "destination_issue_state": "open",
+  "authority": "destination",
+  "integrated_main": "7dfb791ad2fc1ecbc1e3b3651815b1d37bfa060f",
+  "state": "canonical_authority_active"
 }

@@ -112,6 +112,32 @@ sensitive = /HOME\/keys|BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY|Bearer\s+[A-Za-z
 sensitive_paths = contents.select { |_path, body| body.match?(sensitive) }.map(&:first)
 raise "credential-like content in article packet: #{sensitive_paths.join(', ')}" unless sensitive_paths.empty?
 
+migration_root = File.join(root, ".csdlc/evidence/10")
+migration_receipt_path = File.join(migration_root, "ISSUE_MIGRATION_RECEIPT.md")
+issue_map_path = File.join(migration_root, "issue-map.json")
+raise "canonical migration receipt missing" unless File.file?(migration_receipt_path)
+raise "canonical issue map missing" unless File.file?(issue_map_path)
+
+migration_receipt = File.read(migration_receipt_path)
+issue_map = JSON.parse(File.read(issue_map_path))
+expected_migration = {
+  "legacy_pull_request" => 5902,
+  "legacy_pull_request_state" => "closed_unmerged",
+  "canonical_pull_request" => 14,
+  "canonical_pull_request_state" => "open",
+  "source_issue_state" => "closed_superseded",
+  "destination_issue_state" => "open",
+  "authority" => "destination",
+  "integrated_main" => "7dfb791ad2fc1ecbc1e3b3651815b1d37bfa060f",
+  "state" => "canonical_authority_active"
+}
+migration_mismatches = expected_migration.reject { |key, value| issue_map[key] == value }
+raise "canonical issue map is stale: #{migration_mismatches.keys.join(', ')}" unless migration_mismatches.empty?
+raise "canonical issue map destination mismatch" unless issue_map.dig("destination", "repository") == "agent-logic/agent-design-language" && issue_map.dig("destination", "issue") == 10
+raise "migration receipt lacks canonical PR authority" unless migration_receipt.include?("agent-logic/agent-design-language#14")
+raise "migration receipt lacks closed legacy issue disposition" unless migration_receipt.include?("danielbaustin/agent-design-language#5844` closed as superseded")
+raise "migration receipt retains pending publication claim" if migration_receipt.match?(/pending typed publication|canonical_pull_request.*null/i)
+
 if ARGV.include?("--negative")
   disposition = File.read(File.join(articles, "PUBLICATION_DISPOSITION.md"))
   raise "publication disposition must remain review-ready or operator-approved" unless safe_publication_disposition?(disposition)
