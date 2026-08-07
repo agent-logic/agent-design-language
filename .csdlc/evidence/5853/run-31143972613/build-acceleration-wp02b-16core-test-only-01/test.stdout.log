@@ -23,4 +23,3 @@ test provider_communication::tests::review_provider_result_transitively_rejects_
 test provider_communication::tests::review_provider_result_rejects_findings_on_failed_or_passed_status ... ok
 
 test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 1914 filtered out; finished in 0.00s
-

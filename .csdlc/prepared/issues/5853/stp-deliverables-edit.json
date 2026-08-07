@@ -1,0 +1,20 @@
+{
+  "issue": 5853,
+  "card": "stp",
+  "expected_generation": 21,
+  "expected_digest": "bbcd9f2a8d2b954ebf596a9ecc231f7ce3f744aeeb2c316e4acace348846c1be",
+  "actor": "codex:5853-contract-repair",
+  "reason": "Replace the abandoned cross-platform trial deliverables with the bounded 16-core measurement and adoption evidence.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Migration, budget, selected-repository access, concurrency-one, security, and rollback eligibility receipts",
+      "One cold, three warm, and three test-only 16-core measurement receipts with queue, cache, timing, reliability, and cost accounting",
+      "Recomputed performance and cost decision bound to frozen adoption thresholds",
+      "Minimal production routing of adl-rust-tests to adl-ubuntu-24.04-16core with unchanged check identity and validation semantics",
+      "Removal of the temporary experiment-dispatch harness",
+      "Green exact-head production canary plus focused validator, workflow-contract, diff-hygiene, and independent review evidence"
+    ]
+  }
+}

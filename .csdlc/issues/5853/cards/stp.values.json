@@ -7,30 +7,30 @@
     "title": "[v0.92][WP-02B][build] Run the post-migration build acceleration experiment",
     "slug": "v0-92-wp-02b-post-migration-build-acceleration",
     "version": "v0.92",
-    "generation": 20
+    "generation": 23
   },
   "status": "ready",
   "content": {
     "card_kind": "stp",
     "values": {
-      "task_boundary": "Deliver a measured and reversible post-migration build acceleration decision for the standard and 16-core GitHub-hosted runner comparison.",
+      "task_boundary": "Measure the already-approved 16-core GitHub-hosted runner with one cold baseline, three warm baselines, and three test-only canaries; adopt it for adl-rust-tests only when the frozen performance, reliability, cost, security, and exact-head production-canary gates pass.",
       "deliverables": [
-        "Migration-eligibility receipt and frozen workload/environment manifest",
-        "Raw five-cold and ten-warm trial records for each platform and selected workload",
-        "Queue, cache, timing, reliability, proof-parity, and cost analysis",
-        "Restricted runner-group access, concurrency, budget, and rollback evidence",
-        "One production-semantics canary and lane-by-lane adopt/reject/defer decision",
-        "Ten-run post-change observation for adopted routes or cleanup confirmation for rejected routes"
+        "Migration, budget, selected-repository access, concurrency-one, security, and rollback eligibility receipts",
+        "One cold, three warm, and three test-only 16-core measurement receipts with queue, cache, timing, reliability, and cost accounting",
+        "Recomputed performance and cost decision bound to frozen adoption thresholds",
+        "Minimal production routing of adl-rust-tests to adl-ubuntu-24.04-16core with unchanged check identity and validation semantics",
+        "Removal of the temporary experiment-dispatch harness",
+        "Green exact-head production canary plus focused validator, workflow-contract, diff-hygiene, and independent review evidence"
       ],
       "acceptance_criteria": [
-        "WP-02, WP-02A, organization plan, owner budget and alerts, selected-repository access, concurrency-one, and rollback entry gates are verified",
-        "Control and candidate runs freeze one exact commit, workflow, toolchain, lockfiles, commands, permissions, cache design, proof inputs, required checks, workloads, and numeric adoption thresholds before measurement",
-        "Five cold and ten warm trials per selected workload and platform retain finite nonnegative metrics, cache evidence, queue delay, failures, retries, cancellations, and justified outliers with internally consistent totals",
-        "Result, artifact, validation, and required-check parity passes before exactly one production-semantics canary",
-        "The issue-local validator recomputes p50, p95, means, critical-path and queue deltas, reliability, cost per run, and cost per minute saved from raw trials and rejects reported-statistic or threshold-disposition drift",
-        "Adoption requires every predeclared reliability, p95, queue, critical-path, cost, proof-parity, and canary gate; adopted routing has ten-run observation and fallback while rejected or deferred routing is removed",
-        "Untrusted code cannot reach privileged runner context and no required-check, branch-protection, validation-breadth, or proof semantic changes occur",
-        "The issue-local validator, workflow contracts, diff hygiene, and exact-head review pass"
+        "WP-02, WP-02A, organization plan, owner budget and alerts, selected-repository access, concurrency-one, security, and rollback entry gates are verified",
+        "Exactly one cold, three warm, and three test-only 16-core measurements are retained with finite nonnegative timings, queue and cache evidence, and warm cache-hit proof",
+        "The issue-local validator recomputes statistics, reliability, and cost from retained per-run accounting and rejects denominator, toolchain, runner, report, threshold, or production-canary drift",
+        "The test-only p95 is at most 120 seconds and its median duration improves by at least 35 percent over the warm baseline",
+        "adl-rust-tests runs on adl-ubuntu-24.04-16core with its required-check identity, commands, validation breadth, and proof semantics unchanged",
+        "The temporary workflow-dispatch experiment harness is absent from the final implementation",
+        "The implementation PR passes an exact-head adl-rust-tests production canary on the selected 16-core runner",
+        "The focused evidence validator, workflow-routing contract, diff hygiene, and independent exact-head review pass"
       ],
       "dependencies": [
         "WP-02",

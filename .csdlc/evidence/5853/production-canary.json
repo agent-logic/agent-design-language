@@ -1,0 +1,16 @@
+{
+  "schema": "adl.wp02b.production_canary.v1",
+  "proof_role": "routing_canary",
+  "workflow_run_id": "31147596070",
+  "job_id": 92770648816,
+  "head_sha": "14470b0ddbe43d9584bb3362c85e571eea5d0f84",
+  "job_name": "adl-rust-tests",
+  "conclusion": "success",
+  "runner_name": "adl-ubuntu-24.04-16core-1000000235",
+  "runner_group_name": "adl-build-experiment",
+  "labels": ["adl-ubuntu-24.04-16core"],
+  "started_at": "2026-08-07T04:32:37Z",
+  "completed_at": "2026-08-07T04:34:43Z",
+  "url": "https://github.com/agent-logic/agent-design-language/actions/runs/31147596070/job/92770648816",
+  "terminal_boundary": "This receipt proves runner routing. Terminal acceptance additionally requires the same job green at the final reviewed PR head."
+}

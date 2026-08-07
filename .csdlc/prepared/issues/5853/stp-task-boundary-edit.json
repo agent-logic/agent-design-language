@@ -1,0 +1,13 @@
+{
+  "issue": 5853,
+  "card": "stp",
+  "expected_generation": 20,
+  "expected_digest": "6b4193a7fa210d313b0af73ad9e56d1fc36b0debb67879d24447d28645094329",
+  "actor": "codex:5853-contract-repair",
+  "reason": "Align the authoritative task boundary with the operator-approved 16-core-only experiment and production adoption decision.",
+  "operation": {
+    "operation": "replan",
+    "field": "task_boundary",
+    "value": "Measure the already-approved 16-core GitHub-hosted runner with one cold baseline, three warm baselines, and three test-only canaries; adopt it for adl-rust-tests only when the frozen performance, reliability, cost, security, and exact-head production-canary gates pass."
+  }
+}

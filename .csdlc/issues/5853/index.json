@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "30c5e01cd7aaa0c008930afafb3d1c037c58ffe34866399d13f29b55d2f8d503",
   "phase": "bound",
-  "generation": 20,
-  "digest": "6b4193a7fa210d313b0af73ad9e56d1fc36b0debb67879d24447d28645094329",
+  "generation": 23,
+  "digest": "db4e9c9085b7751f234b8dbbde8a6921e248be7837c4626967aa8262889830c0",
   "branch": "codex/5853-v0-92-wp-02b-post-migration-build-acceleration",
   "worktree": "/Volumes/FastWork/adl-wp-5853-v0-92-wp-02b-post-migration-build-acceleration",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "57effc857699882adf1d45890e3ecca19f7b19a3410cce43e926816dd70a8bd5",
+      "values_digest": "09b7ac1b6491a525aa4a7cf41e8559c5da3f6eee2b79cb82a03113e5035ed5b3",
       "rendered_digest": "718b77d5b1f856b60e25fae5100d133ef18c17c723d1361c324c12fa4af50fce",
       "ast_digest": "437de793a48b3ec154bcbfbe384ac1d81457087ed3eb36e7b8b8579aa6faae0c"
     },
     "stp": {
-      "values_digest": "d2579fcc4f6a621cb0d5848b514b4b43dd2aec00679000ea4ab90cc51656fc90",
-      "rendered_digest": "aab3dd6d24e27e81593638966c67ac446cece4bc1d638d2f240cdc91d7ce74d8",
-      "ast_digest": "5cdefbef900312258e583e2df22ae160d5d53b571be8298c5bbce8d46af7d3b7"
+      "values_digest": "bb1bd47afae6eef755cfba4d3fa9766b1285bb135fa85af27b83e66fb1dd6c2d",
+      "rendered_digest": "d2b6fe8ce2a25ce639dec9db7c090a6a75c0d39748f2aa00cd56801bef70ceb5",
+      "ast_digest": "e50b2b52690a240b7b5453ea5fb9b1f9b023b1cdc9b68ea11fd46d093cd4b721"
     },
     "spp": {
-      "values_digest": "0726e430cf820c4769b8ec213e70d7c305ea3044387afa554241dd25166a27b3",
+      "values_digest": "e3845c6313b209801eac28191b3aecaa2406aceff1f0d741ce6ffd856b858936",
       "rendered_digest": "75c2415f602f130911349816d3fa2e6da29bcd1a3d3890b931e26cbb8dd3993b",
       "ast_digest": "6dc6d790341241b3a7747195afdb9af5780bec980721ffecf58124caf6b1656f"
     },
     "vpp": {
-      "values_digest": "1412e8adc524ddc9d94dae96992f0fb966f8d34774ba088f1b931ce327323926",
+      "values_digest": "8587fac06c37eb79b8120c41011ee7cc9127d8b7b5e56fd8a111df58c79d1ca4",
       "rendered_digest": "745d19bc43ea42cab9f38a7bd972f8f9ef5060c4590d4e660b67069e4e799271",
       "ast_digest": "afd6e98e442169580725768bd08c3b132940f0bcab54f2ecfd6000ef706f3fc8"
     },
     "srp": {
-      "values_digest": "1e2494cd72cb3ef883d70f6b2a495b4958a2646ff213ddb1340161be0598741e",
+      "values_digest": "e4a7e1c60e05cae198d08eb7880d75c43fa1f10467f771b87d188faff88ad4c7",
       "rendered_digest": "b697a1894e90439d6a5d7b5c5b3954a52a9766c17bf612204b20287c993ae387",
       "ast_digest": "191d41e27dcd0b8037611c604f1d89297c6d224c576055534d242e69ce6a35aa"
     },
     "sor": {
-      "values_digest": "faf594fb2f9552fdd485d96c2253ea0a4204577798fd16ef23207a9100f8dba7",
+      "values_digest": "2b5ad5409c25867c1e734f6a871d114f9fc45d0156f4d55f85a16d4d26d4f96d",
       "rendered_digest": "c8c0658069791fed33a7be33428288105be9227795586c3ab67ca9b5c6c9272f",
       "ast_digest": "c376bbd4d55aa0d818ef44f2c187ea3875d728095d27dddd352d43798c8fa825"
     }
@@ -378,6 +378,27 @@
       "actor": "codex:5853-operator-replan",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 39,
+      "generation": 21,
+      "actor": "codex:5853-contract-repair",
+      "reason": "Align the authoritative task boundary with the operator-approved 16-core-only experiment and production adoption decision.",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Measure the already-approved 16-core GitHub-hosted runner with one cold baseline, three warm baselines, and three test-only canaries; adopt it for adl-rust-tests only when the frozen performance, reliability, cost, security, and exact-head production-canary gates pass.\",\"operation\":\"replan\",\"previous_value\":\"Deliver a measured and reversible post-migration build acceleration decision for the standard and 16-core GitHub-hosted runner comparison.\"}"
+    },
+    {
+      "sequence": 40,
+      "generation": 22,
+      "actor": "codex:5853-contract-repair",
+      "reason": "Replace the abandoned cross-platform trial deliverables with the bounded 16-core measurement and adoption evidence.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Migration, budget, selected-repository access, concurrency-one, security, and rollback eligibility receipts\",\"One cold, three warm, and three test-only 16-core measurement receipts with queue, cache, timing, reliability, and cost accounting\",\"Recomputed performance and cost decision bound to frozen adoption thresholds\",\"Minimal production routing of adl-rust-tests to adl-ubuntu-24.04-16core with unchanged check identity and validation semantics\",\"Removal of the temporary experiment-dispatch harness\",\"Green exact-head production canary plus focused validator, workflow-contract, diff-hygiene, and independent review evidence\"]}"
+    },
+    {
+      "sequence": 41,
+      "generation": 23,
+      "actor": "codex:5853-contract-repair",
+      "reason": "Make the accepted contract exactly match the bounded 16-core experiment and production adoption path.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"WP-02, WP-02A, organization plan, owner budget and alerts, selected-repository access, concurrency-one, security, and rollback entry gates are verified\",\"Exactly one cold, three warm, and three test-only 16-core measurements are retained with finite nonnegative timings, queue and cache evidence, and warm cache-hit proof\",\"The issue-local validator recomputes statistics, reliability, and cost from retained per-run accounting and rejects denominator, toolchain, runner, report, threshold, or production-canary drift\",\"The test-only p95 is at most 120 seconds and its median duration improves by at least 35 percent over the warm baseline\",\"adl-rust-tests runs on adl-ubuntu-24.04-16core with its required-check identity, commands, validation breadth, and proof semantics unchanged\",\"The temporary workflow-dispatch experiment harness is absent from the final implementation\",\"The implementation PR passes an exact-head adl-rust-tests production canary on the selected 16-core runner\",\"The focused evidence validator, workflow-routing contract, diff hygiene, and independent exact-head review pass\"]}"
     }
   ]
 }

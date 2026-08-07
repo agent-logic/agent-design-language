@@ -11,5 +11,8 @@
   "experiment_dispatch_removed": true,
   "approved_max_total_cost_usd": 10.0,
   "observed_total_cost_usd": 1.302,
-  "production_canary": "the implementation PR must pass adl-rust-tests on adl-ubuntu-24.04-16core before merge"
+  "production_canary": {
+    "routing_receipt": ".csdlc/evidence/5853/production-canary.json",
+    "terminal_gate": "adl-rust-tests must be green at the final reviewed PR head before merge"
+  }
 }

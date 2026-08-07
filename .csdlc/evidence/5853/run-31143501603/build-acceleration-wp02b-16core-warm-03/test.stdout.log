@@ -23,4 +23,3 @@ test provider_communication::tests::utf8_diagnostics_truncate_without_panic ... 
 test provider_communication::tests::url_query_api_keys_are_redacted_from_provider_failures ... ok
 
 test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 1914 filtered out; finished in 0.00s
-
