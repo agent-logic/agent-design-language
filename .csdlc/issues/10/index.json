@@ -3,9 +3,9 @@
   "issue": 10,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "aaefb83fa55b156bd233db58af78a5439d66856e3ec8dde179d56cd4b77c0fd7",
-  "phase": "reviewed",
-  "generation": 23,
-  "digest": "258f4db9047a9637916faa312882a329385ce3d4384ce3d8d5082d594c22627d",
+  "phase": "published",
+  "generation": 24,
+  "digest": "62a9c41c012be3eddd3ad8ab57f1e7f7753334393f8ec268101ac26dc0dc0323",
   "branch": "codex/10-v092-wp24-article-series",
   "worktree": "/Volumes/FastWork/adl-wp-10",
   "review_assignment": null,
@@ -78,7 +78,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 10,
+    "pull_request": 14,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/14",
+    "base": "main",
+    "head": "codex/10-v092-wp24-article-series",
+    "revision": "git-blake3:2a708372bffb9a4f1b598548ac2fe59469828470:1e6d9c4e5b98ddd54db335ccf5533476023a2b427c2a5091b3968e934ffcafab",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -92,34 +102,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0f3c4d3e6329125f060d3ff8462f0686120d18f5d0a751989524e8f6764fa559",
+      "values_digest": "83c435cfdfb2030b244419d2317c9a528bc284574965c44207851a240f42cb0a",
       "rendered_digest": "3620987df334148e271e62df6d66ed3fb706122ed7a8fe312a679c3e8842e634",
       "ast_digest": "c47a88b3b7081c55143bf2e3cdb62c3860119d4300798382e7818e865796bcc3"
     },
     "stp": {
-      "values_digest": "1bc214ed175b54c52fa3658b4db3b55f079565e6ff4642557ac4653da29ee603",
+      "values_digest": "fc60e3943aa23058688cec6b4d0c5bdb9a72648b6a6ba8386f4a543ca2c97f52",
       "rendered_digest": "afd31a77167532d1ad92e0125ae28c13131c4e9e890eb57c516ce8fa9f0750f6",
       "ast_digest": "214ff5ca0cf27a3d5e720bfea79edede4c9237ffe6cba06220b023d6f3cc70b9"
     },
     "spp": {
-      "values_digest": "07aa198f46912a2d38bc495883ede52e91d30c395e1df40cced105408fdfb338",
+      "values_digest": "5c4220854471059a7bb4afa90e910dcb168d2b8cfab22a14b2449fc534fd66e1",
       "rendered_digest": "e30a5c77f77107757320844847c98ef7c9a3eccdb948dd27ea03fc132c587ea4",
       "ast_digest": "c7c7b3dea622e947960be940258da4819afd368bb29943aac3559dc360c7546e"
     },
     "vpp": {
-      "values_digest": "b6474b264c0053cc47f08e29d562b38e7f8ca3cbef81cc51062653b9c7635113",
+      "values_digest": "4f72a1dd9bc674929e6090d52bb8c5bcbdcefa9ca4d6b0a4fcbacfa566a86235",
       "rendered_digest": "16891f084812637c91807f49aa23751e6e6913c6838d12a67a12efff0ea130a9",
       "ast_digest": "8645a4cadfcb885baf6303ed1986e37e06819c6f212329226a1ad10a488325e5"
     },
     "srp": {
-      "values_digest": "8f4a5947da1018e3af43cdb9b911da8b4ad617e0a84733889f81a68c61fbde46",
+      "values_digest": "d1c223cf21234ecb38c02c151cf5e408e10de6d7b868dd258dc02c5593a188bd",
       "rendered_digest": "451de2b605be96c3f1e49930079362bc6f63e9a4567baf15a0088d01bd4b150b",
       "ast_digest": "93bab34b2954165435b3fd9dd928c89dcf82e72b4a729525ae9ea5ff0e08fcfb"
     },
     "sor": {
-      "values_digest": "0186966bf925e5323bc012fca9c06e85cee7fa6d22433df37468fedc1761eb55",
-      "rendered_digest": "69dc0a064b4152649a9064d4aa6081566e1e5a934c48ed28022652fe48d72966",
-      "ast_digest": "cf18cbd4352eb41f16f51d847aa322cc481aa0215cfc9a3a3a5c78983a4ef4d6"
+      "values_digest": "30d15b65bd84fd6f05a531874b8f29790df5a42c7419fa8fcd9f596b7e3a2bfd",
+      "rendered_digest": "7ee9f2b8e39aad61ff6ccf479843a3f962dc8fdb6fcf36b5ca3535f13bffe252",
+      "ast_digest": "6fa0e475197be4aa8c9b4aa94cd365a7048e307054b798c97a4287e27d5c0695"
     }
   },
   "transitions": [
@@ -185,6 +195,13 @@
       "to": "reviewed",
       "actor": "codex:wp24-migration-evidence-review-fix",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:wp24-migration-evidence-review-fix",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -362,6 +379,13 @@
       "actor": "codex:wp24-migration-evidence-review-fix",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 24,
+      "actor": "codex:wp24-migration-evidence-review-fix",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
