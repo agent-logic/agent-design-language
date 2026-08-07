@@ -4,8 +4,11 @@ use std::{
     io::Write,
     net::{IpAddr, Ipv4Addr, Ipv6Addr},
     path::{Path, PathBuf},
-    process::{Command, ExitCode},
+    process::ExitCode,
 };
+
+#[cfg(target_os = "macos")]
+use std::process::Command;
 
 use adl_runtime::local_tls::{
     bootstrap_runtime_tls, certificate_fingerprint_sha256, current_local_certificate_sha256,
@@ -24,7 +27,11 @@ const TRUST_CLEANUP_FILE: &str = "cleanup-pending.json";
 
 #[tokio::main]
 async fn main() -> ExitCode {
-    let args = match Args::parse(std::env::args().skip(1).collect()) {
+    run(std::env::args().skip(1).collect()).await
+}
+
+async fn run(raw_args: Vec<String>) -> ExitCode {
+    let args = match Args::parse(raw_args) {
         Ok(args) => args,
         Err(error) => {
             return emit_failure("parse_args", 64, "usage", error, None);
@@ -300,17 +307,12 @@ struct TrustCleanupPending {
 struct MacOsTrustTransaction {
     trust_store: PathBuf,
     receipt_root: PathBuf,
+    #[cfg(target_os = "macos")]
     installed_candidate: Option<String>,
 }
 
 impl MacOsTrustTransaction {
     fn new(config: &RuntimeTlsBootstrapConfig, args: &Args) -> Result<Self, LocalTlsError> {
-        if std::env::consts::OS != "macos" {
-            return Err(LocalTlsError::Trust(format!(
-                "native {} trust is blocked: issue 5800 implements and proves the macOS user-keychain path only",
-                std::env::consts::OS
-            )));
-        }
         let trust_store = args.trust_store.clone().ok_or_else(|| {
             LocalTlsError::Policy("--trust-store is required for host trust operations".to_owned())
         })?;
@@ -325,13 +327,21 @@ impl MacOsTrustTransaction {
         let tls_dir = config.tls_dir.as_ref().ok_or_else(|| {
             LocalTlsError::Policy("tls_dir is required for host trust operations".to_owned())
         })?;
+        if std::env::consts::OS != "macos" {
+            return Err(LocalTlsError::Trust(format!(
+                "native {} trust is blocked: issue 5800 implements and proves the macOS user-keychain path only",
+                std::env::consts::OS
+            )));
+        }
         Ok(Self {
             trust_store,
             receipt_root: state_root.join(tls_dir).join(TRUST_RECEIPTS_DIR),
+            #[cfg(target_os = "macos")]
             installed_candidate: None,
         })
     }
 
+    #[cfg(target_os = "macos")]
     fn install_current(&mut self, certificate: &Path) -> Result<&'static str, LocalTlsError> {
         if self.verify(certificate).is_ok() {
             let digest = certificate_sha256(certificate)?;
@@ -345,6 +355,7 @@ impl MacOsTrustTransaction {
         Ok("trusted")
     }
 
+    #[cfg(target_os = "macos")]
     fn install_owned(&mut self, certificate: &Path) -> Result<(), LocalTlsError> {
         let digest = certificate_sha256(certificate)?;
         if self.keychain_contains_digest(&digest)? {
@@ -395,6 +406,7 @@ impl MacOsTrustTransaction {
         Ok(())
     }
 
+    #[cfg(target_os = "macos")]
     fn verify(&self, certificate: &Path) -> Result<(), LocalTlsError> {
         run_security([
             "verify-cert",
@@ -409,6 +421,7 @@ impl MacOsTrustTransaction {
         ])
     }
 
+    #[cfg(target_os = "macos")]
     fn remove_digest_if_owned(&self, digest: &str) -> Result<(), LocalTlsError> {
         let digest = normalize_sha256(digest)?;
         let receipt_path = self.receipt_path(&digest);
@@ -441,6 +454,7 @@ impl MacOsTrustTransaction {
         Ok(receipt)
     }
 
+    #[cfg(target_os = "macos")]
     fn remove_old_digest_if_owned(&self, digest: &str) -> Result<(), LocalTlsError> {
         let digest = normalize_sha256(digest)?;
         if self.receipt_path(&digest).is_file() {
@@ -450,6 +464,7 @@ impl MacOsTrustTransaction {
         }
     }
 
+    #[cfg(target_os = "macos")]
     fn delete_exact_digest(&self, digest: &str) -> Result<(), LocalTlsError> {
         run_security(delete_certificate_args(
             digest,
@@ -463,6 +478,7 @@ impl MacOsTrustTransaction {
         Ok(())
     }
 
+    #[cfg(target_os = "macos")]
     fn keychain_contains_digest(&self, digest: &str) -> Result<bool, LocalTlsError> {
         let output = Command::new("/usr/bin/security")
             .args(["find-certificate", "-a", "-Z"])
@@ -523,6 +539,7 @@ impl MacOsTrustTransaction {
         sync_directory(&self.receipt_root)
     }
 
+    #[cfg(target_os = "macos")]
     fn remove_receipt(&self, digest: &str) -> Result<(), LocalTlsError> {
         self.remove_receipt_path(&self.receipt_path(digest))
     }
@@ -543,11 +560,45 @@ impl MacOsTrustTransaction {
         self.receipt_root.join(TRUST_CLEANUP_FILE)
     }
 
+    #[cfg(target_os = "macos")]
     fn remove_non_current_owned_receipts(&self, current_digest: &str) -> Result<(), LocalTlsError> {
         for digest in self.non_current_owned_receipts(current_digest)? {
             self.remove_digest_if_owned(&digest)?;
         }
         Ok(())
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn install_current(&mut self, _certificate: &Path) -> Result<&'static str, LocalTlsError> {
+        unsupported_native_trust()
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn install_owned(&mut self, _certificate: &Path) -> Result<(), LocalTlsError> {
+        unsupported_native_trust()
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn verify(&self, _certificate: &Path) -> Result<(), LocalTlsError> {
+        unsupported_native_trust()
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn remove_digest_if_owned(&self, _digest: &str) -> Result<(), LocalTlsError> {
+        unsupported_native_trust()
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn remove_old_digest_if_owned(&self, _digest: &str) -> Result<(), LocalTlsError> {
+        unsupported_native_trust()
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn remove_non_current_owned_receipts(
+        &self,
+        _current_digest: &str,
+    ) -> Result<(), LocalTlsError> {
+        unsupported_native_trust()
     }
 
     fn non_current_owned_receipts(
@@ -677,18 +728,31 @@ fn delete_certificate_args<'a>(digest: &'a str, trust_store: &'a str) -> [&'a st
 }
 
 impl LocalTlsTrustTransaction for MacOsTrustTransaction {
+    #[cfg(target_os = "macos")]
     fn install_and_verify(&mut self, candidate_certificate: &Path) -> Result<(), LocalTlsError> {
         self.install_owned(candidate_certificate)
     }
 
+    #[cfg(target_os = "macos")]
     fn rollback_candidate(&mut self, _candidate_certificate: &Path) -> Result<(), LocalTlsError> {
         let digest = self.installed_candidate.take().ok_or_else(|| {
             LocalTlsError::Trust("candidate trust rollback had no owned receipt".to_owned())
         })?;
         self.remove_digest_if_owned(&digest)
     }
+
+    #[cfg(not(target_os = "macos"))]
+    fn install_and_verify(&mut self, _candidate_certificate: &Path) -> Result<(), LocalTlsError> {
+        unsupported_native_trust()
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    fn rollback_candidate(&mut self, _candidate_certificate: &Path) -> Result<(), LocalTlsError> {
+        unsupported_native_trust()
+    }
 }
 
+#[cfg(target_os = "macos")]
 fn run_security<const N: usize>(args: [&str; N]) -> Result<(), LocalTlsError> {
     let output = Command::new("/usr/bin/security")
         .args(args)
@@ -709,6 +773,14 @@ fn run_security<const N: usize>(args: [&str; N]) -> Result<(), LocalTlsError> {
             }
         )))
     }
+}
+
+#[cfg(not(target_os = "macos"))]
+fn unsupported_native_trust<T>() -> Result<T, LocalTlsError> {
+    Err(LocalTlsError::Trust(format!(
+        "native {} trust is blocked: issue 5800 implements and proves the macOS user-keychain path only",
+        std::env::consts::OS
+    )))
 }
 
 fn validate_supported_localhost_identity(
@@ -1057,6 +1129,25 @@ mod tests {
         .unwrap();
         assert!(execute(&missing_store, &config).await.is_err());
 
+        for operation in ["trust-install", "trust-verify", "reissue", "trust-remove"] {
+            let keychain = temp.path().join("test.keychain-db");
+            fs::write(&keychain, b"not a keychain").unwrap();
+            let mut raw = vec![
+                "--config".to_owned(),
+                "config.toml".to_owned(),
+                "--operation".to_owned(),
+                operation.to_owned(),
+                "--trust-store".to_owned(),
+                keychain.to_string_lossy().into_owned(),
+                "--consent-host-trust".to_owned(),
+            ];
+            if operation == "trust-remove" {
+                raw.extend(["--certificate-sha256".to_owned(), DIGEST.to_owned()]);
+            }
+            let args = Args::parse(raw).unwrap();
+            assert!(execute(&args, &config).await.is_err(), "{operation}");
+        }
+
         let remove_without_identity = Args::parse(vec![
             "--config".to_owned(),
             "config.toml".to_owned(),
@@ -1068,6 +1159,67 @@ mod tests {
         let empty_config = localhost_config(temp.path().join("empty"));
         assert!(matches!(
             execute(&remove_without_identity, &empty_config).await,
+            Err(LocalTlsError::Policy(_))
+        ));
+    }
+
+    #[tokio::test]
+    async fn run_reports_parse_read_config_and_config_errors_then_bootstraps() {
+        let missing_args = run(Vec::new()).await;
+        assert_ne!(missing_args, ExitCode::SUCCESS);
+
+        let temp = tempfile::tempdir().unwrap();
+        let missing_path = temp.path().join("missing.toml");
+        let missing_config = run(vec![
+            "--config".to_owned(),
+            missing_path.to_string_lossy().into_owned(),
+        ])
+        .await;
+        assert_ne!(missing_config, ExitCode::SUCCESS);
+
+        let invalid_path = temp.path().join("invalid.json");
+        fs::write(&invalid_path, b"{}").unwrap();
+        let invalid_config = run(vec![
+            "--config".to_owned(),
+            invalid_path.to_string_lossy().into_owned(),
+        ])
+        .await;
+        assert_ne!(invalid_config, ExitCode::SUCCESS);
+
+        let config_path = temp.path().join("local.toml");
+        fs::write(
+            &config_path,
+            toml::to_string(&localhost_config(temp.path().to_path_buf())).unwrap(),
+        )
+        .unwrap();
+        let success = run(vec![
+            "--config".to_owned(),
+            config_path.to_string_lossy().into_owned(),
+        ])
+        .await;
+        assert_eq!(success, ExitCode::SUCCESS);
+
+        let json_path = temp.path().join("local.json");
+        fs::write(
+            &json_path,
+            serde_json::to_vec(&localhost_config(temp.path().join("json"))).unwrap(),
+        )
+        .unwrap();
+        let json_success = run(vec![
+            "--config".to_owned(),
+            json_path.to_string_lossy().into_owned(),
+        ])
+        .await;
+        assert_eq!(json_success, ExitCode::SUCCESS);
+    }
+
+    #[test]
+    fn trusted_identity_rejects_managed_external_mode() {
+        let temp = tempfile::tempdir().unwrap();
+        let mut config = localhost_config(temp.path().to_path_buf());
+        config.mode = RuntimeTlsBootstrapMode::ManagedExternal;
+        assert!(matches!(
+            validate_supported_localhost_identity(&config),
             Err(LocalTlsError::Policy(_))
         ));
     }
