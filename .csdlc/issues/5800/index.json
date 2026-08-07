@@ -3,11 +3,11 @@
   "issue": 5800,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "01a996f3111ad433ba2731d9e465e062a862e763797a061a45c684e4a22e6ab8",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 44,
-  "digest": "797b27a1817d58bd2291515126af6979b20ee1e5ddd204619817ff864d10bcad",
-  "branch": null,
-  "worktree": null,
+  "digest": "157f6d70de1441aa0ab5049f0ba1dda50d66313d490b58a31b6d8901124fecaf",
+  "branch": "codex/5800-v092-browser-trusted-local-observatory-https",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-wp-5800-v0-92-browser-trusted-local-observatory-https",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -75,6 +75,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -483,6 +497,13 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 59,
+      "generation": 44,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }

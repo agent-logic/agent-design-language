@@ -1,0 +1,414 @@
+#!/usr/bin/env node
+
+import { createHash } from "node:crypto";
+import { createReadStream, promises as fs } from "node:fs";
+import { createServer } from "node:https";
+import { createRequire } from "node:module";
+import { dirname, extname, isAbsolute, join, normalize, relative, resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+import { spawn } from "node:child_process";
+
+const PLAYWRIGHT_VERSION = "1.60.0";
+const EVIDENCE_SCHEMA = "adl.v092.browser_trusted_observatory.evidence.v1";
+const FASTWORK_ROOT = "/Volumes/FastWork";
+const SCOPED_PRODUCT_PATHS = [
+  "adl-runtime/src/local_tls.rs",
+  "adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs",
+  "adl-runtime/tests/local_tls.rs",
+  "demos/html-observatory/runtime-v3.config.json",
+  "demos/html-observatory/README.md",
+  "adl/tools/validate_v092_browser_trusted_observatory.mjs",
+];
+const args = parseArgs(process.argv.slice(2));
+
+if (args.nativePlatforms && !args.requireTrustedTls) {
+  emit({
+    schema: EVIDENCE_SCHEMA,
+    mode: "platform_disposition",
+    platforms: platformDispositions(args.nativePlatforms),
+  });
+  process.exit(0);
+}
+
+if (!args.requireTrustedTls) {
+  fail("--require-trusted-tls is required for live proof");
+}
+
+const repoRoot = await canonicalExistingFastWorkPath(
+  resolve(dirname(new URL(import.meta.url).pathname), "../.."),
+  "repository root",
+);
+const certificate = await requiredPath("ADL_V092_TLS_CERT");
+const privateKey = await requiredPath("ADL_V092_TLS_KEY");
+const runtimeCommand = parseRuntimeCommand(process.env.ADL_V092_RUNTIME_COMMAND_JSON);
+const evidencePath = args.evidence ? await canonicalFastWorkOutput(args.evidence) : null;
+const sourceBefore = await gitScopedIdentity(repoRoot);
+const observatory = new URL(args.observatoryUrl);
+const runtime = new URL(args.runtimeUrl);
+assertHttpsLocalhost(observatory, "Observatory");
+assertHttpsLocalhost(runtime, "Runtime");
+if (observatory.port === runtime.port) {
+  fail("Observatory and Runtime must remain separate HTTPS listeners");
+}
+
+const tlsErrors = [];
+let staticServer;
+let runtimeProcess;
+let browser;
+
+try {
+  runtimeProcess = startRuntime(runtimeCommand, repoRoot);
+  staticServer = await startStaticServer({
+    certificate,
+    privateKey,
+    hostname: observatory.hostname,
+    port: Number(observatory.port),
+    root: repoRoot,
+  });
+  await waitForTrustedEndpoint(new URL("/v1/health", runtime), certificate, runtimeProcess);
+
+  const { chromium, version } = await loadPinnedPlaywright();
+  browser = await chromium.launch({ channel: args.browser, headless: true });
+  const context = await browser.newContext({ ignoreHTTPSErrors: false });
+  const page = await context.newPage();
+  page.on("console", (message) => {
+    const text = message.text();
+    if (isTlsError(text)) tlsErrors.push(`console:${text}`);
+  });
+  page.on("requestfailed", (request) => {
+    const text = request.failure()?.errorText ?? "request failed";
+    if (isTlsError(text)) tlsErrors.push(`network:${text}`);
+  });
+
+  const dashboard = new URL("/demos/html-observatory/", observatory);
+  const response = await page.goto(dashboard.href, { waitUntil: "domcontentloaded" });
+  if (!response || !response.ok()) fail(`Observatory HTML returned ${response?.status() ?? "no response"}`);
+  const title = await page.title();
+  if (/privacy error|not secure|certificate/i.test(title)) {
+    fail(`browser certificate interstitial detected: ${title}`);
+  }
+
+  const browserEndpoints = await page.evaluate(async ({ base }) => {
+    const paths = ["/v1/health", "/v1/ready", "/v1/observatory"];
+    return Promise.all(paths.map(async (path) => {
+      try {
+        const response = await fetch(new URL(path, base));
+        const body = await response.json();
+        return { path, status: response.status, ok: response.ok, body };
+      } catch (error) {
+        return { path, status: 0, ok: false, error: String(error) };
+      }
+    }));
+  }, { base: runtime.href });
+  for (const endpoint of browserEndpoints) {
+    if (!endpoint.ok) fail(`browser Runtime request failed for ${endpoint.path}: ${endpoint.error ?? endpoint.status}`);
+  }
+  const ready = browserEndpoints.find((entry) => entry.path === "/v1/ready");
+  if (ready?.body?.ready !== true) fail("Runtime readiness response did not report ready=true");
+  if (tlsErrors.length) fail(`browser reported TLS errors: ${tlsErrors.join("; ")}`);
+
+  const curlEndpoints = [
+    dashboard,
+    new URL("/v1/health", runtime),
+    new URL("/v1/ready", runtime),
+    new URL("/v1/observatory", runtime),
+  ];
+  for (const endpoint of curlEndpoints) await curlTrusted(endpoint, certificate);
+
+  const source = await gitScopedIdentity(repoRoot);
+  if (source.head !== sourceBefore.head || source.scoped_tree_sha256 !== sourceBefore.scoped_tree_sha256) {
+    fail("scoped product identity changed during validation");
+  }
+  const evidence = {
+    schema: EVIDENCE_SCHEMA,
+    status: "pass",
+    head: source.head,
+    source,
+    playwright_version: version,
+    browser: args.browser,
+    tls_verification: "required",
+    certificate_sha256: await fileSha256(certificate),
+    listeners: {
+      observatory: `${observatory.protocol}//${observatory.hostname}:${observatory.port}`,
+      runtime: `${runtime.protocol}//${runtime.hostname}:${runtime.port}`,
+    },
+    browser_endpoints: browserEndpoints.map(({ path, status }) => ({ path, status })),
+    curl_endpoints: curlEndpoints.map((endpoint) => endpoint.pathname),
+    platforms: platformDispositions(args.nativePlatforms ?? [process.platform]),
+  };
+  if (evidencePath) await writeEvidence(evidencePath, evidence);
+  emit(evidence);
+} finally {
+  if (browser) await browser.close();
+  if (staticServer) await new Promise((done) => staticServer.close(done));
+  if (runtimeProcess && runtimeProcess.exitCode === null) {
+    runtimeProcess.kill("SIGTERM");
+    await Promise.race([onceExit(runtimeProcess), delay(5000)]);
+    if (runtimeProcess.exitCode === null) runtimeProcess.kill("SIGKILL");
+  }
+}
+
+function parseArgs(argv) {
+  const parsed = {
+    browser: "chrome",
+    runtimeUrl: "https://localhost:20997",
+    observatoryUrl: "https://localhost:8765",
+    requireTrustedTls: false,
+    evidence: null,
+    nativePlatforms: null,
+  };
+  for (let index = 0; index < argv.length; index += 1) {
+    const argument = argv[index];
+    const value = () => {
+      index += 1;
+      if (index >= argv.length) fail(`${argument} requires a value`);
+      return argv[index];
+    };
+    if (argument === "--browser") parsed.browser = value();
+    else if (argument === "--runtime-url") parsed.runtimeUrl = value();
+    else if (argument === "--observatory-url") parsed.observatoryUrl = value();
+    else if (argument === "--evidence") parsed.evidence = value();
+    else if (argument === "--require-trusted-tls") parsed.requireTrustedTls = true;
+    else if (argument === "--require-native-platform-evidence") {
+      parsed.nativePlatforms = value().split(",").map((entry) => entry.trim());
+    } else fail(`unknown argument: ${argument}`);
+  }
+  return parsed;
+}
+
+async function loadPinnedPlaywright() {
+  const require = createRequire(import.meta.url);
+  const modulePath = await canonicalExistingFastWorkPath(
+    process.env.ADL_PLAYWRIGHT_MODULE || require.resolve("playwright"),
+    "Playwright module",
+  );
+  const moduleRequire = createRequire(modulePath);
+  const packagePath = await canonicalExistingFastWorkPath(
+    moduleRequire.resolve("playwright/package.json"),
+    "Playwright package",
+  );
+  const packageJson = JSON.parse(await fs.readFile(packagePath, "utf8"));
+  if (packageJson.version !== PLAYWRIGHT_VERSION) {
+    fail(`Playwright ${PLAYWRIGHT_VERSION} is required; found ${packageJson.version}`);
+  }
+  const playwright = await import(pathToFileURL(modulePath));
+  return { chromium: playwright.chromium, version: packageJson.version };
+}
+
+function startRuntime(command, cwd) {
+  const child = spawn(command[0], command.slice(1), {
+    cwd,
+    env: process.env,
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  child.stdout.on("data", () => {});
+  child.stderr.on("data", () => {});
+  child.on("error", (error) => fail(`Runtime candidate launch failed: ${error.message}`));
+  return child;
+}
+
+async function startStaticServer({ certificate, privateKey, hostname, port, root }) {
+  const server = createServer(
+    { cert: await fs.readFile(certificate), key: await fs.readFile(privateKey) },
+    async (request, response) => {
+      try {
+        const pathname = decodeURIComponent(new URL(request.url, "https://localhost").pathname);
+        const requested = pathname.endsWith("/") ? `${pathname}index.html` : pathname;
+        const target = normalize(join(root, requested));
+        if (relative(root, target).startsWith("..")) throw new Error("path escaped root");
+        const stat = await fs.stat(target);
+        if (!stat.isFile()) throw new Error("not a file");
+        response.writeHead(200, { "content-type": contentType(target) });
+        createReadStream(target).pipe(response);
+      } catch {
+        response.writeHead(404, { "content-type": "text/plain" });
+        response.end("not found\n");
+      }
+    },
+  );
+  await new Promise((resolveListen, rejectListen) => {
+    server.once("error", (error) => rejectListen(new Error(`HTTPS static listener refused ${hostname}:${port}: ${error.message}`)));
+    server.listen(port, hostname, resolveListen);
+  });
+  return server;
+}
+
+async function waitForTrustedEndpoint(url, certificate, child) {
+  const deadline = Date.now() + 30000;
+  while (Date.now() < deadline) {
+    if (child.exitCode !== null) fail(`Runtime candidate exited early with status ${child.exitCode}`);
+    try {
+      await curlTrusted(url, certificate);
+      return;
+    } catch {
+      await delay(250);
+    }
+  }
+  fail(`Runtime candidate did not become healthy at ${url.pathname}`);
+}
+
+async function curlTrusted(url, certificate) {
+  const child = spawn("curl", ["--fail", "--silent", "--show-error", "--cacert", certificate, url.href], {
+    stdio: ["ignore", "ignore", "pipe"],
+  });
+  let stderr = "";
+  child.stderr.on("data", (chunk) => { stderr += chunk; });
+  const code = await onceExit(child);
+  if (code !== 0) throw new Error(`curl verified probe failed for ${url.pathname}: ${stderr.trim()}`);
+}
+
+function parseRuntimeCommand(text) {
+  if (!text) fail("ADL_V092_RUNTIME_COMMAND_JSON must contain the isolated Runtime candidate argv array");
+  let command;
+  try { command = JSON.parse(text); } catch { fail("ADL_V092_RUNTIME_COMMAND_JSON is not valid JSON"); }
+  if (!Array.isArray(command) || command.length === 0 || command.some((part) => typeof part !== "string" || !part)) {
+    fail("ADL_V092_RUNTIME_COMMAND_JSON must be a non-empty string argv array");
+  }
+  return command;
+}
+
+async function requiredPath(name) {
+  const value = process.env[name];
+  if (!value) fail(`${name} is required`);
+  return canonicalExistingFastWorkPath(value, name);
+}
+
+async function canonicalExistingFastWorkPath(value, label) {
+  let canonical;
+  try {
+    canonical = await fs.realpath(resolve(value));
+  } catch (error) {
+    fail(`${label} could not be resolved: ${error.message}`);
+  }
+  await assertCanonicalFastWorkPath(canonical, label);
+  return canonical;
+}
+
+async function canonicalFastWorkOutput(value) {
+  const requested = resolve(value);
+  let ancestor = requested;
+  while (true) {
+    let exists = false;
+    try {
+      await fs.lstat(ancestor);
+      exists = true;
+    } catch (error) {
+      if (error.code !== "ENOENT") fail(`--evidence parent could not be resolved: ${error.message}`);
+    }
+    if (exists) {
+      let canonicalAncestor;
+      try {
+        canonicalAncestor = await fs.realpath(ancestor);
+      } catch (error) {
+        fail(`--evidence parent could not be resolved: ${error.message}`);
+      }
+      await assertCanonicalFastWorkPath(canonicalAncestor, "--evidence parent");
+      if (ancestor === requested) return canonicalAncestor;
+      const target = resolve(canonicalAncestor, relative(ancestor, requested));
+      await assertCanonicalFastWorkPath(target, "--evidence");
+      return target;
+    }
+    const parent = dirname(ancestor);
+    if (parent === ancestor) fail("--evidence has no existing parent");
+    ancestor = parent;
+  }
+}
+
+async function assertCanonicalFastWorkPath(path, label) {
+  const canonicalRoot = await fs.realpath(FASTWORK_ROOT);
+  const contained = relative(canonicalRoot, path);
+  if (!contained || contained.startsWith("..") || isAbsolute(contained)) {
+    fail(`${label} must resolve beneath ${canonicalRoot}`);
+  }
+}
+
+function assertHttpsLocalhost(url, label) {
+  if (url.protocol !== "https:" || url.hostname !== "localhost" || !url.port) {
+    fail(`${label} URL must be an explicit https://localhost:<port> URL`);
+  }
+}
+
+function platformDispositions(platforms) {
+  const normalized = platforms.map((platform) => platform === "darwin" ? "macos" : platform);
+  const supported = {
+    macos: { status: "supported", trust: "explicit user-keychain security(1) transaction" },
+    linux: { status: "blocked", reason: "Chrome NSS trust and system curl trust are separate stores; no single reversible native transaction is implemented" },
+    windows: { status: "blocked", reason: "CurrentUser Root import/removal has not received native Windows execution proof" },
+  };
+  return normalized.map((platform) => ({ platform, ...(supported[platform] ?? { status: "blocked", reason: "unknown platform" }) }));
+}
+
+function contentType(path) {
+  return ({ ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".json": "application/json", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml" })[extname(path)] ?? "application/octet-stream";
+}
+
+async function fileSha256(path) {
+  return createHash("sha256").update(await fs.readFile(path)).digest("hex");
+}
+
+async function gitScopedIdentity(cwd) {
+  const status = await gitCapture(cwd, [
+    "status",
+    "--porcelain=v1",
+    "--untracked-files=all",
+    "--",
+    ...SCOPED_PRODUCT_PATHS,
+  ]);
+  if (status.trim()) {
+    fail(`scoped product paths are dirty; commit them before retaining exact-head evidence: ${status.trim().split("\n").join(", ")}`);
+  }
+  const head = (await gitCapture(cwd, ["rev-parse", "HEAD"])).trim();
+  const tree = await gitCapture(cwd, [
+    "ls-tree",
+    "-r",
+    "--full-tree",
+    head,
+    "--",
+    ...SCOPED_PRODUCT_PATHS,
+  ]);
+  const entries = tree.trim().split("\n").filter(Boolean);
+  if (entries.length !== SCOPED_PRODUCT_PATHS.length) {
+    fail("exact-head tree does not contain every scoped product path");
+  }
+  return {
+    head,
+    scoped_paths: SCOPED_PRODUCT_PATHS,
+    scoped_tree_sha256: createHash("sha256").update(tree).digest("hex"),
+  };
+}
+
+async function gitCapture(cwd, args) {
+  const child = spawn("git", args, { cwd, stdio: ["ignore", "pipe", "pipe"] });
+  let stdout = "";
+  let stderr = "";
+  child.stdout.on("data", (chunk) => { stdout += chunk; });
+  child.stderr.on("data", (chunk) => { stderr += chunk; });
+  if (await onceExit(child) !== 0) fail(`git ${args[0]} failed: ${stderr.trim()}`);
+  return stdout;
+}
+
+async function writeEvidence(path, evidence) {
+  await fs.mkdir(dirname(path), { recursive: true });
+  await fs.writeFile(path, `${JSON.stringify(evidence, null, 2)}\n`, { mode: 0o600 });
+}
+
+function isTlsError(text) {
+  return /certificate|cert_|ssl|tls|net::err_cert|authority_invalid/i.test(text);
+}
+
+function onceExit(child) {
+  if (child.exitCode !== null) return Promise.resolve(child.exitCode);
+  return new Promise((resolveExit) => child.once("exit", (code) => resolveExit(code ?? 1)));
+}
+
+function delay(milliseconds) {
+  return new Promise((resolveDelay) => setTimeout(resolveDelay, milliseconds));
+}
+
+function emit(value) {
+  process.stdout.write(`${JSON.stringify(value, null, 2)}\n`);
+}
+
+function fail(message) {
+  throw new Error(message);
+}
