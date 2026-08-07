@@ -950,7 +950,14 @@ def require_build_acceleration_contract(source)
   raise BuildAccelerationContractError, "WP-02B cache-on-failure must remain disabled" unless cache.fetch("with").fetch("cache-on-failure") == false
 
   workload = steps.fetch("Run frozen build acceleration workload").fetch("run")
-  raise BuildAccelerationContractError, "WP-02B workload helper drifted" unless workload.include?("bash adl/tools/run_build_platform_benchmark.sh")
+  unless workload.include?("cargo build --manifest-path adl/Cargo.toml --locked --bin adl") &&
+         workload.include?("cargo test --manifest-path adl/Cargo.toml --locked --lib provider_communication -- --nocapture") &&
+         workload.include?("adl.build_platform_benchmark.v1")
+    raise BuildAccelerationContractError, "WP-02B frozen workload drifted"
+  end
+  if workload.include?("run_build_platform_benchmark.sh") || workload.include?("adl-pr-doctor")
+    raise BuildAccelerationContractError, "WP-02B workload references a retired benchmark target"
+  end
   toolchain = steps.fetch("Configure frozen Rust toolchain").fetch("run")
   raise BuildAccelerationContractError, "WP-02B Rust toolchain drifted" unless toolchain.include?("rustup toolchain install 1.92.0 --profile minimal") && toolchain.include?("rustup default 1.92.0")
   raise BuildAccelerationContractError, "WP-02B workload may not use secrets" if experiment.to_s.include?("secrets")
@@ -972,6 +979,7 @@ require_build_acceleration_contract(workflow)
   workflow.sub("adl-ubuntu-24.04-16core", "ubuntu-latest"),
   workflow.sub("github.ref == 'refs/heads/codex/5853-v0-92-wp-02b-post-migration-build-acceleration' &&\n", ""),
   workflow.sub("save-if: ${{ inputs.build_acceleration_sample_role == 'cache_seed' }}", "save-if: true"),
+  workflow.sub("--bin adl", "--bin adl-pr-doctor"),
 ].each do |fixture|
   begin
     require_build_acceleration_contract(fixture)

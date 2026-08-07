@@ -1651,11 +1651,65 @@ jobs:
           set -euo pipefail
           artifact_dir=".adl/tmp/build-acceleration/$RUN_ID"
           mkdir -p "$artifact_dir"
-          bash adl/tools/run_build_platform_benchmark.sh \
-            --platform "github-hosted-$PLATFORM" \
-            --cache-posture "$CACHE_STATE" \
-            --out "$artifact_dir/benchmark.json" \
-            --artifact-dir "$artifact_dir"
+          build_command="cargo build --manifest-path adl/Cargo.toml --locked --bin adl"
+          test_command="cargo test --manifest-path adl/Cargo.toml --locked --lib provider_communication -- --nocapture"
+          start_epoch="$(date +%s)"
+          /usr/bin/time -p cargo build --manifest-path adl/Cargo.toml --locked --bin adl \
+            >"$artifact_dir/build.stdout.log" 2>"$artifact_dir/build.stderr.log"
+          after_build_epoch="$(date +%s)"
+          /usr/bin/time -p cargo test --manifest-path adl/Cargo.toml --locked --lib provider_communication -- --nocapture \
+            >"$artifact_dir/test.stdout.log" 2>"$artifact_dir/test.stderr.log"
+          end_epoch="$(date +%s)"
+          python3 - \
+            "$artifact_dir/benchmark.json" \
+            "github-hosted-$PLATFORM" \
+            "$CACHE_STATE" \
+            "$build_command" \
+            "$test_command" \
+            "$start_epoch" \
+            "$after_build_epoch" \
+            "$end_epoch" \
+            "$artifact_dir/build.stderr.log" \
+            "$artifact_dir/test.stderr.log" <<'PY'
+          import json
+          import re
+          import sys
+          from pathlib import Path
+
+          (
+              out_path,
+              platform,
+              cache_state,
+              build_command,
+              test_command,
+              start_epoch,
+              after_build_epoch,
+              end_epoch,
+              build_stderr,
+              test_stderr,
+          ) = sys.argv[1:]
+
+          def real_seconds(path):
+              text = Path(path).read_text(encoding="utf-8", errors="replace")
+              match = re.search(r"^real\s+([0-9.]+)$", text, re.MULTILINE)
+              return float(match.group(1)) if match else None
+
+          summary = {
+              "schema": "adl.build_platform_benchmark.v1",
+              "platform": platform,
+              "cache_posture": cache_state,
+              "status": "passed",
+              "build_command": build_command,
+              "test_command": test_command,
+              "build_elapsed_seconds": int(after_build_epoch) - int(start_epoch),
+              "test_elapsed_seconds": int(end_epoch) - int(after_build_epoch),
+              "total_elapsed_seconds": int(end_epoch) - int(start_epoch),
+              "build_real_seconds": real_seconds(build_stderr),
+              "test_real_seconds": real_seconds(test_stderr),
+          }
+          Path(out_path).write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
+          print(json.dumps(summary, indent=2, sort_keys=True))
+          PY
 
       - name: Record frozen runner metadata
         if: always()
