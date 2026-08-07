@@ -3,13 +3,38 @@
   "issue": 5824,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b64ea880252f74a339493a02b2aaa4484361128d76e56588f7fed78d84751c0f",
-  "phase": "implemented",
-  "generation": 31,
-  "digest": "34d881a218f2e861856a14f9fa509aea6f1b82f7ff923a4f4c948d55270f8fe0",
+  "phase": "reviewed",
+  "generation": 32,
+  "digest": "43de968b9fe128039aa638d7a5a41da72022b86230510938fc081e6b9c63079a",
   "branch": "codex/5824-v092-prompt-card-enum-typing",
   "worktree": "/Volumes/FastWork/adl-wp-5824-v092-prompt-card-enum-typing",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019fddaa-910d-74f2-a97a-047648474d73",
+    "assigned_by": "codex:wp07-session",
+    "revision": "git-blake3:5232335d61e4aea9aaa67947c11fda6749ba4d44:bbba8ce809eea46dfd36e926c5da3becb681748873e2c18ed9528dca3c346fea",
+    "scope": [
+      ".csdlc/issues/5824",
+      ".csdlc/evidence/5824",
+      ".csdlc/prepared/issues/5824/validate-enum-inventory.rb",
+      "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fddaa-910d-74f2-a97a-047648474d73",
+    "scope": [
+      ".csdlc/issues/5824",
+      ".csdlc/evidence/5824",
+      ".csdlc/prepared/issues/5824/validate-enum-inventory.rb",
+      "csdlc-v2/tests/prompt_card_enum_typing.rs"
+    ],
+    "reviewed_revision": "git-blake3:5232335d61e4aea9aaa67947c11fda6749ba4d44:bbba8ce809eea46dfd36e926c5da3becb681748873e2c18ed9528dca3c346fea",
+    "findings": [],
+    "residual_risks": [
+      "Hosted PR checks remain pending; the local proof is intentionally limited to the focused WP-07 validator, six-test integration target, typed issue validation, and diff hygiene."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8c7dcef7594b2caab39a76b9e081a84f5542a631fc5defb22529a11f748de574",
+      "values_digest": "6ae2eb21835b554a4dd3f3373f82406e176f2173c893949435965d7dfe5b57df",
       "rendered_digest": "3c078a22e0b186e812947cb68fc69b204388acd828c00652285bc791baa8f916",
       "ast_digest": "7d89a791d94d459f676de8a69ffcba4e938277e73b7c52ea1bd9bf1278ac1425"
     },
     "stp": {
-      "values_digest": "052aac485b8a491c51bc8f82fd0a202a1ff427c00d3f34e5b5b056b13e6558ca",
+      "values_digest": "b1a29538b50d1d5723571efda0448de52a8789dacbbbd162c1d8b8767143a45e",
       "rendered_digest": "6528528a1756de9503e1a99cf09f502a1cf248faabd24d06ec601ff05c9a9669",
       "ast_digest": "70910b3e83f3e7eefe8477471848900aa3184bef3ce378d1d2ee4519a6a6a152"
     },
     "spp": {
-      "values_digest": "3d7ea5691e21c5cc66794b42a2ea7de236491f429afa8fb9ca9df4f29372fc4c",
+      "values_digest": "8ad9ac6773cf60c1e6cc007410e02611130898c34a437aab0329cb2e2c36d798",
       "rendered_digest": "6d1010fa8ee69f23551eee5f8cc01448d4127bbaab2549876278598bd2569e60",
       "ast_digest": "e552b1e9d56b5d049bbe8e4129a054abada7f20ff3de5f4ed4586873abab28b0"
     },
     "vpp": {
-      "values_digest": "78c8cd1230fe5a1be28aa1331aa9234803af4b75ceccb6f2e4fc486d0a3f2cc6",
+      "values_digest": "053db17c11c94a61aa6c7876a5cb8b74afe46b8f59a889c0fe27ed5d3bb0932d",
       "rendered_digest": "f6fab36745dbeaab69982dfd9173a015f5702f7d6103638d3345a8dfaa209e36",
       "ast_digest": "3f662a3cef27e958e0fc06e4a3934d4ccdcf52f4289f2ee736f21388e461aa10"
     },
     "srp": {
-      "values_digest": "71a5eb797098ebca0f18c432061e6c8bc8ee7f702ceb961af20f126621cf807e",
-      "rendered_digest": "330fdc5d203d7c423f7a21a24d362260ea0bc0e37e0cf61a0bcf5aafe738c1d8",
-      "ast_digest": "c41f89ee3243519e57315ed19839689b0a975dfc2ad05a3ade9cfe1a61e6b6df"
+      "values_digest": "bfe5c8f491a18a45c3e0ab1bd496c9792c52294a4e7b451b7bae5f17add68107",
+      "rendered_digest": "472aca8310d1fb3e1c91a24d9264554cc1e01f0f25cd3877fcaf5cbb224f4515",
+      "ast_digest": "f58f1e9b579cca63569fa9d5f723d9ef17a0af8d97cda8f2a367c0b8a4a0fb26"
     },
     "sor": {
-      "values_digest": "8f4abf4ec79cc4a64ae73cf214d2b06c45de789d6b5d5b478089fa72177ace36",
+      "values_digest": "68b088e2f1556a3ac890056f48136931f260f49c7e0b2775c03ec2b5ed9abd37",
       "rendered_digest": "84ad31be7beaa775a4f9b01edd922fc206a6232f5d5f42caed5607a201cc62e7",
       "ast_digest": "0bb54347244d24d2798bc2376a4abd5a72ec4ca039afc6c6e735d3fef18f6422"
     }
@@ -96,6 +121,13 @@
       "to": "implemented",
       "actor": "codex:5824-execution",
       "reason": "The bounded audit, focused validation, and independent pre-publication review are complete."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fddaa-910d-74f2-a97a-047648474d73",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -448,6 +480,20 @@
       "actor": "codex:5824-execution",
       "reason": "The bounded audit, focused validation, and independent pre-publication review are complete.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 51,
+      "generation": 31,
+      "actor": "codex:wp07-session",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 32,
+      "actor": "subagent:019fddaa-910d-74f2-a97a-047648474d73",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
