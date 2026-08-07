@@ -134,7 +134,10 @@ fn local_request(checkout: &Path, argv: Vec<String>) -> PortableRequest {
 
 #[test]
 fn request_round_trip_and_adapter_plan_preserve_provenance() {
-    let request = request(AdapterKind::Nessus, vec!["cargo".into(), "check".into()]);
+    let mut request = request(AdapterKind::Nessus, vec!["cargo".into(), "check".into()]);
+    request.command_profile.working_directory = "tools/remote_validation".into();
+    request.command_profile.environment_allowlist = vec!["PATH".into(), "RUST_LOG".into()];
+    request.command_profile_digest = command_profile_digest(&request.command_profile).unwrap();
     validate_request(&request).unwrap();
     let encoded = serde_json::to_vec(&request).unwrap();
     let decoded: PortableRequest = serde_json::from_slice(&encoded).unwrap();
@@ -147,7 +150,12 @@ fn request_round_trip_and_adapter_plan_preserve_provenance() {
     assert_eq!(plan.revision, request.revision);
     assert_eq!(plan.source_ref, request.source_ref);
     assert_eq!(plan.command_profile_digest, request.command_profile_digest);
-    assert_eq!(plan.shell_command, "'cargo' 'check'");
+    assert_eq!(plan.working_directory, "tools/remote_validation");
+    assert_eq!(plan.environment_allowlist, vec!["PATH", "RUST_LOG"]);
+    assert_eq!(
+        plan.shell_command,
+        "cd -- 'tools/remote_validation' && env -i PATH=\"${PATH-}\" RUST_LOG=\"${RUST_LOG-}\" 'cargo' 'check'"
+    );
     assert_eq!(plan.resource_budget, request.resource_budget);
     assert_eq!(plan.artifact_policy, request.artifact_policy);
     assert_eq!(plan.cancellation_file, request.cancellation_file);
@@ -199,7 +207,10 @@ fn adapter_selection_and_shell_encoding_fail_closed() {
     assert!(select_adapter(&value, &[AdapterKind::Local]).is_err());
     assert!(select_adapter(&value, &[AdapterKind::Aws, AdapterKind::Aws]).is_err());
     let plan = adapter_plan(&value, AdapterKind::Aws).unwrap();
-    assert_eq!(plan.shell_command, "'cargo' 'test; rm -rf nope'");
+    assert_eq!(
+        plan.shell_command,
+        "cd -- '.' && env -i PATH=\"${PATH-}\" 'cargo' 'test; rm -rf nope'"
+    );
     assert!(adapter_plan(&value, AdapterKind::Nessus).is_err());
 }
 
@@ -230,6 +241,26 @@ fn fallback_is_same_profile_and_never_hides_bad_remote_proof() {
         .allowed
     );
     assert!(!fallback_decision(&value, ProviderFailure::Capacity, &"f".repeat(64)).allowed);
+}
+
+#[test]
+fn successful_remote_proof_rejects_an_executed_local_fallback() {
+    let value = request(AdapterKind::Aws, vec!["cargo".into(), "test".into()]);
+    let mut result = passed_result(&value);
+    result.fallback = FallbackStatus {
+        policy: value.fallback,
+        offered: true,
+        ran: true,
+        local_profile_digest: Some(value.command_profile_digest.clone()),
+    };
+
+    assert!(validate_result(&value, &result)
+        .unwrap_err()
+        .contains("local fallback cannot satisfy successful remote proof"));
+
+    result.outcome = RunOutcome::ProviderUnavailable;
+    result.exit_code = None;
+    validate_result(&value, &result).unwrap();
 }
 
 #[test]

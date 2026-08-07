@@ -96,7 +96,12 @@ fn portable_request_maps_exactly_to_aws_adapter_inputs() {
         plan.source_ref.as_deref(),
         Some("refs/heads/codex/wp-5823-fixture")
     );
-    assert_eq!(plan.shell_command, "'cargo' 'test' '--locked'");
+    assert_eq!(plan.working_directory, ".");
+    assert_eq!(plan.environment_allowlist, vec!["PATH"]);
+    assert_eq!(
+        plan.shell_command,
+        "cd -- '.' && env -i PATH=\"${PATH-}\" 'cargo' 'test' '--locked'"
+    );
     assert_eq!(plan.resource_budget, request.resource_budget);
     assert_eq!(plan.artifact_policy, request.artifact_policy);
     assert_eq!(plan.cancellation_file, request.cancellation_file);
@@ -104,7 +109,10 @@ fn portable_request_maps_exactly_to_aws_adapter_inputs() {
     let mut config = config();
     apply_portable_aws_request(&mut config, &request).unwrap();
     assert_eq!(config.git_ref, "refs/heads/codex/wp-5823-fixture");
-    assert_eq!(config.command, "'cargo' 'test' '--locked'");
+    assert_eq!(
+        config.command,
+        "cd -- '.' && env -i PATH=\"${PATH-}\" 'cargo' 'test' '--locked'"
+    );
     assert_eq!(config.command_timeout_seconds, Some(900));
     assert_eq!(config.expected_max_cost_usd, Some(0.15));
     assert_eq!(config.total_run_timeout_seconds, Some(900));

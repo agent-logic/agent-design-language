@@ -151,6 +151,8 @@ pub struct AdapterPlan {
     pub revision: String,
     pub source_ref: Option<String>,
     pub command_profile_digest: String,
+    pub working_directory: String,
+    pub environment_allowlist: Vec<String>,
     pub shell_command: String,
     pub resource_budget: ResourceBudget,
     pub artifact_policy: ArtifactPolicy,
@@ -362,6 +364,25 @@ pub fn shell_join(argv: &[String]) -> Result<String, String> {
         .join(" "))
 }
 
+fn profile_shell_command(profile: &CommandProfile) -> Result<String, String> {
+    let working_directory = shell_join(std::slice::from_ref(&profile.working_directory))?;
+    let environment = profile
+        .environment_allowlist
+        .iter()
+        .map(|name| format!(r#"{name}="${{{name}-}}""#))
+        .collect::<Vec<_>>()
+        .join(" ");
+    let environment = if environment.is_empty() {
+        String::new()
+    } else {
+        format!(" {environment}")
+    };
+    Ok(format!(
+        "cd -- {working_directory} && env -i{environment} {}",
+        shell_join(&profile.argv)?
+    ))
+}
+
 pub fn adapter_plan(
     request: &PortableRequest,
     adapter: AdapterKind,
@@ -375,7 +396,9 @@ pub fn adapter_plan(
         revision: request.revision.clone(),
         source_ref: request.source_ref.clone(),
         command_profile_digest: request.command_profile_digest.clone(),
-        shell_command: shell_join(&request.command_profile.argv)?,
+        working_directory: request.command_profile.working_directory.clone(),
+        environment_allowlist: request.command_profile.environment_allowlist.clone(),
+        shell_command: profile_shell_command(&request.command_profile)?,
         resource_budget: request.resource_budget.clone(),
         artifact_policy: request.artifact_policy.clone(),
         cancellation_file: request.cancellation_file.clone(),
@@ -494,6 +517,9 @@ pub fn validate_result(request: &PortableRequest, result: &PortableResult) -> Re
                 != Some(&request.command_profile_digest))
     {
         return Err("result fallback does not match the request".into());
+    }
+    if result.fallback.ran && result.outcome == RunOutcome::Passed {
+        return Err("local fallback cannot satisfy successful remote proof".into());
     }
     Ok(())
 }
