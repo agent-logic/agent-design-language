@@ -16,7 +16,7 @@ Extract a provider-neutral exact-revision request/result contract over current a
 
 ## Plan
 
-Revision 10
+Revision 11
 
 ## Steps
 

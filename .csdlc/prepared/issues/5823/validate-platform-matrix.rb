@@ -72,6 +72,10 @@ def verify_validation_revision(root, revision)
   end
 end
 
+def machine_local_absolute_path?(text)
+  text.match?(%r{/(?:Users|Volumes|private|home|var/folders)/})
+end
+
 def verify_receipt(root, value, digest, label)
   raise("#{label} missing receipt digest") unless HEX64.match?(digest.to_s)
   path = repo_relative_path(root, value)
@@ -79,7 +83,7 @@ def verify_receipt(root, value, digest, label)
   raise("#{label} receipt SHA-256 mismatch") unless Digest::SHA256.file(path).hexdigest == digest
 
   text = path.read
-  if text.match?(%r{/(?:Users|Volumes|private|var/folders)/})
+  if machine_local_absolute_path?(text)
     raise("#{label} retained a machine-local absolute path")
   end
   path
@@ -243,6 +247,8 @@ if ARGV == ["--self-test"]
   raise "publication request path must be allowed after validation" unless post_validation_truth_path?(".csdlc/prepared/issues/5823/publish-final.json")
   raise "unrelated documentation path was accepted after validation" if post_validation_truth_path?("docs/unrelated.md")
   raise "unrelated lifecycle path was accepted after validation" if post_validation_truth_path?(".csdlc/issues/9999/index.json")
+  raise "receipt scanner missed /home path" unless machine_local_absolute_path?("/home/runner/proof.json")
+  raise "receipt scanner missed /var/folders path" unless machine_local_absolute_path?("/var/folders/example/proof.json")
   begin
     repo_relative_path(Pathname.new("."), "/Volumes/FastWork/proof.json")
     raise "path validator accepted absolute machine path"

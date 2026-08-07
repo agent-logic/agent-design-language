@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7c3bcca3a89242a98791c5d0a2391d199e3e2a088e3fa577d270275ae22c2571",
   "phase": "implemented",
-  "generation": 31,
-  "digest": "bc836a7db1f92e49f22adcca53ff694a0265569379610ea43ab9eae979acc071",
+  "generation": 32,
+  "digest": "5a153b78817c6aa13572a140f21479c95d146529d2f757b63906ceb9578f205d",
   "branch": "codex/5823-v0-92-wp-06-remote-validation-build-runner",
   "worktree": "/Volumes/FastWork/adl-wp-5823-v0-92-wp-06-remote-validation-build-runner",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "10df2f07899fc70b21c72127949eab451a351d0630b367cd42b0c6006729ae2c",
+      "values_digest": "f942781e667f0482ffab24d0b369c9b3623e97e987c8111eb6ce7d7207b7b0bd",
       "rendered_digest": "3a521d5361568d36e6e58f2b1548dbe24b6deedb254c5106942ee132edda129d",
       "ast_digest": "c753f60486959e5674018050c5085ce087467ae6c749eefa4ed399b678129b0c"
     },
     "stp": {
-      "values_digest": "b3572a2d8fb68925d3853caf9856cd5fed041b598371e9a414e2ccfebd097cda",
+      "values_digest": "c741420a008d362033185ea5ea82f92e930e364eeb243f4d020a2cb3b767f820",
       "rendered_digest": "26a93a4af8877e02ec404514a74bfc23902ac3cbe536343ef04a7cad5dfabb85",
       "ast_digest": "0b73a4514b346098dad1a34949ea16795bc21fbf9f49c10c610ac39d3e5af291"
     },
     "spp": {
-      "values_digest": "f884665456fa16eaddc86ab047e85e8a3d4ec5211ac7801b00402621c58eb71c",
-      "rendered_digest": "de622e047b4e75aa25f0046414259266d3984ff4fe56846ad4e50eb94c777034",
-      "ast_digest": "118d43464d1087be358dc850c9b87ba6f8823679c55facfeb9634ec01c5e7d88"
+      "values_digest": "3c91e83e616e34b08ddfdceb4bb8e996d3efd371ddf61210c9196e4cf4c84485",
+      "rendered_digest": "c27d7e003828c5ff60436ebb5cec56a7ef0dcfa90d4f50c67057e7f2f7e64ef8",
+      "ast_digest": "6d8bce4a6f3a82f12679a4e239d1ad04e332ce8e17f80e1785836b84a1f78543"
     },
     "vpp": {
-      "values_digest": "0d07c1c2ae4404772a06a6b1ad930e2fad735361f82f953f16af20c992cb1297",
+      "values_digest": "efb12690871e498e46b4cbff3f00ca2d981ad2b4f9d8a76e1ba7d03c56053e46",
       "rendered_digest": "b1874acfe1560921aea1949e011354b80cda7bc75d1e98605796987eaf42f5f7",
       "ast_digest": "8e6723ca7e839922ab54a4d972a48184c8b27d6bc5f897725414cecf524f34b3"
     },
     "srp": {
-      "values_digest": "6363c74d8d9dacd295304cb3d12e7320e709aa316f7b56410ed3ed1592ef084f",
+      "values_digest": "3f62c5eb00fc8275193a3f70146de799ab8283c48e0bbe09710faf6597ec5632",
       "rendered_digest": "5fb217a1332cd03a852d63a5fc1904a1e15ed2621a2445c33ab0eded1f570b50",
       "ast_digest": "06f705cfc3c6cdf8ab369a119f036de38d0e7c1891f8d7979e07eb4234fd9bf2"
     },
     "sor": {
-      "values_digest": "8823da13c2a53eb9c26f889b6ea45cd70bf9697e4d7b05a803c63e1ac6b7c578",
+      "values_digest": "b551ea1984912e76056daa6aa51c918351b342703c3098f9c8efb7d57e8c3fdc",
       "rendered_digest": "b3216c5e21500a948cd193f80bdf9e702b60c9d7b6a6e71c0315393eecfd6078",
       "ast_digest": "d7cc5eefb0a8a3f964f2982ffc39e4153276242e9818c8900fa701fc5332ec2d"
     }
@@ -469,6 +469,13 @@
       "actor": "codex:5823-review-reconciliation",
       "reason": "The retained review predates the final portable runner implementation, exact platform proof, and corrected publication evidence; return to implemented for one complete exact-head review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 32,
+      "actor": "codex:5823-review-remediation",
+      "reason": "Formally declare the AWS artifact finalizer already changed by WP-06 after exact-head review identified the missing owned surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"tools/remote_validation/Cargo.toml\",\"tools/remote_validation/Cargo.lock\",\"tools/remote_validation/src/lib.rs\",\"tools/remote_validation/src/bin/adl-remote-validation.rs\",\"tools/remote_validation/tests/contract.rs\",\"tools/aws_remote_validation/src/aws_remote_validation.rs\",\"tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs\",\"tools/aws_remote_validation/tests/portable_adapter.rs\",\"adl/tools/run_nessus_remote_validation.sh\",\"adl/tools/test_run_nessus_remote_validation.sh\",\"adl/tools/run_aws_spot_remote_validation_lane.sh\",\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\",\"adl/tools/aws_spot_artifact_finalize.py\",\".csdlc/evidence/5823\",\".csdlc/prepared/issues/5823/validate-platform-matrix.rb\"]}"
     }
   ]
 }
