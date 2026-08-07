@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC v2][sprint-3] Repair claim-free WP-04 wave readiness",
     "slug": "v0-92-csdlc-v2-sprint3-claim-free-readiness",
     "version": "v0.92",
-    "generation": 16
+    "generation": 25
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".",
-      "review_revision": "git-blake3:99d53c73a4e8845135cdbbda6edb407342213944:8aa7532709702fc23f6e25d0819486e13bbac62685086a5d9d53a183ecbb7719",
-      "reviewer": "subagent:fast-review-5901",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does future-path admission remain canonically contained beneath the repository with every symlink and non-directory prefix rejected?",
         "Does #5865 retain serialization truth in replan_triggers without path-field pollution or unrelated card changes?",
@@ -23,10 +23,8 @@
         "Did the repair avoid child binding and every Guardian product change?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Sprint 3 execution remains gated on terminal #5821 and this repair does not bind a child."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

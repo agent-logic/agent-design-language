@@ -1,5 +1,7 @@
 use csdlc_v2::{
-    publication::{body_has_github_closing_keyword, validate_remote},
+    publication::{
+        body_has_github_closing_keyword, body_has_qualified_github_closing_keyword, validate_remote,
+    },
     reconcile_action, PublicationAction, PublicationIntent, RemotePullRequest,
 };
 
@@ -8,6 +10,7 @@ fn intent() -> PublicationIntent {
         schema: "csdlc.publication_intent.v1".into(),
         issue: 5236,
         repository: "agent-logic/agent-design-language".into(),
+        issue_repository: "agent-logic/agent-design-language".into(),
         base: "main".into(),
         head: "codex/5236".into(),
         title: "Gate 6".into(),
@@ -16,6 +19,24 @@ fn intent() -> PublicationIntent {
         revision: "revision".into(),
         commit_sha: "abc123".into(),
     }
+}
+
+#[test]
+fn canonical_code_pr_can_close_a_legacy_issue_with_qualified_linkage() {
+    let mut intent = intent();
+    intent.issue_repository = "danielbaustin/agent-design-language".into();
+    intent.body = "Closes danielbaustin/agent-design-language#5236".into();
+    let mut remote = remote();
+    remote.body = intent.body.clone();
+    assert!(validate_remote(&intent, &remote).is_ok());
+
+    remote.body = "Closes #5236".into();
+    assert!(validate_remote(&intent, &remote).is_err());
+    assert!(!body_has_qualified_github_closing_keyword(
+        &remote.body,
+        5236,
+        "danielbaustin/agent-design-language"
+    ));
 }
 
 fn remote() -> RemotePullRequest {

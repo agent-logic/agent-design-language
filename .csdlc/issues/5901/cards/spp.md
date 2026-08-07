@@ -16,7 +16,7 @@ Prove the mismatch, repair containment-compatible future paths, normalize #5865 
 
 ## Plan
 
-Revision 7
+Revision 10
 
 ## Steps
 
@@ -86,7 +86,7 @@ Revision 7
 
 .csdlc/prepared/issues/5901/design.md
 
-Digest: 0a226aabf91f3cdc705bd6119fe0f80d7625e52f87d8fe4291d77cdbb28367f8
+Digest: aae9193bf56be26ef23d49f34104819214cf0d43f4ea34da40fc9ae4e76ab9ea
 
 ## Diagram
 

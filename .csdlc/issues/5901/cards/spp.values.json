@@ -7,13 +7,13 @@
     "title": "[v0.92][C-SDLC v2][sprint-3] Repair claim-free WP-04 wave readiness",
     "slug": "v0-92-csdlc-v2-sprint3-claim-free-readiness",
     "version": "v0.92",
-    "generation": 16
+    "generation": 25
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 7,
+      "plan_revision": 10,
       "summary": "Prove the mismatch, repair containment-compatible future paths, normalize #5865 through typed editing, update terminal reconciliation, and rerun the exact readiness sweep.",
       "steps": [
         {
@@ -58,7 +58,13 @@
         "csdlc-v2/src/cards.rs",
         "csdlc-v2/src/store.rs",
         "csdlc-v2/src/bin/csdlc-finish.rs",
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/src/bin/csdlc-publish.rs",
+        "csdlc-v2/src/publication.rs",
+        "csdlc-v2/src/github.rs",
+        "csdlc-v2/src/migration.rs",
         "csdlc-v2/tests/gate2.rs",
+        "csdlc-v2/tests/gate6.rs",
         "csdlc-v2/tests/gate_finish.rs",
         ".csdlc/issues/5865/cards/sip.values.json",
         ".csdlc/issues/5865/cards/stp.values.json",
@@ -98,7 +104,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5901/design.md",
-      "design_digest": "0a226aabf91f3cdc705bd6119fe0f80d7625e52f87d8fe4291d77cdbb28367f8",
+      "design_digest": "aae9193bf56be26ef23d49f34104819214cf0d43f4ea34da40fc9ae4e76ab9ea",
       "diagram_ref": ".csdlc/prepared/issues/5901/diagram.mmd",
       "diagram_digest": "6f5b3eb2f91b5110922f653bb670339b1eb9da4bba7bdc62cc25a9d9dc457bfe"
     }

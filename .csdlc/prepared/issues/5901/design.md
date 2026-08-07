@@ -8,6 +8,18 @@ governed-script readiness predicates, the one malformed #5865 path projection,
 and the umbrella's stale claim-based terminal validator. Do not bind or
 implement a Guardian child.
 
+The canonical repository cutover also requires this issue's reviewed code PR
+to publish to `agent-logic/agent-design-language` while retaining
+`danielbaustin/agent-design-language` as issue authority. Preserve the existing
+single-repository request shape by adding an optional typed code-repository
+override; when present, remote identity and push authority use the code
+repository while the closing-keyword check uses the canonical issue repository
+from the record. A bare `#5901` must not satisfy split-authority linkage.
+Terminalization must likewise read the legacy issue from record authority,
+observe and merge the PR through canonical publication authority, verify the
+qualified cross-repository closing relation, and retain the legacy repository
+as the derived terminal envelope's canonical issue identity.
+
 ## Source Baseline
 
 - `AGENTS.md` establishes Git branch/worktree topology as lifecycle authority.
@@ -27,8 +39,14 @@ implement a Guardian child.
 - `csdlc-v2/src/cards.rs`
 - `csdlc-v2/src/store.rs`
 - `csdlc-v2/src/bin/csdlc-finish.rs`
+- `csdlc-v2/src/finish.rs`
+- `csdlc-v2/src/bin/csdlc-publish.rs`
+- `csdlc-v2/src/publication.rs`
+- `csdlc-v2/src/github.rs`
+- `csdlc-v2/src/migration.rs`
 - `csdlc-v2/tests/gate2.rs`
 - `csdlc-v2/tests/gate_finish.rs`
+- `csdlc-v2/tests/gate6.rs`
 - `.csdlc/issues/5865/cards/sip.values.json`
 - `.csdlc/issues/5865/cards/stp.values.json`
 - `.csdlc/issues/5865/cards/spp.md`
@@ -127,6 +145,9 @@ name claim-free topology rather than historical claim state.
 - Focused finish-binary tests proving cached-envelope validation accepts an
   exact canonical envelope and rejects missing, malformed, stale-record, and
   digest-mismatched caches without GitHub mutation.
+- Focused publication tests proving a canonical code PR accepts the exact
+  qualified legacy issue reference, rejects a bare cross-repository issue
+  reference, and preserves existing single-repository requests.
 - Typed doctor for #5862 and #5863 through #5878.
 - `ruby .csdlc/prepared/issues/5862/validate-implementation-wave.rb --preflight`.
 - Ruby syntax validation for the wave validator.
