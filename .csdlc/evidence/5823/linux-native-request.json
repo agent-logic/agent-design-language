@@ -2,8 +2,8 @@
   "schema": "adl.remote_validation.request.v1",
   "request_id": "wp06-linux-native-aws",
   "checkout": ".",
-  "revision": "ce340f043eb8e5c612aadd9ce8cee1a193af3c2b",
-  "source_ref": "refs/heads/codex/5823-wp06-linux-proof-ce340f04",
+  "revision": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
+  "source_ref": "refs/heads/codex/5823-wp06-linux-proof-2c76b1f8",
   "command_profile": {
     "argv": [
       "cargo",
