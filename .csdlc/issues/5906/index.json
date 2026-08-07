@@ -1,0 +1,131 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5906,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "e8e7bd142c00ba3caca208dd41ca95c341df278dfb01e5b324c9757befe5d0ec",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "28a11db588380e4b5741a7ca35f48e007e8f13be2cb999bbbcc393811d58d900",
+  "branch": "codex/5906-v092-terminal-precedence",
+  "worktree": "/Volumes/FastWork/adl-wp-5906",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5906/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5906/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:review-5906-design",
+      "revision": "aab00dd908f0fec461c2d95d9585b62a7ea8d8c1027796fbac2d2f7bb43308e7"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7a58f8105f040ef54e0a3d6a3a2b70d3e14ed05f34e72aa4f6bbc7353626914b",
+      "rendered_digest": "6098291e2b97258cff268bb0a93fc83f6ba820c398677d32c1f8b13701bed0ee",
+      "ast_digest": "882f985ff0f02f70a888c1c971d542cf0718de0c3e9e283cb33a4f72ee6d322d"
+    },
+    "stp": {
+      "values_digest": "c555475fead0600bbcfd7377f45121294ee705b378b8c553490f09befaae23f5",
+      "rendered_digest": "eea011464d44233fcda47b8e55dfcf12d4bc4833a64c4cb905243001c3bc74de",
+      "ast_digest": "3ceefe060a3809a63fad0a893fb4d97c3caa1eec224ea11969293239f1b1db12"
+    },
+    "spp": {
+      "values_digest": "701913527e0f47be3552faea257d45e09a5e258efec78fa00290e3f17e73291c",
+      "rendered_digest": "1901f0e5113aeb86d1a89117ebe08402ab314bdc5a0d30d7ba09c6911ea90dcd",
+      "ast_digest": "b301ca6eac5c1151ca80bed45c186be3d08221c17d7394f94f19c66485b9c58e"
+    },
+    "vpp": {
+      "values_digest": "97ba797b8ffb3c54c51a9ae1a06832f6aebe3fa8f1d8106b8fc4496342e2c65e",
+      "rendered_digest": "a893359ac43c2cc770c7de356cb02e42938c0349fa76ea486bcb92159e3cd5ce",
+      "ast_digest": "e30e5eead6b89ac8b866bf5ec4356accbceba0a0a803e0a625e165ee4e76dfc5"
+    },
+    "srp": {
+      "values_digest": "0ac43ade0849c3d2e5fa9e2c801b9f838947b40600245b60767ab89f1f167c59",
+      "rendered_digest": "47319ca6ba35826bf76a539144f39bb77426d2d5ac199ea893af19d5058d6e6a",
+      "ast_digest": "df84392c2124336bf72e9be76828eae7688953348984a70ab8d5e8bcf032dd6c"
+    },
+    "sor": {
+      "values_digest": "eb471e252ea7ce7a7e9fbb2aff97995ea962fe7dc0289416a57935313fe29148",
+      "rendered_digest": "f2c1f7ae1031f66a3396830cd897420747da532876aa5c7a1ce725b42ea0d69d",
+      "ast_digest": "152decb181a50f984d6c0524bed562a1a624886e7fe8980d55d167636bbba678"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5906-terminal-precedence",
+      "reason": "Implementation and focused proof are complete."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5906-terminal-precedence",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:review-5906-design",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:5906-terminal-precedence",
+      "reason": "Use one focused proving lane for the complete historical-precedence contract; live reconciliation remains post-merge terminal evidence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-finish-focused\",\"proof_role\":\"Prove single-candidate compatibility, unique-latest selection, fail-closed rejection cases, unchanged routine gates, and the contract used for final live reconciliation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_finish\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:5906-terminal-precedence",
+      "reason": "Record deterministic multiple-merged candidate precedence implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Retained GitHub mergedAt evidence for closing PR candidates and added fail-closed unique-latest RFC3339 instant selection while preserving single-candidate and exact identity behavior.\",\"changes\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/tests/gate_finish.rs\"],\"artifacts\":[\".csdlc/prepared/issues/5906/design.md\",\".csdlc/prepared/issues/5906/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5906-terminal-precedence",
+      "reason": "Record focused historical precedence proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_finish\"],\"purpose\":\"Prove single-candidate compatibility, unique-latest acceptance, wrong candidate rejection, missing and malformed timestamp rejection, tied-instant rejection, and unchanged finish behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"17 focused gate_finish tests passed; strict all-target Clippy passed with -D warnings; cargo fmt and git diff checks passed.\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:5906-terminal-precedence",
+      "reason": "Implementation and focused proof are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

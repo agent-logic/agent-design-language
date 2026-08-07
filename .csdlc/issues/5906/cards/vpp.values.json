@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5906,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][closeout] Resolve multiple merged closing PRs deterministically",
+    "slug": "v092-terminal-precedence-multiple-merged-prs",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csdlc-finish-focused",
+          "proof_role": "Prove single-candidate compatibility, unique-latest selection, fail-closed rejection cases, unchanged routine gates, and the contract used for final live reconciliation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 10000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate_finish"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on absent or tied timestamp evidence, stale identity, failed focused proof, or review findings.",
+      "design_ref": ".csdlc/prepared/issues/5906/design.md",
+      "design_digest": "aab00dd908f0fec461c2d95d9585b62a7ea8d8c1027796fbac2d2f7bb43308e7",
+      "diagram_ref": ".csdlc/prepared/issues/5906/diagram.mmd",
+      "diagram_digest": "2013e400e7e2f7f652ea382806ebcf1976ca8e19bbc34d9ff5ae8f88ed2f6cc7"
+    }
+  }
+}

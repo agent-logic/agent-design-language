@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5906,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][closeout] Resolve multiple merged closing PRs deterministically",
+    "slug": "v092-terminal-precedence-multiple-merged-prs",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Only issue 5906 merged-candidate identity, precedence logic, and focused tests",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does unique-latest selection remain fail closed?",
+        "Can an earlier or ambiguous merged PR be selected?",
+        "Are routine finish and review gates unchanged?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

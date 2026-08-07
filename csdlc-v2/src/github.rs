@@ -64,6 +64,8 @@ pub struct ClosingPullRequestIdentity {
     pub pull_request: u64,
     pub state: String,
     pub merged: bool,
+    #[serde(default)]
+    pub merged_at: Option<String>,
 }
 
 fn unknown_pr_state() -> String {
@@ -968,6 +970,10 @@ fn closing_pull_request_identities(
                     .unwrap_or("UNKNOWN")
                     .to_owned(),
                 merged: node.get("merged").and_then(Value::as_bool).unwrap_or(false),
+                merged_at: node
+                    .get("mergedAt")
+                    .and_then(Value::as_str)
+                    .map(str::to_owned),
             })
         })
         .collect::<crate::Result<BTreeSet<_>>>()?;
@@ -992,7 +998,7 @@ pub async fn collect_issue_closing_pull_requests(
         .map_err(remote)?;
     let response: Value = crab
         .graphql(&json!({
-            "query": "query ClosingPullRequests($owner: String!, $repo: String!, $number: Int!) { repository(owner: $owner, name: $repo) { issue(number: $number) { closedByPullRequestsReferences(first: 100, includeClosedPrs: true) { nodes { number state merged repository { nameWithOwner } } pageInfo { hasNextPage } } } } }",
+            "query": "query ClosingPullRequests($owner: String!, $repo: String!, $number: Int!) { repository(owner: $owner, name: $repo) { issue(number: $number) { closedByPullRequestsReferences(first: 100, includeClosedPrs: true) { nodes { number state merged mergedAt repository { nameWithOwner } } pageInfo { hasNextPage } } } } }",
             "variables": {"owner": owner, "repo": repo, "number": issue}
         }))
         .await
@@ -1419,9 +1425,9 @@ mod tests {
     fn issue_closing_pr_inventory_preserves_multiple_candidates() {
         let response = json!({"data":{"repository":{"issue":{"closedByPullRequestsReferences":{
             "nodes":[
-                {"number": 9, "state":"MERGED", "merged":true, "repository":{"nameWithOwner":"canonical/repo"}},
+                {"number": 9, "state":"MERGED", "merged":true, "mergedAt":"2026-08-06T00:22:16Z", "repository":{"nameWithOwner":"canonical/repo"}},
                 {"number": 10, "state":"CLOSED", "merged":false, "repository":{"nameWithOwner":"other/repo"}},
-                {"number": 9, "state":"MERGED", "merged":true, "repository":{"nameWithOwner":"canonical/repo"}}
+                {"number": 9, "state":"MERGED", "merged":true, "mergedAt":"2026-08-06T00:22:16Z", "repository":{"nameWithOwner":"canonical/repo"}}
             ],
             "pageInfo":{"hasNextPage":false}
         }}}}});
@@ -1433,12 +1439,14 @@ mod tests {
                     pull_request: 9,
                     state: "MERGED".into(),
                     merged: true,
+                    merged_at: Some("2026-08-06T00:22:16Z".into()),
                 },
                 ClosingPullRequestIdentity {
                     repository: "other/repo".into(),
                     pull_request: 10,
                     state: "CLOSED".into(),
                     merged: false,
+                    merged_at: None,
                 },
             ]
         );

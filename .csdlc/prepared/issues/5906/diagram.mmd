@@ -1,0 +1,9 @@
+flowchart TD
+  A["Collect closing PR identities"] --> B{"Merged candidates"}
+  B -->|"one"| C["Require exact requested identity"]
+  B -->|"multiple"| D["Ignore unmerged candidates; parse RFC 3339 mergedAt for every merged candidate"]
+  D --> E{"Unique latest absolute instant?"}
+  E -->|"no"| F["Fail closed"]
+  E -->|"yes"| G["Require request names latest PR"]
+  G -->|"match"| H["Continue exact head and merge SHA validation"]
+  G -->|"mismatch"| F

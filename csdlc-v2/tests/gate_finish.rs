@@ -172,6 +172,7 @@ fn historical_finish_requires_one_exact_closing_pr_candidate() {
         pull_request: 9,
         state: "MERGED".into(),
         merged: true,
+        merged_at: None,
     };
     assert!(validate_historical_candidates(&request, std::slice::from_ref(&expected)).is_ok());
     assert!(validate_historical_candidates(&request, &[]).is_err());
@@ -184,6 +185,7 @@ fn historical_finish_requires_one_exact_closing_pr_candidate() {
                 pull_request: 5904,
                 state: "CLOSED".into(),
                 merged: false,
+                merged_at: None,
             },
         ],
     )
@@ -191,16 +193,56 @@ fn historical_finish_requires_one_exact_closing_pr_candidate() {
     assert!(validate_historical_candidates(
         &request,
         &[
-            expected,
+            ClosingPullRequestIdentity {
+                merged_at: Some("2026-08-06T00:00:00Z".into()),
+                ..expected.clone()
+            },
             ClosingPullRequestIdentity {
                 repository: "canonical/repo".into(),
                 pull_request: 10,
                 state: "MERGED".into(),
                 merged: true,
+                merged_at: Some("2026-08-06T01:00:00Z".into()),
             },
         ],
     )
     .is_err());
+
+    let latest = ClosingPullRequestIdentity {
+        repository: "canonical/repo".into(),
+        pull_request: 9,
+        state: "MERGED".into(),
+        merged: true,
+        merged_at: Some("2026-08-06T02:00:00+01:00".into()),
+    };
+    let earlier = ClosingPullRequestIdentity {
+        repository: "canonical/repo".into(),
+        pull_request: 8,
+        state: "MERGED".into(),
+        merged: true,
+        merged_at: Some("2026-08-06T00:30:00Z".into()),
+    };
+    assert!(validate_historical_candidates(&request, &[earlier.clone(), latest.clone()]).is_ok());
+
+    let mut wrong_request = request.clone();
+    wrong_request.pull_request = Some(8);
+    assert!(
+        validate_historical_candidates(&wrong_request, &[earlier.clone(), latest.clone()]).is_err()
+    );
+
+    let mut missing = earlier.clone();
+    missing.merged_at = None;
+    assert!(validate_historical_candidates(&request, &[missing, latest.clone()]).is_err());
+
+    let mut malformed = earlier.clone();
+    malformed.merged_at = Some("not-rfc3339".into());
+    assert!(validate_historical_candidates(&request, &[malformed, latest.clone()]).is_err());
+
+    let tied = ClosingPullRequestIdentity {
+        merged_at: Some("2026-08-06T01:00:00Z".into()),
+        ..earlier
+    };
+    assert!(validate_historical_candidates(&request, &[tied, latest]).is_err());
 }
 
 #[test]
