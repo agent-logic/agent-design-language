@@ -1,0 +1,27 @@
+{
+  "issue": 5823,
+  "expected_generation": 29,
+  "expected_digest": "83a70d30e743584134ed92ec946c7af22ab75d77ef749bccf3492725d3707d82",
+  "actor": "codex:5823-execution",
+  "evidence": {
+    "reviewer": "subagent:wp06-final-review",
+    "scope": [
+      ".csdlc/prepared/issues/5823/validate-platform-matrix.rb",
+      "adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "adl/tools/run_nessus_remote_validation.sh",
+      "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
+      "adl/tools/test_run_nessus_remote_validation.sh",
+      "tools/aws_remote_validation/src/aws_remote_validation.rs",
+      "tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+      "tools/aws_remote_validation/tests/portable_adapter.rs"
+    ],
+    "reviewed_revision": "git-blake3:47c6e446efc17200015d4482b384bfe0b708499d:d07f8ad3e1e4ce1d8904ab3a239bf0148753b1919bc4ad9754dd64859cea8cab",
+    "findings": [],
+    "residual_risks": [
+      "Live AWS and Nessus behavior remains dependent on external provider timing and availability.",
+      "Windows proof remains fixture-qualified rather than live-native."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}
