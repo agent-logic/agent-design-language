@@ -5,6 +5,8 @@ require "digest"
 require "json"
 require "open3"
 require "pathname"
+require "stringio"
+require "zlib"
 
 SHA256 = /\A[0-9a-f]{64}\z/
 ISSUE = 5820
@@ -72,6 +74,45 @@ def checked_file(path, digest, label, allow_empty: false)
   actual = Digest::SHA256.file(resolved).hexdigest
   abort "#{label} digest mismatch" unless actual == digest
   [resolved, actual]
+end
+
+def checked_artifact(artifact, label)
+  if artifact["chunks"]
+    chunks = Array(artifact["chunks"])
+    abort "#{label} has no chunks" if chunks.empty?
+    compressed = chunks.each_with_index.map do |chunk, index|
+      resolved, = checked_file(
+        chunk.fetch("path"),
+        chunk.fetch("sha256"),
+        "#{label} chunk #{index}"
+      )
+      File.binread(resolved)
+    end.join
+    archive_digest = Digest::SHA256.hexdigest(compressed)
+    abort "#{label} aggregate digest mismatch" unless archive_digest == artifact.fetch("sha256")
+    resolved = nil
+  else
+    resolved, archive_digest = checked_file(
+      artifact.fetch("path"),
+      artifact.fetch("sha256"),
+      label
+    )
+    compressed = File.binread(resolved)
+  end
+  compression = artifact["compression"]
+  return [resolved, archive_digest, archive_digest] if compression.nil?
+  abort "#{label} uses unsupported compression" unless compression == "gzip"
+
+  content_digest = Digest::SHA256.new
+  Zlib::GzipReader.wrap(StringIO.new(compressed)) do |gzip|
+    while (chunk = gzip.read(1024 * 1024))
+      break if chunk.empty?
+      content_digest.update(chunk)
+    end
+  end
+  expected_content_digest = artifact.fetch("content_sha256")
+  abort "#{label} content digest mismatch" unless content_digest.hexdigest == expected_content_digest
+  [resolved, archive_digest, expected_content_digest]
 end
 
 def post_proof_change_allowed?(path)
@@ -173,8 +214,13 @@ receipts.each do |receipt|
   abort "#{platform} artifact roles must be unique" unless roles.uniq.length == roles.length
   artifacts_by_role = artifacts.to_h do |artifact|
     role = artifact.fetch("role")
-    resolved, digest = checked_file(artifact.fetch("path"), artifact.fetch("sha256"), "#{platform} #{role}")
-    [role, {"path" => artifact.fetch("path"), "resolved" => resolved, "sha256" => digest}]
+    resolved, digest, content_digest = checked_artifact(artifact, "#{platform} #{role}")
+    [role, {
+      "path" => artifact["path"] || artifact.fetch("chunks").map { |chunk| chunk.fetch("path") }.join(","),
+      "resolved" => resolved,
+      "sha256" => digest,
+      "content_sha256" => content_digest
+    }]
   end
 
   provenance = JSON.parse(File.read(artifacts_by_role.fetch("runner_provenance").fetch("resolved")))
@@ -196,7 +242,7 @@ receipts.each do |receipt|
     "https_transcript_sha256" => "https_transcript",
     "wss_transcript_sha256" => "wss_transcript"
   }.each do |field, role|
-    abort "#{platform} lifecycle #{role} digest mismatch" unless lifecycle[field] == artifacts_by_role.fetch(role).fetch("sha256")
+    abort "#{platform} lifecycle #{role} digest mismatch" unless lifecycle[field] == artifacts_by_role.fetch(role).fetch("content_sha256")
   end
   ASSERTION_ROLES.each_key do |name|
     abort "#{platform} lifecycle report did not prove #{name}" unless lifecycle.dig("assertions", name) == true
@@ -223,7 +269,7 @@ receipts.each do |receipt|
   abort "#{platform} anti-rollback proof missing" unless component["anti_rollback_minimum_enforced"] == true
   abort "#{platform} log continuity mismatch" unless component["log_checked_cycles"] == completed_cycles
   abort "#{platform} logging proof failed" unless component["logging_complete"] == true && component["master_log_status"] == "clean"
-  abort "#{platform} component kernel digest mismatch" unless component["kernel_sha256"] == artifacts_by_role.fetch("kernel_binary").fetch("sha256")
+  abort "#{platform} component kernel digest mismatch" unless component["kernel_sha256"] == artifacts_by_role.fetch("kernel_binary").fetch("content_sha256")
 
   if platform == "linux"
     aws = JSON.parse(File.read(artifacts_by_role.fetch("aws_summary").fetch("resolved")))

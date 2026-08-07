@@ -28,13 +28,17 @@
       "artifacts": [
         {
           "role": "guardian_binary",
-          "path": ".csdlc/evidence/5820/native/macos/adl-runtime-guardian",
-          "sha256": "ca9c906ec39b8c5d94306c48ed7a14feb08f9978a9462f3415d29e6f5da19f80"
+          "path": ".csdlc/evidence/5820/native/macos/adl-runtime-guardian.gz",
+          "sha256": "4012be0a291e8bc5a229f876bc6ab7ccf1885ba813dc8f550be6a9f1aa98245b",
+          "compression": "gzip",
+          "content_sha256": "ca9c906ec39b8c5d94306c48ed7a14feb08f9978a9462f3415d29e6f5da19f80"
         },
         {
           "role": "kernel_binary",
-          "path": ".csdlc/evidence/5820/native/macos/adl-runtime-kernel",
-          "sha256": "fefa6151e3701ae26290e22ee57ce7c0aa26b29161be110681306b9a9fd9a453"
+          "path": ".csdlc/evidence/5820/native/macos/adl-runtime-kernel.gz",
+          "sha256": "0d3f47b721851b8e02fcb454ef3f2e9ab0bbd159974552d51f7fb8b4ae504716",
+          "compression": "gzip",
+          "content_sha256": "fefa6151e3701ae26290e22ee57ce7c0aa26b29161be110681306b9a9fd9a453"
         },
         {
           "role": "canonical_init",
@@ -159,13 +163,28 @@
       "artifacts": [
         {
           "role": "guardian_binary",
-          "path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian",
-          "sha256": "1b0bfdc5d5fecf3e456fd9db1f3b3be63e7683f3fc23e5c1fc2096567559cef1"
+          "chunks": [
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-00", "sha256": "d15b459637c5a05d9c1ff483bd4250941ef0e15ac34a95f35a2150cfca3ca2bd"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-01", "sha256": "959385a89d35e545fbb567844eee727ff9983caab332e1f83594066900a8ef51"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-02", "sha256": "7ce01fb6ee0752716c49623222efc31aedc30b94163d94b6b6a22beb716c606b"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-guardian.gz.part-03", "sha256": "417e6316e6f44552a24032a5c5508b23c8501d51cfaf32ca7a67ba2f197d8006"}
+          ],
+          "sha256": "9ae7b7747c38d068f81287b4309eeaeb0b7b950f40d9dc6f13c7a82a78edc16e",
+          "compression": "gzip",
+          "content_sha256": "1b0bfdc5d5fecf3e456fd9db1f3b3be63e7683f3fc23e5c1fc2096567559cef1"
         },
         {
           "role": "kernel_binary",
-          "path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel",
-          "sha256": "4833d3701c0b3afd0aa5bafed5d884fd7881df7425622b51fa5347adceaa15b0"
+          "chunks": [
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-00", "sha256": "7b4ac3922f2f23c2c942171a602c30bd70bc80311c19c3f7a6e0465736b88e26"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-01", "sha256": "f2be54b775ee7b8cc2183a8844d88129e297ccea93645a6bdad475812c9881b1"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-02", "sha256": "bd1d5ba0c03fa5eae84bc6058f3bc5be0478c64b186dae27845e21fd6d7a54e4"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-03", "sha256": "269d1dedd506ee11a4fcfe5c8b721a2b8fe438bf22ac429d255b7e09f6964772"},
+            {"path": ".csdlc/evidence/5820/native/linux/adl-runtime-kernel.gz.part-04", "sha256": "adc9cd6371993b2d9e9430dc185b6444145fa3d2c2a632037521c428cf261bf7"}
+          ],
+          "sha256": "de637e13ea10175c1e70f7683ee76c17d08f61a01a56d11986baf6877dca6527",
+          "compression": "gzip",
+          "content_sha256": "4833d3701c0b3afd0aa5bafed5d884fd7881df7425622b51fa5347adceaa15b0"
         },
         {
           "role": "canonical_init",
