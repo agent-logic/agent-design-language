@@ -29,6 +29,7 @@ GIT_REF_EXPLICIT=false
 PORTABLE_REQUEST=""
 PORTABLE_RUNNER="${ADL_REMOTE_VALIDATION_BIN:-}"
 PORTABLE_MAX_COST_USD=""
+PORTABLE_EXPECTED_REVISION=""
 SOURCE_COMMIT=""
 REPO_URL="https://github.com/agent-logic/agent-design-language.git"
 OUT_PATH=""
@@ -350,7 +351,8 @@ if [[ -n "$PORTABLE_REQUEST" ]]; then
     exit 2
   }
   COMMAND="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["shell_command"])')"
-  GIT_REF="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["revision"])')"
+  GIT_REF="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["source_ref"])')"
+  PORTABLE_EXPECTED_REVISION="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["revision"])')"
   MAX_RUN_SECONDS="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["timeout_seconds"])')"
   PORTABLE_MAX_COST_USD="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; value=json.load(sys.stdin).get("estimated_max_cost_microusd"); print("" if value is None else format(value / 1000000, ".6f"))')"
 fi
@@ -393,6 +395,10 @@ fi
 SOURCE_COMMIT="$(git -C "$ROOT" rev-parse "${GIT_REF}^{commit}" 2>/dev/null || true)"
 if [[ "$RUN" == true && ! "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]]; then
   echo "run_aws_spot_remote_validation_lane: --git-ref must resolve to a committed source revision" >&2
+  exit 2
+fi
+if [[ -n "$PORTABLE_EXPECTED_REVISION" && "$SOURCE_COMMIT" != "$PORTABLE_EXPECTED_REVISION" ]]; then
+  echo "run_aws_spot_remote_validation_lane: portable source ref does not resolve to requested revision" >&2
   exit 2
 fi
 

@@ -397,6 +397,7 @@ payload = {
     "request_id": "wp-5823-nessus-shell-adapter",
     "checkout": ".",
     "revision": revision,
+    "source_ref": "refs/heads/main",
     "command_profile": profile,
     "command_profile_digest": digest,
     "adapter": "nessus",

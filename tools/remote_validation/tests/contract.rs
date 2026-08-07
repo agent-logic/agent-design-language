@@ -55,6 +55,11 @@ fn request(adapter: AdapterKind, argv: Vec<String>) -> PortableRequest {
         request_id: "wp-5823-contract".into(),
         checkout: ".".into(),
         revision: revision(&root()),
+        source_ref: if adapter == AdapterKind::Local {
+            None
+        } else {
+            Some("refs/heads/codex/wp-5823-fixture".into())
+        },
         command_profile_digest: command_profile_digest(&profile).unwrap(),
         command_profile: profile,
         adapter,
@@ -137,6 +142,7 @@ fn request_round_trip_and_adapter_plan_preserve_provenance() {
     );
     let plan = adapter_plan(&request, AdapterKind::Nessus).unwrap();
     assert_eq!(plan.revision, request.revision);
+    assert_eq!(plan.source_ref, request.source_ref);
     assert_eq!(plan.command_profile_digest, request.command_profile_digest);
     assert_eq!(plan.shell_command, "'cargo' 'check'");
     assert_eq!(plan.cpu_cores, 2);
@@ -145,6 +151,12 @@ fn request_round_trip_and_adapter_plan_preserve_provenance() {
 
 #[test]
 fn request_rejects_stale_digest_absolute_paths_and_secret_environment() {
+    let mut value = request(AdapterKind::Aws, vec!["cargo".into(), "test".into()]);
+    value.source_ref = Some("refs/heads/bad..ref".into());
+    assert!(validate_request(&value)
+        .unwrap_err()
+        .contains("advertised source ref"));
+
     let mut value = request(AdapterKind::Aws, vec!["cargo".into(), "test".into()]);
     value.command_profile_digest = "0".repeat(64);
     assert!(validate_request(&value)

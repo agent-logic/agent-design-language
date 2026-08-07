@@ -194,7 +194,10 @@ pub fn apply_portable_aws_request(
     request: &PortableRequest,
 ) -> Result<PortableAdapterPlan> {
     let plan = portable_aws_adapter_plan(request)?;
-    config.git_ref = plan.revision.clone();
+    config.git_ref = plan
+        .source_ref
+        .clone()
+        .ok_or_else(|| anyhow!("portable AWS request is missing source_ref"))?;
     config.command = plan.shell_command.clone();
     config.command_timeout_seconds = Some(plan.timeout_seconds);
     config.expected_max_cost_usd = request

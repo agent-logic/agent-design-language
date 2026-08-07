@@ -21,6 +21,7 @@ fn request(adapter: AdapterKind) -> PortableRequest {
         request_id: "wp-5823-aws-adapter".into(),
         checkout: ".".into(),
         revision: "a".repeat(40),
+        source_ref: Some("refs/heads/codex/wp-5823-fixture".into()),
         command_profile_digest: command_profile_digest(&profile).unwrap(),
         command_profile: profile,
         adapter,
@@ -88,12 +89,16 @@ fn portable_request_maps_exactly_to_aws_adapter_inputs() {
     let request = request(AdapterKind::Aws);
     let plan = portable_aws_adapter_plan(&request).unwrap();
     assert_eq!(plan.revision, "a".repeat(40));
+    assert_eq!(
+        plan.source_ref.as_deref(),
+        Some("refs/heads/codex/wp-5823-fixture")
+    );
     assert_eq!(plan.shell_command, "'cargo' 'test' '--locked'");
     assert_eq!(plan.timeout_seconds, 900);
 
     let mut config = config();
     apply_portable_aws_request(&mut config, &request).unwrap();
-    assert_eq!(config.git_ref, request.revision);
+    assert_eq!(config.git_ref, "refs/heads/codex/wp-5823-fixture");
     assert_eq!(config.command, "'cargo' 'test' '--locked'");
     assert_eq!(config.command_timeout_seconds, Some(900));
     assert_eq!(config.expected_max_cost_usd, Some(0.15));

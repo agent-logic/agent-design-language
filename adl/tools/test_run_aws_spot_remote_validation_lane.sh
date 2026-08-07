@@ -640,6 +640,7 @@ payload = {
     "request_id": "wp-5823-aws-shell-adapter",
     "checkout": ".",
     "revision": revision,
+    "source_ref": "refs/heads/codex/5823-v0-92-wp-06-remote-validation-build-runner",
     "command_profile": profile,
     "command_profile_digest": digest,
     "adapter": "aws",
@@ -670,6 +671,29 @@ bash "$SCRIPT" \
     --artifact-dir "$TMP/portable-command-artifacts" \
     --print-command >"$TMP/portable-command.out"
 grep -F -- "--expected-max-cost-usd 0.200000" "$TMP/portable-command.out" >/dev/null
+
+portable_mismatch_request="$TMP/portable-aws-mismatch-request.json"
+python3 - "$portable_request" "$portable_mismatch_request" <<'PY'
+import json
+import sys
+
+source, destination = sys.argv[1:]
+with open(source, encoding="utf-8") as handle:
+    payload = json.load(handle)
+payload["revision"] = "0" * 40
+with open(destination, "w", encoding="utf-8") as handle:
+    json.dump(payload, handle, separators=(",", ":"))
+PY
+if bash "$SCRIPT" run --run \
+    --portable-request "$portable_mismatch_request" \
+    --portable-runner "$portable_runner" \
+    --bin "$fake_bin/adl-aws-remote-validation" \
+    --out "$TMP/portable-mismatch-summary.json" \
+    --artifact-dir "$TMP/portable-mismatch-artifacts" >"$TMP/portable-mismatch.out" 2>"$TMP/portable-mismatch.err"; then
+  echo "expected portable source ref/revision mismatch to fail closed" >&2
+  exit 1
+fi
+grep -F "portable source ref does not resolve to requested revision" "$TMP/portable-mismatch.err" >/dev/null
 
 if bash "$SCRIPT" --portable-request "$portable_request" --portable-runner "$portable_runner" --command "true" >"$TMP/portable-conflict.out" 2>"$TMP/portable-conflict.err"; then
   echo "expected portable/manual AWS ambiguity to fail closed" >&2

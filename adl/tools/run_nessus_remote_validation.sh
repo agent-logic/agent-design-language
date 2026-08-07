@@ -168,7 +168,7 @@ if [[ -n "$PORTABLE_REQUEST" ]]; then
     exit 2
   }
   COMMAND_STRING="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["shell_command"])')"
-  GIT_REF="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["revision"])')"
+  GIT_REF="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["source_ref"])')"
 fi
 
 if [[ -z "$COMMAND_STRING" ]]; then

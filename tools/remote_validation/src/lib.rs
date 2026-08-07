@@ -54,6 +54,8 @@ pub struct PortableRequest {
     pub request_id: String,
     pub checkout: String,
     pub revision: String,
+    #[serde(default)]
+    pub source_ref: Option<String>,
     pub command_profile: CommandProfile,
     pub command_profile_digest: String,
     pub adapter: AdapterKind,
@@ -129,6 +131,7 @@ pub struct PortableResult {
 pub struct AdapterPlan {
     pub adapter: AdapterKind,
     pub revision: String,
+    pub source_ref: Option<String>,
     pub command_profile_digest: String,
     pub shell_command: String,
     pub cpu_cores: u16,
@@ -181,6 +184,14 @@ fn valid_digest(value: &str) -> bool {
             .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
 }
 
+fn valid_source_ref(value: &str) -> bool {
+    (value.starts_with("refs/heads/") || value.starts_with("refs/tags/"))
+        && !value.contains("..")
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'/' | b'.' | b'_' | b'-'))
+}
+
 fn repo_relative(value: &str, allow_dot: bool) -> bool {
     if value.is_empty() || Path::new(value).is_absolute() {
         return false;
@@ -229,6 +240,14 @@ pub fn validate_request(request: &PortableRequest) -> Result<(), String> {
     }
     if !valid_revision(&request.revision) {
         return Err("revision must be an exact lowercase 40-hex commit".into());
+    }
+    match (request.adapter, request.source_ref.as_deref()) {
+        (AdapterKind::Local, None) => {}
+        (AdapterKind::Local, Some(_)) => {
+            return Err("local execution must not declare a remote source ref".into())
+        }
+        (_, Some(value)) if valid_source_ref(value) => {}
+        _ => return Err("remote execution requires a safe advertised source ref".into()),
     }
     if request.command_profile.argv.is_empty()
         || request
@@ -330,6 +349,7 @@ pub fn adapter_plan(
     Ok(AdapterPlan {
         adapter,
         revision: request.revision.clone(),
+        source_ref: request.source_ref.clone(),
         command_profile_digest: request.command_profile_digest.clone(),
         shell_command: shell_join(&request.command_profile.argv)?,
         cpu_cores: request.resource_budget.cpu_cores,
