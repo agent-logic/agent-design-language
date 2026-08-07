@@ -4,24 +4,24 @@ use std::process::Command;
 
 use csdlc_v2::cards::{CardContent, CardValues};
 use csdlc_v2::estimation::{
-    artifact_reference, calibration_report, compare_cycle_time, forecast, load_cycle_time_evidence,
+    artifact_reference, calibration_report, compare_cycle_time, forecast,
     load_observation_manifest, load_verified_json, terminal_outcome, validate_reference,
     verified_calibration, AcceptedEstimate, ArtifactReference, BacktestCase,
-    CalibrationCaseArtifacts, CalibrationManifest, ComparableKey, CycleIssueTiming,
-    CycleTimeComparisonStatus, CycleTimeEvidence, EstimateDisposition, EstimateMethod,
-    MetricObservation, Observation, ObservationManifest, ObservationSource, StaticEstimate,
-    OBSERVATION_SCHEMA,
+    CalibrationCaseArtifacts, CalibrationManifest, ComparableKey, CycleTimeComparisonStatus,
+    CycleTimeEvidence, EstimateDisposition, EstimateMethod, MetricObservation, Observation,
+    ObservationManifest, ObservationSource, StaticEstimate, TerminalOutcome,
+    ValidationSourceManifest, OBSERVATION_SCHEMA,
 };
 use csdlc_v2::{
-    retain_terminal_estimation_outcome, DerivedTerminalEnvelope, FinishDisposition, Store,
-    TerminalEstimationStatus,
+    retain_terminal_estimation_outcome, DerivedTerminalEnvelope, FinishDisposition, IssueRecord,
+    Store, TerminalEstimationStatus,
 };
 
 fn key() -> ComparableKey {
     ComparableKey {
-        cohort: "csdlc-v2-rust-medium".into(),
-        workflow_version: "v2-gate-10d2".into(),
-        model_era: "codex-2026-q3".into(),
+        cohort: "danielbaustin/agent-design-language".into(),
+        workflow_version: "csdlc.issue.index.v1".into(),
+        model_era: "gpt-5-codex".into(),
     }
 }
 
@@ -47,6 +47,15 @@ fn write_json(root: &Path, reference: &str, value: &serde_json::Value) -> Artifa
     fs::create_dir_all(path.parent().unwrap()).unwrap();
     fs::write(&path, serde_json::to_vec_pretty(value).unwrap()).unwrap();
     artifact_reference(root, reference).unwrap()
+}
+
+fn seal_issue_record(value: serde_json::Value) -> serde_json::Value {
+    let mut record: IssueRecord = serde_json::from_value(value).unwrap();
+    record.digest.clear();
+    record.digest = blake3::hash(&serde_json::to_vec(&record).unwrap())
+        .to_hex()
+        .to_string();
+    serde_json::to_value(record).unwrap()
 }
 
 fn observation(issue: u64, elapsed: u64, validation: u64, tokens: u64) -> Observation {
@@ -79,6 +88,16 @@ fn observation(issue: u64, elapsed: u64, validation: u64, tokens: u64) -> Observ
             ObservationSource::Github,
             format!(".csdlc/evidence/{issue}/github.json"),
         ),
+        operator_wait_seconds: MetricObservation::known(
+            0,
+            ObservationSource::OperatorAnnotation,
+            format!(".csdlc/evidence/{issue}/operator.json"),
+        ),
+        reconnect_actions: MetricObservation::known(
+            0,
+            ObservationSource::OperatorAnnotation,
+            format!(".csdlc/evidence/{issue}/operator.json"),
+        ),
         total_tokens: MetricObservation::known(
             tokens,
             ObservationSource::Session,
@@ -93,10 +112,28 @@ fn source_manifest(root: &Path, issue: u64) -> ArtifactReference {
         .parent()
         .unwrap()
         .to_path_buf();
-    let lifecycle_value: serde_json::Value = serde_json::from_slice(
+    let mut lifecycle_value: serde_json::Value = serde_json::from_slice(
         &fs::read(repository_root.join(".csdlc/issues/5822/index.json")).unwrap(),
     )
     .unwrap();
+    lifecycle_value["issue"] = issue.into();
+    lifecycle_value["phase"] = "closed_out".into();
+    lifecycle_value["review"] = serde_json::json!({
+        "reviewer":"independent", "scope":["focused"], "reviewed_revision":"a",
+        "findings":[], "residual_risks":[], "completed":true,
+        "non_substantive_proof":null
+    });
+    lifecycle_value["publication"] = serde_json::json!({
+        "repository":"danielbaustin/agent-design-language", "issue":issue,
+        "pull_request":6000, "url":"https://example.invalid/pr/6000", "base":"main",
+        "head":"codex/test", "revision":"a", "draft":false, "observed_state":"merged"
+    });
+    lifecycle_value["terminal"] = serde_json::json!({
+        "pull_request":6000, "disposition":"merged", "observed_sha":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "observed_state":"merged", "receipt_path":".csdlc/receipts/test.json",
+        "branch":"codex/test", "worktree":null
+    });
+    let lifecycle_value = seal_issue_record(lifecycle_value);
     let lifecycle = write_json(root, &format!("{base}/lifecycle.json"), &lifecycle_value);
     let github = write_json(
         root,
@@ -105,31 +142,44 @@ fn source_manifest(root: &Path, issue: u64) -> ArtifactReference {
             "number":6000, "body":format!("Closes #{issue}"),
             "created_at":"2026-08-06T00:00:00Z", "closed_at":"2026-08-06T00:02:00Z",
             "merged_at":"2026-08-06T00:02:00Z",
+            "ci_started_at":"2026-08-06T00:00:00Z",
+            "ci_completed_at":"2026-08-06T00:01:00Z",
             "base":{"repo":{"full_name":"agent-logic/agent-design-language"}}
         }),
     );
-    let validation = write_json(
+    let validation_report = write_json(
         root,
         &format!("{base}/pvf.json"),
         &serde_json::json!({
             "schema":"csdlc.pvf_execution_report.v1", "disposition":"local_pass",
             "selected_waves":[["focused"]], "evidence":[{
                 "lane":"focused", "command":["cargo","nextest"], "purpose":"focused proof",
-                "status":"passed", "duration_ms":110000, "log_ref":null, "redaction_ok":true,
+                "status":"passed", "duration_ms":3600000, "log_ref":null, "redaction_ok":true,
                 "redactions_applied":0, "path_hygiene_ok":true
             }]
         }),
+    );
+    let validation = write_json(
+        root,
+        &format!("{base}/validation-source.json"),
+        &serde_json::to_value(ValidationSourceManifest {
+            schema: "csdlc.validation_source_manifest.v1".into(),
+            issue_record: lifecycle.clone(),
+            execution_report: validation_report,
+        })
+        .unwrap(),
     );
     let session = write_json(
         root,
         &format!("{base}/session.json"),
         &serde_json::json!({
             "schema_version":"issue_goal_metrics.v1", "issue_number":issue,
-            "data_source":"codex_goal_tool", "started_at":"2026-08-06T00:00:00Z",
-            "completed_at":"2026-08-06T00:16:40Z", "elapsed_seconds":1000,
-            "active_work_seconds":890, "elapsed_availability":"known",
+            "data_source":"codex_goal_tool", "model_ref":"gpt-5-codex",
+            "started_at":"2026-08-06T00:00:00Z",
+            "completed_at":"2026-08-06T06:00:00Z", "elapsed_seconds":21600,
+            "active_work_seconds":18000, "elapsed_availability":"known",
             "active_work_availability":"known", "token_usage":{
-                "availability":"known", "total_tokens":22000
+                "availability":"known", "total_tokens":80000
             }
         }),
     );
@@ -138,13 +188,14 @@ fn source_manifest(root: &Path, issue: u64) -> ArtifactReference {
         &format!("{base}/operator.json"),
         &serde_json::json!({
             "schema":"csdlc.operator_timing_source.v1", "issue":issue,
-            "source":"operator_annotation", "wait_intervals":[], "interrupted":false
+            "source":"operator_annotation", "wait_intervals":[{
+                "started_unix_seconds":100, "completed_unix_seconds":110
+            }], "reconnect_actions":2, "interrupted":false
         }),
     );
     let manifest = ObservationManifest {
         schema: "csdlc.estimation_observation_manifest.v1".into(),
         issue,
-        key: key(),
         lifecycle: Some(lifecycle),
         github: Some(github),
         validation: Some(validation),
@@ -154,6 +205,29 @@ fn source_manifest(root: &Path, issue: u64) -> ArtifactReference {
     write_json(
         root,
         &format!("{base}/terminal-observation-manifest.json"),
+        &serde_json::to_value(manifest).unwrap(),
+    )
+}
+
+fn rewrite_session_measurements(
+    root: &Path,
+    manifest_ref: &ArtifactReference,
+    completed_at: &str,
+    elapsed_seconds: u64,
+    active_work_seconds: u64,
+    total_tokens: u64,
+) -> ArtifactReference {
+    let mut manifest: ObservationManifest = load_verified_json(root, manifest_ref).unwrap();
+    let session_ref = manifest.session.clone().unwrap();
+    let mut session: serde_json::Value = load_verified_json(root, &session_ref).unwrap();
+    session["completed_at"] = completed_at.into();
+    session["elapsed_seconds"] = elapsed_seconds.into();
+    session["active_work_seconds"] = active_work_seconds.into();
+    session["token_usage"]["total_tokens"] = total_tokens.into();
+    manifest.session = Some(write_json(root, &session_ref.reference, &session));
+    write_json(
+        root,
+        &manifest_ref.reference,
         &serde_json::to_value(manifest).unwrap(),
     )
 }
@@ -168,7 +242,16 @@ fn verified_fixture_calibration(root: &Path) -> csdlc_v2::VerifiedCalibration {
             &format!(".csdlc/evidence/99/{issue}-forecast.json"),
             &serde_json::to_value(&predicted).unwrap(),
         );
-        let actual = observation(issue, 21_600, 3_600, 80_000);
+        let actual_ref = source_manifest(root, issue);
+        let actual_ref = rewrite_session_measurements(
+            root,
+            &actual_ref,
+            "2026-08-06T05:55:00Z",
+            21_300,
+            17_700,
+            79_000,
+        );
+        let actual = load_observation_manifest(root, &actual_ref).unwrap();
         let outcome = terminal_outcome(&predicted, forecast_ref.clone(), &actual).unwrap();
         let outcome_ref = write_json(
             root,
@@ -178,6 +261,7 @@ fn verified_fixture_calibration(root: &Path) -> csdlc_v2::VerifiedCalibration {
         entries.push(CalibrationCaseArtifacts {
             issue,
             forecast: forecast_ref,
+            actual_observation: actual_ref,
             outcome: outcome_ref,
         });
         cases.push(BacktestCase {
@@ -212,10 +296,12 @@ fn adapters_derive_identity_and_measurements_from_verified_retained_sources() {
     let manifest = source_manifest(&root, 5822);
     let joined = load_observation_manifest(&root, &manifest).unwrap();
     assert_eq!(joined.issue, 5822);
-    assert_eq!(joined.elapsed_seconds.value, Some(1000));
-    assert_eq!(joined.validation_seconds.value, Some(110));
+    assert_eq!(joined.elapsed_seconds.value, Some(21_600));
+    assert_eq!(joined.validation_seconds.value, Some(3_600));
     assert_eq!(joined.pr_wait_seconds.value, Some(120));
-    assert_eq!(joined.total_tokens.value, Some(22_000));
+    assert_eq!(joined.operator_wait_seconds.value, Some(10));
+    assert_eq!(joined.reconnect_actions.value, Some(2));
+    assert_eq!(joined.total_tokens.value, Some(80_000));
 
     fs::write(root.join(".csdlc/evidence/5822/session.json"), b"{}\n").unwrap();
     assert!(load_observation_manifest(&root, &manifest).is_err());
@@ -229,7 +315,8 @@ fn source_identity_mismatch_and_missing_sources_fail_closed() {
     let session = manifest_value.session.unwrap();
     fs::write(root.join(&session.reference), serde_json::to_vec(&serde_json::json!({
         "schema_version":"issue_goal_metrics.v1", "issue_number":9999,
-        "data_source":"codex_goal_tool", "started_at":"2026-08-06T00:00:00Z",
+        "data_source":"codex_goal_tool", "model_ref":"gpt-5-codex",
+        "started_at":"2026-08-06T00:00:00Z",
         "completed_at":"2026-08-06T00:00:01Z", "elapsed_seconds":1,
         "active_work_seconds":1, "elapsed_availability":"known",
         "active_work_availability":"known", "token_usage":{"availability":"known","total_tokens":1}
@@ -248,7 +335,8 @@ fn source_identity_mismatch_and_missing_sources_fail_closed() {
         root.join(&session.reference),
         serde_json::to_vec(&serde_json::json!({
             "schema_version":"issue_goal_metrics.v1", "issue_number":5822,
-            "data_source":"codex_goal_tool", "started_at":"2026-08-06T00:00:00Z",
+            "data_source":"codex_goal_tool", "model_ref":"gpt-5-codex",
+            "started_at":"2026-08-06T00:00:00Z",
             "completed_at":"2026-08-06T00:00:02Z", "elapsed_seconds":999,
             "active_work_seconds":1, "elapsed_availability":"known",
             "active_work_availability":"known", "token_usage":{"availability":"known","total_tokens":1}
@@ -264,6 +352,26 @@ fn source_identity_mismatch_and_missing_sources_fail_closed() {
         &serde_json::to_value(mismatch).unwrap(),
     );
     assert!(load_observation_manifest(&root, &mismatch_ref).is_err());
+
+    let clean = source_manifest(&root, 5822);
+    let mut clean_manifest: ObservationManifest = load_verified_json(&root, &clean).unwrap();
+    let validation_ref = clean_manifest.validation.clone().unwrap();
+    let mut validation: ValidationSourceManifest =
+        load_verified_json(&root, &validation_ref).unwrap();
+    let other = source_manifest(&root, 9999);
+    let other_manifest: ObservationManifest = load_verified_json(&root, &other).unwrap();
+    validation.issue_record = other_manifest.lifecycle.unwrap();
+    clean_manifest.validation = Some(write_json(
+        &root,
+        ".csdlc/evidence/5822/forged-validation-source.json",
+        &serde_json::to_value(validation).unwrap(),
+    ));
+    let forged_validation = write_json(
+        &root,
+        ".csdlc/evidence/5822/forged-validation-observation.json",
+        &serde_json::to_value(clean_manifest).unwrap(),
+    );
+    assert!(load_observation_manifest(&root, &forged_validation).is_err());
     assert!(artifact_reference(&root, ".csdlc/evidence/5822/missing.json").is_err());
 }
 
@@ -292,6 +400,46 @@ fn verified_calibration_is_loader_only_reproducible_and_tamper_evident() {
     let calibration = verified_fixture_calibration(&root);
     fs::write(root.join(&calibration.artifact().reference), b"{}\n").unwrap();
     assert!(verified_calibration(&root, calibration.artifact().clone()).is_err());
+
+    let calibration = verified_fixture_calibration(&root);
+    let mut manifest: CalibrationManifest =
+        load_verified_json(&root, &calibration.report().source_manifest).unwrap();
+    let first = &mut manifest.cases[0];
+    let mut favorable: TerminalOutcome = load_verified_json(&root, &first.outcome).unwrap();
+    for metric in [
+        &mut favorable.elapsed_seconds,
+        &mut favorable.validation_seconds,
+        &mut favorable.total_tokens,
+    ] {
+        metric.actual = Some(metric.forecast);
+        metric.absolute_error = Some(0);
+        metric.error_basis_points = Some(0);
+    }
+    first.outcome = write_json(
+        &root,
+        &first.outcome.reference,
+        &serde_json::to_value(favorable).unwrap(),
+    );
+    let manifest_ref = write_json(
+        &root,
+        &calibration.report().source_manifest.reference,
+        &serde_json::to_value(&manifest).unwrap(),
+    );
+    let mut forged_cases = Vec::new();
+    for entry in &manifest.cases {
+        forged_cases.push(BacktestCase {
+            issue: entry.issue,
+            forecast: load_verified_json(&root, &entry.forecast).unwrap(),
+            outcome: load_verified_json(&root, &entry.outcome).unwrap(),
+        });
+    }
+    let forged_report = calibration_report(&forged_cases, 500, manifest_ref).unwrap();
+    let forged_report_ref = write_json(
+        &root,
+        ".csdlc/evidence/99/forged-calibration.json",
+        &serde_json::to_value(forged_report).unwrap(),
+    );
+    assert!(verified_calibration(&root, forged_report_ref).is_err());
 }
 
 #[test]
@@ -355,42 +503,41 @@ fn missing_or_failed_calibration_forces_static_fallback() {
 #[test]
 fn cycle_comparison_derives_basis_gates_and_totals_from_verified_artifacts() {
     let root = fastwork_root("cycle");
-    let source = write_json(
+    let baseline_observation = source_manifest(&root, 101);
+    let candidate_observation = source_manifest(&root, 102);
+    let mut candidate_manifest: ObservationManifest =
+        load_verified_json(&root, &candidate_observation).unwrap();
+    let candidate_session = candidate_manifest.session.clone().unwrap();
+    let mut session: serde_json::Value = load_verified_json(&root, &candidate_session).unwrap();
+    session["completed_at"] = "2026-08-06T05:00:00Z".into();
+    session["elapsed_seconds"] = 18_000.into();
+    session["active_work_seconds"] = 14_400.into();
+    let rewritten_session = write_json(&root, &candidate_session.reference, &session);
+    candidate_manifest.session = Some(rewritten_session);
+    let candidate_observation = write_json(
         &root,
-        ".csdlc/evidence/99/session.json",
-        &serde_json::json!({"actual":"retained"}),
+        &candidate_observation.reference,
+        &serde_json::to_value(candidate_manifest).unwrap(),
     );
-    let cohort = |id: &str, active: u64| CycleTimeEvidence {
-        schema: "csdlc.cycle_time_evidence.v1".into(),
-        id: id.into(),
-        comparison_key: key(),
-        preserved_gates: vec!["validation".into(), "review".into()],
-        issues: vec![CycleIssueTiming {
-            issue: 1,
-            active_work_seconds: Some(active),
-            validation_seconds: Some(10),
-            review_seconds: Some(10),
-            ci_seconds: Some(10),
-            wait_seconds: Some(0),
-            reconnect_actions: Some(1),
-        }],
-        provenance: vec![source.clone()],
+    let cohort = |observation: ArtifactReference| CycleTimeEvidence {
+        schema: "csdlc.cycle_time_evidence.v2".into(),
+        observations: vec![observation],
     };
     let baseline = write_json(
         &root,
         ".csdlc/evidence/99/baseline.json",
-        &serde_json::to_value(cohort("baseline", 100)).unwrap(),
+        &serde_json::to_value(cohort(baseline_observation)).unwrap(),
     );
     let candidate = write_json(
         &root,
         ".csdlc/evidence/99/candidate.json",
-        &serde_json::to_value(cohort("candidate", 80)).unwrap(),
+        &serde_json::to_value(cohort(candidate_observation.clone())).unwrap(),
     );
     let comparison = compare_cycle_time(&root, &baseline, &candidate).unwrap();
     assert_eq!(comparison.status, CycleTimeComparisonStatus::Comparable);
-    assert_eq!(comparison.elapsed_reduction_seconds, 20);
+    assert_eq!(comparison.elapsed_reduction_seconds, 3_600);
 
-    fs::write(root.join(&source.reference), b"tampered\n").unwrap();
+    fs::write(root.join(&candidate_session.reference), b"tampered\n").unwrap();
     assert!(compare_cycle_time(&root, &baseline, &candidate).is_err());
     let missing = ArtifactReference {
         reference: ".csdlc/evidence/99/missing.json".into(),
@@ -400,23 +547,24 @@ fn cycle_comparison_derives_basis_gates_and_totals_from_verified_artifacts() {
 }
 
 #[test]
-fn retained_cycle_baseline_is_byte_verified_and_derived_from_real_evidence() {
+fn retained_cycle_boundary_does_not_claim_a_nonterminal_sample_as_terminal() {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .unwrap()
         .to_path_buf();
-    let artifact =
-        artifact_reference(&root, ".csdlc/evidence/5822/cycle-time-baseline.json").unwrap();
-    let baseline = load_cycle_time_evidence(&root, &artifact).unwrap();
-    assert_eq!(baseline.issue_count, 1);
-    assert_eq!(baseline.active_work_seconds, 321);
-    assert!(baseline
-        .unknown_components
-        .contains(&"validation_seconds".into()));
+    assert!(!root
+        .join(".csdlc/evidence/5822/cycle-time-baseline.json")
+        .exists());
+    let boundary: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(".csdlc/evidence/5822/cycle-time-evidence-boundary.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(boundary["status"], "blocked_no_equivalent_terminal_cohorts");
+    assert_eq!(boundary["ac7_satisfied"], false);
 }
 
 #[test]
-fn finish_records_available_actuals_instead_of_unconditional_unknowns() {
+fn finish_records_available_actuals_even_when_the_estimate_is_deferred() {
     let root = fastwork_root("finish");
     assert!(Command::new("git")
         .args(["init", "--quiet"])
@@ -449,7 +597,7 @@ fn finish_records_available_actuals_instead_of_unconditional_unknowns() {
     let accepted = AcceptedEstimate {
         forecast_ref: forecast_ref.reference.clone(),
         forecast_digest: forecast_ref.digest.clone(),
-        disposition: EstimateDisposition::Accepted,
+        disposition: EstimateDisposition::Deferred,
         advisory_only: true,
         adjusted: None,
         operator_rationale: "verified fixture".into(),
@@ -485,7 +633,7 @@ fn finish_records_available_actuals_instead_of_unconditional_unknowns() {
     let result = retain_terminal_estimation_outcome(&store, &terminal);
     assert_eq!(
         result.status,
-        TerminalEstimationStatus::Recorded,
+        TerminalEstimationStatus::Deferred,
         "{}",
         result.detail
     );
@@ -493,9 +641,9 @@ fn finish_records_available_actuals_instead_of_unconditional_unknowns() {
         &fs::read(root.join(".git/csdlc-v2/derived-terminal/5822.estimation.json")).unwrap(),
     )
     .unwrap();
-    assert_eq!(outcome["elapsed_seconds"]["actual"], 1000);
-    assert_eq!(outcome["validation_seconds"]["actual"], 110);
-    assert_eq!(outcome["total_tokens"]["actual"], 22000);
+    assert_eq!(outcome["elapsed_seconds"]["actual"], 21600);
+    assert_eq!(outcome["validation_seconds"]["actual"], 3600);
+    assert_eq!(outcome["total_tokens"]["actual"], 80000);
 }
 
 #[test]

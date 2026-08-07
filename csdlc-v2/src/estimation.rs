@@ -11,6 +11,7 @@ use time::OffsetDateTime;
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::IssueRecord;
 use crate::pvf::ExecutionReport;
+use crate::store::record_digest;
 
 pub const OBSERVATION_SCHEMA: &str = "csdlc.estimation_observation.v1";
 pub const FORECAST_SCHEMA: &str = "csdlc.estimation_forecast.v1";
@@ -96,6 +97,8 @@ pub struct Observation {
     pub validation_seconds: MetricObservation,
     pub pr_wait_seconds: MetricObservation,
     pub ci_wait_seconds: MetricObservation,
+    pub operator_wait_seconds: MetricObservation,
+    pub reconnect_actions: MetricObservation,
     pub total_tokens: MetricObservation,
 }
 
@@ -103,12 +106,18 @@ pub struct Observation {
 pub struct ObservationManifest {
     pub schema: String,
     pub issue: u64,
-    pub key: ComparableKey,
     pub lifecycle: Option<ArtifactReference>,
     pub github: Option<ArtifactReference>,
     pub validation: Option<ArtifactReference>,
     pub session: Option<ArtifactReference>,
     pub operator: Option<ArtifactReference>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct ValidationSourceManifest {
+    pub schema: String,
+    pub issue_record: ArtifactReference,
+    pub execution_report: ArtifactReference,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -261,6 +270,7 @@ pub struct CalibrationManifest {
 pub struct CalibrationCaseArtifacts {
     pub issue: u64,
     pub forecast: ArtifactReference,
+    pub actual_observation: ArtifactReference,
     pub outcome: ArtifactReference,
 }
 
@@ -270,7 +280,7 @@ pub struct CycleTimeCohort {
     pub issue_count: usize,
     pub active_work_seconds: u64,
     pub validation_seconds: u64,
-    pub review_seconds: u64,
+    pub pr_lifecycle_seconds: u64,
     pub ci_seconds: u64,
     pub wait_seconds: u64,
     pub reconnect_actions: u64,
@@ -285,22 +295,7 @@ pub struct CycleTimeCohort {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct CycleTimeEvidence {
     pub schema: String,
-    pub id: String,
-    pub comparison_key: ComparableKey,
-    pub issues: Vec<CycleIssueTiming>,
-    pub preserved_gates: Vec<String>,
-    pub provenance: Vec<ArtifactReference>,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
-pub struct CycleIssueTiming {
-    pub issue: u64,
-    pub active_work_seconds: Option<u64>,
-    pub validation_seconds: Option<u64>,
-    pub review_seconds: Option<u64>,
-    pub ci_seconds: Option<u64>,
-    pub wait_seconds: Option<u64>,
-    pub reconnect_actions: Option<u64>,
+    pub observations: Vec<ArtifactReference>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -331,6 +326,8 @@ struct GithubSource {
     created_at: String,
     closed_at: Option<String>,
     merged_at: Option<String>,
+    ci_started_at: Option<String>,
+    ci_completed_at: Option<String>,
     base: GithubBase,
 }
 
@@ -349,6 +346,7 @@ struct SessionSource {
     schema_version: String,
     issue_number: u64,
     data_source: String,
+    model_ref: String,
     started_at: String,
     completed_at: String,
     elapsed_seconds: Option<u64>,
@@ -370,6 +368,7 @@ struct OperatorSource {
     issue: u64,
     source: String,
     wait_intervals: Vec<OperatorInterval>,
+    reconnect_actions: u64,
     interrupted: bool,
 }
 
@@ -384,39 +383,77 @@ pub fn load_observation_manifest(root: &Path, artifact: &ArtifactReference) -> R
     if manifest.schema != "csdlc.estimation_observation_manifest.v1" || manifest.issue == 0 {
         return invalid("observation manifest identity is invalid");
     }
+    let key = derive_observation_key(root, &manifest)?;
     let mut fragments = Vec::new();
     if let Some(source) = &manifest.lifecycle {
-        fragments.push(adapt_lifecycle(root, source, &manifest)?);
+        fragments.push(adapt_lifecycle(root, source, &manifest, &key)?);
     }
     if let Some(source) = &manifest.github {
-        fragments.push(adapt_github(root, source, &manifest)?);
+        fragments.push(adapt_github(root, source, &manifest, &key)?);
     }
     if let Some(source) = &manifest.validation {
-        fragments.push(adapt_validation(root, source, &manifest)?);
+        fragments.push(adapt_validation(root, source, &manifest, &key)?);
     }
     if let Some(source) = &manifest.session {
-        fragments.push(adapt_session(root, source, &manifest)?);
+        fragments.push(adapt_session(root, source, &manifest, &key)?);
     }
     if let Some(source) = &manifest.operator {
-        fragments.push(adapt_operator(root, source, &manifest)?);
+        fragments.push(adapt_operator(root, source, &manifest, &key)?);
     }
     join_observations(fragments)
+}
+
+fn derive_observation_key(root: &Path, manifest: &ObservationManifest) -> Result<ComparableKey> {
+    let lifecycle_ref = manifest.lifecycle.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "observation identity requires lifecycle evidence",
+        )
+    })?;
+    let session_ref = manifest.session.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "observation identity requires session evidence",
+        )
+    })?;
+    let lifecycle: IssueRecord = load_verified_json(root, lifecycle_ref)?;
+    verify_issue_record(&lifecycle)?;
+    let session: SessionSource = load_verified_json(root, session_ref)?;
+    if lifecycle.issue != manifest.issue
+        || session.issue_number != manifest.issue
+        || lifecycle.repository.trim().is_empty()
+        || lifecycle.schema.trim().is_empty()
+        || session.model_ref.trim().is_empty()
+    {
+        return invalid(
+            "retained lifecycle and session sources do not prove one observation identity",
+        );
+    }
+    Ok(ComparableKey {
+        cohort: lifecycle.repository,
+        workflow_version: lifecycle.schema,
+        model_era: session.model_ref,
+    })
 }
 
 fn adapt_lifecycle(
     root: &Path,
     artifact: &ArtifactReference,
     manifest: &ObservationManifest,
+    key: &ComparableKey,
 ) -> Result<Observation> {
     let source: IssueRecord = load_verified_json(root, artifact)?;
+    verify_issue_record(&source)?;
     if source.issue != manifest.issue || source.repository.trim().is_empty() {
         return invalid("lifecycle source does not match observation manifest");
     }
     Ok(fragment(
         manifest.issue,
-        manifest.key.clone(),
+        key.clone(),
         artifact.reference.clone(),
         ObservationSource::Lifecycle,
+        None,
+        None,
         None,
         None,
         None,
@@ -431,6 +468,7 @@ fn adapt_github(
     root: &Path,
     artifact: &ArtifactReference,
     manifest: &ObservationManifest,
+    key: &ComparableKey,
 ) -> Result<Observation> {
     let source: GithubSource = load_verified_json(root, artifact)?;
     let closing_marker = format!("Closes #{}", manifest.issue);
@@ -447,15 +485,24 @@ fn adapt_github(
         .or(source.closed_at.as_deref())
         .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "GitHub source is not terminal"))?;
     let pr_wait = checked_elapsed(opened, parse_rfc3339(terminal)?)?;
+    let ci_wait = match (&source.ci_started_at, &source.ci_completed_at) {
+        (Some(start), Some(end)) => {
+            Some(checked_elapsed(parse_rfc3339(start)?, parse_rfc3339(end)?)?)
+        }
+        (None, None) => None,
+        _ => return invalid("GitHub source has incomplete CI timing"),
+    };
     fragment(
         manifest.issue,
-        manifest.key.clone(),
+        key.clone(),
         artifact.reference.clone(),
         ObservationSource::Github,
         None,
         None,
         None,
         Some(pr_wait),
+        ci_wait,
+        None,
         None,
         None,
         false,
@@ -466,8 +513,18 @@ fn adapt_validation(
     root: &Path,
     artifact: &ArtifactReference,
     manifest: &ObservationManifest,
+    key: &ComparableKey,
 ) -> Result<Observation> {
-    let report: ExecutionReport = load_verified_json(root, artifact)?;
+    let source: ValidationSourceManifest = load_verified_json(root, artifact)?;
+    if source.schema != "csdlc.validation_source_manifest.v1" {
+        return invalid("validation source manifest schema is invalid");
+    }
+    let identity: IssueRecord = load_verified_json(root, &source.issue_record)?;
+    verify_issue_record(&identity)?;
+    if identity.issue != manifest.issue {
+        return invalid("validation source identity does not match observation manifest");
+    }
+    let report: ExecutionReport = load_verified_json(root, &source.execution_report)?;
     if report.schema.trim().is_empty() || report.evidence.is_empty() {
         return invalid("validation source has no retained lane evidence");
     }
@@ -484,12 +541,14 @@ fn adapt_validation(
     });
     fragment(
         manifest.issue,
-        manifest.key.clone(),
-        artifact.reference.clone(),
+        key.clone(),
+        source.execution_report.reference.clone(),
         ObservationSource::Validation,
         None,
         None,
         passed.then_some(validation),
+        None,
+        None,
         None,
         None,
         None,
@@ -501,11 +560,13 @@ fn adapt_session(
     root: &Path,
     artifact: &ArtifactReference,
     manifest: &ObservationManifest,
+    key: &ComparableKey,
 ) -> Result<Observation> {
     let source: SessionSource = load_verified_json(root, artifact)?;
     if source.schema_version != "issue_goal_metrics.v1"
         || source.issue_number != manifest.issue
         || source.data_source != "codex_goal_tool"
+        || source.model_ref.trim().is_empty()
     {
         return invalid("session source is not authoritative for the observation manifest");
     }
@@ -518,7 +579,7 @@ fn adapt_session(
     }
     fragment(
         manifest.issue,
-        manifest.key.clone(),
+        key.clone(),
         artifact.reference.clone(),
         ObservationSource::Session,
         (source.elapsed_availability == "known").then_some(elapsed),
@@ -531,6 +592,8 @@ fn adapt_session(
         (source.token_usage.availability == "known")
             .then_some(source.token_usage.total_tokens)
             .flatten(),
+        None,
+        None,
         false,
     )
 }
@@ -539,6 +602,7 @@ fn adapt_operator(
     root: &Path,
     artifact: &ArtifactReference,
     manifest: &ObservationManifest,
+    key: &ComparableKey,
 ) -> Result<Observation> {
     let source: OperatorSource = load_verified_json(root, artifact)?;
     if source.schema != "csdlc.operator_timing_source.v1"
@@ -547,7 +611,7 @@ fn adapt_operator(
     {
         return invalid("operator source is not authoritative for the observation manifest");
     }
-    let _wait = source
+    let wait = source
         .wait_intervals
         .iter()
         .try_fold(0_u64, |total, interval| {
@@ -558,7 +622,7 @@ fn adapt_operator(
         })?;
     fragment(
         manifest.issue,
-        manifest.key.clone(),
+        key.clone(),
         artifact.reference.clone(),
         ObservationSource::OperatorAnnotation,
         None,
@@ -567,6 +631,8 @@ fn adapt_operator(
         None,
         None,
         None,
+        Some(wait),
+        Some(source.reconnect_actions),
         source.interrupted,
     )
 }
@@ -616,6 +682,11 @@ pub fn join_observations(mut fragments: Vec<Observation>) -> Result<Observation>
         merge_metric(&mut joined.validation_seconds, fragment.validation_seconds)?;
         merge_metric(&mut joined.pr_wait_seconds, fragment.pr_wait_seconds)?;
         merge_metric(&mut joined.ci_wait_seconds, fragment.ci_wait_seconds)?;
+        merge_metric(
+            &mut joined.operator_wait_seconds,
+            fragment.operator_wait_seconds,
+        )?;
+        merge_metric(&mut joined.reconnect_actions, fragment.reconnect_actions)?;
         merge_metric(&mut joined.total_tokens, fragment.total_tokens)?;
     }
     validate_observation(&joined)?;
@@ -832,8 +903,12 @@ pub fn compare_cycle_time(
     let baseline = load_cycle_time_evidence(root, baseline_artifact)?;
     let candidate = load_cycle_time_evidence(root, candidate_artifact)?;
     let comparison_basis_equal = baseline.comparison_key == candidate.comparison_key;
-    let gates_preserved = baseline.preserved_gates == candidate.preserved_gates
-        && !baseline.preserved_gates.is_empty();
+    let required_gates: Vec<String> = ["validation", "review", "publication", "merge", "closeout"]
+        .into_iter()
+        .map(str::to_string)
+        .collect();
+    let gates_preserved =
+        baseline.preserved_gates == required_gates && candidate.preserved_gates == required_gates;
     let baseline_total = cohort_total(&baseline);
     let candidate_total = cohort_total(&candidate);
     let comparable = comparison_basis_equal
@@ -926,14 +1001,25 @@ pub fn verified_calibration(
     let mut cases = Vec::new();
     for entry in &manifest.cases {
         let forecast: Forecast = load_verified_json(root, &entry.forecast)?;
+        let actual = load_observation_manifest(root, &entry.actual_observation)?;
         let outcome: TerminalOutcome = load_verified_json(root, &entry.outcome)?;
-        if entry.issue != forecast.target_issue || entry.issue != outcome.issue {
+        if entry.issue != forecast.target_issue
+            || entry.issue != actual.issue
+            || entry.issue != outcome.issue
+        {
             return invalid("calibration source case identity is inconsistent");
         }
         if outcome.forecast_digest != entry.forecast.digest
             || outcome.forecast_ref != entry.forecast.reference
         {
             return invalid("calibration outcome is not linked to its forecast bytes");
+        }
+        let derived = terminal_outcome(&forecast, entry.forecast.clone(), &actual)?;
+        if derived != outcome {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "calibration outcome does not reproduce from its verified actual sources",
+            ));
         }
         cases.push(BacktestCase {
             issue: entry.issue,
@@ -982,13 +1068,15 @@ pub fn estimation_schema_bundle() -> serde_json::Value {
     })
 }
 
-fn metrics(observation: &Observation) -> [&MetricObservation; 6] {
+fn metrics(observation: &Observation) -> [&MetricObservation; 8] {
     [
         &observation.elapsed_seconds,
         &observation.active_work_seconds,
         &observation.validation_seconds,
         &observation.pr_wait_seconds,
         &observation.ci_wait_seconds,
+        &observation.operator_wait_seconds,
+        &observation.reconnect_actions,
         &observation.total_tokens,
     ]
 }
@@ -1036,6 +1124,8 @@ fn fragment(
     pr_wait_seconds: Option<u64>,
     ci_wait_seconds: Option<u64>,
     total_tokens: Option<u64>,
+    operator_wait_seconds: Option<u64>,
+    reconnect_actions: Option<u64>,
     interrupted: bool,
 ) -> Result<Observation> {
     if issue == 0 {
@@ -1063,6 +1153,8 @@ fn fragment(
         validation_seconds: metric(validation_seconds),
         pr_wait_seconds: metric(pr_wait_seconds),
         ci_wait_seconds: metric(ci_wait_seconds),
+        operator_wait_seconds: metric(operator_wait_seconds),
+        reconnect_actions: metric(reconnect_actions),
         total_tokens: metric(total_tokens),
     };
     validate_observation(&observation)?;
@@ -1245,27 +1337,45 @@ fn cohort_total(cohort: &CycleTimeCohort) -> u64 {
     cohort
         .active_work_seconds
         .saturating_add(cohort.validation_seconds)
-        .saturating_add(cohort.review_seconds)
+        .saturating_add(cohort.pr_lifecycle_seconds)
         .saturating_add(cohort.ci_seconds)
         .saturating_add(cohort.wait_seconds)
 }
 
 fn derive_cycle_cohort(root: &Path, source: CycleTimeEvidence) -> Result<CycleTimeCohort> {
-    if source.schema != "csdlc.cycle_time_evidence.v1"
-        || source.id.trim().is_empty()
-        || source.issues.is_empty()
-        || source.provenance.is_empty()
-    {
+    if source.schema != "csdlc.cycle_time_evidence.v2" || source.observations.is_empty() {
         return invalid("cycle-time source is incomplete");
     }
     let mut issue_ids = BTreeSet::new();
-    for issue in &source.issues {
-        if issue.issue == 0 || !issue_ids.insert(issue.issue) {
+    let mut observations = Vec::new();
+    let mut provenance = Vec::new();
+    let mut comparison_key = None;
+    let mut preserved_gates = None;
+    for artifact in &source.observations {
+        let manifest: ObservationManifest = load_verified_json(root, artifact)?;
+        let observation = load_observation_manifest(root, artifact)?;
+        if !issue_ids.insert(observation.issue) {
             return invalid("cycle-time source contains an invalid or duplicate issue");
         }
-    }
-    for artifact in &source.provenance {
-        let _: serde_json::Value = load_verified_json(root, artifact)?;
+        if comparison_key
+            .as_ref()
+            .is_some_and(|key| key != &observation.key)
+        {
+            return invalid("cycle-time observations do not share a source-derived identity");
+        }
+        comparison_key.get_or_insert_with(|| observation.key.clone());
+        let gates = derive_preserved_gates(root, &manifest)?;
+        if preserved_gates
+            .as_ref()
+            .is_some_and(|known| known != &gates)
+        {
+            return invalid(
+                "cycle-time observations do not preserve identical source-derived gates",
+            );
+        }
+        preserved_gates.get_or_insert(gates);
+        provenance.push(artifact.clone());
+        observations.push(observation);
     }
     let mut unknown = BTreeSet::new();
     let sum = |name: &str, values: Vec<Option<u64>>, unknown: &mut BTreeSet<String>| {
@@ -1279,70 +1389,146 @@ fn derive_cycle_cohort(root: &Path, source: CycleTimeEvidence) -> Result<CycleTi
     };
     let active_work_seconds = sum(
         "active_work_seconds",
-        source
-            .issues
+        observations
             .iter()
-            .map(|item| item.active_work_seconds)
+            .map(|item| item.active_work_seconds.value)
             .collect(),
         &mut unknown,
     );
     let validation_seconds = sum(
         "validation_seconds",
-        source
-            .issues
+        observations
             .iter()
-            .map(|item| item.validation_seconds)
+            .map(|item| item.validation_seconds.value)
             .collect(),
         &mut unknown,
     );
-    let review_seconds = sum(
-        "review_seconds",
-        source
-            .issues
+    let pr_lifecycle_seconds = sum(
+        "pr_lifecycle_seconds",
+        observations
             .iter()
-            .map(|item| item.review_seconds)
+            .map(|item| item.pr_wait_seconds.value)
             .collect(),
         &mut unknown,
     );
     let ci_seconds = sum(
         "ci_seconds",
-        source.issues.iter().map(|item| item.ci_seconds).collect(),
+        observations
+            .iter()
+            .map(|item| item.ci_wait_seconds.value)
+            .collect(),
         &mut unknown,
     );
     let wait_seconds = sum(
         "wait_seconds",
-        source.issues.iter().map(|item| item.wait_seconds).collect(),
+        observations
+            .iter()
+            .map(|item| item.operator_wait_seconds.value)
+            .collect(),
         &mut unknown,
     );
     let reconnect_actions = sum(
         "reconnect_actions",
-        source
-            .issues
+        observations
             .iter()
-            .map(|item| item.reconnect_actions)
+            .map(|item| item.reconnect_actions.value)
             .collect(),
         &mut unknown,
     );
     Ok(CycleTimeCohort {
-        id: source.id,
+        id: format!(
+            "issues-{}",
+            issue_ids
+                .iter()
+                .map(u64::to_string)
+                .collect::<Vec<_>>()
+                .join("-")
+        ),
         issue_count: issue_ids.len(),
         active_work_seconds,
         validation_seconds,
-        review_seconds,
+        pr_lifecycle_seconds,
         ci_seconds,
         wait_seconds,
         reconnect_actions,
         measured: true,
         unknown_components: unknown.into_iter().collect(),
-        provenance: source.provenance,
-        comparison_key: source.comparison_key,
-        preserved_gates: source.preserved_gates,
+        provenance,
+        comparison_key: comparison_key.expect("non-empty observations establish a key"),
+        preserved_gates: preserved_gates.expect("non-empty observations establish gates"),
     })
+}
+
+fn derive_preserved_gates(root: &Path, manifest: &ObservationManifest) -> Result<Vec<String>> {
+    let lifecycle_ref = manifest.lifecycle.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "cycle evidence requires lifecycle proof",
+        )
+    })?;
+    let validation_ref = manifest.validation.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "cycle evidence requires validation proof",
+        )
+    })?;
+    let lifecycle: IssueRecord = load_verified_json(root, lifecycle_ref)?;
+    verify_issue_record(&lifecycle)?;
+    let validation_manifest: ValidationSourceManifest = load_verified_json(root, validation_ref)?;
+    let validation_identity: IssueRecord =
+        load_verified_json(root, &validation_manifest.issue_record)?;
+    verify_issue_record(&validation_identity)?;
+    let report: ExecutionReport = load_verified_json(root, &validation_manifest.execution_report)?;
+    if lifecycle.issue != manifest.issue || validation_identity.issue != manifest.issue {
+        return invalid("cycle gate evidence does not match the observation issue");
+    }
+    let validation_passed = !report.evidence.is_empty()
+        && report.evidence.iter().all(|lane| {
+            matches!(
+                lane.status,
+                crate::pvf::LaneStatus::Passed | crate::pvf::LaneStatus::AcceptedNonGoal
+            )
+        });
+    let terminal_merged = lifecycle.terminal.as_ref().is_some_and(|terminal| {
+        terminal.disposition == crate::readiness::TerminalDisposition::Merged
+    });
+    let closed_out = lifecycle.phase == crate::model::LifecyclePhase::ClosedOut;
+    let mut gates = Vec::new();
+    if validation_passed {
+        gates.push("validation".into());
+    }
+    if lifecycle
+        .review
+        .as_ref()
+        .is_some_and(|review| review.completed)
+    {
+        gates.push("review".into());
+    }
+    if lifecycle.publication.is_some() {
+        gates.push("publication".into());
+    }
+    if terminal_merged {
+        gates.push("merge".into());
+    }
+    if closed_out {
+        gates.push("closeout".into());
+    }
+    Ok(gates)
 }
 
 fn signed_difference(left: u64, right: u64) -> i64 {
     let difference = i128::from(left) - i128::from(right);
     difference.clamp(i128::from(i64::MIN), i128::from(i64::MAX)) as i64
+}
+
+fn verify_issue_record(record: &IssueRecord) -> Result<()> {
+    if record.issue == 0 || record.digest != record_digest(record)? {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "retained issue record failed its canonical digest",
+        ));
+    }
+    Ok(())
 }
 
 fn invalid<T>(message: impl Into<String>) -> Result<T> {

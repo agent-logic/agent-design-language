@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-05] C-SDLC estimation and cycle-time reduction",
     "slug": "v0-92-wp-05-c-sdlc-estimation-and-cycle-time-reduction",
     "version": "v0.92",
-    "generation": 43
+    "generation": 46
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "estimation-contracts-exact-target",
-          "proof_role": "Prove byte-verified source adapters, unique cohorts, calibration loader integrity, static fallback, finish actual collection, cycle artifact verification, traversal rejection, and advisory semantics; zero tests fail.",
+          "proof_role": "Prove source-derived identity and measurements, recursive calibration verification, deferred finish retention, gate-derived cycle projections, traversal rejection, and advisory semantics; zero tests fail.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -33,12 +33,10 @@
           "budget_tokens": 9000,
           "argv": [
             "cargo",
-            "nextest",
-            "run",
+            "test",
             "--locked",
             "--manifest-path",
             "csdlc-v2/Cargo.toml",
-            "--no-tests=fail",
             "--test",
             "estimation_contracts"
           ],
@@ -46,24 +44,27 @@
           "defer_reason": null
         },
         {
-          "lane": "cycle-time-evidence-boundary",
-          "proof_role": "Validate the real retained terminal baseline and require candidate evidence to remain absent with no reduction claim until an equivalent terminal cohort exists.",
+          "lane": "cycle-time-comparison",
+          "proof_role": "Require real equivalent terminal baseline and candidate cohorts under identical source-derived validation, review, publication, merge, and closeout gates.",
           "acceptance_ids": [
-            "AC-7",
-            "AC-8"
+            "AC-7"
           ],
           "deterministic": true,
           "resource_profile": "small",
           "budget_seconds": 300,
           "budget_tokens": 2000,
           "argv": [
-            "ruby",
-            "-rjson",
-            "-e",
-            "b=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-baseline.json')); r=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-evidence-boundary.json')); abort('invalid boundary') unless b['schema']=='csdlc.cycle_time_evidence.v1' && b['issues'].length==1 && !b['provenance'].empty? && r['status']=='candidate_evidence_pending' && r['candidate_ref'].nil? && r['elapsed_reduction_seconds'].nil? && r['reconnect_action_reduction'].nil?"
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "estimation_contracts",
+            "cycle_comparison_derives_basis_gates_and_totals_from_verified_artifacts"
           ],
           "parallel_group": "analysis",
-          "defer_reason": null
+          "defer_reason": "Blocked: retained evidence contains no real equivalent terminal baseline and candidate cohort; issue 4617 was captured at PR publication while its issue and PR remained open."
         },
         {
           "lane": "diff-hygiene",

@@ -273,17 +273,6 @@ fn try_retain_terminal_estimation_outcome(
             ));
         }
     }
-    if matches!(
-        accepted.disposition,
-        EstimateDisposition::Rejected | EstimateDisposition::Deferred
-    ) {
-        return Ok(estimation_result(
-            terminal.issue,
-            TerminalEstimationStatus::Deferred,
-            "verified advisory artifacts; operator disposition does not request terminal comparison",
-        ));
-    }
-
     let terminal_ref = format!(
         "git-common:csdlc-v2/derived-terminal/{}.json",
         terminal.issue
@@ -305,6 +294,8 @@ fn try_retain_terminal_estimation_outcome(
         validation_seconds: unknown("validation_seconds_unavailable"),
         pr_wait_seconds: unknown("pr_wait_seconds_unavailable"),
         ci_wait_seconds: unknown("ci_wait_seconds_unavailable"),
+        operator_wait_seconds: unknown("operator_wait_seconds_unavailable"),
+        reconnect_actions: unknown("reconnect_actions_unavailable"),
         total_tokens: unknown("total_tokens_unavailable"),
     };
     let manifest_ref = format!(
@@ -331,13 +322,28 @@ fn try_retain_terminal_estimation_outcome(
     Ok(TerminalEstimationResult {
         schema: "csdlc.terminal_estimation_result.v1".into(),
         issue: terminal.issue,
-        status: TerminalEstimationStatus::Recorded,
+        status: if matches!(
+            accepted.disposition,
+            EstimateDisposition::Rejected | EstimateDisposition::Deferred
+        ) {
+            TerminalEstimationStatus::Deferred
+        } else {
+            TerminalEstimationStatus::Recorded
+        },
         outcome_ref: Some(format!(
             "git-common:csdlc-v2/derived-terminal/{}.estimation.json",
             terminal.issue
         )),
         outcome_digest: Some(digest),
-        detail: "verified advisory forecast and retained terminal outcome".into(),
+        detail: if matches!(
+            accepted.disposition,
+            EstimateDisposition::Rejected | EstimateDisposition::Deferred
+        ) {
+            "verified deferred advisory forecast and retained all available terminal observations"
+                .into()
+        } else {
+            "verified advisory forecast and retained terminal outcome".into()
+        },
     })
 }
 

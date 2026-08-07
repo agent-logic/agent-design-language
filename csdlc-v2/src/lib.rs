@@ -46,11 +46,11 @@ pub use estimation::{
     join_observations, load_cycle_time_evidence, load_observation_manifest, load_verified_json,
     terminal_outcome, validate_artifact_reference, validate_reference, verified_calibration,
     AcceptedEstimate, ArtifactReference, Availability, BacktestCase, CalibrationCaseArtifacts,
-    CalibrationManifest, CalibrationReport, ComparableKey, Confidence, CycleIssueTiming,
-    CycleTimeCohort, CycleTimeComparison, CycleTimeComparisonStatus, CycleTimeEvidence, DriftState,
+    CalibrationManifest, CalibrationReport, ComparableKey, Confidence, CycleTimeCohort,
+    CycleTimeComparison, CycleTimeComparisonStatus, CycleTimeEvidence, DriftState,
     EstimateDisposition, EstimateMethod, Forecast, ForecastRange, MetricComparison,
     MetricObservation, Observation, ObservationManifest, ObservationSource, Provenance,
-    StaticEstimate, TerminalOutcome, VerifiedCalibration,
+    StaticEstimate, TerminalOutcome, ValidationSourceManifest, VerifiedCalibration,
 };
 pub use finish::MergeMethod;
 pub use finish::{
