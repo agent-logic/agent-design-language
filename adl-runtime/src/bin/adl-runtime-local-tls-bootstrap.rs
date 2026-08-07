@@ -308,11 +308,13 @@ impl MacOsTrustTransaction {
                         .to_owned(),
                 )
             })?;
-            self.verify(certificate)?;
-            self.installed_candidate = Some(digest);
-            return Ok(());
+            if self.verify(certificate).is_ok() {
+                self.installed_candidate = Some(digest);
+                return Ok(());
+            }
+        } else {
+            self.write_receipt(&digest)?;
         }
-        self.write_receipt(&digest)?;
         if let Err(error) = run_security([
             "add-trusted-cert",
             "-r",
@@ -523,9 +525,16 @@ fn run_security<const N: usize>(args: [&str; N]) -> Result<(), LocalTlsError> {
     if output.status.success() {
         Ok(())
     } else {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        let detail = stderr.trim();
         Err(LocalTlsError::Trust(format!(
-            "security command failed with status {}",
-            output.status
+            "security command failed with status {}{}",
+            output.status,
+            if detail.is_empty() {
+                String::new()
+            } else {
+                format!(": {detail}")
+            }
         )))
     }
 }
