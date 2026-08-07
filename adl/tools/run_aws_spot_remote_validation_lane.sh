@@ -1047,13 +1047,15 @@ for index, relative in enumerate(paths):
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, destination)
 PY
+    local portable_redaction_status=0
+    python3 "$ROOT/adl/tools/aws_spot_artifact_redaction_verify.py" \
+      "$portable_artifact_root" || portable_redaction_status="$?"
     python3 - "$execution_receipt" "$PORTABLE_REQUEST" "$SOURCE_COMMIT" \
       "$started_unix_ms" "$finished_unix_ms" "$runner_status" "$finalize_status" \
-      "$OUT_PATH" <<'PY'
+      "$portable_redaction_status" "$OUT_PATH" <<'PY'
 import json
-import re
 import sys
-path, request_path, revision, started, finished, runner_status, finalize_status, summary_path = sys.argv[1:]
+path, request_path, revision, started, finished, runner_status, finalize_status, redaction_status, summary_path = sys.argv[1:]
 request = json.load(open(request_path, encoding="utf-8"))
 summary = json.load(open(summary_path, encoding="utf-8"))
 runner_status, finalize_status = int(runner_status), int(finalize_status)
@@ -1085,13 +1087,6 @@ fallback_allowed = (
     and cleanup_complete
     and request["fallback"] != "disabled"
 )
-retained = json.dumps(summary, sort_keys=True)
-redaction_passed = not any(re.search(pattern, retained) for pattern in (
-    r"/(?:Users|Volumes|private|var/folders)/",
-    r"arn:aws:",
-    r"\bi-[0-9a-f]{8,17}\b",
-    r"\b\d{12}\b",
-))
 payload = {
     "schema": "adl.remote_validation.adapter_execution.v1",
     "adapter": "aws",
@@ -1101,7 +1096,7 @@ payload = {
     "finished_unix_ms": int(finished),
     "exit_code": 0 if passed else (runner_status or finalize_status),
     "outcome": outcome,
-    "redaction_passed": redaction_passed,
+    "redaction_passed": int(redaction_status) == 0,
     "cleanup": {"attempted": True, "complete": cleanup_complete, "detail": None},
     "fallback": {
         "policy": request["fallback"],
