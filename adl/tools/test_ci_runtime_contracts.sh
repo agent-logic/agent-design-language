@@ -371,13 +371,30 @@ if ordinary_test != expected_ordinary_test:
 ordinary_test_if = step_optional_if("test")
 expected_ordinary_test_if = (
     "needs.adl_path_policy.outputs.full_coverage_required != 'true' && "
-    "(needs.adl_path_policy.outputs.validation_profile_escalation_required != 'true' || "
-    "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true')"
+    "needs.adl_path_policy.outputs.validation_profile_escalation_required != 'true' && "
+    "needs.adl_path_policy.outputs.ci_path_policy_contracts_required != 'true'"
 )
 if ordinary_test_if != expected_ordinary_test_if:
     raise SystemExit(
-        "ordinary adl-ci test lane must run the routing canary even when validation-manager escalation is selected; "
+        "ordinary adl-ci test lane must yield to the explicit routing canary; "
         f"found: {ordinary_test_if}"
+    )
+
+routing_canary_run = step_run("test (CI routing canary)")
+if routing_canary_run != "cargo nextest run --status-level all --final-status-level slow":
+    raise SystemExit(
+        "CI routing changes must execute the full nextest production canary; "
+        f"found: {routing_canary_run}"
+    )
+routing_canary_if = step_optional_if("test (CI routing canary)")
+expected_routing_canary_if = (
+    "needs.adl_path_policy.outputs.full_coverage_required != 'true' && "
+    "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'"
+)
+if routing_canary_if != expected_routing_canary_if:
+    raise SystemExit(
+        "CI routing canary must run whenever the routing contract changes; "
+        f"found: {routing_canary_if}"
     )
 
 escalated_test_if = step_optional_if("test deferred to validation-manager escalation")
@@ -937,15 +954,6 @@ if "runs-on: ubuntu-latest" in rust_test_job:
 rust_test_condition = rust_test_job.split("runs-on:", 1)[0]
 if "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'" not in rust_test_condition:
     raise SystemExit("CI routing changes must exercise adl-rust-tests on the selected runner")
-
-test_step_condition = step_if("test")
-for required_fragment in (
-    "needs.adl_path_policy.outputs.full_coverage_required != 'true'",
-    "needs.adl_path_policy.outputs.validation_profile_escalation_required != 'true'",
-    "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'",
-):
-    if required_fragment not in test_step_condition:
-        raise SystemExit(f"adl-rust-tests test step can skip the routing canary; missing {required_fragment}")
 
 deferred_test_condition = step_if("test deferred to validation-manager escalation")
 if "needs.adl_path_policy.outputs.ci_path_policy_contracts_required != 'true'" not in deferred_test_condition:
