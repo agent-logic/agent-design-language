@@ -1,0 +1,13 @@
+{
+  "issue": 5853,
+  "expected_generation": 15,
+  "expected_digest": "3607a07676753930de08a5fb7f8e1a61cb17e2382d95f55e1e8e6312a9821d1f",
+  "actor": "codex:5853-execution",
+  "card": "spp",
+  "reason": "Record the operator-authorized 16-core-only execution boundary and replace the obsolete standard-runner wave.",
+  "operation": {
+    "operation": "replan",
+    "field": "plan_summary",
+    "value": "Use the seven retained 16-core measurements to select the test-only command structure, route adl-rust-tests to the 16-core runner, remove the dispatch-only experiment harness, and require the implementation PR as the production canary."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "adl.wp02b.decision.v1",
+  "decision": "adopt",
+  "selected_route": "adl-rust-tests",
+  "selected_runner": "adl-ubuntu-24.04-16core",
+  "selected_structure": "test-only; no duplicate standalone cargo build",
+  "operator_boundary": "The paid 16-core runner is the selected production target; no new standard-runner comparison was authorized.",
+  "evidence": {
+    "successful_paid_runs": 8,
+    "cold_baseline_runs": 1,
+    "warm_baseline_runs": 3,
+    "test_only_canary_runs": 3,
+    "warm_baseline_seconds": [144, 151, 151],
+    "test_only_canary_seconds": [80, 80, 78],
+    "warm_baseline_p50_seconds": 151,
+    "warm_baseline_p95_seconds": 151,
+    "test_only_p50_seconds": 80,
+    "test_only_p95_seconds": 80,
+    "median_workload_reduction_fraction": 0.4702,
+    "candidate_reliability": 1.0,
+    "total_billed_minutes": 31,
+    "total_cost_usd": 1.302
+  },
+  "proof_boundary": "The retained experiment proves the runner, cache, toolchain, and command-structure decision for the selected Rust test lane. It does not claim a statistically powered comparison with ubuntu-latest or acceleration for other lanes.",
+  "rollback": "Change adl-rust-tests runs-on back to ubuntu-latest without changing test commands, check names, or branch protection."
+}

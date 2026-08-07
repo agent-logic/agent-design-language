@@ -12,55 +12,16 @@ on:
     branches:
       - main
   workflow_dispatch:
-    inputs:
-      build_acceleration_platform:
-        description: "WP-02B platform"
-        required: true
-        type: choice
-        default: none
-        options:
-          - none
-          - candidate
-      build_acceleration_cache_state:
-        description: "WP-02B cache state"
-        required: true
-        type: choice
-        default: cold
-        options:
-          - cold
-          - warm
-      build_acceleration_sample_role:
-        description: "WP-02B sample role"
-        required: true
-        type: choice
-        default: measurement
-        options:
-          - measurement
-          - cache_seed
-          - canary
-      build_acceleration_variant:
-        description: "WP-02B workload variant"
-        required: true
-        type: choice
-        default: baseline
-        options:
-          - baseline
-          - test_only
-      build_acceleration_run_id:
-        description: "Unique WP-02B run identifier"
-        required: false
-        type: string
   schedule:
     - cron: "17 10 * * *"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ inputs.build_acceleration_run_id || github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   adl_path_policy:
     name: adl-path-policy
-    if: inputs.build_acceleration_platform == '' || inputs.build_acceleration_platform == 'none'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -478,7 +439,7 @@ jobs:
     name: adl-rust-tests
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ubuntu-latest
+    runs-on: adl-ubuntu-24.04-16core
     permissions:
       contents: read
     defaults:
@@ -655,7 +616,7 @@ jobs:
       - adl_rust_tests
       - adl_demo_proof
       - adl_spot_ci_and_coverage
-    if: always() && (inputs.build_acceleration_platform == '' || inputs.build_acceleration_platform == 'none')
+    if: always()
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -1241,10 +1202,11 @@ jobs:
       - adl_coverage_runtime_hosted
       - adl_coverage_workspace_fast_hosted
       - adl_coverage_workspace_hosted
-    if: always() && (inputs.build_acceleration_platform == '' || inputs.build_acceleration_platform == 'none')
+    if: always()
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write
     outputs:
       route_result: ${{ steps.producer-results.outputs.route_result }}
     steps:
@@ -1534,12 +1496,12 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_coverage_workspace_hosted.result == 'success'
-        uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
           files: adl/lcov.info
           flags: adl
-          fail_ci_if_error: false
+          fail_ci_if_error: true
           verbose: true
 
   adl-coverage:
@@ -1548,7 +1510,7 @@ jobs:
       - adl_path_policy
       - adl_coverage_hosted
       - adl_spot_ci_and_coverage
-    if: always() && (inputs.build_acceleration_platform == '' || inputs.build_acceleration_platform == 'none')
+    if: always()
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -1594,192 +1556,3 @@ jobs:
             echo "::error::adl-coverage lane failure(s): $failed"
             exit 1
           fi
-
-  build_acceleration_experiment:
-    name: build-acceleration-experiment
-    if: >-
-      github.event_name == 'workflow_dispatch' &&
-      github.ref == 'refs/heads/codex/5853-v0-92-wp-02b-post-migration-build-acceleration' &&
-      inputs.build_acceleration_platform != 'none'
-    runs-on: adl-ubuntu-24.04-16core
-    timeout-minutes: 30
-    permissions:
-      contents: read
-    steps:
-      - name: Check out frozen experiment revision
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-        with:
-          fetch-depth: 0
-
-      - name: Validate frozen experiment inputs
-        env:
-          PLATFORM: ${{ inputs.build_acceleration_platform }}
-          CACHE_STATE: ${{ inputs.build_acceleration_cache_state }}
-          SAMPLE_ROLE: ${{ inputs.build_acceleration_sample_role }}
-          VARIANT: ${{ inputs.build_acceleration_variant }}
-          RUN_ID: ${{ inputs.build_acceleration_run_id }}
-        run: |
-          set -euo pipefail
-          case "$PLATFORM" in candidate) ;; *) exit 2 ;; esac
-          case "$CACHE_STATE" in cold|warm) ;; *) exit 2 ;; esac
-          case "$SAMPLE_ROLE" in measurement|cache_seed|canary) ;; *) exit 2 ;; esac
-          case "$VARIANT" in baseline|test_only) ;; *) exit 2 ;; esac
-          case "$RUN_ID" in
-            wp02b-[a-z0-9-]*) ;;
-            *) echo "run id must start with wp02b- and contain lowercase letters, digits, or hyphens" >&2; exit 2 ;;
-          esac
-          if [ "$SAMPLE_ROLE" = cache_seed ] && [ "$CACHE_STATE" != warm ]; then
-            echo "cache_seed requires warm cache state" >&2
-            exit 2
-          fi
-
-      - name: Configure frozen Rust toolchain
-        run: |
-          set -euo pipefail
-          rustup toolchain install 1.92.0 --profile minimal
-          rustup default 1.92.0
-          rustc --version --verbose
-          cargo --version --verbose
-
-      - name: Restore frozen warm cache
-        id: rust-cache
-        if: inputs.build_acceleration_cache_state == 'warm'
-        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
-        with:
-          workspaces: adl -> target
-          shared-key: wp02b-build-acceleration-v1
-          save-if: ${{ inputs.build_acceleration_sample_role == 'cache_seed' }}
-          cache-on-failure: false
-
-      - name: Run frozen build acceleration workload
-        env:
-          PLATFORM: ${{ inputs.build_acceleration_platform }}
-          CACHE_STATE: ${{ inputs.build_acceleration_cache_state }}
-          VARIANT: ${{ inputs.build_acceleration_variant }}
-          RUN_ID: ${{ inputs.build_acceleration_run_id }}
-        run: |
-          set -euo pipefail
-          artifact_dir=".adl/tmp/build-acceleration/$RUN_ID"
-          mkdir -p "$artifact_dir"
-          build_command="cargo build --manifest-path adl/Cargo.toml --locked --bin adl"
-          test_command="cargo test --manifest-path adl/Cargo.toml --locked --lib provider_communication -- --nocapture"
-          start_epoch="$(date +%s)"
-          if [ "$VARIANT" = baseline ]; then
-            /usr/bin/time -p cargo build --manifest-path adl/Cargo.toml --locked --bin adl \
-              >"$artifact_dir/build.stdout.log" 2>"$artifact_dir/build.stderr.log"
-          else
-            build_command="skipped:test_only"
-            : >"$artifact_dir/build.stdout.log"
-            : >"$artifact_dir/build.stderr.log"
-          fi
-          after_build_epoch="$(date +%s)"
-          /usr/bin/time -p cargo test --manifest-path adl/Cargo.toml --locked --lib provider_communication -- --nocapture \
-            >"$artifact_dir/test.stdout.log" 2>"$artifact_dir/test.stderr.log"
-          end_epoch="$(date +%s)"
-          python3 - \
-            "$artifact_dir/benchmark.json" \
-            "github-hosted-$PLATFORM" \
-            "$CACHE_STATE" \
-            "$VARIANT" \
-            "$build_command" \
-            "$test_command" \
-            "$start_epoch" \
-            "$after_build_epoch" \
-            "$end_epoch" \
-            "$artifact_dir/build.stderr.log" \
-            "$artifact_dir/test.stderr.log" <<'PY'
-          import json
-          import re
-          import sys
-          from pathlib import Path
-
-          (
-              out_path,
-              platform,
-              cache_state,
-              variant,
-              build_command,
-              test_command,
-              start_epoch,
-              after_build_epoch,
-              end_epoch,
-              build_stderr,
-              test_stderr,
-          ) = sys.argv[1:]
-
-          def real_seconds(path):
-              text = Path(path).read_text(encoding="utf-8", errors="replace")
-              match = re.search(r"^real\s+([0-9.]+)$", text, re.MULTILINE)
-              return float(match.group(1)) if match else None
-
-          summary = {
-              "schema": "adl.build_platform_benchmark.v1",
-              "platform": platform,
-              "cache_posture": cache_state,
-              "variant": variant,
-              "status": "passed",
-              "build_command": build_command,
-              "test_command": test_command,
-              "build_elapsed_seconds": int(after_build_epoch) - int(start_epoch),
-              "test_elapsed_seconds": int(end_epoch) - int(after_build_epoch),
-              "total_elapsed_seconds": int(end_epoch) - int(start_epoch),
-              "build_real_seconds": real_seconds(build_stderr),
-              "test_real_seconds": real_seconds(test_stderr),
-          }
-          Path(out_path).write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
-          print(json.dumps(summary, indent=2, sort_keys=True))
-          PY
-
-      - name: Record frozen runner metadata
-        if: always()
-        env:
-          PLATFORM: ${{ inputs.build_acceleration_platform }}
-          CACHE_STATE: ${{ inputs.build_acceleration_cache_state }}
-          SAMPLE_ROLE: ${{ inputs.build_acceleration_sample_role }}
-          VARIANT: ${{ inputs.build_acceleration_variant }}
-          RUN_ID: ${{ inputs.build_acceleration_run_id }}
-          CACHE_HIT: ${{ steps.rust-cache.outputs.cache-hit || 'false' }}
-        run: |
-          set -euo pipefail
-          artifact_dir=".adl/tmp/build-acceleration/$RUN_ID"
-          mkdir -p "$artifact_dir"
-          python3 - "$artifact_dir/runner.json" <<'PY'
-          import json
-          import os
-          import platform
-          import subprocess
-          import sys
-          from pathlib import Path
-
-          payload = {
-              "schema": "adl.wp02b.runner_trial.v1",
-              "run_id": os.environ["RUN_ID"],
-              "workflow_run_id": os.environ["GITHUB_RUN_ID"],
-              "workflow_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
-              "commit_sha": os.environ["GITHUB_SHA"],
-              "platform": os.environ["PLATFORM"],
-              "cache_state": os.environ["CACHE_STATE"],
-              "sample_role": os.environ["SAMPLE_ROLE"],
-              "variant": os.environ["VARIANT"],
-              "cache_hit": os.environ["CACHE_HIT"].lower() == "true",
-              "runner_name": os.environ["RUNNER_NAME"],
-              "runner_os": os.environ["RUNNER_OS"],
-              "runner_arch": os.environ["RUNNER_ARCH"],
-              "image_os": os.environ.get("ImageOS"),
-              "image_version": os.environ.get("ImageVersion"),
-              "cpu_count": os.cpu_count(),
-              "machine": platform.machine(),
-              "rustc_version": subprocess.check_output(["rustc", "--version"], text=True).strip(),
-              "cargo_version": subprocess.check_output(["cargo", "--version"], text=True).strip(),
-          }
-          Path(sys.argv[1]).write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
-          PY
-
-      - name: Upload frozen experiment artifacts
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: build-acceleration-${{ inputs.build_acceleration_run_id }}
-          path: .adl/tmp/build-acceleration/${{ inputs.build_acceleration_run_id }}
-          if-no-files-found: error
-          retention-days: 14

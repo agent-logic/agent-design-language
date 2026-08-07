@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "30c5e01cd7aaa0c008930afafb3d1c037c58ffe34866399d13f29b55d2f8d503",
   "phase": "bound",
-  "generation": 15,
-  "digest": "3607a07676753930de08a5fb7f8e1a61cb17e2382d95f55e1e8e6312a9821d1f",
+  "generation": 20,
+  "digest": "6b4193a7fa210d313b0af73ad9e56d1fc36b0debb67879d24447d28645094329",
   "branch": "codex/5853-v0-92-wp-02b-post-migration-build-acceleration",
   "worktree": "/Volumes/FastWork/adl-wp-5853-v0-92-wp-02b-post-migration-build-acceleration",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5853/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-v092-ownership-design-review",
-      "revision": "5a0f7eefbffae2cfc9cdde6969b68cb6e772bf8db2c2fd6c7f48ecabef21228c"
+      "reviewer": "codex:5853-operator-replan",
+      "revision": "647236d6cb80c075e20be0bce9125064fc4b7ec21f6b2f447cad1a54098864a7"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "362c6497f1c41d91dc96baadb40912c8d38fc7badb39d2c70c41fae034d909d1",
+      "values_digest": "57effc857699882adf1d45890e3ecca19f7b19a3410cce43e926816dd70a8bd5",
       "rendered_digest": "718b77d5b1f856b60e25fae5100d133ef18c17c723d1361c324c12fa4af50fce",
       "ast_digest": "437de793a48b3ec154bcbfbe384ac1d81457087ed3eb36e7b8b8579aa6faae0c"
     },
     "stp": {
-      "values_digest": "c6476853d4320eeead45c4f67be26160d992e227a7a40844a1a392555821c642",
+      "values_digest": "d2579fcc4f6a621cb0d5848b514b4b43dd2aec00679000ea4ab90cc51656fc90",
       "rendered_digest": "aab3dd6d24e27e81593638966c67ac446cece4bc1d638d2f240cdc91d7ce74d8",
       "ast_digest": "5cdefbef900312258e583e2df22ae160d5d53b571be8298c5bbce8d46af7d3b7"
     },
     "spp": {
-      "values_digest": "7969dac4dcfc9da9080c3f6dfcbbd45c08a653a4a5a60a07c605c3aa52c56a2d",
-      "rendered_digest": "2619c351ea801893570bc61b7600701a7680490786e58a34b5187f258cb6355f",
-      "ast_digest": "6f608be5a921444157dd288bee7cd4423c7c7a7dd8d4de9c16f4127dff812775"
+      "values_digest": "0726e430cf820c4769b8ec213e70d7c305ea3044387afa554241dd25166a27b3",
+      "rendered_digest": "75c2415f602f130911349816d3fa2e6da29bcd1a3d3890b931e26cbb8dd3993b",
+      "ast_digest": "6dc6d790341241b3a7747195afdb9af5780bec980721ffecf58124caf6b1656f"
     },
     "vpp": {
-      "values_digest": "b3a1cb405fde35950350877c79560727bec27655c4920b486100b27fc6b40e58",
+      "values_digest": "1412e8adc524ddc9d94dae96992f0fb966f8d34774ba088f1b931ce327323926",
       "rendered_digest": "745d19bc43ea42cab9f38a7bd972f8f9ef5060c4590d4e660b67069e4e799271",
       "ast_digest": "afd6e98e442169580725768bd08c3b132940f0bcab54f2ecfd6000ef706f3fc8"
     },
     "srp": {
-      "values_digest": "ab508fdd6ad1c0c4039f3cc5112b35130ba637fd4efefc33d59e1089d62f7640",
+      "values_digest": "1e2494cd72cb3ef883d70f6b2a495b4958a2646ff213ddb1340161be0598741e",
       "rendered_digest": "b697a1894e90439d6a5d7b5c5b3954a52a9766c17bf612204b20287c993ae387",
       "ast_digest": "191d41e27dcd0b8037611c604f1d89297c6d224c576055534d242e69ce6a35aa"
     },
     "sor": {
-      "values_digest": "fa86d98a3eadf35b26827a51ec690a298936aa9be89a3b6759c8629142bc8617",
+      "values_digest": "faf594fb2f9552fdd485d96c2253ea0a4204577798fd16ef23207a9100f8dba7",
       "rendered_digest": "c8c0658069791fed33a7be33428288105be9227795586c3ab67ca9b5c6c9272f",
       "ast_digest": "c376bbd4d55aa0d818ef44f2c187ea3875d728095d27dddd352d43798c8fa825"
     }
@@ -343,6 +343,41 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 34,
+      "generation": 16,
+      "actor": "codex:5853-execution",
+      "reason": "Record the operator-authorized 16-core-only execution boundary and replace the obsolete standard-runner wave.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Use the seven retained 16-core measurements to select the test-only command structure, route adl-rust-tests to the 16-core runner, remove the dispatch-only experiment harness, and require the implementation PR as the production canary.\",\"operation\":\"replan\",\"previous_value\":\"Verify migration and CI entry gates, freeze the comparison, capture standard and 16-core cold/warm trials, prove parity, run one canary, apply predeclared thresholds, retain the decision, and prove fallback or cleanup.\"}"
+    },
+    {
+      "sequence": 35,
+      "generation": 17,
+      "actor": "codex:5853-execution",
+      "reason": "Make the replanned 16-core execution steps truthful.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Verify migration, budget, runner-group, selected-repository, concurrency-one, and rollback gates\",\"acceptance_ids\":[\"AC-1\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Retain one cold, three warm, and three test-only 16-core measurements and recompute the bounded decision\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Route adl-rust-tests to the selected runner, remove experiment-only machinery, validate, and require a green production canary\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 18,
+      "actor": "codex:5853-execution",
+      "reason": "The retained eligibility and provider evidence proves every S1 gate.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 37,
+      "generation": 19,
+      "actor": "codex:5853-execution",
+      "reason": "All seven declared measurement receipts are retained and the bounded statistics recompute cleanly.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 38,
+      "generation": 20,
+      "actor": "codex:5853-operator-replan",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

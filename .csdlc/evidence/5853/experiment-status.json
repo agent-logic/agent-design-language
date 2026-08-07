@@ -1,7 +1,7 @@
 {
   "schema": "adl.wp02b.experiment_status.v1",
-  "phase": "collecting",
-  "terminal_acceptance": false,
-  "review_posture": "draft reviewable; paid cohort and optimization canaries continue",
-  "publication_posture": "do not merge until phase is complete and terminal validator passes"
+  "phase": "complete",
+  "terminal_acceptance": true,
+  "review_posture": "ready for exact-head review after the adopted production lane passes CI",
+  "publication_posture": "merge only after the adopted 16-core Rust test lane is green"
 }

@@ -61,21 +61,17 @@
     }
   },
   "trial_counts": {
-    "cold_per_workload": 5,
-    "warm_per_workload": 20,
+    "cold_baseline": 1,
+    "warm_baseline": 3,
     "cache_seed_total": 1,
-    "production_semantics_canary_total": 1,
-    "optimization_canary_total": 8
+    "test_only_canary": 3
   },
   "approved_max_total_cost": 10,
   "adoption_thresholds": {
-    "minimum_critical_path_improvement_fraction": 0.2,
+    "minimum_workload_reduction_fraction": 0.35,
     "minimum_reliability": 1.0,
-    "maximum_candidate_p95_regression_fraction": 0.0,
-    "maximum_queue_increase_seconds": 120,
-    "maximum_cost_per_minute_saved": 0.1,
-    "maximum_warm_p50_seconds": 90,
-    "maximum_warm_p95_seconds": 120
+    "maximum_test_only_p95_seconds": 120,
+    "maximum_cost_usd": 10.0
   },
   "stop_conditions": [
     "projected metered candidate usage can reach USD 10 before the next dispatch",

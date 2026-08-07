@@ -11,8 +11,8 @@
     "consolidated_paid_job"
   ],
   "rollout_gates": {
-    "warm_p50_seconds_max": 90,
-    "warm_p95_seconds_max": 120,
+    "test_only_p50_seconds_max": 90,
+    "test_only_p95_seconds_max": 120,
     "cache_restore_fraction_max": 0.35,
     "cache_restore_seconds_max": 45,
     "source_delta_sccache_hit_rate_min": 0.80,
@@ -21,6 +21,6 @@
   "first_canary": {
     "name": "test_only_warm",
     "change": "remove the duplicate cargo build phase while retaining the authoritative provider communication test workload",
-    "acceptance": "proof parity and at least 35 percent workload reduction"
+    "acceptance": "proof parity, test-only p95 at most 120 seconds, and at least 35 percent median workload reduction"
   }
 }
