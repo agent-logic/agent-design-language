@@ -133,11 +133,11 @@ Consolidated Runtime v3 under Guardian ownership and proved sustained bounded re
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

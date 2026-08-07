@@ -3,15 +3,15 @@
   "issue": 5820,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "50b75585680c7acb7b8f8912ae3704962d8da142da1ef08a64e78dd0fb1f0129",
-  "phase": "reviewed",
-  "generation": 45,
-  "digest": "ae2ed6c325fba2ee19eab2d4fcd7b3a728cd2d9ba53369c8732e28ae36bff390",
+  "phase": "published",
+  "generation": 48,
+  "digest": "3605063d157984048e181947e03b542c3dee4e4f614a2ec6c3a23de7a4c82c17",
   "branch": "codex/5820-v092-runtime-launch-resilience",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-wp-5820-runtime-launch-resilience",
   "review_assignment": {
     "reviewer": "subagent:Leibniz",
     "assigned_by": "codex:5820-runtime-resilience",
-    "revision": "git-blake3:a26ce00b98df6ce238e19c79025c545ba93f88a7:e35f3aac6957918c3d51b91b4ef94e498e9f5827cf276ddc285e21917c287cea",
+    "revision": "git-blake3:5e878bea79a8247aa9d514b9afb791576624ce8a:69a279cd5d625145934f58c6f701d9f5541a0e53e0587ea8c296956229396cb6",
     "scope": [
       "adl-runtime-kernel/src/config.rs",
       "adl-runtime/src/bin/adl-runtime-guardian.rs",
@@ -43,7 +43,7 @@
       ".csdlc/evidence/5820",
       ".csdlc/prepared/issues/5820"
     ],
-    "reviewed_revision": "git-blake3:a26ce00b98df6ce238e19c79025c545ba93f88a7:e35f3aac6957918c3d51b91b4ef94e498e9f5827cf276ddc285e21917c287cea",
+    "reviewed_revision": "git-blake3:5e878bea79a8247aa9d514b9afb791576624ce8a:69a279cd5d625145934f58c6f701d9f5541a0e53e0587ea8c296956229396cb6",
     "findings": [],
     "residual_risks": [
       "Native Windows behavior remains untested and explicitly blocked under AC-7.",
@@ -54,7 +54,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5820,
+    "pull_request": 28,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/28",
+    "base": "main",
+    "head": "codex/5820-v092-runtime-launch-resilience",
+    "revision": "git-blake3:5e878bea79a8247aa9d514b9afb791576624ce8a:69a279cd5d625145934f58c6f701d9f5541a0e53e0587ea8c296956229396cb6",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -68,34 +78,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b6a9b384f351bf854c1eb058a67c3e08b60b1ec26ab6274eb42f57af4b9b053a",
+      "values_digest": "d85229ec6f44a1413f68f6d1701a6f745f288ed8b78a19cf2e5adcfd4f69530b",
       "rendered_digest": "822b110b8030f1e2f7820eea7307b907c69c28d2f51c220c8ff9a7b3186618c4",
       "ast_digest": "04364454cada7124a7cda08bc8a36d90667b54ba2d46a986a10cf3e5f8493806"
     },
     "stp": {
-      "values_digest": "e2145462ecdbf64696ba7fa28ee171f220b29c2ccafe473d4509cde83c3064be",
+      "values_digest": "9ece1b6e8946b1636e7aac4d5d76df600034200d6eafc6eab7acb74c6c4a8b2f",
       "rendered_digest": "42851e4b8c0b2f55ea1c753bba432a5fd8a015ea097b764dd0a8b2bc15eb5b19",
       "ast_digest": "3520e78cac053e9737dcb5cc31ac6407f4e4bc2b0f319992508b9acc0c9903ea"
     },
     "spp": {
-      "values_digest": "8bc1a611a27e024815238f587f0b3cbbc587d6010362fc7708659be2bfc2c60a",
+      "values_digest": "f74947c6d8861ca900d77797b3a70e5c952211630b66e38b03d578f6b1c2ca5b",
       "rendered_digest": "b975b27fa142e8b9945ec0e9b1969b3574776cc818a470a87a63eba1c54a68e6",
       "ast_digest": "1c83fa258efc5a3ca632eeb2371fc96dfa0f1f6c3f8bd2881ddc85b59786ebfd"
     },
     "vpp": {
-      "values_digest": "8b93f2c000e856f82268ebe631fbc05f7ab7fcec4c6421fe75b41c735f702aa5",
+      "values_digest": "a61c333c14e40bd44d31db5cbf5c3feae0672b33affd1abc0eaf99e3e3271932",
       "rendered_digest": "b253ed9d2be6b1379ed0da449c8a52dcad3fb1d363a362af9f2a6f9b9f3a832e",
       "ast_digest": "e1211de6edb84fa246bcb11656858aa429076650bf05328364006f3bb2e421f0"
     },
     "srp": {
-      "values_digest": "7ab01dced1b76640fccd3f535717b8d3ae1f131b4115135c8f4ee98399769972",
-      "rendered_digest": "66721aa629e40f235ed26fcd4a2fcb1559da58e570b9165362bc02f3f5954b0c",
-      "ast_digest": "e6cf2467d464030f93eab0d7bba7bf356096ecc539cf72282c954f858a187818"
+      "values_digest": "63e47c1332c016e36c4409e906ce1a22e620dd6419de3eab3410d66f2e24ee18",
+      "rendered_digest": "909ca1aa490d81a7d3eb5b8da33fefc60276bda589d83892a7ca9f91bb09a8f0",
+      "ast_digest": "c740658b378d0e666c4c54b247eb48d0b1d1ef1170c8a7453c9bca80f9cfdb9d"
     },
     "sor": {
-      "values_digest": "7eedffdbf6d16095e43de03a38c4bceb709bd5b612dddbdc77a86592aabb7ef7",
-      "rendered_digest": "4522af79d71e35e8d9b012ac92f0de4260dc56b3811ed0ef37eee37727b43ca9",
-      "ast_digest": "9e3d9624365d5c6e4b78e4c8302a911848d546353383b0e69673cbabae4a65d3"
+      "values_digest": "ec830987deb2ab31f8ff59e5327ab5474248a64996da9bc466caa0f0ee918133",
+      "rendered_digest": "f130f60185e0a4bb5787ea4d06c37951680c8bb0209c56c5f83a7f7b6e29ce2f",
+      "ast_digest": "bb012ab00650b3359c369225568cb3a73e33c22924df7ebfbe201a64ef303373"
     }
   },
   "transitions": [
@@ -147,6 +157,27 @@
       "to": "reviewed",
       "actor": "subagent:Leibniz",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "Committed typed review metadata advanced HEAD after the substantive review; recover for one bounded exact-head lifecycle-metadata review before publication."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:Leibniz",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -597,6 +628,34 @@
       "actor": "subagent:Leibniz",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 65,
+      "generation": 46,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "Committed typed review metadata advanced HEAD after the substantive review; recover for one bounded exact-head lifecycle-metadata review before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 66,
+      "generation": 46,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 67,
+      "generation": 47,
+      "actor": "subagent:Leibniz",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 68,
+      "generation": 48,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
