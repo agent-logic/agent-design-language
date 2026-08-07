@@ -3,18 +3,18 @@ set -euo pipefail
 
 repo_root=$(cd "$(dirname "$0")/../.." && pwd -P)
 qualification_root=${ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT:-$repo_root/.adl/runtime-v3/qualification}
-target_dir=${CARGO_TARGET_DIR:-/Volumes/FastWork/adl-5820-runtime-target}
-mkdir -p "$qualification_root" "$target_dir"
-export CARGO_TARGET_DIR="$target_dir"
+target_dir=${CARGO_TARGET_DIR:-$repo_root/.adl/target/5820-runtime}
 
 case "$qualification_root" in
   "$repo_root"/.adl/*) ;;
-  *) echo "evidence root must stay under the FastWork issue worktree .adl directory" >&2; exit 64 ;;
+  *) echo "evidence root must stay under the issue worktree .adl directory" >&2; exit 64 ;;
 esac
 case "$target_dir" in
-  /Volumes/FastWork/*) ;;
-  *) echo "CARGO_TARGET_DIR must be under /Volumes/FastWork" >&2; exit 64 ;;
+  /*) ;;
+  *) echo "CARGO_TARGET_DIR must be absolute" >&2; exit 64 ;;
 esac
+mkdir -p "$qualification_root" "$target_dir"
+export CARGO_TARGET_DIR="$target_dir"
 
 vector_bin=${ADL_RUNTIME_VECTOR_BIN:-}
 if [[ -z "$vector_bin" ]]; then

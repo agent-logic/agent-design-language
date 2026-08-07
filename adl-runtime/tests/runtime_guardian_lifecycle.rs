@@ -13,13 +13,15 @@ struct TestRoot(tempfile::TempDir);
 
 impl TestRoot {
     fn new(name: &str) -> Self {
-        let parent = PathBuf::from("/Volumes/FastWork/adl-5820-tests");
-        fs::create_dir_all(&parent).expect("FastWork test root");
+        let parent = std::env::var_os("ADL_TEST_TMPDIR")
+            .map(PathBuf::from)
+            .unwrap_or_else(|| std::env::temp_dir().join("adl-5820-tests"));
+        fs::create_dir_all(&parent).expect("Guardian lifecycle test root");
         Self(
             tempfile::Builder::new()
                 .prefix(name)
                 .tempdir_in(parent)
-                .expect("FastWork temporary directory"),
+                .expect("Guardian lifecycle temporary directory"),
         )
     }
 
