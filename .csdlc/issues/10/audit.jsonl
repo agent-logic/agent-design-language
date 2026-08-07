@@ -22,3 +22,4 @@
 {"sequence":22,"generation":20,"actor":"codex:wp24-canonical-publication","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":23,"generation":21,"actor":"codex:wp24-canonical-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":24,"generation":22,"actor":"codex:wp24-migration-evidence-review-fix","reason":"Current canonical main and review findings exposed stale migration evidence and ambiguous legacy issue authority; recover publication review truth for bounded reconciliation and exact-head rereview.","operation":"recover_review"}
+{"sequence":25,"generation":23,"actor":"codex:wp24-migration-evidence-review-fix","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

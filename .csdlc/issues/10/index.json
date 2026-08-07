@@ -3,13 +3,81 @@
   "issue": 10,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "aaefb83fa55b156bd233db58af78a5439d66856e3ec8dde179d56cd4b77c0fd7",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "b1245862324592ec55dfef5b5cfbad0c39f39717b4758b1d085b627cc595fdde",
+  "phase": "reviewed",
+  "generation": 23,
+  "digest": "258f4db9047a9637916faa312882a329385ce3d4384ce3d8d5082d594c22627d",
   "branch": "codex/10-v092-wp24-article-series",
   "worktree": "/Volumes/FastWork/adl-wp-10",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "Linnaeus",
+    "scope": [
+      "docs/milestones/v0.92/publication/articles",
+      ".csdlc/evidence/5844",
+      ".csdlc/evidence/10",
+      ".csdlc/issues/10",
+      ".csdlc/prepared/issues/10"
+    ],
+    "reviewed_revision": "git-blake3:4fe438af3c8ee677e09eea072e2f02115237efa8:f3ae0825b9172f5ac45d436e971c99ea015e54dcd4e58e6f242ff3c7f5917321",
+    "findings": [
+      {
+        "id": "P1-canonical-migration-evidence-stale",
+        "severity": "p1",
+        "summary": "Fixed: the receipt and issue map record canonical PR #14, destination authority, closed legacy PR #5902, closed superseded legacy issue #5844, and integrated current main.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:4fe438af3c8ee677e09eea072e2f02115237efa8:f3ae0825b9172f5ac45d436e971c99ea015e54dcd4e58e6f242ff3c7f5917321",
+        "route": null
+      },
+      {
+        "id": "P2-exact-integration-proof-behind-main",
+        "severity": "p2",
+        "summary": "Fixed: canonical main 7dfb791ad2fc1ecbc1e3b3651815b1d37bfa060f is integrated without conflict and all focused proof passes at the exact reviewed head.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:4fe438af3c8ee677e09eea072e2f02115237efa8:f3ae0825b9172f5ac45d436e971c99ea015e54dcd4e58e6f242ff3c7f5917321",
+        "route": null
+      },
+      {
+        "id": "P1-canonical-legacy-release-gate-ambiguity",
+        "severity": "p1",
+        "summary": "Fixed: current publication disposition and Article 10 editorial review owner-qualify the legacy WP-23 release gate.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:4fe438af3c8ee677e09eea072e2f02115237efa8:f3ae0825b9172f5ac45d436e971c99ea015e54dcd4e58e6f242ff3c7f5917321",
+        "route": null
+      },
+      {
+        "id": "P2-negative-publication-boundary-too-weak",
+        "severity": "p2",
+        "summary": "Fixed: validation requires the exact truthful boundary and rejects positive published, submitted, scheduled, and uploaded claims.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:4fe438af3c8ee677e09eea072e2f02115237efa8:f3ae0825b9172f5ac45d436e971c99ea015e54dcd4e58e6f242ff3c7f5917321",
+        "route": null
+      },
+      {
+        "id": "P2-rollback-missing-from-vpp",
+        "severity": "p2",
+        "summary": "Fixed: typed VPP includes the executed rollback contract as an explicit validation lane.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:4fe438af3c8ee677e09eea072e2f02115237efa8:f3ae0825b9172f5ac45d436e971c99ea015e54dcd4e58e6f242ff3c7f5917321",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "External Medium publication remains unauthorized and requires a later operator decision plus a drift-prone claim recheck.",
+      "Release-dependent v0.92 and first-birthday language remains gated by legacy issue danielbaustin/agent-design-language#5843 and current repository truth."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +92,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e144fa53b34879744ddb151f33e9d4817fcf0a62bf7e46425946c0d90e14667d",
+      "values_digest": "0f3c4d3e6329125f060d3ff8462f0686120d18f5d0a751989524e8f6764fa559",
       "rendered_digest": "3620987df334148e271e62df6d66ed3fb706122ed7a8fe312a679c3e8842e634",
       "ast_digest": "c47a88b3b7081c55143bf2e3cdb62c3860119d4300798382e7818e865796bcc3"
     },
     "stp": {
-      "values_digest": "1a4e7b26f21dd25f524c8c1a9e95dfa51a8e4a457655b96a0ceb57af8040bfce",
+      "values_digest": "1bc214ed175b54c52fa3658b4db3b55f079565e6ff4642557ac4653da29ee603",
       "rendered_digest": "afd31a77167532d1ad92e0125ae28c13131c4e9e890eb57c516ce8fa9f0750f6",
       "ast_digest": "214ff5ca0cf27a3d5e720bfea79edede4c9237ffe6cba06220b023d6f3cc70b9"
     },
     "spp": {
-      "values_digest": "c7ee46a02ca1cbec62ec98144ce76cc0506db2aafc10f70175fd1be3f2c9a910",
+      "values_digest": "07aa198f46912a2d38bc495883ede52e91d30c395e1df40cced105408fdfb338",
       "rendered_digest": "e30a5c77f77107757320844847c98ef7c9a3eccdb948dd27ea03fc132c587ea4",
       "ast_digest": "c7c7b3dea622e947960be940258da4819afd368bb29943aac3559dc360c7546e"
     },
     "vpp": {
-      "values_digest": "0d55658639c905be7dd7593d127b4eef1cd153ce879306a045c7b548fa93620a",
+      "values_digest": "b6474b264c0053cc47f08e29d562b38e7f8ca3cbef81cc51062653b9c7635113",
       "rendered_digest": "16891f084812637c91807f49aa23751e6e6913c6838d12a67a12efff0ea130a9",
       "ast_digest": "8645a4cadfcb885baf6303ed1986e37e06819c6f212329226a1ad10a488325e5"
     },
     "srp": {
-      "values_digest": "ba194935f266f93c036ab151897e6b8cbfca3dd1901aa70747624cac9c6c12c2",
-      "rendered_digest": "33d7cc88690e1da7863fea4c1af30b5ddc5eaf63c3af7d1aeb833724240094fe",
-      "ast_digest": "6d293516caee55edc3d3a2505d869bf333ab3af6eb3fb6a609211872f02b852d"
+      "values_digest": "8f4a5947da1018e3af43cdb9b911da8b4ad617e0a84733889f81a68c61fbde46",
+      "rendered_digest": "451de2b605be96c3f1e49930079362bc6f63e9a4567baf15a0088d01bd4b150b",
+      "ast_digest": "93bab34b2954165435b3fd9dd928c89dcf82e72b4a729525ae9ea5ff0e08fcfb"
     },
     "sor": {
-      "values_digest": "d03dea551ee583cb5d6b99fd84ff12e59eb31b978a51f13ea42546b066106779",
+      "values_digest": "0186966bf925e5323bc012fca9c06e85cee7fa6d22433df37468fedc1761eb55",
       "rendered_digest": "69dc0a064b4152649a9064d4aa6081566e1e5a934c48ed28022652fe48d72966",
       "ast_digest": "cf18cbd4352eb41f16f51d847aa322cc481aa0215cfc9a3a3a5c78983a4ef4d6"
     }
@@ -110,6 +178,13 @@
       "to": "implemented",
       "actor": "codex:wp24-migration-evidence-review-fix",
       "reason": "Current canonical main and review findings exposed stale migration evidence and ambiguous legacy issue authority; recover publication review truth for bounded reconciliation and exact-head rereview."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:wp24-migration-evidence-review-fix",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -280,6 +355,13 @@
       "actor": "codex:wp24-migration-evidence-review-fix",
       "reason": "Current canonical main and review findings exposed stale migration evidence and ambiguous legacy issue authority; recover publication review truth for bounded reconciliation and exact-head rereview.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex:wp24-migration-evidence-review-fix",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
