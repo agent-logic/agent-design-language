@@ -51,8 +51,8 @@ Diagram: .csdlc/prepared/issues/5820/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "production-guardian-api-wss-restart",
-    "proof_role": "Launch the production Guardian/kernel on macOS and prove authenticated HTTPS/WSS, forced child failure, bounded restart, durable continuity, clean logs, and shutdown.",
+    "lane": "production-guardian-macos-stress",
+    "proof_role": "Run 100 ten-second production Guardian windows on macOS and prove authenticated HTTPS/WSS, forced child failure, bounded restart, durable continuity, clean logs, and shutdown.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -68,44 +68,28 @@ Diagram: .csdlc/prepared/issues/5820/diagram.mmd
     "budget_tokens": 6000,
     "argv": [
       "bash",
-      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh"
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "--suite",
+      "stress_100x10s"
     ],
     "parallel_group": "runtime-production",
     "defer_reason": null
   },
   {
-    "lane": "linux-spot-runtime-proof",
-    "proof_role": "Validate the retained exact-head Linux Spot lifecycle result, immutable builder provenance, and verified instance teardown.",
+    "lane": "native-platform-receipts",
+    "proof_role": "Recompute exact-head digest bindings for the acceptance-eligible macOS and Linux production artifacts and retain the acceptance-authorized native Windows blocker as blocked evidence, never as a pass.",
     "acceptance_ids": [
       "AC-6",
       "AC-7"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 120,
-    "budget_tokens": 1000,
+    "budget_seconds": 300,
+    "budget_tokens": 1500,
     "argv": [
-      "python3",
-      "-c",
-      "import json,pathlib; s=json.loads(pathlib.Path('.csdlc/evidence/5820/external-linux/summary.json').read_text()); w=json.loads(pathlib.Path('.csdlc/evidence/5820/external-linux/wrapper-final-summary.json').read_text()); assert s['status']=='passed' and s['remote_summary']['resolved_commit']=='2faa7c0ddda8e12e452d7be4b309aeb86c10f69d' and s['cleanup']['final_instance_state']=='terminated' and s['launch']['purchase_option']=='spot'; assert w['status']=='passed' and w['source_commit']=='2faa7c0ddda8e12e452d7be4b309aeb86c10f69d' and w['self_verification']['compute_teardown_verified'] is True; print('PASS: exact-head Linux Spot Guardian lifecycle and teardown evidence')"
-    ],
-    "parallel_group": "platform-evidence",
-    "defer_reason": null
-  },
-  {
-    "lane": "native-windows-blocker",
-    "proof_role": "Retain the acceptance-authorized named blocker that no native Windows execution authority is available in this bounded issue session; do not claim Windows lifecycle proof.",
-    "acceptance_ids": [
-      "AC-7"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 30,
-    "budget_tokens": 250,
-    "argv": [
-      "python3",
-      "-c",
-      "import json; print(json.dumps({'schema':'adl.runtime_v3.platform_blocker.v1','platform':'windows','status':'blocked','reason':'native_windows_runner_unavailable','source_revision':'2faa7c0ddda8e12e452d7be4b309aeb86c10f69d'},sort_keys=True))"
+      "ruby",
+      "adl/tools/validate_v092_runtime_native_receipts.rb",
+      ".csdlc/evidence/5820/runtime-native-receipts.json"
     ],
     "parallel_group": "platform-evidence",
     "defer_reason": null
@@ -143,9 +127,8 @@ Tokens: 25000
 ## Commands
 
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --bin adl-runtime-lifecycle-soak --no-default-features`
-- `bash adl/tools/validate_v092_runtime_guardian_lifecycle.sh`
-- `python3 -c import json,pathlib; s=json.loads(pathlib.Path('.csdlc/evidence/5820/external-linux/summary.json').read_text()); w=json.loads(pathlib.Path('.csdlc/evidence/5820/external-linux/wrapper-final-summary.json').read_text()); assert s['status']=='passed' and s['remote_summary']['resolved_commit']=='2faa7c0ddda8e12e452d7be4b309aeb86c10f69d' and s['cleanup']['final_instance_state']=='terminated' and s['launch']['purchase_option']=='spot'; assert w['status']=='passed' and w['source_commit']=='2faa7c0ddda8e12e452d7be4b309aeb86c10f69d' and w['self_verification']['compute_teardown_verified'] is True; print('PASS: exact-head Linux Spot Guardian lifecycle and teardown evidence')`
-- `python3 -c import json; print(json.dumps({'schema':'adl.runtime_v3.platform_blocker.v1','platform':'windows','status':'blocked','reason':'native_windows_runner_unavailable','source_revision':'2faa7c0ddda8e12e452d7be4b309aeb86c10f69d'},sort_keys=True))`
+- `bash adl/tools/validate_v092_runtime_guardian_lifecycle.sh --suite stress_100x10s`
+- `ruby adl/tools/validate_v092_runtime_native_receipts.rb .csdlc/evidence/5820/runtime-native-receipts.json`
 - `git diff --check`
 
 ## Failure Semantics

@@ -72,7 +72,7 @@ end
 packet_argument = ARGV.fetch(0, ".csdlc/evidence/#{ISSUE}/runtime-native-receipts.json")
 packet_path = contained_issue_file(packet_argument, "native receipt packet")
 packet = JSON.parse(File.read(packet_path))
-abort "wrong schema" unless packet["schema"] == "adl.runtime_guardian_native_receipts.v2"
+abort "wrong schema" unless packet["schema"] == "adl.runtime_guardian_native_receipts.v3"
 
 head, status = Open3.capture2("git", "rev-parse", "HEAD")
 abort "cannot resolve HEAD" unless status.success?
@@ -80,7 +80,27 @@ head = head.strip
 abort "stale packet" unless packet["source_revision"] == head
 
 receipts = Array(packet["receipts"])
-abort "platform denominator drift" unless receipts.map { |entry| entry["platform"] }.sort == PLATFORMS
+blockers = Array(packet["blockers"])
+covered_platforms = receipts.map { |entry| entry["platform"] } + blockers.map { |entry| entry["platform"] }
+abort "platform denominator drift" unless covered_platforms.sort == PLATFORMS
+abort "platform entries must be unique" unless covered_platforms.uniq.length == covered_platforms.length
+abort "production receipts must cover macOS and Linux" unless receipts.map { |entry| entry["platform"] }.sort == %w[linux macos]
+abort "only native Windows may be blocked" unless blockers.map { |entry| entry["platform"] } == ["windows"]
+
+blockers.each do |blocker|
+  platform = blocker.fetch("platform")
+  abort "wrong #{platform} blocker schema" unless blocker["schema"] == "adl.runtime_v3.platform_blocker.v1"
+  abort "stale #{platform} blocker" unless blocker["source_revision"] == head
+  abort "#{platform} blocker did not fail closed" unless blocker["status"] == "blocked"
+  abort "missing #{platform} blocker reason" if blocker["reason"].to_s.empty?
+  abort "missing #{platform} blocker authority" if blocker["unavailable_authority"].to_s.empty?
+  checked_file(
+    blocker.fetch("evidence_path"),
+    blocker.fetch("evidence_sha256"),
+    "#{platform} blocker evidence"
+  )
+end
+
 receipts.each do |receipt|
   platform = receipt.fetch("platform")
   abort "stale #{platform} receipt" unless receipt["source_revision"] == head
@@ -93,7 +113,13 @@ receipts.each do |receipt|
   abort "invalid #{platform} runner identity" unless runner["identity_sha256"].to_s.match?(SHA256)
 
   command = receipt.fetch("command")
-  abort "wrong #{platform} producer command" unless Array(command["argv"]) == ["bash", "adl/tools/validate_v092_runtime_guardian_lifecycle.sh"]
+  expected_argv = [
+    "bash",
+    "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+    "--suite",
+    "stress_100x10s"
+  ]
+  abort "wrong #{platform} producer command" unless Array(command["argv"]) == expected_argv
   abort "#{platform} producer failed" unless command["exit_code"] == 0
   checked_file(command["stdout_path"], command["stdout_sha256"], "#{platform} stdout")
   checked_file(command["stderr_path"], command["stderr_sha256"], "#{platform} stderr", allow_empty: true)
@@ -162,6 +188,6 @@ receipts.each do |receipt|
   end
 end
 
-abort "native runner runs are not distinct" unless receipts.map { |receipt| receipt.dig("runner", "run_id") }.uniq.length == PLATFORMS.length
-abort "native runner identities are not distinct" unless receipts.map { |receipt| receipt.dig("runner", "identity_sha256") }.uniq.length == PLATFORMS.length
-puts "PASS: exact-head named production Guardian artifacts on macOS, Linux, and native Windows"
+abort "native runner runs are not distinct" unless receipts.map { |receipt| receipt.dig("runner", "run_id") }.uniq.length == receipts.length
+abort "native runner identities are not distinct" unless receipts.map { |receipt| receipt.dig("runner", "identity_sha256") }.uniq.length == receipts.length
+puts "PASS: exact-head named production Guardian artifacts on macOS and Linux; native Windows remains explicitly blocked"

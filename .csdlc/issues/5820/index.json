@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "50b75585680c7acb7b8f8912ae3704962d8da142da1ef08a64e78dd0fb1f0129",
   "phase": "implemented",
-  "generation": 41,
-  "digest": "4c6076bd8209ca1491653db50b5d14fb2a0ddc94a11edc7511ade40c84e3fb5e",
+  "generation": 42,
+  "digest": "f34e78272879ea3039460c9213f06959663f49750f56dec46222b976d3afbf6b",
   "branch": "codex/5820-v092-runtime-launch-resilience",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-wp-5820-runtime-launch-resilience",
   "review_assignment": {
@@ -80,32 +80,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5e583c213174296de27dfe9f924176e5feeee805fd9152c9044d2f8a0f50a0ee",
+      "values_digest": "1816d8e2bc288a740df359033f3be030692fe92ba040315c05604fea4eff53a5",
       "rendered_digest": "822b110b8030f1e2f7820eea7307b907c69c28d2f51c220c8ff9a7b3186618c4",
       "ast_digest": "04364454cada7124a7cda08bc8a36d90667b54ba2d46a986a10cf3e5f8493806"
     },
     "stp": {
-      "values_digest": "fb5bb3d8708f540e4d2d0753bb57813ec12fb15b380e247ca803f35c309dc98f",
+      "values_digest": "15101ad7dd887c918353d7e20527aaa47e79b2b165d608604ee53b414fca3dac",
       "rendered_digest": "42851e4b8c0b2f55ea1c753bba432a5fd8a015ea097b764dd0a8b2bc15eb5b19",
       "ast_digest": "3520e78cac053e9737dcb5cc31ac6407f4e4bc2b0f319992508b9acc0c9903ea"
     },
     "spp": {
-      "values_digest": "3ebe3c78398e7ec4041b78a580f7b2779fcd6c12b651dfe8760eaf5584168882",
+      "values_digest": "0b63a502de3b094b0dac927c524d20fd744a4fc2770a9f51c95236cf80d895a1",
       "rendered_digest": "b975b27fa142e8b9945ec0e9b1969b3574776cc818a470a87a63eba1c54a68e6",
       "ast_digest": "1c83fa258efc5a3ca632eeb2371fc96dfa0f1f6c3f8bd2881ddc85b59786ebfd"
     },
     "vpp": {
-      "values_digest": "a4977da07f08b252e32b50aa12243dc94fb0b34805ef5b44f5cf0f8b5e2a3397",
-      "rendered_digest": "f57f920c52a31723a59293798dbfc4855ceead2a6a094a49610e2b5dfc8dbc16",
-      "ast_digest": "10abc4e2ed3afdd7c99b3c950fd85e89da20c5ab2fa4fa63c0e6ba8a97d46ae0"
+      "values_digest": "1ef0ec3d0cc6c8c32a7b35e68a018d596bf0bb592d78ef2e329e6153febd6442",
+      "rendered_digest": "b253ed9d2be6b1379ed0da449c8a52dcad3fb1d363a362af9f2a6f9b9f3a832e",
+      "ast_digest": "e1211de6edb84fa246bcb11656858aa429076650bf05328364006f3bb2e421f0"
     },
     "srp": {
-      "values_digest": "3999182c47b2d16166d1ec6dfb0c94deb2ce36e2f1d0f16333bb0dc1f8a1e9a9",
+      "values_digest": "f1b3b7a52b613ab66e2ca2ca4c26187711f260ae228cfb27a5a10ef8211e71fd",
       "rendered_digest": "465743774ab2d88da17c259ad0ae46593fc6a7119714f09678e262ea63dd0cca",
       "ast_digest": "57c99d3cb32d7f78bdcf89728ee39d4284687bdae9fe3c0e3fc48193c4c07716"
     },
     "sor": {
-      "values_digest": "b5c5be59578be3a26e5904164a5193334df364dcc3c1a0d1b91976a81cc21cd9",
+      "values_digest": "16c22c6e84417329bfe4fa4d34f151f470ff66a92672735bbaa6417d21c42e4d",
       "rendered_digest": "9d8459895ceed41afeac278884c4e82bd577bf01e6f78da43737abaf386f63f1",
       "ast_digest": "5e3d951486d10895a2b963af7602e879bb53c38d0dd8b649df6abb04d900b0b9"
     }
@@ -553,6 +553,13 @@
       "actor": "subagent:Leibniz",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 42,
+      "actor": "codex:5820-runtime-launch-resilience",
+      "reason": "Replace preflight-only platform checks with acceptance-eligible stress execution and digest-complete native receipt recomputation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"guardian-lifecycle-unit\",\"proof_role\":\"Prove Guardian restart policy, lifecycle aggregation, and nonce-bound pre-restart probe synchronization.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"--no-default-features\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"production-guardian-macos-stress\",\"proof_role\":\"Run 100 ten-second production Guardian windows on macOS and prove authenticated HTTPS/WSS, forced child failure, bounded restart, durable continuity, clean logs, and shutdown.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"--suite\",\"stress_100x10s\"],\"parallel_group\":\"runtime-production\",\"defer_reason\":null},{\"lane\":\"native-platform-receipts\",\"proof_role\":\"Recompute exact-head digest bindings for the acceptance-eligible macOS and Linux production artifacts and retain the acceptance-authorized native Windows blocker as blocked evidence, never as a pass.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"ruby\",\"adl/tools/validate_v092_runtime_native_receipts.rb\",\".csdlc/evidence/5820/runtime-native-receipts.json\"],\"parallel_group\":\"platform-evidence\",\"defer_reason\":null},{\"lane\":\"exact-head-hygiene\",\"proof_role\":\"Reject whitespace damage before exact-head review and issue-closing publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"review\",\"defer_reason\":null}]}"
     }
   ]
 }

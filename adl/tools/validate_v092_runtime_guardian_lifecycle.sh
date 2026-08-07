@@ -7,6 +7,24 @@ target_dir=${CARGO_TARGET_DIR:-$repo_root/.adl/target/5820-runtime}
 target_root=${ADL_RUNTIME_GUARDIAN_TARGET_ROOT:-$repo_root}
 lifecycle_suite=${ADL_RUNTIME_GUARDIAN_SUITE:-preflight}
 
+while (( $# > 0 )); do
+  case "$1" in
+    --suite)
+      (( $# >= 2 )) || { echo "--suite requires a value" >&2; exit 64; }
+      lifecycle_suite=$2
+      shift 2
+      ;;
+    -h|--help)
+      echo "Usage: $0 [--suite preflight_1x|lifecycle_10000|stress_100x10s|endurance_10x600s]"
+      exit 0
+      ;;
+    *)
+      echo "unsupported argument: $1" >&2
+      exit 64
+      ;;
+  esac
+done
+
 case "$lifecycle_suite" in
   preflight|preflight_1x|lifecycle_10000|stress_100x10s|endurance_10x600s) ;;
   *)
