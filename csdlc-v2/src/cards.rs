@@ -1635,11 +1635,10 @@ fn owned_path_at(root: &Path, value: &str) -> bool {
     {
         return false;
     }
-    let root_metadata = match fs::symlink_metadata(root) {
-        Ok(metadata) if metadata.is_dir() && !metadata.file_type().is_symlink() => metadata,
+    match fs::symlink_metadata(root) {
+        Ok(metadata) if metadata.is_dir() && !metadata.file_type().is_symlink() => {}
         _ => return false,
-    };
-    drop(root_metadata);
+    }
     let canonical_root = match root.canonicalize() {
         Ok(root) => root,
         Err(_) => return false,
