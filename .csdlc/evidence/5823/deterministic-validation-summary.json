@@ -47,7 +47,7 @@
       "name": "windows-deterministic-fixture",
       "outcome": "passed_non_native",
       "receipt": ".csdlc/evidence/5823/windows-fixture-result.json",
-      "receipt_sha256": "8a2359039eb9c609ee398e26286e683ec61fefae34c594848edc4c63fb0b7649"
+      "receipt_sha256": "e5d380700a8be8b8c98c33b8c9a97de72996c9d0ebf6616d38d807fd9b27d6a4"
     },
     {
       "name": "linux-native-live",

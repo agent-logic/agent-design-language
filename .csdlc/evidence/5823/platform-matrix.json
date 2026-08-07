@@ -25,7 +25,7 @@
     "runner": "nessus_fixture",
     "revision": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
     "command_profile_digest": "c17ce9c42dcceb10828b7522097f6cac3d1972b4ad35d31958326b9400c026dc",
-    "result_digest": "8a2359039eb9c609ee398e26286e683ec61fefae34c594848edc4c63fb0b7649",
+    "result_digest": "e5d380700a8be8b8c98c33b8c9a97de72996c9d0ebf6616d38d807fd9b27d6a4",
     "receipt": ".csdlc/evidence/5823/windows-fixture-result.json",
     "outcome": "passed"
   }
