@@ -81,7 +81,7 @@ Repaired claim-free Sprint 3 readiness without binding a child or changing Distr
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

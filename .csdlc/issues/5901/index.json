@@ -3,48 +3,13 @@
   "issue": 5901,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8ff80b9cfa60fbc6966b16dc5835ba59e7c1b85519a45baae5ac1b73cd9f3f99",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "48303a75f41469303801e81a9e2ddecde78040494b6db42f74591bfea673b25d",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "f5cca2687ec1ecc2b7bd4329686023a8aff9780afe0f86fc60f9c0fcc0c8bca7",
   "branch": "codex/5901-sprint3-readiness",
   "worktree": "/Volumes/FastWork/adl-wp-5901-sprint3-readiness",
-  "review_assignment": {
-    "reviewer": "subagent:fast-review-5901",
-    "assigned_by": "codex:5901-sprint3-readiness",
-    "revision": "git-blake3:54de5b00fd56bb15f70f45e294378073caa54577:3a346187b843eb033c3df3e8c20c8b24ec1cf516aab4a5d08862dc43294dd297",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-finish.rs",
-      "csdlc-v2/tests/gate2.rs",
-      "csdlc-v2/tests/gate_finish.rs",
-      ".csdlc/issues/5865",
-      ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
-      ".csdlc/prepared/issues/5901/test-implementation-wave.rb",
-      ".csdlc/prepared/issues/5901/validate-scope.rb"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:fast-review-5901",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-finish.rs",
-      "csdlc-v2/tests/gate2.rs",
-      "csdlc-v2/tests/gate_finish.rs",
-      ".csdlc/issues/5865",
-      ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
-      ".csdlc/prepared/issues/5901/test-implementation-wave.rb",
-      ".csdlc/prepared/issues/5901/validate-scope.rb"
-    ],
-    "reviewed_revision": "git-blake3:54de5b00fd56bb15f70f45e294378073caa54577:3a346187b843eb033c3df3e8c20c8b24ec1cf516aab4a5d08862dc43294dd297",
-    "findings": [],
-    "residual_risks": [
-      "Sprint 3 execution remains gated on terminal #5821 and this repair does not bind a child."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -59,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bfbe4272ab7fd6893adbb32b0552c7799f6faa49df029643d90738e96c74bb41",
+      "values_digest": "dd01956812f04c32d42c81766a05cab23aa28bd16e521c69e301de374a0191bd",
       "rendered_digest": "dc0345098c9a2036ec8fca6ba7710aec9657b7643543d05984245662714d0981",
       "ast_digest": "33efe65162810c074e60ff2d66c99cfb9af67ac3bb0dbf0e94ea4afc220767ff"
     },
     "stp": {
-      "values_digest": "d57b6337bcdc241ececac2b3a2a4b37755c503d7d33f210b880e2c43487f33f4",
+      "values_digest": "4cf22e6d44d867736e9564aeb208d77a12b85d01fab0322bee072c2bdd42f7c6",
       "rendered_digest": "7f83db3a48f67b32737b3433dcc1f238d62a9ef43d37d07dffe23bdbd3950b3c",
       "ast_digest": "790622a5fba6af5345d162af52139fba71871c2754a6aaef7be271cee6d99ddc"
     },
     "spp": {
-      "values_digest": "c41f6a84e6c3a316e99deaabd4a34b4ab0c7532466789621eb165800e4fae4a1",
+      "values_digest": "9110b0a5df3fd32a18b0d7b1578cc0be7de9d46e2b4c2f753775332f6a84cad0",
       "rendered_digest": "4dd5a66e9213639cf511e684f425bad3f8ee87a5b9553626ac02dad40a4bd558",
       "ast_digest": "abe1ac3df64d7a052e91789df96a2cf5e2c72d9204927a495a9a7c42322fc2ac"
     },
     "vpp": {
-      "values_digest": "bec4c69b0906788cafb32a771b822a8a0d488e78847ed95ddec31249b29d2e87",
+      "values_digest": "ee09ac4b2655d9b865844bb8aae0cc36fa5333972551809fec1fa2ffa774f841",
       "rendered_digest": "670d646ac3a2663665c06c7ae3074c013cb9de76886f3d0ab5125e20ef2f2bff",
       "ast_digest": "842e8cd41caa7090cf0ab24e273d20c6ab4cf373ecbe7cfdd775d4ffe1363ca2"
     },
     "srp": {
-      "values_digest": "f8671772788966567ac0be8f39943ec4a1cf8f7fff21a322255751353e00f211",
-      "rendered_digest": "b180feda35cd1bbd1038568c5ecc0588cf22d3e6580c6665de4c9b761fdfd9ea",
-      "ast_digest": "2c203b3885ed503be328a74d41cca6ecfcaf733879da4073f9f29a862ce8b238"
+      "values_digest": "7ece01cc1112effd175a1251bb198b45cda0e14b7a93b08c15090e8c1b20a804",
+      "rendered_digest": "4953591958fa0c971180c099386b269b51ae21ff4978de734525fcb5d23b4e2e",
+      "ast_digest": "37a886bc0ad59e2d2460619dbc367dc1901b94d22de7cbd014f7046bb0598137"
     },
     "sor": {
-      "values_digest": "ccf0db872edcab3819ec55fbb5eba6b18d6cb4c68f7d8bf2dd7578b81c99ea20",
-      "rendered_digest": "b88b12397c8bd011aa21aedf4e58f2f0c74cea9a146cafe147c560a231ff2cae",
-      "ast_digest": "7dfbbfb6f06b391a78ea15fef6abc880880c4eb06cf83de247f97f75a1043527"
+      "values_digest": "9506b07836e2dee1d873529f45dc4f052f40d662b13ea83d43affbed7a2a428e",
+      "rendered_digest": "2b315a15567963c4056f9e54d7356c9237095d061c021d46e75ef92aad385881",
+      "ast_digest": "05b6c77177c59692f12eefc7554c40329c50f57ef442514269d914c56c606b54"
     }
   },
   "transitions": [
@@ -117,6 +82,13 @@
       "to": "reviewed",
       "actor": "subagent:fast-review-5901",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Record final exact-head review after review-request publication metadata."
     }
   ],
   "audit": [
@@ -238,6 +210,13 @@
       "actor": "subagent:fast-review-5901",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Record final exact-head review after review-request publication metadata.",
+      "operation": "recover_review"
     }
   ]
 }

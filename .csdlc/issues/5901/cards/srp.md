@@ -8,19 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-csdlc-v2/src/cards.rs
-csdlc-v2/src/store.rs
-csdlc-v2/src/bin/csdlc-finish.rs
-csdlc-v2/tests/gate2.rs
-csdlc-v2/tests/gate_finish.rs
-.csdlc/issues/5865
-.csdlc/prepared/issues/5862/validate-implementation-wave.rb
-.csdlc/prepared/issues/5901/test-implementation-wave.rb
-.csdlc/prepared/issues/5901/validate-scope.rb
+
 
 ## Prompts
 
@@ -39,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Sprint 3 execution remains gated on terminal #5821 and this repair does not bind a child.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:54de5b00fd56bb15f70f45e294378073caa54577:3a346187b843eb033c3df3e8c20c8b24ec1cf516aab4a5d08862dc43294dd297")
+Revision: None
 
-Reviewer: Some("subagent:fast-review-5901")
+Reviewer: None
 
-Result: pass
+Result: pre_review
