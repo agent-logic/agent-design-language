@@ -3,13 +3,93 @@
   "issue": 5822,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b476d2b9dfcbc719a2efb87fbffe14fcb7df6263bcbaecc1a27a64c5c4c1e798",
-  "phase": "implemented",
-  "generation": 50,
-  "digest": "1ef4c2e1deda55733915d5bac4c915cdf86edba831fcf4efdb27f373d0428722",
+  "phase": "reviewed",
+  "generation": 51,
+  "digest": "1f813f429c4e6beb42c3c405710490d0d891507225b65f8ba6afd1868648de48",
   "branch": "codex/5822-v0-92-csdlc-estimation-cycle-time",
   "worktree": "/Volumes/FastWork/adl-wp-5822-v0-92-csdlc-estimation-cycle-time",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:Cicero",
+    "scope": [
+      ".csdlc/evidence/5822",
+      ".csdlc/prepared/issues/5822",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/estimation.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/estimation_contracts.rs"
+    ],
+    "reviewed_revision": "git-blake3:6b1709887de7c76d1ffc6e377730ac36bca728da:6f2f19b333b3a34ad80092187adbba8b73149778d55dea57837eab5be10add21",
+    "findings": [
+      {
+        "id": "WP05-R1",
+        "severity": "p1",
+        "summary": "Retained AC-7 baseline boundary was inconsistent with acceptance truth.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:6b1709887de7c76d1ffc6e377730ac36bca728da:6f2f19b333b3a34ad80092187adbba8b73149778d55dea57837eab5be10add21",
+        "route": null
+      },
+      {
+        "id": "WP05-R2",
+        "severity": "p1",
+        "summary": "PR branch did not incorporate current-main split-authority changes.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:6b1709887de7c76d1ffc6e377730ac36bca728da:6f2f19b333b3a34ad80092187adbba8b73149778d55dea57837eab5be10add21",
+        "route": null
+      },
+      {
+        "id": "WP05-R3",
+        "severity": "p1",
+        "summary": "GitHub adapter rejected qualified cross-repository closing linkage and did not verify publication authority.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:6b1709887de7c76d1ffc6e377730ac36bca728da:6f2f19b333b3a34ad80092187adbba8b73149778d55dea57837eab5be10add21",
+        "route": null
+      },
+      {
+        "id": "WP05-R4",
+        "severity": "p1",
+        "summary": "Session adapter could not emit schema drift for unsupported availability or schema versions.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:6b1709887de7c76d1ffc6e377730ac36bca728da:6f2f19b333b3a34ad80092187adbba8b73149778d55dea57837eab5be10add21",
+        "route": null
+      },
+      {
+        "id": "WP05-R5",
+        "severity": "p2",
+        "summary": "Cycle-time comparison added overlapping intervals instead of wall-clock elapsed time.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:6b1709887de7c76d1ffc6e377730ac36bca728da:6f2f19b333b3a34ad80092187adbba8b73149778d55dea57837eab5be10add21",
+        "route": null
+      },
+      {
+        "id": "WP05-R6",
+        "severity": "p1",
+        "summary": "Retained validation summary was stale at generation 49 and omitted its claimed format lane.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:6b1709887de7c76d1ffc6e377730ac36bca728da:6f2f19b333b3a34ad80092187adbba8b73149778d55dea57837eab5be10add21",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "No equivalent terminal candidate cohort exists; WP-05 intentionally makes no cycle-time or reconnection reduction claim."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +104,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "58ef9b30008f966b8033a81d9a6c95d5d42b0072700a491da41dd456c44cc1b9",
+      "values_digest": "1e1f99ac9e51f942f684953e080e1a8450992e0cf0b74245d502a4a82ea03d70",
       "rendered_digest": "a2e05d299c61fb87347a0c7e4217da58dcd8ffcdb615f1dc0aac4438c3bebd79",
       "ast_digest": "98e306b57fa7f5865499191708ed16b077317e9e8f9018041ed11757b0f78e2f"
     },
     "stp": {
-      "values_digest": "e4c965e605003cad4a5cf0861a509951d3f9efb0047c83c66bbc834c4c50ea3b",
+      "values_digest": "a967b861c9b841d0f1c199765c9705a37cdb96954728bd804ed381497c2c41e9",
       "rendered_digest": "be2a033a83efcad03313d062e86c830b105a567934e2f41f23ad7306d801c8d0",
       "ast_digest": "44d01e6fa207e51f9e4fad51a1b420c671d34b217750e8393f564db6a461e694"
     },
     "spp": {
-      "values_digest": "75b039125c55440c4a0735a478f7da019cf39f141082af9b8b2852f26ec637de",
+      "values_digest": "7e53d243435bb4ddb92adaf51039920267e8c6b248197e61ea986fd457413e27",
       "rendered_digest": "a2cb13b0310cc5cff48d9075b26b634c174af4b43c89551a7cbf5eee7ad1ae68",
       "ast_digest": "96ebc433d26a3e508f6c696370c3efd251e8d584aef82319995124c3db89a7c3"
     },
     "vpp": {
-      "values_digest": "5699af4558bcc19b4f18389cc8b32df920e52958c61967eb03d5e5227707106f",
+      "values_digest": "caeea9cefb44125a070f4715e81850d83dcfe022da1a90ef503e5eb378c3eecd",
       "rendered_digest": "54c3521109b047917360243a55b6ca9ce77c175124a4e22489aebd9cd91c8e5c",
       "ast_digest": "53c22a9bc5dc650c0a457c354ee21613d0287f44d3e21aa59de1afed118f936c"
     },
     "srp": {
-      "values_digest": "e9ccbfb031ea65166d791eadf1321fbd7e0829871eb30062570f8743e82066ca",
-      "rendered_digest": "69ab3feab354c989fbe6922f1f8b04f2a39e07b6831180b12f22fbee71eceb58",
-      "ast_digest": "6cac5cde4b2319c579dc8d5b66b951bda0ab8ea548ce7d91f55a755f5c0a3a80"
+      "values_digest": "92ba766772b593198fe86a368140b11769dc85694181f7a6194dc3e4b42c1a7d",
+      "rendered_digest": "aa533324439174b57a3c3ba705221176f36cb42e28e6af53b85e2e218ce051d0",
+      "ast_digest": "d9507846767ad95eb02f5026e7cb1a14ea6408c5a6fb2b1a3e24fa53b30834f4"
     },
     "sor": {
-      "values_digest": "2741b0b8efc3cee73e800378c597d114d26d2211d9fb0fcf9af0f58a8371b9e1",
+      "values_digest": "352f8695b0575fb2a887f35b2cd7f3834b66ef9d513de4416385497997d157ee",
       "rendered_digest": "0d4181a57387f735d65ae206a1c18b00a87d29365daeed5a8b2c88c017a77a44",
       "ast_digest": "08bbea865f77e8fac7e8a47c08c668d8486fd6fc7b7214f53c0900ed94d82be5"
     }
@@ -96,6 +176,13 @@
       "to": "implemented",
       "actor": "codex:issue-5822",
       "reason": "All bounded implementation steps and focused validation lanes are complete; advance to implemented for exact-head review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5822-exact-head-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -553,6 +640,13 @@
       "actor": "codex:issue-5822-review-remediation",
       "reason": "Record exact focused validation and adapter remediation before independent exact-head review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"WP-05 retains provenance-bearing advisory estimates and terminal actuals, measures one genuine terminal cycle-time baseline without claiming a candidate reduction, validates qualified cross-repository closing linkage against verified publication authority, and emits explicit schema drift for unsupported session evidence.\",\"changes\":[\"csdlc-v2/src/estimation.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/tests/estimation_contracts.rs\"],\"artifacts\":[\".csdlc/evidence/5822/forecast.json\",\".csdlc/evidence/5822/accepted-estimate.json\",\".csdlc/evidence/5822/calibration-source-manifest.json\",\".csdlc/evidence/5822/calibration-report.json\",\".csdlc/evidence/5822/cycle-time-baseline.json\",\".csdlc/evidence/5822/terminal-baseline-source-5778.json\",\".csdlc/evidence/5822/cycle-time-evidence-boundary.json\",\".csdlc/evidence/5822/validation-summary.json\"],\"validation\":[{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5822/csdlc-v2\",\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"estimation_contracts\"],\"purpose\":\"Prove all eleven estimation, retained-source, publication-authority, schema-drift, terminal-outcome, calibration, security-negative, and terminal-baseline contracts with zero failures.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5822/validation-summary.json\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Reject Rust formatting drift in the remediated adapter and focused tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5822/validation-summary.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors before the exact review revision is committed.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5822/cycle-time-evidence-boundary.json\"}]}"
+    },
+    {
+      "sequence": 66,
+      "generation": 51,
+      "actor": "codex:issue-5822-exact-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
