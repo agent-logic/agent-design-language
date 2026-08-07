@@ -1,7 +1,7 @@
 {
   "schema": "adl.wp06.deterministic_validation_summary.v1",
   "subject_revision": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
-  "validation_revision": "d0c9c24baa14f68953eddc7e100eadcf67cecd0d",
+  "validation_revision": "4a9e673d8921a1b17e9b9f222a4c0baad317cd78",
   "storage_policy": "external_volume_only",
   "live_paid_provider_work_run": true,
   "lanes": [
