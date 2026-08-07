@@ -67,6 +67,7 @@ try {
     root: repoRoot,
   });
   await waitForTrustedEndpoint(new URL("/v1/health", runtime), certificate, runtimeProcess);
+  await waitForRuntimeReady(new URL("/v1/ready", runtime), certificate, runtimeProcess);
 
   const { chromium, version } = await loadPinnedPlaywright();
   browser = await chromium.launch({ channel: args.browser, headless: true });
@@ -264,6 +265,23 @@ async function waitForTrustedEndpoint(url, certificate, child) {
   fail(`Runtime candidate did not become healthy at ${url.pathname}`);
 }
 
+async function waitForRuntimeReady(url, certificate, child) {
+  const deadline = Date.now() + 30000;
+  let lastObservation = "no readiness response";
+  while (Date.now() < deadline) {
+    if (child.exitCode !== null) fail(`Runtime candidate exited early with status ${child.exitCode}`);
+    try {
+      const readiness = await curlTrustedJson(url, certificate);
+      lastObservation = JSON.stringify(readiness);
+      if (readiness.ready === true) return;
+    } catch (error) {
+      lastObservation = error.message;
+    }
+    await delay(250);
+  }
+  fail(`Runtime candidate did not become ready: ${lastObservation}`);
+}
+
 async function curlTrusted(url, certificate) {
   const child = spawn("curl", ["--fail", "--silent", "--show-error", "--cacert", certificate, url.href], {
     stdio: ["ignore", "ignore", "pipe"],
@@ -272,6 +290,23 @@ async function curlTrusted(url, certificate) {
   child.stderr.on("data", (chunk) => { stderr += chunk; });
   const code = await onceExit(child);
   if (code !== 0) throw new Error(`curl verified probe failed for ${url.pathname}: ${stderr.trim()}`);
+}
+
+async function curlTrustedJson(url, certificate) {
+  const child = spawn("curl", ["--fail", "--silent", "--show-error", "--cacert", certificate, url.href], {
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  let stdout = "";
+  let stderr = "";
+  child.stdout.on("data", (chunk) => { stdout += chunk; });
+  child.stderr.on("data", (chunk) => { stderr += chunk; });
+  const code = await onceExit(child);
+  if (code !== 0) throw new Error(`curl verified probe failed for ${url.pathname}: ${stderr.trim()}`);
+  try {
+    return JSON.parse(stdout);
+  } catch (error) {
+    throw new Error(`curl verified probe returned invalid JSON for ${url.pathname}: ${error.message}`);
+  }
 }
 
 async function proveConcurrentTrustedConnections(url, certificate, count) {
