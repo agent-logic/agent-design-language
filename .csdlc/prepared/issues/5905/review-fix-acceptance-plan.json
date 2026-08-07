@@ -1,0 +1,66 @@
+{
+  "issue": 5905,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "df0cf02d192e72b5858db5d105106556affa3a8211ef6a70887cf1217692e5ba",
+  "actor": "codex:5905-v092-terminal-reconciliation",
+  "reason": "Resolve design-review findings with an atomic canary-first acceptance, plan, and proof contract.",
+  "operation": {
+    "operation": "replace_acceptance_plan",
+    "acceptance_criteria": [
+      "After the implementation PR merges, #5800 is reconciled first against canonical PR #9 and exact merge SHA 7dfb791ad2fc1ecbc1e3b3651815b1d37bfa060f, and its cached terminal envelope validates before any other issue is processed",
+      "Every issue in the frozen closed-v0.92 inventory has exactly one truthful merged, closed_unmerged, or closed_no_pr disposition",
+      "Merged reconciliation requires exact issue repository, PR repository, issue, PR, head SHA, merge SHA, and GitHub closing linkage",
+      "Closed_unmerged requires an exact closed unmerged PR and explicit operator-approved reason; closed_no_pr requires the canonical approval label, no PR, and explicit operator-approved reason",
+      "Open, mismatched, multiply attributable, ambiguously migrated, contradictory-field, or unsupported remote state fails closed",
+      "Routine csdlc-finish review and publication gates are unchanged",
+      "Historical results use distinct live_github_historical_reconciliation provenance and never assert missing review or publication history",
+      "Focused Rust tests cover success, idempotency, disposition rules, the identity mismatch matrix, ambiguous linkage, provenance, and routine-gate non-regression",
+      "No generated state is hand-edited and post-merge envelopes remain Git-common authority rather than tracked main mutations"
+    ],
+    "steps": [
+      {"id":"S1","action":"Implement the disposition-conditional typed historical reconciliation contract inside csdlc-finish only","acceptance_ids":["AC-3","AC-4","AC-5","AC-6","AC-7","AC-9"],"status":"pending"},
+      {"id":"S2","action":"Run focused success, idempotency, mismatch, ambiguity, provenance, and routine-gate non-regression tests","acceptance_ids":["AC-3","AC-4","AC-5","AC-6","AC-7","AC-8"],"status":"pending"},
+      {"id":"S3","action":"Complete exact-head review, publish the implementation PR, shepherd it green, and merge it","acceptance_ids":["AC-6","AC-8","AC-9"],"status":"pending"},
+      {"id":"S4","action":"Using the merged installed binary, reconcile and validate #5800 as a hard canary, then independently reconcile and validate the frozen remaining inventory","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-7","AC-9"],"status":"pending"}
+    ],
+    "validation_lanes": [
+      {
+        "lane":"csdlc-finish-focused-contract",
+        "proof_role":"Prove historical reconciliation success, idempotency, disposition-conditional fields, the complete identity mismatch matrix, ambiguity rejection, distinct provenance, and unchanged routine finish behavior.",
+        "acceptance_ids":["AC-3","AC-4","AC-5","AC-6","AC-7","AC-8"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":600,
+        "budget_tokens":5000,
+        "argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","gate_finish"],
+        "parallel_group":"local",
+        "defer_reason":null
+      },
+      {
+        "lane":"v092-5800-live-terminal-canary",
+        "proof_role":"After implementation merge, produce #5800 from exact live issue/PR state and validate its cached terminal envelope before processing the remainder.",
+        "acceptance_ids":["AC-1","AC-2","AC-3","AC-5","AC-7","AC-9"],
+        "deterministic":false,
+        "resource_profile":"small",
+        "budget_seconds":300,
+        "budget_tokens":2000,
+        "argv":["csdlc-finish","--root",".","--historical-request",".git/csdlc-v2/requests/v092/5800-historical.json"],
+        "parallel_group":"post-merge-live",
+        "defer_reason":"Runs only after the reviewed implementation PR merges; failure hard-stops the remaining inventory."
+      },
+      {
+        "lane":"diff-hygiene",
+        "proof_role":"Reject malformed tracked changes and generated-state edits before exact-head review.",
+        "acceptance_ids":["AC-8","AC-9"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":60,
+        "budget_tokens":500,
+        "argv":["git","diff","--check"],
+        "parallel_group":"local",
+        "defer_reason":null
+      }
+    ]
+  }
+}

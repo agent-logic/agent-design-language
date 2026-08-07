@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5905,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][csdlc-v2][closeout] Reconcile all closed issues into terminal truth",
+    "slug": "v0-92-closed-terminal-reconciliation",
+    "version": "v0.92",
+    "generation": 11
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The typed compatibility contract, exact live identity checks, terminal envelope construction, and unchanged routine finish gates.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can the compatibility path accept non-terminal or mismatched state?",
+        "Does it preserve csdlc-finish as the sole authority?",
+        "Does it invent review or publication history?",
+        "Are #5800 and the remaining inventory handled truthfully?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

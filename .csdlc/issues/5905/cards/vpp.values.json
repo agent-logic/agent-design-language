@@ -1,0 +1,99 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5905,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][csdlc-v2][closeout] Reconcile all closed issues into terminal truth",
+    "slug": "v0-92-closed-terminal-reconciliation",
+    "version": "v0.92",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csdlc-finish-focused-contract",
+          "proof_role": "Prove historical reconciliation success, idempotency, disposition-conditional fields, the complete identity mismatch matrix, ambiguity rejection, distinct provenance, and unchanged routine finish behavior.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate_finish"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "v092-5800-live-terminal-canary",
+          "proof_role": "After implementation merge, produce #5800 from exact live issue/PR state and validate its cached terminal envelope before processing the remainder.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5",
+            "AC-7",
+            "AC-9"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "csdlc-finish",
+            "--root",
+            ".",
+            "--historical-request",
+            ".git/csdlc-v2/requests/v092/5800-historical.json"
+          ],
+          "parallel_group": "post-merge-live",
+          "defer_reason": "Runs only after the reviewed implementation PR merges; failure hard-stops the remaining inventory."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject malformed tracked changes and generated-state edits before exact-head review.",
+          "acceptance_ids": [
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on open, mismatched, ambiguous, or non-terminal state and preserve the issue-specific evidence.",
+      "design_ref": ".csdlc/prepared/issues/5905/design.md",
+      "design_digest": "414e5560355972a0aa26ff1d315ff309560c5435181732e60d814e4e35a1f470",
+      "diagram_ref": ".csdlc/prepared/issues/5905/diagram.mmd",
+      "diagram_digest": "0dd484b4cf6d3f941c7add8505ed941aa54c4d5d93d6e8e68a97642ce86a06e5"
+    }
+  }
+}

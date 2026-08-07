@@ -1,0 +1,9 @@
+{
+  "issue": 5905,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "60c59a409352d363343b6d5edd63fcb5b27a923fbc9566416b194831f270d974",
+  "actor": "codex:5905-v092-terminal-reconciliation",
+  "reason": "Historical reconciliation implementation and focused validation are complete.",
+  "operation": {"operation":"advance_phase","phase":"implemented"}
+}

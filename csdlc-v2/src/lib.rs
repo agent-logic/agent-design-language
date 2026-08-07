@@ -56,12 +56,14 @@ pub use finish::MergeMethod;
 pub use finish::{
     retain_terminal_estimation_outcome, validate_terminal_estimation_evidence,
     DerivedTerminalEnvelope, FinishDisposition, FinishRequest, FinishResult,
-    IssueTerminalObservation, TerminalEstimationResult, TerminalEstimationStatus,
+    HistoricalFinishRequest, IssueTerminalObservation, TerminalEstimationResult,
+    TerminalEstimationStatus,
 };
 pub use git::shared_request_path;
 pub use github::{
-    append_marker, execute_github_action, marker_line, GithubAction, GithubActionRequest,
-    GithubActionResult, GithubIssuePacket, PrCheck, PrStatePacket, PrStateRequest,
+    append_marker, execute_github_action, marker_line, ClosingPullRequestIdentity, GithubAction,
+    GithubActionRequest, GithubActionResult, GithubIssuePacket, PrCheck, PrStatePacket,
+    PrStateRequest,
 };
 pub use lifecycle::{bind_issue, initialize_native_json, BindRequest, BindResult};
 pub use migration::{

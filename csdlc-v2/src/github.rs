@@ -58,6 +58,14 @@ pub struct PrStatePacket {
     pub classification: String,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
+pub struct ClosingPullRequestIdentity {
+    pub repository: String,
+    pub pull_request: u64,
+    pub state: String,
+    pub merged: bool,
+}
+
 fn unknown_pr_state() -> String {
     "unknown".into()
 }
@@ -897,6 +905,101 @@ fn remotely_linked_issue(
     Ok(issues.into_iter().next())
 }
 
+fn closing_pull_request_identities(
+    response: &Value,
+) -> crate::Result<Vec<ClosingPullRequestIdentity>> {
+    let connection = response
+        .pointer("/repository/issue/closedByPullRequestsReferences")
+        .or_else(|| response.pointer("/data/repository/issue/closedByPullRequestsReferences"))
+        .ok_or_else(|| {
+            crate::V2Error::new(
+                crate::ErrorCode::ReconciliationRequired,
+                "GitHub issue closing-PR references are absent",
+            )
+        })?;
+    if connection
+        .pointer("/pageInfo/hasNextPage")
+        .and_then(Value::as_bool)
+        .unwrap_or(false)
+    {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "GitHub issue closing-PR inventory exceeds the bounded page",
+        ));
+    }
+    let nodes = connection
+        .get("nodes")
+        .and_then(Value::as_array)
+        .ok_or_else(|| {
+            crate::V2Error::new(
+                crate::ErrorCode::ReconciliationRequired,
+                "GitHub issue closing-PR references are absent",
+            )
+        })?;
+    let identities = nodes
+        .iter()
+        .map(|node| {
+            let repository = node
+                .pointer("/repository/nameWithOwner")
+                .and_then(Value::as_str)
+                .filter(|value| !value.trim().is_empty())
+                .ok_or_else(|| {
+                    crate::V2Error::new(
+                        crate::ErrorCode::ReconciliationRequired,
+                        "GitHub closing PR repository identity is absent",
+                    )
+                })?;
+            let pull_request = node
+                .get("number")
+                .and_then(Value::as_u64)
+                .filter(|n| *n > 0)
+                .ok_or_else(|| {
+                    crate::V2Error::new(
+                        crate::ErrorCode::ReconciliationRequired,
+                        "GitHub closing PR number is absent",
+                    )
+                })?;
+            Ok(ClosingPullRequestIdentity {
+                repository: repository.to_owned(),
+                pull_request,
+                state: node
+                    .get("state")
+                    .and_then(Value::as_str)
+                    .unwrap_or("UNKNOWN")
+                    .to_owned(),
+                merged: node.get("merged").and_then(Value::as_bool).unwrap_or(false),
+            })
+        })
+        .collect::<crate::Result<BTreeSet<_>>>()?;
+    Ok(identities.into_iter().collect())
+}
+
+pub async fn collect_issue_closing_pull_requests(
+    repository: &str,
+    issue: u64,
+    token_file: Option<String>,
+) -> crate::Result<Vec<ClosingPullRequestIdentity>> {
+    let (owner, repo) = repository.split_once('/').ok_or_else(|| {
+        crate::V2Error::new(
+            crate::ErrorCode::InvalidInput,
+            "repository must be owner/name",
+        )
+    })?;
+    let token = resolve_token(token_file.as_deref())?;
+    let crab = octocrab::Octocrab::builder()
+        .personal_token(token)
+        .build()
+        .map_err(remote)?;
+    let response: Value = crab
+        .graphql(&json!({
+            "query": "query ClosingPullRequests($owner: String!, $repo: String!, $number: Int!) { repository(owner: $owner, name: $repo) { issue(number: $number) { closedByPullRequestsReferences(first: 100, includeClosedPrs: true) { nodes { number state merged repository { nameWithOwner } } pageInfo { hasNextPage } } } } }",
+            "variables": {"owner": owner, "repo": repo, "number": issue}
+        }))
+        .await
+        .map_err(remote)?;
+    closing_pull_request_identities(&response)
+}
+
 pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrStatePacket> {
     let (owner, repo) = request.repository.split_once('/').ok_or_else(|| {
         crate::V2Error::new(
@@ -1310,6 +1413,40 @@ mod tests {
             remotely_linked_issue(decoded_data, "o/r", Some(7)).unwrap(),
             Some(7)
         );
+    }
+
+    #[test]
+    fn issue_closing_pr_inventory_preserves_multiple_candidates() {
+        let response = json!({"data":{"repository":{"issue":{"closedByPullRequestsReferences":{
+            "nodes":[
+                {"number": 9, "state":"MERGED", "merged":true, "repository":{"nameWithOwner":"canonical/repo"}},
+                {"number": 10, "state":"CLOSED", "merged":false, "repository":{"nameWithOwner":"other/repo"}},
+                {"number": 9, "state":"MERGED", "merged":true, "repository":{"nameWithOwner":"canonical/repo"}}
+            ],
+            "pageInfo":{"hasNextPage":false}
+        }}}}});
+        assert_eq!(
+            closing_pull_request_identities(&response).unwrap(),
+            vec![
+                ClosingPullRequestIdentity {
+                    repository: "canonical/repo".into(),
+                    pull_request: 9,
+                    state: "MERGED".into(),
+                    merged: true,
+                },
+                ClosingPullRequestIdentity {
+                    repository: "other/repo".into(),
+                    pull_request: 10,
+                    state: "CLOSED".into(),
+                    merged: false,
+                },
+            ]
+        );
+
+        let paginated = json!({"repository":{"issue":{"closedByPullRequestsReferences":{
+            "nodes":[], "pageInfo":{"hasNextPage":true}
+        }}}});
+        assert!(closing_pull_request_identities(&paginated).is_err());
     }
 
     #[test]
