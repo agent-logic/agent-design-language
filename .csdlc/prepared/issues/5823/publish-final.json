@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 5823,
+  "expected_generation": 30,
+  "expected_digest": "bcb543049685b1980919f240bdd8b91b67d489292a6468ae21ed8c92bc7b6804",
+  "actor": "codex:5823-execution",
+  "repository": "agent-logic/agent-design-language",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/5823-v0-92-wp-06-remote-validation-build-runner",
+  "title": "[v0.92][WP-06] Harden remote validation runners",
+  "body": "Closes danielbaustin/agent-design-language#5823\n\n## Summary\n- harden AWS launch cancellation, cleanup, paid-work ceilings, and fail-closed fallback classification\n- harden Nessus cancellation, timeout handling, redacted log publication, and named-container cleanup\n- require exact validation revision and reject undeclared dirty source paths\n- remove cross-suite fixture collisions so focused AWS and Nessus checks can run concurrently\n\n## Validation\n- AWS portable adapter tests: 26/26\n- portable remote-validation contract tests: 10/10\n- focused AWS and Nessus shell suites: PASS individually and concurrently\n- platform-matrix validator and self-test: PASS\n- cargo fmt check, shell syntax, and git diff hygiene: PASS\n\n## Review\n- bounded exact-head subagent review: APPROVE, no findings\n\n## Boundaries\n- Windows proof remains fixture-qualified rather than live-native\n- no second paid AWS run was needed for deterministic adapter hardening",
+  "draft": true,
+  "token_file": "/Users/daniel/keys/github.token"
+}
