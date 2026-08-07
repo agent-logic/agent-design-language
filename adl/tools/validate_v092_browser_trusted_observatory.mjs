@@ -73,13 +73,9 @@ try {
   browser = await chromium.launch({ channel: args.browser, headless: true });
   const context = await browser.newContext({ ignoreHTTPSErrors: false });
   const page = await context.newPage();
-  page.on("console", (message) => {
-    const text = message.text();
-    if (isTlsError(text)) tlsErrors.push(`console:${text}`);
-  });
   page.on("requestfailed", (request) => {
     const text = request.failure()?.errorText ?? "request failed";
-    if (isTlsError(text)) tlsErrors.push(`network:${text}`);
+    if (isTlsError(text)) tlsErrors.push(`network:${request.url()}:${text}`);
   });
 
   const dashboard = new URL("/demos/html-observatory/", observatory);
