@@ -197,7 +197,11 @@ abort "production canary failed: #{canary_error}" if canary_error
 
 workflow = ROOT.join(".github/workflows/ci.yaml").read
 rust_job = workflow[/^  adl_rust_tests:\n.*?(?=^  [a-zA-Z0-9_-]+:\n|\z)/m] || abort("missing adl_rust_tests job")
-abort "Rust test lane is not on the selected runner" unless rust_job.include?("runs-on: #{RUNNER_LABEL}")
+runner_routes = [
+  "runs-on: #{RUNNER_LABEL}",
+  "runs-on: ${{ vars.ADL_HEAVY_RUNNER || '#{RUNNER_LABEL}' }}",
+]
+abort "Rust test lane is not on the selected runner" unless runner_routes.any? { |route| rust_job.include?(route) }
 abort "experiment harness was not removed" if workflow.include?("build_acceleration_experiment:")
 
 final_state = read_json(EVIDENCE.join("final-state.json"))
