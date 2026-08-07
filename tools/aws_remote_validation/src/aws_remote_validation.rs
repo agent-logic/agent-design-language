@@ -60,9 +60,10 @@ where
         loop {
             match lines.next_line().await {
                 Ok(Some(line)) => {
-                    eprintln!("{line}");
+                    let redacted_line = redact_sensitive_text(&line);
+                    eprintln!("{redacted_line}");
                     if let Ok(mut file) = sink.lock() {
-                        let _ = writeln!(file, "{line}");
+                        let _ = writeln!(file, "{redacted_line}");
                     }
                 }
                 Ok(None) | Err(_) => break,
@@ -131,6 +132,7 @@ pub struct AwsRemoteValidationConfig {
     pub allow_on_demand_fallback: bool,
     pub budget_name: Option<String>,
     pub expected_max_cost_usd: Option<f64>,
+    pub cancellation_file: Option<PathBuf>,
     pub poll_interval_seconds: u64,
     pub ssm_ready_timeout_seconds: u64,
     pub command_timeout_seconds: Option<u64>,
@@ -151,6 +153,17 @@ impl AwsRemoteValidationConfig {
         }
         if self.instance_types.is_empty() {
             return Err(anyhow!("at least one --instance-type is required"));
+        }
+        if self
+            .expected_max_cost_usd
+            .is_some_and(|value| !value.is_finite() || value <= 0.0)
+        {
+            return Err(anyhow!(
+                "expected maximum cost must be finite and greater than zero"
+            ));
+        }
+        if self.command_timeout_seconds == Some(0) {
+            return Err(anyhow!("command timeout must be greater than zero"));
         }
         let cache_volume_enabled = self.cache_volume_id.is_some()
             || self.cache_volume_name.is_some()
@@ -199,11 +212,12 @@ pub fn apply_portable_aws_request(
         .clone()
         .ok_or_else(|| anyhow!("portable AWS request is missing source_ref"))?;
     config.command = plan.shell_command.clone();
-    config.command_timeout_seconds = Some(plan.timeout_seconds);
+    config.command_timeout_seconds = Some(plan.resource_budget.timeout_seconds);
     config.expected_max_cost_usd = request
         .resource_budget
         .estimated_max_cost_microusd
         .map(|value| value as f64 / 1_000_000.0);
+    config.cancellation_file = plan.cancellation_file.clone().map(PathBuf::from);
     Ok(plan)
 }
 
@@ -828,6 +842,13 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
     let mut teardown_seconds = None;
     let mut status = RemoteRunStatus::Failed;
 
+    let cancellation_requested = || {
+        config
+            .cancellation_file
+            .as_ref()
+            .is_some_and(|path| path.exists())
+    };
+
     record_event(
         &mut events,
         "start",
@@ -892,6 +913,16 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
     let mut cache_volume: Option<CacheVolumeRecord> = None;
     let launch_timer = Instant::now();
     'launch: for instance_type in &config.instance_types {
+        if cancellation_requested() {
+            failure_reason = Some("portable cancellation requested before launch".to_string());
+            record_event(
+                &mut events,
+                "cancellation",
+                "cancelled",
+                "cancellation file observed before provider launch".to_string(),
+            );
+            break 'launch;
+        }
         let spot_spec = LaunchSpec {
             run_id: config.run_id.clone(),
             instance_type: instance_type.clone(),
@@ -1028,28 +1059,54 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
     }
     let launch_seconds = launch_timer.elapsed().as_secs();
 
-    if let Some(instance_id_ref) = instance_id.as_deref() {
-        let ssm_timer = Instant::now();
-        match adapter
-            .wait_for_ssm_online(
-                instance_id_ref,
-                Duration::from_secs(config.ssm_ready_timeout_seconds),
-                Duration::from_secs(config.poll_interval_seconds),
-            )
-            .await
-        {
-            Ok(result) => {
-                ssm_ready_seconds = Some(ssm_timer.elapsed().as_secs());
+    if cancellation_requested() && failure_reason.is_none() {
+        failure_reason = Some("portable cancellation requested after launch".to_string());
+        record_event(
+            &mut events,
+            "cancellation",
+            "cancelled",
+            "cancellation file observed before remote execution".to_string(),
+        );
+    }
+
+    if failure_reason.is_none() {
+        if let Some(instance_id_ref) = instance_id.as_deref() {
+            let ssm_timer = Instant::now();
+            match adapter
+                .wait_for_ssm_online(
+                    instance_id_ref,
+                    Duration::from_secs(config.ssm_ready_timeout_seconds),
+                    Duration::from_secs(config.poll_interval_seconds),
+                )
+                .await
+            {
+                Ok(result) => {
+                    ssm_ready_seconds = Some(ssm_timer.elapsed().as_secs());
+                    record_event(
+                        &mut events,
+                        "ssm",
+                        "ok",
+                        format!("instance became SSM-ready with status {}", result.status),
+                    );
+                }
+                Err(err) => {
+                    failure_reason = Some(format!("instance never became SSM-ready: {err}"));
+                    record_event(&mut events, "ssm", "failed", err.to_string());
+                }
+            }
+        }
+    }
+
+    if failure_reason.is_none() {
+        if instance_id.is_some() {
+            if cancellation_requested() {
+                failure_reason = Some("portable cancellation requested before command".to_string());
                 record_event(
                     &mut events,
-                    "ssm",
-                    "ok",
-                    format!("instance became SSM-ready with status {}", result.status),
+                    "cancellation",
+                    "cancelled",
+                    "cancellation file observed before remote command".to_string(),
                 );
-            }
-            Err(err) => {
-                failure_reason = Some(format!("instance never became SSM-ready: {err}"));
-                record_event(&mut events, "ssm", "failed", err.to_string());
             }
         }
     }
@@ -1079,14 +1136,16 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                                 config.artifact_dir.display()
                             )
                         })?;
-                    fs::write(&stdout_path, &result.stdout)
-                        .await
-                        .with_context(|| format!("failed to write '{}'", stdout_path.display()))?;
-                    fs::write(&stderr_path, &result.stderr)
-                        .await
-                        .with_context(|| format!("failed to write '{}'", stderr_path.display()))?;
                     let parsed = parse_remote_summary(&result.stdout)
                         .or_else(|| parse_remote_summary(&result.stderr));
+                    let redacted_stdout = redact_sensitive_text(&result.stdout);
+                    let redacted_stderr = redact_sensitive_text(&result.stderr);
+                    fs::write(&stdout_path, &redacted_stdout)
+                        .await
+                        .with_context(|| format!("failed to write '{}'", stdout_path.display()))?;
+                    fs::write(&stderr_path, &redacted_stderr)
+                        .await
+                        .with_context(|| format!("failed to write '{}'", stderr_path.display()))?;
                     let interruption_detected = parsed
                         .as_ref()
                         .map(remote_summary_reports_valid_interruption)
@@ -1097,8 +1156,8 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                         response_code: result.response_code,
                         stdout_path: stdout_path.display().to_string(),
                         stderr_path: stderr_path.display().to_string(),
-                        output_preview: preview(&result.stdout),
-                        stderr_preview: preview(&result.stderr),
+                        output_preview: preview(&redacted_stdout),
+                        stderr_preview: preview(&redacted_stderr),
                     });
                     remote_summary = parsed;
                     if interruption_detected {
@@ -1379,6 +1438,7 @@ pub async fn write_summary_artifacts(
     out_path: &Path,
     artifact_dir: &Path,
 ) -> Result<()> {
+    let summary = redacted_summary(summary);
     fs::create_dir_all(artifact_dir)
         .await
         .with_context(|| format!("failed to create '{}'", artifact_dir.display()))?;
@@ -1390,13 +1450,15 @@ pub async fn write_summary_artifacts(
     let event_log_path = artifact_dir.join("events.jsonl");
     let mut jsonl = String::new();
     for event in events {
-        jsonl.push_str(&serde_json::to_string(event)?);
+        let mut event = event.clone();
+        event.detail = redact_sensitive_text(&event.detail);
+        jsonl.push_str(&serde_json::to_string(&event)?);
         jsonl.push('\n');
     }
     fs::write(&event_log_path, jsonl)
         .await
         .with_context(|| format!("failed to write '{}'", event_log_path.display()))?;
-    fs::write(out_path, serde_json::to_string_pretty(summary)? + "\n")
+    fs::write(out_path, serde_json::to_string_pretty(&summary)? + "\n")
         .await
         .with_context(|| format!("failed to write '{}'", out_path.display()))?;
     Ok(())
@@ -1474,6 +1536,116 @@ fn sha256_hex(value: &str) -> String {
 
 fn preview(text: &str) -> String {
     text.lines().take(8).collect::<Vec<_>>().join(" | ")
+}
+
+pub fn redact_sensitive_text(text: &str) -> String {
+    fn redact_prefixed(mut value: String, prefix: &str, replacement: &str) -> String {
+        while let Some(start) = value.find(prefix) {
+            let end = value[start..]
+                .find(|ch: char| ch.is_whitespace() || matches!(ch, '"' | '\'' | ',' | ']' | '}'))
+                .map(|offset| start + offset)
+                .unwrap_or(value.len());
+            value.replace_range(start..end, replacement);
+        }
+        value
+    }
+
+    let mut redacted = text.to_string();
+    for prefix in ["arn:aws", "i-", "vol-", "vpc-", "subnet-", "sg-", "sir-"] {
+        redacted = redact_prefixed(redacted, prefix, "<aws-identifier-redacted>");
+    }
+    for prefix in ["/Users/", "/Volumes/", "/private/", "/tmp/"] {
+        redacted = redact_prefixed(redacted, prefix, "<machine-path-redacted>");
+    }
+    let chars: Vec<char> = redacted.chars().collect();
+    let mut output = String::with_capacity(redacted.len());
+    let mut index = 0;
+    while index < chars.len() {
+        if index + 12 <= chars.len()
+            && chars[index..index + 12]
+                .iter()
+                .all(|ch| ch.is_ascii_digit())
+            && (index == 0 || !chars[index - 1].is_ascii_digit())
+            && (index + 12 == chars.len() || !chars[index + 12].is_ascii_digit())
+        {
+            output.push_str("<aws-account-id-redacted>");
+            index += 12;
+        } else {
+            output.push(chars[index]);
+            index += 1;
+        }
+    }
+    output
+}
+
+pub fn redacted_summary(summary: &AwsRemoteValidationSummary) -> AwsRemoteValidationSummary {
+    let mut value = summary.clone();
+    if let Some(identity) = value.account_identity.as_mut() {
+        identity.account_id = None;
+        identity.arn = None;
+        identity.user_id = None;
+    }
+    if let Some(launch) = value.launch.as_mut() {
+        launch.instance_id = "<redacted>".into();
+    }
+    if let Some(command) = value.command.as_mut() {
+        command.command_id = "<redacted>".into();
+        command.stdout_path = "command-stdout.log".into();
+        command.stderr_path = "command-stderr.log".into();
+        command.output_preview = redact_sensitive_text(&command.output_preview);
+        command.stderr_preview = redact_sensitive_text(&command.stderr_preview);
+    }
+    if let Some(cache) = value.cache_volume.as_mut() {
+        cache.volume_id = "<redacted>".into();
+        cache.mount_path = "<machine-path-redacted>".into();
+    }
+    if let Some(surface) = value.launch_surface.as_mut() {
+        surface.ami_id = "<redacted>".into();
+        surface.vpc_id = "<redacted>".into();
+        surface.subnet_id = "<redacted>".into();
+        surface.security_group_id = "<redacted>".into();
+        surface.security_group_name = surface
+            .security_group_name
+            .as_ref()
+            .map(|_| "<redacted>".into());
+        surface.instance_profile_name = "<redacted>".into();
+        surface.role_name = surface.role_name.as_ref().map(|_| "<redacted>".into());
+        surface.ssh_allowed_cidr = surface
+            .ssh_allowed_cidr
+            .as_ref()
+            .map(|_| "<redacted>".into());
+        surface.notes = surface
+            .notes
+            .iter()
+            .map(|note| redact_sensitive_text(note))
+            .collect();
+    }
+    if let Some(spot) = value.spot_termination_evidence.as_mut() {
+        spot.instance_id = "<redacted>".into();
+        spot.spot_instance_request_id = spot
+            .spot_instance_request_id
+            .as_ref()
+            .map(|_| "<redacted>".into());
+        spot.state_reason_message = spot
+            .state_reason_message
+            .as_deref()
+            .map(redact_sensitive_text);
+        spot.state_transition_reason = spot
+            .state_transition_reason
+            .as_deref()
+            .map(redact_sensitive_text);
+        spot.spot_request_status_message = spot
+            .spot_request_status_message
+            .as_deref()
+            .map(redact_sensitive_text);
+    }
+    value.artifact_dir = "artifacts".into();
+    value.event_log_path = "events.jsonl".into();
+    value.failure_reason = value.failure_reason.as_deref().map(redact_sensitive_text);
+    for attempt in &mut value.attempts {
+        attempt.message = redact_sensitive_text(&attempt.message);
+    }
+    value
 }
 
 fn public_ipv4_cidr(response: &[u8]) -> Result<String> {
@@ -3662,6 +3834,7 @@ mod tests {
             allow_on_demand_fallback: true,
             budget_name: Some("Agent Logic Monthly".to_string()),
             expected_max_cost_usd: Some(20.0),
+            cancellation_file: None,
             poll_interval_seconds: 1,
             ssm_ready_timeout_seconds: 10,
             command_timeout_seconds: Some(20),
@@ -3694,7 +3867,7 @@ mod tests {
             }
         });
         let stdout = format!(
-            "ADL_AWS_REMOTE_SUMMARY_BEGIN\n{}\nADL_AWS_REMOTE_SUMMARY_END\ncommand output",
+            "ADL_AWS_REMOTE_SUMMARY_BEGIN\n{}\nADL_AWS_REMOTE_SUMMARY_END\naccount=123456789012 instance=i-1234567890 path=/Volumes/FastWork/private",
             remote_json
         );
         let adapter = FakeAdapter {
@@ -3722,7 +3895,8 @@ mod tests {
                 status: "Success".to_string(),
                 response_code: Some(0),
                 stdout,
-                stderr: String::new(),
+                stderr: "arn:aws:sts::123456789012:assumed-role/example /Users/operator/private"
+                    .to_string(),
             }),
             terminate_result: Ok(()),
             final_state: Ok(Some("terminated".to_string())),
@@ -3762,6 +3936,22 @@ mod tests {
         assert!(events
             .iter()
             .any(|event| event.stage == "remote_command" && event.status == "ok"));
+        let retained_stdout = std::fs::read_to_string(tmp.join("artifacts/command-stdout.log"))
+            .expect("redacted stdout");
+        let retained_stderr = std::fs::read_to_string(tmp.join("artifacts/command-stderr.log"))
+            .expect("redacted stderr");
+        let public_summary = serde_json::to_string(&redacted_summary(&summary)).expect("summary");
+        for sensitive in [
+            "123456789012",
+            "i-1234567890",
+            "arn:aws:",
+            "/Volumes/",
+            "/Users/",
+        ] {
+            assert!(!retained_stdout.contains(sensitive));
+            assert!(!retained_stderr.contains(sensitive));
+            assert!(!public_summary.contains(sensitive));
+        }
     }
 
     #[tokio::test]

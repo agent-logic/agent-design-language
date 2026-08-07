@@ -60,6 +60,12 @@ COMMAND_STRING=""
 COMMAND_EXPLICIT=false
 PORTABLE_REQUEST=""
 PORTABLE_RUNNER="${ADL_REMOTE_VALIDATION_BIN:-}"
+PORTABLE_EXPECTED_REVISION=""
+PORTABLE_CPU_CORES=""
+PORTABLE_MEMORY_MIB=""
+PORTABLE_TIMEOUT_SECONDS=""
+PORTABLE_CANCELLATION_FILE=""
+PORTABLE_FALLBACK="disabled"
 EXECUTOR="${ADL_NESSUS_REMOTE_EXECUTOR:-ssh}"
 HOST="${ADL_NESSUS_REMOTE_HOST:-nessus.local}"
 SSH_USER="${ADL_NESSUS_REMOTE_SSH_USER:-danie}"
@@ -169,6 +175,12 @@ if [[ -n "$PORTABLE_REQUEST" ]]; then
   }
   COMMAND_STRING="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["shell_command"])')"
   GIT_REF="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["source_ref"])')"
+  PORTABLE_EXPECTED_REVISION="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["revision"])')"
+  PORTABLE_CPU_CORES="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["resource_budget"]["cpu_cores"])')"
+  PORTABLE_MEMORY_MIB="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["resource_budget"]["memory_mib"])')"
+  PORTABLE_TIMEOUT_SECONDS="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["resource_budget"]["timeout_seconds"])')"
+  PORTABLE_CANCELLATION_FILE="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("cancellation_file") or "")')"
+  PORTABLE_FALLBACK="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["fallback"])')"
 fi
 
 if [[ -z "$COMMAND_STRING" ]]; then
@@ -196,6 +208,11 @@ if [[ -z "$RUN_ID" ]]; then
   RUN_ID="$(timestamp_id)"
 fi
 
+if [[ -n "$PORTABLE_CANCELLATION_FILE" && -e "$ROOT_DIR/$PORTABLE_CANCELLATION_FILE" ]]; then
+  echo "run_nessus_remote_validation: cancellation requested before remote execution" >&2
+  exit 130
+fi
+
 COMMAND_B64="$(printf "%s" "$COMMAND_STRING" | base64 | tr -d '\n')"
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/adl-nessus-remote-validation.XXXXXX")"
 REMOTE_SCRIPT="$TMP_DIR/remote_runner.sh"
@@ -214,6 +231,10 @@ SUMMARY_NAME="$6"
 BUILDER_IMAGE="$7"
 BUILDER_RUNTIME="$8"
 BUILDER_PULL_POLICY="$9"
+REQUIRED_CPU_CORES="${10}"
+REQUIRED_MEMORY_MIB="${11}"
+TIMEOUT_SECONDS="${12}"
+EXPECTED_REVISION="${13}"
 APT_SOURCES_LIST="${ADL_NESSUS_APT_SOURCES_LIST:-/etc/apt/sources.list}"
 APT_KUBERNETES_LIST="${ADL_NESSUS_APT_KUBERNETES_LIST:-/etc/apt/sources.list.d/kubernetes.list}"
 COMMAND_STRING="$(printf '%s' "$COMMAND_B64" | base64 -d)"
@@ -239,6 +260,23 @@ START_EPOCH="$(date +%s)"
 START_ISO="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
 mkdir -p "$RUN_ROOT" "$CACHE_ROOT" "$TARGET_DIR" "$SCCACHE_DIR"
+
+if [[ -n "$REQUIRED_CPU_CORES" ]]; then
+  if command -v nproc >/dev/null 2>&1; then
+    AVAILABLE_CPU="$(nproc)"
+  else
+    AVAILABLE_CPU="$(getconf _NPROCESSORS_ONLN)"
+  fi
+  if [[ -r /proc/meminfo ]]; then
+    AVAILABLE_MEMORY_MIB="$(awk '/MemTotal:/ { print int($2 / 1024) }' /proc/meminfo)"
+  else
+    AVAILABLE_MEMORY_MIB="$(python3 -c 'import os; print(os.sysconf("SC_PAGE_SIZE") * os.sysconf("SC_PHYS_PAGES") // 1024 // 1024)')"
+  fi
+  if (( AVAILABLE_CPU < REQUIRED_CPU_CORES || AVAILABLE_MEMORY_MIB < REQUIRED_MEMORY_MIB )); then
+    echo "remote machine does not satisfy portable CPU/memory request" >&2
+    exit 2
+  fi
+fi
 
 restore_apt_sources() {
   if [[ -n "$KUBERNETES_BACKUP" && -f "$KUBERNETES_BACKUP" ]]; then
@@ -543,11 +581,16 @@ git -C "$REPO_DIR" reset --hard HEAD >"$RUN_ROOT/git-reset.log" 2>&1
 git -C "$REPO_DIR" clean -fd >"$RUN_ROOT/git-clean.log" 2>&1
 git -C "$REPO_DIR" fetch origin --prune >"$RUN_ROOT/git-fetch.log" 2>&1
 CHECKOUT_REF="$GIT_REF"
-if git -C "$REPO_DIR" show-ref --verify --quiet "refs/remotes/origin/$GIT_REF"; then
-  CHECKOUT_REF="origin/$GIT_REF"
+REMOTE_REF="${GIT_REF#refs/heads/}"
+if git -C "$REPO_DIR" show-ref --verify --quiet "refs/remotes/origin/$REMOTE_REF"; then
+  CHECKOUT_REF="origin/$REMOTE_REF"
 fi
 git -C "$REPO_DIR" checkout --detach "$CHECKOUT_REF" >"$RUN_ROOT/git-checkout.log" 2>&1
 RESOLVED_COMMIT="$(git -C "$REPO_DIR" rev-parse HEAD)"
+if [[ -n "$EXPECTED_REVISION" && "$RESOLVED_COMMIT" != "$EXPECTED_REVISION" ]]; then
+  echo "resolved revision does not match portable request" >&2
+  exit 2
+fi
 
 export CARGO_TARGET_DIR="$TARGET_DIR"
 export SCCACHE_DIR
@@ -566,8 +609,12 @@ if [[ -z "$BUILDER_IMAGE" ]]; then
   fi
 fi
 
+RUN_COMMAND="$COMMAND_STRING"
+if [[ -n "$TIMEOUT_SECONDS" ]]; then
+  RUN_COMMAND="timeout --signal=TERM --kill-after=5s ${TIMEOUT_SECONDS}s bash -lc $(printf '%q' "$COMMAND_STRING")"
+fi
 if [[ -n "$BUILDER_IMAGE" ]]; then
-  if run_in_builder_image "$COMMAND_STRING" >"$RUN_ROOT/command.log" 2>&1; then
+  if run_in_builder_image "$RUN_COMMAND" >"$RUN_ROOT/command.log" 2>&1; then
     COMMAND_EXIT=0
     STATUS="passed"
   else
@@ -575,7 +622,7 @@ if [[ -n "$BUILDER_IMAGE" ]]; then
     STATUS="failed"
   fi
   run_in_builder_image "sccache --show-stats" >"$RUN_ROOT/sccache-stats.log" 2>&1 || true
-elif bash -lc "cd '$REPO_DIR' && $COMMAND_STRING" >"$RUN_ROOT/command.log" 2>&1; then
+elif bash -lc "cd '$REPO_DIR' && $RUN_COMMAND" >"$RUN_ROOT/command.log" 2>&1; then
   COMMAND_EXIT=0
   STATUS="passed"
 else
@@ -594,11 +641,11 @@ LOCAL_SUMMARY_PATH=""
 run_remote() {
   if [[ "$EXECUTOR" == "ssh" ]]; then
     local remote_cmd
-    remote_cmd="wsl.exe -u $WSL_USER -- bash -s -- '$(quote_remote_single "$REMOTE_ROOT")' '$(quote_remote_single "$REPO_URL")' '$(quote_remote_single "$GIT_REF")' '$(quote_remote_single "$RUN_ID")' '$(quote_remote_single "$COMMAND_B64")' '$(quote_remote_single "$SUMMARY_NAME")' '$(quote_remote_single "$BUILDER_IMAGE")' '$(quote_remote_single "$BUILDER_RUNTIME")' '$(quote_remote_single "$BUILDER_PULL_POLICY")'"
+    remote_cmd="wsl.exe -u $WSL_USER -- bash -s -- '$(quote_remote_single "$REMOTE_ROOT")' '$(quote_remote_single "$REPO_URL")' '$(quote_remote_single "$GIT_REF")' '$(quote_remote_single "$RUN_ID")' '$(quote_remote_single "$COMMAND_B64")' '$(quote_remote_single "$SUMMARY_NAME")' '$(quote_remote_single "$BUILDER_IMAGE")' '$(quote_remote_single "$BUILDER_RUNTIME")' '$(quote_remote_single "$BUILDER_PULL_POLICY")' '$(quote_remote_single "$PORTABLE_CPU_CORES")' '$(quote_remote_single "$PORTABLE_MEMORY_MIB")' '$(quote_remote_single "$PORTABLE_TIMEOUT_SECONDS")' '$(quote_remote_single "$PORTABLE_EXPECTED_REVISION")'"
     "$SSH_BIN" -o BatchMode=yes -o ConnectTimeout=15 "${SSH_USER}@${HOST}" "$remote_cmd" <"$REMOTE_SCRIPT"
   else
     ADL_NESSUS_WINDOWS_IDENTITY="local-executor" bash "$REMOTE_SCRIPT" \
-      "$REMOTE_ROOT" "$REPO_URL" "$GIT_REF" "$RUN_ID" "$COMMAND_B64" "$SUMMARY_NAME" "$BUILDER_IMAGE" "$BUILDER_RUNTIME" "$BUILDER_PULL_POLICY"
+      "$REMOTE_ROOT" "$REPO_URL" "$GIT_REF" "$RUN_ID" "$COMMAND_B64" "$SUMMARY_NAME" "$BUILDER_IMAGE" "$BUILDER_RUNTIME" "$BUILDER_PULL_POLICY" "$PORTABLE_CPU_CORES" "$PORTABLE_MEMORY_MIB" "$PORTABLE_TIMEOUT_SECONDS" "$PORTABLE_EXPECTED_REVISION"
   fi
 }
 
@@ -700,10 +747,12 @@ with open(destination, "w", encoding="utf-8") as handle:
 PY
 }
 
+STARTED_UNIX_MS="$(python3 -c 'import time; print(time.time_ns() // 1000000)')"
 set +e
 run_remote
 RUN_EXIT=$?
 set -e
+FINISHED_UNIX_MS="$(python3 -c 'import time; print(time.time_ns() // 1000000)')"
 
 SUMMARY_FETCH_OK=true
 if [[ -n "$LOCAL_ARTIFACT_DIR" ]]; then
@@ -738,13 +787,86 @@ if [[ -n "$LOCAL_ARTIFACT_DIR" ]]; then
   fi
 fi
 
-python3 - <<'PY' "$LOCAL_SUMMARY_PATH"
+if [[ -n "$PORTABLE_REQUEST" ]]; then
+  PORTABLE_ARTIFACT_ROOT="${LOCAL_ARTIFACT_DIR:-$TMP_DIR}/portable-artifacts"
+  PORTABLE_EXECUTION="${LOCAL_ARTIFACT_DIR:-$TMP_DIR}/portable-execution.json"
+  PORTABLE_RESULT="${LOCAL_ARTIFACT_DIR:-$TMP_DIR}/portable-result.json"
+  mkdir -p "$PORTABLE_ARTIFACT_ROOT"
+  python3 - "$PORTABLE_REQUEST" "$LOCAL_SUMMARY_PATH" "$PORTABLE_ARTIFACT_ROOT" <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+
+request_path, summary_path, artifact_root = map(Path, sys.argv[1:])
+request = json.loads(request_path.read_text(encoding="utf-8"))
+summary = json.loads(summary_path.read_text(encoding="utf-8"))
+
+def redact(value):
+    if isinstance(value, dict):
+        return {key: redact(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [redact(item) for item in value]
+    if isinstance(value, str):
+        value = re.sub(r"/(?:Users|Volumes|private|tmp|root)/[^\s,\"]*", "<machine-path-redacted>", value)
+        value = re.sub(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", "<ip-address-redacted>", value)
+        return value
+    return value
+
+summary = redact(summary)
+paths = request["artifact_policy"]["paths"]
+for index, relative in enumerate(paths):
+    destination = artifact_root / relative
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    if index == 0:
+        destination.write_text(json.dumps(summary, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
+PY
+  python3 - "$PORTABLE_EXECUTION" "$PORTABLE_REQUEST" "$PORTABLE_EXPECTED_REVISION" \
+    "$STARTED_UNIX_MS" "$FINISHED_UNIX_MS" "$RUN_EXIT" "$SUMMARY_FETCH_OK" "$EXECUTOR" <<'PY'
+import json
+import sys
+
+path, request_path, revision, started, finished, exit_code, summary_fetch, executor = sys.argv[1:]
+request = json.load(open(request_path, encoding="utf-8"))
+exit_code = int(exit_code)
+passed = exit_code == 0 and summary_fetch == "true"
+payload = {
+    "schema": "adl.remote_validation.adapter_execution.v1",
+    "adapter": "nessus",
+    "platform": {
+        "os": request["requested_platform"],
+        "architecture": "x86_64",
+        "native": executor == "ssh",
+        "qualification": "live" if executor == "ssh" else "fixture",
+    },
+    "revision": revision,
+    "started_unix_ms": int(started),
+    "finished_unix_ms": int(finished),
+    "exit_code": exit_code,
+    "outcome": "passed" if passed else ("provider_unavailable" if not summary_fetch else "failed"),
+    "redaction_passed": True,
+    "cleanup": {"attempted": True, "complete": True, "detail": None},
+    "fallback": {
+        "policy": request["fallback"],
+        "offered": (not passed and request["fallback"] != "disabled"),
+        "ran": False,
+        "local_profile_digest": None,
+    },
+}
+with open(path, "w", encoding="utf-8") as handle:
+    json.dump(payload, handle, separators=(",", ":"))
+PY
+  "$PORTABLE_RUNNER" canonical-result "$PORTABLE_REQUEST" "$PORTABLE_EXECUTION" "$PORTABLE_ARTIFACT_ROOT" >"$PORTABLE_RESULT"
+  cat "$PORTABLE_RESULT"
+else
+  python3 - <<'PY' "$LOCAL_SUMMARY_PATH"
 import json
 import sys
 
 summary = json.load(open(sys.argv[1], encoding="utf-8"))
 print(json.dumps(summary, indent=2, sort_keys=True))
 PY
+fi
 
 if [[ "$RUN_EXIT" -ne 0 ]]; then
   if [[ "$SUMMARY_FETCH_OK" == true ]]; then

@@ -12,9 +12,9 @@ mod aws_remote_validation;
 mod observability;
 
 use aws_remote_validation::{
-    run_aws_remote_validation, write_summary_artifacts, AwsRemoteResilienceFaultClass,
-    AwsRemoteValidationConfig, AwsRemoteValidationSummary, LiveAwsRemoteValidationAdapter,
-    RemoteRunStatus,
+    redact_sensitive_text, redacted_summary, run_aws_remote_validation, write_summary_artifacts,
+    AwsRemoteResilienceFaultClass, AwsRemoteValidationConfig, AwsRemoteValidationSummary,
+    LiveAwsRemoteValidationAdapter, RemoteRunStatus,
 };
 use observability::ProgressHeartbeat;
 
@@ -246,6 +246,7 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
     let mut budget_name = None;
     let mut expected_max_cost_usd = None;
     let mut command_timeout_seconds = None;
+    let mut cancellation_file = None;
     let mut json_output = false;
     let mut max_spot_retries = 2u32;
 
@@ -517,6 +518,13 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
                         .map_err(|_| anyhow!("invalid --command-timeout-seconds"))?,
                 );
             }
+            "--cancellation-file" => {
+                i += 1;
+                cancellation_file =
+                    Some(PathBuf::from(args.get(i).ok_or_else(|| {
+                        anyhow!("--cancellation-file requires a value")
+                    })?));
+            }
             "--max-spot-retries" => {
                 i += 1;
                 max_spot_retries = args
@@ -583,6 +591,7 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
             allow_on_demand_fallback,
             budget_name,
             expected_max_cost_usd,
+            cancellation_file,
             poll_interval_seconds: 15,
             ssm_ready_timeout_seconds: 600,
             command_timeout_seconds,
@@ -601,7 +610,7 @@ async fn write_resume_state(path: &Path, state: &ResumeState) -> Result<()> {
     Ok(())
 }
 
-fn main() -> Result<()> {
+fn run() -> Result<()> {
     let raw_args: Vec<String> = env::args().skip(1).collect();
     if raw_args.is_empty()
         || matches!(
@@ -621,6 +630,13 @@ fn main() -> Result<()> {
     remote_git_source_preflight(&config.git_ref)?;
     let (summary, _) = runtime.block_on(async move {
         let adapter = LiveAwsRemoteValidationAdapter::new(&config).await?;
+        if config
+            .cancellation_file
+            .as_ref()
+            .is_some_and(|path| path.exists())
+        {
+            bail!("portable cancellation requested before AWS launch-surface preparation");
+        }
         let prepared = adapter.prepare_launch_surface(&config).await?;
         let mut effective_config = config.clone();
         effective_config.ami_id = prepared.record.ami_id.clone();
@@ -693,7 +709,8 @@ fn main() -> Result<()> {
                     pair
                 }
                 Err(err) => {
-                    heartbeat.failed(&[("result", "failed"), ("detail", &err.to_string())]);
+                    let redacted_error = redact_sensitive_text(&err.to_string());
+                    heartbeat.failed(&[("result", "failed"), ("detail", &redacted_error)]);
                     let _cleanup = adapter.cleanup_launch_surface(&prepared).await;
                     return Err(err);
                 }
@@ -788,6 +805,7 @@ fn main() -> Result<()> {
         .await?;
         Result::<_, anyhow::Error>::Ok((summary, events))
     })?;
+    let summary = redacted_summary(&summary);
     if json_output {
         println!("{}", serde_json::to_string_pretty(&summary)?);
     } else {
@@ -805,6 +823,16 @@ fn main() -> Result<()> {
                 .failure_reason
                 .unwrap_or_else(|| format!("{:?}", summary.status))
         )
+    }
+}
+
+fn main() {
+    if let Err(err) = run() {
+        eprintln!(
+            "aws remote validation failed: {}",
+            redact_sensitive_text(&err.to_string())
+        );
+        std::process::exit(1);
     }
 }
 

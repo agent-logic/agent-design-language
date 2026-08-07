@@ -117,11 +117,29 @@ pub struct PortableResult {
     pub platform: PlatformRecord,
     pub revision: String,
     pub command_profile_digest: String,
+    pub resource_budget: ResourceBudget,
+    pub artifact_policy: ArtifactPolicy,
+    pub cancellation_file: Option<String>,
     pub started_unix_ms: u128,
     pub finished_unix_ms: u128,
     pub exit_code: Option<i32>,
     pub outcome: RunOutcome,
     pub artifact_digests: Vec<ArtifactDigest>,
+    pub redaction_passed: bool,
+    pub cleanup: CleanupStatus,
+    pub fallback: FallbackStatus,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct AdapterExecutionReceipt {
+    pub schema: String,
+    pub adapter: AdapterKind,
+    pub platform: PlatformRecord,
+    pub revision: String,
+    pub started_unix_ms: u128,
+    pub finished_unix_ms: u128,
+    pub exit_code: Option<i32>,
+    pub outcome: RunOutcome,
     pub redaction_passed: bool,
     pub cleanup: CleanupStatus,
     pub fallback: FallbackStatus,
@@ -134,11 +152,9 @@ pub struct AdapterPlan {
     pub source_ref: Option<String>,
     pub command_profile_digest: String,
     pub shell_command: String,
-    pub cpu_cores: u16,
-    pub memory_mib: u64,
-    pub timeout_seconds: u64,
-    pub estimated_max_cost_microusd: Option<u64>,
-    pub artifact_paths: Vec<String>,
+    pub resource_budget: ResourceBudget,
+    pub artifact_policy: ArtifactPolicy,
+    pub cancellation_file: Option<String>,
     pub fallback: FallbackPolicy,
 }
 
@@ -302,6 +318,14 @@ pub fn validate_request(request: &PortableRequest) -> Result<(), String> {
     if request.adapter == AdapterKind::Local && request.fallback != FallbackPolicy::Disabled {
         return Err("local execution cannot declare a second local fallback".into());
     }
+    if request.adapter == AdapterKind::Aws
+        && !matches!(
+            request.resource_budget.estimated_max_cost_microusd,
+            Some(value) if value > 0
+        )
+    {
+        return Err("AWS execution requires a nonzero estimated cost ceiling".into());
+    }
     Ok(())
 }
 
@@ -352,11 +376,9 @@ pub fn adapter_plan(
         source_ref: request.source_ref.clone(),
         command_profile_digest: request.command_profile_digest.clone(),
         shell_command: shell_join(&request.command_profile.argv)?,
-        cpu_cores: request.resource_budget.cpu_cores,
-        memory_mib: request.resource_budget.memory_mib,
-        timeout_seconds: request.resource_budget.timeout_seconds,
-        estimated_max_cost_microusd: request.resource_budget.estimated_max_cost_microusd,
-        artifact_paths: request.artifact_policy.paths.clone(),
+        resource_budget: request.resource_budget.clone(),
+        artifact_policy: request.artifact_policy.clone(),
+        cancellation_file: request.cancellation_file.clone(),
         fallback: request.fallback,
     })
 }
@@ -400,8 +422,11 @@ pub fn validate_result(request: &PortableRequest, result: &PortableResult) -> Re
     }
     if result.revision != request.revision
         || result.command_profile_digest != request.command_profile_digest
+        || result.resource_budget != request.resource_budget
+        || result.artifact_policy != request.artifact_policy
+        || result.cancellation_file != request.cancellation_file
     {
-        return Err("result provenance does not match request".into());
+        return Err("result provenance or execution contract does not match request".into());
     }
     if result.platform.os != request.requested_platform
         || result.platform.architecture.trim().is_empty()
@@ -413,6 +438,11 @@ pub fn validate_result(request: &PortableRequest, result: &PortableResult) -> Re
     }
     if result.finished_unix_ms < result.started_unix_ms {
         return Err("result timing is invalid".into());
+    }
+    if result.finished_unix_ms - result.started_unix_ms
+        > u128::from(request.resource_budget.timeout_seconds) * 1_000
+    {
+        return Err("result exceeded the declared timeout".into());
     }
     if !result.redaction_passed {
         return Err("result failed redaction".into());
@@ -538,6 +568,40 @@ fn artifact_digests(
     Ok(artifacts)
 }
 
+pub fn canonicalize_adapter_result(
+    request: &PortableRequest,
+    receipt: &AdapterExecutionReceipt,
+    artifact_root: &Path,
+) -> Result<PortableResult, String> {
+    validate_request(request)?;
+    if receipt.schema != "adl.remote_validation.adapter_execution.v1"
+        || receipt.adapter != request.adapter
+    {
+        return Err("adapter execution receipt identity does not match request".into());
+    }
+    let result = PortableResult {
+        schema: RESULT_SCHEMA.into(),
+        request_id: request.request_id.clone(),
+        adapter: receipt.adapter,
+        platform: receipt.platform.clone(),
+        revision: receipt.revision.clone(),
+        command_profile_digest: request.command_profile_digest.clone(),
+        resource_budget: request.resource_budget.clone(),
+        artifact_policy: request.artifact_policy.clone(),
+        cancellation_file: request.cancellation_file.clone(),
+        started_unix_ms: receipt.started_unix_ms,
+        finished_unix_ms: receipt.finished_unix_ms,
+        exit_code: receipt.exit_code,
+        outcome: receipt.outcome.clone(),
+        artifact_digests: artifact_digests(artifact_root, &request.artifact_policy)?,
+        redaction_passed: receipt.redaction_passed,
+        cleanup: receipt.cleanup.clone(),
+        fallback: receipt.fallback.clone(),
+    };
+    validate_result(request, &result)?;
+    Ok(result)
+}
+
 pub fn run_local(
     request: &PortableRequest,
     repository_root: &Path,
@@ -624,6 +688,9 @@ pub fn run_local(
         },
         revision: request.revision.clone(),
         command_profile_digest: request.command_profile_digest.clone(),
+        resource_budget: request.resource_budget.clone(),
+        artifact_policy: request.artifact_policy.clone(),
+        cancellation_file: request.cancellation_file.clone(),
         started_unix_ms: started,
         finished_unix_ms: unix_ms(),
         exit_code,

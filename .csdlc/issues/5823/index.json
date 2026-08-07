@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7c3bcca3a89242a98791c5d0a2391d199e3e2a088e3fa577d270275ae22c2571",
   "phase": "implemented",
-  "generation": 28,
-  "digest": "fad92db7b6c419e0a1a3867abef947568792a55cdfd33da09806f5fe3c4ff709",
+  "generation": 29,
+  "digest": "ddbdd6f3be9d7e0b336d096a42f57221c82fe83f18cdec6eb0b7d98060947fe4",
   "branch": "codex/5823-v0-92-wp-06-remote-validation-build-runner",
   "worktree": "/Volumes/FastWork/adl-wp-5823-v0-92-wp-06-remote-validation-build-runner",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "310e75016830f529c3f7cb6d01af82c72e9de9558bcd7cc670780091f91d963c",
+      "values_digest": "dbc8dba344b2017048e6df275c69837972125ded119d230e32c3d502bcc303c0",
       "rendered_digest": "3a521d5361568d36e6e58f2b1548dbe24b6deedb254c5106942ee132edda129d",
       "ast_digest": "c753f60486959e5674018050c5085ce087467ae6c749eefa4ed399b678129b0c"
     },
     "stp": {
-      "values_digest": "e2848d3c3d2cbdb136f6049d2f8e943dc24800b9c5795df195213c1ffffb82a0",
+      "values_digest": "8f2f0fdd05aa68bb98523295c0baa370d9316c30e251925dbece57235daeff98",
       "rendered_digest": "26a93a4af8877e02ec404514a74bfc23902ac3cbe536343ef04a7cad5dfabb85",
       "ast_digest": "0b73a4514b346098dad1a34949ea16795bc21fbf9f49c10c610ac39d3e5af291"
     },
     "spp": {
-      "values_digest": "44b7aea5b7f401b6766a32f1b45a569a10941b0d92c95eb7e78107de50cdf990",
+      "values_digest": "80c7f22649fb07378ec1a5cca59293a060a5c0fc521323afd1b11a92b907ee9f",
       "rendered_digest": "de622e047b4e75aa25f0046414259266d3984ff4fe56846ad4e50eb94c777034",
       "ast_digest": "118d43464d1087be358dc850c9b87ba6f8823679c55facfeb9634ec01c5e7d88"
     },
     "vpp": {
-      "values_digest": "1ec3a49f0a6cf9c62a1085313be2902a4c3c88136ca0d1eef8bbf5dffeada8e7",
+      "values_digest": "7c94b74e0603fc92bf5144ef5d7868cc476704281a306a23627c1151771d9092",
       "rendered_digest": "b1874acfe1560921aea1949e011354b80cda7bc75d1e98605796987eaf42f5f7",
       "ast_digest": "8e6723ca7e839922ab54a4d972a48184c8b27d6bc5f897725414cecf524f34b3"
     },
     "srp": {
-      "values_digest": "649c2c6824f2fa957fda92bdd29a5c1b89a81b1af77fb4492cd99867a6a7274e",
+      "values_digest": "3ab4f458115884b48c369d1ec4c4327f1eb48a2aa7726407d37fd99ca0be78dd",
       "rendered_digest": "d75b392680f254c5218c7ac6d47f1f0dab88c8d5975c5f9dcc312a58048cc045",
       "ast_digest": "fa8a9f100c7618edbbdd6de56dbf5ca70b1f4dfe33d7cccf069ed303d921ba71"
     },
     "sor": {
-      "values_digest": "56011ae3d3cdd963a850223b778c295a2a2f231f9e4ca158de1effa23c8c32ab",
-      "rendered_digest": "81f8270f4b763f14bb3bc8de68fd7a82dddba4e2d5142e0fd39a04fb4e3727a7",
-      "ast_digest": "13db161632a963fad6ab14584712b54104a659f378a11d617cbf28a81fea0054"
+      "values_digest": "d3ee2ea9aaf249bbdc313473d0496bb0e33f08a6c23bbf7bffbb430c345594cd",
+      "rendered_digest": "e6d836b2a6aff87510e1800fc2ce95ba3528e795198216708659d406792487ac",
+      "ast_digest": "07373e9c89c4b9a816a0a7b367ec079c90930df13ea07ce330e4f5c41de1fbe7"
     }
   },
   "transitions": [
@@ -427,6 +427,13 @@
       "actor": "codex:5823-execution",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 48,
+      "generation": 29,
+      "actor": "codex:5823-review-repair",
+      "reason": "reconcile execution and focused validation after independent review repairs",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired the provider-neutral remote-validation contract after independent review. AWS and Nessus now preserve the complete portable request in canonical results; AWS enforces nonzero and projected cost bounds, instance CPU/memory capacity, cancellation, and pre-emission redaction; Nessus enforces revision, capacity, timeout, and cancellation; retained platform receipts are opened, hashed, cross-checked, and tied to truthful operator authorization. The prior authorized paid AWS run remains the live Linux proof; no second paid run was needed because the changed enforcement is covered by deterministic focused tests.\",\"changes\":[\"Preserved resource budget, artifact policy, cancellation file, fallback policy, and command-profile digest through adapter plans and canonical portable results.\",\"Added fail-closed AWS cost-ceiling, projected-cost, instance-capacity, cancellation, and stdout/stderr redaction enforcement with negative tests.\",\"Added Nessus exact-revision, CPU/memory, timeout, cancellation, artifact hashing, and canonical result enforcement with focused shell tests.\",\"Strengthened platform evidence validation to open receipts, verify SHA-256 and artifact bytes, compare revisions and profile digests, and validate budget, redaction, cleanup, first-attempt disposition, and operator authorization.\",\"Reconciled retained portable result schemas and fixed all bounded diff whitespace findings without another paid provider run.\"],\"artifacts\":[\"tools/remote_validation\",\"tools/aws_remote_validation/src/aws_remote_validation.rs\",\"tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs\",\"tools/aws_remote_validation/tests/portable_adapter.rs\",\"adl/tools/run_aws_spot_remote_validation_lane.sh\",\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\",\"adl/tools/run_nessus_remote_validation.sh\",\"adl/tools/test_run_nessus_remote_validation.sh\",\".csdlc/prepared/issues/5823/validate-platform-matrix.rb\",\".csdlc/evidence/5823\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"tools/remote_validation/Cargo.toml\",\"--test\",\"contract\"],\"purpose\":\"Prove complete portable request/result preservation, canonical artifact hashing, exact revision, timeout, cancellation, cleanup, redaction, and fallback semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5823/final-portable-contract.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"tools/aws_remote_validation/Cargo.toml\",\"--test\",\"portable_adapter\"],\"purpose\":\"Prove AWS portable mapping, redaction before retention, provider-failure classification, and cleanup behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5823/final-aws-adapter.log\"},{\"command\":[\"bash\",\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\"],\"purpose\":\"Prove projected-cost, CPU/memory capacity, cancellation, exact revision, and wrapper redaction controls without provider use.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5823/final-aws-shell.log\"},{\"command\":[\"bash\",\"adl/tools/test_run_nessus_remote_validation.sh\"],\"purpose\":\"Prove Nessus complete portable mapping, exact revision, capacity, timeout, cancellation, artifact hashing, and canonical result behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5823/final-nessus-shell.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5823/validate-platform-matrix.rb\"],\"purpose\":\"Verify retained receipt SHA-256, artifact digests, revisions, profile digests, authorization, budget, redaction, cleanup, and first-attempt disposition.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5823/final-platform-matrix.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main\"],\"purpose\":\"Reject whitespace errors across the complete issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5823/final-diff-hygiene.log\"}]}"
     }
   ]
 }

@@ -10,6 +10,20 @@
   },
   "revision": "7868fe91210f136640b330de202c7da6a1f0d29d",
   "command_profile_digest": "6303deb1e636536249b41d5fb49cb179f2baa802a2a1a61b94df053e8ecb56ed",
+  "resource_budget": {
+    "cpu_cores": 8,
+    "memory_mib": 32768,
+    "timeout_seconds": 900,
+    "estimated_max_cost_microusd": 200000
+  },
+  "artifact_policy": {
+    "paths": [
+      ".csdlc/evidence/5823/linux-native-remote-summary.json"
+    ],
+    "required": true,
+    "max_total_bytes": 1048576
+  },
+  "cancellation_file": null,
   "started_unix_ms": 1786065802795,
   "finished_unix_ms": 1786065996743,
   "exit_code": 0,

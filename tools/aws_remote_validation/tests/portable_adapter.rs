@@ -77,6 +77,7 @@ fn config() -> AwsRemoteValidationConfig {
         allow_on_demand_fallback: false,
         budget_name: None,
         expected_max_cost_usd: None,
+        cancellation_file: None,
         poll_interval_seconds: 1,
         ssm_ready_timeout_seconds: 60,
         command_timeout_seconds: None,
@@ -94,7 +95,9 @@ fn portable_request_maps_exactly_to_aws_adapter_inputs() {
         Some("refs/heads/codex/wp-5823-fixture")
     );
     assert_eq!(plan.shell_command, "'cargo' 'test' '--locked'");
-    assert_eq!(plan.timeout_seconds, 900);
+    assert_eq!(plan.resource_budget, request.resource_budget);
+    assert_eq!(plan.artifact_policy, request.artifact_policy);
+    assert_eq!(plan.cancellation_file, request.cancellation_file);
 
     let mut config = config();
     apply_portable_aws_request(&mut config, &request).unwrap();

@@ -68,7 +68,7 @@ fn request(adapter: AdapterKind, argv: Vec<String>) -> PortableRequest {
             cpu_cores: 2,
             memory_mib: 1024,
             timeout_seconds: 2,
-            estimated_max_cost_microusd: None,
+            estimated_max_cost_microusd: (adapter == AdapterKind::Aws).then_some(200_000),
         },
         artifact_policy: ArtifactPolicy {
             paths: vec!["tools/remote_validation/Cargo.toml".into()],
@@ -97,6 +97,9 @@ fn passed_result(request: &PortableRequest) -> PortableResult {
         },
         revision: request.revision.clone(),
         command_profile_digest: request.command_profile_digest.clone(),
+        resource_budget: request.resource_budget.clone(),
+        artifact_policy: request.artifact_policy.clone(),
+        cancellation_file: request.cancellation_file.clone(),
         started_unix_ms: 10,
         finished_unix_ms: 20,
         exit_code: Some(0),
@@ -145,8 +148,9 @@ fn request_round_trip_and_adapter_plan_preserve_provenance() {
     assert_eq!(plan.source_ref, request.source_ref);
     assert_eq!(plan.command_profile_digest, request.command_profile_digest);
     assert_eq!(plan.shell_command, "'cargo' 'check'");
-    assert_eq!(plan.cpu_cores, 2);
-    assert_eq!(plan.memory_mib, 1024);
+    assert_eq!(plan.resource_budget, request.resource_budget);
+    assert_eq!(plan.artifact_policy, request.artifact_policy);
+    assert_eq!(plan.cancellation_file, request.cancellation_file);
 }
 
 #[test]
@@ -178,6 +182,12 @@ fn request_rejects_stale_digest_absolute_paths_and_secret_environment() {
     assert!(validate_request(&value)
         .unwrap_err()
         .contains("secret-bearing"));
+
+    let mut value = request(AdapterKind::Aws, vec!["cargo".into(), "test".into()]);
+    value.resource_budget.estimated_max_cost_microusd = Some(0);
+    assert!(validate_request(&value)
+        .unwrap_err()
+        .contains("nonzero estimated cost ceiling"));
 }
 
 #[test]
@@ -268,6 +278,21 @@ fn result_rejects_malformed_provenance_redaction_and_cleanup() {
         .unwrap_err()
         .contains("declared policy"));
     result = passed_result(&value);
+    result.resource_budget.memory_mib += 1;
+    assert!(validate_result(&value, &result)
+        .unwrap_err()
+        .contains("execution contract"));
+    result = passed_result(&value);
+    result.artifact_policy.required = false;
+    assert!(validate_result(&value, &result)
+        .unwrap_err()
+        .contains("execution contract"));
+    result = passed_result(&value);
+    result.cancellation_file = Some("cancel.signal".into());
+    assert!(validate_result(&value, &result)
+        .unwrap_err()
+        .contains("execution contract"));
+    result = passed_result(&value);
     result.fallback.ran = true;
     assert!(validate_result(&value, &result)
         .unwrap_err()
@@ -324,5 +349,49 @@ fn local_execution_rejects_dirty_tracked_source() {
     assert!(verify_checkout_revision(&checkout, &clean_revision)
         .unwrap_err()
         .contains("outside untracked evidence"));
+    std::fs::remove_dir_all(checkout).unwrap();
+}
+
+#[test]
+fn canonical_adapter_result_hashes_declared_artifacts_and_preserves_contract() {
+    let checkout = fixture_checkout("canonical-result");
+    let mut value = request(AdapterKind::Nessus, vec!["/usr/bin/true".into()]);
+    value.revision = revision(&checkout);
+    value.requested_platform = "linux".into();
+    value.artifact_policy.paths = vec!["proof/summary.json".into()];
+    std::fs::create_dir_all(checkout.join("proof")).unwrap();
+    std::fs::write(checkout.join("proof/summary.json"), b"proof\n").unwrap();
+    let receipt = AdapterExecutionReceipt {
+        schema: "adl.remote_validation.adapter_execution.v1".into(),
+        adapter: AdapterKind::Nessus,
+        platform: PlatformRecord {
+            os: "linux".into(),
+            architecture: "x86_64".into(),
+            native: true,
+            qualification: "live".into(),
+        },
+        revision: value.revision.clone(),
+        started_unix_ms: 10,
+        finished_unix_ms: 20,
+        exit_code: Some(0),
+        outcome: RunOutcome::Passed,
+        redaction_passed: true,
+        cleanup: CleanupStatus {
+            attempted: false,
+            complete: true,
+            detail: None,
+        },
+        fallback: FallbackStatus {
+            policy: value.fallback,
+            offered: false,
+            ran: false,
+            local_profile_digest: None,
+        },
+    };
+    let result = canonicalize_adapter_result(&value, &receipt, &checkout).unwrap();
+    assert_eq!(result.resource_budget, value.resource_budget);
+    assert_eq!(result.artifact_policy, value.artifact_policy);
+    assert_eq!(result.artifact_digests.len(), 1);
+    validate_result(&value, &result).unwrap();
     std::fs::remove_dir_all(checkout).unwrap();
 }

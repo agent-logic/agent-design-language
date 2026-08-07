@@ -1,18 +1,16 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running tests/contract.rs (/Volumes/FastWork/adl-wp-5823-target/debug/deps/contract-70699edba0a06bfb)
 
-running 9 tests
-test adapter_selection_and_shell_encoding_fail_closed ... ok
-test fallback_is_same_profile_and_never_hides_bad_remote_proof ... ok
-test request_round_trip_and_adapter_plan_preserve_provenance ... ok
+running 10 tests
 test result_rejects_malformed_provenance_redaction_and_cleanup ... ok
+test adapter_selection_and_shell_encoding_fail_closed ... ok
+test request_round_trip_and_adapter_plan_preserve_provenance ... ok
+test fallback_is_same_profile_and_never_hides_bad_remote_proof ... ok
 test request_rejects_stale_digest_absolute_paths_and_secret_environment ... ok
+test canonical_adapter_result_hashes_declared_artifacts_and_preserves_contract ... ok
 test local_execution_rejects_stale_revision_before_spawning ... ok
 test local_execution_rejects_dirty_tracked_source ... ok
 test local_native_execution_records_artifact_and_exact_revision ... ok
 test local_timeout_and_cancellation_kill_and_reap_the_child ... ok
 
-test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.10s
-
-    Blocking waiting for file lock on package cache
-    Blocking waiting for file lock on package cache
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
-     Running tests/contract.rs ([REDACTED]/debug/deps/contract-70699edba0a06bfb)
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.12s

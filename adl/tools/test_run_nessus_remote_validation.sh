@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 SCRIPT="$ROOT/adl/tools/run_nessus_remote_validation.sh"
-TMP="$(mktemp -d)"
+TMP="$(mktemp -d "${TMPDIR:?TMPDIR must name a bounded scratch root}/adl-nessus-test.XXXXXX")"
 trap 'rm -rf "$TMP"' EXIT
 
 assert_file() {
@@ -80,6 +80,12 @@ if [[ "${FAIL_APT:-0}" == "1" ]]; then
   exit 1
 fi
 echo "apt-get update fixture ok"
+EOF
+cat >"$fake_bin/timeout" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+while [[ "${1:-}" == --* || "${1:-}" == *s ]]; do shift; done
+exec "$@"
 EOF
 chmod +x "$fake_bin/"*
 
@@ -420,15 +426,38 @@ PATH="$fake_bin:$PATH" \
     --repo-url "$origin_bare" \
     --run-id portable-nessus \
     --local-artifact-dir "$TMP/artifacts-portable" >"$TMP/portable-nessus.out"
-python3 - "$TMP/artifacts-portable/summary.json" "$fixture_revision" <<'PY'
+python3 - "$TMP/artifacts-portable/summary.json" "$TMP/artifacts-portable/portable-result.json" "$fixture_revision" <<'PY'
 import json
 import sys
 
 summary = json.load(open(sys.argv[1], encoding="utf-8"))
+result = json.load(open(sys.argv[2], encoding="utf-8"))
 assert summary["status"] == "passed"
-assert summary["resolved_commit"] == sys.argv[2]
+assert summary["resolved_commit"] == sys.argv[3]
 assert summary["command"] == "'printf' 'portable-ok'"
+assert result["revision"] == sys.argv[3]
+assert result["platform"] == {"os": "windows", "architecture": "x86_64", "native": False, "qualification": "fixture"}
+assert result["resource_budget"]["cpu_cores"] == 4
+assert result["artifact_policy"]["paths"] == ["summary.json"]
+assert result["fallback"]["policy"] == "offer_local"
+assert result["artifact_digests"][0]["path"] == "summary.json"
 PY
+
+cancel_request="$TMP/portable-nessus-cancel-request.json"
+python3 - "$portable_request" "$cancel_request" <<'PY'
+import json
+import sys
+payload = json.load(open(sys.argv[1], encoding="utf-8"))
+payload["cancellation_file"] = "cancel.signal"
+json.dump(payload, open(sys.argv[2], "w", encoding="utf-8"), separators=(",", ":"))
+PY
+touch "$ROOT/cancel.signal"
+if PATH="$fake_bin:$PATH" bash "$SCRIPT" --portable-request "$cancel_request" --portable-runner "$portable_runner" --executor local >"$TMP/portable-cancel.out" 2>"$TMP/portable-cancel.err"; then
+  echo "expected portable cancellation file to stop Nessus execution" >&2
+  exit 1
+fi
+rm "$ROOT/cancel.signal"
+grep -F "cancellation requested before remote execution" "$TMP/portable-cancel.err" >/dev/null
 
 if bash "$SCRIPT" --portable-request "$portable_request" --portable-runner "$portable_runner" --command "true" >"$TMP/portable-conflict.out" 2>"$TMP/portable-conflict.err"; then
   echo "expected portable/manual Nessus ambiguity to fail closed" >&2

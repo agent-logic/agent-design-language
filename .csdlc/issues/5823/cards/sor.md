@@ -12,25 +12,28 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a provider-neutral bounded remote-validation contract across local, Nessus, and AWS adapters with exact revision, provenance, timeout, cost, artifact, cleanup, redaction, and same-profile fallback semantics.
+Repaired the provider-neutral remote-validation contract after independent review. AWS and Nessus now preserve the complete portable request in canonical results; AWS enforces nonzero and projected cost bounds, instance CPU/memory capacity, cancellation, and pre-emission redaction; Nessus enforces revision, capacity, timeout, and cancellation; retained platform receipts are opened, hashed, cross-checked, and tied to truthful operator authorization. The prior authorized paid AWS run remains the live Linux proof; no second paid run was needed because the changed enforcement is covered by deterministic focused tests.
 
 ## Artifacts
 
 - tools/remote_validation
 - tools/aws_remote_validation/src/aws_remote_validation.rs
+- tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs
 - tools/aws_remote_validation/tests/portable_adapter.rs
-- adl/tools/run_nessus_remote_validation.sh
-- adl/tools/test_run_nessus_remote_validation.sh
 - adl/tools/run_aws_spot_remote_validation_lane.sh
 - adl/tools/test_run_aws_spot_remote_validation_lane.sh
+- adl/tools/run_nessus_remote_validation.sh
+- adl/tools/test_run_nessus_remote_validation.sh
+- .csdlc/prepared/issues/5823/validate-platform-matrix.rb
 - .csdlc/evidence/5823
 
 ## Execution
 
-- Added the typed portable request, adapter plan, local execution, and result-validation crate with exact revision and command-profile binding.
-- Integrated portable requests with the Nessus and AWS wrappers, including advertised-ref plus immutable-revision enforcement and fail-closed budget propagation.
-- Added focused positive and negative contract, timeout, cancellation, stale-revision, malformed-result, ref-mismatch, fallback, and cleanup tests.
-- Retained native live macOS and AWS Linux proof, an explicitly non-native Windows fixture, redacted provider receipts, exact cost bounds, and complete resource cleanup evidence.
+- Preserved resource budget, artifact policy, cancellation file, fallback policy, and command-profile digest through adapter plans and canonical portable results.
+- Added fail-closed AWS cost-ceiling, projected-cost, instance-capacity, cancellation, and stdout/stderr redaction enforcement with negative tests.
+- Added Nessus exact-revision, CPU/memory, timeout, cancellation, artifact hashing, and canonical result enforcement with focused shell tests.
+- Strengthened platform evidence validation to open receipts, verify SHA-256 and artifact bytes, compare revisions and profile digests, and validate budget, redaction, cleanup, first-attempt disposition, and operator authorization.
+- Reconciled retained portable result schemas and fixed all bounded diff whitespace findings without another paid provider run.
 
 ## Validation
 
@@ -41,50 +44,13 @@ Implemented a provider-neutral bounded remote-validation contract across local, 
       "test",
       "--locked",
       "--manifest-path",
-      "tools/aws_remote_validation/Cargo.toml",
+      "tools/remote_validation/Cargo.toml",
       "--test",
-      "portable_adapter"
+      "contract"
     ],
-    "purpose": "Prove portable request mapping, advertised-ref checkout, cost ceiling, provider failures, and cleanup semantics.",
+    "purpose": "Prove complete portable request/result preservation, canonical artifact hashing, exact revision, timeout, cancellation, cleanup, redaction, and fallback semantics.",
     "outcome": "passed",
-    "evidence_ref": "final-aws-adapter.log"
-  },
-  {
-    "command": [
-      "bash",
-      "adl/tools/test_run_aws_spot_remote_validation_lane.sh"
-    ],
-    "purpose": "Prove portable AWS wrapper mapping, exact ref/revision mismatch rejection, timeout, cost ceiling, and cleanup controls without provider use.",
-    "outcome": "passed",
-    "evidence_ref": "final-aws-shell.log"
-  },
-  {
-    "command": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "purpose": "Reject whitespace errors on the bounded worktree diff.",
-    "outcome": "passed",
-    "evidence_ref": "final-diff-hygiene.log"
-  },
-  {
-    "command": [
-      "bash",
-      "adl/tools/test_run_nessus_remote_validation.sh"
-    ],
-    "purpose": "Prove portable Nessus mapping, quoting, exact revision, and same-profile fallback behavior.",
-    "outcome": "passed",
-    "evidence_ref": "final-nessus-shell.log"
-  },
-  {
-    "command": [
-      "ruby",
-      ".csdlc/prepared/issues/5823/validate-platform-matrix.rb"
-    ],
-    "purpose": "Require native live Linux and macOS receipts plus an explicitly non-native Windows fixture and reject blocked rows.",
-    "outcome": "passed",
-    "evidence_ref": "final-platform-matrix.log"
+    "evidence_ref": ".csdlc/evidence/5823/final-portable-contract.log"
   },
   {
     "command": [
@@ -92,13 +58,51 @@ Implemented a provider-neutral bounded remote-validation contract across local, 
       "test",
       "--locked",
       "--manifest-path",
-      "tools/remote_validation/Cargo.toml",
+      "tools/aws_remote_validation/Cargo.toml",
       "--test",
-      "contract"
+      "portable_adapter"
     ],
-    "purpose": "Prove exact revision, source-ref, profile digest, adapter, artifact, redaction, timeout, cancellation, cleanup, and fallback behavior.",
+    "purpose": "Prove AWS portable mapping, redaction before retention, provider-failure classification, and cleanup behavior.",
     "outcome": "passed",
-    "evidence_ref": "final-portable-contract.log"
+    "evidence_ref": ".csdlc/evidence/5823/final-aws-adapter.log"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_run_aws_spot_remote_validation_lane.sh"
+    ],
+    "purpose": "Prove projected-cost, CPU/memory capacity, cancellation, exact revision, and wrapper redaction controls without provider use.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5823/final-aws-shell.log"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_run_nessus_remote_validation.sh"
+    ],
+    "purpose": "Prove Nessus complete portable mapping, exact revision, capacity, timeout, cancellation, artifact hashing, and canonical result behavior.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5823/final-nessus-shell.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5823/validate-platform-matrix.rb"
+    ],
+    "purpose": "Verify retained receipt SHA-256, artifact digests, revisions, profile digests, authorization, budget, redaction, cleanup, and first-attempt disposition.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5823/final-platform-matrix.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main"
+    ],
+    "purpose": "Reject whitespace errors across the complete issue diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5823/final-diff-hygiene.log"
   }
 ]
 

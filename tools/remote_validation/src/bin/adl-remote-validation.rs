@@ -1,12 +1,12 @@
 use adl_remote_validation::{
-    adapter_plan, read_request, read_result, resolve_repository_root, run_local, validate_request,
-    validate_result, AdapterKind,
+    adapter_plan, canonicalize_adapter_result, read_request, read_result, resolve_repository_root,
+    run_local, validate_request, validate_result, AdapterExecutionReceipt, AdapterKind,
 };
 use std::env;
 use std::path::{Path, PathBuf};
 
 fn usage() -> ! {
-    eprintln!("usage: adl-remote-validation validate-request <request.json> | validate-result <request.json> <result.json> | adapter-plan <local|nessus|aws> <request.json> | run-local <request.json> [--repo <path>]");
+    eprintln!("usage: adl-remote-validation validate-request <request.json> | validate-result <request.json> <result.json> | adapter-plan <local|nessus|aws> <request.json> | canonical-result <request.json> <execution.json> <artifact-root> | run-local <request.json> [--repo <path>]");
     std::process::exit(2);
 }
 
@@ -43,6 +43,20 @@ fn run() -> Result<(), String> {
             println!(
                 "{}",
                 serde_json::to_string(&plan).map_err(|error| error.to_string())?
+            );
+        }
+        [command, request, execution, artifact_root] if command == "canonical-result" => {
+            let request = read_request(Path::new(request))?;
+            let execution: AdapterExecutionReceipt = serde_json::from_slice(
+                &std::fs::read(execution)
+                    .map_err(|error| format!("execution receipt read failed: {error}"))?,
+            )
+            .map_err(|error| format!("malformed execution receipt: {error}"))?;
+            let result =
+                canonicalize_adapter_result(&request, &execution, Path::new(artifact_root))?;
+            println!(
+                "{}",
+                serde_json::to_string(&result).map_err(|error| error.to_string())?
             );
         }
         [command, request] if command == "run-local" => {

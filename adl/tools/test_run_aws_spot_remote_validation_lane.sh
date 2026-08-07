@@ -77,6 +77,8 @@ elif [[ "$1 $2" == "ec2 describe-volumes" ]]; then
   esac
 elif [[ "$1 $2" == "ec2 describe-subnets" ]]; then
   echo us-west-2a
+elif [[ "$1 $2" == "ec2 describe-instance-types" ]]; then
+  echo "${ADL_FAKE_INSTANCE_CAPACITY:-8 32768}"
 elif [[ "$1 $2" == "ssm get-parameter" ]]; then
   echo ami-0123456789abcdef0
 else
@@ -671,6 +673,53 @@ bash "$SCRIPT" \
     --artifact-dir "$TMP/portable-command-artifacts" \
     --print-command >"$TMP/portable-command.out"
 grep -F -- "--expected-max-cost-usd 0.200000" "$TMP/portable-command.out" >/dev/null
+
+ADL_AWS_CLI="$fake_bin/aws" bash "$SCRIPT" preflight \
+    --portable-request "$portable_request" \
+    --portable-runner "$portable_runner" \
+    --expected-proof "$proof" \
+    --builder-image "$builder_image" \
+    --estimated-hourly-cost-usd 0.15 \
+    --ssh-private-key-path "$test_ssh_key" \
+    --out "$TMP/portable-preflight-summary.json" \
+    --artifact-dir "$TMP/portable-preflight-artifacts" >"$TMP/portable-preflight.out"
+grep -F '"status": "ready"' "$TMP/portable-preflight.out" >/dev/null
+
+if ADL_AWS_CLI="$fake_bin/aws" bash "$SCRIPT" preflight \
+    --portable-request "$portable_request" --portable-runner "$portable_runner" \
+    --expected-proof "$proof" --builder-image "$builder_image" \
+    --estimated-hourly-cost-usd 10 --ssh-private-key-path "$test_ssh_key" \
+    >"$TMP/portable-cost.out" 2>"$TMP/portable-cost.err"; then
+  echo "expected projected portable cost to exceed the declared ceiling" >&2
+  exit 1
+fi
+grep -F "projected cost" "$TMP/portable-cost.err" >/dev/null
+
+if ADL_FAKE_INSTANCE_CAPACITY="4 8192" ADL_AWS_CLI="$fake_bin/aws" bash "$SCRIPT" preflight \
+    --portable-request "$portable_request" --portable-runner "$portable_runner" \
+    --expected-proof "$proof" --builder-image "$builder_image" \
+    --estimated-hourly-cost-usd 0.15 --ssh-private-key-path "$test_ssh_key" \
+    >"$TMP/portable-capacity.out" 2>"$TMP/portable-capacity.err"; then
+  echo "expected undersized AWS instance selection to fail" >&2
+  exit 1
+fi
+grep -F "does not satisfy portable CPU/memory request" "$TMP/portable-capacity.err" >/dev/null
+
+portable_cancel_request="$TMP/portable-aws-cancel-request.json"
+python3 - "$portable_request" "$portable_cancel_request" <<'PY'
+import json
+import sys
+payload = json.load(open(sys.argv[1], encoding="utf-8"))
+payload["cancellation_file"] = "cancel.signal"
+json.dump(payload, open(sys.argv[2], "w", encoding="utf-8"), separators=(",", ":"))
+PY
+touch "$ROOT/cancel.signal"
+if bash "$SCRIPT" preflight --portable-request "$portable_cancel_request" --portable-runner "$portable_runner" >"$TMP/portable-cancel.out" 2>"$TMP/portable-cancel.err"; then
+  echo "expected AWS cancellation file to stop before provider use" >&2
+  exit 1
+fi
+rm "$ROOT/cancel.signal"
+grep -F "cancellation requested before provider use" "$TMP/portable-cancel.err" >/dev/null
 
 portable_mismatch_request="$TMP/portable-aws-mismatch-request.json"
 python3 - "$portable_request" "$portable_mismatch_request" <<'PY'
