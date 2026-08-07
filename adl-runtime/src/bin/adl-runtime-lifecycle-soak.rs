@@ -126,6 +126,8 @@ struct Args {
     report: PathBuf,
     revision: String,
     suite: Suite,
+    pre_restart_ready_file: Option<PathBuf>,
+    pre_restart_ack_file: Option<PathBuf>,
 }
 
 struct ProductionFixture {
@@ -574,6 +576,8 @@ impl Args {
         let mut report = None;
         let mut revision = None;
         let mut suite = None;
+        let mut pre_restart_ready_file = None;
+        let mut pre_restart_ack_file = None;
         while let Some(argument) = args.next() {
             let value = |args: &mut dyn Iterator<Item = String>, name: &str| {
                 args.next()
@@ -591,6 +595,14 @@ impl Args {
                 }
                 "--report" => report = Some(PathBuf::from(value(&mut args, "--report")?)),
                 "--revision" => revision = Some(value(&mut args, "--revision")?),
+                "--pre-restart-ready-file" => {
+                    pre_restart_ready_file =
+                        Some(PathBuf::from(value(&mut args, "--pre-restart-ready-file")?))
+                }
+                "--pre-restart-ack-file" => {
+                    pre_restart_ack_file =
+                        Some(PathBuf::from(value(&mut args, "--pre-restart-ack-file")?))
+                }
                 "--suite" => {
                     if suite.is_some() {
                         return Err("--suite accepts exactly one value".to_owned());
@@ -637,6 +649,19 @@ impl Args {
         if !state_root.is_absolute() || !report.is_absolute() {
             return Err("--state-root and --report must be absolute paths".to_owned());
         }
+        if pre_restart_ready_file.is_some() != pre_restart_ack_file.is_some() {
+            return Err(
+                "--pre-restart-ready-file and --pre-restart-ack-file must be provided together"
+                    .to_owned(),
+            );
+        }
+        if pre_restart_ready_file
+            .iter()
+            .chain(pre_restart_ack_file.iter())
+            .any(|path| !path.is_absolute())
+        {
+            return Err("pre-restart synchronization paths must be absolute".to_owned());
+        }
         let suite = suite.unwrap_or(Suite::Lifecycle {
             cycles: REQUIRED_CYCLES,
         });
@@ -656,6 +681,8 @@ impl Args {
             report,
             revision,
             suite,
+            pre_restart_ready_file,
+            pre_restart_ack_file,
         })
     }
 }
@@ -1078,6 +1105,7 @@ async fn execute_cycle(
     let first_runtime_process_id = runtime_process_id(&first_ready)?;
     let mut runtime_instance_ids = vec![first_runtime_instance_id.clone()];
     if require_restart_proof {
+        synchronize_pre_restart_probe(args, fixture, &mut guardian).await?;
         if let Err(error) = force_runtime_exit(first_runtime_process_id) {
             let _ = request_native_shutdown(&mut guardian).await;
             let _ = finish_guardian(
@@ -1178,6 +1206,56 @@ async fn execute_cycle(
         restarts: u64::from(outcome.restarts),
         log_proof,
     })
+}
+
+async fn synchronize_pre_restart_probe(
+    args: &Args,
+    fixture: &ProductionFixture,
+    guardian: &mut Child,
+) -> Result<(), String> {
+    let (Some(ready_file), Some(ack_file)) = (
+        args.pre_restart_ready_file.as_ref(),
+        args.pre_restart_ack_file.as_ref(),
+    ) else {
+        return Ok(());
+    };
+    if let Some(parent) = ready_file.parent() {
+        std::fs::create_dir_all(parent)
+            .map_err(|error| format!("could not create pre-restart barrier directory: {error}"))?;
+    }
+    std::fs::remove_file(ack_file)
+        .or_else(|error| {
+            if error.kind() == std::io::ErrorKind::NotFound {
+                Ok(())
+            } else {
+                Err(error)
+            }
+        })
+        .map_err(|error| format!("could not clear stale pre-restart acknowledgement: {error}"))?;
+    std::fs::write(ready_file, b"runtime_ready\n")
+        .map_err(|error| format!("could not publish pre-restart readiness: {error}"))?;
+
+    let deadline = Instant::now() + fixture.readiness_timeout;
+    loop {
+        if ack_file.is_file() {
+            return Ok(());
+        }
+        if let Some(status) = guardian
+            .try_wait()
+            .map_err(|error| format!("Guardian pre-restart barrier check failed: {error}"))?
+        {
+            return Err(format!(
+                "Guardian exited before the pre-restart probe acknowledged readiness: {status}"
+            ));
+        }
+        if Instant::now() >= deadline {
+            return Err(format!(
+                "pre-restart probe did not acknowledge authenticated readiness before deadline: {}",
+                ack_file.display()
+            ));
+        }
+        tokio::time::sleep(fixture.readiness_poll).await;
+    }
 }
 
 fn discard_checked_observability(observability_root: &Path) -> Result<(), String> {
@@ -2337,6 +2415,40 @@ mod tests {
                 seconds: ENDURANCE_SECONDS
             }
         ));
+    }
+
+    #[test]
+    fn pre_restart_probe_barrier_requires_paired_absolute_paths() {
+        let root = std::env::current_dir().expect("current directory");
+        let ready = root.join("pre-restart.ready");
+        let ack = root.join("pre-restart.ack");
+        let parsed = Args::parse(
+            arguments(&[
+                "--pre-restart-ready-file",
+                ready.to_str().expect("ready path"),
+                "--pre-restart-ack-file",
+                ack.to_str().expect("ack path"),
+            ])
+            .into_iter(),
+        )
+        .expect("paired absolute barrier paths");
+        assert_eq!(
+            parsed.pre_restart_ready_file.as_deref(),
+            Some(ready.as_path())
+        );
+        assert_eq!(parsed.pre_restart_ack_file.as_deref(), Some(ack.as_path()));
+
+        let error = match Args::parse(
+            arguments(&[
+                "--pre-restart-ready-file",
+                ready.to_str().expect("ready path"),
+            ])
+            .into_iter(),
+        ) {
+            Ok(_) => panic!("unpaired barrier path must fail closed"),
+            Err(error) => error,
+        };
+        assert!(error.contains("must be provided together"));
     }
 
     #[test]

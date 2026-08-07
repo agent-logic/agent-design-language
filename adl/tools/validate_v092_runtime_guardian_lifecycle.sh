@@ -90,6 +90,8 @@ wss_proof="$run_root/wss-proof.json"
 wss_transcript="$run_root/wss-transcript.json"
 https_transcript="$run_root/https-transcript.json"
 wss_stderr="$run_root/wss-proof.stderr"
+probe_ready="$run_root/pre-restart.ready"
+probe_ack="$run_root/pre-restart.ack"
 api_port=$(python3 - <<'PY'
 import socket
 
@@ -117,7 +119,8 @@ text = text.replace(public_url, f'public_base_url = "https://localhost:{port}"',
 pathlib.Path(destination).write_text(text, encoding="utf-8")
 PY
 
-python3 - "$state_root" "$wss_proof" "$https_transcript" "$wss_transcript" <<'PY' 2>"$wss_stderr" &
+python3 - "$state_root" "$wss_proof" "$https_transcript" "$wss_transcript" \
+  "$probe_ready" "$probe_ack" <<'PY' 2>"$wss_stderr" &
 import base64
 import hashlib
 import json
@@ -131,7 +134,14 @@ import struct
 import sys
 import time
 
-state_root_arg, proof_path, https_transcript_path, wss_transcript_path = sys.argv[1:]
+(
+    state_root_arg,
+    proof_path,
+    https_transcript_path,
+    wss_transcript_path,
+    probe_ready_path,
+    probe_ack_path,
+) = sys.argv[1:]
 deadline = time.monotonic() + 15.0
 MAX_FRAME_BYTES = 65_536
 MAX_HTTP_BYTES = 1_048_576
@@ -355,6 +365,11 @@ def authenticated_wss(address, certificate, token):
     return raw_headers, hello, request, response
 
 
+while not os.path.isfile(probe_ready_path):
+    if time.monotonic() >= deadline:
+        raise RuntimeError("lifecycle harness did not publish pre-restart readiness")
+    time.sleep(0.01)
+
 while True:
     try:
         if not os.path.isdir(state_root_arg):
@@ -415,6 +430,7 @@ while True:
             "bounded_request_response": True,
         }
         write_json(proof_path, proof)
+        pathlib.Path(probe_ack_path).write_text("authenticated_probe_complete\n", encoding="utf-8")
         break
     except Exception as error:
         if os.environ.get("ADL_RUNTIME_WSS_DEBUG") == "1":
@@ -434,6 +450,8 @@ trap 'kill "$wss_probe_pid" 2>/dev/null || true' EXIT
   --state-root "$state_root" \
   --report "$report" \
   --revision "$revision" \
+  --pre-restart-ready-file "$probe_ready" \
+  --pre-restart-ack-file "$probe_ack" \
   --suite preflight
 
 if ! wait "$wss_probe_pid"; then
