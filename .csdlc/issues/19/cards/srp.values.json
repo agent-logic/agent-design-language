@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-24A deployment] Deploy the podcast page to the preview URL",
     "slug": "v0-92-wp-24a-deploy-podcast-preview",
     "version": "v0.92",
-    "generation": 13
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue 19 preview source, bounded S3/CloudFront deployment, live HTTPS route, redacted deployment evidence, and production-route non-mutation proof",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "demos/_preview/podcast/index.html\ndemos/podcast/feed.xml\ndemos/podcast/audio/meet-the-ai-coworkers.wav\ndemos/podcast/studio/uploads/agent-logic-logo.svg\n.csdlc/issues/19\n.csdlc/prepared/issues/19\n.csdlc/evidence/19",
+      "review_revision": "git-blake3:1c4037062776ac31994a53572273f47afe95247c:35afb25a06441f1f0016a23921030413101d3321e1f638ff885f7915660fa473",
+      "reviewer": "subagent:Euler:019fdd91-5eef-7a92-9bbb-ec5884133ab6",
       "review_prompts": [
         "Was only the minimal preview object set deployed through existing S3 and CloudFront resources?",
         "Do retained digests and live readback prove exact source parity without exposing infrastructure identifiers?",
@@ -23,8 +23,11 @@
         "Is there positive evidence that no EC2 or remote-build operation occurred?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Five superseded S3 objects remain disclosed and unreferenced; deletion is deferred until the operator confirms the exact deletion list.",
+        "The no-compute AWS statement is a retained operator-generated attestation supported by the bounded service inventory rather than an independently replayable account audit."
+      ],
+      "review_result": "pass"
     }
   }
 }

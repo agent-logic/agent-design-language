@@ -12,7 +12,13 @@ Status: pre_phase
 
 ## Scope
 
-Issue 19 preview source, bounded S3/CloudFront deployment, live HTTPS route, redacted deployment evidence, and production-route non-mutation proof
+demos/_preview/podcast/index.html
+demos/podcast/feed.xml
+demos/podcast/audio/meet-the-ai-coworkers.wav
+demos/podcast/studio/uploads/agent-logic-logo.svg
+.csdlc/issues/19
+.csdlc/prepared/issues/19
+.csdlc/evidence/19
 
 ## Prompts
 
@@ -31,12 +37,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Five superseded S3 objects remain disclosed and unreferenced; deletion is deferred until the operator confirms the exact deletion list.
+- The no-compute AWS statement is a retained operator-generated attestation supported by the bounded service inventory rather than an independently replayable account audit.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1c4037062776ac31994a53572273f47afe95247c:35afb25a06441f1f0016a23921030413101d3321e1f638ff885f7915660fa473")
 
-Reviewer: None
+Reviewer: Some("subagent:Euler:019fdd91-5eef-7a92-9bbb-ec5884133ab6")
 
-Result: pre_review
+Result: pass
