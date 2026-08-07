@@ -74,7 +74,7 @@ Diagram: .csdlc/prepared/issues/5820/diagram.mmd
   },
   {
     "lane": "native-guardian-receipts",
-    "proof_role": "Recompute digest-bound macOS, Linux, and native Windows production Guardian lifecycle receipts. [preexec_rejection exit=1 diagnostic_sha256=9cc0e36ab16ebe02ba7f57850a2c3bfdb63a6580d30b1e61a6fecd754a75de48]",
+    "proof_role": "Recompute digest-bound macOS, Linux, and native Windows production Guardian lifecycle receipts.",
     "acceptance_ids": [
       "AC-6",
       "AC-7"
@@ -85,7 +85,7 @@ Diagram: .csdlc/prepared/issues/5820/diagram.mmd
     "budget_tokens": 6000,
     "argv": [
       "ruby",
-      ".csdlc/prepared/issues/5820/validate-runtime-native-receipts.rb"
+      "adl/tools/validate_v092_runtime_native_receipts.rb"
     ],
     "parallel_group": "runtime",
     "defer_reason": null
@@ -124,7 +124,7 @@ Tokens: 25000
 
 - `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test runtime_guardian_lifecycle --no-tests=fail`
 - `bash adl/tools/validate_v092_runtime_guardian_lifecycle.sh`
-- `ruby .csdlc/prepared/issues/5820/validate-runtime-native-receipts.rb`
+- `ruby adl/tools/validate_v092_runtime_native_receipts.rb`
 - `git diff --check`
 
 ## Failure Semantics
