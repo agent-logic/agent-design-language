@@ -2,6 +2,7 @@ use std::{
     fs,
     net::{IpAddr, Ipv4Addr, Ipv6Addr},
     path::PathBuf,
+    process::Command,
     sync::{Arc, Barrier},
     thread,
 };
@@ -425,6 +426,14 @@ async fn managed_external_mode_preserves_existing_material() {
         fs::read(&created.certificate_chain_path).unwrap()
     );
     assert_eq!(key_before, fs::read(&key).unwrap());
+
+    let mut trust = FakeTrust::default();
+    let error = reissue_runtime_tls_with_trust(&external, &mut trust)
+        .await
+        .unwrap_err();
+    assert!(error
+        .to_string()
+        .contains("reissue requires local_self_signed TLS"));
 }
 
 #[cfg(unix)]
@@ -504,6 +513,149 @@ async fn production_defaults_fail_closed_without_explicit_mode() {
         "schema = \"{LOCAL_TLS_BOOTSTRAP_SCHEMA}\"\ncertificate_chain_path = \"cert.pem\"\nprivate_key_path = \"key.pem\"\n"
     );
     assert!(RuntimeTlsBootstrapConfig::from_toml_str(&text).is_err());
+}
+
+#[test]
+fn bootstrap_cli_covers_success_and_machine_readable_failures() {
+    let binary = env!("CARGO_BIN_EXE_adl-runtime-local-tls-bootstrap");
+
+    let missing_args = Command::new(binary).output().unwrap();
+    assert!(!missing_args.status.success());
+    assert_eq!(
+        serde_json::from_slice::<serde_json::Value>(&missing_args.stderr).unwrap()["stage"],
+        "parse_args"
+    );
+
+    let temp = tempfile::tempdir().unwrap();
+    let missing = temp.path().join("missing.toml");
+    let missing_config = Command::new(binary)
+        .args(["--config", missing.to_str().unwrap()])
+        .output()
+        .unwrap();
+    assert!(!missing_config.status.success());
+    assert_eq!(
+        serde_json::from_slice::<serde_json::Value>(&missing_config.stderr).unwrap()["stage"],
+        "read_config"
+    );
+
+    let invalid = temp.path().join("invalid.json");
+    fs::write(&invalid, b"{}").unwrap();
+    let invalid_config = Command::new(binary)
+        .args(["--config", invalid.to_str().unwrap()])
+        .output()
+        .unwrap();
+    assert!(!invalid_config.status.success());
+    assert_eq!(
+        serde_json::from_slice::<serde_json::Value>(&invalid_config.stderr).unwrap()["stage"],
+        "parse_config"
+    );
+
+    let config = temp.path().join("local.toml");
+    fs::write(&config, local_config_toml(temp.path())).unwrap();
+    let success = Command::new(binary)
+        .args(["--config", config.to_str().unwrap()])
+        .output()
+        .unwrap();
+    assert!(
+        success.status.success(),
+        "{}",
+        String::from_utf8_lossy(&success.stderr)
+    );
+    let outcome: serde_json::Value = serde_json::from_slice(&success.stdout).unwrap();
+    assert_eq!(
+        outcome["schema"],
+        "adl.runtime_v3.local_tls_bootstrap.outcome.v1"
+    );
+    assert_eq!(outcome["manifest_durable"], true);
+}
+
+#[cfg(target_os = "macos")]
+#[test]
+fn bootstrap_cli_trust_operations_fail_closed_without_mutating_unknown_keychain() {
+    let binary = env!("CARGO_BIN_EXE_adl-runtime-local-tls-bootstrap");
+    for operation in ["trust-install", "trust-verify", "reissue", "trust-remove"] {
+        let temp = tempfile::tempdir().unwrap();
+        let config = temp.path().join("local.toml");
+        let keychain = temp.path().join("test.keychain-db");
+        fs::write(&config, local_config_toml(temp.path())).unwrap();
+        fs::write(&keychain, b"not a keychain").unwrap();
+
+        let mut command = Command::new(binary);
+        command.args([
+            "--config",
+            config.to_str().unwrap(),
+            "--operation",
+            operation,
+            "--trust-store",
+            keychain.to_str().unwrap(),
+            "--consent-host-trust",
+        ]);
+        if operation == "trust-remove" {
+            command.args(["--certificate-sha256", &"A".repeat(64)]);
+        }
+        let output = command.output().unwrap();
+        assert!(
+            !output.status.success(),
+            "{operation} unexpectedly succeeded"
+        );
+        let failure: serde_json::Value = serde_json::from_slice(&output.stderr).unwrap();
+        assert_eq!(failure["stage"], operation.replace('-', "_"));
+        assert!(matches!(
+            failure["error_kind"].as_str(),
+            Some("trust" | "policy")
+        ));
+    }
+}
+
+fn local_config_toml(root: &std::path::Path) -> String {
+    format!(
+        "schema = \"{LOCAL_TLS_BOOTSTRAP_SCHEMA}\"\nmode = \"local_self_signed\"\nstate_root = \"{}\"\ntls_dir = \"runtime-tls\"\ncertificate_chain_path = \"localhost-chain.pem\"\npublic_certificate_path = \"localhost-public.pem\"\nprivate_key_path = \"localhost-key.pem\"\ndns_names = [\"localhost\"]\nip_addresses = [\"127.0.0.1\", \"::1\"]\n",
+        root.display()
+    )
+}
+
+#[test]
+fn bootstrap_config_rejects_unsafe_modes_paths_and_sans() {
+    let temp = tempfile::tempdir().unwrap();
+    let valid = local_config_toml(temp.path());
+    let cases = [
+        valid.replace(LOCAL_TLS_BOOTSTRAP_SCHEMA, "unsupported.v1"),
+        valid.replace(
+            "mode = \"local_self_signed\"",
+            "mode = \"managed_external\"\nreplace = true",
+        ),
+        valid.replace("state_root = \"/", "state_root = \"relative/"),
+        valid.replace("public_certificate_path = \"localhost-public.pem\"\n", ""),
+        valid.replace("localhost-public.pem", "localhost-chain.pem"),
+        valid
+            .replace("dns_names = [\"localhost\"]", "dns_names = []")
+            .replace(
+                "ip_addresses = [\"127.0.0.1\", \"::1\"]",
+                "ip_addresses = []",
+            ),
+        valid.replace("dns_names = [\"localhost\"]", "dns_names = [\"\"]"),
+    ];
+
+    for text in cases {
+        assert!(RuntimeTlsBootstrapConfig::from_toml_str(&text).is_err());
+    }
+}
+
+#[test]
+fn local_tls_errors_have_actionable_messages() {
+    let errors = [
+        LocalTlsError::UnsupportedSchema("old.v1".to_owned()),
+        LocalTlsError::Config("bad config".to_owned()),
+        LocalTlsError::Policy("bad policy".to_owned()),
+        LocalTlsError::LockBusy,
+        LocalTlsError::Io("disk".to_owned()),
+        LocalTlsError::Generate("generator".to_owned()),
+        LocalTlsError::Rustls("rustls".to_owned()),
+        LocalTlsError::Trust("trust".to_owned()),
+    ];
+    for error in errors {
+        assert!(!error.to_string().is_empty());
+    }
 }
 
 #[derive(Default)]
