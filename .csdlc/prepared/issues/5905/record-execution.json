@@ -1,0 +1,23 @@
+{
+  "issue": 5905,
+  "card": "sor",
+  "expected_generation": 2,
+  "expected_digest": "eaf3420dfd54b0828d15ef41611a580e5e1fa315aa4af90c5bdc454c826639a2",
+  "actor": "codex:5905-v092-terminal-reconciliation",
+  "reason": "Record the bounded historical terminal reconciliation implementation.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Added a disposition-conditional historical reconciliation operation inside csdlc-finish, exact live issue/PR/linkage/head/merge identity checks, distinct provenance, cached-terminal compatibility validation, public schema exposure, and focused regression tests.",
+    "changes": [
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate_finish.rs"
+    ],
+    "artifacts": [
+      ".csdlc/prepared/issues/5905/design.md",
+      ".csdlc/prepared/issues/5905/diagram.mmd"
+    ]
+  }
+}

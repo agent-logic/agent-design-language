@@ -1,0 +1,17 @@
+{
+  "issue": 5905,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "088688b27007592181c02bddf1174a9982c16873102872e2eeea30a58ca9a147",
+  "actor": "codex:5905-v092-terminal-reconciliation",
+  "reason": "Record the focused finish contract proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","gate_finish"],
+      "purpose": "Prove historical reconciliation success, disposition-conditional request rejection, exact identity and linkage rejection, distinct provenance, cached-terminal matching, idempotency foundations, and unchanged routine finish behavior.",
+      "outcome": "passed",
+      "evidence_ref": "15 focused gate_finish tests passed; cargo check for the csdlc-finish binary passed; git diff --check passed. The live #5800 canary remains intentionally post-merge."
+    }
+  }
+}

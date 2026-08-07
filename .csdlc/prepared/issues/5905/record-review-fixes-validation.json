@@ -1,0 +1,17 @@
+{
+  "issue": 5905,
+  "card": "sor",
+  "expected_generation": 10,
+  "expected_digest": "6e130c57bda9d0369e768650928b1232248c324d05e53ed90122580c1d55e5f7",
+  "actor": "codex:5905-v092-terminal-reconciliation",
+  "reason": "Record focused proof for all implementation-review fixes.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","gate_finish"],
+      "purpose": "Prove unique-merged terminal precedence, abandoned-attempt tolerance, multiple-merged and pagination rejection, strict public schema patterns, and all prior finish behavior.",
+      "outcome": "passed",
+      "evidence_ref": "17 gate_finish tests passed; issue-closing PR GraphQL inventory parser test passed; strict csdlc-finish Clippy passed; git diff --check passed."
+    }
+  }
+}

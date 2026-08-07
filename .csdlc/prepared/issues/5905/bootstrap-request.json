@@ -1,0 +1,130 @@
+{
+  "issue": 5905,
+  "repository": "danielbaustin/agent-design-language",
+  "actor": "codex:5905-v092-terminal-reconciliation",
+  "design_path": ".csdlc/prepared/issues/5905/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5905/diagram.mmd",
+  "design_reviewer": "pending-independent-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92][csdlc-v2][closeout] Reconcile all closed issues into terminal truth",
+    "slug": "v0-92-closed-terminal-reconciliation",
+    "version": "v0.92",
+    "goal": "Make every closed v0.92 issue truthfully terminal under the sole csdlc-finish authority.",
+    "required_outcome": "Add a bounded historical reconciliation operation and use #5800 as the first exact live canary before reconciling the remaining inventory.",
+    "declared_scope": [
+      "Typed csdlc-finish historical reconciliation contract",
+      "Focused terminal authority tests",
+      "Closed v0.92 derived terminal envelopes"
+    ],
+    "affected_areas": [
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      ".csdlc/prepared/issues/5905",
+      ".csdlc/issues/5905"
+    ],
+    "authority_boundary": [
+      "csdlc-finish remains the sole terminal authority",
+      "Historical reconciliation is limited to already-terminal live GitHub outcomes",
+      "Routine review and publication gates remain unchanged"
+    ],
+    "operator_constraints": [
+      "Never write tracked changes on main",
+      "Reconcile #5800 first",
+      "No hand-edited cards or terminal envelopes",
+      "No AWS use"
+    ],
+    "task_boundary": "Implement and execute only the closed-issue terminal reconciliation path.",
+    "deliverables": [
+      "Typed historical reconciliation request and result",
+      "Focused Rust tests",
+      "Validated terminal envelope for #5800",
+      "Terminal reconciliation census for all closed v0.92 issues"
+    ],
+    "acceptance_criteria": [
+      "#5800 has a valid derived terminal envelope for canonical PR #9 and its exact merge SHA",
+      "Every closed v0.92 issue has a truthful terminal disposition",
+      "Open, mismatched, or ambiguous remote state fails closed",
+      "Routine csdlc-finish review and publication gates are unchanged",
+      "Focused Rust tests cover success, idempotency, and rejection",
+      "No generated state is hand-edited"
+    ],
+    "dependencies": [
+      "Live closed issue and PR state",
+      "Existing csdlc.derived_terminal.v1 schema",
+      "Current shared GitHub token resolver"
+    ],
+    "repo_inputs": [
+      "AGENTS.md",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate_finish.rs"
+    ],
+    "non_goals": [
+      "Reopening product implementation",
+      "Restoring csdlc-import or v1 wrappers",
+      "Weakening current review-before-publication",
+      "Unrelated worktree cleanup"
+    ],
+    "plan_summary": "Add the narrow compatibility contract, prove it with focused tests, review exact head, publish, then reconcile #5800 and the remaining closed v0.92 inventory.",
+    "steps": [
+      {"id":"S1","action":"Define the typed historical reconciliation contract and exact live-state invariants.","acceptance_ids":["AC-3","AC-4"],"status":"pending"},
+      {"id":"S2","action":"Implement the compatibility operation inside csdlc-finish.","acceptance_ids":["AC-1","AC-2","AC-6"],"status":"pending"},
+      {"id":"S3","action":"Run focused success, idempotency, and rejection tests.","acceptance_ids":["AC-3","AC-4","AC-5"],"status":"pending"},
+      {"id":"S4","action":"Review, publish, and reconcile #5800 before the remaining inventory.","acceptance_ids":["AC-1","AC-2"],"status":"pending"}
+    ],
+    "invariants": [
+      "Sole terminal writer",
+      "Exact live identity",
+      "No invented historical review",
+      "No routine gate weakening"
+    ],
+    "risks": [
+      "A compatibility path could accidentally bypass routine finish gates",
+      "Ambiguous historical PR attribution could be accepted",
+      "Repository migration identity could be misclassified"
+    ],
+    "stop_conditions": [
+      "Live GitHub state is ambiguous",
+      "The change requires a competing terminal writer",
+      "Routine finish tests regress"
+    ],
+    "review_scope": "The typed compatibility contract, exact live identity checks, terminal envelope construction, and unchanged routine finish gates.",
+    "review_prompts": [
+      "Can the compatibility path accept non-terminal or mismatched state?",
+      "Does it preserve csdlc-finish as the sole authority?",
+      "Does it invent review or publication history?",
+      "Are #5800 and the remaining inventory handled truthfully?"
+    ],
+    "failure_policy": "Fail closed on open, mismatched, ambiguous, or non-terminal state and preserve the issue-specific evidence.",
+    "planning_profile": "medium",
+    "validation_lanes": [
+      {
+        "lane": "csdlc-finish-focused-contract",
+        "proof_role": "Prove historical reconciliation success, idempotency, rejection, and unchanged routine finish behavior.",
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-4","AC-5"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 5000,
+        "argv": ["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","gate_finish"],
+        "parallel_group": "local",
+        "defer_reason": null
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Reject malformed tracked changes before review.",
+        "acceptance_ids": ["AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git","diff","--check"],
+        "parallel_group": "local",
+        "defer_reason": null
+      }
+    ]
+  }
+}

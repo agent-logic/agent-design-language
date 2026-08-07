@@ -1,0 +1,230 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5905,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "4c7695936d20b68e51f36e4e06fd9804389d4e36e6c447537708f61fc84e2098",
+  "phase": "published",
+  "generation": 13,
+  "digest": "4de85c9d4c3ef3df656590367951eaef549bad3c88a1e3bd3eb7b13bdf8413e9",
+  "branch": "codex/5905-v092-closed-terminal-reconciliation",
+  "worktree": "/Volumes/FastWork/adl-wp-5905",
+  "review_assignment": null,
+  "review": {
+    "reviewer": "subagent:review-5905-implementation",
+    "scope": [
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      ".csdlc/issues/5905",
+      ".csdlc/prepared/issues/5905"
+    ],
+    "reviewed_revision": "git-blake3:a3d5b1ed6b9973315761beed1eb3d6b172aeece1:743e60fdbe05e2efc844c0ca82e06a0f975f5e896457fa36d77be2d447ebaf88",
+    "findings": [],
+    "residual_risks": [
+      "The live #5800 canary and remaining v0.92 reconciliation sweep intentionally run only after the reviewed implementation is merged and installed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5905,
+    "pull_request": 21,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/21",
+    "base": "main",
+    "head": "codex/5905-v092-closed-terminal-reconciliation",
+    "revision": "git-blake3:9bd29aa6b61ba7c8d67d6116c316dfe9736f7068:22dce7b4b8ca0269e6bf95e15246c4eeff15892d0473915b589b71c171f05e12",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5905/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5905/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:review-5905-design",
+      "revision": "414e5560355972a0aa26ff1d315ff309560c5435181732e60d814e4e35a1f470"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b1ee53aff4cdba59e6ce22a7f662e9bc704d603c80fdb6ac9f4295c9c0e89e8a",
+      "rendered_digest": "aeb3df3e3d24a0e75ec4dc292f31ab479b5ed9653583f70a45ef07043742a363",
+      "ast_digest": "39d692379e9aa33c6a003fef7a036a90e3572f29d805675e43df8d2683cb9781"
+    },
+    "stp": {
+      "values_digest": "bcf53b10d4502eabf676567d4fe3d5cd3b9ecd41130ae2263ecc4e33f8d77c81",
+      "rendered_digest": "6c6071802e1c7d00b727256e0bf60be71d0ca64a948fd1d44d188657f09ae9c3",
+      "ast_digest": "a2a6d01f291e4dbbc09afbc75ebc1d6a6a747ca2c93e5cb060b8d0cd5b24c4fe"
+    },
+    "spp": {
+      "values_digest": "0a503bf7f6cc6af180a3baa616f56e37eb14b046bf0176981e4a451584729bd8",
+      "rendered_digest": "c581a84d83ea96434dbaa7931da6570d75bcf99944459fc0be1b74d810b57447",
+      "ast_digest": "cc9b45f9e08d1000babcef6304faef70e8667295d6a49db8d63b7d99bb0aefd9"
+    },
+    "vpp": {
+      "values_digest": "a0c7207a9ecda56fb75463313005c421d08f06c9124ede0c3bb8862e0f2a6880",
+      "rendered_digest": "ca8724642de7e16aaf806ba161a8996281c806213a351a96a144b709047bca43",
+      "ast_digest": "bb20930b97cd2d213e9dc7342367939d859182711baa1c0759614c55b464ad97"
+    },
+    "srp": {
+      "values_digest": "d92a29cde80871335408a12c2e7c459178af40c4557c01e7d6feae6f24d40ec6",
+      "rendered_digest": "665e873adfb3b133589296f96e72ce5467f9a8009515f98f441ff7aa4a9d50f3",
+      "ast_digest": "9760b5027fa68b6a00c3ac4a026a1c114a450cb51065b8489df7a9c0a4a85ffd"
+    },
+    "sor": {
+      "values_digest": "0366a90ddedce83221f192e6cd305ed9daeacbb3346e793aaf87d95918802d8c",
+      "rendered_digest": "a114ea0586ac7e1323f9abe7f5bf762ff47bb71c693b71788477f00144af5067",
+      "ast_digest": "94b47aa19b2fe8ddf597d81118920f561e381e4b3738906d895931a6563d8183"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5905-v092-terminal-reconciliation",
+      "reason": "Historical reconciliation implementation and focused validation are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:review-5905-implementation",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5905-v092-terminal-reconciliation",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5905-v092-terminal-reconciliation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:review-5905-design",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:5905-v092-terminal-reconciliation",
+      "reason": "Resolve design-review findings with an atomic canary-first acceptance, plan, and proof contract.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"After the implementation PR merges, #5800 is reconciled first against canonical PR #9 and exact merge SHA 7dfb791ad2fc1ecbc1e3b3651815b1d37bfa060f, and its cached terminal envelope validates before any other issue is processed\",\"Every issue in the frozen closed-v0.92 inventory has exactly one truthful merged, closed_unmerged, or closed_no_pr disposition\",\"Merged reconciliation requires exact issue repository, PR repository, issue, PR, head SHA, merge SHA, and GitHub closing linkage\",\"Closed_unmerged requires an exact closed unmerged PR and explicit operator-approved reason; closed_no_pr requires the canonical approval label, no PR, and explicit operator-approved reason\",\"Open, mismatched, multiply attributable, ambiguously migrated, contradictory-field, or unsupported remote state fails closed\",\"Routine csdlc-finish review and publication gates are unchanged\",\"Historical results use distinct live_github_historical_reconciliation provenance and never assert missing review or publication history\",\"Focused Rust tests cover success, idempotency, disposition rules, the identity mismatch matrix, ambiguous linkage, provenance, and routine-gate non-regression\",\"No generated state is hand-edited and post-merge envelopes remain Git-common authority rather than tracked main mutations\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Implement the disposition-conditional typed historical reconciliation contract inside csdlc-finish only\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Run focused success, idempotency, mismatch, ambiguity, provenance, and routine-gate non-regression tests\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Complete exact-head review, publish the implementation PR, shepherd it green, and merge it\",\"acceptance_ids\":[\"AC-6\",\"AC-8\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Using the merged installed binary, reconcile and validate #5800 as a hard canary, then independently reconcile and validate the frozen remaining inventory\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\",\"AC-9\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"csdlc-finish-focused-contract\",\"proof_role\":\"Prove historical reconciliation success, idempotency, disposition-conditional fields, the complete identity mismatch matrix, ambiguity rejection, distinct provenance, and unchanged routine finish behavior.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_finish\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"v092-5800-live-terminal-canary\",\"proof_role\":\"After implementation merge, produce #5800 from exact live issue/PR state and validate its cached terminal envelope before processing the remainder.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-7\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"csdlc-finish\",\"--root\",\".\",\"--historical-request\",\".git/csdlc-v2/requests/v092/5800-historical.json\"],\"parallel_group\":\"post-merge-live\",\"defer_reason\":\"Runs only after the reviewed implementation PR merges; failure hard-stops the remaining inventory.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes and generated-state edits before exact-head review.\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:5905-v092-terminal-reconciliation",
+      "reason": "Record the bounded historical terminal reconciliation implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added a disposition-conditional historical reconciliation operation inside csdlc-finish, exact live issue/PR/linkage/head/merge identity checks, distinct provenance, cached-terminal compatibility validation, public schema exposure, and focused regression tests.\",\"changes\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/tests/gate_finish.rs\"],\"artifacts\":[\".csdlc/prepared/issues/5905/design.md\",\".csdlc/prepared/issues/5905/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5905-v092-terminal-reconciliation",
+      "reason": "Record the focused finish contract proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_finish\"],\"purpose\":\"Prove historical reconciliation success, disposition-conditional request rejection, exact identity and linkage rejection, distinct provenance, cached-terminal matching, idempotency foundations, and unchanged routine finish behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"15 focused gate_finish tests passed; cargo check for the csdlc-finish binary passed; git diff --check passed. The live #5800 canary remains intentionally post-merge.\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:5905-v092-terminal-reconciliation",
+      "reason": "Historical reconciliation implementation and focused validation are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "subagent:review-5905-design",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:5905-v092-terminal-reconciliation",
+      "reason": "Record all exact-head review fixes before rereview.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added stable repeat selection for immutable terminal authority, live issue-side closing-PR candidate discovery with exact uniqueness enforcement, strict unknown-field rejection, exact owner/name and Git object-ID validation, schema descriptions, and focused ambiguity/idempotency tests.\",\"changes\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/tests/gate_finish.rs\"],\"artifacts\":[\"subagent:review-5905-implementation findings resolved\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:5905-v092-terminal-reconciliation",
+      "reason": "Record focused proof for all implementation-review fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_finish\"],\"purpose\":\"Prove stable historical idempotency, exact single-candidate closing PR attribution, strict typed request decoding and identity validation, and all prior finish behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"17 gate_finish tests passed; issue-closing PR GraphQL inventory parser test passed; strict csdlc-finish Clippy passed; git diff --check passed.\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "subagent:review-5905-design",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:5905-v092-terminal-reconciliation",
+      "reason": "Record all exact-head review fixes before rereview.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved final implementation-review findings by including closed PRs in issue-side closing-link discovery, failing closed on pagination, applying unique-merged terminal precedence over abandoned closed-unmerged attempts, rejecting multiple merged candidates, and exposing strict repository/SHA patterns in the public schema.\",\"changes\":[\"csdlc-v2/src/finish.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/tests/gate_finish.rs\"],\"artifacts\":[\"subagent:review-5905-implementation findings resolved\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:5905-v092-terminal-reconciliation",
+      "reason": "Record focused proof for all implementation-review fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_finish\"],\"purpose\":\"Prove unique-merged terminal precedence, abandoned-attempt tolerance, multiple-merged and pagination rejection, strict public schema patterns, and all prior finish behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"17 gate_finish tests passed; issue-closing PR GraphQL inventory parser test passed; strict csdlc-finish Clippy passed; git diff --check passed.\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "subagent:review-5905-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:5905-v092-terminal-reconciliation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

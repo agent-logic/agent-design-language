@@ -6,9 +6,13 @@ use crate::cleanup::{
 };
 use crate::doctor::DoctorReport;
 use crate::finish::{
-    DerivedTerminalEnvelope, FinishRequest, FinishResult, IssueTerminalObservation,
+    DerivedTerminalEnvelope, FinishRequest, FinishResult, HistoricalFinishRequest,
+    IssueTerminalObservation,
 };
-use crate::github::{GithubActionRequest, GithubActionResult, GithubIssuePacket, PrStatePacket};
+use crate::github::{
+    ClosingPullRequestIdentity, GithubActionRequest, GithubActionResult, GithubIssuePacket,
+    PrStatePacket,
+};
 use crate::lifecycle::{BindRequest, BindResult};
 use crate::migration::{
     BoundTopologyMigrationReport, BoundTopologyMigrationRequest, ImportReport, LegacyImportRequest,
@@ -47,6 +51,7 @@ pub fn public_schema_bundle() -> Value {
         "github_action_result": schemars::schema_for!(GithubActionResult),
         "github_issue_packet": schemars::schema_for!(GithubIssuePacket),
         "github_pr_state_packet": schemars::schema_for!(PrStatePacket),
+        "closing_pull_request_identity": schemars::schema_for!(ClosingPullRequestIdentity),
         "pvf_manifest": schemars::schema_for!(PvfManifest),
         "pvf_execution_request": schemars::schema_for!(ExecutionRequest),
         "finalize_request": schemars::schema_for!(FinalizeRequest),
@@ -63,6 +68,7 @@ pub fn public_schema_bundle() -> Value {
         "readiness_request": schemars::schema_for!(ReadinessRequest),
         "readiness_report": schemars::schema_for!(ReadinessReport),
         "finish_request": schemars::schema_for!(FinishRequest),
+        "historical_finish_request": schemars::schema_for!(HistoricalFinishRequest),
         "finish_result": schemars::schema_for!(FinishResult),
         "derived_terminal_envelope": schemars::schema_for!(DerivedTerminalEnvelope),
         "issue_terminal_observation": schemars::schema_for!(IssueTerminalObservation),
@@ -96,5 +102,13 @@ mod tests {
             .get("corrupt_historical_merged_recovery_request")
             .is_none());
         assert!(bundle.get("transition_active_claim_request").is_none());
+    }
+
+    #[test]
+    fn historical_finish_request_schema_rejects_ambiguous_repositories_and_shas() {
+        let schema = public_schema_bundle()["historical_finish_request"].to_string();
+        assert!(schema.contains(r#"^[^/]+/[^/]+$"#));
+        assert!(schema.contains(r#"^(?:[0-9A-Fa-f]{40}|[0-9A-Fa-f]{64})$"#));
+        assert!(schema.contains(r#""additionalProperties":false"#));
     }
 }

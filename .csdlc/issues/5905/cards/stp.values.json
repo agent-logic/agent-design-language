@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5905,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][csdlc-v2][closeout] Reconcile all closed issues into terminal truth",
+    "slug": "v0-92-closed-terminal-reconciliation",
+    "version": "v0.92",
+    "generation": 13
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement and execute only the closed-issue terminal reconciliation path.",
+      "deliverables": [
+        "Typed historical reconciliation request and result",
+        "Focused Rust tests",
+        "Validated terminal envelope for #5800",
+        "Terminal reconciliation census for all closed v0.92 issues"
+      ],
+      "acceptance_criteria": [
+        "After the implementation PR merges, #5800 is reconciled first against canonical PR #9 and exact merge SHA 7dfb791ad2fc1ecbc1e3b3651815b1d37bfa060f, and its cached terminal envelope validates before any other issue is processed",
+        "Every issue in the frozen closed-v0.92 inventory has exactly one truthful merged, closed_unmerged, or closed_no_pr disposition",
+        "Merged reconciliation requires exact issue repository, PR repository, issue, PR, head SHA, merge SHA, and GitHub closing linkage",
+        "Closed_unmerged requires an exact closed unmerged PR and explicit operator-approved reason; closed_no_pr requires the canonical approval label, no PR, and explicit operator-approved reason",
+        "Open, mismatched, multiply attributable, ambiguously migrated, contradictory-field, or unsupported remote state fails closed",
+        "Routine csdlc-finish review and publication gates are unchanged",
+        "Historical results use distinct live_github_historical_reconciliation provenance and never assert missing review or publication history",
+        "Focused Rust tests cover success, idempotency, disposition rules, the identity mismatch matrix, ambiguous linkage, provenance, and routine-gate non-regression",
+        "No generated state is hand-edited and post-merge envelopes remain Git-common authority rather than tracked main mutations"
+      ],
+      "dependencies": [
+        "Live closed issue and PR state",
+        "Existing csdlc.derived_terminal.v1 schema",
+        "Current shared GitHub token resolver"
+      ],
+      "repo_inputs": [
+        "AGENTS.md",
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/gate_finish.rs"
+      ],
+      "non_goals": [
+        "Reopening product implementation",
+        "Restoring csdlc-import or v1 wrappers",
+        "Weakening current review-before-publication",
+        "Unrelated worktree cleanup"
+      ]
+    }
+  }
+}
