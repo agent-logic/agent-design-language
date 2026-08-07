@@ -1,0 +1,8 @@
+flowchart LR
+    R["Typed historical reconciliation request"] --> I["Read exact live issue state"]
+    I --> P["Read exact PR state when merged"]
+    P --> V{"Identity and terminal state exact?"}
+    I --> V
+    V -->|No| F["Fail closed"]
+    V -->|Yes| E["Existing derived-terminal envelope"]
+    E --> C["Validate cached terminal truth"]

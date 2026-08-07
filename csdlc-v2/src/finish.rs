@@ -19,7 +19,8 @@ use crate::estimation::{
 };
 use crate::git::{self, clean_commit_revision};
 use crate::github::{
-    collect_pr_state, execute_github_action, GithubAction, GithubActionRequest, GithubIssuePacket,
+    collect_issue_closing_pull_requests, collect_pr_state, execute_github_action,
+    ClosingPullRequestIdentity, GithubAction, GithubActionRequest, GithubIssuePacket,
     PrStatePacket, PrStateRequest,
 };
 use crate::github_token;
@@ -80,6 +81,32 @@ pub struct FinishRequest {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct HistoricalFinishRequest {
+    pub schema: String,
+    pub issue: u64,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub actor: String,
+    /// Exact GitHub repository in `owner/name` form.
+    #[schemars(regex(pattern = "^[^/]+/[^/]+$"))]
+    pub issue_repository: String,
+    pub disposition: FinishDisposition,
+    /// Exact PR repository in `owner/name` form when the disposition uses a PR.
+    #[schemars(regex(pattern = "^[^/]+/[^/]+$"))]
+    pub pr_repository: Option<String>,
+    pub pull_request: Option<u64>,
+    /// Exact 40- or 64-character hexadecimal Git object ID.
+    #[schemars(regex(pattern = "^(?:[0-9A-Fa-f]{40}|[0-9A-Fa-f]{64})$"))]
+    pub expected_head_sha: Option<String>,
+    /// Exact 40- or 64-character hexadecimal Git object ID for merged dispositions only.
+    #[schemars(regex(pattern = "^(?:[0-9A-Fa-f]{40}|[0-9A-Fa-f]{64})$"))]
+    pub expected_merge_sha: Option<String>,
+    pub approved_reason: Option<String>,
+    pub token_file: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct DerivedTerminalEnvelope {
     pub schema: String,
     pub issue: u64,
@@ -114,6 +141,63 @@ pub struct FinishResult {
     pub terminal: DerivedTerminalEnvelope,
     pub already_terminal: bool,
     pub estimation: TerminalEstimationResult,
+}
+
+pub async fn execute_historical_finish(
+    root: &Path,
+    request: &HistoricalFinishRequest,
+) -> Result<FinishResult> {
+    let store = Store::new(root);
+    let _authority_lock = store.authority_projection_lock(request.issue)?;
+    let record = store.load_record(request.issue)?;
+    validate_historical_request(&record, request)?;
+
+    let issue = read_issue_in_repository(
+        &request.issue_repository,
+        request.issue,
+        request.token_file.clone(),
+    )
+    .await?;
+    let observation = issue_observation(issue, now_unix_seconds()?);
+    let candidates = collect_issue_closing_pull_requests(
+        &request.issue_repository,
+        request.issue,
+        request.token_file.clone(),
+    )
+    .await?;
+    validate_historical_candidates(request, &candidates)?;
+    let packet = match (request.pr_repository.as_ref(), request.pull_request) {
+        (Some(repository), Some(pull_request)) => Some(
+            collect_pr_state(&PrStateRequest {
+                repository: repository.clone(),
+                pull_request,
+                required_checks: Vec::new(),
+                require_review: false,
+                token_file: request.token_file.clone(),
+                linked_issue: Some(request.issue),
+                linked_issue_repository: Some(request.issue_repository.clone()),
+            })
+            .await?,
+        ),
+        (None, None) => None,
+        _ => {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "historical finish PR identity is incomplete",
+            ))
+        }
+    };
+    let observed = derive_historical_terminal(&record, request, &observation, packet.as_ref())?;
+    let (terminal, already_terminal) =
+        select_historical_terminal(load_cached_terminal(store.root(), request.issue)?, observed)?;
+    retain_cached_terminal(store.root(), &terminal)?;
+    let estimation = retain_terminal_estimation_outcome(&store, &terminal);
+    Ok(FinishResult {
+        schema: "csdlc.finish_result.v1".into(),
+        terminal,
+        already_terminal,
+        estimation,
+    })
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -212,6 +296,282 @@ pub async fn execute_finish(root: &Path, request: &FinishRequest) -> Result<Fini
         already_terminal: false,
         estimation,
     })
+}
+
+pub fn validate_historical_request(
+    record: &IssueRecord,
+    request: &HistoricalFinishRequest,
+) -> Result<()> {
+    if request.schema != "csdlc.historical_finish_request.v1"
+        || request.issue == 0
+        || request.actor.trim().is_empty()
+        || !valid_repository(&request.issue_repository)
+        || request.issue != record.issue
+        || request.issue_repository != record.repository
+        || request.expected_generation != record.generation
+        || request.expected_digest != record.digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "historical finish request does not match canonical issue identity",
+        ));
+    }
+    let reason_present = request
+        .approved_reason
+        .as_deref()
+        .is_some_and(|reason| !reason.trim().is_empty());
+    let pr_repository_present = request
+        .pr_repository
+        .as_deref()
+        .is_some_and(valid_repository);
+    let pr_present = request.pull_request.is_some_and(|number| number > 0);
+    let head_present = request
+        .expected_head_sha
+        .as_deref()
+        .is_some_and(valid_git_oid);
+    let merge_present = request
+        .expected_merge_sha
+        .as_deref()
+        .is_some_and(valid_git_oid);
+    let valid = match request.disposition {
+        FinishDisposition::Merged => {
+            pr_repository_present
+                && pr_present
+                && head_present
+                && merge_present
+                && request.approved_reason.is_none()
+        }
+        FinishDisposition::ClosedUnmerged => {
+            pr_repository_present
+                && pr_present
+                && head_present
+                && request.expected_merge_sha.is_none()
+                && reason_present
+        }
+        FinishDisposition::ClosedNoPr => {
+            request.pr_repository.is_none()
+                && request.pull_request.is_none()
+                && request.expected_head_sha.is_none()
+                && request.expected_merge_sha.is_none()
+                && reason_present
+        }
+    };
+    if !valid {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "historical finish fields contradict the requested disposition",
+        ));
+    }
+    Ok(())
+}
+
+fn valid_repository(repository: &str) -> bool {
+    let mut parts = repository.split('/');
+    matches!(
+        (parts.next(), parts.next(), parts.next()),
+        (Some(owner), Some(repo), None) if !owner.is_empty() && !repo.is_empty()
+    )
+}
+
+fn valid_git_oid(value: &str) -> bool {
+    matches!(value.len(), 40 | 64) && value.bytes().all(|byte| byte.is_ascii_hexdigit())
+}
+
+pub fn validate_historical_candidates(
+    request: &HistoricalFinishRequest,
+    candidates: &[ClosingPullRequestIdentity],
+) -> Result<()> {
+    let expected = match (&request.pr_repository, request.pull_request) {
+        (Some(repository), Some(pull_request)) => Some((repository.as_str(), pull_request)),
+        (None, None) => None,
+        _ => {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "historical finish PR identity is incomplete",
+            ))
+        }
+    };
+    let identity_matches = |candidate: &ClosingPullRequestIdentity, expected: (&str, u64)| {
+        candidate.repository == expected.0 && candidate.pull_request == expected.1
+    };
+    let merged = candidates
+        .iter()
+        .filter(|candidate| candidate.merged || candidate.state == "MERGED")
+        .collect::<Vec<_>>();
+    let valid = match (request.disposition, expected) {
+        (FinishDisposition::Merged, Some(expected)) => {
+            merged.len() == 1 && identity_matches(merged[0], expected)
+        }
+        (FinishDisposition::ClosedUnmerged, Some(expected)) => {
+            merged.is_empty()
+                && candidates.len() == 1
+                && candidates[0].state == "CLOSED"
+                && !candidates[0].merged
+                && identity_matches(&candidates[0], expected)
+        }
+        (FinishDisposition::ClosedNoPr, None) => candidates.is_empty(),
+        _ => false,
+    };
+    if valid {
+        Ok(())
+    } else {
+        Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "historical finish has no unique terminal-precedence closing PR identity",
+        ))
+    }
+}
+
+pub fn select_historical_terminal(
+    existing: Option<DerivedTerminalEnvelope>,
+    observed: DerivedTerminalEnvelope,
+) -> Result<(DerivedTerminalEnvelope, bool)> {
+    let Some(existing) = existing else {
+        return Ok((observed, false));
+    };
+    validate_envelope(&existing)?;
+    validate_envelope(&observed)?;
+    let same_authority = existing.issue == observed.issue
+        && existing.repository == observed.repository
+        && existing.initialization_digest == observed.initialization_digest
+        && existing.canonical_generation == observed.canonical_generation
+        && existing.canonical_digest == observed.canonical_digest
+        && existing.pull_request == observed.pull_request
+        && existing.disposition == observed.disposition
+        && existing.head_sha == observed.head_sha
+        && existing.merge_sha == observed.merge_sha
+        && existing.issue_state == observed.issue_state
+        && existing.pr_state == observed.pr_state
+        && existing.approved_reason == observed.approved_reason
+        && existing.source == observed.source;
+    if same_authority {
+        Ok((existing, true))
+    } else {
+        Ok((observed, false))
+    }
+}
+
+pub fn derive_historical_terminal(
+    record: &IssueRecord,
+    request: &HistoricalFinishRequest,
+    issue: &IssueTerminalObservation,
+    packet: Option<&PrStatePacket>,
+) -> Result<DerivedTerminalEnvelope> {
+    validate_historical_request(record, request)?;
+    if issue.state != "closed" {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "historical finish requires a closed live issue",
+        ));
+    }
+    let (pull_request, head_sha, merge_sha, pr_state) = match request.disposition {
+        FinishDisposition::Merged => {
+            let packet = validate_historical_packet(request, packet)?;
+            let expected_merge = request.expected_merge_sha.as_deref();
+            if !packet.merged
+                || packet.state != "closed"
+                || packet.merge_commit_sha.as_deref() != expected_merge
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "historical merged PR state or merge SHA does not match",
+                ));
+            }
+            (
+                Some(packet.pull_request),
+                Some(packet.head_sha.clone()),
+                packet.merge_commit_sha.clone(),
+                Some(packet.state.clone()),
+            )
+        }
+        FinishDisposition::ClosedUnmerged => {
+            let packet = validate_historical_packet(request, packet)?;
+            if packet.merged || packet.state != "closed" {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "historical closed-unmerged PR is not exactly closed and unmerged",
+                ));
+            }
+            (
+                Some(packet.pull_request),
+                Some(packet.head_sha.clone()),
+                None,
+                Some(packet.state.clone()),
+            )
+        }
+        FinishDisposition::ClosedNoPr => {
+            if packet.is_some()
+                || !issue
+                    .labels
+                    .iter()
+                    .any(|label| label == NO_PR_APPROVAL_LABEL)
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    format!(
+                        "historical no-PR closure requires GitHub label {NO_PR_APPROVAL_LABEL}"
+                    ),
+                ));
+            }
+            (None, None, None, None)
+        }
+    };
+    let mut envelope = DerivedTerminalEnvelope {
+        schema: "csdlc.derived_terminal.v1".into(),
+        issue: record.issue,
+        repository: record.repository.clone(),
+        initialization_digest: record.initialization_digest.clone(),
+        canonical_generation: record.generation,
+        canonical_digest: record.digest.clone(),
+        pull_request,
+        disposition: request.disposition,
+        head_sha,
+        merge_sha,
+        issue_state: if request.disposition == FinishDisposition::Merged {
+            "closed_by_merged_pr".into()
+        } else {
+            issue.state.clone()
+        },
+        pr_state,
+        approved_reason: request.approved_reason.clone(),
+        observed_unix_seconds: issue.observed_unix_seconds,
+        mutable_fresh_until_unix_seconds: (request.disposition != FinishDisposition::Merged).then(
+            || {
+                issue
+                    .observed_unix_seconds
+                    .saturating_add(MUTABLE_TERMINAL_FRESHNESS_SECONDS)
+            },
+        ),
+        source: "live_github_historical_reconciliation".into(),
+        digest: String::new(),
+    };
+    envelope.digest = envelope_digest(&envelope)?;
+    validate_envelope(&envelope)?;
+    Ok(envelope)
+}
+
+fn validate_historical_packet<'a>(
+    request: &HistoricalFinishRequest,
+    packet: Option<&'a PrStatePacket>,
+) -> Result<&'a PrStatePacket> {
+    let packet = packet.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "historical PR disposition requires exact live PR state",
+        )
+    })?;
+    if Some(packet.repository.as_str()) != request.pr_repository.as_deref()
+        || Some(packet.pull_request) != request.pull_request
+        || packet.linked_issue != Some(request.issue)
+        || packet.linkage_source.as_deref() != Some("github_closing_issues_references")
+        || Some(packet.head_sha.as_str()) != request.expected_head_sha.as_deref()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "historical PR does not match exact repository, issue, PR, linkage, or head identity",
+        ));
+    }
+    Ok(packet)
 }
 
 /// Retain advisory forecast-versus-actual truth after terminal authority is
@@ -530,12 +890,25 @@ async fn execute_remote_merge(
 }
 
 async fn read_issue(request: &FinishRequest) -> Result<GithubIssuePacket> {
+    read_issue_in_repository(
+        &request.repository,
+        request.issue,
+        request.token_file.clone(),
+    )
+    .await
+}
+
+async fn read_issue_in_repository(
+    repository: &str,
+    issue: u64,
+    token_file: Option<String>,
+) -> Result<GithubIssuePacket> {
     execute_github_action(&GithubActionRequest {
-        repository: request.repository.clone(),
+        repository: repository.to_owned(),
         action: GithubAction::IssueRead,
         operation_key: None,
-        token_file: request.token_file.clone(),
-        issue: Some(request.issue),
+        token_file,
+        issue: Some(issue),
         pull_request: None,
         title: None,
         body: None,
@@ -1009,7 +1382,10 @@ pub fn validate_envelope(envelope: &DerivedTerminalEnvelope) -> Result<()> {
         || envelope.initialization_digest.trim().is_empty()
         || envelope.canonical_digest.trim().is_empty()
         || envelope.observed_unix_seconds == 0
-        || envelope.source != "live_github"
+        || !matches!(
+            envelope.source.as_str(),
+            "live_github" | "live_github_historical_reconciliation"
+        )
         || envelope.digest != envelope_digest(envelope)?
     {
         return Err(V2Error::new(
@@ -1059,15 +1435,16 @@ pub fn envelope_matches_record(
 ) -> Result<bool> {
     validate_envelope(envelope)?;
     Ok(envelope_matches_record_identity(envelope, record)
-        && match envelope.pull_request {
-            Some(_) => record.publication.as_ref().is_some_and(|publication| {
-                envelope
-                    .head_sha
-                    .as_deref()
-                    .is_some_and(|head| publication.revision == clean_commit_revision(head))
-            }),
-            None => true,
-        })
+        && (envelope.source == "live_github_historical_reconciliation"
+            || match envelope.pull_request {
+                Some(_) => record.publication.as_ref().is_some_and(|publication| {
+                    envelope
+                        .head_sha
+                        .as_deref()
+                        .is_some_and(|head| publication.revision == clean_commit_revision(head))
+                }),
+                None => true,
+            }))
 }
 
 fn envelope_matches_record_identity(
@@ -1079,13 +1456,14 @@ fn envelope_matches_record_identity(
         && envelope.initialization_digest == record.initialization_digest
         && envelope.canonical_generation == record.generation
         && envelope.canonical_digest == record.digest
-        && match envelope.pull_request {
-            Some(pull_request) => record
-                .publication
-                .as_ref()
-                .is_some_and(|publication| publication.pull_request == pull_request),
-            None => true,
-        }
+        && (envelope.source == "live_github_historical_reconciliation"
+            || match envelope.pull_request {
+                Some(pull_request) => record
+                    .publication
+                    .as_ref()
+                    .is_some_and(|publication| publication.pull_request == pull_request),
+                None => true,
+            })
 }
 
 pub fn terminal_cache_path(root: &Path, issue: u64) -> Result<PathBuf> {
