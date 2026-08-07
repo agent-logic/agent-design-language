@@ -1,0 +1,21 @@
+{
+  "assigned_by": "codex:5820-runtime-resilience",
+  "expected_digest": "8d48dd24f7f337a7ae6abb2c3fb8745e984b5b88c2cdaf24105ee268f6e5f43d",
+  "expected_generation": 43,
+  "issue": 5820,
+  "reviewer": "subagent:Leibniz",
+  "scope": [
+    "adl-runtime-kernel/src/config.rs",
+    "adl-runtime/src/bin/adl-runtime-guardian.rs",
+    "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+    "adl-runtime/src/guardian.rs",
+    "adl-runtime/tests/runtime_guardian_lifecycle.rs",
+    "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+    "adl/tools/validate_v092_runtime_native_receipts.rb",
+    "adl/tools/run_aws_spot_remote_validation_lane.sh",
+    "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
+    ".csdlc/issues/5820",
+    ".csdlc/evidence/5820",
+    ".csdlc/prepared/issues/5820"
+  ]
+}
