@@ -2,7 +2,9 @@
 # frozen_string_literal: true
 
 require "json"
+require "open3"
 require "pathname"
+require_relative "wp02b_evidence_contract"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath
 EVIDENCE = ROOT.join(".csdlc/evidence/5853")
@@ -37,6 +39,7 @@ end
 %w[
   eligibility.json cost-model.json frozen-manifest.json experiment-status.json
   decision.json final-state.json run-accounting.json production-canary.json
+  seed-run-outcome.json
 ].each do |name|
   path = EVIDENCE.join(name)
   abort "missing evidence #{path.relative_path_from(ROOT)}" unless path.file? && !path.zero?
@@ -112,7 +115,22 @@ close!(decision.dig("evidence", "warm_baseline_p95_seconds"), warm_p95, "warm p9
 close!(decision.dig("evidence", "test_only_p50_seconds"), test_p50, "test-only p50")
 close!(decision.dig("evidence", "test_only_p95_seconds"), test_p95, "test-only p95")
 close!(decision.dig("evidence", "median_workload_reduction_fraction"), (warm_p50 - test_p50) / warm_p50, "median reduction")
-successful_paid_runs = ACCOUNTED_RUN_IDS.length
+seed_outcome = read_json(EVIDENCE.join("seed-run-outcome.json"))
+abort "seed outcome run id drifted" unless seed_outcome["workflow_run_id"] == SEED_RUN_ID
+abort "seed outcome role drifted" unless seed_outcome["role"] == "cache_seed"
+
+paid_run_outcomes = runs.map do |id, _, benchmark|
+  {
+    "workflow_run_id" => id,
+    "workflow_conclusion" => benchmark["status"] == "passed" ? "success" : "failure",
+    "job_conclusion" => benchmark["status"] == "passed" ? "success" : "failure",
+    "workload_step_conclusion" => benchmark["status"] == "passed" ? "success" : "failure",
+    "artifact_step_conclusion" => benchmark["status"] == "passed" ? "success" : "failure"
+  }
+end
+paid_run_outcomes.unshift(seed_outcome)
+abort "paid-run outcome denominator drifted" unless paid_run_outcomes.map { |run| run["workflow_run_id"] } == ACCOUNTED_RUN_IDS
+successful_paid_runs = paid_run_outcomes.count { |outcome| Wp02bEvidenceContract.successful_paid_run?(outcome) }
 reliability = successful_paid_runs.fdiv(ACCOUNTED_RUN_IDS.length)
 abort "successful paid-run denominator drifted" unless decision.dig("evidence", "successful_paid_runs") == successful_paid_runs
 close!(decision.dig("evidence", "candidate_reliability"), reliability, "candidate reliability")
@@ -148,10 +166,34 @@ close!(cost.dig("actual_paid_state", "candidate_cost"), total_cost, "candidate c
 abort "candidate cost exceeded budget" unless total_cost < thresholds["maximum_cost_usd"]
 
 canary = read_json(EVIDENCE.join("production-canary.json"))
-abort "production routing canary failed" unless canary["proof_role"] == "routing_canary" &&
-  canary["job_name"] == "adl-rust-tests" && canary["conclusion"] == "success"
-abort "production canary runner drifted" unless canary.fetch("labels").include?(RUNNER_LABEL) &&
-  canary["runner_name"].start_with?(RUNNER_LABEL)
+abort "production canary proof role drifted" unless canary["proof_role"] == "validation_canary"
+git_head, git_error, git_status = Open3.capture3("git", "-C", ROOT.to_s, "rev-parse", "HEAD")
+abort "cannot resolve reviewed Git head: #{git_error.strip}" unless git_status.success?
+canary_head = canary.fetch("head_sha")
+_, ancestry_error, ancestry_status = Open3.capture3(
+  "git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", canary_head, git_head.strip
+)
+abort "production canary head is not an ancestor of reviewed Git head: #{ancestry_error.strip}" unless ancestry_status.success?
+if canary_head != git_head.strip
+  changed_output, changed_error, changed_status = Open3.capture3(
+    "git", "-C", ROOT.to_s, "diff", "--name-only", "#{canary_head}..#{git_head.strip}"
+  )
+  abort "cannot inspect post-canary evidence delta: #{changed_error.strip}" unless changed_status.success?
+  allowed_post_canary_paths = %w[
+    .csdlc/evidence/5853/production-canary.json
+    .csdlc/evidence/5853/final-state.json
+  ]
+  changed_paths = changed_output.lines.map(&:strip).reject(&:empty?)
+  unexpected_paths = changed_paths - allowed_post_canary_paths
+  abort "post-canary delta contains non-evidence paths: #{unexpected_paths.join(', ')}" unless unexpected_paths.empty?
+  abort "post-canary evidence delta is empty" if changed_paths.empty?
+end
+canary_error = Wp02bEvidenceContract.production_canary_error(
+  canary,
+  expected_head: canary_head,
+  runner_label: RUNNER_LABEL
+)
+abort "production canary failed: #{canary_error}" if canary_error
 
 workflow = ROOT.join(".github/workflows/ci.yaml").read
 rust_job = workflow[/^  adl_rust_tests:\n.*?(?=^  [a-zA-Z0-9_-]+:\n|\z)/m] || abort("missing adl_rust_tests job")
@@ -160,8 +202,11 @@ abort "experiment harness was not removed" if workflow.include?("build_accelerat
 
 final_state = read_json(EVIDENCE.join("final-state.json"))
 abort "final-state runner drifted" unless final_state["production_runner"] == RUNNER_LABEL
-abort "proof semantics changed" unless final_state["required_check_identity_preserved"] && final_state["validation_breadth_preserved"]
+abort "proof semantics changed" unless final_state["required_check_identity_preserved"] &&
+  final_state["validation_breadth_preserved"] && final_state["validation_breadth_contract_preserved"]
 abort "security boundary drifted" unless final_state["selected_repository_access"] && !final_state["untrusted_fork_privilege"]
 abort "terminal canary gate missing" unless final_state.dig("production_canary", "terminal_gate")&.include?("final reviewed PR head")
+abort "terminal canary acceptance missing" unless final_state.dig("production_canary", "terminal_acceptance") == true
+abort "final-state still records a remaining action" if final_state.key?("remaining_action")
 
 puts "WP-02B valid: 1 cold, 3 warm, 3 test-only canaries; p50 #{warm_p50}s -> #{test_p50}s; #{total_minutes} billed minutes; $#{format('%.3f', total_cost)}"

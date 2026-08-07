@@ -1,0 +1,14 @@
+{
+  "schema": "adl.wp02b.paid_run_outcome.v1",
+  "workflow_run_id": "31143176102",
+  "job_id": 92757154938,
+  "head_sha": "d5b30dd57ef1d22239bad61a8137b372c9a1f75b",
+  "role": "cache_seed",
+  "workflow_conclusion": "success",
+  "job_conclusion": "success",
+  "workload_step": "Run frozen build acceleration workload",
+  "workload_step_conclusion": "success",
+  "artifact_step": "Upload frozen experiment artifacts",
+  "artifact_step_conclusion": "success",
+  "url": "https://github.com/agent-logic/agent-design-language/actions/runs/31143176102/job/92757154938"
+}

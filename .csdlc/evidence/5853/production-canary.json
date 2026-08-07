@@ -1,16 +1,56 @@
 {
-  "schema": "adl.wp02b.production_canary.v1",
-  "proof_role": "routing_canary",
-  "workflow_run_id": "31147596070",
-  "job_id": 92770648816,
-  "head_sha": "14470b0ddbe43d9584bb3362c85e571eea5d0f84",
+  "schema": "adl.wp02b.production_canary.v2",
+  "proof_role": "validation_canary",
+  "workflow_run_id": "31148178127",
+  "workflow_conclusion": "cancelled",
+  "job_id": 92772618930,
+  "head_sha": "5996dccc9d7f381035c889e28678397e8f7865cd",
   "job_name": "adl-rust-tests",
-  "conclusion": "success",
-  "runner_name": "adl-ubuntu-24.04-16core-1000000235",
+  "job_conclusion": "success",
+  "runner_name": "adl-ubuntu-24.04-16core-1000000256",
   "runner_group_name": "adl-build-experiment",
   "labels": ["adl-ubuntu-24.04-16core"],
-  "started_at": "2026-08-07T04:32:37Z",
-  "completed_at": "2026-08-07T04:34:43Z",
-  "url": "https://github.com/agent-logic/agent-design-language/actions/runs/31147596070/job/92770648816",
-  "terminal_boundary": "This receipt proves runner routing. Terminal acceptance additionally requires the same job green at the final reviewed PR head."
+  "started_at": "2026-08-07T04:44:43Z",
+  "completed_at": "2026-08-07T04:46:25Z",
+  "url": "https://github.com/agent-logic/agent-design-language/actions/runs/31148178127/job/92772618930",
+  "proof_paths": {
+    "direct_test": {
+      "test_step_conclusion": "skipped",
+      "doc_test_step_conclusion": "skipped"
+    },
+    "coverage_replacement": {
+      "authoritative": true,
+      "producer_jobs": [
+        {
+          "name": "adl-coverage-runtime-hosted",
+          "job_id": 92772618948,
+          "conclusion": "cancelled"
+        },
+        {
+          "name": "adl-coverage-workspace-hosted (1/2)",
+          "job_id": 92772618977,
+          "conclusion": "cancelled"
+        },
+        {
+          "name": "adl-coverage-workspace-hosted (2/2)",
+          "job_id": 92772619044,
+          "conclusion": "cancelled"
+        }
+      ],
+      "aggregator_jobs": [
+        {
+          "name": "adl-coverage-hosted",
+          "job_id": 92773141004,
+          "conclusion": "failure"
+        },
+        {
+          "name": "adl-coverage",
+          "job_id": 92773179472,
+          "conclusion": "failure"
+        }
+      ]
+    }
+  },
+  "terminal_acceptance": false,
+  "terminal_boundary": "The exact-head shell routed to the selected runner, but direct tests were skipped and the authoritative replacement did not complete. A fresh final-head paid canary must complete one proof path successfully."
 }
