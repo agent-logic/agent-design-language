@@ -525,16 +525,25 @@ if report.get("status") != "pass":
     fail("lifecycle preflight failed")
 if report.get("revision") != revision:
     fail("lifecycle revision drifted")
-if int(report.get("guardian_launch_count", 0)) != 1:
-    fail("Guardian was not launched")
-if int(report.get("runtime_start_count", 0)) != 2:
-    fail("kernel start denominator drifted")
+completed_cycles = int(report.get("completed_cycles", 0))
+total_restarts = int(report.get("total_restarts", 0))
+if completed_cycles < 1:
+    fail("no lifecycle cycle completed")
+if int(report.get("guardian_launch_count", 0)) != completed_cycles:
+    fail("Guardian launch denominator drifted")
+if int(report.get("runtime_start_count", 0)) != completed_cycles + total_restarts:
+    fail("kernel start denominator did not reconcile with restarts")
 if report.get("restart_budget_exercised") is not True:
     fail("kernel restart was not exercised")
-if int(report.get("total_restarts", 0)) != 1:
-    fail("kernel restart count drifted")
-if int(report.get("continuity_generation", 0)) != 1:
+if total_restarts < 1:
+    fail("kernel restart count was empty")
+if int(report.get("continuity_generation", 0)) != completed_cycles:
     fail("durable continuity was not retained")
+expected_acceptance = report.get("suite") != "preflight_1x"
+if report.get("acceptance_eligible") is not expected_acceptance:
+    fail("suite acceptance eligibility drifted")
+if expected_acceptance and report.get("anti_rollback_minimum_enforced") is not True:
+    fail("acceptance suite did not enforce anti-rollback continuity")
 if report.get("logging_complete") is not True or report.get("master_log_status") != "clean":
     fail("clean log proof is missing")
 if wss.get("status") != "pass" or wss.get("authenticated_https") is not True:
