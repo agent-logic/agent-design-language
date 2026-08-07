@@ -1,0 +1,13 @@
+{
+  "issue": 10,
+  "card": "sor",
+  "expected_generation": 14,
+  "expected_digest": "a7dd65883b4b3d1e44ca3ee32d04ac3f69fe645fc98c559e6ef996621bc24b9a",
+  "actor": "codex:wp24-canonical-migration",
+  "reason": "Attach canonical issue migration receipt to WP-24 execution evidence.",
+  "operation": {
+    "operation": "append_reference",
+    "value": ".csdlc/evidence/10"
+  },
+  "fail_after_backup": false
+}

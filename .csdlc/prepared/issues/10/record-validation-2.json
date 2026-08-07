@@ -1,0 +1,22 @@
+{
+  "issue": 10,
+  "card": "sor",
+  "expected_generation": 10,
+  "expected_digest": "e9b1d27ccf85b4dea7d030a923dcd490bc59646a6986cd4a8410eb84b497a50a",
+  "actor": "codex:wp24-canonical-migration",
+  "reason": "Preserve proven WP-24 validation lane 2 in canonical issue #10.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "ruby",
+        ".csdlc/evidence/5844/validate-article-series.rb",
+        "--negative"
+      ],
+      "purpose": "Exercise rejection fixtures for placeholders, private paths, broken and source-packet-unlisted citations, malformed posture, duplicate drafts, and unsafe publication disposition.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/5844/validate-article-series.rb"
+    }
+  },
+  "fail_after_backup": false
+}

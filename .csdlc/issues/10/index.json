@@ -1,0 +1,201 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 10,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "aaefb83fa55b156bd233db58af78a5439d66856e3ec8dde179d56cd4b77c0fd7",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "0afc26853c88994abafa8b85466f7ba168b8a2f17b09a09aac0cfbca751f7460",
+  "branch": "codex/10-v092-wp24-article-series",
+  "worktree": "/Volumes/FastWork/adl-wp-10",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/10/design.md",
+  "diagram_path": ".csdlc/prepared/issues/10/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-directed-wp24-migration-canary",
+      "revision": "6cf90700bcf38b96190736d6856891e8678ae47c23d9e4540d4a225b10e2c234"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "5a4799d87d55419bacfa4278962661662300e6dcc5a44a5667668d26a0d24d34",
+      "rendered_digest": "3620987df334148e271e62df6d66ed3fb706122ed7a8fe312a679c3e8842e634",
+      "ast_digest": "c47a88b3b7081c55143bf2e3cdb62c3860119d4300798382e7818e865796bcc3"
+    },
+    "stp": {
+      "values_digest": "a1c4d40a2b3dedcdcdb37894cf42dd760b994af39dd6ff7eadcbdbf930ea1b97",
+      "rendered_digest": "f83969521e9e203eefa98d4ee496b9ed9074938796bc111d3fe5213302887149",
+      "ast_digest": "606348ce732251d9ccdb0bf832b4e070fef92cd2bbf37135d3f542668ac73f85"
+    },
+    "spp": {
+      "values_digest": "3a9b54ca38ddc90488e5b918d529e528d9f4dcd1e6fa1f6a0e58a24405d6e9c3",
+      "rendered_digest": "e30a5c77f77107757320844847c98ef7c9a3eccdb948dd27ea03fc132c587ea4",
+      "ast_digest": "c7c7b3dea622e947960be940258da4819afd368bb29943aac3559dc360c7546e"
+    },
+    "vpp": {
+      "values_digest": "2275bb41ac68fbb0fc9971bd8f0cd93f2f343b6a825792a88fc8cc8fb5eb6aa5",
+      "rendered_digest": "e56a599df5646aabe8c516bdfd34c12bfdca679f35ef336fafcb192727b8b763",
+      "ast_digest": "cfa0e157bc1351e81148640fdd3f2fa57456ad3511830d15df9f6588065084ea"
+    },
+    "srp": {
+      "values_digest": "0438391e06d2948aece87d694f1366663ef1853d51b6f9727d94d9e71e91f86a",
+      "rendered_digest": "a3549b7f4a0718db3d6b16328228a3ac0e160108d7e1113b80561ddec4a217c5",
+      "ast_digest": "1f660d29817eb7d79752dae67b8d0da08ffa28aee646d1cd6bcef4ce4da99855"
+    },
+    "sor": {
+      "values_digest": "f1ab434c5e4f357c556bf05e4de7e0df99aa025f6e6bc885d06816b9beae9151",
+      "rendered_digest": "e490bba573516275aeb8ce39ab85095734d56721925d27cdd4808382276c022c",
+      "ast_digest": "ade7e67b38501e08ad5f0d7a00413234569b8afcb32ff2dd450876cd9028d513"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Advance canonical WP-24 successor to ready after typed bootstrap and design approval."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Advance canonical WP-24 successor after completed plan, execution evidence, and four passing validation records."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Advance canonical WP-24 successor to ready after typed bootstrap and design approval.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Preserve completed WP-24 step S1 in canonical issue #10.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Preserve completed WP-24 step S2 in canonical issue #10.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Preserve completed WP-24 step S3 in canonical issue #10.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Preserve completed WP-24 step S4 in canonical issue #10.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Preserve completed WP-24 step S5 in canonical issue #10.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Preserve completed WP-24 step S6 in canonical issue #10.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S6\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Preserve completed WP-24 step S7 in canonical issue #10.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S7\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Carry verified WP-24 execution truth into canonical issue #10 with retained legacy provenance.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Authored and independently edited the complete source-grounded ten-article WP-24 series; all artifacts are review-ready while external publication and final release-dependent claims remain operator- and WP-23-gated.\",\"changes\":[\"Added ten bounded source packets, ten complete Medium-style articles, and ten per-article editorial reviews.\",\"Added a series claim matrix, stop-before-publish disposition, machine-checked rollback contract, and complete bounded Claude and Gemini review evidence.\",\"Resolved every actionable provider and pre-PR finding, including evidence coverage, terminology, duplicate exposition, claim posture, exact provider-review completeness, automated proof boundaries, and rollback evidence retention.\",\"Created canonical successor agent-logic/agent-design-language#10 and retained danielbaustin/agent-design-language#5844 as migration provenance.\"],\"artifacts\":[\".csdlc/evidence/5844/ROLLBACK_PROCEDURE.md\",\".csdlc/evidence/5844/claude-final-01-05-result.json\",\".csdlc/evidence/5844/claude-final-06-10-result.json\",\".csdlc/evidence/5844/gemini-article-01-request.json\",\".csdlc/evidence/5844/gemini-article-01-result.json\",\".csdlc/evidence/5844/gemini-article-02-request.json\",\".csdlc/evidence/5844/gemini-article-02-result.json\",\".csdlc/evidence/5844/gemini-article-03-request.json\",\".csdlc/evidence/5844/gemini-article-03-result.json\",\".csdlc/evidence/5844/gemini-article-04-request.json\",\".csdlc/evidence/5844/gemini-article-04-result.json\",\".csdlc/evidence/5844/gemini-article-05-request.json\",\".csdlc/evidence/5844/gemini-article-05-result.json\",\".csdlc/evidence/5844/gemini-article-06-request.json\",\".csdlc/evidence/5844/gemini-article-06-result.json\",\".csdlc/evidence/5844/gemini-article-07-request.json\",\".csdlc/evidence/5844/gemini-article-07-result.json\",\".csdlc/evidence/5844/gemini-article-08-request.json\",\".csdlc/evidence/5844/gemini-article-08-result.json\",\".csdlc/evidence/5844/gemini-article-09-request.json\",\".csdlc/evidence/5844/gemini-article-09-result.json\",\".csdlc/evidence/5844/gemini-article-10-request.json\",\".csdlc/evidence/5844/gemini-article-10-result.json\",\".csdlc/evidence/5844/gemini-exact-closing-request.json\",\".csdlc/evidence/5844/gemini-exact-closing-result.json\",\".csdlc/evidence/5844/gemini-exact-provider-invocations.json\",\".csdlc/evidence/5844/rollback-manifest.json\",\".csdlc/issues/10\",\".csdlc/prepared/issues/10\",\"docs/milestones/v0.92/publication/articles/\",\"docs/milestones/v0.92/publication/articles/EDITORIAL_PANEL_REVIEW.md\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Preserve proven WP-24 validation lane 1 in canonical issue #10.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/evidence/5844/validate-article-series.rb\"],\"purpose\":\"Prove all ten unique complete packets, required headings, minimum draft depth, declared and existing repository sources, local link resolution, claim-posture labels, and privacy safeguards.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5844/validate-article-series.rb\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Preserve proven WP-24 validation lane 2 in canonical issue #10.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/evidence/5844/validate-article-series.rb\",\"--negative\"],\"purpose\":\"Exercise rejection fixtures for placeholders, private paths, broken and source-packet-unlisted citations, malformed posture, duplicate drafts, and unsafe publication disposition.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5844/validate-article-series.rb\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Preserve proven WP-24 validation lane 3 in canonical issue #10.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/evidence/5844/validate-article-series.rb\",\"--rollback\"],\"purpose\":\"Prove rollback remove, retain, and restore sets, lifecycle records, and exact provider evidence are issue-scoped and retained without external publication action.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5844/rollback-manifest.json\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Preserve proven WP-24 validation lane 4 in canonical issue #10.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_medium_article_writer_skill_contracts.sh\"],\"purpose\":\"Prove the repository article-writer contract retains source and stop-before-publish safeguards.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_medium_article_writer_skill_contracts.sh\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Advance canonical WP-24 successor after completed plan, execution evidence, and four passing validation records.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:wp24-canonical-migration",
+      "reason": "Attach canonical issue migration receipt to WP-24 execution evidence.",
+      "operation": "{\"operation\":\"append_reference\",\"value\":\".csdlc/evidence/10\"}"
+    }
+  ]
+}

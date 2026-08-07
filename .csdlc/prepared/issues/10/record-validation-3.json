@@ -1,0 +1,22 @@
+{
+  "issue": 10,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "0c6f58e850fb6fb47ca1b6aae876b244ea233a2479538bd8afbda483893270ce",
+  "actor": "codex:wp24-canonical-migration",
+  "reason": "Preserve proven WP-24 validation lane 3 in canonical issue #10.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "ruby",
+        ".csdlc/evidence/5844/validate-article-series.rb",
+        "--rollback"
+      ],
+      "purpose": "Prove rollback remove, retain, and restore sets, lifecycle records, and exact provider evidence are issue-scoped and retained without external publication action.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/5844/rollback-manifest.json"
+    }
+  },
+  "fail_after_backup": false
+}

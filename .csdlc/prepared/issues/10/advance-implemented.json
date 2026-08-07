@@ -1,0 +1,13 @@
+{
+  "issue": 10,
+  "card": "sor",
+  "expected_generation": 13,
+  "expected_digest": "624dc7dd23c66b37269e1881ac2136a80d18b043afef726d029eecd652d6a6f2",
+  "actor": "codex:wp24-canonical-migration",
+  "reason": "Advance canonical WP-24 successor after completed plan, execution evidence, and four passing validation records.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "fail_after_backup": false
+}

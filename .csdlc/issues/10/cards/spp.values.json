@@ -1,0 +1,135 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 10,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-24] Ten-article launch series",
+    "slug": "v0-92-wp-24-ten-article-launch-series",
+    "version": "v0.92",
+    "generation": 15
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Run ten 3.5-hour/68,000-token article waves plus a separately scheduled 5-hour/60,000-token cross-series integration wave inside the fixed 40-agent-hour/740,000-token aggregate; five parallel owners produce complete reviewed articles and stop before publication.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Budget 10 x 50-minute/18,000-token source-research waves and establish ten bounded source packets",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Budget 10 x 80-minute/28,000-token drafting waves and author all ten complete canonical articles",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Budget 10 x 40-minute/10,000-token editorial waves for claim, citation, link, privacy, and history/current review",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Budget 10 x 25-minute/8,000-token revision waves and resolve all per-article findings",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S5",
+          "action": "Budget 10 x 15-minute/4,000-token validation waves for per-article proof",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S6",
+          "action": "Use the allocated 5-hour/60,000-token integration wave for series-arc review, final revisions, #5843 reconciliation, validation, and stop-before-publish disposition",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S7",
+          "action": "Define and verify article rollback: restore disposition and series matrix, remove only issue-owned packets, retain source/editorial evidence, and perform no external publication action.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/evidence/10",
+        ".csdlc/evidence/5844",
+        ".csdlc/issues/10",
+        ".csdlc/prepared/issues/10",
+        "docs/milestones/v0.92/publication/articles/01-what-is-adl",
+        "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model",
+        "docs/milestones/v0.92/publication/articles/03-godel-agents-and-godel-hadamard-bayes-algorithm",
+        "docs/milestones/v0.92/publication/articles/04-the-freedom-gate",
+        "docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe",
+        "docs/milestones/v0.92/publication/articles/06-codefriend-and-the-cognitive-sdlc",
+        "docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security",
+        "docs/milestones/v0.92/publication/articles/08-agent-economics",
+        "docs/milestones/v0.92/publication/articles/09-adl-and-social-intelligence",
+        "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl",
+        "docs/milestones/v0.92/publication/articles/PUBLICATION_DISPOSITION.md",
+        "docs/milestones/v0.92/publication/articles/SERIES_ARC_AND_CLAIM_MATRIX.md"
+      ],
+      "invariants": [
+        "Each article is grounded in a declared bounded source packet",
+        "Each citation is real, resolvable, and claim-relevant",
+        "Historical evidence is not presented as current delivery truth",
+        "Publication status remains review-ready until separately authorized"
+      ],
+      "risks": [
+        "Ten articles may duplicate claims or drift in terminology",
+        "Late #5843 truth may invalidate release language",
+        "External links or citations may be unavailable"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "danielbaustin/agent-design-language#5819 naming/link truth is unresolved",
+        "A material claim lacks support",
+        "Privacy or citation review cannot be completed",
+        "Rollback would delete cited upstream evidence or require an external publish, unpublish, or scheduling action."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/10/design.md",
+      "design_digest": "6cf90700bcf38b96190736d6856891e8678ae47c23d9e4540d4a225b10e2c234",
+      "diagram_ref": ".csdlc/prepared/issues/10/diagram.mmd",
+      "diagram_digest": "1171d00ddf28edf0db392ee151048b885412d98971a2489269ad9b95245b7c77"
+    }
+  }
+}

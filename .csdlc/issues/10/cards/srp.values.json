@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 10,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-24] Ten-article launch series",
+    "slug": "v0-92-wp-24-ten-article-launch-series",
+    "version": "v0.92",
+    "generation": 15
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Canonical WP-24 issue #10 article-series artifacts, retained source evidence, migration identity, validation, and stop-before-publish disposition.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are all ten artifacts complete articles with bounded source packets rather than outlines?",
+        "Is every material claim and citation supportable without exposing private information?",
+        "Does the series remain coherent and avoid repeating the same argument under different titles?",
+        "Are danielbaustin/agent-design-language#5843-dependent claims and publication status explicitly gated?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
