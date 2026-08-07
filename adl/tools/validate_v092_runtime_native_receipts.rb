@@ -74,6 +74,34 @@ def checked_file(path, digest, label, allow_empty: false)
   [resolved, actual]
 end
 
+def post_proof_change_allowed?(path)
+  path == "adl/tools/validate_v092_runtime_native_receipts.rb" ||
+    path == "adl/tools/test_validate_v092_runtime_native_receipts.sh" ||
+    path.start_with?(".csdlc/issues/#{ISSUE}/") ||
+    path.start_with?(".csdlc/evidence/#{ISSUE}/") ||
+    path.start_with?(".csdlc/prepared/issues/#{ISSUE}/")
+end
+
+if ARGV.first == "--self-test-finalization-policy"
+  allowed = [
+    "adl/tools/validate_v092_runtime_native_receipts.rb",
+    "adl/tools/test_validate_v092_runtime_native_receipts.sh",
+    ".csdlc/issues/5820/index.json",
+    ".csdlc/evidence/5820/runtime-native-receipts.json",
+    ".csdlc/prepared/issues/5820/record-final-review.json"
+  ]
+  rejected = [
+    "adl-runtime/src/guardian.rs",
+    "adl-runtime-kernel/src/config.rs",
+    "infra/runtime-v3/runtime-init.toml",
+    "adl/tools/validate_v092_runtime_guardian_lifecycle.sh"
+  ]
+  abort "finalization allowlist rejected lifecycle evidence" unless allowed.all? { |path| post_proof_change_allowed?(path) }
+  abort "finalization allowlist accepted Runtime product drift" unless rejected.none? { |path| post_proof_change_allowed?(path) }
+  puts "PASS: finalization allowlist rejects Runtime product drift"
+  exit 0
+end
+
 packet_argument = ARGV.fetch(0, ".csdlc/evidence/#{ISSUE}/runtime-native-receipts.json")
 packet_path = contained_issue_file(packet_argument, "native receipt packet")
 packet = JSON.parse(File.read(packet_path))
@@ -90,14 +118,7 @@ unless proof_revision == head
   )
   abort "cannot compare proof and verifier revisions" unless diff_status.success?
   changed_paths = changed.lines.map(&:strip).reject(&:empty?)
-  allowed_post_proof = lambda do |path|
-    path == "adl/tools/validate_v092_runtime_native_receipts.rb" ||
-      path == "adl/tools/test_validate_v092_runtime_native_receipts.sh" ||
-      path.start_with?(".csdlc/issues/#{ISSUE}/") ||
-      path.start_with?(".csdlc/evidence/#{ISSUE}/") ||
-      path.start_with?(".csdlc/prepared/issues/#{ISSUE}/")
-  end
-  abort "runtime product changed after native proof" unless changed_paths.all?(&allowed_post_proof)
+  abort "runtime product changed after native proof" unless changed_paths.all? { |path| post_proof_change_allowed?(path) }
 end
 
 receipts = Array(packet["receipts"])
