@@ -46,11 +46,11 @@ Retained GitHub mergedAt evidence for closing PR candidates and added fail-close
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

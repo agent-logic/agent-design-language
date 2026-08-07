@@ -7,3 +7,4 @@
 {"sequence":7,"generation":5,"actor":"codex:5906-terminal-precedence","reason":"Implementation and focused proof are complete.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
 {"sequence":8,"generation":5,"actor":"codex:5906-terminal-precedence","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":6,"actor":"subagent:review-5906-implementation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":10,"generation":7,"actor":"codex:5906-terminal-precedence","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

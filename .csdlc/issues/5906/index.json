@@ -3,9 +3,9 @@
   "issue": 5906,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "e8e7bd142c00ba3caca208dd41ca95c341df278dfb01e5b324c9757befe5d0ec",
-  "phase": "reviewed",
-  "generation": 6,
-  "digest": "3d9b61aaa024a46a017ee637fa0a46ac9ea105d82993608575dec869e1d0fca6",
+  "phase": "published",
+  "generation": 7,
+  "digest": "85040bad5b81c14493e64edc29a0f855b7dcc89dfd9619c8943687f984dcbc58",
   "branch": "codex/5906-v092-terminal-precedence",
   "worktree": "/Volumes/FastWork/adl-wp-5906",
   "review_assignment": {
@@ -37,7 +37,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5906,
+    "pull_request": 25,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/25",
+    "base": "main",
+    "head": "codex/5906-v092-terminal-precedence",
+    "revision": "git-blake3:43d58a18525f224e3894b87f80f2186ea5359c01:9dbe25c743520d379170979e0e3cd8cde2cd79e009969c84b45cd297d412c5a8",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -51,34 +61,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ecf5c42bd813e83f3016de38af762676c47d20a2ef80cc690687fbc2caa45fb0",
+      "values_digest": "5313723a12a7d4ad6a127c114beb58b046cd625709899034371fa9d6851928a7",
       "rendered_digest": "6098291e2b97258cff268bb0a93fc83f6ba820c398677d32c1f8b13701bed0ee",
       "ast_digest": "882f985ff0f02f70a888c1c971d542cf0718de0c3e9e283cb33a4f72ee6d322d"
     },
     "stp": {
-      "values_digest": "1660e60fbf60d3a903cad7e35ecbaab03ff823792cf5535fb5e90944f94cff84",
+      "values_digest": "72bff8b7bce3dd3fd79472189030df0f0b5cf89911626f99aef943a9c681c057",
       "rendered_digest": "eea011464d44233fcda47b8e55dfcf12d4bc4833a64c4cb905243001c3bc74de",
       "ast_digest": "3ceefe060a3809a63fad0a893fb4d97c3caa1eec224ea11969293239f1b1db12"
     },
     "spp": {
-      "values_digest": "7cb32881be0be2ebd124cf6eeb433a7ce3f96cd0bc595f74e6b76642ff05726f",
+      "values_digest": "02a7229d7c8ac4b8c7b591f9fdbefb5d6a182bb5cf609f6109b6d20bf6056f0b",
       "rendered_digest": "1901f0e5113aeb86d1a89117ebe08402ab314bdc5a0d30d7ba09c6911ea90dcd",
       "ast_digest": "b301ca6eac5c1151ca80bed45c186be3d08221c17d7394f94f19c66485b9c58e"
     },
     "vpp": {
-      "values_digest": "a8b3bf251f41f049f7143f07bded5925e0223a1923435dd6d051659a351d01f5",
+      "values_digest": "ba722e1aa7715efbb611ebcf47c1c849c1eeb4ac9098fd3376245ed0098641d8",
       "rendered_digest": "a893359ac43c2cc770c7de356cb02e42938c0349fa76ea486bcb92159e3cd5ce",
       "ast_digest": "e30e5eead6b89ac8b866bf5ec4356accbceba0a0a803e0a625e165ee4e76dfc5"
     },
     "srp": {
-      "values_digest": "c90f00b7447feaa618bcf2f0f622114d1dfe946ead30e2388d7413f41c629251",
+      "values_digest": "4b65f8aacb27e1f26a5d86ac320d9c04e7d9df66b27b05910cda5417a7eae160",
       "rendered_digest": "07203e1a335cf2abb67692e5683a6f519692615c1968150944b91dd85602f5eb",
       "ast_digest": "b733cca08b732d3d8d1b4da793efbbc62e36912967bbd444ca7e8fbff7c3ec7f"
     },
     "sor": {
-      "values_digest": "8d6b6618af99f60bd1fb574f2a4f9aa1ca332ceb272f73b639d6f66693986ba6",
-      "rendered_digest": "f2c1f7ae1031f66a3396830cd897420747da532876aa5c7a1ce725b42ea0d69d",
-      "ast_digest": "152decb181a50f984d6c0524bed562a1a624886e7fe8980d55d167636bbba678"
+      "values_digest": "a3531f384edde4ed8eace650e8213169a10c2154c477bb9e60d7109a66813278",
+      "rendered_digest": "8f0746d3d588c7dd25eba0d45990bbbd632a9e11d7817587a6f6c821334af571",
+      "ast_digest": "4b83f5e15078475ad2afe3f00a14b078845c29fac5c8962f7171136b19960563"
     }
   },
   "transitions": [
@@ -109,6 +119,13 @@
       "to": "reviewed",
       "actor": "subagent:review-5906-implementation",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5906-terminal-precedence",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -174,6 +191,13 @@
       "actor": "subagent:review-5906-implementation",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:5906-terminal-precedence",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
