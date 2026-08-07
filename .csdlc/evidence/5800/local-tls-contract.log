@@ -1,0 +1,26 @@
+
+running 19 tests
+test production_defaults_fail_closed_without_explicit_mode ... ok
+test certificate_fingerprint_uses_der_identity_not_pem_formatting ... ok
+test concurrent_bootstrap_excludes_second_writer ... ok
+test restart_reuses_same_certificate_identity ... ok
+test managed_external_mode_preserves_existing_material ... ok
+test first_bootstrap_persists_rustls_accepted_material_with_restrictive_key ... ok
+test failed_replacement_preserves_last_valid_certificate ... ok
+test configured_sans_are_validated_by_rustls ... ok
+test restart_rejects_existing_identity_when_configured_sans_change ... ok
+test restart_rejects_private_key_permission_drift ... ok
+test reuse_rejects_expired_current_certificate ... ok
+test managed_external_mode_accepts_owner_read_only_and_rejects_group_access ... ok
+test restart_repairs_stale_public_copy ... ok
+test replacement_is_explicit_and_changes_identity ... ok
+test explicit_replace_after_san_change_installs_matching_identity ... ok
+test stale_lock_file_does_not_block_os_advisory_lock_reacquire ... ok
+test reuse_rejects_not_yet_valid_current_certificate ... ok
+test untrusted_reissue_candidate_preserves_last_valid_generation ... ok
+test invalid_reissue_candidates_preserve_last_valid_generation ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.81s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.28s
+     Running tests/local_tls.rs (adl-runtime/target/debug/deps/local_tls-1d17e8c8f6e9f1d0)
