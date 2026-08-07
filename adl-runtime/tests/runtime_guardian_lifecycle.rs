@@ -5,7 +5,9 @@ use std::{
     time::{Duration, Instant},
 };
 
-use adl_runtime::guardian::{run_guardian, GuardianConfig, GuardianTerminalState};
+use adl_runtime::guardian::{
+    run_guardian, GuardianConfig, GuardianConfigError, GuardianTerminalState,
+};
 use tokio::time::sleep;
 use tokio_util::sync::CancellationToken;
 
@@ -84,6 +86,7 @@ fn main() {
     let mut closed = [0_u8; 1];
     assert_eq!(lease.read(&mut closed).expect("lease close"), 0);
 }
+
 "#,
     )
     .expect("child source");
@@ -94,6 +97,30 @@ fn main() {
         .status()
         .expect("rustc must execute");
     assert!(status.success(), "portable child must compile");
+    binary
+}
+
+fn compile_spawn_marker_child(root: &TestRoot, marker: &Path) -> PathBuf {
+    let source = root.path("spawn-marker-child.rs");
+    let binary = root.path(&format!(
+        "spawn-marker-child{}",
+        std::env::consts::EXE_SUFFIX
+    ));
+    fs::write(
+        &source,
+        format!(
+            "fn main() {{ std::fs::write({:?}, b\"spawned\").unwrap(); }}\n",
+            marker
+        ),
+    )
+    .expect("marker child source");
+    let status = Command::new("rustc")
+        .arg(&source)
+        .arg("-o")
+        .arg(&binary)
+        .status()
+        .expect("rustc must execute");
+    assert!(status.success(), "marker child must compile");
     binary
 }
 
@@ -195,6 +222,58 @@ fn guardian_policy_rejects_unbounded_or_inverted_limits() {
     inverted_backoff.backoff_cap_ms = inverted_backoff.backoff_base_ms - 1;
     assert!(inverted_backoff.validate().is_err());
 
+    let mut at_duration_limit = base();
+    at_duration_limit.backoff_base_ms = 600_000;
+    at_duration_limit.backoff_cap_ms = 600_000;
+    at_duration_limit.healthy_window_ms = 600_000;
+    at_duration_limit.lease_auth_timeout_ms = 600_000;
+    at_duration_limit.capture_drain_grace_ms = 600_000;
+    at_duration_limit.child_shutdown_budget_ms = 599_999;
+    at_duration_limit.shutdown_grace_ms = 600_000;
+    assert_eq!(at_duration_limit.validate(), Ok(()));
+
+    for (config, expected) in [
+        {
+            let mut config = base();
+            config.backoff_base_ms = 600_001;
+            config.backoff_cap_ms = 600_001;
+            (config, GuardianConfigError::BackoffTooLarge)
+        },
+        {
+            let mut config = base();
+            config.backoff_cap_ms = 600_001;
+            (config, GuardianConfigError::BackoffTooLarge)
+        },
+        {
+            let mut config = base();
+            config.healthy_window_ms = 600_001;
+            (config, GuardianConfigError::HealthyWindowTooLarge)
+        },
+        {
+            let mut config = base();
+            config.lease_auth_timeout_ms = 600_001;
+            (config, GuardianConfigError::LeaseAuthTimeoutTooLarge)
+        },
+        {
+            let mut config = base();
+            config.capture_drain_grace_ms = 600_001;
+            (config, GuardianConfigError::CaptureDrainGraceTooLarge)
+        },
+        {
+            let mut config = base();
+            config.child_shutdown_budget_ms = 600_001;
+            config.shutdown_grace_ms = 600_002;
+            (config, GuardianConfigError::ChildShutdownBudgetTooLarge)
+        },
+        {
+            let mut config = base();
+            config.shutdown_grace_ms = 600_001;
+            (config, GuardianConfigError::ShutdownGraceTooLarge)
+        },
+    ] {
+        assert_eq!(config.validate(), Err(expected));
+    }
+
     let mut unbounded_capture = base();
     unbounded_capture.capture_max_bytes = 0;
     assert!(unbounded_capture.validate().is_err());
@@ -219,5 +298,99 @@ fn guardian_policy_rejects_unbounded_or_inverted_limits() {
         let mut invalid_codes = base();
         invalid_codes.configuration_exit_codes = codes;
         assert!(invalid_codes.validate().is_err());
+    }
+}
+
+#[test]
+fn guardian_cli_rejects_oversized_durations_before_spawning_the_kernel() {
+    let root = TestRoot::new("guardian-cli-bounds-");
+    let marker = root.path("kernel-spawned");
+    let child = compile_spawn_marker_child(&root, &marker);
+    let base = format!(
+        r#"[binaries]
+kernel_path = {child:?}
+
+[shutdown]
+checkpoint_deadline_millis = 100
+kernel_grace_millis = 100
+api_drain_millis = 100
+guardian_margin_millis = 100
+
+[guardian]
+restart_budget = 0
+backoff_base_millis = 100
+backoff_cap_millis = 200
+healthy_window_millis = 100
+lease_auth_timeout_millis = 100
+lease_auth_attempts = 1
+capture_max_bytes = 65536
+capture_drain_grace_millis = 100
+configuration_exit_codes = [64]
+"#,
+        child = child
+    );
+    let cases = [
+        (
+            base.replace("backoff_base_millis = 100", "backoff_base_millis = 600001")
+                .replace("backoff_cap_millis = 200", "backoff_cap_millis = 600001"),
+            "BackoffTooLarge",
+        ),
+        (
+            base.replace("backoff_cap_millis = 200", "backoff_cap_millis = 600001"),
+            "BackoffTooLarge",
+        ),
+        (
+            base.replace(
+                "healthy_window_millis = 100",
+                "healthy_window_millis = 600001",
+            ),
+            "HealthyWindowTooLarge",
+        ),
+        (
+            base.replace(
+                "lease_auth_timeout_millis = 100",
+                "lease_auth_timeout_millis = 600001",
+            ),
+            "LeaseAuthTimeoutTooLarge",
+        ),
+        (
+            base.replace(
+                "capture_drain_grace_millis = 100",
+                "capture_drain_grace_millis = 600001",
+            ),
+            "CaptureDrainGraceTooLarge",
+        ),
+        (
+            base.replace(
+                "checkpoint_deadline_millis = 100",
+                "checkpoint_deadline_millis = 600000",
+            ),
+            "ChildShutdownBudgetTooLarge",
+        ),
+        (
+            base.replace(
+                "checkpoint_deadline_millis = 100\nkernel_grace_millis = 100\napi_drain_millis = 100\nguardian_margin_millis = 100",
+                "checkpoint_deadline_millis = 599997\nkernel_grace_millis = 1\napi_drain_millis = 1\nguardian_margin_millis = 2",
+            ),
+            "ShutdownGraceTooLarge",
+        ),
+    ];
+
+    for (index, (init_text, expected)) in cases.into_iter().enumerate() {
+        let init = root.path(&format!("runtime-init-{index}.toml"));
+        fs::write(&init, init_text).expect("Guardian CLI init");
+        let output = Command::new(env!("CARGO_BIN_EXE_adl-runtime-guardian"))
+            .arg("--init")
+            .arg(&init)
+            .output()
+            .expect("Guardian CLI must execute");
+        assert_eq!(output.status.code(), Some(64));
+        assert!(output.stdout.is_empty());
+        assert!(
+            String::from_utf8_lossy(&output.stderr).contains(expected),
+            "expected {expected}; stderr={}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        assert!(!marker.exists(), "invalid init spawned the kernel");
     }
 }

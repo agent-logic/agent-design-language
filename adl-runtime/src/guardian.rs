@@ -48,6 +48,7 @@ const MAX_RESTART_BUDGET: u32 = 10_000;
 const MAX_LEASE_AUTH_ATTEMPTS: u32 = 32;
 const MAX_CAPTURE_BYTES: u64 = 1024 * 1024 * 1024;
 const MAX_CONFIGURATION_EXIT_CODES: usize = 16;
+const MAX_GUARDIAN_DURATION_MS: u64 = 600_000;
 #[cfg(windows)]
 const WINDOWS_FORCED_TERMINATION_EXIT_CODE: u32 = 0xAD1D_F0CE;
 pub const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
@@ -109,6 +110,11 @@ impl GuardianConfig {
         if self.backoff_cap_ms < self.backoff_base_ms {
             return Err(GuardianConfigError::BackoffCapBelowBase);
         }
+        if self.backoff_base_ms > MAX_GUARDIAN_DURATION_MS
+            || self.backoff_cap_ms > MAX_GUARDIAN_DURATION_MS
+        {
+            return Err(GuardianConfigError::BackoffTooLarge);
+        }
         if self.restart_budget > MAX_RESTART_BUDGET {
             return Err(GuardianConfigError::RestartBudgetTooLarge);
         }
@@ -117,6 +123,21 @@ impl GuardianConfig {
         }
         if self.capture_max_bytes > MAX_CAPTURE_BYTES {
             return Err(GuardianConfigError::CaptureLimitTooLarge);
+        }
+        if self.healthy_window_ms > MAX_GUARDIAN_DURATION_MS {
+            return Err(GuardianConfigError::HealthyWindowTooLarge);
+        }
+        if self.lease_auth_timeout_ms > MAX_GUARDIAN_DURATION_MS {
+            return Err(GuardianConfigError::LeaseAuthTimeoutTooLarge);
+        }
+        if self.capture_drain_grace_ms > MAX_GUARDIAN_DURATION_MS {
+            return Err(GuardianConfigError::CaptureDrainGraceTooLarge);
+        }
+        if self.child_shutdown_budget_ms > MAX_GUARDIAN_DURATION_MS {
+            return Err(GuardianConfigError::ChildShutdownBudgetTooLarge);
+        }
+        if self.shutdown_grace_ms > MAX_GUARDIAN_DURATION_MS {
+            return Err(GuardianConfigError::ShutdownGraceTooLarge);
         }
         if self.configuration_exit_codes.is_empty()
             || self.configuration_exit_codes.len() > MAX_CONFIGURATION_EXIT_CODES
@@ -154,9 +175,15 @@ pub enum GuardianConfigError {
     InvalidEnvironmentName,
     ZeroBackoff,
     BackoffCapBelowBase,
+    BackoffTooLarge,
     RestartBudgetTooLarge,
     LeaseAuthAttemptsTooLarge,
     CaptureLimitTooLarge,
+    HealthyWindowTooLarge,
+    LeaseAuthTimeoutTooLarge,
+    CaptureDrainGraceTooLarge,
+    ChildShutdownBudgetTooLarge,
+    ShutdownGraceTooLarge,
     InvalidConfigurationExitCodes,
     ZeroShutdownGrace,
     ShutdownGraceBelowChildBudget,
