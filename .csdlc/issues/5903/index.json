@@ -4,11 +4,31 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "a2ee5329f127394b48acc6c9ab6dd9a355f830fbf9fdd9776a0f102363ebac95",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "c05165f1e994fb969d96493482417fe831d2f72da87e847236b8d37e230e2441",
+  "generation": 11,
+  "digest": "1180dded9d31c49df8cd1ac92ac7f2fa7265164e3e314311bff7d94be678a11f",
   "branch": "codex/5903-sprint4-readiness",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-5857-sprint4-readiness-repair",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:review-5903-design",
+    "assigned_by": "codex:5903-sprint4-readiness",
+    "revision": "git-blake3:ef2ace077837753aa4ad0b95745772020a312dd6:196e9ea32fb70eb30312db50448a2e4501bdb7277ed3abc17a1b0aadcddced72",
+    "scope": [
+      ".adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md",
+      ".csdlc/issues/5825",
+      ".csdlc/issues/5826",
+      ".csdlc/issues/5827",
+      ".csdlc/issues/5828",
+      ".csdlc/issues/5829",
+      ".csdlc/issues/5830",
+      ".csdlc/issues/5831",
+      ".csdlc/issues/5833",
+      ".csdlc/issues/5834",
+      ".csdlc/issues/5857",
+      ".csdlc/issues/5903",
+      ".csdlc/prepared/issues/5857",
+      ".csdlc/prepared/issues/5903"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -24,34 +44,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bc5558fd6c1b6c14194abe8b13bde1bc77f7f2052a6f7fc21d7ceed4f94527e4",
+      "values_digest": "2eda3554830f9e781d8cbadc10de507e25078922872942220efc8e3720ff82a9",
       "rendered_digest": "48d7841bd8d600f84ba64dcecadcd7ab97d4f512cb0fc1324745eb6f1a913f8a",
       "ast_digest": "d83d89373453d2bbf6e1fe8a4f5c58b929ffa6ce8eff99a2d633d79dca10b45e"
     },
     "stp": {
-      "values_digest": "5c583042ff44819bc002b61c3bf706cbfce270630612f4aec5aea83f6dffc1ba",
+      "values_digest": "996db2b7096ba02b9d7896ee53fe4da0a3dd5cce768fdb670f04936f0a37d861",
       "rendered_digest": "12d7b0691403bc6666546a59caec858383cb3f87b74bb482b63f80c0225361ba",
       "ast_digest": "3eee361e0c9cb6ded50545f9781bac704e97d65c4928863f93eb0b9dd2882fa7"
     },
     "spp": {
-      "values_digest": "6182c233524ec20ed8d0971ce8c300d6efe8f263c4cb086ee706b36187a9f62c",
+      "values_digest": "27a4182649b7fe86b928272601cc733db794f1ce2bdaf858e36af400619cca1d",
       "rendered_digest": "e621066a30c114e9b2151c02e3bcdd6cd74a1dff80430a2a8a11ef71132d7022",
       "ast_digest": "42570905087ebcbab72ce775e84bf817920d7f3f7c0e4a7e94ad602fe46e1747"
     },
     "vpp": {
-      "values_digest": "d6e07bcf4273dceb43116b1f93820eb97b79ac145731a023a5f23a045c2fd004",
+      "values_digest": "9ea71fd6c73e0e496980a929ec9c3ec677791e65440020d03f2659ab8af296c8",
       "rendered_digest": "22d445704b1326640cb9658e8068cdd08d8848b0595ce6a19db0ce4e546d6df8",
       "ast_digest": "0bce795b69c04213239abd1573f01ba6726b74d752d6e80dc4614d088c7e1f34"
     },
     "srp": {
-      "values_digest": "380a94a15f603588637e4ea00ccc8b7431952784858ae2c46992dc5462cf093c",
-      "rendered_digest": "47546338e3b078f40567ee1061a2d71d8fc9ff2a3eff48e4b66297e8fd4192be",
-      "ast_digest": "1aa51e9e3dbd773178caad824a0f19c8a821b05d13203f007a735885463a814f"
+      "values_digest": "55106e581e1b541bf4919161f7420f7e44f4f484cc036e1cf99bf270198b2d8e",
+      "rendered_digest": "3317a6a73e372fb3e689e70026085830ac7c0318ffd1e4743ea1ff305ccf3c84",
+      "ast_digest": "e3e66e7b4a7b73822cac597dff44c91b8995bf35d89767d5e6945320394169d9"
     },
     "sor": {
-      "values_digest": "efad110eac8fb9065270698dd59d19c57a6b170e201dad7e060ba79e4383749e",
-      "rendered_digest": "44173bddf89951b9312f7b7c5a841ed772d75fe2223699ef30591345c06fbf5a",
-      "ast_digest": "b62985519be3e219ee3d3f1dcf547ed88aa5575591eed4d261ef144f7761e854"
+      "values_digest": "957b2294cbb2592a4189cddd58e667419e4a61568f56b43d4503e4219a067c11",
+      "rendered_digest": "884669d7e19c6b80c31480d31a3cc40f6c95defbb8ceabeb085bf293bc4aee74",
+      "ast_digest": "7fe0ac34d5e8d5517c1e33465412902eb20470464e971311db58bd7fdb32fffa"
     }
   },
   "transitions": [
@@ -154,6 +174,27 @@
       "actor": "codex:5903-sprint4-readiness",
       "reason": "Sprint 4 readiness repair and focused validation are complete",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Retain exact validator provenance and clarify immutable audit wording",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Sprint 4 readiness is repaired and proven. Clarification: design approval occurred at audit sequence 2 and the revised validation lanes were applied afterward at sequence 3; the earlier sequence-3 reason saying before approval is stale wording only, while the immutable sequence and resulting state are correct.\",\"changes\":[\".csdlc/evidence/5903/readiness-validation.json\"],\"artifacts\":[\".csdlc/evidence/5903/readiness-validation.json\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Bind validation truth to the retained exact-revision provenance record",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5903/validate-readiness.rb\"],\"purpose\":\"Retain the exact candidate revision, source-built doctor digest, ten doctor generations, baseline gate parity, live prerequisites, and changed-path allowlist.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5903/readiness-validation.json\"}}"
     }
   ]
 }

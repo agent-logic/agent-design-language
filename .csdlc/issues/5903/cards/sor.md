@@ -12,12 +12,13 @@ Status: pre_phase
 
 ## Summary
 
-Normalized the Sprint 4 umbrella and nine child planning records through typed edits, preserved every serialization gate in typed replan triggers, replaced retired claim instructions with Git branch/worktree authority, and added exact live readiness proof.
+Sprint 4 readiness is repaired and proven. Clarification: design approval occurred at audit sequence 2 and the revised validation lanes were applied afterward at sequence 3; the earlier sequence-3 reason saying before approval is stale wording only, while the immutable sequence and resulting state are correct.
 
 ## Artifacts
 
 - .csdlc/prepared/issues/5903/serialization-gates.json
 - .csdlc/prepared/issues/5903/validate-readiness.rb
+- .csdlc/evidence/5903/readiness-validation.json
 
 ## Execution
 
@@ -34,6 +35,7 @@ Normalized the Sprint 4 umbrella and nine child planning records through typed e
 - .csdlc/issues/5834
 - .csdlc/prepared/issues/5857/sprint-execution-packet.md
 - .csdlc/prepared/issues/5857/sprint-execution-packet.yaml
+- .csdlc/evidence/5903/readiness-validation.json
 
 ## Validation
 
@@ -46,6 +48,15 @@ Normalized the Sprint 4 umbrella and nine child planning records through typed e
     "purpose": "Prove source-built doctor readiness for the exact ten-issue denominator, baseline-manifest-current serialization parity, live prerequisite closure, claim-free operator text, and the no-product-change allowlist.",
     "outcome": "passed",
     "evidence_ref": "Validator passed at merged readiness base 51f4e00a32176a7d2fb9388997da8448d8e3d4f2 with 10 ready doctors, 22 gate occurrences, 13 unique gate IDs, and four live closed prerequisites; gate2 also passed 1 test and git diff --check passed."
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5903/validate-readiness.rb"
+    ],
+    "purpose": "Retain the exact candidate revision, source-built doctor digest, ten doctor generations, baseline gate parity, live prerequisites, and changed-path allowlist.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5903/readiness-validation.json"
   }
 ]
 
