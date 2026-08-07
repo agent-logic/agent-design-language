@@ -79,11 +79,13 @@ try {
   browser = await chromium.launch({ channel: args.browser, headless: true });
   const context = await browser.newContext({ ignoreHTTPSErrors: false });
   const page = await context.newPage();
-  const blockedLiveRuntimeRequests = [];
+  const dashboardRuntimeRequests = [];
   if (runtime.origin !== "https://localhost:20997") {
     await page.route("https://localhost:20997/**", async (route) => {
-      blockedLiveRuntimeRequests.push(route.request().url());
-      await route.abort("blockedbyclient");
+      const requested = new URL(route.request().url());
+      const candidate = new URL(`${requested.pathname}${requested.search}`, runtime);
+      dashboardRuntimeRequests.push({ requested: requested.href, candidate: candidate.href });
+      await route.continue({ url: candidate.href });
     });
   }
   page.on("requestfailed", (request) => {
@@ -92,11 +94,27 @@ try {
   });
 
   const dashboard = new URL("/demos/html-observatory/", observatory);
+  dashboard.searchParams.set("runtime", "v3");
+  dashboard.searchParams.set("runtimeApiBase", "https://localhost:20997");
   const response = await page.goto(dashboard.href, { waitUntil: "domcontentloaded" });
   if (!response || !response.ok()) fail(`Observatory HTML returned ${response?.status() ?? "no response"}`);
   const title = await page.title();
   if (/privacy error|not secure|certificate/i.test(title)) {
     fail(`browser certificate interstitial detected: ${title}`);
+  }
+  await page.waitForFunction(
+    () => document.querySelector("#live-status")?.textContent?.trim() === "live loopback",
+    null,
+    { timeout: 10_000 },
+  );
+  const dashboardLiveStatus = await page.locator("#live-status").textContent();
+  const dashboardRuntimePaths = new Set(
+    dashboardRuntimeRequests.map(({ requested }) => new URL(requested).pathname),
+  );
+  for (const path of ["/v1/ready", "/v1/observatory"]) {
+    if (runtime.origin !== "https://localhost:20997" && !dashboardRuntimePaths.has(path)) {
+      fail(`Observatory dashboard did not request ${path} from the isolated Runtime candidate`);
+    }
   }
 
   const browserEndpoints = await page.evaluate(async ({ base }) => {
@@ -168,7 +186,8 @@ try {
     },
     browser_endpoints: browserEndpoints.map(({ path, status }) => ({ path, status })),
     browser_direct_health_status: browserHealth.status(),
-    blocked_live_runtime_requests: [...new Set(blockedLiveRuntimeRequests)],
+    dashboard_live_status: dashboardLiveStatus?.trim(),
+    dashboard_runtime_requests: dashboardRuntimeRequests,
     curl_endpoints: curlEndpoints.map((endpoint) => endpoint.pathname),
     concurrent_runtime_connections: concurrentRuntimeProof,
     runtime_candidate: runtimeOwnership,

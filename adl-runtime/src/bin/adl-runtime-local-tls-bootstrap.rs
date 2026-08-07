@@ -18,7 +18,9 @@ use sha2::{Digest, Sha256};
 const FAILURE_SCHEMA: &str = "adl.runtime_v3.local_tls_bootstrap.failure.v1";
 const TRUST_OUTCOME_SCHEMA: &str = "adl.runtime_v3.local_tls_trust.outcome.v1";
 const TRUST_RECEIPT_SCHEMA: &str = "adl.runtime_v3.local_tls_trust_receipt.v1";
+const TRUST_CLEANUP_SCHEMA: &str = "adl.runtime_v3.local_tls_cleanup_pending.v1";
 const TRUST_RECEIPTS_DIR: &str = "trust-receipts";
+const TRUST_CLEANUP_FILE: &str = "cleanup-pending.json";
 
 #[tokio::main]
 async fn main() -> ExitCode {
@@ -127,18 +129,47 @@ async fn execute(
         Operation::Reissue => {
             require_consent(args)?;
             validate_supported_localhost_identity(config)?;
+            let mut trust = MacOsTrustTransaction::new(config, args)?;
+            if let Some(old_sha) = trust.read_cleanup_pending()? {
+                let current_sha = current_local_certificate_sha256(config)?.ok_or_else(|| {
+                    LocalTlsError::Policy(
+                        "cleanup recovery requires a committed local identity".to_owned(),
+                    )
+                })?;
+                if current_sha != old_sha {
+                    trust.remove_old_digest_if_owned(&old_sha)?;
+                    trust.clear_cleanup_pending()?;
+                    let outcome = bootstrap_runtime_tls(config).await?;
+                    let certificate =
+                        outcome.public_certificate_path.as_ref().ok_or_else(|| {
+                            LocalTlsError::Policy(
+                                "cleanup recovery requires a local TLS public certificate"
+                                    .to_owned(),
+                            )
+                        })?;
+                    return Ok(CliOutcome::Trust(TrustOutcome::new(
+                        "reissue",
+                        "cleanup_recovered",
+                        certificate,
+                    )?));
+                }
+                trust.clear_cleanup_pending()?;
+            }
             let old_sha = current_local_certificate_sha256(config)?.ok_or_else(|| {
                 LocalTlsError::Policy(
                     "reissue requires an existing committed local identity".to_owned(),
                 )
             })?;
-            let mut trust = MacOsTrustTransaction::new(config, args)?;
+            trust.write_cleanup_pending(&old_sha)?;
             let outcome = reissue_runtime_tls_with_trust(config, &mut trust).await?;
             let cleanup_pending_certificate_sha256 = if outcome.manifest_durable {
-                trust
-                    .remove_old_digest_if_owned(&old_sha)
-                    .err()
-                    .map(|_| old_sha)
+                match trust.remove_old_digest_if_owned(&old_sha) {
+                    Ok(()) => {
+                        trust.clear_cleanup_pending()?;
+                        None
+                    }
+                    Err(_) => Some(old_sha),
+                }
             } else {
                 Some(old_sha)
             };
@@ -247,6 +278,14 @@ impl Operation {
 struct TrustReceipt {
     schema: String,
     platform: String,
+    certificate_sha256: String,
+    trust_store_sha256: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct TrustCleanupPending {
+    schema: String,
     certificate_sha256: String,
     trust_store_sha256: String,
 }
@@ -492,6 +531,90 @@ impl MacOsTrustTransaction {
     fn receipt_path(&self, digest: &str) -> PathBuf {
         self.receipt_root.join(format!("{digest}.json"))
     }
+
+    fn cleanup_pending_path(&self) -> PathBuf {
+        self.receipt_root.join(TRUST_CLEANUP_FILE)
+    }
+
+    fn write_cleanup_pending(&self, digest: &str) -> Result<(), LocalTlsError> {
+        fs::create_dir_all(&self.receipt_root)
+            .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+        let pending = TrustCleanupPending {
+            schema: TRUST_CLEANUP_SCHEMA.to_owned(),
+            certificate_sha256: normalize_sha256(digest)?,
+            trust_store_sha256: path_sha256(&self.trust_store),
+        };
+        write_json_atomically(
+            &self.receipt_root,
+            &self.cleanup_pending_path(),
+            &pending,
+            "cleanup-pending",
+        )
+    }
+
+    fn read_cleanup_pending(&self) -> Result<Option<String>, LocalTlsError> {
+        let path = self.cleanup_pending_path();
+        let bytes = match fs::read(&path) {
+            Ok(bytes) => bytes,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+            Err(error) => return Err(LocalTlsError::Io(error.to_string())),
+        };
+        let pending: TrustCleanupPending = serde_json::from_slice(&bytes).map_err(|error| {
+            LocalTlsError::Trust(format!("cleanup-pending journal is malformed: {error}"))
+        })?;
+        if pending.schema != TRUST_CLEANUP_SCHEMA
+            || pending.trust_store_sha256 != path_sha256(&self.trust_store)
+        {
+            return Err(LocalTlsError::Trust(
+                "cleanup-pending journal does not authorize this keychain".to_owned(),
+            ));
+        }
+        normalize_sha256(&pending.certificate_sha256).map(Some)
+    }
+
+    fn clear_cleanup_pending(&self) -> Result<(), LocalTlsError> {
+        self.remove_receipt_path(&self.cleanup_pending_path())
+    }
+}
+
+fn write_json_atomically<T: Serialize>(
+    directory: &Path,
+    target: &Path,
+    value: &T,
+    label: &str,
+) -> Result<(), LocalTlsError> {
+    let temporary = directory.join(format!(
+        ".{label}.{}.{}.json.tmp",
+        std::process::id(),
+        unique_nonce()
+    ));
+    let mut options = OpenOptions::new();
+    options.create_new(true).write(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        options.mode(0o600);
+    }
+    let mut file = options
+        .open(&temporary)
+        .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    file.write_all(
+        &serde_json::to_vec_pretty(value).map_err(|error| LocalTlsError::Io(error.to_string()))?,
+    )
+    .and_then(|()| file.sync_all())
+    .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+    fs::rename(&temporary, target).map_err(|error| {
+        let _ = fs::remove_file(&temporary);
+        LocalTlsError::Io(error.to_string())
+    })?;
+    sync_directory(directory)
+}
+
+fn unique_nonce() -> u128 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|duration| duration.as_nanos())
+        .unwrap_or_default()
 }
 
 fn sync_directory(path: &Path) -> Result<(), LocalTlsError> {
@@ -908,6 +1031,24 @@ mod tests {
         assert!(transaction.receipt_path(DIGEST).is_file());
         assert_eq!(fs::read_dir(&transaction.receipt_root).unwrap().count(), 1);
         transaction.authorize_removal(DIGEST).unwrap();
+    }
+
+    #[test]
+    fn cleanup_pending_journal_is_durable_idempotent_and_keychain_bound() {
+        let temp = tempfile::tempdir().unwrap();
+        let transaction = fake_transaction(temp.path());
+
+        transaction.write_cleanup_pending(DIGEST).unwrap();
+        transaction.write_cleanup_pending(DIGEST).unwrap();
+        assert_eq!(
+            transaction.read_cleanup_pending().unwrap().as_deref(),
+            Some(DIGEST)
+        );
+        assert!(transaction.cleanup_pending_path().is_file());
+
+        transaction.clear_cleanup_pending().unwrap();
+        transaction.clear_cleanup_pending().unwrap();
+        assert_eq!(transaction.read_cleanup_pending().unwrap(), None);
     }
 
     fn localhost_config(state_root: PathBuf) -> RuntimeTlsBootstrapConfig {
