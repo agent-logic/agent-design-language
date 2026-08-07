@@ -54,3 +54,6 @@ Typed publication needs distinct, validated identities for:
 Publication can resume only after an approved typed migration or publisher
 contract represents those identities without weakening exact-head review,
 remote identity checks, or closing-linkage verification.
+
+The required capability is tracked canonically as
+`agent-logic/agent-design-language#3`.
