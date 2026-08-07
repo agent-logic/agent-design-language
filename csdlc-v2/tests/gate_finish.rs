@@ -72,6 +72,65 @@ fn issue(state: &str, approved: bool) -> IssueTerminalObservation {
 }
 
 #[test]
+fn canonical_code_pr_derives_terminal_for_legacy_issue_authority() {
+    let mut record = record(
+        LifecyclePhase::Published,
+        Some(PublicationEvidence {
+            repository: "agent-logic/agent-design-language".into(),
+            issue: 5778,
+            pull_request: 9,
+            url: "https://github.com/agent-logic/agent-design-language/pull/9".into(),
+            base: "main".into(),
+            head: "codex/5778".into(),
+            revision: csdlc_v2::git::clean_commit_revision(&"a".repeat(40)),
+            draft: false,
+            observed_state: "open".into(),
+        }),
+    );
+    record.repository = "danielbaustin/agent-design-language".into();
+    let mut request = no_pr_request();
+    request.repository = record.repository.clone();
+    request.pull_request = Some(9);
+    request.base = Some("main".into());
+    request.head = Some("codex/5778".into());
+    request.expected_head_sha = Some("a".repeat(40));
+    request.approved_no_pr_reason = None;
+    let packet = PrStatePacket {
+        schema: "csdlc.github_pr_state.v1".into(),
+        repository: "agent-logic/agent-design-language".into(),
+        pull_request: 9,
+        linked_issue: Some(5778),
+        linkage_source: Some("github_closing_issues_references".into()),
+        state: "closed".into(),
+        draft: false,
+        merge_state: "unknown".into(),
+        review_decision: "approved".into(),
+        base_ref: Some("main".into()),
+        head_ref: Some("codex/5778".into()),
+        head_sha: "a".repeat(40),
+        url: Some("https://github.com/agent-logic/agent-design-language/pull/9".into()),
+        body: Some("Closes danielbaustin/agent-design-language#5778".into()),
+        merged: true,
+        merge_commit_sha: Some("b".repeat(40)),
+        checks: vec![],
+        required_check_names: vec![],
+        classification: "merged".into(),
+    };
+    assert!(
+        derive_terminal(&record, &request, &issue("open", false), Some(&packet))
+            .expect("merged PR with open issue")
+            .is_none()
+    );
+    let envelope = derive_terminal(&record, &request, &issue("closed", false), Some(&packet))
+        .expect("derive split-authority terminal")
+        .expect("terminal");
+    assert_eq!(envelope.repository, record.repository);
+    assert_eq!(envelope.pull_request, Some(9));
+    assert_eq!(envelope.disposition, FinishDisposition::Merged);
+    assert!(envelope_matches_record(&envelope, &record).expect("canonical match"));
+}
+
+#[test]
 fn closed_no_pr_terminal_cache_is_minimal_rebuildable_and_idempotent() {
     let record = record(LifecyclePhase::Reviewed, None);
     let envelope = derive_terminal(&record, &no_pr_request(), &issue("closed", true), None)
@@ -100,6 +159,78 @@ fn closed_no_pr_terminal_cache_is_minimal_rebuildable_and_idempotent() {
     assert_eq!(loaded, envelope);
     assert!(envelope_matches_record(&loaded, &record).expect("identity"));
     assert!(!first.starts_with(temp.path().join(".csdlc")));
+}
+
+#[test]
+fn finish_binary_validates_cached_terminal_without_remote_mutation() {
+    let record = record(LifecyclePhase::Reviewed, None);
+    let envelope = derive_terminal(&record, &no_pr_request(), &issue("closed", true), None)
+        .expect("derive")
+        .expect("terminal");
+    let temp = tempfile::tempdir().expect("tempdir");
+    assert!(Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(temp.path())
+        .status()
+        .expect("git init")
+        .success());
+    std::fs::create_dir_all(temp.path().join(".csdlc/issues/5778")).expect("issue dir");
+    let index = temp.path().join(".csdlc/issues/5778/index.json");
+    std::fs::write(
+        &index,
+        serde_json::to_vec_pretty(&record).expect("record JSON"),
+    )
+    .expect("record");
+    let cache = retain_cached_terminal(temp.path(), &envelope).expect("retain");
+
+    let validate = || {
+        Command::new(env!("CARGO_BIN_EXE_csdlc-finish"))
+            .args([
+                "--root",
+                &temp.path().to_string_lossy(),
+                "--validate-cached-issue",
+                "5778",
+            ])
+            .output()
+            .expect("validate cached terminal")
+    };
+    let valid = validate();
+    assert!(
+        valid.status.success(),
+        "stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&valid.stdout),
+        String::from_utf8_lossy(&valid.stderr)
+    );
+    assert!(String::from_utf8_lossy(&valid.stdout)
+        .contains("\"schema\": \"csdlc.derived_terminal_validation.v1\""));
+
+    let mut stale = record.clone();
+    stale.generation += 1;
+    std::fs::write(
+        &index,
+        serde_json::to_vec_pretty(&stale).expect("stale JSON"),
+    )
+    .expect("stale record");
+    assert!(!validate().status.success());
+    std::fs::write(
+        &index,
+        serde_json::to_vec_pretty(&record).expect("record JSON"),
+    )
+    .expect("restore record");
+
+    let original_cache = std::fs::read(&cache).expect("cache");
+    let mut malformed: serde_json::Value =
+        serde_json::from_slice(&original_cache).expect("cache JSON");
+    malformed["digest"] = serde_json::json!("wrong-digest");
+    std::fs::write(
+        &cache,
+        serde_json::to_vec_pretty(&malformed).expect("malformed JSON"),
+    )
+    .expect("malformed cache");
+    assert!(!validate().status.success());
+
+    std::fs::remove_file(&cache).expect("remove cache");
+    assert!(!validate().status.success());
 }
 
 #[test]

@@ -144,18 +144,20 @@ pub async fn execute_finish(root: &Path, request: &FinishRequest) -> Result<Fini
     let record = store.load_record(request.issue)?;
     validate_canonical_identity(&record, request)?;
     validate_publication_head_in_repo(store.root(), &record, request)?;
+    let pr_repository = publication_repository(&record, request)?;
 
     let issue = read_issue(request).await?;
     let observation = issue_observation(issue, now_unix_seconds()?);
     let packet = match request.pull_request {
         Some(pull_request) => Some(
             collect_pr_state(&PrStateRequest {
-                repository: request.repository.clone(),
+                repository: pr_repository.to_string(),
                 pull_request,
                 required_checks: request.required_checks.clone(),
                 require_review: request.require_review,
                 token_file: request.token_file.clone(),
                 linked_issue: Some(request.issue),
+                linked_issue_repository: Some(record.repository.clone()),
             })
             .await?,
         ),
@@ -180,18 +182,19 @@ pub async fn execute_finish(root: &Path, request: &FinishRequest) -> Result<Fini
         )
     })?;
     validate_finish_merge_authority(store.root(), &record, request, now_unix_seconds()?)?;
-    validate_remote_merge(state, request)?;
+    validate_remote_merge(state, request, pr_repository)?;
     let token = github_token::resolve(request.token_file.as_deref())?;
-    execute_remote_merge(request, token).await?;
+    execute_remote_merge(request, pr_repository, token).await?;
 
     let observed_issue = issue_observation(read_issue(request).await?, now_unix_seconds()?);
     let observed_pr = collect_pr_state(&PrStateRequest {
-        repository: request.repository.clone(),
+        repository: pr_repository.to_string(),
         pull_request: request.pull_request.expect("validated PR finish request"),
         required_checks: request.required_checks.clone(),
         require_review: request.require_review,
         token_file: request.token_file.clone(),
         linked_issue: Some(request.issue),
+        linked_issue_repository: Some(record.repository.clone()),
     })
     .await?;
     let terminal = derive_terminal(&record, request, &observed_issue, Some(&observed_pr))?
@@ -429,8 +432,12 @@ pub fn validate_terminal_estimation_evidence(store: &Store, issue: u64) -> Resul
     Ok(())
 }
 
-fn validate_remote_merge(packet: &PrStatePacket, request: &FinishRequest) -> Result<()> {
-    if packet.repository != request.repository
+fn validate_remote_merge(
+    packet: &PrStatePacket,
+    request: &FinishRequest,
+    pr_repository: &str,
+) -> Result<()> {
+    if packet.repository != pr_repository
         || Some(packet.pull_request) != request.pull_request
         || packet.draft
         || packet.merge_state != "clean"
@@ -470,9 +477,12 @@ fn validate_remote_merge(packet: &PrStatePacket, request: &FinishRequest) -> Res
     Ok(())
 }
 
-async fn execute_remote_merge(request: &FinishRequest, token: String) -> Result<()> {
-    let (owner, repo) = request
-        .repository
+async fn execute_remote_merge(
+    request: &FinishRequest,
+    pr_repository: &str,
+    token: String,
+) -> Result<()> {
+    let (owner, repo) = pr_repository
         .split_once('/')
         .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "repository must be owner/name"))?;
     let pull_request = request.pull_request.expect("validated PR finish request");
@@ -640,7 +650,7 @@ pub fn validate_canonical_identity(record: &IssueRecord, request: &FinishRequest
                 "PR finish requires canonical publication evidence",
             )
         })?;
-        if publication.repository != request.repository
+        if publication.repository.split_once('/').is_none()
             || publication.issue != request.issue
             || publication.pull_request != number
             || publication.base != request.base.as_deref().unwrap_or_default()
@@ -878,8 +888,8 @@ pub fn derive_terminal(
     validate_canonical_identity(record, request)?;
     let (disposition, pull_request, head_sha, merge_sha, pr_state) = match packet {
         Some(packet) => {
-            validate_packet_identity(request, packet)?;
-            if packet.merged {
+            validate_packet_identity(record, request, packet)?;
+            if packet.merged && issue.state == "closed" {
                 let merge_sha = packet.merge_commit_sha.clone().ok_or_else(|| {
                     V2Error::new(
                         ErrorCode::ReconciliationRequired,
@@ -893,6 +903,8 @@ pub fn derive_terminal(
                     Some(merge_sha),
                     Some(packet.state.clone()),
                 )
+            } else if packet.merged {
+                return Ok(None);
             } else if packet.state == "closed" && issue.state == "closed" {
                 (
                     FinishDisposition::ClosedUnmerged,
@@ -952,8 +964,13 @@ pub fn derive_terminal(
     Ok(Some(envelope))
 }
 
-fn validate_packet_identity(request: &FinishRequest, packet: &PrStatePacket) -> Result<()> {
-    if packet.repository != request.repository
+fn validate_packet_identity(
+    record: &IssueRecord,
+    request: &FinishRequest,
+    packet: &PrStatePacket,
+) -> Result<()> {
+    let pr_repository = publication_repository(record, request)?;
+    if packet.repository != pr_repository
         || Some(packet.pull_request) != request.pull_request
         || packet.linked_issue != Some(request.issue)
         || packet.base_ref.as_deref() != request.base.as_deref()
@@ -966,6 +983,23 @@ fn validate_packet_identity(request: &FinishRequest, packet: &PrStatePacket) -> 
         ));
     }
     Ok(())
+}
+
+fn publication_repository<'a>(record: &'a IssueRecord, request: &FinishRequest) -> Result<&'a str> {
+    if request.pull_request.is_none() {
+        return Ok(record.repository.as_str());
+    }
+    record
+        .publication
+        .as_ref()
+        .map(|publication| publication.repository.as_str())
+        .filter(|repository| repository.split_once('/').is_some())
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "PR finish requires a valid canonical publication repository",
+            )
+        })
 }
 
 pub fn validate_envelope(envelope: &DerivedTerminalEnvelope) -> Result<()> {

@@ -1,0 +1,19 @@
+{
+  "issue": 5901,
+  "card": "srp",
+  "expected_generation": 4,
+  "expected_digest": "abba9b2322ed861de348413143067193eff3af4ee17ab2c3a7b0b58f5f20d6a2",
+  "actor": "codex:5901-sprint3-readiness",
+  "reason": "Align review prompts with independently reviewed derived-terminal authority.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "review_prompts",
+    "values": [
+      "Does future-path admission remain canonically contained beneath the repository with every symlink and non-directory prefix rejected?",
+      "Does #5865 retain serialization truth in replan_triggers without path-field pollution or unrelated card changes?",
+      "Does terminal reconciliation validate derived envelopes plus exact live PR linkage and candidate ancestry?",
+      "Did the repair avoid child binding and every Guardian product change?"
+    ]
+  },
+  "fail_after_backup": false
+}

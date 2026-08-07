@@ -16,6 +16,8 @@ pub struct PrStateRequest {
     pub require_review: bool,
     pub token_file: Option<String>,
     pub linked_issue: Option<u64>,
+    #[serde(default)]
+    pub linked_issue_repository: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -108,6 +110,7 @@ impl TryFrom<&GithubActionRequest> for PrStateRequest {
             require_review: request.require_review,
             token_file: request.token_file.clone(),
             linked_issue: request.linked_issue,
+            linked_issue_repository: None,
         })
     }
 }
@@ -918,7 +921,14 @@ pub async fn collect_pr_state(request: &PrStateRequest) -> crate::Result<PrState
         }))
         .await
         .map_err(remote)?;
-    let linked_issue = remotely_linked_issue(&linkage, &request.repository, request.linked_issue)?;
+    let linked_issue = remotely_linked_issue(
+        &linkage,
+        request
+            .linked_issue_repository
+            .as_deref()
+            .unwrap_or(&request.repository),
+        request.linked_issue,
+    )?;
     let head = pr.head.as_ref().ok_or_else(|| {
         crate::V2Error::new(
             crate::ErrorCode::ReconciliationRequired,

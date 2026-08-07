@@ -1,0 +1,9 @@
+{
+  "issue": 5903,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "39c9c7afcc484d65123cfd2e52eace8c1ebe53bbeb80de124f6d1cda6030f7f5",
+  "actor": "codex:5903-sprint4-readiness",
+  "reason": "Complete claim-free operator packet repair",
+  "operation": {"operation": "update_plan_step", "step_id": "S2", "status": "completed"}
+}

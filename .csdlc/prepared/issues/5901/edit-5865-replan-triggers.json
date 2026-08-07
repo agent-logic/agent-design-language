@@ -1,0 +1,16 @@
+{
+  "issue": 5865,
+  "card": "spp",
+  "expected_generation": 8,
+  "expected_digest": "ac1551a66e43cbc3caf707fac05811fe5d8e10aba55d9c28c67977ea088a8d5d",
+  "actor": "codex:5901-sprint3-readiness",
+  "reason": "Preserve the runtime manifest serialization gate as a typed replan trigger before removing it from the path-only ownership collection.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "replan_triggers",
+    "values": [
+      "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-runtime-manifest-sequence-v1\",\"paths\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\"],\"issues\":[5818,5865],\"order\":[5818,5865]}"
+    ]
+  },
+  "fail_after_backup": false
+}

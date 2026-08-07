@@ -1,0 +1,6 @@
+{
+  "issue": 5901,
+  "expected_generation": 12,
+  "expected_digest": "ea65ba06c23b43297a24ccf56f37cef605a9aaa331b0d9219ec66e19fcf9fadc",
+  "reviewer": "codex:review-5901-whitespace-normalization"
+}

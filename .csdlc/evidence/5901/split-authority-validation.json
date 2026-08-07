@@ -1,0 +1,35 @@
+{
+  "schema": "csdlc.validation_evidence.v1",
+  "issue": 5901,
+  "captured_at": "2026-08-06",
+  "scope": "canonical code repository and legacy issue authority publication/finish",
+  "commands": [
+    {
+      "argv": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml"],
+      "exit_code": 0,
+      "result": "complete csdlc-v2 suite passed, including 6 gate6 tests, 11 gate_finish tests, and 4 csdlc-publish binary tests"
+    },
+    {
+      "argv": ["ruby", ".csdlc/prepared/issues/5901/test-implementation-wave.rb"],
+      "exit_code": 0,
+      "result": "terminal wave success and all declared corruption failures passed"
+    },
+    {
+      "argv": ["ruby", ".csdlc/prepared/issues/5862/validate-implementation-wave.rb", "--preflight"],
+      "exit_code": 0,
+      "result": "sixteen approved claim-free unbound children and 38 exact owned paths passed"
+    },
+    {
+      "argv": ["ruby", ".csdlc/prepared/issues/5901/validate-scope.rb"],
+      "exit_code": 0,
+      "result": "issue-local scope passed with no Guardian product or child topology changes"
+    },
+    {
+      "argv": ["cargo", "clippy", "--manifest-path", "csdlc-v2/Cargo.toml", "--all-targets", "--", "-D", "warnings"],
+      "exit_code": 0,
+      "result": "all C-SDLC v2 targets passed strict Clippy"
+    }
+  ],
+  "network": "No live GitHub mutation was used for this pre-publication validation.",
+  "non_claims": ["Sprint 3 children remain unbound", "#5821 remains the execution gate"]
+}

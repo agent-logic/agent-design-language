@@ -1,0 +1,248 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5903,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "a2ee5329f127394b48acc6c9ab6dd9a355f830fbf9fdd9776a0f102363ebac95",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "f123275ddc91e3b07227f202b82ed548469ddbfb1f8c51bd6881c63be6834d27",
+  "branch": "codex/5903-sprint4-readiness",
+  "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-5857-sprint4-readiness-repair",
+  "review_assignment": {
+    "reviewer": "subagent:review-5903-design",
+    "assigned_by": "codex:5903-sprint4-readiness",
+    "revision": "git-blake3:db9f6d1170ed0b1ad62a60cdd430b688824705c8:5fba7f52e0cb558f64ee1ab7dc58c3252ee0847f422df4a9826ed6b2e98e4757",
+    "scope": [
+      ".adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md",
+      ".csdlc/issues/5825",
+      ".csdlc/issues/5826",
+      ".csdlc/issues/5827",
+      ".csdlc/issues/5828",
+      ".csdlc/issues/5829",
+      ".csdlc/issues/5830",
+      ".csdlc/issues/5831",
+      ".csdlc/issues/5833",
+      ".csdlc/issues/5834",
+      ".csdlc/issues/5857",
+      ".csdlc/issues/5903",
+      ".csdlc/evidence/5903",
+      ".csdlc/prepared/issues/5857",
+      ".csdlc/prepared/issues/5903"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:review-5903-design",
+    "scope": [
+      ".adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md",
+      ".csdlc/issues/5825",
+      ".csdlc/issues/5826",
+      ".csdlc/issues/5827",
+      ".csdlc/issues/5828",
+      ".csdlc/issues/5829",
+      ".csdlc/issues/5830",
+      ".csdlc/issues/5831",
+      ".csdlc/issues/5833",
+      ".csdlc/issues/5834",
+      ".csdlc/issues/5857",
+      ".csdlc/issues/5903",
+      ".csdlc/evidence/5903",
+      ".csdlc/prepared/issues/5857",
+      ".csdlc/prepared/issues/5903"
+    ],
+    "reviewed_revision": "git-blake3:db9f6d1170ed0b1ad62a60cdd430b688824705c8:5fba7f52e0cb558f64ee1ab7dc58c3252ee0847f422df4a9826ed6b2e98e4757",
+    "findings": [],
+    "residual_risks": [
+      "This readiness repair does not execute or bind Sprint 4 child #5825; it only makes the approved wave eligible for that next typed action."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5903/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5903/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:review-5903-design",
+      "revision": "39abab15840ba509401200511f87ed54f6760bd9641dc8e05df3931796f48c0b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "eae29af8966fa1ae12bfe16a54f3b8bb77f699483d249974b4d9238b1d6045ad",
+      "rendered_digest": "48d7841bd8d600f84ba64dcecadcd7ab97d4f512cb0fc1324745eb6f1a913f8a",
+      "ast_digest": "d83d89373453d2bbf6e1fe8a4f5c58b929ffa6ce8eff99a2d633d79dca10b45e"
+    },
+    "stp": {
+      "values_digest": "875a9ddfed9a4d4231c5167923756d3d09b3119594bd800f06b21f188ce40fa9",
+      "rendered_digest": "12d7b0691403bc6666546a59caec858383cb3f87b74bb482b63f80c0225361ba",
+      "ast_digest": "3eee361e0c9cb6ded50545f9781bac704e97d65c4928863f93eb0b9dd2882fa7"
+    },
+    "spp": {
+      "values_digest": "147ef6ad75ce8c785efcfd4d6406365e332f25ed72c323b20d320242fd246d4d",
+      "rendered_digest": "e621066a30c114e9b2151c02e3bcdd6cd74a1dff80430a2a8a11ef71132d7022",
+      "ast_digest": "42570905087ebcbab72ce775e84bf817920d7f3f7c0e4a7e94ad602fe46e1747"
+    },
+    "vpp": {
+      "values_digest": "be89afaa57b8cec7f99e07d3a1e9afe09deaac25d614c90f527b8455a74362eb",
+      "rendered_digest": "22d445704b1326640cb9658e8068cdd08d8848b0595ce6a19db0ce4e546d6df8",
+      "ast_digest": "0bce795b69c04213239abd1573f01ba6726b74d752d6e80dc4614d088c7e1f34"
+    },
+    "srp": {
+      "values_digest": "c29af2bbe45753e02e42f113f2bfd6170035d0c20c6860b0072ef8de49208182",
+      "rendered_digest": "6b0808cc652066544ad23213fe6c475227fc60b469e89208add8b8bbb590c6af",
+      "ast_digest": "4c11d5873e0e0251ecc47f1d1a22f0c0fb95862e8e534a52696b8faef30edae8"
+    },
+    "sor": {
+      "values_digest": "a178ed7def287f5f7fdaf2740b11bcfdd1084a732812f86422d644c9a0fa08e0",
+      "rendered_digest": "884669d7e19c6b80c31480d31a3cc40f6c95defbb8ceabeb085bf293bc4aee74",
+      "ast_digest": "7fe0ac34d5e8d5517c1e33465412902eb20470464e971311db58bd7fdb32fffa"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Sprint 4 readiness repair and focused validation are complete"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:review-5903-design",
+      "reason": "exact scoped review passed"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:review-5903-design",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Apply the reviewed focused readiness proof lanes before design approval",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"sprint4-readiness-doctor-contract\",\"proof_role\":\"Run the current typed doctor contract tests that cover initialized planning repair and execution readiness.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":540,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"sprint4-live-readiness-validator\",\"proof_role\":\"Force-build and digest the current source doctor, prove all ten doctors ready, compare baseline/manifest/current serialization gates, query live prerequisites through the external GitHub proof boundary, reject retired claim text, and enforce the no-product-change allowlist.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5903/validate-readiness.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"sprint4-exact-head-review-hygiene\",\"proof_role\":\"Reject malformed diffs before the independently executed exact-head review and typed csdlc-review record satisfy AC-7.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Complete typed Sprint 4 SPP ownership repair",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Complete claim-free operator packet repair",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Complete ten-issue readiness and live dependency proof",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Begin exact-head review and publication",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Record bounded Sprint 4 readiness repair",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Normalized the Sprint 4 umbrella and nine child planning records through typed edits, preserved every serialization gate in typed replan triggers, replaced retired claim instructions with Git branch/worktree authority, and added exact live readiness proof.\",\"changes\":[\".adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md\",\".csdlc/issues/5857\",\".csdlc/issues/5825\",\".csdlc/issues/5826\",\".csdlc/issues/5827\",\".csdlc/issues/5828\",\".csdlc/issues/5829\",\".csdlc/issues/5830\",\".csdlc/issues/5831\",\".csdlc/issues/5833\",\".csdlc/issues/5834\",\".csdlc/prepared/issues/5857/sprint-execution-packet.md\",\".csdlc/prepared/issues/5857/sprint-execution-packet.yaml\"],\"artifacts\":[\".csdlc/prepared/issues/5903/serialization-gates.json\",\".csdlc/prepared/issues/5903/validate-readiness.rb\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Record focused Sprint 4 readiness proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5903/validate-readiness.rb\"],\"purpose\":\"Prove source-built doctor readiness for the exact ten-issue denominator, baseline-manifest-current serialization parity, live prerequisite closure, claim-free operator text, and the no-product-change allowlist.\",\"outcome\":\"passed\",\"evidence_ref\":\"Validator passed at merged readiness base 51f4e00a32176a7d2fb9388997da8448d8e3d4f2 with 10 ready doctors, 22 gate occurrences, 13 unique gate IDs, and four live closed prerequisites; gate2 also passed 1 test and git diff --check passed.\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Sprint 4 readiness repair and focused validation are complete",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Retain exact validator provenance and clarify immutable audit wording",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Sprint 4 readiness is repaired and proven. Clarification: design approval occurred at audit sequence 2 and the revised validation lanes were applied afterward at sequence 3; the earlier sequence-3 reason saying before approval is stale wording only, while the immutable sequence and resulting state are correct.\",\"changes\":[\".csdlc/evidence/5903/readiness-validation.json\"],\"artifacts\":[\".csdlc/evidence/5903/readiness-validation.json\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Bind validation truth to the retained exact-revision provenance record",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5903/validate-readiness.rb\"],\"purpose\":\"Retain the exact candidate revision, source-built doctor digest, ten doctor generations, baseline gate parity, live prerequisites, and changed-path allowlist.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5903/readiness-validation.json\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "subagent:review-5903-design",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    }
+  ]
+}

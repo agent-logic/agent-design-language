@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "53e5aa3396c8636e2b4d03f6971114be6111155898524a5ca2c789983f475997",
   "phase": "initialized",
-  "generation": 52,
-  "digest": "2c238e9b9141ee9729f4b9341c6984abf61cfadfcef35bcec4baddc2d8bdd426",
+  "generation": 54,
+  "digest": "c6e6377bd86ee32589f7ad8800aabe4b1af9e709bc78424177739e59320c6afb",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1d9241f6cadcb5e31e79703fd463e780f8d1e50b299986789876453ee5bb2058",
+      "values_digest": "3272310af2137f7ffaeff38970e9a1b60c90c22007868a186dbda9fa6d0fdab4",
       "rendered_digest": "4e9e7a9567e44df1394f9a49bc5edc0555f72716a212416ef18cbbc5b327f5f3",
       "ast_digest": "9664f858ce942b6f8655428aa5ab4925b3377db0a94dc02ba3a52b369337dda6"
     },
     "stp": {
-      "values_digest": "48145efa48aff9455c2510c62691dbb4bc62f32bc245d8aa5415317cdc089738",
+      "values_digest": "0d9c99a201b2af7aeaecb1c4d9654130b282c28ec0972c813f59234099765475",
       "rendered_digest": "b13af1dbc57234f4d2824a4bcfb0263f2462d7b975e04c2435c242f21fc37b13",
       "ast_digest": "17a37f66142a7fd32297bd1ab1cedf6f9a484d88e4c73534055fdf0644d0884c"
     },
     "spp": {
-      "values_digest": "aa6164d3665593158f872e9617169dbe6edbfeb4568d8da151a9d4a86a61850a",
-      "rendered_digest": "e09d1c4157dd56c9c07a427ab3f51815eb0d0c59f17ef53a3b594e40d7da1536",
-      "ast_digest": "11df3146820487439aa86045cbd6a280b2e15dde348b7edcdd42ebc2b1e2bb13"
+      "values_digest": "c14c6dee853b66719f6cfaa2dca2972899fc36332f42f315b32432309e041416",
+      "rendered_digest": "356534fcaa96c49f9721dadee9b270a0e25196325b1ed2f9886223f1b1270269",
+      "ast_digest": "2b86ef2e8fbe38039e3584497704f32d9ce68e9561edf66a0f727d9c60270768"
     },
     "vpp": {
-      "values_digest": "ea4a6f7f2535d130077753c3e3b1640c264b5bc64a67f9fadcc486a3b0153558",
+      "values_digest": "f9aaf804cf2b913f62bdf1f8766e9d7cc97a389391747ef035074c4f9be315c8",
       "rendered_digest": "6f2795ca920d4851c8a092b86009ab5b1e8ee71d7d44bf6bd8b5b197c5838fe0",
       "ast_digest": "083bc139251dd364ddfbd5072c5232973d85c21f30bf33de2342713f60ac9d60"
     },
     "srp": {
-      "values_digest": "1a3cf344d72ae5e9ae0b75e8839439fdaaa271b52cf946250d8cc993eada68d3",
+      "values_digest": "cef83bd5a22580348c846da0844cebc90480026579b60686a1b1c6bc7b0cf032",
       "rendered_digest": "56ec22df18e5ffdda568c7610c4251591f6e155519434631b3105bced42eb7e1",
       "ast_digest": "e8ad26ffda18e702a9a1dd14d163e259f5edcd2334f3de62fb9aee08b81b99b8"
     },
     "sor": {
-      "values_digest": "1c0a8faa30bda794d5acf764ed30c451ce5e69b6e1f71af7f8c95b9e8bd416ac",
+      "values_digest": "6d52827f669d38340038c8c9137b2547eea47d3e1035ff7f8db90e07994401c6",
       "rendered_digest": "80cfc253b18a6a049c6e3fbf9ba4c4d5770cc274c8f3e5103a4e4671ad3b4602",
       "ast_digest": "bc866d00481ec5943d6b753a3283ff8031e449d344cc5c773db718db37bb7bb0"
     }
@@ -595,6 +595,20 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 75,
+      "generation": 53,
+      "actor": "codex:5857-sprint4-readiness",
+      "reason": "Keep only repository-relative owned paths in SPP; sequencing metadata remains authoritative in the Sprint Execution Packet.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/birth_witness.rs\",\"adl-runtime-kernel/tests/fixtures/birth_witness\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5833/validate-native-receipts.rb\",\".csdlc/prepared/issues/5833/produce-native-receipt.rb\",\".csdlc/evidence/5833\"]}"
+    },
+    {
+      "sequence": 76,
+      "generation": 54,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"Witness role/distinctness policy changes.\",\"Existing integrity references require a versioned adapter.\",\"Review identifies a receipt field that substitutes for birthday authority.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-kernel-registration-v1\\\",\\\"paths\\\":[\\\"adl-runtime-kernel/src/lib.rs\\\"],\\\"issues\\\":[5825,5826,5827,5828,5829,5830,5831,5833],\\\"order\\\":[5825,5826,5827,5828,5829,5830,5831,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-memory-capability-witness-feature-doc-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\\\"],\\\"issues\\\":[5829,5833],\\\"order\\\":[5829,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5833-witness-doc-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\\\"],\\\"issues\\\":[5833,5843],\\\"order\\\":[5833,5843]}\"]}"
     }
   ]
 }

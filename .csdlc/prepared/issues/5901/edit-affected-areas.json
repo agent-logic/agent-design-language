@@ -1,0 +1,32 @@
+{
+  "issue": 5901,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "c641303ad8091188ac5de73c03c0ab55c7e4ff4d87f5ad6fd8287142ea9d32d7",
+  "actor": "codex:5901-sprint3-readiness",
+  "reason": "Narrow implementation ownership to independently reviewed exact generated and tooling paths.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      ".csdlc/issues/5865/cards/sip.values.json",
+      ".csdlc/issues/5865/cards/stp.values.json",
+      ".csdlc/issues/5865/cards/spp.md",
+      ".csdlc/issues/5865/cards/spp.values.json",
+      ".csdlc/issues/5865/cards/vpp.values.json",
+      ".csdlc/issues/5865/cards/srp.values.json",
+      ".csdlc/issues/5865/cards/sor.values.json",
+      ".csdlc/issues/5865/index.json",
+      ".csdlc/issues/5865/audit.jsonl",
+      ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+      ".csdlc/prepared/issues/5901/test-implementation-wave.rb",
+      ".csdlc/prepared/issues/5901/validate-scope.rb"
+    ]
+  },
+  "fail_after_backup": false
+}

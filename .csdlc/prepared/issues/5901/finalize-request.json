@@ -1,0 +1,85 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 5901,
+  "expected_generation": 11,
+  "expected_digest": "a7c790bc0a9a02971363060eab67a068422667258b24ac090289ad483a60f99b",
+  "actor": "codex:5901-sprint3-readiness",
+  "summary": "Repaired claim-free Sprint 3 readiness without binding a child or changing Distributed Guardian product code.",
+  "changes": [
+    "Accepted safe future owned paths while rejecting symlinks, traversal, placeholders, and file intermediates.",
+    "Restricted Bash proving lanes to safe scripts exactly owned by the issue SPP.",
+    "Enabled exact-digest typed planning repairs before binding and normalized the malformed #5865 path projection.",
+    "Replaced legacy claim and receipt assumptions with typed derived-terminal envelope validation.",
+    "Added deterministic terminal-wave failure fixtures and an exact-base scope guard."
+  ],
+  "artifacts": [
+    "csdlc-v2/src/cards.rs",
+    "csdlc-v2/src/store.rs",
+    "csdlc-v2/src/bin/csdlc-finish.rs",
+    "csdlc-v2/tests/gate2.rs",
+    "csdlc-v2/tests/gate_finish.rs",
+    ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+    ".csdlc/prepared/issues/5901/test-implementation-wave.rb",
+    ".csdlc/prepared/issues/5901/validate-scope.rb"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "csdlc-v2-suite",
+          "proof_role": "Complete C-SDLC v2 regression proof",
+          "purpose": "Run the complete C-SDLC v2 test suite against the readiness changes",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 2048, "tokens": 4000},
+          "credentials": [], "network": "denied", "dependencies": [],
+          "parallel_group": "rust", "release_gate": "required", "execution": "local",
+          "timeout_seconds": 86400, "executable": "cargo",
+          "argv": ["test", "--manifest-path", "csdlc-v2/Cargo.toml", "--target-dir", "../builds/adl-5901-csdlc-target"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "terminal-wave-fixtures",
+          "proof_role": "Derived-terminal wave success and failure proof",
+          "purpose": "Prove valid reconciliation and malformed, digest, head, merge, linkage, and ancestry rejection",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 1500},
+          "credentials": [], "network": "denied", "dependencies": [],
+          "parallel_group": "terminal", "release_gate": "required", "execution": "local",
+          "timeout_seconds": 86400, "executable": "ruby",
+          "argv": [".csdlc/prepared/issues/5901/test-implementation-wave.rb"],
+          "evidence": {"max_log_bytes": 16384, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "sprint3-preflight",
+          "proof_role": "Exact claim-free Sprint 3 readiness proof",
+          "purpose": "Prove the umbrella and all sixteen unbound children have approved disjoint packets",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 1000},
+          "credentials": [], "network": "denied", "dependencies": [],
+          "parallel_group": "preflight", "release_gate": "required", "execution": "local",
+          "timeout_seconds": 86400, "executable": "ruby",
+          "argv": [".csdlc/prepared/issues/5862/validate-implementation-wave.rb", "--preflight"],
+          "evidence": {"max_log_bytes": 16384, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "exact-scope",
+          "proof_role": "Issue-local changed-path containment proof",
+          "purpose": "Reject Guardian product edits, child topology mutation, and unexpected paths",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 500},
+          "credentials": [], "network": "denied", "dependencies": [],
+          "parallel_group": "scope", "release_gate": "required", "execution": "local",
+          "timeout_seconds": 86400, "executable": "ruby",
+          "argv": [".csdlc/prepared/issues/5901/validate-scope.rb"],
+          "evidence": {"max_log_bytes": 16384, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {"requested_lanes": ["csdlc-v2-suite", "terminal-wave-fixtures", "sprint3-preflight", "exact-scope"], "allow_network": false, "available_credentials": []},
+    "budget": {"max_parallel": 4, "cpu_units": 5, "memory_mib": 2688, "tokens": 7000},
+    "root": "/Volumes/FastWork/adl-wp-5901-sprint3-readiness",
+    "evidence_dir": "/Volumes/FastWork/adl-wp-5901-sprint3-readiness/.csdlc/evidence/5901",
+    "cancellation_file": null
+  }
+}

@@ -2,15 +2,24 @@ use std::fs;
 use std::path::PathBuf;
 
 use clap::Parser;
-use csdlc_v2::finish::{execute_finish, FinishRequest, FinishResult};
+use csdlc_v2::finish::{
+    envelope_matches_record, execute_finish, load_cached_terminal, FinishRequest,
+};
+use csdlc_v2::{ErrorCode, Store, V2Error};
 
 #[derive(Parser)]
 #[command(about = "Finish one C-SDLC v2 issue from exact live GitHub terminal truth")]
 struct Cli {
     #[arg(long)]
     root: PathBuf,
-    #[arg(long)]
-    request: PathBuf,
+    #[arg(
+        long,
+        conflicts_with = "validate_cached_issue",
+        required_unless_present = "validate_cached_issue"
+    )]
+    request: Option<PathBuf>,
+    #[arg(long, conflicts_with = "request", required_unless_present = "request")]
+    validate_cached_issue: Option<u64>,
 }
 
 #[tokio::main]
@@ -28,7 +37,29 @@ async fn main() {
     }
 }
 
-async fn run(cli: Cli) -> csdlc_v2::Result<FinishResult> {
-    let request: FinishRequest = serde_json::from_slice(&fs::read(cli.request)?)?;
-    execute_finish(&cli.root, &request).await
+async fn run(cli: Cli) -> csdlc_v2::Result<serde_json::Value> {
+    if let Some(issue) = cli.validate_cached_issue {
+        let store = Store::new(&cli.root);
+        let record = store.load_record(issue)?;
+        let terminal = load_cached_terminal(&cli.root, issue)?.ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "derived terminal cache is missing",
+            )
+        })?;
+        if !envelope_matches_record(&terminal, &record)? {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "derived terminal envelope does not match canonical issue truth",
+            ));
+        }
+        return Ok(serde_json::json!({
+            "schema": "csdlc.derived_terminal_validation.v1",
+            "canonical_match": true,
+            "terminal": terminal,
+        }));
+    }
+    let request = cli.request.expect("clap requires finish request");
+    let request: FinishRequest = serde_json::from_slice(&fs::read(request)?)?;
+    serde_json::to_value(execute_finish(&cli.root, &request).await?).map_err(Into::into)
 }
