@@ -7,16 +7,100 @@
     "title": "[v0.92][observatory][tls] Use browser-trusted local HTTPS certificate",
     "slug": "v0-92-observatory-browser-trusted-https",
     "version": "v0.92",
-    "generation": 44
+    "generation": 45
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Implemented reversible browser-trusted localhost HTTPS and proved the Guardian-owned Runtime path with real Chrome plus 50 simultaneous verified TLS connections.",
+      "actual_changes": [
+        "Added atomic local TLS identity bootstrap with exact DER certificate identity and restrictive key policy.",
+        "Added explicit receipt-bound macOS trust install, verification, and idempotent removal.",
+        "Added exact-head Chrome validation, candidate isolation, endpoint checks, and 50 non-pooled verified Runtime connections.",
+        "Aligned Observatory HTTPS configuration and operator documentation with the trusted Runtime v3 contract."
+      ],
+      "artifacts": [
+        "/Volumes/FastWork/tmp/adl-wp-5800-live-proof-20260806/evidence/browser-trusted-50-connections.json",
+        "/Volumes/FastWork/tmp/5800-https-server-comparison.md"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "/usr/bin/env",
+            "TMPDIR=/Volumes/FastWork/tmp",
+            "ADL_PLAYWRIGHT_MODULE=/Volumes/FastWork/tmp/adl-wp-5800-playwright/node_modules/playwright/index.mjs",
+            "ADL_V092_TLS_CERT=[REDACTED]/state/tls/generations/generation-60258-1786067429458315000/localhost-cert.pem",
+            "ADL_V092_TLS_KEY=[REDACTED]/state/tls/generations/generation-60258-1786067429458315000/localhost-key.pem",
+            "ADL_V092_RUNTIME_COMMAND_JSON=[\"[REDACTED]/adl-runtime/target/debug/adl-runtime-guardian\",\"--init\",\"[REDACTED]/config/runtime-init.toml\"]",
+            "/opt/homebrew/bin/node",
+            "adl/tools/validate_v092_browser_trusted_observatory.mjs",
+            "--require-trusted-tls",
+            "--browser",
+            "chrome",
+            "--observatory-url",
+            "https://localhost:18765",
+            "--runtime-url",
+            "https://localhost:21997",
+            "--evidence",
+            "[REDACTED]/evidence/browser-trusted-50-connections.json",
+            "--require-native-platform-evidence",
+            "macos"
+          ],
+          "purpose": "Prove the isolated Guardian-owned Runtime and Observatory in real Chrome with certificate verification enabled and 50 distinct trusted TLS connections.",
+          "outcome": "passed",
+          "evidence_ref": "chrome-trusted-live-observatory.log"
+        },
+        {
+          "command": [
+            "/opt/homebrew/bin/git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Reject whitespace defects and preserve exact-head reviewability.",
+          "outcome": "passed",
+          "evidence_ref": "exact-head-hygiene.log"
+        },
+        {
+          "command": [
+            "/usr/bin/env",
+            "TMPDIR=/Volumes/FastWork/tmp",
+            "CARGO_HOME=/Volumes/FastWork/cargo-home",
+            "/Users/daniel/.cargo/bin/cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "local_tls"
+          ],
+          "purpose": "Prove generation, SAN, validity, Rustls pair compatibility, permissions, concurrency exclusion, and atomic replacement.",
+          "outcome": "passed",
+          "evidence_ref": "local-tls-contract.log"
+        },
+        {
+          "command": [
+            "/opt/homebrew/bin/node",
+            "adl/tools/validate_v092_browser_trusted_observatory.mjs",
+            "--require-native-platform-evidence",
+            "macos,linux,windows"
+          ],
+          "purpose": "Record supported macOS trust and fail-closed blocked dispositions for unproved Linux and Windows trust stores.",
+          "outcome": "passed",
+          "evidence_ref": "native-platform-trust-matrix.log"
+        },
+        {
+          "command": [
+            "/opt/homebrew/bin/jq",
+            "-e",
+            ".status == \"pass\" and .tls_verification == \"required\" and .browser_direct_health_status == 200 and ([.browser_endpoints[].status] | all(. == 200)) and .concurrent_runtime_connections.requested == 50 and .concurrent_runtime_connections.completed == 50 and .concurrent_runtime_connections.certificate_verification == \"required\" and .concurrent_runtime_connections.connection_reuse == \"disabled\" and .concurrent_runtime_connections.peer_certificate_sha256 == .certificate_sha256",
+            "[REDACTED]/evidence/browser-trusted-50-connections.json"
+          ],
+          "purpose": "Verify the retained exact-head browser evidence includes all successful endpoints and 50 verified non-reused Runtime TLS connections.",
+          "outcome": "passed",
+          "evidence_ref": "verified-endpoint-probe.log"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",
