@@ -103,6 +103,78 @@ fn closed_no_pr_terminal_cache_is_minimal_rebuildable_and_idempotent() {
 }
 
 #[test]
+fn finish_binary_validates_cached_terminal_without_remote_mutation() {
+    let record = record(LifecyclePhase::Reviewed, None);
+    let envelope = derive_terminal(&record, &no_pr_request(), &issue("closed", true), None)
+        .expect("derive")
+        .expect("terminal");
+    let temp = tempfile::tempdir().expect("tempdir");
+    assert!(Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(temp.path())
+        .status()
+        .expect("git init")
+        .success());
+    std::fs::create_dir_all(temp.path().join(".csdlc/issues/5778")).expect("issue dir");
+    let index = temp.path().join(".csdlc/issues/5778/index.json");
+    std::fs::write(
+        &index,
+        serde_json::to_vec_pretty(&record).expect("record JSON"),
+    )
+    .expect("record");
+    let cache = retain_cached_terminal(temp.path(), &envelope).expect("retain");
+
+    let validate = || {
+        Command::new(env!("CARGO_BIN_EXE_csdlc-finish"))
+            .args([
+                "--root",
+                &temp.path().to_string_lossy(),
+                "--validate-cached-issue",
+                "5778",
+            ])
+            .output()
+            .expect("validate cached terminal")
+    };
+    let valid = validate();
+    assert!(
+        valid.status.success(),
+        "stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&valid.stdout),
+        String::from_utf8_lossy(&valid.stderr)
+    );
+    assert!(String::from_utf8_lossy(&valid.stdout)
+        .contains("\"schema\": \"csdlc.derived_terminal_validation.v1\""));
+
+    let mut stale = record.clone();
+    stale.generation += 1;
+    std::fs::write(
+        &index,
+        serde_json::to_vec_pretty(&stale).expect("stale JSON"),
+    )
+    .expect("stale record");
+    assert!(!validate().status.success());
+    std::fs::write(
+        &index,
+        serde_json::to_vec_pretty(&record).expect("record JSON"),
+    )
+    .expect("restore record");
+
+    let original_cache = std::fs::read(&cache).expect("cache");
+    let mut malformed: serde_json::Value =
+        serde_json::from_slice(&original_cache).expect("cache JSON");
+    malformed["digest"] = serde_json::json!("wrong-digest");
+    std::fs::write(
+        &cache,
+        serde_json::to_vec_pretty(&malformed).expect("malformed JSON"),
+    )
+    .expect("malformed cache");
+    assert!(!validate().status.success());
+
+    std::fs::remove_file(&cache).expect("remove cache");
+    assert!(!validate().status.success());
+}
+
+#[test]
 fn open_issue_without_pr_is_not_terminal() {
     let record = record(LifecyclePhase::Reviewed, None);
     assert!(

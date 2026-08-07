@@ -1,0 +1,187 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5901,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "8ff80b9cfa60fbc6966b16dc5835ba59e7c1b85519a45baae5ac1b73cd9f3f99",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "e77a90d556163ce1b730ab8ad6f1deec4377108412ff597a93d9989a75d5a6eb",
+  "branch": "codex/5901-sprint3-readiness",
+  "worktree": "/Volumes/FastWork/adl-wp-5901-sprint3-readiness",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5901/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5901/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:review-5901-whitespace-normalization",
+      "revision": "0a226aabf91f3cdc705bd6119fe0f80d7625e52f87d8fe4291d77cdbb28367f8"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a56658d82d76efa5f4a6393d58a2f5101f1c638dd4e82d2a1a44352f02b30367",
+      "rendered_digest": "dc0345098c9a2036ec8fca6ba7710aec9657b7643543d05984245662714d0981",
+      "ast_digest": "33efe65162810c074e60ff2d66c99cfb9af67ac3bb0dbf0e94ea4afc220767ff"
+    },
+    "stp": {
+      "values_digest": "e597f6d8459bd5c21d431cfe3a2798533921243d875c03b36e30e1e8df0d04b4",
+      "rendered_digest": "7f83db3a48f67b32737b3433dcc1f238d62a9ef43d37d07dffe23bdbd3950b3c",
+      "ast_digest": "790622a5fba6af5345d162af52139fba71871c2754a6aaef7be271cee6d99ddc"
+    },
+    "spp": {
+      "values_digest": "e440aed68d55cc37dcc5acc376f940545ca52ebb1c966a49280f0e5af03c7b29",
+      "rendered_digest": "4dd5a66e9213639cf511e684f425bad3f8ee87a5b9553626ac02dad40a4bd558",
+      "ast_digest": "abe1ac3df64d7a052e91789df96a2cf5e2c72d9204927a495a9a7c42322fc2ac"
+    },
+    "vpp": {
+      "values_digest": "c149cd7295cccded2369e14f35db9a9a6129bcc638d71ff5a671b75737353602",
+      "rendered_digest": "670d646ac3a2663665c06c7ae3074c013cb9de76886f3d0ab5125e20ef2f2bff",
+      "ast_digest": "842e8cd41caa7090cf0ab24e273d20c6ab4cf373ecbe7cfdd775d4ffe1363ca2"
+    },
+    "srp": {
+      "values_digest": "920f505f5893930b2df9c8ad6bfde3387ceb3a3a38422dffecc3e11838cc3217",
+      "rendered_digest": "9ea4308663a6b8f095780863526b2816fc403287567d2036a81bf321611bbea4",
+      "ast_digest": "9904b06efae368bdbb2e9d572022015d7ee8197d78d52ea8c3bbbecce71027bc"
+    },
+    "sor": {
+      "values_digest": "89d12458ddf35115e884d55af63184fbbde0459072d57b0cdc0b123806c034f5",
+      "rendered_digest": "b88b12397c8bd011aa21aedf4e58f2f0c74cea9a146cafe147c560a231ff2cae",
+      "ast_digest": "7dfbbfb6f06b391a78ea15fef6abc880880c4eb06cf83de247f97f75a1043527"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:review-5901-design",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Apply independently reviewed acceptance, plan, and proving lanes.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"Accept safe repository-relative future paths beneath a real canonical in-repository ancestor\",\"Reject absolute, traversal, placeholder, unrooted, and metadata values\",\"Reject inside-repository symlink ancestors, outside-repository symlink ancestors, symlink leaves, and existing-file intermediate prefixes\",\"Move #5865 serialization ordering to typed replan_triggers while keeping exactly four path-only affected_areas\",\"Remove every claim read and claim-derived assertion from WP-04 preflight and terminal reconciliation; validate initialized unbound topology in preflight and csdlc.derived_terminal.v1 envelopes plus live closing linkage, exact heads, merge SHAs, digests, and candidate ancestry at terminal\",\"Pass doctor for #5862 through #5878 without product file creation or child binding\",\"Pass the exact sixteen-child, 38-path WP-04 preflight\",\"Pass an exact-base changed-path allowlist that rejects every Sprint 3 product path and child topology mutation\",\"Complete independent exact-head review and resolve every actionable finding\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Add the complete readiness regression matrix and implement canonical no-symlink ancestor containment.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Move #5865 serialization-gate JSON to replan_triggers with typed SPP edits and preserve the exact four product paths.\",\"acceptance_ids\":[\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Replace legacy claim, index-terminal, and receipt assumptions with validated derived-terminal envelopes.\",\"acceptance_ids\":[\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run doctor, preflight, exact-base scope guard, focused tests, and exact-head review.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"csdlc-readiness-focused\",\"proof_role\":\"Focused Rust tests prove safe future-path admission and malicious or malformed path rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"wp04-wave-preflight\",\"proof_role\":\"Exact typed doctor sweep and canonical wave preflight prove all sixteen packets are structurally bind-ready and claim-free.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\"--preflight\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"exact-scope-guard\",\"proof_role\":\"Exact-base changed-path allowlist rejects Guardian product changes, child binding, and unexpected lifecycle mutation.\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5901/validate-scope.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"wp04-terminal-fixtures\",\"proof_role\":\"Fixture-backed terminal execution proves valid derived envelopes and rejects malformed, digest, head, merge, linkage, and ancestry failures.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5901/test-implementation-wave.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Narrow implementation ownership to independently reviewed exact generated and tooling paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/tests/gate2.rs\",\".csdlc/issues/5865/cards/sip.values.json\",\".csdlc/issues/5865/cards/stp.values.json\",\".csdlc/issues/5865/cards/spp.md\",\".csdlc/issues/5865/cards/spp.values.json\",\".csdlc/issues/5865/cards/vpp.values.json\",\".csdlc/issues/5865/cards/srp.values.json\",\".csdlc/issues/5865/cards/sor.values.json\",\".csdlc/issues/5865/index.json\",\".csdlc/issues/5865/audit.jsonl\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\".csdlc/prepared/issues/5901/test-implementation-wave.rb\",\".csdlc/prepared/issues/5901/validate-scope.rb\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Align planning invariants with final derived-terminal authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Repository-relative containment remains fail-closed\",\"No product path is created or edited\",\"The sixteen-child denominator remains exact\",\"Git topology and derived terminal envelopes remain lifecycle authority\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Align review prompts with independently reviewed derived-terminal authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does future-path admission remain canonically contained beneath the repository with every symlink and non-directory prefix rejected?\",\"Does #5865 retain serialization truth in replan_triggers without path-field pollution or unrelated card changes?\",\"Does terminal reconciliation validate derived envelopes plus exact live PR linkage and candidate ancestry?\",\"Did the repair avoid child binding and every Guardian product change?\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:review-5901-design-reapproval",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Apply independently reviewed acceptance, plan, and proving lanes.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"Accept safe repository-relative future paths beneath a real canonical in-repository ancestor\",\"Reject absolute, traversal, placeholder, unrooted, and metadata values\",\"Reject inside-repository symlink ancestors, outside-repository symlink ancestors, symlink leaves, and existing-file intermediate prefixes\",\"Permit exact-digest typed planning-collection repair while initialized or ready, then move #5865 serialization ordering to typed replan_triggers while keeping exactly four path-only affected_areas\",\"Remove every claim read and claim-derived assertion from WP-04 preflight and terminal reconciliation; validate initialized unbound topology in preflight and csdlc.derived_terminal.v1 envelopes plus live closing linkage, exact heads, merge SHAs, digests, and candidate ancestry at terminal\",\"Pass doctor for #5862 through #5878 without product file creation or child binding\",\"Pass the exact sixteen-child, 38-path WP-04 preflight\",\"Pass an exact-base changed-path allowlist that rejects every Sprint 3 product path and child topology mutation\",\"Complete independent exact-head review and resolve every actionable finding\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Add the complete readiness regression matrix and implement canonical no-symlink ancestor containment.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Enable bounded initialized/ready planning repair, then move #5865 serialization-gate JSON to replan_triggers with typed SPP edits and preserve the exact four product paths.\",\"acceptance_ids\":[\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Replace legacy claim, index-terminal, and receipt assumptions with validated derived-terminal envelopes.\",\"acceptance_ids\":[\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run doctor, preflight, exact-base scope guard, focused tests, and exact-head review.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"csdlc-readiness-focused\",\"proof_role\":\"Focused Rust tests prove safe future-path admission, malformed path rejection, and exact-digest initialized/ready planning repair without widening non-planning edits or bound behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"wp04-wave-preflight\",\"proof_role\":\"Exact typed doctor sweep and canonical wave preflight prove all sixteen packets are structurally bind-ready and claim-free.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\"--preflight\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"exact-scope-guard\",\"proof_role\":\"Exact-base changed-path allowlist rejects Guardian product changes, child binding, and unexpected lifecycle mutation.\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5901/validate-scope.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"wp04-terminal-fixtures\",\"proof_role\":\"Fixture-backed terminal execution proves valid derived envelopes and rejects malformed, digest, head, merge, linkage, and ancestry failures.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5901/test-implementation-wave.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Narrow implementation ownership to independently reviewed exact generated and tooling paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate2.rs\",\".csdlc/issues/5865/cards/sip.values.json\",\".csdlc/issues/5865/cards/stp.values.json\",\".csdlc/issues/5865/cards/spp.md\",\".csdlc/issues/5865/cards/spp.values.json\",\".csdlc/issues/5865/cards/vpp.values.json\",\".csdlc/issues/5865/cards/srp.values.json\",\".csdlc/issues/5865/cards/sor.values.json\",\".csdlc/issues/5865/index.json\",\".csdlc/issues/5865/audit.jsonl\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\".csdlc/prepared/issues/5901/test-implementation-wave.rb\",\".csdlc/prepared/issues/5901/validate-scope.rb\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:review-5901-final-design",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "Narrow implementation ownership to independently reviewed exact generated and tooling paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate_finish.rs\",\".csdlc/issues/5865/cards/sip.values.json\",\".csdlc/issues/5865/cards/stp.values.json\",\".csdlc/issues/5865/cards/spp.md\",\".csdlc/issues/5865/cards/spp.values.json\",\".csdlc/issues/5865/cards/vpp.values.json\",\".csdlc/issues/5865/cards/srp.values.json\",\".csdlc/issues/5865/cards/sor.values.json\",\".csdlc/issues/5865/index.json\",\".csdlc/issues/5865/audit.jsonl\",\".csdlc/prepared/issues/5862/validate-implementation-wave.rb\",\".csdlc/prepared/issues/5901/test-implementation-wave.rb\",\".csdlc/prepared/issues/5901/validate-scope.rb\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:review-5901-governed-bash",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:review-5901-whitespace-normalization",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

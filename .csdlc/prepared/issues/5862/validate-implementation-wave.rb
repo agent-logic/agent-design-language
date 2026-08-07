@@ -55,7 +55,9 @@ EXPECTED.each do |wp, issue|
   design = File.read(".csdlc/prepared/issues/#{issue}/design.md")
   approval_digest = index.dig("design_review", "approved", "revision")
   abort "#{wp} design not approved" unless approval_digest.to_s.match?(SHA256)
-  abort "#{wp} preparation claim remains active" unless index["claim"].nil?
+  if PREFLIGHT
+    abort "#{wp} is not initialized and unbound" unless index["phase"] == "initialized" && index["branch"].nil? && index["worktree"].nil?
+  end
   %w[sip stp spp vpp].each do |card|
     values = JSON.parse(File.read(".csdlc/issues/#{issue}/cards/#{card}.values.json"))
     abort "#{wp} #{card} not ready" unless values["status"] == "ready"
@@ -85,25 +87,24 @@ gate = File.read(".csdlc/prepared/issues/5821/design.md")
 EXPECTED.each { |wp, issue| abort "gate mapping missing #{wp} ##{issue}" unless gate.include?("| #{wp} | ##{issue} |") }
 
 if PREFLIGHT
-  abort "umbrella preparation claim remains active" unless umbrella["claim"].nil?
-  puts "PASS: WP-04-IMP preflight, sixteen approved claim-null children, #{all_paths.length} exact owned paths"
+  abort "umbrella is not initialized and unbound" unless umbrella["phase"] == "initialized" && umbrella["branch"].nil? && umbrella["worktree"].nil?
+  puts "PASS: WP-04-IMP preflight, sixteen approved claim-free unbound children, #{all_paths.length} exact owned paths"
   exit 0
 end
 
-umbrella_claim = umbrella["claim"]
-abort "terminal reconciliation requires the active WP-04-IMP execution claim" unless umbrella_claim.is_a?(Hash)
-abort "terminal reconciliation claim does not own umbrella evidence" unless Array(umbrella_claim["protected_paths"]).include?(".csdlc/evidence/5862")
-
-manifest_path = ".csdlc/evidence/5862/terminal-child-receipts.json"
+manifest_path = ".csdlc/evidence/5862/terminal-child-envelopes.json"
 abort "missing terminal reconciliation manifest" unless File.file?(manifest_path)
 manifest = JSON.parse(File.read(manifest_path))
-abort "wrong terminal manifest schema" unless manifest["schema"] == "adl.wp04.terminal_child_receipts.v1"
+abort "wrong terminal manifest schema" unless manifest["schema"] == "adl.wp04.terminal_child_envelopes.v1"
 entries = Array(manifest["children"])
 abort "terminal manifest denominator drift" unless entries.map { |entry| entry["issue"] }.sort == EXPECTED.values
 
-git_common, git_status = Open3.capture2("git", "rev-parse", "--git-common-dir")
+git_common, git_status = Open3.capture2("git", "rev-parse", "--path-format=absolute", "--git-common-dir")
 abort "cannot resolve Git common directory" unless git_status.success?
-pr_binary = ENV.fetch("CSDLC_GITHUB_PR_BIN", File.join(File.expand_path("..", git_common.strip), ".adl/bin/csdlc-v2/csdlc-github-pr"))
+repo_root = File.expand_path("..", git_common.strip)
+finish_binary = ENV.fetch("CSDLC_FINISH_BIN", File.join(repo_root, ".adl/bin/csdlc-v2/csdlc-finish"))
+pr_binary = ENV.fetch("CSDLC_GITHUB_PR_BIN", File.join(repo_root, ".adl/bin/csdlc-v2/csdlc-github-pr"))
+abort "missing typed finish binary" unless File.executable?(finish_binary)
 abort "missing typed GitHub PR binary" unless File.executable?(pr_binary)
 request_dir = ".csdlc/evidence/5862/pr-state-requests"
 FileUtils.mkdir_p(request_dir)
@@ -111,16 +112,19 @@ FileUtils.mkdir_p(request_dir)
 entries.each do |entry|
   issue = entry.fetch("issue")
   index = records.fetch(issue)
-  terminal = index.fetch("terminal")
-  abort "issue ##{issue} is not terminal merged" unless terminal["disposition"] == "merged" && terminal["observed_state"] == "merged"
+  stdout, stderr, status = Open3.capture3(finish_binary, "--root", ".", "--validate-cached-issue", issue.to_s)
+  abort "typed terminal validation failed for ##{issue}: #{stderr} #{stdout}" unless status.success?
+  validation = JSON.parse(stdout)
+  abort "wrong terminal validation schema for ##{issue}" unless validation["schema"] == "csdlc.derived_terminal_validation.v1" && validation["canonical_match"] == true
+  terminal = validation.fetch("terminal")
+  abort "issue ##{issue} is not derived terminal merged" unless terminal["disposition"] == "merged" && terminal["issue_state"] == "closed_by_merged_pr" && terminal["source"] == "live_github"
+  abort "terminal canonical identity drift for ##{issue}" unless terminal["repository"] == index["repository"] && terminal["initialization_digest"] == index["initialization_digest"] && terminal["canonical_generation"] == index["generation"] && terminal["canonical_digest"] == index["digest"]
   pr = terminal.fetch("pull_request")
-  child_head = terminal.fetch("observed_sha")
+  child_head = terminal.fetch("head_sha")
   abort "invalid child head for ##{issue}" unless child_head.match?(SHA)
   abort "manifest PR drift for ##{issue}" unless entry["pull_request"] == pr
   abort "manifest head drift for ##{issue}" unless entry["head_sha"] == child_head
-  receipt_path = terminal.fetch("receipt_path")
-  abort "manifest receipt drift for ##{issue}" unless entry["receipt_path"] == receipt_path
-  checked_digest(receipt_path, entry.fetch("receipt_sha256"), "##{issue} terminal receipt")
+  abort "manifest envelope digest drift for ##{issue}" unless entry["envelope_digest"] == terminal["digest"]
 
   request_path = File.join(request_dir, "#{issue}.json")
   File.write(request_path, JSON.pretty_generate({repository: "danielbaustin/agent-design-language", pull_request: pr, required_checks: [], require_review: false, linked_issue: issue}) + "\n")
@@ -133,10 +137,11 @@ entries.each do |entry|
   merge_sha = packet["merge_commit_sha"]
   abort "invalid merge SHA for ##{issue}" unless merge_sha.to_s.match?(SHA)
   abort "manifest merge drift for ##{issue}" unless entry["merge_sha"] == merge_sha
+  abort "terminal merge drift for ##{issue}" unless terminal["merge_sha"] == merge_sha
   system("git", "merge-base", "--is-ancestor", merge_sha, "HEAD") or abort "merge for ##{issue} is not ancestral to candidate HEAD"
 end
 
-integrated = records.fetch(5878).fetch("terminal").fetch("observed_sha")
+integrated = entries.find { |entry| entry["issue"] == 5878 }.fetch("head_sha")
 proof_path = ".csdlc/evidence/5878/execution-proof.json"
 checked_digest(proof_path, manifest.fetch("wp04_16_execution_proof_sha256"), "WP-04.16 execution proof")
 proof = JSON.parse(File.read(proof_path))
@@ -145,4 +150,4 @@ abort "WP-04.16 proof is not exact child head" unless proof["source_revision"] =
 commands = Array(proof["commands"])
 required = [["bash", "adl/tools/validate_v092_distributed_guardian.sh"], ["ruby", "adl/tools/validate_v092_distributed_native_receipts.rb"]]
 required.each { |argv| abort "WP-04.16 missing #{argv.join(' ')}" unless commands.one? { |command| command["argv"] == argv && command["exit_code"] == 0 } }
-puts "PASS: sixteen live merged child PRs, terminal receipts, exact heads, and WP-04.16 integrated proof authorize WP-14 handoff"
+puts "PASS: sixteen live merged child PRs, derived terminal envelopes, exact heads, and WP-04.16 integrated proof authorize WP-14 handoff"

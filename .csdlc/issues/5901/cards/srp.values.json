@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5901,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][sprint-3] Repair claim-free WP-04 wave readiness",
+    "slug": "v0-92-csdlc-v2-sprint3-claim-free-readiness",
+    "version": "v0.92",
+    "generation": 13
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #5901 readiness predicate, #5865 typed normalization, WP-04 validator, focused tests, and exact readiness proof.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does future-path admission remain canonically contained beneath the repository with every symlink and non-directory prefix rejected?",
+        "Does #5865 retain serialization truth in replan_triggers without path-field pollution or unrelated card changes?",
+        "Does terminal reconciliation validate derived envelopes plus exact live PR linkage and candidate ancestry?",
+        "Did the repair avoid child binding and every Guardian product change?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
