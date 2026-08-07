@@ -3814,8 +3814,33 @@ memory:
     let service_status: serde_json::Value =
         serde_json::from_slice(&stop.stdout).expect("parse stop status stdout");
     assert_eq!(service_status["service_state"], "stopped_or_requested");
-    assert_eq!(service_status["safe_fail_bundle_observed"], true);
-    assert!(root.join("state/safe_fail_bundle.json").exists());
+    let safe_fail_bundle = root.join("state/safe_fail_bundle.json");
+    let safe_fail_deadline = std::time::Instant::now() + std::time::Duration::from_secs(30);
+    while !safe_fail_bundle.exists() && std::time::Instant::now() < safe_fail_deadline {
+        std::thread::sleep(std::time::Duration::from_millis(100));
+    }
+    assert!(
+        safe_fail_bundle.exists(),
+        "safe-fail bundle was not retained after bounded shutdown; supervisor status:\n{}\ndaemon status:\n{}\nservice log:\n{}",
+        read_text_or_missing(&service_root.join("logs/rust_supervisor_status.json")),
+        read_text_or_missing(&root.join("state/daemon_status.json")),
+        read_text_or_missing(&service_root.join("logs/observability.log")),
+    );
+    let stopped = run_csm(&[
+        "service",
+        "status",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        stopped.status.success(),
+        "stopped status stderr:\n{}",
+        String::from_utf8_lossy(&stopped.stderr)
+    );
+    let stopped_status: serde_json::Value =
+        serde_json::from_slice(&stopped.stdout).expect("parse stopped status stdout");
+    assert_eq!(stopped_status["safe_fail_bundle_observed"], true);
     let restart = run_csm_with_env(
         &[
             "service",
