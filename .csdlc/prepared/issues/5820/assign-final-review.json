@@ -1,7 +1,7 @@
 {
   "assigned_by": "codex:5820-runtime-resilience",
-  "expected_digest": "8d48dd24f7f337a7ae6abb2c3fb8745e984b5b88c2cdaf24105ee268f6e5f43d",
-  "expected_generation": 43,
+  "expected_digest": "a19d7a1b3345537519c53efe2c8e13abf9426698e13edde3590e721c5a0c56be",
+  "expected_generation": 44,
   "issue": 5820,
   "reviewer": "subagent:Leibniz",
   "scope": [
