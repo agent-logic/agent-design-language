@@ -59,9 +59,10 @@ Out of scope:
 ## Budget And Goal Accounting
 
 - No sprint-global token budget is preallocated.
-- After WP-01 releases its publication claim, every implementation session
-  registers its child worktree, reacquires the exact issue-local claim, binds,
-  and creates its own issue-bound goal before implementation.
+- Every implementation session binds its exact issue branch and worktree with
+  typed `csdlc-bind --root <repo> --request <request.json>`, then creates its
+  own issue-bound goal before implementation. Git topology is ownership
+  authority; retired claims are not reconstructed.
 - Actual time and token use are recorded per child when available and are never inferred as zero.
 
 ## Watcher Plan

@@ -23,11 +23,11 @@ Before execution:
 5. Do not claim birth, continuity, memory grounding, capability, learning, or
    witness completion from prose or fixtures.
 
-WP-01 published the initialized child records under its own temporary publication
-claim. After WP-01 releases that claim, create and register each real child
-worktree, use typed `csdlc-bind --reacquire-request` to acquire the child's exact
-issue-local paths, then run the normal bind and goal sequence. Do not assume the
-bootstrap reservation is still active.
+WP-01 published initialized child records. For each executable child, use the
+typed `csdlc-bind --root <repo> --request <request.json>` route to create or
+reconcile its exact issue branch and worktree, then create the issue-bound goal
+before implementation. Git branch/worktree topology is the ownership authority;
+do not reconstruct claims, leases, heartbeats, or protected-path ledgers.
 
 Exact child wave:
 

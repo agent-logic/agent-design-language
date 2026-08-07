@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b71cf251982c58050c04627547b6d183e6c3b14d192c1389d3bdbab8606f3292",
   "phase": "initialized",
-  "generation": 71,
-  "digest": "20f471ad6bf52b0fa318d5e167450a3d33149577dbe2231a80e5a33002708ec7",
+  "generation": 73,
+  "digest": "27dea807d4a52010b86f92a2936421efb8284caf02067e6ffb20d5c15b12bcc7",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2476ba2b59b6021b378bcd94fb849dcd2f21d7569b7040e116cbc84f46a0c493",
+      "values_digest": "e4ae0b9cf23da0bf6fe7f32b5424eeea4c4c2b1fc5c5a2347170edc4bff4b520",
       "rendered_digest": "f072c6b2526b3264fafda2ef258cf23cd0cc9fd52b92a53668e2bb409a970d55",
       "ast_digest": "40dcbfc18fc63c6a847abfbb52256a4fdbf34e6110c8710cb57eacc518678bdd"
     },
     "stp": {
-      "values_digest": "1da75aee9d564d9f589682f922428a34f223318f6f34a3a51a9f222635d084f0",
+      "values_digest": "a61bb572ca5efdbd34099651bd702249f231622f979674fbe66afa0b8f6d2af6",
       "rendered_digest": "8e2ead010a5d117e9dcc30cae9ef4b79a04fd83e4d25d52ae1ec9e1e788a383d",
       "ast_digest": "b553161e1debbc0e2c9f9781b70ca94305e51ac7c2a901bc4858a96080788d25"
     },
     "spp": {
-      "values_digest": "63bec98ab44f2e57adf6c1497f65bf2538d5bd8665a19e6aeb896ccdc91b020f",
-      "rendered_digest": "996ea702d839b54f212194f57adc3cf7e911100a27998d6500121514c3b505f8",
-      "ast_digest": "e719b9825f8f2d6bb7189e09b91d5fbf618600aff8392d643a6dcaf5042df3e6"
+      "values_digest": "dab232973878a365cad07a2fd8807908786918f9c0a50a5b485dd5ff21da9386",
+      "rendered_digest": "252642f13f2af5b4b33cfe7f402a0f6f376a042061fd74c7f24255e64abd025c",
+      "ast_digest": "9a6af831e1de9b8ae1ac55fcca3fb4b53252112289715cffba9ba21b5e2eaa04"
     },
     "vpp": {
-      "values_digest": "d8b8888490022cda6831adffd498fdfef7cf1938bca64d3a6d838e2ab82c84c5",
+      "values_digest": "c6c623f34a344e7423869566477d27bb63efcdcdf4a3755f877980cc664b1134",
       "rendered_digest": "2343fbef315e8fed0b0ccbadfd8e711a64445e791eff3b3c34d76615905759ce",
       "ast_digest": "cdf1e9eabb11a4f4b66bccdb33a901c80c6a1100ba349590dfe857b4e6664f52"
     },
     "srp": {
-      "values_digest": "b48302998f6d6f87875dccd7555cacf8c15b39100d400784ee9df3ae332b7f50",
+      "values_digest": "2bbeffb3c23698199fb3fde4dc60b949032282ebf34174acf90cbb0ed390241f",
       "rendered_digest": "e6e1a97391151d19fad085f398bbda73030215208cf8ac0674304a1ab40ae872",
       "ast_digest": "20dbe7c3c54c99f572aabb26933bd4d07cb4a1d3199b1d7bcb772ab3b1ca91ed"
     },
     "sor": {
-      "values_digest": "bf00e8ef0ae926ed7d9b35215785718429791745445fce75154da7e82497c778",
+      "values_digest": "b57df3dd54d9c608b3c406e20b536a95817f9baf9669b157a7c843f5a7c16ada",
       "rendered_digest": "da54e67fc459cdf7ec6dda0ac8e9ca53c1e23d70a238b1dbee9e9fcd5f6688db",
       "ast_digest": "c287e02c30ccc4bca25aaccc60ed0cd16f884134eae9223911ec39db96ceec3b"
     }
@@ -742,6 +742,20 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 96,
+      "generation": 72,
+      "actor": "codex:5857-sprint4-readiness",
+      "reason": "Keep only repository-relative owned paths in SPP; sequencing metadata remains authoritative in the Sprint Execution Packet.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/capability_envelope\",\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\",\".csdlc/prepared/issues/5829/validate-native-receipts.rb\",\".csdlc/prepared/issues/5829/produce-native-receipt.rb\",\".csdlc/evidence/5829\"]}"
+    },
+    {
+      "sequence": 97,
+      "generation": 73,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"#4761 must be explicitly superseded rather than consumed.\",\"Provider/profile identifiers require a versioned compatibility mapping.\",\"Review identifies an undeclared authority or resource dimension.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-kernel-registration-v1\\\",\\\"paths\\\":[\\\"adl-runtime-kernel/src/lib.rs\\\"],\\\"issues\\\":[5825,5826,5827,5828,5829,5830,5831,5833],\\\"order\\\":[5825,5826,5827,5828,5829,5830,5831,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-memory-capability-witness-feature-doc-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\\\"],\\\"issues\\\":[5829,5833],\\\"order\\\":[5829,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5829-grounding-doc-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md\\\"],\\\"issues\\\":[5829,5843],\\\"order\\\":[5829,5843]}\"]}"
     }
   ]
 }

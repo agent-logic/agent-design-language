@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "846edff54a8defb4ef9623169997496d1ece3197ddf2d8437675f653b06cbd8d",
   "phase": "initialized",
-  "generation": 47,
-  "digest": "be2a85056454daf2e6e5cca9e42277c248e2c42023f1e75c187ddca48956fe53",
+  "generation": 49,
+  "digest": "9f38d27d18e1769f9ae2f4a9951691b6a16f1e0288007cac6d47d957ec642c94",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c3c1678157530f7ab36bbb08dd16c3fa6aa21de9725c0ff4ead56a7a08347e80",
+      "values_digest": "b208ca26476c0fb7a37f861698a5f1a4dbd7e1f28c3b6cf9e60e1a74000a3bfb",
       "rendered_digest": "949c998e6b7ffdd397c96f497f68ee616f267961de981f28c9b21ae7b0226851",
       "ast_digest": "6d290185f67f2173d953d548e72809011dc0434a27e92c0122de7fc3d492df10"
     },
     "stp": {
-      "values_digest": "26ef3f7d1f651670b72e21f45e7998c44397776d1efde11693a3ad7e8b70f992",
+      "values_digest": "5cd10edba4a4663bb83bb99f98575da3ceb2af43dcf757f0f9ae708751ffa9b0",
       "rendered_digest": "104aed4d404a80b7bce439695d55e687bbd95d190c73e02a62e301ad655750d8",
       "ast_digest": "1d5cd64db9a9fbdc4e89d7ab572fec06632a9d5772f5398bb18708eb26ae6d72"
     },
     "spp": {
-      "values_digest": "1005788a9d5e102998d32ed8381e0deb46e830aa40b62c958c39e76baae28900",
-      "rendered_digest": "a4226a6cb04977498476ea74325c64aedf2dfd219fc8702e5566ffa592afae63",
-      "ast_digest": "a70a454b8f42ae0fabab628416f7231844c5b19682ba6b0ac3219de5e2b95bdc"
+      "values_digest": "b55988f33cbbb4e4e2bdeab3a65ad572a3b6751ab3930aefea76705a88728fac",
+      "rendered_digest": "6995345221b37e3126cfa43ea99b7f2b4936e145ac88d307f5fd49caf6efde55",
+      "ast_digest": "36d7d94e1350b31e66e1ebc852781f9cb74c400c5b75c4fe66381af97fe67623"
     },
     "vpp": {
-      "values_digest": "73017037aeb4810949edadf3ddc492243fb7e9e995300dd8ee645f358b415408",
+      "values_digest": "bc2b3515a14fc36b6f7c5c9508ef49c4c7950227bc7e9ab2e4915b90e4f6217a",
       "rendered_digest": "9e6b3cbe21189aa5c2ad25da8b8c95599479a589fcc13f6989d019145b9ef285",
       "ast_digest": "e880d012e3fc6f7c280a711ed9ca26a5292b554a9557bb9b43170d6ded85e1b6"
     },
     "srp": {
-      "values_digest": "b2dad69ccd223c0e7e05ca592ebca525a885b2684d47714f060e8086359663c6",
+      "values_digest": "959058f64f8d67619122cb19354d3076906f09853563ed8c598941591d428e13",
       "rendered_digest": "a386a7a66824d71565a419f005749b9fb09aecb865c20be51cd73937a0f0036b",
       "ast_digest": "c653e05218569adeb17f8286178b1b2df6e1868a2d4c71939cd7a8d74d0db880"
     },
     "sor": {
-      "values_digest": "91c6259fb38d1ec42bccb8d9313adf837d18102c215765d147749ab8ca70f13b",
+      "values_digest": "cccc8f1348b820c940049f1527a52cbc0ec9f2fad96d73c7089fd638dc2814cb",
       "rendered_digest": "9c018b2ba3e28cf57fd83b5636f3fe930ff2346d6d8213436593e71770fb5b88",
       "ast_digest": "afb543ca8a8e6c1b8d2315e85b515c56d417ee01ccc5525600001b34d79b4f05"
     }
@@ -560,6 +560,20 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 70,
+      "generation": 48,
+      "actor": "codex:5857-sprint4-readiness",
+      "reason": "Keep only repository-relative owned paths in SPP; sequencing metadata remains authoritative in the Sprint Execution Packet.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/memory_palace.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/memory_palace.rs\",\"adl-runtime-kernel/tests/fixtures/memory_palace\",\"docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md\",\".csdlc/prepared/issues/5828/validate-obsmem-trace-integration.rb\",\".csdlc/prepared/issues/5828/validate-native-receipts.rb\",\".csdlc/prepared/issues/5828/produce-native-receipt.rb\",\".csdlc/evidence/5828\"]}"
+    },
+    {
+      "sequence": 71,
+      "generation": 49,
+      "actor": "codex:5903-sprint4-readiness",
+      "reason": "Preserve exact serialization-gate truth outside the path-only owned-path collection.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"The current packet schema cannot carry identity/continuity bindings compatibly.\",\"Observed context-time semantics require a new deterministic input.\",\"Review identifies an unbounded or unauthorized retrieval path.\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-birthday-kernel-registration-v1\\\",\\\"paths\\\":[\\\"adl-runtime-kernel/src/lib.rs\\\"],\\\"issues\\\":[5825,5826,5827,5828,5829,5830,5831,5833],\\\"order\\\":[5825,5826,5827,5828,5829,5830,5831,5833]}\",\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-5828-memory-palace-doc-to-final-truth-v1\\\",\\\"paths\\\":[\\\"docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md\\\"],\\\"issues\\\":[5828,5843],\\\"order\\\":[5828,5843]}\"]}"
     }
   ]
 }
