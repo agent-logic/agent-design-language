@@ -73,6 +73,13 @@ try {
   browser = await chromium.launch({ channel: args.browser, headless: true });
   const context = await browser.newContext({ ignoreHTTPSErrors: false });
   const page = await context.newPage();
+  const blockedLiveRuntimeRequests = [];
+  if (runtime.origin !== "https://localhost:20997") {
+    await page.route("https://localhost:20997/**", async (route) => {
+      blockedLiveRuntimeRequests.push(route.request().url());
+      await route.abort("blockedbyclient");
+    });
+  }
   page.on("requestfailed", (request) => {
     const text = request.failure()?.errorText ?? "request failed";
     if (isTlsError(text)) tlsErrors.push(`network:${request.url()}:${text}`);
@@ -146,6 +153,7 @@ try {
     },
     browser_endpoints: browserEndpoints.map(({ path, status }) => ({ path, status })),
     browser_direct_health_status: browserHealth.status(),
+    blocked_live_runtime_requests: [...new Set(blockedLiveRuntimeRequests)],
     curl_endpoints: curlEndpoints.map((endpoint) => endpoint.pathname),
     concurrent_runtime_connections: concurrentRuntimeProof,
     platforms: platformDispositions(args.nativePlatforms ?? [process.platform]),
