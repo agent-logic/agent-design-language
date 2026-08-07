@@ -1,0 +1,48 @@
+{
+  "schema": "adl.podcast_preview_live_verification.v1",
+  "issue": 19,
+  "verified_at": "2026-08-07T18:44:30Z",
+  "source_sha256": "ff12ba9c1fc65fdc8b93f34958e45539c9153a00236e3e115540fabfda64007b",
+  "live_sha256": {
+    "https://agent-logic.ai/_preview/podcast/": "ff12ba9c1fc65fdc8b93f34958e45539c9153a00236e3e115540fabfda64007b",
+    "https://agent-logic.ai/_preview/podcast/index.html": "ff12ba9c1fc65fdc8b93f34958e45539c9153a00236e3e115540fabfda64007b"
+  },
+  "http": {
+    "preview": 200,
+    "explicit_index": 200,
+    "feed": 200,
+    "audio": 200,
+    "logo": 200,
+    "production_route": 403
+  },
+  "browser_desktop": {
+    "viewport": [1212, 741],
+    "client_width": 1197,
+    "scroll_width": 1197,
+    "console_errors_or_warnings": 0,
+    "external_assets": 0,
+    "scripts": 0,
+    "images_complete": true,
+    "audio_ready_state": 4,
+    "audio_duration_seconds": 8.7,
+    "native_faq_toggle": true,
+    "screenshot": "browser/podcast-preview-live-desktop.png",
+    "screenshot_sha256": "7339de784a972b377abc39fbcec5a2c541f58a5c603f7a313abefdf19ed4fa13"
+  },
+  "browser_mobile": {
+    "viewport": [390, 844],
+    "client_width": 375,
+    "scroll_width": 375,
+    "console_errors_or_warnings": 0,
+    "scripts": 0,
+    "audio_width": 245,
+    "screenshot": "browser/podcast-preview-live-mobile.png",
+    "screenshot_sha256": "dd9c9fbf00fae023cac24f54715d2157f67080585faa46f9f2cf414d9ede96ff"
+  },
+  "initial_failure": {
+    "classification": "design runtime blocked by same-origin content security policy",
+    "resolution": "replaced the unused design runtime with static HTML, native details controls, and the native audio player",
+    "screenshot": "browser/failures/initial-design-runtime-blank.png",
+    "screenshot_sha256": "2410d5ef39b157ad0589175920a4e25ee85695fa9ad448b99782b7590d2bddb3"
+  }
+}

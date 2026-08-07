@@ -1,0 +1,152 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 19,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "37bb19d7033a30243294bac8289909a5dd5cc6a3818d891dc8db8dcdaed2df76",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "b6ce2bc0b3f27dba3a6000125e33a399e5e999157c43cbf0b41f9f2b2883fec4",
+  "branch": "codex/19-podcast-preview-deployment",
+  "worktree": "/Volumes/FastWork/adl-issue-19-podcast-preview",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/19/design.md",
+  "diagram_path": ".csdlc/prepared/issues/19/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:explicit-preview-deployment-authorization",
+      "revision": "62a29ae4b32889420e852ec5c0b986edd36a74a41ed2feca63c667ff9cb15b1e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4751b5c54b2120119d89e62a6528e6c1b1987ef705729c25371ddf474884631f",
+      "rendered_digest": "9f0d80f9458f319649e315920b7dd0164a6d0f8bb3cc2cd9ece23cf2b1774325",
+      "ast_digest": "d5d38f0cec1e4341bffbc2cfd9cb527f210da36368843749e84302778a6aae7a"
+    },
+    "stp": {
+      "values_digest": "24cf1e577fdc544ef78c0d2502669ddd11c033ad45492619a122cd2b40e30f85",
+      "rendered_digest": "3d44a5facca81ce91c159916add81e181feaf21f56d3b78d0c74263919dde4c2",
+      "ast_digest": "54825147bbcc2f2e0bd33057a90d3cc77515696c50d045938bcb9be3e3f323ef"
+    },
+    "spp": {
+      "values_digest": "8c29599f941e04c41b9c880be6893c146daa1e3a9f8b14e11b24cfd227840409",
+      "rendered_digest": "d9ea6b1ae866cbfc9c230ffaeb7e0a556fb9fb88935e0d054c9c8a7329b3cc65",
+      "ast_digest": "b3c6f8947267dd0448dbb3afa403c1d27f0c94cd83631125ef3ea975b8ae0293"
+    },
+    "vpp": {
+      "values_digest": "7e666d5163fc9e87b6e55b1314d9f355d7b2f2b24ae21b3015e0d228e24bee78",
+      "rendered_digest": "c83c8ee518db0543cbf61ee386eeee7f60e51507eb5ce2152b990d8f280f5174",
+      "ast_digest": "f8a0068b7683ec42e80e73d8a8f06cab2720bf324ee7c48714e4b6e02c3de607"
+    },
+    "srp": {
+      "values_digest": "c527d42c18207b5f8dc84313fb4aa7fb0d4258500d619ac048ab3a0da1d30f9f",
+      "rendered_digest": "f576680d0285049bd1295a4032c31bbc838bd00ae611d87eeea6e3b7b54dd01c",
+      "ast_digest": "855ed952de2102100cd3b77f9237887c5ee480afeb7cb55300b4137db9b023e4"
+    },
+    "sor": {
+      "values_digest": "9e7145715465713b583aa7364b833fe0aff96c4a1517e415ea7b3100203e9bb9",
+      "rendered_digest": "6991c36a19249301dd8ff937d8821dbbeb9a4ac6e2fcaf39b088f75f2c6819dd",
+      "ast_digest": "f12253f21a8617a4e7bdef595ead787d2add7e9b6af9bf04ae3164d9d56e8894"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "Advance issue 19 after the deployed static preview and focused proof passed."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "operator:explicit-preview-deployment-authorization",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "Record the completed source validation and minimal preview object inventory.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "Record the completed S3 upload and bounded CloudFront invalidation through the approved business profile.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "Record exact live digest parity, noindex, local-only assets, native audio and FAQ behavior, responsive browser proof, and production-route non-mutation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "Record the completed podcast preview deployment and static-page simplification.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Deployed the Synthetic Minds podcast preview through existing Agent Logic S3 and CloudFront infrastructure and replaced the blocked design runtime with a local-only static page.\",\"changes\":[\"Published both the directory and explicit index preview routes with byte-for-byte source parity.\",\"Published the existing feed, smoke WAV, and Agent Logic logo with explicit content types, cache policy, checksums, and server-side encryption.\",\"Removed React, Babel, external fonts, and the generic design runtime from the preview page; retained native audio and native details FAQ controls.\",\"Verified desktop and mobile rendering, zero external asset requests, zero scripts, no console errors, and no horizontal overflow.\",\"Preserved the production /podcast/ route at HTTP 403 and invoked only STS, S3, and CloudFront with no EC2 or remote compute operation.\"],\"artifacts\":[\"demos/_preview/podcast/index.html\",\".csdlc/evidence/19/deployment-manifest.json\",\".csdlc/evidence/19/live-verification.json\",\".csdlc/evidence/19/browser/podcast-preview-live-desktop.png\",\".csdlc/evidence/19/browser/podcast-preview-live-mobile.png\",\".csdlc/evidence/19/browser/failures/initial-design-runtime-blank.png\",\".csdlc/prepared/issues/19/validate-deployment-evidence.rb\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "Record the focused repository podcast source validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\"adl/tools/validate_podcast_launch_packet.py\",\"demos/podcast\",\"docs/milestones/v0.91.8/review/podcast_launch_5711/episodes.json\",\"--preview-root\",\"demos/_preview/podcast\"],\"purpose\":\"Validate the local podcast page, preview references, feed, artwork, and smoke-audio source packet.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/19/README.md\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "Record the retained deployment and responsive browser evidence validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/19/validate-deployment-evidence.rb\"],\"purpose\":\"Authenticate exact source and screenshot digests, local-only static browser behavior, production-route non-mutation, and the no-EC2 AWS boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/19/live-verification.json\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "Advance issue 19 after the deployed static preview and focused proof passed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

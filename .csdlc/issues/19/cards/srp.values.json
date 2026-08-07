@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 19,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-24A deployment] Deploy the podcast page to the preview URL",
+    "slug": "v0-92-wp-24a-deploy-podcast-preview",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue 19 preview source, bounded S3/CloudFront deployment, live HTTPS route, redacted deployment evidence, and production-route non-mutation proof",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Was only the minimal preview object set deployed through existing S3 and CloudFront resources?",
+        "Do retained digests and live readback prove exact source parity without exposing infrastructure identifiers?",
+        "Does the preview remain noindex and separate from the unchanged production route?",
+        "Is there positive evidence that no EC2 or remote-build operation occurred?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
