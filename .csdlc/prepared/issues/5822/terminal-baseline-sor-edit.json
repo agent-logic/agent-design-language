@@ -1,0 +1,44 @@
+{
+  "issue": 5822,
+  "card": "sor",
+  "expected_generation": 48,
+  "expected_digest": "bf11f73488a6083bac0abb175b48b24eee2f459cba259eb519d24d3d573136b8",
+  "actor": "codex:5822-terminal-baseline-repair",
+  "reason": "Replace the obsolete AC-7 blocker with the measured terminal baseline and the focused passing validation truth.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "WP-05 now retains provenance-bearing advisory estimates and terminal actuals, recomputes calibration from verified sources, measures one genuine terminal cycle-time baseline, and explicitly leaves candidate and reduction fields absent until an equivalent terminal cohort exists.",
+    "changes": [
+      "csdlc-v2/src/estimation.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/tests/estimation_contracts.rs"
+    ],
+    "artifacts": [
+      ".csdlc/evidence/5822/forecast.json",
+      ".csdlc/evidence/5822/accepted-estimate.json",
+      ".csdlc/evidence/5822/calibration-source-manifest.json",
+      ".csdlc/evidence/5822/calibration-report.json",
+      ".csdlc/evidence/5822/cycle-time-baseline.json",
+      ".csdlc/evidence/5822/terminal-baseline-source-5778.json",
+      ".csdlc/evidence/5822/cycle-time-evidence-boundary.json",
+      ".csdlc/evidence/5822/validation-summary.json"
+    ],
+    "validation": [
+      {
+        "command": ["env", "CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5822/csdlc-v2", "cargo", "test", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "estimation_contracts"],
+        "purpose": "Prove all nine estimation, retained-source, terminal-outcome, calibration, security-negative, and terminal-baseline contracts with zero failures.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/5822/cycle-time-baseline.json"
+      },
+      {
+        "command": ["git", "diff", "--check", "origin/main...HEAD"],
+        "purpose": "Reject whitespace errors at the exact review revision.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/5822/cycle-time-evidence-boundary.json"
+      }
+    ]
+  }
+}

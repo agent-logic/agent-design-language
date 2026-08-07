@@ -1971,7 +1971,8 @@ fn authorize_card_operation(
         ) | (
             LifecyclePhase::Bound | LifecyclePhase::Implemented,
             CardKind::Spp,
-            SemanticOperation::UpdatePlanStep { .. },
+            SemanticOperation::UpdatePlanStep { .. }
+                | SemanticOperation::RecordAdvisoryEstimate { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Spp,

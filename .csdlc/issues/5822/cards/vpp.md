@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5822/diagram.mmd
 [
   {
     "lane": "estimation-contracts-exact-target",
-    "proof_role": "Run the exact estimation_contracts integration target for schema, privacy, negatives, cohorts, fallback, calibration, and backtesting; zero tests fail.",
+    "proof_role": "Prove source-derived identity and measurements, recursive calibration verification, deferred finish retention, gate-derived cycle projections, traversal rejection, advisory semantics, and the retained terminal baseline boundary; zero tests fail.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -41,12 +41,10 @@ Diagram: .csdlc/prepared/issues/5822/diagram.mmd
     "budget_tokens": 9000,
     "argv": [
       "cargo",
-      "nextest",
-      "run",
+      "test",
       "--locked",
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
-      "--no-tests=fail",
       "--test",
       "estimation_contracts"
     ],
@@ -54,21 +52,24 @@ Diagram: .csdlc/prepared/issues/5822/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "cycle-time-comparison",
-    "proof_role": "Validate retained equivalent baseline and candidate cohorts and component timing.",
+    "lane": "terminal-cycle-time-baseline",
+    "proof_role": "Validate one genuinely terminal issue with complete retained lifecycle, session, GitHub, CI, and operator timing while requiring candidate and reduction fields to remain absent.",
     "acceptance_ids": [
-      "AC-7",
-      "AC-8"
+      "AC-7"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 2000,
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
     "argv": [
-      "ruby",
-      "-rjson",
-      "-e",
-      "r=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-comparison.json')); abort('incomparable') unless r['baseline_cohort']&&r['candidate_cohort']&&r['comparison_basis_equal']==true&&r['gates_preserved']==true"
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "estimation_contracts",
+      "retained_cycle_boundary_records_one_terminal_baseline_without_a_reduction_claim"
     ],
     "parallel_group": "analysis",
     "defer_reason": null
@@ -105,8 +106,8 @@ Tokens: 25000
 
 ## Commands
 
-- `cargo nextest run --locked --manifest-path csdlc-v2/Cargo.toml --no-tests=fail --test estimation_contracts`
-- `ruby -rjson -e r=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-comparison.json')); abort('incomparable') unless r['baseline_cohort']&&r['candidate_cohort']&&r['comparison_basis_equal']==true&&r['gates_preserved']==true`
+- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test estimation_contracts`
+- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test estimation_contracts retained_cycle_boundary_records_one_terminal_baseline_without_a_reduction_claim`
 - `git diff --check`
 
 ## Failure Semantics

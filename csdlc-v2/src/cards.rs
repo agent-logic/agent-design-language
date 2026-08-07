@@ -9,6 +9,7 @@ use serde::{Deserialize, Serialize};
 use strum::{AsRefStr, Display, EnumIter, EnumString};
 
 use crate::error::{ErrorCode, Result, V2Error};
+use crate::estimation::{validate_accepted_estimate, AcceptedEstimate};
 use crate::model::LifecyclePhase;
 
 macro_rules! closed_enum {
@@ -161,6 +162,7 @@ impl PlanningProfile {
                     elapsed_seconds: 7_200,
                     total_tokens: 40_000,
                     validation_seconds: 1_200,
+                    advisory: None,
                 },
                 10_000,
             ),
@@ -169,6 +171,7 @@ impl PlanningProfile {
                     elapsed_seconds: 21_600,
                     total_tokens: 80_000,
                     validation_seconds: 3_600,
+                    advisory: None,
                 },
                 25_000,
             ),
@@ -177,6 +180,7 @@ impl PlanningProfile {
                     elapsed_seconds: 43_200,
                     total_tokens: 140_000,
                     validation_seconds: 7_200,
+                    advisory: None,
                 },
                 50_000,
             ),
@@ -185,6 +189,7 @@ impl PlanningProfile {
                     elapsed_seconds: 86_400,
                     total_tokens: 240_000,
                     validation_seconds: 21_600,
+                    advisory: None,
                 },
                 100_000,
             ),
@@ -306,6 +311,8 @@ pub struct ExecutionEstimates {
     pub elapsed_seconds: u64,
     pub total_tokens: u64,
     pub validation_seconds: u64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub advisory: Option<Box<AcceptedEstimate>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -575,6 +582,9 @@ pub enum SemanticOperation {
     },
     ReplaceValidationLanes {
         lanes: Vec<ValidationLane>,
+    },
+    RecordAdvisoryEstimate {
+        estimate: AcceptedEstimate,
     },
     RecordValidation {
         result: ValidationResult,
@@ -964,6 +974,16 @@ pub fn apply(
             }
             _ => ownership(values.kind(), "replace_validation_lanes"),
         },
+        SemanticOperation::RecordAdvisoryEstimate { estimate } => {
+            validate_accepted_estimate(estimate)?;
+            match &mut values.content {
+                CardContent::Spp(v) => {
+                    v.execution_estimates.advisory = Some(Box::new(estimate.clone()));
+                    Ok(None)
+                }
+                _ => ownership(values.kind(), "record_advisory_estimate"),
+            }
+        }
         SemanticOperation::RecordValidation { result } => match &mut values.content {
             CardContent::Sor(v) => {
                 validate_result(result)?;
@@ -1789,6 +1809,11 @@ fn validate_values(values: &CardValues) -> Result<()> {
     if let CardContent::Sor(sor) = &values.content {
         for result in &sor.actual_validation {
             validate_result(result)?;
+        }
+    }
+    if let CardContent::Spp(spp) = &values.content {
+        if let Some(estimate) = &spp.execution_estimates.advisory {
+            validate_accepted_estimate(estimate)?;
         }
     }
     Ok(())

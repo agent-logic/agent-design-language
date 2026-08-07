@@ -1,0 +1,58 @@
+{
+  "schema": "csdlc.estimation_forecast.v1",
+  "target_issue": 5822,
+  "key": {
+    "cohort": "csdlc-v2-rust-medium",
+    "workflow_version": "v2-gate-10d2",
+    "model_era": "codex-2026-q3"
+  },
+  "method": "static_planning_profile_fallback",
+  "elapsed_seconds": {
+    "point": 21600,
+    "lower": 21600,
+    "upper": 21600,
+    "median_absolute_deviation": 0,
+    "cohort_size": 0,
+    "source_provenance": [
+      {
+        "source": "lifecycle",
+        "reference": "csdlc-v2/src/cards.rs#PlanningProfile"
+      }
+    ]
+  },
+  "validation_seconds": {
+    "point": 3600,
+    "lower": 3600,
+    "upper": 3600,
+    "median_absolute_deviation": 0,
+    "cohort_size": 0,
+    "source_provenance": [
+      {
+        "source": "lifecycle",
+        "reference": "csdlc-v2/src/cards.rs#PlanningProfile"
+      }
+    ]
+  },
+  "total_tokens": {
+    "point": 80000,
+    "lower": 80000,
+    "upper": 80000,
+    "median_absolute_deviation": 0,
+    "cohort_size": 0,
+    "source_provenance": [
+      {
+        "source": "lifecycle",
+        "reference": "csdlc-v2/src/cards.rs#PlanningProfile"
+      }
+    ]
+  },
+  "confidence": "low",
+  "drift": "insufficient_data",
+  "outlier_factors": [],
+  "comparable_issues": [],
+  "calibration": {
+    "reference": ".csdlc/evidence/5822/calibration-report.json",
+    "digest": "9e4230c8ecba156855ce6d9cc80367c3029b919e583426c02c965bec9ad2e994"
+  },
+  "fallback_reason": "calibration is missing, invalid, or failed"
+}

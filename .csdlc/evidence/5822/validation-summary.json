@@ -1,0 +1,54 @@
+{
+  "schema": "csdlc.issue_validation_summary.v1",
+  "issue": 5822,
+  "revision_basis": "terminal-baseline implementation plus qualified GitHub authority and session schema-drift remediation before independent exact-head review",
+  "environment": {
+    "worktree": "/Volumes/FastWork/adl-wp-5822-v0-92-csdlc-estimation-cycle-time",
+    "cargo_home": "operator default; no repository-local credential or cache material retained",
+    "cargo_target_dir": "/Volumes/FastWork/adl-builds/5822/csdlc-v2",
+    "temp_or_cache_outside_fastwork": false
+  },
+  "results": [
+    {
+      "lane": "estimation-contracts-exact-target",
+      "command": "CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5822/csdlc-v2 cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test estimation_contracts",
+      "outcome": "passed",
+      "run_id": "local-focused-final",
+      "tests_run": 11,
+      "tests_passed": 11,
+      "tests_skipped": 0
+    },
+    {
+      "lane": "cycle-time-evidence-boundary",
+      "command": "ruby retained terminal-baseline and pending-candidate boundary guard from issue VPP",
+      "outcome": "passed",
+      "evidence": ".csdlc/evidence/5822/cycle-time-baseline.json",
+      "boundary": ".csdlc/evidence/5822/cycle-time-evidence-boundary.json"
+    },
+    {
+      "lane": "rust-format",
+      "command": "cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check",
+      "outcome": "passed"
+    },
+    {
+      "lane": "diff-hygiene",
+      "command": "git diff --check",
+      "outcome": "passed"
+    },
+    {
+      "lane": "source-identical-doctor",
+      "command": "/Volumes/FastWork/adl-builds/5822/csdlc-v2/debug/csdlc-validate --root <worktree> issue --issue 5822",
+      "outcome": "passed",
+      "phase": "implemented",
+      "generation": 50,
+      "findings": []
+    }
+  ],
+  "broad_suite_run": false,
+  "broad_suite_reason": "The issue VPP requires one exact integration target plus retained cycle-time and diff-hygiene checks; no broader validation was requested or needed.",
+  "non_claims": [
+    "The retained v0.91.7 terminal session is a baseline only; no equivalent candidate exists and no production speedup is claimed.",
+    "The retained historical sources contain zero complete forecast-versus-actual calibration cases and therefore force static fallback.",
+    "The deferred estimate does not enforce time, tokens, phase, completion, validation, review, publication, merge, or closeout."
+  ]
+}

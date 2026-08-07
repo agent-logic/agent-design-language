@@ -1,0 +1,70 @@
+{
+  "schema": "csdlc.terminal_baseline_source.v1",
+  "issue": 5778,
+  "repository": "danielbaustin/agent-design-language",
+  "source_classification": "retained_terminal_single_issue",
+  "goal": {
+    "thread_id": "019f5fb7-49dd-7c20-a4c2-bfc357306061",
+    "objective": "Implement GitHub issue #5778: derived terminal truth and one idempotent C-SDLC v2 finish command, preserving exact-head safety and eliminating the second closeout PR.",
+    "started_at": "2026-08-02T18:53:38Z",
+    "completed_at": "2026-08-02T21:24:40Z",
+    "elapsed_seconds": 9062,
+    "total_tokens": 1820491,
+    "terminal_status": "complete",
+    "data_source": "codex_goal_tool",
+    "rollout_sha256": "3a721b60910b8dc67b1166ed1b798eebc13dc2ed8e5f5dad5af2b1bccbf4b7b4"
+  },
+  "operator": {
+    "window": {
+      "started_at": "2026-08-02T18:53:38Z",
+      "completed_at": "2026-08-02T21:24:40Z"
+    },
+    "user_intervention_messages": 0,
+    "reconnect_events": 0,
+    "operator_wait_seconds": 0,
+    "reconnect_actions": 0,
+    "derivation": "The retained rollout contains no user-role response message and no reconnect event inside the exact goal interval. Compaction payloads containing older text are excluded from event counts.",
+    "rollout_sha256": "3a721b60910b8dc67b1166ed1b798eebc13dc2ed8e5f5dad5af2b1bccbf4b7b4"
+  },
+  "github": {
+    "pull_request": 5782,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5782",
+    "state": "merged",
+    "opened_at": "2026-08-02T19:49:08Z",
+    "merged_at": "2026-08-02T21:24:11Z",
+    "pr_lifecycle_seconds": 5703,
+    "ci_started_at": "2026-08-02T21:11:08Z",
+    "ci_completed_at": "2026-08-02T21:23:32Z",
+    "ci_wall_seconds": 744,
+    "head_sha": "4ea25d29746376b169343081643b09b353c044bf",
+    "merge_sha": "4985503743899e87aa2e5d34b7fee7ad63e8182a",
+    "issue_state": "closed"
+  },
+  "lifecycle": {
+    "canonical_record": ".csdlc/issues/5778/index.json",
+    "canonical_record_sha256": "948ae36f620a4341950a8fe5ecf78a719e8993a530f69e9eca9f5adb7fd22611",
+    "canonical_generation": 25,
+    "canonical_phase_at_publication": "published",
+    "review_completed": true,
+    "publication_recorded": true,
+    "terminal_receipt": {
+      "schema": "csdlc.derived_terminal.v1",
+      "issue": 5778,
+      "repository": "danielbaustin/agent-design-language",
+      "initialization_digest": "7d302288e788664b7ed6bce296b9ebfee167a63fed276900ba51dfe601894824",
+      "canonical_generation": 25,
+      "canonical_digest": "c74b2be6a72532f8e7996aff808057bf3c627ad7a3d1c130cfbffc630eeb9665",
+      "pull_request": 5782,
+      "disposition": "merged",
+      "head_sha": "4ea25d29746376b169343081643b09b353c044bf",
+      "merge_sha": "4985503743899e87aa2e5d34b7fee7ad63e8182a",
+      "issue_state": "closed_by_merged_pr",
+      "pr_state": "closed",
+      "observed_unix_seconds": 1785705852,
+      "claim_logically_released": true,
+      "source": "live_github",
+      "digest": "677f470fa9784f0e921d268ec8a9f021d0628ab95ac5b3f1f6b2641b64c5c050"
+    },
+    "terminal_receipt_source_sha256": "99a3e5f2fff489d8bb6944e2f8827f268eae06130e9fe6deb2976afe50cd9e59"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.estimation_calibration.v1",
+  "case_count": 0,
+  "elapsed_median_error_basis_points": null,
+  "validation_median_error_basis_points": null,
+  "token_median_error_basis_points": null,
+  "calibrated": false,
+  "source_manifest": {
+    "reference": ".csdlc/evidence/5822/calibration-source-manifest.json",
+    "digest": "8a9addfa971ce77c20eb84455edbe63314100498b35fbd9a13b9cd69d8e6b8e7"
+  }
+}
