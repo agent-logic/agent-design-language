@@ -3,11 +3,11 @@
   "issue": 5822,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b476d2b9dfcbc719a2efb87fbffe14fcb7df6263bcbaecc1a27a64c5c4c1e798",
-  "phase": "initialized",
-  "generation": 22,
-  "digest": "36fb930e9b5922c2acb212b3a61d536d2c2d6bbf5244344aed5bc75ec6f3e176",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 34,
+  "digest": "087fe0a047a1cf306c7d5fffc8dbcc7abdee6a087d42cc8100be39902e7d81b5",
+  "branch": "codex/5822-v0-92-csdlc-estimation-cycle-time",
+  "worktree": "/Volumes/FastWork/adl-wp-5822-v0-92-csdlc-estimation-cycle-time",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f6e9f207c0b8b8e0b662c53796198efc055a780aac5ca4bb766a6914ec177896",
+      "values_digest": "e4610492466fb528d375e540334e0b24daec094ab4166cfecf90147f716ce505",
       "rendered_digest": "a2e05d299c61fb87347a0c7e4217da58dcd8ffcdb615f1dc0aac4438c3bebd79",
       "ast_digest": "98e306b57fa7f5865499191708ed16b077317e9e8f9018041ed11757b0f78e2f"
     },
     "stp": {
-      "values_digest": "de8f4b6284f4c830f0d393c44b9137c3588a155fad302b5acefbcce75a9fdb36",
+      "values_digest": "bb7184d424d00ca64b41c6e932d832ec37d7f903f6c2c5d61d851a434291a266",
       "rendered_digest": "b5ea1948c8b04f65c7e6fe5a5709ae0c27e3efa3a9f4d68ea4c2a2eb83d64586",
       "ast_digest": "aa359ab54626c9f0787a862efa22ec899c7bf5a73f630127203541e458cb9ada"
     },
     "spp": {
-      "values_digest": "d965e3b26a1aa56491a5ff49d3954f9f79b43fe7ff9c65d2d509ff08d214ae69",
-      "rendered_digest": "cd4946c4bfa668a1a91503b9d0f08c0580c86aefe13a328a6e883e99f08e2d3b",
-      "ast_digest": "5240479fecb1591c6b0d9e3666164fb388a8ead31ab0e840feaa6b0aa807b351"
+      "values_digest": "02f973943e46a79b8362ce57556398c23d4797c58bc13e6afcca8eea50ca99af",
+      "rendered_digest": "7fdbcd00af377b9791a5e9b6672c0175149529659564494dde6970e5eff30007",
+      "ast_digest": "d75102a8957a4c1363fa7c1013e0dcb0b2392d9faeeb016804bdc5d13a70033e"
     },
     "vpp": {
-      "values_digest": "20cdae741e64ec0b81350806f18586a91530851277ce6f71ae7fef9d4dc024bd",
+      "values_digest": "3e416e58cf51037f83b2f3290878fda249ad2d7155ffd6148a8529cc8841339f",
       "rendered_digest": "b5c9f1109eb92758ae4d584feaed93929e2a63b2c6f3cf2299e2a2263e614f45",
       "ast_digest": "2a57b64e87e65cb60059e4a14343acb120dbd5df9d67f9b69edb0a33d890ff02"
     },
     "srp": {
-      "values_digest": "38dd5816da780700a1042220f561bb069d708fc18d4088a335dfdb9b02dbc6a1",
+      "values_digest": "38ac23f97e84f75c23b8cb135a6db6eb46e0646b1833b48a65b4052448d1945c",
       "rendered_digest": "69ab3feab354c989fbe6922f1f8b04f2a39e07b6831180b12f22fbee71eceb58",
       "ast_digest": "6cac5cde4b2319c579dc8d5b66b951bda0ab8ea548ce7d91f55a755f5c0a3a80"
     },
     "sor": {
-      "values_digest": "17bb60a8c8830db798f2effa4fcedec4a4c606a92e0b189b4ab2abf0cc184837",
-      "rendered_digest": "350a21346b3268c5d96b108284fe5ca27520ed7417790180d5cb3e56e0754fbe",
-      "ast_digest": "ae340b59eeb81d8a04dbd8dd632b73c8a311492d9edc837dc8291b95a4200968"
+      "values_digest": "8b1af2f1b7de6bc6ab381b51b85997d98d4b18991f002faa06c46b11a0faf68c",
+      "rendered_digest": "0ca206dc44565d95c7bd67d76473f69962ee0d72b1f97187b43b4ec54210371b",
+      "ast_digest": "a852eae415574dd2352dc27fdac26766a3c08f93af2d132fa9cebdd62365dc1f"
     }
   },
   "transitions": [
@@ -75,6 +75,27 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-5822",
+      "reason": "All bounded implementation steps and focused validation lanes are complete; advance to implemented for exact-head review."
     }
   ],
   "audit": [
@@ -329,6 +350,97 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 37,
+      "generation": 23,
+      "actor": "codex:5822-atomic-readiness-repair",
+      "reason": "Remove exactly the malformed serialized gate pseudo-path from SPP affected_areas; the real gate remains in design and the live GitHub issue contract.",
+      "operation": "{\"card\":\"spp\",\"field\":\"affected_areas\",\"operation\":\"atomic_record_repair\",\"preserved_gate_authority\":[\".csdlc/prepared/issues/5822/design.md\",\"danielbaustin/agent-design-language#5822\"],\"removed\":[\"SERIALIZATION_GATE {\\\"schema\\\":\\\"csdlc.serialization_gate.v1\\\",\\\"id\\\":\\\"v092-csdlc-card-internals-v1\\\",\\\"paths\\\":[\\\"csdlc-v2/src/cards.rs\\\"],\\\"issues\\\":[5822,5824],\\\"order\\\":[5822,5824]}\"]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 23,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 39,
+      "generation": 24,
+      "actor": "codex:issue-5822",
+      "reason": "Reconcile the bound SPP execution surface with the complete live GitHub ownership contract before implementation evidence is finalized.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/estimation.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/tests/estimation_contracts.rs\",\".csdlc/evidence/5822\"]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 25,
+      "actor": "codex:issue-5822",
+      "reason": "Record the current static-profile forecast as deferred advisory guidance because no sufficient current-era comparable cohort exists.",
+      "operation": "{\"operation\":\"record_advisory_estimate\",\"estimate\":{\"forecast_ref\":\".csdlc/evidence/5822/forecast.json\",\"forecast_digest\":\"528360ac506ceb2bf9a46964107fa5e4c5c7538b10563fb5b45380b1a20c1b70\",\"disposition\":\"deferred\",\"advisory_only\":true,\"adjusted\":null,\"operator_rationale\":\"No current-era comparable cohort exists; retain the static PlanningProfile fallback as advisory only until terminal actuals accumulate.\"}}"
+    },
+    {
+      "sequence": 41,
+      "generation": 26,
+      "actor": "codex:issue-5822",
+      "reason": "Typed schemas, deterministic joins, explicit fallback, and the exact integration target are implemented.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 42,
+      "generation": 27,
+      "actor": "codex:issue-5822",
+      "reason": "Deterministic cohorts, advisory SPP integration, terminal comparison, calibration, and drift handling are implemented.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 43,
+      "generation": 28,
+      "actor": "codex:issue-5822",
+      "reason": "The exact no-tests-fail target, retained equivalent-cohort check, diff hygiene, and source-identical doctor all pass.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 29,
+      "actor": "codex:issue-5822",
+      "reason": "Record the bounded estimation and cycle-time implementation before phase advancement.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented provenance-bearing advisory estimation, deterministic cohort selection and fallback, typed SPP disposition, terminal comparison validation, calibration/backtesting, and gate-preserving cycle-time comparison.\",\"changes\":[\"csdlc-v2/src/estimation.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/finish.rs\",\"csdlc-v2/tests/estimation_contracts.rs\"],\"artifacts\":[\".csdlc/evidence/5822/atomic-readiness-repair.json\",\".csdlc/evidence/5822/forecast.json\",\".csdlc/evidence/5822/accepted-estimate.json\",\".csdlc/evidence/5822/estimation-outcome.sample.json\",\".csdlc/evidence/5822/calibration-backtest.json\",\".csdlc/evidence/5822/cycle-time-comparison.json\",\".csdlc/evidence/5822/cycle-time-evidence-boundary.json\"]}"
+    },
+    {
+      "sequence": 45,
+      "generation": 30,
+      "actor": "codex:issue-5822",
+      "reason": "Record the exact focused estimation integration target.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--no-tests=fail\",\"--test\",\"estimation_contracts\"],\"purpose\":\"Prove schema, privacy, leakage rejection, deterministic cohorts, fallback, advisory-only editing, terminal comparison, calibration, and backtesting.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5822/validation-summary.json\"}}"
+    },
+    {
+      "sequence": 46,
+      "generation": 31,
+      "actor": "codex:issue-5822",
+      "reason": "Record the retained equivalent-cohort and gate-preservation check.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\"-rjson\",\"-e\",\"validate cycle-time-comparison.json equivalent cohorts and preserved gates\"],\"purpose\":\"Prove controlled component accounting and reject incomparable or gate-weakened cycle-time claims.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5822/cycle-time-comparison.json\"}}"
+    },
+    {
+      "sequence": 47,
+      "generation": 32,
+      "actor": "codex:issue-5822",
+      "reason": "Record focused diff hygiene.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors and preserve reviewable exact-revision output.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5822/validation-summary.json\"}}"
+    },
+    {
+      "sequence": 48,
+      "generation": 33,
+      "actor": "codex:issue-5822",
+      "reason": "All bounded implementation steps and focused validation lanes are complete; advance to implemented for exact-head review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 49,
+      "generation": 34,
+      "actor": "codex:issue-5822",
+      "reason": "Refresh the deferred advisory digest after adding required per-field forecast provenance.",
+      "operation": "{\"operation\":\"record_advisory_estimate\",\"estimate\":{\"forecast_ref\":\".csdlc/evidence/5822/forecast.json\",\"forecast_digest\":\"9de7ecc84eb60e0fb01309669b5916d1436dad7369f73fc55a3aa15a90cdb457\",\"disposition\":\"deferred\",\"advisory_only\":true,\"adjusted\":null,\"operator_rationale\":\"No current-era comparable cohort exists; retain the static PlanningProfile fallback as advisory only until terminal actuals accumulate.\"}}"
     }
   ]
 }

@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-05] C-SDLC estimation and cycle-time reduction",
     "slug": "v0-92-wp-05-c-sdlc-estimation-and-cycle-time-reduction",
     "version": "v0.92",
-    "generation": 22
+    "generation": 34
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 11,
+      "plan_revision": 12,
       "summary": "Inventory historical estimation evidence, define v2-owned typed joins and advisory forecasts, prove sparse/unknown/drift behavior and no enforcement, integrate accepted estimates and terminal actuals, then measure cycle-time and calibration against retained baselines.",
       "steps": [
         {
@@ -25,7 +25,7 @@
             "AC-4",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -37,7 +37,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -52,16 +52,17 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [
         "csdlc-v2/src/estimation.rs",
         "csdlc-v2/src/lib.rs",
         "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/finish.rs",
         "csdlc-v2/tests/estimation_contracts.rs",
-        ".csdlc/evidence/5822",
-        "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-csdlc-card-internals-v1\",\"paths\":[\"csdlc-v2/src/cards.rs\"],\"issues\":[5822,5824],\"order\":[5822,5824]}"
+        ".csdlc/evidence/5822"
       ],
       "invariants": [
         "Unknown observations remain unknown rather than zero",
@@ -80,7 +81,15 @@
       "execution_estimates": {
         "elapsed_seconds": 21600,
         "total_tokens": 80000,
-        "validation_seconds": 3600
+        "validation_seconds": 3600,
+        "advisory": {
+          "forecast_ref": ".csdlc/evidence/5822/forecast.json",
+          "forecast_digest": "9de7ecc84eb60e0fb01309669b5916d1436dad7369f73fc55a3aa15a90cdb457",
+          "disposition": "deferred",
+          "advisory_only": true,
+          "adjusted": null,
+          "operator_rationale": "No current-era comparable cohort exists; retain the static PlanningProfile fallback as advisory only until terminal actuals accumulate."
+        }
       },
       "stop_conditions": [
         "WP-02A timing and lane topology is unstable",

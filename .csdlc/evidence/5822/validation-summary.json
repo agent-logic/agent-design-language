@@ -1,0 +1,49 @@
+{
+  "schema": "csdlc.issue_validation_summary.v1",
+  "issue": 5822,
+  "revision_basis": "working tree on codex/5822-v0-92-csdlc-estimation-cycle-time before publication",
+  "environment": {
+    "worktree": "/Volumes/FastWork/adl-wp-5822-v0-92-csdlc-estimation-cycle-time",
+    "cargo_home": "/Volumes/FastWork/adl-cargo-home-5822",
+    "cargo_target_dir": "/Volumes/FastWork/adl-cargo-target-5822",
+    "temp_or_cache_outside_fastwork": false
+  },
+  "results": [
+    {
+      "lane": "estimation-contracts-exact-target",
+      "command": "cargo nextest run --locked --manifest-path csdlc-v2/Cargo.toml --no-tests=fail --test estimation_contracts",
+      "outcome": "passed",
+      "run_id": "fb114e2e-902a-4968-a48c-97f039eb0a7d",
+      "tests_run": 8,
+      "tests_passed": 8,
+      "tests_skipped": 0
+    },
+    {
+      "lane": "cycle-time-comparison",
+      "command": "ruby retained comparison guard from issue VPP",
+      "outcome": "passed",
+      "evidence": ".csdlc/evidence/5822/cycle-time-comparison.json",
+      "boundary": ".csdlc/evidence/5822/cycle-time-evidence-boundary.json"
+    },
+    {
+      "lane": "diff-hygiene",
+      "command": "git diff --check",
+      "outcome": "passed"
+    },
+    {
+      "lane": "source-identical-doctor",
+      "command": "/Volumes/FastWork/adl-cargo-target-5822/debug/csdlc-doctor --repo <worktree> --issue 5822",
+      "outcome": "passed",
+      "phase": "implemented",
+      "generation": 34,
+      "findings": []
+    }
+  ],
+  "broad_suite_run": false,
+  "broad_suite_reason": "The issue VPP requires one exact integration target plus retained cycle-time and diff-hygiene checks; no broader validation was requested or needed.",
+  "non_claims": [
+    "The controlled equivalent-cohort fixture does not prove production speedup.",
+    "The single retained v0.91.7 sample is not treated as a calibrated current-era cohort.",
+    "The deferred estimate does not enforce time, tokens, phase, completion, validation, review, publication, merge, or closeout."
+  ]
+}

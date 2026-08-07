@@ -1,0 +1,71 @@
+{
+  "schema": "csdlc.issue_local_atomic_repair_evidence.v1",
+  "issue": 5822,
+  "source_revision": "1757ea43e00f83447356b5749007f68a64144242",
+  "migration_revision": "448046e77",
+  "migration_is_ancestor": true,
+  "scope": {
+    "card": "spp",
+    "field": "affected_areas",
+    "removed_exactly": [
+      "SERIALIZATION_GATE {\"schema\":\"csdlc.serialization_gate.v1\",\"id\":\"v092-csdlc-card-internals-v1\",\"paths\":[\"csdlc-v2/src/cards.rs\"],\"issues\":[5822,5824],\"order\":[5822,5824]}"
+    ],
+    "other_semantic_values_changed": false
+  },
+  "preserved_authority": {
+    "design": ".csdlc/prepared/issues/5822/design.md",
+    "design_gate_id": "v092-csdlc-card-internals-v1",
+    "github_issue": "danielbaustin/agent-design-language#5822",
+    "github_gate_verified": true
+  },
+  "failed_typed_attempts": [
+    {
+      "operation": "replace_planning_collection affected_areas while initialized",
+      "result": "invalid_transition",
+      "message": "spp mutation is not allowed during initialized",
+      "persistent_change": false
+    },
+    {
+      "operation": "advance initialized to ready to bound, then replace affected_areas",
+      "result": "reconciliation_required",
+      "message": "issue branch/worktree topology is incomplete",
+      "persistent_change": false,
+      "recovery": "primary checkout issue projection restored to canonical main before this FastWork-only repair"
+    }
+  ],
+  "repair": {
+    "before_generation": 22,
+    "before_digest": "36fb930e9b5922c2acb212b3a61d536d2c2d6bbf5244344aed5bc75ec6f3e176",
+    "after_generation": 23,
+    "after_digest": "e7503461c5d0f3b9231a7c3e8ca138c556343a022b4f742f29a78a93bb74034f",
+    "helper_manifest_sha256": "e264439988e6fbdc68269d5e88e080d3a582d17815e6a77d3c058f0f9333985c",
+    "helper_source_sha256": "5c6c2002564791522e11adf83ee44ad5c3e9af94a37502e67d61d40be3f6f2df",
+    "helper_location": "/Volumes/FastWork/adl-5822-atomic-helper",
+    "cargo_home": "/Volumes/FastWork/adl-cargo-home-5822",
+    "cargo_target_dir": "/Volumes/FastWork/adl-cargo-target-5822",
+    "source_identical_logic": [
+      "csdlc_v2::Store::load_record",
+      "csdlc_v2::Store::load_cards",
+      "csdlc_v2::cards::render",
+      "csdlc_v2::cards::digest",
+      "canonical pretty JSON and audit JSONL projections",
+      "staged directory replacement with rollback backup"
+    ],
+    "lifecycle_tooling_source_modified": false
+  },
+  "readiness": {
+    "before": {
+      "status": "block",
+      "phase": "initialized",
+      "generation": 22,
+      "finding": "execution_readiness_invalid"
+    },
+    "after": {
+      "status": "pass",
+      "phase": "initialized",
+      "generation": 23,
+      "ready": true,
+      "findings": []
+    }
+  }
+}

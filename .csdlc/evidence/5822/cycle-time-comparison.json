@@ -1,0 +1,29 @@
+{
+  "schema": "csdlc.cycle_time_comparison.v1",
+  "baseline_cohort": {
+    "id": "controlled-baseline-v2-reconnection",
+    "issue_count": 3,
+    "active_work_seconds": 1800,
+    "validation_seconds": 600,
+    "review_seconds": 300,
+    "ci_seconds": 450,
+    "wait_seconds": 900,
+    "reconnect_actions": 12
+  },
+  "candidate_cohort": {
+    "id": "controlled-candidate-v2-reconnection",
+    "issue_count": 3,
+    "active_work_seconds": 1800,
+    "validation_seconds": 600,
+    "review_seconds": 300,
+    "ci_seconds": 450,
+    "wait_seconds": 300,
+    "reconnect_actions": 3
+  },
+  "comparison_basis_equal": true,
+  "gates_preserved": true,
+  "baseline_total_seconds": 4050,
+  "candidate_total_seconds": 3450,
+  "elapsed_reduction_seconds": 600,
+  "reconnect_action_reduction": 9
+}

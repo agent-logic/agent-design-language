@@ -9,7 +9,9 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use strum::{AsRefStr, Display, EnumString};
 
+use crate::cards::{CardContent, CardKind};
 use crate::error::{ErrorCode, Result, V2Error};
+use crate::estimation::{validate_accepted_estimate, TerminalOutcome, OUTCOME_SCHEMA};
 use crate::git::{self, clean_commit_revision};
 use crate::github::{
     collect_pr_state, execute_github_action, GithubAction, GithubActionRequest, GithubIssuePacket,
@@ -178,6 +180,64 @@ pub async fn execute_finish(root: &Path, request: &FinishRequest) -> Result<Fini
         terminal,
         already_terminal: false,
     })
+}
+
+/// Validate terminal forecast-versus-actual evidence when an operator elects
+/// to use an accepted advisory estimate. This is deliberately separate from
+/// `execute_finish`: estimates must never block merge or lifecycle closeout.
+pub fn validate_terminal_estimation_evidence(store: &Store, issue: u64) -> Result<()> {
+    let cards = store.load_cards(issue)?;
+    let spp = cards
+        .get(&CardKind::Spp)
+        .ok_or_else(|| V2Error::new(ErrorCode::CardInvalid, "SPP card is missing"))?;
+    let CardContent::Spp(spp) = &spp.content else {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "SPP projection has the wrong type",
+        ));
+    };
+    let Some(accepted) = &spp.execution_estimates.advisory else {
+        return Ok(());
+    };
+    validate_accepted_estimate(accepted)?;
+    if matches!(
+        accepted.disposition,
+        crate::estimation::EstimateDisposition::Rejected
+            | crate::estimation::EstimateDisposition::Deferred
+    ) {
+        return Ok(());
+    }
+    let path = store
+        .root()
+        .join(".csdlc/evidence")
+        .join(issue.to_string())
+        .join("estimation-outcome.json");
+    let bytes = fs::read(&path).map_err(|error| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!(
+                "accepted advisory estimate requires {}: {error}",
+                path.display()
+            ),
+        )
+    })?;
+    let outcome: TerminalOutcome = serde_json::from_slice(&bytes).map_err(|error| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            format!("invalid estimation outcome: {error}"),
+        )
+    })?;
+    if outcome.schema != OUTCOME_SCHEMA
+        || outcome.issue != issue
+        || outcome.forecast_ref != accepted.forecast_ref
+        || outcome.forecast_digest != accepted.forecast_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "terminal estimation outcome does not match the accepted advisory forecast",
+        ));
+    }
+    Ok(())
 }
 
 fn validate_remote_merge(packet: &PrStatePacket, request: &FinishRequest) -> Result<()> {

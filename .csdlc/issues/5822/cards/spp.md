@@ -16,7 +16,7 @@ Inventory historical estimation evidence, define v2-owned typed joins and adviso
 
 ## Plan
 
-Revision 11
+Revision 12
 
 ## Steps
 
@@ -30,7 +30,7 @@ Revision 11
       "AC-4",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -42,7 +42,7 @@ Revision 11
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -57,7 +57,7 @@ Revision 11
       "AC-7",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
@@ -82,7 +82,15 @@ Revision 11
 {
   "elapsed_seconds": 21600,
   "total_tokens": 80000,
-  "validation_seconds": 3600
+  "validation_seconds": 3600,
+  "advisory": {
+    "forecast_ref": ".csdlc/evidence/5822/forecast.json",
+    "forecast_digest": "9de7ecc84eb60e0fb01309669b5916d1436dad7369f73fc55a3aa15a90cdb457",
+    "disposition": "deferred",
+    "advisory_only": true,
+    "adjusted": null,
+    "operator_rationale": "No current-era comparable cohort exists; retain the static PlanningProfile fallback as advisory only until terminal actuals accumulate."
+  }
 }
 
 ## Design

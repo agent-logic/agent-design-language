@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.estimation_calibration.v1",
+  "case_count": 3,
+  "elapsed_median_error_basis_points": 0,
+  "validation_median_error_basis_points": 0,
+  "token_median_error_basis_points": 0,
+  "calibrated": true
+}

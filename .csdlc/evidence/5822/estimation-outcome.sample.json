@@ -1,0 +1,43 @@
+{
+  "schema": "csdlc.estimation_outcome.v1",
+  "issue": 7201,
+  "forecast_ref": ".csdlc/evidence/5822/backtest/7201-forecast.json",
+  "forecast_digest": "18e91ff5ca0b368b83165dea010acd914ff341bff759c25011b049aebc01a5c0",
+  "elapsed_seconds": {
+    "forecast": 1100,
+    "actual": 1100,
+    "absolute_error": 0,
+    "error_basis_points": 0,
+    "actual_provenance": [
+      {
+        "source": "lifecycle",
+        "reference": ".csdlc/evidence/5822/backtest/7201.json"
+      }
+    ]
+  },
+  "validation_seconds": {
+    "forecast": 110,
+    "actual": 110,
+    "absolute_error": 0,
+    "error_basis_points": 0,
+    "actual_provenance": [
+      {
+        "source": "validation",
+        "reference": ".csdlc/evidence/5822/backtest/7201.json"
+      }
+    ]
+  },
+  "total_tokens": {
+    "forecast": 22000,
+    "actual": 22000,
+    "absolute_error": 0,
+    "error_basis_points": 0,
+    "actual_provenance": [
+      {
+        "source": "session",
+        "reference": ".csdlc/evidence/5822/backtest/7201.json"
+      }
+    ]
+  },
+  "unknown_actuals": []
+}

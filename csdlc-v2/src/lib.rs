@@ -6,6 +6,7 @@ pub mod cutover;
 pub mod doctor;
 pub mod eligibility;
 pub mod error;
+pub mod estimation;
 pub mod finish;
 pub mod git;
 pub mod github;
@@ -40,10 +41,17 @@ pub use eligibility::{
     DeletionEligibilityRequest, DeletionEntry, DeletionManifest, DeletionReason, EntryDisposition,
 };
 pub use error::{ErrorCode, Result, V2Error};
+pub use estimation::{
+    calibration_report, compare_cycle_time, estimation_schema_bundle, forecast, join_observations,
+    terminal_outcome, AcceptedEstimate, Availability, BacktestCase, CalibrationReport,
+    ComparableKey, Confidence, CycleTimeCohort, CycleTimeComparison, DriftState,
+    EstimateDisposition, EstimateMethod, Forecast, ForecastRange, MetricComparison,
+    MetricObservation, Observation, ObservationSource, Provenance, StaticEstimate, TerminalOutcome,
+};
 pub use finish::MergeMethod;
 pub use finish::{
-    DerivedTerminalEnvelope, FinishDisposition, FinishRequest, FinishResult,
-    IssueTerminalObservation,
+    validate_terminal_estimation_evidence, DerivedTerminalEnvelope, FinishDisposition,
+    FinishRequest, FinishResult, IssueTerminalObservation,
 };
 pub use git::shared_request_path;
 pub use github::{
