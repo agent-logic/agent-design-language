@@ -7,13 +7,13 @@
     "title": "Runtime, Observatory, polis, and protocol sprint",
     "slug": "runtime-observatory-polis-protocol",
     "version": "v0.92",
-    "generation": 0
+    "generation": 3
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Verify the full child batch, route safe independent lanes to separate sessions, preserve serial gates, and synthesize one integrated sprint review after child completion.",
       "steps": [
         {
@@ -46,7 +46,13 @@
           "status": "pending"
         }
       ],
-      "affected_areas": [],
+      "affected_areas": [
+        ".adl/docs/TBD/V092_SPRINT_5855_RUNTIME_OBSERVATORY_SESSION_PROMPT.md",
+        ".csdlc/prepared/issues/5855/sprint-execution-packet.yaml",
+        ".csdlc/prepared/issues/5855/sprint-execution-packet.md",
+        ".csdlc/prepared/issues/5855/validate-sprint-readiness.rb",
+        ".csdlc/evidence/5855"
+      ],
       "invariants": [
         "Child issues retain all code and proof authority",
         "No child begins before its declared dependencies",
@@ -70,9 +76,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5855/design.md",
-      "design_digest": "14efc285fc7c301a47f421208ca999e55059c7610b4b35f6e4a73937eb6a8629",
+      "design_digest": "d5fa7a5b5238ac65773c861a4ddd37e60d85600a156e3091ba8db78883b72d4e",
       "diagram_ref": ".csdlc/prepared/issues/5855/diagram.mmd",
-      "diagram_digest": "1b448f8fceeef8bc220530de9597b95cf405a2b2e2d8f15eb01194c067028c5c"
+      "diagram_digest": "143bcc094efbbc095712351c5619ccb059308940448052fe6e3b8e9a3f483904"
     }
   }
 }

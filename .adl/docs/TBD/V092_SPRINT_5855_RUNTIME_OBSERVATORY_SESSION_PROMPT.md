@@ -13,12 +13,14 @@ network, SNTP, provider, certificate, logging, or Observatory failures take down
 the Runtime path.
 
 The umbrella coordinates child sessions only. Every child retains its own
-worktree, claim, goal, implementation, proof, review, PR, and closeout authority.
+worktree, goal, implementation, proof, review, PR, and closeout authority.
 Do not implement Runtime or Observatory code in the #5855 umbrella worktree.
 
 Startup contract:
 
-1. Verify WP-01 #5817 is merged and ancestral to current main.
+1. Verify WP-01 #5817, WP-02A #5801, and the merged #5800 TLS baseline are
+   ancestral to current main. Typed closeout may reconcile asynchronously and
+   does not block product execution once the merge is canonical.
 2. Verify clean main and inspect active worktrees for Runtime/Observatory path
    collisions.
 3. Read issue #5855, .csdlc/issues/5855/, both Sprint Execution Packets under
@@ -28,11 +30,11 @@ Startup contract:
 5. Prepare blocked children now, but do not cross a serial gate merely to keep
    the session busy.
 
-WP-01 published the initialized child records under its own temporary publication
-claim. After WP-01 releases that claim, create and register each real child
-worktree, use typed `csdlc-bind --reacquire-request` to acquire the child's exact
-issue-local paths, then run the normal bind and goal sequence. Do not assume the
-bootstrap reservation is still active.
+WP-01 published the initialized child records. For each dependency-ready child,
+use the current typed `csdlc-bind` contract to create or verify its dedicated Git
+branch and FastWork worktree, then create the issue-bound goal before
+implementation. Branch/worktree binding is ownership authority; retired claims,
+leases, and historical preparation reservations are not lifecycle authority.
 
 Exact child wave:
 
@@ -54,7 +56,8 @@ sprint. Do not split them into competing Observatory owners.
 
 Serial gates:
 
-- #5800 and #5820 establish the trusted local launch baseline.
+- The merged #5800 change establishes browser-trusted TLS. Start #5820 from
+  that canonical baseline without waiting for asynchronous #5800 closeout.
 - #5795 integrates only after #5800 and #5820 stabilize the path and WP-14
   #5832 establishes stable protocol contracts.
 - #5862 begins as a separate sprint only after #5821 passes. Its terminal
@@ -73,7 +76,8 @@ Safe preparation and parallelism:
 - #5795 may prepare local-provider work before its final integration gate, but
   it may not redefine Runtime, Observatory, or WP-14 protocol contracts.
 
-For every dependency-ready child: bind, create the child issue goal, implement
+For every dependency-ready child: bind or verify the dedicated FastWork
+worktree, create the child issue goal, implement
 the complete production outcome, prove real positive and negative behavior,
 review the exact head, fix all findings, and publish with `Closes #<child>`.
 No fixture-only, demo-mode, substituted-provider, URL-only, or metadata-only

@@ -1,0 +1,25 @@
+{
+  "issue": 5855,
+  "card": "vpp",
+  "expected_generation": 2,
+  "expected_digest": "cfe03274c9cba700c0057a2284417066ed0ade9e5faee1139e9a1173ee2c8083",
+  "actor": "codex:5855-final-readiness",
+  "reason": "Use the Sprint 2-specific readiness validator instead of the Sprint 1 package validator.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "v092-sprint2-readiness",
+        "proof_role": "Prove Sprint 2 membership, dependency order, canonical TLS ancestry, current typed child readiness, FastWork binding policy, and asynchronous closeout separation.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5855/validate-sprint-readiness.rb"],
+        "parallel_group": "v092-sprint2",
+        "defer_reason": null
+      }
+    ]
+  }
+}

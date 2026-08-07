@@ -1,0 +1,23 @@
+{
+  "issue": 5837,
+  "card": "sip",
+  "expected_generation": 35,
+  "expected_digest": "6a8d5d9a0a91af79cfb4797fd255539c3428706353e9a294e472508c8f48c2b0",
+  "actor": "codex:5855-final-readiness",
+  "reason": "Align the consumer proof entrypoints with the executable-direct VPP design.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "declared_scope",
+    "values": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "demos/v0.91.6/unity-observatory/Assets/Scripts/RuntimeV3Client.cs",
+      "demos/v0.91.6/unity-observatory/Assets/Resources/runtime-v3-contract.json",
+      "demos/v0.91.6/unity-observatory/Assets/Tests/RuntimeV3ClientTests.cs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl/tools/validate_v092_html_observatory_live.mjs",
+      ".csdlc/prepared/issues/5837/validate-unity-observatory-live.rb",
+      "adl/tools/validate_v092_observatory_restart_reconnect.mjs"
+    ]
+  }
+}

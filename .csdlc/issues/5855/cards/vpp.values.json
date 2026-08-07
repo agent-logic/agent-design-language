@@ -7,7 +7,7 @@
     "title": "Runtime, Observatory, polis, and protocol sprint",
     "slug": "runtime-observatory-polis-protocol",
     "version": "v0.92",
-    "generation": 0
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -16,8 +16,8 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "v092-sprint-package",
-          "proof_role": "Sprint membership, packet completeness, child authority boundaries, and review-ready coordination truth",
+          "lane": "v092-sprint2-readiness",
+          "proof_role": "Prove Sprint 2 membership, dependency order, canonical TLS ancestry, current typed child readiness, FastWork binding policy, and asynchronous closeout separation.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -31,9 +31,9 @@
           "budget_tokens": 3000,
           "argv": [
             "ruby",
-            ".csdlc/prepared/issues/5817/validate-v092-package.rb"
+            ".csdlc/prepared/issues/5855/validate-sprint-readiness.rb"
           ],
-          "parallel_group": "v092-docs",
+          "parallel_group": "v092-sprint2",
           "defer_reason": null
         }
       ],
@@ -41,9 +41,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on overlapping ownership, unmet serial gates, missing child readiness, or unsupported completion claims.",
       "design_ref": ".csdlc/prepared/issues/5855/design.md",
-      "design_digest": "14efc285fc7c301a47f421208ca999e55059c7610b4b35f6e4a73937eb6a8629",
+      "design_digest": "d5fa7a5b5238ac65773c861a4ddd37e60d85600a156e3091ba8db78883b72d4e",
       "diagram_ref": ".csdlc/prepared/issues/5855/diagram.mmd",
-      "diagram_digest": "1b448f8fceeef8bc220530de9597b95cf405a2b2e2d8f15eb01194c067028c5c"
+      "diagram_digest": "143bcc094efbbc095712351c5619ccb059308940448052fe6e3b8e9a3f483904"
     }
   }
 }

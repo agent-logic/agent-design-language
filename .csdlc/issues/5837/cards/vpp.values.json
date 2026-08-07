@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18A] Observatory/Unity consumer integration",
     "slug": "v0-92-wp-18a-observatory-unity-consumer-integration",
     "version": "v0.92",
-    "generation": 29
+    "generation": 37
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "shared-consumer-contract",
-          "proof_role": "Validate one schema, audience, ordering, reconnect, auth, and backpressure matrix plus redaction and denied actions for both clients.",
+          "proof_role": "Run the issue-owned nonzero shared consumer contract test for one schema, audience, ordering, reconnect, auth, backpressure, redaction, and denied actions across both clients.",
           "acceptance_ids": [
             "AC-1",
             "AC-4",
@@ -28,11 +28,18 @@
           "budget_seconds": 600,
           "budget_tokens": 4000,
           "argv": [
-            "bash",
-            "adl/tools/test_v0916_unity_observatory_contract.sh"
+            "cargo",
+            "nextest",
+            "run",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "runtime_api_wss",
+            "--no-tests=fail",
+            "shared_consumer_contract"
           ],
           "parallel_group": "consumer-contract",
-          "defer_reason": null
+          "defer_reason": "The named nonzero test is an issue 5837 implementation deliverable in the explicitly owned runtime_api_wss test surface."
         },
         {
           "lane": "html-live-runtime",
@@ -61,7 +68,7 @@
         },
         {
           "lane": "unity-live-runtime",
-          "proof_role": "Use the issue-delivered native entrypoint to launch the approved Unity Editor/player against the same Runtime revision and retain real reads, controls, denial, failure, and visual interaction evidence.",
+          "proof_role": "Use the issue-delivered native coordinator to launch the approved Unity Editor/player against the same Runtime revision and retain real reads, controls, denial, failure, and visual interaction evidence.",
           "acceptance_ids": [
             "AC-3",
             "AC-4",
@@ -73,14 +80,14 @@
           "budget_seconds": 600,
           "budget_tokens": 4000,
           "argv": [
-            "bash",
-            "adl/tools/validate_v092_unity_observatory_live.sh",
+            "ruby",
+            ".csdlc/prepared/issues/5837/validate-unity-observatory-live.rb",
             "--require-editor-player",
             "--require-live-runtime",
             "--require-visual-evidence"
           ],
           "parallel_group": "consumer-live",
-          "defer_reason": "The named validator is an issue 5837 implementation deliverable and requires the approved Unity version and native environment."
+          "defer_reason": "The named coordinator is an issue 5837 implementation deliverable and requires the approved Unity version and native environment."
         },
         {
           "lane": "guardian-restart-both-clients",
@@ -98,8 +105,8 @@
           "budget_seconds": 600,
           "budget_tokens": 4000,
           "argv": [
-            "bash",
-            "adl/tools/validate_v092_observatory_restart_reconnect.sh",
+            "node",
+            "adl/tools/validate_v092_observatory_restart_reconnect.mjs",
             "--clients",
             "html,unity",
             "--require-bounded-replay",
@@ -107,7 +114,7 @@
             "--require-unchanged-authority"
           ],
           "parallel_group": "consumer-live",
-          "defer_reason": "The named validator is an issue 5837 implementation deliverable and requires both completed consumers and the exact Guardian/Runtime candidate."
+          "defer_reason": "The named coordinator is an issue 5837 implementation deliverable and requires both completed consumers and the exact Guardian/Runtime candidate."
         },
         {
           "lane": "exact-head-hygiene",
@@ -132,7 +139,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on false completion claims, path collisions, invalid lifecycle state, or missing named proof; preserve a specific blocker instead of degrading.",
       "design_ref": ".csdlc/prepared/issues/5837/design.md",
-      "design_digest": "1d3852345f499a82f8dd3e3f1cf6812b20681a10f1a049035d2d9dd575c47b70",
+      "design_digest": "e427d7932e8473a8a155e111af526b720e2aeca4b0c2d83c971d4382ec5ba4b2",
       "diagram_ref": ".csdlc/prepared/issues/5837/diagram.mmd",
       "diagram_digest": "2735fcc45f0da9aacd9372d8bc46663117662848e7775310da12795fa0824105"
     }

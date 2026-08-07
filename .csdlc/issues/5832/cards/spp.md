@@ -16,7 +16,7 @@ After WP-04 lands, inventory existing ACIP/A2A/WSS/trace contracts, freeze one s
 
 ## Plan
 
-Revision 13
+Revision 15
 
 ## Steps
 
@@ -97,7 +97,7 @@ Revision 13
 
 .csdlc/prepared/issues/5832/design.md
 
-Digest: b718ea4c1edd36ad2ac4cacfdcacd680abf06b043e65e4271d86584da3b1ac7a
+Digest: bd21d38eef975ac519335677bb29386abd1812116cce63c9567daefcdcbc4428
 
 ## Diagram
 

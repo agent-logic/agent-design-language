@@ -2,22 +2,26 @@ sprint_issue: 5855
 version: v0.92
 slug: runtime-observatory-polis-protocol
 execution_mode: hybrid
-ordered_issue_numbers: [5800, 5820, 5795, 5821, 5832, 5837]
+ordered_issue_numbers: [5800, 5820, 5821, 5832, 5795, 5837]
+launch_baseline:
+  issue: 5800
+  state: merged
+  merge_sha: 7dfb791ad2fc1ecbc1e3b3651815b1d37bfa060f
+  closeout_policy: asynchronous and non-blocking for product execution
 safe_parallel_lanes:
-  - issues: [5821]
-    gate: Runtime ingress contracts from issue 5820 are stable
-    boundary: Distributed-polis architecture and security work remains in its child worktree.
-  - issues: [5832]
-    gate: issue 5821 and the declared ACIP substrate and trace baselines are complete
-    boundary: Protocol work starts only after its distributed-runtime dependency is satisfied.
+  - issues: [5820]
+    gate: merged issue 5800 TLS baseline is ancestral
+    boundary: Runtime launch and resilience owns the first active product lane.
   - issues: [5795]
-    gate: preparation may precede integration; integration waits for issues 5800 and 5820 plus WP-14 issue 5832 contract stability
-    boundary: Local-provider work cannot redefine Observatory or Runtime contracts.
+    gate: preparation only until issues 5820 and 5832 stabilize Runtime and protocol contracts
+    boundary: Local-provider preparation cannot redefine Runtime, Observatory, or protocol contracts.
 serial_gates:
-  - issues 5800 and 5820 establish the trusted local launch baseline
+  - merged issue 5800 supplies the trusted TLS baseline; issue 5820 completes Runtime launch and resilience
+  - issue 5821 follows stable issue 5820 Runtime ingress and gates the separate issue 5862 implementation sprint
+  - issue 5832 follows terminal issues 5821 and 5862
   - issue 5795 integrates after issues 5800 and 5820 plus WP-14 issue 5832 contract stability
   - issue 5837 integrates after issues 5820 and 5832 and its WP-18 dependency
 review_path: .csdlc/evidence/5855/sprint-review.md
 activity_log_path: .csdlc/evidence/5855/activity.jsonl
-child_goal_rule: After WP-01 releases its publication claim, each child session registers its worktree, reacquires the exact issue-local claim, binds, and creates an issue-bound goal before implementation.
+child_goal_rule: Each dependency-ready child session binds or verifies its dedicated FastWork branch/worktree with current typed csdlc-bind, then creates an issue-bound goal before implementation.
 closeout_rule: Review the integrated Runtime and Observatory path before umbrella closeout.

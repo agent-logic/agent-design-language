@@ -1,0 +1,61 @@
+{
+  "issue": 5832,
+  "card": "vpp",
+  "expected_generation": 41,
+  "expected_digest": "87497ae1dd2aa24a19f41dff66b8e375aced6eb8b0c3eedb84717362237f5310",
+  "actor": "codex:5855-final-readiness",
+  "reason": "Use an executable-direct production ACIP/WSS proving lane so design readiness does not depend on a not-yet-authored shell wrapper.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "acip-schema-roundtrip-negatives",
+        "proof_role": "Run exact nonzero ACIP schema, catalog, protobuf/JSON round-trip, negotiation, replay, malformed, oversized, and denied-dispatch tests.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 6000,
+        "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "runtime_api_wss", "--no-tests=fail", "acip_schema_roundtrip_negatives"],
+        "parallel_group": "runtime",
+        "defer_reason": null
+      },
+      {
+        "lane": "production-acip-wss",
+        "proof_role": "Launch the production Guardian/kernel test target and prove real authenticated Rustls WSS binary/JSON full-duplex exchange, correlation, backpressure, reconnect, and typed errors.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 6000,
+        "argv": ["cargo", "nextest", "run", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "runtime_api_wss", "--no-tests=fail", "production_acip_wss"],
+        "parallel_group": "runtime",
+        "defer_reason": null
+      },
+      {
+        "lane": "native-acip-receipts",
+        "proof_role": "Recompute exact-revision macOS, Linux, and native Windows ACIP/WSS receipts with binary/schema/transcript digests and nonzero exchanges/negatives.",
+        "acceptance_ids": ["AC-5", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 6000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5832/validate-acip-native-receipts.rb"],
+        "parallel_group": "runtime",
+        "defer_reason": null
+      },
+      {
+        "lane": "exact-head-review-preflight",
+        "proof_role": "Reject diff damage before exact-head review.",
+        "acceptance_ids": ["AC-8"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 6000,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "review",
+        "defer_reason": null
+      }
+    ]
+  }
+}

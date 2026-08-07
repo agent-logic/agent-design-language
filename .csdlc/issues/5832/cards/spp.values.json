@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-14] ACIP and A2A contract reconciliation",
     "slug": "v0-92-wp-14-acip-and-a2a-contract-reconciliation",
     "version": "v0.92",
-    "generation": 34
+    "generation": 43
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 13,
+      "plan_revision": 15,
       "summary": "After WP-04 lands, inventory existing ACIP/A2A/WSS/trace contracts, freeze one semantic envelope and compatibility policy, implement protobuf/catalog/deterministic JSON parity, harden authenticated bounded WSS admission and reconnect behavior, then run round-trip, denial, replay, malformed, real-carrier, platform, and exact-head proof.",
       "steps": [
         {
@@ -68,11 +68,10 @@
         "adl-runtime-kernel/src/acip.rs",
         "adl-runtime-kernel/src/protocol_adapters.rs",
         "adl-runtime/tests/runtime_api_wss.rs",
-        "schemas/acip/v1/acip.proto",
-        "schemas/acip/v1/catalog.json",
+        "adl-runtime/schemas/acip/v1/acip.proto",
+        "adl-runtime/schemas/acip/v1/catalog.json",
         "docs/api/runtime-v3/v1/acip.openapi.json",
-        "adl/tools/validate_v092_acip_wss.sh",
-        "adl/tools/validate_v092_acip_native_receipts.rb"
+        ".csdlc/prepared/issues/5832/validate-acip-native-receipts.rb"
       ],
       "invariants": [
         "One semantic message has equivalent protobuf and deterministic JSON meaning",
@@ -108,7 +107,7 @@
         "Consumer integration requires a previously undeclared versioning rule"
       ],
       "design_ref": ".csdlc/prepared/issues/5832/design.md",
-      "design_digest": "b718ea4c1edd36ad2ac4cacfdcacd680abf06b043e65e4271d86584da3b1ac7a",
+      "design_digest": "bd21d38eef975ac519335677bb29386abd1812116cce63c9567daefcdcbc4428",
       "diagram_ref": ".csdlc/prepared/issues/5832/diagram.mmd",
       "diagram_digest": "0ddb64863e3e34f2587da73ca88c9ce88eb77000c199807e0c69639234b28b7f"
     }

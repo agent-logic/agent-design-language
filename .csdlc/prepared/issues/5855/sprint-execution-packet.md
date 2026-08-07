@@ -28,7 +28,7 @@ Out of scope:
 
 | Issue | Role | Status | Primary surface | Watcher |
 |---|---|---|---|---|
-| `#5800` | supporting | initialized | browser-trusted local Observatory HTTPS with reproducible browser and health proof | child session owner |
+| `#5800` | supporting | merged baseline | browser-trusted local Observatory HTTPS with reproducible browser and health proof | async closeout owner |
 | `#5820` | WP-03 | initialized | one Guardian-owned launch path with resilient startup, configuration, recovery, and lifecycle behavior | child session owner |
 | `#5795` | supporting | initialized | real local model-backed Shepherd dialogue through governed Runtime v3 and Observatory surfaces | child session owner |
 | `#5821` | WP-04 | initialized | architecture and security gate followed by completion of the bounded 16-issue distributed-runtime program within v0.92 | child session owner |
@@ -37,32 +37,33 @@ Out of scope:
 
 ## Recommended Execution Order
 
-1. Route `#5800` only when its issue-wave dependencies and this packet serial gates are satisfied.
-2. Route `#5820` only when its issue-wave dependencies and this packet serial gates are satisfied.
-3. Route `#5795` only when its issue-wave dependencies and this packet serial gates are satisfied.
-4. Route `#5821` only when its issue-wave dependencies and this packet serial gates are satisfied.
-5. Route `#5832` only when its issue-wave dependencies and this packet serial gates are satisfied.
+1. Treat merged `#5800` at `7dfb791ad2fc1ecbc1e3b3651815b1d37bfa060f` as the canonical TLS baseline; closeout continues asynchronously.
+2. Route `#5820` immediately after readiness and collision checks.
+3. Route `#5821` after `#5820` stabilizes Runtime ingress.
+4. Route `#5832` after `#5821` and the separate `#5862` implementation sprint are terminal.
+5. Route `#5795` after `#5820` and `#5832` stabilize Runtime and protocol contracts.
 6. Route `#5837` only when its issue-wave dependencies and this packet serial gates are satisfied.
 
 ## Watcher Policy
 
 - Each active child session owns its PR/check/review watch or explicitly hands it to a watcher.
 - Waiting is not failure; blockers and changed gates are recorded without moving unrelated children.
-- Completion requires live issue/PR truth and typed child terminal truth to agree.
+- Product dependency gates use canonical merge ancestry. Typed closeout may
+  reconcile asynchronously and is required only for final umbrella closeout.
 
 ## Budget And Goal Accounting
 
 - No sprint-global token budget is preallocated.
-- After WP-01 releases its publication claim, every implementation session
-  registers its child worktree, reacquires the exact issue-local claim, binds,
-  and creates its own issue-bound goal before implementation.
+- Every implementation session binds or verifies its dedicated FastWork
+  branch/worktree with current typed `csdlc-bind`, then creates its own
+  issue-bound goal before implementation.
 - Actual time and token use are recorded per child when available and are never inferred as zero.
 
 ## Watcher Plan
 
 | Issue | Watcher | Current focus | Next terminal state |
 |---|---|---|---|
-| `#5800` | child session owner | bind, implementation, checks, review, merge | truthful child closeout |
+| `#5800` | async closeout owner | reconcile typed terminal truth without blocking Sprint 2 product work | truthful child closeout |
 | `#5820` | child session owner | bind, implementation, checks, review, merge | truthful child closeout |
 | `#5795` | child session owner | bind, implementation, checks, review, merge | truthful child closeout |
 | `#5821` | child session owner | bind, implementation, checks, review, merge | truthful child closeout |
@@ -73,25 +74,25 @@ Out of scope:
 
 | Lane | Issues | Why parallel-safe | Required coordination |
 |---|---|---|---|
-| lane 1 | `#5821` | Distributed-polis architecture and security work remains in its child worktree. | Runtime ingress contracts from issue 5820 are stable |
-| lane 2 | `#5832` | Protocol work is isolated after its distributed-runtime dependency. | issue 5821 and the declared ACIP substrate and trace baselines are complete |
-| lane 3 | `#5795` | Local-provider work cannot redefine Observatory, Runtime, or WP-14 protocol contracts. | preparation may precede integration; integration waits for issues 5800 and 5820 plus WP-14 issue 5832 contract stability |
+| lane 1 | `#5820` | Runtime launch and resilience is the first active product lane. | merged issue 5800 TLS baseline is ancestral |
+| lane 2 | `#5795` preparation | Local-provider design preparation cannot redefine shared contracts. | integration waits for issues 5820 and 5832 |
 
 ## Candidate Parallel Lanes
 
 | Lane | Classification | Issues | Expected write sets | Dependency gate | Collision posture |
 |---|---|---|---|---|---|
-| candidate 1 | safe_parallel | `#5821` | child worktree | Runtime ingress contracts from issue 5820 are stable | collapse to serial on overlap |
-| candidate 2 | safe_parallel | `#5832` | child worktree | issue 5821 and declared protocol baselines are complete | collapse to serial on overlap |
-| candidate 3 | safe_parallel | `#5795` | child worktree | preparation may precede integration; integration waits for issues 5800 and 5820 plus WP-14 issue 5832 contract stability | collapse to serial on overlap |
+| candidate 1 | active | `#5820` | dedicated FastWork child worktree | merged issue 5800 baseline | stop on any live path collision |
+| candidate 2 | preparation only | `#5795` | dedicated FastWork child worktree | no shared product edits before issues 5820 and 5832 | collapse to serial on overlap |
 
 ## Serial Gates
 
 | Gate | Blocks | Exit condition | Owner |
 |---|---|---|---|
-| gate 1 | downstream children | issues 5800 and 5820 establish the trusted local launch baseline | sprint session |
-| gate 2 | downstream children | issue 5795 integrates after issues 5800 and 5820 plus WP-14 issue 5832 contract stability | sprint session |
-| gate 3 | downstream children | issue 5837 integrates after issues 5820 and 5832 and its WP-18 dependency | sprint session |
+| gate 1 | issue 5820 | merged issue 5800 TLS baseline is ancestral; async closeout is non-blocking | sprint session |
+| gate 2 | issue 5821 | issue 5820 Runtime ingress is stable | sprint session |
+| gate 3 | issue 5832 | issues 5821 and 5862 are terminal | sprint session |
+| gate 4 | issue 5795 | issues 5820 and 5832 provide stable Runtime and protocol contracts | sprint session |
+| gate 5 | issue 5837 | issues 5820 and 5832 are terminal and WP-18 is ready | sprint session |
 
 ## PVF / Validation-Tail Notes
 

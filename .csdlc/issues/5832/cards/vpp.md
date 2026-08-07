@@ -45,14 +45,15 @@ Diagram: .csdlc/prepared/issues/5832/diagram.mmd
       "adl-runtime/Cargo.toml",
       "--test",
       "runtime_api_wss",
-      "--no-tests=fail"
+      "--no-tests=fail",
+      "acip_schema_roundtrip_negatives"
     ],
     "parallel_group": "runtime",
     "defer_reason": null
   },
   {
     "lane": "production-acip-wss",
-    "proof_role": "Launch production Guardian/kernel and prove real authenticated Rustls WSS binary/JSON full-duplex exchange, correlation, backpressure, reconnect, and typed errors.",
+    "proof_role": "Launch the production Guardian/kernel test target and prove real authenticated Rustls WSS binary/JSON full-duplex exchange, correlation, backpressure, reconnect, and typed errors.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -66,15 +67,22 @@ Diagram: .csdlc/prepared/issues/5832/diagram.mmd
     "budget_seconds": 900,
     "budget_tokens": 6000,
     "argv": [
-      "bash",
-      "adl/tools/validate_v092_acip_wss.sh"
+      "cargo",
+      "nextest",
+      "run",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "runtime_api_wss",
+      "--no-tests=fail",
+      "production_acip_wss"
     ],
     "parallel_group": "runtime",
     "defer_reason": null
   },
   {
     "lane": "native-acip-receipts",
-    "proof_role": "Recompute exact-revision macOS, Linux, and native Windows ACIP/WSS receipts with binary/schema/transcript digests and nonzero exchanges/negatives. [preexec_rejection exit=1 diagnostic_sha256=de72b4d18c37dc62c7f280fdab91fc7844cfa5030f3b65582551714534d8e2dc]",
+    "proof_role": "Recompute exact-revision macOS, Linux, and native Windows ACIP/WSS receipts with binary/schema/transcript digests and nonzero exchanges/negatives.",
     "acceptance_ids": [
       "AC-5",
       "AC-6",
@@ -123,8 +131,8 @@ Tokens: 25000
 
 ## Commands
 
-- `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss --no-tests=fail`
-- `bash adl/tools/validate_v092_acip_wss.sh`
+- `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss --no-tests=fail acip_schema_roundtrip_negatives`
+- `cargo nextest run --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss --no-tests=fail production_acip_wss`
 - `ruby .csdlc/prepared/issues/5832/validate-acip-native-receipts.rb`
 - `git diff --check`
 

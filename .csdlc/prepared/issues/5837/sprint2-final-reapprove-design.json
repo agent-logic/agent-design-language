@@ -1,0 +1,6 @@
+{
+  "issue": 5837,
+  "expected_generation": 33,
+  "expected_digest": "605fe5acebda3e8d0ce8208ecee9e211a8f7decfee28632c4f869d22b2ea87c7",
+  "reviewer": "codex:5855-final-readiness-design-review"
+}
