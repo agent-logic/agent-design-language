@@ -1,0 +1,7 @@
+{
+  "schema": "adl.wp02b.experiment_status.v1",
+  "phase": "collecting",
+  "terminal_acceptance": false,
+  "review_posture": "draft reviewable; paid cohort and optimization canaries continue",
+  "publication_posture": "do not merge until phase is complete and terminal validator passes"
+}

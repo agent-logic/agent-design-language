@@ -1,0 +1,93 @@
+{
+  "schema": "adl.wp02b.cost_model.v1",
+  "observed_at": "2026-08-07T02:58:24Z",
+  "currency": "USD",
+  "pricing": {
+    "candidate_sku": "GitHub-hosted Linux x64 16-core",
+    "candidate_rate_per_minute": 0.042,
+    "billing_rounding": "Each candidate job duration is rounded up to the next whole minute.",
+    "control_rate_per_minute": 0,
+    "control_reason": "ubuntu-latest public-repository Actions minutes are discounted to net zero",
+    "idle_rate_per_minute": 0,
+    "idle_reason": "GitHub-hosted larger runners bill only while jobs execute"
+  },
+  "hard_stop": {
+    "budget_id": "f7503072-8110-4f64-86e8-8b085582f107",
+    "budget_amount": 10,
+    "prevent_further_usage": true,
+    "alerts_enabled": true,
+    "job_timeout_minutes": 30,
+    "worst_case_next_job_minutes": 30,
+    "worst_case_next_job_cost": 1.26,
+    "dispatch_rule": "Before every candidate dispatch, stop if actual cumulative candidate cost plus 1.26 exceeds 10.00.",
+    "billing_lag_policy": "Use retained job wall time and ceiling-rounded minutes as the immediate spend authority; reconcile against the live billing API without waiting for provider lag."
+  },
+  "planned_paid_forecast": {
+    "basis": "Conservative pre-candidate estimate using five eight-minute cold jobs and four minutes for warm and canary jobs; actual dispatch remains governed by the 30-minute worst-case reserve.",
+    "rows": [
+      {
+        "kind": "cold_anchor",
+        "jobs": 8,
+        "estimated_rounded_minutes_per_job": 8,
+        "estimated_total_minutes": 40,
+        "estimated_cost": 1.68
+      },
+      {
+        "kind": "warm_measurement",
+        "jobs": 20,
+        "estimated_rounded_minutes_per_job": 4,
+        "estimated_total_minutes": 80,
+        "estimated_cost": 3.36
+      },
+      {
+        "kind": "production_semantics_canary",
+        "jobs": 1,
+        "estimated_rounded_minutes_per_job": 4,
+        "estimated_total_minutes": 4,
+        "estimated_cost": 0.168
+      },
+      {
+        "kind": "optimization_canary",
+        "jobs": 5,
+        "estimated_rounded_minutes_per_job": 4,
+        "estimated_total_minutes": 32,
+        "estimated_cost": 1.344
+      }
+    ],
+    "jobs": 34,
+    "estimated_total_minutes": 156,
+    "estimated_total_cost": 6.552,
+    "estimated_budget_remaining": 3.448
+  },
+  "actual_paid_state_before_candidate_wave": {
+    "candidate_jobs_started": 0,
+    "candidate_rounded_minutes": 0,
+    "candidate_cost": 0,
+    "budget_remaining": 10,
+    "live_billing_api": {
+      "query": "organization 263075812, year 2026, month 8, product actions",
+      "candidate_sku_present": false,
+      "actions_linux_quantity_minutes": 309,
+      "actions_linux_gross_amount": 1.854,
+      "actions_linux_discount_amount": 1.854,
+      "actions_linux_net_amount": 0,
+      "actions_storage_net_amount": 0
+    }
+  },
+  "per_run_accounting": {
+    "required_fields": [
+      "workflow_run_id",
+      "job_started_at",
+      "job_completed_at",
+      "job_wall_seconds",
+      "billed_rounded_minutes",
+      "rate_per_minute",
+      "cost",
+      "cumulative_cost",
+      "remaining_budget",
+      "next_job_worst_case_cost",
+      "next_dispatch_allowed"
+    ],
+    "formula": "billed_rounded_minutes = ceil(job_wall_seconds / 60); cost = billed_rounded_minutes * 0.042"
+  }
+}

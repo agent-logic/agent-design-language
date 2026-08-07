@@ -1,0 +1,109 @@
+{
+  "schema": "adl.wp02b.frozen_manifest.v1",
+  "commit_sha": "085736a546e62a51d242626fd42f4bda07ff12ea",
+  "workflow_revision": {
+    "path": ".github/workflows/ci.yaml",
+    "sha256": "8d38d24d1a542635ebcf82002fe68cb974a9cc7e0120c503bec2a83ed57b5d84"
+  },
+  "rust_toolchain": {
+    "channel": "1.92.0",
+    "profile": "minimal",
+    "drift_policy": "reject any trial whose retained rustc or cargo version differs"
+  },
+  "lockfile_digest": "8ce8d28d92135ddb13c024833432af8b7d17e0a513b2184df6c1e6fee806146b",
+  "manifest_digest": "a364439f1c5f38c13340f4b61dc3ca7f4aae9de6b7ae4c311d61b978baca79e2",
+  "cost_model": {
+    "path": ".csdlc/evidence/5853/cost-model.json",
+    "sha256": "b00aa8b12f02216ebd7b6e462d63050bad575b5ac14fae0bb4a18428b05d62e8"
+  },
+  "workload_definition": "embedded in the frozen workflow because the shared read-only helper targets a removed binary",
+  "commands": [
+    "cargo build --manifest-path adl/Cargo.toml --locked --bin adl",
+    "cargo test --manifest-path adl/Cargo.toml --locked --lib provider_communication -- --nocapture"
+  ],
+  "permissions": {
+    "contents": "read",
+    "secrets": "none"
+  },
+  "cache_design": {
+    "cold": "fresh ephemeral VM with no restore/save cache step",
+    "warm": "Swatinem/rust-cache v2.9.1 pinned by commit, adl target workspace, one non-measurement seed, fixed shared key wp02b-build-acceleration-v1",
+    "warm_measurement_requirement": "retained cache-hit evidence must be true"
+  },
+  "proof_inputs": [
+    "workflow run and job timestamps",
+    "benchmark.json",
+    "runner.json",
+    "build and test stdout/stderr logs",
+    "artifact metadata",
+    "live billing usage"
+  ],
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "branch_protection_status": "main currently reports no branch-protection required-status-check configuration; check identities remain unchanged",
+  "workloads": [
+    "adl-provider-communication"
+  ],
+  "historical_baseline": {
+    "platform": "ubuntu-latest",
+    "status": "non-authoritative historical context",
+    "dispatch_allowed": false
+  },
+  "production_target": {
+    "github-hosted-ubuntu-16-core": {
+      "workflow_label": "adl-ubuntu-24.04-16core",
+      "runner_id": 2,
+      "runner_group_id": 3,
+      "maximum_runners": 1,
+      "cost_usd_per_rounded_job_minute": 0.042
+    }
+  },
+  "trial_counts": {
+    "cold_per_workload": 5,
+    "warm_per_workload": 20,
+    "cache_seed_total": 1,
+    "production_semantics_canary_total": 1,
+    "optimization_canary_total": 8
+  },
+  "approved_max_total_cost": 10,
+  "adoption_thresholds": {
+    "minimum_critical_path_improvement_fraction": 0.2,
+    "minimum_reliability": 1.0,
+    "maximum_candidate_p95_regression_fraction": 0.0,
+    "maximum_queue_increase_seconds": 120,
+    "maximum_cost_per_minute_saved": 0.1,
+    "maximum_warm_p50_seconds": 90,
+    "maximum_warm_p95_seconds": 120
+  },
+  "stop_conditions": [
+    "projected metered candidate usage can reach USD 10 before the next dispatch",
+    "hard-stop budget or alerts are absent",
+    "runner maximum_runners differs from one",
+    "runner group repository or workflow allowlist widens",
+    "frozen commit, workflow, lockfile, manifest, toolchain, command, permission, cache, or image identity drifts",
+    "any candidate failure, cancellation, parity failure, or unexplained outlier occurs"
+  ],
+  "optimization_dimensions": [
+    "cache_key_and_granularity",
+    "cache_restore_and_save_behavior",
+    "target_reuse",
+    "sccache_and_linker_parallelism",
+    "toolchain_and_tool_installation",
+    "checkout",
+    "artifact_transfer",
+    "test_and_build_command_structure"
+  ],
+  "canary_priority": [
+    "test_only_warm",
+    "workspace_artifact_cache",
+    "pinned_sccache_and_lld",
+    "reduced_debug_ci_profile",
+    "consolidated_paid_job"
+  ],
+  "analysis_input": {
+    "source": "operator-supplied independent 16-core warm-runner analysis",
+    "status": "independent read-only analysis integrated into canary ordering and rollout gates"
+  }
+}

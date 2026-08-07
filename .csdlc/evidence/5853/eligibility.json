@@ -1,0 +1,39 @@
+{
+  "schema": "adl.wp02b.eligibility.v1",
+  "migration_gate": true,
+  "ci_reliability_gate": true,
+  "organization_plan_ready": true,
+  "owner_budget_approved": true,
+  "budget_alerts_configured": true,
+  "spend_alerts_configured": true,
+  "selected_repository_access": true,
+  "concurrency_one": true,
+  "rollback_verified": true,
+  "untrusted_fork_privilege": false,
+  "approved_max_total_cost": 10,
+  "organization_plan_receipt": "agent-logic plan=team observed through GitHub API",
+  "budget_approval_receipt": "operator approved USD 10 total metered usage; GitHub Actions budget f7503072-8110-4f64-86e8-8b085582f107 is a hard stop at USD 10",
+  "budget_alert_receipt": "budget threshold alerts enabled",
+  "spend_alert_receipt": "alert recipient danielbaustin",
+  "migration_receipt": {
+    "issue": 5819,
+    "state": "closed",
+    "pull_request": 5889,
+    "merge_sha": "18d3cb93017469521dd0f50c9bc032d6d59ea184"
+  },
+  "ci_reliability_receipt": {
+    "issue": 5801,
+    "state": "closed",
+    "pull_request": 5893,
+    "merge_sha": "2c4ae1f4cd364995352355ec7a01d257a95315cd"
+  },
+  "runner_receipt": {
+    "id": 2,
+    "name": "adl-ubuntu-24.04-16core",
+    "status": "Ready",
+    "runner_group_id": 3,
+    "maximum_runners": 1,
+    "machine_size": "16-core",
+    "public_ip_enabled": false
+  }
+}

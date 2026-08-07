@@ -1,0 +1,63 @@
+{
+  "schema": "adl.wp02b.progress_snapshot.v1",
+  "observed_at": "2026-08-07T03:10:00Z",
+  "phase": "collecting",
+  "production_runner": "adl-ubuntu-24.04-16core",
+  "standard_experiment_dispatch_disabled": true,
+  "runner_group_id": 3,
+  "runner_group_concurrency": 1,
+  "budget_amount": 10,
+  "accrued_rounded_cost": 0.168,
+  "completed_paid_runs": [
+    {
+      "run_id": 31143176102,
+      "role": "cache_seed",
+      "commit_sha": "d5b30dd57ef1d22239bad61a8137b372c9a1f75b",
+      "runner_label": "adl-ubuntu-24.04-16core",
+      "cache_hit": true,
+      "build_real_seconds": 71.16,
+      "test_real_seconds": 71.99,
+      "workload_seconds": 143,
+      "job_wall_seconds": 192,
+      "billed_rounded_minutes": 4,
+      "cost": 0.168,
+      "conclusion": "success",
+      "counted_in_frozen_cohort": false
+    }
+  ],
+  "active_or_queued_paid_runs": [
+    {
+      "run_id": 31143391281,
+      "role": "cold_baseline_01",
+      "commit_sha": "085736a546e62a51d242626fd42f4bda07ff12ea",
+      "runner_label": "adl-ubuntu-24.04-16core",
+      "status": "in_progress"
+    },
+    {
+      "run_id": 31143497492,
+      "role": "warm_baseline_01",
+      "commit_sha": "085736a546e62a51d242626fd42f4bda07ff12ea",
+      "runner_label": "adl-ubuntu-24.04-16core",
+      "status": "queued"
+    },
+    {
+      "run_id": 31143499581,
+      "role": "warm_baseline_02",
+      "commit_sha": "085736a546e62a51d242626fd42f4bda07ff12ea",
+      "runner_label": "adl-ubuntu-24.04-16core",
+      "status": "queued"
+    },
+    {
+      "run_id": 31143501603,
+      "role": "warm_baseline_03",
+      "commit_sha": "085736a546e62a51d242626fd42f4bda07ff12ea",
+      "runner_label": "adl-ubuntu-24.04-16core",
+      "status": "queued"
+    }
+  ],
+  "terminal_cohort_requirement": {
+    "cold_successes": 5,
+    "confirmed_cache_hit_warm_successes": 20
+  },
+  "next_step": "complete queued baselines, then test-only warm canary followed by workspace artifact cache and pinned sccache plus lld"
+}
