@@ -1,16 +1,16 @@
 {
   "schema": "adl.wp06.deterministic_validation_summary.v1",
   "subject_revision": "2c76b1f8344fc60d9bc626a55dde999183d5659c",
-  "validation_revision": "e572914d7ed81d1a135cddd8a2a9089aaa867b97",
+  "validation_revision": "df428ad38da09750a93e4323afa3d5078331f32b",
   "storage_policy": "external_volume_only",
   "live_paid_provider_work_run": true,
   "lanes": [
     {
       "name": "portable-contract",
       "outcome": "passed",
-      "tests_passed": 11,
+      "tests_passed": 12,
       "receipt": ".csdlc/evidence/5823/portable-contract.log",
-      "receipt_sha256": "9206b5a17250c28f638bf6d709c8053ca4d3609dc1a680e1efc7c0a0bf57c676"
+      "receipt_sha256": "2ee929ddf70bcc18956c7d2e181d62cec7d50f6725d3f15d5f19065cc7312ee1"
     },
     {
       "name": "aws-portable-adapter",
