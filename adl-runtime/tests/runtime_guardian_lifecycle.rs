@@ -365,14 +365,32 @@ configuration_exit_codes = [64]
                 "checkpoint_deadline_millis = 100",
                 "checkpoint_deadline_millis = 600000",
             ),
-            "ChildShutdownBudgetTooLarge",
+            "shutdown child budget must not exceed 600000",
         ),
         (
             base.replace(
                 "checkpoint_deadline_millis = 100\nkernel_grace_millis = 100\napi_drain_millis = 100\nguardian_margin_millis = 100",
                 "checkpoint_deadline_millis = 599997\nkernel_grace_millis = 1\napi_drain_millis = 1\nguardian_margin_millis = 2",
             ),
-            "ShutdownGraceTooLarge",
+            "guardian shutdown budget must not exceed 600000",
+        ),
+        (
+            base.replace("checkpoint_deadline_millis = 100", "checkpoint_deadline_millis = 0"),
+            "shutdown.checkpoint_deadline_millis must be between 1 and 600000",
+        ),
+        (
+            base.replace(
+                "checkpoint_deadline_millis = 100",
+                "checkpoint_deadline_millis = 18446744073709551615",
+            ),
+            "shutdown child budget overflows u64",
+        ),
+        (
+            base.replace(
+                "guardian_margin_millis = 100",
+                "guardian_margin_millis = 18446744073709551615",
+            ),
+            "guardian shutdown budget overflows u64",
         ),
     ];
 

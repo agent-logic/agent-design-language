@@ -4,6 +4,7 @@ use std::{
 };
 
 use adl_runtime::guardian::{run_guardian_with_os_signals, GuardianConfig, GuardianTerminalState};
+use adl_runtime_kernel::RuntimeShutdownInitConfig;
 use serde::Deserialize;
 
 #[tokio::main]
@@ -61,15 +62,7 @@ fn parse_args(args: impl Iterator<Item = String>) -> Result<GuardianConfig, Stri
     if !kernel.is_absolute() || !kernel.is_file() {
         return Err("binaries.kernel_path must be an absolute existing file".to_owned());
     }
-    let child_shutdown_budget_ms = init_config
-        .shutdown
-        .checkpoint_deadline_millis
-        .checked_add(init_config.shutdown.kernel_grace_millis)
-        .and_then(|total| total.checked_add(init_config.shutdown.api_drain_millis))
-        .ok_or_else(|| "shutdown budget overflows u64".to_owned())?;
-    let shutdown_grace_ms = child_shutdown_budget_ms
-        .checked_add(init_config.shutdown.guardian_margin_millis)
-        .ok_or_else(|| "guardian shutdown budget overflows u64".to_owned())?;
+    let (child_shutdown_budget_ms, shutdown_grace_ms) = init_config.shutdown.budgets()?;
     let mut config = GuardianConfig::runtime_kernel(kernel, init.to_string_lossy());
     config.restart_budget = init_config.guardian.restart_budget;
     config.backoff_base_ms = init_config.guardian.backoff_base_millis;
@@ -129,12 +122,34 @@ struct ShutdownPolicy {
     guardian_margin_millis: u64,
 }
 
+impl ShutdownPolicy {
+    fn budgets(&self) -> Result<(u64, u64), String> {
+        RuntimeShutdownInitConfig {
+            checkpoint_deadline_millis: self.checkpoint_deadline_millis,
+            kernel_grace_millis: self.kernel_grace_millis,
+            api_drain_millis: self.api_drain_millis,
+            guardian_margin_millis: self.guardian_margin_millis,
+        }
+        .guardian_budgets()
+        .map_err(|error| error.to_string())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use std::time::{SystemTime, UNIX_EPOCH};
 
     fn init_file() -> PathBuf {
+        init_file_with_shutdown(5_000, 10_000, 3_000, 500)
+    }
+
+    fn init_file_with_shutdown(
+        checkpoint_deadline_millis: u64,
+        kernel_grace_millis: u64,
+        api_drain_millis: u64,
+        guardian_margin_millis: u64,
+    ) -> PathBuf {
         let unique = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .expect("time")
@@ -157,10 +172,10 @@ mod tests {
 kernel_path = "{}"
 
 [shutdown]
-checkpoint_deadline_millis = 5000
-kernel_grace_millis = 10000
-api_drain_millis = 3000
-guardian_margin_millis = 500
+checkpoint_deadline_millis = {checkpoint_deadline_millis}
+kernel_grace_millis = {kernel_grace_millis}
+api_drain_millis = {api_drain_millis}
+guardian_margin_millis = {guardian_margin_millis}
 
 [guardian]
 restart_budget = 2
@@ -173,7 +188,11 @@ capture_max_bytes = 65536
 capture_drain_grace_millis = 2000
 configuration_exit_codes = [64]
 "#,
-                std::env::current_exe().unwrap().display()
+                std::env::current_exe().unwrap().display(),
+                checkpoint_deadline_millis = checkpoint_deadline_millis,
+                kernel_grace_millis = kernel_grace_millis,
+                api_drain_millis = api_drain_millis,
+                guardian_margin_millis = guardian_margin_millis,
             ),
         )
         .unwrap();
@@ -198,5 +217,52 @@ configuration_exit_codes = [64]
         assert!(parse_args(std::iter::empty()).is_err());
         assert!(parse_args(["--bogus", "x"].into_iter().map(str::to_owned)).is_err());
         assert!(parse_args(["--init", "relative.toml"].into_iter().map(str::to_owned)).is_err());
+    }
+
+    #[test]
+    fn guardian_cli_shutdown_policy_matches_kernel_boundaries() {
+        let boundary = init_file_with_shutdown(599_997, 1, 1, 1);
+        let config = parse_args(
+            ["--init", boundary.to_str().unwrap()]
+                .into_iter()
+                .map(str::to_owned),
+        )
+        .unwrap();
+        assert_eq!(config.child_shutdown_budget_ms, 599_999);
+        assert_eq!(config.shutdown_grace_ms, 600_000);
+
+        for (init, expected) in [
+            (
+                init_file_with_shutdown(599_998, 1, 1, 1),
+                "guardian shutdown budget must not exceed 600000",
+            ),
+            (
+                init_file_with_shutdown(599_999, 1, 1, 1),
+                "shutdown child budget must not exceed 600000",
+            ),
+            (
+                init_file_with_shutdown(0, 1, 1, 1),
+                "shutdown.checkpoint_deadline_millis must be between 1 and 600000",
+            ),
+            (
+                init_file_with_shutdown(u64::MAX, 1, 1, 1),
+                "shutdown child budget overflows u64",
+            ),
+            (
+                init_file_with_shutdown(1, 1, 1, u64::MAX),
+                "guardian shutdown budget overflows u64",
+            ),
+        ] {
+            let error = parse_args(
+                ["--init", init.to_str().unwrap()]
+                    .into_iter()
+                    .map(str::to_owned),
+            )
+            .unwrap_err();
+            assert!(
+                error.contains(expected),
+                "expected {expected}; error={error}"
+            );
+        }
     }
 }
