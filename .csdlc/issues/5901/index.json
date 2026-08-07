@@ -3,13 +3,32 @@
   "issue": 5901,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8ff80b9cfa60fbc6966b16dc5835ba59e7c1b85519a45baae5ac1b73cd9f3f99",
-  "phase": "implemented",
-  "generation": 25,
-  "digest": "9cea3ecc34b3ae6e8fa9a035e9a24a0b6485b2a8b4d96fc33eab396c3378e8aa",
+  "phase": "reviewed",
+  "generation": 26,
+  "digest": "00bd04916873fbf6046c7c487162e81f628cd036fe9f88297fc8362a3694725d",
   "branch": "codex/5901-sprint3-readiness",
   "worktree": "/Volumes/FastWork/adl-wp-5901-sprint3-readiness",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:fast-review-5901",
+    "assigned_by": "codex:5901-sprint3-readiness",
+    "revision": "git-blake3:c40dc519ee72f86e83b12a711d0d898399351963:a04ca7ed805d887f53193c957d10d396a06c3f37449c076e7c72e675ed87dcee",
+    "scope": [
+      "."
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:fast-review-5901",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:c40dc519ee72f86e83b12a711d0d898399351963:a04ca7ed805d887f53193c957d10d396a06c3f37449c076e7c72e675ed87dcee",
+    "findings": [],
+    "residual_risks": [
+      "Sprint 3 execution remains gated on terminal #5821 and this repair does not bind a child."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +43,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b5d056e861b325851815f54f6234eee96d3ec4660b4ec94b03b1e7fd5616acbf",
+      "values_digest": "1066c3ba71b299109865ef37848ae51633b922e9e5a2bf13933e8f0a6fbf2e06",
       "rendered_digest": "dc0345098c9a2036ec8fca6ba7710aec9657b7643543d05984245662714d0981",
       "ast_digest": "33efe65162810c074e60ff2d66c99cfb9af67ac3bb0dbf0e94ea4afc220767ff"
     },
     "stp": {
-      "values_digest": "8644d007cab3a24cbf1c3c2d68d8e3e694b2be21dcbb7175f2199492d91d9b04",
+      "values_digest": "032c9ce90f68aba47e456bfddf64fb64f9181fff053e8094f1abca2498e20826",
       "rendered_digest": "7f83db3a48f67b32737b3433dcc1f238d62a9ef43d37d07dffe23bdbd3950b3c",
       "ast_digest": "790622a5fba6af5345d162af52139fba71871c2754a6aaef7be271cee6d99ddc"
     },
     "spp": {
-      "values_digest": "c9dc6be47457c0f20f539247fd61a133ff3b8e19d556638ca5259117189e80f9",
+      "values_digest": "71a9452493443008a65b3b325b661b5d739985b616375343fbe2826fc0394708",
       "rendered_digest": "1c30fb062fe6988e541ea1fac5e69cf3c0c6f8b950520650e7cc2e6b24787767",
       "ast_digest": "f5e05dfb51a18d0ae9c5c1657cacaddfa7898f1b44da2266e6dd135f80a177c0"
     },
     "vpp": {
-      "values_digest": "332805a3730b70fb7c9a5e127798bce63ba6a30215bc9d4e70619ecd8c26743d",
+      "values_digest": "9c4a51d211a5a040376eb7b0e85026299a5d3c6bcca7f387d5c2be13a8b74651",
       "rendered_digest": "670d646ac3a2663665c06c7ae3074c013cb9de76886f3d0ab5125e20ef2f2bff",
       "ast_digest": "842e8cd41caa7090cf0ab24e273d20c6ab4cf373ecbe7cfdd775d4ffe1363ca2"
     },
     "srp": {
-      "values_digest": "d116b23d7046e4c612421c2d626d45e2f77991c36a7957303be321d4aaa53a8f",
-      "rendered_digest": "4953591958fa0c971180c099386b269b51ae21ff4978de734525fcb5d23b4e2e",
-      "ast_digest": "37a886bc0ad59e2d2460619dbc367dc1901b94d22de7cbd014f7046bb0598137"
+      "values_digest": "f8797381ef29ff406983069a9c65a2451c72f1f7161ec74240466b72973b8927",
+      "rendered_digest": "745ff11d6954252eb54aef6509c3ae71a36ba78c3af84f7cea771ce8b83df095",
+      "ast_digest": "538d0d2d8db2933503f8b15f9cb12d90284326d269aef7d2af31ed7b15b9c7e0"
     },
     "sor": {
-      "values_digest": "63e777410569b286c8d7ce715a592b4eda4a087a22e975157930eecccd122652",
+      "values_digest": "33eb01f812cfd955699b5f2c627c49d1a8da24b3d5abcf6a155f0e34d8e3055b",
       "rendered_digest": "299df62d0e31884a0a0a696c47775a06fdd20fb45fd1644395ad04162561479e",
       "ast_digest": "9d72fa3817d7b8365376957096307457adf6895e778de8a99790ea66cc44149f"
     }
@@ -103,6 +122,13 @@
       "to": "implemented",
       "actor": "codex:5901-sprint3-readiness",
       "reason": "Repair the typed split issue/code repository publication blocker exposed by canonical cutover."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:fast-review-5901",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -308,6 +334,20 @@
       "actor": "codex:5901-sprint3-readiness",
       "reason": "Record strict all-target validation after the final terminal-safety fix.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove warning-free C-SDLC v2 code across all targets, including split publication and finish.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5901/split-authority-validation.json\"}}"
+    },
+    {
+      "sequence": 30,
+      "generation": 25,
+      "actor": "codex:5901-sprint3-readiness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 26,
+      "actor": "subagent:fast-review-5901",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
