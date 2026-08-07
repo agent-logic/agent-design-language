@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-24] Ten-article launch series",
     "slug": "v0-92-wp-24-ten-article-launch-series",
     "version": "v0.92",
-    "generation": 15
+    "generation": 17
   },
   "status": "ready",
   "content": {
@@ -26,7 +26,7 @@
         "AC-2: Every material claim and citation is source-grounded, privacy-safe, and correctly labeled current, historical, planned, or unknown.",
         "AC-3: The series arc is coherent, non-duplicative, consistently named, and audience-appropriate.",
         "AC-4: Automated completeness, link/citation, claim-boundary, privacy, and negative placeholder scans pass.",
-        "AC-5: Legacy #5819-sensitive links and #5843-sensitive release claims are reconciled before final disposition.",
+        "AC-5: Legacy danielbaustin/agent-design-language#5819-sensitive links and danielbaustin/agent-design-language#5843-sensitive release claims are reconciled before final disposition.",
         "AC-6: The disposition remains review-ready or explicitly operator-approved; no autonomous publication occurs."
       ],
       "dependencies": [

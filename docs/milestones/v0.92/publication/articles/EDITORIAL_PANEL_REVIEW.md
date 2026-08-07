@@ -21,12 +21,12 @@ Provider reachability and review quality are separate claims. Retained provider 
 
 - No P1 or P2 findings.
 - P3, fixed: UTS/ACC version language may drift before publication. The publication disposition now requires a current-version recheck immediately before any external release.
-- Each of the ten exact article calls returned `ARTICLE: PASS`, `CLAIM POSTURE: PASS`, `PRIVACY: PASS`, and `#5843 AND STOP-BEFORE-PUBLISH: PASS`, with no findings.
+- Each of the ten exact article calls returned `ARTICLE: PASS`, `CLAIM POSTURE: PASS`, `PRIVACY: PASS`, and `#5843 AND STOP-BEFORE-PUBLISH: PASS`, with no findings. In that retained provider label, `#5843` denotes legacy issue `danielbaustin/agent-design-language#5843`.
 - The exact closing call found no cross-series inconsistency, privacy issue, premature release claim, or review-completeness gap.
 
 ## Panel Disposition
 
-All returned actionable findings are resolved in the issue worktree. The grouped Claude review tightened evidence coverage, corrected the Cognitive Spacetime Manifold title, clarified UTS/ACC versions and sources, narrowed current CodeFriend and economics claims, removed brittle series-position references, and expanded pre-publication checks. The ten exact Gemini article reviews and exact closing disposition passed every article, cross-series consistency, privacy, the `#5843` gate, and review completeness. Earlier partial Gemini group outputs remain diagnostic artifacts and are not cited as completion proof.
+All returned actionable findings are resolved in the issue worktree. The grouped Claude review tightened evidence coverage, corrected the Cognitive Spacetime Manifold title, clarified UTS/ACC versions and sources, narrowed current CodeFriend and economics claims, removed brittle series-position references, and expanded pre-publication checks. The ten exact Gemini article reviews and exact closing disposition passed every article, cross-series consistency, privacy, the `danielbaustin/agent-design-language#5843` gate, and review completeness. Earlier partial Gemini group outputs remain diagnostic artifacts and are not cited as completion proof.
 
 The revised packet requires a final exact-revision review and repeated validation before C-SDLC publication. “Publication” in that lifecycle means a repository pull request; external Medium publication remains operator-only and unapproved.
 

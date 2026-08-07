@@ -28,7 +28,7 @@ Draft and review the ten named Medium articles after danielbaustin/agent-design-
 2. AC-2: Every material claim and citation is source-grounded, privacy-safe, and correctly labeled current, historical, planned, or unknown.
 3. AC-3: The series arc is coherent, non-duplicative, consistently named, and audience-appropriate.
 4. AC-4: Automated completeness, link/citation, claim-boundary, privacy, and negative placeholder scans pass.
-5. AC-5: Legacy #5819-sensitive links and #5843-sensitive release claims are reconciled before final disposition.
+5. AC-5: Legacy danielbaustin/agent-design-language#5819-sensitive links and danielbaustin/agent-design-language#5843-sensitive release claims are reconciled before final disposition.
 6. AC-6: The disposition remains review-ready or explicitly operator-approved; no autonomous publication occurs.
 
 ## Dependencies

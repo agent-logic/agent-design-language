@@ -16,7 +16,7 @@
 - Current foundations are described as bounded surfaces, not a completed society.
 - The first birthday, Adaptive Learning DAG, broader transport, CAV integration, and CodeFriend alpha remain active or planned.
 - No release date, completion, production-readiness, consciousness, legal status, or ecosystem-adoption claim appears.
-- WP-23 issue `#5843` remains the required gate for final release-dependent wording.
+- WP-23 issue `danielbaustin/agent-design-language#5843` remains the required gate for final release-dependent wording.
 
 ## Privacy And Publication Review
 

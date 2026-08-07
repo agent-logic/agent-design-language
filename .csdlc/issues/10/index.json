@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "aaefb83fa55b156bd233db58af78a5439d66856e3ec8dde179d56cd4b77c0fd7",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "0afc26853c88994abafa8b85466f7ba168b8a2f17b09a09aac0cfbca751f7460",
+  "generation": 17,
+  "digest": "4be58b2d13f280a903302a77bc8c31db48312d8a484f7a61116ec98258380bf7",
   "branch": "codex/10-v092-wp24-article-series",
   "worktree": "/Volumes/FastWork/adl-wp-10",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5a4799d87d55419bacfa4278962661662300e6dcc5a44a5667668d26a0d24d34",
+      "values_digest": "22f30c4c1199ad8367896ad6ff5c8809460e3295d3f9a0b442bad51d7f042e22",
       "rendered_digest": "3620987df334148e271e62df6d66ed3fb706122ed7a8fe312a679c3e8842e634",
       "ast_digest": "c47a88b3b7081c55143bf2e3cdb62c3860119d4300798382e7818e865796bcc3"
     },
     "stp": {
-      "values_digest": "a1c4d40a2b3dedcdcdb37894cf42dd760b994af39dd6ff7eadcbdbf930ea1b97",
-      "rendered_digest": "f83969521e9e203eefa98d4ee496b9ed9074938796bc111d3fe5213302887149",
-      "ast_digest": "606348ce732251d9ccdb0bf832b4e070fef92cd2bbf37135d3f542668ac73f85"
+      "values_digest": "b166ec707e10676386f78c1c11b6a864bbf3886eef2c74350538f6f81bb1cfb7",
+      "rendered_digest": "afd31a77167532d1ad92e0125ae28c13131c4e9e890eb57c516ce8fa9f0750f6",
+      "ast_digest": "214ff5ca0cf27a3d5e720bfea79edede4c9237ffe6cba06220b023d6f3cc70b9"
     },
     "spp": {
-      "values_digest": "3a9b54ca38ddc90488e5b918d529e528d9f4dcd1e6fa1f6a0e58a24405d6e9c3",
+      "values_digest": "810dbb53da191a102cf58759bf52537f27e55edd694f2a1a10205c78a019139a",
       "rendered_digest": "e30a5c77f77107757320844847c98ef7c9a3eccdb948dd27ea03fc132c587ea4",
       "ast_digest": "c7c7b3dea622e947960be940258da4819afd368bb29943aac3559dc360c7546e"
     },
     "vpp": {
-      "values_digest": "2275bb41ac68fbb0fc9971bd8f0cd93f2f343b6a825792a88fc8cc8fb5eb6aa5",
-      "rendered_digest": "e56a599df5646aabe8c516bdfd34c12bfdca679f35ef336fafcb192727b8b763",
-      "ast_digest": "cfa0e157bc1351e81148640fdd3f2fa57456ad3511830d15df9f6588065084ea"
+      "values_digest": "736de78a04f2f14d583332f0a0e7e36fc9f67bba42ebf79a20b90e87201a2930",
+      "rendered_digest": "16891f084812637c91807f49aa23751e6e6913c6838d12a67a12efff0ea130a9",
+      "ast_digest": "8645a4cadfcb885baf6303ed1986e37e06819c6f212329226a1ad10a488325e5"
     },
     "srp": {
-      "values_digest": "0438391e06d2948aece87d694f1366663ef1853d51b6f9727d94d9e71e91f86a",
+      "values_digest": "b43adafcd4fe0e393e6a60391e18c1d6486834120ef62f1647ff5e83e4dd9649",
       "rendered_digest": "a3549b7f4a0718db3d6b16328228a3ac0e160108d7e1113b80561ddec4a217c5",
       "ast_digest": "1f660d29817eb7d79752dae67b8d0da08ffa28aee646d1cd6bcef4ce4da99855"
     },
     "sor": {
-      "values_digest": "f1ab434c5e4f357c556bf05e4de7e0df99aa025f6e6bc885d06816b9beae9151",
+      "values_digest": "27970a3b06440825c755ef206cb7cd602999cd17b29eb066e0580f8e080ef4b4",
       "rendered_digest": "e490bba573516275aeb8ce39ab85095734d56721925d27cdd4808382276c022c",
       "ast_digest": "ade7e67b38501e08ad5f0d7a00413234569b8afcb32ff2dd450876cd9028d513"
     }
@@ -196,6 +196,20 @@
       "actor": "codex:wp24-canonical-migration",
       "reason": "Attach canonical issue migration receipt to WP-24 execution evidence.",
       "operation": "{\"operation\":\"append_reference\",\"value\":\".csdlc/evidence/10\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:wp24-canonical-publication",
+      "reason": "Record the already-executed rollback contract as an explicit validation lane after exact-head review.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp24-series-contract\",\"proof_role\":\"Prove all ten complete packets satisfy the Medium writer and series contract.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":450,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/evidence/5844/validate-article-series.rb\"],\"parallel_group\":\"articles\",\"defer_reason\":null},{\"lane\":\"wp24-claims-negative\",\"proof_role\":\"Reject outlines, placeholders, missing or source-packet-unlisted citations, private data, malformed current/planned posture, and unsafe release disposition; semantic claim relevance remains provider/editor review evidence.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":450,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/evidence/5844/validate-article-series.rb\",\"--negative\"],\"parallel_group\":\"articles\",\"defer_reason\":null},{\"lane\":\"wp24-writer-contract\",\"proof_role\":\"Prove the repository Medium article writer retains source-packet and stop-before-publish safeguards.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"adl/tools/test_medium_article_writer_skill_contracts.sh\"],\"parallel_group\":\"contracts\",\"defer_reason\":null},{\"lane\":\"wp24-rollback-contract\",\"proof_role\":\"Prove rollback removes only article drafts, retains source and editorial evidence, restores shared series records, and requires no external publication action.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/evidence/5844/validate-article-series.rb\",\"--rollback\"],\"parallel_group\":\"articles\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:wp24-canonical-publication",
+      "reason": "Disambiguate legacy issue references after the canonical repository move.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: All ten canonical titles have complete source-packet, article, and editorial-review artifacts.\",\"AC-2: Every material claim and citation is source-grounded, privacy-safe, and correctly labeled current, historical, planned, or unknown.\",\"AC-3: The series arc is coherent, non-duplicative, consistently named, and audience-appropriate.\",\"AC-4: Automated completeness, link/citation, claim-boundary, privacy, and negative placeholder scans pass.\",\"AC-5: Legacy danielbaustin/agent-design-language#5819-sensitive links and danielbaustin/agent-design-language#5843-sensitive release claims are reconciled before final disposition.\",\"AC-6: The disposition remains review-ready or explicitly operator-approved; no autonomous publication occurs.\"]}"
     }
   ]
 }

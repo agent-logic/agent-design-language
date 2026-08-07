@@ -80,6 +80,26 @@ Diagram: .csdlc/prepared/issues/10/diagram.mmd
     ],
     "parallel_group": "contracts",
     "defer_reason": null
+  },
+  {
+    "lane": "wp24-rollback-contract",
+    "proof_role": "Prove rollback removes only article drafts, retains source and editorial evidence, restores shared series records, and requires no external publication action.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-4",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "ruby",
+      ".csdlc/evidence/5844/validate-article-series.rb",
+      "--rollback"
+    ],
+    "parallel_group": "articles",
+    "defer_reason": null
   }
 ]
 
@@ -98,6 +118,7 @@ Tokens: 50000
 - `ruby .csdlc/evidence/5844/validate-article-series.rb`
 - `ruby .csdlc/evidence/5844/validate-article-series.rb --negative`
 - `adl/tools/test_medium_article_writer_skill_contracts.sh`
+- `ruby .csdlc/evidence/5844/validate-article-series.rb --rollback`
 
 ## Failure Semantics
 

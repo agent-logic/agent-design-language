@@ -31,8 +31,19 @@ def article_repo_refs(root, path, body)
 end
 
 def safe_publication_disposition?(body)
-  body.match?(/review-ready|operator-approved/i) &&
-    !body.match?(/autonomously published|auto-published/i)
+  required_boundary = "No article in this directory has been submitted, scheduled, uploaded, or published to Medium or another external service."
+  positive_claim = /\b(?:
+    (?:an?\s+)?article(?:s)?\s+(?:has|have|was|were)\s+(?:been\s+)?(?:published|submitted|scheduled|uploaded)
+    |(?:published|submitted|scheduled|uploaded)\s+(?:on|to|for)
+    |(?:is|are)\s+(?:published|submitted|scheduled|uploaded)
+    |autonomously\s+published
+    |auto-published
+  )\b/ix
+  remainder = body.sub(required_boundary, "")
+
+  body.include?(required_boundary) &&
+    body.match?(/review-ready|operator-approved/i) &&
+    !remainder.match?(positive_claim)
 end
 
 root = File.expand_path("../../..", __dir__)
@@ -111,7 +122,19 @@ if ARGV.include?("--negative")
   fixture_failures << "broken link" if broken_links(File.join(articles, "fixture.md"), "[missing](not-present.md)").empty?
   fixture_failures << "unlisted citation" unless (["docs/other.md"] - ["docs/declared.md"]).any?
   fixture_failures << "missing current posture" if "Planned only".match?(/\bCurrent\b/)
-  fixture_failures << "unsafe publication" if safe_publication_disposition?("Autonomously published")
+  safe_fixture = <<~MARKDOWN
+    ## Status: Review-Ready
+    No article in this directory has been submitted, scheduled, uploaded, or published to Medium or another external service.
+  MARKDOWN
+  fixture_failures << "truthful publication boundary" unless safe_publication_disposition?(safe_fixture)
+  {
+    "published claim" => "Article 1 has been published on Medium.",
+    "submitted claim" => "An article was submitted to Medium.",
+    "scheduled claim" => "Article 3 is scheduled for Friday.",
+    "uploaded claim" => "Articles have been uploaded to another external service."
+  }.each do |label, claim|
+    fixture_failures << label if safe_publication_disposition?("#{safe_fixture}\n#{claim}")
+  end
   fixture_failures << "duplicate digest" unless %w[same same].uniq.length < 2
   raise "negative fixtures failed to reject: #{fixture_failures.join(', ')}" unless fixture_failures.empty?
 end
