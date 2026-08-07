@@ -88,11 +88,11 @@ Resolved final implementation-review findings by including closed PRs in issue-s
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
