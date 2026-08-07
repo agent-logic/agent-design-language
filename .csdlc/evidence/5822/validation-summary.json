@@ -26,6 +26,11 @@
       "boundary": ".csdlc/evidence/5822/cycle-time-evidence-boundary.json"
     },
     {
+      "lane": "rust-format",
+      "command": "cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check",
+      "outcome": "passed"
+    },
+    {
       "lane": "diff-hygiene",
       "command": "git diff --check",
       "outcome": "passed"
@@ -35,7 +40,7 @@
       "command": "/Volumes/FastWork/adl-builds/5822/csdlc-v2/debug/csdlc-validate --root <worktree> issue --issue 5822",
       "outcome": "passed",
       "phase": "implemented",
-      "generation": 49,
+      "generation": 50,
       "findings": []
     }
   ],
