@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 19,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-24A deployment] Deploy the podcast page to the preview URL",
+    "slug": "v0-92-wp-24a-deploy-podcast-preview",
+    "version": "v0.92",
+    "generation": 15
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Deploy the existing Synthetic Minds podcast preview page through the approved Agent Logic S3 and CloudFront site infrastructure.",
+      "required_outcome": "The preview route returns the exact repository page and required assets over HTTPS while remaining unlinked, noindex, and separate from the production podcast route.",
+      "declared_scope": [
+        ".csdlc/issues/19",
+        ".csdlc/prepared/issues/19",
+        ".csdlc/evidence/19",
+        "demos/_preview/podcast/index.html",
+        "demos/podcast/feed.xml",
+        "demos/podcast/audio/meet-the-ai-coworkers.wav",
+        "demos/podcast/studio"
+      ],
+      "authority_boundary": [
+        "Issue 19 owns only preview-route deployment and its retained proof",
+        "The production /podcast/ route remains unchanged and unpromoted",
+        "WP-24A issue 5845 retains episode-production authority",
+        "AWS authority is limited to the existing Agent Logic S3 and CloudFront website resources"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use AWS S3 and CloudFront through the agent-logic-admin business profile",
+        "Do not start or operate EC2 instances",
+        "Do not use CodeBuild, Spot, ECS, Lambda, or other compute services",
+        "Do not expose credentials, bucket names, distribution identifiers, or account identifiers in retained public evidence",
+        "Do not use /private/tmp for issue work",
+        "Do not redesign the page or publish the production route"
+      ]
+    }
+  }
+}

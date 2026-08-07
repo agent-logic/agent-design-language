@@ -1,0 +1,10 @@
+{
+  "issue": 19,
+  "card": "spp",
+  "expected_generation": 11,
+  "expected_digest": "c943c995ef2c9e02693f2fcbc478d61f2f02cbdb63c2faa071499a27a02141d1",
+  "actor": "codex:19-podcast-preview-deployment",
+  "reason": "The corrected static HTML was deployed to both requested preview objects and the bounded invalidations completed.",
+  "operation": {"operation": "update_plan_step", "step_id": "S2", "status": "completed"},
+  "fail_after_backup": false
+}

@@ -1,0 +1,97 @@
+{
+  "schema": "adl.podcast_preview_deployment.v1",
+  "issue": 19,
+  "deployed_at": "2026-08-07T18:59:23Z",
+  "repository": "agent-logic/agent-design-language",
+  "source_branch": "codex/19-podcast-preview-deployment",
+  "preview_url": "https://agent-logic.ai/_preview/podcast/",
+  "aws_boundary": {
+    "profile": "agent-logic-admin",
+    "approved_business_account_verified": true,
+    "services_invoked": [
+      "sts",
+      "s3",
+      "cloudfront"
+    ],
+    "compute_services_invoked": [],
+    "ec2_operations": [],
+    "identifiers_redacted": true
+  },
+  "before": {
+    "preview_prefix_objects": 0,
+    "podcast_prefix_objects": 0,
+    "preview_status": 403,
+    "production_route_status": 403
+  },
+  "active_objects": [
+    {
+      "source": "demos/_preview/podcast/index.html",
+      "public_path": "/_preview/podcast/",
+      "sha256": "fa782341f6eeb4f47778dc087459bb2fc93e0b24763abb2ce8e243f3b1943be9",
+      "size": 39707,
+      "content_type": "text/html; charset=utf-8",
+      "cache_control": "no-cache, max-age=0",
+      "server_side_encryption": "AES256"
+    },
+    {
+      "source": "demos/_preview/podcast/index.html",
+      "public_path": "/_preview/podcast/index.html",
+      "sha256": "fa782341f6eeb4f47778dc087459bb2fc93e0b24763abb2ce8e243f3b1943be9",
+      "size": 39707,
+      "content_type": "text/html; charset=utf-8",
+      "cache_control": "no-cache, max-age=0",
+      "server_side_encryption": "AES256"
+    },
+    {
+      "source": "demos/podcast/feed.xml",
+      "public_path": "/podcast/feed.xml",
+      "sha256": "362c1c2ea5257df2932fb917ee0db868fba299b4ca61f2ada6c470041faa988e",
+      "size": 1799,
+      "content_type": "application/rss+xml; charset=utf-8",
+      "cache_control": "no-cache, max-age=0",
+      "server_side_encryption": "AES256"
+    },
+    {
+      "source": "demos/podcast/audio/meet-the-ai-coworkers.wav",
+      "public_path": "/podcast/audio/meet-the-ai-coworkers.wav",
+      "sha256": "01aa7d51ca955cdca4c5799204418a8e44a566fede8f53f9a7956835cb3e078e",
+      "size": 417644,
+      "content_type": "audio/wav",
+      "cache_control": "public, max-age=3600",
+      "server_side_encryption": "AES256"
+    },
+    {
+      "source": "demos/podcast/studio/uploads/agent-logic-logo.svg",
+      "public_path": "/podcast/studio/uploads/agent-logic-logo.svg",
+      "sha256": "265af57178a57fef3cc1b2cbf94bf9f2f1dc29933a85ee50cf7b183d5a7ca4be",
+      "size": 3996,
+      "content_type": "image/svg+xml",
+      "cache_control": "public, max-age=3600",
+      "server_side_encryption": "AES256"
+    }
+  ],
+  "superseded_unreferenced_objects": [
+    "/_preview/podcast",
+    "/podcast/studio/support.js",
+    "/podcast/studio/image-slot.js",
+    "/podcast/studio/vendor/react.production.min.js",
+    "/podcast/studio/vendor/react-dom.production.min.js"
+  ],
+  "remote_cleanup": {
+    "performed": false,
+    "reason": "Remote deletion requires a separately confirmed exact deletion list; the final page does not reference these objects."
+  },
+  "cloudfront": {
+    "bounded_invalidations": 7,
+    "final_invalidation_status": "completed",
+    "distribution_identifier_retained": false
+  },
+  "after": {
+    "preview_status": 200,
+    "explicit_index_status": 200,
+    "production_route_status": 403,
+    "noindex_nofollow": true,
+    "external_asset_requests": 0,
+    "script_count": 0
+  }
+}
