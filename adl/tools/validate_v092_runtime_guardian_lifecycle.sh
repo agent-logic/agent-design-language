@@ -436,7 +436,11 @@ trap 'kill "$wss_probe_pid" 2>/dev/null || true' EXIT
   --revision "$revision" \
   --suite preflight
 
-wait "$wss_probe_pid"
+if ! wait "$wss_probe_pid"; then
+  echo "authenticated HTTPS/WSS probe failed; retained diagnostic follows" >&2
+  cat "$wss_stderr" >&2 || true
+  exit 1
+fi
 trap - EXIT
 
 python3 - "$report" "$wss_proof" "$run_root/issue-proof.json" "$revision" \
