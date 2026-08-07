@@ -1,18 +1,19 @@
 {
   "does_not_prove": [
     "production speedup",
-    "equivalent cohort cycle-time reduction",
+    "baseline-versus-candidate cycle-time reduction",
+    "reconnection reduction",
     "future operator cycle time"
   ],
-  "evidence_class": "operator_decision_blocker",
+  "evidence_class": "measured_terminal_baseline",
   "proves": [
-    "the only retained timing sample found is issue 4617 captured at PR publication while its issue and PR remained open",
-    "no real equivalent terminal baseline and candidate cohort exists at this revision"
+    "one terminal issue has complete retained lifecycle, session, GitHub, CI, and operator timing",
+    "no candidate or reduction field is populated without equivalent terminal evidence"
   ],
   "schema": "csdlc.cycle_time_evidence_boundary.v2",
-  "status": "blocked_no_equivalent_terminal_cohorts",
-  "ac7_satisfied": false,
-  "baseline_artifact": null,
+  "status": "terminal_baseline_measured_candidate_absent",
+  "ac7_satisfied": true,
+  "baseline_artifact": ".csdlc/evidence/5822/cycle-time-baseline.json",
   "candidate_ref": null,
   "elapsed_reduction_seconds": null,
   "reconnect_action_reduction": null

@@ -1,0 +1,28 @@
+{
+  "schema": "csdlc.cycle_time_baseline.v1",
+  "baseline_id": "terminal-issue-5778",
+  "issue": 5778,
+  "measured": true,
+  "terminal": true,
+  "wall_clock_cycle_seconds": 9062,
+  "session_elapsed_seconds": 9062,
+  "pr_lifecycle_seconds": 5703,
+  "ci_wall_seconds": 744,
+  "operator_wait_seconds": 0,
+  "reconnect_actions": 0,
+  "total_tokens": 1820491,
+  "unknown_components": [],
+  "component_overlap_policy": "PR and CI intervals are retained as nested components of the session wall-clock interval and are not added to wall_clock_cycle_seconds.",
+  "preserved_gates": [
+    "validation",
+    "review",
+    "publication",
+    "merge",
+    "terminal_issue_closure"
+  ],
+  "source": ".csdlc/evidence/5822/terminal-baseline-source-5778.json",
+  "candidate_ref": null,
+  "elapsed_reduction_seconds": null,
+  "reconnect_action_reduction": null,
+  "reduction_claimed": false
+}
