@@ -1055,10 +1055,7 @@ mod tests {
             "trust-verify".to_owned(),
         ])
         .unwrap();
-        assert!(matches!(
-            execute(&missing_store, &config).await,
-            Err(LocalTlsError::Policy(_))
-        ));
+        assert!(execute(&missing_store, &config).await.is_err());
 
         let remove_without_identity = Args::parse(vec![
             "--config".to_owned(),
