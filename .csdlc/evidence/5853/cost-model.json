@@ -27,7 +27,7 @@
     "rows": [
       {
         "kind": "cold_anchor",
-        "jobs": 8,
+        "jobs": 5,
         "estimated_rounded_minutes_per_job": 8,
         "estimated_total_minutes": 40,
         "estimated_cost": 1.68
@@ -50,14 +50,14 @@
         "kind": "optimization_canary",
         "jobs": 5,
         "estimated_rounded_minutes_per_job": 4,
-        "estimated_total_minutes": 32,
-        "estimated_cost": 1.344
+        "estimated_total_minutes": 20,
+        "estimated_cost": 0.84
       }
     ],
-    "jobs": 34,
-    "estimated_total_minutes": 156,
-    "estimated_total_cost": 6.552,
-    "estimated_budget_remaining": 3.448
+    "jobs": 31,
+    "estimated_total_minutes": 144,
+    "estimated_total_cost": 6.048,
+    "estimated_budget_remaining": 3.952
   },
   "actual_paid_state_before_candidate_wave": {
     "candidate_jobs_started": 0,
