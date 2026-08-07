@@ -369,6 +369,11 @@ if [[ -n "$PORTABLE_REQUEST" ]]; then
   PORTABLE_ARTIFACT_POLICY_JSON="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.dumps(json.load(sys.stdin)["artifact_policy"], separators=(",", ":")))')"
 fi
 
+if [[ -n "$PORTABLE_MAX_COST_USD" && -z "$ESTIMATED_HOURLY_COST_USD" && "$RUN" != true && "$ACTION" != "preflight" ]]; then
+  echo "run_aws_spot_remote_validation_lane: portable AWS planning requires --estimated-hourly-cost-usd" >&2
+  exit 2
+fi
+
 if [[ "$ACTION" == "launch" ]]; then
   RUN=true
 elif [[ "$ACTION" == "preflight" ]]; then
@@ -946,7 +951,12 @@ if [[ -n "$MAX_RUN_SECONDS" ]]; then
 fi
 
 if [[ -n "$PORTABLE_MAX_COST_USD" ]]; then
-  cmd+=(--expected-max-cost-usd "$PORTABLE_MAX_COST_USD")
+  cmd+=(
+    --expected-max-cost-usd "$PORTABLE_MAX_COST_USD"
+    --estimated-hourly-cost-usd "$ESTIMATED_HOURLY_COST_USD"
+    --total-run-timeout-seconds "$MAX_RUN_SECONDS"
+    --spot-only
+  )
 fi
 if [[ -n "$PORTABLE_CANCELLATION_FILE" ]]; then
   cmd+=(--cancellation-file "$ROOT/$PORTABLE_CANCELLATION_FILE")
@@ -1035,14 +1045,50 @@ for index, relative in enumerate(paths):
         shutil.copyfile(source, destination)
 PY
     python3 - "$execution_receipt" "$PORTABLE_REQUEST" "$SOURCE_COMMIT" \
-      "$started_unix_ms" "$finished_unix_ms" "$runner_status" "$finalize_status" <<'PY'
+      "$started_unix_ms" "$finished_unix_ms" "$runner_status" "$finalize_status" \
+      "$OUT_PATH" <<'PY'
 import json
+import re
 import sys
-path, request_path, revision, started, finished, runner_status, finalize_status = sys.argv[1:]
+path, request_path, revision, started, finished, runner_status, finalize_status, summary_path = sys.argv[1:]
 request = json.load(open(request_path, encoding="utf-8"))
+summary = json.load(open(summary_path, encoding="utf-8"))
 runner_status, finalize_status = int(runner_status), int(finalize_status)
 passed = runner_status == 0 and finalize_status == 0
-cleanup_complete = finalize_status == 0
+resilience = summary.get("resilience") or {}
+cleanup_complete = resilience.get("cleanup_complete") is True
+failure_reason = str(summary.get("failure_reason") or "").lower()
+fault_class = str(resilience.get("fault_class") or "unknown")
+if passed:
+    outcome = "passed"
+elif not cleanup_complete:
+    outcome = "cleanup_incomplete"
+elif "cancellation" in failure_reason or "cancelled" in failure_reason:
+    outcome = "cancelled"
+elif "deadline" in failure_reason or "timed out" in failure_reason:
+    outcome = "timed_out"
+elif fault_class in {
+    "quota_blocked",
+    "capacity_unavailable",
+    "transient_network",
+    "ssm_unavailable",
+    "spot_interrupted",
+  }:
+    outcome = "provider_unavailable"
+else:
+    outcome = "failed"
+fallback_allowed = (
+    outcome == "provider_unavailable"
+    and cleanup_complete
+    and request["fallback"] != "disabled"
+)
+retained = json.dumps(summary, sort_keys=True)
+redaction_passed = not any(re.search(pattern, retained) for pattern in (
+    r"/(?:Users|Volumes|private|var/folders)/",
+    r"arn:aws:",
+    r"\bi-[0-9a-f]{8,17}\b",
+    r"\b\d{12}\b",
+))
 payload = {
     "schema": "adl.remote_validation.adapter_execution.v1",
     "adapter": "aws",
@@ -1051,12 +1097,12 @@ payload = {
     "started_unix_ms": int(started),
     "finished_unix_ms": int(finished),
     "exit_code": 0 if passed else (runner_status or finalize_status),
-    "outcome": "passed" if passed else ("cleanup_incomplete" if not cleanup_complete else "failed"),
-    "redaction_passed": finalize_status == 0,
+    "outcome": outcome,
+    "redaction_passed": redaction_passed,
     "cleanup": {"attempted": True, "complete": cleanup_complete, "detail": None},
     "fallback": {
         "policy": request["fallback"],
-        "offered": (not passed and cleanup_complete and request["fallback"] != "disabled"),
+        "offered": fallback_allowed,
         "ran": False,
         "local_profile_digest": None,
     },

@@ -76,8 +76,10 @@ fn config() -> AwsRemoteValidationConfig {
         instance_types: vec!["m7a.2xlarge".into()],
         allow_on_demand_fallback: false,
         budget_name: None,
-        expected_max_cost_usd: None,
+        expected_max_cost_usd: Some(1.0),
+        estimated_hourly_cost_usd: Some(0.1),
         cancellation_file: None,
+        total_run_timeout_seconds: Some(3600),
         poll_interval_seconds: 1,
         ssm_ready_timeout_seconds: 60,
         command_timeout_seconds: None,
@@ -105,6 +107,54 @@ fn portable_request_maps_exactly_to_aws_adapter_inputs() {
     assert_eq!(config.command, "'cargo' 'test' '--locked'");
     assert_eq!(config.command_timeout_seconds, Some(900));
     assert_eq!(config.expected_max_cost_usd, Some(0.15));
+    assert_eq!(config.total_run_timeout_seconds, Some(900));
+}
+
+#[test]
+fn cumulative_provider_cost_is_rejected_before_launch() {
+    let mut config = config();
+    config.expected_max_cost_usd = Some(0.20);
+    config.estimated_hourly_cost_usd = Some(1.0);
+    config.total_run_timeout_seconds = Some(900);
+    assert!(config
+        .validate()
+        .unwrap_err()
+        .to_string()
+        .contains("projected cumulative provider cost exceeds"));
+}
+
+#[test]
+fn declared_cost_ceiling_requires_rate_and_total_timeout() {
+    let mut missing_rate = config();
+    missing_rate.expected_max_cost_usd = Some(0.20);
+    missing_rate.estimated_hourly_cost_usd = None;
+    missing_rate.total_run_timeout_seconds = Some(900);
+    assert!(missing_rate
+        .validate()
+        .unwrap_err()
+        .to_string()
+        .contains("estimated hourly cost is required"));
+
+    let mut missing_timeout = config();
+    missing_timeout.expected_max_cost_usd = Some(0.20);
+    missing_timeout.estimated_hourly_cost_usd = Some(0.10);
+    missing_timeout.total_run_timeout_seconds = None;
+    assert!(missing_timeout
+        .validate()
+        .unwrap_err()
+        .to_string()
+        .contains("total run timeout is required"));
+}
+
+#[test]
+fn provider_work_requires_an_explicit_cost_ceiling() {
+    let mut config = config();
+    config.expected_max_cost_usd = None;
+    assert!(config
+        .validate()
+        .unwrap_err()
+        .to_string()
+        .contains("expected maximum cost is required"));
 }
 
 #[test]

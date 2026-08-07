@@ -3,6 +3,7 @@
 
 require "digest"
 require "json"
+require "open3"
 require "pathname"
 
 HEX40 = /\A[0-9a-f]{40}\z/
@@ -16,11 +17,127 @@ rescue JSON::ParserError => error
   raise("malformed JSON #{path}: #{error.message}")
 end
 
+def repo_relative_path(root, value)
+  path = Pathname.new(value.to_s)
+  raise("absolute or escaping evidence path #{value}") if path.absolute? || path.each_filename.include?("..")
+
+  root.join(path).cleanpath
+end
+
+def verify_git_revision(root, revision, label)
+  raise("#{label} invalid Git revision") unless HEX40.match?(revision.to_s)
+  _out, _err, exists = Open3.capture3("git", "-C", root.to_s, "cat-file", "-e", "#{revision}^{commit}")
+  raise("#{label} revision does not exist in Git") unless exists.success?
+  _out, _err, ancestor = Open3.capture3(
+    "git", "-C", root.to_s, "merge-base", "--is-ancestor", revision, "HEAD"
+  )
+  raise("#{label} revision is not an ancestor of HEAD") unless ancestor.success?
+end
+
+def verify_validation_revision(root, revision)
+  verify_git_revision(root, revision, "deterministic validation")
+  changed, error, status = Open3.capture3(
+    "git", "-C", root.to_s, "diff", "--name-only", "#{revision}..HEAD"
+  )
+  raise("failed to inspect deterministic validation drift: #{error}") unless status.success?
+
+  unexpected = changed.lines.map(&:strip).reject(&:empty?).reject do |path|
+    path.start_with?(".csdlc/evidence/5823/")
+  end
+  unless unexpected.empty?
+    raise("deterministic validation revision is stale for: #{unexpected.join(', ')}")
+  end
+  dirty_paths = []
+  [
+    ["diff", "--no-renames", "--name-only"],
+    ["diff", "--cached", "--no-renames", "--name-only"],
+    ["ls-files", "--others", "--exclude-standard"],
+  ].each do |arguments|
+    output, error, status = Open3.capture3("git", "-C", root.to_s, *arguments)
+    raise("failed to inspect deterministic validation worktree: #{error}") unless status.success?
+    dirty_paths.concat(output.lines.map(&:strip).reject(&:empty?))
+  end
+  dirty_paths = dirty_paths.uniq.reject { |path| path.start_with?(".csdlc/evidence/5823/") }
+  unless dirty_paths.empty?
+    raise("deterministic validation worktree is dirty for: #{dirty_paths.join(', ')}")
+  end
+end
+
+def verify_receipt(root, value, digest, label)
+  raise("#{label} missing receipt digest") unless HEX64.match?(digest.to_s)
+  path = repo_relative_path(root, value)
+  raise("#{label} missing receipt #{value}") unless path.file?
+  raise("#{label} receipt SHA-256 mismatch") unless Digest::SHA256.file(path).hexdigest == digest
+
+  text = path.read
+  if text.match?(%r{/(?:Users|Volumes|private|var/folders)/})
+    raise("#{label} retained a machine-local absolute path")
+  end
+  path
+end
+
+def validate_deterministic_manifest(root)
+  manifest_path = root.join(".csdlc/evidence/5823/deterministic-validation-summary.json")
+  manifest = read_json(manifest_path)
+  raise("deterministic manifest schema mismatch") unless manifest["schema"] == "adl.wp06.deterministic_validation_summary.v1"
+  raise("deterministic manifest storage policy mismatch") unless manifest["storage_policy"] == "external_volume_only"
+  verify_git_revision(root, manifest["subject_revision"], "deterministic manifest subject")
+  verify_validation_revision(root, manifest["validation_revision"])
+  lanes = manifest.fetch("lanes")
+  raise("deterministic manifest has duplicate lane names") unless lanes.map { |lane| lane["name"] }.uniq.length == lanes.length
+  expected_lanes = %w[
+    portable-contract
+    aws-portable-adapter
+    nessus-shell-adapter
+    aws-shell-adapter
+    platform-validator-negative-self-test
+    macos-native-local
+    windows-deterministic-fixture
+    linux-native-live
+  ]
+  raise("deterministic manifest lane set mismatch") unless lanes.map { |lane| lane["name"] }.sort == expected_lanes.sort
+  lanes.each do |lane|
+    name = lane.fetch("name")
+    raise("#{name} outcome is not proving") unless %w[passed passed_non_native].include?(lane["outcome"])
+    receipt_path = verify_receipt(root, lane.fetch("receipt"), lane["receipt_sha256"], name)
+    if lane.key?("tests_passed")
+      observed = receipt_path.read.scan(/running (\d+) tests/).flatten.map(&:to_i).last
+      raise("#{name} test count mismatch") unless observed == lane["tests_passed"]
+    end
+    lane.each do |key, value|
+      next unless key.end_with?("_receipt")
+
+      verify_receipt(root, value, lane["#{key}_sha256"], "#{name} #{key}")
+    end
+  end
+  linux = lanes.find { |lane| lane["name"] == "linux-native-live" }
+  request = read_json(root.join(".csdlc/evidence/5823/linux-native-request.json"))
+  provider = read_json(root.join(".csdlc/evidence/5823/linux-native-remote-summary.json"))
+  raise("Linux manifest is not marked as live paid proof") unless manifest["live_paid_provider_work_run"] == true
+  raise("Linux manifest revision mismatch") unless manifest["subject_revision"] == request["revision"]
+  unless linux["request_timeout_seconds"] == request.dig("resource_budget", "timeout_seconds") &&
+         linux["request_timeout_seconds"] == provider.dig("request_limits", "timeout_seconds")
+    raise("Linux manifest timeout mismatch")
+  end
+  unless (linux["request_max_cost_usd"].to_f * 1_000_000).round == request.dig("resource_budget", "estimated_max_cost_microusd") &&
+         linux["request_max_cost_usd"].to_f == provider.dig("request_limits", "estimated_max_cost_usd").to_f
+    raise("Linux manifest cost ceiling mismatch")
+  end
+  unless linux["estimated_compute_cost_usd"].to_f == provider.dig("cost", "estimated_compute_cost_usd").to_f
+    raise("Linux manifest observed cost mismatch")
+  end
+  unless linux["cleanup_status"] == provider.dig("cleanup", "explicit_post_run_status")
+    raise("Linux manifest cleanup mismatch")
+  end
+  manifest
+end
+
 def validate_result(root, platform, row)
   %w[revision command_profile_digest result_digest receipt outcome].each do |field|
     raise("#{platform} missing #{field}") if row[field].to_s.empty?
   end
   raise("#{platform} invalid revision") unless HEX40.match?(row["revision"])
+  verify_git_revision(root, row["revision"], "#{platform} proof")
   raise("#{platform} invalid profile digest") unless HEX64.match?(row["command_profile_digest"])
   raise("#{platform} invalid result digest") unless HEX64.match?(row["result_digest"])
   raise("#{platform} failed") unless row["outcome"] == "passed"
@@ -90,6 +207,7 @@ def validate_linux_evidence(root)
 end
 
 def validate_matrix(root, matrix)
+  manifest = validate_deterministic_manifest(root)
   %w[linux macos windows].each do |platform|
     row = matrix[platform] || raise("missing #{platform}")
     if %w[linux macos].include?(platform)
@@ -103,12 +221,38 @@ def validate_matrix(root, matrix)
     validate_result(root, platform, row)
   end
   validate_linux_evidence(root)
+  matrix_revisions = matrix.values.map { |row| row["revision"] }.uniq
+  raise("manifest subject does not match matrix proof revision") unless matrix_revisions == [manifest["subject_revision"]]
   "native Linux + macOS, Windows #{matrix.dig('windows', 'qualification')}"
 end
 
 if ARGV == ["--self-test"]
+  root = Pathname.new(__dir__).join("../../../..").cleanpath
   raise "hex validator accepted invalid revision" if HEX40.match?("g" * 40)
   raise "digest validator accepted invalid digest" if HEX64.match?("0" * 63)
+  begin
+    repo_relative_path(Pathname.new("."), "/Volumes/FastWork/proof.json")
+    raise "path validator accepted absolute machine path"
+  rescue RuntimeError => error
+    raise unless error.message.include?("absolute or escaping")
+  end
+  begin
+    verify_git_revision(root, "0" * 40, "negative fixture")
+    raise "Git validator accepted nonexistent revision"
+  rescue RuntimeError => error
+    raise unless error.message.include?("does not exist")
+  end
+  begin
+    verify_receipt(
+      root,
+      ".csdlc/evidence/5823/platform-matrix.json",
+      "0" * 64,
+      "negative fixture"
+    )
+    raise "receipt validator accepted a stale digest"
+  rescue RuntimeError => error
+    raise unless error.message.include?("SHA-256 mismatch")
+  end
   puts "WP-06 platform validator self-test passed"
   exit 0
 end

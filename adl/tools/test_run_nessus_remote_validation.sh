@@ -151,12 +151,25 @@ case "${1:-}" in
     fi
     exit 0
     ;;
+  rm)
+    [[ "${2:-}" == "-f" ]]
+    printf 'rm %s\n' "${3:-}" >>"${DOCKER_RM_LOG:-/dev/null}"
+    if [[ -s "${DOCKER_CONTAINER_PID_FILE:-}" ]]; then
+      kill "$(cat "$DOCKER_CONTAINER_PID_FILE")" 2>/dev/null || true
+    fi
+    exit 0
+    ;;
   run)
     shift
+    container_name=""
     while [[ $# -gt 0 ]]; do
       case "$1" in
         --rm)
           shift
+          ;;
+        --name)
+          container_name="${2:-}"
+          shift 2
           ;;
         -v|-e|-w)
           shift 2
@@ -198,6 +211,11 @@ STATS
         ;;
       "printf builder-ok")
         printf builder-ok
+        ;;
+      "'sleep' '5'")
+        printf '%s\n' "$$" >"${DOCKER_CONTAINER_PID_FILE:?}"
+        trap 'rm -f "$DOCKER_CONTAINER_PID_FILE"' EXIT
+        sleep 5
         ;;
       *)
         echo "unexpected builder command: $command" >&2
@@ -380,6 +398,9 @@ assert summary["status"] == "failed"
 assert summary["transport_failure"]["summary_fetch_failed"] is True
 assert summary["transport_failure"]["executor"] == "ssh"
 assert summary["command"] == "printf no-transport"
+assert summary["cleanup"]["attempted"] is False
+assert summary["cleanup"]["complete"] is False
+assert summary["failure_class"] == "provider_availability"
 PY
 grep -F "fallback summary written locally" "$TMP/transport-fail.err" >/dev/null
 
@@ -443,20 +464,179 @@ assert result["fallback"]["policy"] == "offer_local"
 assert result["artifact_digests"][0]["path"] == "summary.json"
 PY
 
+if SSH_BIN="$fake_bin/ssh-fail" bash "$SCRIPT" \
+  --portable-request "$portable_request" --portable-runner "$portable_runner" \
+  --executor ssh --host fixture.invalid --ssh-user fixture \
+  --run-id portable-transport-fail \
+  --local-artifact-dir "$TMP/artifacts-portable-transport" \
+  >"$TMP/portable-transport.out" 2>"$TMP/portable-transport.err"; then
+  echo "expected portable transport failure with unknown cleanup to fail closed" >&2
+  exit 1
+fi
+python3 - "$TMP/artifacts-portable-transport/portable-execution.json" <<'PY'
+import json
+import sys
+receipt = json.load(open(sys.argv[1], encoding="utf-8"))
+assert receipt["outcome"] == "provider_unavailable"
+assert receipt["cleanup"] == {
+    "attempted": False,
+    "complete": False,
+    "detail": "transport failed before remote process cleanup could be observed",
+}
+assert receipt["fallback"]["offered"] is False
+PY
+
+validation_request="$TMP/portable-nessus-validation-request.json"
+python3 - "$portable_request" "$validation_request" <<'PY'
+import hashlib
+import json
+import sys
+payload = json.load(open(sys.argv[1], encoding="utf-8"))
+payload["command_profile"]["argv"] = ["false"]
+payload["command_profile_digest"] = hashlib.sha256(
+    json.dumps(payload["command_profile"], separators=(",", ":")).encode()
+).hexdigest()
+json.dump(payload, open(sys.argv[2], "w", encoding="utf-8"), separators=(",", ":"))
+PY
+if PATH="$fake_bin:$PATH" bash "$SCRIPT" \
+  --portable-request "$validation_request" --portable-runner "$portable_runner" \
+  --executor local --remote-root "$TMP/portable-validation-root" \
+  --repo-url "$origin_bare" --run-id portable-validation-fail \
+  --local-artifact-dir "$TMP/artifacts-portable-validation" \
+  >"$TMP/portable-validation.out" 2>"$TMP/portable-validation.err"; then
+  echo "expected portable validation failure" >&2
+  exit 1
+fi
+python3 - "$TMP/artifacts-portable-validation/portable-execution.json" <<'PY'
+import json
+import sys
+receipt = json.load(open(sys.argv[1], encoding="utf-8"))
+assert receipt["outcome"] == "failed"
+assert receipt["cleanup"]["complete"] is True
+assert receipt["fallback"]["offered"] is False
+PY
+
+timeout_request="$TMP/portable-nessus-timeout-request.json"
+python3 - "$portable_request" "$timeout_request" <<'PY'
+import hashlib
+import json
+import sys
+payload = json.load(open(sys.argv[1], encoding="utf-8"))
+payload["command_profile"]["argv"] = ["sleep", "5"]
+payload["command_profile_digest"] = hashlib.sha256(
+    json.dumps(payload["command_profile"], separators=(",", ":")).encode()
+).hexdigest()
+payload["resource_budget"]["timeout_seconds"] = 1
+json.dump(payload, open(sys.argv[2], "w", encoding="utf-8"), separators=(",", ":"))
+PY
+if PATH="$fake_bin:$PATH" bash "$SCRIPT" \
+  --portable-request "$timeout_request" --portable-runner "$portable_runner" \
+  --executor local --remote-root "$TMP/portable-timeout-root" \
+  --repo-url "$origin_bare" --run-id portable-timeout \
+  --local-artifact-dir "$TMP/artifacts-portable-timeout" \
+  >"$TMP/portable-timeout.out" 2>"$TMP/portable-timeout.err"; then
+  echo "expected portable Nessus total-run timeout" >&2
+  exit 1
+fi
+python3 - "$TMP/artifacts-portable-timeout/portable-execution.json" <<'PY'
+import json
+import sys
+receipt = json.load(open(sys.argv[1], encoding="utf-8"))
+assert receipt["outcome"] == "timed_out"
+assert receipt["cleanup"]["complete"] is True
+assert receipt["fallback"]["offered"] is False
+PY
+
+cancel_after_start_request="$TMP/portable-nessus-cancel-after-start.json"
+python3 - "$portable_request" "$cancel_after_start_request" <<'PY'
+import hashlib
+import json
+import sys
+payload = json.load(open(sys.argv[1], encoding="utf-8"))
+payload["command_profile"]["argv"] = ["sleep", "5"]
+payload["command_profile_digest"] = hashlib.sha256(
+    json.dumps(payload["command_profile"], separators=(",", ":")).encode()
+).hexdigest()
+payload["cancellation_file"] = "wp5823-nessus-cancel-after-start.signal"
+json.dump(payload, open(sys.argv[2], "w", encoding="utf-8"), separators=(",", ":"))
+PY
+rm -f "$ROOT/wp5823-nessus-cancel-after-start.signal"
+set +e
+PATH="$fake_bin:$PATH" bash "$SCRIPT" \
+  --portable-request "$cancel_after_start_request" --portable-runner "$portable_runner" \
+  --executor local --remote-root "$TMP/portable-cancel-root" \
+  --repo-url "$origin_bare" --run-id portable-cancel-after-start \
+  --local-artifact-dir "$TMP/artifacts-portable-cancel" \
+  >"$TMP/portable-cancel-after.out" 2>"$TMP/portable-cancel-after.err" &
+cancel_pid=$!
+sleep 0.3
+touch "$ROOT/wp5823-nessus-cancel-after-start.signal"
+wait "$cancel_pid"
+cancel_rc=$?
+set -e
+rm -f "$ROOT/wp5823-nessus-cancel-after-start.signal"
+if [[ "$cancel_rc" -eq 0 ]]; then
+  echo "expected cancellation arriving after Nessus start to fail closed" >&2
+  exit 1
+fi
+python3 - "$TMP/artifacts-portable-cancel/portable-execution.json" <<'PY'
+import json
+import sys
+receipt = json.load(open(sys.argv[1], encoding="utf-8"))
+assert receipt["outcome"] == "cancelled"
+assert receipt["cleanup"]["attempted"] is True
+assert receipt["cleanup"]["complete"] is True
+assert receipt["fallback"]["offered"] is False
+PY
+
+rm -f "$ROOT/wp5823-nessus-cancel-after-start.signal" "$TMP/docker-container.pid" "$TMP/docker-rm.log"
+set +e
+PATH="$fake_bin:$PATH" \
+DOCKER_CONTAINER_PID_FILE="$TMP/docker-container.pid" \
+DOCKER_RM_LOG="$TMP/docker-rm.log" \
+bash "$SCRIPT" \
+  --portable-request "$cancel_after_start_request" --portable-runner "$portable_runner" \
+  --executor local --remote-root "$TMP/portable-builder-cancel-root" \
+  --repo-url "$origin_bare" --run-id portable-builder-cancel-after-start \
+  --builder-image "example.invalid/adl-builder:test" --builder-pull-policy never \
+  --local-artifact-dir "$TMP/artifacts-portable-builder-cancel" \
+  >"$TMP/portable-builder-cancel.out" 2>"$TMP/portable-builder-cancel.err" &
+builder_cancel_pid=$!
+sleep 0.3
+touch "$ROOT/wp5823-nessus-cancel-after-start.signal"
+wait "$builder_cancel_pid"
+builder_cancel_rc=$?
+set -e
+rm -f "$ROOT/wp5823-nessus-cancel-after-start.signal"
+if [[ "$builder_cancel_rc" -eq 0 ]]; then
+  echo "expected containerized cancellation to fail closed" >&2
+  exit 1
+fi
+python3 - "$TMP/artifacts-portable-builder-cancel/portable-execution.json" <<'PY'
+import json
+import sys
+receipt = json.load(open(sys.argv[1], encoding="utf-8"))
+assert receipt["outcome"] == "cancelled"
+assert receipt["cleanup"]["attempted"] is True
+assert receipt["cleanup"]["complete"] is True
+assert receipt["fallback"]["offered"] is False
+PY
+grep -F "rm adl-nessus-portable-builder-cancel-after-start" "$TMP/docker-rm.log" >/dev/null
+
 cancel_request="$TMP/portable-nessus-cancel-request.json"
 python3 - "$portable_request" "$cancel_request" <<'PY'
 import json
 import sys
 payload = json.load(open(sys.argv[1], encoding="utf-8"))
-payload["cancellation_file"] = "cancel.signal"
+payload["cancellation_file"] = "wp5823-nessus-cancel.signal"
 json.dump(payload, open(sys.argv[2], "w", encoding="utf-8"), separators=(",", ":"))
 PY
-touch "$ROOT/cancel.signal"
+touch "$ROOT/wp5823-nessus-cancel.signal"
 if PATH="$fake_bin:$PATH" bash "$SCRIPT" --portable-request "$cancel_request" --portable-runner "$portable_runner" --executor local >"$TMP/portable-cancel.out" 2>"$TMP/portable-cancel.err"; then
   echo "expected portable cancellation file to stop Nessus execution" >&2
   exit 1
 fi
-rm "$ROOT/cancel.signal"
+rm "$ROOT/wp5823-nessus-cancel.signal"
 grep -F "cancellation requested before remote execution" "$TMP/portable-cancel.err" >/dev/null
 
 if bash "$SCRIPT" --portable-request "$portable_request" --portable-runner "$portable_runner" --command "true" >"$TMP/portable-conflict.out" 2>"$TMP/portable-conflict.err"; then

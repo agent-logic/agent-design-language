@@ -16,6 +16,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::fmt;
 use std::fs::OpenOptions;
+use std::future::Future;
 use std::io::Write;
 use std::net::Ipv4Addr;
 use std::path::{Path, PathBuf};
@@ -132,7 +133,9 @@ pub struct AwsRemoteValidationConfig {
     pub allow_on_demand_fallback: bool,
     pub budget_name: Option<String>,
     pub expected_max_cost_usd: Option<f64>,
+    pub estimated_hourly_cost_usd: Option<f64>,
     pub cancellation_file: Option<PathBuf>,
+    pub total_run_timeout_seconds: Option<u64>,
     pub poll_interval_seconds: u64,
     pub ssm_ready_timeout_seconds: u64,
     pub command_timeout_seconds: Option<u64>,
@@ -154,13 +157,37 @@ impl AwsRemoteValidationConfig {
         if self.instance_types.is_empty() {
             return Err(anyhow!("at least one --instance-type is required"));
         }
-        if self
+        let expected_max_cost_usd = self
             .expected_max_cost_usd
-            .is_some_and(|value| !value.is_finite() || value <= 0.0)
-        {
+            .ok_or_else(|| anyhow!("expected maximum cost is required for provider work"))?;
+        if !expected_max_cost_usd.is_finite() || expected_max_cost_usd <= 0.0 {
             return Err(anyhow!(
                 "expected maximum cost must be finite and greater than zero"
             ));
+        }
+        let estimated_hourly_cost_usd = self
+            .estimated_hourly_cost_usd
+            .ok_or_else(|| anyhow!("estimated hourly cost is required for provider work"))?;
+        if !estimated_hourly_cost_usd.is_finite() || estimated_hourly_cost_usd <= 0.0 {
+            return Err(anyhow!(
+                "estimated hourly cost must be finite and greater than zero"
+            ));
+        }
+        let total_seconds = self
+            .total_run_timeout_seconds
+            .ok_or_else(|| anyhow!("total run timeout is required for provider work"))?;
+        {
+            if total_seconds <= self.termination_timeout_seconds {
+                return Err(anyhow!(
+                    "total run timeout must exceed the reserved termination timeout"
+                ));
+            }
+            let projected = estimated_hourly_cost_usd * total_seconds as f64 / 3_600.0;
+            if projected > expected_max_cost_usd {
+                return Err(anyhow!(
+                    "projected cumulative provider cost exceeds the declared ceiling"
+                ));
+            }
         }
         if self.command_timeout_seconds == Some(0) {
             return Err(anyhow!("command timeout must be greater than zero"));
@@ -218,6 +245,7 @@ pub fn apply_portable_aws_request(
         .estimated_max_cost_microusd
         .map(|value| value as f64 / 1_000_000.0);
     config.cancellation_file = plan.cancellation_file.clone().map(PathBuf::from);
+    config.total_run_timeout_seconds = Some(plan.resource_budget.timeout_seconds);
     Ok(plan)
 }
 
@@ -790,6 +818,8 @@ pub trait AwsRemoteValidationAdapter {
         command: &str,
         timeout: Option<Duration>,
         poll_interval: Duration,
+        cancellation_file: Option<&Path>,
+        deadline: Option<Instant>,
     ) -> std::result::Result<CommandExecutionResult, AwsAdapterError>;
     async fn instance_state(
         &self,
@@ -817,6 +847,40 @@ pub trait AwsRemoteValidationAdapter {
     async fn budget_snapshot(&self, budget_name: &str) -> Result<Option<BudgetSnapshot>>;
 }
 
+enum ControlledWait<T, E> {
+    Completed(std::result::Result<T, E>),
+    Cancelled,
+    DeadlineExceeded,
+}
+
+async fn wait_with_controls<F, T, E>(
+    future: F,
+    cancellation_file: Option<&Path>,
+    deadline: Option<Instant>,
+    poll_interval: Duration,
+) -> ControlledWait<T, E>
+where
+    F: Future<Output = std::result::Result<T, E>>,
+{
+    tokio::pin!(future);
+    loop {
+        if cancellation_file.is_some_and(Path::exists) {
+            return ControlledWait::Cancelled;
+        }
+        if deadline.is_some_and(|value| Instant::now() >= value) {
+            return ControlledWait::DeadlineExceeded;
+        }
+        let remaining = deadline
+            .map(|value| value.saturating_duration_since(Instant::now()))
+            .unwrap_or(poll_interval);
+        let delay = poll_interval.min(remaining.max(Duration::from_millis(1)));
+        tokio::select! {
+            result = &mut future => return ControlledWait::Completed(result),
+            _ = sleep(delay) => {}
+        }
+    }
+}
+
 pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
     adapter: &A,
     config: &AwsRemoteValidationConfig,
@@ -825,6 +889,14 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
     initialize_live_log_paths(&config.artifact_dir)?;
     let start_wall = Utc::now();
     let total_timer = Instant::now();
+    let total_deadline = config
+        .total_run_timeout_seconds
+        .map(|seconds| total_timer + Duration::from_secs(seconds));
+    let work_deadline = total_deadline.map(|deadline| {
+        deadline
+            .checked_sub(Duration::from_secs(config.termination_timeout_seconds))
+            .unwrap_or(total_timer)
+    });
     let mut events = Vec::new();
     let mut attempts = Vec::new();
     let mut launch: Option<LaunchRecord> = None;
@@ -923,6 +995,19 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
             );
             break 'launch;
         }
+        if work_deadline.is_some_and(|deadline| Instant::now() >= deadline) {
+            failure_reason = Some(
+                "cumulative provider deadline reached before launch; teardown reserve preserved"
+                    .to_string(),
+            );
+            record_event(
+                &mut events,
+                "deadline",
+                "timed_out",
+                failure_reason.clone().unwrap_or_default(),
+            );
+            break 'launch;
+        }
         let spot_spec = LaunchSpec {
             run_id: config.run_id.clone(),
             instance_type: instance_type.clone(),
@@ -966,6 +1051,27 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                     "ok",
                     format!("instance_type={} market=spot launched", instance_type),
                 );
+                if cancellation_requested() {
+                    failure_reason =
+                        Some("portable cancellation observed during spot launch".into());
+                    record_event(
+                        &mut events,
+                        "cancellation",
+                        "cancelled",
+                        failure_reason.clone().unwrap_or_default(),
+                    );
+                } else if work_deadline.is_some_and(|deadline| Instant::now() >= deadline) {
+                    failure_reason = Some(
+                        "cumulative provider deadline reached during spot launch; teardown reserve activated"
+                            .into(),
+                    );
+                    record_event(
+                        &mut events,
+                        "deadline",
+                        "timed_out",
+                        failure_reason.clone().unwrap_or_default(),
+                    );
+                }
                 break 'launch;
             }
             Err(err) => {
@@ -1032,6 +1138,27 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                     "ok",
                     format!("instance_type={} market=on_demand launched", instance_type),
                 );
+                if cancellation_requested() {
+                    failure_reason =
+                        Some("portable cancellation observed during on-demand launch".into());
+                    record_event(
+                        &mut events,
+                        "cancellation",
+                        "cancelled",
+                        failure_reason.clone().unwrap_or_default(),
+                    );
+                } else if work_deadline.is_some_and(|deadline| Instant::now() >= deadline) {
+                    failure_reason = Some(
+                        "cumulative provider deadline reached during on-demand launch; teardown reserve activated"
+                            .into(),
+                    );
+                    record_event(
+                        &mut events,
+                        "deadline",
+                        "timed_out",
+                        failure_reason.clone().unwrap_or_default(),
+                    );
+                }
                 break 'launch;
             }
             Err(err) => {
@@ -1072,15 +1199,19 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
     if failure_reason.is_none() {
         if let Some(instance_id_ref) = instance_id.as_deref() {
             let ssm_timer = Instant::now();
-            match adapter
-                .wait_for_ssm_online(
+            match wait_with_controls(
+                adapter.wait_for_ssm_online(
                     instance_id_ref,
                     Duration::from_secs(config.ssm_ready_timeout_seconds),
                     Duration::from_secs(config.poll_interval_seconds),
-                )
-                .await
+                ),
+                config.cancellation_file.as_deref(),
+                work_deadline,
+                Duration::from_millis(100),
+            )
+            .await
             {
-                Ok(result) => {
+                ControlledWait::Completed(Ok(result)) => {
                     ssm_ready_seconds = Some(ssm_timer.elapsed().as_secs());
                     record_event(
                         &mut events,
@@ -1089,9 +1220,31 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                         format!("instance became SSM-ready with status {}", result.status),
                     );
                 }
-                Err(err) => {
+                ControlledWait::Completed(Err(err)) => {
                     failure_reason = Some(format!("instance never became SSM-ready: {err}"));
                     record_event(&mut events, "ssm", "failed", err.to_string());
+                }
+                ControlledWait::Cancelled => {
+                    failure_reason =
+                        Some("portable cancellation observed while waiting for SSM".to_string());
+                    record_event(
+                        &mut events,
+                        "cancellation",
+                        "cancelled",
+                        failure_reason.clone().unwrap_or_default(),
+                    );
+                }
+                ControlledWait::DeadlineExceeded => {
+                    failure_reason = Some(
+                        "cumulative provider deadline reached while waiting for SSM; teardown reserve activated"
+                            .to_string(),
+                    );
+                    record_event(
+                        &mut events,
+                        "deadline",
+                        "timed_out",
+                        failure_reason.clone().unwrap_or_default(),
+                    );
                 }
             }
         }
@@ -1121,6 +1274,8 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                     &remote_script,
                     config.command_timeout_seconds.map(Duration::from_secs),
                     Duration::from_secs(config.poll_interval_seconds),
+                    config.cancellation_file.as_deref(),
+                    work_deadline,
                 )
                 .await
             {
@@ -1214,6 +1369,13 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                     }
                 }
                 Err(err) => {
+                    let control_status = match err.code.as_deref() {
+                        Some("CommandCancelled") => Some(("cancellation", "cancelled")),
+                        Some("TotalRunDeadlineExceeded") | Some("CommandTimedOut") => {
+                            Some(("deadline", "timed_out"))
+                        }
+                        _ => None,
+                    };
                     let current_state = adapter
                         .instance_state(instance_id_ref)
                         .await
@@ -1241,8 +1403,12 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                     failure_reason = Some(format!("remote command dispatch failed: {err}"));
                     record_event(
                         &mut events,
-                        "remote_command",
-                        if interrupted { "interrupted" } else { "failed" },
+                        control_status
+                            .map(|(stage, _)| stage)
+                            .unwrap_or("remote_command"),
+                        control_status
+                            .map(|(_, status)| status)
+                            .unwrap_or(if interrupted { "interrupted" } else { "failed" }),
                         format!(
                             "dispatch failed while instance_state={current_state} provider_interruption_confirmed={provider_interruption_confirmed}: {err}"
                         ),
@@ -1266,7 +1432,11 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                 match adapter
                     .wait_for_termination(
                         instance_id_ref,
-                        Duration::from_secs(config.termination_timeout_seconds),
+                        total_deadline
+                            .map(|deadline| deadline.saturating_duration_since(Instant::now()))
+                            .unwrap_or_else(|| {
+                                Duration::from_secs(config.termination_timeout_seconds)
+                            }),
                         Duration::from_secs(config.poll_interval_seconds),
                     )
                     .await
@@ -1469,7 +1639,7 @@ fn record_event(events: &mut Vec<EventRecord>, stage: &str, status: &str, detail
         timestamp: Utc::now().to_rfc3339(),
         stage: stage.to_string(),
         status: status.to_string(),
-        detail,
+        detail: redact_sensitive_text(&detail),
     };
     append_jsonl_line(&LIVE_EVENT_LOG_PATH, &event);
     events.push(event);
@@ -1525,7 +1695,8 @@ fn append_command_status_line(status: &str, detail: impl Into<String>) {
         return;
     };
     let timestamp = Utc::now().to_rfc3339();
-    let _ = writeln!(file, "{timestamp} status={status} {}", detail.into());
+    let detail = redact_sensitive_text(&detail.into());
+    let _ = writeln!(file, "{timestamp} status={status} {detail}");
 }
 
 fn sha256_hex(value: &str) -> String {
@@ -3215,6 +3386,8 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
         command: &str,
         timeout: Option<Duration>,
         poll_interval: Duration,
+        cancellation_file: Option<&Path>,
+        deadline: Option<Instant>,
     ) -> std::result::Result<CommandExecutionResult, AwsAdapterError> {
         let run_root = extract_run_root(command);
         let ssh_tail_ready = if run_root.is_some() && self.ssh_debug.is_some() {
@@ -3278,6 +3451,37 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
         );
         let start = Instant::now();
         loop {
+            let cancellation = cancellation_file.is_some_and(Path::exists);
+            let deadline_exceeded = deadline.is_some_and(|value| Instant::now() >= value);
+            if cancellation || deadline_exceeded {
+                let _ = self
+                    .ssm
+                    .cancel_command()
+                    .command_id(&command_id)
+                    .instance_ids(instance_id)
+                    .send()
+                    .await;
+                if let Some(child) = ssh_tail_child.as_mut() {
+                    let _ = child.start_kill();
+                }
+                return Err(AwsAdapterError {
+                    code: Some(
+                        if cancellation {
+                            "CommandCancelled"
+                        } else {
+                            "TotalRunDeadlineExceeded"
+                        }
+                        .to_string(),
+                    ),
+                    message: if cancellation {
+                        "portable cancellation observed after remote command start"
+                    } else {
+                        "cumulative provider deadline reached after remote command start"
+                    }
+                    .to_string(),
+                    spot_fallback_permitted: false,
+                });
+            }
             let invocation = match self
                 .ssm
                 .get_command_invocation()
@@ -3702,6 +3906,24 @@ mod tests {
         }
     }
 
+    #[test]
+    fn live_status_append_redacts_identifiers_and_machine_paths() {
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-status-redaction-{}",
+            std::process::id()
+        ));
+        initialize_live_log_paths(&tmp).expect("initialize logs");
+        append_command_status_line(
+            "interrupted",
+            "account=123456789012 instance=i-1234567890 path=/Volumes/FastWork/private arn:aws:sts::123456789012:assumed-role/example",
+        );
+        clear_live_log_paths();
+        let retained = std::fs::read_to_string(tmp.join("command-status.log")).expect("status log");
+        for sensitive in ["123456789012", "i-1234567890", "/Volumes/", "arn:aws:"] {
+            assert!(!retained.contains(sensitive));
+        }
+    }
+
     struct FakeAdapter {
         quota: QuotaSnapshot,
         identity: AwsAccountIdentity,
@@ -3726,8 +3948,11 @@ mod tests {
 
         async fn launch_instance(
             &self,
-            _spec: &LaunchSpec,
+            spec: &LaunchSpec,
         ) -> std::result::Result<LaunchResult, AwsAdapterError> {
+            if spec.run_id == "slow-launch" {
+                sleep(Duration::from_millis(20)).await;
+            }
             self.launch_results
                 .lock()
                 .expect("launch results mutex")
@@ -3741,6 +3966,7 @@ mod tests {
             _timeout: Duration,
             _poll_interval: Duration,
         ) -> std::result::Result<SsmReadyResult, AwsAdapterError> {
+            sleep(Duration::from_millis(10)).await;
             self.ssm_ready.clone()
         }
 
@@ -3750,7 +3976,28 @@ mod tests {
             _command: &str,
             _timeout: Option<Duration>,
             _poll_interval: Duration,
+            cancellation_file: Option<&Path>,
+            deadline: Option<Instant>,
         ) -> std::result::Result<CommandExecutionResult, AwsAdapterError> {
+            for _ in 0..50 {
+                if cancellation_file.is_some_and(Path::exists) {
+                    return Err(AwsAdapterError {
+                        code: Some("CommandCancelled".to_string()),
+                        message: "portable cancellation observed after remote command start"
+                            .to_string(),
+                        spot_fallback_permitted: false,
+                    });
+                }
+                if deadline.is_some_and(|value| Instant::now() >= value) {
+                    return Err(AwsAdapterError {
+                        code: Some("TotalRunDeadlineExceeded".to_string()),
+                        message: "cumulative provider deadline reached after remote command start"
+                            .to_string(),
+                        spot_fallback_permitted: false,
+                    });
+                }
+                sleep(Duration::from_millis(1)).await;
+            }
             self.command_result.clone()
         }
 
@@ -3834,12 +4081,150 @@ mod tests {
             allow_on_demand_fallback: true,
             budget_name: Some("Agent Logic Monthly".to_string()),
             expected_max_cost_usd: Some(20.0),
+            estimated_hourly_cost_usd: Some(0.1),
             cancellation_file: None,
+            total_run_timeout_seconds: Some(60),
             poll_interval_seconds: 1,
             ssm_ready_timeout_seconds: 10,
             command_timeout_seconds: Some(20),
             termination_timeout_seconds: 10,
         }
+    }
+
+    fn cancellable_adapter() -> FakeAdapter {
+        FakeAdapter {
+            quota: QuotaSnapshot {
+                spot_vcpu_quota: Some(32.0),
+                on_demand_vcpu_quota: Some(64.0),
+                notes: vec![],
+            },
+            identity: AwsAccountIdentity {
+                account_id: Some("123456789012".to_string()),
+                account_id_sha256: Some("hash".to_string()),
+                arn: None,
+                user_id: None,
+            },
+            launch_results: Mutex::new(VecDeque::from(vec![Ok(LaunchResult {
+                instance_id: "i-cancellable".to_string(),
+                initial_state: "pending".to_string(),
+                cache_volume: None,
+            })])),
+            ssm_ready: Ok(SsmReadyResult {
+                status: "Online".to_string(),
+            }),
+            command_result: Ok(CommandExecutionResult {
+                command_id: "cmd-cancellable".to_string(),
+                status: "Success".to_string(),
+                response_code: Some(0),
+                stdout: String::new(),
+                stderr: String::new(),
+            }),
+            terminate_result: Ok(()),
+            final_state: Ok(Some("terminated".to_string())),
+            cost: None,
+            budget: None,
+        }
+    }
+
+    #[tokio::test]
+    async fn cancellation_arriving_during_ssm_wait_terminates_provider_resource() {
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-cancel-ssm-{}",
+            std::process::id()
+        ));
+        let cancellation_file = tmp.join("cancel.signal");
+        let _ = std::fs::remove_file(&cancellation_file);
+        let mut config = sample_config(&tmp);
+        config.cancellation_file = Some(cancellation_file.clone());
+        let writer = tokio::spawn(async move {
+            sleep(Duration::from_millis(2)).await;
+            fs::create_dir_all(cancellation_file.parent().expect("parent"))
+                .await
+                .expect("create cancellation parent");
+            fs::write(cancellation_file, b"cancel\n")
+                .await
+                .expect("write cancellation");
+        });
+        let (summary, events) = run_aws_remote_validation(&cancellable_adapter(), &config)
+            .await
+            .expect("summary");
+        writer.await.expect("writer");
+        assert!(summary.cleanup.termination_attempted);
+        assert_eq!(
+            summary.cleanup.final_instance_state.as_deref(),
+            Some("terminated")
+        );
+        assert!(events
+            .iter()
+            .any(|event| event.stage == "cancellation" && event.status == "cancelled"));
+    }
+
+    #[tokio::test]
+    async fn cancellation_arriving_during_launch_retains_identity_and_terminates_resource() {
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-cancel-launch-{}",
+            std::process::id()
+        ));
+        let cancellation_file = tmp.join("cancel.signal");
+        let _ = std::fs::remove_file(&cancellation_file);
+        let mut config = sample_config(&tmp);
+        config.run_id = "slow-launch".to_string();
+        config.cancellation_file = Some(cancellation_file.clone());
+        let writer = tokio::spawn(async move {
+            sleep(Duration::from_millis(2)).await;
+            fs::create_dir_all(cancellation_file.parent().expect("parent"))
+                .await
+                .expect("create cancellation parent");
+            fs::write(cancellation_file, b"cancel\n")
+                .await
+                .expect("write cancellation");
+        });
+        let (summary, events) = run_aws_remote_validation(&cancellable_adapter(), &config)
+            .await
+            .expect("summary");
+        writer.await.expect("writer");
+        assert!(summary.launch.is_some());
+        assert!(summary.cleanup.termination_attempted);
+        assert_eq!(
+            summary.cleanup.final_instance_state.as_deref(),
+            Some("terminated")
+        );
+        assert!(events
+            .iter()
+            .any(|event| event.stage == "cancellation" && event.status == "cancelled"));
+    }
+
+    #[tokio::test]
+    async fn cancellation_arriving_during_command_terminates_provider_resource() {
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-cancel-command-{}",
+            std::process::id()
+        ));
+        let cancellation_file = tmp.join("cancel.signal");
+        let _ = std::fs::remove_file(&cancellation_file);
+        let mut config = sample_config(&tmp);
+        config.cancellation_file = Some(cancellation_file.clone());
+        let writer = tokio::spawn(async move {
+            sleep(Duration::from_millis(20)).await;
+            fs::create_dir_all(cancellation_file.parent().expect("parent"))
+                .await
+                .expect("create cancellation parent");
+            fs::write(cancellation_file, b"cancel\n")
+                .await
+                .expect("write cancellation");
+        });
+        let (summary, events) = run_aws_remote_validation(&cancellable_adapter(), &config)
+            .await
+            .expect("summary");
+        writer.await.expect("writer");
+        assert!(summary.cleanup.termination_attempted);
+        assert_eq!(
+            summary.cleanup.final_instance_state.as_deref(),
+            Some("terminated")
+        );
+        assert!(events
+            .iter()
+            .any(|event| event.stage == "cancellation" && event.status == "cancelled"));
     }
 
     #[tokio::test]
@@ -3911,9 +4296,13 @@ mod tests {
             }),
             budget: None,
         };
-        let (summary, events) = run_aws_remote_validation(&adapter, &sample_config(&tmp))
+        let config = sample_config(&tmp);
+        let (summary, events) = run_aws_remote_validation(&adapter, &config)
             .await
             .expect("summary");
+        write_summary_artifacts(&summary, &events, &config.out_path, &config.artifact_dir)
+            .await
+            .expect("retained summary and event artifacts");
         assert_eq!(summary.status, RemoteRunStatus::Passed);
         assert_eq!(
             summary.resilience.fault_class,
@@ -3940,6 +4329,8 @@ mod tests {
             .expect("redacted stdout");
         let retained_stderr = std::fs::read_to_string(tmp.join("artifacts/command-stderr.log"))
             .expect("redacted stderr");
+        let retained_events = std::fs::read_to_string(tmp.join("artifacts/events.jsonl"))
+            .expect("redacted live events");
         let public_summary = serde_json::to_string(&redacted_summary(&summary)).expect("summary");
         for sensitive in [
             "123456789012",
@@ -3950,6 +4341,7 @@ mod tests {
         ] {
             assert!(!retained_stdout.contains(sensitive));
             assert!(!retained_stderr.contains(sensitive));
+            assert!(!retained_events.contains(sensitive));
             assert!(!public_summary.contains(sensitive));
         }
     }

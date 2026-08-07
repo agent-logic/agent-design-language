@@ -659,6 +659,7 @@ PY
 bash "$SCRIPT" \
     --portable-request "$portable_request" \
     --portable-runner "$portable_runner" \
+    --estimated-hourly-cost-usd 0.15 \
     --bin "$fake_bin/adl-aws-remote-validation" \
     --out "$TMP/portable-summary.json" \
     --artifact-dir "$TMP/portable-artifacts" >"$TMP/portable-plan.out"
@@ -668,11 +669,27 @@ grep -F "DRY-RUN no EC2 resources launched" "$TMP/portable-plan.out" >/dev/null
 bash "$SCRIPT" \
     --portable-request "$portable_request" \
     --portable-runner "$portable_runner" \
+    --estimated-hourly-cost-usd 0.15 \
     --bin "$fake_bin/adl-aws-remote-validation" \
     --out "$TMP/portable-command-summary.json" \
     --artifact-dir "$TMP/portable-command-artifacts" \
     --print-command >"$TMP/portable-command.out"
 grep -F -- "--expected-max-cost-usd 0.200000" "$TMP/portable-command.out" >/dev/null
+grep -E -- "--estimated-hourly-cost-usd 0\.15(0+)?([[:space:]]|$)" "$TMP/portable-command.out" >/dev/null
+grep -F -- "--total-run-timeout-seconds 321" "$TMP/portable-command.out" >/dev/null
+grep -F -- "--spot-only" "$TMP/portable-command.out" >/dev/null
+
+if bash "$SCRIPT" \
+    --portable-request "$portable_request" \
+    --portable-runner "$portable_runner" \
+    --bin "$fake_bin/adl-aws-remote-validation" \
+    --out "$TMP/portable-missing-rate-summary.json" \
+    --artifact-dir "$TMP/portable-missing-rate-artifacts" \
+    --print-command >"$TMP/portable-missing-rate.out" 2>"$TMP/portable-missing-rate.err"; then
+  echo "expected portable AWS planning without an hourly rate to fail closed" >&2
+  exit 1
+fi
+grep -F "portable AWS planning requires --estimated-hourly-cost-usd" "$TMP/portable-missing-rate.err" >/dev/null
 
 ADL_AWS_CLI="$fake_bin/aws" bash "$SCRIPT" preflight \
     --portable-request "$portable_request" \
@@ -710,15 +727,15 @@ python3 - "$portable_request" "$portable_cancel_request" <<'PY'
 import json
 import sys
 payload = json.load(open(sys.argv[1], encoding="utf-8"))
-payload["cancellation_file"] = "cancel.signal"
+payload["cancellation_file"] = "wp5823-aws-cancel.signal"
 json.dump(payload, open(sys.argv[2], "w", encoding="utf-8"), separators=(",", ":"))
 PY
-touch "$ROOT/cancel.signal"
+touch "$ROOT/wp5823-aws-cancel.signal"
 if bash "$SCRIPT" preflight --portable-request "$portable_cancel_request" --portable-runner "$portable_runner" >"$TMP/portable-cancel.out" 2>"$TMP/portable-cancel.err"; then
   echo "expected AWS cancellation file to stop before provider use" >&2
   exit 1
 fi
-rm "$ROOT/cancel.signal"
+rm "$ROOT/wp5823-aws-cancel.signal"
 grep -F "cancellation requested before provider use" "$TMP/portable-cancel.err" >/dev/null
 
 portable_mismatch_request="$TMP/portable-aws-mismatch-request.json"
