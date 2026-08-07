@@ -35,28 +35,7 @@ adl/tools/test_run_aws_spot_remote_validation_lane.sh
 
 ## Findings
 
-[
-  {
-    "id": "F-5820-1",
-    "severity": "p2",
-    "summary": "Preflight lifecycle reports were overstated as platform acceptance proof despite acceptance_eligible=false.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "F-5820-2",
-    "severity": "p2",
-    "summary": "Final validation replaced digest-complete native receipt semantics with a shallow selected-field summary check.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -64,12 +43,15 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Native Windows lifecycle proof remains explicitly blocked by unavailable execution authority.
+- Native Windows behavior remains untested and explicitly blocked under AC-7.
+- Approximately 80 MB of compressed native proof binaries is retained in Git history.
+- Gzip verification has no explicit expansion-size ceiling; future archive replacements require exact review.
+- The EBS deletion receipt is repository evidence rather than independently signed AWS attestation.
 
 ## Review Result
 
-Revision: Some("git-blake3:833ace7992c0cfd109777183ca55064d4c3a5a05:011a1577df5c66e35f206df42fc5a3578672dd1008f6c5f3a93f080071d8c2d4")
+Revision: Some("git-blake3:a26ce00b98df6ce238e19c79025c545ba93f88a7:e35f3aac6957918c3d51b91b4ef94e498e9f5827cf276ddc285e21917c287cea")
 
 Reviewer: Some("subagent:Leibniz")
 
-Result: changes_required
+Result: pass

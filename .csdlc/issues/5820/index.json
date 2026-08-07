@@ -3,15 +3,15 @@
   "issue": 5820,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "50b75585680c7acb7b8f8912ae3704962d8da142da1ef08a64e78dd0fb1f0129",
-  "phase": "implemented",
-  "generation": 44,
-  "digest": "75dd2c007c46ceb796cc9d45f3ce0983427d7a5da4e3baa92319dce1c7352f35",
+  "phase": "reviewed",
+  "generation": 45,
+  "digest": "ae2ed6c325fba2ee19eab2d4fcd7b3a728cd2d9ba53369c8732e28ae36bff390",
   "branch": "codex/5820-v092-runtime-launch-resilience",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-wp-5820-runtime-launch-resilience",
   "review_assignment": {
     "reviewer": "subagent:Leibniz",
     "assigned_by": "codex:5820-runtime-resilience",
-    "revision": "git-blake3:06cb596d46f1bd0a720d4042a1957d585a4ac3f1:fc4ea79bdc7ba00fa7b89b1cbd98d2f5895d9fce0997b97c90f69cd685a19d95",
+    "revision": "git-blake3:a26ce00b98df6ce238e19c79025c545ba93f88a7:e35f3aac6957918c3d51b91b4ef94e498e9f5827cf276ddc285e21917c287cea",
     "scope": [
       "adl-runtime-kernel/src/config.rs",
       "adl-runtime/src/bin/adl-runtime-guardian.rs",
@@ -27,7 +27,33 @@
       ".csdlc/prepared/issues/5820"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:Leibniz",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime/tests/runtime_guardian_lifecycle.rs",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "adl/tools/validate_v092_runtime_native_receipts.rb",
+      "adl/tools/run_aws_spot_remote_validation_lane.sh",
+      "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
+      ".csdlc/issues/5820",
+      ".csdlc/evidence/5820",
+      ".csdlc/prepared/issues/5820"
+    ],
+    "reviewed_revision": "git-blake3:a26ce00b98df6ce238e19c79025c545ba93f88a7:e35f3aac6957918c3d51b91b4ef94e498e9f5827cf276ddc285e21917c287cea",
+    "findings": [],
+    "residual_risks": [
+      "Native Windows behavior remains untested and explicitly blocked under AC-7.",
+      "Approximately 80 MB of compressed native proof binaries is retained in Git history.",
+      "Gzip verification has no explicit expansion-size ceiling; future archive replacements require exact review.",
+      "The EBS deletion receipt is repository evidence rather than independently signed AWS attestation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -42,32 +68,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eda33a58461de0adccb99d811899789f433c60e912e051472f90f279ac5a8948",
+      "values_digest": "b6a9b384f351bf854c1eb058a67c3e08b60b1ec26ab6274eb42f57af4b9b053a",
       "rendered_digest": "822b110b8030f1e2f7820eea7307b907c69c28d2f51c220c8ff9a7b3186618c4",
       "ast_digest": "04364454cada7124a7cda08bc8a36d90667b54ba2d46a986a10cf3e5f8493806"
     },
     "stp": {
-      "values_digest": "dc8dc36929266436b1a58c6ab56ce0f065bc4fc533d52fe167ed130d562edad8",
+      "values_digest": "e2145462ecdbf64696ba7fa28ee171f220b29c2ccafe473d4509cde83c3064be",
       "rendered_digest": "42851e4b8c0b2f55ea1c753bba432a5fd8a015ea097b764dd0a8b2bc15eb5b19",
       "ast_digest": "3520e78cac053e9737dcb5cc31ac6407f4e4bc2b0f319992508b9acc0c9903ea"
     },
     "spp": {
-      "values_digest": "851949ce6d483336625ede03c5dbf6e6d9e0fdc20036d83c27b6f827d725e5b0",
+      "values_digest": "8bc1a611a27e024815238f587f0b3cbbc587d6010362fc7708659be2bfc2c60a",
       "rendered_digest": "b975b27fa142e8b9945ec0e9b1969b3574776cc818a470a87a63eba1c54a68e6",
       "ast_digest": "1c83fa258efc5a3ca632eeb2371fc96dfa0f1f6c3f8bd2881ddc85b59786ebfd"
     },
     "vpp": {
-      "values_digest": "1e16641c6c0d29b5febdeaa8a7bc6e32d69115e1904d01b1463b77a69b3cb6bd",
+      "values_digest": "8b93f2c000e856f82268ebe631fbc05f7ab7fcec4c6421fe75b41c735f702aa5",
       "rendered_digest": "b253ed9d2be6b1379ed0da449c8a52dcad3fb1d363a362af9f2a6f9b9f3a832e",
       "ast_digest": "e1211de6edb84fa246bcb11656858aa429076650bf05328364006f3bb2e421f0"
     },
     "srp": {
-      "values_digest": "7fd91df62484047e88678e8379584b8bb5bad0290efbb72e3c14490b758ca0b3",
-      "rendered_digest": "b9a2189568ac51ab847afa7bf14f5dee1da953ab629a090c1cdc15e6dadb97dc",
-      "ast_digest": "8765b2260359a6b425b56a3929f440992bd629618a65eba1c972a05259b28426"
+      "values_digest": "7ab01dced1b76640fccd3f535717b8d3ae1f131b4115135c8f4ee98399769972",
+      "rendered_digest": "66721aa629e40f235ed26fcd4a2fcb1559da58e570b9165362bc02f3f5954b0c",
+      "ast_digest": "e6cf2467d464030f93eab0d7bba7bf356096ecc539cf72282c954f858a187818"
     },
     "sor": {
-      "values_digest": "ad7abc3a3437fa738fced52448539d4c41e7fd7cce153de119c7c9ec5bbdc14c",
+      "values_digest": "7eedffdbf6d16095e43de03a38c4bceb709bd5b612dddbdc77a86592aabb7ef7",
       "rendered_digest": "4522af79d71e35e8d9b012ac92f0de4260dc56b3811ed0ef37eee37727b43ca9",
       "ast_digest": "9e3d9624365d5c6e4b78e4c8302a911848d546353383b0e69673cbabae4a65d3"
     }
@@ -114,6 +140,13 @@
       "to": "implemented",
       "actor": "codex:5820-runtime-resilience",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:Leibniz",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -550,6 +583,20 @@
       "actor": "codex:5820-runtime-resilience",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 44,
+      "actor": "codex:5820-runtime-resilience",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 64,
+      "generation": 45,
+      "actor": "subagent:Leibniz",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
