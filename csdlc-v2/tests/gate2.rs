@@ -271,6 +271,159 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     ));
     assert!(diagnosed.contains("\"ready\": true"));
 
+    let index_path = repo.join(".csdlc/issues/42/index.json");
+    let current_index = || -> serde_json::Value {
+        serde_json::from_slice(&fs::read(&index_path).expect("issue index"))
+            .expect("issue index JSON")
+    };
+    let planning_edit_path = temp.path().join("initialized-planning-edit.json");
+    let index = current_index();
+    fs::write(
+        &planning_edit_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "card": "spp",
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "actor": "test-operator",
+            "reason": "prove initialized planning repair",
+            "operation": {
+                "operation": "replace_planning_collection",
+                "field": "affected_areas",
+                "values": ["design/future/deep.rs"]
+            }
+        }))
+        .expect("serialize initialized planning edit"),
+    )
+    .expect("initialized planning edit");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "apply",
+            "--request",
+            &planning_edit_path.to_string_lossy(),
+        ],
+    ));
+    let stale_edit = command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "apply",
+            "--request",
+            &planning_edit_path.to_string_lossy(),
+        ],
+    );
+    assert!(!stale_edit.status.success());
+
+    let non_planning_path = temp.path().join("initialized-non-planning-edit.json");
+    let index = current_index();
+    fs::write(
+        &non_planning_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "card": "spp",
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "actor": "test-operator",
+            "reason": "prove non-planning edit remains blocked",
+            "operation": {
+                "operation": "replace_plan_steps",
+                "steps": [{
+                    "id": "step-1",
+                    "action": "must remain blocked before binding",
+                    "acceptance_ids": ["AC-1", "AC-2"],
+                    "status": "pending"
+                }]
+            }
+        }))
+        .expect("serialize non-planning edit"),
+    )
+    .expect("non-planning edit");
+    let non_planning = command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "apply",
+            "--request",
+            &non_planning_path.to_string_lossy(),
+        ],
+    );
+    assert!(!non_planning.status.success());
+
+    let ready_path = temp.path().join("advance-ready.json");
+    let index = current_index();
+    fs::write(
+        &ready_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "card": "spp",
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "actor": "test-operator",
+            "reason": "prove ready planning repair",
+            "operation": {"operation": "advance_phase", "phase": "ready"}
+        }))
+        .expect("serialize ready transition"),
+    )
+    .expect("ready transition");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "apply",
+            "--request",
+            &ready_path.to_string_lossy(),
+        ],
+    ));
+
+    let ready_edit_path = temp.path().join("ready-planning-edit.json");
+    let index = current_index();
+    fs::write(
+        &ready_edit_path,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "issue": 42,
+            "card": "spp",
+            "expected_generation": index["generation"],
+            "expected_digest": index["digest"],
+            "actor": "test-operator",
+            "reason": "prove ready planning repair",
+            "operation": {
+                "operation": "replace_planning_collection",
+                "field": "invariants",
+                "values": ["Git topology remains binding authority"]
+            }
+        }))
+        .expect("serialize ready planning edit"),
+    )
+    .expect("ready planning edit");
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-edit"),
+        &[
+            "--repo",
+            &repo_text,
+            "apply",
+            "--request",
+            &ready_edit_path.to_string_lossy(),
+        ],
+    ));
+    let ready_diagnosis = must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-doctor"),
+        &["--repo", &repo_text, "--issue", "42"],
+    ));
+    assert!(ready_diagnosis.contains("\"status\": \"pass\""));
+    assert!(ready_diagnosis.contains("\"phase\": \"ready\""));
+
     let duplicate_request = temp.path().join("duplicate-create.json");
     let mut duplicate = request();
     duplicate.design_path = "generated/duplicate-design.md".into();

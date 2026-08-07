@@ -16,7 +16,7 @@ Implement and prove WP-13 canonical evidence maps with revision-linked updates, 
 
 ## Plan
 
-Revision 18
+Revision 20
 
 ## Steps
 

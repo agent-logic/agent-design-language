@@ -1206,6 +1206,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write
     outputs:
       route_result: ${{ steps.producer-results.outputs.route_result }}
     steps:
@@ -1495,12 +1496,12 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_coverage_workspace_hosted.result == 'success'
-        uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
           files: adl/lcov.info
           flags: adl
-          fail_ci_if_error: false
+          fail_ci_if_error: true
           verbose: true
 
   adl-coverage:

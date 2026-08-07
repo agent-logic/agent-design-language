@@ -1,0 +1,168 @@
+{
+  "issue": 5901,
+  "repository": "danielbaustin/agent-design-language",
+  "actor": "codex:5901-sprint3-readiness",
+  "design_path": ".csdlc/prepared/issues/5901/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5901/diagram.mmd",
+  "design_reviewer": "pending-independent-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92][C-SDLC v2][sprint-3] Repair claim-free WP-04 wave readiness",
+    "slug": "v0-92-csdlc-v2-sprint3-claim-free-readiness",
+    "version": "v0.92",
+    "goal": "Make the approved Sprint 3 child wave truthfully bind-ready under claim-free Git-topology authority.",
+    "required_outcome": "Typed doctor passes the umbrella and all sixteen children while the wave validator is claim-free and product code remains untouched.",
+    "declared_scope": [
+      "Generic future-path readiness validation",
+      "#5865 typed path-projection normalization",
+      "WP-04 claim-free terminal reconciliation"
+    ],
+    "affected_areas": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      ".csdlc/issues/5865/cards/sip.values.json",
+      ".csdlc/issues/5865/cards/stp.values.json",
+      ".csdlc/issues/5865/cards/spp.md",
+      ".csdlc/issues/5865/cards/spp.values.json",
+      ".csdlc/issues/5865/cards/vpp.values.json",
+      ".csdlc/issues/5865/cards/srp.values.json",
+      ".csdlc/issues/5865/cards/sor.values.json",
+      ".csdlc/issues/5865/index.json",
+      ".csdlc/issues/5865/audit.jsonl",
+      ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+      ".csdlc/prepared/issues/5901/test-implementation-wave.rb",
+      ".csdlc/prepared/issues/5901/validate-scope.rb"
+    ],
+    "authority_boundary": [
+      "Issue #5901 owns only the listed tooling and lifecycle-record paths",
+      "Issue #5862 remains coordination-only",
+      "Children #5863 through #5878 retain exclusive product ownership",
+      "Issue #5821 remains the execution gate"
+    ],
+    "operator_constraints": [
+      "Never write tracked changes on main",
+      "Use typed C-SDLC v2 lifecycle and card editors",
+      "Do not bind or implement any Sprint 3 child",
+      "Do not restore claims or v1 routes"
+    ],
+    "task_boundary": "Repair only the claim-free Sprint 3 readiness mismatch proven at canonical revision 1757ea43e00f83447356b5749007f68a64144242.",
+    "deliverables": [
+      "Safe future-path readiness predicate and focused tests",
+      "Typed #5865 planning normalization",
+      "Claim-free WP-04 terminal validator",
+      "Doctor and preflight proof for the exact sixteen-child wave"
+    ],
+    "acceptance_criteria": [
+      "Accept safe repository-relative future paths beneath a real canonical in-repository ancestor",
+      "Reject absolute, traversal, placeholder, unrooted, and metadata values",
+      "Reject inside-repository symlink ancestors, outside-repository symlink ancestors, symlink leaves, and existing-file intermediate prefixes",
+      "Permit exact-digest typed planning-collection repair while initialized or ready, then move #5865 serialization ordering to typed replan_triggers while keeping exactly four path-only affected_areas",
+      "Remove every claim read and claim-derived assertion from WP-04 preflight and terminal reconciliation; validate initialized unbound topology in preflight and csdlc.derived_terminal.v1 envelopes plus live closing linkage, exact heads, merge SHAs, digests, and candidate ancestry at terminal",
+      "Pass doctor for #5862 through #5878 without product file creation or child binding",
+      "Pass the exact sixteen-child, 38-path WP-04 preflight",
+      "Pass an exact-base changed-path allowlist that rejects every Sprint 3 product path and child topology mutation",
+      "Complete independent exact-head review and resolve every actionable finding"
+    ],
+    "dependencies": [
+      "PR #5886",
+      "Issue #5896 and PR #5897",
+      "Sprint umbrella #5862"
+    ],
+    "repo_inputs": [
+      "AGENTS.md",
+      "csdlc-v2/src/cards.rs",
+      ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+      ".csdlc/issues/5863/cards/spp.values.json",
+      ".csdlc/issues/5865/cards/spp.values.json"
+    ],
+    "non_goals": [
+      "Guardian product implementation",
+      "Child binding or publication",
+      "Claim restoration",
+      "DAG or owned-product-path changes"
+    ],
+    "plan_summary": "Prove the mismatch, repair containment-compatible future paths, normalize #5865 through typed editing, update terminal reconciliation, and rerun the exact readiness sweep.",
+    "steps": [
+      {"id":"S1","action":"Add the complete readiness regression matrix and implement canonical no-symlink ancestor containment.","acceptance_ids":["AC-1","AC-2","AC-3"],"status":"pending"},
+      {"id":"S2","action":"Enable bounded initialized/ready planning repair, then move #5865 serialization-gate JSON to replan_triggers with typed SPP edits and preserve the exact four product paths.","acceptance_ids":["AC-4"],"status":"pending"},
+      {"id":"S3","action":"Replace legacy claim, index-terminal, and receipt assumptions with validated derived-terminal envelopes.","acceptance_ids":["AC-5"],"status":"pending"},
+      {"id":"S4","action":"Run doctor, preflight, exact-base scope guard, focused tests, and exact-head review.","acceptance_ids":["AC-6","AC-7","AC-8","AC-9"],"status":"pending"}
+    ],
+    "invariants": [
+      "Repository-relative containment remains fail-closed",
+      "No product path is created or edited",
+      "The sixteen-child denominator remains exact",
+      "Git topology and derived terminal envelopes remain lifecycle authority"
+    ],
+    "risks": [
+      "Over-broad ancestor acceptance",
+      "Typed record digest drift",
+      "Weakening terminal exact-head proof",
+      "Accidental child execution"
+    ],
+    "planning_profile": "small",
+    "stop_conditions": [
+      "A repair requires product implementation",
+      "The child denominator or ownership must change",
+      "Typed editing cannot preserve #5865 card integrity",
+      "The #5821 gate is treated as optional"
+    ],
+    "validation_lanes": [
+      {
+        "lane":"csdlc-readiness-focused",
+        "proof_role":"Focused Rust tests prove safe future-path admission, malformed path rejection, and exact-digest initialized/ready planning repair without widening non-planning edits or bound behavior.",
+        "deterministic":true,
+        "resource_profile":"small",
+        "parallel_group":"local",
+        "budget_seconds":600,
+        "budget_tokens":4000,
+        "argv":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--test","gate2"],
+        "acceptance_ids":["AC-1","AC-2","AC-3"]
+      },
+      {
+        "lane":"wp04-wave-preflight",
+        "proof_role":"Exact typed doctor sweep and canonical wave preflight prove all sixteen packets are structurally bind-ready and claim-free.",
+        "deterministic":true,
+        "resource_profile":"small",
+        "parallel_group":"local",
+        "budget_seconds":180,
+        "budget_tokens":1500,
+        "argv":["ruby",".csdlc/prepared/issues/5862/validate-implementation-wave.rb","--preflight"],
+        "acceptance_ids":["AC-4","AC-5","AC-6","AC-7"]
+      },
+      {
+        "lane":"exact-scope-guard",
+        "proof_role":"Exact-base changed-path allowlist rejects Guardian product changes, child binding, and unexpected lifecycle mutation.",
+        "deterministic":true,
+        "resource_profile":"small",
+        "parallel_group":"local",
+        "budget_seconds":60,
+        "budget_tokens":500,
+        "argv":["ruby",".csdlc/prepared/issues/5901/validate-scope.rb"],
+        "acceptance_ids":["AC-8","AC-9"]
+      },
+      {
+        "lane":"wp04-terminal-fixtures",
+        "proof_role":"Fixture-backed terminal execution proves valid derived envelopes and rejects malformed, digest, head, merge, linkage, and ancestry failures.",
+        "deterministic":true,
+        "resource_profile":"small",
+        "parallel_group":"local",
+        "budget_seconds":300,
+        "budget_tokens":3000,
+        "argv":["ruby",".csdlc/prepared/issues/5901/test-implementation-wave.rb"],
+        "acceptance_ids":["AC-5"]
+      }
+    ],
+    "failure_policy": "Fail closed on containment ambiguity, record digest drift, claim restoration, product-path mutation, or any child doctor failure.",
+    "review_prompts": [
+      "Does future-path admission remain contained beneath the repository?",
+      "Does #5865 retain serialization truth without path-field pollution?",
+      "Does terminal reconciliation validate derived envelopes plus exact live PR and ancestry proof?",
+      "Did the repair avoid child binding and product changes?"
+    ],
+    "review_scope": "Issue #5901 readiness predicate, #5865 typed normalization, WP-04 validator, focused tests, and exact readiness proof."
+  }
+}

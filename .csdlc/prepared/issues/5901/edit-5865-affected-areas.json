@@ -1,0 +1,19 @@
+{
+  "issue": 5865,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "94040918115f872750e1d2c7b7bb54a01adfe566f0d5b0bb86316af274f010e6",
+  "actor": "codex:5901-sprint3-readiness",
+  "reason": "Restore #5865 affected_areas to its exact four approved product paths after preserving serialization ordering in replan_triggers.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock"
+    ]
+  },
+  "fail_after_backup": false
+}

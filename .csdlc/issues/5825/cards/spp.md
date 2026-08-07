@@ -16,7 +16,7 @@ Implement and prove the deterministic WP-08 birth decision, including complete d
 
 ## Plan
 
-Revision 28
+Revision 30
 
 ## Steps
 
