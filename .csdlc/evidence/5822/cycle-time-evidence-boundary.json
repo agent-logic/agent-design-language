@@ -4,11 +4,18 @@
     "equivalent cohort cycle-time reduction",
     "future operator cycle time"
   ],
-  "evidence_class": "measured_operator_goal_snapshots",
+  "evidence_class": "retained_terminal_baseline_only",
   "proves": [
-    "retained measurements identify source goals and known versus unknown components",
-    "the comparison refuses a speedup claim for unequal execution phases or incomplete timing"
+    "the retained v0.91.7 terminal session provides one real baseline with byte-verified provenance",
+    "no equivalent terminal candidate cohort exists at this pre-publication revision"
   ],
-  "schema": "csdlc.cycle_time_evidence_boundary.v1",
-  "status": "not_comparable"
+  "schema": "csdlc.cycle_time_evidence_boundary.v2",
+  "status": "candidate_evidence_pending",
+  "baseline_artifact": {
+    "reference": ".csdlc/evidence/5822/cycle-time-baseline.json",
+    "digest": "d31bc3c09faf2d96158eba7483b0fd973eecba23163c37286ddd17db4a025dce"
+  },
+  "candidate_ref": null,
+  "elapsed_reduction_seconds": null,
+  "reconnect_action_reduction": null
 }

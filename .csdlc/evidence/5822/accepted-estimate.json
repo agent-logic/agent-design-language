@@ -1,8 +1,8 @@
 {
   "forecast_ref": ".csdlc/evidence/5822/forecast.json",
-  "forecast_digest": "02de8bb3365d876b1c7319cb82240831fd14a566665e98a430611e016fd2adda",
+  "forecast_digest": "84b7fe8cf1b82b6c18c24eb915ebfd262a1152fc2295a7fdfa2985c6af0ac0c8",
   "disposition": "deferred",
   "advisory_only": true,
   "adjusted": null,
-  "operator_rationale": "Calibration passes, but no three-issue current-era comparable cohort exists; retain static planning guidance without execution authority."
+  "operator_rationale": "Retained historical sources contain no complete forecast-versus-actual calibration cases, so calibration fails closed and the estimate remains deferred static guidance without execution authority."
 }

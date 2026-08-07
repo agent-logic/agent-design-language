@@ -5,11 +5,12 @@ use std::path::{Component, Path};
 use schemars::JsonSchema;
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
+use time::format_description::well_known::Rfc3339;
+use time::OffsetDateTime;
 
-use crate::cards::{EvidenceOutcome, ValidationResult};
 use crate::error::{ErrorCode, Result, V2Error};
-use crate::github::PrStatePacket;
 use crate::model::IssueRecord;
+use crate::pvf::ExecutionReport;
 
 pub const OBSERVATION_SCHEMA: &str = "csdlc.estimation_observation.v1";
 pub const FORECAST_SCHEMA: &str = "csdlc.estimation_forecast.v1";
@@ -99,45 +100,15 @@ pub struct Observation {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
-pub struct AdapterContext {
+pub struct ObservationManifest {
+    pub schema: String,
     pub issue: u64,
     pub key: ComparableKey,
-    pub reference: String,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
-pub struct LifecycleTiming {
-    pub bound_unix_seconds: u64,
-    pub observed_unix_seconds: u64,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
-pub struct GithubTiming {
-    pub pr_opened_unix_seconds: u64,
-    pub terminal_unix_seconds: u64,
-    pub ci_started_unix_seconds: Option<u64>,
-    pub ci_completed_unix_seconds: Option<u64>,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
-pub struct ValidationTiming {
-    pub started_unix_seconds: u64,
-    pub completed_unix_seconds: u64,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
-pub struct SessionTiming {
-    pub started_unix_seconds: u64,
-    pub observed_unix_seconds: u64,
-    pub active_work_seconds: Option<u64>,
-    pub total_tokens: Option<u64>,
-    pub interrupted: bool,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
-pub struct OperatorTiming {
-    pub wait_seconds: Option<u64>,
-    pub interrupted: bool,
+    pub lifecycle: Option<ArtifactReference>,
+    pub github: Option<ArtifactReference>,
+    pub validation: Option<ArtifactReference>,
+    pub session: Option<ArtifactReference>,
+    pub operator: Option<ArtifactReference>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -258,12 +229,39 @@ pub struct CalibrationReport {
     pub validation_median_error_basis_points: Option<u64>,
     pub token_median_error_basis_points: Option<u64>,
     pub calibrated: bool,
+    pub source_manifest: ArtifactReference,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct VerifiedCalibration {
+    artifact: ArtifactReference,
+    report: CalibrationReport,
+}
+
+impl VerifiedCalibration {
+    pub fn artifact(&self) -> &ArtifactReference {
+        &self.artifact
+    }
+
+    pub fn report(&self) -> &CalibrationReport {
+        &self.report
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
-pub struct VerifiedCalibration {
-    pub artifact: ArtifactReference,
-    pub report: CalibrationReport,
+pub struct CalibrationManifest {
+    pub schema: String,
+    pub cases: Vec<CalibrationCaseArtifacts>,
+    #[serde(default)]
+    pub context_sources: Vec<ArtifactReference>,
+    pub tolerance_basis_points: u64,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct CalibrationCaseArtifacts {
+    pub issue: u64,
+    pub forecast: ArtifactReference,
+    pub outcome: ArtifactReference,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -280,6 +278,29 @@ pub struct CycleTimeCohort {
     #[serde(default)]
     pub unknown_components: Vec<String>,
     pub provenance: Vec<ArtifactReference>,
+    pub comparison_key: ComparableKey,
+    pub preserved_gates: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct CycleTimeEvidence {
+    pub schema: String,
+    pub id: String,
+    pub comparison_key: ComparableKey,
+    pub issues: Vec<CycleIssueTiming>,
+    pub preserved_gates: Vec<String>,
+    pub provenance: Vec<ArtifactReference>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct CycleIssueTiming {
+    pub issue: u64,
+    pub active_work_seconds: Option<u64>,
+    pub validation_seconds: Option<u64>,
+    pub review_seconds: Option<u64>,
+    pub ci_seconds: Option<u64>,
+    pub wait_seconds: Option<u64>,
+    pub reconnect_actions: Option<u64>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -303,19 +324,100 @@ pub struct CycleTimeComparison {
     pub reconnect_action_reduction: i64,
 }
 
-pub fn adapt_lifecycle(
-    context: AdapterContext,
-    record: &IssueRecord,
-    timing: LifecycleTiming,
-) -> Result<Observation> {
-    if record.issue != context.issue {
-        return invalid("lifecycle record does not match adapter issue");
+#[derive(Debug, Deserialize)]
+struct GithubSource {
+    number: u64,
+    body: String,
+    created_at: String,
+    closed_at: Option<String>,
+    merged_at: Option<String>,
+    base: GithubBase,
+}
+
+#[derive(Debug, Deserialize)]
+struct GithubBase {
+    repo: GithubRepository,
+}
+
+#[derive(Debug, Deserialize)]
+struct GithubRepository {
+    full_name: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct SessionSource {
+    schema_version: String,
+    issue_number: u64,
+    data_source: String,
+    started_at: String,
+    completed_at: String,
+    elapsed_seconds: Option<u64>,
+    active_work_seconds: Option<u64>,
+    elapsed_availability: String,
+    active_work_availability: String,
+    token_usage: SessionTokens,
+}
+
+#[derive(Debug, Deserialize)]
+struct SessionTokens {
+    availability: String,
+    total_tokens: Option<u64>,
+}
+
+#[derive(Debug, Deserialize)]
+struct OperatorSource {
+    schema: String,
+    issue: u64,
+    source: String,
+    wait_intervals: Vec<OperatorInterval>,
+    interrupted: bool,
+}
+
+#[derive(Debug, Deserialize)]
+struct OperatorInterval {
+    started_unix_seconds: u64,
+    completed_unix_seconds: u64,
+}
+
+pub fn load_observation_manifest(root: &Path, artifact: &ArtifactReference) -> Result<Observation> {
+    let manifest: ObservationManifest = load_verified_json(root, artifact)?;
+    if manifest.schema != "csdlc.estimation_observation_manifest.v1" || manifest.issue == 0 {
+        return invalid("observation manifest identity is invalid");
     }
-    let elapsed = checked_elapsed(timing.bound_unix_seconds, timing.observed_unix_seconds)?;
+    let mut fragments = Vec::new();
+    if let Some(source) = &manifest.lifecycle {
+        fragments.push(adapt_lifecycle(root, source, &manifest)?);
+    }
+    if let Some(source) = &manifest.github {
+        fragments.push(adapt_github(root, source, &manifest)?);
+    }
+    if let Some(source) = &manifest.validation {
+        fragments.push(adapt_validation(root, source, &manifest)?);
+    }
+    if let Some(source) = &manifest.session {
+        fragments.push(adapt_session(root, source, &manifest)?);
+    }
+    if let Some(source) = &manifest.operator {
+        fragments.push(adapt_operator(root, source, &manifest)?);
+    }
+    join_observations(fragments)
+}
+
+fn adapt_lifecycle(
+    root: &Path,
+    artifact: &ArtifactReference,
+    manifest: &ObservationManifest,
+) -> Result<Observation> {
+    let source: IssueRecord = load_verified_json(root, artifact)?;
+    if source.issue != manifest.issue || source.repository.trim().is_empty() {
+        return invalid("lifecycle source does not match observation manifest");
+    }
     Ok(fragment(
-        context,
+        manifest.issue,
+        manifest.key.clone(),
+        artifact.reference.clone(),
         ObservationSource::Lifecycle,
-        Some(elapsed),
+        None,
         None,
         None,
         None,
@@ -325,84 +427,147 @@ pub fn adapt_lifecycle(
     )?)
 }
 
-pub fn adapt_github(
-    context: AdapterContext,
-    packet: &PrStatePacket,
-    timing: GithubTiming,
+fn adapt_github(
+    root: &Path,
+    artifact: &ArtifactReference,
+    manifest: &ObservationManifest,
 ) -> Result<Observation> {
-    if packet.linked_issue != Some(context.issue)
-        || packet.repository.trim().is_empty()
-        || packet.pull_request == 0
+    let source: GithubSource = load_verified_json(root, artifact)?;
+    let closing_marker = format!("Closes #{}", manifest.issue);
+    if !source.body.contains(&closing_marker)
+        || source.base.repo.full_name.trim().is_empty()
+        || source.number == 0
     {
         return invalid("GitHub packet does not match adapter issue");
     }
-    let pr_wait = checked_elapsed(timing.pr_opened_unix_seconds, timing.terminal_unix_seconds)?;
-    let ci_wait = match (
-        timing.ci_started_unix_seconds,
-        timing.ci_completed_unix_seconds,
-    ) {
-        (Some(start), Some(end)) => Some(checked_elapsed(start, end)?),
-        (None, None) => None,
-        _ => return invalid("GitHub CI timing requires both start and completion timestamps"),
-    };
+    let opened = parse_rfc3339(&source.created_at)?;
+    let terminal = source
+        .merged_at
+        .as_deref()
+        .or(source.closed_at.as_deref())
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "GitHub source is not terminal"))?;
+    let pr_wait = checked_elapsed(opened, parse_rfc3339(terminal)?)?;
     fragment(
-        context,
+        manifest.issue,
+        manifest.key.clone(),
+        artifact.reference.clone(),
         ObservationSource::Github,
         None,
         None,
         None,
         Some(pr_wait),
-        ci_wait,
+        None,
         None,
         false,
     )
 }
 
-pub fn adapt_validation(
-    context: AdapterContext,
-    result: &ValidationResult,
-    timing: ValidationTiming,
+fn adapt_validation(
+    root: &Path,
+    artifact: &ArtifactReference,
+    manifest: &ObservationManifest,
 ) -> Result<Observation> {
-    let validation = checked_elapsed(timing.started_unix_seconds, timing.completed_unix_seconds)?;
+    let report: ExecutionReport = load_verified_json(root, artifact)?;
+    if report.schema.trim().is_empty() || report.evidence.is_empty() {
+        return invalid("validation source has no retained lane evidence");
+    }
+    let validation = report.evidence.iter().try_fold(0_u64, |total, lane| {
+        let seconds = u64::try_from(lane.duration_ms.div_ceil(1000))
+            .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "validation duration overflow"))?;
+        Ok::<u64, V2Error>(total.saturating_add(seconds))
+    })?;
+    let passed = report.evidence.iter().all(|lane| {
+        matches!(
+            lane.status,
+            crate::pvf::LaneStatus::Passed | crate::pvf::LaneStatus::AcceptedNonGoal
+        )
+    });
     fragment(
-        context,
+        manifest.issue,
+        manifest.key.clone(),
+        artifact.reference.clone(),
         ObservationSource::Validation,
         None,
         None,
-        (result.outcome == EvidenceOutcome::Passed).then_some(validation),
+        passed.then_some(validation),
         None,
         None,
         None,
-        result.outcome != EvidenceOutcome::Passed,
+        !passed,
     )
 }
 
-pub fn adapt_session(context: AdapterContext, timing: SessionTiming) -> Result<Observation> {
-    let elapsed = checked_elapsed(timing.started_unix_seconds, timing.observed_unix_seconds)?;
+fn adapt_session(
+    root: &Path,
+    artifact: &ArtifactReference,
+    manifest: &ObservationManifest,
+) -> Result<Observation> {
+    let source: SessionSource = load_verified_json(root, artifact)?;
+    if source.schema_version != "issue_goal_metrics.v1"
+        || source.issue_number != manifest.issue
+        || source.data_source != "codex_goal_tool"
+    {
+        return invalid("session source is not authoritative for the observation manifest");
+    }
+    let elapsed = checked_elapsed(
+        parse_rfc3339(&source.started_at)?,
+        parse_rfc3339(&source.completed_at)?,
+    )?;
+    if source.elapsed_availability == "known" && source.elapsed_seconds != Some(elapsed) {
+        return invalid("session source elapsed value disagrees with retained timestamps");
+    }
     fragment(
-        context,
+        manifest.issue,
+        manifest.key.clone(),
+        artifact.reference.clone(),
         ObservationSource::Session,
-        Some(elapsed),
-        timing.active_work_seconds,
+        (source.elapsed_availability == "known").then_some(elapsed),
+        (source.active_work_availability == "known")
+            .then_some(source.active_work_seconds)
+            .flatten(),
         None,
         None,
         None,
-        timing.total_tokens,
-        timing.interrupted,
+        (source.token_usage.availability == "known")
+            .then_some(source.token_usage.total_tokens)
+            .flatten(),
+        false,
     )
 }
 
-pub fn adapt_operator(context: AdapterContext, timing: OperatorTiming) -> Result<Observation> {
+fn adapt_operator(
+    root: &Path,
+    artifact: &ArtifactReference,
+    manifest: &ObservationManifest,
+) -> Result<Observation> {
+    let source: OperatorSource = load_verified_json(root, artifact)?;
+    if source.schema != "csdlc.operator_timing_source.v1"
+        || source.issue != manifest.issue
+        || source.source != "operator_annotation"
+    {
+        return invalid("operator source is not authoritative for the observation manifest");
+    }
+    let _wait = source
+        .wait_intervals
+        .iter()
+        .try_fold(0_u64, |total, interval| {
+            Ok::<u64, V2Error>(total.saturating_add(checked_elapsed(
+                interval.started_unix_seconds,
+                interval.completed_unix_seconds,
+            )?))
+        })?;
     fragment(
-        context,
+        manifest.issue,
+        manifest.key.clone(),
+        artifact.reference.clone(),
         ObservationSource::OperatorAnnotation,
         None,
         None,
         None,
-        timing.wait_seconds,
         None,
         None,
-        timing.interrupted,
+        None,
+        source.interrupted,
     )
 }
 
@@ -489,10 +654,7 @@ pub fn forecast(
     let sufficient =
         comparable.len() >= 3 && elapsed.len() >= 3 && validation.len() >= 3 && tokens.len() >= 3;
     let calibration_valid = calibration.is_some_and(|value| {
-        value.report.calibrated
-            && validate_artifact_reference(&value.artifact).is_ok()
-            && canonical_digest(&value.report).ok().as_deref()
-                == Some(value.artifact.digest.as_str())
+        value.report.calibrated && validate_artifact_reference(&value.artifact).is_ok()
     });
     if !sufficient || schema_drift || !calibration_valid {
         let reason = if schema_drift {
@@ -584,15 +746,14 @@ pub fn validate_accepted_estimate(accepted: &AcceptedEstimate) -> Result<()> {
 
 pub fn terminal_outcome(
     forecast: &Forecast,
-    forecast_ref: impl Into<String>,
+    forecast_artifact: ArtifactReference,
     actual: &Observation,
 ) -> Result<TerminalOutcome> {
     validate_observation(actual)?;
     if forecast.schema != FORECAST_SCHEMA || forecast.target_issue != actual.issue {
         return invalid("terminal actual does not match forecast target");
     }
-    let forecast_ref = forecast_ref.into();
-    validate_reference(&forecast_ref)?;
+    validate_artifact_reference(&forecast_artifact)?;
     let mut unknown_actuals = Vec::new();
     let elapsed = compare(
         "elapsed_seconds",
@@ -615,8 +776,8 @@ pub fn terminal_outcome(
     Ok(TerminalOutcome {
         schema: OUTCOME_SCHEMA.into(),
         issue: actual.issue,
-        forecast_ref,
-        forecast_digest: canonical_digest(forecast)?,
+        forecast_ref: forecast_artifact.reference,
+        forecast_digest: forecast_artifact.digest,
         elapsed_seconds: elapsed,
         validation_seconds: validation,
         total_tokens: tokens,
@@ -627,7 +788,9 @@ pub fn terminal_outcome(
 pub fn calibration_report(
     cases: &[BacktestCase],
     tolerance_basis_points: u64,
+    source_manifest: ArtifactReference,
 ) -> Result<CalibrationReport> {
+    validate_artifact_reference(&source_manifest)?;
     let mut unique_issues = BTreeSet::new();
     let mut elapsed = Vec::new();
     let mut validation = Vec::new();
@@ -657,27 +820,20 @@ pub fn calibration_report(
         validation_median_error_basis_points: validation_median,
         token_median_error_basis_points: token_median,
         calibrated,
+        source_manifest,
     })
 }
 
 pub fn compare_cycle_time(
-    baseline: CycleTimeCohort,
-    candidate: CycleTimeCohort,
-    comparison_basis_equal: bool,
-    gates_preserved: bool,
+    root: &Path,
+    baseline_artifact: &ArtifactReference,
+    candidate_artifact: &ArtifactReference,
 ) -> Result<CycleTimeComparison> {
-    if baseline.issue_count == 0
-        || candidate.issue_count == 0
-        || baseline.provenance.is_empty()
-        || candidate.provenance.is_empty()
-        || !baseline.measured
-        || !candidate.measured
-    {
-        return invalid("cycle-time cohorts require measured provenance-backed inputs");
-    }
-    for artifact in baseline.provenance.iter().chain(&candidate.provenance) {
-        validate_artifact_reference(artifact)?;
-    }
+    let baseline = load_cycle_time_evidence(root, baseline_artifact)?;
+    let candidate = load_cycle_time_evidence(root, candidate_artifact)?;
+    let comparison_basis_equal = baseline.comparison_key == candidate.comparison_key;
+    let gates_preserved = baseline.preserved_gates == candidate.preserved_gates
+        && !baseline.preserved_gates.is_empty();
     let baseline_total = cohort_total(&baseline);
     let candidate_total = cohort_total(&candidate);
     let comparable = comparison_basis_equal
@@ -711,7 +867,15 @@ pub fn compare_cycle_time(
     })
 }
 
-pub fn load_verified_json<T: DeserializeOwned + Serialize>(
+pub fn load_cycle_time_evidence(
+    root: &Path,
+    artifact: &ArtifactReference,
+) -> Result<CycleTimeCohort> {
+    let source: CycleTimeEvidence = load_verified_json(root, artifact)?;
+    derive_cycle_cohort(root, source)
+}
+
+pub fn load_verified_json<T: DeserializeOwned>(
     root: &Path,
     artifact: &ArtifactReference,
 ) -> Result<T> {
@@ -722,22 +886,72 @@ pub fn load_verified_json<T: DeserializeOwned + Serialize>(
     if !canonical_path.starts_with(&canonical_root) {
         return invalid("artifact reference escapes the repository root");
     }
-    let value: T = serde_json::from_slice(&fs::read(canonical_path)?)?;
-    let observed = canonical_digest(&value)?;
+    let bytes = fs::read(canonical_path)?;
+    let observed = blake3::hash(&bytes).to_hex().to_string();
     if observed != artifact.digest {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
             format!("artifact digest mismatch for {}", artifact.reference),
         ));
     }
-    Ok(value)
+    Ok(serde_json::from_slice(&bytes)?)
+}
+
+pub fn artifact_reference(root: &Path, reference: impl Into<String>) -> Result<ArtifactReference> {
+    let reference = reference.into();
+    validate_reference(&reference)?;
+    let canonical_root = fs::canonicalize(root)?;
+    let canonical_path = fs::canonicalize(root.join(&reference))?;
+    if !canonical_path.starts_with(&canonical_root) {
+        return invalid("artifact reference escapes the repository root");
+    }
+    let digest = blake3::hash(&fs::read(canonical_path)?)
+        .to_hex()
+        .to_string();
+    Ok(ArtifactReference { reference, digest })
 }
 
 pub fn verified_calibration(
     root: &Path,
     artifact: ArtifactReference,
 ) -> Result<VerifiedCalibration> {
-    let report = load_verified_json(root, &artifact)?;
+    let report: CalibrationReport = load_verified_json(root, &artifact)?;
+    let manifest: CalibrationManifest = load_verified_json(root, &report.source_manifest)?;
+    if manifest.schema != "csdlc.estimation_calibration_manifest.v1" {
+        return invalid("calibration source manifest schema is invalid");
+    }
+    for source in &manifest.context_sources {
+        let _: serde_json::Value = load_verified_json(root, source)?;
+    }
+    let mut cases = Vec::new();
+    for entry in &manifest.cases {
+        let forecast: Forecast = load_verified_json(root, &entry.forecast)?;
+        let outcome: TerminalOutcome = load_verified_json(root, &entry.outcome)?;
+        if entry.issue != forecast.target_issue || entry.issue != outcome.issue {
+            return invalid("calibration source case identity is inconsistent");
+        }
+        if outcome.forecast_digest != entry.forecast.digest
+            || outcome.forecast_ref != entry.forecast.reference
+        {
+            return invalid("calibration outcome is not linked to its forecast bytes");
+        }
+        cases.push(BacktestCase {
+            issue: entry.issue,
+            forecast,
+            outcome,
+        });
+    }
+    let recomputed = calibration_report(
+        &cases,
+        manifest.tolerance_basis_points,
+        report.source_manifest.clone(),
+    )?;
+    if recomputed != report {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "calibration report is not reproducible from its retained source manifest",
+        ));
+    }
     Ok(VerifiedCalibration { artifact, report })
 }
 
@@ -812,7 +1026,9 @@ pub fn validate_reference(reference: &str) -> Result<()> {
 }
 
 fn fragment(
-    context: AdapterContext,
+    issue: u64,
+    key: ComparableKey,
+    reference: String,
     source: ObservationSource,
     elapsed_seconds: Option<u64>,
     active_work_seconds: Option<u64>,
@@ -822,12 +1038,12 @@ fn fragment(
     total_tokens: Option<u64>,
     interrupted: bool,
 ) -> Result<Observation> {
-    if context.issue == 0 {
+    if issue == 0 {
         return invalid("adapter issue must be non-zero");
     }
-    validate_reference(&context.reference)?;
+    validate_reference(&reference)?;
     let metric = |value| match value {
-        Some(value) => MetricObservation::known(value, source, context.reference.clone()),
+        Some(value) => MetricObservation::known(value, source, reference.clone()),
         None => MetricObservation::unavailable(
             if interrupted {
                 Availability::Interrupted
@@ -835,13 +1051,13 @@ fn fragment(
                 Availability::Unknown
             },
             source,
-            context.reference.clone(),
+            reference.clone(),
         ),
     };
     let observation = Observation {
         schema: OBSERVATION_SCHEMA.into(),
-        issue: context.issue,
-        key: context.key,
+        issue,
+        key,
         elapsed_seconds: metric(elapsed_seconds),
         active_work_seconds: metric(active_work_seconds),
         validation_seconds: metric(validation_seconds),
@@ -856,6 +1072,13 @@ fn fragment(
 fn checked_elapsed(start: u64, end: u64) -> Result<u64> {
     end.checked_sub(start)
         .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "timing ends before it starts"))
+}
+
+fn parse_rfc3339(value: &str) -> Result<u64> {
+    let parsed = OffsetDateTime::parse(value, &Rfc3339)
+        .map_err(|error| V2Error::new(ErrorCode::InvalidInput, error.to_string()))?;
+    u64::try_from(parsed.unix_timestamp())
+        .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "timestamp predates Unix epoch"))
 }
 
 fn consolidate_observations(observations: &[Observation]) -> Result<Vec<Observation>> {
@@ -1025,6 +1248,96 @@ fn cohort_total(cohort: &CycleTimeCohort) -> u64 {
         .saturating_add(cohort.review_seconds)
         .saturating_add(cohort.ci_seconds)
         .saturating_add(cohort.wait_seconds)
+}
+
+fn derive_cycle_cohort(root: &Path, source: CycleTimeEvidence) -> Result<CycleTimeCohort> {
+    if source.schema != "csdlc.cycle_time_evidence.v1"
+        || source.id.trim().is_empty()
+        || source.issues.is_empty()
+        || source.provenance.is_empty()
+    {
+        return invalid("cycle-time source is incomplete");
+    }
+    let mut issue_ids = BTreeSet::new();
+    for issue in &source.issues {
+        if issue.issue == 0 || !issue_ids.insert(issue.issue) {
+            return invalid("cycle-time source contains an invalid or duplicate issue");
+        }
+    }
+    for artifact in &source.provenance {
+        let _: serde_json::Value = load_verified_json(root, artifact)?;
+    }
+    let mut unknown = BTreeSet::new();
+    let sum = |name: &str, values: Vec<Option<u64>>, unknown: &mut BTreeSet<String>| {
+        if values.iter().any(Option::is_none) {
+            unknown.insert(name.to_string());
+        }
+        values
+            .into_iter()
+            .flatten()
+            .fold(0_u64, u64::saturating_add)
+    };
+    let active_work_seconds = sum(
+        "active_work_seconds",
+        source
+            .issues
+            .iter()
+            .map(|item| item.active_work_seconds)
+            .collect(),
+        &mut unknown,
+    );
+    let validation_seconds = sum(
+        "validation_seconds",
+        source
+            .issues
+            .iter()
+            .map(|item| item.validation_seconds)
+            .collect(),
+        &mut unknown,
+    );
+    let review_seconds = sum(
+        "review_seconds",
+        source
+            .issues
+            .iter()
+            .map(|item| item.review_seconds)
+            .collect(),
+        &mut unknown,
+    );
+    let ci_seconds = sum(
+        "ci_seconds",
+        source.issues.iter().map(|item| item.ci_seconds).collect(),
+        &mut unknown,
+    );
+    let wait_seconds = sum(
+        "wait_seconds",
+        source.issues.iter().map(|item| item.wait_seconds).collect(),
+        &mut unknown,
+    );
+    let reconnect_actions = sum(
+        "reconnect_actions",
+        source
+            .issues
+            .iter()
+            .map(|item| item.reconnect_actions)
+            .collect(),
+        &mut unknown,
+    );
+    Ok(CycleTimeCohort {
+        id: source.id,
+        issue_count: issue_ids.len(),
+        active_work_seconds,
+        validation_seconds,
+        review_seconds,
+        ci_seconds,
+        wait_seconds,
+        reconnect_actions,
+        measured: true,
+        unknown_components: unknown.into_iter().collect(),
+        provenance: source.provenance,
+        comparison_key: source.comparison_key,
+        preserved_gates: source.preserved_gates,
+    })
 }
 
 fn signed_difference(left: u64, right: u64) -> i64 {

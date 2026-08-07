@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5822/diagram.mmd
 [
   {
     "lane": "estimation-contracts-exact-target",
-    "proof_role": "Run the exact estimation_contracts target for concrete observation adapters, unique issue cohorts, calibration fallback, finish reconciliation, digest tampering, bounded references, and advisory semantics; zero tests fail.",
+    "proof_role": "Prove byte-verified source adapters, unique cohorts, calibration loader integrity, static fallback, finish actual collection, cycle artifact verification, traversal rejection, and advisory semantics; zero tests fail.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -55,7 +55,7 @@ Diagram: .csdlc/prepared/issues/5822/diagram.mmd
   },
   {
     "lane": "cycle-time-evidence-boundary",
-    "proof_role": "Validate measured operator provenance and require a non-comparable, zero-reduction result when cohorts or timing components are incomplete.",
+    "proof_role": "Validate the real retained terminal baseline and require candidate evidence to remain absent with no reduction claim until an equivalent terminal cohort exists.",
     "acceptance_ids": [
       "AC-7",
       "AC-8"
@@ -68,7 +68,7 @@ Diagram: .csdlc/prepared/issues/5822/diagram.mmd
       "ruby",
       "-rjson",
       "-e",
-      "r=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-comparison.json')); abort('invalid boundary') unless r['status']=='not_comparable' && r['comparison_basis_equal']==false && r['gates_preserved']==true && r['elapsed_reduction_seconds']==0 && r['reconnect_action_reduction']==0 && r.dig('baseline_cohort','measured')==true && r.dig('candidate_cohort','measured')==true && !r.dig('baseline_cohort','provenance').empty? && !r.dig('candidate_cohort','provenance').empty?"
+      "b=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-baseline.json')); r=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-evidence-boundary.json')); abort('invalid boundary') unless b['schema']=='csdlc.cycle_time_evidence.v1' && b['issues'].length==1 && !b['provenance'].empty? && r['status']=='candidate_evidence_pending' && r['candidate_ref'].nil? && r['elapsed_reduction_seconds'].nil? && r['reconnect_action_reduction'].nil?"
     ],
     "parallel_group": "analysis",
     "defer_reason": null
@@ -106,7 +106,7 @@ Tokens: 25000
 ## Commands
 
 - `cargo nextest run --locked --manifest-path csdlc-v2/Cargo.toml --no-tests=fail --test estimation_contracts`
-- `ruby -rjson -e r=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-comparison.json')); abort('invalid boundary') unless r['status']=='not_comparable' && r['comparison_basis_equal']==false && r['gates_preserved']==true && r['elapsed_reduction_seconds']==0 && r['reconnect_action_reduction']==0 && r.dig('baseline_cohort','measured')==true && r.dig('candidate_cohort','measured')==true && !r.dig('baseline_cohort','provenance').empty? && !r.dig('candidate_cohort','provenance').empty?`
+- `ruby -rjson -e b=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-baseline.json')); r=JSON.parse(File.read('.csdlc/evidence/5822/cycle-time-evidence-boundary.json')); abort('invalid boundary') unless b['schema']=='csdlc.cycle_time_evidence.v1' && b['issues'].length==1 && !b['provenance'].empty? && r['status']=='candidate_evidence_pending' && r['candidate_ref'].nil? && r['elapsed_reduction_seconds'].nil? && r['reconnect_action_reduction'].nil?`
 - `git diff --check`
 
 ## Failure Semantics

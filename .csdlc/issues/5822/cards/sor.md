@@ -12,19 +12,16 @@ Status: pre_phase
 
 ## Summary
 
-Implemented concrete lifecycle, GitHub, validation, session, and operator observation adapters; unique-issue cohort consolidation; calibration-gated fallback; digest-verified terminal finish reconciliation; bounded artifact references; reproducible calibration inputs; and measured operator evidence that refuses an unsupported cycle-time claim.
+Replaced caller-supplied timing adapters with byte-verified retained-source loading; made calibration loader-only and reproducible from digest-linked sources; made finish collect available terminal actuals; made cycle comparison load, hash, and derive cohorts and gates from retained artifacts; removed synthetic calibration and nonterminal candidate evidence; and revised AC-7 truthfully because no equivalent terminal candidate cohort exists.
 
 ## Artifacts
 
 - .csdlc/evidence/5822/atomic-readiness-repair.json
-- .csdlc/evidence/5822/forecast-inputs.json
 - .csdlc/evidence/5822/forecast.json
 - .csdlc/evidence/5822/accepted-estimate.json
-- .csdlc/evidence/5822/calibration-backtest-inputs.json
-- .csdlc/evidence/5822/calibration-backtest.json
-- .csdlc/evidence/5822/estimation-outcome.sample.json
-- .csdlc/evidence/5822/operator-cycle-inputs.json
-- .csdlc/evidence/5822/cycle-time-comparison.json
+- .csdlc/evidence/5822/calibration-source-manifest.json
+- .csdlc/evidence/5822/calibration-report.json
+- .csdlc/evidence/5822/cycle-time-baseline.json
 - .csdlc/evidence/5822/cycle-time-evidence-boundary.json
 - .csdlc/evidence/5822/validation-summary.json
 
@@ -32,10 +29,9 @@ Implemented concrete lifecycle, GitHub, validation, session, and operator observ
 
 - csdlc-v2/src/estimation.rs
 - csdlc-v2/src/lib.rs
-- csdlc-v2/src/cards.rs
-- csdlc-v2/src/store.rs
 - csdlc-v2/src/finish.rs
 - csdlc-v2/tests/estimation_contracts.rs
+- .csdlc/prepared/issues/5822/design.md
 
 ## Validation
 
@@ -52,7 +48,7 @@ Implemented concrete lifecycle, GitHub, validation, session, and operator observ
       "--test",
       "estimation_contracts"
     ],
-    "purpose": "Prove concrete adapters, unique cohorts, calibration fallback, digest tampering, terminal finish reconciliation, traversal rejection, and advisory-only behavior.",
+    "purpose": "Prove byte-verified adapters, identity negatives, unique cohorts, calibration loader integrity and fallback, finish actual collection, cycle artifact verification, missing/tampered artifact rejection, traversal rejection, and advisory semantics.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5822/validation-summary.json"
   },
@@ -61,11 +57,11 @@ Implemented concrete lifecycle, GitHub, validation, session, and operator observ
       "ruby",
       "-rjson",
       "-e",
-      "validate measured provenance and non-comparable zero-reduction boundary"
+      "validate retained terminal baseline and pending candidate boundary"
     ],
-    "purpose": "Prove measured provenance is retained and unsupported cycle-time reduction is refused.",
+    "purpose": "Prove a real measured baseline is retained while candidate evidence and reduction claims remain absent.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5822/cycle-time-comparison.json"
+    "evidence_ref": ".csdlc/evidence/5822/cycle-time-evidence-boundary.json"
   },
   {
     "command": [

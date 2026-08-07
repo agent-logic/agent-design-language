@@ -51,8 +51,8 @@
   "outlier_factors": [],
   "comparable_issues": [],
   "calibration": {
-    "reference": ".csdlc/evidence/5822/calibration-backtest.json",
-    "digest": "31186b1e72d683c11788ac2025b0a1c30cd1d0a6aa1e06a20bc30f3a1990df7d"
+    "reference": ".csdlc/evidence/5822/calibration-report.json",
+    "digest": "9e4230c8ecba156855ce6d9cc80367c3029b919e583426c02c965bec9ad2e994"
   },
-  "fallback_reason": "fewer than three unique comparable known issues"
+  "fallback_reason": "calibration is missing, invalid, or failed"
 }

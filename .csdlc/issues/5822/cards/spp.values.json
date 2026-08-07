@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-05] C-SDLC estimation and cycle-time reduction",
     "slug": "v0-92-wp-05-c-sdlc-estimation-and-cycle-time-reduction",
     "version": "v0.92",
-    "generation": 37
+    "generation": 43
   },
   "status": "ready",
   "content": {
@@ -84,11 +84,11 @@
         "validation_seconds": 3600,
         "advisory": {
           "forecast_ref": ".csdlc/evidence/5822/forecast.json",
-          "forecast_digest": "02de8bb3365d876b1c7319cb82240831fd14a566665e98a430611e016fd2adda",
+          "forecast_digest": "84b7fe8cf1b82b6c18c24eb915ebfd262a1152fc2295a7fdfa2985c6af0ac0c8",
           "disposition": "deferred",
           "advisory_only": true,
           "adjusted": null,
-          "operator_rationale": "Calibration passes, but no three-issue current-era comparable cohort exists; retain static planning guidance without execution authority."
+          "operator_rationale": "Retained historical sources contain no complete forecast-versus-actual calibration cases, so calibration fails closed and the estimate remains deferred static guidance without execution authority."
         }
       },
       "stop_conditions": [
@@ -105,7 +105,7 @@
         "Backtests fail to outperform or calibrate against static and historical baselines"
       ],
       "design_ref": ".csdlc/prepared/issues/5822/design.md",
-      "design_digest": "1fb585dc1452f78f2623a3eb82f4aaf91f65aebac399d9d56f1567dcb44814e2",
+      "design_digest": "0aa9a628f3b7a11b28f5dfa6d13d24aca60a5e53646605cc17f237541e9fe95b",
       "diagram_ref": ".csdlc/prepared/issues/5822/diagram.mmd",
       "diagram_digest": "360aefdd9d98f37c36836af1445244e6295fda65ce9b41c418b8d8161d17b2eb"
     }

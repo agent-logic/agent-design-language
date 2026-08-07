@@ -26,13 +26,13 @@ Deliver measured estimation, reconnection, and simplified lifecycle path.
 ## Acceptance
 
 1. Typed observation, forecast, accepted-estimate, and outcome schemas retain per-field provenance and explicit unknown values
-2. Lifecycle, GitHub, PVF/validation, approved session, and operator-annotation adapters join deterministically without transcript-content leakage
+2. Lifecycle, GitHub, PVF/validation, approved session, and operator-annotation adapters derive identity and measurements from byte-verified retained source artifacts without transcript-content leakage
 3. Comparable cohorts exclude target actuals and forecasts report ranges, cohort size, dispersion, confidence, outlier factors, and drift state
-4. Static PlanningProfile estimates remain an explicit fallback when data sufficiency or calibration gates fail
+4. Static PlanningProfile estimates remain an explicit fallback when data sufficiency or verified calibration gates fail
 5. A typed SPP edit records advisory estimate source and operator disposition without enforcing time, tokens, completion, or phase
-6. Terminal closeout records forecast-versus-actual evidence and supports reproducible backtest and calibration reports
-7. Equivalent baseline and candidate cohorts demonstrate truthful operator cycle-time and reconnection behavior without gate weakening
-8. The exact csdlc-v2/tests/estimation_contracts.rs target proves schema, privacy, leakage, deterministic cohort, fallback, calibration, and backtest behavior with zero tests treated as failure
+6. Terminal closeout records every available retained actual measurement in forecast-versus-actual evidence and supports reproducible digest-linked calibration reports
+7. A real retained terminal baseline is measured; no cycle-time or reconnection reduction is claimed until an equivalent terminal candidate cohort exists with identical gates and complete byte-verified evidence
+8. The exact csdlc-v2/tests/estimation_contracts.rs target proves source-derived adapters, privacy, deterministic cohorts, fallback, calibration verification, terminal actual collection, artifact tamper rejection, and deferred comparison behavior with zero tests treated as failure
 
 ## Dependencies
 

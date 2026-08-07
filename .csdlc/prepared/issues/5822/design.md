@@ -9,9 +9,12 @@ inputs only; they are not restored as lifecycle authority. Current static
 planning estimates live in `csdlc-v2/src/cards.rs` and remain fallback defaults
 until a measured candidate is proven better.
 
-The outcome is an advisory, provenance-bearing estimate path plus a measured
-operator workflow simplification. Estimates never stop work, advance lifecycle
-state, mark a goal complete, or override validation, review, merge, or closeout.
+The outcome is an advisory, provenance-bearing estimate path plus a real
+terminal workflow baseline. The retained history does not contain an equivalent
+terminal candidate cohort, so this issue records that boundary and makes no
+cycle-time or reconnection reduction claim. Estimates never stop work, advance
+lifecycle state, mark a goal complete, or override validation, review, merge,
+or closeout.
 
 ## Typed Estimation Boundary
 
@@ -24,6 +27,9 @@ schemas that join available data from:
 - approved session telemetry with model/platform-era labels;
 - explicit operator annotations for pauses, blockers, and scope changes.
 
+Adapters load retained source artifacts, hash their exact bytes, verify the
+declared digest, and derive identity and measurements from the decoded source;
+callers cannot inject timing structs or construct verified calibration values.
 Every field retains source provenance and unknown values remain unknown. The
 forecast reports point estimates, ranges, cohort size, dispersion, confidence,
 outlier factors, and drift state. Comparable-issue selection is deterministic
@@ -41,8 +47,8 @@ and excludes the target issue's own future actuals.
 4. Add a typed SPP reference/disposition for an accepted advisory forecast.
 5. Record forecast-versus-actual outcomes at truthful terminal closeout without
    turning estimation into enforcement.
-6. Measure baseline and candidate operator cycle time over equivalent workflow
-   cohorts, including active work, validation, review, CI, and wait components.
+6. Retain the real terminal baseline and defer comparison until an equivalent
+   terminal candidate exists with the same workflow key and preserved gates.
 
 The implementation owns the exact integration-test target
 `csdlc-v2/tests/estimation_contracts.rs`. That target must cover schema and
@@ -69,15 +75,18 @@ rollback cannot weaken a lifecycle gate or silently change stored cards.
 
 ## Proof
 
-The candidate remains feature-bounded until backtests and workflow comparisons
-pass. Proof covers deterministic schemas, unknown/schema-drift negatives,
-cohort leakage rejection, forecast stability, non-enforcement, typed card round
-trips, closeout comparison, and measured cycle-time improvement.
+The candidate remains feature-bounded until real forecast-versus-actual cases
+and an equivalent terminal workflow cohort exist. Proof covers byte-level
+artifact verification, source-derived adapters, unknown/schema-drift negatives,
+cohort leakage rejection, forecast stability, non-enforcement, terminal actual
+collection, and refusal to claim cycle-time improvement from incomplete data.
 ## Owned Paths
 
 - `csdlc-v2/src/estimation.rs`
 - `csdlc-v2/src/lib.rs`
 - `csdlc-v2/src/cards.rs`
+- `csdlc-v2/src/store.rs`
+- `csdlc-v2/src/finish.rs`
 - `csdlc-v2/tests/estimation_contracts.rs`
 - `.csdlc/evidence/5822`
 

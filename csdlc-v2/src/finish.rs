@@ -12,10 +12,10 @@ use strum::{AsRefStr, Display, EnumString};
 use crate::cards::{CardContent, CardKind};
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::estimation::{
-    canonical_digest, load_verified_json, terminal_outcome, validate_accepted_estimate,
-    verified_calibration, ArtifactReference, Availability, EstimateDisposition, Forecast,
-    MetricObservation, Observation, ObservationSource, Provenance, TerminalOutcome,
-    OBSERVATION_SCHEMA, OUTCOME_SCHEMA,
+    artifact_reference, canonical_digest, load_observation_manifest, load_verified_json,
+    terminal_outcome, validate_accepted_estimate, verified_calibration, ArtifactReference,
+    Availability, EstimateDisposition, EstimateMethod, Forecast, MetricObservation, Observation,
+    ObservationSource, Provenance, TerminalOutcome, OBSERVATION_SCHEMA, OUTCOME_SCHEMA,
 };
 use crate::git::{self, clean_commit_revision};
 use crate::github::{
@@ -266,7 +266,7 @@ fn try_retain_terminal_estimation_outcome(
     }
     if let Some(calibration) = forecast.calibration.clone() {
         let calibration = verified_calibration(store.root(), calibration)?;
-        if !calibration.report.calibrated {
+        if forecast.method == EstimateMethod::ComparableMedian && !calibration.report().calibrated {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "accepted forecast references failed calibration",
@@ -296,7 +296,7 @@ fn try_retain_terminal_estimation_outcome(
             reference: format!("{terminal_ref}#{name}"),
         }],
     };
-    let actual = Observation {
+    let fallback_actual = Observation {
         schema: OBSERVATION_SCHEMA.into(),
         issue: terminal.issue,
         key: forecast.key.clone(),
@@ -307,7 +307,17 @@ fn try_retain_terminal_estimation_outcome(
         ci_wait_seconds: unknown("ci_wait_seconds_unavailable"),
         total_tokens: unknown("total_tokens_unavailable"),
     };
-    let outcome = terminal_outcome(&forecast, accepted.forecast_ref.clone(), &actual)?;
+    let manifest_ref = format!(
+        ".csdlc/evidence/{}/terminal-observation-manifest.json",
+        terminal.issue
+    );
+    let actual = if store.root().join(&manifest_ref).is_file() {
+        let artifact = artifact_reference(store.root(), manifest_ref)?;
+        load_observation_manifest(store.root(), &artifact)?
+    } else {
+        fallback_actual
+    };
+    let outcome = terminal_outcome(&forecast, forecast_artifact, &actual)?;
     let digest = canonical_digest(&outcome)?;
     let path = terminal_estimation_path(store.root(), terminal.issue)?;
     retain_terminal_estimation_file(store.root(), &path, &outcome)?;
@@ -371,7 +381,7 @@ pub fn validate_terminal_estimation_evidence(store: &Store, issue: u64) -> Resul
     let forecast: Forecast = load_verified_json(store.root(), &forecast_artifact)?;
     if let Some(calibration) = forecast.calibration.clone() {
         let calibration = verified_calibration(store.root(), calibration)?;
-        if !calibration.report.calibrated {
+        if forecast.method == EstimateMethod::ComparableMedian && !calibration.report().calibrated {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "terminal forecast references failed calibration",
@@ -404,7 +414,6 @@ pub fn validate_terminal_estimation_evidence(store: &Store, issue: u64) -> Resul
         || outcome.issue != issue
         || outcome.forecast_ref != accepted.forecast_ref
         || outcome.forecast_digest != accepted.forecast_digest
-        || outcome.forecast_digest != canonical_digest(&forecast)?
     {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,

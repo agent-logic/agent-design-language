@@ -1,0 +1,33 @@
+{
+  "schema": "csdlc.cycle_time_evidence.v1",
+  "id": "v0.91.7-retained-terminal-session-4617",
+  "comparison_key": {
+    "cohort": "csdlc-v2-rust-medium",
+    "workflow_version": "v2-gate-10d2",
+    "model_era": "codex-2026-q3"
+  },
+  "issues": [
+    {
+      "issue": 4617,
+      "active_work_seconds": 321,
+      "validation_seconds": null,
+      "review_seconds": null,
+      "ci_seconds": null,
+      "wait_seconds": null,
+      "reconnect_actions": null
+    }
+  ],
+  "preserved_gates": [
+    "validation",
+    "review",
+    "publication",
+    "merge",
+    "closeout"
+  ],
+  "provenance": [
+    {
+      "reference": "docs/milestones/v0.91.7/review/V0917_WP04_CODEX_SESSION_TELEMETRY_SAMPLE_4617.jsonl",
+      "digest": "9fada842b3f4ad0d4151e1d114d2ff0b9e0edd9a38040b9f5588a4a39ea46ace"
+    }
+  ]
+}

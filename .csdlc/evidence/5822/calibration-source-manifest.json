@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.estimation_calibration_manifest.v1",
+  "cases": [],
+  "context_sources": [
+    {
+      "reference": "docs/milestones/v0.91.7/review/V0917_WP04_CODEX_SESSION_TELEMETRY_SAMPLE_4617.jsonl",
+      "digest": "9fada842b3f4ad0d4151e1d114d2ff0b9e0edd9a38040b9f5588a4a39ea46ace"
+    },
+    {
+      "reference": "docs/milestones/v0.91.7/review/V0917_WP04_CODEX_SESSION_TELEMETRY_SAMPLE_4617.prediction.json",
+      "digest": "69815454d027d9cbb7ad7020291e85dd8e64e56463226beb1fa1301904d0f6c2"
+    },
+    {
+      "reference": "docs/milestones/v0.91.7/review/V0917_WP04_EXECUTION_METRICS_PREDICTION_SAMPLE_4743.json",
+      "digest": "a83d0313bd244a8e965d934a68e5e888291e6cfd4c0fb9eedd81019d0b16db63"
+    }
+  ],
+  "tolerance_basis_points": 500
+}
