@@ -9,15 +9,20 @@ require "pathname"
 SHA256 = /\A[0-9a-f]{64}\z/
 ISSUE = 5820
 PLATFORMS = %w[linux macos windows].freeze
-ARTIFACT_ROLES = %w[
+COMMON_ARTIFACT_ROLES = %w[
   guardian_binary
   kernel_binary
   canonical_init
   https_transcript
   wss_transcript
   lifecycle_report
+  lifecycle_component_report
   runner_provenance
 ].freeze
+LINUX_ARTIFACT_ROLES = (COMMON_ARTIFACT_ROLES + %w[
+  aws_summary
+  volume_deletion_receipt
+]).freeze
 ASSERTION_ROLES = {
   "guardian_launched" => "lifecycle_report",
   "kernel_ready" => "lifecycle_report",
@@ -84,9 +89,15 @@ unless proof_revision == head
     "git", "diff", "--name-only", "#{proof_revision}..#{head}"
   )
   abort "cannot compare proof and verifier revisions" unless diff_status.success?
-  allowed_post_proof_changes = ["adl/tools/validate_v092_runtime_native_receipts.rb"]
   changed_paths = changed.lines.map(&:strip).reject(&:empty?)
-  abort "runtime product changed after native proof" unless (changed_paths - allowed_post_proof_changes).empty?
+  allowed_post_proof = lambda do |path|
+    path == "adl/tools/validate_v092_runtime_native_receipts.rb" ||
+      path == "adl/tools/test_validate_v092_runtime_native_receipts.sh" ||
+      path.start_with?(".csdlc/issues/#{ISSUE}/") ||
+      path.start_with?(".csdlc/evidence/#{ISSUE}/") ||
+      path.start_with?(".csdlc/prepared/issues/#{ISSUE}/")
+  end
+  abort "runtime product changed after native proof" unless changed_paths.all?(&allowed_post_proof)
 end
 
 receipts = Array(packet["receipts"])
@@ -136,7 +147,8 @@ receipts.each do |receipt|
 
   artifacts = Array(receipt["artifacts"])
   roles = artifacts.map { |artifact| artifact["role"] }
-  abort "#{platform} artifact role denominator drift" unless roles.sort == ARTIFACT_ROLES.sort
+  expected_roles = platform == "linux" ? LINUX_ARTIFACT_ROLES : COMMON_ARTIFACT_ROLES
+  abort "#{platform} artifact role denominator drift" unless roles.sort == expected_roles.sort
   abort "#{platform} artifact roles must be unique" unless roles.uniq.length == roles.length
   artifacts_by_role = artifacts.to_h do |artifact|
     role = artifact.fetch("role")
@@ -167,6 +179,49 @@ receipts.each do |receipt|
   end
   ASSERTION_ROLES.each_key do |name|
     abort "#{platform} lifecycle report did not prove #{name}" unless lifecycle.dig("assertions", name) == true
+  end
+
+  component = JSON.parse(
+    File.read(artifacts_by_role.fetch("lifecycle_component_report").fetch("resolved"))
+  )
+  abort "#{platform} component report digest mismatch" unless lifecycle["lifecycle_report_sha256"] == artifacts_by_role.fetch("lifecycle_component_report").fetch("sha256")
+  abort "#{platform} component report schema mismatch" unless component["schema"] == "adl.runtime_v3.lifecycle_soak.v1"
+  abort "#{platform} component report failed" unless component["status"] == "pass"
+  abort "#{platform} component suite mismatch" unless component["suite"] == "stress_100x10s"
+  abort "#{platform} component report is not acceptance eligible" unless component["acceptance_eligible"] == true
+  abort "#{platform} component revision drift" unless component["revision"] == proof_revision
+  abort "#{platform} component platform mismatch" unless component["platform"] == platform
+  abort "#{platform} component run denominator mismatch" unless component["requested_runs"] == 100 && component["completed_runs"] == 100
+  abort "#{platform} component duration mismatch" unless component["duration_seconds_per_run"] == 10
+  completed_cycles = component["completed_cycles"].to_i
+  abort "#{platform} component cycle minimum failed" unless completed_cycles >= component["minimum_cycles_per_run"].to_i * component["completed_runs"].to_i
+  abort "#{platform} continuity mismatch" unless component["continuity_generation"] == completed_cycles
+  abort "#{platform} Guardian count mismatch" unless component["guardian_launch_count"] == completed_cycles && component["guardian_process_count"] == completed_cycles
+  abort "#{platform} Runtime start count mismatch" unless component["runtime_start_count"] == completed_cycles + 1 && component["runtime_instance_count"] == completed_cycles + 1
+  abort "#{platform} restart proof mismatch" unless component["total_restarts"] == 1 && component["restart_budget_exercised"] == true
+  abort "#{platform} anti-rollback proof missing" unless component["anti_rollback_minimum_enforced"] == true
+  abort "#{platform} log continuity mismatch" unless component["log_checked_cycles"] == completed_cycles
+  abort "#{platform} logging proof failed" unless component["logging_complete"] == true && component["master_log_status"] == "clean"
+  abort "#{platform} component kernel digest mismatch" unless component["kernel_sha256"] == artifacts_by_role.fetch("kernel_binary").fetch("sha256")
+
+  if platform == "linux"
+    aws = JSON.parse(File.read(artifacts_by_role.fetch("aws_summary").fetch("resolved")))
+    abort "linux AWS summary schema mismatch" unless aws["schema_version"] == "adl.aws_remote_validation_run.v1"
+    abort "linux AWS run failed" unless aws["status"] == "passed" && aws["issue"] == ISSUE
+    abort "linux AWS runner mismatch" unless aws["run_id"] == runner["run_id"]
+    abort "linux AWS revision drift" unless aws.dig("remote_summary", "resolved_commit") == proof_revision
+    abort "linux AWS command failed" unless aws.dig("command", "status") == "Success" && aws.dig("command", "response_code") == 0
+    abort "linux AWS run was not Spot" unless aws.dig("launch", "purchase_option") == "spot"
+    abort "linux AWS instance teardown failed" unless aws.dig("cleanup", "final_instance_state") == "terminated" && aws.dig("cleanup", "termination_error").nil?
+    abort "linux AWS launch surface teardown failed" unless %w[instance_profile_deleted role_deleted security_group_deleted].all? { |field| aws.dig("launch_surface_cleanup", field) == true }
+
+    deletion = JSON.parse(
+      File.read(artifacts_by_role.fetch("volume_deletion_receipt").fetch("resolved"))
+    )
+    abort "linux volume deletion schema mismatch" unless deletion["schema"] == "adl.aws_volume_deletion_receipt.v1"
+    abort "linux volume deletion was not verified" unless deletion["deleted"] == true && deletion["observation"] == "InvalidVolume.NotFound"
+    abort "linux volume region mismatch" unless deletion["region"] == aws["region"]
+    abort "linux volume identity mismatch" unless deletion["volume_id_sha256"] == aws.dig("cache_volume", "volume_id", "sha256")
   end
 
   canonical_init = File.read(artifacts_by_role.fetch("canonical_init").fetch("resolved"))

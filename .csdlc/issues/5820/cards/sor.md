@@ -27,6 +27,7 @@ Consolidated Runtime v3 under Guardian ownership and proved sustained bounded re
 - .csdlc/evidence/5820/runtime-native-receipts.json
 - .csdlc/evidence/5820/native/macos
 - .csdlc/evidence/5820/native/linux
+- .csdlc/evidence/5820/native/linux/volume-deletion-receipt.json
 - .csdlc/evidence/5820/native/windows/blocker.json
 
 ## Execution
@@ -80,7 +81,7 @@ Consolidated Runtime v3 under Guardian ownership and proved sustained bounded re
     ],
     "purpose": "Prove 100 sustained Linux Spot windows at the exact product revision and verify task-owned compute teardown.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/5820/native/linux/lifecycle-component-report.json; .csdlc/evidence/5820/native/linux/aws-summary.json; 100/100 windows, 3177 completed cycles, generation 3177, one restart; instance terminated and temporary volume deleted"
+    "evidence_ref": ".csdlc/evidence/5820/native/linux/lifecycle-component-report.json; .csdlc/evidence/5820/native/linux/aws-summary.json; .csdlc/evidence/5820/native/linux/volume-deletion-receipt.json; 100/100 windows, 3177 completed cycles, generation 3177, one restart; instance terminated and temporary volume deletion verified by InvalidVolume.NotFound"
   },
   {
     "command": [
@@ -108,6 +109,15 @@ Consolidated Runtime v3 under Guardian ownership and proved sustained bounded re
     "purpose": "Prove the AWS wrapper retains stdout and stderr without relying on non-portable process substitution.",
     "outcome": "passed",
     "evidence_ref": "focused AWS wrapper regression passed"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_validate_v092_runtime_native_receipts.sh"
+    ],
+    "purpose": "Prove exact-final-head receipt closure while rejecting any post-proof runtime product change.",
+    "outcome": "passed",
+    "evidence_ref": "final-head native receipt closure passed"
   },
   {
     "command": [

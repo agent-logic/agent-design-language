@@ -57,6 +57,11 @@
           "sha256": "d241a33c38848cd9db5d54bf0a65acc1dea906cdb5167e78514791de1627c2bb"
         },
         {
+          "role": "lifecycle_component_report",
+          "path": ".csdlc/evidence/5820/native/macos/lifecycle-component-report.json",
+          "sha256": "bedebab7e6a95456f943ad186009f3fb0be40d8a30bacebda703eaf64e9bbb7d"
+        },
+        {
           "role": "runner_provenance",
           "path": ".csdlc/evidence/5820/native/macos/runner-provenance.json",
           "sha256": "0fa447bfedcc1ba5d76cf5d6101ca477641113bbeb879945b3e6e2f5b86dfc98"
@@ -181,6 +186,21 @@
           "role": "lifecycle_report",
           "path": ".csdlc/evidence/5820/native/linux/lifecycle-proof.json",
           "sha256": "41a87fc6445cafaeecc6908589a533bd714e0998d592c91cd89b1c1798a6811e"
+        },
+        {
+          "role": "lifecycle_component_report",
+          "path": ".csdlc/evidence/5820/native/linux/lifecycle-component-report.json",
+          "sha256": "412f56541f82fe584fcbfe1aa52c92df9b8fad59be8b873afa5adf9906525615"
+        },
+        {
+          "role": "aws_summary",
+          "path": ".csdlc/evidence/5820/native/linux/aws-summary.json",
+          "sha256": "0f584706371fc85a23e3841d8d21a47cf02ada7881454b55505afcac5b70e39c"
+        },
+        {
+          "role": "volume_deletion_receipt",
+          "path": ".csdlc/evidence/5820/native/linux/volume-deletion-receipt.json",
+          "sha256": "98b8ee4c5a1dc4cde2d086724a25603e4ba7eec8bcdb81e8477360d85b09304b"
         },
         {
           "role": "runner_provenance",

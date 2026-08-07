@@ -1,8 +1,8 @@
 {
   "actor": "codex",
   "card": "sor",
-  "expected_digest": "f34e78272879ea3039460c9213f06959663f49750f56dec46222b976d3afbf6b",
-  "expected_generation": 42,
+  "expected_digest": "2a3e18729b7b873032e10e560389466227dc47c17b7ff6c3bf186b32aca8f36f",
+  "expected_generation": 43,
   "issue": 5820,
   "operation": {
     "operation": "replace_execution",
@@ -28,6 +28,7 @@
       ".csdlc/evidence/5820/runtime-native-receipts.json",
       ".csdlc/evidence/5820/native/macos",
       ".csdlc/evidence/5820/native/linux",
+      ".csdlc/evidence/5820/native/linux/volume-deletion-receipt.json",
       ".csdlc/evidence/5820/native/windows/blocker.json"
     ],
     "validation": [
@@ -47,7 +48,7 @@
         "command": ["bash", "adl/tools/run_aws_spot_remote_validation_lane.sh", "--", "bash", "adl/tools/validate_v092_runtime_guardian_lifecycle.sh", "--suite", "stress_100x10s"],
         "purpose": "Prove 100 sustained Linux Spot windows at the exact product revision and verify task-owned compute teardown.",
         "outcome": "passed",
-        "evidence_ref": ".csdlc/evidence/5820/native/linux/lifecycle-component-report.json; .csdlc/evidence/5820/native/linux/aws-summary.json; 100/100 windows, 3177 completed cycles, generation 3177, one restart; instance terminated and temporary volume deleted"
+        "evidence_ref": ".csdlc/evidence/5820/native/linux/lifecycle-component-report.json; .csdlc/evidence/5820/native/linux/aws-summary.json; .csdlc/evidence/5820/native/linux/volume-deletion-receipt.json; 100/100 windows, 3177 completed cycles, generation 3177, one restart; instance terminated and temporary volume deletion verified by InvalidVolume.NotFound"
       },
       {
         "command": ["ruby", "adl/tools/validate_v092_runtime_native_receipts.rb", ".csdlc/evidence/5820/runtime-native-receipts.json"],
@@ -66,6 +67,12 @@
         "purpose": "Prove the AWS wrapper retains stdout and stderr without relying on non-portable process substitution.",
         "outcome": "passed",
         "evidence_ref": "focused AWS wrapper regression passed"
+      },
+      {
+        "command": ["bash", "adl/tools/test_validate_v092_runtime_native_receipts.sh"],
+        "purpose": "Prove exact-final-head receipt closure while rejecting any post-proof runtime product change.",
+        "outcome": "passed",
+        "evidence_ref": "final-head native receipt closure passed"
       },
       {
         "command": ["git", "diff", "--check"],

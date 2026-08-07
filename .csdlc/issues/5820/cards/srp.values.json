@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-03] Runtime launch and resilience consolidation",
     "slug": "v0-92-wp-03-runtime-launch-and-resilience-consolidation",
     "version": "v0.92",
-    "generation": 43
+    "generation": 44
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/config.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\nadl-runtime/src/guardian.rs\nadl-runtime/tests/runtime_guardian_lifecycle.rs\nadl/tools/validate_v092_runtime_guardian_lifecycle.sh\nadl/tools/validate_v092_runtime_native_receipts.rb\n.csdlc/issues/5820\n.csdlc/evidence/5820",
+      "review_scope": "adl-runtime-kernel/src/config.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\nadl-runtime/src/guardian.rs\nadl-runtime/tests/runtime_guardian_lifecycle.rs\nadl/tools/validate_v092_runtime_guardian_lifecycle.sh\nadl/tools/validate_v092_runtime_native_receipts.rb\nadl/tools/run_aws_spot_remote_validation_lane.sh\nadl/tools/test_run_aws_spot_remote_validation_lane.sh\n.csdlc/issues/5820\n.csdlc/evidence/5820\n.csdlc/prepared/issues/5820",
       "review_revision": "git-blake3:833ace7992c0cfd109777183ca55064d4c3a5a05:011a1577df5c66e35f206df42fc5a3578672dd1008f6c5f3a93f080071d8c2d4",
       "reviewer": "subagent:Leibniz",
       "review_prompts": [

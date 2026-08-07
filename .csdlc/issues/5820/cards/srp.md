@@ -19,8 +19,11 @@ adl-runtime/src/guardian.rs
 adl-runtime/tests/runtime_guardian_lifecycle.rs
 adl/tools/validate_v092_runtime_guardian_lifecycle.sh
 adl/tools/validate_v092_runtime_native_receipts.rb
+adl/tools/run_aws_spot_remote_validation_lane.sh
+adl/tools/test_run_aws_spot_remote_validation_lane.sh
 .csdlc/issues/5820
 .csdlc/evidence/5820
+.csdlc/prepared/issues/5820
 
 ## Prompts
 

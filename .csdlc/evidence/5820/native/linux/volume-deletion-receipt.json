@@ -1,0 +1,22 @@
+{
+  "schema": "adl.aws_volume_deletion_receipt.v1",
+  "issue": 5820,
+  "run_id": "adl-wp-5820-linux-stress-20260807-2345",
+  "profile": "agent-logic-admin",
+  "region": "us-west-2",
+  "volume_id_sha256": "8d833259212f3b290923a3aad075cdee1c4b21b284288b5e3eb0b95f491be174",
+  "delete_command_succeeded": true,
+  "verification_command": [
+    "aws",
+    "ec2",
+    "describe-volumes",
+    "--region",
+    "us-west-2",
+    "--volume-ids",
+    "<sha256:8d833259212f3b290923a3aad075cdee1c4b21b284288b5e3eb0b95f491be174>"
+  ],
+  "verification_exit_code": 254,
+  "observation": "InvalidVolume.NotFound",
+  "deleted": true,
+  "verified_absent_at": "2026-08-07T21:18:44Z"
+}
