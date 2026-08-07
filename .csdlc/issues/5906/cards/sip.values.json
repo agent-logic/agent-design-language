@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5906,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][closeout] Resolve multiple merged closing PRs deterministically",
+    "slug": "v092-terminal-precedence-multiple-merged-prs",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Allow historical finish to reconcile multiple merged closing PRs only when GitHub proves one unique latest merge and the request pins it exactly.",
+      "required_outcome": "Deterministic unique-latest merged PR precedence with fail-closed timestamp and identity checks, followed by terminal reconciliation of issues 5818 and 5861.",
+      "declared_scope": [
+        "csdlc-v2/src/github.rs",
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/tests/gate_finish.rs",
+        ".csdlc/issues/5906",
+        ".csdlc/prepared/issues/5906"
+      ],
+      "authority_boundary": [
+        "Issue 5906 owns only historical merged-candidate precedence",
+        "Routine review, publication, and finish gates remain unchanged",
+        "Exact live GitHub identity remains terminal authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never edit tracked work on main",
+        "Use typed C-SDLC v2 Rust binaries",
+        "No AWS",
+        "Run focused tests and strict Clippy",
+        "Obtain exact-head subagent review before PR"
+      ]
+    }
+  }
+}

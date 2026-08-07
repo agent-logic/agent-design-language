@@ -1,0 +1,27 @@
+{
+  "issue": 5906,
+  "card": "vpp",
+  "expected_generation": 1,
+  "expected_digest": "b12f468596bc40972b0ccfb7c068f43b5d3776944eef092f1ae39b9ae5856b7a",
+  "claim_id": null,
+  "actor": "codex:5906-terminal-precedence",
+  "reason": "Use one focused proving lane for the complete historical-precedence contract; live reconciliation remains post-merge terminal evidence.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "csdlc-finish-focused",
+        "proof_role": "Prove single-candidate compatibility, unique-latest selection, fail-closed rejection cases, unchanged routine gates, and the contract used for final live reconciliation.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 10000,
+        "argv": ["cargo", "test", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate_finish"],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

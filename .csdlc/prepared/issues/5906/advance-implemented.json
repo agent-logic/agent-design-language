@@ -1,0 +1,1 @@
+{"issue":5906,"card":"sor","expected_generation":4,"expected_digest":"0b2d52eeaf84cef358897059927b92016358a8513f293e50e31c2812cdf60300","actor":"codex:5906-terminal-precedence","reason":"Implementation and focused proof are complete.","operation":{"operation":"advance_phase","phase":"implemented"}}

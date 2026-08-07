@@ -8,6 +8,7 @@ use octocrab::params::pulls::MergeMethod as OctoMergeMethod;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use strum::{AsRefStr, Display, EnumString};
+use time::{format_description::well_known::Rfc3339, OffsetDateTime};
 
 use crate::cards::{CardContent, CardKind};
 use crate::error::{ErrorCode, Result, V2Error};
@@ -399,9 +400,11 @@ pub fn validate_historical_candidates(
         .filter(|candidate| candidate.merged || candidate.state == "MERGED")
         .collect::<Vec<_>>();
     let valid = match (request.disposition, expected) {
-        (FinishDisposition::Merged, Some(expected)) => {
-            merged.len() == 1 && identity_matches(merged[0], expected)
-        }
+        (FinishDisposition::Merged, Some(expected)) => match merged.as_slice() {
+            [candidate] => identity_matches(candidate, expected),
+            candidates => unique_latest_merged_candidate(candidates)
+                .is_some_and(|candidate| identity_matches(candidate, expected)),
+        },
         (FinishDisposition::ClosedUnmerged, Some(expected)) => {
             merged.is_empty()
                 && candidates.len() == 1
@@ -420,6 +423,26 @@ pub fn validate_historical_candidates(
             "historical finish has no unique terminal-precedence closing PR identity",
         ))
     }
+}
+
+fn unique_latest_merged_candidate<'a>(
+    candidates: &[&'a ClosingPullRequestIdentity],
+) -> Option<&'a ClosingPullRequestIdentity> {
+    let parsed = candidates
+        .iter()
+        .map(|candidate| {
+            let merged_at = candidate.merged_at.as_deref()?;
+            let instant = OffsetDateTime::parse(merged_at, &Rfc3339).ok()?;
+            Some((*candidate, instant))
+        })
+        .collect::<Option<Vec<_>>>()?;
+    let latest = parsed.iter().map(|(_, instant)| *instant).max()?;
+    let mut latest_candidates = parsed
+        .iter()
+        .filter(|(_, instant)| *instant == latest)
+        .map(|(candidate, _)| *candidate);
+    let candidate = latest_candidates.next()?;
+    latest_candidates.next().is_none().then_some(candidate)
 }
 
 pub fn select_historical_terminal(
