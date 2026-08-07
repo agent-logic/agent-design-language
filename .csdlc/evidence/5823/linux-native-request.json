@@ -15,9 +15,11 @@
       "contract"
     ],
     "working_directory": ".",
-    "environment_allowlist": []
+    "environment_allowlist": [
+      "PATH"
+    ]
   },
-  "command_profile_digest": "6303deb1e636536249b41d5fb49cb179f2baa802a2a1a61b94df053e8ecb56ed",
+  "command_profile_digest": "2fa2a2434ee0cfe1ce844453b0d57deffbc8883323bdb03248ca0a92d9b5fe80",
   "adapter": "aws",
   "requested_platform": "linux",
   "resource_budget": {
