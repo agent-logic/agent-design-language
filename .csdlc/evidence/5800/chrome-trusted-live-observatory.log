@@ -1,0 +1,63 @@
+{
+  "schema": "adl.v092.browser_trusted_observatory.evidence.v1",
+  "status": "pass",
+  "head": "5073c346bd98d804c716118cefe66ece7b587116",
+  "source": {
+    "head": "5073c346bd98d804c716118cefe66ece7b587116",
+    "scoped_paths": [
+      "adl-runtime/src/local_tls.rs",
+      "adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs",
+      "adl-runtime/tests/local_tls.rs",
+      "demos/html-observatory/runtime-v3.config.json",
+      "demos/html-observatory/README.md",
+      "adl/tools/validate_v092_browser_trusted_observatory.mjs"
+    ],
+    "scoped_tree_sha256": "1a2f84258cfd302cd64e49ce5cad95884440e4a0cb7970ebaa29e2b6b572bc82"
+  },
+  "playwright_version": "1.60.0",
+  "browser": "chrome",
+  "tls_verification": "required",
+  "certificate_sha256": "8d262cc67b85ad98b01c6340a69d50c214701edda73e0af2955ac2ee49ff7e7b",
+  "listeners": {
+    "observatory": "https://localhost:18765",
+    "runtime": "https://localhost:21997"
+  },
+  "browser_endpoints": [
+    {
+      "path": "/v1/ready",
+      "status": 200
+    },
+    {
+      "path": "/v1/observatory",
+      "status": 200
+    }
+  ],
+  "browser_direct_health_status": 200,
+  "blocked_live_runtime_requests": [
+    "https://localhost:20997/v1/observatory",
+    "https://localhost:20997/v1/ready"
+  ],
+  "curl_endpoints": [
+    "/demos/html-observatory/",
+    "/v1/health",
+    "/v1/ready",
+    "/v1/observatory"
+  ],
+  "concurrent_runtime_connections": {
+    "requested": 50,
+    "completed": 50,
+    "certificate_verification": "required",
+    "connection_reuse": "disabled",
+    "peer_certificate_sha256": "8d262cc67b85ad98b01c6340a69d50c214701edda73e0af2955ac2ee49ff7e7b",
+    "statuses": [
+      200
+    ]
+  },
+  "platforms": [
+    {
+      "platform": "macos",
+      "status": "supported",
+      "trust": "explicit user-keychain security(1) transaction"
+    }
+  ]
+}

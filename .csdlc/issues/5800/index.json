@@ -3,11 +3,11 @@
   "issue": 5800,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "01a996f3111ad433ba2731d9e465e062a862e763797a061a45c684e4a22e6ab8",
-  "phase": "initialized",
-  "generation": 44,
-  "digest": "797b27a1817d58bd2291515126af6979b20ee1e5ddd204619817ff864d10bcad",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 45,
+  "digest": "c3a21bed5f0c02dbc46d1f4360b328de43822477139f776c0790eedc311340e2",
+  "branch": "codex/5800-v092-browser-trusted-local-observatory-https",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-wp-5800-v0-92-browser-trusted-local-observatory-https",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8f77247ada838b59a574d7c30a6eef36c5d9b3fca1429c91a8557b513897dfaf",
+      "values_digest": "bf6102a7f87d909a3a2caccf759a939b54b3a139d7b04704615349552be77ccd",
       "rendered_digest": "6143b66a1e737a548f251daed5cdca26190ec5355b0a365c7003cbb0a86fa8b6",
       "ast_digest": "91e90f7e2ff9cc13223d9e0b2326726dae2f7062b945217e78de9c50725a798b"
     },
     "stp": {
-      "values_digest": "ce1de7dd1b24612e99f9d6ebda6339bfe62582c11afc91630d2db938ff9dbf02",
+      "values_digest": "da60a4dbdb67953e6dcaa658b2e5e1e0597792330936bd7790491e52658a31bc",
       "rendered_digest": "b7e8321544bf20cc1015fe935798a6205189bdf4bcb5b6c773f821f4d80a8694",
       "ast_digest": "46a3653959adc3cbe7ad8df38b7bf09fbbbd77fce7ed61ce11b51282b64c19cc"
     },
     "spp": {
-      "values_digest": "ef6a1a95569bafa30538177595f7696eaf554f28fd42751bfdc5f09fbc354c3f",
+      "values_digest": "fa9bd56476c2acd3c6478f7ce3bebeb72be34fa19bb29efbd69b875f3354b934",
       "rendered_digest": "2d239802983cf3189276748b7ab4bafff23dd635eb0a511be0a96edfaaac147e",
       "ast_digest": "84214e7d1863ad837b00c11711e88885261407b40b1a9605b7d4eb6bf6697434"
     },
     "vpp": {
-      "values_digest": "f7397ed028dee4b16f1d6d515a37c209c0155ce863ed7ddda9112f3caea89700",
+      "values_digest": "e2029176b9e4a84472cf536d4374d5c023c984d50c3d29b938fc90bed2a008de",
       "rendered_digest": "a20109164235d52d3fe00759adcd111e76f6208c4eb7f4824a594aee79b461e5",
       "ast_digest": "306ea4096f14fa7ad2af2f0869e7dab047af6fe3f9a4b3a4e5df60a0f5cd6fa4"
     },
     "srp": {
-      "values_digest": "494223b050971e38c73f138fb04e5fecabea4c92f490732bd77695e34a786a53",
+      "values_digest": "760b77800c96c89f8e34cfdfde10beda69eb88536d8cc11a6991ef8333aa1752",
       "rendered_digest": "d604d83d9201ea7bfdfa7defaf344f7d9f31f19952424dc8dd5cf89a57d1c602",
       "ast_digest": "1357a28cc8559115cf7c29beef24b4ea325afa835c2c8071df4744c4d6b31627"
     },
     "sor": {
-      "values_digest": "9f5ff094359c13269d2c1266a8845e210a113f9c403a61855ed7d3262161599a",
-      "rendered_digest": "7148b0815005ac5283ff0ca3bbe2e3f2022389e5bf225933974247be44f2c41f",
-      "ast_digest": "c38cb7e2bfafaa0197f338df785a225b6c110fc6fd4ef1c4dd07401f592b351b"
+      "values_digest": "b82f5e2a9606b6a5fd85f52c1a81896becda5762642694a8e30a745f52593a01",
+      "rendered_digest": "22cc01809f7ebee071f634fe2abc0553f39046a08c86d8063fa0757c9467bb9e",
+      "ast_digest": "bc82c866a932cad35fe35ef083e5e9dfa15c8fc5435a725492e77de7805e1ff7"
     }
   },
   "transitions": [
@@ -75,6 +75,27 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -483,6 +504,20 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 59,
+      "generation": 44,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 60,
+      "generation": 45,
+      "actor": "codex",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
