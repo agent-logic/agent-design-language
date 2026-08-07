@@ -8,9 +8,6 @@ on:
       - reopened
       - labeled
       - unlabeled
-  push:
-    branches:
-      - main
   workflow_dispatch:
   schedule:
     - cron: "17 10 * * *"
@@ -737,7 +734,7 @@ jobs:
 
   adl-slow-proof:
     needs: adl_path_policy
-    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'
     runs-on: adl-ubuntu-24.04-16core
     permissions:
       contents: read
@@ -1495,7 +1492,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload coverage to Codecov
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_coverage_workspace_hosted.result == 'success'
+        if: (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_coverage_workspace_hosted.result == 'success'
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           use_oidc: true

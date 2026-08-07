@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "30c5e01cd7aaa0c008930afafb3d1c037c58ffe34866399d13f29b55d2f8d503",
   "phase": "bound",
-  "generation": 35,
-  "digest": "09d6d447d35790704cbfa613c95ac26363c4fb22889c9410b6a59c9b48a3d07c",
+  "generation": 40,
+  "digest": "dec8faf66a9fc3a5ff2dc44e9e8fcfb84cb9b421569c6bc5f10c5b1c3e49fa50",
   "branch": "codex/5853-v0-92-wp-02b-post-migration-build-acceleration",
   "worktree": "/Volumes/FastWork/adl-wp-5853-v0-92-wp-02b-post-migration-build-acceleration",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5853/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5853-max10-runner-replan",
-      "revision": "01ba2e3b1320adccf2b604ea3e3d858edcd16885c2fa50f176716ee2abda1e4e"
+      "reviewer": "codex:5853-premerge-only-validation",
+      "revision": "95e3beaf0bbc9285e1b5b17315997f50ff22bafb25de9a4c374d5c5459cbc76e"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "de1acbe927844a8cf7655e00854759bf7b9a64a95addfbe8e7302dff9533e4f2",
+      "values_digest": "733c0c59bc7e64cc986814e5af3778567276becd016e93838cd78a65bf47a6c0",
       "rendered_digest": "9f1e73fc7b55bb8e85f5ee67bccc245158163f8e08e12c23b86e79a73b71aa35",
       "ast_digest": "5df5bd8d50cc89e0c6014e4f9f470c80cfc8826c06862ecaa9d87f19daf1beba"
     },
     "stp": {
-      "values_digest": "6fd2e661ddbbfc6878c72c8102ad70807eeaa82ae62336953763445709bbf9cb",
-      "rendered_digest": "853df59253d0e6a815bbd3779c6b3aee6f54abbb84dc7cfb943c6ddd9952c980",
-      "ast_digest": "1e96e65310a7d9f8aa677cbbf5a8b6c0722a7a1cbc55c806deab3807d09e2f89"
+      "values_digest": "9b12f5e64a2a572e793fb5c381d2fc0cbfe6a27144ac02e04975354b95c9971a",
+      "rendered_digest": "dc7aeb791dad0cc2a9eb3c72171da72c8f84bdd1a903b4271320e954be42119d",
+      "ast_digest": "95bb5cb04b44f2c09f774ba87dad1a99077b331224a07eae95f0c8fcccf07231"
     },
     "spp": {
-      "values_digest": "985552761dab6604bec9ad2792471cd8536b7577f4fe4cb4fab871eb70aa4b25",
-      "rendered_digest": "c1c62925181c687e8828023c525497b9b7998df275943bee0a35be671c0e76de",
-      "ast_digest": "fd4b933593db584f4dbc1b3ebb98eafaa528372af8cdaa9e9758183d57349f1f"
+      "values_digest": "950588b305ee45a7bf65e071de74ad6e9b7666470ba0dfc738549b3e24c213e9",
+      "rendered_digest": "dc90a2ea86998d8e0770daccc1f429c7c2f11f88853222cad0955cc4f894f6fd",
+      "ast_digest": "1e9ec502e58bea11d552eb8f2e4365ea4a44faef706319e2c6fef8c6657a8ab8"
     },
     "vpp": {
-      "values_digest": "95448c78813fa31645b6351f5380a6c99de6a3c494fcace19a093eb2bf3e4857",
+      "values_digest": "3744cd27c194343a1befcb1853e66240bd7da95e6cfd9a7e72e704c6d6428d88",
       "rendered_digest": "1cf58848c0df44895e235b745d9dbf26e1a40185e0dcc321567e32504cbae1de",
       "ast_digest": "a070c434a89391f5660ff219bcb1d9965feb141db1b150d05c7a6d9b3ca4d420"
     },
     "srp": {
-      "values_digest": "a8f4a1f1f2ced6e2b9b00cd5be4c9fde970246f2d39e3e269f1450bb6c05c051",
+      "values_digest": "8d81d49a79a5800e08b4bab6e7d0299a9866bfe50939e32f0267362971656f0d",
       "rendered_digest": "b697a1894e90439d6a5d7b5c5b3954a52a9766c17bf612204b20287c993ae387",
       "ast_digest": "191d41e27dcd0b8037611c604f1d89297c6d224c576055534d242e69ce6a35aa"
     },
     "sor": {
-      "values_digest": "6a95e2e71181b091a618731f65ec49e720f5d4a0244c196289bd15b0584dd88d",
+      "values_digest": "1c9e3dc64688ba1c18ee767ec5ab1894b8c42423d1c312f96f5d57d196b4779d",
       "rendered_digest": "c8c0658069791fed33a7be33428288105be9227795586c3ab67ca9b5c6c9272f",
       "ast_digest": "c376bbd4d55aa0d818ef44f2c187ea3875d728095d27dddd352d43798c8fa825"
     }
@@ -483,6 +483,41 @@
       "actor": "codex:5853-max10-runner-replan",
       "reason": "Validate bounded ten-runner capacity and retained security controls.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"experiment-evidence-contract\",\"proof_role\":\"Validate entry gates, frozen numeric thresholds, finite nonnegative and internally consistent raw samples, recomputed statistics and reliability, parity, threshold-bound decisions, and observation-or-cleanup state. [preexec_rejection exit=1 diagnostic_sha256=1eb3ccc84301d57160de21ef230e744a5eac8ede13c80e5ab4ef837bfcf8d44f]\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5853/validate-experiment.rb\"],\"parallel_group\":\"experiment-analysis\",\"defer_reason\":null},{\"lane\":\"runner-security-negative\",\"proof_role\":\"Reject broad repository access, concurrency above ten, untrusted fork privilege, missing fallback, changed required-check identity, or incomplete cleanup.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\"-rjson\",\"-e\",\"e=JSON.parse(File.read('.csdlc/evidence/5853/eligibility.json')); f=JSON.parse(File.read('.csdlc/evidence/5853/final-state.json')); abort('security boundary') unless e['selected_repository_access']==true&&e['bounded_concurrency']==true&&e.dig('runner_receipt','maximum_runners')==10&&f['runner_group_concurrency']==10&&e['untrusted_fork_privilege']==false&&f['standard_runner_fallback']==true&&f['required_check_identity_preserved']==true\"],\"parallel_group\":\"negative\",\"defer_reason\":null},{\"lane\":\"workflow-routing-platform-contract\",\"proof_role\":\"Prove Linux larger-runner routing remains a machine-selection detail and preserves workflow/check semantics.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"adl/tools/test_ci_runtime_contracts.sh\"],\"parallel_group\":\"workflow\",\"defer_reason\":null},{\"lane\":\"exact-head-diff-hygiene\",\"proof_role\":\"Reject whitespace errors and support exact-revision review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 54,
+      "generation": 36,
+      "actor": "codex:5853-premerge-only-validation",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 55,
+      "generation": 37,
+      "actor": "codex:5853-premerge-only-validation",
+      "reason": "Make pre-merge validation authoritative and prevent duplicate paid post-merge work.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"WP-02, WP-02A, organization plan, owner budget and alerts, selected-repository access, bounded maximum concurrency ten, security, and rollback entry gates are verified\",\"Exactly one cold, three warm, and three test-only 16-core measurements are retained with finite nonnegative timings, queue and cache evidence, and warm cache-hit proof\",\"The issue-local validator recomputes statistics, reliability, and cost from retained per-run accounting and rejects denominator, toolchain, runner, report, threshold, or production-canary drift\",\"The test-only p95 is at most 120 seconds and its median duration improves by at least 35 percent over the warm baseline\",\"adl-rust-tests and the heavy Rust validation producers run on adl-ubuntu-24.04-16core before merge with required-check identities, commands, validation breadth, and proof semantics unchanged; main pushes do not automatically repeat paid validation, while scheduled and manual full validation remain available\",\"The temporary workflow-dispatch experiment harness is absent from the final implementation\",\"The implementation PR passes an exact-head direct adl-rust-tests production canary on the selected 16-core runner without substituting a skipped test shell\",\"The focused evidence validator, workflow-routing contract, diff hygiene, and independent exact-head review pass\"]}"
+    },
+    {
+      "sequence": 56,
+      "generation": 38,
+      "actor": "codex:5853-premerge-only-validation",
+      "reason": "Declare the exact path-policy and workflow contract inputs.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\".csdlc/prepared/issues/5853/design.md\",\".csdlc/prepared/issues/5853/validate-experiment.rb\",\".github/workflows/ci.yaml\",\"docs/tooling/BUILD_PLATFORM_BENCHMARKS.md\",\"docs/tooling/VALIDATION_PLATFORM_ROUTING.md\",\"docs/tooling/DEVELOPER_THROUGHPUT_FAST_LANE.md\",\"docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"adl/tools/ci_path_policy.sh\",\"adl/tools/test_ci_path_policy.sh\",\"adl/tools/test_ci_runtime_contracts.sh\"]}"
+    },
+    {
+      "sequence": 57,
+      "generation": 39,
+      "actor": "codex:5853-premerge-only-validation",
+      "reason": "Declare the exact pre-merge-only validation policy surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".github/workflows/ci.yaml\",\"adl/tools/test_ci_runtime_contracts.sh\",\".csdlc/evidence/5853\",\".csdlc/prepared/issues/5853/validate-experiment.rb\",\"adl/tools/ci_path_policy.sh\",\"adl/tools/test_ci_path_policy.sh\"]}"
+    },
+    {
+      "sequence": 58,
+      "generation": 40,
+      "actor": "codex:5853-premerge-only-validation",
+      "reason": "Record the pre-merge validation and post-merge cost invariant.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Heavy Rust validation producers use the selected 16-core runner pool capped at ten; lightweight orchestration remains on standard GitHub-hosted runners and the standard runner remains the immediate fallback\",\"Exact-head validation and proof quality are independent of runner class\",\"Required-check names and branch protection remain stable\",\"No tracked work occurs on main\",\"No sample or error is silently discarded\",\"Issue-selected validation runs before merge; ordinary main pushes do not repeat paid validation, and scheduled or manual full validation remains explicit\"]}"
     }
   ]
 }

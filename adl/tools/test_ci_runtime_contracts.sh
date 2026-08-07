@@ -78,6 +78,22 @@ runner_script = pathlib.Path(sys.argv[3])
 pr_fast_runner = pathlib.Path(sys.argv[4])
 workflow_root = workflow_path.parent
 
+if re.search(r"^\s{2}push:\s*$", workflow, re.MULTILINE):
+    raise SystemExit("CI must not run automatically after a merge to main")
+if "github.event_name == 'push' || github.event_name == 'schedule'" in workflow:
+    raise SystemExit("heavy validation must not fan out from a push event")
+expected_codecov_gate = (
+    "(github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && "
+    "needs.adl_path_policy.outputs.full_coverage_required == 'true' && "
+    "needs.adl_coverage_workspace_hosted.result == 'success'"
+)
+codecov_block_start = workflow.find("      - name: Upload coverage to Codecov")
+if codecov_block_start < 0:
+    raise SystemExit("missing Codecov upload step")
+codecov_block = workflow[codecov_block_start:workflow.find("\n  adl-coverage:", codecov_block_start)]
+if f"if: {expected_codecov_gate}" not in codecov_block:
+    raise SystemExit("Codecov must publish only from explicit scheduled or manual full validation")
+
 def step_run(name: str) -> str:
     pattern = re.compile(
         rf"^\s*-\s+name:\s+{re.escape(name)}\s*$"
@@ -439,8 +455,7 @@ slow_proof_job = job_block("adl-slow-proof")
 if "needs: adl_path_policy" not in slow_proof_job:
     raise SystemExit("adl-slow-proof must depend on path policy so PR slow-proof requests can trigger the slow lane")
 expected_slow_proof_if = (
-    "github.event_name == 'push' || github.event_name == 'schedule' || "
-    "github.event_name == 'workflow_dispatch' || "
+    "github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || "
     "needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'"
 )
 slow_proof_if_match = re.search(r"^\s+if:\s+(.+)$", slow_proof_job, re.MULTILINE)

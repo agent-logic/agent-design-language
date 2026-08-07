@@ -16,7 +16,7 @@ Use the seven retained 16-core measurements to select the test-only command stru
 
 ## Plan
 
-Revision 11
+Revision 13
 
 ## Steps
 
@@ -60,6 +60,7 @@ Revision 11
 - Required-check names and branch protection remain stable
 - No tracked work occurs on main
 - No sample or error is silently discarded
+- Issue-selected validation runs before merge; ordinary main pushes do not repeat paid validation, and scheduled or manual full validation remains explicit
 
 ## Risks
 
@@ -82,7 +83,7 @@ Revision 11
 
 .csdlc/prepared/issues/5853/design.md
 
-Digest: 01ba2e3b1320adccf2b604ea3e3d858edcd16885c2fa50f176716ee2abda1e4e
+Digest: 95e3beaf0bbc9285e1b5b17315997f50ff22bafb25de9a4c374d5c5459cbc76e
 
 ## Diagram
 

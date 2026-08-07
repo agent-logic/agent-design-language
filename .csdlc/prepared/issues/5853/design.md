@@ -30,6 +30,9 @@ portable runtime dependency.
    experiment harness, and use the implementation PR as the production canary.
 6. Preserve `ubuntu-latest` as a one-line rollback without using it as a new
    experimental control.
+7. Run issue-selected validation before merge. Do not automatically repeat the
+   paid validation wave after a merge to `main`; retain scheduled and manual
+   full validation for explicit integration and Codecov publication.
 
 ## Security And Negative Boundary
 
@@ -64,6 +67,8 @@ statistics, missing security gates, or adoption below either performance gate.
 ## Owned Paths
 
 - `.github/workflows/ci.yaml`
+- `adl/tools/ci_path_policy.sh`
+- `adl/tools/test_ci_path_policy.sh`
 - `adl/tools/test_ci_runtime_contracts.sh`
 - `.csdlc/evidence/5853`
 - `.csdlc/prepared/issues/5853/validate-experiment.rb`
@@ -82,6 +87,8 @@ statistics, missing security gates, or adoption below either performance gate.
     "id": "v092-ci-runner-experiment-v1",
     "paths": [
       ".github/workflows/ci.yaml",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/test_ci_path_policy.sh",
       "adl/tools/test_ci_runtime_contracts.sh"
     ],
     "issues": [

@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-02B][build] Run the post-migration build acceleration experiment",
     "slug": "v0-92-wp-02b-post-migration-build-acceleration",
     "version": "v0.92",
-    "generation": 35
+    "generation": 40
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 11,
+      "plan_revision": 13,
       "summary": "Use the seven retained 16-core measurements to select the test-only command structure, route adl-rust-tests to the 16-core runner, remove the dispatch-only experiment harness, and require the implementation PR as the production canary.",
       "steps": [
         {
@@ -51,14 +51,17 @@
         ".github/workflows/ci.yaml",
         "adl/tools/test_ci_runtime_contracts.sh",
         ".csdlc/evidence/5853",
-        ".csdlc/prepared/issues/5853/validate-experiment.rb"
+        ".csdlc/prepared/issues/5853/validate-experiment.rb",
+        "adl/tools/ci_path_policy.sh",
+        "adl/tools/test_ci_path_policy.sh"
       ],
       "invariants": [
         "Heavy Rust validation producers use the selected 16-core runner pool capped at ten; lightweight orchestration remains on standard GitHub-hosted runners and the standard runner remains the immediate fallback",
         "Exact-head validation and proof quality are independent of runner class",
         "Required-check names and branch protection remain stable",
         "No tracked work occurs on main",
-        "No sample or error is silently discarded"
+        "No sample or error is silently discarded",
+        "Issue-selected validation runs before merge; ordinary main pushes do not repeat paid validation, and scheduled or manual full validation remains explicit"
       ],
       "risks": [
         "Queue latency erases execution gains",
@@ -88,7 +91,7 @@
         "The organization owner changes thresholds before the first measured run"
       ],
       "design_ref": ".csdlc/prepared/issues/5853/design.md",
-      "design_digest": "01ba2e3b1320adccf2b604ea3e3d858edcd16885c2fa50f176716ee2abda1e4e",
+      "design_digest": "95e3beaf0bbc9285e1b5b17315997f50ff22bafb25de9a4c374d5c5459cbc76e",
       "diagram_ref": ".csdlc/prepared/issues/5853/diagram.mmd",
       "diagram_digest": "17d5a853df6d07718c8495e9076f622572dea08eba574fccccf450a39131a966"
     }
