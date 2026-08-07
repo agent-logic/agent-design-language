@@ -1624,6 +1624,14 @@ jobs:
             exit 2
           fi
 
+      - name: Configure frozen Rust toolchain
+        run: |
+          set -euo pipefail
+          rustup toolchain install 1.92.0 --profile minimal
+          rustup default 1.92.0
+          rustc --version --verbose
+          cargo --version --verbose
+
       - name: Restore frozen warm cache
         id: rust-cache
         if: inputs.build_acceleration_cache_state == 'warm'
@@ -1665,6 +1673,7 @@ jobs:
           import json
           import os
           import platform
+          import subprocess
           import sys
           from pathlib import Path
 
@@ -1681,8 +1690,12 @@ jobs:
               "runner_name": os.environ["RUNNER_NAME"],
               "runner_os": os.environ["RUNNER_OS"],
               "runner_arch": os.environ["RUNNER_ARCH"],
+              "image_os": os.environ.get("ImageOS"),
+              "image_version": os.environ.get("ImageVersion"),
               "cpu_count": os.cpu_count(),
               "machine": platform.machine(),
+              "rustc_version": subprocess.check_output(["rustc", "--version"], text=True).strip(),
+              "cargo_version": subprocess.check_output(["cargo", "--version"], text=True).strip(),
           }
           Path(sys.argv[1]).write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
           PY

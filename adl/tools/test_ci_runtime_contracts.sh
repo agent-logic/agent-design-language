@@ -951,6 +951,8 @@ def require_build_acceleration_contract(source)
 
   workload = steps.fetch("Run frozen build acceleration workload").fetch("run")
   raise BuildAccelerationContractError, "WP-02B workload helper drifted" unless workload.include?("bash adl/tools/run_build_platform_benchmark.sh")
+  toolchain = steps.fetch("Configure frozen Rust toolchain").fetch("run")
+  raise BuildAccelerationContractError, "WP-02B Rust toolchain drifted" unless toolchain.include?("rustup toolchain install 1.92.0 --profile minimal") && toolchain.include?("rustup default 1.92.0")
   raise BuildAccelerationContractError, "WP-02B workload may not use secrets" if experiment.to_s.include?("secrets")
 
   upload = steps.fetch("Upload frozen experiment artifacts")
