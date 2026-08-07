@@ -1,0 +1,36 @@
+{
+  "schema": "adl.remote_validation.result.v1",
+  "request_id": "wp06-windows-fixture",
+  "adapter": "nessus",
+  "platform": {
+    "os": "windows",
+    "architecture": "x86_64",
+    "native": false,
+    "qualification": "fixture"
+  },
+  "revision": "7868fe91210f136640b330de202c7da6a1f0d29d",
+  "command_profile_digest": "c17ce9c42dcceb10828b7522097f6cac3d1972b4ad35d31958326b9400c026dc",
+  "started_unix_ms": 0,
+  "finished_unix_ms": 1,
+  "exit_code": 0,
+  "outcome": "passed",
+  "artifact_digests": [
+    {
+      "path": "tools/remote_validation/Cargo.toml",
+      "sha256": "815b2b111930bb06fe312310d86f4b9c4ec709fcba4a28af6677e3f6e78a34c3",
+      "bytes": 370
+    }
+  ],
+  "redaction_passed": true,
+  "cleanup": {
+    "attempted": true,
+    "complete": true,
+    "detail": "deterministic non-native fixture; no provider resources created"
+  },
+  "fallback": {
+    "policy": "offer_local",
+    "offered": false,
+    "ran": false,
+    "local_profile_digest": null
+  }
+}

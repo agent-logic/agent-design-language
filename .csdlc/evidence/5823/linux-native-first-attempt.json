@@ -1,0 +1,19 @@
+{
+  "schema": "adl.wp06.aws_attempt.v1",
+  "run_id": "adl-wp-5823-linux-native-87a30ef1",
+  "status": "failed_before_validation",
+  "fault": "advertised branch was fetched but checked out as a nonexistent local refs/heads name",
+  "resources": {
+    "instance_terminated": true,
+    "instance_profile_deleted": true,
+    "role_deleted": true,
+    "security_group_deleted": true,
+    "explicit_post_run_status": "clean",
+    "retained_cache_preserved": true
+  },
+  "cost": {
+    "estimated_compute_cost_usd": 0.006535,
+    "estimated_hourly_usd": 0.1977
+  },
+  "disposition": "corrected by detached checkout of explicitly fetched advertised ref; focused regression proof passed before one retry"
+}

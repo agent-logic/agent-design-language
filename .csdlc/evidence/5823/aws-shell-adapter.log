@@ -1,0 +1,3 @@
+aws_spot_remote_validation_wrapper_summary=<external-temp>/aws-shell-fixture/artifacts/wrapper-final-summary.json
+aws_spot_remote_validation_wrapper_summary=<external-temp>/aws-shell-fixture/cli-override-artifacts/wrapper-final-summary.json
+PASS test_run_aws_spot_remote_validation_lane

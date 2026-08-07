@@ -1,0 +1,33 @@
+{
+  "schema": "adl.remote_validation.request.v1",
+  "request_id": "wp06-windows-fixture",
+  "checkout": ".",
+  "revision": "7868fe91210f136640b330de202c7da6a1f0d29d",
+  "source_ref": "refs/heads/codex/wp-5823-fixture",
+  "command_profile": {
+    "argv": [
+      "cargo",
+      "check"
+    ],
+    "working_directory": ".",
+    "environment_allowlist": []
+  },
+  "command_profile_digest": "c17ce9c42dcceb10828b7522097f6cac3d1972b4ad35d31958326b9400c026dc",
+  "adapter": "nessus",
+  "requested_platform": "windows",
+  "resource_budget": {
+    "cpu_cores": 2,
+    "memory_mib": 1024,
+    "timeout_seconds": 120,
+    "estimated_max_cost_microusd": null
+  },
+  "artifact_policy": {
+    "paths": [
+      "tools/remote_validation/Cargo.toml"
+    ],
+    "required": true,
+    "max_total_bytes": 65536
+  },
+  "cancellation_file": null,
+  "fallback": "offer_local"
+}

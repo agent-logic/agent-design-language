@@ -1,0 +1,36 @@
+{
+  "schema": "adl.remote_validation.result.v1",
+  "request_id": "wp06-linux-native-aws",
+  "adapter": "aws",
+  "platform": {
+    "os": "linux",
+    "architecture": "x86_64",
+    "native": true,
+    "qualification": "live"
+  },
+  "revision": "7868fe91210f136640b330de202c7da6a1f0d29d",
+  "command_profile_digest": "6303deb1e636536249b41d5fb49cb179f2baa802a2a1a61b94df053e8ecb56ed",
+  "started_unix_ms": 1786065802795,
+  "finished_unix_ms": 1786065996743,
+  "exit_code": 0,
+  "outcome": "passed",
+  "artifact_digests": [
+    {
+      "path": ".csdlc/evidence/5823/linux-native-remote-summary.json",
+      "sha256": "b52289740ba9ae767e9328a60a1a6f72d3b0037d8955c2e5ce2cc051d6cc8779",
+      "bytes": 1790
+    }
+  ],
+  "redaction_passed": true,
+  "cleanup": {
+    "attempted": true,
+    "complete": true,
+    "detail": "instance terminated; ephemeral IAM and network surfaces deleted; retained cache preserved"
+  },
+  "fallback": {
+    "policy": "offer_local",
+    "offered": false,
+    "ran": false,
+    "local_profile_digest": null
+  }
+}

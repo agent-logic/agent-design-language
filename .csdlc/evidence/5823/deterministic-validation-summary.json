@@ -1,0 +1,68 @@
+{
+  "schema": "adl.wp06.deterministic_validation_summary.v1",
+  "subject_revision": "7868fe91210f136640b330de202c7da6a1f0d29d",
+  "storage_policy": "external_volume_only",
+  "live_paid_provider_work_run": true,
+  "lanes": [
+    {
+      "name": "portable-contract",
+      "outcome": "passed",
+      "tests_passed": 9,
+      "receipt": ".csdlc/evidence/5823/portable-contract.log",
+      "receipt_sha256": "b9f0a4af2984661b2a3b4c3ea1565f432a70300ae5126211ba8c3352cd245a8b"
+    },
+    {
+      "name": "aws-portable-adapter",
+      "outcome": "passed",
+      "tests_passed": 19,
+      "receipt": ".csdlc/evidence/5823/aws-portable-adapter.log",
+      "receipt_sha256": "e673f3385fea17eae3438219a4238530c67c58486476023548abc105eb4c58b8"
+    },
+    {
+      "name": "nessus-shell-adapter",
+      "outcome": "passed",
+      "receipt": ".csdlc/evidence/5823/nessus-adapter.log",
+      "receipt_sha256": "2f60bdac622c227c0eb683d19f27520f4e2f80f23e0ac9dd565f3269e010fd05"
+    },
+    {
+      "name": "aws-shell-adapter",
+      "outcome": "passed",
+      "receipt": ".csdlc/evidence/5823/aws-shell-adapter.log",
+      "receipt_sha256": "591296c072b2e460d1efafb011e2c943fa4089b7c1894a3bf3ccf714ff70c69b"
+    },
+    {
+      "name": "platform-validator-negative-self-test",
+      "outcome": "passed",
+      "receipt": ".csdlc/evidence/5823/platform-validator-self-test.log",
+      "receipt_sha256": "499487130b19e441fdfd5befa27e4b05cee17b14f09f78fba016483e62372311"
+    },
+    {
+      "name": "macos-native-local",
+      "outcome": "passed",
+      "receipt": ".csdlc/evidence/5823/macos-native-result.json",
+      "receipt_sha256": "548d0f25e780be15ac5603c6d409289fc9865f3e1c2c72980bb8666936d8b1fe"
+    },
+    {
+      "name": "windows-deterministic-fixture",
+      "outcome": "passed_non_native",
+      "receipt": ".csdlc/evidence/5823/windows-fixture-result.json",
+      "receipt_sha256": "0af1c1269ae4997a60a47ba6cc71f0eb500ee5929f171e00f64122cdb5c10366"
+    },
+    {
+      "name": "linux-native-live",
+      "outcome": "passed",
+      "receipt": ".csdlc/evidence/5823/linux-native-result.json",
+      "receipt_sha256": "153d3bf290b8c12c2d2e97d3bb9fa4094a99ae2e59bae26756499e7a0cb83d0f",
+      "provider_receipt": ".csdlc/evidence/5823/linux-native-remote-summary.json",
+      "provider_receipt_sha256": "b52289740ba9ae767e9328a60a1a6f72d3b0037d8955c2e5ce2cc051d6cc8779",
+      "preflight_receipt": ".csdlc/evidence/5823/aws-preflight.json",
+      "first_attempt_receipt": ".csdlc/evidence/5823/linux-native-first-attempt.json",
+      "matrix_validation_receipt": ".csdlc/evidence/5823/platform-matrix-validation.log",
+      "matrix_validation_receipt_sha256": "b2afa3d08006ae384100b8eb2d28f781788b0cfa3be9324825c10bb7f9ce7e70",
+      "request_timeout_seconds": 900,
+      "request_max_cost_usd": 0.2,
+      "estimated_compute_cost_usd": 0.010599,
+      "cleanup_status": "clean"
+    }
+  ]
+}

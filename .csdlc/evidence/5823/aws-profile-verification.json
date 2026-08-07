@@ -1,0 +1,10 @@
+{
+  "schema": "adl.wp06.aws_profile_verification.v1",
+  "checked_at": "2026-08-07T00:52:02Z",
+  "profile": "agent-logic-admin",
+  "identity_check": "aws sts get-caller-identity",
+  "account_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "matches_approved_business_account": true,
+  "credential_material_retained": false,
+  "live_paid_execution_authorized": false
+}
