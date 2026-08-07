@@ -667,6 +667,14 @@ impl Args {
             if ready_file == ack_file {
                 return Err("pre-restart synchronization paths must be distinct".to_owned());
             }
+            if ready_file.file_name().and_then(|name| name.to_str()) != Some("pre-restart.ready")
+                || ack_file.file_name().and_then(|name| name.to_str()) != Some("pre-restart.ack")
+            {
+                return Err(
+                    "pre-restart synchronization paths must use the fixed ready and ack names"
+                        .to_owned(),
+                );
+            }
             let report_parent = report
                 .parent()
                 .ok_or_else(|| "--report must have a parent directory".to_owned())?;
@@ -1286,8 +1294,25 @@ async fn synchronize_pre_restart_probe(
             })
             .map_err(|error| format!("could not clear stale pre-restart {label}: {error}"))?;
     }
-    std::fs::write(ready_file, format!("{nonce}\n"))
+    let ready_temporary = ready_file.with_file_name("pre-restart.ready.tmp");
+    if std::fs::symlink_metadata(&ready_temporary)
+        .is_ok_and(|metadata| metadata.file_type().is_symlink())
+    {
+        return Err("pre-restart temporary readiness path must not be a symlink".to_owned());
+    }
+    std::fs::remove_file(&ready_temporary)
+        .or_else(|error| {
+            if error.kind() == std::io::ErrorKind::NotFound {
+                Ok(())
+            } else {
+                Err(error)
+            }
+        })
+        .map_err(|error| format!("could not clear temporary pre-restart readiness: {error}"))?;
+    std::fs::write(&ready_temporary, format!("{nonce}\n"))
         .map_err(|error| format!("could not publish pre-restart readiness: {error}"))?;
+    std::fs::rename(&ready_temporary, ready_file)
+        .map_err(|error| format!("could not atomically publish pre-restart readiness: {error}"))?;
 
     let deadline = Instant::now() + fixture.readiness_timeout;
     loop {
@@ -2522,6 +2547,21 @@ mod tests {
             Err(error) => error,
         };
         assert!(alias_error.contains("must be distinct"));
+
+        let case_variant = root.join("PRE-RESTART.READY");
+        let case_error = match Args::parse(
+            arguments(&[
+                "--pre-restart-ready-file",
+                case_variant.to_str().expect("case-variant path"),
+                "--pre-restart-ack-file",
+                ack.to_str().expect("ack path"),
+            ])
+            .into_iter(),
+        ) {
+            Ok(_) => panic!("case-variant marker name must fail closed"),
+            Err(error) => error,
+        };
+        assert!(case_error.contains("fixed ready and ack names"));
     }
 
     #[test]

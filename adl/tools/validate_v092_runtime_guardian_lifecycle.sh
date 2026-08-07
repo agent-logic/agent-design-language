@@ -433,7 +433,9 @@ while True:
             "bounded_request_response": True,
         }
         write_json(proof_path, proof)
-        pathlib.Path(probe_ack_path).write_text(probe_nonce + "\n", encoding="utf-8")
+        probe_ack_temporary = probe_ack_path + ".tmp"
+        pathlib.Path(probe_ack_temporary).write_text(probe_nonce + "\n", encoding="utf-8")
+        os.replace(probe_ack_temporary, probe_ack_path)
         break
     except Exception as error:
         if os.environ.get("ADL_RUNTIME_WSS_DEBUG") == "1":
