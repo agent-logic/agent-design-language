@@ -247,6 +247,7 @@ if ARGV == ["--self-test"]
   raise "issue lifecycle path must be allowed after validation" unless post_validation_truth_path?(".csdlc/issues/5823/index.json")
   raise "publication request path must be allowed after validation" unless post_validation_truth_path?(".csdlc/prepared/issues/5823/publish-final.json")
   raise "publication intent path must be allowed after validation" unless post_validation_truth_path?(".csdlc/publication/5823.intent.json")
+  raise "unrelated publication intent was accepted after validation" if post_validation_truth_path?(".csdlc/publication/9999.intent.json")
   raise "unrelated documentation path was accepted after validation" if post_validation_truth_path?("docs/unrelated.md")
   raise "unrelated lifecycle path was accepted after validation" if post_validation_truth_path?(".csdlc/issues/9999/index.json")
   raise "receipt scanner missed /home path" unless machine_local_absolute_path?("/home/runner/proof.json")
