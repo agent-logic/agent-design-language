@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5901,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][sprint-3] Repair claim-free WP-04 wave readiness",
+    "slug": "v0-92-csdlc-v2-sprint3-claim-free-readiness",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Repair only the claim-free Sprint 3 readiness mismatch proven at canonical revision 1757ea43e00f83447356b5749007f68a64144242.",
+      "deliverables": [
+        "Safe future-path readiness predicate and focused tests",
+        "Typed #5865 planning normalization",
+        "Claim-free WP-04 terminal validator",
+        "Doctor and preflight proof for the exact sixteen-child wave"
+      ],
+      "acceptance_criteria": [
+        "Accept safe repository-relative future paths beneath a real canonical in-repository ancestor",
+        "Reject absolute, traversal, placeholder, unrooted, and metadata values",
+        "Reject inside-repository symlink ancestors, outside-repository symlink ancestors, symlink leaves, and existing-file intermediate prefixes",
+        "Permit exact-digest typed planning-collection repair while initialized or ready, then move #5865 serialization ordering to typed replan_triggers while keeping exactly four path-only affected_areas",
+        "Remove every claim read and claim-derived assertion from WP-04 preflight and terminal reconciliation; validate initialized unbound topology in preflight and csdlc.derived_terminal.v1 envelopes plus live closing linkage, exact heads, merge SHAs, digests, and candidate ancestry at terminal",
+        "Pass doctor for #5862 through #5878 without product file creation or child binding",
+        "Pass the exact sixteen-child, 38-path WP-04 preflight",
+        "Pass an exact-base changed-path allowlist that rejects every Sprint 3 product path and child topology mutation",
+        "Complete independent exact-head review and resolve every actionable finding"
+      ],
+      "dependencies": [
+        "PR #5886",
+        "Issue #5896 and PR #5897",
+        "Sprint umbrella #5862"
+      ],
+      "repo_inputs": [
+        "AGENTS.md",
+        "csdlc-v2/src/cards.rs",
+        ".csdlc/prepared/issues/5862/validate-implementation-wave.rb",
+        ".csdlc/issues/5863/cards/spp.values.json",
+        ".csdlc/issues/5865/cards/spp.values.json"
+      ],
+      "non_goals": [
+        "Guardian product implementation",
+        "Child binding or publication",
+        "Claim restoration",
+        "DAG or owned-product-path changes"
+      ]
+    }
+  }
+}

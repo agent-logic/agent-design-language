@@ -1,0 +1,19 @@
+{
+  "issue": 5901,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "48efac11fa178167d42c41a56ad01458aa5feb9c62965abdee2093e224c263a7",
+  "actor": "codex:5901-sprint3-readiness",
+  "reason": "Align planning invariants with final derived-terminal authority.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Repository-relative containment remains fail-closed",
+      "No product path is created or edited",
+      "The sixteen-child denominator remains exact",
+      "Git topology and derived terminal envelopes remain lifecycle authority"
+    ]
+  },
+  "fail_after_backup": false
+}

@@ -1934,6 +1934,10 @@ fn authorize_card_operation(
                 | SemanticOperation::AppendReference { .. }
                 | SemanticOperation::AdvanceStatus { .. },
         ) | (
+            LifecyclePhase::Initialized | LifecyclePhase::Ready,
+            CardKind::Sip | CardKind::Stp | CardKind::Spp | CardKind::Srp,
+            SemanticOperation::ReplacePlanningCollection { .. },
+        ) | (
             LifecyclePhase::Bound,
             CardKind::Sip,
             SemanticOperation::ReplaceOperatorConstraints { .. },
