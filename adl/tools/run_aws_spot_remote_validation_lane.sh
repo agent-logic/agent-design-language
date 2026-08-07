@@ -28,6 +28,7 @@ GIT_REF=""
 GIT_REF_EXPLICIT=false
 PORTABLE_REQUEST=""
 PORTABLE_RUNNER="${ADL_REMOTE_VALIDATION_BIN:-}"
+PORTABLE_MAX_COST_USD=""
 SOURCE_COMMIT=""
 REPO_URL="https://github.com/agent-logic/agent-design-language.git"
 OUT_PATH=""
@@ -351,6 +352,7 @@ if [[ -n "$PORTABLE_REQUEST" ]]; then
   COMMAND="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["shell_command"])')"
   GIT_REF="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["revision"])')"
   MAX_RUN_SECONDS="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["timeout_seconds"])')"
+  PORTABLE_MAX_COST_USD="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; value=json.load(sys.stdin).get("estimated_max_cost_microusd"); print("" if value is None else format(value / 1000000, ".6f"))')"
 fi
 
 if [[ "$ACTION" == "launch" ]]; then
@@ -881,6 +883,10 @@ fi
 
 if [[ -n "$MAX_RUN_SECONDS" ]]; then
   cmd+=(--command-timeout-seconds "$MAX_RUN_SECONDS")
+fi
+
+if [[ -n "$PORTABLE_MAX_COST_USD" ]]; then
+  cmd+=(--expected-max-cost-usd "$PORTABLE_MAX_COST_USD")
 fi
 
 for instance_type in ${INSTANCE_TYPES[@]+"${INSTANCE_TYPES[@]}"}; do

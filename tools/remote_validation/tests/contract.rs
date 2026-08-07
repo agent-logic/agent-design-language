@@ -139,6 +139,8 @@ fn request_round_trip_and_adapter_plan_preserve_provenance() {
     assert_eq!(plan.revision, request.revision);
     assert_eq!(plan.command_profile_digest, request.command_profile_digest);
     assert_eq!(plan.shell_command, "'cargo' 'check'");
+    assert_eq!(plan.cpu_cores, 2);
+    assert_eq!(plan.memory_mib, 1024);
 }
 
 #[test]

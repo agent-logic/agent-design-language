@@ -131,7 +131,10 @@ pub struct AdapterPlan {
     pub revision: String,
     pub command_profile_digest: String,
     pub shell_command: String,
+    pub cpu_cores: u16,
+    pub memory_mib: u64,
     pub timeout_seconds: u64,
+    pub estimated_max_cost_microusd: Option<u64>,
     pub artifact_paths: Vec<String>,
     pub fallback: FallbackPolicy,
 }
@@ -329,7 +332,10 @@ pub fn adapter_plan(
         revision: request.revision.clone(),
         command_profile_digest: request.command_profile_digest.clone(),
         shell_command: shell_join(&request.command_profile.argv)?,
+        cpu_cores: request.resource_budget.cpu_cores,
+        memory_mib: request.resource_budget.memory_mib,
         timeout_seconds: request.resource_budget.timeout_seconds,
+        estimated_max_cost_microusd: request.resource_budget.estimated_max_cost_microusd,
         artifact_paths: request.artifact_policy.paths.clone(),
         fallback: request.fallback,
     })

@@ -644,7 +644,7 @@ payload = {
     "command_profile_digest": digest,
     "adapter": "aws",
     "requested_platform": "linux",
-    "resource_budget": {"cpu_cores": 8, "memory_mib": 32768, "timeout_seconds": 321, "estimated_max_cost_microusd": None},
+    "resource_budget": {"cpu_cores": 8, "memory_mib": 32768, "timeout_seconds": 321, "estimated_max_cost_microusd": 200000},
     "artifact_policy": {"paths": ["artifacts/summary.json"], "required": True, "max_total_bytes": 1048576},
     "cancellation_file": None,
     "fallback": "offer_local",
@@ -661,6 +661,15 @@ bash "$SCRIPT" \
     --artifact-dir "$TMP/portable-artifacts" >"$TMP/portable-plan.out"
 grep -F "source_commit_resolved=true" "$TMP/portable-plan.out" >/dev/null
 grep -F "DRY-RUN no EC2 resources launched" "$TMP/portable-plan.out" >/dev/null
+
+bash "$SCRIPT" \
+    --portable-request "$portable_request" \
+    --portable-runner "$portable_runner" \
+    --bin "$fake_bin/adl-aws-remote-validation" \
+    --out "$TMP/portable-command-summary.json" \
+    --artifact-dir "$TMP/portable-command-artifacts" \
+    --print-command >"$TMP/portable-command.out"
+grep -F -- "--expected-max-cost-usd 0.200000" "$TMP/portable-command.out" >/dev/null
 
 if bash "$SCRIPT" --portable-request "$portable_request" --portable-runner "$portable_runner" --command "true" >"$TMP/portable-conflict.out" 2>"$TMP/portable-conflict.err"; then
   echo "expected portable/manual AWS ambiguity to fail closed" >&2
