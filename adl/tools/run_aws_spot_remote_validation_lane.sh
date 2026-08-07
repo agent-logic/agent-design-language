@@ -880,11 +880,9 @@ execute_run() {
   local runner_status finalize_status wrapper_summary
 
   set +e
-  # Stream manager output to the live CI log while retaining redacted artifacts.
-  # Do not hide remote progress behind a file-only redirect.
-  "${cmd[@]}" \
-    > >(tee "$runner_stdout") \
-    2> >(tee "$runner_stderr" >&2)
+  # Retain the streams without process substitution. Some permission-safe
+  # operator shells prohibit /dev/fd even when Bash itself is available.
+  "${cmd[@]}" >"$runner_stdout" 2>"$runner_stderr"
   runner_status="$?"
   set -e
 

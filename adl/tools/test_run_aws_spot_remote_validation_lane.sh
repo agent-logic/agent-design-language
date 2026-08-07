@@ -491,6 +491,12 @@ grep -F "unexpected retained volume identity" "$TMP/bad-volume.err" >/dev/null
 test -f "$TMP/summary.json"
 test -f "$TMP/artifacts/events.jsonl"
 test -f "$TMP/artifacts/wrapper-final-summary.json"
+if grep -F '> >(' "$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh" >/dev/null; then
+  echo "paid execution path must not depend on /dev/fd process substitution" >&2
+  exit 1
+fi
+test -f "$TMP/artifacts/runner.stdout.log"
+test -f "$TMP/artifacts/runner.stderr.log"
 python3 - "$TMP/artifacts/wrapper-final-summary.json" <<'PY'
 import json
 import sys
