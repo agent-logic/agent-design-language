@@ -459,10 +459,15 @@ pub struct TimingRecord {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct SccacheStats {
+    #[serde(default)]
     pub compile_requests: Option<String>,
+    #[serde(default)]
     pub compile_requests_executed: Option<String>,
+    #[serde(default)]
     pub cache_hits: Option<String>,
+    #[serde(default)]
     pub cache_misses: Option<String>,
+    #[serde(default)]
     pub raw_excerpt: Vec<String>,
 }
 
@@ -482,6 +487,8 @@ pub struct RemoteCommandSummary {
     #[serde(default)]
     pub sccache_degraded_reason: Option<String>,
     pub sccache_stats: Option<SccacheStats>,
+    #[serde(default)]
+    pub builder_proof: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -1608,10 +1615,38 @@ pub async fn write_summary_artifacts(
     out_path: &Path,
     artifact_dir: &Path,
 ) -> Result<()> {
-    let summary = redacted_summary(summary);
     fs::create_dir_all(artifact_dir)
         .await
         .with_context(|| format!("failed to create '{}'", artifact_dir.display()))?;
+    let private_dir = artifact_dir.join(".private");
+    fs::create_dir_all(&private_dir)
+        .await
+        .with_context(|| format!("failed to create '{}'", private_dir.display()))?;
+    let private_summary_path = private_dir.join("control-summary.json");
+    fs::write(
+        &private_summary_path,
+        serde_json::to_string_pretty(summary)? + "\n",
+    )
+    .await
+    .with_context(|| {
+        format!(
+            "failed to write private control summary '{}'",
+            private_summary_path.display()
+        )
+    })?;
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        fs::set_permissions(&private_dir, std::fs::Permissions::from_mode(0o700))
+            .await
+            .with_context(|| format!("failed to secure '{}'", private_dir.display()))?;
+        fs::set_permissions(
+            &private_summary_path,
+            std::fs::Permissions::from_mode(0o600),
+        )
+        .await
+        .with_context(|| format!("failed to secure '{}'", private_summary_path.display()))?;
+    }
     if let Some(parent) = out_path.parent() {
         fs::create_dir_all(parent)
             .await
@@ -1628,6 +1663,7 @@ pub async fn write_summary_artifacts(
     fs::write(&event_log_path, jsonl)
         .await
         .with_context(|| format!("failed to write '{}'", event_log_path.display()))?;
+    let summary = redacted_summary(summary);
     fs::write(out_path, serde_json::to_string_pretty(&summary)? + "\n")
         .await
         .with_context(|| format!("failed to write '{}'", out_path.display()))?;
@@ -4331,6 +4367,9 @@ mod tests {
             .expect("redacted stderr");
         let retained_events = std::fs::read_to_string(tmp.join("artifacts/events.jsonl"))
             .expect("redacted live events");
+        let private_summary =
+            std::fs::read_to_string(tmp.join("artifacts/.private/control-summary.json"))
+                .expect("private control summary");
         let public_summary = serde_json::to_string(&redacted_summary(&summary)).expect("summary");
         for sensitive in [
             "123456789012",
@@ -4343,6 +4382,17 @@ mod tests {
             assert!(!retained_stderr.contains(sensitive));
             assert!(!retained_events.contains(sensitive));
             assert!(!public_summary.contains(sensitive));
+        }
+        assert!(private_summary.contains("123456789012"));
+        assert!(private_summary.contains("i-1234567890"));
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            let mode = std::fs::metadata(tmp.join("artifacts/.private/control-summary.json"))
+                .expect("private summary metadata")
+                .permissions()
+                .mode();
+            assert_eq!(mode & 0o777, 0o600);
         }
     }
 

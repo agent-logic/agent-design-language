@@ -112,6 +112,10 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+if [[ "${ADL_SSH_KNOWN_HOSTS_FILE:-}" != "$artifact_dir/.private/ssh-known-hosts" ]]; then
+  echo "unexpected SSH known-hosts path: ${ADL_SSH_KNOWN_HOSTS_FILE:-unset}" >&2
+  exit 1
+fi
 mkdir -p "$(dirname "$out")" "$artifact_dir"
 status="${ADL_FAKE_AWS_REMOTE_STATUS:-passed}"
 cat >"$out" <<JSON

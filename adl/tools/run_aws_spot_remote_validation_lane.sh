@@ -988,6 +988,8 @@ fi
 
 execute_run() {
   mkdir -p "$(dirname "$OUT_PATH")" "$ARTIFACT_DIR"
+  mkdir -p "$ARTIFACT_DIR/.private"
+  chmod 700 "$ARTIFACT_DIR/.private"
   local runner_stdout="$ARTIFACT_DIR/runner.stdout.log"
   local runner_stderr="$ARTIFACT_DIR/runner.stderr.log"
   local runner_status finalize_status wrapper_summary started_unix_ms finished_unix_ms
@@ -997,7 +999,8 @@ execute_run() {
   set +e
   # Retain stdout and stderr separately without relying on /dev/fd process
   # substitution, which is unavailable on some bounded runners.
-  "${cmd[@]}" >"$runner_stdout" 2>"$runner_stderr"
+  ADL_SSH_KNOWN_HOSTS_FILE="$ARTIFACT_DIR/.private/ssh-known-hosts" \
+    "${cmd[@]}" >"$runner_stdout" 2>"$runner_stderr"
   runner_status="$?"
   set -e
   if [[ -z "$PORTABLE_REQUEST" ]]; then
