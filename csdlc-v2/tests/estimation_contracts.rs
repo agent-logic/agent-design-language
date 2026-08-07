@@ -211,7 +211,7 @@ fn typed_spp_advisory_disposition_cannot_enforce_execution_or_phase() {
     let CardContent::Spp(spp) = card.content else {
         panic!("SPP")
     };
-    assert_eq!(spp.execution_estimates.advisory, Some(accepted));
+    assert_eq!(spp.execution_estimates.advisory, Some(Box::new(accepted)));
 
     let mut invalid = spp.execution_estimates.advisory.unwrap();
     invalid.advisory_only = false;

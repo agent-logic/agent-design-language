@@ -311,7 +311,7 @@ pub struct ExecutionEstimates {
     pub total_tokens: u64,
     pub validation_seconds: u64,
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub advisory: Option<AcceptedEstimate>,
+    pub advisory: Option<Box<AcceptedEstimate>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -977,7 +977,7 @@ pub fn apply(
             validate_accepted_estimate(estimate)?;
             match &mut values.content {
                 CardContent::Spp(v) => {
-                    v.execution_estimates.advisory = Some(estimate.clone());
+                    v.execution_estimates.advisory = Some(Box::new(estimate.clone()));
                     Ok(None)
                 }
                 _ => ownership(values.kind(), "record_advisory_estimate"),
