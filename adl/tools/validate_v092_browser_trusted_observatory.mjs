@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import { createHash } from "node:crypto";
+import { createHash, X509Certificate } from "node:crypto";
 import { createReadStream, promises as fs } from "node:fs";
-import { createServer } from "node:https";
+import { createServer, request as httpsRequest } from "node:https";
 import { createRequire } from "node:module";
 import { dirname, extname, isAbsolute, join, normalize, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -11,6 +11,7 @@ import { spawn } from "node:child_process";
 const PLAYWRIGHT_VERSION = "1.60.0";
 const EVIDENCE_SCHEMA = "adl.v092.browser_trusted_observatory.evidence.v1";
 const FASTWORK_ROOT = "/Volumes/FastWork";
+const CONCURRENT_RUNTIME_CONNECTIONS = 50;
 const SCOPED_PRODUCT_PATHS = [
   "adl-runtime/src/local_tls.rs",
   "adl-runtime/src/bin/adl-runtime-local-tls-bootstrap.rs",
@@ -114,6 +115,11 @@ try {
     new URL("/v1/observatory", runtime),
   ];
   for (const endpoint of curlEndpoints) await curlTrusted(endpoint, certificate);
+  const concurrentRuntimeProof = await proveConcurrentTrustedConnections(
+    new URL("/v1/health", runtime),
+    certificate,
+    CONCURRENT_RUNTIME_CONNECTIONS,
+  );
 
   const source = await gitScopedIdentity(repoRoot);
   if (source.head !== sourceBefore.head || source.scoped_tree_sha256 !== sourceBefore.scoped_tree_sha256) {
@@ -127,13 +133,14 @@ try {
     playwright_version: version,
     browser: args.browser,
     tls_verification: "required",
-    certificate_sha256: await fileSha256(certificate),
+    certificate_sha256: await certificateDerSha256(certificate),
     listeners: {
       observatory: `${observatory.protocol}//${observatory.hostname}:${observatory.port}`,
       runtime: `${runtime.protocol}//${runtime.hostname}:${runtime.port}`,
     },
     browser_endpoints: browserEndpoints.map(({ path, status }) => ({ path, status })),
     curl_endpoints: curlEndpoints.map((endpoint) => endpoint.pathname),
+    concurrent_runtime_connections: concurrentRuntimeProof,
     platforms: platformDispositions(args.nativePlatforms ?? [process.platform]),
   };
   if (evidencePath) await writeEvidence(evidencePath, evidence);
@@ -257,6 +264,55 @@ async function curlTrusted(url, certificate) {
   if (code !== 0) throw new Error(`curl verified probe failed for ${url.pathname}: ${stderr.trim()}`);
 }
 
+async function proveConcurrentTrustedConnections(url, certificate, count) {
+  const ca = await fs.readFile(certificate);
+  const expectedPeerSha256 = new X509Certificate(ca).fingerprint256.replaceAll(":", "").toLowerCase();
+  const requests = Array.from({ length: count }, (_, index) => new Promise((resolveRequest, rejectRequest) => {
+    const request = httpsRequest(url, {
+      agent: false,
+      ca,
+      headers: { connection: "close" },
+      rejectUnauthorized: true,
+      servername: "localhost",
+      timeout: 10000,
+    }, (response) => {
+      const peerCertificate = response.socket.getPeerCertificate();
+      const peerSha256 = peerCertificate.raw
+        ? createHash("sha256").update(peerCertificate.raw).digest("hex")
+        : null;
+      const authorized = response.socket.authorized === true;
+      response.resume();
+      response.once("end", () => {
+        const status = response.statusCode ?? 0;
+        if (!authorized || peerSha256 !== expectedPeerSha256 || status < 200 || status >= 300) {
+          rejectRequest(new Error(
+            `connection ${index + 1} failed verification: authorized=${authorized} peer=${peerSha256} status=${status}`,
+          ));
+          return;
+        }
+        resolveRequest({ authorized, peerSha256, status });
+      });
+    });
+    request.once("timeout", () => request.destroy(new Error(`connection ${index + 1} timed out`)));
+    request.once("error", rejectRequest);
+    request.end();
+  }));
+  const results = await Promise.all(requests);
+  return {
+    requested: count,
+    completed: results.length,
+    certificate_verification: "required",
+    connection_reuse: "disabled",
+    peer_certificate_sha256: expectedPeerSha256,
+    statuses: [...new Set(results.map((result) => result.status))],
+  };
+}
+
+async function certificateDerSha256(path) {
+  const certificate = new X509Certificate(await fs.readFile(path));
+  return createHash("sha256").update(certificate.raw).digest("hex");
+}
+
 function parseRuntimeCommand(text) {
   if (!text) fail("ADL_V092_RUNTIME_COMMAND_JSON must contain the isolated Runtime candidate argv array");
   let command;
@@ -340,10 +396,6 @@ function platformDispositions(platforms) {
 
 function contentType(path) {
   return ({ ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".json": "application/json", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml" })[extname(path)] ?? "application/octet-stream";
-}
-
-async function fileSha256(path) {
-  return createHash("sha256").update(await fs.readFile(path)).digest("hex");
 }
 
 async function gitScopedIdentity(cwd) {
