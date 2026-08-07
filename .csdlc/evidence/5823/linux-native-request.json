@@ -16,10 +16,19 @@
     ],
     "working_directory": ".",
     "environment_allowlist": [
-      "PATH"
+      "PATH",
+      "CARGO_HOME",
+      "RUSTUP_HOME",
+      "CARGO_TARGET_DIR",
+      "SCCACHE_DIR",
+      "TMPDIR",
+      "RUSTC_WRAPPER",
+      "RUSTFLAGS",
+      "CARGO_INCREMENTAL",
+      "AWS_EC2_METADATA_DISABLED"
     ]
   },
-  "command_profile_digest": "2fa2a2434ee0cfe1ce844453b0d57deffbc8883323bdb03248ca0a92d9b5fe80",
+  "command_profile_digest": "f2b52c4e07c6b1d533ff363a439893900cb8a99b58c559098f5bd4951b8a6474",
   "adapter": "aws",
   "requested_platform": "linux",
   "resource_budget": {
