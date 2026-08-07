@@ -16,14 +16,14 @@ Validate the repository preview source, discover and verify the approved existin
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Validate source references and identify the minimal preview object set",
+    "action": "Validate source references, replace the CSP-blocked design runtime with equivalent static HTML using native audio and FAQ controls, and identify the minimal local-only object set",
     "acceptance_ids": [
       "AC-2",
       "AC-3"
@@ -32,7 +32,7 @@ Revision 1
   },
   {
     "id": "S2",
-    "action": "Verify the Agent Logic AWS profile and deploy the minimal object set to existing S3 and CloudFront resources",
+    "action": "Verify the Agent Logic AWS profile and deploy the minimal object set to existing S3 and CloudFront resources without compute operations",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
@@ -42,7 +42,7 @@ Revision 1
   },
   {
     "id": "S3",
-    "action": "Verify live preview, noindex, assets, digests, production non-mutation, and retain redacted evidence",
+    "action": "Verify live preview behavior, noindex, local-only assets, exact live digests, production non-mutation, and retain redacted evidence",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

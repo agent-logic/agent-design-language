@@ -1,11 +1,14 @@
 {
   "schema": "adl.podcast_preview_live_verification.v1",
   "issue": 19,
-  "verified_at": "2026-08-07T18:44:30Z",
-  "source_sha256": "ff12ba9c1fc65fdc8b93f34958e45539c9153a00236e3e115540fabfda64007b",
+  "verified_at": "2026-08-07T18:59:23Z",
+  "source_sha256": "fa782341f6eeb4f47778dc087459bb2fc93e0b24763abb2ce8e243f3b1943be9",
   "live_sha256": {
-    "https://agent-logic.ai/_preview/podcast/": "ff12ba9c1fc65fdc8b93f34958e45539c9153a00236e3e115540fabfda64007b",
-    "https://agent-logic.ai/_preview/podcast/index.html": "ff12ba9c1fc65fdc8b93f34958e45539c9153a00236e3e115540fabfda64007b"
+    "https://agent-logic.ai/_preview/podcast/": "fa782341f6eeb4f47778dc087459bb2fc93e0b24763abb2ce8e243f3b1943be9",
+    "https://agent-logic.ai/_preview/podcast/index.html": "fa782341f6eeb4f47778dc087459bb2fc93e0b24763abb2ce8e243f3b1943be9",
+    "https://agent-logic.ai/podcast/feed.xml": "362c1c2ea5257df2932fb917ee0db868fba299b4ca61f2ada6c470041faa988e",
+    "https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.wav": "01aa7d51ca955cdca4c5799204418a8e44a566fede8f53f9a7956835cb3e078e",
+    "https://agent-logic.ai/podcast/studio/uploads/agent-logic-logo.svg": "265af57178a57fef3cc1b2cbf94bf9f2f1dc29933a85ee50cf7b183d5a7ca4be"
   },
   "http": {
     "preview": 200,

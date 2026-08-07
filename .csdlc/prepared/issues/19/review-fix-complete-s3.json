@@ -1,0 +1,10 @@
+{
+  "issue": 19,
+  "card": "spp",
+  "expected_generation": 12,
+  "expected_digest": "566afd277a4fb559a36239a79569e59992405098d1efb9db29566d4d7ddb848f",
+  "actor": "codex:19-podcast-preview-deployment",
+  "reason": "All requested routes and local assets have exact live digest proof; noindex and production-route boundaries remain verified.",
+  "operation": {"operation": "update_plan_step", "step_id": "S3", "status": "completed"},
+  "fail_after_backup": false
+}

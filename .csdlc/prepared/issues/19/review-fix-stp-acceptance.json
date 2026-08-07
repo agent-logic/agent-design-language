@@ -1,0 +1,20 @@
+{
+  "issue": 19,
+  "card": "stp",
+  "expected_generation": 8,
+  "expected_digest": "b6ce2bc0b3f27dba3a6000125e33a399e5e999157c43cbf0b41f9f2b2883fec4",
+  "actor": "codex:19-podcast-preview-deployment",
+  "reason": "Make the operator-authorized local-only static conversion explicit in the acceptance contract after exact-head review.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: The preview URL returns HTTP 200 and the expected Synthetic Minds page",
+      "AC-2: The page is static, uses only local same-origin assets, contains no scripts or external asset requests, provides native audio and native FAQ controls, retains noindex,nofollow, and remains absent from public navigation",
+      "AC-3: Every required local artwork, feed, and audio asset resolves over HTTPS with the intended content type and a retained live digest matching its repository source",
+      "AC-4: The production /podcast/ route is not modified or promoted",
+      "AC-5: Retained evidence proves the approved Agent Logic AWS profile, bounded S3/CloudFront mutations, and no EC2 or compute operation without exposing sensitive infrastructure identifiers",
+      "AC-6: One bounded exact-head review has no unresolved actionable findings"
+    ]
+  },
+  "fail_after_backup": false
+}

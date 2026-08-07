@@ -24,10 +24,10 @@ Upload the existing preview page and only its required static dependencies, perf
 ## Acceptance
 
 1. AC-1: The preview URL returns HTTP 200 and the expected Synthetic Minds page
-2. AC-2: The page retains noindex,nofollow and remains absent from public navigation
-3. AC-3: Every required local asset resolves over HTTPS with the intended content type and matching digest
+2. AC-2: The page is static, uses only local same-origin assets, contains no scripts or external asset requests, provides native audio and native FAQ controls, retains noindex,nofollow, and remains absent from public navigation
+3. AC-3: Every required local artwork, feed, and audio asset resolves over HTTPS with the intended content type and a retained live digest matching its repository source
 4. AC-4: The production /podcast/ route is not modified or promoted
-5. AC-5: Retained evidence proves the approved Agent Logic AWS profile, bounded S3/CloudFront mutations, and no EC2 operation without exposing sensitive infrastructure identifiers
+5. AC-5: Retained evidence proves the approved Agent Logic AWS profile, bounded S3/CloudFront mutations, and no EC2 or compute operation without exposing sensitive infrastructure identifiers
 6. AC-6: One bounded exact-head review has no unresolved actionable findings
 
 ## Dependencies

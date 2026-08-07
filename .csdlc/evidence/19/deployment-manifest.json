@@ -1,7 +1,7 @@
 {
   "schema": "adl.podcast_preview_deployment.v1",
   "issue": 19,
-  "deployed_at": "2026-08-07T18:44:30Z",
+  "deployed_at": "2026-08-07T18:59:23Z",
   "repository": "agent-logic/agent-design-language",
   "source_branch": "codex/19-podcast-preview-deployment",
   "preview_url": "https://agent-logic.ai/_preview/podcast/",
@@ -27,8 +27,8 @@
     {
       "source": "demos/_preview/podcast/index.html",
       "public_path": "/_preview/podcast/",
-      "sha256": "ff12ba9c1fc65fdc8b93f34958e45539c9153a00236e3e115540fabfda64007b",
-      "size": 39784,
+      "sha256": "fa782341f6eeb4f47778dc087459bb2fc93e0b24763abb2ce8e243f3b1943be9",
+      "size": 39707,
       "content_type": "text/html; charset=utf-8",
       "cache_control": "no-cache, max-age=0",
       "server_side_encryption": "AES256"
@@ -36,8 +36,8 @@
     {
       "source": "demos/_preview/podcast/index.html",
       "public_path": "/_preview/podcast/index.html",
-      "sha256": "ff12ba9c1fc65fdc8b93f34958e45539c9153a00236e3e115540fabfda64007b",
-      "size": 39784,
+      "sha256": "fa782341f6eeb4f47778dc087459bb2fc93e0b24763abb2ce8e243f3b1943be9",
+      "size": 39707,
       "content_type": "text/html; charset=utf-8",
       "cache_control": "no-cache, max-age=0",
       "server_side_encryption": "AES256"
@@ -71,6 +71,7 @@
     }
   ],
   "superseded_unreferenced_objects": [
+    "/_preview/podcast",
     "/podcast/studio/support.js",
     "/podcast/studio/image-slot.js",
     "/podcast/studio/vendor/react.production.min.js",
@@ -81,7 +82,7 @@
     "reason": "Remote deletion requires a separately confirmed exact deletion list; the final page does not reference these objects."
   },
   "cloudfront": {
-    "bounded_invalidations": 4,
+    "bounded_invalidations": 7,
     "final_invalidation_status": "completed",
     "distribution_identifier_retained": false
   },

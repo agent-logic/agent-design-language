@@ -19,19 +19,31 @@ manifest = load_json("deployment-manifest.json")
 live = load_json("live-verification.json")
 source = File.join(ROOT, "demos/_preview/podcast/index.html")
 source_digest = Digest::SHA256.file(source).hexdigest
+live_sources = {
+  "https://agent-logic.ai/_preview/podcast/" => "demos/_preview/podcast/index.html",
+  "https://agent-logic.ai/_preview/podcast/index.html" => "demos/_preview/podcast/index.html",
+  "https://agent-logic.ai/podcast/feed.xml" => "demos/podcast/feed.xml",
+  "https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.wav" => "demos/podcast/audio/meet-the-ai-coworkers.wav",
+  "https://agent-logic.ai/podcast/studio/uploads/agent-logic-logo.svg" => "demos/podcast/studio/uploads/agent-logic-logo.svg"
+}
 
 require_truth(manifest.fetch("issue") == 19, "deployment manifest issue mismatch")
 require_truth(live.fetch("issue") == 19, "live verification issue mismatch")
 require_truth(source_digest == live.fetch("source_sha256"), "source digest mismatch")
-require_truth(
-  live.fetch("live_sha256").values.all? { |digest| digest == source_digest },
-  "live preview digest mismatch"
-)
+require_truth(live.fetch("live_sha256").keys.sort == live_sources.keys.sort, "live digest inventory mismatch")
+live_sources.each do |url, relative_source|
+  expected = Digest::SHA256.file(File.join(ROOT, relative_source)).hexdigest
+  require_truth(live.fetch("live_sha256").fetch(url) == expected, "live digest mismatch for #{url}")
+end
 
 active = manifest.fetch("active_objects")
 preview_objects = active.select { |object| object.fetch("source") == "demos/_preview/podcast/index.html" }
 require_truth(preview_objects.length == 2, "both preview HTML object keys are required")
 require_truth(preview_objects.all? { |object| object.fetch("sha256") == source_digest }, "preview object digest mismatch")
+active.each do |object|
+  expected = Digest::SHA256.file(File.join(ROOT, object.fetch("source"))).hexdigest
+  require_truth(object.fetch("sha256") == expected, "manifest source digest mismatch for #{object.fetch('public_path')}")
+end
 
 aws = manifest.fetch("aws_boundary")
 require_truth(aws.fetch("approved_business_account_verified"), "business AWS account was not verified")

@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "37bb19d7033a30243294bac8289909a5dd5cc6a3818d891dc8db8dcdaed2df76",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "b6ce2bc0b3f27dba3a6000125e33a399e5e999157c43cbf0b41f9f2b2883fec4",
+  "generation": 13,
+  "digest": "bfc7696e4aaa9b6fb601878aa366830207de76f53f48691b8ba73a64caaab8ca",
   "branch": "codex/19-podcast-preview-deployment",
   "worktree": "/Volumes/FastWork/adl-issue-19-podcast-preview",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4751b5c54b2120119d89e62a6528e6c1b1987ef705729c25371ddf474884631f",
+      "values_digest": "5e8465fb7b43732cb1ecf9e25355d4da6ed8c1121fa66cd092690843c4c8fcd9",
       "rendered_digest": "9f0d80f9458f319649e315920b7dd0164a6d0f8bb3cc2cd9ece23cf2b1774325",
       "ast_digest": "d5d38f0cec1e4341bffbc2cfd9cb527f210da36368843749e84302778a6aae7a"
     },
     "stp": {
-      "values_digest": "24cf1e577fdc544ef78c0d2502669ddd11c033ad45492619a122cd2b40e30f85",
-      "rendered_digest": "3d44a5facca81ce91c159916add81e181feaf21f56d3b78d0c74263919dde4c2",
-      "ast_digest": "54825147bbcc2f2e0bd33057a90d3cc77515696c50d045938bcb9be3e3f323ef"
+      "values_digest": "676d71da2e5a3111174cc06cecd5dd5f4d49d037d4f62156425cef9a080208e9",
+      "rendered_digest": "71445d90988b9f27af9e963358b2d40199bdc62430471827b53838b24add9cea",
+      "ast_digest": "68d4588b33e10fe6a2c82b9c3255707e93bbbfdd9c4e67d261aaa29b39142fec"
     },
     "spp": {
-      "values_digest": "8c29599f941e04c41b9c880be6893c146daa1e3a9f8b14e11b24cfd227840409",
-      "rendered_digest": "d9ea6b1ae866cbfc9c230ffaeb7e0a556fb9fb88935e0d054c9c8a7329b3cc65",
-      "ast_digest": "b3c6f8947267dd0448dbb3afa403c1d27f0c94cd83631125ef3ea975b8ae0293"
+      "values_digest": "455745b2f69c18d09feb7b4ac4b6c40ee30192b5c9c48b9036ef306a063dce6e",
+      "rendered_digest": "ba263ea305b10e5a9a7835a574562bab820ccda6bfc4b78cefa2bc1264fbc64a",
+      "ast_digest": "d5a77052496f89e5e18644b77e34b7e33f1d4b5cbc8b79bdc0f245338ffac336"
     },
     "vpp": {
-      "values_digest": "7e666d5163fc9e87b6e55b1314d9f355d7b2f2b24ae21b3015e0d228e24bee78",
+      "values_digest": "57c8478885249f4ebd97ae76fcbceb0591870556eeaf9a73d3f420f076f4e3f7",
       "rendered_digest": "c83c8ee518db0543cbf61ee386eeee7f60e51507eb5ce2152b990d8f280f5174",
       "ast_digest": "f8a0068b7683ec42e80e73d8a8f06cab2720bf324ee7c48714e4b6e02c3de607"
     },
     "srp": {
-      "values_digest": "c527d42c18207b5f8dc84313fb4aa7fb0d4258500d619ac048ab3a0da1d30f9f",
+      "values_digest": "5713770383e65254cfe187e536dafd2b96afd982f5fabe2c86dcd97842ba3d20",
       "rendered_digest": "f576680d0285049bd1295a4032c31bbc838bd00ae611d87eeea6e3b7b54dd01c",
       "ast_digest": "855ed952de2102100cd3b77f9237887c5ee480afeb7cb55300b4137db9b023e4"
     },
     "sor": {
-      "values_digest": "9e7145715465713b583aa7364b833fe0aff96c4a1517e415ea7b3100203e9bb9",
+      "values_digest": "5571bb1718618303303807408f52de6cf5b27ccd910e46fe34c338d461c71193",
       "rendered_digest": "6991c36a19249301dd8ff937d8821dbbeb9a4ac6e2fcaf39b088f75f2c6819dd",
       "ast_digest": "f12253f21a8617a4e7bdef595ead787d2add7e9b6af9bf04ae3164d9d56e8894"
     }
@@ -147,6 +147,41 @@
       "actor": "codex:19-podcast-preview-deployment",
       "reason": "Advance issue 19 after the deployed static preview and focused proof passed.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "Make the operator-authorized local-only static conversion explicit in the acceptance contract after exact-head review.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: The preview URL returns HTTP 200 and the expected Synthetic Minds page\",\"AC-2: The page is static, uses only local same-origin assets, contains no scripts or external asset requests, provides native audio and native FAQ controls, retains noindex,nofollow, and remains absent from public navigation\",\"AC-3: Every required local artwork, feed, and audio asset resolves over HTTPS with the intended content type and a retained live digest matching its repository source\",\"AC-4: The production /podcast/ route is not modified or promoted\",\"AC-5: Retained evidence proves the approved Agent Logic AWS profile, bounded S3/CloudFront mutations, and no EC2 or compute operation without exposing sensitive infrastructure identifiers\",\"AC-6: One bounded exact-head review has no unresolved actionable findings\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "Reconcile the operative plan with the local-only static conversion and exact live-asset proof required by review.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Validate source references, replace the CSP-blocked design runtime with equivalent static HTML using native audio and FAQ controls, and identify the minimal local-only object set\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Verify the Agent Logic AWS profile and deploy the minimal object set to existing S3 and CloudFront resources without compute operations\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Verify live preview behavior, noindex, local-only assets, exact live digests, production non-mutation, and retain redacted evidence\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Resolve bounded exact-head review and publish the retained deployment proof\",\"acceptance_ids\":[\"AC-6\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "The local-only static conversion and minimal object inventory are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "The corrected static HTML was deployed to both requested preview objects and the bounded invalidations completed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:19-podcast-preview-deployment",
+      "reason": "All requested routes and local assets have exact live digest proof; noindex and production-route boundaries remain verified.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
     }
   ]
 }

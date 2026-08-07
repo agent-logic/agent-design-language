@@ -24,6 +24,6 @@ player. It loads no external assets and contains no scripts.
 - Only STS, S3, and CloudFront were used. No EC2 or other compute service was
   invoked.
 
-The failed initial browser screenshot is retained rather than hidden. Four
+The failed initial browser screenshot is retained rather than hidden. Five
 superseded objects uploaded during diagnosis are unreferenced by the final page
 and are listed in `deployment-manifest.json`; no remote deletion was performed.
