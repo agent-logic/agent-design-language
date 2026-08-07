@@ -151,6 +151,7 @@ pub struct RuntimeTlsBootstrapOutcome {
     pub public_certificate_path: Option<PathBuf>,
     pub private_key_path: PathBuf,
     pub certificate_sha256: Option<String>,
+    pub manifest_durable: bool,
     pub reused_existing_identity: bool,
     pub replaced_existing_identity: bool,
     pub event: RuntimeTlsBootstrapEvent,
@@ -310,7 +311,9 @@ where
                 certificate_chain_path: config.certificate_chain_path.clone(),
                 public_certificate_path: config.public_certificate_path.clone(),
                 private_key_path: config.private_key_path.clone(),
-                certificate_sha256: sha256_file(&config.certificate_chain_path).ok(),
+                certificate_sha256: certificate_fingerprint_sha256(&config.certificate_chain_path)
+                    .ok(),
+                manifest_durable: true,
                 reused_existing_identity: true,
                 replaced_existing_identity: false,
                 event: RuntimeTlsBootstrapEvent::ManagedExternalPreserved,
@@ -341,16 +344,19 @@ where
                     current,
                     true,
                     false,
+                    sync_directory(&paths.tls_root).is_ok(),
                     RuntimeTlsBootstrapEvent::LocalCertificateReused,
                 ));
             }
             let material = generator(config)?;
-            let generation = commit_generation(&paths, &material, config).await?;
+            let (generation, manifest_durable) =
+                commit_generation(&paths, &material, config).await?;
             Ok(local_outcome(
                 config.mode,
                 &generation,
                 false,
                 current.is_some(),
+                manifest_durable,
                 if current.is_some() {
                     RuntimeTlsBootstrapEvent::LocalCertificateReplaced
                 } else {
@@ -421,21 +427,25 @@ where
         remove_directory(&prepared.directory);
         return Err(error);
     }
-    if let Err(error) = commit_current_manifest(&paths, &prepared.generation) {
-        let rollback = trust.rollback_candidate(&prepared.generation.public_certificate);
-        remove_directory(&prepared.directory);
-        return match rollback {
-            Ok(()) => Err(error),
-            Err(rollback_error) => Err(LocalTlsError::Trust(format!(
-                "manifest commit failed ({error}); candidate trust rollback also failed ({rollback_error})"
-            ))),
-        };
-    }
+    let manifest_durable = match commit_current_manifest(&paths, &prepared.generation) {
+        Ok(durable) => durable,
+        Err(error) => {
+            let rollback = trust.rollback_candidate(&prepared.generation.public_certificate);
+            remove_directory(&prepared.directory);
+            return match rollback {
+                Ok(()) => Err(error),
+                Err(rollback_error) => Err(LocalTlsError::Trust(format!(
+                    "manifest commit failed ({error}); candidate trust rollback also failed ({rollback_error})"
+                ))),
+            };
+        }
+    };
     Ok(local_outcome(
         config.mode,
         &prepared.generation,
         false,
         true,
+        manifest_durable,
         RuntimeTlsBootstrapEvent::LocalCertificateReplaced,
     ))
 }
@@ -455,6 +465,7 @@ fn local_outcome(
     generation: &CommittedTlsGeneration,
     reused: bool,
     replaced: bool,
+    manifest_durable: bool,
     event: RuntimeTlsBootstrapEvent,
 ) -> RuntimeTlsBootstrapOutcome {
     RuntimeTlsBootstrapOutcome {
@@ -463,7 +474,8 @@ fn local_outcome(
         certificate_chain_path: generation.certificate_chain.clone(),
         public_certificate_path: Some(generation.public_certificate.clone()),
         private_key_path: generation.private_key.clone(),
-        certificate_sha256: sha256_file(&generation.certificate_chain).ok(),
+        certificate_sha256: certificate_fingerprint_sha256(&generation.certificate_chain).ok(),
+        manifest_durable,
         reused_existing_identity: reused,
         replaced_existing_identity: replaced,
         event,
@@ -495,13 +507,15 @@ async fn commit_generation(
     paths: &LocalTlsPaths,
     material: &GeneratedTlsMaterial,
     config: &RuntimeTlsBootstrapConfig,
-) -> Result<CommittedTlsGeneration, LocalTlsError> {
+) -> Result<(CommittedTlsGeneration, bool), LocalTlsError> {
     let prepared = prepare_generation(paths, material, config).await?;
-    if let Err(error) = commit_current_manifest(paths, &prepared.generation) {
-        remove_directory(&prepared.directory);
-        return Err(error);
+    match commit_current_manifest(paths, &prepared.generation) {
+        Ok(manifest_durable) => Ok((prepared.generation, manifest_durable)),
+        Err(error) => {
+            remove_directory(&prepared.directory);
+            Err(error)
+        }
     }
-    Ok(prepared.generation)
 }
 
 async fn prepare_generation(
@@ -778,7 +792,7 @@ fn read_current_generation(
             )));
         }
     }
-    let observed_sha = sha256_file(&generation.certificate_chain)?;
+    let observed_sha = certificate_fingerprint_sha256(&generation.certificate_chain)?;
     let manifest_sha = serde_json::from_slice::<GenerationManifest>(&bytes)
         .map_err(|error| LocalTlsError::Policy(error.to_string()))?
         .certificate_sha256;
@@ -808,14 +822,14 @@ fn committed_generation_from_manifest_paths(
 fn commit_current_manifest(
     paths: &LocalTlsPaths,
     generation: &CommittedTlsGeneration,
-) -> Result<(), LocalTlsError> {
+) -> Result<bool, LocalTlsError> {
     let manifest = GenerationManifest {
         schema: GENERATION_MANIFEST_SCHEMA.to_owned(),
         generation_id: generation.generation_id.clone(),
         certificate_chain_path: strip_tls_root(&paths.tls_root, &generation.certificate_chain)?,
         public_certificate_path: strip_tls_root(&paths.tls_root, &generation.public_certificate)?,
         private_key_path: strip_tls_root(&paths.tls_root, &generation.private_key)?,
-        certificate_sha256: sha256_file(&generation.certificate_chain)?,
+        certificate_sha256: certificate_fingerprint_sha256(&generation.certificate_chain)?,
     };
     let temporary = paths
         .tls_root
@@ -840,8 +854,7 @@ fn commit_current_manifest(
             "commit local TLS generation manifest failed: {error}"
         ))
     })?;
-    let _ = sync_current_manifest_after_swap(paths);
-    Ok(())
+    Ok(sync_current_manifest_after_swap(paths).is_ok())
 }
 
 fn strip_tls_root(root: &Path, path: &Path) -> Result<PathBuf, LocalTlsError> {
@@ -1186,11 +1199,6 @@ fn validate_managed_external_private_key_permissions(path: &Path) -> Result<(), 
     validate_private_key_permissions(path)
 }
 
-fn sha256_file(path: &Path) -> Result<String, LocalTlsError> {
-    let bytes = fs::read(path).map_err(|error| LocalTlsError::Io(error.to_string()))?;
-    Ok(hex::encode(Sha256::digest(bytes)))
-}
-
 fn unique_suffix() -> String {
     use std::time::{SystemTime, UNIX_EPOCH};
     SystemTime::now()
@@ -1293,7 +1301,7 @@ mod manifest_commit_tests {
     }
 
     #[tokio::test]
-    async fn post_swap_manifest_sync_failure_does_not_report_failed_bootstrap() {
+    async fn post_swap_manifest_sync_failure_reports_durability_uncertain() {
         let _test_guard = MANIFEST_FAILURE_TEST_LOCK.lock().await;
         let temp = tempfile::tempdir().unwrap();
         let config = local_config(temp.path().to_path_buf());
@@ -1303,13 +1311,15 @@ mod manifest_commit_tests {
 
         let second = reissue_runtime_tls_with_trust(&config, &mut trust)
             .await
-            .expect("post-swap sync is not returned as a failed identity commit");
+            .expect("visible post-swap identity remains usable");
 
         assert_ne!(first.certificate_sha256, second.certificate_sha256);
+        assert!(!second.manifest_durable);
         let after = bootstrap_runtime_tls(&local_config(temp.path().to_path_buf()))
             .await
             .unwrap();
         assert_eq!(second.certificate_sha256, after.certificate_sha256);
+        assert!(after.manifest_durable);
     }
 
     #[tokio::test]

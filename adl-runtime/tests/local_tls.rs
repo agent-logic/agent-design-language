@@ -14,7 +14,6 @@ use adl_runtime::local_tls::{
 };
 use base64::Engine;
 use rcgen::{CertificateParams, ExtendedKeyUsagePurpose, KeyPair};
-use sha2::{Digest, Sha256};
 use time::{Duration, OffsetDateTime};
 use tokio::net::TcpListener;
 use tokio_rustls::rustls::{pki_types::CertificateDer, ClientConfig, RootCertStore};
@@ -485,6 +484,21 @@ fn certificate_fingerprint_uses_der_identity_not_pem_formatting() {
 }
 
 #[tokio::test]
+async fn bootstrap_outcome_uses_der_certificate_identity() {
+    let temp = tempfile::tempdir().unwrap();
+    let outcome = bootstrap_runtime_tls(&local_config(temp.path().to_path_buf()))
+        .await
+        .unwrap();
+    let expected = certificate_fingerprint_sha256(&outcome.certificate_chain_path).unwrap();
+
+    assert_eq!(
+        outcome.certificate_sha256.as_deref(),
+        Some(expected.as_str())
+    );
+    assert!(outcome.manifest_durable);
+}
+
+#[tokio::test]
 async fn production_defaults_fail_closed_without_explicit_mode() {
     let text = format!(
         "schema = \"{LOCAL_TLS_BOOTSTRAP_SCHEMA}\"\ncertificate_chain_path = \"cert.pem\"\nprivate_key_path = \"key.pem\"\n"
@@ -575,9 +589,8 @@ fn replace_current_material(root: &std::path::Path, material: GeneratedTlsMateri
         use std::os::unix::fs::PermissionsExt;
         fs::set_permissions(&key_path, fs::Permissions::from_mode(0o600)).unwrap();
     }
-    manifest["certificate_sha256"] = serde_json::Value::String(hex::encode(Sha256::digest(
-        fs::read(&certificate_path).unwrap(),
-    )));
+    manifest["certificate_sha256"] =
+        serde_json::Value::String(certificate_fingerprint_sha256(&certificate_path).unwrap());
     fs::write(
         &manifest_path,
         serde_json::to_vec_pretty(&manifest).unwrap(),

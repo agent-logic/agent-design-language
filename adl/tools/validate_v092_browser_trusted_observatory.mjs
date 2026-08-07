@@ -42,6 +42,11 @@ const repoRoot = await canonicalExistingFastWorkPath(
 const certificate = await requiredPath("ADL_V092_TLS_CERT");
 const privateKey = await requiredPath("ADL_V092_TLS_KEY");
 const runtimeCommand = parseRuntimeCommand(process.env.ADL_V092_RUNTIME_COMMAND_JSON);
+const runtimeGuardian = await requiredPath("ADL_V092_RUNTIME_GUARDIAN");
+const runtimeKernel = await requiredPath("ADL_V092_RUNTIME_KERNEL");
+if (await fs.realpath(runtimeCommand[0]) !== runtimeGuardian) {
+  fail("Runtime candidate command must launch the declared Guardian binary directly");
+}
 const evidencePath = args.evidence ? await canonicalFastWorkOutput(args.evidence) : null;
 const sourceBefore = await gitScopedIdentity(repoRoot);
 const observatory = new URL(args.observatoryUrl);
@@ -55,6 +60,7 @@ if (observatory.port === runtime.port) {
 const tlsErrors = [];
 let staticServer;
 let runtimeProcess;
+let runtimeProcessId;
 let browser;
 
 try {
@@ -110,6 +116,15 @@ try {
   }
   const ready = browserEndpoints.find((entry) => entry.path === "/v1/ready");
   if (ready?.body?.ready !== true) fail("Runtime readiness response did not report ready=true");
+  const observatoryFeed = browserEndpoints.find((entry) => entry.path === "/v1/observatory")?.body;
+  const runtimeOwnership = await proveRuntimeCandidateOwnership({
+    feed: observatoryFeed,
+    guardian: runtimeGuardian,
+    guardianProcess: runtimeProcess,
+    kernel: runtimeKernel,
+    runtime,
+  });
+  runtimeProcessId = runtimeOwnership.runtime_pid;
 
   const healthPage = await context.newPage();
   const browserHealth = await healthPage.goto(new URL("/v1/health", runtime).href, {
@@ -156,6 +171,7 @@ try {
     blocked_live_runtime_requests: [...new Set(blockedLiveRuntimeRequests)],
     curl_endpoints: curlEndpoints.map((endpoint) => endpoint.pathname),
     concurrent_runtime_connections: concurrentRuntimeProof,
+    runtime_candidate: runtimeOwnership,
     platforms: platformDispositions(args.nativePlatforms ?? [process.platform]),
   };
   if (evidencePath) await writeEvidence(evidencePath, evidence);
@@ -163,11 +179,7 @@ try {
 } finally {
   if (browser) await browser.close();
   if (staticServer) await new Promise((done) => staticServer.close(done));
-  if (runtimeProcess && runtimeProcess.exitCode === null) {
-    runtimeProcess.kill("SIGTERM");
-    await Promise.race([onceExit(runtimeProcess), delay(5000)]);
-    if (runtimeProcess.exitCode === null) runtimeProcess.kill("SIGKILL");
-  }
+  await terminateRuntimeCandidate(runtimeProcess, runtimeProcessId);
 }
 
 function parseArgs(argv) {
@@ -357,9 +369,93 @@ async function proveConcurrentTrustedConnections(url, certificate, count) {
   };
 }
 
+async function proveRuntimeCandidateOwnership({ feed, guardian, guardianProcess, kernel, runtime }) {
+  const runtimePid = Number(feed?.runtime_process_id);
+  if (!Number.isSafeInteger(runtimePid) || runtimePid <= 0) {
+    fail("Runtime observatory feed did not expose a valid runtime_process_id");
+  }
+  const parentPid = Number((await capture("/bin/ps", ["-p", String(runtimePid), "-o", "ppid="])).trim());
+  if (parentPid !== guardianProcess.pid) {
+    fail(`Runtime process ${runtimePid} is not a direct child of Guardian ${guardianProcess.pid}`);
+  }
+  const observedKernel = await fs.realpath(
+    (await capture("/bin/ps", ["-p", String(runtimePid), "-o", "comm="])).trim(),
+  );
+  if (observedKernel !== kernel) {
+    fail(`Runtime process ${runtimePid} executable does not match the declared kernel`);
+  }
+  const listener = await capture("/usr/sbin/lsof", [
+    "-nP",
+    "-a",
+    "-p",
+    String(runtimePid),
+    `-iTCP:${runtime.port}`,
+    "-sTCP:LISTEN",
+    "-Fpn",
+  ]);
+  if (!listener.split("\n").includes(`p${runtimePid}`) || !listener.includes(`:${runtime.port}`)) {
+    fail(`Runtime process ${runtimePid} does not own the declared HTTPS listener`);
+  }
+  return {
+    guardian_pid: guardianProcess.pid,
+    guardian_sha256: await fileSha256(guardian),
+    kernel_sha256: await fileSha256(kernel),
+    runtime_pid: runtimePid,
+    runtime_parent_pid: parentPid,
+    runtime_listener_port: Number(runtime.port),
+    runtime_process_matches_declared_kernel: true,
+  };
+}
+
+async function capture(executable, argv) {
+  const child = spawn(executable, argv, { stdio: ["ignore", "pipe", "pipe"] });
+  let stdout = "";
+  let stderr = "";
+  child.stdout.on("data", (chunk) => { stdout += chunk; });
+  child.stderr.on("data", (chunk) => { stderr += chunk; });
+  const code = await onceExit(child);
+  if (code !== 0) fail(`${executable} failed with status ${code}: ${stderr.trim()}`);
+  return stdout;
+}
+
+async function terminateRuntimeCandidate(guardianProcess, runtimePid) {
+  if (guardianProcess && guardianProcess.exitCode === null) {
+    guardianProcess.kill("SIGTERM");
+    await Promise.race([onceExit(guardianProcess), delay(5000)]);
+    if (guardianProcess.exitCode === null) guardianProcess.kill("SIGKILL");
+  }
+  if (!runtimePid) return;
+  const exited = await waitForPidExit(runtimePid, 5000);
+  if (exited) return;
+  process.kill(runtimePid, "SIGTERM");
+  if (await waitForPidExit(runtimePid, 3000)) return;
+  process.kill(runtimePid, "SIGKILL");
+  if (!(await waitForPidExit(runtimePid, 3000))) {
+    fail(`verified Runtime candidate process ${runtimePid} survived cleanup`);
+  }
+}
+
+async function waitForPidExit(pid, timeoutMilliseconds) {
+  const deadline = Date.now() + timeoutMilliseconds;
+  while (Date.now() < deadline) {
+    try {
+      process.kill(pid, 0);
+    } catch (error) {
+      if (error.code === "ESRCH") return true;
+      throw error;
+    }
+    await delay(100);
+  }
+  return false;
+}
+
 async function certificateDerSha256(path) {
   const certificate = new X509Certificate(await fs.readFile(path));
   return createHash("sha256").update(certificate.raw).digest("hex");
+}
+
+async function fileSha256(path) {
+  return createHash("sha256").update(await fs.readFile(path)).digest("hex");
 }
 
 function parseRuntimeCommand(text) {

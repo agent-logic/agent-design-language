@@ -134,10 +134,14 @@ async fn execute(
             })?;
             let mut trust = MacOsTrustTransaction::new(config, args)?;
             let outcome = reissue_runtime_tls_with_trust(config, &mut trust).await?;
-            let cleanup_pending_certificate_sha256 = trust
-                .remove_old_digest_if_owned(&old_sha)
-                .err()
-                .map(|_| old_sha);
+            let cleanup_pending_certificate_sha256 = if outcome.manifest_durable {
+                trust
+                    .remove_old_digest_if_owned(&old_sha)
+                    .err()
+                    .map(|_| old_sha)
+            } else {
+                Some(old_sha)
+            };
             let certificate = outcome.public_certificate_path.as_ref().ok_or_else(|| {
                 LocalTlsError::Policy(
                     "reissued local TLS public certificate is required".to_owned(),
@@ -284,7 +288,12 @@ impl MacOsTrustTransaction {
 
     fn install_current(&mut self, certificate: &Path) -> Result<&'static str, LocalTlsError> {
         if self.verify(certificate).is_ok() {
-            return Ok("already_trusted_external");
+            let digest = certificate_sha256(certificate)?;
+            return if self.authorize_removal(&digest).is_ok() {
+                Ok("already_trusted_owned")
+            } else {
+                Ok("already_trusted_external")
+            };
         }
         self.install_owned(certificate)?;
         Ok("trusted")
@@ -293,12 +302,18 @@ impl MacOsTrustTransaction {
     fn install_owned(&mut self, certificate: &Path) -> Result<(), LocalTlsError> {
         let digest = certificate_sha256(certificate)?;
         if self.keychain_contains_digest(&digest)? {
-            return Err(LocalTlsError::Trust(
-                "the candidate certificate already exists in the selected keychain without an issue-created receipt; refusing to modify unknown trust"
-                    .to_owned(),
-            ));
+            self.authorize_removal(&digest).map_err(|_| {
+                LocalTlsError::Trust(
+                    "the candidate certificate already exists in the selected keychain without an issue-created receipt; refusing to modify unknown trust"
+                        .to_owned(),
+                )
+            })?;
+            self.verify(certificate)?;
+            self.installed_candidate = Some(digest);
+            return Ok(());
         }
-        run_security([
+        self.write_receipt(&digest)?;
+        if let Err(error) = run_security([
             "add-trusted-cert",
             "-r",
             "trustRoot",
@@ -307,22 +322,24 @@ impl MacOsTrustTransaction {
             "-k",
             path_text(&self.trust_store)?,
             path_text(certificate)?,
-        ])?;
+        ]) {
+            if self
+                .keychain_contains_digest(&digest)
+                .is_ok_and(|present| !present)
+            {
+                let _ = self.remove_receipt(&digest);
+            }
+            return Err(error);
+        }
         if let Err(error) = self.verify(certificate) {
             let rollback = self.delete_exact_digest(&digest);
             return match rollback {
-                Ok(()) => Err(error),
+                Ok(()) => {
+                    self.remove_receipt(&digest)?;
+                    Err(error)
+                }
                 Err(rollback_error) => Err(LocalTlsError::Trust(format!(
                     "candidate trust verification failed ({error}); exact trust rollback also failed ({rollback_error})"
-                ))),
-            };
-        }
-        if let Err(error) = self.write_receipt(&digest) {
-            let rollback = self.delete_exact_digest(&digest);
-            return match rollback {
-                Ok(()) => Err(error),
-                Err(rollback_error) => Err(LocalTlsError::Trust(format!(
-                    "trust receipt commit failed ({error}); exact trust rollback also failed ({rollback_error})"
                 ))),
             };
         }
@@ -351,7 +368,7 @@ impl MacOsTrustTransaction {
         if self.keychain_contains_digest(&digest)? {
             self.delete_exact_digest(&digest)?;
         }
-        fs::remove_file(&receipt_path).map_err(|error| LocalTlsError::Io(error.to_string()))
+        self.remove_receipt_path(&receipt_path)
     }
 
     fn authorize_removal(&self, digest: &str) -> Result<TrustReceipt, LocalTlsError> {
@@ -421,6 +438,10 @@ impl MacOsTrustTransaction {
     fn write_receipt(&self, digest: &str) -> Result<(), LocalTlsError> {
         fs::create_dir_all(&self.receipt_root)
             .map_err(|error| LocalTlsError::Io(error.to_string()))?;
+        if self.receipt_path(digest).exists() {
+            self.authorize_removal(digest)?;
+            return sync_directory(&self.receipt_root);
+        }
         let receipt = TrustReceipt {
             schema: TRUST_RECEIPT_SCHEMA.to_owned(),
             platform: "macos".to_owned(),
@@ -428,7 +449,9 @@ impl MacOsTrustTransaction {
             trust_store_sha256: path_sha256(&self.trust_store),
         };
         let target = self.receipt_path(digest);
-        let temporary = self.receipt_root.join(format!(".{digest}.json.tmp"));
+        let temporary = self
+            .receipt_root
+            .join(format!(".{digest}.{}.json.tmp", std::process::id()));
         let mut options = OpenOptions::new();
         options.create_new(true).write(true);
         #[cfg(unix)]
@@ -448,12 +471,31 @@ impl MacOsTrustTransaction {
         fs::rename(&temporary, &target).map_err(|error| {
             let _ = fs::remove_file(&temporary);
             LocalTlsError::Io(error.to_string())
-        })
+        })?;
+        sync_directory(&self.receipt_root)
+    }
+
+    fn remove_receipt(&self, digest: &str) -> Result<(), LocalTlsError> {
+        self.remove_receipt_path(&self.receipt_path(digest))
+    }
+
+    fn remove_receipt_path(&self, path: &Path) -> Result<(), LocalTlsError> {
+        match fs::remove_file(path) {
+            Ok(()) => sync_directory(&self.receipt_root),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+            Err(error) => Err(LocalTlsError::Io(error.to_string())),
+        }
     }
 
     fn receipt_path(&self, digest: &str) -> PathBuf {
         self.receipt_root.join(format!("{digest}.json"))
     }
+}
+
+fn sync_directory(path: &Path) -> Result<(), LocalTlsError> {
+    fs::File::open(path)
+        .and_then(|directory| directory.sync_all())
+        .map_err(|error| LocalTlsError::Io(error.to_string()))
 }
 
 fn delete_certificate_args<'a>(digest: &'a str, trust_store: &'a str) -> [&'a str; 5] {
@@ -844,6 +886,19 @@ mod tests {
             receipt.trust_store_sha256,
             path_sha256(&transaction.trust_store)
         );
+    }
+
+    #[test]
+    fn ownership_receipt_is_idempotent_and_leaves_no_temporary_file() {
+        let temp = tempfile::tempdir().unwrap();
+        let transaction = fake_transaction(temp.path());
+
+        transaction.write_receipt(DIGEST).unwrap();
+        transaction.write_receipt(DIGEST).unwrap();
+
+        assert!(transaction.receipt_path(DIGEST).is_file());
+        assert_eq!(fs::read_dir(&transaction.receipt_root).unwrap().count(), 1);
+        transaction.authorize_removal(DIGEST).unwrap();
     }
 
     fn localhost_config(state_root: PathBuf) -> RuntimeTlsBootstrapConfig {
