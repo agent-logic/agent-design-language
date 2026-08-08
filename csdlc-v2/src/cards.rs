@@ -1647,6 +1647,9 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
         if global_value_flags
             .iter()
             .any(|flag| value.starts_with(&format!("{flag}=")))
+            || ["-C", "-Z"]
+                .iter()
+                .any(|flag| value.starts_with(flag) && value.len() > flag.len())
         {
             test_index += 1;
             continue;
@@ -1688,6 +1691,7 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
         "--color",
         "--config",
         "--message-format",
+        "-Z",
     ];
     let mut target_boundaries = 0_u8;
     let mut filter = None;
@@ -1775,6 +1779,9 @@ pub fn classify_rust_test_selector(argv: &[String]) -> Option<RustTestSelectorCl
         if value_flags
             .iter()
             .any(|flag| value.starts_with(&format!("{flag}=")))
+            || ["-p", "-F", "-j", "-Z"]
+                .iter()
+                .any(|flag| value.starts_with(flag) && value.len() > flag.len())
         {
             index += 1;
             continue;

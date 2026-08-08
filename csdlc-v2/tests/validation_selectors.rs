@@ -50,11 +50,36 @@ fn exact_broad_and_invalid_rust_test_selectors_are_distinct() {
         RustTestSelectorPosture::ExactTarget
     );
 
+    let attached_global_values = classify_rust_test_selector(&argv(&[
+        "cargo", "+nightly", "-C.", "-Zhelp", "test", "--test", "gate2",
+    ]))
+    .expect("attached cargo global value classification");
+    assert_eq!(
+        attached_global_values.posture,
+        RustTestSelectorPosture::ExactTarget
+    );
+
+    let attached_global_plain =
+        classify_rust_test_selector(&argv(&["cargo", "-C.", "test", "--test", "gate2"]))
+            .expect("plain attached cargo global value classification");
+    assert_eq!(
+        attached_global_plain.posture,
+        RustTestSelectorPosture::ExactTarget
+    );
+
     let broad_with_features =
         classify_rust_test_selector(&argv(&["cargo", "test", "-F", "feature-a"]))
             .expect("cargo broad feature classification");
     assert_eq!(
         broad_with_features.posture,
+        RustTestSelectorPosture::IntentionalBroad
+    );
+
+    let broad_with_attached_features =
+        classify_rust_test_selector(&argv(&["cargo", "test", "-Ffeature-a"]))
+            .expect("attached cargo feature classification");
+    assert_eq!(
+        broad_with_attached_features.posture,
         RustTestSelectorPosture::IntentionalBroad
     );
 
