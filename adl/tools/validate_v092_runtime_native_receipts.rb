@@ -65,7 +65,7 @@ def run_git!(repository, *args)
   output.strip
 end
 
-def changed_paths_between(repository, proof_revision, head_revision)
+def changed_entries_between(repository, proof_revision, head_revision)
   _, ancestry_status = Open3.capture2e(
     "git", "merge-base", "--is-ancestor", proof_revision, head_revision,
     chdir: repository
@@ -73,12 +73,50 @@ def changed_paths_between(repository, proof_revision, head_revision)
   raise "proof revision is not an ancestor of verifier revision" unless ancestry_status.success?
 
   changed, diff_status = Open3.capture2(
-    "git", "diff", "--no-renames", "--name-only",
+    "git", "diff", "--no-renames", "--name-status", "-z",
     "#{proof_revision}..#{head_revision}", "--",
     chdir: repository
   )
   raise "cannot compare proof and verifier revisions" unless diff_status.success?
-  changed.lines.map(&:strip).reject(&:empty?)
+  fields = changed.split("\0")
+  raise "malformed Git change list" unless fields.length.even?
+  fields.each_slice(2).map { |status, path| [status, path] }
+end
+
+def manifest_evidence_paths(value, paths = [])
+  case value
+  when Hash
+    value.each_value { |entry| manifest_evidence_paths(entry, paths) }
+  when Array
+    value.each { |entry| manifest_evidence_paths(entry, paths) }
+  when String
+    prefix = ".csdlc/evidence/#{ISSUE}/"
+    paths << value if value.start_with?(prefix)
+  end
+  paths
+end
+
+def immutable_manifest_addition?(repository, proof_revision, head_revision, status, path, manifest_paths)
+  return false unless status == "A" && manifest_paths.include?(path)
+
+  additions, additions_status = Open3.capture2(
+    "git", "log", "--diff-filter=A", "--format=%H", "--reverse",
+    "#{proof_revision}..#{head_revision}", "--", path,
+    chdir: repository
+  )
+  return false unless additions_status.success?
+  addition_commits = additions.lines.map(&:strip).reject(&:empty?)
+  return false unless addition_commits.length == 1
+
+  initial_blob, initial_status = Open3.capture2(
+    "git", "rev-parse", "#{addition_commits.first}:#{path}",
+    chdir: repository
+  )
+  current_blob, current_status = Open3.capture2(
+    "git", "rev-parse", "#{head_revision}:#{path}",
+    chdir: repository
+  )
+  initial_status.success? && current_status.success? && initial_blob == current_blob
 end
 
 def clean_worktree?(repository)
@@ -223,8 +261,31 @@ if ARGV.first == "--self-test-policy"
     run_git!(repository, "add", POST_PROOF_EXACT_PATHS.first)
     run_git!(repository, "commit", "-m", "verifier repair")
     verifier = run_git!(repository, "rev-parse", "HEAD")
-    verifier_paths = changed_paths_between(repository, proof, verifier)
-    abort "Git verifier-only change was rejected" unless verifier_paths.all? { |path| post_proof_change_allowed?(path) }
+    verifier_entries = changed_entries_between(repository, proof, verifier)
+    abort "Git verifier-only change was rejected" unless verifier_entries.all? { |_, path| post_proof_change_allowed?(path) }
+
+    evidence_path = ".csdlc/evidence/#{ISSUE}/native/proof.json"
+    FileUtils.mkdir_p(File.join(repository, File.dirname(evidence_path)))
+    File.write(File.join(repository, evidence_path), "proof-v1\n")
+    run_git!(repository, "add", evidence_path)
+    run_git!(repository, "commit", "-m", "retain proof evidence")
+    retained = run_git!(repository, "rev-parse", "HEAD")
+    evidence_entries = changed_entries_between(repository, verifier, retained)
+    evidence_status, = evidence_entries.find { |_, path| path == evidence_path }
+    manifest_paths = [evidence_path]
+    abort "immutable manifest evidence addition was rejected" unless immutable_manifest_addition?(
+      repository, verifier, retained, evidence_status, evidence_path, manifest_paths
+    )
+
+    File.write(File.join(repository, evidence_path), "proof-v2\n")
+    run_git!(repository, "add", evidence_path)
+    run_git!(repository, "commit", "-m", "mutate proof evidence")
+    mutated = run_git!(repository, "rev-parse", "HEAD")
+    mutated_entries = changed_entries_between(repository, verifier, mutated)
+    mutated_status, = mutated_entries.find { |_, path| path == evidence_path }
+    abort "mutated proof evidence was accepted" if immutable_manifest_addition?(
+      repository, verifier, mutated, mutated_status, evidence_path, manifest_paths
+    )
 
     FileUtils.mkdir_p(File.join(repository, ".csdlc/locks"))
     File.write(File.join(repository, ".csdlc/locks/#{REPAIR_ISSUE}.lock"), "lifecycle lock\n")
@@ -239,8 +300,8 @@ if ARGV.first == "--self-test-policy"
     run_git!(repository, "mv", "adl-runtime/src/guardian.rs", ".csdlc/issues/#{REPAIR_ISSUE}/guardian.rs")
     run_git!(repository, "commit", "-m", "rename product into allowlist")
     renamed = run_git!(repository, "rev-parse", "HEAD")
-    renamed_paths = changed_paths_between(repository, proof, renamed)
-    abort "rename hid a Runtime product change" if renamed_paths.all? { |path| post_proof_change_allowed?(path) }
+    renamed_entries = changed_entries_between(repository, proof, renamed)
+    abort "rename hid a Runtime product change" if renamed_entries.all? { |_, path| post_proof_change_allowed?(path) }
 
     run_git!(repository, "checkout", "--orphan", "unrelated")
     run_git!(repository, "rm", "-rf", ".")
@@ -249,7 +310,7 @@ if ARGV.first == "--self-test-policy"
     run_git!(repository, "commit", "-m", "unrelated revision")
     unrelated = run_git!(repository, "rev-parse", "HEAD")
     begin
-      changed_paths_between(repository, proof, unrelated)
+      changed_entries_between(repository, proof, unrelated)
       abort "non-ancestor verifier revision was accepted"
     rescue RuntimeError => error
       abort error.message unless error.message == "proof revision is not an ancestor of verifier revision"
@@ -264,6 +325,8 @@ packet_argument = ARGV.fetch(0, ".csdlc/evidence/#{ISSUE}/runtime-native-receipt
 packet_path = contained_issue_file(packet_argument, "native receipt packet")
 packet = JSON.parse(File.read(packet_path))
 abort "wrong schema" unless packet["schema"] == "adl.runtime_guardian_native_receipts.v3"
+manifest_paths = manifest_evidence_paths(packet).uniq
+manifest_paths << packet_argument unless manifest_paths.include?(packet_argument)
 
 head, status = Open3.capture2("git", "rev-parse", "HEAD")
 abort "cannot resolve HEAD" unless status.success?
@@ -272,12 +335,22 @@ proof_revision = packet["source_revision"].to_s
 abort "invalid proof revision" unless proof_revision.match?(/\A[0-9a-f]{40}\z/)
 abort "native receipt validation requires a clean worktree" unless clean_worktree?(REPOSITORY_ROOT)
 unless proof_revision == head
-  changed_paths = begin
-    changed_paths_between(REPOSITORY_ROOT, proof_revision, head)
+  changed_entries = begin
+    changed_entries_between(REPOSITORY_ROOT, proof_revision, head)
   rescue RuntimeError => error
     abort error.message
   end
-  abort "runtime product changed after native proof" unless changed_paths.all? { |path| post_proof_change_allowed?(path) }
+  allowed = changed_entries.all? do |status_code, path|
+    post_proof_change_allowed?(path) || immutable_manifest_addition?(
+      REPOSITORY_ROOT,
+      proof_revision,
+      head,
+      status_code,
+      path,
+      manifest_paths
+    )
+  end
+  abort "runtime product changed after native proof" unless allowed
 end
 
 receipts = Array(packet["receipts"])
