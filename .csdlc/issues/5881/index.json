@@ -3,13 +3,23 @@
   "issue": 5881,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6b4cac1985b729f21eaab711dcf00a34a28bc7ee635983a8cee52dac15fca8ea",
-  "phase": "implemented",
-  "generation": 25,
-  "digest": "e4836ce7f64070775ca0c0defaff3c9de5a20982062b09f25847791d0f1df33c",
+  "phase": "reviewed",
+  "generation": 26,
+  "digest": "fa1046f0451aeb8d3ab18347cacb848327bcc43a0eb5e0aef762f88cf7802787",
   "branch": "codex/5881-remove-csdlc-claims",
   "worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5881",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/prepare_defect_45",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:88504fcea5b643f3296e8c22ac934401fc3464a4:ea3499887de744f4e201168f4be2662af9e50062862bdf236acf5eb41e0edc8f",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +34,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b06b38a219db6655ef27245cd31d515d308003a1f92db3d046c06d3b0bee17c0",
+      "values_digest": "f7ee1169694bfd68dd332053b85b798e61c3f1d3a72984bbc3f35ce1a348541c",
       "rendered_digest": "60670c16343546a20bb4e65dacd38d9daca0d00913711015dba889bce3f5b87f",
       "ast_digest": "8f9be8f8811d192b61590603b141e9d2847bc9a90991e295f3b4361c85f00bec"
     },
     "stp": {
-      "values_digest": "ab49197f923284a244b074f41d5c5aecdfdf275c6a094fc63eaf1fc605ac2869",
+      "values_digest": "11d13117e0bb4b790e4a30df8cf259aeb9337b1522db43116a92c1efbd966245",
       "rendered_digest": "6dc254f2d20ab63c2c85ffb0000e7fa28914b02762002b3871c8aac1ba08a769",
       "ast_digest": "873ef552b7761cfe06ccea1724eec52d71178697cd39dcf3809836f40d674669"
     },
     "spp": {
-      "values_digest": "5c486fb102c5d70f30487c98bc04a0a77c426b2d9a127dddc1d32198d0061925",
+      "values_digest": "0ed0a2f5c04b256437421f9f5110922b21a7d6647a927851567f79966c5c5146",
       "rendered_digest": "a06a8ddb70e836c85286e7a749fa7d792ece4b65819c886fc775963ab15bd26d",
       "ast_digest": "670e2b7cc86cb07d91bdd82fc8a251d3f0583baef79770d65f2ea4899a60d08b"
     },
     "vpp": {
-      "values_digest": "9ed11552e23a830e6ab81a4fcf2645a0bba0f01326301feedfb26994270f36c8",
+      "values_digest": "f257d0b24ffb7753ce13eb4ac5ea30b7b08a72369d0211dea3012ec941c0faf9",
       "rendered_digest": "3649e37c440a60859ceb3338f7c6f725f7387ee059914bbf075951eb3a1676db",
       "ast_digest": "0c46b55d57c217aeca29cf63aa7b3d23fa95921786e18d457627c38ad2dab779"
     },
     "srp": {
-      "values_digest": "af579c82cfeca4a1f04822448703cdaf3df502b8e8a80a801b9afa83b6db88b9",
-      "rendered_digest": "593a3dd758cd48f6064129d2b6f9db3f9c63e7d88f1ad08870ee73ab082d7580",
-      "ast_digest": "80ed98d03d67ab5cd913e84e71f72621ebd066386d4765192f3b045f843f73b5"
+      "values_digest": "e84d6ae6dd216cfab5067002fc352b9e9dc6c7f763dd7d2007c913783b966b6c",
+      "rendered_digest": "2abb088f20aa05e568833ff34cd1385ea2e29e96caabd734897f5b4292fa9289",
+      "ast_digest": "f61247aab94243efeabf5fae972741004069f1006b108f8596b5280187617305"
     },
     "sor": {
-      "values_digest": "17cfb6b135f64794660974cc9a46ff0cd8b27a5771c6af14cd07191de2c1366b",
+      "values_digest": "c501440413108bf93fa3dbd3c6e0d1740006bb5f228875de450570c9304c22a6",
       "rendered_digest": "bdbd2810a67411f9b9a06506a06d104dd46ef3eeb19711428535bec567c2bc09",
       "ast_digest": "70f09bf9fa6acd0c31fbf88bba301035af6b4edddbbac8b47734dad2aa4bdf36"
     }
@@ -75,6 +85,13 @@
       "to": "implemented",
       "actor": "codex:5881-implementation",
       "reason": "Advance after completed implementation and focused validation."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5881-execution",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -266,6 +283,13 @@
       "actor": "codex:5881-review-remediation",
       "reason": "Correct exact-head review finding P2 by limiting execution claims to tracked current records and repo-local guidance.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Removed active claim lifecycle compatibility, normalized 190 mutable tracked current records once, and made repo-local active operator guidance topology-owned.\",\"changes\":[\"Removed LegacyClaim, LegacyIssueRecord, legacy terminal receipt, verification, and normalization production code.\",\"Made bootstrap and bind requests reject unknown claim-era fields.\",\"Normalized 190 pre-existing tracked current issue records while preserving historical evidence packets.\",\"Updated repo-local active C-SDLC v2 skill and runbook sources to use bound branch/worktree topology.\",\"Added focused regression guards for claim-free records, production code, requests, and repo-local operator guidance.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\",\"csdlc-v2/tests/gate10a.rs\",\"docs/tooling/adl_pr_cycle_skill.md\",\"docs/tooling/PREP_SCOUT_NEXT_ISSUE_READINESS_LANE.md\",\"https://github.com/agent-logic/agent-design-language/issues/47\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"schema::tests\"],\"purpose\":\"Prove public schemas and request decoding are claim-free.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact schema lane: 3 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"topology_migration\"],\"purpose\":\"Prove one-time topology normalization, serialization, and interrupted recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"local topology migration lane: 9 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove claim-bearing requests fail and topology-owned create/bind remains atomic and idempotent.\",\"outcome\":\"passed\",\"evidence_ref\":\"local gate2 lane: 1 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"--test\",\"gate6\",\"--test\",\"gate_finish\",\"--test\",\"gate_cleanup\"],\"purpose\":\"Prove review, cross-repository publication, finish, and cleanup derive authority without claims.\",\"outcome\":\"passed\",\"evidence_ref\":\"local lifecycle lanes: gate5 14, gate6 6, gate_finish 17, gate_cleanup 9 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"purpose\":\"Prove repo-local active skills, runbooks, production decoder, and every tracked current record are claim-free.\",\"outcome\":\"passed\",\"evidence_ref\":\"local gate10a lane: 17 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the changed C-SDLC v2 Rust surface is warning-free across all targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"local strict clippy: passed\"}]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 26,
+      "actor": "codex:5881-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
