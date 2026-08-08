@@ -3,13 +3,59 @@
   "issue": 5863,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "11c8c3af9d6da39dbef1a1346e9367fa8bc5fc51f5d1989c22c14ee7432e16bd",
-  "phase": "implemented",
-  "generation": 21,
-  "digest": "6921a35b721b133ced31c60e3b2b711742d0ac566447bcf9a13105480b0b1351",
+  "phase": "reviewed",
+  "generation": 22,
+  "digest": "fe088c6dab4e8697dcaacf920311eea0481b51311f2c3bcc27db093ee616796c",
   "branch": "codex/5863-node-identity-enrollment",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5863-node-identity",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "openai-codex:gpt-5:wp04.01-rotated-root-independent-review:2026-08-08",
+    "assigned_by": "codex:sprint-5862-conductor",
+    "revision": "git-blake3:80398d9c1dd25026e103690ad5f5ef0460b6e525:260db9c3c80fadff2f231682e0da42e1e7bfd36d61436050e4485ef495355ddd",
+    "scope": [
+      "adl-runtime/src/distributed/identity.rs",
+      "adl-runtime/tests/distributed_identity.rs",
+      ".csdlc/issues/5863",
+      ".csdlc/evidence/5863"
+    ]
+  },
+  "review": {
+    "reviewer": "openai-codex:gpt-5:wp04.01-rotated-root-independent-review:2026-08-08",
+    "scope": [
+      "adl-runtime/src/distributed/identity.rs",
+      "adl-runtime/tests/distributed_identity.rs",
+      ".csdlc/issues/5863",
+      ".csdlc/evidence/5863"
+    ],
+    "reviewed_revision": "git-blake3:80398d9c1dd25026e103690ad5f5ef0460b6e525:260db9c3c80fadff2f231682e0da42e1e7bfd36d61436050e4485ef495355ddd",
+    "findings": [
+      {
+        "id": "F-5863-ROTATED-ROOT-LOCAL-RECOVERY",
+        "severity": "p1",
+        "summary": "A removed enrollment root made store startup fail before local identity recovery could remain available.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:80398d9c1dd25026e103690ad5f5ef0460b6e525:260db9c3c80fadff2f231682e0da42e1e7bfd36d61436050e4485ef495355ddd",
+        "route": null
+      },
+      {
+        "id": "F-5863-HISTORICAL-ROOT-AUTHENTICITY",
+        "severity": "p1",
+        "summary": "The initial quarantine repair did not authenticate a persisted historical operator signature after root rotation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:80398d9c1dd25026e103690ad5f5ef0460b6e525:260db9c3c80fadff2f231682e0da42e1e7bfd36d61436050e4485ef495355ddd",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The shared exact-head proof receipt self-reference is tracked separately by agent-logic/agent-design-language#53; this issue uses the approved parent-product and child-evidence binding."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +70,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "58e2a2715d57d494d95211be9c2701bdd3ccb2887bcff70d1efd553574e02fbc",
+      "values_digest": "0dc688769814f04bee537202341f95f25fae95a273765b6b87d831c8ea89bad9",
       "rendered_digest": "b2e8d1838d18cafc2d264d2c0d02d9b21e9f146fa83c6f2452118ee534461884",
       "ast_digest": "ac32915f7f3ef1ef1b75cc13ae3e165abdd3112e7f91594fd16f61bbd165aa65"
     },
     "stp": {
-      "values_digest": "dd1122d427a998b438034ca1540a46b943295832d2a8ec33a13c023346c3873b",
+      "values_digest": "12bf31b1430a13b4594b0f33e82ee536dbbae2b19d4fb77dd6eff355c608f878",
       "rendered_digest": "e5c7d40e6b6604899ce6256222c26e5a91e1e13b1db8b445b253d37ee20a0b94",
       "ast_digest": "5b8b9188b5534ca2971c6b57891222627d45cbb2ecbd22e36c3535d3a23d0aec"
     },
     "spp": {
-      "values_digest": "10a1ddce4a5f94da3933293ebc254f85938ed93108e9056dee7c9ca351f421c1",
+      "values_digest": "3b85ddcdadc5949777476b2bcb0807d4235fa4a1c84eac63a0ae4a1fae5e4596",
       "rendered_digest": "71f4e9e335529531d2aee876c523c30170c2adeb9a5653a74b4e759888e1eea4",
       "ast_digest": "0f7d36c3c2d2c32bce0f4dd4502e56da1edbf03186f72ba95aff97b5e354f1ef"
     },
     "vpp": {
-      "values_digest": "e4ba822e46b61fb8cff634012637ef40ddf3aef417544f862404115ecac8a2b2",
+      "values_digest": "f077c7dafc45f1dd083dd9cad56d3c3a159b95c5d8218db4a85ee31cbdb4b503",
       "rendered_digest": "86f49dce8cfa9de1a5f5b77998d2df8ecfbe1a98ae159d94cbca6c477a9b56d8",
       "ast_digest": "a4bd04019e0b0e3392d5ad3331b9809c3a28add88298002586d0ee0f7af738bf"
     },
     "srp": {
-      "values_digest": "6a8ef301da782e13bc7b0b8aea6e5a9046c40d78db64ca2bf0e9c6980c466d2a",
-      "rendered_digest": "1a52a7ac582679cbb46f6651bbc1f1a09869520289876e023dc0138ab21715b9",
-      "ast_digest": "eab7a0ebfe25b52ee9b50ec6e55113da413c0f39c8bcbc08d8f6b7723c9c8a7a"
+      "values_digest": "1a42b7b61a78f1e217d266563185774a39bfb77c8b984fce576b56ea2640e197",
+      "rendered_digest": "9899ce05ab863be3558918bd4759cb15b87a96840ec61486b69e93ea7fc3fa5e",
+      "ast_digest": "8fb3ae7505a5cc10b1cf3c9905e5a08cf5e230b7d325987543a4dd2bb55f89f5"
     },
     "sor": {
-      "values_digest": "1ec6cc2394d18f15740032f938a8b5eb5569d54db2139ba3194a85ba222181ec",
+      "values_digest": "d412f24d2cbdec7b84f10a178b4569418ec5a977c0203c889b412c3c95b1c211",
       "rendered_digest": "33d1fa6966e069fb7e01a5aabbd5bccefdb744ef485c5d258ff51c71e4f5f764",
       "ast_digest": "1e1a7d1226d5b54b56e27d4ee879a1ee52abf1ce6977b973af3a530ff09ba1f7"
     }
@@ -131,6 +177,13 @@
       "to": "implemented",
       "actor": "codex:sprint-5862-conductor",
       "reason": "Recover PR #54 after P1 review finding: historical enrollment signed by a rotated trust root must quarantine distributed operation without preventing local identity recovery."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:sprint-5862-conductor",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -427,6 +480,20 @@
       "actor": "codex:sprint-5862-conductor",
       "reason": "Recover PR #54 after P1 review finding: historical enrollment signed by a rotated trust root must quarantine distributed operation without preventing local identity recovery.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 21,
+      "actor": "codex:sprint-5862-conductor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 22,
+      "actor": "codex:sprint-5862-conductor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
