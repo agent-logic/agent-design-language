@@ -1,0 +1,143 @@
+{
+  "issue": 45,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:issue-45-preparation",
+  "design_path": ".csdlc/prepared/issues/45/design.md",
+  "diagram_path": ".csdlc/prepared/issues/45/diagram.mmd",
+  "design_reviewer": "pending-independent-readiness-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[C-SDLC v2] Make doctor honor split issue and code repository authority",
+    "slug": "doctor-split-repository-authority",
+    "version": "v0.92",
+    "goal": "Make csdlc-doctor validate issue-tracker and code-publication repository authority separately without weakening drift detection.",
+    "required_outcome": "Doctor accepts same-repository topology and the explicit supported split-authority topology, rejects accidental repository drift, and active operator guidance describes the contract accurately.",
+    "declared_scope": [
+      "Typed C-SDLC v2 repository identity model used by doctor",
+      "Doctor readiness and repository drift diagnostics",
+      "Focused same-repository, valid split-repository, and invalid-drift tests",
+      "Active C-SDLC v2 skills and runbooks that describe repository identity"
+    ],
+    "authority_boundary": [
+      "Issue #45 changes only C-SDLC v2 doctor identity validation and directly coupled typed contracts",
+      "The source issue repository and code/PR repository remain independently authoritative",
+      "Remote names are evidence labels, not authority",
+      "No repository migration or legacy issue mutation is part of this issue"
+    ],
+    "operator_constraints": [
+      "Never write tracked issue work on main",
+      "Use only typed C-SDLC v2 Rust lifecycle tools",
+      "Do not infer split authority from an incidental remote mismatch",
+      "Update all active skills and runbooks affected by the contract",
+      "Treat time, token, and line-count estimates as reviewable rather than hard limits"
+    ],
+    "task_boundary": "Represent or derive issue and code repository authority separately for doctor, prove the three required identity cases, and update directly affected active guidance.",
+    "deliverables": [
+      "Typed split-authority identity contract available to doctor",
+      "Fail-closed doctor decision logic with specific drift diagnostics",
+      "Focused three-case regression suite",
+      "Updated active skills and operator runbooks",
+      "Exact-head review and focused validation evidence"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Doctor accepts a same-repository lifecycle record whose issue repository and effective code remote normalize to the same identity",
+      "AC-2: Doctor accepts the supported split route only when issue repository danielbaustin/agent-design-language and code repository agent-logic/agent-design-language are both explicit and consistent",
+      "AC-3: Doctor rejects absent, partial, substituted, or mismatched split-authority identity with repository_identity_drift and a specific diagnostic",
+      "AC-4: Focused deterministic tests cover same-repository acceptance, valid split-repository acceptance, and invalid drift rejection",
+      "AC-5: Active C-SDLC v2 skills and runbooks consistently explain separate issue and code repository authority without reviving claims or sunset v1 routes",
+      "AC-6: Typed card, schema, focused Rust, and strict lint validation pass within recorded reviewable budgets"
+    ],
+    "dependencies": [
+      "Merged split-authority publication support from issue #3",
+      "Current canonical Agent Logic main",
+      "Preserved legacy tracker issue #5895 as observed defect evidence"
+    ],
+    "repo_inputs": [
+      "AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests",
+      "csdlc-v2/operator/skills",
+      "docs/tooling"
+    ],
+    "non_goals": [
+      "Repository cutover or issue migration",
+      "Changing GitHub publication or merge semantics beyond the identity input doctor consumes",
+      "Weakening remote drift checks",
+      "Editing historical Gate 10 evidence",
+      "Unrelated C-SDLC cleanup"
+    ],
+    "plan_summary": "Model the two repository authorities explicitly, teach doctor a three-way fail-closed decision, add focused fixtures for all required cases, update active guidance, validate, and obtain exact-head review.",
+    "steps": [
+      {"id":"S1","action":"Trace the current doctor, record, publication, and Git-remote identity flow and select the smallest typed split-authority representation.","acceptance_ids":["AC-1","AC-2","AC-3"],"status":"pending"},
+      {"id":"S2","action":"Implement same-repository and explicit split-repository validation with specific fail-closed drift diagnostics.","acceptance_ids":["AC-1","AC-2","AC-3"],"status":"pending"},
+      {"id":"S3","action":"Add deterministic fixtures and tests for same repository, valid split authority, and invalid drift.","acceptance_ids":["AC-4","AC-6"],"status":"pending"},
+      {"id":"S4","action":"Update every active skill and runbook affected by repository identity, then run focused validation and exact-head review.","acceptance_ids":["AC-5","AC-6"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests",
+      "csdlc-v2/operator/skills",
+      "docs/tooling",
+      ".csdlc/issues/45",
+      ".csdlc/prepared/issues/45"
+    ],
+    "invariants": [
+      "Issue and code repository identities never collapse implicitly",
+      "Explicit consistent split authority is required when identities differ",
+      "Effective Git topology cannot substitute for issue authority",
+      "Same-repository compatibility remains deterministic and fail-closed",
+      "No claims, leases, v1 wrappers, or migration assumptions return"
+    ],
+    "risks": [
+      "A permissive fallback accidentally accepts arbitrary origin drift",
+      "Identity normalization treats distinct repositories as equal",
+      "The record schema duplicates publication identity inconsistently",
+      "Skills or runbooks continue teaching the obsolete single-repository assumption"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "The implementation requires guessing either repository identity",
+      "Same-repository compatibility would be weakened",
+      "A split route cannot be represented without ambiguity",
+      "Scope expands into repository migration or unrelated lifecycle repair"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "doctor-repository-identity",
+        "proof_role": "Focused Rust fixtures prove same-repository acceptance, explicit valid split acceptance, and accidental drift rejection.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local",
+        "budget_seconds": 600,
+        "budget_tokens": 3000,
+        "argv": ["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","gate2"],
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-4"]
+      },
+      {
+        "lane": "doctor-contract-and-lint",
+        "proof_role": "Typed validation, active guidance scans, and strict Clippy prove schema and operator-contract consistency.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local",
+        "budget_seconds": 900,
+        "budget_tokens": 4000,
+        "argv": ["cargo","clippy","--locked","--manifest-path","csdlc-v2/Cargo.toml","--all-targets","--","-D","warnings"],
+        "acceptance_ids": ["AC-5","AC-6"]
+      }
+    ],
+    "failure_policy": "Fail closed on missing or ambiguous repository identity, unexpected effective remote drift, stale typed state, failed three-case proof, or obsolete active guidance.",
+    "review_prompts": [
+      "Can any incidental or attacker-controlled remote mismatch be accepted as a split route?",
+      "Are issue and code repository identities sourced from independent explicit authority rather than guessed from origin?",
+      "Do the three focused tests distinguish same-repo success, valid split success, and invalid drift failure?",
+      "Do all active skills and runbooks teach the new contract consistently without reviving sunset concepts?",
+      "Are the time and token estimates sufficient but non-binding?"
+    ],
+    "review_scope": "Issue #45 typed repository identity, doctor validation and diagnostics, focused three-case tests, and directly affected active skills/runbooks."
+  }
+}

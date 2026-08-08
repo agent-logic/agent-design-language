@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 45,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Make doctor honor split issue and code repository authority",
+    "slug": "doctor-split-repository-authority",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #45 typed repository identity, doctor validation and diagnostics, focused three-case tests, and directly affected active skills/runbooks.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any incidental or attacker-controlled remote mismatch be accepted as a split route?",
+        "Are issue and code repository identities sourced from independent explicit authority rather than guessed from origin?",
+        "Do the three focused tests distinguish same-repo success, valid split success, and invalid drift failure?",
+        "Do all active skills and runbooks teach the new contract consistently without reviving sunset concepts?",
+        "Are the time and token estimates sufficient but non-binding?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
