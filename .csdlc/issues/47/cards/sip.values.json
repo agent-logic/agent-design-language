@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2][validation] Make named Rust test selectors target only their declared lane",
     "slug": "exact-rust-test-selectors",
     "version": "v0.92",
-    "generation": 20
+    "generation": 21
   },
   "status": "ready",
   "content": {

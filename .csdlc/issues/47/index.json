@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1c59f34b95a9d0e283f28c0a03a8c5041a49df1b5aca5497b780fc969b3800bf",
   "phase": "implemented",
-  "generation": 20,
-  "digest": "63a8416cb99bb07933a65515d93e038afb13b09f1b5be02b31d152fb4a51296a",
+  "generation": 21,
+  "digest": "2c3bc9f9bd2077c75753859263e1be45c4c33cb5f6d2e6a8298c5bd45d39bc79",
   "branch": "codex/47-exact-rust-test-selectors",
   "worktree": "/Volumes/FastWork/adl-issue-47-exact-rust-test-selectors",
   "review_assignment": {
@@ -34,32 +34,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2cf45a94092287a4f232022c4afd5c3bb76514bccfe5adb89a0c8bd9b8bf843a",
+      "values_digest": "650327741af98154d4c477595bc659a285eec81da883894c7e498dcdaf7fd82d",
       "rendered_digest": "733dcb06dddaa768a73faa1ce4928177e0ce93e8ac263f639b031e7ae19f27a0",
       "ast_digest": "8a86d67f40e75fc0a5c5b396b0986ead341adcbf45cac53f52dec21a089d6842"
     },
     "stp": {
-      "values_digest": "cc86255d537365ea4b04071594dda33ca37542661a4f52692e3088ac288fce02",
+      "values_digest": "390f0f57d9d5280f65f7f6ee85869e62e949a3c1c58e1144b9f2084d21d2b792",
       "rendered_digest": "9f6504856f62e79caa56903268cba3255da962282736b6383619187da3435e36",
       "ast_digest": "c6286d6fbf8d4bfe0141d8958ce38d4e961782ff7fd66716bc21a3d15ebcd30b"
     },
     "spp": {
-      "values_digest": "ba7f5d845720d17ffe06bd2819b2ec973d931aab7a0465fa92f0e3e5355392d2",
-      "rendered_digest": "78e97ec06ef44554a574d31006d4cecf03b6018ac43ef80eec6096ca788ac4c0",
-      "ast_digest": "6624cef99b9e7e83362689bc09a39bca749bad71a1bea1898690a2e4303fd3f0"
+      "values_digest": "cbb1bbaeaefff23862a1c3bb7852e3cace98db7b2036ef5631058de403bda804",
+      "rendered_digest": "6c7150212c076bd3ea61d52aec3083ef511695402e6fcd8e263f469c0c0c0ae6",
+      "ast_digest": "caf3109a1da3e1cf37fbb2800609278752db7034363cb77918856cc4ae0cf9e2"
     },
     "vpp": {
-      "values_digest": "ce522a90469e045a0379520c92d0a7574a6b5307670178dbc2689119a69178c7",
+      "values_digest": "3f2d3e32db42d3c0f253a085e109f5ee59bad217c70cc0242d9bd225499e75e9",
       "rendered_digest": "32487a992c5e8912313257d2ce77333eee2d5f6680b71a6c4eea824ed52a664e",
       "ast_digest": "841d097fb38eaf4a904ac3b9fd9e4e57df237b22a6c8394d97d487e8f8a5caad"
     },
     "srp": {
-      "values_digest": "df59332f3327befcbe4732f8f766e4890ca12addb5db04b441625a12ae61da52",
+      "values_digest": "acf9c655b02599dff29aa48bbca3c0da97f55bc9ea833f3c946ee1d1cedaa747",
       "rendered_digest": "2544c3b46d0b0b54dc4dc3e723e60249b13ee30c3076ade2b3af991f955a6d9e",
       "ast_digest": "f613b6aab0d36660f93e69eb359248bdaf44c5d0220c2e65068827a05298abbe"
     },
     "sor": {
-      "values_digest": "2a9c571f50b52a9b016892fed38a2cb085a17589281e1bbf565be7f1b7e8c20f",
+      "values_digest": "6382f7fff567aba74fa06f027a505212ff0d2ff877057a6b082c8bccfdab56e7",
       "rendered_digest": "984d37b4ce941d41bcb3e70587008417b818faefed1079510e84a9cd2e09cf8e",
       "ast_digest": "0c1bbabef2abb0232528a89f448b5f26c06c2c0478ca715f922f697844b58bcb"
     }
@@ -290,6 +290,13 @@
       "actor": "codex:issue-47-implementation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 21,
+      "actor": "codex:issue-47-implementation",
+      "reason": "Record completion of active guidance, focused validation, and the no-findings exact-head review.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
     }
   ]
 }
