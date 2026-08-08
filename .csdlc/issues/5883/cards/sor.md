@@ -12,12 +12,13 @@ Status: pre_phase
 
 ## Summary
 
-Retired csdlc-init so csdlc-issue create is the sole typed creation route.
+Retired csdlc-init so csdlc-issue create is the sole typed creation route, and repaired the PVF concurrency proof exposed by exact-head CI.
 
 ## Artifacts
 
 - csdlc-v2/src/operator.rs
 - csdlc-v2/tests/gate10a.rs
+- csdlc-v2/tests/gate4.rs
 - docs/tooling/adl_pr_cycle_skill.md
 
 ## Execution
@@ -25,6 +26,7 @@ Retired csdlc-init so csdlc-issue create is the sole typed creation route.
 - Deleted the csdlc-init Cargo target and source binary.
 - Removed csdlc-init from installer, skill, coexistence, and proof authority and reject its reappearance.
 - Updated active skills, runbooks, adapters, architecture contracts, and contributor guidance to csdlc-issue create while preserving historical evidence.
+- Replaced the timing-threshold concurrency assertion with a deterministic peer barrier that fails if independent lanes are serialized.
 
 ## Validation
 
@@ -78,16 +80,29 @@ Retired csdlc-init so csdlc-issue create is the sole typed creation route.
     "purpose": "Prove the installed compatibility skill source teaches csdlc-issue create.",
     "outcome": "passed",
     "evidence_ref": "exact-head:adl-pr-cycle-skill:passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate4"
+    ],
+    "purpose": "Prove PVF concurrency, convergence, cancellation, timeout, and evidence behavior without scheduler timing assumptions.",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:gate4:17-passed"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

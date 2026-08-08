@@ -3,64 +3,14 @@
   "issue": 5883,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "9caf03a65108a139d1562e3ea22709bb3df6cf437e9f8e6f42637de19c1d93e1",
-  "phase": "published",
-  "generation": 13,
-  "digest": "ee7919f0cca0eca71fa7353ade8e17cfa6aaff0545a7d7b6bd3b96806f0a7080",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "b1f8e90e2752bc9c0fd5b0cbcc9807a2c83958fa20eea0c8ab64a1c6b7fa56ec",
   "branch": "codex/5883-retire-csdlc-init",
   "worktree": "/Volumes/FastWork/adl-issue-5883-retire-csdlc-init",
-  "review_assignment": {
-    "reviewer": "codex-subagent:rereview_5883_exact_head",
-    "assigned_by": "codex:5883-implementation",
-    "revision": "git-blake3:12125c326ffb12cce3303985425bd6569b72abb2:094493962dd5d5150e84df5b7812e6df4e5708b974b77e4928af2f7804f92100",
-    "scope": [
-      ".csdlc/issues/5883",
-      ".csdlc/prepared/issues/5883",
-      "CONTRIBUTING.md",
-      "adl/tools",
-      "csdlc-v2",
-      "docs/architecture",
-      "docs/tooling"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent:rereview_5883_exact_head",
-    "scope": [
-      ".csdlc/issues/5883",
-      ".csdlc/prepared/issues/5883",
-      "CONTRIBUTING.md",
-      "adl/tools",
-      "csdlc-v2",
-      "docs/architecture",
-      "docs/tooling"
-    ],
-    "reviewed_revision": "git-blake3:12125c326ffb12cce3303985425bd6569b72abb2:094493962dd5d5150e84df5b7812e6df4e5708b974b77e4928af2f7804f92100",
-    "findings": [
-      {
-        "id": "P2-stale-gate10a-count",
-        "severity": "p2",
-        "summary": "Canonical SOR retained the pre-rebase Gate 10A count instead of exact-head proof.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:12125c326ffb12cce3303985425bd6569b72abb2:094493962dd5d5150e84df5b7812e6df4e5708b974b77e4928af2f7804f92100",
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5883,
-    "pull_request": 49,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/49",
-    "base": "main",
-    "head": "codex/5883-retire-csdlc-init",
-    "revision": "git-blake3:cea884301f7a674d208bb87f01508d022b37c9b0:a3ad2bf8a01956b0d5ac6d0a82e34afa6b670c9290665b271af9163c3e0353ef",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -74,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b02b7886aa5d098cbc30762748c82dcf21d2dbd68074dbe2fdf2b453b0957b23",
+      "values_digest": "27214bd4fa4d120da7117e2453c01cfb41b986ff07b4bb24751575b30e0cfc9c",
       "rendered_digest": "5fbb4d7270a1cf109f028a7f8ea435d6ea10a9abaa3ff6ef7db3884e954c4f51",
       "ast_digest": "356c8313c994e984348c82a8595c9422c9afcb797428144a31ab67978535c8e7"
     },
     "stp": {
-      "values_digest": "74260fa7f9e354f0c7cad445ac22ef3b6ab3085b652dae1cdc83019de285aa19",
+      "values_digest": "3e2663c95cbaa97dfe66ce6c192b4743054e26d2b2a5d344d27da696d4ab7144",
       "rendered_digest": "339465c15e858720df8b0520ca0cec1a58df6e989c2e11d6fa8c05ccf9851416",
       "ast_digest": "3be83bbfe6d5aeb62c2aeda9a203d81e8e85cb2d78db95081d0c7d9181ef10c1"
     },
     "spp": {
-      "values_digest": "7ac796d2980b834503d1ea48edd175d01e48ea0fef260933f42156c8e172dd42",
+      "values_digest": "d67f407a1ea66d36a4c2aefd8e40c0855e56fc2bd4bd85461c61ee6ec1dfbf11",
       "rendered_digest": "84bdc678ae5ba4faa47ba2a867b7a63be49e51888a3e77d879d2c9a327d89b56",
       "ast_digest": "468cf4e5688352eced7666554650ecb1e6a61512429c461dddfcfd01672a33ec"
     },
     "vpp": {
-      "values_digest": "4521289a42af120a0124e150e457a1128b02cc8ba47ab3d69e8ef8c710994bbf",
+      "values_digest": "4e48f20cf78bbf1bdbaf9668b68ae851eae6f00dce30e09e6ad95c519e4aa3ff",
       "rendered_digest": "630592259d266b34cebcfb49e7d48731d76021981855ff20c699989c071d8072",
       "ast_digest": "291a7a887adaf6712a82407f14eb73a06629b2a52a50db0171641de24fed5b17"
     },
     "srp": {
-      "values_digest": "f242fbcdab479059439e7e758ebf684abe4a3fae13a9ceb050f409236d525ee6",
-      "rendered_digest": "4b16030b466c427470d897d4270314a60b2f499e63ec42d58f9cea3b3e62032a",
-      "ast_digest": "e9c327939edcda3907f421c6d786e482337f2e7124ff08a549fc608521ba5a62"
+      "values_digest": "6496318cd48adc618c36c62837acce63b395dde060a02f3f6e4029bcdcf5e59b",
+      "rendered_digest": "d37e00685a6edb4c763f70088da24c4f7f4598a4448096f52958b2e5691068fb",
+      "ast_digest": "0dd3b0de0955a7d2e2cb821a553a6e0c277ad1f76cfe9fe7f16708af69e4f972"
     },
     "sor": {
-      "values_digest": "9b48267f2eebb6f7718061c8e7602a6c8900a3b4cf47d3e9b4a579e113cfacf0",
-      "rendered_digest": "e436ea18f1ac2e1fa25db648739e8dfbcdda9e25390c17f1282974efbe6c017c",
-      "ast_digest": "86ffb880570a5f2badeb1292d5122d2d4aba8e77049e0448cd30dc4acded3fc6"
+      "values_digest": "1c37d566525a51d47e91e3d7a2dc574d670f7b50c44ff43e9fd7c888b8f81b08",
+      "rendered_digest": "a1dc139e34a542deb16b16d3b5718f1ca2f9bdb1df5bfb04df774b770a2fc9c3",
+      "ast_digest": "43ccd5d85c7f2df8662acde42b08718e4734ff9e1fbbd397e2348ccd7a54c350"
     }
   },
   "transitions": [
@@ -139,6 +89,13 @@
       "to": "published",
       "actor": "codex:5883-publication",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "PR CI exposed a timing-sensitive concurrency proof; replace it with a deterministic peer barrier and re-review the exact repair head."
     }
   ],
   "audit": [
@@ -253,6 +210,20 @@
       "actor": "codex:5883-publication",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "PR CI exposed a timing-sensitive concurrency proof; replace it with a deterministic peer barrier and re-review the exact repair head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:5883-ci-repair",
+      "reason": "Replace execution truth with the deterministic exact-head concurrency proof added after PR CI exposed the timing-sensitive assertion.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Retired csdlc-init so csdlc-issue create is the sole typed creation route, and repaired the PVF concurrency proof exposed by exact-head CI.\",\"changes\":[\"Deleted the csdlc-init Cargo target and source binary.\",\"Removed csdlc-init from installer, skill, coexistence, and proof authority and reject its reappearance.\",\"Updated active skills, runbooks, adapters, architecture contracts, and contributor guidance to csdlc-issue create while preserving historical evidence.\",\"Replaced the timing-threshold concurrency assertion with a deterministic peer barrier that fails if independent lanes are serialized.\"],\"artifacts\":[\"csdlc-v2/src/operator.rs\",\"csdlc-v2/tests/gate10a.rs\",\"csdlc-v2/tests/gate4.rs\",\"docs/tooling/adl_pr_cycle_skill.md\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove the real csdlc-issue create/validate/doctor/bind lifecycle.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:gate2:1-passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"purpose\":\"Prove the retired binary is absent, reappearance fails closed, and active guidance uses csdlc-issue create.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:gate10a:19-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the changed Rust surface is warning-free across all targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:clippy:passed\"},{\"command\":[\"bash\",\"adl/tools/test_install_adl_pr_cycle_skill.sh\"],\"purpose\":\"Prove the installed compatibility skill source teaches csdlc-issue create.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:adl-pr-cycle-skill:passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate4\"],\"purpose\":\"Prove PVF concurrency, convergence, cancellation, timeout, and evidence behavior without scheduler timing assumptions.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:gate4:17-passed\"}]}"
     }
   ]
 }
