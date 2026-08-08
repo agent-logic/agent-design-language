@@ -7,7 +7,7 @@
     "title": "Foundation and throughput sprint",
     "slug": "foundation-and-throughput",
     "version": "v0.92",
-    "generation": 1
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -25,7 +25,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "coordinate",
@@ -35,7 +35,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "review-close",
@@ -43,7 +43,7 @@
           "acceptance_ids": [
             "AC-5"
           ],
-          "status": "pending"
+          "status": "in_progress"
         }
       ],
       "affected_areas": [

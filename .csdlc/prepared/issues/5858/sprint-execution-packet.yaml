@@ -2,7 +2,15 @@ sprint_issue: 5858
 version: v0.92
 slug: foundation-and-throughput
 execution_mode: hybrid
+status: closeout_preparation_blocked
+observed_at: 2026-08-08T02:17:22Z
 ordered_issue_numbers: [5818, 5819, 5812, 5801, 5853, 5822, 5823, 5824]
+child_terminal_summary:
+  expected: 8
+  live_issue_closed: 8
+  live_pr_merged: 8
+  derived_terminal_present: 6
+  derived_terminal_missing: [5853, 5822]
 safe_parallel_lanes:
   - issues: [5822, 5823]
     gate: issue 5801 complete
@@ -17,5 +25,9 @@ serial_gates:
   - 5822 before 5824
 review_path: .csdlc/evidence/5858/sprint-review.md
 activity_log_path: .csdlc/evidence/5858/activity.jsonl
-child_goal_rule: After WP-01 releases its publication claim, each child session registers its worktree, reacquires the exact issue-local claim, binds, and creates an issue-bound goal before implementation.
+child_goal_rule: Each child session binds its dedicated Git branch and worktree through csdlc-bind and creates an issue-bound goal before implementation; claims and leases are not lifecycle authority.
 closeout_rule: Review and close the umbrella only after every child has truthful issue and PR terminal state.
+remaining_gates:
+  - Reconcile derived terminal envelopes for issues 5853 and 5822.
+  - Complete exact-scope integrated sprint review after terminal-envelope reconciliation.
+  - Publish and merge the umbrella-only closeout record, then run typed finish separately.

@@ -1,0 +1,1 @@
+{"schema":"adl.v092.sprint_activity.v1","sprint_issue":5858,"observed_at":"2026-08-08T02:17:22Z","event":"closeout_preparation_audit","live_issue_closed":8,"live_pr_merged":8,"derived_terminal_present":6,"derived_terminal_missing":[5853,5822],"outcome":"blocked_pending_terminal_envelopes"}

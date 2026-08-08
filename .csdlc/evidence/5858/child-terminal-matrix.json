@@ -1,0 +1,24 @@
+{
+  "schema": "adl.v092.sprint_child_terminal_matrix.v1",
+  "sprint_issue": 5858,
+  "observed_at": "2026-08-08T02:17:22Z",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "current_code_repository": "agent-logic/agent-design-language",
+  "summary": {
+    "expected": 8,
+    "live_issue_closed": 8,
+    "live_pr_merged": 8,
+    "derived_terminal_present": 6,
+    "derived_terminal_missing": [5853, 5822]
+  },
+  "children": [
+    {"issue": 5818, "role": "WP-01B", "issue_state": "closed", "issue_closed_at": "2026-08-06T04:55:41Z", "pr_repository": "danielbaustin/agent-design-language", "pr": 5887, "pr_state": "merged", "head_sha": "afd7ca5752f505bc71e0d01c2e04e821fe559b70", "merge_sha": "423c50d8cc185a0fbbec0fa0dcd636c81f4e04f5", "derived_terminal": "present"},
+    {"issue": 5819, "role": "WP-02", "issue_state": "closed", "issue_closed_at": "2026-08-06T07:41:16Z", "pr_repository": "danielbaustin/agent-design-language", "pr": 5889, "pr_state": "merged", "head_sha": "47d05230bf63c54a99e50f04ddffc7f59a8fb369", "merge_sha": "18d3cb93017469521dd0f50c9bc032d6d59ea184", "derived_terminal": "present"},
+    {"issue": 5812, "role": "supporting", "issue_state": "closed", "issue_closed_at": "2026-08-06T20:39:54Z", "pr_repository": "danielbaustin/agent-design-language", "pr": 5894, "pr_state": "merged", "head_sha": "cab1c09af639d73403d2b5ea49e8dc7798b07ca8", "merge_sha": "5072e8bb736b22cf82cc95611c3cfe1db6a64383", "derived_terminal": "present"},
+    {"issue": 5801, "role": "WP-02A", "issue_state": "closed", "issue_closed_at": "2026-08-06T20:39:48Z", "pr_repository": "danielbaustin/agent-design-language", "pr": 5893, "pr_state": "merged", "head_sha": "6f545a418c34fcf7787ea22a602e648e1cb9c6ab", "merge_sha": "2c4ae1f4cd364995352355ec7a01d257a95315cd", "derived_terminal": "present"},
+    {"issue": 5853, "role": "WP-02B", "issue_state": "closed", "issue_closed_at": "2026-08-08T01:59:15Z", "pr_repository": "agent-logic/agent-design-language", "pr": 11, "pr_state": "merged", "head_sha": "52ccdd7c0531aadc8cda681c567c16ab0b2b7e75", "merge_sha": "12be7269b7bf9933e8e96cdcc272da4a3e21b0d4", "derived_terminal": "missing"},
+    {"issue": 5822, "role": "WP-05", "issue_state": "closed", "issue_closed_at": "2026-08-07T17:45:57Z", "pr_repository": "agent-logic/agent-design-language", "pr": 12, "pr_state": "merged", "head_sha": "d0f391ac18e4de0dff4096c3d5b63e3079fca115", "merge_sha": "cc1a96fb77f81394be02c54f64f1e6764a47cfd7", "derived_terminal": "missing"},
+    {"issue": 5823, "role": "WP-06", "issue_state": "closed", "issue_closed_at": "2026-08-08T02:00:48Z", "pr_repository": "agent-logic/agent-design-language", "pr": 15, "pr_state": "merged", "head_sha": "49d79ab24a365b8bc337fac68083445698d45b82", "merge_sha": "5219965ba30fa7bf2eeb513cbefa455498d2e4a2", "derived_terminal": "present"},
+    {"issue": 5824, "role": "WP-07", "issue_state": "closed", "issue_closed_at": "2026-08-08T02:00:57Z", "pr_repository": "agent-logic/agent-design-language", "pr": 24, "pr_state": "merged", "head_sha": "066ae86c1d841b795317c13f738d8dfa954dcdd8", "merge_sha": "112187ac594b1987a223489574ef3455f2ab5bfa", "derived_terminal": "present"}
+  ]
+}
