@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-WP-04.03 exclusive implementation, tests, proof receipts, and rollback evidence.
+adl-runtime/src/distributed/transport.rs
+adl-runtime/tests/distributed_transport.rs
+adl-runtime/Cargo.toml
+adl-runtime/Cargo.lock
+.csdlc/evidence/5865
+.csdlc/issues/5865
 
 ## Prompts
 

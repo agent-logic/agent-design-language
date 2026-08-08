@@ -5,10 +5,22 @@
   "initialization_digest": "c55fcec9d7fd6a0d4d2da1c93fd714b817b6f697dc7c376a861c603da0e046bf",
   "phase": "implemented",
   "generation": 17,
-  "digest": "0885e48d01f1131b35759976b6afd7473fd0bf168905cddc811484db16653716",
+  "digest": "74aed2ae6c02a4bbfba3c51becd0a5947291bec53956b13de458cfc668feb605",
   "branch": "codex/5865-maintained-quic-tls-adapter",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5865-transport",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "Codex independent review subagent /root/review_5864",
+    "assigned_by": "codex:5862-sprint3-conductor",
+    "revision": "git-blake3:a5c1cdd11985d5cb657df2081e09ed2d53660d64:4ae0b64574a4f75302bde6c0daa2903aa212bc855a7aded4c5294571cf7e075f",
+    "scope": [
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      ".csdlc/evidence/5865",
+      ".csdlc/issues/5865"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "a7690eafdd035a5ad8c7acf27dffe965c64d52563f03c55f56692b2607595cfe"
     },
     "srp": {
-      "values_digest": "2d37068660241118c21300f01b1ac05bea0b5f2c2902ff08dcee888e363e3506",
-      "rendered_digest": "27edbfc0190ce3518ca553a2033ed6efa0fe0f95b0f0c53825aa246251586604",
-      "ast_digest": "39961c7b9c3346314fa7fbd670043f587907c9cfda67a0e7fec519fb399c6c7f"
+      "values_digest": "df414274a8c873d0607f87689227b9fc4f7bb8dd685e4fa9d8e116b01d9f2653",
+      "rendered_digest": "f24c63e429c939f2f945e448e96092ed052a8e143522430a5e4e600efe5eeaab",
+      "ast_digest": "b3f04f393b69fa6298ac603469e20922b05b1e69537418715ceca33dd212587b"
     },
     "sor": {
       "values_digest": "80a7ca9e53c818b53760689c061e30eef553a7ddf1f004b1da16220b1acaec77",
@@ -350,6 +362,13 @@
       "actor": "codex:5862-sprint3-conductor",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 37,
+      "generation": 17,
+      "actor": "codex:5862-sprint3-conductor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
