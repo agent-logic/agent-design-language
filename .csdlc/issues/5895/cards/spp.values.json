@@ -7,7 +7,7 @@
     "title": "[Backlog][C-SDLC v2] Remove retired csdlc-migrate from installer and coexistence authority",
     "slug": "retire-csdlc-migrate-installer",
     "version": "backlog",
-    "generation": 3
+    "generation": 12
   },
   "status": "ready",
   "content": {
@@ -23,7 +23,7 @@
             "AC-1",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -33,7 +33,7 @@
             "AC-4",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -42,7 +42,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -50,7 +50,7 @@
           "acceptance_ids": [
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

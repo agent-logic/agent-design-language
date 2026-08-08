@@ -18,9 +18,9 @@ Verify and remove only active csdlc-migrate installer authority, then prove the 
 
 - Authoritative occurrence classification
 - Corrected active binary inventory if needed
-- Exact installed provenance proof
-- Representative installed claim-free lifecycle canary
-- Focused negative guard against csdlc-migrate reappearance
+- Installed-generation provenance evidence
+- Representative installed claim-free lifecycle canary evidence
+- csdlc-v2/tests/gate10a.rs
 
 ## Acceptance
 
