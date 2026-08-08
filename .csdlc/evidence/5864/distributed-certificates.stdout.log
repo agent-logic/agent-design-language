@@ -1,17 +1,16 @@
-   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-5864-certificates/adl-runtime)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.65s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.48s
 ------------
- Nextest run ID 55a0bc27-7b7d-4195-a1fb-f4fe0a05425e with nextest profile: default
+ Nextest run ID 4901e937-330e-4e2a-8085-ac51eac2650a with nextest profile: default
     Starting 10 tests across 1 binary
-        PASS [   0.212s] ( 1/10) adl-runtime::distributed_certificates issuer_chain_is_root_bound_and_tampering_fails_closed
-        PASS [   0.233s] ( 2/10) adl-runtime::distributed_certificates one_guardian_control_key_cannot_represent_two_voters
-        PASS [   0.242s] ( 3/10) adl-runtime::distributed_certificates expiry_and_not_yet_valid_are_enforced_before_authority
-        PASS [   0.248s] ( 4/10) adl-runtime::distributed_certificates revocation_is_immediate_and_authorization_is_refresh_bounded
-        PASS [   0.256s] ( 5/10) adl-runtime::distributed_certificates certificate_count_is_bounded_before_persisting_more_authority
-        PASS [   0.274s] ( 6/10) adl-runtime::distributed_certificates rotation_overlap_is_bounded_and_one_identity_remains_one_quorum_vote
-        PASS [   0.280s] ( 7/10) adl-runtime::distributed_certificates compromised_certificate_fences_all_identity_purposes_and_reenrollment
-        PASS [   0.301s] ( 8/10) adl-runtime::distributed_certificates all_certificate_purposes_are_distinct_and_keys_are_not_interchangeable
-        PASS [   0.301s] ( 9/10) adl-runtime::distributed_certificates corrupt_durable_certificate_state_fails_closed_on_restart
-        PASS [   0.328s] (10/10) adl-runtime::distributed_certificates rotation_revocation_and_compromise_survive_restart
+        PASS [   0.993s] ( 1/10) adl-runtime::distributed_certificates expiry_and_not_yet_valid_are_enforced_before_authority
+        PASS [   0.997s] ( 2/10) adl-runtime::distributed_certificates certificate_count_is_bounded_before_persisting_more_authority
+        PASS [   1.016s] ( 3/10) adl-runtime::distributed_certificates rotation_overlap_is_bounded_and_one_identity_remains_one_quorum_vote
+        PASS [   1.016s] ( 4/10) adl-runtime::distributed_certificates issuer_chain_is_root_bound_and_tampering_fails_closed
+        PASS [   1.016s] ( 5/10) adl-runtime::distributed_certificates one_guardian_control_key_cannot_represent_two_voters
+        PASS [   1.020s] ( 6/10) adl-runtime::distributed_certificates revocation_is_immediate_and_authorization_is_refresh_bounded
+        PASS [   1.037s] ( 7/10) adl-runtime::distributed_certificates compromised_certificate_fences_all_identity_purposes_and_reenrollment
+        PASS [   1.071s] ( 8/10) adl-runtime::distributed_certificates all_certificate_purposes_are_distinct_and_keys_are_not_interchangeable
+        PASS [   1.093s] ( 9/10) adl-runtime::distributed_certificates corrupt_durable_certificate_state_fails_closed_on_restart
+        PASS [   1.097s] (10/10) adl-runtime::distributed_certificates rotation_revocation_and_compromise_survive_restart
 ------------
-     Summary [   0.329s] 10 tests run: 10 passed, 0 skipped
+     Summary [   1.099s] 10 tests run: 10 passed, 0 skipped

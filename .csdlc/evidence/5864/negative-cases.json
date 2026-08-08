@@ -1,11 +1,11 @@
 {
   "schema": "adl.wp04.negative_cases.v1",
   "issue": 5864,
-  "source_revision": "64ac531ebe5dd1202a7882d120738adca071164d",
+  "source_revision": "bede5ccccf20a58e7601de5e2ebbd7c2be49272b",
   "test_output": ".csdlc/evidence/5864/distributed-certificates.stdout.log",
   "source_artifacts": {
-    "adl-runtime/src/distributed/certificates.rs": "9dca39a02b14693469a36242dc84093b9da062af1c0a86ed618369b1efe01d5d",
-    "adl-runtime/tests/distributed_certificates.rs": "15361eaff70a84dc3922581118aa5879e313f9a0ac539958305e60f90f52da73"
+    "adl-runtime/src/distributed/certificates.rs": "9e06621e17c1d37c3b152f6af1517b823ea621ff451608a1f75440b6aa459352",
+    "adl-runtime/tests/distributed_certificates.rs": "90eb9672ab04301f822585d6207a14f7b67ba68bd06921d7ab5aba85d6d108f6"
   },
   "cases": [
     {"case": "certificate_purpose_separation", "test": "all_certificate_purposes_are_distinct_and_keys_are_not_interchangeable", "result": "rejected"},
