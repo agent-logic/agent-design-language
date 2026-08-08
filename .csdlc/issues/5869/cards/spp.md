@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 2
+Revision 6
 
 ## Steps
 
@@ -61,11 +61,13 @@ Revision 2
 
 ## Invariants
 
-- Exclusive paths remain disjoint
-- Guardian stays process 0
-- No insecure or Runtime v2 fallback
-- Queues and waits remain bounded
+- Exclusive paths remain disjoint; Guardian stays process 0; queues and waits remain bounded; no insecure or Runtime v2 fallback is permitted
 - Evidence is exact-revision and digest bound
+- Joint membership requires separate strict majorities of the old and new voter sets; a union majority alone never grants authority
+- AuthorityCertificateV1 uses frozen protobuf tags and wire types, closed operation classes, exact identity bytes, unsigned lexicographic signer ordering, and hashes canonical body bytes under ADL-AUTHORITY-CERTIFICATE-BODY-V1\0
+- AuthorityEndorsementPayloadV1 signs the body digest, exact signer identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\0
+- Enrollment and verification reject duplicate effective control public keys, while quorum counting deduplicates both signer identity and control key
+- Authority certificates accept only frozen Ed25519 encodings, SHA-256, deterministic prost encoding, byte-equal decode/re-encode, and VerifyingKey::verify_strict
 
 ## Risks
 
@@ -86,7 +88,7 @@ Revision 2
 
 .csdlc/prepared/issues/5869/design.md
 
-Digest: 63bf9f7c0db0131a37995912c0c63ab1b19a6bbb1946e029e50903907862a296
+Digest: 132f5437e67cb71961df3c6cb1b88fed79e68d88ac39b44d8f421f630d468125
 
 ## Diagram
 

@@ -25,7 +25,10 @@ receive completion credit from the #5821 architecture gate.
 
 ## Design And Failure Semantics
 
-Implement deterministic membership epochs and bounded topology convergence from authenticated join events. The implementation must preserve Guardian as process 0,
+Implement deterministic membership epochs and bounded topology convergence from
+authenticated join events. Promotion to voter rejects a candidate whose
+effective Guardian control public key is already assigned to another active
+voter; membership snapshots and replay preserve that uniqueness invariant. The implementation must preserve Guardian as process 0,
 bounded queues and timeouts, authenticated transport, deterministic
 projections, durable state authority, redaction, and fail-closed behavior.
 Missing, stale, replayed, malformed, unauthorized, wrong-domain, or
@@ -40,7 +43,9 @@ insecure fallback.
 
 ## Proof Boundary
 
-Exact nextest target distributed_membership proves convergence, monotonic epochs, duplicate and out-of-order handling, restart recovery, and bounded membership size.
+Exact nextest target distributed_membership proves convergence, monotonic epochs,
+rejection of voter promotion with a duplicate effective control public key,
+duplicate and out-of-order handling, restart recovery, and bounded membership size.
 
 The execution receipt must bind the exact source revision, exact argv,
 nonzero selected test count, output and artifact SHA-256 digests, runner

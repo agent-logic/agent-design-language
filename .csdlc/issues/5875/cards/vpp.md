@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5875/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nextest target distributed_migration proves every transition, idempotence, source authority retention, target validation, fencing, interruption, and split-brain denial.",
+    "proof_role": "Exact nextest target distributed_migration proves every transition, idempotence, source retention before fence, majority-committed fencing, source-permit revocation, activation-certificate and activation-key checks, interruption on both sides of the fence boundary, and split-brain denial.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

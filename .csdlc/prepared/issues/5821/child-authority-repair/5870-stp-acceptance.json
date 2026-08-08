@@ -1,0 +1,19 @@
+{
+  "issue": 5870,
+  "card": "stp",
+  "expected_generation": 9,
+  "expected_digest": "1e663ac109fca65ddc1f7c2dbd4b3ffcba981983e5244e42444aaa6fb257c824",
+  "actor": "codex:5821-wp04-child-authority-repair",
+  "reason": "Align the executable child contract with the reviewed distributed authority architecture.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Enforce one authoritative owner per lineage and reject stale, cloned, or partitioned actors.",
+      "Focused positive and negative tests",
+      "Digest-bound execution proof",
+      "Reviewed rollback evidence",
+      "Authority safety: Keep uncertain owners fenced and restore only a quorum-committed owner or newer majority-committed epoch after the prior lease safety window."
+    ]
+  }
+}

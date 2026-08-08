@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.01] Node identity and authenticated enrollment",
     "slug": "v0-92-wp-04-01-node-identity-enrollment",
     "version": "v0.92",
-    "generation": 9
+    "generation": 14
   },
   "status": "ready",
   "content": {
@@ -15,10 +15,11 @@
     "values": {
       "task_boundary": "Implement stable node and Guardian identities plus explicit, fail-closed enrollment into one trust domain.",
       "deliverables": [
-        "Implement stable node and Guardian identities plus explicit, fail-closed enrollment into one trust domain.",
-        "Focused positive and negative tests",
-        "Digest-bound execution proof",
-        "Reviewed rollback evidence"
+        "Stable node and Guardian identities with explicit fail-closed trust-domain enrollment",
+        "Enrollment rejects an effective Guardian control public key already assigned to another active or enrolled voter identity",
+        "A negative test proves one control key cannot enroll under a second voter identity or count as multiple quorum voters",
+        "Wrong-domain, replay, malformed, and restart-stability tests",
+        "Digest-bound execution proof and reviewed rollback evidence"
       ],
       "acceptance_criteria": [
         "Implement only the declared exclusive paths",

@@ -2,7 +2,9 @@
 
 ## Outcome And Boundary
 
-Implement monotonic epochs and bounded leases as prerequisites for distributed ownership decisions. This child is one exclusive implementation slice under
+Implement OpenRaft majority-committed authority, joint membership, canonical
+authority certificates, monotonic epochs, and bounded leases as prerequisites
+for distributed ownership decisions. This child is one exclusive implementation slice under
 WP-04-IMP issue #5862; it does not absorb sibling work or
 receive completion credit from the #5821 architecture gate.
 
@@ -25,7 +27,30 @@ receive completion credit from the #5821 architecture gate.
 
 ## Design And Failure Semantics
 
-Implement monotonic epochs and bounded leases as prerequisites for distributed ownership decisions. The implementation must preserve Guardian as process 0,
+Implement the OpenRaft authority ledger and canonical
+`AuthorityCertificateV1` contract frozen by #5821. A distributed group has at
+least three voters; membership changes use joint consensus; lease grant and
+renewal are majority-committed entries; and each certificate binds the voter
+generation, term, applied log index, epoch, holder, activation-key digest,
+operation class, lifetime, and policy digest. Endorsements must satisfy the
+exact committed OpenRaft quorum function: a strict majority of the stable voter
+set, or strict majorities of both old and new voter sets during joint
+membership. A majority of the union that lacks either constituent majority is
+rejected. `AuthorityCertificateV1` uses algorithm identifier `ed25519`,
+RustCrypto `ed25519-dalek`, 32-byte compressed public keys, 64-byte `R || S`
+signatures, the exact two-stage `ADL-AUTHORITY-CERTIFICATE-BODY-V1\0` body-digest
+domain and `ADL-AUTHORITY-ENDORSEMENT-V1\0` signer-payload domain, and the
+deterministic prost encodings and strict unknown/duplicate/non-minimal-field
+rejection rules frozen by #5821. The fixed protobuf field-number and wire-type
+table, closed operation-class values, unsigned lexicographic signer-ID order,
+decode/re-encode byte equality, and `VerifyingKey::verify_strict` operation are
+interoperability requirements, not implementation choices. Each endorsement's
+signed `AuthorityEndorsementPayloadV1` binds the certificate-body digest, signer
+Guardian identity, certificate generation, and algorithm. Enrollment and
+verification reject duplicate effective control public keys, and quorum counting
+deduplicates both signer identity and key. Quorum-valid purpose-bound endorsements,
+activation-key possession, certificate validity, monotonic-time
+safety, and applied-index checks are mandatory. The implementation must preserve Guardian as process 0,
 bounded queues and timeouts, authenticated transport, deterministic
 projections, durable state authority, redaction, and fail-closed behavior.
 Missing, stale, replayed, malformed, unauthorized, wrong-domain, or
@@ -40,7 +65,17 @@ insecure fallback.
 
 ## Proof Boundary
 
-Exact nextest target distributed_lease proves monotonic epochs, lease acquisition and renewal, expiry, stale-holder denial, clock-bound handling, and restart recovery.
+Exact nextest target distributed_lease proves three-voter majority and joint
+membership behavior, canonical AuthorityCertificateV1 encoding and digest
+binding, exact Ed25519 key/signature/domain/protobuf rejection behavior,
+the frozen protobuf tag and wire-type table, closed operation classes, unsigned
+lexicographic signer ordering, strict decode/re-encode equality, `verify_strict`,
+signed signer identity and certificate generation, duplicate-control-key denial,
+distinct quorum endorsements, rejection of a union majority that lacks either
+the old-set or new-set majority, activation-key possession, applied
+mutation-sink checks, monotonic epochs, lease renewal and expiry, certificate
+revocation/expiry, quorum loss, malicious-leader/minority denial, clock
+uncertainty, stale-holder denial, and restart recovery.
 
 The execution receipt must bind the exact source revision, exact argv,
 nonzero selected test count, output and artifact SHA-256 digests, runner
@@ -50,7 +85,8 @@ working behavior.
 
 ## Rollback
 
-Expire issue-created leases, restore the last durable epoch, and leave no ambiguous owner.
+Expire issue-created leases, restore only the last majority-committed authority
+state, and leave all candidates fenced when no quorum can prove that state.
 
 ## Estimate
 

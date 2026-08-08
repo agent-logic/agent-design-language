@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b993a3096652d7703aa471c9306f5c1b266c45e2685d26577f06d7a209557a10",
   "phase": "initialized",
-  "generation": 7,
-  "digest": "e2cd5c3bd1dcae3fba91cb1ec7e4c4505c1c277fe1eab4ebb37ebf75a288fea2",
+  "generation": 11,
+  "digest": "6b4d0db772c0a093599d4aaaaa3cf22ca7f387baed721b897fba8e82ed839457",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5870/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-wp04-exact-estimate-design-review",
-      "revision": "46eb50d5e004676a7a7faab45ea5b6bbad9362cb67ab3181c6dda5d09dadd7c3"
+      "reviewer": "codex:5821-wp04-child-authority-design-review",
+      "revision": "07be4376aecfc76e6d33372acd2956d0e6613e6ca6e6b71e5d95be050ef14214"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "7edbd5eab00bcb31e30500647d6d253834fe556f25debdfa64d391d00bf0c883",
-      "rendered_digest": "d023ccc719851068cb85a5ca6108d65ba76aa5ed32ef724251a8b3434bccda5a",
-      "ast_digest": "d3315f3800ac8988772947962fd5dbc49d2c336e7f9878963a14d319520cfccb"
+      "values_digest": "678d3dbec0b912ac896fe522c76d225a25f72de7d278dfa5e7bfd5d1d7b84280",
+      "rendered_digest": "fcea0d4c60af606026f5d30163c71d8938d35a78374a17e471f79436e0f8f681",
+      "ast_digest": "93c7a04c3b73c6a5affb4fad7108d5b8458548babd7edb23866157a277769dec"
     },
     "stp": {
-      "values_digest": "18dc83fdc0db8e03faadd7ea1c9b51088874314d464f9d1d42d3882cb32f42a4",
-      "rendered_digest": "78186be69c35d465617c83a34b9104de6a005c1ef12851b65289d2e39dc2a886",
-      "ast_digest": "838f1dd1d68ad5974e65a6063b9affd4be080068ad5cbaa030bc325ea2de5467"
+      "values_digest": "10e534f9a01c3ff07f18ec9a622014cbf9eb33a5f534f8e3ddca4dc3804c68ad",
+      "rendered_digest": "cf57cc66e87467d43ac6a20f85110ab200efb4022498bf08215cc8f4f16fdb86",
+      "ast_digest": "514c468ba7a2238cf3b882456659b68f9eae11c8da4ff35fbfbbf1d653a491d1"
     },
     "spp": {
-      "values_digest": "9cbe2ca6888724a53ee84a87b097b87c0c24b8ae57541960e0cfe1c646dbe8e7",
-      "rendered_digest": "ca541b670cdad0216cc9188a2932abf87575d54015eaa1fdf1d0ea2f3076f88e",
-      "ast_digest": "37980b171ffe3327d7e88b71b538ec778bf5e765335bb16f4dfc38703163f7ea"
+      "values_digest": "3a9e5066eaf2f199093e2f2a7059cb97733d4f18845339642a9f8959d6344d15",
+      "rendered_digest": "fbc06d10510a441b1a80a184c2fca28fa1f0b880c4140af537b87a5d81aa7d11",
+      "ast_digest": "7164a4b6db98872ba964b322eda2155a658c7862fb52859187966cd020fc0b92"
     },
     "vpp": {
-      "values_digest": "fc9627427265db0c6c89c0c8e52b624437034cb17aecd652cf7192390b040d8a",
-      "rendered_digest": "9d70e98965df58ee5e4966eda5f400737f9809b40a2130895048e366b88288f5",
-      "ast_digest": "0212f925e8f485cb4b1456ca6ad91833f9c71dcaa04ebd2a5b4645422bc1a42f"
+      "values_digest": "fa00861419252438798855d6087f2cfe1832e7664cc71d3cacea7cf8247aec9c",
+      "rendered_digest": "815100eacbde42706fac2fc00d3c6ab2a529ab7a9f781dc1d5b4b3c687c8df2e",
+      "ast_digest": "ed9be623fe0efa4448bbb550d8136f66e57f622d1f60766af88951627992f4b2"
     },
     "srp": {
-      "values_digest": "8d29e09a423aa941bf2a6be409511baefebde17f72dd3fd72050082e958836cf",
+      "values_digest": "1e95920b2c91164d3b723c48ffb2f2379a5ca4ab5eab7c5ccdf2a9e172372019",
       "rendered_digest": "a221ecc8dec332d492b6dc996b9e040631af360c5e4a36fb0d6135d9047412ad",
       "ast_digest": "56805114cae04014451215298d5d9e698ff096b87aaecc25ef66a1d9e411a67a"
     },
     "sor": {
-      "values_digest": "a50885dadac1d1bb464ea7c446e7ef64b5c005b3cfd53bded6e5841b6315415d",
+      "values_digest": "47f725a10001020cd4d394512d4b53aa439d6fddad660605fb2d71ad02892496",
       "rendered_digest": "438f780ba34b8cf10447ab0b4cd4ce4f8ffa306eb1b9d47fbae0076d6a4ed8c7",
       "ast_digest": "097e7f1e5962049cd1ed1b1329a64c69e58275998990a9a2986494008fc1c28b"
     }
@@ -238,6 +238,34 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 24,
+      "generation": 8,
+      "actor": "codex:5821-wp04-child-authority-design-review",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 25,
+      "generation": 9,
+      "actor": "codex:5821-wp04-child-authority-repair",
+      "reason": "Align the executable child contract with the reviewed distributed authority architecture.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"required_outcome\",\"value\":\"Enforce one authoritative owner at every mutation sink using a current majority-endorsed AuthorityCertificateV1, activation-key possession, committed voter generation, applied index, epoch, operation class, and lease safety.\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 10,
+      "actor": "codex:5821-wp04-child-authority-repair",
+      "reason": "Align the executable child contract with the reviewed distributed authority architecture.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Enforce one authoritative owner per lineage and reject stale, cloned, or partitioned actors.\",\"Focused positive and negative tests\",\"Digest-bound execution proof\",\"Reviewed rollback evidence\",\"Authority safety: Keep uncertain owners fenced and restore only a quorum-committed owner or newer majority-committed epoch after the prior lease safety window.\"]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 11,
+      "actor": "codex:5821-wp04-child-authority-repair",
+      "reason": "Align the proving lane with the reviewed distributed authority architecture.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_fencing proves mutation-sink enforcement, majority-certificate validation, voter-generation and applied-index checks, activation possession, stale epoch, cloned state, malicious-leader/minority denial, split-brain, wrong owner, expiry/revocation, post-partition, and recovery fencing.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_fencing\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=2154d93db7160bdb060f1edc436d0aff1ea29062f60e99aafa6ef560cb866352]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5870/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
     }
   ]
 }

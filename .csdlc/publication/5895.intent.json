@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5895,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5895-retire-csdlc-migrate-installer",
+  "title": "[Backlog][C-SDLC v2] Prove retired csdlc-migrate is absent",
+  "body": "Closes danielbaustin/agent-design-language#5895\n\nProves the retired `csdlc-migrate` entrypoint is absent from current installer, coexistence, proof, workflow, and every manifest-declared operator skill authority. Adds a real freshly built installed-generation canary that verifies exact Git provenance and coexistence before exercising claim-free create, validate, doctor, resolve, and bind.\n\nValidation:\n- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate10a` (18 passed)\n- `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate2` (1 passed)\n- `cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings`\n- `git diff --check`\n\nIndependent exact-revision review approved after both findings were fixed. Split-authority doctor diagnostic is separately tracked as agent-logic/agent-design-language#45.",
+  "draft": false,
+  "revision": "git-blake3:01eba54a4adc194401985dd4950e7840c3091228:2d40d8347dc891754feeeb554a496952bbb93f0f95ef3badae6e1e40ff35870c",
+  "commit_sha": "01eba54a4adc194401985dd4950e7840c3091228"
+}

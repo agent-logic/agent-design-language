@@ -1,0 +1,32 @@
+{
+  "actor": "codex:5821-wp04-gate",
+  "card": "sor",
+  "expected_digest": "5c3eaaefbdf03159c5da50642ddf8344e817862759d91f313061473ede156f4b",
+  "expected_generation": 55,
+  "issue": 5821,
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Completed the WP-04 architecture and security gate: defined OpenRaft majority authority and AuthorityCertificateV1, aligned four authority-critical child designs and typed execution contracts, repaired five live child issue contracts, proved the exact 16-child wave, and retained an independent exact-head accepted review.",
+    "changes": [
+      "Defined the minimum three-voter OpenRaft authority ledger, joint membership, committed-index linearization, quorum-loss behavior, lease safety, and recovery boundary.",
+      "Defined canonical AuthorityCertificateV1 fields, domain-separated digest, strict-majority purpose-bound endorsements, activation possession, and mutation-sink verification.",
+      "Aligned canonical approved designs and typed SIP/STP/VPP records for issues 5869, 5870, 5875, and 5876 with majority authority, fence-boundary migration, and quorum-only recovery.",
+      "Updated live child contracts for maintained dependencies, authority, fencing, migration, and recovery while preserving the exact 16-child denominator and disjoint ownership.",
+      "Hardened review validation against stale revisions, arbitrary reviewer identity, unstaged drift, staged drift, brittle whitespace, and incomplete finding dispositions."
+    ],
+    "artifacts": [
+      "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md",
+      "docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md",
+      ".csdlc/prepared/issues/5821/design.md",
+      ".csdlc/prepared/issues/5821/validate-child-wave.rb",
+      ".csdlc/prepared/issues/5821/validate-architecture-security-review.rb",
+      ".csdlc/evidence/5821/architecture-security-review.md",
+      ".csdlc/evidence/5821/architecture-security-review.json",
+      ".csdlc/prepared/issues/5869/design.md",
+      ".csdlc/prepared/issues/5870/design.md",
+      ".csdlc/prepared/issues/5875/design.md",
+      ".csdlc/prepared/issues/5876/design.md"
+    ]
+  },
+  "reason": "Record the completed architecture/security gate and its exact accepted evidence without claiming distributed product implementation."
+}

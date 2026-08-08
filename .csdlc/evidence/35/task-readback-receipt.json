@@ -1,0 +1,18 @@
+{
+  "schema": "codex.background_task_dispatch.readback.v1",
+  "observed": true,
+  "source_operation": "codex.read_thread",
+  "observed_at": "2026-08-08T15:35:10Z",
+  "task": {
+    "task_id": "019fe203-69ff-7422-8d92-bb5f1da3d559",
+    "canary_id": "issue-35-dispatch-canary-20260808-0836",
+    "prompt_digest": "0fe43658c8f0692914da3f2a17f81f7b1442ba1858b0f998006e13d584ba8d36",
+    "repository": null,
+    "issue": null,
+    "worktree": null,
+    "status": "completed",
+    "response_class": "expected_no_op_completion",
+    "page_has_more": false,
+    "next_cursor": null
+  }
+}

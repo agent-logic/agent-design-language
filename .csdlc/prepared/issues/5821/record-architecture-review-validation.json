@@ -1,0 +1,17 @@
+{
+  "issue": 5821,
+  "card": "sor",
+  "expected_generation": 58,
+  "expected_digest": "f1317475742156a64a10231d69369a4c692761ab4d4ad8fca26945fdf8ba89da",
+  "actor": "codex:5821-wp04-gate",
+  "reason": "The exact architecture, threat, child-contract, and independent-review packet validator passed.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["ruby", ".csdlc/prepared/issues/5821/validate-architecture-security-review.rb"],
+      "purpose": "Verify architecture and threat coverage plus exact-revision, exact-reviewer, digest-bound independent accepted review evidence.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/5821/architecture-security-review.json"
+    }
+  }
+}

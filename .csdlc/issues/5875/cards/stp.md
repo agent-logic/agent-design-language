@@ -20,6 +20,7 @@ Implement prepare, quiesce, checkpoint, transfer, validate, fence, activate, and
 - Focused positive and negative tests
 - Digest-bound execution proof
 - Reviewed rollback evidence
+- Authority safety: Before fence the source may resume; after fence both candidates remain non-authoritative and recovery routes through WP-04.14.
 
 ## Acceptance
 

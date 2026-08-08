@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.14] Rollback, recovery, and relocation failure",
     "slug": "v0-92-wp-04-14-rollback-recovery-relocation",
     "version": "v0.92",
-    "generation": 7
+    "generation": 11
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "exact-child-tests",
-          "proof_role": "Exact nextest target distributed_recovery proves failures at each migration stage, restart recovery, target loss, source loss, audit continuity, and one-owner restoration.",
+          "proof_role": "Exact nextest target distributed_recovery proves each migration failure stage, restart, target/source loss, quorum loss, divergent local histories, malicious-leader/minority denial, certificate expiry/revocation, audit continuity, safety-window enforcement, and one-owner restoration from a majority-committed prefix.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -66,7 +66,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on stale dependencies, path overlap, zero tests, invalid evidence, insecure fallback, or unresolved review findings.",
       "design_ref": ".csdlc/prepared/issues/5876/design.md",
-      "design_digest": "c1a235b96f3482515a5200de8994c094d49f802998c1cf52a5c8bce99755f199",
+      "design_digest": "acfcbcc6034e3426e09fd4cca91de00047bb114a46f411b35e58c541d65a6ff0",
       "diagram_ref": ".csdlc/prepared/issues/5876/diagram.mmd",
       "diagram_digest": "f14e247760f9faddb6e77001751c05c08c67b6879c04b2ede6a34e177ec688e9"
     }

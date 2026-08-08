@@ -1,0 +1,368 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 35,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "00f98108c36d7c2ce6bbae31c45faeb67fbfbc021a97d5bbbd4afa18592289da",
+  "phase": "published",
+  "generation": 30,
+  "digest": "310cd4ae94bfce4e481ea72f568389aab08b285a5082139c1492e52d8797ae9f",
+  "branch": "codex/35-codex-background-task-dispatch",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-35-background-dispatch",
+  "review_assignment": {
+    "reviewer": "subagent:019fe208-e624-7c71-bc34-a0f4409f9079",
+    "assigned_by": "codex:019fdf4d-e998-7bc2-b66c-8e2b5c572a89",
+    "revision": "git-blake3:dde5fe72f6c81482bf63a3abac3465a276129601:fb36f50b2a487cc152c2e24fc296145fcedbbd7f502c03f37e9b009f2a1dcf98",
+    "scope": [
+      ".csdlc/prepared/issues/35/validate-dispatch-evidence.rb",
+      ".csdlc/evidence/35/background-task-dispatch-reproduction.json",
+      ".csdlc/evidence/35/ownership-reconciliation.json",
+      ".csdlc/evidence/35/task-inventory-receipts.json",
+      ".csdlc/evidence/35/task-readback-receipt.json",
+      "docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md",
+      "docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019fe208-e624-7c71-bc34-a0f4409f9079",
+    "scope": [
+      ".csdlc/prepared/issues/35/validate-dispatch-evidence.rb",
+      ".csdlc/evidence/35/background-task-dispatch-reproduction.json",
+      ".csdlc/evidence/35/ownership-reconciliation.json",
+      ".csdlc/evidence/35/task-inventory-receipts.json",
+      ".csdlc/evidence/35/task-readback-receipt.json",
+      "docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md",
+      "docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md"
+    ],
+    "reviewed_revision": "git-blake3:dde5fe72f6c81482bf63a3abac3465a276129601:fb36f50b2a487cc152c2e24fc296145fcedbbd7f502c03f37e9b009f2a1dcf98",
+    "findings": [],
+    "residual_risks": [
+      "The evidence proves one bounded happy-path canary and does not prove historical UI hang behavior is globally fixed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 35,
+    "pull_request": 48,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/48",
+    "base": "main",
+    "head": "codex/35-codex-background-task-dispatch",
+    "revision": "git-blake3:68be18eb22c46388ae8637d1a5058e48429e5a5e:e51686c213dbef492f34149705f3063f651c3db1ff3eee8f85379d47231d1987",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/35/design.md",
+  "diagram_path": ".csdlc/prepared/issues/35/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:issue-35-final-design-approval",
+      "revision": "87b8cf57616431515a1cf5967d3aed328fdcb8b64bfed397cf2fcdff68922a0b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "eda1c108fc03c62e0439f9dfbc5b611d8f278e78641a8aca60d444c4830ec1a8",
+      "rendered_digest": "7b03563958c2c7e6d1baafb8651eb87a423d8b3ede73ff275ac962c1a2198f53",
+      "ast_digest": "c9449d36e53b58ec406a0886efdf6da9fb798fc2f21684354c8b42624c8ce60b"
+    },
+    "stp": {
+      "values_digest": "a3dc2d81d93546096500f24041ff39c7ceba744637edbc108554d712f3cd1d9b",
+      "rendered_digest": "71c1a186a1f2df15e244c9f9ee9123a890e52a4c5275986425568f9b8c75bc49",
+      "ast_digest": "c519269528a5210a7d6c3973e871015a21a9926c3475f258922c4da7746babfe"
+    },
+    "spp": {
+      "values_digest": "6e216518eaaf9417ffefcdf4aa724db1d419c34e6b9ef75a413a0caab501dd44",
+      "rendered_digest": "64d9ae3b8661ddc85a1bf117f54603cc37f72813bd406e2f7c8ce2a96cb026d6",
+      "ast_digest": "26d36da1995bea8ec7dd0500528f24b016423099d1c416a77a33c78fb9625fcb"
+    },
+    "vpp": {
+      "values_digest": "b6dac724f8218edaa98d734bda8b308ec3df057342c6cb411947ff85fc2d60f2",
+      "rendered_digest": "e565db5ce7d38bf2c325342e1ad5b358a9882644e88af2aa03bcd31e49e39054",
+      "ast_digest": "362ea774dd3ab0b5bdfe3a00899b9a7af8b1741740b561479dc0fc634fe7cfe4"
+    },
+    "srp": {
+      "values_digest": "bc89fd6ac12d22a664bc11eef3c864a8c677c8254ed81ecfbaa1f23f672c0829",
+      "rendered_digest": "e504e3ecae3d5d1fa0ff9b6bd0bd9c249e699955fb2eb7673b119b3d96430900",
+      "ast_digest": "82352a413b0a063cb59ef3174bd913d041055d1da6ff13ffa257edf9bd178f25"
+    },
+    "sor": {
+      "values_digest": "705f37019e95beddfb58733ef643cb44c0be4cd05c2c45911f1c907b7415c2fa",
+      "rendered_digest": "55407fe6f56361f6a4b961cdec1e96677fd5ffc1afd092e8b17f2aac9d0ff1f3",
+      "ast_digest": "35c155b5e2b15957262024052d716cf43474131a7142f9a0b6f8c0f77cf366aa"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-35-readiness",
+      "reason": "Advance the approved, doctor-clean planning package to ready before semantic card tightening."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:35-execution",
+      "reason": "Bounded canary execution and focused validation are complete; advance to independent review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fe208-e624-7c71-bc34-a0f4409f9079",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:35-publication",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-35-readiness-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Advance the approved, doctor-clean planning package to ready before semantic card tightening.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Make timeout, result taxonomy, readback, reconciliation, and review predicates execution-ready.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"Project discovery terminates within 120 seconds and records exactly one terminal_result from created, typed_failure, timeout, or indeterminate plus a nonempty diagnostic_class for every non-created result\",\"One projectless background-task creation attempt terminates within 120 seconds and records exactly one terminal_result from created, typed_failure, timeout, or indeterminate; created requires a nonempty returned_task_id\",\"Every created result is read back by returned_task_id and matches repository agent-logic/agent-design-language, issue 35, and the dedicated issue worktree before ownership_disposition may equal transferred\",\"Every typed_failure, timeout, or indeterminate result is reconciled against pre- and post-dispatch live task inventories; ownership remains with the caller unless a unique matching created task is verified, and hidden or duplicate tasks fail the issue closed\",\"retry_allowed is true only after reconciliation proves no new or matching hidden task exists; timeout or indeterminate state without that proof prohibits a second dispatch\",\"Retained reproduction and reconciliation JSON record schema, request_mode, timeout_seconds, elapsed_seconds, terminal_result, diagnostic_class, portable target identity, task readback, inventory observations, ownership_disposition, and retry_allowed without secrets, personal data, task content, or machine-local absolute paths\",\"Independent exact-revision review records pass with no unresolved actionable findings and confirms any proposed repair belongs to the proven owner without changing C-SDLC lifecycle tooling or unrelated ADL product code\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Replace prefix-only checks with exact dispatch, reconciliation, portability, and review preflight predicates.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"dispatch-ownership-contract\",\"proof_role\":\"Parse both retained records and prove the two bounded attempts, typed results, verified readback, inventory reconciliation, transfer and retry invariants, and portable redacted content.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"ruby\",\"-rjson\",\"-e\",\"r=JSON.parse(File.read(ARGV[0])); o=JSON.parse(File.read(ARGV[1])); abort('reproduction schema') unless r['schema']=='codex.background_task_dispatch.reproduction.v1'; abort('ownership schema') unless o['schema']=='codex.background_task_dispatch.ownership.v1'; a=r['attempts']; abort('attempt denominator') unless a.is_a?(Array)&&a.size==2&&a.map{|x|x['request_mode']}==['project_discovery','projectless_task_create']; allowed=%w[created typed_failure timeout indeterminate]; a.each{|x| abort('timeout') unless x['timeout_seconds']==120; abort('elapsed') unless x['elapsed_seconds'].is_a?(Numeric)&&x['elapsed_seconds']>=0; abort('terminal result') unless allowed.include?(x['terminal_result']); abort('created identity') if x['terminal_result']=='created'&&x['returned_task_id'].to_s.empty?; abort('failure diagnostic') if x['terminal_result']!='created'&&x['diagnostic_class'].to_s.empty?}; t=o['target']||{}; abort('target') unless t['repository']=='agent-logic/agent-design-language'&&t['issue']==35&&t['worktree'].is_a?(String)&&!t['worktree'].empty?&&!t['worktree'].start_with?('/'); abort('inventories') unless o['pre_inventory'].is_a?(Array)&&o['post_inventory'].is_a?(Array); created=a.select{|x|x['terminal_result']=='created'}; if created.any?; ids=created.map{|x|x['returned_task_id']}; abort('readback') unless o['verified_task_ids']==ids&&o['ownership_disposition']=='transferred'&&o['retry_allowed']==false; else; abort('retention') unless o['ownership_disposition']=='retained'; abort('hidden task') if o['hidden_or_duplicate_task']!=false; abort('retry type') unless [true,false].include?(o['retry_allowed']); end; text=ARGV.map{|p|File.read(p)}.join; abort('machine-local path') if text.match?(%r{/Users/|/Volumes/|/private/tmp}); abort('secret-shaped content') if text.match?(/BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|authorization[[:space:]]*[:=]|access[_-]?token[[:space:]]*[:=]|password[[:space:]]*[:=]/i); puts 'PASS: dispatch ownership contract'\",\".csdlc/evidence/35/background-task-dispatch-reproduction.json\",\".csdlc/evidence/35/ownership-reconciliation.json\"],\"parallel_group\":\"evidence\",\"defer_reason\":\"Runs after the two bounded canary attempts produce issue-local evidence and before review or publication.\"},{\"lane\":\"bounded-review-preflight\",\"proof_role\":\"Reject diff damage on the bounded evidence and operator-guidance surface before csdlc-review supplies exact-revision AC-7 authority.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":250,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"review-preflight\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-35-readiness-remediation",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Resolve review findings by using a no-ownership canary and derived inventory/readback predicates.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"Project discovery terminates within 120 seconds and records exactly one terminal_result from created, typed_failure, timeout, or indeterminate plus a nonempty diagnostic_class for every non-created result\",\"One projectless no-op canary dispatch terminates within 120 seconds and records exactly one terminal_result from created, typed_failure, timeout, or indeterminate; created requires a nonempty returned_task_id\",\"Every created result is the unique pre/post inventory delta and is read back with the expected canary_id and prompt_digest while repository, issue, and worktree bindings are absent before ownership_disposition may equal transferred_to_canary\",\"For each typed_failure, timeout, or indeterminate result the validator derives an empty pre/post task-ID delta; every unexpected, duplicate, or unverified new task fails closed and retains ownership in the caller\",\"retry_allowed is true only when the validator derives an empty task-ID delta and no created result exists; created, unexpected, duplicate, or unverified tasks prohibit retry\",\"Retained reproduction and reconciliation JSON record exact schemas, a unique canary_id, prompt_digest, two 120-second attempts, elapsed_seconds not exceeding 120, terminal fields, per-attempt pre/post task IDs, derived deltas, readback, ownership_disposition, and retry_allowed without secrets, personal data, raw prompt content, or machine-local absolute paths\",\"An independent exact-revision review receipt matches the candidate Git commit, records verdict pass and zero unresolved findings, and confirms the proposed repair or upstream routing belongs to the proven owner without changing C-SDLC lifecycle tooling or unrelated ADL product code\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Make the upstream routing and exact-review outputs concrete retained deliverables.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/evidence/35/background-task-dispatch-reproduction.json\",\".csdlc/evidence/35/ownership-reconciliation.json\",\".csdlc/evidence/35/exact-revision-review.json\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Derive inventory deltas, prove no-op canary readback, bound elapsed time, validate report shape, and require exact-revision review proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"dispatch-ownership-contract\",\"proof_role\":\"Derive every pre/post task-ID delta and prove bounded results, unique no-op canary readback, ownership disposition, retry safety, and portable redacted evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1500,\"argv\":[\"ruby\",\"-rjson\",\"-e\",\"r=JSON.parse(File.read(ARGV[0])); o=JSON.parse(File.read(ARGV[1])); abort('schemas') unless r['schema']=='codex.background_task_dispatch.reproduction.v1'&&o['schema']=='codex.background_task_dispatch.ownership.v1'; cid=r['canary_id']; pd=r['prompt_digest']; abort('canary identity') unless cid.is_a?(String)&&!cid.empty?&&pd.to_s.match?(/\\\\A[0-9a-f]{64}\\\\z/)&&o['canary_id']==cid&&o['prompt_digest']==pd; a=r['attempts']; rec=o['reconciliations']; modes=%w[project_discovery projectless_task_create]; allowed=%w[created typed_failure timeout indeterminate]; abort('denominator') unless a.is_a?(Array)&&rec.is_a?(Array)&&a.size==2&&rec.size==2&&a.map{|x|x['request_mode']}==modes&&rec.map{|x|x['request_mode']}==modes; a.zip(rec).each{|x,q| abort('timeout') unless x['timeout_seconds']==120&&x['elapsed_seconds'].is_a?(Numeric)&&x['elapsed_seconds']>=0&&x['elapsed_seconds']<=120; result=x['terminal_result']; abort('result') unless allowed.include?(result); abort('diagnostic') if result!='created'&&x['diagnostic_class'].to_s.empty?; pre=q['pre_task_ids']; post=q['post_task_ids']; abort('inventories') unless pre.is_a?(Array)&&post.is_a?(Array)&&pre==pre.uniq&&post==post.uniq&&pre.all?{|v|v.is_a?(String)&&!v.empty?}&&post.all?{|v|v.is_a?(String)&&!v.empty?}; delta=post-pre; abort('derived delta') unless q['derived_new_task_ids']==delta; if result=='created'; id=x['returned_task_id']; rb=q['readback']; abort('created delta') unless id.is_a?(String)&&delta==[id]&&rb.is_a?(Hash)&&rb['task_id']==id&&rb['canary_id']==cid&&rb['prompt_digest']==pd&&rb['repository'].nil?&&rb['issue'].nil?&&rb['worktree'].nil?&&q['ownership_disposition']=='transferred_to_canary'&&q['retry_allowed']==false; else; abort('failed ownership') unless x['returned_task_id'].nil?&&delta.empty?&&q['readback'].nil?&&q['ownership_disposition']=='retained_by_caller'&&q['retry_allowed']==true; end}; text=ARGV.map{|p|File.read(p)}.join; abort('machine-local path') if text.match?(%r{/Users/|/Volumes/|/private/tmp}); abort('secret-shaped content') if text.match?(/BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|authorization[[:space:]]*[:=]|access[_-]?token[[:space:]]*[:=]|password[[:space:]]*[:=]/i); puts 'PASS: dispatch ownership contract'\",\".csdlc/evidence/35/background-task-dispatch-reproduction.json\",\".csdlc/evidence/35/ownership-reconciliation.json\"],\"parallel_group\":\"evidence\",\"defer_reason\":\"Runs after the two bounded canary attempts produce issue-local evidence and before review or publication.\"},{\"lane\":\"operator-report-contract\",\"proof_role\":\"Require bounded operator guidance and a concrete upstream report with expected behavior, reproduction, observed result, inventory reconciliation, ownership route, and non-claims.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"ruby\",\"-e\",\"required={'docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md'=>['## Success Rule','## Reconciliation','## Retry Rule','## Escalation'],'docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md'=>['## Expected Behavior','## Reproduction','## Observed Result','## Inventory Reconciliation','## Ownership Route','## Non-Claims']}; required.each{|p,hs| t=File.read(p); hs.each{|h| abort(\\\"missing #{p}: #{h}\\\") unless t.include?(h)}}; puts 'PASS: operator report contract'\"],\"parallel_group\":\"docs\",\"defer_reason\":\"Runs after the bounded operator guidance and upstream report are written.\"},{\"lane\":\"exact-revision-review\",\"proof_role\":\"Require the independent review receipt to match the candidate Git revision, pass with no unresolved findings, and confirm the proven ownership route and scope boundary.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"ruby\",\"-rjson\",\"-e\",\"j=JSON.parse(File.read(ARGV[0])); head=IO.popen(['git','rev-parse','HEAD'], &:read).strip; abort('review schema') unless j['schema']=='codex.background_task_dispatch.review.v1'; abort('review revision') unless j['revision']==head; abort('review result') unless j['verdict']=='pass'&&j['unresolved_findings']==[]; abort('owner route') unless %w[codex_upstream adl_repository].include?(j['owner_route']); abort('scope') unless j['lifecycle_tooling_changed']==false&&j['unrelated_product_code_changed']==false; puts 'PASS: exact revision review'\",\".csdlc/evidence/35/exact-revision-review.json\"],\"parallel_group\":\"review\",\"defer_reason\":\"Runs after independent exact-revision review and before publication.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed or whitespace-damaged changes on the bounded evidence and documentation surface.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":250,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Separate discovery and dispatch result contracts and make exact substantive review proof non-self-referential.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"Project discovery terminates within 120 seconds and records terminal_result project_found with a nonempty returned_project_id or exactly one of typed_failure, timeout, or indeterminate with a nonempty diagnostic_class\",\"One projectless no-op canary dispatch terminates within 120 seconds and records terminal_result created with a nonempty returned_task_id or exactly one of typed_failure, timeout, or indeterminate with a nonempty diagnostic_class\",\"A created dispatch is the unique pre/post task-ID inventory delta and is read back with the expected canary_id and prompt_digest while repository, issue, and worktree bindings are absent before ownership_disposition may equal transferred_to_canary\",\"For a typed_failure, timeout, or indeterminate dispatch the validator derives an empty pre/post task-ID delta; every unexpected, duplicate, or unverified new task fails closed and retains ownership in the caller\",\"retry_allowed is true only when the validator derives an empty dispatch task-ID delta and no created result exists; created, unexpected, duplicate, or unverified tasks prohibit retry\",\"Retained reproduction and reconciliation JSON record exact schemas, a unique canary_id, prompt_digest, two 120-second attempts, elapsed_seconds not exceeding 120, mode-specific terminal fields, dispatch pre/post task IDs, derived delta, readback, ownership_disposition, and retry_allowed without secrets, personal data, raw prompt content, or machine-local absolute paths\",\"An independent review receipt names the exact reviewed substantive commit, records verdict pass and zero unresolved findings, and validation proves that every later commit changes only the review receipt or canonical issue-35 review lifecycle records before publication\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Use the reviewed issue-local validator for distinct discovery, dispatch, documentation, and exact substantive review contracts.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"dispatch-ownership-contract\",\"proof_role\":\"Prove bounded mode-specific results, derived dispatch inventory delta, unique no-op canary readback, ownership disposition, retry safety, and portable redacted evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/35/validate-dispatch-evidence.rb\",\"evidence\"],\"parallel_group\":\"evidence\",\"defer_reason\":\"Runs after the two bounded canary attempts produce issue-local evidence and before review or publication.\"},{\"lane\":\"operator-report-contract\",\"proof_role\":\"Require bounded operator guidance and a concrete upstream report with expected behavior, reproduction, observed result, inventory reconciliation, ownership route, and non-claims.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/35/validate-dispatch-evidence.rb\",\"docs\"],\"parallel_group\":\"docs\",\"defer_reason\":\"Runs after the bounded operator guidance and upstream report are written.\"},{\"lane\":\"exact-substantive-revision-review\",\"proof_role\":\"Require independent pass review of an exact ancestor and reject every later change outside the review receipt and canonical issue-35 review records.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/35/validate-dispatch-evidence.rb\",\"review\"],\"parallel_group\":\"review\",\"defer_reason\":\"Runs after independent exact-revision review and before publication.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed or whitespace-damaged changes on the bounded evidence and documentation surface.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":250,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Declare every bounded implementation, evidence, report, review, and focused validator path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/35/validate-dispatch-evidence.rb\",\".csdlc/evidence/35/background-task-dispatch-reproduction.json\",\".csdlc/evidence/35/ownership-reconciliation.json\",\".csdlc/evidence/35/exact-revision-review.json\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:issue-35-final-remediation",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Require complete paginated inventory receipts and prohibit timeout or indeterminate retry.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"Project discovery terminates within 120 seconds and records terminal_result project_found with a nonempty returned_project_id or exactly one of typed_failure, timeout, or indeterminate with a nonempty diagnostic_class\",\"One projectless no-op canary dispatch terminates within 120 seconds and records terminal_result created with a nonempty returned_task_id or exactly one of typed_failure, timeout, or indeterminate with a nonempty diagnostic_class\",\"A created dispatch is the unique delta derived from complete paginated pre/post codex.list_tasks receipts and is read back with the expected canary_id and prompt_digest while repository, issue, and worktree bindings are absent before ownership_disposition may equal transferred_to_canary\",\"For a typed_failure, timeout, or indeterminate dispatch the validator derives an empty delta from complete cursor-terminated inventory receipts; every incomplete inventory, unexpected, duplicate, or unverified new task fails closed and retains ownership in the caller\",\"retry_allowed is true only for an explicit typed_failure with complete inventory receipts and an empty derived delta; created, timeout, indeterminate, incomplete, unexpected, duplicate, or unverified outcomes prohibit retry\",\"Retained reproduction, ownership, and inventory-receipt JSON record exact schemas, a unique canary_id, prompt_digest, two 120-second attempts, elapsed_seconds not exceeding 120, mode-specific terminal fields, sanitized paginated source responses with timestamps and a terminal nil cursor, receipt digest, derived task delta, readback, ownership_disposition, and retry_allowed without secrets, personal data, raw prompt content, or machine-local absolute paths\",\"An independent review receipt names the exact reviewed substantive commit, records verdict pass and zero unresolved findings, and validation proves that every later commit changes only the review receipt or canonical issue-35 review lifecycle records before publication\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Make the upstream routing and exact-review outputs concrete retained deliverables.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/evidence/35/background-task-dispatch-reproduction.json\",\".csdlc/evidence/35/ownership-reconciliation.json\",\".csdlc/evidence/35/task-inventory-receipts.json\",\".csdlc/evidence/35/exact-revision-review.json\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Declare every bounded implementation, evidence, report, review, and focused validator path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/35/validate-dispatch-evidence.rb\",\".csdlc/evidence/35/background-task-dispatch-reproduction.json\",\".csdlc/evidence/35/ownership-reconciliation.json\",\".csdlc/evidence/35/task-inventory-receipts.json\",\".csdlc/evidence/35/exact-revision-review.json\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:issue-35-provenance-remediation",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Bind created-task identity to a retained readback receipt and use canonical independent review authority.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"Project discovery terminates within 120 seconds and records terminal_result project_found with a nonempty returned_project_id or exactly one of typed_failure, timeout, or indeterminate with a nonempty diagnostic_class\",\"One projectless no-op canary dispatch terminates within 120 seconds and records terminal_result created with a nonempty returned_task_id or exactly one of typed_failure, timeout, or indeterminate with a nonempty diagnostic_class\",\"A created dispatch is the unique delta derived from complete paginated pre/post codex.list_tasks receipts and its digest-bound codex.read_thread receipt proves the expected canary_id and prompt_digest while repository, issue, and worktree bindings are absent before ownership_disposition may equal transferred_to_canary\",\"For a typed_failure, timeout, or indeterminate dispatch the validator derives an empty delta from complete cursor-terminated inventory receipts and a typed no-task readback receipt; every incomplete inventory, unexpected, duplicate, or unverified new task fails closed and retains ownership in the caller\",\"retry_allowed is true only for an explicit typed_failure with complete inventory receipts and an empty derived delta; created, timeout, indeterminate, incomplete, unexpected, duplicate, or unverified outcomes prohibit retry\",\"Retained reproduction, ownership, inventory, and readback JSON record exact schemas, a unique canary_id, prompt_digest, two 120-second attempts, elapsed_seconds not exceeding 120, mode-specific terminal fields, sanitized source receipts with timestamps and digest binding, derived task delta, ownership_disposition, and retry_allowed without secrets, personal data, raw prompt content, or machine-local absolute paths\",\"The canonical issue-35 review assignment and completed review name the same independently assigned subagent and typed revision, cover every declared affected area, and contain zero unresolved findings\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Make the upstream routing and exact-review outputs concrete retained deliverables.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/evidence/35/background-task-dispatch-reproduction.json\",\".csdlc/evidence/35/ownership-reconciliation.json\",\".csdlc/evidence/35/task-inventory-receipts.json\",\".csdlc/evidence/35/task-readback-receipt.json\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Declare every bounded implementation, evidence, report, review, and focused validator path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/35/validate-dispatch-evidence.rb\",\".csdlc/evidence/35/background-task-dispatch-reproduction.json\",\".csdlc/evidence/35/ownership-reconciliation.json\",\".csdlc/evidence/35/task-inventory-receipts.json\",\".csdlc/evidence/35/task-readback-receipt.json\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Remove stale indeterminate-retry wording and align planning invariants with fail-closed evidence authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Ownership transfers only after a returned task ID is derived from complete task inventory receipts and verified through a digest-bound codex.read_thread receipt.\",\"A timeout, indeterminate result, missing task ID, incomplete inventory, or unverified new task prohibits retry and is never implicit success.\",\"Only an explicit typed failure with a complete empty task-ID delta may authorize retry.\",\"Evidence contains no credentials, personal data, raw prompt content, or machine-local absolute paths.\",\"Independent review authority comes from the canonical issue-35 review assignment and completed review, not a self-authored evidence assertion.\"]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Align validation lanes with retained list/readback receipts and canonical independent review authority.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"dispatch-ownership-contract\",\"proof_role\":\"Prove bounded mode-specific results, complete paginated list receipts, digest-bound task readback, derived dispatch delta, no-op canary ownership, retry safety, and portable redacted evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/35/validate-dispatch-evidence.rb\",\"evidence\"],\"parallel_group\":\"evidence\",\"defer_reason\":\"Runs after the two bounded canary attempts produce issue-local evidence and before review or publication.\"},{\"lane\":\"operator-report-contract\",\"proof_role\":\"Require substantive bounded operator guidance and an actionable upstream report with evidence references, observed diagnostics, inventory reconciliation, ownership route, and non-claims.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/35/validate-dispatch-evidence.rb\",\"docs\"],\"parallel_group\":\"docs\",\"defer_reason\":\"Runs after the bounded operator guidance and upstream report are written.\"},{\"lane\":\"canonical-independent-review\",\"proof_role\":\"Require canonical assignment to a distinct subagent and a completed matching typed-revision review covering every affected area with zero findings.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/35/validate-dispatch-evidence.rb\",\"review\"],\"parallel_group\":\"review\",\"defer_reason\":\"Runs after canonical independent review and before publication.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed or whitespace-damaged changes on the bounded evidence and documentation surface.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":250,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:issue-35-final-design-approval",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex:issue-35-readiness",
+      "reason": "Align operator constraints with the projectless no-op canary and absolute timeout or indeterminate no-retry rule.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Use one uniquely identified projectless no-op canary that owns no repository, issue, or worktree and forbids all mutation or child dispatch.\",\"Never retry a timeout or indeterminate dispatch; retry an explicit typed failure only after complete paginated inventory receipts prove an empty task-ID delta.\",\"Do not create wrappers, polling state machines, claims, leases, or hidden ownership records.\",\"Do not use AWS, remote builders, or /private/tmp.\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 24,
+      "actor": "codex:35-execution",
+      "reason": "Record the bounded project discovery, projectless canary dispatch, ownership reconciliation, and operator guidance.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Executed one bounded Codex project-discovery probe and one projectless no-op dispatch canary; retained sanitized inventory/readback evidence and bounded operator guidance without changing ADL product code.\",\"changes\":[\"Updated the issue-local validator to name the current codex.list_threads interface.\",\"Retained digest-bound reproduction, inventory, readback, and ownership evidence.\",\"Documented success, reconciliation, retry, escalation, upstream ownership, and non-claims.\"],\"artifacts\":[\".csdlc/evidence/35/background-task-dispatch-reproduction.json\",\".csdlc/evidence/35/ownership-reconciliation.json\",\".csdlc/evidence/35/task-inventory-receipts.json\",\".csdlc/evidence/35/task-readback-receipt.json\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH.md\",\"docs/tooling/CODEX_BACKGROUND_TASK_DISPATCH_UPSTREAM_REPORT.md\"]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 25,
+      "actor": "codex:35-execution",
+      "reason": "Reconcile the prepared acceptance contract with the current Codex list_threads interface observed during the bounded canary.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"Project discovery terminates within 120 seconds and records terminal_result project_found with a nonempty returned_project_id or exactly one of typed_failure, timeout, or indeterminate with a nonempty diagnostic_class\",\"One projectless no-op canary dispatch terminates within 120 seconds and records terminal_result created with a nonempty returned_task_id or exactly one of typed_failure, timeout, or indeterminate with a nonempty diagnostic_class\",\"A created dispatch is the unique delta derived from complete pre/post codex.list_threads receipts with the interface's terminal cursor state, and its digest-bound codex.read_thread receipt proves the expected canary_id and prompt_digest while repository, issue, and worktree bindings are absent before ownership_disposition may equal transferred_to_canary\",\"For a typed_failure, timeout, or indeterminate dispatch the validator derives an empty delta from complete inventory receipts with terminal cursor state and a typed no-task readback receipt; every incomplete inventory, unexpected, duplicate, or unverified new task fails closed and retains ownership in the caller\",\"retry_allowed is true only for an explicit typed_failure with complete inventory receipts and an empty derived delta; created, timeout, indeterminate, incomplete, unexpected, duplicate, or unverified outcomes prohibit retry\",\"Retained reproduction, ownership, inventory, and readback JSON record exact schemas, a unique canary_id, prompt_digest, two 120-second attempts, elapsed_seconds not exceeding 120, mode-specific terminal fields, sanitized source receipts with timestamps and digest binding, derived task delta, ownership_disposition, and retry_allowed without secrets, personal data, raw prompt content, or machine-local absolute paths\",\"The canonical issue-35 review assignment and completed review name the same independently assigned subagent and typed revision, cover every declared affected area, and contain zero unresolved findings\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 26,
+      "actor": "codex:35-execution",
+      "reason": "Record focused dispatch ownership proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/35/validate-dispatch-evidence.rb\",\"evidence\"],\"purpose\":\"Prove bounded task creation, digest-bound inventory and readback, unique ownership transfer, retry prohibition, and portable redacted evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: dispatch ownership contract\"}}"
+    },
+    {
+      "sequence": 29,
+      "generation": 27,
+      "actor": "codex:35-execution",
+      "reason": "Record focused operator guidance proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/35/validate-dispatch-evidence.rb\",\"docs\"],\"purpose\":\"Prove the operator guide and upstream report contain substantive success, reconciliation, retry, escalation, ownership, and non-claim boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: operator report contract\"}}"
+    },
+    {
+      "sequence": 30,
+      "generation": 28,
+      "actor": "codex:35-execution",
+      "reason": "Bounded canary execution and focused validation are complete; advance to independent review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 31,
+      "generation": 28,
+      "actor": "codex:019fdf4d-e998-7bc2-b66c-8e2b5c572a89",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 29,
+      "actor": "subagent:019fe208-e624-7c71-bc34-a0f4409f9079",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 30,
+      "actor": "codex:35-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

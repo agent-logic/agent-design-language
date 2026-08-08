@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.02] Distributed certificate purposes and lifecycle",
     "slug": "v0-92-wp-04-02-certificate-lifecycle",
     "version": "v0.92",
-    "generation": 8
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "exact-child-tests",
-          "proof_role": "Exact nextest target distributed_certificates proves purpose separation, chain validation, rotation overlap, revocation, expiry, and compromised-key denial.",
+          "proof_role": "Exact nextest target distributed_certificates proves purpose separation, chain validation, rotation overlap that remains one quorum vote for one voter identity, rejection of a Guardian control key already assigned to another active voter, revocation, expiry, and compromised-key denial.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -66,7 +66,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on stale dependencies, path overlap, zero tests, invalid evidence, insecure fallback, or unresolved review findings.",
       "design_ref": ".csdlc/prepared/issues/5864/design.md",
-      "design_digest": "dfa34ff95f3ffd8091c440217a10a0fd3c76be1b1c9ea0ebbbc945b168d223dd",
+      "design_digest": "d9b15c2b19540afe4c8f8e19601d7f6ad3cc47f7f05823280b26c7786fd4eadc",
       "diagram_ref": ".csdlc/prepared/issues/5864/diagram.mmd",
       "diagram_digest": "9604660435e11926c438538864ddeaaf35e7c9e3766cfa8917e0e648e9d0b9bf"
     }

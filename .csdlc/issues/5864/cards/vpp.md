@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5864/diagram.mmd
 [
   {
     "lane": "exact-child-tests",
-    "proof_role": "Exact nextest target distributed_certificates proves purpose separation, chain validation, rotation overlap, revocation, expiry, and compromised-key denial.",
+    "proof_role": "Exact nextest target distributed_certificates proves purpose separation, chain validation, rotation overlap that remains one quorum vote for one voter identity, rejection of a Guardian control key already assigned to another active voter, revocation, expiry, and compromised-key denial.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

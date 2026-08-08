@@ -1,0 +1,19 @@
+{
+  "issue": 5869,
+  "card": "stp",
+  "expected_generation": 11,
+  "expected_digest": "276f92061ede9b5c16a50d7403f0ce7b2fe7fc99a313dceafcbad4c0081d1dfd",
+  "actor": "codex:5821-wp04-child-authority-repair",
+  "reason": "Align the executable child contract with the reviewed distributed authority architecture.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Implement monotonic epochs and bounded leases as prerequisites for distributed ownership decisions.",
+      "Focused positive and negative tests",
+      "Digest-bound execution proof",
+      "Reviewed rollback evidence",
+      "Authority safety: Restore authority only from a majority-committed prefix; local durability, a leader assertion, or a minority history never grants authority."
+    ]
+  }
+}

@@ -1,0 +1,276 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5895,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "d173a56713569c6f71cc7321e8b2d6b0ae5b162d4664cf0bf2c592a7ef4b4b84",
+  "phase": "published",
+  "generation": 14,
+  "digest": "620f4dc12d54f233d066e2ecbde7777da89872e46d8cc59a7a8c1b31de7bd399",
+  "branch": "codex/5895-retire-csdlc-migrate-installer",
+  "worktree": "/Volumes/FastWork/adl-issue-5895-retire-csdlc-migrate-installer",
+  "review_assignment": {
+    "reviewer": "subagent:review_5895_implementation",
+    "assigned_by": "codex:5895-review-fixes",
+    "revision": "git-blake3:d56f70514950c0b97c2fbdf2fb9cc747632111f5:258b05697fe6c46ce4518767ccd9ce582b2e5f251f8f38a799ef856b7703b7f4",
+    "scope": [
+      "csdlc-v2/tests/gate10a.rs",
+      ".csdlc/issues/5895",
+      ".csdlc/prepared/issues/5895"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:review_5895_implementation",
+    "scope": [
+      "csdlc-v2/tests/gate10a.rs",
+      ".csdlc/issues/5895",
+      ".csdlc/prepared/issues/5895"
+    ],
+    "reviewed_revision": "git-blake3:d56f70514950c0b97c2fbdf2fb9cc747632111f5:258b05697fe6c46ce4518767ccd9ce582b2e5f251f8f38a799ef856b7703b7f4",
+    "findings": [
+      {
+        "id": "5895-R1",
+        "severity": "p1",
+        "summary": "Installed lifecycle canary did not prove exact source provenance or coexistence.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d56f70514950c0b97c2fbdf2fb9cc747632111f5:258b05697fe6c46ce4518767ccd9ce582b2e5f251f8f38a799ef856b7703b7f4",
+        "route": null
+      },
+      {
+        "id": "5895-R2",
+        "severity": "p2",
+        "summary": "Negative guard omitted active operator skill and installer/proof authority surfaces.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d56f70514950c0b97c2fbdf2fb9cc747632111f5:258b05697fe6c46ce4518767ccd9ce582b2e5f251f8f38a799ef856b7703b7f4",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Split issue/code repository doctor validation remains tracked separately as agent-logic/agent-design-language#45."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5895,
+    "pull_request": 46,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/46",
+    "base": "main",
+    "head": "codex/5895-retire-csdlc-migrate-installer",
+    "revision": "git-blake3:01eba54a4adc194401985dd4950e7840c3091228:2d40d8347dc891754feeeb554a496952bbb93f0f95ef3badae6e1e40ff35870c",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5895/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5895/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5895-readiness-design-review",
+      "revision": "2658e02a3e5a3f336825a62bebbc6f5a51ade76603f01ce90c7914a5de24f28c"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6f3b77d298e7b1da921a2cb3b8ed2d7133e77075638afa447629ad178f6a7947",
+      "rendered_digest": "5f89dbf085e83bb9e9c32997c9d4df426d0f3e66282521e5e94b15129d0c5090",
+      "ast_digest": "204eb71f88ceffaba5a13527a0c9ae28ccb25a72d02f206efc5ba81ac3e32a07"
+    },
+    "stp": {
+      "values_digest": "d36e84bfa5e9bcf370a2f96a1ab0bcbf23c525258c07ab23fe9e2b684b162be1",
+      "rendered_digest": "9f92733408dd71105ad03dbbe1a946d264c8cb4b403b0413a71f0292bda5b22c",
+      "ast_digest": "2f87f0d1228ab1a58ac49aa7f1fdd34cdc9497c6914ea053c474cde978a47795"
+    },
+    "spp": {
+      "values_digest": "ef044fa0de260e5eb09bb1cb491eb89827edf23493b3fbb6692182d754807bc4",
+      "rendered_digest": "2d8e329f531af476246fe11b32afebfc435de2adf0d1c2251352ec058bf8bfd4",
+      "ast_digest": "99d5df010e6627ce3a4025a87ba5d6433f78608efd688119a582f6be9ec1fd00"
+    },
+    "vpp": {
+      "values_digest": "8c0398be51f6a5dd5c9700ddfa5324ed37abba2b5951562a66326b6d73bb8223",
+      "rendered_digest": "0bbeec9d8b40d06d000b451fbcd9cdec6214d50f13a0d37f2fc9e8da14296664",
+      "ast_digest": "7a1c8a8f463fbb9638a4046d7409153ab67374b5d1f53c27f7a245bf94ea9946"
+    },
+    "srp": {
+      "values_digest": "83c11e42eccbd46c861f7aecce0d2975a05286aefb394f1fd29c57d567d75e67",
+      "rendered_digest": "86eed54f1dceddec629164b20de0418d22a9ca4d4dfc4cdc92befafccc3ebee3",
+      "ast_digest": "d9c1d90fff6a1941ae31d9fd0db9ea15b1e7a4bb0e681a988dabe97e94c31c19"
+    },
+    "sor": {
+      "values_digest": "b47bb53c851a03dd00045d46f9b0a577f0e0cc0ea466a35d410eed6f1a917b2a",
+      "rendered_digest": "2b9f7207dc8cbc3293f6e301ddf3ffb569d8a7847a2c3231530ed93e3b4bd592",
+      "ast_digest": "e217a96b64d9bd663ee6f129ddb4fcc97663dff775153de81aa65c2bc3f0775c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5895-implementation",
+      "reason": "Implementation and planned local proof are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5895-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5895-publish",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5895-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5895-readiness-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:5895-readiness",
+      "reason": "Align issue and code publication authority with the proved old-issue/new-PR pattern from issue 5821 and PR 39.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Current installer/coexistence/selector/provenance surfaces only\",\"Historical evidence remains immutable\",\"Issue authority remains danielbaustin/agent-design-language#5895\",\"Code PR publication targets agent-logic/agent-design-language\",\"PR body must use Closes danielbaustin/agent-design-language#5895\",\"This is split issue/code publication authority, not repository cutover or issue migration\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:5895-readiness-review-fix",
+      "reason": "Replace nonexistent and non-installed proof commands with full Gate10A installed-generation evidence plus a separate creation-semantics lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"installed-generation-contract\",\"proof_role\":\"Run the complete focused Gate10A inventory/provenance suite, including a required test that installs the declared generation into an isolated stable layout and invokes its csdlc-issue, csdlc-validate, csdlc-doctor, and csdlc-bind binaries while proving csdlc-migrate is absent.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"parallel_group\":\"installed\",\"defer_reason\":null},{\"lane\":\"creation-semantics\",\"proof_role\":\"Prove claim-free create, validate, doctor, and bind semantics independently of the installed-generation provenance proof.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":240,\"budget_tokens\":1800,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5895-stp-editor",
+      "reason": "Make evidence deliverables machine-unambiguous without changing issue intent.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Authoritative occurrence classification\",\"Corrected active binary inventory if needed\",\"Installed-generation provenance evidence\",\"Representative installed claim-free lifecycle canary evidence\",\"csdlc-v2/tests/gate10a.rs\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:5895-implementation",
+      "reason": "Record the bounded verification-first implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Proved that the retired csdlc-migrate binary is absent from active authority and that a freshly installed v2 generation completes the claim-free create, validate, doctor, resolve, and bind lifecycle.\",\"changes\":[\"Added a focused negative guard over active manifests, coexistence authority, skills, and runbooks so csdlc-migrate cannot reappear.\",\"Added an isolated installed-generation lifecycle canary that proves the stable binaries operate without csdlc-migrate.\"],\"artifacts\":[\"csdlc-v2/tests/gate10a.rs\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:5895-validation",
+      "reason": "Record installed-generation contract proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"purpose\":\"Prove active inventory excludes csdlc-migrate and a freshly installed generation runs the claim-free lifecycle.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:gate10a:18-passed\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:5895-validation",
+      "reason": "Record independent creation-semantics proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove claim-free create, validate, doctor, and bind semantics independently.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:gate2:1-passed\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:5895-implementation",
+      "reason": "Classified active and historical references.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:5895-implementation",
+      "reason": "Added the focused negative guard.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:5895-implementation",
+      "reason": "Proved isolated installed-generation selector and provenance.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:5895-implementation",
+      "reason": "Completed the installed claim-free lifecycle canary.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:5895-implementation",
+      "reason": "Implementation and planned local proof are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:5895-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:5895-review-fixes",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:5895-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:5895-publish",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

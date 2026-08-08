@@ -1,0 +1,6 @@
+{
+  "issue": 5869,
+  "expected_generation": 18,
+  "expected_digest": "4b353b59f4c1e7721b92279028154a755fa2dfc3b9426f7eaeab8289979e4b5d",
+  "reviewer": "codex:5821-wp04-certificate-interoperability-design-review"
+}

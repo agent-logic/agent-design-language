@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "11c8c3af9d6da39dbef1a1346e9367fa8bc5fc51f5d1989c22c14ee7432e16bd",
   "phase": "initialized",
-  "generation": 9,
-  "digest": "67e38fcd0acbc392f294e9c29a0e01aa579ae1bc94461ad9114d6274dd54124c",
+  "generation": 14,
+  "digest": "6fedaffd568d9eff9a5954f7dce24d6b6771086ab84b9ca37365d18f5a17c2f0",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5863/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-wp04-exact-estimate-design-review",
-      "revision": "1c804888b7929ab266e0a34fd5960a8f596e3ad2a15f46fd815cbf7a150f7482"
+      "reviewer": "codex:5821-wp04-enrollment-key-uniqueness-design-review",
+      "revision": "55cda6f85d338fbe532447d37a6221b06a4991016efbb6495dfca1e467ad7037"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "5344804a9b32c8d9e07df63f7825457ad0a07b59d2da208de27120c74c7c4a04",
-      "rendered_digest": "b1763a52c690f7db8e992a5e9deec31edc740f736a9b5956141bbb79424403b0",
-      "ast_digest": "5284c68afb9d040a01a3be693ae27dc3453935597330506cefc299fd24db4abf"
+      "values_digest": "a2791b6aa65623e26d5baa2271e5809d83dd29156eb9b45e34310aae0d82bc46",
+      "rendered_digest": "b2e8d1838d18cafc2d264d2c0d02d9b21e9f146fa83c6f2452118ee534461884",
+      "ast_digest": "ac32915f7f3ef1ef1b75cc13ae3e165abdd3112e7f91594fd16f61bbd165aa65"
     },
     "stp": {
-      "values_digest": "c402fd39225cfea99bec7aeac88582f70276f3224838a033b13262316dba9ddb",
-      "rendered_digest": "303a67095b5f6b6c950e23f58a8f6d61d6076e3cafa7805f76e7bb50ff10c93b",
-      "ast_digest": "5ffa6393ac40745d878306ffe2c4c6e73dcbe7d401c39d95e615f55987ad4ecb"
+      "values_digest": "8706e58ae2a27a793a3c8d347067010e2908e9a733848ff4d4e686d44db95eca",
+      "rendered_digest": "e5c7d40e6b6604899ce6256222c26e5a91e1e13b1db8b445b253d37ee20a0b94",
+      "ast_digest": "5b8b9188b5534ca2971c6b57891222627d45cbb2ecbd22e36c3535d3a23d0aec"
     },
     "spp": {
-      "values_digest": "3e4ff5019fb813a39f93d8d16010b4c7e81a8e61321d402da24a7d70cc04c104",
-      "rendered_digest": "0acb8e09aab1272dd936c3b117e4108da61909251de83dd994a1f4db182f9634",
-      "ast_digest": "0bf0de6b7d3819fd8589a4b9712133a4f34cd52947b6794e863d5918df6b000e"
+      "values_digest": "5deffa3afb626e55e8727d1c6ad00873e4b6b56f54226190d2375ff879c0ebd3",
+      "rendered_digest": "71f4e9e335529531d2aee876c523c30170c2adeb9a5653a74b4e759888e1eea4",
+      "ast_digest": "0f7d36c3c2d2c32bce0f4dd4502e56da1edbf03186f72ba95aff97b5e354f1ef"
     },
     "vpp": {
-      "values_digest": "06b9179be0fbe76a2ce7df9c526116f933481681ba4aee0b882a97bfcd5dcdd4",
-      "rendered_digest": "c8577983c0fe85733aa48dd43c9cda7cf3ff3514c06cc12e57582f33f229e614",
-      "ast_digest": "06e566188ad3544d13d01017e93e1cc21103a31665d48d90e7f9291b8ab09c5b"
+      "values_digest": "192984faf0ecd8e87ca3fbe53c921f45d241f1af31af199d19a3d60bd8824671",
+      "rendered_digest": "86f49dce8cfa9de1a5f5b77998d2df8ecfbe1a98ae159d94cbca6c477a9b56d8",
+      "ast_digest": "a4bd04019e0b0e3392d5ad3331b9809c3a28add88298002586d0ee0f7af738bf"
     },
     "srp": {
-      "values_digest": "f644465276b9f14fea24c1fbbd08807e30e5c3558cf1f06e45e8e0b751995a8d",
+      "values_digest": "39099526c357651eb2723b92e21d7ac43863adfc714df9743b1914eeb82f5a4f",
       "rendered_digest": "d5aa85e6cb026894694857be91fd8b6c2b7191044a494b1ef0c7ae8570aaab37",
       "ast_digest": "c6a013ea5ec59ac5322970fe66d642b5d17217c9b6b252cd4bf8a79e114c1227"
     },
     "sor": {
-      "values_digest": "e0af811e10405f84207da4f6292837b33a7b2b163d88c29891591ca4e2821be0",
+      "values_digest": "2758f6d577b9f6c7a475440413a3dd7ee6aa57edefe3faa967680e7d4ae7acf3",
       "rendered_digest": "2162a13ec8671f9473dc886ebf0aff9029b9426edd0b82f74b2ce7c25b6b7ac3",
       "ast_digest": "862e7404056897faafa0448c1ebb4de2c9940b10fa5a42ae67b29927a375123f"
     }
@@ -266,6 +266,41 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 28,
+      "generation": 10,
+      "actor": "codex:5821-wp04-enrollment-key-uniqueness-design-review",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 29,
+      "generation": 11,
+      "actor": "codex:5821-wp04-key-uniqueness-repair",
+      "reason": "Assign fail-closed duplicate voter control-key rejection to enrollment.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"required_outcome\",\"value\":\"Implement stable node and Guardian identities plus explicit fail-closed enrollment into one trust domain, rejecting enrollment when the effective Guardian control public key is already assigned to another active or enrolled voter identity so one key cannot represent multiple quorum voters.\"}"
+    },
+    {
+      "sequence": 30,
+      "generation": 12,
+      "actor": "codex:5821-wp04-key-uniqueness-repair",
+      "reason": "Require enrollment ownership and negative proof for duplicate effective voter keys.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Stable node and Guardian identities with explicit fail-closed trust-domain enrollment\",\"Enrollment rejects an effective Guardian control public key already assigned to another active or enrolled voter identity\",\"A negative test proves one control key cannot enroll under a second voter identity or count as multiple quorum voters\",\"Wrong-domain, replay, malformed, and restart-stability tests\",\"Digest-bound execution proof and reviewed rollback evidence\"]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 13,
+      "actor": "codex:5821-wp04-key-uniqueness-repair",
+      "reason": "Bind enrollment execution to unique effective voter control keys.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Exclusive paths remain disjoint; Guardian stays process 0; queues and waits remain bounded; no insecure fallback is permitted\",\"Evidence is exact-revision and digest bound\",\"Enrollment rejects an effective Guardian control public key already assigned to another active or enrolled voter identity\",\"One effective control key can represent at most one quorum voter\",\"Wrong-domain, replayed, malformed, and unauthorized enrollment fails closed\"]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 14,
+      "actor": "codex:5821-wp04-key-uniqueness-repair",
+      "reason": "Require exact negative enrollment proof for duplicate effective voter keys.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"exact-child-tests\",\"proof_role\":\"Exact nextest target distributed_identity proves identity creation, signed enrollment, rejection of the same effective Guardian control public key under a second active or enrolled voter identity, one-key-one-quorum-voter enforcement, wrong-domain rejection, replay rejection, and restart-stable identity.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity\",\"--no-tests=fail\"],\"parallel_group\":\"child\",\"defer_reason\":null},{\"lane\":\"exact-revision-proof-receipt\",\"proof_role\":\"Recompute source, command, nonzero test, artifact, negative-case, and native receipt bindings. [preexec_rejection exit=1 diagnostic_sha256=1877c7f5a4719e7474f10c2537728fdf664538296da02dade1d3e91c8d88fedd]\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5863/validate-proof-receipt.rb\"],\"parallel_group\":\"receipt\",\"defer_reason\":null}]}"
     }
   ]
 }

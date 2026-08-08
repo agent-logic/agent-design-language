@@ -16,7 +16,7 @@ Implement monotonic epochs and bounded leases as prerequisites for distributed o
 
 ## Required Outcome
 
-Implement monotonic epochs and bounded leases as prerequisites for distributed ownership decisions.
+Implement OpenRaft committed authority whose certificates satisfy a stable majority or both constituent majorities during joint membership and reject insufficient union majorities. AuthorityCertificateV1 must hash its canonical body under ADL-AUTHORITY-CERTIFICATE-BODY-V1\0; each AuthorityEndorsementPayloadV1 must sign that body digest plus signer identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\0 using Ed25519 verify_strict; enrollment and verification must reject duplicate effective control keys; and activation possession, leases, and mutation sinks must follow #5821.
 
 ## Scope
 

@@ -16,10 +16,11 @@ Implement stable node and Guardian identities plus explicit, fail-closed enrollm
 
 ## Deliverables
 
-- Implement stable node and Guardian identities plus explicit, fail-closed enrollment into one trust domain.
-- Focused positive and negative tests
-- Digest-bound execution proof
-- Reviewed rollback evidence
+- Stable node and Guardian identities with explicit fail-closed trust-domain enrollment
+- Enrollment rejects an effective Guardian control public key already assigned to another active or enrolled voter identity
+- A negative test proves one control key cannot enroll under a second voter identity or count as multiple quorum voters
+- Wrong-domain, replay, malformed, and restart-stability tests
+- Digest-bound execution proof and reviewed rollback evidence
 
 ## Acceptance
 

@@ -1,0 +1,13 @@
+flowchart LR
+  A["Current source inventory"] --> B["Classify csdlc-migrate references"]
+  B --> C{"Active expectation remains?"}
+  C -- "yes" --> D["Delete stale expectation"]
+  C -- "no" --> E["Record already-resolved evidence"]
+  D --> F["Build declared v2 binaries"]
+  E --> F
+  F --> G["Install stable generation"]
+  G --> H["Resolve selector and provenance"]
+  H --> I["Claim-free create / validate / bind canary"]
+  I --> J{"All focused proof green?"}
+  J -- "yes" --> K["Reviewable completion"]
+  J -- "no" --> L["Fail closed"]

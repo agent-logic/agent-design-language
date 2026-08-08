@@ -20,6 +20,7 @@ Implement deterministic rollback and recovery for failed, interrupted, or ambigu
 - Focused positive and negative tests
 - Digest-bound execution proof
 - Reviewed rollback evidence
+- Authority safety: Never select the numerically highest local epoch or last durable local owner without quorum proof; ambiguity requires operator trust-domain recovery.
 
 ## Acceptance
 

@@ -16,7 +16,7 @@ Verify gates, implement the exclusive slice, run exact proving tests and negativ
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -61,11 +61,11 @@ Revision 2
 
 ## Invariants
 
-- Exclusive paths remain disjoint
-- Guardian stays process 0
-- No insecure or Runtime v2 fallback
-- Queues and waits remain bounded
+- Exclusive paths remain disjoint; Guardian stays process 0; queues and waits remain bounded; no insecure fallback is permitted
 - Evidence is exact-revision and digest bound
+- Guardian control-key rotation rejects any key assigned to another active voter
+- Rotation overlap for one voter identity remains exactly one quorum vote
+- Purpose separation, revocation, expiry, and verification remain fail closed
 
 ## Risks
 
@@ -86,7 +86,7 @@ Revision 2
 
 .csdlc/prepared/issues/5864/design.md
 
-Digest: dfa34ff95f3ffd8091c440217a10a0fd3c76be1b1c9ea0ebbbc945b168d223dd
+Digest: d9b15c2b19540afe4c8f8e19601d7f6ad3cc47f7f05823280b26c7786fd4eadc
 
 ## Diagram
 

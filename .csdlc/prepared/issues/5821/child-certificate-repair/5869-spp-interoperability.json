@@ -1,0 +1,22 @@
+{
+  "issue": 5869,
+  "card": "spp",
+  "expected_generation": 20,
+  "expected_digest": "c445100efeec2db2473287d73daf6a83c2da24d2ae77c42f7615f3732f8f1ede",
+  "actor": "codex:5821-wp04-certificate-interoperability-repair",
+  "reason": "Bind the operative plan to the exact protobuf and strict Ed25519 verification invariants.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Exclusive paths remain disjoint",
+      "Guardian stays process 0",
+      "No insecure or Runtime v2 fallback",
+      "Queues and waits remain bounded",
+      "Evidence is exact-revision and digest bound",
+      "Joint membership requires separate strict majorities of the old and new voter sets; a union majority alone never grants authority",
+      "AuthorityCertificateV1 uses the frozen protobuf field numbers and wire types, closed operation classes, exact identity bytes, and unsigned lexicographic signer-ID ordering",
+      "AuthorityCertificateV1 accepts only the frozen Ed25519 key, signature, domain-separation, SHA-256, deterministic prost encoding, byte-equal decode/re-encode, and VerifyingKey::verify_strict contract"
+    ]
+  }
+}

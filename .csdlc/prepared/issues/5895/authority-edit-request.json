@@ -1,0 +1,20 @@
+{
+  "issue": 5895,
+  "card": "sip",
+  "expected_generation": 1,
+  "expected_digest": "43ab3f6dca798763fa39588cefc25f2e551a958a19fdeebcb5f629dfcc560558",
+  "actor": "codex:5895-readiness",
+  "reason": "Align issue and code publication authority with the proved old-issue/new-PR pattern from issue 5821 and PR 39.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "authority_boundary",
+    "values": [
+      "Current installer/coexistence/selector/provenance surfaces only",
+      "Historical evidence remains immutable",
+      "Issue authority remains danielbaustin/agent-design-language#5895",
+      "Code PR publication targets agent-logic/agent-design-language",
+      "PR body must use Closes danielbaustin/agent-design-language#5895",
+      "This is split issue/code publication authority, not repository cutover or issue migration"
+    ]
+  }
+}

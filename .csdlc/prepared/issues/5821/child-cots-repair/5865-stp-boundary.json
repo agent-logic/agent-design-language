@@ -1,0 +1,13 @@
+{
+  "issue": 5865,
+  "card": "stp",
+  "expected_generation": 12,
+  "expected_digest": "137c31f9fce12aaaa5399a463d4e1f7cfa153346b216cf41ba0f74f1bfd1f4a0",
+  "actor": "codex:5821-wp04-child-cots-repair",
+  "reason": "Make the executable task boundary require the complete reviewed distributed COTS set.",
+  "operation": {
+    "operation": "set_field",
+    "field": "task_boundary",
+    "value": "Pin reviewed quinn, rustls, prost, and openraft versions in the child-owned manifest and lockfile, implement only the bounded authenticated QUIC/TLS adapter, and leave the OpenRaft authority-ledger source implementation to WP-04.07."
+  }
+}

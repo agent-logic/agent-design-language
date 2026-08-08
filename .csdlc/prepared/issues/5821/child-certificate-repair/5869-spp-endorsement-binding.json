@@ -1,0 +1,24 @@
+{
+  "issue": 5869,
+  "card": "spp",
+  "expected_generation": 24,
+  "expected_digest": "66b9d48a8ab72111998ea421deef0bc0d49a5e7ea7069c5456bdf4be4b3a6566",
+  "actor": "codex:5821-wp04-endorsement-binding-repair",
+  "reason": "Bind the operative plan to signer-bound endorsements and unique effective quorum keys.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Exclusive paths remain disjoint",
+      "Guardian stays process 0",
+      "No insecure or Runtime v2 fallback",
+      "Queues and waits remain bounded",
+      "Evidence is exact-revision and digest bound",
+      "Joint membership requires separate strict majorities of the old and new voter sets; a union majority alone never grants authority",
+      "AuthorityCertificateV1 uses the frozen protobuf field numbers and wire types, closed operation classes, exact identity bytes, and unsigned lexicographic signer-ID ordering",
+      "AuthorityEndorsementPayloadV1 signs the certificate-body digest, exact signer identity, certificate generation, and algorithm under ADL-AUTHORITY-ENDORSEMENT-V1\\0",
+      "Enrollment and verification reject duplicate effective control public keys, while quorum counting deduplicates both signer identity and control key",
+      "Authority certificates accept only frozen Ed25519 key and signature encodings, SHA-256, deterministic prost encoding, byte-equal decode/re-encode, and VerifyingKey::verify_strict"
+    ]
+  }
+}

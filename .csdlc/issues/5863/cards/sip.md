@@ -16,7 +16,7 @@ Implement stable node and Guardian identities plus explicit, fail-closed enrollm
 
 ## Required Outcome
 
-Implement stable node and Guardian identities plus explicit, fail-closed enrollment into one trust domain.
+Implement stable node and Guardian identities plus explicit fail-closed enrollment into one trust domain, rejecting enrollment when the effective Guardian control public key is already assigned to another active or enrolled voter identity so one key cannot represent multiple quorum voters.
 
 ## Scope
 

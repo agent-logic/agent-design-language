@@ -16,10 +16,11 @@ Implement deterministic membership epochs and bounded topology convergence from 
 
 ## Deliverables
 
-- Implement deterministic membership epochs and bounded topology convergence from authenticated join events.
-- Focused positive and negative tests
-- Digest-bound execution proof
-- Reviewed rollback evidence
+- Deterministic membership epochs and bounded topology convergence from authenticated join events
+- Voter promotion rejects a candidate whose effective Guardian control public key belongs to another active voter
+- A negative test proves duplicate-key promotion fails and snapshot plus replay preserve voter-key uniqueness
+- Convergence, monotonic epoch, duplicate-event, out-of-order, restart, and bounded-size tests
+- Digest-bound execution proof and reviewed rollback evidence
 
 ## Acceptance
 

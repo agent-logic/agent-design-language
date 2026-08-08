@@ -1,0 +1,13 @@
+{
+  "issue": 5865,
+  "card": "spp",
+  "expected_generation": 14,
+  "expected_digest": "0ac45cf8de599338fa286495f45d82ef7d8142b1baf5309745ce91de2678c25a",
+  "actor": "codex:5821-wp04-child-cots-repair",
+  "reason": "Make the operative plan include the four-library dependency pin before transport implementation.",
+  "operation": {
+    "operation": "set_field",
+    "field": "plan_summary",
+    "value": "Verify gates, pin reviewed quinn, rustls, prost, and openraft in adl-runtime/Cargo.toml and adl-runtime/Cargo.lock, implement only the QUIC/TLS adapter, prove dependency-lock parity, validate rollback, resolve review, and close through child authority."
+  }
+}

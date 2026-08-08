@@ -1,0 +1,19 @@
+{
+  "issue": 5875,
+  "card": "stp",
+  "expected_generation": 9,
+  "expected_digest": "8c0fd7bdee87caaa0c711dd0664df3194331166108e5c5c18dc1e9d28a07b3fe",
+  "actor": "codex:5821-wp04-child-authority-repair",
+  "reason": "Align the executable child contract with the reviewed distributed authority architecture.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Implement prepare, quiesce, checkpoint, transfer, validate, fence, activate, and commit with source authority retained until validation and fencing succeed.",
+      "Focused positive and negative tests",
+      "Digest-bound execution proof",
+      "Reviewed rollback evidence",
+      "Authority safety: Before fence the source may resume; after fence both candidates remain non-authoritative and recovery routes through WP-04.14."
+    ]
+  }
+}

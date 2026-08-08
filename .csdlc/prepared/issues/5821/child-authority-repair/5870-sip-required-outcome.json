@@ -1,0 +1,13 @@
+{
+  "issue": 5870,
+  "card": "sip",
+  "expected_generation": 8,
+  "expected_digest": "3c93d5916cd36b6026b7873ad77f9641fec89dcb970cd588f5eff50795f381e4",
+  "actor": "codex:5821-wp04-child-authority-repair",
+  "reason": "Align the executable child contract with the reviewed distributed authority architecture.",
+  "operation": {
+    "operation": "set_field",
+    "field": "required_outcome",
+    "value": "Enforce one authoritative owner at every mutation sink using a current majority-endorsed AuthorityCertificateV1, activation-key possession, committed voter generation, applied index, epoch, operation class, and lease safety."
+  }
+}
