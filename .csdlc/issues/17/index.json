@@ -3,14 +3,37 @@
   "issue": 17,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ce7a72390c3da02eb291f61abc2642d9eab856af390152b0d5898de5646a09b8",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "e9000234303bda9d4a82fe5ba5781876e19112d56006b7c53ad77b710474edd9",
+  "phase": "published",
+  "generation": 11,
+  "digest": "9d0cea20a82f944b56938ddc3083921f704d77ee1735442458db4a9103614f7d",
   "branch": "codex/17-doctor-execution-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-17-doctor-readiness",
   "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review": {
+    "reviewer": "subagent:019fdf8f-7328-7772-be3b-ce7a42eedc90",
+    "scope": [
+      "csdlc-v2/src/git.rs",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/tests/gate2.rs"
+    ],
+    "reviewed_revision": "git-blake3:23551c074b7e39e68626540a98f1dbfcf533a669:780d952ed3833563b3c672d08d50608ec08a1951203d0821aa4e1fd3ecfc771f",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 17,
+    "pull_request": 37,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/37",
+    "base": "main",
+    "head": "codex/17-doctor-execution-readiness",
+    "revision": "git-blake3:23551c074b7e39e68626540a98f1dbfcf533a669:780d952ed3833563b3c672d08d50608ec08a1951203d0821aa4e1fd3ecfc771f",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +47,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "37653041c60971f67324230fd2fc06cebb2b1af929f6e27749cef8c8d302709f",
+      "values_digest": "6710abdb0acac0754211d0a6a57f5f4571a3b74c0e14b7c4692975a46150a1d9",
       "rendered_digest": "e72b4cda2964938872e2d78baa969536ec92825abdee173948b39f78493ad91c",
       "ast_digest": "cdf21bf65f18a6587e11420b5dddd84e6bf9bd27056e7b20042c3f6c69887a09"
     },
     "stp": {
-      "values_digest": "bdc06c393849234ff74509cdd036bcf16d4dfea3c581ca9f4547d4bdd60f9355",
+      "values_digest": "53032a655c7990c5d94957310f6f5c8f04022abb64f5740b00677b1e87babbd3",
       "rendered_digest": "5e05a8bc472d7a2e806231380618ccc386804602f6253d588c3fd42b71131d48",
       "ast_digest": "6b515217a0e3d6a9214b6f94844e87e45522bf7c5a9528524cba8966c6ad913b"
     },
     "spp": {
-      "values_digest": "b7b0e89397fb2fd13b06566bdfa84ae076a0176cf95c13f29ea2d5ead331c694",
+      "values_digest": "845fe7c64f32a250031547462ac9cffba3c302b3175366796e436df064d3fedc",
       "rendered_digest": "da53851d2e3f88b746f70f69220bdcf6bd8133b8e3cacdb385f802328acaadc1",
       "ast_digest": "2f22946cf0d855ab292277f5d1b285e223fd31bae80b4e27f84b511fbf9b6fd6"
     },
     "vpp": {
-      "values_digest": "813f13ff3d3f6e85b195c283d2a9ee7f456e82567cf379391f27c3e1dfad48f6",
+      "values_digest": "d724be2dd394f6daf53fb2385da38293932dda1682b570e68414998cc0973160",
       "rendered_digest": "64ea916b9f57f0ff3862f3aafc0f2fc8bfca44013583fa7a7cb94810e0a3f029",
       "ast_digest": "cf00c15da48770b261126e67b84c532bd36cfb9b4026d97ccc9cf82c348f7885"
     },
     "srp": {
-      "values_digest": "6ac25511f3ba3e2d7abb173b97e8d94121c5de541ae6fa7b9d3bf2504ee46f83",
-      "rendered_digest": "06e214fdcfd0d6e01c6c50c6e742bbd553d6404c724d3d49c247d9ad6dbd3dd9",
-      "ast_digest": "b66d4e7273cef602bc78c1ca03d38b819c18eb07adc3aaf0ef532a13c02bd095"
+      "values_digest": "bdc089aade70e73f3a3b4cdefc865a5dcb616e83edfbbaf3f3d01dadbd95c822",
+      "rendered_digest": "24bf73349db5692e86a914b2f4daa29a8815a438cc797f83e4a3f44289614ce4",
+      "ast_digest": "fd020b25a44333c83c4673ef82f6d3208974ba3f0ff6fd2f5d8a9607ea9b194e"
     },
     "sor": {
-      "values_digest": "9c36b1332490663dc8d0fd69e4c5ffd61dbacdf520700eee240a1762ed92ddf5",
-      "rendered_digest": "86917bf93734c8d09721ff7a25310860040f313f94b49e33227531ded2780584",
-      "ast_digest": "208beccd4757d4ccb3fcaa5949b646c48c5246083843deea6b71b29285500dd6"
+      "values_digest": "0718ccb15b9f7aa084991716d1f2c025657a0065eeca5e021475f064210d7eef",
+      "rendered_digest": "d9c4f32d8fa89503eaaabd8ccb20e5a787337824b47f2daf52e1f2cd49f0aa1d",
+      "ast_digest": "a2a61cc5e04a5faee912ad72a0feeee3059709ddc24a2c004be9306ec737a426"
     }
   },
   "transitions": [
@@ -75,6 +98,20 @@
       "to": "implemented",
       "actor": "codex:issue-17-doctor-readiness",
       "reason": "Issue 17 implementation and focused validation are complete; advance to exact-head review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fdf8f-7328-7772-be3b-ce7a42eedc90",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:17-doctor-execution-readiness",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -154,6 +191,20 @@
       "actor": "codex:issue-17-doctor-readiness",
       "reason": "Record final focused validation after exact-head review corrections.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove strict fail-closed deferral and cargo-metadata package resolution alongside the complete issue-5795 readiness fixture.\",\"outcome\":\"passed\",\"evidence_ref\":\"gate2: 1 passed; cargo fmt --check: passed; git diff --check: passed\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "subagent:019fdf8f-7328-7772-be3b-ce7a42eedc90",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:17-doctor-execution-readiness",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

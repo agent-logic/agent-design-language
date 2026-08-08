@@ -104,11 +104,11 @@ Resolved the final two exact-head review findings without widening issue 17.
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

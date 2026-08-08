@@ -7,7 +7,7 @@
     "title": "C-SDLC doctor should reject repository drift and non-executable owned-path plans",
     "slug": "doctor-execution-readiness",
     "version": "v0.92",
-    "generation": 9
+    "generation": 11
   },
   "status": "ready",
   "content": {
