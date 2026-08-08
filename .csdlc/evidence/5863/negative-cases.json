@@ -1,12 +1,12 @@
 {
   "schema": "adl.wp04.negative_cases.v1",
   "issue": 5863,
-  "source_revision": "18651760fae886bcd9db4b8d4e883c7ab02be601",
+  "source_revision": "04025530538e42479af89ebebd11644233b833ff",
   "test_output": ".csdlc/evidence/5863/distributed-identity.stdout.log",
-  "test_output_sha256": "656d2654487b9adae0b2935a5699fcfafc34cc61fcf5689314a896c6b4f588b7",
+  "test_output_sha256": "f6a4ba1d6bcc5a12b86157be996a0d57ef7e28f98ac6b017c282ef8da3d2ce30",
   "source_artifacts": {
-    "adl-runtime/src/distributed/identity.rs": "355ad99155937d22005e63968154a605b9e80901096cb0a256b0a7b234861821",
-    "adl-runtime/tests/distributed_identity.rs": "ff14953454b55263276877cb69c5d2e4ea8b42fc7f97fdbdaec5bdc5b90570ea"
+    "adl-runtime/src/distributed/identity.rs": "3faaf906af03893b2c8b5c50ad087ba62813b0fcf114a00e496823c934258c8f",
+    "adl-runtime/tests/distributed_identity.rs": "1682385b1e2088be00584618e1786863e8c2b64a762fbd0e889b8d6aa5eec257"
   },
   "cases": [
     {"case": "wrong_trust_domain", "test": "wrong_trust_domain_is_rejected_and_audited", "result": "rejected"},
@@ -17,6 +17,9 @@
     {"case": "duplicate_effective_guardian_control_key", "test": "one_guardian_control_key_cannot_represent_two_voters", "result": "rejected"},
     {"case": "bounded_nonce_capacity", "test": "bounded_nonce_capacity_rejects_additional_work", "result": "fail_closed"},
     {"case": "restart_stability", "test": "local_node_and_guardian_identity_is_restart_stable", "result": "recovered"},
-    {"case": "audit_redaction_and_bound", "test": "audit_records_are_bounded_and_redact_identity_material", "result": "fail_closed"}
+    {"case": "audit_redaction_and_bound", "test": "audit_records_are_bounded_and_redact_identity_material", "result": "fail_closed"},
+    {"case": "oversized_request_bound", "test": "oversized_request_is_rejected_before_unbounded_serialization_and_safely_audited", "result": "fail_closed"},
+    {"case": "durable_corruption_and_audit_gap", "test": "corrupt_audit_metadata_event_and_nonce_fail_closed_on_restart", "result": "fail_closed"},
+    {"case": "symlinked_database_parent", "test": "symlinked_database_parent_is_rejected", "result": "fail_closed"}
   ]
 }
