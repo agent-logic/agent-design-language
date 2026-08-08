@@ -1,6 +1,6 @@
 # Distributed Guardian Architecture
 
-Status: Frozen design gate for v0.92 WP-04
+Status: Candidate design gate for independent v0.92 WP-04 review
 
 ## Scope And Authority
 
@@ -19,7 +19,8 @@ Runtime v3 remains the WP-03 single-node system.
 
 1. One Runtime lineage has at most one active authoritative Guardian.
 2. Every node and Guardian has a durable identity rooted in one explicit trust
-   domain. A copied state directory does not create a new identity.
+   domain. Authority also requires a fresh activation incarnation whose private
+   key is generated at process start and is absent from copied durable state.
 3. Enrollment is explicit, authenticated, replay-resistant, and fail-closed.
 4. Every authority-bearing message binds the trust domain, node identity,
    Guardian identity, lineage, epoch, operation, nonce, and expiry.
@@ -86,13 +87,24 @@ Certificate compromise fences the affected identity, withdraws advertisements,
 rejects new transport, and requires operator-authorized re-enrollment. No
 plaintext or verification-disabled recovery mode exists.
 
+Established sessions have a maximum lifetime no later than the earliest peer
+certificate expiry or configured revocation-refresh deadline. A revocation or
+generation update actively closes affected sessions. Every authority-bearing
+operation revalidates the peer certificate purpose, generation, revocation
+state, and expiry; a transport handshake is not sufficient authorization for
+the lifetime of a QUIC connection.
+
 ## Maintained QUIC/TLS Transport
 
-WP-04.03 integrates a maintained QUIC implementation over TLS with mutual
-authentication. The implementation uses library framing, cryptography, chain
-validation, revocation input, flow control, stream bounds, cancellation, and
-idle timeouts. ADL adds typed application messages above the maintained
-transport; it does not add custom cryptography or custom wire framing.
+WP-04.03 uses `quinn` as the maintained QUIC implementation, its supported
+`rustls` integration for TLS, and the existing `prost` stack for length-delimited
+protobuf application messages. The Cargo manifest and lockfile pin exact
+reviewed versions. Upgrades require maintained-release, advisory, license,
+lockfile, and interop review; an abandoned dependency blocks release until a
+reviewed replacement preserves this contract. QUIC stream framing, TLS,
+cryptography, chain validation, flow control, cancellation, and idle timeouts
+remain library-owned. ADL defines only bounded typed protobuf messages and does
+not add custom cryptography or custom wire framing.
 
 Every session binds the authenticated peer to the expected node, Guardian,
 trust domain, protocol version, and certificate purpose. Oversized, malformed,
@@ -126,16 +138,37 @@ valid owner.
 
 ## Epochs, Leases, And Fencing
 
-WP-04.07 maintains a durable monotonic epoch per lineage. A lease records the
-lineage, holder identity, epoch, issued time, expiry, policy bounds, and signing
-authority. Renewal cannot change the holder and cannot revive an expired or
-fenced generation.
+WP-04.07 maintains the authoritative per-lineage record in a majority-replicated
+Guardian authority ledger implemented with the maintained `openraft` crate.
+Only enrolled voting Guardians in the same trust domain participate. The
+committed log serializes membership-voter changes, epochs, lease grants,
+activation incarnations, fences, and owner commits. A node outside a majority
+cannot advance the log, renew authority, or activate a replacement. Single-node
+mode is a one-voter ledger and preserves WP-03 behavior.
 
-WP-04.08 issues a fencing token from the durable epoch. Every state-changing
-operation validates the current token. Stale lease holders, cloned state,
-wrong-owner requests, and lower epochs are denied even if their process and
-transport remain healthy. Recovery increments the epoch before a replacement
-owner is activated.
+A lease records the lineage, holder identity, activation-incarnation public
+key, committed log index, epoch, issued time, expiry, policy bounds, and quorum
+certificate. The activation private key is generated at Guardian start and is
+never written into the state directory. Renewal proves possession of the same
+activation key and cannot change holder or incarnation. A clone therefore
+cannot renew a copied lease; a second activation requires a newer committed
+epoch after the prior safety window.
+
+Lease safety uses monotonic elapsed time, never wall-clock time alone. Voting
+nodes enforce a configured maximum clock uncertainty measured through the
+Chronosense boundary. A node outside that bound becomes non-authoritative. A
+replacement cannot activate until the previous committed lease deadline plus
+the maximum uncertainty and message-delay safety margin has elapsed. Restart
+invalidates the local activation incarnation and requires quorum renewal.
+
+WP-04.08 derives a quorum-certified fencing token from the committed epoch,
+activation incarnation, and log index. Every state-changing sink, including
+durable writes, checkpoint commit, API mutation, and target activation,
+validates the current certificate against its applied authority-ledger index and
+monotonic deadline. A sink that cannot establish current ledger state refuses
+mutation. Stale lease holders, cloned state, wrong-owner requests, and lower
+epochs are denied even if their process and transport remain healthy. Recovery
+commits a newer epoch before a replacement permit is issued.
 
 ## Advertisements And Placement
 
@@ -169,7 +202,8 @@ WP-04.13 owns the only relocation state machine:
 - `checkpoint` creates a signed content-bound snapshot.
 - `transfer` sends bounded authenticated chunks.
 - `validate` restores in isolation and proves identity, schema, and digest.
-- `fence` advances the durable epoch and disables source mutation.
+- `fence` commits a newer authority-ledger epoch, waits the prior lease safety
+  window, and causes every mutation sink to reject the source permit.
 - `activate` starts the target with the new lease and fencing token.
 - `commit` records the sole owner and makes cleanup eligible.
 

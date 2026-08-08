@@ -1,6 +1,6 @@
 # Distributed Guardian Threat Model
 
-Status: Frozen security gate for v0.92 WP-04
+Status: Candidate security gate for independent v0.92 WP-04 review
 
 ## Scope And Assumptions
 
@@ -99,8 +99,12 @@ recovery is required.
 - **Impact:** Duplicate Guardian identity and conflicting owner claims.
 - **Priority:** Critical.
 - **Mitigations:** Bind durable node identity, Guardian identity, trust domain,
-  certificate generation, lineage, and fencing epoch. Cloned state cannot
-  re-enroll or renew a lease; a detected collision revokes and fences it.
+  certificate generation, lineage, and fencing epoch. Each Guardian start also
+  creates a non-persistent activation key. Quorum-issued leases bind its public
+  key and every mutation proves possession. Cloned durable state lacks that
+  private key; a second activation cannot renew and must wait for a newer
+  committed epoch and the prior lease safety window. Collision detection still
+  revokes and fences the copied identity.
 
 ### T5: Certificate compromise or certificate expiry
 
@@ -110,8 +114,10 @@ recovery is required.
 - **Priority:** High.
 - **Mitigations:** Separate node, control, transport, advertisement, and
   snapshot purposes; bounded rotation overlap; revocation; expiry checks before
-  session and renewal; generation tracking; and no verification bypass.
-  Certificate compromise fences the identity and requires re-enrollment.
+  session and renewal; bounded session lifetime; active session closure on
+  revocation/generation updates; per-authority-operation certificate checks;
+  generation tracking; and no verification bypass. Certificate compromise
+  fences the identity and requires re-enrollment.
 
 ### T6: Transport downgrade, malformed input, or resource exhaustion
 
@@ -160,10 +166,13 @@ recovery is required.
   or both sides report inconsistent durable state.
 - **Impact:** Permanent outage or split brain.
 - **Priority:** Critical.
-- **Mitigations:** Verify the highest durable epoch and active fencing token;
-  never un-fence both sides; issue a newer lease only through authorized
-  recovery; and require operator action when records cannot establish one
-  owner. Rollback failure leaves both candidates fenced rather than guessing.
+- **Mitigations:** Verify the majority-committed `openraft` authority-ledger
+  epoch, log index, activation incarnation, and current fencing token at every
+  mutation sink. A minority cannot renew or replace authority. Never un-fence
+  both sides; wait the old lease deadline plus clock/message uncertainty before
+  replacement activation; and require operator action when a majority cannot
+  establish one owner. Rollback failure leaves both candidates fenced rather
+  than guessing.
 
 ### T11: Projection, log, or audit leakage and poisoning
 
@@ -206,6 +215,8 @@ satisfy runtime proof.
 
 - Host compromise can expose active keys until revocation and fencing propagate.
 - Severe clock error can reduce availability; it cannot extend an expired lease.
+- Loss of an authority-ledger majority halts new mutation and relocation until
+  quorum recovery; this is an intentional consistency-over-availability choice.
 - Simultaneous durable-store loss may require operator recovery from retained
   evidence and can leave the lineage unavailable.
 - Library vulnerabilities remain supply-chain risk and require pinned,
