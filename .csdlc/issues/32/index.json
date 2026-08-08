@@ -1,0 +1,131 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 32,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "4f9a90e9708ac3f33f42b7da3aabea450ef6fe8131d8fc092392626f04c7ca4b",
+  "phase": "bound",
+  "generation": 6,
+  "digest": "5b120b3f864c1e68c5885ba1dfc1e80474541516cad1626163005bcf22e7f57b",
+  "branch": "codex/32-runner-policy-preflight",
+  "worktree": "/Volumes/FastWork/adl-issue-32-runner-policy",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/32/design.md",
+  "diagram_path": ".csdlc/prepared/issues/32/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:issue_32_runner_policy",
+      "revision": "1ce39cb5d02984ca57d3191178834e6a107774a8ca6513d581e6c060bc4456de"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "83022126291390ef3b0e665008737965559e9fb92283c0826a3ae355d77fbdb0",
+      "rendered_digest": "b6053e9c245d2e19224525672df16e2016d09779c3f919c0c9e32dd5c1e5a641",
+      "ast_digest": "a1fed7a25455f7a64bc2cba9483efc737ef615008ce749229c905bf3a75330e3"
+    },
+    "stp": {
+      "values_digest": "d221b436d9b885a20d3c06321ecd50f339f4140fce73dd55e205478574cf5d35",
+      "rendered_digest": "21cef2f24999fa190f47ad0d293622919adec636870cccc91f01f3a50ee9d561",
+      "ast_digest": "0080edb1bb65741daa1157a6e1de0d66b44bde6b8acb9e9d6ea6817bbbf50e9a"
+    },
+    "spp": {
+      "values_digest": "bee40fdda473bd850ad5eb6363edcff8732ef47d72a8fca083faaddb2ce6a6eb",
+      "rendered_digest": "b7cd1d2c3ca9efce35f4f9fe93f72d21bea206e5cff0a28ba0243a57fb6cd5d6",
+      "ast_digest": "0bfe831969c5429d21a833c1ad4526a722201a723c844f914b9b548e1bad7251"
+    },
+    "vpp": {
+      "values_digest": "af22f1064e7b3301f36b9784d60f608905c2e9ef8ae3fa897c3143f2ab6f5839",
+      "rendered_digest": "443a095200d2791273088391bfe764cb2b3f2ddb4f6475d798ae9423700b5ca6",
+      "ast_digest": "4d0ec3701a8dd18883efe989a5f1068e3e3d06c63ffd5aebebc08fa1200379bc"
+    },
+    "srp": {
+      "values_digest": "d037b8558b2cc2d339e343f226147c7126ddd3932a302fc1ec963a5920ebe413",
+      "rendered_digest": "b1274fd31be898d82d36257f420a672d8f9575d6ebc7f154053683ed810da4da",
+      "ast_digest": "f6ee14b834b760a395e66af5f9f92514557a3e00ba0bd12ab6b48ca4c2392d93"
+    },
+    "sor": {
+      "values_digest": "74c5687cb08b520c3d4916cd4e816ef3237fb10562359e6383a3b736fcac6960",
+      "rendered_digest": "53d91a5c644249a2691cdb17b97d7f10a625d44f394f4530ca8671df8f5857c9",
+      "ast_digest": "f0020540f6293adac6b3cf7507209c210cd0860de49d0d19de5f0908f8461f4f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Replace descriptive areas with exact repository-owned implementation and proving paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/Cargo.toml\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/runner_preflight.rs\",\"csdlc-v2/src/bin/csdlc-runner-preflight.rs\",\".github/workflows/ci.yaml\",\"adl/config/validation_lane_selector.v0.91.6.json\",\"adl/tools/test_ci_runtime_contracts.sh\",\".csdlc/prepared/issues/32\",\".csdlc/issues/32\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Route the deferred live proof through the existing Cargo executable so readiness is provable before the new binary exists.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runner-preflight-rust-contracts\",\"proof_role\":\"Prove typed classification, parsing, redaction, and loopback GitHub API behavior.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"runner_preflight\"],\"parallel_group\":\"focused-contracts\",\"defer_reason\":null},{\"lane\":\"ci-runtime-contract\",\"proof_role\":\"Prove the preflight remains a focused branch-independent gate in the canonical workflow.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"parallel_group\":\"focused-contracts\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes before review.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"focused-contracts\",\"defer_reason\":null},{\"lane\":\"github-runner-live-canary\",\"proof_role\":\"Prove group 3 is repository-scoped, workflow-unrestricted, the hosted label is visible, and the PR job receives a runner and terminates.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-runner-preflight\",\"--\",\"--request\",\".csdlc/prepared/issues/32/live-preflight.json\"],\"parallel_group\":\"post-publication\",\"defer_reason\":\"Requires live organization settings and the published issue #32 PR head.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "subagent:issue_32_runner_policy",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Align owned scope with the final focused csdlc-github implementation and operator guidance.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/bin/csdlc-github.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/runner_preflight.rs\",\"csdlc-v2/src/schema.rs\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\"docs/tooling/GITHUB_LARGER_RUNNER_PREFLIGHT.md\",\".csdlc/prepared/issues/32\",\".csdlc/issues/32\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:32-runner-policy-preflight",
+      "reason": "Keep final validation focused on the native Rust contract, typed schema, documentation, and live dispatch observation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runner-preflight-rust-contracts\",\"proof_role\":\"Prove typed capacity, policy, dispatch, stale-ref, and redaction classifications.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"runner_preflight\"],\"parallel_group\":\"focused-contracts\",\"defer_reason\":null},{\"lane\":\"runner-preflight-schema\",\"proof_role\":\"Prove the typed request and result are present in the public schema bundle.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"schema::tests\"],\"parallel_group\":\"focused-contracts\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes before review.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"focused-contracts\",\"defer_reason\":null},{\"lane\":\"github-runner-live-canary\",\"proof_role\":\"Prove group 3 is repository-scoped and unrestricted, the hosted label is visible, and the PR job receives that runner and terminates.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-github\",\"--\",\"runner-preflight\",\"--request\",\".csdlc/prepared/issues/32/live-preflight.json\"],\"parallel_group\":\"post-publication\",\"defer_reason\":\"Requires live organization settings and the published issue #32 PR head.\"}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "subagent:issue_32_runner_policy",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

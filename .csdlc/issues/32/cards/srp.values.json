@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 32,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[CI][runners] Make larger-runner eligibility branch-independent and observable",
+    "slug": "runner-policy-preflight",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Typed request/result schema, GitHub endpoint selection, policy/capacity classifier, stale-ref handling, redaction, and focused tests.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can policy-ineligible or non-dispatching routing still be misreported as capacity unavailable?",
+        "Does eligible require explicit target-repository selection and workflow restriction off?",
+        "Can any credential or authorization header appear in output?",
+        "Are stale workflow refs reported without becoming false eligibility authority?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

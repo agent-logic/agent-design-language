@@ -1,7 +1,10 @@
 use std::{fs, path::PathBuf};
 
 use clap::{Parser, Subcommand};
-use csdlc_v2::{execute_github_action, public_schema_bundle, GithubActionRequest};
+use csdlc_v2::{
+    execute_github_action, inspect_runner_eligibility, public_schema_bundle, GithubActionRequest,
+    RunnerPreflightRequest,
+};
 
 #[derive(Parser)]
 struct Cli {
@@ -15,6 +18,10 @@ enum Command {
         #[arg(long)]
         request: PathBuf,
     },
+    RunnerPreflight {
+        #[arg(long)]
+        request: PathBuf,
+    },
     Schema,
 }
 
@@ -23,6 +30,19 @@ async fn main() {
     let cli = Cli::parse();
     let result = match cli.command {
         Command::Run { request } => run(&request).await,
+        Command::RunnerPreflight { request } => match runner_preflight(&request).await {
+            Ok(packet) => {
+                println!(
+                    "{}",
+                    serde_json::to_string_pretty(&packet).expect("runner preflight JSON")
+                );
+                if !packet.is_dispatch_eligible() {
+                    std::process::exit(2);
+                }
+                return;
+            }
+            Err(error) => Err(error),
+        },
         Command::Schema => Ok(public_schema_bundle()),
     };
     match result {
@@ -39,6 +59,11 @@ async fn main() {
             std::process::exit(error.code.exit_code());
         }
     }
+}
+
+async fn runner_preflight(path: &PathBuf) -> csdlc_v2::Result<csdlc_v2::RunnerPreflightPacket> {
+    let request: RunnerPreflightRequest = serde_json::from_slice(&fs::read(path)?)?;
+    inspect_runner_eligibility(&request).await
 }
 
 async fn run(path: &PathBuf) -> csdlc_v2::Result<serde_json::Value> {

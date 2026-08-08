@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 32,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[CI][runners] Make larger-runner eligibility branch-independent and observable",
+    "slug": "runner-policy-preflight",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Fix issue #32 only: branch-independent larger-runner eligibility diagnostics and focused CI integration proof.",
+      "deliverables": [
+        "Typed csdlc-runner-preflight request and result contracts, including bounded live job observation.",
+        "Read-only Octocrab inspection of hosted runner, runner group, repository access, workflow restrictions, and stale refs.",
+        "Focused unit and loopback integration tests.",
+        "Live preflight and PR canary evidence."
+      ],
+      "acceptance_criteria": [
+        "Normal PR branches can acquire the configured larger runner without branch allowlist changes.",
+        "Runner group access remains explicitly limited to agent-logic/agent-design-language.",
+        "Preflight reports label, group visibility, repository access, workflow restriction state, and stale workflow refs without secrets.",
+        "Diagnostic classification distinguishes capacity unavailable, policy ineligible, and configuration-eligible but non-dispatching jobs.",
+        "A live PR canary assigns a runner and reaches a terminal result.",
+        "No AWS is used."
+      ],
+      "dependencies": [
+        "GitHub Actions organization APIs",
+        "Octocrab",
+        "C-SDLC v2 typed JSON conventions"
+      ],
+      "repo_inputs": [
+        "https://github.com/agent-logic/agent-design-language/issues/32",
+        "https://github.com/agent-logic/agent-design-language/actions/runs/31236518300",
+        ".github/workflows/ci.yaml",
+        "csdlc-v2/src/github.rs"
+      ],
+      "non_goals": [
+        "Changing Rust test content",
+        "AWS or self-hosted runner infrastructure",
+        "Broadening runner-group repository access",
+        "Mutating organization settings from the preflight"
+      ]
+    }
+  }
+}
