@@ -479,6 +479,7 @@ fn freshly_installed_generation_runs_claim_free_lifecycle_without_migrate() {
     let destination = parent.path().join("csdlc-v2");
     let cargo_target = parent.path().join("cargo-target");
     fs::create_dir_all(&cargo_target).unwrap();
+    let cargo_target = fs::canonicalize(cargo_target).unwrap();
     let install = Command::new(env!("CARGO_BIN_EXE_csdlc-install"))
         .args(["install", "--repo"])
         .arg(&repo)
