@@ -34,7 +34,7 @@ end
 arch_text = File.read(architecture)
 required_architecture = {
   "## Invariants" => ["at most one active authoritative Guardian", "Availability cannot override fencing"],
-  "## Identity And Enrollment" => ["proves", "nonce", "Wrong-domain", "replayed"],
+  "## Identity And Enrollment" => ["proves possession", "nonce", "Wrong-domain", "replayed"],
   "## Certificate Purposes And Lifecycle" => ["not interchangeable", "actively closes affected sessions", "revalidates", "revocation"],
   "## Maintained QUIC/TLS Transport" => ["quinn", "rustls", "prost", "custom cryptography", "custom wire framing"],
   "## Discovery, Join, And Membership" => ["seeds as addresses, never trust anchors", "deterministic order", "committed epoch"],
