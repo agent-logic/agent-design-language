@@ -21,7 +21,7 @@ children = rows.map do |line|
   abort "#{id} missing protected paths" if paths.empty?
   abort "#{id} missing proving boundary" unless proof.include?("Exact nonzero") || id == "WP-04.16"
   abort "#{id} missing rollback responsibility" if rollback.length < 20
-  [id, issue, dependencies, paths]
+  [id, issue, dependencies, paths, proof, rollback]
 end
 
 expected_ids = (1..16).map { |number| format("WP-04.%02d", number) }
@@ -29,7 +29,7 @@ expected_issues = (5863..5878).to_a
 abort "child identities drifted" unless children.map(&:first) == expected_ids
 abort "live issue mapping drifted" unless children.map { |row| row[1] } == expected_issues
 
-all_paths = children.flat_map { |id, _, _, paths| paths.map { |path| [path, id] } }
+all_paths = children.flat_map { |id, _, _, paths, _, _| paths.map { |path| [path, id] } }
 duplicates = all_paths.group_by(&:first).select { |_, entries| entries.length > 1 }
 abort "duplicate protected paths: #{duplicates.keys.join(', ')}" unless duplicates.empty?
 overlaps = all_paths.combination(2).select do |(left, left_id), (right, right_id)|
@@ -58,16 +58,18 @@ visit = lambda do |id|
 end
 expected_ids.each { |id| visit.call(id) }
 
-children.each do |id, issue, _, _|
+children.each do |id, issue, _, _, _, _|
   index_path = File.expand_path("../../../issues/#{issue}/index.json", __dir__)
   abort "missing typed record for #{id} ##{issue}" unless File.file?(index_path)
   index = JSON.parse(File.read(index_path))
   abort "#{id} design not approved" unless index.dig("design_review", "approved", "revision").to_s.match?(/\A[0-9a-f]{64}\z/)
   abort "#{id} preparation claim active" unless index["claim"].nil?
+  abort "#{id} is already bound" unless index["branch"].nil? && index["worktree"].nil?
 end
 
 umbrella = JSON.parse(File.read(File.expand_path("../../../issues/5862/index.json", __dir__)))
 abort "WP-04-IMP claim active" unless umbrella["claim"].nil?
+abort "WP-04-IMP is already bound" unless umbrella["branch"].nil? && umbrella["worktree"].nil?
 abort "missing final integration registration owner" unless text.include?("`adl-runtime/src/distributed/mod.rs`") && text.include?("`adl-runtime/src/lib.rs`")
 
 git_common, git_status = Open3.capture2("git", "rev-parse", "--git-common-dir")
@@ -75,11 +77,12 @@ abort "cannot resolve Git common directory" unless git_status.success?
 github_binary = ENV.fetch("CSDLC_GITHUB_ISSUE_BIN", File.join(File.expand_path("..", git_common.strip), ".adl/bin/csdlc-v2/csdlc-github-issue"))
 abort "missing typed GitHub issue binary" unless File.executable?(github_binary)
 expected_titles = {5862 => "[v0.92][WP-04-IMP][umbrella] Execute distributed Guardian child wave"}
-children.each do |id, issue, _, _|
+children.each do |id, issue, _, paths, _, _|
   local_title = JSON.parse(File.read(File.expand_path("../../../issues/#{issue}/cards/stp.values.json", __dir__))).dig("identity", "title")
-  expected_titles[issue] = local_title
+  expected_titles[issue] = [id, local_title, paths]
 end
-expected_titles.each do |issue, title|
+expected_titles[5862] = ["WP-04-IMP", expected_titles.fetch(5862), []]
+expected_titles.each do |issue, (id, title, paths)|
   request_path = File.join(__dir__, "wp04-implementation-wave", "read", "#{issue}.json")
   abort "missing live read request for ##{issue}" unless File.file?(request_path)
   stdout, stderr, status = Open3.capture3(github_binary, "run", "--request", request_path)
@@ -87,8 +90,16 @@ expected_titles.each do |issue, title|
   packet = JSON.parse(stdout).fetch("issue")
   abort "live issue ##{issue} is not open" unless packet["state"] == "open"
   abort "live title drift for ##{issue}" unless packet["title"] == title
+  body = packet.fetch("body")
+  ["## Required Outcome", "## Dependencies", "## Owned Paths", "## Validation And Proof", "## Rollback"].each do |heading|
+    abort "live issue ##{issue} omits #{heading}" unless body.include?(heading)
+  end
+  paths.each do |path|
+    abort "live issue ##{issue} omits owned path #{path}" unless body.include?("`#{path}`")
+  end
   if issue != 5862
-    abort "live body lost canonical WP-04-IMP dependency for ##{issue}" unless packet["body"].include?("WP-04-IMP issue 5862")
+    abort "live body lost #{id} identity for ##{issue}" unless body.include?(id)
+    abort "live body lost canonical WP-04-IMP dependency for ##{issue}" unless body.include?("WP-04-IMP issue 5862")
   end
 end
 umbrella_request = File.join(__dir__, "wp04-implementation-wave", "read", "5862.json")
