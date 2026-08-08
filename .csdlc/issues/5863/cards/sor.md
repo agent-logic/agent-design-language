@@ -57,7 +57,7 @@ Implemented stable node and Guardian identity with authenticated fail-closed enr
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
