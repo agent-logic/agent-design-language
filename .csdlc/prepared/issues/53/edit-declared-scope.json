@@ -1,0 +1,19 @@
+{
+  "issue": 53,
+  "card": "sip",
+  "expected_generation": 1,
+  "expected_digest": "22e5456f7e2016f98971331c380d4d863e0cd46f70b0716b393a1474d0366ce0",
+  "actor": "codex:53-readiness-repair",
+  "reason": "Declare the owned focused regression path required for execution readiness.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "declared_scope",
+    "values": [
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      "adl/tools/test_wp04_proof_receipt_contract.rb",
+      ".csdlc/prepared/issues/53",
+      ".csdlc/issues/53"
+    ]
+  },
+  "fail_after_backup": false
+}

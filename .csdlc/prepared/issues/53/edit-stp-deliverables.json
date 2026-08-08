@@ -1,0 +1,20 @@
+{
+  "issue": 53,
+  "card": "stp",
+  "expected_generation": 3,
+  "expected_digest": "571b8a8c1a33b7b342915145b54733dd21c6d56f60f101b993412448dbc51c20",
+  "actor": "codex:53-readiness-repair",
+  "reason": "Name the exact implementation and focused validator deliverables used by readiness proof.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      ".csdlc/prepared/issues/5862/proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/53/test-proof-receipt-contract.rb",
+      ".csdlc/prepared/issues/53/design.md",
+      ".csdlc/prepared/issues/53/diagram.mmd",
+      "Exact-head review and qualified issue-closing implementation PR"
+    ]
+  },
+  "fail_after_backup": false
+}
