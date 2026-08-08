@@ -1,0 +1,1 @@
+{"issue":55,"expected_generation":7,"expected_digest":"fa5ed84308ec3973d92ae9c27d5d47454931f078c3ef977a6f43caf4d290fe79","actor":"codex:issue-55-implementation","card":"spp","reason":"Added fail-closed selected-runner regression assertions.","operation":{"operation":"update_plan_step","step_id":"S3","status":"completed"}}

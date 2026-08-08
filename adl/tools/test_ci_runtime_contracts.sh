@@ -611,6 +611,10 @@ if "cargo llvm-cov report --lcov" in workspace_job + workspace_fast_job:
 selected_runner = "runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}"
 if selected_runner not in runtime_job or selected_runner not in workspace_job or selected_runner not in workspace_fast_job:
     raise SystemExit("Rust coverage producers must use the selected 16-core GitHub-hosted runner")
+if selected_runner not in hosted_aggregator:
+    raise SystemExit("heavyweight hosted coverage aggregation must use the selected 16-core GitHub-hosted runner")
+if "runs-on: ubuntu-latest" in hosted_aggregator:
+    raise SystemExit("heavyweight hosted coverage aggregation must not use the standard runner")
 if "needs.adl_path_policy.outputs.runtime_coverage_required == 'true'" not in runtime_job.split("runs-on:", 1)[0]:
     raise SystemExit("runtime coverage producer must use its explicit job-level selector")
 if "needs.adl_path_policy.outputs.workspace_full_coverage_required == 'true'" not in workspace_job.split("runs-on:", 1)[0]:
@@ -993,8 +997,8 @@ for required_fragment in (
     if required_fragment not in adl_ci_job:
         raise SystemExit(f"adl-ci narrow Rust-test route is missing {required_fragment}")
 
-if workflow.count(selected_runner) != 10:
-    raise SystemExit("all ten heavy producers must share the centralized ADL_HEAVY_RUNNER selector")
+if workflow.count(selected_runner) != 11:
+    raise SystemExit("all eleven heavy jobs must share the centralized ADL_HEAVY_RUNNER selector")
 if "runs-on: adl-ubuntu-24.04-16core" in workflow:
     raise SystemExit("heavy runner selection must not be duplicated outside the centralized variable expression")
 

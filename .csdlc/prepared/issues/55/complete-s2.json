@@ -1,0 +1,1 @@
+{"issue":55,"expected_generation":6,"expected_digest":"efeaa250856cf8f47caecee4679a43a84c98a8978b486bdb05eb05b814f4d509","actor":"codex:issue-55-implementation","card":"spp","reason":"Routed only heavyweight hosted aggregation to the selected runner.","operation":{"operation":"update_plan_step","step_id":"S2","status":"completed"}}

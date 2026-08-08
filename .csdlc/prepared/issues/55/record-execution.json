@@ -1,0 +1,18 @@
+{
+  "issue":55,
+  "expected_generation":4,
+  "expected_digest":"a92c0b123f5aca034379a1b4aa5bb62b2c6f7932f0c9a09e819c29fe5530c29d",
+  "actor":"codex:issue-55-implementation",
+  "card":"sor",
+  "reason":"Record the bounded runner-routing implementation.",
+  "operation":{
+    "operation":"record_execution",
+    "summary":"Routed heavyweight hosted coverage aggregation through the established selected 16-core runner contract.",
+    "changes":[
+      "Changed only adl_coverage_hosted from ubuntu-latest to the centralized ADL_HEAVY_RUNNER expression.",
+      "Added focused contract assertions rejecting standard-runner aggregation and updated the heavy-job count to eleven.",
+      "Preserved stable adl-coverage, producers, Spot, artifacts, Codecov, and coverage policy semantics."
+    ],
+    "artifacts":[".github/workflows/ci.yaml","adl/tools/test_ci_runtime_contracts.sh"]
+  }
+}

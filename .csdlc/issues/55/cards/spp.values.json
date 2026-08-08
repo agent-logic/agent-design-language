@@ -1,0 +1,95 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 55,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[defect][ci][coverage] Route hosted coverage aggregation to the 16-core runner",
+    "slug": "coverage-aggregate-big-runner",
+    "version": "v0.92",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Trace the exact coverage aggregation job and focused contracts, change only its runner selector, add a regression assertion, run focused syntax and routing proof, then obtain exact-head review and publish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Confirm heavyweight versus lightweight coverage job boundaries and current runner-contract tests.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Route only adl_coverage_hosted through the established selected 16-core runner expression.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Add focused fail-closed regression coverage for the aggregator runner route.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused workflow and contract proof, validate typed truth, and obtain exact-head review.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [
+        ".github/workflows/ci.yaml",
+        "adl/tools/test_ci_runtime_contracts.sh",
+        "adl/tools/test_ci_path_policy.sh",
+        "csdlc-v2/tests/gate_runner_preflight.rs",
+        ".csdlc/issues/55",
+        ".csdlc/prepared/issues/55"
+      ],
+      "invariants": [
+        "Only heavyweight coverage aggregation changes runner class",
+        "Stable coverage status semantics remain unchanged",
+        "Producer and publication boundaries remain unchanged",
+        "No AWS route is introduced",
+        "Regression proof is focused and deterministic"
+      ],
+      "risks": [
+        "The job identifier differs from its display name and the wrong aggregator is changed",
+        "A broad text assertion passes while stable-status routing regresses",
+        "Runner selector syntax is malformed",
+        "Focused tests accidentally encode unrelated workflow details"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "The requested job cannot be separated from the lightweight stable aggregator",
+        "The change requires modifying coverage thresholds, test selection, or artifact semantics",
+        "The established heavy-runner selector is unavailable",
+        "Scope expands into AWS or general CI redesign"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/55/design.md",
+      "design_digest": "a6de185b7f76f44b8285dedfae5df578599b41cd96f313f512c80be7f9977f05",
+      "diagram_ref": ".csdlc/prepared/issues/55/diagram.mmd",
+      "diagram_digest": "57d94a6b84ff218cc2546faa888e65036290214c13c80494235da14238b6b809"
+    }
+  }
+}

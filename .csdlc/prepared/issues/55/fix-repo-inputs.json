@@ -1,0 +1,20 @@
+{
+  "issue": 55,
+  "expected_generation": 1,
+  "expected_digest": "0713e326131b74520bbe4eccb204012a2b756e01ac7558a21a4871d4434b7147",
+  "actor": "codex:issue-55-readiness",
+  "card": "stp",
+  "reason": "Replace provisional input names with existing repository paths.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "repo_inputs",
+    "values": [
+      "AGENTS.md",
+      ".github/workflows/ci.yaml",
+      "adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "csdlc-v2/tests/gate_runner_preflight.rs"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 55,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[defect][ci][coverage] Route hosted coverage aggregation to the 16-core runner",
+    "slug": "coverage-aggregate-big-runner",
+    "version": "v0.92",
+    "generation": 14
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #55 coverage aggregation runner selection, tightly coupled regression contracts, and preserved surrounding CI semantics.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does only the heavyweight adl_coverage_hosted job move to the selected 16-core runner?",
+        "Does focused proof fail if that job returns to ubuntu-latest?",
+        "Are stable adl-coverage, producers, Spot, artifacts, Codecov, and coverage policy unchanged?",
+        "Is the runner expression valid GitHub Actions syntax and consistent with existing heavy lanes?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

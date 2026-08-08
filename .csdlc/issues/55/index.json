@@ -1,0 +1,194 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 55,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "538adb25a8cb561652e43a349bdbfa886adbf63b86f40d0d759dad271ce37b04",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "ad700c933ced854bfbc89c0cc91aedc9a797375da89ae3aef789c7447f3438db",
+  "branch": "codex/55-coverage-aggregate-big-runner",
+  "worktree": "/Volumes/FastWork/adl-issue-55-coverage-aggregate-big-runner",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/55/design.md",
+  "diagram_path": ".csdlc/prepared/issues/55/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:issue-55-design-review",
+      "revision": "a6de185b7f76f44b8285dedfae5df578599b41cd96f313f512c80be7f9977f05"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4dc4590a694f6851fd946376f1e73a6ba1509df6c3d765509c75a1483fd042e2",
+      "rendered_digest": "8a359e5112702a94ef1ce46d0c75ef69b10d7b1048b98d020d9a581c74fd50f1",
+      "ast_digest": "e8690cb6c3d97ad20b472a5c1a6c7c3968a124fa4e14071bf9826b2d5d3071f1"
+    },
+    "stp": {
+      "values_digest": "3c924cd042712c6200ca90bbc06f3f3ed7ecf869f3f8d98355ea8f5710b85012",
+      "rendered_digest": "2622bf397b5d99812b89749967beca8bae1ab9cf5bec5e4b88491ab4d12f15bc",
+      "ast_digest": "d2390067bd4cda090f8d6f573245ccd2d48855114fa3cf036947056fed0364f6"
+    },
+    "spp": {
+      "values_digest": "f9b2bbe21d6f0d6abbefac0426141bbf4b21c491a089a08c4a17edb5f7fbc34c",
+      "rendered_digest": "37bf9bb65e25419a6d2f14c3c3ca7b3b4b27396529e7629e1746db547eec1de0",
+      "ast_digest": "73ac7959e0d6d05e861e8eaa06a3e52c988f26d86d1ca9fa3fff5977ad1efd01"
+    },
+    "vpp": {
+      "values_digest": "b3a17c95fbbc65eac19b47a6688470ba1520cd7ea461577008194582f428dd65",
+      "rendered_digest": "466fb747c2ef7d7445e841a0f3514b547dde579dabcaf41f5b9778a6eafc8bbb",
+      "ast_digest": "7a287eceb08b889a1e50cf28e62480193a6c65b539683579dfd2fe423721bad6"
+    },
+    "srp": {
+      "values_digest": "6102c8da92d35973ac082b382b89be910859de50c2be9e82a956983f9f3e6cfc",
+      "rendered_digest": "749bc6e61d15e9202c7f4a794d23509f1cb7a87c133b3785d6531d88ff588c77",
+      "ast_digest": "deeea4b1778d3416a5980e7e76b8264019a00b59abbceb615e80ee13d82f3a24"
+    },
+    "sor": {
+      "values_digest": "e5e66eeca0ed8f46c8a8acfe9b7b792ee6dfe10bcc385a7d674ef2bd17b62120",
+      "rendered_digest": "73464c5dffe02f05777ed0b9a6f19d4ebf3f4c18ead067561e393cc4ec14e188",
+      "ast_digest": "e1497dd7e7b733636549b53363259220c5c53973dd995955cf2ffbf7106792b3"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-55-implementation",
+      "reason": "Bounded implementation and focused validation proof are complete."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-55-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-55-design-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-55-readiness",
+      "reason": "Replace provisional input names with existing repository paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"AGENTS.md\",\".github/workflows/ci.yaml\",\"adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md\",\"adl/tools/test_ci_runtime_contracts.sh\",\"adl/tools/test_ci_path_policy.sh\",\"csdlc-v2/tests/gate_runner_preflight.rs\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:issue-55-readiness",
+      "reason": "Own only existing workflow, focused contract, and typed issue paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".github/workflows/ci.yaml\",\"adl/tools/test_ci_runtime_contracts.sh\",\"adl/tools/test_ci_path_policy.sh\",\"csdlc-v2/tests/gate_runner_preflight.rs\",\".csdlc/issues/55\",\".csdlc/prepared/issues/55\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:issue-55-readiness",
+      "reason": "Replace provisional commands with existing focused proof surfaces.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"workflow-yaml\",\"proof_role\":\"Parse the changed GitHub Actions workflow as valid YAML.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\"-e\",\"require 'yaml'; YAML.load_file('.github/workflows/ci.yaml')\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"ci-runner-contract\",\"proof_role\":\"Focused CI runtime and path-policy contracts prove the heavy aggregator route and preserved surrounding semantics.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"ci-path-policy-contract\",\"proof_role\":\"Focused path-policy proof preserves producer, Spot, stable status, and coverage routing boundaries.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_ci_path_policy.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"larger-runner-preflight-contract\",\"proof_role\":\"The typed larger-runner preflight contract verifies expected 16-core runner eligibility semantics.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_runner_preflight\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-55-implementation",
+      "reason": "Record the bounded runner-routing implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Routed heavyweight hosted coverage aggregation through the established selected 16-core runner contract.\",\"changes\":[\"Changed only adl_coverage_hosted from ubuntu-latest to the centralized ADL_HEAVY_RUNNER expression.\",\"Added focused contract assertions rejecting standard-runner aggregation and updated the heavy-job count to eleven.\",\"Preserved stable adl-coverage, producers, Spot, artifacts, Codecov, and coverage policy semantics.\"],\"artifacts\":[\".github/workflows/ci.yaml\",\"adl/tools/test_ci_runtime_contracts.sh\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-55-implementation",
+      "reason": "Confirmed heavyweight and lightweight coverage job boundaries.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-55-implementation",
+      "reason": "Routed only heavyweight hosted aggregation to the selected runner.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-55-implementation",
+      "reason": "Added fail-closed selected-runner regression assertions.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-55-validation",
+      "reason": "Record workflow syntax proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\"-e\",\"require 'yaml'; YAML.load_file('.github/workflows/ci.yaml')\"],\"purpose\":\"Parse the changed GitHub Actions workflow.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:workflow-yaml:passed\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-55-validation",
+      "reason": "Record focused CI runner contract proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"purpose\":\"Prove selected heavy-runner routing and preserved coverage topology.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:ci-runtime-contracts:passed\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-55-validation",
+      "reason": "Record focused path-policy contract proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_path_policy.sh\"],\"purpose\":\"Prove surrounding coverage route and policy semantics remain intact.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:ci-path-policy:passed\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:issue-55-validation",
+      "reason": "Record typed larger-runner preflight contract proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_runner_preflight\"],\"purpose\":\"Prove selected 16-core runner eligibility and redacted fail-closed preflight behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:gate-runner-preflight:1-passed\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:issue-55-implementation",
+      "reason": "Completed focused workflow, routing, path-policy, and runner preflight proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:issue-55-implementation",
+      "reason": "Bounded implementation and focused validation proof are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}
