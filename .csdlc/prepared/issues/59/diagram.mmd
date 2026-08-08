@@ -1,0 +1,27 @@
+flowchart LR
+    O[Operator redirects thread] --> A[ADL agent policy<br/>requires issue-bound goal]
+    A --> C[Codex create_goal tool]
+
+    subgraph EXT[OpenAI Codex platform authority]
+        C --> G[Thread-goal service]
+        G --> H[(Blocked goal history<br/>status and accounting)]
+        G --> R{Replacement allowed?}
+        R -- Current behavior --> X[Reject as unfinished goal]
+        R -- Required behavior --> N[Create replacement goal<br/>or typed supersede transition]
+    end
+
+    subgraph REPO[agent-logic/agent-design-language]
+        P[Goal usage policy]
+        T[Retained telemetry consumers]
+        D[Issue 59 routing evidence]
+    end
+
+    P -. calls .-> C
+    H -. retained observations .-> T
+    X --> D
+    D --> U[Upstream Codex product defect]
+
+    style EXT fill:#fff4e6,stroke:#c76b00
+    style REPO fill:#eef6ff,stroke:#2468a2
+    style X fill:#ffe8e8,stroke:#b42318
+    style N fill:#e8f7ec,stroke:#1f7a3d

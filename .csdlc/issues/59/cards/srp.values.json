@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 59,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Codex goals] Allow replacing a blocked goal when work is redirected",
+    "slug": "codex-blocked-goal-replacement",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue 59 authority evidence, design, diagram, six typed cards, historical-truth invariants, upstream contract, and no-fabricated-implementation boundary.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does any repository executable actually implement create_goal admission or thread-goal persistence?",
+        "Does the package clearly distinguish platform mutation authority from ADL policy and telemetry consumption?",
+        "Would any proposed workaround falsify the old blocked goal or create divergent state?",
+        "Is the upstream replacement or supersession contract precise enough for a product owner to implement and test?",
+        "Are the estimates, stop boundary, and exact next action explicit?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

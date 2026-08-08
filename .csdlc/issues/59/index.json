@@ -1,0 +1,69 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 59,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "37c44df921ba5958aa88160b46c92157a4d6407b9d751c53602bb65d7462816c",
+  "phase": "initialized",
+  "generation": 1,
+  "digest": "2c6c4aa0f9c1c7b73400e138e6e71dddeb3f2c3f85d554a64ad735e6e39930a8",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/59/design.md",
+  "diagram_path": ".csdlc/prepared/issues/59/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "76bd5cd0b776f463173f62c1bdea7729a88666d11aa3293aec8df51c22e6b86b",
+      "rendered_digest": "b0cab61e73173aebc0056ad25f725bdb7150b06bf821eb9332828002dbc8c42d",
+      "ast_digest": "4595642d948c3e9beb63a2d875690271650e95ae6e68ff41ea663c334aec16ee"
+    },
+    "stp": {
+      "values_digest": "342f220854c9c7571d9e798f976281afe005964ac3ea19e0d743b23a5abd15c0",
+      "rendered_digest": "1510b612b9c6e37238872d54a4885078cff21c9284d07f6f59a6f13229e2b3a7",
+      "ast_digest": "94eedada015eebee48807eb84125e58b9cd9b0e21192c645c22eacccd34fdc0e"
+    },
+    "spp": {
+      "values_digest": "74041569246f84a7e64530ae141cea466df171871b34028f2eec4dc67c40afb2",
+      "rendered_digest": "2ea1e6d4d918336a5353449f80d1033c6b863cb3f0f0033964e9f5f412d4c7e3",
+      "ast_digest": "8778a3b611f74dd474f738d68d7465d1d69694b288c5e330aa58743de6960f21"
+    },
+    "vpp": {
+      "values_digest": "505ca6659a161729f57cd68b3c2560afe74135275d8deb41f3efb12ca0aae33f",
+      "rendered_digest": "2c9b83f9767524531a3522ae7e15462cc79e97bfe09c5365c776e56cc26f0f5c",
+      "ast_digest": "bd1502b662307de8edf42341fb060ddb1b2982ffc3a5c7c3cf72421ea3726fa7"
+    },
+    "srp": {
+      "values_digest": "8da3296b0793943199bdc29a0d550a44adf24393adad2276e8b730518a111725",
+      "rendered_digest": "f50abc0afdd64487b2862a1582017a3114579aea5c7a10203d61d422c5496688",
+      "ast_digest": "2070043ae410de07e121cc484eee1284d2b78e96e46ff2a8ca1978360f6e4f5f"
+    },
+    "sor": {
+      "values_digest": "18ca661cf1ce2fd546cba019c141c4e3cee111c45aaa8c77a20df3b665258703",
+      "rendered_digest": "e5766b73478f755ea4d615a0f1a21fc856d057dd7e2ffa8f81f23e01a5757ace",
+      "ast_digest": "6c27a8a040dbf4e5fc383ae59ff385dbafaff9ee00d0775b51c1bdb791503d24"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:59-authority-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:59-authority-readiness",
+      "reason": "Replace conceptual areas with the exact repository-owned routing package paths; Codex platform implementation remains external.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/59\",\".csdlc/prepared/issues/59\"]}"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+{"sequence":1,"generation":0,"actor":"codex:59-authority-readiness","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"codex:59-authority-readiness","reason":"Replace conceptual areas with the exact repository-owned routing package paths; Codex platform implementation remains external.","operation":"{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/59\",\".csdlc/prepared/issues/59\"]}"}

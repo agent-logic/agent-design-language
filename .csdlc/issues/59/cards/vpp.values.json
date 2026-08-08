@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 59,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Codex goals] Allow replacing a blocked goal when work is redirected",
+    "slug": "codex-blocked-goal-replacement",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-59-routing-diff-hygiene",
+          "proof_role": "Reject malformed tracked routing artifacts while keeping validation bounded to the authority package.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed if source authority is ambiguous, historical blocked-goal truth would be rewritten, ADL policy would be weakened, or a repository implementation is proposed without an owning executable seam.",
+      "design_ref": ".csdlc/prepared/issues/59/design.md",
+      "design_digest": "ad92baef95b5bf1a2c17919fce558956c1bf0b89a8fe5a735d14abd7e2acbe6b",
+      "diagram_ref": ".csdlc/prepared/issues/59/diagram.mmd",
+      "diagram_digest": "0964dc21f2216184975cbbb77d9fdce9d9ca577846e2084d2d295784507e764d"
+    }
+  }
+}
