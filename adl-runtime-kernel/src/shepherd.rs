@@ -1,10 +1,12 @@
 use std::{
-    collections::{BTreeMap, BTreeSet},
+    collections::BTreeMap,
+    fs::{File, OpenOptions},
     future::Future,
+    io::Write,
     path::{Path, PathBuf},
     pin::Pin,
     process::Stdio,
-    sync::Arc,
+    sync::{Arc, Mutex},
     time::{Duration, Instant},
 };
 
@@ -20,6 +22,8 @@ use tokio::{
 use tokio_util::sync::CancellationToken;
 
 use crate::operations::{ExecutorError, FailureClass, OperationExecutor, OperationRequest};
+
+type TrackedProcesses = BTreeMap<Pid, u64>;
 
 pub const SHEPHERD_REQUEST_SCHEMA: &str = "adl.runtime.shepherd_request.v1";
 pub const SHEPHERD_RESPONSE_SCHEMA: &str = "adl.runtime.shepherd_response.v1";
@@ -368,15 +372,111 @@ impl ShepherdError {
 #[derive(Clone)]
 pub struct LocalShepherdExecutor {
     config: Option<Arc<LocalShepherdConfig>>,
+    runner_program: Option<Arc<ImmutableRunnerProgram>>,
     permits: Arc<Semaphore>,
     runner_program_sha256: Option<String>,
     runner_launch_sha256: Option<String>,
+}
+
+struct ImmutableRunnerProgram {
+    _file: File,
+    launch: ImmutableRunnerLaunch,
+    retained_path: Option<PathBuf>,
+}
+
+enum ImmutableRunnerLaunch {
+    #[cfg(target_os = "linux")]
+    Descriptor,
+    Path(PathBuf),
+}
+
+impl ImmutableRunnerProgram {
+    fn capture(bytes: &[u8]) -> Result<Self, ShepherdError> {
+        let path = std::env::temp_dir().join(format!(
+            "adl-shepherd-runner-{}",
+            uuid::Uuid::new_v4().simple()
+        ));
+        let mut options = OpenOptions::new();
+        options.read(true).write(true).create_new(true);
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::OpenOptionsExt;
+            options.mode(0o700);
+        }
+        let mut file = options
+            .open(&path)
+            .map_err(|_| ShepherdError::Unavailable)?;
+        if let Err(error) = file.write_all(bytes).and_then(|_| file.sync_all()) {
+            let _ = std::fs::remove_file(&path);
+            return Err(if error.kind() == std::io::ErrorKind::WriteZero {
+                ShepherdError::InvalidConfiguration
+            } else {
+                ShepherdError::Unavailable
+            });
+        }
+        #[cfg(unix)]
+        use std::os::unix::fs::PermissionsExt;
+        #[cfg(unix)]
+        std::fs::set_permissions(&path, std::fs::Permissions::from_mode(0o500))
+            .map_err(|_| ShepherdError::Unavailable)?;
+        drop(file);
+        let file = File::open(&path).map_err(|_| ShepherdError::Unavailable)?;
+
+        let launch = immutable_runner_launch(bytes, &path)?;
+        let retain_path = matches!(launch, ImmutableRunnerLaunch::Path(_));
+        if !retain_path {
+            std::fs::remove_file(&path).map_err(|_| ShepherdError::Unavailable)?;
+        }
+        Ok(Self {
+            _file: file,
+            launch,
+            retained_path: retain_path.then_some(path),
+        })
+    }
+
+    fn command(&self) -> Command {
+        match &self.launch {
+            #[cfg(target_os = "linux")]
+            ImmutableRunnerLaunch::Descriptor => Command::new(self.descriptor_path()),
+            ImmutableRunnerLaunch::Path(path) => Command::new(path),
+        }
+    }
+
+    #[cfg(target_os = "linux")]
+    fn descriptor_path(&self) -> PathBuf {
+        use std::os::fd::AsRawFd;
+        let fd = self._file.as_raw_fd();
+        #[cfg(target_os = "linux")]
+        return PathBuf::from(format!("/proc/self/fd/{fd}"));
+        #[cfg(not(target_os = "linux"))]
+        PathBuf::from(format!("/dev/fd/{fd}"))
+    }
+}
+
+impl Drop for ImmutableRunnerProgram {
+    fn drop(&mut self) {
+        if let Some(path) = self.retained_path.as_ref() {
+            let _ = std::fs::remove_file(path);
+        }
+    }
+}
+
+fn immutable_runner_launch(
+    _bytes: &[u8],
+    path: &Path,
+) -> Result<ImmutableRunnerLaunch, ShepherdError> {
+    #[cfg(target_os = "linux")]
+    return Ok(ImmutableRunnerLaunch::Descriptor);
+
+    #[allow(unreachable_code)]
+    Ok(ImmutableRunnerLaunch::Path(path.to_path_buf()))
 }
 
 impl LocalShepherdExecutor {
     pub fn unavailable() -> Self {
         Self {
             config: None,
+            runner_program: None,
             permits: Arc::new(Semaphore::new(1)),
             runner_program_sha256: None,
             runner_launch_sha256: None,
@@ -393,10 +493,12 @@ impl LocalShepherdExecutor {
         {
             return Err(ShepherdError::AttestationFailed);
         }
+        let runner_program = Arc::new(ImmutableRunnerProgram::capture(&program)?);
         let runner_launch_sha256 = launch_digest(&config, &runner_program_sha256)?;
         let max_in_flight = config.max_in_flight;
         Ok(Self {
             config: Some(Arc::new(config)),
+            runner_program: Some(runner_program),
             permits: Arc::new(Semaphore::new(max_in_flight)),
             runner_program_sha256: Some(runner_program_sha256),
             runner_launch_sha256: Some(runner_launch_sha256),
@@ -424,7 +526,11 @@ impl LocalShepherdExecutor {
         let started = Instant::now();
         let nonce = uuid::Uuid::new_v4().simple().to_string();
         let input = runner_input(config, &request, &nonce)?;
-        let (mut child, mut process_group) = spawn(config)?;
+        let runner_program = self
+            .runner_program
+            .as_ref()
+            .ok_or(ShepherdError::InvalidConfiguration)?;
+        let (mut child, mut process_group) = spawn(config, runner_program)?;
         let stdin = child.stdin.take().ok_or(ShepherdError::ProcessFailed)?;
         let stdout = child.stdout.take().ok_or(ShepherdError::ProcessFailed)?;
         let stderr = child.stderr.take().ok_or(ShepherdError::ProcessFailed)?;
@@ -433,8 +539,11 @@ impl LocalShepherdExecutor {
             .saturating_add(MAX_RUNNER_ENVELOPE_OVERHEAD);
         let stdout = tokio::spawn(read_bounded(stdout, stdout_limit));
         let stderr = tokio::spawn(read_bounded(stderr, MAX_STDERR_BYTES));
-        let mut memory_monitor =
-            ProcessTreeMemoryMonitor::start(process_group.process_id, config.max_memory_bytes);
+        let mut memory_monitor = ProcessTreeMemoryMonitor::start(
+            process_group.process_id,
+            config.max_memory_bytes,
+            process_group.tracked.clone(),
+        );
         let timeout = tokio::time::sleep(config.timeout);
         tokio::pin!(timeout);
         let write_result = tokio::select! {
@@ -699,8 +808,11 @@ fn decode_runner_output(
     Ok((response.response, Some(sha256(nonce.as_bytes()))))
 }
 
-fn spawn(config: &LocalShepherdConfig) -> Result<(Child, ProcessGroupGuard), ShepherdError> {
-    let mut command = Command::new(&config.program);
+fn spawn(
+    config: &LocalShepherdConfig,
+    runner_program: &ImmutableRunnerProgram,
+) -> Result<(Child, ProcessGroupGuard), ShepherdError> {
+    let mut command = runner_program.command();
     command
         .args(&config.arguments)
         .env_clear()
@@ -711,7 +823,11 @@ fn spawn(config: &LocalShepherdConfig) -> Result<(Child, ProcessGroupGuard), She
         .kill_on_drop(true);
     #[cfg(unix)]
     {
+        #[cfg(target_os = "linux")]
+        use std::os::fd::AsRawFd;
         use std::os::unix::process::CommandExt;
+        #[cfg(target_os = "linux")]
+        let runner_fd = runner_program._file.as_raw_fd();
         command.as_std_mut().process_group(0);
         #[cfg(not(target_os = "macos"))]
         let memory = config.max_memory_bytes as libc::rlim_t;
@@ -720,6 +836,12 @@ fn spawn(config: &LocalShepherdConfig) -> Result<(Child, ProcessGroupGuard), She
         let processes = config.max_processes as libc::rlim_t;
         unsafe {
             command.as_std_mut().pre_exec(move || {
+                #[cfg(target_os = "linux")]
+                {
+                    if libc::fcntl(runner_fd, libc::F_SETFD, 0) != 0 {
+                        return Err(std::io::Error::last_os_error());
+                    }
+                }
                 #[cfg(not(target_os = "macos"))]
                 {
                     let mut inherited = libc::rlimit {
@@ -766,13 +888,18 @@ struct ProcessTreeMemoryMonitor {
 }
 
 impl ProcessTreeMemoryMonitor {
-    fn start(process_id: u32, max_memory_bytes: u64) -> Self {
+    fn start(
+        process_id: u32,
+        max_memory_bytes: u64,
+        tracked: Arc<Mutex<TrackedProcesses>>,
+    ) -> Self {
         let cancellation = CancellationToken::new();
         let monitor_cancellation = cancellation.clone();
         let task = tokio::task::spawn_blocking(move || {
             monitor_process_tree_memory_blocking(
                 process_id,
                 max_memory_bytes,
+                &tracked,
                 &monitor_cancellation,
             );
         });
@@ -806,34 +933,57 @@ impl Drop for ProcessTreeMemoryMonitor {
 fn monitor_process_tree_memory_blocking(
     process_id: u32,
     max_memory_bytes: u64,
+    tracked: &Mutex<TrackedProcesses>,
     cancellation: &CancellationToken,
 ) {
     let root = Pid::from(process_id as usize);
     let mut system = System::new_all();
     while !cancellation.is_cancelled() {
         system.refresh_processes(ProcessesToUpdate::All, true);
-        let mut members = BTreeSet::from([root]);
-        loop {
-            let previous = members.len();
-            for (pid, process) in system.processes() {
-                if process
-                    .parent()
-                    .is_some_and(|parent| members.contains(&parent))
-                {
-                    members.insert(*pid);
-                }
-            }
-            if members.len() == previous {
-                break;
-            }
+        let mut members = tracked
+            .lock()
+            .map(|members| members.clone())
+            .unwrap_or_else(|_| BTreeMap::new());
+        if let Some(process) = system.process(root) {
+            members.insert(root, process.start_time());
         }
-        let used = members.iter().fold(0_u64, |total, pid| {
-            total.saturating_add(system.process(*pid).map_or(0, |process| process.memory()))
+        extend_process_tree(&system, &mut members);
+        if let Ok(mut retained) = tracked.lock() {
+            retained.extend(members.iter().map(|(pid, started)| (*pid, *started)));
+        }
+        let used = members.iter().fold(0_u64, |total, (pid, started)| {
+            total.saturating_add(system.process(*pid).map_or(0, |process| {
+                if process.start_time() == *started {
+                    process.memory()
+                } else {
+                    0
+                }
+            }))
         });
         if used > max_memory_bytes {
             return;
         }
-        std::thread::sleep(Duration::from_millis(25));
+        std::thread::sleep(Duration::from_millis(10));
+    }
+}
+
+fn extend_process_tree(system: &System, members: &mut TrackedProcesses) {
+    loop {
+        let previous = members.len();
+        for (pid, process) in system.processes() {
+            if process.parent().is_some_and(|parent| {
+                members.get(&parent).is_some_and(|started| {
+                    system
+                        .process(parent)
+                        .is_some_and(|parent_process| parent_process.start_time() == *started)
+                })
+            }) {
+                members.entry(*pid).or_insert_with(|| process.start_time());
+            }
+        }
+        if members.len() == previous {
+            break;
+        }
     }
 }
 
@@ -904,8 +1054,48 @@ async fn read_bounded(
 }
 
 #[cfg(unix)]
-fn terminate_process_group(process_id: u32) {
+fn terminate_process_tree(process_id: u32, tracked: &Mutex<TrackedProcesses>) {
     if let Ok(group) = i32::try_from(process_id) {
+        unsafe {
+            libc::kill(-group, libc::SIGSTOP);
+        }
+        let root = Pid::from(process_id as usize);
+        let mut system = System::new_all();
+        system.refresh_processes(ProcessesToUpdate::All, true);
+        let mut members = tracked
+            .lock()
+            .map(|members| members.clone())
+            .unwrap_or_else(|_| BTreeMap::new());
+        if let Some(process) = system.process(root) {
+            members.insert(root, process.start_time());
+        }
+        extend_process_tree(&system, &mut members);
+        for (pid, started) in members.iter().filter(|(pid, _)| **pid != root) {
+            let identity_matches = system
+                .process(*pid)
+                .is_some_and(|process| process.start_time() == *started);
+            if identity_matches {
+                if let Ok(pid) = i32::try_from(pid.as_u32()) {
+                    unsafe {
+                        libc::kill(pid, libc::SIGSTOP);
+                    }
+                }
+            }
+        }
+        system.refresh_processes(ProcessesToUpdate::All, true);
+        extend_process_tree(&system, &mut members);
+        for (pid, started) in members.into_iter().rev().filter(|(pid, _)| *pid != root) {
+            if system
+                .process(pid)
+                .is_some_and(|process| process.start_time() == started)
+            {
+                if let Ok(pid) = i32::try_from(pid.as_u32()) {
+                    unsafe {
+                        libc::kill(pid, libc::SIGKILL);
+                    }
+                }
+            }
+        }
         unsafe {
             libc::kill(-group, libc::SIGKILL);
         }
@@ -913,10 +1103,11 @@ fn terminate_process_group(process_id: u32) {
 }
 
 #[cfg(not(unix))]
-fn terminate_process_group(_process_id: u32) {}
+fn terminate_process_tree(_process_id: u32, _tracked: &Mutex<TrackedProcesses>) {}
 
 struct ProcessGroupGuard {
     process_id: u32,
+    tracked: Arc<Mutex<TrackedProcesses>>,
     armed: bool,
 }
 
@@ -924,13 +1115,14 @@ impl ProcessGroupGuard {
     fn new(process_id: u32) -> Self {
         Self {
             process_id,
+            tracked: Arc::new(Mutex::new(BTreeMap::new())),
             armed: true,
         }
     }
 
     fn terminate(&mut self) {
         if self.armed {
-            terminate_process_group(self.process_id);
+            terminate_process_tree(self.process_id, &self.tracked);
             self.armed = false;
         }
     }

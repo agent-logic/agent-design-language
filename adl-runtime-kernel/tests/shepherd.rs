@@ -291,6 +291,31 @@ fn real_runner_bytes_must_match_the_operator_pinned_digest() {
 }
 
 #[tokio::test]
+async fn configured_runner_executes_captured_bytes_after_source_replacement() {
+    let temp = tempfile::tempdir().unwrap();
+    let marker = temp.path().join("replacement-executed");
+    let runner = write_script(
+        &temp,
+        "runner",
+        "read prompt\nprintf 'captured:%s' \"$prompt\"",
+    );
+    let executor = LocalShepherdExecutor::configured(config(&runner, vec![])).unwrap();
+    write_executable(
+        &temp,
+        "runner",
+        &format!(
+            "#!/bin/sh\ntouch '{}'\nprintf replacement\n",
+            marker.display()
+        ),
+    );
+
+    let response: ShepherdResponse =
+        serde_json::from_slice(&executor.execute(&request("hello")).await.unwrap()).unwrap();
+    assert_eq!(response.response, "captured:hello");
+    assert!(!marker.exists());
+}
+
+#[tokio::test]
 async fn provider_environment_is_cleared_and_allow_listed() {
     let temp = tempfile::tempdir().unwrap();
     let script = write_script(
@@ -440,8 +465,9 @@ async fn normal_parent_exit_kills_descendants_and_bounds_pipe_drain() {
         &temp,
         "fork-and-exit",
         &format!(
-            r#"import os, subprocess, sys
-subprocess.Popen(["/bin/sh", "-c", "sleep 0.4; touch '{}'"])
+            r#"import os, subprocess, sys, time
+subprocess.Popen(["/bin/sh", "-c", "sleep 0.5; touch '{}'"], preexec_fn=os.setsid)
+time.sleep(0.1)
 sys.stdout.write("answer")
 sys.stdout.flush()
 os._exit(0)"#,
@@ -467,8 +493,8 @@ async fn timeout_kills_descendants() {
         &temp,
         "fork-and-wait",
         &format!(
-            r#"import subprocess, time
-subprocess.Popen(["/bin/sh", "-c", "sleep 0.5; touch '{}'"])
+            r#"import os, subprocess, time
+subprocess.Popen(["/bin/sh", "-c", "sleep 0.5; touch '{}'"], preexec_fn=os.setsid)
 time.sleep(5)"#,
             marker.display()
         ),
@@ -492,12 +518,13 @@ async fn dropped_execution_future_kills_descendants() {
         &temp,
         "fork-for-drop",
         &format!(
-            r#"import pathlib, subprocess, time
+            r#"import os, pathlib, subprocess, time
+subprocess.Popen(["/bin/sh", "-c", "sleep 0.5; touch '{}'"], preexec_fn=os.setsid)
+time.sleep(0.1)
 pathlib.Path("{}").touch()
-subprocess.Popen(["/bin/sh", "-c", "sleep 0.5; touch '{}'"])
 time.sleep(5)"#,
-            started.display(),
-            escaped.display()
+            escaped.display(),
+            started.display()
         ),
     );
     let executor = LocalShepherdExecutor::configured(config(&runner, vec![])).unwrap();
@@ -631,6 +658,49 @@ async fn cancellation_is_bounded_and_releases_capacity() {
     let response: ShepherdResponse =
         serde_json::from_slice(&executor.execute(&request("second")).await.unwrap()).unwrap();
     assert_eq!(response.response, "recovered:second");
+}
+
+#[cfg(unix)]
+#[tokio::test]
+async fn cancellation_kills_descendant_that_escaped_the_process_group() {
+    let temp = tempfile::tempdir().unwrap();
+    let started = temp.path().join("started");
+    let escaped = temp.path().join("descendant-survived");
+    let runner = write_python(
+        &temp,
+        "setsid-for-cancellation",
+        &format!(
+            r#"import os, pathlib, subprocess, time
+subprocess.Popen(["/bin/sh", "-c", "sleep 0.5; touch '{}'"], preexec_fn=os.setsid)
+time.sleep(0.1)
+pathlib.Path("{}").touch()
+time.sleep(5)"#,
+            escaped.display(),
+            started.display()
+        ),
+    );
+    let executor = LocalShepherdExecutor::configured(config(&runner, vec![])).unwrap();
+    let cancellation = CancellationToken::new();
+    let cancel = cancellation.clone();
+    let execution = tokio::spawn(async move {
+        executor
+            .execute_with_cancellation(&request("hello"), &cancellation)
+            .await
+    });
+    tokio::time::timeout(Duration::from_secs(1), async {
+        while !started.exists() {
+            tokio::task::yield_now().await;
+        }
+    })
+    .await
+    .unwrap();
+    cancel.cancel();
+    assert_eq!(
+        reason(&execution.await.unwrap().unwrap_err()),
+        "shepherd_cancelled"
+    );
+    tokio::time::sleep(Duration::from_millis(700)).await;
+    assert!(!escaped.exists());
 }
 
 #[tokio::test]

@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "409e16e0228f29a4e234fa3fa006087a058b5409f297ac014539fbdee6cb922a",
   "phase": "bound",
-  "generation": 43,
-  "digest": "9a3cfe317cad054187483ef509297fee1e4173fc029df7bb996240d478d74ae8",
+  "generation": 44,
+  "digest": "6cb850a13bef9c017d7980b184aca85c58896e760400ead1862a0848884ee183",
   "branch": "codex/5795-local-gemma-mlx-shepherd",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5795-local-shepherd",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5795/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5795-portable-mlx-cuda-design-review",
-      "revision": "714e32d250ea000b158c6f2940af60db47219a38ada6ff2c6b01d438be5a76c9"
+      "reviewer": "codex:5795-runtime-hardening-design-review",
+      "revision": "e3d2ac9f0484788e8a880ffb378969c5c89514815d834b4d6dc743d90dc2bfec"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "1dee1d0d6115d124b09b0ea254f9d32bcde8eb49c0fc3aa5713ca18ee0e46fe3",
+      "values_digest": "62c9060235e05bb2022cfe2ec218d759cfc4f8458b327994d93dcbc4109fe631",
       "rendered_digest": "8711735ab9715d666a6ed98a42d95ced1bce438c0cdc1d2e723d8b622af12214",
       "ast_digest": "23799561d6fbdb18697292ba3a7b0dc86cd314122af9a2cd9da41ad1cd8736a8"
     },
     "stp": {
-      "values_digest": "7dc9e164c496da6dad758b91a290681d6c303d5244ca7edf477d5c3e73ae8cce",
+      "values_digest": "6fa57c1837c2e5a2e26c3dc13e8d2f66eb0ae5f94a91ffcfe979145aed8b623b",
       "rendered_digest": "35cc53fafbffb6049454b2b29e8b3692692ff2c0f9ae61ace2d5cedca66776bc",
       "ast_digest": "c0316a34236b0f6c806267cc6324d4fb9ffa46f1848291a9d1b01bea4b24af21"
     },
     "spp": {
-      "values_digest": "581f9ed2b39a12077acf8b323bd4aa89b31936df63ce8b8a4ef53daf3ec9a710",
-      "rendered_digest": "ac3d85334ca4c89fa5abbc9d464db579bf4d123baad10d7af4515815be15463a",
-      "ast_digest": "64190b800c414bacd95aab4dbe2cf549d0b1c21c474ec5a1b2a4d7d202efde5d"
+      "values_digest": "fe9892dbcfb922ffba2f936403013d5095b44f6f3516c58449b524ec471253f5",
+      "rendered_digest": "cf6b9cc6da051d1ee02e1735fb5af87490b623331523bc7cefe9203061cef538",
+      "ast_digest": "344de06ea1f16542b76559ca1ca19c54b4cba0de7ced832ee7906b3b8fd27b87"
     },
     "vpp": {
-      "values_digest": "dfb7d925e70d06a4e3163ef99284354c01a999275558cc77fe7f04f3a4390fe6",
+      "values_digest": "0a83e27fcfc7c1a297852b39cdf47592e9ba35c7112af679a15436361b63ac6a",
       "rendered_digest": "f877b02302545a32c5ffb3912440194f3dd5004ee02c8e2cb14c0f8c319fa7ab",
       "ast_digest": "eaa7a639cf236dadeef7e6ffc646c0d333e82a808d326eb6acfd753f876b0f30"
     },
     "srp": {
-      "values_digest": "873e71098e49fe0a93b754ed13f266ac69a59786a3e85de22098c3a1be3627fc",
+      "values_digest": "c708c5b15c47bf6f204367132bd77a2f0451a3b998f158446eb151ddb1c22661",
       "rendered_digest": "e3f361c41322cbe30f643af742a4a48adcd9aa2e84dd22c49f474180876b57eb",
       "ast_digest": "b8bdbd3e726f6e16200fdbaec307e5dcd8161488b319b5c0f2d6307623bfbc98"
     },
     "sor": {
-      "values_digest": "83120f121ad227684cc0299b6aec59a7e5a1fee6a9a7ed465e90440b3d50506f",
+      "values_digest": "4f75aa8f8c10cdcdcb4764efebb7b8a712516500755375a67c00b8362d509413",
       "rendered_digest": "8dff0bc57674843f439603d89e33224b1ad639e40a0dd715390f570e1d6bd15c",
       "ast_digest": "3cb60e4ee9159c2fd215b4b7993aee24df63502aa9ed8072f8286c1faad540ed"
     }
@@ -511,6 +511,13 @@
       "actor": "openai-codex:gpt-5:issue-5795-portable-model",
       "reason": "Focused Rust, Mac MLX, immutable S3 publication, no-launch AWS preflight, and zero-resource cleanup proofs all passed.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 61,
+      "generation": 44,
+      "actor": "codex:5795-runtime-hardening-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

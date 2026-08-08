@@ -6,6 +6,7 @@
   "ami_sha256": "1155c4ab3180f32af0fa8c7f1f0b296d28d57167d5b38237ac8a7124d2efa319",
   "subnet_sha256": "83fe4e890405df0a3c1aeb6da6353f869fd688e7894bfd0aade4e8f7ff19866e",
   "instance_profile": "ADLRemoteValidationPermanentProfile",
+  "deadline_scheduler_role": "ADLWP5795GpuDeadlineSchedulerRole",
   "gpu_instance_type": "g6.xlarge",
   "model_identity": "gemma4:12b",
   "model_artifact_sha256": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",

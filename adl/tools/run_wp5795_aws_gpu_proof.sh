@@ -10,6 +10,7 @@ fi
 PROFILE="${AWS_PROFILE:-agent-logic-admin}"
 REGION="${AWS_REGION:-us-west-2}"
 INSTANCE_PROFILE="${ADL_WP5795_INSTANCE_PROFILE:-ADLRemoteValidationPermanentProfile}"
+DEADLINE_SCHEDULER_ROLE="${ADL_WP5795_DEADLINE_SCHEDULER_ROLE:-ADLWP5795GpuDeadlineSchedulerRole}"
 GPU_INSTANCE_TYPE="g6.xlarge"
 MAX_GPU_HOURLY_USD="0.85"
 MODEL_IDENTITY="${ADL_WP5795_MODEL_IDENTITY:-gemma4:12b}"
@@ -28,6 +29,9 @@ SOURCE_COMMIT=""
 RUN_ID=""
 EXECUTE=false
 LOCK_ACQUIRED=false
+LOCK_VERSION_ID=""
+OWNER_TOKEN=""
+DEADLINE_SCHEDULE=""
 
 usage() {
   cat <<'USAGE'
@@ -39,9 +43,10 @@ Usage:
 The paid path uses one fixed On-Demand g6.xlarge. It restores the exact
 versioned S3 artifact set, source revision, toolchain, and compiled tests, then
 runs the CUDA proof without a stopped-state gap or registry model pull. An
-atomic S3 lock prevents concurrent paid runs. The instance self-terminates
-after 55 minutes and the local runner also terminates it on every exit path.
-The root volume is encrypted and marked DeleteOnTermination.
+atomic, owner-bound S3 lock prevents concurrent paid runs. A one-time AWS-side
+schedule terminates the exact instance after 55 minutes; the guest and local
+runner provide independent cleanup paths. The root volume is encrypted and
+marked DeleteOnTermination.
 USAGE
 }
 
@@ -140,29 +145,79 @@ gpu_hourly_price_usd() {
 }
 
 acquire_run_lock() {
-  local lock_file="$STATE_ROOT/$RUN_ID/run-lock.json"
+  local lock_file="$STATE_ROOT/$RUN_ID/run-lock.json" response
   jq -n --arg schema adl.wp5795.aws_gpu_lock.v1 --arg run_id "$RUN_ID" \
+    --arg owner_token "$OWNER_TOKEN" \
     --argjson expires_epoch "$(( $(date +%s) + 3600 ))" \
-    '{schema:$schema,run_id:$run_id,expires_epoch:$expires_epoch}' >"$lock_file"
-  aws_cli s3api put-object --bucket "$ARTIFACT_BUCKET" --key "$LOCK_KEY" \
+    '{schema:$schema,run_id:$run_id,owner_token:$owner_token,expires_epoch:$expires_epoch}' >"$lock_file"
+  response="$(aws_cli s3api put-object --bucket "$ARTIFACT_BUCKET" --key "$LOCK_KEY" \
     --body "$lock_file" --content-type application/json --if-none-match '*' \
-    >/dev/null
+    --output json)"
+  LOCK_VERSION_ID="$(jq -er '.VersionId | select(type == "string" and length > 0)' <<<"$response")"
   LOCK_ACQUIRED=true
 }
 
 release_run_lock() {
-  local run_id="$1" retained_run_id
-  retained_run_id="$(aws s3 cp "s3://$ARTIFACT_BUCKET/$LOCK_KEY" - \
-    --profile "$PROFILE" --region "$REGION" --only-show-errors 2>/dev/null \
-    | jq -er '.run_id' 2>/dev/null || true)"
-  [[ -z "$retained_run_id" ]] && return 0
+  local run_id="$1" owner_token="${2:-}" lock_version="${3:-}"
+  local retained_run_id retained_owner_token lock_file
+  lock_file="$STATE_ROOT/$run_id/retained-run-lock.json"
+  if [[ -z "$lock_version" ]]; then
+    lock_version="$(aws_cli s3api head-object --bucket "$ARTIFACT_BUCKET" --key "$LOCK_KEY" \
+      --query VersionId --output text 2>/dev/null || true)"
+  fi
+  [[ -n "$lock_version" && "$lock_version" != "None" ]] || return 0
+  aws_cli s3api get-object --bucket "$ARTIFACT_BUCKET" --key "$LOCK_KEY" \
+    --version-id "$lock_version" "$lock_file" >/dev/null 2>&1 || return 0
+  retained_run_id="$(jq -er '.run_id' "$lock_file")"
+  retained_owner_token="$(jq -er '.owner_token' "$lock_file")"
   [[ "$retained_run_id" == "$run_id" ]] || {
     echo "refusing to release a lock owned by another run" >&2
     return 1
   }
+  [[ -z "$owner_token" || "$retained_owner_token" == "$owner_token" ]] || {
+    echo "refusing to release a lock owned by another execution" >&2
+    return 1
+  }
   aws_cli s3api delete-object --bucket "$ARTIFACT_BUCKET" --key "$LOCK_KEY" \
+    --version-id "$lock_version" \
     >/dev/null
   LOCK_ACQUIRED=false
+  LOCK_VERSION_ID=""
+}
+
+resolve_deadline_scheduler_role_arn() {
+  aws --profile "$PROFILE" iam get-role --role-name "$DEADLINE_SCHEDULER_ROLE" \
+    --query 'Role.Arn' --output text
+}
+
+deadline_timestamp() {
+  local epoch
+  epoch="$(( $(date +%s) + MAX_INSTANCE_SECONDS ))"
+  date -u -r "$epoch" +%Y-%m-%dT%H:%M:%S 2>/dev/null \
+    || date -u -d "@$epoch" +%Y-%m-%dT%H:%M:%S
+}
+
+create_deadline_schedule() {
+  local instance_id="$1" role_arn target_file deadline
+  role_arn="$(resolve_deadline_scheduler_role_arn)"
+  deadline="$(deadline_timestamp)"
+  DEADLINE_SCHEDULE="adl-wp5795-${OWNER_TOKEN:0:24}"
+  target_file="$STATE_ROOT/$RUN_ID/deadline-target.json"
+  jq -n --arg role "$role_arn" --arg instance_id "$instance_id" \
+    '{Arn:"arn:aws:scheduler:::aws-sdk:ec2:terminateInstances",RoleArn:$role,
+      Input:({InstanceIds:[$instance_id]} | tojson)}' >"$target_file"
+  aws_cli scheduler create-schedule \
+    --name "$DEADLINE_SCHEDULE" \
+    --schedule-expression "at($deadline)" \
+    --flexible-time-window Mode=OFF \
+    --action-after-completion DELETE \
+    --target "file://$target_file" >/dev/null
+}
+
+delete_deadline_schedule() {
+  local schedule="${1:-}"
+  [[ -n "$schedule" ]] || return 0
+  aws_cli scheduler delete-schedule --name "$schedule" >/dev/null 2>&1 || true
 }
 
 active_issue_instances() {
@@ -207,7 +262,7 @@ download_artifact_manifest() {
 }
 
 preflight() {
-  local actual_account expected_account ami subnet quota active profile_roles
+  local actual_account expected_account ami subnet quota active profile_roles deadline_role_arn
   local artifact_manifest artifact_model_digest hourly_price
   [[ "$PROFILE" == "agent-logic-admin" ]] || {
     echo "AWS profile must be agent-logic-admin" >&2
@@ -234,6 +289,11 @@ preflight() {
     echo "required permanent SSM instance profile is unavailable" >&2
     return 2
   }
+  deadline_role_arn="$(resolve_deadline_scheduler_role_arn)"
+  [[ "$deadline_role_arn" == arn:aws:iam::*:role/"$DEADLINE_SCHEDULER_ROLE" ]] || {
+    echo "required permanent deadline scheduler role is unavailable" >&2
+    return 2
+  }
   artifact_manifest="$STATE_ROOT/preflight-artifact-manifest.json"
   download_artifact_manifest "$artifact_manifest"
   artifact_model_digest="$(jq -er '.model_digest_sha256' "$artifact_manifest")"
@@ -250,6 +310,7 @@ preflight() {
     --arg ami_sha256 "$(sha256_text "$ami")" \
     --arg subnet_sha256 "$(sha256_text "$subnet")" \
     --arg instance_profile "$INSTANCE_PROFILE" \
+    --arg deadline_scheduler_role "$DEADLINE_SCHEDULER_ROLE" \
     --arg gpu_instance_type "$GPU_INSTANCE_TYPE" \
     --arg model_identity "$MODEL_IDENTITY" \
     --arg model_artifact_sha256 "$artifact_model_digest" \
@@ -262,6 +323,7 @@ preflight() {
     '{schema:$schema, profile:$profile, region:$region,
       account_sha256:$account_sha256, ami_sha256:$ami_sha256,
       subnet_sha256:$subnet_sha256, instance_profile:$instance_profile,
+      deadline_scheduler_role:$deadline_scheduler_role,
       gpu_instance_type:$gpu_instance_type, model_identity:$model_identity,
       model_artifact_sha256:$model_artifact_sha256,
       artifact_manifest_sha256:$artifact_manifest_sha256,
@@ -344,14 +406,21 @@ run_ssm_script() {
 }
 
 cleanup_run() {
-  local run_id="$1" instance_ids volume_ids
+  local run_id="$1" owner_token="${2:-}" deadline_schedule="${3:-}"
+  local instance_ids volume_ids
+  local -a instance_filters volume_filters
   [[ "$run_id" =~ ^adl-wp5795-[a-zA-Z0-9._-]+$ ]] || {
     echo "invalid run id" >&2
     return 2
   }
+  instance_filters=("Name=tag:adl:run-id,Values=$run_id" Name=instance-state-name,Values=pending,running,stopping,stopped)
+  volume_filters=("Name=tag:adl:run-id,Values=$run_id" Name=status,Values=available)
+  if [[ -n "$owner_token" ]]; then
+    instance_filters+=("Name=tag:adl:owner-token,Values=$owner_token")
+    volume_filters+=("Name=tag:adl:owner-token,Values=$owner_token")
+  fi
   instance_ids="$(aws_cli ec2 describe-instances \
-    --filters "Name=tag:adl:run-id,Values=$run_id" \
-      Name=instance-state-name,Values=pending,running,stopping,stopped \
+    --filters "${instance_filters[@]}" \
     --query 'Reservations[].Instances[].InstanceId' --output text)"
   if [[ -n "$instance_ids" ]]; then
     read -r -a instances <<<"$instance_ids"
@@ -359,7 +428,7 @@ cleanup_run() {
     aws_cli ec2 wait instance-terminated --instance-ids "${instances[@]}"
   fi
   volume_ids="$(aws_cli ec2 describe-volumes \
-    --filters "Name=tag:adl:run-id,Values=$run_id" Name=status,Values=available \
+    --filters "${volume_filters[@]}" \
     --query 'Volumes[].VolumeId' --output text)"
   if [[ -n "$volume_ids" ]]; then
     read -r -a volumes <<<"$volume_ids"
@@ -368,24 +437,34 @@ cleanup_run() {
     done
   fi
   instance_ids="$(aws_cli ec2 describe-instances \
-    --filters "Name=tag:adl:run-id,Values=$run_id" \
-      Name=instance-state-name,Values=pending,running,stopping,stopped \
+    --filters "${instance_filters[@]}" \
     --query 'Reservations[].Instances[].InstanceId' --output text)"
+  volume_filters=("Name=tag:adl:run-id,Values=$run_id" Name=status,Values=creating,available,in-use)
+  if [[ -n "$owner_token" ]]; then
+    volume_filters+=("Name=tag:adl:owner-token,Values=$owner_token")
+  fi
   volume_ids="$(aws_cli ec2 describe-volumes \
-    --filters "Name=tag:adl:run-id,Values=$run_id" Name=status,Values=creating,available,in-use \
+    --filters "${volume_filters[@]}" \
     --query 'Volumes[].VolumeId' --output text)"
   [[ -z "$instance_ids" && -z "$volume_ids" ]] || {
     echo "cleanup verification found surviving resources" >&2
     return 1
   }
-  release_run_lock "$run_id"
+  delete_deadline_schedule "$deadline_schedule"
+  if [[ -n "$owner_token" ]]; then
+    release_run_lock "$run_id" "$owner_token" "$LOCK_VERSION_ID"
+  else
+    release_run_lock "$run_id"
+  fi
   printf 'PASS wp5795_aws_cleanup run_id=%s instances=0 volumes=0\n' "$run_id"
 }
 
 cleanup_on_exit() {
   local original_rc=$? cleanup_rc=0
   trap - EXIT INT TERM
-  cleanup_run "$RUN_ID" >/dev/null || cleanup_rc=$?
+  if [[ "$LOCK_ACQUIRED" == true ]]; then
+    cleanup_run "$RUN_ID" "$OWNER_TOKEN" "$DEADLINE_SCHEDULE" >/dev/null || cleanup_rc=$?
+  fi
   if (( original_rc == 0 && cleanup_rc != 0 )); then
     original_rc=$cleanup_rc
   fi
@@ -409,6 +488,10 @@ run_proof() {
   }
   mkdir -p "$STATE_ROOT/$RUN_ID"
   run_dir="$STATE_ROOT/$RUN_ID"
+  OWNER_TOKEN="$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')"
+  trap cleanup_on_exit EXIT
+  trap 'exit 130' INT TERM
+  acquire_run_lock
   preflight >"$run_dir/preflight.json"
   ami="$(resolve_ami)"
   subnet="$(resolve_subnet)"
@@ -420,7 +503,7 @@ write_files:
     permissions: '0700'
     content: |
       #!/bin/bash
-      aws s3api delete-object --region $REGION --bucket $ARTIFACT_BUCKET --key $LOCK_KEY >/dev/null || true
+      aws s3api delete-object --region $REGION --bucket $ARTIFACT_BUCKET --key $LOCK_KEY --version-id $LOCK_VERSION_ID >/dev/null || true
       /sbin/shutdown -h now
   - path: /etc/systemd/system/adl-wp5795-deadline.service
     permissions: '0644'
@@ -434,9 +517,9 @@ write_files:
     permissions: '0644'
     content: |
       [Unit]
-      Description=Hard 55 minute ADL WP5795 proof deadline
+      Description=Guest-side 50 minute ADL WP5795 proof deadline
       [Timer]
-      OnBootSec=55min
+      OnBootSec=50min
       Unit=adl-wp5795-deadline.service
       [Install]
       WantedBy=timers.target
@@ -445,9 +528,6 @@ runcmd:
   - systemctl enable --now adl-wp5795-deadline.timer
 CLOUD_INIT
   started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-  trap cleanup_on_exit EXIT
-  trap 'exit 130' INT TERM
-  acquire_run_lock
   instance_id="$(aws_cli ec2 run-instances \
     --image-id "$ami" --instance-type "$GPU_INSTANCE_TYPE" \
     --subnet-id "$subnet" --associate-public-ip-address \
@@ -457,9 +537,10 @@ CLOUD_INIT
     --block-device-mappings 'DeviceName=/dev/sda1,Ebs={DeleteOnTermination=true,Encrypted=true,VolumeSize=75,VolumeType=gp3}' \
     --user-data "file://$user_data" \
     --tag-specifications \
-      "ResourceType=instance,Tags=[{Key=Name,Value=$RUN_ID},{Key=adl:issue,Value=5795},{Key=adl:run-id,Value=$RUN_ID}]" \
-      "ResourceType=volume,Tags=[{Key=adl:issue,Value=5795},{Key=adl:run-id,Value=$RUN_ID}]" \
+      "ResourceType=instance,Tags=[{Key=Name,Value=$RUN_ID},{Key=adl:issue,Value=5795},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:owner-token,Value=$OWNER_TOKEN}]" \
+      "ResourceType=volume,Tags=[{Key=adl:issue,Value=5795},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:owner-token,Value=$OWNER_TOKEN}]" \
     --query 'Instances[0].InstanceId' --output text)"
+  create_deadline_schedule "$instance_id"
   aws_cli ec2 wait instance-running --instance-ids "$instance_id"
   aws_cli ec2 wait instance-status-ok --instance-ids "$instance_id"
   wait_for_ssm "$instance_id"
@@ -510,7 +591,7 @@ git clone --filter=blob:none https://github.com/agent-logic/agent-design-languag
 git -C /opt/adl-wp5795/repo fetch origin '$SOURCE_COMMIT'
 git -C /opt/adl-wp5795/repo checkout --detach '$SOURCE_COMMIT'
 source /root/.cargo/env
-cargo test --locked --manifest-path /opt/adl-wp5795/repo/adl-runtime-kernel/Cargo.toml --test shepherd --no-run
+cargo test --locked --manifest-path /opt/adl-wp5795/repo/adl-runtime-kernel/Cargo.toml --test shepherd
 cargo test --locked --manifest-path /opt/adl-wp5795/repo/adl-runtime/Cargo.toml --test shepherd_local_model --no-run
 	jq -n --arg schema adl.wp5795.aws_model_stage.v1 --arg model '$MODEL_IDENTITY' --arg digest \"\$MODEL_DIGEST\" --arg manifest '$ARTIFACT_MANIFEST_SHA256' --arg commit '$SOURCE_COMMIT' '{schema:\$schema,model_identity:\$model,model_artifact_sha256:\$digest,artifact_manifest_sha256:\$manifest,source_commit:\$commit,compiled:true}'
 STAGE
@@ -574,7 +655,7 @@ jq -n --arg schema adl.wp5795.aws_gpu_proof.v1 --arg gpu \"\$GPU_NAME\" --argjso
 GPU
   run_ssm_script "$instance_id" gpu-proof "$gpu_script"
   finished_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-  cleanup_run "$RUN_ID" >"$run_dir/cleanup.log"
+  cleanup_run "$RUN_ID" "$OWNER_TOKEN" "$DEADLINE_SCHEDULE" >"$run_dir/cleanup.log"
   trap - EXIT INT TERM
   result="$(tail -1 "$run_dir/gpu-proof.stdout")"
   status="$(jq -er \
@@ -615,9 +696,11 @@ GPU
 
 require_command aws
 require_command base64
+require_command date
 require_command jq
 require_command shasum
 require_command tr
+require_command uuidgen
 mkdir -p "$STATE_ROOT"
 
 case "$ACTION" in

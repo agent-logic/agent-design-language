@@ -1,0 +1,9 @@
+{
+  "schema": "adl.wp5795.aws_gpu_lock_collision.v1",
+  "loser_exit_code": 254,
+  "winner_lock_version_retained": true,
+  "active_instance_count": 0,
+  "lock_absent_after_cleanup": true,
+  "deadline_schedule_count_after_cleanup": 0,
+  "outcome": "passed"
+}

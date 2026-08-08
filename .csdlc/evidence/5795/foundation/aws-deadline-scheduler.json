@@ -1,0 +1,9 @@
+{
+  "schema": "adl.wp5795.aws_deadline_scheduler_contract.v1",
+  "deadline_scheduler_role": "ADLWP5795GpuDeadlineSchedulerRole",
+  "target": "arn:aws:scheduler:::aws-sdk:ec2:terminateInstances",
+  "create_read_delete": true,
+  "live_instance_launches": 0,
+  "remaining_schedules": 0,
+  "outcome": "passed"
+}

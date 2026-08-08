@@ -40,22 +40,30 @@ runtime identity, message bounds, and operation policy before provider work.
 The adapter launches the configured MLX/Metal or CUDA runner in a dedicated
 process group with CPU, descriptor, and process-count rlimits, an address-space
 rlimit where the host supports it, and an independent process-tree RSS
-watchdog. The request, timeout, output, cancellation, and pipe-drain paths are
-all bounded and metadata is redacted. Timeout, cancellation, normal child
-exit, and executor drop all terminate the complete process group so descendants
-and inherited pipes cannot outlive the request. Resource accounting runs off
-the asynchronous Runtime worker threads. No model availability is inferred
-from configuration alone.
+watchdog. The watchdog retains every observed descendant identity even when a
+child creates a new session or process group. The request, timeout, output,
+cancellation, and pipe-drain paths are all bounded and metadata is redacted.
+Timeout, cancellation, normal child exit, and executor drop freeze and
+terminate the original process group plus individually terminate retained or
+newly observed descendants, so escaped sessions and inherited pipes cannot
+outlive the request. Resource accounting runs off the asynchronous Runtime
+worker threads. This is supervision of an operator-trusted runner, not a claim
+of kernel isolation from a separately compromised process running as the same
+OS user. No model availability is inferred from configuration alone.
 
 Real-model classification requires a versioned runner handshake. Runtime sends
 a fresh nonce plus the expected backend, exact model identity, model artifact
 digest, runtime identity, and correlation identity. The runner must return all
 of those bindings with a response before Runtime emits `real_local_model`.
 The operator must pin the expected SHA-256 digest of the trusted runner bytes;
-configuration fails closed if the executable does not match. Executable bytes
-and the canonical launch configuration are hashed into the redacted result. A
-syntactically valid caller-supplied model name, substituted executable, or
-arbitrary nonempty subprocess output is insufficient.
+configuration fails closed if the executable does not match. Runtime reads the
+runner once, verifies those exact bytes, and executes a private captured copy
+rather than reopening the mutable configured path. Linux launches the captured
+descriptor directly; macOS launches the fresh read-only private copy because
+it lacks a portable descriptor-execution path. Executable bytes and the
+canonical launch configuration are hashed into the redacted result. A
+syntactically valid caller-supplied model name, post-configuration executable
+replacement, or arbitrary nonempty subprocess output is insufficient.
 
 The portable CUDA model, Ollama runtime, and restoration manifest are prepared
 once and stored in a private, versioned Agent Logic S3 bucket. The manifest
@@ -119,6 +127,8 @@ failure leaves Runtime and the public read stream usable.
 - Subprocess descendants cannot survive timeout, cancellation, successful
   parent exit, or executor future drop; reader draining is independently
   bounded.
+- Process supervision retains descendants that call `setsid()`; the trusted
+  runner boundary does not claim same-user hostile-code sandboxing.
 - Completed idempotency replay is explicitly retained and cannot claim live
   execution.
 - `real_local_model` requires an operator-pinned runner-program digest and a
@@ -147,10 +157,15 @@ explicitly recorded compatible GPU instance), prove GPU residency, and retain
 the artifact-manifest/backend/model/runner/correlation digests.
 The AWS runner must use the approved Agent Logic account/profile, enforce a
 bounded run deadline and cost ceiling, and leave no test instance or temporary
-volume running or retained after success or failure. Missing hardware/model is
-a truthful deferred or blocked lane, never a pass. Until the regional On-Demand
-G/VT quota is at least four vCPUs, only artifact publication and the non-billing
-preflight may run; no EC2 instance is launched.
+volume running or retained after success or failure. Every paid run uses an
+unguessable owner token, an exact-version S3 lock, owner-scoped instance and
+volume tags, and three cleanup layers: local trap cleanup, a guest timer, and a
+one-time EventBridge Scheduler action that terminates only the exact launched
+instance. Lock release verifies the retained run ID, owner token, and S3
+version before deleting that version. Missing hardware/model is a truthful
+deferred or blocked lane, never a pass. Until the regional On-Demand G/VT quota
+is at least four vCPUs, only artifact publication and the non-billing preflight
+may run; no EC2 instance is launched.
 Browser proof verifies the complete Observatory-to-Runtime round trip.
 The implementation must add
 `adl/tools/validate_v092_shepherd_browser_roundtrip.mjs`. That live validator
