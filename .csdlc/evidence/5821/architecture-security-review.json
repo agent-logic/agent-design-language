@@ -2,7 +2,7 @@
   "schema": "adl.wp04.architecture_security_review.v1",
   "outcome": "accepted",
   "reviewer": "openai-codex:gpt-5:wp04-architecture-security-independent-review:2026-08-07",
-  "reviewed_revision": "4f74aeb1fab470dc5054385bf450ce7737534632",
+  "reviewed_revision": "83495616b94c6de94ce346aab4328d78a031b661",
   "unresolved_actionable_findings": [],
   "finding_dispositions": [
     {"id": "authority-linearization", "severity": "P1", "disposition": "resolved", "evidence": ["docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md"]},
@@ -22,7 +22,7 @@
     "agent_id": "019fdf69-5a0f-7e31-ba34-419c135eb7e8",
     "author_identity": "codex:issue-5821-wp04-gate",
     "report_path": ".csdlc/evidence/5821/architecture-security-review.md",
-    "report_sha256": "ca5e495897114d595fc38b0d78e94e050bf3eec967b9f48a246a8782cbf7321f"
+    "report_sha256": "17e52585d52c2e0583b3382f10945ca43ae26f84544cbf2339517dc273bfbe85"
   },
   "artifact_sha256": {
     "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md": "693c341085fe49ef0c2c01a4965dc86999a4454e67fb023a6e853a1b10e3b8d9",
@@ -30,7 +30,7 @@
     ".csdlc/prepared/issues/5821/design.md": "d75d14954cffe2c953feac9507685acde946800059607751f0c7fb15d2987c8d",
     "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md": "eeed78cc0edfc9b33bcaf725505df54e5617ba3c0a97f9b00e086ad885de3b52",
     "docs/adr/0054-runtime-v3-guardian-owned-kernel-and-api-boundary.md": "be18ed5287898f1c568e41435fb7c3b4a5ec6d02cdb0119cc5a505d2aba41d9a",
-    ".csdlc/prepared/issues/5821/validate-architecture-security-review.rb": "716089c7c6ab06454383dbcc250c205c46f71901e89f7f438f4933d18569c138",
+    ".csdlc/prepared/issues/5821/validate-architecture-security-review.rb": "3cf8c153f703b0f830755655fc2cbafb9fc6e5cb4530173745fa36479372da29",
     ".csdlc/prepared/issues/5821/validate-child-wave.rb": "84d110e1ecc0f9c718736012139189ec5dd5b272da18a4e883fdac733a4282c7",
     ".csdlc/prepared/issues/5869/design.md": "9126734d68dbbf25e2dfe609d134b8c6ec6111c1e3f3684e2ed56344827c58fc",
     ".csdlc/issues/5869/index.json": "03353ab0fe068becf2f71a0a3d80e5d6c43d14844b6b84bbaf4a9e5b10c48782",

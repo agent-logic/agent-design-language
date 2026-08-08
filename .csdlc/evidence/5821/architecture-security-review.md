@@ -3,7 +3,7 @@
 ## Review Identity
 
 - Issue: #5821, v0.92 WP-04 Distributed Guardian architecture and security gate
-- Reviewed revision: `4f74aeb1fab470dc5054385bf450ce7737534632`
+- Reviewed revision: `83495616b94c6de94ce346aab4328d78a031b661`
 - Reviewer: `openai-codex:gpt-5:wp04-architecture-security-independent-review:2026-08-07`
 - Agent ID: `019fdf69-5a0f-7e31-ba34-419c135eb7e8`
 - Review role: independent architecture and security reviewer
@@ -25,19 +25,20 @@ The review was pinned to the committed content at the revision above. The author
 
 ## Prior Finding Dispositions
 
-1. **One-owner authority lacked an authoritative serialization point - resolved.** The architecture now assigns authority to a minimum three-voter, majority-replicated OpenRaft ledger with joint membership, committed-index linearization, fail-closed quorum loss, and explicit mutation-sink enforcement.
-2. **Cloned state was indistinguishable from the legitimate holder - resolved.** Authority is bound to a fresh non-persistent activation incarnation, proof of possession, a committed epoch, and a lease safety window.
-3. **Established sessions could outlive certificate expiry or revocation - resolved.** Session lifetime is bounded, revocation and generation changes close sessions, and every authority-bearing operation revalidates purpose, generation, revocation, and expiry.
-4. **The maintained transport and framing choice was unspecified - resolved.** The architecture selects `quinn`, supported `rustls` integration, and length-delimited `prost`, with reviewed lockfile pinning and no custom cryptography or wire framing.
-5. **Architecture and threat documents prematurely claimed frozen status - resolved.** Both identify themselves as candidate gates pending independent review and retain explicit non-claims.
-6. **Authority certificates were not cryptographically defined - resolved.** `AuthorityCertificateV1` defines canonical signed fields, a domain-separated SHA-256 digest, strict-majority distinct control-key endorsements, voter-generation binding, certificate lifecycle checks, activation possession, and malicious-leader/minority denial.
-7. **Child ownership, proof, and rollback contracts did not carry the repaired authority guarantees - resolved.** The parent ledger, reapproved child designs, typed SIP/STP/VPP records, and live contracts now assign and prove majority authority, joint membership, canonical certificates, activation possession, monotonic-time safety, mutation-sink enforcement, fence-boundary migration, and quorum-only recovery.
-8. **Retained review evidence was not exact-revision or independently identity-bound - resolved.** Validation pins the latest authoritative revision, exact reviewer identity, exact agent ID, report digest, authoritative Git blobs, and finding dispositions while rejecting superseded revisions and authoritative drift.
-9. **Staged authoritative changes were not rejected - resolved.** Validation checks both worktree-versus-index and index-versus-HEAD drift across the complete authoritative review surface.
+1. **`authority-linearization`: One-owner authority lacked an authoritative serialization point - resolved.** The architecture now assigns authority to a minimum three-voter, majority-replicated OpenRaft ledger with joint membership, committed-index linearization, fail-closed quorum loss, and explicit mutation-sink enforcement.
+2. **`activation-incarnation`: Cloned state was indistinguishable from the legitimate holder - resolved.** Authority is bound to a fresh non-persistent activation incarnation, proof of possession, a committed epoch, and a lease safety window.
+3. **`certificate-session-lifecycle`: Established sessions could outlive certificate expiry or revocation - resolved.** Session lifetime is bounded, revocation and generation changes close sessions, and every authority-bearing operation revalidates purpose, generation, revocation, and expiry.
+4. **`maintained-transport`: The maintained transport and framing choice was unspecified - resolved.** The architecture selects `quinn`, supported `rustls` integration, and length-delimited `prost`, with reviewed lockfile pinning and no custom cryptography or wire framing.
+5. **`candidate-status`: Architecture and threat documents prematurely claimed frozen status - resolved.** Both identify themselves as candidate gates pending independent review and retain explicit non-claims.
+6. **`authority-certificate-definition`: Authority certificates were not cryptographically defined - resolved.** `AuthorityCertificateV1` defines canonical signed fields, a domain-separated SHA-256 digest, strict-majority distinct control-key endorsements, voter-generation binding, certificate lifecycle checks, activation possession, and malicious-leader/minority denial.
+7. **`child-authority-contracts`: Child ownership, proof, and rollback contracts did not carry the repaired authority guarantees - resolved.** The parent ledger, reapproved child designs, typed SIP/STP/VPP records, and live contracts now assign and prove majority authority, joint membership, canonical certificates, activation possession, monotonic-time safety, mutation-sink enforcement, fence-boundary migration, and quorum-only recovery.
+8. **`review-identity-and-revision`: Retained review evidence was not exact-revision or independently identity-bound - resolved.** Validation pins the latest authoritative revision, exact reviewer identity, exact agent ID, report digest, authoritative Git blobs, and finding dispositions while rejecting superseded revisions and authoritative drift.
+9. **`staged-authoritative-drift`: Staged authoritative changes were not rejected - resolved.** Validation checks both worktree-versus-index and index-versus-HEAD drift across the complete authoritative review surface.
+10. **`normalized-possession-contract`: Enrollment possession validation used an over-broad normalized term - resolved.** The section-term gate now normalizes whitespace while requiring the exact phrase `proves possession`, so unrelated proof language cannot satisfy the enrollment possession requirement.
 
 ## Validation Performed
 
-- Confirmed `HEAD` equals `4f74aeb1fab470dc5054385bf450ce7737534632`.
+- Confirmed `HEAD` equals `83495616b94c6de94ce346aab4328d78a031b661`.
 - Confirmed the latest authoritative revision resolves to the same full commit.
 - Parsed the four repaired child indexes and SIP/STP/VPP values as JSON.
 - Confirmed all four authority designs are reapproved under `codex:5821-wp04-child-authority-design-review` with null claim, branch, and worktree state.

@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04] Distributed Guardian/polis runtime",
     "slug": "v0-92-wp-04-distributed-guardian-polis-runtime",
     "version": "v0.92",
-    "generation": 55
+    "generation": 59
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review issue 5821 architecture/threat gate, exact 16-child ledger and terminal truth, production mTLS membership, epochs/leases/fencing, placement authority, migration/rollback, certificate/replay/partition failures, API/observability projection, and strict Runtime v2/v0.93/WP-14 non-ownership.",
+      "review_scope": "docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md\ndocs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md\n.csdlc/prepared/issues/5821\n.csdlc/evidence/5821\n.csdlc/issues/5869\n.csdlc/prepared/issues/5869/design.md\n.csdlc/issues/5870\n.csdlc/prepared/issues/5870/design.md\n.csdlc/issues/5875\n.csdlc/prepared/issues/5875/design.md\n.csdlc/issues/5876\n.csdlc/prepared/issues/5876/design.md",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

@@ -12,7 +12,18 @@ Status: pre_phase
 
 ## Scope
 
-Review issue 5821 architecture/threat gate, exact 16-child ledger and terminal truth, production mTLS membership, epochs/leases/fencing, placement authority, migration/rollback, certificate/replay/partition failures, API/observability projection, and strict Runtime v2/v0.93/WP-14 non-ownership.
+docs/architecture/runtime-v3/DISTRIBUTED_GUARDIAN_ARCHITECTURE.md
+docs/security/runtime-v3/DISTRIBUTED_GUARDIAN_THREAT_MODEL.md
+.csdlc/prepared/issues/5821
+.csdlc/evidence/5821
+.csdlc/issues/5869
+.csdlc/prepared/issues/5869/design.md
+.csdlc/issues/5870
+.csdlc/prepared/issues/5870/design.md
+.csdlc/issues/5875
+.csdlc/prepared/issues/5875/design.md
+.csdlc/issues/5876
+.csdlc/prepared/issues/5876/design.md
 
 ## Prompts
 

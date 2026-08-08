@@ -1,0 +1,12 @@
+{
+  "issue": 5821,
+  "card": "sor",
+  "expected_generation": 56,
+  "expected_digest": "aee2c2141710354e1e08976d5d15826cb61f8d20fa9a6c03bbfe449d6efb6f67",
+  "actor": "codex:5821-wp04-gate",
+  "reason": "The bounded architecture/security gate, child contract repairs, proving validators, and independent review are complete.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}
